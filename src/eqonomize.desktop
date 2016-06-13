@@ -1,0 +1,21 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Eqonomize!
+GenericName=Personal Accounting
+GenericName[sv]=Bokföring
+GenericName[de]=Buchhaltung
+GenericName[ro]=Contabilitate Personala
+Exec=eqonomize %U
+Icon=eqonomize
+Type=Application
+MimeType=application/x-eqonomize
+X-DocPath=eqonomize/index.html
+Categories=Qt;KDE;Office;Finance
+X-KDE-StartupNotify=true
+#X-DBUS-StartupType=Unique
+#X-DBUS-ServiceName=eqonomize
+Terminal=false
+Comment=Manage your personal finances
+Comment[sv]=Hantera din privatekonomi
+Comment[de]=Verwaltung der persönlichen Finanzen
+Comment[ro]=Gerează finanțele personale

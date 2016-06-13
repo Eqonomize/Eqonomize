@@ -1,0 +1,51 @@
+BUGS:
+- file extension filter not appearing in open and save dialogs of eqz files
+- Filter dates can't be typed as they generate invalid date errors. Mouse works though
+- scheduled operations don't go further than next year if range is other than "no end"
+- sometimes accounts aren't selectable after renaming etc.
+- second combo in time development diagram (on "Source:" line) is not updated
+	when the first combo is changed. Thus it is possible that the graphic
+	doesn't correspond to the items selected in this combo
+- charts need meaningful window titles.
+- saving in .eqz is very slow
+- changing the year in the graph view is VERY long
+- in graphs with too many items, limit to max biggest 10.
+- string matching is broken (popup gets corrupted). Use appropriate Qt or KDE widget instead.
+- crash when trying to delete an operation from an account view.
+- schedules don't always function (vague but reproducible)
+- startup is slow when installed (xmlgui reads its rc) but not in build dir (xmlgui not finding rc file)
+
+FEATURES:
+
+- Loans: at the moment loans can only be handled by using regular
+account with negative value and transfers for paying off the loan.
+- Subcategories: requires a lot of work since at affects much of the
+code, but has been requested by many. The reason it wasn't implemented
+is that I find that if descriptions are used wisely, subcategories are
+not needed.
+- A beautiful summary view (with summary of assets, pending payments,
+recent transactions, etc.)
+- Reconciliation: "We all make mistakes at times and it would be nice to
+be able to reconcile one's entries with a Bank Statement"
+- Alternative to match sub-strings not in the beginning of word in
+filters.
+- Security: encrypt files?
+- Import and export more file types: OFX, Gnucash, kmymoney2, etc.
+- Test QIF import/export (I have not been able to do any real world
+testing)
+- Load quotations from external sources
+- Chart for quotations
+- More visualisations (charts)
+- New icons: ex. replace the generic left and right arrows for incomes
+and expenses
+- Undo
+- Enhance manual
+- Gnome UI: it would fit my desktop environment better, but not really
+worth the effort.
+- Recurring split transactions
+- Multiple currencies
+- Plugins? Scripts?
+
+- support for importing eqz files (so that we can do merging of files)
+- support for saving views in eqz format (e.g. splitting data in separate files)
+- make ledgers similar to expense/income views

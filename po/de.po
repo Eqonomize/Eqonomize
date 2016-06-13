@@ -1,0 +1,2879 @@
+# translation of de.po_[ZeHf9a].po to
+# translation of de.po to
+# This file is put in the public domain.
+#
+# Elias Probst <elias.probst@gmx.de>, 2006.
+# Martin Hohenberg <martin.hohenberg@gmail.com>, 2006.
+# Elias Probst <mail@eliasprobst.eu>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: de.po_[ZeHf9a]\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-07-13 11:42+0200\n"
+"PO-Revision-Date: 2008-11-13 13:12+0000\n"
+"Last-Translator: Elias Probst <mail@eliasprobst.eu>\n"
+"Language-Team: <de@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2008-11-13 16:12+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr ""
+"Martin F. Hohenberg, Elias Probst, Frank S. Thomas, Martin F. Hohenberg,,"
+"Launchpad Contributions:,Elias Probst,Frank S. Thomas,Martin F. Hohenberg"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+"martin.hohenberg@gmail.com, mail@eliasprobst.eu, fst@debian.org, martin."
+"hohenberg@gmail.com,,,mail@eliasprobst.eu,fst@debian.org,martin."
+"hohenberg@gmail.com"
+
+#: src/budget.cpp:64 src/editsplitdialog.cpp:116 src/ledgerdialog.cpp:655
+msgid "Balancing"
+msgstr "Bilanzieren"
+
+#: src/budget.cpp:97
+#, kde-format
+msgid "Couldn't open %1 for reading"
+msgstr "Konnte %1 nicht zum Lesen öffnen"
+
+#: src/budget.cpp:108
+#, kde-format
+msgid ""
+"Not a valid Eqonomize! file (XML parse error: \"%2\" at line %3, col %4)"
+msgstr ""
+"Keine gültige Eqonomize!-Datei (XML-Analysefehler: \"%2\" in Zeile %3, "
+"Position %4)"
+
+#: src/budget.cpp:111
+#, kde-format
+msgid "Invalid root element %1 in XML document"
+msgstr "Ungültiges Wurzelelement %1 im XML-Dokument"
+
+#: src/budget.cpp:376
+#, fuzzy, kde-format
+msgid "Unable to load 1 account."
+msgid_plural "Unable to load %1 accounts."
+msgstr[0] "Konnte 1 Konto nicht laden."
+msgstr[1] "Konnte %n Konten nicht laden."
+
+#: src/budget.cpp:381
+#, fuzzy, kde-format
+msgid "Unable to load 1 category."
+msgid_plural "Unable to load %1 categories."
+msgstr[0] "Konnte 1 Kategorie nicht laden."
+msgstr[1] "Konnte %n Kategorien nicht laden."
+
+#: src/budget.cpp:386
+#, fuzzy, kde-format
+msgid "Unable to load 1 security."
+msgid_plural "Unable to load %1 securities."
+msgstr[0] "Konnte 1 Wertpapier nicht laden."
+msgstr[1] "Konnte %n Wertpapiere nicht laden."
+
+#: src/budget.cpp:391
+#, fuzzy, kde-format
+msgid "Unable to load 1 transaction."
+msgid_plural "Unable to load %1 transactions."
+msgstr[0] "Konnte 1 Transaktion nicht laden."
+msgstr[1] "Konnte %n Transaktionen nicht laden."
+
+#: src/budget.cpp:402
+msgid "File is a directory"
+msgstr "Datei ist ein Verzeichnis"
+
+#: src/budget.cpp:410
+msgid "Couldn't open file for writing"
+msgstr "Konnte Datei nicht zum Schreiben öffnen"
+
+#: src/budget.cpp:560 src/budget.cpp:564
+msgid "Error while writing file; file was not saved"
+msgstr "Fehler beim Schreiben der Datei; Datei wurde nicht gesichert"
+
+#: src/categoriescomparisonchart.cpp:115
+#: src/categoriescomparisonreport.cpp:109 src/overtimechart.cpp:206
+#: src/overtimereport.cpp:95
+#, fuzzy
+msgid "Options"
+msgstr "Beschreibungen"
+
+#: src/categoriescomparisonchart.cpp:120
+#: src/categoriescomparisonreport.cpp:162 src/eqonomize.cpp:1922
+#: src/eqonomize.cpp:2082 src/eqonomize.cpp:2161
+#: src/transactionlistwidget.cpp:130
+msgid "From"
+msgstr "Von"
+
+#: src/categoriescomparisonchart.cpp:127
+#: src/categoriescomparisonreport.cpp:169 src/eqonomize.cpp:1933
+#: src/eqonomize.cpp:2094 src/eqonomize.cpp:2162
+#: src/transactionlistwidget.cpp:131
+msgid "To"
+msgstr "Nach"
+
+#: src/categoriescomparisonchart.cpp:144
+#: src/categoriescomparisonreport.cpp:112 src/overtimechart.cpp:209
+#: src/overtimereport.cpp:99
+msgid "Source:"
+msgstr "Quelle:"
+
+#: src/categoriescomparisonchart.cpp:147 src/categoriescomparisonchart.cpp:769
+msgid "All Expenses"
+msgstr "Alle Ausgaben"
+
+#: src/categoriescomparisonchart.cpp:148 src/categoriescomparisonchart.cpp:770
+msgid "All Incomes"
+msgstr "Alle Einnahmen"
+
+#: src/categoriescomparisonchart.cpp:149 src/categoriescomparisonchart.cpp:771
+msgid "All Accounts"
+msgstr "Alle Konten"
+
+#: src/categoriescomparisonchart.cpp:152 src/categoriescomparisonchart.cpp:775
+#: src/categoriescomparisonreport.cpp:120
+#: src/categoriescomparisonreport.cpp:740
+#: src/categoriescomparisonreport.cpp:1004 src/overtimereport.cpp:369
+#, kde-format
+msgid "Expenses: %1"
+msgstr "Ausgaben: %1"
+
+#: src/categoriescomparisonchart.cpp:157 src/categoriescomparisonchart.cpp:782
+#: src/categoriescomparisonreport.cpp:125
+#: src/categoriescomparisonreport.cpp:744
+#: src/categoriescomparisonreport.cpp:1011 src/overtimereport.cpp:360
+#, kde-format
+msgid "Incomes: %1"
+msgstr "Einnahmen: %1"
+
+#: src/categoriescomparisonchart.cpp:196 src/categoriescomparisonchart.cpp:222
+#: src/categoriescomparisonreport.cpp:332
+#: src/categoriescomparisonreport.cpp:358 src/editsplitdialog.cpp:415
+#: src/eqonomize.cpp:481 src/eqonomize.cpp:576 src/eqonomize.cpp:752
+#: src/eqonomize.cpp:865 src/eqonomize.cpp:887 src/eqonomize.cpp:2613
+#: src/eqonomize.cpp:3311 src/eqonomize.cpp:3337 src/eqonomize.cpp:3451
+#: src/eqonomize.cpp:3477 src/importcsvdialog.cpp:784
+#: src/importcsvdialog.cpp:1202 src/overtimechart.cpp:558
+#: src/overtimechart.cpp:595 src/overtimechart.cpp:622
+#: src/overtimechart.cpp:659 src/recurrenceeditwidget.cpp:152
+#: src/recurrenceeditwidget.cpp:167 src/recurrenceeditwidget.cpp:296
+#: src/transactioneditwidget.cpp:702 src/transactioneditwidget.cpp:1287
+#: src/transactionfilterwidget.cpp:556 src/transactionfilterwidget.cpp:582
+msgid "Invalid date."
+msgstr "Ungültiges Datum."
+
+#: src/categoriescomparisonchart.cpp:201
+#: src/categoriescomparisonreport.cpp:337 src/eqonomize.cpp:3316
+#: src/eqonomize.cpp:3456 src/transactionfilterwidget.cpp:561
+msgid "To date is before from date."
+msgstr "\"Bis\"-Datum liegt vor dem \"Von\"-Datum"
+
+#: src/categoriescomparisonchart.cpp:226
+#: src/categoriescomparisonreport.cpp:362 src/eqonomize.cpp:3341
+#: src/eqonomize.cpp:3481 src/transactionfilterwidget.cpp:586
+msgid "From date is after to date."
+msgstr "\"Von\"-Datum liegt hinter dem \"Bis\"-Datum"
+
+#: src/categoriescomparisonchart.cpp:639
+#: src/categoriescomparisonreport.cpp:301
+#: src/categoriescomparisonreport.cpp:738
+#: src/categoriescomparisonreport.cpp:742
+#: src/categoriescomparisonreport.cpp:827
+#: src/categoriescomparisonreport.cpp:918
+#: src/categoriescomparisonreport.cpp:965 src/overtimechart.cpp:470
+#: src/overtimechart.cpp:1749 src/overtimechart.cpp:1755
+#: src/overtimechart.cpp:1783 src/overtimechart.cpp:1785
+#: src/overtimechart.cpp:1792 src/overtimechart.cpp:1794
+#: src/overtimechart.cpp:1830 src/overtimechart.cpp:1900
+#: src/overtimereport.cpp:215 src/overtimereport.cpp:378
+#: src/overtimereport.cpp:387 src/overtimereport.cpp:726
+msgid "No description"
+msgstr "Keine Beschreibung"
+
+#: src/categoriescomparisonreport.cpp:117
+#: src/categoriescomparisonreport.cpp:1000
+msgid "All Categories"
+msgstr "Alle Kategorien"
+
+#: src/categoriescomparisonreport.cpp:136
+msgid "Descriptions for"
+msgstr "Beschreibungen für"
+
+#: src/categoriescomparisonreport.cpp:143
+msgid "Payees/payers for"
+msgstr "Zahlungsempfänger/Zahlungspflichter für"
+
+#: src/categoriescomparisonreport.cpp:159
+msgid "Period:"
+msgstr "Dauer:"
+
+#: src/categoriescomparisonreport.cpp:184 src/overtimereport.cpp:122
+msgid "Columns:"
+msgstr "Spalten:"
+
+#: src/categoriescomparisonreport.cpp:187
+#: src/categoriescomparisonreport.cpp:770 src/eqonomize.cpp:1155
+#: src/eqonomize.cpp:2060 src/eqonomize.cpp:4208 src/importcsvdialog.cpp:143
+#: src/importcsvdialog.cpp:161 src/importcsvdialog.cpp:184
+#: src/importcsvdialog.cpp:201 src/importcsvdialog.cpp:220
+#: src/importcsvdialog.cpp:239 src/importcsvdialog.cpp:257
+#: src/overtimereport.cpp:125
+msgid "Value"
+msgstr "Wert"
+
+#: src/categoriescomparisonreport.cpp:190 src/overtimereport.cpp:128
+#: src/recurrenceeditwidget.cpp:323
+msgid "Daily"
+msgstr "Täglich"
+
+#: src/categoriescomparisonreport.cpp:193 src/overtimereport.cpp:131
+#: src/recurrenceeditwidget.cpp:325
+msgid "Monthly"
+msgstr "Monatlich"
+
+#: src/categoriescomparisonreport.cpp:196 src/overtimereport.cpp:134
+#: src/recurrenceeditwidget.cpp:326
+msgid "Yearly"
+msgstr "Jährlich"
+
+#: src/categoriescomparisonreport.cpp:199
+#: src/categoriescomparisonreport.cpp:775 src/overtimechart.cpp:302
+#: src/overtimechart.cpp:1543 src/overtimereport.cpp:137
+#: src/overtimereport.cpp:543 src/transactionlistwidget.cpp:279
+#: src/transactionlistwidget.cpp:343
+msgid "Quantity"
+msgstr "Anzahl"
+
+#: src/categoriescomparisonreport.cpp:202 src/overtimechart.cpp:306
+#: src/overtimereport.cpp:140
+msgid "Average value"
+msgstr "Durchschnittlicher Wert"
+
+#: src/categoriescomparisonreport.cpp:276
+#: src/categoriescomparisonreport.cpp:935
+msgid "All descriptions"
+msgstr "Alle Beschreibungen"
+
+#: src/categoriescomparisonreport.cpp:277
+#: src/categoriescomparisonreport.cpp:936
+msgid "All payees"
+msgstr "Alle Zahlungsempfänger"
+
+#: src/categoriescomparisonreport.cpp:278
+#: src/categoriescomparisonreport.cpp:937
+msgid "All payers"
+msgstr "Alle Zahlungspflichtigen"
+
+#: src/categoriescomparisonreport.cpp:307
+#: src/categoriescomparisonreport.cpp:739
+#: src/categoriescomparisonreport.cpp:825
+#: src/categoriescomparisonreport.cpp:920
+#: src/categoriescomparisonreport.cpp:982 src/overtimechart.cpp:479
+#: src/overtimechart.cpp:1767 src/overtimechart.cpp:1777
+#: src/overtimechart.cpp:1832 src/overtimechart.cpp:1917
+msgid "No payee"
+msgstr "Keine Zahlungsempfänger"
+
+#: src/categoriescomparisonreport.cpp:308
+#: src/categoriescomparisonreport.cpp:743
+#: src/categoriescomparisonreport.cpp:826
+#: src/categoriescomparisonreport.cpp:921
+#: src/categoriescomparisonreport.cpp:983 src/overtimechart.cpp:478
+#: src/overtimechart.cpp:1761 src/overtimechart.cpp:1772
+#: src/overtimechart.cpp:1834 src/overtimechart.cpp:1916
+msgid "No payer"
+msgstr "Keine Zahlungspflichtigen"
+
+#: src/categoriescomparisonreport.cpp:450 src/eqonomize.cpp:3731
+#: src/eqonomize.cpp:4314 src/ledgerdialog.cpp:253 src/overtimechart.cpp:113
+#: src/overtimereport.cpp:273 src/qifimportexport.cpp:612
+msgid ""
+"The selected file already exists. Would you like to overwrite the old copy?"
+msgstr ""
+"Diese Datei existiert bereits. Soll die alte Kopie überschrieben werden?"
+
+#: src/categoriescomparisonreport.cpp:454 src/eqonomize.cpp:4319
+#: src/ledgerdialog.cpp:257 src/overtimechart.cpp:117
+#: src/overtimereport.cpp:277 src/qifimportexport.cpp:616
+msgid "You selected a directory!"
+msgstr "Es wurde ein Verzeichnis ausgewählt!"
+
+#: src/categoriescomparisonreport.cpp:462 src/eqonomize.cpp:4326
+#: src/ledgerdialog.cpp:265 src/overtimechart.cpp:125
+#: src/overtimereport.cpp:285 src/qifimportexport.cpp:624
+msgid "Couldn't open file for writing."
+msgstr "Konnte Datei nicht zum Schreiben öffnen."
+
+#: src/categoriescomparisonreport.cpp:469 src/eqonomize.cpp:4332
+#: src/ledgerdialog.cpp:271 src/overtimechart.cpp:146
+#: src/overtimereport.cpp:292 src/qifimportexport.cpp:630
+msgid "Error while writing file; file was not saved."
+msgstr "Fehler beim Schreiben der Datei; Datei wurde nicht gesichert"
+
+#: src/categoriescomparisonreport.cpp:475 src/eqonomize.cpp:3761
+#: src/eqonomize.cpp:4338 src/ledgerdialog.cpp:277 src/overtimechart.cpp:152
+#: src/overtimereport.cpp:298
+msgid "You can only save to local files."
+msgstr ""
+
+#: src/categoriescomparisonreport.cpp:738
+#: src/categoriescomparisonreport.cpp:739 src/overtimereport.cpp:387
+#, kde-format
+msgid "Expenses: %2, %1"
+msgstr "Ausgaben: %2, %1"
+
+#: src/categoriescomparisonreport.cpp:742
+#: src/categoriescomparisonreport.cpp:743 src/overtimereport.cpp:378
+#, kde-format
+msgid "Incomes: %2, %1"
+msgstr "Einnahmen: %2, %1"
+
+#: src/categoriescomparisonreport.cpp:746
+msgid "Incomes & Expenses"
+msgstr "Einnahmen & Ausgaben"
+
+#: src/categoriescomparisonreport.cpp:759
+#, kde-format
+msgctxt "html format; %1: title; %2: from date; %3: to date"
+msgid "%1 (%2&ndash;%3)"
+msgstr "%1 (%2&ndash;%3)"
+
+#: src/categoriescomparisonreport.cpp:760
+#, kde-format
+msgctxt "html format; %1: title; %2: to date"
+msgid "%1 (to %2)"
+msgstr "%1 (bis %2)"
+
+#: src/categoriescomparisonreport.cpp:764 src/eqonomize.cpp:4112
+#: src/eqonomize.cpp:4160 src/qifimportexport.cpp:133
+#: src/transactionlistwidget.cpp:108 src/transactionlistwidget.cpp:119
+msgid "Category"
+msgstr "Kategorie"
+
+#: src/categoriescomparisonreport.cpp:766 src/eqonomize.cpp:2063
+#: src/transactionlistwidget.cpp:107
+msgid "Cost"
+msgstr "Kosten"
+
+#: src/categoriescomparisonreport.cpp:768
+#: src/editscheduledtransactiondialog.cpp:55
+#: src/editscheduledtransactiondialog.cpp:57 src/editsplitdialog.cpp:106
+#: src/eqonomize.cpp:278 src/eqonomize.cpp:322 src/ledgerdialog.cpp:650
+#: src/transactionlistwidget.cpp:118 src/transactionlistwidget.cpp:169
+msgid "Income"
+msgstr "Einnahmen"
+
+#: src/categoriescomparisonreport.cpp:772 src/overtimereport.cpp:539
+msgid "Daily Average"
+msgstr "Täglicher Durchschnitt"
+
+#: src/categoriescomparisonreport.cpp:773 src/overtimereport.cpp:540
+msgid "Monthly Average"
+msgstr "Monatlicher Durchschnitt"
+
+#: src/categoriescomparisonreport.cpp:774 src/overtimereport.cpp:541
+msgid "Yearly Average"
+msgstr "Jährlicher Durchschnitt"
+
+#: src/categoriescomparisonreport.cpp:777 src/overtimereport.cpp:352
+#: src/overtimereport.cpp:370 src/overtimereport.cpp:388
+msgid "Average Cost"
+msgstr "Durchschnittliche Kosten"
+
+#: src/categoriescomparisonreport.cpp:779 src/overtimereport.cpp:344
+#: src/overtimereport.cpp:361 src/overtimereport.cpp:379
+msgid "Average Income"
+msgstr "Durchschnittliche Einnahmen"
+
+#: src/categoriescomparisonreport.cpp:781
+msgid "Average Value"
+msgstr "Durchschnittlicher Wert"
+
+#: src/categoriescomparisonreport.cpp:841 src/eqonomize.cpp:3998
+#: src/eqonomize.cpp:4096 src/eqonomize.cpp:4141 src/eqonomize.cpp:4189
+#: src/overtimereport.cpp:680
+msgid "Total"
+msgstr "Gesamt"
+
+#: src/categoriescomparisonreport.cpp:866
+msgid "Total incomes"
+msgstr "Gesamte Einnahmen"
+
+#: src/categoriescomparisonreport.cpp:890
+msgid "Total expenses"
+msgstr "Gesamte Ausgaben"
+
+#: src/categoriescomparisonreport.cpp:900
+msgid "Total (Profits)"
+msgstr "Gesamt (Ertrag)"
+
+#: src/editscheduledtransactiondialog.cpp:50
+#: src/editscheduledtransactiondialog.cpp:51 src/editsplitdialog.cpp:109
+#: src/eqonomize.cpp:281 src/eqonomize.cpp:325 src/ledgerdialog.cpp:653
+#: src/transactionlistwidget.cpp:168
+msgid "Expense"
+msgstr "Ausgabe"
+
+#: src/editscheduledtransactiondialog.cpp:62
+#: src/editscheduledtransactiondialog.cpp:63 src/editsplitdialog.cpp:118
+#: src/eqonomize.cpp:275 src/eqonomize.cpp:319 src/ledgerdialog.cpp:656
+#: src/transactionlistwidget.cpp:170
+msgid "Transfer"
+msgstr "Überweisung"
+
+#: src/editscheduledtransactiondialog.cpp:68
+#: src/editscheduledtransactiondialog.cpp:69 src/editsplitdialog.cpp:112
+#: src/eqonomize.cpp:282 src/eqonomize.cpp:326
+msgid "Security Buy"
+msgstr "Wertpapierkauf"
+
+#: src/editscheduledtransactiondialog.cpp:74
+#: src/editscheduledtransactiondialog.cpp:75 src/editsplitdialog.cpp:114
+#: src/eqonomize.cpp:283 src/eqonomize.cpp:327
+msgid "Security Sell"
+msgstr "Wertpapierverkauf"
+
+#: src/editscheduledtransactiondialog.cpp:83
+#: src/editscheduledtransactiondialog.cpp:84
+msgid "Recurrence"
+msgstr "Wiederholung"
+
+#: src/editscheduledtransactiondialog.cpp:129
+msgid "New Expense"
+msgstr "Neue Ausgabe"
+
+#: src/editscheduledtransactiondialog.cpp:131
+msgid "New Dividend"
+msgstr "Neue Dividende"
+
+#: src/editscheduledtransactiondialog.cpp:132
+msgid "New Income"
+msgstr "Neue Einnahme"
+
+#: src/editscheduledtransactiondialog.cpp:135
+msgid "New Transfer"
+msgstr "Neue Überweisung"
+
+#: src/editscheduledtransactiondialog.cpp:136
+msgid "New Security Buy"
+msgstr "Neuer Wertpapierkauf"
+
+#: src/editscheduledtransactiondialog.cpp:138
+msgid "New Security Sell"
+msgstr "Neuer Wertpapierverkauf"
+
+#: src/editscheduledtransactiondialog.cpp:153
+#: src/editscheduledtransactiondialog.cpp:174
+#: src/transactioneditwidget.cpp:1058
+msgid "Edit Expense"
+msgstr "Ausgabe bearbeiten"
+
+#: src/editscheduledtransactiondialog.cpp:155
+#: src/editscheduledtransactiondialog.cpp:176
+#: src/transactioneditwidget.cpp:1060
+msgid "Edit Dividend"
+msgstr "Dividende bearbeiten"
+
+#: src/editscheduledtransactiondialog.cpp:156
+#: src/editscheduledtransactiondialog.cpp:177
+#: src/transactioneditwidget.cpp:1061
+msgid "Edit Income"
+msgstr "Einnahme bearbeiten"
+
+#: src/editscheduledtransactiondialog.cpp:159
+#: src/editscheduledtransactiondialog.cpp:180
+#: src/transactioneditwidget.cpp:1064
+msgid "Edit Transfer"
+msgstr "Überweisung bearbeiten"
+
+#: src/editscheduledtransactiondialog.cpp:160
+#: src/editscheduledtransactiondialog.cpp:181
+#: src/transactioneditwidget.cpp:1065
+msgid "Edit Securities Bought"
+msgstr "Gekaufte Wertpapiere bearbeiten"
+
+#: src/editscheduledtransactiondialog.cpp:161
+#: src/editscheduledtransactiondialog.cpp:182
+#: src/transactioneditwidget.cpp:1066
+msgid "Edit Securities Sold"
+msgstr "Verkaufte Wertpapiere bearbeiten"
+
+#: src/editsplitdialog.cpp:105 src/eqonomize.cpp:277 src/eqonomize.cpp:321
+#: src/eqonomize.cpp:1268
+msgid "Dividend"
+msgstr "Dividende"
+
+#: src/editsplitdialog.cpp:107 src/eqonomize.cpp:396 src/eqonomize.cpp:437
+#: src/ledgerdialog.cpp:651
+msgid "Repayment"
+msgstr "Rückzahlung"
+
+#: src/editsplitdialog.cpp:110 src/eqonomize.cpp:397 src/eqonomize.cpp:438
+#: src/ledgerdialog.cpp:654
+msgid "Refund"
+msgstr "Rückerstattung"
+
+#: src/editsplitdialog.cpp:124 src/ledgerdialog.cpp:641
+msgid "Split Transaction"
+msgstr "Teiltransaktion"
+
+#: src/editsplitdialog.cpp:132 src/eqonomize.cpp:1383 src/eqonomize.cpp:1490
+#: src/eqonomize.cpp:1590 src/eqonomize.cpp:1660 src/importcsvdialog.cpp:133
+#: src/transactioneditwidget.cpp:170 src/transactioneditwidget.cpp:1098
+#: src/transactionfilterwidget.cpp:126
+msgid "Description:"
+msgstr "Beschreibung:"
+
+#: src/editsplitdialog.cpp:137 src/eqonomize.cpp:405 src/eqonomize.cpp:521
+#: src/eqonomize.cpp:643 src/eqonomize.cpp:1378 src/eqonomize.cpp:2600
+#: src/importcsvdialog.cpp:191 src/transactioneditwidget.cpp:144
+#: src/transactioneditwidget.cpp:194 src/transactioneditwidget.cpp:1118
+msgid "Date:"
+msgstr "Datum:"
+
+#: src/editsplitdialog.cpp:142 src/eqonomize.cpp:416 src/eqonomize.cpp:1353
+#: src/importcsvdialog.cpp:392 src/importcsvdialog.cpp:403
+#: src/ledgerdialog.cpp:106 src/qifimportexport.cpp:506
+msgid "Account:"
+msgstr "Konto:"
+
+#: src/editsplitdialog.cpp:157
+msgid "Transactions:"
+msgstr "Transaktionen:"
+
+#: src/editsplitdialog.cpp:166 src/eqonomize.cpp:996 src/eqonomize.cpp:1154
+#: src/eqonomize.cpp:2066 src/eqonomize.cpp:2158 src/eqonomize.cpp:4054
+#: src/ledgerdialog.cpp:134
+msgid "Type"
+msgstr "Typ"
+
+#: src/editsplitdialog.cpp:167 src/eqonomize.cpp:997 src/eqonomize.cpp:2159
+#: src/ledgerdialog.cpp:135 src/qifimportexport.cpp:129
+#: src/qifimportexport.cpp:141 src/qifimportexport.cpp:151
+#: src/transactionlistwidget.cpp:103
+msgid "Description"
+msgstr "Beschreibung"
+
+#: src/editsplitdialog.cpp:168 src/eqonomize.cpp:4208 src/ledgerdialog.cpp:136
+msgid "Account/Category"
+msgstr "Konto/Kategorie"
+
+#: src/editsplitdialog.cpp:169
+msgid "Payment"
+msgstr "Zahlung"
+
+#: src/editsplitdialog.cpp:170 src/ledgerdialog.cpp:137
+msgid "Deposit"
+msgstr "Einlage"
+
+#: src/editsplitdialog.cpp:175 src/ledgerdialog.cpp:150
+msgid "New"
+msgstr "Neu"
+
+#: src/editsplitdialog.cpp:178 src/eqonomize.cpp:4397
+msgid "New Expense..."
+msgstr "Neue Ausgabe..."
+
+#: src/editsplitdialog.cpp:179 src/eqonomize.cpp:4398
+msgid "New Income..."
+msgstr "Neue Einnahme..."
+
+#: src/editsplitdialog.cpp:180
+msgid "New Deposit..."
+msgstr "Neue Einlage..."
+
+#: src/editsplitdialog.cpp:181
+msgid "New Withdrawal..."
+msgstr "Neue Abhebung..."
+
+#: src/editsplitdialog.cpp:182
+msgid "New Security Shares Bought..."
+msgstr ""
+
+#: src/editsplitdialog.cpp:183
+msgid "Security Shares Sold..."
+msgstr "Anteile verkaufter Wertpapiere..."
+
+#: src/editsplitdialog.cpp:184
+msgid "New Dividend..."
+msgstr "Neue Dividende..."
+
+#: src/editsplitdialog.cpp:185 src/eqonomize.cpp:1006 src/eqonomize.cpp:1164
+#: src/eqonomize.cpp:4392 src/ledgerdialog.cpp:157
+#: src/transactionlistwidget.cpp:1054
+msgid "Edit..."
+msgstr "Bearbeiten..."
+
+#: src/editsplitdialog.cpp:223 src/eqonomize.cpp:2450
+msgid "Total value:"
+msgstr "Gesamtwert:"
+
+#: src/editsplitdialog.cpp:407 src/transactioneditwidget.cpp:648
+#: src/transactioneditwidget.cpp:652 src/transactioneditwidget.cpp:663
+#: src/transactioneditwidget.cpp:677 src/transactioneditwidget.cpp:688
+msgid "No suitable account available."
+msgstr "Kein geeignetes Konto verfügbar"
+
+#: src/editsplitdialog.cpp:419
+msgid "Future dates is not allowed."
+msgstr "Ein Datum in der Zukunft ist nicht erlaubt."
+
+#: src/editsplitdialog.cpp:423
+msgid "A split must contain at least two transactions."
+msgstr "Eine geteilte Transaktion besteht aus mindestens zwei Transaktionen."
+
+#: src/editsplitdialog.cpp:432 src/transactioneditwidget.cpp:709
+msgid "Cannot transfer money to and from the same account."
+msgstr "Transfer zum selben Konto könenn nicht durchgeführt werden."
+
+#: src/eqonomize.cpp:411 src/eqonomize.cpp:2450 src/importcsvdialog.cpp:150
+#: src/importcsvdialog.cpp:173 src/importcsvdialog.cpp:359
+#: src/transactioneditwidget.cpp:112 src/transactioneditwidget.cpp:181
+#: src/transactioneditwidget.cpp:1110
+msgid "Cost:"
+msgstr "Kosten:"
+
+#: src/eqonomize.cpp:412 src/importcsvdialog.cpp:368
+#: src/importcsvdialog.cpp:401 src/transactioneditwidget.cpp:113
+#: src/transactioneditwidget.cpp:179 src/transactioneditwidget.cpp:1109
+msgid "Income:"
+msgstr "Einnahmen:"
+
+#: src/eqonomize.cpp:431 src/transactioneditwidget.cpp:188
+#: src/transactionlistwidget.cpp:212 src/transactionlistwidget.cpp:313
+msgid "Quantity:"
+msgstr "Menge:"
+
+#: src/eqonomize.cpp:435 src/importcsvdialog.cpp:247
+#: src/transactioneditwidget.cpp:283
+msgid "Comments:"
+msgstr "Kommentare:"
+
+#: src/eqonomize.cpp:490 src/eqonomize.cpp:1277
+msgid "Reinvested Dividend"
+msgstr "Reinvestierte Dividende"
+
+#: src/eqonomize.cpp:499 src/transactioneditwidget.cpp:92
+#: src/transactioneditwidget.cpp:152
+msgid "Security:"
+msgstr "Wertpapier:"
+
+#: src/eqonomize.cpp:516
+msgid "Shares added:"
+msgstr "Hinzugefügte Anteile:"
+
+#: src/eqonomize.cpp:584
+msgid "Security Trade"
+msgstr "Wertpapierhandel"
+
+#: src/eqonomize.cpp:591
+msgid "From security:"
+msgstr "Von Wertpapier:"
+
+#: src/eqonomize.cpp:607
+msgid "Shares moved:"
+msgstr "Anteile verschoben:"
+
+#: src/eqonomize.cpp:612 src/transactioneditwidget.cpp:130
+#: src/transactionfilterwidget.cpp:159 src/transactionfilterwidget.cpp:160
+#: src/transactionfilterwidget.cpp:335 src/transactionfilterwidget.cpp:372
+msgid "All"
+msgstr "Alle"
+
+#: src/eqonomize.cpp:618
+msgid "To security:"
+msgstr "Zu Wertpapier"
+
+#: src/eqonomize.cpp:635
+msgid "Shares received:"
+msgstr "Anteile erhalten:"
+
+#: src/eqonomize.cpp:639 src/importcsvdialog.cpp:390
+#: src/importcsvdialog.cpp:416 src/overtimechart.cpp:290
+msgid "Value:"
+msgstr "Wert:"
+
+#: src/eqonomize.cpp:736
+msgid "No other security available for trade in the account."
+msgstr "Keine weiteren Wertpapiere zum Handeln in diesem Account vorhanden:"
+
+#: src/eqonomize.cpp:748
+msgid "Selected to and from securities are the same."
+msgstr "Ausgewählte \"von\" und \"nach\" Wertpapiere sind die selben"
+
+#: src/eqonomize.cpp:756 src/transactioneditwidget.cpp:730
+msgid "Zero shares not allowed."
+msgstr "Keine Anteile sind nicht erlaubt"
+
+#: src/eqonomize.cpp:760 src/transactioneditwidget.cpp:734
+msgid "Zero value not allowed."
+msgstr "Kein Wert ist nicht erlaubt."
+
+#: src/eqonomize.cpp:768 src/eqonomize.cpp:773
+msgid "Quotations"
+msgstr "Kurse"
+
+#: src/eqonomize.cpp:784 src/eqonomize.cpp:995 src/eqonomize.cpp:1052
+#: src/eqonomize.cpp:1153 src/ledgerdialog.cpp:133
+#: src/transactionlistwidget.cpp:102
+msgid "Date"
+msgstr "Datum"
+
+#: src/eqonomize.cpp:785
+msgid "Price per Share"
+msgstr "Preis pro Anteil"
+
+#: src/eqonomize.cpp:837
+#, kde-format
+msgid "Quotations for %1"
+msgstr "Kurse für %1"
+
+#: src/eqonomize.cpp:914 src/eqonomize.cpp:931 src/eqonomize.cpp:948
+#: src/eqonomize.cpp:964
+msgid "Report"
+msgstr "Bericht"
+
+#: src/eqonomize.cpp:986
+msgid ""
+"The following transactions was scheduled to occur today or before today.\n"
+"Confirm that they have indeed occurred (or will occur today)."
+msgstr ""
+"Die folgenden Transaktionen sollen heute oder in der Vergangenheit "
+"durchgeführt werden.\n"
+"Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden "
+"(oder heute durchgeführt werden)."
+
+#: src/eqonomize.cpp:998 src/eqonomize.cpp:2160
+#: src/transactionlistwidget.cpp:129
+msgid "Amount"
+msgstr "Wert"
+
+#: src/eqonomize.cpp:1008
+msgid "Postpone..."
+msgstr "Verschieben..."
+
+#: src/eqonomize.cpp:1069
+msgid "Can only postpone to future dates."
+msgstr "Man kann nur auf zukünftige Termine verschieben."
+
+#: src/eqonomize.cpp:1145 src/ledgerdialog.cpp:302
+#, kde-format
+msgid "Transactions for %1"
+msgstr "Transaktionen für %1"
+
+#: src/eqonomize.cpp:1156 src/eqonomize.cpp:2061
+msgid "Shares"
+msgstr "Anteile"
+
+#: src/eqonomize.cpp:1261
+msgid "Shares Bought"
+msgstr "Anteile gekauft"
+
+#: src/eqonomize.cpp:1262
+msgid "Shares Sold"
+msgstr "Anteile verkauft"
+
+#: src/eqonomize.cpp:1289
+msgid "Shares Sold (Traded)"
+msgstr "Anteile verkauft (gehandelt)"
+
+#: src/eqonomize.cpp:1289
+msgid "Shares Bought (Traded)"
+msgstr "Anteile gekauft (gehandelt)"
+
+#: src/eqonomize.cpp:1305
+msgid "Shares Bought (Recurring)"
+msgstr "Anteile gekauft (wiederkehrend)"
+
+#: src/eqonomize.cpp:1306
+msgid "Shares Sold (Recurring)"
+msgstr "Anteile verkauft (wiederkehrend)"
+
+#: src/eqonomize.cpp:1308
+msgid "Shares Bought (Scheduled)"
+msgstr "Anteile gekauft (geplant)"
+
+#: src/eqonomize.cpp:1309
+msgid "Shares Sold (Scheduled)"
+msgstr "Anteile verkauft (geplant)"
+
+#: src/eqonomize.cpp:1321
+msgid "Recurring Dividend"
+msgstr "Wiederkehrende Dividende"
+
+#: src/eqonomize.cpp:1323
+msgid "Scheduled Dividend"
+msgstr "Geplante Dividende"
+
+#: src/eqonomize.cpp:1341 src/eqonomize.cpp:1471
+msgid "Type:"
+msgstr "Typ:"
+
+#: src/eqonomize.cpp:1344 src/eqonomize.cpp:2730 src/eqonomize.cpp:2790
+msgid "Mutual Fund"
+msgstr "Investmentfonds"
+
+#: src/eqonomize.cpp:1345 src/eqonomize.cpp:2728 src/eqonomize.cpp:2788
+msgid "Bond"
+msgstr "Anleihe"
+
+#: src/eqonomize.cpp:1346 src/eqonomize.cpp:2729 src/eqonomize.cpp:2789
+msgid "Stock"
+msgstr "Aktie"
+
+#: src/eqonomize.cpp:1347 src/eqonomize.cpp:2731 src/eqonomize.cpp:2791
+#: src/eqonomize.cpp:3611 src/eqonomize.cpp:3616 src/importcsvdialog.cpp:121
+#: src/qifimportexport.cpp:336
+msgid "Other"
+msgstr "Anderes"
+
+#: src/eqonomize.cpp:1350 src/eqonomize.cpp:1481 src/eqonomize.cpp:1581
+#: src/eqonomize.cpp:1651
+msgid "Name:"
+msgstr "Name:"
+
+#: src/eqonomize.cpp:1365
+msgid "Decimals in Shares:"
+msgstr "Dezimal in Anteilen:"
+
+#: src/eqonomize.cpp:1371
+msgid "Initial Shares:"
+msgstr "Anteile zu Beginn:"
+
+#: src/eqonomize.cpp:1374
+msgid "Initial quotation:"
+msgstr "Startkurs:"
+
+#: src/eqonomize.cpp:1400 src/transactioneditwidget.cpp:670
+msgid "No suitable account or income category available."
+msgstr "Kein passendes Konto oder Einkommenskategorie vorhanden."
+
+#: src/eqonomize.cpp:1474 src/eqonomize.cpp:3607 src/eqonomize.cpp:4087
+#: src/qifimportexport.cpp:329
+msgid "Cash"
+msgstr "Bargeld"
+
+#: src/eqonomize.cpp:1475 src/eqonomize.cpp:4082
+msgid "Current Account"
+msgstr "Girokonto"
+
+#: src/eqonomize.cpp:1476 src/eqonomize.cpp:3609 src/eqonomize.cpp:4083
+msgid "Savings Account"
+msgstr "Rücklagekonto"
+
+#: src/eqonomize.cpp:1477 src/eqonomize.cpp:4084
+msgid "Credit Card"
+msgstr "Kreditkarte"
+
+#: src/eqonomize.cpp:1478 src/eqonomize.cpp:4085
+msgid "Liabilities"
+msgstr "Verpflichtungen"
+
+#: src/eqonomize.cpp:1479 src/eqonomize.cpp:1856 src/eqonomize.cpp:1857
+#: src/eqonomize.cpp:3957 src/eqonomize.cpp:3963 src/eqonomize.cpp:4086
+msgid "Securities"
+msgstr "Wertpapiere"
+
+#: src/eqonomize.cpp:1484
+msgid "Initial balance:"
+msgstr "Wert zu Beginn"
+
+#: src/eqonomize.cpp:1487
+msgid "Default account for budgeted transactions"
+msgstr "Standardkonto für geplante Transaktionen"
+
+#: src/eqonomize.cpp:1559 src/eqonomize.cpp:1630 src/eqonomize.cpp:1700
+msgid "Empty name."
+msgstr "Leerer Name."
+
+#: src/eqonomize.cpp:1565
+msgid "The entered name is used by another account."
+msgstr "Dieser Name wird bereits von einem anderen Konto verwendet."
+
+#: src/eqonomize.cpp:1584 src/eqonomize.cpp:1654
+msgid "Monthly budget:"
+msgstr "Monatliches Budget"
+
+#: src/eqonomize.cpp:1636
+msgid "The entered name is used by another income category."
+msgstr ""
+"Dieser Name wird bereits von einer anderen Einkommenskategorie verwendet."
+
+#: src/eqonomize.cpp:1706
+msgid "The entered name is used by another expense category."
+msgstr ""
+"Dieser Name wird bereits von einer anderen Ausgabenkategorie verwendet."
+
+#: src/eqonomize.cpp:1836 src/eqonomize.cpp:1903 src/eqonomize.cpp:4050
+#: src/eqonomize.cpp:6072 src/eqonomize.cpp:6078
+msgid "Accounts"
+msgstr "Konten"
+
+#: src/eqonomize.cpp:1837
+msgid "Accounts & Categories"
+msgstr "Konten & Kategorien"
+
+#: src/eqonomize.cpp:1841 src/eqonomize.cpp:1842 src/eqonomize.cpp:1905
+#: src/importcsvdialog.cpp:74 src/overtimechart.cpp:223
+#: src/overtimechart.cpp:1736 src/overtimechart.cpp:1740
+#: src/overtimereport.cpp:105 src/overtimereport.cpp:351
+#: src/overtimereport.cpp:371 src/overtimereport.cpp:389
+#: src/transactionlistwidget.cpp:254 src/transactionlistwidget.cpp:266
+msgid "Expenses"
+msgstr "Ausgaben"
+
+#: src/eqonomize.cpp:1846 src/eqonomize.cpp:1847 src/eqonomize.cpp:1904
+#: src/eqonomize.cpp:4109 src/importcsvdialog.cpp:79 src/overtimechart.cpp:224
+#: src/overtimechart.cpp:1735 src/overtimechart.cpp:1739
+#: src/overtimereport.cpp:106 src/overtimereport.cpp:343
+#: src/overtimereport.cpp:362 src/overtimereport.cpp:380
+#: src/transactionlistwidget.cpp:255 src/transactionlistwidget.cpp:267
+msgid "Incomes"
+msgstr "Einnahmen"
+
+#: src/eqonomize.cpp:1851 src/eqonomize.cpp:1852 src/importcsvdialog.cpp:82
+#: src/transactionlistwidget.cpp:256 src/transactionlistwidget.cpp:268
+msgid "Transfers"
+msgstr "Transfers"
+
+#: src/eqonomize.cpp:1861
+msgid "Schedule"
+msgstr "Planer"
+
+#: src/eqonomize.cpp:1862
+msgid "Scheduled Transactions"
+msgstr "Geplante Transaktionen"
+
+#: src/eqonomize.cpp:1878 src/eqonomize.cpp:1900
+msgid "Account / Category"
+msgstr "Konto / Kategorie"
+
+#: src/eqonomize.cpp:1879
+#, kde-format
+msgid "Remaining Budget (%1)"
+msgstr "Verbleibendes Budget (%1)"
+
+#: src/eqonomize.cpp:1880
+#, kde-format
+msgid "Change (%1)"
+msgstr "Änderung (%1)"
+
+#: src/eqonomize.cpp:1881
+#, kde-format
+msgid "Total (%1)"
+msgstr "Gesamt (%1)"
+
+#: src/eqonomize.cpp:1894
+#, kde-format
+msgctxt "%2 remains of %1 budget"
+msgid "%2 of %1"
+msgstr "%2 von %1"
+
+#: src/eqonomize.cpp:1910 src/eqonomize.cpp:4068
+msgid "Includes budgeted transactions"
+msgstr "beinhaltet geplante Transaktionen"
+
+#: src/eqonomize.cpp:1918
+msgid "Period"
+msgstr "Zeitraum"
+
+#: src/eqonomize.cpp:1950
+msgid "Select Period"
+msgstr "Zeitraum wählen"
+
+#: src/eqonomize.cpp:1952 src/eqonomize.cpp:4376
+msgid "Current Month"
+msgstr "Dieser Monat"
+
+#: src/eqonomize.cpp:1953 src/eqonomize.cpp:4377
+msgid "Current Year"
+msgstr "Dieses Jahr"
+
+#: src/eqonomize.cpp:1954 src/eqonomize.cpp:4378
+msgid "Current Whole Month"
+msgstr "Dieser Kalendermonat"
+
+#: src/eqonomize.cpp:1955 src/eqonomize.cpp:4379
+msgid "Current Whole Year"
+msgstr "Dieses Kalenderjahr"
+
+#: src/eqonomize.cpp:1956
+msgid "Whole Past Month"
+msgstr "Der letzte Kalendermonat"
+
+#: src/eqonomize.cpp:1957
+msgid "Whole Past Year"
+msgstr "Das letzte Kalenderjahr"
+
+#: src/eqonomize.cpp:1958
+msgid "Previous Month"
+msgstr "Vorheriger Monat"
+
+#: src/eqonomize.cpp:1959
+msgid "Previous Year"
+msgstr "Vorheriges Jahr"
+
+#: src/eqonomize.cpp:1962
+msgid "Show partial budget"
+msgstr "Zeige Teilbudget"
+
+#: src/eqonomize.cpp:1967
+msgid "Edit Budget"
+msgstr "Budget bearbeiten"
+
+#: src/eqonomize.cpp:1971
+msgid "Budget:"
+msgstr "Budget:"
+
+#: src/eqonomize.cpp:1981
+msgid "Month:"
+msgstr "Monat:"
+
+#: src/eqonomize.cpp:1989
+msgid "Result previous month:"
+msgstr "Ergebnis des Vormonats"
+
+#: src/eqonomize.cpp:2042 src/eqonomize.cpp:4418
+msgid "New Security..."
+msgstr "Neues Wertpapier..."
+
+#: src/eqonomize.cpp:2044
+msgid "New Transaction"
+msgstr "Neue Transaktion"
+
+#: src/eqonomize.cpp:2047 src/eqonomize.cpp:4426
+msgid "Set Quotation..."
+msgstr "Kurs setzen..."
+
+#: src/eqonomize.cpp:2059 src/eqonomize.cpp:4053
+msgid "Name"
+msgstr "Name"
+
+#: src/eqonomize.cpp:2062
+msgid "Quotation"
+msgstr "Kurs"
+
+#: src/eqonomize.cpp:2064
+msgid "Profit"
+msgstr "Ertrag"
+
+#: src/eqonomize.cpp:2065
+msgid "Yearly Rate"
+msgstr "Jährliche Gebühr"
+
+#: src/eqonomize.cpp:2067 src/qifimportexport.cpp:327
+msgid "Account"
+msgstr "Konto"
+
+#: src/eqonomize.cpp:2078
+msgid "Statistics Period"
+msgstr "Zeitraum der Statistik"
+
+#: src/eqonomize.cpp:2140
+msgid "New Schedule"
+msgstr "Neuer Terminplan"
+
+#: src/eqonomize.cpp:2143
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: src/eqonomize.cpp:2157
+msgid "Next Occurrence"
+msgstr "Nächstes Vorkommen"
+
+#: src/eqonomize.cpp:2163 src/qifimportexport.cpp:154
+#: src/transactionlistwidget.cpp:136
+msgid "Comments"
+msgstr "Kommentare"
+
+#: src/eqonomize.cpp:2416
+msgid "New Security"
+msgstr "Neue Sicherheit"
+
+#: src/eqonomize.cpp:2431
+msgid "Edit Security"
+msgstr "Sicherheit bearbeiten"
+
+#: src/eqonomize.cpp:2450
+msgid "Profit:"
+msgstr "Ertrag:"
+
+#: src/eqonomize.cpp:2450
+msgid "Rate:"
+msgstr "Gebühren:"
+
+#: src/eqonomize.cpp:2457
+#, kde-format
+msgid ""
+"Are you sure you want to delete the security \"%1\" and all associated "
+"transactions?"
+msgstr ""
+"Sind Sie sicher, daß Sie die Sicherheit \"%1\" und alle zugehörigen "
+"Transaktionen löschen wollen?"
+
+#: src/eqonomize.cpp:2519 src/transactioneditwidget.cpp:695
+msgid "No security available."
+msgstr "Kein Wertpapier verfügbar"
+
+#: src/eqonomize.cpp:2591
+#, kde-format
+msgid "Set Quotation (%1)"
+msgstr "Rate setzen (%1)"
+
+#: src/eqonomize.cpp:2596 src/transactioneditwidget.cpp:138
+msgid "Price per share:"
+msgstr "Preis pro Anteil:"
+
+#: src/eqonomize.cpp:2615
+msgid "Future dates are not allowed."
+msgstr "Termine in der Zukunft ist nicht erlaubt."
+
+#: src/eqonomize.cpp:2643
+msgid "Security Transactions"
+msgstr "Sicherheitstransaktion"
+
+#: src/eqonomize.cpp:3296 src/ledgerdialog.cpp:296
+msgid "Ledger"
+msgstr "Kontenblatt"
+
+#: src/eqonomize.cpp:3594
+msgid "Untitled"
+msgstr ""
+
+#: src/eqonomize.cpp:3608
+msgid "Check Account"
+msgstr "Konto überprüfen"
+
+#: src/eqonomize.cpp:3610
+msgid "Salary"
+msgstr "Gehalt"
+
+#: src/eqonomize.cpp:3612
+msgid "Bills"
+msgstr "Rechnungen"
+
+#: src/eqonomize.cpp:3613
+msgid "Clothing"
+msgstr "Kleidung"
+
+#: src/eqonomize.cpp:3614
+msgid "Groceries"
+msgstr "Lebensmittel"
+
+#: src/eqonomize.cpp:3615
+msgid "Leisure"
+msgstr "Vergnügen"
+
+#. i18n("Couldn't fetch %1.", url.toString()));
+#. return;
+#. }
+#. i18n("Couldn't fetch %1.", url.toString()));
+#. return false;
+#. }
+#. i18n("Couldn't fetch %1.", url.toString()));
+#. return;
+#. }
+#: src/eqonomize.cpp:3683 src/importcsvdialog.cpp:802
+#: src/qifimportexport.cpp:285
+msgid "You can only open local files."
+msgstr ""
+
+#: src/eqonomize.cpp:3694 src/eqonomize.cpp:4481
+#, kde-format
+msgid "Error loading %1: %2."
+msgstr "Fehler beim Laden von %1: %2"
+
+#: src/eqonomize.cpp:3694 src/eqonomize.cpp:4481
+msgid "Couldn't open file"
+msgstr "Konnte Datei nicht löschen"
+
+#: src/eqonomize.cpp:3740
+#, kde-format
+msgid "Error saving %1: %2."
+msgstr "Fehler beim Speichern von %1: %2"
+
+#: src/eqonomize.cpp:3740
+msgid "Couldn't save file"
+msgstr "Konnte Datei nicht speichern"
+
+#: src/eqonomize.cpp:3889 src/eqonomize.cpp:3895
+msgid "Transaction Schedule"
+msgstr "Transaktions-Plan"
+
+#: src/eqonomize.cpp:4042
+msgctxt "html format"
+msgid "Accounts &amp; Categories"
+msgstr "Konten &amp; Kategorien"
+
+#: src/eqonomize.cpp:4047
+#, kde-format
+msgctxt "html format"
+msgid "Accounts &amp; Categories (%1&ndash;%2)"
+msgstr "Konten &amp Kategorien (%1&ndash;%2)"
+
+#: src/eqonomize.cpp:4048
+#, kde-format
+msgctxt "html format"
+msgid "Accounts &amp; Categories (to %1)"
+msgstr "Konten &amp; Kategorien (bis %1)"
+
+#: src/eqonomize.cpp:4055 src/eqonomize.cpp:4115 src/eqonomize.cpp:4163
+#: src/eqonomize.cpp:4208
+msgid "Change"
+msgstr "Änderung"
+
+#: src/eqonomize.cpp:4059 src/ledgerdialog.cpp:139
+msgid "Balance"
+msgstr "Bilanz"
+
+#: src/eqonomize.cpp:4113 src/eqonomize.cpp:4161
+msgid "Budget"
+msgstr "Budget"
+
+#: src/eqonomize.cpp:4114 src/eqonomize.cpp:4162
+msgid "Remaining Budget"
+msgstr "Verbleibendes Budget"
+
+#: src/eqonomize.cpp:4116
+msgid "Total Incomes"
+msgstr "Gesamte Einnahmen"
+
+#: src/eqonomize.cpp:4157
+msgid "Costs"
+msgstr "Kosten"
+
+#: src/eqonomize.cpp:4164
+msgid "Total Expenses"
+msgstr "Gesamte Ausgaben"
+
+#: src/eqonomize.cpp:4233 src/eqonomize.cpp:4280
+msgid "Empty expenses list."
+msgstr "Leere Ausgabenliste"
+
+#: src/eqonomize.cpp:4238 src/eqonomize.cpp:4285
+msgid "Empty incomes list."
+msgstr "Leere Einnahmenliste"
+
+#: src/eqonomize.cpp:4243 src/eqonomize.cpp:4290
+msgid "Empty transfers list."
+msgstr "Leere Transferliste"
+
+#: src/eqonomize.cpp:4248 src/eqonomize.cpp:4295
+msgid "Empty securities list."
+msgstr "Leere Wertpapierliste"
+
+#: src/eqonomize.cpp:4253 src/eqonomize.cpp:4300
+msgid "Empty schedule list."
+msgstr "Leerer Plan"
+
+#: src/eqonomize.cpp:4369
+msgid "Export View..."
+msgstr "Exportiere Ansicht..."
+
+#: src/eqonomize.cpp:4371
+msgid "Print View..."
+msgstr "Drucke Ansicht..."
+
+#: src/eqonomize.cpp:4373
+msgid "Initial Period"
+msgstr "Zeitraum beim Start"
+
+#: src/eqonomize.cpp:4380
+msgid "Remember Last Dates"
+msgstr "Definierten Zeitraum merken"
+
+#: src/eqonomize.cpp:4383
+msgid "Import CSV File..."
+msgstr "Importiere CSV-Datei..."
+
+#: src/eqonomize.cpp:4384
+msgid "Import QIF File..."
+msgstr "Importiere QIF-Datei..."
+
+#: src/eqonomize.cpp:4385
+msgid "Export As QIF File..."
+msgstr "Exportiere QIF-Datei..."
+
+#: src/eqonomize.cpp:4387
+msgid "Add Account..."
+msgstr "Konto hinzufügen"
+
+#: src/eqonomize.cpp:4388
+msgid "New Account..."
+msgstr "Neues Konto..."
+
+#: src/eqonomize.cpp:4389
+msgid "New Income Category..."
+msgstr "Neue Einkommenkategorie"
+
+#: src/eqonomize.cpp:4390
+msgid "New Expense Category..."
+msgstr "Neue Ausgabenkategorie"
+
+#: src/eqonomize.cpp:4391
+msgid "Balance..."
+msgstr "Bilanzieren..."
+
+#: src/eqonomize.cpp:4395
+msgid "Show Transactions"
+msgstr "Transaktionen Zeigen"
+
+#: src/eqonomize.cpp:4399
+msgid "New Transfer..."
+msgstr "Neuer Transfer..."
+
+#: src/eqonomize.cpp:4400
+msgid "New Split Transaction..."
+msgstr "Neue geteilte Transaktion..."
+
+#: src/eqonomize.cpp:4401
+msgid "Edit Transaction(s) (Occurrence)..."
+msgstr "Bearbeite Transaktion(en) (Vorkommnis)..."
+
+#: src/eqonomize.cpp:4402
+msgid "Edit Occurrence..."
+msgstr "Vorkommnis bearbeiten..."
+
+#: src/eqonomize.cpp:4403
+msgid "Edit Schedule (Recurrence)..."
+msgstr "Bearbeite Plan (Wiederholung)..."
+
+#: src/eqonomize.cpp:4404
+msgid "Edit Schedule..."
+msgstr "Plan bearbeiten..."
+
+#: src/eqonomize.cpp:4405
+msgid "Remove Transaction(s) (Occurrence)"
+msgstr "Transaktion(en) entfernen (Vorkommnis)"
+
+#: src/eqonomize.cpp:4406
+msgid "Remove Occurrence"
+msgstr "Vorkommnis entfernen"
+
+#: src/eqonomize.cpp:4407
+msgid "Delete Schedule (Recurrence)"
+msgstr "Terminplan löschen (Wiederholung)"
+
+#: src/eqonomize.cpp:4408
+msgid "Delete Schedule"
+msgstr "Plan löschen"
+
+#: src/eqonomize.cpp:4409
+msgid "Edit Split Transaction..."
+msgstr "Bearbeite geteilte Transaktionen"
+
+#: src/eqonomize.cpp:4410
+msgid "Remove Split Transaction"
+msgstr "Entferne geteilte Transaktionen"
+
+#: src/eqonomize.cpp:4411
+msgid "Join Transactions..."
+msgstr "Transaktionen zusammenfassen"
+
+#: src/eqonomize.cpp:4412
+msgid "Split Up Transaction"
+msgstr "Transaktion teilen"
+
+#: src/eqonomize.cpp:4414
+msgid "Refund..."
+msgstr "Erstattung..."
+
+#: src/eqonomize.cpp:4415
+msgid "Repayment..."
+msgstr "Tilgung..."
+
+#: src/eqonomize.cpp:4416
+msgid "New Refund/Repayment..."
+msgstr "Neue Erstattung/Tilgung..."
+
+#: src/eqonomize.cpp:4419
+msgid "Edit Security..."
+msgstr "Wertpapier bearbeiten..."
+
+#: src/eqonomize.cpp:4420
+msgid "Remove Security"
+msgstr "Wertpapier entfernen"
+
+#: src/eqonomize.cpp:4421
+msgid "Shares Sold..."
+msgstr "Anteile verkauft..."
+
+#: src/eqonomize.cpp:4422
+msgid "Shares Bought..."
+msgstr "Anteile gekauft..."
+
+#: src/eqonomize.cpp:4423
+msgid "Dividend..."
+msgstr "Dividende..."
+
+#: src/eqonomize.cpp:4424
+msgid "Reinvested Dividend..."
+msgstr "Reinvestierte Dividende..."
+
+#: src/eqonomize.cpp:4425
+msgid "Shares Moved..."
+msgstr "Verschobene Anteile..."
+
+#: src/eqonomize.cpp:4427
+msgid "Edit Quotations..."
+msgstr "Kurse bearbeiten..."
+
+#: src/eqonomize.cpp:4428
+msgid "Transactions..."
+msgstr "Transaktionen..."
+
+#: src/eqonomize.cpp:4430
+msgid "Development Over Time Report..."
+msgstr "Bericht \"Entwicklung über Zeit\""
+
+#: src/eqonomize.cpp:4431
+msgid "Categories Comparison Report..."
+msgstr "Bericht \"Kategorienvergleich\""
+
+#: src/eqonomize.cpp:4432
+msgid "Categories Comparison Chart..."
+msgstr "Diagramm \"Kategorienvergleich\""
+
+#: src/eqonomize.cpp:4433
+msgid "Development Over Time Chart..."
+msgstr "Diagramm \"Entwicklung über Zeit\""
+
+#: src/eqonomize.cpp:4435
+msgid "Use Additional Transaction Properties"
+msgstr "Zusätzliche Transaktionseinstellungen verwenden"
+
+#: src/eqonomize.cpp:4477
+msgid ""
+"Eqonomize! exited unexpectedly before the file was saved and data was lost.\n"
+"Do you want to load the last auto-saved version of the file?"
+msgstr ""
+"Eqonomize! wurde unerwartet beendet, bevor die Datei gespeichert werden "
+"konnte. Es kann zu Datenverlust gekommen sein.\n"
+"Wollen Sie die letzte automatisch gespeicherte Version dieser Datei laden?"
+
+#: src/eqonomize.cpp:4477
+msgid "Crash Recovery"
+msgstr "Absturz-Wiederherstellung"
+
+#: src/eqonomize.cpp:4702 src/eqonomize.cpp:4703
+msgid "The current file has been modified. Do you want to save it?"
+msgstr "Die Datei wurde verändert. Möchten Sie sie speichern?"
+
+#: src/eqonomize.cpp:4741
+msgid "Confirm Schedule"
+msgstr "Plan bestätigen"
+
+#: src/eqonomize.cpp:4795
+msgid "New Account"
+msgstr "Neues Konto"
+
+#: src/eqonomize.cpp:4810
+msgid "New Income Category"
+msgstr "Neue Einnahmenkategorie"
+
+#: src/eqonomize.cpp:4823
+msgid "New Expense Category"
+msgstr "Neue Ausgabenkategorie"
+
+#: src/eqonomize.cpp:4898
+msgid "Balance Account"
+msgstr "Konto bilanzieren"
+
+#: src/eqonomize.cpp:4903
+msgid "Book value:"
+msgstr "Buchwert:"
+
+#: src/eqonomize.cpp:4910
+msgid "Real value:"
+msgstr "Realwert:"
+
+#: src/eqonomize.cpp:4939
+msgid "Edit Account"
+msgstr "Konto bearbeiten"
+
+#: src/eqonomize.cpp:4972
+msgid "Edit Income Category"
+msgstr "Einnahmenkategorie bearbeiten"
+
+#: src/eqonomize.cpp:4990
+msgid "Edit Expense Category"
+msgstr "Ausgabenkategorie bearbeiten"
+
+#: src/eqonomize.cpp:5051
+msgid "Move transactions?"
+msgstr "Transaktionen verschieben?"
+
+#: src/eqonomize.cpp:5060
+msgid "Move to:"
+msgstr "Verschieben nach:"
+
+#: src/eqonomize.cpp:5067
+msgid ""
+"The category contains some expenses.\n"
+"What do you want to do with them?"
+msgstr ""
+"Die Kategorie enthält einige Ausgaben.\n"
+"Was wollen Sie mit diesen tun?"
+
+#: src/eqonomize.cpp:5079
+msgid ""
+"The category contains some incomes.\n"
+"What do you want to do with them?"
+msgstr ""
+"Die Kategorie enthält einige Einnahmen.\n"
+"Was wollen Sie mit diesen tun?"
+
+#: src/eqonomize.cpp:5091
+msgid ""
+"The account contains some transactions.\n"
+"What do you want to do with them?"
+msgstr ""
+"Dieses Konto enthält einige Tranaktionen.\n"
+"Was wollen Sie mit diesen tun?"
+
+#: src/eqonomize.cpp:5119
+msgid ""
+"The category contains some expenses that will be removed. Do you still want "
+"to remove the category?"
+msgstr ""
+"Die Kategorie enthält einige Ausgaben, die entfernt werden würden. Wollen "
+"Sie die Kategorie tatsächlich entfernen?"
+
+#: src/eqonomize.cpp:5119 src/eqonomize.cpp:5120
+msgid "Remove Category?"
+msgstr "Kategorie entfernen?"
+
+#: src/eqonomize.cpp:5120
+msgid ""
+"The category contains some incomes that will be removed. Do you still want "
+"to remove the category?"
+msgstr ""
+"Die Kategorie enthält einige Einnahmen, die entfernt werden würden. Wollen "
+"Sie die Kategorie wirklich entfernen?"
+
+#: src/eqonomize.cpp:5121
+msgid ""
+"The account contains some transactions that will be removed. Do you still "
+"want to remove the account?"
+msgstr ""
+"Das Konte enthält einige Transaktionen, die entfernt werden würden. Wollen "
+"Sie das Konto wirklich entfernen?"
+
+#: src/eqonomize.cpp:5121
+msgid "Remove Account?"
+msgstr "Konto entfernen?"
+
+#: src/eqonomize.cpp:5637 src/eqonomize.cpp:5661 src/eqonomize.cpp:5835
+#, kde-format
+msgctxt "%1: budget; %2: remaining budget"
+msgid "%2 of %1"
+msgstr "%2 von %1"
+
+#: src/eqonomize.cpp:5914 src/eqonomize.cpp:5938
+#, kde-format
+msgid "%1 (with no budget)"
+msgstr "%1 (ohne Budget)"
+
+#: src/eqonomize.cpp:5915 src/eqonomize.cpp:5939
+#, kde-format
+msgid "%1 (with budget %2)"
+msgstr "%1 (mit Budget %2)"
+
+#. i18n: ectx: Menu (import)
+#: src/eqonomizeui.rc:5
+msgid "&Import"
+msgstr "Importiere"
+
+#. i18n: ectx: Menu (accounts)
+#: src/eqonomizeui.rc:12
+msgid "&Accounts"
+msgstr "&Konten"
+
+#. i18n: ectx: Menu (transactions)
+#: src/eqonomizeui.rc:24
+msgid "&Transactions"
+msgstr "&Transaktionen"
+
+#. i18n: ectx: Menu (securities)
+#: src/eqonomizeui.rc:41
+msgid "&Securities"
+msgstr "&Wertpapiere"
+
+#. i18n: ectx: Menu (statistics)
+#: src/eqonomizeui.rc:56
+msgid "Stat&istics"
+msgstr "Stat&istiken"
+
+#: src/importcsvdialog.cpp:64
+msgid "Import CSV file"
+msgstr "CSV-Datei importieren"
+
+#: src/importcsvdialog.cpp:68
+msgid "Transaction Type Selection"
+msgstr "Auswahl des Transaktionstyps"
+
+#: src/importcsvdialog.cpp:85
+msgid "Expenses and incomes (negative cost)"
+msgstr "Ausgaben und Einnahmen (negative Kosten)"
+
+#: src/importcsvdialog.cpp:88
+msgid "Expenses and incomes (separate columns)"
+msgstr "Ausgaben und Einnahmen (getrennte Spalten)"
+
+#: src/importcsvdialog.cpp:91
+msgid "All types"
+msgstr "Alle Typen"
+
+#: src/importcsvdialog.cpp:99 src/qifimportexport.cpp:64
+msgid "File Selection"
+msgstr "Dateiauswahl"
+
+#: src/importcsvdialog.cpp:103 src/qifimportexport.cpp:68
+#: src/qifimportexport.cpp:551
+msgid "File:"
+msgstr "Datei:"
+
+#: src/importcsvdialog.cpp:108
+msgid "First data row:"
+msgstr "Erste Zeile mit Daten:"
+
+#: src/importcsvdialog.cpp:111
+msgid "Auto"
+msgstr "Auto"
+
+#: src/importcsvdialog.cpp:114
+msgid "Column delimiter:"
+msgstr "Zellentrenner:"
+
+#: src/importcsvdialog.cpp:117
+msgid "Comma"
+msgstr "Komma"
+
+#: src/importcsvdialog.cpp:118
+msgid "Tabulator"
+msgstr "Tabulator"
+
+#: src/importcsvdialog.cpp:119
+msgid "Semicolon"
+msgstr "Semikolon"
+
+#: src/importcsvdialog.cpp:120
+msgid "Space"
+msgstr "Leerzeichen"
+
+#: src/importcsvdialog.cpp:129
+msgid "Columns Specification"
+msgstr "Spaltenbeschreibung"
+
+#: src/importcsvdialog.cpp:135 src/importcsvdialog.cpp:153
+#: src/importcsvdialog.cpp:176 src/importcsvdialog.cpp:193
+#: src/importcsvdialog.cpp:212 src/importcsvdialog.cpp:231
+#: src/importcsvdialog.cpp:249
+msgid "Column"
+msgstr "Spalte"
+
+#: src/importcsvdialog.cpp:209 src/importcsvdialog.cpp:360
+#: src/importcsvdialog.cpp:369 src/importcsvdialog.cpp:391
+#: src/importcsvdialog.cpp:402 src/transactioneditwidget.cpp:220
+#: src/transactioneditwidget.cpp:262 src/transactioneditwidget.cpp:1129
+#: src/transactionfilterwidget.cpp:93 src/transactionfilterwidget.cpp:104
+msgid "Category:"
+msgstr "Kategorie"
+
+#: src/importcsvdialog.cpp:228 src/importcsvdialog.cpp:361
+#: src/importcsvdialog.cpp:378 src/transactioneditwidget.cpp:243
+#: src/transactioneditwidget.cpp:268 src/transactionfilterwidget.cpp:108
+msgid "From account:"
+msgstr "Von Konto:"
+
+#: src/importcsvdialog.cpp:266
+msgid "Create missing categories and accounts"
+msgstr "Lege fehlende Kategorien und Konten an"
+
+#: src/importcsvdialog.cpp:358
+msgid ""
+"Imports data as expenses. Costs have positive value. Value is the only "
+"required column."
+msgstr ""
+"Importiere Daten als Ausgaben. Kosten haben einen positiven Wert. \"Wert\" "
+"ist die einzig benötigte Spalte."
+
+#: src/importcsvdialog.cpp:367
+msgid "Imports data as incomes. Value is the only required column."
+msgstr "Importiert Daten als Einnahmen. Einzig benötigte Spalte ist \"Wert\"."
+
+#: src/importcsvdialog.cpp:370 src/importcsvdialog.cpp:379
+#: src/transactioneditwidget.cpp:226 src/transactioneditwidget.cpp:253
+#: src/transactionfilterwidget.cpp:97
+msgid "To account:"
+msgstr "Zu Konto:"
+
+#: src/importcsvdialog.cpp:376
+msgid "Imports data as transfers. Value is the only required column."
+msgstr ""
+"Importiert Daten als Transaktionen. Die einzige benötigte Spalte ist \"Wert\""
+
+#: src/importcsvdialog.cpp:377 src/transactioneditwidget.cpp:177
+#: src/transactioneditwidget.cpp:1108
+msgid "Amount:"
+msgstr "Menge:"
+
+#: src/importcsvdialog.cpp:385
+msgid ""
+"Imports data as expenses and incomes. Costs have negative value. Value and "
+"category are both required columns."
+msgstr ""
+"Importiert Daten als Ausgaben und Einnahmen. Kosten haben einen negativen "
+"Wert. Spalten für \"Wert\" und \"Kategorie\" werden benötigt."
+
+#: src/importcsvdialog.cpp:396
+msgid ""
+"Imports data as expenses and incomes. Costs and incomes have separate "
+"columns. Income, cost, and category are all required columns."
+msgstr ""
+"Importiert Daten als Ausgaben und Einnahmen. Kosten haben einen negativen "
+"Wert. Spalten für \"Wert\" und \"Kategorie\" werden benötigt."
+
+#: src/importcsvdialog.cpp:407
+msgid ""
+"Imports data as expenses, incomes, and transfers. Costs have negative or "
+"positive value. Value, to, and from are all required columns. Accounts and "
+"categories must be existing."
+msgstr ""
+"Importiert Daten als Ausgaben, Einnahmen und Transaktionen. Kosten müssen "
+"negative oder positive Werte haben. Benötigte Spalten sind \"Wert\", \"Von\" "
+"und \"Nach\". Alle Konten und Kategorien müssen bereits existieren."
+
+#: src/importcsvdialog.cpp:417 src/transactioneditwidget.cpp:204
+#: src/transactionfilterwidget.cpp:65 src/transactionfilterwidget.cpp:82
+msgid "From:"
+msgstr "Von:"
+
+#: src/importcsvdialog.cpp:418 src/transactioneditwidget.cpp:211
+#: src/transactionfilterwidget.cpp:72 src/transactionfilterwidget.cpp:86
+msgid "To:"
+msgstr "Nach:"
+
+#: src/importcsvdialog.cpp:444 src/qifimportexport.cpp:260
+msgid "A file must be selected."
+msgstr "Es muss eine Datei ausgewählt werden."
+
+#: src/importcsvdialog.cpp:450 src/importcsvdialog.cpp:462
+#: src/qifimportexport.cpp:267 src/qifimportexport.cpp:603
+msgid "Selected file is a directory."
+msgstr "Die ausgewählte Datei ist ein Verzeichnis."
+
+#: src/importcsvdialog.cpp:454 src/importcsvdialog.cpp:466
+#: src/qifimportexport.cpp:271
+msgid "Selected file does not exist."
+msgstr "Die ausgewählte Datei existiert nicht."
+
+#: src/importcsvdialog.cpp:472
+msgid "Empty delimiter."
+msgstr "Leerer Begrenzer."
+
+#: src/importcsvdialog.cpp:716
+msgid "The same column number is selected multiple times."
+msgstr "Die selbe Spaltennummer ist mehrfach ausgewählt."
+
+#: src/importcsvdialog.cpp:776
+msgid "Selected from account is the same as the to account."
+msgstr "Das gewählte Ausgangskonto ist identisch mit dem Eingangskonto."
+
+#: src/importcsvdialog.cpp:809 src/qifimportexport.cpp:292
+#: src/qifimportexport.cpp:456
+#, kde-format
+msgid "Couldn't open %1 for reading."
+msgstr "Konnte %1 nicht zum lesen öffnen."
+
+#: src/importcsvdialog.cpp:812 src/qifimportexport.cpp:295
+#: src/qifimportexport.cpp:459
+#, kde-format
+msgid "Error reading %1."
+msgstr "Fehler beim Lesen von %1."
+
+#: src/importcsvdialog.cpp:1193 src/qifimportexport.cpp:466
+#, fuzzy, kde-format
+msgid "Successfully imported 1 transaction."
+msgid_plural "Successfully imported %1 transactions."
+msgstr[0] "Eine Transaktion erfolgreich eingelesen."
+msgstr[1] "%n Transaktionen erfolgreich eingelesen."
+
+#: src/importcsvdialog.cpp:1195
+msgid "Unable to import any transactions imported."
+msgstr "Es konnten keine Transaktionen importiert werden."
+
+#: src/importcsvdialog.cpp:1199
+#, fuzzy, kde-format
+msgid "Failed to import 1 data row."
+msgid_plural "Failed to import %1 data rows."
+msgstr[0] "Ein Datensatz konnte nicht eingelesen werden."
+msgstr[1] "%n Datensätze konnten nicht importiert werden."
+
+#: src/importcsvdialog.cpp:1200
+msgid "Required columns missing."
+msgstr "Notwendige Spalten fehlen."
+
+#: src/importcsvdialog.cpp:1201
+msgid "Invalid value."
+msgstr "Ungültiger Wert."
+
+#: src/importcsvdialog.cpp:1203
+msgid "Empty category name."
+msgstr "Leerer Kategorienname."
+
+#: src/importcsvdialog.cpp:1203 src/importcsvdialog.cpp:1204
+msgid "Empty account name."
+msgstr "Leerer Kontenname."
+
+#: src/importcsvdialog.cpp:1205
+msgid "Unknown category found."
+msgstr "Unbekannte Kategorie gefunden."
+
+#: src/importcsvdialog.cpp:1205 src/importcsvdialog.cpp:1206
+msgid "Unknown account found."
+msgstr "Unbekanntes Konto gefunden."
+
+#: src/importcsvdialog.cpp:1207
+msgid "Cannot import security transactions (to/from security accounts)."
+msgstr ""
+"Kann Wertpapiertransaktionen nicht importieren (von/nach Wertpapierkonten)."
+
+#: src/importcsvdialog.cpp:1208
+msgid "Balancing account wrongly used."
+msgstr "Bilanzierungskonto falsch verwendet."
+
+#: src/importcsvdialog.cpp:1209
+msgid "Same to and from account/category."
+msgstr "Konto/Kategorie sind identisch."
+
+#: src/importcsvdialog.cpp:1211
+msgid "No data found."
+msgstr "Keine Daten gefunden."
+
+#: src/importcsvdialog.cpp:1225 src/qifimportexport.cpp:349
+msgid "Unrecognized date format."
+msgstr "Unbekanntes Datumsformat."
+
+#: src/importcsvdialog.cpp:1230
+msgid "Specify Format"
+msgstr "Format bestimmen"
+
+#: src/importcsvdialog.cpp:1235
+msgid ""
+"The format of dates and/or numbers in the CSV file is ambiguous. Please "
+"select the correct format."
+msgstr ""
+"Das Format von Terminen und/oder Zahlen in der CSV-Datei ist zweideutig. "
+"Bitte wählen Sie das korrekte Format."
+
+#: src/importcsvdialog.cpp:1240 src/qifimportexport.cpp:96
+#: src/qifimportexport.cpp:536
+msgid "Date format:"
+msgstr "Datumsformat:"
+
+#: src/importcsvdialog.cpp:1283 src/qifimportexport.cpp:544
+msgid "Value format:"
+msgstr "Zahlenformat:"
+
+#: src/kdateedit.cpp:364
+msgctxt "the day after today"
+msgid "tomorrow"
+msgstr "morgen"
+
+#: src/kdateedit.cpp:365
+msgctxt "this day"
+msgid "today"
+msgstr "heute"
+
+#: src/kdateedit.cpp:366
+msgctxt "the day before today"
+msgid "yesterday"
+msgstr "gestern"
+
+#: src/kdatepickerpopup.cpp:94
+msgctxt "@option today"
+msgid "&Today"
+msgstr "Heute"
+
+#: src/kdatepickerpopup.cpp:95
+msgctxt "@option tomorrow"
+msgid "To&morrow"
+msgstr "Morgen"
+
+#: src/kdatepickerpopup.cpp:96
+msgctxt "@option next week"
+msgid "Next &Week"
+msgstr ""
+
+#: src/kdatepickerpopup.cpp:97
+msgctxt "@option next month"
+msgid "Next M&onth"
+msgstr ""
+
+#: src/kdatepickerpopup.cpp:105
+msgctxt "@option do not specify a date"
+msgid "No Date"
+msgstr ""
+
+#: src/ledgerdialog.cpp:121
+msgid "Export..."
+msgstr "Exportiere..."
+
+#: src/ledgerdialog.cpp:122
+msgid "Print..."
+msgstr "Drucke..."
+
+#: src/ledgerdialog.cpp:138
+msgid "Withdrawal"
+msgstr "Abhebung"
+
+#: src/ledgerdialog.cpp:162
+msgid "Join..."
+msgstr "Fasse zusammen..."
+
+#: src/ledgerdialog.cpp:164
+msgid "Split Up"
+msgstr "Aufgeteilt"
+
+#: src/ledgerdialog.cpp:240 src/ledgerdialog.cpp:357
+msgid "Empty transaction list."
+msgstr "Leere Transaktionsliste"
+
+#: src/ledgerdialog.cpp:446 src/transactionlistwidget.cpp:720
+#, kde-format
+msgid "Are you sure you want to delete all (%1) selected transactions?"
+msgstr ""
+"Sind Sie sicher, daß Sie alle (%1) ausgewählten Transaktionen löschen wollen?"
+
+#: src/ledgerdialog.cpp:550 src/transactionlistwidget.cpp:492
+msgid ""
+"Cannot set the value of security transactions using the dialog for modifying "
+"multiple transactions."
+msgstr ""
+"Der Wert von Wertpapiertransaktionen kann nicht über den Dialog zum Ändern "
+"mehrerer Transaktionen geändert werden."
+
+#: src/ledgerdialog.cpp:556 src/transactionlistwidget.cpp:498
+msgid "Cannot change description of dividends and security transactions."
+msgstr ""
+"Die Beschreibung für Dividenden und Wertpapiertransaktionen kann nicht "
+"geändert werden."
+
+#: src/ledgerdialog.cpp:562 src/transactionlistwidget.cpp:504
+msgid "Cannot change payer of dividends and security transactions."
+msgstr ""
+"Der Zahlungspflichtige von Dividenden und Wertpapiere kann nicht verändert "
+"werden."
+
+#: src/ledgerdialog.cpp:568 src/transactionlistwidget.cpp:510
+msgid ""
+"Cannot change date of transactions that are part of a split transaction."
+msgstr ""
+"Das Datum von Teilen einer geteilten Transaktion kann nicht verändert werden."
+
+#: src/main.cpp:46
+msgid "Eqonomize!"
+msgstr "Eqonomize!"
+
+#: src/main.cpp:46
+msgid "A personal accounting program"
+msgstr "Ein Programm für die private Buchhaltung"
+
+#: src/main.cpp:46
+msgid "(C) 2006-2008, 2014, 2016 Hanna Knutsson"
+msgstr ""
+
+#: src/main.cpp:47
+msgid "Hanna Knutsson"
+msgstr ""
+
+#: src/main.cpp:51
+msgid "Start with expenses list displayed"
+msgstr "Mit Ausgabenansicht beginnen"
+
+#: src/main.cpp:53
+msgid "Start with incomes list displayed"
+msgstr "Mit Einnahmenansicht beginenn"
+
+#: src/main.cpp:55
+msgid "Start with transfers list displayed"
+msgstr "Mit Transaktionenansicht beginnen"
+
+#: src/main.cpp:57
+msgid "Document to open"
+msgstr "Zu öffnendes Dokument"
+
+#: src/overtimechart.cpp:221
+msgid "Incomes and Expenses"
+msgstr "Einnahmen und Ausgaben"
+
+#: src/overtimechart.cpp:222 src/overtimechart.cpp:1731
+#: src/overtimereport.cpp:104 src/overtimereport.cpp:337
+msgid "Profits"
+msgstr "Einkünfte"
+
+#: src/overtimechart.cpp:229 src/overtimechart.cpp:508
+#: src/overtimechart.cpp:1958 src/overtimereport.cpp:110
+#: src/overtimereport.cpp:230 src/overtimereport.cpp:747
+msgid "All Categories Combined"
+msgstr "Alle Kategorien zusammen"
+
+#: src/overtimechart.cpp:235 src/overtimechart.cpp:393
+#: src/overtimechart.cpp:497 src/overtimechart.cpp:1861
+#: src/overtimechart.cpp:1982 src/overtimereport.cpp:115
+#: src/overtimereport.cpp:178 src/overtimereport.cpp:227
+#: src/overtimereport.cpp:704 src/overtimereport.cpp:770
+msgid "All Descriptions Combined"
+msgstr "Alle Beschreibungen zusammen"
+
+#: src/overtimechart.cpp:243 src/overtimechart.cpp:503
+msgid "All Payees/Payers Combined"
+msgstr "Alle Empfänger/Zahlungspflichtigen zusammengefasst"
+
+#: src/overtimechart.cpp:252
+msgid "Start date:"
+msgstr "Startdatum:"
+
+#: src/overtimechart.cpp:275
+msgid "End date:"
+msgstr "Enddatum:"
+
+#: src/overtimechart.cpp:294
+msgid "Monthly total"
+msgstr "Monatlich gesamt"
+
+#: src/overtimechart.cpp:298
+msgid "Daily average"
+msgstr "Täglicher Durchschnitt"
+
+#: src/overtimechart.cpp:401 src/overtimechart.cpp:501
+#: src/overtimechart.cpp:1864 src/overtimechart.cpp:1987
+msgid "All Payers Combined"
+msgstr "Alle Zahlungspflichtigen zusammengefasst"
+
+#: src/overtimechart.cpp:402 src/overtimechart.cpp:502
+#: src/overtimechart.cpp:1865 src/overtimechart.cpp:1986
+msgid "All Payees Combined"
+msgstr "Alle Empfänger zusammengefasst"
+
+#: src/overtimechart.cpp:422 src/overtimechart.cpp:1862
+msgid "All Descriptions Split"
+msgstr "Alle Beschreibungen geteilt"
+
+#: src/overtimechart.cpp:425 src/overtimechart.cpp:1866
+msgid "All Payers Split"
+msgstr "Alle Zahlungspflichtigen geteilt"
+
+#: src/overtimechart.cpp:426 src/overtimechart.cpp:1867
+msgid "All Payees Split"
+msgstr "Alle Empfänger geteilt"
+
+#: src/overtimechart.cpp:510 src/overtimechart.cpp:520
+#: src/overtimechart.cpp:1959
+msgid "All Categories Split"
+msgstr "Alle Kategorien geteilt"
+
+#: src/overtimechart.cpp:1544
+#, kde-format
+msgid "Value (%1)"
+msgstr "Wert (%1)"
+
+#: src/overtimechart.cpp:1545
+#, kde-format
+msgid "Profit (%1)"
+msgstr "Ertrag (%1)"
+
+#: src/overtimechart.cpp:1546
+#, kde-format
+msgid "Income (%1)"
+msgstr "Einnahmen (%1)"
+
+#: src/overtimechart.cpp:1547
+#, kde-format
+msgid "Cost (%1)"
+msgstr "Kosten (%1)"
+
+#: src/overtimechart.cpp:1588
+msgid "Time"
+msgstr "Zeit"
+
+#: src/overtimechart.cpp:1783 src/overtimechart.cpp:1784
+msgid "no payer"
+msgstr "Kein Zahlungspflichtiger"
+
+#: src/overtimechart.cpp:1787
+#, kde-format
+msgctxt "%1: Description; %2: Payer"
+msgid "%1/%2"
+msgstr "%1/%2"
+
+#: src/overtimechart.cpp:1792 src/overtimechart.cpp:1793
+msgid "no payee"
+msgstr "Kein Zahlungsempfänger"
+
+#: src/overtimechart.cpp:1796
+#, kde-format
+msgctxt "%1: Description; %2: Payee"
+msgid "%1/%2"
+msgstr "%1/%2"
+
+#: src/overtimereport.cpp:338
+msgid "Average Profit"
+msgstr "Durchschnittliche Einkünfte"
+
+#: src/overtimereport.cpp:531
+msgid "Year"
+msgstr "Jahr"
+
+#: src/overtimereport.cpp:532
+msgid "Month"
+msgstr "Monat"
+
+#: src/overtimereport.cpp:560
+msgid "Includes scheduled transactions"
+msgstr "Beinhaltet geplante Transaktionen"
+
+#: src/overtimereport.cpp:564
+#, kde-format
+msgid "Adjusted for the average month / year (%1 / %2 days)"
+msgstr ""
+"An den durchschnittlichen Monat / das durchschnittliche Jahr angepasst (%1 / "
+"%2 Tage)"
+
+#: src/overtimereport.cpp:597 src/overtimereport.cpp:665
+msgid "Subtotal"
+msgstr "Zwischensumme"
+
+#: src/qifimportexport.cpp:58
+msgid "Import QIF file"
+msgstr "QIF-Datei importieren"
+
+#: src/qifimportexport.cpp:65
+msgid ""
+"Select a QIF file to import. When you click next, the file be analysed and "
+"you might need to answer some questions about the format of the file."
+msgstr ""
+"Wählen Sie eine QIF-Datei zum Import. Wenn Sie \"Weiter\" klicken, wird die "
+"Datei analysiert, und Sie könnten einige weitere Fragen über das Dateiformat "
+"beantworten müssen."
+
+#: src/qifimportexport.cpp:75
+msgid "Local Definitions"
+msgstr "Lokale Definitionen"
+
+#: src/qifimportexport.cpp:76
+msgid ""
+"Unknown elements where found in the QIF file. It is possible that this is "
+"because of localized type names. Please map them to the correct standard "
+"names."
+msgstr ""
+"Es wurden unbekannte Elemente in dieser QIF-Datei gefunden. Dies kann durch "
+"lokal angepasste Typnamen verursacht worden sein. Bitte entschlüssln Sie "
+"diese zu den korrekten Standardnamen."
+
+#: src/qifimportexport.cpp:82
+msgid "Local Text"
+msgstr "Lokaler Text"
+
+#: src/qifimportexport.cpp:83
+msgid "Standard Text"
+msgstr "Standardtext"
+
+#: src/qifimportexport.cpp:86
+msgid "Select standard text:"
+msgstr "Standardtext auswählen:"
+
+#: src/qifimportexport.cpp:92
+msgid "Date Format"
+msgstr "Datumsformat"
+
+#: src/qifimportexport.cpp:93
+msgid ""
+"The date format in the QIF file is ambiguous. Please select the correct "
+"format."
+msgstr ""
+"Das Datumsformat in diser QIF-Datei ist zweideutig. Bitte wählen Sie das "
+"korrekte Datumsformat."
+
+#: src/qifimportexport.cpp:102
+msgid "Default Account"
+msgstr "Standardkonto"
+
+#: src/qifimportexport.cpp:103
+msgid ""
+"Could not find any account definitions in the QIF file. Please select a "
+"default account. It is also possible that this is caused by a localized "
+"opening balance text."
+msgstr ""
+"Konnte keine Kontendefinitionen in der QIF-Datei finden. Bitte wählen Sie "
+"ein Standardkonto. Dies kann durch lokal veränderte Starteinlagen-Texte "
+"entstenen."
+
+#: src/qifimportexport.cpp:106
+msgid "Default account:"
+msgstr "Standardkonto:"
+
+#: src/qifimportexport.cpp:117
+msgid "Opening balance text:"
+msgstr "Starteinlagen-Text:"
+
+#: src/qifimportexport.cpp:123
+msgid "Descriptions"
+msgstr "Beschreibungen"
+
+#: src/qifimportexport.cpp:124
+msgid ""
+"Transactions in QIF files does not have any specific description property. "
+"You are therefore given the option to choose how the description of imported "
+"transactions will be set."
+msgstr ""
+"Transaktionen in QIF-Dateien haben keine eigene Beschreibungsfelder. Daher "
+"erhalten Sie die Möglichkeit zu wählen, wie die Beschreibungen der "
+"importierten Transaktionen gefüllt werden."
+
+#: src/qifimportexport.cpp:127
+msgid "Subcategories as:"
+msgstr "Unterkategorien als:"
+
+#: src/qifimportexport.cpp:136
+msgid "Ignore"
+msgstr "Ignorieren"
+
+#: src/qifimportexport.cpp:139
+msgid "Payee as:"
+msgstr "Empfänger als:"
+
+#: src/qifimportexport.cpp:144 src/qifimportexport.cpp:523
+#: src/transactionlistwidget.cpp:111
+msgid "Payee"
+msgstr "Empfänger"
+
+#: src/qifimportexport.cpp:149
+msgid "Memo as:"
+msgstr "Notiz als:"
+
+#: src/qifimportexport.cpp:158
+msgid "Priority:"
+msgstr "Priorität:"
+
+#: src/qifimportexport.cpp:161
+msgid "Subcategory/Payee/Comments"
+msgstr "Unterkategorie/Empfänger/Kommentare"
+
+#: src/qifimportexport.cpp:162
+msgid "Payee/Subcategory/Comments"
+msgstr "Empfänger/Unterkategorie/Kommentare"
+
+#: src/qifimportexport.cpp:163
+msgid "Subcategory/Comments/Payee"
+msgstr "Unterkategorie/Kommentare/Empfänger"
+
+#: src/qifimportexport.cpp:164
+msgid "Payee/Comments/Subcategory"
+msgstr "Empfänger/Kommentare/Unterkategorie"
+
+#: src/qifimportexport.cpp:165
+msgid "Comments/Subcategory/Payee"
+msgstr "Kommentare/Unterkategorie/Empfänger"
+
+#: src/qifimportexport.cpp:166
+msgid "Comments/Payee/Subcategory"
+msgstr "Kommentare/Empfänger/Unterkategorie"
+
+#: src/qifimportexport.cpp:318 src/qifimportexport.cpp:326
+#: src/qifimportexport.cpp:342
+msgid "Unknown"
+msgstr "Unbekannt"
+
+#: src/qifimportexport.cpp:328
+msgid "Bank"
+msgstr "Bank"
+
+#: src/qifimportexport.cpp:330
+msgid "Cat (Category)"
+msgstr "Kat. (Kategorie)"
+
+#: src/qifimportexport.cpp:331
+msgid "CCard (Credit Card)"
+msgstr "Kreditkarte"
+
+#: src/qifimportexport.cpp:332
+msgid "Invst (Investment)"
+msgstr "Invst. (Investitionen)"
+
+#: src/qifimportexport.cpp:333
+msgid "Oth A (Other Assets)"
+msgstr "Andere Akt. (Andere Aktiva)"
+
+#: src/qifimportexport.cpp:334
+msgid "Oth L (Other Liabilities)"
+msgstr "Andere Verpf. (Verpflichtungen)"
+
+#: src/qifimportexport.cpp:335
+msgid "Security"
+msgstr "Wertpapier"
+
+#: src/qifimportexport.cpp:469
+#, fuzzy, kde-format
+msgid "Successfully imported 1 account."
+msgid_plural "Successfully imported %1 accounts."
+msgstr[0] "Ein Konto wurde erfolgreich importiert."
+msgstr[1] "%n Konten wurden erfolgreich importiert."
+
+#: src/qifimportexport.cpp:473
+#, fuzzy, kde-format
+msgid "Successfully imported 1 category."
+msgid_plural "Successfully imported %1 categories."
+msgstr[0] "Eine Kategorie wurde erfolgreich importiert."
+msgstr[1] "%n Kategorien wurden erfolgreich importiert."
+
+#: src/qifimportexport.cpp:477
+#, fuzzy, kde-format
+msgid "1 duplicate transaction was ignored."
+msgid_plural "%1 duplicate transactions was ignored."
+msgstr[0] "Eine doppelte Transaktion wurde ignoriert."
+msgstr[1] "%n doppelte Transaktionen wurden ignoriert."
+
+#: src/qifimportexport.cpp:481
+#, fuzzy, kde-format
+msgid "Failed to import 1 transaction."
+msgid_plural "Failed to import %1 transactions."
+msgstr[0] "Fehler beim impotrieren von 1 Transaktion."
+msgstr[1] "Fehler beim Importieren von %n Transaktionen."
+
+#: src/qifimportexport.cpp:485
+#, fuzzy, kde-format
+msgid "1 security was not imported."
+msgid_plural "%1 securities were not imported."
+msgstr[0] "Eine Wertpapier wurde nicht importiert."
+msgstr[1] "%n Wertpapier wurden nicht importiert."
+
+#: src/qifimportexport.cpp:489
+#, fuzzy, kde-format
+msgid "1 security transaction was not imported."
+msgid_plural "%1 security transactions were not imported."
+msgstr[0] "Eine Wertpapiertransaktion wurde nicht importiert."
+msgstr[1] "%n Wertpapiertransaktionen wurden nicht importiert."
+
+#: src/qifimportexport.cpp:498
+msgid "Export QIF File"
+msgstr "Exportiere als QIF-Datei"
+
+#: src/qifimportexport.cpp:509
+msgctxt "All accounts"
+msgid "All"
+msgstr "Alle"
+
+#: src/qifimportexport.cpp:520
+msgid "Export transaction description as:"
+msgstr "Beschreibung dieser Transaktion exportieren als:"
+
+#: src/qifimportexport.cpp:527
+msgid "Memo"
+msgstr "Notiz"
+
+#: src/qifimportexport.cpp:531
+msgid "Subcategory"
+msgstr "Unterkategorie"
+
+#: src/qifimportexport.cpp:1267 src/qifimportexport.cpp:1358
+#: src/qifimportexport.cpp:1478
+msgid "Unnamed"
+msgstr "Unbenannt"
+
+#: src/qifimportexport.cpp:1307 src/qifimportexport.cpp:1421
+msgid "Uncategorized"
+msgstr "Nicht kategorisiert"
+
+#: src/recurrenceeditwidget.cpp:56
+msgid "Edit Exceptions"
+msgstr "Ausnahmen bearbeiten"
+
+#: src/recurrenceeditwidget.cpp:182
+msgid "Edit Recurrence Range"
+msgstr "Zeitraum für Wiederholungen bearbeiten."
+
+#: src/recurrenceeditwidget.cpp:190 src/recurrenceeditwidget.cpp:232
+#, kde-format
+msgid "Begins on: %1"
+msgstr "Beginnt am: %1"
+
+#: src/recurrenceeditwidget.cpp:195
+msgid "No ending date"
+msgstr "Kein Enddatum"
+
+#: src/recurrenceeditwidget.cpp:199
+msgid "End after"
+msgstr "Ende nach"
+
+#: src/recurrenceeditwidget.cpp:205
+msgid "occurrence(s)"
+msgstr "Vorkommnis(se)"
+
+#: src/recurrenceeditwidget.cpp:207
+msgid "End on"
+msgstr "Endet am"
+
+#: src/recurrenceeditwidget.cpp:301
+msgid "End date before start date."
+msgstr "Endzeitpunkt vor Startzeitpunkt."
+
+#: src/recurrenceeditwidget.cpp:315
+msgid "Enable recurrance"
+msgstr "Wiederholung aktivieren"
+
+#: src/recurrenceeditwidget.cpp:318
+msgid "Recurrence Rule"
+msgstr "Regel für Wiederholungen"
+
+#: src/recurrenceeditwidget.cpp:324
+msgid "Weekly"
+msgstr "Wöchentlich"
+
+#: src/recurrenceeditwidget.cpp:344 src/recurrenceeditwidget.cpp:355
+#: src/recurrenceeditwidget.cpp:378 src/recurrenceeditwidget.cpp:465
+msgid "Recur every"
+msgstr "Wiederhole alle"
+
+#: src/recurrenceeditwidget.cpp:348
+msgid "day(s)"
+msgstr "Tag(e)"
+
+#: src/recurrenceeditwidget.cpp:359
+msgid "week(s) on:"
+msgstr "Woche(n) am:"
+
+#: src/recurrenceeditwidget.cpp:382
+msgid "month(s), after the start month"
+msgstr "Monat(e), nach dem Startmonat"
+
+#: src/recurrenceeditwidget.cpp:387 src/recurrenceeditwidget.cpp:440
+msgid "Recur on the"
+msgstr "Wiederholen am"
+
+#: src/recurrenceeditwidget.cpp:393 src/recurrenceeditwidget.cpp:445
+#: src/recurrenceeditwidget.cpp:498
+msgid "1st"
+msgstr "1."
+
+#: src/recurrenceeditwidget.cpp:394 src/recurrenceeditwidget.cpp:446
+#: src/recurrenceeditwidget.cpp:499
+msgid "2nd"
+msgstr "2."
+
+#: src/recurrenceeditwidget.cpp:395 src/recurrenceeditwidget.cpp:447
+#: src/recurrenceeditwidget.cpp:500
+msgid "3rd"
+msgstr "3."
+
+#: src/recurrenceeditwidget.cpp:396 src/recurrenceeditwidget.cpp:448
+#: src/recurrenceeditwidget.cpp:501
+msgid "4th"
+msgstr "4."
+
+#: src/recurrenceeditwidget.cpp:397 src/recurrenceeditwidget.cpp:449
+#: src/recurrenceeditwidget.cpp:502
+msgid "5th"
+msgstr "5."
+
+#: src/recurrenceeditwidget.cpp:398
+msgid "6th"
+msgstr "6."
+
+#: src/recurrenceeditwidget.cpp:399
+msgid "7th"
+msgstr "7."
+
+#: src/recurrenceeditwidget.cpp:400
+msgid "8th"
+msgstr "8."
+
+#: src/recurrenceeditwidget.cpp:401
+msgid "9th"
+msgstr "9."
+
+#: src/recurrenceeditwidget.cpp:402
+msgid "10th"
+msgstr "10."
+
+#: src/recurrenceeditwidget.cpp:403
+msgid "11th"
+msgstr "11."
+
+#: src/recurrenceeditwidget.cpp:404
+msgid "12th"
+msgstr "12."
+
+#: src/recurrenceeditwidget.cpp:405
+msgid "13th"
+msgstr "13."
+
+#: src/recurrenceeditwidget.cpp:406
+msgid "14th"
+msgstr "14."
+
+#: src/recurrenceeditwidget.cpp:407
+msgid "15th"
+msgstr "15."
+
+#: src/recurrenceeditwidget.cpp:408
+msgid "16th"
+msgstr "16."
+
+#: src/recurrenceeditwidget.cpp:409
+msgid "17th"
+msgstr "17."
+
+#: src/recurrenceeditwidget.cpp:410
+msgid "18th"
+msgstr "18."
+
+#: src/recurrenceeditwidget.cpp:411
+msgid "19th"
+msgstr "19."
+
+#: src/recurrenceeditwidget.cpp:412
+msgid "20th"
+msgstr "20."
+
+#: src/recurrenceeditwidget.cpp:413
+msgid "21st"
+msgstr "21."
+
+#: src/recurrenceeditwidget.cpp:414
+msgid "22nd"
+msgstr "22."
+
+#: src/recurrenceeditwidget.cpp:415
+msgid "23rd"
+msgstr "23."
+
+#: src/recurrenceeditwidget.cpp:416
+msgid "24th"
+msgstr "24."
+
+#: src/recurrenceeditwidget.cpp:417
+msgid "25th"
+msgstr "25."
+
+#: src/recurrenceeditwidget.cpp:418
+msgid "26th"
+msgstr "26."
+
+#: src/recurrenceeditwidget.cpp:419
+msgid "27th"
+msgstr "27."
+
+#: src/recurrenceeditwidget.cpp:420
+msgid "28th"
+msgstr "28."
+
+#: src/recurrenceeditwidget.cpp:421
+msgid "29th"
+msgstr "29."
+
+#: src/recurrenceeditwidget.cpp:422
+msgid "30th"
+msgstr "30."
+
+#: src/recurrenceeditwidget.cpp:423
+msgid "31st"
+msgstr "31."
+
+#: src/recurrenceeditwidget.cpp:424 src/recurrenceeditwidget.cpp:450
+#: src/recurrenceeditwidget.cpp:503
+msgid "Last"
+msgstr "Letzten"
+
+#: src/recurrenceeditwidget.cpp:425 src/recurrenceeditwidget.cpp:451
+#: src/recurrenceeditwidget.cpp:504
+msgid "2nd Last"
+msgstr "Vorletzten"
+
+#: src/recurrenceeditwidget.cpp:426 src/recurrenceeditwidget.cpp:452
+#: src/recurrenceeditwidget.cpp:505
+msgid "3rd Last"
+msgstr "Drittletzten"
+
+#: src/recurrenceeditwidget.cpp:427 src/recurrenceeditwidget.cpp:453
+#: src/recurrenceeditwidget.cpp:506
+msgid "4th Last"
+msgstr "Viertletzten"
+
+#: src/recurrenceeditwidget.cpp:428 src/recurrenceeditwidget.cpp:454
+#: src/recurrenceeditwidget.cpp:507
+msgid "5th Last"
+msgstr "Fünftletzten"
+
+#: src/recurrenceeditwidget.cpp:431
+msgid "day"
+msgstr "Tag"
+
+#: src/recurrenceeditwidget.cpp:433 src/recurrenceeditwidget.cpp:486
+#: src/recurrenceeditwidget.cpp:525
+msgid "possibly on weekend"
+msgstr "auch am Wochenende"
+
+#: src/recurrenceeditwidget.cpp:434 src/recurrenceeditwidget.cpp:487
+#: src/recurrenceeditwidget.cpp:526
+msgid "but before weekend"
+msgstr "aber vor einem Wochenende"
+
+#: src/recurrenceeditwidget.cpp:435 src/recurrenceeditwidget.cpp:488
+#: src/recurrenceeditwidget.cpp:527
+msgid "but after weekend"
+msgstr "aber nach einem Wochenende"
+
+#: src/recurrenceeditwidget.cpp:436 src/recurrenceeditwidget.cpp:489
+#: src/recurrenceeditwidget.cpp:528
+msgid "nearest weekend day"
+msgstr ""
+
+#: src/recurrenceeditwidget.cpp:469
+msgid "year(s), after the start year"
+msgstr "Jahr(e) nach dem Startjahr"
+
+#: src/recurrenceeditwidget.cpp:474
+msgctxt "part before XXX of 'Recur on day XXX of month YYY'"
+msgid "Recur on day"
+msgstr "Wiederhole am Tag"
+
+#: src/recurrenceeditwidget.cpp:482
+msgctxt "part between XXX and YYY of 'Recur on day XXX of month YYY'"
+msgid "of"
+msgstr "aufhören"
+
+#: src/recurrenceeditwidget.cpp:493
+msgctxt "Part before NNN in 'Recur on the NNN. WEEKDAY of MONTH'"
+msgid "On the"
+msgstr "Am"
+
+#: src/recurrenceeditwidget.cpp:511
+msgctxt "part between WEEKDAY and MONTH in 'Recur on NNN. WEEKDAY of MONTH'"
+msgid "of"
+msgstr "aufhören"
+
+#: src/recurrenceeditwidget.cpp:516
+msgid "Recur on day #"
+msgstr "Wiederhole am Tag #"
+
+#: src/recurrenceeditwidget.cpp:523
+msgctxt "part after NNN of 'Recur on day #NNN of the year'"
+msgid " of the year"
+msgstr " aufhören"
+
+#: src/recurrenceeditwidget.cpp:538
+msgid "Range..."
+msgstr "Bereich..."
+
+#: src/recurrenceeditwidget.cpp:540
+msgid "Exceptions..."
+msgstr "Ausnahmen..."
+
+#: src/recurrenceeditwidget.cpp:735
+msgid "No day of week selected for weekly recurrence."
+msgstr "Kein Wochentag für wöchentliche Wiederholung ausgewählt"
+
+#: src/recurrenceeditwidget.cpp:747 src/recurrenceeditwidget.cpp:774
+#: src/recurrenceeditwidget.cpp:791
+msgid "Selected day will never occur with selected frequency and start date."
+msgstr "Der gewählte Tag liegt nicht innerhalb des gewählten Zeitraumes."
+
+#: src/recurrenceeditwidget.cpp:761
+msgid "Selected day does not exist in selected month."
+msgstr "Der gewählte Tag kommt im gewählten Monat nicht vor."
+
+#: src/transaction.cpp:156 src/transaction.cpp:187
+#, kde-format
+msgid "Dividend: %1"
+msgstr "Dividende: %1"
+
+#: src/transaction.cpp:254 src/transaction.cpp:257 src/transaction.cpp:285
+msgid "Account balancing"
+msgstr "Kontenbilanzierung"
+
+#: src/transaction.cpp:338 src/transaction.cpp:353
+#, kde-format
+msgid "Security: %1 (bought)"
+msgstr "Wertpapier: %1 (gekauft)"
+
+#: src/transaction.cpp:376 src/transaction.cpp:391
+#, kde-format
+msgid "Security: %1 (sold)"
+msgstr "Wertpapier: %1 (verkauft)"
+
+#: src/transactioneditwidget.cpp:120
+msgid "Shares bought:"
+msgstr "Anteile gekauft:"
+
+#: src/transactioneditwidget.cpp:125
+msgid "Shares sold:"
+msgstr "Anteile verkauft:"
+
+#: src/transactioneditwidget.cpp:233 src/transactioneditwidget.cpp:1143
+#: src/transactionfilterwidget.cpp:131
+msgid "Payer:"
+msgstr "Zahler:"
+
+#: src/transactioneditwidget.cpp:275 src/transactioneditwidget.cpp:1144
+#: src/transactionfilterwidget.cpp:132
+msgid "Payee:"
+msgstr "Empfänger:"
+
+#: src/transactioneditwidget.cpp:659 src/transactioneditwidget.cpp:1268
+msgid "No income category available."
+msgstr "Keine Einkommenkategorie verfügbar"
+
+#: src/transactioneditwidget.cpp:684 src/transactioneditwidget.cpp:1276
+msgid "No expense category available."
+msgstr "Keine Ausgabenkategorie verfügbar"
+
+#: src/transactioneditwidget.cpp:715
+msgid "Cannot create a regular transfer to/from a securities account."
+msgstr ""
+"Normale Transfers von/zu einem Wertpapierkonto können nicht durchgeführt "
+"werden."
+
+#: src/transactioneditwidget.cpp:722
+msgid "Cannot create a regular income to a securities account."
+msgstr ""
+"Normale Einkünfte können nicht zu einem Wertpapierkonto zugefügt werden."
+
+#: src/transactioneditwidget.cpp:738
+msgid "Zero price per share not allowed."
+msgstr "Wertpapiere ohne Wert sind nicht erlaubt."
+
+#: src/transactioneditwidget.cpp:750
+msgid "Cannot create a regular expense from a securities account."
+msgstr "Normale Ausgaben aus einem Wertpapierkonto sind nicht möglich."
+
+#: src/transactioneditwidget.cpp:1087
+msgid "Modify Transactions"
+msgstr "Transaktionen bearbeiten."
+
+#: src/transactionfilterwidget.cpp:90
+msgid "Min amount:"
+msgstr "Mindestmenge"
+
+#: src/transactionfilterwidget.cpp:91
+msgid "Max amount:"
+msgstr "Höchstmenge"
+
+#: src/transactionfilterwidget.cpp:101
+msgid "Min income:"
+msgstr "Mindesteinnahmen"
+
+#: src/transactionfilterwidget.cpp:102
+msgid "Max income:"
+msgstr "Höchsteinnahmen"
+
+#: src/transactionfilterwidget.cpp:112
+msgid "Min cost:"
+msgstr "Mindestkosten"
+
+#: src/transactionfilterwidget.cpp:113
+msgid "Max cost:"
+msgstr "Höchstkosten"
+
+#: src/transactionfilterwidget.cpp:139
+msgid "Include"
+msgstr "Inklusive"
+
+#: src/transactionfilterwidget.cpp:143
+msgid "Exclude"
+msgstr "Exklusive"
+
+#: src/transactionlistwidget.cpp:109
+msgid "From Account"
+msgstr "Von Konto"
+
+#: src/transactionlistwidget.cpp:120
+msgid "To Account"
+msgstr "Zu Konto"
+
+#: src/transactionlistwidget.cpp:122
+msgid "Payer"
+msgstr "Absender"
+
+#: src/transactionlistwidget.cpp:172
+#, kde-format
+msgid "New/Edit %1"
+msgstr "%1 anlegen/bearbeiten"
+
+#: src/transactionlistwidget.cpp:173
+msgid "Filter"
+msgstr "Filter"
+
+#: src/transactionlistwidget.cpp:212
+msgid "Total:"
+msgstr "Gesamt:"
+
+#: src/transactionlistwidget.cpp:212 src/transactionlistwidget.cpp:331
+msgid "Average:"
+msgstr "Durchschnittlich:"
+
+#: src/transactionlistwidget.cpp:212
+msgid "Monthly:"
+msgstr "Monatlich:"
+
+#: src/transactionlistwidget.cpp:317
+msgid "Total cost:"
+msgstr "Gesamtkosten:"
+
+#: src/transactionlistwidget.cpp:321
+msgid "Total income:"
+msgstr "Gesamte Einnahmen:"
+
+#: src/transactionlistwidget.cpp:325
+msgid "Total amount:"
+msgstr "Gesamtwert:"
+
+#: src/transactionlistwidget.cpp:333
+msgid "Monthly average:"
+msgstr "Monatlicher Durchschnitt:"
+
+#: src/transactionlistwidget.cpp:674
+#, kde-format
+msgid ""
+"Are you sure you want to delete all (%1) transactions in the selected split "
+"transaction?"
+msgstr ""
+"Sind Sie sicher, daß Sie alle (%1) ausgewählten geteilten Transaktionen "
+"löschen wollen?"
+
+#: src/transactionlistwidget.cpp:1031
+msgid "* Part of split transaction"
+msgstr "* Teil einer geteilten Transaktion"
+
+#: src/transactionlistwidget.cpp:1032
+#, kde-format
+msgid "* Part of split (%1)"
+msgstr "* Teil (%1)"
+
+#: src/transactionlistwidget.cpp:1036
+msgid "** Recurring (editing occurrance)"
+msgstr "** Wiederkehrend (bearbeite Vorkommen)"
+
+#: src/transactionlistwidget.cpp:1052
+msgid "Modify..."
+msgstr "Verändere..."
+
+#~ msgid "Couldn't fetch %1."
+#~ msgstr "Konnte %1 nicht abholen"
+
+#~ msgid "Failed to upload file to %1."
+#~ msgstr "Konnte Datei nicht nach %1 hochladen"
+
+#~ msgid "Chart"
+#~ msgstr "Diagramm"
+
+#~ msgid "Error after saving file; data may not have been saved."
+#~ msgstr ""
+#~ "Fehler nach dem Speichern der Datei; Daten wurden möglicherweise nicht "
+#~ "gesichert"

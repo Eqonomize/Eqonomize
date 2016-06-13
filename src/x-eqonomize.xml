@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-eqonomize">
+    <comment>Eqonomize! Accounting File</comment>
+    <comment xml:lang="sv">Eqonomize! bokföringsfil</comment>
+    <sub-class-of type="application/xml"/>
+    <glob pattern="*.eqz"/>
+  </mime-type>
+</mime-info>

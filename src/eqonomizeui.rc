@@ -1,0 +1,67 @@
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<kpartgui name="eqonomize" version="1">
+<MenuBar>
+	<Menu name="file">		
+		<Menu name="import" icon="document-import"><text>&amp;Import</text>
+			<Action name="import_csv"/>
+			<Action name="import_qif"/>
+		</Menu>
+		<Action name="save_view"/>
+		<Action name="export_qif"/>
+	</Menu>
+	<Menu name="accounts"><text>&amp;Accounts</text>
+		<Action name="new_assets_account"/>
+		<Action name="new_incomes_account"/>
+		<Action name="new_expenses_account"/>
+		<Separator/>
+		<Action name="edit_account"/>
+		<Action name="balance_account"/>
+		<Separator/>
+		<Action name="delete_account"/>
+		<Separator/>
+		<Action name="show_account_transactions"/>
+	</Menu>
+	<Menu name="transactions"><text>&amp;Transactions</text>
+		<Action name="new_expense"/>
+		<Action name="new_income"/>
+		<Action name="new_transfer"/>
+		<Action name="new_split_transaction"/>
+		<Action name="new_refund_repayment"/>
+		<Separator/>
+		<Action name="edit_transaction"/>
+		<Action name="edit_scheduled_transaction"/>
+		<Action name="edit_split_transaction"/>
+		<Action name="join_transactions"/>
+		<Action name="split_up_transaction"/>
+		<Separator/>
+		<Action name="delete_transaction"/>
+		<Action name="delete_scheduled_transaction"/>
+		<Action name="delete_split_transaction"/>
+	</Menu>
+	<Menu name="securities"><text>&amp;Securities</text>
+		<Action name="new_security"/>
+		<Action name="edit_security"/>
+		<Action name="delete_security"/>
+		<Separator/>
+		<Action name="buy_shares"/>
+		<Action name="sell_shares"/>
+		<Action name="new_security_trade"/>
+		<Action name="new_dividend"/>
+		<Action name="new_reinvested_dividend"/>
+		<Action name="edit_security_transactions"/>
+		<Separator/>
+		<Action name="set_quotation"/>
+		<Action name="edit_quotations"/>
+	</Menu>
+	<Menu name="statistics"><text>Stat&amp;istics</text>
+		<Action name="over_time_report"/>
+		<Action name="categories_comparison_report"/>
+		<Action name="over_time_chart"/>
+		<Action name="categories_comparison_chart"/>
+	</Menu>
+	<Menu name="settings">
+		<Action name="extra_properties"/>
+		<Action name="select_initial_period"/>
+	</Menu>
+</MenuBar>
+</kpartgui>
