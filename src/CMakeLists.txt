@@ -9,8 +9,6 @@ set(eqonomize_SRCS
     budget.cpp
     recurrence.cpp
     security.cpp
-    kdateedit.cpp
-    kdatepickerpopup.cpp
     eqonomizemonthselector.cpp
     eqonomizevalueedit.cpp
     categoriescomparisonchart.cpp

@@ -33,7 +33,7 @@ class QGraphicsScene;
 class QGraphicsView;
 class QPushButton;
 
-class KDateEdit;
+class QDateEdit;
 
 class Account;
 class Budget;
@@ -54,7 +54,7 @@ class CategoriesComparisonChart : public QWidget {
 		Account *current_account;
 		
 		QCheckBox *fromButton;
-		KDateEdit *fromEdit, *toEdit;
+		QDateEdit *fromEdit, *toEdit;
 		QPushButton *nextYearButton, *prevYearButton, *nextMonthButton, *prevMonthButton;
 		QPushButton *saveButton, *printButton;
 		QGraphicsScene *scene;

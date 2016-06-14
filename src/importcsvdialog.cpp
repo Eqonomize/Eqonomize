@@ -42,9 +42,9 @@
 #include <QDialogButtonBox>
 #include <QUrl>
 #include <QTemporaryFile>
+#include <QDateEdit>
 
 #include <KLineEdit>
-#include "kdateedit.h"
 #include <klineedit.h>
 #include <kmessagebox.h>
 #include <kurlrequester.h>
@@ -204,8 +204,8 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	valueDateButton = new QRadioButton(i18n("Value"), page3);
 	dateGroup->addButton(valueDateButton);
 	layout3->addWidget(valueDateButton, 3, 3);
-	valueDateEdit = new KDateEdit(page3);
-	valueDateEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	valueDateEdit = new QDateEdit(page3);
+	valueDateEdit->setCalendarPopup(true);
 	valueDateEdit->setEnabled(false);
 	layout3->addWidget(valueDateEdit, 3, 4);
 

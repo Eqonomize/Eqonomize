@@ -38,7 +38,7 @@ class QRadioButton;
 class QSpinBox;
 class QStackedWidget;
 
-class KDateEdit;
+class QDateEdit;
 
 class Budget;
 class EditRangeDialog;
@@ -97,7 +97,7 @@ class EditRangeDialog : public QDialog {
 	
 	protected:
 
-		KDateEdit *endDateEdit;
+		QDateEdit *endDateEdit;
 		QSpinBox *fixedCountEdit;
 		QRadioButton *foreverButton, *endDateButton, *fixedCountButton;
 		QLabel *startLabel;
@@ -133,7 +133,7 @@ class EditExceptionsDialog : public QDialog {
 	
 	protected:
 
-		KDateEdit *dateEdit;
+		QDateEdit *dateEdit;
 		QPushButton *changeButton, *addButton, *deleteButton;
 		QListWidget *exceptionsList;
 		QStringList savedExceptions;

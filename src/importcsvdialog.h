@@ -31,7 +31,7 @@ class QSpinBox;
 class QComboBox;
 class QLineEdit;
 
-class KDateEdit;
+class QDateEdit;
 class KUrlRequester;
 
 class Budget;
@@ -71,7 +71,7 @@ class ImportCSVDialog : public QWizard {
 
 		QRadioButton *columnDateButton, *valueDateButton;
 		QSpinBox *columnDateEdit;
-		KDateEdit *valueDateEdit;
+		QDateEdit *valueDateEdit;
 
 		QLabel *AC1Label;
 		QRadioButton *columnAC1Button, *valueAC1Button;

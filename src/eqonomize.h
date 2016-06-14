@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                                        *
+ *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
  *   hanna_k@fmgirl.com                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -54,7 +54,7 @@ class QLineEdit;
 class QCommandLineParser;
 
 class KAutoSaveFile;
-class KDateEdit;
+class QDateEdit;
 class KMenu;
 class KPageWidget;
 class KPageWidgetItem;
@@ -221,11 +221,11 @@ class Eqonomize : public KXmlGuiWindow {
 		QTreeWidget *accountsView, *securitiesView, *scheduleView;
 		QTreeWidgetItem *assetsItem, *incomesItem, *expensesItem;
 		QCheckBox *accountsPeriodFromButton;
-		KDateEdit *accountsPeriodFromEdit, *accountsPeriodToEdit;
+		QDateEdit *accountsPeriodFromEdit, *accountsPeriodToEdit;
 		QCheckBox *partialBudgetButton;
 		QComboBox *accountsPeriodCombo;
 		QCheckBox *securitiesPeriodFromButton;
-		KDateEdit *securitiesPeriodFromEdit, *securitiesPeriodToEdit;
+		QDateEdit *securitiesPeriodFromEdit, *securitiesPeriodToEdit;
 		QPushButton *newScheduleButton, *editScheduleButton, *removeScheduleButton;
 		QMenu *editScheduleMenu, *removeScheduleMenu;
 		QPushButton *newSecurityTransactionButton, *newSecurityButton, *setQuotationButton;
@@ -582,7 +582,7 @@ class EditSecurityDialog : public QDialog {
 		QLineEdit *nameEdit;
 		KTextEdit *descriptionEdit;
 		EqonomizeValueEdit *sharesEdit, *quotationEdit;
-		KDateEdit *quotationDateEdit;
+		QDateEdit *quotationDateEdit;
 		QComboBox *typeCombo, *accountCombo;
 		QSpinBox *decimalsEdit;
 		QLabel *quotationLabel, *quotationDateLabel;
@@ -612,7 +612,7 @@ class EditQuotationsDialog : public QDialog {
 		QLabel *titleLabel;
 		QTreeWidget *quotationsView;
 		EqonomizeValueEdit *quotationEdit;
-		KDateEdit *dateEdit;
+		QDateEdit *dateEdit;
 		QPushButton *changeButton, *addButton, *deleteButton;
 
 	public:
@@ -639,7 +639,7 @@ class RefundDialog : public QDialog {
 
 		Transaction *transaction;
 		EqonomizeValueEdit *valueEdit, *quantityEdit;
-		KDateEdit *dateEdit;
+		QDateEdit *dateEdit;
 		QComboBox *accountCombo;
 		QLineEdit *commentsEdit;
 
@@ -665,7 +665,7 @@ class EditReinvestedDividendDialog : public QDialog {
 		Budget *budget;
 		QComboBox *securityCombo;
 		EqonomizeValueEdit *sharesEdit;
-		KDateEdit *dateEdit;
+		QDateEdit *dateEdit;
 
 	public:
 
@@ -693,7 +693,7 @@ class EditSecurityTradeDialog : public QDialog {
 		Budget *budget;
 		QComboBox *fromSecurityCombo, *toSecurityCombo;
 		EqonomizeValueEdit *valueEdit, *fromSharesEdit, *toSharesEdit;
-		KDateEdit *dateEdit;
+		QDateEdit *dateEdit;
 
 	public:
 

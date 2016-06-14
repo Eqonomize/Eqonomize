@@ -38,10 +38,10 @@
 #include <QUrl>
 #include <QFileDialog>
 #include <QAction>
+#include <QDateEdit>
 
 #include <KLineEdit>
 #include <kconfig.h>
-#include "kdateedit.h"
 #include <kdeversion.h>
 #include <kmessagebox.h>
 #include <kpagewidget.h>
@@ -62,6 +62,15 @@
 extern double monthsBetweenDates(const QDate &date1, const QDate &d2);
 
 #define TEROWCOL(row, col)	row % rows, ((row / rows) * 2) + col
+
+EqonomizeDateEdit::EqonomizeDateEdit(QWidget *parent) : QDateEdit(parent) {}
+void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
+	QDateEdit::keyPressEvent(event);
+	if(event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
+		emit returnPressed();
+	}
+}
+
 
 TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_parameters, int transaction_type, bool split, bool transfer_to, Security *sec, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent) : QWidget(parent), transtype(transaction_type), budget(budg), security(sec), b_autoedit(auto_edit), b_extra(extra_parameters) {
 	value_set = false; shares_set = false; sharevalue_set = false;
@@ -142,8 +151,8 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		}
 		if(!split) {
 			editLayout->addWidget(new QLabel(i18n("Date:"), this), TEROWCOL(i, 0));
-			dateEdit = new KDateEdit(this);
-			dateEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+			dateEdit = new EqonomizeDateEdit(this);
+			dateEdit->setCalendarPopup(true);
 			editLayout->addWidget(dateEdit, TEROWCOL(i, 1));
 		}
 		i++;
@@ -192,8 +201,8 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		}
 		if(!split) {
 			editLayout->addWidget(new QLabel(i18n("Date:"), this), TEROWCOL(i, 0));
-			dateEdit = new KDateEdit(this);
-			dateEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+			dateEdit = new EqonomizeDateEdit(this);
+			dateEdit->setCalendarPopup(true);
 			editLayout->addWidget(dateEdit, TEROWCOL(i, 1));
 			i++;
 		}
@@ -346,12 +355,12 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			connect(valueEdit, SIGNAL(returnPressed()), quantityEdit, SLOT(selectAll()));
 			if(dateEdit) {
 				connect(quantityEdit, SIGNAL(returnPressed()), dateEdit, SLOT(setFocus()));
-				connect(quantityEdit, SIGNAL(returnPressed()), dateEdit->lineEdit(), SLOT(selectAll()));
+				connect(quantityEdit, SIGNAL(returnPressed()), dateEdit, SLOT(selectAll()));
 			}
 		} else  {
 			if(dateEdit) {
 				connect(valueEdit, SIGNAL(returnPressed()), dateEdit, SLOT(setFocus()));
-				connect(valueEdit, SIGNAL(returnPressed()), dateEdit->lineEdit(), SLOT(selectAll()));
+				connect(valueEdit, SIGNAL(returnPressed()), dateEdit, SLOT(selectAll()));
 			}
 		}
 		if(descriptionEdit) {
@@ -701,7 +710,7 @@ bool TransactionEditWidget::validValues(bool) {
 	if(dateEdit && !dateEdit->date().isValid()) {
 		KMessageBox::error(this, i18n("Invalid date."));
 		dateEdit->setFocus();
-		dateEdit->lineEdit()->selectAll();
+		dateEdit->selectAll();
 		return false;
 	}
 	if(!checkAccounts()) return false;
@@ -1118,8 +1127,8 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 	dateButton = new QCheckBox(i18n("Date:"), this);
 	dateButton->setChecked(false);
 	editLayout->addWidget(dateButton, 2, 0);
-	dateEdit = new KDateEdit(this);
-	dateEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	dateEdit = new QDateEdit(this);
+	dateEdit->setCalendarPopup(true);
 	dateEdit->setEnabled(false);
 	editLayout->addWidget(dateEdit, 2, 1);
 
@@ -1286,7 +1295,7 @@ bool MultipleTransactionsEditDialog::validValues() {
 	if(dateButton->isChecked() && !dateEdit->date().isValid()) {
 		KMessageBox::error(this, i18n("Invalid date."));
 		dateEdit->setFocus();
-		dateEdit->lineEdit()->selectAll();
+		dateEdit->selectAll();
 		return false;
 	}
 	if(!checkAccounts()) return false;

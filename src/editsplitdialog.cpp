@@ -34,8 +34,8 @@
 #include <QTreeWidget>
 #include <QVBoxLayout>
 #include <QLocale>
+#include <QDateEdit>
 
-#include "kdateedit.h"
 #include <kmessagebox.h>
 #include <klocalizedstring.h>
 
@@ -135,8 +135,8 @@ EditSplitDialog::EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *d
 	descriptionEdit->setFocus();
 
 	grid->addWidget(new QLabel(i18n("Date:")), 1, 0);
-	dateEdit = new KDateEdit();
-	dateEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	dateEdit = new QDateEdit();
+	dateEdit->setCalendarPopup(true);
 	grid->addWidget(dateEdit, 1, 1);
 
 	grid->addWidget(new QLabel(i18n("Account:")), 2, 0);

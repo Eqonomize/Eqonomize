@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                                        *
+ *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
  *   hanna_k@fmgirl.com                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -56,14 +56,14 @@
 #include <QMimeDatabase>
 #include <QTemporaryFile>
 #include <QCommandLineParser>
+#include <QDateEdit>
+#include <QCalendarWidget>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <kactioncollection.h>
 #include <kautosavefile.h>
 #include <kconfig.h>
-#include <kdatepicker.h>
-#include "kdateedit.h"
 #include <kdeversion.h>
 #include <khtml_part.h>
 #include <khtmlview.h>
@@ -404,8 +404,8 @@ RefundDialog::RefundDialog(Transaction *trans, QWidget *parent) : QDialog(parent
 	box1->addLayout(layout);
 
 	layout->addWidget(new QLabel(i18n("Date:"), this), 0, 0);
-	dateEdit = new KDateEdit(this);
-	dateEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	dateEdit = new QDateEdit(this);
+	dateEdit->setCalendarPopup(true);
 	layout->addWidget(dateEdit, 0, 1);
 	dateEdit->setFocus();
 
@@ -520,8 +520,8 @@ EditReinvestedDividendDialog::EditReinvestedDividendDialog(Budget *budg, Securit
 	sharesEdit->setFocus();
 
 	layout->addWidget(new QLabel(i18n("Date:"), this), 2, 0);
-	dateEdit = new KDateEdit(this);
-	dateEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	dateEdit = new QDateEdit(this);
+	dateEdit->setCalendarPopup(true);
 	layout->addWidget(dateEdit, 2, 1);
 	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -642,8 +642,8 @@ EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QW
 	layout->addWidget(valueEdit, 4, 1);
 
 	layout->addWidget(new QLabel(i18n("Date:"), this), 5, 0);
-	dateEdit = new KDateEdit(this);
-	dateEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	dateEdit = new QDateEdit(this);
+	dateEdit->setCalendarPopup(true);
 	layout->addWidget(dateEdit, 5, 1);
 	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -796,8 +796,8 @@ EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0)
 	quotationsLayout->addLayout(buttonsLayout);
 	quotationEdit = new EqonomizeValueEdit(0.01, INT_MAX / pow(10, MONETARY_DECIMAL_PLACES) - 1.0, 1.0, 0.01, MONETARY_DECIMAL_PLACES, true, this);
 	buttonsLayout->addWidget(quotationEdit);
-	dateEdit = new KDateEdit(this);
-	dateEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	dateEdit = new QDateEdit(this);
+	dateEdit->setCalendarPopup(true);
 	dateEdit->setDate(QDate::currentDate());
 	buttonsLayout->addWidget(dateEdit);
 	addButton = new QPushButton(this);
@@ -1052,7 +1052,8 @@ void ConfirmScheduleDialog::postpone() {
 	QDialog *dialog = new QDialog(this, 0);
 	dialog->setWindowTitle(i18n("Date"));
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
-	KDatePicker *datePicker = new KDatePicker(QDate::currentDate().addDays(1), dialog);
+	QCalendarWidget *datePicker = new QCalendarWidget(dialog);
+	datePicker->setSelectedDate(QDate::currentDate().addDays(1));
 	box1->addWidget(datePicker);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
@@ -1061,9 +1062,9 @@ void ConfirmScheduleDialog::postpone() {
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
 	box1->addWidget(buttonBox);
 	if(dialog->exec() == QDialog::Accepted) {
-		if(datePicker->date() > QDate::currentDate()) {
+		if(datePicker->selectedDate() > QDate::currentDate()) {
 			Transaction *trans = ((ConfirmScheduleListViewItem*) i)->transaction();
-			trans->setDate(datePicker->date());
+			trans->setDate(datePicker->selectedDate());
 			budget->addScheduledTransaction(new ScheduledTransaction(budget, trans, NULL));
 			delete i;
 		} else {
@@ -1378,8 +1379,8 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	grid->addWidget(quotationEdit, 5, 1);
 	quotationDateLabel = new QLabel(i18n("Date:"), this);
 	grid->addWidget(quotationDateLabel, 6, 0);
-	quotationDateEdit = new KDateEdit(this);
-	quotationDateEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	quotationDateEdit = new QDateEdit(this);
+	quotationDateEdit->setCalendarPopup(true);
 	grid->addWidget(quotationDateEdit, 6, 1);
 	grid->addWidget(new QLabel(i18n("Description:"), this), 7, 0);
 	descriptionEdit = new KTextEdit(this);
@@ -1923,8 +1924,8 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	accountsPeriodFromButton = new QCheckBox(i18n("From"), periodWidget);
 	accountsPeriodFromButton->setChecked(from_enabled);
 	accountsPeriodLayout2->addWidget(accountsPeriodFromButton);
-	accountsPeriodFromEdit = new KDateEdit(periodWidget);
-	accountsPeriodFromEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	accountsPeriodFromEdit = new QDateEdit(periodWidget);
+	accountsPeriodFromEdit->setCalendarPopup(true);
 	accountsPeriodFromEdit->setDate(from_date);
 	accountsPeriodFromEdit->setEnabled(true);
 	sp = accountsPeriodFromEdit->sizePolicy();
@@ -1932,8 +1933,8 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	accountsPeriodFromEdit->setSizePolicy(sp);
 	accountsPeriodLayout2->addWidget(accountsPeriodFromEdit);
 	accountsPeriodLayout2->addWidget(new QLabel(i18n("To"), periodWidget));
-	accountsPeriodToEdit = new KDateEdit(periodWidget);
-	accountsPeriodToEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	accountsPeriodToEdit = new QDateEdit(periodWidget);
+	accountsPeriodToEdit->setCalendarPopup(true);
 	accountsPeriodToEdit->setDate(to_date);
 	accountsPeriodToEdit->setEnabled(true);
 	accountsPeriodToEdit->setSizePolicy(sp);
@@ -2083,8 +2084,8 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	securitiesPeriodFromButton = new QCheckBox(i18n("From"), periodGroup);
 	securitiesPeriodFromButton->setChecked(false);
 	securitiesPeriodLayout2->addWidget(securitiesPeriodFromButton);
-	securitiesPeriodFromEdit = new KDateEdit(periodGroup);
-	securitiesPeriodFromEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	securitiesPeriodFromEdit = new QDateEdit(periodGroup);
+	securitiesPeriodFromEdit->setCalendarPopup(true);
 	securities_from_date.setDate(curdate.year(), 1, 1);
 	securitiesPeriodFromEdit->setDate(securities_from_date);
 	securitiesPeriodFromEdit->setEnabled(false);
@@ -2093,8 +2094,8 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	securitiesPeriodFromEdit->setSizePolicy(sp);
 	securitiesPeriodLayout2->addWidget(securitiesPeriodFromEdit);
 	securitiesPeriodLayout2->addWidget(new QLabel(i18n("To"), periodGroup));
-	securitiesPeriodToEdit = new KDateEdit(periodGroup);
-	securitiesPeriodToEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	securitiesPeriodToEdit = new QDateEdit(periodGroup);
+	securitiesPeriodToEdit->setCalendarPopup(true);
 	securities_to_date = curdate;
 	securitiesPeriodToEdit->setDate(securities_to_date);
 	securitiesPeriodToEdit->setEnabled(true);
@@ -2599,8 +2600,8 @@ void Eqonomize::setQuotation() {
 	quotationEdit->setFocus();
 	grid->addWidget(quotationEdit, 0, 1);
 	grid->addWidget(new QLabel(i18n("Date:"), dialog), 1, 0);
-	KDateEdit *dateEdit = new KDateEdit(dialog);
-	dateEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	QDateEdit *dateEdit = new QDateEdit(dialog);
+	dateEdit->setCalendarPopup(true);
 	grid->addWidget(dateEdit, 1, 1);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
@@ -3326,7 +3327,7 @@ void Eqonomize::accountsPeriodToChanged(const QDate &date) {
 		accountsPeriodToEdit->blockSignals(true);
 		accountsPeriodToEdit->setDate(to_date);
 		accountsPeriodToEdit->blockSignals(false);
-		accountsPeriodToEdit->lineEdit()->selectAll();
+		accountsPeriodToEdit->selectAll();
 		return;
 	}
 	to_date = date;
@@ -3350,7 +3351,7 @@ void Eqonomize::accountsPeriodFromChanged(const QDate &date) {
 		accountsPeriodFromEdit->blockSignals(true);
 		accountsPeriodFromEdit->setDate(from_date);
 		accountsPeriodFromEdit->blockSignals(false);
-		accountsPeriodFromEdit->lineEdit()->selectAll();
+		accountsPeriodFromEdit->selectAll();
 		return;
 	}
 	from_date = date;
@@ -3466,7 +3467,7 @@ void Eqonomize::securitiesPeriodToChanged(const QDate &date) {
 		securitiesPeriodToEdit->blockSignals(true);
 		securitiesPeriodToEdit->setDate(securities_to_date);
 		securitiesPeriodToEdit->blockSignals(false);
-		securitiesPeriodToEdit->lineEdit()->selectAll();
+		securitiesPeriodToEdit->selectAll();
 		return;
 	}
 	securities_to_date = date;
@@ -3490,7 +3491,7 @@ void Eqonomize::securitiesPeriodFromChanged(const QDate &date) {
 		securitiesPeriodFromEdit->blockSignals(true);
 		securitiesPeriodFromEdit->setDate(securities_from_date);
 		securitiesPeriodFromEdit->blockSignals(false);
-		securitiesPeriodFromEdit->lineEdit()->selectAll();
+		securitiesPeriodFromEdit->selectAll();
 		return;
 	}
 	securities_from_date = date;

@@ -40,8 +40,8 @@
 #include <QStackedWidget>
 #include <QVBoxLayout>
 #include <QDialogButtonBox>
+#include <QDateEdit>
 
-#include "kdateedit.h"
 #include <kmessagebox.h>
 #include <kseparator.h>
 #include <kstdguiitem.h>
@@ -66,8 +66,8 @@ EditExceptionsDialog::EditExceptionsDialog(QWidget *parent)  : QDialog(parent, 0
 
 	QVBoxLayout *buttonsLayout = new QVBoxLayout();
 	exceptionsLayout->addLayout(buttonsLayout);
-	dateEdit = new KDateEdit(this);
-	dateEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	dateEdit = new QDateEdit(this);
+	dateEdit->setCalendarPopup(true);
 	dateEdit->setDate(QDate::currentDate());
 	buttonsLayout->addWidget(dateEdit);
 	addButton = new QPushButton(this);
@@ -207,8 +207,8 @@ EditRangeDialog::EditRangeDialog(const QDate &startdate, QWidget *parent) : QDia
 	endDateButton = new QRadioButton(i18n("End on"), this);
 	rangeButtonGroup->addButton(endDateButton);
 	rangeLayout->addWidget(endDateButton, 3, 0);
-	endDateEdit = new KDateEdit(this);
-	endDateEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	endDateEdit = new QDateEdit(this);
+	endDateEdit->setCalendarPopup(true);
 	rangeLayout->addWidget(endDateEdit, 3, 1, 1, 2);
 
 	setRecurrence(NULL);

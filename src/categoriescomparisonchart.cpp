@@ -61,11 +61,12 @@
 #include <QUrl>
 #include <QFileDialog>
 #include <QApplication>
+#include <QDateEdit>
+#include <QComboBox>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <kconfig.h>
-#include <kdateedit.h>
 #include <kmessagebox.h>
 #include <kstdguiitem.h>
 #include <klocalizedstring.h>
@@ -120,13 +121,13 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	fromButton = new QCheckBox(i18n("From"), settingsWidget);
 	fromButton->setChecked(true);
 	choicesLayout->addWidget(fromButton);
-	fromEdit = new KDateEdit(settingsWidget);
-	fromEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	fromEdit = new QDateEdit(settingsWidget);
+	fromEdit->setCalendarPopup(true);
 	fromEdit->setDate(from_date);
 	choicesLayout->addWidget(fromEdit);
 	choicesLayout->addWidget(new QLabel(i18n("To"), settingsWidget));
-	toEdit = new KDateEdit(settingsWidget);
-	toEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	toEdit = new QDateEdit(settingsWidget);
+	toEdit->setCalendarPopup(true);
 	toEdit->setDate(to_date);
 	choicesLayout->addWidget(toEdit);
 	prevYearButton = new QPushButton(QIcon::fromTheme("arrow-left-double"), "", settingsWidget);
@@ -210,7 +211,7 @@ void CategoriesComparisonChart::toChanged(const QDate &date) {
 		toEdit->blockSignals(true);
 		toEdit->setDate(to_date);
 		toEdit->blockSignals(false);
-		toEdit->lineEdit()->selectAll();
+		toEdit->selectAll();
 		return;
 	}
 	to_date = date;
@@ -234,7 +235,7 @@ void CategoriesComparisonChart::fromChanged(const QDate &date) {
 		fromEdit->blockSignals(true);
 		fromEdit->setDate(from_date);
 		fromEdit->blockSignals(false);
-		fromEdit->lineEdit()->selectAll();
+		fromEdit->selectAll();
 		return;
 	}
 	from_date = date;

@@ -33,11 +33,11 @@
 #include <QRadioButton>
 #include <QDialogButtonBox>
 #include <QAction>
+#include <QDateEdit>
 
 #include <kcombobox.h>
 #include <kconfig.h>
 #include <kdeversion.h>
-#include "kdateedit.h"
 #include <klineedit.h>
 #include <kmessagebox.h>
 #include <kpagewidget.h>
@@ -65,13 +65,13 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	dateFromButton = new QCheckBox(i18n("From:"), this);
 	dateFromButton->setChecked(false);
 	filterLayout->addWidget(dateFromButton, 0, 0);
-	dateFromEdit = new KDateEdit(this);
-	dateFromEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	dateFromEdit = new QDateEdit(this);
+	dateFromEdit->setCalendarPopup(true);
 	dateFromEdit->setEnabled(false);
 	filterLayout->addWidget(dateFromEdit, 0, 1);
 	filterLayout->addWidget(new QLabel(i18n("To:"), this), 0, 2);
-	dateToEdit = new KDateEdit(this);
-	dateToEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
+	dateToEdit = new QDateEdit(this);
+	dateToEdit->setCalendarPopup(true);
 	filterLayout->addWidget(dateToEdit, 0, 3);
 	QDate curdate = QDate::currentDate();
 	from_date.setDate(curdate.year(), curdate.month(), 1);
@@ -570,7 +570,7 @@ void TransactionFilterWidget::toChanged(const QDate &date) {
 		dateToEdit->blockSignals(true);
 		dateToEdit->setDate(to_date);
 		dateToEdit->blockSignals(false);
-		dateToEdit->lineEdit()->selectAll();
+		dateToEdit->selectAll();
 		return;
 	}
 	to_date = date;
@@ -594,7 +594,7 @@ void TransactionFilterWidget::fromChanged(const QDate &date) {
 		dateFromEdit->blockSignals(true);
 		dateFromEdit->setDate(from_date);
 		dateFromEdit->blockSignals(false);
-		dateFromEdit->lineEdit()->selectAll();
+		dateFromEdit->selectAll();
 		return;
 	}
 	from_date = date;

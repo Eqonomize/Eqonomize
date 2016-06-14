@@ -1,6 +1,7 @@
 2016-06-14  Hanna Knutsson <hanna_k@fmgirl.com>
 
 	* Make sure save filename ends with ".eqz"
+	* Use QDateEdit instead of KDateEdit and QCalendarWidget insetad of KDatePicker
 
 2016-06-13  Hanna Knutsson <hanna_k@fmgirl.com>
 

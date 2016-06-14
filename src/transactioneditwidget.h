@@ -27,6 +27,7 @@
 #include <QVector>
 #include <QWidget>
 #include <QDialog>
+#include <QDateEdit>
 
 class QCheckBox;
 class QLabel;
@@ -36,7 +37,7 @@ class QComboBox;
 class QHBoxLayout;
 
 class KLineEdit;
-class KDateEdit;
+class EqonomizeDateEdit;
 
 class Budget;
 class Account;
@@ -102,7 +103,7 @@ class TransactionEditWidget : public QWidget {
 		QComboBox *fromCombo, *toCombo, *securityCombo;
 		EqonomizeValueEdit *valueEdit, *sharesEdit, *quotationEdit, *quantityEdit;
 		QPushButton *maxSharesButton;
-		KDateEdit *dateEdit;
+		EqonomizeDateEdit *dateEdit;
 		QHBoxLayout *bottom_layout;
 
 	signals:
@@ -163,11 +164,29 @@ class MultipleTransactionsEditDialog : public QDialog {
 		QLineEdit *descriptionEdit, *payeeEdit;
 		QComboBox *categoryCombo;
 		EqonomizeValueEdit *valueEdit;
-		KDateEdit *dateEdit;
+		QDateEdit *dateEdit;
 
 	protected slots:
 
 		void accept();
+
+};
+
+class EqonomizeDateEdit : public QDateEdit {
+
+	Q_OBJECT
+
+	public:
+	
+		EqonomizeDateEdit(QWidget *parent);
+	
+	protected slots:
+	
+		void keyPressEvent(QKeyEvent *event);
+		
+	signals:
+	
+		void returnPressed();
 
 };
 

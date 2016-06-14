@@ -31,7 +31,7 @@ class QTreeWidgetItem;
 class QLineEdit;
 class QComboBox;
 
-class KDateEdit;
+class QDateEdit;
 
 class Account;
 class AssetsAccount;
@@ -48,7 +48,7 @@ class EditSplitDialog : public QDialog {
 		Budget *budget;
 		bool b_extra;
 		
-		KDateEdit *dateEdit;
+		QDateEdit *dateEdit;
 		QComboBox *accountCombo;
 		QLineEdit *descriptionEdit;
 		QTreeWidget *transactionsView;

@@ -29,7 +29,7 @@ class QComboBox;
 class QPushButton;
 class QRadioButton;
 
-class KDateEdit;
+class QDateEdit;
 class KHTMLPart;
 
 class Account;
@@ -55,7 +55,7 @@ class CategoriesComparisonReport : public QWidget {
 		
 		KHTMLPart *htmlpart;
 		QCheckBox *fromButton;
-		KDateEdit *fromEdit, *toEdit;
+		QDateEdit *fromEdit, *toEdit;
 		QPushButton *nextYearButton, *prevYearButton, *nextMonthButton, *prevMonthButton;
 		QPushButton *saveButton, *printButton;
 		QCheckBox *valueButton, *dailyButton, *monthlyButton, *yearlyButton, *countButton, *perButton;
