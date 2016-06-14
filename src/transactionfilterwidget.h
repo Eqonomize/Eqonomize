@@ -31,6 +31,7 @@ class QCheckBox;
 class QLabel;
 class QPushButton;
 class QRadioButton;
+class QCheckBox;
 
 class QComboBox;
 class QDateEdit;
@@ -63,7 +64,7 @@ class TransactionFilterWidget : public QWidget {
 		QDate endDate();
 		void currentDateChanged(const QDate &olddate, const QDate &newdate);
 
-		void setFilter(QDate fromdate, QDate todate, double min = -1.0, double max = -1.0, Account *from_account = NULL, Account *to_account = NULL, QString description = QString::null, QString payee = QString::null, bool exclude = false);
+		void setFilter(QDate fromdate, QDate todate, double min = -1.0, double max = -1.0, Account *from_account = NULL, Account *to_account = NULL, QString description = QString::null, QString payee = QString::null, bool exclude = false, bool exact_match = false);
 
 	protected:
 
@@ -79,6 +80,7 @@ class TransactionFilterWidget : public QWidget {
 		QLineEdit *descriptionEdit, *payeeEdit;
 		QDate from_date, to_date;
 		QRadioButton *includeButton, *excludeButton;
+		QCheckBox *exactMatchButton;
 		QPushButton *clearButton;
 		QButtonGroup *group;
 

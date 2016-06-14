@@ -31,6 +31,7 @@
 #include <QObject>
 #include <QPushButton>
 #include <QRadioButton>
+#include <QCheckBox>
 #include <QDialogButtonBox>
 #include <QAction>
 #include <QDateEdit>
@@ -145,6 +146,8 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	excludeButton = new QRadioButton(i18n("Exclude"), this);
 	group->addButton(excludeButton);
 	filterExcludeLayout->addWidget(excludeButton);
+	exactMatchButton = new QCheckBox(i18n("Exact match"), this);
+	filterExcludeLayout->addWidget(exactMatchButton);
 	filterExcludeLayout->addItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Minimum));
 	clearButton = new QPushButton(this);
 	KGuiItem::assign(clearButton, KStandardGuiItem::clear());
@@ -189,6 +192,7 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	connect(maxButton, SIGNAL(toggled(bool)), this, SLOT(checkEnableClear()));
 	connect(maxButton, SIGNAL(toggled(bool)), maxEdit, SLOT(setEnabled(bool)));
 	connect(maxEdit, SIGNAL(valueChanged(double)), this, SIGNAL(filter()));
+	connect(exactMatchButton, SIGNAL(toggled(bool)), this, SIGNAL(filter()));
 
 }
 
@@ -240,7 +244,7 @@ void TransactionFilterWidget::clearFilter() {
 void TransactionFilterWidget::checkEnableClear() {
 	clearButton->setEnabled(dateFromButton->isChecked() || minButton->isChecked() || maxButton->isChecked() || fromCombo->currentIndex() || toCombo->currentIndex() || !descriptionEdit->text().isEmpty() || (payeeEdit && !payeeEdit->text().isEmpty()) || to_date != QDate::currentDate());
 }
-void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString payee, bool exclude) {
+void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString payee, bool exclude, bool exact_match) {
 	dateFromButton->blockSignals(true);
 	dateFromEdit->blockSignals(true);
 	dateToEdit->blockSignals(true);
@@ -254,6 +258,7 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 	if(payeeEdit) payeeEdit->blockSignals(true);
 	excludeButton->blockSignals(true);
 	includeButton->blockSignals(true);
+	exactMatchButton->blockSignals(true);
 	dateToEdit->setDate(todate);
 	to_date = todate;
 	if(fromdate.isNull()) {
@@ -312,6 +317,7 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 	descriptionEdit->setText(description);
 	if(payeeEdit) descriptionEdit->setText(payee);
 	excludeButton->setChecked(exclude);
+	exactMatchButton->setChecked(exact_match);
 	checkEnableClear();
 	dateFromButton->blockSignals(false);
 	dateFromEdit->blockSignals(false);
@@ -326,6 +332,7 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 	if(payeeEdit) payeeEdit->blockSignals(false);
 	excludeButton->blockSignals(false);
 	includeButton->blockSignals(false);
+	exactMatchButton->blockSignals(false);
 	emit filter();
 }
 void TransactionFilterWidget::updateFromAccounts() {
@@ -421,28 +428,27 @@ bool TransactionFilterWidget::filterTransaction(Transaction *trans, bool checkda
 		if(fromCombo->currentIndex() > 0 && froms[fromCombo->currentIndex() - 1] != trans->fromAccount()) {
 			return true;
 		}
-#if QT_VERSION >= 0x030200
-		if(!descriptionEdit->text().isEmpty() && !trans->description().startsWith(descriptionEdit->text(), Qt::CaseInsensitive)) {
-#else
-		if(!descriptionEdit->text().isEmpty() && !trans->description().startsWith(descriptionEdit->text())) {
-#endif
-			return true;
+		if(exactMatchButton->isChecked()) {
+			if(!descriptionEdit->text().isEmpty() && trans->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) != 0) {
+				return true;
+			}
+			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !payeeEdit->text().isEmpty() && ((Expense*) trans)->payee().compare(payeeEdit->text(), Qt::CaseInsensitive) != 0) {
+				return true;
+			}
+			if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !payeeEdit->text().isEmpty() && ((Income*) trans)->payer().compare(payeeEdit->text(), Qt::CaseInsensitive) != 0) {
+				return true;
+			}
+		} else {
+			if(!descriptionEdit->text().isEmpty() && !trans->description().contains(descriptionEdit->text(), Qt::CaseInsensitive)) {
+				return true;
+			}
+			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !payeeEdit->text().isEmpty() && !((Expense*) trans)->payee().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
+				return true;
+			}
+			if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !payeeEdit->text().isEmpty() && !((Income*) trans)->payer().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
+				return true;
+			}
 		}
-#if QT_VERSION >= 0x030200
-		if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !payeeEdit->text().isEmpty() && !((Expense*) trans)->payee().startsWith(payeeEdit->text(), Qt::CaseInsensitive)) {
-#else
-		if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !payeeEdit->text().isEmpty() && !((Expense*) trans)->payee().startsWith(payeeEdit->text())) {
-#endif
-			return true;
-		}
-#if QT_VERSION >= 0x030200
-		if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !payeeEdit->text().isEmpty() && !((Income*) trans)->payer().startsWith(payeeEdit->text(), Qt::CaseInsensitive)) {
-#else
-		if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !payeeEdit->text().isEmpty() && !((Income*) trans)->payer().startsWith(payeeEdit->text())) {
-#endif
-			return true;
-		}
-
 	} else {
 		if(toCombo->currentIndex() > 0 && tos[toCombo->currentIndex() - 1] == trans->toAccount()) {
 			return true;
@@ -450,26 +456,26 @@ bool TransactionFilterWidget::filterTransaction(Transaction *trans, bool checkda
 		if(fromCombo->currentIndex() > 0 && froms[fromCombo->currentIndex() - 1] == trans->fromAccount()) {
 			return true;
 		}
-#if QT_VERSION >= 0x030200
-		if(!descriptionEdit->text().isEmpty() && trans->description().startsWith(descriptionEdit->text(), Qt::CaseInsensitive)) {
-#else
-		if(!descriptionEdit->text().isEmpty() && trans->description().startsWith(descriptionEdit->text())) {
-#endif
-			return true;
-		}
-#if QT_VERSION >= 0x030200
-		if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE  && !payeeEdit->text().isEmpty() && ((Expense*) trans)->payee().startsWith(payeeEdit->text(), Qt::CaseInsensitive)) {
-#else
-		if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE  && !payeeEdit->text().isEmpty() && ((Expense*) trans)->payee().startsWith(payeeEdit->text())) {
-#endif
-			return true;
-		}
-#if QT_VERSION >= 0x030200
-		if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME  && !payeeEdit->text().isEmpty() && ((Income*) trans)->payer().startsWith(payeeEdit->text(), Qt::CaseInsensitive)) {
-#else
-		if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME  && !payeeEdit->text().isEmpty() && ((Income*) trans)->payer().startsWith(payeeEdit->text())) {
-#endif
-			return true;
+		if(exactMatchButton->isChecked()) {
+			if(!descriptionEdit->text().isEmpty() && trans->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) == 0) {
+				return true;
+			}
+			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE  && !payeeEdit->text().isEmpty() && ((Expense*) trans)->payee().compare(payeeEdit->text(), Qt::CaseInsensitive) == 0) {
+				return true;
+			}
+			if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME  && !payeeEdit->text().isEmpty() && ((Income*) trans)->payer().compare(payeeEdit->text(), Qt::CaseInsensitive) == 0) {
+				return true;
+			}
+		} else {
+			if(!descriptionEdit->text().isEmpty() && trans->description().contains(descriptionEdit->text(), Qt::CaseInsensitive)) {
+				return true;
+			}
+			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE  && !payeeEdit->text().isEmpty() && ((Expense*) trans)->payee().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
+				return true;
+			}
+			if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME  && !payeeEdit->text().isEmpty() && ((Income*) trans)->payer().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
+				return true;
+			}
 		}
 	}
 	if(minButton->isChecked() && trans->value() < minEdit->value()) {

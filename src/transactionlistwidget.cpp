@@ -1152,8 +1152,8 @@ int TransactionListWidget::currentEditFromItem() {
 }
 void TransactionListWidget::showFilter() {tabs->setCurrentWidget(filterWidget);}
 void TransactionListWidget::showEdit() {tabs->setCurrentWidget(editWidget);}
-void TransactionListWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString payee, bool exclude) {
-	filterWidget->setFilter(fromdate, todate, min, max, from_account, to_account, description, payee, exclude);
+void TransactionListWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString payee, bool exclude, bool exact_match) {
+	filterWidget->setFilter(fromdate, todate, min, max, from_account, to_account, description, payee, exclude, exact_match);
 }
 
 TransactionListViewItem::TransactionListViewItem(const QDate &trans_date, Transaction *trans, ScheduledTransaction *strans, QString s1, QString s2, QString s3, QString s4, QString s5, QString s6, QString s7, QString s8) : QTreeWidgetItem(), o_trans(trans), o_strans(strans), d_date(trans_date) {

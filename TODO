@@ -1,15 +1,13 @@
 BUGS:
-- sometimes accounts aren't selectable after renaming etc.
-- second combo in time development diagram (on "Source:" line) is not updated
-	when the first combo is changed. Thus it is possible that the graphic
-	doesn't correspond to the items selected in this combo
+- sometimes accounts aren't selectable after renaming etc. (?)
+- second combo in time development diagram (on "Source:" line) is not updated when the first combo is changed. Thus it is possible that the graphic doesn't correspond to the items selected in this combo (?)
 - charts need meaningful window titles.
-- saving in .eqz is very slow
-- changing the year in the graph view is VERY long
+- saving in .eqz is very slow (?)
+- changing the year in the graph view is VERY long (?)
 - in graphs with too many items, limit to max biggest 10.
 - crash when trying to delete an operation from an account view.
-- schedules don't always function (vague but reproducible)
-- startup is slow when installed (xmlgui reads its rc) but not in build dir (xmlgui not finding rc file)
+- schedules don't always function (vague but reproducible) (?)
+- startup is slow when installed (xmlgui reads its rc) but not in build dir (xmlgui not finding rc file) (?)
 
 FEATURES:
 
