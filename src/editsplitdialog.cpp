@@ -35,8 +35,9 @@
 #include <QVBoxLayout>
 #include <QLocale>
 #include <QDateEdit>
+#include <QMessageBox>
 
-#include <kmessagebox.h>
+#include <kstdguiitem.h>
 #include <klocalizedstring.h>
 
 #include "budget.h"
@@ -404,7 +405,7 @@ void EditSplitDialog::reject() {
 }
 bool EditSplitDialog::checkAccounts() {
 	if(accountCombo->count() == 0) {
-		KMessageBox::error(this, i18n("No suitable account available."));
+		QMessageBox::critical(this, i18n("Error"), i18n("No suitable account available."));
 		return false;
 	}
 	return true;
@@ -412,15 +413,15 @@ bool EditSplitDialog::checkAccounts() {
 bool EditSplitDialog::validValues() {
 	if(!checkAccounts()) return false;
 	if(!dateEdit->date().isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		return false;
 	}
 	if(dateEdit->date() > QDate::currentDate()) {
-		KMessageBox::error(this, i18n("Future dates is not allowed."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Future dates is not allowed."));
 		return false;
 	}
 	if(transactionsView->topLevelItemCount() < 2) {
-		KMessageBox::error(this, i18n("A split must contain at least two transactions."));
+		QMessageBox::critical(this, i18n("Error"), i18n("A split must contain at least two transactions."));
 		return false;
 	}
 	AssetsAccount *account = selectedAccount();
@@ -429,7 +430,7 @@ bool EditSplitDialog::validValues() {
 	while(i) {
 		Transaction *trans = ((SplitListViewItem*) i)->transaction();
 		if(trans && (trans->fromAccount() == account || trans->toAccount() == account)) {
-			KMessageBox::error(this, i18n("Cannot transfer money to and from the same account."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Cannot transfer money to and from the same account."));
 			return false;
 		}
 		++it;

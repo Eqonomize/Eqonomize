@@ -49,13 +49,13 @@
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QDateEdit>
+#include <QMessageBox>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <kconfig.h>
 #include <khtml_part.h>
 #include <khtmlview.h>
-#include <kmessagebox.h>
 #include <kstdguiitem.h>
 #include <klocalizedstring.h>
 #include <kio/filecopyjob.h>
@@ -331,12 +331,12 @@ void CategoriesComparisonReport::saveConfig() {
 void CategoriesComparisonReport::toChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		error = true;
 	}
 	if(!error && fromEdit->date() > date) {
 		if(fromButton->isChecked()) {
-			KMessageBox::error(this, i18n("To date is before from date."));
+			QMessageBox::critical(this, i18n("Error"), i18n("To date is before from date."));
 		}
 		from_date = date;
 		fromEdit->blockSignals(true);
@@ -357,11 +357,11 @@ void CategoriesComparisonReport::toChanged(const QDate &date) {
 void CategoriesComparisonReport::fromChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		error = true;
 	}
 	if(!error && date > toEdit->date()) {
-		KMessageBox::error(this, i18n("From date is after to date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("From date is after to date."));
 		to_date = date;
 		toEdit->blockSignals(true);
 		toEdit->setDate(to_date);
@@ -449,11 +449,11 @@ void CategoriesComparisonReport::save() {
 	if(url.isEmpty() && url.isValid()) return;
 	if(url.isLocalFile()) {
 		if(QFile::exists(url.toLocalFile())) {
-			if(KMessageBox::warningYesNo(this, i18n("The selected file already exists. Would you like to overwrite the old copy?")) != KMessageBox::Yes) return;
+			if(QMessageBox::warning(this, i18n("Overwrite file?"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
 		}
 		QFileInfo info(url.toLocalFile());
 		if(info.isDir()) {
-			KMessageBox::error(this, i18n("You selected a directory!"));
+			QMessageBox::critical(this, i18n("Error"), i18n("You selected a directory!"));
 			return;
 		}
 		QSaveFile ofile(url.toLocalFile());
@@ -461,14 +461,14 @@ void CategoriesComparisonReport::save() {
 		ofile.setPermissions((QFile::Permissions) 0x0660);
 		if(!ofile.isOpen()) {
 			ofile.cancelWriting();
-			KMessageBox::error(this, i18n("Couldn't open file for writing."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
 			return;
 		}
 		QTextStream outf(&ofile);
 		outf.setCodec("UTF-8");
 		outf << source;
 		if(!ofile.commit()) {
-			KMessageBox::error(this, i18n("Error while writing file; file was not saved."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
 			return;
 		}
 		return;
@@ -484,7 +484,7 @@ void CategoriesComparisonReport::save() {
 	KJobWidgets::setWindow(job, this);
 	if(!job->exec()) {
 		if(job->error()) {
-			KMessageBox::error(this, i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
+			QMessageBox::critical(this, i18n("Error"), i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
 		}
 	}
 

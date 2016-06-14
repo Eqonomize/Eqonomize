@@ -36,7 +36,6 @@ class QLineEdit;
 class QComboBox;
 class QHBoxLayout;
 
-class KLineEdit;
 class EqonomizeDateEdit;
 
 class Budget;
@@ -98,8 +97,7 @@ class TransactionEditWidget : public QWidget {
 		QDate shares_date;
 
 		QVector<Account*> froms, tos;
-		KLineEdit *descriptionEdit, *payeeEdit;
-		QLineEdit *commentsEdit;
+		QLineEdit *descriptionEdit, *payeeEdit, *commentsEdit;
 		QComboBox *fromCombo, *toCombo, *securityCombo;
 		EqonomizeValueEdit *valueEdit, *sharesEdit, *quotationEdit, *quantityEdit;
 		QPushButton *maxSharesButton;

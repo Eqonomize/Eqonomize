@@ -43,10 +43,9 @@
 #include <QUrl>
 #include <QTemporaryFile>
 #include <QDateEdit>
+#include <QMessageBox>
 
-#include <KLineEdit>
 #include <klineedit.h>
-#include <kmessagebox.h>
 #include <kurlrequester.h>
 #include <klocalizedstring.h>
 #include <kio/filecopyjob.h>
@@ -444,17 +443,17 @@ void ImportCSVDialog::nextClicked() {
 	} else if(currentPage() == page(1)) {
 		const QUrl &url = fileEdit->url();
 		if(url.isEmpty()) {
-			KMessageBox::error(this, i18n("A file must be selected."));
+			QMessageBox::critical(this, i18n("Error"), i18n("A file must be selected."));
 			fileEdit->setFocus();
 			return;
 		} else if(!url.isValid()) {
 			QFileInfo info(fileEdit->lineEdit()->text());
 			if(info.isDir()) {
-				KMessageBox::error(this, i18n("Selected file is a directory."));
+				QMessageBox::critical(this, i18n("Error"), i18n("Selected file is a directory."));
 				fileEdit->setFocus();
 				return;
 			} else if(!info.exists()) {
-				KMessageBox::error(this, i18n("Selected file does not exist."));
+				QMessageBox::critical(this, i18n("Error"), i18n("Selected file does not exist."));
 				fileEdit->setFocus();
 				return;
 			}
@@ -462,17 +461,17 @@ void ImportCSVDialog::nextClicked() {
 		} else if(url.isLocalFile()) {
 			QFileInfo info(url.toLocalFile());
 			if(info.isDir()) {
-				KMessageBox::error(this, i18n("Selected file is a directory."));
+				QMessageBox::critical(this, i18n("Error"), i18n("Selected file is a directory."));
 				fileEdit->setFocus();
 				return;
 			} else if(!info.exists()) {
-				KMessageBox::error(this, i18n("Selected file does not exist."));
+				QMessageBox::critical(this, i18n("Error"), i18n("Selected file does not exist."));
 				fileEdit->setFocus();
 				return;
 			}
 		}
 		if(delimiterCombo->currentIndex() == 4 && delimiterEdit->text().isEmpty()) {
-			KMessageBox::error(this, i18n("Empty delimiter."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Empty delimiter."));
 			delimiterEdit->setFocus();
 			return;
 		}
@@ -716,7 +715,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 		   || (AC1_c > 0 && (AC1_c == AC2_c || AC1_c == comments_c))
 		   || (AC2_c > 0 && AC2_c == comments_c)
 	  ) {
-		KMessageBox::error(this, i18n("The same column number is selected multiple times."));
+		QMessageBox::critical(this, i18n("Error"), i18n("The same column number is selected multiple times."));
 		return false;
 	}
 	bool create_missing = createMissingButton->isChecked() && type != ALL_TYPES_ID;
@@ -776,7 +775,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 			i++;
 		}
 		if(ac1 == ac2) {
-			KMessageBox::error(this, i18n("Selected from account is the same as the to account."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Selected from account is the same as the to account."));
 			return false;
 		}
 	}
@@ -784,7 +783,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	if(date_c < 0) {
 		date = valueDateEdit->date();
 		if(!date.isValid()) {
-			KMessageBox::error(this, i18n("Invalid date."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 			return false;
 		}
 	}
@@ -801,14 +800,14 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 		QTemporaryFile tf;
 		tf.setAutoRemove(false);
 		if(!tf.open()) {
-			KMessageBox::error(this, i18n("Couldn't fetch %1: %2", url.toString(), QString("Unable to create temporary file %1.").arg(tf.fileName())));
+			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), QString("Unable to create temporary file %1.").arg(tf.fileName())));
 			return false;
 		}
 		KIO::FileCopyJob *job = KIO::file_copy(url, QUrl::fromLocalFile(tf.fileName()), KIO::Overwrite);
 		KJobWidgets::setWindow(job, this);
 		if(!job->exec()) {
 			if(job->error()) {
-				KMessageBox::error(this, i18n("Couldn't fetch %1: %2", url.toString(), job->errorString()));
+				QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), job->errorString()));
 			}
 			return false;
 		}
@@ -820,10 +819,10 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	
 	QFile file(tmpfile);
 	if(!file.open(QIODevice::ReadOnly) ) {
-		KMessageBox::error(this, i18n("Couldn't open %1 for reading.", url.toString()));
+		QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open %1 for reading.", url.toString()));
 		return false;
 	} else if(!file.size()) {
-		KMessageBox::error(this, i18n("Error reading %1.", url.toString()));
+		QMessageBox::critical(this, i18n("Error"), i18n("Error reading %1.", url.toString()));
 		return false;
 	}
 	QTextStream fstream(&file);
@@ -1206,7 +1205,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	if(successes > 0) {
 		info = i18np("Successfully imported 1 transaction.", "Successfully imported %1 transactions.", successes);
 	} else {
-		info = i18n("Unable to import any transactions imported.");
+		info = i18n("Unable to import any transactions.");
 	}
 	if(failed > 0) {
 		info += '\n';
@@ -1225,9 +1224,9 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 		info = i18n("No data found.");
 	}
 	if(failed > 0 || successes == 0) {
-		KMessageBox::sorry(this, info + details);
+		QMessageBox::critical(this, i18n("Error"), info + details);
 	} else {
-		KMessageBox::information(this, info);
+		QMessageBox::information(this, i18n("Information"), info);
 	}
 	return successes > 0;
 }
@@ -1236,7 +1235,7 @@ void ImportCSVDialog::accept() {
 	if(!import(true, &ci)) return;
 	int ps = ci.p1 + ci.p2 + ci.p3 + ci.p4;
 	if(ps == 0) {
-		KMessageBox::error(this, i18n("Unrecognized date format."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Unrecognized date format."));
 		return;
 	}
 	if(ci.value_format < 0 || ps > 1) {

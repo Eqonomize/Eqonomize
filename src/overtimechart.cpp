@@ -62,11 +62,11 @@
 #include <QTemporaryFile>
 #include <QMimeDatabase>
 #include <QMimeType>
+#include <QMessageBox>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <kconfig.h>
-#include <kmessagebox.h>
 #include <kstdguiitem.h>
 #include <klocalizedstring.h>
 #include <kio/filecopyjob.h>
@@ -112,11 +112,11 @@ void saveSceneImage(QWidget *parent, QGraphicsScene *scene) {
 	if(url.isEmpty() && url.isValid()) return;
 	if(url.isLocalFile()) {
 		if(QFile::exists(url.toLocalFile())) {
-			if(KMessageBox::warningYesNo(parent, i18n("The selected file already exists. Would you like to overwrite the old copy?")) != KMessageBox::Yes) return;
+			if(QMessageBox::warning(parent, i18n("Overwrite file?"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
 		}
 		QFileInfo info(url.toLocalFile());
 		if(info.isDir()) {
-			KMessageBox::error(parent, i18n("You selected a directory!"));
+			QMessageBox::critical(parent, i18n("Error"), i18n("You selected a directory!"));
 			return;
 		}
 		QSaveFile ofile(url.toLocalFile());
@@ -124,7 +124,7 @@ void saveSceneImage(QWidget *parent, QGraphicsScene *scene) {
 		ofile.setPermissions((QFile::Permissions) 0x0660);
 		if(!ofile.isOpen()) {
 			ofile.cancelWriting();
-			KMessageBox::error(parent, i18n("Couldn't open file for writing."));
+			QMessageBox::critical(parent, i18n("Error"), i18n("Couldn't open file for writing."));
 			return;
 		}
 		QRectF rect = scene->sceneRect();
@@ -145,13 +145,13 @@ void saveSceneImage(QWidget *parent, QGraphicsScene *scene) {
 		else if(selected_filter == jpeg_filter) {pixmap.save(&ofile, "JPEG");}
 		else pixmap.save(&ofile);
 		if(!ofile.commit()) {
-			KMessageBox::error(parent, i18n("Error while writing file; file was not saved."));
+			QMessageBox::critical(parent, i18n("Error"), i18n("Error while writing file; file was not saved."));
 			return;
 		}
 		return;
 	}
 
-	KMessageBox::error(parent, i18n("You can only save to local files."));
+	QMessageBox::critical(parent, i18n("Error"), i18n("You can only save to local files."));
 	QTemporaryFile tf;
 	tf.open();
 	tf.setAutoRemove(true);
@@ -176,7 +176,7 @@ void saveSceneImage(QWidget *parent, QGraphicsScene *scene) {
 	KJobWidgets::setWindow(job, parent);
 	if(!job->exec()) {
 		if(job->error()) {
-			KMessageBox::error(parent, i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
+			QMessageBox::critical(parent, i18n("Error"), i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
 		}
 	}
 }
@@ -563,7 +563,7 @@ void OverTimeChart::sourceChanged(int index) {
 void OverTimeChart::startYearChanged(const QDate &date) {	
 	bool error = false;
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		error = true;
 	}
 	/*if(!error && date > QDate::currentDate()) {
@@ -576,7 +576,7 @@ void OverTimeChart::startYearChanged(const QDate &date) {
 			updateDisplay();
 			return;
 		} else {
-			KMessageBox::error(this, i18n("Future dates are not allowed."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Future dates are not allowed."));
 			error = true;
 		}
 	}*/
@@ -600,11 +600,11 @@ void OverTimeChart::startYearChanged(const QDate &date) {
 void OverTimeChart::startMonthChanged(const QDate &date) {	
 	bool error = false;
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		error = true;
 	}
 	/*if(!error && date > QDate::currentDate()) {
-		KMessageBox::error(this, i18n("Future dates are not allowed."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Future dates are not allowed."));
 		error = true;
 	}*/
 	if(!error && date > end_date) {
@@ -627,7 +627,7 @@ void OverTimeChart::startMonthChanged(const QDate &date) {
 void OverTimeChart::endYearChanged(const QDate &date) {	
 	bool error = false;
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		error = true;
 	}
 	/*if(!error && date > QDate::currentDate()) {
@@ -640,7 +640,7 @@ void OverTimeChart::endYearChanged(const QDate &date) {
 			updateDisplay();
 			return;
 		} else {
-			KMessageBox::error(this, i18n("Future dates are not allowed."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Future dates are not allowed."));
 			error = true;
 		}
 	}*/
@@ -664,11 +664,11 @@ void OverTimeChart::endYearChanged(const QDate &date) {
 void OverTimeChart::endMonthChanged(const QDate &date) {	
 	bool error = false;
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		error = true;
 	}
 	/*if(!error && date > QDate::currentDate()) {
-		KMessageBox::error(this, i18n("Future dates are not allowed."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Future dates are not allowed."));
 		error = true;
 	}*/
 	if(!error && date < start_date) {

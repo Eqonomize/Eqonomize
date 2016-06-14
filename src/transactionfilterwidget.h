@@ -32,9 +32,9 @@ class QLabel;
 class QPushButton;
 class QRadioButton;
 
-class KComboBox;
+class QComboBox;
 class QDateEdit;
-class KLineEdit;
+class QLineEdit;
 
 class Account;
 class Budget;
@@ -72,11 +72,11 @@ class TransactionFilterWidget : public QWidget {
 		Budget *budget;
 		bool b_extra;
 		QVector<Account*> froms, tos;
-		KComboBox *fromCombo, *toCombo;
+		QComboBox *fromCombo, *toCombo;
 		QCheckBox *minButton, *maxButton, *dateFromButton;
 		EqonomizeValueEdit *minEdit, *maxEdit;
 		QDateEdit *dateFromEdit, *dateToEdit;
-		KLineEdit *descriptionEdit, *payeeEdit;
+		QLineEdit *descriptionEdit, *payeeEdit;
 		QDate from_date, to_date;
 		QRadioButton *includeButton, *excludeButton;
 		QPushButton *clearButton;

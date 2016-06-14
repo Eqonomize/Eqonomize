@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                                        *
+ *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
  *   hanna_k@fmgirl.com                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,11 +41,9 @@
 #include <QFileDialog>
 #include <QUrl>
 #include <QTabWidget>
+#include <QMessageBox>
 
-#include <klineedit.h>
-#include <kseparator.h>
 #include <kstdguiitem.h>
-#include <kmessagebox.h>
 #include <kpagewidget.h>
 #include <kstandardaction.h>
 #include <kstdaccel.h>
@@ -489,25 +487,25 @@ void TransactionListWidget::editTransaction() {
 				TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
 				if(!warned1 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL)) {
 					if(dialog->valueButton->isChecked()) {
-						KMessageBox::error(this, i18n("Cannot set the value of security transactions using the dialog for modifying multiple transactions."));
+						QMessageBox::critical(this, i18n("Error"), i18n("Cannot set the value of security transactions using the dialog for modifying multiple transactions."));
 						warned1 = true;
 					}
 				}
 				if(!warned2 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
 					if(dialog->descriptionButton->isChecked()) {
-						KMessageBox::error(this, i18n("Cannot change description of dividends and security transactions."));
+						QMessageBox::critical(this, i18n("Error"), i18n("Cannot change description of dividends and security transactions."));
 						warned2 = true;
 					}
 				}
 				if(!warned3 && dialog->payeeButton && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
 					if(dialog->payeeButton->isChecked()) {
-						KMessageBox::error(this, i18n("Cannot change payer of dividends and security transactions."));
+						QMessageBox::critical(this, i18n("Error"), i18n("Cannot change payer of dividends and security transactions."));
 						warned3 = true;
 					}
 				}
 				if(!warned4 && i->transaction()->parentSplit()) {
 					if(dialog->dateButton->isChecked()) {
-						KMessageBox::error(this, i18n("Cannot change date of transactions that are part of a split transaction."));
+						QMessageBox::critical(this, i18n("Error"), i18n("Cannot change date of transactions that are part of a split transaction."));
 						warned4 = true;
 					}
 				}
@@ -671,7 +669,7 @@ void TransactionListWidget::removeSplitTransaction() {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
 		if(i->transaction()->parentSplit()) {
 			SplitTransaction *split = i->transaction()->parentSplit();
-			if(KMessageBox::warningContinueCancel(this, i18n("Are you sure you want to delete all (%1) transactions in the selected split transaction?", split->splits.count())) == KMessageBox::Cancel) {
+			if(QMessageBox::warning(this, i18n("Delete transactions?"), i18n("Are you sure you want to delete all (%1) transactions in the selected split transaction?", split->splits.count()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel) {
 				return;
 			}
 			budget->removeSplitTransaction(split, true);
@@ -717,7 +715,7 @@ void TransactionListWidget::joinTransactions() {
 void TransactionListWidget::removeTransaction() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() > 1) {
-		if(KMessageBox::warningContinueCancel(this, i18n("Are you sure you want to delete all (%1) selected transactions?", selection.count())) == KMessageBox::Cancel) {
+		if(QMessageBox::warning(this, i18n("Delete transactions?"), i18n("Are you sure you want to delete all (%1) selected transactions?", selection.count()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel) {
 			return;
 		}
 	}

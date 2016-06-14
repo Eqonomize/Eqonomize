@@ -58,6 +58,7 @@
 #include <QCommandLineParser>
 #include <QDateEdit>
 #include <QCalendarWidget>
+#include <QMessageBox>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
@@ -68,14 +69,12 @@
 #include <khtml_part.h>
 #include <khtmlview.h>
 #include <kfileitem.h>
-#include <kmessagebox.h>
 #include <kpagewidget.h>
 #include <krecentfilesaction.h>
 #include <kselectaction.h>
 #include <kstandardaction.h>
 #include <kstdaccel.h>
 #include <kstdguiitem.h>
-#include <kseparator.h>
 #include <ktextedit.h>
 #include <klocalizedstring.h>
 #include <kwindowconfig.h>
@@ -479,7 +478,7 @@ void RefundDialog::accept() {
 }
 bool RefundDialog::validValues() {
 	if(!dateEdit->date().isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		return false;
 	}
 	return true;
@@ -574,7 +573,7 @@ void EditReinvestedDividendDialog::accept() {
 }
 bool EditReinvestedDividendDialog::validValues() {
 	if(!dateEdit->date().isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		return false;
 	}
 	return true;
@@ -734,7 +733,7 @@ SecurityTrade *EditSecurityTradeDialog::createSecurityTrade() {
 }
 bool EditSecurityTradeDialog::checkSecurities() {
 	if(toSecurityCombo->count() < 2) {
-		KMessageBox::error(this, i18n("No other security available for trade in the account."));
+		QMessageBox::critical(this, i18n("Error"), i18n("No other security available for trade in the account."));
 		return false;
 	}
 	return true;
@@ -746,19 +745,19 @@ void EditSecurityTradeDialog::accept() {
 }
 bool EditSecurityTradeDialog::validValues() {
 	if(selectedFromSecurity() == selectedToSecurity()) {
-		KMessageBox::error(this, i18n("Selected to and from securities are the same."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Selected to and from securities are the same."));
 		return false;
 	}
 	if(!dateEdit->date().isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		return false;
 	}
 	if(fromSharesEdit->value() == 0.0 || toSharesEdit->value() == 0.0) {
-		KMessageBox::error(this, i18n("Zero shares not allowed."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Zero shares not allowed."));
 		return false;
 	}
 	if(valueEdit->value() == 0.0) {
-		KMessageBox::error(this, i18n("Zero value not allowed."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Zero value not allowed."));
 		return false;
 	}
 	return true;
@@ -863,7 +862,7 @@ void EditQuotationsDialog::onSelectionChanged() {
 void EditQuotationsDialog::addQuotation() {
 	QDate date = dateEdit->date();
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		return;
 	}
 	QTreeWidgetItemIterator it(quotationsView);
@@ -885,7 +884,7 @@ void EditQuotationsDialog::changeQuotation() {
 	if(i == NULL) return;
 	QDate date = dateEdit->date();
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		return;
 	}
 	QTreeWidgetItemIterator it(quotationsView);
@@ -1068,7 +1067,7 @@ void ConfirmScheduleDialog::postpone() {
 			budget->addScheduledTransaction(new ScheduledTransaction(budget, trans, NULL));
 			delete i;
 		} else {
-			KMessageBox::error(this, i18n("Can only postpone to future dates."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Can only postpone to future dates."));
 		}
 	}
 	dialog->deleteLater();
@@ -1399,7 +1398,7 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 }
 bool EditSecurityDialog::checkAccount() {
 	if(accountCombo->count() == 0) {
-		KMessageBox::error(this, i18n("No suitable account or income category available."));
+		QMessageBox::critical(this, i18n("Error"), i18n("No suitable account or income category available."));
 		return false;
 	}
 	return true;
@@ -1558,13 +1557,13 @@ void EditAssetsAccountDialog::accept() {
 	QString sname = nameEdit->text().trimmed();
 	if(sname.isEmpty()) {
 		nameEdit->setFocus();
-		KMessageBox::error(this, i18n("Empty name."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Empty name."));
 		return;
 	}
 	AssetsAccount *aaccount = budget->findAssetsAccount(sname);
 	if(aaccount && aaccount != current_account) {
 		nameEdit->setFocus();
-		KMessageBox::error(this, i18n("The entered name is used by another account."));
+		QMessageBox::critical(this, i18n("Error"), i18n("The entered name is used by another account."));
 		return;
 	}
 	QDialog::accept();
@@ -1629,13 +1628,13 @@ void EditIncomesAccountDialog::accept() {
 	QString sname = nameEdit->text().trimmed();
 	if(sname.isEmpty()) {
 		nameEdit->setFocus();
-		KMessageBox::error(this, i18n("Empty name."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Empty name."));
 		return;
 	}
 	IncomesAccount *iaccount = budget->findIncomesAccount(sname);
 	if(iaccount && iaccount != current_account) {
 		nameEdit->setFocus();
-		KMessageBox::error(this, i18n("The entered name is used by another income category."));
+		QMessageBox::critical(this, i18n("Error"), i18n("The entered name is used by another income category."));
 		return;
 	}
 	QDialog::accept();
@@ -1699,13 +1698,13 @@ void EditExpensesAccountDialog::accept() {
 	QString sname = nameEdit->text().trimmed();
 	if(sname.isEmpty()) {
 		nameEdit->setFocus();
-		KMessageBox::error(this, i18n("Empty name."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Empty name."));
 		return;
 	}
 	ExpensesAccount *eaccount = budget->findExpensesAccount(sname);
 	if(eaccount && eaccount != current_account) {
 		nameEdit->setFocus();
-		KMessageBox::error(this, i18n("The entered name is used by another expense category."));
+		QMessageBox::critical(this, i18n("Error"), i18n("The entered name is used by another expense category."));
 		return;
 	}
 	QDialog::accept();
@@ -2456,7 +2455,7 @@ void Eqonomize::deleteSecurity() {
 	if(i == NULL) return;
 	Security *security = i->security();
 	bool has_trans = budget->securityHasTransactions(security);
-	if(!has_trans || KMessageBox::warningContinueCancel(this, i18n("Are you sure you want to delete the security \"%1\" and all associated transactions?", security->name())) == KMessageBox::Continue) {
+	if(!has_trans || QMessageBox::warning(this, i18n("Delete security?"), i18n("Are you sure you want to delete the security \"%1\" and all associated transactions?", security->name()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Ok) {
 		total_value -= i->value;
 		total_rate *= total_cost;
 		total_cost -= i->cost;
@@ -2518,7 +2517,7 @@ bool Eqonomize::editReinvestedDividend(ReinvestedDividend *rediv, Security *secu
 }
 void Eqonomize::newReinvestedDividend() {
 	if(budget->securities.count() == 0) {
-		KMessageBox::error(this, i18n("No security available."));
+		QMessageBox::critical(this, i18n("Error"), i18n("No security available."));
 		return;
 	}
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
@@ -2612,9 +2611,9 @@ void Eqonomize::setQuotation() {
 	while(dialog->exec() == QDialog::Accepted) {
 		QDate date = dateEdit->date();
 		if(!date.isValid()) {
-			KMessageBox::error(this, i18n("Invalid date."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		} else if(date > QDate::currentDate()) {
-			KMessageBox::error(this, i18n("Future dates are not allowed."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Future dates are not allowed."));
 		} else {
 			i->security()->setQuotation(date, quotationEdit->value());
 			updateSecurity(i);
@@ -3310,12 +3309,12 @@ void Eqonomize::showAccountTransactions(bool b) {
 void Eqonomize::accountsPeriodToChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		error = true;
 	}
 	if(!error && accountsPeriodFromEdit->date() > date) {
 		if(accountsPeriodFromButton->isChecked()) {
-			KMessageBox::error(this, i18n("To date is before from date."));
+			QMessageBox::critical(this, i18n("Error"), i18n("To date is before from date."));
 		}
 		from_date = date;
 		accountsPeriodFromEdit->blockSignals(true);
@@ -3336,11 +3335,11 @@ void Eqonomize::accountsPeriodToChanged(const QDate &date) {
 void Eqonomize::accountsPeriodFromChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		error = true;
 	}
 	if(!error && date > accountsPeriodToEdit->date()) {
-		KMessageBox::error(this, i18n("From date is after to date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("From date is after to date."));
 		to_date = date;
 		accountsPeriodToEdit->blockSignals(true);
 		accountsPeriodToEdit->setDate(to_date);
@@ -3450,12 +3449,12 @@ void Eqonomize::currentYear() {
 void Eqonomize::securitiesPeriodToChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		error = true;
 	}
 	if(!error && securitiesPeriodFromEdit->date() > date) {
 		if(securitiesPeriodFromButton->isChecked()) {
-			KMessageBox::error(this, i18n("To date is before from date."));
+			QMessageBox::critical(this, i18n("Error"), i18n("To date is before from date."));
 		}
 		securities_from_date = date;
 		securitiesPeriodFromEdit->blockSignals(true);
@@ -3476,11 +3475,11 @@ void Eqonomize::securitiesPeriodToChanged(const QDate &date) {
 void Eqonomize::securitiesPeriodFromChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		error = true;
 	}
 	if(!error && date > securitiesPeriodToEdit->date()) {
-		KMessageBox::error(this, i18n("From date is after to date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("From date is after to date."));
 		securities_to_date = date;
 		securitiesPeriodToEdit->blockSignals(true);
 		securitiesPeriodToEdit->setDate(securities_to_date);
@@ -3681,14 +3680,14 @@ void Eqonomize::openURL(const QUrl& url) {
 		QTemporaryFile tf;
 		tf.setAutoRemove(false);
 		if(!tf.open()) {
-			KMessageBox::error(this, i18n("Couldn't fetch %1: %2", url.toString(), QString("Unable to create temporary file %1.").arg(tf.fileName())));
+			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), QString("Unable to create temporary file %1.").arg(tf.fileName())));
 			return;
 		}
 		KIO::FileCopyJob *job = KIO::file_copy(url, QUrl::fromLocalFile(tf.fileName()), KIO::Overwrite);
 		KJobWidgets::setWindow(job, this);
 		if(!job->exec()) {
 			if(job->error()) {
-				KMessageBox::error(this, i18n("Couldn't fetch %1: %2", url.toString(), job->errorString()));
+				QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), job->errorString()));
 			}
 			return;
 		}
@@ -3703,11 +3702,11 @@ void Eqonomize::openURL(const QUrl& url) {
 		QFile::remove(tmpfile);
 	}
 	if(!error.isNull()) {
-		KMessageBox::error(this, i18n("Error loading %1: %2.", url.toString(), error), i18n("Couldn't open file"));
+		QMessageBox::critical(this, i18n("Error"), i18n("Error loading %1: %2.", url.toString(), error), i18n("Couldn't open file"));
 		return;
 	}
 	if(!errors.isEmpty()) {
-		KMessageBox::error(this, errors);
+		QMessageBox::critical(this, i18n("Error"), errors);
 	}
 	setCaption(url.fileName(), false);
 	current_url = url;
@@ -3739,7 +3738,7 @@ bool Eqonomize::saveURL(const QUrl& url) {
 	if(url.isLocalFile()) {
 		bool exists = QFile::exists(url.toLocalFile());
 		if(url != current_url && exists) {
-			if(KMessageBox::warningYesNo(this, i18n("The selected file already exists. Would you like to overwrite the old copy?")) != KMessageBox::Yes) return false;
+			if(QMessageBox::warning(this, i18n("Overwrite file?"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return false;
 		}
 		mode_t  perms = 0x0600;
 		if(exists) {
@@ -3748,7 +3747,7 @@ bool Eqonomize::saveURL(const QUrl& url) {
 
 		QString error = budget->saveFile(url.toLocalFile(), perms);
 		if(!error.isNull()) {
-			KMessageBox::error(this, i18n("Error saving %1: %2.", url.toString(), error), i18n("Couldn't save file"));
+			QMessageBox::critical(this, i18n("Error"), i18n("Error saving %1: %2.", url.toString(), error), i18n("Couldn't save file"));
 			return false;
 		} else {
 			setCaption(url.fileName(), false);
@@ -3773,7 +3772,7 @@ bool Eqonomize::saveURL(const QUrl& url) {
 	tf.setAutoRemove(true);
 	QString error = budget->saveFile(tf.fileName());
 	if(!error.isNull()) {
-		KMessageBox::error(this, i18n("Error saving %1: %2.").arg(url.toString(), error), i18n("Couldn't save file"));
+		QMessageBox::critical(this, i18n("Error"), i18n("Error saving %1: %2.").arg(url.toString(), error), i18n("Couldn't save file"));
 		return false;
 	}
 	KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tf.fileName()), url, KIO::Overwrite);
@@ -3795,7 +3794,7 @@ bool Eqonomize::saveURL(const QUrl& url) {
 		return true;
 	} else {
 		if(job->error()) {
-			KMessageBox::error(this, i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()), i18n("Couldn't save file"));
+			QMessageBox::critical(this, i18n("Error"), i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()), i18n("Couldn't save file"));
 		}
 	}
 	return false;
@@ -4242,27 +4241,27 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 void Eqonomize::printView() {
 	if(tabs->currentPage()->widget() == expenses_page) {
 		if(expensesWidget->isEmpty()) {
-			KMessageBox::error(this, i18n("Empty expenses list."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Empty expenses list."));
 			return;
 		}
 	} else if(tabs->currentPage()->widget() == incomes_page) {
 		if(incomesWidget->isEmpty()) {
-			KMessageBox::error(this, i18n("Empty incomes list."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Empty incomes list."));
 			return;
 		}
 	} else if(tabs->currentPage()->widget() == transfers_page) {
 		if(transfersWidget->isEmpty()) {
-			KMessageBox::error(this, i18n("Empty transfers list."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Empty transfers list."));
 			return;
 		}
 	} else if(tabs->currentPage()->widget() == securities_page) {
 		if(securitiesView->topLevelItemCount() == 0) {
-			KMessageBox::error(this, i18n("Empty securities list."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Empty securities list."));
 			return;
 		}
 	} else if(tabs->currentPage()->widget() == schedule_page) {
 		if(scheduleView->topLevelItemCount() == 0) {
-			KMessageBox::error(this, i18n("Empty schedule list."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Empty schedule list."));
 			return;
 		}
 	}
@@ -4289,27 +4288,27 @@ bool Eqonomize::saveView(QTextStream &file, int fileformat) {
 void Eqonomize::saveView() {
 	if(tabs->currentPage()->widget() == expenses_page) {
 		if(expensesWidget->isEmpty()) {
-			KMessageBox::error(this, i18n("Empty expenses list."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Empty expenses list."));
 			return;
 		}
 	} else if(tabs->currentPage()->widget() == incomes_page) {
 		if(incomesWidget->isEmpty()) {
-			KMessageBox::error(this, i18n("Empty incomes list."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Empty incomes list."));
 			return;
 		}
 	} else if(tabs->currentPage()->widget() == transfers_page) {
 		if(transfersWidget->isEmpty()) {
-			KMessageBox::error(this, i18n("Empty transfers list."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Empty transfers list."));
 			return;
 		}
 	} else if(tabs->currentPage()->widget() == securities_page) {
 		if(securitiesView->topLevelItemCount() == 0) {
-			KMessageBox::error(this, i18n("Empty securities list."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Empty securities list."));
 			return;
 		}
 	} else if(tabs->currentPage()->widget() == schedule_page) {
 		if(scheduleView->topLevelItemCount() == 0) {
-			KMessageBox::error(this, i18n("Empty schedule list."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Empty schedule list."));
 			return;
 		}
 	}
@@ -4323,25 +4322,25 @@ void Eqonomize::saveView() {
 	if(url.isEmpty() && url.isValid()) return;
 	if(url.isLocalFile()) {
 		if(QFile::exists(url.toLocalFile())) {
-			if(KMessageBox::warningYesNo(this, i18n("The selected file already exists. Would you like to overwrite the old copy?")) != KMessageBox::Yes) return;
+			if(QMessageBox::warning(this, i18n("Overwrite file?"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
 
 		}
 		QFileInfo info(url.toLocalFile());
 		if(info.isDir()) {
-			KMessageBox::error(this, i18n("You selected a directory!"));
+			QMessageBox::critical(this, i18n("Error"), i18n("You selected a directory!"));
 			return;
 		}
 		QSaveFile ofile(url.toLocalFile());
 		ofile.open(QIODevice::WriteOnly);
 		if(!ofile.isOpen()) {
 			ofile.cancelWriting();
-			KMessageBox::error(this, i18n("Couldn't open file for writing."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
 			return;
 		}
 		QTextStream stream(&ofile);
 		saveView(stream, filetype);
 		if(!ofile.commit()) {
-			KMessageBox::error(this, i18n("Error while writing file; file was not saved."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
 			return;
 		}
 		return;
@@ -4356,7 +4355,7 @@ void Eqonomize::saveView() {
 		KJobWidgets::setWindow(job, this);
 		if(!job->exec()) {
 			if(job->error()) {
-				KMessageBox::error(this, i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
+				QMessageBox::critical(this, i18n("Error"), i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
 			}
 		}
 	}
@@ -4488,11 +4487,11 @@ bool Eqonomize::crashRecovery(QUrl url) {
 		staleFiles = KAutoSaveFile::staleFiles(QUrl::fromLocalFile("UNSAVED EQZ"));
 	}
 	if(!staleFiles.isEmpty()) {
-		if(KMessageBox::questionYesNo(this, i18n("Eqonomize! exited unexpectedly before the file was saved and data was lost.\nDo you want to load the last auto-saved version of the file?"), i18n("Crash Recovery")) == KMessageBox::Yes) {
+		if(QMessageBox::question(this, i18n("Crash Recovery"), i18n("Eqonomize! exited unexpectedly before the file was saved and data was lost.\nDo you want to load the last auto-saved version of the file?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
 			QString errors;
 			QString error = budget->loadFile(staleFiles.first()->fileName(), errors);
 			if(!error.isNull()) {
-				KMessageBox::error(this, i18n("Error loading %1: %2.", cr_tmp_file->fileName(), error), i18n("Couldn't open file"));
+				QMessageBox::critical(this, i18n("Error"), i18n("Error loading %1: %2.", cr_tmp_file->fileName(), error), i18n("Couldn't open file"));
 				config.sync();
 				foreach(KAutoSaveFile *stale, staleFiles) {
 					stale->remove();
@@ -4501,7 +4500,7 @@ bool Eqonomize::crashRecovery(QUrl url) {
 				return false;
 			}
 			if(!errors.isEmpty()) {
-				KMessageBox::error(this, errors);
+				QMessageBox::critical(this, i18n("Error"), errors);
 			}
 			current_url = url;
 			ActionFileReload->setEnabled(true);
@@ -4721,9 +4720,9 @@ void Eqonomize::fileSaveAs() {
 bool Eqonomize::askSave(bool before_exit) {
 	if(!modified) return true;
 	int b_save = 0;
-	if(before_exit && current_url.isValid()) b_save = KMessageBox::warningYesNoCancel(this, i18n("The current file has been modified. Do you want to save it?"), QString(), KStandardGuiItem::yes(), KStandardGuiItem::no(), KStandardGuiItem::cancel(), "saveOnExit");
-	else b_save = KMessageBox::warningYesNoCancel(this, i18n("The current file has been modified. Do you want to save it?"));
-	if(b_save == KMessageBox::Yes) {
+	if(before_exit && current_url.isValid()) b_save = QMessageBox::warning(this, i18n("Save file?"), i18n("The current file has been modified. Do you want to save it?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+	else b_save = QMessageBox::warning(this, i18n("Save file?"), i18n("The current file has been modified. Do you want to save it?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+	if(b_save == QMessageBox::Yes) {
 		if(!current_url.isValid()) {
 			QMimeDatabase db;
 			QUrl file_url = QFileDialog::getSaveFileUrl(this, QString(), QUrl::fromLocalFile("budget.eqz"), db.mimeTypeForName("application/x-eqonomize").filterString());
@@ -4741,7 +4740,7 @@ bool Eqonomize::askSave(bool before_exit) {
 			return saveURL(current_url);
 		}
 	}
-	if(b_save == KMessageBox::No) {
+	if(b_save == QMessageBox::No) {
 		if(cr_tmp_file) {
 			cr_tmp_file->releaseLock();
 			delete cr_tmp_file;
@@ -5142,9 +5141,9 @@ void Eqonomize::deleteAccount() {
 			do_delete = (dialog->exec() == QDialog::Accepted);
 		} else {
 			switch(account->type()) {
-				case ACCOUNT_TYPE_EXPENSES: {do_delete = (KMessageBox::warningYesNo(this, i18n("The category contains some expenses that will be removed. Do you still want to remove the category?"), i18n("Remove Category?")) == KMessageBox::Yes); break;}
-				case ACCOUNT_TYPE_INCOMES: {do_delete = (KMessageBox::warningYesNo(this, i18n("The category contains some incomes that will be removed. Do you still want to remove the category?"), i18n("Remove Category?")) == KMessageBox::Yes); break;}
-				case ACCOUNT_TYPE_ASSETS: {do_delete = (KMessageBox::warningYesNo(this, i18n("The account contains some transactions that will be removed. Do you still want to remove the account?"), i18n("Remove Account?")) == KMessageBox::Yes); break;}
+				case ACCOUNT_TYPE_EXPENSES: {do_delete = (QMessageBox::warning(this, i18n("Remove Category?"), i18n("The category contains some expenses that will be removed. Do you still want to remove the category?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes); break;}
+				case ACCOUNT_TYPE_INCOMES: {do_delete = (QMessageBox::warning(this, i18n("Remove Category?"), i18n("The category contains some incomes that will be removed. Do you still want to remove the category?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes); break;}
+				case ACCOUNT_TYPE_ASSETS: {do_delete = (QMessageBox::warning(this, i18n("Remove Account?"), i18n("The account contains some transactions that will be removed. Do you still want to remove the account?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes); break;}
 			}
 		}
 		if(do_delete) {

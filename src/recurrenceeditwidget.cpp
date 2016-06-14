@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                                        *
+ *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
  *   hanna_k@fmgirl.com                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,9 +41,8 @@
 #include <QVBoxLayout>
 #include <QDialogButtonBox>
 #include <QDateEdit>
+#include <QMessageBox>
 
-#include <kmessagebox.h>
-#include <kseparator.h>
 #include <kstdguiitem.h>
 #include <klocalizedstring.h>
 
@@ -149,7 +148,7 @@ void EditExceptionsDialog::onSelectionChanged() {
 void EditExceptionsDialog::addException() {
 	QDate date = dateEdit->date();
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		return;
 	}
 	QString sdate = QLocale().toString(date, QLocale::ShortFormat);
@@ -164,7 +163,7 @@ void EditExceptionsDialog::changeException() {
 	if(list.isEmpty()) return;
 	QDate date = dateEdit->date();
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		return;
 	}
 	QString sdate = QLocale().toString(date, QLocale::ShortFormat);
@@ -293,12 +292,12 @@ void EditRangeDialog::restoreValues() {
 bool EditRangeDialog::validValues() {
 	if(endDateButton->isChecked()) {
 		if(!endDateEdit->date().isValid()) {
-			KMessageBox::error(this, i18n("Invalid date."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 			endDateEdit->setFocus();
 			return false;
 		}
 		if(endDateEdit->date() < date) {
-			KMessageBox::error(this, i18n("End date before start date."));
+			QMessageBox::critical(this, i18n("Error"), i18n("End date before start date."));
 			endDateEdit->setFocus();
 			return false;
 		}
@@ -732,7 +731,7 @@ bool RecurrenceEditWidget::validValues() {
 				}
 			}
 			if(!b) {
-				KMessageBox::error(this, i18n("No day of week selected for weekly recurrence."));
+				QMessageBox::critical(this, i18n("Error"), i18n("No day of week selected for weekly recurrence."));
 				weeklyButtons[0]->setFocus();
 				return false;
 			}
@@ -744,7 +743,7 @@ bool RecurrenceEditWidget::validValues() {
 				int i_dayofmonth = monthlyDayCombo->currentIndex() + 1;
 				int i_month = date.month();
 				if(i_dayofmonth <= 31 && ((i_month == 2 && i_dayofmonth > 29) || (i_dayofmonth > 30 && (i_month == 4 || i_month == 6 || i_month == 9 || i_month == 11)))) {
-					KMessageBox::error(this, i18n("Selected day will never occur with selected frequency and start date."));
+					QMessageBox::critical(this, i18n("Error"), i18n("Selected day will never occur with selected frequency and start date."));
 					monthlyDayCombo->setFocus();
 					return false;
 				}
@@ -758,7 +757,7 @@ bool RecurrenceEditWidget::validValues() {
 				int i_month = yearlyMonthCombo->currentIndex() + 1;
 				if(IS_GREGORIAN_CALENDAR) {
 					if((i_month == 2 && i_dayofmonth > 29) || (i_dayofmonth > 30 && (i_month == 4 || i_month == 6 || i_month == 9 || i_month == 11))) {
-						KMessageBox::error(this, i18n("Selected day does not exist in selected month."));
+						QMessageBox::critical(this, i18n("Error"), i18n("Selected day does not exist in selected month."));
 						yearlyDayOfMonthEdit->setFocus();
 						return false;
 					} else if(i_month != 2 || i_dayofmonth < 29) {
@@ -771,7 +770,7 @@ bool RecurrenceEditWidget::validValues() {
 					int i = 10;
 					do {
 						if(i == 0) {
-							KMessageBox::error(this, i18n("Selected day will never occur with selected frequency and start date."));
+							QMessageBox::critical(this, i18n("Error"), i18n("Selected day will never occur with selected frequency and start date."));
 							yearlyDayOfMonthEdit->setFocus();
 							return false;
 						}
@@ -788,7 +787,7 @@ bool RecurrenceEditWidget::validValues() {
 					int i = 10;
 					do {
 						if(i == 0) {
-							KMessageBox::error(this, i18n("Selected day will never occur with selected frequency and start date."));
+							QMessageBox::critical(this, i18n("Error"), i18n("Selected day will never occur with selected frequency and start date."));
 							yearlyDayOfYearEdit->setFocus();
 							return false;
 						}

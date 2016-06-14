@@ -73,6 +73,12 @@ template<class type> class EqonomizeList : public QList<type> {
 			if(QList<type>::isEmpty()) return NULL;
 			return QList<type>::first();
 		}
+		type last() {
+			i_index = QList<type>::count();
+			if(QList<type>::isEmpty()) return NULL;
+			i_index--;
+			return QList<type>::at(i_index);
+		}
 		type getFirst() {
 			return QList<type>::first();
 		}

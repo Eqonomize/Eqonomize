@@ -34,18 +34,14 @@
 #include <QDialogButtonBox>
 #include <QAction>
 #include <QDateEdit>
+#include <QLineEdit>
+#include <QCompleter>
+#include <QStandardItemModel>
+#include <QStringList>
+#include <QComboBox>
+#include <QMessageBox>
 
-#include <kcombobox.h>
-#include <kconfig.h>
-#include <kdeversion.h>
-#include <klineedit.h>
-#include <kmessagebox.h>
-#include <kpagewidget.h>
-#include <kseparator.h>
-#include <kstandardaction.h>
-#include <kstdaccel.h>
 #include <kstdguiitem.h>
-#include <ktextedit.h>
 #include <klocalizedstring.h>
 
 #include "budget.h"
@@ -80,33 +76,33 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	dateToEdit->setDate(to_date);
 	if(transtype == TRANSACTION_TYPE_TRANSFER) {
 		filterLayout->addWidget(new QLabel(i18n("From:"), this), 2, 0);
-		fromCombo = new KComboBox(this);
+		fromCombo = new QComboBox(this);
 		fromCombo->setEditable(false);
 		filterLayout->addWidget(fromCombo, 2, 1);
 		filterLayout->addWidget(new QLabel(i18n("To:"), this), 2, 2);
-		toCombo = new KComboBox(this);
+		toCombo = new QComboBox(this);
 		toCombo->setEditable(false);
 		filterLayout->addWidget(toCombo, 2, 3);
 		minButton = new QCheckBox(i18n("Min amount:"), this);
 		maxButton = new QCheckBox(i18n("Max amount:"), this);
 	} else if(transtype == TRANSACTION_TYPE_INCOME) {
 		filterLayout->addWidget(new QLabel(i18n("Category:"), this), 2, 0);
-		fromCombo = new KComboBox(this);
+		fromCombo = new QComboBox(this);
 		fromCombo->setEditable(false);
 		filterLayout->addWidget(fromCombo, 2, 1);
 		filterLayout->addWidget(new QLabel(i18n("To account:"), this), 2, 2);
-		toCombo = new KComboBox(this);
+		toCombo = new QComboBox(this);
 		toCombo->setEditable(false);
 		filterLayout->addWidget(toCombo, 2, 3);
 		minButton = new QCheckBox(i18n("Min income:"), this);
 		maxButton = new QCheckBox(i18n("Max income:"), this);
 	} else {
 		filterLayout->addWidget(new QLabel(i18n("Category:"), this), 2, 0);
-		toCombo = new KComboBox(this);
+		toCombo = new QComboBox(this);
 		toCombo->setEditable(false);
 		filterLayout->addWidget(toCombo, 2, 1);
 		filterLayout->addWidget(new QLabel(i18n("From account:"), this), 2, 2);
-		fromCombo = new KComboBox(this);
+		fromCombo = new QComboBox(this);
 		fromCombo->setEditable(false);
 		filterLayout->addWidget(fromCombo, 2, 3);
 		minButton = new QCheckBox(i18n("Min cost:"), this);
@@ -124,14 +120,20 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	maxEdit->setSizePolicy(sp);
 	filterLayout->addWidget(maxEdit, 1, 3);
 	filterLayout->addWidget(new QLabel(i18n("Description:"), this), 3, 0);
-	descriptionEdit = new KLineEdit(this);
-	descriptionEdit->setCompletionMode(KCompletion::CompletionPopup);
+	descriptionEdit = new QLineEdit(this);
+	descriptionEdit->setCompleter(new QCompleter(this));
+	descriptionEdit->completer()->setModel(new QStandardItemModel(this));
+	descriptionEdit->completer()->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+	descriptionEdit->completer()->setCaseSensitivity(Qt::CaseInsensitive);
 	filterLayout->addWidget(descriptionEdit, 3, 1);
 	if(b_extra && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME)) {
 		if(transtype == TRANSACTION_TYPE_INCOME) filterLayout->addWidget(new QLabel(i18n("Payer:"), this), 3, 2);
 		else filterLayout->addWidget(new QLabel(i18n("Payee:"), this), 3, 2);
-		payeeEdit = new KLineEdit(this);
-		payeeEdit->setCompletionMode(KCompletion::CompletionPopup);
+		payeeEdit = new QLineEdit(this);
+		payeeEdit->setCompleter(new QCompleter(this));
+		payeeEdit->completer()->setModel(new QStandardItemModel(this));
+		payeeEdit->completer()->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+		payeeEdit->completer()->setCaseSensitivity(Qt::CaseInsensitive);
 		filterLayout->addWidget(payeeEdit, 3, 3);
 	}
 	QHBoxLayout *filterExcludeLayout = new QHBoxLayout();
@@ -158,9 +160,6 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 
 	fromCombo->addItem(i18n("All"));
 	toCombo->addItem(i18n("All"));
-
-	descriptionEdit->completionObject()->setIgnoreCase(true);
-	if(payeeEdit) payeeEdit->completionObject()->setIgnoreCase(true);
 
 	if(payeeEdit) {
 		connect(payeeEdit, SIGNAL(textChanged(const QString&)), this, SIGNAL(filter()));
@@ -495,70 +494,114 @@ QDate TransactionFilterWidget::endDate() {
 	return to_date;
 }
 void TransactionFilterWidget::transactionsReset() {
-	descriptionEdit->completionObject()->clear();
-	if(payeeEdit) payeeEdit->completionObject()->clear();
+	((QStandardItemModel*) descriptionEdit->completer()->model())->clear();
+	if(payeeEdit) ((QStandardItemModel*) payeeEdit->completer()->model())->clear();
+	QStringList payee_list;
+	QStringList descr_list;
 	switch(transtype) {
 		case TRANSACTION_TYPE_EXPENSE: {
-			Expense *expense = budget->expenses.first();
+			Expense *expense = budget->expenses.last();
 			while(expense) {
-				if(!expense->description().isEmpty()) {
-					descriptionEdit->completionObject()->addItem(expense->description());
+				if(!expense->description().isEmpty() && !descr_list.contains(expense->description(), Qt::CaseInsensitive)) {
+					QList<QStandardItem*> row;
+					row << new QStandardItem(expense->description());
+					row << new QStandardItem(expense->description().toLower());
+					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+					descr_list << expense->description().toLower();
 				}
-				if(payeeEdit && !expense->payee().isEmpty()) {
-					payeeEdit->completionObject()->addItem(expense->payee());
+				if(payeeEdit && !expense->payee().isEmpty() && !payee_list.contains(expense->payee(), Qt::CaseInsensitive)) {
+					QList<QStandardItem*> row;
+					row << new QStandardItem(expense->payee());
+					row << new QStandardItem(expense->payee().toLower());
+					((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
+					payee_list << expense->payee().toLower();
 				}
-				expense = budget->expenses.next();
+				expense = budget->expenses.previous();
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
-			Income *income = budget->incomes.first();
+			Income *income = budget->incomes.last();
 			while(income) {
-				if(!income->description().isEmpty()) {
-					descriptionEdit->completionObject()->addItem(income->description());
+				if(!income->security() && !income->description().isEmpty() && !descr_list.contains(income->description(), Qt::CaseInsensitive)) {
+					QList<QStandardItem*> row;
+					row << new QStandardItem(income->description());
+					row << new QStandardItem(income->description().toLower());
+					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+					descr_list << income->description().toLower();
 				}
-				if(payeeEdit && !income->payer().isEmpty()) {
-					payeeEdit->completionObject()->addItem(income->payer());
+				if(payeeEdit && !income->security() && !income->payer().isEmpty() && !payee_list.contains(income->payer(), Qt::CaseInsensitive)) {
+					QList<QStandardItem*> row;
+					row << new QStandardItem(income->payer());
+					row << new QStandardItem(income->payer().toLower());
+					((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
+					payee_list << income->payer().toLower();
 				}
-				income = budget->incomes.next();
+				income = budget->incomes.previous();
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_TRANSFER: {
-			Transfer *transfer= budget->transfers.first();
+			Transfer *transfer= budget->transfers.last();
 			while(transfer) {
-				if(!transfer->description().isEmpty()) {
-					descriptionEdit->completionObject()->addItem(transfer->description());
+				if(!transfer->description().isEmpty() && !descr_list.contains(transfer->description(), Qt::CaseInsensitive)) {
+					QList<QStandardItem*> row;
+					row << new QStandardItem(transfer->description());
+					row << new QStandardItem(transfer->description().toLower());
+					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+					descr_list << transfer->description().toLower();
 				}
-				transfer = budget->transfers.next();
+				transfer = budget->transfers.previous();
 			}
 			break;
 		}
+		default: {}
 	}
+	((QStandardItemModel*) descriptionEdit->completer()->model())->sort(1);
+	if(payeeEdit) ((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
 }
 void TransactionFilterWidget::transactionAdded(Transaction *trans) {
 	if(descriptionEdit && trans->type() == transtype && (transtype != TRANSACTION_TYPE_INCOME || !((Income*) trans)->security())) {
-		if(!trans->description().isEmpty()) descriptionEdit->completionObject()->addItem(trans->description());
-		if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().isEmpty()) payeeEdit->completionObject()->addItem(((Expense*) trans)->payee());
-		if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().isEmpty()) payeeEdit->completionObject()->addItem(((Income*) trans)->payer());
+		if(!trans->description().isEmpty()) {
+			if(((QStandardItemModel*) descriptionEdit->completer()->model())->findItems(trans->description().toLower(), Qt::MatchExactly, 1).isEmpty()) {
+				QList<QStandardItem*> row;
+				row << new QStandardItem(trans->description());
+				row << new QStandardItem(trans->description().toLower());
+				((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+				((QStandardItemModel*) descriptionEdit->completer()->model())->sort(1);
+			}
+		}
+		if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().isEmpty()) {
+			if(((QStandardItemModel*) payeeEdit->completer()->model())->findItems(((Expense*) trans)->payee().toLower(), Qt::MatchExactly, 1).isEmpty()) {
+				QList<QStandardItem*> row;
+				row << new QStandardItem(((Expense*) trans)->payee());
+				row << new QStandardItem(((Expense*) trans)->payee().toLower());
+				((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
+				((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
+			}
+		} else if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !((Income*) trans)->security() && !((Income*) trans)->payer().isEmpty()) {
+			if(((QStandardItemModel*) payeeEdit->completer()->model())->findItems(((Income*) trans)->payer().toLower(), Qt::MatchExactly, 1).isEmpty()) {
+				QList<QStandardItem*> row;
+				row << new QStandardItem(((Income*) trans)->payer());
+				row << new QStandardItem(((Income*) trans)->payer().toLower());
+				((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
+				((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
+			}
+		}
 	}
 }
 void TransactionFilterWidget::transactionModified(Transaction *trans) {
-	if(descriptionEdit && trans->type() == transtype && (transtype != TRANSACTION_TYPE_INCOME || !((Income*) trans)->security())) {
-		if(!trans->description().isEmpty()) descriptionEdit->completionObject()->addItem(trans->description());
-		if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().isEmpty()) payeeEdit->completionObject()->addItem(((Expense*) trans)->payee());
-		if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().isEmpty()) payeeEdit->completionObject()->addItem(((Income*) trans)->payer());
-	}
+	transactionAdded(trans);
 }
 void TransactionFilterWidget::toChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		error = true;
 	}
 	if(!error && dateFromEdit->date() > date) {
 		if(dateFromButton->isChecked()) {
-			KMessageBox::error(this, i18n("To date is before from date."));
+			QMessageBox::critical(this, i18n("Error"), i18n("To date is before from date."));
 		}
 		from_date = date;
 		dateFromEdit->blockSignals(true);
@@ -579,11 +622,11 @@ void TransactionFilterWidget::toChanged(const QDate &date) {
 void TransactionFilterWidget::fromChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		error = true;
 	}
 	if(!error && date > dateToEdit->date()) {
-		KMessageBox::error(this, i18n("From date is after to date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("From date is after to date."));
 		to_date = date;
 		dateToEdit->blockSignals(true);
 		dateToEdit->setDate(to_date);

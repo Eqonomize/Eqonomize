@@ -46,13 +46,13 @@
 #include <QTemporaryFile>
 #include <QMimeDatabase>
 #include <QMimeType>
+#include <QMessageBox>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <khtml_part.h>
 #include <khtmlview.h>
 #include <kconfig.h>
-#include <kmessagebox.h>
 #include <kstdguiitem.h>
 #include <klocalizedstring.h>
 #include <kio/filecopyjob.h>
@@ -272,11 +272,11 @@ void OverTimeReport::save() {
 	if(url.isEmpty() && url.isValid()) return;
 	if(url.isLocalFile()) {
 		if(QFile::exists(url.toLocalFile())) {
-			if(KMessageBox::warningYesNo(this, i18n("The selected file already exists. Would you like to overwrite the old copy?")) != KMessageBox::Yes) return;
+			if(QMessageBox::warning(this, i18n("Overwrite file?"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
 		}
 		QFileInfo info(url.toLocalFile());
 		if(info.isDir()) {
-			KMessageBox::error(this, i18n("You selected a directory!"));
+			QMessageBox::critical(this, i18n("Error"), i18n("You selected a directory!"));
 			return;
 		}
 		QSaveFile ofile(url.toLocalFile());
@@ -284,14 +284,14 @@ void OverTimeReport::save() {
 		ofile.setPermissions((QFile::Permissions) 0x0660);
 		if(!ofile.isOpen()) {
 			ofile.cancelWriting();
-			KMessageBox::error(this, i18n("Couldn't open file for writing."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
 			return;
 		}
 		QTextStream outf(&ofile);
 		outf.setCodec("UTF-8");
 		outf << source;
 		if(!ofile.commit()) {
-			KMessageBox::error(this, i18n("Error while writing file; file was not saved."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
 			return;
 		}
 		return;
@@ -307,7 +307,7 @@ void OverTimeReport::save() {
 	KJobWidgets::setWindow(job, this);
 	if(!job->exec()) {
 		if(job->error()) {
-			KMessageBox::error(this, i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
+			QMessageBox::critical(this, i18n("Error"), i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
 		}
 	}
 

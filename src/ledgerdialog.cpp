@@ -44,14 +44,15 @@
 #include <QSaveFile>
 #include <QTemporaryFile>
 #include <QMimeDatabase>
+#include <QMessageBox>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
+#include <kstdguiitem.h>
 #include <kdeversion.h>
 #include <kfileitem.h>
 #include <khtml_part.h>
 #include <khtmlview.h>
-#include <kmessagebox.h>
 #include <klocalizedstring.h>
 #include <kio/filecopyjob.h>
 #include <kjobwidgets.h>
@@ -239,7 +240,7 @@ void LedgerDialog::updateAccounts() {
 }
 void LedgerDialog::saveView() {
 	if(transactionsView->topLevelItemCount() == 0) {
-		KMessageBox::error(this, i18n("Empty transaction list."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Empty transaction list."));
 		return;
 	}
 	char filetype = 'h';
@@ -252,11 +253,11 @@ void LedgerDialog::saveView() {
 	if(url.isEmpty() && url.isValid()) return;
 	if(url.isLocalFile()) {
 		if(QFile::exists(url.toLocalFile())) {
-			if(KMessageBox::warningYesNo(this, i18n("The selected file already exists. Would you like to overwrite the old copy?")) != KMessageBox::Yes) return;
+			if(QMessageBox::warning(this, i18n("Overwrite file?"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
 		}
 		QFileInfo info(url.toLocalFile());
 		if(info.isDir()) {
-			KMessageBox::error(this, i18n("You selected a directory!"));
+			QMessageBox::critical(this, i18n("Error"), i18n("You selected a directory!"));
 			return;
 		}
 		QSaveFile ofile(url.toLocalFile());
@@ -264,13 +265,13 @@ void LedgerDialog::saveView() {
 		ofile.setPermissions((QFile::Permissions) 0x0660);
 		if(!ofile.isOpen()) {
 			ofile.cancelWriting();
-			KMessageBox::error(this, i18n("Couldn't open file for writing."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
 			return;
 		}
 		QTextStream stream(&ofile);
 		exportList(stream, filetype);
 		if(!ofile.commit()) {
-			KMessageBox::error(this, i18n("Error while writing file; file was not saved."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
 			return;
 		}
 		return;
@@ -285,7 +286,7 @@ void LedgerDialog::saveView() {
 		KJobWidgets::setWindow(job, this);
 		if(!job->exec()) {
 			if(job->error()) {
-				KMessageBox::error(this, i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
+				QMessageBox::critical(this, i18n("Error"), i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
 			}
 		}
 	}
@@ -359,7 +360,7 @@ bool LedgerDialog::exportList(QTextStream &outf, int fileformat) {
 }
 void LedgerDialog::printView() {
 	if(transactionsView->topLevelItemCount() == 0) {
-		KMessageBox::error(this, i18n("Empty transaction list."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Empty transaction list."));
 		return;
 	}
 	QString str;
@@ -448,7 +449,7 @@ void LedgerDialog::newSplit() {
 void LedgerDialog::remove() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() > 1) {
-		if(KMessageBox::warningContinueCancel(this, i18n("Are you sure you want to delete all (%1) selected transactions?", selection.count())) == KMessageBox::Cancel) {
+		if(QMessageBox::warning(this, i18n("Delete transactions?"), i18n("Are you sure you want to delete all (%1) selected transactions?", selection.count()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Ok) {
 			return;
 		}
 	}
@@ -552,25 +553,25 @@ void LedgerDialog::edit() {
 				LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
 				if(!warned1 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL)) {
 					if(dialog->valueButton && dialog->valueButton->isChecked()) {
-						KMessageBox::error(this, i18n("Cannot set the value of security transactions using the dialog for modifying multiple transactions."));
+						QMessageBox::critical(this, i18n("Error"), i18n("Cannot set the value of security transactions using the dialog for modifying multiple transactions."));
 						warned1 = true;
 					}
 				}
 				if(!warned2 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
 					if(dialog->descriptionButton->isChecked()) {
-						KMessageBox::error(this, i18n("Cannot change description of dividends and security transactions."));
+						QMessageBox::critical(this, i18n("Error"), i18n("Cannot change description of dividends and security transactions."));
 						warned2 = true;
 					}
 				}
 				if(!warned3 && dialog->payeeButton && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
 					if(dialog->payeeButton->isChecked()) {
-						KMessageBox::error(this, i18n("Cannot change payer of dividends and security transactions."));
+						QMessageBox::critical(this, i18n("Error"), i18n("Cannot change payer of dividends and security transactions."));
 						warned3 = true;
 					}
 				}
 				if(!warned4 && i->transaction()->parentSplit()) {
 					if(dialog->dateButton->isChecked()) {
-						KMessageBox::error(this, i18n("Cannot change date of transactions that are part of a split transaction."));
+						QMessageBox::critical(this, i18n("Error"), i18n("Cannot change date of transactions that are part of a split transaction."));
 						warned4 = true;
 					}
 				}

@@ -39,17 +39,12 @@
 #include <QFileDialog>
 #include <QAction>
 #include <QDateEdit>
+#include <QCompleter>
+#include <QStandardItemModel>
+#include <QStringList>
+#include <QKeyEvent>
+#include <QMessageBox>
 
-#include <KLineEdit>
-#include <kconfig.h>
-#include <kdeversion.h>
-#include <kmessagebox.h>
-#include <kpagewidget.h>
-#include <kseparator.h>
-#include <kstandardaction.h>
-#include <kstdaccel.h>
-#include <kstdguiitem.h>
-#include <ktextedit.h>
 #include <klocalizedstring.h>
 
 #include "budget.h"
@@ -177,8 +172,10 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			}
 		} else {
 			editLayout->addWidget(new QLabel(i18n("Description:"), this), TEROWCOL(i, 0));
-			descriptionEdit = new KLineEdit(this);
-			descriptionEdit->setCompletionMode(KCompletion::CompletionPopup);
+			descriptionEdit = new QLineEdit(this);
+			descriptionEdit->setCompleter(new QCompleter(this));
+			descriptionEdit->completer()->setModel(new QStandardItemModel(this));
+			descriptionEdit->completer()->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
 			editLayout->addWidget(descriptionEdit, TEROWCOL(i, 1));
 		}
 		i++;
@@ -240,8 +237,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			}
 			if(b_extra && !select_security && !security) {
 				editLayout->addWidget(new QLabel(i18n("Payer:"), this), TEROWCOL(i, 0));
-				payeeEdit = new KLineEdit(this);
-				payeeEdit->setCompletionMode(KCompletion::CompletionPopup);
+				payeeEdit = new QLineEdit(this);
 				editLayout->addWidget(payeeEdit, TEROWCOL(i, 1));
 				i++;
 			}
@@ -282,8 +278,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			}
 			if(b_extra) {
 				editLayout->addWidget(new QLabel(i18n("Payee:"), this), TEROWCOL(i, 0));
-				payeeEdit = new KLineEdit(this);
-				payeeEdit->setCompletionMode(KCompletion::CompletionPopup);
+				payeeEdit = new QLineEdit(this);
 				editLayout->addWidget(payeeEdit, TEROWCOL(i, 1));
 				i++;
 			}
@@ -298,8 +293,15 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	editVLayout->addStretch(1);
 
 	description_changed = false;
-	if(descriptionEdit) descriptionEdit->completionObject()->setIgnoreCase(true);
-	if(payeeEdit) payeeEdit->completionObject()->setIgnoreCase(true);
+	if(descriptionEdit) {
+		descriptionEdit->completer()->setCaseSensitivity(Qt::CaseInsensitive);
+	}
+	if(payeeEdit) {
+		payeeEdit->setCompleter(new QCompleter(this));
+		payeeEdit->completer()->setModel(new QStandardItemModel(this));
+		payeeEdit->completer()->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+		payeeEdit->completer()->setCaseSensitivity(Qt::CaseInsensitive);
+	}
 
 	if(dateEdit) connect(dateEdit, SIGNAL(dateChanged(const QDate&)), this, SIGNAL(dateChanged(const QDate&)));
 	if(b_sec) {
@@ -456,7 +458,8 @@ void TransactionEditWidget::descriptionChanged(const QString&) {
 }
 void TransactionEditWidget::setDefaultValue() {
 	if(descriptionEdit && description_changed && !descriptionEdit->text().isEmpty() && valueEdit && valueEdit->value() == 0.0) {
-		Transaction *trans = default_values[descriptionEdit->text()];
+		Transaction *trans = NULL;
+		if(default_values.contains(descriptionEdit->text().toLower())) trans = default_values[descriptionEdit->text().toLower()];
 		if(trans) {
 			valueEdit->setValue(trans->value());
 			if(toCombo) {
@@ -633,102 +636,116 @@ void TransactionEditWidget::updateAccounts(Account *exclude_account) {
 void TransactionEditWidget::transactionAdded(Transaction *trans) {
 	if(descriptionEdit && trans->type() == transtype && (transtype != TRANSACTION_TYPE_INCOME || !((Income*) trans)->security())) {
 		if(!trans->description().isEmpty()) {
-			descriptionEdit->completionObject()->addItem(trans->description());
-			default_values[trans->description()] = trans;
+			if(!default_values.contains(trans->description().toLower())) {
+				QList<QStandardItem*> row;
+				row << new QStandardItem(trans->description());
+				row << new QStandardItem(trans->description().toLower());
+				((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+				((QStandardItemModel*) descriptionEdit->completer()->model())->sort(1);
+			}
+			default_values[trans->description().toLower()] = trans;
 		}
-		if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().isEmpty()) payeeEdit->completionObject()->addItem(((Expense*) trans)->payee());
-		if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !((Income*) trans)->security() && !((Income*) trans)->payer().isEmpty()) payeeEdit->completionObject()->addItem(((Income*) trans)->payer());
+		if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().isEmpty()) {
+			if(((QStandardItemModel*) payeeEdit->completer()->model())->findItems(((Expense*) trans)->payee().toLower(), Qt::MatchExactly, 1).isEmpty()) {
+				QList<QStandardItem*> row;
+				row << new QStandardItem(((Expense*) trans)->payee());
+				row << new QStandardItem(((Expense*) trans)->payee().toLower());
+				((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
+				((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
+			}
+		} else if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !((Income*) trans)->security() && !((Income*) trans)->payer().isEmpty()) {
+			if(((QStandardItemModel*) payeeEdit->completer()->model())->findItems(((Income*) trans)->payer().toLower(), Qt::MatchExactly, 1).isEmpty()) {
+				QList<QStandardItem*> row;
+				row << new QStandardItem(((Income*) trans)->payer());
+				row << new QStandardItem(((Income*) trans)->payer().toLower());
+				((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
+				((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
+			}
+		}
 	}
 }
 void TransactionEditWidget::transactionModified(Transaction *trans) {
-	if(descriptionEdit && trans->type() == transtype && (transtype != TRANSACTION_TYPE_INCOME || !((Income*) trans)->security())) {
-		if(!trans->description().isEmpty()) {
-			descriptionEdit->completionObject()->addItem(trans->description());
-			default_values[trans->description()] = trans;
-		}
-		if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().isEmpty()) payeeEdit->completionObject()->addItem(((Expense*) trans)->payee());
-		if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !((Income*) trans)->security() && !((Income*) trans)->payer().isEmpty()) payeeEdit->completionObject()->addItem(((Income*) trans)->payer());
-	}
+	transactionAdded(trans);
 }
 bool TransactionEditWidget::checkAccounts() {
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
 			if(fromCombo && fromCombo->count() == 0) {
-				KMessageBox::error(this, i18n("No suitable account available."));
+				QMessageBox::critical(this, i18n("Error"), i18n("No suitable account available."));
 				return false;
 			}
 			if(toCombo && toCombo->count() == 0) {
-				KMessageBox::error(this, i18n("No suitable account available."));
+				QMessageBox::critical(this, i18n("Error"), i18n("No suitable account available."));
 				return false;
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
 			if(fromCombo && fromCombo->count() == 0) {
-				KMessageBox::error(this, i18n("No income category available."));
+				QMessageBox::critical(this, i18n("Error"), i18n("No income category available."));
 				return false;
 			}
 			if(toCombo && toCombo->count() == 0) {
-				KMessageBox::error(this, i18n("No suitable account available."));
+				QMessageBox::critical(this, i18n("Error"), i18n("No suitable account available."));
 				return false;
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_BUY: {
 			if(fromCombo && fromCombo->count() == 0) {
-				KMessageBox::error(this, i18n("No suitable account or income category available."));
+				QMessageBox::critical(this, i18n("Error"), i18n("No suitable account or income category available."));
 				return false;
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
 			if(toCombo && toCombo->count() == 0) {
-				KMessageBox::error(this, i18n("No suitable account available."));
+				QMessageBox::critical(this, i18n("Error"), i18n("No suitable account available."));
 				return false;
 			}
 			break;
 		}
 		default: {
 			if(toCombo && toCombo->count() == 0) {
-				KMessageBox::error(this, i18n("No expense category available."));
+				QMessageBox::critical(this, i18n("Error"), i18n("No expense category available."));
 				return false;
 			}
 			if(fromCombo && fromCombo->count() == 0) {
-				KMessageBox::error(this, i18n("No suitable account available."));
+				QMessageBox::critical(this, i18n("Error"), i18n("No suitable account available."));
 				return false;
 			}
 			break;
 		}
 	}
 	if(securityCombo && securityCombo->count() == 0) {
-		KMessageBox::error(this, i18n("No security available."));
+		QMessageBox::critical(this, i18n("Error"), i18n("No security available."));
 		return false;
 	}
 	return true;
 }
 bool TransactionEditWidget::validValues(bool) {
 	if(dateEdit && !dateEdit->date().isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		dateEdit->setFocus();
 		dateEdit->selectAll();
 		return false;
 	}
 	if(!checkAccounts()) return false;
 	if(toCombo && fromCombo && tos[toCombo->currentIndex()] == froms[fromCombo->currentIndex()]) {
-		KMessageBox::error(this, i18n("Cannot transfer money to and from the same account."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Cannot transfer money to and from the same account."));
 		return false;
 	}
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
 			if((toCombo && tos[toCombo->currentIndex()]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) tos[toCombo->currentIndex()])->accountType() == ASSETS_TYPE_SECURITIES) || (fromCombo && froms[fromCombo->currentIndex()]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) froms[fromCombo->currentIndex()])->accountType() == ASSETS_TYPE_SECURITIES)) {
-				KMessageBox::error(this, i18n("Cannot create a regular transfer to/from a securities account."));
+				QMessageBox::critical(this, i18n("Error"), i18n("Cannot create a regular transfer to/from a securities account."));
 				return false;
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
 			if(toCombo && tos[toCombo->currentIndex()]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) tos[toCombo->currentIndex()])->accountType() == ASSETS_TYPE_SECURITIES) {
-				KMessageBox::error(this, i18n("Cannot create a regular income to a securities account."));
+				QMessageBox::critical(this, i18n("Error"), i18n("Cannot create a regular income to a securities account."));
 				return false;
 			}
 			break;
@@ -736,19 +753,19 @@ bool TransactionEditWidget::validValues(bool) {
 		case TRANSACTION_TYPE_SECURITY_BUY: {}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
 			if(sharesEdit && sharesEdit->value() == 0.0) {
-				KMessageBox::error(this, i18n("Zero shares not allowed."));
+				QMessageBox::critical(this, i18n("Error"), i18n("Zero shares not allowed."));
 				return false;
 			}
 			if(valueEdit && valueEdit->value() == 0.0) {
-				KMessageBox::error(this, i18n("Zero value not allowed."));
+				QMessageBox::critical(this, i18n("Error"), i18n("Zero value not allowed."));
 				return false;
 			}
 			if(quotationEdit && quotationEdit->value() == 0.0) {
-				KMessageBox::error(this, i18n("Zero price per share not allowed."));
+				QMessageBox::critical(this, i18n("Error"), i18n("Zero price per share not allowed."));
 				return false;
 			}
 			/*if(ask_questions && sharesEdit && selectedSecurity() && sharesEdit->value() > selectedSecurity()->shares(dateEdit->date())) {
-				if(KMessageBox::warningContinueCancel(this, i18n("Number of sold shares are greater than available shares at selected date. Do you want to create the transaction nevertheless?")) == KMessageBox::Cancel) {
+				if(QMessageBox::warning(this, i18n("Warning"), i18n("Number of sold shares are greater than available shares at selected date. Do you want to create the transaction nevertheless?"), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel) {
 					return false;
 				}
 			}*/
@@ -756,7 +773,7 @@ bool TransactionEditWidget::validValues(bool) {
 		}
 		default: {
 			if(fromCombo && froms[fromCombo->currentIndex()]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) froms[fromCombo->currentIndex()])->accountType() == ASSETS_TYPE_SECURITIES) {
-				KMessageBox::error(this, i18n("Cannot create a regular expense from a securities account."));
+				QMessageBox::critical(this, i18n("Error"), i18n("Cannot create a regular expense from a securities account."));
 				return false;
 			}
 			break;
@@ -858,38 +875,39 @@ Transaction *TransactionEditWidget::createTransaction() {
 	return trans;
 }
 void TransactionEditWidget::transactionRemoved(Transaction *trans) {
-	if(descriptionEdit && trans->type() == transtype && !trans->description().isEmpty() && default_values[trans->description()] == trans) {
+	if(descriptionEdit && trans->type() == transtype && !trans->description().isEmpty() && default_values.contains(trans->description().toLower()) && default_values[trans->description().toLower()] == trans) {
+		QString lower_description = trans->description().toLower();
 		switch(transtype) {
 			case TRANSACTION_TYPE_EXPENSE: {
-				Expense *expense = budget->expenses.first();
+				Expense *expense = budget->expenses.last();
 				while(expense) {
-					if(expense != trans && expense->description() == trans->description()) {
-						default_values[expense->description()] = expense;
+					if(expense != trans && expense->description().toLower() == lower_description) {
+						default_values[expense->description().toLower()] = expense;
 						break;
 					}
-					expense = budget->expenses.next();
+					expense = budget->expenses.previous();
 				}
 				break;
 			}
 			case TRANSACTION_TYPE_INCOME: {
-				Income *income = budget->incomes.first();
+				Income *income = budget->incomes.last();
 				while(income) {
-					if(income != trans && income->description() == trans->description()) {
-						default_values[income->description()] = income;
+					if(income != trans && income->description() == lower_description) {
+						default_values[income->description().toLower()] = income;
 						break;
 					}
-					income = budget->incomes.next();
+					income = budget->incomes.previous();
 				}
 				break;
 			}
 			case TRANSACTION_TYPE_TRANSFER: {
-				Transfer *transfer= budget->transfers.first();
+				Transfer *transfer= budget->transfers.last();
 				while(transfer) {
-					if(transfer != trans && transfer->description() == trans->description()) {
-						default_values[transfer->description()] = transfer;
+					if(transfer != trans && transfer->description() == lower_description) {
+						default_values[transfer->description().toLower()] = transfer;
 						break;
 					}
-					transfer = budget->transfers.next();
+					transfer = budget->transfers.previous();
 				}
 				break;
 			}
@@ -899,51 +917,71 @@ void TransactionEditWidget::transactionRemoved(Transaction *trans) {
 }
 void TransactionEditWidget::transactionsReset() {
 	if(!descriptionEdit) return;
-	descriptionEdit->completionObject()->clear();
-	if(payeeEdit) payeeEdit->completionObject()->clear();
+	((QStandardItemModel*) descriptionEdit->completer()->model())->clear();
+	if(payeeEdit) ((QStandardItemModel*) payeeEdit->completer()->model())->clear();
 	default_values.clear();
+	QStringList payee_list;
 	switch(transtype) {
 		case TRANSACTION_TYPE_EXPENSE: {
-			Expense *expense = budget->expenses.first();
+			Expense *expense = budget->expenses.last();
 			while(expense) {
-				if(!expense->description().isEmpty()) {
-					descriptionEdit->completionObject()->addItem(expense->description());
-					default_values[expense->description()] = expense;
+				if(!expense->description().isEmpty() && !default_values.contains(expense->description().toLower())) {
+					QList<QStandardItem*> row;
+					row << new QStandardItem(expense->description());
+					row << new QStandardItem(expense->description().toLower());
+					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+					default_values[expense->description().toLower()] = expense;
 				}
-				if(payeeEdit && !expense->payee().isEmpty()) {
-					payeeEdit->completionObject()->addItem(expense->payee());
+				if(payeeEdit && !expense->payee().isEmpty() && !payee_list.contains(expense->payee(), Qt::CaseInsensitive)) {
+					QList<QStandardItem*> row;
+					row << new QStandardItem(expense->payee());
+					row << new QStandardItem(expense->payee().toLower());
+					((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
+					payee_list << expense->payee().toLower();
 				}
-				expense = budget->expenses.next();
+				expense = budget->expenses.previous();
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
-			Income *income = budget->incomes.first();
+			Income *income = budget->incomes.last();
 			while(income) {
-				if(!income->security() && !income->description().isEmpty()) {
-					descriptionEdit->completionObject()->addItem(income->description());
-					default_values[income->description()] = income;
+				if(!income->security() && !income->description().isEmpty() && !default_values.contains(income->description().toLower())) {
+					QList<QStandardItem*> row;
+					row << new QStandardItem(income->description());
+					row << new QStandardItem(income->description().toLower());
+					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+					default_values[income->description().toLower()] = income;
 				}
-				if(payeeEdit && !income->security() && !income->payer().isEmpty()) {
-					payeeEdit->completionObject()->addItem(income->payer());
+				if(payeeEdit && !income->security() && !income->payer().isEmpty() && !payee_list.contains(income->payer(), Qt::CaseInsensitive)) {
+					QList<QStandardItem*> row;
+					row << new QStandardItem(income->payer());
+					row << new QStandardItem(income->payer().toLower());
+					((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
+					payee_list << income->payer().toLower();
 				}
-				income = budget->incomes.next();
+				income = budget->incomes.previous();
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_TRANSFER: {
-			Transfer *transfer= budget->transfers.first();
+			Transfer *transfer= budget->transfers.last();
 			while(transfer) {
-				if(!transfer->description().isEmpty()) {
-					descriptionEdit->completionObject()->addItem(transfer->description());
-					default_values[transfer->description()] = transfer;
+				if(!transfer->description().isEmpty() && !default_values.contains(transfer->description().toLower())) {
+					QList<QStandardItem*> row;
+					row << new QStandardItem(transfer->description());
+					row << new QStandardItem(transfer->description().toLower());
+					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+					default_values[transfer->description().toLower()] = transfer;
 				}
-				transfer = budget->transfers.next();
+				transfer = budget->transfers.previous();
 			}
 			break;
 		}
 		default: {}
 	}
+	((QStandardItemModel*) descriptionEdit->completer()->model())->sort(1);
+	if(payeeEdit) ((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
 }
 void TransactionEditWidget::setCurrentToItem(int index) {
 	if(toCombo) toCombo->setCurrentIndex(index);
@@ -1274,7 +1312,7 @@ bool MultipleTransactionsEditDialog::checkAccounts() {
 		case TRANSACTION_TYPE_INCOME: {
 			if(!categoryButton->isChecked()) return true;
 			if(categoryCombo->count() == 0) {
-				KMessageBox::error(this, i18n("No income category available."));
+				QMessageBox::critical(this, i18n("Error"), i18n("No income category available."));
 				return false;
 			}
 			break;
@@ -1282,7 +1320,7 @@ bool MultipleTransactionsEditDialog::checkAccounts() {
 		case TRANSACTION_TYPE_EXPENSE: {
 			if(!categoryButton->isChecked()) return true;
 			if(categoryCombo->count() == 0) {
-				KMessageBox::error(this, i18n("No expense category available."));
+				QMessageBox::critical(this, i18n("Error"), i18n("No expense category available."));
 				return false;
 			}
 			break;
@@ -1293,7 +1331,7 @@ bool MultipleTransactionsEditDialog::checkAccounts() {
 }
 bool MultipleTransactionsEditDialog::validValues() {
 	if(dateButton->isChecked() && !dateEdit->date().isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		dateEdit->setFocus();
 		dateEdit->selectAll();
 		return false;

@@ -41,9 +41,9 @@
 #include <QDialogButtonBox>
 #include <QSaveFile>
 #include <QTemporaryFile>
+#include <QMessageBox>
 
-#include <KLineEdit>
-#include <kmessagebox.h>
+#include <klineedit.h>
 #include <kurlrequester.h>
 #include <klocalizedstring.h>
 #include <kio/filecopyjob.h>
@@ -259,18 +259,18 @@ void ImportQIFDialog::nextClicked() {
 		QUrl url = fileEdit->url();
 		if(!b_page1) {
 			if(url.isEmpty()) {
-				KMessageBox::error(this, i18n("A file must be selected."));
+				QMessageBox::critical(this, i18n("Error"), i18n("A file must be selected."));
 				fileEdit->setFocus();
 				return;
 			}
 			if(!url.isValid()) {
 				QFileInfo info(fileEdit->lineEdit()->text());
 				if(info.isDir()) {
-					KMessageBox::error(this, i18n("Selected file is a directory."));
+					QMessageBox::critical(this, i18n("Error"), i18n("Selected file is a directory."));
 					fileEdit->setFocus();
 					return;
 				} else if(!info.exists()) {
-					KMessageBox::error(this, i18n("Selected file does not exist."));
+					QMessageBox::critical(this, i18n("Error"), i18n("Selected file does not exist."));
 					fileEdit->setFocus();
 					return;
 				}
@@ -283,14 +283,14 @@ void ImportQIFDialog::nextClicked() {
 			QTemporaryFile tf;
 			tf.setAutoRemove(false);
 			if(!tf.open()) {
-				KMessageBox::error(this, i18n("Couldn't fetch %1: %2", url.toString(), QString("Unable to create temporary file %1.").arg(tf.fileName())));
+				QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), QString("Unable to create temporary file %1.").arg(tf.fileName())));
 				return;
 			}
 			KIO::FileCopyJob *job = KIO::file_copy(url, QUrl::fromLocalFile(tf.fileName()), KIO::Overwrite);
 			KJobWidgets::setWindow(job, this);
 			if(!job->exec()) {
 				if(job->error()) {
-					KMessageBox::error(this, i18n("Couldn't fetch %1: %2", url.toString(), job->errorString()));
+					QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), job->errorString()));
 				}
 				return;
 			}
@@ -301,10 +301,10 @@ void ImportQIFDialog::nextClicked() {
 		}
 		QFile file(tmpfile);
 		if(!file.open(QIODevice::ReadOnly) ) {
-			KMessageBox::error(this, i18n("Couldn't open %1 for reading.", url.toString()));
+			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open %1 for reading.", url.toString()));
 			return;
 		} else if(!file.size()) {
-			KMessageBox::error(this, i18n("Error reading %1.", url.toString()));
+			QMessageBox::critical(this, i18n("Error"), i18n("Error reading %1.", url.toString()));
 			file.close();
 			return;
 		}
@@ -361,7 +361,7 @@ void ImportQIFDialog::nextClicked() {
 			}
 		} else {
 			if(ps == 0) {
-				KMessageBox::error(this, i18n("Unrecognized date format."));
+				QMessageBox::critical(this, i18n("Error"), i18n("Unrecognized date format."));
 				return;
 			}
 			if(ps > 1) {
@@ -462,13 +462,13 @@ void ImportQIFDialog::accept() {
 		QTemporaryFile tf;
 		tf.setAutoRemove(false);
 		if(!tf.open()) {
-			KMessageBox::error(this, i18n("Couldn't fetch %1: %2", url.toString(), QString("Unable to create temporary file %1.").arg(tf.fileName())));
+			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), QString("Unable to create temporary file %1.").arg(tf.fileName())));
 			return;
 		}
 		KIO::FileCopyJob *job = KIO::file_copy(url, QUrl::fromLocalFile(tf.fileName()), KIO::Overwrite);	
 		if(!job->exec()) {
 			if(job->error()) {
-				KMessageBox::error(this, i18n("Couldn't fetch %1: %2", url.toString(), job->errorString()));
+				QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), job->errorString()));
 			}
 			return;
 		}
@@ -479,10 +479,10 @@ void ImportQIFDialog::accept() {
 	}
 	QFile file(tmpfile);
 	if(!file.open(QIODevice::ReadOnly) ) {
-		KMessageBox::error(this, i18n("Couldn't open %1 for reading.", url.toString()));
+		QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open %1 for reading.", url.toString()));
 		return;
 	} else if(!file.size()) {
-		KMessageBox::error(this, i18n("Error reading %1.", url.toString()));
+		QMessageBox::critical(this, i18n("Error"), i18n("Error reading %1.", url.toString()));
 		file.close();
 		return;
 	}
@@ -518,7 +518,7 @@ void ImportQIFDialog::accept() {
 		info += "\n";
 		info += i18np("1 security transaction was not imported.", "%1 security transactions were not imported.", qi.security_transactions);
 	}
-	KMessageBox::information(this, info);
+	QMessageBox::information(this, i18n("Information"), info);
 	if(qi.transactions || qi.accounts || qi.categories) return QWizard::accept();
 	return QWizard::reject();
 }
@@ -630,7 +630,7 @@ void ExportQIFDialog::accept() {
 	if(!url.isValid()) {
 		QFileInfo info(fileEdit->lineEdit()->text());
 		if(info.isDir()) {
-			KMessageBox::error(this, i18n("Selected file is a directory."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Selected file is a directory."));
 			fileEdit->setFocus();
 			return;
 		}
@@ -639,11 +639,11 @@ void ExportQIFDialog::accept() {
 	}
 	if(url.isLocalFile()) {
 		if(QFile::exists(url.toLocalFile())) {
-			if(KMessageBox::warningYesNo(this, i18n("The selected file already exists. Would you like to overwrite the old copy?")) != KMessageBox::Yes) return;
+			if(QMessageBox::warning(this, i18n("Overwrite"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
 		}
 		QFileInfo info(url.toLocalFile());
 		if(info.isDir()) {
-			KMessageBox::error(this, i18n("You selected a directory!"));
+			QMessageBox::critical(this, i18n("Error"), i18n("You selected a directory!"));
 			return;
 		}
 		QSaveFile ofile(url.toLocalFile());
@@ -651,13 +651,13 @@ void ExportQIFDialog::accept() {
 		ofile.setPermissions((QFile::Permissions) 0x0660);
 		if(!ofile.isOpen()) {
 			ofile.cancelWriting();
-			KMessageBox::error(this, i18n("Couldn't open file for writing."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
 			return;
 		}
 		QTextStream stream(&ofile);
 		exportQIF(stream, qi, budget, true);
 		if(!ofile.commit()) {
-			KMessageBox::error(this, i18n("Error while writing file; file was not saved."));
+			QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
 			return;
 		}
 		return QDialog::accept();
@@ -672,7 +672,7 @@ void ExportQIFDialog::accept() {
 	KJobWidgets::setWindow(job, this);
 	if(!job->exec()) {
 		if(job->error()) {
-			KMessageBox::error(this, i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
+			QMessageBox::critical(this, i18n("Error"), i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
 		}
 		return;
 	}

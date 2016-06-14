@@ -63,11 +63,11 @@
 #include <QApplication>
 #include <QDateEdit>
 #include <QComboBox>
+#include <QMessageBox>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <kconfig.h>
-#include <kmessagebox.h>
 #include <kstdguiitem.h>
 #include <klocalizedstring.h>
 
@@ -194,12 +194,12 @@ void CategoriesComparisonChart::saveConfig() {
 void CategoriesComparisonChart::toChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		error = true;
 	}
 	if(!error && fromEdit->date() > date) {
 		if(fromButton->isChecked() && fromButton->isEnabled()) {
-			KMessageBox::error(this, i18n("To date is before from date."));
+			QMessageBox::critical(this, i18n("Error"), i18n("To date is before from date."));
 		}
 		from_date = date;
 		fromEdit->blockSignals(true);
@@ -220,11 +220,11 @@ void CategoriesComparisonChart::toChanged(const QDate &date) {
 void CategoriesComparisonChart::fromChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		KMessageBox::error(this, i18n("Invalid date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
 		error = true;
 	}
 	if(!error && date > toEdit->date()) {
-		KMessageBox::error(this, i18n("From date is after to date."));
+		QMessageBox::critical(this, i18n("Error"), i18n("From date is after to date."));
 		to_date = date;
 		toEdit->blockSignals(true);
 		toEdit->setDate(to_date);
