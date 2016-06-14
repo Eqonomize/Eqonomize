@@ -4692,6 +4692,11 @@ void Eqonomize::fileSave() {
 		QMimeDatabase db;
 		QUrl file_url = QFileDialog::getSaveFileUrl(this, QString(), QUrl::fromLocalFile("budget.eqz"), db.mimeTypeForName("application/x-eqonomize").filterString());
 		if (!file_url.isEmpty() && file_url.isValid()) {
+			QString spath = file_url.path();
+			if(!spath.endsWith(".eqz", Qt::CaseInsensitive)) {
+				spath += ".eqz";
+				file_url.setPath(spath);
+			}
 			saveURL(file_url);
 		}
 	} else {
@@ -4703,6 +4708,11 @@ void Eqonomize::fileSaveAs() {
 	QMimeDatabase db;
 	QUrl file_url = QFileDialog::getSaveFileUrl(this, QString(), current_url.adjusted(QUrl::RemoveFilename), db.mimeTypeForName("application/x-eqonomize").filterString());
 	if (!file_url.isEmpty() && file_url.isValid()) {
+		QString spath = file_url.path();
+		if(!spath.endsWith(".eqz", Qt::CaseInsensitive)) {
+			spath += ".eqz";
+			file_url.setPath(spath);
+		}
 		saveURL(file_url);
 	}
 }
@@ -4717,6 +4727,11 @@ bool Eqonomize::askSave(bool before_exit) {
 			QMimeDatabase db;
 			QUrl file_url = QFileDialog::getSaveFileUrl(this, QString(), QUrl::fromLocalFile("budget.eqz"), db.mimeTypeForName("application/x-eqonomize").filterString());
 			if (!file_url.isEmpty() && file_url.isValid()) {
+				QString spath = file_url.path();
+				if(!spath.endsWith(".eqz", Qt::CaseInsensitive)) {
+					spath += ".eqz";
+					file_url.setPath(spath);
+				}
 				return saveURL(file_url);
 			} else {
 				return false;
