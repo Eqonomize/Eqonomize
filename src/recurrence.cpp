@@ -345,7 +345,7 @@ QDate DailyRecurrence::nextOccurrence(const QDate &date, bool include_equals) co
 
 QDate DailyRecurrence::prevOccurrence(const QDate &date, bool include_equals) const {	
 	if(!include_equals) {
-		if(date > endDate()) return lastOccurrence();
+		if(!endDate().isNull() && date > endDate()) return lastOccurrence();
 	}
 	QDate prevdate = date;
 	if(!include_equals) prevdate = prevdate.addDays(-1);
@@ -434,7 +434,7 @@ QDate WeeklyRecurrence::nextOccurrence(const QDate &date, bool include_equals) c
 	QDate nextdate = date;
 	if(!include_equals) nextdate = nextdate.addDays(1);
 	if(!endDate().isNull() && nextdate > endDate()) return QDate();
-	if(i_frequency != 1 && nextdate.weekNumber() != startDate().weekNumber()) {
+	if(i_frequency != 1 && (nextdate.year() != startDate().year() || nextdate.weekNumber() != startDate().weekNumber())) {
 		int i = weeks_between_dates(startDate(), nextdate) % i_frequency;
 		if(i != 0) {
 			nextdate = nextdate.addDays((i_frequency - i) * 7 - (nextdate.dayOfWeek() - 1));
@@ -467,20 +467,20 @@ QDate WeeklyRecurrence::nextOccurrence(const QDate &date, bool include_equals) c
 
 QDate WeeklyRecurrence::prevOccurrence(const QDate &date, bool include_equals) const {	
 	if(!include_equals) {
-		if(date > endDate()) return lastOccurrence();
+		if(!endDate().isNull() && date > endDate()) return lastOccurrence();
 	}
 	QDate prevdate = date;
 	if(!include_equals) prevdate = prevdate.addDays(-1);
 	if(prevdate < startDate()) return QDate();
 	if(prevdate == startDate()) return startDate();
-	if(i_frequency != 1 && prevdate.weekNumber() != startDate().weekNumber()) {
+	if(i_frequency != 1 && (prevdate.year() != startDate().year() || prevdate.weekNumber() != startDate().weekNumber())) {
 		int i = weeks_between_dates(startDate(), prevdate) % i_frequency;
 		if(i != 0) {
 			prevdate = prevdate.addDays(-(i * 7) + 7 - prevdate.dayOfWeek());
 		}
 	}
 	int dow_s = startDate().dayOfWeek();
-	bool s_week = prevdate.weekNumber() == startDate().weekNumber();
+	bool s_week = prevdate.year() == startDate().year() && prevdate.weekNumber() == startDate().weekNumber();
 	int dow = prevdate.dayOfWeek();
 	int i = dow;
 	for(; i <= 7; i++) {
@@ -574,7 +574,7 @@ QDate MonthlyRecurrence::nextOccurrence(const QDate &date, bool include_equals) 
 	if(!include_equals) nextdate = nextdate.addDays(1);
 	if(!endDate().isNull() && nextdate > endDate()) return QDate();
 	int prevday = -1;
-	if(nextdate.month() == startDate().month()) {
+	if(nextdate.year() == startDate().year() && nextdate.month() == startDate().month()) {
 		if(i_frequency > 1) prevday = 1;
 		else prevday = nextdate.day();
 		nextdate = nextdate.addMonths(i_frequency);
@@ -694,14 +694,14 @@ QDate MonthlyRecurrence::nextOccurrence(const QDate &date, bool include_equals) 
 
 QDate MonthlyRecurrence::prevOccurrence(const QDate &date, bool include_equals) const {	
 	if(!include_equals) {
-		if(date > endDate()) return lastOccurrence();
+		if(!endDate().isNull() && date > endDate()) return lastOccurrence();
 	}
 	QDate prevdate = date;
 	if(!include_equals) prevdate = prevdate.addDays(-1);
 	if(prevdate < startDate()) return QDate();
 	if(prevdate == startDate()) return startDate();
 	int prevday = -1;
-	if(i_frequency != 1 && prevdate.month() != startDate().month()) {
+	if(i_frequency != 1 && (prevdate.year() != startDate().year() || prevdate.month() != startDate().month())) {
 		int i = months_between_dates(startDate(), prevdate) % i_frequency;
 		if(i != 0) {
 			if(i > 1) prevday = 1;
@@ -710,7 +710,7 @@ QDate MonthlyRecurrence::prevOccurrence(const QDate &date, bool include_equals) 
 			prevdate.setDate(prevdate.year(), prevdate.month(), prevdate.daysInMonth());
 		}
 	}
-	if(prevdate.month() == startDate().month()) return startDate();
+	if(prevdate.year() == startDate().year() && prevdate.month() == startDate().month()) return startDate();
 	int day = i_day;
 	if(i_dayofweek > 0) day = get_day_in_month(prevdate, i_week, i_dayofweek);
 	else if(i_day < 1) day = prevdate.daysInMonth() + i_day;
@@ -759,8 +759,8 @@ QDate MonthlyRecurrence::prevOccurrence(const QDate &date, bool include_equals) 
 			if(i_frequency > 1) prevday = 1;
 			else prevday = prevdate.day();
 			prevdate = prevdate.addMonths(-i_frequency);
-			if(prevdate.month() == startDate().month()) return startDate();
-			if(prevdate.month() < startDate().month()) return QDate();
+			if(prevdate.year() == startDate().year() && prevdate.month() == startDate().month()) return startDate();
+			if(prevdate.year() <= startDate().year() && prevdate.month() < startDate().month()) return QDate();
 			day = i_day;
 			if(i_dayofweek > 0) day = get_day_in_month(prevdate, i_week, i_dayofweek);
 			else if(i_day < 1) day = prevdate.daysInMonth() + i_day;
@@ -952,7 +952,7 @@ QDate YearlyRecurrence::nextOccurrence(const QDate &date, bool include_equals) c
 
 QDate YearlyRecurrence::prevOccurrence(const QDate &date, bool include_equals) const {	
 	if(!include_equals) {
-		if(date > endDate()) return lastOccurrence();
+		if(!endDate().isNull() && date > endDate()) return lastOccurrence();
 	}
 	QDate prevdate = date;
 	if(!include_equals) prevdate = prevdate.addDays(-1);

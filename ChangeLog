@@ -2,6 +2,7 @@
 
 	* Make sure save filename ends with ".eqz"
 	* Replace KDateEdit, KDatePicker, KLineEdit, KCompletion and KMessageBox with Qt widgets
+	* Fix "scheduled operations don't go further than next year if range is other than 'no end'"
 
 2016-06-13  Hanna Knutsson <hanna_k@fmgirl.com>
 

@@ -58,7 +58,7 @@ extern double monthsBetweenDates(const QDate &date1, const QDate &d2);
 
 #define TEROWCOL(row, col)	row % rows, ((row / rows) * 2) + col
 
-EqonomizeDateEdit::EqonomizeDateEdit(QWidget *parent) : QDateEdit(parent) {}
+EqonomizeDateEdit::EqonomizeDateEdit(QWidget *parent) : QDateEdit(QDate::currentDate(), parent) {}
 void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
 	QDateEdit::keyPressEvent(event);
 	if(event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
@@ -1165,7 +1165,7 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 	dateButton = new QCheckBox(i18n("Date:"), this);
 	dateButton->setChecked(false);
 	editLayout->addWidget(dateButton, 2, 0);
-	dateEdit = new QDateEdit(this);
+	dateEdit = new QDateEdit(QDate::currentDate(), this);
 	dateEdit->setCalendarPopup(true);
 	dateEdit->setEnabled(false);
 	editLayout->addWidget(dateEdit, 2, 1);

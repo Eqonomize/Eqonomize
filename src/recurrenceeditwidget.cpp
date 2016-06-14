@@ -206,7 +206,7 @@ EditRangeDialog::EditRangeDialog(const QDate &startdate, QWidget *parent) : QDia
 	endDateButton = new QRadioButton(i18n("End on"), this);
 	rangeButtonGroup->addButton(endDateButton);
 	rangeLayout->addWidget(endDateButton, 3, 0);
-	endDateEdit = new QDateEdit(this);
+	endDateEdit = new QDateEdit(startdate, this);
 	endDateEdit->setCalendarPopup(true);
 	rangeLayout->addWidget(endDateEdit, 3, 1, 1, 2);
 

@@ -59,6 +59,7 @@
 #include <QDateEdit>
 #include <QCalendarWidget>
 #include <QMessageBox>
+#include <QTextEdit>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
@@ -75,7 +76,6 @@
 #include <kstandardaction.h>
 #include <kstdaccel.h>
 #include <kstdguiitem.h>
-#include <ktextedit.h>
 #include <klocalizedstring.h>
 #include <kwindowconfig.h>
 #include <kio/filecopyjob.h>
@@ -403,7 +403,7 @@ RefundDialog::RefundDialog(Transaction *trans, QWidget *parent) : QDialog(parent
 	box1->addLayout(layout);
 
 	layout->addWidget(new QLabel(i18n("Date:"), this), 0, 0);
-	dateEdit = new QDateEdit(this);
+	dateEdit = new QDateEdit(QDate::currentDate(), this);
 	dateEdit->setCalendarPopup(true);
 	layout->addWidget(dateEdit, 0, 1);
 	dateEdit->setFocus();
@@ -519,7 +519,7 @@ EditReinvestedDividendDialog::EditReinvestedDividendDialog(Budget *budg, Securit
 	sharesEdit->setFocus();
 
 	layout->addWidget(new QLabel(i18n("Date:"), this), 2, 0);
-	dateEdit = new QDateEdit(this);
+	dateEdit = new QDateEdit(QDate::currentDate(), this);
 	dateEdit->setCalendarPopup(true);
 	layout->addWidget(dateEdit, 2, 1);
 	
@@ -641,7 +641,7 @@ EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QW
 	layout->addWidget(valueEdit, 4, 1);
 
 	layout->addWidget(new QLabel(i18n("Date:"), this), 5, 0);
-	dateEdit = new QDateEdit(this);
+	dateEdit = new QDateEdit(QDate::currentDate(), this);
 	dateEdit->setCalendarPopup(true);
 	layout->addWidget(dateEdit, 5, 1);
 	
@@ -1378,11 +1378,11 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	grid->addWidget(quotationEdit, 5, 1);
 	quotationDateLabel = new QLabel(i18n("Date:"), this);
 	grid->addWidget(quotationDateLabel, 6, 0);
-	quotationDateEdit = new QDateEdit(this);
+	quotationDateEdit = new QDateEdit(QDate::currentDate(), this);
 	quotationDateEdit->setCalendarPopup(true);
 	grid->addWidget(quotationDateEdit, 6, 1);
 	grid->addWidget(new QLabel(i18n("Description:"), this), 7, 0);
-	descriptionEdit = new KTextEdit(this);
+	descriptionEdit = new QTextEdit(this);
 	grid->addWidget(descriptionEdit, 8, 0, 1, 2);
 	nameEdit->setFocus();
 	
@@ -1489,7 +1489,7 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	budgetButton->setChecked(false);
 	grid->addWidget(budgetButton, 3, 0, 1, 2);
 	grid->addWidget(new QLabel(i18n("Description:"), this), 4, 0);
-	descriptionEdit = new KTextEdit(this);
+	descriptionEdit = new QTextEdit(this);
 	grid->addWidget(descriptionEdit, 5, 0, 1, 2);
 	nameEdit->setFocus();
 	current_account = NULL;
@@ -1589,7 +1589,7 @@ EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, QWidget *parent
 	budgetEdit->setEnabled(false);
 	grid->addWidget(budgetEdit, 1, 1);
 	grid->addWidget(new QLabel(i18n("Description:"), this), 2, 0);
-	descriptionEdit = new KTextEdit(this);
+	descriptionEdit = new QTextEdit(this);
 	grid->addWidget(descriptionEdit, 3, 0, 1, 2);
 	nameEdit->setFocus();
 	current_account = NULL;
@@ -1659,7 +1659,7 @@ EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, QWidget *pare
 	budgetEdit->setEnabled(false);
 	grid->addWidget(budgetEdit, 1, 1);
 	grid->addWidget(new QLabel(i18n("Description:"), this), 2, 0);
-	descriptionEdit = new KTextEdit(this);
+	descriptionEdit = new QTextEdit(this);
 	grid->addWidget(descriptionEdit, 3, 0, 1, 2);
 	nameEdit->setFocus();
 	current_account = NULL;
@@ -2599,7 +2599,7 @@ void Eqonomize::setQuotation() {
 	quotationEdit->setFocus();
 	grid->addWidget(quotationEdit, 0, 1);
 	grid->addWidget(new QLabel(i18n("Date:"), dialog), 1, 0);
-	QDateEdit *dateEdit = new QDateEdit(dialog);
+	QDateEdit *dateEdit = new QDateEdit(QDate::currentDate(), dialog);
 	dateEdit->setCalendarPopup(true);
 	grid->addWidget(dateEdit, 1, 1);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);

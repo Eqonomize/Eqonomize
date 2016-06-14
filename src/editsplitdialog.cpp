@@ -136,7 +136,7 @@ EditSplitDialog::EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *d
 	descriptionEdit->setFocus();
 
 	grid->addWidget(new QLabel(i18n("Date:")), 1, 0);
-	dateEdit = new QDateEdit();
+	dateEdit = new QDateEdit(QDate::currentDate());
 	dateEdit->setCalendarPopup(true);
 	grid->addWidget(dateEdit, 1, 1);
 

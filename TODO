@@ -1,7 +1,4 @@
 BUGS:
-- file extension filter not appearing in open and save dialogs of eqz files
-- Filter dates can't be typed as they generate invalid date errors. Mouse works though
-- scheduled operations don't go further than next year if range is other than "no end"
 - sometimes accounts aren't selectable after renaming etc.
 - second combo in time development diagram (on "Source:" line) is not updated
 	when the first combo is changed. Thus it is possible that the graphic
@@ -10,7 +7,6 @@ BUGS:
 - saving in .eqz is very slow
 - changing the year in the graph view is VERY long
 - in graphs with too many items, limit to max biggest 10.
-- string matching is broken (popup gets corrupted). Use appropriate Qt or KDE widget instead.
 - crash when trying to delete an operation from an account view.
 - schedules don't always function (vague but reproducible)
 - startup is slow when installed (xmlgui reads its rc) but not in build dir (xmlgui not finding rc file)

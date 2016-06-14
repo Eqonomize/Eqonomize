@@ -60,7 +60,7 @@ class KPageWidget;
 class KPageWidgetItem;
 class KRecentFilesAction;
 class KSelectAction;
-class KTextEdit;
+class QTextEdit;
 class KToggleAction;
 class KToolBar;
 
@@ -498,7 +498,7 @@ class EditAssetsAccountDialog : public QDialog {
 
 		QLineEdit *nameEdit;
 		EqonomizeValueEdit *valueEdit;
-		KTextEdit *descriptionEdit;
+		QTextEdit *descriptionEdit;
 		QComboBox *typeCombo;
 		QCheckBox *budgetButton;
 		Budget *budget;
@@ -527,7 +527,7 @@ class EditExpensesAccountDialog : public QDialog {
 
 		QLineEdit *nameEdit;
 		EqonomizeValueEdit *budgetEdit;
-		KTextEdit *descriptionEdit;
+		QTextEdit *descriptionEdit;
 		QCheckBox *budgetButton;
 		Budget *budget;
 		Account *current_account;
@@ -554,7 +554,7 @@ class EditIncomesAccountDialog : public QDialog {
 
 		QLineEdit *nameEdit;
 		EqonomizeValueEdit *budgetEdit;
-		KTextEdit *descriptionEdit;
+		QTextEdit *descriptionEdit;
 		QCheckBox *budgetButton;
 		Budget *budget;
 		Account *current_account;
@@ -580,7 +580,7 @@ class EditSecurityDialog : public QDialog {
 	protected:
 
 		QLineEdit *nameEdit;
-		KTextEdit *descriptionEdit;
+		QTextEdit *descriptionEdit;
 		EqonomizeValueEdit *sharesEdit, *quotationEdit;
 		QDateEdit *quotationDateEdit;
 		QComboBox *typeCombo, *accountCombo;

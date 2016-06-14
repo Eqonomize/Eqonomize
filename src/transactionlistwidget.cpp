@@ -47,7 +47,6 @@
 #include <kpagewidget.h>
 #include <kstandardaction.h>
 #include <kstdaccel.h>
-#include <ktextedit.h>
 #include <klocalizedstring.h>
 
 #include "budget.h"
