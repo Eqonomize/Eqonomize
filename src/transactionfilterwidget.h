@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                                        *
+ *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
  *   hanna_k@fmgirl.com                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
