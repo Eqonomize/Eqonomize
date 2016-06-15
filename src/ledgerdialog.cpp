@@ -45,14 +45,15 @@
 #include <QTemporaryFile>
 #include <QMimeDatabase>
 #include <QMessageBox>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QTextDocument>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <kstdguiitem.h>
 #include <kdeversion.h>
 #include <kfileitem.h>
-#include <khtml_part.h>
-#include <khtmlview.h>
 #include <klocalizedstring.h>
 #include <kio/filecopyjob.h>
 #include <kjobwidgets.h>
@@ -252,14 +253,6 @@ void LedgerDialog::saveView() {
 	if(filter == csv_filter) filetype = 'c';
 	if(url.isEmpty() && url.isValid()) return;
 	if(url.isLocalFile()) {
-		if(QFile::exists(url.toLocalFile())) {
-			if(QMessageBox::warning(this, i18n("Overwrite file?"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
-		}
-		QFileInfo info(url.toLocalFile());
-		if(info.isDir()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("You selected a directory!"));
-			return;
-		}
 		QSaveFile ofile(url.toLocalFile());
 		ofile.open(QIODevice::WriteOnly);
 		ofile.setPermissions((QFile::Permissions) 0x0660);
@@ -363,15 +356,16 @@ void LedgerDialog::printView() {
 		QMessageBox::critical(this, i18n("Error"), i18n("Empty transaction list."));
 		return;
 	}
-	QString str;
-	QTextStream stream(&str, QIODevice::WriteOnly);
-	exportList(stream, 'h');
-	KHTMLPart *htmlpart = new KHTMLPart(this);
-	htmlpart->begin();
-	htmlpart->write(str);
-	htmlpart->end();
-	htmlpart->view()->print();
-	delete htmlpart;
+	QPrinter printer;
+	QPrintDialog print_dialog(&printer, this);
+	if(print_dialog.exec() == QDialog::Accepted) {
+		QString str;
+		QTextStream stream(&str, QIODevice::WriteOnly);
+		exportList(stream, 'h');
+		QTextDocument htmldoc;
+		htmldoc.setHtml(str);
+		htmldoc.print(&printer);
+	}
 }
 void LedgerDialog::joinTransactions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();

@@ -111,14 +111,6 @@ void saveSceneImage(QWidget *parent, QGraphicsScene *scene) {
 	QUrl url = QFileDialog::getSaveFileUrl(parent, QString(), QUrl(), filter, &selected_filter);
 	if(url.isEmpty() && url.isValid()) return;
 	if(url.isLocalFile()) {
-		if(QFile::exists(url.toLocalFile())) {
-			if(QMessageBox::warning(parent, i18n("Overwrite file?"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
-		}
-		QFileInfo info(url.toLocalFile());
-		if(info.isDir()) {
-			QMessageBox::critical(parent, i18n("Error"), i18n("You selected a directory!"));
-			return;
-		}
 		QSaveFile ofile(url.toLocalFile());
 		ofile.open(QIODevice::WriteOnly);
 		ofile.setPermissions((QFile::Permissions) 0x0660);
@@ -704,8 +696,8 @@ void OverTimeChart::save() {
 void OverTimeChart::print() {
 	if(!scene) return;
 	QPrinter pr;
-	QPrintDialog *dialog = new QPrintDialog(&pr, this);
-	if(dialog->exec() == QDialog::Accepted) {
+	QPrintDialog dialog(&pr, this);
+	if(dialog.exec() == QDialog::Accepted) {
 		QPainter p(&pr);
 		p.setRenderHint(QPainter::Antialiasing, true);
 		QRectF rect = scene->sceneRect();

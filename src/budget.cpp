@@ -27,9 +27,9 @@
 #include <QDomDocument>
 #include <QFile>
 #include <QTextStream>
-#include <QFileInfo>
 #include <QMap>
 #include <QSaveFile>
+#include <QFileInfo>
 
 #include <klocalizedstring.h>
 

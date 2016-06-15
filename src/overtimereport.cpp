@@ -47,11 +47,12 @@
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QMessageBox>
+#include <QPrinter>
+#include <QTextEdit>
+#include <QPrintDialog>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
-#include <khtml_part.h>
-#include <khtmlview.h>
 #include <kconfig.h>
 #include <kstdguiitem.h>
 #include <klocalizedstring.h>
@@ -89,8 +90,9 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	KGuiItem::assign(printButton, KStandardGuiItem::print());
 	layout->addWidget(buttons);
 
-	htmlpart = new KHTMLPart(this);
-	layout->addWidget(htmlpart->view());
+	htmlview = new QTextEdit(this);
+	htmlview->setReadOnly(true);
+	layout->addWidget(htmlview);
 
 	KConfigGroup config = KSharedConfig::openConfig()->group("Over Time Report");
 
@@ -271,14 +273,6 @@ void OverTimeReport::save() {
 	QUrl url = QFileDialog::getSaveFileUrl(this, QString::null, QUrl(), db.mimeTypeForName("text/html").filterString());
 	if(url.isEmpty() && url.isValid()) return;
 	if(url.isLocalFile()) {
-		if(QFile::exists(url.toLocalFile())) {
-			if(QMessageBox::warning(this, i18n("Overwrite file?"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
-		}
-		QFileInfo info(url.toLocalFile());
-		if(info.isDir()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("You selected a directory!"));
-			return;
-		}
 		QSaveFile ofile(url.toLocalFile());
 		ofile.open(QIODevice::WriteOnly);
 		ofile.setPermissions((QFile::Permissions) 0x0660);
@@ -302,7 +296,7 @@ void OverTimeReport::save() {
 	tf.setAutoRemove(true);
 	QTextStream outf(&tf);
 	outf.setCodec("UTF-8");
-	outf << source;	
+	outf << source;
 	KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tf.fileName()), url, KIO::Overwrite);
 	KJobWidgets::setWindow(job, this);
 	if(!job->exec()) {
@@ -314,7 +308,11 @@ void OverTimeReport::save() {
 }
 
 void OverTimeReport::print() {
-	htmlpart->view()->print();
+	QPrinter printer;
+	QPrintDialog print_dialog(&printer, this);
+	if(print_dialog.exec() == QDialog::Accepted) {
+		htmlview->print(&printer);
+	}
 }
 
 void OverTimeReport::updateDisplay() {	
@@ -544,8 +542,8 @@ void OverTimeReport::updateDisplay() {
 		outf<< "</th>";
 	}
 	if(enabled[1]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Daily Average")) << "</th>";
-	if(enabled[2]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Monthly Average")) << "**"  << "</th>";
-	if(enabled[3]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Yearly Average")) << "**"  << "</th>";
+	if(enabled[2]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Monthly Average")) << (use_footer1 ? "**" : "*") << "</th>";
+	if(enabled[3]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Yearly Average")) << (use_footer1 ? "**" : "*") << "</th>";
 	if(enabled[4]) {
 		outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Quantity"));
 		if(mi && mi->date > curdate) {outf << "*"; use_footer1 = true;}
@@ -558,21 +556,6 @@ void OverTimeReport::updateDisplay() {
 	}
 	outf << "\t\t\t\t</tr>" << '\n';
 	outf << "\t\t\t</thead>" << '\n';
-	outf << "\t\t\t<tfoot>" << '\n';
-	outf << "\t\t\t\t<tr>" << '\n';
-	outf << "\t\t\t\t\t<th align=\"right\" colspan=\"" << QString::number(columns) << "\" style=\"font-weight: normal; border-top: thin solid\">" << "<small>";
-	bool had_footer = false;
-	if(use_footer1) {
-		had_footer = true;
-		outf << "*" << htmlize_string(i18n("Includes scheduled transactions"));
-	}
-	if(enabled[2] || enabled[3]) {
-		if(had_footer) outf << "<br>";
-		outf << "**" << htmlize_string(i18n("Adjusted for the average month / year (%1 / %2 days)",QLocale().toString(average_month, 'f', 1), QLocale().toString(average_year, 'f', 1)));
-	}
-	outf << "</small>" << "</th>" << '\n';
-	outf << "\t\t\t\t</tr>" << '\n';
-	outf << "\t\t\t</tfoot>" << '\n';
 	outf << "\t\t\t<tbody>" << '\n';
 	QVector<month_info>::iterator it_b = monthly_values.begin();
 	QVector<month_info>::iterator it_e = monthly_values.end();
@@ -697,11 +680,19 @@ void OverTimeReport::updateDisplay() {
 	}
 	outf << "\t\t\t</tbody>" << '\n';
 	outf << "\t\t</table>" << '\n';
+	outf << "\t\t<div align=\"right\" style=\"font-weight: normal\">" << "<small>" << '\n';
+	if(use_footer1) {
+		outf << "\t\t\t<br>" << '\n';
+		outf << "\t\t\t" << "*" << htmlize_string(i18n("Includes scheduled transactions")) << '\n';
+	}
+	if(enabled[2] || enabled[3]) {
+		outf << "\t\t\t" << "<br>" << '\n';
+		outf << "\t\t\t" << (use_footer1 ? "**" : "*") << htmlize_string(i18n("Adjusted for the average month / year (%1 / %2 days)",QLocale().toString(average_month, 'f', 1), QLocale().toString(average_year, 'f', 1))) << '\n';
+	}
+	outf << "\t\t</small></div>" << '\n';
 	outf << "\t</body>" << '\n';
 	outf << "</html>" << '\n';
-	htmlpart->begin();
-	htmlpart->write(source);
-	htmlpart->end();
+	htmlview->setHtml(source);
 }
 void OverTimeReport::updateTransactions() {
 	if(descriptionCombo->isEnabled() && current_account) {

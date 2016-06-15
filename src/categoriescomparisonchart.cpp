@@ -313,8 +313,8 @@ void CategoriesComparisonChart::save() {
 void CategoriesComparisonChart::print() {
 	if(!scene) return;
 	QPrinter pr;
-	QPrintDialog *dialog = new QPrintDialog(&pr, this);
-	if(dialog->exec() == QDialog::Accepted) {
+	QPrintDialog dialog(&pr, this);
+	if(dialog.exec() == QDialog::Accepted) {
 		QPainter p(&pr);
 		p.setRenderHint(QPainter::Antialiasing, true);
 		QRectF rect = scene->sceneRect();

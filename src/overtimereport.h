@@ -26,8 +26,7 @@
 class QCheckBox;
 class QComboBox;
 class QPushButton;
-
-class KHTMLPart;
+class QTextEdit;
 
 class Account;
 class Budget;
@@ -50,7 +49,7 @@ class OverTimeReport : public QWidget {
 		int current_source;
 		bool has_empty_description;
 		
-		KHTMLPart *htmlpart;
+		QTextEdit *htmlview;
 		QComboBox *sourceCombo, *categoryCombo, *descriptionCombo;
 		QPushButton *saveButton, *printButton;
 		QCheckBox *valueButton, *dailyButton, *monthlyButton, *yearlyButton, *countButton, *perButton;

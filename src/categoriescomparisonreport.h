@@ -28,9 +28,8 @@ class QCheckBox;
 class QComboBox;
 class QPushButton;
 class QRadioButton;
-
 class QDateEdit;
-class KHTMLPart;
+class QTextEdit;
 
 class Account;
 class Budget;
@@ -53,7 +52,7 @@ class CategoriesComparisonReport : public QWidget {
 		bool has_empty_description, has_empty_payee;
 		bool b_extra;
 		
-		KHTMLPart *htmlpart;
+		QTextEdit *htmlview;
 		QCheckBox *fromButton;
 		QDateEdit *fromEdit, *toEdit;
 		QPushButton *nextYearButton, *prevYearButton, *nextMonthButton, *prevMonthButton;

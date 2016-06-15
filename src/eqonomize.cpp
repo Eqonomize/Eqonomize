@@ -60,6 +60,9 @@
 #include <QCalendarWidget>
 #include <QMessageBox>
 #include <QTextEdit>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QTextDocument>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
@@ -67,8 +70,6 @@
 #include <kautosavefile.h>
 #include <kconfig.h>
 #include <kdeversion.h>
-#include <khtml_part.h>
-#include <khtmlview.h>
 #include <kfileitem.h>
 #include <kpagewidget.h>
 #include <krecentfilesaction.h>
@@ -3737,9 +3738,6 @@ bool Eqonomize::saveURL(const QUrl& url) {
 
 	if(url.isLocalFile()) {
 		bool exists = QFile::exists(url.toLocalFile());
-		if(url != current_url && exists) {
-			if(QMessageBox::warning(this, i18n("Overwrite file?"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return false;
-		}
 		mode_t  perms = 0x0600;
 		if(exists) {
 			QFile::copy(url.toLocalFile(), url.toLocalFile() + "~");
@@ -4057,7 +4055,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t<body>" << '\n';
 			if(accountsPeriodFromButton->isChecked()) outf << "\t\t<h1>" << i18nc("html format", "Accounts &amp; Categories (%1&ndash;%2)", htmlize_string(QLocale().toString(from_date, QLocale::ShortFormat)), htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h1>" << '\n';
 			else outf << "\t\t<h1>" << i18nc("html format", "Accounts &amp; Categories (to %1)", htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h1>" << '\n';
-			outf << "\t\t<table cellspacing=\"0\" cellpadding=\"5\">" << '\n';
+			outf << "\t\t<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
 			outf << "\t\t\t<caption>"; outf << htmlize_string(i18n("Accounts")); outf << "</caption>" << '\n';
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
@@ -4071,16 +4069,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			if(includes_budget) outf << "*";
 			outf << "</th>" << '\n';
 			outf << "\t\t\t\t</tr>" << '\n';
-			outf << "\t\t\t</thead>" << '\n';
-			outf << "\t\t\t<tfoot>" << '\n';
-			outf << "\t\t\t\t<tr>" << '\n';
-			if(includes_budget) {
-				outf << "\t\t\t\t\t<th align=\"right\" colspan=\"" << QString::number(4) << "\" style=\"font-weight: normal; border-top: thin solid\">" << "<small>";
-				outf << "*" << htmlize_string(i18n("Includes budgeted transactions"));
-				outf << "</small>" << "</th>" << '\n';
-				outf << "\t\t\t\t</tr>" << '\n';
-				outf << "\t\t\t</tfoot>" << '\n';
-			}
+			outf << "\t\t\t</thead>" << '\n';			
 			outf << "\t\t\t<tbody>" << '\n';
 			Account *account = budget->assetsAccounts.first();
 			while(account) {
@@ -4116,7 +4105,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t</table>" << '\n';
 			outf << "\t\t<br>" << '\n';
 			outf << "\t\t<br>" << '\n';
-			outf << "\t\t<table cellspacing=\"0\" cellpadding=\"5\">" << '\n';
+			outf << "\t\t<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
 			outf << "\t\t\t<caption>"; outf << htmlize_string(i18n("Incomes")); outf << "</caption>" << '\n';
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
@@ -4164,7 +4153,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t</table>" << '\n';
 			outf << "\t\t<br>" << '\n';
 			outf << "\t\t<br>" << '\n';
-			outf << "\t\t<table cellspacing=\"0\" cellpadding=\"5\">" << '\n';
+			outf << "\t\t<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
 			outf << "\t\t\t<caption>"; outf << htmlize_string(i18n("Costs")); outf << "</caption>" << '\n';
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
@@ -4210,6 +4199,12 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</tbody>" << '\n';
 			outf << "\t\t</table>" << '\n';
+			if(includes_budget) {
+				outf << "\t\t</br>" << '\n';
+				outf << "\t\t<div align=\"left\" style=\"font-weight: normal\">" << "<small>";
+				outf << "*" << htmlize_string(i18n("Includes budgeted transactions"));
+				outf << "</small></div>" << '\n';
+			}
 			outf << "\t</body>" << '\n';
 			outf << "</html>" << '\n';
 			break;
@@ -4265,16 +4260,17 @@ void Eqonomize::printView() {
 			return;
 		}
 	}
-
-	QString str;
-	QTextStream stream(&str, QIODevice::WriteOnly);
-	saveView(stream, 'h');
-	KHTMLPart *htmlpart = new KHTMLPart(this);
-	htmlpart->begin();
-	htmlpart->write(str);
-	htmlpart->end();
-	htmlpart->view()->print();
-	delete htmlpart;
+	
+	QPrinter printer;
+	QPrintDialog print_dialog(&printer, this);
+	if(print_dialog.exec() == QDialog::Accepted) {
+		QString str;
+		QTextStream stream(&str, QIODevice::WriteOnly);
+		saveView(stream, 'h');
+		QTextDocument htmldoc;
+		htmldoc.setHtml(str);
+		htmldoc.print(&printer);
+	}
 }
 bool Eqonomize::saveView(QTextStream &file, int fileformat) {
 	if(tabs->currentPage()->widget() == accounts_page) {return exportAccountsList(file, fileformat);}
@@ -4321,15 +4317,6 @@ void Eqonomize::saveView() {
 	if(filter == csv_filter) filetype = 'c';
 	if(url.isEmpty() && url.isValid()) return;
 	if(url.isLocalFile()) {
-		if(QFile::exists(url.toLocalFile())) {
-			if(QMessageBox::warning(this, i18n("Overwrite file?"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
-
-		}
-		QFileInfo info(url.toLocalFile());
-		if(info.isDir()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("You selected a directory!"));
-			return;
-		}
 		QSaveFile ofile(url.toLocalFile());
 		ofile.open(QIODevice::WriteOnly);
 		if(!ofile.isOpen()) {

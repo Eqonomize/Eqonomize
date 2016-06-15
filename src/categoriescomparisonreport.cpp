@@ -50,12 +50,13 @@
 #include <QMimeType>
 #include <QDateEdit>
 #include <QMessageBox>
+#include <QPrinter>
+#include <QTextEdit>
+#include <QPrintDialog>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <kconfig.h>
-#include <khtml_part.h>
-#include <khtmlview.h>
 #include <kstdguiitem.h>
 #include <klocalizedstring.h>
 #include <kio/filecopyjob.h>
@@ -103,8 +104,9 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	KGuiItem::assign(printButton, KStandardGuiItem::print());
 	layout->addWidget(buttons);
 
-	htmlpart = new KHTMLPart(this);
-	layout->addWidget(htmlpart->view());
+	htmlview = new QTextEdit(this);
+	htmlview->setReadOnly(true);
+	layout->addWidget(htmlview);
 
 	KConfigGroup config = KSharedConfig::openConfig()->group("Categories Comparison Report");
 
@@ -448,14 +450,6 @@ void CategoriesComparisonReport::save() {
 	QUrl url = QFileDialog::getSaveFileUrl(this, QString::null, QUrl(), db.mimeTypeForName("text/html").filterString());
 	if(url.isEmpty() && url.isValid()) return;
 	if(url.isLocalFile()) {
-		if(QFile::exists(url.toLocalFile())) {
-			if(QMessageBox::warning(this, i18n("Overwrite file?"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
-		}
-		QFileInfo info(url.toLocalFile());
-		if(info.isDir()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("You selected a directory!"));
-			return;
-		}
 		QSaveFile ofile(url.toLocalFile());
 		ofile.open(QIODevice::WriteOnly);
 		ofile.setPermissions((QFile::Permissions) 0x0660);
@@ -491,7 +485,11 @@ void CategoriesComparisonReport::save() {
 }
 
 void CategoriesComparisonReport::print() {
-	htmlpart->view()->print();
+	QPrinter printer;
+	QPrintDialog print_dialog(&printer, this);
+	if(print_dialog.exec() == QDialog::Accepted) {
+		htmlview->print(&printer);
+	}
 }
 
 void CategoriesComparisonReport::updateDisplay() {
@@ -918,9 +916,7 @@ void CategoriesComparisonReport::updateDisplay() {
 	outf << "\t\t</table>" << '\n';
 	outf << "\t</body>" << '\n';
 	outf << "</html>" << '\n';
-	htmlpart->begin();
-	htmlpart->write(source);
-	htmlpart->end();
+	htmlview->setHtml(source);
 	if(current_account && b_extra) {
 		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, i18n("No description"));
 		if(has_empty_payee) {
