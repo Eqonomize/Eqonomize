@@ -69,8 +69,6 @@
 #include <kconfig.h>
 #include <kstdguiitem.h>
 #include <klocalizedstring.h>
-#include <kio/filecopyjob.h>
-#include <kjobwidgets.h>
 
 #include "account.h"
 #include "budget.h"
@@ -110,43 +108,14 @@ void saveSceneImage(QWidget *parent, QGraphicsScene *scene) {
 	QString selected_filter = png_filter;
 	QUrl url = QFileDialog::getSaveFileUrl(parent, QString(), QUrl(), filter, &selected_filter);
 	if(url.isEmpty() && url.isValid()) return;
-	if(url.isLocalFile()) {
-		QSaveFile ofile(url.toLocalFile());
-		ofile.open(QIODevice::WriteOnly);
-		ofile.setPermissions((QFile::Permissions) 0x0660);
-		if(!ofile.isOpen()) {
-			ofile.cancelWriting();
-			QMessageBox::critical(parent, i18n("Error"), i18n("Couldn't open file for writing."));
-			return;
-		}
-		QRectF rect = scene->sceneRect();
-		rect.setX(0);
-		rect.setY(0);
-		rect.setRight(rect.right() + 20);
-		rect.setBottom(rect.bottom() + 20);
-		QPixmap pixmap((int) ceil(rect.width()), (int) ceil(rect.height()));
-		QPainter p(&pixmap);
-		p.setRenderHint(QPainter::Antialiasing, true);
-		scene->render(&p, QRectF(), rect);
-		if(selected_filter == png_filter) {pixmap.save(&ofile, "PNG");}
-		else if(selected_filter == bmp_filter) {pixmap.save(&ofile, "BMP");}
-		else if(selected_filter == xbm_filter) {pixmap.save(&ofile, "XBM");}
-		else if(selected_filter == xpm_filter) {pixmap.save(&ofile, "XPM");}
-		else if(selected_filter == ppm_filter) {pixmap.save(&ofile, "PPM");}
-		else if(selected_filter == gif_filter) {pixmap.save(&ofile, "GIF");}
-		else if(selected_filter == jpeg_filter) {pixmap.save(&ofile, "JPEG");}
-		else pixmap.save(&ofile);
-		if(!ofile.commit()) {
-			QMessageBox::critical(parent, i18n("Error"), i18n("Error while writing file; file was not saved."));
-			return;
-		}
+	QSaveFile ofile(url.toLocalFile());
+	ofile.open(QIODevice::WriteOnly);
+	ofile.setPermissions((QFile::Permissions) 0x0660);
+	if(!ofile.isOpen()) {
+		ofile.cancelWriting();
+		QMessageBox::critical(parent, i18n("Error"), i18n("Couldn't open file for writing."));
 		return;
 	}
-
-	QMessageBox::critical(parent, i18n("Error"), i18n("You can only save to local files."));
-	QTemporaryFile tf;
-	tf.open();
-	tf.setAutoRemove(true);
 	QRectF rect = scene->sceneRect();
 	rect.setX(0);
 	rect.setY(0);
@@ -156,21 +125,19 @@ void saveSceneImage(QWidget *parent, QGraphicsScene *scene) {
 	QPainter p(&pixmap);
 	p.setRenderHint(QPainter::Antialiasing, true);
 	scene->render(&p, QRectF(), rect);
-	if(selected_filter == png_filter) {pixmap.save(&tf, "PNG");}
-	else if(selected_filter == bmp_filter) {pixmap.save(&tf, "BMP");}
-	else if(selected_filter == xbm_filter) {pixmap.save(&tf, "XBM");}
-	else if(selected_filter == xpm_filter) {pixmap.save(&tf, "XPM");}
-	else if(selected_filter == ppm_filter) {pixmap.save(&tf, "PPM");}
-	else if(selected_filter == gif_filter) {pixmap.save(&tf, "GIF");}
-	else if(selected_filter == jpeg_filter) {pixmap.save(&tf, "JPEG");}
-	else pixmap.save(&tf);
-	KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tf.fileName()), url, KIO::Overwrite);
-	KJobWidgets::setWindow(job, parent);
-	if(!job->exec()) {
-		if(job->error()) {
-			QMessageBox::critical(parent, i18n("Error"), i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
-		}
+	if(selected_filter == png_filter) {pixmap.save(&ofile, "PNG");}
+	else if(selected_filter == bmp_filter) {pixmap.save(&ofile, "BMP");}
+	else if(selected_filter == xbm_filter) {pixmap.save(&ofile, "XBM");}
+	else if(selected_filter == xpm_filter) {pixmap.save(&ofile, "XPM");}
+	else if(selected_filter == ppm_filter) {pixmap.save(&ofile, "PPM");}
+	else if(selected_filter == gif_filter) {pixmap.save(&ofile, "GIF");}
+	else if(selected_filter == jpeg_filter) {pixmap.save(&ofile, "JPEG");}
+	else pixmap.save(&ofile);
+	if(!ofile.commit()) {
+		QMessageBox::critical(parent, i18n("Error"), i18n("Error while writing file; file was not saved."));
+		return;
 	}
+
 }
 
 

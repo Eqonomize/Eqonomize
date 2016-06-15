@@ -63,24 +63,19 @@
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QTextDocument>
+#include <QTabWidget>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <kactioncollection.h>
 #include <kautosavefile.h>
-#include <kconfig.h>
-#include <kdeversion.h>
 #include <kfileitem.h>
-#include <kpagewidget.h>
 #include <krecentfilesaction.h>
 #include <kselectaction.h>
 #include <kstandardaction.h>
 #include <kstdaccel.h>
 #include <kstdguiitem.h>
-#include <klocalizedstring.h>
 #include <kwindowconfig.h>
-#include <kio/filecopyjob.h>
-#include <kjobwidgets.h>
 
 #include "budget.h"
 #include "categoriescomparisonchart.h"
@@ -102,6 +97,13 @@
 #include "transactioneditwidget.h"
 
 #include <cmath>
+
+#define ACCOUNTS_PAGE_INDEX 0
+#define EXPENSES_PAGE_INDEX 1
+#define INCOMES_PAGE_INDEX 2
+#define TRANSFERS_PAGE_INDEX 3
+#define SECURITIES_PAGE_INDEX 4
+#define SCHEDULE_PAGE_INDEX 5
 
 QTreeWidgetItem *selectedItem(QTreeWidget *w) {
 	QList<QTreeWidgetItem*> list = w->selectedItems();
@@ -224,6 +226,9 @@ class SecurityListViewItem : public QTreeWidgetItem {
 };
 
 class ScheduleListViewItem : public QTreeWidgetItem {
+
+	Q_DECLARE_TR_FUNCTIONS(ScheduleListViewItem)
+
 	protected:
 		ScheduledTransaction *o_strans;
 		QDate d_date;
@@ -273,19 +278,20 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 	setText(5, trans->toAccount()->name());
 	setText(6, trans->comment());
 	switch(trans->type()) {
-		case TRANSACTION_TYPE_TRANSFER: {setText(1, i18n("Transfer")); break;}
+		case TRANSACTION_TYPE_TRANSFER: {setText(1, QObject::tr("Transfer")); break;}
 		case TRANSACTION_TYPE_INCOME: {
-			if(((Income*) trans)->security()) setText(1, i18n("Dividend"));
-			else setText(1, i18n("Income"));
+			if(((Income*) trans)->security()) setText(1, QObject::tr("Dividend"));
+			else setText(1, QObject::tr("Income"));
 			break;
 		}
-		case TRANSACTION_TYPE_EXPENSE: {setText(1, i18n("Expense")); break;}
-		case TRANSACTION_TYPE_SECURITY_BUY: {setText(1, i18n("Security Buy")); break;}
-		case TRANSACTION_TYPE_SECURITY_SELL: {setText(1, i18n("Security Sell")); break;}
+		case TRANSACTION_TYPE_EXPENSE: {setText(1, QObject::tr("Expense")); break;}
+		case TRANSACTION_TYPE_SECURITY_BUY: {setText(1, QObject::tr("Security Buy")); break;}
+		case TRANSACTION_TYPE_SECURITY_SELL: {setText(1, QObject::tr("Security Sell")); break;}
 	}
 }
 
 class ConfirmScheduleListViewItem : public QTreeWidgetItem {
+	Q_DECLARE_TR_FUNCTIONS(ConfirmScheduleListViewItem)
 	protected:
 		Transaction *o_trans;
 	public:
@@ -317,15 +323,15 @@ void ConfirmScheduleListViewItem::setTransaction(Transaction *trans) {
 	o_trans = trans;
 	setText(0, QLocale().toString(trans->date(), QLocale::ShortFormat));
 	switch(trans->type()) {
-		case TRANSACTION_TYPE_TRANSFER: {setText(1, i18n("Transfer")); break;}
+		case TRANSACTION_TYPE_TRANSFER: {setText(1, tr("Transfer")); break;}
 		case TRANSACTION_TYPE_INCOME: {
-			if(((Income*) trans)->security()) setText(1, i18n("Dividend"));
-			else setText(1, i18n("Income"));
+			if(((Income*) trans)->security()) setText(1, tr("Dividend"));
+			else setText(1, tr("Income"));
 			break;
 		}
-		case TRANSACTION_TYPE_EXPENSE: {setText(1, i18n("Expense")); break;}
-		case TRANSACTION_TYPE_SECURITY_BUY: {setText(1, i18n("Security Buy")); break;}
-		case TRANSACTION_TYPE_SECURITY_SELL: {setText(1, i18n("Security Sell")); break;}
+		case TRANSACTION_TYPE_EXPENSE: {setText(1, tr("Expense")); break;}
+		case TRANSACTION_TYPE_SECURITY_BUY: {setText(1, tr("Security Buy")); break;}
+		case TRANSACTION_TYPE_SECURITY_SELL: {setText(1, tr("Security Sell")); break;}
 	}
 	setText(2, trans->description());
 	setText(3, QLocale().toCurrencyString(trans->value()));
@@ -394,8 +400,8 @@ bool QuotationListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 
 RefundDialog::RefundDialog(Transaction *trans, QWidget *parent) : QDialog(parent, 0), transaction(trans) {
 
-	if(trans->type() == TRANSACTION_TYPE_INCOME) setWindowTitle(i18n("Repayment"));
-	else setWindowTitle(i18n("Refund"));
+	if(trans->type() == TRANSACTION_TYPE_INCOME) setWindowTitle(tr("Repayment"));
+	else setWindowTitle(tr("Refund"));
 	setModal(true);
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
@@ -403,18 +409,18 @@ RefundDialog::RefundDialog(Transaction *trans, QWidget *parent) : QDialog(parent
 	QGridLayout *layout = new QGridLayout();
 	box1->addLayout(layout);
 
-	layout->addWidget(new QLabel(i18n("Date:"), this), 0, 0);
+	layout->addWidget(new QLabel(tr("Date:"), this), 0, 0);
 	dateEdit = new QDateEdit(QDate::currentDate(), this);
 	dateEdit->setCalendarPopup(true);
 	layout->addWidget(dateEdit, 0, 1);
 	dateEdit->setFocus();
 
-	if(trans->type() == TRANSACTION_TYPE_INCOME) layout->addWidget(new QLabel(i18n("Cost:"), this), 1, 0);
-	else layout->addWidget(new QLabel(i18n("Income:"), this), 1, 0);
+	if(trans->type() == TRANSACTION_TYPE_INCOME) layout->addWidget(new QLabel(tr("Cost:"), this), 1, 0);
+	else layout->addWidget(new QLabel(tr("Income:"), this), 1, 0);
 	valueEdit = new EqonomizeValueEdit(trans->value(), false, true, this);
 	layout->addWidget(valueEdit, 1, 1);
 
-	layout->addWidget(new QLabel(i18n("Account:"), this), 2, 0);
+	layout->addWidget(new QLabel(tr("Account:"), this), 2, 0);
 	accountCombo = new QComboBox(this);
 	accountCombo->setEditable(false);
 	int i = 0;
@@ -429,14 +435,14 @@ RefundDialog::RefundDialog(Transaction *trans, QWidget *parent) : QDialog(parent
 	}
 	layout->addWidget(accountCombo, 2, 1);
 
-	layout->addWidget(new QLabel(i18n("Quantity:"), this), 3, 0);
+	layout->addWidget(new QLabel(tr("Quantity:"), this), 3, 0);
 	quantityEdit = new EqonomizeValueEdit(trans->quantity(), 2, false, false, this);
 	layout->addWidget(quantityEdit, 3, 1);
 
-	layout->addWidget(new QLabel(i18n("Comments:"), this), 4, 0);
+	layout->addWidget(new QLabel(tr("Comments:"), this), 4, 0);
 	commentsEdit = new QLineEdit(this);
-	if(trans->type() == TRANSACTION_TYPE_INCOME) commentsEdit->setText(i18n("Repayment"));
-	else commentsEdit->setText(i18n("Refund"));
+	if(trans->type() == TRANSACTION_TYPE_INCOME) commentsEdit->setText(tr("Repayment"));
+	else commentsEdit->setText(tr("Refund"));
 	layout->addWidget(commentsEdit, 4, 1);
 	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -479,7 +485,7 @@ void RefundDialog::accept() {
 }
 bool RefundDialog::validValues() {
 	if(!dateEdit->date().isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		return false;
 	}
 	return true;
@@ -488,7 +494,7 @@ bool RefundDialog::validValues() {
 
 EditReinvestedDividendDialog::EditReinvestedDividendDialog(Budget *budg, Security *sec, bool select_security, QWidget *parent)  : QDialog(parent, 0), budget(budg) {
 
-	setWindowTitle(i18n("Reinvested Dividend"));
+	setWindowTitle(tr("Reinvested Dividend"));
 	setModal(true);
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
@@ -497,7 +503,7 @@ EditReinvestedDividendDialog::EditReinvestedDividendDialog(Budget *budg, Securit
 
 	securityCombo = NULL;
 
-	layout->addWidget(new QLabel(i18n("Security:"), this), 0, 0);
+	layout->addWidget(new QLabel(tr("Security:"), this), 0, 0);
 	if(select_security) {
 		securityCombo = new QComboBox(this);
 		securityCombo->setEditable(false);
@@ -514,12 +520,12 @@ EditReinvestedDividendDialog::EditReinvestedDividendDialog(Budget *budg, Securit
 		layout->addWidget(new QLabel(sec->name(), this), 0, 1);
 	}
 
-	layout->addWidget(new QLabel(i18n("Shares added:"), this), 1, 0);
+	layout->addWidget(new QLabel(tr("Shares added:"), this), 1, 0);
 	sharesEdit = new EqonomizeValueEdit(0.0, selectedSecurity()->decimals(), false, false, this);
 	layout->addWidget(sharesEdit, 1, 1);
 	sharesEdit->setFocus();
 
-	layout->addWidget(new QLabel(i18n("Date:"), this), 2, 0);
+	layout->addWidget(new QLabel(tr("Date:"), this), 2, 0);
 	dateEdit = new QDateEdit(QDate::currentDate(), this);
 	dateEdit->setCalendarPopup(true);
 	layout->addWidget(dateEdit, 2, 1);
@@ -574,7 +580,7 @@ void EditReinvestedDividendDialog::accept() {
 }
 bool EditReinvestedDividendDialog::validValues() {
 	if(!dateEdit->date().isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		return false;
 	}
 	return true;
@@ -582,14 +588,14 @@ bool EditReinvestedDividendDialog::validValues() {
 
 EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QWidget *parent)  : QDialog(parent, 0), budget(budg) {
 
-	setWindowTitle(i18n("Security Trade"));
+	setWindowTitle(tr("Security Trade"));
 	setModal(true);
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	QGridLayout *layout = new QGridLayout();
 	box1->addLayout(layout);
 
-	layout->addWidget(new QLabel(i18n("From security:"), this), 0, 0);
+	layout->addWidget(new QLabel(tr("From security:"), this), 0, 0);
 	fromSecurityCombo = new QComboBox(this);
 	fromSecurityCombo->setEditable(false);
 	Security *c_sec = budget->securities.first();
@@ -605,18 +611,18 @@ EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QW
 	}
 	layout->addWidget(fromSecurityCombo, 0, 1);
 
-	layout->addWidget(new QLabel(i18n("Shares moved:"), this), 1, 0);
+	layout->addWidget(new QLabel(tr("Shares moved:"), this), 1, 0);
 	QHBoxLayout *sharesLayout = new QHBoxLayout();
 	fromSharesEdit = new EqonomizeValueEdit(0.0, sec ? sec->shares() : 10000.0, 1.0, 0.0, sec ? sec->decimals() : 4, false, this);
 	fromSharesEdit->setSizePolicy(QSizePolicy::Expanding, fromSharesEdit->sizePolicy().verticalPolicy());
 	sharesLayout->addWidget(fromSharesEdit);
-	QPushButton *maxSharesButton = new QPushButton(i18n("All"), this);
+	QPushButton *maxSharesButton = new QPushButton(tr("All"), this);
 	maxSharesButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 	sharesLayout->addWidget(maxSharesButton);
 	layout->addLayout(sharesLayout, 1, 1);
 	fromSharesEdit->setFocus();
 
-	layout->addWidget(new QLabel(i18n("To security:"), this), 2, 0);
+	layout->addWidget(new QLabel(tr("To security:"), this), 2, 0);
 	toSecurityCombo = new QComboBox(this);
 	toSecurityCombo->setEditable(false);
 	c_sec = budget->securities.first();
@@ -633,15 +639,15 @@ EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QW
 	}
 	layout->addWidget(toSecurityCombo, 2, 1);
 
-	layout->addWidget(new QLabel(i18n("Shares received:"), this), 3, 0);
+	layout->addWidget(new QLabel(tr("Shares received:"), this), 3, 0);
 	toSharesEdit = new EqonomizeValueEdit(0.0, sec ? sec->decimals() : 4, false, false, this);
 	layout->addWidget(toSharesEdit, 3, 1);
 
-	layout->addWidget(new QLabel(i18n("Value:"), this), 4, 0);
+	layout->addWidget(new QLabel(tr("Value:"), this), 4, 0);
 	valueEdit = new EqonomizeValueEdit(false, this);
 	layout->addWidget(valueEdit, 4, 1);
 
-	layout->addWidget(new QLabel(i18n("Date:"), this), 5, 0);
+	layout->addWidget(new QLabel(tr("Date:"), this), 5, 0);
 	dateEdit = new QDateEdit(QDate::currentDate(), this);
 	dateEdit->setCalendarPopup(true);
 	layout->addWidget(dateEdit, 5, 1);
@@ -734,7 +740,7 @@ SecurityTrade *EditSecurityTradeDialog::createSecurityTrade() {
 }
 bool EditSecurityTradeDialog::checkSecurities() {
 	if(toSecurityCombo->count() < 2) {
-		QMessageBox::critical(this, i18n("Error"), i18n("No other security available for trade in the account."));
+		QMessageBox::critical(this, tr("Error"), tr("No other security available for trade in the account."));
 		return false;
 	}
 	return true;
@@ -746,19 +752,19 @@ void EditSecurityTradeDialog::accept() {
 }
 bool EditSecurityTradeDialog::validValues() {
 	if(selectedFromSecurity() == selectedToSecurity()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Selected to and from securities are the same."));
+		QMessageBox::critical(this, tr("Error"), tr("Selected to and from securities are the same."));
 		return false;
 	}
 	if(!dateEdit->date().isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		return false;
 	}
 	if(fromSharesEdit->value() == 0.0 || toSharesEdit->value() == 0.0) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Zero shares not allowed."));
+		QMessageBox::critical(this, tr("Error"), tr("Zero shares not allowed."));
 		return false;
 	}
 	if(valueEdit->value() == 0.0) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Zero value not allowed."));
+		QMessageBox::critical(this, tr("Error"), tr("Zero value not allowed."));
 		return false;
 	}
 	return true;
@@ -766,12 +772,12 @@ bool EditSecurityTradeDialog::validValues() {
 
 EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0) {
 
-	setWindowTitle(i18n("Quotations"));
+	setWindowTitle(tr("Quotations"));
 	setModal(true);
 
 	QVBoxLayout *quotationsVLayout = new QVBoxLayout(this);
 
-	titleLabel = new QLabel(i18n("Quotations"), this);
+	titleLabel = new QLabel(tr("Quotations"), this);
 	quotationsVLayout->addWidget(titleLabel);
 	QHBoxLayout *quotationsLayout = new QHBoxLayout();
 	quotationsVLayout->addLayout(quotationsLayout);
@@ -782,8 +788,8 @@ EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0)
 	quotationsView->setAllColumnsShowFocus(true);
 	quotationsView->setColumnCount(2);
 	QStringList headers;
-	headers << i18n("Date");
-	headers << i18n("Price per Share");
+	headers << tr("Date");
+	headers << tr("Price per Share");
 	quotationsView->setHeaderLabels(headers);
 	quotationsView->setRootIsDecorated(false);
 	quotationsView->header()->setSectionsClickable(false);
@@ -835,7 +841,7 @@ void EditQuotationsDialog::setSecurity(Security *security) {
 	}
 	quotationsView->addTopLevelItems(items);
 	quotationsView->setSortingEnabled(true);
-	titleLabel->setText(i18n("Quotations for %1", security->name()));
+	titleLabel->setText(tr("Quotations for %1").arg(security->name()));
 }
 void EditQuotationsDialog::modifyQuotations(Security *security) {
 	security->quotations.clear();
@@ -863,7 +869,7 @@ void EditQuotationsDialog::onSelectionChanged() {
 void EditQuotationsDialog::addQuotation() {
 	QDate date = dateEdit->date();
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		return;
 	}
 	QTreeWidgetItemIterator it(quotationsView);
@@ -885,7 +891,7 @@ void EditQuotationsDialog::changeQuotation() {
 	if(i == NULL) return;
 	QDate date = dateEdit->date();
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		return;
 	}
 	QTreeWidgetItemIterator it(quotationsView);
@@ -912,7 +918,7 @@ void EditQuotationsDialog::deleteQuotation() {
 
 
 OverTimeReportDialog::OverTimeReportDialog(Budget *budg, QWidget *parent) : QDialog(parent, 0) {
-	setWindowTitle(i18n("Report"));
+	setWindowTitle(tr("Report"));
 	setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	report = new OverTimeReport(budg, this);
@@ -929,7 +935,7 @@ void OverTimeReportDialog::reject() {
 	QDialog::reject();
 }
 CategoriesComparisonReportDialog::CategoriesComparisonReportDialog(bool extra_parameters, Budget *budg, QWidget *parent) : QDialog(parent, 0) {
-	setWindowTitle(i18n("Report"));
+	setWindowTitle(tr("Report"));
 	setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	report = new CategoriesComparisonReport(budg, this, extra_parameters);
@@ -946,7 +952,7 @@ void CategoriesComparisonReportDialog::reject() {
 	QDialog::reject();
 }
 OverTimeChartDialog::OverTimeChartDialog(bool extra_parameters, Budget *budg, QWidget *parent) : QDialog(parent, 0) {
-	setWindowTitle(i18n("Chart"));
+	setWindowTitle(tr("Chart"));
 	setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	chart = new OverTimeChart(budg, this, extra_parameters);
@@ -962,7 +968,7 @@ void OverTimeChartDialog::reject() {
 	QDialog::reject();
 }
 CategoriesComparisonChartDialog::CategoriesComparisonChartDialog(Budget *budg, QWidget *parent) : QDialog(parent, 0) {
-	setWindowTitle(i18n("Chart"));
+	setWindowTitle(tr("Chart"));
 	setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	chart = new CategoriesComparisonChart(budg, this);
@@ -984,7 +990,7 @@ ConfirmScheduleDialog::ConfirmScheduleDialog(bool extra_parameters, Budget *budg
 	setModal(true);
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
-	QLabel *label = new QLabel(i18n("The following transactions was scheduled to occur today or before today.\nConfirm that they have indeed occurred (or will occur today)."), this);
+	QLabel *label = new QLabel(tr("The following transactions was scheduled to occur today or before today.\nConfirm that they have indeed occurred (or will occur today)."), this);
 	box1->addWidget(label);
 	QHBoxLayout *box2 = new QHBoxLayout();
 	box1->addLayout(box2);
@@ -993,10 +999,10 @@ ConfirmScheduleDialog::ConfirmScheduleDialog(bool extra_parameters, Budget *budg
 	transactionsView->setAllColumnsShowFocus(true);
 	transactionsView->setColumnCount(4);
 	QStringList headers;
-	headers << i18n("Date");
-	headers << i18n("Type");
-	headers << i18n("Description");
-	headers << i18n("Amount");
+	headers << tr("Date");
+	headers << tr("Type");
+	headers << tr("Description");
+	headers << tr("Amount");
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
 	QSizePolicy sp = transactionsView->sizePolicy();
@@ -1004,9 +1010,9 @@ ConfirmScheduleDialog::ConfirmScheduleDialog(bool extra_parameters, Budget *budg
 	transactionsView->setSizePolicy(sp);
 	box2->addWidget(transactionsView);
 	QDialogButtonBox *buttons = new QDialogButtonBox(Qt::Vertical, this);
-	editButton = buttons->addButton(i18n("Edit..."), QDialogButtonBox::ActionRole);
+	editButton = buttons->addButton(tr("Edit..."), QDialogButtonBox::ActionRole);
 	editButton->setEnabled(false);
-	postponeButton = buttons->addButton(i18n("Postpone..."), QDialogButtonBox::ActionRole);
+	postponeButton = buttons->addButton(tr("Postpone..."), QDialogButtonBox::ActionRole);
 	postponeButton->setEnabled(false);
 	removeButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
 	KGuiItem::assign(removeButton, KStandardGuiItem::del());
@@ -1050,7 +1056,7 @@ void ConfirmScheduleDialog::postpone() {
 	QTreeWidgetItem *i = selectedItem(transactionsView);
 	if(i == NULL) return;
 	QDialog *dialog = new QDialog(this, 0);
-	dialog->setWindowTitle(i18n("Date"));
+	dialog->setWindowTitle(tr("Date"));
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
 	QCalendarWidget *datePicker = new QCalendarWidget(dialog);
 	datePicker->setSelectedDate(QDate::currentDate().addDays(1));
@@ -1068,7 +1074,7 @@ void ConfirmScheduleDialog::postpone() {
 			budget->addScheduledTransaction(new ScheduledTransaction(budget, trans, NULL));
 			delete i;
 		} else {
-			QMessageBox::critical(this, i18n("Error"), i18n("Can only postpone to future dates."));
+			QMessageBox::critical(this, tr("Error"), tr("Can only postpone to future dates."));
 		}
 	}
 	dialog->deleteLater();
@@ -1144,7 +1150,7 @@ SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize 
 	setModal(true);
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
-	box1->addWidget(new QLabel(i18n("Transactions for %1", security->name()), this));
+	box1->addWidget(new QLabel(tr("Transactions for %1").arg(security->name()), this));
 	QHBoxLayout *box2 = new QHBoxLayout();
 	box1->addLayout(box2);
 	transactionsView = new EqonomizeTreeWidget(this);
@@ -1152,10 +1158,10 @@ SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize 
 	transactionsView->setAllColumnsShowFocus(true);
 	transactionsView->setColumnCount(4);
 	QStringList headers;
-	headers << i18n("Date");
-	headers << i18n("Type");
-	headers << i18n("Value");
-	headers << i18n("Shares");
+	headers << tr("Date");
+	headers << tr("Type");
+	headers << tr("Value");
+	headers << tr("Shares");
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
 	QSizePolicy sp = transactionsView->sizePolicy();
@@ -1163,7 +1169,7 @@ SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize 
 	transactionsView->setSizePolicy(sp);
 	box2->addWidget(transactionsView);
 	QDialogButtonBox *buttons = new QDialogButtonBox(Qt::Vertical, this);
-	editButton = buttons->addButton(i18n("Edit..."), QDialogButtonBox::ActionRole);
+	editButton = buttons->addButton(tr("Edit..."), QDialogButtonBox::ActionRole);
 	editButton->setEnabled(false);
 	removeButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
 	KGuiItem::assign(removeButton, KStandardGuiItem::del());
@@ -1260,14 +1266,14 @@ void SecurityTransactionsDialog::updateTransactions() {
 		i->date = trans->date();
 		i->value = trans->value();
 		i->shares = trans->shares();
-		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, i18n("Shares Bought"));
-		else i->setText(1, i18n("Shares Sold"));
+		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, tr("Shares Bought"));
+		else i->setText(1, tr("Shares Sold"));
 		items.append(i);
 		trans = security->transactions.next();
 	}
 	Income *div = security->dividends.first();
 	while(div) {
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(div->date(), QLocale::ShortFormat), i18n("Dividend"), QLocale().toCurrencyString(div->value()), "-");
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(div->date(), QLocale::ShortFormat), tr("Dividend"), QLocale().toCurrencyString(div->value()), "-");
 		i->div = div;
 		i->date = div->date();
 		i->value = div->value();
@@ -1276,7 +1282,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	}
 	ReinvestedDividend *rediv = security->reinvestedDividends.first();
 	while(rediv) {
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(rediv->date, QLocale::ShortFormat), i18n("Reinvested Dividend"), "-", QLocale().toString(rediv->shares, 'f', security->decimals()));
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(rediv->date, QLocale::ShortFormat), tr("Reinvested Dividend"), "-", QLocale().toString(rediv->shares, 'f', security->decimals()));
 		i->rediv = rediv;
 		i->date = rediv->date;
 		i->shares = rediv->shares;
@@ -1288,7 +1294,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 		double shares;
 		if(ts->from_security == security) shares = ts->from_shares;
 		else shares = ts->to_shares;
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(ts->date, QLocale::ShortFormat), ts->from_security == security ? i18n("Shares Sold (Traded)") :  i18n("Shares Bought (Traded)"), QLocale().toCurrencyString(ts->value), QLocale().toString(shares, 'f', security->decimals()));
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(ts->date, QLocale::ShortFormat), ts->from_security == security ? tr("Shares Sold (Traded)") :  tr("Shares Bought (Traded)"), QLocale().toCurrencyString(ts->value), QLocale().toString(shares, 'f', security->decimals()));
 		i->ts = ts;
 		i->date = ts->date;
 		i->shares = shares;
@@ -1304,11 +1310,11 @@ void SecurityTransactionsDialog::updateTransactions() {
 		i->value = strans->transaction()->value();
 		i->shares = ((SecurityTransaction*) strans->transaction())->shares();
 		if(strans->recurrence()) {
-			if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, i18n("Shares Bought (Recurring)"));
-			else i->setText(1, i18n("Shares Sold (Recurring)"));
+			if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, tr("Shares Bought (Recurring)"));
+			else i->setText(1, tr("Shares Sold (Recurring)"));
 		} else {
-			if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, i18n("Shares Bought (Scheduled)"));
-			else i->setText(1, i18n("Shares Sold (Scheduled)"));
+			if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, tr("Shares Bought (Scheduled)"));
+			else i->setText(1, tr("Shares Sold (Scheduled)"));
 		}
 		items.append(i);
 		strans = security->scheduledTransactions.next();
@@ -1320,9 +1326,9 @@ void SecurityTransactionsDialog::updateTransactions() {
 		i->date = strans->transaction()->date();
 		i->value = strans->transaction()->value();
 		if(strans->recurrence()) {
-			i->setText(1, i18n("Recurring Dividend"));
+			i->setText(1, tr("Recurring Dividend"));
 		} else {
-			i->setText(1, i18n("Scheduled Dividend"));
+			i->setText(1, tr("Scheduled Dividend"));
 		}
 		items.append(i);
 		strans = security->scheduledDividends.next();
@@ -1340,19 +1346,19 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
-	grid->addWidget(new QLabel(i18n("Type:"), this), 0, 0);
+	grid->addWidget(new QLabel(tr("Type:"), this), 0, 0);
 	typeCombo = new QComboBox(this);
 	typeCombo->setEditable(false);
-	typeCombo->addItem(i18n("Mutual Fund"));
-	typeCombo->addItem(i18n("Bond"));
-	typeCombo->addItem(i18n("Stock"));
-	typeCombo->addItem(i18n("Other"));
+	typeCombo->addItem(tr("Mutual Fund"));
+	typeCombo->addItem(tr("Bond"));
+	typeCombo->addItem(tr("Stock"));
+	typeCombo->addItem(tr("Other"));
 	grid->addWidget(typeCombo, 0, 1);
 	typeCombo->setFocus();
-	grid->addWidget(new QLabel(i18n("Name:"), this), 1, 0);
+	grid->addWidget(new QLabel(tr("Name:"), this), 1, 0);
 	nameEdit = new QLineEdit(this);
 	grid->addWidget(nameEdit, 1, 1);
-	grid->addWidget(new QLabel(i18n("Account:"), this), 2, 0);
+	grid->addWidget(new QLabel(tr("Account:"), this), 2, 0);
 	accountCombo = new QComboBox(this);
 	accountCombo->setEditable(false);
 	AssetsAccount *account = budget->assetsAccounts.first();
@@ -1364,25 +1370,25 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 		account = budget->assetsAccounts.next();
 	}
 	grid->addWidget(accountCombo, 2, 1);
-	grid->addWidget(new QLabel(i18n("Decimals in Shares:"), this), 3, 0);
+	grid->addWidget(new QLabel(tr("Decimals in Shares:"), this), 3, 0);
 	decimalsEdit = new QSpinBox(this);
 	decimalsEdit->setRange(0, 8);
 	decimalsEdit->setSingleStep(1);
 	decimalsEdit->setValue(4);
 	grid->addWidget(decimalsEdit, 3, 1);
-	grid->addWidget(new QLabel(i18n("Initial Shares:"), this), 4, 0);
+	grid->addWidget(new QLabel(tr("Initial Shares:"), this), 4, 0);
 	sharesEdit = new EqonomizeValueEdit(0.0, 4, false, false, this);
 	grid->addWidget(sharesEdit, 4, 1);
-	quotationLabel = new QLabel(i18n("Initial quotation:"), this);
+	quotationLabel = new QLabel(tr("Initial quotation:"), this);
 	grid->addWidget(quotationLabel, 5, 0);
 	quotationEdit = new EqonomizeValueEdit(false, this);
 	grid->addWidget(quotationEdit, 5, 1);
-	quotationDateLabel = new QLabel(i18n("Date:"), this);
+	quotationDateLabel = new QLabel(tr("Date:"), this);
 	grid->addWidget(quotationDateLabel, 6, 0);
 	quotationDateEdit = new QDateEdit(QDate::currentDate(), this);
 	quotationDateEdit->setCalendarPopup(true);
 	grid->addWidget(quotationDateEdit, 6, 1);
-	grid->addWidget(new QLabel(i18n("Description:"), this), 7, 0);
+	grid->addWidget(new QLabel(tr("Description:"), this), 7, 0);
 	descriptionEdit = new QTextEdit(this);
 	grid->addWidget(descriptionEdit, 8, 0, 1, 2);
 	nameEdit->setFocus();
@@ -1399,7 +1405,7 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 }
 bool EditSecurityDialog::checkAccount() {
 	if(accountCombo->count() == 0) {
-		QMessageBox::critical(this, i18n("Error"), i18n("No suitable account or income category available."));
+		QMessageBox::critical(this, tr("Error"), tr("No suitable account or income category available."));
 		return false;
 	}
 	return true;
@@ -1470,26 +1476,26 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
-	grid->addWidget(new QLabel(i18n("Type:"), this), 0, 0);
+	grid->addWidget(new QLabel(tr("Type:"), this), 0, 0);
 	typeCombo = new QComboBox(this);
 	typeCombo->setEditable(false);
-	typeCombo->addItem(i18n("Cash"));
-	typeCombo->addItem(i18n("Current Account"));
-	typeCombo->addItem(i18n("Savings Account"));
-	typeCombo->addItem(i18n("Credit Card"));
-	typeCombo->addItem(i18n("Liabilities"));
-	typeCombo->addItem(i18n("Securities"));
+	typeCombo->addItem(tr("Cash"));
+	typeCombo->addItem(tr("Current Account"));
+	typeCombo->addItem(tr("Savings Account"));
+	typeCombo->addItem(tr("Credit Card"));
+	typeCombo->addItem(tr("Liabilities"));
+	typeCombo->addItem(tr("Securities"));
 	grid->addWidget(typeCombo, 0, 1);
-	grid->addWidget(new QLabel(i18n("Name:"), this), 1, 0);
+	grid->addWidget(new QLabel(tr("Name:"), this), 1, 0);
 	nameEdit = new QLineEdit(this);
 	grid->addWidget(nameEdit, 1, 1);
-	grid->addWidget(new QLabel(i18n("Initial balance:"), this), 2, 0);
+	grid->addWidget(new QLabel(tr("Initial balance:"), this), 2, 0);
 	valueEdit = new EqonomizeValueEdit(true, this);
 	grid->addWidget(valueEdit, 2, 1);
-	budgetButton = new QCheckBox(i18n("Default account for budgeted transactions"), this);
+	budgetButton = new QCheckBox(tr("Default account for budgeted transactions"), this);
 	budgetButton->setChecked(false);
 	grid->addWidget(budgetButton, 3, 0, 1, 2);
-	grid->addWidget(new QLabel(i18n("Description:"), this), 4, 0);
+	grid->addWidget(new QLabel(tr("Description:"), this), 4, 0);
 	descriptionEdit = new QTextEdit(this);
 	grid->addWidget(descriptionEdit, 5, 0, 1, 2);
 	nameEdit->setFocus();
@@ -1558,13 +1564,13 @@ void EditAssetsAccountDialog::accept() {
 	QString sname = nameEdit->text().trimmed();
 	if(sname.isEmpty()) {
 		nameEdit->setFocus();
-		QMessageBox::critical(this, i18n("Error"), i18n("Empty name."));
+		QMessageBox::critical(this, tr("Error"), tr("Empty name."));
 		return;
 	}
 	AssetsAccount *aaccount = budget->findAssetsAccount(sname);
 	if(aaccount && aaccount != current_account) {
 		nameEdit->setFocus();
-		QMessageBox::critical(this, i18n("Error"), i18n("The entered name is used by another account."));
+		QMessageBox::critical(this, tr("Error"), tr("The entered name is used by another account."));
 		return;
 	}
 	QDialog::accept();
@@ -1580,16 +1586,16 @@ EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, QWidget *parent
 	
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
-	grid->addWidget(new QLabel(i18n("Name:"), this), 0, 0);
+	grid->addWidget(new QLabel(tr("Name:"), this), 0, 0);
 	nameEdit = new QLineEdit(this);
 	grid->addWidget(nameEdit, 0, 1);
-	budgetButton = new QCheckBox(i18n("Monthly budget:"), this);
+	budgetButton = new QCheckBox(tr("Monthly budget:"), this);
 	budgetButton->setChecked(false);
 	grid->addWidget(budgetButton, 1, 0);
 	budgetEdit = new EqonomizeValueEdit(false, this);
 	budgetEdit->setEnabled(false);
 	grid->addWidget(budgetEdit, 1, 1);
-	grid->addWidget(new QLabel(i18n("Description:"), this), 2, 0);
+	grid->addWidget(new QLabel(tr("Description:"), this), 2, 0);
 	descriptionEdit = new QTextEdit(this);
 	grid->addWidget(descriptionEdit, 3, 0, 1, 2);
 	nameEdit->setFocus();
@@ -1629,13 +1635,13 @@ void EditIncomesAccountDialog::accept() {
 	QString sname = nameEdit->text().trimmed();
 	if(sname.isEmpty()) {
 		nameEdit->setFocus();
-		QMessageBox::critical(this, i18n("Error"), i18n("Empty name."));
+		QMessageBox::critical(this, tr("Error"), tr("Empty name."));
 		return;
 	}
 	IncomesAccount *iaccount = budget->findIncomesAccount(sname);
 	if(iaccount && iaccount != current_account) {
 		nameEdit->setFocus();
-		QMessageBox::critical(this, i18n("Error"), i18n("The entered name is used by another income category."));
+		QMessageBox::critical(this, tr("Error"), tr("The entered name is used by another income category."));
 		return;
 	}
 	QDialog::accept();
@@ -1650,16 +1656,16 @@ EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, QWidget *pare
 	
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
-	grid->addWidget(new QLabel(i18n("Name:"), this), 0, 0);
+	grid->addWidget(new QLabel(tr("Name:"), this), 0, 0);
 	nameEdit = new QLineEdit(this);
 	grid->addWidget(nameEdit, 0, 1);
-	budgetButton = new QCheckBox(i18n("Monthly budget:"), this);
+	budgetButton = new QCheckBox(tr("Monthly budget:"), this);
 	budgetButton->setChecked(false);
 	grid->addWidget(budgetButton, 1, 0);
 	budgetEdit = new EqonomizeValueEdit(false, this);
 	budgetEdit->setEnabled(false);
 	grid->addWidget(budgetEdit, 1, 1);
-	grid->addWidget(new QLabel(i18n("Description:"), this), 2, 0);
+	grid->addWidget(new QLabel(tr("Description:"), this), 2, 0);
 	descriptionEdit = new QTextEdit(this);
 	grid->addWidget(descriptionEdit, 3, 0, 1, 2);
 	nameEdit->setFocus();
@@ -1699,13 +1705,13 @@ void EditExpensesAccountDialog::accept() {
 	QString sname = nameEdit->text().trimmed();
 	if(sname.isEmpty()) {
 		nameEdit->setFocus();
-		QMessageBox::critical(this, i18n("Error"), i18n("Empty name."));
+		QMessageBox::critical(this, tr("Error"), tr("Empty name."));
 		return;
 	}
 	ExpensesAccount *eaccount = budget->findExpensesAccount(sname);
 	if(eaccount && eaccount != current_account) {
 		nameEdit->setFocus();
-		QMessageBox::critical(this, i18n("Error"), i18n("The entered name is used by another expense category."));
+		QMessageBox::critical(this, tr("Error"), tr("The entered name is used by another expense category."));
 		return;
 	}
 	QDialog::accept();
@@ -1831,41 +1837,23 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 
 	QVBoxLayout *topLayout = new QVBoxLayout(w_top);
 	
-	tabs = new KPageWidget(w_top);
+	tabs = new QTabWidget(w_top);
 	topLayout->addWidget(tabs);
 	
 	accounts_page = new QWidget(this);
-	accounts_page_item = new KPageWidgetItem(accounts_page, i18n("Accounts"));
-	accounts_page_item->setHeader(i18n("Accounts & Categories"));
-	accounts_page_item->setIcon(QIcon::fromTheme("go-home"));
-	tabs->addPage(accounts_page_item);
+	tabs->addTab(accounts_page, QIcon::fromTheme("go-home"), tr("Accounts && Categories"));
 	expenses_page = new QWidget(this);
-	expenses_page_item = new KPageWidgetItem(expenses_page, i18n("Expenses"));
-	expenses_page_item->setHeader(i18n("Expenses"));
-	expenses_page_item->setIcon(QIcon::fromTheme("go-previous"));
-	tabs->addPage(expenses_page_item);
+	tabs->addTab(expenses_page, QIcon::fromTheme("go-previous"), tr("Expenses"));
 	incomes_page = new QWidget(this);
-	incomes_page_item = new KPageWidgetItem(incomes_page, i18n("Incomes"));
-	incomes_page_item->setHeader(i18n("Incomes"));
-	incomes_page_item->setIcon(QIcon::fromTheme("go-next"));
-	tabs->addPage(incomes_page_item);
+	tabs->addTab(incomes_page, QIcon::fromTheme("go-next"), tr("Incomes"));
 	transfers_page = new QWidget(this);
-	transfers_page_item = new KPageWidgetItem(transfers_page, i18n("Transfers"));
-	transfers_page_item->setHeader(i18n("Transfers"));
-	transfers_page_item->setIcon(QIcon::fromTheme("view-refresh"));
-	tabs->addPage(transfers_page_item);
+	tabs->addTab(transfers_page, QIcon::fromTheme("view-refresh"), tr("Transfers"));
 	securities_page = new QWidget(this);
-	securities_page_item = new KPageWidgetItem(securities_page, i18n("Securities"));
-	securities_page_item->setHeader(i18n("Securities"));
-	securities_page_item->setIcon(QIcon::fromTheme("view-list-text"));
-	tabs->addPage(securities_page_item);
+	tabs->addTab(securities_page, QIcon::fromTheme("view-list-text"), tr("Securities"));
 	schedule_page = new QWidget(this);
-	schedule_page_item = new KPageWidgetItem(schedule_page, i18n("Schedule"));
-	schedule_page_item->setHeader(i18n("Scheduled Transactions"));
-	schedule_page_item->setIcon(QIcon::fromTheme("view-pim-calendar"));
-	tabs->addPage(schedule_page_item);
+	tabs->addTab(schedule_page, QIcon::fromTheme("view-pim-calendar"), tr("Schedule"));
 
-	connect(tabs, SIGNAL(currentPageChanged(KPageWidgetItem*, KPageWidgetItem*)), this, SLOT(onPageChange(KPageWidgetItem*, KPageWidgetItem*)));
+	connect(tabs, SIGNAL(currentChanged(int)), this, SLOT(onPageChange(int)));
 
 	QVBoxLayout *accountsLayout = new QVBoxLayout(accounts_page);
 	accountsLayout->setContentsMargins(0, 0, 0, 0);
@@ -1877,10 +1865,10 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	accountsView->setAllColumnsShowFocus(true);
 	accountsView->setColumnCount(4);
 	QStringList accountsViewHeaders;
-	accountsViewHeaders << i18n("Account / Category");
-	accountsViewHeaders << i18n("Remaining Budget (%1)", QLocale().currencySymbol());
-	accountsViewHeaders << i18n("Change (%1)", QLocale().currencySymbol());
-	accountsViewHeaders << i18n("Total (%1)", QLocale().currencySymbol());
+	accountsViewHeaders << tr("Account / Category");
+	accountsViewHeaders << tr("Remaining Budget (%1)").arg(QLocale().currencySymbol());
+	accountsViewHeaders << tr("Change (%1)").arg(QLocale().currencySymbol());
+	accountsViewHeaders << tr("Total (%1)").arg(QLocale().currencySymbol());
 	accountsView->setHeaderLabels(accountsViewHeaders);
 	accountsView->setRootIsDecorated(false);
 	accountsView->header()->setSectionsClickable(false);
@@ -1893,23 +1881,23 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	accountsView->resizeColumnToContents(1);
 	accountsView->resizeColumnToContents(2);
 	accountsView->resizeColumnToContents(3);
-	int w = fm.width(i18nc("%2 remains of %1 budget", "%2 of %1", QLocale().toString(10000.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(100000.0, 'f', MONETARY_DECIMAL_PLACES)));
+	int w = fm.width(tr("%2 of %1", "%2 remains of %1 budget").arg(QLocale().toString(10000.0, 'f', MONETARY_DECIMAL_PLACES)).arg(QLocale().toString(100000.0, 'f', MONETARY_DECIMAL_PLACES)));
 	if(accountsView->columnWidth(BUDGET_COLUMN) < w) accountsView->setColumnWidth(BUDGET_COLUMN, w);
 	w = fm.width(QLocale().toString(999999999.99, 'f', MONETARY_DECIMAL_PLACES));
 	if(accountsView->columnWidth(CHANGE_COLUMN) < w) accountsView->setColumnWidth(CHANGE_COLUMN, w);
 	w = fm.width(QLocale().toString(999999999.99, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	if(accountsView->columnWidth(VALUE_COLUMN) < w) accountsView->setColumnWidth(VALUE_COLUMN, w);
-	w = fm.width(i18n("Account / Category"));
+	w = fm.width(tr("Account / Category"));
 	if(accountsView->columnWidth(0) < w) accountsView->setColumnWidth(0, w);
 	accountsView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
-	assetsItem = new TotalListViewItem(accountsView, i18n("Accounts"), QString::null, QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
-	incomesItem = new TotalListViewItem(accountsView, assetsItem, i18n("Incomes"), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
-	expensesItem = new TotalListViewItem(accountsView, incomesItem, i18n("Expenses"), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
+	assetsItem = new TotalListViewItem(accountsView, tr("Accounts"), QString::null, QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
+	incomesItem = new TotalListViewItem(accountsView, assetsItem, tr("Incomes"), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
+	expensesItem = new TotalListViewItem(accountsView, incomesItem, tr("Expenses"), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	accountsLayoutView->addWidget(accountsView);
 	QHBoxLayout *accountsLayoutFooter = new QHBoxLayout();
 	accountsLayoutView->addLayout(accountsLayoutFooter);
 	accountsLayoutFooter->addStretch(1);
-	footer1 = new QLabel(QString("* ") + i18n("Includes budgeted transactions"), accounts_page);
+	footer1 = new QLabel(QString("* ") + tr("Includes budgeted transactions"), accounts_page);
 	accountsLayoutFooter->addWidget(footer1);
 	footer1->hide();
 
@@ -1917,11 +1905,11 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	accountsTabs->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
 	QWidget *periodWidget = new QWidget(accounts_page);
-	accountsTabs->addTab(periodWidget, i18n("Period"));
+	accountsTabs->addTab(periodWidget, tr("Period"));
 	QVBoxLayout *accountsPeriodLayout = new QVBoxLayout(periodWidget);
 	QHBoxLayout *accountsPeriodLayout2 = new QHBoxLayout();
 	accountsPeriodLayout->addLayout(accountsPeriodLayout2);
-	accountsPeriodFromButton = new QCheckBox(i18n("From"), periodWidget);
+	accountsPeriodFromButton = new QCheckBox(tr("From"), periodWidget);
 	accountsPeriodFromButton->setChecked(from_enabled);
 	accountsPeriodLayout2->addWidget(accountsPeriodFromButton);
 	accountsPeriodFromEdit = new QDateEdit(periodWidget);
@@ -1932,7 +1920,7 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	sp.setHorizontalPolicy(QSizePolicy::Expanding);
 	accountsPeriodFromEdit->setSizePolicy(sp);
 	accountsPeriodLayout2->addWidget(accountsPeriodFromEdit);
-	accountsPeriodLayout2->addWidget(new QLabel(i18n("To"), periodWidget));
+	accountsPeriodLayout2->addWidget(new QLabel(tr("To"), periodWidget));
 	accountsPeriodToEdit = new QDateEdit(periodWidget);
 	accountsPeriodToEdit->setCalendarPopup(true);
 	accountsPeriodToEdit->setDate(to_date);
@@ -1949,28 +1937,28 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	accountsPeriodLayout2->addWidget(nextMonthButton);
 	QPushButton *nextYearButton = new QPushButton(QIcon::fromTheme("arrow-right-double"), "", periodWidget);
 	accountsPeriodLayout2->addWidget(nextYearButton);
-	QPushButton *accountsPeriodButton = new QPushButton(i18n("Select Period"), periodWidget);
+	QPushButton *accountsPeriodButton = new QPushButton(tr("Select Period"), periodWidget);
 	QMenu *accountsPeriodMenu = new QMenu(this);
-	ActionAP_1 = accountsPeriodMenu->addAction(i18n("Current Month"));
-	ActionAP_2 = accountsPeriodMenu->addAction(i18n("Current Year"));
-	ActionAP_3 = accountsPeriodMenu->addAction(i18n("Current Whole Month"));
-	ActionAP_4 = accountsPeriodMenu->addAction(i18n("Current Whole Year"));
-	ActionAP_5 = accountsPeriodMenu->addAction(i18n("Whole Past Month"));
-	ActionAP_6 = accountsPeriodMenu->addAction(i18n("Whole Past Year"));
-	ActionAP_7 = accountsPeriodMenu->addAction(i18n("Previous Month"));
-	ActionAP_8 = accountsPeriodMenu->addAction(i18n("Previous Year"));
+	ActionAP_1 = accountsPeriodMenu->addAction(tr("Current Month"));
+	ActionAP_2 = accountsPeriodMenu->addAction(tr("Current Year"));
+	ActionAP_3 = accountsPeriodMenu->addAction(tr("Current Whole Month"));
+	ActionAP_4 = accountsPeriodMenu->addAction(tr("Current Whole Year"));
+	ActionAP_5 = accountsPeriodMenu->addAction(tr("Whole Past Month"));
+	ActionAP_6 = accountsPeriodMenu->addAction(tr("Whole Past Year"));
+	ActionAP_7 = accountsPeriodMenu->addAction(tr("Previous Month"));
+	ActionAP_8 = accountsPeriodMenu->addAction(tr("Previous Year"));
 	accountsPeriodButton->setMenu(accountsPeriodMenu);
 	accountsPeriodLayout3->addWidget(accountsPeriodButton);
-	partialBudgetButton = new QCheckBox(i18n("Show partial budget"), periodWidget);
+	partialBudgetButton = new QCheckBox(tr("Show partial budget"), periodWidget);
 	accountsPeriodLayout3->addWidget(partialBudgetButton);
 	accountsPeriodLayout3->addStretch(1);
 
 	QWidget *budgetWidget = new QWidget(accounts_page);
-	accountsTabs->addTab(budgetWidget, i18n("Edit Budget"));
+	accountsTabs->addTab(budgetWidget, tr("Edit Budget"));
 	QVBoxLayout *budgetLayout = new QVBoxLayout(budgetWidget);
 	QHBoxLayout *budgetLayout2 = new QHBoxLayout();
 	budgetLayout->addLayout(budgetLayout2);
-	budgetButton = new QCheckBox(i18n("Budget:"), budgetWidget);
+	budgetButton = new QCheckBox(tr("Budget:"), budgetWidget);
 	budgetButton->setChecked(false);
 	budgetLayout2->addWidget(budgetButton);
 	budgetEdit = new EqonomizeValueEdit(false, budgetWidget);
@@ -1980,7 +1968,7 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	budgetEdit->setSizePolicy(sp);
 	budgetEdit->setFocus();
 	budgetLayout2->addWidget(budgetEdit);
-	budgetLayout2->addWidget(new QLabel(i18n("Month:"), budgetWidget));
+	budgetLayout2->addWidget(new QLabel(tr("Month:"), budgetWidget));
 	budgetMonthEdit = new EqonomizeMonthSelector(budgetWidget);
 	sp = budgetMonthEdit->sizePolicy();
 	sp.setHorizontalPolicy(QSizePolicy::Expanding);
@@ -1988,7 +1976,7 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	budgetLayout2->addWidget(budgetMonthEdit);
 	QHBoxLayout *budgetLayout3 = new QHBoxLayout();
 	budgetLayout->addLayout(budgetLayout3);
-	budgetLayout3->addWidget(new QLabel(i18n("Result previous month:"), budgetWidget));
+	budgetLayout3->addWidget(new QLabel(tr("Result previous month:"), budgetWidget));
 	prevMonthBudgetLabel = new QLabel("-", budgetWidget);
 	budgetLayout3->addWidget(prevMonthBudgetLabel);
 	budgetLayout3->addStretch(1);
@@ -2041,12 +2029,12 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	QVBoxLayout *securitiesLayout = new QVBoxLayout(securities_page);
 
 	QDialogButtonBox *securitiesButtons = new QDialogButtonBox(securities_page);
-	newSecurityButton = securitiesButtons->addButton(i18n("New Security..."), QDialogButtonBox::ActionRole);
+	newSecurityButton = securitiesButtons->addButton(tr("New Security..."), QDialogButtonBox::ActionRole);
 	newSecurityButton->setEnabled(true);
-	newSecurityTransactionButton = securitiesButtons->addButton(i18n("New Transaction"), QDialogButtonBox::ActionRole);
+	newSecurityTransactionButton = securitiesButtons->addButton(tr("New Transaction"), QDialogButtonBox::ActionRole);
 	QMenu *newSecurityTransactionMenu = new QMenu(this);
 	newSecurityTransactionButton->setMenu(newSecurityTransactionMenu);
-	setQuotationButton = securitiesButtons->addButton(i18n("Set Quotation..."), QDialogButtonBox::ActionRole);
+	setQuotationButton = securitiesButtons->addButton(tr("Set Quotation..."), QDialogButtonBox::ActionRole);
 	setQuotationButton->setEnabled(false);
 	securitiesLayout->addWidget(securitiesButtons);
 
@@ -2058,15 +2046,15 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	securitiesView->setAllColumnsShowFocus(true);
 	securitiesView->setColumnCount(9);
 	QStringList securitiesViewHeaders;
-	securitiesViewHeaders << i18n("Name");
-	securitiesViewHeaders << i18n("Value");
-	securitiesViewHeaders << i18n("Shares");
-	securitiesViewHeaders << i18n("Quotation");
-	securitiesViewHeaders << i18n("Cost");
-	securitiesViewHeaders << i18n("Profit");
-	securitiesViewHeaders << i18n("Yearly Rate");
-	securitiesViewHeaders << i18n("Type");
-	securitiesViewHeaders << i18n("Account");
+	securitiesViewHeaders << tr("Name");
+	securitiesViewHeaders << tr("Value");
+	securitiesViewHeaders << tr("Shares");
+	securitiesViewHeaders << tr("Quotation");
+	securitiesViewHeaders << tr("Cost");
+	securitiesViewHeaders << tr("Profit");
+	securitiesViewHeaders << tr("Yearly Rate");
+	securitiesViewHeaders << tr("Type");
+	securitiesViewHeaders << tr("Account");
 	securitiesView->setHeaderLabels(securitiesViewHeaders);
 	securitiesView->setRootIsDecorated(false);
 	sp = securitiesView->sizePolicy();
@@ -2077,11 +2065,11 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	securitiesStatLabel = new QLabel(securities_page);
 	securitiesViewLayout->addWidget(securitiesStatLabel);
 
-	QGroupBox *periodGroup = new QGroupBox(i18n("Statistics Period"), securities_page);
+	QGroupBox *periodGroup = new QGroupBox(tr("Statistics Period"), securities_page);
 	QVBoxLayout *securitiesPeriodLayout = new QVBoxLayout(periodGroup);
 	QHBoxLayout *securitiesPeriodLayout2 = new QHBoxLayout();
 	securitiesPeriodLayout->addLayout(securitiesPeriodLayout2);
-	securitiesPeriodFromButton = new QCheckBox(i18n("From"), periodGroup);
+	securitiesPeriodFromButton = new QCheckBox(tr("From"), periodGroup);
 	securitiesPeriodFromButton->setChecked(false);
 	securitiesPeriodLayout2->addWidget(securitiesPeriodFromButton);
 	securitiesPeriodFromEdit = new QDateEdit(periodGroup);
@@ -2093,7 +2081,7 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	sp.setHorizontalPolicy(QSizePolicy::Expanding);
 	securitiesPeriodFromEdit->setSizePolicy(sp);
 	securitiesPeriodLayout2->addWidget(securitiesPeriodFromEdit);
-	securitiesPeriodLayout2->addWidget(new QLabel(i18n("To"), periodGroup));
+	securitiesPeriodLayout2->addWidget(new QLabel(tr("To"), periodGroup));
 	securitiesPeriodToEdit = new QDateEdit(periodGroup);
 	securitiesPeriodToEdit->setCalendarPopup(true);
 	securities_to_date = curdate;
@@ -2139,10 +2127,10 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	scheduleLayout->setContentsMargins(0, 0, 0, 0);
 
 	QDialogButtonBox *scheduleButtons = new QDialogButtonBox(schedule_page);
-	newScheduleButton = scheduleButtons->addButton(i18n("New Schedule"), QDialogButtonBox::ActionRole);
+	newScheduleButton = scheduleButtons->addButton(tr("New Schedule"), QDialogButtonBox::ActionRole);
 	QMenu *newScheduleMenu = new QMenu(this);
 	newScheduleButton->setMenu(newScheduleMenu);
-	editScheduleButton = scheduleButtons->addButton(i18n("Edit"), QDialogButtonBox::ActionRole);
+	editScheduleButton = scheduleButtons->addButton(tr("Edit"), QDialogButtonBox::ActionRole);
 	editScheduleMenu = new QMenu(this);
 	editScheduleButton->setMenu(editScheduleMenu);
 	editScheduleButton->setEnabled(false);
@@ -2156,13 +2144,13 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	scheduleView->setAllColumnsShowFocus(true);
 	scheduleView->setColumnCount(7);
 	QStringList scheduleViewHeaders;
-	scheduleViewHeaders << i18n("Next Occurrence");
-	scheduleViewHeaders << i18n("Type");
-	scheduleViewHeaders << i18n("Description");
-	scheduleViewHeaders << i18n("Amount");
-	scheduleViewHeaders << i18n("From");
-	scheduleViewHeaders << i18n("To");
-	scheduleViewHeaders << i18n("Comments");
+	scheduleViewHeaders << tr("Next Occurrence");
+	scheduleViewHeaders << tr("Type");
+	scheduleViewHeaders << tr("Description");
+	scheduleViewHeaders << tr("Amount");
+	scheduleViewHeaders << tr("From");
+	scheduleViewHeaders << tr("To");
+	scheduleViewHeaders << tr("Comments");
 	scheduleView->setHeaderLabels(scheduleViewHeaders);
 	scheduleView->setRootIsDecorated(false);
 	sp = scheduleView->sizePolicy();
@@ -2236,7 +2224,7 @@ void Eqonomize::useExtraProperties(bool b) {
 	expensesLayout->addWidget(expensesWidget);
 	expensesWidget->updateAccounts();
 	expensesWidget->transactionsReset();
-	if(tabs->currentPage()->widget() == expenses_page) {
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) {
 		expensesWidget->onDisplay();
 		updateTransactionActions();
 	}
@@ -2247,7 +2235,7 @@ void Eqonomize::useExtraProperties(bool b) {
 	incomesLayout->addWidget(incomesWidget);
 	incomesWidget->updateAccounts();
 	incomesWidget->transactionsReset();
-	if(tabs->currentPage()->widget() == incomes_page) {
+	if(tabs->currentIndex() == INCOMES_PAGE_INDEX) {
 		incomesWidget->onDisplay();
 		updateTransactionActions();
 	}
@@ -2274,16 +2262,13 @@ void Eqonomize::checkDate() {
 }
 
 void Eqonomize::showExpenses() {
-	tabs->setCurrentPage(expenses_page_item);
-	onPageChange(expenses_page);
+	tabs->setCurrentIndex(EXPENSES_PAGE_INDEX);
 }
 void Eqonomize::showIncomes() {
-	tabs->setCurrentPage(incomes_page_item);
-	onPageChange(incomes_page);
+	tabs->setCurrentIndex(INCOMES_PAGE_INDEX);
 }
 void Eqonomize::showTransfers() {
-	tabs->setCurrentPage(transfers_page_item);
-	onPageChange(transfers_page);
+	tabs->setCurrentIndex(TRANSFERS_PAGE_INDEX);
 }
 
 void Eqonomize::setPartialBudget(bool b) {
@@ -2415,7 +2400,7 @@ void Eqonomize::periodSelected(QAction *a) {
 }
 
 void Eqonomize::newSecurity() {
-	EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, i18n("New Security"));
+	EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("New Security"));
 	if(dialog->checkAccount() && dialog->exec() == QDialog::Accepted) {
 		Security *security = dialog->newSecurity();
 		if(security) {
@@ -2430,7 +2415,7 @@ void Eqonomize::newSecurity() {
 void Eqonomize::editSecurity(QTreeWidgetItem *i) {
 	if(!i) return;
 	Security *security = ((SecurityListViewItem*) i)->security();
-	EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, i18n("Edit Security"));
+	EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("Edit Security"));
 	dialog->setSecurity(security);
 	if(dialog->checkAccount() && dialog->exec() == QDialog::Accepted) {
 		if(dialog->modifySecurity(security)) {
@@ -2449,14 +2434,14 @@ void Eqonomize::editSecurity() {
 	editSecurity(i);
 }
 void Eqonomize::updateSecuritiesStatistics() {
-	securitiesStatLabel->setText(QString("<div align=\"right\"><b>%1</b> %5 &nbsp; <b>%2</b> %6 &nbsp; <b>%3</b> %7 &nbsp; <b>%4</b> %8\%</div>").arg(i18n("Total value:")).arg(i18n("Cost:")).arg(i18n("Profit:")).arg(i18n("Rate:")).arg(QLocale().toCurrencyString(total_value), QLocale().toCurrencyString(total_cost)).arg(QLocale().toCurrencyString(total_profit)).arg(QLocale().toString(total_rate * 100)));
+	securitiesStatLabel->setText(QString("<div align=\"right\"><b>%1</b> %5 &nbsp; <b>%2</b> %6 &nbsp; <b>%3</b> %7 &nbsp; <b>%4</b> %8\%</div>").arg(tr("Total value:")).arg(tr("Cost:")).arg(tr("Profit:")).arg(tr("Rate:")).arg(QLocale().toCurrencyString(total_value), QLocale().toCurrencyString(total_cost)).arg(QLocale().toCurrencyString(total_profit)).arg(QLocale().toString(total_rate * 100)));
 }
 void Eqonomize::deleteSecurity() {
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
 	if(i == NULL) return;
 	Security *security = i->security();
 	bool has_trans = budget->securityHasTransactions(security);
-	if(!has_trans || QMessageBox::warning(this, i18n("Delete security?"), i18n("Are you sure you want to delete the security \"%1\" and all associated transactions?", security->name()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Ok) {
+	if(!has_trans || QMessageBox::warning(this, tr("Delete security?"), tr("Are you sure you want to delete the security \"%1\" and all associated transactions?").arg(security->name()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Ok) {
 		total_value -= i->value;
 		total_rate *= total_cost;
 		total_cost -= i->cost;
@@ -2518,7 +2503,7 @@ bool Eqonomize::editReinvestedDividend(ReinvestedDividend *rediv, Security *secu
 }
 void Eqonomize::newReinvestedDividend() {
 	if(budget->securities.count() == 0) {
-		QMessageBox::critical(this, i18n("Error"), i18n("No security available."));
+		QMessageBox::critical(this, tr("Error"), tr("No security available."));
 		return;
 	}
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
@@ -2590,16 +2575,16 @@ void Eqonomize::setQuotation() {
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
 	if(i == NULL) return;
 	QDialog *dialog = new QDialog(this, 0);
-	dialog->setWindowTitle(i18n("Set Quotation (%1)", i->security()->name()));
+	dialog->setWindowTitle(tr("Set Quotation (%1)").arg(i->security()->name()));
 	dialog->setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
-	grid->addWidget(new QLabel(i18n("Price per share:"), dialog), 0, 0);
+	grid->addWidget(new QLabel(tr("Price per share:"), dialog), 0, 0);
 	EqonomizeValueEdit *quotationEdit = new EqonomizeValueEdit(0.01, INT_MAX / pow(10, MONETARY_DECIMAL_PLACES) - 1.0, pow(10, -MONETARY_DECIMAL_PLACES), i->security()->getQuotation(QDate::currentDate()), MONETARY_DECIMAL_PLACES, true, dialog);
 	quotationEdit->setFocus();
 	grid->addWidget(quotationEdit, 0, 1);
-	grid->addWidget(new QLabel(i18n("Date:"), dialog), 1, 0);
+	grid->addWidget(new QLabel(tr("Date:"), dialog), 1, 0);
 	QDateEdit *dateEdit = new QDateEdit(QDate::currentDate(), dialog);
 	dateEdit->setCalendarPopup(true);
 	grid->addWidget(dateEdit, 1, 1);
@@ -2612,9 +2597,9 @@ void Eqonomize::setQuotation() {
 	while(dialog->exec() == QDialog::Accepted) {
 		QDate date = dateEdit->date();
 		if(!date.isValid()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+			QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		} else if(date > QDate::currentDate()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Future dates are not allowed."));
+			QMessageBox::critical(this, tr("Error"), tr("Future dates are not allowed."));
 		} else {
 			i->security()->setQuotation(date, quotationEdit->value());
 			updateSecurity(i);
@@ -2642,7 +2627,7 @@ void Eqonomize::editQuotations() {
 void Eqonomize::editSecurityTransactions() {
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
 	if(!i) return;
-	SecurityTransactionsDialog *dialog = new SecurityTransactionsDialog(i->security(), this, i18n("Security Transactions"));
+	SecurityTransactionsDialog *dialog = new SecurityTransactionsDialog(i->security(), this, tr("Security Transactions"));
 	dialog->exec();
 	dialog->deleteLater();
 }
@@ -2727,10 +2712,10 @@ void Eqonomize::appendSecurity(Security *security) {
 	i->rate = rate;
 	i->profit = profit;
 	switch(security->type()) {
-		case SECURITY_TYPE_BOND: {i->setText(7, i18n("Bond")); break;}
-		case SECURITY_TYPE_STOCK: {i->setText(7, i18n("Stock")); break;}
-		case SECURITY_TYPE_MUTUAL_FUND: {i->setText(7, i18n("Mutual Fund")); break;}
-		case SECURITY_TYPE_OTHER: {i->setText(7, i18n("Other")); break;}
+		case SECURITY_TYPE_BOND: {i->setText(7, tr("Bond")); break;}
+		case SECURITY_TYPE_STOCK: {i->setText(7, tr("Stock")); break;}
+		case SECURITY_TYPE_MUTUAL_FUND: {i->setText(7, tr("Mutual Fund")); break;}
+		case SECURITY_TYPE_OTHER: {i->setText(7, tr("Other")); break;}
 	}
 	securitiesView->insertTopLevelItem(securitiesView->topLevelItemCount(), i);
 	total_rate *= total_value;
@@ -2787,10 +2772,10 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i) {
 	total_profit += profit;
 	i->setText(0, security->name());
 	switch(security->type()) {
-		case SECURITY_TYPE_BOND: {i->setText(7, i18n("Bond")); break;}
-		case SECURITY_TYPE_STOCK: {i->setText(7, i18n("Stock")); break;}
-		case SECURITY_TYPE_MUTUAL_FUND: {i->setText(7, i18n("Mutual Fund")); break;}
-		case SECURITY_TYPE_OTHER: {i->setText(7, i18n("Other")); break;}
+		case SECURITY_TYPE_BOND: {i->setText(7, tr("Bond")); break;}
+		case SECURITY_TYPE_STOCK: {i->setText(7, tr("Stock")); break;}
+		case SECURITY_TYPE_MUTUAL_FUND: {i->setText(7, tr("Mutual Fund")); break;}
+		case SECURITY_TYPE_OTHER: {i->setText(7, tr("Other")); break;}
 	}
 	i->setText(1, QLocale().toCurrencyString(value));
 	i->setText(2, QLocale().toString(shares, 'f', security->decimals()));
@@ -3022,12 +3007,12 @@ void Eqonomize::popupScheduleMenu(const QPoint &p) {
 
 void Eqonomize::editSelectedScheduledTransaction() {
 	TransactionListWidget *w = NULL;
-	if(tabs->currentPage()->widget() == accounts_page) return;
-	else if(tabs->currentPage()->widget() == expenses_page) w = expensesWidget;
-	else if(tabs->currentPage()->widget() == incomes_page) w = incomesWidget;
-	else if(tabs->currentPage()->widget() == transfers_page) w = transfersWidget;
-	else if(tabs->currentPage()->widget() == securities_page) return;
-	else if(tabs->currentPage()->widget() == schedule_page) {
+	if(tabs->currentIndex() == ACCOUNTS_PAGE_INDEX) return;
+	else if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
+	else if(tabs->currentIndex() == SECURITIES_PAGE_INDEX) return;
+	else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
 		editScheduledTransaction();
 		return;
 	}
@@ -3036,27 +3021,27 @@ void Eqonomize::editSelectedScheduledTransaction() {
 }
 void Eqonomize::editSelectedSplitTransaction() {
 	TransactionListWidget *w = NULL;
-	if(tabs->currentPage()->widget() == expenses_page) w = expensesWidget;
-	else if(tabs->currentPage()->widget() == incomes_page) w = incomesWidget;
-	else if(tabs->currentPage()->widget() == transfers_page) w = transfersWidget;
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
 	else 	return;
 	if(!w) return;
 	w->editSplitTransaction();
 }
 void Eqonomize::joinSelectedTransactions() {
 	TransactionListWidget *w = NULL;
-	if(tabs->currentPage()->widget() == expenses_page) w = expensesWidget;
-	else if(tabs->currentPage()->widget() == incomes_page) w = incomesWidget;
-	else if(tabs->currentPage()->widget() == transfers_page) w = transfersWidget;
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
 	else 	return;
 	if(!w) return;
 	w->joinTransactions();
 }
 void Eqonomize::splitUpSelectedTransaction() {
 	TransactionListWidget *w = NULL;
-	if(tabs->currentPage()->widget() == expenses_page) w = expensesWidget;
-	else if(tabs->currentPage()->widget() == incomes_page) w = incomesWidget;
-	else if(tabs->currentPage()->widget() == transfers_page) w = transfersWidget;
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
 	else 	return;
 	if(!w) return;
 	w->splitUpTransaction();
@@ -3103,14 +3088,14 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent) {
 	return false;
 }
 void Eqonomize::newRefund() {
-	if(tabs->currentPage()->widget() == expenses_page) expensesWidget->newRefundRepayment();
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) expensesWidget->newRefundRepayment();
 }
 void Eqonomize::newRepayment() {
-	if(tabs->currentPage()->widget() == incomes_page) incomesWidget->newRefundRepayment();
+	if(tabs->currentIndex() == INCOMES_PAGE_INDEX) incomesWidget->newRefundRepayment();
 }
 void Eqonomize::newRefundRepayment() {
-	if(tabs->currentPage()->widget() == expenses_page) expensesWidget->newRefundRepayment();
-	else if(tabs->currentPage()->widget() == incomes_page) incomesWidget->newRefundRepayment();
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) expensesWidget->newRefundRepayment();
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) incomesWidget->newRefundRepayment();
 }
 bool Eqonomize::newRefundRepayment(Transaction *trans) {
 	if(trans->type() != TRANSACTION_TYPE_EXPENSE && trans->type() != TRANSACTION_TYPE_INCOME) return false;
@@ -3129,12 +3114,12 @@ bool Eqonomize::newRefundRepayment(Transaction *trans) {
 }
 void Eqonomize::editSelectedTransaction() {
 	TransactionListWidget *w = NULL;
-	if(tabs->currentPage()->widget() == accounts_page) return;
-	else if(tabs->currentPage()->widget() == expenses_page) w = expensesWidget;
-	else if(tabs->currentPage()->widget() == incomes_page) w = incomesWidget;
-	else if(tabs->currentPage()->widget() == transfers_page) w = transfersWidget;
-	else if(tabs->currentPage()->widget() == securities_page) return;
-	else if(tabs->currentPage()->widget() == schedule_page) {
+	if(tabs->currentIndex() == ACCOUNTS_PAGE_INDEX) return;
+	else if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
+	else if(tabs->currentIndex() == SECURITIES_PAGE_INDEX) return;
+	else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
 		editOccurrence();
 		return;
 	}
@@ -3143,12 +3128,12 @@ void Eqonomize::editSelectedTransaction() {
 }
 void Eqonomize::deleteSelectedScheduledTransaction() {
 	TransactionListWidget *w = NULL;
-	if(tabs->currentPage()->widget() == accounts_page) return;
-	else if(tabs->currentPage()->widget() == expenses_page) w = expensesWidget;
-	else if(tabs->currentPage()->widget() == incomes_page) w = incomesWidget;
-	else if(tabs->currentPage()->widget() == transfers_page) w = transfersWidget;
-	else if(tabs->currentPage()->widget() == securities_page) return;
-	else if(tabs->currentPage()->widget() == schedule_page) {
+	if(tabs->currentIndex() == ACCOUNTS_PAGE_INDEX) return;
+	else if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
+	else if(tabs->currentIndex() == SECURITIES_PAGE_INDEX) return;
+	else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
 		removeScheduledTransaction();
 		return;
 	}
@@ -3157,21 +3142,21 @@ void Eqonomize::deleteSelectedScheduledTransaction() {
 }
 void Eqonomize::deleteSelectedSplitTransaction() {
 	TransactionListWidget *w = NULL;
-	if(tabs->currentPage()->widget() == expenses_page) w = expensesWidget;
-	else if(tabs->currentPage()->widget() == incomes_page) w = incomesWidget;
-	else if(tabs->currentPage()->widget() == transfers_page) w = transfersWidget;
-	else 	return;
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
+	else return;
 	if(!w) return;
 	w->removeSplitTransaction();
 }
 void Eqonomize::deleteSelectedTransaction() {
 	TransactionListWidget *w = NULL;
-	if(tabs->currentPage()->widget() == accounts_page) return;
-	else if(tabs->currentPage()->widget() == expenses_page) w = expensesWidget;
-	else if(tabs->currentPage()->widget() == incomes_page) w = incomesWidget;
-	else if(tabs->currentPage()->widget() == transfers_page) w = transfersWidget;
-	else if(tabs->currentPage()->widget() == securities_page) return;
-	else if(tabs->currentPage()->widget() == schedule_page) {
+	if(tabs->currentIndex() == ACCOUNTS_PAGE_INDEX) return;
+	else if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
+	else if(tabs->currentIndex() == SECURITIES_PAGE_INDEX) return;
+	else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
 		removeOccurrence();
 		return;
 	}
@@ -3179,19 +3164,15 @@ void Eqonomize::deleteSelectedTransaction() {
 	w->removeTransaction();
 }
 
-void Eqonomize::onPageChange(KPageWidgetItem *page, KPageWidgetItem*) {
-	onPageChange(page->widget());
-}
-
-void Eqonomize::onPageChange(QWidget *w) {
-	if(w == expenses_page) {
+void Eqonomize::onPageChange(int index) {
+	if(index == EXPENSES_PAGE_INDEX) {
 		expensesWidget->onDisplay();
-	} else if(w == incomes_page) {
+	} else if(index == INCOMES_PAGE_INDEX) {
 		incomesWidget->onDisplay();
-	} else if(w == transfers_page) {
+	} else if(index == TRANSFERS_PAGE_INDEX) {
 		transfersWidget->onDisplay();
 	}
-	if(w == accounts_page) {
+	if(index == ACCOUNTS_PAGE_INDEX) {
 		accountsSelectionChanged();
 	} else {
 		ActionDeleteAccount->setEnabled(false);
@@ -3199,7 +3180,7 @@ void Eqonomize::onPageChange(QWidget *w) {
 		ActionBalanceAccount->setEnabled(false);
 		ActionShowAccountTransactions->setEnabled(false);
 	}
-	if(w == securities_page) {
+	if(index == SECURITIES_PAGE_INDEX) {
 		securitiesSelectionChanged();
 	} else {
 		ActionEditSecurity->setEnabled(false);
@@ -3213,12 +3194,12 @@ void Eqonomize::onPageChange(QWidget *w) {
 void Eqonomize::updateTransactionActions() {
 	TransactionListWidget *w = NULL;
 	bool b_transaction = false, b_scheduledtransaction = false;
-	if(tabs->currentPage()->widget() == accounts_page) {b_transaction = false; b_scheduledtransaction = false;}
-	else if(tabs->currentPage()->widget() == expenses_page) w = expensesWidget;
-	else if(tabs->currentPage()->widget() == incomes_page) w = incomesWidget;
-	else if(tabs->currentPage()->widget() == transfers_page) w = transfersWidget;
-	else if(tabs->currentPage()->widget() == securities_page) {b_transaction = false; b_scheduledtransaction = false;}
-	else if(tabs->currentPage()->widget() == schedule_page) {
+	if(tabs->currentIndex() == ACCOUNTS_PAGE_INDEX) {b_transaction = false; b_scheduledtransaction = false;}
+	else if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
+	else if(tabs->currentIndex() == SECURITIES_PAGE_INDEX) {b_transaction = false; b_scheduledtransaction = false;}
+	else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
 		ScheduleListViewItem *i = (ScheduleListViewItem*) selectedItem(scheduleView);
 		b_transaction = i && !i->scheduledTransaction()->isOneTimeTransaction();
 		b_scheduledtransaction = (i != NULL);
@@ -3268,14 +3249,12 @@ void Eqonomize::showAccountTransactions(bool b) {
 		if(b) incomesWidget->setFilter(QDate(), to_date, -1.0, -1.0, NULL, NULL);
 		else incomesWidget->setFilter(accountsPeriodFromButton->isChecked() ? from_date : QDate(), to_date, -1.0, -1.0, NULL, NULL);
 		incomesWidget->showFilter();
-		tabs->setCurrentPage(incomes_page_item);
-		onPageChange(incomes_page);
+		tabs->setCurrentIndex(INCOMES_PAGE_INDEX);
 	} else if(i == expensesItem) {
 		if(b) expensesWidget->setFilter(QDate(), to_date, -1.0, -1.0, NULL, NULL);
 		else expensesWidget->setFilter(accountsPeriodFromButton->isChecked() ? from_date : QDate(), to_date, -1.0, -1.0, NULL, NULL);
 		expensesWidget->showFilter();
-		tabs->setCurrentPage(expenses_page_item);
-		onPageChange(expenses_page);
+		tabs->setCurrentIndex(EXPENSES_PAGE_INDEX);
 	} else {
 		Account *account = account_items[i];
 		AccountType type = account->type();
@@ -3283,19 +3262,16 @@ void Eqonomize::showAccountTransactions(bool b) {
 			if(b) incomesWidget->setFilter(QDate(), to_date, -1.0, -1.0, account, NULL);
 			else incomesWidget->setFilter(accountsPeriodFromButton->isChecked() ? from_date : QDate(), to_date, -1.0, -1.0, account, NULL);
 			incomesWidget->showFilter();
-			tabs->setCurrentPage(incomes_page_item);
-			onPageChange(incomes_page);
+			tabs->setCurrentIndex(INCOMES_PAGE_INDEX);
 		} else if(type == ACCOUNT_TYPE_EXPENSES) {
 			if(b) expensesWidget->setFilter(QDate(), to_date, -1.0, -1.0, NULL, account);
 			else expensesWidget->setFilter(accountsPeriodFromButton->isChecked() ? from_date : QDate(), to_date, -1.0, -1.0, NULL, account);
 			expensesWidget->showFilter();
-			tabs->setCurrentPage(expenses_page_item);
-			onPageChange(expenses_page);
+			tabs->setCurrentIndex(EXPENSES_PAGE_INDEX);
 		} else if(((AssetsAccount*) account)->accountType() == ASSETS_TYPE_SECURITIES) {
-			tabs->setCurrentPage(securities_page_item);
-			onPageChange(securities_page);
+			tabs->setCurrentIndex(SECURITIES_PAGE_INDEX);
 		} else {
-			LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, this, i18n("Ledger"), b_extra);
+			LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, this, tr("Ledger"), b_extra);
 			QSize dialog_size = KSharedConfig::openConfig()->group("Ledger").readEntry("size", QSize());
 			if(!dialog_size.isValid()) {
 				QDesktopWidget desktop;
@@ -3310,12 +3286,12 @@ void Eqonomize::showAccountTransactions(bool b) {
 void Eqonomize::accountsPeriodToChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		error = true;
 	}
 	if(!error && accountsPeriodFromEdit->date() > date) {
 		if(accountsPeriodFromButton->isChecked()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("To date is before from date."));
+			QMessageBox::critical(this, tr("Error"), tr("To date is before from date."));
 		}
 		from_date = date;
 		accountsPeriodFromEdit->blockSignals(true);
@@ -3336,11 +3312,11 @@ void Eqonomize::accountsPeriodToChanged(const QDate &date) {
 void Eqonomize::accountsPeriodFromChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		error = true;
 	}
 	if(!error && date > accountsPeriodToEdit->date()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("From date is after to date."));
+		QMessageBox::critical(this, tr("Error"), tr("From date is after to date."));
 		to_date = date;
 		accountsPeriodToEdit->blockSignals(true);
 		accountsPeriodToEdit->setDate(to_date);
@@ -3450,12 +3426,12 @@ void Eqonomize::currentYear() {
 void Eqonomize::securitiesPeriodToChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		error = true;
 	}
 	if(!error && securitiesPeriodFromEdit->date() > date) {
 		if(securitiesPeriodFromButton->isChecked()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("To date is before from date."));
+			QMessageBox::critical(this, tr("Error"), tr("To date is before from date."));
 		}
 		securities_from_date = date;
 		securitiesPeriodFromEdit->blockSignals(true);
@@ -3476,11 +3452,11 @@ void Eqonomize::securitiesPeriodToChanged(const QDate &date) {
 void Eqonomize::securitiesPeriodFromChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		error = true;
 	}
 	if(!error && date > securitiesPeriodToEdit->date()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("From date is after to date."));
+		QMessageBox::critical(this, tr("Error"), tr("From date is after to date."));
 		securities_to_date = date;
 		securitiesPeriodToEdit->blockSignals(true);
 		securitiesPeriodToEdit->setDate(securities_to_date);
@@ -3593,7 +3569,7 @@ void Eqonomize::setModified(bool has_been_modified) {
 	if(modified == has_been_modified) return;
 	modified = has_been_modified;
 	ActionSave->setEnabled(modified);
-	if(!current_url.isValid()) setCaption(i18n("Untitled"), has_been_modified);
+	if(!current_url.isValid()) setCaption(tr("Untitled"), has_been_modified);
 	else setCaption(current_url.fileName(), has_been_modified);
 	if(modified) emit budgetUpdated();
 	else auto_save_timeout = true;
@@ -3606,16 +3582,16 @@ void Eqonomize::createDefaultBudget() {
 	KConfigGroup config = KSharedConfig::openConfig()->group("General Options");
 	config.writeEntry("lastURL", current_url.url());
 	config.sync();
-	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_CASH, i18n("Cash"), 100.0));
-	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_CURRENT, i18n("Check Account"), 1000.0));
-	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_SAVINGS, i18n("Savings Account"), 10000.0));
-	budget->addAccount(new IncomesAccount(budget, i18n("Salary")));
-	budget->addAccount(new IncomesAccount(budget, i18n("Other")));
-	budget->addAccount(new ExpensesAccount(budget, i18n("Bills")));
-	budget->addAccount(new ExpensesAccount(budget, i18n("Clothing")));
-	budget->addAccount(new ExpensesAccount(budget, i18n("Groceries")));
-	budget->addAccount(new ExpensesAccount(budget, i18n("Leisure")));
-	budget->addAccount(new ExpensesAccount(budget, i18n("Other")));
+	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_CASH, tr("Cash"), 100.0));
+	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_CURRENT, tr("Check Account"), 1000.0));
+	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_SAVINGS, tr("Savings Account"), 10000.0));
+	budget->addAccount(new IncomesAccount(budget, tr("Salary")));
+	budget->addAccount(new IncomesAccount(budget, tr("Other")));
+	budget->addAccount(new ExpensesAccount(budget, tr("Bills")));
+	budget->addAccount(new ExpensesAccount(budget, tr("Clothing")));
+	budget->addAccount(new ExpensesAccount(budget, tr("Groceries")));
+	budget->addAccount(new ExpensesAccount(budget, tr("Leisure")));
+	budget->addAccount(new ExpensesAccount(budget, tr("Other")));
 	reloadBudget();
 	setModified(false);
 	emit accountsModified();
@@ -3676,38 +3652,14 @@ void Eqonomize::openURL(const QUrl& url) {
 
 	if(url != current_url && crashRecovery(QUrl(url))) return;
 
-	QString tmpfile;
-	if(!url.isLocalFile()) {
-		QTemporaryFile tf;
-		tf.setAutoRemove(false);
-		if(!tf.open()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), QString("Unable to create temporary file %1.").arg(tf.fileName())));
-			return;
-		}
-		KIO::FileCopyJob *job = KIO::file_copy(url, QUrl::fromLocalFile(tf.fileName()), KIO::Overwrite);
-		KJobWidgets::setWindow(job, this);
-		if(!job->exec()) {
-			if(job->error()) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), job->errorString()));
-			}
-			return;
-		}
-		tmpfile = tf.fileName();
-		tf.close();
-	} else {
-		tmpfile = url.toLocalFile();
-	}
 	QString errors;
-	QString error = budget->loadFile(tmpfile, errors);
-	if(!url.isLocalFile()) {
-		QFile::remove(tmpfile);
-	}
+	QString error = budget->loadFile(url.toLocalFile(), errors);
 	if(!error.isNull()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Error loading %1: %2.", url.toString(), error), i18n("Couldn't open file"));
+		QMessageBox::critical(this, tr("Couldn't open file"), tr("Error loading %1: %2.").arg(url.toString()).arg(error));
 		return;
 	}
 	if(!errors.isEmpty()) {
-		QMessageBox::critical(this, i18n("Error"), errors);
+		QMessageBox::critical(this, tr("Error"), errors);
 	}
 	setCaption(url.fileName(), false);
 	current_url = url;
@@ -3735,47 +3687,17 @@ void Eqonomize::openURL(const QUrl& url) {
 }
 
 bool Eqonomize::saveURL(const QUrl& url) {
-
-	if(url.isLocalFile()) {
-		bool exists = QFile::exists(url.toLocalFile());
-		mode_t  perms = 0x0600;
-		if(exists) {
-			QFile::copy(url.toLocalFile(), url.toLocalFile() + "~");
-		}
-
-		QString error = budget->saveFile(url.toLocalFile(), perms);
-		if(!error.isNull()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Error saving %1: %2.", url.toString(), error), i18n("Couldn't save file"));
-			return false;
-		} else {
-			setCaption(url.fileName(), false);
-			current_url = url;
-			ActionFileReload->setEnabled(true);
-			KConfigGroup config = KSharedConfig::openConfig()->group("General Options");
-			config.writeEntry("lastURL", current_url.url());
-			if(cr_tmp_file) {
-				cr_tmp_file->releaseLock();
-				delete cr_tmp_file;
-				cr_tmp_file = NULL;
-			}
-			config.sync();
-			ActionOpenRecent->addUrl(url);
-			setModified(false);
-		}
-		return true;
+	bool exists = QFile::exists(url.toLocalFile());
+	mode_t  perms = 0x0600;
+	if(exists) {
+		QFile::copy(url.toLocalFile(), url.toLocalFile() + "~");
 	}
 
-	QTemporaryFile tf;
-	tf.open();
-	tf.setAutoRemove(true);
-	QString error = budget->saveFile(tf.fileName());
+	QString error = budget->saveFile(url.toLocalFile(), perms);
 	if(!error.isNull()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Error saving %1: %2.").arg(url.toString(), error), i18n("Couldn't save file"));
+		QMessageBox::critical(this, tr("Couldn't save file"), tr("Error saving %1: %2.").arg(url.toString()).arg(error));
 		return false;
-	}
-	KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tf.fileName()), url, KIO::Overwrite);
-	KJobWidgets::setWindow(job, this);
-	if(job->exec()) {
+	} else {
 		setCaption(url.fileName(), false);
 		current_url = url;
 		ActionFileReload->setEnabled(true);
@@ -3789,13 +3711,8 @@ bool Eqonomize::saveURL(const QUrl& url) {
 		config.sync();
 		ActionOpenRecent->addUrl(url);
 		setModified(false);
-		return true;
-	} else {
-		if(job->error()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()), i18n("Couldn't save file"));
-		}
 	}
-	return false;
+	return true;
 }
 
 void Eqonomize::importCSV() {
@@ -3895,13 +3812,13 @@ bool Eqonomize::exportScheduleList(QTextStream &outf, int fileformat) {
 			outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
 			outf << "<html>" << '\n';
 			outf << "\t<head>" << '\n';
-			outf << "\t\t<title>"; outf << htmlize_string(i18n("Transaction Schedule")); outf << "</title>" << '\n';
+			outf << "\t\t<title>"; outf << htmlize_string(tr("Transaction Schedule")); outf << "</title>" << '\n';
 			outf << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << '\n';
 			outf << "\t\t<meta name=\"GENERATOR\" content=\"Eqonomize!\">" << '\n';
 			outf << "\t</head>" << '\n';
 			outf << "\t<body>" << '\n';
 			outf << "\t\t<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
-			outf << "\t\t\t<caption>"; outf << htmlize_string(i18n("Transaction Schedule")); outf << "</caption>" << '\n';
+			outf << "\t\t\t<caption>"; outf << htmlize_string(tr("Transaction Schedule")); outf << "</caption>" << '\n';
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
 			QTreeWidgetItem *header = scheduleView->headerItem();
@@ -3963,13 +3880,13 @@ bool Eqonomize::exportSecuritiesList(QTextStream &outf, int fileformat) {
 			outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
 			outf << "<html>" << '\n';
 			outf << "\t<head>" << '\n';
-			outf << "\t\t<title>"; outf << htmlize_string(i18n("Securities")); outf << "</title>" << '\n';
+			outf << "\t\t<title>"; outf << htmlize_string(tr("Securities")); outf << "</title>" << '\n';
 			outf << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << '\n';
 			outf << "\t\t<meta name=\"GENERATOR\" content=\"Eqonomize!\">" << '\n';
 			outf << "\t</head>" << '\n';
 			outf << "\t<body>" << '\n';
 			outf << "\t\t<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
-			outf << "\t\t\t<caption>"; outf << htmlize_string(i18n("Securities")); outf << "</caption>" << '\n';
+			outf << "\t\t\t<caption>"; outf << htmlize_string(tr("Securities")); outf << "</caption>" << '\n';
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
 			QTreeWidgetItem *header = securitiesView->headerItem();
@@ -4004,7 +3921,7 @@ bool Eqonomize::exportSecuritiesList(QTextStream &outf, int fileformat) {
 			}
 			outf << "\t\t\t\t<tr>" << '\n';
 			if(securitiesView->topLevelItemCount() > 1) {
-				outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(i18n("Total")) << "</b></td>";
+				outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
 				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(total_value)) << "</b></td>";
 				outf << "<td align=\"right\" style=\"border-top: thin solid\"><b>-</b></td>";
 				outf << "<td align=\"right\" style=\"border-top: thin solid\"><b>-</b></td>";
@@ -4048,24 +3965,24 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
 			outf << "<html>" << '\n';
 			outf << "\t<head>" << '\n';
-			outf << "\t\t<title>"; outf << i18nc("html format", "Accounts &amp; Categories"); outf << "</title>" << '\n';
+			outf << "\t\t<title>"; outf << tr("Accounts &amp; Categories", "html format"); outf << "</title>" << '\n';
 			outf << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << '\n';
 			outf << "\t\t<meta name=\"GENERATOR\" content=\"Eqonomize!\">" << '\n';
 			outf << "\t</head>" << '\n';
 			outf << "\t<body>" << '\n';
-			if(accountsPeriodFromButton->isChecked()) outf << "\t\t<h1>" << i18nc("html format", "Accounts &amp; Categories (%1&ndash;%2)", htmlize_string(QLocale().toString(from_date, QLocale::ShortFormat)), htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h1>" << '\n';
-			else outf << "\t\t<h1>" << i18nc("html format", "Accounts &amp; Categories (to %1)", htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h1>" << '\n';
+			if(accountsPeriodFromButton->isChecked()) outf << "\t\t<h1>" << tr("Accounts &amp; Categories (%1&ndash;%2)", "html format").arg(htmlize_string(QLocale().toString(from_date, QLocale::ShortFormat))).arg(htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h1>" << '\n';
+			else outf << "\t\t<h1>" << tr("Accounts &amp; Categories (to %1)", "html format").arg(htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h1>" << '\n';
 			outf << "\t\t<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
-			outf << "\t\t\t<caption>"; outf << htmlize_string(i18n("Accounts")); outf << "</caption>" << '\n';
+			outf << "\t\t\t<caption>"; outf << htmlize_string(tr("Accounts")); outf << "</caption>" << '\n';
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
-			outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Name")) << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Type")) << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Change"));
+			outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Name")) << "</th>";
+			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Type")) << "</th>";
+			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change"));
 			bool includes_budget = (to_date > QDate::currentDate() && (expenses_budget >= 0.0 || incomes_budget >= 0.0));
 			if(includes_budget) outf << "*";
 			outf << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Balance"));
+			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Balance"));
 			if(includes_budget) outf << "*";
 			outf << "</th>" << '\n';
 			outf << "\t\t\t\t</tr>" << '\n';
@@ -4079,12 +3996,12 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 				outf << "</td>";
 				outf << "<td>";
 				switch(((AssetsAccount*) account)->accountType()) {
-					case ASSETS_TYPE_CURRENT: {outf << htmlize_string(i18n("Current Account")); break;}
-					case ASSETS_TYPE_SAVINGS: {outf << htmlize_string(i18n("Savings Account")); break;}
-					case ASSETS_TYPE_CREDIT_CARD: {outf << htmlize_string(i18n("Credit Card")); break;}
-					case ASSETS_TYPE_LIABILITIES: {outf << htmlize_string(i18n("Liabilities")); break;}
-					case ASSETS_TYPE_SECURITIES: {outf << htmlize_string(i18n("Securities"));  break;}
-					default: {outf << htmlize_string(i18n("Cash")); break;}
+					case ASSETS_TYPE_CURRENT: {outf << htmlize_string(tr("Current Account")); break;}
+					case ASSETS_TYPE_SAVINGS: {outf << htmlize_string(tr("Savings Account")); break;}
+					case ASSETS_TYPE_CREDIT_CARD: {outf << htmlize_string(tr("Credit Card")); break;}
+					case ASSETS_TYPE_LIABILITIES: {outf << htmlize_string(tr("Liabilities")); break;}
+					case ASSETS_TYPE_SECURITIES: {outf << htmlize_string(tr("Securities"));  break;}
+					default: {outf << htmlize_string(tr("Cash")); break;}
 				}
 				outf << "</td>";
 				outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(account_change[account])) << "</td>";
@@ -4093,7 +4010,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 				account = budget->assetsAccounts.next();
 			}
 			outf << "\t\t\t\t<tr>" << '\n';
-			outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(i18n("Total"));
+			outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total"));
 			if(includes_budget) outf << "*";
 			outf << "</b></td>";
 			outf << "<td style=\"border-top: thin solid\">";
@@ -4106,14 +4023,14 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t<br>" << '\n';
 			outf << "\t\t<br>" << '\n';
 			outf << "\t\t<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
-			outf << "\t\t\t<caption>"; outf << htmlize_string(i18n("Incomes")); outf << "</caption>" << '\n';
+			outf << "\t\t\t<caption>"; outf << htmlize_string(tr("Incomes")); outf << "</caption>" << '\n';
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
-			outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Category")) << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Budget")) << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Remaining Budget")) << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Change")) << "</th>" << '\n';
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Total Incomes")) << "</th>" << '\n';
+			outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Category")) << "</th>";
+			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Budget")) << "</th>";
+			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Remaining Budget")) << "</th>";
+			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change")) << "</th>" << '\n';
+			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Total Incomes")) << "</th>" << '\n';
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';
 			outf << "\t\t\t<tbody>" << '\n';
@@ -4138,7 +4055,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 				account = budget->incomesAccounts.next();
 			}
 			outf << "\t\t\t\t<tr>" << '\n';
-			outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(i18n("Total")) << "</b></td>";
+			outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
 			if(incomes_budget >= 0.0) {
 				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(incomes_budget)) << "</b></td>";
 				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(incomes_budget_diff)) << "</b></td>";
@@ -4154,14 +4071,14 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t<br>" << '\n';
 			outf << "\t\t<br>" << '\n';
 			outf << "\t\t<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
-			outf << "\t\t\t<caption>"; outf << htmlize_string(i18n("Costs")); outf << "</caption>" << '\n';
+			outf << "\t\t\t<caption>"; outf << htmlize_string(tr("Costs")); outf << "</caption>" << '\n';
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
-			outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Category")) << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Budget")) << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Remaining Budget")) << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Change")) << "</th>" << '\n';
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Total Expenses")) << "</th>" << '\n';
+			outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Category")) << "</th>";
+			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Budget")) << "</th>";
+			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Remaining Budget")) << "</th>";
+			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change")) << "</th>" << '\n';
+			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Total Expenses")) << "</th>" << '\n';
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';
 			outf << "\t\t\t<tbody>" << '\n';
@@ -4186,7 +4103,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 				account = budget->expensesAccounts.next();
 			}
 			outf << "\t\t\t\t<tr>" << '\n';
-			outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(i18n("Total")) << "</b></td>";
+			outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
 			if(expenses_budget >= 0.0) {
 				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(expenses_budget)) << "</b></td>";
 				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(expenses_budget_diff)) << "</b></td>";
@@ -4202,7 +4119,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			if(includes_budget) {
 				outf << "\t\t</br>" << '\n';
 				outf << "\t\t<div align=\"left\" style=\"font-weight: normal\">" << "<small>";
-				outf << "*" << htmlize_string(i18n("Includes budgeted transactions"));
+				outf << "*" << htmlize_string(tr("Includes budgeted transactions"));
 				outf << "</small></div>" << '\n';
 			}
 			outf << "\t</body>" << '\n';
@@ -4211,7 +4128,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 		}
 		case 'c': {
 			//outf.setEncoding(Q3TextStream::Locale);
-			outf << "\"" << i18n("Account/Category") << "\",\"" << i18n("Change") << "\",\"" << i18n("Value") << "\"\n";
+			outf << "\"" << tr("Account/Category") << "\",\"" << tr("Change") << "\",\"" << tr("Value") << "\"\n";
 			Account *account = budget->assetsAccounts.first();
 			while(account) {
 				outf << "\"" << account->name() << "\",\"" << QLocale().toCurrencyString(account_change[account]) << "\",\"" << QLocale().toCurrencyString(account_value[account]) << "\"\n";
@@ -4234,29 +4151,29 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 	return true;
 }
 void Eqonomize::printView() {
-	if(tabs->currentPage()->widget() == expenses_page) {
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) {
 		if(expensesWidget->isEmpty()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Empty expenses list."));
+			QMessageBox::critical(this, tr("Error"), tr("Empty expenses list."));
 			return;
 		}
-	} else if(tabs->currentPage()->widget() == incomes_page) {
+	} else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) {
 		if(incomesWidget->isEmpty()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Empty incomes list."));
+			QMessageBox::critical(this, tr("Error"), tr("Empty incomes list."));
 			return;
 		}
-	} else if(tabs->currentPage()->widget() == transfers_page) {
+	} else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) {
 		if(transfersWidget->isEmpty()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Empty transfers list."));
+			QMessageBox::critical(this, tr("Error"), tr("Empty transfers list."));
 			return;
 		}
-	} else if(tabs->currentPage()->widget() == securities_page) {
+	} else if(tabs->currentIndex() == SECURITIES_PAGE_INDEX) {
 		if(securitiesView->topLevelItemCount() == 0) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Empty securities list."));
+			QMessageBox::critical(this, tr("Error"), tr("Empty securities list."));
 			return;
 		}
-	} else if(tabs->currentPage()->widget() == schedule_page) {
+	} else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
 		if(scheduleView->topLevelItemCount() == 0) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Empty schedule list."));
+			QMessageBox::critical(this, tr("Error"), tr("Empty schedule list."));
 			return;
 		}
 	}
@@ -4273,38 +4190,38 @@ void Eqonomize::printView() {
 	}
 }
 bool Eqonomize::saveView(QTextStream &file, int fileformat) {
-	if(tabs->currentPage()->widget() == accounts_page) {return exportAccountsList(file, fileformat);}
-	else if(tabs->currentPage()->widget() == expenses_page) {return expensesWidget->exportList(file, fileformat);}
-	else if(tabs->currentPage()->widget() == incomes_page) {return incomesWidget->exportList(file, fileformat);}
-	else if(tabs->currentPage()->widget() == transfers_page) {return transfersWidget->exportList(file, fileformat);}
-	else if(tabs->currentPage()->widget() == securities_page) {return exportSecuritiesList(file, fileformat);}
-	else if(tabs->currentPage()->widget() == schedule_page) {return exportScheduleList(file, fileformat);}
+	if(tabs->currentIndex() == ACCOUNTS_PAGE_INDEX) {return exportAccountsList(file, fileformat);}
+	else if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) {return expensesWidget->exportList(file, fileformat);}
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) {return incomesWidget->exportList(file, fileformat);}
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) {return transfersWidget->exportList(file, fileformat);}
+	else if(tabs->currentIndex() == SECURITIES_PAGE_INDEX) {return exportSecuritiesList(file, fileformat);}
+	else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {return exportScheduleList(file, fileformat);}
 	return false;
 }
 void Eqonomize::saveView() {
-	if(tabs->currentPage()->widget() == expenses_page) {
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) {
 		if(expensesWidget->isEmpty()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Empty expenses list."));
+			QMessageBox::critical(this, tr("Error"), tr("Empty expenses list."));
 			return;
 		}
-	} else if(tabs->currentPage()->widget() == incomes_page) {
+	} else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) {
 		if(incomesWidget->isEmpty()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Empty incomes list."));
+			QMessageBox::critical(this, tr("Error"), tr("Empty incomes list."));
 			return;
 		}
-	} else if(tabs->currentPage()->widget() == transfers_page) {
+	} else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) {
 		if(transfersWidget->isEmpty()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Empty transfers list."));
+			QMessageBox::critical(this, tr("Error"), tr("Empty transfers list."));
 			return;
 		}
-	} else if(tabs->currentPage()->widget() == securities_page) {
+	} else if(tabs->currentIndex() == SECURITIES_PAGE_INDEX) {
 		if(securitiesView->topLevelItemCount() == 0) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Empty securities list."));
+			QMessageBox::critical(this, tr("Error"), tr("Empty securities list."));
 			return;
 		}
-	} else if(tabs->currentPage()->widget() == schedule_page) {
+	} else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
 		if(scheduleView->topLevelItemCount() == 0) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Empty schedule list."));
+			QMessageBox::critical(this, tr("Error"), tr("Empty schedule list."));
 			return;
 		}
 	}
@@ -4316,35 +4233,18 @@ void Eqonomize::saveView() {
 	QUrl url = QFileDialog::getSaveFileUrl(this, QString(), QUrl(), html_filter + ";;" + csv_filter, &filter);
 	if(filter == csv_filter) filetype = 'c';
 	if(url.isEmpty() && url.isValid()) return;
-	if(url.isLocalFile()) {
-		QSaveFile ofile(url.toLocalFile());
-		ofile.open(QIODevice::WriteOnly);
-		if(!ofile.isOpen()) {
-			ofile.cancelWriting();
-			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
-			return;
-		}
-		QTextStream stream(&ofile);
-		saveView(stream, filetype);
-		if(!ofile.commit()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
-			return;
-		}
+	QSaveFile ofile(url.toLocalFile());
+	ofile.open(QIODevice::WriteOnly);
+	if(!ofile.isOpen()) {
+		ofile.cancelWriting();
+		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
-	
-	QTemporaryFile tf;
-	tf.open();
-	tf.setAutoRemove(true);
-	QTextStream stream(&tf);
-	if(saveView(stream, filetype)) {
-		KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tf.fileName()), url, KIO::Overwrite);
-		KJobWidgets::setWindow(job, this);
-		if(!job->exec()) {
-			if(job->error()) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
-			}
-		}
+	QTextStream stream(&ofile);
+	saveView(stream, filetype);
+	if(!ofile.commit()) {
+		QMessageBox::critical(this, tr("Error"), tr("Error while writing file; file was not saved."));
+		return;
 	}
 
 }
@@ -4366,73 +4266,73 @@ void Eqonomize::setupActions() {
 	actionCollection()->addAction(KStandardAction::Quit, this, SLOT(close()));
 	ActionFileReload = actionCollection()->addAction(KStandardAction::Revert, this, SLOT(fileReload()));
 
-	NEW_ACTION(ActionSaveView, i18n("Export View..."), "document-export", 0, this, SLOT(saveView()), actionCollection(), "save_view");
+	NEW_ACTION(ActionSaveView, tr("Export View..."), "document-export", 0, this, SLOT(saveView()), actionCollection(), "save_view");
 	ActionPrintView = actionCollection()->addAction(KStandardAction::Print, this, SLOT(printView()));
-	ActionPrintView->setText(i18n("Print View..."));
+	ActionPrintView->setText(tr("Print View..."));
 
-	ActionSelectInitialPeriod = new KSelectAction(i18n("Initial Period"), this);
+	ActionSelectInitialPeriod = new KSelectAction(tr("Initial Period"), this);
 	actionCollection()->addAction("select_initial_period", ActionSelectInitialPeriod);
 	QStringList period_list;
-	period_list << i18n("Current Month");
-	period_list << i18n("Current Year");
-	period_list << i18n("Current Whole Month");
-	period_list << i18n("Current Whole Year");
-	period_list << i18n("Remember Last Dates");
+	period_list << tr("Current Month");
+	period_list << tr("Current Year");
+	period_list << tr("Current Whole Month");
+	period_list << tr("Current Whole Year");
+	period_list << tr("Remember Last Dates");
 	ActionSelectInitialPeriod->setItems(period_list);
 
-	NEW_ACTION(ActionImportCSV, i18n("Import CSV File..."), "document-import", 0, this, SLOT(importCSV()), actionCollection(), "import_csv");
-	NEW_ACTION(ActionImportQIF, i18n("Import QIF File..."), "document-import", 0, this, SLOT(importQIF()), actionCollection(), "import_qif");
-	NEW_ACTION(ActionExportQIF, i18n("Export As QIF File..."), "document-export", 0, this, SLOT(exportQIF()), actionCollection(), "export_qif");
+	NEW_ACTION(ActionImportCSV, tr("Import CSV File..."), "document-import", 0, this, SLOT(importCSV()), actionCollection(), "import_csv");
+	NEW_ACTION(ActionImportQIF, tr("Import QIF File..."), "document-import", 0, this, SLOT(importQIF()), actionCollection(), "import_qif");
+	NEW_ACTION(ActionExportQIF, tr("Export As QIF File..."), "document-export", 0, this, SLOT(exportQIF()), actionCollection(), "export_qif");
 
-	NEW_ACTION(ActionAddAccount, i18n("Add Account..."), "document-new", 0, this, SLOT(addAccount()), actionCollection(), "add_account");
-	NEW_ACTION(ActionNewAssetsAccount, i18n("New Account..."), "document-new", 0, this, SLOT(newAssetsAccount()), actionCollection(), "new_assets_account");
-	NEW_ACTION(ActionNewIncomesAccount, i18n("New Income Category..."), "document-new", 0, this, SLOT(newIncomesAccount()), actionCollection(), "new_incomes_account");
-	NEW_ACTION(ActionNewExpensesAccount, i18n("New Expense Category..."), "document-new", 0, this, SLOT(newExpensesAccount()), actionCollection(), "new_expenses_account");
-	NEW_ACTION_2(ActionBalanceAccount, i18n("Balance..."), 0, this, SLOT(balanceAccount()), actionCollection(), "balance_account");
-	NEW_ACTION(ActionEditAccount, i18n("Edit..."), "document-open", 0, this, SLOT(editAccount()), actionCollection(), "edit_account");
+	NEW_ACTION(ActionAddAccount, tr("Add Account..."), "document-new", 0, this, SLOT(addAccount()), actionCollection(), "add_account");
+	NEW_ACTION(ActionNewAssetsAccount, tr("New Account..."), "document-new", 0, this, SLOT(newAssetsAccount()), actionCollection(), "new_assets_account");
+	NEW_ACTION(ActionNewIncomesAccount, tr("New Income Category..."), "document-new", 0, this, SLOT(newIncomesAccount()), actionCollection(), "new_incomes_account");
+	NEW_ACTION(ActionNewExpensesAccount, tr("New Expense Category..."), "document-new", 0, this, SLOT(newExpensesAccount()), actionCollection(), "new_expenses_account");
+	NEW_ACTION_2(ActionBalanceAccount, tr("Balance..."), 0, this, SLOT(balanceAccount()), actionCollection(), "balance_account");
+	NEW_ACTION(ActionEditAccount, tr("Edit..."), "document-open", 0, this, SLOT(editAccount()), actionCollection(), "edit_account");
 	NEW_ACTION(ActionDeleteAccount, KStandardGuiItem::remove().text(), "edit-delete", 0, this, SLOT(deleteAccount()), actionCollection(), "delete_account");
 
-	NEW_ACTION_2(ActionShowAccountTransactions, i18n("Show Transactions"), 0, this, SLOT(showAccountTransactions()), actionCollection(), "show_account_transactions");
+	NEW_ACTION_2(ActionShowAccountTransactions, tr("Show Transactions"), 0, this, SLOT(showAccountTransactions()), actionCollection(), "show_account_transactions");
 
-	NEW_ACTION(ActionNewExpense, i18n("New Expense..."), "document-new", Qt::CTRL+Qt::Key_E, this, SLOT(newScheduledExpense()), actionCollection(), "new_expense");
-	NEW_ACTION(ActionNewIncome, i18n("New Income..."), "document-new", Qt::CTRL+Qt::Key_I, this, SLOT(newScheduledIncome()), actionCollection(), "new_income");
-	NEW_ACTION(ActionNewTransfer, i18n("New Transfer..."), "document-new", Qt::CTRL+Qt::Key_T, this, SLOT(newScheduledTransfer()), actionCollection(), "new_transfer");
-	NEW_ACTION(ActionNewSplitTransaction, i18n("New Split Transaction..."), "document-new", Qt::CTRL+Qt::Key_W, this, SLOT(newSplitTransaction()), actionCollection(), "new_split_transaction");
-	NEW_ACTION(ActionEditTransaction, i18n("Edit Transaction(s) (Occurrence)..."), "document-open", 0, this, SLOT(editSelectedTransaction()), actionCollection(), "edit_transaction");
-	NEW_ACTION(ActionEditOccurrence, i18n("Edit Occurrence..."), "document-open", 0, this, SLOT(editOccurrence()), actionCollection(), "edit_occurrence");
-	NEW_ACTION(ActionEditScheduledTransaction, i18n("Edit Schedule (Recurrence)..."), "document-open", 0, this, SLOT(editSelectedScheduledTransaction()), actionCollection(), "edit_scheduled_transaction");
-	NEW_ACTION(ActionEditSchedule, i18n("Edit Schedule..."), "document-open", 0, this, SLOT(editScheduledTransaction()), actionCollection(), "edit_schedule");
-	NEW_ACTION(ActionDeleteTransaction, i18n("Remove Transaction(s) (Occurrence)"), "edit-delete", 0, this, SLOT(deleteSelectedTransaction()), actionCollection(), "delete_transaction");
-	NEW_ACTION(ActionDeleteOccurrence, i18n("Remove Occurrence"), "edit-delete", 0, this, SLOT(removeOccurrence()), actionCollection(), "delete_occurrence");
-	NEW_ACTION(ActionDeleteScheduledTransaction, i18n("Delete Schedule (Recurrence)"), "edit-delete", 0, this, SLOT(deleteSelectedScheduledTransaction()), actionCollection(), "delete_scheduled_transaction");
-	NEW_ACTION(ActionDeleteSchedule, i18n("Delete Schedule"), "edit-delete", 0, this, SLOT(removeScheduledTransaction()), actionCollection(), "delete_schedule");
-	NEW_ACTION(ActionEditSplitTransaction, i18n("Edit Split Transaction..."), "document-open", 0, this, SLOT(editSelectedSplitTransaction()), actionCollection(), "edit_split_transaction");
-	NEW_ACTION(ActionDeleteSplitTransaction, i18n("Remove Split Transaction"), "edit-delete", 0, this, SLOT(deleteSelectedSplitTransaction()), actionCollection(), "delete_split_transaction");
-	NEW_ACTION_2(ActionJoinTransactions, i18n("Join Transactions..."), 0, this, SLOT(joinSelectedTransactions()), actionCollection(), "joins_transactions");
-	NEW_ACTION_2(ActionSplitUpTransaction, i18n("Split Up Transaction"), 0, this, SLOT(splitUpSelectedTransaction()), actionCollection(), "split_up_transaction");
+	NEW_ACTION(ActionNewExpense, tr("New Expense..."), "document-new", Qt::CTRL+Qt::Key_E, this, SLOT(newScheduledExpense()), actionCollection(), "new_expense");
+	NEW_ACTION(ActionNewIncome, tr("New Income..."), "document-new", Qt::CTRL+Qt::Key_I, this, SLOT(newScheduledIncome()), actionCollection(), "new_income");
+	NEW_ACTION(ActionNewTransfer, tr("New Transfer..."), "document-new", Qt::CTRL+Qt::Key_T, this, SLOT(newScheduledTransfer()), actionCollection(), "new_transfer");
+	NEW_ACTION(ActionNewSplitTransaction, tr("New Split Transaction..."), "document-new", Qt::CTRL+Qt::Key_W, this, SLOT(newSplitTransaction()), actionCollection(), "new_split_transaction");
+	NEW_ACTION(ActionEditTransaction, tr("Edit Transaction(s) (Occurrence)..."), "document-open", 0, this, SLOT(editSelectedTransaction()), actionCollection(), "edit_transaction");
+	NEW_ACTION(ActionEditOccurrence, tr("Edit Occurrence..."), "document-open", 0, this, SLOT(editOccurrence()), actionCollection(), "edit_occurrence");
+	NEW_ACTION(ActionEditScheduledTransaction, tr("Edit Schedule (Recurrence)..."), "document-open", 0, this, SLOT(editSelectedScheduledTransaction()), actionCollection(), "edit_scheduled_transaction");
+	NEW_ACTION(ActionEditSchedule, tr("Edit Schedule..."), "document-open", 0, this, SLOT(editScheduledTransaction()), actionCollection(), "edit_schedule");
+	NEW_ACTION(ActionDeleteTransaction, tr("Remove Transaction(s) (Occurrence)"), "edit-delete", 0, this, SLOT(deleteSelectedTransaction()), actionCollection(), "delete_transaction");
+	NEW_ACTION(ActionDeleteOccurrence, tr("Remove Occurrence"), "edit-delete", 0, this, SLOT(removeOccurrence()), actionCollection(), "delete_occurrence");
+	NEW_ACTION(ActionDeleteScheduledTransaction, tr("Delete Schedule (Recurrence)"), "edit-delete", 0, this, SLOT(deleteSelectedScheduledTransaction()), actionCollection(), "delete_scheduled_transaction");
+	NEW_ACTION(ActionDeleteSchedule, tr("Delete Schedule"), "edit-delete", 0, this, SLOT(removeScheduledTransaction()), actionCollection(), "delete_schedule");
+	NEW_ACTION(ActionEditSplitTransaction, tr("Edit Split Transaction..."), "document-open", 0, this, SLOT(editSelectedSplitTransaction()), actionCollection(), "edit_split_transaction");
+	NEW_ACTION(ActionDeleteSplitTransaction, tr("Remove Split Transaction"), "edit-delete", 0, this, SLOT(deleteSelectedSplitTransaction()), actionCollection(), "delete_split_transaction");
+	NEW_ACTION_2(ActionJoinTransactions, tr("Join Transactions..."), 0, this, SLOT(joinSelectedTransactions()), actionCollection(), "joins_transactions");
+	NEW_ACTION_2(ActionSplitUpTransaction, tr("Split Up Transaction"), 0, this, SLOT(splitUpSelectedTransaction()), actionCollection(), "split_up_transaction");
 
-	NEW_ACTION(ActionNewRefund, i18n("Refund..."), "go-next", 0, this, SLOT(newRefund()), actionCollection(), "new_refund");
-	NEW_ACTION(ActionNewRepayment, i18n("Repayment..."), "go-previous", 0, this, SLOT(newRepayment()), actionCollection(), "new_repayment");
-	NEW_ACTION(ActionNewRefundRepayment, i18n("New Refund/Repayment..."), "document-new", 0, this, SLOT(newRefundRepayment()), actionCollection(), "new_refund_repayment");
+	NEW_ACTION(ActionNewRefund, tr("Refund..."), "go-next", 0, this, SLOT(newRefund()), actionCollection(), "new_refund");
+	NEW_ACTION(ActionNewRepayment, tr("Repayment..."), "go-previous", 0, this, SLOT(newRepayment()), actionCollection(), "new_repayment");
+	NEW_ACTION(ActionNewRefundRepayment, tr("New Refund/Repayment..."), "document-new", 0, this, SLOT(newRefundRepayment()), actionCollection(), "new_refund_repayment");
 
-	NEW_ACTION(ActionNewSecurity, i18n("New Security..."), "document-new", 0, this, SLOT(newSecurity()), actionCollection(), "new_security");
-	NEW_ACTION(ActionEditSecurity, i18n("Edit Security..."), "document-open", 0, this, SLOT(editSecurity()), actionCollection(), "edit_security");
-	NEW_ACTION(ActionDeleteSecurity, i18n("Remove Security"), "edit-delete", 0, this, SLOT(deleteSecurity()), actionCollection(), "delete_security");
-	NEW_ACTION(ActionSellShares, i18n("Shares Sold..."), "go-next", 0, this, SLOT(sellSecurities()), actionCollection(), "sell_shares");
-	NEW_ACTION(ActionBuyShares, i18n("Shares Bought..."), "go-previous", 0, this, SLOT(buySecurities()), actionCollection(), "buy_shares");
-	NEW_ACTION(ActionNewDividend, i18n("Dividend..."), "go-next", 0, this, SLOT(newDividend()), actionCollection(), "new_dividend");
-	NEW_ACTION(ActionNewReinvestedDividend, i18n("Reinvested Dividend..."), "go-next", 0, this, SLOT(newReinvestedDividend()), actionCollection(), "new_reinvested_dividend");
-	NEW_ACTION_2(ActionNewSecurityTrade, i18n("Shares Moved..."), 0, this, SLOT(newSecurityTrade()), actionCollection(), "new_security_trade");
-	NEW_ACTION(ActionSetQuotation, i18n("Set Quotation..."), "view-calendar-day", 0, this, SLOT(setQuotation()), actionCollection(), "set_quotation");
-	NEW_ACTION(ActionEditQuotations, i18n("Edit Quotations..."), "view-calendar-list", 0, this, SLOT(editQuotations()), actionCollection(), "edit_quotations");
-	NEW_ACTION(ActionEditSecurityTransactions, i18n("Transactions..."), "view-list-details", 0, this, SLOT(editSecurityTransactions()), actionCollection(), "edit_security_transactions");
+	NEW_ACTION(ActionNewSecurity, tr("New Security..."), "document-new", 0, this, SLOT(newSecurity()), actionCollection(), "new_security");
+	NEW_ACTION(ActionEditSecurity, tr("Edit Security..."), "document-open", 0, this, SLOT(editSecurity()), actionCollection(), "edit_security");
+	NEW_ACTION(ActionDeleteSecurity, tr("Remove Security"), "edit-delete", 0, this, SLOT(deleteSecurity()), actionCollection(), "delete_security");
+	NEW_ACTION(ActionSellShares, tr("Shares Sold..."), "go-next", 0, this, SLOT(sellSecurities()), actionCollection(), "sell_shares");
+	NEW_ACTION(ActionBuyShares, tr("Shares Bought..."), "go-previous", 0, this, SLOT(buySecurities()), actionCollection(), "buy_shares");
+	NEW_ACTION(ActionNewDividend, tr("Dividend..."), "go-next", 0, this, SLOT(newDividend()), actionCollection(), "new_dividend");
+	NEW_ACTION(ActionNewReinvestedDividend, tr("Reinvested Dividend..."), "go-next", 0, this, SLOT(newReinvestedDividend()), actionCollection(), "new_reinvested_dividend");
+	NEW_ACTION_2(ActionNewSecurityTrade, tr("Shares Moved..."), 0, this, SLOT(newSecurityTrade()), actionCollection(), "new_security_trade");
+	NEW_ACTION(ActionSetQuotation, tr("Set Quotation..."), "view-calendar-day", 0, this, SLOT(setQuotation()), actionCollection(), "set_quotation");
+	NEW_ACTION(ActionEditQuotations, tr("Edit Quotations..."), "view-calendar-list", 0, this, SLOT(editQuotations()), actionCollection(), "edit_quotations");
+	NEW_ACTION(ActionEditSecurityTransactions, tr("Transactions..."), "view-list-details", 0, this, SLOT(editSecurityTransactions()), actionCollection(), "edit_security_transactions");
 
-	NEW_ACTION(ActionOverTimeReport, i18n("Development Over Time Report..."), "view-list-text", 0, this, SLOT(showOverTimeReport()), actionCollection(), "over_time_report");
-	NEW_ACTION(ActionCategoriesComparisonReport, i18n("Categories Comparison Report..."), "view-list-text", 0, this, SLOT(showCategoriesComparisonReport()), actionCollection(), "categories_comparison_report");
-	NEW_ACTION(ActionCategoriesComparisonChart, i18n("Categories Comparison Chart..."), "view-statistics", 0, this, SLOT(showCategoriesComparisonChart()), actionCollection(), "categories_comparison_chart");
-	NEW_ACTION(ActionOverTimeChart, i18n("Development Over Time Chart..."), "view-statistics", 0, this, SLOT(showOverTimeChart()), actionCollection(), "over_time_chart");
+	NEW_ACTION(ActionOverTimeReport, tr("Development Over Time Report..."), "view-list-text", 0, this, SLOT(showOverTimeReport()), actionCollection(), "over_time_report");
+	NEW_ACTION(ActionCategoriesComparisonReport, tr("Categories Comparison Report..."), "view-list-text", 0, this, SLOT(showCategoriesComparisonReport()), actionCollection(), "categories_comparison_report");
+	NEW_ACTION(ActionCategoriesComparisonChart, tr("Categories Comparison Chart..."), "view-statistics", 0, this, SLOT(showCategoriesComparisonChart()), actionCollection(), "categories_comparison_chart");
+	NEW_ACTION(ActionOverTimeChart, tr("Development Over Time Chart..."), "view-statistics", 0, this, SLOT(showOverTimeChart()), actionCollection(), "over_time_chart");
 
-	NEW_TOGGLE_ACTION(ActionExtraProperties, i18n("Use Additional Transaction Properties"), 0, this, SLOT(useExtraProperties(bool)), actionCollection(), "extra_properties");
+	NEW_TOGGLE_ACTION(ActionExtraProperties, tr("Use Additional Transaction Properties"), 0, this, SLOT(useExtraProperties(bool)), actionCollection(), "extra_properties");
 	ActionExtraProperties->setChecked(b_extra);
 
 	ActionSave->setEnabled(false);
@@ -4474,11 +4374,11 @@ bool Eqonomize::crashRecovery(QUrl url) {
 		staleFiles = KAutoSaveFile::staleFiles(QUrl::fromLocalFile("UNSAVED EQZ"));
 	}
 	if(!staleFiles.isEmpty()) {
-		if(QMessageBox::question(this, i18n("Crash Recovery"), i18n("Eqonomize! exited unexpectedly before the file was saved and data was lost.\nDo you want to load the last auto-saved version of the file?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+		if(QMessageBox::question(this, tr("Crash Recovery"), tr("Eqonomize! exited unexpectedly before the file was saved and data was lost.\nDo you want to load the last auto-saved version of the file?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
 			QString errors;
 			QString error = budget->loadFile(staleFiles.first()->fileName(), errors);
 			if(!error.isNull()) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Error loading %1: %2.", cr_tmp_file->fileName(), error), i18n("Couldn't open file"));
+				QMessageBox::critical(this, tr("Couldn't open file"), tr("Error loading %1: %2.").arg(cr_tmp_file->fileName()).arg(error));
 				config.sync();
 				foreach(KAutoSaveFile *stale, staleFiles) {
 					stale->remove();
@@ -4487,7 +4387,7 @@ bool Eqonomize::crashRecovery(QUrl url) {
 				return false;
 			}
 			if(!errors.isEmpty()) {
-				QMessageBox::critical(this, i18n("Error"), errors);
+				QMessageBox::critical(this, tr("Error"), errors);
 			}
 			current_url = url;
 			ActionFileReload->setEnabled(true);
@@ -4707,8 +4607,8 @@ void Eqonomize::fileSaveAs() {
 bool Eqonomize::askSave(bool before_exit) {
 	if(!modified) return true;
 	int b_save = 0;
-	if(before_exit && current_url.isValid()) b_save = QMessageBox::warning(this, i18n("Save file?"), i18n("The current file has been modified. Do you want to save it?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-	else b_save = QMessageBox::warning(this, i18n("Save file?"), i18n("The current file has been modified. Do you want to save it?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+	if(before_exit && current_url.isValid()) b_save = QMessageBox::warning(this, tr("Save file?"), tr("The current file has been modified. Do you want to save it?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+	else b_save = QMessageBox::warning(this, tr("Save file?"), tr("The current file has been modified. Do you want to save it?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
 	if(b_save == QMessageBox::Yes) {
 		if(!current_url.isValid()) {
 			QMimeDatabase db;
@@ -4750,7 +4650,7 @@ bool Eqonomize::checkSchedule(bool update_display) {
 	while(strans) {
 		if(strans->firstOccurrence() < QDate::currentDate() || (QTime::currentTime().hour() >= 18 && strans->firstOccurrence() == QDate::currentDate())) {
 			b = true;
-			ConfirmScheduleDialog *dialog = new ConfirmScheduleDialog(b_extra, budget, this, i18n("Confirm Schedule"));
+			ConfirmScheduleDialog *dialog = new ConfirmScheduleDialog(b_extra, budget, this, tr("Confirm Schedule"));
 			updateScheduledTransactions();
 			dialog->exec();
 			Transaction *trans = dialog->firstTransaction();
@@ -4804,7 +4704,7 @@ void Eqonomize::addAccount() {
 	}
 }
 void Eqonomize::newAssetsAccount() {
-	EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, this, i18n("New Account"));
+	EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, this, tr("New Account"));
 	if(dialog->exec() == QDialog::Accepted) {
 		AssetsAccount *account = dialog->newAccount();
 		budget->addAccount(account);
@@ -4819,7 +4719,7 @@ void Eqonomize::newAssetsAccount() {
 	dialog->deleteLater();
 }
 void Eqonomize::newIncomesAccount() {
-	EditIncomesAccountDialog *dialog = new EditIncomesAccountDialog(budget, this, i18n("New Income Category"));
+	EditIncomesAccountDialog *dialog = new EditIncomesAccountDialog(budget, this, tr("New Income Category"));
 	if(dialog->exec() == QDialog::Accepted) {
 		IncomesAccount *account = dialog->newAccount();
 		budget->addAccount(account);
@@ -4832,7 +4732,7 @@ void Eqonomize::newIncomesAccount() {
 	dialog->deleteLater();
 }
 void Eqonomize::newExpensesAccount() {
-	EditExpensesAccountDialog *dialog = new EditExpensesAccountDialog(budget, this, i18n("New Expense Category"));
+	EditExpensesAccountDialog *dialog = new EditExpensesAccountDialog(budget, this, tr("New Expense Category"));
 	if(dialog->exec() == QDialog::Accepted) {
 		ExpensesAccount *account = dialog->newAccount();
 		budget->addAccount(account);
@@ -4907,19 +4807,19 @@ void Eqonomize::balanceAccount(Account *i_account) {
 		trans = budget->transactions.next();
 	}
 	QDialog *dialog = new QDialog(this, 0);
-	dialog->setWindowTitle(i18n("Balance Account"));
+	dialog->setWindowTitle(tr("Balance Account"));
 	dialog->setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
-	grid->addWidget(new QLabel(i18n("Book value:"), dialog), 0, 0);
+	grid->addWidget(new QLabel(tr("Book value:"), dialog), 0, 0);
 	QLabel *label = new QLabel(QLocale().toCurrencyString(book_value), dialog);
 	label->setAlignment(Qt::AlignRight);
 	grid->addWidget(label, 0, 1);
-	label = new QLabel(QString("of which %1 is balanced").arg(QLocale().toCurrencyString(current_balancing)), dialog);
+	label = new QLabel(tr("of which %1 is balanced").arg(QLocale().toCurrencyString(current_balancing)), dialog);
 	label->setAlignment(Qt::AlignRight);
 	grid->addWidget(label, 1, 1);
-	grid->addWidget(new QLabel(i18n("Real value:"), dialog), 2, 0);
+	grid->addWidget(new QLabel(tr("Real value:"), dialog), 2, 0);
 	EqonomizeValueEdit *realEdit = new EqonomizeValueEdit(book_value, true, true, dialog);
 	grid->addWidget(realEdit, 2, 1);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -4948,7 +4848,7 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 	QTreeWidgetItem *i = item_accounts[i_account];
 	switch(i_account->type()) {
 		case ACCOUNT_TYPE_ASSETS: {
-			EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, parent, i18n("Edit Account"));
+			EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, parent, tr("Edit Account"));
 			AssetsAccount *account = (AssetsAccount*) i_account;
 			dialog->setAccount(account);
 			double prev_ib = account->initialBalance();
@@ -4981,7 +4881,7 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 			break;
 		}
 		case ACCOUNT_TYPE_INCOMES: {
-			EditIncomesAccountDialog *dialog = new EditIncomesAccountDialog(budget, parent, i18n("Edit Income Category"));
+			EditIncomesAccountDialog *dialog = new EditIncomesAccountDialog(budget, parent, tr("Edit Income Category"));
 			IncomesAccount *account = (IncomesAccount*) i_account;
 			dialog->setAccount(account);
 			if(dialog->exec() == QDialog::Accepted) {
@@ -4999,7 +4899,7 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 			break;
 		}
 		case ACCOUNT_TYPE_EXPENSES: {
-			EditExpensesAccountDialog *dialog = new EditExpensesAccountDialog(budget, parent, i18n("Edit Expense Category"));
+			EditExpensesAccountDialog *dialog = new EditExpensesAccountDialog(budget, parent, tr("Edit Expense Category"));
 			ExpensesAccount *account = (ExpensesAccount*) i_account;
 			dialog->setAccount(account);
 			if(dialog->exec() == QDialog::Accepted) {
@@ -5060,7 +4960,7 @@ void Eqonomize::deleteAccount() {
 		}
 		if(accounts_left) {
 			dialog = new QDialog(this, 0);
-			dialog->setWindowTitle(i18n("Move transactions?"));
+			dialog->setWindowTitle(tr("Move transactions?"));
 			dialog->setModal(true);
 			QVBoxLayout *box1 = new QVBoxLayout(dialog);
 			QGridLayout *grid = new QGridLayout();
@@ -5069,14 +4969,14 @@ void Eqonomize::deleteAccount() {
 			QLabel *label = NULL;
 			deleteButton = new QRadioButton(KStandardGuiItem::remove().text(), dialog);
 			group->addButton(deleteButton);
-			moveToButton = new QRadioButton(i18n("Move to:"), dialog);
+			moveToButton = new QRadioButton(tr("Move to:"), dialog);
 			group->addButton(moveToButton);
 			moveToButton->setChecked(true);
 			moveToCombo = new QComboBox(dialog);
 			moveToCombo->setEditable(false);
 			switch(account->type()) {
 				case ACCOUNT_TYPE_EXPENSES: {
-					label = new QLabel(i18n("The category contains some expenses.\nWhat do you want to do with them?"), dialog);
+					label = new QLabel(tr("The category contains some expenses.\nWhat do you want to do with them?"), dialog);
 					ExpensesAccount *eaccount = budget->expensesAccounts.first();
 					while(eaccount) {
 						if(eaccount != account) {
@@ -5088,7 +4988,7 @@ void Eqonomize::deleteAccount() {
 					break;
 				}
 				case ACCOUNT_TYPE_INCOMES: {
-					label = new QLabel(i18n("The category contains some incomes.\nWhat do you want to do with them?"), dialog);
+					label = new QLabel(tr("The category contains some incomes.\nWhat do you want to do with them?"), dialog);
 					IncomesAccount *iaccount = budget->incomesAccounts.first();
 					while(iaccount) {
 						if(iaccount != account) {
@@ -5100,7 +5000,7 @@ void Eqonomize::deleteAccount() {
 					break;
 				}
 				case ACCOUNT_TYPE_ASSETS: {
-					label = new QLabel(i18n("The account contains some transactions.\nWhat do you want to do with them?"), dialog);
+					label = new QLabel(tr("The account contains some transactions.\nWhat do you want to do with them?"), dialog);
 					AssetsAccount *aaccount = budget->assetsAccounts.first();
 					while(aaccount) {
 						if(aaccount != budget->balancingAccount && aaccount != account && ((((AssetsAccount*) account)->accountType() == ASSETS_TYPE_SECURITIES) == (aaccount->accountType() == ASSETS_TYPE_SECURITIES))) {
@@ -5128,9 +5028,9 @@ void Eqonomize::deleteAccount() {
 			do_delete = (dialog->exec() == QDialog::Accepted);
 		} else {
 			switch(account->type()) {
-				case ACCOUNT_TYPE_EXPENSES: {do_delete = (QMessageBox::warning(this, i18n("Remove Category?"), i18n("The category contains some expenses that will be removed. Do you still want to remove the category?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes); break;}
-				case ACCOUNT_TYPE_INCOMES: {do_delete = (QMessageBox::warning(this, i18n("Remove Category?"), i18n("The category contains some incomes that will be removed. Do you still want to remove the category?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes); break;}
-				case ACCOUNT_TYPE_ASSETS: {do_delete = (QMessageBox::warning(this, i18n("Remove Account?"), i18n("The account contains some transactions that will be removed. Do you still want to remove the account?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes); break;}
+				case ACCOUNT_TYPE_EXPENSES: {do_delete = (QMessageBox::warning(this, tr("Remove Category?"), tr("The category contains some expenses that will be removed. Do you still want to remove the category?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes); break;}
+				case ACCOUNT_TYPE_INCOMES: {do_delete = (QMessageBox::warning(this, tr("Remove Category?"), tr("The category contains some incomes that will be removed. Do you still want to remove the category?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes); break;}
+				case ACCOUNT_TYPE_ASSETS: {do_delete = (QMessageBox::warning(this, tr("Remove Account?"), tr("The account contains some transactions that will be removed. Do you still want to remove the account?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes); break;}
 			}
 		}
 		if(do_delete) {
@@ -5646,7 +5546,7 @@ void Eqonomize::updateTotalMonthlyExpensesBudget() {
 			eaccount = budget->expensesAccounts.next();
 		}
 		if(b_budget) {
-			expensesItem->setText(BUDGET_COLUMN, i18nc("%1: budget; %2: remaining budget", "%2 of %1", QLocale().toString(expenses_budget, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(expenses_budget_diff, 'f', MONETARY_DECIMAL_PLACES)));
+			expensesItem->setText(BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(QLocale().toString(expenses_budget, 'f', MONETARY_DECIMAL_PLACES)).arg(QLocale().toString(expenses_budget_diff, 'f', MONETARY_DECIMAL_PLACES)));
 			return;
 		} else {
 			expenses_budget = -1.0;
@@ -5670,7 +5570,7 @@ void Eqonomize::updateTotalMonthlyIncomesBudget() {
 			iaccount = budget->incomesAccounts.next();
 		}
 		if(b_budget) {
-			incomesItem->setText(BUDGET_COLUMN, i18nc("%1: budget; %2: remaining budget", "%2 of %1", QLocale().toString(incomes_budget, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(incomes_budget_diff, 'f', MONETARY_DECIMAL_PLACES)));
+			incomesItem->setText(BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(QLocale().toString(incomes_budget, 'f', MONETARY_DECIMAL_PLACES)).arg(QLocale().toString(incomes_budget_diff, 'f', MONETARY_DECIMAL_PLACES)));
 			return;
 		} else {
 			incomes_budget = -1.0;
@@ -5844,7 +5744,7 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 		}
 
 		if(has_budget) {
-			i->setText(BUDGET_COLUMN, i18nc("%1: budget; %2: remaining budget", "%2 of %1", QLocale().toString(mbudget, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(diff, 'f', MONETARY_DECIMAL_PLACES)));
+			i->setText(BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(QLocale().toString(mbudget, 'f', MONETARY_DECIMAL_PLACES)).arg(QLocale().toString(diff, 'f', MONETARY_DECIMAL_PLACES)));
 			account_budget[account] = mbudget;
 			account_budget_diff[account] = diff;
 		} else {
@@ -5923,8 +5823,8 @@ void Eqonomize::updateBudgetEdit() {
 					else ca = budget->expensesAccounts.next();
 				}
 			}
-			if(!b_budget_prev) prevMonthBudgetLabel->setText(i18n("%1 (with no budget)", QLocale().toCurrencyString(v_prev)));
-			else prevMonthBudgetLabel->setText(i18n("%1 (with budget %2)", QLocale().toCurrencyString(v_prev), QLocale().toCurrencyString(d_prev)));
+			if(!b_budget_prev) prevMonthBudgetLabel->setText(tr("%1 (with no budget)").arg(QLocale().toCurrencyString(v_prev)));
+			else prevMonthBudgetLabel->setText(tr("%1 (with budget %2)").arg(QLocale().toCurrencyString(v_prev)).arg(QLocale().toCurrencyString(d_prev)));
 			budgetButton->setChecked(b_budget);
 			budgetEdit->setValue(d_to);
 		} else {
@@ -5947,8 +5847,8 @@ void Eqonomize::updateBudgetEdit() {
 		}
 		budgetButton->setEnabled(true);
 		d = ca->monthlyBudget(prevmonth_begin);
-		if(d < 0.0) prevMonthBudgetLabel->setText(i18n("%1 (with no budget)", QLocale().toCurrencyString(account_month[ca][prevmonth_begin.addDays(prevmonth_begin.daysInMonth() - 1)])));
-		else prevMonthBudgetLabel->setText(i18n("%1 (with budget %2)", QLocale().toCurrencyString(account_month[ca][prevmonth_begin.addDays(prevmonth_begin.daysInMonth() - 1)]), QLocale().toCurrencyString(d)));
+		if(d < 0.0) prevMonthBudgetLabel->setText(tr("%1 (with no budget)").arg(QLocale().toCurrencyString(account_month[ca][prevmonth_begin.addDays(prevmonth_begin.daysInMonth() - 1)])));
+		else prevMonthBudgetLabel->setText(tr("%1 (with budget %2)").arg(QLocale().toCurrencyString(account_month[ca][prevmonth_begin.addDays(prevmonth_begin.daysInMonth() - 1)])).arg(QLocale().toCurrencyString(d)));
  	}
 	budgetEdit->blockSignals(false);
 	budgetButton->blockSignals(false);
@@ -6081,13 +5981,13 @@ void Eqonomize::filterAccounts() {
 	bool b_past = (curdate >= to_date);
 	if(b_past) {
 		footer1->hide();
-		assetsItem->setText(0, i18n("Accounts"));
+		assetsItem->setText(0, tr("Accounts"));
 		if(budget->budgetAccount) {
 			item_accounts[budget->budgetAccount]->setText(0, budget->budgetAccount->name());
 		}
 	} else {
 		footer1->show();
-		assetsItem->setText(0, i18n("Accounts") + "*");
+		assetsItem->setText(0, tr("Accounts") + "*");
 		if(budget->budgetAccount) {
 			item_accounts[budget->budgetAccount]->setText(0, budget->budgetAccount->name() + "*");
 		}

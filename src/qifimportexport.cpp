@@ -46,8 +46,6 @@
 #include <klineedit.h>
 #include <kurlrequester.h>
 #include <klocalizedstring.h>
-#include <kio/filecopyjob.h>
-#include <kjobwidgets.h>
 
 #include "eqonomize.h"
 #include "qifimportexport.h"
@@ -278,28 +276,8 @@ void ImportQIFDialog::nextClicked() {
 				url = fileEdit->url();
 			}
 		}
-		QString tmpfile;
-		if(!url.isLocalFile()) {
-			QTemporaryFile tf;
-			tf.setAutoRemove(false);
-			if(!tf.open()) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), QString("Unable to create temporary file %1.").arg(tf.fileName())));
-				return;
-			}
-			KIO::FileCopyJob *job = KIO::file_copy(url, QUrl::fromLocalFile(tf.fileName()), KIO::Overwrite);
-			KJobWidgets::setWindow(job, this);
-			if(!job->exec()) {
-				if(job->error()) {
-					QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), job->errorString()));
-				}
-				return;
-			}
-			tmpfile = tf.fileName();
-			tf.close();
-		} else {
-			tmpfile = url.toLocalFile();
-		}
-		QFile file(tmpfile);
+
+		QFile file(url.toLocalFile());
 		if(!file.open(QIODevice::ReadOnly) ) {
 			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open %1 for reading.", url.toString()));
 			return;
@@ -312,9 +290,6 @@ void ImportQIFDialog::nextClicked() {
 		importQIF(fstream, true, qi, budget);
 		int ps = qi.p1 + qi.p2 + qi.p3 + qi.p4;
 		file.close();
-		if(!url.isLocalFile()) {
-			file.remove();
-		}
 		if(b_page1 && (int) qi.unknown_defs.count() > defsView->topLevelItemCount()) {
 			QMap<QString, QString>::iterator it_e = qi.unknown_defs_pre.end();
 			QMap <QString, bool> unknown_defs_old;
@@ -457,27 +432,7 @@ void ImportQIFDialog::accept() {
 	if(url.isEmpty()) {
 		return;
 	}
-	QString tmpfile;
-	if(!url.isLocalFile()) {
-		QTemporaryFile tf;
-		tf.setAutoRemove(false);
-		if(!tf.open()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), QString("Unable to create temporary file %1.").arg(tf.fileName())));
-			return;
-		}
-		KIO::FileCopyJob *job = KIO::file_copy(url, QUrl::fromLocalFile(tf.fileName()), KIO::Overwrite);	
-		if(!job->exec()) {
-			if(job->error()) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), job->errorString()));
-			}
-			return;
-		}
-		tmpfile = tf.fileName();
-		tf.close();
-	} else {
-		tmpfile = url.toLocalFile();
-	}
-	QFile file(tmpfile);
+	QFile file(url.toLocalFile());
 	if(!file.open(QIODevice::ReadOnly) ) {
 		QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open %1 for reading.", url.toString()));
 		return;
@@ -489,9 +444,6 @@ void ImportQIFDialog::accept() {
 	QTextStream fstream(&file);
 	importQIF(fstream, false, qi, budget);
 	file.close();
-	if(!url.isLocalFile()) {
-		file.remove();
-	}
 	QString info = "";
 	info += i18np("Successfully imported 1 transaction.", "Successfully imported %1 transactions.", qi.transactions);
 	if(qi.accounts > 0) {
@@ -637,46 +589,29 @@ void ExportQIFDialog::accept() {
 		fileEdit->setUrl(info.absoluteFilePath());
 		url = fileEdit->url();
 	}
-	if(url.isLocalFile()) {
-		if(QFile::exists(url.toLocalFile())) {
-			if(QMessageBox::warning(this, i18n("Overwrite"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
-		}
-		QFileInfo info(url.toLocalFile());
-		if(info.isDir()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("You selected a directory!"));
-			return;
-		}
-		QSaveFile ofile(url.toLocalFile());
-		ofile.open(QIODevice::WriteOnly);
-		ofile.setPermissions((QFile::Permissions) 0x0660);
-		if(!ofile.isOpen()) {
-			ofile.cancelWriting();
-			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
-			return;
-		}
-		QTextStream stream(&ofile);
-		exportQIF(stream, qi, budget, true);
-		if(!ofile.commit()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
-			return;
-		}
-		return QDialog::accept();
+	if(QFile::exists(url.toLocalFile())) {
+		if(QMessageBox::warning(this, i18n("Overwrite"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
 	}
-	
-	QTemporaryFile tf;
-	tf.open();
-	tf.setAutoRemove(true);
-	QTextStream stream(&tf);
-	exportQIF(stream, qi, budget, true);
-	KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tf.fileName()), url, KIO::Overwrite);
-	KJobWidgets::setWindow(job, this);
-	if(!job->exec()) {
-		if(job->error()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
-		}
+	QFileInfo info(url.toLocalFile());
+	if(info.isDir()) {
+		QMessageBox::critical(this, i18n("Error"), i18n("You selected a directory!"));
 		return;
 	}
-	QDialog::accept();
+	QSaveFile ofile(url.toLocalFile());
+	ofile.open(QIODevice::WriteOnly);
+	ofile.setPermissions((QFile::Permissions) 0x0660);
+	if(!ofile.isOpen()) {
+		ofile.cancelWriting();
+		QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
+		return;
+	}
+	QTextStream stream(&ofile);
+	exportQIF(stream, qi, budget, true);
+	if(!ofile.commit()) {
+		QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
+		return;
+	}
+	return QDialog::accept();
 
 }
 

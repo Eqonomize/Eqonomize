@@ -55,8 +55,6 @@
 #include <kdeversion.h>
 #include <kfileitem.h>
 #include <klocalizedstring.h>
-#include <kio/filecopyjob.h>
-#include <kjobwidgets.h>
 
 #include "budget.h"
 #include "eqonomize.h"
@@ -252,37 +250,21 @@ void LedgerDialog::saveView() {
 	QUrl url = QFileDialog::getSaveFileUrl(this, QString(), QUrl(), html_filter + ";;" + csv_filter, &filter);
 	if(filter == csv_filter) filetype = 'c';
 	if(url.isEmpty() && url.isValid()) return;
-	if(url.isLocalFile()) {
-		QSaveFile ofile(url.toLocalFile());
-		ofile.open(QIODevice::WriteOnly);
-		ofile.setPermissions((QFile::Permissions) 0x0660);
-		if(!ofile.isOpen()) {
-			ofile.cancelWriting();
-			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
-			return;
-		}
-		QTextStream stream(&ofile);
-		exportList(stream, filetype);
-		if(!ofile.commit()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
-			return;
-		}
+	QSaveFile ofile(url.toLocalFile());
+	ofile.open(QIODevice::WriteOnly);
+	ofile.setPermissions((QFile::Permissions) 0x0660);
+	if(!ofile.isOpen()) {
+		ofile.cancelWriting();
+		QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
+		return;
+	}
+	QTextStream stream(&ofile);
+	exportList(stream, filetype);
+	if(!ofile.commit()) {
+		QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
 		return;
 	}
 
-	QTemporaryFile tf;
-	tf.open();
-	tf.setAutoRemove(true);
-	QTextStream stream(&tf);
-	if(exportList(stream, filetype)) {
-		KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tf.fileName()), url, KIO::Overwrite);
-		KJobWidgets::setWindow(job, this);
-		if(!job->exec()) {
-			if(job->error()) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
-			}
-		}
-	}
 }
 bool LedgerDialog::exportList(QTextStream &outf, int fileformat) {
 

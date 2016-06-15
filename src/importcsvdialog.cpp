@@ -48,8 +48,6 @@
 #include <klineedit.h>
 #include <kurlrequester.h>
 #include <klocalizedstring.h>
-#include <kio/filecopyjob.h>
-#include <kjobwidgets.h>
 
 #include "budget.h"
 #include "eqonomizevalueedit.h"
@@ -458,7 +456,7 @@ void ImportCSVDialog::nextClicked() {
 				return;
 			}
 			fileEdit->setUrl(info.absoluteFilePath());
-		} else if(url.isLocalFile()) {
+		} else {
 			QFileInfo info(url.toLocalFile());
 			if(info.isDir()) {
 				QMessageBox::critical(this, i18n("Error"), i18n("Selected file is a directory."));
@@ -795,29 +793,8 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	double cost = 0.0;
 
 	QUrl url = fileEdit->url();
-	QString tmpfile;
-	if(!url.isLocalFile()) {
-		QTemporaryFile tf;
-		tf.setAutoRemove(false);
-		if(!tf.open()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), QString("Unable to create temporary file %1.").arg(tf.fileName())));
-			return false;
-		}
-		KIO::FileCopyJob *job = KIO::file_copy(url, QUrl::fromLocalFile(tf.fileName()), KIO::Overwrite);
-		KJobWidgets::setWindow(job, this);
-		if(!job->exec()) {
-			if(job->error()) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Couldn't fetch %1: %2", url.toString(), job->errorString()));
-			}
-			return false;
-		}
-		tmpfile = tf.fileName();
-		tf.close();
-	} else {
-		tmpfile = url.toLocalFile();
-	}
-	
-	QFile file(tmpfile);
+
+	QFile file(url.toLocalFile());
 	if(!file.open(QIODevice::ReadOnly) ) {
 		QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open %1 for reading.", url.toString()));
 		return false;
@@ -1193,9 +1170,6 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	}
 
 	file.close();
-	if(!url.isLocalFile()) {
-		file.remove();
-	}
 
 	if(test) {
 		return true;

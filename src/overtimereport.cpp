@@ -56,8 +56,6 @@
 #include <kconfig.h>
 #include <kstdguiitem.h>
 #include <klocalizedstring.h>
-#include <kio/filecopyjob.h>
-#include <kjobwidgets.h>
 
 #include "account.h"
 #include "budget.h"
@@ -272,39 +270,21 @@ void OverTimeReport::save() {
 	QMimeDatabase db;
 	QUrl url = QFileDialog::getSaveFileUrl(this, QString::null, QUrl(), db.mimeTypeForName("text/html").filterString());
 	if(url.isEmpty() && url.isValid()) return;
-	if(url.isLocalFile()) {
-		QSaveFile ofile(url.toLocalFile());
-		ofile.open(QIODevice::WriteOnly);
-		ofile.setPermissions((QFile::Permissions) 0x0660);
-		if(!ofile.isOpen()) {
-			ofile.cancelWriting();
-			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
-			return;
-		}
-		QTextStream outf(&ofile);
-		outf.setCodec("UTF-8");
-		outf << source;
-		if(!ofile.commit()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
-			return;
-		}
+	QSaveFile ofile(url.toLocalFile());
+	ofile.open(QIODevice::WriteOnly);
+	ofile.setPermissions((QFile::Permissions) 0x0660);
+	if(!ofile.isOpen()) {
+		ofile.cancelWriting();
+		QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
 		return;
 	}
-
-	QTemporaryFile tf;
-	tf.open();
-	tf.setAutoRemove(true);
-	QTextStream outf(&tf);
+	QTextStream outf(&ofile);
 	outf.setCodec("UTF-8");
 	outf << source;
-	KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tf.fileName()), url, KIO::Overwrite);
-	KJobWidgets::setWindow(job, this);
-	if(!job->exec()) {
-		if(job->error()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Failed to upload file to %1: %2", url.toString(), job->errorString()));
-		}
+	if(!ofile.commit()) {
+		QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
+		return;
 	}
-
 }
 
 void OverTimeReport::print() {

@@ -56,8 +56,7 @@ class QCommandLineParser;
 class KAutoSaveFile;
 class QDateEdit;
 class KMenu;
-class KPageWidget;
-class KPageWidgetItem;
+class QTabWidget;
 class KRecentFilesAction;
 class KSelectAction;
 class QTextEdit;
@@ -208,14 +207,13 @@ class Eqonomize : public KXmlGuiWindow {
 		KAutoSaveFile *cr_tmp_file;
 
 		KToolBar *scheduleButtons, *securitiesButtons;
-		KPageWidget *tabs;
+		QTabWidget *tabs;
 		QTabWidget *accountsTabs;
 		QCheckBox *budgetButton;
 		EqonomizeValueEdit *budgetEdit;
 		EqonomizeMonthSelector *budgetMonthEdit;
 		QLabel *prevMonthBudgetLabel;
 		QWidget *accounts_page, *expenses_page, *incomes_page, *transfers_page, *securities_page, *schedule_page;
-		KPageWidgetItem *accounts_page_item, *expenses_page_item, *incomes_page_item, *transfers_page_item, *securities_page_item, *schedule_page_item;
 		QVBoxLayout *expensesLayout, *incomesLayout, *transfersLayout;
 		TransactionListWidget *expensesWidget, *incomesWidget, *transfersWidget;
 		QTreeWidget *accountsView, *securitiesView, *scheduleView;
@@ -317,8 +315,7 @@ class Eqonomize : public KXmlGuiWindow {
 		void newRepayment();
 		void newRefundRepayment();
 
-		void onPageChange(KPageWidgetItem*, KPageWidgetItem*);
-		void onPageChange(QWidget*);
+		void onPageChange(int);
 
 		void showAccountTransactions(bool = false);
 
