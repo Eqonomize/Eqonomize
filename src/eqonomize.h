@@ -36,10 +36,10 @@
 #include <QWizardPage>
 #include <QUrl>
 #include <QApplication>
-
-#include <kxmlguiwindow.h>
+#include <QMainWindow>
 
 class QAction;
+class QActionGroup;
 class QCheckBox;
 class QLabel;
 class QMenu;
@@ -52,16 +52,12 @@ class QComboBox;
 class QAction;
 class QLineEdit;
 class QCommandLineParser;
+class QToolBar;
+class QTabWidget;
+class QDateEdit;
+class QTextEdit;
 
 class KAutoSaveFile;
-class QDateEdit;
-class KMenu;
-class QTabWidget;
-class KRecentFilesAction;
-class KSelectAction;
-class QTextEdit;
-class KToggleAction;
-class KToolBar;
 
 class CategoriesComparisonChart;
 class CategoriesComparisonReport;
@@ -86,15 +82,7 @@ class Transaction;
 class TransactionListWidget;
 class Transfer;
 
-typedef enum {
-	INITIAL_PERIOD_CURRENT_MONTH,
-	INITIAL_PERIOD_CURRENT_YEAR,
-	INITIAL_PERIOD_CURRENT_WHOLE_MONTH,
-	INITIAL_PERIOD_CURRENT_WHOLE_YEAR,
-	INITIAL_PERIOD_LAST
-} InitialPeriod;
-
-class Eqonomize : public KXmlGuiWindow {
+class Eqonomize : public QMainWindow {
 	
 	Q_OBJECT
 
@@ -180,18 +168,17 @@ class Eqonomize : public KXmlGuiWindow {
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
 		QAction *ActionNewSecurity, *ActionEditSecurity, *ActionBuyShares, *ActionSellShares, *ActionNewDividend, *ActionNewReinvestedDividend, *ActionNewSecurityTrade, *ActionSetQuotation, *ActionEditQuotations, *ActionEditSecurityTransactions, *ActionDeleteSecurity;
 		QAction *ActionNewRefund, *ActionNewRepayment, *ActionNewRefundRepayment;
-		QAction *ActionSave, *ActionFileReload, *ActionSaveView, *ActionPrintView;
+		QAction *ActionFileNew, *ActionFileOpen, *ActionFileSave, *ActionFileSaveAs, *ActionFileReload, *ActionSaveView, *ActionPrintView, *ActionQuit;
 		QAction *ActionOverTimeReport, *ActionCategoriesComparisonReport, *ActionOverTimeChart, *ActionCategoriesComparisonChart;
 		QAction *ActionImportCSV, *ActionImportQIF, *ActionExportQIF;
-		QAction *ActionExtraProperties;
-		KSelectAction *ActionSelectInitialPeriod;
-		KRecentFilesAction *ActionOpenRecent;
+		QAction *ActionExtraProperties, *AIPCurrentMonth, *AIPCurrentYear, *AIPCurrentWholeMonth, *AIPCurrentWholeYear, *AIPRememberLastDates;
+		QActionGroup *ActionSelectInitialPeriod;
 		
 	protected:
 
 		void setupActions();
 		void saveOptions();
-		bool queryClose();
+		void closeEvent(QCloseEvent *event);
 		
 		void dragEnterEvent(QDragEnterEvent *event);
 		void dropEvent(QDropEvent *event);
@@ -206,7 +193,7 @@ class Eqonomize : public KXmlGuiWindow {
 		bool b_extra;
 		KAutoSaveFile *cr_tmp_file;
 
-		KToolBar *scheduleButtons, *securitiesButtons;
+		QToolBar *mainToolbar;
 		QTabWidget *tabs;
 		QTabWidget *accountsTabs;
 		QCheckBox *budgetButton;

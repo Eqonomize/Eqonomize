@@ -50,10 +50,8 @@
 #include <QPrinter>
 #include <QTextEdit>
 #include <QPrintDialog>
+#include <QSettings>
 
-#include <KConfigGroup>
-#include <KSharedConfig>
-#include <kconfig.h>
 #include <kstdguiitem.h>
 #include <klocalizedstring.h>
 
@@ -92,11 +90,11 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	htmlview->setReadOnly(true);
 	layout->addWidget(htmlview);
 
-	KConfigGroup config = KSharedConfig::openConfig()->group("Over Time Report");
+	QSettings settings;
+	settings.beginGroup("OverTimeReport");
 
 	QGroupBox *settingsWidget = new QGroupBox(i18n("Options"), this);
 	QGridLayout *settingsLayout = new QGridLayout(settingsWidget);
-
 
 	settingsLayout->addWidget(new QLabel(i18n("Source:"), settingsWidget), 0, 0);
 	QHBoxLayout *choicesLayout = new QHBoxLayout();
@@ -125,24 +123,26 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	QHBoxLayout *enabledLayout = new QHBoxLayout();
 	settingsLayout->addLayout(enabledLayout, 1, 1);
 	valueButton = new QCheckBox(i18n("Value"), settingsWidget);
-	valueButton->setChecked(config.readEntry("valueEnabled", true));
+	valueButton->setChecked(settings.value("valueEnabled", true).toBool());
 	enabledLayout->addWidget(valueButton);
 	dailyButton = new QCheckBox(i18n("Daily"), settingsWidget);
-	dailyButton->setChecked(config.readEntry("dailyAverageEnabled", true));
+	dailyButton->setChecked(settings.value("dailyAverageEnabled", true).toBool());
 	enabledLayout->addWidget(dailyButton);
 	monthlyButton = new QCheckBox(i18n("Monthly"), settingsWidget);
-	monthlyButton->setChecked(config.readEntry("monthlyAverageEnabled", true));
+	monthlyButton->setChecked(settings.value("monthlyAverageEnabled", true).toBool());
 	enabledLayout->addWidget(monthlyButton);
 	yearlyButton = new QCheckBox(i18n("Yearly"), settingsWidget);
-	yearlyButton->setChecked(config.readEntry("yearlyEnabled", false));
+	yearlyButton->setChecked(settings.value("yearlyEnabled", false).toBool());
 	enabledLayout->addWidget(yearlyButton);
 	countButton = new QCheckBox(i18n("Quantity"), settingsWidget);
-	countButton->setChecked(config.readEntry("transactionCountEnabled", true));
+	countButton->setChecked(settings.value("transactionCountEnabled", true).toBool());
 	enabledLayout->addWidget(countButton);
 	perButton = new QCheckBox(i18n("Average value"), settingsWidget);
-	perButton->setChecked(config.readEntry("valuePerTransactionEnabled", false));
+	perButton->setChecked(settings.value("valuePerTransactionEnabled", false).toBool());
 	enabledLayout->addWidget(perButton);
 	enabledLayout->addStretch(1);
+	
+	settings.endGroup();
 
 	layout->addWidget(settingsWidget);
 
@@ -257,14 +257,16 @@ void OverTimeReport::sourceChanged(int index) {
 
 
 void OverTimeReport::saveConfig() {
-	KConfigGroup config = KSharedConfig::openConfig()->group("Over Time Report");
-	config.writeEntry("size", ((QDialog*) parent())->size());
-	config.writeEntry("valueEnabled", valueButton->isChecked());
-	config.writeEntry("dailyAverageEnabled", dailyButton->isChecked());
-	config.writeEntry("monthlyAverageEnabled", monthlyButton->isChecked());
-	config.writeEntry("yearlyAverageEnabled", yearlyButton->isChecked());
-	config.writeEntry("transactionCountEnabled", countButton->isChecked());
-	config.writeEntry("valuePerTransactionEnabled", perButton->isChecked());
+	QSettings settings;
+	settings.beginGroup("OverTimeReport");
+	settings.setValue("size", ((QDialog*) parent())->size());
+	settings.setValue("valueEnabled", valueButton->isChecked());
+	settings.setValue("dailyAverageEnabled", dailyButton->isChecked());
+	settings.setValue("monthlyAverageEnabled", monthlyButton->isChecked());
+	settings.setValue("yearlyAverageEnabled", yearlyButton->isChecked());
+	settings.setValue("transactionCountEnabled", countButton->isChecked());
+	settings.setValue("valuePerTransactionEnabled", perButton->isChecked());
+	settings.endGroup();
 }
 void OverTimeReport::save() {
 	QMimeDatabase db;

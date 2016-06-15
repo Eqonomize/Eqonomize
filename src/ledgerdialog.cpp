@@ -48,9 +48,8 @@
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QTextDocument>
+#include <QSettings>
 
-#include <KConfigGroup>
-#include <KSharedConfig>
 #include <kstdguiitem.h>
 #include <kdeversion.h>
 #include <kfileitem.h>
@@ -191,8 +190,8 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 LedgerDialog::~LedgerDialog() {}
 
 void LedgerDialog::saveConfig() {
-	KConfigGroup config = KSharedConfig::openConfig()->group("Ledger");
-	config.writeEntry("size", size());
+	QSettings settings;
+	settings.setValue("Ledger/size", size());
 }
 
 void LedgerDialog::accountChanged(int index) {

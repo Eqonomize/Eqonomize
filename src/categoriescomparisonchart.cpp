@@ -64,10 +64,8 @@
 #include <QDateEdit>
 #include <QComboBox>
 #include <QMessageBox>
+#include <QSettings>
 
-#include <KConfigGroup>
-#include <KSharedConfig>
-#include <kconfig.h>
 #include <kstdguiitem.h>
 #include <klocalizedstring.h>
 
@@ -188,8 +186,10 @@ void CategoriesComparisonChart::sourceChanged(int index) {
 	updateDisplay();
 }
 void CategoriesComparisonChart::saveConfig() {
-	KConfigGroup config = KSharedConfig::openConfig()->group("Categories Comparison Chart");
-	config.writeEntry("size", ((QDialog*) parent())->size());
+	QSettings settings;
+	settings.beginGroup("CategoriesComparisonChart");
+	settings.setValue("size", ((QDialog*) parent())->size());
+	settings.endGroup();
 }
 void CategoriesComparisonChart::toChanged(const QDate &date) {
 	bool error = false;

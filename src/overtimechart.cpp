@@ -63,10 +63,8 @@
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QMessageBox>
+#include <QSettings>
 
-#include <KConfigGroup>
-#include <KSharedConfig>
-#include <kconfig.h>
 #include <kstdguiitem.h>
 #include <klocalizedstring.h>
 
@@ -168,7 +166,8 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	view->setRenderHint(QPainter::HighQualityAntialiasing, true);
 	layout->addWidget(view);
 
-	KConfigGroup config = KSharedConfig::openConfig()->group("Over Time Chart");
+	QSettings settings;
+	settings.beginGroup("OverTimeChart");
 
 	QGroupBox *settingsWidget = new QGroupBox(i18n("Options"), this);
 	QGridLayout *settingsLayout = new QGridLayout(settingsWidget);
@@ -259,22 +258,24 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	settingsLayout->addLayout(enabledLayout, 1, 1);
 	valueGroup = new QButtonGroup(this);
 	valueButton = new QRadioButton(i18n("Monthly total"), settingsWidget);
-	valueButton->setChecked(config.readEntry("valueSelected", true));
+	valueButton->setChecked(settings.value("valueSelected", true).toBool());
 	valueGroup->addButton(valueButton, 0);
 	enabledLayout->addWidget(valueButton);
 	dailyButton = new QRadioButton(i18n("Daily average"), settingsWidget);
-	dailyButton->setChecked(config.readEntry("dailyAverageSelected", false));
+	dailyButton->setChecked(settings.value("dailyAverageSelected", false).toBool());
 	valueGroup->addButton(dailyButton, 1);
 	enabledLayout->addWidget(dailyButton);
 	countButton = new QRadioButton(i18n("Quantity"), settingsWidget);
-	countButton->setChecked(config.readEntry("transactionCountSelected", false));
+	countButton->setChecked(settings.value("transactionCountSelected", false).toBool());
 	valueGroup->addButton(countButton, 2);
 	enabledLayout->addWidget(countButton);
 	perButton = new QRadioButton(i18n("Average value"), settingsWidget);
-	perButton->setChecked(config.readEntry("valuePerTransactionSelected", false));
+	perButton->setChecked(settings.value("valuePerTransactionSelected", false).toBool());
 	valueGroup->addButton(perButton, 3);
 	enabledLayout->addWidget(perButton);
 	enabledLayout->addStretch(1);
+	
+	settings.endGroup();
 
 	layout->addWidget(settingsWidget);
 
@@ -648,12 +649,14 @@ void OverTimeChart::endMonthChanged(const QDate &date) {
 	updateDisplay();
 }
 void OverTimeChart::saveConfig() {
-	KConfigGroup config = KSharedConfig::openConfig()->group("Over Time Chart");
-	config.writeEntry("size", ((QDialog*) parent())->size());
-	config.writeEntry("valueSelected", valueButton->isChecked());
-	config.writeEntry("dailyAverageSelected", dailyButton->isChecked());
-	config.writeEntry("transactionCountSelected", countButton->isChecked());
-	config.writeEntry("valuePerTransactionSelected", perButton->isChecked());
+	QSettings settings;
+	settings.beginGroup("OverTimeChart");
+	settings.setValue("size", ((QDialog*) parent())->size());
+	settings.setValue("valueEnabled", valueButton->isChecked());
+	settings.setValue("dailyAverageEnabled", dailyButton->isChecked());
+	settings.setValue("transactionCountEnabled", countButton->isChecked());
+	settings.setValue("valuePerTransactionEnabled", perButton->isChecked());
+	settings.endGroup();
 }
 
 void OverTimeChart::save() {

@@ -26,12 +26,11 @@
 #include <QCommandLineParser>
 #include <QApplication>
 #include <QObject>
+#include <QSettings>
 
 #include <KSharedConfig>
 #include <KDBusService>
 #include <kaboutdata.h>
-#include <kconfig.h>
-#include <kconfiggroup.h>
 #include <klocalizedstring.h>
 
 #include "budget.h"
@@ -42,7 +41,8 @@ QString emptystr = "";
 int main(int argc, char **argv) {
 	KLocalizedString::setApplicationDomain("eqonomize");
 	QApplication app(argc, argv);
-	app.setApplicationName("eqonomize");
+	app.setApplicationName("Eqonomize!");
+	app.setOrganizationName("Eqonomize!");
 	app.setApplicationVersion("0.6");
 	KAboutData about("eqonomize", i18n("Eqonomize!"), "0.6", i18n("A personal accounting program"), KAboutLicense::GPL_V2, i18n("(C) 2006-2008, 2014, 2016 Hanna Knutsson"), QString(), "http://eqonomize.sourceforge.net/", "hanna_k@users.sourceforge.net");
 	about.addAuthor(i18n("Hanna Knutsson"), QString(), "hanna_k@fmgirl.com");
@@ -74,7 +74,10 @@ int main(int argc, char **argv) {
 	}	
 	win->show();
 	app.processEvents();
-	QString url = KSharedConfig::openConfig()->group("General Options").readPathEntry("lastURL", QString());
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	QString url = settings.value("lastURL", QString()).toString();
+	settings.endGroup();
 	QStringList args = parser->positionalArguments();
 	if(args.count() > 0) {
 		win->openURL(QUrl::fromUserInput(args.at(0)));

@@ -44,6 +44,7 @@
 #include <QTimer>
 #include <QVBoxLayout>
 #include <QAction>
+#include <QActionGroup>
 #include <QComboBox>
 #include <QDialogButtonBox>
 #include <QUrl>
@@ -64,18 +65,14 @@
 #include <QPrintDialog>
 #include <QTextDocument>
 #include <QTabWidget>
+#include <QMenu>
+#include <QMenuBar>
+#include <QToolBar>
+#include <QSettings>
 
-#include <KConfigGroup>
-#include <KSharedConfig>
-#include <kactioncollection.h>
+#include <QDebug>
+
 #include <kautosavefile.h>
-#include <kfileitem.h>
-#include <krecentfilesaction.h>
-#include <kselectaction.h>
-#include <kstandardaction.h>
-#include <kstdaccel.h>
-#include <kstdguiitem.h>
-#include <kwindowconfig.h>
 
 #include "budget.h"
 #include "categoriescomparisonchart.h"
@@ -806,15 +803,12 @@ EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0)
 	dateEdit->setCalendarPopup(true);
 	dateEdit->setDate(QDate::currentDate());
 	buttonsLayout->addWidget(dateEdit);
-	addButton = new QPushButton(this);
-	KGuiItem::assign(addButton, KStandardGuiItem::add());
+	addButton = new QPushButton(tr("Add"), this);
 	buttonsLayout->addWidget(addButton);
-	changeButton = new QPushButton(this);
-	KGuiItem::assign(changeButton, KStandardGuiItem::apply());
+	changeButton = new QPushButton(tr("Modify"), this);
 	changeButton->setEnabled(false);
 	buttonsLayout->addWidget(changeButton);
-	deleteButton = new QPushButton(this);
-	KGuiItem::assign(deleteButton, KStandardGuiItem::del());
+	deleteButton = new QPushButton(tr("Delete"), this);
 	deleteButton->setEnabled(false);
 	buttonsLayout->addWidget(deleteButton);
 	buttonsLayout->addStretch(1);
@@ -1014,8 +1008,7 @@ ConfirmScheduleDialog::ConfirmScheduleDialog(bool extra_parameters, Budget *budg
 	editButton->setEnabled(false);
 	postponeButton = buttons->addButton(tr("Postpone..."), QDialogButtonBox::ActionRole);
 	postponeButton->setEnabled(false);
-	removeButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
-	KGuiItem::assign(removeButton, KStandardGuiItem::del());
+	removeButton = buttons->addButton(tr("Delete"), QDialogButtonBox::ActionRole);
 	removeButton->setEnabled(false);
 	box2->addWidget(buttons);
 	
@@ -1171,8 +1164,7 @@ SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize 
 	QDialogButtonBox *buttons = new QDialogButtonBox(Qt::Vertical, this);
 	editButton = buttons->addButton(tr("Edit..."), QDialogButtonBox::ActionRole);
 	editButton->setEnabled(false);
-	removeButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
-	KGuiItem::assign(removeButton, KStandardGuiItem::del());
+	removeButton = buttons->addButton(tr("Delete"), QDialogButtonBox::ActionRole);
 	removeButton->setEnabled(false);
 	box2->addWidget(buttons);
 	
@@ -1758,7 +1750,7 @@ class AccountsListView : public EqonomizeTreeWidget {
 		}
 };
 
-Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
+Eqonomize::Eqonomize() : QMainWindow() {
 
 	cr_tmp_file = NULL;
 
@@ -1784,11 +1776,12 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 
 	budget = new Budget();
 
-	KConfigGroup config = KSharedConfig::openConfig()->group("General Options");
-	b_extra = config.readEntry("useExtraProperties", false);
-	int initial_period_pre = config.readEntry("initialPeriod", int(INITIAL_PERIOD_CURRENT_MONTH));
-	if(initial_period_pre < INITIAL_PERIOD_CURRENT_MONTH || initial_period_pre > INITIAL_PERIOD_LAST) initial_period_pre = INITIAL_PERIOD_CURRENT_MONTH;
-	InitialPeriod initial_period = (InitialPeriod) initial_period_pre;
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	
+	b_extra = settings.value("useExtraProperties", false).toBool();
+	int initial_period = settings.value("initialPeriod", int(0)).toInt();
+	if(initial_period < 0 || initial_period > 4) initial_period = 0;
 
 
 	prev_cur_date = QDate::currentDate();
@@ -1796,36 +1789,37 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	bool from_enabled = true;
 
 	switch(initial_period) {
-		case INITIAL_PERIOD_CURRENT_MONTH: {
+		case 0: {
 			from_date.setDate(curdate.year(), curdate.month(), 1);			
 			to_date = curdate;			
 			break;
 		}
-		case INITIAL_PERIOD_CURRENT_YEAR: {
+		case 1: {
 			from_date.setDate(curdate.year(), 1, 1);
 			to_date = curdate;
 			break;
 		}
-		case INITIAL_PERIOD_CURRENT_WHOLE_MONTH: {
+		case 2: {
 			from_date.setDate(curdate.year(), curdate.month(), 1);
 			to_date = from_date.addDays(curdate.daysInMonth() - 1);
 			break;
 		}
-		case INITIAL_PERIOD_CURRENT_WHOLE_YEAR: {
+		case 3: {
 			from_date.setDate(curdate.year(), 1, 1);
 			to_date = from_date.addDays(curdate.daysInYear() - 1);
 			break;
 		}
-		case INITIAL_PERIOD_LAST: {			
-			from_date = QDate::fromString(config.readEntry("initialFromDate"), Qt::ISODate);
+		case 4: {
+			from_date = QDate::fromString(settings.value("initialFromDate").toString(), Qt::ISODate);
 			if(!from_date.isValid()) from_date.setDate(curdate.year(), curdate.month(), 1);
-			from_enabled = config.readEntry("initialFromDateEnabled", false);
-			to_date = QDate::fromString(config.readEntry("initialToDate"), Qt::ISODate);
+			from_enabled = settings.value("initialFromDateEnabled", false).toBool();
+			to_date = QDate::fromString(settings.value("initialToDate").toString(), Qt::ISODate);
 			if(!to_date.isValid()) to_date = from_date.addDays(from_date.daysInMonth() - 1);
 			break;
 		}
 	}
-
+	settings.endGroup();
+	
 	frommonth_begin.setDate(from_date.year(), from_date.month(), 1);
 	prevmonth_begin = to_date.addMonths(-1);
 	prevmonth_begin = prevmonth_begin.addDays(-(prevmonth_begin.day() - 1));
@@ -1839,7 +1833,7 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	
 	tabs = new QTabWidget(w_top);
 	topLayout->addWidget(tabs);
-	
+
 	accounts_page = new QWidget(this);
 	tabs->addTab(accounts_page, QIcon::fromTheme("go-home"), tr("Accounts && Categories"));
 	expenses_page = new QWidget(this);
@@ -2134,7 +2128,7 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	editScheduleMenu = new QMenu(this);
 	editScheduleButton->setMenu(editScheduleMenu);
 	editScheduleButton->setEnabled(false);
-	removeScheduleButton = scheduleButtons->addButton(KStandardGuiItem::remove().text(), QDialogButtonBox::ActionRole);
+	removeScheduleButton = scheduleButtons->addButton(tr("Remove"), QDialogButtonBox::ActionRole);
 	removeScheduleMenu = new QMenu(this);
 	removeScheduleButton->setMenu(removeScheduleMenu);
 	removeScheduleButton->setEnabled(false);
@@ -2169,9 +2163,20 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	connect(scheduleView, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupScheduleMenu(const QPoint&)));
 	connect(scheduleView, SIGNAL(itemSelectionChanged()), this, SLOT(updateTransactionActions()));
 
+	mainToolbar = addToolBar(tr("Main Toolbar"));
+	mainToolbar->setObjectName("main_toolbar");
+	mainToolbar->setFloatable(false);
+	mainToolbar->setMovable(false);
+
 	setupActions();
 
-	ActionSelectInitialPeriod->setCurrentItem(initial_period_pre);
+	switch(initial_period) {
+		case 0: {AIPCurrentMonth->setChecked(true); break;}
+		case 1: {AIPCurrentYear->setChecked(true); break;}
+		case 2: {AIPCurrentWholeMonth->setChecked(true); break;}
+		case 3: {AIPCurrentWholeYear->setChecked(true); break;}
+		case 4: {AIPRememberLastDates->setChecked(true); break;}
+	}
 
 	newScheduleMenu->addAction(ActionNewExpense);
 	newScheduleMenu->addAction(ActionNewIncome);
@@ -2187,9 +2192,6 @@ Eqonomize::Eqonomize() : KXmlGuiWindow(0) {
 	newSecurityTransactionMenu->addAction(ActionNewDividend);
 	newSecurityTransactionMenu->addAction(ActionNewReinvestedDividend);
 
-	setupGUI(ToolBar | Keys | Save | Create);
-
-	setAutoSaveSettings();
 	readOptions();
 
 	if(first_run) {
@@ -3272,7 +3274,8 @@ void Eqonomize::showAccountTransactions(bool b) {
 			tabs->setCurrentIndex(SECURITIES_PAGE_INDEX);
 		} else {
 			LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, this, tr("Ledger"), b_extra);
-			QSize dialog_size = KSharedConfig::openConfig()->group("Ledger").readEntry("size", QSize());
+			QSettings settings;
+			QSize dialog_size = settings.value("Ledger/size", QSize()).toSize();
 			if(!dialog_size.isValid()) {
 				QDesktopWidget desktop;
 				dialog_size = QSize(900, 600).boundedTo(desktop.availableGeometry(this).size());
@@ -3568,9 +3571,12 @@ void Eqonomize::setModified(bool has_been_modified) {
 	if(has_been_modified) autoSave();
 	if(modified == has_been_modified) return;
 	modified = has_been_modified;
-	ActionSave->setEnabled(modified);
-	if(!current_url.isValid()) setCaption(tr("Untitled"), has_been_modified);
-	else setCaption(current_url.fileName(), has_been_modified);
+	ActionFileSave->setEnabled(modified);
+	QString scaption;
+	if(has_been_modified) scaption = "*";
+	if(!current_url.isValid()) scaption += tr("Untitled");
+	else scaption += current_url.fileName();
+	setWindowTitle(scaption);
 	if(modified) emit budgetUpdated();
 	else auto_save_timeout = true;
 }
@@ -3579,9 +3585,12 @@ void Eqonomize::createDefaultBudget() {
 	budget->clear();
 	current_url = "";
 	ActionFileReload->setEnabled(false);
-	KConfigGroup config = KSharedConfig::openConfig()->group("General Options");
-	config.writeEntry("lastURL", current_url.url());
-	config.sync();
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	settings.setValue("lastURL", current_url.url());
+	settings.endGroup();
+	settings.sync();
+	
 	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_CASH, tr("Cash"), 100.0));
 	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_CURRENT, tr("Check Account"), 1000.0));
 	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_SAVINGS, tr("Savings Account"), 10000.0));
@@ -3661,18 +3670,20 @@ void Eqonomize::openURL(const QUrl& url) {
 	if(!errors.isEmpty()) {
 		QMessageBox::critical(this, tr("Error"), errors);
 	}
-	setCaption(url.fileName(), false);
+	setWindowTitle(url.fileName());
 	current_url = url;
 	ActionFileReload->setEnabled(true);
-	KConfigGroup config = KSharedConfig::openConfig()->group("General Options");
-	config.writeEntry("lastURL", current_url.url());
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	settings.setValue("lastURL", current_url.url());
 	if(cr_tmp_file) {
 		cr_tmp_file->releaseLock();
 		delete cr_tmp_file;
 		cr_tmp_file = NULL;
 	}
-	config.sync();
-	ActionOpenRecent->addUrl(url);
+	settings.endGroup();
+	settings.sync();
+	//ActionOpenRecent->addUrl(url);
 
 	reloadBudget();
 
@@ -3698,18 +3709,20 @@ bool Eqonomize::saveURL(const QUrl& url) {
 		QMessageBox::critical(this, tr("Couldn't save file"), tr("Error saving %1: %2.").arg(url.toString()).arg(error));
 		return false;
 	} else {
-		setCaption(url.fileName(), false);
+		setWindowTitle(url.fileName());
 		current_url = url;
 		ActionFileReload->setEnabled(true);
-		KConfigGroup config = KSharedConfig::openConfig()->group("General Options");
-		config.writeEntry("lastURL", current_url.url());
+		QSettings settings;
+		settings.beginGroup("GeneralOptions");
+		settings.setValue("lastURL", current_url.url());
+		settings.endGroup();
 		if(cr_tmp_file) {
 			cr_tmp_file->releaseLock();
 			delete cr_tmp_file;
 			cr_tmp_file = NULL;
 		}
-		config.sync();
-		ActionOpenRecent->addUrl(url);
+		settings.sync();
+		//ActionOpenRecent->addUrl(url);
 		setModified(false);
 	}
 	return true;
@@ -3742,7 +3755,8 @@ void Eqonomize::exportQIF() {
 
 void Eqonomize::showOverTimeReport() {
 	OverTimeReportDialog *dialog = new OverTimeReportDialog(budget, 0);
-	QSize dialog_size = KSharedConfig::openConfig()->group("Over Time Report").readEntry("size", QSize());
+	QSettings settings;
+	QSize dialog_size = settings.value("OverTimeReport/size", QSize()).toSize();
 	if(!dialog_size.isValid()) {
 		QDesktopWidget desktop;
 		dialog_size = QSize(750, 650).boundedTo(desktop.availableGeometry(this).size());
@@ -3755,7 +3769,8 @@ void Eqonomize::showOverTimeReport() {
 }
 void Eqonomize::showCategoriesComparisonReport() {
 	CategoriesComparisonReportDialog *dialog = new CategoriesComparisonReportDialog(b_extra, budget, 0);
-	QSize dialog_size = KSharedConfig::openConfig()->group("Categories Comparison Report").readEntry("size", QSize());
+	QSettings settings;
+	QSize dialog_size = settings.value("CategoriesComparisonReport/size", QSize()).toSize();
 	if(!dialog_size.isValid()) {
 		QDesktopWidget desktop;
 		dialog_size = QSize(750, 670).boundedTo(desktop.availableGeometry(this).size());
@@ -3767,8 +3782,9 @@ void Eqonomize::showCategoriesComparisonReport() {
 	connect(this, SIGNAL(timeToSaveConfig()), dialog->report, SLOT(saveConfig()));
 }
 void Eqonomize::showOverTimeChart() {
-	OverTimeChartDialog *dialog = new OverTimeChartDialog(b_extra, budget, 0);	
-	QSize dialog_size = KSharedConfig::openConfig()->group("Over Time Chart").readEntry("size", QSize());
+	OverTimeChartDialog *dialog = new OverTimeChartDialog(b_extra, budget, 0);
+	QSettings settings;
+	QSize dialog_size = settings.value("OverTimeChart/size", QSize()).toSize();
 	if(!dialog_size.isValid()) {
 		QDesktopWidget desktop;
 		dialog_size = QSize(850, b_extra ? 750 : 730).boundedTo(desktop.availableGeometry(this).size());
@@ -3783,7 +3799,8 @@ void Eqonomize::showOverTimeChart() {
 
 void Eqonomize::showCategoriesComparisonChart() {
 	CategoriesComparisonChartDialog *dialog = new CategoriesComparisonChartDialog(budget, 0);	
-	QSize dialog_size = KSharedConfig::openConfig()->group("Categories Comparison Chart").readEntry("size", QSize());
+	QSettings settings;
+	QSize dialog_size = settings.value("CategoriesComparisonChart/size", QSize()).toSize();
 	if(!dialog_size.isValid()) {
 		QDesktopWidget desktop;
 		dialog_size = QSize(750, 700).boundedTo(desktop.availableGeometry(this).size());
@@ -4232,7 +4249,7 @@ void Eqonomize::saveView() {
 	QString filter = html_filter;
 	QUrl url = QFileDialog::getSaveFileUrl(this, QString(), QUrl(), html_filter + ";;" + csv_filter, &filter);
 	if(filter == csv_filter) filetype = 'c';
-	if(url.isEmpty() && url.isValid()) return;
+	if(url.isEmpty() || !url.isValid()) return;
 	QSaveFile ofile(url.toLocalFile());
 	ofile.open(QIODevice::WriteOnly);
 	if(!ofile.isOpen()) {
@@ -4249,93 +4266,117 @@ void Eqonomize::saveView() {
 
 }
 
-#define NEW_ACTION(action, text, icon, shortcut, receiver, slot, x, name) action = x->addAction(name); action->setText(text); action->setIcon(QIcon::fromTheme(icon)); x->setDefaultShortcut(action, shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
+#define NEW_ACTION(action, text, icon, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(QIcon::fromTheme(icon)); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
 
-#define NEW_ACTION_2(action, text, shortcut, receiver, slot, x, name) action = x->addAction(name); action->setText(text); x->setDefaultShortcut(action, shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
+#define NEW_ACTION_NOMENU(action, text, icon, shortcut, receiver, slot, name) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(QIcon::fromTheme(icon)); action->setShortcut(shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
 
-#define NEW_TOGGLE_ACTION(action, text, shortcut, receiver, slot, x, name) action = new QAction(this); x->addAction(name, action); action->setText(text);  x->setDefaultShortcut(action, shortcut); action->setCheckable(true); connect(action, SIGNAL(triggered(bool)), receiver, slot);
+#define NEW_ACTION_2(action, text, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
+
+#define NEW_ACTION_2_NOMENU(action, text, shortcut, receiver, slot, name) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setShortcut(shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
+
+#define NEW_TOGGLE_ACTION(action, text, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setShortcut(shortcut); action->setCheckable(true); menu->addAction(action); connect(action, SIGNAL(triggered(bool)), receiver, slot);
+
+#define NEW_RADIO_ACTION(action, text, group) action = new QAction(group); action->setCheckable(true); action->setText(text);
 
 void Eqonomize::setupActions() {
+	
+	QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
+	QMenu *accountsMenu = menuBar()->addMenu(tr("&Accounts"));
+	QMenu *transactionsMenu = menuBar()->addMenu(tr("&Transactions"));
+	QMenu *securitiesMenu = menuBar()->addMenu(tr("&Securities"));
+	QMenu *statisticsMenu = menuBar()->addMenu(tr("Stat&istics"));
+	QMenu *settingsMenu = menuBar()->addMenu(tr("S&ettings"));
+	QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
+	
+	NEW_ACTION(ActionFileNew, tr("New"), "document-new", 0, this, SLOT(fileNew()), "file_new", fileMenu);
+	mainToolbar->addAction(ActionFileNew);
+	NEW_ACTION(ActionFileOpen, tr("Open..."), "document-open", 0, this, SLOT(fileOpen()), "file_open", fileMenu);
+	mainToolbar->addAction(ActionFileOpen);
+	fileMenu->addSeparator();
+	NEW_ACTION(ActionFileSave, tr("Save"), "document-save", 0, this, SLOT(fileSave()), "file_save", fileMenu);
+	mainToolbar->addAction(ActionFileSave);
+	NEW_ACTION(ActionFileSaveAs, tr("Save As..."), "document-save-as", 0, this, SLOT(fileSaveAs()), "file_save_as", fileMenu);
+	NEW_ACTION(ActionFileReload, tr("Revert"), "document-revert", 0, this, SLOT(fileReload()), "file_revert", fileMenu);	
+	fileMenu->addSeparator();
+	NEW_ACTION(ActionPrintView, tr("Print View..."), "document-print", 0, this, SLOT(printView()), "print_view", fileMenu);
+	mainToolbar->addAction(ActionPrintView);
+	fileMenu->addSeparator();
+	QMenu *importMenu = fileMenu->addMenu(tr("Import"));
+	NEW_ACTION(ActionImportCSV, tr("Import CSV File..."), "document-import", 0, this, SLOT(importCSV()), "import_csv", importMenu);
+	NEW_ACTION(ActionImportQIF, tr("Import QIF File..."), "document-import", 0, this, SLOT(importQIF()), "import_qif", importMenu);
+	NEW_ACTION(ActionSaveView, tr("Export View..."), "document-export", 0, this, SLOT(saveView()), "save_view", fileMenu);
+	mainToolbar->addAction(ActionSaveView);
+	NEW_ACTION(ActionExportQIF, tr("Export As QIF File..."), "document-export", 0, this, SLOT(exportQIF()), "export_qif", fileMenu);
+	fileMenu->addSeparator();
+	NEW_ACTION(ActionQuit, tr("Quit"), "application-exit", 0, this, SLOT(close()), "application_quit", fileMenu);
+	
+	NEW_ACTION_NOMENU(ActionAddAccount, tr("Add Account..."), "document-new", 0, this, SLOT(addAccount()), "add_account");
+	NEW_ACTION(ActionNewAssetsAccount, tr("New Account..."), "document-new", 0, this, SLOT(newAssetsAccount()), "new_assets_account", accountsMenu);
+	NEW_ACTION(ActionNewIncomesAccount, tr("New Income Category..."), "document-new", 0, this, SLOT(newIncomesAccount()), "new_incomes_account", accountsMenu);
+	NEW_ACTION(ActionNewExpensesAccount, tr("New Expense Category..."), "document-new", 0, this, SLOT(newExpensesAccount()), "new_expenses_account", accountsMenu);
+	accountsMenu->addSeparator();
+	NEW_ACTION(ActionEditAccount, tr("Edit..."), "document-open", 0, this, SLOT(editAccount()), "edit_account", accountsMenu);
+	NEW_ACTION_2(ActionBalanceAccount, tr("Balance..."), 0, this, SLOT(balanceAccount()), "balance_account", accountsMenu);
+	accountsMenu->addSeparator();
+	NEW_ACTION(ActionDeleteAccount, tr("Remove"), "edit-delete", 0, this, SLOT(deleteAccount()), "delete_account", accountsMenu);
+	accountsMenu->addSeparator();
+	NEW_ACTION_2(ActionShowAccountTransactions, tr("Show Transactions"), 0, this, SLOT(showAccountTransactions()), "show_account_transactions", accountsMenu);
 
-	actionCollection()->addAction(KStandardAction::New, this, SLOT(fileNew()));
-	actionCollection()->addAction(KStandardAction::Open, this, SLOT(fileOpen()));
-	ActionSave = actionCollection()->addAction(KStandardAction::Save, this, SLOT(fileSave()));
-	ActionOpenRecent = KStandardAction::openRecent(this, SLOT(fileOpenRecent(const QUrl&)), this);
-	actionCollection()->addAction(ActionOpenRecent->objectName(), ActionOpenRecent);
-	actionCollection()->addAction(KStandardAction::SaveAs, this, SLOT(fileSaveAs()));
-	actionCollection()->addAction(KStandardAction::Quit, this, SLOT(close()));
-	ActionFileReload = actionCollection()->addAction(KStandardAction::Revert, this, SLOT(fileReload()));
+	NEW_ACTION(ActionNewExpense, tr("New Expense..."), "document-new", Qt::CTRL+Qt::Key_E, this, SLOT(newScheduledExpense()), "new_expense", transactionsMenu);
+	NEW_ACTION(ActionNewIncome, tr("New Income..."), "document-new", Qt::CTRL+Qt::Key_I, this, SLOT(newScheduledIncome()), "new_income", transactionsMenu);
+	NEW_ACTION(ActionNewTransfer, tr("New Transfer..."), "document-new", Qt::CTRL+Qt::Key_T, this, SLOT(newScheduledTransfer()), "new_transfer", transactionsMenu);
+	NEW_ACTION(ActionNewSplitTransaction, tr("New Split Transaction..."), "document-new", Qt::CTRL+Qt::Key_W, this, SLOT(newSplitTransaction()), "new_split_transaction", transactionsMenu);
+	NEW_ACTION_NOMENU(ActionNewRefund, tr("Refund..."), "go-next", 0, this, SLOT(newRefund()), "new_refund");
+	NEW_ACTION_NOMENU(ActionNewRepayment, tr("Repayment..."), "go-previous", 0, this, SLOT(newRepayment()), "new_repayment");
+	NEW_ACTION(ActionNewRefundRepayment, tr("New Refund/Repayment..."), "document-new", 0, this, SLOT(newRefundRepayment()), "new_refund_repayment", transactionsMenu);
+	transactionsMenu->addSeparator();
+	NEW_ACTION(ActionEditTransaction, tr("Edit Transaction(s) (Occurrence)..."), "document-open", 0, this, SLOT(editSelectedTransaction()), "edit_transaction", transactionsMenu);
+	NEW_ACTION(ActionEditOccurrence, tr("Edit Occurrence..."), "document-open", 0, this, SLOT(editOccurrence()), "edit_occurrence", transactionsMenu);
+	NEW_ACTION(ActionEditScheduledTransaction, tr("Edit Schedule (Recurrence)..."), "document-open", 0, this, SLOT(editSelectedScheduledTransaction()), "edit_scheduled_transaction", transactionsMenu);
+	NEW_ACTION(ActionEditSchedule, tr("Edit Schedule..."), "document-open", 0, this, SLOT(editScheduledTransaction()), "edit_schedule", transactionsMenu);
+	NEW_ACTION(ActionEditSplitTransaction, tr("Edit Split Transaction..."), "document-open", 0, this, SLOT(editSelectedSplitTransaction()), "edit_split_transaction", transactionsMenu);
+	NEW_ACTION_2(ActionJoinTransactions, tr("Join Transactions..."), 0, this, SLOT(joinSelectedTransactions()), "join_transactions", transactionsMenu);
+	NEW_ACTION_2(ActionSplitUpTransaction, tr("Split Up Transaction"), 0, this, SLOT(splitUpSelectedTransaction()), "split_up_transaction", transactionsMenu);
+	transactionsMenu->addSeparator();
+	NEW_ACTION(ActionDeleteTransaction, tr("Remove Transaction(s) (Occurrence)"), "edit-delete", 0, this, SLOT(deleteSelectedTransaction()), "delete_transaction", transactionsMenu);
+	NEW_ACTION(ActionDeleteOccurrence, tr("Remove Occurrence"), "edit-delete", 0, this, SLOT(removeOccurrence()), "delete_occurrence", transactionsMenu);
+	NEW_ACTION(ActionDeleteScheduledTransaction, tr("Delete Schedule (Recurrence)"), "edit-delete", 0, this, SLOT(deleteSelectedScheduledTransaction()), "delete_scheduled_transaction", transactionsMenu);
+	NEW_ACTION_NOMENU(ActionDeleteSchedule, tr("Delete Schedule"), "edit-delete", 0, this, SLOT(removeScheduledTransaction()), "delete_schedule");	
+	NEW_ACTION(ActionDeleteSplitTransaction, tr("Remove Split Transaction"), "edit-delete", 0, this, SLOT(deleteSelectedSplitTransaction()), "delete_split_transaction", transactionsMenu);
 
-	NEW_ACTION(ActionSaveView, tr("Export View..."), "document-export", 0, this, SLOT(saveView()), actionCollection(), "save_view");
-	ActionPrintView = actionCollection()->addAction(KStandardAction::Print, this, SLOT(printView()));
-	ActionPrintView->setText(tr("Print View..."));
+	NEW_ACTION(ActionNewSecurity, tr("New Security..."), "document-new", 0, this, SLOT(newSecurity()), "new_security", securitiesMenu);
+	NEW_ACTION(ActionEditSecurity, tr("Edit Security..."), "document-open", 0, this, SLOT(editSecurity()), "edit_security", securitiesMenu);
+	NEW_ACTION(ActionDeleteSecurity, tr("Remove Security"), "edit-delete", 0, this, SLOT(deleteSecurity()), "delete_security", securitiesMenu);
+	securitiesMenu->addSeparator();
+	NEW_ACTION(ActionBuyShares, tr("Shares Bought..."), "go-previous", 0, this, SLOT(buySecurities()), "buy_shares", securitiesMenu);
+	NEW_ACTION(ActionSellShares, tr("Shares Sold..."), "go-next", 0, this, SLOT(sellSecurities()), "sell_shares", securitiesMenu);
+	NEW_ACTION_2(ActionNewSecurityTrade, tr("Shares Moved..."), 0, this, SLOT(newSecurityTrade()), "new_security_trade", securitiesMenu);
+	NEW_ACTION(ActionNewDividend, tr("Dividend..."), "go-next", 0, this, SLOT(newDividend()), "new_dividend", securitiesMenu);
+	NEW_ACTION(ActionNewReinvestedDividend, tr("Reinvested Dividend..."), "go-next", 0, this, SLOT(newReinvestedDividend()), "new_reinvested_dividend", securitiesMenu);
+	NEW_ACTION(ActionEditSecurityTransactions, tr("Transactions..."), "view-list-details", 0, this, SLOT(editSecurityTransactions()), "edit_security_transactions", securitiesMenu);
+	securitiesMenu->addSeparator();
+	NEW_ACTION(ActionSetQuotation, tr("Set Quotation..."), "view-calendar-day", 0, this, SLOT(setQuotation()), "set_quotation", securitiesMenu);
+	NEW_ACTION(ActionEditQuotations, tr("Edit Quotations..."), "view-calendar-list", 0, this, SLOT(editQuotations()), "edit_quotations", securitiesMenu);
 
-	ActionSelectInitialPeriod = new KSelectAction(tr("Initial Period"), this);
-	actionCollection()->addAction("select_initial_period", ActionSelectInitialPeriod);
-	QStringList period_list;
-	period_list << tr("Current Month");
-	period_list << tr("Current Year");
-	period_list << tr("Current Whole Month");
-	period_list << tr("Current Whole Year");
-	period_list << tr("Remember Last Dates");
-	ActionSelectInitialPeriod->setItems(period_list);
+	NEW_ACTION(ActionOverTimeReport, tr("Development Over Time Report..."), "view-list-text", 0, this, SLOT(showOverTimeReport()), "over_time_report", statisticsMenu);
+	NEW_ACTION(ActionCategoriesComparisonReport, tr("Categories Comparison Report..."), "view-list-text", 0, this, SLOT(showCategoriesComparisonReport()), "categories_comparison_report", statisticsMenu);
+	NEW_ACTION(ActionOverTimeChart, tr("Development Over Time Chart..."), "view-statistics", 0, this, SLOT(showOverTimeChart()), "over_time_chart", statisticsMenu);
+	NEW_ACTION(ActionCategoriesComparisonChart, tr("Categories Comparison Chart..."), "view-statistics", 0, this, SLOT(showCategoriesComparisonChart()), "categories_comparison_chart", statisticsMenu);	
 
-	NEW_ACTION(ActionImportCSV, tr("Import CSV File..."), "document-import", 0, this, SLOT(importCSV()), actionCollection(), "import_csv");
-	NEW_ACTION(ActionImportQIF, tr("Import QIF File..."), "document-import", 0, this, SLOT(importQIF()), actionCollection(), "import_qif");
-	NEW_ACTION(ActionExportQIF, tr("Export As QIF File..."), "document-export", 0, this, SLOT(exportQIF()), actionCollection(), "export_qif");
-
-	NEW_ACTION(ActionAddAccount, tr("Add Account..."), "document-new", 0, this, SLOT(addAccount()), actionCollection(), "add_account");
-	NEW_ACTION(ActionNewAssetsAccount, tr("New Account..."), "document-new", 0, this, SLOT(newAssetsAccount()), actionCollection(), "new_assets_account");
-	NEW_ACTION(ActionNewIncomesAccount, tr("New Income Category..."), "document-new", 0, this, SLOT(newIncomesAccount()), actionCollection(), "new_incomes_account");
-	NEW_ACTION(ActionNewExpensesAccount, tr("New Expense Category..."), "document-new", 0, this, SLOT(newExpensesAccount()), actionCollection(), "new_expenses_account");
-	NEW_ACTION_2(ActionBalanceAccount, tr("Balance..."), 0, this, SLOT(balanceAccount()), actionCollection(), "balance_account");
-	NEW_ACTION(ActionEditAccount, tr("Edit..."), "document-open", 0, this, SLOT(editAccount()), actionCollection(), "edit_account");
-	NEW_ACTION(ActionDeleteAccount, KStandardGuiItem::remove().text(), "edit-delete", 0, this, SLOT(deleteAccount()), actionCollection(), "delete_account");
-
-	NEW_ACTION_2(ActionShowAccountTransactions, tr("Show Transactions"), 0, this, SLOT(showAccountTransactions()), actionCollection(), "show_account_transactions");
-
-	NEW_ACTION(ActionNewExpense, tr("New Expense..."), "document-new", Qt::CTRL+Qt::Key_E, this, SLOT(newScheduledExpense()), actionCollection(), "new_expense");
-	NEW_ACTION(ActionNewIncome, tr("New Income..."), "document-new", Qt::CTRL+Qt::Key_I, this, SLOT(newScheduledIncome()), actionCollection(), "new_income");
-	NEW_ACTION(ActionNewTransfer, tr("New Transfer..."), "document-new", Qt::CTRL+Qt::Key_T, this, SLOT(newScheduledTransfer()), actionCollection(), "new_transfer");
-	NEW_ACTION(ActionNewSplitTransaction, tr("New Split Transaction..."), "document-new", Qt::CTRL+Qt::Key_W, this, SLOT(newSplitTransaction()), actionCollection(), "new_split_transaction");
-	NEW_ACTION(ActionEditTransaction, tr("Edit Transaction(s) (Occurrence)..."), "document-open", 0, this, SLOT(editSelectedTransaction()), actionCollection(), "edit_transaction");
-	NEW_ACTION(ActionEditOccurrence, tr("Edit Occurrence..."), "document-open", 0, this, SLOT(editOccurrence()), actionCollection(), "edit_occurrence");
-	NEW_ACTION(ActionEditScheduledTransaction, tr("Edit Schedule (Recurrence)..."), "document-open", 0, this, SLOT(editSelectedScheduledTransaction()), actionCollection(), "edit_scheduled_transaction");
-	NEW_ACTION(ActionEditSchedule, tr("Edit Schedule..."), "document-open", 0, this, SLOT(editScheduledTransaction()), actionCollection(), "edit_schedule");
-	NEW_ACTION(ActionDeleteTransaction, tr("Remove Transaction(s) (Occurrence)"), "edit-delete", 0, this, SLOT(deleteSelectedTransaction()), actionCollection(), "delete_transaction");
-	NEW_ACTION(ActionDeleteOccurrence, tr("Remove Occurrence"), "edit-delete", 0, this, SLOT(removeOccurrence()), actionCollection(), "delete_occurrence");
-	NEW_ACTION(ActionDeleteScheduledTransaction, tr("Delete Schedule (Recurrence)"), "edit-delete", 0, this, SLOT(deleteSelectedScheduledTransaction()), actionCollection(), "delete_scheduled_transaction");
-	NEW_ACTION(ActionDeleteSchedule, tr("Delete Schedule"), "edit-delete", 0, this, SLOT(removeScheduledTransaction()), actionCollection(), "delete_schedule");
-	NEW_ACTION(ActionEditSplitTransaction, tr("Edit Split Transaction..."), "document-open", 0, this, SLOT(editSelectedSplitTransaction()), actionCollection(), "edit_split_transaction");
-	NEW_ACTION(ActionDeleteSplitTransaction, tr("Remove Split Transaction"), "edit-delete", 0, this, SLOT(deleteSelectedSplitTransaction()), actionCollection(), "delete_split_transaction");
-	NEW_ACTION_2(ActionJoinTransactions, tr("Join Transactions..."), 0, this, SLOT(joinSelectedTransactions()), actionCollection(), "joins_transactions");
-	NEW_ACTION_2(ActionSplitUpTransaction, tr("Split Up Transaction"), 0, this, SLOT(splitUpSelectedTransaction()), actionCollection(), "split_up_transaction");
-
-	NEW_ACTION(ActionNewRefund, tr("Refund..."), "go-next", 0, this, SLOT(newRefund()), actionCollection(), "new_refund");
-	NEW_ACTION(ActionNewRepayment, tr("Repayment..."), "go-previous", 0, this, SLOT(newRepayment()), actionCollection(), "new_repayment");
-	NEW_ACTION(ActionNewRefundRepayment, tr("New Refund/Repayment..."), "document-new", 0, this, SLOT(newRefundRepayment()), actionCollection(), "new_refund_repayment");
-
-	NEW_ACTION(ActionNewSecurity, tr("New Security..."), "document-new", 0, this, SLOT(newSecurity()), actionCollection(), "new_security");
-	NEW_ACTION(ActionEditSecurity, tr("Edit Security..."), "document-open", 0, this, SLOT(editSecurity()), actionCollection(), "edit_security");
-	NEW_ACTION(ActionDeleteSecurity, tr("Remove Security"), "edit-delete", 0, this, SLOT(deleteSecurity()), actionCollection(), "delete_security");
-	NEW_ACTION(ActionSellShares, tr("Shares Sold..."), "go-next", 0, this, SLOT(sellSecurities()), actionCollection(), "sell_shares");
-	NEW_ACTION(ActionBuyShares, tr("Shares Bought..."), "go-previous", 0, this, SLOT(buySecurities()), actionCollection(), "buy_shares");
-	NEW_ACTION(ActionNewDividend, tr("Dividend..."), "go-next", 0, this, SLOT(newDividend()), actionCollection(), "new_dividend");
-	NEW_ACTION(ActionNewReinvestedDividend, tr("Reinvested Dividend..."), "go-next", 0, this, SLOT(newReinvestedDividend()), actionCollection(), "new_reinvested_dividend");
-	NEW_ACTION_2(ActionNewSecurityTrade, tr("Shares Moved..."), 0, this, SLOT(newSecurityTrade()), actionCollection(), "new_security_trade");
-	NEW_ACTION(ActionSetQuotation, tr("Set Quotation..."), "view-calendar-day", 0, this, SLOT(setQuotation()), actionCollection(), "set_quotation");
-	NEW_ACTION(ActionEditQuotations, tr("Edit Quotations..."), "view-calendar-list", 0, this, SLOT(editQuotations()), actionCollection(), "edit_quotations");
-	NEW_ACTION(ActionEditSecurityTransactions, tr("Transactions..."), "view-list-details", 0, this, SLOT(editSecurityTransactions()), actionCollection(), "edit_security_transactions");
-
-	NEW_ACTION(ActionOverTimeReport, tr("Development Over Time Report..."), "view-list-text", 0, this, SLOT(showOverTimeReport()), actionCollection(), "over_time_report");
-	NEW_ACTION(ActionCategoriesComparisonReport, tr("Categories Comparison Report..."), "view-list-text", 0, this, SLOT(showCategoriesComparisonReport()), actionCollection(), "categories_comparison_report");
-	NEW_ACTION(ActionCategoriesComparisonChart, tr("Categories Comparison Chart..."), "view-statistics", 0, this, SLOT(showCategoriesComparisonChart()), actionCollection(), "categories_comparison_chart");
-	NEW_ACTION(ActionOverTimeChart, tr("Development Over Time Chart..."), "view-statistics", 0, this, SLOT(showOverTimeChart()), actionCollection(), "over_time_chart");
-
-	NEW_TOGGLE_ACTION(ActionExtraProperties, tr("Use Additional Transaction Properties"), 0, this, SLOT(useExtraProperties(bool)), actionCollection(), "extra_properties");
+	NEW_TOGGLE_ACTION(ActionExtraProperties, tr("Use Additional Transaction Properties"), 0, this, SLOT(useExtraProperties(bool)), "extra_properties", settingsMenu);
 	ActionExtraProperties->setChecked(b_extra);
+	
+	QMenu *periodMenu = settingsMenu->addMenu(tr("Initial Period"));
+	ActionSelectInitialPeriod = new QActionGroup(this);
+	ActionSelectInitialPeriod->setObjectName("select_initial_period");
+	NEW_RADIO_ACTION(AIPCurrentMonth, tr("Current Month"), ActionSelectInitialPeriod);
+	NEW_RADIO_ACTION(AIPCurrentYear, tr("Current Year"), ActionSelectInitialPeriod);
+	NEW_RADIO_ACTION(AIPCurrentWholeMonth, tr("Whole Month"), ActionSelectInitialPeriod);
+	NEW_RADIO_ACTION(AIPCurrentWholeYear, tr("Whole Year"), ActionSelectInitialPeriod);
+	NEW_RADIO_ACTION(AIPRememberLastDates, tr("Remember Last Dates"), ActionSelectInitialPeriod);
+	periodMenu->addActions(ActionSelectInitialPeriod->actions());
 
-	ActionSave->setEnabled(false);
+	ActionFileSave->setEnabled(false);
 	ActionFileReload->setEnabled(false);
 	ActionBalanceAccount->setEnabled(false);
 	ActionEditAccount->setEnabled(false);
@@ -4366,7 +4407,7 @@ void Eqonomize::setupActions() {
 }
 
 bool Eqonomize::crashRecovery(QUrl url) {
-	KConfigGroup config = KSharedConfig::openConfig()->group("General Options");
+	QSettings settings;
 	QList<KAutoSaveFile*> staleFiles;
 	if(url.isLocalFile()) {
 		staleFiles = KAutoSaveFile::staleFiles(url);
@@ -4379,7 +4420,7 @@ bool Eqonomize::crashRecovery(QUrl url) {
 			QString error = budget->loadFile(staleFiles.first()->fileName(), errors);
 			if(!error.isNull()) {
 				QMessageBox::critical(this, tr("Couldn't open file"), tr("Error loading %1: %2.").arg(cr_tmp_file->fileName()).arg(error));
-				config.sync();
+				settings.sync();
 				foreach(KAutoSaveFile *stale, staleFiles) {
 					stale->remove();
 					delete stale;
@@ -4391,7 +4432,7 @@ bool Eqonomize::crashRecovery(QUrl url) {
 			}
 			current_url = url;
 			ActionFileReload->setEnabled(true);
-			setCaption(current_url.fileName(), false);
+			setWindowTitle(current_url.fileName());
 			foreach(KAutoSaveFile *stale, staleFiles) {
 				stale->remove();
 				delete stale;
@@ -4442,9 +4483,11 @@ void Eqonomize::saveCrashRecovery() {
 		else cr_tmp_file = new KAutoSaveFile(current_url, this);
 	}
 	if(budget->saveFile(cr_tmp_file->fileName()).isNull()) {
-		KConfigGroup config = KSharedConfig::openConfig()->group("General Options");
-		config.writeEntry("lastURL", current_url.url());
-		config.sync();
+		QSettings settings;
+		settings.beginGroup("GeneralOptions");
+		settings.setValue("lastURL", current_url.url());
+		settings.endGroup();
+		settings.sync();
 	}
 }
 
@@ -4475,55 +4518,65 @@ void Eqonomize::onActivateRequested(const QStringList &arguments, const QString 
 	activateWindow();
 }
 
-void Eqonomize::saveOptions() {
-	KConfigGroup config = KSharedConfig::openConfig()->group("General Options");
-	ActionOpenRecent->saveEntries(KSharedConfig::openConfig()->group("RecentFiles"));
-	config.writeEntry("lastURL", current_url.url());
-	config.writeEntry("currentEditExpenseFromItem", expensesWidget->currentEditFromItem());
-	config.writeEntry("currentEditExpenseToItem", expensesWidget->currentEditToItem());
-	config.writeEntry("currentEditIncomeFromItem", incomesWidget->currentEditFromItem());
-	config.writeEntry("currentEditIncomeToItem", incomesWidget->currentEditToItem());
-	config.writeEntry("currentEditTransferFromItem", transfersWidget->currentEditFromItem());
-	config.writeEntry("currentEditTransferToItem", transfersWidget->currentEditToItem());
-	config.writeEntry("useExtraProperties", b_extra);
-	config.writeEntry("firstRun", false);
-	config.writeEntry("size", size());
+void Eqonomize::saveOptions() {	
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	//ActionOpenRecent->saveEntries(KSharedConfig::openConfig()->group("RecentFiles"));
+	settings.setValue("lastURL", current_url.url());
+	settings.setValue("currentEditExpenseFromItem", expensesWidget->currentEditFromItem());
+	settings.setValue("currentEditExpenseToItem", expensesWidget->currentEditToItem());
+	settings.setValue("currentEditIncomeFromItem", incomesWidget->currentEditFromItem());
+	settings.setValue("currentEditIncomeToItem", incomesWidget->currentEditToItem());
+	settings.setValue("currentEditTransferFromItem", transfersWidget->currentEditFromItem());
+	settings.setValue("currentEditTransferToItem", transfersWidget->currentEditToItem());
+	settings.setValue("useExtraProperties", b_extra);
+	settings.setValue("firstRun", false);
+	settings.setValue("size", size());
+	settings.setValue("windowState", saveState());
 
-	InitialPeriod initial_period = (InitialPeriod) ActionSelectInitialPeriod->currentItem();
-	config.writeEntry("initialPeriod", int(initial_period));
-	if(initial_period == INITIAL_PERIOD_LAST) {
-		config.writeEntry("initialFromDate", from_date.toString(Qt::ISODate));
-		config.writeEntry("initialFromDateEnabled", accountsPeriodFromButton->isChecked());
-		config.writeEntry("initialToDate", to_date.toString(Qt::ISODate));
+	if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentMonth) {settings.setValue("initialPeriod", 0);}
+	else if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentYear) {settings.setValue("initialPeriod", 1);}
+	else if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentWholeMonth) {settings.setValue("initialPeriod", 2);}
+	else if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentWholeYear) {settings.setValue("initialPeriod", 3);}
+	else {
+		settings.setValue("initialPeriod", 4);
+		settings.setValue("initialFromDate", from_date.toString(Qt::ISODate));
+		settings.setValue("initialFromDateEnabled", accountsPeriodFromButton->isChecked());
+		settings.setValue("initialToDate", to_date.toString(Qt::ISODate));
 	}
+	settings.endGroup();
 	emit timeToSaveConfig();
 }
 
 
 void Eqonomize::readFileDependentOptions() {
-	KConfigGroup config = KSharedConfig::openConfig()->group("General Options");
-	expensesWidget->setCurrentEditFromItem(config.readEntry("currentEditExpenseFromItem", int(0)));
-	expensesWidget->setCurrentEditToItem(config.readEntry("currentEditExpenseToItem", int(0)));
-	incomesWidget->setCurrentEditFromItem(config.readEntry("currentEditIncomeFromItem", int(0)));
-	incomesWidget->setCurrentEditToItem(config.readEntry("currentEditIncomeToItem", int(0)));
-	transfersWidget->setCurrentEditFromItem(config.readEntry("currentEditTransferFromItem", int(0)));
-	transfersWidget->setCurrentEditToItem(config.readEntry("currentEditTransferToItem", int(0)));
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	expensesWidget->setCurrentEditFromItem(settings.value("currentEditExpenseFromItem", int(0)).toInt());
+	expensesWidget->setCurrentEditToItem(settings.value("currentEditExpenseToItem", int(0)).toInt());
+	incomesWidget->setCurrentEditFromItem(settings.value("currentEditIncomeFromItem", int(0)).toInt());
+	incomesWidget->setCurrentEditToItem(settings.value("currentEditIncomeToItem", int(0)).toInt());
+	transfersWidget->setCurrentEditFromItem(settings.value("currentEditTransferFromItem", int(0)).toInt());
+	transfersWidget->setCurrentEditToItem(settings.value("currentEditTransferToItem", int(0)).toInt());
+	settings.endGroup();
 }
 void Eqonomize::readOptions() {
-	KConfigGroup config = KSharedConfig::openConfig()->group("General Options");
-	ActionOpenRecent->loadEntries(KSharedConfig::openConfig()->group("RecentFiles"));
-	first_run = config.readEntry("firstRun", true);
-	config.writeEntry("firstRun", false);
-	QSize window_size = config.readEntry("size", QSize());
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	//ActionOpenRecent->loadEntries(KSharedConfig::openConfig()->group("RecentFiles"));
+	first_run = settings.value("firstRun", true).toBool();
+	settings.setValue("firstRun", false);
+	QSize window_size = settings.value("size", QSize()).toSize();
 	if(window_size.isValid()) resize(window_size);
+	restoreState(settings.value("windowState").toByteArray());
+	settings.endGroup();
 }
 
-bool Eqonomize::queryClose() {
+void Eqonomize::closeEvent(QCloseEvent *event) {
 	if(askSave(true)) {
 		saveOptions();
-		return true;
+		QMainWindow::closeEvent(event);
 	}
-	return false;
 }
 
 void Eqonomize::dragEnterEvent(QDragEnterEvent *event) {
@@ -4543,17 +4596,19 @@ void Eqonomize::fileNew() {
 	if(!askSave()) return;
 	budget->clear();
 	reloadBudget();
-	setCaption(QString::null, false);
+	setWindowTitle(tr("Untitled"));
 	current_url = "";
 	ActionFileReload->setEnabled(false);
-	KConfigGroup config = KSharedConfig::openConfig()->group("General Options");
-	config.writeEntry("lastURL", current_url.url());
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	settings.setValue("lastURL", current_url.url());
 	if(cr_tmp_file) {
 		cr_tmp_file->releaseLock();
 		delete cr_tmp_file;
 		cr_tmp_file = NULL;
 	}
-	config.sync();
+	settings.endGroup();
+	settings.sync();
 	setModified(false);
 	emit accountsModified();
 	emit transactionsModified();
@@ -4967,7 +5022,7 @@ void Eqonomize::deleteAccount() {
 			box1->addLayout(grid);
 			group = new QButtonGroup(dialog);
 			QLabel *label = NULL;
-			deleteButton = new QRadioButton(KStandardGuiItem::remove().text(), dialog);
+			deleteButton = new QRadioButton(tr("Remove"), dialog);
 			group->addButton(deleteButton);
 			moveToButton = new QRadioButton(tr("Move to:"), dialog);
 			group->addButton(moveToButton);
