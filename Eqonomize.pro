@@ -91,6 +91,8 @@ appicon48.files = data/48/eqonomize.png
 appicon48.path = $$ICON_DIR/hicolor/48x48/apps
 appicon64.files = data/64/eqonomize.png
 appicon64.path = $$ICON_DIR/hicolor/64x64/apps
+appicon128.files = data/128/eqonomize.png
+appicon128.path = $$ICON_DIR/hicolor/128x128/apps
 appiconsvg.files = data/eqonomize.svg
 appiconsvg.path = $$ICON_DIR/hicolor/scalable/apps
 
@@ -104,9 +106,11 @@ mimeicon48.files = data/48/application-x-eqonomize.png
 mimeicon48.path = $$ICON_DIR/hicolor/48x48/mimetypes
 mimeicon64.files = data/64/application-x-eqonomize.png
 mimeicon64.path = $$ICON_DIR/hicolor/64x64/mimetypes
+mimeicon128.files = data/128/application-x-eqonomize.png
+mimeicon128.path = $$ICON_DIR/hicolor/128x128/mimetypes
 mimeiconsvg.files = data/application-x-eqonomize.svg
 mimeiconsvg.path = $$ICON_DIR/hicolor/scalable/mimetypes
 
 INSTALLS += 	target qm doc desktop mime \ 
-		appicon16 appicon22 appicon32 appicon48 appicon64 appiconsvg \
-		mimeicon16 mimeicon22 mimeicon32 mimeicon48 mimeicon64 mimeiconsvg \
+		appicon16 appicon22 appicon32 appicon48 appicon64 appicon128 appiconsvg \
+		mimeicon16 mimeicon22 mimeicon32 mimeicon48 mimeicon64 mimeicon128 mimeiconsvg
