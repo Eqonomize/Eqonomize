@@ -1,2 +1,0 @@
-#kdoctools_create_handbook(index.docbook INSTALL_DESTINATION ${HTML_INSTALL_DIR}/en SUBDIR eqonomize)
-install( FILES accounts-view.png ask-save.png confirm-schedule.png csv-columns.png edit-budget.png expenses-view.png new-account.png new-security.png qif-date-format.png recurrence.png refund.png schedule-view.png securities-view.png security-buy.png split-transaction.png DESTINATION ${HTML_INSTALL_DIR}/en/eqonomize)
