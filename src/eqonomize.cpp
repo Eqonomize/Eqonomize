@@ -2236,10 +2236,9 @@ void Eqonomize::serverNewConnection() {
 	}
 }
 void Eqonomize::socketReadyRead() {
-	socket->readAll();
+	socket->readAll();	
+	setWindowState((windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
 	show();
-	setWindowState((windowState() & ~Qt::WindowMinimized));
-	raise();
 	activateWindow();
 }
 
