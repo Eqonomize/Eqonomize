@@ -1181,5 +1181,4 @@ void TransactionListViewItem::setDate(const QDate &newdate) {
 	d_date = newdate;
 }
 
-#include "transactionlistwidget.moc"
 

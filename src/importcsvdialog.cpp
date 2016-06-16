@@ -1192,7 +1192,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	}
 	if(failed > 0) {
 		info += '\n';
-		info += tr("Failed to import %n data rows.", "", failed);
+		info += tr("Failed to import %n data row(s).", "", failed);
 		if(missing_columns) {details += "\n-"; details += tr("Required columns missing.");}
 		if(value_error) {details += "\n-"; details += tr("Invalid value.");}
 		if(date_error) {details += "\n-"; details += tr("Invalid date.");}
@@ -1313,5 +1313,3 @@ void ImportCSVDialog::accept() {
 	}
 	if(import(false, &ci)) QWizard::accept();
 }
-
-#include "importcsvdialog.moc"

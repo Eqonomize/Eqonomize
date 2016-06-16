@@ -803,5 +803,3 @@ void RecurrenceEditWidget::setStartDate(const QDate &startdate) {
 	rangeDialog->setStartDate(date);
 }
 
-#include "recurrenceeditwidget.moc"
-

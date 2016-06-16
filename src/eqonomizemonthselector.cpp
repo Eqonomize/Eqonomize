@@ -93,5 +93,3 @@ void EqonomizeMonthSelector::updateMonths() {
 	
 void EqonomizeMonthSelector::focusMonth() {monthCombo->setFocus();}
 void EqonomizeMonthSelector::focusYear() {yearEdit->setFocus();}
-	
-#include "eqonomizemonthselector.moc"

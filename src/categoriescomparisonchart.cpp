@@ -844,4 +844,3 @@ void CategoriesComparisonChart::updateAccounts() {
 	updateDisplay();
 }
 
-#include "categoriescomparisonchart.moc"

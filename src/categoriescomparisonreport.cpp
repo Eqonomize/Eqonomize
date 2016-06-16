@@ -1004,5 +1004,3 @@ void CategoriesComparisonReport::updateAccounts() {
 	}
 }
 
-
-#include "categoriescomparisonreport.moc"

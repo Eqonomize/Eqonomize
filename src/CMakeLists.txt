@@ -31,7 +31,7 @@ target_link_libraries(eqonomize Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::Network Qt5:
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
-install(TARGETS eqonomize ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS eqonomize ${INSTALL_TARGETS_DEFAULT_ARGS} DESTINATION bin)
 
 ########### install files ###############
 
@@ -47,5 +47,5 @@ hi32-apps-eqonomize.png hi32-mimetypes-application-x-eqonomize.png
 hi48-apps-eqonomize.png hi48-mimetypes-application-x-eqonomize.png
 hi64-apps-eqonomize.png hi64-mimetypes-application-x-eqonomize.png
 hi128-apps-eqonomize.png hi128-mimetypes-application-x-eqonomize.png
-DESTINATION ${ICON_INSTALL_DIR})
+DESTINATION ${XDG_ICON_INSTALL_DIR})
 

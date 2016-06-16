@@ -1,18 +1,12 @@
-2016-06-15  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-06-16  Hanna Knutsson <hanna_k@fmgirl.com>
 
-	* Use QTextEdit instead of KHTML (even though some formatting is lost)
-	* Use QTabWidget instead of KPageWidget
+	* Remove all KDE dependencies and use qmake instead of CMake
 
 2016-06-14  Hanna Knutsson <hanna_k@fmgirl.com>
 
 	* Make sure save filename ends with ".eqz"
-	* Replace KDateEdit, KDatePicker, KLineEdit, KCompletion and KMessageBox with Qt widgets
 	* Fix "scheduled operations don't go further than next year if range is other than 'no end'"
 	* Search whole description and payer/payee when filtering and add exact match option
-
-2016-06-13  Hanna Knutsson <hanna_k@fmgirl.com>
-
-	* QAction::setShortcut() => KActionCollection::setDefaultShortcut()
 
 2014-07-21  Hanna Knutsson <hanna_k@fmgirl.com>
 

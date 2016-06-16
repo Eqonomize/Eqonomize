@@ -645,4 +645,3 @@ void LedgerDialog::reject() {
 	QDialog::reject();
 }
 
-#include "ledgerdialog.moc"

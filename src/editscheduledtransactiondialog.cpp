@@ -192,4 +192,3 @@ bool EditScheduledTransactionDialog::editTransaction(Transaction *trans, Recurre
 	return b;
 }
 
-#include "editscheduledtransactiondialog.moc"

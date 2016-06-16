@@ -184,5 +184,3 @@ void EqonomizeValueEdit::setPrecision(int precision) {
 		((QDoubleSpinBox*) valueEdit)->setDecimals(precision);
 	}
 }
-
-#include "eqonomizevalueedit.moc"

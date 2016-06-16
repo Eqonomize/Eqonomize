@@ -1349,5 +1349,3 @@ QDate MultipleTransactionsEditDialog::date() {
 	return dateEdit->date();
 }
 
-#include "transactioneditwidget.moc"
-

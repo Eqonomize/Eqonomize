@@ -438,5 +438,4 @@ bool EditSplitDialog::validValues() {
 	return true;
 }
 
-#include "editsplitdialog.moc"
 

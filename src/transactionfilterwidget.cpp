@@ -738,5 +738,3 @@ QDate TransactionFilterWidget::firstDate() {
 	return first_date;
 }
 
-#include "transactionfilterwidget.moc"
-

@@ -1,0 +1,2 @@
+xsltproc -o html/$1/ --stringparam chunker.output.encoding UTF-8 --stringparam  use.id.as.filename 1 --stringparam chunk.section.depth 0 "http://docbook.sourceforge.net/release/xsl/current/html/chunk.xsl" $1/index.docbook
+cp $1/*.png html/$1/

@@ -32,6 +32,7 @@
 #include <QtGlobal>
 #include <QLocalSocket>
 #include <QDebug>
+#include <QTranslator>
 
 #include "budget.h"
 #include "eqonomize.h"
@@ -63,6 +64,12 @@ int main(int argc, char **argv) {
 	app.setApplicationDisplayName("Eqonomize!");
 	app.setOrganizationName("Eqonomize");
 	app.setApplicationVersion("0.6");
+	
+	QTranslator translator;
+	if (translator.load(QLocale(), QLatin1String("eqonomize"), QLatin1String("_"), QLatin1String(TRANSLATIONS_DIR))) {
+		app.installTranslator(&translator);
+	}
+	
 	QCommandLineParser *parser = new QCommandLineParser();
 	QCommandLineOption eOption(QStringList() << "e" << "expenses", QApplication::tr("Start with expenses list displayed"));
 	parser->addOption(eOption);

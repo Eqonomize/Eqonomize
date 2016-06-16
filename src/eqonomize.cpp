@@ -73,6 +73,7 @@
 #include <QDesktopServices>
 #include <QLocalSocket>
 #include <QLocalServer>
+#include <QLocale>
 
 #include <QDebug>
 
@@ -4440,6 +4441,24 @@ void Eqonomize::setupActions() {
 }
 
 void Eqonomize::showHelp() {
+	QLocale locale;
+	QStringList langs = locale.uiLanguages();
+	for(int i = 0; i < langs.size(); ++i) {
+		QString lang = langs.at(i);
+		lang.replace('-', '_');
+		QFileInfo fileinfo(QString(DOCUMENTATION_DIR "/") + lang + "/index.html");
+		if(fileinfo.exists()) {
+			QDesktopServices::openUrl(QUrl(QString(DOCUMENTATION_DIR "/") + lang + "/index.html"));
+			return;
+		}
+		lang = lang.section('_', 0, 0);
+		fileinfo.setFile(QString(DOCUMENTATION_DIR "/") + lang + "/index.html");
+		if(fileinfo.exists()) {
+			QDesktopServices::openUrl(QUrl(QString(DOCUMENTATION_DIR "/") + lang + "/index.html"));
+			return;
+		}
+	}
+	QDesktopServices::openUrl(QUrl(DOCUMENTATION_DIR "/C/index.html"));
 }
 void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
@@ -6192,7 +6211,4 @@ QIFWizardPage::QIFWizardPage() : QWizardPage() {
 }
 bool QIFWizardPage::isComplete() const {return is_complete;}
 void QIFWizardPage::setComplete(bool b) {is_complete = b; emit completeChanged();}
-
-
-#include "eqonomize.moc"
 

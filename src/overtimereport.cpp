@@ -755,5 +755,3 @@ void OverTimeReport::updateAccounts() {
 	}
 	updateDisplay();
 }
-
-#include "overtimereport.moc"

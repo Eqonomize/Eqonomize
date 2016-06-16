@@ -1948,5 +1948,3 @@ bool exportQIFFile(Budget *budget, QWidget *parent, bool extra_parameters) {
 	dialog->deleteLater();
 	return ret;
 }
-
-#include "qifimportexport.moc"

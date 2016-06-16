@@ -39,6 +39,7 @@ CMakeFiles
 *.cmake
 
 *.gmo
+*.qm
 
 *.cache.bz2
 

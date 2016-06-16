@@ -1968,5 +1968,3 @@ void OverTimeChart::updateAccounts() {
 	updateDisplay();
 }
 
-
-#include "overtimechart.moc"
