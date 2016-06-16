@@ -43,12 +43,6 @@
 #include <QTabWidget>
 #include <QMessageBox>
 
-#include <kstdguiitem.h>
-#include <kpagewidget.h>
-#include <kstandardaction.h>
-#include <kstdaccel.h>
-#include <klocalizedstring.h>
-
 #include "budget.h"
 #include "editscheduledtransactiondialog.h"
 #include "eqonomize.h"
@@ -96,41 +90,41 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	transactionsView->sortByColumn(0, Qt::DescendingOrder);
 	transactionsView->setAllColumnsShowFocus(true);
 	QStringList headers;
-	headers << i18n("Date");
-	headers << i18n("Description");
+	headers << tr("Date");
+	headers << tr("Description");
 	comments_col = 5;
 	switch(transtype) {
 		case TRANSACTION_TYPE_EXPENSE: {
-			headers << i18n("Cost");
-			headers << i18n("Category");
-			headers << i18n("From Account");
+			headers << tr("Cost");
+			headers << tr("Category");
+			headers << tr("From Account");
 			if(b_extra) {
-				headers << i18n("Payee");
+				headers << tr("Payee");
 				comments_col = 6;
 			}
 			from_col = 4; to_col = 3;
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
-			headers << i18n("Income");
-			headers << i18n("Category");
-			headers << i18n("To Account");
+			headers << tr("Income");
+			headers << tr("Category");
+			headers << tr("To Account");
 			if(b_extra) {
-				headers << i18n("Payer");
+				headers << tr("Payer");
 				comments_col = 6;
 			}
 			from_col = 3; to_col = 4;
 			break;
 		}
 		default: {
-			headers << i18n("Amount");
-			headers << i18n("From");
-			headers << i18n("To");
+			headers << tr("Amount");
+			headers << tr("From");
+			headers << tr("To");
 			from_col = 3; to_col = 4;
 			break;
 		}
 	}
-	headers << i18n("Comments");
+	headers << tr("Comments");
 	transactionsView->setColumnCount(comments_col + 1);
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
@@ -150,24 +144,21 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	editWidget->bottomLayout()->addWidget(editInfoLabel);
 	QDialogButtonBox *buttons = new QDialogButtonBox();
 	editWidget->bottomLayout()->addWidget(buttons);
-	addButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
-	KGuiItem::assign(addButton, KStandardGuiItem::add());
-	modifyButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
-	KGuiItem::assign(modifyButton, KStandardGuiItem::apply());
-	removeButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
-	KGuiItem::assign(removeButton, KStandardGuiItem::del());
+	addButton = buttons->addButton(tr("Add"), QDialogButtonBox::ActionRole);
+	modifyButton = buttons->addButton(tr("Apply"), QDialogButtonBox::ActionRole);
+	removeButton = buttons->addButton(tr("Delete"), QDialogButtonBox::ActionRole);
 	modifyButton->setEnabled(false);
 	removeButton->setEnabled(false);
 
 	filterWidget = new TransactionFilterWidget(b_extra, transtype, budget, this);
 	QString editTabTitle;
 	switch (transtype) {
-		case TRANSACTION_TYPE_EXPENSE:  editTabTitle = i18n("Expense");  break;
-		case TRANSACTION_TYPE_INCOME:   editTabTitle = i18n("Income");   break;
-		case TRANSACTION_TYPE_TRANSFER: editTabTitle = i18n("Transfer"); break;
+		case TRANSACTION_TYPE_EXPENSE:  editTabTitle = tr("Expense");  break;
+		case TRANSACTION_TYPE_INCOME:   editTabTitle = tr("Income");   break;
+		case TRANSACTION_TYPE_TRANSFER: editTabTitle = tr("Transfer"); break;
 	}
-	tabs->addTab(editWidget, i18n("New/Edit %1", editTabTitle));
-	tabs->addTab(filterWidget, i18n("Filter"));
+	tabs->addTab(editWidget, tr("New/Edit %1").arg(editTabTitle));
+	tabs->addTab(filterWidget, tr("Filter"));
 	transactionsLayout->addWidget(tabs);
 
 	updateStatistics();
@@ -206,7 +197,7 @@ void TransactionListWidget::updateStatistics() {
 	int i_count_frac = 0;
 	double intpart = 0.0;
 	if(modf(current_quantity, &intpart) != 0.0) i_count_frac = 2;
-	statLabel->setText(QString("<div align=\"right\"><b>%1</b> %5 &nbsp; <b>%2</b> %6 &nbsp; <b>%3</b> %7 &nbsp; <b>%4</b> %8</div>").arg(i18n("Quantity:")).arg(i18n("Total:")).arg(i18n("Average:")).arg(i18n("Monthly:")).arg(QLocale().toString(current_quantity, 'f', i_count_frac)).arg(QLocale().toCurrencyString(current_value)).arg(QLocale().toCurrencyString(current_quantity == 0.0 ? 0.0 : current_value / current_quantity)).arg(QLocale().toCurrencyString(current_value == 0.0 ? current_value : current_value / filterWidget->countMonths())));
+	statLabel->setText(QString("<div align=\"right\"><b>%1</b> %5 &nbsp; <b>%2</b> %6 &nbsp; <b>%3</b> %7 &nbsp; <b>%4</b> %8</div>").arg(tr("Quantity:")).arg(tr("Total:")).arg(tr("Average:")).arg(tr("Monthly:")).arg(QLocale().toString(current_quantity, 'f', i_count_frac)).arg(QLocale().toCurrencyString(current_value)).arg(QLocale().toCurrencyString(current_quantity == 0.0 ? 0.0 : current_value / current_quantity)).arg(QLocale().toCurrencyString(current_value == 0.0 ? current_value : current_value / filterWidget->countMonths())));
 }
 
 void TransactionListWidget::popupListMenu(const QPoint &p) {
@@ -248,9 +239,9 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			outf << "\t<head>" << '\n';
 			outf << "\t\t<title>";
 			switch(transtype) {
-				case TRANSACTION_TYPE_EXPENSE: {outf << htmlize_string(i18n("Expenses")); break;}
-				case TRANSACTION_TYPE_INCOME: {outf << htmlize_string(i18n("Incomes")); break;}
-				default: {outf << htmlize_string(i18n("Transfers")); break;}
+				case TRANSACTION_TYPE_EXPENSE: {outf << htmlize_string(tr("Expenses")); break;}
+				case TRANSACTION_TYPE_INCOME: {outf << htmlize_string(tr("Incomes")); break;}
+				default: {outf << htmlize_string(tr("Transfers")); break;}
 			}
 			outf << "</title>" << '\n';
 			outf << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << '\n';
@@ -260,9 +251,9 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			outf << "\t\t<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
 			outf << "\t\t\t<caption>";
 			switch(transtype) {
-				case TRANSACTION_TYPE_EXPENSE: {outf << htmlize_string(i18n("Expenses")); break;}
-				case TRANSACTION_TYPE_INCOME: {outf << htmlize_string(i18n("Incomes")); break;}
-				default: {outf << htmlize_string(i18n("Transfers")); break;}
+				case TRANSACTION_TYPE_EXPENSE: {outf << htmlize_string(tr("Expenses")); break;}
+				case TRANSACTION_TYPE_INCOME: {outf << htmlize_string(tr("Incomes")); break;}
+				default: {outf << htmlize_string(tr("Transfers")); break;}
 			}
 			outf << "</caption>" << '\n';
 			outf << "\t\t\t<thead>" << '\n';
@@ -273,7 +264,7 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			outf << "<th>" << htmlize_string(header->text(2)) << "</th>";
 			outf << "<th>" << htmlize_string(header->text(3)) << "</th>";
 			outf << "<th>" << htmlize_string(header->text(4)) << "</th>";
-			if(comments_col == 6) outf << "<th>" << htmlize_string(i18n("Quantity")) << "</th>";
+			if(comments_col == 6) outf << "<th>" << htmlize_string(tr("Quantity")) << "</th>";
 			outf << "<th>" << htmlize_string(header->text(5)) << "</th>";
 			if(comments_col == 6) outf << "<th>" << htmlize_string(header->text(6)) << "</th>";
 			outf << "\n";
@@ -307,27 +298,27 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			int i_count_frac = 0;
 			double intpart = 0.0;
 			if(modf(current_quantity, &intpart) != 0.0) i_count_frac = 2;
-			outf << htmlize_string(i18n("Quantity:")) << " " << htmlize_string(QLocale().toString(current_quantity, 'f', i_count_frac));
+			outf << htmlize_string(tr("Quantity:")) << " " << htmlize_string(QLocale().toString(current_quantity, 'f', i_count_frac));
 			outf << ", ";
 			switch(transtype) {
 				case TRANSACTION_TYPE_EXPENSE: {
-					outf << htmlize_string(i18n("Total cost:")) << " ";
+					outf << htmlize_string(tr("Total cost:")) << " ";
 					break;
 				}
 				case TRANSACTION_TYPE_INCOME: {
-					outf << htmlize_string(i18n("Total income:")) << " ";
+					outf << htmlize_string(tr("Total income:")) << " ";
 					break;
 				}
 				default: {
-					outf << htmlize_string(i18n("Total amount:")) << " ";
+					outf << htmlize_string(tr("Total amount:")) << " ";
 					break;
 				}
 			}
 			outf << htmlize_string(QLocale().toCurrencyString(current_value));
 			outf << ", ";
-			outf << htmlize_string(i18n("Average:")) << " " << htmlize_string(QLocale().toCurrencyString(current_value == 0.0 ? current_value : current_value / current_quantity));
+			outf << htmlize_string(tr("Average:")) << " " << htmlize_string(QLocale().toCurrencyString(current_value == 0.0 ? current_value : current_value / current_quantity));
 			outf << ", ";
-			outf << htmlize_string(i18n("Monthly average:")) << " " << htmlize_string(QLocale().toCurrencyString(current_value == 0.0 ? current_value : current_value / filterWidget->countMonths()));
+			outf << htmlize_string(tr("Monthly average:")) << " " << htmlize_string(QLocale().toCurrencyString(current_value == 0.0 ? current_value : current_value / filterWidget->countMonths()));
 			outf << "</div>\n";
 			outf << "\t</body>" << '\n';
 			outf << "</html>" << '\n';
@@ -337,7 +328,7 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			//outf.setEncoding(Q3TextStream::Locale);
 			QTreeWidgetItem *header = transactionsView->headerItem();
 			outf << "\"" << header->text(0) << "\",\"" << header->text(1) << "\",\"" << header->text(2) << "\",\"" << header->text(3) << "\",\"" << header->text(4);
-			if(comments_col == 6) outf << "\",\"" << i18n("Quantity");
+			if(comments_col == 6) outf << "\",\"" << tr("Quantity");
 			outf << "\",\"" << header->text(5);
 			if(comments_col == 6) outf << "\",\"" << header->text(6);
 			outf << "\"\n";
@@ -486,25 +477,25 @@ void TransactionListWidget::editTransaction() {
 				TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
 				if(!warned1 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL)) {
 					if(dialog->valueButton->isChecked()) {
-						QMessageBox::critical(this, i18n("Error"), i18n("Cannot set the value of security transactions using the dialog for modifying multiple transactions."));
+						QMessageBox::critical(this, tr("Error"), tr("Cannot set the value of security transactions using the dialog for modifying multiple transactions."));
 						warned1 = true;
 					}
 				}
 				if(!warned2 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
 					if(dialog->descriptionButton->isChecked()) {
-						QMessageBox::critical(this, i18n("Error"), i18n("Cannot change description of dividends and security transactions."));
+						QMessageBox::critical(this, tr("Error"), tr("Cannot change description of dividends and security transactions."));
 						warned2 = true;
 					}
 				}
 				if(!warned3 && dialog->payeeButton && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
 					if(dialog->payeeButton->isChecked()) {
-						QMessageBox::critical(this, i18n("Error"), i18n("Cannot change payer of dividends and security transactions."));
+						QMessageBox::critical(this, tr("Error"), tr("Cannot change payer of dividends and security transactions."));
 						warned3 = true;
 					}
 				}
 				if(!warned4 && i->transaction()->parentSplit()) {
 					if(dialog->dateButton->isChecked()) {
-						QMessageBox::critical(this, i18n("Error"), i18n("Cannot change date of transactions that are part of a split transaction."));
+						QMessageBox::critical(this, tr("Error"), tr("Cannot change date of transactions that are part of a split transaction."));
 						warned4 = true;
 					}
 				}
@@ -668,7 +659,7 @@ void TransactionListWidget::removeSplitTransaction() {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
 		if(i->transaction()->parentSplit()) {
 			SplitTransaction *split = i->transaction()->parentSplit();
-			if(QMessageBox::warning(this, i18n("Delete transactions?"), i18n("Are you sure you want to delete all (%1) transactions in the selected split transaction?", split->splits.count()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel) {
+			if(QMessageBox::warning(this, tr("Delete transactions?"), tr("Are you sure you want to delete all (%1) transactions in the selected split transaction?").arg(split->splits.count()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel) {
 				return;
 			}
 			budget->removeSplitTransaction(split, true);
@@ -714,7 +705,7 @@ void TransactionListWidget::joinTransactions() {
 void TransactionListWidget::removeTransaction() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() > 1) {
-		if(QMessageBox::warning(this, i18n("Delete transactions?"), i18n("Are you sure you want to delete all (%1) selected transactions?", selection.count()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel) {
+		if(QMessageBox::warning(this, tr("Delete transactions?"), tr("Are you sure you want to delete all (%1) selected transactions?").arg(selection.count()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel) {
 			return;
 		}
 	}
@@ -1025,12 +1016,12 @@ void TransactionListWidget::currentTransactionChanged(QTreeWidgetItem *i) {
 	} else if(((TransactionListViewItem*) i)->transaction()->parentSplit()) {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction());
 		SplitTransaction *split = ((TransactionListViewItem*) i)->transaction()->parentSplit();
-		if(split->description().isEmpty() || split->description().length() > 10) editInfoLabel->setText(i18n("* Part of split transaction"));
-		else editInfoLabel->setText(i18n("* Part of split (%1)", split->description()));
+		if(split->description().isEmpty() || split->description().length() > 10) editInfoLabel->setText(tr("* Part of split transaction"));
+		else editInfoLabel->setText(tr("* Part of split (%1)").arg(split->description()));
 	} else if(((TransactionListViewItem*) i)->scheduledTransaction()) {
 		editWidget->setScheduledTransaction(((TransactionListViewItem*) i)->scheduledTransaction(), ((TransactionListViewItem*) i)->date());
 		if(((TransactionListViewItem*) i)->scheduledTransaction()->isOneTimeTransaction()) editInfoLabel->setText(QString::null);
-		else editInfoLabel->setText(i18n("** Recurring (editing occurrance)"));
+		else editInfoLabel->setText(tr("** Recurring (editing occurrance)"));
 	} else {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction());
 		editInfoLabel->setText(QString::null);
@@ -1046,11 +1037,11 @@ void TransactionListWidget::transactionSelectionChanged() {
 	} else {
 		QTreeWidgetItem *i = selection.first();
 		if(selection.count() > 1) {
-			modifyButton->setText(i18n("Modify..."));
+			modifyButton->setText(tr("Modify…"));
 		} else if(((TransactionListViewItem*) i)->transaction()->parentSplit() || ((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || ((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-			modifyButton->setText(i18n("Edit..."));
+			modifyButton->setText(tr("Edit…"));
 		} else {
-			modifyButton->setText(KStandardGuiItem::apply().text());
+			modifyButton->setText(tr("Apply"));
 		}
 		modifyButton->setEnabled(true);
 		removeButton->setEnabled(true);

@@ -37,15 +37,15 @@
 #include <QDateEdit>
 #include <QMessageBox>
 
-#include <kstdguiitem.h>
-#include <klocalizedstring.h>
-
 #include "budget.h"
 #include "editsplitdialog.h"
 #include "eqonomize.h"
 #include "transactioneditwidget.h"
 
 class SplitListViewItem : public QTreeWidgetItem {
+
+	Q_DECLARE_TR_FUNCTIONS(SplitListViewItem)
+	
 	protected:
 		Transaction *o_trans;
 		bool b_deposit;
@@ -103,26 +103,26 @@ void SplitListViewItem::setTransaction(Transaction *trans, bool deposit) {
 	if(!deposit) setText(4, value >= 0.0 ? QString::null : QLocale().toCurrencyString(-value));
 	else setText(4, value < 0.0 ? QString::null : QLocale().toCurrencyString(value));
 	if(trans->type() == TRANSACTION_TYPE_INCOME) {
-		if(((Income*) trans)->security()) setText(0, i18n("Dividend"));
-		else if(value >= 0) setText(0, i18n("Income"));
-		else setText(0, i18n("Repayment"));
+		if(((Income*) trans)->security()) setText(0, tr("Dividend"));
+		else if(value >= 0) setText(0, tr("Income"));
+		else setText(0, tr("Repayment"));
 	} else if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
-		if(value >= 0) setText(0, i18n("Expense"));
-		else setText(0, i18n("Refund"));
+		if(value >= 0) setText(0, tr("Expense"));
+		else setText(0, tr("Refund"));
 	} else if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) {
-		setText(0, i18n("Security Buy"));
+		setText(0, tr("Security Buy"));
 	} else if(trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-		setText(0, i18n("Security Sell"));
+		setText(0, tr("Security Sell"));
 	} else if(trans->toAccount() == budget->balancingAccount || trans->fromAccount() == budget->balancingAccount) {
-		setText(0, i18n("Balancing"));
+		setText(0, tr("Balancing"));
 	} else {
-		setText(0, i18n("Transfer"));
+		setText(0, tr("Transfer"));
 	}
 }
 
 EditSplitDialog::EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *default_account, bool extra_parameters) : QDialog(parent, 0), budget(budg), b_extra(extra_parameters) {
 
-	setWindowTitle(i18n("Split Transaction"));
+	setWindowTitle(tr("Split Transaction"));
 	setModal(true);
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
@@ -130,17 +130,17 @@ EditSplitDialog::EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *d
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 
-	grid->addWidget(new QLabel(i18n("Description:")), 0, 0);
+	grid->addWidget(new QLabel(tr("Description:")), 0, 0);
 	descriptionEdit = new QLineEdit();
 	grid->addWidget(descriptionEdit, 0, 1);
 	descriptionEdit->setFocus();
 
-	grid->addWidget(new QLabel(i18n("Date:")), 1, 0);
+	grid->addWidget(new QLabel(tr("Date:")), 1, 0);
 	dateEdit = new QDateEdit(QDate::currentDate());
 	dateEdit->setCalendarPopup(true);
 	grid->addWidget(dateEdit, 1, 1);
 
-	grid->addWidget(new QLabel(i18n("Account:")), 2, 0);
+	grid->addWidget(new QLabel(tr("Account:")), 2, 0);
 	accountCombo = new QComboBox();
 	accountCombo->setEditable(false);
 	int i = 0;
@@ -155,7 +155,7 @@ EditSplitDialog::EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *d
 	}
 	grid->addWidget(accountCombo, 2, 1);
 
-	box1->addWidget(new QLabel(i18n("Transactions:")));
+	box1->addWidget(new QLabel(tr("Transactions:")));
 	QHBoxLayout *box2 = new QHBoxLayout();
 	box1->addLayout(box2);
 	transactionsView = new EqonomizeTreeWidget();
@@ -164,29 +164,28 @@ EditSplitDialog::EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *d
 	transactionsView->setAllColumnsShowFocus(true);
 	transactionsView->setColumnCount(5);
 	QStringList headers;
-	headers << i18n("Type");
-	headers << i18n("Description");
-	headers << i18n("Account/Category");
-	headers << i18n("Payment");
-	headers << i18n("Deposit");
+	headers << tr("Type");
+	headers << tr("Description");
+	headers << tr("Account/Category");
+	headers << tr("Payment");
+	headers << tr("Deposit");
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
 	box2->addWidget(transactionsView);
 	QDialogButtonBox *buttons = new QDialogButtonBox(0, Qt::Vertical);
-	QPushButton *newButton = buttons->addButton(i18n("New"), QDialogButtonBox::ActionRole);
+	QPushButton *newButton = buttons->addButton(tr("New"), QDialogButtonBox::ActionRole);
 	QMenu *newMenu = new QMenu(this);
 	newButton->setMenu(newMenu);
-	connect(newMenu->addAction(QIcon::fromTheme("document-new"), i18n("New Expense...")), SIGNAL(triggered()), this, SLOT(newExpense()));
-	connect(newMenu->addAction(QIcon::fromTheme("document-new"), i18n("New Income...")), SIGNAL(triggered()), this, SLOT(newIncome()));
-	connect(newMenu->addAction(QIcon::fromTheme("document-new"), i18n("New Deposit...")), SIGNAL(triggered()), this, SLOT(newTransferTo()));
-	connect(newMenu->addAction(QIcon::fromTheme("document-new"), i18n("New Withdrawal...")), SIGNAL(triggered()), this, SLOT(newTransferFrom()));
-	connect(newMenu->addAction(QIcon::fromTheme("document-new"), i18n("New Security Shares Bought...")), SIGNAL(triggered()), this, SLOT(newSecurityBuy()));
-	connect(newMenu->addAction(QIcon::fromTheme("document-new"), i18n("Security Shares Sold...")), SIGNAL(triggered()), this, SLOT(newSecuritySell()));
-	connect(newMenu->addAction(QIcon::fromTheme("document-new"), i18n("New Dividend...")), SIGNAL(triggered()), this, SLOT(newDividend()));
-	editButton = buttons->addButton(i18n("Edit..."), QDialogButtonBox::ActionRole);
+	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Expense…")), SIGNAL(triggered()), this, SLOT(newExpense()));
+	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Income…")), SIGNAL(triggered()), this, SLOT(newIncome()));
+	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Deposit…")), SIGNAL(triggered()), this, SLOT(newTransferTo()));
+	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Withdrawal…")), SIGNAL(triggered()), this, SLOT(newTransferFrom()));
+	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Security Shares Bought…")), SIGNAL(triggered()), this, SLOT(newSecurityBuy()));
+	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("Security Shares Sold…")), SIGNAL(triggered()), this, SLOT(newSecuritySell()));
+	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Dividend…")), SIGNAL(triggered()), this, SLOT(newDividend()));
+	editButton = buttons->addButton(tr("Edit…"), QDialogButtonBox::ActionRole);
 	editButton->setEnabled(false);
-	removeButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
-	KGuiItem::assign(removeButton, KStandardGuiItem::del());
+	removeButton = buttons->addButton(tr("Delete"), QDialogButtonBox::ActionRole);
 	removeButton->setEnabled(false);
 	box2->addWidget(buttons);
 	totalLabel = new QLabel();
@@ -221,7 +220,7 @@ void EditSplitDialog::updateTotalValue() {
 		++it;
 		i = *it;
 	}
-	totalLabel->setText(QString("<div align=\"left\"><b>%1</b> %2</div>").arg(i18n("Total value:"), QLocale().toCurrencyString(total_value)));
+	totalLabel->setText(QString("<div align=\"left\"><b>%1</b> %2</div>").arg(tr("Total value:"), QLocale().toCurrencyString(total_value)));
 }
 AssetsAccount *EditSplitDialog::selectedAccount() {
 	int index = 0;
@@ -405,7 +404,7 @@ void EditSplitDialog::reject() {
 }
 bool EditSplitDialog::checkAccounts() {
 	if(accountCombo->count() == 0) {
-		QMessageBox::critical(this, i18n("Error"), i18n("No suitable account available."));
+		QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 		return false;
 	}
 	return true;
@@ -413,15 +412,15 @@ bool EditSplitDialog::checkAccounts() {
 bool EditSplitDialog::validValues() {
 	if(!checkAccounts()) return false;
 	if(!dateEdit->date().isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		return false;
 	}
 	if(dateEdit->date() > QDate::currentDate()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Future dates is not allowed."));
+		QMessageBox::critical(this, tr("Error"), tr("Future dates is not allowed."));
 		return false;
 	}
 	if(transactionsView->topLevelItemCount() < 2) {
-		QMessageBox::critical(this, i18n("Error"), i18n("A split must contain at least two transactions."));
+		QMessageBox::critical(this, tr("Error"), tr("A split must contain at least two transactions."));
 		return false;
 	}
 	AssetsAccount *account = selectedAccount();
@@ -430,7 +429,7 @@ bool EditSplitDialog::validValues() {
 	while(i) {
 		Transaction *trans = ((SplitListViewItem*) i)->transaction();
 		if(trans && (trans->fromAccount() == account || trans->toAccount() == account)) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Cannot transfer money to and from the same account."));
+			QMessageBox::critical(this, tr("Error"), tr("Cannot transfer money to and from the same account."));
 			return false;
 		}
 		++it;

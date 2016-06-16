@@ -24,6 +24,7 @@
 #include <QDateTime>
 #include <QString>
 #include <QVector>
+#include <QCoreApplication>
 
 class QDomElement;
 
@@ -54,6 +55,8 @@ typedef enum {
 } TransactionStatus;
 
 class Transaction {
+
+	Q_DECLARE_TR_FUNCTIONS(Transaction)
 
 	protected:
 

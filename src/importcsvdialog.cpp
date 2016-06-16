@@ -22,8 +22,6 @@
 #  include <config.h>
 #endif
 
-
-
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QDateTime>
@@ -41,13 +39,13 @@
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QUrl>
-#include <QTemporaryFile>
 #include <QDateEdit>
 #include <QMessageBox>
-
-#include <klineedit.h>
-#include <kurlrequester.h>
-#include <klocalizedstring.h>
+#include <QFileDialog>
+#include <QPushButton>
+#include <QMimeDatabase>
+#include <QCompleter>
+#include <QDirModel>
 
 #include "budget.h"
 #include "eqonomizevalueedit.h"
@@ -61,34 +59,34 @@
 
 ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent), budget(budg) {
 
-	setWindowTitle(i18n("Import CSV file"));
+	setWindowTitle(tr("Import CSV file"));
 	setModal(true);
 
 	QIFWizardPage *page1 = new QIFWizardPage();
-	page1->setTitle(i18n("Transaction Type Selection"));
+	page1->setTitle(tr("Transaction Type Selection"));
 	setPage(0, page1);
 	QVBoxLayout *layout1 = new QVBoxLayout(page1);
 	typeGroup = new QButtonGroup(this);
 	QVBoxLayout *typeGroup_layout = new QVBoxLayout();
 	layout1->addLayout(typeGroup_layout);
-	QRadioButton *rb = new QRadioButton(i18n("Expenses"));
+	QRadioButton *rb = new QRadioButton(tr("Expenses"));
 	rb->setChecked(true);
 	typeGroup_layout->addWidget(rb);
 	typeGroup->addButton(rb, 0);
 	rb->setFocus();
-	rb = new QRadioButton(i18n("Incomes"));
+	rb = new QRadioButton(tr("Incomes"));
 	typeGroup_layout->addWidget(rb);
 	typeGroup->addButton(rb, 1);
-	rb = new QRadioButton(i18n("Transfers"));
+	rb = new QRadioButton(tr("Transfers"));
 	typeGroup_layout->addWidget(rb);
 	typeGroup->addButton(rb, 2);
-	rb = new QRadioButton(i18n("Expenses and incomes (negative cost)"));
+	rb = new QRadioButton(tr("Expenses and incomes (negative cost)"));
 	typeGroup_layout->addWidget(rb);
 	typeGroup->addButton(rb, 3);
-	rb = new QRadioButton(i18n("Expenses and incomes (separate columns)"));
+	rb = new QRadioButton(tr("Expenses and incomes (separate columns)"));
 	typeGroup_layout->addWidget(rb);
 	typeGroup->addButton(rb, 4);
-	rb = new QRadioButton(i18n("All types"));
+	rb = new QRadioButton(tr("All types"));
 	typeGroup_layout->addWidget(rb);
 	typeGroup->addButton(rb, 5);
 	typeDescriptionLabel = new QLabel(page1);
@@ -96,29 +94,34 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	layout1->addWidget(typeDescriptionLabel);
 
 	QIFWizardPage *page2 = new QIFWizardPage();
-	page2->setTitle(i18n("File Selection"));
+	page2->setTitle(tr("File Selection"));
 	setPage(1, page2);
 	QGridLayout *layout2 = new QGridLayout(page2);
 
-	layout2->addWidget(new QLabel(i18n("File:"), page2), 0, 0);
-	fileEdit = new KUrlRequester(page2);
-	fileEdit->setMode(KFile::File | KFile::ExistingOnly);
-	fileEdit->setFilter("text/csv");
-	layout2->addWidget(fileEdit, 0, 1);
-	layout2->addWidget(new QLabel(i18n("First data row:"), page2), 1, 0);
+	layout2->addWidget(new QLabel(tr("File:"), page2), 0, 0);
+	QHBoxLayout *layout2h = new QHBoxLayout();
+	fileEdit = new QLineEdit(page2);
+	QCompleter *completer = new QCompleter(this);
+	completer->setModel(new QDirModel(completer));
+	fileEdit->setCompleter(completer);
+	layout2h->addWidget(fileEdit);
+	fileButton = new QPushButton(QIcon::fromTheme("document-open"), QString(), page2);
+	layout2h->addWidget(fileButton);
+	layout2->addLayout(layout2h, 0, 1);
+	layout2->addWidget(new QLabel(tr("First data row:"), page2), 1, 0);
 	rowEdit = new QSpinBox(page2);
 	rowEdit->setRange(0, 1000);
-	rowEdit->setSpecialValueText(i18n("Auto"));
+	rowEdit->setSpecialValueText(tr("Auto"));
 	rowEdit->setValue(0);
 	layout2->addWidget(rowEdit, 1, 1);
-	layout2->addWidget(new QLabel(i18n("Column delimiter:"), page2), 2, 0);
+	layout2->addWidget(new QLabel(tr("Column delimiter:"), page2), 2, 0);
 	delimiterCombo = new QComboBox(page2);
 	delimiterCombo->setEditable(false);
-	delimiterCombo->addItem(i18n("Comma"));
-	delimiterCombo->addItem(i18n("Tabulator"));
-	delimiterCombo->addItem(i18n("Semicolon"));
-	delimiterCombo->addItem(i18n("Space"));
-	delimiterCombo->addItem(i18n("Other"));
+	delimiterCombo->addItem(tr("Comma"));
+	delimiterCombo->addItem(tr("Tabulator"));
+	delimiterCombo->addItem(tr("Semicolon"));
+	delimiterCombo->addItem(tr("Space"));
+	delimiterCombo->addItem(tr("Other"));
 	layout2->addWidget(delimiterCombo, 2, 1);
 	delimiterEdit = new QLineEdit(page2);
 	delimiterEdit->setEnabled(false);
@@ -126,13 +129,13 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	layout2->addItem(new QSpacerItem(1, 1, QSizePolicy::Minimum, QSizePolicy::Expanding), 4, 0, 1, 2);
 
 	QIFWizardPage *page3 = new QIFWizardPage();
-	page3->setTitle(i18n("Columns Specification"));
+	page3->setTitle(tr("Columns Specification"));
 	setPage(2, page3);
 	QGridLayout *layout3 = new QGridLayout(page3);
 
-	layout3->addWidget(new QLabel(i18n("Description:"), page3), 0, 0);
+	layout3->addWidget(new QLabel(tr("Description:"), page3), 0, 0);
 	descriptionGroup = new QButtonGroup(this);
-	columnDescriptionButton = new QRadioButton(i18n("Column"), page3);
+	columnDescriptionButton = new QRadioButton(tr("Column"), page3);
 	descriptionGroup->addButton(columnDescriptionButton);
 	layout3->addWidget(columnDescriptionButton, 0, 1);
 	columnDescriptionEdit = new QSpinBox(page3);
@@ -140,17 +143,17 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	columnDescriptionEdit->setValue(2);
 	columnDescriptionButton->setChecked(true);
 	layout3->addWidget(columnDescriptionEdit, 0, 2);
-	valueDescriptionButton = new QRadioButton(i18n("Value"), page3);
+	valueDescriptionButton = new QRadioButton(tr("Value"), page3);
 	descriptionGroup->addButton(valueDescriptionButton);
 	layout3->addWidget(valueDescriptionButton, 0, 3);
 	valueDescriptionEdit = new QLineEdit(page3);
 	valueDescriptionEdit->setEnabled(false);
 	layout3->addWidget(valueDescriptionEdit, 0, 4);
 
-	costLabel = new QLabel(i18n("Cost:"), page3);
+	costLabel = new QLabel(tr("Cost:"), page3);
 	layout3->addWidget(costLabel, 1, 0);
 	costGroup = new QButtonGroup(this);
-	columnCostButton = new QRadioButton(i18n("Column"), page3);
+	columnCostButton = new QRadioButton(tr("Column"), page3);
 	costGroup->addButton(columnCostButton);
 	layout3->addWidget(columnCostButton, 1, 1);
 	columnCostEdit = new QSpinBox(page3);
@@ -158,7 +161,7 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	columnCostEdit->setValue(3);
 	columnCostButton->setChecked(true);
 	layout3->addWidget(columnCostEdit, 1, 2);
-	valueCostButton = new QRadioButton(i18n("Value"), page3);
+	valueCostButton = new QRadioButton(tr("Value"), page3);
 	costGroup->addButton(valueCostButton);
 	layout3->addWidget(valueCostButton, 1, 3);
 	valueCostEdit = new EqonomizeValueEdit(false, page3);
@@ -170,10 +173,10 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	columnCostEdit->hide();
 	columnCostButton->hide();
 
-	valueLabel = new QLabel(i18n("Cost:"), page3);
+	valueLabel = new QLabel(tr("Cost:"), page3);
 	layout3->addWidget(valueLabel, 2, 0);
 	valueGroup = new QButtonGroup(this);
-	columnValueButton = new QRadioButton(i18n("Column"), page3);
+	columnValueButton = new QRadioButton(tr("Column"), page3);
 	valueGroup->addButton(columnValueButton);
 	layout3->addWidget(columnValueButton, 2, 1);
 	columnValueEdit = new QSpinBox(page3);
@@ -181,16 +184,16 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	columnValueEdit->setValue(3);
 	columnValueButton->setChecked(true);
 	layout3->addWidget(columnValueEdit, 2, 2);
-	valueValueButton = new QRadioButton(i18n("Value"), page3);
+	valueValueButton = new QRadioButton(tr("Value"), page3);
 	valueGroup->addButton(valueValueButton);
 	layout3->addWidget(valueValueButton, 2, 3);
 	valueValueEdit = new EqonomizeValueEdit(false, page3);
 	valueValueEdit->setEnabled(false);
 	layout3->addWidget(valueValueEdit, 2, 4);
 
-	layout3->addWidget(new QLabel(i18n("Date:"), page3), 3, 0);
+	layout3->addWidget(new QLabel(tr("Date:"), page3), 3, 0);
 	dateGroup = new QButtonGroup(this);
-	columnDateButton = new QRadioButton(i18n("Column"), page3);
+	columnDateButton = new QRadioButton(tr("Column"), page3);
 	dateGroup->addButton(columnDateButton);
 	layout3->addWidget(columnDateButton, 3, 1);
 	columnDateEdit = new QSpinBox(page3);
@@ -198,7 +201,7 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	columnDateEdit->setValue(1);
 	columnDateButton->setChecked(true);
 	layout3->addWidget(columnDateEdit, 3, 2);
-	valueDateButton = new QRadioButton(i18n("Value"), page3);
+	valueDateButton = new QRadioButton(tr("Value"), page3);
 	dateGroup->addButton(valueDateButton);
 	layout3->addWidget(valueDateButton, 3, 3);
 	valueDateEdit = new QDateEdit(QDate::currentDate(), page3);
@@ -206,10 +209,10 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	valueDateEdit->setEnabled(false);
 	layout3->addWidget(valueDateEdit, 3, 4);
 
-	AC1Label = new QLabel(i18n("Category:"), page3);
+	AC1Label = new QLabel(tr("Category:"), page3);
 	layout3->addWidget(AC1Label, 4, 0);
 	AC1Group = new QButtonGroup(this);
-	columnAC1Button = new QRadioButton(i18n("Column"), page3);
+	columnAC1Button = new QRadioButton(tr("Column"), page3);
 	AC1Group->addButton(columnAC1Button);
 	layout3->addWidget(columnAC1Button, 4, 1);
 	columnAC1Edit = new QSpinBox(page3);
@@ -217,7 +220,7 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	columnAC1Edit->setValue(4);
 	columnAC1Edit->setEnabled(false);
 	layout3->addWidget(columnAC1Edit, 4, 2);
-	valueAC1Button = new QRadioButton(i18n("Value"), page3);
+	valueAC1Button = new QRadioButton(tr("Value"), page3);
 	AC1Group->addButton(valueAC1Button);
 	valueAC1Button->setChecked(true);
 	layout3->addWidget(valueAC1Button, 4, 3);
@@ -225,10 +228,10 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	valueAC1Edit->setEditable(false);
 	layout3->addWidget(valueAC1Edit, 4, 4);
 
-	AC2Label = new QLabel(i18n("From account:"), page3);
+	AC2Label = new QLabel(tr("From account:"), page3);
 	layout3->addWidget(AC2Label, 5, 0);
 	AC2Group = new QButtonGroup(this);
-	columnAC2Button = new QRadioButton(i18n("Column"), page3);
+	columnAC2Button = new QRadioButton(tr("Column"), page3);
 	AC2Group->addButton(columnAC2Button);
 	layout3->addWidget(columnAC2Button, 5, 1);
 	columnAC2Edit = new QSpinBox(page3);
@@ -236,7 +239,7 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	columnAC2Edit->setValue(5);
 	columnAC2Edit->setEnabled(false);
 	layout3->addWidget(columnAC2Edit, 5, 2);
-	valueAC2Button = new QRadioButton(i18n("Value"), page3);
+	valueAC2Button = new QRadioButton(tr("Value"), page3);
 	AC2Group->addButton(valueAC2Button);
 	valueAC2Button->setChecked(true);
 	layout3->addWidget(valueAC2Button, 5, 3);
@@ -244,9 +247,9 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	valueAC2Edit->setEditable(false);
 	layout3->addWidget(valueAC2Edit, 5, 4);
 
-	layout3->addWidget(new QLabel(i18n("Comments:"), page3), 6, 0);
+	layout3->addWidget(new QLabel(tr("Comments:"), page3), 6, 0);
 	commentsGroup = new QButtonGroup(this);
-	columnCommentsButton = new QRadioButton(i18n("Column"), page3);
+	columnCommentsButton = new QRadioButton(tr("Column"), page3);
 	commentsGroup->addButton(columnCommentsButton);
 	layout3->addWidget(columnCommentsButton, 6, 1);
 	columnCommentsEdit = new QSpinBox(page3);
@@ -254,7 +257,7 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	columnCommentsEdit->setValue(6);
 	columnCommentsEdit->setEnabled(false);
 	layout3->addWidget(columnCommentsEdit, 6, 2);
-	valueCommentsButton = new QRadioButton(i18n("Value"), page3);
+	valueCommentsButton = new QRadioButton(tr("Value"), page3);
 	commentsGroup->addButton(valueCommentsButton);
 	valueCommentsButton->setChecked(true);
 	layout3->addWidget(valueCommentsButton, 6, 3);
@@ -263,7 +266,7 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 
 	QHBoxLayout *layout3_cm = new QHBoxLayout();
 	layout3_cm->addStretch(1);
-	createMissingButton = new QCheckBox(i18n("Create missing categories and accounts"), page3);
+	createMissingButton = new QCheckBox(tr("Create missing categories and accounts"), page3);
 	createMissingButton->setChecked(true);
 	layout3_cm->addWidget(createMissingButton);
 	layout3->addLayout(layout3_cm, 7, 0, 1, 5);
@@ -284,6 +287,7 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	typeChanged(0);
 
 	connect(fileEdit, SIGNAL(textChanged(const QString&)), this, SLOT(onFileChanged(const QString&)));
+	connect(fileButton, SIGNAL(clicked()), this, SLOT(selectFile()));
 	connect(delimiterCombo, SIGNAL(activated(int)), this, SLOT(delimiterChanged(int)));
 	connect(columnDescriptionButton, SIGNAL(toggled(bool)), columnDescriptionEdit, SLOT(setEnabled(bool)));
 	connect(valueDescriptionButton, SIGNAL(toggled(bool)), valueDescriptionEdit, SLOT(setEnabled(bool)));
@@ -306,6 +310,11 @@ ImportCSVDialog::~ImportCSVDialog() {
 
 void ImportCSVDialog::onFileChanged(const QString &str) {
 	((QIFWizardPage*) page(1))->setComplete(!str.isEmpty());
+}
+void ImportCSVDialog::selectFile() {
+	QMimeDatabase db;
+	QUrl url = QFileDialog::getOpenFileUrl(this, QString(), QUrl::fromLocalFile(fileEdit->text()), db.mimeTypeForName("text/csv").filterString());
+	if(!url.isEmpty()) fileEdit->setText(url.toLocalFile());
 }
 void ImportCSVDialog::delimiterChanged(int index) {
 	delimiterEdit->setEnabled(index == 4);
@@ -355,56 +364,56 @@ void ImportCSVDialog::typeChanged(int id) {
 	}
 	switch(id) {
 		case 0: {
-			typeDescriptionLabel->setText(i18n("Imports data as expenses. Costs have positive value. Value is the only required column."));
-			valueLabel->setText(i18n("Cost:"));
-			AC1Label->setText(i18n("Category:"));
-			AC2Label->setText(i18n("From account:"));
+			typeDescriptionLabel->setText(tr("Imports data as expenses. Costs have positive value. Value is the only required column."));
+			valueLabel->setText(tr("Cost:"));
+			AC1Label->setText(tr("Category:"));
+			AC2Label->setText(tr("From account:"));
 			ExpensesAccount *ea = budget->expensesAccounts.first();
 			while(ea) {valueAC1Edit->addItem(ea->name()); ea = budget->expensesAccounts.next();}
 			break;
 		}
 		case 1: {
-			typeDescriptionLabel->setText(i18n("Imports data as incomes. Value is the only required column."));
-			valueLabel->setText(i18n("Income:"));
-			AC1Label->setText(i18n("Category:"));
-			AC2Label->setText(i18n("To account:"));
+			typeDescriptionLabel->setText(tr("Imports data as incomes. Value is the only required column."));
+			valueLabel->setText(tr("Income:"));
+			AC1Label->setText(tr("Category:"));
+			AC2Label->setText(tr("To account:"));
 			IncomesAccount *ia = budget->incomesAccounts.first();
 			while(ia) {valueAC1Edit->addItem(ia->name()); ia = budget->incomesAccounts.next();}
 			break;
 		}
 		case 2: {
-			typeDescriptionLabel->setText(i18n("Imports data as transfers. Value is the only required column."));
-			valueLabel->setText(i18n("Amount:"));
-			AC1Label->setText(i18n("From account:"));
-			AC2Label->setText(i18n("To account:"));
+			typeDescriptionLabel->setText(tr("Imports data as transfers. Value is the only required column."));
+			valueLabel->setText(tr("Amount:"));
+			AC1Label->setText(tr("From account:"));
+			AC2Label->setText(tr("To account:"));
 			AssetsAccount *aa = budget->assetsAccounts.first();
 			while(aa) {if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC1Edit->addItem(aa->name()); aa = budget->assetsAccounts.next();}
 			break;
 		}
 		case 3: {
-			typeDescriptionLabel->setText(i18n("Imports data as expenses and incomes. Costs have negative value. Value and category are both required columns."));
+			typeDescriptionLabel->setText(tr("Imports data as expenses and incomes. Costs have negative value. Value and category are both required columns."));
 			columnAC1Button->setChecked(true);
 			columnAC1Edit->setEnabled(true);
 			valueAC1Edit->setEnabled(false);
 			valueAC1Button->setEnabled(false);
-			valueLabel->setText(i18n("Value:"));
-			AC1Label->setText(i18n("Category:"));
-			AC2Label->setText(i18n("Account:"));
+			valueLabel->setText(tr("Value:"));
+			AC1Label->setText(tr("Category:"));
+			AC2Label->setText(tr("Account:"));
 			break;
 		}
 		case 4: {
-			typeDescriptionLabel->setText(i18n("Imports data as expenses and incomes. Costs and incomes have separate columns. Income, cost, and category are all required columns."));
+			typeDescriptionLabel->setText(tr("Imports data as expenses and incomes. Costs and incomes have separate columns. Income, cost, and category are all required columns."));
 			columnAC1Button->setChecked(true);
 			columnAC1Edit->setEnabled(true);
 			valueAC1Edit->setEnabled(false);
 			valueAC1Button->setEnabled(false);
-			valueLabel->setText(i18n("Income:"));
-			AC1Label->setText(i18n("Category:"));
-			AC2Label->setText(i18n("Account:"));
+			valueLabel->setText(tr("Income:"));
+			AC1Label->setText(tr("Category:"));
+			AC2Label->setText(tr("Account:"));
 			break;
 		}
 		case ALL_TYPES_ID: {
-			typeDescriptionLabel->setText(i18n("Imports data as expenses, incomes, and transfers. Costs have negative or positive value. Value, to, and from are all required columns. Accounts and categories must be existing."));
+			typeDescriptionLabel->setText(tr("Imports data as expenses, incomes, and transfers. Costs have negative or positive value. Value, to, and from are all required columns. Accounts and categories must be existing."));
 			columnAC1Button->setChecked(true);
 			columnAC1Edit->setEnabled(true);
 			valueAC1Edit->setEnabled(false);
@@ -413,9 +422,9 @@ void ImportCSVDialog::typeChanged(int id) {
 			columnAC2Edit->setEnabled(true);
 			valueAC2Edit->setEnabled(false);
 			valueAC2Button->setEnabled(false);
-			valueLabel->setText(i18n("Value:"));
-			AC1Label->setText(i18n("From:"));
-			AC2Label->setText(i18n("To:"));
+			valueLabel->setText(tr("Value:"));
+			AC1Label->setText(tr("From:"));
+			AC2Label->setText(tr("To:"));
 			break;
 		}
 	}
@@ -439,37 +448,37 @@ void ImportCSVDialog::nextClicked() {
 	if(currentPage() == page(0)) {
 		fileEdit->setFocus();
 	} else if(currentPage() == page(1)) {
-		const QUrl &url = fileEdit->url();
+		QUrl url = QUrl::fromLocalFile(fileEdit->text());
 		if(url.isEmpty()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("A file must be selected."));
+			QMessageBox::critical(this, tr("Error"), tr("A file must be selected."));
 			fileEdit->setFocus();
 			return;
 		} else if(!url.isValid()) {
-			QFileInfo info(fileEdit->lineEdit()->text());
+			QFileInfo info(fileEdit->text());
 			if(info.isDir()) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Selected file is a directory."));
+				QMessageBox::critical(this, tr("Error"), tr("Selected file is a directory."));
 				fileEdit->setFocus();
 				return;
 			} else if(!info.exists()) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Selected file does not exist."));
+				QMessageBox::critical(this, tr("Error"), tr("Selected file does not exist."));
 				fileEdit->setFocus();
 				return;
 			}
-			fileEdit->setUrl(info.absoluteFilePath());
+			fileEdit->setText(info.absoluteFilePath());
 		} else {
 			QFileInfo info(url.toLocalFile());
 			if(info.isDir()) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Selected file is a directory."));
+				QMessageBox::critical(this, tr("Error"), tr("Selected file is a directory."));
 				fileEdit->setFocus();
 				return;
 			} else if(!info.exists()) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Selected file does not exist."));
+				QMessageBox::critical(this, tr("Error"), tr("Selected file does not exist."));
 				fileEdit->setFocus();
 				return;
 			}
 		}
 		if(delimiterCombo->currentIndex() == 4 && delimiterEdit->text().isEmpty()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Empty delimiter."));
+			QMessageBox::critical(this, tr("Error"), tr("Empty delimiter."));
 			delimiterEdit->setFocus();
 			return;
 		}
@@ -713,7 +722,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 		   || (AC1_c > 0 && (AC1_c == AC2_c || AC1_c == comments_c))
 		   || (AC2_c > 0 && AC2_c == comments_c)
 	  ) {
-		QMessageBox::critical(this, i18n("Error"), i18n("The same column number is selected multiple times."));
+		QMessageBox::critical(this, tr("Error"), tr("The same column number is selected multiple times."));
 		return false;
 	}
 	bool create_missing = createMissingButton->isChecked() && type != ALL_TYPES_ID;
@@ -773,7 +782,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 			i++;
 		}
 		if(ac1 == ac2) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Selected from account is the same as the to account."));
+			QMessageBox::critical(this, tr("Error"), tr("Selected from account is the same as the to account."));
 			return false;
 		}
 	}
@@ -781,7 +790,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	if(date_c < 0) {
 		date = valueDateEdit->date();
 		if(!date.isValid()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+			QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 			return false;
 		}
 	}
@@ -792,14 +801,14 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	}
 	double cost = 0.0;
 
-	QUrl url = fileEdit->url();
+	QUrl url = QUrl::fromLocalFile(fileEdit->text());
 
 	QFile file(url.toLocalFile());
 	if(!file.open(QIODevice::ReadOnly) ) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open %1 for reading.", url.toString()));
+		QMessageBox::critical(this, tr("Error"), tr("Couldn't open %1 for reading.").arg(url.toString()));
 		return false;
 	} else if(!file.size()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Error reading %1.", url.toString()));
+		QMessageBox::critical(this, tr("Error"), tr("Error reading %1.").arg(url.toString()));
 		return false;
 	}
 	QTextStream fstream(&file);
@@ -1177,30 +1186,30 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 
 	QString info = "", details = "";
 	if(successes > 0) {
-		info = i18np("Successfully imported 1 transaction.", "Successfully imported %1 transactions.", successes);
+		info = tr("Successfully imported %n transaction(s).", "", successes);
 	} else {
-		info = i18n("Unable to import any transactions.");
+		info = tr("Unable to import any transactions.");
 	}
 	if(failed > 0) {
 		info += '\n';
-		info += i18np("Failed to import 1 data row.", "Failed to import %1 data rows.", failed);
-		if(missing_columns) {details += "\n-"; details += i18n("Required columns missing.");}
-		if(value_error) {details += "\n-"; details += i18n("Invalid value.");}
-		if(date_error) {details += "\n-"; details += i18n("Invalid date.");}
-		if(AC1_empty) {details += "\n-"; if(type == 0 || type == 1 || type == 2) {details += i18n("Empty category name.");} else {details += i18n("Empty account name.");}}
-		if(AC2_empty) {details += "\n-"; details += i18n("Empty account name.");}
-		if(AC1_missing) {details += "\n-"; if(type == 0 || type == 1 || type == 2) {details += i18n("Unknown category found.");} else {details += i18n("Unknown account found.");}}
-		if(AC2_missing) {details += "\n-"; details += i18n("Unknown account found.");}
-		if(AC_security) {details += "\n-"; details += i18n("Cannot import security transactions (to/from security accounts).");}
-		if(AC_balancing) {details += "\n-"; details += i18n("Balancing account wrongly used.");}
-		if(AC_same) {details += "\n-"; details += i18n("Same to and from account/category.");}
+		info += tr("Failed to import %n data rows.", "", failed);
+		if(missing_columns) {details += "\n-"; details += tr("Required columns missing.");}
+		if(value_error) {details += "\n-"; details += tr("Invalid value.");}
+		if(date_error) {details += "\n-"; details += tr("Invalid date.");}
+		if(AC1_empty) {details += "\n-"; if(type == 0 || type == 1 || type == 2) {details += tr("Empty category name.");} else {details += tr("Empty account name.");}}
+		if(AC2_empty) {details += "\n-"; details += tr("Empty account name.");}
+		if(AC1_missing) {details += "\n-"; if(type == 0 || type == 1 || type == 2) {details += tr("Unknown category found.");} else {details += tr("Unknown account found.");}}
+		if(AC2_missing) {details += "\n-"; details += tr("Unknown account found.");}
+		if(AC_security) {details += "\n-"; details += tr("Cannot import security transactions (to/from security accounts).");}
+		if(AC_balancing) {details += "\n-"; details += tr("Balancing account wrongly used.");}
+		if(AC_same) {details += "\n-"; details += tr("Same to and from account/category.");}
 	} else if(successes == 0) {
-		info = i18n("No data found.");
+		info = tr("No data found.");
 	}
 	if(failed > 0 || successes == 0) {
-		QMessageBox::critical(this, i18n("Error"), info + details);
+		QMessageBox::critical(this, tr("Error"), info + details);
 	} else {
-		QMessageBox::information(this, i18n("Information"), info);
+		QMessageBox::information(this, tr("Information"), info);
 	}
 	return successes > 0;
 }
@@ -1209,22 +1218,22 @@ void ImportCSVDialog::accept() {
 	if(!import(true, &ci)) return;
 	int ps = ci.p1 + ci.p2 + ci.p3 + ci.p4;
 	if(ps == 0) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Unrecognized date format."));
+		QMessageBox::critical(this, tr("Error"), tr("Unrecognized date format."));
 		return;
 	}
 	if(ci.value_format < 0 || ps > 1) {
 		QDialog *dialog = new QDialog(this, 0);
-		dialog->setWindowTitle(i18n("Specify Format"));
+		dialog->setWindowTitle(tr("Specify Format"));
 		dialog->setModal(true);
 		QVBoxLayout *box1 = new QVBoxLayout(this);
 		QGridLayout *grid = new QGridLayout();
 		box1->addLayout(grid);
-		QLabel *label = new QLabel(i18n("The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format."), dialog);
+		QLabel *label = new QLabel(tr("The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format."), dialog);
 		label->setWordWrap(true);
 		grid->addWidget(label, 0, 0, 1, 2);
 		QComboBox *dateFormatCombo = NULL;
 		if(ps > 1) {
-			grid->addWidget(new QLabel(i18n("Date format:"), dialog), 1, 0);
+			grid->addWidget(new QLabel(tr("Date format:"), dialog), 1, 0);
 			dateFormatCombo = new QComboBox(dialog);
 			dateFormatCombo->setEditable(false);
 			if(ci.p1) {
@@ -1267,7 +1276,7 @@ void ImportCSVDialog::accept() {
 		}
 		QComboBox *valueFormatCombo = NULL;
 		if(ci.value_format < 0) {
-			grid->addWidget(new QLabel(i18n("Value format:"), dialog), ps > 1 ? 2 : 1, 0);
+			grid->addWidget(new QLabel(tr("Value format:"), dialog), ps > 1 ? 2 : 1, 0);
 			valueFormatCombo = new QComboBox(dialog);
 			valueFormatCombo->setEditable(false);
 			valueFormatCombo->addItem("1,000,000.00");

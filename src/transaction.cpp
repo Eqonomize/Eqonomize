@@ -25,8 +25,6 @@
 #include <QDomElement>
 #include <QDomNode>
 
-#include <klocalizedstring.h>
-
 #include "account.h"
 #include "budget.h"
 #include "recurrence.h"
@@ -153,7 +151,7 @@ Income::Income(Budget *parent_budget, QDomElement *e, bool *valid) : Transaction
 		o_security = NULL;
 	}
 	if(o_security) {
-		setDescription(QString(i18n("Dividend: %1")).arg(o_security->name()));
+		setDescription(tr("Dividend: %1").arg(o_security->name()));
 		s_payer = o_security->name();
 	} else {
 		s_payer = e->attribute("payer", emptystr);
@@ -184,7 +182,7 @@ TransactionType Income::type() const {return TRANSACTION_TYPE_INCOME;}
 void Income::setSecurity(Security *parent_security) {
 	o_security = parent_security;
 	if(o_security) {
-		setDescription(QString(i18n("Dividend: %1", o_security->name())));
+		setDescription(tr("Dividend: %1").arg(o_security->name()));
 	}
 }
 Security *Income::security() const {return o_security;}
@@ -251,10 +249,10 @@ void Transfer::save(QDomElement *e) const {
 }
 
 Balancing::Balancing(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_account, QString initial_comment) : Transfer(parent_budget, initial_amount < 0.0 ? -initial_amount : initial_amount, initial_date, initial_amount < 0.0 ? initial_account : parent_budget->balancingAccount, initial_amount < 0.0 ? parent_budget->balancingAccount : initial_account, initial_comment) {
-	setDescription(i18n("Account balancing"));
+	setDescription(tr("Account balancing"));
 }
 Balancing::Balancing(Budget *parent_budget, QDomElement *e, bool *valid) : Transfer(parent_budget, e, valid, true) {
-	if(s_description.isEmpty()) setDescription(i18n("Account balancing"));
+	if(s_description.isEmpty()) setDescription(tr("Account balancing"));
 	d_value = e->attribute("amount").toDouble();
 	if(d_value < 0.0) {
 		d_value = -d_value;
@@ -282,7 +280,7 @@ void Balancing::save(QDomElement *e) const {
 	Transaction::save(e);
 	e->setAttribute("amount", QString::number(toAccount() == o_budget->balancingAccount ? -amount() : amount(), 'f', MONETARY_DECIMAL_PLACES));
 	e->setAttribute("account", account()->id());
-	if(s_description != i18n("Account balancing")) e->setAttribute("description", s_description);
+	if(s_description != tr("Account balancing")) e->setAttribute("description", s_description);
 }
 
 SecurityTransaction::SecurityTransaction(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, QString initial_comment) : Transaction(parent_security->budget(), initial_value, initial_date, NULL, NULL, QString::null, initial_comment), o_security(parent_security), d_shares(initial_shares), d_share_value(initial_share_value) {
@@ -335,7 +333,7 @@ void SecurityTransaction::save(QDomElement *e) const {
 SecurityBuy::SecurityBuy(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, Account *from_account, QString initial_comment) : SecurityTransaction(parent_security, initial_value, initial_shares, initial_share_value, initial_date, initial_comment) {
 	setAccount(from_account);
 	if(o_security) {
-		setDescription(QString(i18n("Security: %1 (bought)", o_security->name())));
+		setDescription(tr("Security: %1 (bought)").arg(o_security->name()));
 	}
 }
 SecurityBuy::SecurityBuy(Budget *parent_budget, QDomElement *e, bool *valid) : SecurityTransaction(parent_budget, e, valid) {
@@ -350,7 +348,7 @@ SecurityBuy::SecurityBuy(Budget *parent_budget, QDomElement *e, bool *valid) : S
 		if(valid) *valid =false;
 	}
 	if(o_security) {
-		setDescription(QString(i18n("Security: %1 (bought)", o_security->name())));
+		setDescription(tr("Security: %1 (bought)").arg(o_security->name()));
 	}
 }
 SecurityBuy::SecurityBuy() : SecurityTransaction() {}
@@ -373,7 +371,7 @@ void SecurityBuy::save(QDomElement *e) const {
 SecuritySell::SecuritySell(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, Account *to_account, QString initial_comment) : SecurityTransaction(parent_security, initial_value, initial_shares, initial_share_value, initial_date, initial_comment) {
 	setAccount(to_account);
 	if(o_security) {
-		setDescription(QString(i18n("Security: %1 (sold)", o_security->name())));
+		setDescription(tr("Security: %1 (sold)").arg(o_security->name()));
 	}
 }
 SecuritySell::SecuritySell(Budget *parent_budget, QDomElement *e, bool *valid) : SecurityTransaction(parent_budget, e, valid) {
@@ -388,7 +386,7 @@ SecuritySell::SecuritySell(Budget *parent_budget, QDomElement *e, bool *valid) :
 		if(valid) *valid =false;
 	}
 	if(o_security) {
-		setDescription(QString(i18n("Security: %1 (sold)", o_security->name())));
+		setDescription(tr("Security: %1 (sold)").arg(o_security->name()));
 	}
 }
 SecuritySell::SecuritySell() : SecurityTransaction() {}

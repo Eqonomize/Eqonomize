@@ -65,14 +65,13 @@
 #include <QComboBox>
 #include <QMessageBox>
 #include <QSettings>
-
-#include <kstdguiitem.h>
-#include <klocalizedstring.h>
+#include <QSaveFile>
+#include <QMimeDatabase>
+#include <QMimeType>
 
 #include <math.h>
 
 extern double monthsBetweenDates(const QDate &date1, const QDate &date2);
-extern void saveSceneImage(QWidget*, QGraphicsScene*);
 
 CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *parent) : QWidget(parent), budget(budg) {
 
@@ -99,10 +98,8 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	layout->setContentsMargins(0, 0, 0, 0);
 
 	QDialogButtonBox *buttons = new QDialogButtonBox(this);
-	saveButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
-	KGuiItem::assign(saveButton, KStandardGuiItem::saveAs());
-	printButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
-	KGuiItem::assign(printButton, KStandardGuiItem::print());
+	saveButton = buttons->addButton(tr("Save As…"), QDialogButtonBox::ActionRole);
+	printButton = buttons->addButton(tr("Print…"), QDialogButtonBox::ActionRole);
 	layout->addWidget(buttons);
 
 	scene = NULL;
@@ -111,19 +108,19 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	view->setRenderHint(QPainter::HighQualityAntialiasing, true);
 	layout->addWidget(view);
 
-	QGroupBox *settingsWidget = new QGroupBox(i18n("Options"), this);
+	QGroupBox *settingsWidget = new QGroupBox(tr("Options"), this);
 	QVBoxLayout *settingsLayout = new QVBoxLayout(settingsWidget);
 
 	QHBoxLayout *choicesLayout = new QHBoxLayout();
 	settingsLayout->addLayout(choicesLayout);
-	fromButton = new QCheckBox(i18n("From"), settingsWidget);
+	fromButton = new QCheckBox(tr("From"), settingsWidget);
 	fromButton->setChecked(true);
 	choicesLayout->addWidget(fromButton);
 	fromEdit = new QDateEdit(settingsWidget);
 	fromEdit->setCalendarPopup(true);
 	fromEdit->setDate(from_date);
 	choicesLayout->addWidget(fromEdit);
-	choicesLayout->addWidget(new QLabel(i18n("To"), settingsWidget));
+	choicesLayout->addWidget(new QLabel(tr("To"), settingsWidget));
 	toEdit = new QDateEdit(settingsWidget);
 	toEdit->setCalendarPopup(true);
 	toEdit->setDate(to_date);
@@ -140,20 +137,20 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 
 	QHBoxLayout *typeLayout = new QHBoxLayout();
 	settingsLayout->addLayout(typeLayout);
-	typeLayout->addWidget(new QLabel(i18n("Source:"), settingsWidget));
+	typeLayout->addWidget(new QLabel(tr("Source:"), settingsWidget));
 	sourceCombo = new QComboBox(settingsWidget);
 	sourceCombo->setEditable(false);
-	sourceCombo->addItem(i18n("All Expenses"));
-	sourceCombo->addItem(i18n("All Incomes"));
-	sourceCombo->addItem(i18n("All Accounts"));
+	sourceCombo->addItem(tr("All Expenses"));
+	sourceCombo->addItem(tr("All Incomes"));
+	sourceCombo->addItem(tr("All Accounts"));
 	Account *account = budget->expensesAccounts.first();
 	while(account) {
-		sourceCombo->addItem(i18n("Expenses: %1", account->name()));
+		sourceCombo->addItem(tr("Expenses: %1").arg(account->name()));
 		account = budget->expensesAccounts.next();
 	}
 	account = budget->incomesAccounts.first();
 	while(account) {
-		sourceCombo->addItem(i18n("Incomes: %1", account->name()));
+		sourceCombo->addItem(tr("Incomes: %1").arg(account->name()));
 		account = budget->incomesAccounts.next();
 	}
 	typeLayout->addWidget(sourceCombo);
@@ -194,12 +191,12 @@ void CategoriesComparisonChart::saveConfig() {
 void CategoriesComparisonChart::toChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		error = true;
 	}
 	if(!error && fromEdit->date() > date) {
 		if(fromButton->isChecked() && fromButton->isEnabled()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("To date is before from date."));
+			QMessageBox::critical(this, tr("Error"), tr("To date is before from date."));
 		}
 		from_date = date;
 		fromEdit->blockSignals(true);
@@ -220,11 +217,11 @@ void CategoriesComparisonChart::toChanged(const QDate &date) {
 void CategoriesComparisonChart::fromChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		error = true;
 	}
 	if(!error && date > toEdit->date()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("From date is after to date."));
+		QMessageBox::critical(this, tr("Error"), tr("From date is after to date."));
 		to_date = date;
 		toEdit->blockSignals(true);
 		toEdit->setDate(to_date);
@@ -307,7 +304,64 @@ void CategoriesComparisonChart::nextYear() {
 }
 
 void CategoriesComparisonChart::save() {
-	saveSceneImage(this, scene);
+	if(!scene) return;
+	QMimeDatabase db;
+	QString png_filter = db.mimeTypeForName("image/png").filterString();
+	QString gif_filter = db.mimeTypeForName("image/gif").filterString();	
+	QString jpeg_filter = db.mimeTypeForName("image/jpeg").filterString();	
+	QString bmp_filter = db.mimeTypeForName("image/x-bmp").filterString();	
+	QString xbm_filter = db.mimeTypeForName("image/x-xbm").filterString();	
+	QString xpm_filter = db.mimeTypeForName("image/x-xpm").filterString();	
+	QString ppm_filter = db.mimeTypeForName("image/x-portable-pixmap").filterString();		
+	QString filter = png_filter;
+	if(QImageWriter::supportedImageFormats().contains("GIF")) {
+		filter += ";;";
+		filter += gif_filter;
+	}
+	if(QImageWriter::supportedImageFormats().contains("JPEG")) {
+		filter += ";;";
+		filter += jpeg_filter;
+	}
+	filter += ";;";
+	filter += bmp_filter;
+	filter += ";;";
+	filter += xbm_filter;
+	filter += ";;";
+	filter += xpm_filter;
+	filter += ";;";
+	filter += ppm_filter;
+	QString selected_filter = png_filter;
+	QUrl url = QFileDialog::getSaveFileUrl(this, QString(), QUrl(), filter, &selected_filter);
+	if(url.isEmpty() || !url.isValid()) return;
+	QSaveFile ofile(url.toLocalFile());
+	ofile.open(QIODevice::WriteOnly);
+	ofile.setPermissions((QFile::Permissions) 0x0660);
+	if(!ofile.isOpen()) {
+		ofile.cancelWriting();
+		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
+		return;
+	}
+	QRectF rect = scene->sceneRect();
+	rect.setX(0);
+	rect.setY(0);
+	rect.setRight(rect.right() + 20);
+	rect.setBottom(rect.bottom() + 20);
+	QPixmap pixmap((int) ceil(rect.width()), (int) ceil(rect.height()));
+	QPainter p(&pixmap);
+	p.setRenderHint(QPainter::Antialiasing, true);
+	scene->render(&p, QRectF(), rect);
+	if(selected_filter == png_filter) {pixmap.save(&ofile, "PNG");}
+	else if(selected_filter == bmp_filter) {pixmap.save(&ofile, "BMP");}
+	else if(selected_filter == xbm_filter) {pixmap.save(&ofile, "XBM");}
+	else if(selected_filter == xpm_filter) {pixmap.save(&ofile, "XPM");}
+	else if(selected_filter == ppm_filter) {pixmap.save(&ofile, "PPM");}
+	else if(selected_filter == gif_filter) {pixmap.save(&ofile, "GIF");}
+	else if(selected_filter == jpeg_filter) {pixmap.save(&ofile, "JPEG");}
+	else pixmap.save(&ofile);
+	if(!ofile.commit()) {
+		QMessageBox::critical(this, tr("Error"), tr("Error while writing file; file was not saved."));
+		return;
+	}
 }
 
 void CategoriesComparisonChart::print() {
@@ -637,7 +691,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		double legend_value = 0.0;
 		if(current_account) {
 			if(it_desc.key().isEmpty()) {
-				legend_string = i18n("No description");
+				legend_string = tr("No description");
 			} else {
 				legend_string = it_desc.key();
 			}
@@ -767,20 +821,20 @@ void CategoriesComparisonChart::updateAccounts() {
 	}
 	sourceCombo->blockSignals(true);
 	sourceCombo->clear();
-	sourceCombo->addItem(i18n("All Expenses"));
-	sourceCombo->addItem(i18n("All Incomes"));
-	sourceCombo->addItem(i18n("All Accounts"));
+	sourceCombo->addItem(tr("All Expenses"));
+	sourceCombo->addItem(tr("All Incomes"));
+	sourceCombo->addItem(tr("All Accounts"));
 	int i = 3;
 	Account *account = budget->expensesAccounts.first();
 	while(account) {
-		sourceCombo->addItem(i18n("Expenses: %1", account->name()));
+		sourceCombo->addItem(tr("Expenses: %1").arg(account->name()));
 		if(account == current_account) curindex = i;
 		account = budget->expensesAccounts.next();
 		i++;
 	}
 	account = budget->incomesAccounts.first();
 	while(account) {
-		sourceCombo->addItem(i18n("Incomes: %1", account->name()));
+		sourceCombo->addItem(tr("Incomes: %1").arg(account->name()));
 		if(account == current_account) curindex = i;
 		account = budget->incomesAccounts.next();
 		i++;

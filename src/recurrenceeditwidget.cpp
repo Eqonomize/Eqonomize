@@ -43,16 +43,13 @@
 #include <QDateEdit>
 #include <QMessageBox>
 
-#include <kstdguiitem.h>
-#include <klocalizedstring.h>
-
 #include "budget.h"
 #include "recurrence.h"
 #include "recurrenceeditwidget.h"
 
 EditExceptionsDialog::EditExceptionsDialog(QWidget *parent)  : QDialog(parent, 0) {
 
-	setWindowTitle(i18n("Edit Exceptions"));
+	setWindowTitle(tr("Edit Exceptions"));
 	setModal(true);
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
@@ -69,15 +66,12 @@ EditExceptionsDialog::EditExceptionsDialog(QWidget *parent)  : QDialog(parent, 0
 	dateEdit->setCalendarPopup(true);
 	dateEdit->setDate(QDate::currentDate());
 	buttonsLayout->addWidget(dateEdit);
-	addButton = new QPushButton(this);
-	KGuiItem::assign(addButton, KStandardGuiItem::add());
+	addButton = new QPushButton(tr("Add"), this);
 	buttonsLayout->addWidget(addButton);
-	changeButton = new QPushButton(this);
-	KGuiItem::assign(changeButton, KStandardGuiItem::apply());
+	changeButton = new QPushButton(tr("Apply"), this);
 	changeButton->setEnabled(false);
 	buttonsLayout->addWidget(changeButton);
-	deleteButton = new QPushButton(this);
-	KGuiItem::assign(deleteButton, KStandardGuiItem::del());
+	deleteButton = new QPushButton(tr("Delete"), this);
 	deleteButton->setEnabled(false);
 	buttonsLayout->addWidget(deleteButton);
 	buttonsLayout->addStretch(1);
@@ -148,7 +142,7 @@ void EditExceptionsDialog::onSelectionChanged() {
 void EditExceptionsDialog::addException() {
 	QDate date = dateEdit->date();
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		return;
 	}
 	QString sdate = QLocale().toString(date, QLocale::ShortFormat);
@@ -163,7 +157,7 @@ void EditExceptionsDialog::changeException() {
 	if(list.isEmpty()) return;
 	QDate date = dateEdit->date();
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		return;
 	}
 	QString sdate = QLocale().toString(date, QLocale::ShortFormat);
@@ -178,7 +172,7 @@ void EditExceptionsDialog::deleteException() {
 
 EditRangeDialog::EditRangeDialog(const QDate &startdate, QWidget *parent) : QDialog(parent, 0), date(startdate) {
 
-	setWindowTitle(i18n("Edit Recurrence Range"));
+	setWindowTitle(tr("Edit Recurrence Range"));
 	setModal(true);
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
@@ -186,24 +180,24 @@ EditRangeDialog::EditRangeDialog(const QDate &startdate, QWidget *parent) : QDia
 	QGridLayout *rangeLayout = new QGridLayout();
 	box1->addLayout(rangeLayout);
 
-	startLabel = new QLabel(i18n("Begins on: %1", QLocale().toString(startdate)), this);
+	startLabel = new QLabel(tr("Begins on: %1").arg(QLocale().toString(startdate)), this);
 	rangeLayout->addWidget(startLabel, 0, 0, 1, 3);
 
 	rangeButtonGroup = new QButtonGroup(this);
 
-	foreverButton = new QRadioButton(i18n("No ending date"), this);
+	foreverButton = new QRadioButton(tr("No ending date"), this);
 	rangeButtonGroup->addButton(foreverButton);
 	rangeLayout->addWidget(foreverButton, 1, 0, 1, 3);
 
-	fixedCountButton = new QRadioButton(i18n("End after"), this);
+	fixedCountButton = new QRadioButton(tr("End after"), this);
 	rangeButtonGroup->addButton(fixedCountButton);
 	rangeLayout->addWidget(fixedCountButton, 2, 0);
 	fixedCountEdit = new QSpinBox(this);
 	fixedCountEdit->setRange(1, 9999);
 	rangeLayout->addWidget(fixedCountEdit, 2, 1);
-	rangeLayout ->addWidget(new QLabel(i18n("occurrence(s)"), this), 2, 2);
+	rangeLayout ->addWidget(new QLabel(tr("occurrence(s)"), this), 2, 2);
 
-	endDateButton = new QRadioButton(i18n("End on"), this);
+	endDateButton = new QRadioButton(tr("End on"), this);
 	rangeButtonGroup->addButton(endDateButton);
 	rangeLayout->addWidget(endDateButton, 3, 0);
 	endDateEdit = new QDateEdit(startdate, this);
@@ -228,7 +222,7 @@ EditRangeDialog::~EditRangeDialog() {
 }
 
 void EditRangeDialog::setStartDate(const QDate &startdate) {
-	startLabel->setText(i18n("Begins on: %1", QLocale().toString(startdate)));
+	startLabel->setText(tr("Begins on: %1").arg(QLocale().toString(startdate)));
 	date = startdate;
 	if(!endDateButton->isChecked() && date > endDateEdit->date()) {
 		endDateEdit->setDate(date);
@@ -292,12 +286,12 @@ void EditRangeDialog::restoreValues() {
 bool EditRangeDialog::validValues() {
 	if(endDateButton->isChecked()) {
 		if(!endDateEdit->date().isValid()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+			QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 			endDateEdit->setFocus();
 			return false;
 		}
 		if(endDateEdit->date() < date) {
-			QMessageBox::critical(this, i18n("Error"), i18n("End date before start date."));
+			QMessageBox::critical(this, tr("Error"), tr("End date before start date."));
 			endDateEdit->setFocus();
 			return false;
 		}
@@ -311,18 +305,18 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 	QVBoxLayout *recurrenceLayout = new QVBoxLayout(this);
 	recurrenceLayout->setContentsMargins(0, 0, 0, 0);
 
-	recurrenceButton = new QCheckBox(i18n("Enable recurrance"), this);
+	recurrenceButton = new QCheckBox(tr("Enable recurrance"), this);
 	recurrenceLayout->addWidget(recurrenceButton);
 
-	ruleGroup = new QGroupBox(i18n("Recurrence Rule"), this);
+	ruleGroup = new QGroupBox(tr("Recurrence Rule"), this);
 	QVBoxLayout *ruleGroup_layout = new QVBoxLayout(ruleGroup);
 
 	typeCombo = new QComboBox(ruleGroup);
 	typeCombo->setEditable(false);
-	typeCombo->addItem(i18n("Daily"));
-	typeCombo->addItem(i18n("Weekly"));
-	typeCombo->addItem(i18n("Monthly"));
-	typeCombo->addItem(i18n("Yearly"));
+	typeCombo->addItem(tr("Daily"));
+	typeCombo->addItem(tr("Weekly"));
+	typeCombo->addItem(tr("Monthly"));
+	typeCombo->addItem(tr("Yearly"));
 	typeCombo->setCurrentIndex(2);
 	ruleGroup_layout->addWidget(typeCombo);
 
@@ -340,22 +334,22 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 	QVBoxLayout *dailyRuleLayout = new QVBoxLayout(dailyRuleWidget);
 	QHBoxLayout *dailyFrequencyLayout = new QHBoxLayout();
 	dailyRuleLayout->addLayout(dailyFrequencyLayout);
-	dailyFrequencyLayout->addWidget(new QLabel(i18n("Recur every"), dailyRuleWidget));
+	dailyFrequencyLayout->addWidget(new QLabel(tr("Recur every"), dailyRuleWidget));
 	dailyFrequencyEdit = new QSpinBox(dailyRuleWidget);
 	dailyFrequencyEdit->setRange(1, 9999);
 	dailyFrequencyLayout->addWidget(dailyFrequencyEdit);
-	dailyFrequencyLayout->addWidget(new QLabel(i18n("day(s)"), dailyRuleWidget));
+	dailyFrequencyLayout->addWidget(new QLabel(tr("day(s)"), dailyRuleWidget));
 	dailyFrequencyLayout->addStretch(1);
 	dailyRuleLayout->addStretch(1);
 
 	QVBoxLayout *weeklyRuleLayout = new QVBoxLayout(weeklyRuleWidget);
 	QHBoxLayout *weeklyFrequencyLayout = new QHBoxLayout();
 	weeklyRuleLayout->addLayout(weeklyFrequencyLayout);
-	weeklyFrequencyLayout->addWidget(new QLabel(i18n("Recur every"), weeklyRuleWidget));
+	weeklyFrequencyLayout->addWidget(new QLabel(tr("Recur every"), weeklyRuleWidget));
 	weeklyFrequencyEdit = new QSpinBox(weeklyRuleWidget);
 	weeklyFrequencyEdit->setRange(1, 9999);
 	weeklyFrequencyLayout->addWidget(weeklyFrequencyEdit);
-	weeklyFrequencyLayout->addWidget(new QLabel(i18n("week(s) on:"), weeklyRuleWidget));
+	weeklyFrequencyLayout->addWidget(new QLabel(tr("week(s) on:"), weeklyRuleWidget));
 	weeklyFrequencyLayout->addStretch(1);
 	QHBoxLayout *weeklyDaysLayout = new QHBoxLayout();
 	weeklyRuleLayout->addLayout(weeklyDaysLayout);
@@ -374,83 +368,83 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 	QVBoxLayout *monthlyRuleLayout = new QVBoxLayout(monthlyRuleWidget);
 	QHBoxLayout *monthlyFrequencyLayout = new QHBoxLayout();
 	monthlyRuleLayout->addLayout(monthlyFrequencyLayout);
-	monthlyFrequencyLayout->addWidget(new QLabel(i18n("Recur every"), monthlyRuleWidget));
+	monthlyFrequencyLayout->addWidget(new QLabel(tr("Recur every"), monthlyRuleWidget));
 	monthlyFrequencyEdit = new QSpinBox(monthlyRuleWidget);
 	monthlyFrequencyEdit->setRange(1, 9999);
 	monthlyFrequencyLayout->addWidget(monthlyFrequencyEdit);
-	monthlyFrequencyLayout->addWidget(new QLabel(i18n("month(s), after the start month"), monthlyRuleWidget));
+	monthlyFrequencyLayout->addWidget(new QLabel(tr("month(s), after the start month"), monthlyRuleWidget));
 	monthlyFrequencyLayout->addStretch(1);
 	QButtonGroup *monthlyButtonGroup = new QButtonGroup(this);
 	QGridLayout *monthlyButtonLayout = new QGridLayout();
 	monthlyRuleLayout->addLayout(monthlyButtonLayout, 1);
-	monthlyOnDayButton = new QRadioButton(i18n("Recur on the"), monthlyRuleWidget);
+	monthlyOnDayButton = new QRadioButton(tr("Recur on the"), monthlyRuleWidget);
 	monthlyOnDayButton->setChecked(true);
 	monthlyButtonGroup->addButton(monthlyOnDayButton);
 	monthlyButtonLayout->addWidget(monthlyOnDayButton, 0, 0);
 	QBoxLayout *monthlyDayLayout = new QHBoxLayout();
 	monthlyDayCombo = new QComboBox(monthlyRuleWidget);
-	monthlyDayCombo->addItem(i18n("1st"));
-	monthlyDayCombo->addItem(i18n("2nd"));
-	monthlyDayCombo->addItem(i18n("3rd"));
-	monthlyDayCombo->addItem(i18n("4th"));
-	monthlyDayCombo->addItem(i18n("5th"));
-	monthlyDayCombo->addItem(i18n("6th"));
-	monthlyDayCombo->addItem(i18n("7th"));
-	monthlyDayCombo->addItem(i18n("8th"));
-	monthlyDayCombo->addItem(i18n("9th"));
-	monthlyDayCombo->addItem(i18n("10th"));
-	monthlyDayCombo->addItem(i18n("11th"));
-	monthlyDayCombo->addItem(i18n("12th"));
-	monthlyDayCombo->addItem(i18n("13th"));
-	monthlyDayCombo->addItem(i18n("14th"));
-	monthlyDayCombo->addItem(i18n("15th"));
-	monthlyDayCombo->addItem(i18n("16th"));
-	monthlyDayCombo->addItem(i18n("17th"));
-	monthlyDayCombo->addItem(i18n("18th"));
-	monthlyDayCombo->addItem(i18n("19th"));
-	monthlyDayCombo->addItem(i18n("20th"));
-	monthlyDayCombo->addItem(i18n("21st"));
-	monthlyDayCombo->addItem(i18n("22nd"));
-	monthlyDayCombo->addItem(i18n("23rd"));
-	monthlyDayCombo->addItem(i18n("24th"));
-	monthlyDayCombo->addItem(i18n("25th"));
-	monthlyDayCombo->addItem(i18n("26th"));
-	monthlyDayCombo->addItem(i18n("27th"));
-	monthlyDayCombo->addItem(i18n("28th"));
-	monthlyDayCombo->addItem(i18n("29th"));
-	monthlyDayCombo->addItem(i18n("30th"));
-	monthlyDayCombo->addItem(i18n("31st"));
-	monthlyDayCombo->addItem(i18n("Last"));
-	monthlyDayCombo->addItem(i18n("2nd Last"));
-	monthlyDayCombo->addItem(i18n("3rd Last"));
-	monthlyDayCombo->addItem(i18n("4th Last"));
-	monthlyDayCombo->addItem(i18n("5th Last"));
+	monthlyDayCombo->addItem(tr("1st"));
+	monthlyDayCombo->addItem(tr("2nd"));
+	monthlyDayCombo->addItem(tr("3rd"));
+	monthlyDayCombo->addItem(tr("4th"));
+	monthlyDayCombo->addItem(tr("5th"));
+	monthlyDayCombo->addItem(tr("6th"));
+	monthlyDayCombo->addItem(tr("7th"));
+	monthlyDayCombo->addItem(tr("8th"));
+	monthlyDayCombo->addItem(tr("9th"));
+	monthlyDayCombo->addItem(tr("10th"));
+	monthlyDayCombo->addItem(tr("11th"));
+	monthlyDayCombo->addItem(tr("12th"));
+	monthlyDayCombo->addItem(tr("13th"));
+	monthlyDayCombo->addItem(tr("14th"));
+	monthlyDayCombo->addItem(tr("15th"));
+	monthlyDayCombo->addItem(tr("16th"));
+	monthlyDayCombo->addItem(tr("17th"));
+	monthlyDayCombo->addItem(tr("18th"));
+	monthlyDayCombo->addItem(tr("19th"));
+	monthlyDayCombo->addItem(tr("20th"));
+	monthlyDayCombo->addItem(tr("21st"));
+	monthlyDayCombo->addItem(tr("22nd"));
+	monthlyDayCombo->addItem(tr("23rd"));
+	monthlyDayCombo->addItem(tr("24th"));
+	monthlyDayCombo->addItem(tr("25th"));
+	monthlyDayCombo->addItem(tr("26th"));
+	monthlyDayCombo->addItem(tr("27th"));
+	monthlyDayCombo->addItem(tr("28th"));
+	monthlyDayCombo->addItem(tr("29th"));
+	monthlyDayCombo->addItem(tr("30th"));
+	monthlyDayCombo->addItem(tr("31st"));
+	monthlyDayCombo->addItem(tr("Last"));
+	monthlyDayCombo->addItem(tr("2nd Last"));
+	monthlyDayCombo->addItem(tr("3rd Last"));
+	monthlyDayCombo->addItem(tr("4th Last"));
+	monthlyDayCombo->addItem(tr("5th Last"));
 	monthlyDayCombo->setMaxVisibleItems(7);
 	monthlyDayLayout->addWidget(monthlyDayCombo);
-	monthlyDayLayout->addWidget(new QLabel(i18n("day"), monthlyRuleWidget));
+	monthlyDayLayout->addWidget(new QLabel(tr("day"), monthlyRuleWidget));
 	monthlyWeekendCombo = new QComboBox(monthlyRuleWidget);
-	monthlyWeekendCombo->addItem(i18n("possibly on weekend"));
-	monthlyWeekendCombo->addItem(i18n("but before weekend"));
-	monthlyWeekendCombo->addItem(i18n("but after weekend"));
-	monthlyWeekendCombo->addItem(i18n("nearest weekend day"));
+	monthlyWeekendCombo->addItem(tr("possibly on weekend"));
+	monthlyWeekendCombo->addItem(tr("but before weekend"));
+	monthlyWeekendCombo->addItem(tr("but after weekend"));
+	monthlyWeekendCombo->addItem(tr("nearest weekend day"));
 	monthlyDayLayout->addWidget(monthlyWeekendCombo);
 	monthlyDayLayout->addStretch(1);
 	monthlyButtonLayout->addLayout(monthlyDayLayout, 0, 1);
-	monthlyOnDayOfWeekButton = new QRadioButton(i18n("Recur on the"), monthlyRuleWidget);
+	monthlyOnDayOfWeekButton = new QRadioButton(tr("Recur on the"), monthlyRuleWidget);
 	monthlyButtonGroup->addButton(monthlyOnDayOfWeekButton);
 	monthlyButtonLayout->addWidget(monthlyOnDayOfWeekButton, 1, 0);
 	QBoxLayout *monthlyWeekLayout = new QHBoxLayout();
 	monthlyWeekCombo = new QComboBox(monthlyRuleWidget);
-	monthlyWeekCombo->addItem(i18n("1st"));
-	monthlyWeekCombo->addItem(i18n("2nd"));
-	monthlyWeekCombo->addItem(i18n("3rd"));
-	monthlyWeekCombo->addItem(i18n("4th"));
-	monthlyWeekCombo->addItem(i18n("5th"));
-	monthlyWeekCombo->addItem(i18n("Last"));
-	monthlyWeekCombo->addItem(i18n("2nd Last"));
-	monthlyWeekCombo->addItem(i18n("3rd Last"));
-	monthlyWeekCombo->addItem(i18n("4th Last"));
-	monthlyWeekCombo->addItem(i18n("5th Last"));
+	monthlyWeekCombo->addItem(tr("1st"));
+	monthlyWeekCombo->addItem(tr("2nd"));
+	monthlyWeekCombo->addItem(tr("3rd"));
+	monthlyWeekCombo->addItem(tr("4th"));
+	monthlyWeekCombo->addItem(tr("5th"));
+	monthlyWeekCombo->addItem(tr("Last"));
+	monthlyWeekCombo->addItem(tr("2nd Last"));
+	monthlyWeekCombo->addItem(tr("3rd Last"));
+	monthlyWeekCombo->addItem(tr("4th Last"));
+	monthlyWeekCombo->addItem(tr("5th Last"));
 	monthlyWeekLayout->addWidget(monthlyWeekCombo);
 	monthlyDayOfWeekCombo = new QComboBox(monthlyRuleWidget);
 	monthlyWeekLayout->addWidget(monthlyDayOfWeekCombo);
@@ -461,16 +455,16 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 	QVBoxLayout *yearlyRuleLayout = new QVBoxLayout(yearlyRuleWidget);
 	QHBoxLayout *yearlyFrequencyLayout = new QHBoxLayout();
 	yearlyRuleLayout->addLayout(yearlyFrequencyLayout);
-	yearlyFrequencyLayout->addWidget(new QLabel(i18n("Recur every"), yearlyRuleWidget));
+	yearlyFrequencyLayout->addWidget(new QLabel(tr("Recur every"), yearlyRuleWidget));
 	yearlyFrequencyEdit = new QSpinBox(yearlyRuleWidget);
 	yearlyFrequencyEdit->setRange(1, 9999);
 	yearlyFrequencyLayout->addWidget(yearlyFrequencyEdit);
-	yearlyFrequencyLayout->addWidget(new QLabel(i18n("year(s), after the start year"), yearlyRuleWidget));
+	yearlyFrequencyLayout->addWidget(new QLabel(tr("year(s), after the start year"), yearlyRuleWidget));
 	yearlyFrequencyLayout->addStretch(1);
 	QButtonGroup *yearlyButtonGroup = new QButtonGroup(this);
 	QGridLayout *yearlyButtonLayout = new QGridLayout();
 	yearlyRuleLayout->addLayout(yearlyButtonLayout, 1);
-	yearlyOnDayOfMonthButton = new QRadioButton(i18nc("part before XXX of 'Recur on day XXX of month YYY'", "Recur on day"), yearlyRuleWidget);
+	yearlyOnDayOfMonthButton = new QRadioButton(tr("Recur on day", "part before XXX of 'Recur on day XXX of month YYY'"), yearlyRuleWidget);
 	yearlyButtonGroup->addButton(yearlyOnDayOfMonthButton);
 	yearlyOnDayOfMonthButton->setChecked(true);
 	yearlyButtonLayout->addWidget(yearlyOnDayOfMonthButton, 0, 0);
@@ -478,53 +472,53 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 	yearlyDayOfMonthEdit = new QSpinBox(yearlyRuleWidget);
 	yearlyDayOfMonthEdit->setRange(1, 31);
 	yearlyMonthLayout->addWidget(yearlyDayOfMonthEdit);
-	yearlyMonthLayout->addWidget(new QLabel(i18nc("part between XXX and YYY of 'Recur on day XXX of month YYY'", "of"), yearlyRuleWidget));
+	yearlyMonthLayout->addWidget(new QLabel(tr("of", "part between XXX and YYY of 'Recur on day XXX of month YYY'"), yearlyRuleWidget));
 	yearlyMonthCombo = new QComboBox(yearlyRuleWidget);
 	yearlyMonthLayout->addWidget(yearlyMonthCombo);
 	yearlyWeekendCombo_month = new QComboBox(yearlyRuleWidget);
-	yearlyWeekendCombo_month->addItem(i18n("possibly on weekend"));
-	yearlyWeekendCombo_month->addItem(i18n("but before weekend"));
-	yearlyWeekendCombo_month->addItem(i18n("but after weekend"));
-	yearlyWeekendCombo_month->addItem(i18n("nearest weekend day"));
+	yearlyWeekendCombo_month->addItem(tr("possibly on weekend"));
+	yearlyWeekendCombo_month->addItem(tr("but before weekend"));
+	yearlyWeekendCombo_month->addItem(tr("but after weekend"));
+	yearlyWeekendCombo_month->addItem(tr("nearest weekend day"));
 	yearlyMonthLayout->addWidget(yearlyWeekendCombo_month);
 	yearlyMonthLayout->addStretch(1);
 	yearlyButtonLayout->addLayout(yearlyMonthLayout, 0, 1);
-	yearlyOnDayOfWeekButton = new QRadioButton(i18nc("Part before NNN in 'Recur on the NNN. WEEKDAY of MONTH'", "On the"), yearlyRuleWidget);
+	yearlyOnDayOfWeekButton = new QRadioButton(tr("On the", "Part before NNN in 'Recur on the NNN. WEEKDAY of MONTH'"), yearlyRuleWidget);
 	yearlyButtonGroup->addButton(yearlyOnDayOfWeekButton);
 	yearlyButtonLayout->addWidget(yearlyOnDayOfWeekButton, 1, 0);
 	QBoxLayout *yearlyWeekLayout = new QHBoxLayout();
 	yearlyWeekCombo = new QComboBox(yearlyRuleWidget);
-	yearlyWeekCombo->addItem(i18n("1st"));
-	yearlyWeekCombo->addItem(i18n("2nd"));
-	yearlyWeekCombo->addItem(i18n("3rd"));
-	yearlyWeekCombo->addItem(i18n("4th"));
-	yearlyWeekCombo->addItem(i18n("5th"));
-	yearlyWeekCombo->addItem(i18n("Last"));
-	yearlyWeekCombo->addItem(i18n("2nd Last"));
-	yearlyWeekCombo->addItem(i18n("3rd Last"));
-	yearlyWeekCombo->addItem(i18n("4th Last"));
-	yearlyWeekCombo->addItem(i18n("5th Last"));
+	yearlyWeekCombo->addItem(tr("1st"));
+	yearlyWeekCombo->addItem(tr("2nd"));
+	yearlyWeekCombo->addItem(tr("3rd"));
+	yearlyWeekCombo->addItem(tr("4th"));
+	yearlyWeekCombo->addItem(tr("5th"));
+	yearlyWeekCombo->addItem(tr("Last"));
+	yearlyWeekCombo->addItem(tr("2nd Last"));
+	yearlyWeekCombo->addItem(tr("3rd Last"));
+	yearlyWeekCombo->addItem(tr("4th Last"));
+	yearlyWeekCombo->addItem(tr("5th Last"));
 	yearlyWeekLayout->addWidget(yearlyWeekCombo);
 	yearlyDayOfWeekCombo = new QComboBox(yearlyRuleWidget);
 	yearlyWeekLayout->addWidget(yearlyDayOfWeekCombo);
-	yearlyWeekLayout->addWidget(new QLabel(i18nc("part between WEEKDAY and MONTH in 'Recur on NNN. WEEKDAY of MONTH'", "of"), yearlyRuleWidget));
+	yearlyWeekLayout->addWidget(new QLabel(tr("of", "part between WEEKDAY and MONTH in 'Recur on NNN. WEEKDAY of MONTH'"), yearlyRuleWidget));
 	yearlyMonthCombo_week = new QComboBox(yearlyRuleWidget);
 	yearlyWeekLayout->addWidget(yearlyMonthCombo_week);
 	yearlyWeekLayout->addStretch(1);
 	yearlyButtonLayout->addLayout(yearlyWeekLayout, 1, 1);
-	yearlyOnDayOfYearButton = new QRadioButton(i18n("Recur on day #"), yearlyRuleWidget);
+	yearlyOnDayOfYearButton = new QRadioButton(tr("Recur on day #"), yearlyRuleWidget);
 	yearlyButtonGroup->addButton(yearlyOnDayOfYearButton);
 	yearlyButtonLayout->addWidget(yearlyOnDayOfYearButton, 2, 0);
 	QBoxLayout *yearlyDayLayout = new QHBoxLayout();
 	yearlyDayOfYearEdit = new QSpinBox(yearlyRuleWidget);
 	yearlyDayOfYearEdit->setRange(1, 366);
 	yearlyDayLayout->addWidget(yearlyDayOfYearEdit);
-	yearlyDayLayout->addWidget(new QLabel(i18nc("part after NNN of 'Recur on day #NNN of the year'", " of the year"), yearlyRuleWidget));
+	yearlyDayLayout->addWidget(new QLabel(tr(" of the year", "part after NNN of 'Recur on day #NNN of the year'"), yearlyRuleWidget));
 	yearlyWeekendCombo_day = new QComboBox(yearlyRuleWidget);
-	yearlyWeekendCombo_day->addItem(i18n("possibly on weekend"));
-	yearlyWeekendCombo_day->addItem(i18n("but before weekend"));
-	yearlyWeekendCombo_day->addItem(i18n("but after weekend"));
-	yearlyWeekendCombo_day->addItem(i18n("nearest weekend day"));
+	yearlyWeekendCombo_day->addItem(tr("possibly on weekend"));
+	yearlyWeekendCombo_day->addItem(tr("but before weekend"));
+	yearlyWeekendCombo_day->addItem(tr("but after weekend"));
+	yearlyWeekendCombo_day->addItem(tr("nearest weekend day"));
 	yearlyDayLayout->addWidget(yearlyWeekendCombo_day);
 	yearlyDayLayout->addStretch(1);
 	yearlyButtonLayout->addLayout(yearlyDayLayout, 2, 1);
@@ -534,9 +528,9 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 
 	QHBoxLayout *buttonLayout = new QHBoxLayout();
 	recurrenceLayout->addLayout(buttonLayout);
-	rangeButton = new QPushButton(i18n("Range..."), this);
+	rangeButton = new QPushButton(tr("Range…"), this);
 	buttonLayout->addWidget(rangeButton);
-	exceptionsButton = new QPushButton(i18n("Exceptions..."), this);
+	exceptionsButton = new QPushButton(tr("Exceptions…"), this);
 	buttonLayout->addWidget(exceptionsButton);
 
 	recurrenceLayout->addStretch(1);
@@ -731,7 +725,7 @@ bool RecurrenceEditWidget::validValues() {
 				}
 			}
 			if(!b) {
-				QMessageBox::critical(this, i18n("Error"), i18n("No day of week selected for weekly recurrence."));
+				QMessageBox::critical(this, tr("Error"), tr("No day of week selected for weekly recurrence."));
 				weeklyButtons[0]->setFocus();
 				return false;
 			}
@@ -743,7 +737,7 @@ bool RecurrenceEditWidget::validValues() {
 				int i_dayofmonth = monthlyDayCombo->currentIndex() + 1;
 				int i_month = date.month();
 				if(i_dayofmonth <= 31 && ((i_month == 2 && i_dayofmonth > 29) || (i_dayofmonth > 30 && (i_month == 4 || i_month == 6 || i_month == 9 || i_month == 11)))) {
-					QMessageBox::critical(this, i18n("Error"), i18n("Selected day will never occur with selected frequency and start date."));
+					QMessageBox::critical(this, tr("Error"), tr("Selected day will never occur with selected frequency and start date."));
 					monthlyDayCombo->setFocus();
 					return false;
 				}
@@ -757,7 +751,7 @@ bool RecurrenceEditWidget::validValues() {
 				int i_month = yearlyMonthCombo->currentIndex() + 1;
 				if(IS_GREGORIAN_CALENDAR) {
 					if((i_month == 2 && i_dayofmonth > 29) || (i_dayofmonth > 30 && (i_month == 4 || i_month == 6 || i_month == 9 || i_month == 11))) {
-						QMessageBox::critical(this, i18n("Error"), i18n("Selected day does not exist in selected month."));
+						QMessageBox::critical(this, tr("Error"), tr("Selected day does not exist in selected month."));
 						yearlyDayOfMonthEdit->setFocus();
 						return false;
 					} else if(i_month != 2 || i_dayofmonth < 29) {
@@ -770,7 +764,7 @@ bool RecurrenceEditWidget::validValues() {
 					int i = 10;
 					do {
 						if(i == 0) {
-							QMessageBox::critical(this, i18n("Error"), i18n("Selected day will never occur with selected frequency and start date."));
+							QMessageBox::critical(this, tr("Error"), tr("Selected day will never occur with selected frequency and start date."));
 							yearlyDayOfMonthEdit->setFocus();
 							return false;
 						}
@@ -787,7 +781,7 @@ bool RecurrenceEditWidget::validValues() {
 					int i = 10;
 					do {
 						if(i == 0) {
-							QMessageBox::critical(this, i18n("Error"), i18n("Selected day will never occur with selected frequency and start date."));
+							QMessageBox::critical(this, tr("Error"), tr("Selected day will never occur with selected frequency and start date."));
 							yearlyDayOfYearEdit->setFocus();
 							return false;
 						}

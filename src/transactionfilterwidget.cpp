@@ -42,9 +42,6 @@
 #include <QComboBox>
 #include <QMessageBox>
 
-#include <kstdguiitem.h>
-#include <klocalizedstring.h>
-
 #include "budget.h"
 #include "eqonomizevalueedit.h"
 #include "transactionfilterwidget.h"
@@ -59,14 +56,14 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	/*int rows = 5;
 	if(b_extra && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME)) rows = 6;*/
 	QGridLayout *filterLayout = new QGridLayout(this);
-	dateFromButton = new QCheckBox(i18n("From:"), this);
+	dateFromButton = new QCheckBox(tr("From:"), this);
 	dateFromButton->setChecked(false);
 	filterLayout->addWidget(dateFromButton, 0, 0);
 	dateFromEdit = new QDateEdit(QDate::currentDate(), this);
 	dateFromEdit->setCalendarPopup(true);
 	dateFromEdit->setEnabled(false);
 	filterLayout->addWidget(dateFromEdit, 0, 1);
-	filterLayout->addWidget(new QLabel(i18n("To:"), this), 0, 2);
+	filterLayout->addWidget(new QLabel(tr("To:"), this), 0, 2);
 	dateToEdit = new QDateEdit(QDate::currentDate(), this);
 	dateToEdit->setCalendarPopup(true);
 	filterLayout->addWidget(dateToEdit, 0, 3);
@@ -76,38 +73,38 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	to_date = curdate;
 	dateToEdit->setDate(to_date);
 	if(transtype == TRANSACTION_TYPE_TRANSFER) {
-		filterLayout->addWidget(new QLabel(i18n("From:"), this), 2, 0);
+		filterLayout->addWidget(new QLabel(tr("From:"), this), 2, 0);
 		fromCombo = new QComboBox(this);
 		fromCombo->setEditable(false);
 		filterLayout->addWidget(fromCombo, 2, 1);
-		filterLayout->addWidget(new QLabel(i18n("To:"), this), 2, 2);
+		filterLayout->addWidget(new QLabel(tr("To:"), this), 2, 2);
 		toCombo = new QComboBox(this);
 		toCombo->setEditable(false);
 		filterLayout->addWidget(toCombo, 2, 3);
-		minButton = new QCheckBox(i18n("Min amount:"), this);
-		maxButton = new QCheckBox(i18n("Max amount:"), this);
+		minButton = new QCheckBox(tr("Min amount:"), this);
+		maxButton = new QCheckBox(tr("Max amount:"), this);
 	} else if(transtype == TRANSACTION_TYPE_INCOME) {
-		filterLayout->addWidget(new QLabel(i18n("Category:"), this), 2, 0);
+		filterLayout->addWidget(new QLabel(tr("Category:"), this), 2, 0);
 		fromCombo = new QComboBox(this);
 		fromCombo->setEditable(false);
 		filterLayout->addWidget(fromCombo, 2, 1);
-		filterLayout->addWidget(new QLabel(i18n("To account:"), this), 2, 2);
+		filterLayout->addWidget(new QLabel(tr("To account:"), this), 2, 2);
 		toCombo = new QComboBox(this);
 		toCombo->setEditable(false);
 		filterLayout->addWidget(toCombo, 2, 3);
-		minButton = new QCheckBox(i18n("Min income:"), this);
-		maxButton = new QCheckBox(i18n("Max income:"), this);
+		minButton = new QCheckBox(tr("Min income:"), this);
+		maxButton = new QCheckBox(tr("Max income:"), this);
 	} else {
-		filterLayout->addWidget(new QLabel(i18n("Category:"), this), 2, 0);
+		filterLayout->addWidget(new QLabel(tr("Category:"), this), 2, 0);
 		toCombo = new QComboBox(this);
 		toCombo->setEditable(false);
 		filterLayout->addWidget(toCombo, 2, 1);
-		filterLayout->addWidget(new QLabel(i18n("From account:"), this), 2, 2);
+		filterLayout->addWidget(new QLabel(tr("From account:"), this), 2, 2);
 		fromCombo = new QComboBox(this);
 		fromCombo->setEditable(false);
 		filterLayout->addWidget(fromCombo, 2, 3);
-		minButton = new QCheckBox(i18n("Min cost:"), this);
-		maxButton = new QCheckBox(i18n("Max cost:"), this);
+		minButton = new QCheckBox(tr("Min cost:"), this);
+		maxButton = new QCheckBox(tr("Max cost:"), this);
 	}
 	filterLayout->addWidget(minButton, 1, 0);
 	minEdit = new EqonomizeValueEdit(false, this);
@@ -120,7 +117,7 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	sp.setHorizontalPolicy(QSizePolicy::Expanding);
 	maxEdit->setSizePolicy(sp);
 	filterLayout->addWidget(maxEdit, 1, 3);
-	filterLayout->addWidget(new QLabel(i18n("Description:"), this), 3, 0);
+	filterLayout->addWidget(new QLabel(tr("Description:"), this), 3, 0);
 	descriptionEdit = new QLineEdit(this);
 	descriptionEdit->setCompleter(new QCompleter(this));
 	descriptionEdit->completer()->setModel(new QStandardItemModel(this));
@@ -128,8 +125,8 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	descriptionEdit->completer()->setCaseSensitivity(Qt::CaseInsensitive);
 	filterLayout->addWidget(descriptionEdit, 3, 1);
 	if(b_extra && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME)) {
-		if(transtype == TRANSACTION_TYPE_INCOME) filterLayout->addWidget(new QLabel(i18n("Payer:"), this), 3, 2);
-		else filterLayout->addWidget(new QLabel(i18n("Payee:"), this), 3, 2);
+		if(transtype == TRANSACTION_TYPE_INCOME) filterLayout->addWidget(new QLabel(tr("Payer:"), this), 3, 2);
+		else filterLayout->addWidget(new QLabel(tr("Payee:"), this), 3, 2);
 		payeeEdit = new QLineEdit(this);
 		payeeEdit->setCompleter(new QCompleter(this));
 		payeeEdit->completer()->setModel(new QStandardItemModel(this));
@@ -139,18 +136,17 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	}
 	QHBoxLayout *filterExcludeLayout = new QHBoxLayout();
 	group = new QButtonGroup(this);
-	includeButton = new QRadioButton(i18n("Include"), this);
+	includeButton = new QRadioButton(tr("Include"), this);
 	includeButton->setChecked(true);
 	group->addButton(includeButton);
 	filterExcludeLayout->addWidget(includeButton);
-	excludeButton = new QRadioButton(i18n("Exclude"), this);
+	excludeButton = new QRadioButton(tr("Exclude"), this);
 	group->addButton(excludeButton);
 	filterExcludeLayout->addWidget(excludeButton);
-	exactMatchButton = new QCheckBox(i18n("Exact match"), this);
+	exactMatchButton = new QCheckBox(tr("Exact match"), this);
 	filterExcludeLayout->addWidget(exactMatchButton);
 	filterExcludeLayout->addItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Minimum));
-	clearButton = new QPushButton(this);
-	KGuiItem::assign(clearButton, KStandardGuiItem::clear());
+	clearButton = new QPushButton(tr("Clear"), this);
 	clearButton->setEnabled(false);
 	filterExcludeLayout->addWidget(clearButton);
 	if(payeeEdit) {
@@ -161,8 +157,8 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 		filterLayout->addItem(new QSpacerItem(1, 1, QSizePolicy::Minimum, QSizePolicy::Expanding), 4, 0, 1, 4);
 	}
 
-	fromCombo->addItem(i18n("All"));
-	toCombo->addItem(i18n("All"));
+	fromCombo->addItem(tr("All"));
+	toCombo->addItem(tr("All"));
 
 	if(payeeEdit) {
 		connect(payeeEdit, SIGNAL(textChanged(const QString&)), this, SIGNAL(filter()));
@@ -338,7 +334,7 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 void TransactionFilterWidget::updateFromAccounts() {
 	fromCombo->clear();
 	froms.clear();
-	fromCombo->addItem(i18n("All"));
+	fromCombo->addItem(tr("All"));
 	Account *account;
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
@@ -375,7 +371,7 @@ void TransactionFilterWidget::updateFromAccounts() {
 void TransactionFilterWidget::updateToAccounts() {
 	toCombo->clear();
 	tos.clear();
-	toCombo->addItem(i18n("All"));
+	toCombo->addItem(tr("All"));
 	Account *account;
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
@@ -602,12 +598,12 @@ void TransactionFilterWidget::transactionModified(Transaction *trans) {
 void TransactionFilterWidget::toChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		error = true;
 	}
 	if(!error && dateFromEdit->date() > date) {
 		if(dateFromButton->isChecked()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("To date is before from date."));
+			QMessageBox::critical(this, tr("Error"), tr("To date is before from date."));
 		}
 		from_date = date;
 		dateFromEdit->blockSignals(true);
@@ -628,11 +624,11 @@ void TransactionFilterWidget::toChanged(const QDate &date) {
 void TransactionFilterWidget::fromChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		error = true;
 	}
 	if(!error && date > dateToEdit->date()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("From date is after to date."));
+		QMessageBox::critical(this, tr("Error"), tr("From date is after to date."));
 		to_date = date;
 		dateToEdit->blockSignals(true);
 		dateToEdit->setDate(to_date);

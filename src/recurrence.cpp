@@ -25,8 +25,6 @@
 #include <QDomElement>
 #include <QDomNode>
 
-#include <klocalizedstring.h>
-
 #include "budget.h"
 #include "recurrence.h"
 

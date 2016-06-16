@@ -52,9 +52,6 @@
 #include <QPrintDialog>
 #include <QSettings>
 
-#include <kstdguiitem.h>
-#include <klocalizedstring.h>
-
 #include "account.h"
 #include "budget.h"
 #include "recurrence.h"
@@ -80,10 +77,8 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	layout->setContentsMargins(0, 0, 0, 0);
 
 	QDialogButtonBox *buttons = new QDialogButtonBox(this);
-	saveButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
-	KGuiItem::assign(saveButton, KStandardGuiItem::saveAs());
-	printButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
-	KGuiItem::assign(printButton, KStandardGuiItem::print());
+	saveButton = buttons->addButton(tr("Save As…"), QDialogButtonBox::ActionRole);
+	printButton = buttons->addButton(tr("Print…"), QDialogButtonBox::ActionRole);
 	layout->addWidget(buttons);
 
 	htmlview = new QTextEdit(this);
@@ -93,51 +88,51 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	QSettings settings;
 	settings.beginGroup("OverTimeReport");
 
-	QGroupBox *settingsWidget = new QGroupBox(i18n("Options"), this);
+	QGroupBox *settingsWidget = new QGroupBox(tr("Options"), this);
 	QGridLayout *settingsLayout = new QGridLayout(settingsWidget);
 
-	settingsLayout->addWidget(new QLabel(i18n("Source:"), settingsWidget), 0, 0);
+	settingsLayout->addWidget(new QLabel(tr("Source:"), settingsWidget), 0, 0);
 	QHBoxLayout *choicesLayout = new QHBoxLayout();
 	settingsLayout->addLayout(choicesLayout, 0, 1);
 	sourceCombo = new QComboBox(settingsWidget);
 	sourceCombo->setEditable(false);
-	sourceCombo->addItem(i18n("Profits"));
-	sourceCombo->addItem(i18n("Expenses"));
-	sourceCombo->addItem(i18n("Incomes"));
+	sourceCombo->addItem(tr("Profits"));
+	sourceCombo->addItem(tr("Expenses"));
+	sourceCombo->addItem(tr("Incomes"));
 	choicesLayout->addWidget(sourceCombo);
 	categoryCombo = new QComboBox(settingsWidget);
 	categoryCombo->setEditable(false);
-	categoryCombo->addItem(i18n("All Categories Combined"));
+	categoryCombo->addItem(tr("All Categories Combined"));
 	categoryCombo->setEnabled(false);
 	choicesLayout->addWidget(categoryCombo);
 	descriptionCombo = new QComboBox(settingsWidget);
 	descriptionCombo->setEditable(false);
-	descriptionCombo->addItem(i18n("All Descriptions Combined"));
+	descriptionCombo->addItem(tr("All Descriptions Combined"));
 	descriptionCombo->setEnabled(false);
 	choicesLayout->addWidget(descriptionCombo);
 
 	current_account = NULL;
 	current_source = 0;
 
-	settingsLayout->addWidget(new QLabel(i18n("Columns:"), settingsWidget), 1, 0);
+	settingsLayout->addWidget(new QLabel(tr("Columns:"), settingsWidget), 1, 0);
 	QHBoxLayout *enabledLayout = new QHBoxLayout();
 	settingsLayout->addLayout(enabledLayout, 1, 1);
-	valueButton = new QCheckBox(i18n("Value"), settingsWidget);
+	valueButton = new QCheckBox(tr("Value"), settingsWidget);
 	valueButton->setChecked(settings.value("valueEnabled", true).toBool());
 	enabledLayout->addWidget(valueButton);
-	dailyButton = new QCheckBox(i18n("Daily"), settingsWidget);
+	dailyButton = new QCheckBox(tr("Daily"), settingsWidget);
 	dailyButton->setChecked(settings.value("dailyAverageEnabled", true).toBool());
 	enabledLayout->addWidget(dailyButton);
-	monthlyButton = new QCheckBox(i18n("Monthly"), settingsWidget);
+	monthlyButton = new QCheckBox(tr("Monthly"), settingsWidget);
 	monthlyButton->setChecked(settings.value("monthlyAverageEnabled", true).toBool());
 	enabledLayout->addWidget(monthlyButton);
-	yearlyButton = new QCheckBox(i18n("Yearly"), settingsWidget);
+	yearlyButton = new QCheckBox(tr("Yearly"), settingsWidget);
 	yearlyButton->setChecked(settings.value("yearlyEnabled", false).toBool());
 	enabledLayout->addWidget(yearlyButton);
-	countButton = new QCheckBox(i18n("Quantity"), settingsWidget);
+	countButton = new QCheckBox(tr("Quantity"), settingsWidget);
 	countButton->setChecked(settings.value("transactionCountEnabled", true).toBool());
 	enabledLayout->addWidget(countButton);
-	perButton = new QCheckBox(i18n("Average value"), settingsWidget);
+	perButton = new QCheckBox(tr("Average value"), settingsWidget);
 	perButton->setChecked(settings.value("valuePerTransactionEnabled", false).toBool());
 	enabledLayout->addWidget(perButton);
 	enabledLayout->addStretch(1);
@@ -177,7 +172,7 @@ void OverTimeReport::descriptionChanged(int index) {
 void OverTimeReport::categoryChanged(int index) {
 	descriptionCombo->blockSignals(true);
 	descriptionCombo->clear();
-	descriptionCombo->addItem(i18n("All Descriptions Combined"));
+	descriptionCombo->addItem(tr("All Descriptions Combined"));
 	current_account = NULL;
 	if(index == 0) {
 		if(sourceCombo->currentIndex() == 2) {
@@ -214,7 +209,7 @@ void OverTimeReport::categoryChanged(int index) {
 		for(QMap<QString, bool>::iterator it = descriptions.begin(); it != it_e; ++it) {
 			descriptionCombo->addItem(it.key());
 		}
-		if(has_empty_description) descriptionCombo->addItem(i18n("No description"));
+		if(has_empty_description) descriptionCombo->addItem(tr("No description"));
 		descriptionCombo->setEnabled(true);
 	}
 	descriptionCombo->blockSignals(false);
@@ -226,10 +221,10 @@ void OverTimeReport::sourceChanged(int index) {
 	categoryCombo->clear();
 	descriptionCombo->clear();
 	descriptionCombo->setEnabled(false);
-	descriptionCombo->addItem(i18n("All Descriptions Combined"));
+	descriptionCombo->addItem(tr("All Descriptions Combined"));
 	current_description = "";
 	current_account = NULL;
-	categoryCombo->addItem(i18n("All Categories Combined"));
+	categoryCombo->addItem(tr("All Categories Combined"));
 	if(index == 2) {
 		Account *account = budget->incomesAccounts.first();
 		while(account) {
@@ -271,20 +266,20 @@ void OverTimeReport::saveConfig() {
 void OverTimeReport::save() {
 	QMimeDatabase db;
 	QUrl url = QFileDialog::getSaveFileUrl(this, QString::null, QUrl(), db.mimeTypeForName("text/html").filterString());
-	if(url.isEmpty() && url.isValid()) return;
+	if(url.isEmpty() || !url.isValid()) return;
 	QSaveFile ofile(url.toLocalFile());
 	ofile.open(QIODevice::WriteOnly);
 	ofile.setPermissions((QFile::Permissions) 0x0660);
 	if(!ofile.isOpen()) {
 		ofile.cancelWriting();
-		QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
+		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
 	QTextStream outf(&ofile);
 	outf.setCodec("UTF-8");
 	outf << source;
 	if(!ofile.commit()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
+		QMessageBox::critical(this, tr("Error"), tr("Error while writing file; file was not saved."));
 		return;
 	}
 }
@@ -321,22 +316,22 @@ void OverTimeReport::updateDisplay() {
 	switch(current_source) {
 		case 0: {
 			type = 0;
-			title = i18n("Profits");
-			pertitle = i18n("Average Profit");
+			title = tr("Profits");
+			pertitle = tr("Average Profit");
 			valuetitle = title;
 			break;
 		}
 		case 1: {
-			title = i18n("Incomes");
-			pertitle = i18n("Average Income");
+			title = tr("Incomes");
+			pertitle = tr("Average Income");
 			valuetitle = title;
 			type = 1;
 			at = ACCOUNT_TYPE_INCOMES;
 			break;
 		}
 		case 2: {
-			title = i18n("Expenses");
-			pertitle = i18n("Average Cost");
+			title = tr("Expenses");
+			pertitle = tr("Average Cost");
 			valuetitle = title;
 			type = 1;
 			at = ACCOUNT_TYPE_EXPENSES;
@@ -344,36 +339,36 @@ void OverTimeReport::updateDisplay() {
 		}
 		case 5: {
 			account = current_account;
-			title = i18n("Incomes: %1", account->name());
-			pertitle = i18n("Average Income");
-			valuetitle = i18n("Incomes");
+			title = tr("Incomes: %1").arg(account->name());
+			pertitle = tr("Average Income");
+			valuetitle = tr("Incomes");
 			type = 2;
 			at = ACCOUNT_TYPE_INCOMES;
 			break;
 		}
 		case 6: {
 			account = current_account;
-			title = i18n("Expenses: %1", account->name());
-			pertitle = i18n("Average Cost");
-			valuetitle = i18n("Expenses");
+			title = tr("Expenses: %1").arg(account->name());
+			pertitle = tr("Average Cost");
+			valuetitle = tr("Expenses");
 			type = 2;
 			at = ACCOUNT_TYPE_EXPENSES;
 			break;
 		}
 		case 9: {
 			account = current_account;
-			title = i18n("Incomes: %2, %1", account->name(), current_description.isEmpty() ? i18n("No description") : current_description);
-			pertitle = i18n("Average Income");
-			valuetitle = i18n("Incomes");
+			title = tr("Incomes: %2, %1").arg(account->name()).arg(current_description.isEmpty() ? tr("No description") : current_description);
+			pertitle = tr("Average Income");
+			valuetitle = tr("Incomes");
 			type = 3;
 			at = ACCOUNT_TYPE_INCOMES;
 			break;
 		}
 		case 10: {
 			account = current_account;
-			title = i18n("Expenses: %2, %1",account->name(),current_description.isEmpty() ? i18n("No description") : current_description);
-			pertitle = i18n("Average Cost");
-			valuetitle = i18n("Expenses");
+			title = tr("Expenses: %2, %1").arg(account->name()).arg(current_description.isEmpty() ? tr("No description") : current_description);
+			pertitle = tr("Average Cost");
+			valuetitle = tr("Expenses");
 			type = 3;
 			at = ACCOUNT_TYPE_EXPENSES;
 			break;
@@ -515,19 +510,19 @@ void OverTimeReport::updateDisplay() {
 	outf << "\t\t<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
 	outf << "\t\t\t<thead align=\"left\">" << '\n';
 	outf << "\t\t\t\t<tr>" << '\n';
-	outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Year")) << "</th>";
-	outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Month")) << "</th>";
+	outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Year")) << "</th>";
+	outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Month")) << "</th>";
 	bool use_footer1 = false;
 	if(enabled[0]) {
 		outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(valuetitle);
 		if(mi && mi->date > curdate) {outf << "*"; use_footer1 = true;}
 		outf<< "</th>";
 	}
-	if(enabled[1]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Daily Average")) << "</th>";
-	if(enabled[2]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Monthly Average")) << (use_footer1 ? "**" : "*") << "</th>";
-	if(enabled[3]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Yearly Average")) << (use_footer1 ? "**" : "*") << "</th>";
+	if(enabled[1]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Daily Average")) << "</th>";
+	if(enabled[2]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Monthly Average")) << (use_footer1 ? "**" : "*") << "</th>";
+	if(enabled[3]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Yearly Average")) << (use_footer1 ? "**" : "*") << "</th>";
 	if(enabled[4]) {
-		outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Quantity"));
+		outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Quantity"));
 		if(mi && mi->date > curdate) {outf << "*"; use_footer1 = true;}
 		outf<< "</th>";
 	}
@@ -566,7 +561,7 @@ void OverTimeReport::updateDisplay() {
 		if(first_month || year != it->date.year()) {
 			if(!first_month && multiple_years) {
 				outf << "\t\t\t\t\t<td></td>";
-				outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid; border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(i18n("Subtotal")) << "</b></td>";
+				outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid; border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(tr("Subtotal")) << "</b></td>";
 				if(enabled[0]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(first_year ? (yearly_value + scheduled_value) : yearly_value)) << "</b></td>";
 				int days = 1;
 				if(first_year) {
@@ -634,7 +629,7 @@ void OverTimeReport::updateDisplay() {
 	if(multiple_years) {
 		outf << "\t\t\t\t<tr>" << '\n';
 		outf << "\t\t\t\t\t<td></td>";
-		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid; border-top: thin solid\"><b>" << htmlize_string(i18n("Subtotal")) << "</b></td>";
+		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid; border-top: thin solid\"><b>" << htmlize_string(tr("Subtotal")) << "</b></td>";
 		if(enabled[0]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(yearly_value)) << "</b></td>";
 		int days = year_date.daysInYear();
 		days -= (first_date.dayOfYear() - 1);
@@ -649,7 +644,7 @@ void OverTimeReport::updateDisplay() {
 	if(multiple_months) {
 		outf << "\t\t\t\t<tr>" << '\n';
 		int days = first_date.daysTo(curdate) + 1;
-		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-top: thin solid\"><b>" << htmlize_string(i18n("Total")) << "</b></td>";
+		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
 		outf << "\t\t\t\t\t<td style=\"border-right: thin solid; border-top: thin solid\"></td>";
 		if(enabled[0]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(total_value + scheduled_value)) << "</b></td>";
 		if(enabled[1]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(total_value / days)) << "</b></td>";
@@ -665,11 +660,11 @@ void OverTimeReport::updateDisplay() {
 	outf << "\t\t<div align=\"right\" style=\"font-weight: normal\">" << "<small>" << '\n';
 	if(use_footer1) {
 		outf << "\t\t\t<br>" << '\n';
-		outf << "\t\t\t" << "*" << htmlize_string(i18n("Includes scheduled transactions")) << '\n';
+		outf << "\t\t\t" << "*" << htmlize_string(tr("Includes scheduled transactions")) << '\n';
 	}
 	if(enabled[2] || enabled[3]) {
 		outf << "\t\t\t" << "<br>" << '\n';
-		outf << "\t\t\t" << (use_footer1 ? "**" : "*") << htmlize_string(i18n("Adjusted for the average month / year (%1 / %2 days)",QLocale().toString(average_month, 'f', 1), QLocale().toString(average_year, 'f', 1))) << '\n';
+		outf << "\t\t\t" << (use_footer1 ? "**" : "*") << htmlize_string(tr("Adjusted for the average month / year (%1 / %2 days)").arg(QLocale().toString(average_month, 'f', 1)).arg(QLocale().toString(average_year, 'f', 1))) << '\n';
 	}
 	outf << "\t\t</small></div>" << '\n';
 	outf << "\t</body>" << '\n';
@@ -681,7 +676,7 @@ void OverTimeReport::updateTransactions() {
 		int curindex = 0;
 		descriptionCombo->blockSignals(true);
 		descriptionCombo->clear();
-		descriptionCombo->addItem(i18n("All Descriptions Combined"));
+		descriptionCombo->addItem(tr("All Descriptions Combined"));
 		has_empty_description = false;
 		QMap<QString, bool> descriptions;
 		Transaction *trans = budget->transactions.first();
@@ -703,7 +698,7 @@ void OverTimeReport::updateTransactions() {
 		}
 		if(has_empty_description) {
 			if((current_source == 9 || current_source == 10) && current_description.isEmpty()) curindex = i;
-			descriptionCombo->addItem(i18n("No description"));
+			descriptionCombo->addItem(tr("No description"));
 		}
 		if(curindex < descriptionCombo->count()) {
 			descriptionCombo->setCurrentIndex(curindex);
@@ -724,7 +719,7 @@ void OverTimeReport::updateAccounts() {
 		categoryCombo->blockSignals(true);
 		descriptionCombo->blockSignals(true);
 		categoryCombo->clear();
-		categoryCombo->addItem(i18n("All Categories Combined"));
+		categoryCombo->addItem(tr("All Categories Combined"));
 		int i = 1;
 		if(sourceCombo->currentIndex() == 1) {
 			Account *account = budget->expensesAccounts.first();
@@ -747,7 +742,7 @@ void OverTimeReport::updateAccounts() {
 		if(curindex == 0) {
 			descriptionCombo->clear();
 			descriptionCombo->setEnabled(false);
-			descriptionCombo->addItem(i18n("All Descriptions Combined"));
+			descriptionCombo->addItem(tr("All Descriptions Combined"));
 			if(sourceCombo->currentIndex() == 2) {
 				current_source = 1;
 			} else {

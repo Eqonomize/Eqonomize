@@ -27,44 +27,55 @@
 #include <QApplication>
 #include <QObject>
 #include <QSettings>
-
-#include <KSharedConfig>
-#include <KDBusService>
-#include <kaboutdata.h>
-#include <klocalizedstring.h>
+#include <QLockFile>
+#include <QStandardPaths>
+#include <QtGlobal>
+#include <QLocalSocket>
+#include <QDebug>
 
 #include "budget.h"
 #include "eqonomize.h"
 
 QString emptystr = "";
 
-int main(int argc, char **argv) {
-	KLocalizedString::setApplicationDomain("eqonomize");
+int main(int argc, char **argv) {	
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+	QLockFile lockFile(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/eqonomize.lock");
+#else
+	QLockFile lockFile(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/eqonomize.lock");
+#endif
+	if(!lockFile.tryLock(100)){
+		if(lockFile.error() == QLockFile::LockFailedError) {
+			QLocalSocket socket;
+			socket.connectToServer("eqonomize");
+			if(socket.waitForConnected()) {
+				socket.putChar('r');
+				socket.waitForBytesWritten(3000);
+				socket.disconnectFromServer();
+			}
+			return 1;
+		}
+	}	
+
 	QApplication app(argc, argv);
-	app.setApplicationName("Eqonomize!");
-	app.setOrganizationName("Eqonomize!");
+	app.setApplicationName("eqonomize");
+	app.setApplicationDisplayName("Eqonomize!");
+	app.setOrganizationName("Eqonomize");
 	app.setApplicationVersion("0.6");
-	KAboutData about("eqonomize", i18n("Eqonomize!"), "0.6", i18n("A personal accounting program"), KAboutLicense::GPL_V2, i18n("(C) 2006-2008, 2014, 2016 Hanna Knutsson"), QString(), "http://eqonomize.sourceforge.net/", "hanna_k@users.sourceforge.net");
-	about.addAuthor(i18n("Hanna Knutsson"), QString(), "hanna_k@fmgirl.com");
-	KAboutData::setApplicationData(about);
 	QCommandLineParser *parser = new QCommandLineParser();
-	KAboutData::applicationData().setupCommandLine(parser);
-	QCommandLineOption eOption(QStringList() << "e" << "expenses", i18n("Start with expenses list displayed"));
+	QCommandLineOption eOption(QStringList() << "e" << "expenses", QApplication::tr("Start with expenses list displayed"));
 	parser->addOption(eOption);
-	QCommandLineOption iOption(QStringList() << "i" << "incomes", i18n("Start with incomes list displayed"));
+	QCommandLineOption iOption(QStringList() << "i" << "incomes", QApplication::tr("Start with incomes list displayed"));
 	parser->addOption(iOption);
-	QCommandLineOption tOption("transfers", i18n("Start with transfers list displayed"));
+	QCommandLineOption tOption("transfers", QApplication::tr("Start with transfers list displayed"));
 	parser->addOption(tOption);
-	parser->addPositionalArgument("url", i18n("Document to open"), "[url]");
+	parser->addPositionalArgument("url", QApplication::tr("Document to open"), "[url]");
 	parser->addHelpOption();
 	parser->process(app);
-	KAboutData::applicationData().processCommandLine(parser);
-	
-	KDBusService service(KDBusService::Unique);	
 	
 	Eqonomize *win = new Eqonomize();
 	win->setCommandLineParser(parser);
-	QObject::connect(&service, SIGNAL(activateRequested(const QStringList&, const QString&)), win, SLOT(onActivateRequested(const QStringList&, const QString&)));
 	if(parser->isSet(eOption)) {
 		win->showExpenses();
 	} else if(parser->isSet(iOption)) {

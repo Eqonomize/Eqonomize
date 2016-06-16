@@ -31,8 +31,6 @@
 #include <QSaveFile>
 #include <QFileInfo>
 
-#include <klocalizedstring.h>
-
 #include <locale.h>
 
 #include "recurrence.h"
@@ -61,7 +59,7 @@ Budget::Budget() {
 	assetsAccounts.setAutoDelete(true);
 	securityTrades.setAutoDelete(true);
 	accounts.setAutoDelete(false);
-	balancingAccount = new AssetsAccount(this, ASSETS_TYPE_BALANCING, i18n("Balancing"), 0.0);
+	balancingAccount = new AssetsAccount(this, ASSETS_TYPE_BALANCING, tr("Balancing"), 0.0);
 	balancingAccount->setId(0);
 	assetsAccounts.append(balancingAccount);
 	accounts.append(balancingAccount);
@@ -94,7 +92,7 @@ void Budget::clear() {
 QString Budget::loadFile(QString filename, QString &errors) {
 	QFile file(filename);
 	if(!file.open(QIODevice::ReadOnly) ) {
-		return i18n("Couldn't open %1 for reading", filename);
+		return tr("Couldn't open %1 for reading").arg(filename);
 	} else if(!file.size()) {
 		return QString::null;
 	}
@@ -105,10 +103,10 @@ QString Budget::loadFile(QString filename, QString &errors) {
 	int errorLine = 0, errorCol;
 	doc.setContent(&file, &errorMsg, &errorLine, &errorCol);
 	if(errorLine){
-		return i18n("Not a valid Eqonomize! file (XML parse error: \"%2\" at line %3, col %4)", errorMsg, errorLine, errorCol);
+		return tr("Not a valid Eqonomize! file (XML parse error: \"%1\" at line %2, col %3)").arg(errorMsg).arg(errorLine).arg(errorCol);
 	}
 	QDomElement root = doc.documentElement();
-	if(root.tagName() != "EqonomizeDoc" && root.tagName() != "EconomizeDoc") return i18n("Invalid root element %1 in XML document", root.tagName());
+	if(root.tagName() != "EqonomizeDoc" && root.tagName() != "EconomizeDoc") return tr("Invalid root element %1 in XML document").arg(root.tagName());
 
 	clear();
 
@@ -118,8 +116,8 @@ QString Budget::loadFile(QString filename, QString &errors) {
 	/*QDomAttr v = root.attributeNode("version");
 	bool ok = true;
 	float version = v.value().toFloat(&ok);
-	if(v.isNull()) return i18n("root element has no version attribute");
-	if(!ok) return i18n("root element has invalid version attribute");*/
+	if(v.isNull()) return tr("root element has no version attribute");
+	if(!ok) return tr("root element has invalid version attribute");*/
 
 	assetsAccounts_id[balancingAccount->id()] = balancingAccount;
 	for(QDomNode n = root.firstChild(); !n.isNull(); n = n.nextSibling()) {
@@ -373,22 +371,22 @@ QString Budget::loadFile(QString filename, QString &errors) {
 
 	bool had_line = false;
 	if(account_errors > 0) {
-		errors += i18np("Unable to load 1 account.", "Unable to load %1 accounts.", account_errors);
+		errors += tr("Unable to load %n account(s).", "", account_errors);
 		had_line = true;
 	}
 	if(category_errors > 0) {
 		if(had_line) errors += "\n";
-		errors += i18np("Unable to load 1 category.", "Unable to load %1 categories.", category_errors);
+		errors += tr("Unable to load %n category/categories.", "", category_errors);
 		had_line = true;
 	}
 	if(security_errors > 0) {
 		if(had_line) errors += "\n";
-		errors += i18np("Unable to load 1 security.", "Unable to load %1 securities.", security_errors);
+		errors += tr("Unable to load %n security/securities.", "", security_errors);
 		had_line = true;
 	}
 	if(transaction_errors > 0) {
 		if(had_line) errors += "\n";
-		errors += i18np("Unable to load 1 transaction.", "Unable to load %1 transactions.", transaction_errors);
+		errors += tr("Unable to load %n transaction(s).", "", transaction_errors);
 		had_line = true;
 	}
 	file.close();
@@ -399,7 +397,7 @@ QString Budget::saveFile(QString filename, mode_t) {
 
 	QFileInfo info(filename);
 	if(info.isDir()) {
-		return i18n("File is a directory");
+		return tr("File is a directory");
 	}
 
 	QSaveFile ofile(filename);
@@ -407,7 +405,7 @@ QString Budget::saveFile(QString filename, mode_t) {
 	ofile.setPermissions((QFile::Permissions) 0x0600);
 	if(!ofile.isOpen()) {
 		ofile.cancelWriting();
-		return i18n("Couldn't open file for writing");
+		return tr("Couldn't open file for writing");
 	}
 
 	QTextStream outf(&ofile);
@@ -557,11 +555,11 @@ QString Budget::saveFile(QString filename, mode_t) {
 
 	if(ofile.error() != QFile::NoError) {
 		ofile.cancelWriting();
-		return i18n("Error while writing file; file was not saved");
+		return tr("Error while writing file; file was not saved");
 	}
 
 	if(!ofile.commit()) {
-		return i18n("Error while writing file; file was not saved");
+		return tr("Error while writing file; file was not saved");
 	}
 
 	return QString::null;

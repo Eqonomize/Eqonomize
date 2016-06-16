@@ -42,10 +42,10 @@
 #include <QSaveFile>
 #include <QTemporaryFile>
 #include <QMessageBox>
-
-#include <klineedit.h>
-#include <kurlrequester.h>
-#include <klocalizedstring.h>
+#include <QFileDialog>
+#include <QPushButton>
+#include <QCompleter>
+#include <QDirModel>
 
 #include "eqonomize.h"
 #include "qifimportexport.h"
@@ -55,55 +55,60 @@
 
 ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_parameters) : QWizard(parent), budget(budg), b_extra(extra_parameters) {
 
-	setWindowTitle(i18n("Import QIF file"));
+	setWindowTitle(tr("Import QIF file"));
 	setModal(true);
 
 	next_id = -1;
 
 	QIFWizardPage *page1 = new QIFWizardPage();
-	page1->setTitle(i18n("File Selection"));
-	page1->setSubTitle(i18n("Select a QIF file to import. When you click next, the file be analysed and you might need to answer some questions about the format of the file."));
+	page1->setTitle(tr("File Selection"));
+	page1->setSubTitle(tr("Select a QIF file to import. When you click next, the file be analysed and you might need to answer some questions about the format of the file."));
 	setPage(0, page1);
 	QGridLayout *layout1 = new QGridLayout(page1);
-	layout1->addWidget(new QLabel(i18n("File:"), page1), 0, 0);
-	fileEdit = new KUrlRequester(page1);
-	fileEdit->setMode(KFile::File | KFile::ExistingOnly);
-	fileEdit->setFilter("*.qif");
-	layout1->addWidget(fileEdit, 0, 1);
+	layout1->addWidget(new QLabel(tr("File:"), page1), 0, 0);
+	QHBoxLayout *layout1h = new QHBoxLayout();
+	fileEdit = new QLineEdit(page1);
+	QCompleter *completer = new QCompleter(this);
+	completer->setModel(new QDirModel(completer));
+	fileEdit->setCompleter(completer);
+	layout1h->addWidget(fileEdit);
+	fileButton = new QPushButton(QIcon::fromTheme("document-open"), QString(), page1);
+	layout1h->addWidget(fileButton);
+	layout1->addLayout(layout1h, 0, 1);
 
 	QIFWizardPage *page1_2 = new QIFWizardPage();
-	page1_2->setTitle(i18n("Local Definitions"));
-	page1_2->setSubTitle(i18n("Unknown elements where found in the QIF file. It is possible that this is because of localized type names. Please map them to the correct standard names."));
+	page1_2->setTitle(tr("Local Definitions"));
+	page1_2->setSubTitle(tr("Unknown elements where found in the QIF file. It is possible that this is because of localized type names. Please map them to the correct standard names."));
 	setPage(1, page1_2);
 	QGridLayout *layout1_2 = new QGridLayout(page1_2);
 	defsView = new QTreeWidget(page1_2);
 	layout1_2->addWidget(defsView, 0, 0, 1, 2);
 	QStringList headers;
-	headers << i18n("Local Text");
-	headers << i18n("Standard Text");
+	headers << tr("Local Text");
+	headers << tr("Standard Text");
 	defsView->setColumnCount(2);
 	defsView->setHeaderLabels(headers);
-	layout1_2->addWidget(new QLabel(i18n("Select standard text:"), page1_2), 1, 0);
+	layout1_2->addWidget(new QLabel(tr("Select standard text:"), page1_2), 1, 0);
 	defsCombo = new QComboBox(page1_2);
 	defsCombo->setEditable(false);
 	layout1_2->addWidget(defsCombo, 1, 1);
 
 	QIFWizardPage *page2 = new QIFWizardPage();
-	page2->setTitle(i18n("Date Format"));
-	page2->setSubTitle(i18n("The date format in the QIF file is ambiguous. Please select the correct format."));
+	page2->setTitle(tr("Date Format"));
+	page2->setSubTitle(tr("The date format in the QIF file is ambiguous. Please select the correct format."));
 	setPage(2, page2);
 	QGridLayout *layout2 = new QGridLayout(page2);
-	layout2->addWidget(new QLabel(i18n("Date format:"), page2), 0, 0);
+	layout2->addWidget(new QLabel(tr("Date format:"), page2), 0, 0);
 	dateFormatCombo = new QComboBox(page2);
 	dateFormatCombo->setEditable(false);
 	layout2->addWidget(dateFormatCombo, 0, 1);
 
 	QIFWizardPage *page3 = new QIFWizardPage();
-	page3->setTitle(i18n("Default Account"));
-	page3->setSubTitle(i18n("Could not find any account definitions in the QIF file. Please select a default account. It is also possible that this is caused by a localized opening balance text."));
+	page3->setTitle(tr("Default Account"));
+	page3->setSubTitle(tr("Could not find any account definitions in the QIF file. Please select a default account. It is also possible that this is caused by a localized opening balance text."));
 	setPage(3, page3);
 	QGridLayout *layout3 = new QGridLayout(page3);
-	layout3->addWidget(new QLabel(i18n("Default account:"), page3), 0, 0);
+	layout3->addWidget(new QLabel(tr("Default account:"), page3), 0, 0);
 	accountCombo = new QComboBox(page3);
 	accountCombo->setEditable(false);
 	AssetsAccount *account = budget->assetsAccounts.first();
@@ -114,56 +119,56 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 		account = budget->assetsAccounts.next();
 	}
 	layout3->addWidget(accountCombo, 0, 1);
-	layout3->addWidget(new QLabel(i18n("Opening balance text:"), page3), 1, 0);
+	layout3->addWidget(new QLabel(tr("Opening balance text:"), page3), 1, 0);
 	openingBalanceEdit = new QLineEdit(page3);
 	openingBalanceEdit->setText("Opening Balance");
 	layout3->addWidget(openingBalanceEdit, 1, 1);
 
 	QIFWizardPage *page4 = new QIFWizardPage();
-	page4->setTitle(i18n("Descriptions"));
-	page4->setSubTitle(i18n("Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set."));
+	page4->setTitle(tr("Descriptions"));
+	page4->setSubTitle(tr("Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set."));
 	setPage(4, page4);
 	QGridLayout *layout4 = new QGridLayout(page4);
-	layout4->addWidget(new QLabel(i18n("Subcategories as:"), page4), 0, 0);
+	layout4->addWidget(new QLabel(tr("Subcategories as:"), page4), 0, 0);
 	QButtonGroup *subcategoryGroup = new QButtonGroup(this);
-	subcategoryAsDescriptionButton = new QRadioButton(i18n("Description"), page4);
+	subcategoryAsDescriptionButton = new QRadioButton(tr("Description"), page4);
 	subcategoryGroup->addButton(subcategoryAsDescriptionButton);
 	layout4->addWidget(subcategoryAsDescriptionButton, 0, 1);
 	subcategoryAsDescriptionButton->setChecked(true);
-	subcategoryAsCategoryButton = new QRadioButton(i18n("Category"), page4);
+	subcategoryAsCategoryButton = new QRadioButton(tr("Category"), page4);
 	subcategoryGroup->addButton(subcategoryAsCategoryButton);
 	layout4->addWidget(subcategoryAsCategoryButton, 0, 2);
-	subcategoryIgnoreButton = new QRadioButton(i18n("Ignore"), page4);
+	subcategoryIgnoreButton = new QRadioButton(tr("Ignore"), page4);
 	subcategoryGroup->addButton(subcategoryIgnoreButton);
 	layout4->addWidget(subcategoryIgnoreButton, 0, 3);
-	layout4->addWidget(new QLabel(i18n("Payee as:"), page4), 1, 0);
+	layout4->addWidget(new QLabel(tr("Payee as:"), page4), 1, 0);
 	QButtonGroup *payeeGroup = new QButtonGroup(this);
-	payeeAsDescriptionButton = new QRadioButton(i18n("Description"), page4);
+	payeeAsDescriptionButton = new QRadioButton(tr("Description"), page4);
 	payeeGroup->addButton(payeeAsDescriptionButton);
 	layout4->addWidget(payeeAsDescriptionButton, 1, 1);
-	payeeAsPayeeButton = new QRadioButton(i18n("Payee"), page4);
+	payeeAsPayeeButton = new QRadioButton(tr("Payee"), page4);
 	payeeGroup->addButton(payeeAsPayeeButton);
 	layout4->addWidget(payeeAsPayeeButton, 1, 2);
 	payeeAsPayeeButton->setChecked(b_extra);
 	payeeAsDescriptionButton->setChecked(!b_extra);
-	layout4->addWidget(new QLabel(i18n("Memo as:"), page4), 2, 0);
+	layout4->addWidget(new QLabel(tr("Memo as:"), page4), 2, 0);
 	QButtonGroup *memoGroup = new QButtonGroup(this);
-	memoAsDescriptionButton = new QRadioButton(i18n("Description"), page4);
+	memoAsDescriptionButton = new QRadioButton(tr("Description"), page4);
 	memoGroup->addButton(memoAsDescriptionButton);
 	layout4->addWidget(memoAsDescriptionButton, 2, 1);
-	memoAsCommentButton = new QRadioButton(i18n("Comments"), page4);
+	memoAsCommentButton = new QRadioButton(tr("Comments"), page4);
 	memoGroup->addButton(memoAsCommentButton);
 	layout4->addWidget(memoAsCommentButton, 2, 2);
 	memoAsCommentButton->setChecked(true);
-	layout4->addWidget(new QLabel(i18n("Priority:"), page4), 3, 0);
+	layout4->addWidget(new QLabel(tr("Priority:"), page4), 3, 0);
 	descriptionPriorityCombo = new QComboBox(page4);
 	descriptionPriorityCombo->setEditable(false);
-	descriptionPriorityCombo->addItem(i18n("Subcategory/Payee/Comments"));
-	descriptionPriorityCombo->addItem(i18n("Payee/Subcategory/Comments"));
-	descriptionPriorityCombo->addItem(i18n("Subcategory/Comments/Payee"));
-	descriptionPriorityCombo->addItem(i18n("Payee/Comments/Subcategory"));
-	descriptionPriorityCombo->addItem(i18n("Comments/Subcategory/Payee"));
-	descriptionPriorityCombo->addItem(i18n("Comments/Payee/Subcategory"));
+	descriptionPriorityCombo->addItem(tr("Subcategory/Payee/Comments"));
+	descriptionPriorityCombo->addItem(tr("Payee/Subcategory/Comments"));
+	descriptionPriorityCombo->addItem(tr("Subcategory/Comments/Payee"));
+	descriptionPriorityCombo->addItem(tr("Payee/Comments/Subcategory"));
+	descriptionPriorityCombo->addItem(tr("Comments/Subcategory/Payee"));
+	descriptionPriorityCombo->addItem(tr("Comments/Payee/Subcategory"));
 	layout4->addWidget(descriptionPriorityCombo, 3, 1, 1, 3);
 
 	setOption(QWizard::HaveHelpButton, false);
@@ -188,6 +193,7 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	connect(button(CommitButton), SIGNAL(clicked()), this, SLOT(nextClicked()));
 
 	connect(fileEdit, SIGNAL(textChanged(const QString&)), this, SLOT(onFileChanged(const QString&)));
+	connect(fileButton, SIGNAL(clicked()), this, SLOT(selectFile()));
 	connect(defsView, SIGNAL(itemSelectionChanged()), this, SLOT(defSelectionChanged()));
 	connect(defsCombo, SIGNAL(activated(int)), this, SLOT(defSelected(int)));
 
@@ -251,38 +257,42 @@ void ImportQIFDialog::defSelected(int index) {
 void ImportQIFDialog::onFileChanged(const QString &str) {
 	((QIFWizardPage*) page(0))->setComplete(!str.isEmpty());
 }
+void ImportQIFDialog::selectFile() {
+	QUrl url = QFileDialog::getOpenFileUrl(this, QString(), QUrl::fromLocalFile(fileEdit->text()), "*.qif");
+	if(!url.isEmpty()) fileEdit->setText(url.toLocalFile());
+}
 void ImportQIFDialog::nextClicked() {
 	if(currentId() == 0 || currentId() == 1) {
 		bool b_page1 = (currentId() == 1);
-		QUrl url = fileEdit->url();
+		QUrl url = QUrl::fromLocalFile(fileEdit->text());
 		if(!b_page1) {
 			if(url.isEmpty()) {
-				QMessageBox::critical(this, i18n("Error"), i18n("A file must be selected."));
+				QMessageBox::critical(this, tr("Error"), tr("A file must be selected."));
 				fileEdit->setFocus();
 				return;
 			}
 			if(!url.isValid()) {
-				QFileInfo info(fileEdit->lineEdit()->text());
+				QFileInfo info(fileEdit->text());
 				if(info.isDir()) {
-					QMessageBox::critical(this, i18n("Error"), i18n("Selected file is a directory."));
+					QMessageBox::critical(this, tr("Error"), tr("Selected file is a directory."));
 					fileEdit->setFocus();
 					return;
 				} else if(!info.exists()) {
-					QMessageBox::critical(this, i18n("Error"), i18n("Selected file does not exist."));
+					QMessageBox::critical(this, tr("Error"), tr("Selected file does not exist."));
 					fileEdit->setFocus();
 					return;
 				}
-				fileEdit->setUrl(info.absoluteFilePath());
-				url = fileEdit->url();
+				fileEdit->setText(info.absoluteFilePath());
+				url = QUrl::fromLocalFile(fileEdit->text());
 			}
 		}
 
 		QFile file(url.toLocalFile());
 		if(!file.open(QIODevice::ReadOnly) ) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open %1 for reading.", url.toString()));
+			QMessageBox::critical(this, tr("Error"), tr("Couldn't open %1 for reading.").arg(url.toString()));
 			return;
 		} else if(!file.size()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Error reading %1.", url.toString()));
+			QMessageBox::critical(this, tr("Error"), tr("Error reading %1.").arg(url.toString()));
 			file.close();
 			return;
 		}
@@ -305,7 +315,7 @@ void ImportQIFDialog::nextClicked() {
 				if(!unknown_defs_old.contains(it.key())) {
 					QTreeWidgetItem *tmp_i = new QTreeWidgetItem(defsView);
 					tmp_i->setText(0, it.key());
-					tmp_i->setText(1, i18n("Unknown"));
+					tmp_i->setText(1, tr("Unknown"));
 					if(!qli) qli = tmp_i;
 				}
 			}
@@ -313,30 +323,30 @@ void ImportQIFDialog::nextClicked() {
 			defsCombo->setCurrentIndex(0);
 			return;
 		} else if(!b_page1 && qi.unknown_defs.count() > 0) {
-			defsCombo->addItem(i18n("Unknown"));
-			defsCombo->addItem(i18n("Account"));
-			defsCombo->addItem(i18n("Bank"));
-			defsCombo->addItem(i18n("Cash"));
-			defsCombo->addItem(i18n("Cat (Category)"));
-			defsCombo->addItem(i18n("CCard (Credit Card)"));
-			defsCombo->addItem(i18n("Invst (Investment)"));
-			defsCombo->addItem(i18n("Oth A (Other Assets)"));
-			defsCombo->addItem(i18n("Oth L (Other Liabilities)"));
-			defsCombo->addItem(i18n("Security"));
-			defsCombo->addItem(i18n("Other"));
+			defsCombo->addItem(tr("Unknown"));
+			defsCombo->addItem(tr("Account"));
+			defsCombo->addItem(tr("Bank"));
+			defsCombo->addItem(tr("Cash"));
+			defsCombo->addItem(tr("Cat (Category)"));
+			defsCombo->addItem(tr("CCard (Credit Card)"));
+			defsCombo->addItem(tr("Invst (Investment)"));
+			defsCombo->addItem(tr("Oth A (Other Assets)"));
+			defsCombo->addItem(tr("Oth L (Other Liabilities)"));
+			defsCombo->addItem(tr("Security"));
+			defsCombo->addItem(tr("Other"));
 			defsCombo->setCurrentIndex(0);
 			QMap<QString, QString>::iterator it_e = qi.unknown_defs_pre.end();
 			for(QMap<QString, QString>::iterator it = qi.unknown_defs_pre.begin(); it != it_e; ++it) {
 				QTreeWidgetItem *tmp_i = new QTreeWidgetItem(defsView);
 				tmp_i->setText(0, it.key());
-				tmp_i->setText(1, i18n("Unknown"));
+				tmp_i->setText(1, tr("Unknown"));
 			}
 			if(defsView->topLevelItem(0)) {
 				defsView->topLevelItem(0)->setSelected(true);
 			}
 		} else {
 			if(ps == 0) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Unrecognized date format."));
+				QMessageBox::critical(this, tr("Error"), tr("Unrecognized date format."));
 				return;
 			}
 			if(ps > 1) {
@@ -428,16 +438,16 @@ void ImportQIFDialog::accept() {
 	qi.payee_as_description = payeeAsDescriptionButton->isChecked();
 	qi.memo_as_description = memoAsDescriptionButton->isChecked();
 	qi.description_priority = descriptionPriorityCombo->currentIndex();
-	QUrl url = fileEdit->url();
+	QUrl url = QUrl::fromLocalFile(fileEdit->text());
 	if(url.isEmpty()) {
 		return;
 	}
 	QFile file(url.toLocalFile());
 	if(!file.open(QIODevice::ReadOnly) ) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open %1 for reading.", url.toString()));
+		QMessageBox::critical(this, tr("Error"), tr("Couldn't open %1 for reading.").arg(url.toString()));
 		return;
 	} else if(!file.size()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Error reading %1.", url.toString()));
+		QMessageBox::critical(this, tr("Error"), tr("Error reading %1.").arg(url.toString()));
 		file.close();
 		return;
 	}
@@ -445,39 +455,39 @@ void ImportQIFDialog::accept() {
 	importQIF(fstream, false, qi, budget);
 	file.close();
 	QString info = "";
-	info += i18np("Successfully imported 1 transaction.", "Successfully imported %1 transactions.", qi.transactions);
+	info += tr("Successfully imported %n transaction(s).", "", qi.transactions);
 	if(qi.accounts > 0) {
 		info += "\n";
-		info += i18np("Successfully imported 1 account.", "Successfully imported %1 accounts.", qi.accounts);
+		info += tr("Successfully imported %n account(s).", "", qi.accounts);
 	}
 	if(qi.categories > 0) {
 		info += "\n";
-		info += i18np("Successfully imported 1 category.", "Successfully imported %1 categories.", qi.categories);
+		info += tr("Successfully imported %n category/categories.", "", qi.categories);
 	}
 	if(qi.duplicates > 0) {
 		info += "\n";
-		info += i18np("1 duplicate transaction was ignored.", "%1 duplicate transactions was ignored.", qi.duplicates);
+		info += tr("%n duplicate transaction(s) was ignored.", "", qi.duplicates);
 	}
 	if(qi.failed_transactions > 0) {
 		info += "\n";
-		info += i18np("Failed to import 1 transaction.", "Failed to import %1 transactions.", qi.failed_transactions);
+		info += tr("Failed to import %n transaction(s).", "", qi.failed_transactions);
 	}
 	if(qi.securities > 0) {
 		info += "\n";
-		info += i18np("1 security was not imported.", "%1 securities were not imported.", qi.securities);
+		info += tr("%n security/securities were not imported.", "", qi.securities);
 	}
 	if(qi.security_transactions > 0) {
 		info += "\n";
-		info += i18np("1 security transaction was not imported.", "%1 security transactions were not imported.", qi.security_transactions);
+		info += tr("%n security transaction(s) were not imported.", "", qi.security_transactions);
 	}
-	QMessageBox::information(this, i18n("Information"), info);
+	QMessageBox::information(this, tr("Information"), info);
 	if(qi.transactions || qi.accounts || qi.categories) return QWizard::accept();
 	return QWizard::reject();
 }
 
 ExportQIFDialog::ExportQIFDialog(Budget *budg, QWidget *parent, bool extra_parameters) : QDialog(parent, 0), budget(budg), b_extra(extra_parameters) {
 
-	setWindowTitle(i18n("Export QIF File"));
+	setWindowTitle(tr("Export QIF File"));
 	setModal(true);
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
@@ -485,10 +495,10 @@ ExportQIFDialog::ExportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 
-	grid->addWidget(new QLabel(i18n("Account:"), this), 0, 0);
+	grid->addWidget(new QLabel(tr("Account:"), this), 0, 0);
 	accountCombo = new QComboBox(this);
 	accountCombo->setEditable(false);
-	accountCombo->addItem(i18nc("All accounts", "All"));
+	accountCombo->addItem(tr("All", "All accounts"));
 	AssetsAccount *account = budget->assetsAccounts.first();
 	while(account) {
 		if(account != budget->balancingAccount) {
@@ -499,23 +509,23 @@ ExportQIFDialog::ExportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	grid->addWidget(accountCombo, 0, 1);
 	accountCombo->setFocus();
 
-	grid->addWidget(new QLabel(i18n("Export transaction description as:"), this), 1, 0, 1, 2);
+	grid->addWidget(new QLabel(tr("Export transaction description as:"), this), 1, 0, 1, 2);
 	QHBoxLayout *descLayout = new QHBoxLayout();
 	QButtonGroup *group = new QButtonGroup(this);
-	descriptionAsPayeeButton = new QRadioButton(i18n("Payee"), this);
+	descriptionAsPayeeButton = new QRadioButton(tr("Payee"), this);
 	group->addButton(descriptionAsPayeeButton);
 	descLayout->addWidget(descriptionAsPayeeButton);
 	if(!b_extra) descriptionAsPayeeButton->setChecked(true);
-	descriptionAsMemoButton = new QRadioButton(i18n("Memo"), this);
+	descriptionAsMemoButton = new QRadioButton(tr("Memo"), this);
 	group->addButton(descriptionAsMemoButton);
 	descLayout->addWidget(descriptionAsMemoButton);
 	if(b_extra) descriptionAsMemoButton->setChecked(true);
-	descriptionAsSubcategoryButton = new QRadioButton(i18n("Subcategory"), this);
+	descriptionAsSubcategoryButton = new QRadioButton(tr("Subcategory"), this);
 	group->addButton(descriptionAsSubcategoryButton);
 	descLayout->addWidget(descriptionAsSubcategoryButton);
 	grid->addLayout(descLayout, 2, 0, 1, 2);
 
-	grid->addWidget(new QLabel(i18n("Date format:"), this), 3, 0);
+	grid->addWidget(new QLabel(tr("Date format:"), this), 3, 0);
 	dateFormatCombo = new QComboBox(this);
 	dateFormatCombo->setEditable(false);
 	dateFormatCombo->addItem("Standard (YYYY-MM-DD)");
@@ -523,18 +533,23 @@ ExportQIFDialog::ExportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	dateFormatCombo->addItem("US (MM/DD/YY)");
 	grid->addWidget(dateFormatCombo, 3, 1);
 
-	grid->addWidget(new QLabel(i18n("Value format:"), this), 4, 0);
+	grid->addWidget(new QLabel(tr("Value format:"), this), 4, 0);
 	valueFormatCombo = new QComboBox(this);
 	valueFormatCombo->setEditable(false);
 	valueFormatCombo->addItem("1,000,000.00");
 	valueFormatCombo->addItem("1.000.000,00");
 	grid->addWidget(valueFormatCombo, 4, 1);
 
-	grid->addWidget(new QLabel(i18n("File:"), this), 5, 0);
-	fileEdit = new KUrlRequester(this);
-	fileEdit->setMode(KFile::File);
-	fileEdit->setFilter("*.qif");
-	grid->addWidget(fileEdit, 5, 1);
+	grid->addWidget(new QLabel(tr("File:"), this), 5, 0);
+	QHBoxLayout *layouth = new QHBoxLayout();
+	fileEdit = new QLineEdit(this);
+	QCompleter *completer = new QCompleter(this);
+	completer->setModel(new QDirModel(completer));
+	fileEdit->setCompleter(completer);
+	layouth->addWidget(fileEdit);
+	fileButton = new QPushButton(QIcon::fromTheme("document-open"), QString(), this);
+	layouth->addWidget(fileButton);
+	grid->addLayout(layouth, 5, 1);
 	
 	buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
@@ -545,6 +560,7 @@ ExportQIFDialog::ExportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	box1->addWidget(buttonBox);
 
 	connect(fileEdit, SIGNAL(textChanged(const QString&)), this, SLOT(onFileChanged(const QString&)));
+	connect(fileButton, SIGNAL(clicked()), this, SLOT(selectFile()));
 
 }
 ExportQIFDialog::~ExportQIFDialog() {}
@@ -552,11 +568,15 @@ ExportQIFDialog::~ExportQIFDialog() {}
 void ExportQIFDialog::onFileChanged(const QString &str) {
 	buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!str.isEmpty());
 }
+void ExportQIFDialog::selectFile() {
+	QUrl url = QFileDialog::getSaveFileUrl(this, QString(), QUrl::fromLocalFile(fileEdit->text()), "*.qif");
+	if(!url.isEmpty()) fileEdit->setText(url.toLocalFile());
+}
 void ExportQIFDialog::accept() {
 	qi.subcategory_as_description = descriptionAsSubcategoryButton->isChecked();
 	qi.payee_as_description = descriptionAsPayeeButton->isChecked();
 	qi.memo_as_description = descriptionAsMemoButton->isChecked();
-	QUrl url = fileEdit->url();
+	QUrl url = QUrl::fromLocalFile(fileEdit->text());
 	if(url.isEmpty()) {
 		return;
 	}
@@ -580,21 +600,21 @@ void ExportQIFDialog::accept() {
 	qi.value_format = valueFormatCombo->currentIndex() + 1;
 	qi.date_format = dateFormatCombo->currentIndex() + 1;
 	if(!url.isValid()) {
-		QFileInfo info(fileEdit->lineEdit()->text());
+		QFileInfo info(fileEdit->text());
 		if(info.isDir()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("Selected file is a directory."));
+			QMessageBox::critical(this, tr("Error"), tr("Selected file is a directory."));
 			fileEdit->setFocus();
 			return;
 		}
-		fileEdit->setUrl(info.absoluteFilePath());
-		url = fileEdit->url();
+		fileEdit->setText(info.absoluteFilePath());
+		url = QUrl::fromLocalFile(fileEdit->text());
 	}
 	if(QFile::exists(url.toLocalFile())) {
-		if(QMessageBox::warning(this, i18n("Overwrite"), i18n("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
+		if(QMessageBox::warning(this, tr("Overwrite"), tr("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
 	}
 	QFileInfo info(url.toLocalFile());
 	if(info.isDir()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("You selected a directory!"));
+		QMessageBox::critical(this, tr("Error"), tr("You selected a directory!"));
 		return;
 	}
 	QSaveFile ofile(url.toLocalFile());
@@ -602,13 +622,13 @@ void ExportQIFDialog::accept() {
 	ofile.setPermissions((QFile::Permissions) 0x0660);
 	if(!ofile.isOpen()) {
 		ofile.cancelWriting();
-		QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
+		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
 	QTextStream stream(&ofile);
 	exportQIF(stream, qi, budget, true);
 	if(!ofile.commit()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
+		QMessageBox::critical(this, tr("Error"), tr("Error while writing file; file was not saved."));
 		return;
 	}
 	return QDialog::accept();
@@ -1233,7 +1253,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 										current_split->category.remove(0, 1);
 										current_split->category.truncate(current_split->category.length() - 1);
 										if(current_split->category.isEmpty()) {
-											current_split->category = i18n("Unnamed");
+											current_split->category = Budget::tr("Unnamed");
 										}
 										AssetsAccount *acc = budget->findAssetsAccount(current_split->category);
 										if(!acc) {
@@ -1273,7 +1293,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 										bool empty = current_split->category.isEmpty();
 										bool b_exp = current_split->value < 0.0;
 										if(empty) {
-											current_split->category = i18n("Uncategorized");
+											current_split->category = Budget::tr("Uncategorized");
 										}
 										Account *cat = NULL;
 										if(b_exp) {
@@ -1324,7 +1344,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 							category.remove(0, 1);
 							category.truncate(category.length() - 1);
 							if(category.isEmpty()) {
-								category = i18n("Unnamed");
+								category = Budget::tr("Unnamed");
 							}
 							AssetsAccount *acc = budget->findAssetsAccount(category);
 							if(is_opening_balance || acc == qi.current_account) {
@@ -1387,7 +1407,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 							bool empty = category.isEmpty();
 							bool b_exp = value < 0.0;
 							if(empty) {
-								category = i18n("Uncategorized");
+								category = Budget::tr("Uncategorized");
 							}
 							Account *cat = NULL;
 							if(b_exp) {
@@ -1444,7 +1464,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 					} else if(type == 1 && (!test || !qi.account_defined)) {
 						//account
 						if(!qi.had_transaction) qi.account_defined = true;
-						if(name.isEmpty()) name = i18n("Unnamed");
+						if(name.isEmpty()) name = Budget::tr("Unnamed");
 						qi.current_account = budget->findAssetsAccount(name);
 						if(!qi.current_account) {
 							AssetsType account_type = ASSETS_TYPE_CURRENT;
@@ -1497,7 +1517,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 						}
 					} else if(type == 3 && !test) {
 						//security
-						/*if(name.isEmpty()) name = i18n("Unnamed");
+						/*if(name.isEmpty()) name = Budget::tr("Unnamed");
 						Security *sec = budget->findSecurity(name);
 						if(!sec) {
 							SecurityType sectype = SECURITY_TYPE_STOCK;
@@ -1515,7 +1535,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 									saccount = budget->assetsAccounts.next();
 								}
 								if(!saccount) {
-									saccount = new AssetsAccount(budget, ASSETS_TYPE_SECURITIES, i18n("Securities"));
+									saccount = new AssetsAccount(budget, ASSETS_TYPE_SECURITIES, Budget::tr("Securities"));
 									budget->addAccount(saccount);
 									qi.accounts++;
 								}

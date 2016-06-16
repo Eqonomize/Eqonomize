@@ -24,6 +24,7 @@
 #include <QList>
 #include <QMap>
 #include <QString>
+#include <QCoreApplication>
 
 #include "account.h"
 #include "transaction.h"
@@ -124,6 +125,8 @@ template<class type> class SecurityTradeList : public EqonomizeList<type> {
 };
 
 class Budget {
+
+	Q_DECLARE_TR_FUNCTIONS(Budget)
 
 	public:
 

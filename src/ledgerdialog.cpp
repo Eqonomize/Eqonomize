@@ -50,11 +50,6 @@
 #include <QTextDocument>
 #include <QSettings>
 
-#include <kstdguiitem.h>
-#include <kdeversion.h>
-#include <kfileitem.h>
-#include <klocalizedstring.h>
-
 #include "budget.h"
 #include "eqonomize.h"
 #include "transactioneditwidget.h"
@@ -104,7 +99,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 
 	QHBoxLayout *topbox = new QHBoxLayout();
 	box1->addLayout(topbox);
-	topbox->addWidget(new QLabel(i18n("Account:"), this));
+	topbox->addWidget(new QLabel(tr("Account:"), this));
 	accountCombo = new QComboBox(this);
 	accountCombo->setEditable(false);
 	int i = 0;
@@ -119,8 +114,8 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	}
 	topbox->addWidget(accountCombo);
 	QDialogButtonBox *topbuttons = new QDialogButtonBox(this);
-	exportButton = topbuttons->addButton(i18n("Export..."), QDialogButtonBox::ActionRole);
-	printButton = topbuttons->addButton(i18n("Print..."), QDialogButtonBox::ActionRole);
+	exportButton = topbuttons->addButton(tr("Export…"), QDialogButtonBox::ActionRole);
+	printButton = topbuttons->addButton(tr("Print…"), QDialogButtonBox::ActionRole);
 	topbox->addWidget(topbuttons);
 	topbox->addStretch(1);
 
@@ -131,13 +126,13 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	transactionsView->setAllColumnsShowFocus(true);
 	transactionsView->setColumnCount(7);
 	QStringList headers;
-	headers << i18n("Date");
-	headers << i18n("Type");
-	headers << i18n("Description");
-	headers << i18n("Account/Category");
-	headers << i18n("Deposit");
-	headers << i18n("Withdrawal");
-	headers << i18n("Balance");
+	headers << tr("Date");
+	headers << tr("Type");
+	headers << tr("Description");
+	headers << tr("Account/Category");
+	headers << tr("Deposit");
+	headers << tr("Withdrawal");
+	headers << tr("Balance");
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
 	//transactionsView->setItemMargin(3);
@@ -148,21 +143,20 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	transactionsView->setSizePolicy(sp);
 	box2->addWidget(transactionsView);
 	QDialogButtonBox *buttons = new QDialogButtonBox(Qt::Vertical, this);
-	QPushButton *newButton = buttons->addButton(i18n("New"), QDialogButtonBox::ActionRole);
+	QPushButton *newButton = buttons->addButton(tr("New"), QDialogButtonBox::ActionRole);
 	QMenu *newMenu = new QMenu(this);
 	newButton->setMenu(newMenu);
 	connect(newMenu->addAction(mainWin->ActionNewExpense->icon(), mainWin->ActionNewExpense->text()), SIGNAL(triggered()), this, SLOT(newExpense()));
 	connect(newMenu->addAction(mainWin->ActionNewIncome->icon(), mainWin->ActionNewIncome->text()), SIGNAL(triggered()), this, SLOT(newIncome()));
 	connect(newMenu->addAction(mainWin->ActionNewTransfer->icon(), mainWin->ActionNewTransfer->text()), SIGNAL(triggered()), this, SLOT(newTransfer()));
 	connect(newMenu->addAction(mainWin->ActionNewSplitTransaction->icon(), mainWin->ActionNewSplitTransaction->text()), SIGNAL(triggered()), this, SLOT(newSplit()));
-	editButton = buttons->addButton(i18n("Edit..."), QDialogButtonBox::ActionRole);
+	editButton = buttons->addButton(tr("Edit…"), QDialogButtonBox::ActionRole);
 	editButton->setEnabled(false);
-	removeButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
-	KGuiItem::assign(removeButton, KStandardGuiItem::del());
+	removeButton = buttons->addButton(tr("Delete"), QDialogButtonBox::ActionRole);
 	removeButton->setEnabled(false);
-	joinButton = buttons->addButton(i18n("Join..."), QDialogButtonBox::ActionRole);
+	joinButton = buttons->addButton(tr("Join…"), QDialogButtonBox::ActionRole);
 	joinButton->setEnabled(false);
-	splitUpButton = buttons->addButton(i18n("Split Up"), QDialogButtonBox::ActionRole);
+	splitUpButton = buttons->addButton(tr("Split Up"), QDialogButtonBox::ActionRole);
 	splitUpButton->setEnabled(false);
 	box2->addWidget(buttons);
 	
@@ -238,7 +232,7 @@ void LedgerDialog::updateAccounts() {
 }
 void LedgerDialog::saveView() {
 	if(transactionsView->topLevelItemCount() == 0) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Empty transaction list."));
+		QMessageBox::critical(this, tr("Error"), tr("Empty transaction list."));
 		return;
 	}
 	char filetype = 'h';
@@ -248,19 +242,19 @@ void LedgerDialog::saveView() {
 	QString filter = html_filter;
 	QUrl url = QFileDialog::getSaveFileUrl(this, QString(), QUrl(), html_filter + ";;" + csv_filter, &filter);
 	if(filter == csv_filter) filetype = 'c';
-	if(url.isEmpty() && url.isValid()) return;
+	if(url.isEmpty() || !url.isValid()) return;
 	QSaveFile ofile(url.toLocalFile());
 	ofile.open(QIODevice::WriteOnly);
 	ofile.setPermissions((QFile::Permissions) 0x0660);
 	if(!ofile.isOpen()) {
 		ofile.cancelWriting();
-		QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
+		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
 	QTextStream stream(&ofile);
 	exportList(stream, filetype);
 	if(!ofile.commit()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
+		QMessageBox::critical(this, tr("Error"), tr("Error while writing file; file was not saved."));
 		return;
 	}
 
@@ -273,13 +267,13 @@ bool LedgerDialog::exportList(QTextStream &outf, int fileformat) {
 			outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
 			outf << "<html>" << '\n';
 			outf << "\t<head>" << '\n';
-			outf << "\t\t<title>"; outf << htmlize_string(i18n("Ledger")); outf << "</title>" << '\n';
+			outf << "\t\t<title>"; outf << htmlize_string(tr("Ledger")); outf << "</title>" << '\n';
 			outf << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << '\n';
 			outf << "\t\t<meta name=\"GENERATOR\" content=\"Eqonomize!\">" << '\n';
 			outf << "\t</head>" << '\n';
 			outf << "\t<body>" << '\n';
 			outf << "\t\t<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
-			outf << "\t\t\t<caption>"; outf << htmlize_string(i18n("Transactions for %1", account->name())); outf << "</caption>" << '\n';
+			outf << "\t\t\t<caption>"; outf << htmlize_string(tr("Transactions for %1").arg(account->name())); outf << "</caption>" << '\n';
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
 			QTreeWidgetItem *header = transactionsView->headerItem();
@@ -334,7 +328,7 @@ bool LedgerDialog::exportList(QTextStream &outf, int fileformat) {
 }
 void LedgerDialog::printView() {
 	if(transactionsView->topLevelItemCount() == 0) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Empty transaction list."));
+		QMessageBox::critical(this, tr("Error"), tr("Empty transaction list."));
 		return;
 	}
 	QPrinter printer;
@@ -424,7 +418,7 @@ void LedgerDialog::newSplit() {
 void LedgerDialog::remove() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() > 1) {
-		if(QMessageBox::warning(this, i18n("Delete transactions?"), i18n("Are you sure you want to delete all (%1) selected transactions?", selection.count()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Ok) {
+		if(QMessageBox::warning(this, tr("Delete transactions?"), tr("Are you sure you want to delete all (%1) selected transactions?").arg(selection.count()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Ok) {
 			return;
 		}
 	}
@@ -528,25 +522,25 @@ void LedgerDialog::edit() {
 				LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
 				if(!warned1 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL)) {
 					if(dialog->valueButton && dialog->valueButton->isChecked()) {
-						QMessageBox::critical(this, i18n("Error"), i18n("Cannot set the value of security transactions using the dialog for modifying multiple transactions."));
+						QMessageBox::critical(this, tr("Error"), tr("Cannot set the value of security transactions using the dialog for modifying multiple transactions."));
 						warned1 = true;
 					}
 				}
 				if(!warned2 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
 					if(dialog->descriptionButton->isChecked()) {
-						QMessageBox::critical(this, i18n("Error"), i18n("Cannot change description of dividends and security transactions."));
+						QMessageBox::critical(this, tr("Error"), tr("Cannot change description of dividends and security transactions."));
 						warned2 = true;
 					}
 				}
 				if(!warned3 && dialog->payeeButton && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
 					if(dialog->payeeButton->isChecked()) {
-						QMessageBox::critical(this, i18n("Error"), i18n("Cannot change payer of dividends and security transactions."));
+						QMessageBox::critical(this, tr("Error"), tr("Cannot change payer of dividends and security transactions."));
 						warned3 = true;
 					}
 				}
 				if(!warned4 && i->transaction()->parentSplit()) {
 					if(dialog->dateButton->isChecked()) {
-						QMessageBox::critical(this, i18n("Error"), i18n("Cannot change date of transactions that are part of a split transaction."));
+						QMessageBox::critical(this, tr("Error"), tr("Cannot change date of transactions that are part of a split transaction."));
 						warned4 = true;
 					}
 				}
@@ -619,7 +613,7 @@ void LedgerDialog::updateTransactions() {
 				value = -value;
 			}
 			if(split_this) {
-				LedgerListViewItem *i = new LedgerListViewItem(trans, split_this, NULL, QLocale().toString(split_this->date(), QLocale::ShortFormat), i18n("Split Transaction"), split_this->description(), QString::null, (value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, (value < 0.0) ? QLocale().toCurrencyString(-value) : QString::null, QLocale().toCurrencyString(balance));
+				LedgerListViewItem *i = new LedgerListViewItem(trans, split_this, NULL, QLocale().toString(split_this->date(), QLocale::ShortFormat), tr("Split Transaction"), split_this->description(), QString::null, (value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, (value < 0.0) ? QLocale().toCurrencyString(-value) : QString::null, QLocale().toCurrencyString(balance));
 				transactionsView->insertTopLevelItem(0, i);
 				if(split_this == selected_split) {
 					i->setSelected(true);
@@ -628,13 +622,13 @@ void LedgerDialog::updateTransactions() {
 				LedgerListViewItem *i = new LedgerListViewItem(trans, NULL, NULL, QLocale().toString(trans->date(), QLocale::ShortFormat), QString::null, trans->description(), deposit ? trans->fromAccount()->name() : trans->toAccount()->name(), (deposit && value >= 0.0) ? QLocale().toCurrencyString(value < 0.0 ? -value : value) : QString::null, (deposit && value >= 0.0) ? QString::null : QLocale().toCurrencyString(value < 0.0 ? -value : value), QLocale().toCurrencyString(balance));
 				transactionsView->insertTopLevelItem(0, i);
 				if(trans->type() == TRANSACTION_TYPE_INCOME) {
-					if(value >= 0.0) i->setText(1, i18n("Income"));
-					else i->setText(1, i18n("Repayment"));
+					if(value >= 0.0) i->setText(1, tr("Income"));
+					else i->setText(1, tr("Repayment"));
 				} else if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
-					if(value >= 0.0) i->setText(1, i18n("Expense"));
-					else i->setText(1, i18n("Refund"));
-				} else if(trans->toAccount() == budget->balancingAccount || trans->fromAccount() == budget->balancingAccount) i->setText(1, i18n("Balancing"));
-				else i->setText(1, i18n("Transfer"));
+					if(value >= 0.0) i->setText(1, tr("Expense"));
+					else i->setText(1, tr("Refund"));
+				} else if(trans->toAccount() == budget->balancingAccount || trans->fromAccount() == budget->balancingAccount) i->setText(1, tr("Balancing"));
+				else i->setText(1, tr("Transfer"));
 				if(trans == selected_transaction) {
 					i->setSelected(true);
 				}

@@ -55,9 +55,6 @@
 #include <QPrintDialog>
 #include <QSettings>
 
-#include <kstdguiitem.h>
-#include <klocalizedstring.h>
-
 #include "account.h"
 #include "budget.h"
 #include "recurrence.h"
@@ -94,10 +91,8 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	layout->setContentsMargins(0, 0, 0, 0);
 
 	QDialogButtonBox *buttons = new QDialogButtonBox(this);
-	saveButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
-	KGuiItem::assign(saveButton, KStandardGuiItem::saveAs());
-	printButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
-	KGuiItem::assign(printButton, KStandardGuiItem::print());
+	saveButton = buttons->addButton(tr("Save As…"), QDialogButtonBox::ActionRole);
+	printButton = buttons->addButton(tr("Print…"), QDialogButtonBox::ActionRole);
 	layout->addWidget(buttons);
 
 	htmlview = new QTextEdit(this);
@@ -107,23 +102,23 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	QSettings settings;
 	settings.beginGroup("CategoriesComparisonReport");
 
-	QGroupBox *settingsWidget = new QGroupBox(i18n("Options"), this);
+	QGroupBox *settingsWidget = new QGroupBox(tr("Options"), this);
 	QGridLayout *settingsLayout = new QGridLayout(settingsWidget);
 
-	settingsLayout->addWidget(new QLabel(i18n("Source:"), settingsWidget), 0, 0);
+	settingsLayout->addWidget(new QLabel(tr("Source:"), settingsWidget), 0, 0);
 	QHBoxLayout *sourceLayout = new QHBoxLayout();
 	settingsLayout->addLayout(sourceLayout, 0, 1);
 	sourceCombo = new QComboBox(settingsWidget);
 	sourceCombo->setEditable(false);
-	sourceCombo->addItem(i18n("All Categories"));
+	sourceCombo->addItem(tr("All Categories"));
 	Account *account = budget->expensesAccounts.first();
 	while(account) {
-		sourceCombo->addItem(i18n("Expenses: %1", account->name()));
+		sourceCombo->addItem(tr("Expenses: %1").arg(account->name()));
 		account = budget->expensesAccounts.next();
 	}
 	account = budget->incomesAccounts.first();
 	while(account) {
-		sourceCombo->addItem(i18n("Incomes: %1", account->name()));
+		sourceCombo->addItem(tr("Incomes: %1").arg(account->name()));
 		account = budget->incomesAccounts.next();
 	}
 	sourceLayout->addWidget(sourceCombo);
@@ -132,16 +127,16 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	if(b_extra) {
 		payeeDescriptionWidget = new QWidget(settingsWidget);
 		QHBoxLayout *payeeLayout = new QHBoxLayout(payeeDescriptionWidget);
-		//payeeLayout->addWidget(new QLabel(i18n("Divide on:"), payeeDescriptionWidget));
+		//payeeLayout->addWidget(new QLabel(tr("Divide on:"), payeeDescriptionWidget));
 		QButtonGroup *group = new QButtonGroup(this);
-		descriptionButton = new QRadioButton(i18n("Descriptions for"), payeeDescriptionWidget);
+		descriptionButton = new QRadioButton(tr("Descriptions for"), payeeDescriptionWidget);
 		descriptionButton->setChecked(true);
 		group->addButton(descriptionButton);
 		payeeLayout->addWidget(descriptionButton);
 		payeeCombo = new QComboBox(payeeDescriptionWidget);
 		payeeCombo->setEditable(false);
 		payeeLayout->addWidget(payeeCombo);
-		payeeButton = new QRadioButton(i18n("Payees/payers for"), payeeDescriptionWidget);
+		payeeButton = new QRadioButton(tr("Payees/payers for"), payeeDescriptionWidget);
 		group->addButton(payeeButton);
 		payeeLayout->addWidget(payeeButton);
 		descriptionCombo = new QComboBox(payeeDescriptionWidget);
@@ -157,17 +152,17 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	has_empty_description = false;
 	has_empty_payee = false;
 
-	settingsLayout->addWidget(new QLabel(i18n("Period:"), settingsWidget), 1, 0);
+	settingsLayout->addWidget(new QLabel(tr("Period:"), settingsWidget), 1, 0);
 	QHBoxLayout *choicesLayout = new QHBoxLayout();
 	settingsLayout->addLayout(choicesLayout, 1, 1);
-	fromButton = new QCheckBox(i18n("From"), settingsWidget);
+	fromButton = new QCheckBox(tr("From"), settingsWidget);
 	fromButton->setChecked(true);
 	choicesLayout->addWidget(fromButton);
 	fromEdit = new QDateEdit(settingsWidget);
 	fromEdit->setCalendarPopup(true);
 	fromEdit->setDate(from_date);
 	choicesLayout->addWidget(fromEdit);
-	choicesLayout->addWidget(new QLabel(i18n("To"), settingsWidget));
+	choicesLayout->addWidget(new QLabel(tr("To"), settingsWidget));
 	toEdit = new QDateEdit(settingsWidget);
 	toEdit->setCalendarPopup(true);
 	toEdit->setDate(to_date);
@@ -182,25 +177,25 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	choicesLayout->addWidget(nextYearButton);
 	choicesLayout->addStretch(1);
 
-	settingsLayout->addWidget(new QLabel(i18n("Columns:"), settingsWidget), 2, 0);
+	settingsLayout->addWidget(new QLabel(tr("Columns:"), settingsWidget), 2, 0);
 	QHBoxLayout *enabledLayout = new QHBoxLayout();
 	settingsLayout->addLayout(enabledLayout, 2, 1);
-	valueButton = new QCheckBox(i18n("Value"), settingsWidget);
+	valueButton = new QCheckBox(tr("Value"), settingsWidget);
 	valueButton->setChecked(settings.value("valueEnabled", true).toBool());
 	enabledLayout->addWidget(valueButton);
-	dailyButton = new QCheckBox(i18n("Daily"), settingsWidget);
+	dailyButton = new QCheckBox(tr("Daily"), settingsWidget);
 	dailyButton->setChecked(settings.value("dailyAverageEnabled", true).toBool());
 	enabledLayout->addWidget(dailyButton);
-	monthlyButton = new QCheckBox(i18n("Monthly"), settingsWidget);
+	monthlyButton = new QCheckBox(tr("Monthly"), settingsWidget);
 	monthlyButton->setChecked(settings.value("monthlyAverageEnabled", true).toBool());
 	enabledLayout->addWidget(monthlyButton);
-	yearlyButton = new QCheckBox(i18n("Yearly"), settingsWidget);
+	yearlyButton = new QCheckBox(tr("Yearly"), settingsWidget);
 	yearlyButton->setChecked(settings.value("yearlyEnabled", false).toBool());
 	enabledLayout->addWidget(yearlyButton);
-	countButton = new QCheckBox(i18n("Quantity"), settingsWidget);
+	countButton = new QCheckBox(tr("Quantity"), settingsWidget);
 	countButton->setChecked(settings.value("transactionCountEnabled", true).toBool());
 	enabledLayout->addWidget(countButton);
-	perButton = new QCheckBox(i18n("Average value"), settingsWidget);
+	perButton = new QCheckBox(tr("Average value"), settingsWidget);
 	perButton->setChecked(settings.value("valuePerTransactionEnabled", false).toBool());
 	enabledLayout->addWidget(perButton);
 	enabledLayout->addStretch(1);
@@ -276,9 +271,9 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 			if(i < (int) budget->expensesAccounts.count()) current_account = budget->expensesAccounts.at(i);
 			else current_account = budget->incomesAccounts.at(i - budget->expensesAccounts.count());
 			if(current_account) {
-				descriptionCombo->addItem(i18n("All descriptions"));
-				if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->addItem(i18n("All payees"));
-				else payeeCombo->addItem(i18n("All payers"));
+				descriptionCombo->addItem(tr("All descriptions"));
+				if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->addItem(tr("All payees"));
+				else payeeCombo->addItem(tr("All payers"));
 				has_empty_description = false;
 				has_empty_payee = false;
 				QMap<QString, bool> descriptions, payees;
@@ -301,14 +296,14 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 				for(QMap<QString, bool>::iterator it = descriptions.begin(); it != it_e; ++it) {
 					descriptionCombo->addItem(it.key());
 				}
-				if(has_empty_description) descriptionCombo->addItem(i18n("No description"));
+				if(has_empty_description) descriptionCombo->addItem(tr("No description"));
 				QMap<QString, bool>::iterator it2_e = payees.end();
 				for(QMap<QString, bool>::iterator it2 = payees.begin(); it2 != it2_e; ++it2) {
 					payeeCombo->addItem(it2.key());
 				}
 				if(has_empty_payee) {
-					if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->addItem(i18n("No payee"));
-					else payeeCombo->addItem(i18n("No payer"));
+					if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->addItem(tr("No payee"));
+					else payeeCombo->addItem(tr("No payer"));
 				}
 			} else {
 				payeeDescriptionWidget->setEnabled(false);
@@ -334,12 +329,12 @@ void CategoriesComparisonReport::saveConfig() {
 void CategoriesComparisonReport::toChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		error = true;
 	}
 	if(!error && fromEdit->date() > date) {
 		if(fromButton->isChecked()) {
-			QMessageBox::critical(this, i18n("Error"), i18n("To date is before from date."));
+			QMessageBox::critical(this, tr("Error"), tr("To date is before from date."));
 		}
 		from_date = date;
 		fromEdit->blockSignals(true);
@@ -360,11 +355,11 @@ void CategoriesComparisonReport::toChanged(const QDate &date) {
 void CategoriesComparisonReport::fromChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		error = true;
 	}
 	if(!error && date > toEdit->date()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("From date is after to date."));
+		QMessageBox::critical(this, tr("Error"), tr("From date is after to date."));
 		to_date = date;
 		toEdit->blockSignals(true);
 		toEdit->setDate(to_date);
@@ -449,20 +444,20 @@ void CategoriesComparisonReport::nextYear() {
 void CategoriesComparisonReport::save() {
 	QMimeDatabase db;
 	QUrl url = QFileDialog::getSaveFileUrl(this, QString::null, QUrl(), db.mimeTypeForName("text/html").filterString());
-	if(url.isEmpty() && url.isValid()) return;
+	if(url.isEmpty() || !url.isValid()) return;
 	QSaveFile ofile(url.toLocalFile());
 	ofile.open(QIODevice::WriteOnly);
 	ofile.setPermissions((QFile::Permissions) 0x0660);
 	if(!ofile.isOpen()) {
 		ofile.cancelWriting();
-		QMessageBox::critical(this, i18n("Error"), i18n("Couldn't open file for writing."));
+		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
 	QTextStream outf(&ofile);
 	outf.setCodec("UTF-8");
 	outf << source;
 	if(!ofile.commit()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Error while writing file; file was not saved."));
+		QMessageBox::critical(this, tr("Error"), tr("Error while writing file; file was not saved."));
 		return;
 	}
 	
@@ -724,15 +719,15 @@ void CategoriesComparisonReport::updateDisplay() {
 	source = "";
 	QString title;
 	if(current_account && type == ACCOUNT_TYPE_EXPENSES) {
-		if(i_source == 4) title = i18n("Expenses: %2, %1", current_account->name(), current_description.isEmpty() ? i18n("No description") : current_description);
-		else if(i_source == 3) title = i18n("Expenses: %2, %1", current_account->name(), current_payee.isEmpty() ? i18n("No payee") : current_payee);
-		else title = i18n("Expenses: %1", current_account->name());
+		if(i_source == 4) title = tr("Expenses: %2, %1").arg(current_account->name()).arg(current_description.isEmpty() ? tr("No description") : current_description);
+		else if(i_source == 3) title = tr("Expenses: %2, %1").arg(current_account->name()).arg(current_payee.isEmpty() ? tr("No payee") : current_payee);
+		else title = tr("Expenses: %1").arg(current_account->name());
 	} else if(current_account && type == ACCOUNT_TYPE_INCOMES) {
-		if(i_source == 4) title = i18n("Incomes: %2, %1", current_account->name(), current_description.isEmpty() ? i18n("No description") : current_description);
-		else if(i_source == 3) title = i18n("Incomes: %2, %1", current_account->name(), current_payee.isEmpty() ? i18n("No payer") : current_payee);
-		else title = i18n("Incomes: %1", current_account->name());
+		if(i_source == 4) title = tr("Incomes: %2, %1").arg(current_account->name()).arg(current_description.isEmpty() ? tr("No description") : current_description);
+		else if(i_source == 3) title = tr("Incomes: %2, %1").arg(current_account->name()).arg(current_payee.isEmpty() ? tr("No payer") : current_payee);
+		else title = tr("Incomes: %1").arg(current_account->name());
 	} else {
-		title = i18n("Incomes & Expenses");
+		title = tr("Incomes & Expenses");
 	}
 	QTextStream outf(&source, QIODevice::WriteOnly);
 	outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
@@ -745,29 +740,29 @@ void CategoriesComparisonReport::updateDisplay() {
 	outf << "\t\t<meta name=\"GENERATOR\" content=\"Eqonomize!\">" << '\n';
 	outf << "\t</head>" << '\n';
 	outf << "\t<body>" << '\n';
-	if(fromButton->isChecked()) outf << "\t\t<h2>" << i18nc("html format; %1: title; %2: from date; %3: to date", "%1 (%2&ndash;%3)", htmlize_string(title), htmlize_string(QLocale().toString(first_date, QLocale::ShortFormat)), htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h2>" << '\n';
-	else outf << "\t\t<h2>" << i18nc("html format; %1: title; %2: to date", "%1 (to %2)", htmlize_string(title), htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h2>" << '\n';
+	if(fromButton->isChecked()) outf << "\t\t<h2>" << tr("%1 (%2&ndash;%3)", "html format; %1: title; %2: from date; %3: to date").arg(htmlize_string(title)).arg(htmlize_string(QLocale().toString(first_date, QLocale::ShortFormat))).arg(htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h2>" << '\n';
+	else outf << "\t\t<h2>" << tr("%1 (to %2)", "html format; %1: title; %2: to date").arg(htmlize_string(title)).arg(htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h2>" << '\n';
 	outf << "\t\t<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
 	outf << "\t\t\t<thead align=\"left\">" << '\n';
 	outf << "\t\t\t\t<tr>" << '\n';
-	outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Category")) << "</th>";
+	outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Category")) << "</th>";
 	if(current_account && type == ACCOUNT_TYPE_EXPENSES) {
-		if(enabled[0]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Cost")) << "</th>";
+		if(enabled[0]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Cost")) << "</th>";
 	} else if(current_account && type == ACCOUNT_TYPE_INCOMES) {
-		if(enabled[0]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Income")) << "</th>";
+		if(enabled[0]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Income")) << "</th>";
 	} else {
-		if(enabled[0]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Value")) << "</th>";
+		if(enabled[0]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Value")) << "</th>";
 	}
-	if(enabled[1]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Daily Average")) << "</th>";
-	if(enabled[2]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Monthly Average")) << "</th>";
-	if(enabled[3]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Yearly Average")) << "</th>";
-	if(enabled[4]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Quantity")) << "</th>";
+	if(enabled[1]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Daily Average")) << "</th>";
+	if(enabled[2]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Monthly Average")) << "</th>";
+	if(enabled[3]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Yearly Average")) << "</th>";
+	if(enabled[4]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Quantity")) << "</th>";
 	if(current_account && type == ACCOUNT_TYPE_EXPENSES) {
-		if(enabled[5]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Average Cost")) << "</th>";
+		if(enabled[5]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Average Cost")) << "</th>";
 	} else if(current_account && type == ACCOUNT_TYPE_INCOMES) {
-		if(enabled[5]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Average Income")) << "</th>";
+		if(enabled[5]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Average Income")) << "</th>";
 	} else {
-		if(enabled[5]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(i18n("Average Value")) << "</th>";
+		if(enabled[5]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Average Value")) << "</th>";
 	}
 	outf << "\t\t\t\t</tr>" << '\n';
 	outf << "\t\t\t</thead>" << '\n';
@@ -811,9 +806,9 @@ void CategoriesComparisonReport::updateDisplay() {
 		for(; it != it_e; ++it, ++itc) {
 			outf << "\t\t\t\t<tr>" << '\n';
 			if(it.key().isEmpty()) {
-				if((i_source == 4 || i_source == 2) && type == ACCOUNT_TYPE_EXPENSES) outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(i18n("No payee")) << "</td>";
-				else if(i_source == 4 || i_source == 2) outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(i18n("No payer")) << "</td>";
-				else outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(i18n("No description")) << "</td>";
+				if((i_source == 4 || i_source == 2) && type == ACCOUNT_TYPE_EXPENSES) outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(tr("No payee")) << "</td>";
+				else if(i_source == 4 || i_source == 2) outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(tr("No payer")) << "</td>";
+				else outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(tr("No description")) << "</td>";
 			} else {
 				outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(it.key()) << "</td>";
 			}
@@ -827,7 +822,7 @@ void CategoriesComparisonReport::updateDisplay() {
 			outf << "\t\t\t\t</tr>" << '\n';
 		}
 		outf << "\t\t\t\t<tr>" << '\n';
-		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid; border-top: thin solid\"><b>" << htmlize_string(i18n("Total")) << "</b></td>";
+		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid; border-top: thin solid\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
 		if(enabled[0]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid;\"><b>" << htmlize_string(QLocale().toCurrencyString(value)) << "</b></td>";
 		if(enabled[1]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid;\"><b>" << htmlize_string(QLocale().toCurrencyString(value / days)) << "</b></td>";
 		if(enabled[2]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid;\"><b>" << htmlize_string(QLocale().toCurrencyString(value / months)) << "</b></td>";
@@ -852,7 +847,7 @@ void CategoriesComparisonReport::updateDisplay() {
 			account = budget->incomesAccounts.next();
 		}
 		outf << "\t\t\t\t<tr>" << '\n';
-		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid; border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(i18n("Total incomes")) << "</b></td>";
+		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid; border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(tr("Total incomes")) << "</b></td>";
 		if(enabled[0]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(incomes)) << "</b></td>";
 		if(enabled[1]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(incomes / days)) << "</b></td>";
 		if(enabled[2]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(incomes / months)) << "</b></td>";
@@ -876,7 +871,7 @@ void CategoriesComparisonReport::updateDisplay() {
 			account = budget->expensesAccounts.next();
 		}
 		outf << "\t\t\t\t<tr>" << '\n';
-		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid; border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(i18n("Total expenses")) << "</b></td>";
+		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid; border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(tr("Total expenses")) << "</b></td>";
 		if(enabled[0]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(-costs)) << "</b></td>";
 		if(enabled[1]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(-costs / days)) << "</b></td>";
 		if(enabled[2]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(-costs / months)) << "</b></td>";
@@ -886,7 +881,7 @@ void CategoriesComparisonReport::updateDisplay() {
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
 		outf << "\t\t\t\t<tr>" << '\n';
-		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\"><b>" << htmlize_string(i18n("Total (Profits)")) << "</b></td>";
+		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\"><b>" << htmlize_string(tr("Total (Profits)")) << "</b></td>";
 		if(enabled[0]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(incomes - costs)) << "</b></td>";
 		if(enabled[1]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString((incomes - costs) / days)) << "</b></td>";
 		if(enabled[2]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString((incomes - costs) / months)) << "</b></td>";
@@ -902,10 +897,10 @@ void CategoriesComparisonReport::updateDisplay() {
 	outf << "</html>" << '\n';
 	htmlview->setHtml(source);
 	if(current_account && b_extra) {
-		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, i18n("No description"));
+		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, tr("No description"));
 		if(has_empty_payee) {
-			if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->setItemText(payeeCombo->count() - 1, i18n("No payee"));
-			else payeeCombo->setItemText(payeeCombo->count() - 1, i18n("No payer"));
+			if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->setItemText(payeeCombo->count() - 1, tr("No payee"));
+			else payeeCombo->setItemText(payeeCombo->count() - 1, tr("No payer"));
 		}
 	}
 }
@@ -919,9 +914,9 @@ void CategoriesComparisonReport::updateTransactions() {
 		descriptionCombo->blockSignals(true);
 		payeeCombo->clear();
 		descriptionCombo->clear();
-		descriptionCombo->addItem(i18n("All descriptions"));
-		if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->addItem(i18n("All payees"));
-		else payeeCombo->addItem(i18n("All payers"));
+		descriptionCombo->addItem(tr("All descriptions"));
+		if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->addItem(tr("All payees"));
+		else payeeCombo->addItem(tr("All payers"));
 		has_empty_description = false;
 		has_empty_payee = false;
 		QMap<QString, bool> descriptions, payees;
@@ -949,7 +944,7 @@ void CategoriesComparisonReport::updateTransactions() {
 		}
 		if(has_empty_description) {
 			if(restore_d && current_description.isEmpty()) curindex_d = i;
-			descriptionCombo->addItem(i18n("No description"));
+			descriptionCombo->addItem(tr("No description"));
 		}
 		if(curindex_d < descriptionCombo->count()) {
 			descriptionCombo->setCurrentIndex(curindex_d);
@@ -966,8 +961,8 @@ void CategoriesComparisonReport::updateTransactions() {
 		}
 		if(has_empty_payee) {
 			if(restore_p && current_payee.isEmpty()) curindex_p = i;
-			if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->addItem(i18n("No payee"));
-			else payeeCombo->addItem(i18n("No payer"));
+			if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->addItem(tr("No payee"));
+			else payeeCombo->addItem(tr("No payer"));
 		}
 		if(curindex_p < payeeCombo->count()) {
 			payeeCombo->setCurrentIndex(curindex_d);
@@ -984,18 +979,18 @@ void CategoriesComparisonReport::updateAccounts() {
 	int curindex = 0;
 	sourceCombo->blockSignals(true);
 	sourceCombo->clear();
-	sourceCombo->addItem(i18n("All Categories"));
+	sourceCombo->addItem(tr("All Categories"));
 	int i = 1;
 	Account *account = budget->expensesAccounts.first();
 	while(account) {
-		sourceCombo->addItem(i18n("Expenses: %1", account->name()));
+		sourceCombo->addItem(tr("Expenses: %1").arg(account->name()));
 		if(account == current_account) curindex = i;
 		account = budget->expensesAccounts.next();
 		i++;
 	}
 	account = budget->incomesAccounts.first();
 	while(account) {
-		sourceCombo->addItem(i18n("Incomes: %1", account->name()));
+		sourceCombo->addItem(tr("Incomes: %1").arg(account->name()));
 		if(account == current_account) curindex = i;
 		account = budget->incomesAccounts.next();
 		i++;

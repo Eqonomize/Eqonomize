@@ -45,8 +45,6 @@
 #include <QKeyEvent>
 #include <QMessageBox>
 
-#include <klocalizedstring.h>
-
 #include "budget.h"
 #include "eqonomizevalueedit.h"
 #include "recurrence.h"
@@ -93,7 +91,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	int i = 0;
 	if(b_sec) {
 		int decimals = 4;
-		editLayout->addWidget(new QLabel(i18n("Security:"), this), TEROWCOL(i, 0));
+		editLayout->addWidget(new QLabel(tr("Security:"), this), TEROWCOL(i, 0));
 		if(select_security) {
 			securityCombo = new QComboBox(this);
 			securityCombo->setEditable(false);
@@ -113,25 +111,25 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		if(security) decimals = security->decimals();
 		i++;
 		if(security_value_type != SECURITY_SHARES_AND_QUOTATION) {
-			if(transtype == TRANSACTION_TYPE_SECURITY_BUY) editLayout->addWidget(new QLabel(i18n("Cost:"), this), TEROWCOL(i, 0));
-			else editLayout->addWidget(new QLabel(i18n("Income:"), this), TEROWCOL(i, 0));
+			if(transtype == TRANSACTION_TYPE_SECURITY_BUY) editLayout->addWidget(new QLabel(tr("Cost:"), this), TEROWCOL(i, 0));
+			else editLayout->addWidget(new QLabel(tr("Income:"), this), TEROWCOL(i, 0));
 			valueEdit = new EqonomizeValueEdit(false, this);
 			editLayout->addWidget(valueEdit, TEROWCOL(i, 1));
 			i++;
 		}
 		if(security_value_type != SECURITY_VALUE_AND_QUOTATION) {
 			if(transtype == TRANSACTION_TYPE_SECURITY_BUY) {
-				editLayout->addWidget(new QLabel(i18n("Shares bought:"), this), TEROWCOL(i, 0));
+				editLayout->addWidget(new QLabel(tr("Shares bought:"), this), TEROWCOL(i, 0));
 				sharesEdit = new EqonomizeValueEdit(0.0, decimals, false, false, this);
 				editLayout->addWidget(sharesEdit, TEROWCOL(i, 1));
 				i++;
 			} else {
-				editLayout->addWidget(new QLabel(i18n("Shares sold:"), this), TEROWCOL(i, 0));
+				editLayout->addWidget(new QLabel(tr("Shares sold:"), this), TEROWCOL(i, 0));
 				QHBoxLayout *sharesLayout = new QHBoxLayout();
 				sharesEdit = new EqonomizeValueEdit(0.0, decimals, false, false, this);
 				sharesEdit->setSizePolicy(QSizePolicy::Expanding, sharesEdit->sizePolicy().verticalPolicy());
 				sharesLayout->addWidget(sharesEdit);
-				maxSharesButton = new QPushButton(i18n("All"), this);
+				maxSharesButton = new QPushButton(tr("All"), this);
 				maxSharesButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 				sharesLayout->addWidget(maxSharesButton);
 				editLayout->addLayout(sharesLayout, TEROWCOL(i, 1));
@@ -139,13 +137,13 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			}
 		}
 		if(security_value_type != SECURITY_VALUE_AND_SHARES) {
-			editLayout->addWidget(new QLabel(i18n("Price per share:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Price per share:"), this), TEROWCOL(i, 0));
 			quotationEdit = new EqonomizeValueEdit(false, this);
 			editLayout->addWidget(quotationEdit, TEROWCOL(i, 1));
 			i++;
 		}
 		if(!split) {
-			editLayout->addWidget(new QLabel(i18n("Date:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Date:"), this), TEROWCOL(i, 0));
 			dateEdit = new EqonomizeDateEdit(this);
 			dateEdit->setCalendarPopup(true);
 			editLayout->addWidget(dateEdit, TEROWCOL(i, 1));
@@ -153,7 +151,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		i++;
 	} else {
 		if(transtype == TRANSACTION_TYPE_INCOME && (security || select_security)) {
-			editLayout->addWidget(new QLabel(i18n("Security:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Security:"), this), TEROWCOL(i, 0));
 			if(select_security) {
 				securityCombo = new QComboBox(this);
 				securityCombo->setEditable(false);
@@ -171,7 +169,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				editLayout->addWidget(new QLabel(security->name(), this), TEROWCOL(i, 1));
 			}
 		} else {
-			editLayout->addWidget(new QLabel(i18n("Description:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Description:"), this), TEROWCOL(i, 0));
 			descriptionEdit = new QLineEdit(this);
 			descriptionEdit->setCompleter(new QCompleter(this));
 			descriptionEdit->completer()->setModel(new QStandardItemModel(this));
@@ -180,24 +178,24 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		}
 		i++;
 		if(transtype == TRANSACTION_TYPE_TRANSFER) {
-			editLayout->addWidget(new QLabel(i18n("Amount:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Amount:"), this), TEROWCOL(i, 0));
 		} else if(transtype == TRANSACTION_TYPE_INCOME) {
-			editLayout->addWidget(new QLabel(i18n("Income:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Income:"), this), TEROWCOL(i, 0));
 		} else {
-			editLayout->addWidget(new QLabel(i18n("Cost:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Cost:"), this), TEROWCOL(i, 0));
 
 		}
 		valueEdit = new EqonomizeValueEdit(true, this);
 		editLayout->addWidget(valueEdit, TEROWCOL(i, 1));
 		i++;
 		if(b_extra && !select_security && !security && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME)) {
-			editLayout->addWidget(new QLabel(i18n("Quantity:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Quantity:"), this), TEROWCOL(i, 0));
 			quantityEdit = new EqonomizeValueEdit(INT_MIN / 100 + 1.0, INT_MAX / 100 - 1.0, 1.0, 1.0, 2, false, this);
 			editLayout->addWidget(quantityEdit, TEROWCOL(i, 1));
 			i++;
 		}
 		if(!split) {
-			editLayout->addWidget(new QLabel(i18n("Date:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Date:"), this), TEROWCOL(i, 0));
 			dateEdit = new EqonomizeDateEdit(this);
 			dateEdit->setCalendarPopup(true);
 			editLayout->addWidget(dateEdit, TEROWCOL(i, 1));
@@ -207,14 +205,14 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
 			if(!split || transfer_to) {
-				editLayout->addWidget(new QLabel(i18n("From:"), this), TEROWCOL(i, 0));
+				editLayout->addWidget(new QLabel(tr("From:"), this), TEROWCOL(i, 0));
 				fromCombo = new QComboBox(this);
 				fromCombo->setEditable(false);
 				editLayout->addWidget(fromCombo, TEROWCOL(i, 1));
 				i++;
 			}
 			if(!split || !transfer_to) {
-				editLayout->addWidget(new QLabel(i18n("To:"), this), TEROWCOL(i, 0));
+				editLayout->addWidget(new QLabel(tr("To:"), this), TEROWCOL(i, 0));
 				toCombo = new QComboBox(this);
 				toCombo->setEditable(false);
 				editLayout->addWidget(toCombo, TEROWCOL(i, 1));
@@ -223,20 +221,20 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
-			editLayout->addWidget(new QLabel(i18n("Category:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Category:"), this), TEROWCOL(i, 0));
 			fromCombo = new QComboBox(this);
 			fromCombo->setEditable(false);
 			editLayout->addWidget(fromCombo, TEROWCOL(i, 1));
 			i++;
 			if(!split) {
-				editLayout->addWidget(new QLabel(i18n("To account:"), this), TEROWCOL(i, 0));
+				editLayout->addWidget(new QLabel(tr("To account:"), this), TEROWCOL(i, 0));
 				toCombo = new QComboBox(this);
 				toCombo->setEditable(false);
 				editLayout->addWidget(toCombo, TEROWCOL(i, 1));
 				i++;
 			}
 			if(b_extra && !select_security && !security) {
-				editLayout->addWidget(new QLabel(i18n("Payer:"), this), TEROWCOL(i, 0));
+				editLayout->addWidget(new QLabel(tr("Payer:"), this), TEROWCOL(i, 0));
 				payeeEdit = new QLineEdit(this);
 				editLayout->addWidget(payeeEdit, TEROWCOL(i, 1));
 				i++;
@@ -245,7 +243,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		}
 		case TRANSACTION_TYPE_SECURITY_BUY: {
 			if(!split) {
-				editLayout->addWidget(new QLabel(i18n("From account:"), this), TEROWCOL(i, 0));
+				editLayout->addWidget(new QLabel(tr("From account:"), this), TEROWCOL(i, 0));
 				fromCombo = new QComboBox(this);
 				fromCombo->setEditable(false);
 				editLayout->addWidget(fromCombo, TEROWCOL(i, 1));
@@ -255,7 +253,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
 			if(!split) {
-				editLayout->addWidget(new QLabel(i18n("To account:"), this), TEROWCOL(i, 0));
+				editLayout->addWidget(new QLabel(tr("To account:"), this), TEROWCOL(i, 0));
 				toCombo = new QComboBox(this);
 				toCombo->setEditable(false);
 				editLayout->addWidget(toCombo, TEROWCOL(i, 1));
@@ -264,27 +262,27 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			break;
 		}
 		default: {
-			editLayout->addWidget(new QLabel(i18n("Category:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Category:"), this), TEROWCOL(i, 0));
 			toCombo = new QComboBox(this);
 			toCombo->setEditable(false);
 			editLayout->addWidget(toCombo, TEROWCOL(i, 1));
 			i++;
 			if(!split) {
-				editLayout->addWidget(new QLabel(i18n("From account:"), this), TEROWCOL(i, 0));
+				editLayout->addWidget(new QLabel(tr("From account:"), this), TEROWCOL(i, 0));
 				fromCombo = new QComboBox(this);
 				fromCombo->setEditable(false);
 				editLayout->addWidget(fromCombo, TEROWCOL(i, 1));
 				i++;
 			}
 			if(b_extra) {
-				editLayout->addWidget(new QLabel(i18n("Payee:"), this), TEROWCOL(i, 0));
+				editLayout->addWidget(new QLabel(tr("Payee:"), this), TEROWCOL(i, 0));
 				payeeEdit = new QLineEdit(this);
 				editLayout->addWidget(payeeEdit, TEROWCOL(i, 1));
 				i++;
 			}
 		}
 	}
-	editLayout->addWidget(new QLabel(i18n("Comments:"), this), TEROWCOL(i, 0));
+	editLayout->addWidget(new QLabel(tr("Comments:"), this), TEROWCOL(i, 0));
 	commentsEdit = new QLineEdit(this);
 	editLayout->addWidget(commentsEdit, TEROWCOL(i, 1));
 	i++;
@@ -671,81 +669,81 @@ bool TransactionEditWidget::checkAccounts() {
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
 			if(fromCombo && fromCombo->count() == 0) {
-				QMessageBox::critical(this, i18n("Error"), i18n("No suitable account available."));
+				QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 				return false;
 			}
 			if(toCombo && toCombo->count() == 0) {
-				QMessageBox::critical(this, i18n("Error"), i18n("No suitable account available."));
+				QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 				return false;
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
 			if(fromCombo && fromCombo->count() == 0) {
-				QMessageBox::critical(this, i18n("Error"), i18n("No income category available."));
+				QMessageBox::critical(this, tr("Error"), tr("No income category available."));
 				return false;
 			}
 			if(toCombo && toCombo->count() == 0) {
-				QMessageBox::critical(this, i18n("Error"), i18n("No suitable account available."));
+				QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 				return false;
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_BUY: {
 			if(fromCombo && fromCombo->count() == 0) {
-				QMessageBox::critical(this, i18n("Error"), i18n("No suitable account or income category available."));
+				QMessageBox::critical(this, tr("Error"), tr("No suitable account or income category available."));
 				return false;
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
 			if(toCombo && toCombo->count() == 0) {
-				QMessageBox::critical(this, i18n("Error"), i18n("No suitable account available."));
+				QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 				return false;
 			}
 			break;
 		}
 		default: {
 			if(toCombo && toCombo->count() == 0) {
-				QMessageBox::critical(this, i18n("Error"), i18n("No expense category available."));
+				QMessageBox::critical(this, tr("Error"), tr("No expense category available."));
 				return false;
 			}
 			if(fromCombo && fromCombo->count() == 0) {
-				QMessageBox::critical(this, i18n("Error"), i18n("No suitable account available."));
+				QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 				return false;
 			}
 			break;
 		}
 	}
 	if(securityCombo && securityCombo->count() == 0) {
-		QMessageBox::critical(this, i18n("Error"), i18n("No security available."));
+		QMessageBox::critical(this, tr("Error"), tr("No security available."));
 		return false;
 	}
 	return true;
 }
 bool TransactionEditWidget::validValues(bool) {
 	if(dateEdit && !dateEdit->date().isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		dateEdit->setFocus();
 		dateEdit->selectAll();
 		return false;
 	}
 	if(!checkAccounts()) return false;
 	if(toCombo && fromCombo && tos[toCombo->currentIndex()] == froms[fromCombo->currentIndex()]) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Cannot transfer money to and from the same account."));
+		QMessageBox::critical(this, tr("Error"), tr("Cannot transfer money to and from the same account."));
 		return false;
 	}
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
 			if((toCombo && tos[toCombo->currentIndex()]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) tos[toCombo->currentIndex()])->accountType() == ASSETS_TYPE_SECURITIES) || (fromCombo && froms[fromCombo->currentIndex()]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) froms[fromCombo->currentIndex()])->accountType() == ASSETS_TYPE_SECURITIES)) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Cannot create a regular transfer to/from a securities account."));
+				QMessageBox::critical(this, tr("Error"), tr("Cannot create a regular transfer to/from a securities account."));
 				return false;
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
 			if(toCombo && tos[toCombo->currentIndex()]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) tos[toCombo->currentIndex()])->accountType() == ASSETS_TYPE_SECURITIES) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Cannot create a regular income to a securities account."));
+				QMessageBox::critical(this, tr("Error"), tr("Cannot create a regular income to a securities account."));
 				return false;
 			}
 			break;
@@ -753,19 +751,19 @@ bool TransactionEditWidget::validValues(bool) {
 		case TRANSACTION_TYPE_SECURITY_BUY: {}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
 			if(sharesEdit && sharesEdit->value() == 0.0) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Zero shares not allowed."));
+				QMessageBox::critical(this, tr("Error"), tr("Zero shares not allowed."));
 				return false;
 			}
 			if(valueEdit && valueEdit->value() == 0.0) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Zero value not allowed."));
+				QMessageBox::critical(this, tr("Error"), tr("Zero value not allowed."));
 				return false;
 			}
 			if(quotationEdit && quotationEdit->value() == 0.0) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Zero price per share not allowed."));
+				QMessageBox::critical(this, tr("Error"), tr("Zero price per share not allowed."));
 				return false;
 			}
 			/*if(ask_questions && sharesEdit && selectedSecurity() && sharesEdit->value() > selectedSecurity()->shares(dateEdit->date())) {
-				if(QMessageBox::warning(this, i18n("Warning"), i18n("Number of sold shares are greater than available shares at selected date. Do you want to create the transaction nevertheless?"), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel) {
+				if(QMessageBox::warning(this, tr("Warning"), tr("Number of sold shares are greater than available shares at selected date. Do you want to create the transaction nevertheless?"), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel) {
 					return false;
 				}
 			}*/
@@ -773,7 +771,7 @@ bool TransactionEditWidget::validValues(bool) {
 		}
 		default: {
 			if(fromCombo && froms[fromCombo->currentIndex()]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) froms[fromCombo->currentIndex()])->accountType() == ASSETS_TYPE_SECURITIES) {
-				QMessageBox::critical(this, i18n("Error"), i18n("Cannot create a regular expense from a securities account."));
+				QMessageBox::critical(this, tr("Error"), tr("Cannot create a regular expense from a securities account."));
 				return false;
 			}
 			break;
@@ -1102,15 +1100,15 @@ TransactionEditDialog::TransactionEditDialog(bool extra_parameters, int transact
 	setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	switch(transaction_type) {
-		case TRANSACTION_TYPE_EXPENSE: {setWindowTitle(i18n("Edit Expense")); break;}
+		case TRANSACTION_TYPE_EXPENSE: {setWindowTitle(tr("Edit Expense")); break;}
 		case TRANSACTION_TYPE_INCOME: {
-			if(security || select_security) setWindowTitle(i18n("Edit Dividend"));
-			else setWindowTitle(i18n("Edit Income"));
+			if(security || select_security) setWindowTitle(tr("Edit Dividend"));
+			else setWindowTitle(tr("Edit Income"));
 			break;
 		}
-		case TRANSACTION_TYPE_TRANSFER: {setWindowTitle(i18n("Edit Transfer")); break;}
-		case TRANSACTION_TYPE_SECURITY_BUY: {setWindowTitle(i18n("Edit Securities Bought")); break;}
-		case TRANSACTION_TYPE_SECURITY_SELL: {setWindowTitle(i18n("Edit Securities Sold")); break;}
+		case TRANSACTION_TYPE_TRANSFER: {setWindowTitle(tr("Edit Transfer")); break;}
+		case TRANSACTION_TYPE_SECURITY_BUY: {setWindowTitle(tr("Edit Securities Bought")); break;}
+		case TRANSACTION_TYPE_SECURITY_SELL: {setWindowTitle(tr("Edit Securities Sold")); break;}
 	}
 	editWidget = new TransactionEditWidget(false, extra_parameters, transaction_type, split, transfer_to, security, security_value_type, select_security, budg, this);
 	box1->addWidget(editWidget);
@@ -1131,7 +1129,7 @@ void TransactionEditDialog::accept() {
 
 MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parameters, int transaction_type, Budget *budg, QWidget *parent)  : QDialog(parent), transtype(transaction_type), budget(budg), b_extra(extra_parameters) {
 
-	setWindowTitle(i18n("Modify Transactions"));
+	setWindowTitle(tr("Modify Transactions"));
 	setModal(true);
 
 	/*int rows = 4;
@@ -1142,7 +1140,7 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 	QGridLayout *editLayout = new QGridLayout();
 	box1->addLayout(editLayout);
 
-	descriptionButton = new QCheckBox(i18n("Description:"), this);
+	descriptionButton = new QCheckBox(tr("Description:"), this);
 	descriptionButton->setChecked(false);
 	editLayout->addWidget(descriptionButton, 0, 0);
 	descriptionEdit = new QLineEdit(this);
@@ -1152,9 +1150,9 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 	valueButton = NULL;
 	valueEdit = NULL;
 	if(transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_TRANSFER) {
-		if(transtype == TRANSACTION_TYPE_TRANSFER) valueButton = new QCheckBox(i18n("Amount:"), this);
-		else if(transtype == TRANSACTION_TYPE_INCOME) valueButton = new QCheckBox(i18n("Income:"), this);
-		else valueButton = new QCheckBox(i18n("Cost:"), this);
+		if(transtype == TRANSACTION_TYPE_TRANSFER) valueButton = new QCheckBox(tr("Amount:"), this);
+		else if(transtype == TRANSACTION_TYPE_INCOME) valueButton = new QCheckBox(tr("Income:"), this);
+		else valueButton = new QCheckBox(tr("Cost:"), this);
 		valueButton->setChecked(false);
 		editLayout->addWidget(valueButton, 1, 0);
 		valueEdit = new EqonomizeValueEdit(false, this);
@@ -1162,7 +1160,7 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 		editLayout->addWidget(valueEdit, 1, 1);
 	}
 
-	dateButton = new QCheckBox(i18n("Date:"), this);
+	dateButton = new QCheckBox(tr("Date:"), this);
 	dateButton->setChecked(false);
 	editLayout->addWidget(dateButton, 2, 0);
 	dateEdit = new QDateEdit(QDate::currentDate(), this);
@@ -1173,7 +1171,7 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 	categoryButton = NULL;
 	categoryCombo = NULL;
 	if(transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME) {
-		categoryButton = new QCheckBox(i18n("Category:"), this);
+		categoryButton = new QCheckBox(tr("Category:"), this);
 		categoryButton->setChecked(false);
 		editLayout->addWidget(categoryButton, 3, 0);
 		categoryCombo = new QComboBox(this);
@@ -1187,8 +1185,8 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 	payeeButton = NULL;
 	payeeEdit = NULL;
 	if(b_extra && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME)) {
-		if(transtype == TRANSACTION_TYPE_INCOME) payeeButton = new QCheckBox(i18n("Payer:"), this);
-		else payeeButton = new QCheckBox(i18n("Payee:"), this);
+		if(transtype == TRANSACTION_TYPE_INCOME) payeeButton = new QCheckBox(tr("Payer:"), this);
+		else payeeButton = new QCheckBox(tr("Payee:"), this);
 		payeeButton->setChecked(false);
 		editLayout->addWidget(payeeButton, 4, 0);
 		payeeEdit = new QLineEdit(this);
@@ -1312,7 +1310,7 @@ bool MultipleTransactionsEditDialog::checkAccounts() {
 		case TRANSACTION_TYPE_INCOME: {
 			if(!categoryButton->isChecked()) return true;
 			if(categoryCombo->count() == 0) {
-				QMessageBox::critical(this, i18n("Error"), i18n("No income category available."));
+				QMessageBox::critical(this, tr("Error"), tr("No income category available."));
 				return false;
 			}
 			break;
@@ -1320,7 +1318,7 @@ bool MultipleTransactionsEditDialog::checkAccounts() {
 		case TRANSACTION_TYPE_EXPENSE: {
 			if(!categoryButton->isChecked()) return true;
 			if(categoryCombo->count() == 0) {
-				QMessageBox::critical(this, i18n("Error"), i18n("No expense category available."));
+				QMessageBox::critical(this, tr("Error"), tr("No expense category available."));
 				return false;
 			}
 			break;
@@ -1331,7 +1329,7 @@ bool MultipleTransactionsEditDialog::checkAccounts() {
 }
 bool MultipleTransactionsEditDialog::validValues() {
 	if(dateButton->isChecked() && !dateEdit->date().isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		dateEdit->setFocus();
 		dateEdit->selectAll();
 		return false;

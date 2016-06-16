@@ -35,8 +35,7 @@ class QTreeWidgetItem;
 class QComboBox;
 class QLineEdit;
 class QDialogButtonBox;
-
-class KUrlRequester;
+class QPushButton;
 
 class Budget;
 class AssetsAccount;
@@ -70,7 +69,8 @@ class ImportQIFDialog : public QWizard {
 		bool b_extra;
 		int next_id;
 
-		KUrlRequester *fileEdit;
+		QLineEdit *fileEdit;
+		QPushButton *fileButton;
 		QTreeWidget *defsView;
 		QComboBox *defsCombo, *dateFormatCombo, *accountCombo, *descriptionPriorityCombo;
 		QLineEdit *openingBalanceEdit;
@@ -90,6 +90,7 @@ class ImportQIFDialog : public QWizard {
 		void nextClicked();
 		void accept();
 		void onFileChanged(const QString&);
+		void selectFile();
 		void defSelectionChanged();
 		void defSelected(int);
 		
@@ -108,7 +109,8 @@ class ExportQIFDialog : public QDialog {
 		QRadioButton *descriptionAsSubcategoryButton, *descriptionAsPayeeButton, *descriptionAsMemoButton, *descriptionIgnoreButton;
 		QComboBox *accountCombo, *dateFormatCombo, *valueFormatCombo;
 		QDialogButtonBox *buttonBox;
-		KUrlRequester *fileEdit;
+		QLineEdit *fileEdit;
+		QPushButton *fileButton;
 
 	public:
 
@@ -119,6 +121,7 @@ class ExportQIFDialog : public QDialog {
 		
 		void accept();
 		void onFileChanged(const QString&);
+		void selectFile();
 
 };
 

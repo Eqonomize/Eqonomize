@@ -21,7 +21,7 @@
 #ifndef EDIT_SCHEDULED_TRANSACTION_DIALOG_H
 #define EDIT_SCHEDULED_TRANSACTION_DIALOG_H
 
-#include <kpagedialog.h>
+#include <qdialog.h>
 
 class Account;
 class Budget;
@@ -31,8 +31,9 @@ class ScheduledTransaction;
 class Security;
 class Transaction;
 class TransactionEditWidget;
+class QTabWidget;
 
-class EditScheduledTransactionDialog : public KPageDialog {
+class EditScheduledTransactionDialog : public QDialog {
 
 	Q_OBJECT
 	
@@ -42,7 +43,7 @@ class EditScheduledTransactionDialog : public KPageDialog {
 		bool b_extra;
 		RecurrenceEditWidget *recurrenceEditWidget;
 		TransactionEditWidget *transactionEditWidget;
-		KPageWidgetItem *recurrence_page, *trans_page;
+		QTabWidget *tabs;
 		
 	public:
 		

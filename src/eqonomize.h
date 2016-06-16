@@ -56,8 +56,10 @@ class QToolBar;
 class QTabWidget;
 class QDateEdit;
 class QTextEdit;
+class QLocalSocket;
+class QLocalServer;
 
-class KAutoSaveFile;
+//class KAutoSaveFile;
 
 class CategoriesComparisonChart;
 class CategoriesComparisonReport;
@@ -173,6 +175,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionImportCSV, *ActionImportQIF, *ActionExportQIF;
 		QAction *ActionExtraProperties, *AIPCurrentMonth, *AIPCurrentYear, *AIPCurrentWholeMonth, *AIPCurrentWholeYear, *AIPRememberLastDates;
 		QActionGroup *ActionSelectInitialPeriod;
+		QAction *ActionHelp, *ActionWhatsThis, *ActionReportBug, *ActionAbout, *ActionAboutQt;
 		
 	protected:
 
@@ -191,7 +194,9 @@ class Eqonomize : public QMainWindow {
 		QDate prev_cur_date;
 		bool partial_budget;
 		bool b_extra;
-		KAutoSaveFile *cr_tmp_file;
+		QLocalSocket *socket;
+		QLocalServer *server;
+		//KAutoSaveFile *cr_tmp_file;
 
 		QToolBar *mainToolbar;
 		QTabWidget *tabs;
@@ -246,10 +251,18 @@ class Eqonomize : public QMainWindow {
 		void onActivateRequested(const QStringList&, const QString&);
 
 		void useExtraProperties(bool);
+		
+		void showHelp();
+		void reportBug();
+		void showAbout();
+		void showAboutQt();
 	
 		void importCSV();
 		void importQIF();
 		void exportQIF();
+		
+		void serverNewConnection();
+		void socketReadyRead();
 
 		void reloadBudget();
 

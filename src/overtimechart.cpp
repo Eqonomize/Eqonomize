@@ -65,9 +65,6 @@
 #include <QMessageBox>
 #include <QSettings>
 
-#include <kstdguiitem.h>
-#include <klocalizedstring.h>
-
 #include "account.h"
 #include "budget.h"
 #include "eqonomizemonthselector.h"
@@ -75,69 +72,6 @@
 #include "transaction.h"
 
 #include <cmath>
-
-void saveSceneImage(QWidget *parent, QGraphicsScene *scene) {
-	if(!scene) return;
-	QMimeDatabase db;
-	QString png_filter = db.mimeTypeForName("image/png").filterString();
-	QString gif_filter = db.mimeTypeForName("image/gif").filterString();	
-	QString jpeg_filter = db.mimeTypeForName("image/jpeg").filterString();	
-	QString bmp_filter = db.mimeTypeForName("image/x-bmp").filterString();	
-	QString xbm_filter = db.mimeTypeForName("image/x-xbm").filterString();	
-	QString xpm_filter = db.mimeTypeForName("image/x-xpm").filterString();	
-	QString ppm_filter = db.mimeTypeForName("image/x-portable-pixmap").filterString();		
-	QString filter = png_filter;
-	if(QImageWriter::supportedImageFormats().contains("GIF")) {
-		filter += ";;";
-		filter += gif_filter;
-	}
-	if(QImageWriter::supportedImageFormats().contains("JPEG")) {
-		filter += ";;";
-		filter += jpeg_filter;
-	}
-	filter += ";;";
-	filter += bmp_filter;
-	filter += ";;";
-	filter += xbm_filter;
-	filter += ";;";
-	filter += xpm_filter;
-	filter += ";;";
-	filter += ppm_filter;
-	QString selected_filter = png_filter;
-	QUrl url = QFileDialog::getSaveFileUrl(parent, QString(), QUrl(), filter, &selected_filter);
-	if(url.isEmpty() && url.isValid()) return;
-	QSaveFile ofile(url.toLocalFile());
-	ofile.open(QIODevice::WriteOnly);
-	ofile.setPermissions((QFile::Permissions) 0x0660);
-	if(!ofile.isOpen()) {
-		ofile.cancelWriting();
-		QMessageBox::critical(parent, i18n("Error"), i18n("Couldn't open file for writing."));
-		return;
-	}
-	QRectF rect = scene->sceneRect();
-	rect.setX(0);
-	rect.setY(0);
-	rect.setRight(rect.right() + 20);
-	rect.setBottom(rect.bottom() + 20);
-	QPixmap pixmap((int) ceil(rect.width()), (int) ceil(rect.height()));
-	QPainter p(&pixmap);
-	p.setRenderHint(QPainter::Antialiasing, true);
-	scene->render(&p, QRectF(), rect);
-	if(selected_filter == png_filter) {pixmap.save(&ofile, "PNG");}
-	else if(selected_filter == bmp_filter) {pixmap.save(&ofile, "BMP");}
-	else if(selected_filter == xbm_filter) {pixmap.save(&ofile, "XBM");}
-	else if(selected_filter == xpm_filter) {pixmap.save(&ofile, "XPM");}
-	else if(selected_filter == ppm_filter) {pixmap.save(&ofile, "PPM");}
-	else if(selected_filter == gif_filter) {pixmap.save(&ofile, "GIF");}
-	else if(selected_filter == jpeg_filter) {pixmap.save(&ofile, "JPEG");}
-	else pixmap.save(&ofile);
-	if(!ofile.commit()) {
-		QMessageBox::critical(parent, i18n("Error"), i18n("Error while writing file; file was not saved."));
-		return;
-	}
-
-}
-
 
 struct chart_month_info {
 	double value;
@@ -154,10 +88,8 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	layout->setContentsMargins(0, 0, 0, 0);
 
 	QDialogButtonBox *buttons = new QDialogButtonBox(this);
-	saveButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
-	KGuiItem::assign(saveButton, KStandardGuiItem::saveAs());
-	printButton = buttons->addButton(QString(), QDialogButtonBox::ActionRole);
-	KGuiItem::assign(printButton, KStandardGuiItem::print());
+	saveButton = buttons->addButton(tr("Save As…"), QDialogButtonBox::ActionRole);
+	printButton = buttons->addButton(tr("Print…"), QDialogButtonBox::ActionRole);
 	layout->addWidget(buttons);
 
 	scene = NULL;
@@ -169,10 +101,10 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	QSettings settings;
 	settings.beginGroup("OverTimeChart");
 
-	QGroupBox *settingsWidget = new QGroupBox(i18n("Options"), this);
+	QGroupBox *settingsWidget = new QGroupBox(tr("Options"), this);
 	QGridLayout *settingsLayout = new QGridLayout(settingsWidget);
 
-	QLabel *sourceLabel = new QLabel(i18n("Source:"), settingsWidget);
+	QLabel *sourceLabel = new QLabel(tr("Source:"), settingsWidget);
 	settingsLayout->addWidget(sourceLabel, 2, 0);
 	QHBoxLayout *choicesLayout = new QHBoxLayout();
 	settingsLayout->addLayout(choicesLayout, 2, 1);
@@ -184,21 +116,21 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	}
 	sourceCombo = new QComboBox(settingsWidget);
 	sourceCombo->setEditable(false);
-	sourceCombo->addItem(i18n("Incomes and Expenses"));
-	sourceCombo->addItem(i18n("Profits"));
-	sourceCombo->addItem(i18n("Expenses"));
-	sourceCombo->addItem(i18n("Incomes"));
+	sourceCombo->addItem(tr("Incomes and Expenses"));
+	sourceCombo->addItem(tr("Profits"));
+	sourceCombo->addItem(tr("Expenses"));
+	sourceCombo->addItem(tr("Incomes"));
 	if(b_extra) choicesLayout_extra->addWidget(sourceCombo, 0, 0);
 	else choicesLayout->addWidget(sourceCombo);
 	categoryCombo = new QComboBox(settingsWidget);
 	categoryCombo->setEditable(false);
-	categoryCombo->addItem(i18n("All Categories Combined"));
+	categoryCombo->addItem(tr("All Categories Combined"));
 	categoryCombo->setEnabled(false);
 	if(b_extra) choicesLayout_extra->addWidget(categoryCombo, 0, 1);
 	else choicesLayout->addWidget(categoryCombo);
 	descriptionCombo = new QComboBox(settingsWidget);
 	descriptionCombo->setEditable(false);
-	descriptionCombo->addItem(i18n("All Descriptions Combined"));
+	descriptionCombo->addItem(tr("All Descriptions Combined"));
 	descriptionCombo->setEnabled(false);
 	if(b_extra) choicesLayout_extra->addWidget(descriptionCombo, 1, 0);
 	else choicesLayout->addWidget(descriptionCombo);
@@ -206,7 +138,7 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	if(b_extra) {
 		payeeCombo = new QComboBox(settingsWidget);
 		payeeCombo->setEditable(false);
-		payeeCombo->addItem(i18n("All Payees/Payers Combined"));
+		payeeCombo->addItem(tr("All Payees/Payers Combined"));
 		payeeCombo->setEnabled(false);
 		choicesLayout_extra->addWidget(payeeCombo, 1, 1);
 		choicesLayout->addStretch(1);
@@ -215,7 +147,7 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	current_account = NULL;
 	current_source = 0;
 
-	settingsLayout->addWidget(new QLabel(i18n("Start date:"), settingsWidget), 0, 0);
+	settingsLayout->addWidget(new QLabel(tr("Start date:"), settingsWidget), 0, 0);
 	QHBoxLayout *monthLayout = new QHBoxLayout();
 	settingsLayout->addLayout(monthLayout, 0, 1);
 	startDateEdit = new EqonomizeMonthSelector(settingsWidget);
@@ -238,7 +170,7 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	}
 	startDateEdit->setDate(start_date);
 	monthLayout->addWidget(startDateEdit);
-	monthLayout->addWidget(new QLabel(i18n("End date:"), settingsWidget));
+	monthLayout->addWidget(new QLabel(tr("End date:"), settingsWidget));
 	endDateEdit = new EqonomizeMonthSelector(settingsWidget);
 	end_date = QDate::currentDate().addDays(-1);
 	if(end_date.day() < end_date.daysInMonth()) {
@@ -253,23 +185,23 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	monthLayout->addWidget(endDateEdit);
 	monthLayout->addStretch(1);
 
-	settingsLayout->addWidget(new QLabel(i18n("Value:"), settingsWidget), 1, 0);
+	settingsLayout->addWidget(new QLabel(tr("Value:"), settingsWidget), 1, 0);
 	QHBoxLayout *enabledLayout = new QHBoxLayout();
 	settingsLayout->addLayout(enabledLayout, 1, 1);
 	valueGroup = new QButtonGroup(this);
-	valueButton = new QRadioButton(i18n("Monthly total"), settingsWidget);
+	valueButton = new QRadioButton(tr("Monthly total"), settingsWidget);
 	valueButton->setChecked(settings.value("valueSelected", true).toBool());
 	valueGroup->addButton(valueButton, 0);
 	enabledLayout->addWidget(valueButton);
-	dailyButton = new QRadioButton(i18n("Daily average"), settingsWidget);
+	dailyButton = new QRadioButton(tr("Daily average"), settingsWidget);
 	dailyButton->setChecked(settings.value("dailyAverageSelected", false).toBool());
 	valueGroup->addButton(dailyButton, 1);
 	enabledLayout->addWidget(dailyButton);
-	countButton = new QRadioButton(i18n("Quantity"), settingsWidget);
+	countButton = new QRadioButton(tr("Quantity"), settingsWidget);
 	countButton->setChecked(settings.value("transactionCountSelected", false).toBool());
 	valueGroup->addButton(countButton, 2);
 	enabledLayout->addWidget(countButton);
-	perButton = new QRadioButton(i18n("Average value"), settingsWidget);
+	perButton = new QRadioButton(tr("Average value"), settingsWidget);
 	perButton->setChecked(settings.value("valuePerTransactionSelected", false).toBool());
 	valueGroup->addButton(perButton, 3);
 	enabledLayout->addWidget(perButton);
@@ -358,7 +290,7 @@ void OverTimeChart::categoryChanged(int index) {
 	descriptionCombo->blockSignals(true);
 	int d_index = descriptionCombo->currentIndex();
 	descriptionCombo->clear();
-	descriptionCombo->addItem(i18n("All Descriptions Combined"));
+	descriptionCombo->addItem(tr("All Descriptions Combined"));
 	int p_index = 0;
 	current_description = "";
 	current_payee = "";
@@ -366,8 +298,8 @@ void OverTimeChart::categoryChanged(int index) {
 		p_index = payeeCombo->currentIndex();
 		payeeCombo->blockSignals(true);
 		payeeCombo->clear();
-		if(b_income) payeeCombo->addItem(i18n("All Payers Combined"));
-		else payeeCombo->addItem(i18n("All Payees Combined"));
+		if(b_income) payeeCombo->addItem(tr("All Payers Combined"));
+		else payeeCombo->addItem(tr("All Payees Combined"));
 	}
 	current_account = NULL;
 	if(index == 0) {
@@ -387,11 +319,11 @@ void OverTimeChart::categoryChanged(int index) {
 		descriptionCombo->setEnabled(false);
 		if(b_extra) payeeCombo->setEnabled(false);
 	} else {
-		descriptionCombo->addItem(i18n("All Descriptions Split"));
+		descriptionCombo->addItem(tr("All Descriptions Split"));
 		if(d_index == 1) descriptionCombo->setCurrentIndex(1);
 		if(b_extra) {
-			if(b_income) payeeCombo->addItem(i18n("All Payers Split"));
-			else payeeCombo->addItem(i18n("All Payees Split"));
+			if(b_income) payeeCombo->addItem(tr("All Payers Split"));
+			else payeeCombo->addItem(tr("All Payees Split"));
 			if(p_index == 1 && d_index != 1) payeeCombo->setCurrentIndex(1);
 		}
 		if(!b_income) {
@@ -435,7 +367,7 @@ void OverTimeChart::categoryChanged(int index) {
 		for(QMap<QString, bool>::iterator it = descriptions.begin(); it != it_e; ++it) {
 			descriptionCombo->addItem(it.key());
 		}
-		if(has_empty_description) descriptionCombo->addItem(i18n("No description"));
+		if(has_empty_description) descriptionCombo->addItem(tr("No description"));
 		descriptionCombo->setEnabled(true);
 		if(b_extra) {
 			QMap<QString, bool>::iterator it2_e = payees.end();
@@ -443,8 +375,8 @@ void OverTimeChart::categoryChanged(int index) {
 				payeeCombo->addItem(it2.key());
 			}
 			if(has_empty_payee) {
-				if(b_income) payeeCombo->addItem(i18n("No payer"));
-				else payeeCombo->addItem(i18n("No payee"));
+				if(b_income) payeeCombo->addItem(tr("No payer"));
+				else payeeCombo->addItem(tr("No payee"));
 			}
 			payeeCombo->setEnabled(true);
 		}
@@ -462,20 +394,20 @@ void OverTimeChart::sourceChanged(int index) {
 	categoryCombo->clear();
 	descriptionCombo->clear();
 	descriptionCombo->setEnabled(false);
-	descriptionCombo->addItem(i18n("All Descriptions Combined"));
+	descriptionCombo->addItem(tr("All Descriptions Combined"));
 	if(b_extra) {
 		payeeCombo->clear();
 		payeeCombo->setEnabled(false);
-		if(index == 2) payeeCombo->addItem(i18n("All Payers Combined"));
-		else if(index == 1) payeeCombo->addItem(i18n("All Payees Combined"));
-		else payeeCombo->addItem(i18n("All Payees/Payers Combined"));
+		if(index == 2) payeeCombo->addItem(tr("All Payers Combined"));
+		else if(index == 1) payeeCombo->addItem(tr("All Payees Combined"));
+		else payeeCombo->addItem(tr("All Payees/Payers Combined"));
 	}
 	current_description = "";
 	current_payee = "";
 	current_account = NULL;
-	categoryCombo->addItem(i18n("All Categories Combined"));
+	categoryCombo->addItem(tr("All Categories Combined"));
 	if(index == 3) {
-		categoryCombo->addItem(i18n("All Categories Split"));
+		categoryCombo->addItem(tr("All Categories Split"));
 		categoryCombo->setCurrentIndex(c_index);
 		Account *account = budget->incomesAccounts.first();
 		while(account) {
@@ -485,7 +417,7 @@ void OverTimeChart::sourceChanged(int index) {
 		categoryCombo->setEnabled(true);
 		current_source = 3;
 	} else if(index == 2) {
-		categoryCombo->addItem(i18n("All Categories Split"));
+		categoryCombo->addItem(tr("All Categories Split"));
 		categoryCombo->setCurrentIndex(c_index);
 		Account *account = budget->expensesAccounts.first();
 		while(account) {
@@ -523,7 +455,7 @@ void OverTimeChart::sourceChanged(int index) {
 void OverTimeChart::startYearChanged(const QDate &date) {	
 	bool error = false;
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		error = true;
 	}
 	/*if(!error && date > QDate::currentDate()) {
@@ -536,7 +468,7 @@ void OverTimeChart::startYearChanged(const QDate &date) {
 			updateDisplay();
 			return;
 		} else {
-			QMessageBox::critical(this, i18n("Error"), i18n("Future dates are not allowed."));
+			QMessageBox::critical(this, tr("Error"), tr("Future dates are not allowed."));
 			error = true;
 		}
 	}*/
@@ -560,11 +492,11 @@ void OverTimeChart::startYearChanged(const QDate &date) {
 void OverTimeChart::startMonthChanged(const QDate &date) {	
 	bool error = false;
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		error = true;
 	}
 	/*if(!error && date > QDate::currentDate()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Future dates are not allowed."));
+		QMessageBox::critical(this, tr("Error"), tr("Future dates are not allowed."));
 		error = true;
 	}*/
 	if(!error && date > end_date) {
@@ -587,7 +519,7 @@ void OverTimeChart::startMonthChanged(const QDate &date) {
 void OverTimeChart::endYearChanged(const QDate &date) {	
 	bool error = false;
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		error = true;
 	}
 	/*if(!error && date > QDate::currentDate()) {
@@ -600,7 +532,7 @@ void OverTimeChart::endYearChanged(const QDate &date) {
 			updateDisplay();
 			return;
 		} else {
-			QMessageBox::critical(this, i18n("Error"), i18n("Future dates are not allowed."));
+			QMessageBox::critical(this, tr("Error"), tr("Future dates are not allowed."));
 			error = true;
 		}
 	}*/
@@ -624,11 +556,11 @@ void OverTimeChart::endYearChanged(const QDate &date) {
 void OverTimeChart::endMonthChanged(const QDate &date) {	
 	bool error = false;
 	if(!date.isValid()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Invalid date."));
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		error = true;
 	}
 	/*if(!error && date > QDate::currentDate()) {
-		QMessageBox::critical(this, i18n("Error"), i18n("Future dates are not allowed."));
+		QMessageBox::critical(this, tr("Error"), tr("Future dates are not allowed."));
 		error = true;
 	}*/
 	if(!error && date < start_date) {
@@ -660,7 +592,64 @@ void OverTimeChart::saveConfig() {
 }
 
 void OverTimeChart::save() {
-	saveSceneImage(this, scene);
+	if(!scene) return;
+	QMimeDatabase db;
+	QString png_filter = db.mimeTypeForName("image/png").filterString();
+	QString gif_filter = db.mimeTypeForName("image/gif").filterString();	
+	QString jpeg_filter = db.mimeTypeForName("image/jpeg").filterString();	
+	QString bmp_filter = db.mimeTypeForName("image/x-bmp").filterString();	
+	QString xbm_filter = db.mimeTypeForName("image/x-xbm").filterString();	
+	QString xpm_filter = db.mimeTypeForName("image/x-xpm").filterString();	
+	QString ppm_filter = db.mimeTypeForName("image/x-portable-pixmap").filterString();		
+	QString filter = png_filter;
+	if(QImageWriter::supportedImageFormats().contains("GIF")) {
+		filter += ";;";
+		filter += gif_filter;
+	}
+	if(QImageWriter::supportedImageFormats().contains("JPEG")) {
+		filter += ";;";
+		filter += jpeg_filter;
+	}
+	filter += ";;";
+	filter += bmp_filter;
+	filter += ";;";
+	filter += xbm_filter;
+	filter += ";;";
+	filter += xpm_filter;
+	filter += ";;";
+	filter += ppm_filter;
+	QString selected_filter = png_filter;
+	QUrl url = QFileDialog::getSaveFileUrl(this, QString(), QUrl(), filter, &selected_filter);
+	if(url.isEmpty() || !url.isValid()) return;
+	QSaveFile ofile(url.toLocalFile());
+	ofile.open(QIODevice::WriteOnly);
+	ofile.setPermissions((QFile::Permissions) 0x0660);
+	if(!ofile.isOpen()) {
+		ofile.cancelWriting();
+		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
+		return;
+	}
+	QRectF rect = scene->sceneRect();
+	rect.setX(0);
+	rect.setY(0);
+	rect.setRight(rect.right() + 20);
+	rect.setBottom(rect.bottom() + 20);
+	QPixmap pixmap((int) ceil(rect.width()), (int) ceil(rect.height()));
+	QPainter p(&pixmap);
+	p.setRenderHint(QPainter::Antialiasing, true);
+	scene->render(&p, QRectF(), rect);
+	if(selected_filter == png_filter) {pixmap.save(&ofile, "PNG");}
+	else if(selected_filter == bmp_filter) {pixmap.save(&ofile, "BMP");}
+	else if(selected_filter == xbm_filter) {pixmap.save(&ofile, "XBM");}
+	else if(selected_filter == xpm_filter) {pixmap.save(&ofile, "XPM");}
+	else if(selected_filter == ppm_filter) {pixmap.save(&ofile, "PPM");}
+	else if(selected_filter == gif_filter) {pixmap.save(&ofile, "GIF");}
+	else if(selected_filter == jpeg_filter) {pixmap.save(&ofile, "JPEG");}
+	else pixmap.save(&ofile);
+	if(!ofile.commit()) {
+		QMessageBox::critical(this, tr("Error"), tr("Error while writing file; file was not saved."));
+		return;
+	}
 }
 
 void OverTimeChart::print() {
@@ -1510,11 +1499,11 @@ void OverTimeChart::updateDisplay() {
 	axis_width += max_axis_value_width;
 
 	QGraphicsSimpleTextItem *axis_text = new QGraphicsSimpleTextItem();
-	if(type == 2) axis_text->setText(i18n("Quantity"));
-	else if(current_source == 0) axis_text->setText(i18n("Value (%1)", QLocale().currencySymbol()));
-	else if(current_source == -1) axis_text->setText(i18n("Profit (%1)", QLocale().currencySymbol()));
-	else if(current_source % 2 == 1) axis_text->setText(i18n("Income (%1)", QLocale().currencySymbol()));
-	else axis_text->setText(i18n("Cost (%1)", QLocale().currencySymbol()));
+	if(type == 2) axis_text->setText(tr("Quantity"));
+	else if(current_source == 0) axis_text->setText(tr("Value (%1)").arg(QLocale().currencySymbol()));
+	else if(current_source == -1) axis_text->setText(tr("Profit (%1)").arg(QLocale().currencySymbol()));
+	else if(current_source % 2 == 1) axis_text->setText(tr("Income (%1)").arg(QLocale().currencySymbol()));
+	else axis_text->setText(tr("Cost (%1)").arg(QLocale().currencySymbol()));
 	axis_text->setFont(legend_font);
 	axis_text->setBrush(Qt::black);
 	if(axis_text->boundingRect().width() / 2 > max_axis_value_width) max_axis_value_width = axis_text->boundingRect().width() / 2;
@@ -1555,7 +1544,7 @@ void OverTimeChart::updateDisplay() {
 	x_axis_dir2->setPen(axis_pen);
 	scene->addItem(x_axis_dir2);
 
-	axis_text = new QGraphicsSimpleTextItem(i18n("Time"));
+	axis_text = new QGraphicsSimpleTextItem(tr("Time"));
 	axis_text->setFont(legend_font);
 	axis_text->setBrush(Qt::black);
 	axis_text->setPos(margin + chart_width + axis_width + 15, chart_y + chart_height - fh / 2);
@@ -1698,16 +1687,16 @@ void OverTimeChart::updateDisplay() {
 		QGraphicsSimpleTextItem *legend_text = new QGraphicsSimpleTextItem();
 		switch(current_source) {
 			case -1: {
-				legend_text->setText(i18n("Profits"));
+				legend_text->setText(tr("Profits"));
 				break;
 			}
 			case 0: {
-				if(index == 0) legend_text->setText(i18n("Incomes"));
-				else if(index == 1) legend_text->setText(i18n("Expenses"));
+				if(index == 0) legend_text->setText(tr("Incomes"));
+				else if(index == 1) legend_text->setText(tr("Expenses"));
 				break;
 			}
-			case 1: {legend_text->setText(i18n("Incomes")); break;}
-			case 2: {legend_text->setText(i18n("Expenses")); break;}
+			case 1: {legend_text->setText(tr("Incomes")); break;}
+			case 2: {legend_text->setText(tr("Expenses")); break;}
 			case 3: {}
 			case 4: {legend_text->setText(account->name()); break;}
 			case 5: {}
@@ -1716,54 +1705,54 @@ void OverTimeChart::updateDisplay() {
 			case 18: {}
 			case 7: {}
 			case 8: {
-				if(descriptionCombo->itemText(desc_i).isEmpty()) legend_text->setText(i18n("No description"));
+				if(descriptionCombo->itemText(desc_i).isEmpty()) legend_text->setText(tr("No description"));
 				else legend_text->setText(descriptionCombo->itemText(desc_i));
 				break;
 			}
 			case 9: {}
 			case 10: {
-				if(current_description.isEmpty()) legend_text->setText(i18n("No description"));
+				if(current_description.isEmpty()) legend_text->setText(tr("No description"));
 				else legend_text->setText(current_description);
 				break;
 			}
 			case 13: {}
 			case 11: {
-				if(payeeCombo->itemText(desc_i).isEmpty()) legend_text->setText(i18n("No payer"));
+				if(payeeCombo->itemText(desc_i).isEmpty()) legend_text->setText(tr("No payer"));
 				else legend_text->setText(payeeCombo->itemText(desc_i));
 				break;
 			}
 			case 14: {}
 			case 12: {
-				if(payeeCombo->itemText(desc_i).isEmpty()) legend_text->setText(i18n("No payee"));
+				if(payeeCombo->itemText(desc_i).isEmpty()) legend_text->setText(tr("No payee"));
 				else legend_text->setText(payeeCombo->itemText(desc_i));
 				break;
 			}
 			case 15: {
-				if(current_payee.isEmpty()) legend_text->setText(i18n("No payer"));
+				if(current_payee.isEmpty()) legend_text->setText(tr("No payer"));
 				else legend_text->setText(current_payee);
 				break;
 			}
 			case 16: {
-				if(current_payee.isEmpty()) legend_text->setText(i18n("No payee"));
+				if(current_payee.isEmpty()) legend_text->setText(tr("No payee"));
 				else legend_text->setText(current_payee);
 				break;
 			}
 			case 19: {
 				QString str1, str2;
-				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = i18n("No description"); str2 = i18n("no payer");}
-				else if(current_payee.isEmpty()) {str1 = current_description; str2 = i18n("no payer");}
-				else if(current_description.isEmpty()) {str1 = i18n("No description"); str2 = current_payee;}
+				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description"); str2 = tr("no payer");}
+				else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("no payer");}
+				else if(current_description.isEmpty()) {str1 = tr("No description"); str2 = current_payee;}
 				else {str1 = current_description; str2 = current_payee;}
-				legend_text->setText(i18nc("%1: Description; %2: Payer", "%1/%2", str1, str2));
+				legend_text->setText(tr("%1/%2", "%1: Description; %2: Payer").arg(str1).arg(str2));
 				break;
 			}
 			case 20: {
 				QString str1, str2;
-				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = i18n("No description"); str2 = i18n("no payee");}
-				else if(current_payee.isEmpty()) {str1 = current_description; str2 = i18n("no payee");}
-				else if(current_description.isEmpty()) {str1 = i18n("No description"); str2 = current_payee;}
+				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description"); str2 = tr("no payee");}
+				else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("no payee");}
+				else if(current_description.isEmpty()) {str1 = tr("No description"); str2 = current_payee;}
 				else {str1 = current_description; str2 = current_payee;}
-				legend_text->setText(i18nc("%1: Description; %2: Payee", "%1/%2", str1, str2));
+				legend_text->setText(tr("%1/%2", "%1: Description; %2: Payee").arg(str1).arg(str2));
 				break;
 			}
 		}
@@ -1797,11 +1786,11 @@ void OverTimeChart::updateDisplay() {
 		delete oldscene;
 	}
 	if(current_source == 7 || current_source == 8 || current_source == 17 || current_source == 18) {
-		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, i18n("No description"));
+		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, tr("No description"));
 	} else if(current_source == 12 || current_source == 14) {
-		if(has_empty_payee) payeeCombo->setItemText(payeeCombo->count() - 1, i18n("No payee"));
+		if(has_empty_payee) payeeCombo->setItemText(payeeCombo->count() - 1, tr("No payee"));
 	} else if(current_source == 11 || current_source == 13) {
-		if(has_empty_payee) payeeCombo->setItemText(payeeCombo->count() - 1, i18n("No payer"));
+		if(has_empty_payee) payeeCombo->setItemText(payeeCombo->count() - 1, tr("No payer"));
 	}
 }
 
@@ -1828,13 +1817,13 @@ void OverTimeChart::updateTransactions() {
 		}
 		descriptionCombo->blockSignals(true);
 		descriptionCombo->clear();
-		descriptionCombo->addItem(i18n("All Descriptions Combined"));
-		descriptionCombo->addItem(i18n("All Descriptions Split"));
+		descriptionCombo->addItem(tr("All Descriptions Combined"));
+		descriptionCombo->addItem(tr("All Descriptions Split"));
 		if(b_extra) {
-			if(b_income) payeeCombo->addItem(i18n("All Payers Combined"));
-			else payeeCombo->addItem(i18n("All Payees Combined"));
-			if(b_income) payeeCombo->addItem(i18n("All Payers Split"));
-			else payeeCombo->addItem(i18n("All Payees Split"));
+			if(b_income) payeeCombo->addItem(tr("All Payers Combined"));
+			else payeeCombo->addItem(tr("All Payees Combined"));
+			if(b_income) payeeCombo->addItem(tr("All Payers Split"));
+			else payeeCombo->addItem(tr("All Payees Split"));
 		}
 		has_empty_description = false;
 		has_empty_payee = false;
@@ -1867,7 +1856,7 @@ void OverTimeChart::updateTransactions() {
 		}
 		if(has_empty_description) {
 			if((current_source == 9 || current_source == 10 || current_source == 13 || current_source == 14 || current_source == 19 || current_source == 20) && current_description.isEmpty()) curindex = i;
-			descriptionCombo->addItem(i18n("No description"));
+			descriptionCombo->addItem(tr("No description"));
 		}
 		if(b_extra) {
 			i = 2;
@@ -1883,8 +1872,8 @@ void OverTimeChart::updateTransactions() {
 				if((current_source >= 15 || current_source <= 20) && current_payee.isEmpty()) {
 					curindex_p = i;
 				}
-				if(b_income) payeeCombo->addItem(i18n("No payer"));
-				else payeeCombo->addItem(i18n("No payee"));
+				if(b_income) payeeCombo->addItem(tr("No payer"));
+				else payeeCombo->addItem(tr("No payee"));
 			}
 		}
 		if(curindex < descriptionCombo->count()) {
@@ -1925,8 +1914,8 @@ void OverTimeChart::updateAccounts() {
 		descriptionCombo->blockSignals(true);
 		if(b_extra) payeeCombo->blockSignals(true);
 		categoryCombo->clear();
-		categoryCombo->addItem(i18n("All Categories Combined"));
-		categoryCombo->addItem(i18n("All Categories Split"));
+		categoryCombo->addItem(tr("All Categories Combined"));
+		categoryCombo->addItem(tr("All Categories Split"));
 		int i = 2;
 		if(sourceCombo->currentIndex() == 2) {
 			Account *account = budget->expensesAccounts.first();
@@ -1949,12 +1938,12 @@ void OverTimeChart::updateAccounts() {
 		if(curindex <= 1) {
 			descriptionCombo->clear();
 			descriptionCombo->setEnabled(false);
-			descriptionCombo->addItem(i18n("All Descriptions Combined"));
+			descriptionCombo->addItem(tr("All Descriptions Combined"));
 			if(b_extra) {
 				payeeCombo->clear();
 				payeeCombo->setEnabled(false);
-				if(sourceCombo->currentIndex() == 3) payeeCombo->addItem(i18n("All Payees Combined"));
-				else payeeCombo->addItem(i18n("All Payers Combined"));
+				if(sourceCombo->currentIndex() == 3) payeeCombo->addItem(tr("All Payees Combined"));
+				else payeeCombo->addItem(tr("All Payers Combined"));
 			}
 			descriptionCombo->setEnabled(false);
 			if(b_extra) payeeCombo->setEnabled(false);

@@ -27,7 +27,7 @@ set(eqonomize_SRCS
 
 add_executable(eqonomize ${eqonomize_SRCS})
 
-target_link_libraries(eqonomize Qt5::Widgets Qt5::Gui Qt5::PrintSupport Qt5::Xml KF5::I18n KF5::Completion KF5::XmlGui KF5::WidgetsAddons KF5::KHtml KF5::ConfigCore KF5::KIOWidgets KF5::KIOCore KF5::DBusAddons KF5::JobWidgets)
+target_link_libraries(eqonomize Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::Network Qt5::PrintSupport)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
@@ -35,7 +35,6 @@ install(TARGETS eqonomize ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
 
-install(FILES  eqonomizeui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/eqonomize)
 install(FILES  eqonomize.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 find_package(SharedMimeInfo REQUIRED)
 install(FILES  x-eqonomize.xml DESTINATION ${XDG_MIME_INSTALL_DIR})

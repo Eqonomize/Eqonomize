@@ -30,9 +30,8 @@ class QRadioButton;
 class QSpinBox;
 class QComboBox;
 class QLineEdit;
-
 class QDateEdit;
-class KUrlRequester;
+class QPushButton;
 
 class Budget;
 class EqonomizeValueEdit;
@@ -50,7 +49,8 @@ class ImportCSVDialog : public QWizard {
 		QLabel *typeDescriptionLabel;
 		QButtonGroup *typeGroup, *dateGroup, *valueGroup, *costGroup, *descriptionGroup, *AC1Group, *AC2Group, *commentsGroup;
 
-		KUrlRequester *fileEdit;
+		QLineEdit *fileEdit;
+		QPushButton *fileButton;
 		QSpinBox *rowEdit;
 		QComboBox *delimiterCombo;
 		QLineEdit *delimiterEdit;
@@ -99,6 +99,7 @@ class ImportCSVDialog : public QWizard {
 	protected slots:
 
 		void onFileChanged(const QString&);
+		void selectFile();
 		void nextClicked();
 		void typeChanged(int);
 		void delimiterChanged(int);
