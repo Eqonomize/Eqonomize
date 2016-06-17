@@ -105,6 +105,8 @@
 #define SECURITIES_PAGE_INDEX 4
 #define SCHEDULE_PAGE_INDEX 5
 
+#define MAX_RECENT_FILES 10
+
 QTreeWidgetItem *selectedItem(QTreeWidget *w) {
 	QList<QTreeWidgetItem*> list = w->selectedItems();
 	if(list.isEmpty()) return NULL;
@@ -3708,7 +3710,7 @@ void Eqonomize::openURL(const QUrl& url) {
 	}
 	settings.endGroup();
 	settings.sync();
-	//ActionOpenRecent->addUrl(url);
+	updateRecentFiles(url.toLocalFile());
 
 	reloadBudget();
 
@@ -3748,7 +3750,7 @@ bool Eqonomize::saveURL(const QUrl& url) {
 			cr_tmp_file = "";
 		}
 		settings.sync();
-		//ActionOpenRecent->addUrl(url);
+		updateRecentFiles(url.toLocalFile());
 		setModified(false);
 	}
 	return true;
@@ -4320,6 +4322,17 @@ void Eqonomize::setupActions() {
 	mainToolbar->addAction(ActionFileNew);
 	NEW_ACTION_3(ActionFileOpen, tr("&Open…"), "document-open", QKeySequence::Open, this, SLOT(fileOpen()), "file_open", fileMenu);
 	mainToolbar->addAction(ActionFileOpen);
+	recentFilesMenu = fileMenu->addMenu(QIcon::fromTheme("document-open-recent"), tr("Open Recent"));
+	QAction* recentFileAction = 0;
+	for(int i = 0; i < MAX_RECENT_FILES; i++){
+		recentFileAction = new QAction(this);
+		recentFileAction->setVisible(false);
+		QObject::connect(recentFileAction, SIGNAL(triggered()), this, SLOT(openRecent()));
+		recentFilesMenu->addAction(recentFileAction);
+		recentFileActionList.append(recentFileAction);
+	}
+	recentFilesMenu->addSeparator();
+	NEW_ACTION_2(ActionClearRecentFiles, tr("Clear List"), 0, this, SLOT(clearRecentFiles()), "clear_recent_files", recentFilesMenu);
 	fileMenu->addSeparator();
 	NEW_ACTION_3(ActionFileSave, tr("&Save"), "document-save", QKeySequence::Save, this, SLOT(fileSave()), "file_save", fileMenu);
 	mainToolbar->addAction(ActionFileSave);
@@ -4336,7 +4349,10 @@ void Eqonomize::setupActions() {
 	mainToolbar->addAction(ActionSaveView);
 	NEW_ACTION(ActionExportQIF, tr("Export As QIF File…"), "document-export", 0, this, SLOT(exportQIF()), "export_qif", fileMenu);
 	fileMenu->addSeparator();
-	NEW_ACTION_3(ActionQuit, tr("&Quit"), "application-exit", QKeySequence::Quit, this, SLOT(close()), "application_quit", fileMenu);
+	QList<QKeySequence> keySequences;	
+	keySequences << QKeySequence(Qt::CTRL+Qt::Key_Q);
+	keySequences << QKeySequence(QKeySequence::Quit);
+	NEW_ACTION_3(ActionQuit, tr("&Quit"), "application-exit", keySequences, this, SLOT(close()), "application_quit", fileMenu);
 	
 	NEW_ACTION_NOMENU(ActionAddAccount, tr("Add Account…"), "document-new", 0, this, SLOT(addAccount()), "add_account");
 	NEW_ACTION(ActionNewAssetsAccount, tr("New Account…"), "document-new", 0, this, SLOT(newAssetsAccount()), "new_assets_account", accountsMenu);
@@ -4440,6 +4456,43 @@ void Eqonomize::setupActions() {
 	ActionEditQuotations->setEnabled(false);
 	ActionEditSecurityTransactions->setEnabled(false);
 
+}
+
+void Eqonomize::openRecent(){
+	QAction *action = qobject_cast<QAction*>(sender());
+	if(action) openURL(QUrl::fromLocalFile(action->data().toString()));
+}
+
+void Eqonomize::clearRecentFiles(){
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	QStringList recentFilePaths;
+	settings.setValue("recentFiles", recentFilePaths);
+	for (int i = 0; i < MAX_RECENT_FILES; i++) {
+		recentFileActionList.at(i)->setVisible(false);
+	}
+	recentFilesMenu->setEnabled(false);
+}
+
+void Eqonomize::updateRecentFiles(QString filePath){
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	QStringList recentFilePaths = settings.value("recentFiles").toStringList();
+	if(!filePath.isEmpty()) {
+		recentFilePaths.removeAll(filePath);
+		recentFilePaths.prepend(filePath);
+		while(recentFilePaths.size() > MAX_RECENT_FILES) recentFilePaths.removeLast();
+		settings.setValue("recentFiles", recentFilePaths);
+	}
+	for (int i = 0; i < recentFilePaths.size() && i < MAX_RECENT_FILES; i++) {
+		recentFileActionList.at(i)->setText(QFileInfo(recentFilePaths.at(i)).fileName());
+		recentFileActionList.at(i)->setData(recentFilePaths.at(i));
+		recentFileActionList.at(i)->setVisible(true);
+	}
+	for (int i = recentFilePaths.size(); i < MAX_RECENT_FILES; i++) {
+		recentFileActionList.at(i)->setVisible(false);
+	}
+	recentFilesMenu->setEnabled(recentFilePaths.size() > 0);
 }
 
 void Eqonomize::showHelp() {
@@ -4592,7 +4645,6 @@ void Eqonomize::onActivateRequested(const QStringList &arguments, const QString 
 void Eqonomize::saveOptions() {	
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
-	//ActionOpenRecent->saveEntries(KSharedConfig::openConfig()->group("RecentFiles"));
 	settings.setValue("lastURL", current_url.url());
 	settings.setValue("currentEditExpenseFromItem", expensesWidget->currentEditFromItem());
 	settings.setValue("currentEditExpenseToItem", expensesWidget->currentEditToItem());
@@ -4634,13 +4686,13 @@ void Eqonomize::readFileDependentOptions() {
 void Eqonomize::readOptions() {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
-	//ActionOpenRecent->loadEntries(KSharedConfig::openConfig()->group("RecentFiles"));
 	first_run = settings.value("firstRun", true).toBool();
 	settings.setValue("firstRun", false);
 	QSize window_size = settings.value("size", QSize()).toSize();
 	if(window_size.isValid()) resize(window_size);
 	restoreState(settings.value("windowState").toByteArray());
 	settings.endGroup();
+	updateRecentFiles();
 }
 
 void Eqonomize::closeEvent(QCloseEvent *event) {

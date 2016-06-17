@@ -598,44 +598,44 @@ msgstr "Nouveau"
 
 #: editsplitdialog.cpp:184 eqonomize.cpp:4333
 #, kde-format
-msgid "New Expense..."
-msgstr "Nouvelle dépense..."
+msgid "New Expense…"
+msgstr "Nouvelle dépense…"
 
 #: editsplitdialog.cpp:185 eqonomize.cpp:4334
 #, kde-format
-msgid "New Income..."
-msgstr "Nouveau revenu..."
+msgid "New Income…"
+msgstr "Nouveau revenu…"
 
 #: editsplitdialog.cpp:186
 #, kde-format
-msgid "New Deposit..."
-msgstr "Nouveau dépôt..."
+msgid "New Deposit…"
+msgstr "Nouveau dépôt…"
 
 #: editsplitdialog.cpp:187
 #, kde-format
-msgid "New Withdrawal..."
+msgid "New Withdrawal…"
 msgstr "Nouveau retrait"
 
 #: editsplitdialog.cpp:188
 #, fuzzy, kde-format
-msgid "New Security Shares Bought..."
-msgstr "Parts achetées..."
+msgid "New Security Shares Bought…"
+msgstr "Parts achetées…"
 
 #: editsplitdialog.cpp:189
 #, kde-format
-msgid "Security Shares Sold..."
+msgid "Security Shares Sold…"
 msgstr ""
 
 #: editsplitdialog.cpp:190
 #, kde-format
-msgid "New Dividend..."
+msgid "New Dividend…"
 msgstr "Nouveau dividende"
 
 #: editsplitdialog.cpp:191 eqonomize.cpp:924 eqonomize.cpp:1071
 #: eqonomize.cpp:4328 ledgerdialog.cpp:158 transactionlistwidget.cpp:1051
 #, kde-format
-msgid "Edit..."
-msgstr "Éditer..."
+msgid "Edit…"
+msgstr "Éditer…"
 
 #: editsplitdialog.cpp:221 eqonomize.cpp:2325
 #, kde-format
@@ -803,8 +803,8 @@ msgstr "Montant"
 
 #: eqonomize.cpp:926
 #, kde-format
-msgid "Postpone..."
-msgstr "Ajourner..."
+msgid "Postpone…"
+msgstr "Ajourner…"
 
 #: eqonomize.cpp:973
 #, kde-format
@@ -1144,8 +1144,8 @@ msgstr "Résultat du mois précédent:"
 
 #: eqonomize.cpp:1917 eqonomize.cpp:4354
 #, kde-format
-msgid "New Security..."
-msgstr "Nouveau titre..."
+msgid "New Security…"
+msgstr "Nouveau titre…"
 
 #: eqonomize.cpp:1919
 #, kde-format
@@ -1154,8 +1154,8 @@ msgstr "Nouvelle transaction"
 
 #: eqonomize.cpp:1922 eqonomize.cpp:4362
 #, kde-format
-msgid "Set Quotation..."
-msgstr "Mettre une quotation..."
+msgid "Set Quotation…"
+msgstr "Mettre une quotation…"
 
 #: eqonomize.cpp:1934 eqonomize.cpp:3987
 #, kde-format
@@ -1428,13 +1428,13 @@ msgstr "Liste des plannings vide."
 
 #: eqonomize.cpp:4305
 #, kde-format
-msgid "Export View..."
-msgstr "Exporter la vue..."
+msgid "Export View…"
+msgstr "Exporter la vue…"
 
 #: eqonomize.cpp:4307
 #, kde-format
-msgid "Print View..."
-msgstr "Imprimer la vue..."
+msgid "Print View…"
+msgstr "Imprimer la vue…"
 
 #: eqonomize.cpp:4309
 #, kde-format
@@ -1448,43 +1448,43 @@ msgstr "Se souvenir des dernières dates"
 
 #: eqonomize.cpp:4319
 #, kde-format
-msgid "Import CSV File..."
-msgstr "Importe un fichier CSV..."
+msgid "Import CSV File…"
+msgstr "Importe un fichier CSV…"
 
 #: eqonomize.cpp:4320
 #, kde-format
-msgid "Import QIF File..."
-msgstr "Importer un fichier QIF..."
+msgid "Import QIF File…"
+msgstr "Importer un fichier QIF…"
 
 #: eqonomize.cpp:4321
 #, kde-format
-msgid "Export As QIF File..."
-msgstr "Exporter un fichier QIF..."
+msgid "Export As QIF File…"
+msgstr "Exporter un fichier QIF…"
 
 #: eqonomize.cpp:4323
 #, kde-format
-msgid "Add Account..."
-msgstr "Ajouter un compte..."
+msgid "Add Account…"
+msgstr "Ajouter un compte…"
 
 #: eqonomize.cpp:4324
 #, kde-format
-msgid "New Account..."
-msgstr "Nouveau compte..."
+msgid "New Account…"
+msgstr "Nouveau compte…"
 
 #: eqonomize.cpp:4325
 #, kde-format
-msgid "New Income Category..."
-msgstr "Nouvelle catégorie de revenu..."
+msgid "New Income Category…"
+msgstr "Nouvelle catégorie de revenu…"
 
 #: eqonomize.cpp:4326
 #, kde-format
-msgid "New Expense Category..."
-msgstr "Nouvelle catégorie de dépense..."
+msgid "New Expense Category…"
+msgstr "Nouvelle catégorie de dépense…"
 
 #: eqonomize.cpp:4327
 #, kde-format
-msgid "Balance..."
-msgstr "Équilibre..."
+msgid "Balance…"
+msgstr "Équilibre…"
 
 #: eqonomize.cpp:4331
 #, kde-format
@@ -1493,33 +1493,33 @@ msgstr "Montrer les transactions"
 
 #: eqonomize.cpp:4335
 #, kde-format
-msgid "New Transfer..."
-msgstr "Nouveau transfert..."
+msgid "New Transfer…"
+msgstr "Nouveau transfert…"
 
 #: eqonomize.cpp:4336
 #, kde-format
-msgid "New Split Transaction..."
-msgstr "Nouveau transaction séparée..."
+msgid "New Split Transaction…"
+msgstr "Nouveau transaction séparée…"
 
 #: eqonomize.cpp:4337
 #, kde-format
-msgid "Edit Transaction(s) (Occurrence)..."
-msgstr "Éditer la/les transaction(s) (Occurrence)..."
+msgid "Edit Transaction(s) (Occurrence)…"
+msgstr "Éditer la/les transaction(s) (Occurrence)…"
 
 #: eqonomize.cpp:4338
 #, kde-format
-msgid "Edit Occurrence..."
-msgstr "Éditer l'occurrence..."
+msgid "Edit Occurrence…"
+msgstr "Éditer l'occurrence…"
 
 #: eqonomize.cpp:4339
 #, kde-format
-msgid "Edit Schedule (Recurrence)..."
-msgstr "Éditer le(s) planning(s) (Occurrence)..."
+msgid "Edit Schedule (Recurrence)…"
+msgstr "Éditer le(s) planning(s) (Occurrence)…"
 
 #: eqonomize.cpp:4340
 #, kde-format
-msgid "Edit Schedule..."
-msgstr "Éditer le planning..."
+msgid "Edit Schedule…"
+msgstr "Éditer le planning…"
 
 #: eqonomize.cpp:4341
 #, kde-format
@@ -1543,8 +1543,8 @@ msgstr "Supprimer le planning"
 
 #: eqonomize.cpp:4345
 #, kde-format
-msgid "Edit Split Transaction..."
-msgstr "Editer une transaction séparée..."
+msgid "Edit Split Transaction…"
+msgstr "Editer une transaction séparée…"
 
 #: eqonomize.cpp:4346
 #, kde-format
@@ -1553,8 +1553,8 @@ msgstr "Déplacer la transaction séparée"
 
 #: eqonomize.cpp:4347
 #, kde-format
-msgid "Join Transactions..."
-msgstr "Lier les transactions..."
+msgid "Join Transactions…"
+msgstr "Lier les transactions…"
 
 #: eqonomize.cpp:4348
 #, kde-format
@@ -1563,23 +1563,23 @@ msgstr "Transaction décomposée"
 
 #: eqonomize.cpp:4350
 #, kde-format
-msgid "Refund..."
-msgstr "Rembourser..."
+msgid "Refund…"
+msgstr "Rembourser…"
 
 #: eqonomize.cpp:4351
 #, kde-format
-msgid "Repayment..."
-msgstr "Remboursement..."
+msgid "Repayment…"
+msgstr "Remboursement…"
 
 #: eqonomize.cpp:4352
 #, kde-format
-msgid "New Refund/Repayment..."
-msgstr "Nouveau remboursement..."
+msgid "New Refund/Repayment…"
+msgstr "Nouveau remboursement…"
 
 #: eqonomize.cpp:4355
 #, kde-format
-msgid "Edit Security..."
-msgstr "Éditer le titre..."
+msgid "Edit Security…"
+msgstr "Éditer le titre…"
 
 #: eqonomize.cpp:4356
 #, kde-format
@@ -1588,58 +1588,58 @@ msgstr "Enlever le titre"
 
 #: eqonomize.cpp:4357
 #, kde-format
-msgid "Shares Sold..."
-msgstr "Parts vendues..."
+msgid "Shares Sold…"
+msgstr "Parts vendues…"
 
 #: eqonomize.cpp:4358
 #, kde-format
-msgid "Shares Bought..."
-msgstr "Parts achetées..."
+msgid "Shares Bought…"
+msgstr "Parts achetées…"
 
 #: eqonomize.cpp:4359
 #, kde-format
-msgid "Dividend..."
-msgstr "Dividende..."
+msgid "Dividend…"
+msgstr "Dividende…"
 
 #: eqonomize.cpp:4360
 #, kde-format
-msgid "Reinvested Dividend..."
-msgstr "Dividende réinvesti..."
+msgid "Reinvested Dividend…"
+msgstr "Dividende réinvesti…"
 
 #: eqonomize.cpp:4361
 #, kde-format
-msgid "Shares Moved..."
-msgstr "Parts bougées..."
+msgid "Shares Moved…"
+msgstr "Parts bougées…"
 
 #: eqonomize.cpp:4363
 #, kde-format
-msgid "Edit Quotations..."
+msgid "Edit Quotations…"
 msgstr "Éditer les quotations"
 
 #: eqonomize.cpp:4364
 #, kde-format
-msgid "Transactions..."
-msgstr "Transactions..."
+msgid "Transactions…"
+msgstr "Transactions…"
 
 #: eqonomize.cpp:4366
 #, kde-format
-msgid "Development Over Time Report..."
-msgstr "Rapport de développement temporel..."
+msgid "Development Over Time Report…"
+msgstr "Rapport de développement temporel…"
 
 #: eqonomize.cpp:4367
 #, kde-format
-msgid "Categories Comparison Report..."
-msgstr "Rapport de comparaison de catégories..."
+msgid "Categories Comparison Report…"
+msgstr "Rapport de comparaison de catégories…"
 
 #: eqonomize.cpp:4368
 #, kde-format
-msgid "Categories Comparison Chart..."
-msgstr "Diagramme de comparaison de catégories..."
+msgid "Categories Comparison Chart…"
+msgstr "Diagramme de comparaison de catégories…"
 
 #: eqonomize.cpp:4369
 #, kde-format
-msgid "Development Over Time Chart..."
-msgstr "Diagramme de développement temporel..."
+msgid "Development Over Time Chart…"
+msgstr "Diagramme de développement temporel…"
 
 #: eqonomize.cpp:4371
 #, kde-format
@@ -2162,26 +2162,26 @@ msgid "Next &Week"
 msgstr ""
 
 #: kdatepickerpopup.cpp:97
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@option next month"
 msgid "Next M&onth"
-msgstr "Mois actuel"
+msgstr ""
 
 #: kdatepickerpopup.cpp:105
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@option do not specify a date"
 msgid "No Date"
-msgstr "Date"
+msgstr ""
 
 #: ledgerdialog.cpp:122
 #, kde-format
-msgid "Export..."
-msgstr "Exporter..."
+msgid "Export…"
+msgstr "Exporter…"
 
 #: ledgerdialog.cpp:123
 #, kde-format
-msgid "Print..."
-msgstr "Imprimer..."
+msgid "Print…"
+msgstr "Imprimer…"
 
 #: ledgerdialog.cpp:139
 #, kde-format
@@ -2190,8 +2190,8 @@ msgstr "Retrait"
 
 #: ledgerdialog.cpp:162
 #, kde-format
-msgid "Join..."
-msgstr "Lier..."
+msgid "Join…"
+msgstr "Lier…"
 
 #: ledgerdialog.cpp:164
 #, kde-format
@@ -2701,11 +2701,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: qifimportexport.cpp:485
-#, fuzzy, kde-format
+#, kde-format
 msgid "1 security transaction was not imported."
 msgid_plural "%n security transactions were not imported."
-msgstr[0] "Impossible d'enregistrer les transactions importées."
-msgstr[1] "Impossible d'enregistrer les transactions importées."
+msgstr[0] ""
+msgstr[1] ""
 
 #: qifimportexport.cpp:494
 #, kde-format
@@ -3120,13 +3120,13 @@ msgstr "de l'année"
 
 #: recurrenceeditwidget.cpp:533
 #, kde-format
-msgid "Range..."
-msgstr "Intersection..."
+msgid "Range…"
+msgstr "Intersection…"
 
 #: recurrenceeditwidget.cpp:535
 #, kde-format
-msgid "Exceptions..."
-msgstr "Exceptions..."
+msgid "Exceptions…"
+msgstr "Exceptions…"
 
 #: recurrenceeditwidget.cpp:731
 #, kde-format
@@ -3350,5 +3350,5 @@ msgstr "** Se reproduit (éditer l' occurrence)"
 
 #: transactionlistwidget.cpp:1049
 #, kde-format
-msgid "Modify..."
-msgstr "Modifier..."
+msgid "Modify…"
+msgstr "Modifier…"

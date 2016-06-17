@@ -59,8 +59,6 @@ class QTextEdit;
 class QLocalSocket;
 class QLocalServer;
 
-//class KAutoSaveFile;
-
 class CategoriesComparisonChart;
 class CategoriesComparisonReport;
 class OverTimeChart;
@@ -171,6 +169,9 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionNewSecurity, *ActionEditSecurity, *ActionBuyShares, *ActionSellShares, *ActionNewDividend, *ActionNewReinvestedDividend, *ActionNewSecurityTrade, *ActionSetQuotation, *ActionEditQuotations, *ActionEditSecurityTransactions, *ActionDeleteSecurity;
 		QAction *ActionNewRefund, *ActionNewRepayment, *ActionNewRefundRepayment;
 		QAction *ActionFileNew, *ActionFileOpen, *ActionFileSave, *ActionFileSaveAs, *ActionFileReload, *ActionSaveView, *ActionPrintView, *ActionQuit;
+		QMenu *recentFilesMenu;
+		QList<QAction*> recentFileActionList;
+		QAction *ActionClearRecentFiles;
 		QAction *ActionOverTimeReport, *ActionCategoriesComparisonReport, *ActionOverTimeChart, *ActionCategoriesComparisonChart;
 		QAction *ActionImportCSV, *ActionImportQIF, *ActionExportQIF;
 		QAction *ActionExtraProperties, *AIPCurrentMonth, *AIPCurrentYear, *AIPCurrentWholeMonth, *AIPCurrentWholeYear, *AIPRememberLastDates;
@@ -180,6 +181,7 @@ class Eqonomize : public QMainWindow {
 	protected:
 
 		void setupActions();
+		void updateRecentFiles(QString filePath = QString());		
 		void saveOptions();
 		void closeEvent(QCloseEvent *event);
 		
@@ -329,6 +331,8 @@ class Eqonomize : public QMainWindow {
 		void fileSave();
 		void fileSaveAs();
 		void optionsPreferences();
+		void clearRecentFiles();
+		void openRecent();
 
 		void checkSchedule();
 
