@@ -33,6 +33,8 @@
 #include <QLocalSocket>
 #include <QDebug>
 #include <QTranslator>
+#include <QDir>
+#include <QTextStream>
 
 #include "budget.h"
 #include "eqonomize.h"
@@ -40,25 +42,7 @@
 QString emptystr = "";
 
 int main(int argc, char **argv) {	
-
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
-	QLockFile lockFile(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/eqonomize.lock");
-#else
-	QLockFile lockFile(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/eqonomize.lock");
-#endif
-	if(!lockFile.tryLock(100)){
-		if(lockFile.error() == QLockFile::LockFailedError) {
-			QLocalSocket socket;
-			socket.connectToServer("eqonomize");
-			if(socket.waitForConnected()) {
-				socket.putChar('r');
-				socket.waitForBytesWritten(3000);
-				socket.disconnectFromServer();
-			}
-			return 1;
-		}
-	}	
-
+	
 	QApplication app(argc, argv);
 	app.setApplicationName("eqonomize");
 	app.setApplicationDisplayName("Eqonomize!");
@@ -80,6 +64,42 @@ int main(int argc, char **argv) {
 	parser->addPositionalArgument("url", QApplication::tr("Document to open"), "[url]");
 	parser->addHelpOption();
 	parser->process(app);
+			
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+	QString lockpath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+#else
+	QString lockpath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/" + app.organizationName() + "/" + app.applicationName();
+#endif
+	QDir lockdir(lockpath);
+	QLockFile lockFile(lockpath + "/eqonomize.lock");
+	if(lockdir.mkpath(lockpath)) {
+		if(!lockFile.tryLock(100)){
+			if(lockFile.error() == QLockFile::LockFailedError) {
+				QTextStream outStream(stdout);
+				outStream << QApplication::tr("%1 is already running.").arg(app.applicationDisplayName()) << '\n';
+				QLocalSocket socket;
+				socket.connectToServer("eqonomize");
+				if(socket.waitForConnected()) {
+					QStringList args = parser->positionalArguments();
+					QString command;
+					if(parser->isSet(eOption)) {
+						command = 'e';
+					} else if(parser->isSet(iOption)) {
+						command = 'i';
+					} else if(parser->isSet(tOption)) {
+						command = 't';
+					} else {
+						command = '0';
+					}
+					if(args.count() > 0) command += args.at(0);
+					socket.write(command.toUtf8());
+					socket.waitForBytesWritten(3000);
+					socket.disconnectFromServer();
+				}
+				return 1;
+			}
+		}
+	}
 	
 	Eqonomize *win = new Eqonomize();
 	win->setCommandLineParser(parser);

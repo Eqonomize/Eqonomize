@@ -196,7 +196,7 @@ class Eqonomize : public QMainWindow {
 		bool b_extra;
 		QLocalSocket *socket;
 		QLocalServer *server;
-		//KAutoSaveFile *cr_tmp_file;
+		QString cr_tmp_file;
 
 		QToolBar *mainToolbar;
 		QTabWidget *tabs;

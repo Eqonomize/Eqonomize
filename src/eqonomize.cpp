@@ -77,8 +77,6 @@
 
 #include <QDebug>
 
-//#include <kautosavefile.h>
-
 #include "budget.h"
 #include "categoriescomparisonchart.h"
 #include "categoriescomparisonreport.h"
@@ -1757,8 +1755,6 @@ class AccountsListView : public EqonomizeTreeWidget {
 
 Eqonomize::Eqonomize() : QMainWindow() {
 
-	//cr_tmp_file = NULL;
-
 	expenses_budget = 0.0;
 	expenses_budget_diff = 0.0;
 	incomes_budget = 0.0;
@@ -2236,10 +2232,17 @@ void Eqonomize::serverNewConnection() {
 	}
 }
 void Eqonomize::socketReadyRead() {
-	socket->readAll();	
 	setWindowState((windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
 	show();
 	activateWindow();
+	QString command = socket->readAll();
+	QChar c = command[0];	
+	if(c == 'e') showExpenses();
+	else if(c ==  'i') showIncomes();
+	else if(c == 't') showTransfers();
+	command.remove(0, 1);
+	command = command.trimmed();
+	if(!command.isEmpty()) openURL(QUrl::fromUserInput(command));
 }
 
 void Eqonomize::useExtraProperties(bool b) {
@@ -3698,11 +3701,11 @@ void Eqonomize::openURL(const QUrl& url) {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 	settings.setValue("lastURL", current_url.url());
-	/*if(cr_tmp_file) {
-		cr_tmp_file->releaseLock();
-		delete cr_tmp_file;
-		cr_tmp_file = NULL;
-	}*/
+	if(!cr_tmp_file.isEmpty()) {
+		QFile autosaveFile(cr_tmp_file);
+		autosaveFile.remove();
+		cr_tmp_file = "";
+	}
 	settings.endGroup();
 	settings.sync();
 	//ActionOpenRecent->addUrl(url);
@@ -3739,11 +3742,11 @@ bool Eqonomize::saveURL(const QUrl& url) {
 		settings.beginGroup("GeneralOptions");
 		settings.setValue("lastURL", current_url.url());
 		settings.endGroup();
-		/*if(cr_tmp_file) {
-			cr_tmp_file->releaseLock();
-			delete cr_tmp_file;
-			cr_tmp_file = NULL;
-		}*/
+		if(!cr_tmp_file.isEmpty()) {
+			QFile autosaveFile(cr_tmp_file);
+			autosaveFile.remove();
+			cr_tmp_file = "";
+		}
 		settings.sync();
 		//ActionOpenRecent->addUrl(url);
 		setModified(false);
@@ -4470,24 +4473,23 @@ void Eqonomize::showAboutQt() {
 }
 
 bool Eqonomize::crashRecovery(QUrl url) {
-	/*QSettings settings;
-	QList<KAutoSaveFile*> staleFiles;
-	if(url.isLocalFile()) {
-		staleFiles = KAutoSaveFile::staleFiles(url);
-	} else if(url.isEmpty()) {
-		staleFiles = KAutoSaveFile::staleFiles(QUrl::fromLocalFile("UNSAVED EQZ"));
-	}
-	if(!staleFiles.isEmpty()) {
+	QString autosaveFileName;
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+		autosaveFileName = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/autosave/";
+#else
+		autosaveFileName = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/Eqonomize/eqonomize/autosave/";
+#endif
+	if(url.isEmpty()) autosaveFileName += "UNSAVED EQZ";
+	else autosaveFileName += url.fileName();
+	QFileInfo fileinfo(autosaveFileName);
+	if(fileinfo.exists() && fileinfo.isWritable()) {
 		if(QMessageBox::question(this, tr("Crash Recovery"), tr("Eqonomize! exited unexpectedly before the file was saved and data was lost.\nDo you want to load the last auto-saved version of the file?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
 			QString errors;
-			QString error = budget->loadFile(staleFiles.first()->fileName(), errors);
+			QString error = budget->loadFile(autosaveFileName, errors);
 			if(!error.isNull()) {
-				QMessageBox::critical(this, tr("Couldn't open file"), tr("Error loading %1: %2.").arg(cr_tmp_file->fileName()).arg(error));
-				settings.sync();
-				foreach(KAutoSaveFile *stale, staleFiles) {
-					stale->remove();
-					delete stale;
-				}
+				QMessageBox::critical(this, tr("Couldn't open file"), tr("Error loading %1: %2.").arg(autosaveFileName).arg(error));
+				QFile autosaveFile(autosaveFileName);
+				autosaveFile.remove();
 				return false;
 			}
 			if(!errors.isEmpty()) {
@@ -4496,14 +4498,12 @@ bool Eqonomize::crashRecovery(QUrl url) {
 			current_url = url;
 			ActionFileReload->setEnabled(true);
 			setWindowTitle(current_url.fileName() + "[*]");
-			foreach(KAutoSaveFile *stale, staleFiles) {
-				stale->remove();
-				delete stale;
-			}
-			if(cr_tmp_file) {
-				cr_tmp_file->releaseLock();
-				delete cr_tmp_file;
-				cr_tmp_file = NULL;
+			QFile autosaveFile(autosaveFileName);
+			autosaveFile.remove();
+			if(!cr_tmp_file.isEmpty()) {
+				QFile autosaveFile2(cr_tmp_file);
+				autosaveFile2.remove();
+				cr_tmp_file = "";
 			}
 
 			reloadBudget();
@@ -4518,11 +4518,9 @@ bool Eqonomize::crashRecovery(QUrl url) {
 			return true;
 
 		}
-		foreach(KAutoSaveFile *stale, staleFiles) {
-			stale->remove();
-			delete stale;
-		}
-	}*/
+		QFile autosaveFile(autosaveFileName);
+		autosaveFile.remove();
+	}
 	return false;
 
 }
@@ -4540,17 +4538,28 @@ void Eqonomize::autoSave() {
 	}
 }
 void Eqonomize::saveCrashRecovery() {
-	/*if(!cr_tmp_file) {
-		if(current_url.isEmpty()) cr_tmp_file = new KAutoSaveFile(QUrl::fromLocalFile("UNSAVED EQZ"), this);
-		else cr_tmp_file = new KAutoSaveFile(current_url, this);
-	}
-	if(budget->saveFile(cr_tmp_file->fileName()).isNull()) {
+	if(cr_tmp_file.isEmpty()) {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+		cr_tmp_file = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/autosave/";
+#else
+		cr_tmp_file = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "Eqonomize/eqonomize/autosave/";
+#endif
+		QDir autosaveDir(cr_tmp_file);
+		if(!autosaveDir.mkpath(cr_tmp_file)) {
+			cr_tmp_file = "";
+			return;
+		}
+		if(current_url.isEmpty()) cr_tmp_file += "UNSAVED EQZ";
+		else cr_tmp_file += current_url.fileName();
+	}	
+	qInfo() << cr_tmp_file;
+	if(budget->saveFile(cr_tmp_file).isNull()) {
 		QSettings settings;
 		settings.beginGroup("GeneralOptions");
 		settings.setValue("lastURL", current_url.url());
 		settings.endGroup();
 		settings.sync();
-	}*/
+	}
 }
 
 void Eqonomize::setCommandLineParser(QCommandLineParser *p) {
@@ -4665,11 +4674,11 @@ void Eqonomize::fileNew() {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 	settings.setValue("lastURL", current_url.url());
-	/*if(cr_tmp_file) {
-		cr_tmp_file->releaseLock();
-		delete cr_tmp_file;
-		cr_tmp_file = NULL;
-	}*/
+	if(!cr_tmp_file.isEmpty()) {
+		QFile autosaveFile(cr_tmp_file);
+		autosaveFile.remove();
+		cr_tmp_file = "";
+	}
 	settings.endGroup();
 	settings.sync();
 	setModified(false);
@@ -4747,11 +4756,11 @@ bool Eqonomize::askSave(bool before_exit) {
 		}
 	}
 	if(b_save == QMessageBox::No) {
-		/*if(cr_tmp_file) {
-			cr_tmp_file->releaseLock();
-			delete cr_tmp_file;
-			cr_tmp_file = NULL;
-		}*/
+		if(!cr_tmp_file.isEmpty()) {
+			QFile autosaveFile(cr_tmp_file);
+			autosaveFile.remove();
+			cr_tmp_file = "";
+		}
 		return true;
 	}
 	return false;
