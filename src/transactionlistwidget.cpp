@@ -245,7 +245,7 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			}
 			outf << "</title>" << '\n';
 			outf << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << '\n';
-			outf << "\t\t<meta name=\"GENERATOR\" content=\"Eqonomize!\">" << '\n';
+			outf << "\t\t<meta name=\"GENERATOR\" content=\"" << qApp->applicationDisplayName() << "\">" << '\n';
 			outf << "\t</head>" << '\n';
 			outf << "\t<body>" << '\n';
 			outf << "\t\t<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';

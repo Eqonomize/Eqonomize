@@ -737,7 +737,7 @@ void CategoriesComparisonReport::updateDisplay() {
 	outf << htmlize_string(title);
 	outf << "</title>" << '\n';
 	outf << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << '\n';
-	outf << "\t\t<meta name=\"GENERATOR\" content=\"Eqonomize!\">" << '\n';
+	outf << "\t\t<meta name=\"GENERATOR\" content=\"" << qApp->applicationDisplayName() << "\">" << '\n';
 	outf << "\t</head>" << '\n';
 	outf << "\t<body>" << '\n';
 	if(fromButton->isChecked()) outf << "\t\t<h2>" << tr("%1 (%2&ndash;%3)", "html format; %1: title; %2: from date; %3: to date").arg(htmlize_string(title)).arg(htmlize_string(QLocale().toString(first_date, QLocale::ShortFormat))).arg(htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h2>" << '\n';

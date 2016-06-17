@@ -57,32 +57,32 @@ msgid "Invalid root element %1 in XML document"
 msgstr "Ungültiges Wurzelelement %1 im XML-Dokument"
 
 #: src/budget.cpp:376
-#, fuzzy, kde-format
+#, kde-format
 msgid "Unable to load 1 account."
 msgid_plural "Unable to load %1 accounts."
 msgstr[0] "Konnte 1 Konto nicht laden."
-msgstr[1] "Konnte %n Konten nicht laden."
+msgstr[1] "Konnte %1 Konten nicht laden."
 
 #: src/budget.cpp:381
-#, fuzzy, kde-format
+#, kde-format
 msgid "Unable to load 1 category."
 msgid_plural "Unable to load %1 categories."
 msgstr[0] "Konnte 1 Kategorie nicht laden."
-msgstr[1] "Konnte %n Kategorien nicht laden."
+msgstr[1] "Konnte %1 Kategorien nicht laden."
 
 #: src/budget.cpp:386
-#, fuzzy, kde-format
+#, kde-format
 msgid "Unable to load 1 security."
 msgid_plural "Unable to load %1 securities."
 msgstr[0] "Konnte 1 Wertpapier nicht laden."
-msgstr[1] "Konnte %n Wertpapiere nicht laden."
+msgstr[1] "Konnte %1 Wertpapiere nicht laden."
 
 #: src/budget.cpp:391
-#, fuzzy, kde-format
+#, kde-format
 msgid "Unable to load 1 transaction."
 msgid_plural "Unable to load %1 transactions."
 msgstr[0] "Konnte 1 Transaktion nicht laden."
-msgstr[1] "Konnte %n Transaktionen nicht laden."
+msgstr[1] "Konnte %1 Transaktionen nicht laden."
 
 #: src/budget.cpp:402
 msgid "File is a directory"
@@ -99,9 +99,8 @@ msgstr "Fehler beim Schreiben der Datei; Datei wurde nicht gesichert"
 #: src/categoriescomparisonchart.cpp:115
 #: src/categoriescomparisonreport.cpp:109 src/overtimechart.cpp:206
 #: src/overtimereport.cpp:95
-#, fuzzy
 msgid "Options"
-msgstr "Beschreibungen"
+msgstr ""
 
 #: src/categoriescomparisonchart.cpp:120
 #: src/categoriescomparisonreport.cpp:162 src/eqonomize.cpp:1922
@@ -576,38 +575,38 @@ msgid "New"
 msgstr "Neu"
 
 #: src/editsplitdialog.cpp:178 src/eqonomize.cpp:4397
-msgid "New Expense..."
-msgstr "Neue Ausgabe..."
+msgid "New Expense…"
+msgstr "Neue Ausgabe…"
 
 #: src/editsplitdialog.cpp:179 src/eqonomize.cpp:4398
-msgid "New Income..."
-msgstr "Neue Einnahme..."
+msgid "New Income…"
+msgstr "Neue Einnahme…"
 
 #: src/editsplitdialog.cpp:180
-msgid "New Deposit..."
-msgstr "Neue Einlage..."
+msgid "New Deposit…"
+msgstr "Neue Einlage…"
 
 #: src/editsplitdialog.cpp:181
-msgid "New Withdrawal..."
-msgstr "Neue Abhebung..."
+msgid "New Withdrawal…"
+msgstr "Neue Abhebung…"
 
 #: src/editsplitdialog.cpp:182
-msgid "New Security Shares Bought..."
+msgid "New Security Shares Bought…"
 msgstr ""
 
 #: src/editsplitdialog.cpp:183
-msgid "Security Shares Sold..."
-msgstr "Anteile verkaufter Wertpapiere..."
+msgid "Security Shares Sold…"
+msgstr "Anteile verkaufter Wertpapiere…"
 
 #: src/editsplitdialog.cpp:184
-msgid "New Dividend..."
-msgstr "Neue Dividende..."
+msgid "New Dividend…"
+msgstr "Neue Dividende…"
 
 #: src/editsplitdialog.cpp:185 src/eqonomize.cpp:1006 src/eqonomize.cpp:1164
 #: src/eqonomize.cpp:4392 src/ledgerdialog.cpp:157
 #: src/transactionlistwidget.cpp:1054
-msgid "Edit..."
-msgstr "Bearbeiten..."
+msgid "Edit…"
+msgstr "Bearbeiten…"
 
 #: src/editsplitdialog.cpp:223 src/eqonomize.cpp:2450
 msgid "Total value:"
@@ -754,8 +753,8 @@ msgid "Amount"
 msgstr "Wert"
 
 #: src/eqonomize.cpp:1008
-msgid "Postpone..."
-msgstr "Verschieben..."
+msgid "Postpone…"
+msgstr "Verschieben…"
 
 #: src/eqonomize.cpp:1069
 msgid "Can only postpone to future dates."
@@ -1039,16 +1038,16 @@ msgid "Result previous month:"
 msgstr "Ergebnis des Vormonats"
 
 #: src/eqonomize.cpp:2042 src/eqonomize.cpp:4418
-msgid "New Security..."
-msgstr "Neues Wertpapier..."
+msgid "New Security…"
+msgstr "Neues Wertpapier…"
 
 #: src/eqonomize.cpp:2044
 msgid "New Transaction"
 msgstr "Neue Transaktion"
 
 #: src/eqonomize.cpp:2047 src/eqonomize.cpp:4426
-msgid "Set Quotation..."
-msgstr "Kurs setzen..."
+msgid "Set Quotation…"
+msgstr "Kurs setzen…"
 
 #: src/eqonomize.cpp:2059 src/eqonomize.cpp:4053
 msgid "Name"
@@ -1272,12 +1271,12 @@ msgid "Empty schedule list."
 msgstr "Leerer Plan"
 
 #: src/eqonomize.cpp:4369
-msgid "Export View..."
-msgstr "Exportiere Ansicht..."
+msgid "Export View…"
+msgstr "Exportiere Ansicht…"
 
 #: src/eqonomize.cpp:4371
-msgid "Print View..."
-msgstr "Drucke Ansicht..."
+msgid "Print View…"
+msgstr "Drucke Ansicht…"
 
 #: src/eqonomize.cpp:4373
 msgid "Initial Period"
@@ -1288,64 +1287,64 @@ msgid "Remember Last Dates"
 msgstr "Definierten Zeitraum merken"
 
 #: src/eqonomize.cpp:4383
-msgid "Import CSV File..."
-msgstr "Importiere CSV-Datei..."
+msgid "Import CSV File…"
+msgstr "Importiere CSV-Datei…"
 
 #: src/eqonomize.cpp:4384
-msgid "Import QIF File..."
-msgstr "Importiere QIF-Datei..."
+msgid "Import QIF File…"
+msgstr "Importiere QIF-Datei…"
 
 #: src/eqonomize.cpp:4385
-msgid "Export As QIF File..."
-msgstr "Exportiere QIF-Datei..."
+msgid "Export As QIF File…"
+msgstr "Exportiere QIF-Datei…"
 
 #: src/eqonomize.cpp:4387
-msgid "Add Account..."
+msgid "Add Account…"
 msgstr "Konto hinzufügen"
 
 #: src/eqonomize.cpp:4388
-msgid "New Account..."
-msgstr "Neues Konto..."
+msgid "New Account…"
+msgstr "Neues Konto…"
 
 #: src/eqonomize.cpp:4389
-msgid "New Income Category..."
+msgid "New Income Category…"
 msgstr "Neue Einkommenkategorie"
 
 #: src/eqonomize.cpp:4390
-msgid "New Expense Category..."
+msgid "New Expense Category…"
 msgstr "Neue Ausgabenkategorie"
 
 #: src/eqonomize.cpp:4391
-msgid "Balance..."
-msgstr "Bilanzieren..."
+msgid "Balance…"
+msgstr "Bilanzieren…"
 
 #: src/eqonomize.cpp:4395
 msgid "Show Transactions"
 msgstr "Transaktionen Zeigen"
 
 #: src/eqonomize.cpp:4399
-msgid "New Transfer..."
-msgstr "Neuer Transfer..."
+msgid "New Transfer…"
+msgstr "Neuer Transfer…"
 
 #: src/eqonomize.cpp:4400
-msgid "New Split Transaction..."
-msgstr "Neue geteilte Transaktion..."
+msgid "New Split Transaction…"
+msgstr "Neue geteilte Transaktion…"
 
 #: src/eqonomize.cpp:4401
-msgid "Edit Transaction(s) (Occurrence)..."
-msgstr "Bearbeite Transaktion(en) (Vorkommnis)..."
+msgid "Edit Transaction(s) (Occurrence)…"
+msgstr "Bearbeite Transaktion(en) (Vorkommnis)…"
 
 #: src/eqonomize.cpp:4402
-msgid "Edit Occurrence..."
-msgstr "Vorkommnis bearbeiten..."
+msgid "Edit Occurrence…"
+msgstr "Vorkommnis bearbeiten…"
 
 #: src/eqonomize.cpp:4403
-msgid "Edit Schedule (Recurrence)..."
-msgstr "Bearbeite Plan (Wiederholung)..."
+msgid "Edit Schedule (Recurrence)…"
+msgstr "Bearbeite Plan (Wiederholung)…"
 
 #: src/eqonomize.cpp:4404
-msgid "Edit Schedule..."
-msgstr "Plan bearbeiten..."
+msgid "Edit Schedule…"
+msgstr "Plan bearbeiten…"
 
 #: src/eqonomize.cpp:4405
 msgid "Remove Transaction(s) (Occurrence)"
@@ -1364,7 +1363,7 @@ msgid "Delete Schedule"
 msgstr "Plan löschen"
 
 #: src/eqonomize.cpp:4409
-msgid "Edit Split Transaction..."
+msgid "Edit Split Transaction…"
 msgstr "Bearbeite geteilte Transaktionen"
 
 #: src/eqonomize.cpp:4410
@@ -1372,7 +1371,7 @@ msgid "Remove Split Transaction"
 msgstr "Entferne geteilte Transaktionen"
 
 #: src/eqonomize.cpp:4411
-msgid "Join Transactions..."
+msgid "Join Transactions…"
 msgstr "Transaktionen zusammenfassen"
 
 #: src/eqonomize.cpp:4412
@@ -1380,67 +1379,67 @@ msgid "Split Up Transaction"
 msgstr "Transaktion teilen"
 
 #: src/eqonomize.cpp:4414
-msgid "Refund..."
-msgstr "Erstattung..."
+msgid "Refund…"
+msgstr "Erstattung…"
 
 #: src/eqonomize.cpp:4415
-msgid "Repayment..."
-msgstr "Tilgung..."
+msgid "Repayment…"
+msgstr "Tilgung…"
 
 #: src/eqonomize.cpp:4416
-msgid "New Refund/Repayment..."
-msgstr "Neue Erstattung/Tilgung..."
+msgid "New Refund/Repayment…"
+msgstr "Neue Erstattung/Tilgung…"
 
 #: src/eqonomize.cpp:4419
-msgid "Edit Security..."
-msgstr "Wertpapier bearbeiten..."
+msgid "Edit Security…"
+msgstr "Wertpapier bearbeiten…"
 
 #: src/eqonomize.cpp:4420
 msgid "Remove Security"
 msgstr "Wertpapier entfernen"
 
 #: src/eqonomize.cpp:4421
-msgid "Shares Sold..."
-msgstr "Anteile verkauft..."
+msgid "Shares Sold…"
+msgstr "Anteile verkauft…"
 
 #: src/eqonomize.cpp:4422
-msgid "Shares Bought..."
-msgstr "Anteile gekauft..."
+msgid "Shares Bought…"
+msgstr "Anteile gekauft…"
 
 #: src/eqonomize.cpp:4423
-msgid "Dividend..."
-msgstr "Dividende..."
+msgid "Dividend…"
+msgstr "Dividende…"
 
 #: src/eqonomize.cpp:4424
-msgid "Reinvested Dividend..."
-msgstr "Reinvestierte Dividende..."
+msgid "Reinvested Dividend…"
+msgstr "Reinvestierte Dividende…"
 
 #: src/eqonomize.cpp:4425
-msgid "Shares Moved..."
-msgstr "Verschobene Anteile..."
+msgid "Shares Moved…"
+msgstr "Verschobene Anteile…"
 
 #: src/eqonomize.cpp:4427
-msgid "Edit Quotations..."
-msgstr "Kurse bearbeiten..."
+msgid "Edit Quotations…"
+msgstr "Kurse bearbeiten…"
 
 #: src/eqonomize.cpp:4428
-msgid "Transactions..."
-msgstr "Transaktionen..."
+msgid "Transactions…"
+msgstr "Transaktionen…"
 
 #: src/eqonomize.cpp:4430
-msgid "Development Over Time Report..."
+msgid "Development Over Time Report…"
 msgstr "Bericht \"Entwicklung über Zeit\""
 
 #: src/eqonomize.cpp:4431
-msgid "Categories Comparison Report..."
+msgid "Categories Comparison Report…"
 msgstr "Bericht \"Kategorienvergleich\""
 
 #: src/eqonomize.cpp:4432
-msgid "Categories Comparison Chart..."
+msgid "Categories Comparison Chart…"
 msgstr "Diagramm \"Kategorienvergleich\""
 
 #: src/eqonomize.cpp:4433
-msgid "Development Over Time Chart..."
+msgid "Development Over Time Chart…"
 msgstr "Diagramm \"Entwicklung über Zeit\""
 
 #: src/eqonomize.cpp:4435
@@ -1798,22 +1797,22 @@ msgid "Error reading %1."
 msgstr "Fehler beim Lesen von %1."
 
 #: src/importcsvdialog.cpp:1193 src/qifimportexport.cpp:466
-#, fuzzy, kde-format
+#, kde-format
 msgid "Successfully imported 1 transaction."
 msgid_plural "Successfully imported %1 transactions."
 msgstr[0] "Eine Transaktion erfolgreich eingelesen."
-msgstr[1] "%n Transaktionen erfolgreich eingelesen."
+msgstr[1] "%1 Transaktionen erfolgreich eingelesen."
 
 #: src/importcsvdialog.cpp:1195
 msgid "Unable to import any transactions imported."
 msgstr "Es konnten keine Transaktionen importiert werden."
 
 #: src/importcsvdialog.cpp:1199
-#, fuzzy, kde-format
+#, kde-format
 msgid "Failed to import 1 data row."
 msgid_plural "Failed to import %1 data rows."
 msgstr[0] "Ein Datensatz konnte nicht eingelesen werden."
-msgstr[1] "%n Datensätze konnten nicht importiert werden."
+msgstr[1] "%1 Datensätze konnten nicht importiert werden."
 
 #: src/importcsvdialog.cpp:1200
 msgid "Required columns missing."
@@ -1922,20 +1921,20 @@ msgid "No Date"
 msgstr ""
 
 #: src/ledgerdialog.cpp:121
-msgid "Export..."
-msgstr "Exportiere..."
+msgid "Export…"
+msgstr "Exportiere…"
 
 #: src/ledgerdialog.cpp:122
-msgid "Print..."
-msgstr "Drucke..."
+msgid "Print…"
+msgstr "Drucke…"
 
 #: src/ledgerdialog.cpp:138
 msgid "Withdrawal"
 msgstr "Abhebung"
 
 #: src/ledgerdialog.cpp:162
-msgid "Join..."
-msgstr "Fasse zusammen..."
+msgid "Join…"
+msgstr "Fasse zusammen…"
 
 #: src/ledgerdialog.cpp:164
 msgid "Split Up"
@@ -2320,46 +2319,46 @@ msgid "Security"
 msgstr "Wertpapier"
 
 #: src/qifimportexport.cpp:469
-#, fuzzy, kde-format
+#, kde-format
 msgid "Successfully imported 1 account."
 msgid_plural "Successfully imported %1 accounts."
 msgstr[0] "Ein Konto wurde erfolgreich importiert."
-msgstr[1] "%n Konten wurden erfolgreich importiert."
+msgstr[1] "%1 Konten wurden erfolgreich importiert."
 
 #: src/qifimportexport.cpp:473
-#, fuzzy, kde-format
+#, kde-format
 msgid "Successfully imported 1 category."
 msgid_plural "Successfully imported %1 categories."
 msgstr[0] "Eine Kategorie wurde erfolgreich importiert."
-msgstr[1] "%n Kategorien wurden erfolgreich importiert."
+msgstr[1] "%1 Kategorien wurden erfolgreich importiert."
 
 #: src/qifimportexport.cpp:477
-#, fuzzy, kde-format
+#, kde-format
 msgid "1 duplicate transaction was ignored."
 msgid_plural "%1 duplicate transactions was ignored."
 msgstr[0] "Eine doppelte Transaktion wurde ignoriert."
-msgstr[1] "%n doppelte Transaktionen wurden ignoriert."
+msgstr[1] "%1 doppelte Transaktionen wurden ignoriert."
 
 #: src/qifimportexport.cpp:481
-#, fuzzy, kde-format
+#, kde-format
 msgid "Failed to import 1 transaction."
 msgid_plural "Failed to import %1 transactions."
 msgstr[0] "Fehler beim impotrieren von 1 Transaktion."
-msgstr[1] "Fehler beim Importieren von %n Transaktionen."
+msgstr[1] "Fehler beim Importieren von %1 Transaktionen."
 
 #: src/qifimportexport.cpp:485
-#, fuzzy, kde-format
+#, kde-format
 msgid "1 security was not imported."
 msgid_plural "%1 securities were not imported."
 msgstr[0] "Eine Wertpapier wurde nicht importiert."
-msgstr[1] "%n Wertpapier wurden nicht importiert."
+msgstr[1] "%1 Wertpapier wurden nicht importiert."
 
 #: src/qifimportexport.cpp:489
-#, fuzzy, kde-format
+#, kde-format
 msgid "1 security transaction was not imported."
 msgid_plural "%1 security transactions were not imported."
 msgstr[0] "Eine Wertpapiertransaktion wurde nicht importiert."
-msgstr[1] "%n Wertpapiertransaktionen wurden nicht importiert."
+msgstr[1] "%1 Wertpapiertransaktionen wurden nicht importiert."
 
 #: src/qifimportexport.cpp:498
 msgid "Export QIF File"
@@ -2669,12 +2668,12 @@ msgid " of the year"
 msgstr " aufhören"
 
 #: src/recurrenceeditwidget.cpp:538
-msgid "Range..."
-msgstr "Bereich..."
+msgid "Range…"
+msgstr "Bereich…"
 
 #: src/recurrenceeditwidget.cpp:540
-msgid "Exceptions..."
-msgstr "Ausnahmen..."
+msgid "Exceptions…"
+msgstr "Ausnahmen…"
 
 #: src/recurrenceeditwidget.cpp:735
 msgid "No day of week selected for weekly recurrence."
@@ -2861,8 +2860,8 @@ msgid "** Recurring (editing occurrance)"
 msgstr "** Wiederkehrend (bearbeite Vorkommen)"
 
 #: src/transactionlistwidget.cpp:1052
-msgid "Modify..."
-msgstr "Verändere..."
+msgid "Modify…"
+msgstr "Verändere…"
 
 #~ msgid "Couldn't fetch %1."
 #~ msgstr "Konnte %1 nicht abholen"

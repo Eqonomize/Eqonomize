@@ -595,44 +595,44 @@ msgstr "Nový"
 
 #: editsplitdialog.cpp:184 eqonomize.cpp:4333
 #, kde-format
-msgid "New Expense..."
-msgstr "Nový výdaj..."
+msgid "New Expense…"
+msgstr "Nový výdaj…"
 
 #: editsplitdialog.cpp:185 eqonomize.cpp:4334
 #, kde-format
-msgid "New Income..."
-msgstr "Nový příjem..."
+msgid "New Income…"
+msgstr "Nový příjem…"
 
 #: editsplitdialog.cpp:186
 #, kde-format
-msgid "New Deposit..."
-msgstr "Nový vklad..."
+msgid "New Deposit…"
+msgstr "Nový vklad…"
 
 #: editsplitdialog.cpp:187
 #, kde-format
-msgid "New Withdrawal..."
-msgstr "Nový výběr..."
+msgid "New Withdrawal…"
+msgstr "Nový výběr…"
 
 #: editsplitdialog.cpp:188
 #, kde-format
-msgid "New Security Shares Bought..."
+msgid "New Security Shares Bought…"
 msgstr ""
 
 #: editsplitdialog.cpp:189
 #, kde-format
-msgid "Security Shares Sold..."
+msgid "Security Shares Sold…"
 msgstr "Cenné papíry prodané.."
 
 #: editsplitdialog.cpp:190
 #, kde-format
-msgid "New Dividend..."
-msgstr "Nová dividenda"
+msgid "New Dividend…"
+msgstr "Nová dividenda…"
 
 #: editsplitdialog.cpp:191 eqonomize.cpp:924 eqonomize.cpp:1071
 #: eqonomize.cpp:4328 ledgerdialog.cpp:158 transactionlistwidget.cpp:1051
 #, kde-format
-msgid "Edit..."
-msgstr "Upravit..."
+msgid "Edit…"
+msgstr "Upravit…"
 
 #: editsplitdialog.cpp:221 eqonomize.cpp:2325
 #, kde-format
@@ -798,8 +798,8 @@ msgstr "Množství"
 
 #: eqonomize.cpp:926
 #, kde-format
-msgid "Postpone..."
-msgstr "Odložit..."
+msgid "Postpone…"
+msgstr "Odložit…"
 
 #: eqonomize.cpp:973
 #, kde-format
@@ -1139,8 +1139,8 @@ msgstr "Výsledek minulého měsíce:"
 
 #: eqonomize.cpp:1917 eqonomize.cpp:4354
 #, kde-format
-msgid "New Security..."
-msgstr "Nový cenný papír..."
+msgid "New Security…"
+msgstr "Nový cenný papír…"
 
 #: eqonomize.cpp:1919
 #, kde-format
@@ -1149,8 +1149,8 @@ msgstr "Nová transakce"
 
 #: eqonomize.cpp:1922 eqonomize.cpp:4362
 #, kde-format
-msgid "Set Quotation..."
-msgstr "Nastavit kurz..."
+msgid "Set Quotation…"
+msgstr "Nastavit kurz…"
 
 #: eqonomize.cpp:1934 eqonomize.cpp:3987
 #, kde-format
@@ -1422,13 +1422,13 @@ msgstr "Prázdný seznam plánů."
 
 #: eqonomize.cpp:4305
 #, kde-format
-msgid "Export View..."
-msgstr "Exportovat ..."
+msgid "Export View…"
+msgstr "Exportovat…"
 
 #: eqonomize.cpp:4307
 #, kde-format
-msgid "Print View..."
-msgstr "Tisk..."
+msgid "Print View…"
+msgstr "Tisk…"
 
 #: eqonomize.cpp:4309
 #, kde-format
@@ -1442,43 +1442,43 @@ msgstr "Zapamatovat poslední datumy"
 
 #: eqonomize.cpp:4319
 #, kde-format
-msgid "Import CSV File..."
-msgstr "Importovat soubor CSV..."
+msgid "Import CSV File…"
+msgstr "Importovat soubor CSV…"
 
 #: eqonomize.cpp:4320
 #, kde-format
-msgid "Import QIF File..."
-msgstr "Importovat soubor QIF..."
+msgid "Import QIF File…"
+msgstr "Importovat soubor QIF…"
 
 #: eqonomize.cpp:4321
 #, kde-format
-msgid "Export As QIF File..."
-msgstr "Exportovat jako soubor QIF..."
+msgid "Export As QIF File…"
+msgstr "Exportovat jako soubor QIF…"
 
 #: eqonomize.cpp:4323
 #, kde-format
-msgid "Add Account..."
-msgstr "Přidat účet..."
+msgid "Add Account…"
+msgstr "Přidat účet…"
 
 #: eqonomize.cpp:4324
 #, kde-format
-msgid "New Account..."
-msgstr "Nový účet..."
+msgid "New Account…"
+msgstr "Nový účet…"
 
 #: eqonomize.cpp:4325
 #, kde-format
-msgid "New Income Category..."
-msgstr "Nová kategorie příjmů..."
+msgid "New Income Category…"
+msgstr "Nová kategorie příjmů…"
 
 #: eqonomize.cpp:4326
 #, kde-format
-msgid "New Expense Category..."
-msgstr "Nová kategorie výdajů..."
+msgid "New Expense Category…"
+msgstr "Nová kategorie výdajů…"
 
 #: eqonomize.cpp:4327
 #, kde-format
-msgid "Balance..."
-msgstr "Bilance..."
+msgid "Balance…"
+msgstr "Bilance…"
 
 #: eqonomize.cpp:4331
 #, kde-format
@@ -1487,33 +1487,33 @@ msgstr "Ukázat transakce"
 
 #: eqonomize.cpp:4335
 #, kde-format
-msgid "New Transfer..."
-msgstr "Nový převod..."
+msgid "New Transfer…"
+msgstr "Nový převod…"
 
 #: eqonomize.cpp:4336
 #, kde-format
-msgid "New Split Transaction..."
-msgstr "Nová rozdělená transakce..."
+msgid "New Split Transaction…"
+msgstr "Nová rozdělená transakce…"
 
 #: eqonomize.cpp:4337
 #, kde-format
-msgid "Edit Transaction(s) (Occurrence)..."
-msgstr "Upravit transakce (výskyt)"
+msgid "Edit Transaction(s) (Occurrence)…"
+msgstr "Upravit transakce (výskyt)…"
 
 #: eqonomize.cpp:4338
 #, kde-format
-msgid "Edit Occurrence..."
-msgstr "Upravit výskyt..."
+msgid "Edit Occurrence…"
+msgstr "Upravit výskyt…"
 
 #: eqonomize.cpp:4339
 #, kde-format
-msgid "Edit Schedule (Recurrence)..."
-msgstr "Upravit plán (opakování)..."
+msgid "Edit Schedule (Recurrence)…"
+msgstr "Upravit plán (opakování)…"
 
 #: eqonomize.cpp:4340
 #, kde-format
-msgid "Edit Schedule..."
-msgstr "Upravit plán..."
+msgid "Edit Schedule…"
+msgstr "Upravit plán…"
 
 #: eqonomize.cpp:4341
 #, kde-format
@@ -1537,8 +1537,8 @@ msgstr "Smazat plán"
 
 #: eqonomize.cpp:4345
 #, kde-format
-msgid "Edit Split Transaction..."
-msgstr "Upravit rozdělenou transakci"
+msgid "Edit Split Transaction…"
+msgstr "Upravit rozdělenou transakci…"
 
 #: eqonomize.cpp:4346
 #, kde-format
@@ -1547,8 +1547,8 @@ msgstr "Odstranit rozdělenou transakci"
 
 #: eqonomize.cpp:4347
 #, kde-format
-msgid "Join Transactions..."
-msgstr "Spojit transakce..."
+msgid "Join Transactions…"
+msgstr "Spojit transakce…"
 
 #: eqonomize.cpp:4348
 #, kde-format
@@ -1557,23 +1557,23 @@ msgstr "Rozdělit transakci"
 
 #: eqonomize.cpp:4350
 #, kde-format
-msgid "Refund..."
-msgstr "Úhrada..."
+msgid "Refund…"
+msgstr "Úhrada…"
 
 #: eqonomize.cpp:4351
 #, kde-format
-msgid "Repayment..."
-msgstr "Splátka..."
+msgid "Repayment…"
+msgstr "Splátka…"
 
 #: eqonomize.cpp:4352
 #, kde-format
-msgid "New Refund/Repayment..."
-msgstr "Nová úhrada/splátka"
+msgid "New Refund/Repayment…"
+msgstr "Nová úhrada/splátka…"
 
 #: eqonomize.cpp:4355
 #, kde-format
-msgid "Edit Security..."
-msgstr "Upravit cenný papír..."
+msgid "Edit Security…"
+msgstr "Upravit cenný papír…"
 
 #: eqonomize.cpp:4356
 #, kde-format
@@ -1582,58 +1582,58 @@ msgstr "Smazat cenný papír"
 
 #: eqonomize.cpp:4357
 #, kde-format
-msgid "Shares Sold..."
-msgstr "Prodané podíly..."
+msgid "Shares Sold…"
+msgstr "Prodané podíly…"
 
 #: eqonomize.cpp:4358
 #, kde-format
-msgid "Shares Bought..."
-msgstr "Nakoupené podíly..."
+msgid "Shares Bought…"
+msgstr "Nakoupené podíly…"
 
 #: eqonomize.cpp:4359
 #, kde-format
-msgid "Dividend..."
-msgstr "Dividenda..."
+msgid "Dividend…"
+msgstr "Dividenda…"
 
 #: eqonomize.cpp:4360
 #, kde-format
-msgid "Reinvested Dividend..."
-msgstr "Reinvestovaná dividenda..."
+msgid "Reinvested Dividend…"
+msgstr "Reinvestovaná dividenda…"
 
 #: eqonomize.cpp:4361
 #, kde-format
-msgid "Shares Moved..."
-msgstr "Přesunuté podíly..."
+msgid "Shares Moved…"
+msgstr "Přesunuté podíly…"
 
 #: eqonomize.cpp:4363
 #, kde-format
-msgid "Edit Quotations..."
-msgstr "Upravit kurz..."
+msgid "Edit Quotations…"
+msgstr "Upravit kurz…"
 
 #: eqonomize.cpp:4364
 #, kde-format
-msgid "Transactions..."
-msgstr "Transakce..."
+msgid "Transactions…"
+msgstr "Transakce…"
 
 #: eqonomize.cpp:4366
 #, kde-format
-msgid "Development Over Time Report..."
-msgstr "Výkaz časového vývoje..."
+msgid "Development Over Time Report…"
+msgstr "Výkaz časového vývoje…"
 
 #: eqonomize.cpp:4367
 #, kde-format
-msgid "Categories Comparison Report..."
-msgstr "Výkaz porovnání kategorií..."
+msgid "Categories Comparison Report…"
+msgstr "Výkaz porovnání kategorií…"
 
 #: eqonomize.cpp:4368
 #, kde-format
-msgid "Categories Comparison Chart..."
-msgstr "Schéma vývoje kategorií..."
+msgid "Categories Comparison Chart…"
+msgstr "Schéma vývoje kategorií…"
 
 #: eqonomize.cpp:4369
 #, kde-format
-msgid "Development Over Time Chart..."
-msgstr "Schéma časového vývoje..."
+msgid "Development Over Time Chart…"
+msgstr "Schéma časového vývoje…"
 
 #: eqonomize.cpp:4371
 #, kde-format
@@ -2164,13 +2164,13 @@ msgstr ""
 
 #: ledgerdialog.cpp:122
 #, kde-format
-msgid "Export..."
-msgstr "Exportovat..."
+msgid "Export…"
+msgstr "Exportovat…"
 
 #: ledgerdialog.cpp:123
 #, kde-format
-msgid "Print..."
-msgstr "Tisk..."
+msgid "Print…"
+msgstr "Tisk…"
 
 #: ledgerdialog.cpp:139
 #, kde-format
@@ -2179,8 +2179,8 @@ msgstr "Výběr"
 
 #: ledgerdialog.cpp:162
 #, kde-format
-msgid "Join..."
-msgstr "Připojit..."
+msgid "Join…"
+msgstr "Připojit…"
 
 #: ledgerdialog.cpp:164
 #, kde-format
@@ -3092,13 +3092,13 @@ msgstr " roku"
 
 #: recurrenceeditwidget.cpp:533
 #, kde-format
-msgid "Range..."
-msgstr "Rozsah..."
+msgid "Range…"
+msgstr "Rozsah…"
 
 #: recurrenceeditwidget.cpp:535
 #, kde-format
-msgid "Exceptions..."
-msgstr "Výjimky..."
+msgid "Exceptions…"
+msgstr "Výjimky…"
 
 #: recurrenceeditwidget.cpp:731
 #, kde-format
@@ -3319,5 +3319,5 @@ msgstr "**Opakování (upravující výskyt)"
 
 #: transactionlistwidget.cpp:1049
 #, kde-format
-msgid "Modify..."
-msgstr "Změnit..."
+msgid "Modify…"
+msgstr "Změnit…"

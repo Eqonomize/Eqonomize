@@ -3857,7 +3857,7 @@ bool Eqonomize::exportScheduleList(QTextStream &outf, int fileformat) {
 			outf << "\t<head>" << '\n';
 			outf << "\t\t<title>"; outf << htmlize_string(tr("Transaction Schedule")); outf << "</title>" << '\n';
 			outf << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << '\n';
-			outf << "\t\t<meta name=\"GENERATOR\" content=\"Eqonomize!\">" << '\n';
+			outf << "\t\t<meta name=\"GENERATOR\" content=\"" << qApp->applicationDisplayName() << "\">" << '\n';
 			outf << "\t</head>" << '\n';
 			outf << "\t<body>" << '\n';
 			outf << "\t\t<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
@@ -3925,7 +3925,7 @@ bool Eqonomize::exportSecuritiesList(QTextStream &outf, int fileformat) {
 			outf << "\t<head>" << '\n';
 			outf << "\t\t<title>"; outf << htmlize_string(tr("Securities")); outf << "</title>" << '\n';
 			outf << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << '\n';
-			outf << "\t\t<meta name=\"GENERATOR\" content=\"Eqonomize!\">" << '\n';
+			outf << "\t\t<meta name=\"GENERATOR\" content=\"" << qApp->applicationDisplayName() << "\">" << '\n';
 			outf << "\t</head>" << '\n';
 			outf << "\t<body>" << '\n';
 			outf << "\t\t<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
@@ -4010,7 +4010,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t<head>" << '\n';
 			outf << "\t\t<title>"; outf << tr("Accounts &amp; Categories", "html format"); outf << "</title>" << '\n';
 			outf << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << '\n';
-			outf << "\t\t<meta name=\"GENERATOR\" content=\"Eqonomize!\">" << '\n';
+			outf << "\t\t<meta name=\"GENERATOR\" content=\"" << qApp->applicationDisplayName() << "\">" << '\n';
 			outf << "\t</head>" << '\n';
 			outf << "\t<body>" << '\n';
 			if(accountsPeriodFromButton->isChecked()) outf << "\t\t<h1>" << tr("Accounts &amp; Categories (%1&ndash;%2)", "html format").arg(htmlize_string(QLocale().toString(from_date, QLocale::ShortFormat))).arg(htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h1>" << '\n';
@@ -4399,8 +4399,8 @@ void Eqonomize::setupActions() {
 	ActionSelectInitialPeriod->setObjectName("select_initial_period");
 	NEW_RADIO_ACTION(AIPCurrentMonth, tr("Current Month"), ActionSelectInitialPeriod);
 	NEW_RADIO_ACTION(AIPCurrentYear, tr("Current Year"), ActionSelectInitialPeriod);
-	NEW_RADIO_ACTION(AIPCurrentWholeMonth, tr("Whole Month"), ActionSelectInitialPeriod);
-	NEW_RADIO_ACTION(AIPCurrentWholeYear, tr("Whole Year"), ActionSelectInitialPeriod);
+	NEW_RADIO_ACTION(AIPCurrentWholeMonth, tr("Current Whole Month"), ActionSelectInitialPeriod);
+	NEW_RADIO_ACTION(AIPCurrentWholeYear, tr("Current Whole Year"), ActionSelectInitialPeriod);
 	NEW_RADIO_ACTION(AIPRememberLastDates, tr("Remember Last Dates"), ActionSelectInitialPeriod);
 	periodMenu->addActions(ActionSelectInitialPeriod->actions());
 	
@@ -4409,7 +4409,7 @@ void Eqonomize::setupActions() {
 	helpMenu->addSeparator();
 	NEW_ACTION_2(ActionReportBug, tr("Report Bug"), 0, this, SLOT(reportBug()), "report-bug", helpMenu);
 	helpMenu->addSeparator();
-	NEW_ACTION(ActionAbout, tr("About Eqonomize!"), "eqonomize", 0, this, SLOT(showAbout()), "about", helpMenu);
+	NEW_ACTION(ActionAbout, tr("About %1").arg(qApp->applicationDisplayName()), "eqonomize", 0, this, SLOT(showAbout()), "about", helpMenu);
 	NEW_ACTION(ActionAboutQt, tr("About Qt"), "help-about", 0, this, SLOT(showAboutQt()), "about-qt", helpMenu);
 
 	//ActionFileSave->setEnabled(false);
@@ -4466,7 +4466,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About Eqonomize"), tr("<font size=+2><b>Eqonomize! v0.6</b></font><br><font size=+1>A personal accounting program</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>© 2006-2008, 2014, 2016 Hanna Knutsson<br>License: GNU General Public License Version 2"));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v0.6</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>© 2006-2008, 2014, 2016 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName().arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 2"))));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);
@@ -4483,7 +4483,7 @@ bool Eqonomize::crashRecovery(QUrl url) {
 	else autosaveFileName += url.fileName();
 	QFileInfo fileinfo(autosaveFileName);
 	if(fileinfo.exists() && fileinfo.isWritable()) {
-		if(QMessageBox::question(this, tr("Crash Recovery"), tr("Eqonomize! exited unexpectedly before the file was saved and data was lost.\nDo you want to load the last auto-saved version of the file?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+		if(QMessageBox::question(this, tr("Crash Recovery"), tr("%1 exited unexpectedly before the file was saved and data was lost.\nDo you want to load the last auto-saved version of the file?").arg(qApp->applicationDisplayName()), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
 			QString errors;
 			QString error = budget->loadFile(autosaveFileName, errors);
 			if(!error.isNull()) {

@@ -180,8 +180,8 @@ EditSplitDialog::EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *d
 	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Income…")), SIGNAL(triggered()), this, SLOT(newIncome()));
 	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Deposit…")), SIGNAL(triggered()), this, SLOT(newTransferTo()));
 	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Withdrawal…")), SIGNAL(triggered()), this, SLOT(newTransferFrom()));
-	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Security Shares Bought…")), SIGNAL(triggered()), this, SLOT(newSecurityBuy()));
-	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("Security Shares Sold…")), SIGNAL(triggered()), this, SLOT(newSecuritySell()));
+	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("Shares Bought…")), SIGNAL(triggered()), this, SLOT(newSecurityBuy()));
+	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("Shares Sold…")), SIGNAL(triggered()), this, SLOT(newSecuritySell()));
 	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Dividend…")), SIGNAL(triggered()), this, SLOT(newDividend()));
 	editButton = buttons->addButton(tr("Edit…"), QDialogButtonBox::ActionRole);
 	editButton->setEnabled(false);

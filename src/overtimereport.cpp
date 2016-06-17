@@ -503,7 +503,7 @@ void OverTimeReport::updateDisplay() {
 	outf << htmlize_string(title);
 	outf << "</title>" << '\n';
 	outf << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << '\n';
-	outf << "\t\t<meta name=\"GENERATOR\" content=\"Eqonomize!\">" << '\n';
+	outf << "\t\t<meta name=\"GENERATOR\" content=\"" << qApp->applicationDisplayName() << "\">" << '\n';
 	outf << "\t</head>" << '\n';
 	outf << "\t<body>" << '\n';
 	outf << "\t\t<h2>" << htmlize_string(title) << "</h2>" << '\n';

@@ -69,10 +69,15 @@ SOURCES += src/account.cpp \
            src/transactioneditwidget.cpp \
            src/transactionfilterwidget.cpp \
            src/transactionlistwidget.cpp
-TRANSLATIONS = translations/eqonomize_sv.ts
+           
+TRANSLATIONS = 	translations/eqonomize_sv.ts \
+		translations/eqonomize_cs.ts \
+		translations/eqonomize_de.ts
 
 target.path = $$PREFIX/bin
-qm.files = translations/eqonomize_sv.qm
+qm.files = 	translations/eqonomize_sv.qm \
+		translations/eqonomize_cs.qm \
+		translations/eqonomize_de.qm
 qm.path = $$TRANSLATIONS_DIR
 doc.files = doc/html/*
 doc.path = $$DOCUMENTATION_DIR
