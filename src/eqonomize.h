@@ -200,7 +200,7 @@ class Eqonomize : public QMainWindow {
 		QLocalServer *server;
 		QString cr_tmp_file;
 
-		QToolBar *mainToolbar;
+		QToolBar *fileToolbar, *transactionsToolbar, *statisticsToolbar;
 		QTabWidget *tabs;
 		QTabWidget *accountsTabs;
 		QCheckBox *budgetButton;

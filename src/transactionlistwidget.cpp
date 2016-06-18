@@ -153,11 +153,11 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	filterWidget = new TransactionFilterWidget(b_extra, transtype, budget, this);
 	QString editTabTitle;
 	switch (transtype) {
-		case TRANSACTION_TYPE_EXPENSE:  editTabTitle = tr("Expense");  break;
-		case TRANSACTION_TYPE_INCOME:   editTabTitle = tr("Income");   break;
-		case TRANSACTION_TYPE_TRANSFER: editTabTitle = tr("Transfer"); break;
+		case TRANSACTION_TYPE_EXPENSE: {editTabTitle = tr("New/Edit Expense"); break;}
+		case TRANSACTION_TYPE_INCOME: editTabTitle = tr("New/Edit Income"); break;
+		case TRANSACTION_TYPE_TRANSFER: editTabTitle = tr("New/Edit Transfer"); break;
 	}
-	tabs->addTab(editWidget, tr("New/Edit %1").arg(editTabTitle));
+	tabs->addTab(editWidget, editTabTitle);
 	tabs->addTab(filterWidget, tr("Filter"));
 	transactionsLayout->addWidget(tabs);
 

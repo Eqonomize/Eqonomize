@@ -87,7 +87,8 @@ TRANSLATIONS = 	translations/eqonomize_bg.ts \
 		translations/eqonomize_sv.ts
 
 target.path = $$PREFIX/bin
-qm.files = 	translations/eqonomize_cs.qm \
+qm.files = 	translations/eqonomize_bg.qm \
+		translations/eqonomize_cs.qm \
 		translations/eqonomize_de.qm \
 		translations/eqonomize_fr.qm \
 		translations/eqonomize_sv.qm
@@ -130,6 +131,16 @@ mimeicon128.path = $$ICON_DIR/hicolor/128x128/mimetypes
 mimeiconsvg.files = data/application-x-eqonomize.svg
 mimeiconsvg.path = $$ICON_DIR/hicolor/scalable/mimetypes
 
+actioniconssvg.files = 	data/eqonomize-expense.svg \
+			data/eqonomize-income.svg \
+			data/eqonomize-transfer.svg \
+			data/eqonomize-security.svg \
+			data/eqonomize-schedule.svg \
+			data/eqonomize-categories-chart.svg \
+			data/eqonomize-overtime-chart.svg
+actioniconssvg.path = $$ICON_DIR/hicolor/scalable/actions
+
 INSTALLS += 	target qm doc desktop mime \ 
 		appicon16 appicon22 appicon32 appicon48 appicon64 appicon128 appiconsvg \
-		mimeicon16 mimeicon22 mimeicon32 mimeicon48 mimeicon64 mimeicon128 mimeiconsvg
+		mimeicon16 mimeicon22 mimeicon32 mimeicon48 mimeicon64 mimeicon128 mimeiconsvg \
+		actioniconssvg

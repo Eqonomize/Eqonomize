@@ -1838,19 +1838,21 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	
 	tabs = new QTabWidget(w_top);
 	topLayout->addWidget(tabs);
+	tabs->setDocumentMode(true);
+	tabs->setIconSize(tabs->iconSize() * 1.5);
 
 	accounts_page = new QWidget(this);
 	tabs->addTab(accounts_page, QIcon::fromTheme("go-home"), tr("Accounts && Categories"));
 	expenses_page = new QWidget(this);
-	tabs->addTab(expenses_page, QIcon::fromTheme("go-previous"), tr("Expenses"));
+	tabs->addTab(expenses_page, QIcon::fromTheme("eqonomize-expense"), tr("Expenses"));
 	incomes_page = new QWidget(this);
-	tabs->addTab(incomes_page, QIcon::fromTheme("go-next"), tr("Incomes"));
+	tabs->addTab(incomes_page, QIcon::fromTheme("eqonomize-income"), tr("Incomes"));
 	transfers_page = new QWidget(this);
-	tabs->addTab(transfers_page, QIcon::fromTheme("view-refresh"), tr("Transfers"));
+	tabs->addTab(transfers_page, QIcon::fromTheme("eqonomize-transfer"), tr("Transfers"));
 	securities_page = new QWidget(this);
-	tabs->addTab(securities_page, QIcon::fromTheme("view-list-text"), tr("Securities"));
+	tabs->addTab(securities_page, QIcon::fromTheme("eqonomize-security"), tr("Securities"));
 	schedule_page = new QWidget(this);
-	tabs->addTab(schedule_page, QIcon::fromTheme("view-pim-calendar"), tr("Schedule"));
+	tabs->addTab(schedule_page, QIcon::fromTheme("eqonomize-schedule"), tr("Schedule"));
 
 	connect(tabs, SIGNAL(currentChanged(int)), this, SLOT(onPageChange(int)));
 
@@ -2020,13 +2022,9 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	transfersWidget = new TransactionListWidget(b_extra, TRANSACTION_TYPE_TRANSFER, budget, this, transfers_page);
 	transfersLayout->addWidget(transfersWidget);
 
-	QWidget *securities_page_bak = securities_page;
-	QVBoxLayout *securitiesLayout_pre = new QVBoxLayout(securities_page);
-	securitiesLayout_pre->setContentsMargins(0, 0, 0, 0);
-	securities_page = new QWidget(securities_page);
-	securitiesLayout_pre->addWidget(securities_page);
 	QVBoxLayout *securitiesLayout = new QVBoxLayout(securities_page);
-
+	securitiesLayout->setContentsMargins(0, securitiesLayout->contentsMargins().top(), 0, 0);
+	
 	QDialogButtonBox *securitiesButtons = new QDialogButtonBox(securities_page);
 	newSecurityButton = securitiesButtons->addButton(tr("New Security…"), QDialogButtonBox::ActionRole);
 	newSecurityButton->setEnabled(true);
@@ -2100,8 +2098,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QPushButton *securitiesNextYearButton = new QPushButton(QIcon::fromTheme("arrow-right-double"), "", periodGroup);
 	securitiesPeriodLayout3->addWidget(securitiesNextYearButton);
 
-	securities_page = securities_page_bak;
-
 	securitiesPopupMenu = NULL;
 
 	updateSecuritiesStatistics();
@@ -2123,7 +2119,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	connect(securitiesView, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupSecuritiesMenu(const QPoint&)));
 
 	QVBoxLayout *scheduleLayout = new QVBoxLayout(schedule_page);
-	scheduleLayout->setContentsMargins(0, 0, 0, 0);
+	scheduleLayout->setContentsMargins(0, scheduleLayout->contentsMargins().top(), 0, 0);
 
 	QDialogButtonBox *scheduleButtons = new QDialogButtonBox(schedule_page);
 	newScheduleButton = scheduleButtons->addButton(tr("New Schedule"), QDialogButtonBox::ActionRole);
@@ -2167,11 +2163,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	scheduleView->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(scheduleView, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupScheduleMenu(const QPoint&)));
 	connect(scheduleView, SIGNAL(itemSelectionChanged()), this, SLOT(updateTransactionActions()));
-
-	mainToolbar = addToolBar(tr("Main Toolbar"));
-	mainToolbar->setObjectName("main_toolbar");
-	mainToolbar->setFloatable(false);
-	mainToolbar->setMovable(false);
 
 	setupActions();
 
@@ -4318,10 +4309,23 @@ void Eqonomize::setupActions() {
 	QMenu *settingsMenu = menuBar()->addMenu(tr("S&ettings"));
 	QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
 	
+	fileToolbar = addToolBar(tr("File"));
+	fileToolbar->setObjectName("file_toolbar");
+	fileToolbar->setFloatable(false);
+	fileToolbar->setMovable(false);
+	transactionsToolbar = addToolBar(tr("Transactions"));
+	transactionsToolbar->setObjectName("transaction_toolbar");
+	transactionsToolbar->setFloatable(false);
+	transactionsToolbar->setMovable(false);
+	statisticsToolbar = addToolBar(tr("Statistics"));
+	statisticsToolbar->setObjectName("statistics_toolbar");
+	statisticsToolbar->setFloatable(false);
+	statisticsToolbar->setMovable(false);
+	
 	NEW_ACTION_3(ActionFileNew, tr("&New"), "document-new", QKeySequence::New, this, SLOT(fileNew()), "file_new", fileMenu);
-	mainToolbar->addAction(ActionFileNew);
+	fileToolbar->addAction(ActionFileNew);
 	NEW_ACTION_3(ActionFileOpen, tr("&Open…"), "document-open", QKeySequence::Open, this, SLOT(fileOpen()), "file_open", fileMenu);
-	mainToolbar->addAction(ActionFileOpen);
+	fileToolbar->addAction(ActionFileOpen);
 	recentFilesMenu = fileMenu->addMenu(QIcon::fromTheme("document-open-recent"), tr("Open Recent"));
 	QAction* recentFileAction = 0;
 	for(int i = 0; i < MAX_RECENT_FILES; i++){
@@ -4335,24 +4339,25 @@ void Eqonomize::setupActions() {
 	NEW_ACTION_2(ActionClearRecentFiles, tr("Clear List"), 0, this, SLOT(clearRecentFiles()), "clear_recent_files", recentFilesMenu);
 	fileMenu->addSeparator();
 	NEW_ACTION_3(ActionFileSave, tr("&Save"), "document-save", QKeySequence::Save, this, SLOT(fileSave()), "file_save", fileMenu);
-	mainToolbar->addAction(ActionFileSave);
+	fileToolbar->addAction(ActionFileSave);
 	NEW_ACTION_3(ActionFileSaveAs, tr("Save As…"), "document-save-as", QKeySequence::SaveAs, this, SLOT(fileSaveAs()), "file_save_as", fileMenu);
 	NEW_ACTION(ActionFileReload, tr("&Revert"), "document-revert", 0, this, SLOT(fileReload()), "file_revert", fileMenu);	
 	fileMenu->addSeparator();
 	NEW_ACTION_3(ActionPrintView, tr("&Print View…"), "document-print", QKeySequence::Print, this, SLOT(printView()), "print_view", fileMenu);
-	mainToolbar->addAction(ActionPrintView);
+	fileToolbar->addAction(ActionPrintView);
 	fileMenu->addSeparator();
 	QMenu *importMenu = fileMenu->addMenu(tr("Import"));
 	NEW_ACTION(ActionImportCSV, tr("Import CSV File…"), "document-import", 0, this, SLOT(importCSV()), "import_csv", importMenu);
 	NEW_ACTION(ActionImportQIF, tr("Import QIF File…"), "document-import", 0, this, SLOT(importQIF()), "import_qif", importMenu);
 	NEW_ACTION(ActionSaveView, tr("Export View…"), "document-export", 0, this, SLOT(saveView()), "save_view", fileMenu);
-	mainToolbar->addAction(ActionSaveView);
+	fileToolbar->addAction(ActionSaveView);
 	NEW_ACTION(ActionExportQIF, tr("Export As QIF File…"), "document-export", 0, this, SLOT(exportQIF()), "export_qif", fileMenu);
 	fileMenu->addSeparator();
 	QList<QKeySequence> keySequences;	
 	keySequences << QKeySequence(Qt::CTRL+Qt::Key_Q);
 	keySequences << QKeySequence(QKeySequence::Quit);
 	NEW_ACTION_3(ActionQuit, tr("&Quit"), "application-exit", keySequences, this, SLOT(close()), "application_quit", fileMenu);
+	fileToolbar->addAction(ActionQuit);
 	
 	NEW_ACTION_NOMENU(ActionAddAccount, tr("Add Account…"), "document-new", 0, this, SLOT(addAccount()), "add_account");
 	NEW_ACTION(ActionNewAssetsAccount, tr("New Account…"), "document-new", 0, this, SLOT(newAssetsAccount()), "new_assets_account", accountsMenu);
@@ -4366,12 +4371,15 @@ void Eqonomize::setupActions() {
 	accountsMenu->addSeparator();
 	NEW_ACTION_2(ActionShowAccountTransactions, tr("Show Transactions"), 0, this, SLOT(showAccountTransactions()), "show_account_transactions", accountsMenu);
 
-	NEW_ACTION(ActionNewExpense, tr("New Expense…"), "document-new", Qt::CTRL+Qt::Key_E, this, SLOT(newScheduledExpense()), "new_expense", transactionsMenu);
-	NEW_ACTION(ActionNewIncome, tr("New Income…"), "document-new", Qt::CTRL+Qt::Key_I, this, SLOT(newScheduledIncome()), "new_income", transactionsMenu);
-	NEW_ACTION(ActionNewTransfer, tr("New Transfer…"), "document-new", Qt::CTRL+Qt::Key_T, this, SLOT(newScheduledTransfer()), "new_transfer", transactionsMenu);
+	NEW_ACTION(ActionNewExpense, tr("New Expense…"), "eqonomize-expense", Qt::CTRL+Qt::Key_E, this, SLOT(newScheduledExpense()), "new_expense", transactionsMenu);
+	transactionsToolbar->addAction(ActionNewExpense);
+	NEW_ACTION(ActionNewIncome, tr("New Income…"), "eqonomize-income", Qt::CTRL+Qt::Key_I, this, SLOT(newScheduledIncome()), "new_income", transactionsMenu);
+	transactionsToolbar->addAction(ActionNewIncome);
+	NEW_ACTION(ActionNewTransfer, tr("New Transfer…"), "eqonomize-transfer", Qt::CTRL+Qt::Key_T, this, SLOT(newScheduledTransfer()), "new_transfer", transactionsMenu);
+	transactionsToolbar->addAction(ActionNewTransfer);
 	NEW_ACTION(ActionNewSplitTransaction, tr("New Split Transaction…"), "document-new", Qt::CTRL+Qt::Key_W, this, SLOT(newSplitTransaction()), "new_split_transaction", transactionsMenu);
-	NEW_ACTION_NOMENU(ActionNewRefund, tr("Refund…"), "go-next", 0, this, SLOT(newRefund()), "new_refund");
-	NEW_ACTION_NOMENU(ActionNewRepayment, tr("Repayment…"), "go-previous", 0, this, SLOT(newRepayment()), "new_repayment");
+	NEW_ACTION_NOMENU(ActionNewRefund, tr("Refund…"), "eqonomize-income", 0, this, SLOT(newRefund()), "new_refund");
+	NEW_ACTION_NOMENU(ActionNewRepayment, tr("Repayment…"), "eqonomize-expense", 0, this, SLOT(newRepayment()), "new_repayment");
 	NEW_ACTION(ActionNewRefundRepayment, tr("New Refund/Repayment…"), "document-new", 0, this, SLOT(newRefundRepayment()), "new_refund_repayment", transactionsMenu);
 	transactionsMenu->addSeparator();
 	NEW_ACTION(ActionEditTransaction, tr("Edit Transaction(s) (Occurrence)…"), "document-open", 0, this, SLOT(editSelectedTransaction()), "edit_transaction", transactionsMenu);
@@ -4392,20 +4400,24 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionEditSecurity, tr("Edit Security…"), "document-open", 0, this, SLOT(editSecurity()), "edit_security", securitiesMenu);
 	NEW_ACTION(ActionDeleteSecurity, tr("Remove Security"), "edit-delete", 0, this, SLOT(deleteSecurity()), "delete_security", securitiesMenu);
 	securitiesMenu->addSeparator();
-	NEW_ACTION(ActionBuyShares, tr("Shares Bought…"), "go-previous", 0, this, SLOT(buySecurities()), "buy_shares", securitiesMenu);
-	NEW_ACTION(ActionSellShares, tr("Shares Sold…"), "go-next", 0, this, SLOT(sellSecurities()), "sell_shares", securitiesMenu);
-	NEW_ACTION_2(ActionNewSecurityTrade, tr("Shares Moved…"), 0, this, SLOT(newSecurityTrade()), "new_security_trade", securitiesMenu);
-	NEW_ACTION(ActionNewDividend, tr("Dividend…"), "go-next", 0, this, SLOT(newDividend()), "new_dividend", securitiesMenu);
-	NEW_ACTION(ActionNewReinvestedDividend, tr("Reinvested Dividend…"), "go-next", 0, this, SLOT(newReinvestedDividend()), "new_reinvested_dividend", securitiesMenu);
+	NEW_ACTION(ActionBuyShares, tr("Shares Bought…"), "eqonomize-income", 0, this, SLOT(buySecurities()), "buy_shares", securitiesMenu);
+	NEW_ACTION(ActionSellShares, tr("Shares Sold…"), "eqonomize-expense", 0, this, SLOT(sellSecurities()), "sell_shares", securitiesMenu);
+	NEW_ACTION(ActionNewSecurityTrade, tr("Shares Moved…"), "eqonomize-transfer", 0, this, SLOT(newSecurityTrade()), "new_security_trade", securitiesMenu);
+	NEW_ACTION(ActionNewDividend, tr("Dividend…"), "eqonomize-income", 0, this, SLOT(newDividend()), "new_dividend", securitiesMenu);
+	NEW_ACTION(ActionNewReinvestedDividend, tr("Reinvested Dividend…"), "eqonomize-income", 0, this, SLOT(newReinvestedDividend()), "new_reinvested_dividend", securitiesMenu);
 	NEW_ACTION(ActionEditSecurityTransactions, tr("Transactions…"), "view-list-details", 0, this, SLOT(editSecurityTransactions()), "edit_security_transactions", securitiesMenu);
 	securitiesMenu->addSeparator();
 	NEW_ACTION(ActionSetQuotation, tr("Set Quotation…"), "view-calendar-day", 0, this, SLOT(setQuotation()), "set_quotation", securitiesMenu);
 	NEW_ACTION(ActionEditQuotations, tr("Edit Quotations…"), "view-calendar-list", 0, this, SLOT(editQuotations()), "edit_quotations", securitiesMenu);
 
 	NEW_ACTION(ActionOverTimeReport, tr("Development Over Time Report…"), "view-list-text", 0, this, SLOT(showOverTimeReport()), "over_time_report", statisticsMenu);
+	statisticsToolbar->addAction(ActionOverTimeReport);
 	NEW_ACTION(ActionCategoriesComparisonReport, tr("Categories Comparison Report…"), "view-list-text", 0, this, SLOT(showCategoriesComparisonReport()), "categories_comparison_report", statisticsMenu);
-	NEW_ACTION(ActionOverTimeChart, tr("Development Over Time Chart…"), "view-statistics", 0, this, SLOT(showOverTimeChart()), "over_time_chart", statisticsMenu);
-	NEW_ACTION(ActionCategoriesComparisonChart, tr("Categories Comparison Chart…"), "view-statistics", 0, this, SLOT(showCategoriesComparisonChart()), "categories_comparison_chart", statisticsMenu);	
+	statisticsToolbar->addAction(ActionCategoriesComparisonReport);
+	NEW_ACTION(ActionOverTimeChart, tr("Development Over Time Chart…"), "eqonomize-overtime-chart", 0, this, SLOT(showOverTimeChart()), "over_time_chart", statisticsMenu);
+	statisticsToolbar->addAction(ActionOverTimeChart);
+	NEW_ACTION(ActionCategoriesComparisonChart, tr("Categories Comparison Chart…"), "eqonomize-categories-chart", 0, this, SLOT(showCategoriesComparisonChart()), "categories_comparison_chart", statisticsMenu);
+	statisticsToolbar->addAction(ActionCategoriesComparisonChart);
 
 	NEW_TOGGLE_ACTION(ActionExtraProperties, tr("Use Additional Transaction Properties"), 0, this, SLOT(useExtraProperties(bool)), "extra_properties", settingsMenu);
 	ActionExtraProperties->setChecked(b_extra);
