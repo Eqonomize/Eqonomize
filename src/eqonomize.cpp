@@ -1839,7 +1839,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	tabs = new QTabWidget(w_top);
 	topLayout->addWidget(tabs);
 	tabs->setDocumentMode(true);
-	tabs->setIconSize(tabs->iconSize() * 1.5);
+	tabs->setIconSize(tabs->iconSize() * 1.7);
 
 	accounts_page = new QWidget(this);
 	tabs->addTab(accounts_page, QIcon::fromTheme("go-home"), tr("Accounts && Categories"));
@@ -1930,13 +1930,13 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	accountsPeriodLayout2->addWidget(accountsPeriodToEdit);
 	QHBoxLayout *accountsPeriodLayout3 = new QHBoxLayout();
 	accountsPeriodLayout->addLayout(accountsPeriodLayout3);
-	QPushButton *prevYearButton = new QPushButton(QIcon::fromTheme("arrow-left-double"), "", periodWidget);	
+	QPushButton *prevYearButton = new QPushButton(QIcon::fromTheme("eqonomize-previous-year"), "", periodWidget);	
 	accountsPeriodLayout2->addWidget(prevYearButton);
-	QPushButton *prevMonthButton = new QPushButton(QIcon::fromTheme("arrow-left"), "", periodWidget);
+	QPushButton *prevMonthButton = new QPushButton(QIcon::fromTheme("eqonomize-previous-month"), "", periodWidget);
 	accountsPeriodLayout2->addWidget(prevMonthButton);
-	QPushButton *nextMonthButton = new QPushButton(QIcon::fromTheme("arrow-right"), "", periodWidget);
+	QPushButton *nextMonthButton = new QPushButton(QIcon::fromTheme("eqonomize-next-month"), "", periodWidget);
 	accountsPeriodLayout2->addWidget(nextMonthButton);
-	QPushButton *nextYearButton = new QPushButton(QIcon::fromTheme("arrow-right-double"), "", periodWidget);
+	QPushButton *nextYearButton = new QPushButton(QIcon::fromTheme("eqonomize-next-year"), "", periodWidget);
 	accountsPeriodLayout2->addWidget(nextYearButton);
 	QPushButton *accountsPeriodButton = new QPushButton(tr("Select Period"), periodWidget);
 	QMenu *accountsPeriodMenu = new QMenu(this);
@@ -2089,13 +2089,13 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	securitiesLayout->addWidget(periodGroup);
 	QHBoxLayout *securitiesPeriodLayout3 = new QHBoxLayout();
 	securitiesPeriodLayout2->addLayout(securitiesPeriodLayout3);
-	QPushButton *securitiesPrevYearButton = new QPushButton(QIcon::fromTheme("arrow-left-double"), "", periodGroup);
+	QPushButton *securitiesPrevYearButton = new QPushButton(QIcon::fromTheme("eqonomize-previous-year"), "", periodGroup);
 	securitiesPeriodLayout3->addWidget(securitiesPrevYearButton);
-	QPushButton *securitiesPrevMonthButton = new QPushButton(QIcon::fromTheme("arrow-left"), "", periodGroup);
+	QPushButton *securitiesPrevMonthButton = new QPushButton(QIcon::fromTheme("eqonomize-previous-month"), "", periodGroup);
 	securitiesPeriodLayout3->addWidget(securitiesPrevMonthButton);
-	QPushButton *securitiesNextMonthButton = new QPushButton(QIcon::fromTheme("arrow-right"), "", periodGroup);
+	QPushButton *securitiesNextMonthButton = new QPushButton(QIcon::fromTheme("eqonomize-next-month"), "", periodGroup);
 	securitiesPeriodLayout3->addWidget(securitiesNextMonthButton);
-	QPushButton *securitiesNextYearButton = new QPushButton(QIcon::fromTheme("arrow-right-double"), "", periodGroup);
+	QPushButton *securitiesNextYearButton = new QPushButton(QIcon::fromTheme("eqonomize-next-year"), "", periodGroup);
 	securitiesPeriodLayout3->addWidget(securitiesNextYearButton);
 
 	securitiesPopupMenu = NULL;

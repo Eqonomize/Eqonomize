@@ -167,13 +167,13 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	toEdit->setCalendarPopup(true);
 	toEdit->setDate(to_date);
 	choicesLayout->addWidget(toEdit);
-	prevYearButton = new QPushButton(QIcon::fromTheme("arrow-left-double"), "", settingsWidget);
+	prevYearButton = new QPushButton(QIcon::fromTheme("eqonomize-previous-year"), "", settingsWidget);
 	choicesLayout->addWidget(prevYearButton);
-	prevMonthButton = new QPushButton(QIcon::fromTheme("arrow-left"), "", settingsWidget);
+	prevMonthButton = new QPushButton(QIcon::fromTheme("eqonomize-previous-month"), "", settingsWidget);
 	choicesLayout->addWidget(prevMonthButton);
-	nextMonthButton = new QPushButton(QIcon::fromTheme("arrow-right"), "", settingsWidget);
+	nextMonthButton = new QPushButton(QIcon::fromTheme("eqonomize-next-month"), "", settingsWidget);
 	choicesLayout->addWidget(nextMonthButton);
-	nextYearButton = new QPushButton(QIcon::fromTheme("arrow-right-double"), "", settingsWidget);
+	nextYearButton = new QPushButton(QIcon::fromTheme("eqonomize-next-year"), "", settingsWidget);
 	choicesLayout->addWidget(nextYearButton);
 	choicesLayout->addStretch(1);
 

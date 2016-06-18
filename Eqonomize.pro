@@ -113,7 +113,7 @@ appicon64.files = data/64/eqonomize.png
 appicon64.path = $$ICON_DIR/hicolor/64x64/apps
 appicon128.files = data/128/eqonomize.png
 appicon128.path = $$ICON_DIR/hicolor/128x128/apps
-appiconsvg.files = data/eqonomize.svg
+appiconsvg.files = data/scalable/eqonomize.svg
 appiconsvg.path = $$ICON_DIR/hicolor/scalable/apps
 
 mimeicon16.files = data/16/application-x-eqonomize.png
@@ -128,16 +128,20 @@ mimeicon64.files = data/64/application-x-eqonomize.png
 mimeicon64.path = $$ICON_DIR/hicolor/64x64/mimetypes
 mimeicon128.files = data/128/application-x-eqonomize.png
 mimeicon128.path = $$ICON_DIR/hicolor/128x128/mimetypes
-mimeiconsvg.files = data/application-x-eqonomize.svg
+mimeiconsvg.files = data/scalable/application-x-eqonomize.svg
 mimeiconsvg.path = $$ICON_DIR/hicolor/scalable/mimetypes
 
-actioniconssvg.files = 	data/eqonomize-expense.svg \
-			data/eqonomize-income.svg \
-			data/eqonomize-transfer.svg \
-			data/eqonomize-security.svg \
-			data/eqonomize-schedule.svg \
-			data/eqonomize-categories-chart.svg \
-			data/eqonomize-overtime-chart.svg
+actioniconssvg.files = 	data/scalable/eqonomize-expense.svg \
+			data/scalable/eqonomize-income.svg \
+			data/scalable/eqonomize-transfer.svg \
+			data/scalable/eqonomize-security.svg \
+			data/scalable/eqonomize-schedule.svg \
+			data/scalable/eqonomize-previous-year.svg \
+			data/scalable/eqonomize-previous-month.svg \
+			data/scalable/eqonomize-next-month.svg \
+			data/scalable/eqonomize-next-year.svg \
+			data/scalable/eqonomize-categories-chart.svg \
+			data/scalable/eqonomize-overtime-chart.svg
 actioniconssvg.path = $$ICON_DIR/hicolor/scalable/actions
 
 INSTALLS += 	target qm doc desktop mime \ 
