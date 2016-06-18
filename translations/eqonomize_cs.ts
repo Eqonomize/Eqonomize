@@ -2924,19 +2924,19 @@ i18n: file ./eqonomizeui.rc line 56
     <message numerus="yes">
         <location filename="../src/budget.cpp" line="374"/>
         <source>Unable to load %n account(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Nelze načíst účet.</numerusform>
+            <numerusform>Nelze načíst %n účty.</numerusform>
+            <numerusform>Nelze načíst %n účtů.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/budget.cpp" line="379"/>
         <source>Unable to load %n category/categories.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Nelze načíst kategorii.</numerusform>
+            <numerusform>Nelze načíst %n kategorie.</numerusform>
+            <numerusform>Nelze načíst %n kategorií.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -2951,10 +2951,10 @@ i18n: file ./eqonomizeui.rc line 56
     <message numerus="yes">
         <location filename="../src/budget.cpp" line="389"/>
         <source>Unable to load %n transaction(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Nelze načíst transakci.</numerusform>
+            <numerusform>Nelze načíst %n transakce.</numerusform>
+            <numerusform>Nelze načíst %n transakcí.</numerusform>
         </translation>
     </message>
     <message>
@@ -3002,7 +3002,7 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="111"/>
         <source>Options</source>
-        <translation type="unfinished">Alternativ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="116"/>
@@ -3114,7 +3114,7 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="105"/>
         <source>Options</source>
-        <translation type="unfinished">Alternativ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="108"/>
@@ -3912,7 +3912,7 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="1352"/>
         <source>Other</source>
-        <translation>Jiný</translation>
+        <translation>Ostatní</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1355"/>
@@ -4461,7 +4461,7 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="2152"/>
         <source>Comments</source>
-        <translation>Komentáře</translation>
+        <translation>Poznámky</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2171"/>
@@ -4600,7 +4600,7 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <location filename="../src/eqonomize.cpp" line="3624"/>
         <location filename="../src/eqonomize.cpp" line="3629"/>
         <source>Other</source>
-        <translation>Jiný</translation>
+        <translation>Ostatní</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3306"/>
@@ -4628,7 +4628,7 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="3621"/>
         <source>Check Account</source>
-        <translation>Ověřit účet</translation>
+        <translation>Šekový účet</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3622"/>
@@ -5200,7 +5200,7 @@ Přejete si spustit poslední automaticky uloženou verzi souboru?</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="4723"/>
         <source>Untitled</source>
-        <translation type="unfinished"></translation>
+        <translation>Bez názvu</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4790"/>
@@ -5529,7 +5529,7 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="124"/>
         <source>Other</source>
-        <translation>Jiný</translation>
+        <translation>Ostatní</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="132"/>
@@ -5738,24 +5738,24 @@ Co s nimi chcete udělat?</translation>
     <message numerus="yes">
         <location filename="../src/importcsvdialog.cpp" line="1189"/>
         <source>Successfully imported %n transaction(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Transakce byla úspěšně importována.</numerusform>
+            <numerusform>%n transakce byly úspěšně importovány.</numerusform>
+            <numerusform>%n transakcí bylo úspěšně importováno.</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1191"/>
         <source>Unable to import any transactions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze importovat.</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/importcsvdialog.cpp" line="1195"/>
         <source>Failed to import %n data row(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Chyba při importu datové řady.</numerusform>
+            <numerusform>Chyba při importu %n datových řad.</numerusform>
+            <numerusform>Chyba při importu %n datových řad.</numerusform>
         </translation>
     </message>
     <message>
@@ -5973,7 +5973,7 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="159"/>
         <source>Comments</source>
-        <translation>Komentáře</translation>
+        <translation>Poznámky</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="163"/>
@@ -5983,32 +5983,32 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="166"/>
         <source>Subcategory/Payee/Comments</source>
-        <translation>Podkategorie/Příjemce/Komentáře</translation>
+        <translation>Podkategorie/Příjemce/Poznámky</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="167"/>
         <source>Payee/Subcategory/Comments</source>
-        <translation>Příjemce/Podkategorie/Komentáře</translation>
+        <translation>Příjemce/Podkategorie/Poznámky</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="168"/>
         <source>Subcategory/Comments/Payee</source>
-        <translation>Podkategorie/Komentáře/Příjemce</translation>
+        <translation>Podkategorie/Poznámky/Příjemce</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="169"/>
         <source>Payee/Comments/Subcategory</source>
-        <translation>Příjemce/Komentáře/Podkategorie</translation>
+        <translation>Příjemce/Poznámky/Podkategorie</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="170"/>
         <source>Comments/Subcategory/Payee</source>
-        <translation>Komentáře/Podkategorie/Příjemce</translation>
+        <translation>Poznámky/Podkategorie/Příjemce</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="171"/>
         <source>Comments/Payee/Subcategory</source>
-        <translation>Komentáře/Příjemce/Podkategorie</translation>
+        <translation>Poznámky/Příjemce/Podkategorie</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="270"/>
@@ -6104,7 +6104,7 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="336"/>
         <source>Other</source>
-        <translation>Jiný</translation>
+        <translation>Ostatní</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="349"/>
@@ -6114,46 +6114,46 @@ Co s nimi chcete udělat?</translation>
     <message numerus="yes">
         <location filename="../src/qifimportexport.cpp" line="458"/>
         <source>Successfully imported %n transaction(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Transakce byla úspěšně importována.</numerusform>
+            <numerusform>%n transakce byly úspěšně importovány.</numerusform>
+            <numerusform>%n transakcí bylo úspěšně importováno.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/qifimportexport.cpp" line="461"/>
         <source>Successfully imported %n account(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Účet úspěšně importován.</numerusform>
+            <numerusform>%n účty úspěšně importovány.</numerusform>
+            <numerusform>%n účtů úspěšně importováno.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/qifimportexport.cpp" line="465"/>
         <source>Successfully imported %n category/categories.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Kategorie byla úspěšně importována.</numerusform>
+            <numerusform>%n kategorií bylo úspěšně importováno.</numerusform>
+            <numerusform>%n kategorií bylo úspěšně importováno.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/qifimportexport.cpp" line="469"/>
         <source>%n duplicate transaction(s) was ignored.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Kopie transakce byla ignorována.</numerusform>
+            <numerusform>%n kopie transakcí bylo ignorováno.</numerusform>
+            <numerusform>%n kopií transakcí bylo ignorováno.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/qifimportexport.cpp" line="473"/>
         <source>Failed to import %n transaction(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Chyba při importování transakce.</numerusform>
+            <numerusform>Chyba při importu %n transakcí.</numerusform>
+            <numerusform>Chyba při importu %n transakcí.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -7482,7 +7482,7 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="1294"/>
         <source>Shares Sold (Traded)</source>
-        <translation>Prodej podílů (obchodní)</translation>
+        <translation>Prodej podílů (obchodovaný)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1294"/>
@@ -7991,7 +7991,7 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="127"/>
         <source>Comments</source>
-        <translation>Komentáře</translation>
+        <translation>Poznámky</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="147"/>
