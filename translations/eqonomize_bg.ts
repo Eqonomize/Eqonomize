@@ -3068,7 +3068,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/transaction.cpp" line="255"/>
         <location filename="../src/transaction.cpp" line="283"/>
         <source>Account balancing</source>
-        <translation type="unfinished">Балансиране на сметката</translation>
+        <translation>Балансиране на сметката</translation>
     </message>
 </context>
 <context>
@@ -3076,83 +3076,83 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/budget.cpp" line="62"/>
         <source>Balancing</source>
-        <translation type="unfinished">балансиране</translation>
+        <translation>балансиране</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="95"/>
         <source>Couldn&apos;t open %1 for reading</source>
-        <translation type="unfinished">Не може да се отвори %1 за четене</translation>
+        <translation>Не може да се отвори %1 за четене</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="106"/>
         <source>Not a valid Eqonomize! file (XML parse error: &quot;%1&quot; at line %2, col %3)</source>
-        <translation type="unfinished">Невалиден Eqonomize! файл (XML синтактична грешка: &quot;%2&quot; ред %3, колона %4) {1&quot;?} {2,?} {3)?}</translation>
+        <translation>Невалиден Eqonomize! файл (XML синтактична грешка: &quot;%1&quot; ред %2, колона %3)</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="109"/>
         <source>Invalid root element %1 in XML document</source>
-        <translation type="unfinished">Невалиден основен елемент %1 в XML документ</translation>
+        <translation>Невалиден основен елемент %1 в XML документ</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/budget.cpp" line="374"/>
         <source>Unable to load %n account(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Не може да се зареди 1 сметка.</numerusform>
+            <numerusform>Не може да се заредят %n сметки.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/budget.cpp" line="379"/>
         <source>Unable to load %n category/categories.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Не може да се зареди 1 група.</numerusform>
+            <numerusform>Не може да се заредят %n групи.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/budget.cpp" line="384"/>
         <source>Unable to load %n security/securities.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Не може да се зареди 1 ценна книга.</numerusform>
+            <numerusform>Не може да се заредят %n ценни книжа.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/budget.cpp" line="389"/>
         <source>Unable to load %n transaction(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Не може да се зареди 1 транзакция.</numerusform>
+            <numerusform>Не може да се заредят %n транзакции.</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="400"/>
         <source>File is a directory</source>
-        <translation type="unfinished">Файлът е папка</translation>
+        <translation>Файлът е папка</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="408"/>
         <source>Couldn&apos;t open file for writing</source>
-        <translation type="unfinished">Не мога да отворя файл за писане</translation>
+        <translation>Не мога да отворя файл за писане</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="558"/>
         <location filename="../src/budget.cpp" line="562"/>
         <source>Error while writing file; file was not saved</source>
-        <translation type="unfinished">Грешка при запис на файл; файлът не е бил запазен</translation>
+        <translation>Грешка при запис на файл; файлът не е бил запазен</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="1256"/>
         <location filename="../src/qifimportexport.cpp" line="1347"/>
         <location filename="../src/qifimportexport.cpp" line="1467"/>
         <source>Unnamed</source>
-        <translation type="unfinished">Без име</translation>
+        <translation>Без име</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="1296"/>
         <location filename="../src/qifimportexport.cpp" line="1410"/>
         <source>Uncategorized</source>
-        <translation type="unfinished">Некатегоризиран</translation>
+        <translation>Некатегоризиран</translation>
     </message>
 </context>
 <context>
@@ -3160,12 +3160,12 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="101"/>
         <source>Save As…</source>
-        <translation type="unfinished"></translation>
+        <translation>Запис като…</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="102"/>
         <source>Print…</source>
-        <translation type="unfinished">Отпечатай…</translation>
+        <translation>Печат…</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="111"/>
@@ -3175,47 +3175,47 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="116"/>
         <source>From</source>
-        <translation type="unfinished">От</translation>
+        <translation>От</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="123"/>
         <source>To</source>
-        <translation type="unfinished">До</translation>
+        <translation>До</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="140"/>
         <source>Source:</source>
-        <translation type="unfinished">Източник:</translation>
+        <translation>Източник:</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="143"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="824"/>
         <source>All Expenses</source>
-        <translation type="unfinished">Всички разходи</translation>
+        <translation>Всички разходи</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="144"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="825"/>
         <source>All Incomes</source>
-        <translation type="unfinished">Всички приходи</translation>
+        <translation>Всички приходи</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="145"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="826"/>
         <source>All Accounts</source>
-        <translation type="unfinished">Всички сметки</translation>
+        <translation>Всички сметки</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="148"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="830"/>
         <source>Expenses: %1</source>
-        <translation type="unfinished">Разходи: %1</translation>
+        <translation>Разходи: %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="153"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="837"/>
         <source>Incomes: %1</source>
-        <translation type="unfinished">Приходи: %1</translation>
+        <translation>Приходи: %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="194"/>
@@ -3225,38 +3225,38 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonchart.cpp" line="341"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="362"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="194"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="220"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Грешна дата.</translation>
+        <translation>Грешна дата.</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="199"/>
         <source>To date is before from date.</source>
-        <translation type="unfinished">Към настоящия момент е преди считано от датата.</translation>
+        <translation>Към настоящия момент е преди считано от датата.</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="224"/>
         <source>From date is after to date.</source>
-        <translation type="unfinished">Към настоящия момент е след датата.</translation>
+        <translation>Към настоящия момент е след датата.</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="341"/>
         <source>Couldn&apos;t open file for writing.</source>
-        <translation type="unfinished">Не мога да отворя файла за писане.</translation>
+        <translation>Не мога да отворя файла за писане.</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="362"/>
         <source>Error while writing file; file was not saved.</source>
-        <translation type="unfinished">Грешка при запис на файл; файлът не е запазен.</translation>
+        <translation>Грешка при запис на файл; файлът не е запазен.</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="694"/>
         <source>No description</source>
-        <translation type="unfinished">Няма описание</translation>
+        <translation>Няма описание</translation>
     </message>
 </context>
 <context>
@@ -3264,7 +3264,7 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/eqonomize.cpp" line="970"/>
         <source>Chart</source>
-        <translation type="unfinished">Диаграма</translation>
+        <translation>Диаграма</translation>
     </message>
 </context>
 <context>
@@ -3272,12 +3272,12 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="94"/>
         <source>Save As…</source>
-        <translation type="unfinished"></translation>
+        <translation>Запис като…</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="95"/>
         <source>Print…</source>
-        <translation type="unfinished">Отпечатай…</translation>
+        <translation>Печат…</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="105"/>
@@ -3287,107 +3287,107 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="108"/>
         <source>Source:</source>
-        <translation type="unfinished">Източник:</translation>
+        <translation>Източник:</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="113"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="982"/>
         <source>All Categories</source>
-        <translation type="unfinished">Всички категории</translation>
+        <translation>Всички категории</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="116"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="724"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="986"/>
         <source>Expenses: %1</source>
-        <translation type="unfinished">Разходи: %1</translation>
+        <translation>Разходи: %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="121"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="728"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="993"/>
         <source>Incomes: %1</source>
-        <translation type="unfinished">Приходи: %1</translation>
+        <translation>Приходи: %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="132"/>
         <source>Descriptions for</source>
-        <translation type="unfinished">Описания за</translation>
+        <translation>Описания за</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="139"/>
         <source>Payees/payers for</source>
-        <translation type="unfinished">Получатели на плащане / платци за</translation>
+        <translation>Получатели на плащане / платци за</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="155"/>
         <source>Period:</source>
-        <translation type="unfinished">Период:</translation>
+        <translation>Период:</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="158"/>
         <source>From</source>
-        <translation type="unfinished">От</translation>
+        <translation>От</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="165"/>
         <source>To</source>
-        <translation type="unfinished">До</translation>
+        <translation>До</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="180"/>
         <source>Columns:</source>
-        <translation type="unfinished">Колони:</translation>
+        <translation>Колони:</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="183"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="754"/>
         <source>Value</source>
-        <translation type="unfinished">Стойност</translation>
+        <translation>Стойност</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="186"/>
         <source>Daily</source>
-        <translation type="unfinished">ежедневно</translation>
+        <translation>ежедневно</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="189"/>
         <source>Monthly</source>
-        <translation type="unfinished">Месечно</translation>
+        <translation>Месечно</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="192"/>
         <source>Yearly</source>
-        <translation type="unfinished">Годишно</translation>
+        <translation>Годишно</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="195"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="759"/>
         <source>Quantity</source>
-        <translation type="unfinished">Количество</translation>
+        <translation>Количество</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="198"/>
         <source>Average value</source>
-        <translation type="unfinished">Средна стойност</translation>
+        <translation>Средна стойност</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="274"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="917"/>
         <source>All descriptions</source>
-        <translation type="unfinished">Всички описания</translation>
+        <translation>Всички описания</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="275"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="918"/>
         <source>All payees</source>
-        <translation type="unfinished">Всички получатели на пари</translation>
+        <translation>Всички получатели на пари</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="276"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="919"/>
         <source>All payers</source>
-        <translation type="unfinished">Всички платци</translation>
+        <translation>Всички платци</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="299"/>
@@ -3397,7 +3397,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="900"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="947"/>
         <source>No description</source>
-        <translation type="unfinished">Няма описание</translation>
+        <translation>Няма описание</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="305"/>
@@ -3406,7 +3406,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="902"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="964"/>
         <source>No payee</source>
-        <translation type="unfinished">Няма получател на пари</translation>
+        <translation>Няма получател на пари</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="306"/>
@@ -3415,7 +3415,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="903"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="965"/>
         <source>No payer</source>
-        <translation type="unfinished">Няма платец</translation>
+        <translation>Няма платец</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="332"/>
@@ -3425,127 +3425,127 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="453"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="460"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="332"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="358"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Грешна дата.</translation>
+        <translation>Грешна дата.</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="337"/>
         <source>To date is before from date.</source>
-        <translation type="unfinished">Към настоящия момент е преди считано от датата.</translation>
+        <translation>Към настоящия момент е преди считано от датата.</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="362"/>
         <source>From date is after to date.</source>
-        <translation type="unfinished">Към настоящия момент е след датата.</translation>
+        <translation>Към настоящия момент е след датата.</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="453"/>
         <source>Couldn&apos;t open file for writing.</source>
-        <translation type="unfinished">Не мога да отворя файла за писане.</translation>
+        <translation>Не мога да отворя файла за писане.</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="460"/>
         <source>Error while writing file; file was not saved.</source>
-        <translation type="unfinished">Грешка при запис на файл; файлът не е запазен.</translation>
+        <translation>Грешка при запис на файл; файлът не е запазен.</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="722"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="723"/>
         <source>Expenses: %2, %1</source>
-        <translation type="unfinished">Разходи: %2, %1</translation>
+        <translation>Разходи: %2, %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="726"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="727"/>
         <source>Incomes: %2, %1</source>
-        <translation type="unfinished">Приходи: %2, %1</translation>
+        <translation>Приходи: %2, %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="730"/>
         <source>Incomes &amp; Expenses</source>
-        <translation type="unfinished">Приходи &amp; Разходи</translation>
+        <translation>Приходи &amp; Разходи</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="743"/>
         <source>%1 (%2&amp;ndash;%3)</source>
         <comment>html format; %1: title; %2: from date; %3: to date</comment>
-        <translation type="unfinished">%1 (%2&amp;ndash;%3)</translation>
+        <translation>%1 (%2&amp;ndash;%3)</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="744"/>
         <source>%1 (to %2)</source>
         <comment>html format; %1: title; %2: to date</comment>
-        <translation type="unfinished">%1 (до %2)</translation>
+        <translation>%1 (до %2)</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="748"/>
         <source>Category</source>
-        <translation type="unfinished">Категория</translation>
+        <translation>Категория</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="750"/>
         <source>Cost</source>
-        <translation type="unfinished">Цена</translation>
+        <translation>Цена</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="752"/>
         <source>Income</source>
-        <translation type="unfinished">Приход</translation>
+        <translation>Приход</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="756"/>
         <source>Daily Average</source>
-        <translation type="unfinished">Средно Дневно</translation>
+        <translation>Средно Дневно</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="757"/>
         <source>Monthly Average</source>
-        <translation type="unfinished">Средно на месец</translation>
+        <translation>Средно на месец</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="758"/>
         <source>Yearly Average</source>
-        <translation type="unfinished">Средно годишно</translation>
+        <translation>Средно годишно</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="761"/>
         <source>Average Cost</source>
-        <translation type="unfinished">Средна цена</translation>
+        <translation>Средна цена</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="763"/>
         <source>Average Income</source>
-        <translation type="unfinished">Среден доход</translation>
+        <translation>Среден доход</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="765"/>
         <source>Average Value</source>
-        <translation type="unfinished">Средна стойност</translation>
+        <translation>Средна стойност</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="825"/>
         <source>Total</source>
-        <translation type="unfinished">Общо</translation>
+        <translation>Общо</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="850"/>
         <source>Total incomes</source>
-        <translation type="unfinished">Общо приходи</translation>
+        <translation>Общо приходи</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="874"/>
         <source>Total expenses</source>
-        <translation type="unfinished">Общо разходи</translation>
+        <translation>Общо разходи</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="884"/>
         <source>Total (Profits)</source>
-        <translation type="unfinished">Общо (печалбите)</translation>
+        <translation>Общо (печалбите)</translation>
     </message>
 </context>
 <context>
@@ -3553,7 +3553,7 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/eqonomize.cpp" line="937"/>
         <source>Report</source>
-        <translation type="unfinished">Отчет</translation>
+        <translation>Отчет</translation>
     </message>
 </context>
 <context>
@@ -3562,54 +3562,54 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/eqonomize.cpp" line="992"/>
         <source>The following transactions was scheduled to occur today or before today.
 Confirm that they have indeed occurred (or will occur today).</source>
-        <translation type="unfinished">Следните транзакции бе насрочено да се състоят днес или вчера.
+        <translation>Следните транзакции бе насрочено да се състоят днес или вчера.
 Уверете се, че те наистина са се случили (или ще се появят днес).</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1001"/>
         <location filename="../src/eqonomize.cpp" line="1057"/>
         <source>Date</source>
-        <translation type="unfinished">Дата</translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1002"/>
         <source>Type</source>
-        <translation type="unfinished">Вид</translation>
+        <translation>Вид</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1003"/>
         <source>Description</source>
-        <translation type="unfinished">Описание</translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1004"/>
         <source>Amount</source>
-        <translation type="unfinished">Сума</translation>
+        <translation>Сума</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1012"/>
         <source>Edit…</source>
-        <translation type="unfinished">Редактиране…</translation>
+        <translation>Редактиране…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1014"/>
         <source>Postpone…</source>
-        <translation type="unfinished">Отлагане…</translation>
+        <translation>Отлагане…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1016"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Изтриване</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1075"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1075"/>
         <source>Can only postpone to future dates.</source>
-        <translation type="unfinished">Може само да се отложи за бъдещи дати.</translation>
+        <translation>Може само да се отложи за бъдещи дати.</translation>
     </message>
 </context>
 <context>
@@ -3617,32 +3617,32 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="328"/>
         <source>Transfer</source>
-        <translation type="unfinished">Прехвърляне</translation>
+        <translation>Прехвърляне</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="330"/>
         <source>Dividend</source>
-        <translation type="unfinished">Дивиденти</translation>
+        <translation>Дивиденти</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="331"/>
         <source>Income</source>
-        <translation type="unfinished">Приход</translation>
+        <translation>Приход</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="334"/>
         <source>Expense</source>
-        <translation type="unfinished">Разход</translation>
+        <translation>Разход</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="335"/>
         <source>Security Buy</source>
-        <translation type="unfinished">Покупка споръчител</translation>
+        <translation>Покупка споръчител</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="336"/>
         <source>Security Sell</source>
-        <translation type="unfinished">Продажба с поръчител</translation>
+        <translation>Продажба с поръчител</translation>
     </message>
 </context>
 <context>
@@ -3650,73 +3650,73 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="1476"/>
         <source>Type:</source>
-        <translation type="unfinished">Вид:</translation>
+        <translation>Вид:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1479"/>
         <source>Cash</source>
-        <translation type="unfinished">Пари в брой</translation>
+        <translation>Пари в брой</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1480"/>
         <source>Current Account</source>
-        <translation type="unfinished">Текуща сметка</translation>
+        <translation>Текуща сметка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1481"/>
         <source>Savings Account</source>
-        <translation type="unfinished">Спестовна сметка</translation>
+        <translation>Спестовна сметка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1482"/>
         <source>Credit Card</source>
-        <translation type="unfinished">Кредитна карта</translation>
+        <translation>Кредитна карта</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1483"/>
         <source>Liabilities</source>
-        <translation type="unfinished">Задължения</translation>
+        <translation>Задължения</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1484"/>
         <source>Securities</source>
-        <translation type="unfinished">Ценни книжа</translation>
+        <translation>Ценни книжа</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1486"/>
         <source>Name:</source>
-        <translation type="unfinished">Име:</translation>
+        <translation>Име:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1489"/>
         <source>Initial balance:</source>
-        <translation type="unfinished">Начален баланс:</translation>
+        <translation>Начален баланс:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1492"/>
         <source>Default account for budgeted transactions</source>
-        <translation type="unfinished">Основна сметка за бюджетни транзакции</translation>
+        <translation>Основна сметка за бюджетни транзакции</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1495"/>
         <source>Description:</source>
-        <translation type="unfinished">Описание:</translation>
+        <translation>Описание:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1564"/>
         <location filename="../src/eqonomize.cpp" line="1570"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1564"/>
         <source>Empty name.</source>
-        <translation type="unfinished">Празно име.</translation>
+        <translation>Празно име.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1570"/>
         <source>The entered name is used by another account.</source>
-        <translation type="unfinished">Въведеното име се използва от друга сметка.</translation>
+        <translation>Въведеното име се използва от друга сметка.</translation>
     </message>
 </context>
 <context>
@@ -3724,34 +3724,34 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="52"/>
         <source>Edit Exceptions</source>
-        <translation type="unfinished">Редактиране на изключенията</translation>
+        <translation>Редактиране на изключенията</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="69"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавяне</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="71"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Прилагане</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="74"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Изтриване</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="145"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="160"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="145"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="160"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Грешна дата.</translation>
+        <translation>Грешна дата.</translation>
     </message>
 </context>
 <context>
@@ -3759,33 +3759,33 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="1656"/>
         <source>Name:</source>
-        <translation type="unfinished">Име:</translation>
+        <translation>Име:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1659"/>
         <source>Monthly budget:</source>
-        <translation type="unfinished">Месечен бюджет:</translation>
+        <translation>Месечен бюджет:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1665"/>
         <source>Description:</source>
-        <translation type="unfinished">Описание:</translation>
+        <translation>Описание:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1705"/>
         <location filename="../src/eqonomize.cpp" line="1711"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1705"/>
         <source>Empty name.</source>
-        <translation type="unfinished">Празно име.</translation>
+        <translation>Празно име.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1711"/>
         <source>The entered name is used by another expense category.</source>
-        <translation type="unfinished">Въведеното име се използва от друга категория сметки.</translation>
+        <translation>Въведеното име се използва от друга категория сметки.</translation>
     </message>
 </context>
 <context>
@@ -3793,33 +3793,33 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="1586"/>
         <source>Name:</source>
-        <translation type="unfinished">Име:</translation>
+        <translation>Име:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1589"/>
         <source>Monthly budget:</source>
-        <translation type="unfinished">Месечен бюджет:</translation>
+        <translation>Месечен бюджет:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1595"/>
         <source>Description:</source>
-        <translation type="unfinished">Описание:</translation>
+        <translation>Описание:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1635"/>
         <location filename="../src/eqonomize.cpp" line="1641"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1635"/>
         <source>Empty name.</source>
-        <translation type="unfinished">Празно име.</translation>
+        <translation>Празно име.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1641"/>
         <source>The entered name is used by another income category.</source>
-        <translation type="unfinished">Въведеното име се използва от друга категория доходи.</translation>
+        <translation>Въведеното име се използва от друга категория доходи.</translation>
     </message>
 </context>
 <context>
@@ -3828,49 +3828,49 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="777"/>
         <location filename="../src/eqonomize.cpp" line="782"/>
         <source>Quotations</source>
-        <translation type="unfinished">Оферти</translation>
+        <translation>Оферти</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="793"/>
         <source>Date</source>
-        <translation type="unfinished">Дата</translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="794"/>
         <source>Price per Share</source>
-        <translation type="unfinished">Цена на акция</translation>
+        <translation>Цена на акция</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="811"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавяне</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="813"/>
         <source>Modify</source>
-        <translation type="unfinished"></translation>
+        <translation>Променяне</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="816"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Изтриване</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="843"/>
         <source>Quotations for %1</source>
-        <translation type="unfinished">Котировки на %1</translation>
+        <translation>Котировки на %1</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="871"/>
         <location filename="../src/eqonomize.cpp" line="893"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="871"/>
         <location filename="../src/eqonomize.cpp" line="893"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Грешна дата.</translation>
+        <translation>Грешна дата.</translation>
     </message>
 </context>
 <context>
@@ -3878,49 +3878,49 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="175"/>
         <source>Edit Recurrence Range</source>
-        <translation type="unfinished">Редактиране периода на повторение</translation>
+        <translation>Редактиране периода на повторение</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="183"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="225"/>
         <source>Begins on: %1</source>
-        <translation type="unfinished">Начало на: %1</translation>
+        <translation>Начало на: %1</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="188"/>
         <source>No ending date</source>
-        <translation type="unfinished">Няма крайна дата</translation>
+        <translation>Няма крайна дата</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="192"/>
         <source>End after</source>
-        <translation type="unfinished">Край след</translation>
+        <translation>Край след</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="198"/>
         <source>occurrence(s)</source>
-        <translation type="unfinished">възникване (щи)</translation>
+        <translation>възникване (щи)</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="200"/>
         <source>End on</source>
-        <translation type="unfinished">Край на</translation>
+        <translation>Край на</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="289"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="294"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="289"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Грешна дата.</translation>
+        <translation>Грешна дата.</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="294"/>
         <source>End date before start date.</source>
-        <translation type="unfinished">Крайната дата е преди началната дата.</translation>
+        <translation>Крайната дата е преди началната дата.</translation>
     </message>
 </context>
 <context>
@@ -3928,32 +3928,32 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="499"/>
         <source>Reinvested Dividend</source>
-        <translation type="unfinished">Реинвестирани дивиденти</translation>
+        <translation>Реинвестирани дивиденти</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="508"/>
         <source>Security:</source>
-        <translation type="unfinished">Ценна книга:</translation>
+        <translation>Ценна книга:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="525"/>
         <source>Shares added:</source>
-        <translation type="unfinished">Добавяне на акции:</translation>
+        <translation>Добавяне на акции:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="530"/>
         <source>Date:</source>
-        <translation type="unfinished">Дата:</translation>
+        <translation>Дата:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="585"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="585"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Грешна дата.</translation>
+        <translation>Грешна дата.</translation>
     </message>
 </context>
 <context>
@@ -3961,98 +3961,98 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="48"/>
         <source>Expense</source>
-        <translation type="unfinished">Разход</translation>
+        <translation>Разход</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="53"/>
         <source>Income</source>
-        <translation type="unfinished">Приход</translation>
+        <translation>Приход</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="58"/>
         <source>Transfer</source>
-        <translation type="unfinished">Прехвърляне</translation>
+        <translation>Прехвърляне</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="63"/>
         <source>Security Buy</source>
-        <translation type="unfinished">Покупка споръчител</translation>
+        <translation>Покупка споръчител</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="68"/>
         <source>Security Sell</source>
-        <translation type="unfinished">Продажба с поръчител</translation>
+        <translation>Продажба с поръчител</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="76"/>
         <source>Recurrence</source>
-        <translation type="unfinished">Повторение</translation>
+        <translation>Повторение</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="131"/>
         <source>New Expense</source>
-        <translation type="unfinished">Нов разход</translation>
+        <translation>Нов разход</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="133"/>
         <source>New Dividend</source>
-        <translation type="unfinished">Нов дивидент</translation>
+        <translation>Нов дивидент</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="134"/>
         <source>New Income</source>
-        <translation type="unfinished">Нов приход</translation>
+        <translation>Нов приход</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="137"/>
         <source>New Transfer</source>
-        <translation type="unfinished">Нов трансфер</translation>
+        <translation>Нов трансфер</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="138"/>
         <source>New Security Buy</source>
-        <translation type="unfinished">Нова покупка с поръчител</translation>
+        <translation>Нова покупка с поръчител</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="140"/>
         <source>New Security Sell</source>
-        <translation type="unfinished">Нова продажба с поръчител</translation>
+        <translation>Нова продажба с поръчител</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="155"/>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="176"/>
         <source>Edit Expense</source>
-        <translation type="unfinished">Редактиране на разходи</translation>
+        <translation>Редактиране на разходи</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="157"/>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="178"/>
         <source>Edit Dividend</source>
-        <translation type="unfinished">Редактиране на дивиденти</translation>
+        <translation>Редактиране на дивиденти</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="158"/>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="179"/>
         <source>Edit Income</source>
-        <translation type="unfinished">Редактиране на приходи</translation>
+        <translation>Редактиране на приходи</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="161"/>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="182"/>
         <source>Edit Transfer</source>
-        <translation type="unfinished">Редактиране на трансфери</translation>
+        <translation>Редактиране на трансфери</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="162"/>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="183"/>
         <source>Edit Securities Bought</source>
-        <translation type="unfinished">Редактиране на покупка на ценни книжа</translation>
+        <translation>Редактиране на покупка на ценни книжа</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="163"/>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="184"/>
         <source>Edit Securities Sold</source>
-        <translation type="unfinished">Редактиране на продажба на ценни книжа</translation>
+        <translation>Редактиране на продажба на ценни книжа</translation>
     </message>
 </context>
 <context>
@@ -4060,72 +4060,72 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="1346"/>
         <source>Type:</source>
-        <translation type="unfinished">Вид:</translation>
+        <translation>Вид:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1349"/>
         <source>Mutual Fund</source>
-        <translation type="unfinished">Взаимен фонд</translation>
+        <translation>Взаимен фонд</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1350"/>
         <source>Bond</source>
-        <translation type="unfinished">Облигация</translation>
+        <translation>Облигация</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1351"/>
         <source>Stock</source>
-        <translation type="unfinished">Наличност</translation>
+        <translation>Наличност</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1352"/>
         <source>Other</source>
-        <translation type="unfinished">Друг</translation>
+        <translation>Друг</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1355"/>
         <source>Name:</source>
-        <translation type="unfinished">Име:</translation>
+        <translation>Име:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1358"/>
         <source>Account:</source>
-        <translation type="unfinished">Сметка:</translation>
+        <translation>Сметка:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1370"/>
         <source>Decimals in Shares:</source>
-        <translation type="unfinished">Десетични в акции:</translation>
+        <translation>Десетични в акции:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1376"/>
         <source>Initial Shares:</source>
-        <translation type="unfinished">Първоначални акции:</translation>
+        <translation>Първоначални акции:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1379"/>
         <source>Initial quotation:</source>
-        <translation type="unfinished">Първоначален оферта:</translation>
+        <translation>Първоначален оферта:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1383"/>
         <source>Date:</source>
-        <translation type="unfinished">Дата:</translation>
+        <translation>Дата:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1388"/>
         <source>Description:</source>
-        <translation type="unfinished">Описание:</translation>
+        <translation>Описание:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1405"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1405"/>
         <source>No suitable account or income category available.</source>
-        <translation type="unfinished">Няма свободна подходяща сметка или категория доходи.</translation>
+        <translation>Няма свободна подходяща сметка или категория доходи.</translation>
     </message>
 </context>
 <context>
@@ -4133,42 +4133,42 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="593"/>
         <source>Security Trade</source>
-        <translation type="unfinished">Сигурност на търговията</translation>
+        <translation>Сигурност на търговията</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="600"/>
         <source>From security:</source>
-        <translation type="unfinished">От ценна книга:</translation>
+        <translation>От ценна книга:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="616"/>
         <source>Shares moved:</source>
-        <translation type="unfinished">Преместни акции:</translation>
+        <translation>Преместни акции:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="621"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Всички</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="627"/>
         <source>To security:</source>
-        <translation type="unfinished">На ценна книга:</translation>
+        <translation>На ценна книга:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="644"/>
         <source>Shares received:</source>
-        <translation type="unfinished">Получени акции:</translation>
+        <translation>Получени акции:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="648"/>
         <source>Value:</source>
-        <translation type="unfinished">Стойност:</translation>
+        <translation>Стойност:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="652"/>
         <source>Date:</source>
-        <translation type="unfinished">Дата:</translation>
+        <translation>Дата:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="745"/>
@@ -4177,32 +4177,32 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="765"/>
         <location filename="../src/eqonomize.cpp" line="769"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="745"/>
         <source>No other security available for trade in the account.</source>
-        <translation type="unfinished">Няма друга защита за търговия по сметката.</translation>
+        <translation>Няма друга защита за търговия по сметката.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="757"/>
         <source>Selected to and from securities are the same.</source>
-        <translation type="unfinished">Избраните и тези ценни книжа са едни и същи.</translation>
+        <translation>Избраните и тези ценни книжа са едни и същи.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="761"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Грешна дата.</translation>
+        <translation>Грешна дата.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="765"/>
         <source>Zero shares not allowed.</source>
-        <translation type="unfinished">Нулеви акции не са разрешени.</translation>
+        <translation>Нулеви акции не са разрешени.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="769"/>
         <source>Zero value not allowed.</source>
-        <translation type="unfinished">Нулева стойност, не се допуска.</translation>
+        <translation>Нулева стойност, не се допуска.</translation>
     </message>
 </context>
 <context>
@@ -4210,107 +4210,107 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="125"/>
         <source>Split Transaction</source>
-        <translation type="unfinished">Разделяне на транзакциите</translation>
+        <translation>Разделяне на транзакциите</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="133"/>
         <source>Description:</source>
-        <translation type="unfinished">Описание:</translation>
+        <translation>Описание:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="138"/>
         <source>Date:</source>
-        <translation type="unfinished">Дата:</translation>
+        <translation>Дата:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="143"/>
         <source>Account:</source>
-        <translation type="unfinished">Сметка:</translation>
+        <translation>Сметка:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="158"/>
         <source>Transactions:</source>
-        <translation type="unfinished">Транзакции:</translation>
+        <translation>Транзакции:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="167"/>
         <source>Type</source>
-        <translation type="unfinished">Вид</translation>
+        <translation>Вид</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="168"/>
         <source>Description</source>
-        <translation type="unfinished">Описание</translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="169"/>
         <source>Account/Category</source>
-        <translation type="unfinished">Сметка/Категория</translation>
+        <translation>Сметка/Категория</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="170"/>
         <source>Payment</source>
-        <translation type="unfinished">Плащане</translation>
+        <translation>Плащане</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="171"/>
         <source>Deposit</source>
-        <translation type="unfinished">Депозит/внос</translation>
+        <translation>Депозит/внос</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="176"/>
         <source>New</source>
-        <translation type="unfinished">Нов</translation>
+        <translation>Нов</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="179"/>
         <source>New Expense…</source>
-        <translation type="unfinished">Нов разход …</translation>
+        <translation>Нов разход …</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="180"/>
         <source>New Income…</source>
-        <translation type="unfinished">Нов приход…</translation>
+        <translation>Нов приход…</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="181"/>
         <source>New Deposit…</source>
-        <translation type="unfinished">Нова вноска…</translation>
+        <translation>Нова вноска…</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="182"/>
         <source>New Withdrawal…</source>
-        <translation type="unfinished">Ново теглене …</translation>
+        <translation>Ново теглене …</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="183"/>
         <source>Shares Bought…</source>
-        <translation type="unfinished">Изкупени акции…</translation>
+        <translation>Изкупени акции…</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="184"/>
         <source>Shares Sold…</source>
-        <translation type="unfinished">Продадени акции …</translation>
+        <translation>Продадени акции …</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="185"/>
         <source>New Dividend…</source>
-        <translation type="unfinished">Нов дивидент…</translation>
+        <translation>Нов дивидент…</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="186"/>
         <source>Edit…</source>
-        <translation type="unfinished">Редактиране…</translation>
+        <translation>Редактиране…</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="188"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Изтриване</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="223"/>
         <source>Total value:</source>
-        <translation type="unfinished">Обща стойност:</translation>
+        <translation>Обща стойност:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="407"/>
@@ -4319,32 +4319,32 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/editsplitdialog.cpp" line="423"/>
         <location filename="../src/editsplitdialog.cpp" line="432"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="407"/>
         <source>No suitable account available.</source>
-        <translation type="unfinished">Няма подходяща сметка на разположение.</translation>
+        <translation>Няма подходяща сметка на разположение.</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="415"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Грешна дата.</translation>
+        <translation>Грешна дата.</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="419"/>
         <source>Future dates is not allowed.</source>
-        <translation type="unfinished">Бъдещи дати не са позволени.</translation>
+        <translation>Бъдещи дати не са позволени.</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="423"/>
         <source>A split must contain at least two transactions.</source>
-        <translation type="unfinished">Разделянето трябва да съдържа най-малко две транзакции.</translation>
+        <translation>Разделянето трябва да съдържа най-малко две транзакции.</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="432"/>
         <source>Cannot transfer money to and from the same account.</source>
-        <translation type="unfinished">Не можете да прехвърляте пари от една и съща сметка.</translation>
+        <translation>Не можете да прехвърляте пари от една и съща сметка.</translation>
     </message>
 </context>
 <context>
@@ -4352,25 +4352,25 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="1843"/>
         <source>Accounts &amp;&amp; Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Сметки и категории</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1845"/>
         <location filename="../src/eqonomize.cpp" line="1894"/>
         <source>Expenses</source>
-        <translation type="unfinished">Разходи</translation>
+        <translation>Разходи</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1847"/>
         <location filename="../src/eqonomize.cpp" line="1893"/>
         <location filename="../src/eqonomize.cpp" line="4071"/>
         <source>Incomes</source>
-        <translation type="unfinished">Приходи</translation>
+        <translation>Приходи</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1849"/>
         <source>Transfers</source>
-        <translation type="unfinished">Трансфери</translation>
+        <translation>Трансфери</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1851"/>
@@ -4378,39 +4378,39 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="3934"/>
         <location filename="../src/eqonomize.cpp" line="4048"/>
         <source>Securities</source>
-        <translation type="unfinished">Ценни книжа</translation>
+        <translation>Ценни книжа</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1853"/>
         <source>Schedule</source>
-        <translation type="unfinished">График</translation>
+        <translation>График</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1867"/>
         <location filename="../src/eqonomize.cpp" line="1889"/>
         <source>Account / Category</source>
-        <translation type="unfinished">Сметка / Категория</translation>
+        <translation>Сметка / Категория</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1868"/>
         <source>Remaining Budget (%1)</source>
-        <translation type="unfinished">Оставащ бюджет (%1)</translation>
+        <translation>Оставащ бюджет (%1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1869"/>
         <source>Change (%1)</source>
-        <translation type="unfinished">Смени (%1)</translation>
+        <translation>Смени (%1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1870"/>
         <source>Total (%1)</source>
-        <translation type="unfinished">Общо (%1)</translation>
+        <translation>Общо (%1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1883"/>
         <source>%2 of %1</source>
         <comment>%2 remains of %1 budget</comment>
-        <translation type="unfinished">%2 от %1</translation>
+        <translation>%2 от %1</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1892"/>
@@ -4418,214 +4418,214 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="6164"/>
         <location filename="../src/eqonomize.cpp" line="6170"/>
         <source>Accounts</source>
-        <translation type="unfinished">Сметки</translation>
+        <translation>Сметки</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1899"/>
         <location filename="../src/eqonomize.cpp" line="4167"/>
         <source>Includes budgeted transactions</source>
-        <translation type="unfinished">Включва бюджетни транзакции</translation>
+        <translation>Включва бюджетни транзакции</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1907"/>
         <source>Period</source>
-        <translation type="unfinished">Период</translation>
+        <translation>Период</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1911"/>
         <location filename="../src/eqonomize.cpp" line="2071"/>
         <location filename="../src/eqonomize.cpp" line="2150"/>
         <source>From</source>
-        <translation type="unfinished">От</translation>
+        <translation>От</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1922"/>
         <location filename="../src/eqonomize.cpp" line="2083"/>
         <location filename="../src/eqonomize.cpp" line="2151"/>
         <source>To</source>
-        <translation type="unfinished">До</translation>
+        <translation>До</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1939"/>
         <source>Select Period</source>
-        <translation type="unfinished">Избор на период</translation>
+        <translation>Избор на период</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1941"/>
         <location filename="../src/eqonomize.cpp" line="4416"/>
         <source>Current Month</source>
-        <translation type="unfinished">Текущ месец</translation>
+        <translation>Текущ месец</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1942"/>
         <location filename="../src/eqonomize.cpp" line="4417"/>
         <source>Current Year</source>
-        <translation type="unfinished">Текуща година</translation>
+        <translation>Текуща година</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1943"/>
         <location filename="../src/eqonomize.cpp" line="4418"/>
         <source>Current Whole Month</source>
-        <translation type="unfinished">Целият текущ месец</translation>
+        <translation>Целият текущ месец</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1944"/>
         <location filename="../src/eqonomize.cpp" line="4419"/>
         <source>Current Whole Year</source>
-        <translation type="unfinished">Цялата текуща година</translation>
+        <translation>Цялата текуща година</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1945"/>
         <source>Whole Past Month</source>
-        <translation type="unfinished">Целият изминал месец</translation>
+        <translation>Целият изминал месец</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1946"/>
         <source>Whole Past Year</source>
-        <translation type="unfinished">Цялата изминала година</translation>
+        <translation>Цялата изминала година</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1947"/>
         <source>Previous Month</source>
-        <translation type="unfinished">Предходния месец</translation>
+        <translation>Предходния месец</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1948"/>
         <source>Previous Year</source>
-        <translation type="unfinished">Предходната година</translation>
+        <translation>Предходната година</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1951"/>
         <source>Show partial budget</source>
-        <translation type="unfinished">Покажи частично бюджета</translation>
+        <translation>Покажи частично бюджета</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1956"/>
         <source>Edit Budget</source>
-        <translation type="unfinished">Редактиране на бюджета</translation>
+        <translation>Редактиране на бюджета</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1960"/>
         <source>Budget:</source>
-        <translation type="unfinished">Бюджет:</translation>
+        <translation>Бюджет:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1970"/>
         <source>Month:</source>
-        <translation type="unfinished">Месец:</translation>
+        <translation>Месец:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1978"/>
         <source>Result previous month:</source>
-        <translation type="unfinished">Резултат за предходния месец:</translation>
+        <translation>Резултат за предходния месец:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2031"/>
         <location filename="../src/eqonomize.cpp" line="4391"/>
         <source>New Security…</source>
-        <translation type="unfinished">Нов поръчител…</translation>
+        <translation>Нов поръчител…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2033"/>
         <source>New Transaction</source>
-        <translation type="unfinished">Нова транзакция</translation>
+        <translation>Нова транзакция</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2036"/>
         <location filename="../src/eqonomize.cpp" line="4402"/>
         <source>Set Quotation…</source>
-        <translation type="unfinished">Задаване оферта …</translation>
+        <translation>Задаване оферта …</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2048"/>
         <location filename="../src/eqonomize.cpp" line="4024"/>
         <source>Name</source>
-        <translation type="unfinished">Име</translation>
+        <translation>Име</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2049"/>
         <location filename="../src/eqonomize.cpp" line="4176"/>
         <source>Value</source>
-        <translation type="unfinished">Стойност</translation>
+        <translation>Стойност</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2050"/>
         <source>Shares</source>
-        <translation type="unfinished">Акции</translation>
+        <translation>Акции</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2051"/>
         <source>Quotation</source>
-        <translation type="unfinished">Оферта</translation>
+        <translation>Оферта</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2052"/>
         <source>Cost</source>
-        <translation type="unfinished">Цена</translation>
+        <translation>Цена</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2053"/>
         <source>Profit</source>
-        <translation type="unfinished">Печалба</translation>
+        <translation>Печалба</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2054"/>
         <source>Yearly Rate</source>
-        <translation type="unfinished">Годишен темп</translation>
+        <translation>Годишен темп</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2055"/>
         <location filename="../src/eqonomize.cpp" line="2147"/>
         <location filename="../src/eqonomize.cpp" line="4025"/>
         <source>Type</source>
-        <translation type="unfinished">Вид</translation>
+        <translation>Вид</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2056"/>
         <source>Account</source>
-        <translation type="unfinished">Сметка</translation>
+        <translation>Сметка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2067"/>
         <source>Statistics Period</source>
-        <translation type="unfinished">Статистически период</translation>
+        <translation>Статистически период</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2129"/>
         <source>New Schedule</source>
-        <translation type="unfinished">Нов график</translation>
+        <translation>Нов график</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2132"/>
         <source>Edit</source>
-        <translation type="unfinished">Редактиране</translation>
+        <translation>Редактиране</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2136"/>
         <location filename="../src/eqonomize.cpp" line="4365"/>
         <location filename="../src/eqonomize.cpp" line="5150"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Премахване</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2146"/>
         <source>Next Occurrence</source>
-        <translation type="unfinished">Следващо появяване</translation>
+        <translation>Следващо появяване</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2148"/>
         <source>Description</source>
-        <translation type="unfinished">Описание</translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2149"/>
         <source>Amount</source>
-        <translation type="unfinished">Сума</translation>
+        <translation>Сума</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2152"/>
         <source>Comments</source>
-        <translation type="unfinished">Коментари</translation>
+        <translation>Коментари</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2171"/>
@@ -4635,32 +4635,32 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="2435"/>
         <source>New Security</source>
-        <translation type="unfinished">Нов поръчител</translation>
+        <translation>Нов поръчител</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2450"/>
         <source>Edit Security</source>
-        <translation type="unfinished">Редактирай поръчителя</translation>
+        <translation>Редактирай поръчителя</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2469"/>
         <source>Total value:</source>
-        <translation type="unfinished">Обща стойност:</translation>
+        <translation>Обща стойност:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2469"/>
         <source>Cost:</source>
-        <translation type="unfinished">Разходи:</translation>
+        <translation>Разходи:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2469"/>
         <source>Profit:</source>
-        <translation type="unfinished">Печалба:</translation>
+        <translation>Печалба:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2469"/>
         <source>Rate:</source>
-        <translation type="unfinished">Оценка:</translation>
+        <translation>Оценка:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2476"/>
@@ -4670,7 +4670,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="2476"/>
         <source>Are you sure you want to delete the security &quot;%1&quot; and all associated transactions?</source>
-        <translation type="unfinished">Сигурен ли сте, че искате да изтриете поръчител &quot;%1&quot; и всички свързани сделки?</translation>
+        <translation>Сигурен ли сте, че искате да изтриете поръчител &quot;%1&quot; и всички свързани сделки?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2538"/>
@@ -4699,27 +4699,27 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="4291"/>
         <location filename="../src/eqonomize.cpp" line="4549"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2538"/>
         <source>No security available.</source>
-        <translation type="unfinished">Няма свободен поръчител</translation>
+        <translation>Няма свободен поръчител.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2610"/>
         <source>Set Quotation (%1)</source>
-        <translation type="unfinished">Направи оферта (%1)</translation>
+        <translation>Направи оферта (%1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2615"/>
         <source>Price per share:</source>
-        <translation type="unfinished">Цена за една акция:</translation>
+        <translation>Цена за една акция:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2619"/>
         <source>Date:</source>
-        <translation type="unfinished">Дата:</translation>
+        <translation>Дата:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2632"/>
@@ -4728,35 +4728,35 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="3462"/>
         <location filename="../src/eqonomize.cpp" line="3488"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Грешна дата.</translation>
+        <translation>Грешна дата.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2634"/>
         <source>Future dates are not allowed.</source>
-        <translation type="unfinished">Бъдещи дати не са позволени.</translation>
+        <translation>Бъдещи дати не са позволени.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2662"/>
         <source>Security Transactions</source>
-        <translation type="unfinished">Сделки с ценни книжа</translation>
+        <translation>Сделки с ценни книжа</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2747"/>
         <location filename="../src/eqonomize.cpp" line="2807"/>
         <source>Bond</source>
-        <translation type="unfinished">Облигация</translation>
+        <translation>Облигация</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2748"/>
         <location filename="../src/eqonomize.cpp" line="2808"/>
         <source>Stock</source>
-        <translation type="unfinished">Наличност</translation>
+        <translation>Наличност</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2749"/>
         <location filename="../src/eqonomize.cpp" line="2809"/>
         <source>Mutual Fund</source>
-        <translation type="unfinished">Взаимен фонд</translation>
+        <translation>Взаимен фонд</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2750"/>
@@ -4764,94 +4764,94 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="3624"/>
         <location filename="../src/eqonomize.cpp" line="3629"/>
         <source>Other</source>
-        <translation type="unfinished">Друг</translation>
+        <translation>Друг</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3306"/>
         <source>Ledger</source>
-        <translation type="unfinished">Главна счетоводна книга</translation>
+        <translation>Главна счетоводна книга</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3327"/>
         <location filename="../src/eqonomize.cpp" line="3467"/>
         <source>To date is before from date.</source>
-        <translation type="unfinished">Към настоящия момент е преди считано от датата.</translation>
+        <translation>Към настоящия момент е преди считано от датата.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3352"/>
         <location filename="../src/eqonomize.cpp" line="3492"/>
         <source>From date is after to date.</source>
-        <translation type="unfinished">Към настоящия момент е след датата.</translation>
+        <translation>Към настоящия момент е след датата.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3620"/>
         <location filename="../src/eqonomize.cpp" line="4049"/>
         <source>Cash</source>
-        <translation type="unfinished">Пари в брой</translation>
+        <translation>Пари в брой</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3621"/>
         <source>Check Account</source>
-        <translation type="unfinished">Проверка на сметка</translation>
+        <translation>Проверка на сметка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3622"/>
         <location filename="../src/eqonomize.cpp" line="4045"/>
         <source>Savings Account</source>
-        <translation type="unfinished">Спестовна сметка</translation>
+        <translation>Спестовна сметка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3623"/>
         <source>Salary</source>
-        <translation type="unfinished">Заплата</translation>
+        <translation>Заплата</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3625"/>
         <source>Bills</source>
-        <translation type="unfinished">Сметки</translation>
+        <translation>Сметки</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3626"/>
         <source>Clothing</source>
-        <translation type="unfinished">Облекло</translation>
+        <translation>Облекло</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3627"/>
         <source>Groceries</source>
-        <translation type="unfinished">Хранителни</translation>
+        <translation>Хранителни</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3628"/>
         <source>Leisure</source>
-        <translation type="unfinished">Свободно време</translation>
+        <translation>Свободно време</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3694"/>
         <location filename="../src/eqonomize.cpp" line="4543"/>
         <source>Couldn&apos;t open file</source>
-        <translation type="unfinished">Не мога да отворя файл</translation>
+        <translation>Не мога да отворя файл</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3694"/>
         <location filename="../src/eqonomize.cpp" line="4543"/>
         <source>Error loading %1: %2.</source>
-        <translation type="unfinished">Грешка при зареждане на %1: %2.</translation>
+        <translation>Грешка при зареждане на %1: %2.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3737"/>
         <source>Couldn&apos;t save file</source>
-        <translation type="unfinished">Файлът не може да се запази</translation>
+        <translation>Файлът не може да се запази</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3737"/>
         <source>Error saving %1: %2.</source>
-        <translation type="unfinished">грешка при запазване %1: %2.</translation>
+        <translation>грешка при запазване %1: %2.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3860"/>
         <location filename="../src/eqonomize.cpp" line="3866"/>
         <source>Transaction Schedule</source>
-        <translation type="unfinished">График на транзакциите</translation>
+        <translation>График на транзакциите</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3969"/>
@@ -4859,25 +4859,25 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="4103"/>
         <location filename="../src/eqonomize.cpp" line="4151"/>
         <source>Total</source>
-        <translation type="unfinished">Общо</translation>
+        <translation>Общо</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4013"/>
         <source>Accounts &amp;amp; Categories</source>
         <comment>html format</comment>
-        <translation type="unfinished">Сметки &amp;amp; Категории</translation>
+        <translation>Сметки &amp;amp; Категории</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4018"/>
         <source>Accounts &amp;amp; Categories (%1&amp;ndash;%2)</source>
         <comment>html format</comment>
-        <translation type="unfinished">Сметки &amp;amp; Категории (%1&amp;ndash;%2)</translation>
+        <translation>Сметки &amp;amp; Категории (%1&amp;ndash;%2)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4019"/>
         <source>Accounts &amp;amp; Categories (to %1)</source>
         <comment>html format</comment>
-        <translation type="unfinished">Сметки &amp;amp; Категории (to %1)</translation>
+        <translation>Сметки &amp;amp; Категории (to %1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4026"/>
@@ -4885,467 +4885,468 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="4125"/>
         <location filename="../src/eqonomize.cpp" line="4176"/>
         <source>Change</source>
-        <translation type="unfinished">Промяна</translation>
+        <translation>Промяна</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4030"/>
         <source>Balance</source>
-        <translation type="unfinished">Баланс</translation>
+        <translation>Баланс</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4044"/>
         <source>Current Account</source>
-        <translation type="unfinished">Текуща сметка</translation>
+        <translation>Текуща сметка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4046"/>
         <source>Credit Card</source>
-        <translation type="unfinished">Кредитна карта</translation>
+        <translation>Кредитна карта</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4047"/>
         <source>Liabilities</source>
-        <translation type="unfinished">Задължения</translation>
+        <translation>Задължения</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4074"/>
         <location filename="../src/eqonomize.cpp" line="4122"/>
         <source>Category</source>
-        <translation type="unfinished">Категория</translation>
+        <translation>Категория</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4075"/>
         <location filename="../src/eqonomize.cpp" line="4123"/>
         <source>Budget</source>
-        <translation type="unfinished">Бюджет</translation>
+        <translation>Бюджет</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4076"/>
         <location filename="../src/eqonomize.cpp" line="4124"/>
         <source>Remaining Budget</source>
-        <translation type="unfinished">Оставащ бюджет</translation>
+        <translation>Оставащ бюджет</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4078"/>
         <source>Total Incomes</source>
-        <translation type="unfinished">Общо приходи</translation>
+        <translation>Общо приходи</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4119"/>
         <source>Costs</source>
-        <translation type="unfinished">Разходи</translation>
+        <translation>Разходи</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4126"/>
         <source>Total Expenses</source>
-        <translation type="unfinished">Общо разходи</translation>
+        <translation>Общо разходи</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4176"/>
         <source>Account/Category</source>
-        <translation type="unfinished">Сметка/Категория</translation>
+        <translation>Сметка/Категория</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4201"/>
         <location filename="../src/eqonomize.cpp" line="4249"/>
         <source>Empty expenses list.</source>
-        <translation type="unfinished">Празен списък с разходи.</translation>
+        <translation>Празен списък с разходи.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4206"/>
         <location filename="../src/eqonomize.cpp" line="4254"/>
         <source>Empty incomes list.</source>
-        <translation type="unfinished">Празен списък с приходи.</translation>
+        <translation>Празен списък с приходи.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4211"/>
         <location filename="../src/eqonomize.cpp" line="4259"/>
         <source>Empty transfers list.</source>
-        <translation type="unfinished">Празен списък с трансфери.</translation>
+        <translation>Празен списък с трансфери.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4216"/>
         <location filename="../src/eqonomize.cpp" line="4264"/>
         <source>Empty securities list.</source>
-        <translation type="unfinished">Празен списък с поръчители.</translation>
+        <translation>Празен списък с поръчители.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4221"/>
         <location filename="../src/eqonomize.cpp" line="4269"/>
         <source>Empty schedule list.</source>
-        <translation type="unfinished">Празен списък с графици.</translation>
+        <translation>Празен списък с графици.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4285"/>
         <source>Couldn&apos;t open file for writing.</source>
-        <translation type="unfinished">Не мога да отворя файла за писане.</translation>
+        <translation>Не мога да отворя файла за писане.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4291"/>
         <source>Error while writing file; file was not saved.</source>
-        <translation type="unfinished">Грешка при запис на файл; файлът не е запазен.</translation>
+        <translation>Грешка при запис на файл; файлът не е запазен.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4313"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Файл</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4314"/>
         <source>&amp;Accounts</source>
-        <translation type="unfinished">&amp;Сметки</translation>
+        <translation>&amp;Сметки</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4315"/>
         <source>&amp;Transactions</source>
-        <translation type="unfinished">&amp;Транзакции</translation>
+        <translation>&amp;Транзакции</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4316"/>
         <source>&amp;Securities</source>
-        <translation type="unfinished">&amp;Обезпечения</translation>
+        <translation>&amp;Обезпечения</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4317"/>
         <source>Stat&amp;istics</source>
-        <translation type="unfinished">Стат&amp;истика</translation>
+        <translation>Стат&amp;истика</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4318"/>
         <source>S&amp;ettings</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Настройки</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4319"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Помощ</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4321"/>
         <source>&amp;New</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Нов</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4323"/>
         <source>&amp;Open…</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отваряне…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4325"/>
         <source>Open Recent</source>
-        <translation type="unfinished"></translation>
+        <translation>Последно използвани</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4335"/>
         <source>Clear List</source>
-        <translation type="unfinished"></translation>
+        <translation>Изчистване на списъка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4337"/>
         <source>&amp;Save</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Запис</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4339"/>
         <source>Save As…</source>
-        <translation type="unfinished"></translation>
+        <translation>Запис като…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4340"/>
         <source>&amp;Revert</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Връщане</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4342"/>
         <source>&amp;Print View…</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Покажи страницата за печат…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4345"/>
         <source>Import</source>
-        <translation type="unfinished"></translation>
+        <translation>Внасяне</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4346"/>
         <source>Import CSV File…</source>
-        <translation type="unfinished">Импортиране CSV файла …</translation>
+        <translation>Импортиране CSV файла …</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4347"/>
         <source>Import QIF File…</source>
-        <translation type="unfinished">Импортиране QIF файла …</translation>
+        <translation>Импортиране QIF файла …</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4348"/>
         <source>Export View…</source>
-        <translation type="unfinished">Преглед на износа …</translation>
+        <translation>Преглед на износа …</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4350"/>
         <source>Export As QIF File…</source>
-        <translation type="unfinished">Износ като файл QIF …</translation>
+        <translation>Износ като файл QIF …</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4355"/>
         <source>&amp;Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Изход</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4357"/>
         <source>Add Account…</source>
-        <translation type="unfinished">Добави сметка</translation>
+        <translation>Добави сметка…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4358"/>
         <source>New Account…</source>
-        <translation type="unfinished">Нова сметка</translation>
+        <translation>Нова сметка…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4359"/>
         <source>New Income Category…</source>
-        <translation type="unfinished">Нова категория доходи …</translation>
+        <translation>Нова категория доходи …</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4360"/>
         <source>New Expense Category…</source>
-        <translation type="unfinished">Нова категория разходи…</translation>
+        <translation>Нова категория разходи…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4362"/>
         <source>Edit…</source>
-        <translation type="unfinished">Редактиране…</translation>
+        <translation>Редактиране…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4363"/>
         <source>Balance…</source>
-        <translation type="unfinished">Баланс…</translation>
+        <translation>Баланс…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4367"/>
         <source>Show Transactions</source>
-        <translation type="unfinished">Покажи транзакцията</translation>
+        <translation>Покажи транзакцията</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4369"/>
         <source>New Expense…</source>
-        <translation type="unfinished">Нов разход …</translation>
+        <translation>Нов разход …</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4370"/>
         <source>New Income…</source>
-        <translation type="unfinished">Нов приход…</translation>
+        <translation>Нов приход…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4371"/>
         <source>New Transfer…</source>
-        <translation type="unfinished">Нов трансфер…</translation>
+        <translation>Нов трансфер…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4372"/>
         <source>New Split Transaction…</source>
-        <translation type="unfinished">Ново разделяне на на транзакция …</translation>
+        <translation>Ново разделяне на на транзакция …</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4373"/>
         <source>Refund…</source>
-        <translation type="unfinished">Възстановяване…</translation>
+        <translation>Възстановяване…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4374"/>
         <source>Repayment…</source>
-        <translation type="unfinished">Изплащане…</translation>
+        <translation>Изплащане…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4375"/>
         <source>New Refund/Repayment…</source>
-        <translation type="unfinished">Ново Възстановяване/Изплащане</translation>
+        <translation>Ново Възстановяване/Изплащане…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4377"/>
         <source>Edit Transaction(s) (Occurrence)…</source>
-        <translation type="unfinished">Редактиране на транзакцията(ите) (в действителност) …</translation>
+        <translation>Редактиране на транзакцията(ите) (в действителност) …</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4378"/>
         <source>Edit Occurrence…</source>
-        <translation type="unfinished">Редактирай събитието…</translation>
+        <translation>Редактирай събитието…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4379"/>
         <source>Edit Schedule (Recurrence)…</source>
-        <translation type="unfinished">Редактирай графика (повторяемост) …</translation>
+        <translation>Редактирай графика (повторяемост) …</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4380"/>
         <source>Edit Schedule…</source>
-        <translation type="unfinished">Редактирай графика</translation>
+        <translation>Редактирай графика…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4381"/>
         <source>Edit Split Transaction…</source>
-        <translation type="unfinished">Редактиране на разделянето на транзакциите…</translation>
+        <translation>Редактиране на разделянето на транзакциите…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4382"/>
         <source>Join Transactions…</source>
-        <translation type="unfinished">Присъединете се към транзакциите…</translation>
+        <translation>Присъединете се към транзакциите…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4383"/>
         <source>Split Up Transaction</source>
-        <translation type="unfinished">Разделяне на транзакциите</translation>
+        <translation>Разделяне на транзакциите</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4385"/>
         <source>Remove Transaction(s) (Occurrence)</source>
-        <translation type="unfinished">Премахване на транзакцията (е) (събитие)</translation>
+        <translation>Премахване на транзакцията (е) (събитие)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4386"/>
         <source>Remove Occurrence</source>
-        <translation type="unfinished">Премахни събитието</translation>
+        <translation>Премахни събитието</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4387"/>
         <source>Delete Schedule (Recurrence)</source>
-        <translation type="unfinished">Изтриване на график (Повторение)</translation>
+        <translation>Изтриване на график (Повторение)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4388"/>
         <source>Delete Schedule</source>
-        <translation type="unfinished">Изтриване на график</translation>
+        <translation>Изтриване на график</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4389"/>
         <source>Remove Split Transaction</source>
-        <translation type="unfinished">Премахни разделянето на транзакциите…</translation>
+        <translation>Премахни разделянето на транзакциите</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4392"/>
         <source>Edit Security…</source>
-        <translation type="unfinished">Редактиране на поръчител…</translation>
+        <translation>Редактиране на поръчител…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4393"/>
         <source>Remove Security</source>
-        <translation type="unfinished">Премахни поръчител</translation>
+        <translation>Премахни поръчител</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4395"/>
         <source>Shares Bought…</source>
-        <translation type="unfinished">Изкупени акции…</translation>
+        <translation>Изкупени акции…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4396"/>
         <source>Shares Sold…</source>
-        <translation type="unfinished">Продадени акции …</translation>
+        <translation>Продадени акции …</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4397"/>
         <source>Shares Moved…</source>
-        <translation type="unfinished">Преместени акции…</translation>
+        <translation>Преместени акции…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4398"/>
         <source>Dividend…</source>
-        <translation type="unfinished">Дивиденти…</translation>
+        <translation>Дивиденти…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4399"/>
         <source>Reinvested Dividend…</source>
-        <translation type="unfinished">Реинвестирани дивиденти…</translation>
+        <translation>Реинвестирани дивиденти…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4400"/>
         <source>Transactions…</source>
-        <translation type="unfinished">Транзакции…</translation>
+        <translation>Транзакции…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4403"/>
         <source>Edit Quotations…</source>
-        <translation type="unfinished">Редактиране на офертите…</translation>
+        <translation>Редактиране на офертите…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4405"/>
         <source>Development Over Time Report…</source>
-        <translation type="unfinished">Разработка през време на доклада…</translation>
+        <translation>Разработка през време на доклада…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4406"/>
         <source>Categories Comparison Report…</source>
-        <translation type="unfinished">Доклад за сравнение на категориите…</translation>
+        <translation>Доклад за сравнение на категориите…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4407"/>
         <source>Development Over Time Chart…</source>
-        <translation type="unfinished">Развитие на графиката с времето…</translation>
+        <translation>Развитие на графиката с времето…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4408"/>
         <source>Categories Comparison Chart…</source>
-        <translation type="unfinished">Диаграма за сравнение на категориите…</translation>
+        <translation>Диаграма за сравнение на категориите…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4410"/>
         <source>Use Additional Transaction Properties</source>
-        <translation type="unfinished">Използвайте допълнителни свойства по сделката</translation>
+        <translation>Използвайте допълнителни свойства по сделката</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4413"/>
         <source>Initial Period</source>
-        <translation type="unfinished">Първоначален период</translation>
+        <translation>Първоначален период</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4420"/>
         <source>Remember Last Dates</source>
-        <translation type="unfinished">Запомни последните дати</translation>
+        <translation>Запомни последните дати</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4423"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Помощ</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4426"/>
         <source>Report Bug</source>
-        <translation type="unfinished"></translation>
+        <translation>Съобщаване за грешка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4428"/>
         <location filename="../src/eqonomize.cpp" line="4522"/>
         <source>About %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Относно %1</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4429"/>
         <source>About Qt</source>
-        <translation type="unfinished"></translation>
+        <translation>Относно Qt</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4522"/>
         <source>A personal accounting program</source>
-        <translation type="unfinished">Лична счетоводна програма</translation>
+        <translation>Лична счетоводна програма</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4522"/>
         <source>License: GNU General Public License Version 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Лиценз: GNU General Public License 2</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4539"/>
         <source>Crash Recovery</source>
-        <translation type="unfinished">Възстановяване след срив</translation>
+        <translation>Възстановяване след срив</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4539"/>
         <source>%1 exited unexpectedly before the file was saved and data was lost.
 Do you want to load the last auto-saved version of the file?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 завърши неочаквано преди файлът е бъде запазен и данните бяха изгубени.
+Искате ли да заредите последната автоматично записана версия на файла?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4723"/>
         <source>Untitled</source>
-        <translation type="unfinished">Неозаглавен</translation>
+        <translation>Неозаглавен</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4790"/>
@@ -5357,37 +5358,37 @@ Do you want to load the last auto-saved version of the file?</source>
         <location filename="../src/eqonomize.cpp" line="4790"/>
         <location filename="../src/eqonomize.cpp" line="4791"/>
         <source>The current file has been modified. Do you want to save it?</source>
-        <translation type="unfinished">Текущия файл е бил променен. Искате ли да го запазите?</translation>
+        <translation>Текущия файл е бил променен. Искате ли да го запазите?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4833"/>
         <source>Confirm Schedule</source>
-        <translation type="unfinished">Потвърдете списъка</translation>
+        <translation>Потвърдете списъка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4887"/>
         <source>New Account</source>
-        <translation type="unfinished">Нова сметка</translation>
+        <translation>Нова сметка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4902"/>
         <source>New Income Category</source>
-        <translation type="unfinished">Нова категория доходи</translation>
+        <translation>Нова категория доходи</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4915"/>
         <source>New Expense Category</source>
-        <translation type="unfinished">Нова категория разходи</translation>
+        <translation>Нова категория разходи</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4990"/>
         <source>Balance Account</source>
-        <translation type="unfinished">Баланс на сметката</translation>
+        <translation>Баланс на сметката</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4995"/>
         <source>Book value:</source>
-        <translation type="unfinished">Счетоводна стойност:</translation>
+        <translation>Счетоводна стойност:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4999"/>
@@ -5397,79 +5398,79 @@ Do you want to load the last auto-saved version of the file?</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="5002"/>
         <source>Real value:</source>
-        <translation type="unfinished">Реална стойност:</translation>
+        <translation>Реална стойност:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5031"/>
         <source>Edit Account</source>
-        <translation type="unfinished">Редактиране на сметка</translation>
+        <translation>Редактиране на сметка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5064"/>
         <source>Edit Income Category</source>
-        <translation type="unfinished">Редактиране на категория доходи</translation>
+        <translation>Редактиране на категория доходи</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5082"/>
         <source>Edit Expense Category</source>
-        <translation type="unfinished">Редактиране на категория разходи</translation>
+        <translation>Редактиране на категория разходи</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5143"/>
         <source>Move transactions?</source>
-        <translation type="unfinished">Преместване на транзакцията?</translation>
+        <translation>Преместване на транзакцията?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5152"/>
         <source>Move to:</source>
-        <translation type="unfinished">Преместване в:</translation>
+        <translation>Преместване в:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5159"/>
         <source>The category contains some expenses.
 What do you want to do with them?</source>
-        <translation type="unfinished">Категорията съдържа някои разходи.
+        <translation>Категорията съдържа някои разходи.
 Какво желаете да правя с тях?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5171"/>
         <source>The category contains some incomes.
 What do you want to do with them?</source>
-        <translation type="unfinished">Категорията съдържа някои доходи.
+        <translation>Категорията съдържа някои доходи.
 Какво желаете да правя с тях?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5183"/>
         <source>The account contains some transactions.
 What do you want to do with them?</source>
-        <translation type="unfinished">Сметката съдържа някои транзакции.
+        <translation>Сметката съдържа някои транзакции.
 Какво желаете да правя с тях?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5211"/>
         <location filename="../src/eqonomize.cpp" line="5212"/>
         <source>Remove Category?</source>
-        <translation type="unfinished">Премахване на категорията?</translation>
+        <translation>Премахване на категорията?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5211"/>
         <source>The category contains some expenses that will be removed. Do you still want to remove the category?</source>
-        <translation type="unfinished">Категорията съдържа някои разходи, които ще бъдат премахнати. Все още ли искате да премахнете категорията?</translation>
+        <translation>Категорията съдържа някои разходи, които ще бъдат премахнати. Все още ли искате да премахнете категорията?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5212"/>
         <source>The category contains some incomes that will be removed. Do you still want to remove the category?</source>
-        <translation type="unfinished">Категория съдържа някои доходи, които ще бъдат премахнати. Все още ли искате да премахнете категорията?</translation>
+        <translation>Категория съдържа някои доходи, които ще бъдат премахнати. Все още ли искате да премахнете категорията?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5213"/>
         <source>Remove Account?</source>
-        <translation type="unfinished">Премахване на сметката?</translation>
+        <translation>Премахване на сметката?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5213"/>
         <source>The account contains some transactions that will be removed. Do you still want to remove the account?</source>
-        <translation type="unfinished">Сметката съдържа някои транзакции, които ще бъдат премахнати. Все още ли искате да премахнете сметката?</translation>
+        <translation>Сметката съдържа някои транзакции, които ще бъдат премахнати. Все още ли искате да премахнете сметката?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5729"/>
@@ -5477,19 +5478,19 @@ What do you want to do with them?</source>
         <location filename="../src/eqonomize.cpp" line="5927"/>
         <source>%2 of %1</source>
         <comment>%1: budget; %2: remaining budget</comment>
-        <translation type="unfinished">%2 от %1</translation>
+        <translation>%2 от %1</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="6006"/>
         <location filename="../src/eqonomize.cpp" line="6030"/>
         <source>%1 (with no budget)</source>
-        <translation type="unfinished">%1 (извън бюджета)</translation>
+        <translation>%1 (извън бюджета)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="6007"/>
         <location filename="../src/eqonomize.cpp" line="6031"/>
         <source>%1 (with budget %2)</source>
-        <translation type="unfinished">%1 (с никакъв бюджет %2)</translation>
+        <translation>%1 (с никакъв бюджет %2)</translation>
     </message>
 </context>
 <context>
@@ -5497,53 +5498,53 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/qifimportexport.cpp" line="490"/>
         <source>Export QIF File</source>
-        <translation type="unfinished">Износ на QIF файла</translation>
+        <translation>Износ на QIF файла</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="498"/>
         <source>Account:</source>
-        <translation type="unfinished">Сметка:</translation>
+        <translation>Сметка:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="501"/>
         <source>All</source>
         <comment>All accounts</comment>
-        <translation type="unfinished"></translation>
+        <translation>Всички</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="512"/>
         <source>Export transaction description as:</source>
-        <translation type="unfinished">Износ описанието на сделката като:</translation>
+        <translation>Износ описанието на сделката като:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="515"/>
         <source>Payee</source>
-        <translation type="unfinished">Получател</translation>
+        <translation>Получател</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="519"/>
         <source>Memo</source>
-        <translation type="unfinished">Бележка</translation>
+        <translation>Бележка</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="523"/>
         <source>Subcategory</source>
-        <translation type="unfinished">Подкатегория</translation>
+        <translation>Подкатегория</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="528"/>
         <source>Date format:</source>
-        <translation type="unfinished">Формат на датата:</translation>
+        <translation>Формат на датата:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="536"/>
         <source>Value format:</source>
-        <translation type="unfinished">Стойност на формата:</translation>
+        <translation>Стойност на формата:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="543"/>
         <source>File:</source>
-        <translation type="unfinished">Файл:</translation>
+        <translation>Файл:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="605"/>
@@ -5551,12 +5552,12 @@ What do you want to do with them?</source>
         <location filename="../src/qifimportexport.cpp" line="625"/>
         <location filename="../src/qifimportexport.cpp" line="631"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="605"/>
         <source>Selected file is a directory.</source>
-        <translation type="unfinished">Избраният файл е директория.</translation>
+        <translation>Избраният файл е директория.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="613"/>
@@ -5566,22 +5567,22 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/qifimportexport.cpp" line="613"/>
         <source>The selected file already exists. Would you like to overwrite the old copy?</source>
-        <translation type="unfinished">Избраният файл вече съществува. Бихте ли искали да го замените с по-стар?</translation>
+        <translation>Избраният файл вече съществува. Бихте ли искали да го замените с по-стар?</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="617"/>
         <source>You selected a directory!</source>
-        <translation type="unfinished">Избрали сте директория!</translation>
+        <translation>Избрали сте директория!</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="625"/>
         <source>Couldn&apos;t open file for writing.</source>
-        <translation type="unfinished">Не мога да отворя файла за писане.</translation>
+        <translation>Не мога да отворя файла за писане.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="631"/>
         <source>Error while writing file; file was not saved.</source>
-        <translation type="unfinished">Грешка при запис на файл; файлът не е запазен.</translation>
+        <translation>Грешка при запис на файл; файлът не е запазен.</translation>
     </message>
 </context>
 <context>
@@ -5589,102 +5590,102 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="62"/>
         <source>Import CSV file</source>
-        <translation type="unfinished">Въведи CSV файла</translation>
+        <translation>Въведи CSV файла</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="66"/>
         <source>Transaction Type Selection</source>
-        <translation type="unfinished">Избор на тип на транзакцията</translation>
+        <translation>Избор на тип на транзакцията</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="72"/>
         <source>Expenses</source>
-        <translation type="unfinished">Разходи</translation>
+        <translation>Разходи</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="77"/>
         <source>Incomes</source>
-        <translation type="unfinished">Приходи</translation>
+        <translation>Приходи</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="80"/>
         <source>Transfers</source>
-        <translation type="unfinished">Трансфери</translation>
+        <translation>Трансфери</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="83"/>
         <source>Expenses and incomes (negative cost)</source>
-        <translation type="unfinished">Разходи и приходи (отрицателен разход)</translation>
+        <translation>Разходи и приходи (отрицателен разход)</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="86"/>
         <source>Expenses and incomes (separate columns)</source>
-        <translation type="unfinished">Разходи и приходи (отделни колони)</translation>
+        <translation>Разходи и приходи (отделни колони)</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="89"/>
         <source>All types</source>
-        <translation type="unfinished">Всички типове</translation>
+        <translation>Всички типове</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="97"/>
         <source>File Selection</source>
-        <translation type="unfinished">Избор на файл</translation>
+        <translation>Избор на файл</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="101"/>
         <source>File:</source>
-        <translation type="unfinished">Файл:</translation>
+        <translation>Файл:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="111"/>
         <source>First data row:</source>
-        <translation type="unfinished">Първият ред данни:</translation>
+        <translation>Първият ред данни:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="114"/>
         <source>Auto</source>
-        <translation type="unfinished">Автоматично</translation>
+        <translation>Автоматично</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="117"/>
         <source>Column delimiter:</source>
-        <translation type="unfinished">Колона разделител:</translation>
+        <translation>Колона разделител:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="120"/>
         <source>Comma</source>
-        <translation type="unfinished">Запетая</translation>
+        <translation>Запетая</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="121"/>
         <source>Tabulator</source>
-        <translation type="unfinished">Табулатор</translation>
+        <translation>Табулатор</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="122"/>
         <source>Semicolon</source>
-        <translation type="unfinished">Точка и запетая</translation>
+        <translation>Точка и запетая</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="123"/>
         <source>Space</source>
-        <translation type="unfinished">Интервал</translation>
+        <translation>Интервал</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="124"/>
         <source>Other</source>
-        <translation type="unfinished">Друг</translation>
+        <translation>Друг</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="132"/>
         <source>Columns Specification</source>
-        <translation type="unfinished">Колони спецификации</translation>
+        <translation>Колони спецификации</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="136"/>
         <source>Description:</source>
-        <translation type="unfinished">Описание:</translation>
+        <translation>Описание:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="138"/>
@@ -5695,7 +5696,7 @@ What do you want to do with them?</source>
         <location filename="../src/importcsvdialog.cpp" line="234"/>
         <location filename="../src/importcsvdialog.cpp" line="252"/>
         <source>Column</source>
-        <translation type="unfinished">Колона</translation>
+        <translation>Колона</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="146"/>
@@ -5706,19 +5707,19 @@ What do you want to do with them?</source>
         <location filename="../src/importcsvdialog.cpp" line="242"/>
         <location filename="../src/importcsvdialog.cpp" line="260"/>
         <source>Value</source>
-        <translation type="unfinished">Стойност</translation>
+        <translation>Стойност</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="153"/>
         <location filename="../src/importcsvdialog.cpp" line="176"/>
         <location filename="../src/importcsvdialog.cpp" line="368"/>
         <source>Cost:</source>
-        <translation type="unfinished">Разходи:</translation>
+        <translation>Разходи:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="194"/>
         <source>Date:</source>
-        <translation type="unfinished">Дата:</translation>
+        <translation>Дата:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="212"/>
@@ -5727,93 +5728,93 @@ What do you want to do with them?</source>
         <location filename="../src/importcsvdialog.cpp" line="400"/>
         <location filename="../src/importcsvdialog.cpp" line="411"/>
         <source>Category:</source>
-        <translation type="unfinished">Категория:</translation>
+        <translation>Категория:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="231"/>
         <location filename="../src/importcsvdialog.cpp" line="370"/>
         <location filename="../src/importcsvdialog.cpp" line="387"/>
         <source>From account:</source>
-        <translation type="unfinished">От сметката:</translation>
+        <translation>От сметката:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="250"/>
         <source>Comments:</source>
-        <translation type="unfinished">Коментари:</translation>
+        <translation>Коментари:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="269"/>
         <source>Create missing categories and accounts</source>
-        <translation type="unfinished">Създай липсващи категории и сметки</translation>
+        <translation>Създай липсващи категории и сметки</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="367"/>
         <source>Imports data as expenses. Costs have positive value. Value is the only required column.</source>
-        <translation type="unfinished">Въведи данните като разходи. Разходите трябва да са положителна стойност. Стойността е единственото, за което трябва колона.</translation>
+        <translation>Въведи данните като разходи. Разходите трябва да са положителна стойност. Стойността е единственото, за което трябва колона.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="376"/>
         <source>Imports data as incomes. Value is the only required column.</source>
-        <translation type="unfinished">Въведи данните като доходи.Стойността е единственото, за което трябва колона.</translation>
+        <translation>Въведи данните като доходи.Стойността е единственото, за което трябва колона.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="377"/>
         <location filename="../src/importcsvdialog.cpp" line="410"/>
         <source>Income:</source>
-        <translation type="unfinished">Приход:</translation>
+        <translation>Приход:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="379"/>
         <location filename="../src/importcsvdialog.cpp" line="388"/>
         <source>To account:</source>
-        <translation type="unfinished">В сметката:</translation>
+        <translation>В сметката:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="385"/>
         <source>Imports data as transfers. Value is the only required column.</source>
-        <translation type="unfinished">Въведи данните като трансфери.Стойността е единственото, за което трябва колона.</translation>
+        <translation>Въведи данните като трансфери.Стойността е единственото, за което трябва колона.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="386"/>
         <source>Amount:</source>
-        <translation type="unfinished">Сума:</translation>
+        <translation>Сума:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="394"/>
         <source>Imports data as expenses and incomes. Costs have negative value. Value and category are both required columns.</source>
-        <translation type="unfinished">Въведи данните като доходи и разходи. Разходите трябва да са отрицателна стойност. Стойността и категориите, изискват колона.</translation>
+        <translation>Въведи данните като доходи и разходи. Разходите трябва да са отрицателна стойност. Стойността и категориите, изискват колона.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="399"/>
         <location filename="../src/importcsvdialog.cpp" line="425"/>
         <source>Value:</source>
-        <translation type="unfinished">Стойност:</translation>
+        <translation>Стойност:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="401"/>
         <location filename="../src/importcsvdialog.cpp" line="412"/>
         <source>Account:</source>
-        <translation type="unfinished">Сметка:</translation>
+        <translation>Сметка:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="405"/>
         <source>Imports data as expenses and incomes. Costs and incomes have separate columns. Income, cost, and category are all required columns.</source>
-        <translation type="unfinished">Въведи данните като доходи и разходи.Разходи и приходи са с отделни колони. Доходи, разходи и категории са с всички необходими колони.</translation>
+        <translation>Въведи данните като доходи и разходи.Разходи и приходи са с отделни колони. Доходи, разходи и категории са с всички необходими колони.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="416"/>
         <source>Imports data as expenses, incomes, and transfers. Costs have negative or positive value. Value, to, and from are all required columns. Accounts and categories must be existing.</source>
-        <translation type="unfinished">Въведи данните като разходи, приходи и трансфери.Разходите трябва да са с отрицателна или положителна стойност.Стойността, до,и от,са необходими колони. Сметки и категории трябва да съществуват.</translation>
+        <translation>Въведи данните като разходи, приходи и трансфери.Разходите трябва да са с отрицателна или положителна стойност.Стойността, до,и от,са необходими колони. Сметки и категории трябва да съществуват.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="426"/>
         <source>From:</source>
-        <translation type="unfinished">От:</translation>
+        <translation>От:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="427"/>
         <source>To:</source>
-        <translation type="unfinished">До:</translation>
+        <translation>До:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="453"/>
@@ -5830,128 +5831,128 @@ What do you want to do with them?</source>
         <location filename="../src/importcsvdialog.cpp" line="1210"/>
         <location filename="../src/importcsvdialog.cpp" line="1221"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="453"/>
         <source>A file must be selected.</source>
-        <translation type="unfinished">Файлът трябва да бъде избран.</translation>
+        <translation>Файлът трябва да бъде избран.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="459"/>
         <location filename="../src/importcsvdialog.cpp" line="471"/>
         <source>Selected file is a directory.</source>
-        <translation type="unfinished">Избраният файл е директория.</translation>
+        <translation>Избраният файл е директория.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="463"/>
         <location filename="../src/importcsvdialog.cpp" line="475"/>
         <source>Selected file does not exist.</source>
-        <translation type="unfinished">Избраният файл не съществува.</translation>
+        <translation>Избраният файл не съществува.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="481"/>
         <source>Empty delimiter.</source>
-        <translation type="unfinished">Празен разделител.</translation>
+        <translation>Празен разделител.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="725"/>
         <source>The same column number is selected multiple times.</source>
-        <translation type="unfinished">Един и същ номер на колона е избран няколко пъти.</translation>
+        <translation>Един и същ номер на колона е избран няколко пъти.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="785"/>
         <source>Selected from account is the same as the to account.</source>
-        <translation type="unfinished">Избраното от сметката е същото като осчетоводеното.</translation>
+        <translation>Избраното от сметката е същото като осчетоводеното.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="793"/>
         <location filename="../src/importcsvdialog.cpp" line="1198"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Грешна дата.</translation>
+        <translation>Грешна дата.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="808"/>
         <source>Couldn&apos;t open %1 for reading.</source>
-        <translation type="unfinished">Не мога да отворя %1 за четене.</translation>
+        <translation>Не мога да отворя %1 за четене.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="811"/>
         <source>Error reading %1.</source>
-        <translation type="unfinished">Грешка при четенето на %1.</translation>
+        <translation>Грешка при четенето на %1.</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/importcsvdialog.cpp" line="1189"/>
         <source>Successfully imported %n transaction(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Успешно въведени 1 транзакция.</numerusform>
+            <numerusform>Успешно въведени %n транзакции.</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1191"/>
         <source>Unable to import any transactions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не може да се въвеждат никакви, внесени транзакции.</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/importcsvdialog.cpp" line="1195"/>
         <source>Failed to import %n data row(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Неуспешно въвеждане на 1 ред с данни.</numerusform>
+            <numerusform>Неуспешно въвеждане на %n редове с данни.</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1196"/>
         <source>Required columns missing.</source>
-        <translation type="unfinished">Задължителните колони липсват.</translation>
+        <translation>Задължителните колони липсват.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1197"/>
         <source>Invalid value.</source>
-        <translation type="unfinished">Невалидна стойност.</translation>
+        <translation>Невалидна стойност.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1199"/>
         <source>Empty category name.</source>
-        <translation type="unfinished">Празно име на категорията.</translation>
+        <translation>Празно име на категорията.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1199"/>
         <location filename="../src/importcsvdialog.cpp" line="1200"/>
         <source>Empty account name.</source>
-        <translation type="unfinished">Празно име на сметката.</translation>
+        <translation>Празно име на сметката.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1201"/>
         <source>Unknown category found.</source>
-        <translation type="unfinished">Неизвестна категория намерена.</translation>
+        <translation>Неизвестна категория намерена.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1201"/>
         <location filename="../src/importcsvdialog.cpp" line="1202"/>
         <source>Unknown account found.</source>
-        <translation type="unfinished">Неизвестна сметка намерена.</translation>
+        <translation>Неизвестна сметка намерена.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1203"/>
         <source>Cannot import security transactions (to/from security accounts).</source>
-        <translation type="unfinished">Не могат да бъдат внесени сделки с ценни книжа (до / от сметките за сигурност).</translation>
+        <translation>Не могат да бъдат внесени сделки с ценни книжа (до / от сметките за сигурност).</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1204"/>
         <source>Balancing account wrongly used.</source>
-        <translation type="unfinished">Балансирането на сметката е използвано погрешно.</translation>
+        <translation>Балансирането на сметката е използвано погрешно.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1205"/>
         <source>Same to and from account/category.</source>
-        <translation type="unfinished">Същото към и от сметката / категория.</translation>
+        <translation>Същото към и от сметката / категория.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1207"/>
         <source>No data found.</source>
-        <translation type="unfinished">Няма намерени данни.</translation>
+        <translation>Няма намерени данни.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1212"/>
@@ -5961,27 +5962,27 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1221"/>
         <source>Unrecognized date format.</source>
-        <translation type="unfinished">Неразпознат формат за дата.</translation>
+        <translation>Неразпознат формат за дата.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1226"/>
         <source>Specify Format</source>
-        <translation type="unfinished">Определете Format</translation>
+        <translation>Определете Format</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1231"/>
         <source>The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format.</source>
-        <translation type="unfinished">Форматът на дати и / или цифри в CSV файла е двусмислен. Моля, изберете правилния формат.</translation>
+        <translation>Форматът на дати и / или цифри в CSV файла е двусмислен. Моля, изберете правилния формат.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1236"/>
         <source>Date format:</source>
-        <translation type="unfinished">Формат на датата:</translation>
+        <translation>Формат на датата:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1279"/>
         <source>Value format:</source>
-        <translation type="unfinished">Стойност на формата:</translation>
+        <translation>Стойност на формата:</translation>
     </message>
 </context>
 <context>
@@ -5989,169 +5990,169 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/qifimportexport.cpp" line="58"/>
         <source>Import QIF file</source>
-        <translation type="unfinished">Въведи QIF файла</translation>
+        <translation>Въведи QIF файла</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="64"/>
         <source>File Selection</source>
-        <translation type="unfinished">Избор на файл</translation>
+        <translation>Избор на файл</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="65"/>
         <source>Select a QIF file to import. When you click next, the file be analysed and you might need to answer some questions about the format of the file.</source>
-        <translation type="unfinished">Изберете QIF файла, за въвеждане. Когато натиснете Напред, файлът ще бъде анализиран и може да се наложи да отговорите на няколко въпроса за формата на файла.</translation>
+        <translation>Изберете QIF файла, за въвеждане. Когато натиснете Напред, файлът ще бъде анализиран и може да се наложи да отговорите на няколко въпроса за формата на файла.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="68"/>
         <source>File:</source>
-        <translation type="unfinished">Файл:</translation>
+        <translation>Файл:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="80"/>
         <source>Local Definitions</source>
-        <translation type="unfinished">Местни определения</translation>
+        <translation>Местни определения</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="81"/>
         <source>Unknown elements where found in the QIF file. It is possible that this is because of localized type names. Please map them to the correct standard names.</source>
-        <translation type="unfinished">Неизвестни елементи, които са установени в QIF файла. Възможно е, че това е така, защото са локализирани типови имена. Моля, да ги съпоставите с правилните стандартни имена.</translation>
+        <translation>Неизвестни елементи, които са установени в QIF файла. Възможно е, че това е така, защото са локализирани типови имена. Моля, да ги съпоставите с правилните стандартни имена.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="87"/>
         <source>Local Text</source>
-        <translation type="unfinished">Локален текст</translation>
+        <translation>Локален текст</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="88"/>
         <source>Standard Text</source>
-        <translation type="unfinished">Стандартен текст</translation>
+        <translation>Стандартен текст</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="91"/>
         <source>Select standard text:</source>
-        <translation type="unfinished">Избери стандартен техт:</translation>
+        <translation>Избери стандартен техт:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="97"/>
         <source>Date Format</source>
-        <translation type="unfinished">Формат на датата</translation>
+        <translation>Формат на датата</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="98"/>
         <source>The date format in the QIF file is ambiguous. Please select the correct format.</source>
-        <translation type="unfinished">Форматът на датата във файла QIF е двусмислен. Моля, изберете правилния формат.</translation>
+        <translation>Форматът на датата във файла QIF е двусмислен. Моля, изберете правилния формат.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="101"/>
         <source>Date format:</source>
-        <translation type="unfinished">Формат на датата:</translation>
+        <translation>Формат на датата:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="107"/>
         <source>Default Account</source>
-        <translation type="unfinished">Сметка по подразбиране</translation>
+        <translation>Сметка по подразбиране</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="108"/>
         <source>Could not find any account definitions in the QIF file. Please select a default account. It is also possible that this is caused by a localized opening balance text.</source>
-        <translation type="unfinished">Не можаха да бъдат намерени определения за сметката в QIF файла. Моля, изберете акаунта по подразбиране. Възможно е също така, това да е причинено от локален текст за началното салдо.</translation>
+        <translation>Не можаха да бъдат намерени определения за сметката в QIF файла. Моля, изберете акаунта по подразбиране. Възможно е също така, това да е причинено от локален текст за началното салдо.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="111"/>
         <source>Default account:</source>
-        <translation type="unfinished">Сметка по подразбиране:</translation>
+        <translation>Сметка по подразбиране:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="122"/>
         <source>Opening balance text:</source>
-        <translation type="unfinished">Начален баланс:</translation>
+        <translation>Начален баланс:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="128"/>
         <source>Descriptions</source>
-        <translation type="unfinished">Описание</translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="129"/>
         <source>Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.</source>
-        <translation type="unfinished">Транзакциите във файловете QIF не разполагат с конкретни описание на собствеността. Ето защо това ви дава възможност да изберете как ще бъде създадено описанието на въведените транзакции.</translation>
+        <translation>Транзакциите във файловете QIF не разполагат с конкретни описание на собствеността. Ето защо това ви дава възможност да изберете как ще бъде създадено описанието на въведените транзакции.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="132"/>
         <source>Subcategories as:</source>
-        <translation type="unfinished">Подкатегории като:</translation>
+        <translation>Подкатегории като:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="134"/>
         <location filename="../src/qifimportexport.cpp" line="146"/>
         <location filename="../src/qifimportexport.cpp" line="156"/>
         <source>Description</source>
-        <translation type="unfinished">Описание</translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="138"/>
         <source>Category</source>
-        <translation type="unfinished">Категория</translation>
+        <translation>Категория</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="141"/>
         <source>Ignore</source>
-        <translation type="unfinished">игнорирай</translation>
+        <translation>игнорирай</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="144"/>
         <source>Payee as:</source>
-        <translation type="unfinished">Получателя на плащането като:</translation>
+        <translation>Получателя на плащането като:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="149"/>
         <source>Payee</source>
-        <translation type="unfinished">Получател</translation>
+        <translation>Получател</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="154"/>
         <source>Memo as:</source>
-        <translation type="unfinished">Отбележи като:</translation>
+        <translation>Отбележи като:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="159"/>
         <source>Comments</source>
-        <translation type="unfinished">Коментари</translation>
+        <translation>Коментари</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="163"/>
         <source>Priority:</source>
-        <translation type="unfinished">Приоритет:</translation>
+        <translation>Приоритет:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="166"/>
         <source>Subcategory/Payee/Comments</source>
-        <translation type="unfinished">Подкатегория /Бенефициент/Коментари</translation>
+        <translation>Подкатегория /Бенефициент/Коментари</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="167"/>
         <source>Payee/Subcategory/Comments</source>
-        <translation type="unfinished">Бенефициент/Подкатегория /Коментари</translation>
+        <translation>Бенефициент/Подкатегория /Коментари</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="168"/>
         <source>Subcategory/Comments/Payee</source>
-        <translation type="unfinished">Подкатегория/Коментари /Бенефициент</translation>
+        <translation>Подкатегория/Коментари /Бенефициент</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="169"/>
         <source>Payee/Comments/Subcategory</source>
-        <translation type="unfinished">Бенефициент/Коментари /Подкатегория</translation>
+        <translation>Бенефициент/Коментари /Подкатегория</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="170"/>
         <source>Comments/Subcategory/Payee</source>
-        <translation type="unfinished">Коментари /Подкатегория/Бенефициент</translation>
+        <translation>Коментари /Подкатегория/Бенефициент</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="171"/>
         <source>Comments/Payee/Subcategory</source>
-        <translation type="unfinished">Коментари /Бенефициент/Подкатегория</translation>
+        <translation>Коментари /Бенефициент/Подкатегория</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="270"/>
@@ -6163,151 +6164,151 @@ What do you want to do with them?</source>
         <location filename="../src/qifimportexport.cpp" line="447"/>
         <location filename="../src/qifimportexport.cpp" line="450"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="270"/>
         <source>A file must be selected.</source>
-        <translation type="unfinished">Файлът трябва да бъде избран.</translation>
+        <translation>Файлът трябва да бъде избран.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="277"/>
         <source>Selected file is a directory.</source>
-        <translation type="unfinished">Избраният файл е директория.</translation>
+        <translation>Избраният файл е директория.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="281"/>
         <source>Selected file does not exist.</source>
-        <translation type="unfinished">Избраният файл не съществува.</translation>
+        <translation>Избраният файл не съществува.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="292"/>
         <location filename="../src/qifimportexport.cpp" line="447"/>
         <source>Couldn&apos;t open %1 for reading.</source>
-        <translation type="unfinished">Не мога да отворя %1 за четене.</translation>
+        <translation>Не мога да отворя %1 за четене.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="295"/>
         <location filename="../src/qifimportexport.cpp" line="450"/>
         <source>Error reading %1.</source>
-        <translation type="unfinished">Грешка при четенето на %1.</translation>
+        <translation>Грешка при четенето на %1.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="318"/>
         <location filename="../src/qifimportexport.cpp" line="326"/>
         <location filename="../src/qifimportexport.cpp" line="342"/>
         <source>Unknown</source>
-        <translation type="unfinished">Неизвестен</translation>
+        <translation>Неизвестен</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="327"/>
         <source>Account</source>
-        <translation type="unfinished">Сметка</translation>
+        <translation>Сметка</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="328"/>
         <source>Bank</source>
-        <translation type="unfinished">Банка</translation>
+        <translation>Банка</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="329"/>
         <source>Cash</source>
-        <translation type="unfinished">Пари в брой</translation>
+        <translation>Пари в брой</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="330"/>
         <source>Cat (Category)</source>
-        <translation type="unfinished">Cat (Категория)</translation>
+        <translation>Cat (Категория)</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="331"/>
         <source>CCard (Credit Card)</source>
-        <translation type="unfinished">CCard (кредитна карта)</translation>
+        <translation>CCard (кредитна карта)</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="332"/>
         <source>Invst (Investment)</source>
-        <translation type="unfinished">Invst (Инвестиции)</translation>
+        <translation>Invst (Инвестиции)</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="333"/>
         <source>Oth A (Other Assets)</source>
-        <translation type="unfinished">Oth A (Други активи)</translation>
+        <translation>Oth A (Други активи)</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="334"/>
         <source>Oth L (Other Liabilities)</source>
-        <translation type="unfinished">Oth L (Други активи)</translation>
+        <translation>Oth L (Други активи)</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="335"/>
         <source>Security</source>
-        <translation type="unfinished">Сигурност</translation>
+        <translation>Сигурност</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="336"/>
         <source>Other</source>
-        <translation type="unfinished">Друг</translation>
+        <translation>Друг</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="349"/>
         <source>Unrecognized date format.</source>
-        <translation type="unfinished">Неразпознат формат за дата.</translation>
+        <translation>Неразпознат формат за дата.</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/qifimportexport.cpp" line="458"/>
         <source>Successfully imported %n transaction(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Успешно въведени 1 транзакция.</numerusform>
+            <numerusform>Успешно въведени %n транзакции.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/qifimportexport.cpp" line="461"/>
         <source>Successfully imported %n account(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Успешно внесена 1 сметка.</numerusform>
+            <numerusform>Успешно внесени %n сметки.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/qifimportexport.cpp" line="465"/>
         <source>Successfully imported %n category/categories.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Успешно внесена 1 категория.</numerusform>
+            <numerusform>Успешно внесени %n категории.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/qifimportexport.cpp" line="469"/>
         <source>%n duplicate transaction(s) was ignored.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>1 дубликат на транзакцията беше игнориран.</numerusform>
+            <numerusform>%n дубликати на транзакцията бяха игнорирани.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/qifimportexport.cpp" line="473"/>
         <source>Failed to import %n transaction(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Неуспех за внос на 1 транзакция.</numerusform>
+            <numerusform>Неуспех за внос на %n транзакции.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/qifimportexport.cpp" line="477"/>
         <source>%n security/securities were not imported.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>1 обезпечение не е бил внесено.</numerusform>
+            <numerusform>%n обезпечения не са били внесени.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/qifimportexport.cpp" line="481"/>
         <source>%n security transaction(s) were not imported.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>1 обезпечение на транзакцията не е било внесено.</numerusform>
+            <numerusform>%n обезпечения на транзакциите не са били внесени.</numerusform>
         </translation>
     </message>
     <message>
@@ -6322,7 +6323,7 @@ What do you want to do with them?</source>
         <location filename="../src/transaction.cpp" line="154"/>
         <location filename="../src/transaction.cpp" line="185"/>
         <source>Dividend: %1</source>
-        <translation type="unfinished">Дивидент: %1</translation>
+        <translation>Дивидент: %1</translation>
     </message>
 </context>
 <context>
@@ -6330,77 +6331,77 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="102"/>
         <source>Account:</source>
-        <translation type="unfinished">Сметка:</translation>
+        <translation>Сметка:</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="117"/>
         <source>Export…</source>
-        <translation type="unfinished">Изнасяне…</translation>
+        <translation>Изнасяне…</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="118"/>
         <source>Print…</source>
-        <translation type="unfinished">Отпечатай…</translation>
+        <translation>Отпечатай…</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="129"/>
         <source>Date</source>
-        <translation type="unfinished">Дата</translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="130"/>
         <source>Type</source>
-        <translation type="unfinished">Вид</translation>
+        <translation>Вид</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="131"/>
         <source>Description</source>
-        <translation type="unfinished">Описание</translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="132"/>
         <source>Account/Category</source>
-        <translation type="unfinished">Сметка/Категория</translation>
+        <translation>Сметка/Категория</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="133"/>
         <source>Deposit</source>
-        <translation type="unfinished">Депозит/внос</translation>
+        <translation>Депозит/внос</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="134"/>
         <source>Withdrawal</source>
-        <translation type="unfinished">Изтегляне</translation>
+        <translation>Изтегляне</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="135"/>
         <source>Balance</source>
-        <translation type="unfinished">Баланс</translation>
+        <translation>Баланс</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="146"/>
         <source>New</source>
-        <translation type="unfinished">Нов</translation>
+        <translation>Нов</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="153"/>
         <source>Edit…</source>
-        <translation type="unfinished">Редактиране…</translation>
+        <translation>Редактиране…</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="155"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Изтриване</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="157"/>
         <source>Join…</source>
-        <translation type="unfinished">Присъединете се към…</translation>
+        <translation>Присъединете се към…</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="159"/>
         <source>Split Up</source>
-        <translation type="unfinished">Разделяне на</translation>
+        <translation>Разделяне на</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="235"/>
@@ -6412,33 +6413,33 @@ What do you want to do with them?</source>
         <location filename="../src/ledgerdialog.cpp" line="537"/>
         <location filename="../src/ledgerdialog.cpp" line="543"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="235"/>
         <location filename="../src/ledgerdialog.cpp" line="331"/>
         <source>Empty transaction list.</source>
-        <translation type="unfinished">Празен списък транзакции.</translation>
+        <translation>Празен списък транзакции.</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="251"/>
         <source>Couldn&apos;t open file for writing.</source>
-        <translation type="unfinished">Не мога да отворя файла за писане.</translation>
+        <translation>Не мога да отворя файла за писане.</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="257"/>
         <source>Error while writing file; file was not saved.</source>
-        <translation type="unfinished">Грешка при запис на файл; файлът не е запазен.</translation>
+        <translation>Грешка при запис на файл; файлът не е запазен.</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="270"/>
         <source>Ledger</source>
-        <translation type="unfinished">Главна счетоводна книга</translation>
+        <translation>Главна счетоводна книга</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="276"/>
         <source>Transactions for %1</source>
-        <translation type="unfinished">Транзакции за %1</translation>
+        <translation>Транзакции за %1</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="421"/>
@@ -6448,62 +6449,62 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="421"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
-        <translation type="unfinished">Сигурен ли сте, че искате да изтриете всички (%1), избрани транзакции?</translation>
+        <translation>Сигурен ли сте, че искате да изтриете всички (%1), избрани транзакции?</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="525"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
-        <translation type="unfinished">Не може да се зададе стойност на сделки с ценни книжа, използвайки диалогов прозорец за промяна на много транзакции.</translation>
+        <translation>Не може да се зададе стойност на сделки с ценни книжа, използвайки диалогов прозорец за промяна на много транзакции.</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="531"/>
         <source>Cannot change description of dividends and security transactions.</source>
-        <translation type="unfinished">Не може да се промени описанието на дивидентите и сделките с ценни книжа.</translation>
+        <translation>Не може да се промени описанието на дивидентите и сделките с ценни книжа.</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="537"/>
         <source>Cannot change payer of dividends and security transactions.</source>
-        <translation type="unfinished">Не може да се промени платецът на дивидентите и сделки с ценни книжа.</translation>
+        <translation>Не може да се промени платецът на дивидентите и сделки с ценни книжа.</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="543"/>
         <source>Cannot change date of transactions that are part of a split transaction.</source>
-        <translation type="unfinished">Не може да се промени датата на сделките, които са част от разделянето на транзакцията.</translation>
+        <translation>Не може да се промени датата на сделките, които са част от разделянето на транзакцията.</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="616"/>
         <source>Split Transaction</source>
-        <translation type="unfinished">Разделяне на транзакциите</translation>
+        <translation>Разделяне на транзакциите</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="625"/>
         <source>Income</source>
-        <translation type="unfinished">Приход</translation>
+        <translation>Приход</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="626"/>
         <source>Repayment</source>
-        <translation type="unfinished">Върната сума</translation>
+        <translation>Върната сума</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="628"/>
         <source>Expense</source>
-        <translation type="unfinished">Разход</translation>
+        <translation>Разход</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="629"/>
         <source>Refund</source>
-        <translation type="unfinished">Обезщетение</translation>
+        <translation>Обезщетение</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="630"/>
         <source>Balancing</source>
-        <translation type="unfinished">балансиране</translation>
+        <translation>балансиране</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="631"/>
         <source>Transfer</source>
-        <translation type="unfinished">Прехвърляне</translation>
+        <translation>Прехвърляне</translation>
     </message>
 </context>
 <context>
@@ -6511,69 +6512,69 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1132"/>
         <source>Modify Transactions</source>
-        <translation type="unfinished">Промяна на транзакции</translation>
+        <translation>Промяна на транзакции</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1143"/>
         <source>Description:</source>
-        <translation type="unfinished">Описание:</translation>
+        <translation>Описание:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1153"/>
         <source>Amount:</source>
-        <translation type="unfinished">Сума:</translation>
+        <translation>Сума:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1154"/>
         <source>Income:</source>
-        <translation type="unfinished">Приход:</translation>
+        <translation>Приход:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1155"/>
         <source>Cost:</source>
-        <translation type="unfinished">Разходи:</translation>
+        <translation>Разходи:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1163"/>
         <source>Date:</source>
-        <translation type="unfinished">Дата:</translation>
+        <translation>Дата:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1174"/>
         <source>Category:</source>
-        <translation type="unfinished">Категория:</translation>
+        <translation>Категория:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1188"/>
         <source>Payer:</source>
-        <translation type="unfinished">Платец:</translation>
+        <translation>Платец:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1189"/>
         <source>Payee:</source>
-        <translation type="unfinished">Получател:</translation>
+        <translation>Получател:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1313"/>
         <location filename="../src/transactioneditwidget.cpp" line="1321"/>
         <location filename="../src/transactioneditwidget.cpp" line="1332"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1313"/>
         <source>No income category available.</source>
-        <translation type="unfinished">Няма свободна категория доходи</translation>
+        <translation>Няма свободна категория доходи.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1321"/>
         <source>No expense category available.</source>
-        <translation type="unfinished">Няма свободна категория разходи</translation>
+        <translation>Няма свободна категория разходи.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1332"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Грешна дата.</translation>
+        <translation>Грешна дата.</translation>
     </message>
 </context>
 <context>
@@ -6581,12 +6582,12 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/overtimechart.cpp" line="91"/>
         <source>Save As…</source>
-        <translation type="unfinished"></translation>
+        <translation>Запис като…</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="92"/>
         <source>Print…</source>
-        <translation type="unfinished">Отпечатай…</translation>
+        <translation>Печат…</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="104"/>
@@ -6596,39 +6597,39 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/overtimechart.cpp" line="107"/>
         <source>Source:</source>
-        <translation type="unfinished">Източник:</translation>
+        <translation>Източник:</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="119"/>
         <source>Incomes and Expenses</source>
-        <translation type="unfinished">Доходи и Разходи</translation>
+        <translation>Доходи и Разходи</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="120"/>
         <location filename="../src/overtimechart.cpp" line="1690"/>
         <source>Profits</source>
-        <translation type="unfinished">Печалби</translation>
+        <translation>Печалби</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="121"/>
         <location filename="../src/overtimechart.cpp" line="1695"/>
         <location filename="../src/overtimechart.cpp" line="1699"/>
         <source>Expenses</source>
-        <translation type="unfinished">Разходи</translation>
+        <translation>Разходи</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="122"/>
         <location filename="../src/overtimechart.cpp" line="1694"/>
         <location filename="../src/overtimechart.cpp" line="1698"/>
         <source>Incomes</source>
-        <translation type="unfinished">Приходи</translation>
+        <translation>Приходи</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="127"/>
         <location filename="../src/overtimechart.cpp" line="408"/>
         <location filename="../src/overtimechart.cpp" line="1917"/>
         <source>All Categories Combined</source>
-        <translation type="unfinished">Всички категории комбинирани</translation>
+        <translation>Всички категории комбинирани</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="133"/>
@@ -6637,49 +6638,49 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="1820"/>
         <location filename="../src/overtimechart.cpp" line="1941"/>
         <source>All Descriptions Combined</source>
-        <translation type="unfinished">Всички описания комбинирани</translation>
+        <translation>Всички описания комбинирани</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="141"/>
         <location filename="../src/overtimechart.cpp" line="403"/>
         <source>All Payees/Payers Combined</source>
-        <translation type="unfinished">Всички получатели/платци комбинирано</translation>
+        <translation>Всички получатели/платци комбинирано</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="150"/>
         <source>Start date:</source>
-        <translation type="unfinished">Начална дата:</translation>
+        <translation>Начална дата:</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="173"/>
         <source>End date:</source>
-        <translation type="unfinished">Крайна дата:</translation>
+        <translation>Крайна дата:</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="188"/>
         <source>Value:</source>
-        <translation type="unfinished">Стойност:</translation>
+        <translation>Стойност:</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="192"/>
         <source>Monthly total</source>
-        <translation type="unfinished">Месечно общо</translation>
+        <translation>Месечно общо</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="196"/>
         <source>Daily average</source>
-        <translation type="unfinished">Средно дневно</translation>
+        <translation>Средно дневно</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="200"/>
         <location filename="../src/overtimechart.cpp" line="1502"/>
         <source>Quantity</source>
-        <translation type="unfinished">Количество</translation>
+        <translation>Количество</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="204"/>
         <source>Average value</source>
-        <translation type="unfinished">Средна стойност</translation>
+        <translation>Средна стойност</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="301"/>
@@ -6687,7 +6688,7 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="1823"/>
         <location filename="../src/overtimechart.cpp" line="1946"/>
         <source>All Payers Combined</source>
-        <translation type="unfinished">Всички платци комбинирано</translation>
+        <translation>Всички платци комбинирано</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="302"/>
@@ -6695,25 +6696,25 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="1824"/>
         <location filename="../src/overtimechart.cpp" line="1945"/>
         <source>All Payees Combined</source>
-        <translation type="unfinished">Всички получатели комбинирано</translation>
+        <translation>Всички получатели комбинирано</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="322"/>
         <location filename="../src/overtimechart.cpp" line="1821"/>
         <source>All Descriptions Split</source>
-        <translation type="unfinished">Разделяне на всички описания</translation>
+        <translation>Разделяне на всички описания</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="325"/>
         <location filename="../src/overtimechart.cpp" line="1825"/>
         <source>All Payers Split</source>
-        <translation type="unfinished">Разделяне на всички платци</translation>
+        <translation>Разделяне на всички платци</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="326"/>
         <location filename="../src/overtimechart.cpp" line="1826"/>
         <source>All Payees Split</source>
-        <translation type="unfinished">Разделяне на всички  получатели</translation>
+        <translation>Разделяне на всички  получатели</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="370"/>
@@ -6726,7 +6727,7 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="1789"/>
         <location filename="../src/overtimechart.cpp" line="1859"/>
         <source>No description</source>
-        <translation type="unfinished">Няма описание</translation>
+        <translation>Няма описание</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="378"/>
@@ -6735,7 +6736,7 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="1793"/>
         <location filename="../src/overtimechart.cpp" line="1875"/>
         <source>No payer</source>
-        <translation type="unfinished">Няма платец</translation>
+        <translation>Няма платец</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="379"/>
@@ -6744,14 +6745,14 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="1791"/>
         <location filename="../src/overtimechart.cpp" line="1876"/>
         <source>No payee</source>
-        <translation type="unfinished">Няма получател на пари</translation>
+        <translation>Няма получател на пари</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="410"/>
         <location filename="../src/overtimechart.cpp" line="420"/>
         <location filename="../src/overtimechart.cpp" line="1918"/>
         <source>All Categories Split</source>
-        <translation type="unfinished">Разделяне на всички категории</translation>
+        <translation>Разделяне на всички категории</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="458"/>
@@ -6761,7 +6762,7 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="629"/>
         <location filename="../src/overtimechart.cpp" line="650"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="458"/>
@@ -6769,66 +6770,66 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="522"/>
         <location filename="../src/overtimechart.cpp" line="559"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Грешна дата.</translation>
+        <translation>Грешна дата.</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="629"/>
         <source>Couldn&apos;t open file for writing.</source>
-        <translation type="unfinished">Не мога да отворя файла за писане.</translation>
+        <translation>Не мога да отворя файла за писане.</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="650"/>
         <source>Error while writing file; file was not saved.</source>
-        <translation type="unfinished">Грешка при запис на файл; файлът не е запазен.</translation>
+        <translation>Грешка при запис на файл; файлът не е запазен.</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1503"/>
         <source>Value (%1)</source>
-        <translation type="unfinished">Стойност (%1)</translation>
+        <translation>Стойност (%1)</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1504"/>
         <source>Profit (%1)</source>
-        <translation type="unfinished">Печалба (%1)</translation>
+        <translation>Печалба (%1)</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1505"/>
         <source>Income (%1)</source>
-        <translation type="unfinished">Доходи (%1)</translation>
+        <translation>Доходи (%1)</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1506"/>
         <source>Cost (%1)</source>
-        <translation type="unfinished">Разход (%1)</translation>
+        <translation>Разход (%1)</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1547"/>
         <source>Time</source>
-        <translation type="unfinished">Време</translation>
+        <translation>Време</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1742"/>
         <location filename="../src/overtimechart.cpp" line="1743"/>
         <source>no payer</source>
-        <translation type="unfinished">никакъв платец</translation>
+        <translation>никакъв платец</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1746"/>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payer</comment>
-        <translation type="unfinished">%1/%2</translation>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1751"/>
         <location filename="../src/overtimechart.cpp" line="1752"/>
         <source>no payee</source>
-        <translation type="unfinished">няма получател</translation>
+        <translation>няма получател</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1755"/>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payee</comment>
-        <translation type="unfinished">%1/%2</translation>
+        <translation>%1/%2</translation>
     </message>
 </context>
 <context>
@@ -6836,7 +6837,7 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="954"/>
         <source>Chart</source>
-        <translation type="unfinished">Диаграма</translation>
+        <translation>Диаграма</translation>
     </message>
 </context>
 <context>
@@ -6844,12 +6845,12 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/overtimereport.cpp" line="80"/>
         <source>Save As…</source>
-        <translation type="unfinished"></translation>
+        <translation>Запис като…</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="81"/>
         <source>Print…</source>
-        <translation type="unfinished">Отпечатай…</translation>
+        <translation>Печат…</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="91"/>
@@ -6859,13 +6860,13 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/overtimereport.cpp" line="94"/>
         <source>Source:</source>
-        <translation type="unfinished">Източник:</translation>
+        <translation>Източник:</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="99"/>
         <location filename="../src/overtimereport.cpp" line="319"/>
         <source>Profits</source>
-        <translation type="unfinished">Печалби</translation>
+        <translation>Печалби</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="100"/>
@@ -6873,7 +6874,7 @@ What do you want to do with them?</source>
         <location filename="../src/overtimereport.cpp" line="353"/>
         <location filename="../src/overtimereport.cpp" line="371"/>
         <source>Expenses</source>
-        <translation type="unfinished">Разходи</translation>
+        <translation>Разходи</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="101"/>
@@ -6881,14 +6882,14 @@ What do you want to do with them?</source>
         <location filename="../src/overtimereport.cpp" line="344"/>
         <location filename="../src/overtimereport.cpp" line="362"/>
         <source>Incomes</source>
-        <translation type="unfinished">Приходи</translation>
+        <translation>Приходи</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="105"/>
         <location filename="../src/overtimereport.cpp" line="227"/>
         <location filename="../src/overtimereport.cpp" line="722"/>
         <source>All Categories Combined</source>
-        <translation type="unfinished">Всички категории комбинирани</translation>
+        <translation>Всички категории комбинирани</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="110"/>
@@ -6897,43 +6898,43 @@ What do you want to do with them?</source>
         <location filename="../src/overtimereport.cpp" line="679"/>
         <location filename="../src/overtimereport.cpp" line="745"/>
         <source>All Descriptions Combined</source>
-        <translation type="unfinished">Всички описания комбинирани</translation>
+        <translation>Всички описания комбинирани</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="117"/>
         <source>Columns:</source>
-        <translation type="unfinished">Колони:</translation>
+        <translation>Колони:</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="120"/>
         <source>Value</source>
-        <translation type="unfinished">Стойност</translation>
+        <translation>Стойност</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="123"/>
         <source>Daily</source>
-        <translation type="unfinished">ежедневно</translation>
+        <translation>ежедневно</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="126"/>
         <source>Monthly</source>
-        <translation type="unfinished">Месечно</translation>
+        <translation>Месечно</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="129"/>
         <source>Yearly</source>
-        <translation type="unfinished">Годишно</translation>
+        <translation>Годишно</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="132"/>
         <location filename="../src/overtimereport.cpp" line="525"/>
         <source>Quantity</source>
-        <translation type="unfinished">Количество</translation>
+        <translation>Количество</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="135"/>
         <source>Average value</source>
-        <translation type="unfinished">Средна стойност</translation>
+        <translation>Средна стойност</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="212"/>
@@ -6941,108 +6942,108 @@ What do you want to do with them?</source>
         <location filename="../src/overtimereport.cpp" line="369"/>
         <location filename="../src/overtimereport.cpp" line="701"/>
         <source>No description</source>
-        <translation type="unfinished">Няма описание</translation>
+        <translation>Няма описание</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="275"/>
         <location filename="../src/overtimereport.cpp" line="282"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="275"/>
         <source>Couldn&apos;t open file for writing.</source>
-        <translation type="unfinished">Не мога да отворя файла за писане.</translation>
+        <translation>Не мога да отворя файла за писане.</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="282"/>
         <source>Error while writing file; file was not saved.</source>
-        <translation type="unfinished">Грешка при запис на файл; файлът не е запазен.</translation>
+        <translation>Грешка при запис на файл; файлът не е запазен.</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="320"/>
         <source>Average Profit</source>
-        <translation type="unfinished">Средна печалба</translation>
+        <translation>Средна печалба</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="326"/>
         <location filename="../src/overtimereport.cpp" line="343"/>
         <location filename="../src/overtimereport.cpp" line="361"/>
         <source>Average Income</source>
-        <translation type="unfinished">Среден доход</translation>
+        <translation>Среден доход</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="334"/>
         <location filename="../src/overtimereport.cpp" line="352"/>
         <location filename="../src/overtimereport.cpp" line="370"/>
         <source>Average Cost</source>
-        <translation type="unfinished">Средна цена</translation>
+        <translation>Средна цена</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="342"/>
         <source>Incomes: %1</source>
-        <translation type="unfinished">Приходи: %1</translation>
+        <translation>Приходи: %1</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="351"/>
         <source>Expenses: %1</source>
-        <translation type="unfinished">Разходи: %1</translation>
+        <translation>Разходи: %1</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="360"/>
         <source>Incomes: %2, %1</source>
-        <translation type="unfinished">Приходи: %2, %1</translation>
+        <translation>Приходи: %2, %1</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="369"/>
         <source>Expenses: %2, %1</source>
-        <translation type="unfinished">Разходи: %2, %1</translation>
+        <translation>Разходи: %2, %1</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="513"/>
         <source>Year</source>
-        <translation type="unfinished">Година</translation>
+        <translation>Година</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="514"/>
         <source>Month</source>
-        <translation type="unfinished">Месец</translation>
+        <translation>Месец</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="521"/>
         <source>Daily Average</source>
-        <translation type="unfinished">Средно Дневно</translation>
+        <translation>Средно Дневно</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="522"/>
         <source>Monthly Average</source>
-        <translation type="unfinished">Средно на месец</translation>
+        <translation>Средно на месец</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="523"/>
         <source>Yearly Average</source>
-        <translation type="unfinished">Средно годишно</translation>
+        <translation>Средно годишно</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="564"/>
         <location filename="../src/overtimereport.cpp" line="632"/>
         <source>Subtotal</source>
-        <translation type="unfinished">Междинна сума</translation>
+        <translation>Междинна сума</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="647"/>
         <source>Total</source>
-        <translation type="unfinished">Общо</translation>
+        <translation>Общо</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="663"/>
         <source>Includes scheduled transactions</source>
-        <translation type="unfinished">Включва планираните транзакции</translation>
+        <translation>Включва планираните транзакции</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="667"/>
         <source>Adjusted for the average month / year (%1 / %2 days)</source>
-        <translation type="unfinished">Коригирано за средно месечно / годишно (%1 / %2 дни)</translation>
+        <translation>Коригирано за средно месечно / годишно (%1 / %2 дни)</translation>
     </message>
 </context>
 <context>
@@ -7050,7 +7051,7 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="920"/>
         <source>Report</source>
-        <translation type="unfinished">Отчет</translation>
+        <translation>Отчет</translation>
     </message>
 </context>
 <context>
@@ -7058,22 +7059,22 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/main.cpp" line="58"/>
         <source>Start with expenses list displayed</source>
-        <translation type="unfinished">Започнете със списъка на разходите показан на екрана</translation>
+        <translation>Започнете със списъка на разходите показан на екрана</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="60"/>
         <source>Start with incomes list displayed</source>
-        <translation type="unfinished">Започнете със списъка на доходите показан на екрана</translation>
+        <translation>Започнете със списъка на доходите показан на екрана</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="62"/>
         <source>Start with transfers list displayed</source>
-        <translation type="unfinished">Започнете със списъка на трансферите показан на екрана</translation>
+        <translation>Започнете със списъка на трансферите показан на екрана</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="64"/>
         <source>Document to open</source>
-        <translation type="unfinished">Отваряне на документ</translation>
+        <translation>Отваряне на документ</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="79"/>
@@ -7086,32 +7087,32 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="283"/>
         <source>Transfer</source>
-        <translation type="unfinished">Прехвърляне</translation>
+        <translation>Прехвърляне</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="285"/>
         <source>Dividend</source>
-        <translation type="unfinished">Дивиденти</translation>
+        <translation>Дивиденти</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="286"/>
         <source>Income</source>
-        <translation type="unfinished">Приход</translation>
+        <translation>Приход</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="289"/>
         <source>Expense</source>
-        <translation type="unfinished">Разход</translation>
+        <translation>Разход</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="290"/>
         <source>Security Buy</source>
-        <translation type="unfinished">Покупка споръчител</translation>
+        <translation>Покупка споръчител</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="291"/>
         <source>Security Sell</source>
-        <translation type="unfinished">Продажба с поръчител</translation>
+        <translation>Продажба с поръчител</translation>
     </message>
 </context>
 <context>
@@ -7119,32 +7120,32 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="308"/>
         <source>Enable recurrance</source>
-        <translation type="unfinished">Разрешаване на повторение</translation>
+        <translation>Разрешаване на повторение</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="311"/>
         <source>Recurrence Rule</source>
-        <translation type="unfinished">Правило за повторение</translation>
+        <translation>Правило за повторение</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="316"/>
         <source>Daily</source>
-        <translation type="unfinished">ежедневно</translation>
+        <translation>ежедневно</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="317"/>
         <source>Weekly</source>
-        <translation type="unfinished">Седмично</translation>
+        <translation>Седмично</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="318"/>
         <source>Monthly</source>
-        <translation type="unfinished">Месечно</translation>
+        <translation>Месечно</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="319"/>
         <source>Yearly</source>
-        <translation type="unfinished">Годишно</translation>
+        <translation>Годишно</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="337"/>
@@ -7152,254 +7153,254 @@ What do you want to do with them?</source>
         <location filename="../src/recurrenceeditwidget.cpp" line="371"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="458"/>
         <source>Recur every</source>
-        <translation type="unfinished">Повтаряй всеки</translation>
+        <translation>Повтаряй всеки</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="341"/>
         <source>day(s)</source>
-        <translation type="unfinished">ден/дни</translation>
+        <translation>ден/дни</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="352"/>
         <source>week(s) on:</source>
-        <translation type="unfinished">седмица(и) в:</translation>
+        <translation>седмица(и) в:</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="375"/>
         <source>month(s), after the start month</source>
-        <translation type="unfinished">месец (и),след началото на месеца</translation>
+        <translation>месец (и),след началото на месеца</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="380"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="433"/>
         <source>Recur on the</source>
-        <translation type="unfinished">Повтаряй на</translation>
+        <translation>Повтаряй на</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="386"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="438"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="491"/>
         <source>1st</source>
-        <translation type="unfinished">1-ви</translation>
+        <translation>1-ви</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="387"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="439"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="492"/>
         <source>2nd</source>
-        <translation type="unfinished">2-ри</translation>
+        <translation>2-ри</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="388"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="440"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="493"/>
         <source>3rd</source>
-        <translation type="unfinished">3-ти</translation>
+        <translation>3-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="389"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="441"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="494"/>
         <source>4th</source>
-        <translation type="unfinished">4-ти</translation>
+        <translation>4-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="390"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="442"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="495"/>
         <source>5th</source>
-        <translation type="unfinished">5-ти</translation>
+        <translation>5-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="391"/>
         <source>6th</source>
-        <translation type="unfinished">6-ти</translation>
+        <translation>6-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="392"/>
         <source>7th</source>
-        <translation type="unfinished">7-ми</translation>
+        <translation>7-ми</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="393"/>
         <source>8th</source>
-        <translation type="unfinished">8-ми</translation>
+        <translation>8-ми</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="394"/>
         <source>9th</source>
-        <translation type="unfinished">9-ти</translation>
+        <translation>9-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="395"/>
         <source>10th</source>
-        <translation type="unfinished">10-ти</translation>
+        <translation>10-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="396"/>
         <source>11th</source>
-        <translation type="unfinished">11-ти</translation>
+        <translation>11-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="397"/>
         <source>12th</source>
-        <translation type="unfinished">12-ти</translation>
+        <translation>12-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="398"/>
         <source>13th</source>
-        <translation type="unfinished">13-ти</translation>
+        <translation>13-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="399"/>
         <source>14th</source>
-        <translation type="unfinished">14-ти</translation>
+        <translation>14-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="400"/>
         <source>15th</source>
-        <translation type="unfinished">15-ти</translation>
+        <translation>15-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="401"/>
         <source>16th</source>
-        <translation type="unfinished">16-ти</translation>
+        <translation>16-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="402"/>
         <source>17th</source>
-        <translation type="unfinished">17-ти</translation>
+        <translation>17-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="403"/>
         <source>18th</source>
-        <translation type="unfinished">18-ти</translation>
+        <translation>18-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="404"/>
         <source>19th</source>
-        <translation type="unfinished">19-ти</translation>
+        <translation>19-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="405"/>
         <source>20th</source>
-        <translation type="unfinished">20-ти</translation>
+        <translation>20-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="406"/>
         <source>21st</source>
-        <translation type="unfinished">21-ви</translation>
+        <translation>21-ви</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="407"/>
         <source>22nd</source>
-        <translation type="unfinished">22-ри</translation>
+        <translation>22-ри</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="408"/>
         <source>23rd</source>
-        <translation type="unfinished">23-ти</translation>
+        <translation>23-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="409"/>
         <source>24th</source>
-        <translation type="unfinished">24-ти</translation>
+        <translation>24-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="410"/>
         <source>25th</source>
-        <translation type="unfinished">25-ти</translation>
+        <translation>25-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="411"/>
         <source>26th</source>
-        <translation type="unfinished">26-ти</translation>
+        <translation>26-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="412"/>
         <source>27th</source>
-        <translation type="unfinished">27-ми</translation>
+        <translation>27-ми</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="413"/>
         <source>28th</source>
-        <translation type="unfinished">28-ми</translation>
+        <translation>28-ми</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="414"/>
         <source>29th</source>
-        <translation type="unfinished">29-ти</translation>
+        <translation>29-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="415"/>
         <source>30th</source>
-        <translation type="unfinished">30-ти</translation>
+        <translation>30-ти</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="416"/>
         <source>31st</source>
-        <translation type="unfinished">31-ви</translation>
+        <translation>31-ви</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="417"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="443"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="496"/>
         <source>Last</source>
-        <translation type="unfinished">Последен</translation>
+        <translation>Последен</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="418"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="444"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="497"/>
         <source>2nd Last</source>
-        <translation type="unfinished">2-ия последен</translation>
+        <translation>2-ия последен</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="419"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="445"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="498"/>
         <source>3rd Last</source>
-        <translation type="unfinished">3-ия последен</translation>
+        <translation>3-ия последен</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="420"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="446"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="499"/>
         <source>4th Last</source>
-        <translation type="unfinished">4-ия последен</translation>
+        <translation>4-ия последен</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="421"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="447"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="500"/>
         <source>5th Last</source>
-        <translation type="unfinished">5-ия последен</translation>
+        <translation>5-ия последен</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="424"/>
         <source>day</source>
-        <translation type="unfinished">ден</translation>
+        <translation>ден</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="426"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="479"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="518"/>
         <source>possibly on weekend</source>
-        <translation type="unfinished">по възможност през уикенда</translation>
+        <translation>по възможност през уикенда</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="427"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="480"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="519"/>
         <source>but before weekend</source>
-        <translation type="unfinished">но преди уикенда</translation>
+        <translation>но преди уикенда</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="428"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="481"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="520"/>
         <source>but after weekend</source>
-        <translation type="unfinished">но след уикенда</translation>
+        <translation>но след уикенда</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="429"/>
@@ -7411,52 +7412,52 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="462"/>
         <source>year(s), after the start year</source>
-        <translation type="unfinished">година (и), след началната година</translation>
+        <translation>година (и), след началната година</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="467"/>
         <source>Recur on day</source>
         <comment>part before XXX of &apos;Recur on day XXX of month YYY&apos;</comment>
-        <translation type="unfinished">Повторение на ден</translation>
+        <translation>Повторение на ден</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="475"/>
         <source>of</source>
         <comment>part between XXX and YYY of &apos;Recur on day XXX of month YYY&apos;</comment>
-        <translation type="unfinished">от</translation>
+        <translation>от</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="486"/>
         <source>On the</source>
         <comment>Part before NNN in &apos;Recur on the NNN. WEEKDAY of MONTH&apos;</comment>
-        <translation type="unfinished">На</translation>
+        <translation>На</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="504"/>
         <source>of</source>
         <comment>part between WEEKDAY and MONTH in &apos;Recur on NNN. WEEKDAY of MONTH&apos;</comment>
-        <translation type="unfinished">от</translation>
+        <translation>от</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="509"/>
         <source>Recur on day #</source>
-        <translation type="unfinished">Повторение на ден #</translation>
+        <translation>Повторение на ден #</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="516"/>
         <source> of the year</source>
         <comment>part after NNN of &apos;Recur on day #NNN of the year&apos;</comment>
-        <translation type="unfinished"> от годината</translation>
+        <translation> от годината</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="531"/>
         <source>Range…</source>
-        <translation type="unfinished">Диапазон…</translation>
+        <translation>Диапазон…</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="533"/>
         <source>Exceptions…</source>
-        <translation type="unfinished">Изключения…</translation>
+        <translation>Изключения…</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="728"/>
@@ -7465,24 +7466,24 @@ What do you want to do with them?</source>
         <location filename="../src/recurrenceeditwidget.cpp" line="767"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="784"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="728"/>
         <source>No day of week selected for weekly recurrence.</source>
-        <translation type="unfinished">Няма ден от седмицата избран за седмичното повторение.</translation>
+        <translation>Няма ден от седмицата избран за седмичното повторение.</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="740"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="767"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="784"/>
         <source>Selected day will never occur with selected frequency and start date.</source>
-        <translation type="unfinished">Избраният ден никога няма да настъпи с избраната честота и начална дата.</translation>
+        <translation>Избраният ден никога няма да настъпи с избраната честота и начална дата.</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="754"/>
         <source>Selected day does not exist in selected month.</source>
-        <translation type="unfinished">Избраният ден не съществува в избрания месец.</translation>
+        <translation>Избраният ден не съществува в избрания месец.</translation>
     </message>
 </context>
 <context>
@@ -7491,53 +7492,53 @@ What do you want to do with them?</source>
         <location filename="../src/eqonomize.cpp" line="405"/>
         <location filename="../src/eqonomize.cpp" line="446"/>
         <source>Repayment</source>
-        <translation type="unfinished">Върната сума</translation>
+        <translation>Върната сума</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="406"/>
         <location filename="../src/eqonomize.cpp" line="447"/>
         <source>Refund</source>
-        <translation type="unfinished">Обезщетение</translation>
+        <translation>Обезщетение</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="414"/>
         <source>Date:</source>
-        <translation type="unfinished">Дата:</translation>
+        <translation>Дата:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="420"/>
         <source>Cost:</source>
-        <translation type="unfinished">Разходи:</translation>
+        <translation>Разходи:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="421"/>
         <source>Income:</source>
-        <translation type="unfinished">Приход:</translation>
+        <translation>Приход:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="425"/>
         <source>Account:</source>
-        <translation type="unfinished">Сметка:</translation>
+        <translation>Сметка:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="440"/>
         <source>Quantity:</source>
-        <translation type="unfinished">Количество:</translation>
+        <translation>Количество:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="444"/>
         <source>Comments:</source>
-        <translation type="unfinished">Коментари:</translation>
+        <translation>Коментари:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="490"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="490"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Грешна дата.</translation>
+        <translation>Грешна дата.</translation>
     </message>
 </context>
 <context>
@@ -7546,7 +7547,7 @@ What do you want to do with them?</source>
         <location filename="../src/transaction.cpp" line="336"/>
         <location filename="../src/transaction.cpp" line="351"/>
         <source>Security: %1 (bought)</source>
-        <translation type="unfinished">Ценна книга: %1 (закупена)</translation>
+        <translation>Ценна книга: %1 (закупена)</translation>
     </message>
 </context>
 <context>
@@ -7555,7 +7556,7 @@ What do you want to do with them?</source>
         <location filename="../src/transaction.cpp" line="374"/>
         <location filename="../src/transaction.cpp" line="389"/>
         <source>Security: %1 (sold)</source>
-        <translation type="unfinished">Ценна книга: %1 (продадена)</translation>
+        <translation>Ценна книга: %1 (продадена)</translation>
     </message>
 </context>
 <context>
@@ -7563,97 +7564,97 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="1151"/>
         <source>Transactions for %1</source>
-        <translation type="unfinished">Транзакции за %1</translation>
+        <translation>Транзакции за %1</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1159"/>
         <source>Date</source>
-        <translation type="unfinished">Дата</translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1160"/>
         <source>Type</source>
-        <translation type="unfinished">Вид</translation>
+        <translation>Вид</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1161"/>
         <source>Value</source>
-        <translation type="unfinished">Стойност</translation>
+        <translation>Стойност</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1162"/>
         <source>Shares</source>
-        <translation type="unfinished">Акции</translation>
+        <translation>Акции</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1170"/>
         <source>Edit…</source>
-        <translation type="unfinished">Редактиране…</translation>
+        <translation>Редактиране…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1172"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Изтриване</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1266"/>
         <source>Shares Bought</source>
-        <translation type="unfinished">Изкупени акции</translation>
+        <translation>Изкупени акции</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1267"/>
         <source>Shares Sold</source>
-        <translation type="unfinished">Изкупени акции</translation>
+        <translation>Изкупени акции</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1273"/>
         <source>Dividend</source>
-        <translation type="unfinished">Дивиденти</translation>
+        <translation>Дивиденти</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1282"/>
         <source>Reinvested Dividend</source>
-        <translation type="unfinished">Реинвестирани дивиденти</translation>
+        <translation>Реинвестирани дивиденти</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1294"/>
         <source>Shares Sold (Traded)</source>
-        <translation type="unfinished">Акции Продадени (търгувани)</translation>
+        <translation>Акции Продадени (търгувани)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1294"/>
         <source>Shares Bought (Traded)</source>
-        <translation type="unfinished">Изкупени акции (търгувани)</translation>
+        <translation>Изкупени акции (търгувани)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1310"/>
         <source>Shares Bought (Recurring)</source>
-        <translation type="unfinished">Изкупени акции (повтарящи се)</translation>
+        <translation>Изкупени акции (повтарящи се)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1311"/>
         <source>Shares Sold (Recurring)</source>
-        <translation type="unfinished">Акции Продадени (повтарящи се)</translation>
+        <translation>Акции Продадени (повтарящи се)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1313"/>
         <source>Shares Bought (Scheduled)</source>
-        <translation type="unfinished">Изкупени акции (по график)</translation>
+        <translation>Изкупени акции (по график)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1314"/>
         <source>Shares Sold (Scheduled)</source>
-        <translation type="unfinished">Акции Продадени (по график)</translation>
+        <translation>Акции Продадени (по график)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1326"/>
         <source>Recurring Dividend</source>
-        <translation type="unfinished">Повтарящи се дивиденти</translation>
+        <translation>Повтарящи се дивиденти</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1328"/>
         <source>Scheduled Dividend</source>
-        <translation type="unfinished">Планирани дивиденти</translation>
+        <translation>Планирани дивиденти</translation>
     </message>
 </context>
 <context>
@@ -7661,47 +7662,47 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="106"/>
         <source>Dividend</source>
-        <translation type="unfinished">Дивиденти</translation>
+        <translation>Дивиденти</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="107"/>
         <source>Income</source>
-        <translation type="unfinished">Приход</translation>
+        <translation>Приход</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="108"/>
         <source>Repayment</source>
-        <translation type="unfinished">Върната сума</translation>
+        <translation>Върната сума</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="110"/>
         <source>Expense</source>
-        <translation type="unfinished">Разход</translation>
+        <translation>Разход</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="111"/>
         <source>Refund</source>
-        <translation type="unfinished">Обезщетение</translation>
+        <translation>Обезщетение</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="113"/>
         <source>Security Buy</source>
-        <translation type="unfinished">Покупка споръчител</translation>
+        <translation>Покупка споръчител</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="115"/>
         <source>Security Sell</source>
-        <translation type="unfinished">Продажба с поръчител</translation>
+        <translation>Продажба с поръчител</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="117"/>
         <source>Balancing</source>
-        <translation type="unfinished">балансиране</translation>
+        <translation>балансиране</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="119"/>
         <source>Transfer</source>
-        <translation type="unfinished">Прехвърляне</translation>
+        <translation>Прехвърляне</translation>
     </message>
 </context>
 <context>
@@ -7709,32 +7710,32 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1103"/>
         <source>Edit Expense</source>
-        <translation type="unfinished">Редактиране на разходи</translation>
+        <translation>Редактиране на разходи</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1105"/>
         <source>Edit Dividend</source>
-        <translation type="unfinished">Редактиране на дивиденти</translation>
+        <translation>Редактиране на дивиденти</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1106"/>
         <source>Edit Income</source>
-        <translation type="unfinished">Редактиране на приходи</translation>
+        <translation>Редактиране на приходи</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1109"/>
         <source>Edit Transfer</source>
-        <translation type="unfinished">Редактиране на трансфери</translation>
+        <translation>Редактиране на трансфери</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1110"/>
         <source>Edit Securities Bought</source>
-        <translation type="unfinished">Редактиране на покупка на ценни книжа</translation>
+        <translation>Редактиране на покупка на ценни книжа</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1111"/>
         <source>Edit Securities Sold</source>
-        <translation type="unfinished">Редактиране на продажба на ценни книжа</translation>
+        <translation>Редактиране на продажба на ценни книжа</translation>
     </message>
 </context>
 <context>
@@ -7743,103 +7744,103 @@ What do you want to do with them?</source>
         <location filename="../src/transactioneditwidget.cpp" line="94"/>
         <location filename="../src/transactioneditwidget.cpp" line="154"/>
         <source>Security:</source>
-        <translation type="unfinished">Ценна книга:</translation>
+        <translation>Ценна книга:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="114"/>
         <location filename="../src/transactioneditwidget.cpp" line="185"/>
         <source>Cost:</source>
-        <translation type="unfinished">Разходи:</translation>
+        <translation>Разходи:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="115"/>
         <location filename="../src/transactioneditwidget.cpp" line="183"/>
         <source>Income:</source>
-        <translation type="unfinished">Приход:</translation>
+        <translation>Приход:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="122"/>
         <source>Shares bought:</source>
-        <translation type="unfinished">Изкупени акции:</translation>
+        <translation>Изкупени акции:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="127"/>
         <source>Shares sold:</source>
-        <translation type="unfinished">Продадени акции:</translation>
+        <translation>Продадени акции:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="132"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Всички</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="140"/>
         <source>Price per share:</source>
-        <translation type="unfinished">Цена за една акция:</translation>
+        <translation>Цена за една акция:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="146"/>
         <location filename="../src/transactioneditwidget.cpp" line="198"/>
         <source>Date:</source>
-        <translation type="unfinished">Дата:</translation>
+        <translation>Дата:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="172"/>
         <source>Description:</source>
-        <translation type="unfinished">Описание:</translation>
+        <translation>Описание:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="181"/>
         <source>Amount:</source>
-        <translation type="unfinished">Сума:</translation>
+        <translation>Сума:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="192"/>
         <source>Quantity:</source>
-        <translation type="unfinished">Количество:</translation>
+        <translation>Количество:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="208"/>
         <source>From:</source>
-        <translation type="unfinished">От:</translation>
+        <translation>От:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="215"/>
         <source>To:</source>
-        <translation type="unfinished">До:</translation>
+        <translation>До:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="224"/>
         <location filename="../src/transactioneditwidget.cpp" line="265"/>
         <source>Category:</source>
-        <translation type="unfinished">Категория:</translation>
+        <translation>Категория:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="230"/>
         <location filename="../src/transactioneditwidget.cpp" line="256"/>
         <source>To account:</source>
-        <translation type="unfinished">В сметката:</translation>
+        <translation>В сметката:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="237"/>
         <source>Payer:</source>
-        <translation type="unfinished">Платец:</translation>
+        <translation>Платец:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="246"/>
         <location filename="../src/transactioneditwidget.cpp" line="271"/>
         <source>From account:</source>
-        <translation type="unfinished">От сметката:</translation>
+        <translation>От сметката:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="278"/>
         <source>Payee:</source>
-        <translation type="unfinished">Получател:</translation>
+        <translation>Получател:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="285"/>
         <source>Comments:</source>
-        <translation type="unfinished">Коментари:</translation>
+        <translation>Коментари:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="672"/>
@@ -7860,7 +7861,7 @@ What do you want to do with them?</source>
         <location filename="../src/transactioneditwidget.cpp" line="762"/>
         <location filename="../src/transactioneditwidget.cpp" line="774"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="672"/>
@@ -7869,67 +7870,67 @@ What do you want to do with them?</source>
         <location filename="../src/transactioneditwidget.cpp" line="701"/>
         <location filename="../src/transactioneditwidget.cpp" line="712"/>
         <source>No suitable account available.</source>
-        <translation type="unfinished">Няма подходяща сметка на разположение.</translation>
+        <translation>Няма подходяща сметка на разположение.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="683"/>
         <source>No income category available.</source>
-        <translation type="unfinished">Няма свободна категория доходи</translation>
+        <translation>Няма свободна категория доходи.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="694"/>
         <source>No suitable account or income category available.</source>
-        <translation type="unfinished">Няма свободна подходяща сметка или категория доходи.</translation>
+        <translation>Няма свободна подходяща сметка или категория доходи.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="708"/>
         <source>No expense category available.</source>
-        <translation type="unfinished">Няма свободна категория разходи</translation>
+        <translation>Няма свободна категория разходи.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="719"/>
         <source>No security available.</source>
-        <translation type="unfinished">Няма свободен поръчител</translation>
+        <translation>Няма свободен поръчител.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="726"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Грешна дата.</translation>
+        <translation>Грешна дата.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="733"/>
         <source>Cannot transfer money to and from the same account.</source>
-        <translation type="unfinished">Не можете да прехвърляте пари от една и съща сметка.</translation>
+        <translation>Не можете да прехвърляте пари от една и съща сметка.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="739"/>
         <source>Cannot create a regular transfer to/from a securities account.</source>
-        <translation type="unfinished">Не може да се създаде редовен трансфер до / от сметката за ценни книжа.</translation>
+        <translation>Не може да се създаде редовен трансфер до / от сметката за ценни книжа.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="746"/>
         <source>Cannot create a regular income to a securities account.</source>
-        <translation type="unfinished">Не може да се създаде редовен трансфер до сметка за ценни книжа.</translation>
+        <translation>Не може да се създаде редовен трансфер до сметка за ценни книжа.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="754"/>
         <source>Zero shares not allowed.</source>
-        <translation type="unfinished">Нулеви акции не са разрешени.</translation>
+        <translation>Нулеви акции не са разрешени.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="758"/>
         <source>Zero value not allowed.</source>
-        <translation type="unfinished">Нулева стойност, не се допуска.</translation>
+        <translation>Нулева стойност, не се допуска.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="762"/>
         <source>Zero price per share not allowed.</source>
-        <translation type="unfinished">Нулева цена на акция не е разрешена.</translation>
+        <translation>Нулева цена на акция не е разрешена.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="774"/>
         <source>Cannot create a regular expense from a securities account.</source>
-        <translation type="unfinished">Не може да се създаде редовен разход от сметката за ценни книжа.</translation>
+        <translation>Не може да се създаде редовен разход от сметката за ценни книжа.</translation>
     </message>
 </context>
 <context>
@@ -7938,84 +7939,84 @@ What do you want to do with them?</source>
         <location filename="../src/transactionfilterwidget.cpp" line="59"/>
         <location filename="../src/transactionfilterwidget.cpp" line="76"/>
         <source>From:</source>
-        <translation type="unfinished">От:</translation>
+        <translation>От:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="66"/>
         <location filename="../src/transactionfilterwidget.cpp" line="80"/>
         <source>To:</source>
-        <translation type="unfinished">До:</translation>
+        <translation>До:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="84"/>
         <source>Min amount:</source>
-        <translation type="unfinished">Мин сума:</translation>
+        <translation>Мин сума:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="85"/>
         <source>Max amount:</source>
-        <translation type="unfinished">Макс сума:</translation>
+        <translation>Макс сума:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="87"/>
         <location filename="../src/transactionfilterwidget.cpp" line="98"/>
         <source>Category:</source>
-        <translation type="unfinished">Категория:</translation>
+        <translation>Категория:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="91"/>
         <source>To account:</source>
-        <translation type="unfinished">В сметката:</translation>
+        <translation>В сметката:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="95"/>
         <source>Min income:</source>
-        <translation type="unfinished">Мин доход:</translation>
+        <translation>Мин доход:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="96"/>
         <source>Max income:</source>
-        <translation type="unfinished">Макс доход:</translation>
+        <translation>Макс доход:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="102"/>
         <source>From account:</source>
-        <translation type="unfinished">От сметката:</translation>
+        <translation>От сметката:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="106"/>
         <source>Min cost:</source>
-        <translation type="unfinished">Мин цена:</translation>
+        <translation>Мин цена:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="107"/>
         <source>Max cost:</source>
-        <translation type="unfinished">Макс цена:</translation>
+        <translation>Макс цена:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="120"/>
         <source>Description:</source>
-        <translation type="unfinished">Описание:</translation>
+        <translation>Описание:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="128"/>
         <source>Payer:</source>
-        <translation type="unfinished">Платец:</translation>
+        <translation>Платец:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="129"/>
         <source>Payee:</source>
-        <translation type="unfinished">Получател:</translation>
+        <translation>Получател:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="139"/>
         <source>Include</source>
-        <translation type="unfinished">Включително</translation>
+        <translation>Включително</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="143"/>
         <source>Exclude</source>
-        <translation type="unfinished">Изключване</translation>
+        <translation>Изключване</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="146"/>
@@ -8025,7 +8026,7 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="149"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Изчистване</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="160"/>
@@ -8033,7 +8034,7 @@ What do you want to do with them?</source>
         <location filename="../src/transactionfilterwidget.cpp" line="337"/>
         <location filename="../src/transactionfilterwidget.cpp" line="374"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Всички</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="601"/>
@@ -8041,23 +8042,23 @@ What do you want to do with them?</source>
         <location filename="../src/transactionfilterwidget.cpp" line="627"/>
         <location filename="../src/transactionfilterwidget.cpp" line="631"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="601"/>
         <location filename="../src/transactionfilterwidget.cpp" line="627"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Грешна дата.</translation>
+        <translation>Грешна дата.</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="606"/>
         <source>To date is before from date.</source>
-        <translation type="unfinished">Към настоящия момент е преди считано от датата.</translation>
+        <translation>Към настоящия момент е преди считано от датата.</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="631"/>
         <source>From date is after to date.</source>
-        <translation type="unfinished">Към настоящия момент е след датата.</translation>
+        <translation>Към настоящия момент е след датата.</translation>
     </message>
 </context>
 <context>
@@ -8065,171 +8066,171 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="93"/>
         <source>Date</source>
-        <translation type="unfinished">Дата</translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="94"/>
         <source>Description</source>
-        <translation type="unfinished">Описание</translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="98"/>
         <source>Cost</source>
-        <translation type="unfinished">Цена</translation>
+        <translation>Цена</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="99"/>
         <location filename="../src/transactionlistwidget.cpp" line="110"/>
         <source>Category</source>
-        <translation type="unfinished">Категория</translation>
+        <translation>Категория</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="100"/>
         <source>From Account</source>
-        <translation type="unfinished">От сметката</translation>
+        <translation>От сметката</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="102"/>
         <source>Payee</source>
-        <translation type="unfinished">Получател</translation>
+        <translation>Получател</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="109"/>
         <location filename="../src/transactionlistwidget.cpp" line="157"/>
         <source>Income</source>
-        <translation type="unfinished">Приход</translation>
+        <translation>Приход</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="111"/>
         <source>To Account</source>
-        <translation type="unfinished">В сметката</translation>
+        <translation>В сметката</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="113"/>
         <source>Payer</source>
-        <translation type="unfinished">Платец</translation>
+        <translation>Платец</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="120"/>
         <source>Amount</source>
-        <translation type="unfinished">Сума</translation>
+        <translation>Сума</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="121"/>
         <source>From</source>
-        <translation type="unfinished">От</translation>
+        <translation>От</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="122"/>
         <source>To</source>
-        <translation type="unfinished">До</translation>
+        <translation>До</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="127"/>
         <source>Comments</source>
-        <translation type="unfinished">Коментари</translation>
+        <translation>Коментари</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="147"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавяне</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="148"/>
         <location filename="../src/transactionlistwidget.cpp" line="1044"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Прилагане</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="149"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Изтриване</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="156"/>
         <source>Expense</source>
-        <translation type="unfinished">Разход</translation>
+        <translation>Разход</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="158"/>
         <source>Transfer</source>
-        <translation type="unfinished">Прехвърляне</translation>
+        <translation>Прехвърляне</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="160"/>
         <source>New/Edit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Нови/Редактиране %1</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="161"/>
         <source>Filter</source>
-        <translation type="unfinished">Филтър</translation>
+        <translation>Филтър</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="200"/>
         <location filename="../src/transactionlistwidget.cpp" line="301"/>
         <source>Quantity:</source>
-        <translation type="unfinished">Количество:</translation>
+        <translation>Количество:</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="200"/>
         <source>Total:</source>
-        <translation type="unfinished">Общо:</translation>
+        <translation>Общо:</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="200"/>
         <location filename="../src/transactionlistwidget.cpp" line="319"/>
         <source>Average:</source>
-        <translation type="unfinished">Средно:</translation>
+        <translation>Средно:</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="200"/>
         <source>Monthly:</source>
-        <translation type="unfinished">Месечно:</translation>
+        <translation>Месечно:</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="242"/>
         <location filename="../src/transactionlistwidget.cpp" line="254"/>
         <source>Expenses</source>
-        <translation type="unfinished">Разходи</translation>
+        <translation>Разходи</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="243"/>
         <location filename="../src/transactionlistwidget.cpp" line="255"/>
         <source>Incomes</source>
-        <translation type="unfinished">Приходи</translation>
+        <translation>Приходи</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="244"/>
         <location filename="../src/transactionlistwidget.cpp" line="256"/>
         <source>Transfers</source>
-        <translation type="unfinished">Трансфери</translation>
+        <translation>Трансфери</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="267"/>
         <location filename="../src/transactionlistwidget.cpp" line="331"/>
         <source>Quantity</source>
-        <translation type="unfinished">Количество</translation>
+        <translation>Количество</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="305"/>
         <source>Total cost:</source>
-        <translation type="unfinished">Обща цена:</translation>
+        <translation>Обща цена:</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="309"/>
         <source>Total income:</source>
-        <translation type="unfinished">Общо доходи:</translation>
+        <translation>Общо доходи:</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="313"/>
         <source>Total amount:</source>
-        <translation type="unfinished">Обща сума:</translation>
+        <translation>Обща сума:</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="321"/>
         <source>Monthly average:</source>
-        <translation type="unfinished">Средно на месец:</translation>
+        <translation>Средно на месец:</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="480"/>
@@ -8237,27 +8238,27 @@ What do you want to do with them?</source>
         <location filename="../src/transactionlistwidget.cpp" line="492"/>
         <location filename="../src/transactionlistwidget.cpp" line="498"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Грешка</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="480"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
-        <translation type="unfinished">Не може да се зададе стойност на сделки с ценни книжа, използвайки диалогов прозорец за промяна на много транзакции.</translation>
+        <translation>Не може да се зададе стойност на сделки с ценни книжа, използвайки диалогов прозорец за промяна на много транзакции.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="486"/>
         <source>Cannot change description of dividends and security transactions.</source>
-        <translation type="unfinished">Не може да се промени описанието на дивидентите и сделките с ценни книжа.</translation>
+        <translation>Не може да се промени описанието на дивидентите и сделките с ценни книжа.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="492"/>
         <source>Cannot change payer of dividends and security transactions.</source>
-        <translation type="unfinished">Не може да се промени платецът на дивидентите и сделки с ценни книжа.</translation>
+        <translation>Не може да се промени платецът на дивидентите и сделки с ценни книжа.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="498"/>
         <source>Cannot change date of transactions that are part of a split transaction.</source>
-        <translation type="unfinished">Не може да се промени датата на сделките, които са част от разделянето на транзакцията.</translation>
+        <translation>Не може да се промени датата на сделките, които са част от разделянето на транзакцията.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="662"/>
@@ -8268,37 +8269,37 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="662"/>
         <source>Are you sure you want to delete all (%1) transactions in the selected split transaction?</source>
-        <translation type="unfinished">Сигурен ли сте, че искате да изтриете всички (%1) сделки в избраната разделена транзакция?</translation>
+        <translation>Сигурен ли сте, че искате да изтриете всички (%1) сделки в избраната разделена транзакция?</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="708"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
-        <translation type="unfinished">Сигурен ли сте, че искате да изтриете всички (%1), избрани транзакции?</translation>
+        <translation>Сигурен ли сте, че искате да изтриете всички (%1), избрани транзакции?</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="1019"/>
         <source>* Part of split transaction</source>
-        <translation type="unfinished">* Част от разделянето на транзакцията</translation>
+        <translation>* Част от разделянето на транзакцията</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="1020"/>
         <source>* Part of split (%1)</source>
-        <translation type="unfinished">* Част от разделянето (%1)</translation>
+        <translation>* Част от разделянето (%1)</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="1024"/>
         <source>** Recurring (editing occurrance)</source>
-        <translation type="unfinished">** Повторение (редактирени на събитието)</translation>
+        <translation>** Повторение (редактирени на събитието)</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="1040"/>
         <source>Modify…</source>
-        <translation type="unfinished">Променяне…</translation>
+        <translation>Променяне…</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="1042"/>
         <source>Edit…</source>
-        <translation type="unfinished">Редактиране…</translation>
+        <translation>Редактиране…</translation>
     </message>
 </context>
 </TS>
