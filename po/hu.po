@@ -1,133 +1,137 @@
-# Czech translation for eqonomize
-# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# Hungarian translation for eqonomize
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the eqonomize package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: eqonomize\n"
-"Report-Msgid-Bugs-To: "
-"http://sourceforge.net/tracker/?group_id=173799&atid=866832\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-11-13 14:35+0100\n"
-"PO-Revision-Date: 2011-04-10 08:47+0000\n"
-"Last-Translator: Jan Štemberk <stemberkj@seznam.cz>\n"
-"Language-Team: Czech <cs@li.org>\n"
+"PO-Revision-Date: 2009-12-02 23:31+0000\n"
+"Last-Translator: Gergely Szarka <szarka.honved@gmail.com>\n"
+"Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2016-06-18 05:01+0000\n"
 "X-Generator: Launchpad (build 18097)\n"
 
 #: budget.cpp:51 editsplitdialog.cpp:118 ledgerdialog.cpp:652
 #, kde-format
 msgid "Balancing"
-msgstr "Rozvaha"
+msgstr "Kiegyenlítés"
 
 #: budget.cpp:84
 #, kde-format
 msgid "Couldn't open %1 for reading"
-msgstr "%1 nelze přečíst"
+msgstr "%1 nem nyitható meg olvasásra"
 
 #: budget.cpp:95
 #, kde-format
 msgid ""
 "Not a valid Eqonomize! file (XML parse error: \"%2\" at line %3, col %4)"
 msgstr ""
-"Neplatný Eqonomize! soubor (chyba XML: \"%2\" na řádku %3, sloupec %4)"
+"Nem érvényes Eqonomize!-fájl (XML parse error: \"%2\" a(z) %3. sorban, a(z) "
+"%4. oszlopban)"
 
 #: budget.cpp:98
 #, kde-format
 msgid "Invalid root element %1 in XML document"
-msgstr "Neplatný kořenový prvek %1 v dokumentu XML"
+msgstr "Érvénytelen %1 elem az XML dokumentumban."
 
 #: budget.cpp:363
 #, kde-format
 msgid "Unable to load 1 account."
 msgid_plural "Unable to load %n accounts."
-msgstr[0] "Nelze načíst účet."
-msgstr[1] "Nelze načíst %n účty."
-msgstr[2] "Nelze načíst %n účtů."
+msgstr[0] "Nem lehet betölteni 1 számlát."
+msgstr[1] "Nem lehet betölteni %n számlát."
 
 #: budget.cpp:368
 #, kde-format
 msgid "Unable to load 1 category."
 msgid_plural "Unable to load %n categories."
-msgstr[0] "Nelze načíst kategorii."
-msgstr[1] "Nelze načíst %n kategorie."
-msgstr[2] "Nelze načíst %n kategorií."
+msgstr[0] "Nem lehet betölteni 1 kategóriát."
+msgstr[1] "Nem lehet betölteni %n kategóriát."
+
+#: budget.cpp:373
+#, kde-format
+msgid "Unable to load 1 security."
+msgid_plural "Unable to load %n securities."
+msgstr[0] "Nem lehet betölteni 1 értékpapírt."
+msgstr[1] "Nem lehet betölteni %n értékpapírt."
 
 #: budget.cpp:378
 #, kde-format
 msgid "Unable to load 1 transaction."
 msgid_plural "Unable to load %n transactions."
-msgstr[0] "Nelze načíst transakci."
-msgstr[1] "Nelze načíst %n transakce."
-msgstr[2] "Nelze načíst %n transakcí."
+msgstr[0] "Nem lehet betölteni 1 tranzakciót."
+msgstr[1] "Nem lehet betölteni %n tranzakciót."
 
 #: budget.cpp:389
 #, kde-format
 msgid "File is a directory"
-msgstr "Soubor je adresář"
+msgstr "A fájl egy könyvtár"
 
 #: budget.cpp:397
 #, kde-format
 msgid "Couldn't open file for writing"
-msgstr "Soubor nelze otevřít pro zápis"
+msgstr "Nem írható fájl"
 
 #: budget.cpp:547 budget.cpp:551
 #, kde-format
 msgid "Error while writing file; file was not saved"
-msgstr "Během zápisu došlo k chybě; soubor nebyl uložen"
+msgstr "Hiba írás közben; a fájl nem lett elmentve."
 
 #: categoriescomparisonchart.cpp:123 categoriescomparisonreport.cpp:164
 #: eqonomize.cpp:1797 eqonomize.cpp:1957 eqonomize.cpp:2036
 #: transactionlistwidget.cpp:138
 #, kde-format
 msgid "From"
-msgstr "Od"
+msgstr "Eredet"
 
 #: categoriescomparisonchart.cpp:130 categoriescomparisonreport.cpp:171
 #: eqonomize.cpp:1808 eqonomize.cpp:1969 eqonomize.cpp:2037
 #: transactionlistwidget.cpp:139
 #, kde-format
 msgid "To"
-msgstr "Do"
+msgstr "Cél"
 
 #: categoriescomparisonchart.cpp:147 categoriescomparisonreport.cpp:114
 #: overtimechart.cpp:112 overtimechart.cpp.bak:106 overtimereport.cpp:97
 #, kde-format
 msgid "Source:"
-msgstr "Zdroj:"
+msgstr "Forrás:"
 
 #: categoriescomparisonchart.cpp:150 categoriescomparisonchart.cpp:858
 #, kde-format
 msgid "All Expenses"
-msgstr "Všechny výdaje"
+msgstr "Összes kiadás"
 
 #: categoriescomparisonchart.cpp:151 categoriescomparisonchart.cpp:859
 #, kde-format
 msgid "All Incomes"
-msgstr "Všechny příjmy"
+msgstr "Összes bevétel"
 
 #: categoriescomparisonchart.cpp:152 categoriescomparisonchart.cpp:860
 #, kde-format
 msgid "All Accounts"
-msgstr "Všechny účty"
+msgstr "összes számla"
 
 #: categoriescomparisonchart.cpp:155 categoriescomparisonchart.cpp:864
 #: categoriescomparisonreport.cpp:122 categoriescomparisonreport.cpp:752
 #: categoriescomparisonreport.cpp:1016 overtimereport.cpp:375
 #, kde-format
 msgid "Expenses: %1"
-msgstr "Výdaje: %1"
+msgstr "Kiadások: %1"
 
 #: categoriescomparisonchart.cpp:160 categoriescomparisonchart.cpp:871
 #: categoriescomparisonreport.cpp:127 categoriescomparisonreport.cpp:756
 #: categoriescomparisonreport.cpp:1023 overtimereport.cpp:366
 #, kde-format
 msgid "Incomes: %1"
-msgstr "Příjmy: %1"
+msgstr "Bevételek: %1"
 
 #: categoriescomparisonchart.cpp:199 categoriescomparisonchart.cpp:225
 #: categoriescomparisonreport.cpp:334 categoriescomparisonreport.cpp:360
@@ -144,19 +148,19 @@ msgstr "Příjmy: %1"
 #: transactionfilterwidget.cpp:590
 #, kde-format
 msgid "Invalid date."
-msgstr "Neplatné datum."
+msgstr "Érvénytelen dátum"
 
 #: categoriescomparisonchart.cpp:204 categoriescomparisonreport.cpp:339
 #: eqonomize.cpp:3185 eqonomize.cpp:3331 transactionfilterwidget.cpp:569
 #, kde-format
 msgid "To date is before from date."
-msgstr "Datum do je před datumem od."
+msgstr "A záródátum korábbi, mint a kezdődátum."
 
 #: categoriescomparisonchart.cpp:229 categoriescomparisonreport.cpp:364
 #: eqonomize.cpp:3210 eqonomize.cpp:3356 transactionfilterwidget.cpp:594
 #, kde-format
 msgid "From date is after to date."
-msgstr "Datum od je před datumem do."
+msgstr "A kezdődátum későbbi, mint a záródátum."
 
 #: categoriescomparisonchart.cpp:340 categoriescomparisonreport.cpp:463
 #: eqonomize.cpp:3610 eqonomize.cpp:4252 ledgerdialog.cpp:251
@@ -165,28 +169,28 @@ msgstr "Datum od je před datumem do."
 #, kde-format
 msgid ""
 "The selected file already exists. Would you like to overwrite the old copy?"
-msgstr "Vybraný soubor již existuje. Chcete ho přepsat?"
+msgstr "A kiválasztott fájl már létezik. Felülírod a régebbi változatot?"
 
 #: categoriescomparisonchart.cpp:344 categoriescomparisonreport.cpp:467
 #: eqonomize.cpp:4257 ledgerdialog.cpp:255 overtimechart.cpp:628
 #: overtimechart.cpp.bak:621 overtimereport.cpp:282 qifimportexport.cpp:608
 #, kde-format
 msgid "You selected a directory!"
-msgstr "Vybrali jste adresář!"
+msgstr "Könyvtárt választottál!"
 
 #: categoriescomparisonchart.cpp:352 categoriescomparisonreport.cpp:475
 #: eqonomize.cpp:4264 ledgerdialog.cpp:263 overtimechart.cpp:636
 #: overtimechart.cpp.bak:629 overtimereport.cpp:290 qifimportexport.cpp:616
 #, kde-format
 msgid "Couldn't open file for writing."
-msgstr "Soubor nelze otevřít pro zápis."
+msgstr "Nem írható fájl."
 
 #: categoriescomparisonchart.cpp:372 categoriescomparisonreport.cpp:482
 #: eqonomize.cpp:4270 ledgerdialog.cpp:269 overtimechart.cpp:656
 #: overtimechart.cpp.bak:644 overtimereport.cpp:297 qifimportexport.cpp:622
 #, kde-format
 msgid "Error while writing file; file was not saved."
-msgstr "Chyba během zápisu souboru; soubor nebyl uložen."
+msgstr "Hiba írás közben; a fájl nincs elmentve."
 
 #: categoriescomparisonchart.cpp:728 categoriescomparisonreport.cpp:303
 #: categoriescomparisonreport.cpp:750 categoriescomparisonreport.cpp:754
@@ -203,32 +207,32 @@ msgstr "Chyba během zápisu souboru; soubor nebyl uložen."
 #: overtimereport.cpp:732
 #, kde-format
 msgid "No description"
-msgstr "Bez popisu"
+msgstr "Nincs leírás"
 
 #: categoriescomparisonreport.cpp:119 categoriescomparisonreport.cpp:1012
 #, kde-format
 msgid "All Categories"
-msgstr "Všechny kategorie"
+msgstr "Összes kategória"
 
 #: categoriescomparisonreport.cpp:138
 #, kde-format
 msgid "Descriptions for"
-msgstr "Popis pro"
+msgstr "Típusok"
 
 #: categoriescomparisonreport.cpp:145
 #, kde-format
 msgid "Payees/payers for"
-msgstr "Příjemci/plátci pro"
+msgstr "Kedvezményezettek/kifizetők"
 
 #: categoriescomparisonreport.cpp:161
 #, kde-format
 msgid "Period:"
-msgstr "Období:"
+msgstr "Periódus:"
 
 #: categoriescomparisonreport.cpp:186 overtimereport.cpp:120
 #, kde-format
 msgid "Columns:"
-msgstr "Sloupce:"
+msgstr "Oszlopok:"
 
 #: categoriescomparisonreport.cpp:189 categoriescomparisonreport.cpp:782
 #: eqonomize.cpp:1062 eqonomize.cpp:1935 eqonomize.cpp:4142
@@ -237,25 +241,25 @@ msgstr "Sloupce:"
 #: importcsvdialog.cpp:253 overtimereport.cpp:123
 #, kde-format
 msgid "Value"
-msgstr "Hodnota"
+msgstr "Érték"
 
 #: categoriescomparisonreport.cpp:192 overtimereport.cpp:126
 #: recurrenceeditwidget.cpp:320
 #, kde-format
 msgid "Daily"
-msgstr "Denně"
+msgstr "Naponta"
 
 #: categoriescomparisonreport.cpp:195 overtimereport.cpp:129
 #: recurrenceeditwidget.cpp:322
 #, kde-format
 msgid "Monthly"
-msgstr "Měsíčně"
+msgstr "Havonta"
 
 #: categoriescomparisonreport.cpp:198 overtimereport.cpp:132
 #: recurrenceeditwidget.cpp:323
 #, kde-format
 msgid "Yearly"
-msgstr "Ročně"
+msgstr "Évente"
 
 #: categoriescomparisonreport.cpp:201 categoriescomparisonreport.cpp:787
 #: overtimechart.cpp:205 overtimechart.cpp:1534 overtimechart.cpp.bak:198
@@ -263,28 +267,28 @@ msgstr "Ročně"
 #: transactionlistwidget.cpp:276 transactionlistwidget.cpp:340
 #, kde-format
 msgid "Quantity"
-msgstr "Počet"
+msgstr "Mennyiség"
 
 #: categoriescomparisonreport.cpp:204 overtimechart.cpp:209
 #: overtimechart.cpp.bak:202 overtimereport.cpp:138
 #, kde-format
 msgid "Average value"
-msgstr "Průměrná hodnota"
+msgstr "Átlagérték"
 
 #: categoriescomparisonreport.cpp:278 categoriescomparisonreport.cpp:947
 #, kde-format
 msgid "All descriptions"
-msgstr "Všechny popisy"
+msgstr "Összes típus"
 
 #: categoriescomparisonreport.cpp:279 categoriescomparisonreport.cpp:948
 #, kde-format
 msgid "All payees"
-msgstr "Všichni příjemci"
+msgstr "Összes kedvezményezett"
 
 #: categoriescomparisonreport.cpp:280 categoriescomparisonreport.cpp:949
 #, kde-format
 msgid "All payers"
-msgstr "Všichni plátci"
+msgstr "Összes kifizető"
 
 #: categoriescomparisonreport.cpp:309 categoriescomparisonreport.cpp:751
 #: categoriescomparisonreport.cpp:837 categoriescomparisonreport.cpp:932
@@ -295,7 +299,7 @@ msgstr "Všichni plátci"
 #: overtimechart.cpp.bak:1909
 #, kde-format
 msgid "No payee"
-msgstr "Žádný příjemce"
+msgstr "Nincs kedvezményezett"
 
 #: categoriescomparisonreport.cpp:310 categoriescomparisonreport.cpp:755
 #: categoriescomparisonreport.cpp:838 categoriescomparisonreport.cpp:933
@@ -306,24 +310,24 @@ msgstr "Žádný příjemce"
 #: overtimechart.cpp.bak:1908
 #, kde-format
 msgid "No payer"
-msgstr "Žádný plátce"
+msgstr "Nincs kifizető"
 
 #: categoriescomparisonreport.cpp:750 categoriescomparisonreport.cpp:751
 #: overtimereport.cpp:393
 #, kde-format
 msgid "Expenses: %2, %1"
-msgstr "Výdaje: %2, %1"
+msgstr "Kiadások: %2, %1"
 
 #: categoriescomparisonreport.cpp:754 categoriescomparisonreport.cpp:755
 #: overtimereport.cpp:384
 #, kde-format
 msgid "Incomes: %2, %1"
-msgstr "Příjmy: %2, %1"
+msgstr "Bevételek: %2, %1"
 
 #: categoriescomparisonreport.cpp:758
 #, kde-format
 msgid "Incomes & Expenses"
-msgstr "Příjmy & výdaje"
+msgstr "Bevételek és kiadások"
 
 #: categoriescomparisonreport.cpp:771
 #, kde-format
@@ -335,198 +339,198 @@ msgstr "%1 (%2&ndash;%3)"
 #, kde-format
 msgctxt "html format; %1: title; %2: to date"
 msgid "%1 (to %2)"
-msgstr "%1 (do %2)"
+msgstr "%1 (%2-ig)"
 
 #: categoriescomparisonreport.cpp:776 eqonomize.cpp:4046 eqonomize.cpp:4094
 #: qifimportexport.cpp:131 transactionlistwidget.cpp:116
 #: transactionlistwidget.cpp:127
 #, kde-format
 msgid "Category"
-msgstr "Kategorie"
+msgstr "Kategória"
 
 #: categoriescomparisonreport.cpp:778 eqonomize.cpp:1938
 #: transactionlistwidget.cpp:115
 #, kde-format
 msgid "Cost"
-msgstr "Cena"
+msgstr "Költség"
 
 #: categoriescomparisonreport.cpp:780 editscheduledtransactiondialog.cpp:46
 #: editsplitdialog.cpp:108 eqonomize.cpp:285 eqonomize.cpp:329
 #: ledgerdialog.cpp:647 transactionlistwidget.cpp:126
 #, kde-format
 msgid "Income"
-msgstr "Příjem"
+msgstr "Bevétel"
 
 #: categoriescomparisonreport.cpp:784 overtimereport.cpp:545
 #, kde-format
 msgid "Daily Average"
-msgstr "Denní průměr"
+msgstr "Napi átlag"
 
 #: categoriescomparisonreport.cpp:785 overtimereport.cpp:546
 #, kde-format
 msgid "Monthly Average"
-msgstr "Měsíční průměr"
+msgstr "Havi átlag"
 
 #: categoriescomparisonreport.cpp:786 overtimereport.cpp:547
 #, kde-format
 msgid "Yearly Average"
-msgstr "Roční průměr"
+msgstr "Éves átlag"
 
 #: categoriescomparisonreport.cpp:789 overtimereport.cpp:358
 #: overtimereport.cpp:376 overtimereport.cpp:394
 #, kde-format
 msgid "Average Cost"
-msgstr "Průměrná cena"
+msgstr "Átlagos költség"
 
 #: categoriescomparisonreport.cpp:791 overtimereport.cpp:350
 #: overtimereport.cpp:367 overtimereport.cpp:385
 #, kde-format
 msgid "Average Income"
-msgstr "Průměrný příjem"
+msgstr "Átlagos bevétel"
 
 #: categoriescomparisonreport.cpp:793
 #, kde-format
 msgid "Average Value"
-msgstr "Průměrná hodnota"
+msgstr "Átlagos érték"
 
 #: categoriescomparisonreport.cpp:853 eqonomize.cpp:3932 eqonomize.cpp:4030
 #: eqonomize.cpp:4075 eqonomize.cpp:4123 overtimereport.cpp:686
 #, kde-format
 msgid "Total"
-msgstr "Celkem"
+msgstr "Összesen"
 
 #: categoriescomparisonreport.cpp:878
 #, kde-format
 msgid "Total incomes"
-msgstr "Příjmy celkem"
+msgstr "Bevétel összesen"
 
 #: categoriescomparisonreport.cpp:902
 #, kde-format
 msgid "Total expenses"
-msgstr "Výdaje celkem"
+msgstr "Kiadás összesen"
 
 #: categoriescomparisonreport.cpp:912
 #, kde-format
 msgid "Total (Profits)"
-msgstr "Celkem (zisky)"
+msgstr "Összes (nyereség)"
 
 #: editscheduledtransactiondialog.cpp:45 editsplitdialog.cpp:111
 #: eqonomize.cpp:288 eqonomize.cpp:332 ledgerdialog.cpp:650
 #, kde-format
 msgid "Expense"
-msgstr "Výdaj"
+msgstr "Kiadás"
 
 #: editscheduledtransactiondialog.cpp:47 editsplitdialog.cpp:120
 #: eqonomize.cpp:282 eqonomize.cpp:326 ledgerdialog.cpp:653
 #, kde-format
 msgid "Transfer"
-msgstr "Převod"
+msgstr "Átutalás"
 
 #: editscheduledtransactiondialog.cpp:48 editsplitdialog.cpp:114
 #: eqonomize.cpp:289 eqonomize.cpp:333
 #, kde-format
 msgid "Security Buy"
-msgstr "Nákup cenných papírů"
+msgstr "Értékpapír vétel"
 
 #: editscheduledtransactiondialog.cpp:49 editsplitdialog.cpp:116
 #: eqonomize.cpp:290 eqonomize.cpp:334
 #, kde-format
 msgid "Security Sell"
-msgstr "Prodej cenných papírů"
+msgstr "Értékpapír eladás"
 
 #: editscheduledtransactiondialog.cpp:56 editscheduledtransactiondialog.cpp:57
 #, kde-format
 msgid "Recurrence"
-msgstr "Opakování"
+msgstr "Ismétlődés"
 
 #: editscheduledtransactiondialog.cpp:104
 #, kde-format
 msgid "New Expense"
-msgstr "Nový výdaj"
+msgstr "Új kiadás"
 
 #: editscheduledtransactiondialog.cpp:106
 #, kde-format
 msgid "New Dividend"
-msgstr "Nová dividenda"
+msgstr "Új osztalék"
 
 #: editscheduledtransactiondialog.cpp:107
 #, kde-format
 msgid "New Income"
-msgstr "Nový příjem"
+msgstr "Új bevétel"
 
 #: editscheduledtransactiondialog.cpp:110
 #, kde-format
 msgid "New Transfer"
-msgstr "Nový převod"
+msgstr "Új átutalás"
 
 #: editscheduledtransactiondialog.cpp:111
 #, kde-format
 msgid "New Security Buy"
-msgstr "Nový nákup cenných papírů"
+msgstr "Új értékpapír vétel"
 
 #: editscheduledtransactiondialog.cpp:113
 #, kde-format
 msgid "New Security Sell"
-msgstr "Nový prodej cenných papírů"
+msgstr "Új értékpapír eladás"
 
 #: editscheduledtransactiondialog.cpp:128
 #: editscheduledtransactiondialog.cpp:149 transactioneditwidget.cpp:1064
 #, kde-format
 msgid "Edit Expense"
-msgstr "Upravit výdaj"
+msgstr "Kiadás szerkesztése"
 
 #: editscheduledtransactiondialog.cpp:130
 #: editscheduledtransactiondialog.cpp:151 transactioneditwidget.cpp:1066
 #, kde-format
 msgid "Edit Dividend"
-msgstr "Upravit dividendu"
+msgstr "Osztalék szerkesztése"
 
 #: editscheduledtransactiondialog.cpp:131
 #: editscheduledtransactiondialog.cpp:152 transactioneditwidget.cpp:1067
 #, kde-format
 msgid "Edit Income"
-msgstr "Upravit příjem"
+msgstr "Bevétel szerkesztése"
 
 #: editscheduledtransactiondialog.cpp:134
 #: editscheduledtransactiondialog.cpp:155 transactioneditwidget.cpp:1070
 #, kde-format
 msgid "Edit Transfer"
-msgstr "Upravit převod"
+msgstr "Átutalás szerkesztése"
 
 #: editscheduledtransactiondialog.cpp:135
 #: editscheduledtransactiondialog.cpp:156 transactioneditwidget.cpp:1071
 #, kde-format
 msgid "Edit Securities Bought"
-msgstr "Upravit nákup cenných papírů"
+msgstr "Értékpapír vétel szerkesztése"
 
 #: editscheduledtransactiondialog.cpp:136
 #: editscheduledtransactiondialog.cpp:157 transactioneditwidget.cpp:1072
 #, kde-format
 msgid "Edit Securities Sold"
-msgstr "Upravit prodej cenných papírů"
+msgstr "Értékpapír eladás szerkesztése"
 
 #: editsplitdialog.cpp:107 eqonomize.cpp:284 eqonomize.cpp:328
 #: eqonomize.cpp:1167
 #, kde-format
 msgid "Dividend"
-msgstr "Dividenda"
+msgstr "Osztalék"
 
 #: editsplitdialog.cpp:109 eqonomize.cpp:403 eqonomize.cpp:445
 #: ledgerdialog.cpp:648
 #, kde-format
 msgid "Repayment"
-msgstr "Splátka"
+msgstr "Visszafizetés"
 
 #: editsplitdialog.cpp:112 eqonomize.cpp:404 eqonomize.cpp:446
 #: ledgerdialog.cpp:651
 #, kde-format
 msgid "Refund"
-msgstr "Úhrada"
+msgstr "Visszatérítés"
 
 #: editsplitdialog.cpp:126 ledgerdialog.cpp:638
 #, kde-format
 msgid "Split Transaction"
-msgstr "Rozdělená transakce"
+msgstr "Osztott tranzakció"
 
 #: editsplitdialog.cpp:138 eqonomize.cpp:1279 eqonomize.cpp:1379
 #: eqonomize.cpp:1473 eqonomize.cpp:1538 importcsvdialog.cpp:129
@@ -534,7 +538,7 @@ msgstr "Rozdělená transakce"
 #: transactionfilterwidget.cpp:135
 #, kde-format
 msgid "Description:"
-msgstr "Popis:"
+msgstr "Leírás:"
 
 #: editsplitdialog.cpp:143 eqonomize.cpp:413 eqonomize.cpp:523
 #: eqonomize.cpp:639 eqonomize.cpp:1274 eqonomize.cpp:2476
@@ -542,121 +546,121 @@ msgstr "Popis:"
 #: transactioneditwidget.cpp:199 transactioneditwidget.cpp:1119
 #, kde-format
 msgid "Date:"
-msgstr "Datum:"
+msgstr "Dátum:"
 
 #: editsplitdialog.cpp:148 eqonomize.cpp:424 eqonomize.cpp:1252
 #: importcsvdialog.cpp:388 importcsvdialog.cpp:399 ledgerdialog.cpp:107
 #: qifimportexport.cpp:503
 #, kde-format
 msgid "Account:"
-msgstr "Účet:"
+msgstr "Számla:"
 
 #: editsplitdialog.cpp:163
 #, kde-format
 msgid "Transactions:"
-msgstr "Transakce:"
+msgstr "Tranzakciók:"
 
 #: editsplitdialog.cpp:172 eqonomize.cpp:914 eqonomize.cpp:1061
 #: eqonomize.cpp:1941 eqonomize.cpp:2033 eqonomize.cpp:3988
 #: ledgerdialog.cpp:135
 #, kde-format
 msgid "Type"
-msgstr "Typ"
+msgstr "Típus"
 
 #: editsplitdialog.cpp:173 eqonomize.cpp:915 eqonomize.cpp:2034
 #: ledgerdialog.cpp:136 qifimportexport.cpp:127 qifimportexport.cpp:139
 #: qifimportexport.cpp:149 transactionlistwidget.cpp:111
 #, kde-format
 msgid "Description"
-msgstr "Popis"
+msgstr "Leírás"
 
 #: editsplitdialog.cpp:174 eqonomize.cpp:4142 ledgerdialog.cpp:137
 #, kde-format
 msgid "Account/Category"
-msgstr "Účet/Kategorie"
+msgstr "Számla/Kategória"
 
 #: editsplitdialog.cpp:175
 #, kde-format
 msgid "Payment"
-msgstr "Platba"
+msgstr "Fizetés"
 
 #: editsplitdialog.cpp:176 ledgerdialog.cpp:138
 #, kde-format
 msgid "Deposit"
-msgstr "Vklad"
+msgstr "Letét"
 
 #: editsplitdialog.cpp:181 ledgerdialog.cpp:151
 #, kde-format
 msgid "New"
-msgstr "Nový"
+msgstr "Új"
 
 #: editsplitdialog.cpp:184 eqonomize.cpp:4333
 #, kde-format
 msgid "New Expense…"
-msgstr "Nový výdaj…"
+msgstr "Új kiadás…"
 
 #: editsplitdialog.cpp:185 eqonomize.cpp:4334
 #, kde-format
 msgid "New Income…"
-msgstr "Nový příjem…"
+msgstr "Új bevétel…"
 
 #: editsplitdialog.cpp:186
 #, kde-format
 msgid "New Deposit…"
-msgstr "Nový vklad…"
+msgstr "Új letét…"
 
 #: editsplitdialog.cpp:187
 #, kde-format
 msgid "New Withdrawal…"
-msgstr "Nový výběr…"
+msgstr "Új kivét…"
 
 #: editsplitdialog.cpp:188
 #, kde-format
 msgid "New Security Shares Bought…"
-msgstr ""
+msgstr "Új részvényvásárlás…"
 
 #: editsplitdialog.cpp:189
 #, kde-format
 msgid "Security Shares Sold…"
-msgstr "Cenné papíry prodané.."
+msgstr "Részvény eladás…"
 
 #: editsplitdialog.cpp:190
 #, kde-format
 msgid "New Dividend…"
-msgstr "Nová dividenda"
+msgstr "Új osztalék…"
 
 #: editsplitdialog.cpp:191 eqonomize.cpp:924 eqonomize.cpp:1071
 #: eqonomize.cpp:4328 ledgerdialog.cpp:158 transactionlistwidget.cpp:1051
 #, kde-format
 msgid "Edit…"
-msgstr "Upravit…"
+msgstr "Szerkesztés…"
 
 #: editsplitdialog.cpp:221 eqonomize.cpp:2325
 #, kde-format
 msgid "Total value:"
-msgstr "Celková hodnota:"
+msgstr "Összes érték:"
 
 #: editsplitdialog.cpp:403 transactioneditwidget.cpp:653
 #: transactioneditwidget.cpp:657 transactioneditwidget.cpp:668
 #: transactioneditwidget.cpp:682 transactioneditwidget.cpp:693
 #, kde-format
 msgid "No suitable account available."
-msgstr "Vhodný účet není k dispozici."
+msgstr "Nincs megfelelő számla."
 
 #: editsplitdialog.cpp:415
 #, kde-format
 msgid "Future dates is not allowed."
-msgstr "Budoucí datumy nejsou povoleny."
+msgstr "Jövőbeli dátum nem megengedett."
 
 #: editsplitdialog.cpp:419
 #, kde-format
 msgid "A split must contain at least two transactions."
-msgstr "Pro rozdělení potřebujete nejméně dvě transakce."
+msgstr "Egy osztott tranzakció legalább két tranzakcióból áll."
 
 #: editsplitdialog.cpp:428 transactioneditwidget.cpp:714
 #, kde-format
 msgid "Cannot transfer money to and from the same account."
-msgstr "Peníze nelze převést na stejný účet."
+msgstr "Nem lehet átutalni ugyanarról ugyanarra a számlára."
 
 #: eqonomize.cpp:419 eqonomize.cpp:2325 importcsvdialog.cpp:146
 #: importcsvdialog.cpp:169 importcsvdialog.cpp:355
@@ -664,120 +668,120 @@ msgstr "Peníze nelze převést na stejný účet."
 #: transactioneditwidget.cpp:1111
 #, kde-format
 msgid "Cost:"
-msgstr "Cena:"
+msgstr "Költség:"
 
 #: eqonomize.cpp:420 importcsvdialog.cpp:364 importcsvdialog.cpp:397
 #: transactioneditwidget.cpp:118 transactioneditwidget.cpp:184
 #: transactioneditwidget.cpp:1110
 #, kde-format
 msgid "Income:"
-msgstr "Příjem:"
+msgstr "Bevétel:"
 
 #: eqonomize.cpp:439 transactioneditwidget.cpp:193
 #: transactionlistwidget.cpp:209 transactionlistwidget.cpp:310
 #, kde-format
 msgid "Quantity:"
-msgstr "Počet:"
+msgstr "Mennyiség:"
 
 #: eqonomize.cpp:443 importcsvdialog.cpp:243 transactioneditwidget.cpp:288
 #, kde-format
 msgid "Comments:"
-msgstr "Poznámky:"
+msgstr "Megjegyzések:"
 
 #: eqonomize.cpp:491 eqonomize.cpp:1176
 #, kde-format
 msgid "Reinvested Dividend"
-msgstr "Reinvestované dividendy"
+msgstr "Újra befektetett osztalék"
 
 #: eqonomize.cpp:501 transactioneditwidget.cpp:97
 #: transactioneditwidget.cpp:157
 #, kde-format
 msgid "Security:"
-msgstr "Cenný papír:"
+msgstr "Értékpapír:"
 
 #: eqonomize.cpp:518
 #, kde-format
 msgid "Shares added:"
-msgstr "Podíly přidané:"
+msgstr "Hozzáadott részvények:"
 
 #: eqonomize.cpp:579
 #, kde-format
 msgid "Security Trade"
-msgstr "Obchod cenným papírem"
+msgstr "Értékpapír-forgalom"
 
 #: eqonomize.cpp:587
 #, kde-format
 msgid "From security:"
-msgstr "Z cenného papíru:"
+msgstr "Forrás értékpapír:"
 
 #: eqonomize.cpp:603
 #, kde-format
 msgid "Shares moved:"
-msgstr "Přesunuté podíly:"
+msgstr "Áthelyezett részvények:"
 
 #: eqonomize.cpp:608 transactioneditwidget.cpp:135
 #: transactionfilterwidget.cpp:167 transactionfilterwidget.cpp:168
 #: transactionfilterwidget.cpp:343 transactionfilterwidget.cpp:380
 #, kde-format
 msgid "All"
-msgstr "Vše"
+msgstr "Összes"
 
 #: eqonomize.cpp:614
 #, kde-format
 msgid "To security:"
-msgstr "K cennému papíru:"
+msgstr "Cél értékpapír:"
 
 #: eqonomize.cpp:631
 #, kde-format
 msgid "Shares received:"
-msgstr "Podíly přijaté:"
+msgstr "Kapott részvények:"
 
 #: eqonomize.cpp:635 importcsvdialog.cpp:386 importcsvdialog.cpp:412
 #: overtimechart.cpp:193 overtimechart.cpp.bak:186
 #, kde-format
 msgid "Value:"
-msgstr "Hodnota:"
+msgstr "Érték:"
 
 #: eqonomize.cpp:725
 #, kde-format
 msgid "No other security available for trade in the account."
-msgstr "Na účtu už není žádný cenný papír pro obchodování."
+msgstr "Nincs más értékesíthető értékpapír a számlán."
 
 #: eqonomize.cpp:737
 #, kde-format
 msgid "Selected to and from securities are the same."
-msgstr "Pro a od jsou stejné."
+msgstr "A kiválasztott cél és forrás értékpapírok ugyanazok."
 
 #: eqonomize.cpp:745 transactioneditwidget.cpp:735
 #, kde-format
 msgid "Zero shares not allowed."
-msgstr "Nulové podíly nejsou povoleny."
+msgstr "Nulla részvény nem megengedett."
 
 #: eqonomize.cpp:749 transactioneditwidget.cpp:739
 #, kde-format
 msgid "Zero value not allowed."
-msgstr "Nulová hodnota není povolena."
+msgstr "Nulla érték nem megengedett."
 
 #: eqonomize.cpp:757 eqonomize.cpp:766
 #, kde-format
 msgid "Quotations"
-msgstr "Kurzy"
+msgstr "Árfolyamok"
 
 #: eqonomize.cpp:777 eqonomize.cpp:913 eqonomize.cpp:962 eqonomize.cpp:1060
 #: ledgerdialog.cpp:134 transactionlistwidget.cpp:110
 #, kde-format
 msgid "Date"
-msgstr "Datum"
+msgstr "Dátum"
 
 #: eqonomize.cpp:778
 #, kde-format
 msgid "Price per Share"
-msgstr "Cena za podíl"
+msgstr "Részvényenkénti ár"
 
 #: eqonomize.cpp:820
 #, kde-format
 msgid "Quotations for %1"
-msgstr "Kurz pro %1"
+msgstr "%1 árfolyamai"
 
 #: eqonomize.cpp:904
 #, kde-format
@@ -785,212 +789,213 @@ msgid ""
 "The following transactions was scheduled to occur today or before today.\n"
 "Confirm that they have indeed occurred (or will occur today)."
 msgstr ""
-"Následující transakce byly naplánovány na dnešní nebo dřívější datum.\n"
-"Potvrďte, že opravdu proběhly (nebo dnes proběhnou)."
+"A következő tranzakciók teljesítése volt tervezve a mai napra vagy "
+"korábbra.\n"
+"Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon)."
 
 #: eqonomize.cpp:916 eqonomize.cpp:2035 transactionlistwidget.cpp:137
 #, kde-format
 msgid "Amount"
-msgstr "Množství"
+msgstr "Mennyiség"
 
 #: eqonomize.cpp:926
 #, kde-format
 msgid "Postpone…"
-msgstr "Odložit…"
+msgstr "Halasztás…"
 
 #: eqonomize.cpp:973
 #, kde-format
 msgid "Can only postpone to future dates."
-msgstr "Odložit lze pouze na budoucí datum."
+msgstr "Csak jövőbeli dátumra halasztható."
 
 #: eqonomize.cpp:1052 ledgerdialog.cpp:299
 #, kde-format
 msgid "Transactions for %1"
-msgstr "Transakce pro %1"
+msgstr "%1 tranzakciói"
 
 #: eqonomize.cpp:1063 eqonomize.cpp:1936
 #, kde-format
 msgid "Shares"
-msgstr "Podíly"
+msgstr "Részvények"
 
 #: eqonomize.cpp:1160
 #, kde-format
 msgid "Shares Bought"
-msgstr "Podíly koupené"
+msgstr "Részvényvásárlás"
 
 #: eqonomize.cpp:1161
 #, kde-format
 msgid "Shares Sold"
-msgstr "Podíly prodané"
+msgstr "Részvényeladás"
 
 #: eqonomize.cpp:1188
 #, kde-format
 msgid "Shares Sold (Traded)"
-msgstr "Prodej podílů (obchodovaný)"
+msgstr "Részvényeladás (megkötött)"
 
 #: eqonomize.cpp:1188
 #, kde-format
 msgid "Shares Bought (Traded)"
-msgstr "Koupené podíly (obchodované)"
+msgstr "Részvényvásárlás (megkötött)"
 
 #: eqonomize.cpp:1204
 #, kde-format
 msgid "Shares Bought (Recurring)"
-msgstr "Koupené podíly (opakované)"
+msgstr "Részvényvásárlás (ismétlődő)"
 
 #: eqonomize.cpp:1205
 #, kde-format
 msgid "Shares Sold (Recurring)"
-msgstr "Prodané podíly (opakované)"
+msgstr "Részvényeladás (ismétlődő)"
 
 #: eqonomize.cpp:1207
 #, kde-format
 msgid "Shares Bought (Scheduled)"
-msgstr "Koupené podíly (plánované)"
+msgstr "Részvényvásárlás (tervezett)"
 
 #: eqonomize.cpp:1208
 #, kde-format
 msgid "Shares Sold (Scheduled)"
-msgstr "Prodané podíly (plánované)"
+msgstr "Részvényeladás (tervezett)"
 
 #: eqonomize.cpp:1220
 #, kde-format
 msgid "Recurring Dividend"
-msgstr "Opakované dividendy"
+msgstr "Ismétlődő osztalék"
 
 #: eqonomize.cpp:1222
 #, kde-format
 msgid "Scheduled Dividend"
-msgstr "Plánované dividendy"
+msgstr "Tervezett osztalék"
 
 #: eqonomize.cpp:1240 eqonomize.cpp:1360
 #, kde-format
 msgid "Type:"
-msgstr "Typ:"
+msgstr "Típus:"
 
 #: eqonomize.cpp:1243 eqonomize.cpp:2600 eqonomize.cpp:2660
 #, kde-format
 msgid "Mutual Fund"
-msgstr "Vzájemný fond"
+msgstr "Befektetési alap"
 
 #: eqonomize.cpp:1244 eqonomize.cpp:2598 eqonomize.cpp:2658
 #, kde-format
 msgid "Bond"
-msgstr "Dluhopis"
+msgstr "Kötvény"
 
 #: eqonomize.cpp:1245 eqonomize.cpp:2599 eqonomize.cpp:2659
 #, kde-format
 msgid "Stock"
-msgstr "Akcie"
+msgstr "Részvény"
 
 #: eqonomize.cpp:1246 eqonomize.cpp:2601 eqonomize.cpp:2661 eqonomize.cpp:3492
 #: eqonomize.cpp:3497 importcsvdialog.cpp:117 qifimportexport.cpp:332
 #, kde-format
 msgid "Other"
-msgstr "Ostatní"
+msgstr "Egyéb"
 
 #: eqonomize.cpp:1249 eqonomize.cpp:1370 eqonomize.cpp:1464 eqonomize.cpp:1529
 #, kde-format
 msgid "Name:"
-msgstr "Název:"
+msgstr "Név:"
 
 #: eqonomize.cpp:1264
 #, kde-format
 msgid "Decimals in Shares:"
-msgstr "Desetiny v podílech:"
+msgstr "Törtek a részvényekben:"
 
 #: eqonomize.cpp:1267
 #, kde-format
 msgid "Initial Shares:"
-msgstr "Počáteční podíly:"
+msgstr "Kezdeti részvények:"
 
 #: eqonomize.cpp:1270
 #, kde-format
 msgid "Initial quotation:"
-msgstr "Počáteční kurz:"
+msgstr "Kezdő árfolyam:"
 
 #: eqonomize.cpp:1289 transactioneditwidget.cpp:675
 #, kde-format
 msgid "No suitable account or income category available."
-msgstr "Neexistuje vhodná kategorie účtů nebo příjmů."
+msgstr "Nincs megfelelő számla vagy bevétel kategória."
 
 #: eqonomize.cpp:1363 eqonomize.cpp:3488 eqonomize.cpp:4021
 #: qifimportexport.cpp:325
 #, kde-format
 msgid "Cash"
-msgstr "Hotovost"
+msgstr "Készpénz"
 
 #: eqonomize.cpp:1364 eqonomize.cpp:4016
 #, kde-format
 msgid "Current Account"
-msgstr "Běžný účet"
+msgstr "Folyószámla"
 
 #: eqonomize.cpp:1365 eqonomize.cpp:3490 eqonomize.cpp:4017
 #, kde-format
 msgid "Savings Account"
-msgstr "Spořící účet"
+msgstr "Takarékbetét-számla"
 
 #: eqonomize.cpp:1366 eqonomize.cpp:4018
 #, kde-format
 msgid "Credit Card"
-msgstr "Platební karta"
+msgstr "Hitelkártya"
 
 #: eqonomize.cpp:1367 eqonomize.cpp:4019
 #, kde-format
 msgid "Liabilities"
-msgstr "Dluhy"
+msgstr "Tartozások"
 
 #: eqonomize.cpp:1368 eqonomize.cpp:1731 eqonomize.cpp:1732 eqonomize.cpp:3891
 #: eqonomize.cpp:3897 eqonomize.cpp:4020
 #, kde-format
 msgid "Securities"
-msgstr "Cenné papíry"
+msgstr "Értékpapírok"
 
 #: eqonomize.cpp:1373
 #, kde-format
 msgid "Initial balance:"
-msgstr "Počáteční bilance:"
+msgstr "Nyitóegyenleg:"
 
 #: eqonomize.cpp:1376
 #, kde-format
 msgid "Default account for budgeted transactions"
-msgstr "Výchozí účet pro rozpočtové transakce"
+msgstr "Alapértelmezett számla a költségvetési tranzakciókhoz"
 
 #: eqonomize.cpp:1441 eqonomize.cpp:1507 eqonomize.cpp:1572
 #, kde-format
 msgid "Empty name."
-msgstr "Prázdný název."
+msgstr "Üres név."
 
 #: eqonomize.cpp:1447
 #, kde-format
 msgid "The entered name is used by another account."
-msgstr "Tento název už používá jiný účet."
+msgstr "A megadott név másik számláé."
 
 #: eqonomize.cpp:1467 eqonomize.cpp:1532
 #, kde-format
 msgid "Monthly budget:"
-msgstr "Měsíční rozpočet:"
+msgstr "Havi költségvetés:"
 
 #: eqonomize.cpp:1513
 #, kde-format
 msgid "The entered name is used by another income category."
-msgstr "Tento název už používá jiná kategorie příjmů."
+msgstr "A megadott név másik bevételi kategóriáé."
 
 #: eqonomize.cpp:1578
 #, kde-format
 msgid "The entered name is used by another expense category."
-msgstr "Tento název už používá jiná kategorie výdajů."
+msgstr "A megadott név másik kiadási kategóriáé."
 
 #: eqonomize.cpp:1711 eqonomize.cpp:1778 eqonomize.cpp:3984 eqonomize.cpp:5970
 #: eqonomize.cpp:5976
 #, kde-format
 msgid "Accounts"
-msgstr "Účty"
+msgstr "Számlák"
 
 #: eqonomize.cpp:1712
 #, kde-format
 msgid "Accounts & Categories"
-msgstr "Účty & Kategorie"
+msgstr "Számlák és kategóriák"
 
 #: eqonomize.cpp:1716 eqonomize.cpp:1717 eqonomize.cpp:1780
 #: importcsvdialog.cpp:70 overtimechart.cpp:126 overtimechart.cpp:1727
@@ -1000,7 +1005,7 @@ msgstr "Účty & Kategorie"
 #: transactionlistwidget.cpp:263
 #, kde-format
 msgid "Expenses"
-msgstr "Výdaje"
+msgstr "Kiadások"
 
 #: eqonomize.cpp:1721 eqonomize.cpp:1722 eqonomize.cpp:1779 eqonomize.cpp:4043
 #: importcsvdialog.cpp:75 overtimechart.cpp:127 overtimechart.cpp:1726
@@ -1010,214 +1015,214 @@ msgstr "Výdaje"
 #: transactionlistwidget.cpp:264
 #, kde-format
 msgid "Incomes"
-msgstr "Příjmy"
+msgstr "Bevételek"
 
 #: eqonomize.cpp:1726 eqonomize.cpp:1727 importcsvdialog.cpp:78
 #: transactionlistwidget.cpp:253 transactionlistwidget.cpp:265
 #, kde-format
 msgid "Transfers"
-msgstr "Převody"
+msgstr "Átutalások"
 
 #: eqonomize.cpp:1736
 #, kde-format
 msgid "Schedule"
-msgstr "Plán"
+msgstr "Ütemterv"
 
 #: eqonomize.cpp:1737
 #, kde-format
 msgid "Scheduled Transactions"
-msgstr "Plánované transakce"
+msgstr "Tervezett tranzakciók"
 
 #: eqonomize.cpp:1753 eqonomize.cpp:1775
 #, kde-format
 msgid "Account / Category"
-msgstr "Účet / Skupina"
+msgstr "Számla / Kategória"
 
 #: eqonomize.cpp:1754
 #, kde-format
 msgid "Remaining Budget (%1)"
-msgstr "Zbývající rozpočet (%1)"
+msgstr "Hátralévő költségvetés (%1)"
 
 #: eqonomize.cpp:1755
 #, kde-format
 msgid "Change (%1)"
-msgstr "Změna (%1)"
+msgstr "Változás (%1)"
 
 #: eqonomize.cpp:1756
 #, kde-format
 msgid "Total (%1)"
-msgstr "Celkem (%1)"
+msgstr "Összesen (%1)"
 
 #: eqonomize.cpp:1769
 #, kde-format
 msgctxt "%2 remains of %1 budget"
 msgid "%2 of %1"
-msgstr "%2 ze %1"
+msgstr "%2 maradt (terv: %1)"
 
 #: eqonomize.cpp:1785 eqonomize.cpp:4002
 #, kde-format
 msgid "Includes budgeted transactions"
-msgstr "Zahrnuje rozpočtové transakce"
+msgstr "Költségvetési tranzakciókat tartalmaz"
 
 #: eqonomize.cpp:1793
 #, kde-format
 msgid "Period"
-msgstr "Období"
+msgstr "Időszak"
 
 #: eqonomize.cpp:1825
 #, kde-format
 msgid "Select Period"
-msgstr "Vybrat období"
+msgstr "Válassz időszakot"
 
 #: eqonomize.cpp:1827 eqonomize.cpp:4312
 #, kde-format
 msgid "Current Month"
-msgstr "Tento měsíc"
+msgstr "Aktuális hónap"
 
 #: eqonomize.cpp:1828 eqonomize.cpp:4313
 #, kde-format
 msgid "Current Year"
-msgstr "Tento rok"
+msgstr "Aktuális év"
 
 #: eqonomize.cpp:1829 eqonomize.cpp:4314
 #, kde-format
 msgid "Current Whole Month"
-msgstr "Celý tento měsíc"
+msgstr "Aktuális teljes hónap"
 
 #: eqonomize.cpp:1830 eqonomize.cpp:4315
 #, kde-format
 msgid "Current Whole Year"
-msgstr "Celý tento rok"
+msgstr "Aktuális teljes év"
 
 #: eqonomize.cpp:1831
 #, kde-format
 msgid "Whole Past Month"
-msgstr "Celý minulý měsíc"
+msgstr "Teljes múlt hónap"
 
 #: eqonomize.cpp:1832
 #, kde-format
 msgid "Whole Past Year"
-msgstr "Celý minulý rok"
+msgstr "Teljes múlt év"
 
 #: eqonomize.cpp:1833
 #, kde-format
 msgid "Previous Month"
-msgstr "Minulý měsíc"
+msgstr "Előző hónap"
 
 #: eqonomize.cpp:1834
 #, kde-format
 msgid "Previous Year"
-msgstr "Minulý rok"
+msgstr "Előző év"
 
 #: eqonomize.cpp:1837
 #, kde-format
 msgid "Show partial budget"
-msgstr "Ukázat částečný rozpočet"
+msgstr "Mutasd a részleges költségvetést"
 
 #: eqonomize.cpp:1842
 #, kde-format
 msgid "Edit Budget"
-msgstr "Upravit rozpočet"
+msgstr "Költségvetés szerkesztése"
 
 #: eqonomize.cpp:1846
 #, kde-format
 msgid "Budget:"
-msgstr "Rozpočet:"
+msgstr "Költségvetés:"
 
 #: eqonomize.cpp:1856
 #, kde-format
 msgid "Month:"
-msgstr "Měsíc:"
+msgstr "Hónap:"
 
 #: eqonomize.cpp:1864
 #, kde-format
 msgid "Result previous month:"
-msgstr "Výsledek minulého měsíce:"
+msgstr "Előző havi eredmény:"
 
 #: eqonomize.cpp:1917 eqonomize.cpp:4354
 #, kde-format
 msgid "New Security…"
-msgstr "Nový cenný papír…"
+msgstr "Új értékpapír…"
 
 #: eqonomize.cpp:1919
 #, kde-format
 msgid "New Transaction"
-msgstr "Nová transakce"
+msgstr "Új tranzakció"
 
 #: eqonomize.cpp:1922 eqonomize.cpp:4362
 #, kde-format
 msgid "Set Quotation…"
-msgstr "Nastavit kurz…"
+msgstr "Árfolyam beállítása…"
 
 #: eqonomize.cpp:1934 eqonomize.cpp:3987
 #, kde-format
 msgid "Name"
-msgstr "Název"
+msgstr "Név"
 
 #: eqonomize.cpp:1937
 #, kde-format
 msgid "Quotation"
-msgstr "Kurz"
+msgstr "Árfolyam"
 
 #: eqonomize.cpp:1939
 #, kde-format
 msgid "Profit"
-msgstr "Zisk"
+msgstr "Nyereség"
 
 #: eqonomize.cpp:1940
 #, kde-format
 msgid "Yearly Rate"
-msgstr "Roční sazba"
+msgstr "Éves kamatláb"
 
 #: eqonomize.cpp:1942 qifimportexport.cpp:323
 #, kde-format
 msgid "Account"
-msgstr "Účet"
+msgstr "Számla"
 
 #: eqonomize.cpp:1953
 #, kde-format
 msgid "Statistics Period"
-msgstr "Doba statistiky"
+msgstr "Statisztikai időszak"
 
 #: eqonomize.cpp:2015
 #, kde-format
 msgid "New Schedule"
-msgstr "Nový plán"
+msgstr "Új ütemterv"
 
 #: eqonomize.cpp:2018
 #, kde-format
 msgid "Edit"
-msgstr "Upravit"
+msgstr "Szerkesztés"
 
 #: eqonomize.cpp:2032
 #, kde-format
 msgid "Next Occurrence"
-msgstr "Další výskyt"
+msgstr "Következő esemény"
 
 #: eqonomize.cpp:2038 qifimportexport.cpp:152 transactionlistwidget.cpp:144
 #, kde-format
 msgid "Comments"
-msgstr "Poznámky"
+msgstr "Megjegyzések"
 
 #: eqonomize.cpp:2291
 #, kde-format
 msgid "New Security"
-msgstr "Nový cenný papír"
+msgstr "Új értékpapír"
 
 #: eqonomize.cpp:2306
 #, kde-format
 msgid "Edit Security"
-msgstr "Upravit cenný papír"
+msgstr "Értékpapír szerkesztése"
 
 #: eqonomize.cpp:2325
 #, kde-format
 msgid "Profit:"
-msgstr "Zisk:"
+msgstr "Nyereség:"
 
 #: eqonomize.cpp:2325
 #, kde-format
 msgid "Rate:"
-msgstr "Sazba:"
+msgstr "Kamat:"
 
 #: eqonomize.cpp:2332
 #, kde-format
@@ -1225,417 +1230,417 @@ msgid ""
 "Are you sure you want to delete the security \"%1\" and all associated "
 "transactions?"
 msgstr ""
-"Opravdu chcete smazat cenný papír  \"%1\" a všechny související transakce?"
+"Valóban törölni akarod a \"%1\" értékpapírt és minden kapcsolódó tranzakciót?"
 
 #: eqonomize.cpp:2394 transactioneditwidget.cpp:700
 #, kde-format
 msgid "No security available."
-msgstr "Žádný cenný papír k dispozici."
+msgstr "Nincs lehetséges értékpapír."
 
 #: eqonomize.cpp:2466
 #, kde-format
 msgid "Set Quotation (%1)"
-msgstr "Stanovit plán rozpočtu (%1)"
+msgstr "Árfolyam beállítása (%1)"
 
 #: eqonomize.cpp:2472 transactioneditwidget.cpp:143
 #, kde-format
 msgid "Price per share:"
-msgstr "Cena za akcii:"
+msgstr "Részvényenkénti ár:"
 
 #: eqonomize.cpp:2485
 #, kde-format
 msgid "Future dates are not allowed."
-msgstr "Budoucí datumy nejsou povoleny."
+msgstr "Jövőbeli dátumok nem megengedettek."
 
 #: eqonomize.cpp:2513
 #, kde-format
 msgid "Security Transactions"
-msgstr "Transakce s cennými papíry"
+msgstr "Értékpapír tranzakciók"
 
 #: eqonomize.cpp:3166 ledgerdialog.cpp:293
 #, kde-format
 msgid "Ledger"
-msgstr "Účetní kniha"
+msgstr "Főkönyv"
 
 #: eqonomize.cpp:3475
 #, kde-format
 msgid "Untitled"
-msgstr "Bez názvu"
+msgstr "Névtelen"
 
 #: eqonomize.cpp:3489
 #, kde-format
 msgid "Check Account"
-msgstr "Šekový účet"
+msgstr "Számlaellenőrzés"
 
 #: eqonomize.cpp:3491
 #, kde-format
 msgid "Salary"
-msgstr "Plat"
+msgstr "Fizetés"
 
 #: eqonomize.cpp:3493
 #, kde-format
 msgid "Bills"
-msgstr "Účty"
+msgstr "Számlák"
 
 #: eqonomize.cpp:3494
 #, kde-format
 msgid "Clothing"
-msgstr "Oblečení"
+msgstr "Ruházat"
 
 #: eqonomize.cpp:3495
 #, kde-format
 msgid "Groceries"
-msgstr "Potraviny"
+msgstr "Élelmiszer"
 
 #: eqonomize.cpp:3496
 #, kde-format
 msgid "Leisure"
-msgstr "Volný čas"
+msgstr "Szabadidő"
 
 #: eqonomize.cpp:3561 importcsvdialog.cpp:795 qifimportexport.cpp:280
 #: qifimportexport.cpp:444
 #, kde-format
 msgid "Couldn't fetch %1."
-msgstr "Nelze přinést %1."
+msgstr "%1 nem behozható."
 
 #: eqonomize.cpp:3573 eqonomize.cpp:4417
 #, kde-format
 msgid "Error loading %1: %2."
-msgstr "Chyba při spouštění  %1: %2."
+msgstr "Hiba %1 betöltése közben: %2."
 
 #: eqonomize.cpp:3573 eqonomize.cpp:4417
 #, kde-format
 msgid "Couldn't open file"
-msgstr "Soubor nelze otevřít"
+msgstr "Nem lehetett megnyitni a fájlt."
 
 #: eqonomize.cpp:3627 eqonomize.cpp:3653
 #, kde-format
 msgid "Error saving %1: %2."
-msgstr "Chyba při ukládání %1: %2."
+msgstr "Hiba %1 mentése közben: %2."
 
 #: eqonomize.cpp:3627 eqonomize.cpp:3653 eqonomize.cpp:3673
 #, kde-format
 msgid "Couldn't save file"
-msgstr "Soubor nelze uložit"
+msgstr "Nem lehetett menteni a fájlt."
 
 #: eqonomize.cpp:3673 eqonomize.cpp:4282 ledgerdialog.cpp:281
 #: qifimportexport.cpp:634
 #, kde-format
 msgid "Failed to upload file to %1."
-msgstr "Nepodařilo se nahrát soubor do %1."
+msgstr "Hiba történt %1 fájlba való feltöltéskor."
 
 #: eqonomize.cpp:3703 eqonomize.cpp:3728
 #, kde-format
 msgid "Report"
-msgstr "Sestava"
+msgstr "Jelentés"
 
 #: eqonomize.cpp:3758 eqonomize.cpp:3783
 #, kde-format
 msgid "Chart"
-msgstr "Graf"
+msgstr "Grafikon"
 
 #: eqonomize.cpp:3823 eqonomize.cpp:3829
 #, kde-format
 msgid "Transaction Schedule"
-msgstr "Plán transakce"
+msgstr "Tranzakciós ütemterv"
 
 #: eqonomize.cpp:3976
 #, kde-format
 msgctxt "html format"
 msgid "Accounts &amp; Categories"
-msgstr "Účty &amp; Kategorie"
+msgstr "Számlák &amp; Kategóriák"
 
 #: eqonomize.cpp:3981
 #, kde-format
 msgctxt "html format"
 msgid "Accounts &amp; Categories (%1&ndash;%2)"
-msgstr "Účty &amp; Kategorie (%1&ndash;%2)"
+msgstr "Számlák &amp; Kategóriák (%1&ndash;%2)"
 
 #: eqonomize.cpp:3982
 #, kde-format
 msgctxt "html format"
 msgid "Accounts &amp; Categories (to %1)"
-msgstr "Účty &amp; Kategorie (do %1)"
+msgstr "Számlák &amp; Kategóriák (%1-hoz/hez)"
 
 #: eqonomize.cpp:3989 eqonomize.cpp:4049 eqonomize.cpp:4097 eqonomize.cpp:4142
 #, kde-format
 msgid "Change"
-msgstr "Změna"
+msgstr "Változás"
 
 #: eqonomize.cpp:3993 ledgerdialog.cpp:140
 #, kde-format
 msgid "Balance"
-msgstr "Bilance"
+msgstr "Egyenleg"
 
 #: eqonomize.cpp:4047 eqonomize.cpp:4095
 #, kde-format
 msgid "Budget"
-msgstr "Rozpočet"
+msgstr "Költségvetés"
 
 #: eqonomize.cpp:4048 eqonomize.cpp:4096
 #, kde-format
 msgid "Remaining Budget"
-msgstr "Zbývající rozpočet"
+msgstr "Hátralevő költségvetés"
 
 #: eqonomize.cpp:4050
 #, kde-format
 msgid "Total Incomes"
-msgstr "Celkové příjmy"
+msgstr "Összes bevétel"
 
 #: eqonomize.cpp:4091
 #, kde-format
 msgid "Costs"
-msgstr "Ceny"
+msgstr "Költségek"
 
 #: eqonomize.cpp:4098
 #, kde-format
 msgid "Total Expenses"
-msgstr "Celkové výdaje"
+msgstr "Összes kiadás"
 
 #: eqonomize.cpp:4167 eqonomize.cpp:4214
 #, kde-format
 msgid "Empty expenses list."
-msgstr "Prázdný seznam výdajů."
+msgstr "Üres kiadási lista."
 
 #: eqonomize.cpp:4172 eqonomize.cpp:4219
 #, kde-format
 msgid "Empty incomes list."
-msgstr "Prázdný seznam příjmů."
+msgstr "Üres bevételi lista."
 
 #: eqonomize.cpp:4177 eqonomize.cpp:4224
 #, kde-format
 msgid "Empty transfers list."
-msgstr "Prázdný seznam převodů."
+msgstr "Üres átutalási lista."
 
 #: eqonomize.cpp:4182 eqonomize.cpp:4229
 #, kde-format
 msgid "Empty securities list."
-msgstr "Prázdný seznam cenných papírů."
+msgstr "Üres értékpapírlista."
 
 #: eqonomize.cpp:4187 eqonomize.cpp:4234
 #, kde-format
 msgid "Empty schedule list."
-msgstr "Prázdný seznam plánů."
+msgstr "Üres ütemterv lista."
 
 #: eqonomize.cpp:4305
 #, kde-format
 msgid "Export View…"
-msgstr "Exportovat …"
+msgstr "Exportálási nézet…"
 
 #: eqonomize.cpp:4307
 #, kde-format
 msgid "Print View…"
-msgstr "Tisk…"
+msgstr "Nyomtatási nézet…"
 
 #: eqonomize.cpp:4309
 #, kde-format
 msgid "Initial Period"
-msgstr "Počáteční období"
+msgstr "Kezdő periódus"
 
 #: eqonomize.cpp:4316
 #, kde-format
 msgid "Remember Last Dates"
-msgstr "Zapamatovat poslední datumy"
+msgstr "Utolsó dátumok megjegyzése"
 
 #: eqonomize.cpp:4319
 #, kde-format
 msgid "Import CSV File…"
-msgstr "Importovat soubor CSV…"
+msgstr "CSV fájl importálása…"
 
 #: eqonomize.cpp:4320
 #, kde-format
 msgid "Import QIF File…"
-msgstr "Importovat soubor QIF…"
+msgstr "QIF fájl importálása"
 
 #: eqonomize.cpp:4321
 #, kde-format
 msgid "Export As QIF File…"
-msgstr "Exportovat jako soubor QIF…"
+msgstr "Exportálás QIF fájlként"
 
 #: eqonomize.cpp:4323
 #, kde-format
 msgid "Add Account…"
-msgstr "Přidat účet…"
+msgstr "Számla hozzáadása…"
 
 #: eqonomize.cpp:4324
 #, kde-format
 msgid "New Account…"
-msgstr "Nový účet…"
+msgstr "Új számla…"
 
 #: eqonomize.cpp:4325
 #, kde-format
 msgid "New Income Category…"
-msgstr "Nová kategorie příjmů…"
+msgstr "Új bevételi kategória…"
 
 #: eqonomize.cpp:4326
 #, kde-format
 msgid "New Expense Category…"
-msgstr "Nová kategorie výdajů…"
+msgstr "Új kiadási kategória…"
 
 #: eqonomize.cpp:4327
 #, kde-format
 msgid "Balance…"
-msgstr "Bilance…"
+msgstr "Egyenleg…"
 
 #: eqonomize.cpp:4331
 #, kde-format
 msgid "Show Transactions"
-msgstr "Ukázat transakce"
+msgstr "Tranzakciók megmutatása"
 
 #: eqonomize.cpp:4335
 #, kde-format
 msgid "New Transfer…"
-msgstr "Nový převod…"
+msgstr "Új átutalás…"
 
 #: eqonomize.cpp:4336
 #, kde-format
 msgid "New Split Transaction…"
-msgstr "Nová rozdělená transakce…"
+msgstr "Új osztott tranzakció…"
 
 #: eqonomize.cpp:4337
 #, kde-format
 msgid "Edit Transaction(s) (Occurrence)…"
-msgstr "Upravit transakce (výskyt)"
+msgstr "Tranzakció(k) szerkesztése (Eseti)…"
 
 #: eqonomize.cpp:4338
 #, kde-format
 msgid "Edit Occurrence…"
-msgstr "Upravit výskyt…"
+msgstr "Esemény szerkesztése…"
 
 #: eqonomize.cpp:4339
 #, kde-format
 msgid "Edit Schedule (Recurrence)…"
-msgstr "Upravit plán (opakování)…"
+msgstr "Ütemterv szerkesztése (ismétlődő)…"
 
 #: eqonomize.cpp:4340
 #, kde-format
 msgid "Edit Schedule…"
-msgstr "Upravit plán…"
+msgstr "Ütemterv szerkesztése"
 
 #: eqonomize.cpp:4341
 #, kde-format
 msgid "Remove Transaction(s) (Occurrence)"
-msgstr "Odstranit transakce (výskyt)"
+msgstr "Tranzakció(k) visszavonása (Eseti)"
 
 #: eqonomize.cpp:4342
 #, kde-format
 msgid "Remove Occurrence"
-msgstr "Odstranit výskyt"
+msgstr "Visszavont esemény"
 
 #: eqonomize.cpp:4343
 #, kde-format
 msgid "Delete Schedule (Recurrence)"
-msgstr "Odstranit plán (opakování)"
+msgstr "Ütemterv törlése (ismétlődő)"
 
 #: eqonomize.cpp:4344
 #, kde-format
 msgid "Delete Schedule"
-msgstr "Smazat plán"
+msgstr "Törölt ütemterv"
 
 #: eqonomize.cpp:4345
 #, kde-format
 msgid "Edit Split Transaction…"
-msgstr "Upravit rozdělenou transakci"
+msgstr "Osztott tranzakció szerkesztése…"
 
 #: eqonomize.cpp:4346
 #, kde-format
 msgid "Remove Split Transaction"
-msgstr "Odstranit rozdělenou transakci"
+msgstr "Osztott tranzakció visszavonása…"
 
 #: eqonomize.cpp:4347
 #, kde-format
 msgid "Join Transactions…"
-msgstr "Spojit transakce…"
+msgstr "Tranzakciók egyesítése…"
 
 #: eqonomize.cpp:4348
 #, kde-format
 msgid "Split Up Transaction"
-msgstr "Rozdělit transakci"
+msgstr "Tranzakciók felosztása…"
 
 #: eqonomize.cpp:4350
 #, kde-format
 msgid "Refund…"
-msgstr "Úhrada…"
+msgstr "Visszatérítés…"
 
 #: eqonomize.cpp:4351
 #, kde-format
 msgid "Repayment…"
-msgstr "Splátka…"
+msgstr "Visszafizetés…"
 
 #: eqonomize.cpp:4352
 #, kde-format
 msgid "New Refund/Repayment…"
-msgstr "Nová úhrada/splátka"
+msgstr "Új visszatérítés/visszafizetés…"
 
 #: eqonomize.cpp:4355
 #, kde-format
 msgid "Edit Security…"
-msgstr "Upravit cenný papír…"
+msgstr "Értékpapír szerkesztése…"
 
 #: eqonomize.cpp:4356
 #, kde-format
 msgid "Remove Security"
-msgstr "Smazat cenný papír"
+msgstr "Értékpapír visszavonása"
 
 #: eqonomize.cpp:4357
 #, kde-format
 msgid "Shares Sold…"
-msgstr "Prodané podíly…"
+msgstr "Részvények eladása…"
 
 #: eqonomize.cpp:4358
 #, kde-format
 msgid "Shares Bought…"
-msgstr "Nakoupené podíly…"
+msgstr "Részvények vásárlása…"
 
 #: eqonomize.cpp:4359
 #, kde-format
 msgid "Dividend…"
-msgstr "Dividenda…"
+msgstr "Osztalék…"
 
 #: eqonomize.cpp:4360
 #, kde-format
 msgid "Reinvested Dividend…"
-msgstr "Reinvestovaná dividenda…"
+msgstr "Osztalék újrabefektetése…"
 
 #: eqonomize.cpp:4361
 #, kde-format
 msgid "Shares Moved…"
-msgstr "Přesunuté podíly…"
+msgstr "Részvények mozgatása…"
 
 #: eqonomize.cpp:4363
 #, kde-format
 msgid "Edit Quotations…"
-msgstr "Upravit kurz…"
+msgstr "Árfolyamok szerkesztése…"
 
 #: eqonomize.cpp:4364
 #, kde-format
 msgid "Transactions…"
-msgstr "Transakce…"
+msgstr "Tranzakciók…"
 
 #: eqonomize.cpp:4366
 #, kde-format
 msgid "Development Over Time Report…"
-msgstr "Výkaz časového vývoje…"
+msgstr "Időbeli fejlődés jelentés…"
 
 #: eqonomize.cpp:4367
 #, kde-format
 msgid "Categories Comparison Report…"
-msgstr "Výkaz porovnání kategorií…"
+msgstr "Kategória-összehasonlító jelentés…"
 
 #: eqonomize.cpp:4368
 #, kde-format
 msgid "Categories Comparison Chart…"
-msgstr "Schéma vývoje kategorií…"
+msgstr "Kategória-összehasonlító grafikon…"
 
 #: eqonomize.cpp:4369
 #, kde-format
 msgid "Development Over Time Chart…"
-msgstr "Schéma časového vývoje…"
+msgstr "Időbeli fejlődés grafikon…"
 
 #: eqonomize.cpp:4371
 #, kde-format
 msgid "Use Additional Transaction Properties"
-msgstr "Použít další vlastnosti transakcí"
+msgstr "Kiegészítő tranzakció tulajdonságok használata"
 
 #: eqonomize.cpp:4413
 #, kde-format
@@ -1643,78 +1648,79 @@ msgid ""
 "Eqonomize! exited unexpectedly before the file was saved and data was lost.\n"
 "Do you want to load the last auto-saved version of the file?"
 msgstr ""
-"Eqonomize! byl nečekaně zavřen bez uložení a data byla ztracena.\n"
-"Přejete si spustit poslední automaticky uloženou verzi souboru?"
+"Az Eqonomize! váratlanul kilépett, mielőtt a fájlt mentették volna és az "
+"adat elveszett.\n"
+"Betöltöd a fájl utolsó automatikusan mentett verzióját?"
 
 #: eqonomize.cpp:4413
 #, kde-format
 msgid "Crash Recovery"
-msgstr "Obnovení po pádu"
+msgstr "Helyreállítás"
 
 #: eqonomize.cpp:4605 eqonomize.cpp:4606
 #, kde-format
 msgid "The current file has been modified. Do you want to save it?"
-msgstr "Soubor byl změněn. Přejete si ho uložit?"
+msgstr "Az aktuális fájl módosult. Akarod menteni?"
 
 #: eqonomize.cpp:4643
 #, kde-format
 msgid "Confirm Schedule"
-msgstr "Potvrdit plán"
+msgstr "Ütemterv megerősítése"
 
 #: eqonomize.cpp:4697
 #, kde-format
 msgid "New Account"
-msgstr "Nový účet"
+msgstr "Új számla"
 
 #: eqonomize.cpp:4712
 #, kde-format
 msgid "New Income Category"
-msgstr "Nová skupina příjmů"
+msgstr "Új bevételi kategória"
 
 #: eqonomize.cpp:4725
 #, kde-format
 msgid "New Expense Category"
-msgstr "Nová kategorie výdajů"
+msgstr "Új kiadási kategória"
 
 #: eqonomize.cpp:4800
 #, kde-format
 msgid "Balance Account"
-msgstr "Bilanční účet"
+msgstr "Mérlegszámla"
 
 #: eqonomize.cpp:4806
 #, kde-format
 msgid "Book value:"
-msgstr "Účetní hodnota:"
+msgstr "Könyvérték:"
 
 #: eqonomize.cpp:4813
 #, kde-format
 msgid "Real value:"
-msgstr "Skutečná hodnota:"
+msgstr "Valódi érték:"
 
 #: eqonomize.cpp:4836
 #, kde-format
 msgid "Edit Account"
-msgstr "Upravit účet"
+msgstr "Számla szerkesztése"
 
 #: eqonomize.cpp:4869
 #, kde-format
 msgid "Edit Income Category"
-msgstr "Upravit kategorii příjmů"
+msgstr "Bevétel kategória szerkesztése"
 
 #: eqonomize.cpp:4887
 #, kde-format
 msgid "Edit Expense Category"
-msgstr "Upravit kategorii výdajů"
+msgstr "Kiadás kategória szerkesztése"
 
 #: eqonomize.cpp:4948
 #, kde-format
 msgid "Move transactions?"
-msgstr "Přesunout transakce?"
+msgstr "Tranzakciók mozgatása?"
 
 #: eqonomize.cpp:4958
 #, kde-format
 msgid "Move to:"
-msgstr "Přesunout do:"
+msgstr "Mozgatás ide:"
 
 #: eqonomize.cpp:4965
 #, kde-format
@@ -1722,8 +1728,8 @@ msgid ""
 "The category contains some expenses.\n"
 "What do you want to do with them?"
 msgstr ""
-"Kategorie obsahuje výdaje.\n"
-"Co s nimi chcete udělat?"
+"A kategória kiadásokat tartalmaz.\n"
+"Mit akarsz velük tenni?"
 
 #: eqonomize.cpp:4977
 #, kde-format
@@ -1731,8 +1737,8 @@ msgid ""
 "The category contains some incomes.\n"
 "What do you want to do with them?"
 msgstr ""
-"Kategorie obsahuje příjmy.\n"
-"Co s nimi chcete udělat?"
+"A kategória bevételeket tartalmaz.\n"
+"Mit akarsz velük tenni?"
 
 #: eqonomize.cpp:4989
 #, kde-format
@@ -1740,8 +1746,8 @@ msgid ""
 "The account contains some transactions.\n"
 "What do you want to do with them?"
 msgstr ""
-"Účet obsahuje transakce.\n"
-"Co s nimi chcete udělat?"
+"A számla tranzakciókat tartalmaz.\n"
+"Mit akarsz velük tenni?"
 
 #: eqonomize.cpp:5011
 #, kde-format
@@ -1749,13 +1755,13 @@ msgid ""
 "The category contains some expenses that will be removed. Do you still want "
 "to remove the category?"
 msgstr ""
-"Kategorie obsahuje výdaje, které budou odstraněny. Opravdu chcete kategorii "
-"odstranit?"
+"A kategória kiadásokat tartalmaz, amik törlődni fognak.\r\n"
+"Biztosan el akarod távolítani a kategóriát?"
 
 #: eqonomize.cpp:5011 eqonomize.cpp:5012
 #, kde-format
 msgid "Remove Category?"
-msgstr "Odstranit kategorii?"
+msgstr "Kategória eltávolítása?"
 
 #: eqonomize.cpp:5012
 #, kde-format
@@ -1763,8 +1769,8 @@ msgid ""
 "The category contains some incomes that will be removed. Do you still want "
 "to remove the category?"
 msgstr ""
-"Kategorie obsahuje příjmy, které budou odstraněny. Opravdu chcete kategorii "
-"odstranit?"
+"A kategória bevételeket tartalmaz, amik törlődni fognak.\r\n"
+"Biztosan el akarod távolítani a kategóriát?"
 
 #: eqonomize.cpp:5013
 #, kde-format
@@ -1772,84 +1778,84 @@ msgid ""
 "The account contains some transactions that will be removed. Do you still "
 "want to remove the account?"
 msgstr ""
-"Účet obsahuje transakce, které budou odstraněny. Opravdu chcete účet "
-"odstranit?"
+"A számla tranzakciókat tartalmaz, amik törlődni fognak.\r\n"
+"Biztosan el akarod távolítani a számlát?"
 
 #: eqonomize.cpp:5013
 #, kde-format
 msgid "Remove Account?"
-msgstr "Odstranit účet?"
+msgstr "Számla eltávolítása?"
 
 #: eqonomize.cpp:5531 eqonomize.cpp:5555 eqonomize.cpp:5730
 #, kde-format
 msgctxt "%1: budget; %2: remaining budget"
 msgid "%2 of %1"
-msgstr "%2 ze %1"
+msgstr "%2 maradt (terv: %1)"
 
 #: eqonomize.cpp:5810 eqonomize.cpp:5835
 #, kde-format
 msgid "%1 (with no budget)"
-msgstr "%1 (se žádným rozpočtem)"
+msgstr "%1 (költségvetés nélkül)"
 
 #: eqonomize.cpp:5811 eqonomize.cpp:5836
 #, kde-format
 msgid "%1 (with budget %2)"
-msgstr "%1 (s rozpočtem %2)"
+msgstr "%1 (%2 költségvetéssel)"
 
 #: importcsvdialog.cpp:60
 #, kde-format
 msgid "Import CSV file"
-msgstr "Imporovat soubor CSV"
+msgstr "CSV fájl importálása"
 
 #: importcsvdialog.cpp:64
 #, kde-format
 msgid "Transaction Type Selection"
-msgstr "Výběr typu transakce"
+msgstr "Tranzakciótípus kiválasztása"
 
 #: importcsvdialog.cpp:81
 #, kde-format
 msgid "Expenses and incomes (negative cost)"
-msgstr "Výdaje a příjmy (záporná cena)"
+msgstr "Kiadások és bevételek (negatív költség)"
 
 #: importcsvdialog.cpp:84
 #, kde-format
 msgid "Expenses and incomes (separate columns)"
-msgstr "Výdaje a příjmy (oddělené sloupce)"
+msgstr "Kiadások és bevételek (külön oszlopok)"
 
 #: importcsvdialog.cpp:87
 #, kde-format
 msgid "All types"
-msgstr "Všechny typy"
+msgstr "Összes típus"
 
 #: importcsvdialog.cpp:95 qifimportexport.cpp:62
 #, kde-format
 msgid "File Selection"
-msgstr "Výběr souboru"
+msgstr "Fájl kiválasztása"
 
 #: importcsvdialog.cpp:99 qifimportexport.cpp:66 qifimportexport.cpp:548
 #, kde-format
 msgid "File:"
-msgstr "Soubor:"
+msgstr "Fájl:"
 
 #: importcsvdialog.cpp:104
 #, kde-format
 msgid "First data row:"
-msgstr "První řádek údajů:"
+msgstr "Első adatsor"
 
 #: importcsvdialog.cpp:107
 #, kde-format
 msgid "Auto"
-msgstr "Auto"
+msgstr "Automatikus"
 
 #: importcsvdialog.cpp:110
 #, kde-format
 msgid "Column delimiter:"
-msgstr "Oddělovač sloupců:"
+msgstr "oszlop elválasztó:"
 
 #: importcsvdialog.cpp:113
 #, kde-format
 msgid "Comma"
-msgstr "Čárka"
+msgstr "Vessző"
 
 #: importcsvdialog.cpp:114
 #, kde-format
@@ -1859,24 +1865,24 @@ msgstr "Tabulátor"
 #: importcsvdialog.cpp:115
 #, kde-format
 msgid "Semicolon"
-msgstr "Středník"
+msgstr "Pontosvessző"
 
 #: importcsvdialog.cpp:116
 #, kde-format
 msgid "Space"
-msgstr "Mezera"
+msgstr "Space"
 
 #: importcsvdialog.cpp:125
 #, kde-format
 msgid "Columns Specification"
-msgstr "Popis sloupce"
+msgstr "Oszlopok leírása"
 
 #: importcsvdialog.cpp:131 importcsvdialog.cpp:149 importcsvdialog.cpp:172
 #: importcsvdialog.cpp:189 importcsvdialog.cpp:208 importcsvdialog.cpp:227
 #: importcsvdialog.cpp:245
 #, kde-format
 msgid "Column"
-msgstr "Sloupec"
+msgstr "Oszlop"
 
 #: importcsvdialog.cpp:205 importcsvdialog.cpp:356 importcsvdialog.cpp:365
 #: importcsvdialog.cpp:387 importcsvdialog.cpp:398
@@ -1885,19 +1891,19 @@ msgstr "Sloupec"
 #: transactionfilterwidget.cpp:113
 #, kde-format
 msgid "Category:"
-msgstr "Kategorie:"
+msgstr "Kategória:"
 
 #: importcsvdialog.cpp:224 importcsvdialog.cpp:357 importcsvdialog.cpp:374
 #: transactioneditwidget.cpp:248 transactioneditwidget.cpp:273
 #: transactionfilterwidget.cpp:117
 #, kde-format
 msgid "From account:"
-msgstr "Z účtu:"
+msgstr "Erről a számláról:"
 
 #: importcsvdialog.cpp:262
 #, kde-format
 msgid "Create missing categories and accounts"
-msgstr "Vytvořit chybějící kategorie a účty"
+msgstr "Hiányzó kategóriák és számlák készítése"
 
 #: importcsvdialog.cpp:354
 #, kde-format
@@ -1905,31 +1911,33 @@ msgid ""
 "Imports data as expenses. Costs have positive value. Value is the only "
 "required column."
 msgstr ""
-"Importovat údaje jako výdaje. Ceny jsou kladné. Vyžadován pouze sloupec "
-"hodnota."
+"Adatok importálása kiadásként. A költségek pozitív értékek. Az érték az "
+"egyetlen szükséges oszlop."
 
 #: importcsvdialog.cpp:363
 #, kde-format
 msgid "Imports data as incomes. Value is the only required column."
-msgstr "Importovat údaje jako příjmy. Vyžadován pouze sloupec hodnota."
+msgstr ""
+"Adatok importálása bevételként. Az érték az egyetlen szükséges oszlop."
 
 #: importcsvdialog.cpp:366 importcsvdialog.cpp:375
 #: transactioneditwidget.cpp:231 transactioneditwidget.cpp:258
 #: transactionfilterwidget.cpp:106
 #, kde-format
 msgid "To account:"
-msgstr "Na účet:"
+msgstr "Erre a számlára:"
 
 #: importcsvdialog.cpp:372
 #, kde-format
 msgid "Imports data as transfers. Value is the only required column."
-msgstr "Importovat údaje jako převody. Vyžadován pouze sloupec hodnota."
+msgstr ""
+"Adatok importálása átutalásként. Az érték az egyetlen szükséges oszlop."
 
 #: importcsvdialog.cpp:373 transactioneditwidget.cpp:182
 #: transactioneditwidget.cpp:1109
 #, kde-format
 msgid "Amount:"
-msgstr "Množství:"
+msgstr "Összeg:"
 
 #: importcsvdialog.cpp:381
 #, kde-format
@@ -1937,8 +1945,8 @@ msgid ""
 "Imports data as expenses and incomes. Costs have negative value. Value and "
 "category are both required columns."
 msgstr ""
-"Importovat údaje jako výdaje a příjmy. Ceny jsou kladné. Vyžadován sloupec "
-"hodnota i kategorie."
+"Adatok importálása kiadásként és bevételként. A költségek negatív értékek. "
+"Az érték és a kategória egyaránt szükséges oszlop."
 
 #: importcsvdialog.cpp:392
 #, kde-format
@@ -1946,8 +1954,8 @@ msgid ""
 "Imports data as expenses and incomes. Costs and incomes have separate "
 "columns. Income, cost, and category are all required columns."
 msgstr ""
-"Importovat údaje jako výdaje a příjmy. Ceny a příjmy jsou v oddělených "
-"sloupcích. Vyžadovány sloupce příjem, cena a kategorie."
+"Adatok importálása kiadásként és bevételként. A költségek és bevételek külön "
+"oszlopok. A bevétel, a költség és a kategória mind szükséges oszlopok."
 
 #: importcsvdialog.cpp:403
 #, kde-format
@@ -1956,143 +1964,143 @@ msgid ""
 "positive value. Value, to, and from are all required columns. Accounts and "
 "categories must be existing."
 msgstr ""
-"Importovat údaje jako výdaje, příjmy a převody. Ceny jsou kladné nebo "
-"záporné. Vyžadovány sloupce pro a od. Účty a kategorie musí existovat."
+"Adatok importálása kiadásként, bevételként és átutalásként. A költségek "
+"negatív vagy pozitív értékek. Az érték, a forrás és a cél mind szükséges "
+"oszlopok.  A számláknak és kategóriáknak létezniük kell."
 
 #: importcsvdialog.cpp:413 transactioneditwidget.cpp:209
 #: transactionfilterwidget.cpp:74 transactionfilterwidget.cpp:91
 #, kde-format
 msgid "From:"
-msgstr "Od:"
+msgstr "Forrás:"
 
 #: importcsvdialog.cpp:414 transactioneditwidget.cpp:216
 #: transactionfilterwidget.cpp:81 transactionfilterwidget.cpp:95
 #, kde-format
 msgid "To:"
-msgstr "Do:"
+msgstr "Cél:"
 
 #: importcsvdialog.cpp:440 qifimportexport.cpp:258
 #, kde-format
 msgid "A file must be selected."
-msgstr "Vyberte soubor."
+msgstr "Ki kell választani egy fájlt."
 
 #: importcsvdialog.cpp:446 importcsvdialog.cpp:458 qifimportexport.cpp:265
 #: qifimportexport.cpp:595
 #, kde-format
 msgid "Selected file is a directory."
-msgstr "Vybraný soubor je adresář."
+msgstr "Könyvtárt választottál."
 
 #: importcsvdialog.cpp:450 importcsvdialog.cpp:462 qifimportexport.cpp:269
 #, kde-format
 msgid "Selected file does not exist."
-msgstr "Vybraný soubor neexistuje."
+msgstr "A kiválasztott fájl nem létezik."
 
 #: importcsvdialog.cpp:468
 #, kde-format
 msgid "Empty delimiter."
-msgstr "Prázdný oddělovač."
+msgstr "Üres elválasztó."
 
 #: importcsvdialog.cpp:712
 #, kde-format
 msgid "The same column number is selected multiple times."
-msgstr "Stejné číslo sloupce je vybráno vícekrát."
+msgstr "Ugyanaz az oszlopszám többször kiválasztva."
 
 #: importcsvdialog.cpp:772
 #, kde-format
 msgid "Selected from account is the same as the to account."
-msgstr "Vybrané z účtu je stejné jako na účet."
+msgstr "A kiválasztott forrásszámla megegyezik a célszámlával."
 
 #: importcsvdialog.cpp:803 qifimportexport.cpp:288 qifimportexport.cpp:452
 #, kde-format
 msgid "Couldn't open %1 for reading."
-msgstr "Nelze otevřít %1 ke čtení."
+msgstr "%1 nem nyitható meg olvasásra."
 
 #: importcsvdialog.cpp:806 qifimportexport.cpp:291 qifimportexport.cpp:455
 #, kde-format
 msgid "Error reading %1."
-msgstr "Chyba při čtení %1."
+msgstr "Hiba %1 olvasása közben."
 
 #: importcsvdialog.cpp:1187 qifimportexport.cpp:462
 #, kde-format
 msgid "Successfully imported 1 transaction."
 msgid_plural "Successfully imported %n transactions."
-msgstr[0] "Transakce byla úspěšně importována."
-msgstr[1] "%n transakce byly úspěšně importovány."
-msgstr[2] "%n transakcí bylo úspěšně importováno."
+msgstr[0] "1 tranzakciót sikerült importálni."
+msgstr[1] "%n tranzakciót sikerült importálni."
 
 #: importcsvdialog.cpp:1189
 #, kde-format
 msgid "Unable to import any transactions imported."
-msgstr "Nelze importovat."
+msgstr "Nem lehet importálni importált tranzakciókat."
 
 #: importcsvdialog.cpp:1193
 #, kde-format
 msgid "Failed to import 1 data row."
 msgid_plural "Failed to import %n data rows."
-msgstr[0] "Chyba při importu datové řady."
-msgstr[1] "Chyba při importu %n datových řad."
-msgstr[2] "Chyba při importu %n datových řad."
+msgstr[0] "Nem lehetett importálni 1 adatsort."
+msgstr[1] "Nem lehetett importálni %n adatsort."
 
 #: importcsvdialog.cpp:1194
 #, kde-format
 msgid "Required columns missing."
-msgstr "Požadované sloupce chybí."
+msgstr "A szükséges oszlopok hiányoznak."
 
 #: importcsvdialog.cpp:1195
 #, kde-format
 msgid "Invalid value."
-msgstr "Neplatná hodnota."
+msgstr "Érvénytelen érték."
 
 #: importcsvdialog.cpp:1197
 #, kde-format
 msgid "Empty category name."
-msgstr "Prázdný název kategorie."
+msgstr "Üres kategórianév."
 
 #: importcsvdialog.cpp:1197 importcsvdialog.cpp:1198
 #, kde-format
 msgid "Empty account name."
-msgstr "Prázdný název účtu."
+msgstr "Üres számlanév"
 
 #: importcsvdialog.cpp:1199
 #, kde-format
 msgid "Unknown category found."
-msgstr "Nalezena neznámá kategorie."
+msgstr "Ismeretlen kategóriát találtam."
 
 #: importcsvdialog.cpp:1199 importcsvdialog.cpp:1200
 #, kde-format
 msgid "Unknown account found."
-msgstr "Nalezen neznámý účet."
+msgstr "Ismeretlen számlát találtam."
 
 #: importcsvdialog.cpp:1201
 #, kde-format
 msgid "Cannot import security transactions (to/from security accounts)."
 msgstr ""
-"Nelze imporotvat transakci s cennými papíry (z/na účet cenných papírů)."
+"Nem lehet importálni értékpapír-tranzakciókat (cél/forrás "
+"értékpapírszámlákat)."
 
 #: importcsvdialog.cpp:1202
 #, kde-format
 msgid "Balancing account wrongly used."
-msgstr "Bilanční účet použit špatně."
+msgstr "Rosszult használt mérlegszámla."
 
 #: importcsvdialog.cpp:1203
 #, kde-format
 msgid "Same to and from account/category."
-msgstr "Stejné do a z účet/kategorie."
+msgstr "Megegyezik a cél- és a forrásszámla/kategória."
 
 #: importcsvdialog.cpp:1205
 #, kde-format
 msgid "No data found."
-msgstr "Žádná data nenalezena."
+msgstr "Nem találtam adatot."
 
 #: importcsvdialog.cpp:1219 qifimportexport.cpp:345
 #, kde-format
 msgid "Unrecognized date format."
-msgstr "Neznámý formát datumu."
+msgstr "Ismeretlen dátumformátum."
 
 #: importcsvdialog.cpp:1224
 #, kde-format
 msgid "Specify Format"
-msgstr "Upřesněte formát"
+msgstr "Formátum meghatározása"
 
 #: importcsvdialog.cpp:1230
 #, kde-format
@@ -2100,101 +2108,101 @@ msgid ""
 "The format of dates and/or numbers in the CSV file is ambiguous. Please "
 "select the correct format."
 msgstr ""
-"Formát datumů a/nebo čísel v souboru CSV je nejednoznačný. Prosím vyberte "
-"správný formát."
+"A dátumok és/vagy a számok formátuma a CSV fájlban félreérthető. Kérlek, "
+"válaszd ki a helyes formátumot."
 
 #: importcsvdialog.cpp:1235 qifimportexport.cpp:94 qifimportexport.cpp:533
 #, kde-format
 msgid "Date format:"
-msgstr "Formát data:"
+msgstr "Dátumformátum:"
 
 #: importcsvdialog.cpp:1278 qifimportexport.cpp:541
 #, kde-format
 msgid "Value format:"
-msgstr "Formát hodnoty:"
+msgstr "Értékformátum:"
 
 #: kdateedit.cpp:366
 #, kde-format
 msgctxt "the day after today"
 msgid "tomorrow"
-msgstr "zítra"
+msgstr "holnap"
 
 #: kdateedit.cpp:367
 #, kde-format
 msgctxt "this day"
 msgid "today"
-msgstr "dnes"
+msgstr "ma"
 
 #: kdateedit.cpp:368
 #, kde-format
 msgctxt "the day before today"
 msgid "yesterday"
-msgstr "včera"
+msgstr "tegnap"
 
 #: kdatepickerpopup.cpp:94
 #, kde-format
 msgctxt "@option today"
 msgid "&Today"
-msgstr "&Dnes"
+msgstr "&Ma"
 
 #: kdatepickerpopup.cpp:95
 #, kde-format
 msgctxt "@option tomorrow"
 msgid "To&morrow"
-msgstr "Zí&tra"
+msgstr "Ho&lnap"
 
 #: kdatepickerpopup.cpp:96
 #, kde-format
 msgctxt "@option next week"
 msgid "Next &Week"
-msgstr "Další &týden"
+msgstr "Következő &hét"
 
 #: kdatepickerpopup.cpp:97
 #, kde-format
 msgctxt "@option next month"
 msgid "Next M&onth"
-msgstr "Další M&ěsíc"
+msgstr "Következő H&ónap"
 
 #: kdatepickerpopup.cpp:105
 #, kde-format
 msgctxt "@option do not specify a date"
 msgid "No Date"
-msgstr "Žádné datum"
+msgstr "nincs dátum"
 
 #: ledgerdialog.cpp:122
 #, kde-format
 msgid "Export…"
-msgstr "Exportovat…"
+msgstr "Exportálás…"
 
 #: ledgerdialog.cpp:123
 #, kde-format
 msgid "Print…"
-msgstr "Tisk…"
+msgstr "Nyomtatás…"
 
 #: ledgerdialog.cpp:139
 #, kde-format
 msgid "Withdrawal"
-msgstr "Výběr"
+msgstr "Kivét"
 
 #: ledgerdialog.cpp:162
 #, kde-format
 msgid "Join…"
-msgstr "Připojit…"
+msgstr "Belépés…"
 
 #: ledgerdialog.cpp:164
 #, kde-format
 msgid "Split Up"
-msgstr "Rozdělit"
+msgstr "Felosztás"
 
 #: ledgerdialog.cpp:234 ledgerdialog.cpp:354
 #, kde-format
 msgid "Empty transaction list."
-msgstr "Vyprázdnit seznam transakcí."
+msgstr "Üres tranzakciós lista."
 
 #: ledgerdialog.cpp:443 transactionlistwidget.cpp:717
 #, kde-format
 msgid "Are you sure you want to delete all (%1) selected transactions?"
-msgstr "Opravdu chcete smazat všechny (%1) vybrané transakce?"
+msgstr "Biztosan törölni akarsz minden (%1) kiválasztott tranzakciót?"
 
 #: ledgerdialog.cpp:547 transactionlistwidget.cpp:489
 #, kde-format
@@ -2202,25 +2210,27 @@ msgid ""
 "Cannot set the value of security transactions using the dialog for modifying "
 "multiple transactions."
 msgstr ""
-"Nelze zadat hodnotu transakce s cenným papírem použitím dialogu pro změnu "
-"více transakcí."
+"Az értékpapír-tranzakciók értékét  nem lehet beállítani a többszörös "
+"tranzakciók módosítása párbeszédablakban."
 
 #: ledgerdialog.cpp:553 transactionlistwidget.cpp:495
 #, kde-format
 msgid "Cannot change description of dividends and security transactions."
-msgstr "Nelze změnit popis dividend a transakcí s cennými papíry."
+msgstr ""
+"Az értékpapír-tranzakciók és az osztalékok fajtája nem változtatható meg."
 
 #: ledgerdialog.cpp:559 transactionlistwidget.cpp:501
 #, kde-format
 msgid "Cannot change payer of dividends and security transactions."
-msgstr "Nelze změnit plátce dividend a transakce s cennými papíry."
+msgstr ""
+"Az osztalékok és értékpapír-tranzakciók kifizetője nem változtatható meg."
 
 #: ledgerdialog.cpp:565 transactionlistwidget.cpp:507
 #, kde-format
 msgid ""
 "Cannot change date of transactions that are part of a split transaction."
 msgstr ""
-"Nelze změnit datum transakcí, které jsou součástí rozdělené transakce."
+"Osztott tranzakcióban szereplő tranzakciók dátuma nem változtatható meg."
 
 #: main.cpp:39
 msgid "Eqonomize!"
@@ -2228,34 +2238,34 @@ msgstr "Eqonomize!"
 
 #: main.cpp:39
 msgid "A personal accounting program"
-msgstr "Osobní účetní program"
+msgstr "Személyi könyvelőprogram"
 
 #: main.cpp:44
 msgid "Start with expenses list displayed"
-msgstr "Začněte se zobrazeným seznamem výdajů"
+msgstr "Indítás a kiadások listájával"
 
 #: main.cpp:46
 msgid "Start with incomes list displayed"
-msgstr "Začněte se zobrazeným seznamem příjmů"
+msgstr "Indítás a bevételek listájával"
 
 #: main.cpp:48
 msgid "Start with transfers list displayed"
-msgstr "Začněte se zobrazeným seznamem převodů"
+msgstr "Indítás az átutalások listájával"
 
 #: main.cpp:49
 msgid "Document to open"
-msgstr "Dokument k otevření"
+msgstr "Megnyitandó dokumentum"
 
 #: overtimechart.cpp:124 overtimechart.cpp.bak:117
 #, kde-format
 msgid "Incomes and Expenses"
-msgstr "Příjmy a výdaje"
+msgstr "Bevételek és kiadások"
 
 #: overtimechart.cpp:125 overtimechart.cpp:1722 overtimechart.cpp.bak:118
 #: overtimechart.cpp.bak:1703 overtimereport.cpp:102 overtimereport.cpp:343
 #, kde-format
 msgid "Profits"
-msgstr "Zisky"
+msgstr "Nyereségek"
 
 #: overtimechart.cpp:132 overtimechart.cpp:411 overtimechart.cpp:1949
 #: overtimechart.cpp.bak:125 overtimechart.cpp.bak:404
@@ -2263,7 +2273,7 @@ msgstr "Zisky"
 #: overtimereport.cpp:753
 #, kde-format
 msgid "All Categories Combined"
-msgstr "Všechny kategorie kombinované"
+msgstr "Összes kategória együtt"
 
 #: overtimechart.cpp:138 overtimechart.cpp:296 overtimechart.cpp:400
 #: overtimechart.cpp:1852 overtimechart.cpp:1973 overtimechart.cpp.bak:131
@@ -2273,103 +2283,103 @@ msgstr "Všechny kategorie kombinované"
 #: overtimereport.cpp:710 overtimereport.cpp:776
 #, kde-format
 msgid "All Descriptions Combined"
-msgstr "Všechny popisy kombinované"
+msgstr "Összes típus együtt"
 
 #: overtimechart.cpp:146 overtimechart.cpp:406 overtimechart.cpp.bak:139
 #: overtimechart.cpp.bak:399
 #, kde-format
 msgid "All Payees/Payers Combined"
-msgstr "Všichni plátci/příjemci kombinovaní"
+msgstr "Összes kedvezményezett/kifizető együtt"
 
 #: overtimechart.cpp:155 overtimechart.cpp.bak:148
 #, kde-format
 msgid "Start date:"
-msgstr "Datum zahájení:"
+msgstr "Kezdődátum:"
 
 #: overtimechart.cpp:178 overtimechart.cpp.bak:171
 #, kde-format
 msgid "End date:"
-msgstr "Datum ukončení:"
+msgstr "Záródátum:"
 
 #: overtimechart.cpp:197 overtimechart.cpp.bak:190
 #, kde-format
 msgid "Monthly total"
-msgstr "Celkem měsíčne"
+msgstr "Havonta összesen"
 
 #: overtimechart.cpp:201 overtimechart.cpp.bak:194
 #, kde-format
 msgid "Daily average"
-msgstr "Denní průměr"
+msgstr "Napi átlag"
 
 #: overtimechart.cpp:304 overtimechart.cpp:404 overtimechart.cpp:1855
 #: overtimechart.cpp:1978 overtimechart.cpp.bak:297 overtimechart.cpp.bak:397
 #: overtimechart.cpp.bak:1856 overtimechart.cpp.bak:1979
 #, kde-format
 msgid "All Payers Combined"
-msgstr "Všichni plátce kombinovaní"
+msgstr "Összes kifizető együtt"
 
 #: overtimechart.cpp:305 overtimechart.cpp:405 overtimechart.cpp:1856
 #: overtimechart.cpp:1977 overtimechart.cpp.bak:298 overtimechart.cpp.bak:398
 #: overtimechart.cpp.bak:1857 overtimechart.cpp.bak:1978
 #, kde-format
 msgid "All Payees Combined"
-msgstr "Všichni příjemci kombinovaní"
+msgstr "Összes kedvezményezett együtt"
 
 #: overtimechart.cpp:325 overtimechart.cpp:1853 overtimechart.cpp.bak:318
 #: overtimechart.cpp.bak:1854
 #, kde-format
 msgid "All Descriptions Split"
-msgstr "Rozdělení všech popisů"
+msgstr "Összes típus külön"
 
 #: overtimechart.cpp:328 overtimechart.cpp:1857 overtimechart.cpp.bak:321
 #: overtimechart.cpp.bak:1858
 #, kde-format
 msgid "All Payers Split"
-msgstr "Rozdělení všech plátců"
+msgstr "Összes kifizető külön"
 
 #: overtimechart.cpp:329 overtimechart.cpp:1858 overtimechart.cpp.bak:322
 #: overtimechart.cpp.bak:1859
 #, kde-format
 msgid "All Payees Split"
-msgstr "Rozdělení všech příjemců"
+msgstr "Összes kedvezményezett külön"
 
 #: overtimechart.cpp:413 overtimechart.cpp:423 overtimechart.cpp:1950
 #: overtimechart.cpp.bak:406 overtimechart.cpp.bak:416
 #: overtimechart.cpp.bak:1951
 #, kde-format
 msgid "All Categories Split"
-msgstr "Rozdělení všech kategorií"
+msgstr "Összes kategória külön"
 
 #: overtimechart.cpp:1535 overtimechart.cpp.bak:1516
 #, kde-format
 msgid "Value (%1)"
-msgstr "Hodnota (%1)"
+msgstr "Érték (%1)"
 
 #: overtimechart.cpp:1536 overtimechart.cpp.bak:1517
 #, kde-format
 msgid "Profit (%1)"
-msgstr "Zisk (%1)"
+msgstr "Nyereség (%1)"
 
 #: overtimechart.cpp:1537 overtimechart.cpp.bak:1518
 #, kde-format
 msgid "Income (%1)"
-msgstr "Příjem (%1)"
+msgstr "Bevétel (%1)"
 
 #: overtimechart.cpp:1538 overtimechart.cpp.bak:1519
 #, kde-format
 msgid "Cost (%1)"
-msgstr "Cena (%1)"
+msgstr "Költség (%1)"
 
 #: overtimechart.cpp:1579 overtimechart.cpp.bak:1560
 #, kde-format
 msgid "Time"
-msgstr "Čas"
+msgstr "Idő"
 
 #: overtimechart.cpp:1774 overtimechart.cpp:1775 overtimechart.cpp.bak:1755
 #: overtimechart.cpp.bak:1756
 #, kde-format
 msgid "no payer"
-msgstr "Žádný plátce"
+msgstr "nincs kifizető"
 
 #: overtimechart.cpp:1778 overtimechart.cpp.bak:1759
 #, kde-format
@@ -2381,7 +2391,7 @@ msgstr "%1/%2"
 #: overtimechart.cpp.bak:1765
 #, kde-format
 msgid "no payee"
-msgstr "Žádný příjemce"
+msgstr "nincs kedvezményezett"
 
 #: overtimechart.cpp:1787 overtimechart.cpp.bak:1768
 #, kde-format
@@ -2392,53 +2402,53 @@ msgstr "%1/%2"
 #: overtimechart.cpp.bak:649
 #, kde-format
 msgid "Error after saving file; data may not have been saved."
-msgstr "Chyba po uložení souboru; údaje možná nebyly uloženy."
+msgstr "Hiba a fájl mentése után; lehet, hogy az adat nincs mentve."
 
 #: overtimereport.cpp:344
 #, kde-format
 msgid "Average Profit"
-msgstr "Průměrný zisk"
+msgstr "Átlagnyereség"
 
 #: overtimereport.cpp:537
 #, kde-format
 msgid "Year"
-msgstr "Rok"
+msgstr "Év"
 
 #: overtimereport.cpp:538
 #, kde-format
 msgid "Month"
-msgstr "Měsíc"
+msgstr "Hónap"
 
 #: overtimereport.cpp:566
 #, kde-format
 msgid "Includes scheduled transactions"
-msgstr "Včetně plánovaných transakcí"
+msgstr "Ütemezett tranzakciókat tartalmaz"
 
 #: overtimereport.cpp:570
 #, kde-format
 msgid "Adjusted for the average month / year (%1 / %2 days)"
-msgstr "Nastaveno na průměrný měsíc / rok (%1 / %2 dnů)"
+msgstr "Beállítva átlag hónapra / évre (%1 / %2 nap)"
 
 #: overtimereport.cpp:603 overtimereport.cpp:671
 #, kde-format
 msgid "Subtotal"
-msgstr "Mezisoučet"
+msgstr "Részösszeg"
 
 #: qifimport.cpp:307 qifimport.cpp:367 qifimportexport.cpp:1259
 #: qifimportexport.cpp:1350 qifimportexport.cpp:1470
 #, kde-format
 msgid "Unnamed"
-msgstr "Bez názvu"
+msgstr "Névtelen"
 
 #: qifimport.cpp:337 qifimportexport.cpp:1299 qifimportexport.cpp:1413
 #, kde-format
 msgid "Uncategorized"
-msgstr "Neroztříděno"
+msgstr "Kategorizálatlan"
 
 #: qifimportexport.cpp:56
 #, kde-format
 msgid "Import QIF file"
-msgstr "Importovat soubor QIF"
+msgstr "QIF fájl importálása"
 
 #: qifimportexport.cpp:63
 #, kde-format
@@ -2446,13 +2456,13 @@ msgid ""
 "Select a QIF file to import. When you click next, the file be analysed and "
 "you might need to answer some questions about the format of the file."
 msgstr ""
-"Vyberte soubor QIF. Po kliknutí na další, bude soubor analyzován a "
-"pravděpodobně budete muset odpovědět na otázky týkající se formátu souboru."
+"Válassz ki egy QIF fájlt importáláshoz. Kattintáskor a fájl elemzése után "
+"lehet, hogy válaszolnod kell néhány kérdésre a fájl formátumáról."
 
 #: qifimportexport.cpp:73
 #, kde-format
 msgid "Local Definitions"
-msgstr "Místní definice"
+msgstr "Helyi definíciók"
 
 #: qifimportexport.cpp:74
 #, kde-format
@@ -2461,41 +2471,40 @@ msgid ""
 "because of localized type names. Please map them to the correct standard "
 "names."
 msgstr ""
-"Byly nalezeny neznámé prvky v souboru QIF. Možná je to způsobeno místními "
-"názvy. Prosím opravte je na běžné názvy."
+"Ismeretlen elem található a QIF fájlban. Lehet, hogy ez a korlátozott "
+"típusnevek miatt van. Térképezd fel ezeket a helyes standard nevekhez."
 
 #: qifimportexport.cpp:80
 #, kde-format
 msgid "Local Text"
-msgstr "Místní text"
+msgstr "Helyi szöveg"
 
 #: qifimportexport.cpp:81
 #, kde-format
 msgid "Standard Text"
-msgstr "Běžný text"
+msgstr "Standard szöveg"
 
 #: qifimportexport.cpp:84
 #, kde-format
 msgid "Select standard text:"
-msgstr "Vyberte běžný název:"
+msgstr "Standard szöveg kiválasztása"
 
 #: qifimportexport.cpp:90
 #, kde-format
 msgid "Date Format"
-msgstr "Formát datumu"
+msgstr "Dátumformátum"
 
 #: qifimportexport.cpp:91
 #, kde-format
 msgid ""
 "The date format in the QIF file is ambiguous. Please select the correct "
 "format."
-msgstr ""
-"Formát datumu v souboru QIF není správný. Prosím vyberte správný formát."
+msgstr "A QIF fájl dátumformátuma félreérthető. Válaszd a helyes formátumot."
 
 #: qifimportexport.cpp:100
 #, kde-format
 msgid "Default Account"
-msgstr "Výchozí účet"
+msgstr "Alapértelmezett számla"
 
 #: qifimportexport.cpp:101
 #, kde-format
@@ -2504,23 +2513,23 @@ msgid ""
 "default account. It is also possible that this is caused by a localized "
 "opening balance text."
 msgstr ""
-"V souboru QIF nelze najít žádný účet. Prosím vyberte výchozí účet. Problém "
-"může také spočívat v lokalizaci textu otevírané bilance."
+"Nem található számladefiníció a QIF fájlban. Válassz egy alapértelmezett "
+"számlát."
 
 #: qifimportexport.cpp:104
 #, kde-format
 msgid "Default account:"
-msgstr "Výchozí účet:"
+msgstr "Alapértelmezett számla:"
 
 #: qifimportexport.cpp:115
 #, kde-format
 msgid "Opening balance text:"
-msgstr "Text otevírané bilance:"
+msgstr "Nyitóegyenleg szöveg:"
 
 #: qifimportexport.cpp:121
 #, kde-format
 msgid "Descriptions"
-msgstr "Popisy"
+msgstr "Típusok"
 
 #: qifimportexport.cpp:122
 #, kde-format
@@ -2529,297 +2538,305 @@ msgid ""
 "You are therefore given the option to choose how the description of imported "
 "transactions will be set."
 msgstr ""
-"Popis transakcí v souboru QIF nemá typické vlastnosti. Proto máte možnost "
-"vybrat, jak bude popis importovaných transakcí nastaven."
+"A QIF fájlban lévő tranzakcióknak nincs specifikus tulajdonsága. Ezért "
+"beállíthatod az importált tranzakciók típusát."
 
 #: qifimportexport.cpp:125
 #, kde-format
 msgid "Subcategories as:"
-msgstr "Podkategorie jako:"
+msgstr "Alkategóriák mint:"
 
 #: qifimportexport.cpp:134
 #, kde-format
 msgid "Ignore"
-msgstr "Ignorovat"
+msgstr "Mellőzés"
 
 #: qifimportexport.cpp:137
 #, kde-format
 msgid "Payee as:"
-msgstr "Příjemce jako:"
+msgstr "Kedvezményezett mint:"
 
 #: qifimportexport.cpp:142 qifimportexport.cpp:520
 #: transactionlistwidget.cpp:119
 #, kde-format
 msgid "Payee"
-msgstr "Příjemce"
+msgstr "Kedvezményezett"
 
 #: qifimportexport.cpp:147
 #, kde-format
 msgid "Memo as:"
-msgstr "Poznámka jako:"
+msgstr "Emlékeztető mint:"
 
 #: qifimportexport.cpp:156
 #, kde-format
 msgid "Priority:"
-msgstr "Priorita:"
+msgstr "Prioritás:"
 
 #: qifimportexport.cpp:159
 #, kde-format
 msgid "Subcategory/Payee/Comments"
-msgstr "Podkategorie/Příjemce/Komentáře"
+msgstr "Alkategória/Kedvezményezett/Megjegyzések"
 
 #: qifimportexport.cpp:160
 #, kde-format
 msgid "Payee/Subcategory/Comments"
-msgstr "Příjemce/Podkategorie/Komentáře"
+msgstr "Kedvezményezett/Alkategória/Megjegyzések"
 
 #: qifimportexport.cpp:161
 #, kde-format
 msgid "Subcategory/Comments/Payee"
-msgstr "Podkategorie/Komentáře/Příjemce"
+msgstr "Alkategória/Megjegyzések/Kedvezményezett"
 
 #: qifimportexport.cpp:162
 #, kde-format
 msgid "Payee/Comments/Subcategory"
-msgstr "Příjemce/Komentáře/Podkategorie"
+msgstr "Kedvezményezett/Megjegyzések/Alkategória"
 
 #: qifimportexport.cpp:163
 #, kde-format
 msgid "Comments/Subcategory/Payee"
-msgstr "Komentáře/Podkategorie/Příjemce"
+msgstr "Megjegyzések/Alkategória/Kedvezményezett"
 
 #: qifimportexport.cpp:164
 #, kde-format
 msgid "Comments/Payee/Subcategory"
-msgstr "Komentáře/Příjemce/Podkategorie"
+msgstr "Megjegyzések/Kedvezményezett/Alkategória"
 
 #: qifimportexport.cpp:314 qifimportexport.cpp:322 qifimportexport.cpp:338
 #, kde-format
 msgid "Unknown"
-msgstr "Neznámý"
+msgstr "Ismeretlen"
 
 #: qifimportexport.cpp:324
 #, kde-format
 msgid "Bank"
-msgstr "Banka"
+msgstr "Bank"
 
 #: qifimportexport.cpp:326
 #, kde-format
 msgid "Cat (Category)"
-msgstr "Kat (Kategorie)"
+msgstr "Kat. (Kategória)"
 
 #: qifimportexport.cpp:327
 #, kde-format
 msgid "CCard (Credit Card)"
-msgstr "PKarta (Platební karta)"
+msgstr "H.kártya (Hitelkártya)"
 
 #: qifimportexport.cpp:328
 #, kde-format
 msgid "Invst (Investment)"
-msgstr "Invst (Investice)"
+msgstr "Befekt. (Befektetés)"
 
 #: qifimportexport.cpp:329
 #, kde-format
 msgid "Oth A (Other Assets)"
-msgstr "Ost A (Ostatní aktiva)"
+msgstr "Egyéb vagyon"
 
 #: qifimportexport.cpp:330
 #, kde-format
 msgid "Oth L (Other Liabilities)"
-msgstr "Ost P (Ostatní pasiva)"
+msgstr "Egyéb köt. (Egyéb kötelezettségek)"
 
 #: qifimportexport.cpp:331
 #, kde-format
 msgid "Security"
-msgstr "Akcie"
+msgstr "Értékpapír"
 
 #: qifimportexport.cpp:465
 #, kde-format
 msgid "Successfully imported 1 account."
 msgid_plural "Successfully imported %n accounts."
-msgstr[0] "Účet úspěšně importován."
-msgstr[1] "%n účty úspěšně importovány."
-msgstr[2] "%n účtů úspěšně importováno."
+msgstr[0] "1 számla sikeresen importálva."
+msgstr[1] "%n számla sikeresen importálva."
 
 #: qifimportexport.cpp:469
 #, kde-format
 msgid "Successfully imported 1 category."
 msgid_plural "Successfully imported %n categories."
-msgstr[0] "Kategorie byla úspěšně importována."
-msgstr[1] "%n kategorií bylo úspěšně importováno."
-msgstr[2] "%n kategorií bylo úspěšně importováno."
+msgstr[0] "1 kategória sikeresen importálva."
+msgstr[1] "%n kategória sikeresen importálva."
 
 #: qifimportexport.cpp:473
 #, kde-format
 msgid "1 duplicate transaction was ignored."
 msgid_plural "%n duplicate transactions was ignored."
-msgstr[0] "kopie transakce byla ignorována."
-msgstr[1] "%n kopie transakcí bylo ignorováno.."
-msgstr[2] "%n kopií transakcí bylo ignorováno."
+msgstr[0] "1 megismételt tranzakció mellőzve."
+msgstr[1] "%n megismételt tranzakció mellőzve."
 
 #: qifimportexport.cpp:477
 #, kde-format
 msgid "Failed to import 1 transaction."
 msgid_plural "Failed to import %n transactions."
-msgstr[0] "Chyba při importování transakce."
-msgstr[1] "Chyba při importu %n transakcí."
-msgstr[2] "Chyba při importu %n transakcí."
+msgstr[0] "1 tranzakció sikertelen importálása."
+msgstr[1] "%n tranzakció sikertelen importálása."
+
+#: qifimportexport.cpp:481
+#, kde-format
+msgid "1 security was not imported."
+msgid_plural "%n securities were not imported."
+msgstr[0] "1 értékpapír nem lett importálva."
+msgstr[1] "%n értékpapír nem lett importálva."
+
+#: qifimportexport.cpp:485
+#, kde-format
+msgid "1 security transaction was not imported."
+msgid_plural "%n security transactions were not imported."
+msgstr[0] "1 értékpapír-tranzakció nem lett importálva."
+msgstr[1] "%n értékpapír-tranzakció nem lett importálva."
 
 #: qifimportexport.cpp:494
 #, kde-format
 msgid "Export QIF File"
-msgstr "Exportovat soubor QIF"
+msgstr "QIF fájl exportálása"
 
 #: qifimportexport.cpp:506
 #, kde-format
 msgctxt "All accounts"
 msgid "All"
-msgstr "Vše"
+msgstr "Összes"
 
 #: qifimportexport.cpp:517
 #, kde-format
 msgid "Export transaction description as:"
-msgstr "Exportovat popis transakce jako:"
+msgstr "Alábbi tranzakció-típusok exportálása:"
 
 #: qifimportexport.cpp:524
 #, kde-format
 msgid "Memo"
-msgstr "Poznámka"
+msgstr "Emlékeztető"
 
 #: qifimportexport.cpp:528
 #, kde-format
 msgid "Subcategory"
-msgstr "Podkategorie"
+msgstr "Alkategória"
 
 #. i18n: tag text
 #. i18n: file ./eqonomizeui.rc line 5
 #: rc.cpp:3
 #, kde-format
 msgid "&Import"
-msgstr "&Importovat"
+msgstr "&Importálás"
 
 #. i18n: tag text
 #. i18n: file ./eqonomizeui.rc line 12
 #: rc.cpp:6
 #, kde-format
 msgid "&Accounts"
-msgstr "&Účty"
+msgstr "&Számlák"
 
 #. i18n: tag text
 #. i18n: file ./eqonomizeui.rc line 24
 #: rc.cpp:9
 #, kde-format
 msgid "&Transactions"
-msgstr "&Transakce"
+msgstr "&Tranzakciók"
 
 #. i18n: tag text
 #. i18n: file ./eqonomizeui.rc line 41
 #: rc.cpp:12
 #, kde-format
 msgid "&Securities"
-msgstr "&Cenné papíry"
+msgstr "&Értékpapírok"
 
 #. i18n: tag text
 #. i18n: file ./eqonomizeui.rc line 56
 #: rc.cpp:15
 #, kde-format
 msgid "Stat&istics"
-msgstr "Stat&istiky"
+msgstr "Stat&isztikák"
 
 #: rc.cpp:16
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
-",Launchpad Contributions:,Jan Štemberk, ,Launchpad Contributions:,Jan "
-"Štemberk,Kabi"
+msgstr " ,Launchpad Contributions:,Gergely Szarka,Nandor Novak"
 
 #: rc.cpp:17
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ",,stemberkj@seznam.cz,,,stemberkj@seznam.cz,"
+msgstr ",,szarka.honved@gmail.com,nannov@gmail.com"
 
 #: recurrenceeditwidget.cpp:69
 #, kde-format
 msgid "Edit Exceptions"
-msgstr "Upravit výjimky"
+msgstr "Kivételek szerkesztése"
 
 #: recurrenceeditwidget.cpp:186
 #, kde-format
 msgid "Edit Recurrence Range"
-msgstr "Upravit rozsah opakování"
+msgstr "Ismétlődési tartomány szerkesztése"
 
 #: recurrenceeditwidget.cpp:194 recurrenceeditwidget.cpp:229
 #, kde-format
 msgid "Begins on: %1"
-msgstr "Začíná: %1"
+msgstr "Kezdés: %1"
 
 #: recurrenceeditwidget.cpp:199
 #, kde-format
 msgid "No ending date"
-msgstr "Chybí datum ukončení"
+msgstr "Nincs záródátum"
 
 #: recurrenceeditwidget.cpp:203
 #, kde-format
 msgid "End after"
-msgstr "Ukončit po"
+msgstr "Zárás"
 
 #: recurrenceeditwidget.cpp:209
 #, kde-format
 msgid "occurrence(s)"
-msgstr "výskyt(y)"
+msgstr "előfordulás után"
 
 #: recurrenceeditwidget.cpp:211
 #, kde-format
 msgid "End on"
-msgstr "Ukončit"
+msgstr "Záródátum"
 
 #: recurrenceeditwidget.cpp:298
 #, kde-format
 msgid "End date before start date."
-msgstr "Datum ukončení předchází datumu zahájení."
+msgstr "A záródátum a kezdődátum előtt van."
 
 #: recurrenceeditwidget.cpp:312
 #, kde-format
 msgid "Enable recurrance"
-msgstr "Zapnout opakování"
+msgstr "Ismétlés megengedése"
 
 #: recurrenceeditwidget.cpp:315
 #, kde-format
 msgid "Recurrence Rule"
-msgstr "Pravidlo opakování"
+msgstr "Ismétlési szabály"
 
 #: recurrenceeditwidget.cpp:321
 #, kde-format
 msgid "Weekly"
-msgstr "Týdně"
+msgstr "Hetente"
 
 #: recurrenceeditwidget.cpp:341 recurrenceeditwidget.cpp:352
 #: recurrenceeditwidget.cpp:376 recurrenceeditwidget.cpp:462
 #, kde-format
 msgid "Recur every"
-msgstr "Opakovat každých"
+msgstr "Ismétlődik minden"
 
 #: recurrenceeditwidget.cpp:345
 #, kde-format
 msgid "day(s)"
-msgstr "den (dní)"
+msgstr ". napon"
 
 #: recurrenceeditwidget.cpp:356
 #, kde-format
 msgid "week(s) on:"
-msgstr "týden v:"
+msgstr ". héten:"
 
 #: recurrenceeditwidget.cpp:380
 #, kde-format
 msgid "month(s), after the start month"
-msgstr "měsíc(e) po zahajovacím měsíci"
+msgstr ". hónapban, a kezdőhónap után"
 
 #: recurrenceeditwidget.cpp:385 recurrenceeditwidget.cpp:437
 #, kde-format
 msgid "Recur on the"
-msgstr "Opakovat v"
+msgstr "Ismétlődik minden"
 
 #: recurrenceeditwidget.cpp:391 recurrenceeditwidget.cpp:442
 #: recurrenceeditwidget.cpp:494
@@ -2985,298 +3002,299 @@ msgstr "31."
 #: recurrenceeditwidget.cpp:499
 #, kde-format
 msgid "Last"
-msgstr "Poslední"
+msgstr "Utolsó"
 
 #: recurrenceeditwidget.cpp:423 recurrenceeditwidget.cpp:448
 #: recurrenceeditwidget.cpp:500
 #, kde-format
 msgid "2nd Last"
-msgstr "2. poslední"
+msgstr "Utolsó előtti"
 
 #: recurrenceeditwidget.cpp:424 recurrenceeditwidget.cpp:449
 #: recurrenceeditwidget.cpp:501
 #, kde-format
 msgid "3rd Last"
-msgstr "3. poslední"
+msgstr "Hátulról 3."
 
 #: recurrenceeditwidget.cpp:425 recurrenceeditwidget.cpp:450
 #: recurrenceeditwidget.cpp:502
 #, kde-format
 msgid "4th Last"
-msgstr "4. poslední"
+msgstr "Hátulról 4."
 
 #: recurrenceeditwidget.cpp:426 recurrenceeditwidget.cpp:451
 #: recurrenceeditwidget.cpp:503
 #, kde-format
 msgid "5th Last"
-msgstr "5. poslední"
+msgstr "Hátulról 5."
 
 #: recurrenceeditwidget.cpp:429
 #, kde-format
 msgid "day"
-msgstr "den"
+msgstr "nap"
 
 #: recurrenceeditwidget.cpp:431 recurrenceeditwidget.cpp:483
 #: recurrenceeditwidget.cpp:521
 #, kde-format
 msgid "possibly on weekend"
-msgstr "pravděpodobně o víkendu"
+msgstr "Esetleg hétvégén"
 
 #: recurrenceeditwidget.cpp:432 recurrenceeditwidget.cpp:484
 #: recurrenceeditwidget.cpp:522
 #, kde-format
 msgid "but before weekend"
-msgstr "ale před víkendem"
+msgstr "de hétvége előtt"
 
 #: recurrenceeditwidget.cpp:433 recurrenceeditwidget.cpp:485
 #: recurrenceeditwidget.cpp:523
 #, kde-format
 msgid "but after weekend"
-msgstr "ale po víkendu"
+msgstr "de hétvége után"
 
 #: recurrenceeditwidget.cpp:466
 #, kde-format
 msgid "year(s), after the start year"
-msgstr "rok(ů) po zahajovacím roce"
+msgstr ". évben, a kezdőév után"
 
 #: recurrenceeditwidget.cpp:471
 #, kde-format
 msgctxt "part before XXX of 'Recur on day XXX of month YYY'"
 msgid "Recur on day"
-msgstr "Opakovat dne"
+msgstr "Ismétlés e napon:"
 
 #: recurrenceeditwidget.cpp:479
 #, kde-format
 msgctxt "part between XXX and YYY of 'Recur on day XXX of month YYY'"
 msgid "of"
-msgstr "z"
+msgstr "e hónapban:"
 
 #: recurrenceeditwidget.cpp:489
 #, kde-format
 msgctxt "Part before NNN in 'Recur on the NNN. WEEKDAY of MONTH'"
 msgid "On the"
-msgstr "v"
+msgstr "e napon:"
 
 #: recurrenceeditwidget.cpp:507
 #, kde-format
 msgctxt "part between WEEKDAY and MONTH in 'Recur on NNN. WEEKDAY of MONTH'"
 msgid "of"
-msgstr "z"
+msgstr "e hónapban:"
 
 #: recurrenceeditwidget.cpp:512
 #, kde-format
 msgid "Recur on day #"
-msgstr "Opakovat dne #"
+msgstr "Ismétlés e napon:"
 
 #: recurrenceeditwidget.cpp:519
 #, kde-format
 msgctxt "part after NNN of 'Recur on day #NNN of the year'"
 msgid " of the year"
-msgstr " roku"
+msgstr " . napján az évnek"
 
 #: recurrenceeditwidget.cpp:533
 #, kde-format
 msgid "Range…"
-msgstr "Rozsah…"
+msgstr "Terjedelem…"
 
 #: recurrenceeditwidget.cpp:535
 #, kde-format
 msgid "Exceptions…"
-msgstr "Výjimky…"
+msgstr "Kivételek…"
 
 #: recurrenceeditwidget.cpp:731
 #, kde-format
 msgid "No day of week selected for weekly recurrence."
-msgstr "Není vybrán den pro týdenní opakovaní."
+msgstr "A hét egy napját sem választottad ki heti ismétlődéshez."
 
 #: recurrenceeditwidget.cpp:745 recurrenceeditwidget.cpp:774
 #: recurrenceeditwidget.cpp:791
 #, kde-format
 msgid "Selected day will never occur with selected frequency and start date."
 msgstr ""
-"Vybraný den se nikdy nevyskytne s vybranou frekvencí a datumem zahájení."
+"A kiválasztott nap soha nem következik be a választott gyakorisággal és "
+"kezdődátummal."
 
 #: recurrenceeditwidget.cpp:761
 #, kde-format
 msgid "Selected day does not exist in selected month."
-msgstr "Vybraný den není součástí tohoto měsíce"
+msgstr "A kiválasztott nap nem létezik a választott hónapban."
 
 #: transaction.cpp:155 transaction.cpp:186
 #, kde-format
 msgid "Dividend: %1"
-msgstr "Dividenda: %1"
+msgstr "Osztalék: %1"
 
 #: transaction.cpp:253 transaction.cpp:256 transaction.cpp:284
 #, kde-format
 msgid "Account balancing"
-msgstr "Zůstatek účtu"
+msgstr "Számlaegyenleg"
 
 #: transaction.cpp:337 transaction.cpp:352
 #, kde-format
 msgid "Security: %1 (bought)"
-msgstr "Akcie: %1 (nakoupená)"
+msgstr "Értékpapír: %1 (vétel)"
 
 #: transaction.cpp:375 transaction.cpp:390
 #, kde-format
 msgid "Security: %1 (sold)"
-msgstr "Akcie: %1 (prodaná)"
+msgstr "Értékpapír: %1 (eladás)"
 
 #: transactioneditwidget.cpp:125
 #, kde-format
 msgid "Shares bought:"
-msgstr "Nakoupené cenné papíry:"
+msgstr "Vett részvények:"
 
 #: transactioneditwidget.cpp:130
 #, kde-format
 msgid "Shares sold:"
-msgstr "Prodané cenné papíry:"
+msgstr "Eladott részvények:"
 
 #: transactioneditwidget.cpp:238 transactioneditwidget.cpp:1144
 #: transactionfilterwidget.cpp:140
 #, kde-format
 msgid "Payer:"
-msgstr "Plátce:"
+msgstr "Kifizető:"
 
 #: transactioneditwidget.cpp:280 transactioneditwidget.cpp:1145
 #: transactionfilterwidget.cpp:141
 #, kde-format
 msgid "Payee:"
-msgstr "Příjemce:"
+msgstr "Kedvezményezett:"
 
 #: transactioneditwidget.cpp:664 transactioneditwidget.cpp:1262
 #, kde-format
 msgid "No income category available."
-msgstr "Žádná kategorie příjmů není k dispozici."
+msgstr "Nincs rendelkezésre álló bevételi kategória."
 
 #: transactioneditwidget.cpp:689 transactioneditwidget.cpp:1270
 #, kde-format
 msgid "No expense category available."
-msgstr "Žádná kategorie výdajů není k dispozici."
+msgstr "Nincs rendelkezésre álló kiadási kategória."
 
 #: transactioneditwidget.cpp:720
 #, kde-format
 msgid "Cannot create a regular transfer to/from a securities account."
-msgstr "Nelze uskutečnit pravidelný převod na/z účtu cenných papírů."
+msgstr "Nem hozható létre állandó átutalás értékpapírszámlára/-ról."
 
 #: transactioneditwidget.cpp:727
 #, kde-format
 msgid "Cannot create a regular income to a securities account."
-msgstr "Nelze uskutečnit pravidelný příjem na účet cenných papírů."
+msgstr "Nem hozható létre állandó bevétel értékpapírszámlára."
 
 #: transactioneditwidget.cpp:743
 #, kde-format
 msgid "Zero price per share not allowed."
-msgstr "Nulová cena není povolena"
+msgstr "Nulla részvényenkénti ár nem megengedett."
 
 #: transactioneditwidget.cpp:755
 #, kde-format
 msgid "Cannot create a regular expense from a securities account."
-msgstr "Nelze uskutečnit pravidelný výdaj z účtu cenných papírů."
+msgstr "Nem hozható létre állandó kiadás értékpapírszámláról."
 
 #: transactioneditwidget.cpp:1086
 #, kde-format
 msgid "Modify Transactions"
-msgstr "Změnit transakce"
+msgstr "Módosított tranzakciók"
 
 #: transactionfilterwidget.cpp:99
 #, kde-format
 msgid "Min amount:"
-msgstr "Min množství:"
+msgstr "Min. összeg:"
 
 #: transactionfilterwidget.cpp:100
 #, kde-format
 msgid "Max amount:"
-msgstr "Max množství:"
+msgstr "Max. összeg:"
 
 #: transactionfilterwidget.cpp:110
 #, kde-format
 msgid "Min income:"
-msgstr "Min příjem:"
+msgstr "Min. bevétel:"
 
 #: transactionfilterwidget.cpp:111
 #, kde-format
 msgid "Max income:"
-msgstr "Max příjem:"
+msgstr "Max. bevétel:"
 
 #: transactionfilterwidget.cpp:121
 #, kde-format
 msgid "Min cost:"
-msgstr "Min cena:"
+msgstr "Min. költség:"
 
 #: transactionfilterwidget.cpp:122
 #, kde-format
 msgid "Max cost:"
-msgstr "Max cena:"
+msgstr "Max. költség:"
 
 #: transactionfilterwidget.cpp:148
 #, kde-format
 msgid "Include"
-msgstr "Včetně"
+msgstr "Tartalmaz"
 
 #: transactionfilterwidget.cpp:152
 #, kde-format
 msgid "Exclude"
-msgstr "Kromě"
+msgstr "Kizár"
 
 #: transactionlistwidget.cpp:117
 #, kde-format
 msgid "From Account"
-msgstr "Z účtu"
+msgstr "Számláról"
 
 #: transactionlistwidget.cpp:128
 #, kde-format
 msgid "To Account"
-msgstr "Na účet"
+msgstr "Számlára"
 
 #: transactionlistwidget.cpp:130
 #, kde-format
 msgid "Payer"
-msgstr "Plátce"
+msgstr "Kifizető"
 
 #: transactionlistwidget.cpp:169
 #, kde-format
 msgid "New/Edit Expense"
-msgstr "Nový/Upravit výdaj"
+msgstr "Új kiadás/Kiadás szerkesztése"
 
 #: transactionlistwidget.cpp:170
 #, kde-format
 msgid "Filter"
-msgstr "Filtr"
+msgstr "Szűrő"
 
 #: transactionlistwidget.cpp:209
 #, kde-format
 msgid "Total:"
-msgstr "Celkem:"
+msgstr "Összeg:"
 
 #: transactionlistwidget.cpp:209 transactionlistwidget.cpp:328
 #, kde-format
 msgid "Average:"
-msgstr "Průměr:"
+msgstr "Átlag:"
 
 #: transactionlistwidget.cpp:209
 #, kde-format
 msgid "Monthly:"
-msgstr "Měsíčně:"
+msgstr "Havonta:"
 
 #: transactionlistwidget.cpp:314
 #, kde-format
 msgid "Total cost:"
-msgstr "Celková cena:"
+msgstr "Összes költség:"
 
 #: transactionlistwidget.cpp:318
 #, kde-format
 msgid "Total income:"
-msgstr "Celkový příjem:"
+msgstr "Összes bevétel:"
 
 #: transactionlistwidget.cpp:322
 #, kde-format
 msgid "Total amount:"
-msgstr "Celkové množství"
+msgstr "Teljes összeg:"
 
 #: transactionlistwidget.cpp:330
 #, kde-format
 msgid "Monthly average:"
-msgstr "Měsíční průměr:"
+msgstr "Havi átlag:"
 
 #: transactionlistwidget.cpp:671
 #, kde-format
@@ -3284,24 +3302,25 @@ msgid ""
 "Are you sure you want to delete all (%1) transactions in the selected split "
 "transaction?"
 msgstr ""
-"Opravdu chcete vymazat všech (%1) transakcí ve vybrané rozdělené transakci?"
+"Biztosan törölni akarsz minden (%1) tranzakciót a kiválasztott osztott "
+"tranzakcióban?"
 
 #: transactionlistwidget.cpp:1028
 #, kde-format
 msgid "* Part of split transaction"
-msgstr "* Část rozdělené transakce"
+msgstr "* Osztott tranzakció része"
 
 #: transactionlistwidget.cpp:1029
 #, kde-format
 msgid "* Part of split (%1)"
-msgstr "Část rozdělení (%1)"
+msgstr "* A (%1) osztott tranzakció része"
 
 #: transactionlistwidget.cpp:1033
 #, kde-format
 msgid "** Recurring (editing occurrance)"
-msgstr "**Opakování (upravující výskyt)"
+msgstr "** Ismétlődés (események szerkesztése)"
 
 #: transactionlistwidget.cpp:1049
 #, kde-format
 msgid "Modify…"
-msgstr "Změnit…"
+msgstr "Módosítás…"

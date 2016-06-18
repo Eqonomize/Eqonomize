@@ -8,19 +8,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru.po\n"
-"Report-Msgid-Bugs-To: http://sourceforge.net/tracker/?"
-"group_id=173799&atid=866832\n"
+"Report-Msgid-Bugs-To: "
+"http://sourceforge.net/tracker/?group_id=173799&atid=866832\n"
 "POT-Creation-Date: 2008-11-13 14:35+0100\n"
-"PO-Revision-Date: 2008-08-01 15:46+0000\n"
-"Last-Translator: Vitaliy Berdinskikh <skipper13@root.ua>\n"
+"PO-Revision-Date: 2010-01-24 10:09+0000\n"
+"Last-Translator: Rodion <Unknown>\n"
 "Language-Team: <rodion@sbchel.ru>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2008-11-13 13:21+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2016-06-18 05:00+0000\n"
+"X-Generator: Launchpad (build 18097)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -79,12 +79,12 @@ msgstr[1] "Невозможно загрузить %n транзакций."
 #: budget.cpp:389
 #, kde-format
 msgid "File is a directory"
-msgstr ""
+msgstr "Файл является каталогом"
 
 #: budget.cpp:397
 #, kde-format
 msgid "Couldn't open file for writing"
-msgstr "Невозможно открыть файл на запись"
+msgstr "Невозможно открыть файл для записи"
 
 #: budget.cpp:547 budget.cpp:551
 #, kde-format
@@ -114,17 +114,17 @@ msgstr "Источник:"
 #: categoriescomparisonchart.cpp:150 categoriescomparisonchart.cpp:858
 #, kde-format
 msgid "All Expenses"
-msgstr ""
+msgstr "Все расходы"
 
 #: categoriescomparisonchart.cpp:151 categoriescomparisonchart.cpp:859
 #, kde-format
 msgid "All Incomes"
-msgstr ""
+msgstr "Все доходы"
 
 #: categoriescomparisonchart.cpp:152 categoriescomparisonchart.cpp:860
 #, kde-format
 msgid "All Accounts"
-msgstr ""
+msgstr "Все счета"
 
 #: categoriescomparisonchart.cpp:155 categoriescomparisonchart.cpp:864
 #: categoriescomparisonreport.cpp:122 categoriescomparisonreport.cpp:752
@@ -347,6 +347,8 @@ msgstr "%1  с  %2  по %3"
 msgctxt "html format; %1: title; %2: to date"
 msgid "%1 (to %2)"
 msgstr ""
+"_: html формат; %1: заголовок; %2: дата\n"
+"%1 (to %2)"
 
 #: categoriescomparisonreport.cpp:776 eqonomize.cpp:4046 eqonomize.cpp:4094
 #: qifimportexport.cpp:131 transactionlistwidget.cpp:116
@@ -603,44 +605,44 @@ msgstr "Новый"
 
 #: editsplitdialog.cpp:184 eqonomize.cpp:4333
 #, kde-format
-msgid "New Expense..."
-msgstr "Новый расход..."
+msgid "New Expense…"
+msgstr "Новый расход…"
 
 #: editsplitdialog.cpp:185 eqonomize.cpp:4334
 #, kde-format
-msgid "New Income..."
-msgstr "Новый доход..."
+msgid "New Income…"
+msgstr "Новый доход…"
 
 #: editsplitdialog.cpp:186
 #, kde-format
-msgid "New Deposit..."
-msgstr "Новый депозит..."
+msgid "New Deposit…"
+msgstr "Новый депозит…"
 
 #: editsplitdialog.cpp:187
 #, kde-format
-msgid "New Withdrawal..."
-msgstr "Новое изъятие..."
+msgid "New Withdrawal…"
+msgstr "Новое изъятие…"
 
 #: editsplitdialog.cpp:188
 #, kde-format
-msgid "New Security Shares Bought..."
+msgid "New Security Shares Bought…"
 msgstr ""
 
 #: editsplitdialog.cpp:189
 #, kde-format
-msgid "Security Shares Sold..."
-msgstr "Продажи ценных акций..."
+msgid "Security Shares Sold…"
+msgstr "Продажи ценных акций…"
 
 #: editsplitdialog.cpp:190
 #, kde-format
-msgid "New Dividend..."
-msgstr "Новые дивиденты..."
+msgid "New Dividend…"
+msgstr "Новые дивиденты…"
 
 #: editsplitdialog.cpp:191 eqonomize.cpp:924 eqonomize.cpp:1071
 #: eqonomize.cpp:4328 ledgerdialog.cpp:158 transactionlistwidget.cpp:1051
 #, kde-format
-msgid "Edit..."
-msgstr "Правка..."
+msgid "Edit…"
+msgstr "Правка…"
 
 #: editsplitdialog.cpp:221 eqonomize.cpp:2325
 #, kde-format
@@ -780,7 +782,7 @@ msgstr "Котировка"
 msgid "Date"
 msgstr "Дата"
 
-# Fuzzy entfernt: Wertpapiere müssen nicht Aktien sein - es gibt Staatsanleihen, Optionen, Genossenschaftsanteile ... Anteile ist da umfassender als das wohl Favorisierte "Aktien"
+# Fuzzy entfernt: Wertpapiere müssen nicht Aktien sein - es gibt Staatsanleihen, Optionen, Genossenschaftsanteile … Anteile ist da umfassender als das wohl Favorisierte "Aktien"
 #: eqonomize.cpp:778
 #, kde-format
 msgid "Price per Share"
@@ -807,8 +809,8 @@ msgstr "Количество"
 
 #: eqonomize.cpp:926
 #, kde-format
-msgid "Postpone..."
-msgstr "Отложить..."
+msgid "Postpone…"
+msgstr "Отложить…"
 
 #: eqonomize.cpp:973
 #, kde-format
@@ -1149,8 +1151,8 @@ msgstr "Результат прошлого месяца"
 
 #: eqonomize.cpp:1917 eqonomize.cpp:4354
 #, kde-format
-msgid "New Security..."
-msgstr "Новые ценные бумаги..."
+msgid "New Security…"
+msgstr "Новые ценные бумаги…"
 
 #: eqonomize.cpp:1919
 #, kde-format
@@ -1159,8 +1161,8 @@ msgstr "Новая транзакция"
 
 #: eqonomize.cpp:1922 eqonomize.cpp:4362
 #, kde-format
-msgid "Set Quotation..."
-msgstr "Набор котировок..."
+msgid "Set Quotation…"
+msgstr "Набор котировок…"
 
 #: eqonomize.cpp:1934 eqonomize.cpp:3987
 #, kde-format
@@ -1274,7 +1276,7 @@ msgstr "Главная книга"
 #: eqonomize.cpp:3475
 #, kde-format
 msgid "Untitled"
-msgstr ""
+msgstr "Безымянный"
 
 #: eqonomize.cpp:3489
 #, kde-format
@@ -1433,13 +1435,13 @@ msgstr "Пустое расписание."
 
 #: eqonomize.cpp:4305
 #, kde-format
-msgid "Export View..."
-msgstr "Просмотр экспорта..."
+msgid "Export View…"
+msgstr "Просмотр экспорта…"
 
 #: eqonomize.cpp:4307
 #, kde-format
-msgid "Print View..."
-msgstr "Просмотр печати..."
+msgid "Print View…"
+msgstr "Просмотр печати…"
 
 #: eqonomize.cpp:4309
 #, kde-format
@@ -1453,43 +1455,43 @@ msgstr "Запомнить последнюю дату"
 
 #: eqonomize.cpp:4319
 #, kde-format
-msgid "Import CSV File..."
-msgstr "Импорт CSV-файла..."
+msgid "Import CSV File…"
+msgstr "Импорт CSV-файла…"
 
 #: eqonomize.cpp:4320
 #, kde-format
-msgid "Import QIF File..."
-msgstr "Импорт QIF-файла..."
+msgid "Import QIF File…"
+msgstr "Импорт QIF-файла…"
 
 #: eqonomize.cpp:4321
 #, kde-format
-msgid "Export As QIF File..."
-msgstr "Экспортировать как QIF-файл..."
+msgid "Export As QIF File…"
+msgstr "Экспортировать как QIF-файл…"
 
 #: eqonomize.cpp:4323
 #, kde-format
-msgid "Add Account..."
-msgstr "Добавить счет..."
+msgid "Add Account…"
+msgstr "Добавить счет…"
 
 #: eqonomize.cpp:4324
 #, kde-format
-msgid "New Account..."
-msgstr "Новый счет..."
+msgid "New Account…"
+msgstr "Новый счет…"
 
 #: eqonomize.cpp:4325
 #, kde-format
-msgid "New Income Category..."
+msgid "New Income Category…"
 msgstr "Новая категория доходов"
 
 #: eqonomize.cpp:4326
 #, kde-format
-msgid "New Expense Category..."
+msgid "New Expense Category…"
 msgstr "Новая категория расходов"
 
 #: eqonomize.cpp:4327
 #, kde-format
-msgid "Balance..."
-msgstr "Баланс..."
+msgid "Balance…"
+msgstr "Баланс…"
 
 #: eqonomize.cpp:4331
 #, kde-format
@@ -1498,33 +1500,33 @@ msgstr "Показать транзакция"
 
 #: eqonomize.cpp:4335
 #, kde-format
-msgid "New Transfer..."
-msgstr "Новый трансфер..."
+msgid "New Transfer…"
+msgstr "Новый трансфер…"
 
 #: eqonomize.cpp:4336
 #, kde-format
-msgid "New Split Transaction..."
+msgid "New Split Transaction…"
 msgstr "Новое разделение транзакции.."
 
 #: eqonomize.cpp:4337
 #, kde-format
-msgid "Edit Transaction(s) (Occurrence)..."
+msgid "Edit Transaction(s) (Occurrence)…"
 msgstr ""
 
 #: eqonomize.cpp:4338
 #, kde-format
-msgid "Edit Occurrence..."
-msgstr "Править событие..."
+msgid "Edit Occurrence…"
+msgstr "Править событие…"
 
 #: eqonomize.cpp:4339
 #, kde-format
-msgid "Edit Schedule (Recurrence)..."
+msgid "Edit Schedule (Recurrence)…"
 msgstr ""
 
 #: eqonomize.cpp:4340
 #, kde-format
-msgid "Edit Schedule..."
-msgstr "Редактировать расписание..."
+msgid "Edit Schedule…"
+msgstr "Редактировать расписание…"
 
 #: eqonomize.cpp:4341
 #, kde-format
@@ -1548,7 +1550,7 @@ msgstr "Удалить план"
 
 #: eqonomize.cpp:4345
 #, kde-format
-msgid "Edit Split Transaction..."
+msgid "Edit Split Transaction…"
 msgstr "Редактировать разделенные транзакции."
 
 #: eqonomize.cpp:4346
@@ -1558,7 +1560,7 @@ msgstr "Удалить разделенные транзакции"
 
 #: eqonomize.cpp:4347
 #, kde-format
-msgid "Join Transactions..."
+msgid "Join Transactions…"
 msgstr "Соединить транзакции"
 
 #: eqonomize.cpp:4348
@@ -1568,23 +1570,23 @@ msgstr ""
 
 #: eqonomize.cpp:4350
 #, kde-format
-msgid "Refund..."
-msgstr "Платеж..."
+msgid "Refund…"
+msgstr "Платеж…"
 
 #: eqonomize.cpp:4351
 #, kde-format
-msgid "Repayment..."
-msgstr "Оплата..."
+msgid "Repayment…"
+msgstr "Оплата…"
 
 #: eqonomize.cpp:4352
 #, kde-format
-msgid "New Refund/Repayment..."
-msgstr "Новый платеж/оплата..."
+msgid "New Refund/Repayment…"
+msgstr "Новый платеж/оплата…"
 
 #: eqonomize.cpp:4355
 #, kde-format
-msgid "Edit Security..."
-msgstr "Редактировать ценную бумагу..."
+msgid "Edit Security…"
+msgstr "Редактировать ценную бумагу…"
 
 #: eqonomize.cpp:4356
 #, kde-format
@@ -1593,57 +1595,57 @@ msgstr "Удалить ценную бумагу"
 
 #: eqonomize.cpp:4357
 #, kde-format
-msgid "Shares Sold..."
-msgstr "Общие продажи..."
+msgid "Shares Sold…"
+msgstr "Общие продажи…"
 
 #: eqonomize.cpp:4358
 #, kde-format
-msgid "Shares Bought..."
-msgstr "Общие покупки..."
+msgid "Shares Bought…"
+msgstr "Общие покупки…"
 
 #: eqonomize.cpp:4359
 #, kde-format
-msgid "Dividend..."
-msgstr "Дивиденды..."
+msgid "Dividend…"
+msgstr "Дивиденды…"
 
 #: eqonomize.cpp:4360
 #, kde-format
-msgid "Reinvested Dividend..."
-msgstr "Снова инвестированные дивиденды..."
+msgid "Reinvested Dividend…"
+msgstr "Снова инвестированные дивиденды…"
 
 #: eqonomize.cpp:4361
 #, kde-format
-msgid "Shares Moved..."
-msgstr "Общие перемещения..."
+msgid "Shares Moved…"
+msgstr "Общие перемещения…"
 
 #: eqonomize.cpp:4363
 #, kde-format
-msgid "Edit Quotations..."
-msgstr "Редактировать котировки..."
+msgid "Edit Quotations…"
+msgstr "Редактировать котировки…"
 
 #: eqonomize.cpp:4364
 #, kde-format
-msgid "Transactions..."
-msgstr "Транзакции..."
+msgid "Transactions…"
+msgstr "Транзакции…"
 
 #: eqonomize.cpp:4366
 #, kde-format
-msgid "Development Over Time Report..."
+msgid "Development Over Time Report…"
 msgstr "Отчет по датам."
 
 #: eqonomize.cpp:4367
 #, kde-format
-msgid "Categories Comparison Report..."
+msgid "Categories Comparison Report…"
 msgstr "Отчет по категориям"
 
 #: eqonomize.cpp:4368
 #, kde-format
-msgid "Categories Comparison Chart..."
+msgid "Categories Comparison Chart…"
 msgstr "Диаграмма сравнения категорий"
 
 #: eqonomize.cpp:4369
 #, kde-format
-msgid "Development Over Time Chart..."
+msgid "Development Over Time Chart…"
 msgstr "Временная диаграмма"
 
 #: eqonomize.cpp:4371
@@ -1661,7 +1663,7 @@ msgstr ""
 "потеряны.\n"
 "Хотите загрузить последние авто-сохраненную версию файла?"
 
-# Der Begriff ist Müll ...
+# Der Begriff ist Müll …
 #: eqonomize.cpp:4413
 #, kde-format
 msgid "Crash Recovery"
@@ -2115,59 +2117,59 @@ msgstr "формат валюты:"
 #, kde-format
 msgctxt "the day after today"
 msgid "tomorrow"
-msgstr ""
+msgstr "завтра"
 
 #: kdateedit.cpp:367
 #, kde-format
 msgctxt "this day"
 msgid "today"
-msgstr ""
+msgstr "сегодня"
 
 #: kdateedit.cpp:368
 #, kde-format
 msgctxt "the day before today"
 msgid "yesterday"
-msgstr ""
+msgstr "Вчера"
 
 #: kdatepickerpopup.cpp:94
 #, kde-format
 msgctxt "@option today"
 msgid "&Today"
-msgstr ""
+msgstr "&Сегодня"
 
 #: kdatepickerpopup.cpp:95
 #, kde-format
 msgctxt "@option tomorrow"
 msgid "To&morrow"
-msgstr ""
+msgstr "&Завтра"
 
 #: kdatepickerpopup.cpp:96
 #, kde-format
 msgctxt "@option next week"
 msgid "Next &Week"
-msgstr ""
+msgstr "Следующая &неделя"
 
 #: kdatepickerpopup.cpp:97
 #, kde-format
 msgctxt "@option next month"
 msgid "Next M&onth"
-msgstr ""
+msgstr "Следующий &месяц"
 
 #: kdatepickerpopup.cpp:105
 #, kde-format
 msgctxt "@option do not specify a date"
 msgid "No Date"
-msgstr ""
+msgstr "Без даты"
 
 #: ledgerdialog.cpp:122
 #, kde-format
-msgid "Export..."
-msgstr "Экспорт..."
+msgid "Export…"
+msgstr "Экспорт…"
 
 #: ledgerdialog.cpp:123
 #, kde-format
-msgid "Print..."
-msgstr "Печать..."
+msgid "Print…"
+msgstr "Печать…"
 
 #: ledgerdialog.cpp:139
 #, kde-format
@@ -2176,7 +2178,7 @@ msgstr "Отзыв"
 
 #: ledgerdialog.cpp:162
 #, kde-format
-msgid "Join..."
+msgid "Join…"
 msgstr "соеденить.."
 
 #: ledgerdialog.cpp:164
@@ -2223,14 +2225,6 @@ msgstr "Eqonomize!"
 
 #: main.cpp:39
 msgid "A personal accounting program"
-msgstr ""
-
-#: main.cpp:39
-msgid "(C) 2006-2008, 2014, 2016 Hanna Knutsson"
-msgstr ""
-
-#: main.cpp:40
-msgid "Hanna Knutsson"
 msgstr ""
 
 #: main.cpp:44
@@ -2736,14 +2730,16 @@ msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 "Rodion Samusik,,Launchpad Contributions:,Sergey Vostrikov,Vitaliy "
-"Berdinskikh,rodion"
+"Berdinskikh,rodion, ,Launchpad Contributions:,Andrey Klimenko,Rodion,Sergey "
+"Vostrikov,Vitaliy Berdinskikh,Vladimir Maslennikov,rodion"
 
 #: rc.cpp:17
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
-"rodion@sbchel.ru,,,s.vostrikov@gmail.com,skipper13@root.ua,rodion@sbchel.ru"
+"rodion@sbchel.ru,,,s.vostrikov@gmail.com,skipper13@root.ua,rodion@sbchel.ru,,"
+",,,s.vostrikov@gmail.com,skipper13@root.ua,zombo@mail.ru,rodion@sbchel.ru"
 
 #: recurrenceeditwidget.cpp:69
 #, kde-format
@@ -3081,13 +3077,13 @@ msgstr ""
 
 #: recurrenceeditwidget.cpp:533
 #, kde-format
-msgid "Range..."
-msgstr "Диапазон..."
+msgid "Range…"
+msgstr "Диапазон…"
 
 #: recurrenceeditwidget.cpp:535
 #, kde-format
-msgid "Exceptions..."
-msgstr "Исключения..."
+msgid "Exceptions…"
+msgstr "Исключения…"
 
 #: recurrenceeditwidget.cpp:731
 #, kde-format
@@ -3240,8 +3236,8 @@ msgstr "Платильщик"
 
 #: transactionlistwidget.cpp:169
 #, kde-format
-msgid "New/Edit %1"
-msgstr "Новый/Редактировать %1"
+msgid "New/Edit Expense"
+msgstr "Новый/Редактировать расход"
 
 #: transactionlistwidget.cpp:170
 #, kde-format
@@ -3309,23 +3305,5 @@ msgstr "** Периодически (редактирование)"
 
 #: transactionlistwidget.cpp:1049
 #, kde-format
-msgid "Modify..."
-msgstr "Модифицировано..."
-
-#~ msgid "Error after saving file; data may not have been saved"
-#~ msgstr "Ошибка после сохранения файла; данные могут быть не сохранены."
-
-#~ msgid "tomorrow"
-#~ msgstr "завтра"
-
-#~ msgid "today"
-#~ msgstr "сегодня"
-
-#~ msgid "yesterday"
-#~ msgstr "вчера"
-
-#~ msgid "Security Shares Bought..."
-#~ msgstr "Покупки акций..."
-
-#~ msgid "&Add Category"
-#~ msgstr "Добавить категорию"
+msgid "Modify…"
+msgstr "Модифицировано…"

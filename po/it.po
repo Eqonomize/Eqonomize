@@ -6,18 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: eqonomize\n"
-"Report-Msgid-Bugs-To: http://sourceforge.net/tracker/?"
-"group_id=173799&atid=866832\n"
+"Report-Msgid-Bugs-To: "
+"http://sourceforge.net/tracker/?group_id=173799&atid=866832\n"
 "POT-Creation-Date: 2008-11-13 14:35+0100\n"
-"PO-Revision-Date: 2008-09-09 12:49+0000\n"
-"Last-Translator: Guybrush88 <Unknown>\n"
+"PO-Revision-Date: 2011-01-31 16:16+0000\n"
+"Last-Translator: Martino Barbon <Unknown>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2008-11-12 16:02+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2016-06-18 05:00+0000\n"
+"X-Generator: Launchpad (build 18097)\n"
 
 #: budget.cpp:51 editsplitdialog.cpp:118 ledgerdialog.cpp:652
 #, kde-format
@@ -616,9 +616,9 @@ msgid "New Withdrawal…"
 msgstr "Nuovo Prelievo…"
 
 #: editsplitdialog.cpp:188
-#, fuzzy, kde-format
+#, kde-format
 msgid "New Security Shares Bought…"
-msgstr "Azioni Acquistate…"
+msgstr ""
 
 #: editsplitdialog.cpp:189
 #, kde-format
@@ -628,7 +628,7 @@ msgstr ""
 #: editsplitdialog.cpp:190
 #, kde-format
 msgid "New Dividend…"
-msgstr ""
+msgstr "Nuovo Dividendo"
 
 #: editsplitdialog.cpp:191 eqonomize.cpp:924 eqonomize.cpp:1071
 #: eqonomize.cpp:4328 ledgerdialog.cpp:158 transactionlistwidget.cpp:1051
@@ -698,7 +698,7 @@ msgstr "Dividendo Reinvestito"
 #: transactioneditwidget.cpp:157
 #, kde-format
 msgid "Security:"
-msgstr "Sicurezza:"
+msgstr "Titoli:"
 
 #: eqonomize.cpp:518
 #, kde-format
@@ -747,11 +747,6 @@ msgstr "Valore:"
 #, kde-format
 msgid "No other security available for trade in the account."
 msgstr "Nessun altro titolo disponibile per commercio, nel conto."
-
-#: eqonomize.cpp:737
-#, kde-format
-msgid "Selected to and from securities are the same."
-msgstr "A e Da sicurezze sono la stessa."
 
 #: eqonomize.cpp:745 transactioneditwidget.cpp:735
 #, kde-format
@@ -1267,7 +1262,7 @@ msgstr "Libro Maestro"
 #: eqonomize.cpp:3475
 #, kde-format
 msgid "Untitled"
-msgstr ""
+msgstr "Senza titolo"
 
 #: eqonomize.cpp:3489
 #, kde-format
@@ -1303,7 +1298,7 @@ msgstr "Comodità"
 #: qifimportexport.cpp:444
 #, kde-format
 msgid "Couldn't fetch %1."
-msgstr ""
+msgstr "Impossibile recuperare %1."
 
 #: eqonomize.cpp:3573 eqonomize.cpp:4417
 #, kde-format
@@ -1437,7 +1432,7 @@ msgstr "Stampa vista…"
 #: eqonomize.cpp:4309
 #, kde-format
 msgid "Initial Period"
-msgstr ""
+msgstr "Periodo Iniziale"
 
 #: eqonomize.cpp:4316
 #, kde-format
@@ -1562,7 +1557,7 @@ msgstr "Suddividi Transazione"
 #: eqonomize.cpp:4350
 #, kde-format
 msgid "Refund…"
-msgstr ""
+msgstr "Ricerca…"
 
 #: eqonomize.cpp:4351
 #, kde-format
@@ -2155,19 +2150,19 @@ msgstr "Do&mani"
 #, kde-format
 msgctxt "@option next week"
 msgid "Next &Week"
-msgstr ""
+msgstr "&Settimana prossima"
 
 #: kdatepickerpopup.cpp:97
 #, kde-format
 msgctxt "@option next month"
 msgid "Next M&onth"
-msgstr ""
+msgstr "Il mese pr&ossimo"
 
 #: kdatepickerpopup.cpp:105
 #, kde-format
 msgctxt "@option do not specify a date"
 msgid "No Date"
-msgstr ""
+msgstr "Senza data"
 
 #: ledgerdialog.cpp:122
 #, kde-format
@@ -2241,14 +2236,6 @@ msgstr "Eqonomize!"
 msgid "A personal accounting program"
 msgstr "Un programma di contabilità personale"
 
-#: main.cpp:39
-msgid "(C) 2006-2008, 2014, 2016 Hanna Knutsson"
-msgstr ""
-
-#: main.cpp:40
-msgid "Hanna Knutsson"
-msgstr ""
-
 #: main.cpp:44
 msgid "Start with expenses list displayed"
 msgstr "Avvia mostrando la lista delle uscite"
@@ -2308,7 +2295,7 @@ msgstr "Data di inizio:"
 #: overtimechart.cpp:178 overtimechart.cpp.bak:171
 #, kde-format
 msgid "End date:"
-msgstr ""
+msgstr "Data di conclusione:"
 
 #: overtimechart.cpp:197 overtimechart.cpp.bak:190
 #, kde-format
@@ -2668,8 +2655,8 @@ msgstr[1] "Importate correttamente %n categorie."
 #, kde-format
 msgid "1 duplicate transaction was ignored."
 msgid_plural "%n duplicate transactions was ignored."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 duplicato della transazione è stato ignorato"
+msgstr[1] "%n duplicati della transazione sono stati ignorati"
 
 #: qifimportexport.cpp:477
 #, kde-format
@@ -2758,16 +2745,19 @@ msgstr "Stat&istiche"
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
-"Giuseppe Bottiglieri,,Launchpad Contributions:,Giuseppe Bottiglieri,"
-"Guybrush88,Luca Livraghi,Marco"
+"Giuseppe Bottiglieri,,Launchpad Contributions:,Giuseppe "
+"Bottiglieri,Guybrush88,Luca Livraghi,Marco, ,Launchpad "
+"Contributions:,Giuseppe Bottiglieri,Guybrush88,Hanna K.,Luca "
+"Livraghi,Marco,Martino Barbon,simone.sandri"
 
 #: rc.cpp:17
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
-"Giuseppe.Bottiglieri@gmail.com,,,Giuseppe.Bottiglieri@gmail.com,,"
-"luca.91@hotmail.it,"
+"Giuseppe.Bottiglieri@gmail.com,,,Giuseppe.Bottiglieri@gmail.com,,luca.91@hotm"
+"ail.it,,,,Giuseppe.Bottiglieri@gmail.com,,,luca.91@hotmail.it,,,lexluxsox@hot"
+"mail.it"
 
 #: recurrenceeditwidget.cpp:69
 #, kde-format
@@ -3078,19 +3068,19 @@ msgstr ""
 #, kde-format
 msgctxt "part between XXX and YYY of 'Recur on day XXX of month YYY'"
 msgid "of"
-msgstr ""
+msgstr "di"
 
 #: recurrenceeditwidget.cpp:489
 #, kde-format
 msgctxt "Part before NNN in 'Recur on the NNN. WEEKDAY of MONTH'"
 msgid "On the"
-msgstr ""
+msgstr "su"
 
 #: recurrenceeditwidget.cpp:507
 #, kde-format
 msgctxt "part between WEEKDAY and MONTH in 'Recur on NNN. WEEKDAY of MONTH'"
 msgid "of"
-msgstr ""
+msgstr "di"
 
 #: recurrenceeditwidget.cpp:512
 #, kde-format
@@ -3101,7 +3091,7 @@ msgstr "Ricorri il giorno #"
 #, kde-format
 msgctxt "part after NNN of 'Recur on day #NNN of the year'"
 msgid " of the year"
-msgstr ""
+msgstr " dell'anno"
 
 #: recurrenceeditwidget.cpp:533
 #, kde-format
@@ -3186,7 +3176,8 @@ msgstr "Nessuna categoria di uscita è disponibile."
 #: transactioneditwidget.cpp:720
 #, kde-format
 msgid "Cannot create a regular transfer to/from a securities account."
-msgstr "Impossibile creare un regolare trasferimento a/da un conto di titoli."
+msgstr ""
+"Impossibile creare un regolare trasferimento a/da un conto di titoli."
 
 #: transactioneditwidget.cpp:727
 #, kde-format
@@ -3265,8 +3256,8 @@ msgstr "Debitore"
 
 #: transactionlistwidget.cpp:169
 #, kde-format
-msgid "New/Edit %1"
-msgstr "Nuova/Modifica %1"
+msgid "New/Edit Expense"
+msgstr "Nuova/Modifica Uscita"
 
 #: transactionlistwidget.cpp:170
 #, kde-format

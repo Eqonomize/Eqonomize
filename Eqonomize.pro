@@ -70,11 +70,20 @@ SOURCES += src/account.cpp \
            src/transactionfilterwidget.cpp \
            src/transactionlistwidget.cpp
            
-TRANSLATIONS = 	translations/eqonomize_cs.ts \
+TRANSLATIONS = 	translations/eqonomize_bg.ts \
+		translations/eqonomize_cs.ts \
+		translations/eqonomize_cs_new.ts \
 		translations/eqonomize_de.ts \
 		translations/eqonomize_es.ts \
 		translations/eqonomize_fr.ts \
+		translations/eqonomize_hu.ts \
 		translations/eqonomize_it.ts \
+		translations/eqonomize_nl.ts \
+		translations/eqonomize_pt.ts \
+		translations/eqonomize_pt_BR.ts \
+		translations/eqonomize_ro.ts \
+#		translations/eqonomize_ru.ts \
+#		translations/eqonomize_sk.ts \
 		translations/eqonomize_sv.ts
 
 target.path = $$PREFIX/bin

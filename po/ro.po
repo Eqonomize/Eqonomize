@@ -1,133 +1,144 @@
-# Czech translation for eqonomize
-# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# Romanian translation for eqonomize
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the eqonomize package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
 #
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# Bogdan Enache <bogdan.enache@gmx.com>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: eqonomize\n"
-"Report-Msgid-Bugs-To: "
-"http://sourceforge.net/tracker/?group_id=173799&atid=866832\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-11-13 14:35+0100\n"
-"PO-Revision-Date: 2011-04-10 08:47+0000\n"
-"Last-Translator: Jan Štemberk <stemberkj@seznam.cz>\n"
-"Language-Team: Czech <cs@li.org>\n"
+"PO-Revision-Date: 2010-06-10 06:23+0000\n"
+"Last-Translator: Bogdan Enache <enachebogdan@gmx.net>\n"
+"Language-Team: Română <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
+"== 0) && (n != 0))) ? 2: 1));\n"
 "X-Launchpad-Export-Date: 2016-06-18 05:01+0000\n"
 "X-Generator: Launchpad (build 18097)\n"
 
 #: budget.cpp:51 editsplitdialog.cpp:118 ledgerdialog.cpp:652
 #, kde-format
 msgid "Balancing"
-msgstr "Rozvaha"
+msgstr "Echilibrare"
 
 #: budget.cpp:84
 #, kde-format
 msgid "Couldn't open %1 for reading"
-msgstr "%1 nelze přečíst"
+msgstr "Nu s-a putut deschide %1 pentru citire"
 
 #: budget.cpp:95
 #, kde-format
 msgid ""
 "Not a valid Eqonomize! file (XML parse error: \"%2\" at line %3, col %4)"
 msgstr ""
-"Neplatný Eqonomize! soubor (chyba XML: \"%2\" na řádku %3, sloupec %4)"
+"Nu este un fișier Eqonomize! valid (eroare procesare XML: „%2” la linia %3, "
+"col %4)"
 
 #: budget.cpp:98
 #, kde-format
 msgid "Invalid root element %1 in XML document"
-msgstr "Neplatný kořenový prvek %1 v dokumentu XML"
+msgstr "Element rădăcină %1 nevalid în documentul XML"
 
 #: budget.cpp:363
 #, kde-format
 msgid "Unable to load 1 account."
 msgid_plural "Unable to load %n accounts."
-msgstr[0] "Nelze načíst účet."
-msgstr[1] "Nelze načíst %n účty."
-msgstr[2] "Nelze načíst %n účtů."
+msgstr[0] "Nu s-a putut încărca 1 cont."
+msgstr[1] "Nu s-au putut încărca %n conturi."
+msgstr[2] "Nu s-au putut încărca %n de conturi."
 
 #: budget.cpp:368
 #, kde-format
 msgid "Unable to load 1 category."
 msgid_plural "Unable to load %n categories."
-msgstr[0] "Nelze načíst kategorii."
-msgstr[1] "Nelze načíst %n kategorie."
-msgstr[2] "Nelze načíst %n kategorií."
+msgstr[0] "Nu s-a putut încărca 1 categorie."
+msgstr[1] "Nu s-au putut încărca %n categorii."
+msgstr[2] "Nu s-au putut încărca %n de categorii."
+
+#: budget.cpp:373
+#, kde-format
+msgid "Unable to load 1 security."
+msgid_plural "Unable to load %n securities."
+msgstr[0] "Nu s-a putut încărca 1 titlu de valoare."
+msgstr[1] "Nu s-au putut încărca %n titluri de valoare."
+msgstr[2] "Nu s-au putut încărca %n de titluri de valoare."
 
 #: budget.cpp:378
 #, kde-format
 msgid "Unable to load 1 transaction."
 msgid_plural "Unable to load %n transactions."
-msgstr[0] "Nelze načíst transakci."
-msgstr[1] "Nelze načíst %n transakce."
-msgstr[2] "Nelze načíst %n transakcí."
+msgstr[0] "Nu s-a putut încărca 1 tranzacție."
+msgstr[1] "Nu s-au putut încărca %n tranzacții."
+msgstr[2] "Nu s-au putut încărca %n de tranzacții."
 
 #: budget.cpp:389
 #, kde-format
 msgid "File is a directory"
-msgstr "Soubor je adresář"
+msgstr "Fișierul este un director"
 
 #: budget.cpp:397
 #, kde-format
 msgid "Couldn't open file for writing"
-msgstr "Soubor nelze otevřít pro zápis"
+msgstr "Nu s-a putut deschide fișierul pentru scriere"
 
 #: budget.cpp:547 budget.cpp:551
 #, kde-format
 msgid "Error while writing file; file was not saved"
-msgstr "Během zápisu došlo k chybě; soubor nebyl uložen"
+msgstr ""
+"S-a întâlnit o eroare la salvarea fișierului; acesta nu a fost salvat"
 
 #: categoriescomparisonchart.cpp:123 categoriescomparisonreport.cpp:164
 #: eqonomize.cpp:1797 eqonomize.cpp:1957 eqonomize.cpp:2036
 #: transactionlistwidget.cpp:138
 #, kde-format
 msgid "From"
-msgstr "Od"
+msgstr "De la"
 
 #: categoriescomparisonchart.cpp:130 categoriescomparisonreport.cpp:171
 #: eqonomize.cpp:1808 eqonomize.cpp:1969 eqonomize.cpp:2037
 #: transactionlistwidget.cpp:139
 #, kde-format
 msgid "To"
-msgstr "Do"
+msgstr "La"
 
 #: categoriescomparisonchart.cpp:147 categoriescomparisonreport.cpp:114
 #: overtimechart.cpp:112 overtimechart.cpp.bak:106 overtimereport.cpp:97
 #, kde-format
 msgid "Source:"
-msgstr "Zdroj:"
+msgstr "Sursă:"
 
 #: categoriescomparisonchart.cpp:150 categoriescomparisonchart.cpp:858
 #, kde-format
 msgid "All Expenses"
-msgstr "Všechny výdaje"
+msgstr "Toate cheltuielile"
 
 #: categoriescomparisonchart.cpp:151 categoriescomparisonchart.cpp:859
 #, kde-format
 msgid "All Incomes"
-msgstr "Všechny příjmy"
+msgstr "Toate veniturile"
 
 #: categoriescomparisonchart.cpp:152 categoriescomparisonchart.cpp:860
 #, kde-format
 msgid "All Accounts"
-msgstr "Všechny účty"
+msgstr "Toate conturile"
 
 #: categoriescomparisonchart.cpp:155 categoriescomparisonchart.cpp:864
 #: categoriescomparisonreport.cpp:122 categoriescomparisonreport.cpp:752
 #: categoriescomparisonreport.cpp:1016 overtimereport.cpp:375
 #, kde-format
 msgid "Expenses: %1"
-msgstr "Výdaje: %1"
+msgstr "Cheltuieli: %1"
 
 #: categoriescomparisonchart.cpp:160 categoriescomparisonchart.cpp:871
 #: categoriescomparisonreport.cpp:127 categoriescomparisonreport.cpp:756
 #: categoriescomparisonreport.cpp:1023 overtimereport.cpp:366
 #, kde-format
 msgid "Incomes: %1"
-msgstr "Příjmy: %1"
+msgstr "Venituri: %1"
 
 #: categoriescomparisonchart.cpp:199 categoriescomparisonchart.cpp:225
 #: categoriescomparisonreport.cpp:334 categoriescomparisonreport.cpp:360
@@ -144,19 +155,19 @@ msgstr "Příjmy: %1"
 #: transactionfilterwidget.cpp:590
 #, kde-format
 msgid "Invalid date."
-msgstr "Neplatné datum."
+msgstr "Dată nevalidă."
 
 #: categoriescomparisonchart.cpp:204 categoriescomparisonreport.cpp:339
 #: eqonomize.cpp:3185 eqonomize.cpp:3331 transactionfilterwidget.cpp:569
 #, kde-format
 msgid "To date is before from date."
-msgstr "Datum do je před datumem od."
+msgstr "Data „la” este înaintea datei „de la”."
 
 #: categoriescomparisonchart.cpp:229 categoriescomparisonreport.cpp:364
 #: eqonomize.cpp:3210 eqonomize.cpp:3356 transactionfilterwidget.cpp:594
 #, kde-format
 msgid "From date is after to date."
-msgstr "Datum od je před datumem do."
+msgstr "Data „de la” este după data „la”."
 
 #: categoriescomparisonchart.cpp:340 categoriescomparisonreport.cpp:463
 #: eqonomize.cpp:3610 eqonomize.cpp:4252 ledgerdialog.cpp:251
@@ -165,28 +176,28 @@ msgstr "Datum od je před datumem do."
 #, kde-format
 msgid ""
 "The selected file already exists. Would you like to overwrite the old copy?"
-msgstr "Vybraný soubor již existuje. Chcete ho přepsat?"
+msgstr "Fișierul selectat deja există. Doriți să suprascrieți copia veche?"
 
 #: categoriescomparisonchart.cpp:344 categoriescomparisonreport.cpp:467
 #: eqonomize.cpp:4257 ledgerdialog.cpp:255 overtimechart.cpp:628
 #: overtimechart.cpp.bak:621 overtimereport.cpp:282 qifimportexport.cpp:608
 #, kde-format
 msgid "You selected a directory!"
-msgstr "Vybrali jste adresář!"
+msgstr "Ați selectat un director!"
 
 #: categoriescomparisonchart.cpp:352 categoriescomparisonreport.cpp:475
 #: eqonomize.cpp:4264 ledgerdialog.cpp:263 overtimechart.cpp:636
 #: overtimechart.cpp.bak:629 overtimereport.cpp:290 qifimportexport.cpp:616
 #, kde-format
 msgid "Couldn't open file for writing."
-msgstr "Soubor nelze otevřít pro zápis."
+msgstr "Nu s-a putut deschide fișierul pentru scriere."
 
 #: categoriescomparisonchart.cpp:372 categoriescomparisonreport.cpp:482
 #: eqonomize.cpp:4270 ledgerdialog.cpp:269 overtimechart.cpp:656
 #: overtimechart.cpp.bak:644 overtimereport.cpp:297 qifimportexport.cpp:622
 #, kde-format
 msgid "Error while writing file; file was not saved."
-msgstr "Chyba během zápisu souboru; soubor nebyl uložen."
+msgstr "Eroare la scrierea fișierului; acesta nu a fost salvat."
 
 #: categoriescomparisonchart.cpp:728 categoriescomparisonreport.cpp:303
 #: categoriescomparisonreport.cpp:750 categoriescomparisonreport.cpp:754
@@ -203,32 +214,32 @@ msgstr "Chyba během zápisu souboru; soubor nebyl uložen."
 #: overtimereport.cpp:732
 #, kde-format
 msgid "No description"
-msgstr "Bez popisu"
+msgstr "Fără descriere"
 
 #: categoriescomparisonreport.cpp:119 categoriescomparisonreport.cpp:1012
 #, kde-format
 msgid "All Categories"
-msgstr "Všechny kategorie"
+msgstr "Toate categoriile"
 
 #: categoriescomparisonreport.cpp:138
 #, kde-format
 msgid "Descriptions for"
-msgstr "Popis pro"
+msgstr "Descrieri pentru"
 
 #: categoriescomparisonreport.cpp:145
 #, kde-format
 msgid "Payees/payers for"
-msgstr "Příjemci/plátci pro"
+msgstr "Beneficiari/plătitori pentru"
 
 #: categoriescomparisonreport.cpp:161
 #, kde-format
 msgid "Period:"
-msgstr "Období:"
+msgstr "Perioadă:"
 
 #: categoriescomparisonreport.cpp:186 overtimereport.cpp:120
 #, kde-format
 msgid "Columns:"
-msgstr "Sloupce:"
+msgstr "Coloane:"
 
 #: categoriescomparisonreport.cpp:189 categoriescomparisonreport.cpp:782
 #: eqonomize.cpp:1062 eqonomize.cpp:1935 eqonomize.cpp:4142
@@ -237,25 +248,25 @@ msgstr "Sloupce:"
 #: importcsvdialog.cpp:253 overtimereport.cpp:123
 #, kde-format
 msgid "Value"
-msgstr "Hodnota"
+msgstr "Valoare"
 
 #: categoriescomparisonreport.cpp:192 overtimereport.cpp:126
 #: recurrenceeditwidget.cpp:320
 #, kde-format
 msgid "Daily"
-msgstr "Denně"
+msgstr "Zilnic"
 
 #: categoriescomparisonreport.cpp:195 overtimereport.cpp:129
 #: recurrenceeditwidget.cpp:322
 #, kde-format
 msgid "Monthly"
-msgstr "Měsíčně"
+msgstr "Lunar"
 
 #: categoriescomparisonreport.cpp:198 overtimereport.cpp:132
 #: recurrenceeditwidget.cpp:323
 #, kde-format
 msgid "Yearly"
-msgstr "Ročně"
+msgstr "Anual"
 
 #: categoriescomparisonreport.cpp:201 categoriescomparisonreport.cpp:787
 #: overtimechart.cpp:205 overtimechart.cpp:1534 overtimechart.cpp.bak:198
@@ -263,28 +274,28 @@ msgstr "Ročně"
 #: transactionlistwidget.cpp:276 transactionlistwidget.cpp:340
 #, kde-format
 msgid "Quantity"
-msgstr "Počet"
+msgstr "Cantitate"
 
 #: categoriescomparisonreport.cpp:204 overtimechart.cpp:209
 #: overtimechart.cpp.bak:202 overtimereport.cpp:138
 #, kde-format
 msgid "Average value"
-msgstr "Průměrná hodnota"
+msgstr "Valoare medie"
 
 #: categoriescomparisonreport.cpp:278 categoriescomparisonreport.cpp:947
 #, kde-format
 msgid "All descriptions"
-msgstr "Všechny popisy"
+msgstr "Toate descrierile"
 
 #: categoriescomparisonreport.cpp:279 categoriescomparisonreport.cpp:948
 #, kde-format
 msgid "All payees"
-msgstr "Všichni příjemci"
+msgstr "Toți beneficiarii"
 
 #: categoriescomparisonreport.cpp:280 categoriescomparisonreport.cpp:949
 #, kde-format
 msgid "All payers"
-msgstr "Všichni plátci"
+msgstr "Toți plătitorii"
 
 #: categoriescomparisonreport.cpp:309 categoriescomparisonreport.cpp:751
 #: categoriescomparisonreport.cpp:837 categoriescomparisonreport.cpp:932
@@ -295,7 +306,7 @@ msgstr "Všichni plátci"
 #: overtimechart.cpp.bak:1909
 #, kde-format
 msgid "No payee"
-msgstr "Žádný příjemce"
+msgstr "Nici un beneficiar"
 
 #: categoriescomparisonreport.cpp:310 categoriescomparisonreport.cpp:755
 #: categoriescomparisonreport.cpp:838 categoriescomparisonreport.cpp:933
@@ -306,24 +317,24 @@ msgstr "Žádný příjemce"
 #: overtimechart.cpp.bak:1908
 #, kde-format
 msgid "No payer"
-msgstr "Žádný plátce"
+msgstr "Nici un plătitor"
 
 #: categoriescomparisonreport.cpp:750 categoriescomparisonreport.cpp:751
 #: overtimereport.cpp:393
 #, kde-format
 msgid "Expenses: %2, %1"
-msgstr "Výdaje: %2, %1"
+msgstr "Cheltuieli: %2, %1"
 
 #: categoriescomparisonreport.cpp:754 categoriescomparisonreport.cpp:755
 #: overtimereport.cpp:384
 #, kde-format
 msgid "Incomes: %2, %1"
-msgstr "Příjmy: %2, %1"
+msgstr "Venituri: %2, %1"
 
 #: categoriescomparisonreport.cpp:758
 #, kde-format
 msgid "Incomes & Expenses"
-msgstr "Příjmy & výdaje"
+msgstr "Venituri și cheltuieli"
 
 #: categoriescomparisonreport.cpp:771
 #, kde-format
@@ -335,198 +346,198 @@ msgstr "%1 (%2&ndash;%3)"
 #, kde-format
 msgctxt "html format; %1: title; %2: to date"
 msgid "%1 (to %2)"
-msgstr "%1 (do %2)"
+msgstr "%1 (la %2)"
 
 #: categoriescomparisonreport.cpp:776 eqonomize.cpp:4046 eqonomize.cpp:4094
 #: qifimportexport.cpp:131 transactionlistwidget.cpp:116
 #: transactionlistwidget.cpp:127
 #, kde-format
 msgid "Category"
-msgstr "Kategorie"
+msgstr "Categorie"
 
 #: categoriescomparisonreport.cpp:778 eqonomize.cpp:1938
 #: transactionlistwidget.cpp:115
 #, kde-format
 msgid "Cost"
-msgstr "Cena"
+msgstr "Cost"
 
 #: categoriescomparisonreport.cpp:780 editscheduledtransactiondialog.cpp:46
 #: editsplitdialog.cpp:108 eqonomize.cpp:285 eqonomize.cpp:329
 #: ledgerdialog.cpp:647 transactionlistwidget.cpp:126
 #, kde-format
 msgid "Income"
-msgstr "Příjem"
+msgstr "Venit"
 
 #: categoriescomparisonreport.cpp:784 overtimereport.cpp:545
 #, kde-format
 msgid "Daily Average"
-msgstr "Denní průměr"
+msgstr "Medie zilnică"
 
 #: categoriescomparisonreport.cpp:785 overtimereport.cpp:546
 #, kde-format
 msgid "Monthly Average"
-msgstr "Měsíční průměr"
+msgstr "Media lunară"
 
 #: categoriescomparisonreport.cpp:786 overtimereport.cpp:547
 #, kde-format
 msgid "Yearly Average"
-msgstr "Roční průměr"
+msgstr "Medie anuală"
 
 #: categoriescomparisonreport.cpp:789 overtimereport.cpp:358
 #: overtimereport.cpp:376 overtimereport.cpp:394
 #, kde-format
 msgid "Average Cost"
-msgstr "Průměrná cena"
+msgstr "Cost mediu"
 
 #: categoriescomparisonreport.cpp:791 overtimereport.cpp:350
 #: overtimereport.cpp:367 overtimereport.cpp:385
 #, kde-format
 msgid "Average Income"
-msgstr "Průměrný příjem"
+msgstr "Venit mediu"
 
 #: categoriescomparisonreport.cpp:793
 #, kde-format
 msgid "Average Value"
-msgstr "Průměrná hodnota"
+msgstr "Valoare medie"
 
 #: categoriescomparisonreport.cpp:853 eqonomize.cpp:3932 eqonomize.cpp:4030
 #: eqonomize.cpp:4075 eqonomize.cpp:4123 overtimereport.cpp:686
 #, kde-format
 msgid "Total"
-msgstr "Celkem"
+msgstr "Total"
 
 #: categoriescomparisonreport.cpp:878
 #, kde-format
 msgid "Total incomes"
-msgstr "Příjmy celkem"
+msgstr "Venituri totale"
 
 #: categoriescomparisonreport.cpp:902
 #, kde-format
 msgid "Total expenses"
-msgstr "Výdaje celkem"
+msgstr "Cheltuieli totale"
 
 #: categoriescomparisonreport.cpp:912
 #, kde-format
 msgid "Total (Profits)"
-msgstr "Celkem (zisky)"
+msgstr "Total (profituri)"
 
 #: editscheduledtransactiondialog.cpp:45 editsplitdialog.cpp:111
 #: eqonomize.cpp:288 eqonomize.cpp:332 ledgerdialog.cpp:650
 #, kde-format
 msgid "Expense"
-msgstr "Výdaj"
+msgstr "Cheltuială"
 
 #: editscheduledtransactiondialog.cpp:47 editsplitdialog.cpp:120
 #: eqonomize.cpp:282 eqonomize.cpp:326 ledgerdialog.cpp:653
 #, kde-format
 msgid "Transfer"
-msgstr "Převod"
+msgstr "Transfer"
 
 #: editscheduledtransactiondialog.cpp:48 editsplitdialog.cpp:114
 #: eqonomize.cpp:289 eqonomize.cpp:333
 #, kde-format
 msgid "Security Buy"
-msgstr "Nákup cenných papírů"
+msgstr "Cumpărare titlu de valoare"
 
 #: editscheduledtransactiondialog.cpp:49 editsplitdialog.cpp:116
 #: eqonomize.cpp:290 eqonomize.cpp:334
 #, kde-format
 msgid "Security Sell"
-msgstr "Prodej cenných papírů"
+msgstr "Vânzare titlu de valoare"
 
 #: editscheduledtransactiondialog.cpp:56 editscheduledtransactiondialog.cpp:57
 #, kde-format
 msgid "Recurrence"
-msgstr "Opakování"
+msgstr "Recurență"
 
 #: editscheduledtransactiondialog.cpp:104
 #, kde-format
 msgid "New Expense"
-msgstr "Nový výdaj"
+msgstr "Cheltuială nouă"
 
 #: editscheduledtransactiondialog.cpp:106
 #, kde-format
 msgid "New Dividend"
-msgstr "Nová dividenda"
+msgstr "Dividend nou"
 
 #: editscheduledtransactiondialog.cpp:107
 #, kde-format
 msgid "New Income"
-msgstr "Nový příjem"
+msgstr "Venit nou"
 
 #: editscheduledtransactiondialog.cpp:110
 #, kde-format
 msgid "New Transfer"
-msgstr "Nový převod"
+msgstr "Transfer nou"
 
 #: editscheduledtransactiondialog.cpp:111
 #, kde-format
 msgid "New Security Buy"
-msgstr "Nový nákup cenných papírů"
+msgstr "Cumpărare nouă titlu de valoare"
 
 #: editscheduledtransactiondialog.cpp:113
 #, kde-format
 msgid "New Security Sell"
-msgstr "Nový prodej cenných papírů"
+msgstr "Vânzare nouă titlu de valoare"
 
 #: editscheduledtransactiondialog.cpp:128
 #: editscheduledtransactiondialog.cpp:149 transactioneditwidget.cpp:1064
 #, kde-format
 msgid "Edit Expense"
-msgstr "Upravit výdaj"
+msgstr "Editează cheltuială"
 
 #: editscheduledtransactiondialog.cpp:130
 #: editscheduledtransactiondialog.cpp:151 transactioneditwidget.cpp:1066
 #, kde-format
 msgid "Edit Dividend"
-msgstr "Upravit dividendu"
+msgstr "Editează dividend"
 
 #: editscheduledtransactiondialog.cpp:131
 #: editscheduledtransactiondialog.cpp:152 transactioneditwidget.cpp:1067
 #, kde-format
 msgid "Edit Income"
-msgstr "Upravit příjem"
+msgstr "Editează venit"
 
 #: editscheduledtransactiondialog.cpp:134
 #: editscheduledtransactiondialog.cpp:155 transactioneditwidget.cpp:1070
 #, kde-format
 msgid "Edit Transfer"
-msgstr "Upravit převod"
+msgstr "Editează transfer"
 
 #: editscheduledtransactiondialog.cpp:135
 #: editscheduledtransactiondialog.cpp:156 transactioneditwidget.cpp:1071
 #, kde-format
 msgid "Edit Securities Bought"
-msgstr "Upravit nákup cenných papírů"
+msgstr "Editează titluri de valoare cumpărate"
 
 #: editscheduledtransactiondialog.cpp:136
 #: editscheduledtransactiondialog.cpp:157 transactioneditwidget.cpp:1072
 #, kde-format
 msgid "Edit Securities Sold"
-msgstr "Upravit prodej cenných papírů"
+msgstr "Editează titluri de valoare vândute"
 
 #: editsplitdialog.cpp:107 eqonomize.cpp:284 eqonomize.cpp:328
 #: eqonomize.cpp:1167
 #, kde-format
 msgid "Dividend"
-msgstr "Dividenda"
+msgstr "Dividend"
 
 #: editsplitdialog.cpp:109 eqonomize.cpp:403 eqonomize.cpp:445
 #: ledgerdialog.cpp:648
 #, kde-format
 msgid "Repayment"
-msgstr "Splátka"
+msgstr "Restituire"
 
 #: editsplitdialog.cpp:112 eqonomize.cpp:404 eqonomize.cpp:446
 #: ledgerdialog.cpp:651
 #, kde-format
 msgid "Refund"
-msgstr "Úhrada"
+msgstr "Rambursare"
 
 #: editsplitdialog.cpp:126 ledgerdialog.cpp:638
 #, kde-format
 msgid "Split Transaction"
-msgstr "Rozdělená transakce"
+msgstr "Împarte tranzacția"
 
 #: editsplitdialog.cpp:138 eqonomize.cpp:1279 eqonomize.cpp:1379
 #: eqonomize.cpp:1473 eqonomize.cpp:1538 importcsvdialog.cpp:129
@@ -534,7 +545,7 @@ msgstr "Rozdělená transakce"
 #: transactionfilterwidget.cpp:135
 #, kde-format
 msgid "Description:"
-msgstr "Popis:"
+msgstr "Descriere:"
 
 #: editsplitdialog.cpp:143 eqonomize.cpp:413 eqonomize.cpp:523
 #: eqonomize.cpp:639 eqonomize.cpp:1274 eqonomize.cpp:2476
@@ -542,121 +553,121 @@ msgstr "Popis:"
 #: transactioneditwidget.cpp:199 transactioneditwidget.cpp:1119
 #, kde-format
 msgid "Date:"
-msgstr "Datum:"
+msgstr "Dată:"
 
 #: editsplitdialog.cpp:148 eqonomize.cpp:424 eqonomize.cpp:1252
 #: importcsvdialog.cpp:388 importcsvdialog.cpp:399 ledgerdialog.cpp:107
 #: qifimportexport.cpp:503
 #, kde-format
 msgid "Account:"
-msgstr "Účet:"
+msgstr "Cont:"
 
 #: editsplitdialog.cpp:163
 #, kde-format
 msgid "Transactions:"
-msgstr "Transakce:"
+msgstr "Tranzacții:"
 
 #: editsplitdialog.cpp:172 eqonomize.cpp:914 eqonomize.cpp:1061
 #: eqonomize.cpp:1941 eqonomize.cpp:2033 eqonomize.cpp:3988
 #: ledgerdialog.cpp:135
 #, kde-format
 msgid "Type"
-msgstr "Typ"
+msgstr "Tip"
 
 #: editsplitdialog.cpp:173 eqonomize.cpp:915 eqonomize.cpp:2034
 #: ledgerdialog.cpp:136 qifimportexport.cpp:127 qifimportexport.cpp:139
 #: qifimportexport.cpp:149 transactionlistwidget.cpp:111
 #, kde-format
 msgid "Description"
-msgstr "Popis"
+msgstr "Descriere"
 
 #: editsplitdialog.cpp:174 eqonomize.cpp:4142 ledgerdialog.cpp:137
 #, kde-format
 msgid "Account/Category"
-msgstr "Účet/Kategorie"
+msgstr "Cont/Categorie"
 
 #: editsplitdialog.cpp:175
 #, kde-format
 msgid "Payment"
-msgstr "Platba"
+msgstr "Plată"
 
 #: editsplitdialog.cpp:176 ledgerdialog.cpp:138
 #, kde-format
 msgid "Deposit"
-msgstr "Vklad"
+msgstr "Depozit"
 
 #: editsplitdialog.cpp:181 ledgerdialog.cpp:151
 #, kde-format
 msgid "New"
-msgstr "Nový"
+msgstr "Nou"
 
 #: editsplitdialog.cpp:184 eqonomize.cpp:4333
 #, kde-format
 msgid "New Expense…"
-msgstr "Nový výdaj…"
+msgstr "Cheltuială nouă…"
 
 #: editsplitdialog.cpp:185 eqonomize.cpp:4334
 #, kde-format
 msgid "New Income…"
-msgstr "Nový příjem…"
+msgstr "Venit nou…"
 
 #: editsplitdialog.cpp:186
 #, kde-format
 msgid "New Deposit…"
-msgstr "Nový vklad…"
+msgstr "Depozit nou…"
 
 #: editsplitdialog.cpp:187
 #, kde-format
 msgid "New Withdrawal…"
-msgstr "Nový výběr…"
+msgstr "Retragere nouă…"
 
 #: editsplitdialog.cpp:188
 #, kde-format
 msgid "New Security Shares Bought…"
-msgstr ""
+msgstr "Titluri de valoare nou cumpărate…"
 
 #: editsplitdialog.cpp:189
 #, kde-format
 msgid "Security Shares Sold…"
-msgstr "Cenné papíry prodané.."
+msgstr "Titluri de valoare vândute…"
 
 #: editsplitdialog.cpp:190
 #, kde-format
 msgid "New Dividend…"
-msgstr "Nová dividenda"
+msgstr "Dividend nou…"
 
 #: editsplitdialog.cpp:191 eqonomize.cpp:924 eqonomize.cpp:1071
 #: eqonomize.cpp:4328 ledgerdialog.cpp:158 transactionlistwidget.cpp:1051
 #, kde-format
 msgid "Edit…"
-msgstr "Upravit…"
+msgstr "Editează…"
 
 #: editsplitdialog.cpp:221 eqonomize.cpp:2325
 #, kde-format
 msgid "Total value:"
-msgstr "Celková hodnota:"
+msgstr "Valoare totală:"
 
 #: editsplitdialog.cpp:403 transactioneditwidget.cpp:653
 #: transactioneditwidget.cpp:657 transactioneditwidget.cpp:668
 #: transactioneditwidget.cpp:682 transactioneditwidget.cpp:693
 #, kde-format
 msgid "No suitable account available."
-msgstr "Vhodný účet není k dispozici."
+msgstr "Nici un cont potrivit nu este disponibil."
 
 #: editsplitdialog.cpp:415
 #, kde-format
 msgid "Future dates is not allowed."
-msgstr "Budoucí datumy nejsou povoleny."
+msgstr "Datele în viitor nu sunt permise."
 
 #: editsplitdialog.cpp:419
 #, kde-format
 msgid "A split must contain at least two transactions."
-msgstr "Pro rozdělení potřebujete nejméně dvě transakce."
+msgstr "O împărțire trebuie să conțină cel puțin două tranzacții."
 
 #: editsplitdialog.cpp:428 transactioneditwidget.cpp:714
 #, kde-format
 msgid "Cannot transfer money to and from the same account."
-msgstr "Peníze nelze převést na stejný účet."
+msgstr "Nu se pot transfera bani din și către același cont."
 
 #: eqonomize.cpp:419 eqonomize.cpp:2325 importcsvdialog.cpp:146
 #: importcsvdialog.cpp:169 importcsvdialog.cpp:355
@@ -664,120 +675,122 @@ msgstr "Peníze nelze převést na stejný účet."
 #: transactioneditwidget.cpp:1111
 #, kde-format
 msgid "Cost:"
-msgstr "Cena:"
+msgstr "Cost:"
 
 #: eqonomize.cpp:420 importcsvdialog.cpp:364 importcsvdialog.cpp:397
 #: transactioneditwidget.cpp:118 transactioneditwidget.cpp:184
 #: transactioneditwidget.cpp:1110
 #, kde-format
 msgid "Income:"
-msgstr "Příjem:"
+msgstr "Venit:"
 
 #: eqonomize.cpp:439 transactioneditwidget.cpp:193
 #: transactionlistwidget.cpp:209 transactionlistwidget.cpp:310
 #, kde-format
 msgid "Quantity:"
-msgstr "Počet:"
+msgstr "Cantitate:"
 
 #: eqonomize.cpp:443 importcsvdialog.cpp:243 transactioneditwidget.cpp:288
 #, kde-format
 msgid "Comments:"
-msgstr "Poznámky:"
+msgstr "Comentarii:"
 
 #: eqonomize.cpp:491 eqonomize.cpp:1176
 #, kde-format
 msgid "Reinvested Dividend"
-msgstr "Reinvestované dividendy"
+msgstr "Dividend reinvestit"
 
 #: eqonomize.cpp:501 transactioneditwidget.cpp:97
 #: transactioneditwidget.cpp:157
 #, kde-format
 msgid "Security:"
-msgstr "Cenný papír:"
+msgstr "Titlu de valoare:"
 
 #: eqonomize.cpp:518
 #, kde-format
 msgid "Shares added:"
-msgstr "Podíly přidané:"
+msgstr "Acțiuni adăugate:"
 
 #: eqonomize.cpp:579
 #, kde-format
 msgid "Security Trade"
-msgstr "Obchod cenným papírem"
+msgstr "Tranzacție titlu de valoare"
 
 #: eqonomize.cpp:587
 #, kde-format
 msgid "From security:"
-msgstr "Z cenného papíru:"
+msgstr "De la titlu de valoare:"
 
 #: eqonomize.cpp:603
 #, kde-format
 msgid "Shares moved:"
-msgstr "Přesunuté podíly:"
+msgstr "Acțiuni mutate:"
 
 #: eqonomize.cpp:608 transactioneditwidget.cpp:135
 #: transactionfilterwidget.cpp:167 transactionfilterwidget.cpp:168
 #: transactionfilterwidget.cpp:343 transactionfilterwidget.cpp:380
 #, kde-format
 msgid "All"
-msgstr "Vše"
+msgstr "Tot"
 
 #: eqonomize.cpp:614
 #, kde-format
 msgid "To security:"
-msgstr "K cennému papíru:"
+msgstr "Către titlu de valoare:"
 
 #: eqonomize.cpp:631
 #, kde-format
 msgid "Shares received:"
-msgstr "Podíly přijaté:"
+msgstr "Acțiuni primite:"
 
 #: eqonomize.cpp:635 importcsvdialog.cpp:386 importcsvdialog.cpp:412
 #: overtimechart.cpp:193 overtimechart.cpp.bak:186
 #, kde-format
 msgid "Value:"
-msgstr "Hodnota:"
+msgstr "Valoare:"
 
 #: eqonomize.cpp:725
 #, kde-format
 msgid "No other security available for trade in the account."
-msgstr "Na účtu už není žádný cenný papír pro obchodování."
+msgstr ""
+"Nici un alt titlu de valoare nu este disponibil pentru tranzacționare în "
+"cont."
 
 #: eqonomize.cpp:737
 #, kde-format
 msgid "Selected to and from securities are the same."
-msgstr "Pro a od jsou stejné."
+msgstr "Titlurile de valoare selectate „de la” și „la” sunt identice."
 
 #: eqonomize.cpp:745 transactioneditwidget.cpp:735
 #, kde-format
 msgid "Zero shares not allowed."
-msgstr "Nulové podíly nejsou povoleny."
+msgstr "Acțiuni zero nu este permis."
 
 #: eqonomize.cpp:749 transactioneditwidget.cpp:739
 #, kde-format
 msgid "Zero value not allowed."
-msgstr "Nulová hodnota není povolena."
+msgstr "Valoarea zero nu este permisă."
 
 #: eqonomize.cpp:757 eqonomize.cpp:766
 #, kde-format
 msgid "Quotations"
-msgstr "Kurzy"
+msgstr "Cotație"
 
 #: eqonomize.cpp:777 eqonomize.cpp:913 eqonomize.cpp:962 eqonomize.cpp:1060
 #: ledgerdialog.cpp:134 transactionlistwidget.cpp:110
 #, kde-format
 msgid "Date"
-msgstr "Datum"
+msgstr "Dată"
 
 #: eqonomize.cpp:778
 #, kde-format
 msgid "Price per Share"
-msgstr "Cena za podíl"
+msgstr "Preț per acțiune"
 
 #: eqonomize.cpp:820
 #, kde-format
 msgid "Quotations for %1"
-msgstr "Kurz pro %1"
+msgstr "Cotații pentru %1"
 
 #: eqonomize.cpp:904
 #, kde-format
@@ -785,212 +798,213 @@ msgid ""
 "The following transactions was scheduled to occur today or before today.\n"
 "Confirm that they have indeed occurred (or will occur today)."
 msgstr ""
-"Následující transakce byly naplánovány na dnešní nebo dřívější datum.\n"
-"Potvrďte, že opravdu proběhly (nebo dnes proběhnou)."
+"Următoarele tranzacții au fost planificate să se producă azi sau mai "
+"înainte.\n"
+"Confirmați că s-au produs (sau că se vor produce astăzi)."
 
 #: eqonomize.cpp:916 eqonomize.cpp:2035 transactionlistwidget.cpp:137
 #, kde-format
 msgid "Amount"
-msgstr "Množství"
+msgstr "Cantitate"
 
 #: eqonomize.cpp:926
 #, kde-format
 msgid "Postpone…"
-msgstr "Odložit…"
+msgstr "Amână…"
 
 #: eqonomize.cpp:973
 #, kde-format
 msgid "Can only postpone to future dates."
-msgstr "Odložit lze pouze na budoucí datum."
+msgstr "Nu se poate amâna decât în viitor."
 
 #: eqonomize.cpp:1052 ledgerdialog.cpp:299
 #, kde-format
 msgid "Transactions for %1"
-msgstr "Transakce pro %1"
+msgstr "Tranzacții pentru %1"
 
 #: eqonomize.cpp:1063 eqonomize.cpp:1936
 #, kde-format
 msgid "Shares"
-msgstr "Podíly"
+msgstr "Acțiuni"
 
 #: eqonomize.cpp:1160
 #, kde-format
 msgid "Shares Bought"
-msgstr "Podíly koupené"
+msgstr "Acțiuni cumpărate"
 
 #: eqonomize.cpp:1161
 #, kde-format
 msgid "Shares Sold"
-msgstr "Podíly prodané"
+msgstr "Acțiuni vândute"
 
 #: eqonomize.cpp:1188
 #, kde-format
 msgid "Shares Sold (Traded)"
-msgstr "Prodej podílů (obchodovaný)"
+msgstr "Acțiuni vândute (schimbate)"
 
 #: eqonomize.cpp:1188
 #, kde-format
 msgid "Shares Bought (Traded)"
-msgstr "Koupené podíly (obchodované)"
+msgstr "Acțiuni vândute (schimbate)"
 
 #: eqonomize.cpp:1204
 #, kde-format
 msgid "Shares Bought (Recurring)"
-msgstr "Koupené podíly (opakované)"
+msgstr "Acțiuni cumpărate (recurent)"
 
 #: eqonomize.cpp:1205
 #, kde-format
 msgid "Shares Sold (Recurring)"
-msgstr "Prodané podíly (opakované)"
+msgstr "Acțiuni vândute (recurent)"
 
 #: eqonomize.cpp:1207
 #, kde-format
 msgid "Shares Bought (Scheduled)"
-msgstr "Koupené podíly (plánované)"
+msgstr "Acțiuni cumpărate (planificate)"
 
 #: eqonomize.cpp:1208
 #, kde-format
 msgid "Shares Sold (Scheduled)"
-msgstr "Prodané podíly (plánované)"
+msgstr "Acțiuni vândute (planificate)"
 
 #: eqonomize.cpp:1220
 #, kde-format
 msgid "Recurring Dividend"
-msgstr "Opakované dividendy"
+msgstr "Dividend recurent"
 
 #: eqonomize.cpp:1222
 #, kde-format
 msgid "Scheduled Dividend"
-msgstr "Plánované dividendy"
+msgstr "Dividend planificat"
 
 #: eqonomize.cpp:1240 eqonomize.cpp:1360
 #, kde-format
 msgid "Type:"
-msgstr "Typ:"
+msgstr "Tip:"
 
 #: eqonomize.cpp:1243 eqonomize.cpp:2600 eqonomize.cpp:2660
 #, kde-format
 msgid "Mutual Fund"
-msgstr "Vzájemný fond"
+msgstr "Fond mutual"
 
 #: eqonomize.cpp:1244 eqonomize.cpp:2598 eqonomize.cpp:2658
 #, kde-format
 msgid "Bond"
-msgstr "Dluhopis"
+msgstr "Obligațiune"
 
 #: eqonomize.cpp:1245 eqonomize.cpp:2599 eqonomize.cpp:2659
 #, kde-format
 msgid "Stock"
-msgstr "Akcie"
+msgstr "Stoc"
 
 #: eqonomize.cpp:1246 eqonomize.cpp:2601 eqonomize.cpp:2661 eqonomize.cpp:3492
 #: eqonomize.cpp:3497 importcsvdialog.cpp:117 qifimportexport.cpp:332
 #, kde-format
 msgid "Other"
-msgstr "Ostatní"
+msgstr "Altul"
 
 #: eqonomize.cpp:1249 eqonomize.cpp:1370 eqonomize.cpp:1464 eqonomize.cpp:1529
 #, kde-format
 msgid "Name:"
-msgstr "Název:"
+msgstr "Nume:"
 
 #: eqonomize.cpp:1264
 #, kde-format
 msgid "Decimals in Shares:"
-msgstr "Desetiny v podílech:"
+msgstr "Zecimale în acțiuni:"
 
 #: eqonomize.cpp:1267
 #, kde-format
 msgid "Initial Shares:"
-msgstr "Počáteční podíly:"
+msgstr "Acțiuni inițiale:"
 
 #: eqonomize.cpp:1270
 #, kde-format
 msgid "Initial quotation:"
-msgstr "Počáteční kurz:"
+msgstr "Cotație inițială:"
 
 #: eqonomize.cpp:1289 transactioneditwidget.cpp:675
 #, kde-format
 msgid "No suitable account or income category available."
-msgstr "Neexistuje vhodná kategorie účtů nebo příjmů."
+msgstr "Nu există nici un cont sau tip de venit potrivit."
 
 #: eqonomize.cpp:1363 eqonomize.cpp:3488 eqonomize.cpp:4021
 #: qifimportexport.cpp:325
 #, kde-format
 msgid "Cash"
-msgstr "Hotovost"
+msgstr "Numerar"
 
 #: eqonomize.cpp:1364 eqonomize.cpp:4016
 #, kde-format
 msgid "Current Account"
-msgstr "Běžný účet"
+msgstr "Cont curent"
 
 #: eqonomize.cpp:1365 eqonomize.cpp:3490 eqonomize.cpp:4017
 #, kde-format
 msgid "Savings Account"
-msgstr "Spořící účet"
+msgstr "Cont economii"
 
 #: eqonomize.cpp:1366 eqonomize.cpp:4018
 #, kde-format
 msgid "Credit Card"
-msgstr "Platební karta"
+msgstr "Carte de credit"
 
 #: eqonomize.cpp:1367 eqonomize.cpp:4019
 #, kde-format
 msgid "Liabilities"
-msgstr "Dluhy"
+msgstr "Pasive"
 
 #: eqonomize.cpp:1368 eqonomize.cpp:1731 eqonomize.cpp:1732 eqonomize.cpp:3891
 #: eqonomize.cpp:3897 eqonomize.cpp:4020
 #, kde-format
 msgid "Securities"
-msgstr "Cenné papíry"
+msgstr "Titluri de valoare"
 
 #: eqonomize.cpp:1373
 #, kde-format
 msgid "Initial balance:"
-msgstr "Počáteční bilance:"
+msgstr "Balanță inițială:"
 
 #: eqonomize.cpp:1376
 #, kde-format
 msgid "Default account for budgeted transactions"
-msgstr "Výchozí účet pro rozpočtové transakce"
+msgstr "Cont implicit pentru tranzacții cu buget"
 
 #: eqonomize.cpp:1441 eqonomize.cpp:1507 eqonomize.cpp:1572
 #, kde-format
 msgid "Empty name."
-msgstr "Prázdný název."
+msgstr "Nume nedefinit."
 
 #: eqonomize.cpp:1447
 #, kde-format
 msgid "The entered name is used by another account."
-msgstr "Tento název už používá jiný účet."
+msgstr "Numele introdus este folosit la alt cont."
 
 #: eqonomize.cpp:1467 eqonomize.cpp:1532
 #, kde-format
 msgid "Monthly budget:"
-msgstr "Měsíční rozpočet:"
+msgstr "Buget lunar:"
 
 #: eqonomize.cpp:1513
 #, kde-format
 msgid "The entered name is used by another income category."
-msgstr "Tento název už používá jiná kategorie příjmů."
+msgstr "Numele introdus este folosit la altă categorie de venituri."
 
 #: eqonomize.cpp:1578
 #, kde-format
 msgid "The entered name is used by another expense category."
-msgstr "Tento název už používá jiná kategorie výdajů."
+msgstr "Numele introdus este folosit la altă categorie de cheltuieli."
 
 #: eqonomize.cpp:1711 eqonomize.cpp:1778 eqonomize.cpp:3984 eqonomize.cpp:5970
 #: eqonomize.cpp:5976
 #, kde-format
 msgid "Accounts"
-msgstr "Účty"
+msgstr "Conturi"
 
 #: eqonomize.cpp:1712
 #, kde-format
 msgid "Accounts & Categories"
-msgstr "Účty & Kategorie"
+msgstr "Conturi și categorii"
 
 #: eqonomize.cpp:1716 eqonomize.cpp:1717 eqonomize.cpp:1780
 #: importcsvdialog.cpp:70 overtimechart.cpp:126 overtimechart.cpp:1727
@@ -1000,7 +1014,7 @@ msgstr "Účty & Kategorie"
 #: transactionlistwidget.cpp:263
 #, kde-format
 msgid "Expenses"
-msgstr "Výdaje"
+msgstr "Cheltuieli"
 
 #: eqonomize.cpp:1721 eqonomize.cpp:1722 eqonomize.cpp:1779 eqonomize.cpp:4043
 #: importcsvdialog.cpp:75 overtimechart.cpp:127 overtimechart.cpp:1726
@@ -1010,214 +1024,214 @@ msgstr "Výdaje"
 #: transactionlistwidget.cpp:264
 #, kde-format
 msgid "Incomes"
-msgstr "Příjmy"
+msgstr "Venituri"
 
 #: eqonomize.cpp:1726 eqonomize.cpp:1727 importcsvdialog.cpp:78
 #: transactionlistwidget.cpp:253 transactionlistwidget.cpp:265
 #, kde-format
 msgid "Transfers"
-msgstr "Převody"
+msgstr "Transferuri"
 
 #: eqonomize.cpp:1736
 #, kde-format
 msgid "Schedule"
-msgstr "Plán"
+msgstr "Planificare"
 
 #: eqonomize.cpp:1737
 #, kde-format
 msgid "Scheduled Transactions"
-msgstr "Plánované transakce"
+msgstr "Tranzacții planificate"
 
 #: eqonomize.cpp:1753 eqonomize.cpp:1775
 #, kde-format
 msgid "Account / Category"
-msgstr "Účet / Skupina"
+msgstr "Cont / categorie"
 
 #: eqonomize.cpp:1754
 #, kde-format
 msgid "Remaining Budget (%1)"
-msgstr "Zbývající rozpočet (%1)"
+msgstr "Buget rămas (%1)"
 
 #: eqonomize.cpp:1755
 #, kde-format
 msgid "Change (%1)"
-msgstr "Změna (%1)"
+msgstr "Schimbare (%1)"
 
 #: eqonomize.cpp:1756
 #, kde-format
 msgid "Total (%1)"
-msgstr "Celkem (%1)"
+msgstr "Total (%1)"
 
 #: eqonomize.cpp:1769
 #, kde-format
 msgctxt "%2 remains of %1 budget"
 msgid "%2 of %1"
-msgstr "%2 ze %1"
+msgstr "%2 din %1"
 
 #: eqonomize.cpp:1785 eqonomize.cpp:4002
 #, kde-format
 msgid "Includes budgeted transactions"
-msgstr "Zahrnuje rozpočtové transakce"
+msgstr "Include tranzacții cu buget"
 
 #: eqonomize.cpp:1793
 #, kde-format
 msgid "Period"
-msgstr "Období"
+msgstr "Perioadă"
 
 #: eqonomize.cpp:1825
 #, kde-format
 msgid "Select Period"
-msgstr "Vybrat období"
+msgstr "Selectare perioadă"
 
 #: eqonomize.cpp:1827 eqonomize.cpp:4312
 #, kde-format
 msgid "Current Month"
-msgstr "Tento měsíc"
+msgstr "Luna curentă"
 
 #: eqonomize.cpp:1828 eqonomize.cpp:4313
 #, kde-format
 msgid "Current Year"
-msgstr "Tento rok"
+msgstr "Anul curent"
 
 #: eqonomize.cpp:1829 eqonomize.cpp:4314
 #, kde-format
 msgid "Current Whole Month"
-msgstr "Celý tento měsíc"
+msgstr "Toată luna curentă"
 
 #: eqonomize.cpp:1830 eqonomize.cpp:4315
 #, kde-format
 msgid "Current Whole Year"
-msgstr "Celý tento rok"
+msgstr "Tot anul curent"
 
 #: eqonomize.cpp:1831
 #, kde-format
 msgid "Whole Past Month"
-msgstr "Celý minulý měsíc"
+msgstr "Toată luna trecută"
 
 #: eqonomize.cpp:1832
 #, kde-format
 msgid "Whole Past Year"
-msgstr "Celý minulý rok"
+msgstr "Tot anul trecut"
 
 #: eqonomize.cpp:1833
 #, kde-format
 msgid "Previous Month"
-msgstr "Minulý měsíc"
+msgstr "Luna anterioară"
 
 #: eqonomize.cpp:1834
 #, kde-format
 msgid "Previous Year"
-msgstr "Minulý rok"
+msgstr "Anul anterior"
 
 #: eqonomize.cpp:1837
 #, kde-format
 msgid "Show partial budget"
-msgstr "Ukázat částečný rozpočet"
+msgstr "Arată bugetul parțial"
 
 #: eqonomize.cpp:1842
 #, kde-format
 msgid "Edit Budget"
-msgstr "Upravit rozpočet"
+msgstr "Editează buget"
 
 #: eqonomize.cpp:1846
 #, kde-format
 msgid "Budget:"
-msgstr "Rozpočet:"
+msgstr "Buget:"
 
 #: eqonomize.cpp:1856
 #, kde-format
 msgid "Month:"
-msgstr "Měsíc:"
+msgstr "Luna:"
 
 #: eqonomize.cpp:1864
 #, kde-format
 msgid "Result previous month:"
-msgstr "Výsledek minulého měsíce:"
+msgstr "Rezultat luna trecută:"
 
 #: eqonomize.cpp:1917 eqonomize.cpp:4354
 #, kde-format
 msgid "New Security…"
-msgstr "Nový cenný papír…"
+msgstr "Titlu de valoare nou…"
 
 #: eqonomize.cpp:1919
 #, kde-format
 msgid "New Transaction"
-msgstr "Nová transakce"
+msgstr "Tranzacție nouă…"
 
 #: eqonomize.cpp:1922 eqonomize.cpp:4362
 #, kde-format
 msgid "Set Quotation…"
-msgstr "Nastavit kurz…"
+msgstr "Stabilire cotație…"
 
 #: eqonomize.cpp:1934 eqonomize.cpp:3987
 #, kde-format
 msgid "Name"
-msgstr "Název"
+msgstr "Nume"
 
 #: eqonomize.cpp:1937
 #, kde-format
 msgid "Quotation"
-msgstr "Kurz"
+msgstr "Cotație"
 
 #: eqonomize.cpp:1939
 #, kde-format
 msgid "Profit"
-msgstr "Zisk"
+msgstr "Profit"
 
 #: eqonomize.cpp:1940
 #, kde-format
 msgid "Yearly Rate"
-msgstr "Roční sazba"
+msgstr "Rată anuală"
 
 #: eqonomize.cpp:1942 qifimportexport.cpp:323
 #, kde-format
 msgid "Account"
-msgstr "Účet"
+msgstr "Cont"
 
 #: eqonomize.cpp:1953
 #, kde-format
 msgid "Statistics Period"
-msgstr "Doba statistiky"
+msgstr "Perioadă statistică"
 
 #: eqonomize.cpp:2015
 #, kde-format
 msgid "New Schedule"
-msgstr "Nový plán"
+msgstr "Planificare nouă"
 
 #: eqonomize.cpp:2018
 #, kde-format
 msgid "Edit"
-msgstr "Upravit"
+msgstr "Editează"
 
 #: eqonomize.cpp:2032
 #, kde-format
 msgid "Next Occurrence"
-msgstr "Další výskyt"
+msgstr "Următoarea apariție"
 
 #: eqonomize.cpp:2038 qifimportexport.cpp:152 transactionlistwidget.cpp:144
 #, kde-format
 msgid "Comments"
-msgstr "Poznámky"
+msgstr "Comentarii"
 
 #: eqonomize.cpp:2291
 #, kde-format
 msgid "New Security"
-msgstr "Nový cenný papír"
+msgstr "Titlu de valoare nou"
 
 #: eqonomize.cpp:2306
 #, kde-format
 msgid "Edit Security"
-msgstr "Upravit cenný papír"
+msgstr "Modifică titlu de valoare"
 
 #: eqonomize.cpp:2325
 #, kde-format
 msgid "Profit:"
-msgstr "Zisk:"
+msgstr "Profit:"
 
 #: eqonomize.cpp:2325
 #, kde-format
 msgid "Rate:"
-msgstr "Sazba:"
+msgstr "Rată:"
 
 #: eqonomize.cpp:2332
 #, kde-format
@@ -1225,417 +1239,418 @@ msgid ""
 "Are you sure you want to delete the security \"%1\" and all associated "
 "transactions?"
 msgstr ""
-"Opravdu chcete smazat cenný papír  \"%1\" a všechny související transakce?"
+"Sigur doriți ștergerea titlului de valoare „%1” și toate tranzacțiile "
+"asociate?"
 
 #: eqonomize.cpp:2394 transactioneditwidget.cpp:700
 #, kde-format
 msgid "No security available."
-msgstr "Žádný cenný papír k dispozici."
+msgstr "Nu este disponibil nici un titlu de valoare."
 
 #: eqonomize.cpp:2466
 #, kde-format
 msgid "Set Quotation (%1)"
-msgstr "Stanovit plán rozpočtu (%1)"
+msgstr "Stabilește cotația (%1)"
 
 #: eqonomize.cpp:2472 transactioneditwidget.cpp:143
 #, kde-format
 msgid "Price per share:"
-msgstr "Cena za akcii:"
+msgstr "Preț per acțiune:"
 
 #: eqonomize.cpp:2485
 #, kde-format
 msgid "Future dates are not allowed."
-msgstr "Budoucí datumy nejsou povoleny."
+msgstr "Datele în viitor nu sunt permise."
 
 #: eqonomize.cpp:2513
 #, kde-format
 msgid "Security Transactions"
-msgstr "Transakce s cennými papíry"
+msgstr "Tranzacții titluri de valoare."
 
 #: eqonomize.cpp:3166 ledgerdialog.cpp:293
 #, kde-format
 msgid "Ledger"
-msgstr "Účetní kniha"
+msgstr "Registru"
 
 #: eqonomize.cpp:3475
 #, kde-format
 msgid "Untitled"
-msgstr "Bez názvu"
+msgstr "Fără titlu"
 
 #: eqonomize.cpp:3489
 #, kde-format
 msgid "Check Account"
-msgstr "Šekový účet"
+msgstr "Cont cec"
 
 #: eqonomize.cpp:3491
 #, kde-format
 msgid "Salary"
-msgstr "Plat"
+msgstr "Salariu"
 
 #: eqonomize.cpp:3493
 #, kde-format
 msgid "Bills"
-msgstr "Účty"
+msgstr "Facturi"
 
 #: eqonomize.cpp:3494
 #, kde-format
 msgid "Clothing"
-msgstr "Oblečení"
+msgstr "Îmbrăcăminte"
 
 #: eqonomize.cpp:3495
 #, kde-format
 msgid "Groceries"
-msgstr "Potraviny"
+msgstr "Alimente"
 
 #: eqonomize.cpp:3496
 #, kde-format
 msgid "Leisure"
-msgstr "Volný čas"
+msgstr "Timp liber"
 
 #: eqonomize.cpp:3561 importcsvdialog.cpp:795 qifimportexport.cpp:280
 #: qifimportexport.cpp:444
 #, kde-format
 msgid "Couldn't fetch %1."
-msgstr "Nelze přinést %1."
+msgstr "Nu s-a putut aduce %1."
 
 #: eqonomize.cpp:3573 eqonomize.cpp:4417
 #, kde-format
 msgid "Error loading %1: %2."
-msgstr "Chyba při spouštění  %1: %2."
+msgstr "Eroare la încărcarea %1: %2."
 
 #: eqonomize.cpp:3573 eqonomize.cpp:4417
 #, kde-format
 msgid "Couldn't open file"
-msgstr "Soubor nelze otevřít"
+msgstr "Nu s-a putut deschide fișierul."
 
 #: eqonomize.cpp:3627 eqonomize.cpp:3653
 #, kde-format
 msgid "Error saving %1: %2."
-msgstr "Chyba při ukládání %1: %2."
+msgstr "Eroare la salvarea %1: %2."
 
 #: eqonomize.cpp:3627 eqonomize.cpp:3653 eqonomize.cpp:3673
 #, kde-format
 msgid "Couldn't save file"
-msgstr "Soubor nelze uložit"
+msgstr "Nu s-a putut salva fișierul"
 
 #: eqonomize.cpp:3673 eqonomize.cpp:4282 ledgerdialog.cpp:281
 #: qifimportexport.cpp:634
 #, kde-format
 msgid "Failed to upload file to %1."
-msgstr "Nepodařilo se nahrát soubor do %1."
+msgstr "Eroare la încărcarea fișierului la %1."
 
 #: eqonomize.cpp:3703 eqonomize.cpp:3728
 #, kde-format
 msgid "Report"
-msgstr "Sestava"
+msgstr "Raport"
 
 #: eqonomize.cpp:3758 eqonomize.cpp:3783
 #, kde-format
 msgid "Chart"
-msgstr "Graf"
+msgstr "Grafic"
 
 #: eqonomize.cpp:3823 eqonomize.cpp:3829
 #, kde-format
 msgid "Transaction Schedule"
-msgstr "Plán transakce"
+msgstr "Planificare tranzacție"
 
 #: eqonomize.cpp:3976
 #, kde-format
 msgctxt "html format"
 msgid "Accounts &amp; Categories"
-msgstr "Účty &amp; Kategorie"
+msgstr "Conturi și categorii"
 
 #: eqonomize.cpp:3981
 #, kde-format
 msgctxt "html format"
 msgid "Accounts &amp; Categories (%1&ndash;%2)"
-msgstr "Účty &amp; Kategorie (%1&ndash;%2)"
+msgstr "Conturi și categorii (%1&ndash;%2)"
 
 #: eqonomize.cpp:3982
 #, kde-format
 msgctxt "html format"
 msgid "Accounts &amp; Categories (to %1)"
-msgstr "Účty &amp; Kategorie (do %1)"
+msgstr "Conturi și categorii (la %1)"
 
 #: eqonomize.cpp:3989 eqonomize.cpp:4049 eqonomize.cpp:4097 eqonomize.cpp:4142
 #, kde-format
 msgid "Change"
-msgstr "Změna"
+msgstr "Modifică"
 
 #: eqonomize.cpp:3993 ledgerdialog.cpp:140
 #, kde-format
 msgid "Balance"
-msgstr "Bilance"
+msgstr "Balanță"
 
 #: eqonomize.cpp:4047 eqonomize.cpp:4095
 #, kde-format
 msgid "Budget"
-msgstr "Rozpočet"
+msgstr "Buget"
 
 #: eqonomize.cpp:4048 eqonomize.cpp:4096
 #, kde-format
 msgid "Remaining Budget"
-msgstr "Zbývající rozpočet"
+msgstr "Buget rămas"
 
 #: eqonomize.cpp:4050
 #, kde-format
 msgid "Total Incomes"
-msgstr "Celkové příjmy"
+msgstr "Venituri totale"
 
 #: eqonomize.cpp:4091
 #, kde-format
 msgid "Costs"
-msgstr "Ceny"
+msgstr "Costuri"
 
 #: eqonomize.cpp:4098
 #, kde-format
 msgid "Total Expenses"
-msgstr "Celkové výdaje"
+msgstr "Cheltuieli totale"
 
 #: eqonomize.cpp:4167 eqonomize.cpp:4214
 #, kde-format
 msgid "Empty expenses list."
-msgstr "Prázdný seznam výdajů."
+msgstr "Listă de cheltuieli goală."
 
 #: eqonomize.cpp:4172 eqonomize.cpp:4219
 #, kde-format
 msgid "Empty incomes list."
-msgstr "Prázdný seznam příjmů."
+msgstr "Listă de venituri goală."
 
 #: eqonomize.cpp:4177 eqonomize.cpp:4224
 #, kde-format
 msgid "Empty transfers list."
-msgstr "Prázdný seznam převodů."
+msgstr "Listă de transferuri goală."
 
 #: eqonomize.cpp:4182 eqonomize.cpp:4229
 #, kde-format
 msgid "Empty securities list."
-msgstr "Prázdný seznam cenných papírů."
+msgstr "Listă de titluri de valoare goală."
 
 #: eqonomize.cpp:4187 eqonomize.cpp:4234
 #, kde-format
 msgid "Empty schedule list."
-msgstr "Prázdný seznam plánů."
+msgstr "Listă de planificări goală."
 
 #: eqonomize.cpp:4305
 #, kde-format
 msgid "Export View…"
-msgstr "Exportovat …"
+msgstr "Exportare vizualizare…"
 
 #: eqonomize.cpp:4307
 #, kde-format
 msgid "Print View…"
-msgstr "Tisk…"
+msgstr "Vizualizare tipărire…"
 
 #: eqonomize.cpp:4309
 #, kde-format
 msgid "Initial Period"
-msgstr "Počáteční období"
+msgstr "Perioadă inițială"
 
 #: eqonomize.cpp:4316
 #, kde-format
 msgid "Remember Last Dates"
-msgstr "Zapamatovat poslední datumy"
+msgstr "Ține minte ultimele date"
 
 #: eqonomize.cpp:4319
 #, kde-format
 msgid "Import CSV File…"
-msgstr "Importovat soubor CSV…"
+msgstr "Importare fișier CSV…"
 
 #: eqonomize.cpp:4320
 #, kde-format
 msgid "Import QIF File…"
-msgstr "Importovat soubor QIF…"
+msgstr "Importare fișier QIF…"
 
 #: eqonomize.cpp:4321
 #, kde-format
 msgid "Export As QIF File…"
-msgstr "Exportovat jako soubor QIF…"
+msgstr "Exportare ca fișier QIF…"
 
 #: eqonomize.cpp:4323
 #, kde-format
 msgid "Add Account…"
-msgstr "Přidat účet…"
+msgstr "Adăugare cont…"
 
 #: eqonomize.cpp:4324
 #, kde-format
 msgid "New Account…"
-msgstr "Nový účet…"
+msgstr "Cont nou…"
 
 #: eqonomize.cpp:4325
 #, kde-format
 msgid "New Income Category…"
-msgstr "Nová kategorie příjmů…"
+msgstr "Categorie de venit nouă…"
 
 #: eqonomize.cpp:4326
 #, kde-format
 msgid "New Expense Category…"
-msgstr "Nová kategorie výdajů…"
+msgstr "Categorie de cheltuială nouă…"
 
 #: eqonomize.cpp:4327
 #, kde-format
 msgid "Balance…"
-msgstr "Bilance…"
+msgstr "Echilibrare…"
 
 #: eqonomize.cpp:4331
 #, kde-format
 msgid "Show Transactions"
-msgstr "Ukázat transakce"
+msgstr "Arată tranzacțiile"
 
 #: eqonomize.cpp:4335
 #, kde-format
 msgid "New Transfer…"
-msgstr "Nový převod…"
+msgstr "Transfer nou…"
 
 #: eqonomize.cpp:4336
 #, kde-format
 msgid "New Split Transaction…"
-msgstr "Nová rozdělená transakce…"
+msgstr "Tranzacție împărțită nouă…"
 
 #: eqonomize.cpp:4337
 #, kde-format
 msgid "Edit Transaction(s) (Occurrence)…"
-msgstr "Upravit transakce (výskyt)"
+msgstr "Editare tranzacții (recurență)…"
 
 #: eqonomize.cpp:4338
 #, kde-format
 msgid "Edit Occurrence…"
-msgstr "Upravit výskyt…"
+msgstr "Editare recurență…"
 
 #: eqonomize.cpp:4339
 #, kde-format
 msgid "Edit Schedule (Recurrence)…"
-msgstr "Upravit plán (opakování)…"
+msgstr "Editare planificare (recurență)…"
 
 #: eqonomize.cpp:4340
 #, kde-format
 msgid "Edit Schedule…"
-msgstr "Upravit plán…"
+msgstr "Editare planificare…"
 
 #: eqonomize.cpp:4341
 #, kde-format
 msgid "Remove Transaction(s) (Occurrence)"
-msgstr "Odstranit transakce (výskyt)"
+msgstr "Elimină tranzacții (recurență)"
 
 #: eqonomize.cpp:4342
 #, kde-format
 msgid "Remove Occurrence"
-msgstr "Odstranit výskyt"
+msgstr "Elimină recurența"
 
 #: eqonomize.cpp:4343
 #, kde-format
 msgid "Delete Schedule (Recurrence)"
-msgstr "Odstranit plán (opakování)"
+msgstr "Șterge planificare (recurență)"
 
 #: eqonomize.cpp:4344
 #, kde-format
 msgid "Delete Schedule"
-msgstr "Smazat plán"
+msgstr "Șterge planificare"
 
 #: eqonomize.cpp:4345
 #, kde-format
 msgid "Edit Split Transaction…"
-msgstr "Upravit rozdělenou transakci"
+msgstr "Editare tranzacție împărțită…"
 
 #: eqonomize.cpp:4346
 #, kde-format
 msgid "Remove Split Transaction"
-msgstr "Odstranit rozdělenou transakci"
+msgstr "Eliminare tranzacție împărțită"
 
 #: eqonomize.cpp:4347
 #, kde-format
 msgid "Join Transactions…"
-msgstr "Spojit transakce…"
+msgstr "Alăturare tranzacții…"
 
 #: eqonomize.cpp:4348
 #, kde-format
 msgid "Split Up Transaction"
-msgstr "Rozdělit transakci"
+msgstr "Împărțește tranzacția"
 
 #: eqonomize.cpp:4350
 #, kde-format
 msgid "Refund…"
-msgstr "Úhrada…"
+msgstr "Rambursare…"
 
 #: eqonomize.cpp:4351
 #, kde-format
 msgid "Repayment…"
-msgstr "Splátka…"
+msgstr "Restituire"
 
 #: eqonomize.cpp:4352
 #, kde-format
 msgid "New Refund/Repayment…"
-msgstr "Nová úhrada/splátka"
+msgstr "Rambursare/restituire nouă…"
 
 #: eqonomize.cpp:4355
 #, kde-format
 msgid "Edit Security…"
-msgstr "Upravit cenný papír…"
+msgstr "Editare titlu de valoare…"
 
 #: eqonomize.cpp:4356
 #, kde-format
 msgid "Remove Security"
-msgstr "Smazat cenný papír"
+msgstr "Eliminare titlu de valoare"
 
 #: eqonomize.cpp:4357
 #, kde-format
 msgid "Shares Sold…"
-msgstr "Prodané podíly…"
+msgstr "Acțiuni vândute…"
 
 #: eqonomize.cpp:4358
 #, kde-format
 msgid "Shares Bought…"
-msgstr "Nakoupené podíly…"
+msgstr "Acțiuni cumpărate…"
 
 #: eqonomize.cpp:4359
 #, kde-format
 msgid "Dividend…"
-msgstr "Dividenda…"
+msgstr "Dividend…"
 
 #: eqonomize.cpp:4360
 #, kde-format
 msgid "Reinvested Dividend…"
-msgstr "Reinvestovaná dividenda…"
+msgstr "Dividend reinvestit…"
 
 #: eqonomize.cpp:4361
 #, kde-format
 msgid "Shares Moved…"
-msgstr "Přesunuté podíly…"
+msgstr "Acțiuni mutate…"
 
 #: eqonomize.cpp:4363
 #, kde-format
 msgid "Edit Quotations…"
-msgstr "Upravit kurz…"
+msgstr "Editare cotații…"
 
 #: eqonomize.cpp:4364
 #, kde-format
 msgid "Transactions…"
-msgstr "Transakce…"
+msgstr "Tranzacții…"
 
 #: eqonomize.cpp:4366
 #, kde-format
 msgid "Development Over Time Report…"
-msgstr "Výkaz časového vývoje…"
+msgstr "Raport evoluție în timp…"
 
 #: eqonomize.cpp:4367
 #, kde-format
 msgid "Categories Comparison Report…"
-msgstr "Výkaz porovnání kategorií…"
+msgstr "Raport comparare categorii…"
 
 #: eqonomize.cpp:4368
 #, kde-format
 msgid "Categories Comparison Chart…"
-msgstr "Schéma vývoje kategorií…"
+msgstr "Grafic comparare categorii…"
 
 #: eqonomize.cpp:4369
 #, kde-format
 msgid "Development Over Time Chart…"
-msgstr "Schéma časového vývoje…"
+msgstr "Grafic evoluție în timp…"
 
 #: eqonomize.cpp:4371
 #, kde-format
 msgid "Use Additional Transaction Properties"
-msgstr "Použít další vlastnosti transakcí"
+msgstr "Folosește proprietăți adiționale la tranzacții"
 
 #: eqonomize.cpp:4413
 #, kde-format
@@ -1643,78 +1658,79 @@ msgid ""
 "Eqonomize! exited unexpectedly before the file was saved and data was lost.\n"
 "Do you want to load the last auto-saved version of the file?"
 msgstr ""
-"Eqonomize! byl nečekaně zavřen bez uložení a data byla ztracena.\n"
-"Přejete si spustit poslední automaticky uloženou verzi souboru?"
+"Eqonomize! a ieșit în mod neașteptat înainte de salvarea fișierului și "
+"datele s-au pierdut.\n"
+"Doriți încărcarea ultimei versiuni de fișier salvate automat?"
 
 #: eqonomize.cpp:4413
 #, kde-format
 msgid "Crash Recovery"
-msgstr "Obnovení po pádu"
+msgstr "Restaurare după terminare prematură"
 
 #: eqonomize.cpp:4605 eqonomize.cpp:4606
 #, kde-format
 msgid "The current file has been modified. Do you want to save it?"
-msgstr "Soubor byl změněn. Přejete si ho uložit?"
+msgstr "Fișierul curent a fost modificat. Doriți să-l salvați?"
 
 #: eqonomize.cpp:4643
 #, kde-format
 msgid "Confirm Schedule"
-msgstr "Potvrdit plán"
+msgstr "Confirmă planificarea"
 
 #: eqonomize.cpp:4697
 #, kde-format
 msgid "New Account"
-msgstr "Nový účet"
+msgstr "Cont nou"
 
 #: eqonomize.cpp:4712
 #, kde-format
 msgid "New Income Category"
-msgstr "Nová skupina příjmů"
+msgstr "Categorie de venit nouă"
 
 #: eqonomize.cpp:4725
 #, kde-format
 msgid "New Expense Category"
-msgstr "Nová kategorie výdajů"
+msgstr "Categorie de cheltuieli nouă"
 
 #: eqonomize.cpp:4800
 #, kde-format
 msgid "Balance Account"
-msgstr "Bilanční účet"
+msgstr "Echilibrare cont"
 
 #: eqonomize.cpp:4806
 #, kde-format
 msgid "Book value:"
-msgstr "Účetní hodnota:"
+msgstr "Valoare registru:"
 
 #: eqonomize.cpp:4813
 #, kde-format
 msgid "Real value:"
-msgstr "Skutečná hodnota:"
+msgstr "Valoare reală:"
 
 #: eqonomize.cpp:4836
 #, kde-format
 msgid "Edit Account"
-msgstr "Upravit účet"
+msgstr "Modifică contul"
 
 #: eqonomize.cpp:4869
 #, kde-format
 msgid "Edit Income Category"
-msgstr "Upravit kategorii příjmů"
+msgstr "Editează categoria de venit"
 
 #: eqonomize.cpp:4887
 #, kde-format
 msgid "Edit Expense Category"
-msgstr "Upravit kategorii výdajů"
+msgstr "Editează categoria de cheltuieli"
 
 #: eqonomize.cpp:4948
 #, kde-format
 msgid "Move transactions?"
-msgstr "Přesunout transakce?"
+msgstr "Mutare tranzacții?"
 
 #: eqonomize.cpp:4958
 #, kde-format
 msgid "Move to:"
-msgstr "Přesunout do:"
+msgstr "Mută în:"
 
 #: eqonomize.cpp:4965
 #, kde-format
@@ -1722,8 +1738,8 @@ msgid ""
 "The category contains some expenses.\n"
 "What do you want to do with them?"
 msgstr ""
-"Kategorie obsahuje výdaje.\n"
-"Co s nimi chcete udělat?"
+"Categoria conține cheltuieli.\n"
+"Ce doriți să faceți cu ele?"
 
 #: eqonomize.cpp:4977
 #, kde-format
@@ -1731,8 +1747,8 @@ msgid ""
 "The category contains some incomes.\n"
 "What do you want to do with them?"
 msgstr ""
-"Kategorie obsahuje příjmy.\n"
-"Co s nimi chcete udělat?"
+"Categoria conține venituri.\n"
+"Ce doriți să faceți cu ele?"
 
 #: eqonomize.cpp:4989
 #, kde-format
@@ -1740,8 +1756,8 @@ msgid ""
 "The account contains some transactions.\n"
 "What do you want to do with them?"
 msgstr ""
-"Účet obsahuje transakce.\n"
-"Co s nimi chcete udělat?"
+"Contul conține tranzacții.\n"
+"Ce doriți să le faceți cu ele?"
 
 #: eqonomize.cpp:5011
 #, kde-format
@@ -1749,13 +1765,13 @@ msgid ""
 "The category contains some expenses that will be removed. Do you still want "
 "to remove the category?"
 msgstr ""
-"Kategorie obsahuje výdaje, které budou odstraněny. Opravdu chcete kategorii "
-"odstranit?"
+"Categoria conține cheltuieli care vor fi eliminate. Încă doriți eliminarea "
+"categoriei?"
 
 #: eqonomize.cpp:5011 eqonomize.cpp:5012
 #, kde-format
 msgid "Remove Category?"
-msgstr "Odstranit kategorii?"
+msgstr "Eliminare categorie?"
 
 #: eqonomize.cpp:5012
 #, kde-format
@@ -1763,8 +1779,8 @@ msgid ""
 "The category contains some incomes that will be removed. Do you still want "
 "to remove the category?"
 msgstr ""
-"Kategorie obsahuje příjmy, které budou odstraněny. Opravdu chcete kategorii "
-"odstranit?"
+"Categoria conține venituri care vor fi eliminate. Sigur doriți să eliminați "
+"categoria?"
 
 #: eqonomize.cpp:5013
 #, kde-format
@@ -1772,111 +1788,111 @@ msgid ""
 "The account contains some transactions that will be removed. Do you still "
 "want to remove the account?"
 msgstr ""
-"Účet obsahuje transakce, které budou odstraněny. Opravdu chcete účet "
-"odstranit?"
+"Contul conține tranzacții care vor fi eliminate. Sigur doriți să eliminați "
+"contul?"
 
 #: eqonomize.cpp:5013
 #, kde-format
 msgid "Remove Account?"
-msgstr "Odstranit účet?"
+msgstr "Eliminare cont?"
 
 #: eqonomize.cpp:5531 eqonomize.cpp:5555 eqonomize.cpp:5730
 #, kde-format
 msgctxt "%1: budget; %2: remaining budget"
 msgid "%2 of %1"
-msgstr "%2 ze %1"
+msgstr "%2 din %1"
 
 #: eqonomize.cpp:5810 eqonomize.cpp:5835
 #, kde-format
 msgid "%1 (with no budget)"
-msgstr "%1 (se žádným rozpočtem)"
+msgstr "%1 (fără buget)"
 
 #: eqonomize.cpp:5811 eqonomize.cpp:5836
 #, kde-format
 msgid "%1 (with budget %2)"
-msgstr "%1 (s rozpočtem %2)"
+msgstr "%1 (cu buget %2)"
 
 #: importcsvdialog.cpp:60
 #, kde-format
 msgid "Import CSV file"
-msgstr "Imporovat soubor CSV"
+msgstr "Importare fișier CSV"
 
 #: importcsvdialog.cpp:64
 #, kde-format
 msgid "Transaction Type Selection"
-msgstr "Výběr typu transakce"
+msgstr "Selecție tip tranzacție"
 
 #: importcsvdialog.cpp:81
 #, kde-format
 msgid "Expenses and incomes (negative cost)"
-msgstr "Výdaje a příjmy (záporná cena)"
+msgstr "Cheltuieli și venituri (cost negativ)"
 
 #: importcsvdialog.cpp:84
 #, kde-format
 msgid "Expenses and incomes (separate columns)"
-msgstr "Výdaje a příjmy (oddělené sloupce)"
+msgstr "Cheltuieli și venituri (coloane separate)"
 
 #: importcsvdialog.cpp:87
 #, kde-format
 msgid "All types"
-msgstr "Všechny typy"
+msgstr "Toate tipurile"
 
 #: importcsvdialog.cpp:95 qifimportexport.cpp:62
 #, kde-format
 msgid "File Selection"
-msgstr "Výběr souboru"
+msgstr "Selectare fişier"
 
 #: importcsvdialog.cpp:99 qifimportexport.cpp:66 qifimportexport.cpp:548
 #, kde-format
 msgid "File:"
-msgstr "Soubor:"
+msgstr "Fișier:"
 
 #: importcsvdialog.cpp:104
 #, kde-format
 msgid "First data row:"
-msgstr "První řádek údajů:"
+msgstr "Primul rând de date:"
 
 #: importcsvdialog.cpp:107
 #, kde-format
 msgid "Auto"
-msgstr "Auto"
+msgstr "Automat"
 
 #: importcsvdialog.cpp:110
 #, kde-format
 msgid "Column delimiter:"
-msgstr "Oddělovač sloupců:"
+msgstr "Separator coloane:"
 
 #: importcsvdialog.cpp:113
 #, kde-format
 msgid "Comma"
-msgstr "Čárka"
+msgstr "Virgulă"
 
 #: importcsvdialog.cpp:114
 #, kde-format
 msgid "Tabulator"
-msgstr "Tabulátor"
+msgstr "Tabulator"
 
 #: importcsvdialog.cpp:115
 #, kde-format
 msgid "Semicolon"
-msgstr "Středník"
+msgstr "Punct și virgulă"
 
 #: importcsvdialog.cpp:116
 #, kde-format
 msgid "Space"
-msgstr "Mezera"
+msgstr "Spațiu"
 
 #: importcsvdialog.cpp:125
 #, kde-format
 msgid "Columns Specification"
-msgstr "Popis sloupce"
+msgstr "Specificații coloane"
 
 #: importcsvdialog.cpp:131 importcsvdialog.cpp:149 importcsvdialog.cpp:172
 #: importcsvdialog.cpp:189 importcsvdialog.cpp:208 importcsvdialog.cpp:227
 #: importcsvdialog.cpp:245
 #, kde-format
 msgid "Column"
-msgstr "Sloupec"
+msgstr "Coloană"
 
 #: importcsvdialog.cpp:205 importcsvdialog.cpp:356 importcsvdialog.cpp:365
 #: importcsvdialog.cpp:387 importcsvdialog.cpp:398
@@ -1885,19 +1901,19 @@ msgstr "Sloupec"
 #: transactionfilterwidget.cpp:113
 #, kde-format
 msgid "Category:"
-msgstr "Kategorie:"
+msgstr "Categorie:"
 
 #: importcsvdialog.cpp:224 importcsvdialog.cpp:357 importcsvdialog.cpp:374
 #: transactioneditwidget.cpp:248 transactioneditwidget.cpp:273
 #: transactionfilterwidget.cpp:117
 #, kde-format
 msgid "From account:"
-msgstr "Z účtu:"
+msgstr "De la contul:"
 
 #: importcsvdialog.cpp:262
 #, kde-format
 msgid "Create missing categories and accounts"
-msgstr "Vytvořit chybějící kategorie a účty"
+msgstr "Creare categorii și conturi lipsă"
 
 #: importcsvdialog.cpp:354
 #, kde-format
@@ -1905,31 +1921,32 @@ msgid ""
 "Imports data as expenses. Costs have positive value. Value is the only "
 "required column."
 msgstr ""
-"Importovat údaje jako výdaje. Ceny jsou kladné. Vyžadován pouze sloupec "
-"hodnota."
+"Importă datele ca cheltuieli. Costurile au valori pozitive. Singura coloană "
+"necesară este valoarea."
 
 #: importcsvdialog.cpp:363
 #, kde-format
 msgid "Imports data as incomes. Value is the only required column."
-msgstr "Importovat údaje jako příjmy. Vyžadován pouze sloupec hodnota."
+msgstr "Importă datele ca venituri. Singura coloană necesară este valoarea."
 
 #: importcsvdialog.cpp:366 importcsvdialog.cpp:375
 #: transactioneditwidget.cpp:231 transactioneditwidget.cpp:258
 #: transactionfilterwidget.cpp:106
 #, kde-format
 msgid "To account:"
-msgstr "Na účet:"
+msgstr "Către contul:"
 
 #: importcsvdialog.cpp:372
 #, kde-format
 msgid "Imports data as transfers. Value is the only required column."
-msgstr "Importovat údaje jako převody. Vyžadován pouze sloupec hodnota."
+msgstr ""
+"Importă datele ca transferuri. Singura coloană necesară este valoarea."
 
 #: importcsvdialog.cpp:373 transactioneditwidget.cpp:182
 #: transactioneditwidget.cpp:1109
 #, kde-format
 msgid "Amount:"
-msgstr "Množství:"
+msgstr "Cantitate:"
 
 #: importcsvdialog.cpp:381
 #, kde-format
@@ -1937,8 +1954,8 @@ msgid ""
 "Imports data as expenses and incomes. Costs have negative value. Value and "
 "category are both required columns."
 msgstr ""
-"Importovat údaje jako výdaje a příjmy. Ceny jsou kladné. Vyžadován sloupec "
-"hodnota i kategorie."
+"Importă datele ca cheltuieli și venituri. Costurile au valori negative. "
+"Valoarea și categoria sunt coloane necesare."
 
 #: importcsvdialog.cpp:392
 #, kde-format
@@ -1946,8 +1963,8 @@ msgid ""
 "Imports data as expenses and incomes. Costs and incomes have separate "
 "columns. Income, cost, and category are all required columns."
 msgstr ""
-"Importovat údaje jako výdaje a příjmy. Ceny a příjmy jsou v oddělených "
-"sloupcích. Vyžadovány sloupce příjem, cena a kategorie."
+"Importă datele ca cheltuieli și venituri. Costurile și veniturile au coloane "
+"separate. Veniturile, costurile și categoria sunt coloane necesare."
 
 #: importcsvdialog.cpp:403
 #, kde-format
@@ -1956,143 +1973,145 @@ msgid ""
 "positive value. Value, to, and from are all required columns. Accounts and "
 "categories must be existing."
 msgstr ""
-"Importovat údaje jako výdaje, příjmy a převody. Ceny jsou kladné nebo "
-"záporné. Vyžadovány sloupce pro a od. Účty a kategorie musí existovat."
+"Importă datele ca cheltuieli, venituri și transferuri. Costurile au valori "
+"pozitive sau negative. Valoarea, destinația și originea sunt coloane "
+"necesare. Trebuie să existe și conturile și categoriile."
 
 #: importcsvdialog.cpp:413 transactioneditwidget.cpp:209
 #: transactionfilterwidget.cpp:74 transactionfilterwidget.cpp:91
 #, kde-format
 msgid "From:"
-msgstr "Od:"
+msgstr "Din:"
 
 #: importcsvdialog.cpp:414 transactioneditwidget.cpp:216
 #: transactionfilterwidget.cpp:81 transactionfilterwidget.cpp:95
 #, kde-format
 msgid "To:"
-msgstr "Do:"
+msgstr "Către:"
 
 #: importcsvdialog.cpp:440 qifimportexport.cpp:258
 #, kde-format
 msgid "A file must be selected."
-msgstr "Vyberte soubor."
+msgstr "Trebuie să selectați un fișier."
 
 #: importcsvdialog.cpp:446 importcsvdialog.cpp:458 qifimportexport.cpp:265
 #: qifimportexport.cpp:595
 #, kde-format
 msgid "Selected file is a directory."
-msgstr "Vybraný soubor je adresář."
+msgstr "Fișierul selectat este un director."
 
 #: importcsvdialog.cpp:450 importcsvdialog.cpp:462 qifimportexport.cpp:269
 #, kde-format
 msgid "Selected file does not exist."
-msgstr "Vybraný soubor neexistuje."
+msgstr "Fișierul selectat nu există."
 
 #: importcsvdialog.cpp:468
 #, kde-format
 msgid "Empty delimiter."
-msgstr "Prázdný oddělovač."
+msgstr "Separator gol."
 
 #: importcsvdialog.cpp:712
 #, kde-format
 msgid "The same column number is selected multiple times."
-msgstr "Stejné číslo sloupce je vybráno vícekrát."
+msgstr "Același număr de coloană este selectat de mai multe ori."
 
 #: importcsvdialog.cpp:772
 #, kde-format
 msgid "Selected from account is the same as the to account."
-msgstr "Vybrané z účtu je stejné jako na účet."
+msgstr "Contul origine este același cu cel destinație."
 
 #: importcsvdialog.cpp:803 qifimportexport.cpp:288 qifimportexport.cpp:452
 #, kde-format
 msgid "Couldn't open %1 for reading."
-msgstr "Nelze otevřít %1 ke čtení."
+msgstr "Nu s-a putut deschide %1 pentru citire."
 
 #: importcsvdialog.cpp:806 qifimportexport.cpp:291 qifimportexport.cpp:455
 #, kde-format
 msgid "Error reading %1."
-msgstr "Chyba při čtení %1."
+msgstr "Eroare la citirea %1."
 
 #: importcsvdialog.cpp:1187 qifimportexport.cpp:462
 #, kde-format
 msgid "Successfully imported 1 transaction."
 msgid_plural "Successfully imported %n transactions."
-msgstr[0] "Transakce byla úspěšně importována."
-msgstr[1] "%n transakce byly úspěšně importovány."
-msgstr[2] "%n transakcí bylo úspěšně importováno."
+msgstr[0] "S-a importat cu succes 1 tranzacție."
+msgstr[1] "S-au importat cu succes %n tranzacții."
+msgstr[2] "S-au importat cu succes %n de tranzacții."
 
 #: importcsvdialog.cpp:1189
 #, kde-format
 msgid "Unable to import any transactions imported."
-msgstr "Nelze importovat."
+msgstr "Nu se poate importa nici o tranzacție."
 
 #: importcsvdialog.cpp:1193
 #, kde-format
 msgid "Failed to import 1 data row."
 msgid_plural "Failed to import %n data rows."
-msgstr[0] "Chyba při importu datové řady."
-msgstr[1] "Chyba při importu %n datových řad."
-msgstr[2] "Chyba při importu %n datových řad."
+msgstr[0] "Nu s-a putut importa 1 rând."
+msgstr[1] "Nu s-au putut importa %n rânduri."
+msgstr[2] "Nu s-au putut importa %n de rânduri."
 
 #: importcsvdialog.cpp:1194
 #, kde-format
 msgid "Required columns missing."
-msgstr "Požadované sloupce chybí."
+msgstr "Coloanele necesare lipsesc."
 
 #: importcsvdialog.cpp:1195
 #, kde-format
 msgid "Invalid value."
-msgstr "Neplatná hodnota."
+msgstr "Valoare nevalidă."
 
 #: importcsvdialog.cpp:1197
 #, kde-format
 msgid "Empty category name."
-msgstr "Prázdný název kategorie."
+msgstr "Nume categorie gol."
 
 #: importcsvdialog.cpp:1197 importcsvdialog.cpp:1198
 #, kde-format
 msgid "Empty account name."
-msgstr "Prázdný název účtu."
+msgstr "Nume cont gol."
 
 #: importcsvdialog.cpp:1199
 #, kde-format
 msgid "Unknown category found."
-msgstr "Nalezena neznámá kategorie."
+msgstr "S-a găsit o categorie necunoscută."
 
 #: importcsvdialog.cpp:1199 importcsvdialog.cpp:1200
 #, kde-format
 msgid "Unknown account found."
-msgstr "Nalezen neznámý účet."
+msgstr "S-a găsit un cont necunoscut."
 
 #: importcsvdialog.cpp:1201
 #, kde-format
 msgid "Cannot import security transactions (to/from security accounts)."
 msgstr ""
-"Nelze imporotvat transakci s cennými papíry (z/na účet cenných papírů)."
+"Nu s-au putut importa tranzacțiile de titluri de valoare (din/către "
+"conturile de titluri de valoare)"
 
 #: importcsvdialog.cpp:1202
 #, kde-format
 msgid "Balancing account wrongly used."
-msgstr "Bilanční účet použit špatně."
+msgstr "Cont de echilibrare folosit incorect."
 
 #: importcsvdialog.cpp:1203
 #, kde-format
 msgid "Same to and from account/category."
-msgstr "Stejné do a z účet/kategorie."
+msgstr "Cont/categorie origine și destinație identice."
 
 #: importcsvdialog.cpp:1205
 #, kde-format
 msgid "No data found."
-msgstr "Žádná data nenalezena."
+msgstr "Nu s-au găsit date."
 
 #: importcsvdialog.cpp:1219 qifimportexport.cpp:345
 #, kde-format
 msgid "Unrecognized date format."
-msgstr "Neznámý formát datumu."
+msgstr "Format dată nerecunoscut."
 
 #: importcsvdialog.cpp:1224
 #, kde-format
 msgid "Specify Format"
-msgstr "Upřesněte formát"
+msgstr "Specificați formatul"
 
 #: importcsvdialog.cpp:1230
 #, kde-format
@@ -2100,101 +2119,101 @@ msgid ""
 "The format of dates and/or numbers in the CSV file is ambiguous. Please "
 "select the correct format."
 msgstr ""
-"Formát datumů a/nebo čísel v souboru CSV je nejednoznačný. Prosím vyberte "
-"správný formát."
+"Formatul datelor și/sau numerelor din fișierul CSV este ambiguu. Selectați "
+"formatul corect."
 
 #: importcsvdialog.cpp:1235 qifimportexport.cpp:94 qifimportexport.cpp:533
 #, kde-format
 msgid "Date format:"
-msgstr "Formát data:"
+msgstr "Format dată:"
 
 #: importcsvdialog.cpp:1278 qifimportexport.cpp:541
 #, kde-format
 msgid "Value format:"
-msgstr "Formát hodnoty:"
+msgstr "Format valoare:"
 
 #: kdateedit.cpp:366
 #, kde-format
 msgctxt "the day after today"
 msgid "tomorrow"
-msgstr "zítra"
+msgstr "mâine"
 
 #: kdateedit.cpp:367
 #, kde-format
 msgctxt "this day"
 msgid "today"
-msgstr "dnes"
+msgstr "astăzi"
 
 #: kdateedit.cpp:368
 #, kde-format
 msgctxt "the day before today"
 msgid "yesterday"
-msgstr "včera"
+msgstr "ieri"
 
 #: kdatepickerpopup.cpp:94
 #, kde-format
 msgctxt "@option today"
 msgid "&Today"
-msgstr "&Dnes"
+msgstr "As&tăzi"
 
 #: kdatepickerpopup.cpp:95
 #, kde-format
 msgctxt "@option tomorrow"
 msgid "To&morrow"
-msgstr "Zí&tra"
+msgstr "&Mâine"
 
 #: kdatepickerpopup.cpp:96
 #, kde-format
 msgctxt "@option next week"
 msgid "Next &Week"
-msgstr "Další &týden"
+msgstr "Săptămâna &viitoare"
 
 #: kdatepickerpopup.cpp:97
 #, kde-format
 msgctxt "@option next month"
 msgid "Next M&onth"
-msgstr "Další M&ěsíc"
+msgstr "Luna viit&oare"
 
 #: kdatepickerpopup.cpp:105
 #, kde-format
 msgctxt "@option do not specify a date"
 msgid "No Date"
-msgstr "Žádné datum"
+msgstr "Fără dată"
 
 #: ledgerdialog.cpp:122
 #, kde-format
 msgid "Export…"
-msgstr "Exportovat…"
+msgstr "Export…"
 
 #: ledgerdialog.cpp:123
 #, kde-format
 msgid "Print…"
-msgstr "Tisk…"
+msgstr "Tipărire…"
 
 #: ledgerdialog.cpp:139
 #, kde-format
 msgid "Withdrawal"
-msgstr "Výběr"
+msgstr "Retragere"
 
 #: ledgerdialog.cpp:162
 #, kde-format
 msgid "Join…"
-msgstr "Připojit…"
+msgstr "Alipire…"
 
 #: ledgerdialog.cpp:164
 #, kde-format
 msgid "Split Up"
-msgstr "Rozdělit"
+msgstr "Împărțire"
 
 #: ledgerdialog.cpp:234 ledgerdialog.cpp:354
 #, kde-format
 msgid "Empty transaction list."
-msgstr "Vyprázdnit seznam transakcí."
+msgstr "Listă de tranzacții goală."
 
 #: ledgerdialog.cpp:443 transactionlistwidget.cpp:717
 #, kde-format
 msgid "Are you sure you want to delete all (%1) selected transactions?"
-msgstr "Opravdu chcete smazat všechny (%1) vybrané transakce?"
+msgstr "Sigur doriți ștergerea tuturor (%1) tranzacții selectate?"
 
 #: ledgerdialog.cpp:547 transactionlistwidget.cpp:489
 #, kde-format
@@ -2202,25 +2221,30 @@ msgid ""
 "Cannot set the value of security transactions using the dialog for modifying "
 "multiple transactions."
 msgstr ""
-"Nelze zadat hodnotu transakce s cenným papírem použitím dialogu pro změnu "
-"více transakcí."
+"Nu se poate modifica valoarea tranzacțiilor cu titluri de valoare prin "
+"fereastra de modificare tranzacții multiple."
 
 #: ledgerdialog.cpp:553 transactionlistwidget.cpp:495
 #, kde-format
 msgid "Cannot change description of dividends and security transactions."
-msgstr "Nelze změnit popis dividend a transakcí s cennými papíry."
+msgstr ""
+"Nu se poate schimba descrierea dividendelor și tranzacțiilor cu titluri de "
+"valoare."
 
 #: ledgerdialog.cpp:559 transactionlistwidget.cpp:501
 #, kde-format
 msgid "Cannot change payer of dividends and security transactions."
-msgstr "Nelze změnit plátce dividend a transakce s cennými papíry."
+msgstr ""
+"Nu se poate schimba plătitorul dividendelor și tranzacțiilor cu titluri de "
+"valoare."
 
 #: ledgerdialog.cpp:565 transactionlistwidget.cpp:507
 #, kde-format
 msgid ""
 "Cannot change date of transactions that are part of a split transaction."
 msgstr ""
-"Nelze změnit datum transakcí, které jsou součástí rozdělené transakce."
+"Nu se poate schimba data tranzacțiilor care sunt parte a unei tranzacții "
+"împărțite."
 
 #: main.cpp:39
 msgid "Eqonomize!"
@@ -2228,34 +2252,34 @@ msgstr "Eqonomize!"
 
 #: main.cpp:39
 msgid "A personal accounting program"
-msgstr "Osobní účetní program"
+msgstr "Un program de contabilitate personală."
 
 #: main.cpp:44
 msgid "Start with expenses list displayed"
-msgstr "Začněte se zobrazeným seznamem výdajů"
+msgstr "Se afișează lista începuturilor de cheltuieli"
 
 #: main.cpp:46
 msgid "Start with incomes list displayed"
-msgstr "Začněte se zobrazeným seznamem příjmů"
+msgstr "Se afișează lista începuturilor de venituri"
 
 #: main.cpp:48
 msgid "Start with transfers list displayed"
-msgstr "Začněte se zobrazeným seznamem převodů"
+msgstr "Se afișează lista începuturilor de transferuri"
 
 #: main.cpp:49
 msgid "Document to open"
-msgstr "Dokument k otevření"
+msgstr "Documentul de deschis"
 
 #: overtimechart.cpp:124 overtimechart.cpp.bak:117
 #, kde-format
 msgid "Incomes and Expenses"
-msgstr "Příjmy a výdaje"
+msgstr "Venituri și cheltuieli"
 
 #: overtimechart.cpp:125 overtimechart.cpp:1722 overtimechart.cpp.bak:118
 #: overtimechart.cpp.bak:1703 overtimereport.cpp:102 overtimereport.cpp:343
 #, kde-format
 msgid "Profits"
-msgstr "Zisky"
+msgstr "Profituri"
 
 #: overtimechart.cpp:132 overtimechart.cpp:411 overtimechart.cpp:1949
 #: overtimechart.cpp.bak:125 overtimechart.cpp.bak:404
@@ -2263,7 +2287,7 @@ msgstr "Zisky"
 #: overtimereport.cpp:753
 #, kde-format
 msgid "All Categories Combined"
-msgstr "Všechny kategorie kombinované"
+msgstr "Toate categoriile combinate"
 
 #: overtimechart.cpp:138 overtimechart.cpp:296 overtimechart.cpp:400
 #: overtimechart.cpp:1852 overtimechart.cpp:1973 overtimechart.cpp.bak:131
@@ -2273,103 +2297,103 @@ msgstr "Všechny kategorie kombinované"
 #: overtimereport.cpp:710 overtimereport.cpp:776
 #, kde-format
 msgid "All Descriptions Combined"
-msgstr "Všechny popisy kombinované"
+msgstr "Toate descrierile combinate"
 
 #: overtimechart.cpp:146 overtimechart.cpp:406 overtimechart.cpp.bak:139
 #: overtimechart.cpp.bak:399
 #, kde-format
 msgid "All Payees/Payers Combined"
-msgstr "Všichni plátci/příjemci kombinovaní"
+msgstr "Toți beneficiarii/plătitorii combinați"
 
 #: overtimechart.cpp:155 overtimechart.cpp.bak:148
 #, kde-format
 msgid "Start date:"
-msgstr "Datum zahájení:"
+msgstr "Data de început:"
 
 #: overtimechart.cpp:178 overtimechart.cpp.bak:171
 #, kde-format
 msgid "End date:"
-msgstr "Datum ukončení:"
+msgstr "Data de sfârșit:"
 
 #: overtimechart.cpp:197 overtimechart.cpp.bak:190
 #, kde-format
 msgid "Monthly total"
-msgstr "Celkem měsíčne"
+msgstr "Total lunar"
 
 #: overtimechart.cpp:201 overtimechart.cpp.bak:194
 #, kde-format
 msgid "Daily average"
-msgstr "Denní průměr"
+msgstr "Medie zilnică"
 
 #: overtimechart.cpp:304 overtimechart.cpp:404 overtimechart.cpp:1855
 #: overtimechart.cpp:1978 overtimechart.cpp.bak:297 overtimechart.cpp.bak:397
 #: overtimechart.cpp.bak:1856 overtimechart.cpp.bak:1979
 #, kde-format
 msgid "All Payers Combined"
-msgstr "Všichni plátce kombinovaní"
+msgstr "Toți plătitorii combinați"
 
 #: overtimechart.cpp:305 overtimechart.cpp:405 overtimechart.cpp:1856
 #: overtimechart.cpp:1977 overtimechart.cpp.bak:298 overtimechart.cpp.bak:398
 #: overtimechart.cpp.bak:1857 overtimechart.cpp.bak:1978
 #, kde-format
 msgid "All Payees Combined"
-msgstr "Všichni příjemci kombinovaní"
+msgstr "Toți beneficiarii combinați"
 
 #: overtimechart.cpp:325 overtimechart.cpp:1853 overtimechart.cpp.bak:318
 #: overtimechart.cpp.bak:1854
 #, kde-format
 msgid "All Descriptions Split"
-msgstr "Rozdělení všech popisů"
+msgstr "Toate descrierile împărțite"
 
 #: overtimechart.cpp:328 overtimechart.cpp:1857 overtimechart.cpp.bak:321
 #: overtimechart.cpp.bak:1858
 #, kde-format
 msgid "All Payers Split"
-msgstr "Rozdělení všech plátců"
+msgstr "Toți plătitorii împărțiți"
 
 #: overtimechart.cpp:329 overtimechart.cpp:1858 overtimechart.cpp.bak:322
 #: overtimechart.cpp.bak:1859
 #, kde-format
 msgid "All Payees Split"
-msgstr "Rozdělení všech příjemců"
+msgstr "Toți beneficiarii împărțiți"
 
 #: overtimechart.cpp:413 overtimechart.cpp:423 overtimechart.cpp:1950
 #: overtimechart.cpp.bak:406 overtimechart.cpp.bak:416
 #: overtimechart.cpp.bak:1951
 #, kde-format
 msgid "All Categories Split"
-msgstr "Rozdělení všech kategorií"
+msgstr "Toate categoriile împărțite"
 
 #: overtimechart.cpp:1535 overtimechart.cpp.bak:1516
 #, kde-format
 msgid "Value (%1)"
-msgstr "Hodnota (%1)"
+msgstr "Valoare (%1)"
 
 #: overtimechart.cpp:1536 overtimechart.cpp.bak:1517
 #, kde-format
 msgid "Profit (%1)"
-msgstr "Zisk (%1)"
+msgstr "Profit (%1)"
 
 #: overtimechart.cpp:1537 overtimechart.cpp.bak:1518
 #, kde-format
 msgid "Income (%1)"
-msgstr "Příjem (%1)"
+msgstr "Venit (%1)"
 
 #: overtimechart.cpp:1538 overtimechart.cpp.bak:1519
 #, kde-format
 msgid "Cost (%1)"
-msgstr "Cena (%1)"
+msgstr "Cost (%1)"
 
 #: overtimechart.cpp:1579 overtimechart.cpp.bak:1560
 #, kde-format
 msgid "Time"
-msgstr "Čas"
+msgstr "Timp"
 
 #: overtimechart.cpp:1774 overtimechart.cpp:1775 overtimechart.cpp.bak:1755
 #: overtimechart.cpp.bak:1756
 #, kde-format
 msgid "no payer"
-msgstr "Žádný plátce"
+msgstr "nici un plătitor"
 
 #: overtimechart.cpp:1778 overtimechart.cpp.bak:1759
 #, kde-format
@@ -2381,7 +2405,7 @@ msgstr "%1/%2"
 #: overtimechart.cpp.bak:1765
 #, kde-format
 msgid "no payee"
-msgstr "Žádný příjemce"
+msgstr "nici un beneficiar"
 
 #: overtimechart.cpp:1787 overtimechart.cpp.bak:1768
 #, kde-format
@@ -2392,53 +2416,54 @@ msgstr "%1/%2"
 #: overtimechart.cpp.bak:649
 #, kde-format
 msgid "Error after saving file; data may not have been saved."
-msgstr "Chyba po uložení souboru; údaje možná nebyly uloženy."
+msgstr ""
+"Eroare după salvarea fișierului; este posibil ca datele să nu fie salvate."
 
 #: overtimereport.cpp:344
 #, kde-format
 msgid "Average Profit"
-msgstr "Průměrný zisk"
+msgstr "Profit mediu"
 
 #: overtimereport.cpp:537
 #, kde-format
 msgid "Year"
-msgstr "Rok"
+msgstr "An"
 
 #: overtimereport.cpp:538
 #, kde-format
 msgid "Month"
-msgstr "Měsíc"
+msgstr "Lună"
 
 #: overtimereport.cpp:566
 #, kde-format
 msgid "Includes scheduled transactions"
-msgstr "Včetně plánovaných transakcí"
+msgstr "Include tranzacțiile planificate"
 
 #: overtimereport.cpp:570
 #, kde-format
 msgid "Adjusted for the average month / year (%1 / %2 days)"
-msgstr "Nastaveno na průměrný měsíc / rok (%1 / %2 dnů)"
+msgstr "Ajustat pentru luna / anul mediu (%1 / %2 zile)"
 
 #: overtimereport.cpp:603 overtimereport.cpp:671
 #, kde-format
 msgid "Subtotal"
-msgstr "Mezisoučet"
+msgstr "Subtotal"
 
 #: qifimport.cpp:307 qifimport.cpp:367 qifimportexport.cpp:1259
 #: qifimportexport.cpp:1350 qifimportexport.cpp:1470
 #, kde-format
 msgid "Unnamed"
-msgstr "Bez názvu"
+msgstr "Fără nume"
 
 #: qifimport.cpp:337 qifimportexport.cpp:1299 qifimportexport.cpp:1413
 #, kde-format
 msgid "Uncategorized"
-msgstr "Neroztříděno"
+msgstr "Fără categorie"
 
 #: qifimportexport.cpp:56
 #, kde-format
 msgid "Import QIF file"
-msgstr "Importovat soubor QIF"
+msgstr "Importă fișier QIF"
 
 #: qifimportexport.cpp:63
 #, kde-format
@@ -2446,13 +2471,14 @@ msgid ""
 "Select a QIF file to import. When you click next, the file be analysed and "
 "you might need to answer some questions about the format of the file."
 msgstr ""
-"Vyberte soubor QIF. Po kliknutí na další, bude soubor analyzován a "
-"pravděpodobně budete muset odpovědět na otázky týkající se formátu souboru."
+"Selectați fișierul QIF pentru importare. Când apăsați „Următor”, fișierul va "
+"fi analizat și s-ar putea să trebuiască să răspundeți la câteva întrebări "
+"despre formatul fișierului."
 
 #: qifimportexport.cpp:73
 #, kde-format
 msgid "Local Definitions"
-msgstr "Místní definice"
+msgstr "Definiții locale"
 
 #: qifimportexport.cpp:74
 #, kde-format
@@ -2461,28 +2487,28 @@ msgid ""
 "because of localized type names. Please map them to the correct standard "
 "names."
 msgstr ""
-"Byly nalezeny neznámé prvky v souboru QIF. Možná je to způsobeno místními "
-"názvy. Prosím opravte je na běžné názvy."
+"S-au găsit elemente necunoscute în fișierul QIF, posibil datorită "
+"localizării numelor de tipuri. Asociați-le cu numele standard corecte."
 
 #: qifimportexport.cpp:80
 #, kde-format
 msgid "Local Text"
-msgstr "Místní text"
+msgstr "Text local"
 
 #: qifimportexport.cpp:81
 #, kde-format
 msgid "Standard Text"
-msgstr "Běžný text"
+msgstr "Text standard"
 
 #: qifimportexport.cpp:84
 #, kde-format
 msgid "Select standard text:"
-msgstr "Vyberte běžný název:"
+msgstr "Selectați textul standard:"
 
 #: qifimportexport.cpp:90
 #, kde-format
 msgid "Date Format"
-msgstr "Formát datumu"
+msgstr "Format dată"
 
 #: qifimportexport.cpp:91
 #, kde-format
@@ -2490,12 +2516,12 @@ msgid ""
 "The date format in the QIF file is ambiguous. Please select the correct "
 "format."
 msgstr ""
-"Formát datumu v souboru QIF není správný. Prosím vyberte správný formát."
+"Formatul de dată în fișierul QIF este ambiguu. Selectați formatul corect."
 
 #: qifimportexport.cpp:100
 #, kde-format
 msgid "Default Account"
-msgstr "Výchozí účet"
+msgstr "Cont implicit"
 
 #: qifimportexport.cpp:101
 #, kde-format
@@ -2504,23 +2530,24 @@ msgid ""
 "default account. It is also possible that this is caused by a localized "
 "opening balance text."
 msgstr ""
-"V souboru QIF nelze najít žádný účet. Prosím vyberte výchozí účet. Problém "
-"může také spočívat v lokalizaci textu otevírané bilance."
+"Nu s-au putut găsi definiții de conturi în fișierul QIF. Selectați un cont "
+"implicit. Această eroare poate fi cauzată și de localizarea textului "
+"balanței de deschidere."
 
 #: qifimportexport.cpp:104
 #, kde-format
 msgid "Default account:"
-msgstr "Výchozí účet:"
+msgstr "Cont implicit:"
 
 #: qifimportexport.cpp:115
 #, kde-format
 msgid "Opening balance text:"
-msgstr "Text otevírané bilance:"
+msgstr "Text balanță de deschidere:"
 
 #: qifimportexport.cpp:121
 #, kde-format
 msgid "Descriptions"
-msgstr "Popisy"
+msgstr "Descrieri"
 
 #: qifimportexport.cpp:122
 #, kde-format
@@ -2529,754 +2556,772 @@ msgid ""
 "You are therefore given the option to choose how the description of imported "
 "transactions will be set."
 msgstr ""
-"Popis transakcí v souboru QIF nemá typické vlastnosti. Proto máte možnost "
-"vybrat, jak bude popis importovaných transakcí nastaven."
+"Tranzacțiile într-un fișier QIF nu au descrieri specifice. Aveți opțiunea de "
+"a stabili descrierea tranzacțiilor importate."
 
 #: qifimportexport.cpp:125
 #, kde-format
 msgid "Subcategories as:"
-msgstr "Podkategorie jako:"
+msgstr "Subcategorii ca:"
 
 #: qifimportexport.cpp:134
 #, kde-format
 msgid "Ignore"
-msgstr "Ignorovat"
+msgstr "Ignoră"
 
 #: qifimportexport.cpp:137
 #, kde-format
 msgid "Payee as:"
-msgstr "Příjemce jako:"
+msgstr "Beneficiar ca:"
 
 #: qifimportexport.cpp:142 qifimportexport.cpp:520
 #: transactionlistwidget.cpp:119
 #, kde-format
 msgid "Payee"
-msgstr "Příjemce"
+msgstr "Beneficiar"
 
 #: qifimportexport.cpp:147
 #, kde-format
 msgid "Memo as:"
-msgstr "Poznámka jako:"
+msgstr "Notă ca:"
 
 #: qifimportexport.cpp:156
 #, kde-format
 msgid "Priority:"
-msgstr "Priorita:"
+msgstr "Prioritate:"
 
 #: qifimportexport.cpp:159
 #, kde-format
 msgid "Subcategory/Payee/Comments"
-msgstr "Podkategorie/Příjemce/Komentáře"
+msgstr "Subcategorie/beneficiar/comentarii"
 
 #: qifimportexport.cpp:160
 #, kde-format
 msgid "Payee/Subcategory/Comments"
-msgstr "Příjemce/Podkategorie/Komentáře"
+msgstr "Beneficiar/subcategorie/comentarii"
 
 #: qifimportexport.cpp:161
 #, kde-format
 msgid "Subcategory/Comments/Payee"
-msgstr "Podkategorie/Komentáře/Příjemce"
+msgstr "Subcategorie/comentarii/beneficiar"
 
 #: qifimportexport.cpp:162
 #, kde-format
 msgid "Payee/Comments/Subcategory"
-msgstr "Příjemce/Komentáře/Podkategorie"
+msgstr "Beneficiar/comentarii/subcategorie"
 
 #: qifimportexport.cpp:163
 #, kde-format
 msgid "Comments/Subcategory/Payee"
-msgstr "Komentáře/Podkategorie/Příjemce"
+msgstr "Comentarii/subcategorie/beneficiar"
 
 #: qifimportexport.cpp:164
 #, kde-format
 msgid "Comments/Payee/Subcategory"
-msgstr "Komentáře/Příjemce/Podkategorie"
+msgstr "Comentarii/beneficiar/subcategorie"
 
 #: qifimportexport.cpp:314 qifimportexport.cpp:322 qifimportexport.cpp:338
 #, kde-format
 msgid "Unknown"
-msgstr "Neznámý"
+msgstr "Necunoscut"
 
 #: qifimportexport.cpp:324
 #, kde-format
 msgid "Bank"
-msgstr "Banka"
+msgstr "Bancă"
 
 #: qifimportexport.cpp:326
 #, kde-format
 msgid "Cat (Category)"
-msgstr "Kat (Kategorie)"
+msgstr "Cat (Categorie)"
 
 #: qifimportexport.cpp:327
 #, kde-format
 msgid "CCard (Credit Card)"
-msgstr "PKarta (Platební karta)"
+msgstr "CCard (card credit)"
 
 #: qifimportexport.cpp:328
 #, kde-format
 msgid "Invst (Investment)"
-msgstr "Invst (Investice)"
+msgstr "Invst (Investiție)"
 
 #: qifimportexport.cpp:329
 #, kde-format
 msgid "Oth A (Other Assets)"
-msgstr "Ost A (Ostatní aktiva)"
+msgstr "Alte R (Alte resurse)"
 
 #: qifimportexport.cpp:330
 #, kde-format
 msgid "Oth L (Other Liabilities)"
-msgstr "Ost P (Ostatní pasiva)"
+msgstr "Alte P (alte pasive)"
 
 #: qifimportexport.cpp:331
 #, kde-format
 msgid "Security"
-msgstr "Akcie"
+msgstr "Titlu de valoare"
 
 #: qifimportexport.cpp:465
 #, kde-format
 msgid "Successfully imported 1 account."
 msgid_plural "Successfully imported %n accounts."
-msgstr[0] "Účet úspěšně importován."
-msgstr[1] "%n účty úspěšně importovány."
-msgstr[2] "%n účtů úspěšně importováno."
+msgstr[0] "S-a importat cu succes 1 cont."
+msgstr[1] "S-au importat cu succes %n conturi."
+msgstr[2] "S-au importat cu succes %n de conturi."
 
 #: qifimportexport.cpp:469
 #, kde-format
 msgid "Successfully imported 1 category."
 msgid_plural "Successfully imported %n categories."
-msgstr[0] "Kategorie byla úspěšně importována."
-msgstr[1] "%n kategorií bylo úspěšně importováno."
-msgstr[2] "%n kategorií bylo úspěšně importováno."
+msgstr[0] "S-a importat cu succes 1 categorie."
+msgstr[1] "S-au importat cu succes %n categorii."
+msgstr[2] "S-au importat cu succes %n de categorii."
 
 #: qifimportexport.cpp:473
 #, kde-format
 msgid "1 duplicate transaction was ignored."
 msgid_plural "%n duplicate transactions was ignored."
-msgstr[0] "kopie transakce byla ignorována."
-msgstr[1] "%n kopie transakcí bylo ignorováno.."
-msgstr[2] "%n kopií transakcí bylo ignorováno."
+msgstr[0] "1 tranzacție duplicată a fost ignorată."
+msgstr[1] "%n tranzacții duplicate au fost ignorate."
+msgstr[2] "%n de tranzacții duplicate au fost ignorate."
 
 #: qifimportexport.cpp:477
 #, kde-format
 msgid "Failed to import 1 transaction."
 msgid_plural "Failed to import %n transactions."
-msgstr[0] "Chyba při importování transakce."
-msgstr[1] "Chyba při importu %n transakcí."
-msgstr[2] "Chyba při importu %n transakcí."
+msgstr[0] "Nu s-a putut importa 1 tranzacție."
+msgstr[1] "Nu s-au putut importa %n tranzacții."
+msgstr[2] "Nu s-au putut importa %n de tranzacții."
+
+#: qifimportexport.cpp:481
+#, kde-format
+msgid "1 security was not imported."
+msgid_plural "%n securities were not imported."
+msgstr[0] "Nu s-a putut importa 1 titlu de valoare."
+msgstr[1] "Nu s-au putut importa %n titluri de valoare."
+msgstr[2] "Nu s-au putut importa %n de titluri de valoare."
+
+#: qifimportexport.cpp:485
+#, kde-format
+msgid "1 security transaction was not imported."
+msgid_plural "%n security transactions were not imported."
+msgstr[0] "Nu s-a putut importa 1 tranzacție cu titluri de valoare."
+msgstr[1] "Nu s-au putut importa %n tranzacții cu titluri de valoare."
+msgstr[2] "Nu s-au putut importa %n de tranzacții cu titluri de valoare."
 
 #: qifimportexport.cpp:494
 #, kde-format
 msgid "Export QIF File"
-msgstr "Exportovat soubor QIF"
+msgstr "Exportă fișier QIF"
 
 #: qifimportexport.cpp:506
 #, kde-format
 msgctxt "All accounts"
 msgid "All"
-msgstr "Vše"
+msgstr "Toate"
 
 #: qifimportexport.cpp:517
 #, kde-format
 msgid "Export transaction description as:"
-msgstr "Exportovat popis transakce jako:"
+msgstr "Exportă descriere tranzacție ca:"
 
 #: qifimportexport.cpp:524
 #, kde-format
 msgid "Memo"
-msgstr "Poznámka"
+msgstr "Notă"
 
 #: qifimportexport.cpp:528
 #, kde-format
 msgid "Subcategory"
-msgstr "Podkategorie"
+msgstr "Subcategorie"
 
 #. i18n: tag text
 #. i18n: file ./eqonomizeui.rc line 5
 #: rc.cpp:3
 #, kde-format
 msgid "&Import"
-msgstr "&Importovat"
+msgstr "&Importă"
 
 #. i18n: tag text
 #. i18n: file ./eqonomizeui.rc line 12
 #: rc.cpp:6
 #, kde-format
 msgid "&Accounts"
-msgstr "&Účty"
+msgstr "&Conturi"
 
 #. i18n: tag text
 #. i18n: file ./eqonomizeui.rc line 24
 #: rc.cpp:9
 #, kde-format
 msgid "&Transactions"
-msgstr "&Transakce"
+msgstr "&Tranzacții"
 
 #. i18n: tag text
 #. i18n: file ./eqonomizeui.rc line 41
 #: rc.cpp:12
 #, kde-format
 msgid "&Securities"
-msgstr "&Cenné papíry"
+msgstr "Titluri de &valoare"
 
 #. i18n: tag text
 #. i18n: file ./eqonomizeui.rc line 56
 #: rc.cpp:15
 #, kde-format
 msgid "Stat&istics"
-msgstr "Stat&istiky"
+msgstr "Stat&istici"
 
 #: rc.cpp:16
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
-",Launchpad Contributions:,Jan Štemberk, ,Launchpad Contributions:,Jan "
-"Štemberk,Kabi"
+msgstr " ,Launchpad Contributions:,Adi Roiban,Bogdan Enache,Bogdan Enache"
 
 #: rc.cpp:17
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ",,stemberkj@seznam.cz,,,stemberkj@seznam.cz,"
+msgstr ",,adi@roiban.ro,,enachebogdan@gmx.net"
 
 #: recurrenceeditwidget.cpp:69
 #, kde-format
 msgid "Edit Exceptions"
-msgstr "Upravit výjimky"
+msgstr "Editează excepțiile"
 
 #: recurrenceeditwidget.cpp:186
 #, kde-format
 msgid "Edit Recurrence Range"
-msgstr "Upravit rozsah opakování"
+msgstr "Editează intervalul de recurență"
 
 #: recurrenceeditwidget.cpp:194 recurrenceeditwidget.cpp:229
 #, kde-format
 msgid "Begins on: %1"
-msgstr "Začíná: %1"
+msgstr "Începe pe: %1"
 
 #: recurrenceeditwidget.cpp:199
 #, kde-format
 msgid "No ending date"
-msgstr "Chybí datum ukončení"
+msgstr "Nu se termină"
 
 #: recurrenceeditwidget.cpp:203
 #, kde-format
 msgid "End after"
-msgstr "Ukončit po"
+msgstr "Se termină după"
 
 #: recurrenceeditwidget.cpp:209
 #, kde-format
 msgid "occurrence(s)"
-msgstr "výskyt(y)"
+msgstr "recurențe"
 
 #: recurrenceeditwidget.cpp:211
 #, kde-format
 msgid "End on"
-msgstr "Ukončit"
+msgstr "Se termină pe"
 
 #: recurrenceeditwidget.cpp:298
 #, kde-format
 msgid "End date before start date."
-msgstr "Datum ukončení předchází datumu zahájení."
+msgstr "Dată de sfărșit înaintea celei de început."
 
 #: recurrenceeditwidget.cpp:312
 #, kde-format
 msgid "Enable recurrance"
-msgstr "Zapnout opakování"
+msgstr "Activează recurență"
 
 #: recurrenceeditwidget.cpp:315
 #, kde-format
 msgid "Recurrence Rule"
-msgstr "Pravidlo opakování"
+msgstr "Regulă de recurență"
 
 #: recurrenceeditwidget.cpp:321
 #, kde-format
 msgid "Weekly"
-msgstr "Týdně"
+msgstr "Săptămânal"
 
 #: recurrenceeditwidget.cpp:341 recurrenceeditwidget.cpp:352
 #: recurrenceeditwidget.cpp:376 recurrenceeditwidget.cpp:462
 #, kde-format
 msgid "Recur every"
-msgstr "Opakovat každých"
+msgstr "Se repetă la fiecare"
 
 #: recurrenceeditwidget.cpp:345
 #, kde-format
 msgid "day(s)"
-msgstr "den (dní)"
+msgstr "zi(le)"
 
 #: recurrenceeditwidget.cpp:356
 #, kde-format
 msgid "week(s) on:"
-msgstr "týden v:"
+msgstr "săptămână(i) în:"
 
 #: recurrenceeditwidget.cpp:380
 #, kde-format
 msgid "month(s), after the start month"
-msgstr "měsíc(e) po zahajovacím měsíci"
+msgstr "luni, după luna de pornire"
 
 #: recurrenceeditwidget.cpp:385 recurrenceeditwidget.cpp:437
 #, kde-format
 msgid "Recur on the"
-msgstr "Opakovat v"
+msgstr "Se repetă în"
 
 #: recurrenceeditwidget.cpp:391 recurrenceeditwidget.cpp:442
 #: recurrenceeditwidget.cpp:494
 #, kde-format
 msgid "1st"
-msgstr "1."
+msgstr "prima"
 
 #: recurrenceeditwidget.cpp:392 recurrenceeditwidget.cpp:443
 #: recurrenceeditwidget.cpp:495
 #, kde-format
 msgid "2nd"
-msgstr "2."
+msgstr "a 2-a"
 
 #: recurrenceeditwidget.cpp:393 recurrenceeditwidget.cpp:444
 #: recurrenceeditwidget.cpp:496
 #, kde-format
 msgid "3rd"
-msgstr "3."
+msgstr "a 3-a"
 
 #: recurrenceeditwidget.cpp:394 recurrenceeditwidget.cpp:445
 #: recurrenceeditwidget.cpp:497
 #, kde-format
 msgid "4th"
-msgstr "4."
+msgstr "a 4-a"
 
 #: recurrenceeditwidget.cpp:395 recurrenceeditwidget.cpp:446
 #: recurrenceeditwidget.cpp:498
 #, kde-format
 msgid "5th"
-msgstr "5."
+msgstr "a 5-a"
 
 #: recurrenceeditwidget.cpp:396
 #, kde-format
 msgid "6th"
-msgstr "6."
+msgstr "a 6-a"
 
 #: recurrenceeditwidget.cpp:397
 #, kde-format
 msgid "7th"
-msgstr "7."
+msgstr "a 7-a"
 
 #: recurrenceeditwidget.cpp:398
 #, kde-format
 msgid "8th"
-msgstr "8."
+msgstr "a 8-a"
 
 #: recurrenceeditwidget.cpp:399
 #, kde-format
 msgid "9th"
-msgstr "9."
+msgstr "a 9-a"
 
 #: recurrenceeditwidget.cpp:400
 #, kde-format
 msgid "10th"
-msgstr "10."
+msgstr "a 10-a"
 
 #: recurrenceeditwidget.cpp:401
 #, kde-format
 msgid "11th"
-msgstr "11."
+msgstr "a 11-a"
 
 #: recurrenceeditwidget.cpp:402
 #, kde-format
 msgid "12th"
-msgstr "12."
+msgstr "a 12-a"
 
 #: recurrenceeditwidget.cpp:403
 #, kde-format
 msgid "13th"
-msgstr "13."
+msgstr "a 13-a"
 
 #: recurrenceeditwidget.cpp:404
 #, kde-format
 msgid "14th"
-msgstr "14."
+msgstr "a 14-a"
 
 #: recurrenceeditwidget.cpp:405
 #, kde-format
 msgid "15th"
-msgstr "15."
+msgstr "a 15-a"
 
 #: recurrenceeditwidget.cpp:406
 #, kde-format
 msgid "16th"
-msgstr "16."
+msgstr "a 16-a"
 
 #: recurrenceeditwidget.cpp:407
 #, kde-format
 msgid "17th"
-msgstr "17."
+msgstr "a 17-a"
 
 #: recurrenceeditwidget.cpp:408
 #, kde-format
 msgid "18th"
-msgstr "18."
+msgstr "a 18-a"
 
 #: recurrenceeditwidget.cpp:409
 #, kde-format
 msgid "19th"
-msgstr "19."
+msgstr "a 19-a"
 
 #: recurrenceeditwidget.cpp:410
 #, kde-format
 msgid "20th"
-msgstr "20."
+msgstr "a 20-a"
 
 #: recurrenceeditwidget.cpp:411
 #, kde-format
 msgid "21st"
-msgstr "21."
+msgstr "a 21-a"
 
 #: recurrenceeditwidget.cpp:412
 #, kde-format
 msgid "22nd"
-msgstr "22."
+msgstr "a 22-a"
 
 #: recurrenceeditwidget.cpp:413
 #, kde-format
 msgid "23rd"
-msgstr "23."
+msgstr "a 23-a"
 
 #: recurrenceeditwidget.cpp:414
 #, kde-format
 msgid "24th"
-msgstr "24."
+msgstr "a 24-a"
 
 #: recurrenceeditwidget.cpp:415
 #, kde-format
 msgid "25th"
-msgstr "25."
+msgstr "a 25-a"
 
 #: recurrenceeditwidget.cpp:416
 #, kde-format
 msgid "26th"
-msgstr "26."
+msgstr "a 26-a"
 
 #: recurrenceeditwidget.cpp:417
 #, kde-format
 msgid "27th"
-msgstr "27."
+msgstr "a 27-a"
 
 #: recurrenceeditwidget.cpp:418
 #, kde-format
 msgid "28th"
-msgstr "28."
+msgstr "a 28-a"
 
 #: recurrenceeditwidget.cpp:419
 #, kde-format
 msgid "29th"
-msgstr "29."
+msgstr "a 29-a"
 
 #: recurrenceeditwidget.cpp:420
 #, kde-format
 msgid "30th"
-msgstr "30."
+msgstr "a 30-a"
 
 #: recurrenceeditwidget.cpp:421
 #, kde-format
 msgid "31st"
-msgstr "31."
+msgstr "a 31-a"
 
 #: recurrenceeditwidget.cpp:422 recurrenceeditwidget.cpp:447
 #: recurrenceeditwidget.cpp:499
 #, kde-format
 msgid "Last"
-msgstr "Poslední"
+msgstr "ultima"
 
 #: recurrenceeditwidget.cpp:423 recurrenceeditwidget.cpp:448
 #: recurrenceeditwidget.cpp:500
 #, kde-format
 msgid "2nd Last"
-msgstr "2. poslední"
+msgstr "penultima"
 
 #: recurrenceeditwidget.cpp:424 recurrenceeditwidget.cpp:449
 #: recurrenceeditwidget.cpp:501
 #, kde-format
 msgid "3rd Last"
-msgstr "3. poslední"
+msgstr "antepenultima"
 
 #: recurrenceeditwidget.cpp:425 recurrenceeditwidget.cpp:450
 #: recurrenceeditwidget.cpp:502
 #, kde-format
 msgid "4th Last"
-msgstr "4. poslední"
+msgstr "a 4-a de la coadă"
 
 #: recurrenceeditwidget.cpp:426 recurrenceeditwidget.cpp:451
 #: recurrenceeditwidget.cpp:503
 #, kde-format
 msgid "5th Last"
-msgstr "5. poslední"
+msgstr "a 5-a de la coadă"
 
 #: recurrenceeditwidget.cpp:429
 #, kde-format
 msgid "day"
-msgstr "den"
+msgstr "zi"
 
 #: recurrenceeditwidget.cpp:431 recurrenceeditwidget.cpp:483
 #: recurrenceeditwidget.cpp:521
 #, kde-format
 msgid "possibly on weekend"
-msgstr "pravděpodobně o víkendu"
+msgstr "posibil în sfârșit de săptămână"
 
 #: recurrenceeditwidget.cpp:432 recurrenceeditwidget.cpp:484
 #: recurrenceeditwidget.cpp:522
 #, kde-format
 msgid "but before weekend"
-msgstr "ale před víkendem"
+msgstr "dar înainte de sfârșit de săptămână"
 
 #: recurrenceeditwidget.cpp:433 recurrenceeditwidget.cpp:485
 #: recurrenceeditwidget.cpp:523
 #, kde-format
 msgid "but after weekend"
-msgstr "ale po víkendu"
+msgstr "dar după sfârșit de săptămână"
 
 #: recurrenceeditwidget.cpp:466
 #, kde-format
 msgid "year(s), after the start year"
-msgstr "rok(ů) po zahajovacím roce"
+msgstr "an(i), după anul de început"
 
 #: recurrenceeditwidget.cpp:471
 #, kde-format
 msgctxt "part before XXX of 'Recur on day XXX of month YYY'"
 msgid "Recur on day"
-msgstr "Opakovat dne"
+msgstr "Se repetă în ziua"
 
 #: recurrenceeditwidget.cpp:479
 #, kde-format
 msgctxt "part between XXX and YYY of 'Recur on day XXX of month YYY'"
 msgid "of"
-msgstr "z"
+msgstr "din"
 
 #: recurrenceeditwidget.cpp:489
 #, kde-format
 msgctxt "Part before NNN in 'Recur on the NNN. WEEKDAY of MONTH'"
 msgid "On the"
-msgstr "v"
+msgstr "Pe"
 
 #: recurrenceeditwidget.cpp:507
 #, kde-format
 msgctxt "part between WEEKDAY and MONTH in 'Recur on NNN. WEEKDAY of MONTH'"
 msgid "of"
-msgstr "z"
+msgstr "din"
 
 #: recurrenceeditwidget.cpp:512
 #, kde-format
 msgid "Recur on day #"
-msgstr "Opakovat dne #"
+msgstr "Se repetă în ziua #"
 
 #: recurrenceeditwidget.cpp:519
 #, kde-format
 msgctxt "part after NNN of 'Recur on day #NNN of the year'"
 msgid " of the year"
-msgstr " roku"
+msgstr " a anului"
 
 #: recurrenceeditwidget.cpp:533
 #, kde-format
 msgid "Range…"
-msgstr "Rozsah…"
+msgstr "Perioadă…"
 
 #: recurrenceeditwidget.cpp:535
 #, kde-format
 msgid "Exceptions…"
-msgstr "Výjimky…"
+msgstr "Excepții…"
 
 #: recurrenceeditwidget.cpp:731
 #, kde-format
 msgid "No day of week selected for weekly recurrence."
-msgstr "Není vybrán den pro týdenní opakovaní."
+msgstr "Nu ați selectat ziua săptămânii pentru recurența săptămânală."
 
 #: recurrenceeditwidget.cpp:745 recurrenceeditwidget.cpp:774
 #: recurrenceeditwidget.cpp:791
 #, kde-format
 msgid "Selected day will never occur with selected frequency and start date."
 msgstr ""
-"Vybraný den se nikdy nevyskytne s vybranou frekvencí a datumem zahájení."
+"Ziua selectata nu va apărea folosind frecvența și data de pornire selectate."
 
 #: recurrenceeditwidget.cpp:761
 #, kde-format
 msgid "Selected day does not exist in selected month."
-msgstr "Vybraný den není součástí tohoto měsíce"
+msgstr "Ziua selectată nu există în luna selectată."
 
 #: transaction.cpp:155 transaction.cpp:186
 #, kde-format
 msgid "Dividend: %1"
-msgstr "Dividenda: %1"
+msgstr "Dividend: %1"
 
 #: transaction.cpp:253 transaction.cpp:256 transaction.cpp:284
 #, kde-format
 msgid "Account balancing"
-msgstr "Zůstatek účtu"
+msgstr "Echilibrare cont"
 
 #: transaction.cpp:337 transaction.cpp:352
 #, kde-format
 msgid "Security: %1 (bought)"
-msgstr "Akcie: %1 (nakoupená)"
+msgstr "Titlu de valoare: %1 (cumpărat)"
 
 #: transaction.cpp:375 transaction.cpp:390
 #, kde-format
 msgid "Security: %1 (sold)"
-msgstr "Akcie: %1 (prodaná)"
+msgstr "Titlu de valoare: %1 (vândut)"
 
 #: transactioneditwidget.cpp:125
 #, kde-format
 msgid "Shares bought:"
-msgstr "Nakoupené cenné papíry:"
+msgstr "Acțiuni cumpărate:"
 
 #: transactioneditwidget.cpp:130
 #, kde-format
 msgid "Shares sold:"
-msgstr "Prodané cenné papíry:"
+msgstr "Acțiuni vândute:"
 
 #: transactioneditwidget.cpp:238 transactioneditwidget.cpp:1144
 #: transactionfilterwidget.cpp:140
 #, kde-format
 msgid "Payer:"
-msgstr "Plátce:"
+msgstr "Plătitor:"
 
 #: transactioneditwidget.cpp:280 transactioneditwidget.cpp:1145
 #: transactionfilterwidget.cpp:141
 #, kde-format
 msgid "Payee:"
-msgstr "Příjemce:"
+msgstr "Beneficiar:"
 
 #: transactioneditwidget.cpp:664 transactioneditwidget.cpp:1262
 #, kde-format
 msgid "No income category available."
-msgstr "Žádná kategorie příjmů není k dispozici."
+msgstr "Nu este definită nici o categorie de venit."
 
 #: transactioneditwidget.cpp:689 transactioneditwidget.cpp:1270
 #, kde-format
 msgid "No expense category available."
-msgstr "Žádná kategorie výdajů není k dispozici."
+msgstr "Nu este definită nici o categorie de cheltuieli."
 
 #: transactioneditwidget.cpp:720
 #, kde-format
 msgid "Cannot create a regular transfer to/from a securities account."
-msgstr "Nelze uskutečnit pravidelný převod na/z účtu cenných papírů."
+msgstr ""
+"Nu se poate crea un transfer obișnuit din/de la un cont de titluri de "
+"valoare."
 
 #: transactioneditwidget.cpp:727
 #, kde-format
 msgid "Cannot create a regular income to a securities account."
-msgstr "Nelze uskutečnit pravidelný příjem na účet cenných papírů."
+msgstr ""
+"Nu se poate crea un venit obișnuit întrun cont de titluri de valoare."
 
 #: transactioneditwidget.cpp:743
 #, kde-format
 msgid "Zero price per share not allowed."
-msgstr "Nulová cena není povolena"
+msgstr "Preț zero pe acțiune nu este permis."
 
 #: transactioneditwidget.cpp:755
 #, kde-format
 msgid "Cannot create a regular expense from a securities account."
-msgstr "Nelze uskutečnit pravidelný výdaj z účtu cenných papírů."
+msgstr ""
+"Nu se pot crea cheltuieli obișnuite întrun cont de titluri de valoare."
 
 #: transactioneditwidget.cpp:1086
 #, kde-format
 msgid "Modify Transactions"
-msgstr "Změnit transakce"
+msgstr "Modifică tranzacții"
 
 #: transactionfilterwidget.cpp:99
 #, kde-format
 msgid "Min amount:"
-msgstr "Min množství:"
+msgstr "Cantitate minimă:"
 
 #: transactionfilterwidget.cpp:100
 #, kde-format
 msgid "Max amount:"
-msgstr "Max množství:"
+msgstr "Cantitate maximă:"
 
 #: transactionfilterwidget.cpp:110
 #, kde-format
 msgid "Min income:"
-msgstr "Min příjem:"
+msgstr "Venit minim:"
 
 #: transactionfilterwidget.cpp:111
 #, kde-format
 msgid "Max income:"
-msgstr "Max příjem:"
+msgstr "Venit maxim:"
 
 #: transactionfilterwidget.cpp:121
 #, kde-format
 msgid "Min cost:"
-msgstr "Min cena:"
+msgstr "Cost minim:"
 
 #: transactionfilterwidget.cpp:122
 #, kde-format
 msgid "Max cost:"
-msgstr "Max cena:"
+msgstr "Cost maxim:"
 
 #: transactionfilterwidget.cpp:148
 #, kde-format
 msgid "Include"
-msgstr "Včetně"
+msgstr "Include"
 
 #: transactionfilterwidget.cpp:152
 #, kde-format
 msgid "Exclude"
-msgstr "Kromě"
+msgstr "Exclude"
 
 #: transactionlistwidget.cpp:117
 #, kde-format
 msgid "From Account"
-msgstr "Z účtu"
+msgstr "Din contul"
 
 #: transactionlistwidget.cpp:128
 #, kde-format
 msgid "To Account"
-msgstr "Na účet"
+msgstr "Către contul"
 
 #: transactionlistwidget.cpp:130
 #, kde-format
 msgid "Payer"
-msgstr "Plátce"
+msgstr "Plătitor"
 
 #: transactionlistwidget.cpp:169
 #, kde-format
 msgid "New/Edit Expense"
-msgstr "Nový/Upravit výdaj"
+msgstr "Cheltuială nouă/modificare"
 
 #: transactionlistwidget.cpp:170
 #, kde-format
 msgid "Filter"
-msgstr "Filtr"
+msgstr "Filtru"
 
 #: transactionlistwidget.cpp:209
 #, kde-format
 msgid "Total:"
-msgstr "Celkem:"
+msgstr "Total:"
 
 #: transactionlistwidget.cpp:209 transactionlistwidget.cpp:328
 #, kde-format
 msgid "Average:"
-msgstr "Průměr:"
+msgstr "Mediu:"
 
 #: transactionlistwidget.cpp:209
 #, kde-format
 msgid "Monthly:"
-msgstr "Měsíčně:"
+msgstr "Lunar:"
 
 #: transactionlistwidget.cpp:314
 #, kde-format
 msgid "Total cost:"
-msgstr "Celková cena:"
+msgstr "Cost total:"
 
 #: transactionlistwidget.cpp:318
 #, kde-format
 msgid "Total income:"
-msgstr "Celkový příjem:"
+msgstr "Venit total:"
 
 #: transactionlistwidget.cpp:322
 #, kde-format
 msgid "Total amount:"
-msgstr "Celkové množství"
+msgstr "Sumă totală:"
 
 #: transactionlistwidget.cpp:330
 #, kde-format
 msgid "Monthly average:"
-msgstr "Měsíční průměr:"
+msgstr "Medie lunară:"
 
 #: transactionlistwidget.cpp:671
 #, kde-format
@@ -3284,24 +3329,25 @@ msgid ""
 "Are you sure you want to delete all (%1) transactions in the selected split "
 "transaction?"
 msgstr ""
-"Opravdu chcete vymazat všech (%1) transakcí ve vybrané rozdělené transakci?"
+"Sigur doriți ștergerea tuturor (%1) tranzacții din tranzacția împărțită "
+"selectată?"
 
 #: transactionlistwidget.cpp:1028
 #, kde-format
 msgid "* Part of split transaction"
-msgstr "* Část rozdělené transakce"
+msgstr "* Parte tranzacție împărțită"
 
 #: transactionlistwidget.cpp:1029
 #, kde-format
 msgid "* Part of split (%1)"
-msgstr "Část rozdělení (%1)"
+msgstr "* Parte din împărțire (%1)"
 
 #: transactionlistwidget.cpp:1033
 #, kde-format
 msgid "** Recurring (editing occurrance)"
-msgstr "**Opakování (upravující výskyt)"
+msgstr "** Recurentă (editare frecvență)"
 
 #: transactionlistwidget.cpp:1049
 #, kde-format
 msgid "Modify…"
-msgstr "Změnit…"
+msgstr "Modificare…"

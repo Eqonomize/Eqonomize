@@ -6,18 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: eqonomize\n"
-"Report-Msgid-Bugs-To: http://sourceforge.net/tracker/?"
-"group_id=173799&atid=866832\n"
+"Report-Msgid-Bugs-To: "
+"http://sourceforge.net/tracker/?group_id=173799&atid=866832\n"
 "POT-Creation-Date: 2008-11-13 14:35+0100\n"
-"PO-Revision-Date: 2007-04-09 17:40+0000\n"
-"Last-Translator: Roman Priesol <randybb@gmail.com>\n"
+"PO-Revision-Date: 2008-11-13 16:09+0000\n"
+"Last-Translator: Roman Priesol <roman@priesol.net>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Launchpad-Export-Date: 2008-11-13 13:21+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2016-06-18 05:00+0000\n"
+"X-Generator: Launchpad (build 18097)\n"
 
 #: budget.cpp:51 editsplitdialog.cpp:118 ledgerdialog.cpp:652
 #, kde-format
@@ -595,44 +595,44 @@ msgstr "Nový"
 
 #: editsplitdialog.cpp:184 eqonomize.cpp:4333
 #, kde-format
-msgid "New Expense..."
-msgstr "Nový vydavok..."
+msgid "New Expense…"
+msgstr "Nový vydavok…"
 
 #: editsplitdialog.cpp:185 eqonomize.cpp:4334
 #, kde-format
-msgid "New Income..."
-msgstr "Nový príjem..."
+msgid "New Income…"
+msgstr "Nový príjem…"
 
 #: editsplitdialog.cpp:186
 #, kde-format
-msgid "New Deposit..."
-msgstr "Nová záloha..."
+msgid "New Deposit…"
+msgstr "Nová záloha…"
 
 #: editsplitdialog.cpp:187
 #, kde-format
-msgid "New Withdrawal..."
-msgstr "Nový výber..."
+msgid "New Withdrawal…"
+msgstr "Nový výber…"
 
 #: editsplitdialog.cpp:188
 #, kde-format
-msgid "New Security Shares Bought..."
+msgid "New Security Shares Bought…"
 msgstr ""
 
 #: editsplitdialog.cpp:189
 #, kde-format
-msgid "Security Shares Sold..."
+msgid "Security Shares Sold…"
 msgstr ""
 
 #: editsplitdialog.cpp:190
 #, kde-format
-msgid "New Dividend..."
+msgid "New Dividend…"
 msgstr ""
 
 #: editsplitdialog.cpp:191 eqonomize.cpp:924 eqonomize.cpp:1071
 #: eqonomize.cpp:4328 ledgerdialog.cpp:158 transactionlistwidget.cpp:1051
 #, kde-format
-msgid "Edit..."
-msgstr "Upraviť..."
+msgid "Edit…"
+msgstr "Upraviť…"
 
 #: editsplitdialog.cpp:221 eqonomize.cpp:2325
 #, kde-format
@@ -696,7 +696,7 @@ msgstr "Znova investované dividendy"
 #: transactioneditwidget.cpp:157
 #, kde-format
 msgid "Security:"
-msgstr "Zabezpečenie:"
+msgstr "Akcii:"
 
 #: eqonomize.cpp:518
 #, kde-format
@@ -798,8 +798,8 @@ msgstr "Množstvo"
 
 #: eqonomize.cpp:926
 #, kde-format
-msgid "Postpone..."
-msgstr "Odložiť..."
+msgid "Postpone…"
+msgstr "Odložiť…"
 
 #: eqonomize.cpp:973
 #, kde-format
@@ -1139,8 +1139,8 @@ msgstr "Výsledok minulého mesiaca:"
 
 #: eqonomize.cpp:1917 eqonomize.cpp:4354
 #, kde-format
-msgid "New Security..."
-msgstr "Nová akcia..."
+msgid "New Security…"
+msgstr "Nová akcia…"
 
 #: eqonomize.cpp:1919
 #, kde-format
@@ -1149,8 +1149,8 @@ msgstr "Nový prevod"
 
 #: eqonomize.cpp:1922 eqonomize.cpp:4362
 #, kde-format
-msgid "Set Quotation..."
-msgstr "Nastav predbežný rozpočet..."
+msgid "Set Quotation…"
+msgstr "Nastav predbežný rozpočet…"
 
 #: eqonomize.cpp:1934 eqonomize.cpp:3987
 #, kde-format
@@ -1227,7 +1227,8 @@ msgstr "Kurz:"
 msgid ""
 "Are you sure you want to delete the security \"%1\" and all associated "
 "transactions?"
-msgstr "Ste si istý, že chceťe odstrániť akciu %1 a všetky priradené prevody?"
+msgstr ""
+"Ste si istý, že chceťe odstrániť akciu %1 a všetky priradené prevody?"
 
 #: eqonomize.cpp:2394 transactioneditwidget.cpp:700
 #, kde-format
@@ -1421,13 +1422,13 @@ msgstr "Prázdny zoznam plánov."
 
 #: eqonomize.cpp:4305
 #, kde-format
-msgid "Export View..."
-msgstr "Export pohľadu..."
+msgid "Export View…"
+msgstr "Export pohľadu…"
 
 #: eqonomize.cpp:4307
 #, kde-format
-msgid "Print View..."
-msgstr "Vytlač pohľad..."
+msgid "Print View…"
+msgstr "Vytlač pohľad…"
 
 #: eqonomize.cpp:4309
 #, kde-format
@@ -1441,43 +1442,43 @@ msgstr ""
 
 #: eqonomize.cpp:4319
 #, kde-format
-msgid "Import CSV File..."
-msgstr "Importuj CSV súbor..."
+msgid "Import CSV File…"
+msgstr "Importuj CSV súbor…"
 
 #: eqonomize.cpp:4320
 #, kde-format
-msgid "Import QIF File..."
-msgstr "Importuj QIF súbor..."
+msgid "Import QIF File…"
+msgstr "Importuj QIF súbor…"
 
 #: eqonomize.cpp:4321
 #, kde-format
-msgid "Export As QIF File..."
-msgstr "Exportuj ako QIF súbor..."
+msgid "Export As QIF File…"
+msgstr "Exportuj ako QIF súbor…"
 
 #: eqonomize.cpp:4323
 #, kde-format
-msgid "Add Account..."
-msgstr "Pridať účet..."
+msgid "Add Account…"
+msgstr "Pridať účet…"
 
 #: eqonomize.cpp:4324
 #, kde-format
-msgid "New Account..."
-msgstr "Nový účet..."
+msgid "New Account…"
+msgstr "Nový účet…"
 
 #: eqonomize.cpp:4325
 #, kde-format
-msgid "New Income Category..."
-msgstr "Nová kategória prijmov..."
+msgid "New Income Category…"
+msgstr "Nová kategória prijmov…"
 
 #: eqonomize.cpp:4326
 #, kde-format
-msgid "New Expense Category..."
-msgstr "Nová kategória vydavkov..."
+msgid "New Expense Category…"
+msgstr "Nová kategória vydavkov…"
 
 #: eqonomize.cpp:4327
 #, kde-format
-msgid "Balance..."
-msgstr "Vyrovnanie..."
+msgid "Balance…"
+msgstr "Vyrovnanie…"
 
 #: eqonomize.cpp:4331
 #, kde-format
@@ -1486,38 +1487,38 @@ msgstr "Zobraz prevody"
 
 #: eqonomize.cpp:4335
 #, kde-format
-msgid "New Transfer..."
-msgstr "Nový prevod..."
+msgid "New Transfer…"
+msgstr "Nový prevod…"
 
 #: eqonomize.cpp:4336
 #, kde-format
-msgid "New Split Transaction..."
-msgstr "Nové rozdelenie prevodu..."
+msgid "New Split Transaction…"
+msgstr "Nové rozdelenie prevodu…"
 
 #: eqonomize.cpp:4337
 #, kde-format
-msgid "Edit Transaction(s) (Occurrence)..."
-msgstr "Uprav prevod(-y) (udalosť)..."
+msgid "Edit Transaction(s) (Occurrence)…"
+msgstr "Uprav prevod(-y) (udalosť)…"
 
 #: eqonomize.cpp:4338
 #, kde-format
-msgid "Edit Occurrence..."
-msgstr "Uprav udalosť..."
+msgid "Edit Occurrence…"
+msgstr "Uprav udalosť…"
 
 #: eqonomize.cpp:4339
 #, kde-format
-msgid "Edit Schedule (Recurrence)..."
-msgstr "Uprav plán (opakovananý)..."
+msgid "Edit Schedule (Recurrence)…"
+msgstr "Uprav plán (opakovananý)…"
 
 #: eqonomize.cpp:4340
 #, kde-format
-msgid "Edit Schedule..."
-msgstr "Uprav plán..."
+msgid "Edit Schedule…"
+msgstr "Uprav plán…"
 
 #: eqonomize.cpp:4341
 #, kde-format
 msgid "Remove Transaction(s) (Occurrence)"
-msgstr "Odstrániť prevod(-y) (udalosť)..."
+msgstr "Odstrániť prevod(-y) (udalosť)…"
 
 #: eqonomize.cpp:4342
 #, kde-format
@@ -1536,8 +1537,8 @@ msgstr "Zmazať plán"
 
 #: eqonomize.cpp:4345
 #, kde-format
-msgid "Edit Split Transaction..."
-msgstr "Uprav rozdelenie prevodov..."
+msgid "Edit Split Transaction…"
+msgstr "Uprav rozdelenie prevodov…"
 
 #: eqonomize.cpp:4346
 #, kde-format
@@ -1546,8 +1547,8 @@ msgstr "Odstráň rozdelenie prevodov"
 
 #: eqonomize.cpp:4347
 #, kde-format
-msgid "Join Transactions..."
-msgstr "Pripoj prevod..."
+msgid "Join Transactions…"
+msgstr "Pripoj prevod…"
 
 #: eqonomize.cpp:4348
 #, kde-format
@@ -1556,22 +1557,22 @@ msgstr ""
 
 #: eqonomize.cpp:4350
 #, kde-format
-msgid "Refund..."
+msgid "Refund…"
 msgstr ""
 
 #: eqonomize.cpp:4351
 #, kde-format
-msgid "Repayment..."
+msgid "Repayment…"
 msgstr ""
 
 #: eqonomize.cpp:4352
 #, kde-format
-msgid "New Refund/Repayment..."
+msgid "New Refund/Repayment…"
 msgstr ""
 
 #: eqonomize.cpp:4355
 #, kde-format
-msgid "Edit Security..."
+msgid "Edit Security…"
 msgstr ""
 
 #: eqonomize.cpp:4356
@@ -1581,57 +1582,57 @@ msgstr ""
 
 #: eqonomize.cpp:4357
 #, kde-format
-msgid "Shares Sold..."
+msgid "Shares Sold…"
 msgstr ""
 
 #: eqonomize.cpp:4358
 #, kde-format
-msgid "Shares Bought..."
+msgid "Shares Bought…"
 msgstr ""
 
 #: eqonomize.cpp:4359
 #, kde-format
-msgid "Dividend..."
+msgid "Dividend…"
 msgstr ""
 
 #: eqonomize.cpp:4360
 #, kde-format
-msgid "Reinvested Dividend..."
+msgid "Reinvested Dividend…"
 msgstr ""
 
 #: eqonomize.cpp:4361
 #, kde-format
-msgid "Shares Moved..."
+msgid "Shares Moved…"
 msgstr ""
 
 #: eqonomize.cpp:4363
 #, kde-format
-msgid "Edit Quotations..."
+msgid "Edit Quotations…"
 msgstr ""
 
 #: eqonomize.cpp:4364
 #, kde-format
-msgid "Transactions..."
+msgid "Transactions…"
 msgstr ""
 
 #: eqonomize.cpp:4366
 #, kde-format
-msgid "Development Over Time Report..."
+msgid "Development Over Time Report…"
 msgstr ""
 
 #: eqonomize.cpp:4367
 #, kde-format
-msgid "Categories Comparison Report..."
+msgid "Categories Comparison Report…"
 msgstr ""
 
 #: eqonomize.cpp:4368
 #, kde-format
-msgid "Categories Comparison Chart..."
+msgid "Categories Comparison Chart…"
 msgstr ""
 
 #: eqonomize.cpp:4369
 #, kde-format
-msgid "Development Over Time Chart..."
+msgid "Development Over Time Chart…"
 msgstr ""
 
 #: eqonomize.cpp:4371
@@ -2138,12 +2139,12 @@ msgstr ""
 
 #: ledgerdialog.cpp:122
 #, kde-format
-msgid "Export..."
+msgid "Export…"
 msgstr ""
 
 #: ledgerdialog.cpp:123
 #, kde-format
-msgid "Print..."
+msgid "Print…"
 msgstr ""
 
 #: ledgerdialog.cpp:139
@@ -2153,7 +2154,7 @@ msgstr ""
 
 #: ledgerdialog.cpp:162
 #, kde-format
-msgid "Join..."
+msgid "Join…"
 msgstr ""
 
 #: ledgerdialog.cpp:164
@@ -2200,14 +2201,6 @@ msgstr ""
 
 #: main.cpp:39
 msgid "A personal accounting program"
-msgstr ""
-
-#: main.cpp:39
-msgid "(C) 2006-2008, 2014, 2016 Hanna Knutsson"
-msgstr ""
-
-#: main.cpp:40
-msgid "Hanna Knutsson"
 msgstr ""
 
 #: main.cpp:44
@@ -2711,13 +2704,15 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ",Launchpad Contributions:,Roman Priesol"
+msgstr ""
+",Launchpad Contributions:,Roman Priesol, ,Launchpad Contributions:,Roman "
+"Priesol"
 
 #: rc.cpp:17
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ",,randybb@gmail.com"
+msgstr ",,randybb@gmail.com,,,roman@priesol.net"
 
 #: recurrenceeditwidget.cpp:69
 #, kde-format
@@ -3055,12 +3050,12 @@ msgstr ""
 
 #: recurrenceeditwidget.cpp:533
 #, kde-format
-msgid "Range..."
+msgid "Range…"
 msgstr ""
 
 #: recurrenceeditwidget.cpp:535
 #, kde-format
-msgid "Exceptions..."
+msgid "Exceptions…"
 msgstr ""
 
 #: recurrenceeditwidget.cpp:731
@@ -3213,7 +3208,7 @@ msgstr ""
 
 #: transactionlistwidget.cpp:169
 #, kde-format
-msgid "New/Edit %1"
+msgid "New/Edit Expense"
 msgstr ""
 
 #: transactionlistwidget.cpp:170
@@ -3280,5 +3275,5 @@ msgstr ""
 
 #: transactionlistwidget.cpp:1049
 #, kde-format
-msgid "Modify..."
+msgid "Modify…"
 msgstr ""
