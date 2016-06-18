@@ -88,7 +88,7 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	QSettings settings;
 	settings.beginGroup("OverTimeReport");
 
-	QGroupBox *settingsWidget = new QGroupBox(tr("Options"), this);
+	QWidget *settingsWidget = new QWidget(this);
 	QGridLayout *settingsLayout = new QGridLayout(settingsWidget);
 
 	settingsLayout->addWidget(new QLabel(tr("Source:"), settingsWidget), 0, 0);

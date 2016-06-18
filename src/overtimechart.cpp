@@ -101,7 +101,7 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	QSettings settings;
 	settings.beginGroup("OverTimeChart");
 
-	QGroupBox *settingsWidget = new QGroupBox(tr("Options"), this);
+	QWidget *settingsWidget = new QWidget(this);
 	QGridLayout *settingsLayout = new QGridLayout(settingsWidget);
 
 	QLabel *sourceLabel = new QLabel(tr("Source:"), settingsWidget);
@@ -132,7 +132,7 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	descriptionCombo->setEditable(false);
 	descriptionCombo->addItem(tr("All Descriptions Combined"));
 	descriptionCombo->setEnabled(false);
-	if(b_extra) choicesLayout_extra->addWidget(descriptionCombo, 1, 0);
+	if(b_extra) choicesLayout_extra->addWidget(descriptionCombo, 0, 2);
 	else choicesLayout->addWidget(descriptionCombo);
 	payeeCombo = NULL;
 	if(b_extra) {
@@ -140,7 +140,7 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 		payeeCombo->setEditable(false);
 		payeeCombo->addItem(tr("All Payees/Payers Combined"));
 		payeeCombo->setEnabled(false);
-		choicesLayout_extra->addWidget(payeeCombo, 1, 1);
+		choicesLayout_extra->addWidget(payeeCombo, 1, 0);
 		choicesLayout->addStretch(1);
 	}
 

@@ -108,8 +108,8 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	view->setRenderHint(QPainter::HighQualityAntialiasing, true);
 	layout->addWidget(view);
 
-	QGroupBox *settingsWidget = new QGroupBox(tr("Options"), this);
-	QVBoxLayout *settingsLayout = new QVBoxLayout(settingsWidget);
+	QWidget *settingsWidget = new QWidget(this);
+	QHBoxLayout *settingsLayout = new QHBoxLayout(settingsWidget);	
 
 	QHBoxLayout *choicesLayout = new QHBoxLayout();
 	settingsLayout->addLayout(choicesLayout);
@@ -120,11 +120,13 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	fromEdit->setCalendarPopup(true);
 	fromEdit->setDate(from_date);
 	choicesLayout->addWidget(fromEdit);
+	choicesLayout->setStretchFactor(fromEdit, 1);
 	choicesLayout->addWidget(new QLabel(tr("To"), settingsWidget));
 	toEdit = new QDateEdit(settingsWidget);
 	toEdit->setCalendarPopup(true);
 	toEdit->setDate(to_date);
 	choicesLayout->addWidget(toEdit);
+	choicesLayout->setStretchFactor(toEdit, 1);
 	prevYearButton = new QPushButton(QIcon::fromTheme("eqonomize-previous-year"), "", settingsWidget);
 	choicesLayout->addWidget(prevYearButton);
 	prevMonthButton = new QPushButton(QIcon::fromTheme("eqonomize-previous-month"), "", settingsWidget);
@@ -133,7 +135,8 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	choicesLayout->addWidget(nextMonthButton);
 	nextYearButton = new QPushButton(QIcon::fromTheme("eqonomize-next-year"), "", settingsWidget);
 	choicesLayout->addWidget(nextYearButton);
-	choicesLayout->addStretch(1);
+	settingsLayout->addSpacing(12);
+	settingsLayout->setStretchFactor(choicesLayout, 2);
 
 	QHBoxLayout *typeLayout = new QHBoxLayout();
 	settingsLayout->addLayout(typeLayout);
@@ -154,7 +157,8 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 		account = budget->incomesAccounts.next();
 	}
 	typeLayout->addWidget(sourceCombo);
-	typeLayout->addStretch(1);
+	typeLayout->setStretchFactor(sourceCombo, 1);
+	settingsLayout->setStretchFactor(typeLayout, 1);
 
 	current_account = NULL;
 
