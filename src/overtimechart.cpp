@@ -703,10 +703,12 @@ void OverTimeChart::updateDisplay() {
 	QMap<Account*, QVector<chart_month_info> > monthly_cats;
 	QMap<Account*, chart_month_info*> mi_c;
 	QMap<QString, QVector<chart_month_info> > monthly_desc;
+	QMap<QString, double> desc_values;
 	QMap<QString, chart_month_info*> mi_d;
 	chart_month_info *mi_e = NULL, *mi_i = NULL;
 	chart_month_info **mi = NULL;
 	QVector<chart_month_info> *monthly_values = NULL;
+	double *total_value = NULL;
 	QMap<Account*, double> scheduled_cats;
 	QMap<Account*, double> scheduled_cat_counts;
 	QMap<QString, double> scheduled_desc;
@@ -715,6 +717,7 @@ void OverTimeChart::updateDisplay() {
 	QMap<Account*, bool> isfirst_c;
 	QMap<QString, bool> isfirst_d;
 	bool *isfirst = NULL;
+	QStringList desc_order;
 
 	int type = valueGroup->checkedId();
 
@@ -745,6 +748,7 @@ void OverTimeChart::updateDisplay() {
 		for(int i = 2; i < descriptionCombo->count(); i++) {
 			QString str = descriptionCombo->itemText(i);
 			monthly_desc[str] = QVector<chart_month_info>();
+			desc_values[str] = 0.0;
 			mi_d[str] = NULL;
 			isfirst_d[str] = true;
 			scheduled_desc[str] = 0.0;
@@ -755,6 +759,7 @@ void OverTimeChart::updateDisplay() {
 		for(int i = 2; i < payeeCombo->count(); i++) {
 			QString str = payeeCombo->itemText(i);
 			monthly_desc[str] = QVector<chart_month_info>();
+			desc_values[str] = 0.0;
 			mi_d[str] = NULL;
 			isfirst_d[str] = true;
 			scheduled_desc[str] = 0.0;
@@ -773,6 +778,7 @@ void OverTimeChart::updateDisplay() {
 	while(trans && trans->date() <= last_date) {
 		bool include = false;
 		int sign = 1;
+		total_value = NULL;
 		if(!started && trans->date() >= first_date) started = true;
 		if(started) {
 			switch(current_source) {
@@ -828,10 +834,12 @@ void OverTimeChart::updateDisplay() {
 				case 7: {
 					if(trans->fromAccount() == current_account) {
 						monthly_values = &monthly_desc[trans->description()]; mi = &mi_d[trans->description()]; isfirst = &isfirst_d[trans->description()];
+						total_value = &desc_values[trans->description()];
 						sign = 1;
 						include = true;
 					} else if(trans->toAccount() == current_account) {
 						monthly_values = &monthly_desc[trans->description()]; mi = &mi_d[trans->description()]; isfirst = &isfirst_d[trans->description()];
+						total_value = &desc_values[trans->description()];
 						sign = -1;
 						include = true;
 					}
@@ -840,10 +848,12 @@ void OverTimeChart::updateDisplay() {
 				case 8: {
 					if(trans->fromAccount() == current_account) {
 						monthly_values = &monthly_desc[trans->description()]; mi = &mi_d[trans->description()]; isfirst = &isfirst_d[trans->description()];
+						total_value = &desc_values[trans->description()];
 						sign = -1;
 						include = true;
 					} else if(trans->toAccount() == current_account) {
 						monthly_values = &monthly_desc[trans->description()]; mi = &mi_d[trans->description()]; isfirst = &isfirst_d[trans->description()];
+						total_value = &desc_values[trans->description()];
 						sign = 1;
 						include = true;
 					}
@@ -878,6 +888,7 @@ void OverTimeChart::updateDisplay() {
 					Income *income = (Income*) trans;
 					if(income->category() == current_account) {
 						monthly_values = &monthly_desc[income->payer()]; mi = &mi_d[income->payer()]; isfirst = &isfirst_d[income->payer()];
+						total_value = &desc_values[income->payer()];
 						sign = 1;
 						include = true;
 					}
@@ -888,6 +899,7 @@ void OverTimeChart::updateDisplay() {
 					Expense *expense = (Expense*) trans;
 					if(expense->category() == current_account) {
 						monthly_values = &monthly_desc[expense->payee()]; mi = &mi_d[expense->payee()]; isfirst = &isfirst_d[expense->payee()];
+						total_value = &desc_values[expense->payee()];
 						sign = 1;
 						include = true;
 					}
@@ -898,6 +910,7 @@ void OverTimeChart::updateDisplay() {
 					Income *income = (Income*) trans;
 					if(income->category() == current_account && income->description() == current_description) {
 						monthly_values = &monthly_desc[income->payer()]; mi = &mi_d[income->payer()]; isfirst = &isfirst_d[income->payer()];
+						total_value = &desc_values[income->payer()];
 						sign = 1;
 						include = true;
 					}
@@ -908,6 +921,7 @@ void OverTimeChart::updateDisplay() {
 					Expense *expense = (Expense*) trans;
 					if(expense->category() == current_account && expense->description() == current_description) {
 						monthly_values = &monthly_desc[expense->payee()]; mi = &mi_d[expense->payee()]; isfirst = &isfirst_d[expense->payee()];
+						total_value = &desc_values[expense->payee()];
 						sign = 1;
 						include = true;
 					}
@@ -938,6 +952,7 @@ void OverTimeChart::updateDisplay() {
 					Income *income = (Income*) trans;
 					if(income->category() == current_account && income->payer() == current_payee) {
 						monthly_values = &monthly_desc[income->description()]; mi = &mi_d[income->description()]; isfirst = &isfirst_d[income->description()];
+						total_value = &desc_values[income->description()];
 						sign = 1;
 						include = true;
 					}
@@ -948,6 +963,7 @@ void OverTimeChart::updateDisplay() {
 					Expense *expense = (Expense*) trans;
 					if(expense->category() == current_account && expense->payee() == current_payee) {
 						monthly_values = &monthly_desc[expense->description()]; mi = &mi_d[expense->description()]; isfirst = &isfirst_d[expense->description()];
+						total_value = &desc_values[expense->description()];
 						sign = 1;
 						include = true;
 					}
@@ -1006,6 +1022,10 @@ void OverTimeChart::updateDisplay() {
 				(*mi)->value += trans->value() * sign;
 				(*mi)->count += trans->quantity();
 			}
+			if(total_value) {
+				if(type == 2) *total_value += trans->quantity();
+				else *total_value += trans->value() * sign;
+			}
 		}
 		trans = budget->transactions.next();
 	}
@@ -1046,7 +1066,7 @@ void OverTimeChart::updateDisplay() {
 	else if(source_org == 3) account = budget->incomesAccounts.first();
 	else if(source_org == 4) account = budget->expensesAccounts.first();
 	else if(source_org == 2) {mi = &mi_e; monthly_values = &monthly_expenses; isfirst = &isfirst_e;}
-	else if(source_org == 1) {mi = &mi_i; monthly_values = &monthly_incomes; isfirst = &isfirst_i;}
+	else if(source_org == 1) {mi = &mi_i; monthly_values = &monthly_incomes; isfirst = &isfirst_i;}		
 	while(source_org == 1 || source_org == 2 || account || ((source_org == 7 || source_org == 11) && desc_i < desc_nr)) {
 		if(source_org == 3 || source_org == 4 || source_org == 0) {mi = &mi_c[account]; monthly_values = &monthly_cats[account]; isfirst = &isfirst_c[account];}
 		else if(source_org == 7) {mi = &mi_d[descriptionCombo->itemText(desc_i)]; monthly_values = &monthly_desc[descriptionCombo->itemText(desc_i)]; isfirst = &isfirst_d[descriptionCombo->itemText(desc_i)];}
@@ -1091,6 +1111,7 @@ void OverTimeChart::updateDisplay() {
 		trans = strans->transaction();
 		bool include = false;
 		int sign = 1;
+		total_value = NULL;
 		switch(current_source) {
 			case -1: {}
 			case 0: {}
@@ -1144,10 +1165,12 @@ void OverTimeChart::updateDisplay() {
 			case 7: {
 				if(trans->fromAccount() == current_account) {
 					monthly_values = &monthly_desc[trans->description()]; mi = &mi_d[trans->description()]; isfirst = &isfirst_d[trans->description()];
+					total_value = &desc_values[trans->description()];
 					sign = 1;
 					include = true;
 				} else if(trans->toAccount() == current_account) {
 					monthly_values = &monthly_desc[trans->description()]; mi = &mi_d[trans->description()]; isfirst = &isfirst_d[trans->description()];
+					total_value = &desc_values[trans->description()];
 					sign = -1;
 					include = true;
 				}
@@ -1156,10 +1179,12 @@ void OverTimeChart::updateDisplay() {
 			case 8: {
 				if(trans->fromAccount() == current_account) {
 					monthly_values = &monthly_desc[trans->description()]; mi = &mi_d[trans->description()]; isfirst = &isfirst_d[trans->description()];
+					total_value = &desc_values[trans->description()];
 					sign = -1;
 					include = true;
 				} else if(trans->toAccount() == current_account) {
 					monthly_values = &monthly_desc[trans->description()]; mi = &mi_d[trans->description()]; isfirst = &isfirst_d[trans->description()];
+					total_value = &desc_values[trans->description()];
 					sign = 1;
 					include = true;
 				}
@@ -1194,6 +1219,7 @@ void OverTimeChart::updateDisplay() {
 				Income *income = (Income*) trans;
 				if(income->category() == current_account) {
 					monthly_values = &monthly_desc[income->payer()]; mi = &mi_d[income->payer()]; isfirst = &isfirst_d[income->payer()];
+					total_value = &desc_values[income->payer()];
 					sign = 1;
 					include = true;
 				}
@@ -1204,6 +1230,7 @@ void OverTimeChart::updateDisplay() {
 				Expense *expense = (Expense*) trans;
 				if(expense->category() == current_account) {
 					monthly_values = &monthly_desc[expense->payee()]; mi = &mi_d[expense->payee()]; isfirst = &isfirst_d[expense->payee()];
+					total_value = &desc_values[expense->payee()];
 					sign = 1;
 					include = true;
 				}
@@ -1214,6 +1241,7 @@ void OverTimeChart::updateDisplay() {
 				Income *income = (Income*) trans;
 				if(income->category() == current_account && income->description() == current_description) {
 					monthly_values = &monthly_desc[income->payer()]; mi = &mi_d[income->payer()]; isfirst = &isfirst_d[income->payer()];
+					total_value = &desc_values[income->payer()];
 					sign = 1;
 					include = true;
 				}
@@ -1224,6 +1252,7 @@ void OverTimeChart::updateDisplay() {
 				Expense *expense = (Expense*) trans;
 				if(expense->category() == current_account && expense->description() == current_description) {
 					monthly_values = &monthly_desc[expense->payee()]; mi = &mi_d[expense->payee()]; isfirst = &isfirst_d[expense->payee()];
+					total_value = &desc_values[expense->payee()];
 					sign = 1;
 					include = true;
 				}
@@ -1254,6 +1283,7 @@ void OverTimeChart::updateDisplay() {
 				Income *income = (Income*) trans;
 				if(income->category() == current_account && income->payer() == current_payee) {
 					monthly_values = &monthly_desc[income->description()]; mi = &mi_d[income->description()]; isfirst = &isfirst_d[income->description()];
+					total_value = &desc_values[income->description()];
 					sign = 1;
 					include = true;
 				}
@@ -1264,6 +1294,7 @@ void OverTimeChart::updateDisplay() {
 				Expense *expense = (Expense*) trans;
 				if(expense->category() == current_account && expense->payee() == current_payee) {
 					monthly_values = &monthly_desc[expense->description()]; mi = &mi_d[expense->description()]; isfirst = &isfirst_d[expense->description()];
+					total_value = &desc_values[expense->description()];
 					sign = 1;
 					include = true;
 				}
@@ -1301,6 +1332,10 @@ void OverTimeChart::updateDisplay() {
 					(*mi) = cmi_it;
 					(*mi)->value += trans->value() * sign;
 					(*mi)->count += trans->quantity();
+					if(total_value) {
+						if(type == 2) *total_value += trans->quantity();
+						else *total_value += trans->value() * sign;
+					}
 				}
 				if(strans->recurrence()) {
 					transdate = strans->recurrence()->nextOccurrence(transdate);
@@ -1389,6 +1424,7 @@ void OverTimeChart::updateDisplay() {
 		minvalue = 0.0;
 		maxcount = 0.0;
 	}
+	
 	while(current_source < 3) {
 		if(current_source == -1 || current_source == 1 || second_run) monthly_values = &monthly_incomes;
 		else monthly_values = &monthly_expenses;
@@ -1444,6 +1480,109 @@ void OverTimeChart::updateDisplay() {
 		case 2: {source_org = 2; break;}
 		default: {}
 	}
+	
+	if(source_org == 7 || source_org == 11) {
+		QString r_desc_str;
+		if(current_source == 12 || current_source == 14) {
+			r_desc_str = tr("Other payees");
+		} else if(current_source == 11 || current_source == 13) {
+			r_desc_str = tr("Other payers");
+		} else {
+			r_desc_str = tr("Other descriptions");
+		}
+		monthly_desc[r_desc_str] = QVector<chart_month_info>();
+		monthly_values = &monthly_desc[r_desc_str];
+		monthly_values->append(chart_month_info());
+		(*mi) = &monthly_values->back();
+		(*mi)->value = 0.0;
+		(*mi)->count = 0.0;
+		(*mi)->date.setDate(first_date.year(), first_date.month(), first_date.daysInMonth());
+		while((*mi)->date < last_date) {
+			QDate newdate = (*mi)->date.addMonths(1);
+			newdate.setDate(newdate.year(), newdate.month(), newdate.daysInMonth());
+			monthly_values->append(chart_month_info());
+			(*mi) = &monthly_values->back();
+			(*mi)->value = 0.0;
+			(*mi)->count = 0.0;
+			(*mi)->date = newdate;
+		}
+		desc_i = 2;
+		QString desc_str;
+		while(desc_i < desc_nr) {
+			if(source_org == 7) desc_str = descriptionCombo->itemText(desc_i);
+			else desc_str = payeeCombo->itemText(desc_i);
+			bool b_added = false;
+			if(desc_values[desc_str] != 0.0) {			
+				int i = desc_order.size() - 1;
+				b_added = true;
+				while(i >= 0) {
+					if(desc_values[desc_str] < desc_values[desc_order[i]]) {
+						if(i == desc_order.size() - 1) {
+							if(i < 6) desc_order.push_back(desc_str);
+							else b_added = false;
+						} else {
+							desc_order.insert(i + 1, desc_str);
+						}
+						break;
+					}
+					i--;
+				}
+				if(i < 0) desc_order.push_front(desc_str);
+				if(desc_order.size() > 6) {
+					QVector<chart_month_info> *monthly_values2 = &monthly_desc[desc_order.last()];
+					QVector<chart_month_info>::iterator it2 = monthly_values2->begin();
+					QVector<chart_month_info>::iterator it2_e = monthly_values2->end();
+					QVector<chart_month_info>::iterator it = monthly_values->begin();
+					QVector<chart_month_info>::iterator it_e = monthly_values->end();
+					while(it != it_e && it2 != it2_e) {
+						it->value += it2->value;
+						++it;
+						++it2;
+					}
+					desc_order.pop_back();
+				}
+				
+			}
+			if(!b_added) {
+				QVector<chart_month_info> *monthly_values2 = &monthly_desc[desc_str];
+				QVector<chart_month_info>::iterator it2 = monthly_values2->begin();
+				QVector<chart_month_info>::iterator it2_e = monthly_values2->end();
+				QVector<chart_month_info>::iterator it = monthly_values->begin();
+				QVector<chart_month_info>::iterator it_e = monthly_values->end();
+				while(it != it_e && it2 != it2_e) {
+					it->value += it2->value;
+					++it;
+					++it2;
+				}
+			}
+			desc_i++;
+		}
+		if(desc_order.isEmpty() && desc_nr > 0) {
+			desc_i = 2;
+			while(desc_i < desc_nr && desc_i - 2 < 6) {
+				if(source_org == 7) desc_str = descriptionCombo->itemText(desc_i);
+				else desc_str = payeeCombo->itemText(desc_i);
+				desc_order.push_back(desc_str);
+				desc_i++;
+			}
+		}
+		if(desc_nr > desc_order.size()) {
+			desc_order.push_back(r_desc_str);
+		}
+		maxvalue = 0.0;
+		minvalue = 0.0;
+		for(int i = 0; i < desc_order.size(); i++) {
+			monthly_values = &monthly_desc[desc_order[i]];
+			QVector<chart_month_info>::iterator it = monthly_values->begin();
+			QVector<chart_month_info>::iterator it_e = monthly_values->end();
+			while(it != it_e) {
+				if(it->value > maxvalue) maxvalue = it->value;
+				else if(it->value < minvalue) minvalue = it->value;
+				++it;
+			}
+		}
+	}
+	
 
 	QGraphicsScene *oldscene = scene;
 	scene = new QGraphicsScene(this);
@@ -1455,6 +1594,7 @@ void OverTimeChart::updateDisplay() {
 	int years = last_date.year() - first_date.year();
 	int months = months_between_dates(first_date, last_date) + 1;
 
+	int y_lines = 5;
 	if(type == 2) {
 		int intmax = (int) ceil(maxcount);
 		if(intmax % 5 > 0) maxvalue = ((intmax / 5) + 1) * 5;
@@ -1469,7 +1609,23 @@ void OverTimeChart::updateDisplay() {
 			maxvalue /= pow(10, maxvalue_exp);
 			maxvalue = ceil(maxvalue) * pow(10, maxvalue_exp);
 		}
-		if(minvalue < 0.0) minvalue = -maxvalue;
+		if(minvalue < 0.0) {
+			if(current_source == -1) {
+				minvalue = -maxvalue;
+				y_lines = 4;
+			} else {
+				if(maxvalue / -minvalue >= 4.0) {
+					minvalue = -maxvalue / 4;
+					y_lines = 5;
+				} else if(maxvalue / -minvalue > 2.0) {
+					minvalue = -maxvalue / 2;
+					y_lines = 6;
+				} else {
+					minvalue = -maxvalue;
+					y_lines = 4;
+				}
+			}
+		}
 	}
 	int n = 0;
 	QDate monthdate = first_date;
@@ -1486,8 +1642,6 @@ void OverTimeChart::updateDisplay() {
 	int axis_width = 11;
 	//int axis_height = 11 + fh;
 	int chart_width = linelength * n;
-	int y_lines = 5;
-	if(minvalue < 0.0) y_lines = 4;
 
 	int max_axis_value_width = 0;
 	for(int i = 0; i <= y_lines; i++) {
@@ -1567,8 +1721,7 @@ void OverTimeChart::updateDisplay() {
 		y_mark->setPen(axis_pen);
 		scene->addItem(y_mark);
 		axis_text = new QGraphicsSimpleTextItem();
-		if(minvalue < 0.0 && i == y_lines / 2) axis_text->setText(QLocale().toString(0));
-		else if(type == 2 || (maxvalue - minvalue) >= 50.0) axis_text->setText(QLocale().toString((int) round(maxvalue - (((maxvalue - minvalue) * i) / y_lines))));
+		if(type == 2 || (maxvalue - minvalue) >= 50.0) axis_text->setText(QLocale().toString((int) round(maxvalue - (((maxvalue - minvalue) * i) / y_lines))));
 		else axis_text->setText(QLocale().toString((maxvalue - (((maxvalue - minvalue) * i) / y_lines))));
 		axis_text->setFont(legend_font);
 		axis_text->setBrush(Qt::black);
@@ -1645,16 +1798,16 @@ void OverTimeChart::updateDisplay() {
 	int legend_y = margin;
 	index = 0;
 	account = NULL;
-	desc_i = 2;
-
+	desc_i = 0;
+	desc_nr = desc_order.size();
+	
 	if(source_org == 3) account = budget->incomesAccounts.first();
 	else if(source_org == 4) account = budget->expensesAccounts.first();
 	else if(source_org == 2) {monthly_values = &monthly_expenses;}
 	else if(source_org == 1 || source_org == 0) {monthly_values = &monthly_incomes;}
 	while(source_org < 3 || account || ((source_org == 7 || source_org == 11) && desc_i < desc_nr)) {
 		if(source_org == 3 || source_org == 4) {monthly_values = &monthly_cats[account];}
-		else if(source_org == 7) {monthly_values = &monthly_desc[descriptionCombo->itemText(desc_i)];}
-		else if(source_org == 11) {monthly_values = &monthly_desc[payeeCombo->itemText(desc_i)];}
+		else if(source_org == 7 || source_org == 11) {monthly_values = &monthly_desc[desc_order[desc_i]];}
 		int prev_y = 0;
 		int index2 = 0;
 		QVector<chart_month_info>::iterator it_e = monthly_values->end();
@@ -1705,8 +1858,8 @@ void OverTimeChart::updateDisplay() {
 			case 18: {}
 			case 7: {}
 			case 8: {
-				if(descriptionCombo->itemText(desc_i).isEmpty()) legend_text->setText(tr("No description"));
-				else legend_text->setText(descriptionCombo->itemText(desc_i));
+				if(desc_order[desc_i].isEmpty()) legend_text->setText(tr("No description"));
+				else legend_text->setText(desc_order[desc_i]);
 				break;
 			}
 			case 9: {}
@@ -1717,14 +1870,14 @@ void OverTimeChart::updateDisplay() {
 			}
 			case 13: {}
 			case 11: {
-				if(payeeCombo->itemText(desc_i).isEmpty()) legend_text->setText(tr("No payer"));
-				else legend_text->setText(payeeCombo->itemText(desc_i));
+				if(desc_order[desc_i].isEmpty()) legend_text->setText(tr("No payer"));
+				else legend_text->setText(desc_order[desc_i]);
 				break;
 			}
 			case 14: {}
 			case 12: {
-				if(payeeCombo->itemText(desc_i).isEmpty()) legend_text->setText(tr("No payee"));
-				else legend_text->setText(payeeCombo->itemText(desc_i));
+				if(desc_order[desc_i].isEmpty()) legend_text->setText(tr("No payee"));
+				else legend_text->setText(desc_order[desc_i]);
 				break;
 			}
 			case 15: {

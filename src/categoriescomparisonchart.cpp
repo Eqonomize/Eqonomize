@@ -675,7 +675,6 @@ void CategoriesComparisonChart::updateDisplay() {
 	
 	double remaining_value = 0.0;
 	if(current_account) {
-		QString index_str;
 		while(it_desc != it_desc_end) {
 			int i = desc_order.size() - 1;
 			while(i >= 0) {
@@ -697,11 +696,11 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 			++it_desc;
 		}
-	}
-	if(desc_values.size() > desc_order.size()) {
-		desc_order.push_back(tr("Remaining categories"));
-		desc_values[tr("Remaining categories")] = remaining_value;
-	}
+		if(desc_values.size() > desc_order.size()) {
+			desc_order.push_back(tr("Other descriptions"));
+			desc_values[tr("Other descriptions")] = remaining_value;
+		}
+	}	
 	
 	int n = 0;
 	if(current_account) {
