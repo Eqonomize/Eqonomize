@@ -35,6 +35,7 @@
 #include <QTranslator>
 #include <QDir>
 #include <QTextStream>
+#include <QIcon>
 
 #include "budget.h"
 #include "eqonomize.h"
@@ -100,6 +101,11 @@ int main(int argc, char **argv) {
 			}
 		}
 	}
+	
+	if(QIcon::themeName().isEmpty()) {
+		QIcon::setThemeName("EQZ");
+	}
+	app.setWindowIcon(QIcon::fromTheme("eqonomize"));
 	
 	Eqonomize *win = new Eqonomize();
 	win->setCommandLineParser(parser);

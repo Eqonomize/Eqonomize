@@ -147,17 +147,19 @@ unix {
 	mimeiconsvg.files = data/scalable/application-x-eqonomize.svg
 	mimeiconsvg.path = $$ICON_DIR/hicolor/scalable/mimetypes
 
-	actioniconssvg.files = 	data/scalable/eqonomize-expense.svg \
-				data/scalable/eqonomize-income.svg \
-				data/scalable/eqonomize-transfer.svg \
-				data/scalable/eqonomize-security.svg \
-				data/scalable/eqonomize-schedule.svg \
-				data/scalable/eqonomize-previous-year.svg \
-				data/scalable/eqonomize-previous-month.svg \
-				data/scalable/eqonomize-next-month.svg \
-				data/scalable/eqonomize-next-year.svg \
-				data/scalable/eqonomize-categories-chart.svg \
-				data/scalable/eqonomize-overtime-chart.svg
+	actioniconssvg.files = 	data/scalable/eqz-expense.svg \
+				data/scalable/eqz-income.svg \
+				data/scalable/eqz-transfer.svg \
+				data/scalable/eqz-security.svg \
+				data/scalable/eqz-schedule.svg \
+				data/scalable/eqz-previous-year.svg \
+				data/scalable/eqz-previous-month.svg \
+				data/scalable/eqz-next-month.svg \
+				data/scalable/eqz-next-year.svg \
+				data/scalable/eqz-categories-chart.svg \
+				data/scalable/eqz-overtime-chart.svg \
+				data/scalable/eqz-categories-report.svg \
+				data/scalable/eqz-overtime-report.svg
 	actioniconssvg.path = $$ICON_DIR/hicolor/scalable/actions
 
 	INSTALLS += 	target qm doc desktop mime \ 

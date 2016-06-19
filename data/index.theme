@@ -1,0 +1,17 @@
+[Icon Theme]
+Name=EQZ
+Directories=apps/scalable;actions/scalable
+
+[apps/scalable]
+Size=48
+Type=Scalable
+MinSize=1
+MaxSize=256
+Context=Applications
+
+[actions/scalable]
+Size=48
+Type=Scalable
+MinSize=1
+MaxSize=256
+Context=Actions

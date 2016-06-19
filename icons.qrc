@@ -1,5 +1,19 @@
 <!DOCTYPE RCC><RCC version="1.0">
-<qresource>
-	<file>data/scalable/eqonomize.svg</file>
+<qresource prefix="icons/EQZ">
+	<file alias="index.theme">data/index.theme</file>
+	<file alias="apps/scalable/eqonomize.svg">data/scalable/eqonomize.svg</file>
+	<file alias="actions/scalable/eqz-categories-chart.svg">data/scalable/eqz-categories-chart.svg</file>
+	<file alias="actions/scalable/eqz-categories-report.svg">data/scalable/eqz-categories-report.svg</file>
+	<file alias="actions/scalable/eqz-expense.svg">data/scalable/eqz-expense.svg</file>
+	<file alias="actions/scalable/eqz-income.svg">data/scalable/eqz-income.svg</file>
+	<file alias="actions/scalable/eqz-next-month.svg">data/scalable/eqz-next-month.svg</file>
+	<file alias="actions/scalable/eqz-next-year.svg">data/scalable/eqz-next-year.svg</file>
+	<file alias="actions/scalable/eqz-overtime-chart.svg">data/scalable/eqz-overtime-chart.svg</file>
+	<file alias="actions/scalable/eqz-overtime-report.svg">data/scalable/eqz-overtime-report.svg</file>
+	<file alias="actions/scalable/eqz-previous-month.svg">data/scalable/eqz-previous-month.svg</file>
+	<file alias="actions/scalable/eqz-previous-year.svg">data/scalable/eqz-previous-year.svg</file>
+	<file alias="actions/scalable/eqz-schedule.svg">data/scalable/eqz-schedule.svg</file>
+	<file alias="actions/scalable/eqz-security.svg">data/scalable/eqz-security.svg</file>
+	<file alias="actions/scalable/eqz-transfer.svg">data/scalable/eqz-transfer.svg</file>
 </qresource>
 </RCC>
