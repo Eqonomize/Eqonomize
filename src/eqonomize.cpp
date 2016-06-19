@@ -74,6 +74,7 @@
 #include <QLocalSocket>
 #include <QLocalServer>
 #include <QLocale>
+#include <QTextBrowser>
 
 #include <QDebug>
 
@@ -4350,14 +4351,12 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionImportCSV, tr("Import CSV File…"), "document-import", 0, this, SLOT(importCSV()), "import_csv", importMenu);
 	NEW_ACTION(ActionImportQIF, tr("Import QIF File…"), "document-import", 0, this, SLOT(importQIF()), "import_qif", importMenu);
 	NEW_ACTION(ActionSaveView, tr("Export View…"), "document-export", 0, this, SLOT(saveView()), "save_view", fileMenu);
-	fileToolbar->addAction(ActionSaveView);
 	NEW_ACTION(ActionExportQIF, tr("Export As QIF File…"), "document-export", 0, this, SLOT(exportQIF()), "export_qif", fileMenu);
 	fileMenu->addSeparator();
 	QList<QKeySequence> keySequences;	
 	keySequences << QKeySequence(Qt::CTRL+Qt::Key_Q);
 	keySequences << QKeySequence(QKeySequence::Quit);
 	NEW_ACTION_3(ActionQuit, tr("&Quit"), "application-exit", keySequences, this, SLOT(close()), "application_quit", fileMenu);
-	fileToolbar->addAction(ActionQuit);
 	
 	NEW_ACTION_NOMENU(ActionAddAccount, tr("Add Account…"), "document-new", 0, this, SLOT(addAccount()), "add_account");
 	NEW_ACTION(ActionNewAssetsAccount, tr("New Account…"), "document-new", 0, this, SLOT(newAssetsAccount()), "new_assets_account", accountsMenu);
@@ -4510,22 +4509,41 @@ void Eqonomize::updateRecentFiles(QString filePath){
 void Eqonomize::showHelp() {
 	QLocale locale;
 	QStringList langs = locale.uiLanguages();
+	QString docfile = DOCUMENTATION_DIR "/C/index.html";
 	for(int i = 0; i < langs.size(); ++i) {
 		QString lang = langs.at(i);
 		lang.replace('-', '_');
 		QFileInfo fileinfo(QString(DOCUMENTATION_DIR "/") + lang + "/index.html");
 		if(fileinfo.exists()) {
-			QDesktopServices::openUrl(QUrl(QString(DOCUMENTATION_DIR "/") + lang + "/index.html"));
-			return;
+			docfile = QString(DOCUMENTATION_DIR "/") + lang + "/index.html";
+			break;;
 		}
 		lang = lang.section('_', 0, 0);
 		fileinfo.setFile(QString(DOCUMENTATION_DIR "/") + lang + "/index.html");
 		if(fileinfo.exists()) {
-			QDesktopServices::openUrl(QUrl(QString(DOCUMENTATION_DIR "/") + lang + "/index.html"));
-			return;
+			docfile = QString(DOCUMENTATION_DIR "/") + lang + "/index.html";
+			break;
 		}
 	}
-	QDesktopServices::openUrl(QUrl(DOCUMENTATION_DIR "/C/index.html"));
+	if(docfile[0] == ':') {
+		QDialog *dialog = new QDialog(this, Qt::Window | Qt::WindowMinMaxButtonsHint);
+		dialog->setWindowModality(Qt::NonModal);
+		dialog->setWindowTitle(tr("Help"));
+		QVBoxLayout *box1 = new QVBoxLayout(dialog);
+		QTextBrowser *helpBrowser = new QTextBrowser(dialog);
+		helpBrowser->setSource(QUrl(QString("qrc") + docfile));
+		box1->addWidget(helpBrowser);
+		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+		connect(buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), dialog, SLOT(reject()));
+		box1->addWidget(buttonBox);
+		QSize helpSize = QDesktopWidget().availableGeometry(this).size();
+		helpSize.setHeight(helpSize.height() * 0.85);
+		helpSize.setWidth(helpSize.height() * 1.2);
+		dialog->resize(helpSize);
+		dialog->exec();
+	} else {
+		QDesktopServices::openUrl(QUrl::fromLocalFile(docfile));
+	}
 }
 void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
