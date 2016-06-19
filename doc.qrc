@@ -1,5 +1,34 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-	<file>doc/html/C/index.html</file>
+<file>doc/html/C/accounting.html</file>
+<file>doc/html/C/accounts-view.png</file>
+<file>doc/html/C/ask-save.png</file>
+<file>doc/html/C/commands.html</file>
+<file>doc/html/C/confirm-schedule.png</file>
+<file>doc/html/C/credits.html</file>
+<file>doc/html/C/csv-columns.png</file>
+<file>doc/html/C/edit-budget.png</file>
+<file>doc/html/C/expenses-view.png</file>
+<file>doc/html/C/faq.html</file>
+<file>doc/html/C/index.html</file>
+<file>doc/html/C/introduction.html</file>
+<file>doc/html/C/new-account.png</file>
+<file>doc/html/C/new-security.png</file>
+<file>doc/html/C/qif-date-format.png</file>
+<file>doc/html/C/recurrence.png</file>
+<file>doc/html/C/refund.png</file>
+<file>doc/html/C/schedule-view.png</file>
+<file>doc/html/C/securities-view.png</file>
+<file>doc/html/C/security-buy.png</file>
+<file>doc/html/C/split-transaction.png</file>
+<file>doc/html/C/using-eqonomize.html</file>
+<file>doc/html/doc.qrc</file>
+<file>doc/html/fr/accounting.html</file>
+<file>doc/html/fr/commands.html</file>
+<file>doc/html/fr/credits.html</file>
+<file>doc/html/fr/faq.html</file>
+<file>doc/html/fr/index.html</file>
+<file>doc/html/fr/introduction.html</file>
+<file>doc/html/fr/using-eqonomize.html</file>
 </qresource>
 </RCC>

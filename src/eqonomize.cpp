@@ -4633,7 +4633,6 @@ void Eqonomize::saveCrashRecovery() {
 		if(current_url.isEmpty()) cr_tmp_file += "UNSAVED EQZ";
 		else cr_tmp_file += current_url.fileName();
 	}	
-	qInfo() << cr_tmp_file;
 	if(budget->saveFile(cr_tmp_file).isNull()) {
 		QSettings settings;
 		settings.beginGroup("GeneralOptions");

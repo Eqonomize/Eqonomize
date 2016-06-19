@@ -1,5 +1,16 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-	<file>translations/eqonomize_sv.qm</file>
+<file>translations/eqonomize_bg.qm</file>
+<file>translations/eqonomize_cs.qm</file>
+<file>translations/eqonomize_de.qm</file>
+<file>translations/eqonomize_es.qm</file>
+<file>translations/eqonomize_fr.qm</file>
+<file>translations/eqonomize_hu.qm</file>
+<file>translations/eqonomize_it.qm</file>
+<file>translations/eqonomize_nl.qm</file>
+<file>translations/eqonomize_pt.qm</file>
+<file>translations/eqonomize_pt_BR.qm</file>
+<file>translations/eqonomize_ro.qm</file>
+<file>translations/eqonomize_sv.qm</file>
 </qresource>
 </RCC>

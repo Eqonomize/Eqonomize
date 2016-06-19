@@ -127,13 +127,13 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	toEdit->setDate(to_date);
 	choicesLayout->addWidget(toEdit);
 	choicesLayout->setStretchFactor(toEdit, 1);
-	prevYearButton = new QPushButton(QIcon::fromTheme("eqonomize-previous-year"), "", settingsWidget);
+	prevYearButton = new QPushButton(QIcon::fromTheme("eqz-previous-year"), "", settingsWidget);
 	choicesLayout->addWidget(prevYearButton);
-	prevMonthButton = new QPushButton(QIcon::fromTheme("eqonomize-previous-month"), "", settingsWidget);
+	prevMonthButton = new QPushButton(QIcon::fromTheme("eqz-previous-month"), "", settingsWidget);
 	choicesLayout->addWidget(prevMonthButton);
-	nextMonthButton = new QPushButton(QIcon::fromTheme("eqonomize-next-month"), "", settingsWidget);
+	nextMonthButton = new QPushButton(QIcon::fromTheme("eqz-next-month"), "", settingsWidget);
 	choicesLayout->addWidget(nextMonthButton);
-	nextYearButton = new QPushButton(QIcon::fromTheme("eqonomize-next-year"), "", settingsWidget);
+	nextYearButton = new QPushButton(QIcon::fromTheme("eqz-next-year"), "", settingsWidget);
 	choicesLayout->addWidget(nextYearButton);
 	settingsLayout->addSpacing(12);
 	settingsLayout->setStretchFactor(choicesLayout, 2);
@@ -422,6 +422,7 @@ void CategoriesComparisonChart::updateDisplay() {
 	QMap<QString, double> desc_counts;
 	double value_count = 0.0;
 	double value = 0.0;
+	QStringList desc_order; 
 
 	current_account = NULL;
 
@@ -671,9 +672,40 @@ void CategoriesComparisonChart::updateDisplay() {
 	Account *account = NULL;
 	QMap<QString, double>::iterator it_desc = desc_values.begin();
 	QMap<QString, double>::iterator it_desc_end = desc_values.end();
+	
+	double remaining_value = 0.0;
+	if(current_account) {
+		QString index_str;
+		while(it_desc != it_desc_end) {
+			int i = desc_order.size() - 1;
+			while(i >= 0) {
+				if(it_desc.value() < desc_values[desc_order[i]]) {
+					if(i == desc_order.size() - 1) {
+						if(i < 10) desc_order.push_back(it_desc.key());
+						else remaining_value += it_desc.value();
+					} else {
+						desc_order.insert(i + 1, it_desc.key());
+					}
+					break;
+				}
+				i--;
+			}
+			if(i < 0) desc_order.push_front(it_desc.key());
+			if(desc_order.size() > 10) {
+				remaining_value += desc_values[desc_order.last()];
+				desc_order.pop_back();
+			}
+			++it_desc;
+		}
+	}
+	if(desc_values.size() > desc_order.size()) {
+		desc_order.push_back(tr("Remaining categories"));
+		desc_values[tr("Remaining categories")] = remaining_value;
+	}
+	
 	int n = 0;
 	if(current_account) {
-		n = desc_values.count();
+		n = desc_order.size();
 	} else if(type == ACCOUNT_TYPE_ASSETS) {
 		account = budget->assetsAccounts.first();
 		if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
@@ -685,21 +717,20 @@ void CategoriesComparisonChart::updateDisplay() {
 		account = budget->incomesAccounts.first();
 		n = budget->incomesAccounts.count();
 	}
+		
 	int index = 0;
 	int text_width = 0;
 	double value_bak = value;
-	while((current_account && it_desc != it_desc_end) || account) {
-
-		bool b_empty = false;
+	while((current_account && index < desc_order.size()) || account) {
 		QString legend_string;
 		double legend_value = 0.0;
 		if(current_account) {
-			if(it_desc.key().isEmpty()) {
+			if(desc_order[index].isEmpty()) {
 				legend_string = tr("No description");
 			} else {
-				legend_string = it_desc.key();
+				legend_string = desc_order[index];
 			}
-			legend_value = it_desc.value();
+			legend_value = desc_values[desc_order[index]];
 		} else {
 			legend_string = account->name();
 			legend_value = values[account];
@@ -713,18 +744,16 @@ void CategoriesComparisonChart::updateDisplay() {
 			legend_value = round(legend_value);
 		}
 		QGraphicsSimpleTextItem *legend_text = new QGraphicsSimpleTextItem(QString("%1 (%2\%)").arg(legend_string).arg(QLocale().toString(legend_value, 'f', deci)));
-		int index_bak = index;
-		if(b_empty) index = n - 1;
 		if(legend_text->boundingRect().width() > text_width) text_width = legend_text->boundingRect().width();
 		legend_text->setFont(legend_font);
 		legend_text->setBrush(Qt::black);
 		legend_text->setPos(legend_x + 10 + fh + 5, margin + 10 + (fh + 5) * index);
 		scene->addItem(legend_text);
-
+		
 		if(current_account) {
-			if(it_desc.value() < 0.0) {
-				value -= it_desc.value();
-				*it_desc = 0.0;
+			if(desc_values[desc_order[index]] < 0.0) {
+				value -= desc_values[desc_order[index]];
+				desc_values[desc_order[index]] = 0.0;
 			}
 		} else {
 			if(values[account] < 0.0) {
@@ -732,15 +761,15 @@ void CategoriesComparisonChart::updateDisplay() {
 				values[account] = 0.0;
 			}
 		}
-		if(current_account) {
-			++it_desc;
-		} else if(type == ACCOUNT_TYPE_ASSETS) {
+		if(type == ACCOUNT_TYPE_ASSETS) {
 			account = budget->assetsAccounts.next();
 			if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
-		} else if(type == ACCOUNT_TYPE_EXPENSES) account = budget->expensesAccounts.next();
-		else  account = budget->incomesAccounts.next();
-		if(b_empty) index = index_bak;
-		else index++;
+		} else if(type == ACCOUNT_TYPE_EXPENSES) {
+			account = budget->expensesAccounts.next();
+		} else {
+			account = budget->incomesAccounts.next();
+		}
+		index++;
 	}
 
 	if(current_account) {
@@ -752,13 +781,11 @@ void CategoriesComparisonChart::updateDisplay() {
 	} else {
 		account = budget->incomesAccounts.first();
 	}
-	it_desc = desc_values.begin();
-	it_desc_end = desc_values.end();
 	index = 0;
 	double current_value = 0.0;
 	int prev_end = 0;
-	while((current_account && it_desc != it_desc_end) || account) {
-		if(current_account) current_value += it_desc.value();
+	while((current_account && index < desc_order.size()) || account) {
+		if(current_account) current_value += desc_values[desc_order[index]];
 		else current_value += values[account];
 		int next_end = (int) lround((current_value * 360 * 16) / value);
 		int length = (next_end - prev_end);
@@ -766,10 +793,6 @@ void CategoriesComparisonChart::updateDisplay() {
 		ellipse->setStartAngle(prev_end);
 		ellipse->setSpanAngle(length);
 		prev_end = next_end;
-		bool b_empty = false;
-		if(current_account && it_desc.key().isEmpty()) {b_empty = true;}
-		int index_bak = index;
-		if(b_empty) index = n - 1;
 		ellipse->setPen(Qt::NoPen);
 		ellipse->setBrush(getBrush(index));
 		ellipse->setPos(diameter / 2 + margin, diameter / 2 + margin);
@@ -778,15 +801,15 @@ void CategoriesComparisonChart::updateDisplay() {
 		legend_box->setPen(QPen(Qt::black));
 		legend_box->setBrush(getBrush(index));
 		scene->addItem(legend_box);
-		if(current_account) {
-			++it_desc;
-		} else if(type == ACCOUNT_TYPE_ASSETS) {
+		if(type == ACCOUNT_TYPE_ASSETS) {
 			account = budget->assetsAccounts.next();
 			if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
-		} else if(type == ACCOUNT_TYPE_EXPENSES) account = budget->expensesAccounts.next();
-		else  account = budget->incomesAccounts.next();
-		if(b_empty) index = index_bak;
-		else index++;
+		} else if(type == ACCOUNT_TYPE_EXPENSES) {
+			account = budget->expensesAccounts.next();
+		} else {
+			account = budget->incomesAccounts.next();
+		}
+		index++;
 	}
 
 	QGraphicsRectItem *legend_outline = new QGraphicsRectItem(legend_x, margin, 10 + fh + 5 + text_width + 10, 10 + ((fh + 5) * n) + 5);
