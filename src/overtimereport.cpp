@@ -100,16 +100,19 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	sourceCombo->addItem(tr("Expenses"));
 	sourceCombo->addItem(tr("Incomes"));
 	choicesLayout->addWidget(sourceCombo);
+	choicesLayout->setStretchFactor(sourceCombo, 1);
 	categoryCombo = new QComboBox(settingsWidget);
 	categoryCombo->setEditable(false);
 	categoryCombo->addItem(tr("All Categories Combined"));
 	categoryCombo->setEnabled(false);
 	choicesLayout->addWidget(categoryCombo);
+	choicesLayout->setStretchFactor(categoryCombo, 1);
 	descriptionCombo = new QComboBox(settingsWidget);
 	descriptionCombo->setEditable(false);
 	descriptionCombo->addItem(tr("All Descriptions Combined"));
 	descriptionCombo->setEnabled(false);
 	choicesLayout->addWidget(descriptionCombo);
+	choicesLayout->setStretchFactor(descriptionCombo, 1);
 
 	current_account = NULL;
 	current_source = 0;

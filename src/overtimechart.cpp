@@ -141,7 +141,6 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 		payeeCombo->addItem(tr("All Payees/Payers Combined"));
 		payeeCombo->setEnabled(false);
 		choicesLayout_extra->addWidget(payeeCombo, 1, 0);
-		choicesLayout->addStretch(1);
 	}
 
 	current_account = NULL;
@@ -170,6 +169,7 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	}
 	startDateEdit->setDate(start_date);
 	monthLayout->addWidget(startDateEdit);
+	monthLayout->setStretchFactor(startDateEdit, 1);
 	monthLayout->addWidget(new QLabel(tr("End date:"), settingsWidget));
 	endDateEdit = new EqonomizeMonthSelector(settingsWidget);
 	end_date = QDate::currentDate().addDays(-1);
@@ -183,6 +183,7 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	}
 	endDateEdit->setDate(end_date);
 	monthLayout->addWidget(endDateEdit);
+	monthLayout->setStretchFactor(endDateEdit, 1);
 	monthLayout->addStretch(1);
 
 	settingsLayout->addWidget(new QLabel(tr("Value:"), settingsWidget), 1, 0);

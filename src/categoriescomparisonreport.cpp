@@ -120,8 +120,9 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	while(account) {
 		sourceCombo->addItem(tr("Incomes: %1").arg(account->name()));
 		account = budget->incomesAccounts.next();
-	}
+	}	
 	sourceLayout->addWidget(sourceCombo);
+	sourceLayout->setStretchFactor(sourceCombo, 1);
 
 	payeeDescriptionWidget = NULL;
 	if(b_extra) {
@@ -136,16 +137,19 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 		payeeCombo = new QComboBox(payeeDescriptionWidget);
 		payeeCombo->setEditable(false);
 		payeeLayout->addWidget(payeeCombo);
+		payeeLayout->setStretchFactor(payeeCombo, 1);
 		payeeButton = new QRadioButton(tr("Payees/payers for"), payeeDescriptionWidget);
 		group->addButton(payeeButton);
 		payeeLayout->addWidget(payeeButton);
 		descriptionCombo = new QComboBox(payeeDescriptionWidget);
 		descriptionCombo->setEditable(false);
 		payeeLayout->addWidget(descriptionCombo);
+		payeeLayout->setStretchFactor(descriptionCombo, 1);
 		sourceLayout->addWidget(payeeDescriptionWidget);
 		payeeDescriptionWidget->setEnabled(false);
+		sourceLayout->setStretchFactor(payeeDescriptionWidget, 2);
 	} else {
-		sourceLayout->addStretch(1);
+		sourceLayout->addStretch(2);
 	}
 
 	current_account = NULL;
@@ -162,11 +166,13 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	fromEdit->setCalendarPopup(true);
 	fromEdit->setDate(from_date);
 	choicesLayout->addWidget(fromEdit);
+	choicesLayout->setStretchFactor(fromEdit, 1);
 	choicesLayout->addWidget(new QLabel(tr("To"), settingsWidget));
 	toEdit = new QDateEdit(settingsWidget);
 	toEdit->setCalendarPopup(true);
 	toEdit->setDate(to_date);
 	choicesLayout->addWidget(toEdit);
+	choicesLayout->setStretchFactor(toEdit, 1);
 	prevYearButton = new QPushButton(QIcon::fromTheme("eqz-previous-year"), "", settingsWidget);
 	choicesLayout->addWidget(prevYearButton);
 	prevMonthButton = new QPushButton(QIcon::fromTheme("eqz-previous-month"), "", settingsWidget);
