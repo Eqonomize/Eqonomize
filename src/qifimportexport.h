@@ -52,6 +52,7 @@ struct qif_info {
 	int value_format, date_format, shares_format, price_format, percentage_format;
 	char separator;
 	bool p1, p2, p3, p4, ly;
+	int lz;
 	QString opening_balance_str;
 	int accounts, categories, transactions, securities, security_transactions, duplicates, failed_transactions;
 	bool payee_as_description, subcategory_as_description, subcategory_as_category, memo_as_description;

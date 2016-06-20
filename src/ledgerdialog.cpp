@@ -128,7 +128,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Type");
-	headers << tr("Description");
+	headers << tr("Name");
 	headers << tr("Account/Category");
 	headers << tr("Deposit");
 	headers << tr("Withdrawal");

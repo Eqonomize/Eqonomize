@@ -20,8 +20,6 @@ not needed.
 recent transactions, etc.)
 - Reconciliation: "We all make mistakes at times and it would be nice to
 be able to reconcile one's entries with a Bank Statement"
-- Alternative to match sub-strings not in the beginning of word in
-filters.
 - Security: encrypt files?
 - Import and export more file types: OFX, Gnucash, kmymoney2, etc.
 - Test QIF import/export (I have not been able to do any real world
@@ -29,8 +27,6 @@ testing)
 - Load quotations from external sources
 - Chart for quotations
 - More visualisations (charts)
-- New icons: ex. replace the generic left and right arrows for incomes
-and expenses
 - Undo
 - Enhance manual
 - Gnome UI: it would fit my desktop environment better, but not really

@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="eqonomize-categories-report.svg"
+   sodipodi:docname="eqz-categories-report.svg"
    inkscape:export-filename="/home/alexander/libo/icon-themes/tango_testing/cmd/lc_numberformatcurrency.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -362,8 +362,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="12.3125"
-     inkscape:cx="24"
-     inkscape:cy="53.642689"
+     inkscape:cx="27.02875"
+     inkscape:cy="24.241674"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -414,7 +414,7 @@
        inkscape:label="Ebene 1" />
     <g
        id="g5149"
-       transform="matrix(1.6011549,0,0,2.1883427,-15.51027,-1208.3877)">
+       transform="matrix(1.4590229,0,0,2.24069,-13.840219,-1261.3783)">
       <rect
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.20734406px;line-height:125%;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';letter-spacing:0px;word-spacing:0px;fill:url(#linearGradient9632);fill-opacity:1;stroke:none"
          id="rect5231"
@@ -580,7 +580,7 @@
     </g>
     <g
        id="g5306"
-       transform="matrix(0.86376373,0,0,0.86376373,23.608675,143.70017)">
+       transform="matrix(0.86376373,0,0,0.86376373,23.689893,144.72555)">
       <rect
          ry="1.7884113"
          rx="1.7884113"

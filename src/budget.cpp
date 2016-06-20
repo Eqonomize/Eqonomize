@@ -25,7 +25,6 @@
 #include "budget.h"
 
 #include <QDomDocument>
-#include <QFile>
 #include <QTextStream>
 #include <QMap>
 #include <QSaveFile>
@@ -393,7 +392,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 	return QString::null;
 }
 
-QString Budget::saveFile(QString filename, mode_t) {
+QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 
 	QFileInfo info(filename);
 	if(info.isDir()) {
@@ -402,7 +401,7 @@ QString Budget::saveFile(QString filename, mode_t) {
 
 	QSaveFile ofile(filename);
 	ofile.open(QIODevice::WriteOnly);
-	ofile.setPermissions((QFile::Permissions) 0x0600);
+	ofile.setPermissions(permissions);
 	if(!ofile.isOpen()) {
 		ofile.cancelWriting();
 		return tr("Couldn't open file for writing");

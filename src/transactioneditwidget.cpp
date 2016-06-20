@@ -169,12 +169,13 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				editLayout->addWidget(new QLabel(security->name(), this), TEROWCOL(i, 1));
 			}
 		} else {
-			editLayout->addWidget(new QLabel(tr("Description:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Name:"), this), TEROWCOL(i, 0));
 			descriptionEdit = new QLineEdit(this);
 			descriptionEdit->setCompleter(new QCompleter(this));
 			descriptionEdit->completer()->setModel(new QStandardItemModel(this));
 			descriptionEdit->completer()->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
 			editLayout->addWidget(descriptionEdit, TEROWCOL(i, 1));
+			descriptionEdit->setToolTip(tr("Title/Description/Subcategory"));
 		}
 		i++;
 		if(transtype == TRANSACTION_TYPE_TRANSFER) {
@@ -1140,7 +1141,7 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 	QGridLayout *editLayout = new QGridLayout();
 	box1->addLayout(editLayout);
 
-	descriptionButton = new QCheckBox(tr("Description:"), this);
+	descriptionButton = new QCheckBox(tr("Name:"), this);
 	descriptionButton->setChecked(false);
 	editLayout->addWidget(descriptionButton, 0, 0);
 	descriptionEdit = new QLineEdit(this);

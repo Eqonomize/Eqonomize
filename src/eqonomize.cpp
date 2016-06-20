@@ -1001,7 +1001,7 @@ ConfirmScheduleDialog::ConfirmScheduleDialog(bool extra_parameters, Budget *budg
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Type");
-	headers << tr("Description");
+	headers << tr("Name");
 	headers << tr("Amount");
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
@@ -1841,7 +1841,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	tabs->setIconSize(tabs->iconSize() * 1.7);
 
 	accounts_page = new QWidget(this);
-	tabs->addTab(accounts_page, QIcon::fromTheme("go-home"), tr("Accounts && Categories"));
+	tabs->addTab(accounts_page, QIcon::fromTheme("eqz-account"), tr("Accounts && Categories"));
 	expenses_page = new QWidget(this);
 	tabs->addTab(expenses_page, QIcon::fromTheme("eqz-expense"), tr("Expenses"));
 	incomes_page = new QWidget(this);
@@ -2140,7 +2140,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QStringList scheduleViewHeaders;
 	scheduleViewHeaders << tr("Next Occurrence");
 	scheduleViewHeaders << tr("Type");
-	scheduleViewHeaders << tr("Description");
+	scheduleViewHeaders << tr("Name");
 	scheduleViewHeaders << tr("Amount");
 	scheduleViewHeaders << tr("From");
 	scheduleViewHeaders << tr("To");
@@ -2456,7 +2456,7 @@ void Eqonomize::editSecurity() {
 	editSecurity(i);
 }
 void Eqonomize::updateSecuritiesStatistics() {
-	securitiesStatLabel->setText(QString("<div align=\"right\"><b>%1</b> %5 &nbsp; <b>%2</b> %6 &nbsp; <b>%3</b> %7 &nbsp; <b>%4</b> %8\%</div>").arg(tr("Total value:")).arg(tr("Cost:")).arg(tr("Profit:")).arg(tr("Rate:")).arg(QLocale().toCurrencyString(total_value), QLocale().toCurrencyString(total_cost)).arg(QLocale().toCurrencyString(total_profit)).arg(QLocale().toString(total_rate * 100)));
+	securitiesStatLabel->setText(QString("<div align=\"right\"><b>%1</b> %5 &nbsp; <b>%2</b> %6 &nbsp; <b>%3</b> %7 &nbsp; <b>%4</b> %8%</div>").arg(tr("Total value:")).arg(tr("Cost:")).arg(tr("Profit:")).arg(tr("Rate:")).arg(QLocale().toCurrencyString(total_value), QLocale().toCurrencyString(total_cost)).arg(QLocale().toCurrencyString(total_profit)).arg(QLocale().toString(total_rate * 100)));
 }
 void Eqonomize::deleteSecurity() {
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
@@ -3717,12 +3717,11 @@ void Eqonomize::openURL(const QUrl& url) {
 
 bool Eqonomize::saveURL(const QUrl& url) {
 	bool exists = QFile::exists(url.toLocalFile());
-	mode_t  perms = 0x0600;
 	if(exists) {
 		QFile::copy(url.toLocalFile(), url.toLocalFile() + "~");
 	}
 
-	QString error = budget->saveFile(url.toLocalFile(), perms);
+	QString error = budget->saveFile(url.toLocalFile(), QFile::ReadUser | QFile::WriteUser);
 	if(!error.isNull()) {
 		QMessageBox::critical(this, tr("Couldn't save file"), tr("Error saving %1: %2.").arg(url.toString()).arg(error));
 		return false;
@@ -4286,9 +4285,13 @@ void Eqonomize::saveView() {
 
 #define NEW_ACTION(action, text, icon, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(QIcon::fromTheme(icon)); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
 
+#define NEW_ACTION_ALT(action, text, icon, icon_alt, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(QIcon::fromTheme(icon, QIcon::fromTheme(icon_alt))); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
+
 #define NEW_ACTION_3(action, text, icon, shortcuts, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(QIcon::fromTheme(icon)); action->setShortcuts(shortcuts); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
 
 #define NEW_ACTION_NOMENU(action, text, icon, shortcut, receiver, slot, name) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(QIcon::fromTheme(icon)); action->setShortcut(shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
+
+#define NEW_ACTION_NOMENU_ALT(action, text, icon, icon_alt, shortcut, receiver, slot, name) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(QIcon::fromTheme(icon, QIcon::fromTheme(icon_alt))); action->setShortcut(shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
 
 #define NEW_ACTION_2(action, text, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
 
@@ -4342,13 +4345,14 @@ void Eqonomize::setupActions() {
 	NEW_ACTION_3(ActionFileSaveAs, tr("Save As…"), "document-save-as", QKeySequence::SaveAs, this, SLOT(fileSaveAs()), "file_save_as", fileMenu);
 	NEW_ACTION(ActionFileReload, tr("&Revert"), "document-revert", 0, this, SLOT(fileReload()), "file_revert", fileMenu);	
 	fileMenu->addSeparator();
-	NEW_ACTION_3(ActionPrintView, tr("&Print View…"), "document-print", QKeySequence::Print, this, SLOT(printView()), "print_view", fileMenu);
+	NEW_ACTION_3(ActionPrintView, tr("&Print…"), "document-print", QKeySequence::Print, this, SLOT(printView()), "print_view", fileMenu);
 	fileToolbar->addAction(ActionPrintView);
 	fileMenu->addSeparator();
 	QMenu *importMenu = fileMenu->addMenu(tr("Import"));
 	NEW_ACTION(ActionImportCSV, tr("Import CSV File…"), "document-import", 0, this, SLOT(importCSV()), "import_csv", importMenu);
 	NEW_ACTION(ActionImportQIF, tr("Import QIF File…"), "document-import", 0, this, SLOT(importQIF()), "import_qif", importMenu);
-	NEW_ACTION(ActionSaveView, tr("Export View…"), "document-export", 0, this, SLOT(saveView()), "save_view", fileMenu);
+	NEW_ACTION(ActionSaveView, tr("Export View…"), "eqz-export", 0, this, SLOT(saveView()), "save_view", fileMenu);
+	fileToolbar->addAction(ActionSaveView);
 	NEW_ACTION(ActionExportQIF, tr("Export As QIF File…"), "document-export", 0, this, SLOT(exportQIF()), "export_qif", fileMenu);
 	fileMenu->addSeparator();
 	QList<QKeySequence> keySequences;	
@@ -4357,11 +4361,11 @@ void Eqonomize::setupActions() {
 	NEW_ACTION_3(ActionQuit, tr("&Quit"), "application-exit", keySequences, this, SLOT(close()), "application_quit", fileMenu);
 	
 	NEW_ACTION_NOMENU(ActionAddAccount, tr("Add Account…"), "document-new", 0, this, SLOT(addAccount()), "add_account");
-	NEW_ACTION(ActionNewAssetsAccount, tr("New Account…"), "document-new", 0, this, SLOT(newAssetsAccount()), "new_assets_account", accountsMenu);
-	NEW_ACTION(ActionNewIncomesAccount, tr("New Income Category…"), "document-new", 0, this, SLOT(newIncomesAccount()), "new_incomes_account", accountsMenu);
-	NEW_ACTION(ActionNewExpensesAccount, tr("New Expense Category…"), "document-new", 0, this, SLOT(newExpensesAccount()), "new_expenses_account", accountsMenu);
+	NEW_ACTION(ActionNewAssetsAccount, tr("New Account…"), "eqz-account", 0, this, SLOT(newAssetsAccount()), "new_assets_account", accountsMenu);
+	NEW_ACTION(ActionNewIncomesAccount, tr("New Income Category…"), "eqz-income", 0, this, SLOT(newIncomesAccount()), "new_incomes_account", accountsMenu);
+	NEW_ACTION(ActionNewExpensesAccount, tr("New Expense Category…"), "eqz-expense", 0, this, SLOT(newExpensesAccount()), "new_expenses_account", accountsMenu);
 	accountsMenu->addSeparator();
-	NEW_ACTION(ActionEditAccount, tr("Edit…"), "document-open", 0, this, SLOT(editAccount()), "edit_account", accountsMenu);
+	NEW_ACTION_ALT(ActionEditAccount, tr("Edit…"), "document-edit", "document-open", 0, this, SLOT(editAccount()), "edit_account", accountsMenu);
 	NEW_ACTION_2(ActionBalanceAccount, tr("Balance…"), 0, this, SLOT(balanceAccount()), "balance_account", accountsMenu);
 	accountsMenu->addSeparator();
 	NEW_ACTION(ActionDeleteAccount, tr("Remove"), "edit-delete", 0, this, SLOT(deleteAccount()), "delete_account", accountsMenu);
@@ -4374,27 +4378,28 @@ void Eqonomize::setupActions() {
 	transactionsToolbar->addAction(ActionNewIncome);
 	NEW_ACTION(ActionNewTransfer, tr("New Transfer…"), "eqz-transfer", Qt::CTRL+Qt::Key_T, this, SLOT(newScheduledTransfer()), "new_transfer", transactionsMenu);
 	transactionsToolbar->addAction(ActionNewTransfer);
-	NEW_ACTION(ActionNewSplitTransaction, tr("New Split Transaction…"), "document-new", Qt::CTRL+Qt::Key_W, this, SLOT(newSplitTransaction()), "new_split_transaction", transactionsMenu);
+	NEW_ACTION(ActionNewSplitTransaction, tr("New Split Transaction…"), "eqz-split-transaction", Qt::CTRL+Qt::Key_W, this, SLOT(newSplitTransaction()), "new_split_transaction", transactionsMenu);
+	transactionsToolbar->addAction(ActionNewSplitTransaction);
 	NEW_ACTION_NOMENU(ActionNewRefund, tr("Refund…"), "eqz-income", 0, this, SLOT(newRefund()), "new_refund");
 	NEW_ACTION_NOMENU(ActionNewRepayment, tr("Repayment…"), "eqz-expense", 0, this, SLOT(newRepayment()), "new_repayment");
 	NEW_ACTION(ActionNewRefundRepayment, tr("New Refund/Repayment…"), "document-new", 0, this, SLOT(newRefundRepayment()), "new_refund_repayment", transactionsMenu);
 	transactionsMenu->addSeparator();
-	NEW_ACTION(ActionEditTransaction, tr("Edit Transaction(s) (Occurrence)…"), "document-open", 0, this, SLOT(editSelectedTransaction()), "edit_transaction", transactionsMenu);
-	NEW_ACTION(ActionEditOccurrence, tr("Edit Occurrence…"), "document-open", 0, this, SLOT(editOccurrence()), "edit_occurrence", transactionsMenu);
-	NEW_ACTION(ActionEditScheduledTransaction, tr("Edit Schedule (Recurrence)…"), "document-open", 0, this, SLOT(editSelectedScheduledTransaction()), "edit_scheduled_transaction", transactionsMenu);
-	NEW_ACTION(ActionEditSchedule, tr("Edit Schedule…"), "document-open", 0, this, SLOT(editScheduledTransaction()), "edit_schedule", transactionsMenu);
-	NEW_ACTION(ActionEditSplitTransaction, tr("Edit Split Transaction…"), "document-open", 0, this, SLOT(editSelectedSplitTransaction()), "edit_split_transaction", transactionsMenu);
-	NEW_ACTION_2(ActionJoinTransactions, tr("Join Transactions…"), 0, this, SLOT(joinSelectedTransactions()), "join_transactions", transactionsMenu);
-	NEW_ACTION_2(ActionSplitUpTransaction, tr("Split Up Transaction"), 0, this, SLOT(splitUpSelectedTransaction()), "split_up_transaction", transactionsMenu);
+	NEW_ACTION_ALT(ActionEditTransaction, tr("Edit Transaction(s) (Occurrence)…"), "document-edit", "document-open", 0, this, SLOT(editSelectedTransaction()), "edit_transaction", transactionsMenu);
+	NEW_ACTION_NOMENU_ALT(ActionEditOccurrence, tr("Edit Occurrence…"), "document-edit", "document-open", 0, this, SLOT(editOccurrence()), "edit_occurrence");
+	NEW_ACTION_ALT(ActionEditScheduledTransaction, tr("Edit Schedule (Recurrence)…"), "document-edit", "document-open", 0, this, SLOT(editSelectedScheduledTransaction()), "edit_scheduled_transaction", transactionsMenu);
+	NEW_ACTION_NOMENU_ALT(ActionEditSchedule, tr("Edit Schedule…"), "document-edit", "document-open", 0, this, SLOT(editScheduledTransaction()), "edit_schedule");
+	NEW_ACTION_ALT(ActionEditSplitTransaction, tr("Edit Split Transaction…"), "document-edit", "document-open", 0, this, SLOT(editSelectedSplitTransaction()), "edit_split_transaction", transactionsMenu);
+	NEW_ACTION(ActionJoinTransactions, tr("Join Transactions…"), "eqz-join-transactions", 0, this, SLOT(joinSelectedTransactions()), "join_transactions", transactionsMenu);
+	NEW_ACTION(ActionSplitUpTransaction, tr("Split Up Transaction"), "eqz-split-transaction", 0, this, SLOT(splitUpSelectedTransaction()), "split_up_transaction", transactionsMenu);
 	transactionsMenu->addSeparator();
 	NEW_ACTION(ActionDeleteTransaction, tr("Remove Transaction(s) (Occurrence)"), "edit-delete", 0, this, SLOT(deleteSelectedTransaction()), "delete_transaction", transactionsMenu);
-	NEW_ACTION(ActionDeleteOccurrence, tr("Remove Occurrence"), "edit-delete", 0, this, SLOT(removeOccurrence()), "delete_occurrence", transactionsMenu);
+	NEW_ACTION_NOMENU(ActionDeleteOccurrence, tr("Remove Occurrence"), "edit-delete", 0, this, SLOT(removeOccurrence()), "delete_occurrence");
 	NEW_ACTION(ActionDeleteScheduledTransaction, tr("Delete Schedule (Recurrence)"), "edit-delete", 0, this, SLOT(deleteSelectedScheduledTransaction()), "delete_scheduled_transaction", transactionsMenu);
 	NEW_ACTION_NOMENU(ActionDeleteSchedule, tr("Delete Schedule"), "edit-delete", 0, this, SLOT(removeScheduledTransaction()), "delete_schedule");	
 	NEW_ACTION(ActionDeleteSplitTransaction, tr("Remove Split Transaction"), "edit-delete", 0, this, SLOT(deleteSelectedSplitTransaction()), "delete_split_transaction", transactionsMenu);
 
 	NEW_ACTION(ActionNewSecurity, tr("New Security…"), "document-new", 0, this, SLOT(newSecurity()), "new_security", securitiesMenu);
-	NEW_ACTION(ActionEditSecurity, tr("Edit Security…"), "document-open", 0, this, SLOT(editSecurity()), "edit_security", securitiesMenu);
+	NEW_ACTION_ALT(ActionEditSecurity, tr("Edit Security…"), "document-edit", "document-open", 0, this, SLOT(editSecurity()), "edit_security", securitiesMenu);
 	NEW_ACTION(ActionDeleteSecurity, tr("Remove Security"), "edit-delete", 0, this, SLOT(deleteSecurity()), "delete_security", securitiesMenu);
 	securitiesMenu->addSeparator();
 	NEW_ACTION(ActionBuyShares, tr("Shares Bought…"), "eqz-income", 0, this, SLOT(buySecurities()), "buy_shares", securitiesMenu);
@@ -4507,29 +4512,30 @@ void Eqonomize::updateRecentFiles(QString filePath){
 void Eqonomize::showHelp() {
 	QLocale locale;
 	QStringList langs = locale.uiLanguages();
-	QString docfile = DOCUMENTATION_DIR "/C/index.html";
+	QString docdir = DOCUMENTATION_DIR "/C";
 	for(int i = 0; i < langs.size(); ++i) {
 		QString lang = langs.at(i);
 		lang.replace('-', '_');
 		QFileInfo fileinfo(QString(DOCUMENTATION_DIR "/") + lang + "/index.html");
 		if(fileinfo.exists()) {
-			docfile = QString(DOCUMENTATION_DIR "/") + lang + "/index.html";
+			docdir = QString(DOCUMENTATION_DIR "/") + lang;
 			break;;
 		}
 		lang = lang.section('_', 0, 0);
 		fileinfo.setFile(QString(DOCUMENTATION_DIR "/") + lang + "/index.html");
 		if(fileinfo.exists()) {
-			docfile = QString(DOCUMENTATION_DIR "/") + lang + "/index.html";
+			docdir = QString(DOCUMENTATION_DIR "/") + lang;
 			break;
 		}
 	}
-	if(docfile[0] == ':') {
+	if(docdir[0] == ':') {
 		QDialog *dialog = new QDialog(this, Qt::Window | Qt::WindowMinMaxButtonsHint);
 		dialog->setWindowModality(Qt::NonModal);
 		dialog->setWindowTitle(tr("Help"));
 		QVBoxLayout *box1 = new QVBoxLayout(dialog);
 		QTextBrowser *helpBrowser = new QTextBrowser(dialog);
-		helpBrowser->setSource(QUrl(QString("qrc") + docfile));
+		helpBrowser->setSource(QUrl(QString("qrc") + docdir + "/index.html"));
+		helpBrowser->setSearchPaths(QStringList(QString("qrc") + docdir));
 		box1->addWidget(helpBrowser);
 		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
 		connect(buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), dialog, SLOT(reject()));
@@ -4540,7 +4546,7 @@ void Eqonomize::showHelp() {
 		dialog->resize(helpSize);
 		dialog->exec();
 	} else {
-		QDesktopServices::openUrl(QUrl::fromLocalFile(docfile));
+		QDesktopServices::openUrl(QUrl::fromLocalFile(docdir + "/index.html"));
 	}
 }
 void Eqonomize::reportBug() {

@@ -25,6 +25,7 @@
 #include <QMap>
 #include <QString>
 #include <QCoreApplication>
+#include <QFile>
 
 #include "account.h"
 #include "transaction.h"
@@ -134,7 +135,7 @@ class Budget {
 		~Budget();
 
 		QString loadFile(QString filename, QString &errors);
-		QString saveFile(QString filename, mode_t perms = 0600);
+		QString saveFile(QString filename, QFile::Permissions permissions = QFile::ReadUser | QFile::WriteUser);
 		
 		void clear();
 

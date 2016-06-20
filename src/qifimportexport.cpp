@@ -352,18 +352,18 @@ void ImportQIFDialog::nextClicked() {
 			if(ps > 1) {
 				dateFormatCombo->clear();
 				if(qi.p1) {
-					QString date_format = "MM";
+					QString date_format = qi.lz == 0 ? "M" : "MM";
 					if(qi.separator > 0) date_format += qi.separator;
-					date_format += "DD";
+					date_format += qi.lz == 0 ? "D" : "DD";
 					if(qi.separator > 0) date_format += qi.separator;
 					date_format += "YY";
 					if(qi.ly) date_format += "YY";
 					dateFormatCombo->addItem(date_format);
 				}
 				if(qi.p2) {
-					QString date_format = "DD";
+					QString date_format = qi.lz == 0 ? "D" : "DD";
 					if(qi.separator > 0) date_format += qi.separator;
-					date_format += "MM";
+					date_format += qi.lz == 0 ? "M" : "MM";
 					if(qi.separator > 0) date_format += qi.separator;
 					date_format += "YY";
 					if(qi.ly) date_format += "YY";
@@ -373,25 +373,29 @@ void ImportQIFDialog::nextClicked() {
 					QString date_format = "YY";
 					if(qi.ly) date_format += "YY";
 					if(qi.separator > 0) date_format += qi.separator;
-					date_format += "MM";
+					date_format += qi.lz == 0 ? "M" : "MM";
 					if(qi.separator > 0) date_format += qi.separator;
-					date_format += "DD";
+					date_format += qi.lz == 0 ? "D" : "DD";
 					dateFormatCombo->addItem(date_format);
 				}
 				if(qi.p4) {
 					QString date_format = "YY";
 					if(qi.ly) date_format += "YY";
 					if(qi.separator > 0) date_format += qi.separator;
-					date_format += "DD";
+					date_format += qi.lz == 0 ? "D" : "DD";
 					if(qi.separator > 0) date_format += qi.separator;
-					date_format += "MM";
+					date_format += qi.lz == 0 ? "M" : "MM";
 					dateFormatCombo->addItem(date_format);
 				}
 				showPage(2);
 				return;
 			} else {
-				if(!qi.had_transaction || qi.account_defined) showPage(4);
-				else showPage(3);
+				if(!qi.had_transaction || qi.account_defined) {
+					showPage(4);
+					button(CommitButton)->setEnabled(false);
+				} else {
+					showPage(3);
+				}
 				return;
 			}
 		}
@@ -410,7 +414,9 @@ void ImportQIFDialog::nextClicked() {
 			case 4: {p4 = true; break;}
 		}
 		qi.p1 = p1; qi.p2 = p2; qi.p3 = p3; qi.p4 = p4;
+		if(qi.lz < 0) qi.lz = 1;
 		if(!qi.had_transaction || qi.account_defined) {
+			button(CommitButton)->setEnabled(false);
 			showPage(4);
 			return;
 		}
@@ -428,6 +434,7 @@ void ImportQIFDialog::nextClicked() {
 				account = budget->assetsAccounts.next();
 			}
 		}
+		button(CommitButton)->setEnabled(false);
 	}
 	QWizard::next();
 }
@@ -637,12 +644,9 @@ void ExportQIFDialog::accept() {
 
 
 QDate readQIFDate(const QString &str, const QString &date_format, const QString &alt_date_format) {
-	struct tm tp;
-	QDate date;
-	if(strptime(str.toLatin1(), date_format.toLatin1(), &tp)) {
-		date.setDate(tp.tm_year > 17100 ? tp.tm_year - 15200 : tp.tm_year + 1900, tp.tm_mon + 1, tp.tm_mday);
-	} else if(!alt_date_format.isEmpty() && strptime(str.toLatin1(), alt_date_format.toLatin1(), &tp)) {
-		date.setDate(tp.tm_year > 17100 ? tp.tm_year - 15200 : tp.tm_year + 1900, tp.tm_mon + 1, tp.tm_mday);
+	QDate date = QDate::fromString(str, date_format);
+	if(!date.isValid() && !alt_date_format.isEmpty()) {
+		date = QDate::fromString(str, alt_date_format);
 	}
 	return date;
 }
@@ -664,7 +668,7 @@ double readQIFValue(const QString &str, int value_format) {
 //p2 DMY
 //p3 YMD
 //p4 YDM
-void testQIFDate(const QString &str, bool &p1, bool &p2, bool &p3, bool &p4, bool &ly, char &separator) {
+void testQIFDate(const QString &str, bool &p1, bool &p2, bool &p3, bool &p4, bool &ly, char &separator, int & lz) {
 	if(separator < 0) {
 		for(int i = 0; i < (int) str.length(); i++) {
 			if(str[i] < '0' || str[i] > '9') {
@@ -679,7 +683,10 @@ void testQIFDate(const QString &str, bool &p1, bool &p2, bool &p3, bool &p4, boo
 		p4 = (separator != 0);
 		ly = false;
 	}
-	if(p1 + p2 + p3 + p4 <= 1) return;
+	if(p1 + p2 + p3 + p4 <= 1) {
+		lz = 1;
+		return;
+	}
 	QStringList strlist = str.split(separator, QString::SkipEmptyParts);
 	if(strlist.count() == 2 && (p1 || p2)) {
 		int i = strlist[1].indexOf('\'');
@@ -711,6 +718,12 @@ void testQIFDate(const QString &str, bool &p1, bool &p2, bool &p3, bool &p4, boo
 		if(v3 >= 100) ly = true;
 		else ly = false;
 	}
+	if(strlist[1].length() == 1) lz = 0;
+	else if(strlist[1][0] == '0') lz = 1;
+	else if(!p3 && !p4 && strlist[0].length() == 1) lz = 0;
+	else if(!p3 && !p4 && strlist[0][0] == '0') lz = 1;
+	else if(!p1 && !p2 && strlist[2].length() == 1) lz = 0;
+	else if(!p1 && !p2 && strlist[2][0] == '0') lz = 1;
 }
 
 void testQIFValue(const QString &str, int &value_format) {
@@ -775,6 +788,12 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 		qi.subcategory_as_category = false;
 		qi.memo_as_description = false;
 		qi.description_priority = 0;
+		qi.p1 = true;
+		qi.p2 = true;
+		qi.p3 = true;
+		qi.p4 = true;
+		qi.ly = true;
+		qi.lz = -1;
 	} else {
 		qi.duplicates = 0;
 		qi.transactions = 0;
@@ -785,49 +804,49 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 		qi.categories = 0;
 		qi.opening_balance_str = qi.opening_balance_str.toLower();
 		if(qi.p1) {
-			date_format += "%m";
+			date_format += qi.lz == 0 ? "M" : "MM";
 			if(qi.separator > 0) date_format += qi.separator;
-			date_format += "%d";
+			date_format += qi.lz == 0 ? "d" : "dd";
 			if(qi.separator > 0) date_format += qi.separator;
 			if(qi.ly) {
-				date_format += "%Y";
+				date_format += "yyyy";
 			} else {
 				if(qi.separator > 0) {
 					alt_date_format = date_format;
 					alt_date_format += '\'';
-					alt_date_format += "%y";
+					alt_date_format += "yy";
 				}
-				date_format += "%y";
+				date_format += "yy";
 			}
 		} else if(qi.p2) {
-			date_format += "%d";
+			date_format += qi.lz == 0 ? "d" : "dd";
 			if(qi.separator > 0) date_format += qi.separator;
-			date_format += "%m";
+			date_format += qi.lz == 0 ? "M" : "MM";
 			if(qi.separator > 0) date_format += qi.separator;
 			if(qi.ly) {
-				date_format += "%Y";
+				date_format += "yyyy";
 			} else {
 				if(qi.separator > 0) {
 					alt_date_format = date_format;
 					alt_date_format += '\'';
-					alt_date_format += "%y";
+					alt_date_format += "yy";
 				}
-				date_format += "%y";
+				date_format += "yy";
 			}
 		} else if(qi.p3) {
-			if(qi.ly) date_format += "%Y";
-			else date_format += "%y";
+			if(qi.ly) date_format += "yyyy";
+			else date_format += "yy";
 			if(qi.separator > 0) date_format += qi.separator;
-			date_format += "%m";
+			date_format += qi.lz == 0 ? "M" : "MM";
 			if(qi.separator > 0) date_format += qi.separator;
-			date_format += "%d";
+			date_format += qi.lz == 0 ? "d" : "dd";
 		} else if(qi.p4) {
-			if(qi.ly) date_format += "%Y";
-			else date_format += "%y";
+			if(qi.ly) date_format += "yyyy";
+			else date_format += "yy";
 			if(qi.separator > 0) date_format += qi.separator;
-			date_format += "%d";
+			date_format += qi.lz == 0 ? "d" : "dd";
 			if(qi.separator > 0) date_format += qi.separator;
-			date_format += "%m";
+			date_format += qi.lz == 0 ? "M" : "MM";
 		}
 	}
 	while(!line.isNull()) {
@@ -990,8 +1009,11 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 					if(type == 1 || type == 2 || type == 3) description = line;
 					//Date (Security transaction, Transaction)
 					else if(type >= 9) {
-						if(test) testQIFDate(line, qi.p1, qi.p2, qi.p3, qi.p4, qi.ly, qi.separator);
-						else date = readQIFDate(line, date_format, alt_date_format);
+						if(test) {
+							if(qi.p1 + qi.p2 + qi.p3 + qi.p4 > 1 || qi.lz < 0) testQIFDate(line, qi.p1, qi.p2, qi.p3, qi.p4, qi.ly, qi.separator, qi.lz);
+						} else {
+							date = readQIFDate(line, date_format, alt_date_format);
+						}
 					}
 					break;
 				}

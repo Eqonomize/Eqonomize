@@ -2,10 +2,13 @@
 <qresource prefix="icons/EQZ">
 	<file alias="index.theme">data/index.theme</file>
 	<file alias="apps/scalable/eqonomize.svg">data/scalable/eqonomize.svg</file>
+	<file alias="actions/scalable/eqz-account.svg">data/scalable/eqz-account.svg</file>
 	<file alias="actions/scalable/eqz-categories-chart.svg">data/scalable/eqz-categories-chart.svg</file>
 	<file alias="actions/scalable/eqz-categories-report.svg">data/scalable/eqz-categories-report.svg</file>
 	<file alias="actions/scalable/eqz-expense.svg">data/scalable/eqz-expense.svg</file>
+	<file alias="actions/scalable/eqz-export.svg">data/scalable/eqz-export.svg</file>
 	<file alias="actions/scalable/eqz-income.svg">data/scalable/eqz-income.svg</file>
+	<file alias="actions/scalable/eqz-join-transactions.svg">data/scalable/eqz-join-transactions.svg</file>
 	<file alias="actions/scalable/eqz-next-month.svg">data/scalable/eqz-next-month.svg</file>
 	<file alias="actions/scalable/eqz-next-year.svg">data/scalable/eqz-next-year.svg</file>
 	<file alias="actions/scalable/eqz-overtime-chart.svg">data/scalable/eqz-overtime-chart.svg</file>
@@ -14,6 +17,14 @@
 	<file alias="actions/scalable/eqz-previous-year.svg">data/scalable/eqz-previous-year.svg</file>
 	<file alias="actions/scalable/eqz-schedule.svg">data/scalable/eqz-schedule.svg</file>
 	<file alias="actions/scalable/eqz-security.svg">data/scalable/eqz-security.svg</file>
+	<file alias="actions/scalable/eqz-split-transaction.svg">data/scalable/eqz-split-transaction.svg</file>
 	<file alias="actions/scalable/eqz-transfer.svg">data/scalable/eqz-transfer.svg</file>
+	<file alias="actions/scalable/application-exit.svg">data/standard/application-exit.svg</file>
+	<file alias="actions/scalable/document-new.svg">data/standard/document-new.svg</file>
+	<file alias="actions/scalable/document-open.svg">data/standard/document-open.svg</file>
+	<file alias="actions/scalable/document-print.svg">data/standard/document-print.svg</file>
+	<file alias="actions/scalable/document-save-as.svg">data/standard/document-save-as.svg</file>
+	<file alias="actions/scalable/document-save.svg">data/standard/document-save.svg</file>
+	<file alias="actions/scalable/edit-delete.svg">data/standard/edit-delete.svg</file>
 </qresource>
 </RCC>

@@ -1,10 +1,4 @@
-win32 {
-	PREFIX = "C:/Program"
-	#DOCUMENTATION_DIR = "$$PREFIX/Eqonomize/doc/html"
-	DOCUMENTATION_DIR = ":/doc/html"
-	TRANSLATIONS_DIR = ":/translations"
-	ICON_DIR = ":/data"
-} else:unix {
+unix {
 	isEmpty(PREFIX) {
 		PREFIX = /usr/local
 	}
@@ -147,11 +141,15 @@ unix {
 	mimeiconsvg.files = data/scalable/application-x-eqonomize.svg
 	mimeiconsvg.path = $$ICON_DIR/hicolor/scalable/mimetypes
 
-	actioniconssvg.files = 	data/scalable/eqz-expense.svg \
+	actioniconssvg.files = 	data/scalable/eqz-account.svg \
+				data/scalable/eqz-expense.svg \
 				data/scalable/eqz-income.svg \
 				data/scalable/eqz-transfer.svg \
 				data/scalable/eqz-security.svg \
 				data/scalable/eqz-schedule.svg \
+				data/scalable/eqz-split-transaction.svg \
+				data/scalable/eqz-join-transactions.svg \
+				data/scalable/eqz-export.svg \
 				data/scalable/eqz-previous-year.svg \
 				data/scalable/eqz-previous-month.svg \
 				data/scalable/eqz-next-month.svg \
@@ -166,12 +164,6 @@ unix {
 			appicon16 appicon22 appicon32 appicon48 appicon64 appicon128 appiconsvg \
 			mimeicon16 mimeicon22 mimeicon32 mimeicon48 mimeicon64 mimeicon128 mimeiconsvg \
 			actioniconssvg
-} else:win32 {
-	RESOURCES = doc.qrc icons.qrc translations.qrc
-	#doc.files = doc/html/*
-	#doc.path = $$DOCUMENTATION_DIR
-	#target.path = $$PREFIX/bin
-	#INSTALLS += target doc
 } else {
 	RESOURCES = doc.qrc icons.qrc translations.qrc
 }
