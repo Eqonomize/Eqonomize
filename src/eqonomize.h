@@ -58,6 +58,7 @@ class QDateEdit;
 class QTextEdit;
 class QLocalSocket;
 class QLocalServer;
+class QPrinter;
 
 class CategoriesComparisonChart;
 class CategoriesComparisonReport;
@@ -168,7 +169,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
 		QAction *ActionNewSecurity, *ActionEditSecurity, *ActionBuyShares, *ActionSellShares, *ActionNewDividend, *ActionNewReinvestedDividend, *ActionNewSecurityTrade, *ActionSetQuotation, *ActionEditQuotations, *ActionEditSecurityTransactions, *ActionDeleteSecurity;
 		QAction *ActionNewRefund, *ActionNewRepayment, *ActionNewRefundRepayment;
-		QAction *ActionFileNew, *ActionFileOpen, *ActionFileSave, *ActionFileSaveAs, *ActionFileReload, *ActionSaveView, *ActionPrintView, *ActionQuit;
+		QAction *ActionFileNew, *ActionFileOpen, *ActionFileSave, *ActionFileSaveAs, *ActionFileReload, *ActionSaveView, *ActionPrintView, *ActionPrintPreview, *ActionQuit;
 		QMenu *recentFilesMenu;
 		QList<QAction*> recentFileActionList;
 		QAction *ActionClearRecentFiles;
@@ -272,6 +273,8 @@ class Eqonomize : public QMainWindow {
 		void showCategoriesComparisonReport();
 		void showOverTimeChart();
 		void showCategoriesComparisonChart();
+		void printPreviewPaint(QPrinter*);
+		void showPrintPreview();
 		void printView();
 		void saveView();
 

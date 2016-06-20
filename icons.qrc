@@ -23,6 +23,7 @@
 	<file alias="actions/scalable/document-new.svg">data/standard/document-new.svg</file>
 	<file alias="actions/scalable/document-open.svg">data/standard/document-open.svg</file>
 	<file alias="actions/scalable/document-print.svg">data/standard/document-print.svg</file>
+	<file alias="actions/scalable/document-print-preview.svg">data/standard/document-print-preview.svg</file>
 	<file alias="actions/scalable/document-save-as.svg">data/standard/document-save-as.svg</file>
 	<file alias="actions/scalable/document-save.svg">data/standard/document-save.svg</file>
 	<file alias="actions/scalable/edit-delete.svg">data/standard/edit-delete.svg</file>

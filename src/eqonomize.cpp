@@ -63,6 +63,7 @@
 #include <QTextEdit>
 #include <QPrinter>
 #include <QPrintDialog>
+#include <QPrintPreviewDialog>
 #include <QTextDocument>
 #include <QTabWidget>
 #include <QMenu>
@@ -4184,6 +4185,46 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 
 	return true;
 }
+void Eqonomize::printPreviewPaint(QPrinter *printer) {
+	QString str;
+	QTextStream stream(&str, QIODevice::WriteOnly);
+	saveView(stream, 'h');
+	QTextDocument htmldoc;
+	htmldoc.setHtml(str);
+	htmldoc.print(printer);
+}
+void Eqonomize::showPrintPreview() {
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) {
+		if(expensesWidget->isEmpty()) {
+			QMessageBox::critical(this, tr("Error"), tr("Empty expenses list."));
+			return;
+		}
+	} else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) {
+		if(incomesWidget->isEmpty()) {
+			QMessageBox::critical(this, tr("Error"), tr("Empty incomes list."));
+			return;
+		}
+	} else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) {
+		if(transfersWidget->isEmpty()) {
+			QMessageBox::critical(this, tr("Error"), tr("Empty transfers list."));
+			return;
+		}
+	} else if(tabs->currentIndex() == SECURITIES_PAGE_INDEX) {
+		if(securitiesView->topLevelItemCount() == 0) {
+			QMessageBox::critical(this, tr("Error"), tr("Empty securities list."));
+			return;
+		}
+	} else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
+		if(scheduleView->topLevelItemCount() == 0) {
+			QMessageBox::critical(this, tr("Error"), tr("Empty schedule list."));
+			return;
+		}
+	}
+	
+	QPrintPreviewDialog preview_dialog(this);
+	connect(&preview_dialog, SIGNAL(paintRequested(QPrinter*)), this, SLOT(printPreviewPaint(QPrinter*)));
+	preview_dialog.exec();
+}
 void Eqonomize::printView() {
 	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) {
 		if(expensesWidget->isEmpty()) {
@@ -4347,6 +4388,8 @@ void Eqonomize::setupActions() {
 	fileMenu->addSeparator();
 	NEW_ACTION_3(ActionPrintView, tr("&Print…"), "document-print", QKeySequence::Print, this, SLOT(printView()), "print_view", fileMenu);
 	fileToolbar->addAction(ActionPrintView);
+	NEW_ACTION(ActionPrintPreview, tr("Print Preview…"), "document-print-preview", QKeySequence::Print, this, SLOT(showPrintPreview()), "print_preview", fileMenu);
+	fileToolbar->addAction(ActionPrintPreview);
 	fileMenu->addSeparator();
 	QMenu *importMenu = fileMenu->addMenu(tr("Import"));
 	NEW_ACTION(ActionImportCSV, tr("Import CSV File…"), "document-import", 0, this, SLOT(importCSV()), "import_csv", importMenu);
