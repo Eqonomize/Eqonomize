@@ -740,7 +740,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	if(!test && comments_c < 0) comments = valueCommentsEdit->text();
 	QMap<QString, Account*> eaccounts, iaccounts, aaccounts;
 	Account *ac1 = NULL, *ac2 = NULL;
-	if(!test && (AC1_c < 0 || AC2_c < 0)) {
+	if(!test && (AC1_c >= 0 || AC2_c >= 0)) {
 		ExpensesAccount *ea = budget->expensesAccounts.first();
 		while(ea) {eaccounts[ea->name()] = ea; ea = budget->expensesAccounts.next();}
 		IncomesAccount *ia = budget->incomesAccounts.first();
