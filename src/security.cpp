@@ -41,7 +41,7 @@ void Security::init() {
 	tradedShares.setAutoDelete(false);
 	reinvestedDividends.setAutoDelete(true);
 }
-Security::Security(Budget *parent_budget, AssetsAccount *parent_account, SecurityType initial_type, double initial_shares, int initial_decimals, QString initial_name, QString initial_description) : o_budget(parent_budget), i_id(-1), o_account(parent_account), st_type(initial_type), d_initial_shares(initial_shares), i_decimals(initial_decimals), s_name(initial_name.trimmed()), s_description(initial_description) {
+Security::Security(Budget *parent_budget, AssetsAccount *parent_account, SecurityType initial_type, double initial_shares, int initial_decimals, int initial_quotation_decimals, QString initial_name, QString initial_description) : o_budget(parent_budget), i_id(-1), o_account(parent_account), st_type(initial_type), d_initial_shares(initial_shares), i_decimals(initial_decimals), i_quotation_decimals(initial_quotation_decimals), s_name(initial_name.trimmed()), s_description(initial_description) {
 	init();
 }
 Security::Security(Budget *parent_budget, QDomElement *e, bool *valid) : o_budget(parent_budget) {
@@ -58,7 +58,8 @@ Security::Security(Budget *parent_budget, QDomElement *e, bool *valid) : o_budge
 		st_type = SECURITY_TYPE_OTHER;
 	}
 	d_initial_shares = e->attribute("initialshares").toDouble();
-	i_decimals = e->attribute("decimals", "4").toInt();
+	i_decimals = e->attribute("decimals", "-1").toInt();
+	i_quotation_decimals = e->attribute("quotationdecimals", "-1").toInt();
 	s_name = e->attribute("name").trimmed();
 	s_description = e->attribute("description");
 	int id_account = e->attribute("account").toInt();
@@ -80,8 +81,8 @@ Security::Security(Budget *parent_budget, QDomElement *e, bool *valid) : o_budge
 		}
 	}
 }
-Security::Security() : o_budget(NULL), i_id(-1), o_account(NULL), st_type(SECURITY_TYPE_STOCK), d_initial_shares(0.0), i_decimals(4) {init();}
-Security::Security(const Security *security) : o_budget(security->budget()), i_id(security->id()), o_account(security->account()), st_type(security->type()), d_initial_shares(security->initialShares()), i_decimals(security->decimals()), s_name(security->name()), s_description(security->description()) {init();}
+Security::Security() : o_budget(NULL), i_id(-1), o_account(NULL), st_type(SECURITY_TYPE_STOCK), d_initial_shares(0.0), i_decimals(-1), i_quotation_decimals(-1) {init();}
+Security::Security(const Security *security) : o_budget(security->budget()), i_id(security->id()), o_account(security->account()), st_type(security->type()), d_initial_shares(security->initialShares()), i_decimals(security->decimals()), i_quotation_decimals(security->quotationDecimals()), s_name(security->name()), s_description(security->description()) {init();}
 Security::~Security() {}
 
 const QString &Security::name() const {return s_name;}
@@ -148,8 +149,16 @@ bool Security::hasQuotation(const QDate &date) const {
 void Security::addReinvestedDividend(const QDate &date, double added_shares) {
 	reinvestedDividends.inSort(new ReinvestedDividend(date, added_shares));
 }
-int Security::decimals() const {return i_decimals;}
+int Security::decimals() const {
+	if(i_decimals < 0) return o_budget->defaultShareDecimals();
+	return i_decimals;
+}
+int Security::quotationDecimals() const {
+	if(i_quotation_decimals < 0) return o_budget->defaultQuotationDecimals();
+	return i_quotation_decimals;
+}
 void Security::setDecimals(int new_decimals) {i_decimals = new_decimals;}
+void Security::setQuotationDecimals(int new_decimals) {i_quotation_decimals = new_decimals;}
 void Security::save(QDomElement *e) const {
 	e->setAttribute("id", i_id);
 	e->setAttribute("name", s_name);
@@ -159,7 +168,8 @@ void Security::save(QDomElement *e) const {
 		case SECURITY_TYPE_MUTUAL_FUND: {e->setAttribute("type", "mutual fund"); break;}
 		case SECURITY_TYPE_OTHER: {e->setAttribute("type", "other"); break;}
 	}
-	e->setAttribute("decimals", i_decimals);
+	if(i_decimals >= 0) e->setAttribute("decimals", i_decimals);
+	if(i_quotation_decimals >= 0) e->setAttribute("quotationdecimals", i_quotation_decimals);
 	e->setAttribute("initialshares", QString::number(d_initial_shares, 'f', i_decimals));
 	if(!s_description.isEmpty()) e->setAttribute("description", s_description);
 	e->setAttribute("account", o_account->id());
@@ -168,7 +178,7 @@ void Security::save(QDomElement *e) const {
 	QMap<QDate, bool>::const_iterator it_auto = quotations_auto.begin();
 	for(; it != it_end; ++it, ++it_auto) {
 		QDomElement e2 = e->ownerDocument().createElement("quotation");
-		e2.setAttribute("value", QString::number(it.value(), 'f', MONETARY_DECIMAL_PLACES));
+		e2.setAttribute("value", QString::number(it.value(), 'f', quotationDecimals()));
 		e2.setAttribute("date", it.key().toString(Qt::ISODate));
 		if(it_auto.value()) e2.setAttribute("auto", it_auto.value());
 		e->appendChild(e2);

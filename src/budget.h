@@ -37,6 +37,7 @@
 
 int currency_frac_digits();
 bool currency_symbol_precedes();
+QString format_money(double v, int precision);
 
 static bool transaction_list_less_than(Transaction *t1, Transaction *t2) {
 	return t1->date() < t2->date();
@@ -128,6 +129,10 @@ template<class type> class SecurityTradeList : public EqonomizeList<type> {
 class Budget {
 
 	Q_DECLARE_TR_FUNCTIONS(Budget)
+	
+	protected:
+	
+		int i_quotation_decimals, i_share_decimals;
 
 	public:
 
@@ -157,6 +162,11 @@ class Budget {
 		void addSecurity(Security*);
 		void removeSecurity(Security*, bool keep = false);
 		Security *findSecurity(QString name);
+		
+		int defaultQuotationDecimals() const;
+		int defaultShareDecimals() const;
+		void setDefaultQuotationDecimals(int new_decimals);
+		void setDefaultShareDecimals(int new_decimals);
 
 		bool securityHasTransactions(Security*);
 

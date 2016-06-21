@@ -48,10 +48,10 @@ class Eqonomize_QSpinBox : public QSpinBox {
 class Eqonomize_KDoubleSpinBox : public QDoubleSpinBox {
 	public:
 		Eqonomize_KDoubleSpinBox(double lower, double upper, double step, double value, int precision, QWidget *parent) : QDoubleSpinBox(parent) {
+			setDecimals(precision);
 			setRange(lower, upper);
 			setSingleStep(step);
 			setValue(value);
-			setDecimals(precision);
 		}
 		QLineEdit *lineEdit() const {
 			return QAbstractSpinBox::lineEdit();
@@ -150,9 +150,9 @@ void EqonomizeValueEdit::setRange(double lower, double upper, double step, int p
 	}
 	i_precision = precision;
 	if(i_precision > 0) {
+		((QDoubleSpinBox*) valueEdit)->setDecimals(precision);
 		((QDoubleSpinBox*) valueEdit)->setRange(lower, upper);
 		((QDoubleSpinBox*) valueEdit)->setSingleStep(step);
-		((QDoubleSpinBox*) valueEdit)->setDecimals(precision);
 	} else {
 		((QSpinBox*) valueEdit)->setRange((int) round(lower), (int) round(upper));
 	}
@@ -179,8 +179,8 @@ void EqonomizeValueEdit::setPrecision(int precision) {
 		bool b_neg = ((QDoubleSpinBox*) valueEdit)->minimum() < 0.0;
 		double d_step = ((QDoubleSpinBox*) valueEdit)->singleStep();
 		i_precision = precision;
+		((QDoubleSpinBox*) valueEdit)->setDecimals(precision);
 		((QDoubleSpinBox*) valueEdit)->setRange(b_neg ? INT_MIN / pow(10, precision) + 1.0 : 0.0, INT_MAX / pow(10, precision) - 1.0);
 		((QDoubleSpinBox*) valueEdit)->setSingleStep(d_step);
-		((QDoubleSpinBox*) valueEdit)->setDecimals(precision);
 	}
 }

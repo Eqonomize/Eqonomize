@@ -1789,7 +1789,7 @@ void OverTimeChart::updateDisplay() {
 			scene->addItem(axis_text);
 		} else if(year != monthdate.year()) {
 			year = monthdate.year();
-			QGraphicsSimpleTextItem *axis_text = new QGraphicsSimpleTextItem(QString::number(monthdate.year()));
+			QGraphicsSimpleTextItem *axis_text = new QGraphicsSimpleTextItem(QLocale().toString(monthdate.year()));
 			axis_text->setFont(legend_font);
 			axis_text->setBrush(Qt::black);
 			axis_text->setPos(margin + axis_width + index * linelength, chart_height + chart_y + 11);

@@ -600,7 +600,7 @@ void OverTimeReport::updateDisplay() {
 			yearly_value = it->value;
 			yearly_count = it->count;
 			year_date = it->date;
-			outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(QString::number(it->date.year())) << "</td>";
+			outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(QLocale().toString(it->date.year())) << "</td>";
 		} else {
 			yearly_value += it->value;
 			yearly_count += it->count;

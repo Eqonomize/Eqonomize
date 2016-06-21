@@ -44,6 +44,14 @@ bool currency_symbol_precedes() {
 	return localeconv()->p_cs_precedes;
 }
 
+QString format_money(double v, int precision) {
+	if(precision == MONETARY_DECIMAL_PLACES) return QLocale().toCurrencyString(v);
+	if(currency_symbol_precedes()) {
+		return QLocale().currencySymbol() + " " + QLocale().toString(v, 'f', precision);
+	}
+	return QLocale().toString(v, 'f', precision) + " " + QLocale().currencySymbol();
+}
+
 Budget::Budget() {
 	expenses.setAutoDelete(true);
 	incomes.setAutoDelete(true);
@@ -63,6 +71,8 @@ Budget::Budget() {
 	assetsAccounts.append(balancingAccount);
 	accounts.append(balancingAccount);
 	budgetAccount = NULL;
+	i_share_decimals = 4;
+	i_quotation_decimals = MONETARY_DECIMAL_PLACES;
 }
 Budget::~Budget() {}
 
@@ -330,6 +340,8 @@ QString Budget::loadFile(QString filename, QString &errors) {
 				if(valid) {
 					securities_id[security->id()] = security;
 					securities.append(security);
+					i_quotation_decimals = security->quotationDecimals();
+					i_share_decimals = security->decimals();
 				} else {
 					security_errors++;
 					delete security;
@@ -899,6 +911,8 @@ void Budget::accountNameModified(Account *account) {
 }
 void Budget::addSecurity(Security *security) {
 	securities.inSort(security);
+	i_quotation_decimals = security->quotationDecimals();
+	i_share_decimals = security->decimals();
 }
 void Budget::removeSecurity(Security *security, bool keep) {
 	if(securityHasTransactions(security)) {
@@ -954,6 +968,12 @@ Security *Budget::findSecurity(QString name) {
 	}
 	return NULL;
 }
+
+int Budget::defaultShareDecimals() const {return i_share_decimals;}
+int Budget::defaultQuotationDecimals() const {return i_quotation_decimals;}
+void Budget::setDefaultShareDecimals(int new_decimals) {i_share_decimals = new_decimals;}
+void Budget::setDefaultQuotationDecimals(int new_decimals) {i_quotation_decimals = new_decimals;}
+
 void Budget::addSecurityTrade(SecurityTrade *ts) {
 	securityTrades.inSort(ts);
 	ts->from_security->tradedShares.inSort(ts);

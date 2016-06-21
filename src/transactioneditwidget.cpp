@@ -90,7 +90,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	securityCombo = NULL;
 	int i = 0;
 	if(b_sec) {
-		int decimals = 4;
+		int decimals = budget->defaultShareDecimals();
 		editLayout->addWidget(new QLabel(tr("Security:"), this), TEROWCOL(i, 0));
 		if(select_security) {
 			securityCombo = new QComboBox(this);
@@ -138,7 +138,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		}
 		if(security_value_type != SECURITY_VALUE_AND_SHARES) {
 			editLayout->addWidget(new QLabel(tr("Price per share:"), this), TEROWCOL(i, 0));
-			quotationEdit = new EqonomizeValueEdit(false, this);
+			quotationEdit = new EqonomizeValueEdit(0.0, security ? security->quotationDecimals() : budget->defaultQuotationDecimals(), false, true, this);
 			editLayout->addWidget(quotationEdit, TEROWCOL(i, 1));
 			i++;
 		}
@@ -385,6 +385,7 @@ void TransactionEditWidget::securityChanged() {
 	security = selectedSecurity();
 	if(security) {
 		if(sharesEdit) sharesEdit->setPrecision(security->decimals());
+		if(quotationEdit) quotationEdit->setPrecision(security->quotationDecimals());
 		if(sharesEdit && security && shares_date.isValid()) sharesEdit->setMaxValue(security->shares(shares_date));
 	}
 }

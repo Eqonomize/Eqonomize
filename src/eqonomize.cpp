@@ -380,15 +380,16 @@ bool SecurityTransactionListViewItem::operator<(const QTreeWidgetItem &i_pre) co
 }
 class QuotationListViewItem : public QTreeWidgetItem {
 	public:
-		QuotationListViewItem(const QDate &date_, double value_);
+		QuotationListViewItem(const QDate &date_, double value_, int decimals_);
 		bool operator<(const QTreeWidgetItem &i_pre) const;
 		QDate date;
 		double value;
+		int decimals;
 };
 
-QuotationListViewItem::QuotationListViewItem(const QDate &date_, double value_) : QTreeWidgetItem(UserType), date(date_), value(value_) {
+QuotationListViewItem::QuotationListViewItem(const QDate &date_, double value_, int decimals_) : QTreeWidgetItem(UserType), date(date_), value(value_), decimals(decimals_) {
 	setText(0, QLocale().toString(date, QLocale::ShortFormat));
-	setText(1, QLocale().toCurrencyString(value));
+	setText(1, format_money(value, decimals));
 	setTextAlignment(0, Qt::AlignRight);
 	setTextAlignment(1, Qt::AlignRight);
 }
@@ -778,6 +779,8 @@ EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0)
 
 	setWindowTitle(tr("Quotations"));
 	setModal(true);
+	
+	i_quotation_decimals = MONETARY_DECIMAL_PLACES;
 
 	QVBoxLayout *quotationsVLayout = new QVBoxLayout(this);
 
@@ -804,7 +807,7 @@ EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0)
 
 	QVBoxLayout *buttonsLayout = new QVBoxLayout();
 	quotationsLayout->addLayout(buttonsLayout);
-	quotationEdit = new EqonomizeValueEdit(0.01, INT_MAX / pow(10, MONETARY_DECIMAL_PLACES) - 1.0, 1.0, 0.01, MONETARY_DECIMAL_PLACES, true, this);
+	quotationEdit = new EqonomizeValueEdit(0.01, INT_MAX / pow(10, i_quotation_decimals) - 1.0, 1.0, 0.01, i_quotation_decimals, true, this);
 	buttonsLayout->addWidget(quotationEdit);
 	dateEdit = new QDateEdit(this);
 	dateEdit->setCalendarPopup(true);
@@ -835,14 +838,16 @@ EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0)
 }
 void EditQuotationsDialog::setSecurity(Security *security) {
 	quotationsView->clear();
+	i_quotation_decimals = security->quotationDecimals();
 	QList<QTreeWidgetItem *> items;
 	QMap<QDate, double>::const_iterator it_end = security->quotations.end();
 	for(QMap<QDate, double>::const_iterator it = security->quotations.begin(); it != it_end; ++it) {
-		items.append(new QuotationListViewItem(it.key(), it.value()));
+		items.append(new QuotationListViewItem(it.key(), it.value(), i_quotation_decimals));
 	}
 	quotationsView->addTopLevelItems(items);
 	quotationsView->setSortingEnabled(true);
-	titleLabel->setText(tr("Quotations for %1").arg(security->name()));
+	titleLabel->setText(tr("Quotations for %1").arg(security->name()));	
+	quotationEdit->setRange(0.0, INT_MAX / pow(10.0, i_quotation_decimals) - 1.0, pow(10, -i_quotation_decimals), i_quotation_decimals);
 }
 void EditQuotationsDialog::modifyQuotations(Security *security) {
 	security->quotations.clear();
@@ -878,13 +883,13 @@ void EditQuotationsDialog::addQuotation() {
 	while(i) {
 		if(i->date == date) {
 			i->value = quotationEdit->value();
-			i->setText(1, QLocale().toCurrencyString(i->value));
+			i->setText(1, format_money(i->value, i->decimals));
 			return;
 		}
 		++it;
 		i = (QuotationListViewItem*) *it;
 	}
-	quotationsView->insertTopLevelItem(0, new QuotationListViewItem(date, quotationEdit->value()));
+	quotationsView->insertTopLevelItem(0, new QuotationListViewItem(date, quotationEdit->value(), i_quotation_decimals));
 	quotationsView->setSortingEnabled(true);
 }
 void EditQuotationsDialog::changeQuotation() {
@@ -900,7 +905,7 @@ void EditQuotationsDialog::changeQuotation() {
 	while(i2) {
 		if(i2->date == date) {
 			i2->value = quotationEdit->value();
-			i2->setText(1, QLocale().toCurrencyString(i2->value));
+			i2->setText(1, format_money(i2->value, i2->decimals));
 			return;
 		}
 		++it;
@@ -909,7 +914,7 @@ void EditQuotationsDialog::changeQuotation() {
 	i->date = date;
 	i->value = quotationEdit->value();
 	i->setText(0, QLocale().toString(date, QLocale::ShortFormat));
-	i->setText(1, QLocale().toCurrencyString(i->value));
+	i->setText(1, format_money(i->value, i->decimals));
 }
 void EditQuotationsDialog::deleteQuotation() {
 	QuotationListViewItem *i = (QuotationListViewItem*) selectedItem(quotationsView);
@@ -1367,27 +1372,33 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 		account = budget->assetsAccounts.next();
 	}
 	grid->addWidget(accountCombo, 2, 1);
-	grid->addWidget(new QLabel(tr("Decimals in Shares:"), this), 3, 0);
+	grid->addWidget(new QLabel(tr("Decimals in shares:"), this), 3, 0);
 	decimalsEdit = new QSpinBox(this);
 	decimalsEdit->setRange(0, 8);
 	decimalsEdit->setSingleStep(1);
-	decimalsEdit->setValue(4);
+	decimalsEdit->setValue(budget->defaultShareDecimals());
 	grid->addWidget(decimalsEdit, 3, 1);
-	grid->addWidget(new QLabel(tr("Initial Shares:"), this), 4, 0);
+	grid->addWidget(new QLabel(tr("Initial shares:"), this), 4, 0);
 	sharesEdit = new EqonomizeValueEdit(0.0, 4, false, false, this);
 	grid->addWidget(sharesEdit, 4, 1);
+	grid->addWidget(new QLabel(tr("Decimals in quotations:"), this), 5, 0);
+	quotationDecimalsEdit = new QSpinBox(this);
+	quotationDecimalsEdit->setRange(0, 8);
+	quotationDecimalsEdit->setSingleStep(1);
+	quotationDecimalsEdit->setValue(budget->defaultQuotationDecimals());
+	grid->addWidget(quotationDecimalsEdit, 5, 1);
 	quotationLabel = new QLabel(tr("Initial quotation:"), this);
-	grid->addWidget(quotationLabel, 5, 0);
+	grid->addWidget(quotationLabel, 6, 0);
 	quotationEdit = new EqonomizeValueEdit(false, this);
-	grid->addWidget(quotationEdit, 5, 1);
+	grid->addWidget(quotationEdit, 6, 1);
 	quotationDateLabel = new QLabel(tr("Date:"), this);
-	grid->addWidget(quotationDateLabel, 6, 0);
+	grid->addWidget(quotationDateLabel, 7, 0);
 	quotationDateEdit = new QDateEdit(QDate::currentDate(), this);
 	quotationDateEdit->setCalendarPopup(true);
-	grid->addWidget(quotationDateEdit, 6, 1);
-	grid->addWidget(new QLabel(tr("Description:"), this), 7, 0);
+	grid->addWidget(quotationDateEdit, 7, 1);
+	grid->addWidget(new QLabel(tr("Description:"), this), 8, 0);
 	descriptionEdit = new QTextEdit(this);
-	grid->addWidget(descriptionEdit, 8, 0, 1, 2);
+	grid->addWidget(descriptionEdit, 9, 0, 1, 2);
 	nameEdit->setFocus();
 	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -1398,6 +1409,7 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	box1->addWidget(buttonBox);
 
 	connect(decimalsEdit, SIGNAL(valueChanged(int)), this, SLOT(decimalsChanged(int)));
+	connect(quotationDecimalsEdit, SIGNAL(valueChanged(int)), this, SLOT(quotationDecimalsChanged(int)));
 
 }
 bool EditSecurityDialog::checkAccount() {
@@ -1410,6 +1422,9 @@ bool EditSecurityDialog::checkAccount() {
 void EditSecurityDialog::decimalsChanged(int i) {
 	sharesEdit->setRange(0.0, INT_MAX / pow(10.0, i) - 1, 1.0, i);
 }
+void EditSecurityDialog::quotationDecimalsChanged(int i) {
+	quotationEdit->setRange(0.0, INT_MAX / pow(10.0, i) - 1, 1.0, i);
+}
 Security *EditSecurityDialog::newSecurity() {
 	if(!checkAccount()) return NULL;
 	SecurityType type;
@@ -1419,7 +1434,7 @@ Security *EditSecurityDialog::newSecurity() {
 		case 3: {type = SECURITY_TYPE_OTHER; break;}
 		default: {type = SECURITY_TYPE_MUTUAL_FUND; break;}
 	}
-	Security *security = new Security(budget, accounts[accountCombo->currentIndex()], type, sharesEdit->value(), decimalsEdit->value(), nameEdit->text(), descriptionEdit->toPlainText());
+	Security *security = new Security(budget, accounts[accountCombo->currentIndex()], type, sharesEdit->value(), decimalsEdit->value(), quotationDecimalsEdit->value(), nameEdit->text(), descriptionEdit->toPlainText());
 	if(quotationEdit->value() > 0.0) {
 		security->setQuotation(quotationDateEdit->date(), quotationEdit->value());
 	}
@@ -1432,6 +1447,7 @@ bool EditSecurityDialog::modifySecurity(Security *security) {
 	security->setDescription(descriptionEdit->toPlainText());
 	security->setAccount(accounts[accountCombo->currentIndex()]);
 	security->setDecimals(decimalsEdit->value());
+	security->setQuotationDecimals(quotationDecimalsEdit->value());
 	switch(typeCombo->currentIndex()) {
 		case 1: {security->setType(SECURITY_TYPE_BOND); break;}
 		case 2: {security->setType(SECURITY_TYPE_STOCK); break;}
@@ -1449,6 +1465,8 @@ void EditSecurityDialog::setSecurity(Security *security) {
 	descriptionEdit->setPlainText(security->description());
 	decimalsEdit->setValue(security->decimals());
 	decimalsChanged(security->decimals());
+	quotationDecimalsEdit->setValue(security->quotationDecimals());
+	quotationDecimalsChanged(security->quotationDecimals());
 	sharesEdit->setValue(security->initialShares());
 	for(QVector<AssetsAccount*>::size_type i = 0; i < accounts.size(); i++) {
 		if(security->account() == accounts[i]) {
@@ -2609,7 +2627,7 @@ void Eqonomize::setQuotation() {
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 	grid->addWidget(new QLabel(tr("Price per share:"), dialog), 0, 0);
-	EqonomizeValueEdit *quotationEdit = new EqonomizeValueEdit(0.01, INT_MAX / pow(10, MONETARY_DECIMAL_PLACES) - 1.0, pow(10, -MONETARY_DECIMAL_PLACES), i->security()->getQuotation(QDate::currentDate()), MONETARY_DECIMAL_PLACES, true, dialog);
+	EqonomizeValueEdit *quotationEdit = new EqonomizeValueEdit(0.01, INT_MAX / pow(10, i->security()->quotationDecimals()) - 1.0, pow(10, -i->security()->quotationDecimals()), i->security()->getQuotation(QDate::currentDate()), i->security()->quotationDecimals(), true, dialog);
 	quotationEdit->setFocus();
 	grid->addWidget(quotationEdit, 0, 1);
 	grid->addWidget(new QLabel(tr("Date:"), dialog), 1, 0);
@@ -2733,7 +2751,7 @@ void Eqonomize::appendSecurity(Security *security) {
 		rate = security->yearlyRate(securities_to_date);
 		profit = security->profit(securities_to_date, true);
 	}
-	SecurityListViewItem *i = new SecurityListViewItem(security, security->name(), QLocale().toCurrencyString(value), QLocale().toString(shares, 'f', security->decimals()), QLocale().toCurrencyString(quotation), QLocale().toCurrencyString(cost), QLocale().toCurrencyString(profit), QLocale().toString(rate * 100) + "%");
+	SecurityListViewItem *i = new SecurityListViewItem(security, security->name(), QLocale().toCurrencyString(value), QLocale().toString(shares, 'f', security->decimals()), format_money(quotation, security->quotationDecimals()), QLocale().toCurrencyString(cost), QLocale().toCurrencyString(profit), QLocale().toString(rate * 100) + "%");
 	i->setText(8, security->account()->name());
 	i->value = value;
 	i->cost = cost;
@@ -2807,7 +2825,7 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i) {
 	}
 	i->setText(1, QLocale().toCurrencyString(value));
 	i->setText(2, QLocale().toString(shares, 'f', security->decimals()));
-	i->setText(3, QLocale().toCurrencyString(quotation));
+	i->setText(3, format_money(quotation, security->quotationDecimals()));
 	i->setText(4, QLocale().toCurrencyString(cost));
 	i->setText(5, QLocale().toCurrencyString(profit));
 	i->setText(6, QLocale().toString(rate * 100) + "%");

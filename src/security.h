@@ -169,7 +169,7 @@ class Security {
 
 		double d_initial_shares;
 
-		int i_decimals;
+		int i_decimals, i_quotation_decimals;
 
 		QString s_name;
 		QString s_description;
@@ -178,7 +178,7 @@ class Security {
 
 	public:
 
-		Security(Budget *parent_budget, AssetsAccount *parent_account, SecurityType initial_type, double initial_shares = 0.0, int initial_decimals = 4, QString initial_name = QString::null, QString initial_description = QString::null);
+		Security(Budget *parent_budget, AssetsAccount *parent_account, SecurityType initial_type, double initial_shares = 0.0, int initial_decimals = -1, int initial_quotation_decimals = -1, QString initial_name = QString::null, QString initial_description = QString::null);
 		Security(Budget *parent_budget, QDomElement *e, bool *valid);
 		Security();
 		Security(const Security *security);
@@ -204,7 +204,9 @@ class Security {
 		AssetsAccount *account() const;
 		void addReinvestedDividend(const QDate &date, double added_shares);
 		int decimals() const;
+		int quotationDecimals() const;
 		void setDecimals(int new_decimals);
+		void setQuotationDecimals(int new_decimals);
 		void setAccount(AssetsAccount *new_account);
 		virtual void save(QDomElement *e) const;
 

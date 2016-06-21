@@ -591,7 +591,7 @@ class EditSecurityDialog : public QDialog {
 		EqonomizeValueEdit *sharesEdit, *quotationEdit;
 		QDateEdit *quotationDateEdit;
 		QComboBox *typeCombo, *accountCombo;
-		QSpinBox *decimalsEdit;
+		QSpinBox *decimalsEdit, *quotationDecimalsEdit;
 		QLabel *quotationLabel, *quotationDateLabel;
 		Budget *budget;
 		QVector<AssetsAccount*> accounts;
@@ -607,6 +607,7 @@ class EditSecurityDialog : public QDialog {
 	protected slots:
 
 		void decimalsChanged(int);
+		void quotationDecimalsChanged(int);
 
 };
  
@@ -621,6 +622,7 @@ class EditQuotationsDialog : public QDialog {
 		EqonomizeValueEdit *quotationEdit;
 		QDateEdit *dateEdit;
 		QPushButton *changeButton, *addButton, *deleteButton;
+		int i_quotation_decimals;
 
 	public:
 
