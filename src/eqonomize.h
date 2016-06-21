@@ -59,6 +59,7 @@ class QTextEdit;
 class QLocalSocket;
 class QLocalServer;
 class QPrinter;
+class QDialog;
 
 class CategoriesComparisonChart;
 class CategoriesComparisonReport;
@@ -244,6 +245,8 @@ class Eqonomize : public QMainWindow {
 		QMap<Account*, QTreeWidgetItem*> item_accounts;
 
 		QMenu *accountPopupMenu, *securitiesPopupMenu, *schedulePopupMenu;
+		
+		QDialog *helpDialog, *cccDialog, *ccrDialog, *otcDialog, *otrDialog;
 
 	public slots:
 

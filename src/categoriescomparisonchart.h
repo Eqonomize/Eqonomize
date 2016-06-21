@@ -66,6 +66,7 @@ class CategoriesComparisonChart : public QWidget {
 
 	public slots:
 
+		void resetOptions();
 		void updateTransactions();
 		void updateAccounts();
 		void updateDisplay();

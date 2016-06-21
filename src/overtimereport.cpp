@@ -71,8 +71,6 @@ struct month_info {
 
 OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent), budget(budg) {
 
-	setAttribute(Qt::WA_DeleteOnClose, true);
-
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->setContentsMargins(0, 0, 0, 0);
 
@@ -141,7 +139,7 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	enabledLayout->addStretch(1);
 	
 	settings.endGroup();
-
+	
 	layout->addWidget(settingsWidget);
 
 	connect(valueButton, SIGNAL(toggled(bool)), this, SLOT(updateDisplay()));
@@ -157,6 +155,11 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	connect(saveButton, SIGNAL(clicked()), this, SLOT(save()));
 	connect(printButton, SIGNAL(clicked()), this, SLOT(print()));
 
+}
+
+void OverTimeReport::resetOptions() {
+	sourceCombo->setCurrentIndex(0);
+	sourceChanged(0);
 }
 
 void OverTimeReport::descriptionChanged(int index) {
@@ -295,7 +298,9 @@ void OverTimeReport::print() {
 	}
 }
 
-void OverTimeReport::updateDisplay() {	
+void OverTimeReport::updateDisplay() {
+
+	if(!isVisible()) return;
 
 	int columns = 2;
 	bool enabled[6];

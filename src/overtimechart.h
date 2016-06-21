@@ -69,6 +69,7 @@ class OverTimeChart : public QWidget {
 
 	public slots:
 
+		void resetOptions();
 		void sourceChanged(int);
 		void categoryChanged(int);
 		void descriptionChanged(int);

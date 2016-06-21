@@ -918,12 +918,11 @@ void EditQuotationsDialog::deleteQuotation() {
 }
 
 
-OverTimeReportDialog::OverTimeReportDialog(Budget *budg, QWidget *parent) : QDialog(parent, Qt::Window | Qt::WindowMinMaxButtonsHint) {
+OverTimeReportDialog::OverTimeReportDialog(Budget *budg, QWidget *parent) : QDialog(parent, Qt::Window | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint) {
 	setWindowTitle(tr("Report"));
-	setModal(true);
+	setModal(false);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	report = new OverTimeReport(budg, this);
-	report->updateDisplay();
 	box1->addWidget(report);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
 	buttonBox->button(QDialogButtonBox::Close)->setShortcut(Qt::CTRL | Qt::Key_Return);
@@ -935,12 +934,11 @@ void OverTimeReportDialog::reject() {
 	report->saveConfig();
 	QDialog::reject();
 }
-CategoriesComparisonReportDialog::CategoriesComparisonReportDialog(bool extra_parameters, Budget *budg, QWidget *parent) : QDialog(parent, Qt::Window | Qt::WindowMinMaxButtonsHint) {
+CategoriesComparisonReportDialog::CategoriesComparisonReportDialog(bool extra_parameters, Budget *budg, QWidget *parent) : QDialog(parent, Qt::Window | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint) {
 	setWindowTitle(tr("Report"));
-	setModal(true);
+	setModal(false);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	report = new CategoriesComparisonReport(budg, this, extra_parameters);
-	report->updateDisplay();
 	box1->addWidget(report);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
 	buttonBox->button(QDialogButtonBox::Close)->setShortcut(Qt::CTRL | Qt::Key_Return);
@@ -954,7 +952,7 @@ void CategoriesComparisonReportDialog::reject() {
 }
 OverTimeChartDialog::OverTimeChartDialog(bool extra_parameters, Budget *budg, QWidget *parent) : QDialog(parent, Qt::Window | Qt::WindowMinMaxButtonsHint) {
 	setWindowTitle(tr("Chart"));
-	setModal(true);
+	setModal(false);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	chart = new OverTimeChart(budg, this, extra_parameters);
 	box1->addWidget(chart);
@@ -968,9 +966,9 @@ void OverTimeChartDialog::reject() {
 	chart->saveConfig();
 	QDialog::reject();
 }
-CategoriesComparisonChartDialog::CategoriesComparisonChartDialog(Budget *budg, QWidget *parent) : QDialog(parent, Qt::Window | Qt::WindowMinMaxButtonsHint) {
+CategoriesComparisonChartDialog::CategoriesComparisonChartDialog(Budget *budg, QWidget *parent) : QDialog(parent, Qt::Window | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint) {
 	setWindowTitle(tr("Chart"));
-	setModal(true);
+	setModal(false);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	chart = new CategoriesComparisonChart(budg, this);
 	box1->addWidget(chart);
@@ -1773,6 +1771,12 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	total_cost = 0.0;
 	total_profit = 0.0;
 	total_rate = 0.0;
+	
+	helpDialog = NULL;
+	cccDialog = NULL;
+	ccrDialog = NULL;
+	otcDialog = NULL;
+	otrDialog = NULL;
 
 	partial_budget = false;
 
@@ -3773,63 +3777,93 @@ void Eqonomize::exportQIF() {
 
 
 void Eqonomize::showOverTimeReport() {
-	OverTimeReportDialog *dialog = new OverTimeReportDialog(budget, this);
-	QSettings settings;
-	QSize dialog_size = settings.value("OverTimeReport/size", QSize()).toSize();
-	if(!dialog_size.isValid()) {
-		QDesktopWidget desktop;
-		dialog_size = QSize(750, 650).boundedTo(desktop.availableGeometry(this).size());
+	if(!otrDialog) {
+		otrDialog = new OverTimeReportDialog(budget, NULL);
+		QSettings settings;
+		QSize dialog_size = settings.value("OverTimeReport/size", QSize()).toSize();
+		if(!dialog_size.isValid()) {
+			QDesktopWidget desktop;
+			dialog_size = QSize(750, 650).boundedTo(desktop.availableGeometry(this).size());
+		}
+		otrDialog->resize(dialog_size);
+		connect(this, SIGNAL(accountsModified()), ((OverTimeReportDialog*) otrDialog)->report, SLOT(updateAccounts()));
+		connect(this, SIGNAL(transactionsModified()), ((OverTimeReportDialog*) otrDialog)->report, SLOT(updateTransactions()));
+		connect(this, SIGNAL(timeToSaveConfig()), ((OverTimeReportDialog*) otrDialog)->report, SLOT(saveConfig()));
+	} else if(!otrDialog->isVisible()) {
+		((OverTimeReportDialog*) otrDialog)->report->resetOptions();
 	}
-	dialog->resize(dialog_size);
-	dialog->show();
-	connect(this, SIGNAL(accountsModified()), dialog->report, SLOT(updateAccounts()));
-	connect(this, SIGNAL(transactionsModified()), dialog->report, SLOT(updateTransactions()));
-	connect(this, SIGNAL(timeToSaveConfig()), dialog->report, SLOT(saveConfig()));
+	bool b = otrDialog->isVisible();
+	otrDialog->show();
+	if(!b) ((OverTimeReportDialog*) otrDialog)->report->updateDisplay();
+	otrDialog->raise();
+	otrDialog->activateWindow();
 }
 void Eqonomize::showCategoriesComparisonReport() {
-	CategoriesComparisonReportDialog *dialog = new CategoriesComparisonReportDialog(b_extra, budget, this);
-	QSettings settings;
-	QSize dialog_size = settings.value("CategoriesComparisonReport/size", QSize()).toSize();
-	if(!dialog_size.isValid()) {
-		QDesktopWidget desktop;
-		dialog_size = QSize(750, 670).boundedTo(desktop.availableGeometry(this).size());
+	if(!ccrDialog) {
+		ccrDialog = new CategoriesComparisonReportDialog(b_extra, budget, NULL);
+		QSettings settings;
+		QSize dialog_size = settings.value("CategoriesComparisonReport/size", QSize()).toSize();
+		if(!dialog_size.isValid()) {
+			QDesktopWidget desktop;
+			dialog_size = QSize(750, 670).boundedTo(desktop.availableGeometry(this).size());
+		}
+		ccrDialog->resize(dialog_size);
+		connect(this, SIGNAL(accountsModified()), ((CategoriesComparisonReportDialog*) ccrDialog)->report, SLOT(updateAccounts()));
+		connect(this, SIGNAL(transactionsModified()), ((CategoriesComparisonReportDialog*) ccrDialog)->report, SLOT(updateTransactions()));
+		connect(this, SIGNAL(timeToSaveConfig()), ((CategoriesComparisonReportDialog*) ccrDialog)->report, SLOT(saveConfig()));
+	} else if(!ccrDialog->isVisible()) {
+		((CategoriesComparisonReportDialog*) ccrDialog)->report->resetOptions();
 	}
-	dialog->resize(dialog_size);
-	dialog->show();
-	connect(this, SIGNAL(accountsModified()), dialog->report, SLOT(updateAccounts()));
-	connect(this, SIGNAL(transactionsModified()), dialog->report, SLOT(updateTransactions()));
-	connect(this, SIGNAL(timeToSaveConfig()), dialog->report, SLOT(saveConfig()));
+	bool b = ccrDialog->isVisible();
+	ccrDialog->show();
+	if(!b) ((CategoriesComparisonReportDialog*) ccrDialog)->report->updateDisplay();
+	ccrDialog->raise();
+	ccrDialog->activateWindow();
 }
 void Eqonomize::showOverTimeChart() {
-	OverTimeChartDialog *dialog = new OverTimeChartDialog(b_extra, budget, this);
-	QSettings settings;
-	QSize dialog_size = settings.value("OverTimeChart/size", QSize()).toSize();
-	if(!dialog_size.isValid()) {
-		QDesktopWidget desktop;
-		dialog_size = QSize(850, b_extra ? 750 : 730).boundedTo(desktop.availableGeometry(this).size());
+	if(!otcDialog) {
+		otcDialog = new OverTimeChartDialog(b_extra, budget, NULL);
+		QSettings settings;
+		QSize dialog_size = settings.value("OverTimeChart/size", QSize()).toSize();
+		if(!dialog_size.isValid()) {
+			QDesktopWidget desktop;
+			dialog_size = QSize(850, b_extra ? 750 : 730).boundedTo(desktop.availableGeometry(this).size());
+		}
+		otcDialog->resize(dialog_size);		
+		connect(this, SIGNAL(accountsModified()), ((OverTimeChartDialog*) otcDialog)->chart, SLOT(updateAccounts()));
+		connect(this, SIGNAL(transactionsModified()), ((OverTimeChartDialog*) otcDialog)->chart, SLOT(updateTransactions()));
+		connect(this, SIGNAL(timeToSaveConfig()), ((OverTimeChartDialog*) otcDialog)->chart, SLOT(saveConfig()));
+	} else if(!otcDialog->isVisible()) {
+		((OverTimeChartDialog*) otcDialog)->chart->resetOptions();
 	}
-	dialog->resize(dialog_size);
-	dialog->show();
-	dialog->chart->updateDisplay();
-	connect(this, SIGNAL(accountsModified()), dialog->chart, SLOT(updateAccounts()));
-	connect(this, SIGNAL(transactionsModified()), dialog->chart, SLOT(updateTransactions()));
-	connect(this, SIGNAL(timeToSaveConfig()), dialog->chart, SLOT(saveConfig()));
+	bool b = otcDialog->isVisible();
+	otcDialog->show();
+	if(!b) ((OverTimeChartDialog*) otcDialog)->chart->updateDisplay();
+	otcDialog->raise();
+	otcDialog->activateWindow();
 }
 
 void Eqonomize::showCategoriesComparisonChart() {
-	CategoriesComparisonChartDialog *dialog = new CategoriesComparisonChartDialog(budget, this);
-	QSettings settings;
-	QSize dialog_size = settings.value("CategoriesComparisonChart/size", QSize()).toSize();
-	if(!dialog_size.isValid()) {
-		QDesktopWidget desktop;
-		dialog_size = QSize(750, 700).boundedTo(desktop.availableGeometry(this).size());
+	if(!cccDialog) {
+		cccDialog = new CategoriesComparisonChartDialog(budget, NULL);
+		QSettings settings;
+		QSize dialog_size = settings.value("CategoriesComparisonChart/size", QSize()).toSize();
+		if(!dialog_size.isValid()) {
+			QDesktopWidget desktop;
+			dialog_size = QSize(750, 700).boundedTo(desktop.availableGeometry(this).size());
+		}
+		cccDialog->resize(dialog_size);
+		connect(this, SIGNAL(accountsModified()), ((CategoriesComparisonChartDialog*) cccDialog)->chart, SLOT(updateAccounts()));
+		connect(this, SIGNAL(transactionsModified()), ((CategoriesComparisonChartDialog*) cccDialog)->chart, SLOT(updateTransactions()));
+		connect(this, SIGNAL(timeToSaveConfig()), ((CategoriesComparisonChartDialog*) cccDialog)->chart, SLOT(saveConfig()));
+	} else if(!cccDialog->isVisible()) {
+		((CategoriesComparisonChartDialog*) cccDialog)->chart->resetOptions();
 	}
-	dialog->resize(dialog_size);
-	dialog->show();
-	dialog->chart->updateDisplay();
-	connect(this, SIGNAL(accountsModified()), dialog->chart, SLOT(updateAccounts()));
-	connect(this, SIGNAL(transactionsModified()), dialog->chart, SLOT(updateTransactions()));
-	connect(this, SIGNAL(timeToSaveConfig()), dialog->chart, SLOT(saveConfig()));
+	bool b = cccDialog->isVisible();
+	cccDialog->show();
+	if(!b) ((CategoriesComparisonChartDialog*) cccDialog)->chart->updateDisplay();
+	cccDialog->raise();
+	cccDialog->activateWindow();
 }
 
 QString htmlize_string(QString str) {
@@ -4222,7 +4256,7 @@ void Eqonomize::showPrintPreview() {
 		}
 	}
 	
-	QPrintPreviewDialog preview_dialog(this, Qt::Window | Qt::WindowMinMaxButtonsHint);
+	QPrintPreviewDialog preview_dialog(this, Qt::Window | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint);
 	connect(&preview_dialog, SIGNAL(paintRequested(QPrinter*)), this, SLOT(printPreviewPaint(QPrinter*)));
 	preview_dialog.exec();
 }
@@ -4572,26 +4606,30 @@ void Eqonomize::showHelp() {
 			break;
 		}
 	}
-	if(docdir[0] == ':') {
-		QDialog *dialog = new QDialog(this, Qt::Window | Qt::WindowMinMaxButtonsHint);
-		dialog->setWindowModality(Qt::NonModal);
-		dialog->setWindowTitle(tr("Help"));
-		QVBoxLayout *box1 = new QVBoxLayout(dialog);
-		QTextBrowser *helpBrowser = new QTextBrowser(dialog);
-		helpBrowser->setSource(QUrl(QString("qrc") + docdir + "/index.html"));
-		helpBrowser->setSearchPaths(QStringList(QString("qrc") + docdir));
+	if(!helpDialog) {
+		helpDialog = new QDialog(0, Qt::Window | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint);
+		helpDialog->setModal(false);
+		helpDialog->setWindowTitle(tr("Help"));
+		QVBoxLayout *box1 = new QVBoxLayout(helpDialog);
+		QTextBrowser *helpBrowser = new QTextBrowser(helpDialog);
+		if(docdir[0] == ':') {
+			helpBrowser->setSource(QUrl(QString("qrc") + docdir + "/index.html"));
+			helpBrowser->setSearchPaths(QStringList(QString("qrc") + docdir));
+		} else {
+			helpBrowser->setSource(QUrl(docdir + "/index.html"));
+		}
 		box1->addWidget(helpBrowser);
 		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-		connect(buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), dialog, SLOT(reject()));
+		connect(buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), helpDialog, SLOT(reject()));
 		box1->addWidget(buttonBox);
 		QSize helpSize = QDesktopWidget().availableGeometry(this).size();
 		helpSize.setHeight(helpSize.height() * 0.85);
 		helpSize.setWidth(helpSize.height() * 1.2);
-		dialog->resize(helpSize);
-		dialog->exec();
-	} else {
-		QDesktopServices::openUrl(QUrl::fromLocalFile(docdir + "/index.html"));
+		helpDialog->resize(helpSize);
 	}
+	helpDialog->show();
+	helpDialog->raise();
+	helpDialog->activateWindow();
 }
 void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
@@ -4777,6 +4815,7 @@ void Eqonomize::closeEvent(QCloseEvent *event) {
 		saveOptions();
 		if(server) delete server;
 		QMainWindow::closeEvent(event);
+		qApp->closeAllWindows();
 	}
 }
 

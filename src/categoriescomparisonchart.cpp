@@ -75,25 +75,6 @@ extern double monthsBetweenDates(const QDate &date1, const QDate &date2);
 
 CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *parent) : QWidget(parent), budget(budg) {
 
-	setAttribute(Qt::WA_DeleteOnClose, true);	
-
-	QDate first_date;
-	Transaction *trans = budget->transactions.first();
-	while(trans) {
-		if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
-			first_date = trans->date();
-			break;
-		}
-		trans = budget->transactions.next();
-	}
-	to_date = QDate::currentDate();
-	from_date = to_date.addYears(-1).addDays(1);
-	if(first_date.isNull()) {
-		from_date = to_date;
-	} else if(from_date < first_date) {
-		from_date = first_date;
-	}
-
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->setContentsMargins(0, 0, 0, 0);
 
@@ -118,13 +99,11 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	choicesLayout->addWidget(fromButton);
 	fromEdit = new QDateEdit(settingsWidget);
 	fromEdit->setCalendarPopup(true);
-	fromEdit->setDate(from_date);
 	choicesLayout->addWidget(fromEdit);
 	choicesLayout->setStretchFactor(fromEdit, 1);
 	choicesLayout->addWidget(new QLabel(tr("To"), settingsWidget));
 	toEdit = new QDateEdit(settingsWidget);
-	toEdit->setCalendarPopup(true);
-	toEdit->setDate(to_date);
+	toEdit->setCalendarPopup(true);	
 	choicesLayout->addWidget(toEdit);
 	choicesLayout->setStretchFactor(toEdit, 1);
 	prevYearButton = new QPushButton(QIcon::fromTheme("eqz-previous-year"), "", settingsWidget);
@@ -163,6 +142,8 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	current_account = NULL;
 
 	layout->addWidget(settingsWidget);
+	
+	resetOptions();
 
 	connect(sourceCombo, SIGNAL(activated(int)), this, SLOT(sourceChanged(int)));
 	connect(prevMonthButton, SIGNAL(clicked()), this, SLOT(prevMonth()));
@@ -181,6 +162,28 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 CategoriesComparisonChart::~CategoriesComparisonChart() {
 }
 
+void CategoriesComparisonChart::resetOptions() {
+	QDate first_date;
+	Transaction *trans = budget->transactions.first();
+	while(trans) {
+		if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
+			first_date = trans->date();
+			break;
+		}
+		trans = budget->transactions.next();
+	}
+	to_date = QDate::currentDate();
+	from_date = to_date.addYears(-1).addDays(1);
+	if(first_date.isNull()) {
+		from_date = to_date;
+	} else if(from_date < first_date) {
+		from_date = first_date;
+	}
+	fromEdit->setDate(from_date);
+	toEdit->setDate(to_date);
+	sourceCombo->setCurrentIndex(0);
+	sourceChanged(0);
+}
 void CategoriesComparisonChart::sourceChanged(int index) {
 	fromButton->setEnabled(index != 2);
 	fromEdit->setEnabled(index != 2);
@@ -418,6 +421,8 @@ QBrush getBrush(int index) {
 	return brush;
 }
 void CategoriesComparisonChart::updateDisplay() {
+
+	if(!isVisible()) return;
 
 	QMap<Account*, double> values;
 	QMap<Account*, double> counts;

@@ -68,25 +68,6 @@ extern double yearsBetweenDates(const QDate &date1, const QDate &date2);
 
 CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *parent, bool extra_parameters) : QWidget(parent), budget(budg), b_extra(extra_parameters) {
 
-	setAttribute(Qt::WA_DeleteOnClose, true);
-
-	QDate first_date;
-	Transaction *trans = budget->transactions.first();
-	while(trans) {
-		if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
-			first_date = trans->date();
-			break;
-		}
-		trans = budget->transactions.next();
-	}
-	to_date = QDate::currentDate();
-	from_date = to_date.addYears(-1).addDays(1);
-	if(first_date.isNull()) {
-		from_date = to_date;
-	} else if(from_date < first_date) {
-		from_date = first_date;
-	}
-
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->setContentsMargins(0, 0, 0, 0);
 
@@ -164,13 +145,11 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	choicesLayout->addWidget(fromButton);
 	fromEdit = new QDateEdit(settingsWidget);
 	fromEdit->setCalendarPopup(true);
-	fromEdit->setDate(from_date);
 	choicesLayout->addWidget(fromEdit);
 	choicesLayout->setStretchFactor(fromEdit, 1);
 	choicesLayout->addWidget(new QLabel(tr("To"), settingsWidget));
 	toEdit = new QDateEdit(settingsWidget);
 	toEdit->setCalendarPopup(true);
-	toEdit->setDate(to_date);
 	choicesLayout->addWidget(toEdit);
 	choicesLayout->setStretchFactor(toEdit, 1);
 	prevYearButton = new QPushButton(QIcon::fromTheme("eqz-previous-year"), "", settingsWidget);
@@ -209,6 +188,8 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	settings.endGroup();
 
 	layout->addWidget(settingsWidget);
+	
+	resetOptions();
 
 	if(b_extra) {
 		connect(payeeButton, SIGNAL(toggled(bool)), this, SLOT(payeeToggled(bool)));
@@ -236,6 +217,28 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 
 }
 
+void CategoriesComparisonReport::resetOptions() {
+	QDate first_date;
+	Transaction *trans = budget->transactions.first();
+	while(trans) {
+		if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
+			first_date = trans->date();
+			break;
+		}
+		trans = budget->transactions.next();
+	}
+	to_date = QDate::currentDate();
+	from_date = to_date.addYears(-1).addDays(1);
+	if(first_date.isNull()) {
+		from_date = to_date;
+	} else if(from_date < first_date) {
+		from_date = first_date;
+	}
+	fromEdit->setDate(from_date);
+	toEdit->setDate(to_date);
+	sourceCombo->setCurrentIndex(0);
+	sourceChanged(0);
+}
 void CategoriesComparisonReport::payeeToggled(bool b) {
 	if(b) updateDisplay();
 }
@@ -478,6 +481,8 @@ void CategoriesComparisonReport::print() {
 }
 
 void CategoriesComparisonReport::updateDisplay() {
+
+	if(!isVisible()) return;
 
 	int columns = 2;
 	bool enabled[6];

@@ -82,8 +82,6 @@ extern int months_between_dates(const QDate &date1, const QDate &date2);
 
 OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameters) : QWidget(parent), budget(budg), b_extra(extra_parameters) {
 
-	setAttribute(Qt::WA_DeleteOnClose, true);	
-
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->setContentsMargins(0, 0, 0, 0);
 
@@ -150,38 +148,10 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	QHBoxLayout *monthLayout = new QHBoxLayout();
 	settingsLayout->addLayout(monthLayout, 0, 1);
 	startDateEdit = new EqonomizeMonthSelector(settingsWidget);
-	Transaction *trans = budget->transactions.first();
-	while(trans) {
-		if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
-			start_date = trans->date();
-			if(start_date.day() > 1) {
-				start_date = start_date.addMonths(1);
-				start_date.setDate(start_date.year(), start_date.month(), 1);
-			}
-			break;
-		}
-		trans = budget->transactions.next();
-	}
-	if(start_date.isNull() || start_date > QDate::currentDate()) start_date = QDate::currentDate();
-	if(start_date.month() == QDate::currentDate().month() && start_date.year() == QDate::currentDate().year()) {
-		start_date = start_date.addMonths(-1);
-		start_date.setDate(start_date.year(), start_date.month(), 1);
-	}
-	startDateEdit->setDate(start_date);
 	monthLayout->addWidget(startDateEdit);
 	monthLayout->setStretchFactor(startDateEdit, 1);
 	monthLayout->addWidget(new QLabel(tr("End date:"), settingsWidget));
 	endDateEdit = new EqonomizeMonthSelector(settingsWidget);
-	end_date = QDate::currentDate().addDays(-1);
-	if(end_date.day() < end_date.daysInMonth()) {
-		end_date = end_date.addMonths(-1);
-		end_date.setDate(end_date.year(), end_date.month(), end_date.daysInMonth());
-	}
-	if(end_date <= start_date || (start_date.month() == end_date.month() && start_date.year() == end_date.year())) {
-		end_date = QDate::currentDate();
-		end_date.setDate(end_date.year(), end_date.month(), end_date.daysInMonth());
-	}
-	endDateEdit->setDate(end_date);
 	monthLayout->addWidget(endDateEdit);
 	monthLayout->setStretchFactor(endDateEdit, 1);
 	monthLayout->addStretch(1);
@@ -209,6 +179,8 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	enabledLayout->addStretch(1);
 	
 	settings.endGroup();
+	
+	resetOptions();
 
 	layout->addWidget(settingsWidget);
 
@@ -230,6 +202,40 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 }
 
 OverTimeChart::~OverTimeChart() {}
+
+void OverTimeChart::resetOptions() {
+	sourceCombo->setCurrentIndex(0);
+	sourceChanged(0);
+	Transaction *trans = budget->transactions.first();
+	start_date = QDate();
+	while(trans) {
+		if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
+			start_date = trans->date();
+			if(start_date.day() > 1) {
+				start_date = start_date.addMonths(1);
+				start_date.setDate(start_date.year(), start_date.month(), 1);
+			}
+			break;
+		}
+		trans = budget->transactions.next();
+	}
+	if(start_date.isNull() || start_date > QDate::currentDate()) start_date = QDate::currentDate();
+	if(start_date.month() == QDate::currentDate().month() && start_date.year() == QDate::currentDate().year()) {
+		start_date = start_date.addMonths(-1);
+		start_date.setDate(start_date.year(), start_date.month(), 1);
+	}
+	startDateEdit->setDate(start_date);
+	end_date = QDate::currentDate().addDays(-1);
+	if(end_date.day() < end_date.daysInMonth()) {
+		end_date = end_date.addMonths(-1);
+		end_date.setDate(end_date.year(), end_date.month(), end_date.daysInMonth());
+	}
+	if(end_date <= start_date || (start_date.month() == end_date.month() && start_date.year() == end_date.year())) {
+		end_date = QDate::currentDate();
+		end_date.setDate(end_date.year(), end_date.month(), end_date.daysInMonth());
+	}
+	endDateEdit->setDate(end_date);
+}
 
 void OverTimeChart::valueTypeToggled(bool b) {
 	if(b) updateDisplay();
@@ -701,7 +707,9 @@ QPen getPen(int index) {
 	pen.setColor(getColor2(index));
 	return pen;
 }
-void OverTimeChart::updateDisplay() {	
+void OverTimeChart::updateDisplay() {
+
+	if(!isVisible()) return;
 
 	QVector<chart_month_info> monthly_incomes, monthly_expenses;
 	QMap<Account*, QVector<chart_month_info> > monthly_cats;
