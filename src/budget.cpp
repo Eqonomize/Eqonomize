@@ -36,7 +36,7 @@
 
 int currency_frac_digits() {
 	char fd = localeconv()->frac_digits;
-	if(fd == CHAR_MAX) return 0;
+	if(fd == CHAR_MAX) return 2;
 	return fd;
 }
 

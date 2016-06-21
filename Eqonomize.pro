@@ -145,6 +145,7 @@ unix {
 				data/scalable/eqz-expense.svg \
 				data/scalable/eqz-income.svg \
 				data/scalable/eqz-transfer.svg \
+				data/scalable/eqz-refund-repayment.svg \
 				data/scalable/eqz-security.svg \
 				data/scalable/eqz-schedule.svg \
 				data/scalable/eqz-split-transaction.svg \

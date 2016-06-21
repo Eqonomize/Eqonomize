@@ -918,7 +918,7 @@ void EditQuotationsDialog::deleteQuotation() {
 }
 
 
-OverTimeReportDialog::OverTimeReportDialog(Budget *budg, QWidget *parent) : QDialog(parent, 0) {
+OverTimeReportDialog::OverTimeReportDialog(Budget *budg, QWidget *parent) : QDialog(parent, Qt::Window | Qt::WindowMinMaxButtonsHint) {
 	setWindowTitle(tr("Report"));
 	setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
@@ -935,7 +935,7 @@ void OverTimeReportDialog::reject() {
 	report->saveConfig();
 	QDialog::reject();
 }
-CategoriesComparisonReportDialog::CategoriesComparisonReportDialog(bool extra_parameters, Budget *budg, QWidget *parent) : QDialog(parent, 0) {
+CategoriesComparisonReportDialog::CategoriesComparisonReportDialog(bool extra_parameters, Budget *budg, QWidget *parent) : QDialog(parent, Qt::Window | Qt::WindowMinMaxButtonsHint) {
 	setWindowTitle(tr("Report"));
 	setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
@@ -952,7 +952,7 @@ void CategoriesComparisonReportDialog::reject() {
 	report->saveConfig();
 	QDialog::reject();
 }
-OverTimeChartDialog::OverTimeChartDialog(bool extra_parameters, Budget *budg, QWidget *parent) : QDialog(parent, 0) {
+OverTimeChartDialog::OverTimeChartDialog(bool extra_parameters, Budget *budg, QWidget *parent) : QDialog(parent, Qt::Window | Qt::WindowMinMaxButtonsHint) {
 	setWindowTitle(tr("Chart"));
 	setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
@@ -968,7 +968,7 @@ void OverTimeChartDialog::reject() {
 	chart->saveConfig();
 	QDialog::reject();
 }
-CategoriesComparisonChartDialog::CategoriesComparisonChartDialog(Budget *budg, QWidget *parent) : QDialog(parent, 0) {
+CategoriesComparisonChartDialog::CategoriesComparisonChartDialog(Budget *budg, QWidget *parent) : QDialog(parent, Qt::Window | Qt::WindowMinMaxButtonsHint) {
 	setWindowTitle(tr("Chart"));
 	setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
@@ -1839,7 +1839,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	tabs = new QTabWidget(w_top);
 	topLayout->addWidget(tabs);
 	tabs->setDocumentMode(true);
-	tabs->setIconSize(tabs->iconSize() * 1.7);
+	tabs->setIconSize(tabs->iconSize() * 1.5);
 
 	accounts_page = new QWidget(this);
 	tabs->addTab(accounts_page, QIcon::fromTheme("eqz-account"), tr("Accounts && Categories"));
@@ -2227,6 +2227,7 @@ void Eqonomize::serverNewConnection() {
 void Eqonomize::socketReadyRead() {
 	setWindowState((windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
 	show();
+	raise();	
 	activateWindow();
 	QString command = socket->readAll();
 	QChar c = command[0];	
@@ -3772,7 +3773,7 @@ void Eqonomize::exportQIF() {
 
 
 void Eqonomize::showOverTimeReport() {
-	OverTimeReportDialog *dialog = new OverTimeReportDialog(budget, 0);
+	OverTimeReportDialog *dialog = new OverTimeReportDialog(budget, this);
 	QSettings settings;
 	QSize dialog_size = settings.value("OverTimeReport/size", QSize()).toSize();
 	if(!dialog_size.isValid()) {
@@ -3786,7 +3787,7 @@ void Eqonomize::showOverTimeReport() {
 	connect(this, SIGNAL(timeToSaveConfig()), dialog->report, SLOT(saveConfig()));
 }
 void Eqonomize::showCategoriesComparisonReport() {
-	CategoriesComparisonReportDialog *dialog = new CategoriesComparisonReportDialog(b_extra, budget, 0);
+	CategoriesComparisonReportDialog *dialog = new CategoriesComparisonReportDialog(b_extra, budget, this);
 	QSettings settings;
 	QSize dialog_size = settings.value("CategoriesComparisonReport/size", QSize()).toSize();
 	if(!dialog_size.isValid()) {
@@ -3800,7 +3801,7 @@ void Eqonomize::showCategoriesComparisonReport() {
 	connect(this, SIGNAL(timeToSaveConfig()), dialog->report, SLOT(saveConfig()));
 }
 void Eqonomize::showOverTimeChart() {
-	OverTimeChartDialog *dialog = new OverTimeChartDialog(b_extra, budget, 0);
+	OverTimeChartDialog *dialog = new OverTimeChartDialog(b_extra, budget, this);
 	QSettings settings;
 	QSize dialog_size = settings.value("OverTimeChart/size", QSize()).toSize();
 	if(!dialog_size.isValid()) {
@@ -3816,7 +3817,7 @@ void Eqonomize::showOverTimeChart() {
 }
 
 void Eqonomize::showCategoriesComparisonChart() {
-	CategoriesComparisonChartDialog *dialog = new CategoriesComparisonChartDialog(budget, 0);	
+	CategoriesComparisonChartDialog *dialog = new CategoriesComparisonChartDialog(budget, this);
 	QSettings settings;
 	QSize dialog_size = settings.value("CategoriesComparisonChart/size", QSize()).toSize();
 	if(!dialog_size.isValid()) {
@@ -4221,7 +4222,7 @@ void Eqonomize::showPrintPreview() {
 		}
 	}
 	
-	QPrintPreviewDialog preview_dialog(this);
+	QPrintPreviewDialog preview_dialog(this, Qt::Window | Qt::WindowMinMaxButtonsHint);
 	connect(&preview_dialog, SIGNAL(paintRequested(QPrinter*)), this, SLOT(printPreviewPaint(QPrinter*)));
 	preview_dialog.exec();
 }
@@ -4388,7 +4389,7 @@ void Eqonomize::setupActions() {
 	fileMenu->addSeparator();
 	NEW_ACTION_3(ActionPrintView, tr("&Print…"), "document-print", QKeySequence::Print, this, SLOT(printView()), "print_view", fileMenu);
 	fileToolbar->addAction(ActionPrintView);
-	NEW_ACTION(ActionPrintPreview, tr("Print Preview…"), "document-print-preview", QKeySequence::Print, this, SLOT(showPrintPreview()), "print_preview", fileMenu);
+	NEW_ACTION(ActionPrintPreview, tr("Print Preview…"), "document-print-preview", 0, this, SLOT(showPrintPreview()), "print_preview", fileMenu);
 	fileToolbar->addAction(ActionPrintPreview);
 	fileMenu->addSeparator();
 	QMenu *importMenu = fileMenu->addMenu(tr("Import"));
@@ -4425,7 +4426,7 @@ void Eqonomize::setupActions() {
 	transactionsToolbar->addAction(ActionNewSplitTransaction);
 	NEW_ACTION_NOMENU(ActionNewRefund, tr("Refund…"), "eqz-income", 0, this, SLOT(newRefund()), "new_refund");
 	NEW_ACTION_NOMENU(ActionNewRepayment, tr("Repayment…"), "eqz-expense", 0, this, SLOT(newRepayment()), "new_repayment");
-	NEW_ACTION(ActionNewRefundRepayment, tr("New Refund/Repayment…"), "document-new", 0, this, SLOT(newRefundRepayment()), "new_refund_repayment", transactionsMenu);
+	NEW_ACTION(ActionNewRefundRepayment, tr("New Refund/Repayment…"), "eqz-refund-repayment", 0, this, SLOT(newRefundRepayment()), "new_refund_repayment", transactionsMenu);
 	transactionsMenu->addSeparator();
 	NEW_ACTION_ALT(ActionEditTransaction, tr("Edit Transaction(s) (Occurrence)…"), "document-edit", "document-open", 0, this, SLOT(editSelectedTransaction()), "edit_transaction", transactionsMenu);
 	NEW_ACTION_NOMENU_ALT(ActionEditOccurrence, tr("Edit Occurrence…"), "document-edit", "document-open", 0, this, SLOT(editOccurrence()), "edit_occurrence");

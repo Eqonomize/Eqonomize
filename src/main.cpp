@@ -37,6 +37,8 @@
 #include <QTextStream>
 #include <QIcon>
 
+#include <locale.h>
+
 #include "budget.h"
 #include "eqonomize.h"
 
@@ -49,6 +51,8 @@ int main(int argc, char **argv) {
 	app.setApplicationDisplayName("Eqonomize!");
 	app.setOrganizationName("Eqonomize");
 	app.setApplicationVersion("0.6");
+	
+	setlocale(LC_MONETARY, "");
 	
 	QTranslator translator;
 	if (translator.load(QLocale(), QLatin1String("eqonomize"), QLatin1String("_"), QLatin1String(TRANSLATIONS_DIR))) {

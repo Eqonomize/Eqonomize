@@ -306,34 +306,38 @@ void CategoriesComparisonChart::nextYear() {
 	toEdit->blockSignals(false);
 	updateDisplay();
 }
-
+#include <QDebug>
 void CategoriesComparisonChart::save() {
 	if(!scene) return;
 	QMimeDatabase db;
 	QString png_filter = db.mimeTypeForName("image/png").filterString();
 	QString gif_filter = db.mimeTypeForName("image/gif").filterString();	
 	QString jpeg_filter = db.mimeTypeForName("image/jpeg").filterString();	
+	QString tiff_filter = db.mimeTypeForName("image/tiff").filterString();
 	QString bmp_filter = db.mimeTypeForName("image/x-bmp").filterString();	
-	QString xbm_filter = db.mimeTypeForName("image/x-xbm").filterString();	
-	QString xpm_filter = db.mimeTypeForName("image/x-xpm").filterString();	
-	QString ppm_filter = db.mimeTypeForName("image/x-portable-pixmap").filterString();		
+	QString eps_filter = db.mimeTypeForName("image/x-eps").filterString();	
 	QString filter = png_filter;
-	if(QImageWriter::supportedImageFormats().contains("GIF")) {
+	QList<QByteArray> image_formats = QImageWriter::supportedImageFormats();
+	if(image_formats.contains("gif")) {
 		filter += ";;";
 		filter += gif_filter;
 	}
-	if(QImageWriter::supportedImageFormats().contains("JPEG")) {
+	if(image_formats.contains("jpeg")) {
 		filter += ";;";
 		filter += jpeg_filter;
 	}
-	filter += ";;";
-	filter += bmp_filter;
-	filter += ";;";
-	filter += xbm_filter;
-	filter += ";;";
-	filter += xpm_filter;
-	filter += ";;";
-	filter += ppm_filter;
+	if(image_formats.contains("tiff")) {
+		filter += ";;";
+		filter += tiff_filter;
+	}
+	if(image_formats.contains("bmp")) {
+		filter += ";;";
+		filter += bmp_filter;
+	}
+	if(image_formats.contains("eps")) {
+		filter += ";;";
+		filter += eps_filter;
+	}
 	QString selected_filter = png_filter;
 	QUrl url = QFileDialog::getSaveFileUrl(this, QString(), QUrl(), filter, &selected_filter);
 	if(url.isEmpty() || !url.isValid()) return;
@@ -356,9 +360,8 @@ void CategoriesComparisonChart::save() {
 	scene->render(&p, QRectF(), rect);
 	if(selected_filter == png_filter) {pixmap.save(&ofile, "PNG");}
 	else if(selected_filter == bmp_filter) {pixmap.save(&ofile, "BMP");}
-	else if(selected_filter == xbm_filter) {pixmap.save(&ofile, "XBM");}
-	else if(selected_filter == xpm_filter) {pixmap.save(&ofile, "XPM");}
-	else if(selected_filter == ppm_filter) {pixmap.save(&ofile, "PPM");}
+	else if(selected_filter == eps_filter) {pixmap.save(&ofile, "EPS");}
+	else if(selected_filter == tiff_filter) {pixmap.save(&ofile, "TIF");}
 	else if(selected_filter == gif_filter) {pixmap.save(&ofile, "GIF");}
 	else if(selected_filter == jpeg_filter) {pixmap.save(&ofile, "JPEG");}
 	else pixmap.save(&ofile);
