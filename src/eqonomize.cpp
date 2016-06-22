@@ -4447,7 +4447,7 @@ void Eqonomize::setupActions() {
 	QMenu *importMenu = fileMenu->addMenu(tr("Import"));
 	NEW_ACTION(ActionImportCSV, tr("Import CSV File…"), "document-import", 0, this, SLOT(importCSV()), "import_csv", importMenu);
 	NEW_ACTION(ActionImportQIF, tr("Import QIF File…"), "document-import", 0, this, SLOT(importQIF()), "import_qif", importMenu);
-	NEW_ACTION(ActionSaveView, tr("Export View…"), "eqz-export", 0, this, SLOT(saveView()), "save_view", fileMenu);
+	NEW_ACTION_ALT(ActionSaveView, tr("Export View…"), "document-export", "eqz-export", 0, this, SLOT(saveView()), "save_view", fileMenu);
 	fileToolbar->addAction(ActionSaveView);
 	NEW_ACTION(ActionExportQIF, tr("Export As QIF File…"), "document-export", 0, this, SLOT(exportQIF()), "export_qif", fileMenu);
 	fileMenu->addSeparator();
@@ -4461,8 +4461,8 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionNewIncomesAccount, tr("New Income Category…"), "eqz-income", 0, this, SLOT(newIncomesAccount()), "new_incomes_account", accountsMenu);
 	NEW_ACTION(ActionNewExpensesAccount, tr("New Expense Category…"), "eqz-expense", 0, this, SLOT(newExpensesAccount()), "new_expenses_account", accountsMenu);
 	accountsMenu->addSeparator();
-	NEW_ACTION_ALT(ActionEditAccount, tr("Edit…"), "document-edit", "document-open", 0, this, SLOT(editAccount()), "edit_account", accountsMenu);
-	NEW_ACTION_2(ActionBalanceAccount, tr("Balance…"), 0, this, SLOT(balanceAccount()), "balance_account", accountsMenu);
+	NEW_ACTION_ALT(ActionEditAccount, tr("Edit…"), "document-edit", "eqz-edit", 0, this, SLOT(editAccount()), "edit_account", accountsMenu);
+	NEW_ACTION(ActionBalanceAccount, tr("Balance…"), "eqz-balance", 0, this, SLOT(balanceAccount()), "balance_account", accountsMenu);
 	accountsMenu->addSeparator();
 	NEW_ACTION(ActionDeleteAccount, tr("Remove"), "edit-delete", 0, this, SLOT(deleteAccount()), "delete_account", accountsMenu);
 	accountsMenu->addSeparator();
@@ -4480,11 +4480,11 @@ void Eqonomize::setupActions() {
 	NEW_ACTION_NOMENU(ActionNewRepayment, tr("Repayment…"), "eqz-expense", 0, this, SLOT(newRepayment()), "new_repayment");
 	NEW_ACTION(ActionNewRefundRepayment, tr("New Refund/Repayment…"), "eqz-refund-repayment", 0, this, SLOT(newRefundRepayment()), "new_refund_repayment", transactionsMenu);
 	transactionsMenu->addSeparator();
-	NEW_ACTION_ALT(ActionEditTransaction, tr("Edit Transaction(s) (Occurrence)…"), "document-edit", "document-open", 0, this, SLOT(editSelectedTransaction()), "edit_transaction", transactionsMenu);
-	NEW_ACTION_NOMENU_ALT(ActionEditOccurrence, tr("Edit Occurrence…"), "document-edit", "document-open", 0, this, SLOT(editOccurrence()), "edit_occurrence");
-	NEW_ACTION_ALT(ActionEditScheduledTransaction, tr("Edit Schedule (Recurrence)…"), "document-edit", "document-open", 0, this, SLOT(editSelectedScheduledTransaction()), "edit_scheduled_transaction", transactionsMenu);
-	NEW_ACTION_NOMENU_ALT(ActionEditSchedule, tr("Edit Schedule…"), "document-edit", "document-open", 0, this, SLOT(editScheduledTransaction()), "edit_schedule");
-	NEW_ACTION_ALT(ActionEditSplitTransaction, tr("Edit Split Transaction…"), "document-edit", "document-open", 0, this, SLOT(editSelectedSplitTransaction()), "edit_split_transaction", transactionsMenu);
+	NEW_ACTION_ALT(ActionEditTransaction, tr("Edit Transaction(s) (Occurrence)…"), "document-edit", "eqz-edit", 0, this, SLOT(editSelectedTransaction()), "edit_transaction", transactionsMenu);
+	NEW_ACTION_NOMENU_ALT(ActionEditOccurrence, tr("Edit Occurrence…"), "document-edit", "eqz-edit", 0, this, SLOT(editOccurrence()), "edit_occurrence");
+	NEW_ACTION_ALT(ActionEditScheduledTransaction, tr("Edit Schedule (Recurrence)…"), "document-edit", "eqz-edit", 0, this, SLOT(editSelectedScheduledTransaction()), "edit_scheduled_transaction", transactionsMenu);
+	NEW_ACTION_NOMENU_ALT(ActionEditSchedule, tr("Edit Schedule…"), "document-edit", "eqz-edit", 0, this, SLOT(editScheduledTransaction()), "edit_schedule");
+	NEW_ACTION_ALT(ActionEditSplitTransaction, tr("Edit Split Transaction…"), "document-edit", "eqz-edit", 0, this, SLOT(editSelectedSplitTransaction()), "edit_split_transaction", transactionsMenu);
 	NEW_ACTION(ActionJoinTransactions, tr("Join Transactions…"), "eqz-join-transactions", 0, this, SLOT(joinSelectedTransactions()), "join_transactions", transactionsMenu);
 	NEW_ACTION(ActionSplitUpTransaction, tr("Split Up Transaction"), "eqz-split-transaction", 0, this, SLOT(splitUpSelectedTransaction()), "split_up_transaction", transactionsMenu);
 	transactionsMenu->addSeparator();
@@ -4495,7 +4495,7 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionDeleteSplitTransaction, tr("Remove Split Transaction"), "edit-delete", 0, this, SLOT(deleteSelectedSplitTransaction()), "delete_split_transaction", transactionsMenu);
 
 	NEW_ACTION(ActionNewSecurity, tr("New Security…"), "document-new", 0, this, SLOT(newSecurity()), "new_security", securitiesMenu);
-	NEW_ACTION_ALT(ActionEditSecurity, tr("Edit Security…"), "document-edit", "document-open", 0, this, SLOT(editSecurity()), "edit_security", securitiesMenu);
+	NEW_ACTION_ALT(ActionEditSecurity, tr("Edit Security…"), "document-edit", "eqz-edit", 0, this, SLOT(editSecurity()), "edit_security", securitiesMenu);
 	NEW_ACTION(ActionDeleteSecurity, tr("Remove Security"), "edit-delete", 0, this, SLOT(deleteSecurity()), "delete_security", securitiesMenu);
 	securitiesMenu->addSeparator();
 	NEW_ACTION(ActionBuyShares, tr("Shares Bought…"), "eqz-income", 0, this, SLOT(buySecurities()), "buy_shares", securitiesMenu);

@@ -117,8 +117,6 @@ unix {
 	appicon22.path = $$ICON_DIR/hicolor/22x22/apps
 	appicon32.files = data/32/eqonomize.png
 	appicon32.path = $$ICON_DIR/hicolor/32x32/apps
-	appicon48.files = data/48/eqonomize.png
-	appicon48.path = $$ICON_DIR/hicolor/48x48/apps
 	appicon64.files = data/64/eqonomize.png
 	appicon64.path = $$ICON_DIR/hicolor/64x64/apps
 	appicon128.files = data/128/eqonomize.png
@@ -151,6 +149,8 @@ unix {
 				data/scalable/eqz-split-transaction.svg \
 				data/scalable/eqz-join-transactions.svg \
 				data/scalable/eqz-export.svg \
+				data/scalable/eqz-edit.svg \
+				data/scalable/eqz-balance.svg \
 				data/scalable/eqz-previous-year.svg \
 				data/scalable/eqz-previous-month.svg \
 				data/scalable/eqz-next-month.svg \
@@ -160,11 +160,117 @@ unix {
 				data/scalable/eqz-categories-report.svg \
 				data/scalable/eqz-overtime-report.svg
 	actioniconssvg.path = $$ICON_DIR/hicolor/scalable/actions
+	actionicons16.files = 	data/16/eqz-account.png \
+				data/16/eqz-expense.png \
+				data/16/eqz-income.png \
+				data/16/eqz-transfer.png \
+				data/16/eqz-refund-repayment.png \
+				data/16/eqz-security.png \
+				data/16/eqz-schedule.png \
+				data/16/eqz-split-transaction.png \
+				data/16/eqz-join-transactions.png \
+				data/16/eqz-export.png \
+				data/16/eqz-edit.png \
+				data/16/eqz-balance.png \
+				data/16/eqz-previous-year.png \
+				data/16/eqz-previous-month.png \
+				data/16/eqz-next-month.png \
+				data/16/eqz-next-year.png \
+				data/16/eqz-categories-chart.png \
+				data/16/eqz-overtime-chart.png \
+				data/16/eqz-categories-report.png \
+				data/16/eqz-overtime-report.png
+	actionicons16.path = $$ICON_DIR/hicolor/16x16/actions
+	actionicons22.files = 	data/22/eqz-account.png \
+				data/22/eqz-expense.png \
+				data/22/eqz-income.png \
+				data/22/eqz-transfer.png \
+				data/22/eqz-refund-repayment.png \
+				data/22/eqz-security.png \
+				data/22/eqz-schedule.png \
+				data/22/eqz-split-transaction.png \
+				data/22/eqz-join-transactions.png \
+				data/22/eqz-export.png \
+				data/22/eqz-edit.png \
+				data/22/eqz-balance.png \
+				data/22/eqz-previous-year.png \
+				data/22/eqz-previous-month.png \
+				data/22/eqz-next-month.png \
+				data/22/eqz-next-year.png \
+				data/22/eqz-categories-chart.png \
+				data/22/eqz-overtime-chart.png \
+				data/22/eqz-categories-report.png \
+				data/22/eqz-overtime-report.png
+	actionicons22.path = $$ICON_DIR/hicolor/22x22/actions
+	actionicons32.files = 	data/32/eqz-account.png \
+				data/32/eqz-expense.png \
+				data/32/eqz-income.png \
+				data/32/eqz-transfer.png \
+				data/32/eqz-refund-repayment.png \
+				data/32/eqz-security.png \
+				data/32/eqz-schedule.png \
+				data/32/eqz-split-transaction.png \
+				data/32/eqz-join-transactions.png \
+				data/32/eqz-export.png \
+				data/32/eqz-edit.png \
+				data/32/eqz-balance.png \
+				data/32/eqz-previous-year.png \
+				data/32/eqz-previous-month.png \
+				data/32/eqz-next-month.png \
+				data/32/eqz-next-year.png \
+				data/32/eqz-categories-chart.png \
+				data/32/eqz-overtime-chart.png \
+				data/32/eqz-categories-report.png \
+				data/32/eqz-overtime-report.png
+	actionicons32.path = $$ICON_DIR/hicolor/32x32/actions
+	actionicons48.files = 	data/48/eqz-account.png \
+				data/48/eqz-expense.png \
+				data/48/eqz-income.png \
+				data/48/eqz-transfer.png \
+				data/48/eqz-refund-repayment.png \
+				data/48/eqz-security.png \
+				data/48/eqz-schedule.png \
+				data/48/eqz-split-transaction.png \
+				data/48/eqz-join-transactions.png \
+				data/48/eqz-export.png \
+				data/48/eqz-edit.png \
+				data/48/eqz-balance.png \
+				data/48/eqz-previous-year.png \
+				data/48/eqz-previous-month.png \
+				data/48/eqz-next-month.png \
+				data/48/eqz-next-year.png \
+				data/48/eqz-categories-chart.png \
+				data/48/eqz-overtime-chart.png \
+				data/48/eqz-categories-report.png \
+				data/48/eqz-overtime-report.png
+	actionicons48.path = $$ICON_DIR/hicolor/48x48/actions
+	actionicons64.files = 	data/64/eqz-account.png \
+				data/64/eqz-expense.png \
+				data/64/eqz-income.png \
+				data/64/eqz-transfer.png \
+				data/64/eqz-refund-repayment.png \
+				data/64/eqz-security.png \
+				data/64/eqz-schedule.png \
+				data/64/eqz-split-transaction.png \
+				data/64/eqz-join-transactions.png \
+				data/64/eqz-export.png \
+				data/64/eqz-edit.png \
+				data/64/eqz-balance.png \
+				data/64/eqz-previous-year.png \
+				data/64/eqz-previous-month.png \
+				data/64/eqz-next-month.png \
+				data/64/eqz-next-year.png \
+				data/64/eqz-categories-chart.png \
+				data/64/eqz-overtime-chart.png \
+				data/64/eqz-categories-report.png \
+				data/64/eqz-overtime-report.png
+	actionicons64.path = $$ICON_DIR/hicolor/64x64/actions
 
 	INSTALLS += 	target qm doc desktop mime \ 
-			appicon16 appicon22 appicon32 appicon48 appicon64 appicon128 appiconsvg \
+			appicon16 appicon22 appicon32 appicon64 appicon128 appiconsvg \
 			mimeicon16 mimeicon22 mimeicon32 mimeicon48 mimeicon64 mimeicon128 mimeiconsvg \
-			actioniconssvg
+			actionicons16 actionicons22 actionicons32 actionicons48 actionicons64 actioniconssvg
 } else {
 	RESOURCES = doc.qrc icons.qrc translations.qrc
 }
+win32: RC_FILE = winicon.rc
