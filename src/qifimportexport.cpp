@@ -53,6 +53,8 @@
 #include <cmath>
 #include <ctime>
 
+extern QString last_document_directory;
+
 ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_parameters) : QWizard(parent), budget(budg), b_extra(extra_parameters) {
 
 	setWindowTitle(tr("Import QIF file"));
@@ -258,41 +260,39 @@ void ImportQIFDialog::onFileChanged(const QString &str) {
 	((QIFWizardPage*) page(0))->setComplete(!str.isEmpty());
 }
 void ImportQIFDialog::selectFile() {
-	QUrl url = QFileDialog::getOpenFileUrl(this, QString(), QUrl::fromLocalFile(fileEdit->text()), "*.qif");
-	if(!url.isEmpty()) fileEdit->setText(url.toLocalFile());
+	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_document_directory + "/" : fileEdit->text().trimmed(), "*.qif");
+	if(!url.isEmpty()) fileEdit->setText(url);
 }
 void ImportQIFDialog::nextClicked() {
 	if(currentId() == 0 || currentId() == 1) {
 		bool b_page1 = (currentId() == 1);
-		QUrl url = QUrl::fromLocalFile(fileEdit->text());
+		QString url = fileEdit->text().trimmed();
 		if(!b_page1) {
 			if(url.isEmpty()) {
 				QMessageBox::critical(this, tr("Error"), tr("A file must be selected."));
 				fileEdit->setFocus();
 				return;
 			}
-			if(!url.isValid()) {
-				QFileInfo info(fileEdit->text());
-				if(info.isDir()) {
-					QMessageBox::critical(this, tr("Error"), tr("Selected file is a directory."));
-					fileEdit->setFocus();
-					return;
-				} else if(!info.exists()) {
-					QMessageBox::critical(this, tr("Error"), tr("Selected file does not exist."));
-					fileEdit->setFocus();
-					return;
-				}
-				fileEdit->setText(info.absoluteFilePath());
-				url = QUrl::fromLocalFile(fileEdit->text());
+			QFileInfo info(url);
+			if(info.isDir()) {
+				QMessageBox::critical(this, tr("Error"), tr("Selected file is a directory."));
+				fileEdit->setFocus();
+				return;
+			} else if(!info.exists()) {
+				QMessageBox::critical(this, tr("Error"), tr("Selected file does not exist."));
+				fileEdit->setFocus();
+				return;
 			}
+			url = info.absoluteFilePath();
+			fileEdit->setText(url);
 		}
 
-		QFile file(url.toLocalFile());
+		QFile file(url);
 		if(!file.open(QIODevice::ReadOnly) ) {
-			QMessageBox::critical(this, tr("Error"), tr("Couldn't open %1 for reading.").arg(url.toString()));
+			QMessageBox::critical(this, tr("Error"), tr("Couldn't open %1 for reading.").arg(url));
 			return;
 		} else if(!file.size()) {
-			QMessageBox::critical(this, tr("Error"), tr("Error reading %1.").arg(url.toString()));
+			QMessageBox::critical(this, tr("Error"), tr("Error reading %1.").arg(url));
 			file.close();
 			return;
 		}
@@ -445,19 +445,23 @@ void ImportQIFDialog::accept() {
 	qi.payee_as_description = payeeAsDescriptionButton->isChecked();
 	qi.memo_as_description = memoAsDescriptionButton->isChecked();
 	qi.description_priority = descriptionPriorityCombo->currentIndex();
-	QUrl url = QUrl::fromLocalFile(fileEdit->text());
+	QString url = fileEdit->text().trimmed();
 	if(url.isEmpty()) {
 		return;
 	}
-	QFile file(url.toLocalFile());
+	QFile file(url);
 	if(!file.open(QIODevice::ReadOnly) ) {
-		QMessageBox::critical(this, tr("Error"), tr("Couldn't open %1 for reading.").arg(url.toString()));
+		QMessageBox::critical(this, tr("Error"), tr("Couldn't open %1 for reading.").arg(url));
 		return;
 	} else if(!file.size()) {
-		QMessageBox::critical(this, tr("Error"), tr("Error reading %1.").arg(url.toString()));
+		QMessageBox::critical(this, tr("Error"), tr("Error reading %1.").arg(url));
 		file.close();
 		return;
 	}
+	
+	QFileInfo fileInfo(url);
+	last_document_directory = fileInfo.absoluteDir().absolutePath();
+	
 	QTextStream fstream(&file);
 	importQIF(fstream, false, qi, budget);
 	file.close();
@@ -576,14 +580,23 @@ void ExportQIFDialog::onFileChanged(const QString &str) {
 	buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!str.isEmpty());
 }
 void ExportQIFDialog::selectFile() {
-	QUrl url = QFileDialog::getSaveFileUrl(this, QString(), QUrl::fromLocalFile(fileEdit->text()), "*.qif");
-	if(!url.isEmpty()) fileEdit->setText(url.toLocalFile());
+	QFileDialog fileDialog(this);
+	fileDialog.setNameFilter("*.qif");
+	fileDialog.setDefaultSuffix("qif");
+	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+	fileDialog.setSupportedSchemes(QStringList("file"));
+	fileDialog.setOption(QFileDialog::DontConfirmOverwrite, true);
+	fileDialog.setDirectory(fileEdit->text().isEmpty() ? last_document_directory + "/" : fileEdit->text().trimmed());
+	if(fileDialog.exec()) {
+		QStringList urls = fileDialog.selectedFiles();
+		if(!urls.isEmpty()) fileEdit->setText(urls[0]);
+	}
 }
 void ExportQIFDialog::accept() {
 	qi.subcategory_as_description = descriptionAsSubcategoryButton->isChecked();
 	qi.payee_as_description = descriptionAsPayeeButton->isChecked();
 	qi.memo_as_description = descriptionAsMemoButton->isChecked();
-	QUrl url = QUrl::fromLocalFile(fileEdit->text());
+	QString url = fileEdit->text().trimmed();
 	if(url.isEmpty()) {
 		return;
 	}
@@ -606,25 +619,18 @@ void ExportQIFDialog::accept() {
 	qi.current_account = account;
 	qi.value_format = valueFormatCombo->currentIndex() + 1;
 	qi.date_format = dateFormatCombo->currentIndex() + 1;
-	if(!url.isValid()) {
-		QFileInfo info(fileEdit->text());
-		if(info.isDir()) {
-			QMessageBox::critical(this, tr("Error"), tr("Selected file is a directory."));
-			fileEdit->setFocus();
-			return;
-		}
-		fileEdit->setText(info.absoluteFilePath());
-		url = QUrl::fromLocalFile(fileEdit->text());
-	}
-	if(QFile::exists(url.toLocalFile())) {
-		if(QMessageBox::warning(this, tr("Overwrite"), tr("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
-	}
-	QFileInfo info(url.toLocalFile());
+	QFileInfo info(url);
 	if(info.isDir()) {
-		QMessageBox::critical(this, tr("Error"), tr("You selected a directory!"));
+		QMessageBox::critical(this, tr("Error"), tr("Selected file is a directory."));
+		fileEdit->setFocus();
 		return;
 	}
-	QSaveFile ofile(url.toLocalFile());
+	url = info.absoluteFilePath();
+	fileEdit->setText(url);
+	if(QFile::exists(url)) {
+		if(QMessageBox::warning(this, tr("Overwrite"), tr("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
+	}
+	QSaveFile ofile(url);
 	ofile.open(QIODevice::WriteOnly);
 	ofile.setPermissions((QFile::Permissions) 0x0660);
 	if(!ofile.isOpen()) {
@@ -632,6 +638,10 @@ void ExportQIFDialog::accept() {
 		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
+	
+	QFileInfo fileInfo(url);
+	last_document_directory = fileInfo.absoluteDir().absolutePath();
+	
 	QTextStream stream(&ofile);
 	exportQIF(stream, qi, budget, true);
 	if(!ofile.commit()) {

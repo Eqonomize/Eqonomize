@@ -3895,7 +3895,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="1872"/>
         <location filename="../src/eqonomize.cpp" line="1918"/>
-        <location filename="../src/eqonomize.cpp" line="4115"/>
+        <location filename="../src/eqonomize.cpp" line="4121"/>
         <source>Incomes</source>
         <translation>Inkomster</translation>
     </message>
@@ -3906,9 +3906,9 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1876"/>
-        <location filename="../src/eqonomize.cpp" line="3972"/>
         <location filename="../src/eqonomize.cpp" line="3978"/>
-        <location filename="../src/eqonomize.cpp" line="4092"/>
+        <location filename="../src/eqonomize.cpp" line="3984"/>
+        <location filename="../src/eqonomize.cpp" line="4098"/>
         <source>Securities</source>
         <translation>Värdepapper</translation>
     </message>
@@ -3946,16 +3946,16 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1917"/>
-        <location filename="../src/eqonomize.cpp" line="4065"/>
-        <location filename="../src/eqonomize.cpp" line="4413"/>
-        <location filename="../src/eqonomize.cpp" line="6320"/>
-        <location filename="../src/eqonomize.cpp" line="6326"/>
+        <location filename="../src/eqonomize.cpp" line="4071"/>
+        <location filename="../src/eqonomize.cpp" line="4430"/>
+        <location filename="../src/eqonomize.cpp" line="6308"/>
+        <location filename="../src/eqonomize.cpp" line="6314"/>
         <source>Accounts</source>
         <translation>Konton</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1924"/>
-        <location filename="../src/eqonomize.cpp" line="4211"/>
+        <location filename="../src/eqonomize.cpp" line="4217"/>
         <source>Includes budgeted transactions</source>
         <translation>Inkluderar budgeterade transaktioner</translation>
     </message>
@@ -3985,25 +3985,25 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1966"/>
-        <location filename="../src/eqonomize.cpp" line="4548"/>
+        <location filename="../src/eqonomize.cpp" line="4564"/>
         <source>Current Month</source>
         <translation>Innevarande månad</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1967"/>
-        <location filename="../src/eqonomize.cpp" line="4549"/>
+        <location filename="../src/eqonomize.cpp" line="4565"/>
         <source>Current Year</source>
         <translation>Innevarande år</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1968"/>
-        <location filename="../src/eqonomize.cpp" line="4550"/>
+        <location filename="../src/eqonomize.cpp" line="4566"/>
         <source>Current Whole Month</source>
         <translation>Hela innevarande månad</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1969"/>
-        <location filename="../src/eqonomize.cpp" line="4551"/>
+        <location filename="../src/eqonomize.cpp" line="4567"/>
         <source>Current Whole Year</source>
         <translation>Hela innevarande år</translation>
     </message>
@@ -4054,7 +4054,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2052"/>
-        <location filename="../src/eqonomize.cpp" line="4519"/>
+        <location filename="../src/eqonomize.cpp" line="4535"/>
         <source>New Security…</source>
         <translation>Nytt värdepapper…</translation>
     </message>
@@ -4065,20 +4065,20 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2057"/>
-        <location filename="../src/eqonomize.cpp" line="4530"/>
+        <location filename="../src/eqonomize.cpp" line="4546"/>
         <source>Set Quotation…</source>
         <translation>Ange kurs…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2069"/>
         <location filename="../src/eqonomize.cpp" line="2167"/>
-        <location filename="../src/eqonomize.cpp" line="4068"/>
+        <location filename="../src/eqonomize.cpp" line="4074"/>
         <source>Name</source>
         <translation>Namn</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2070"/>
-        <location filename="../src/eqonomize.cpp" line="4220"/>
+        <location filename="../src/eqonomize.cpp" line="4226"/>
         <source>Value</source>
         <translation>Värde</translation>
     </message>
@@ -4110,7 +4110,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="2076"/>
         <location filename="../src/eqonomize.cpp" line="2166"/>
-        <location filename="../src/eqonomize.cpp" line="4069"/>
+        <location filename="../src/eqonomize.cpp" line="4075"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
@@ -4136,8 +4136,8 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2155"/>
-        <location filename="../src/eqonomize.cpp" line="4489"/>
-        <location filename="../src/eqonomize.cpp" line="5306"/>
+        <location filename="../src/eqonomize.cpp" line="4505"/>
+        <location filename="../src/eqonomize.cpp" line="5294"/>
         <source>Remove</source>
         <translation>Ta bort</translation>
     </message>
@@ -4212,25 +4212,25 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <location filename="../src/eqonomize.cpp" line="3482"/>
         <location filename="../src/eqonomize.cpp" line="3503"/>
         <location filename="../src/eqonomize.cpp" line="3507"/>
-        <location filename="../src/eqonomize.cpp" line="3713"/>
-        <location filename="../src/eqonomize.cpp" line="4253"/>
-        <location filename="../src/eqonomize.cpp" line="4258"/>
-        <location filename="../src/eqonomize.cpp" line="4263"/>
-        <location filename="../src/eqonomize.cpp" line="4268"/>
-        <location filename="../src/eqonomize.cpp" line="4273"/>
-        <location filename="../src/eqonomize.cpp" line="4285"/>
-        <location filename="../src/eqonomize.cpp" line="4290"/>
-        <location filename="../src/eqonomize.cpp" line="4295"/>
-        <location filename="../src/eqonomize.cpp" line="4300"/>
-        <location filename="../src/eqonomize.cpp" line="4305"/>
-        <location filename="../src/eqonomize.cpp" line="4333"/>
-        <location filename="../src/eqonomize.cpp" line="4338"/>
-        <location filename="../src/eqonomize.cpp" line="4343"/>
-        <location filename="../src/eqonomize.cpp" line="4348"/>
-        <location filename="../src/eqonomize.cpp" line="4353"/>
-        <location filename="../src/eqonomize.cpp" line="4369"/>
-        <location filename="../src/eqonomize.cpp" line="4375"/>
-        <location filename="../src/eqonomize.cpp" line="4705"/>
+        <location filename="../src/eqonomize.cpp" line="3719"/>
+        <location filename="../src/eqonomize.cpp" line="4259"/>
+        <location filename="../src/eqonomize.cpp" line="4264"/>
+        <location filename="../src/eqonomize.cpp" line="4269"/>
+        <location filename="../src/eqonomize.cpp" line="4274"/>
+        <location filename="../src/eqonomize.cpp" line="4279"/>
+        <location filename="../src/eqonomize.cpp" line="4291"/>
+        <location filename="../src/eqonomize.cpp" line="4296"/>
+        <location filename="../src/eqonomize.cpp" line="4301"/>
+        <location filename="../src/eqonomize.cpp" line="4306"/>
+        <location filename="../src/eqonomize.cpp" line="4311"/>
+        <location filename="../src/eqonomize.cpp" line="4339"/>
+        <location filename="../src/eqonomize.cpp" line="4344"/>
+        <location filename="../src/eqonomize.cpp" line="4349"/>
+        <location filename="../src/eqonomize.cpp" line="4354"/>
+        <location filename="../src/eqonomize.cpp" line="4359"/>
+        <location filename="../src/eqonomize.cpp" line="4386"/>
+        <location filename="../src/eqonomize.cpp" line="4392"/>
+        <location filename="../src/eqonomize.cpp" line="4721"/>
         <source>Error</source>
         <translation>Fel</translation>
     </message>
@@ -4294,8 +4294,8 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="2765"/>
         <location filename="../src/eqonomize.cpp" line="2825"/>
-        <location filename="../src/eqonomize.cpp" line="3639"/>
-        <location filename="../src/eqonomize.cpp" line="3644"/>
+        <location filename="../src/eqonomize.cpp" line="3645"/>
+        <location filename="../src/eqonomize.cpp" line="3650"/>
         <source>Other</source>
         <translation>Övrigt</translation>
     </message>
@@ -4317,304 +4317,304 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Startdatum är efter slutdatum.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3635"/>
-        <location filename="../src/eqonomize.cpp" line="4093"/>
+        <location filename="../src/eqonomize.cpp" line="3641"/>
+        <location filename="../src/eqonomize.cpp" line="4099"/>
         <source>Cash</source>
         <translation>Kontanter</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3636"/>
+        <location filename="../src/eqonomize.cpp" line="3642"/>
         <source>Check Account</source>
         <translation>Transaktionskonto</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3637"/>
-        <location filename="../src/eqonomize.cpp" line="4089"/>
+        <location filename="../src/eqonomize.cpp" line="3643"/>
+        <location filename="../src/eqonomize.cpp" line="4095"/>
         <source>Savings Account</source>
         <translation>Sparkonto</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3638"/>
+        <location filename="../src/eqonomize.cpp" line="3644"/>
         <source>Salary</source>
         <translation>Lön</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3640"/>
+        <location filename="../src/eqonomize.cpp" line="3646"/>
         <source>Bills</source>
         <translation>Räkningar</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3641"/>
+        <location filename="../src/eqonomize.cpp" line="3647"/>
         <source>Clothing</source>
         <translation>Kläder</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3642"/>
+        <location filename="../src/eqonomize.cpp" line="3648"/>
         <source>Groceries</source>
         <translation>Livsmedel</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3643"/>
+        <location filename="../src/eqonomize.cpp" line="3649"/>
         <source>Leisure</source>
         <translation>Nöje</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3709"/>
-        <location filename="../src/eqonomize.cpp" line="4699"/>
+        <location filename="../src/eqonomize.cpp" line="3715"/>
+        <location filename="../src/eqonomize.cpp" line="4715"/>
         <source>Couldn&apos;t open file</source>
         <translation>Kunde inte öppna fil</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3709"/>
-        <location filename="../src/eqonomize.cpp" line="4699"/>
+        <location filename="../src/eqonomize.cpp" line="3715"/>
+        <location filename="../src/eqonomize.cpp" line="4715"/>
         <source>Error loading %1: %2.</source>
         <translation>Fel vid läsande av %1: %2.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3751"/>
+        <location filename="../src/eqonomize.cpp" line="3757"/>
         <source>Couldn&apos;t save file</source>
         <translation>Kunde inte spara fil</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3751"/>
+        <location filename="../src/eqonomize.cpp" line="3757"/>
         <source>Error saving %1: %2.</source>
         <translation>Fel vid sparande av %1: %2.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3904"/>
         <location filename="../src/eqonomize.cpp" line="3910"/>
+        <location filename="../src/eqonomize.cpp" line="3916"/>
         <source>Transaction Schedule</source>
         <translation>Planerade transaktioner</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4013"/>
-        <location filename="../src/eqonomize.cpp" line="4102"/>
-        <location filename="../src/eqonomize.cpp" line="4147"/>
-        <location filename="../src/eqonomize.cpp" line="4195"/>
+        <location filename="../src/eqonomize.cpp" line="4019"/>
+        <location filename="../src/eqonomize.cpp" line="4108"/>
+        <location filename="../src/eqonomize.cpp" line="4153"/>
+        <location filename="../src/eqonomize.cpp" line="4201"/>
         <source>Total</source>
         <translation>Summa</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4057"/>
+        <location filename="../src/eqonomize.cpp" line="4063"/>
         <source>Accounts &amp;amp; Categories</source>
         <comment>html format</comment>
         <translation>Konton &amp;amp; kategorier</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4062"/>
+        <location filename="../src/eqonomize.cpp" line="4068"/>
         <source>Accounts &amp;amp; Categories (%1&amp;ndash;%2)</source>
         <comment>html format</comment>
         <translation>Konton &amp;amp; kategorier (%1 &amp;ndash; %2)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4063"/>
+        <location filename="../src/eqonomize.cpp" line="4069"/>
         <source>Accounts &amp;amp; Categories (to %1)</source>
         <comment>html format</comment>
         <translation>Konton &amp;amp; kategorier (till %1)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4070"/>
-        <location filename="../src/eqonomize.cpp" line="4121"/>
-        <location filename="../src/eqonomize.cpp" line="4169"/>
-        <location filename="../src/eqonomize.cpp" line="4220"/>
+        <location filename="../src/eqonomize.cpp" line="4076"/>
+        <location filename="../src/eqonomize.cpp" line="4127"/>
+        <location filename="../src/eqonomize.cpp" line="4175"/>
+        <location filename="../src/eqonomize.cpp" line="4226"/>
         <source>Change</source>
         <translation>Ändra</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4074"/>
+        <location filename="../src/eqonomize.cpp" line="4080"/>
         <source>Balance</source>
         <translation>Balans</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4088"/>
+        <location filename="../src/eqonomize.cpp" line="4094"/>
         <source>Current Account</source>
         <translation>Transaktionskonto</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4090"/>
+        <location filename="../src/eqonomize.cpp" line="4096"/>
         <source>Credit Card</source>
         <translation>Kreditkort</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4091"/>
+        <location filename="../src/eqonomize.cpp" line="4097"/>
         <source>Liabilities</source>
         <translation>Skulder</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4118"/>
-        <location filename="../src/eqonomize.cpp" line="4166"/>
+        <location filename="../src/eqonomize.cpp" line="4124"/>
+        <location filename="../src/eqonomize.cpp" line="4172"/>
         <source>Category</source>
         <translation>Kategori</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4119"/>
-        <location filename="../src/eqonomize.cpp" line="4167"/>
+        <location filename="../src/eqonomize.cpp" line="4125"/>
+        <location filename="../src/eqonomize.cpp" line="4173"/>
         <source>Budget</source>
         <translation>Budget</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4120"/>
-        <location filename="../src/eqonomize.cpp" line="4168"/>
+        <location filename="../src/eqonomize.cpp" line="4126"/>
+        <location filename="../src/eqonomize.cpp" line="4174"/>
         <source>Remaining Budget</source>
         <translation>Återstående budget</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4122"/>
+        <location filename="../src/eqonomize.cpp" line="4128"/>
         <source>Total Incomes</source>
         <translation>Totala inkomster</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4163"/>
+        <location filename="../src/eqonomize.cpp" line="4169"/>
         <source>Costs</source>
         <translation>Kostnader</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4170"/>
+        <location filename="../src/eqonomize.cpp" line="4176"/>
         <source>Total Expenses</source>
         <translation>Totala utgifter</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4220"/>
+        <location filename="../src/eqonomize.cpp" line="4226"/>
         <source>Account/Category</source>
         <translation>Konto/kategori</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4253"/>
-        <location filename="../src/eqonomize.cpp" line="4285"/>
-        <location filename="../src/eqonomize.cpp" line="4333"/>
+        <location filename="../src/eqonomize.cpp" line="4259"/>
+        <location filename="../src/eqonomize.cpp" line="4291"/>
+        <location filename="../src/eqonomize.cpp" line="4339"/>
         <source>Empty expenses list.</source>
         <translation>Tom utgiftslista.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4258"/>
-        <location filename="../src/eqonomize.cpp" line="4290"/>
-        <location filename="../src/eqonomize.cpp" line="4338"/>
+        <location filename="../src/eqonomize.cpp" line="4264"/>
+        <location filename="../src/eqonomize.cpp" line="4296"/>
+        <location filename="../src/eqonomize.cpp" line="4344"/>
         <source>Empty incomes list.</source>
         <translation>Tom inkomstlista.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4263"/>
-        <location filename="../src/eqonomize.cpp" line="4295"/>
-        <location filename="../src/eqonomize.cpp" line="4343"/>
+        <location filename="../src/eqonomize.cpp" line="4269"/>
+        <location filename="../src/eqonomize.cpp" line="4301"/>
+        <location filename="../src/eqonomize.cpp" line="4349"/>
         <source>Empty transfers list.</source>
         <translation>Tom överföringslista.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4268"/>
-        <location filename="../src/eqonomize.cpp" line="4300"/>
-        <location filename="../src/eqonomize.cpp" line="4348"/>
+        <location filename="../src/eqonomize.cpp" line="4274"/>
+        <location filename="../src/eqonomize.cpp" line="4306"/>
+        <location filename="../src/eqonomize.cpp" line="4354"/>
         <source>Empty securities list.</source>
         <translation>Tom värdepapperslista.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4273"/>
-        <location filename="../src/eqonomize.cpp" line="4305"/>
-        <location filename="../src/eqonomize.cpp" line="4353"/>
+        <location filename="../src/eqonomize.cpp" line="4279"/>
+        <location filename="../src/eqonomize.cpp" line="4311"/>
+        <location filename="../src/eqonomize.cpp" line="4359"/>
         <source>Empty schedule list.</source>
         <translation>Inga planerade transaktioner i listan.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4369"/>
+        <location filename="../src/eqonomize.cpp" line="4386"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation>Kunde inte öppna och skriva till filen.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4375"/>
+        <location filename="../src/eqonomize.cpp" line="4392"/>
         <source>Error while writing file; file was not saved.</source>
         <translation>Fel vid skrivande av fil; filen sparades inte.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4401"/>
+        <location filename="../src/eqonomize.cpp" line="4418"/>
         <source>&amp;File</source>
         <translation>&amp;Arkiv</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4402"/>
+        <location filename="../src/eqonomize.cpp" line="4419"/>
         <source>&amp;Accounts</source>
         <translation>&amp;Konton</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4403"/>
+        <location filename="../src/eqonomize.cpp" line="4420"/>
         <source>&amp;Transactions</source>
         <translation>&amp;Transaktioner</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4404"/>
+        <location filename="../src/eqonomize.cpp" line="4421"/>
         <source>&amp;Securities</source>
         <translation>&amp;Värdepapper</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4405"/>
+        <location filename="../src/eqonomize.cpp" line="4422"/>
         <source>Stat&amp;istics</source>
         <translation>Stat&amp;istik</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4406"/>
+        <location filename="../src/eqonomize.cpp" line="4423"/>
         <source>S&amp;ettings</source>
         <translation>I&amp;nställningar</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4407"/>
+        <location filename="../src/eqonomize.cpp" line="4424"/>
         <source>&amp;Help</source>
         <translation>&amp;Hjälp</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4409"/>
+        <location filename="../src/eqonomize.cpp" line="4426"/>
         <source>File</source>
         <translation>Arkiv</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4417"/>
+        <location filename="../src/eqonomize.cpp" line="4434"/>
         <source>Transactions</source>
         <translation>Transaktioner</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4421"/>
+        <location filename="../src/eqonomize.cpp" line="4438"/>
         <source>Statistics</source>
         <translation>Statistik</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4426"/>
+        <location filename="../src/eqonomize.cpp" line="4443"/>
         <source>&amp;New</source>
         <translation>&amp;Ny</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4428"/>
+        <location filename="../src/eqonomize.cpp" line="4445"/>
         <source>&amp;Open…</source>
         <translation>&amp;Öppna…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4430"/>
+        <location filename="../src/eqonomize.cpp" line="4447"/>
         <source>Open Recent</source>
         <translation>Öppna senaste</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4440"/>
+        <location filename="../src/eqonomize.cpp" line="4457"/>
         <source>Clear List</source>
         <translation>Rensa lista</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4442"/>
+        <location filename="../src/eqonomize.cpp" line="4459"/>
         <source>&amp;Save</source>
         <translation>&amp;Spara</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4444"/>
+        <location filename="../src/eqonomize.cpp" line="4461"/>
         <source>Save As…</source>
         <translation>Spara som…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4445"/>
+        <location filename="../src/eqonomize.cpp" line="4462"/>
         <source>&amp;Revert</source>
         <translation>&amp;Återställ</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4447"/>
+        <location filename="../src/eqonomize.cpp" line="4464"/>
         <source>&amp;Print…</source>
         <translation>Skriv &amp;ut...</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4449"/>
+        <location filename="../src/eqonomize.cpp" line="4466"/>
         <source>Print Preview…</source>
         <translation>Förhandsgranskning…</translation>
     </message>
@@ -4623,161 +4623,159 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation type="vanished">Skriv &amp;ut visning…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4452"/>
+        <location filename="../src/eqonomize.cpp" line="4469"/>
         <source>Import</source>
         <translation>Importera</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4453"/>
+        <location filename="../src/eqonomize.cpp" line="4470"/>
         <source>Import CSV File…</source>
         <translation>Importera CSV-fil…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4454"/>
+        <location filename="../src/eqonomize.cpp" line="4471"/>
         <source>Import QIF File…</source>
         <translation>Importera QIF-fil…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4455"/>
+        <location filename="../src/eqonomize.cpp" line="4472"/>
         <source>Export View…</source>
-        <translation>Exportera visning…</translation>
+        <translation>Exportera vy…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4457"/>
+        <location filename="../src/eqonomize.cpp" line="4474"/>
         <source>Export As QIF File…</source>
         <translation>Exportera QIF-fil…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4462"/>
+        <location filename="../src/eqonomize.cpp" line="4479"/>
         <source>&amp;Quit</source>
         <translation>&amp;Avsluta</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4464"/>
-        <location filename="../src/eqonomize.cpp" line="4468"/>
+        <location filename="../src/eqonomize.cpp" line="4481"/>
+        <location filename="../src/eqonomize.cpp" line="4485"/>
         <source>Add Account…</source>
         <translation>Lägg till konto…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4465"/>
-        <location filename="../src/eqonomize.cpp" line="4478"/>
+        <location filename="../src/eqonomize.cpp" line="4482"/>
         <source>New Account…</source>
         <translation>Nytt konto…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4466"/>
+        <location filename="../src/eqonomize.cpp" line="4483"/>
         <source>New Income Category…</source>
         <translation>Ny inkomstkategori…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4467"/>
+        <location filename="../src/eqonomize.cpp" line="4484"/>
         <source>New Expense Category…</source>
         <translation>Ny utgiftskategori…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4470"/>
-        <location filename="../src/eqonomize.cpp" line="4482"/>
+        <location filename="../src/eqonomize.cpp" line="4486"/>
         <source>Add Account</source>
         <translation>Lägg till konto</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4486"/>
+        <location filename="../src/eqonomize.cpp" line="4502"/>
         <source>Edit…</source>
         <translation>Redigera…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4487"/>
+        <location filename="../src/eqonomize.cpp" line="4503"/>
         <source>Balance…</source>
         <translation>Balansera…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4491"/>
+        <location filename="../src/eqonomize.cpp" line="4507"/>
         <source>Show Transactions</source>
         <translation>Visa transaktioner</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4493"/>
+        <location filename="../src/eqonomize.cpp" line="4509"/>
         <source>New Expense…</source>
         <translation>Ny utgift…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4495"/>
+        <location filename="../src/eqonomize.cpp" line="4511"/>
         <source>New Income…</source>
         <translation>Ny inkomst…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4497"/>
+        <location filename="../src/eqonomize.cpp" line="4513"/>
         <source>New Transfer…</source>
         <translation>Ny överföring…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4499"/>
+        <location filename="../src/eqonomize.cpp" line="4515"/>
         <source>New Split Transaction…</source>
         <translation>Ny delad transaktion…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4501"/>
+        <location filename="../src/eqonomize.cpp" line="4517"/>
         <source>Refund…</source>
         <translation>Återbetalning…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4502"/>
+        <location filename="../src/eqonomize.cpp" line="4518"/>
         <source>Repayment…</source>
         <translation>Återbetalning…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4503"/>
+        <location filename="../src/eqonomize.cpp" line="4519"/>
         <source>New Refund/Repayment…</source>
         <translation>Ny återbetalning…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4505"/>
+        <location filename="../src/eqonomize.cpp" line="4521"/>
         <source>Edit Transaction(s) (Occurrence)…</source>
         <translation>Redigera transaktion(er) (tillfälle)…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4506"/>
+        <location filename="../src/eqonomize.cpp" line="4522"/>
         <source>Edit Occurrence…</source>
         <translation>Redigera tillfället…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4507"/>
+        <location filename="../src/eqonomize.cpp" line="4523"/>
         <source>Edit Schedule (Recurrence)…</source>
         <translation>Redigera planering (återkomster)…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4508"/>
+        <location filename="../src/eqonomize.cpp" line="4524"/>
         <source>Edit Schedule…</source>
         <translation>Redigera planering…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4509"/>
+        <location filename="../src/eqonomize.cpp" line="4525"/>
         <source>Edit Split Transaction…</source>
         <translation>Redigera delad transaktion…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4510"/>
+        <location filename="../src/eqonomize.cpp" line="4526"/>
         <source>Join Transactions…</source>
         <translation>Sammanslå transaktioner…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4560"/>
-        <location filename="../src/eqonomize.cpp" line="4678"/>
+        <location filename="../src/eqonomize.cpp" line="4576"/>
+        <location filename="../src/eqonomize.cpp" line="4694"/>
         <source>About %1</source>
         <translation>Om %1</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4678"/>
+        <location filename="../src/eqonomize.cpp" line="4694"/>
         <source>A personal accounting program</source>
         <translation>Ett bokföringsprogram</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4678"/>
+        <location filename="../src/eqonomize.cpp" line="4694"/>
         <source>License: GNU General Public License Version 2</source>
         <translation>Licens: GNU General Public License Version 2</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4695"/>
+        <location filename="../src/eqonomize.cpp" line="4711"/>
         <source>%1 exited unexpectedly before the file was saved and data was lost.
 Do you want to load the last auto-saved version of the file?</source>
         <translation>%1 avslutades oväntat innan filen sparades och data förlorades.
@@ -4795,107 +4793,107 @@ Vill du öppna den senast automatiskt sparade versionen av filen?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4511"/>
+        <location filename="../src/eqonomize.cpp" line="4527"/>
         <source>Split Up Transaction</source>
         <translation>Dela upp transaktionen</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4513"/>
+        <location filename="../src/eqonomize.cpp" line="4529"/>
         <source>Remove Transaction(s) (Occurrence)</source>
         <translation>Ta bort transaktion(er) (tillfälle)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4514"/>
+        <location filename="../src/eqonomize.cpp" line="4530"/>
         <source>Remove Occurrence</source>
         <translation>Ta bort tillfället</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4515"/>
+        <location filename="../src/eqonomize.cpp" line="4531"/>
         <source>Delete Schedule (Recurrence)</source>
         <translation>Ta bort planering (återkomster)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4516"/>
+        <location filename="../src/eqonomize.cpp" line="4532"/>
         <source>Delete Schedule</source>
         <translation>Avlägsna planering</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4517"/>
+        <location filename="../src/eqonomize.cpp" line="4533"/>
         <source>Remove Split Transaction</source>
         <translation>Ta bort delad transaktion</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4520"/>
+        <location filename="../src/eqonomize.cpp" line="4536"/>
         <source>Edit Security…</source>
         <translation>Redigera värdepapper…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4521"/>
+        <location filename="../src/eqonomize.cpp" line="4537"/>
         <source>Remove Security</source>
         <translation>Avlägsna värdepappret</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4523"/>
+        <location filename="../src/eqonomize.cpp" line="4539"/>
         <source>Shares Bought…</source>
         <translation>Andelar köpta…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4524"/>
+        <location filename="../src/eqonomize.cpp" line="4540"/>
         <source>Shares Sold…</source>
         <translation>Andelar sålda…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4525"/>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
         <source>Shares Moved…</source>
         <translation>Andelar flyttade…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4526"/>
+        <location filename="../src/eqonomize.cpp" line="4542"/>
         <source>Dividend…</source>
         <translation>Utdelning…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4527"/>
+        <location filename="../src/eqonomize.cpp" line="4543"/>
         <source>Reinvested Dividend…</source>
         <translation>Återinvesterad utdelning…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4528"/>
+        <location filename="../src/eqonomize.cpp" line="4544"/>
         <source>Transactions…</source>
         <translation>Transaktioner…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4531"/>
+        <location filename="../src/eqonomize.cpp" line="4547"/>
         <source>Edit Quotations…</source>
         <translation>Redigera kursangivelser…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4533"/>
+        <location filename="../src/eqonomize.cpp" line="4549"/>
         <source>Development Over Time Report…</source>
         <translation>Rapport med utveckling över tid…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4535"/>
+        <location filename="../src/eqonomize.cpp" line="4551"/>
         <source>Categories Comparison Report…</source>
         <translation>Rapport för jämförelse av kategorier…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4537"/>
+        <location filename="../src/eqonomize.cpp" line="4553"/>
         <source>Development Over Time Chart…</source>
         <translation>Diagram med utveckling över tid…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4539"/>
+        <location filename="../src/eqonomize.cpp" line="4555"/>
         <source>Categories Comparison Chart…</source>
         <translation>Diagram för jämförelse av kategorier…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4542"/>
+        <location filename="../src/eqonomize.cpp" line="4558"/>
         <source>Use Additional Transaction Properties</source>
         <translation>Använd ytterligare egenskaper för transaktioner</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4545"/>
+        <location filename="../src/eqonomize.cpp" line="4561"/>
         <source>Initial Period</source>
         <translation>Initialt vald period</translation>
     </message>
@@ -4908,18 +4906,18 @@ Vill du öppna den senast automatiskt sparade versionen av filen?</translation>
         <translation type="vanished">Hela innevarande år</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4552"/>
+        <location filename="../src/eqonomize.cpp" line="4568"/>
         <source>Remember Last Dates</source>
         <translation>Kom ihåg senaste datum</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4555"/>
-        <location filename="../src/eqonomize.cpp" line="4652"/>
+        <location filename="../src/eqonomize.cpp" line="4571"/>
+        <location filename="../src/eqonomize.cpp" line="4668"/>
         <source>Help</source>
         <translation>Hjälp</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4558"/>
+        <location filename="../src/eqonomize.cpp" line="4574"/>
         <source>Report Bug</source>
         <translation>Rapportera fel</translation>
     </message>
@@ -4928,7 +4926,7 @@ Vill du öppna den senast automatiskt sparade versionen av filen?</translation>
         <translation type="vanished">Om Eqonomize!</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4561"/>
+        <location filename="../src/eqonomize.cpp" line="4577"/>
         <source>About Qt</source>
         <translation>Om Qt</translation>
     </message>
@@ -4941,7 +4939,7 @@ Vill du öppna den senast automatiskt sparade versionen av filen?</translation>
         <translation type="vanished">&lt;font size=+2&gt;&lt;b&gt;Eqonomize! v0.6&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;font size=+1&gt;Ett bokföringsprogram&lt;/font&gt;&lt;br&gt;&lt;&lt;font size=+1&gt;&lt;i&gt;&lt;a href=&quot;http://eqonomize.github.io/&quot;&gt;http://eqonomize.github.io/&lt;/a&gt;&lt;/i&gt;&lt;/font&gt;&lt;br&gt;&lt;br&gt;© 2006-2008, 2014, 2016 Hanna Knutsson&lt;br&gt;License: GNU General Public License Version 2</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4695"/>
+        <location filename="../src/eqonomize.cpp" line="4711"/>
         <source>Crash Recovery</source>
         <translation>Krashåterhämtning</translation>
     </message>
@@ -4952,151 +4950,154 @@ Do you want to load the last auto-saved version of the file?</source>
 Vill du öppna den senast automatiskt sparade versionen av filen?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4879"/>
+        <location filename="../src/eqonomize.cpp" line="3628"/>
         <source>Untitled</source>
         <translation>Namnlös</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4946"/>
-        <location filename="../src/eqonomize.cpp" line="4947"/>
+        <location filename="../src/eqonomize.cpp" line="4903"/>
+        <source>Eqonomize! Accounting File</source>
+        <translation>Eqonomize! bokföringsfil</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4949"/>
         <source>Save file?</source>
         <translation>Spara fil?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4946"/>
-        <location filename="../src/eqonomize.cpp" line="4947"/>
+        <location filename="../src/eqonomize.cpp" line="4949"/>
         <source>The current file has been modified. Do you want to save it?</source>
         <translation>Den nuvarande filen har ändrats. Vill du spara den?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4989"/>
+        <location filename="../src/eqonomize.cpp" line="4976"/>
         <source>Confirm Schedule</source>
         <translation>Bekräfta planerade transaktioner</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5043"/>
+        <location filename="../src/eqonomize.cpp" line="5031"/>
         <source>New Account</source>
         <translation>Nytt konto</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5058"/>
+        <location filename="../src/eqonomize.cpp" line="5046"/>
         <source>New Income Category</source>
         <translation>Ny inkomstkategori</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5071"/>
+        <location filename="../src/eqonomize.cpp" line="5059"/>
         <source>New Expense Category</source>
         <translation>Ny utgiftskategori</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5146"/>
+        <location filename="../src/eqonomize.cpp" line="5134"/>
         <source>Balance Account</source>
         <translation>Balansera konto</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5151"/>
+        <location filename="../src/eqonomize.cpp" line="5139"/>
         <source>Book value:</source>
         <translation>Bokfört värde:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5155"/>
+        <location filename="../src/eqonomize.cpp" line="5143"/>
         <source>of which %1 is balanced</source>
         <translation>varav %1 är balanserade</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5158"/>
+        <location filename="../src/eqonomize.cpp" line="5146"/>
         <source>Real value:</source>
         <translation>Verkligt värde:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5187"/>
+        <location filename="../src/eqonomize.cpp" line="5175"/>
         <source>Edit Account</source>
         <translation>Redigera konto</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5220"/>
+        <location filename="../src/eqonomize.cpp" line="5208"/>
         <source>Edit Income Category</source>
         <translation>Redigera inkomstkategori</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5238"/>
+        <location filename="../src/eqonomize.cpp" line="5226"/>
         <source>Edit Expense Category</source>
         <translation>Redigera utgiftskategori</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5299"/>
+        <location filename="../src/eqonomize.cpp" line="5287"/>
         <source>Move transactions?</source>
         <translation>Flytta transaktioner?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5308"/>
+        <location filename="../src/eqonomize.cpp" line="5296"/>
         <source>Move to:</source>
         <translation>Flytta till:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5315"/>
+        <location filename="../src/eqonomize.cpp" line="5303"/>
         <source>The category contains some expenses.
 What do you want to do with them?</source>
         <translation>Kategorin innehåller en del utgifter.
 Vad vill du göra med dem?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5327"/>
+        <location filename="../src/eqonomize.cpp" line="5315"/>
         <source>The category contains some incomes.
 What do you want to do with them?</source>
         <translation>Kategorin innehåller en del inkomster.
 Vad vill du göra med dem?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5339"/>
+        <location filename="../src/eqonomize.cpp" line="5327"/>
         <source>The account contains some transactions.
 What do you want to do with them?</source>
         <translation>Kategorin innehåller en del transaktioner.
 Vad vill du göra med dem?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5367"/>
-        <location filename="../src/eqonomize.cpp" line="5368"/>
+        <location filename="../src/eqonomize.cpp" line="5355"/>
+        <location filename="../src/eqonomize.cpp" line="5356"/>
         <source>Remove Category?</source>
         <translation>Ta bort kategorin?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5367"/>
+        <location filename="../src/eqonomize.cpp" line="5355"/>
         <source>The category contains some expenses that will be removed. Do you still want to remove the category?</source>
         <translation>Kategorin innehåller en del utgifter som kommer att avlägsnas. Vill du ändå ta bort kategorin?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5368"/>
+        <location filename="../src/eqonomize.cpp" line="5356"/>
         <source>The category contains some incomes that will be removed. Do you still want to remove the category?</source>
         <translation>Kategorin innehåller en del inkomster som kommer att avlägsnas. Vill du ändå ta bort kategorin?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5369"/>
+        <location filename="../src/eqonomize.cpp" line="5357"/>
         <source>Remove Account?</source>
         <translation>Ta bort kontot?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5369"/>
+        <location filename="../src/eqonomize.cpp" line="5357"/>
         <source>The account contains some transactions that will be removed. Do you still want to remove the account?</source>
         <translation>Kontot innehåller en del transaktioner som kommer att avlägsnas. Vill du ändå ta bort kontot?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5885"/>
-        <location filename="../src/eqonomize.cpp" line="5909"/>
-        <location filename="../src/eqonomize.cpp" line="6083"/>
+        <location filename="../src/eqonomize.cpp" line="5873"/>
+        <location filename="../src/eqonomize.cpp" line="5897"/>
+        <location filename="../src/eqonomize.cpp" line="6071"/>
         <source>%2 of %1</source>
         <comment>%1: budget; %2: remaining budget</comment>
         <translation>%2 av %1</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6162"/>
-        <location filename="../src/eqonomize.cpp" line="6186"/>
+        <location filename="../src/eqonomize.cpp" line="6150"/>
+        <location filename="../src/eqonomize.cpp" line="6174"/>
         <source>%1 (with no budget)</source>
         <translation>%1 (utan någon budget)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6163"/>
-        <location filename="../src/eqonomize.cpp" line="6187"/>
+        <location filename="../src/eqonomize.cpp" line="6151"/>
+        <location filename="../src/eqonomize.cpp" line="6175"/>
         <source>%1 (with budget %2)</source>
         <translation>%1 (med budget %2)</translation>
     </message>
@@ -6693,27 +6694,27 @@ Vad vill du göra med dem?</translation>
 <context>
     <name>QApplication</name>
     <message>
-        <location filename="../src/main.cpp" line="63"/>
+        <location filename="../src/main.cpp" line="64"/>
         <source>Start with expenses list displayed</source>
         <translation>Starta med utgiftslistan visad</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="65"/>
+        <location filename="../src/main.cpp" line="66"/>
         <source>Start with incomes list displayed</source>
         <translation>Starta med inkomstslistan visad</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="67"/>
+        <location filename="../src/main.cpp" line="68"/>
         <source>Start with transfers list displayed</source>
         <translation>Starta med överföringslistan visad</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="69"/>
+        <location filename="../src/main.cpp" line="70"/>
         <source>Document to open</source>
         <translation>Dokument att öppna</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="84"/>
+        <location filename="../src/main.cpp" line="85"/>
         <source>%1 is already running.</source>
         <translation>%1 körs redan.</translation>
     </message>

@@ -70,6 +70,7 @@ class CategoriesComparisonChart : public QWidget {
 		void updateTransactions();
 		void updateAccounts();
 		void updateDisplay();
+		void onFilterSelected(QString);
 		void save();
 		void print();
 		void saveConfig();

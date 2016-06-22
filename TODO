@@ -34,6 +34,7 @@ worth the effort.
 - Recurring split transactions
 - Multiple currencies
 - Plugins? Scripts?
+- OFX files
 
 - support for importing eqz files (so that we can do merging of files)
 - support for saving views in eqz format (e.g. splitting data in separate files)

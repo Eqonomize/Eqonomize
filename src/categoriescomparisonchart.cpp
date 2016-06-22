@@ -68,10 +68,12 @@
 #include <QSaveFile>
 #include <QMimeDatabase>
 #include <QMimeType>
+#include <QStandardPaths>
 
 #include <math.h>
 
 extern double monthsBetweenDates(const QDate &date1, const QDate &date2);
+extern QString last_picture_directory;
 
 CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *parent) : QWidget(parent), budget(budg) {
 
@@ -309,42 +311,72 @@ void CategoriesComparisonChart::nextYear() {
 	toEdit->blockSignals(false);
 	updateDisplay();
 }
-#include <QDebug>
+void CategoriesComparisonChart::onFilterSelected(QString filter) {
+	QMimeDatabase db;
+	QFileDialog *fileDialog = qobject_cast<QFileDialog*>(sender());
+	if(filter == db.mimeTypeForName("image/gif").filterString()) {
+		fileDialog->setDefaultSuffix(db.mimeTypeForName("image/gif").preferredSuffix());
+	} else if(filter == db.mimeTypeForName("image/jpeg").filterString()) {
+		fileDialog->setDefaultSuffix(db.mimeTypeForName("image/jpeg").preferredSuffix());
+	} else if(filter == db.mimeTypeForName("image/tiff").filterString()) {
+		fileDialog->setDefaultSuffix(db.mimeTypeForName("image/tiff").preferredSuffix());
+	} else if(filter == db.mimeTypeForName("image/x-bmp").filterString()) {
+		fileDialog->setDefaultSuffix(db.mimeTypeForName("image/x-bmp").preferredSuffix());
+	} else if(filter == db.mimeTypeForName("image/x-eps").filterString()) {
+		fileDialog->setDefaultSuffix(db.mimeTypeForName("image/x-eps").preferredSuffix());
+	} else {
+		fileDialog->setDefaultSuffix(db.mimeTypeForName("image/png").preferredSuffix());
+	}
+}
 void CategoriesComparisonChart::save() {
 	if(!scene) return;
 	QMimeDatabase db;
-	QString png_filter = db.mimeTypeForName("image/png").filterString();
-	QString gif_filter = db.mimeTypeForName("image/gif").filterString();	
-	QString jpeg_filter = db.mimeTypeForName("image/jpeg").filterString();	
-	QString tiff_filter = db.mimeTypeForName("image/tiff").filterString();
-	QString bmp_filter = db.mimeTypeForName("image/x-bmp").filterString();	
-	QString eps_filter = db.mimeTypeForName("image/x-eps").filterString();	
-	QString filter = png_filter;
+	QMimeType image_mime = db.mimeTypeForName("image/*");
+	QMimeType png_mime = db.mimeTypeForName("image/png");
+	QMimeType gif_mime = db.mimeTypeForName("image/gif");
+	QMimeType jpeg_mime = db.mimeTypeForName("image/jpeg");
+	QMimeType tiff_mime = db.mimeTypeForName("image/tiff");
+	QMimeType bmp_mime = db.mimeTypeForName("image/x-bmp");
+	QMimeType eps_mime = db.mimeTypeForName("image/x-eps");
+	QString png_filter = png_mime.filterString();
+	QString gif_filter = gif_mime.filterString();
+	QString jpeg_filter = jpeg_mime.filterString();
+	QString tiff_filter = tiff_mime.filterString();
+	QString bmp_filter = bmp_mime.filterString();
+	QString eps_filter = eps_mime.filterString();
+	QStringList filter(png_filter);
 	QList<QByteArray> image_formats = QImageWriter::supportedImageFormats();
 	if(image_formats.contains("gif")) {
-		filter += ";;";
-		filter += gif_filter;
+		filter << gif_filter;
 	}
 	if(image_formats.contains("jpeg")) {
-		filter += ";;";
-		filter += jpeg_filter;
+		filter << jpeg_filter;
 	}
 	if(image_formats.contains("tiff")) {
-		filter += ";;";
-		filter += tiff_filter;
+		filter << tiff_filter;
 	}
 	if(image_formats.contains("bmp")) {
-		filter += ";;";
-		filter += bmp_filter;
+		filter << bmp_filter;
 	}
 	if(image_formats.contains("eps")) {
-		filter += ";;";
-		filter += eps_filter;
+		filter << eps_filter;
 	}
-	QString selected_filter = png_filter;
-	QUrl url = QFileDialog::getSaveFileUrl(this, QString(), QUrl(), filter, &selected_filter);
-	if(url.isEmpty() || !url.isValid()) return;
-	QSaveFile ofile(url.toLocalFile());
+	QFileDialog fileDialog(this);
+	fileDialog.setNameFilters(filter);
+	fileDialog.selectNameFilter(png_filter);
+	fileDialog.setDefaultSuffix(png_mime.preferredSuffix());
+	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+	fileDialog.setSupportedSchemes(QStringList("file"));
+	fileDialog.setDirectory(last_picture_directory);
+	connect(&fileDialog, SIGNAL(filterSelected(QString)), this, SLOT(onFilterSelected(QString)));
+	QString url;
+	if(!fileDialog.exec()) return;
+	QStringList urls = fileDialog.selectedFiles();
+	if(urls.isEmpty()) return;
+	url = urls[0];
+	QString selected_filter = fileDialog.selectedNameFilter();
+	QMimeType url_mime = db.mimeTypeForFile(url, QMimeDatabase::MatchExtension);
+	QSaveFile ofile(url);
 	ofile.open(QIODevice::WriteOnly);
 	ofile.setPermissions((QFile::Permissions) 0x0660);
 	if(!ofile.isOpen()) {
@@ -352,6 +384,7 @@ void CategoriesComparisonChart::save() {
 		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
+	last_picture_directory = fileDialog.directory().absolutePath();
 	QRectF rect = scene->sceneRect();
 	rect.setX(0);
 	rect.setY(0);
@@ -361,7 +394,13 @@ void CategoriesComparisonChart::save() {
 	QPainter p(&pixmap);
 	p.setRenderHint(QPainter::Antialiasing, true);
 	scene->render(&p, QRectF(), rect);
-	if(selected_filter == png_filter) {pixmap.save(&ofile, "PNG");}
+	if(url_mime == png_mime) {pixmap.save(&ofile, "PNG");}
+	else if(url_mime == bmp_mime) {pixmap.save(&ofile, "BMP");}
+	else if(url_mime == eps_mime) {pixmap.save(&ofile, "EPS");}
+	else if(url_mime == tiff_mime) {pixmap.save(&ofile, "TIF");}
+	else if(url_mime == gif_mime) {pixmap.save(&ofile, "GIF");}
+	else if(url_mime == jpeg_mime) {pixmap.save(&ofile, "JPEG");}
+	else if(selected_filter == png_filter) {pixmap.save(&ofile, "PNG");}
 	else if(selected_filter == bmp_filter) {pixmap.save(&ofile, "BMP");}
 	else if(selected_filter == eps_filter) {pixmap.save(&ofile, "EPS");}
 	else if(selected_filter == tiff_filter) {pixmap.save(&ofile, "TIF");}

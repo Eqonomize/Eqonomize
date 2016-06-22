@@ -110,6 +110,8 @@
 
 #define MAX_RECENT_FILES 10
 
+QString last_document_directory, last_picture_directory;
+
 QTreeWidgetItem *selectedItem(QTreeWidget *w) {
 	QList<QTreeWidgetItem*> list = w->selectedItems();
 	if(list.isEmpty()) return NULL;
@@ -1796,6 +1798,9 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	ccrDialog = NULL;
 	otcDialog = NULL;
 	otrDialog = NULL;
+	
+	last_picture_directory = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+	last_document_directory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
 
 	partial_budget = false;
 
@@ -4333,6 +4338,15 @@ bool Eqonomize::saveView(QTextStream &file, int fileformat) {
 	else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {return exportScheduleList(file, fileformat);}
 	return false;
 }
+void Eqonomize::onFilterSelected(QString filter) {
+	QMimeDatabase db;
+	QFileDialog *fileDialog = qobject_cast<QFileDialog*>(sender());
+	if(filter == db.mimeTypeForName("text/csv").filterString()) {
+		fileDialog->setDefaultSuffix(db.mimeTypeForName("text/csv").preferredSuffix());
+	} else {
+		fileDialog->setDefaultSuffix(db.mimeTypeForName("text/html").preferredSuffix());
+	}
+}
 void Eqonomize::saveView() {
 	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) {
 		if(expensesWidget->isEmpty()) {
@@ -4364,21 +4378,20 @@ void Eqonomize::saveView() {
 	QMimeDatabase db;
 	QString html_filter = db.mimeTypeForName("text/html").filterString();
 	QString csv_filter = db.mimeTypeForName("text/csv").filterString();
-	QString filter = html_filter;
-	QString url = QFileDialog::getSaveFileName(this, QString(), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/", html_filter + ";;" + csv_filter, &filter);	
-	if(url.isEmpty()) return;
-	QFileInfo fileInfo(url);
-	if((filter == csv_filter || db.mimeTypeForFile(fileInfo, QMimeDatabase::MatchExtension) == db.mimeTypeForName("text/csv")) && db.mimeTypeForFile(fileInfo, QMimeDatabase::MatchExtension) != db.mimeTypeForName("text/html")) filetype = 'c';
-	if(!fileInfo.exists() && fileInfo.suffix().isEmpty()) {		
-		QMimeType mime;
-		if(filetype == 'c') mime = db.mimeTypeForName("text/csv");
-		else mime = db.mimeTypeForName("text/html");
-		if(mime.isValid()) {
-			QString new_url = url + ".";
-			new_url += mime.preferredSuffix();
-			if(!QFileInfo::exists(new_url)) url = new_url;
-		}
-	}
+	QFileDialog fileDialog(this);
+	fileDialog.setNameFilters(QStringList(html_filter) << csv_filter);
+	fileDialog.selectNameFilter(html_filter);
+	fileDialog.setDefaultSuffix(db.mimeTypeForName("text/html").preferredSuffix());
+	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+	fileDialog.setSupportedSchemes(QStringList("file"));
+	fileDialog.setDirectory(last_document_directory);
+	connect(&fileDialog, SIGNAL(filterSelected(QString)), this, SLOT(onFilterSelected(QString)));
+	QString url;
+	if(!fileDialog.exec()) return;
+	QStringList urls = fileDialog.selectedFiles();
+	if(urls.isEmpty()) return;
+	url = urls[0];
+	if((fileDialog.selectedNameFilter() == csv_filter || db.mimeTypeForFile(url, QMimeDatabase::MatchExtension) == db.mimeTypeForName("text/csv")) && db.mimeTypeForFile(url, QMimeDatabase::MatchExtension) != db.mimeTypeForName("text/html")) filetype = 'c';
 	QSaveFile ofile(url);
 	ofile.open(QIODevice::WriteOnly);
 	if(!ofile.isOpen()) {
@@ -4386,6 +4399,7 @@ void Eqonomize::saveView() {
 		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
+	last_document_directory = fileDialog.directory().absolutePath();
 	QTextStream stream(&ofile);
 	saveView(stream, filetype);
 	if(!ofile.commit()) {
@@ -4932,14 +4946,21 @@ bool Eqonomize::fileSaveAs() {
 	}
 	if(filter_string.isEmpty()) filter_string = "Eqonomize! Accounting File (*.eqz)";
 	if(suffix.isEmpty()) suffix = "eqz";
-	QString file_url = QFileDialog::getSaveFileName(this, QString(), current_url.isValid() ? current_url.adjusted(QUrl::RemoveFilename).toLocalFile() : QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + QString("/budget.") + suffix, filter_string);
-	if (!file_url.isEmpty()) {
-		QFileInfo fileInfo(file_url);
-		if(!fileInfo.exists() && fileInfo.suffix() != suffix) {
-			QString new_url = file_url + QString(".") + suffix;
-			if(!QFileInfo::exists(new_url)) file_url = new_url;
-		}
-		return saveURL(QUrl::fromLocalFile(file_url));
+	QFileDialog fileDialog(this);
+	fileDialog.setNameFilter(filter_string);
+	fileDialog.setDefaultSuffix(suffix);
+	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+	fileDialog.setSupportedSchemes(QStringList("file"));
+	if(current_url.isValid()) {
+		fileDialog.setDirectory(current_url.adjusted(QUrl::RemoveFilename).toLocalFile());
+	} else {
+		fileDialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+		fileDialog.selectFile(QString("budget.") + suffix);
+	}
+	if(fileDialog.exec()) {
+		QList<QUrl> urls = fileDialog.selectedUrls();
+		if(urls.isEmpty()) return false;
+		return saveURL(urls[0]);
 	}
 	return false;
 }

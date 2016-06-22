@@ -38,7 +38,6 @@
 #include <QLineEdit>
 #include <QDialog>
 #include <QDialogButtonBox>
-#include <QUrl>
 #include <QDateEdit>
 #include <QMessageBox>
 #include <QFileDialog>
@@ -56,6 +55,8 @@
 #include <ctime>
 
 #define ALL_TYPES_ID		5
+
+extern QString last_document_directory;
 
 ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent), budget(budg) {
 
@@ -313,8 +314,8 @@ void ImportCSVDialog::onFileChanged(const QString &str) {
 }
 void ImportCSVDialog::selectFile() {
 	QMimeDatabase db;
-	QUrl url = QFileDialog::getOpenFileUrl(this, QString(), QUrl::fromLocalFile(fileEdit->text()), db.mimeTypeForName("text/csv").filterString());
-	if(!url.isEmpty()) fileEdit->setText(url.toLocalFile());
+	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_document_directory + "/" : fileEdit->text().trimmed(), db.mimeTypeForName("text/csv").filterString());
+	if(!url.isEmpty()) fileEdit->setText(url);
 }
 void ImportCSVDialog::delimiterChanged(int index) {
 	delimiterEdit->setEnabled(index == 4);
@@ -448,25 +449,13 @@ void ImportCSVDialog::nextClicked() {
 	if(currentPage() == page(0)) {
 		fileEdit->setFocus();
 	} else if(currentPage() == page(1)) {
-		QUrl url = QUrl::fromLocalFile(fileEdit->text());
+		QString url = fileEdit->text().trimmed();
 		if(url.isEmpty()) {
 			QMessageBox::critical(this, tr("Error"), tr("A file must be selected."));
 			fileEdit->setFocus();
 			return;
-		} else if(!url.isValid()) {
-			QFileInfo info(fileEdit->text());
-			if(info.isDir()) {
-				QMessageBox::critical(this, tr("Error"), tr("Selected file is a directory."));
-				fileEdit->setFocus();
-				return;
-			} else if(!info.exists()) {
-				QMessageBox::critical(this, tr("Error"), tr("Selected file does not exist."));
-				fileEdit->setFocus();
-				return;
-			}
-			fileEdit->setText(info.absoluteFilePath());
 		} else {
-			QFileInfo info(url.toLocalFile());
+			QFileInfo info(url);
 			if(info.isDir()) {
 				QMessageBox::critical(this, tr("Error"), tr("Selected file is a directory."));
 				fileEdit->setFocus();
@@ -810,16 +799,20 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	}
 	double cost = 0.0;
 
-	QUrl url = QUrl::fromLocalFile(fileEdit->text());
+	QString url = fileEdit->text().trimmed();
 
-	QFile file(url.toLocalFile());
+	QFile file(url);
 	if(!file.open(QIODevice::ReadOnly) ) {
-		QMessageBox::critical(this, tr("Error"), tr("Couldn't open %1 for reading.").arg(url.toString()));
+		QMessageBox::critical(this, tr("Error"), tr("Couldn't open %1 for reading.").arg(url));
 		return false;
 	} else if(!file.size()) {
-		QMessageBox::critical(this, tr("Error"), tr("Error reading %1.").arg(url.toString()));
+		QMessageBox::critical(this, tr("Error"), tr("Error reading %1.").arg(url));
 		return false;
 	}
+	
+	QFileInfo fileInfo(url);
+	last_document_directory = fileInfo.absoluteDir().absolutePath();
+	
 	QTextStream fstream(&file);
 	fstream.setCodec("UTF-8");
 

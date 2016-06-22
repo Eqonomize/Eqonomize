@@ -335,6 +335,7 @@ class Eqonomize : public QMainWindow {
 		void fileOpenRecent(const QUrl&);
 		void fileReload();
 		bool fileSave();
+		void onFilterSelected(QString);
 		bool fileSaveAs();
 		void optionsPreferences();
 		void clearRecentFiles();

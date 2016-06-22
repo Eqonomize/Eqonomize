@@ -51,6 +51,7 @@
 #include <QTextEdit>
 #include <QPrintDialog>
 #include <QSettings>
+#include <QStandardPaths>
 
 #include "account.h"
 #include "budget.h"
@@ -62,6 +63,7 @@
 extern QString htmlize_string(QString str);
 extern double averageMonth(const QDate &date1, const QDate &date2);
 extern double averageYear(const QDate &date1, const QDate &date2);
+extern QString last_document_directory;
 
 struct month_info {
 	double value;
@@ -271,9 +273,18 @@ void OverTimeReport::saveConfig() {
 }
 void OverTimeReport::save() {
 	QMimeDatabase db;
-	QUrl url = QFileDialog::getSaveFileUrl(this, QString::null, QUrl(), db.mimeTypeForName("text/html").filterString());
-	if(url.isEmpty() || !url.isValid()) return;
-	QSaveFile ofile(url.toLocalFile());
+	QFileDialog fileDialog(this);
+	fileDialog.setNameFilter(db.mimeTypeForName("text/html").filterString());
+	fileDialog.setDefaultSuffix(db.mimeTypeForName("text/html").preferredSuffix());
+	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+	fileDialog.setSupportedSchemes(QStringList("file"));
+	fileDialog.setDirectory(last_document_directory);
+	QString url;
+	if(!fileDialog.exec()) return;
+	QStringList urls = fileDialog.selectedFiles();
+	if(urls.isEmpty()) return;
+	url = urls[0];
+	QSaveFile ofile(url);
 	ofile.open(QIODevice::WriteOnly);
 	ofile.setPermissions((QFile::Permissions) 0x0660);
 	if(!ofile.isOpen()) {
@@ -281,6 +292,7 @@ void OverTimeReport::save() {
 		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
+	last_document_directory = fileDialog.directory().absolutePath();
 	QTextStream outf(&ofile);
 	outf.setCodec("UTF-8");
 	outf << source;
