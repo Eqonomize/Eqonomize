@@ -162,7 +162,7 @@ class Eqonomize : public QMainWindow {
 
 		QAction *ActionAP_1, *ActionAP_2, *ActionAP_3, *ActionAP_4, *ActionAP_5, *ActionAP_6, *ActionAP_7, *ActionAP_8;
 		QAction *ActionEditSchedule, *ActionEditOccurrence, *ActionDeleteSchedule, *ActionDeleteOccurrence;
-		QAction *ActionAddAccount, *ActionNewAssetsAccount, *ActionNewIncomesAccount, *ActionNewExpensesAccount, *ActionEditAccount, *ActionDeleteAccount, *ActionBalanceAccount;
+		QAction *ActionAddAccount, *ActionNewAssetsAccount, *ActionNewIncomesAccount, *ActionNewExpensesAccount, *ActionEditAccount, *ActionDeleteAccount, *ActionBalanceAccount, *ActionAddAccountMenu;
 		QAction *ActionShowAccountTransactions;
 		QAction *ActionNewExpense, *ActionNewIncome, *ActionNewTransfer, *ActionNewSplitTransaction;
 		QAction *ActionEditTransaction, *ActionEditScheduledTransaction, *ActionEditSplitTransaction;
@@ -202,7 +202,7 @@ class Eqonomize : public QMainWindow {
 		QLocalServer *server;
 		QString cr_tmp_file;
 
-		QToolBar *fileToolbar, *transactionsToolbar, *statisticsToolbar;
+		QToolBar *fileToolbar, *accountsToolbar, *transactionsToolbar, *statisticsToolbar;
 		QTabWidget *tabs;
 		QTabWidget *accountsTabs;
 		QCheckBox *budgetButton;
@@ -334,8 +334,8 @@ class Eqonomize : public QMainWindow {
 		void fileOpen();
 		void fileOpenRecent(const QUrl&);
 		void fileReload();
-		void fileSave();
-		void fileSaveAs();
+		bool fileSave();
+		bool fileSaveAs();
 		void optionsPreferences();
 		void clearRecentFiles();
 		void openRecent();

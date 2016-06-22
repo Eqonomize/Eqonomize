@@ -10,7 +10,7 @@ Context=Applications
 [actions/16x16]
 Size=16
 Type=Fixed
-Context=Applications
+Context=Actions
 
 [apps/22x22]
 Size=22
@@ -20,7 +20,7 @@ Context=Applications
 [actions/22x22]
 Size=22
 Type=Fixed
-Context=Applications
+Context=Actions
 
 [apps/32x32]
 Size=32
@@ -30,7 +30,7 @@ Context=Applications
 [actions/32x32]
 Size=32
 Type=Fixed
-Context=Applications
+Context=Actions
 
 [apps/48x48]
 Size=48
@@ -40,7 +40,7 @@ Context=Applications
 [actions/48x48]
 Size=48
 Type=Fixed
-Context=Applications
+Context=Actions
 
 [apps/64x64]
 Size=64
@@ -50,7 +50,7 @@ Context=Applications
 [actions/64x64]
 Size=64
 Type=Fixed
-Context=Applications
+Context=Actions
 
 [apps/scalable]
 Size=48

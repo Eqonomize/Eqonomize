@@ -12,7 +12,7 @@ unix {
 		DOCUMENTATION_DIR = $$PREFIX/share/doc/eqonomize/html
 	}
 	isEmpty(MIME_DIR) {
-		MIME_DIR = $$PREFIX/share/mime/application
+		MIME_DIR = $$PREFIX/share/mime/packages
 	}
 	isEmpty(DESKTOP_DIR) {
 		DESKTOP_DIR = $$PREFIX/share/applications
@@ -108,7 +108,7 @@ unix {
 	doc.path = $$DOCUMENTATION_DIR
 	desktop.files = data/eqonomize.desktop
 	desktop.path = $$DESKTOP_DIR
-	mime.files = data/x-eqonomize.xml
+	mime.files = data/eqonomize.xml
 	mime.path = $$MIME_DIR
 
 	appicon16.files = data/16/eqonomize.png

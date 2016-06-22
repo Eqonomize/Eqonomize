@@ -76,6 +76,7 @@
 #include <QLocalServer>
 #include <QLocale>
 #include <QTextBrowser>
+#include <QToolButton>
 
 #include <QDebug>
 
@@ -1961,7 +1962,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QPushButton *nextYearButton = new QPushButton(QIcon::fromTheme("eqz-next-year"), "", periodWidget);
 	accountsPeriodLayout2->addWidget(nextYearButton);
 	QPushButton *accountsPeriodButton = new QPushButton(tr("Select Period"), periodWidget);
-	QMenu *accountsPeriodMenu = new QMenu(this);
+	QMenu *accountsPeriodMenu = new QMenu(this);	
 	ActionAP_1 = accountsPeriodMenu->addAction(tr("Current Month"));
 	ActionAP_2 = accountsPeriodMenu->addAction(tr("Current Year"));
 	ActionAP_3 = accountsPeriodMenu->addAction(tr("Current Whole Month"));
@@ -1970,7 +1971,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	ActionAP_6 = accountsPeriodMenu->addAction(tr("Whole Past Year"));
 	ActionAP_7 = accountsPeriodMenu->addAction(tr("Previous Month"));
 	ActionAP_8 = accountsPeriodMenu->addAction(tr("Previous Year"));
-	accountsPeriodButton->setMenu(accountsPeriodMenu);
+	accountsPeriodButton->setMenu(accountsPeriodMenu);	
 	accountsPeriodLayout3->addWidget(accountsPeriodButton);
 	partialBudgetButton = new QCheckBox(tr("Show partial budget"), periodWidget);
 	accountsPeriodLayout3->addWidget(partialBudgetButton);
@@ -3624,16 +3625,22 @@ void Eqonomize::createDefaultBudget() {
 	if(!askSave()) return;
 	budget->clear();
 	current_url = "";
+	setWindowTitle(tr("Untitled") + "[*]");
 	ActionFileReload->setEnabled(false);
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 	settings.setValue("lastURL", current_url.url());
+	if(!cr_tmp_file.isEmpty()) {
+		QFile autosaveFile(cr_tmp_file);
+		autosaveFile.remove();
+		cr_tmp_file = "";
+	}
 	settings.endGroup();
 	settings.sync();
 	
-	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_CASH, tr("Cash"), 100.0));
-	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_CURRENT, tr("Check Account"), 1000.0));
-	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_SAVINGS, tr("Savings Account"), 10000.0));
+	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_CASH, tr("Cash")));
+	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_CURRENT, tr("Check Account")));
+	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_SAVINGS, tr("Savings Account")));
 	budget->addAccount(new IncomesAccount(budget, tr("Salary")));
 	budget->addAccount(new IncomesAccount(budget, tr("Other")));
 	budget->addAccount(new ExpensesAccount(budget, tr("Bills")));
@@ -4358,10 +4365,21 @@ void Eqonomize::saveView() {
 	QString html_filter = db.mimeTypeForName("text/html").filterString();
 	QString csv_filter = db.mimeTypeForName("text/csv").filterString();
 	QString filter = html_filter;
-	QUrl url = QFileDialog::getSaveFileUrl(this, QString(), QUrl(), html_filter + ";;" + csv_filter, &filter);
-	if(filter == csv_filter) filetype = 'c';
-	if(url.isEmpty() || !url.isValid()) return;
-	QSaveFile ofile(url.toLocalFile());
+	QString url = QFileDialog::getSaveFileName(this, QString(), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/", html_filter + ";;" + csv_filter, &filter);	
+	if(url.isEmpty()) return;
+	QFileInfo fileInfo(url);
+	if((filter == csv_filter || db.mimeTypeForFile(fileInfo, QMimeDatabase::MatchExtension) == db.mimeTypeForName("text/csv")) && db.mimeTypeForFile(fileInfo, QMimeDatabase::MatchExtension) != db.mimeTypeForName("text/html")) filetype = 'c';
+	if(!fileInfo.exists() && fileInfo.suffix().isEmpty()) {		
+		QMimeType mime;
+		if(filetype == 'c') mime = db.mimeTypeForName("text/csv");
+		else mime = db.mimeTypeForName("text/html");
+		if(mime.isValid()) {
+			QString new_url = url + ".";
+			new_url += mime.preferredSuffix();
+			if(!QFileInfo::exists(new_url)) url = new_url;
+		}
+	}
+	QSaveFile ofile(url);
 	ofile.open(QIODevice::WriteOnly);
 	if(!ofile.isOpen()) {
 		ofile.cancelWriting();
@@ -4409,6 +4427,10 @@ void Eqonomize::setupActions() {
 	fileToolbar->setObjectName("file_toolbar");
 	fileToolbar->setFloatable(false);
 	fileToolbar->setMovable(false);
+	accountsToolbar = addToolBar(tr("Accounts"));
+	accountsToolbar->setObjectName("account_toolbar");
+	accountsToolbar->setFloatable(false);
+	accountsToolbar->setMovable(false);
 	transactionsToolbar = addToolBar(tr("Transactions"));
 	transactionsToolbar->setObjectName("transaction_toolbar");
 	transactionsToolbar->setFloatable(false);
@@ -4460,6 +4482,22 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionNewAssetsAccount, tr("New Account…"), "eqz-account", 0, this, SLOT(newAssetsAccount()), "new_assets_account", accountsMenu);
 	NEW_ACTION(ActionNewIncomesAccount, tr("New Income Category…"), "eqz-income", 0, this, SLOT(newIncomesAccount()), "new_incomes_account", accountsMenu);
 	NEW_ACTION(ActionNewExpensesAccount, tr("New Expense Category…"), "eqz-expense", 0, this, SLOT(newExpensesAccount()), "new_expenses_account", accountsMenu);
+	NEW_ACTION_NOMENU(ActionAddAccountMenu, tr("Add Account…"), "eqz-account", 0, this, SLOT(addAccount()), "add_account");
+	QMenu *newAccountMenu = new QMenu(tr("Add Account"), this);
+	newAccountMenu->setIcon(QIcon::fromTheme("eqz-account"));
+	newAccountMenu->addAction(ActionNewAssetsAccount);
+	newAccountMenu->addAction(ActionNewIncomesAccount);
+	newAccountMenu->addAction(ActionNewExpensesAccount);
+	ActionAddAccountMenu->setMenu(newAccountMenu);
+	accountsToolbar->addAction(ActionAddAccountMenu);
+	/*QToolButton *newAccountButton = new QToolButton(accountsToolbar);
+	newAccountButton->setToolTip(tr("New Account…"));
+	newAccountButton->setFocusPolicy(Qt::NoFocus);
+	newAccountButton->setMenu(newAccountMenu);
+	newAccountButton->setIcon(QIcon::fromTheme("eqz-account"));
+	newAccountButton->setText(tr("Add Account"));
+	newAccountButton->setPopupMode(QToolButton::InstantPopup);
+	accountsToolbar->addWidget(newAccountButton);*/
 	accountsMenu->addSeparator();
 	NEW_ACTION_ALT(ActionEditAccount, tr("Edit…"), "document-edit", "eqz-edit", 0, this, SLOT(editAccount()), "edit_account", accountsMenu);
 	NEW_ACTION(ActionBalanceAccount, tr("Balance…"), "eqz-balance", 0, this, SLOT(balanceAccount()), "balance_account", accountsMenu);
@@ -4570,7 +4608,7 @@ void Eqonomize::setupActions() {
 
 void Eqonomize::openRecent(){
 	QAction *action = qobject_cast<QAction*>(sender());
-	if(action) openURL(QUrl::fromLocalFile(action->data().toString()));
+	if(action) fileOpenRecent(QUrl::fromLocalFile(action->data().toString()));
 }
 
 void Eqonomize::clearRecentFiles(){
@@ -4834,6 +4872,8 @@ void Eqonomize::closeEvent(QCloseEvent *event) {
 		if(server) delete server;
 		QMainWindow::closeEvent(event);
 		qApp->closeAllWindows();
+	} else {
+		event->ignore();
 	}
 }
 
@@ -4851,34 +4891,18 @@ void Eqonomize::dropEvent(QDropEvent *event) {
 }
 
 void Eqonomize::fileNew() {
-	if(!askSave()) return;
-	budget->clear();
-	reloadBudget();
-	setWindowTitle(tr("Untitled") + "[*]");
-	current_url = "";
-	ActionFileReload->setEnabled(false);
-	QSettings settings;
-	settings.beginGroup("GeneralOptions");
-	settings.setValue("lastURL", current_url.url());
-	if(!cr_tmp_file.isEmpty()) {
-		QFile autosaveFile(cr_tmp_file);
-		autosaveFile.remove();
-		cr_tmp_file = "";
-	}
-	settings.endGroup();
-	settings.sync();
-	setModified(false);
-	ActionFileSave->setEnabled(true);
-	emit accountsModified();
-	emit transactionsModified();
-	emit budgetUpdated();
+	createDefaultBudget();
 }
 
 void Eqonomize::fileOpen() {
 	if(!askSave()) return;
 	QMimeDatabase db;
-	QUrl url = QFileDialog::getOpenFileUrl(this, QString(), QUrl(), db.mimeTypeForName("application/x-eqonomize").filterString());
-	if(!url.isEmpty()) openURL(url);
+	QMimeType mime = db.mimeTypeForName("application/x-eqonomize");
+	QString filter_string;
+	if(mime.isValid()) filter_string = mime.filterString();
+	if(filter_string.isEmpty()) filter_string = tr("Eqonomize! Accounting File") + "(*.eqz)";
+	QString url = QFileDialog::getOpenFileName(this, QString(), current_url.isValid() ? current_url.adjusted(QUrl::RemoveFilename).toLocalFile() : QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + QString("/"), filter_string);
+	if(!url.isEmpty()) openURL(QUrl::fromLocalFile(url));
 }
 void Eqonomize::fileOpenRecent(const QUrl &url) {
 	if(!askSave()) return;
@@ -4888,58 +4912,43 @@ void Eqonomize::fileOpenRecent(const QUrl &url) {
 void Eqonomize::fileReload() {
 	openURL(current_url);
 }
-void Eqonomize::fileSave() {
+bool Eqonomize::fileSave() {
 	if(!current_url.isValid()) {
-		QMimeDatabase db;
-		QUrl file_url = QFileDialog::getSaveFileUrl(this, QString(), QUrl::fromLocalFile("budget.eqz"), db.mimeTypeForName("application/x-eqonomize").filterString());
-		if (!file_url.isEmpty() && file_url.isValid()) {
-			QString spath = file_url.path();
-			if(!spath.endsWith(".eqz", Qt::CaseInsensitive)) {
-				spath += ".eqz";
-				file_url.setPath(spath);
-			}
-			saveURL(file_url);
-		}
+		return fileSaveAs();
 	} else {
-		saveURL(current_url);
+		return saveURL(current_url);
 	}
+	return false;
 }
 
-void Eqonomize::fileSaveAs() {
+bool Eqonomize::fileSaveAs() {
 	QMimeDatabase db;
-	QUrl file_url = QFileDialog::getSaveFileUrl(this, QString(), current_url.adjusted(QUrl::RemoveFilename), db.mimeTypeForName("application/x-eqonomize").filterString());
-	if (!file_url.isEmpty() && file_url.isValid()) {
-		QString spath = file_url.path();
-		if(!spath.endsWith(".eqz", Qt::CaseInsensitive)) {
-			spath += ".eqz";
-			file_url.setPath(spath);
-		}
-		saveURL(file_url);
+	QMimeType mime = db.mimeTypeForName("application/x-eqonomize");
+	QString filter_string;
+	QString suffix;
+	if(mime.isValid()) {
+		filter_string = mime.filterString();
+		suffix = mime.preferredSuffix();
 	}
+	if(filter_string.isEmpty()) filter_string = "Eqonomize! Accounting File (*.eqz)";
+	if(suffix.isEmpty()) suffix = "eqz";
+	QString file_url = QFileDialog::getSaveFileName(this, QString(), current_url.isValid() ? current_url.adjusted(QUrl::RemoveFilename).toLocalFile() : QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + QString("/budget.") + suffix, filter_string);
+	if (!file_url.isEmpty()) {
+		QFileInfo fileInfo(file_url);
+		if(!fileInfo.exists() && fileInfo.suffix() != suffix) {
+			QString new_url = file_url + QString(".") + suffix;
+			if(!QFileInfo::exists(new_url)) file_url = new_url;
+		}
+		return saveURL(QUrl::fromLocalFile(file_url));
+	}
+	return false;
 }
 
-bool Eqonomize::askSave(bool before_exit) {
+bool Eqonomize::askSave(bool) {
 	if(!modified) return true;
-	int b_save = 0;
-	if(before_exit && current_url.isValid()) b_save = QMessageBox::warning(this, tr("Save file?"), tr("The current file has been modified. Do you want to save it?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-	else b_save = QMessageBox::warning(this, tr("Save file?"), tr("The current file has been modified. Do you want to save it?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+	int b_save = QMessageBox::warning(this, tr("Save file?"), tr("The current file has been modified. Do you want to save it?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
 	if(b_save == QMessageBox::Yes) {
-		if(!current_url.isValid()) {
-			QMimeDatabase db;
-			QUrl file_url = QFileDialog::getSaveFileUrl(this, QString(), QUrl::fromLocalFile("budget.eqz"), db.mimeTypeForName("application/x-eqonomize").filterString());
-			if (!file_url.isEmpty() && file_url.isValid()) {
-				QString spath = file_url.path();
-				if(!spath.endsWith(".eqz", Qt::CaseInsensitive)) {
-					spath += ".eqz";
-					file_url.setPath(spath);
-				}
-				return saveURL(file_url);
-			} else {
-				return false;
-			}
-		} else {
-			return saveURL(current_url);
-		}
+		return fileSave();
 	}
 	if(b_save == QMessageBox::No) {
 		if(!cr_tmp_file.isEmpty()) {
@@ -5008,8 +5017,9 @@ void Eqonomize::appendScheduledTransaction(ScheduledTransaction *strans) {
 
 void Eqonomize::addAccount() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
-	if(i == NULL) return;
-	if(i == assetsItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS))) {
+	if(i == NULL) {
+		newAssetsAccount();
+	} else if(i == assetsItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS))) {
 		newAssetsAccount();
 	} else if(i == incomesItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_INCOMES))) {
 		newIncomesAccount();

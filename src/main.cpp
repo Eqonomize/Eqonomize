@@ -36,6 +36,7 @@
 #include <QDir>
 #include <QTextStream>
 #include <QIcon>
+#include <QLibraryInfo>
 
 #include <locale.h>
 
@@ -55,7 +56,7 @@ int main(int argc, char **argv) {
 	setlocale(LC_MONETARY, "");
 	
 	QTranslator translator;
-	if (translator.load(QLocale(), QLatin1String("eqonomize"), QLatin1String("_"), QLatin1String(TRANSLATIONS_DIR))) {
+	if(translator.load(QLocale(), QLatin1String("eqonomize"), QLatin1String("_"), QLatin1String(TRANSLATIONS_DIR))) {
 		app.installTranslator(&translator);
 	}
 	
