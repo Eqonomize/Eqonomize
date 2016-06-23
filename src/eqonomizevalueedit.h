@@ -21,53 +21,36 @@
 #ifndef EQONOMIZE_VALUE_EDIT_H
 #define EQONOMIZE_VALUE_EDIT_H
 
-#include <QVBoxLayout>
-#include <QWidget>
+#include <QDoubleSpinBox>
 
-class QAbstractSpinBox;
-class QLineEdit;
-
-class EqonomizeValueEdit : public QWidget {
+class EqonomizeValueEdit : public QDoubleSpinBox {
 
 	Q_OBJECT
 
 	public:
 
 		EqonomizeValueEdit(bool allow_negative = true, QWidget *parent = 0);
-		EqonomizeValueEdit(double value, bool allow_negative, bool show_currency, QWidget *parent = 0);
-		EqonomizeValueEdit(double value, int precision, bool allow_negative, bool show_currency, QWidget *parent = 0);
-		EqonomizeValueEdit(double lower, double upper, double step, double value, int precision = 2, bool show_currency = false, QWidget *parent = 0);
+		EqonomizeValueEdit(double value, bool allow_negative, bool show_currency, QWidget *parent);
+		EqonomizeValueEdit(double value, int precision, bool allow_negative, bool show_currency, QWidget *parent);
+		EqonomizeValueEdit(double lower, double step, double value, int precision, bool show_currency, QWidget *parent);
+		EqonomizeValueEdit(double lower, double upper, double step, double value, int precision, bool show_currency, QWidget *parent);
 		~EqonomizeValueEdit();
 		void init(double lower, double upper, double step, double value, int precision, bool show_currency);
 		
-		double value() const;
-		double maxValue() const;
-		
+		void setRange(double lower, double step, int precision);
 		void setRange(double lower, double upper, double step, int precision);
 		void setPrecision(int precision);
 
-		QLineEdit *lineEdit() const;
-
 	protected:
-
-		QAbstractSpinBox *valueEdit;
-		QVBoxLayout *layout;
+		
 		int i_precision;
-
+	
 	protected slots:
-
-		void onValueChanged(int);
+	
 		void onEditingFinished();
-
-	public slots:
-
-		void setValue(double d_value);
-		void setMaxValue(double d_value);
-		void selectAll();
 
 	signals:
 
-		void valueChanged(double);
 		void returnPressed();
 
 };

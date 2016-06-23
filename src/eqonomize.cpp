@@ -676,7 +676,7 @@ EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QW
 
 }
 void EditSecurityTradeDialog::maxShares() {
-	fromSharesEdit->setValue(fromSharesEdit->maxValue());
+	fromSharesEdit->setValue(fromSharesEdit->maximum());
 }
 Security *EditSecurityTradeDialog::selectedFromSecurity() {
 	int index = fromSecurityCombo->currentIndex();
@@ -708,7 +708,7 @@ void EditSecurityTradeDialog::fromSecurityChanged() {
 	Security *sec = selectedFromSecurity();
 	if(sec) {
 		fromSharesEdit->setPrecision(sec->decimals());
-		fromSharesEdit->setMaxValue(sec->shares());
+		fromSharesEdit->setMaximum(sec->shares());
 	}
 }
 void EditSecurityTradeDialog::toSecurityChanged() {
@@ -727,7 +727,7 @@ void EditSecurityTradeDialog::setSecurityTrade(SecurityTrade *ts) {
 		i++;
 		sec = budget->securities.next();
 	}
-	fromSharesEdit->setMaxValue(ts->from_security->shares() + ts->from_shares);
+	fromSharesEdit->setMaximum(ts->from_security->shares() + ts->from_shares);
 	fromSharesEdit->setValue(ts->from_shares);
 	toSharesEdit->setValue(ts->to_shares);
 	valueEdit->setValue(ts->value);
@@ -800,6 +800,10 @@ EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0)
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Price per Share");
+	quotationsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	quotationsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+	quotationsView->header()->setStretchLastSection(false);
+	quotationsView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	quotationsView->setHeaderLabels(headers);
 	quotationsView->setRootIsDecorated(false);
 	quotationsView->header()->setSectionsClickable(false);
@@ -810,7 +814,7 @@ EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0)
 
 	QVBoxLayout *buttonsLayout = new QVBoxLayout();
 	quotationsLayout->addLayout(buttonsLayout);
-	quotationEdit = new EqonomizeValueEdit(0.01, INT_MAX / pow(10, i_quotation_decimals) - 1.0, 1.0, 0.01, i_quotation_decimals, true, this);
+	quotationEdit = new EqonomizeValueEdit(0.01, 1.0, 0.01, i_quotation_decimals, true, this);
 	buttonsLayout->addWidget(quotationEdit);
 	dateEdit = new QDateEdit(this);
 	dateEdit->setCalendarPopup(true);
@@ -850,7 +854,7 @@ void EditQuotationsDialog::setSecurity(Security *security) {
 	quotationsView->addTopLevelItems(items);
 	quotationsView->setSortingEnabled(true);
 	titleLabel->setText(tr("Quotations for %1").arg(security->name()));	
-	quotationEdit->setRange(0.0, INT_MAX / pow(10.0, i_quotation_decimals) - 1.0, pow(10, -i_quotation_decimals), i_quotation_decimals);
+	quotationEdit->setRange(0.0, pow(10, -i_quotation_decimals), i_quotation_decimals);
 }
 void EditQuotationsDialog::modifyQuotations(Security *security) {
 	security->quotations.clear();
@@ -997,6 +1001,7 @@ ConfirmScheduleDialog::ConfirmScheduleDialog(bool extra_parameters, Budget *budg
 	setModal(true);
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
+	//box1->setSizeConstraint(QLayout::SetFixedSize);
 	QLabel *label = new QLabel(tr("The following transactions was scheduled to occur today or before today.\nConfirm that they have indeed occurred (or will occur today)."), this);
 	box1->addWidget(label);
 	QHBoxLayout *box2 = new QHBoxLayout();
@@ -1004,12 +1009,16 @@ ConfirmScheduleDialog::ConfirmScheduleDialog(bool extra_parameters, Budget *budg
 	transactionsView = new QTreeWidget(this);
 	transactionsView->sortByColumn(0, Qt::AscendingOrder);
 	transactionsView->setAllColumnsShowFocus(true);
-	transactionsView->setColumnCount(4);
+	transactionsView->setColumnCount(4);	
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Type");
 	headers << tr("Name");
 	headers << tr("Amount");
+	transactionsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+	transactionsView->header()->setStretchLastSection(false);
+	transactionsView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
 	QSizePolicy sp = transactionsView->sizePolicy();
@@ -1168,6 +1177,10 @@ SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize 
 	headers << tr("Type");
 	headers << tr("Value");
 	headers << tr("Shares");
+	transactionsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+	transactionsView->header()->setStretchLastSection(false);
+	transactionsView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
 	QSizePolicy sp = transactionsView->sizePolicy();
@@ -1423,10 +1436,10 @@ bool EditSecurityDialog::checkAccount() {
 	return true;
 }
 void EditSecurityDialog::decimalsChanged(int i) {
-	sharesEdit->setRange(0.0, INT_MAX / pow(10.0, i) - 1, 1.0, i);
+	sharesEdit->setPrecision(i);
 }
 void EditSecurityDialog::quotationDecimalsChanged(int i) {
-	quotationEdit->setRange(0.0, INT_MAX / pow(10.0, i) - 1, 1.0, i);
+	quotationEdit->setRange(0.0, pow(10, -i), i);
 }
 Security *EditSecurityDialog::newSecurity() {
 	if(!checkAccount()) return NULL;
@@ -1906,18 +1919,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	sp.setVerticalPolicy(QSizePolicy::MinimumExpanding);
 	accountsView->setSizePolicy(sp);
 	QFontMetrics fm(accountsView->font());
-	accountsView->resizeColumnToContents(0);
-	accountsView->resizeColumnToContents(1);
-	accountsView->resizeColumnToContents(2);
-	accountsView->resizeColumnToContents(3);
-	int w = fm.width(tr("%2 of %1", "%2 remains of %1 budget").arg(QLocale().toString(10000.0, 'f', MONETARY_DECIMAL_PLACES)).arg(QLocale().toString(100000.0, 'f', MONETARY_DECIMAL_PLACES)));
-	if(accountsView->columnWidth(BUDGET_COLUMN) < w) accountsView->setColumnWidth(BUDGET_COLUMN, w);
-	w = fm.width(QLocale().toString(999999999.99, 'f', MONETARY_DECIMAL_PLACES));
-	if(accountsView->columnWidth(CHANGE_COLUMN) < w) accountsView->setColumnWidth(CHANGE_COLUMN, w);
-	w = fm.width(QLocale().toString(999999999.99, 'f', MONETARY_DECIMAL_PLACES) + " ");
-	if(accountsView->columnWidth(VALUE_COLUMN) < w) accountsView->setColumnWidth(VALUE_COLUMN, w);
-	w = fm.width(tr("Account / Category"));
-	if(accountsView->columnWidth(0) < w) accountsView->setColumnWidth(0, w);
+	accountsView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	accountsView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
 	assetsItem = new TotalListViewItem(accountsView, tr("Accounts"), QString::null, QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	incomesItem = new TotalListViewItem(accountsView, assetsItem, tr("Incomes"), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
@@ -2082,6 +2084,9 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	securitiesViewHeaders << tr("Account");
 	securitiesView->setHeaderLabels(securitiesViewHeaders);
 	securitiesView->setRootIsDecorated(false);
+	securitiesView->header()->setStretchLastSection(false);
+	securitiesView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+	securitiesView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
 	sp = securitiesView->sizePolicy();
 	sp.setVerticalPolicy(QSizePolicy::MinimumExpanding);
 	securitiesView->setSizePolicy(sp);
@@ -2336,7 +2341,7 @@ void Eqonomize::budgetEditReturnPressed() {
 	if(!i && account_items.contains(i) && account_items[i]->type() == ACCOUNT_TYPE_INCOMES) i = expensesItem->child(0);
 	if(i) {
 		i->setSelected(true);
-		if(budgetEdit->isEnabled()) budgetEdit->lineEdit()->selectAll();
+		if(budgetEdit->isEnabled()) budgetEdit->selectAll();
 		else budgetButton->setFocus();
 	}
 }
@@ -2633,7 +2638,7 @@ void Eqonomize::setQuotation() {
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 	grid->addWidget(new QLabel(tr("Price per share:"), dialog), 0, 0);
-	EqonomizeValueEdit *quotationEdit = new EqonomizeValueEdit(0.01, INT_MAX / pow(10, i->security()->quotationDecimals()) - 1.0, pow(10, -i->security()->quotationDecimals()), i->security()->getQuotation(QDate::currentDate()), i->security()->quotationDecimals(), true, dialog);
+	EqonomizeValueEdit *quotationEdit = new EqonomizeValueEdit(0.01, pow(10, -i->security()->quotationDecimals()), i->security()->getQuotation(QDate::currentDate()), i->security()->quotationDecimals(), true, dialog);
 	quotationEdit->setFocus();
 	grid->addWidget(quotationEdit, 0, 1);
 	grid->addWidget(new QLabel(tr("Date:"), dialog), 1, 0);
@@ -5109,7 +5114,7 @@ void Eqonomize::accountExecuted(QTreeWidgetItem *i, int c) {
 					accountsTabs->setCurrentIndex(1);
 					if(budgetEdit->isEnabled()) {
 						budgetEdit->setFocus();
-						budgetEdit->lineEdit()->selectAll();
+						budgetEdit->selectAll();
 					} else {
 						budgetButton->setFocus();
 					}
@@ -6407,7 +6412,7 @@ void Eqonomize::filterAccounts() {
 	updateBudgetEdit();
 }
 
-EqonomizeTreeWidget::EqonomizeTreeWidget(QWidget *parent) : QTreeWidget(parent) {
+EqonomizeTreeWidget::EqonomizeTreeWidget(QWidget *parent) : QTreeWidget(parent) {	
 	connect(this, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(onDoubleClick(const QModelIndex&)));
 }
 EqonomizeTreeWidget::EqonomizeTreeWidget() : QTreeWidget() {}

@@ -191,7 +191,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		i++;
 		if(b_extra && !select_security && !security && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME)) {
 			editLayout->addWidget(new QLabel(tr("Quantity:"), this), TEROWCOL(i, 0));
-			quantityEdit = new EqonomizeValueEdit(INT_MIN / 100 + 1.0, INT_MAX / 100 - 1.0, 1.0, 1.0, 2, false, this);
+			quantityEdit = new EqonomizeValueEdit(1.0, 2, true, false, this);
 			editLayout->addWidget(quantityEdit, TEROWCOL(i, 1));
 			i++;
 		}
@@ -386,7 +386,7 @@ void TransactionEditWidget::securityChanged() {
 	if(security) {
 		if(sharesEdit) sharesEdit->setPrecision(security->decimals());
 		if(quotationEdit) quotationEdit->setPrecision(security->quotationDecimals());
-		if(sharesEdit && security && shares_date.isValid()) sharesEdit->setMaxValue(security->shares(shares_date));
+		if(sharesEdit && security && shares_date.isValid()) sharesEdit->setMaximum(security->shares(shares_date));
 	}
 }
 void TransactionEditWidget::valueChanged(double value) {
@@ -429,14 +429,16 @@ void TransactionEditWidget::quotationChanged(double value) {
 	}
 }
 void TransactionEditWidget::setMaxShares(double max) {
-	if(sharesEdit) sharesEdit->setMaxValue(max);
+	if(sharesEdit) sharesEdit->setMaximum(max);
 }
 void TransactionEditWidget::setMaxSharesDate(QDate quotation_date) {
 	shares_date = quotation_date;
-	if(sharesEdit && security && shares_date.isValid()) sharesEdit->setMaxValue(security->shares(shares_date));
+	if(sharesEdit && security && shares_date.isValid()) sharesEdit->setMaximum(security->shares(shares_date));
 }
 void TransactionEditWidget::maxShares() {
-	if(selectedSecurity() && sharesEdit) sharesEdit->setValue(selectedSecurity()->shares(dateEdit->date()));
+	if(selectedSecurity() && sharesEdit) {
+		sharesEdit->setValue(selectedSecurity()->shares(dateEdit->date()));
+	}
 }
 QHBoxLayout *TransactionEditWidget::bottomLayout() {
 	return bottom_layout;

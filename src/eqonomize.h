@@ -681,12 +681,15 @@ class EditReinvestedDividendDialog : public QDialog {
 
 		EditReinvestedDividendDialog(Budget *budg, Security *sec, bool select_security, QWidget *parent);
 
-		Security *selectedSecurity();
-		void securityChanged();
+		Security *selectedSecurity();		
 		void setDividend(ReinvestedDividend *rediv);
 		bool modifyDividend(ReinvestedDividend *rediv);
 		ReinvestedDividend *createDividend();
 		bool validValues();
+		
+	public slots:
+		
+		void securityChanged();
 
 	protected slots:
 		
