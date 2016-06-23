@@ -1013,7 +1013,7 @@ ConfirmScheduleDialog::ConfirmScheduleDialog(bool extra_parameters, Budget *budg
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Type");
-	headers << tr("Description");
+	headers << tr("Description", "Generic Description");
 	headers << tr("Amount");
 	transactionsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);

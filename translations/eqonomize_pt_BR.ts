@@ -3251,12 +3251,18 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonchart.cpp" line="747"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="748"/>
         <source>Other descriptions</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="775"/>
         <source>No description</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Nenhuma descrição</translation>
+    </message>
+    <message>
+        <source>No description</source>
+        <translation type="obsolete">Nenhuma descrição</translation>
     </message>
 </context>
 <context>
@@ -3305,9 +3311,8 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished">Receitas: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="116"/>
         <source>Descriptions for</source>
-        <translation type="unfinished">Descrições para</translation>
+        <translation type="obsolete">Descrições para</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="124"/>
@@ -3367,10 +3372,8 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished">valor médio</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="285"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="940"/>
         <source>All descriptions</source>
-        <translation type="unfinished">todas descrições</translation>
+        <translation type="obsolete">todas descrições</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="286"/>
@@ -3385,6 +3388,23 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished">Todos sacados</translation>
     </message>
     <message>
+        <source>No description</source>
+        <translation type="obsolete">Nenhuma descrição</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="116"/>
+        <source>Descriptions for</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Descrições para</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="285"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="940"/>
+        <source>All descriptions</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">todas descrições</translation>
+    </message>
+    <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="310"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="745"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="749"/>
@@ -3392,6 +3412,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="923"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="970"/>
         <source>No description</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Nenhuma descrição</translation>
     </message>
     <message>
@@ -3572,13 +3593,18 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
         <translation type="unfinished">Digitar</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1016"/>
         <source>Description</source>
-        <translation type="unfinished">Descrição</translation>
+        <translation type="obsolete">Descrição</translation>
     </message>
     <message>
         <source>Name</source>
         <translation type="obsolete">Nome</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="1016"/>
+        <source>Description</source>
+        <comment>Generic Description</comment>
+        <translation type="unfinished">Descrição</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1017"/>
@@ -5579,8 +5605,13 @@ O que você gostaria de fazer com elas?</translation>
         <translation type="unfinished">Tudo</translation>
     </message>
     <message>
+        <source>Export transaction description as:</source>
+        <translation type="obsolete">Exportar descrição de transações como:</translation>
+    </message>
+    <message>
         <location filename="../src/qifimportexport.cpp" line="523"/>
         <source>Export transaction description as:</source>
+        <comment>Referring to generic description</comment>
         <translation type="unfinished">Exportar descrição de transações como:</translation>
     </message>
     <message>
@@ -5748,9 +5779,13 @@ O que você gostaria de fazer com elas?</translation>
         <translation type="unfinished">ESpecificações das Colunas</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="137"/>
         <source>Description:</source>
-        <translation type="unfinished">Descrição:</translation>
+        <translation type="obsolete">Descrição:</translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="137"/>
+        <source>Generic description:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="139"/>
@@ -6129,14 +6164,12 @@ O que você gostaria de fazer com elas?</translation>
         <translation type="unfinished">Texto de abertura de balanço:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="130"/>
         <source>Descriptions</source>
-        <translation type="unfinished">Descrições</translation>
+        <translation type="obsolete">Descrições</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="131"/>
         <source>Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.</source>
-        <translation type="unfinished">As transações em arquivos QIF não precisam ter nenhuma descrição própria específicada. Você, tem, então a opção de como a descrição das transações importadas serão definidas.</translation>
+        <translation type="obsolete">As transações em arquivos QIF não precisam ter nenhuma descrição própria específicada. Você, tem, então a opção de como a descrição das transações importadas serão definidas.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="134"/>
@@ -6144,11 +6177,26 @@ O que você gostaria de fazer com elas?</translation>
         <translation type="unfinished">Subcategorias como:</translation>
     </message>
     <message>
+        <source>Description</source>
+        <translation type="obsolete">Descrição</translation>
+    </message>
+    <message>
+        <location filename="../src/qifimportexport.cpp" line="130"/>
+        <source>Generic Descriptions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qifimportexport.cpp" line="131"/>
+        <source>Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.</source>
+        <comment>Referring to generic description</comment>
+        <translation type="unfinished">As transações em arquivos QIF não precisam ter nenhuma descrição própria específicada. Você, tem, então a opção de como a descrição das transações importadas serão definidas.</translation>
+    </message>
+    <message>
         <location filename="../src/qifimportexport.cpp" line="136"/>
         <location filename="../src/qifimportexport.cpp" line="148"/>
         <location filename="../src/qifimportexport.cpp" line="158"/>
-        <source>Description</source>
-        <translation type="unfinished">Descrição</translation>
+        <source>Generic description</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="140"/>
@@ -6529,7 +6577,12 @@ O que você gostaria de fazer com elas?</translation>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="531"/>
         <source>Cannot change description of dividends and security transactions.</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Impossível mudar a descrição de dividendos e transações de segurança;</translation>
+    </message>
+    <message>
+        <source>Cannot change description of dividends and security transactions.</source>
+        <translation type="obsolete">Impossível mudar a descrição de dividendos e transações de segurança;</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="537"/>
@@ -6705,12 +6758,17 @@ O que você gostaria de fazer com elas?</translation>
         <translation type="unfinished">Todas categórias Comibinadas</translation>
     </message>
     <message>
+        <source>All Descriptions Combined</source>
+        <translation type="obsolete">Todas descrições Comibinadas</translation>
+    </message>
+    <message>
         <location filename="../src/overtimechart.cpp" line="133"/>
         <location filename="../src/overtimechart.cpp" line="302"/>
         <location filename="../src/overtimechart.cpp" line="406"/>
         <location filename="../src/overtimechart.cpp" line="2024"/>
         <location filename="../src/overtimechart.cpp" line="2145"/>
         <source>All Descriptions Combined</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Todas descrições Comibinadas</translation>
     </message>
     <message>
@@ -6775,7 +6833,32 @@ O que você gostaria de fazer com elas?</translation>
         <location filename="../src/overtimechart.cpp" line="331"/>
         <location filename="../src/overtimechart.cpp" line="2025"/>
         <source>All Descriptions Split</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Todas descrições divídidas</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="379"/>
+        <location filename="../src/overtimechart.cpp" line="1912"/>
+        <location filename="../src/overtimechart.cpp" line="1918"/>
+        <location filename="../src/overtimechart.cpp" line="1946"/>
+        <location filename="../src/overtimechart.cpp" line="1948"/>
+        <location filename="../src/overtimechart.cpp" line="1955"/>
+        <location filename="../src/overtimechart.cpp" line="1957"/>
+        <location filename="../src/overtimechart.cpp" line="1993"/>
+        <location filename="../src/overtimechart.cpp" line="2063"/>
+        <source>No description</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Nenhuma descrição</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="1542"/>
+        <source>Other descriptions</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All Descriptions Split</source>
+        <translation type="obsolete">Todas descrições divídidas</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="334"/>
@@ -6790,17 +6873,8 @@ O que você gostaria de fazer com elas?</translation>
         <translation type="unfinished">Todos emitentes divididos</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="379"/>
-        <location filename="../src/overtimechart.cpp" line="1912"/>
-        <location filename="../src/overtimechart.cpp" line="1918"/>
-        <location filename="../src/overtimechart.cpp" line="1946"/>
-        <location filename="../src/overtimechart.cpp" line="1948"/>
-        <location filename="../src/overtimechart.cpp" line="1955"/>
-        <location filename="../src/overtimechart.cpp" line="1957"/>
-        <location filename="../src/overtimechart.cpp" line="1993"/>
-        <location filename="../src/overtimechart.cpp" line="2063"/>
         <source>No description</source>
-        <translation type="unfinished">Nenhuma descrição</translation>
+        <translation type="obsolete">Nenhuma descrição</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="387"/>
@@ -6866,11 +6940,6 @@ O que você gostaria de fazer com elas?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1542"/>
-        <source>Other descriptions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/overtimechart.cpp" line="1708"/>
         <source>Value (%1)</source>
         <translation type="unfinished">Valoe (%1)</translation>
@@ -6904,8 +6973,22 @@ O que você gostaria de fazer com elas?</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="1950"/>
         <source>%1/%2</source>
+        <comment>%1: Generic Description; %2: Payer</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="1959"/>
+        <source>%1/%2</source>
+        <comment>%1: Generic Description; %2: Payee</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%1/%2</source>
         <comment>%1: Description; %2: Payer</comment>
-        <translation type="unfinished">%1/%2</translation>
+        <translation type="obsolete">
+            <numerusform>%1/%2</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1955"/>
@@ -6913,11 +6996,13 @@ O que você gostaria de fazer com elas?</translation>
         <source>no payee</source>
         <translation type="unfinished">nenhum emitente</translation>
     </message>
-    <message>
-        <location filename="../src/overtimechart.cpp" line="1959"/>
+    <message numerus="yes">
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payee</comment>
-        <translation type="unfinished">%1/%2</translation>
+        <translation type="obsolete">
+            <numerusform>%1/%2</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -6975,13 +7060,8 @@ O que você gostaria de fazer com elas?</translation>
         <translation type="unfinished">Todas categórias Comibinadas</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="112"/>
-        <location filename="../src/overtimereport.cpp" line="183"/>
-        <location filename="../src/overtimereport.cpp" line="232"/>
-        <location filename="../src/overtimereport.cpp" line="699"/>
-        <location filename="../src/overtimereport.cpp" line="765"/>
         <source>All Descriptions Combined</source>
-        <translation type="unfinished">Todas descrições Comibinadas</translation>
+        <translation type="obsolete">Todas descrições Comibinadas</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="120"/>
@@ -7020,11 +7100,26 @@ O que você gostaria de fazer com elas?</translation>
         <translation type="unfinished">valor médio</translation>
     </message>
     <message>
+        <source>No description</source>
+        <translation type="obsolete">Nenhuma descrição</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimereport.cpp" line="112"/>
+        <location filename="../src/overtimereport.cpp" line="183"/>
+        <location filename="../src/overtimereport.cpp" line="232"/>
+        <location filename="../src/overtimereport.cpp" line="699"/>
+        <location filename="../src/overtimereport.cpp" line="765"/>
+        <source>All Descriptions Combined</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Todas descrições Comibinadas</translation>
+    </message>
+    <message>
         <location filename="../src/overtimereport.cpp" line="220"/>
         <location filename="../src/overtimereport.cpp" line="380"/>
         <location filename="../src/overtimereport.cpp" line="389"/>
         <location filename="../src/overtimereport.cpp" line="721"/>
         <source>No description</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Nenhuma descrição</translation>
     </message>
     <message>
@@ -7127,6 +7222,11 @@ O que você gostaria de fazer com elas?</translation>
         <location filename="../src/overtimereport.cpp" line="687"/>
         <source>Adjusted for the average month / year (%1 / %2 days)</source>
         <translation type="unfinished">Ajustado para média mês/ano (%1 / %2 dias)</translation>
+    </message>
+    <message>
+        <source>All Categories Combined</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="obsolete">Todas categórias Comibinadas</translation>
     </message>
 </context>
 <context>
@@ -8086,8 +8186,12 @@ O que você gostaria de fazer com elas?</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="120"/>
+        <source>Generic Description:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Description:</source>
-        <translation type="unfinished">Descrição:</translation>
+        <translation type="obsolete">Descrição:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="128"/>
@@ -8355,7 +8459,12 @@ O que você gostaria de fazer com elas?</translation>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="486"/>
         <source>Cannot change description of dividends and security transactions.</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Impossível mudar a descrição de dividendos e transações de segurança;</translation>
+    </message>
+    <message>
+        <source>Cannot change description of dividends and security transactions.</source>
+        <translation type="obsolete">Impossível mudar a descrição de dividendos e transações de segurança;</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="492"/>

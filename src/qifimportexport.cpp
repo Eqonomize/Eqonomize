@@ -127,13 +127,13 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	layout3->addWidget(openingBalanceEdit, 1, 1);
 
 	QIFWizardPage *page4 = new QIFWizardPage();
-	page4->setTitle(tr("Descriptions"));
-	page4->setSubTitle(tr("Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set."));
+	page4->setTitle(tr("Generic Descriptions"));
+	page4->setSubTitle(tr("Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.", "Referring to generic description"));
 	setPage(4, page4);
 	QGridLayout *layout4 = new QGridLayout(page4);
 	layout4->addWidget(new QLabel(tr("Subcategories as:"), page4), 0, 0);
 	QButtonGroup *subcategoryGroup = new QButtonGroup(this);
-	subcategoryAsDescriptionButton = new QRadioButton(tr("Description"), page4);
+	subcategoryAsDescriptionButton = new QRadioButton(tr("Generic description"), page4);
 	subcategoryGroup->addButton(subcategoryAsDescriptionButton);
 	layout4->addWidget(subcategoryAsDescriptionButton, 0, 1);
 	subcategoryAsDescriptionButton->setChecked(true);
@@ -145,7 +145,7 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	layout4->addWidget(subcategoryIgnoreButton, 0, 3);
 	layout4->addWidget(new QLabel(tr("Payee as:"), page4), 1, 0);
 	QButtonGroup *payeeGroup = new QButtonGroup(this);
-	payeeAsDescriptionButton = new QRadioButton(tr("Description"), page4);
+	payeeAsDescriptionButton = new QRadioButton(tr("Generic description"), page4);
 	payeeGroup->addButton(payeeAsDescriptionButton);
 	layout4->addWidget(payeeAsDescriptionButton, 1, 1);
 	payeeAsPayeeButton = new QRadioButton(tr("Payee"), page4);
@@ -155,7 +155,7 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	payeeAsDescriptionButton->setChecked(!b_extra);
 	layout4->addWidget(new QLabel(tr("Memo as:"), page4), 2, 0);
 	QButtonGroup *memoGroup = new QButtonGroup(this);
-	memoAsDescriptionButton = new QRadioButton(tr("Description"), page4);
+	memoAsDescriptionButton = new QRadioButton(tr("Generic description"), page4);
 	memoGroup->addButton(memoAsDescriptionButton);
 	layout4->addWidget(memoAsDescriptionButton, 2, 1);
 	memoAsCommentButton = new QRadioButton(tr("Comments"), page4);
@@ -520,7 +520,7 @@ ExportQIFDialog::ExportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	grid->addWidget(accountCombo, 0, 1);
 	accountCombo->setFocus();
 
-	grid->addWidget(new QLabel(tr("Export transaction description as:"), this), 1, 0, 1, 2);
+	grid->addWidget(new QLabel(tr("Export transaction description as:", "Referring to generic description"), this), 1, 0, 1, 2);
 	QHBoxLayout *descLayout = new QHBoxLayout();
 	QButtonGroup *group = new QButtonGroup(this);
 	descriptionAsPayeeButton = new QRadioButton(tr("Payee"), this);

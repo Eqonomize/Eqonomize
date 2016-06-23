@@ -3268,12 +3268,18 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonchart.cpp" line="747"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="748"/>
         <source>Other descriptions</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="775"/>
         <source>No description</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Fără descriere</translation>
+    </message>
+    <message>
+        <source>No description</source>
+        <translation type="obsolete">Fără descriere</translation>
     </message>
 </context>
 <context>
@@ -3322,9 +3328,8 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished">Venituri: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="116"/>
         <source>Descriptions for</source>
-        <translation type="unfinished">Descrieri pentru</translation>
+        <translation type="obsolete">Descrieri pentru</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="124"/>
@@ -3384,10 +3389,8 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished">Valoare medie</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="285"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="940"/>
         <source>All descriptions</source>
-        <translation type="unfinished">Toate descrierile</translation>
+        <translation type="obsolete">Toate descrierile</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="286"/>
@@ -3402,6 +3405,23 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished">Toți plătitorii</translation>
     </message>
     <message>
+        <source>No description</source>
+        <translation type="obsolete">Fără descriere</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="116"/>
+        <source>Descriptions for</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Descrieri pentru</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="285"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="940"/>
+        <source>All descriptions</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Toate descrierile</translation>
+    </message>
+    <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="310"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="745"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="749"/>
@@ -3409,6 +3429,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="923"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="970"/>
         <source>No description</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Fără descriere</translation>
     </message>
     <message>
@@ -3589,13 +3610,18 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="unfinished">Tip</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1016"/>
         <source>Description</source>
-        <translation type="unfinished">Descriere</translation>
+        <translation type="obsolete">Descriere</translation>
     </message>
     <message>
         <source>Name</source>
         <translation type="obsolete">Nume</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="1016"/>
+        <source>Description</source>
+        <comment>Generic Description</comment>
+        <translation type="unfinished">Descriere</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1017"/>
@@ -5596,8 +5622,13 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Export transaction description as:</source>
+        <translation type="obsolete">Exportă descriere tranzacție ca:</translation>
+    </message>
+    <message>
         <location filename="../src/qifimportexport.cpp" line="523"/>
         <source>Export transaction description as:</source>
+        <comment>Referring to generic description</comment>
         <translation type="unfinished">Exportă descriere tranzacție ca:</translation>
     </message>
     <message>
@@ -5765,9 +5796,13 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished">Specificații coloane</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="137"/>
         <source>Description:</source>
-        <translation type="unfinished">Descriere:</translation>
+        <translation type="obsolete">Descriere:</translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="137"/>
+        <source>Generic description:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="139"/>
@@ -6148,14 +6183,12 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished">Text balanță de deschidere:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="130"/>
         <source>Descriptions</source>
-        <translation type="unfinished">Descrieri</translation>
+        <translation type="obsolete">Descrieri</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="131"/>
         <source>Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.</source>
-        <translation type="unfinished">Tranzacțiile într-un fișier QIF nu au descrieri specifice. Aveți opțiunea de a stabili descrierea tranzacțiilor importate.</translation>
+        <translation type="obsolete">Tranzacțiile într-un fișier QIF nu au descrieri specifice. Aveți opțiunea de a stabili descrierea tranzacțiilor importate.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="134"/>
@@ -6163,11 +6196,26 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished">Subcategorii ca:</translation>
     </message>
     <message>
+        <source>Description</source>
+        <translation type="obsolete">Descriere</translation>
+    </message>
+    <message>
+        <location filename="../src/qifimportexport.cpp" line="130"/>
+        <source>Generic Descriptions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qifimportexport.cpp" line="131"/>
+        <source>Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.</source>
+        <comment>Referring to generic description</comment>
+        <translation type="unfinished">Tranzacțiile într-un fișier QIF nu au descrieri specifice. Aveți opțiunea de a stabili descrierea tranzacțiilor importate.</translation>
+    </message>
+    <message>
         <location filename="../src/qifimportexport.cpp" line="136"/>
         <location filename="../src/qifimportexport.cpp" line="148"/>
         <location filename="../src/qifimportexport.cpp" line="158"/>
-        <source>Description</source>
-        <translation type="unfinished">Descriere</translation>
+        <source>Generic description</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="140"/>
@@ -6555,7 +6603,12 @@ Ce doriți să le faceți cu ele?</translation>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="531"/>
         <source>Cannot change description of dividends and security transactions.</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Nu se poate schimba descrierea dividendelor și tranzacțiilor cu titluri de valoare.</translation>
+    </message>
+    <message>
+        <source>Cannot change description of dividends and security transactions.</source>
+        <translation type="obsolete">Nu se poate schimba descrierea dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="537"/>
@@ -6731,12 +6784,17 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished">Toate categoriile combinate</translation>
     </message>
     <message>
+        <source>All Descriptions Combined</source>
+        <translation type="obsolete">Toate descrierile combinate</translation>
+    </message>
+    <message>
         <location filename="../src/overtimechart.cpp" line="133"/>
         <location filename="../src/overtimechart.cpp" line="302"/>
         <location filename="../src/overtimechart.cpp" line="406"/>
         <location filename="../src/overtimechart.cpp" line="2024"/>
         <location filename="../src/overtimechart.cpp" line="2145"/>
         <source>All Descriptions Combined</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Toate descrierile combinate</translation>
     </message>
     <message>
@@ -6801,7 +6859,32 @@ Ce doriți să le faceți cu ele?</translation>
         <location filename="../src/overtimechart.cpp" line="331"/>
         <location filename="../src/overtimechart.cpp" line="2025"/>
         <source>All Descriptions Split</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Toate descrierile împărțite</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="379"/>
+        <location filename="../src/overtimechart.cpp" line="1912"/>
+        <location filename="../src/overtimechart.cpp" line="1918"/>
+        <location filename="../src/overtimechart.cpp" line="1946"/>
+        <location filename="../src/overtimechart.cpp" line="1948"/>
+        <location filename="../src/overtimechart.cpp" line="1955"/>
+        <location filename="../src/overtimechart.cpp" line="1957"/>
+        <location filename="../src/overtimechart.cpp" line="1993"/>
+        <location filename="../src/overtimechart.cpp" line="2063"/>
+        <source>No description</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Fără descriere</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="1542"/>
+        <source>Other descriptions</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All Descriptions Split</source>
+        <translation type="obsolete">Toate descrierile împărțite</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="334"/>
@@ -6816,17 +6899,8 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished">Toți beneficiarii împărțiți</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="379"/>
-        <location filename="../src/overtimechart.cpp" line="1912"/>
-        <location filename="../src/overtimechart.cpp" line="1918"/>
-        <location filename="../src/overtimechart.cpp" line="1946"/>
-        <location filename="../src/overtimechart.cpp" line="1948"/>
-        <location filename="../src/overtimechart.cpp" line="1955"/>
-        <location filename="../src/overtimechart.cpp" line="1957"/>
-        <location filename="../src/overtimechart.cpp" line="1993"/>
-        <location filename="../src/overtimechart.cpp" line="2063"/>
         <source>No description</source>
-        <translation type="unfinished">Fără descriere</translation>
+        <translation type="obsolete">Fără descriere</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="387"/>
@@ -6892,11 +6966,6 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1542"/>
-        <source>Other descriptions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/overtimechart.cpp" line="1708"/>
         <source>Value (%1)</source>
         <translation type="unfinished">Valoare (%1)</translation>
@@ -6930,8 +6999,23 @@ Ce doriți să le faceți cu ele?</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="1950"/>
         <source>%1/%2</source>
+        <comment>%1: Generic Description; %2: Payer</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="1959"/>
+        <source>%1/%2</source>
+        <comment>%1: Generic Description; %2: Payee</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%1/%2</source>
         <comment>%1: Description; %2: Payer</comment>
-        <translation type="unfinished">%1/%2</translation>
+        <translation type="obsolete">
+            <numerusform>%1/%2</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1955"/>
@@ -6939,11 +7023,14 @@ Ce doriți să le faceți cu ele?</translation>
         <source>no payee</source>
         <translation type="unfinished">nici un beneficiar</translation>
     </message>
-    <message>
-        <location filename="../src/overtimechart.cpp" line="1959"/>
+    <message numerus="yes">
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payee</comment>
-        <translation type="unfinished">%1/%2</translation>
+        <translation type="obsolete">
+            <numerusform>%1/%2</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -7001,13 +7088,8 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished">Toate categoriile combinate</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="112"/>
-        <location filename="../src/overtimereport.cpp" line="183"/>
-        <location filename="../src/overtimereport.cpp" line="232"/>
-        <location filename="../src/overtimereport.cpp" line="699"/>
-        <location filename="../src/overtimereport.cpp" line="765"/>
         <source>All Descriptions Combined</source>
-        <translation type="unfinished">Toate descrierile combinate</translation>
+        <translation type="obsolete">Toate descrierile combinate</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="120"/>
@@ -7046,11 +7128,26 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished">Valoare medie</translation>
     </message>
     <message>
+        <source>No description</source>
+        <translation type="obsolete">Fără descriere</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimereport.cpp" line="112"/>
+        <location filename="../src/overtimereport.cpp" line="183"/>
+        <location filename="../src/overtimereport.cpp" line="232"/>
+        <location filename="../src/overtimereport.cpp" line="699"/>
+        <location filename="../src/overtimereport.cpp" line="765"/>
+        <source>All Descriptions Combined</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Toate descrierile combinate</translation>
+    </message>
+    <message>
         <location filename="../src/overtimereport.cpp" line="220"/>
         <location filename="../src/overtimereport.cpp" line="380"/>
         <location filename="../src/overtimereport.cpp" line="389"/>
         <location filename="../src/overtimereport.cpp" line="721"/>
         <source>No description</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Fără descriere</translation>
     </message>
     <message>
@@ -7153,6 +7250,11 @@ Ce doriți să le faceți cu ele?</translation>
         <location filename="../src/overtimereport.cpp" line="687"/>
         <source>Adjusted for the average month / year (%1 / %2 days)</source>
         <translation type="unfinished">Ajustat pentru luna / anul mediu (%1 / %2 zile)</translation>
+    </message>
+    <message>
+        <source>All Categories Combined</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="obsolete">Toate categoriile combinate</translation>
     </message>
 </context>
 <context>
@@ -8112,8 +8214,12 @@ Ce doriți să le faceți cu ele?</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="120"/>
+        <source>Generic Description:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Description:</source>
-        <translation type="unfinished">Descriere:</translation>
+        <translation type="obsolete">Descriere:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="128"/>
@@ -8381,7 +8487,12 @@ Ce doriți să le faceți cu ele?</translation>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="486"/>
         <source>Cannot change description of dividends and security transactions.</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Nu se poate schimba descrierea dividendelor și tranzacțiilor cu titluri de valoare.</translation>
+    </message>
+    <message>
+        <source>Cannot change description of dividends and security transactions.</source>
+        <translation type="obsolete">Nu se poate schimba descrierea dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="492"/>

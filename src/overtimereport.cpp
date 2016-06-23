@@ -109,7 +109,7 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	choicesLayout->setStretchFactor(categoryCombo, 1);
 	descriptionCombo = new QComboBox(settingsWidget);
 	descriptionCombo->setEditable(false);
-	descriptionCombo->addItem(tr("All Descriptions Combined"));
+	descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the generic description property"));
 	descriptionCombo->setEnabled(false);
 	choicesLayout->addWidget(descriptionCombo);
 	choicesLayout->setStretchFactor(descriptionCombo, 1);
@@ -180,7 +180,7 @@ void OverTimeReport::descriptionChanged(int index) {
 void OverTimeReport::categoryChanged(int index) {
 	descriptionCombo->blockSignals(true);
 	descriptionCombo->clear();
-	descriptionCombo->addItem(tr("All Descriptions Combined"));
+	descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the generic description property"));
 	current_account = NULL;
 	if(index == 0) {
 		if(sourceCombo->currentIndex() == 2) {
@@ -217,7 +217,7 @@ void OverTimeReport::categoryChanged(int index) {
 		for(QMap<QString, bool>::iterator it = descriptions.begin(); it != it_e; ++it) {
 			descriptionCombo->addItem(it.key());
 		}
-		if(has_empty_description) descriptionCombo->addItem(tr("No description"));
+		if(has_empty_description) descriptionCombo->addItem(tr("No description", "Referring to the generic description property"));
 		descriptionCombo->setEnabled(true);
 	}
 	descriptionCombo->blockSignals(false);
@@ -229,7 +229,7 @@ void OverTimeReport::sourceChanged(int index) {
 	categoryCombo->clear();
 	descriptionCombo->clear();
 	descriptionCombo->setEnabled(false);
-	descriptionCombo->addItem(tr("All Descriptions Combined"));
+	descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the generic description property"));
 	current_description = "";
 	current_account = NULL;
 	categoryCombo->addItem(tr("All Categories Combined"));
@@ -377,7 +377,7 @@ void OverTimeReport::updateDisplay() {
 		}
 		case 9: {
 			account = current_account;
-			title = tr("Incomes: %2, %1").arg(account->name()).arg(current_description.isEmpty() ? tr("No description") : current_description);
+			title = tr("Incomes: %2, %1").arg(account->name()).arg(current_description.isEmpty() ? tr("No description", "Referring to the generic description property") : current_description);
 			pertitle = tr("Average Income");
 			valuetitle = tr("Incomes");
 			type = 3;
@@ -386,7 +386,7 @@ void OverTimeReport::updateDisplay() {
 		}
 		case 10: {
 			account = current_account;
-			title = tr("Expenses: %2, %1").arg(account->name()).arg(current_description.isEmpty() ? tr("No description") : current_description);
+			title = tr("Expenses: %2, %1").arg(account->name()).arg(current_description.isEmpty() ? tr("No description", "Referring to the generic description property") : current_description);
 			pertitle = tr("Average Cost");
 			valuetitle = tr("Expenses");
 			type = 3;
@@ -696,7 +696,7 @@ void OverTimeReport::updateTransactions() {
 		int curindex = 0;
 		descriptionCombo->blockSignals(true);
 		descriptionCombo->clear();
-		descriptionCombo->addItem(tr("All Descriptions Combined"));
+		descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the generic description property"));
 		has_empty_description = false;
 		QMap<QString, bool> descriptions;
 		Transaction *trans = budget->transactions.first();
@@ -718,7 +718,7 @@ void OverTimeReport::updateTransactions() {
 		}
 		if(has_empty_description) {
 			if((current_source == 9 || current_source == 10) && current_description.isEmpty()) curindex = i;
-			descriptionCombo->addItem(tr("No description"));
+			descriptionCombo->addItem(tr("No description", "Referring to the generic description property"));
 		}
 		if(curindex < descriptionCombo->count()) {
 			descriptionCombo->setCurrentIndex(curindex);
@@ -762,7 +762,7 @@ void OverTimeReport::updateAccounts() {
 		if(curindex == 0) {
 			descriptionCombo->clear();
 			descriptionCombo->setEnabled(false);
-			descriptionCombo->addItem(tr("All Descriptions Combined"));
+			descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the generic description property"));
 			if(sourceCombo->currentIndex() == 2) {
 				current_source = 1;
 			} else {

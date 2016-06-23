@@ -113,7 +113,7 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 		QHBoxLayout *payeeLayout = new QHBoxLayout(payeeDescriptionWidget);
 		//payeeLayout->addWidget(new QLabel(tr("Divide on:"), payeeDescriptionWidget));
 		QButtonGroup *group = new QButtonGroup(this);
-		descriptionButton = new QRadioButton(tr("Descriptions for"), payeeDescriptionWidget);
+		descriptionButton = new QRadioButton(tr("Descriptions for", "Referring to the generic description property"), payeeDescriptionWidget);
 		descriptionButton->setChecked(true);
 		group->addButton(descriptionButton);
 		payeeLayout->addWidget(descriptionButton);
@@ -282,7 +282,7 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 			if(i < (int) budget->expensesAccounts.count()) current_account = budget->expensesAccounts.at(i);
 			else current_account = budget->incomesAccounts.at(i - budget->expensesAccounts.count());
 			if(current_account) {
-				descriptionCombo->addItem(tr("All descriptions"));
+				descriptionCombo->addItem(tr("All descriptions", "Referring to the generic description property"));
 				if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->addItem(tr("All payees"));
 				else payeeCombo->addItem(tr("All payers"));
 				has_empty_description = false;
@@ -307,7 +307,7 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 				for(QMap<QString, bool>::iterator it = descriptions.begin(); it != it_e; ++it) {
 					descriptionCombo->addItem(it.key());
 				}
-				if(has_empty_description) descriptionCombo->addItem(tr("No description"));
+				if(has_empty_description) descriptionCombo->addItem(tr("No description", "Referring to the generic description property"));
 				QMap<QString, bool>::iterator it2_e = payees.end();
 				for(QMap<QString, bool>::iterator it2 = payees.begin(); it2 != it2_e; ++it2) {
 					payeeCombo->addItem(it2.key());
@@ -742,11 +742,11 @@ void CategoriesComparisonReport::updateDisplay() {
 	source = "";
 	QString title;
 	if(current_account && type == ACCOUNT_TYPE_EXPENSES) {
-		if(i_source == 4) title = tr("Expenses: %2, %1").arg(current_account->name()).arg(current_description.isEmpty() ? tr("No description") : current_description);
+		if(i_source == 4) title = tr("Expenses: %2, %1").arg(current_account->name()).arg(current_description.isEmpty() ? tr("No description", "Referring to the generic description property") : current_description);
 		else if(i_source == 3) title = tr("Expenses: %2, %1").arg(current_account->name()).arg(current_payee.isEmpty() ? tr("No payee") : current_payee);
 		else title = tr("Expenses: %1").arg(current_account->name());
 	} else if(current_account && type == ACCOUNT_TYPE_INCOMES) {
-		if(i_source == 4) title = tr("Incomes: %2, %1").arg(current_account->name()).arg(current_description.isEmpty() ? tr("No description") : current_description);
+		if(i_source == 4) title = tr("Incomes: %2, %1").arg(current_account->name()).arg(current_description.isEmpty() ? tr("No description", "Referring to the generic description property") : current_description);
 		else if(i_source == 3) title = tr("Incomes: %2, %1").arg(current_account->name()).arg(current_payee.isEmpty() ? tr("No payer") : current_payee);
 		else title = tr("Incomes: %1").arg(current_account->name());
 	} else {
@@ -831,7 +831,7 @@ void CategoriesComparisonReport::updateDisplay() {
 			if(it.key().isEmpty()) {
 				if((i_source == 4 || i_source == 2) && type == ACCOUNT_TYPE_EXPENSES) outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(tr("No payee")) << "</td>";
 				else if(i_source == 4 || i_source == 2) outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(tr("No payer")) << "</td>";
-				else outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(tr("No description")) << "</td>";
+				else outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(tr("No description", "Referring to the generic description property")) << "</td>";
 			} else {
 				outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(it.key()) << "</td>";
 			}
@@ -920,7 +920,7 @@ void CategoriesComparisonReport::updateDisplay() {
 	outf << "</html>" << '\n';
 	htmlview->setHtml(source);
 	if(current_account && b_extra) {
-		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, tr("No description"));
+		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, tr("No description", "Referring to the generic description property"));
 		if(has_empty_payee) {
 			if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->setItemText(payeeCombo->count() - 1, tr("No payee"));
 			else payeeCombo->setItemText(payeeCombo->count() - 1, tr("No payer"));
@@ -937,7 +937,7 @@ void CategoriesComparisonReport::updateTransactions() {
 		descriptionCombo->blockSignals(true);
 		payeeCombo->clear();
 		descriptionCombo->clear();
-		descriptionCombo->addItem(tr("All descriptions"));
+		descriptionCombo->addItem(tr("All descriptions", "Referring to the generic description property"));
 		if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->addItem(tr("All payees"));
 		else payeeCombo->addItem(tr("All payers"));
 		has_empty_description = false;
@@ -967,7 +967,7 @@ void CategoriesComparisonReport::updateTransactions() {
 		}
 		if(has_empty_description) {
 			if(restore_d && current_description.isEmpty()) curindex_d = i;
-			descriptionCombo->addItem(tr("No description"));
+			descriptionCombo->addItem(tr("No description", "Referring to the generic description property"));
 		}
 		if(curindex_d < descriptionCombo->count()) {
 			descriptionCombo->setCurrentIndex(curindex_d);

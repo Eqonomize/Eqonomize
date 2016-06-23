@@ -3088,12 +3088,18 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonchart.cpp" line="747"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="748"/>
         <source>Other descriptions</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="775"/>
         <source>No description</source>
-        <translation>Bez popisu</translation>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Bez popisu</translation>
+    </message>
+    <message>
+        <source>No description</source>
+        <translation type="vanished">Bez popisu</translation>
     </message>
 </context>
 <context>
@@ -3146,9 +3152,8 @@ i18n: file ./eqonomizeui.rc line 56
         <translation>Příjmy: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="116"/>
         <source>Descriptions for</source>
-        <translation>Popis pro</translation>
+        <translation type="vanished">Popis pro</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="124"/>
@@ -3208,10 +3213,8 @@ i18n: file ./eqonomizeui.rc line 56
         <translation>Průměrná hodnota</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="285"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="940"/>
         <source>All descriptions</source>
-        <translation>Všechny popisy</translation>
+        <translation type="vanished">Všechny popisy</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="286"/>
@@ -3226,6 +3229,23 @@ i18n: file ./eqonomizeui.rc line 56
         <translation>Všichni plátci</translation>
     </message>
     <message>
+        <source>No description</source>
+        <translation type="vanished">Bez popisu</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="116"/>
+        <source>Descriptions for</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Popis pro</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="285"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="940"/>
+        <source>All descriptions</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Všechny popisy</translation>
+    </message>
+    <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="310"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="745"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="749"/>
@@ -3233,7 +3253,8 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="923"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="970"/>
         <source>No description</source>
-        <translation>Bez popisu</translation>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Bez popisu</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="316"/>
@@ -3413,13 +3434,18 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation>Typ</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1016"/>
         <source>Description</source>
-        <translation>Popis</translation>
+        <translation type="vanished">Popis</translation>
     </message>
     <message>
         <source>Name</source>
         <translation type="obsolete">Název</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="1016"/>
+        <source>Description</source>
+        <comment>Generic Description</comment>
+        <translation type="unfinished">Popis</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1017"/>
@@ -5447,9 +5473,14 @@ Co s nimi chcete udělat?</translation>
         <translation>Vše</translation>
     </message>
     <message>
+        <source>Export transaction description as:</source>
+        <translation type="vanished">Exportovat popis transakce jako:</translation>
+    </message>
+    <message>
         <location filename="../src/qifimportexport.cpp" line="523"/>
         <source>Export transaction description as:</source>
-        <translation>Exportovat popis transakce jako:</translation>
+        <comment>Referring to generic description</comment>
+        <translation type="unfinished">Exportovat popis transakce jako:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="526"/>
@@ -5616,9 +5647,13 @@ Co s nimi chcete udělat?</translation>
         <translation>Popis sloupce</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="137"/>
         <source>Description:</source>
-        <translation>Popis:</translation>
+        <translation type="vanished">Popis:</translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="137"/>
+        <source>Generic description:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="139"/>
@@ -5999,14 +6034,12 @@ Co s nimi chcete udělat?</translation>
         <translation>Text otevírané bilance:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="130"/>
         <source>Descriptions</source>
-        <translation>Popisy</translation>
+        <translation type="vanished">Popisy</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="131"/>
         <source>Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.</source>
-        <translation>Popis transakcí v souboru QIF nemá typické vlastnosti. Proto máte možnost vybrat, jak bude popis importovaných transakcí nastaven.</translation>
+        <translation type="vanished">Popis transakcí v souboru QIF nemá typické vlastnosti. Proto máte možnost vybrat, jak bude popis importovaných transakcí nastaven.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="134"/>
@@ -6014,11 +6047,26 @@ Co s nimi chcete udělat?</translation>
         <translation>Podkategorie jako:</translation>
     </message>
     <message>
+        <source>Description</source>
+        <translation type="vanished">Popis</translation>
+    </message>
+    <message>
+        <location filename="../src/qifimportexport.cpp" line="130"/>
+        <source>Generic Descriptions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qifimportexport.cpp" line="131"/>
+        <source>Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.</source>
+        <comment>Referring to generic description</comment>
+        <translation type="unfinished">Popis transakcí v souboru QIF nemá typické vlastnosti. Proto máte možnost vybrat, jak bude popis importovaných transakcí nastaven.</translation>
+    </message>
+    <message>
         <location filename="../src/qifimportexport.cpp" line="136"/>
         <location filename="../src/qifimportexport.cpp" line="148"/>
         <location filename="../src/qifimportexport.cpp" line="158"/>
-        <source>Description</source>
-        <translation>Popis</translation>
+        <source>Generic description</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="140"/>
@@ -6406,7 +6454,12 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="531"/>
         <source>Cannot change description of dividends and security transactions.</source>
-        <translation>Nelze změnit popis dividend a transakcí s cennými papíry.</translation>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Nelze změnit popis dividend a transakcí s cennými papíry.</translation>
+    </message>
+    <message>
+        <source>Cannot change description of dividends and security transactions.</source>
+        <translation type="vanished">Nelze změnit popis dividend a transakcí s cennými papíry.</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="537"/>
@@ -6586,13 +6639,18 @@ Co s nimi chcete udělat?</translation>
         <translation>Všechny kategorie kombinované</translation>
     </message>
     <message>
+        <source>All Descriptions Combined</source>
+        <translation type="vanished">Všechny popisy kombinované</translation>
+    </message>
+    <message>
         <location filename="../src/overtimechart.cpp" line="133"/>
         <location filename="../src/overtimechart.cpp" line="302"/>
         <location filename="../src/overtimechart.cpp" line="406"/>
         <location filename="../src/overtimechart.cpp" line="2024"/>
         <location filename="../src/overtimechart.cpp" line="2145"/>
         <source>All Descriptions Combined</source>
-        <translation>Všechny popisy kombinované</translation>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Všechny popisy kombinované</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="141"/>
@@ -6656,7 +6714,32 @@ Co s nimi chcete udělat?</translation>
         <location filename="../src/overtimechart.cpp" line="331"/>
         <location filename="../src/overtimechart.cpp" line="2025"/>
         <source>All Descriptions Split</source>
-        <translation>Rozdělení všech popisů</translation>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Rozdělení všech popisů</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="379"/>
+        <location filename="../src/overtimechart.cpp" line="1912"/>
+        <location filename="../src/overtimechart.cpp" line="1918"/>
+        <location filename="../src/overtimechart.cpp" line="1946"/>
+        <location filename="../src/overtimechart.cpp" line="1948"/>
+        <location filename="../src/overtimechart.cpp" line="1955"/>
+        <location filename="../src/overtimechart.cpp" line="1957"/>
+        <location filename="../src/overtimechart.cpp" line="1993"/>
+        <location filename="../src/overtimechart.cpp" line="2063"/>
+        <source>No description</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Bez popisu</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="1542"/>
+        <source>Other descriptions</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All Descriptions Split</source>
+        <translation type="vanished">Rozdělení všech popisů</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="334"/>
@@ -6671,17 +6754,8 @@ Co s nimi chcete udělat?</translation>
         <translation>Rozdělení všech příjemců</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="379"/>
-        <location filename="../src/overtimechart.cpp" line="1912"/>
-        <location filename="../src/overtimechart.cpp" line="1918"/>
-        <location filename="../src/overtimechart.cpp" line="1946"/>
-        <location filename="../src/overtimechart.cpp" line="1948"/>
-        <location filename="../src/overtimechart.cpp" line="1955"/>
-        <location filename="../src/overtimechart.cpp" line="1957"/>
-        <location filename="../src/overtimechart.cpp" line="1993"/>
-        <location filename="../src/overtimechart.cpp" line="2063"/>
         <source>No description</source>
-        <translation>Bez popisu</translation>
+        <translation type="vanished">Bez popisu</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="387"/>
@@ -6747,11 +6821,6 @@ Co s nimi chcete udělat?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1542"/>
-        <source>Other descriptions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/overtimechart.cpp" line="1708"/>
         <source>Value (%1)</source>
         <translation>Hodnota (%1)</translation>
@@ -6785,8 +6854,23 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="1950"/>
         <source>%1/%2</source>
+        <comment>%1: Generic Description; %2: Payer</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="1959"/>
+        <source>%1/%2</source>
+        <comment>%1: Generic Description; %2: Payee</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%1/%2</source>
         <comment>%1: Description; %2: Payer</comment>
-        <translation>%1/%2</translation>
+        <translation type="obsolete">
+            <numerusform>%1/%2</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1955"/>
@@ -6794,11 +6878,14 @@ Co s nimi chcete udělat?</translation>
         <source>no payee</source>
         <translation>Žádný příjemce</translation>
     </message>
-    <message>
-        <location filename="../src/overtimechart.cpp" line="1959"/>
+    <message numerus="yes">
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payee</comment>
-        <translation>%1/%2</translation>
+        <translation type="obsolete">
+            <numerusform>%1/%2</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -6860,13 +6947,8 @@ Co s nimi chcete udělat?</translation>
         <translation>Všechny kategorie kombinované</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="112"/>
-        <location filename="../src/overtimereport.cpp" line="183"/>
-        <location filename="../src/overtimereport.cpp" line="232"/>
-        <location filename="../src/overtimereport.cpp" line="699"/>
-        <location filename="../src/overtimereport.cpp" line="765"/>
         <source>All Descriptions Combined</source>
-        <translation>Všechny popisy kombinované</translation>
+        <translation type="vanished">Všechny popisy kombinované</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="120"/>
@@ -6905,12 +6987,27 @@ Co s nimi chcete udělat?</translation>
         <translation>Průměrná hodnota</translation>
     </message>
     <message>
+        <source>No description</source>
+        <translation type="vanished">Bez popisu</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimereport.cpp" line="112"/>
+        <location filename="../src/overtimereport.cpp" line="183"/>
+        <location filename="../src/overtimereport.cpp" line="232"/>
+        <location filename="../src/overtimereport.cpp" line="699"/>
+        <location filename="../src/overtimereport.cpp" line="765"/>
+        <source>All Descriptions Combined</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Všechny popisy kombinované</translation>
+    </message>
+    <message>
         <location filename="../src/overtimereport.cpp" line="220"/>
         <location filename="../src/overtimereport.cpp" line="380"/>
         <location filename="../src/overtimereport.cpp" line="389"/>
         <location filename="../src/overtimereport.cpp" line="721"/>
         <source>No description</source>
-        <translation>Bez popisu</translation>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Bez popisu</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="292"/>
@@ -7012,6 +7109,11 @@ Co s nimi chcete udělat?</translation>
         <location filename="../src/overtimereport.cpp" line="687"/>
         <source>Adjusted for the average month / year (%1 / %2 days)</source>
         <translation>Nastaveno na průměrný měsíc / rok (%1 / %2 dnů)</translation>
+    </message>
+    <message>
+        <source>All Categories Combined</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="obsolete">Všechny kategorie kombinované</translation>
     </message>
 </context>
 <context>
@@ -7971,8 +8073,12 @@ Co s nimi chcete udělat?</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="120"/>
+        <source>Generic Description:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Description:</source>
-        <translation>Popis:</translation>
+        <translation type="vanished">Popis:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="128"/>
@@ -8244,7 +8350,12 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="486"/>
         <source>Cannot change description of dividends and security transactions.</source>
-        <translation>Nelze změnit popis dividend a transakcí s cennými papíry.</translation>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Nelze změnit popis dividend a transakcí s cennými papíry.</translation>
+    </message>
+    <message>
+        <source>Cannot change description of dividends and security transactions.</source>
+        <translation type="vanished">Nelze změnit popis dividend a transakcí s cennými papíry.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="492"/>

@@ -2751,12 +2751,22 @@ Vad vill du göra med dem?</translation>
         <location filename="../src/categoriescomparisonchart.cpp" line="747"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="748"/>
         <source>Other descriptions</source>
+        <comment>Referring to the generic description property</comment>
         <translation>Andra benämningar</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="775"/>
         <source>No description</source>
-        <translation>Ingen beskrivning</translation>
+        <comment>Referring to the generic description property</comment>
+        <translation>Ingen benämning</translation>
+    </message>
+    <message>
+        <source>Other descriptions</source>
+        <translation type="vanished">Andra benämningar</translation>
+    </message>
+    <message>
+        <source>No description</source>
+        <translation type="vanished">Ingen benämning</translation>
     </message>
 </context>
 <context>
@@ -2809,9 +2819,8 @@ Vad vill du göra med dem?</translation>
         <translation>Inkomster: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="116"/>
         <source>Descriptions for</source>
-        <translation>Beskrivningar för</translation>
+        <translation type="vanished">Benämningar för</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="124"/>
@@ -2871,10 +2880,8 @@ Vad vill du göra med dem?</translation>
         <translation>Genomsnittligt värde</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="285"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="940"/>
         <source>All descriptions</source>
-        <translation>Alla beskrivningar</translation>
+        <translation type="vanished">Alla benämningar</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="286"/>
@@ -2889,6 +2896,23 @@ Vad vill du göra med dem?</translation>
         <translation>Alla utbetalare</translation>
     </message>
     <message>
+        <source>No description</source>
+        <translation type="vanished">Ingen benämning</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="116"/>
+        <source>Descriptions for</source>
+        <comment>Referring to the generic description property</comment>
+        <translation>Benämningar för</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="285"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="940"/>
+        <source>All descriptions</source>
+        <comment>Referring to the generic description property</comment>
+        <translation>Alla benämningar</translation>
+    </message>
+    <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="310"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="745"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="749"/>
@@ -2896,7 +2920,8 @@ Vad vill du göra med dem?</translation>
         <location filename="../src/categoriescomparisonreport.cpp" line="923"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="970"/>
         <source>No description</source>
-        <translation>Ingen beskrivning</translation>
+        <comment>Referring to the generic description property</comment>
+        <translation>Ingen benämning</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="316"/>
@@ -3076,13 +3101,18 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Typ</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1016"/>
         <source>Description</source>
-        <translation>Beskrivning</translation>
+        <translation type="vanished">Benämning</translation>
     </message>
     <message>
         <source>Name</source>
         <translation type="vanished">Benämning</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="1016"/>
+        <source>Description</source>
+        <comment>Generic Description</comment>
+        <translation>Benämning</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1017"/>
@@ -5141,9 +5171,14 @@ Vad vill du göra med dem?</translation>
         <translation>Alla</translation>
     </message>
     <message>
+        <source>Export transaction description as:</source>
+        <translation type="vanished">Exportera transaktionsbenämningar som:</translation>
+    </message>
+    <message>
         <location filename="../src/qifimportexport.cpp" line="523"/>
         <source>Export transaction description as:</source>
-        <translation>Exportera transaktionsbeskrivningar som:</translation>
+        <comment>Referring to generic description</comment>
+        <translation>Exportera transaktionsbenämningar som:</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="526"/>
@@ -5310,9 +5345,13 @@ Vad vill du göra med dem?</translation>
         <translation>Kolumnspecificering</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="137"/>
         <source>Description:</source>
-        <translation>Beskrivning:</translation>
+        <translation type="obsolete">Beskrivning:</translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="137"/>
+        <source>Generic description:</source>
+        <translation>Allmän benämning:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="139"/>
@@ -5698,14 +5737,12 @@ Vad vill du göra med dem?</translation>
         <translation>Öppningsbalanstext:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="130"/>
         <source>Descriptions</source>
-        <translation>Beskrivningar</translation>
+        <translation type="obsolete">Beskrivningar</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="131"/>
         <source>Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.</source>
-        <translation>Transaktioner i QIF-filer har inte någon specifik beskrivningsegenskap.Du har därför möjligheten att välj hur beskrivningen för importerade transaktioner skall anges.</translation>
+        <translation type="vanished">Transaktioner i QIF-filer har inte någon specifik beskrivningsegenskap.Du har därför möjligheten att välj hur beskrivningen för importerade transaktioner skall anges.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="134"/>
@@ -5713,11 +5750,26 @@ Vad vill du göra med dem?</translation>
         <translation>Underkategorier som:</translation>
     </message>
     <message>
+        <source>Description</source>
+        <translation type="vanished">Beskrivning</translation>
+    </message>
+    <message>
+        <location filename="../src/qifimportexport.cpp" line="130"/>
+        <source>Generic Descriptions</source>
+        <translation>Allmänna benämningar</translation>
+    </message>
+    <message>
+        <location filename="../src/qifimportexport.cpp" line="131"/>
+        <source>Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.</source>
+        <comment>Referring to generic description</comment>
+        <translation>Transaktioner i QIF-filer har inte någon specifik benämningsegenskap.Du har därför möjligheten att välj hur benämningen för importerade transaktioner skall anges.</translation>
+    </message>
+    <message>
         <location filename="../src/qifimportexport.cpp" line="136"/>
         <location filename="../src/qifimportexport.cpp" line="148"/>
         <location filename="../src/qifimportexport.cpp" line="158"/>
-        <source>Description</source>
-        <translation>Beskrivning</translation>
+        <source>Generic description</source>
+        <translation>Allmän benämning</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="140"/>
@@ -6102,7 +6154,12 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="531"/>
         <source>Cannot change description of dividends and security transactions.</source>
-        <translation>Kan inte ändra beskrivning för utdelningar och värdepapperstransaktioner.</translation>
+        <comment>Referring to the generic description property</comment>
+        <translation>Kan inte ändra benämningar för utdelningar och värdepapperstransaktioner.</translation>
+    </message>
+    <message>
+        <source>Cannot change description of dividends and security transactions.</source>
+        <translation type="vanished">Kan inte ändra benämningar för utdelningar och värdepapperstransaktioner.</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="537"/>
@@ -6282,13 +6339,18 @@ Vad vill du göra med dem?</translation>
         <translation>Alla kategorier kombinerade</translation>
     </message>
     <message>
+        <source>All Descriptions Combined</source>
+        <translation type="vanished">Alla beskrivningar kombinerade</translation>
+    </message>
+    <message>
         <location filename="../src/overtimechart.cpp" line="133"/>
         <location filename="../src/overtimechart.cpp" line="302"/>
         <location filename="../src/overtimechart.cpp" line="406"/>
         <location filename="../src/overtimechart.cpp" line="2024"/>
         <location filename="../src/overtimechart.cpp" line="2145"/>
         <source>All Descriptions Combined</source>
-        <translation>Alla beskrivningar kombinerade</translation>
+        <comment>Referring to the generic description property</comment>
+        <translation>Alla benämningar kombinerade</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="141"/>
@@ -6352,7 +6414,44 @@ Vad vill du göra med dem?</translation>
         <location filename="../src/overtimechart.cpp" line="331"/>
         <location filename="../src/overtimechart.cpp" line="2025"/>
         <source>All Descriptions Split</source>
-        <translation>Alla beskrivningar uppdelade</translation>
+        <comment>Referring to the generic description property</comment>
+        <translation>Alla benämningar uppdelade</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="379"/>
+        <location filename="../src/overtimechart.cpp" line="1912"/>
+        <location filename="../src/overtimechart.cpp" line="1918"/>
+        <location filename="../src/overtimechart.cpp" line="1946"/>
+        <location filename="../src/overtimechart.cpp" line="1948"/>
+        <location filename="../src/overtimechart.cpp" line="1955"/>
+        <location filename="../src/overtimechart.cpp" line="1957"/>
+        <location filename="../src/overtimechart.cpp" line="1993"/>
+        <location filename="../src/overtimechart.cpp" line="2063"/>
+        <source>No description</source>
+        <comment>Referring to the generic description property</comment>
+        <translation>Ingen benämning</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="1542"/>
+        <source>Other descriptions</source>
+        <comment>Referring to the generic description property</comment>
+        <translation>Andra benämningar</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="1950"/>
+        <source>%1/%2</source>
+        <comment>%1: Generic Description; %2: Payer</comment>
+        <translation>%1/%2</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="1959"/>
+        <source>%1/%2</source>
+        <comment>%1: Generic Description; %2: Payee</comment>
+        <translation>%1/%2</translation>
+    </message>
+    <message>
+        <source>All Descriptions Split</source>
+        <translation type="vanished">Alla beskrivningar uppdelade</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="334"/>
@@ -6367,17 +6466,8 @@ Vad vill du göra med dem?</translation>
         <translation>Alla mottagare uppdelade</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="379"/>
-        <location filename="../src/overtimechart.cpp" line="1912"/>
-        <location filename="../src/overtimechart.cpp" line="1918"/>
-        <location filename="../src/overtimechart.cpp" line="1946"/>
-        <location filename="../src/overtimechart.cpp" line="1948"/>
-        <location filename="../src/overtimechart.cpp" line="1955"/>
-        <location filename="../src/overtimechart.cpp" line="1957"/>
-        <location filename="../src/overtimechart.cpp" line="1993"/>
-        <location filename="../src/overtimechart.cpp" line="2063"/>
         <source>No description</source>
-        <translation>Ingen beskrivning</translation>
+        <translation type="vanished">Ingen beskrivning</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="387"/>
@@ -6443,9 +6533,8 @@ Vad vill du göra med dem?</translation>
         <translation>Andra utbetalare</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1542"/>
         <source>Other descriptions</source>
-        <translation>Andra benämningar</translation>
+        <translation type="vanished">Andra benämningar</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1708"/>
@@ -6478,11 +6567,13 @@ Vad vill du göra med dem?</translation>
         <source>no payer</source>
         <translation>ingen utbetalare</translation>
     </message>
-    <message>
-        <location filename="../src/overtimechart.cpp" line="1950"/>
+    <message numerus="yes">
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payer</comment>
-        <translation>%1/%2</translation>
+        <translation type="obsolete">
+            <numerusform>%1/%2</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1955"/>
@@ -6490,11 +6581,13 @@ Vad vill du göra med dem?</translation>
         <source>no payee</source>
         <translation>ingen mottagare</translation>
     </message>
-    <message>
-        <location filename="../src/overtimechart.cpp" line="1959"/>
+    <message numerus="yes">
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payee</comment>
-        <translation>%1/%2</translation>
+        <translation type="obsolete">
+            <numerusform>%1/%2</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -6556,13 +6649,8 @@ Vad vill du göra med dem?</translation>
         <translation>Alla kategorier kombinerade</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="112"/>
-        <location filename="../src/overtimereport.cpp" line="183"/>
-        <location filename="../src/overtimereport.cpp" line="232"/>
-        <location filename="../src/overtimereport.cpp" line="699"/>
-        <location filename="../src/overtimereport.cpp" line="765"/>
         <source>All Descriptions Combined</source>
-        <translation>Alla beskrivningar kombinerade</translation>
+        <translation type="vanished">Alla beskrivningar kombinerade</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="120"/>
@@ -6601,12 +6689,27 @@ Vad vill du göra med dem?</translation>
         <translation>Genomsnittligt värde</translation>
     </message>
     <message>
+        <source>No description</source>
+        <translation type="vanished">Ingen beskrivning</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimereport.cpp" line="112"/>
+        <location filename="../src/overtimereport.cpp" line="183"/>
+        <location filename="../src/overtimereport.cpp" line="232"/>
+        <location filename="../src/overtimereport.cpp" line="699"/>
+        <location filename="../src/overtimereport.cpp" line="765"/>
+        <source>All Descriptions Combined</source>
+        <comment>Referring to the generic description property</comment>
+        <translation>Alla benämninar kombinerade</translation>
+    </message>
+    <message>
         <location filename="../src/overtimereport.cpp" line="220"/>
         <location filename="../src/overtimereport.cpp" line="380"/>
         <location filename="../src/overtimereport.cpp" line="389"/>
         <location filename="../src/overtimereport.cpp" line="721"/>
         <source>No description</source>
-        <translation>Ingen beskrivning</translation>
+        <comment>Referring to the generic description property</comment>
+        <translation>Ingen benämning</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="292"/>
@@ -6708,6 +6811,11 @@ Vad vill du göra med dem?</translation>
         <location filename="../src/overtimereport.cpp" line="687"/>
         <source>Adjusted for the average month / year (%1 / %2 days)</source>
         <translation>Justerad för den genomsnittliga månaden / året (%1 / %2 dagar)</translation>
+    </message>
+    <message>
+        <source>All Categories Combined</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="vanished">Alla kategorier kombinerade</translation>
     </message>
 </context>
 <context>
@@ -7671,8 +7779,12 @@ Vad vill du göra med dem?</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="120"/>
+        <source>Generic Description:</source>
+        <translation>Allmän benämning:</translation>
+    </message>
+    <message>
         <source>Description:</source>
-        <translation>Beskrivning:</translation>
+        <translation type="vanished">Beskrivning:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="128"/>
@@ -7948,7 +8060,12 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="486"/>
         <source>Cannot change description of dividends and security transactions.</source>
-        <translation>Kan inte ändra beskrivning för utdelningar och värdepapperstransaktioner.</translation>
+        <comment>Referring to the generic description property</comment>
+        <translation>Kan inte ändra benämningar för utdelningar och värdepapperstransaktioner.</translation>
+    </message>
+    <message>
+        <source>Cannot change description of dividends and security transactions.</source>
+        <translation type="vanished">Kan inte ändra benämningar för utdelningar och värdepapperstransaktioner.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="492"/>

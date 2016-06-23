@@ -744,8 +744,8 @@ void CategoriesComparisonChart::updateDisplay() {
 			++it_desc;
 		}
 		if(desc_values.size() > desc_order.size()) {
-			desc_order.push_back(tr("Other descriptions"));
-			desc_values[tr("Other descriptions")] = remaining_value;
+			desc_order.push_back(tr("Other descriptions", "Referring to the generic description property"));
+			desc_values[tr("Other descriptions", "Referring to the generic description property")] = remaining_value;
 		}
 	}	
 	
@@ -772,7 +772,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		double legend_value = 0.0;
 		if(current_account) {
 			if(desc_order[index].isEmpty()) {
-				legend_string = tr("No description");
+				legend_string = tr("No description", "Referring to the generic description property");
 			} else {
 				legend_string = desc_order[index];
 			}

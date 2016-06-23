@@ -134,7 +134,7 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	setPage(2, page3);
 	QGridLayout *layout3 = new QGridLayout(page3);
 
-	layout3->addWidget(new QLabel(tr("Description:"), page3), 0, 0);
+	layout3->addWidget(new QLabel(tr("Generic description:"), page3), 0, 0);
 	descriptionGroup = new QButtonGroup(this);
 	columnDescriptionButton = new QRadioButton(tr("Column"), page3);
 	descriptionGroup->addButton(columnDescriptionButton);

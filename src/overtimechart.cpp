@@ -130,7 +130,7 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	else choicesLayout->addWidget(categoryCombo);
 	descriptionCombo = new QComboBox(settingsWidget);
 	descriptionCombo->setEditable(false);
-	descriptionCombo->addItem(tr("All Descriptions Combined"));
+	descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the generic description property"));
 	descriptionCombo->setEnabled(false);
 	if(b_extra) choicesLayout_extra->addWidget(descriptionCombo, 0, 2);
 	else choicesLayout->addWidget(descriptionCombo);
@@ -299,7 +299,7 @@ void OverTimeChart::categoryChanged(int index) {
 	descriptionCombo->blockSignals(true);
 	int d_index = descriptionCombo->currentIndex();
 	descriptionCombo->clear();
-	descriptionCombo->addItem(tr("All Descriptions Combined"));
+	descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the generic description property"));
 	int p_index = 0;
 	current_description = "";
 	current_payee = "";
@@ -328,7 +328,7 @@ void OverTimeChart::categoryChanged(int index) {
 		descriptionCombo->setEnabled(false);
 		if(b_extra) payeeCombo->setEnabled(false);
 	} else {
-		descriptionCombo->addItem(tr("All Descriptions Split"));
+		descriptionCombo->addItem(tr("All Descriptions Split", "Referring to the generic description property"));
 		if(d_index == 1) descriptionCombo->setCurrentIndex(1);
 		if(b_extra) {
 			if(b_income) payeeCombo->addItem(tr("All Payers Split"));
@@ -376,7 +376,7 @@ void OverTimeChart::categoryChanged(int index) {
 		for(QMap<QString, bool>::iterator it = descriptions.begin(); it != it_e; ++it) {
 			descriptionCombo->addItem(it.key());
 		}
-		if(has_empty_description) descriptionCombo->addItem(tr("No description"));
+		if(has_empty_description) descriptionCombo->addItem(tr("No description", "Referring to the generic description property"));
 		descriptionCombo->setEnabled(true);
 		if(b_extra) {
 			QMap<QString, bool>::iterator it2_e = payees.end();
@@ -403,7 +403,7 @@ void OverTimeChart::sourceChanged(int index) {
 	categoryCombo->clear();
 	descriptionCombo->clear();
 	descriptionCombo->setEnabled(false);
-	descriptionCombo->addItem(tr("All Descriptions Combined"));
+	descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the generic description property"));
 	if(b_extra) {
 		payeeCombo->clear();
 		payeeCombo->setEnabled(false);
@@ -1539,7 +1539,7 @@ void OverTimeChart::updateDisplay() {
 		} else if(current_source == 11 || current_source == 13) {
 			r_desc_str = tr("Other payers");
 		} else {
-			r_desc_str = tr("Other descriptions");
+			r_desc_str = tr("Other descriptions", "Referring to the generic description property");
 		}
 		monthly_desc[r_desc_str] = QVector<chart_month_info>();
 		monthly_values = &monthly_desc[r_desc_str];
@@ -1909,13 +1909,13 @@ void OverTimeChart::updateDisplay() {
 			case 18: {}
 			case 7: {}
 			case 8: {
-				if(desc_order[desc_i].isEmpty()) legend_text->setText(tr("No description"));
+				if(desc_order[desc_i].isEmpty()) legend_text->setText(tr("No description", "Referring to the generic description property"));
 				else legend_text->setText(desc_order[desc_i]);
 				break;
 			}
 			case 9: {}
 			case 10: {
-				if(current_description.isEmpty()) legend_text->setText(tr("No description"));
+				if(current_description.isEmpty()) legend_text->setText(tr("No description", "Referring to the generic description property"));
 				else legend_text->setText(current_description);
 				break;
 			}
@@ -1943,20 +1943,20 @@ void OverTimeChart::updateDisplay() {
 			}
 			case 19: {
 				QString str1, str2;
-				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description"); str2 = tr("no payer");}
+				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the generic description property"); str2 = tr("no payer");}
 				else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("no payer");}
-				else if(current_description.isEmpty()) {str1 = tr("No description"); str2 = current_payee;}
+				else if(current_description.isEmpty()) {str1 = tr("No description", "Referring to the generic description property"); str2 = current_payee;}
 				else {str1 = current_description; str2 = current_payee;}
-				legend_text->setText(tr("%1/%2", "%1: Description; %2: Payer").arg(str1).arg(str2));
+				legend_text->setText(tr("%1/%2", "%1: Generic Description; %2: Payer").arg(str1).arg(str2));
 				break;
 			}
 			case 20: {
 				QString str1, str2;
-				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description"); str2 = tr("no payee");}
+				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the generic description property"); str2 = tr("no payee");}
 				else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("no payee");}
-				else if(current_description.isEmpty()) {str1 = tr("No description"); str2 = current_payee;}
+				else if(current_description.isEmpty()) {str1 = tr("No description", "Referring to the generic description property"); str2 = current_payee;}
 				else {str1 = current_description; str2 = current_payee;}
-				legend_text->setText(tr("%1/%2", "%1: Description; %2: Payee").arg(str1).arg(str2));
+				legend_text->setText(tr("%1/%2", "%1: Generic Description; %2: Payee").arg(str1).arg(str2));
 				break;
 			}
 		}
@@ -1990,7 +1990,7 @@ void OverTimeChart::updateDisplay() {
 		delete oldscene;
 	}
 	if(current_source == 7 || current_source == 8 || current_source == 17 || current_source == 18) {
-		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, tr("No description"));
+		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, tr("No description", "Referring to the generic description property"));
 	} else if(current_source == 12 || current_source == 14) {
 		if(has_empty_payee) payeeCombo->setItemText(payeeCombo->count() - 1, tr("No payee"));
 	} else if(current_source == 11 || current_source == 13) {
@@ -2021,8 +2021,8 @@ void OverTimeChart::updateTransactions() {
 		}
 		descriptionCombo->blockSignals(true);
 		descriptionCombo->clear();
-		descriptionCombo->addItem(tr("All Descriptions Combined"));
-		descriptionCombo->addItem(tr("All Descriptions Split"));
+		descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the generic description property"));
+		descriptionCombo->addItem(tr("All Descriptions Split", "Referring to the generic description property"));
 		if(b_extra) {
 			if(b_income) payeeCombo->addItem(tr("All Payers Combined"));
 			else payeeCombo->addItem(tr("All Payees Combined"));
@@ -2060,7 +2060,7 @@ void OverTimeChart::updateTransactions() {
 		}
 		if(has_empty_description) {
 			if((current_source == 9 || current_source == 10 || current_source == 13 || current_source == 14 || current_source == 19 || current_source == 20) && current_description.isEmpty()) curindex = i;
-			descriptionCombo->addItem(tr("No description"));
+			descriptionCombo->addItem(tr("No description", "Referring to the generic description property"));
 		}
 		if(b_extra) {
 			i = 2;
@@ -2142,7 +2142,7 @@ void OverTimeChart::updateAccounts() {
 		if(curindex <= 1) {
 			descriptionCombo->clear();
 			descriptionCombo->setEnabled(false);
-			descriptionCombo->addItem(tr("All Descriptions Combined"));
+			descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the generic description property"));
 			if(b_extra) {
 				payeeCombo->clear();
 				payeeCombo->setEnabled(false);

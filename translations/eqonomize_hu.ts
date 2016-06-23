@@ -3239,12 +3239,18 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonchart.cpp" line="747"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="748"/>
         <source>Other descriptions</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="775"/>
         <source>No description</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Nincs leírás</translation>
+    </message>
+    <message>
+        <source>No description</source>
+        <translation type="obsolete">Nincs leírás</translation>
     </message>
 </context>
 <context>
@@ -3293,9 +3299,8 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished">Bevételek: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="116"/>
         <source>Descriptions for</source>
-        <translation type="unfinished">Típusok</translation>
+        <translation type="obsolete">Típusok</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="124"/>
@@ -3355,10 +3360,8 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished">Átlagérték</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="285"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="940"/>
         <source>All descriptions</source>
-        <translation type="unfinished">Összes típus</translation>
+        <translation type="obsolete">Összes típus</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="286"/>
@@ -3373,6 +3376,23 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished">Összes kifizető</translation>
     </message>
     <message>
+        <source>No description</source>
+        <translation type="obsolete">Nincs leírás</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="116"/>
+        <source>Descriptions for</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Típusok</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="285"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="940"/>
+        <source>All descriptions</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Összes típus</translation>
+    </message>
+    <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="310"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="745"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="749"/>
@@ -3380,6 +3400,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="923"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="970"/>
         <source>No description</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Nincs leírás</translation>
     </message>
     <message>
@@ -3560,13 +3581,18 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <translation type="unfinished">Típus</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1016"/>
         <source>Description</source>
-        <translation type="unfinished">Leírás</translation>
+        <translation type="obsolete">Leírás</translation>
     </message>
     <message>
         <source>Name</source>
         <translation type="obsolete">Név</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="1016"/>
+        <source>Description</source>
+        <comment>Generic Description</comment>
+        <translation type="unfinished">Leírás</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1017"/>
@@ -5570,8 +5596,13 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="unfinished">Összes</translation>
     </message>
     <message>
+        <source>Export transaction description as:</source>
+        <translation type="obsolete">Alábbi tranzakció-típusok exportálása:</translation>
+    </message>
+    <message>
         <location filename="../src/qifimportexport.cpp" line="523"/>
         <source>Export transaction description as:</source>
+        <comment>Referring to generic description</comment>
         <translation type="unfinished">Alábbi tranzakció-típusok exportálása:</translation>
     </message>
     <message>
@@ -5739,9 +5770,13 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="unfinished">Oszlopok leírása</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="137"/>
         <source>Description:</source>
-        <translation type="unfinished">Leírás:</translation>
+        <translation type="obsolete">Leírás:</translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="137"/>
+        <source>Generic description:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="139"/>
@@ -6118,14 +6153,12 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="unfinished">Nyitóegyenleg szöveg:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="130"/>
         <source>Descriptions</source>
-        <translation type="unfinished">Típusok</translation>
+        <translation type="obsolete">Típusok</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="131"/>
         <source>Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.</source>
-        <translation type="unfinished">A QIF fájlban lévő tranzakcióknak nincs specifikus tulajdonsága. Ezért beállíthatod az importált tranzakciók típusát.</translation>
+        <translation type="obsolete">A QIF fájlban lévő tranzakcióknak nincs specifikus tulajdonsága. Ezért beállíthatod az importált tranzakciók típusát.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="134"/>
@@ -6133,11 +6166,26 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="unfinished">Alkategóriák mint:</translation>
     </message>
     <message>
+        <source>Description</source>
+        <translation type="obsolete">Leírás</translation>
+    </message>
+    <message>
+        <location filename="../src/qifimportexport.cpp" line="130"/>
+        <source>Generic Descriptions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qifimportexport.cpp" line="131"/>
+        <source>Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.</source>
+        <comment>Referring to generic description</comment>
+        <translation type="unfinished">A QIF fájlban lévő tranzakcióknak nincs specifikus tulajdonsága. Ezért beállíthatod az importált tranzakciók típusát.</translation>
+    </message>
+    <message>
         <location filename="../src/qifimportexport.cpp" line="136"/>
         <location filename="../src/qifimportexport.cpp" line="148"/>
         <location filename="../src/qifimportexport.cpp" line="158"/>
-        <source>Description</source>
-        <translation type="unfinished">Leírás</translation>
+        <source>Generic description</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="140"/>
@@ -6511,7 +6559,12 @@ Biztosan el akarod távolítani a számlát?</translation>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="531"/>
         <source>Cannot change description of dividends and security transactions.</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Az értékpapír-tranzakciók és az osztalékok fajtája nem változtatható meg.</translation>
+    </message>
+    <message>
+        <source>Cannot change description of dividends and security transactions.</source>
+        <translation type="obsolete">Az értékpapír-tranzakciók és az osztalékok fajtája nem változtatható meg.</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="537"/>
@@ -6687,12 +6740,17 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="unfinished">Összes kategória együtt</translation>
     </message>
     <message>
+        <source>All Descriptions Combined</source>
+        <translation type="obsolete">Összes típus együtt</translation>
+    </message>
+    <message>
         <location filename="../src/overtimechart.cpp" line="133"/>
         <location filename="../src/overtimechart.cpp" line="302"/>
         <location filename="../src/overtimechart.cpp" line="406"/>
         <location filename="../src/overtimechart.cpp" line="2024"/>
         <location filename="../src/overtimechart.cpp" line="2145"/>
         <source>All Descriptions Combined</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Összes típus együtt</translation>
     </message>
     <message>
@@ -6757,7 +6815,32 @@ Biztosan el akarod távolítani a számlát?</translation>
         <location filename="../src/overtimechart.cpp" line="331"/>
         <location filename="../src/overtimechart.cpp" line="2025"/>
         <source>All Descriptions Split</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Összes típus külön</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="379"/>
+        <location filename="../src/overtimechart.cpp" line="1912"/>
+        <location filename="../src/overtimechart.cpp" line="1918"/>
+        <location filename="../src/overtimechart.cpp" line="1946"/>
+        <location filename="../src/overtimechart.cpp" line="1948"/>
+        <location filename="../src/overtimechart.cpp" line="1955"/>
+        <location filename="../src/overtimechart.cpp" line="1957"/>
+        <location filename="../src/overtimechart.cpp" line="1993"/>
+        <location filename="../src/overtimechart.cpp" line="2063"/>
+        <source>No description</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Nincs leírás</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="1542"/>
+        <source>Other descriptions</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All Descriptions Split</source>
+        <translation type="obsolete">Összes típus külön</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="334"/>
@@ -6772,17 +6855,8 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="unfinished">Összes kedvezményezett külön</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="379"/>
-        <location filename="../src/overtimechart.cpp" line="1912"/>
-        <location filename="../src/overtimechart.cpp" line="1918"/>
-        <location filename="../src/overtimechart.cpp" line="1946"/>
-        <location filename="../src/overtimechart.cpp" line="1948"/>
-        <location filename="../src/overtimechart.cpp" line="1955"/>
-        <location filename="../src/overtimechart.cpp" line="1957"/>
-        <location filename="../src/overtimechart.cpp" line="1993"/>
-        <location filename="../src/overtimechart.cpp" line="2063"/>
         <source>No description</source>
-        <translation type="unfinished">Nincs leírás</translation>
+        <translation type="obsolete">Nincs leírás</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="387"/>
@@ -6848,11 +6922,6 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1542"/>
-        <source>Other descriptions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/overtimechart.cpp" line="1708"/>
         <source>Value (%1)</source>
         <translation type="unfinished">Érték (%1)</translation>
@@ -6886,8 +6955,21 @@ Biztosan el akarod távolítani a számlát?</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="1950"/>
         <source>%1/%2</source>
-        <comment>%1: Description; %2: Payer</comment>
+        <comment>%1: Generic Description; %2: Payer</comment>
         <translation type="unfinished">%1/%2</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="1959"/>
+        <source>%1/%2</source>
+        <comment>%1: Generic Description; %2: Payee</comment>
+        <translation type="unfinished">%1/%2</translation>
+    </message>
+    <message numerus="yes">
+        <source>%1/%2</source>
+        <comment>%1: Description; %2: Payer</comment>
+        <translation type="obsolete">
+            <numerusform>%1/%2</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1955"/>
@@ -6895,11 +6977,12 @@ Biztosan el akarod távolítani a számlát?</translation>
         <source>no payee</source>
         <translation type="unfinished">nincs kedvezményezett</translation>
     </message>
-    <message>
-        <location filename="../src/overtimechart.cpp" line="1959"/>
+    <message numerus="yes">
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payee</comment>
-        <translation type="unfinished">%1/%2</translation>
+        <translation type="obsolete">
+            <numerusform>%1/%2</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -6957,13 +7040,8 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="unfinished">Összes kategória együtt</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="112"/>
-        <location filename="../src/overtimereport.cpp" line="183"/>
-        <location filename="../src/overtimereport.cpp" line="232"/>
-        <location filename="../src/overtimereport.cpp" line="699"/>
-        <location filename="../src/overtimereport.cpp" line="765"/>
         <source>All Descriptions Combined</source>
-        <translation type="unfinished">Összes típus együtt</translation>
+        <translation type="obsolete">Összes típus együtt</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="120"/>
@@ -7002,11 +7080,26 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="unfinished">Átlagérték</translation>
     </message>
     <message>
+        <source>No description</source>
+        <translation type="obsolete">Nincs leírás</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimereport.cpp" line="112"/>
+        <location filename="../src/overtimereport.cpp" line="183"/>
+        <location filename="../src/overtimereport.cpp" line="232"/>
+        <location filename="../src/overtimereport.cpp" line="699"/>
+        <location filename="../src/overtimereport.cpp" line="765"/>
+        <source>All Descriptions Combined</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="unfinished">Összes típus együtt</translation>
+    </message>
+    <message>
         <location filename="../src/overtimereport.cpp" line="220"/>
         <location filename="../src/overtimereport.cpp" line="380"/>
         <location filename="../src/overtimereport.cpp" line="389"/>
         <location filename="../src/overtimereport.cpp" line="721"/>
         <source>No description</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Nincs leírás</translation>
     </message>
     <message>
@@ -7109,6 +7202,11 @@ Biztosan el akarod távolítani a számlát?</translation>
         <location filename="../src/overtimereport.cpp" line="687"/>
         <source>Adjusted for the average month / year (%1 / %2 days)</source>
         <translation type="unfinished">Beállítva átlag hónapra / évre (%1 / %2 nap)</translation>
+    </message>
+    <message>
+        <source>All Categories Combined</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="obsolete">Összes kategória együtt</translation>
     </message>
 </context>
 <context>
@@ -8068,8 +8166,12 @@ Biztosan el akarod távolítani a számlát?</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="120"/>
+        <source>Generic Description:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Description:</source>
-        <translation type="unfinished">Leírás:</translation>
+        <translation type="obsolete">Leírás:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="128"/>
@@ -8337,7 +8439,12 @@ Biztosan el akarod távolítani a számlát?</translation>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="486"/>
         <source>Cannot change description of dividends and security transactions.</source>
+        <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Az értékpapír-tranzakciók és az osztalékok fajtája nem változtatható meg.</translation>
+    </message>
+    <message>
+        <source>Cannot change description of dividends and security transactions.</source>
+        <translation type="obsolete">Az értékpapír-tranzakciók és az osztalékok fajtája nem változtatható meg.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="492"/>

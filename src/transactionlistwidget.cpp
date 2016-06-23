@@ -483,7 +483,7 @@ void TransactionListWidget::editTransaction() {
 				}
 				if(!warned2 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
 					if(dialog->descriptionButton->isChecked()) {
-						QMessageBox::critical(this, tr("Error"), tr("Cannot change description of dividends and security transactions."));
+						QMessageBox::critical(this, tr("Error"), tr("Cannot change description of dividends and security transactions.", "Referring to the generic description property"));
 						warned2 = true;
 					}
 				}
