@@ -165,7 +165,7 @@ EditSplitDialog::EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *d
 	transactionsView->setColumnCount(5);
 	QStringList headers;
 	headers << tr("Type");
-	headers << tr("Generic Description");
+	headers << tr("Description", "Generic Description");
 	headers << tr("Account/Category");
 	headers << tr("Payment");
 	headers << tr("Deposit");

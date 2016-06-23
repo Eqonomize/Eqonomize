@@ -91,7 +91,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	transactionsView->setAllColumnsShowFocus(true);
 	QStringList headers;
 	headers << tr("Date");
-	headers << tr("Generic Description");
+	headers << tr("Description", "Generic Description");
 	comments_col = 5;
 	switch(transtype) {
 		case TRANSACTION_TYPE_EXPENSE: {

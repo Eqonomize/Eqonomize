@@ -2174,7 +2174,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QStringList scheduleViewHeaders;
 	scheduleViewHeaders << tr("Next Occurrence");
 	scheduleViewHeaders << tr("Type");
-	scheduleViewHeaders << tr("Generic Description");
+	scheduleViewHeaders << tr("Description", "Generic Description");
 	scheduleViewHeaders << tr("Amount");
 	scheduleViewHeaders << tr("From");
 	scheduleViewHeaders << tr("To");
