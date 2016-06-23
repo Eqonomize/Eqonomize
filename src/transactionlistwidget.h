@@ -66,6 +66,8 @@ class TransactionListWidget : public QWidget {
 		bool exportList(QTextStream &outf, int fileformat);
 		bool isEmpty();
 		void currentDateChanged(const QDate &olddate, const QDate &newdate);
+		QByteArray saveState();
+		void restoreState(const QByteArray&);
 
 	protected:
 

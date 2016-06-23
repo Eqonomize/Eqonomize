@@ -112,6 +112,26 @@
 
 QString last_document_directory, last_picture_directory;
 
+void setColumnTextWidth(QTreeWidget *w, int i, QString str) {
+	QFontMetrics fm(w->font());
+	int tw = fm.width(str) + 10;
+	int hw = fm.width(w->headerItem()->text(i)) + 10;
+	if(w->columnWidth(i) < tw) w->setColumnWidth(i, tw);
+	if(w->columnWidth(i) < hw) w->setColumnWidth(i, hw);
+}
+void setColumnDateWidth(QTreeWidget *w, int i) {
+	setColumnTextWidth(w, i, QLocale().toString(QDate::currentDate(), QLocale::ShortFormat));
+}
+void setColumnMoneyWidth(QTreeWidget *w, int i, double v = 9999999.99) {
+	setColumnTextWidth(w, i, QLocale().toCurrencyString(v));
+}
+void setColumnValueWidth(QTreeWidget *w, int i, double v, int d = -1) {
+	setColumnTextWidth(w, i, QLocale().toString(v, 'f', d < 0 ? MONETARY_DECIMAL_PLACES : d));
+}
+void setColumnStrlenWidth(QTreeWidget *w, int i, int l) {
+	setColumnTextWidth(w, i, QString(l, 'h'));
+}
+
 QTreeWidgetItem *selectedItem(QTreeWidget *w) {
 	QList<QTreeWidgetItem*> list = w->selectedItems();
 	if(list.isEmpty()) return NULL;
@@ -800,11 +820,11 @@ EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0)
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Price per Share");
-	quotationsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	quotationsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-	quotationsView->header()->setStretchLastSection(false);
-	quotationsView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+	quotationsView->header()->setStretchLastSection(true);
+	quotationsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
 	quotationsView->setHeaderLabels(headers);
+	setColumnDateWidth(quotationsView, 0);
+	setColumnMoneyWidth(quotationsView, 0);	
 	quotationsView->setRootIsDecorated(false);
 	quotationsView->header()->setSectionsClickable(false);
 	QSizePolicy sp = quotationsView->sizePolicy();
@@ -1015,11 +1035,12 @@ ConfirmScheduleDialog::ConfirmScheduleDialog(bool extra_parameters, Budget *budg
 	headers << tr("Type");
 	headers << tr("Description", "Generic Description");
 	headers << tr("Amount");
-	transactionsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-	transactionsView->header()->setStretchLastSection(false);
-	transactionsView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+	transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
 	transactionsView->setHeaderLabels(headers);
+	setColumnDateWidth(transactionsView, 0);
+	setColumnStrlenWidth(transactionsView, 1, 15);
+	setColumnStrlenWidth(transactionsView, 2, 25);
+	setColumnMoneyWidth(transactionsView, 0);
 	transactionsView->setRootIsDecorated(false);
 	QSizePolicy sp = transactionsView->sizePolicy();
 	sp.setHorizontalPolicy(QSizePolicy::MinimumExpanding);
@@ -1176,12 +1197,13 @@ SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize 
 	headers << tr("Date");
 	headers << tr("Type");
 	headers << tr("Value");
-	headers << tr("Shares");
-	transactionsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-	transactionsView->header()->setStretchLastSection(false);
-	transactionsView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+	headers << tr("Shares");	
+	transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
 	transactionsView->setHeaderLabels(headers);
+	setColumnDateWidth(transactionsView, 0);
+	setColumnStrlenWidth(transactionsView, 1, 25);
+	setColumnMoneyWidth(transactionsView, 2);
+	setColumnValueWidth(transactionsView, 3, 999999.99, 4);	
 	transactionsView->setRootIsDecorated(false);
 	QSizePolicy sp = transactionsView->sizePolicy();
 	sp.setHorizontalPolicy(QSizePolicy::MinimumExpanding);
@@ -1919,8 +1941,11 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	sp.setVerticalPolicy(QSizePolicy::MinimumExpanding);
 	accountsView->setSizePolicy(sp);
 	QFontMetrics fm(accountsView->font());
-	accountsView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+	accountsView->header()->setSectionResizeMode(QHeaderView::Fixed);
 	accountsView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
+	setColumnTextWidth(accountsView, BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(QLocale().toString(99999999.99, 'f', MONETARY_DECIMAL_PLACES)).arg(QLocale().toString(99999999.99, 'f', MONETARY_DECIMAL_PLACES)));
+	setColumnMoneyWidth(accountsView, CHANGE_COLUMN, 999999999999.99);
+	setColumnMoneyWidth(accountsView, VALUE_COLUMN, 999999999999.99);
 	assetsItem = new TotalListViewItem(accountsView, tr("Accounts"), QString::null, QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	incomesItem = new TotalListViewItem(accountsView, assetsItem, tr("Incomes"), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	expensesItem = new TotalListViewItem(accountsView, incomesItem, tr("Expenses"), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
@@ -2085,7 +2110,15 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	securitiesView->setHeaderLabels(securitiesViewHeaders);
 	securitiesView->setRootIsDecorated(false);
 	securitiesView->header()->setStretchLastSection(false);
-	securitiesView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
+	setColumnStrlenWidth(securitiesView, 0, 25);
+	setColumnMoneyWidth(securitiesView, 1);
+	setColumnValueWidth(securitiesView, 2, 999999.99, 4);
+	setColumnValueWidth(securitiesView, 2, 999999.99, 4);
+	setColumnMoneyWidth(securitiesView, 4);
+	setColumnMoneyWidth(securitiesView, 5);
+	setColumnValueWidth(securitiesView, 6, 99.99);
+	setColumnStrlenWidth(securitiesView, 7, 10);
+	setColumnStrlenWidth(securitiesView, 8, 10);
 	sp = securitiesView->sizePolicy();
 	sp.setVerticalPolicy(QSizePolicy::MinimumExpanding);
 	securitiesView->setSizePolicy(sp);
@@ -2177,8 +2210,14 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	scheduleViewHeaders << tr("Amount");
 	scheduleViewHeaders << tr("From");
 	scheduleViewHeaders << tr("To");
-	scheduleViewHeaders << tr("Comments");
+	scheduleViewHeaders << tr("Comments");	
 	scheduleView->setHeaderLabels(scheduleViewHeaders);
+	setColumnDateWidth(scheduleView, 0);
+	setColumnStrlenWidth(scheduleView, 1, 15);
+	setColumnStrlenWidth(scheduleView, 2, 25);
+	setColumnMoneyWidth(scheduleView, 3);
+	setColumnStrlenWidth(scheduleView, 4, 15);
+	setColumnStrlenWidth(scheduleView, 5, 15);
 	scheduleView->setRootIsDecorated(false);
 	sp = scheduleView->sizePolicy();
 	sp.setVerticalPolicy(QSizePolicy::MinimumExpanding);
@@ -4845,6 +4884,11 @@ void Eqonomize::saveOptions() {
 	settings.setValue("firstRun", false);
 	settings.setValue("size", size());
 	settings.setValue("windowState", saveState());
+	settings.setValue("expensesListState", expensesWidget->saveState());
+	settings.setValue("incomesListState", incomesWidget->saveState());
+	settings.setValue("transfersListState", transfersWidget->saveState());
+	settings.setValue("securitiesListState", securitiesView->header()->saveState());
+	settings.setValue("scheduleListState", scheduleView->header()->saveState());
 
 	if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentMonth) {settings.setValue("initialPeriod", 0);}
 	else if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentYear) {settings.setValue("initialPeriod", 1);}
@@ -4880,6 +4924,11 @@ void Eqonomize::readOptions() {
 	QSize window_size = settings.value("size", QSize()).toSize();
 	if(window_size.isValid()) resize(window_size);
 	restoreState(settings.value("windowState").toByteArray());
+	expensesWidget->restoreState(settings.value("expensesListState").toByteArray());
+	incomesWidget->restoreState(settings.value("incomesListState").toByteArray());
+	transfersWidget->restoreState(settings.value("transfersListState").toByteArray());
+	securitiesView->header()->restoreState(settings.value("securitiesListState").toByteArray());
+	scheduleView->header()->restoreState(settings.value("scheduleListState").toByteArray());
 	settings.endGroup();
 	updateRecentFiles();
 }

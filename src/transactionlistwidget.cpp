@@ -55,6 +55,12 @@
 
 
 extern double monthsBetweenDates(const QDate &date1, const QDate &date2);
+extern void setColumnTextWidth(QTreeWidget *w, int i, QString str);
+extern void setColumnDateWidth(QTreeWidget *w, int i);
+extern void setColumnMoneyWidth(QTreeWidget *w, int i, double v = 9999999.99);
+extern void setColumnValueWidth(QTreeWidget *w, int i, double v, int d = -1);
+extern void setColumnStrlenWidth(QTreeWidget *w, int i, int l);
+
 
 class TransactionListViewItem : public QTreeWidgetItem {
 	protected:
@@ -127,6 +133,12 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	headers << tr("Comments");
 	transactionsView->setColumnCount(comments_col + 1);
 	transactionsView->setHeaderLabels(headers);
+	setColumnDateWidth(transactionsView, 0);
+	setColumnStrlenWidth(transactionsView, 1, 25);
+	setColumnMoneyWidth(transactionsView, 2);
+	setColumnStrlenWidth(transactionsView, 3, 20);
+	setColumnStrlenWidth(transactionsView, 4, 20);
+	if(comments_col > 5) setColumnStrlenWidth(transactionsView, 5, 15);
 	transactionsView->setRootIsDecorated(false);
 	transactionsView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	transactionsViewLayout->addWidget(transactionsView);
@@ -184,6 +196,13 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 
 QSize TransactionListWidget::minimumSizeHint() const {return QWidget::minimumSizeHint();}
 QSize TransactionListWidget::sizeHint() const {return minimumSizeHint();}
+
+QByteArray TransactionListWidget::saveState() {
+	return transactionsView->header()->saveState();
+}
+void TransactionListWidget::restoreState(const QByteArray &state) {
+	transactionsView->header()->restoreState(state);
+}
 
 void TransactionListWidget::currentDateChanged(const QDate &olddate, const QDate &newdate) {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
