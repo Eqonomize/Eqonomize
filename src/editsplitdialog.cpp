@@ -130,7 +130,7 @@ EditSplitDialog::EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *d
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 
-	grid->addWidget(new QLabel(tr("Name:")), 0, 0);
+	grid->addWidget(new QLabel(tr("Generic Description:")), 0, 0);
 	descriptionEdit = new QLineEdit();
 	grid->addWidget(descriptionEdit, 0, 1);
 	descriptionEdit->setFocus();
@@ -165,7 +165,7 @@ EditSplitDialog::EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *d
 	transactionsView->setColumnCount(5);
 	QStringList headers;
 	headers << tr("Type");
-	headers << tr("Name");
+	headers << tr("Generic Description");
 	headers << tr("Account/Category");
 	headers << tr("Payment");
 	headers << tr("Deposit");

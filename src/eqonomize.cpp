@@ -1013,7 +1013,7 @@ ConfirmScheduleDialog::ConfirmScheduleDialog(bool extra_parameters, Budget *budg
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Type");
-	headers << tr("Name");
+	headers << tr("Description");
 	headers << tr("Amount");
 	transactionsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
@@ -2174,7 +2174,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QStringList scheduleViewHeaders;
 	scheduleViewHeaders << tr("Next Occurrence");
 	scheduleViewHeaders << tr("Type");
-	scheduleViewHeaders << tr("Name");
+	scheduleViewHeaders << tr("Generic Description");
 	scheduleViewHeaders << tr("Amount");
 	scheduleViewHeaders << tr("From");
 	scheduleViewHeaders << tr("To");
@@ -4481,7 +4481,6 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionFileReload, tr("&Revert"), "document-revert", 0, this, SLOT(fileReload()), "file_revert", fileMenu);	
 	fileMenu->addSeparator();
 	NEW_ACTION_3(ActionPrintView, tr("&Print…"), "document-print", QKeySequence::Print, this, SLOT(printView()), "print_view", fileMenu);
-	fileToolbar->addAction(ActionPrintView);
 	NEW_ACTION(ActionPrintPreview, tr("Print Preview…"), "document-print-preview", 0, this, SLOT(showPrintPreview()), "print_preview", fileMenu);
 	fileToolbar->addAction(ActionPrintPreview);
 	fileMenu->addSeparator();
