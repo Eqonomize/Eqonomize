@@ -3961,12 +3961,12 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="1391"/>
         <source>Decimals in shares:</source>
-        <translation type="unfinished"></translation>
+        <translation>Desetiny v podílech:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1397"/>
         <source>Initial shares:</source>
-        <translation type="unfinished"></translation>
+        <translation>Počáteční podíly:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1400"/>
@@ -4130,7 +4130,7 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="133"/>
         <source>Generic Description:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Druhový popis:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="168"/>
@@ -4932,17 +4932,17 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="4445"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4453"/>
         <source>Transactions</source>
-        <translation type="unfinished"></translation>
+        <translation>Transakce</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4457"/>
         <source>Statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>Statistiky</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4462"/>
@@ -4982,12 +4982,12 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="4483"/>
         <source>&amp;Print…</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tisk…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4484"/>
         <source>Print Preview…</source>
-        <translation type="unfinished"></translation>
+        <translation>Náhled tisku…</translation>
     </message>
     <message>
         <source>&amp;Print View…</source>
@@ -5047,7 +5047,7 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="4504"/>
         <source>Add Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat účet</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4520"/>
@@ -5263,8 +5263,8 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4712"/>
-        <source>License: GNU General Public License Version 2</source>
-        <translation>Licens: GNU General Public License Version 2</translation>
+        <source>License: GNU General Public License Version 3</source>
+        <translation>Licens: GNU General Public License Version 3</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4729"/>
@@ -5653,7 +5653,7 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="137"/>
         <source>Generic description:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Druhový popis:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="139"/>
@@ -6053,7 +6053,7 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="130"/>
         <source>Generic Descriptions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Druhové popisy</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="131"/>
@@ -6066,7 +6066,7 @@ Co s nimi chcete udělat?</translation>
         <location filename="../src/qifimportexport.cpp" line="148"/>
         <location filename="../src/qifimportexport.cpp" line="158"/>
         <source>Generic description</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Druhový popis</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="140"/>
@@ -6525,7 +6525,7 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1146"/>
         <source>Generic Description:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Druhový popis:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1156"/>
@@ -6855,13 +6855,13 @@ Co s nimi chcete udělat?</translation>
         <location filename="../src/overtimechart.cpp" line="1950"/>
         <source>%1/%2</source>
         <comment>%1: Generic Description; %2: Payer</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="1959"/>
         <source>%1/%2</source>
         <comment>%1: Generic Description; %2: Payee</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2</translation>
     </message>
     <message numerus="yes">
         <source>%1/%2</source>
@@ -7865,7 +7865,7 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="172"/>
         <source>Generic Description:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Druhový popis:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="181"/>
@@ -8074,7 +8074,7 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="120"/>
         <source>Generic Description:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Druhový popis:</translation>
     </message>
     <message>
         <source>Description:</source>
@@ -8251,17 +8251,17 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="156"/>
         <source>New/Edit Expense</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nový/upravit výdaj</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="157"/>
         <source>New/Edit Income</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nový/upravit příjem</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="158"/>
         <source>New/Edit Transfer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nový/upravit převod</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="161"/>

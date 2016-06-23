@@ -5358,8 +5358,8 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4712"/>
-        <source>License: GNU General Public License Version 2</source>
-        <translation>Licence: Version 2 de la Licence Générale Publique GNU</translation>
+        <source>License: GNU General Public License Version 3</source>
+        <translation>Licence: Version 3 de la Licence Générale Publique GNU</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4729"/>

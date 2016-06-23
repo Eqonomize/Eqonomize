@@ -4821,8 +4821,8 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4712"/>
-        <source>License: GNU General Public License Version 2</source>
-        <translation>Licens: GNU General Public License Version 2</translation>
+        <source>License: GNU General Public License Version 3</source>
+        <translation>Licens: GNU General Public License Version 3</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4729"/>

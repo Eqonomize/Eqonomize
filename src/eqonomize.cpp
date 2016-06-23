@@ -2,20 +2,20 @@
  *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
  *   hanna_k@fmgirl.com                                                    *
  *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
+ *   This file is part of Eqonomize!.                                      *
+ *                                                                         *
+ *   Eqonomize! is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
+ *   the Free Software Foundation, either version 3 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
+ *   Eqonomize! is distributed in the hope that it will be useful,         *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
  *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *   along with Eqonomize!. If not, see <http://www.gnu.org/licenses/>.    *
  ***************************************************************************/
 
 #ifdef HAVE_CONFIG_H
@@ -2085,7 +2085,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	securitiesView->setHeaderLabels(securitiesViewHeaders);
 	securitiesView->setRootIsDecorated(false);
 	securitiesView->header()->setStretchLastSection(false);
-	securitiesView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	securitiesView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
 	sp = securitiesView->sizePolicy();
 	sp.setVerticalPolicy(QSizePolicy::MinimumExpanding);
@@ -4690,6 +4689,7 @@ void Eqonomize::showHelp() {
 			helpBrowser->setSource(QUrl(QString("qrc") + docdir + "/index.html"));
 			helpBrowser->setSearchPaths(QStringList(QString("qrc") + docdir));
 		} else {
+			helpBrowser->setSearchPaths(QStringList(docdir));
 			helpBrowser->setSource(QUrl(docdir + "/index.html"));
 		}
 		box1->addWidget(helpBrowser);
@@ -4709,7 +4709,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v0.6</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>© 2006-2008, 2014, 2016 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 2")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v0.6</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);

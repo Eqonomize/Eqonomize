@@ -3728,7 +3728,7 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <location filename="../src/editsplitdialog.cpp" line="133"/>
         <source>Generic Description:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Allgemeine Bezeichnung:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="168"/>
@@ -4849,8 +4849,8 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4712"/>
-        <source>License: GNU General Public License Version 2</source>
-        <translation>Lizenz: GNU General Public License Version 2</translation>
+        <source>License: GNU General Public License Version 3</source>
+        <translation>Lizenz: GNU General Public License Version 3</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4729"/>
@@ -5263,7 +5263,8 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="137"/>
         <source>Generic description:</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>oder Allgemeine Beschreibung, oder Gattungsbezeichnung</translatorcomment>
+        <translation type="unfinished">Allgemeine Bezeichnung:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="139"/>
@@ -5661,7 +5662,7 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="130"/>
         <source>Generic Descriptions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Allgemeinen Bezeichnungen</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="131"/>
@@ -5674,7 +5675,7 @@ Was wollen Sie mit diesen tun?</translation>
         <location filename="../src/qifimportexport.cpp" line="148"/>
         <location filename="../src/qifimportexport.cpp" line="158"/>
         <source>Generic description</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Allgemeine Bezeichnung</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="140"/>
@@ -6126,7 +6127,7 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1146"/>
         <source>Generic Description:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Allgemeine Bezeichnung:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1156"/>
@@ -7456,7 +7457,7 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="172"/>
         <source>Generic Description:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Allgemeine Bezeichnung:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="181"/>

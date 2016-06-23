@@ -2037,7 +2037,7 @@ msgstr ""
 
 #: ../src/eqonomize.cpp:4522
 msgctxt "Eqonomize|"
-msgid "License: GNU General Public License Version 2"
+msgid "License: GNU General Public License Version 3"
 msgstr ""
 
 #: ../src/eqonomize.cpp:4539
