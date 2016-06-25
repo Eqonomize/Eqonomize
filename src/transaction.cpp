@@ -24,6 +24,8 @@
 
 #include <QDomElement>
 #include <QDomNode>
+#include <QXmlStreamReader>
+#include <QXmlStreamAttribute>
 
 #include "account.h"
 #include "budget.h"
@@ -34,19 +36,35 @@
 Transaction::Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description, QString initial_comment) : o_budget(parent_budget), d_value(initial_value), d_date(initial_date), o_from(from), o_to(to), s_description(initial_description.trimmed()), s_comment(initial_comment), d_quantity(1.0), o_split(NULL) {
 	if(s_description.isNull()) s_description = emptystr;
 }
-Transaction::Transaction(Budget *parent_budget, QDomElement *e, bool *valid) : o_budget(parent_budget) {
-	o_split = NULL;
-	o_from = NULL; o_to = NULL;
-	d_date = QDate::fromString(e->attribute("date"), Qt::ISODate);
-	s_description = e->attribute("description", emptystr).trimmed();
-	s_comment = e->attribute("comment", emptystr);
-	d_quantity = e->attribute("quantity", "1.0").toDouble();
-	if(valid) *valid = d_date.isValid();
+Transaction::Transaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : o_budget(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
 }
+Transaction::Transaction(Budget *parent_budget) : o_budget(parent_budget) {}
 Transaction::Transaction() : o_budget(NULL), d_value(0.0), o_from(NULL), o_to(NULL), s_description(emptystr), d_quantity(1.0), o_split(NULL) {}
 Transaction::Transaction(const Transaction *transaction) : o_budget(transaction->budget()), d_value(transaction->value()), d_date(transaction->date()), o_from(transaction->fromAccount()), o_to(transaction->toAccount()), s_description(transaction->description()), s_comment(transaction->comment()), d_quantity(transaction->quantity()), o_split(NULL) {}
 Transaction::~Transaction() {}
 
+void Transaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	o_split = NULL;
+	o_from = NULL; o_to = NULL;
+	d_date = QDate::fromString(attr->value("date").toString(), Qt::ISODate);
+	if(attr->hasAttribute("description")) s_description = attr->value("description").trimmed().toString();
+	else s_description = emptystr;
+	if(attr->hasAttribute("comment")) s_comment = attr->value("comment").toString();
+	else s_comment = emptystr;
+	if(attr->hasAttribute("quantity")) d_quantity = attr->value("quantity").toDouble();
+	else d_quantity = 1.0;
+	if(valid && (*valid)) *valid = d_date.isValid();
+}
+bool Transaction::readElement(QXmlStreamReader*, bool*) {return false;}
+bool Transaction::readElements(QXmlStreamReader *xml, bool *valid) {
+	while(xml->readNextStartElement()) {
+		if(!readElement(xml, valid)) xml->skipCurrentElement();
+	}
+	return true;
+}
 bool Transaction::equals(const Transaction *transaction) const {
 	if(type() != transaction->type()) return false;
 	if(fromAccount() != transaction->fromAccount()) return false;
@@ -86,24 +104,32 @@ void Transaction::save(QDomElement *e) const {
 Expense::Expense(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, QString initial_description, QString initial_comment) : Transaction(parent_budget, initial_cost, initial_date, initial_from, initial_category, initial_description, initial_comment), s_payee(emptystr) {
 	if(s_payee.isNull()) s_payee = emptystr;
 }
-Expense::Expense(Budget *parent_budget, QDomElement *e, bool *valid) : Transaction(parent_budget, e, valid) {
-	int id_category = e->attribute("category").toInt();
-	int id_from = e->attribute("from").toInt();
-	if(parent_budget->expensesAccounts_id.contains(id_category) && parent_budget->assetsAccounts_id.contains(id_from)) {
-		setCategory(parent_budget->expensesAccounts_id[id_category]);
-		setFrom(parent_budget->assetsAccounts_id[id_from]);
-		if(e->hasAttribute("income")) setCost(-e->attribute("income").toDouble());
-		else setCost(e->attribute("cost").toDouble());
-		s_payee = e->attribute("payee", emptystr);
-	} else {
-		if(valid) *valid =false;
-	}
+Expense::Expense(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transaction(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
 }
+Expense::Expense(Budget *parent_budget) : Transaction(parent_budget) {}
 Expense::Expense() : Transaction(), s_payee(emptystr) {}
 Expense::Expense(const Expense *expense) : Transaction(expense), s_payee(expense->payee()) {}
 Expense::~Expense() {}
 Transaction *Expense::copy() const {return new Expense(this);}
 
+void Expense::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	Transaction::readAttributes(attr, valid);
+	int id_category = attr->value("category").toInt();
+	int id_from = attr->value("from").toInt();
+	if(budget()->expensesAccounts_id.contains(id_category) && budget()->assetsAccounts_id.contains(id_from)) {
+		setCategory(budget()->expensesAccounts_id[id_category]);
+		setFrom(budget()->assetsAccounts_id[id_from]);
+		if(attr->hasAttribute("income")) setCost(-attr->value("income").toDouble());
+		else setCost(attr->value("cost").toDouble());
+		if(attr->hasAttribute("payee")) s_payee = attr->value("payee").toString();
+		else s_payee = emptystr;
+	} else {
+		if(valid) *valid =false;
+	}
+}
 bool Expense::equals(const Transaction *transaction) const {
 	if(!Transaction::equals(transaction)) return false;
 	Expense *expense = (Expense*) transaction;
@@ -133,20 +159,33 @@ void Expense::save(QDomElement *e) const {
 Income::Income(Budget *parent_budget, double initial_income, QDate initial_date, IncomesAccount *initial_category, AssetsAccount *initial_to, QString initial_description, QString initial_comment) : Transaction(parent_budget, initial_income, initial_date, initial_category, initial_to, initial_description, initial_comment), o_security(NULL), s_payer(emptystr) {
 	if(s_payer.isNull()) s_payer = emptystr;
 }
-Income::Income(Budget *parent_budget, QDomElement *e, bool *valid) : Transaction(parent_budget, e, valid) {
-	int id_category = e->attribute("category").toInt();
-	int id_to = e->attribute("to").toInt();
-	if(parent_budget->incomesAccounts_id.contains(id_category) && parent_budget->assetsAccounts_id.contains(id_to)) {
-		setCategory(parent_budget->incomesAccounts_id[id_category]);
-		setTo(parent_budget->assetsAccounts_id[id_to]);
-		if(e->hasAttribute("cost")) setIncome(-e->attribute("cost").toDouble());
-		else setIncome(e->attribute("income").toDouble());
+Income::Income(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transaction(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
+}
+Income::Income(Budget *parent_budget) : Transaction(parent_budget) {}
+Income::Income() : Transaction(), o_security(NULL), s_payer(emptystr) {}
+Income::Income(const Income *income_) : Transaction(income_), o_security(income_->security()), s_payer(income_->payer()) {}
+Income::~Income() {}
+Transaction *Income::copy() const {return new Income(this);}
+
+void Income::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	Transaction::readAttributes(attr, valid);
+	int id_category = attr->value("category").toInt();
+	int id_to = attr->value("to").toInt();
+	if(budget()->incomesAccounts_id.contains(id_category) && budget()->assetsAccounts_id.contains(id_to)) {
+		setCategory(budget()->incomesAccounts_id[id_category]);
+		setTo(budget()->assetsAccounts_id[id_to]);
+		if(attr->hasAttribute("cost")) setIncome(-attr->value("cost").toDouble());
+		else setIncome(attr->value("income").toDouble());
 	} else {
-		if(valid) *valid =false;
+		if(valid) *valid = false;
 	}
-	int id = e->attribute("security", "-1").toInt();
-	if(id >= 0 && parent_budget->securities_id.contains(id)) {
-		o_security = parent_budget->securities_id[id];
+	int id = -1;
+	if(attr->hasAttribute("security")) id = attr->value("security").toInt();
+	if(id >= 0 && budget()->securities_id.contains(id)) {
+		o_security = budget()->securities_id[id];
 	} else {
 		o_security = NULL;
 	}
@@ -154,14 +193,10 @@ Income::Income(Budget *parent_budget, QDomElement *e, bool *valid) : Transaction
 		setDescription(tr("Dividend: %1").arg(o_security->name()));
 		s_payer = o_security->name();
 	} else {
-		s_payer = e->attribute("payer", emptystr);
+		if(attr->hasAttribute("payer")) s_payer = attr->value("payer").toString();
+		else s_payer = emptystr;
 	}
 }
-Income::Income() : Transaction(), o_security(NULL), s_payer(emptystr) {}
-Income::Income(const Income *income_) : Transaction(income_), o_security(income_->security()), s_payer(income_->payer()) {}
-Income::~Income() {}
-Transaction *Income::copy() const {return new Income(this);}
-
 bool Income::equals(const Transaction *transaction) const {
 	if(!Transaction::equals(transaction)) return false;
 	Income *income = (Income*) transaction;
@@ -201,29 +236,35 @@ void Income::save(QDomElement *e) const {
 }
 
 Transfer::Transfer(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description, QString initial_comment) : Transaction(parent_budget, initial_amount < 0.0 ? -initial_amount : initial_amount, initial_date, initial_amount < 0.0 ? initial_to : initial_from, initial_amount < 0.0 ? initial_from : initial_to, initial_description, initial_comment) {}
-Transfer::Transfer(Budget *parent_budget, QDomElement *e, bool *valid, bool internal_is_balancing) : Transaction(parent_budget, e, valid) {
-	if(internal_is_balancing) {return;}
-	int id_from = e->attribute("from").toInt();
-	int id_to = e->attribute("to").toInt();
-	if(parent_budget->assetsAccounts_id.contains(id_from) && parent_budget->assetsAccounts_id.contains(id_to)) {
-		setAmount(e->attribute("amount").toDouble());
-		if(amount() < 0.0) {
-			setAmount(-amount());
-			setFrom(parent_budget->assetsAccounts_id[id_to]);
-			setTo(parent_budget->assetsAccounts_id[id_from]);
-		} else {
-			setFrom(parent_budget->assetsAccounts_id[id_from]);
-			setTo(parent_budget->assetsAccounts_id[id_to]);
-		}
-	} else {
-		if(valid) *valid =false;
-	}
+Transfer::Transfer(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transaction(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
 }
+Transfer::Transfer(Budget *parent_budget) : Transaction(parent_budget) {}
 Transfer::Transfer() : Transaction() {}
 Transfer::Transfer(const Transfer *transfer) : Transaction(transfer) {}
 Transfer::~Transfer() {}
 Transaction *Transfer::copy() const {return new Transfer(this);}
 
+void Transfer::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	Transaction::readAttributes(attr, valid);
+	int id_from = attr->value("from").toInt();
+	int id_to = attr->value("to").toInt();
+	if(budget()->assetsAccounts_id.contains(id_from) && budget()->assetsAccounts_id.contains(id_to)) {
+		setAmount(attr->value("amount").toDouble());
+		if(amount() < 0.0) {
+			setAmount(-amount());
+			setFrom(budget()->assetsAccounts_id[id_to]);
+			setTo(budget()->assetsAccounts_id[id_from]);
+		} else {
+			setFrom(budget()->assetsAccounts_id[id_from]);
+			setTo(budget()->assetsAccounts_id[id_to]);
+		}
+	} else {
+		if(valid) *valid =false;
+	}
+}
 AssetsAccount *Transfer::to() const {return (AssetsAccount*) toAccount();}
 void Transfer::setTo(AssetsAccount *new_to) {setToAccount(new_to);}
 AssetsAccount *Transfer::from() const {return (AssetsAccount*) fromAccount();}
@@ -251,29 +292,36 @@ void Transfer::save(QDomElement *e) const {
 Balancing::Balancing(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_account, QString initial_comment) : Transfer(parent_budget, initial_amount < 0.0 ? -initial_amount : initial_amount, initial_date, initial_amount < 0.0 ? initial_account : parent_budget->balancingAccount, initial_amount < 0.0 ? parent_budget->balancingAccount : initial_account, initial_comment) {
 	setDescription(tr("Account balancing"));
 }
-Balancing::Balancing(Budget *parent_budget, QDomElement *e, bool *valid) : Transfer(parent_budget, e, valid, true) {
-	if(s_description.isEmpty()) setDescription(tr("Account balancing"));
-	d_value = e->attribute("amount").toDouble();
-	if(d_value < 0.0) {
-		d_value = -d_value;
-		setToAccount(parent_budget->balancingAccount);
-		setFromAccount(NULL);
-	} else {
-		setFromAccount(parent_budget->balancingAccount);
-		setToAccount(NULL);
-	}
-	int id_account = e->attribute("account").toInt();
-	if(parent_budget->assetsAccounts_id.contains(id_account)) {
-		setAccount(parent_budget->assetsAccounts_id[id_account]);
-	} else {
-		if(valid) *valid =false;
-	}
+Balancing::Balancing(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transfer(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
 }
+Balancing::Balancing(Budget *parent_budget) : Transfer(parent_budget) {}
 Balancing::Balancing() : Transfer() {}
 Balancing::Balancing(const Balancing *balancing) : Transfer(balancing) {}
 Balancing::~Balancing() {}
 Transaction *Balancing::copy() const {return new Balancing(this);}
 
+void Balancing::readAttributes(QXmlStreamAttributes *attr, bool *valid) {	
+	Transaction::readAttributes(attr, valid);
+	if(s_description.isEmpty()) setDescription(tr("Account balancing"));
+	d_value = attr->value("amount").toDouble();
+	if(d_value < 0.0) {
+		d_value = -d_value;
+		setToAccount(budget()->balancingAccount);
+		setFromAccount(NULL);
+	} else {
+		setFromAccount(budget()->balancingAccount);
+		setToAccount(NULL);
+	}
+	int id_account = attr->value("account").toInt();
+	if(budget()->assetsAccounts_id.contains(id_account)) {
+		setAccount(budget()->assetsAccounts_id[id_account]);
+	} else {
+		if(valid) *valid = false;
+	}
+}
 AssetsAccount *Balancing::account() const {return toAccount() == o_budget->balancingAccount ? (AssetsAccount*) fromAccount() : (AssetsAccount*) toAccount();}
 void Balancing::setAccount(AssetsAccount *new_account) {toAccount() == o_budget->balancingAccount ? setFromAccount(new_account) : setToAccount(new_account);}
 void Balancing::save(QDomElement *e) const {
@@ -285,20 +333,24 @@ void Balancing::save(QDomElement *e) const {
 
 SecurityTransaction::SecurityTransaction(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, QString initial_comment) : Transaction(parent_security->budget(), initial_value, initial_date, NULL, NULL, QString::null, initial_comment), o_security(parent_security), d_shares(initial_shares), d_share_value(initial_share_value) {
 }
-SecurityTransaction::SecurityTransaction(Budget *parent_budget, QDomElement *e, bool *valid) : Transaction(parent_budget, e, valid) {
-	d_shares = e->attribute("shares").toDouble();
-	d_share_value = e->attribute("sharevalue", "-1.0").toDouble();
-	int id = e->attribute("security").toInt();
-	if(parent_budget->securities_id.contains(id)) {
-		o_security = parent_budget->securities_id[id];
-	} else {
-		if(valid) *valid =false;
-	}
-}
+SecurityTransaction::SecurityTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transaction(parent_budget, xml, valid) {}
+SecurityTransaction::SecurityTransaction(Budget *parent_budget) : Transaction(parent_budget) {}
 SecurityTransaction::SecurityTransaction() : Transaction(), o_security(NULL), d_shares(0.0), d_share_value(0.0) {}
 SecurityTransaction::SecurityTransaction(const SecurityTransaction *transaction) : Transaction(transaction), o_security(transaction->security()), d_shares(transaction->shares()), d_share_value(transaction->shareValue()) {}
 SecurityTransaction::~SecurityTransaction() {}
 
+void SecurityTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	Transaction::readAttributes(attr, valid);
+	d_shares = attr->value("shares").toDouble();
+	if(attr->hasAttribute("sharevalue")) d_share_value = attr->value("sharevalue").toDouble();
+	else d_share_value = -1.0;
+	int id = attr->value("security").toInt();
+	if(budget()->securities_id.contains(id)) {
+		o_security = budget()->securities_id[id];
+	} else {
+		if(valid) *valid = false;
+	}
+}
 bool SecurityTransaction::equals(const Transaction *transaction) const {
 	if(!Transaction::equals(transaction)) return false;
 	SecurityTransaction *sectrans = (SecurityTransaction*) transaction;
@@ -336,21 +388,12 @@ SecurityBuy::SecurityBuy(Security *parent_security, double initial_value, double
 		setDescription(tr("Security: %1 (bought)").arg(o_security->name()));
 	}
 }
-SecurityBuy::SecurityBuy(Budget *parent_budget, QDomElement *e, bool *valid) : SecurityTransaction(parent_budget, e, valid) {
-	int id_account = e->attribute("account").toInt();
-	d_value = e->attribute("cost").toDouble();
-	if(d_share_value < 0.0) d_share_value = d_value / d_shares;
-	if(budget()->assetsAccounts_id.contains(id_account)) {
-		setAccount(budget()->assetsAccounts_id[id_account]);
-	} else if(budget()->incomesAccounts_id.contains(id_account)) {
-		setAccount(budget()->incomesAccounts_id[id_account]);
-	} else {
-		if(valid) *valid =false;
-	}
-	if(o_security) {
-		setDescription(tr("Security: %1 (bought)").arg(o_security->name()));
-	}
+SecurityBuy::SecurityBuy(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : SecurityTransaction(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
 }
+SecurityBuy::SecurityBuy(Budget *parent_budget) : SecurityTransaction(parent_budget) {}
 SecurityBuy::SecurityBuy() : SecurityTransaction() {}
 SecurityBuy::SecurityBuy(const SecurityBuy *transaction) : SecurityTransaction(transaction) {
 	setAccount(transaction->account());
@@ -358,6 +401,22 @@ SecurityBuy::SecurityBuy(const SecurityBuy *transaction) : SecurityTransaction(t
 SecurityBuy::~SecurityBuy() {}
 Transaction *SecurityBuy::copy() const {return new SecurityBuy(this);}
 
+void SecurityBuy::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	SecurityTransaction::readAttributes(attr, valid);
+	int id_account = attr->value("account").toInt();
+	d_value = attr->value("cost").toDouble();
+	if(d_share_value < 0.0) d_share_value = d_value / d_shares;
+	if(budget()->assetsAccounts_id.contains(id_account)) {
+		setAccount(budget()->assetsAccounts_id[id_account]);
+	} else if(budget()->incomesAccounts_id.contains(id_account)) {
+		setAccount(budget()->incomesAccounts_id[id_account]);
+	} else {
+		if(valid) *valid = false;
+	}
+	if(o_security) {
+		setDescription(tr("Security: %1 (bought)").arg(o_security->name()));
+	}
+}
 Account *SecurityBuy::fromAccount() const {return Transaction::fromAccount();}
 Account *SecurityBuy::account() const {return fromAccount();}
 void SecurityBuy::setAccount(Account *new_account) {setFromAccount(new_account);}
@@ -374,21 +433,12 @@ SecuritySell::SecuritySell(Security *parent_security, double initial_value, doub
 		setDescription(tr("Security: %1 (sold)").arg(o_security->name()));
 	}
 }
-SecuritySell::SecuritySell(Budget *parent_budget, QDomElement *e, bool *valid) : SecurityTransaction(parent_budget, e, valid) {
-	int id_account = e->attribute("account").toInt();
-	d_value = e->attribute("income").toDouble();
-	if(d_share_value < 0.0) d_share_value = d_value / d_shares;
-	if(budget()->assetsAccounts_id.contains(id_account)) {
-		setAccount(budget()->assetsAccounts_id[id_account]);
-	} else if(budget()->expensesAccounts_id.contains(id_account)) {
-		setAccount(budget()->expensesAccounts_id[id_account]);
-	} else {
-		if(valid) *valid =false;
-	}
-	if(o_security) {
-		setDescription(tr("Security: %1 (sold)").arg(o_security->name()));
-	}
+SecuritySell::SecuritySell(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : SecurityTransaction(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
 }
+SecuritySell::SecuritySell(Budget *parent_budget) : SecurityTransaction(parent_budget) {}
 SecuritySell::SecuritySell() : SecurityTransaction() {}
 SecuritySell::SecuritySell(const SecuritySell *transaction) : SecurityTransaction(transaction) {
 	setAccount(transaction->account());
@@ -396,6 +446,22 @@ SecuritySell::SecuritySell(const SecuritySell *transaction) : SecurityTransactio
 SecuritySell::~SecuritySell() {}
 Transaction *SecuritySell::copy() const {return new SecuritySell(this);}
 
+void SecuritySell::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	SecurityTransaction::readAttributes(attr, valid);
+	int id_account = attr->value("account").toInt();
+	d_value = attr->value("income").toDouble();
+	if(d_share_value < 0.0) d_share_value = d_value / d_shares;
+	if(budget()->assetsAccounts_id.contains(id_account)) {
+		setAccount(budget()->assetsAccounts_id[id_account]);
+	} else if(budget()->expensesAccounts_id.contains(id_account)) {
+		setAccount(budget()->expensesAccounts_id[id_account]);
+	} else {
+		if(valid) *valid = false;
+	}
+	if(o_security) {
+		setDescription(tr("Security: %1 (sold)").arg(o_security->name()));
+	}
+}
 Account *SecuritySell::toAccount() const {return Transaction::toAccount();}
 Account *SecuritySell::account() const {return toAccount();}
 void SecuritySell::setAccount(Account *new_account) {setToAccount(new_account);}
@@ -415,67 +481,10 @@ ScheduledTransaction::ScheduledTransaction(Budget *parent_budget, Transaction *t
 	o_rec = rec;
 	if(o_trans && o_rec) o_trans->setDate(o_rec->startDate());
 }
-ScheduledTransaction::ScheduledTransaction(Budget *parent_budget, QDomElement *e, bool *valid) : o_budget(parent_budget) {
-	if(valid) *valid = true;
-	o_rec = NULL; o_trans = NULL;
-	for(QDomNode n = e->firstChild(); !n.isNull(); n = n.nextSibling()) {
-		if(n.isElement()) {
-			QDomElement e2 = n.toElement();
-			if(e2.tagName() == "transaction") {
-				QString type = e2.attribute("type");
-				bool valid2 = true;
-				if(type == "expense") {
-					if(o_trans) delete o_trans;
-					o_trans = new Expense(parent_budget, &e2, &valid2);
-				} else if(type == "income") {
-					if(o_trans) delete o_trans;
-					o_trans = new Income(parent_budget, &e2, &valid2);
-				} else if(type == "dividend") {
-					if(o_trans) delete o_trans;
-					o_trans = new Income(parent_budget, &e2, &valid2);
-					if(!((Income*) o_trans)->security()) valid2 = false;
-				} else if(type == "transfer") {
-					if(o_trans) delete o_trans;
-					o_trans = new Transfer(parent_budget, &e2, &valid2);
-				} else if(type == "balancing") {
-					if(o_trans) delete o_trans;
-					o_trans = new Balancing(parent_budget, &e2, &valid2);
-				} else if(type == "security_buy") {
-					if(o_trans) delete o_trans;
-					o_trans = new SecurityBuy(parent_budget, &e2, &valid2);
-				} else if(type == "security_sell") {
-					if(o_trans) delete o_trans;
-					o_trans = new SecuritySell(parent_budget, &e2, &valid2);
-				}
-				if(!valid2) {
-					delete o_trans;
-					o_trans = NULL;
-				}
-			} else if(e2.tagName() == "recurrence") {
-				QString type = e2.attribute("type");
-				bool valid2 = true;
-				if(type == "daily") {
-					if(o_rec) delete o_rec;
-					o_rec = new DailyRecurrence(parent_budget, &e2, &valid2);
-				} else if(type == "weekly") {
-					if(o_rec) delete o_rec;
-					o_rec = new WeeklyRecurrence(parent_budget, &e2, &valid2);
-				} else if(type == "monthly") {
-					if(o_rec) delete o_rec;
-					o_rec = new MonthlyRecurrence(parent_budget, &e2, &valid2);
-				} else if(type == "yearly") {
-					if(o_rec) delete o_rec;
-					o_rec = new YearlyRecurrence(parent_budget, &e2, &valid2);
-				}
-				if(!valid2) {
-					delete o_rec;
-					o_rec = NULL;
-				}
-			}
-		}
-	}
-	if(!o_trans && valid) *valid = false;
-	if(o_rec && o_trans) o_trans->setDate(o_rec->startDate());
+ScheduledTransaction::ScheduledTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : o_budget(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
 }
 ScheduledTransaction::ScheduledTransaction(const ScheduledTransaction *strans) : o_budget(strans->budget()), o_trans(NULL), o_rec(NULL) {
 	if(strans->transaction()) o_trans = strans->transaction()->copy();
@@ -487,6 +496,73 @@ ScheduledTransaction::~ScheduledTransaction() {
 }
 ScheduledTransaction *ScheduledTransaction::copy() const {return new ScheduledTransaction(this);}
 
+void ScheduledTransaction::readAttributes(QXmlStreamAttributes*, bool*) {}
+
+bool ScheduledTransaction::readElement(QXmlStreamReader *xml, bool*) {
+	if(xml->name() == "transaction") {
+		QStringRef type = xml->attributes().value("type");
+		bool valid2 = true;
+		if(type == "expense") {
+			if(o_trans) delete o_trans;
+			o_trans = new Expense(budget(), xml, &valid2);
+		} else if(type == "income") {
+			if(o_trans) delete o_trans;
+			o_trans = new Income(budget(), xml, &valid2);
+		} else if(type == "dividend") {
+			if(o_trans) delete o_trans;
+			o_trans = new Income(budget(), xml, &valid2);
+			if(!((Income*) o_trans)->security()) valid2 = false;
+		} else if(type == "transfer") {
+			if(o_trans) delete o_trans;
+			o_trans = new Transfer(budget(), xml, &valid2);
+		} else if(type == "balancing") {
+			if(o_trans) delete o_trans;
+			o_trans = new Balancing(budget(), xml, &valid2);
+		} else if(type == "security_buy") {
+			if(o_trans) delete o_trans;
+			o_trans = new SecurityBuy(budget(), xml, &valid2);
+		} else if(type == "security_sell") {
+			if(o_trans) delete o_trans;
+			o_trans = new SecuritySell(budget(), xml, &valid2);
+		}
+		if(!valid2) {
+			delete o_trans;
+			o_trans = NULL;
+		}
+		return true;
+	} else if(xml->name() == "recurrence") {
+		QStringRef type = xml->attributes().value("type");
+		bool valid2 = true;
+		if(type == "daily") {
+			if(o_rec) delete o_rec;
+			o_rec = new DailyRecurrence(budget(), xml, &valid2);
+		} else if(type == "weekly") {
+			if(o_rec) delete o_rec;
+			o_rec = new WeeklyRecurrence(budget(), xml, &valid2);
+		} else if(type == "monthly") {
+			if(o_rec) delete o_rec;
+			o_rec = new MonthlyRecurrence(budget(), xml, &valid2);
+		} else if(type == "yearly") {
+			if(o_rec) delete o_rec;
+			o_rec = new YearlyRecurrence(budget(), xml, &valid2);
+		}
+		if(!valid2) {
+			delete o_rec;
+			o_rec = NULL;
+		}
+		return true;
+	}
+	return false;
+}
+bool ScheduledTransaction::readElements(QXmlStreamReader *xml, bool *valid) {
+	o_rec = NULL; o_trans = NULL;
+	while(xml->readNextStartElement()) {
+		if(!readElement(xml, valid)) xml->skipCurrentElement();
+	}
+	if(!o_trans && valid) *valid = false;
+	if(o_rec && o_trans) o_trans->setDate(o_rec->startDate());
+	return true;
+}
 Transaction *ScheduledTransaction::realize(const QDate &date) {
 	if(!o_trans) return NULL;
 	if(o_rec && !o_rec->removeOccurrence(date)) return NULL;
@@ -604,66 +680,88 @@ void ScheduledTransaction::addException(const QDate &exceptiondate) {
 }
 
 SplitTransaction::SplitTransaction(Budget *parent_budget, QDate initial_date, AssetsAccount *initial_account, QString initial_description) : o_budget(parent_budget), d_date(initial_date), o_account(initial_account), s_description(initial_description.trimmed()) {}
-SplitTransaction::SplitTransaction(Budget *parent_budget, QDomElement *e, bool *valid) : o_budget(parent_budget) {
-	o_account = NULL;
-	d_date = QDate::fromString(e->attribute("date"), Qt::ISODate);
-	s_description = e->attribute("description", emptystr).trimmed();
-	s_comment = e->attribute("comment", emptystr);
-	int id = e->attribute("account").toInt();
-	if(d_date.isValid() && parent_budget->assetsAccounts_id.contains(id)) {
-		o_account = parent_budget->assetsAccounts_id[id];
-		for(QDomNode n = e->firstChild(); !n.isNull(); n = n.nextSibling()) {
-			if(n.isElement()) {
-				QDomElement e2 = n.toElement();
-				if(e2.tagName() == "transaction") {
-					QString type = e2.attribute("type");
-					e2.setAttribute("date", d_date.toString(Qt::ISODate));
-					bool valid2 = true;
-					Transaction *trans = NULL;
-					if(type == "expense") {
-						e2.setAttribute("from", id);
-						trans = new Expense(parent_budget, &e2, &valid2);
-					} else if(type == "income") {
-						e2.setAttribute("to", id);
-						trans = new Income(parent_budget, &e2, &valid2);
-					} else if(type == "dividend") {
-						e2.setAttribute("to", id);
-						trans = new Income(parent_budget, &e2, &valid2);
-						if(!((Income*) trans)->security()) valid2 = false;
-					} else if(type == "balancing") {
-						e2.setAttribute("account", id);
-						trans = new Balancing(parent_budget, &e2, &valid2);
-					} else if(type == "transfer") {
-						if(e2.hasAttribute("to")) e2.setAttribute("from", id);
-						else e2.setAttribute("to", id);
-						trans = new Transfer(parent_budget, &e2, &valid2);
-					} else if(type == "security_buy") {
-						e2.setAttribute("account", id);
-						trans = new SecurityBuy(parent_budget, &e2, &valid2);
-					} else if(type == "security_sell") {
-						e2.setAttribute("account", id);
-						trans = new SecuritySell(parent_budget, &e2, &valid2);
-					}
-					if(!valid2) {
-						delete trans;
-						trans = NULL;
-					}
-					if(trans) {
-						trans->setParentSplit(this);
-						splits.push_back(trans);
-					}
-				}
-			}
-		}
-	} else {
-		if(valid) *valid =false;
-	}
+SplitTransaction::SplitTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : o_budget(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
 }
 SplitTransaction::SplitTransaction() : o_budget(NULL), o_account(NULL) {}
 SplitTransaction::~SplitTransaction() {
 	clear();
 }
 
+void SplitTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	o_account = NULL;
+	d_date = QDate::fromString(attr->value("date").toString(), Qt::ISODate);
+	if(attr->hasAttribute("description")) s_description = attr->value("description").trimmed().toString();
+	else s_description = emptystr;
+	if(attr->hasAttribute("comment")) s_comment = attr->value("comment").toString();
+	else s_comment = emptystr;
+	int id = attr->value("account").toInt();
+	if(d_date.isValid() && budget()->assetsAccounts_id.contains(id)) {
+		o_account = budget()->assetsAccounts_id[id];
+	} else {
+		if(valid) *valid = false;
+	}
+}
+bool SplitTransaction::readElement(QXmlStreamReader *xml, bool*) {
+	if(!o_account) return false;
+	if(xml->name() == "transaction") {
+		QString id = QString::number(o_account->id());
+		QXmlStreamAttributes attr = xml->attributes();
+		QStringRef type = attr.value("type");
+		attr.append("date", d_date.toString(Qt::ISODate));
+		bool valid2 = true;
+		bool is_dividend = false;
+		Transaction *trans = NULL;
+		if(type == "expense") {
+			attr.append("from", id);
+			trans = new Expense(budget());			
+		} else if(type == "income") {
+			attr.append("to", id);
+			trans = new Income(budget());
+		} else if(type == "dividend") {
+			attr.append("to", id);
+			trans = new Income(budget());
+			is_dividend = true;
+		} else if(type == "balancing") {
+			attr.append("account", id);
+			trans = new Balancing(budget());
+		} else if(type == "transfer") {
+			if(attr.hasAttribute("to")) attr.append("from", id);
+			else attr.append("to", id);
+			trans = new Transfer(budget());
+		} else if(type == "security_buy") {
+			attr.append("account", id);
+			trans = new SecurityBuy(budget());
+		} else if(type == "security_sell") {
+			attr.append("account", id);
+			trans = new SecuritySell(budget());
+		}
+		if(trans) {
+			trans->readAttributes(&attr, &valid2);
+			trans->readElements(xml, &valid2);
+			if(is_dividend && !((Income*) trans)->security()) valid2 = false;
+			if(!valid2) {
+				delete trans;
+				trans = NULL;
+			}
+			if(trans) {
+				trans->setParentSplit(this);
+				splits.push_back(trans);
+			}
+			return true;
+		}
+	}
+	return false;
+}
+bool SplitTransaction::readElements(QXmlStreamReader *xml, bool *valid) {
+	if(!o_account) return false;
+	while(xml->readNextStartElement()) {
+		if(!readElement(xml, valid)) xml->skipCurrentElement();
+	}
+	return true;
+}
 double SplitTransaction::value() const {
 	double d_value = 0.0;
 	QVector<Transaction*>::size_type c = splits.size();

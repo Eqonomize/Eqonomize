@@ -26,6 +26,8 @@
 #include <QString>
 
 class QDomElement;
+class QXmlStreamReader;
+class QXmlStreamAttributes;
 
 class Budget;
 
@@ -56,11 +58,15 @@ class Account {
 	public:
 
 		Account(Budget *parent_budget, QString initial_name, QString initial_description);
-		Account(Budget *parent_budget, QDomElement *e, bool *valid);
+		Account(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		Account(Budget *parent_budget);
 		Account();
 		Account(const Account *account);
 		virtual ~Account();
 
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
+		virtual bool readElements(QXmlStreamReader *xml, bool *valid);
 		const QString &name() const;
 		void setName(QString new_name);
 		const QString &description() const;
@@ -83,11 +89,13 @@ class AssetsAccount : public Account {
 	public:
 
 		AssetsAccount(Budget *parent_budget, AssetsType initial_type, QString initial_name, double initial_balance = 0.0, QString initial_description = QString::null);
-		AssetsAccount(Budget *parent_budget, QDomElement *e, bool *valid);
+		AssetsAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		AssetsAccount(Budget *parent_budget);
 		AssetsAccount();
 		AssetsAccount(const AssetsAccount *account);
 		virtual ~AssetsAccount();
 
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		bool isBudgetAccount() const;
 		void setAsBudgetAccount(bool will_be = true);
 		double initialBalance() const;
@@ -104,13 +112,16 @@ class CategoryAccount : public Account {
 	public:
 
 		CategoryAccount(Budget *parent_budget, QString initial_name, QString initial_description = QString::null);
-		CategoryAccount(Budget *parent_budget, QDomElement *e, bool *valid);
+		CategoryAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		CategoryAccount(Budget *parent_budget);
 		CategoryAccount();
 		CategoryAccount(const CategoryAccount *account);
 		virtual ~CategoryAccount();
 
 		QMap<QDate, double> mbudgets;
-		
+
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
 		double monthlyBudget(int year, int month, bool no_default = false) const;
 		void setMonthlyBudget(int year, int month, double new_monthly_budget);
 		double monthlyBudget(const QDate &date, bool no_default = false) const;
@@ -125,7 +136,8 @@ class IncomesAccount : public CategoryAccount {
 	public:
 
 		IncomesAccount(Budget *parent_budget, QString initial_name, QString initial_description = QString::null);
-		IncomesAccount(Budget *parent_budget, QDomElement *e, bool *valid);
+		IncomesAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		IncomesAccount(Budget *parent_budget);
 		IncomesAccount();
 		IncomesAccount(const IncomesAccount *account);
 		virtual ~IncomesAccount();
@@ -139,7 +151,8 @@ class ExpensesAccount : public CategoryAccount {
 	public:
 
 		ExpensesAccount(Budget *parent_budget, QString initial_name, QString initial_description = QString::null);
-		ExpensesAccount(Budget *parent_budget, QDomElement *e, bool *valid);
+		ExpensesAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		ExpensesAccount(Budget *parent_budget);
 		ExpensesAccount();
 		ExpensesAccount(const ExpensesAccount *account);
 		virtual ~ExpensesAccount();

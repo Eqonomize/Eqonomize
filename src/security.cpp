@@ -24,6 +24,8 @@
 
 #include <QDomElement>
 #include <QDomNode>
+#include <QXmlStreamReader>
+#include <QXmlStreamAttribute>
 
 #include "budget.h"
 #include "recurrence.h"
@@ -44,10 +46,20 @@ void Security::init() {
 Security::Security(Budget *parent_budget, AssetsAccount *parent_account, SecurityType initial_type, double initial_shares, int initial_decimals, int initial_quotation_decimals, QString initial_name, QString initial_description) : o_budget(parent_budget), i_id(-1), o_account(parent_account), st_type(initial_type), d_initial_shares(initial_shares), i_decimals(initial_decimals), i_quotation_decimals(initial_quotation_decimals), s_name(initial_name.trimmed()), s_description(initial_description) {
 	init();
 }
-Security::Security(Budget *parent_budget, QDomElement *e, bool *valid) : o_budget(parent_budget) {
+Security::Security(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : o_budget(parent_budget) {
 	init();
-	i_id = e->attribute("id").toInt();
-	QString type = e->attribute("type");
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
+}
+Security::Security(Budget *parent_budget) : o_budget(parent_budget) {}
+Security::Security() : o_budget(NULL), i_id(-1), o_account(NULL), st_type(SECURITY_TYPE_STOCK), d_initial_shares(0.0), i_decimals(-1), i_quotation_decimals(-1) {init();}
+Security::Security(const Security *security) : o_budget(security->budget()), i_id(security->id()), o_account(security->account()), st_type(security->type()), d_initial_shares(security->initialShares()), i_decimals(security->decimals()), i_quotation_decimals(security->quotationDecimals()), s_name(security->name()), s_description(security->description()) {init();}
+Security::~Security() {}
+
+void Security::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	i_id = attr->value("id").toInt();
+	QStringRef type = attr->value("type");
 	if(type == "bond") {
 		st_type = SECURITY_TYPE_BOND;
 	} else if(type == "stock") {
@@ -57,34 +69,37 @@ Security::Security(Budget *parent_budget, QDomElement *e, bool *valid) : o_budge
 	} else {
 		st_type = SECURITY_TYPE_OTHER;
 	}
-	d_initial_shares = e->attribute("initialshares").toDouble();
-	i_decimals = e->attribute("decimals", "-1").toInt();
-	i_quotation_decimals = e->attribute("quotationdecimals", "-1").toInt();
-	s_name = e->attribute("name").trimmed();
-	s_description = e->attribute("description");
-	int id_account = e->attribute("account").toInt();
-	if(parent_budget->assetsAccounts_id.contains(id_account)) {
-		o_account = parent_budget->assetsAccounts_id[id_account];
-		if(valid) *valid = (o_account->accountType() == ASSETS_TYPE_SECURITIES);
+	d_initial_shares = attr->value("initialshares").toDouble();
+	if(attr->hasAttribute("decimals")) i_decimals = attr->value("decimals").toInt();
+	else i_decimals = -1;
+	if(attr->hasAttribute("quotationdecimals")) i_quotation_decimals = attr->value("quotationdecimals").toInt();
+	else i_quotation_decimals = -1;
+	s_name = attr->value("name").trimmed().toString();
+	s_description = attr->value("description").toString();
+	int id_account = attr->value("account").toInt();
+	if(budget()->assetsAccounts_id.contains(id_account)) {
+		o_account = budget()->assetsAccounts_id[id_account];
+		if(valid && (*valid)) *valid = (o_account->accountType() == ASSETS_TYPE_SECURITIES);
 	} else {
 		o_account = NULL;
-		if(valid) *valid =false;
-	}
-	for(QDomNode n = e->firstChild(); !n.isNull(); n = n.nextSibling()) {
-		if(n.isElement()) {
-			QDomElement e2 = n.toElement();
-			if(e2.tagName() == "quotation") {
-				QDate date = QDate::fromString(e2.attribute("date"), Qt::ISODate);
-				quotations[date] = e2.attribute("value").toDouble();
-				quotations_auto[date] = e2.attribute("auto").toInt();
-			}
-		}
+		if(valid) *valid = false;
 	}
 }
-Security::Security() : o_budget(NULL), i_id(-1), o_account(NULL), st_type(SECURITY_TYPE_STOCK), d_initial_shares(0.0), i_decimals(-1), i_quotation_decimals(-1) {init();}
-Security::Security(const Security *security) : o_budget(security->budget()), i_id(security->id()), o_account(security->account()), st_type(security->type()), d_initial_shares(security->initialShares()), i_decimals(security->decimals()), i_quotation_decimals(security->quotationDecimals()), s_name(security->name()), s_description(security->description()) {init();}
-Security::~Security() {}
-
+bool Security::readElement(QXmlStreamReader *xml, bool*) {
+	if(xml->name() == "quotation") {
+		QXmlStreamAttributes attr = xml->attributes();
+		QDate date = QDate::fromString(attr.value("date").toString(), Qt::ISODate);
+		quotations[date] = attr.value("value").toDouble();
+		quotations_auto[date] = attr.value("auto").toInt();
+	}
+	return false;
+}
+bool Security::readElements(QXmlStreamReader *xml, bool *valid) {
+	while(xml->readNextStartElement()) {
+		if(!readElement(xml, valid)) xml->skipCurrentElement();
+	}
+	return true;
+}
 const QString &Security::name() const {return s_name;}
 void Security::setName(QString new_name) {s_name = new_name.trimmed(); o_budget->securityNameModified(this);}
 const QString &Security::description() const {return s_description;}

@@ -26,6 +26,8 @@
 #include <QVector>
 #include <QCoreApplication>
 
+class QXmlStreamReader;
+class QXmlStreamAttributes;
 class QDomElement;
 
 class Account;
@@ -81,7 +83,8 @@ class Transaction {
 	public:
 
 		Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description = emptystr, QString initial_comment = emptystr);
-		Transaction(Budget *parent_budget, QDomElement *e, bool *valid);
+		Transaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		Transaction(Budget *parent_budget);
 		Transaction();
 		Transaction(const Transaction *transaction);
 		virtual ~Transaction();
@@ -89,6 +92,9 @@ class Transaction {
 
 		virtual bool equals(const Transaction *transaction) const;
 
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
+		virtual bool readElements(QXmlStreamReader *xml, bool *valid);
 		SplitTransaction *parentSplit() const;
 		void setParentSplit(SplitTransaction *parent);
 		virtual double value() const;
@@ -120,11 +126,14 @@ class Expense : public Transaction {
 	public:
 
 		Expense(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, QString initial_description = emptystr, QString initial_comment = emptystr);
-		Expense(Budget *parent_budget, QDomElement *e, bool *valid);
+		Expense(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		Expense(Budget *parent_budget);
 		Expense();
 		Expense(const Expense *expense);
 		virtual ~Expense();
 		Transaction *copy() const;
+
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 
 		bool equals(const Transaction *transaction) const;
 		
@@ -151,12 +160,15 @@ class Income : public Transaction {
 	public:
 
 		Income(Budget *parent_budget, double initial_income, QDate initial_date, IncomesAccount *initial_category, AssetsAccount *initial_to, QString initial_description = emptystr, QString initial_comment = emptystr);
-		Income(Budget *parent_budget, QDomElement *e, bool *valid);
+		Income(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		Income(Budget *parent_budget);
 		Income();
 		Income(const Income *income_);
 		virtual ~Income();
 		Transaction *copy() const;
 
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+	
 		bool equals(const Transaction *transaction) const;
 
 		IncomesAccount *category() const;
@@ -177,14 +189,17 @@ class Income : public Transaction {
 class Transfer : public Transaction {
 
 	public:
-
+	
 		Transfer(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description = emptystr, QString initial_comment = emptystr);
-		Transfer(Budget *parent_budget, QDomElement *e, bool *valid, bool internal_is_balancing = false);
+		Transfer(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		Transfer(Budget *parent_budget);
 		Transfer();
 		Transfer(const Transfer *transfer);
 		virtual ~Transfer();
 		virtual Transaction *copy() const;
 
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		
 		AssetsAccount *to() const;
 		void setTo(AssetsAccount *new_to);
 		AssetsAccount *from() const;
@@ -201,11 +216,14 @@ class Balancing : public Transfer {
 	public:
 
 		Balancing(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_account, QString initial_comment = emptystr);
-		Balancing(Budget *parent_budget, QDomElement *e, bool *valid);
+		Balancing(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		Balancing(Budget *parent_budget);
 		Balancing();
 		Balancing(const Balancing *balancing);
 		virtual ~Balancing();
 		Transaction *copy() const;
+
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 
 		AssetsAccount *account() const;
 		void setAccount(AssetsAccount *new_account);
@@ -224,11 +242,14 @@ class SecurityTransaction : public Transaction {
 	public:
 
 		SecurityTransaction(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, QString initial_comment = emptystr);
-		SecurityTransaction(Budget *parent_budget, QDomElement *e, bool *valid);
+		SecurityTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		SecurityTransaction(Budget *parent_budget);
 		SecurityTransaction();
 		SecurityTransaction(const SecurityTransaction *transaction);
 		virtual ~SecurityTransaction();
 		virtual Transaction *copy() const = 0;
+
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 
 		bool equals(const Transaction *transaction) const;
 
@@ -252,11 +273,14 @@ class SecurityBuy : public SecurityTransaction {
 	public:
 
 		SecurityBuy(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, Account *from_account, QString initial_comment = emptystr);
-		SecurityBuy(Budget *parent_budget, QDomElement *e, bool *valid);
+		SecurityBuy(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		SecurityBuy(Budget *parent_budget);
 		SecurityBuy();
 		SecurityBuy(const SecurityBuy *transaction);
 		virtual ~SecurityBuy();
 		Transaction *copy() const;
+
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 
 		Account *account() const;
 		void setAccount(Account *account);		
@@ -271,11 +295,14 @@ class SecuritySell : public SecurityTransaction {
 	public:
 
 		SecuritySell(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, Account *to_account, QString initial_comment = emptystr);
-		SecuritySell(Budget *parent_budget, QDomElement *e, bool *valid);
+		SecuritySell(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		SecuritySell(Budget *parent_budget);
 		SecuritySell();
 		SecuritySell(const SecuritySell *transaction);
 		virtual ~SecuritySell();
 		Transaction *copy() const;
+
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 
 		Account *account() const;
 		void setAccount(Account *account);
@@ -297,10 +324,14 @@ class ScheduledTransaction {
 
 		ScheduledTransaction(Budget *parent_budget);
 		ScheduledTransaction(Budget *parent_budget, Transaction *trans, Recurrence *rec);
-		ScheduledTransaction(Budget *parent_budget, QDomElement *e, bool *valid);
+		ScheduledTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		ScheduledTransaction(const ScheduledTransaction *strans);
 		virtual ~ScheduledTransaction();
 		ScheduledTransaction *copy() const;
+
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
+		virtual bool readElements(QXmlStreamReader *xml, bool *valid);
 
 		Transaction *realize(const QDate &date);
 		Transaction *transaction() const;
@@ -330,9 +361,13 @@ class SplitTransaction {
 	public:
 
 		SplitTransaction(Budget *parent_budget, QDate initial_date, AssetsAccount *initial_account, QString initial_description = emptystr);
-		SplitTransaction(Budget *parent_budget, QDomElement *e, bool *valid);
+		SplitTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		SplitTransaction();
-		~SplitTransaction();
+		virtual ~SplitTransaction();
+
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
+		virtual bool readElements(QXmlStreamReader *xml, bool *valid);
 
 		double value() const;
 		void addTransaction(Transaction *trans);

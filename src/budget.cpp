@@ -25,6 +25,7 @@
 #include "budget.h"
 
 #include <QDomDocument>
+#include <QXmlStreamReader>
 #include <QTextStream>
 #include <QMap>
 #include <QSaveFile>
@@ -98,257 +99,255 @@ void Budget::clear() {
 	accounts.append(balancingAccount);
 	budgetAccount = NULL;
 }
+
 QString Budget::loadFile(QString filename, QString &errors) {
 	QFile file(filename);
-	if(!file.open(QIODevice::ReadOnly) ) {
+	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		return tr("Couldn't open %1 for reading").arg(filename);
 	} else if(!file.size()) {
 		return QString::null;
 	}
-	QTextStream fstream(&file);
-	fstream.setCodec("UTF-8");
-	QDomDocument doc;
-	QString errorMsg;
-	int errorLine = 0, errorCol;
-	doc.setContent(&file, &errorMsg, &errorLine, &errorCol);
-	if(errorLine){
-		return tr("Not a valid Eqonomize! file (XML parse error: \"%1\" at line %2, col %3)").arg(errorMsg).arg(errorLine).arg(errorCol);
-	}
-	QDomElement root = doc.documentElement();
-	if(root.tagName() != "EqonomizeDoc" && root.tagName() != "EconomizeDoc") return tr("Invalid root element %1 in XML document").arg(root.tagName());
-
+	QXmlStreamReader xml(&file);
+	if(!xml.readNextStartElement()) return tr("Not a valid Eqonomize! file (XML parse error: \"%1\" at line %2, col %3)").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
+	if(xml.name() != "EqonomizeDoc") return tr("Invalid root element %1 in XML document").arg(xml.name().toString());
+	/*QString s_version = xml.attributes().value("version").toString();
+	float f_version = s_version.toFloat();*/
+	
 	clear();
-
 	errors = "";
 	int category_errors = 0, account_errors = 0, transaction_errors = 0, security_errors = 0;
 
-	/*QDomAttr v = root.attributeNode("version");
-	bool ok = true;
-	float version = v.value().toFloat(&ok);
-	if(v.isNull()) return tr("root element has no version attribute");
-	if(!ok) return tr("root element has invalid version attribute");*/
-
 	assetsAccounts_id[balancingAccount->id()] = balancingAccount;
-	for(QDomNode n = root.firstChild(); !n.isNull(); n = n.nextSibling()) {
-		if(n.isElement()) {
-			QDomElement e = n.toElement();
-			if(e.tagName() == "schedule") {
-				bool valid = true;
-				ScheduledTransaction *strans = new ScheduledTransaction(this, &e, &valid);
+	
+	while(xml.readNextStartElement()) {
+		if(xml.name() == "schedule") {
+			bool valid = true;
+			ScheduledTransaction *strans = new ScheduledTransaction(this, &xml, &valid);
+			if(valid) {
+				scheduledTransactions.append(strans);
+				if(strans->transaction()) {
+					if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+						((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.append(strans);
+					} else if(strans->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
+						((Income*) strans->transaction())->security()->scheduledDividends.append(strans);
+					}
+				}
+			} else {
+				transaction_errors++;
+				delete strans;
+			}
+		} else if(xml.name() == "transaction") {
+			QStringRef type = xml.attributes().value("type");
+			bool valid = true;
+			if(type == "expense" || type == "refund") {
+				Expense *expense = new Expense(this, &xml, &valid);
 				if(valid) {
-					scheduledTransactions.append(strans);
-					if(strans->transaction()) {
-						if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-							((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.append(strans);
-						} else if(strans->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
-							((Income*) strans->transaction())->security()->scheduledDividends.append(strans);
+					expenses.append(expense);
+					transactions.append(expense);
+				} else {
+					transaction_errors++;
+					delete expense;
+				}
+			} else if(type == "income" || type == "repayment") {
+				Income *income = new Income(this, &xml, &valid);
+				if(valid) {
+					incomes.append(income);
+					transactions.append(income);
+				} else {
+					transaction_errors++;
+					delete income;
+				}
+			} else if(type == "dividend") {
+				Income *income = new Income(this, &xml, &valid);
+				if(valid && income->security()) {
+					incomes.append(income);
+					transactions.append(income);
+					income->security()->dividends.append(income);
+				} else {
+					transaction_errors++;
+					delete income;
+				}
+			} else if(type == "reinvested_dividend") {
+				QXmlStreamAttributes attr = xml.attributes();
+				QDate date = QDate::fromString(attr.value("date").toString(), Qt::ISODate);
+				double shares = attr.value("shares").toDouble();
+				int id = attr.value("security").toInt();
+				Security *security;
+				if(securities_id.contains(id)) {
+					security = securities_id[id];
+				} else {
+					security = NULL;
+				}
+				if(date.isValid() && security) {
+					security->reinvestedDividends.append(new ReinvestedDividend(date, shares));
+				} else {
+					transaction_errors++;
+				}
+				xml.skipCurrentElement();
+			} else if(type == "security_trade") {
+				QXmlStreamAttributes attr = xml.attributes();
+				QDate date = QDate::fromString(attr.value("date").toString(), Qt::ISODate);
+				double value = attr.value("value").toDouble();
+				double from_shares = attr.value("from_shares").toDouble();
+				double to_shares = attr.value("to_shares").toDouble();
+				int from_id = attr.value("from_security").toInt();
+				int to_id = attr.value("to_security").toInt();
+				Security *from_security;
+				if(securities_id.contains(from_id)) {
+					from_security = securities_id[from_id];
+				} else {
+					from_security = NULL;
+				}
+				Security *to_security;
+				if(securities_id.contains(to_id)) {
+					to_security = securities_id[to_id];
+				} else {
+					to_security = NULL;
+				}
+				if(date.isValid() && from_security && to_security && from_security != to_security) {
+					SecurityTrade *ts = new SecurityTrade(date, value, from_shares, from_security, to_shares, to_security);
+					securityTrades.append(ts);
+					from_security->tradedShares.append(ts);
+					to_security->tradedShares.append(ts);
+				} else {
+					transaction_errors++;
+				}
+				xml.skipCurrentElement();
+			} else if(type == "transfer") {
+				Transfer *transfer = new Transfer(this, &xml, &valid);
+				if(valid) {
+					transfers.append(transfer);
+					transactions.append(transfer);
+				} else {
+					transaction_errors++;
+					delete transfer;
+				}
+			} else if(type == "balancing") {
+				Transfer *transfer = new Balancing(this, &xml, &valid);
+				if(valid) {
+					transfers.append(transfer);
+					transactions.append(transfer);
+				} else {
+					transaction_errors++;
+					delete transfer;
+				}
+			} else if(type == "security_buy") {
+				SecurityBuy *trans = new SecurityBuy(this, &xml, &valid);
+				if(valid) {
+					securityTransactions.append(trans);
+					trans->security()->transactions.append(trans);
+					transactions.append(trans);
+				} else {
+					transaction_errors++;
+					delete trans;
+				}
+			} else if(type == "security_sell") {
+				SecuritySell *trans = new SecuritySell(this, &xml, &valid);
+				if(valid) {
+					securityTransactions.append(trans);
+					trans->security()->transactions.append(trans);
+					transactions.append(trans);
+				} else {
+					transaction_errors++;
+					delete trans;
+				}
+			} else if(type == "split") {
+				SplitTransaction *split = new SplitTransaction(this, &xml, &valid);
+				if(valid) {
+					splitTransactions.append(split);
+					QVector<Transaction*>::size_type c = split->splits.count();
+					for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
+						Transaction *trans = split->splits[i];
+						switch(trans->type()) {
+							case TRANSACTION_TYPE_TRANSFER: {
+								transfers.append((Transfer*) trans);
+								break;
+							}
+							case TRANSACTION_TYPE_INCOME: {
+								incomes.append((Income*) trans);
+								if(((Income*) trans)->security()) ((Income*) trans)->security()->dividends.append((Income*) trans);
+								break;
+							}
+							case TRANSACTION_TYPE_EXPENSE: {
+								expenses.append((Expense*) trans);
+								break;
+							}
+							case TRANSACTION_TYPE_SECURITY_BUY: {
+								securityTransactions.append((SecurityBuy*) trans);
+								((SecurityBuy*) trans)->security()->transactions.append((SecurityBuy*) trans);
+								break;
+							}
+							case TRANSACTION_TYPE_SECURITY_SELL: {
+								securityTransactions.append((SecuritySell*) trans);
+								((SecuritySell*) trans)->security()->transactions.append((SecuritySell*) trans);
+								break;
+							}
+							default: {}
 						}
+						transactions.append(trans);
 					}
 				} else {
 					transaction_errors++;
-					delete strans;
-				}
-			} else if(e.tagName() == "transaction") {
-				QString type = e.attribute("type");
-				bool valid = true;
-				if(type == "expense" || type == "refund") {
-					Expense *expense = new Expense(this, &e, &valid);
-					if(valid) {
-						expenses.append(expense);
-						transactions.append(expense);
-					} else {
-						transaction_errors++;
-						delete expense;
-					}
-				} else if(type == "income" || type == "repayment") {
-					Income *income = new Income(this, &e, &valid);
-					if(valid) {
-						incomes.append(income);
-						transactions.append(income);
-					} else {
-						transaction_errors++;
-						delete income;
-					}
-				} else if(type == "dividend") {
-					Income *income = new Income(this, &e, &valid);
-					if(valid && income->security()) {
-						incomes.append(income);
-						transactions.append(income);
-						income->security()->dividends.append(income);
-					} else {
-						transaction_errors++;
-						delete income;
-					}
-				} else if(type == "reinvested_dividend") {
-					QDate date = QDate::fromString(e.attribute("date"), Qt::ISODate);
-					double shares = e.attribute("shares").toDouble();
-					int id = e.attribute("security").toInt();
-					Security *security;
-					if(securities_id.contains(id)) {
-						security = securities_id[id];
-					} else {
-						security = NULL;
-					}
-					if(date.isValid() && security) {
-						security->reinvestedDividends.append(new ReinvestedDividend(date, shares));
-					} else {
-						transaction_errors++;
-					}
-				} else if(type == "security_trade") {
-					QDate date = QDate::fromString(e.attribute("date"), Qt::ISODate);
-					double value = e.attribute("value").toDouble();
-					double from_shares = e.attribute("from_shares").toDouble();
-					double to_shares = e.attribute("to_shares").toDouble();
-					int from_id = e.attribute("from_security").toInt();
-					int to_id = e.attribute("to_security").toInt();
-					Security *from_security;
-					if(securities_id.contains(from_id)) {
-						from_security = securities_id[from_id];
-					} else {
-						from_security = NULL;
-					}
-					Security *to_security;
-					if(securities_id.contains(to_id)) {
-						to_security = securities_id[to_id];
-					} else {
-						to_security = NULL;
-					}
-					if(date.isValid() && from_security && to_security && from_security != to_security) {
-						SecurityTrade *ts = new SecurityTrade(date, value, from_shares, from_security, to_shares, to_security);
-						securityTrades.append(ts);
-						from_security->tradedShares.append(ts);
-						to_security->tradedShares.append(ts);
-					} else {
-						transaction_errors++;
-					}
-				} else if(type == "transfer") {
-					Transfer *transfer = new Transfer(this, &e, &valid);
-					if(valid) {
-						transfers.append(transfer);
-						transactions.append(transfer);
-					} else {
-						transaction_errors++;
-						delete transfer;
-					}
-				} else if(type == "balancing") {
-					Transfer *transfer = new Balancing(this, &e, &valid);
-					if(valid) {
-						transfers.append(transfer);
-						transactions.append(transfer);
-					} else {
-						transaction_errors++;
-						delete transfer;
-					}
-				} else if(type == "security_buy") {
-					SecurityBuy *trans = new SecurityBuy(this, &e, &valid);
-					if(valid) {
-						securityTransactions.append(trans);
-						trans->security()->transactions.append(trans);
-						transactions.append(trans);
-					} else {
-						transaction_errors++;
-						delete trans;
-					}
-				} else if(type == "security_sell") {
-					SecuritySell *trans = new SecuritySell(this, &e, &valid);
-					if(valid) {
-						securityTransactions.append(trans);
-						trans->security()->transactions.append(trans);
-						transactions.append(trans);
-					} else {
-						transaction_errors++;
-						delete trans;
-					}
-				} else if(type == "split") {
-					SplitTransaction *split = new SplitTransaction(this, &e, &valid);
-					if(valid) {
-						splitTransactions.append(split);
-						QVector<Transaction*>::size_type c = split->splits.count();
-						for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
-							Transaction *trans = split->splits[i];
-							switch(trans->type()) {
-								case TRANSACTION_TYPE_TRANSFER: {
-									transfers.append((Transfer*) trans);
-									break;
-								}
-								case TRANSACTION_TYPE_INCOME: {
-									incomes.append((Income*) trans);
-									if(((Income*) trans)->security()) ((Income*) trans)->security()->dividends.append((Income*) trans);
-									break;
-								}
-								case TRANSACTION_TYPE_EXPENSE: {
-									expenses.append((Expense*) trans);
-									break;
-								}
-								case TRANSACTION_TYPE_SECURITY_BUY: {
-									securityTransactions.append((SecurityBuy*) trans);
-									((SecurityBuy*) trans)->security()->transactions.append((SecurityBuy*) trans);
-									break;
-								}
-								case TRANSACTION_TYPE_SECURITY_SELL: {
-									securityTransactions.append((SecuritySell*) trans);
-									((SecuritySell*) trans)->security()->transactions.append((SecuritySell*) trans);
-									break;
-								}
-								default: {}
-							}
-							transactions.append(trans);
-						}
-					} else {
-						transaction_errors++;
-						delete split;
-					}
-				}
-			} else if(e.tagName() == "category") {
-				QString type = e.attribute("type");
-				bool valid = true;
-				if(type == "expenses") {
-					ExpensesAccount *account = new ExpensesAccount(this, &e, &valid);
-					if(valid) {
-						expensesAccounts_id[account->id()] = account;
-						expensesAccounts.append(account);
-						accounts.append(account);
-					} else {
-						category_errors++;
-						delete account;
-					}
-				} else if(type == "incomes") {
-					IncomesAccount *account = new IncomesAccount(this, &e, &valid);
-					if(valid) {
-						incomesAccounts_id[account->id()] = account;
-						incomesAccounts.append(account);
-						accounts.append(account);
-					} else {
-						category_errors++;
-						delete account;
-					}
-				}
-			} else if(e.tagName() == "account") {
-				bool valid = true;
-				AssetsAccount *account = new AssetsAccount(this, &e, &valid);
-				if(valid) {
-					assetsAccounts_id[account->id()] = account;
-					assetsAccounts.append(account);
-					accounts.append(account);
-				} else {
-					account_errors++;
-					delete account;
-				}
-			} else if(e.tagName() == "security") {
-				bool valid = true;
-				Security *security = new Security(this, &e, &valid);
-				if(valid) {
-					securities_id[security->id()] = security;
-					securities.append(security);
-					i_quotation_decimals = security->quotationDecimals();
-					i_share_decimals = security->decimals();
-				} else {
-					security_errors++;
-					delete security;
+					delete split;
 				}
 			}
+		} else if(xml.name() == "category") {
+			QStringRef type = xml.attributes().value("type");
+			bool valid = true;
+			if(type == "expenses") {
+				ExpensesAccount *account = new ExpensesAccount(this, &xml, &valid);
+				if(valid) {
+					expensesAccounts_id[account->id()] = account;
+					expensesAccounts.append(account);
+					accounts.append(account);
+				} else {
+					category_errors++;
+					delete account;
+				}
+			} else if(type == "incomes") {
+				IncomesAccount *account = new IncomesAccount(this, &xml, &valid);
+				if(valid) {
+					incomesAccounts_id[account->id()] = account;
+					incomesAccounts.append(account);
+					accounts.append(account);
+				} else {
+					category_errors++;
+					delete account;
+				}
+			}
+		} else if(xml.name() == "account") {
+			bool valid = true;
+			AssetsAccount *account = new AssetsAccount(this, &xml, &valid);
+			if(valid) {
+				assetsAccounts_id[account->id()] = account;
+				assetsAccounts.append(account);
+				accounts.append(account);
+			} else {
+				account_errors++;
+				delete account;
+			}
+		} else if(xml.name() == "security") {
+			bool valid = true;
+			Security *security = new Security(this, &xml, &valid);
+			if(valid) {
+				securities_id[security->id()] = security;
+				securities.append(security);
+				i_quotation_decimals = security->quotationDecimals();
+				i_share_decimals = security->decimals();
+			} else {
+				security_errors++;
+				delete security;
+			}
+		} else {
+			errors += tr("Unknown XML element: \"%1\" at line %2, col %3").arg(xml.name().toString()).arg(xml.lineNumber()).arg(xml.columnNumber());
+			xml.skipCurrentElement();
 		}
 	}
+	
+	if (xml.hasError()) {
+		errors += tr("XML parse error: \"%1\" at line %2, col %3").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
+	}
+
 	incomesAccounts_id.clear();
 	expensesAccounts_id.clear();
 	assetsAccounts_id.clear();

@@ -26,6 +26,8 @@
 #include <QVector>
 
 class QDomElement;
+class QXmlStreamReader;
+class QXmlStreamAttributes;
 
 class Budget;
 
@@ -47,10 +49,14 @@ class Recurrence {
 	public:
 
 		Recurrence(Budget *parent_budget);
-		Recurrence(Budget *parent_budget, QDomElement *e, bool *valid);
+		Recurrence(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		Recurrence(const Recurrence *rec);
 		virtual ~Recurrence();
 		virtual Recurrence *copy() const = 0;
+		
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
+		virtual bool readElements(QXmlStreamReader *xml, bool *valid);
 
 		void updateDates();
 		virtual QDate nextOccurrence(const QDate &date, bool include_equals = false) const = 0;
@@ -88,11 +94,12 @@ class DailyRecurrence : public Recurrence {
 	public:
 
 		DailyRecurrence(Budget *parent_budget);
-		DailyRecurrence(Budget *parent_budget, QDomElement *e, bool *valid);
+		DailyRecurrence(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		DailyRecurrence(const DailyRecurrence *rec);
 		virtual ~DailyRecurrence();
 		Recurrence *copy() const;
 
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		QDate nextOccurrence(const QDate &date, bool include_equals = false) const;
 		QDate prevOccurrence(const QDate &date, bool include_equals = false) const;
 		RecurrenceType type() const;
@@ -112,11 +119,12 @@ class WeeklyRecurrence : public Recurrence {
 	public:
 
 		WeeklyRecurrence(Budget *parent_budget);
-		WeeklyRecurrence(Budget *parent_budget, QDomElement *e, bool *valid);
+		WeeklyRecurrence(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		WeeklyRecurrence(const WeeklyRecurrence *rec);
 		virtual ~WeeklyRecurrence();
 		Recurrence *copy() const;
 
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		QDate nextOccurrence(const QDate &date, bool include_equals = false) const;
 		QDate prevOccurrence(const QDate &date, bool include_equals = false) const;
 		RecurrenceType type() const;
@@ -147,11 +155,12 @@ class MonthlyRecurrence : public Recurrence {
 	public:
 
 		MonthlyRecurrence(Budget *parent_budget);
-		MonthlyRecurrence(Budget *parent_budget, QDomElement *e, bool *valid);
+		MonthlyRecurrence(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		MonthlyRecurrence(const MonthlyRecurrence *rec);
 		virtual ~MonthlyRecurrence();
 		Recurrence *copy() const;
 
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		QDate nextOccurrence(const QDate &date, bool include_equals = false) const;
 		QDate prevOccurrence(const QDate &date, bool include_equals = false) const;
 		RecurrenceType type() const;
@@ -181,11 +190,12 @@ class YearlyRecurrence : public Recurrence {
 	public:
 
 		YearlyRecurrence(Budget *parent_budget);
-		YearlyRecurrence(Budget *parent_budget, QDomElement *e, bool *valid);
+		YearlyRecurrence(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		YearlyRecurrence(const YearlyRecurrence *rec);
 		virtual ~YearlyRecurrence();
 		Recurrence *copy() const;
 
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		QDate nextOccurrence(const QDate &date, bool include_equals = false) const;
 		QDate prevOccurrence(const QDate &date, bool include_equals = false) const;
 		RecurrenceType type() const;

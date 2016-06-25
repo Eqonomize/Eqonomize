@@ -30,6 +30,8 @@
 
 class AssetsAccount;
 class QDomElement;
+class QXmlStreamReader;
+class QXmlStreamAttributes;
 class Security;
 class Budget;
 
@@ -179,11 +181,15 @@ class Security {
 	public:
 
 		Security(Budget *parent_budget, AssetsAccount *parent_account, SecurityType initial_type, double initial_shares = 0.0, int initial_decimals = -1, int initial_quotation_decimals = -1, QString initial_name = QString::null, QString initial_description = QString::null);
-		Security(Budget *parent_budget, QDomElement *e, bool *valid);
+		Security(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		Security(Budget *parent_budget);
 		Security();
 		Security(const Security *security);
 		virtual ~Security();
 
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
+		virtual bool readElements(QXmlStreamReader *xml, bool *valid);
 		const QString &name() const;
 		void setName(QString new_name);
 		const QString &description() const;

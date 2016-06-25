@@ -24,6 +24,8 @@
 
 #include <QDomElement>
 #include <QDomNode>
+#include <QXmlStreamReader>
+#include <QXmlStreamAttribute>
 
 #include "budget.h"
 #include "recurrence.h"
@@ -86,32 +88,42 @@ int get_day_in_month(int year, int month, int week, int day_of_week) {
 Recurrence::Recurrence(Budget *parent_budget) : o_budget(parent_budget) {
 	i_count = -1;
 }
-Recurrence::Recurrence(Budget *parent_budget, QDomElement *e, bool *valid) : o_budget(parent_budget) {
-	if(valid) *valid = true;
-	d_startdate = QDate::fromString(e->attribute("startdate"), Qt::ISODate);
-	if(!e->attribute("enddate").isEmpty()) {
-		d_enddate = QDate::fromString(e->attribute("enddate"), Qt::ISODate);
+Recurrence::Recurrence(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : o_budget(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
+}
+Recurrence::Recurrence(const Recurrence *rec) : o_budget(rec->budget()), d_startdate(rec->startDate()), d_enddate(rec->endDate()), i_count(rec->fixedOccurrenceCount()), exceptions(rec->exceptions) {}
+Recurrence::~Recurrence() {}
+
+void Recurrence::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	d_startdate = QDate::fromString(attr->value("startdate").toString(), Qt::ISODate);
+	if(!attr->value("enddate").isEmpty()) {
+		d_enddate = QDate::fromString(attr->value("enddate").toString(), Qt::ISODate);
 	}
-	i_count = e->attribute("recurrences", "-1").toInt();
+	if(attr->hasAttribute("recurrences")) i_count = attr->value("recurrences").toInt();
+	else i_count = -1;
 	if(valid && !d_startdate.isValid()) {
 		*valid = false;
 	}
 	if(!d_enddate.isValid() && !d_enddate.isNull()) d_enddate = QDate();
-	for(QDomNode n = e->firstChild(); !n.isNull(); n = n.nextSibling()) {
-		if(n.isElement()) {
-			QDomElement e2 = n.toElement();
-			if(e2.tagName() == "exception") {
-				QDate date = QDate::fromString(e2.attribute("date"), Qt::ISODate);
-				if(date.isValid() && date >= d_startdate && (d_enddate.isNull() || date <= d_enddate)) {
-					exceptions.append(date);
-				}
-			}
+}
+bool Recurrence::readElement(QXmlStreamReader *xml, bool*) {
+	if(xml->name() == "exception") {
+		QDate date = QDate::fromString(xml->attributes().value("date").toString(), Qt::ISODate);
+		if(date.isValid() && date >= d_startdate && (d_enddate.isNull() || date <= d_enddate)) {
+			exceptions.append(date);
 		}
 	}
-	qSort(exceptions);
+	return false;
 }
-Recurrence::Recurrence(const Recurrence *rec) : o_budget(rec->budget()), d_startdate(rec->startDate()), d_enddate(rec->endDate()), i_count(rec->fixedOccurrenceCount()), exceptions(rec->exceptions) {}
-Recurrence::~Recurrence() {}
+bool Recurrence::readElements(QXmlStreamReader *xml, bool *valid) {
+	while(xml->readNextStartElement()) {
+		if(!readElement(xml, valid)) xml->skipCurrentElement();
+	}
+	qSort(exceptions);
+	return true;
+}
 
 void Recurrence::updateDates() {
 	if(!d_startdate.isValid()) return;
@@ -311,17 +323,24 @@ void Recurrence::save(QDomElement *e) const {
 DailyRecurrence::DailyRecurrence(Budget *parent_budget) : Recurrence(parent_budget) {
 	i_frequency = 1;
 }
-DailyRecurrence::DailyRecurrence(Budget *parent_budget, QDomElement *e, bool *valid) : Recurrence(parent_budget, e, valid) {
-	i_frequency = e->attribute("frequency", "1").toInt();
-	if(valid && i_frequency < 1) {
-		*valid = false;
-	}
-	updateDates();
+DailyRecurrence::DailyRecurrence(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Recurrence(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
 }
 DailyRecurrence::DailyRecurrence(const DailyRecurrence *rec) : Recurrence(rec), i_frequency(rec->frequency()) {}
 DailyRecurrence::~DailyRecurrence() {}
 Recurrence *DailyRecurrence::copy() const {return new DailyRecurrence(this);}
 
+void DailyRecurrence::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	Recurrence::readAttributes(attr, valid);
+	if(attr->hasAttribute("frequency")) i_frequency = attr->value("frequency").toInt();
+	else i_frequency = 1;
+	if(valid && i_frequency < 1) {
+		*valid = false;
+	}
+	updateDates();
+}
 QDate DailyRecurrence::nextOccurrence(const QDate &date, bool include_equals) const {	
 	if(include_equals) {
 		if(date == startDate()) return date;
@@ -386,9 +405,28 @@ WeeklyRecurrence::WeeklyRecurrence(Budget *parent_budget) : Recurrence(parent_bu
 	b_daysofweek[5] = false;
 	b_daysofweek[6] = false;
 }
-WeeklyRecurrence::WeeklyRecurrence(Budget *parent_budget, QDomElement *e, bool *valid) : Recurrence(parent_budget, e, valid) {
-	i_frequency = e->attribute("frequency", "1").toInt();
-	QString days = e->attribute("days");
+WeeklyRecurrence::WeeklyRecurrence(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Recurrence(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
+}
+WeeklyRecurrence::WeeklyRecurrence(const WeeklyRecurrence *rec) : Recurrence(rec), i_frequency(rec->frequency()) {
+	b_daysofweek[0] = rec->dayOfWeek(1);
+	b_daysofweek[1] = rec->dayOfWeek(2);
+	b_daysofweek[2] = rec->dayOfWeek(3);
+	b_daysofweek[3] = rec->dayOfWeek(4);
+	b_daysofweek[4] = rec->dayOfWeek(5);
+	b_daysofweek[5] = rec->dayOfWeek(6);
+	b_daysofweek[6] = rec->dayOfWeek(7);
+}
+WeeklyRecurrence::~WeeklyRecurrence() {}
+Recurrence *WeeklyRecurrence::copy() const {return new WeeklyRecurrence(this);}
+
+void WeeklyRecurrence::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	Recurrence::readAttributes(attr, valid);
+	if(attr->hasAttribute("frequency")) i_frequency = attr->value("frequency").toInt();
+	else i_frequency = 1;
+	QStringRef days = attr->value("days");
 	b_daysofweek[0] = days.indexOf('1') >= 0;
 	b_daysofweek[1] = days.indexOf('2') >= 0;
 	b_daysofweek[2] = days.indexOf('3') >= 0;
@@ -411,18 +449,6 @@ WeeklyRecurrence::WeeklyRecurrence(Budget *parent_budget, QDomElement *e, bool *
 	}
 	updateDates();
 }
-WeeklyRecurrence::WeeklyRecurrence(const WeeklyRecurrence *rec) : Recurrence(rec), i_frequency(rec->frequency()) {
-	b_daysofweek[0] = rec->dayOfWeek(1);
-	b_daysofweek[1] = rec->dayOfWeek(2);
-	b_daysofweek[2] = rec->dayOfWeek(3);
-	b_daysofweek[3] = rec->dayOfWeek(4);
-	b_daysofweek[4] = rec->dayOfWeek(5);
-	b_daysofweek[5] = rec->dayOfWeek(6);
-	b_daysofweek[6] = rec->dayOfWeek(7);
-}
-WeeklyRecurrence::~WeeklyRecurrence() {}
-Recurrence *WeeklyRecurrence::copy() const {return new WeeklyRecurrence(this);}
-
 QDate WeeklyRecurrence::nextOccurrence(const QDate &date, bool include_equals) const {	
 	if(!include_equals) {
 		if(date < startDate()) return firstOccurrence();
@@ -547,21 +573,32 @@ MonthlyRecurrence::MonthlyRecurrence(Budget *parent_budget) : Recurrence(parent_
 	i_dayofweek = -1;
 	wh_weekendhandling = WEEKEND_HANDLING_NONE;
 }
-MonthlyRecurrence::MonthlyRecurrence(Budget *parent_budget, QDomElement *e, bool *valid) : Recurrence(parent_budget, e, valid) {
-	i_day = e->attribute("day", "1").toInt();
-	i_frequency = e->attribute("frequency", "1").toInt();
-	i_week = e->attribute("week", "1").toInt();
-	i_dayofweek = e->attribute("dayofweek", "-1").toInt();
-	wh_weekendhandling = (WeekendHandling) e->attribute("weekendhandling", "0").toInt();
-	if(valid && (i_day > 31 || i_day < -27 || i_frequency < 1 || i_week > 5 || i_week < -4 || i_dayofweek > 7)) {
-		*valid = false;
-	}
-	updateDates();
+MonthlyRecurrence::MonthlyRecurrence(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Recurrence(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
 }
 MonthlyRecurrence::MonthlyRecurrence(const MonthlyRecurrence *rec) : Recurrence(rec), i_frequency(rec->frequency()), i_day(rec->day()), i_week(rec->week()), i_dayofweek(rec->dayOfWeek()), wh_weekendhandling(rec->weekendHandling()) {}
 MonthlyRecurrence::~MonthlyRecurrence() {}
 Recurrence *MonthlyRecurrence::copy() const {return new MonthlyRecurrence(this);}
 
+void MonthlyRecurrence::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	Recurrence::readAttributes(attr, valid);
+	if(attr->hasAttribute("day")) i_day = attr->value("day").toInt();
+	else i_day = 1;
+	if(attr->hasAttribute("frequency")) i_frequency = attr->value("frequency").toInt();
+	else i_frequency = 1;
+	if(attr->hasAttribute("week")) i_week = attr->value("week").toInt();
+	else i_week = 1;
+	if(attr->hasAttribute("dayofweek")) i_dayofweek = attr->value("dayofweek").toInt();
+	else i_dayofweek = -1;
+	if(attr->hasAttribute("weekendhandling")) wh_weekendhandling = (WeekendHandling) attr->value("weekendhandling").toInt();
+	else wh_weekendhandling = (WeekendHandling) 0;
+	if(valid && (i_day > 31 || i_day < -27 || i_frequency < 1 || i_week > 5 || i_week < -4 || i_dayofweek > 7)) {
+		*valid = false;
+	}
+	updateDates();
+}
 QDate MonthlyRecurrence::nextOccurrence(const QDate &date, bool include_equals) const {	
 	if(!include_equals) {
 		if(date < startDate()) return firstOccurrence();
@@ -870,23 +907,36 @@ YearlyRecurrence::YearlyRecurrence(Budget *parent_budget) : Recurrence(parent_bu
 	i_dayofyear = -1;
 	wh_weekendhandling = WEEKEND_HANDLING_NONE;
 }
-YearlyRecurrence::YearlyRecurrence(Budget *parent_budget, QDomElement *e, bool *valid) : Recurrence(parent_budget, e, valid) {
-	i_frequency = e->attribute("frequency", "1").toInt();
-	i_dayofmonth = e->attribute("dayofmonth", "1").toInt();
-	i_month = e->attribute("month", "1").toInt();
-	i_week = e->attribute("week", "1").toInt();
-	i_dayofweek = e->attribute("dayofweek", "-1").toInt();
-	i_dayofyear = e->attribute("dayofyear", "-1").toInt();
-	wh_weekendhandling = (WeekendHandling) e->attribute("weekendhandling", "0").toInt();
-	if(valid && (i_dayofmonth > 31 || i_frequency < 1 || i_week > 5 || i_week < -4 || i_dayofweek > 7)) {
-		*valid = false;
-	}
-	updateDates();
+YearlyRecurrence::YearlyRecurrence(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Recurrence(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
 }
 YearlyRecurrence::YearlyRecurrence(const YearlyRecurrence *rec) : Recurrence(rec), i_frequency(rec->frequency()), i_dayofmonth(rec->dayOfMonth()), i_month(rec->month()), i_week(rec->week()), i_dayofweek(rec->dayOfWeek()), i_dayofyear(rec->dayOfYear()), wh_weekendhandling(rec->weekendHandling()) {}
 YearlyRecurrence::~YearlyRecurrence() {}
 Recurrence *YearlyRecurrence::copy() const {return new YearlyRecurrence(this);}
 
+void YearlyRecurrence::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	Recurrence::readAttributes(attr, valid);
+	if(attr->hasAttribute("frequency")) i_frequency = attr->value("frequency").toInt();
+	else i_frequency = 1;
+	if(attr->hasAttribute("dayofmonth")) i_dayofmonth = attr->value("dayofmonth").toInt();
+	else i_dayofmonth = 1;
+	if(attr->hasAttribute("month")) i_month = attr->value("month").toInt();
+	else i_month = 1;
+	if(attr->hasAttribute("week")) i_week = attr->value("week").toInt();
+	else i_week = 1;
+	if(attr->hasAttribute("dayofweek")) i_dayofweek = attr->value("dayofweek").toInt();
+	else i_dayofweek = -1;
+	if(attr->hasAttribute("dayofyear")) i_dayofyear = attr->value("dayofyear").toInt();
+	else i_dayofyear = -1;
+	if(attr->hasAttribute("weekendhandling")) wh_weekendhandling = (WeekendHandling) attr->value("weekendhandling").toInt();
+	else wh_weekendhandling = (WeekendHandling) 0;
+	if(valid && (i_dayofmonth > 31 || i_frequency < 1 || i_week > 5 || i_week < -4 || i_dayofweek > 7)) {
+		*valid = false;
+	}
+	updateDates();
+}
 QDate YearlyRecurrence::nextOccurrence(const QDate &date, bool include_equals) const {	
 	if(!include_equals) {
 		if(date < startDate()) return firstOccurrence();
