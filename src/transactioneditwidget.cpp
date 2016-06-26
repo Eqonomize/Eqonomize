@@ -310,8 +310,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(setFocus()));
 				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(selectAll()));
 				if(dateEdit) {
-					connect(quotationEdit, SIGNAL(returnPressed()), dateEdit, SLOT(setFocus()));
-					connect(quotationEdit, SIGNAL(returnPressed()), dateEdit, SLOT(selectAll()));
+					connect(quotationEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 				}
 				if(transtype == TRANSACTION_TYPE_SECURITY_SELL) connect(maxSharesButton, SIGNAL(clicked()), this, SLOT(maxShares()));
 				break;
@@ -320,8 +319,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(setFocus()));
 				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(selectAll()));
 				if(dateEdit) {
-					connect(quotationEdit, SIGNAL(returnPressed()), dateEdit, SLOT(setFocus()));
-					connect(quotationEdit, SIGNAL(returnPressed()), dateEdit, SLOT(selectAll()));
+					connect(quotationEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 				}
 				if(transtype == TRANSACTION_TYPE_SECURITY_SELL) connect(maxSharesButton, SIGNAL(clicked()), this, SLOT(maxShares()));
 				break;
@@ -330,8 +328,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				connect(valueEdit, SIGNAL(returnPressed()), sharesEdit, SLOT(setFocus()));
 				connect(valueEdit, SIGNAL(returnPressed()), sharesEdit, SLOT(selectAll()));
 				if(dateEdit) {
-					connect(sharesEdit, SIGNAL(returnPressed()), dateEdit, SLOT(setFocus()));
-					connect(sharesEdit, SIGNAL(returnPressed()), dateEdit, SLOT(selectAll()));
+					connect(sharesEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 				}
 				if(transtype == TRANSACTION_TYPE_SECURITY_SELL) connect(maxSharesButton, SIGNAL(clicked()), this, SLOT(maxShares()));
 				break;
@@ -340,8 +337,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				connect(valueEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(setFocus()));
 				connect(valueEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(selectAll()));
 				if(dateEdit) {
-					connect(quotationEdit, SIGNAL(returnPressed()), dateEdit, SLOT(setFocus()));
-					connect(quotationEdit, SIGNAL(returnPressed()), dateEdit, SLOT(selectAll()));
+					connect(quotationEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 				}
 				break;
 			}
@@ -354,13 +350,11 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			connect(valueEdit, SIGNAL(returnPressed()), quantityEdit, SLOT(setFocus()));
 			connect(valueEdit, SIGNAL(returnPressed()), quantityEdit, SLOT(selectAll()));
 			if(dateEdit) {
-				connect(quantityEdit, SIGNAL(returnPressed()), dateEdit, SLOT(setFocus()));
-				connect(quantityEdit, SIGNAL(returnPressed()), dateEdit, SLOT(selectAll()));
+				connect(quantityEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 			}
 		} else  {
 			if(dateEdit) {
-				connect(valueEdit, SIGNAL(returnPressed()), dateEdit, SLOT(setFocus()));
-				connect(valueEdit, SIGNAL(returnPressed()), dateEdit, SLOT(selectAll()));
+				connect(valueEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 			}
 		}
 		if(descriptionEdit) {
@@ -374,6 +368,11 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	if(payeeEdit) connect(payeeEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
 	if(b_autoedit) connect(commentsEdit, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
 	if(securityCombo) connect(securityCombo, SIGNAL(activated(int)), this, SLOT(securityChanged()));
+}
+void TransactionEditWidget::focusDate() {
+	if(!dateEdit) return;
+	dateEdit->setFocus();
+	dateEdit->setCurrentSection(QDateTimeEdit::DaySection);
 }
 void TransactionEditWidget::currentDateChanged(const QDate &olddate, const QDate &newdate) {
 	if(dateEdit && olddate == dateEdit->date() && valueEdit && valueEdit->value() == 0.0 && descriptionEdit && descriptionEdit->text().isEmpty()) {

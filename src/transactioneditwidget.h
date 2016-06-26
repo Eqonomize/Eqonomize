@@ -110,6 +110,7 @@ class TransactionEditWidget : public QWidget {
 
 	public slots:
 
+		void focusDate();
 		void valueChanged(double);
 		void securityChanged();
 		void sharesChanged(double);

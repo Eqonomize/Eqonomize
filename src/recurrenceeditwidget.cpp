@@ -288,11 +288,13 @@ bool EditRangeDialog::validValues() {
 		if(!endDateEdit->date().isValid()) {
 			QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 			endDateEdit->setFocus();
+			endDateEdit->setCurrentSection(QDateTimeEdit::DaySection);
 			return false;
 		}
 		if(endDateEdit->date() < date) {
 			QMessageBox::critical(this, tr("Error"), tr("End date before start date."));
 			endDateEdit->setFocus();
+			endDateEdit->setCurrentSection(QDateTimeEdit::DaySection);
 			return false;
 		}
 	}

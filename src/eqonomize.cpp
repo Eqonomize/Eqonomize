@@ -444,6 +444,7 @@ RefundDialog::RefundDialog(Transaction *trans, QWidget *parent) : QDialog(parent
 	dateEdit->setCalendarPopup(true);
 	layout->addWidget(dateEdit, 0, 1);
 	dateEdit->setFocus();
+	dateEdit->setCurrentSection(QDateTimeEdit::DaySection);
 
 	if(trans->type() == TRANSACTION_TYPE_INCOME) layout->addWidget(new QLabel(tr("Cost:"), this), 1, 0);
 	else layout->addWidget(new QLabel(tr("Income:"), this), 1, 0);
