@@ -495,7 +495,7 @@ void TransactionEditWidget::updateFromAccounts(Account *exclude_account) {
 	Account *account;
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
-			account = budget->assetsAccounts.first();
+			AssetsAccount *account = budget->assetsAccounts.first();
 			while(account) {
 				if(account != exclude_account && (b_autoedit || ((AssetsAccount*) account)->accountType() != ASSETS_TYPE_SECURITIES)) {
 					fromCombo->addItem(account->name());
@@ -532,11 +532,12 @@ void TransactionEditWidget::updateFromAccounts(Account *exclude_account) {
 			account = budget->incomesAccounts.first();
 			while(account) {
 				if(account != exclude_account) {
-					fromCombo->addItem(account->name());
+					fromCombo->addItem(account->nameWithParent());
 					froms.push_back(account);
 				}
 				account = budget->incomesAccounts.next();
 			}
+			fromCombo->setCurrentIndex(0);
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_BUY: {
@@ -556,6 +557,7 @@ void TransactionEditWidget::updateFromAccounts(Account *exclude_account) {
 					account = budget->incomesAccounts.next();
 				}
 			}
+			fromCombo->setCurrentIndex(0);
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
@@ -607,11 +609,12 @@ void TransactionEditWidget::updateToAccounts(Account *exclude_account) {
 			account = budget->expensesAccounts.first();
 			while(account) {
 				if(account != exclude_account) {
-					toCombo->addItem(account->name());
+					toCombo->addItem(account->nameWithParent());
 					tos.push_back(account);
 				}
 				account = budget->expensesAccounts.next();
 			}
+			toCombo->setCurrentIndex(0);
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_BUY: {
@@ -626,9 +629,10 @@ void TransactionEditWidget::updateToAccounts(Account *exclude_account) {
 				}
 				account = budget->assetsAccounts.next();
 			}
+			toCombo->setCurrentIndex(0);
 			break;
 		}
-	}
+	}	
 }
 void TransactionEditWidget::updateAccounts(Account *exclude_account) {
 	updateFromAccounts(exclude_account);
@@ -1253,7 +1257,7 @@ void MultipleTransactionsEditDialog::updateAccounts() {
 		case TRANSACTION_TYPE_INCOME: {
 			Account *account = budget->incomesAccounts.first();
 			while(account) {
-				categoryCombo->addItem(account->name());
+				categoryCombo->addItem(account->nameWithParent());
 				categories.push_back(account);
 				account = budget->incomesAccounts.next();
 			}
@@ -1262,7 +1266,7 @@ void MultipleTransactionsEditDialog::updateAccounts() {
 		case TRANSACTION_TYPE_EXPENSE: {
 			Account *account = budget->expensesAccounts.first();
 			while(account) {
-				categoryCombo->addItem(account->name());
+				categoryCombo->addItem(account->nameWithParent());
 				categories.push_back(account);
 				account = budget->expensesAccounts.next();
 			}

@@ -25,6 +25,8 @@
 #include <QMap>
 #include <QString>
 
+#include "security.h"
+
 class QDomElement;
 class QXmlStreamReader;
 class QXmlStreamAttributes;
@@ -68,6 +70,8 @@ class Account {
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
 		virtual bool readElements(QXmlStreamReader *xml, bool *valid);
 		const QString &name() const;
+		virtual QString nameWithParent() const;
+		virtual Account *topAccount();
 		void setName(QString new_name);
 		const QString &description() const;
 		void setDescription(QString new_description);
@@ -75,7 +79,7 @@ class Account {
 		int id() const;
 		void setId(int new_id);
 		virtual AccountType type() const = 0;
-		virtual void save(QDomElement *e) const;
+		virtual void save(QDomElement *e);
 
 };
 
@@ -103,12 +107,25 @@ class AssetsAccount : public Account {
 		virtual AccountType type() const;
 		void setAccountType(AssetsType new_type);
 		virtual AssetsType accountType() const;
-		void save(QDomElement *e) const;
+		void save(QDomElement *e);
 
 };
 
+bool account_list_less_than(Account *t1, Account *t2);
+template<class type> class AccountList : public EqonomizeList<type> {
+	public:
+		AccountList() : EqonomizeList<type>() {};
+		void sort() {
+			qSort(QList<type>::begin(), QList<type>::end(), account_list_less_than);
+		}
+		void inSort(type value) {
+			QList<type>::append(value);
+			sort();
+		}
+};
+
 class CategoryAccount : public Account {
-	
+
 	public:
 
 		CategoryAccount(Budget *parent_budget, QString initial_name, QString initial_description = QString::null);
@@ -126,8 +143,18 @@ class CategoryAccount : public Account {
 		void setMonthlyBudget(int year, int month, double new_monthly_budget);
 		double monthlyBudget(const QDate &date, bool no_default = false) const;
 		void setMonthlyBudget(const QDate &date, double new_monthly_budget);
+		QString nameWithParent() const;
+		virtual Account *topAccount();
 		virtual AccountType type() const = 0;
-		virtual void save(QDomElement *e) const;
+		virtual void save(QDomElement *e);
+		
+		bool removeSubCategory(CategoryAccount *sub_account, bool set_parent = true);
+		bool addSubCategory(CategoryAccount *sub_account, bool set_parent = true);
+		CategoryAccount *parentCategory() const;
+		bool setParentCategory(CategoryAccount *parent_account, bool add_child = true);
+		
+		AccountList<CategoryAccount*> subCategories;
+		CategoryAccount *o_parent;
 
 };
 
@@ -143,6 +170,8 @@ class IncomesAccount : public CategoryAccount {
 		virtual ~IncomesAccount();
 
 		virtual AccountType type() const;
+		IncomesAccount *parentAccount() const;
+		void setParentAccount(IncomesAccount *account);
 
 };
 

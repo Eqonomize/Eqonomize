@@ -110,8 +110,8 @@ class Eqonomize : public QMainWindow {
 		void addScheduledTransactionValue(ScheduledTransaction *strans, bool update_value_display, bool subtract = false);
 		void subtractTransactionValue(Transaction *trans, bool update_value_display);
 		void addTransactionValue(Transaction *trans, const QDate &transdate, bool update_value_display, bool subtract = false, int n = -1, int b_future = -1, const QDate *monthdate = NULL);
-		void appendIncomesAccount(IncomesAccount *account);
-		void appendExpensesAccount(ExpensesAccount *account);
+		void appendIncomesAccount(IncomesAccount *account, QTreeWidgetItem *parent_item);
+		void appendExpensesAccount(ExpensesAccount *account, QTreeWidgetItem *parent_item);
 		void appendAssetsAccount(AssetsAccount *account);
 		void updateMonthlyBudget(Account *account);
 		void updateTotalMonthlyExpensesBudget();
@@ -349,8 +349,8 @@ class Eqonomize : public QMainWindow {
 
 		void addAccount();
 		void newAssetsAccount();
-		void newIncomesAccount();
-		void newExpensesAccount();
+		void newIncomesAccount(IncomesAccount *default_parent = NULL);
+		void newExpensesAccount(ExpensesAccount *default_parent = NULL);
 		void accountExecuted(QTreeWidgetItem*, int);
 		void accountExecuted(QTreeWidgetItem*);
 		void balanceAccount();
@@ -534,6 +534,7 @@ class EditExpensesAccountDialog : public QDialog {
 	protected:
 
 		QLineEdit *nameEdit;
+		QComboBox *parentCombo;
 		EqonomizeValueEdit *budgetEdit;
 		QTextEdit *descriptionEdit;
 		QCheckBox *budgetButton;
@@ -542,7 +543,7 @@ class EditExpensesAccountDialog : public QDialog {
 		
 	public:
 		
-		EditExpensesAccountDialog(Budget *budg, QWidget *parent, QString title);
+		EditExpensesAccountDialog(Budget *budg, ExpensesAccount *default_parent, QWidget *parent, QString title);
 		ExpensesAccount *newAccount();
 		void modifyAccount(ExpensesAccount *account);
 		void setAccount(ExpensesAccount *account);
@@ -561,6 +562,7 @@ class EditIncomesAccountDialog : public QDialog {
 	protected:
 
 		QLineEdit *nameEdit;
+		QComboBox *parentCombo;
 		EqonomizeValueEdit *budgetEdit;
 		QTextEdit *descriptionEdit;
 		QCheckBox *budgetButton;
@@ -569,7 +571,7 @@ class EditIncomesAccountDialog : public QDialog {
 		
 	public:
 		
-		EditIncomesAccountDialog(Budget *budg, QWidget *parent, QString title);
+		EditIncomesAccountDialog(Budget *budg, IncomesAccount *default_parent, QWidget *parent, QString title);
 		IncomesAccount *newAccount();
 		void modifyAccount(IncomesAccount *account);
 		void setAccount(IncomesAccount *account);

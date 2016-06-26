@@ -54,9 +54,6 @@ static bool trade_list_less_than(SecurityTrade *t1, SecurityTrade *t2) {
 static bool security_list_less_than(Security *t1, Security *t2) {
 	return QString::localeAwareCompare(t1->name(), t2->name()) < 0;
 }
-static bool account_list_less_than(Account *t1, Account *t2) {
-	return QString::localeAwareCompare(t1->name(), t2->name()) < 0;
-}
 
 template<class type> class TransactionList : public EqonomizeList<type> {
 	public:
@@ -91,17 +88,6 @@ template<class type> class ScheduledTransactionList : public EqonomizeList<type>
 			sort();
 		}
 
-};
-template<class type> class AccountList : public EqonomizeList<type> {
-	public:
-		AccountList() : EqonomizeList<type>() {};
-		void sort() {
-			qSort(QList<type>::begin(), QList<type>::end(), account_list_less_than);
-		}
-		void inSort(type value) {
-			QList<type>::append(value);
-			sort();
-		}
 };
 template<class type> class SecurityList : public EqonomizeList<type> {
 	public:
@@ -156,8 +142,8 @@ class Budget {
 		void addAccount(Account*);
 		void removeAccount(Account*, bool keep = false);
 
-		bool accountHasTransactions(Account*);
-		void moveTransactions(Account*, Account*);
+		bool accountHasTransactions(Account*, bool check_subs = true);
+		void moveTransactions(Account*, Account*, bool move_from_subs = true);
 
 		void addSecurity(Security*);
 		void removeSecurity(Security*, bool keep = false);

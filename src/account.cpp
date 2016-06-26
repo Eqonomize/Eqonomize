@@ -54,13 +54,15 @@ bool Account::readElements(QXmlStreamReader *xml, bool *valid) {
 	return true;
 }
 const QString &Account::name() const {return s_name;}
+QString Account::nameWithParent() const {return s_name;}
+Account *Account::topAccount() {return this;}
 void Account::setName(QString new_name) {s_name = new_name.trimmed(); o_budget->accountNameModified(this);}
 const QString &Account::description() const {return s_description;}
 void Account::setDescription(QString new_description) {s_description = new_description;}
 Budget *Account::budget() const {return o_budget;}
 int Account::id() const {return i_id;}
 void Account::setId(int new_id) {i_id = new_id;}
-void Account::save(QDomElement *e) const {
+void Account::save(QDomElement *e) {
 	e->setAttribute("name", s_name);
 	e->setAttribute("id", i_id);
 	if(!s_description.isEmpty()) e->setAttribute("description", s_description);
@@ -133,7 +135,7 @@ double AssetsAccount::initialBalance() const {
 }
 void AssetsAccount::setInitialBalance(double new_initial_balance) {if(at_type != ASSETS_TYPE_SECURITIES) d_initbal = new_initial_balance;}
 AccountType AssetsAccount::type() const {return ACCOUNT_TYPE_ASSETS;}
-void AssetsAccount::save(QDomElement *e) const {
+void AssetsAccount::save(QDomElement *e) {
 	Account::save(e);
 	if(at_type != ASSETS_TYPE_SECURITIES) {
 		e->setAttribute("initialbalance", QString::number(d_initbal, 'f', MONETARY_DECIMAL_PLACES));
@@ -157,16 +159,37 @@ void AssetsAccount::setAccountType(AssetsType new_type) {
 }
 AssetsType AssetsAccount::accountType() const {return at_type;}
 
-CategoryAccount::CategoryAccount(Budget *parent_budget, QString initial_name, QString initial_description) : Account(parent_budget, initial_name, initial_description) {}
-CategoryAccount::CategoryAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Account(parent_budget) {
+bool account_list_less_than(Account *t1, Account *t2) {
+	if(t1->type() != ACCOUNT_TYPE_ASSETS && t2->type() != ACCOUNT_TYPE_ASSETS) {
+		CategoryAccount *cat1 = (CategoryAccount*) t1;
+		CategoryAccount *cat2 = (CategoryAccount*) t2;
+		if(cat1->parentCategory() != cat2->parentCategory()) {
+			if(!cat1->parentCategory()) {
+				if(cat2->parentCategory() == cat1) return true;
+				return QString::localeAwareCompare(cat1->name(), cat2->parentCategory()->name()) < 0;
+			} else if(!cat2->parentCategory()) {
+				if(cat1->parentCategory() == cat2) return false;
+				return QString::localeAwareCompare(cat1->parentCategory()->name(), cat2->name()) < 0;
+			} else {
+				return QString::localeAwareCompare(cat1->parentCategory()->name(), cat2->parentCategory()->name()) < 0;
+			}
+		}
+	}
+	return QString::localeAwareCompare(t1->name(), t2->name()) < 0;
+}
+
+CategoryAccount::CategoryAccount(Budget *parent_budget, QString initial_name, QString initial_description) : Account(parent_budget, initial_name, initial_description), o_parent(NULL) {}
+CategoryAccount::CategoryAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Account(parent_budget), o_parent(NULL) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-CategoryAccount::CategoryAccount(Budget *parent_budget) : Account(parent_budget) {}
-CategoryAccount::CategoryAccount() : Account() {}
-CategoryAccount::CategoryAccount(const CategoryAccount *account) : Account(account) {}
-CategoryAccount::~CategoryAccount() {}
+CategoryAccount::CategoryAccount(Budget *parent_budget) : Account(parent_budget), o_parent(NULL) {}
+CategoryAccount::CategoryAccount() : Account(), o_parent(NULL) {}
+CategoryAccount::CategoryAccount(const CategoryAccount *account) : Account(account), o_parent(NULL) {}
+CategoryAccount::~CategoryAccount() {
+	if(o_parent) o_parent->removeSubCategory(this, false);
+}
 
 void CategoryAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Account::readAttributes(attr, valid);
@@ -184,6 +207,33 @@ bool CategoryAccount::readElement(QXmlStreamReader *xml, bool *valid) {
 		QXmlStreamAttributes attr = xml->attributes();
 		QDate date = QDate::fromString(attr.value("date").toString(), Qt::ISODate);
 		mbudgets[date] = attr.value("value").toDouble();
+		return false;
+	} else if(xml->name() == "category") {
+		QStringRef ctype = xml->attributes().value("type");
+		bool valid2 = true;
+		if(type() == ACCOUNT_TYPE_EXPENSES && ctype == "expenses") {
+			ExpensesAccount *account = new ExpensesAccount(budget(), xml, &valid2);
+			if(valid) {
+				budget()->expensesAccounts_id[account->id()] = account;
+				budget()->expensesAccounts.append(account);
+				budget()->accounts.append(account);
+				addSubCategory(account);
+			} else {
+				delete account;
+			}
+			return true;
+		} else if(type() == ACCOUNT_TYPE_INCOMES && ctype == "incomes") {
+			IncomesAccount *account = new IncomesAccount(budget(), xml, &valid2);
+			if(valid) {
+				budget()->incomesAccounts_id[account->id()] = account;
+				budget()->incomesAccounts.append(account);
+				budget()->accounts.append(account);
+				addSubCategory(account);
+			} else {
+				delete account;
+			}
+			return true;
+		}
 		return false;
 	}
 	return Account::readElement(xml, valid);
@@ -215,10 +265,18 @@ double CategoryAccount::monthlyBudget(const QDate &date, bool no_default) const 
 	}
 	return it.value();
 }
+QString CategoryAccount::nameWithParent() const{
+	if(o_parent) return o_parent->name() + QString("/") + name(); 
+	return name();
+}
+Account *CategoryAccount::topAccount() {
+	if(o_parent) return o_parent; 
+	return this;
+}
 void CategoryAccount::setMonthlyBudget(const QDate &date, double new_monthly_budget) {
 	mbudgets[date] = new_monthly_budget;
 }
-void CategoryAccount::save(QDomElement *e) const {
+void CategoryAccount::save(QDomElement *e) {
 	Account::save(e);
 	QMap<QDate, double>::const_iterator it_end = mbudgets.end();
 	for(QMap<QDate, double>::const_iterator it = mbudgets.begin(); it != it_end; ++it) {
@@ -227,10 +285,50 @@ void CategoryAccount::save(QDomElement *e) const {
 		e2.setAttribute("date", it.key().toString(Qt::ISODate));
 		e->appendChild(e2);
 	}
+	CategoryAccount *cat = subCategories.first();
+	while(cat) {
+		QDomElement e2 = e->ownerDocument().createElement("category");
+		if(cat->type() == ACCOUNT_TYPE_INCOMES) e2.setAttribute("type", "incomes");
+		if(cat->type() == ACCOUNT_TYPE_EXPENSES) e2.setAttribute("type", "expenses");
+		cat->save(&e2);
+		e->appendChild(e2);
+		cat = subCategories.next();
+	}
+}
+bool CategoryAccount::removeSubCategory(CategoryAccount *sub_account, bool set_parent) {
+	if(set_parent) return sub_account->setParentCategory(NULL);
+	return subCategories.removeAll(sub_account) > 0;
+}
+bool CategoryAccount::addSubCategory(CategoryAccount *sub_account, bool set_parent) {
+	if(o_parent) return false;
+	if(set_parent) return sub_account->setParentCategory(this);
+	subCategories.inSort(sub_account);
+	return true;
+}
+CategoryAccount *CategoryAccount::parentCategory() const {
+	return o_parent;
+}
+bool CategoryAccount::setParentCategory(CategoryAccount *parent_account, bool add_child) {
+	if(parent_account == o_parent) return false;
+	if(parent_account) {
+		if(type() != parent_account->type()) return false;
+		if(!subCategories.isEmpty()) return false;
+		if(add_child && !parent_account->addSubCategory(this, false)) return false;
+		if(o_parent) o_parent->removeSubCategory(this, false);
+	} else if(o_parent) {
+		o_parent->removeSubCategory(this, false);
+	}
+	o_parent = parent_account;
+	return true;
 }
 
+
 IncomesAccount::IncomesAccount(Budget *parent_budget, QString initial_name, QString initial_description) : CategoryAccount(parent_budget, initial_name, initial_description) {}
-IncomesAccount::IncomesAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : CategoryAccount(parent_budget, xml, valid) {}
+IncomesAccount::IncomesAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : CategoryAccount(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
+}
 IncomesAccount::IncomesAccount(Budget *parent_budget) : CategoryAccount(parent_budget) {}
 IncomesAccount::IncomesAccount() : CategoryAccount() {}
 IncomesAccount::IncomesAccount(const IncomesAccount *account) : CategoryAccount(account) {}
@@ -239,7 +337,11 @@ IncomesAccount::~IncomesAccount() {}
 AccountType IncomesAccount::type() const {return ACCOUNT_TYPE_INCOMES;}
 
 ExpensesAccount::ExpensesAccount(Budget *parent_budget, QString initial_name, QString initial_description) : CategoryAccount(parent_budget, initial_name, initial_description) {}
-ExpensesAccount::ExpensesAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : CategoryAccount(parent_budget, xml, valid) {}
+ExpensesAccount::ExpensesAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : CategoryAccount(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
+}
 ExpensesAccount::ExpensesAccount(Budget *parent_budget) : CategoryAccount(parent_budget) {}
 ExpensesAccount::ExpensesAccount() : CategoryAccount() {}
 ExpensesAccount::ExpensesAccount(const ExpensesAccount *account) : CategoryAccount(account) {}

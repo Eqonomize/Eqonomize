@@ -42,6 +42,12 @@
 #include "eqonomize.h"
 #include "transactioneditwidget.h"
 
+extern void setColumnTextWidth(QTreeWidget *w, int i, QString str);
+extern void setColumnDateWidth(QTreeWidget *w, int i);
+extern void setColumnMoneyWidth(QTreeWidget *w, int i, double v = 9999999.99);
+extern void setColumnValueWidth(QTreeWidget *w, int i, double v, int d = -1);
+extern void setColumnStrlenWidth(QTreeWidget *w, int i, int l);
+
 class SplitListViewItem : public QTreeWidgetItem {
 
 	Q_DECLARE_TR_FUNCTIONS(SplitListViewItem)
@@ -59,8 +65,8 @@ class SplitListViewItem : public QTreeWidgetItem {
 
 SplitListViewItem::SplitListViewItem(Transaction *trans, bool deposit) : QTreeWidgetItem() {
 	setTransaction(trans, deposit);
+	setTextAlignment(2, Qt::AlignRight);
 	setTextAlignment(3, Qt::AlignRight);
-	setTextAlignment(4, Qt::AlignRight);
 }
 bool SplitListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	int col = 0;
@@ -97,11 +103,11 @@ void SplitListViewItem::setTransaction(Transaction *trans, bool deposit) {
 	Budget *budget = trans->budget();
 	double value = trans->value();
 	setText(1, trans->description());
-	setText(2, deposit ? trans->fromAccount()->name() : trans->toAccount()->name());
-	if(deposit) setText(3, value >= 0.0 ? QString::null : QLocale().toCurrencyString(-value));
+	//setText(2, deposit ? trans->fromAccount()->nameWithParent() : trans->toAccount()->nameWithParent());
+	if(deposit) setText(2, value >= 0.0 ? QString::null : QLocale().toCurrencyString(-value));
+	else setText(2, value < 0.0 ? QString::null : QLocale().toCurrencyString(value));
+	if(!deposit) setText(3, value >= 0.0 ? QString::null : QLocale().toCurrencyString(-value));
 	else setText(3, value < 0.0 ? QString::null : QLocale().toCurrencyString(value));
-	if(!deposit) setText(4, value >= 0.0 ? QString::null : QLocale().toCurrencyString(-value));
-	else setText(4, value < 0.0 ? QString::null : QLocale().toCurrencyString(value));
 	if(trans->type() == TRANSACTION_TYPE_INCOME) {
 		if(((Income*) trans)->security()) setText(0, tr("Dividend"));
 		else if(value >= 0) setText(0, tr("Income"));
@@ -162,15 +168,20 @@ EditSplitDialog::EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *d
 	transactionsView->setSortingEnabled(true);
 	transactionsView->sortByColumn(0, Qt::AscendingOrder);
 	transactionsView->setAllColumnsShowFocus(true);
-	transactionsView->setColumnCount(5);
+	transactionsView->setColumnCount(4);
 	QStringList headers;
 	headers << tr("Type");
 	headers << tr("Description", "Generic Description");
-	headers << tr("Account/Category");
+	//headers << tr("Account/Category");
 	headers << tr("Payment");
 	headers << tr("Deposit");
+	transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
+	setColumnStrlenWidth(transactionsView, 0, 15);
+	setColumnStrlenWidth(transactionsView, 1, 25);
+	setColumnMoneyWidth(transactionsView, 2);
+	setColumnMoneyWidth(transactionsView, 3);
 	box2->addWidget(transactionsView);
 	QDialogButtonBox *buttons = new QDialogButtonBox(0, Qt::Vertical);
 	QPushButton *newButton = buttons->addButton(tr("New"), QDialogButtonBox::ActionRole);

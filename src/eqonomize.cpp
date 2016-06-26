@@ -110,6 +110,8 @@
 
 #define MAX_RECENT_FILES 10
 
+#define NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent, s1, s2, s3, s4) QTreeWidgetItem *i = new QTreeWidgetItem(parent); i->setText(0, s1); i->setText(1, s2); i->setText(2, s3); i->setText(3, s4); i->setTextAlignment(BUDGET_COLUMN, Qt::AlignRight); i->setTextAlignment(CHANGE_COLUMN, Qt::AlignRight); i->setTextAlignment(VALUE_COLUMN, Qt::AlignRight);
+
 QString last_document_directory, last_picture_directory;
 
 void setColumnTextWidth(QTreeWidget *w, int i, QString str) {
@@ -824,7 +826,7 @@ EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0)
 	quotationsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
 	quotationsView->setHeaderLabels(headers);
 	setColumnDateWidth(quotationsView, 0);
-	setColumnMoneyWidth(quotationsView, 0);	
+	setColumnMoneyWidth(quotationsView, 1);
 	quotationsView->setRootIsDecorated(false);
 	quotationsView->header()->setSectionsClickable(false);
 	QSizePolicy sp = quotationsView->sizePolicy();
@@ -1040,7 +1042,7 @@ ConfirmScheduleDialog::ConfirmScheduleDialog(bool extra_parameters, Budget *budg
 	setColumnDateWidth(transactionsView, 0);
 	setColumnStrlenWidth(transactionsView, 1, 15);
 	setColumnStrlenWidth(transactionsView, 2, 25);
-	setColumnMoneyWidth(transactionsView, 0);
+	setColumnMoneyWidth(transactionsView, 3);
 	transactionsView->setRootIsDecorated(false);
 	QSizePolicy sp = transactionsView->sizePolicy();
 	sp.setHorizontalPolicy(QSizePolicy::MinimumExpanding);
@@ -1630,10 +1632,12 @@ void EditAssetsAccountDialog::accept() {
 }
 
 
-EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, QWidget *parent, QString title) : QDialog(parent, 0), budget(budg) {
+EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, IncomesAccount *default_parent, QWidget *parent, QString title) : QDialog(parent, 0), budget(budg) {
 
 	setWindowTitle(title);
 	setModal(true);
+	
+	if(default_parent && default_parent->parentCategory()) default_parent = NULL;
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	
@@ -1642,15 +1646,33 @@ EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, QWidget *parent
 	grid->addWidget(new QLabel(tr("Name:"), this), 0, 0);
 	nameEdit = new QLineEdit(this);
 	grid->addWidget(nameEdit, 0, 1);
+	grid->addWidget(new QLabel(tr("Parent category:"), this), 1, 0);
+	parentCombo = new QComboBox(this);
+	parentCombo->setEditable(false);
+	grid->addWidget(parentCombo, 1, 1);
+	parentCombo->addItem(tr("None"));
+	parentCombo->setCurrentIndex(0);
+	IncomesAccount *account = budget->incomesAccounts.first();
+	int i = 1;
+	while(account) {
+		if(!account->parentCategory()) {
+			parentCombo->addItem(account->name());
+			parentCombo->setItemData(i, qVariantFromValue((void*) account));
+			if(account == default_parent) parentCombo->setCurrentIndex(i);
+			i++;
+		}
+		account = budget->incomesAccounts.next();
+	}
+	
 	budgetButton = new QCheckBox(tr("Monthly budget:"), this);
 	budgetButton->setChecked(false);
-	grid->addWidget(budgetButton, 1, 0);
+	grid->addWidget(budgetButton, 2, 0);
 	budgetEdit = new EqonomizeValueEdit(false, this);
 	budgetEdit->setEnabled(false);
-	grid->addWidget(budgetEdit, 1, 1);
-	grid->addWidget(new QLabel(tr("Description:"), this), 2, 0);
+	grid->addWidget(budgetEdit, 2, 1);
+	grid->addWidget(new QLabel(tr("Description:"), this), 3, 0);
 	descriptionEdit = new QTextEdit(this);
-	grid->addWidget(descriptionEdit, 3, 0, 1, 2);
+	grid->addWidget(descriptionEdit, 4, 0, 1, 2);
 	nameEdit->setFocus();
 	current_account = NULL;
 	
@@ -1668,15 +1690,33 @@ IncomesAccount *EditIncomesAccountDialog::newAccount() {
 	if(budgetButton->isChecked()) {
 		account->setMonthlyBudget(QDate::currentDate().year(), QDate::currentDate().month(), budgetEdit->value());
 	}
+	int i = parentCombo->currentIndex();
+	if(i > 0) {
+		account->setParentCategory((IncomesAccount*) parentCombo->itemData(i).value<void*>());
+	}
 	return account;
 }
 void EditIncomesAccountDialog::modifyAccount(IncomesAccount *account) {
 	account->setName(nameEdit->text());
 	account->setDescription(descriptionEdit->toPlainText());
+	int i = parentCombo->currentIndex();
+	account->setParentCategory((IncomesAccount*) parentCombo->itemData(i).value<void*>());
 }
 void EditIncomesAccountDialog::setAccount(IncomesAccount *account) {
 	current_account = account;
 	nameEdit->setText(account->name());
+	if(!account->subCategories.isEmpty()) {
+		parentCombo->setEnabled(false);
+	}
+	for(int i = 1; i < parentCombo->count(); i++) {
+		if(parentCombo->itemData(i).value<void*>() == account) {
+			parentCombo->removeItem(i);
+			break;
+		} else if(parentCombo->itemData(i).value<void*>() == account->parentCategory()) {
+			parentCombo->setCurrentIndex(i);
+			break;
+		}
+	}
 	budgetEdit->hide();
 	budgetButton->hide();
 	descriptionEdit->setPlainText(account->description());
@@ -1700,10 +1740,12 @@ void EditIncomesAccountDialog::accept() {
 	QDialog::accept();
 }
 
-EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, QWidget *parent, QString title) : QDialog(parent, 0), budget(budg) {
+EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, ExpensesAccount *default_parent, QWidget *parent, QString title) : QDialog(parent, 0), budget(budg) {
 
 	setWindowTitle(title);
 	setModal(true);
+	
+	if(default_parent && default_parent->parentCategory()) default_parent = NULL;
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	
@@ -1712,15 +1754,31 @@ EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, QWidget *pare
 	grid->addWidget(new QLabel(tr("Name:"), this), 0, 0);
 	nameEdit = new QLineEdit(this);
 	grid->addWidget(nameEdit, 0, 1);
+	parentCombo = new QComboBox(this);
+	parentCombo->setEditable(false);
+	grid->addWidget(parentCombo, 1, 1);
+	parentCombo->addItem(tr("None"));
+	parentCombo->setCurrentIndex(0);
+	ExpensesAccount *account = budget->expensesAccounts.first();
+	int i = 1;
+	while(account) {
+		if(!account->parentCategory()) {
+			parentCombo->addItem(account->name());
+			parentCombo->setItemData(i, qVariantFromValue((void*) account));
+			if(account == default_parent) parentCombo->setCurrentIndex(i);
+			i++;
+		}
+		account = budget->expensesAccounts.next();
+	}
 	budgetButton = new QCheckBox(tr("Monthly budget:"), this);
 	budgetButton->setChecked(false);
-	grid->addWidget(budgetButton, 1, 0);
+	grid->addWidget(budgetButton, 2, 0);
 	budgetEdit = new EqonomizeValueEdit(false, this);
 	budgetEdit->setEnabled(false);
-	grid->addWidget(budgetEdit, 1, 1);
-	grid->addWidget(new QLabel(tr("Description:"), this), 2, 0);
+	grid->addWidget(budgetEdit, 2, 1);
+	grid->addWidget(new QLabel(tr("Description:"), this), 3, 0);
 	descriptionEdit = new QTextEdit(this);
-	grid->addWidget(descriptionEdit, 3, 0, 1, 2);
+	grid->addWidget(descriptionEdit, 4, 0, 1, 2);
 	nameEdit->setFocus();
 	current_account = NULL;
 	
@@ -1738,15 +1796,33 @@ ExpensesAccount *EditExpensesAccountDialog::newAccount() {
 	if(budgetButton->isChecked()) {
 		account->setMonthlyBudget(QDate::currentDate().year(), QDate::currentDate().month(), budgetEdit->value());
 	}
+	int i = parentCombo->currentIndex();
+	if(i > 0) {
+		account->setParentCategory((ExpensesAccount*) parentCombo->itemData(i).value<void*>());
+	}
 	return account;
 }
 void EditExpensesAccountDialog::modifyAccount(ExpensesAccount *account) {
 	account->setName(nameEdit->text());
 	account->setDescription(descriptionEdit->toPlainText());
+	int i = parentCombo->currentIndex();
+	account->setParentCategory((ExpensesAccount*) parentCombo->itemData(i).value<void*>());
 }
 void EditExpensesAccountDialog::setAccount(ExpensesAccount *account) {
 	current_account = account;
 	nameEdit->setText(account->name());
+	if(!account->subCategories.isEmpty()) {
+		parentCombo->setEnabled(false);
+	}
+	for(int i = 1; i < parentCombo->count(); i++) {
+		if(parentCombo->itemData(i).value<void*>() == account) {
+			parentCombo->removeItem(i);
+			break;
+		} else if(parentCombo->itemData(i).value<void*>() == account->parentCategory()) {
+			parentCombo->setCurrentIndex(i);
+			break;
+		}
+	}
 	budgetEdit->hide();
 	budgetButton->hide();
 	descriptionEdit->setPlainText(account->description());
@@ -3323,6 +3399,7 @@ void Eqonomize::popupAccountsMenu(const QPoint &p) {
 		ActionAddAccount->setText("Add Account");
 	} else {
 		ActionAddAccount->setText("Add Category");
+		
 	}
 	if(!accountPopupMenu) {
 		accountPopupMenu = new QMenu(this);
@@ -3730,12 +3807,12 @@ void Eqonomize::reloadBudget() {
 	}
 	IncomesAccount *iaccount = budget->incomesAccounts.first();
 	while(iaccount) {
-		appendIncomesAccount(iaccount);
+		if(!iaccount->parentCategory()) appendIncomesAccount(iaccount, incomesItem);
 		iaccount = budget->incomesAccounts.next();
 	}
 	ExpensesAccount *eaccount = budget->expensesAccounts.first();
 	while(eaccount) {
-		appendExpensesAccount(eaccount);
+		if(!eaccount->parentCategory()) appendExpensesAccount(eaccount, expensesItem);
 		eaccount = budget->expensesAccounts.next();
 	}
 	account_value[budget->balancingAccount] = 0.0;
@@ -5096,9 +5173,9 @@ void Eqonomize::addAccount() {
 	} else if(i == assetsItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS))) {
 		newAssetsAccount();
 	} else if(i == incomesItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_INCOMES))) {
-		newIncomesAccount();
+		newIncomesAccount(account_items.contains(i) ? (IncomesAccount*) account_items[i] : NULL);
 	} else {
-		newExpensesAccount();
+		newExpensesAccount(account_items.contains(i) ? (ExpensesAccount*) account_items[i] : NULL);
 	}
 }
 void Eqonomize::newAssetsAccount() {
@@ -5116,12 +5193,16 @@ void Eqonomize::newAssetsAccount() {
 	}
 	dialog->deleteLater();
 }
-void Eqonomize::newIncomesAccount() {
-	EditIncomesAccountDialog *dialog = new EditIncomesAccountDialog(budget, this, tr("New Income Category"));
+void Eqonomize::newIncomesAccount(IncomesAccount *default_parent) {
+	EditIncomesAccountDialog *dialog = new EditIncomesAccountDialog(budget, default_parent, this, tr("New Income Category"));
 	if(dialog->exec() == QDialog::Accepted) {
 		IncomesAccount *account = dialog->newAccount();
 		budget->addAccount(account);
-		appendIncomesAccount(account);
+		if(account->parentCategory()) {
+			appendIncomesAccount(account, item_accounts[account->parentCategory()]);
+		} else {
+			appendIncomesAccount(account, incomesItem);
+		}
 		filterAccounts();
 		incomesWidget->updateFromAccounts();
 		emit accountsModified();
@@ -5129,12 +5210,16 @@ void Eqonomize::newIncomesAccount() {
 	}
 	dialog->deleteLater();
 }
-void Eqonomize::newExpensesAccount() {
-	EditExpensesAccountDialog *dialog = new EditExpensesAccountDialog(budget, this, tr("New Expense Category"));
+void Eqonomize::newExpensesAccount(ExpensesAccount *default_parent) {
+	EditExpensesAccountDialog *dialog = new EditExpensesAccountDialog(budget, default_parent, this, tr("New Expense Category"));
 	if(dialog->exec() == QDialog::Accepted) {
 		ExpensesAccount *account = dialog->newAccount();
 		budget->addAccount(account);
-		appendExpensesAccount(account);
+		if(account->parentCategory()) {
+			appendExpensesAccount(account, item_accounts[account->parentCategory()]);
+		} else {
+			appendExpensesAccount(account, expensesItem);
+		}
 		filterAccounts();
 		expensesWidget->updateToAccounts();
 		emit accountsModified();
@@ -5279,15 +5364,28 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 			break;
 		}
 		case ACCOUNT_TYPE_INCOMES: {
-			EditIncomesAccountDialog *dialog = new EditIncomesAccountDialog(budget, parent, tr("Edit Income Category"));
+			EditIncomesAccountDialog *dialog = new EditIncomesAccountDialog(budget, NULL, parent, tr("Edit Income Category"));
 			IncomesAccount *account = (IncomesAccount*) i_account;
 			dialog->setAccount(account);
+			CategoryAccount *prev_parent = account->parentCategory();
 			if(dialog->exec() == QDialog::Accepted) {
 				dialog->modifyAccount(account);
 				i->setText(0, account->name());
 				emit accountsModified();
 				setModified(true);
 				incomesWidget->updateFromAccounts();
+				if(prev_parent != account->parentCategory()) {
+					item_accounts.remove(account);
+					account_items.remove(i);
+					delete i;
+					QTreeWidgetItem *parent_item = incomesItem;
+					if(account->parentCategory()) parent_item = item_accounts[account->parentCategory()];
+					NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, account->name(), "-", QLocale().toString(account_change[account], 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(account_value[account], 'f', MONETARY_DECIMAL_PLACES) + " ");
+					account_items[i] = account;
+					item_accounts[account] = i;
+					parent_item->sortChildren(0, Qt::AscendingOrder);
+					filterAccounts();
+				}
 				incomesItem->sortChildren(0, Qt::AscendingOrder);
 				incomesWidget->filterTransactions();
 				dialog->deleteLater();
@@ -5297,15 +5395,28 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 			break;
 		}
 		case ACCOUNT_TYPE_EXPENSES: {
-			EditExpensesAccountDialog *dialog = new EditExpensesAccountDialog(budget, parent, tr("Edit Expense Category"));
+			EditExpensesAccountDialog *dialog = new EditExpensesAccountDialog(budget, NULL, parent, tr("Edit Expense Category"));
 			ExpensesAccount *account = (ExpensesAccount*) i_account;
 			dialog->setAccount(account);
+			CategoryAccount *prev_parent = account->parentCategory();
 			if(dialog->exec() == QDialog::Accepted) {
 				dialog->modifyAccount(account);
 				i->setText(0, account->name());
 				emit accountsModified();
 				setModified(true);
 				expensesWidget->updateToAccounts();
+				if(prev_parent != account->parentCategory()) {
+					item_accounts.remove(account);
+					account_items.remove(i);
+					delete i;
+					QTreeWidgetItem *parent_item = expensesItem;
+					if(account->parentCategory()) parent_item = item_accounts[account->parentCategory()];
+					NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, account->name(), "-", QLocale().toString(account_change[account], 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(account_value[account], 'f', MONETARY_DECIMAL_PLACES) + " ");
+					account_items[i] = account;
+					item_accounts[account] = i;
+					parent_item->sortChildren(0, Qt::AscendingOrder);
+					filterAccounts();
+				}
 				expensesItem->sortChildren(0, Qt::AscendingOrder);
 				expensesWidget->filterTransactions();
 				dialog->deleteLater();
@@ -5321,6 +5432,9 @@ void Eqonomize::deleteAccount() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
 	if(!account_items.contains(i)) return;
 	Account *account = account_items[i];
+	if((account->type() == ACCOUNT_TYPE_INCOMES || account->type() == ACCOUNT_TYPE_EXPENSES) && !((CategoryAccount*) account)->subCategories.isEmpty()) {
+		if(QMessageBox::question(this, tr("Remove subcategories?"), tr("Do you wish to remove the category including all subcategories?"), QMessageBox::Yes | QMessageBox::Cancel) != QMessageBox::Yes) return;
+	}
 	if(!budget->accountHasTransactions(account)) {
 		item_accounts.remove(account);
 		account_items.remove(i);
@@ -5598,23 +5712,31 @@ void Eqonomize::splitTransactionRemoved(SplitTransaction *split) {
 	emit transactionsModified();
 }
 
-#define NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent, s1, s2, s3, s4) QTreeWidgetItem *i = new QTreeWidgetItem(parent); i->setText(0, s1); i->setText(1, s2); i->setText(2, s3); i->setText(3, s4); i->setTextAlignment(BUDGET_COLUMN, Qt::AlignRight); i->setTextAlignment(CHANGE_COLUMN, Qt::AlignRight); i->setTextAlignment(VALUE_COLUMN, Qt::AlignRight);
-
-void Eqonomize::appendExpensesAccount(ExpensesAccount *account) {
-	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, expensesItem, account->name(), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
+void Eqonomize::appendExpensesAccount(ExpensesAccount *account, QTreeWidgetItem *parent_item) {
+	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, account->name(), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	account_items[i] = account;
 	item_accounts[account] = i;
 	account_value[account] = 0.0;
 	account_change[account] = 0.0;
-	expensesItem->sortChildren(0, Qt::AscendingOrder);
+	parent_item->sortChildren(0, Qt::AscendingOrder);
+	ExpensesAccount *ea = (ExpensesAccount*) account->subCategories.first();
+	while(ea) {
+		appendExpensesAccount(ea, i);
+		ea = (ExpensesAccount*) account->subCategories.next();
+	}
 }
-void Eqonomize::appendIncomesAccount(IncomesAccount *account) {
-	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, incomesItem, account->name(), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
+void Eqonomize::appendIncomesAccount(IncomesAccount *account, QTreeWidgetItem *parent_item) {
+	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, account->name(), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	account_items[i] = account;
 	item_accounts[account] = i;
 	account_value[account] = 0.0;
 	account_change[account] = 0.0;
-	incomesItem->sortChildren(0, Qt::AscendingOrder);
+	parent_item->sortChildren(0, Qt::AscendingOrder);
+	IncomesAccount *ia = (IncomesAccount*) account->subCategories.first();
+	while(ia) {
+		appendIncomesAccount(ia, i);
+		ia = (IncomesAccount*) account->subCategories.next();
+	}
 }
 void Eqonomize::appendAssetsAccount(AssetsAccount *account) {
 	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, assetsItem, account->name(), QString::null, QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(account->initialBalance(), 'f', MONETARY_DECIMAL_PLACES) + " ");
@@ -5695,13 +5817,18 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 		monthdate = &date;
 	}
 	if(n > 1) value *= n;
+	bool from_sub = (trans->fromAccount() != trans->fromAccount()->topAccount());
+	bool to_sub = (trans->toAccount() != trans->toAccount()->topAccount());
 	switch(trans->fromAccount()->type()) {
 		case ACCOUNT_TYPE_EXPENSES: {
 			if(b_lastmonth) {
 				account_month_endlast[trans->fromAccount()] -= value;
+				if(from_sub) account_month_endlast[trans->fromAccount()->topAccount()] -= value;
 				account_month[trans->fromAccount()][*monthdate] -= value;
+				if(from_sub) account_month[trans->fromAccount()->topAccount()][*monthdate] -= value;
 				if(update_value_display) {
 					updateMonthlyBudget(trans->fromAccount());
+					if(from_sub) updateMonthlyBudget(trans->fromAccount()->topAccount());
 					updateTotalMonthlyExpensesBudget();
 				}
 				break;
@@ -5709,24 +5836,30 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			bool update_month_display = false;
 			if(b_firstmonth) {
 				account_month_beginfirst[trans->fromAccount()] -= value;
+				if(from_sub) account_month_beginfirst[trans->fromAccount()->topAccount()] -= value;
 				update_month_display = true;
 			}
 			if(b_curmonth) {
 				account_month_begincur[trans->fromAccount()] -= value;
+				if(from_sub) account_month_begincur[trans->fromAccount()->topAccount()] -= value;
 				update_month_display = true;
 			}
 			if(b_future || (!frommonth_begin.isNull() && transdate >= frommonth_begin) || (!prevmonth_begin.isNull() && transdate >= prevmonth_begin)) {
 				account_month[trans->fromAccount()][*monthdate] -= value;
+				if(from_sub) account_month[trans->fromAccount()->topAccount()][*monthdate] -= value;
 				update_month_display = true;
 			}
 			if(update_value_display && update_month_display) {
 				updateMonthlyBudget(trans->fromAccount());
+				if(from_sub) updateMonthlyBudget(trans->fromAccount()->topAccount());
 				updateTotalMonthlyExpensesBudget();
 			}
 			account_value[trans->fromAccount()] -= value;
+			if(from_sub) account_value[trans->fromAccount()->topAccount()] -= value;
 			expenses_accounts_value -= value;
 			if(!b_filter) {
 				account_change[trans->fromAccount()] -= value;
+				if(from_sub) account_value[trans->fromAccount()->topAccount()] -= value;
 				expenses_accounts_change -= value;
 				if(update_value_display) {
 					expensesItem->setText(CHANGE_COLUMN, QLocale().toString(expenses_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
@@ -5740,9 +5873,12 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 		case ACCOUNT_TYPE_INCOMES: {
 			if(b_lastmonth) {
 				account_month_endlast[trans->fromAccount()] += value;
+				if(from_sub) account_month_endlast[trans->fromAccount()->topAccount()] += value;
 				account_month[trans->fromAccount()][*monthdate] += value;
+				if(from_sub) account_month[trans->fromAccount()->topAccount()][*monthdate] += value;
 				if(update_value_display) {
 					updateMonthlyBudget(trans->fromAccount());
+					if(from_sub) updateMonthlyBudget(trans->fromAccount()->topAccount());
 					updateTotalMonthlyIncomesBudget();
 				}
 				break;
@@ -5750,24 +5886,30 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			bool update_month_display = false;
 			if(b_firstmonth) {
 				account_month_beginfirst[trans->fromAccount()] += value;
+				if(from_sub) account_month_beginfirst[trans->fromAccount()->topAccount()] += value;
 				update_month_display = true;
 			}
 			if(b_curmonth) {
 				account_month_begincur[trans->fromAccount()] += value;
+				if(from_sub) account_month_begincur[trans->fromAccount()->topAccount()] += value;
 				update_month_display = true;
 			}
 			if(b_future || (!frommonth_begin.isNull() && transdate >= frommonth_begin) || (!prevmonth_begin.isNull() && transdate >= prevmonth_begin)) {
 				account_month[trans->fromAccount()][*monthdate] += value;
+				if(from_sub) account_month[trans->fromAccount()->topAccount()][*monthdate] += value;
 				update_month_display = true;
 			}
 			if(update_value_display && update_month_display) {
 				updateMonthlyBudget(trans->fromAccount());
+				if(from_sub) updateMonthlyBudget(trans->fromAccount()->topAccount());
 				updateTotalMonthlyIncomesBudget();
 			}
 			account_value[trans->fromAccount()] += value;
+			if(from_sub) account_value[trans->fromAccount()->topAccount()] += value;
 			incomes_accounts_value += value;
 			if(!b_filter) {
 				account_change[trans->fromAccount()] += value;
+				if(from_sub) account_change[trans->fromAccount()->topAccount()] += value;
 				incomes_accounts_change += value;
 				if(update_value_display) {
 					incomesItem->setText(CHANGE_COLUMN, QLocale().toString(incomes_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
@@ -5810,9 +5952,12 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 		case ACCOUNT_TYPE_EXPENSES: {
 			if(b_lastmonth) {
 				account_month_endlast[trans->toAccount()] += value;
+				if(to_sub) account_month_endlast[trans->toAccount()->topAccount()] += value;
 				account_month[trans->toAccount()][*monthdate] += value;
+				if(to_sub) account_month[trans->toAccount()->topAccount()][*monthdate] += value;
 				if(update_value_display) {
 					updateMonthlyBudget(trans->toAccount());
+					if(to_sub) updateMonthlyBudget(trans->toAccount()->topAccount());
 					updateTotalMonthlyExpensesBudget();
 				}
 				break;
@@ -5820,24 +5965,30 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			bool update_month_display = false;
 			if(b_firstmonth) {
 				account_month_beginfirst[trans->toAccount()] += value;
+				if(to_sub) account_month_beginfirst[trans->toAccount()->topAccount()] += value;
 				update_month_display = true;
 			}
 			if(b_curmonth) {
 				account_month_begincur[trans->toAccount()] += value;
+				if(to_sub) account_month_begincur[trans->toAccount()->topAccount()] += value;
 				update_month_display = true;
 			}
 			if(b_future || (!frommonth_begin.isNull() && transdate >= frommonth_begin) || (!prevmonth_begin.isNull() && transdate >= prevmonth_begin)) {
 				account_month[trans->toAccount()][*monthdate] += value;
+				if(to_sub) account_month[trans->toAccount()->topAccount()][*monthdate] += value;
 				update_month_display = true;
 			}
 			if(update_value_display && update_month_display) {
 				updateMonthlyBudget(trans->toAccount());
+				if(to_sub) updateMonthlyBudget(trans->toAccount()->topAccount());
 				updateTotalMonthlyExpensesBudget();
 			}
 			account_value[trans->toAccount()] += value;
+			if(to_sub) account_value[trans->toAccount()->topAccount()] += value;
 			expenses_accounts_value += value;
 			if(!b_filter) {
 				account_change[trans->toAccount()] += value;
+				if(to_sub) account_change[trans->toAccount()->topAccount()] += value;
 				expenses_accounts_change += value;
 				if(update_value_display) {
 					expensesItem->setText(CHANGE_COLUMN, QLocale().toString(expenses_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
@@ -5851,9 +6002,12 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 		case ACCOUNT_TYPE_INCOMES: {
 			if(b_lastmonth) {
 				account_month_endlast[trans->toAccount()] -= value;
+				if(to_sub) account_month_endlast[trans->toAccount()->topAccount()] -= value;
 				account_month[trans->toAccount()][*monthdate] -= value;
+				if(to_sub) account_month[trans->toAccount()->topAccount()][*monthdate] -= value;
 				if(update_value_display) {
 					updateMonthlyBudget(trans->toAccount());
+					if(to_sub) updateMonthlyBudget(trans->toAccount()->topAccount());
 					updateTotalMonthlyIncomesBudget();
 				}
 				break;
@@ -5861,24 +6015,29 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			bool update_month_display = false;
 			if(b_firstmonth) {
 				account_month_beginfirst[trans->toAccount()] -= value;
+				if(to_sub) account_month_beginfirst[trans->toAccount()->topAccount()] -= value;
 				update_month_display = true;
 			}
 			if(b_curmonth) {
 				account_month_begincur[trans->toAccount()] -= value;
+				if(to_sub) account_month_begincur[trans->toAccount()->topAccount()] -= value;
 				update_month_display = true;
 			}
 			if(b_future || (!frommonth_begin.isNull() && transdate >= frommonth_begin) || (!prevmonth_begin.isNull() && transdate >= prevmonth_begin)) {
 				account_month[trans->toAccount()][*monthdate] -= value;
+				if(to_sub) account_month[trans->toAccount()->topAccount()][*monthdate] -= value;
 				update_month_display = true;
 			}
 			if(update_value_display && update_month_display) {
 				updateMonthlyBudget(trans->toAccount());
+				if(to_sub) updateMonthlyBudget(trans->toAccount()->topAccount());
 				updateTotalMonthlyIncomesBudget();
 			}
 			account_value[trans->toAccount()] -= value;
 			incomes_accounts_value -= value;
 			if(!b_filter) {
 				account_change[trans->toAccount()] -= value;
+				if(to_sub) account_change[trans->toAccount()->topAccount()] -= value;
 				incomes_accounts_change -= value;
 				if(update_value_display) {
 					incomesItem->setText(CHANGE_COLUMN, QLocale().toString(incomes_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
@@ -5921,10 +6080,18 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 		if(!balfrom) {
 			item_accounts[trans->fromAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 			item_accounts[trans->fromAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES));
+			if(from_sub) {
+				item_accounts[trans->fromAccount()->topAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->fromAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
+				item_accounts[trans->fromAccount()->topAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->fromAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES));
+			}
 		}
 		if(!balto) {
 			item_accounts[trans->toAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->toAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 			item_accounts[trans->toAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->toAccount()], 'f', MONETARY_DECIMAL_PLACES));
+			if(to_sub) {
+				item_accounts[trans->toAccount()->topAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->toAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
+				item_accounts[trans->toAccount()->topAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->toAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES));
+			}
 		}
 	}
 }

@@ -444,7 +444,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 
 	account = accounts.first();
 	while(account) {
-		if(account != balancingAccount) {
+		if(account != balancingAccount && account->topAccount() == account) {
 			switch(account->type()) {
 				case ACCOUNT_TYPE_ASSETS: {
 					QDomElement e = doc.createElement("account");
@@ -717,7 +717,15 @@ void Budget::addAccount(Account *account) {
 	accounts.inSort(account);
 }
 void Budget::removeAccount(Account *account, bool keep) {
-	if(accountHasTransactions(account)) {
+	if(account->type() == ACCOUNT_TYPE_INCOMES || account->type() == ACCOUNT_TYPE_EXPENSES) {
+		CategoryAccount *subcat = ((CategoryAccount*) account)->subCategories.first();
+		while(subcat) {
+			subcat->o_parent = NULL;
+			removeAccount(subcat, keep);
+			subcat = ((CategoryAccount*) account)->subCategories.next();
+		}
+	}
+	if(accountHasTransactions(account, false)) {
 		Security *security = securities.first();
 		while(security) {
 			if(security->account() == account) {
@@ -776,7 +784,7 @@ void Budget::removeAccount(Account *account, bool keep) {
 		}
 	}
 }
-bool Budget::accountHasTransactions(Account *account) {
+bool Budget::accountHasTransactions(Account *account, bool check_subs) {
 	Security *security = securities.first();
 	while(security) {
 		if(security->account() == account) return true;
@@ -797,9 +805,23 @@ bool Budget::accountHasTransactions(Account *account) {
 		if(strans->transaction()->fromAccount() == account || strans->transaction()->toAccount() == account) return true;
 		strans = scheduledTransactions.next();
 	}
+	if(check_subs && (account->type() == ACCOUNT_TYPE_INCOMES || account->type() == ACCOUNT_TYPE_EXPENSES)) {
+		CategoryAccount *subcat = ((CategoryAccount*) account)->subCategories.first();
+		while(subcat) {
+			if(accountHasTransactions(subcat, true)) return true;
+			subcat = ((CategoryAccount*) account)->subCategories.next();
+		}
+	}
 	return false;
 }
-void Budget::moveTransactions(Account *account, Account *new_account) {
+void Budget::moveTransactions(Account *account, Account *new_account, bool move_from_subs) {
+	if(move_from_subs && (account->type() == ACCOUNT_TYPE_INCOMES || account->type() == ACCOUNT_TYPE_EXPENSES)) {
+		CategoryAccount *subcat = ((CategoryAccount*) account)->subCategories.first();
+		while(subcat) {
+			moveTransactions(subcat, new_account);
+			subcat = ((CategoryAccount*) account)->subCategories.next();
+		}
+	}
 	if(account->type() == ACCOUNT_TYPE_ASSETS && new_account->type() == ACCOUNT_TYPE_ASSETS) {
 		Security *security = securities.first();
 		while(security) {

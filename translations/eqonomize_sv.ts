@@ -4448,19 +4448,19 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <location filename="../src/eqonomize.cpp" line="4073"/>
         <source>Accounts &amp;amp; Categories</source>
         <comment>html format</comment>
-        <translation>Konton &amp;amp; kategorier</translation>
+        <translation>Konton och kategorier</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4078"/>
         <source>Accounts &amp;amp; Categories (%1&amp;ndash;%2)</source>
         <comment>html format</comment>
-        <translation>Konton &amp;amp; kategorier (%1 &amp;ndash; %2)</translation>
+        <translation>Konton och kategorier (%1 &amp;ndash; %2)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4079"/>
         <source>Accounts &amp;amp; Categories (to %1)</source>
         <comment>html format</comment>
-        <translation>Konton &amp;amp; kategorier (till %1)</translation>
+        <translation>Konton och kategorier (till %1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4086"/>

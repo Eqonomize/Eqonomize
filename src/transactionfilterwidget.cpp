@@ -367,6 +367,7 @@ void TransactionFilterWidget::updateFromAccounts() {
 			break;
 		}
 	}
+	fromCombo->setCurrentIndex(0);
 }
 void TransactionFilterWidget::updateToAccounts() {
 	toCombo->clear();
@@ -397,13 +398,14 @@ void TransactionFilterWidget::updateToAccounts() {
 		case TRANSACTION_TYPE_EXPENSE: {
 			account = budget->expensesAccounts.first();
 			while(account) {
-				toCombo->addItem(account->name());
+				toCombo->addItem(account->nameWithParent());
 				tos.push_back(account);
 				account = budget->expensesAccounts.next();
 			}
 			break;
 		}
 	}
+	toCombo->setCurrentIndex(0);
 }
 void TransactionFilterWidget::updateAccounts() {
 	updateFromAccounts();
@@ -418,10 +420,12 @@ bool TransactionFilterWidget::filterTransaction(Transaction *trans, bool checkda
 		return true;
 	}
 	if(includeButton->isChecked()) {
-		if(toCombo->currentIndex() > 0 && tos[toCombo->currentIndex() - 1] != trans->toAccount()) {
+		Account *account = tos[toCombo->currentIndex() - 1];
+		if(toCombo->currentIndex() > 0 && account != trans->toAccount() && account != trans->toAccount()->topAccount()) {
 			return true;
 		}
-		if(fromCombo->currentIndex() > 0 && froms[fromCombo->currentIndex() - 1] != trans->fromAccount()) {
+		account = froms[fromCombo->currentIndex() - 1];
+		if(fromCombo->currentIndex() > 0 && account != trans->fromAccount() && account != trans->fromAccount()->topAccount()) {
 			return true;
 		}
 		if(exactMatchButton->isChecked()) {
@@ -446,10 +450,12 @@ bool TransactionFilterWidget::filterTransaction(Transaction *trans, bool checkda
 			}
 		}
 	} else {
-		if(toCombo->currentIndex() > 0 && tos[toCombo->currentIndex() - 1] == trans->toAccount()) {
+		Account *account = tos[toCombo->currentIndex() - 1];
+		if(toCombo->currentIndex() > 0 && (account == trans->toAccount() || account == trans->toAccount()->topAccount())) {
 			return true;
 		}
-		if(fromCombo->currentIndex() > 0 && froms[fromCombo->currentIndex() - 1] == trans->fromAccount()) {
+		account = froms[fromCombo->currentIndex() - 1];
+		if(fromCombo->currentIndex() > 0 && (account == trans->fromAccount() || account == trans->fromAccount()->topAccount())) {
 			return true;
 		}
 		if(exactMatchButton->isChecked()) {
