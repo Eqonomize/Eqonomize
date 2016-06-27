@@ -3884,7 +3884,9 @@ void Eqonomize::openURL(const QUrl& url) {
 bool Eqonomize::saveURL(const QUrl& url) {
 	bool exists = QFile::exists(url.toLocalFile());
 	if(exists) {
-		QFile::copy(url.toLocalFile(), url.toLocalFile() + "~");
+		if(!QFile::exists(url.toLocalFile() + "~") || QFile::remove(url.toLocalFile() + "~")) {
+			QFile::copy(url.toLocalFile(), url.toLocalFile() + "~");
+		}
 	}
 
 	QString error = budget->saveFile(url.toLocalFile(), QFile::ReadUser | QFile::WriteUser);

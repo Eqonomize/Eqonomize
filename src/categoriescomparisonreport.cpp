@@ -263,7 +263,7 @@ void CategoriesComparisonReport::descriptionToggled(bool b) {
 void CategoriesComparisonReport::subsToggled(bool b) {
 	if(b) updateDisplay();
 }
-void CategoriesComparisonReport::payeeChanged(int i) {
+void CategoriesComparisonReport::payeeChanged(int) {
 	payeeButton->blockSignals(true);
 	descriptionButton->blockSignals(true);
 	descriptionButton->setChecked(true);
@@ -272,7 +272,7 @@ void CategoriesComparisonReport::payeeChanged(int i) {
 	descriptionButton->blockSignals(false);
 	updateDisplay();
 }
-void CategoriesComparisonReport::descriptionChanged(int i) {
+void CategoriesComparisonReport::descriptionChanged(int) {
 	payeeButton->blockSignals(true);
 	descriptionButton->blockSignals(true);
 	payeeButton->setChecked(true);
