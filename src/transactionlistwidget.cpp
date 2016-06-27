@@ -760,8 +760,8 @@ void TransactionListWidget::appendFilterTransaction(Transaction *trans, bool upd
 		QTreeWidgetItem *i = new TransactionListViewItem(trans->date(), trans, NULL, QLocale().toString(trans->date(), QLocale::ShortFormat), QString::null, QLocale().toCurrencyString(trans->value()));
 		transactionsView->insertTopLevelItem(0, i);
 		i->setTextAlignment(2, Qt::AlignRight);
-		i->setTextAlignment(3, Qt::AlignCenter);
-		i->setTextAlignment(4, Qt::AlignCenter);
+		//i->setTextAlignment(3, Qt::AlignCenter);
+		//i->setTextAlignment(4, Qt::AlignCenter);
 		if(trans == selected_trans) {
 			transactionsView->blockSignals(true);
 			i->setSelected(true);
@@ -801,8 +801,8 @@ void TransactionListWidget::appendFilterScheduledTransaction(ScheduledTransactio
 			i = new TransactionListViewItem(date, trans, strans, QString::null, trans->description(), QLocale().toCurrencyString(trans->value()));
 			transactionsView->insertTopLevelItem(0, i);
 			i->setTextAlignment(2, Qt::AlignRight);
-			i->setTextAlignment(3, Qt::AlignCenter);
-			i->setTextAlignment(4, Qt::AlignCenter);
+			//i->setTextAlignment(3, Qt::AlignCenter);
+			//i->setTextAlignment(4, Qt::AlignCenter);
 			if(strans->recurrence()) i->setText(0, QLocale().toString(date, QLocale::ShortFormat) + "**");
 			else i->setText(0, QLocale().toString(date, QLocale::ShortFormat));
 			i->setText(from_col, trans->fromAccount()->name());

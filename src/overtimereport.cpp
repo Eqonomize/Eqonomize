@@ -236,7 +236,7 @@ void OverTimeReport::sourceChanged(int index) {
 	if(index == 2) {
 		Account *account = budget->incomesAccounts.first();
 		while(account) {
-			categoryCombo->addItem(account->name());
+			categoryCombo->addItem(account->nameWithParent());
 			account = budget->incomesAccounts.next();
 		}
 		categoryCombo->setEnabled(true);
@@ -244,7 +244,7 @@ void OverTimeReport::sourceChanged(int index) {
 	} else if(index == 1) {
 		Account *account = budget->expensesAccounts.first();
 		while(account) {
-			categoryCombo->addItem(account->name());
+			categoryCombo->addItem(account->nameWithParent());
 			account = budget->expensesAccounts.next();
 		}
 		categoryCombo->setEnabled(true);
@@ -359,7 +359,7 @@ void OverTimeReport::updateDisplay() {
 		}
 		case 5: {
 			account = current_account;
-			title = tr("Incomes: %1").arg(account->name());
+			title = tr("Incomes: %1").arg(account->nameWithParent());
 			pertitle = tr("Average Income");
 			valuetitle = tr("Incomes");
 			type = 2;
@@ -368,7 +368,7 @@ void OverTimeReport::updateDisplay() {
 		}
 		case 6: {
 			account = current_account;
-			title = tr("Expenses: %1").arg(account->name());
+			title = tr("Expenses: %1").arg(account->nameWithParent());
 			pertitle = tr("Average Cost");
 			valuetitle = tr("Expenses");
 			type = 2;
@@ -377,7 +377,7 @@ void OverTimeReport::updateDisplay() {
 		}
 		case 9: {
 			account = current_account;
-			title = tr("Incomes: %2, %1").arg(account->name()).arg(current_description.isEmpty() ? tr("No description", "Referring to the generic description property") : current_description);
+			title = tr("Incomes: %2, %1").arg(account->nameWithParent()).arg(current_description.isEmpty() ? tr("No description", "Referring to the generic description property") : current_description);
 			pertitle = tr("Average Income");
 			valuetitle = tr("Incomes");
 			type = 3;
@@ -386,7 +386,7 @@ void OverTimeReport::updateDisplay() {
 		}
 		case 10: {
 			account = current_account;
-			title = tr("Expenses: %2, %1").arg(account->name()).arg(current_description.isEmpty() ? tr("No description", "Referring to the generic description property") : current_description);
+			title = tr("Expenses: %2, %1").arg(account->nameWithParent()).arg(current_description.isEmpty() ? tr("No description", "Referring to the generic description property") : current_description);
 			pertitle = tr("Average Cost");
 			valuetitle = tr("Expenses");
 			type = 3;
@@ -744,7 +744,7 @@ void OverTimeReport::updateAccounts() {
 		if(sourceCombo->currentIndex() == 1) {
 			Account *account = budget->expensesAccounts.first();
 			while(account) {
-				categoryCombo->addItem(account->name());
+				categoryCombo->addItem(account->nameWithParent());
 				if(account == current_account) curindex = i;
 				account = budget->expensesAccounts.next();
 				i++;
@@ -752,7 +752,7 @@ void OverTimeReport::updateAccounts() {
 		} else {
 			Account *account = budget->incomesAccounts.first();
 			while(account) {
-				categoryCombo->addItem(account->name());
+				categoryCombo->addItem(account->nameWithParent());
 				if(account == current_account) curindex = i;
 				account = budget->incomesAccounts.next();
 				i++;

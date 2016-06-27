@@ -236,8 +236,8 @@ class SecurityListViewItem : public QTreeWidgetItem {
 			setTextAlignment(4, Qt::AlignRight);
 			setTextAlignment(5, Qt::AlignRight);
 			setTextAlignment(6, Qt::AlignRight);
-			setTextAlignment(7, Qt::AlignCenter);
-			setTextAlignment(8, Qt::AlignCenter);
+			//setTextAlignment(7, Qt::AlignCenter);
+			//setTextAlignment(8, Qt::AlignCenter);
 		}
 		bool operator<(const QTreeWidgetItem &i_pre) const {
 			int col = 0;
@@ -272,8 +272,8 @@ class ScheduleListViewItem : public QTreeWidgetItem {
 
 ScheduleListViewItem::ScheduleListViewItem(ScheduledTransaction *strans, const QDate &trans_date) : QTreeWidgetItem(UserType) {
 	setTextAlignment(3, Qt::AlignRight);
-	setTextAlignment(4, Qt::AlignCenter);
-	setTextAlignment(5, Qt::AlignCenter);
+	//setTextAlignment(4, Qt::AlignCenter);
+	//setTextAlignment(5, Qt::AlignCenter);
 	setScheduledTransaction(strans);
 	setDate(trans_date);
 }
@@ -986,7 +986,7 @@ void CategoriesComparisonReportDialog::reject() {
 	report->saveConfig();
 	QDialog::reject();
 }
-OverTimeChartDialog::OverTimeChartDialog(bool extra_parameters, Budget *budg, QWidget *parent) : QDialog(parent, Qt::Window | Qt::WindowMinMaxButtonsHint) {
+OverTimeChartDialog::OverTimeChartDialog(bool extra_parameters, Budget *budg, QWidget *parent) : QDialog(parent, Qt::Window | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint) {
 	setWindowTitle(tr("Chart"));
 	setModal(false);
 	QVBoxLayout *box1 = new QVBoxLayout(this);

@@ -167,7 +167,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	box1->addWidget(buttonBox);
 
 	connect(transactionsView, SIGNAL(itemSelectionChanged()), this, SLOT(transactionSelectionChanged()));
-	connect(transactionsView, SIGNAL(doubleClicked(QTreeWidgetItem*, int)), this, SLOT(edit(QTreeWidgetItem*)));
+	connect(transactionsView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(edit(QTreeWidgetItem*)));
 	connect(removeButton, SIGNAL(clicked()), this, SLOT(remove()));
 	connect(editButton, SIGNAL(clicked()), this, SLOT(edit()));
 	connect(joinButton, SIGNAL(clicked()), this, SLOT(joinTransactions()));

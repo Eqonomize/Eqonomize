@@ -31,7 +31,7 @@ class QRadioButton;
 class QDateEdit;
 class QTextEdit;
 
-class Account;
+class CategoryAccount;
 class Budget;
 
 class CategoriesComparisonReport : public QWidget {
@@ -47,7 +47,7 @@ class CategoriesComparisonReport : public QWidget {
 		Budget *budget;
 		QString source;
 		QDate from_date, to_date;
-		Account *current_account;
+		CategoryAccount *current_account;
 		QString current_description, current_payee;
 		bool has_empty_description, has_empty_payee;
 		bool b_extra;
@@ -59,7 +59,7 @@ class CategoriesComparisonReport : public QWidget {
 		QPushButton *saveButton, *printButton;
 		QCheckBox *valueButton, *dailyButton, *monthlyButton, *yearlyButton, *countButton, *perButton;
 		QComboBox *sourceCombo, *descriptionCombo, *payeeCombo;
-		QRadioButton *descriptionButton, *payeeButton;
+		QRadioButton *descriptionButton, *payeeButton, *subsButton;
 		QWidget *payeeDescriptionWidget;
 
 	public slots:
@@ -82,6 +82,7 @@ class CategoriesComparisonReport : public QWidget {
 		void payeeChanged(int);
 		void descriptionToggled(bool);
 		void payeeToggled(bool);
+		void subsToggled(bool);
 
 };
 
