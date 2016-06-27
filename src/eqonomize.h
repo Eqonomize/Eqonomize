@@ -353,6 +353,7 @@ class Eqonomize : public QMainWindow {
 		void newExpensesAccount(ExpensesAccount *default_parent = NULL);
 		void accountExecuted(QTreeWidgetItem*, int);
 		void accountExecuted(QTreeWidgetItem*);
+		void accountMoved(QTreeWidgetItem*, QTreeWidgetItem*);
 		void balanceAccount();
 		void editAccount();
 		void deleteAccount();
@@ -764,17 +765,20 @@ class EqonomizeTreeWidget : public QTreeWidget {
 	
 		EqonomizeTreeWidget(QWidget *parent);
 		EqonomizeTreeWidget();
+	
+	protected:
+	
+		void dropEvent(QDropEvent *event);
 
 	protected slots:
 	
 		void keyPressEvent(QKeyEvent*);
-		void onDoubleClick(const QModelIndex&);
 
 	signals:
 	
 		void returnPressed(QTreeWidgetItem*);
-		void doubleClicked(QTreeWidgetItem*, int);
-		 
+		void itemMoved(QTreeWidgetItem*, QTreeWidgetItem*);
+
 };
 
 class QIFWizardPage : public QWizardPage {

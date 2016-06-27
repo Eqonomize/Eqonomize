@@ -820,6 +820,7 @@ EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0)
 	quotationsView->sortByColumn(0, Qt::DescendingOrder);
 	quotationsView->setAllColumnsShowFocus(true);
 	quotationsView->setColumnCount(2);
+	quotationsView->setAlternatingRowColors(true);
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Price per Share");
@@ -1032,7 +1033,8 @@ ConfirmScheduleDialog::ConfirmScheduleDialog(bool extra_parameters, Budget *budg
 	transactionsView = new QTreeWidget(this);
 	transactionsView->sortByColumn(0, Qt::AscendingOrder);
 	transactionsView->setAllColumnsShowFocus(true);
-	transactionsView->setColumnCount(4);	
+	transactionsView->setColumnCount(4);
+	transactionsView->setAlternatingRowColors(true);
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Type");
@@ -1195,7 +1197,7 @@ SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize 
 	transactionsView = new EqonomizeTreeWidget(this);
 	transactionsView->sortByColumn(0, Qt::AscendingOrder);
 	transactionsView->setAllColumnsShowFocus(true);
-	transactionsView->setColumnCount(4);
+	transactionsView->setColumnCount(4);	
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Type");
@@ -1226,7 +1228,7 @@ SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize 
 	box1->addWidget(buttonBox);
 	
 	connect(transactionsView, SIGNAL(itemSelectionChanged()), this, SLOT(transactionSelectionChanged()));
-	connect(transactionsView, SIGNAL(doubleClicked(QTreeWidgetItem*, int)), this, SLOT(edit(QTreeWidgetItem*)));
+	connect(transactionsView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(edit(QTreeWidgetItem*)));
 	connect(removeButton, SIGNAL(clicked()), this, SLOT(remove()));
 	connect(editButton, SIGNAL(clicked()), this, SLOT(edit()));
 	updateTransactions();
@@ -2014,6 +2016,8 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	accountsView->setRootIsDecorated(false);
 	accountsView->header()->setSectionsClickable(false);
 	accountsView->header()->setStretchLastSection(false);
+	accountsView->setDragDropMode(QAbstractItemView::InternalMove);
+	accountsView->setDragEnabled(true);
 	QSizePolicy sp = accountsView->sizePolicy();
 	sp.setVerticalPolicy(QSizePolicy::MinimumExpanding);
 	accountsView->setSizePolicy(sp);
@@ -2026,6 +2030,10 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	assetsItem = new TotalListViewItem(accountsView, tr("Accounts"), QString::null, QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	incomesItem = new TotalListViewItem(accountsView, assetsItem, tr("Incomes"), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	expensesItem = new TotalListViewItem(accountsView, incomesItem, tr("Expenses"), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
+	assetsItem->setFlags(assetsItem->flags() & ~Qt::ItemIsDragEnabled);
+	assetsItem->setFlags(assetsItem->flags() & ~Qt::ItemIsDropEnabled);
+	expensesItem->setFlags(expensesItem->flags() & ~Qt::ItemIsDragEnabled);
+	incomesItem->setFlags(incomesItem->flags() & ~Qt::ItemIsDragEnabled);
 	accountsLayoutView->addWidget(accountsView);
 	QHBoxLayout *accountsLayoutFooter = new QHBoxLayout();
 	accountsLayoutView->addLayout(accountsLayoutFooter);
@@ -2134,8 +2142,9 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	connect(accountsPeriodFromEdit, SIGNAL(dateChanged(const QDate&)), this, SLOT(accountsPeriodFromChanged(const QDate&)));
 	connect(accountsPeriodToEdit, SIGNAL(dateChanged(const QDate&)), this, SLOT(accountsPeriodToChanged(const QDate&)));
 	connect(accountsView, SIGNAL(itemSelectionChanged()), this, SLOT(accountsSelectionChanged()));
-	connect(accountsView, SIGNAL(doubleClicked(QTreeWidgetItem*, int)), this, SLOT(accountExecuted(QTreeWidgetItem*, int)));
+	connect(accountsView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(accountExecuted(QTreeWidgetItem*, int)));
 	connect(accountsView, SIGNAL(returnPressed(QTreeWidgetItem*)), this, SLOT(accountExecuted(QTreeWidgetItem*)));
+	connect(accountsView, SIGNAL(itemMoved(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(accountMoved(QTreeWidgetItem*, QTreeWidgetItem*)));
 	accountsView->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(accountsView, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupAccountsMenu(const QPoint&)));
 
@@ -2255,7 +2264,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	connect(newSecurityButton, SIGNAL(clicked()), this, SLOT(newSecurity()));
 	connect(setQuotationButton, SIGNAL(clicked()), this, SLOT(setQuotation()));
 	connect(securitiesView, SIGNAL(itemSelectionChanged()), this, SLOT(securitiesSelectionChanged()));
-	connect(securitiesView, SIGNAL(doubleClicked(QTreeWidgetItem*, int)), this, SLOT(securitiesExecuted(QTreeWidgetItem*, int)));
+	connect(securitiesView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(securitiesExecuted(QTreeWidgetItem*, int)));
 	connect(securitiesView, SIGNAL(returnPressed(QTreeWidgetItem*)), this, SLOT(securitiesExecuted(QTreeWidgetItem*)));
 	securitiesView->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(securitiesView, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupSecuritiesMenu(const QPoint&)));
@@ -2306,7 +2315,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	schedulePopupMenu = NULL;
 
 	connect(scheduleView, SIGNAL(itemSelectionChanged()), this, SLOT(scheduleSelectionChanged()));
-	connect(scheduleView, SIGNAL(doubleClicked(QTreeWidgetItem*, int)), this, SLOT(scheduleExecuted(QTreeWidgetItem*)));
+	connect(scheduleView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(scheduleExecuted(QTreeWidgetItem*)));
 	connect(scheduleView, SIGNAL(returnPressed(QTreeWidgetItem*)), this, SLOT(scheduleExecuted(QTreeWidgetItem*)));
 	scheduleView->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(scheduleView, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupScheduleMenu(const QPoint&)));
@@ -5228,8 +5237,12 @@ void Eqonomize::newExpensesAccount(ExpensesAccount *default_parent) {
 	}
 	dialog->deleteLater();
 }
-void Eqonomize::accountExecuted(QTreeWidgetItem*) {
-	showAccountTransactions();
+void Eqonomize::accountExecuted(QTreeWidgetItem *i) {
+	if(i->childCount() > 0) {
+		i->setExpanded(!i->isExpanded());
+	} else {
+		showAccountTransactions(true);
+	}
 }
 void Eqonomize::accountExecuted(QTreeWidgetItem *i, int c) {
 	if(i == NULL) return;
@@ -5382,6 +5395,7 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 					QTreeWidgetItem *parent_item = incomesItem;
 					if(account->parentCategory()) parent_item = item_accounts[account->parentCategory()];
 					NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, account->name(), "-", QLocale().toString(account_change[account], 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(account_value[account], 'f', MONETARY_DECIMAL_PLACES) + " ");
+					if(parent_item) i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
 					account_items[i] = account;
 					item_accounts[account] = i;
 					parent_item->sortChildren(0, Qt::AscendingOrder);
@@ -5413,6 +5427,7 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 					QTreeWidgetItem *parent_item = expensesItem;
 					if(account->parentCategory()) parent_item = item_accounts[account->parentCategory()];
 					NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, account->name(), "-", QLocale().toString(account_change[account], 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(account_value[account], 'f', MONETARY_DECIMAL_PLACES) + " ");
+					if(parent_item) i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
 					account_items[i] = account;
 					item_accounts[account] = i;
 					parent_item->sortChildren(0, Qt::AscendingOrder);
@@ -5428,6 +5443,47 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 		}
 	}
 	return false;
+}
+void Eqonomize::accountMoved(QTreeWidgetItem *i, QTreeWidgetItem *target) {
+	QMap<QTreeWidgetItem*, Account*>::const_iterator it_i = account_items.find(i);
+	if(it_i == account_items.end()) return;
+	Account *account = *it_i, *target_account = NULL;
+	if(target != incomesItem && target != expensesItem) {
+		QMap<QTreeWidgetItem*, Account*>::const_iterator it_target = account_items.find(target);
+		if(it_target == account_items.end()) return;
+		target_account = *it_target;
+		if(target_account->type() != account->type()) return;
+	}
+	if(account->type() == ACCOUNT_TYPE_EXPENSES || account->type() == ACCOUNT_TYPE_INCOMES) {
+		if(target == incomesItem && account->type() == ACCOUNT_TYPE_EXPENSES) return;
+		if(target == expensesItem && account->type() == ACCOUNT_TYPE_INCOMES) return;
+		CategoryAccount *ca = (CategoryAccount*) account;
+		CategoryAccount *target_ca = (CategoryAccount*) target_account;
+		if(target_ca && target_ca->parentCategory()) target_ca = target_ca->parentCategory();
+		if(!ca->subCategories.isEmpty()) return;
+		if(ca->parentCategory() == target_ca) return;
+		QTreeWidgetItem *prev_parent_item = i->parent();
+		ca->setParentCategory(target_ca);
+		emit accountsModified();
+		setModified(true);
+		item_accounts.remove(ca);
+		account_items.remove(i);
+		delete i;
+		QTreeWidgetItem *parent_item = NULL;
+		if(ca->parentCategory()) parent_item = item_accounts[ca->parentCategory()];
+		else if(account->type() == ACCOUNT_TYPE_EXPENSES) parent_item = expensesItem;
+		else parent_item = incomesItem;
+		NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, ca->name(), "-", QLocale().toString(account_change[ca], 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(account_value[ca], 'f', MONETARY_DECIMAL_PLACES) + " ");
+		if(parent_item) {
+			i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
+			parent_item->setFlags(parent_item->flags() & ~Qt::ItemIsDragEnabled);
+		}
+		if(prev_parent_item->childCount() == 0) prev_parent_item->setFlags(parent_item->flags() | Qt::ItemIsDragEnabled);
+		account_items[i] = ca;
+		item_accounts[ca] = i;
+		parent_item->sortChildren(0, Qt::AscendingOrder);
+		filterAccounts();
+	}
 }
 void Eqonomize::deleteAccount() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
@@ -5715,6 +5771,8 @@ void Eqonomize::splitTransactionRemoved(SplitTransaction *split) {
 
 void Eqonomize::appendExpensesAccount(ExpensesAccount *account, QTreeWidgetItem *parent_item) {
 	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, account->name(), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
+	if(!account->subCategories.isEmpty()) i->setFlags(i->flags() & ~Qt::ItemIsDragEnabled);
+	if(account->parentCategory()) i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
 	account_items[i] = account;
 	item_accounts[account] = i;
 	account_value[account] = 0.0;
@@ -5728,6 +5786,8 @@ void Eqonomize::appendExpensesAccount(ExpensesAccount *account, QTreeWidgetItem 
 }
 void Eqonomize::appendIncomesAccount(IncomesAccount *account, QTreeWidgetItem *parent_item) {
 	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, account->name(), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
+	if(!account->subCategories.isEmpty()) i->setFlags(i->flags() & ~Qt::ItemIsDragEnabled);
+	if(account->parentCategory()) i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
 	account_items[i] = account;
 	item_accounts[account] = i;
 	account_value[account] = 0.0;
@@ -5742,6 +5802,8 @@ void Eqonomize::appendIncomesAccount(IncomesAccount *account, QTreeWidgetItem *p
 void Eqonomize::appendAssetsAccount(AssetsAccount *account) {
 	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, assetsItem, account->name(), QString::null, QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(account->initialBalance(), 'f', MONETARY_DECIMAL_PLACES) + " ");
 	if(account->isBudgetAccount() && to_date > QDate::currentDate()) i->setText(0, account->name() + "*");
+	i->setFlags(i->flags() & ~Qt::ItemIsDragEnabled);
+	i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
 	account_items[i] = account;
 	item_accounts[account] = i;
 	account_value[account] = account->initialBalance();
@@ -6103,11 +6165,13 @@ void Eqonomize::updateTotalMonthlyExpensesBudget() {
 		ExpensesAccount *eaccount = budget->expensesAccounts.first();
 		bool b_budget = false;
 		while(eaccount) {
-			double d = account_budget[eaccount];
-			if(d >= 0.0) {
-				expenses_budget += d;
-				expenses_budget_diff += account_budget_diff[eaccount];
-				b_budget = true;
+			if(!eaccount->parentCategory()) {
+				double d = account_budget[eaccount];
+				if(d >= 0.0) {
+					expenses_budget += d;
+					expenses_budget_diff += account_budget_diff[eaccount];
+					b_budget = true;
+				}
 			}
 			eaccount = budget->expensesAccounts.next();
 		}
@@ -6144,6 +6208,13 @@ void Eqonomize::updateTotalMonthlyIncomesBudget() {
 	}
 	incomesItem->setText(BUDGET_COLUMN, "-");
 }
+struct budget_info {
+	QMap<QDate, double>::const_iterator it;
+	QMap<QDate, double>::const_iterator it_n;
+	QMap<QDate, double>::const_iterator it_e;
+	CategoryAccount *ca;
+	bool after_from;
+};
 void Eqonomize::updateMonthlyBudget(Account *account) {
 
 	if(account->type() == ACCOUNT_TYPE_ASSETS) return;
@@ -6152,21 +6223,38 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 	QTreeWidgetItem *i = item_accounts[account];
 	QMap<QDate, double>::const_iterator it = ca->mbudgets.begin();
 	QMap<QDate, double>::const_iterator it_e = ca->mbudgets.end();
+	QVector<budget_info> subs;
 	while(it != it_e && it.value() < 0.0) ++it;
-	if(it == it_e || it.key() > to_date) {
+	
+	QMap<QDate, double>::const_iterator tmp_it;
+	QMap<QDate, double>::const_iterator tmp_it_e;
+	CategoryAccount *sub = ca->subCategories.first();
+	while(sub) {
+		tmp_it = sub->mbudgets.begin();
+		tmp_it_e = sub->mbudgets.end();
+		while(tmp_it != tmp_it_e && tmp_it.value() < 0.0) ++tmp_it;
+		if(tmp_it != tmp_it_e && tmp_it.key() <= to_date) {
+			struct budget_info bi;
+			bi.it = tmp_it;
+			bi.it_e = tmp_it_e;
+			bi.ca = sub;
+			subs << bi;
+		}
+		sub = ca->subCategories.next();
+	}
+
+	if(subs.isEmpty() && (it == it_e || it.key() > to_date)) {
 
 		i->setText(BUDGET_COLUMN, "-");
 		account_budget[account] = -1.0;
 
 	} else {
 		
-		bool after_from = false;
+		bool after_from = true;
 		QDate monthdate, monthend, curdate = QDate::currentDate(), curmonth, frommonth;
 
 		frommonth = frommonth_begin;
-		if(!accountsPeriodFromButton->isChecked() || frommonth <= it.key()) {
-			after_from = true;
-		} else {
+		if(it != it_e && accountsPeriodFromButton->isChecked() && frommonth > it.key()) {
 			it = ca->mbudgets.find(frommonth);
 			if(it == it_e) {
 				QMap<QDate, double>::const_iterator it_b = ca->mbudgets.begin();
@@ -6176,6 +6264,21 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 					--it;
 				}
 			}
+			after_from = false;
+		}
+		for(QVector<budget_info>::iterator sit = subs.begin(); sit != subs.end(); ++sit) {
+			if(accountsPeriodFromButton->isChecked() && frommonth > sit->it.key()) {
+				sit->it = sit->ca->mbudgets.find(frommonth);
+				if(sit->it == sit->it_e) {
+					QMap<QDate, double>::const_iterator it_b = sit->ca->mbudgets.begin();
+					--(sit->it);
+					while(sit->it != it_b) {
+						if(frommonth > sit->it.key()) break;
+						--(sit->it);
+					}
+				}
+				after_from = false;
+			}
 		}
 
 		double diff = 0.0, future_diff = 0.0, future_change_diff = 0.0, m = 0.0, v = 0.0;
@@ -6183,12 +6286,17 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 		monthlast.setDate(to_date.year(), to_date.month(), 1);
 
 		QMap<QDate, double>::const_iterator it_n = it;
-		++it_n;
-		bool has_budget = false;
+		if(it_n != it_e) ++it_n;
+		for(QVector<budget_info>::iterator sit = subs.begin(); sit != subs.end(); ++sit) {
+			sit->it_n = sit->it;
+			if(sit->it_n != sit->it_e) ++(sit->it_n);
+		}
+		bool has_budget = false, has_subs_budget = false;
 		bool b_firstmonth = !after_from && (monthdate != frommonth);
 		monthdate = frommonth;
 		do {
-			m = it.value();
+			if(it != it_e && it.key() <= monthdate) m = it.value();
+			else m = -1.0;
 			if(m >= 0.0) {
 				monthend = monthdate.addDays(monthdate.daysInMonth() - 1);
 				has_budget = true;
@@ -6206,42 +6314,99 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 				}
 				mbudget += m;
 				diff += m - v;
-				b_firstmonth = false;
+			} else if(!subs.isEmpty()) {
+				monthend = monthdate.addDays(monthdate.daysInMonth() - 1);
+				bool b_lastmonth = (monthlast == monthdate && to_date != monthend);
+				for(QVector<budget_info>::iterator sit = subs.begin(); sit != subs.end(); ++sit) {
+					if(sit->it.key() <= monthdate) m = sit->it.value();
+					else m = -1.0;
+					if(m >= 0.0) {
+						has_subs_budget = true;
+						v = account_month[sit->ca][monthend];
+						if(partial_budget && (b_firstmonth || b_lastmonth)) {
+							int day = 1;
+							if(b_firstmonth) day = from_date.day();
+							int dim = monthend.day();
+							int day2 = dim;
+							if(b_lastmonth) day2 = to_date.day();
+							m = (m * (day2 - day + 1)) / dim;
+							if(b_firstmonth) v -= account_month_beginfirst[sit->ca];
+							if(b_lastmonth) v -= account_month_endlast[sit->ca];
+						}
+						mbudget += m;
+						diff += m - v;
+					}
+				}
 			}
+			b_firstmonth = false;
 			monthdate = monthdate.addMonths(1);
 			if(it_n != it_e && monthdate == it_n.key()) {
 				it = it_n;
 				++it_n;
 			}
+			for(QVector<budget_info>::iterator sit = subs.begin(); sit != subs.end(); ++sit) {
+				if(sit->it_n != sit->it_e && monthdate == sit->it_n.key()) {
+					sit->it = sit->it_n;
+					++(sit->it_n);
+				}
+			}
 		} while(monthdate <= monthlast);
 
 		bool b_future = (curdate < to_date);
 		curdate = curdate.addDays(1);
-		if(b_future) {
-			bool after_cur = false;
+		if(b_future && !ca->parentCategory()) {
+			bool after_cur = true;
+			
 			it = ca->mbudgets.begin();
 			while(it != it_e && it.value() < 0.0) ++it;
-			if(curdate < it.key()) {
-				curmonth = it.key();
-				after_cur = true;
-			} else {
-				curmonth.setDate(curdate.year(), curdate.month(), 1);
-				it = ca->mbudgets.find(curmonth);
-				if(it == it_e) {
-					QMap<QDate, double>::const_iterator it_b = ca->mbudgets.begin();
-					--it;
-					while(it != it_b) {
-						if(curmonth > it.key()) break;
+			if(it != it_e) {
+				if(curdate < it.key()) {
+					curmonth = it.key();
+					after_cur = true;
+				} else {
+					curmonth.setDate(curdate.year(), curdate.month(), 1);
+					it = ca->mbudgets.find(curmonth);
+					if(it == it_e) {
+						QMap<QDate, double>::const_iterator it_b = ca->mbudgets.begin();
 						--it;
+						while(it != it_b) {
+							if(curmonth > it.key()) break;
+							--it;
+						}
 					}
+					after_cur = false;
 				}
 			}
 			it_n = it;
-			++it_n;
+			if(it_n != it_e) ++it_n;
+			
+			for(QVector<budget_info>::iterator sit = subs.begin(); sit != subs.end(); ++sit) {
+				sit->it = sit->ca->mbudgets.begin();
+				while(sit->it != sit->it_e && sit->it.value() < 0.0) ++(sit->it);
+				if(curdate < sit->it.key()) {
+					if(after_cur && curmonth > sit->it.key()) curmonth = sit->it.key();
+				} else {
+					if(after_cur) curmonth.setDate(curdate.year(), curdate.month(), 1);
+					sit->it = sit->ca->mbudgets.find(curmonth);
+					if(sit->it == sit->it_e) {
+						QMap<QDate, double>::const_iterator it_b = sit->ca->mbudgets.begin();
+						--(sit->it);
+						while(sit->it != it_b) {
+							if(curmonth > sit->it.key()) break;
+							--(sit->it);
+						}
+					}
+					after_cur = false;
+				}
+				sit->it_n = sit->it;
+				if(sit->it_n != sit->it_e) ++(sit->it_n);
+			}
+			
 			bool had_from = after_from || from_date <= curdate;
 			bool b_curmonth = !after_cur && (curmonth != curdate);
 			do {
-				m = it.value();
+				if(it != it_e && it.key() <= curmonth) m = it.value();
+				else m = -1.0;
 				if(m >= 0.0) {
 					monthend = curmonth.addDays(curmonth.daysInMonth() - 1);
 					v = account_month[account][monthend];
@@ -6298,19 +6463,89 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 						future_diff += m - v;
 						if(had_from) future_change_diff += m - v;
 					}
-					if(b_frommonth) had_from = true;
-					b_curmonth = false;
+					if(b_frommonth) had_from = true;					
+				} else if(!subs.isEmpty()) {
+					monthend = monthdate.addDays(monthdate.daysInMonth() - 1);					
+					bool b_lastmonth = (monthlast == monthdate && to_date != monthend);
+					bool b_frommonth = !had_from && frommonth == curmonth;
+					for(QVector<budget_info>::iterator sit = subs.begin(); sit != subs.end(); ++sit) {
+						if(sit->it.key() <= curmonth) m = sit->it.value();
+						else m = -1.0;
+						if(m >= 0.0) {
+							v = account_month[sit->ca][monthend];
+							if(partial_budget && (b_curmonth || b_lastmonth || b_frommonth)) {
+								int day = 1;
+								if(b_curmonth) {
+									v -= account_month_begincur[sit->ca];
+									day = curdate.day();
+								}
+								int dim = monthend.day();
+								int day2;
+								if(b_lastmonth) {
+									v -= account_month_endlast[sit->ca];
+									day2 = to_date.day();
+								} else {
+									day2 = dim;
+								}
+								m = (m * (day2 - day + 1)) / dim;
+								if(b_frommonth) {
+									int day3 = from_date.day();
+									double v3 = b_curmonth ? (account_month_beginfirst[sit->ca] - account_month_begincur[sit->ca]) : account_month_beginfirst[sit->ca];
+									double m3 = ((m - v) * (day3 - day + 1)) / (day2 - day + 1);
+									if(v3 > m3) m3 = v3;
+									double m2 = m - m3;
+									double v2 = v - v3;
+									if(m2 > v2) future_change_diff += m2 - v2;
+								}
+							} else if(b_frommonth) {
+								int dim = monthend.day();
+								int day = dim;
+								if(b_lastmonth) {
+									v -= account_month_endlast[sit->ca];
+									int day = to_date.day();
+									m = (m * day) / dim;
+								}
+								int day2 = 1;
+								if(b_curmonth) day2 = curdate.day();
+								int day3 = from_date.day();
+								double v3 = b_curmonth ? (account_month_beginfirst[sit->ca] - account_month_begincur[sit->ca]) : account_month_beginfirst[sit->ca];
+								double m3 = ((m - v) * (day3 - day2 + 1)) / (day - day2 + 1);
+								if(v3 > m3) m3 = v3;
+								double m2 = m - v - m3;
+								double v2 = v - account_month_beginfirst[sit->ca];
+								if(m2 > v2) future_change_diff += m2 - v2;
+							} else if(b_lastmonth) {
+								v -= account_month_endlast[sit->ca];
+								int dim = monthend.day();
+								int day = to_date.day();
+								m = (m * day) / dim;
+							}
+							if(m > v) {
+								future_diff += m - v;
+								if(had_from) future_change_diff += m - v;
+							}
+							if(b_frommonth) had_from = true;
+						}
+					}
 				}
+				b_curmonth = false;
 				curmonth = curmonth.addMonths(1);
 				if(it_n != it_e && curmonth == it_n.key()) {
 					it = it_n;
 					++it_n;
 				}
+				for(QVector<budget_info>::iterator sit = subs.begin(); sit != subs.end(); ++sit) {
+					if(sit->it_n != sit->it_e && curmonth == sit->it_n.key()) {
+						sit->it = sit->it_n;
+						++(sit->it_n);
+					}
+				}
 			} while(curmonth <= monthlast);
 		}
 
-		if(has_budget) {
-			i->setText(BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(QLocale().toString(mbudget, 'f', MONETARY_DECIMAL_PLACES)).arg(QLocale().toString(diff, 'f', MONETARY_DECIMAL_PLACES)));
+		if(has_budget || has_subs_budget) {
+			if(has_budget) i->setText(BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(QLocale().toString(mbudget, 'f', MONETARY_DECIMAL_PLACES)).arg(QLocale().toString(diff, 'f', MONETARY_DECIMAL_PLACES)));
+			else i->setText(BUDGET_COLUMN, QString("(") + tr("%2 of %1", "%1: budget; %2: remaining budget").arg(QLocale().toString(mbudget, 'f', MONETARY_DECIMAL_PLACES)).arg(QLocale().toString(diff, 'f', MONETARY_DECIMAL_PLACES)) + QString(")"));
 			account_budget[account] = mbudget;
 			account_budget_diff[account] = diff;
 		} else {
@@ -6628,8 +6863,8 @@ void Eqonomize::filterAccounts() {
 	updateBudgetEdit();
 }
 
-EqonomizeTreeWidget::EqonomizeTreeWidget(QWidget *parent) : QTreeWidget(parent) {	
-	connect(this, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(onDoubleClick(const QModelIndex&)));
+EqonomizeTreeWidget::EqonomizeTreeWidget(QWidget *parent) : QTreeWidget(parent) {
+	setAlternatingRowColors(true);
 }
 EqonomizeTreeWidget::EqonomizeTreeWidget() : QTreeWidget() {}
 void EqonomizeTreeWidget::keyPressEvent(QKeyEvent *e) {
@@ -6641,15 +6876,16 @@ void EqonomizeTreeWidget::keyPressEvent(QKeyEvent *e) {
 	}
 	QTreeWidget::keyPressEvent(e);
 }
-void EqonomizeTreeWidget::onDoubleClick(const QModelIndex &mi) {
-	QModelIndex mip = mi.parent();
-	QTreeWidgetItem *i = NULL;
-	if(mip.isValid()) {
-		i = topLevelItem(mip.row())->child(mi.row());
-	} else {
-		i = topLevelItem(mi.row());
+void EqonomizeTreeWidget::dropEvent(QDropEvent *event) {
+	QTreeWidgetItem *target = itemAt(event->pos());
+	if(!target) return;
+	DropIndicatorPosition dropPos = dropIndicatorPosition();
+	if(dropPos != OnItem) target = target->parent();
+	QList<QTreeWidgetItem*> dragItems = selectedItems();
+	if(!dragItems.isEmpty() && target) {
+		emit itemMoved(dragItems[0], target);
 	}
-	if(i) emit doubleClicked(i, mi.column());
+	event->setDropAction(Qt::IgnoreAction);
 }
 
 QIFWizardPage::QIFWizardPage() : QWizardPage() {

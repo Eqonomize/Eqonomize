@@ -186,7 +186,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	transactionsView->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(transactionsView, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupListMenu(const QPoint&)));
 
-	connect(transactionsView, SIGNAL(doubleClicked(QTreeWidgetItem*, int)), this, SLOT(transactionExecuted(QTreeWidgetItem*)));
+	connect(transactionsView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(transactionExecuted(QTreeWidgetItem*)));
 	connect(transactionsView, SIGNAL(returnPressed(QTreeWidgetItem*)), this, SLOT(transactionExecuted(QTreeWidgetItem*)));
 
 }

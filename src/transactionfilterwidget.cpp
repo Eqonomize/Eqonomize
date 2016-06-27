@@ -145,6 +145,8 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	filterExcludeLayout->addWidget(excludeButton);
 	exactMatchButton = new QCheckBox(tr("Exact match"), this);
 	filterExcludeLayout->addWidget(exactMatchButton);
+	excludeSubsButton = new QCheckBox(tr("Exclude subcategories"), this);
+	filterExcludeLayout->addWidget(excludeSubsButton);
 	filterExcludeLayout->addItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Minimum));
 	clearButton = new QPushButton(tr("Clear"), this);
 	clearButton->setEnabled(false);
@@ -189,6 +191,7 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	connect(maxButton, SIGNAL(toggled(bool)), maxEdit, SLOT(setEnabled(bool)));
 	connect(maxEdit, SIGNAL(valueChanged(double)), this, SIGNAL(filter()));
 	connect(exactMatchButton, SIGNAL(toggled(bool)), this, SIGNAL(filter()));
+	connect(excludeSubsButton, SIGNAL(toggled(bool)), this, SIGNAL(filter()));
 
 }
 
@@ -240,7 +243,7 @@ void TransactionFilterWidget::clearFilter() {
 void TransactionFilterWidget::checkEnableClear() {
 	clearButton->setEnabled(dateFromButton->isChecked() || minButton->isChecked() || maxButton->isChecked() || fromCombo->currentIndex() || toCombo->currentIndex() || !descriptionEdit->text().isEmpty() || (payeeEdit && !payeeEdit->text().isEmpty()) || to_date != QDate::currentDate());
 }
-void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString payee, bool exclude, bool exact_match) {
+void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString payee, bool exclude, bool exact_match, bool exclude_subs) {
 	dateFromButton->blockSignals(true);
 	dateFromEdit->blockSignals(true);
 	dateToEdit->blockSignals(true);
@@ -255,6 +258,7 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 	excludeButton->blockSignals(true);
 	includeButton->blockSignals(true);
 	exactMatchButton->blockSignals(true);
+	excludeSubsButton->blockSignals(true);
 	dateToEdit->setDate(todate);
 	to_date = todate;
 	if(fromdate.isNull()) {
@@ -314,6 +318,7 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 	if(payeeEdit) descriptionEdit->setText(payee);
 	excludeButton->setChecked(exclude);
 	exactMatchButton->setChecked(exact_match);
+	excludeSubsButton->setChecked(exclude_subs);
 	checkEnableClear();
 	dateFromButton->blockSignals(false);
 	dateFromEdit->blockSignals(false);
@@ -329,6 +334,7 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 	excludeButton->blockSignals(false);
 	includeButton->blockSignals(false);
 	exactMatchButton->blockSignals(false);
+	excludeSubsButton->blockSignals(false);
 	emit filter();
 }
 void TransactionFilterWidget::updateFromAccounts() {
@@ -419,16 +425,18 @@ bool TransactionFilterWidget::filterTransaction(Transaction *trans, bool checkda
 	} else if(trans->type() != transtype) {
 		return true;
 	}
+	bool b_exact = exactMatchButton->isChecked();
+	bool b_exclude_subs = b_exact;
 	if(includeButton->isChecked()) {
 		Account *account = tos[toCombo->currentIndex() - 1];
-		if(toCombo->currentIndex() > 0 && account != trans->toAccount() && account != trans->toAccount()->topAccount()) {
+		if(toCombo->currentIndex() > 0 && account != trans->toAccount() && (b_exclude_subs || account != trans->toAccount()->topAccount())) {
 			return true;
 		}
 		account = froms[fromCombo->currentIndex() - 1];
-		if(fromCombo->currentIndex() > 0 && account != trans->fromAccount() && account != trans->fromAccount()->topAccount()) {
+		if(fromCombo->currentIndex() > 0 && account != trans->fromAccount() && (b_exclude_subs || account != trans->fromAccount()->topAccount())) {
 			return true;
 		}
-		if(exactMatchButton->isChecked()) {
+		if(b_exact) {
 			if(!descriptionEdit->text().isEmpty() && trans->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) != 0) {
 				return true;
 			}
@@ -451,14 +459,14 @@ bool TransactionFilterWidget::filterTransaction(Transaction *trans, bool checkda
 		}
 	} else {
 		Account *account = tos[toCombo->currentIndex() - 1];
-		if(toCombo->currentIndex() > 0 && (account == trans->toAccount() || account == trans->toAccount()->topAccount())) {
+		if(toCombo->currentIndex() > 0 && (account == trans->toAccount() || (!b_exclude_subs && account == trans->toAccount()->topAccount()))) {
 			return true;
 		}
 		account = froms[fromCombo->currentIndex() - 1];
-		if(fromCombo->currentIndex() > 0 && (account == trans->fromAccount() || account == trans->fromAccount()->topAccount())) {
+		if(fromCombo->currentIndex() > 0 && (account == trans->fromAccount() || (!b_exclude_subs && account == trans->fromAccount()->topAccount()))) {
 			return true;
 		}
-		if(exactMatchButton->isChecked()) {
+		if(b_exact) {
 			if(!descriptionEdit->text().isEmpty() && trans->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) == 0) {
 				return true;
 			}
