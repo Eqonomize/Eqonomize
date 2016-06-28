@@ -112,6 +112,14 @@
 
 #define NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent, s1, s2, s3, s4) QTreeWidgetItem *i = new QTreeWidgetItem(parent); i->setText(0, s1); i->setText(1, s2); i->setText(2, s3); i->setText(3, s4); i->setTextAlignment(BUDGET_COLUMN, Qt::AlignRight); i->setTextAlignment(CHANGE_COLUMN, Qt::AlignRight); i->setTextAlignment(VALUE_COLUMN, Qt::AlignRight);
 
+enum {
+	BACKUP_NEVER,
+	BACKUP_DAILY,
+	BACKUP_WEEKLY,
+	BACKUP_FORTNIGHTLY,
+	BACKUP_MONTHLY
+};
+
 QString last_document_directory, last_picture_directory;
 
 void setColumnTextWidth(QTreeWidget *w, int i, QString str) {
@@ -1965,7 +1973,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 			break;
 		}
 	}
-	settings.endGroup();
 	
 	frommonth_begin.setDate(from_date.year(), from_date.month(), 1);
 	prevmonth_begin = to_date.addMonths(-1);
@@ -2330,6 +2337,16 @@ Eqonomize::Eqonomize() : QMainWindow() {
 		case 3: {AIPCurrentWholeYear->setChecked(true); break;}
 		case 4: {AIPRememberLastDates->setChecked(true); break;}
 	}
+	
+	int i_backup_frequency = settings.value("backupFrequency", int(BACKUP_WEEKLY)).toInt();
+	
+	switch(i_backup_frequency) {
+		case BACKUP_NEVER: {ABFNever->setChecked(true); break;}
+		case BACKUP_DAILY: {ABFDaily->setChecked(true); break;}		
+		case BACKUP_FORTNIGHTLY: {ABFFortnightly->setChecked(true); break;}
+		case BACKUP_MONTHLY: {ABFMonthly->setChecked(true); break;}
+		default: {ABFWeekly->setChecked(true); break;}
+	}
 
 	newScheduleMenu->addAction(ActionNewExpense);
 	newScheduleMenu->addAction(ActionNewIncome);
@@ -2344,6 +2361,8 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	newSecurityTransactionMenu->addAction(ActionNewSecurityTrade);
 	newSecurityTransactionMenu->addAction(ActionNewDividend);
 	newSecurityTransactionMenu->addAction(ActionNewReinvestedDividend);
+	
+	settings.endGroup();
 
 	readOptions();
 
@@ -3919,7 +3938,12 @@ bool Eqonomize::saveURL(const QUrl& url) {
 		}		
 		QFileInfo urlinfo(url.toLocalFile());
 		QDir urldir(urlinfo.absolutePath());
-		if(urldir.exists(urlinfo.baseName() + "-backup") || urldir.mkdir(urlinfo.baseName() + "-backup")) {
+		int i_backup_frequency = BACKUP_WEEKLY;
+		if(ActionSelectBackupFrequency->checkedAction() == ABFNever) {i_backup_frequency = BACKUP_NEVER;}
+		else if(ActionSelectBackupFrequency->checkedAction() == ABFDaily) {i_backup_frequency = BACKUP_DAILY;}
+		else if(ActionSelectBackupFrequency->checkedAction() == ABFFortnightly) {i_backup_frequency = BACKUP_FORTNIGHTLY;}
+		else if(ActionSelectBackupFrequency->checkedAction() == ABFMonthly) {i_backup_frequency = BACKUP_MONTHLY;}
+		if(i_backup_frequency > BACKUP_NEVER && (urldir.exists(urlinfo.baseName() + "-backup") || urldir.mkdir(urlinfo.baseName() + "-backup"))) {
 			QDir backupdir(urldir.absolutePath() + QString("/") + urlinfo.baseName() + "-backup");
 			QStringList backup_files;
 			if(urlinfo.suffix().isEmpty()) backup_files = backupdir.entryList(QStringList(urlinfo.baseName() + QString("_\?\?\?\?-\?\?-\?\?")), QDir::Files, QDir::Time);
@@ -3930,7 +3954,12 @@ bool Eqonomize::saveURL(const QUrl& url) {
 				int suffix_length = 0;
 				if(!urlinfo.suffix().isEmpty()) suffix_length += urlinfo.suffix().length() + 1;
 				QDate last_backup_date = QDate::fromString(last_backup.mid(last_backup.length() - 10 - suffix_length, 10), "yyyy-MM-dd");
-				last_backup_date = last_backup_date.addDays(14);
+				switch(i_backup_frequency) {
+					case BACKUP_DAILY: {last_backup_date = last_backup_date.addDays(1); break;}
+					case BACKUP_WEEKLY: {last_backup_date = last_backup_date.addDays(7); break;}
+					case BACKUP_FORTNIGHTLY: {last_backup_date = last_backup_date.addDays(14); break;}
+					default: {last_backup_date = last_backup_date.addMonths(1); break;}
+				}
 				save_backup = (last_backup_date <= QDate::currentDate());
 			}
 			if(save_backup) {
@@ -4758,6 +4787,16 @@ void Eqonomize::setupActions() {
 	NEW_RADIO_ACTION(AIPRememberLastDates, tr("Remember Last Dates"), ActionSelectInitialPeriod);
 	periodMenu->addActions(ActionSelectInitialPeriod->actions());
 	
+	QMenu *backupMenu = settingsMenu->addMenu(tr("Backup Frequency"));
+	ActionSelectBackupFrequency = new QActionGroup(this);
+	ActionSelectBackupFrequency->setObjectName("select_backup_frequency");
+	NEW_RADIO_ACTION(ABFDaily, tr("Daily"), ActionSelectBackupFrequency);
+	NEW_RADIO_ACTION(ABFWeekly, tr("Weekly"), ActionSelectBackupFrequency);
+	NEW_RADIO_ACTION(ABFFortnightly, tr("Fortnightly"), ActionSelectBackupFrequency);
+	NEW_RADIO_ACTION(ABFMonthly, tr("Monthly"), ActionSelectBackupFrequency);
+	NEW_RADIO_ACTION(ABFNever, tr("Never"), ActionSelectBackupFrequency);
+	backupMenu->addActions(ActionSelectBackupFrequency->actions());
+	
 	NEW_ACTION_3(ActionHelp, tr("Help"), "help-contents", QKeySequence::HelpContents, this, SLOT(showHelp()), "help", helpMenu);
 	//ActionWhatsThis = QWhatsThis::createAction(this); helpMenu->addAction(ActionWhatsThis);
 	helpMenu->addSeparator();
@@ -5008,6 +5047,11 @@ void Eqonomize::saveOptions() {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 	settings.setValue("lastURL", current_url.url());
+	if(ActionSelectBackupFrequency->checkedAction() == ABFNever) {settings.setValue("backupFrequency", BACKUP_NEVER);}
+	else if(ActionSelectBackupFrequency->checkedAction() == ABFDaily) {settings.setValue("backupFrequency", BACKUP_DAILY);}
+	else if(ActionSelectBackupFrequency->checkedAction() == ABFWeekly) {settings.setValue("backupFrequency", BACKUP_WEEKLY);}
+	else if(ActionSelectBackupFrequency->checkedAction() == ABFFortnightly) {settings.setValue("backupFrequency", BACKUP_FORTNIGHTLY);}
+	else if(ActionSelectBackupFrequency->checkedAction() == ABFMonthly) {settings.setValue("backupFrequency", BACKUP_MONTHLY);}
 	settings.setValue("currentEditExpenseFromItem", expensesWidget->currentEditFromItem());
 	settings.setValue("currentEditExpenseToItem", expensesWidget->currentEditToItem());
 	settings.setValue("currentEditIncomeFromItem", incomesWidget->currentEditFromItem());

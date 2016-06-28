@@ -176,8 +176,8 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionClearRecentFiles;
 		QAction *ActionOverTimeReport, *ActionCategoriesComparisonReport, *ActionOverTimeChart, *ActionCategoriesComparisonChart;
 		QAction *ActionImportCSV, *ActionImportQIF, *ActionExportQIF;
-		QAction *ActionExtraProperties, *AIPCurrentMonth, *AIPCurrentYear, *AIPCurrentWholeMonth, *AIPCurrentWholeYear, *AIPRememberLastDates;
-		QActionGroup *ActionSelectInitialPeriod;
+		QAction *ActionExtraProperties, *AIPCurrentMonth, *AIPCurrentYear, *AIPCurrentWholeMonth, *AIPCurrentWholeYear, *AIPRememberLastDates, *ABFDaily, *ABFWeekly, *ABFFortnightly, *ABFMonthly, *ABFNever;
+		QActionGroup *ActionSelectInitialPeriod, *ActionSelectBackupFrequency;
 		QAction *ActionHelp, *ActionWhatsThis, *ActionReportBug, *ActionAbout, *ActionAboutQt;
 		
 	protected:
