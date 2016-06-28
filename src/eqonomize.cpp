@@ -3432,7 +3432,10 @@ void Eqonomize::showLedger() {
 		account = account_items[i];
 		if(account && account->type() != ACCOUNT_TYPE_ASSETS) account = NULL;
 	}
-	if(!account) account = budget->assetsAccounts.first();
+	if(!account) {
+		account = budget->assetsAccounts[0];
+		if(account == budget->balancingAccount && budget->assetsAccounts.count() > 1) account = budget->assetsAccounts[1];
+	}
 	LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, this, tr("Ledger"), b_extra);
 	QSettings settings;
 	QSize dialog_size = settings.value("Ledger/size", QSize()).toSize();
@@ -3852,7 +3855,6 @@ void Eqonomize::reloadBudget() {
 		if(!eaccount->parentCategory()) appendExpensesAccount(eaccount, expensesItem);
 		eaccount = budget->expensesAccounts.next();
 	}
-	ActionShowLedger->setEnabled(!budget->assetsAccounts.isEmpty());
 	account_value[budget->balancingAccount] = 0.0;
 	account_change[budget->balancingAccount] = 0.0;
 	expensesWidget->updateAccounts();
@@ -3914,6 +3916,27 @@ bool Eqonomize::saveURL(const QUrl& url) {
 	if(exists) {
 		if(!QFile::exists(url.toLocalFile() + "~") || QFile::remove(url.toLocalFile() + "~")) {
 			QFile::copy(url.toLocalFile(), url.toLocalFile() + "~");
+		}		
+		QFileInfo urlinfo(url.toLocalFile());
+		QDir urldir(urlinfo.absolutePath());
+		if(urldir.exists(urlinfo.baseName() + "-backup") || urldir.mkdir(urlinfo.baseName() + "-backup")) {
+			QDir backupdir(urldir.absolutePath() + QString("/") + urlinfo.baseName() + "-backup");
+			QStringList backup_files;
+			if(urlinfo.suffix().isEmpty()) backup_files = backupdir.entryList(QStringList(urlinfo.baseName() + QString("_\?\?\?\?-\?\?-\?\?")), QDir::Files, QDir::Time);
+			else backup_files = backupdir.entryList(QStringList(urlinfo.baseName() + QString("_\?\?\?\?-\?\?-\?\?.") + urlinfo.suffix()), QDir::Files, QDir::Time);
+			bool save_backup = backup_files.isEmpty();
+			if(!save_backup) {
+				QString last_backup = backup_files.first();
+				int suffix_length = 0;
+				if(!urlinfo.suffix().isEmpty()) suffix_length += urlinfo.suffix().length() + 1;
+				QDate last_backup_date = QDate::fromString(last_backup.mid(last_backup.length() - 10 - suffix_length, 10), "yyyy-MM-dd");
+				last_backup_date = last_backup_date.addDays(14);
+				save_backup = (last_backup_date <= QDate::currentDate());
+			}
+			if(save_backup) {
+				if(urlinfo.suffix().isEmpty()) QFile::copy(url.toLocalFile(), backupdir.absolutePath() + QString("/") + urlinfo.baseName() + QString("_") + QDate::currentDate().toString("yyyy-MM-dd"));
+				else QFile::copy(url.toLocalFile(), backupdir.absolutePath() + QString("/") + urlinfo.baseName() + QString("_") + QDate::currentDate().toString("yyyy-MM-dd") + QString(".") + urlinfo.suffix());
+			}
 		}
 	}
 
