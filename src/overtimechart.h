@@ -32,7 +32,7 @@ class QGraphicsView;
 class QPushButton;
 class QRadioButton;
 
-class Account;
+class CategoryAccount;
 class Budget;
 class EqonomizeMonthSelector;
 
@@ -60,7 +60,7 @@ class OverTimeChart : public QWidget {
 		
 		QDate start_date, end_date;
 
-		Account *current_account;
+		CategoryAccount *current_account;
 		QString current_description, current_payee;
 		int current_source;
 		bool has_empty_description, has_empty_payee;

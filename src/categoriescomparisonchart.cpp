@@ -124,17 +124,19 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	typeLayout->addWidget(new QLabel(tr("Source:"), settingsWidget));
 	sourceCombo = new QComboBox(settingsWidget);
 	sourceCombo->setEditable(false);
-	sourceCombo->addItem(tr("All Expenses"));
-	sourceCombo->addItem(tr("All Incomes"));
+	sourceCombo->addItem(tr("All Expenses, excluding subcategories"));
+	sourceCombo->addItem(tr("All Expenses, including subcategories"));
+	sourceCombo->addItem(tr("All Incomes, excluding subcategories"));
+	sourceCombo->addItem(tr("All Incomes, including subcategories"));
 	sourceCombo->addItem(tr("All Accounts"));
 	Account *account = budget->expensesAccounts.first();
 	while(account) {
-		sourceCombo->addItem(tr("Expenses: %1").arg(account->name()));
+		sourceCombo->addItem(tr("Expenses: %1").arg(account->nameWithParent()));
 		account = budget->expensesAccounts.next();
 	}
 	account = budget->incomesAccounts.first();
 	while(account) {
-		sourceCombo->addItem(tr("Incomes: %1").arg(account->name()));
+		sourceCombo->addItem(tr("Incomes: %1").arg(account->nameWithParent()));
 		account = budget->incomesAccounts.next();
 	}
 	typeLayout->addWidget(sourceCombo);
@@ -472,9 +474,14 @@ void CategoriesComparisonChart::updateDisplay() {
 	QStringList desc_order; 
 
 	current_account = NULL;
+	
+	bool include_subs = false;
 
 	AccountType type;
 	switch(sourceCombo->currentIndex()) {
+		case 1: {
+			include_subs = true;
+		}
 		case 0: {
 			type = ACCOUNT_TYPE_EXPENSES;
 			Account *account = budget->expensesAccounts.first();
@@ -485,7 +492,10 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 			break;
 		}
-		case 1: {
+		case 2: {
+			include_subs = true;
+		}
+		case 3: {
 			type = ACCOUNT_TYPE_INCOMES;
 			Account *account = budget->incomesAccounts.first();
 			while(account) {
@@ -495,7 +505,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 			break;
 		}
-		case 2: {
+		case 4: {
 			type = ACCOUNT_TYPE_ASSETS;
 			AssetsAccount *account = budget->assetsAccounts.first();
 			while(account) {
@@ -514,18 +524,30 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 		default: {
 			type = ACCOUNT_TYPE_EXPENSES;
-			int i = sourceCombo->currentIndex() - 3;
+			int i = sourceCombo->currentIndex() - 5;
 			if(i < (int) budget->expensesAccounts.count()) current_account = budget->expensesAccounts.at(i);
 			else current_account = budget->incomesAccounts.at(i - budget->expensesAccounts.count());
 			if(current_account) {
 				type = current_account->type();
-				Transaction *trans = budget->transactions.first();
-				while(trans) {
-					if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
-						desc_values[trans->description()] = 0.0;
-						desc_counts[trans->description()] = 0.0;
+				include_subs = !current_account->subCategories.isEmpty();
+				if(include_subs) {
+					values[current_account] = 0.0;
+					counts[current_account] = 0.0;
+					Account *account = current_account->subCategories.first();
+					while(account) {
+						values[account] = 0.0;
+						counts[account] = 0.0;
+						account = current_account->subCategories.next();
 					}
-					trans = budget->transactions.next();
+				} else {
+					Transaction *trans = budget->transactions.first();
+					while(trans) {
+						if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
+							desc_values[trans->description()] = 0.0;
+							desc_counts[trans->description()] = 0.0;
+						}
+						trans = budget->transactions.next();
+					}
 				}
 			}
 		}
@@ -778,7 +800,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 			legend_value = desc_values[desc_order[index]];
 		} else {
-			legend_string = account->name();
+			legend_string = account->nameWithParent();
 			legend_value = values[account];
 		}
 		legend_value = (legend_value * 100) / value_bak;
@@ -894,20 +916,22 @@ void CategoriesComparisonChart::updateAccounts() {
 	}
 	sourceCombo->blockSignals(true);
 	sourceCombo->clear();
-	sourceCombo->addItem(tr("All Expenses"));
-	sourceCombo->addItem(tr("All Incomes"));
+	sourceCombo->addItem(tr("All Expenses, excluding subcategories"));
+	sourceCombo->addItem(tr("All Expenses, including subcategories"));
+	sourceCombo->addItem(tr("All Incomes, excluding subcategories"));
+	sourceCombo->addItem(tr("All Incomes, including subcategories"));
 	sourceCombo->addItem(tr("All Accounts"));
 	int i = 3;
 	Account *account = budget->expensesAccounts.first();
 	while(account) {
-		sourceCombo->addItem(tr("Expenses: %1").arg(account->name()));
+		sourceCombo->addItem(tr("Expenses: %1").arg(account->nameWithParent()));
 		if(account == current_account) curindex = i;
 		account = budget->expensesAccounts.next();
 		i++;
 	}
 	account = budget->incomesAccounts.first();
 	while(account) {
-		sourceCombo->addItem(tr("Incomes: %1").arg(account->name()));
+		sourceCombo->addItem(tr("Incomes: %1").arg(account->nameWithParent()));
 		if(account == current_account) curindex = i;
 		account = budget->incomesAccounts.next();
 		i++;

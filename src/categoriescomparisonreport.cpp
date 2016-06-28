@@ -841,30 +841,43 @@ void CategoriesComparisonReport::updateDisplay() {
 	outf << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << '\n';
 	outf << "\t\t<meta name=\"GENERATOR\" content=\"" << qApp->applicationDisplayName() << "\">" << '\n';
 	outf << "\t</head>" << '\n';
-	outf << "\t<body>" << '\n';
-	if(fromButton->isChecked()) outf << "\t\t<h2>" << tr("%1 (%2&ndash;%3)", "html format; %1: title; %2: from date; %3: to date").arg(htmlize_string(title)).arg(htmlize_string(QLocale().toString(first_date, QLocale::ShortFormat))).arg(htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h2>" << '\n';
-	else outf << "\t\t<h2>" << tr("%1 (to %2)", "html format; %1: title; %2: to date").arg(htmlize_string(title)).arg(htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h2>" << '\n';
-	outf << "\t\t<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
+	outf << "\t<body bgcolor=\"white\" style=\"color: black; margin-top: 10; margin-bottom: 10; margin-left: 10; margin-right: 10\">" << '\n';
+	if(fromButton->isChecked()) outf << "\t\t<h2 align=\"center\">" << tr("%1 (%2&ndash;%3)", "html format; %1: title; %2: from date; %3: to date").arg(htmlize_string(title)).arg(htmlize_string(QLocale().toString(first_date, QLocale::ShortFormat))).arg(htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h2>" << '\n' << "\t\t<br>";
+	else outf << "\t\t<h2 align=\"center\">" << tr("%1 (to %2)", "html format; %1: title; %2: to date").arg(htmlize_string(title)).arg(htmlize_string(QLocale().toString(to_date, QLocale::ShortFormat))) << "</h2>" << '\n' << "\t\t<br>";
+	outf << "\t\t<table width=\"100%\" border=\"0.5\" style=\"border-style: solid; border-color: #cccccc\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
 	outf << "\t\t\t<thead align=\"left\">" << '\n';
-	outf << "\t\t\t\t<tr>" << '\n';
-	outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Category")) << "</th>";
+	outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
+#define FIRST_COL "\t\t\t\t\t<td align=\"left\">"
+#define EVEN_COL "<td nowrap align=\"right\">"
+#define ODD_COL "<td nowrap align=\"right\">"
+#define FIRST_COL_TOP "\t\t\t\t\t<th align=\"left\">"
+#define EVEN_COL_TOP "\t\t\t\t\t<th align=\"left\">"
+#define ODD_COL_TOP "\t\t\t\t\t<th align=\"left\">"
+#define FIRST_COL_DIV "\t\t\t\t\t<td align=\"left\"><b>"
+#define EVEN_COL_DIV "<td nowrap align=\"right\"><b>"
+#define ODD_COL_DIV "<td nowrap align=\"right\"><b>"
+#define FIRST_COL_BOTTOM "\t\t\t\t\t<td align=\"left\"><b>"
+#define EVEN_COL_BOTTOM "\t\t\t\t\t<td nowrap align=\"right\"><b>"
+#define ODD_COL_BOTTOM "\t\t\t\t\t<td nowrap align=\"right\"><b>"
+	outf << FIRST_COL_TOP << htmlize_string(tr("Category")) << "</th>";
+	int col = 1;
 	if(current_account && type == ACCOUNT_TYPE_EXPENSES) {
-		if(enabled[0]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Cost")) << "</th>";
+		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Cost")) << "</th>"; col++;}
 	} else if(current_account && type == ACCOUNT_TYPE_INCOMES) {
-		if(enabled[0]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Income")) << "</th>";
+		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Income")) << "</th>"; col++;}
 	} else {
-		if(enabled[0]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Value")) << "</th>";
+		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Value")) << "</th>"; col++;}
 	}
-	if(enabled[1]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Daily Average")) << "</th>";
-	if(enabled[2]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Monthly Average")) << "</th>";
-	if(enabled[3]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Yearly Average")) << "</th>";
-	if(enabled[4]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Quantity")) << "</th>";
+	if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Daily Average")) << "</th>"; col++;}
+	if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Monthly Average")) << "</th>"; col++;}
+	if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Yearly Average")) << "</th>"; col++;}
+	if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Quantity")) << "</th>"; col++;}
 	if(current_account && type == ACCOUNT_TYPE_EXPENSES) {
-		if(enabled[5]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Average Cost")) << "</th>";
+		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Average Cost")) << "</th>";
 	} else if(current_account && type == ACCOUNT_TYPE_INCOMES) {
-		if(enabled[5]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Average Income")) << "</th>";
+		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Average Income")) << "</th>";
 	} else {
-		if(enabled[5]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Average Value")) << "</th>";
+		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Average Value")) << "</th>";
 	}
 	outf << "\t\t\t\t</tr>" << '\n';
 	outf << "\t\t\t</thead>" << '\n';
@@ -919,13 +932,14 @@ void CategoriesComparisonReport::updateDisplay() {
 			CategoryAccount *account = current_account->subCategories.first();
 			while(account) {
 				outf << "\t\t\t\t<tr>" << '\n';
-				outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(account->name()) << "</td>";
-				if(enabled[0]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(values[account])) << "</td>";
-				if(enabled[1]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(values[account] / days)) << "</td>";
-				if(enabled[2]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(values[account] / months)) << "</td>";
-				if(enabled[3]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(values[account] / years)) << "</td>";
-				if(enabled[4]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toString(counts[account], 'f', i_count_frac)) << "</td>";
-				if(enabled[5]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(counts[account] == 0.0 ? 0.0 : (values[account] / counts[account]))) << "</td>";
+				outf << FIRST_COL << htmlize_string(account->name()) << "</td>";
+				col = 1;
+				if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account])) << "</td>"; col++;}
+				if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account] / days)) << "</td>"; col++;}
+				if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account] / months)) << "</td>"; col++;}
+				if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account] / years)) << "</td>"; col++;}
+				if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toString(counts[account], 'f', i_count_frac)) << "</td>"; col++;}
+				if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(counts[account] == 0.0 ? 0.0 : (values[account] / counts[account]))) << "</td>";
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
 				if(account == current_account) break;
@@ -939,30 +953,32 @@ void CategoriesComparisonReport::updateDisplay() {
 			for(; it != it_e; ++it, ++itc) {
 				outf << "\t\t\t\t<tr>" << '\n';
 				if(it.key().isEmpty()) {
-					if((i_source == 4 || i_source == 2) && type == ACCOUNT_TYPE_EXPENSES) outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(tr("No payee")) << "</td>";
-					else if(i_source == 4 || i_source == 2) outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(tr("No payer")) << "</td>";
-					else outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(tr("No description", "Referring to the generic description property")) << "</td>";
+					if((i_source == 4 || i_source == 2) && type == ACCOUNT_TYPE_EXPENSES) outf << FIRST_COL << htmlize_string(tr("No payee")) << "</td>";
+					else if(i_source == 4 || i_source == 2) outf << FIRST_COL << htmlize_string(tr("No payer")) << "</td>";
+					else outf << FIRST_COL << htmlize_string(tr("No description", "Referring to the generic description property")) << "</td>";
 				} else {
-					outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(it.key()) << "</td>";
+					outf << FIRST_COL << htmlize_string(it.key()) << "</td>";
 				}
-				if(enabled[0]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(it.value())) << "</td>";
-				if(enabled[1]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(it.value() / days)) << "</td>";
-				if(enabled[2]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(it.value() / months)) << "</td>";
-				if(enabled[3]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(it.value() / years)) << "</td>";
-				if(enabled[4]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toString(itc.value(), 'f', i_count_frac)) << "</td>";
-				if(enabled[5]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(itc.value() == 0.0 ? 0.0 : (it.value() / itc.value()))) << "</td>";
+				col = 1;
+				if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(it.value())) << "</td>"; col++;}
+				if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(it.value() / days)) << "</td>"; col++;}
+				if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(it.value() / months)) << "</td>"; col++;}
+				if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(it.value() / years)) << "</td>"; col++;}
+				if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toString(itc.value(), 'f', i_count_frac)) << "</td>"; col++;}
+				if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(itc.value() == 0.0 ? 0.0 : (it.value() / itc.value()))) << "</td>";
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
 			}
 		}
-		outf << "\t\t\t\t<tr>" << '\n';
-		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid; border-top: thin solid\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
-		if(enabled[0]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid;\"><b>" << htmlize_string(QLocale().toCurrencyString(value)) << "</b></td>";
-		if(enabled[1]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid;\"><b>" << htmlize_string(QLocale().toCurrencyString(value / days)) << "</b></td>";
-		if(enabled[2]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid;\"><b>" << htmlize_string(QLocale().toCurrencyString(value / months)) << "</b></td>";
-		if(enabled[3]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid;\"><b>" << htmlize_string(QLocale().toCurrencyString(value / years)) << "</b></td>";
-		if(enabled[4]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid;\"><b>" << htmlize_string(QLocale().toString(value_count, 'f', i_count_frac)) << "</b></td>";
-		if(enabled[5]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid;\"><b>" << htmlize_string(QLocale().toCurrencyString(value_count == 0.0 ? 0.0 : (value / value_count))) << "</b></td>";
+		outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
+		outf << FIRST_COL_BOTTOM << htmlize_string(tr("Total")) << "</b></td>";
+		col = 1;
+		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(value)) << "</b></td>"; col++;}
+		if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(value / days)) << "</b></td>"; col++;}
+		if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(value / months)) << "</b></td>"; col++;}
+		if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(value / years)) << "</b></td>"; col++;}
+		if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toString(value_count, 'f', i_count_frac)) << "</b></td>"; col++;}
+		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(value_count == 0.0 ? 0.0 : (value / value_count))) << "</b></td>";
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
 	} else {
@@ -970,62 +986,67 @@ void CategoriesComparisonReport::updateDisplay() {
 		while(account) {
 			if(include_subs || !account->parentCategory()) {
 				outf << "\t\t\t\t<tr>" << '\n';
-				outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(account->nameWithParent()) << "</td>";
-				if(enabled[0]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(values[account])) << "</td>";
-				if(enabled[1]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(values[account] / days)) << "</td>";
-				if(enabled[2]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(values[account] / months)) << "</td>";
-				if(enabled[3]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(values[account] / years)) << "</td>";
-				if(enabled[4]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toString(counts[account], 'f', i_count_frac)) << "</td>";
-				if(enabled[5]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(counts[account] == 0.0 ? 0.0 : (values[account] / counts[account]))) << "</td>";
+				outf << FIRST_COL << htmlize_string(account->nameWithParent()) << "</td>";
+				col = 1;
+				if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account])) << "</td>"; col++;}
+				if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account] / days)) << "</td>"; col++;}
+				if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account] / months)) << "</td>"; col++;}
+				if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account] / years)) << "</td>"; col++;}
+				if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toString(counts[account], 'f', i_count_frac)) << "</td>"; col++;}
+				if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(counts[account] == 0.0 ? 0.0 : (values[account] / counts[account]))) << "</td>";
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
 			}
 			account = budget->incomesAccounts.next();
 		}
-		outf << "\t\t\t\t<tr>" << '\n';
-		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid; border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(tr("Total incomes")) << "</b></td>";
-		if(enabled[0]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(incomes)) << "</b></td>";
-		if(enabled[1]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(incomes / days)) << "</b></td>";
-		if(enabled[2]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(incomes / months)) << "</b></td>";
-		if(enabled[3]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(incomes / years)) << "</b></td>";
-		if(enabled[4]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toString(incomes_count, 'f', i_count_frac)) << "</b></td>";
-		if(enabled[5]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(incomes_count == 0.0 ? 0.0 : (incomes / incomes_count))) << "</b></td>";
+		outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
+		outf << FIRST_COL_DIV << htmlize_string(tr("Total incomes")) << "</b></td>";
+		col = 1;
+		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(QLocale().toCurrencyString(incomes)) << "</b></td>"; col++;}
+		if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(QLocale().toCurrencyString(incomes / days)) << "</b></td>"; col++;}
+		if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(QLocale().toCurrencyString(incomes / months)) << "</b></td>"; col++;}
+		if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(QLocale().toCurrencyString(incomes / years)) << "</b></td>"; col++;}
+		if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(QLocale().toString(incomes_count, 'f', i_count_frac)) << "</b></td>"; col++;}
+		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(QLocale().toCurrencyString(incomes_count == 0.0 ? 0.0 : (incomes / incomes_count))) << "</b></td>";
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
 		account = budget->expensesAccounts.first();
 		while(account) {
 			if(include_subs || !account->parentCategory()) {
 				outf << "\t\t\t\t<tr>" << '\n';
-				outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(account->nameWithParent()) << "</td>";
-				if(enabled[0]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(-values[account])) << "</td>";
-				if(enabled[1]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(-values[account] / days)) << "</td>";
-				if(enabled[2]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(-values[account] / months)) << "</td>";
-				if(enabled[3]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(-values[account] / years)) << "</td>";
-				if(enabled[4]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toString(counts[account], 'f', i_count_frac)) << "</td>";
-				if(enabled[5]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(counts[account] == 0.0 ? 0.0 : (-values[account] / counts[account]))) << "</td>";
+				outf << FIRST_COL << htmlize_string(account->nameWithParent()) << "</td>";
+				col = 1;
+				if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(-values[account])) << "</td>"; col++;}
+				if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(-values[account] / days)) << "</td>"; col++;}
+				if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(-values[account] / months)) << "</td>"; col++;}
+				if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(-values[account] / years)) << "</td>"; col++;}
+				if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toString(counts[account], 'f', i_count_frac)) << "</td>"; col++;}
+				if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(counts[account] == 0.0 ? 0.0 : (-values[account] / counts[account]))) << "</td>";
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
 			}
 			account = budget->expensesAccounts.next();
 		}
-		outf << "\t\t\t\t<tr>" << '\n';
-		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid; border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(tr("Total expenses")) << "</b></td>";
-		if(enabled[0]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(-costs)) << "</b></td>";
-		if(enabled[1]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(-costs / days)) << "</b></td>";
-		if(enabled[2]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(-costs / months)) << "</b></td>";
-		if(enabled[3]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(-costs / years)) << "</b></td>";
-		if(enabled[4]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toString(costs_count, 'f', i_count_frac)) << "</b></td>";
-		if(enabled[5]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(costs_count == 0.0 ? 0.0 : (-costs / costs_count))) << "</b></td>";
+		outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
+		outf << FIRST_COL_BOTTOM << htmlize_string(tr("Total expenses")) << "</b></td>";
+		col = 1;
+		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(-costs)) << "</b></td>"; col++;}
+		if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(-costs / days)) << "</b></td>"; col++;}
+		if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(-costs / months)) << "</b></td>"; col++;}
+		if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(-costs / years)) << "</b></td>"; col++;}
+		if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toString(costs_count, 'f', i_count_frac)) << "</b></td>"; col++;}
+		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(costs_count == 0.0 ? 0.0 : (-costs / costs_count))) << "</b></td>";
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
-		outf << "\t\t\t\t<tr>" << '\n';
-		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\"><b>" << htmlize_string(tr("Total (Profits)")) << "</b></td>";
-		if(enabled[0]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(incomes - costs)) << "</b></td>";
-		if(enabled[1]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString((incomes - costs) / days)) << "</b></td>";
-		if(enabled[2]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString((incomes - costs) / months)) << "</b></td>";
-		if(enabled[3]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString((incomes - costs) / years)) << "</b></td>";
-		if(enabled[4]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toString(incomes_count + costs_count, 'f', i_count_frac)) << "</b></td>";
-		if(enabled[5]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString((incomes_count + costs_count) == 0.0 ? 0.0 : ((incomes - costs) / (incomes_count + costs_count)))) << "</b></td>";
+		outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
+		outf << FIRST_COL_BOTTOM << htmlize_string(tr("Total (Profits)")) << "</b></td>";
+		col = 1;
+		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(incomes - costs)) << "</b></td>"; col++;}
+		if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString((incomes - costs) / days)) << "</b></td>"; col++;}
+		if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString((incomes - costs) / months)) << "</b></td>"; col++;}
+		if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString((incomes - costs) / years)) << "</b></td>"; col++;}
+		if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toString(incomes_count + costs_count, 'f', i_count_frac)) << "</b></td>"; col++;}
+		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString((incomes_count + costs_count) == 0.0 ? 0.0 : ((incomes - costs) / (incomes_count + costs_count)))) << "</b></td>";
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
 	}

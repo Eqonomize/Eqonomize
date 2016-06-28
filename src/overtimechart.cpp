@@ -246,13 +246,15 @@ void OverTimeChart::valueTypeToggled(bool b) {
 void OverTimeChart::payeeChanged(int index) {
 	current_payee = "";
 	bool b_income = (current_account && current_account->type() == ACCOUNT_TYPE_INCOMES);
+	bool b_subs = (current_account && !current_account->subCategories.isEmpty());
 	int d_index = descriptionCombo->currentIndex();
 	if(index == 0) {
 		if(d_index == 1) current_source = b_income ? 7 : 8;
+		else if(b_subs && d_index == 2) current_source = b_income ? 21 : 22;
 		else if(d_index == 0) current_source = b_income ? 5 : 6;
 		else current_source = b_income ? 9 : 10;
 	} else if(index == 1) {
-		if(d_index == 1) {
+		if(d_index == 1 || (b_subs && d_index == 1)) {
 			descriptionCombo->blockSignals(true);
 			descriptionCombo->setCurrentIndex(0);
 			descriptionCombo->blockSignals(false);
@@ -263,6 +265,7 @@ void OverTimeChart::payeeChanged(int index) {
 	} else {
 		if(!has_empty_payee || index < payeeCombo->count() - 1) current_payee = payeeCombo->itemText(index);
 		if(d_index == 1) current_source = b_income ? 17 : 18;
+		else if(b_subs && d_index == 2) current_source = b_income ? 23 : 24;
 		else if(d_index == 0) current_source = b_income ? 15 : 16;
 		else current_source = b_income ? 19 : 20;
 	}
@@ -271,13 +274,23 @@ void OverTimeChart::payeeChanged(int index) {
 void OverTimeChart::descriptionChanged(int index) {
 	current_description = "";
 	bool b_income = (current_account && current_account->type() == ACCOUNT_TYPE_INCOMES);
+	bool b_subs = (current_account && !current_account->subCategories.isEmpty());
 	int p_index = 0;
 	if(b_extra) p_index = payeeCombo->currentIndex();
 	if(index == 0) {
 		if(p_index == 1) current_source = b_income ? 11 : 12;
 		else if(p_index == 0) current_source = b_income ? 5 : 6;
 		else current_source = b_income ? 15 : 16;
-	} else if(index == 1) {
+	} else if(b_subs && index == 1) {
+		if(p_index == 1) {
+			payeeCombo->blockSignals(true);
+			payeeCombo->setCurrentIndex(0);
+			payeeCombo->blockSignals(false);
+			p_index = 0;
+		}
+		if(p_index == 0) current_source = b_income ? 21 : 22;
+		else current_source = b_income ? 23 : 24;
+	} else if(index == 1 || (b_subs && index == 2)) {
 		if(p_index == 1) {
 			payeeCombo->blockSignals(true);
 			payeeCombo->setCurrentIndex(0);
@@ -287,6 +300,7 @@ void OverTimeChart::descriptionChanged(int index) {
 		if(p_index == 0) current_source = b_income ? 7 : 8;
 		else current_source = b_income ? 17 : 18;
 	} else {
+		if(b_subs) index--;
 		if(!has_empty_description || index < descriptionCombo->count() - 1) current_description = descriptionCombo->itemText(index);
 		if(p_index == 1) current_source = b_income ? 13 : 14;
 		else if(p_index == 0) current_source = b_income ? 9 : 10;
@@ -319,16 +333,15 @@ void OverTimeChart::categoryChanged(int index) {
 		}
 		descriptionCombo->setEnabled(false);
 		if(b_extra) payeeCombo->setEnabled(false);
-	} else if(index == 1) {
+	} else if(index == 1 || index == 2) {
 		if(b_income) {
-			current_source = 3;
+			current_source = index == 2 ? 25 : 3;
 		} else {
-			current_source = 4;
+			current_source = index == 2 ? 26 : 4;
 		}
 		descriptionCombo->setEnabled(false);
 		if(b_extra) payeeCombo->setEnabled(false);
 	} else {
-		descriptionCombo->addItem(tr("All Descriptions Split", "Referring to the generic description property"));
 		if(d_index == 1) descriptionCombo->setCurrentIndex(1);
 		if(b_extra) {
 			if(b_income) payeeCombo->addItem(tr("All Payers Split"));
@@ -336,7 +349,7 @@ void OverTimeChart::categoryChanged(int index) {
 			if(p_index == 1 && d_index != 1) payeeCombo->setCurrentIndex(1);
 		}
 		if(!b_income) {
-			int i = categoryCombo->currentIndex() - 2;
+			int i = categoryCombo->currentIndex() - 3;
 			if(i < (int) budget->expensesAccounts.count()) {
 				current_account = budget->expensesAccounts.at(i);
 			}
@@ -344,7 +357,7 @@ void OverTimeChart::categoryChanged(int index) {
 			else if(p_index == 1) current_source = 12;
 			else current_source = 6;
 		} else {
-			int i = categoryCombo->currentIndex() - 2;
+			int i = categoryCombo->currentIndex() - 3;
 			if(i < (int) budget->incomesAccounts.count()) {
 				current_account = budget->incomesAccounts.at(i);
 			}
@@ -352,12 +365,18 @@ void OverTimeChart::categoryChanged(int index) {
 			else if(p_index == 1) current_source = 11;
 			else current_source = 5;
 		}
+		bool b_subs = !current_account->subCategories.isEmpty();
+		if(b_subs) {
+			descriptionCombo->addItem(tr("All Subcategories Split", "Referring to the generic description property"));
+			descriptionCombo->setItemText(0, tr("All Subcategories and Descriptions Combined", "Referring to the generic description property"));
+		}
+		descriptionCombo->addItem(tr("All Descriptions Split", "Referring to the generic description property"));
 		has_empty_description = false;
 		has_empty_payee = false;
 		QMap<QString, bool> descriptions, payees;
 		Transaction *trans = budget->transactions.first();
 		while(trans) {
-			if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
+			if((trans->fromAccount() == current_account || trans->toAccount() == current_account || trans->fromAccount()->topAccount() == current_account || trans->toAccount()->topAccount() == current_account)) {
 				if(trans->description().isEmpty()) has_empty_description = true;
 				else descriptions[trans->description()] = true;
 				if(b_extra) {
@@ -417,20 +436,22 @@ void OverTimeChart::sourceChanged(int index) {
 	categoryCombo->addItem(tr("All Categories Combined"));
 	if(index == 3) {
 		categoryCombo->addItem(tr("All Categories Split"));
+		categoryCombo->addItem(tr("All Categories and Subcategories Split"));
 		categoryCombo->setCurrentIndex(c_index);
 		Account *account = budget->incomesAccounts.first();
 		while(account) {
-			categoryCombo->addItem(account->name());
+			categoryCombo->addItem(account->nameWithParent());
 			account = budget->incomesAccounts.next();
 		}
 		categoryCombo->setEnabled(true);
 		current_source = 3;
 	} else if(index == 2) {
 		categoryCombo->addItem(tr("All Categories Split"));
+		categoryCombo->addItem(tr("All Categories and Subcategories Split"));
 		categoryCombo->setCurrentIndex(c_index);
 		Account *account = budget->expensesAccounts.first();
 		while(account) {
-			categoryCombo->addItem(account->name());
+			categoryCombo->addItem(account->nameWithParent());
 			account = budget->expensesAccounts.next();
 		}
 		categoryCombo->setEnabled(true);
@@ -1902,9 +1923,9 @@ void OverTimeChart::updateDisplay() {
 			case 1: {legend_text->setText(tr("Incomes")); break;}
 			case 2: {legend_text->setText(tr("Expenses")); break;}
 			case 3: {}
-			case 4: {legend_text->setText(account->name()); break;}
+			case 4: {legend_text->setText(account->nameWithParent()); break;}
 			case 5: {}
-			case 6: {legend_text->setText(current_account->name()); break;}
+			case 6: {legend_text->setText(current_account->nameWithParent()); break;}
 			case 17: {}
 			case 18: {}
 			case 7: {}
@@ -2124,7 +2145,7 @@ void OverTimeChart::updateAccounts() {
 		if(sourceCombo->currentIndex() == 2) {
 			Account *account = budget->expensesAccounts.first();
 			while(account) {
-				categoryCombo->addItem(account->name());
+				categoryCombo->addItem(account->nameWithParent());
 				if(account == current_account) curindex = i;
 				account = budget->expensesAccounts.next();
 				i++;
@@ -2132,7 +2153,7 @@ void OverTimeChart::updateAccounts() {
 		} else {
 			Account *account = budget->incomesAccounts.first();
 			while(account) {
-				categoryCombo->addItem(account->name());
+				categoryCombo->addItem(account->nameWithParent());
 				if(account == current_account) curindex = i;
 				account = budget->incomesAccounts.next();
 				i++;

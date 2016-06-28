@@ -525,29 +525,29 @@ void OverTimeReport::updateDisplay() {
 	outf << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << '\n';
 	outf << "\t\t<meta name=\"GENERATOR\" content=\"" << qApp->applicationDisplayName() << "\">" << '\n';
 	outf << "\t</head>" << '\n';
-	outf << "\t<body>" << '\n';
-	outf << "\t\t<h2>" << htmlize_string(title) << "</h2>" << '\n';
-	outf << "\t\t<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
+	outf << "\t<body bgcolor=\"white\" style=\"color: black; margin-top: 10; margin-bottom: 10; margin-left: 10; margin-right: 10\">" << '\n';
+	outf << "\t\t<h2 align=\"center\">" << htmlize_string(title) << "</h2>" << '\n' << "\t\t<br>";
+	outf << "\t\t<table width=\"100%\" border=\"0.5\" style=\"border-style: solid; border-color: #cccccc\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
 	outf << "\t\t\t<thead align=\"left\">" << '\n';
-	outf << "\t\t\t\t<tr>" << '\n';
-	outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Year")) << "</th>";
-	outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Month")) << "</th>";
+	outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
+	outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tr("Year")) << "</th>";
+	outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tr("Month")) << "</th>";
 	bool use_footer1 = false;
 	if(enabled[0]) {
-		outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(valuetitle);
+		outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(valuetitle);
 		if(mi && mi->date > curdate) {outf << "*"; use_footer1 = true;}
 		outf<< "</th>";
 	}
-	if(enabled[1]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Daily Average")) << "</th>";
-	if(enabled[2]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Monthly Average")) << (use_footer1 ? "**" : "*") << "</th>";
-	if(enabled[3]) outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Yearly Average")) << (use_footer1 ? "**" : "*") << "</th>";
+	if(enabled[1]) outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tr("Daily Average")) << "</th>";
+	if(enabled[2]) outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tr("Monthly Average")) << (use_footer1 ? "**" : "*") << "</th>";
+	if(enabled[3]) outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tr("Yearly Average")) << (use_footer1 ? "**" : "*") << "</th>";
 	if(enabled[4]) {
-		outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Quantity"));
+		outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tr("Quantity"));
 		if(mi && mi->date > curdate) {outf << "*"; use_footer1 = true;}
 		outf<< "</th>";
 	}
 	if(enabled[5]) {
-		outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(pertitle);
+		outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(pertitle);
 		if(mi && mi->date > curdate) {outf << "*"; use_footer1 = true;}
 		outf<< "</th>";
 	}
@@ -577,12 +577,12 @@ void OverTimeReport::updateDisplay() {
 	it = monthly_values.end();
 	while(it != it_b) {
 		--it;
-		outf << "\t\t\t\t<tr>" << '\n';
 		if(first_month || year != it->date.year()) {
 			if(!first_month && multiple_years) {
+				outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
 				outf << "\t\t\t\t\t<td></td>";
-				outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid; border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(tr("Subtotal")) << "</b></td>";
-				if(enabled[0]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(first_year ? (yearly_value + scheduled_value) : yearly_value)) << "</b></td>";
+				outf << "\t\t\t\t\t<td align=\"left\"><b>" << htmlize_string(tr("Subtotal")) << "</b></td>";
+				if(enabled[0]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(first_year ? (yearly_value + scheduled_value) : yearly_value)) << "</b></td>";
 				int days = 1;
 				if(first_year) {
 					days = curdate.dayOfYear();
@@ -592,35 +592,38 @@ void OverTimeReport::updateDisplay() {
 				} else {
 					days= year_date.daysInYear();
 				}
-				if(enabled[1]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(yearly_value / days)) << "</b></td>";
-				if(enabled[2]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(((yearly_value * average_month) / days))) << "</b></td>";
-				if(enabled[3]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString((yearly_value * average_year) / days)) << "</b></td>";
-				if(enabled[4]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toString(first_year ? (yearly_count + scheduled_count) : yearly_count, 'f', i_count_frac)) << "</b></td>";
+				if(enabled[1]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(yearly_value / days)) << "</b></td>";
+				if(enabled[2]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(((yearly_value * average_month) / days))) << "</b></td>";
+				if(enabled[3]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString((yearly_value * average_year) / days)) << "</b></td>";
+				if(enabled[4]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toString(first_year ? (yearly_count + scheduled_count) : yearly_count, 'f', i_count_frac)) << "</b></td>";
 				double pervalue = 0.0;
 				if(first_year) {
 					pervalue = (((yearly_count + scheduled_count) == 0.0) ? 0.0 : ((yearly_value + scheduled_value) / (yearly_count + scheduled_count)));
 				} else {
 					pervalue = (yearly_count == 0.0 ? 0.0 : (yearly_value / yearly_count));
 				}
-				if(enabled[5]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(pervalue)) << "</b></td>";
+				if(enabled[5]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(pervalue)) << "</b></td>";
 				first_year = false;
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
+				outf << "\t\t\t\t<tr>" << '\n';
+			} else {
 				outf << "\t\t\t\t<tr>" << '\n';
 			}
 			year = it->date.year();
 			yearly_value = it->value;
 			yearly_count = it->count;
 			year_date = it->date;
-			outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(QLocale().toString(it->date.year())) << "</td>";
+			outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(QString::number(it->date.year())) << "</td>";
 		} else {
+			outf << "\t\t\t\t<tr>" << '\n';
 			yearly_value += it->value;
 			yearly_count += it->count;
 			outf << "\t\t\t\t\t<td></td>";
 		}
 		total_value += it->value;
 		total_count += it->count;
-		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid\">" << htmlize_string(QDate::longMonthName(it->date.month(), QDate::StandaloneFormat)) << "</td>";
+		outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(QDate::longMonthName(it->date.month(), QDate::StandaloneFormat)) << "</td>";
 		if(enabled[0]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(first_month ? (it->value + scheduled_value) : it->value)) << "</td>";
 		int days = 0;
 		if(first_month) {
@@ -647,31 +650,31 @@ void OverTimeReport::updateDisplay() {
 		outf << "\t\t\t\t</tr>" << '\n';
 	}
 	if(multiple_years) {
-		outf << "\t\t\t\t<tr>" << '\n';
+		outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
 		outf << "\t\t\t\t\t<td></td>";
-		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-right: thin solid; border-top: thin solid\"><b>" << htmlize_string(tr("Subtotal")) << "</b></td>";
-		if(enabled[0]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(yearly_value)) << "</b></td>";
+		outf << "\t\t\t\t\t<td align=\"left\"><b>" << htmlize_string(tr("Subtotal")) << "</b></td>";
+		if(enabled[0]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(yearly_value)) << "</b></td>";
 		int days = year_date.daysInYear();
 		days -= (first_date.dayOfYear() - 1);
-		if(enabled[1]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(yearly_value / days)) << "</b></td>";
-		if(enabled[2]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString((yearly_value * average_month) / days)) << "</b></td>";
-		if(enabled[3]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString((yearly_value * average_year) / days)) << "</b></td>";
-		if(enabled[4]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toString(yearly_count, 'f', i_count_frac)) << "</b></td>";
-		if(enabled[5]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(yearly_count == 0.0 ? 0.0 : (yearly_value / yearly_count))) << "</b></td>";
+		if(enabled[1]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(yearly_value / days)) << "</b></td>";
+		if(enabled[2]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString((yearly_value * average_month) / days)) << "</b></td>";
+		if(enabled[3]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString((yearly_value * average_year) / days)) << "</b></td>";
+		if(enabled[4]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toString(yearly_count, 'f', i_count_frac)) << "</b></td>";
+		if(enabled[5]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(yearly_count == 0.0 ? 0.0 : (yearly_value / yearly_count))) << "</b></td>";
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
 	}
 	if(multiple_months) {
-		outf << "\t\t\t\t<tr>" << '\n';
+		outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
 		int days = first_date.daysTo(curdate) + 1;
-		outf << "\t\t\t\t\t<td align=\"left\" style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
-		outf << "\t\t\t\t\t<td style=\"border-right: thin solid; border-top: thin solid\"></td>";
-		if(enabled[0]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(total_value + scheduled_value)) << "</b></td>";
-		if(enabled[1]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(total_value / days)) << "</b></td>";
-		if(enabled[2]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString((total_value * average_month) / days)) << "</b></td>";
-		if(enabled[3]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString((total_value * average_year) / days)) << "</b></td>";
-		if(enabled[4]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toString(total_count + scheduled_count, 'f', i_count_frac)) << "</b></td>";
-		if(enabled[5]) outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString((total_count + scheduled_count) == 0.0 ? 0.0 : ((total_value + scheduled_value) / (total_count + scheduled_count)))) << "</b></td>";
+		outf << "\t\t\t\t\t<td align=\"left\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
+		outf << "\t\t\t\t\t<td></td>";
+		if(enabled[0]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(total_value + scheduled_value)) << "</b></td>";
+		if(enabled[1]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(total_value / days)) << "</b></td>";
+		if(enabled[2]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString((total_value * average_month) / days)) << "</b></td>";
+		if(enabled[3]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString((total_value * average_year) / days)) << "</b></td>";
+		if(enabled[4]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toString(total_count + scheduled_count, 'f', i_count_frac)) << "</b></td>";
+		if(enabled[5]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString((total_count + scheduled_count) == 0.0 ? 0.0 : ((total_value + scheduled_value) / (total_count + scheduled_count)))) << "</b></td>";
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
 	}

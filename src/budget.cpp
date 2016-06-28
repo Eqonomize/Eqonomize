@@ -92,6 +92,18 @@ void Budget::clear() {
 	assetsAccounts.setAutoDelete(false);
 	assetsAccounts.removeRef(balancingAccount);
 	assetsAccounts.setAutoDelete(true);
+	CategoryAccount *ca = incomesAccounts.first();
+	while(ca) {
+		if(ca->parentCategory()) ca->o_parent = NULL;
+		ca->subCategories.clear();
+		ca = incomesAccounts.next();
+	}
+	ca = expensesAccounts.first();
+	while(ca) {
+		if(ca->parentCategory()) ca->o_parent = NULL;
+		ca->subCategories.clear();
+		ca = expensesAccounts.next();
+	}
 	incomesAccounts.clear();
 	expensesAccounts.clear();
 	assetsAccounts.clear();
@@ -716,14 +728,23 @@ void Budget::addAccount(Account *account) {
 	}
 	accounts.inSort(account);
 }
+void Budget::accountModified(Account *account) {
+	switch(account->type()) {
+		case ACCOUNT_TYPE_EXPENSES: {expensesAccounts.sort(); break;}
+		case ACCOUNT_TYPE_INCOMES: {incomesAccounts.sort(); break;}
+		case ACCOUNT_TYPE_ASSETS: {assetsAccounts.sort(); break;}
+	}
+	accounts.sort();
+}
 void Budget::removeAccount(Account *account, bool keep) {
 	if(account->type() == ACCOUNT_TYPE_INCOMES || account->type() == ACCOUNT_TYPE_EXPENSES) {
 		CategoryAccount *subcat = ((CategoryAccount*) account)->subCategories.first();
 		while(subcat) {
-			subcat->o_parent = NULL;
+			if(!keep) subcat->o_parent = NULL;
 			removeAccount(subcat, keep);
-			subcat = ((CategoryAccount*) account)->subCategories.next();
+			subcat = ((CategoryAccount*) account)->subCategories.next();			
 		}
+		if(!keep) ((CategoryAccount*) account)->subCategories.clear();
 	}
 	if(accountHasTransactions(account, false)) {
 		Security *security = securities.first();

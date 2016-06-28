@@ -35,7 +35,7 @@ class QPushButton;
 
 class QDateEdit;
 
-class Account;
+class CategoryAccount;
 class Budget;
 
 class CategoriesComparisonChart : public QWidget {
@@ -51,7 +51,7 @@ class CategoriesComparisonChart : public QWidget {
 
 		Budget *budget;
 		QDate from_date, to_date;
-		Account *current_account;
+		CategoryAccount *current_account;
 		
 		QCheckBox *fromButton;
 		QDateEdit *fromEdit, *toEdit;

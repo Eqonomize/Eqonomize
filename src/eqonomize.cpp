@@ -3424,6 +3424,26 @@ void Eqonomize::popupAccountsMenu(const QPoint &p) {
 
 }
 
+void Eqonomize::showLedger() {
+	if(budget->assetsAccounts.isEmpty()) return;
+	QTreeWidgetItem *i = selectedItem(accountsView);
+	Account *account = NULL;
+	if(i && i != assetsItem && i != incomesItem && i != expensesItem) {
+		account = account_items[i];
+		if(account && account->type() != ACCOUNT_TYPE_ASSETS) account = NULL;
+	}
+	if(!account) account = budget->assetsAccounts.first();
+	LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, this, tr("Ledger"), b_extra);
+	QSettings settings;
+	QSize dialog_size = settings.value("Ledger/size", QSize()).toSize();
+	if(!dialog_size.isValid()) {
+		QDesktopWidget desktop;
+		dialog_size = QSize(900, 600).boundedTo(desktop.availableGeometry(this).size());
+	}
+	dialog->resize(dialog_size);
+	dialog->show();
+	connect(this, SIGNAL(timeToSaveConfig()), dialog, SLOT(saveConfig()));
+}
 void Eqonomize::showAccountTransactions(bool b) {
 	QTreeWidgetItem *i = selectedItem(accountsView);
 	if(i == NULL || i == assetsItem) return;
@@ -3783,6 +3803,7 @@ void Eqonomize::createDefaultBudget() {
 	budget->addAccount(new ExpensesAccount(budget, tr("Groceries")));
 	budget->addAccount(new ExpensesAccount(budget, tr("Leisure")));
 	budget->addAccount(new ExpensesAccount(budget, tr("Other")));
+
 	reloadBudget();
 	setModified(false);
 	ActionFileSave->setEnabled(true);
@@ -3803,8 +3824,14 @@ void Eqonomize::reloadBudget() {
 	incomes_budget_diff = 0.0;
 	account_value.clear();
 	account_change.clear();
-	for(QMap<QTreeWidgetItem*, Account*>::Iterator it = account_items.begin(); it != account_items.end(); ++it) {
-		delete it.key();
+	while(assetsItem->childCount() > 0) {
+		delete assetsItem->child(0);
+	}
+	while(incomesItem->childCount() > 0) {
+		delete incomesItem->child(0);
+	}
+	while(expensesItem->childCount() > 0) {
+		delete expensesItem->child(0);
 	}
 	account_items.clear();
 	item_accounts.clear();
@@ -3825,6 +3852,7 @@ void Eqonomize::reloadBudget() {
 		if(!eaccount->parentCategory()) appendExpensesAccount(eaccount, expensesItem);
 		eaccount = budget->expensesAccounts.next();
 	}
+	ActionShowLedger->setEnabled(!budget->assetsAccounts.isEmpty());
 	account_value[budget->balancingAccount] = 0.0;
 	account_change[budget->balancingAccount] = 0.0;
 	expensesWidget->updateAccounts();
@@ -4635,14 +4663,6 @@ void Eqonomize::setupActions() {
 	newAccountMenu->addAction(ActionNewExpensesAccount);
 	ActionAddAccountMenu->setMenu(newAccountMenu);
 	accountsToolbar->addAction(ActionAddAccountMenu);
-	/*QToolButton *newAccountButton = new QToolButton(accountsToolbar);
-	newAccountButton->setToolTip(tr("New Account…"));
-	newAccountButton->setFocusPolicy(Qt::NoFocus);
-	newAccountButton->setMenu(newAccountMenu);
-	newAccountButton->setIcon(QIcon::fromTheme("eqz-account"));
-	newAccountButton->setText(tr("Add Account"));
-	newAccountButton->setPopupMode(QToolButton::InstantPopup);
-	accountsToolbar->addWidget(newAccountButton);*/
 	accountsMenu->addSeparator();
 	NEW_ACTION_ALT(ActionEditAccount, tr("Edit…"), "document-edit", "eqz-edit", 0, this, SLOT(editAccount()), "edit_account", accountsMenu);
 	NEW_ACTION(ActionBalanceAccount, tr("Balance…"), "eqz-balance", 0, this, SLOT(balanceAccount()), "balance_account", accountsMenu);
@@ -4650,6 +4670,8 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionDeleteAccount, tr("Remove"), "edit-delete", 0, this, SLOT(deleteAccount()), "delete_account", accountsMenu);
 	accountsMenu->addSeparator();
 	NEW_ACTION_2(ActionShowAccountTransactions, tr("Show Transactions"), 0, this, SLOT(showAccountTransactions()), "show_account_transactions", accountsMenu);
+	NEW_ACTION_2(ActionShowLedger, tr("Show Ledger"), 0, this, SLOT(showLedger()), "show_ledger", accountsMenu);
+	accountsToolbar->addAction(ActionShowLedger);
 
 	NEW_ACTION(ActionNewExpense, tr("New Expense…"), "eqz-expense", Qt::CTRL+Qt::Key_E, this, SLOT(newScheduledExpense()), "new_expense", transactionsMenu);
 	transactionsToolbar->addAction(ActionNewExpense);
@@ -5354,6 +5376,7 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 			bool was_budget_account = account->isBudgetAccount();
 			if(dialog->exec() == QDialog::Accepted) {
 				dialog->modifyAccount(account);
+				budget->accountModified(account);
 				if(was_budget_account != account->isBudgetAccount()) {
 					filterAccounts();
 				} else {
@@ -5386,6 +5409,7 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 			CategoryAccount *prev_parent = account->parentCategory();
 			if(dialog->exec() == QDialog::Accepted) {
 				dialog->modifyAccount(account);
+				budget->accountModified(account);
 				i->setText(0, account->name());
 				emit accountsModified();
 				setModified(true);
@@ -5418,6 +5442,7 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 			CategoryAccount *prev_parent = account->parentCategory();
 			if(dialog->exec() == QDialog::Accepted) {
 				dialog->modifyAccount(account);
+				budget->accountModified(account);
 				i->setText(0, account->name());
 				emit accountsModified();
 				setModified(true);
@@ -5466,8 +5491,11 @@ void Eqonomize::accountMoved(QTreeWidgetItem *i, QTreeWidgetItem *target) {
 		if(ca->parentCategory() == target_ca) return;
 		QTreeWidgetItem *prev_parent_item = i->parent();
 		ca->setParentCategory(target_ca);
+		budget->accountModified(account);
 		emit accountsModified();
 		setModified(true);
+		if(account->type() == ACCOUNT_TYPE_EXPENSES) expensesWidget->updateToAccounts();
+		else incomesWidget->updateToAccounts();
 		item_accounts.remove(ca);
 		account_items.remove(i);
 		delete i;
@@ -5495,6 +5523,15 @@ void Eqonomize::deleteAccount() {
 		if(QMessageBox::question(this, tr("Remove subcategories?"), tr("Do you wish to remove the category including all subcategories?"), QMessageBox::Yes | QMessageBox::Cancel) != QMessageBox::Yes) return;
 	}
 	if(!budget->accountHasTransactions(account)) {
+		if((account->type() == ACCOUNT_TYPE_INCOMES || account->type() == ACCOUNT_TYPE_EXPENSES) && !((CategoryAccount*) account)->subCategories.isEmpty()) {
+			CategoryAccount *ca = ((CategoryAccount*) account)->subCategories.first();
+			while(ca) {
+				QTreeWidgetItem *ca_i = item_accounts[ca];
+				item_accounts.remove(ca);
+				account_items.remove(ca_i);
+				ca = ((CategoryAccount*) account)->subCategories.next();
+			}
+		}
 		item_accounts.remove(account);
 		account_items.remove(i);
 		delete i;
@@ -5607,6 +5644,15 @@ void Eqonomize::deleteAccount() {
 		if(do_delete) {
 			if(accounts_left && moveToButton->isChecked()) {
 				budget->moveTransactions(account, moveto_accounts[moveToCombo->currentIndex()]);
+			}
+			if((account->type() == ACCOUNT_TYPE_INCOMES || account->type() == ACCOUNT_TYPE_EXPENSES) && !((CategoryAccount*) account)->subCategories.isEmpty()) {
+				CategoryAccount *ca = ((CategoryAccount*) account)->subCategories.first();
+				while(ca) {
+					QTreeWidgetItem *ca_i = item_accounts[ca];
+					item_accounts.remove(ca);
+					account_items.remove(ca_i);
+					ca = ((CategoryAccount*) account)->subCategories.next();
+				}
 			}
 			item_accounts.remove(account);
 			account_items.remove(i);

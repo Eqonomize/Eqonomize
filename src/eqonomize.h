@@ -163,7 +163,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionAP_1, *ActionAP_2, *ActionAP_3, *ActionAP_4, *ActionAP_5, *ActionAP_6, *ActionAP_7, *ActionAP_8;
 		QAction *ActionEditSchedule, *ActionEditOccurrence, *ActionDeleteSchedule, *ActionDeleteOccurrence;
 		QAction *ActionAddAccount, *ActionNewAssetsAccount, *ActionNewIncomesAccount, *ActionNewExpensesAccount, *ActionEditAccount, *ActionDeleteAccount, *ActionBalanceAccount, *ActionAddAccountMenu;
-		QAction *ActionShowAccountTransactions;
+		QAction *ActionShowAccountTransactions, *ActionShowLedger;
 		QAction *ActionNewExpense, *ActionNewIncome, *ActionNewTransfer, *ActionNewSplitTransaction;
 		QAction *ActionEditTransaction, *ActionEditScheduledTransaction, *ActionEditSplitTransaction;
 		QAction *ActionJoinTransactions, *ActionSplitUpTransaction;
@@ -326,6 +326,7 @@ class Eqonomize : public QMainWindow {
 		void onPageChange(int);
 
 		void showAccountTransactions(bool = false);
+		void showLedger();
 
 		void updateTransactionActions();
 		

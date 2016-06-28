@@ -189,6 +189,13 @@ CategoryAccount::CategoryAccount() : Account(), o_parent(NULL) {}
 CategoryAccount::CategoryAccount(const CategoryAccount *account) : Account(account), o_parent(NULL) {}
 CategoryAccount::~CategoryAccount() {
 	if(o_parent) o_parent->removeSubCategory(this, false);
+	CategoryAccount *ca = subCategories.first();
+	while(ca) {
+		ca->o_parent = NULL;
+		delete ca;
+		ca = subCategories.next();
+	}
+	subCategories.clear();
 }
 
 void CategoryAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {

@@ -141,6 +141,7 @@ class Budget {
 		
 		void addAccount(Account*);
 		void removeAccount(Account*, bool keep = false);
+		void accountModified(Account*);
 
 		bool accountHasTransactions(Account*, bool check_subs = true);
 		void moveTransactions(Account*, Account*, bool move_from_subs = true);
