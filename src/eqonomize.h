@@ -201,6 +201,7 @@ class Eqonomize : public QMainWindow {
 		QLocalSocket *socket;
 		QLocalServer *server;
 		QString cr_tmp_file;
+		int i_budget_day;
 
 		QToolBar *fileToolbar, *accountsToolbar, *transactionsToolbar, *statisticsToolbar;
 		QTabWidget *tabs;

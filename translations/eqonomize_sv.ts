@@ -4134,7 +4134,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="2094"/>
         <source>Whole Past Month</source>
-        <translation>Hela det gångna året</translation>
+        <translation>Hela den gångna månaden</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2095"/>

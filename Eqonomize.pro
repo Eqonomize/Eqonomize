@@ -154,6 +154,8 @@ unix {
 				data/scalable/eqz-export.svg \
 				data/scalable/eqz-edit.svg \
 				data/scalable/eqz-balance.svg \
+				data/scalable/eqz-ledger.svg \
+				data/scalable/eqz-transactions.svg \
 				data/scalable/eqz-previous-year.svg \
 				data/scalable/eqz-previous-month.svg \
 				data/scalable/eqz-next-month.svg \
@@ -175,6 +177,8 @@ unix {
 				data/16/eqz-export.png \
 				data/16/eqz-edit.png \
 				data/16/eqz-balance.png \
+				data/16/eqz-ledger.png \
+				data/16/eqz-transactions.png \
 				data/16/eqz-previous-year.png \
 				data/16/eqz-previous-month.png \
 				data/16/eqz-next-month.png \
@@ -196,6 +200,8 @@ unix {
 				data/22/eqz-export.png \
 				data/22/eqz-edit.png \
 				data/22/eqz-balance.png \
+				data/22/eqz-ledger.png \
+				data/22/eqz-transactions.png \
 				data/22/eqz-previous-year.png \
 				data/22/eqz-previous-month.png \
 				data/22/eqz-next-month.png \
@@ -217,6 +223,8 @@ unix {
 				data/32/eqz-export.png \
 				data/32/eqz-edit.png \
 				data/32/eqz-balance.png \
+				data/32/eqz-ledger.png \
+				data/32/eqz-transactions.png \
 				data/32/eqz-previous-year.png \
 				data/32/eqz-previous-month.png \
 				data/32/eqz-next-month.png \
@@ -238,6 +246,8 @@ unix {
 				data/48/eqz-export.png \
 				data/48/eqz-edit.png \
 				data/48/eqz-balance.png \
+				data/48/eqz-ledger.png \
+				data/48/eqz-transactions.png \
 				data/48/eqz-previous-year.png \
 				data/48/eqz-previous-month.png \
 				data/48/eqz-next-month.png \
@@ -259,6 +269,8 @@ unix {
 				data/64/eqz-export.png \
 				data/64/eqz-edit.png \
 				data/64/eqz-balance.png \
+				data/64/eqz-ledger.png \
+				data/64/eqz-transactions.png \
 				data/64/eqz-previous-year.png \
 				data/64/eqz-previous-month.png \
 				data/64/eqz-next-month.png \

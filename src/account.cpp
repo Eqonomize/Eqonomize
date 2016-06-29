@@ -104,8 +104,6 @@ void AssetsAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 			if(b_budget) {
 				o_budget->budgetAccount = this;
 			}
-		} else if(at_type == ASSETS_TYPE_CURRENT && !o_budget->budgetAccount) {
-			o_budget->budgetAccount = this;
 		}
 	}
 }
@@ -139,7 +137,7 @@ void AssetsAccount::save(QDomElement *e) {
 	Account::save(e);
 	if(at_type != ASSETS_TYPE_SECURITIES) {
 		e->setAttribute("initialbalance", QString::number(d_initbal, 'f', MONETARY_DECIMAL_PLACES));
-		if(at_type == ASSETS_TYPE_CURRENT || o_budget->budgetAccount == this) {
+		if(o_budget->budgetAccount == this) {
 			e->setAttribute("budgetaccount", o_budget->budgetAccount == this);
 		}
 	}
