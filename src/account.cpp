@@ -273,7 +273,7 @@ double CategoryAccount::monthlyBudget(const QDate &date, bool no_default) const 
 	return it.value();
 }
 QString CategoryAccount::nameWithParent() const{
-	if(o_parent) return o_parent->name() + QString("/") + name(); 
+	if(o_parent) return o_parent->name() + QString(": ") + name(); 
 	return name();
 }
 Account *CategoryAccount::topAccount() {
