@@ -124,10 +124,10 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	typeLayout->addWidget(new QLabel(tr("Source:"), settingsWidget));
 	sourceCombo = new QComboBox(settingsWidget);
 	sourceCombo->setEditable(false);
-	sourceCombo->addItem(tr("All Expenses, excluding subcategories"));
-	sourceCombo->addItem(tr("All Expenses, including subcategories"));
-	sourceCombo->addItem(tr("All Incomes, excluding subcategories"));
-	sourceCombo->addItem(tr("All Incomes, including subcategories"));
+	sourceCombo->addItem(tr("All Expenses, without subcategories"));
+	sourceCombo->addItem(tr("All Expenses, with subcategories"));
+	sourceCombo->addItem(tr("All Incomes, without subcategories"));
+	sourceCombo->addItem(tr("All Incomes, with subcategories"));
 	sourceCombo->addItem(tr("All Accounts"));
 	Account *account = budget->expensesAccounts.first();
 	while(account) {
@@ -975,10 +975,10 @@ void CategoriesComparisonChart::updateAccounts() {
 	}
 	sourceCombo->blockSignals(true);
 	sourceCombo->clear();
-	sourceCombo->addItem(tr("All Expenses, excluding subcategories"));
-	sourceCombo->addItem(tr("All Expenses, including subcategories"));
-	sourceCombo->addItem(tr("All Incomes, excluding subcategories"));
-	sourceCombo->addItem(tr("All Incomes, including subcategories"));
+	sourceCombo->addItem(tr("All Expenses, without subcategories"));
+	sourceCombo->addItem(tr("All Expenses, with subcategories"));
+	sourceCombo->addItem(tr("All Incomes, without subcategories"));
+	sourceCombo->addItem(tr("All Incomes, with subcategories"));
 	sourceCombo->addItem(tr("All Accounts"));
 	int i = 3;
 	Account *account = budget->expensesAccounts.first();
