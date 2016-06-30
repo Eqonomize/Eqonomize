@@ -25,12 +25,18 @@
 #include <QResizeEvent>
 #include <QWidget>
 
-
+#ifdef QT_CHARTS_LIB
+#include <QtCharts/QChartView>
+#include <QtCharts/QChart>
+#include <QtCharts/QPieSeries>
+QT_CHARTS_USE_NAMESPACE
+#else
+class QGraphicsScene;
+class QGraphicsView;
+#endif
 class QButtonGroup;
 class QCheckBox;
 class QComboBox;
-class QGraphicsScene;
-class QGraphicsView;
 class QPushButton;
 
 class QDateEdit;
@@ -57,12 +63,20 @@ class CategoriesComparisonChart : public QWidget {
 		QDateEdit *fromEdit, *toEdit;
 		QPushButton *nextYearButton, *prevYearButton, *nextMonthButton, *prevMonthButton;
 		QPushButton *saveButton, *printButton;
+#ifdef QT_CHARTS_LIB
+		QChartView *view;
+		QChart *chart;
+		QAbstractSeries *series;
+		QComboBox *themeCombo;
+#else
 		QGraphicsScene *scene;
 		QGraphicsView *view;
+#endif		
 		QButtonGroup *typeGroup;
 		QComboBox *sourceCombo;
-
+#ifndef QT_CHARTS_LIB
 		void resizeEvent(QResizeEvent*);
+#endif
 
 	public slots:
 
@@ -81,6 +95,9 @@ class CategoriesComparisonChart : public QWidget {
 		void prevYear();
 		void nextYear();
 		void sourceChanged(int);
+#ifdef QT_CHARTS_LIB
+		void themeChanged(int);
+#endif
 
 };
 

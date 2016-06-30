@@ -29,13 +29,17 @@
 #include "transaction.h"
 #include "recurrence.h"
 
-#include <QCheckBox>
+
+#ifdef QT_CHARTS_LIB
+#else
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsSimpleTextItem>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsLineItem>
 #include <QGraphicsRectItem>
+#endif
+#include <QCheckBox>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QImage>
@@ -80,17 +84,39 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->setContentsMargins(0, 0, 0, 0);
 
-	QDialogButtonBox *buttons = new QDialogButtonBox(this);
-	saveButton = buttons->addButton(tr("Save As…"), QDialogButtonBox::ActionRole);
-	printButton = buttons->addButton(tr("Print…"), QDialogButtonBox::ActionRole);
-	layout->addWidget(buttons);
-
+	QHBoxLayout *buttons = new QHBoxLayout();
+#ifdef QT_CHARTS_LIB
+	buttons->addWidget(new QLabel(tr("Theme:"), this));
+	themeCombo = new QComboBox(this);
+	themeCombo->addItem("Light", QChart::ChartThemeLight);
+	themeCombo->addItem("Blue Cerulean", QChart::ChartThemeBlueCerulean);
+	themeCombo->addItem("Dark", QChart::ChartThemeDark);
+	themeCombo->addItem("Brown Sand", QChart::ChartThemeBrownSand);
+	themeCombo->addItem("Blue NCS", QChart::ChartThemeBlueNcs);
+	themeCombo->addItem("High Contrast", QChart::ChartThemeHighContrast);
+	themeCombo->addItem("Blue Icy", QChart::ChartThemeBlueIcy);
+	themeCombo->addItem("Qt", QChart::ChartThemeQt);
+	buttons->addWidget(themeCombo);
+#endif
+	buttons->addStretch();
+	saveButton = new QPushButton(tr("Save As…"), this);
+	buttons->addWidget(saveButton);
+	printButton = new QPushButton(tr("Print…"), this);
+	buttons->addWidget(printButton);
+	layout->addLayout(buttons);
+#ifdef QT_CHARTS_LIB
+	chart = new QChart();
+	//chart->setAnimationOptions(QChart::SeriesAnimations);
+	view = new QChartView(chart, this);
+	view->setRubberBand(QChartView::RectangleRubberBand);
+	series = NULL;
+#else
 	scene = NULL;
 	view = new QGraphicsView(this);
+#endif
 	view->setRenderHint(QPainter::Antialiasing, true);
 	view->setRenderHint(QPainter::HighQualityAntialiasing, true);
 	layout->addWidget(view);
-
 	QWidget *settingsWidget = new QWidget(this);
 	QHBoxLayout *settingsLayout = new QHBoxLayout(settingsWidget);	
 
@@ -149,6 +175,9 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	
 	resetOptions();
 
+#ifdef QT_CHARTS_LIB
+	connect(themeCombo, SIGNAL(activated(int)), this, SLOT(themeChanged(int)));
+#endif
 	connect(sourceCombo, SIGNAL(activated(int)), this, SLOT(sourceChanged(int)));
 	connect(prevMonthButton, SIGNAL(clicked()), this, SLOT(prevMonth()));
 	connect(nextMonthButton, SIGNAL(clicked()), this, SLOT(nextMonth()));
@@ -167,6 +196,15 @@ CategoriesComparisonChart::~CategoriesComparisonChart() {
 }
 
 void CategoriesComparisonChart::resetOptions() {
+#ifdef QT_CHARTS_LIB
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	settings.value("chartTheme", chart->theme()).toInt();
+	QChart::ChartTheme theme = (QChart::ChartTheme) settings.value("chartTheme", chart->theme()).toInt();
+	themeCombo->setCurrentIndex(theme);
+	chart->setTheme(theme);
+	settings.endGroup();
+#endif
 	QDate first_date;
 	Transaction *trans = budget->transactions.first();
 	while(trans) {
@@ -188,6 +226,16 @@ void CategoriesComparisonChart::resetOptions() {
 	sourceCombo->setCurrentIndex(0);
 	sourceChanged(0);
 }
+#ifdef QT_CHARTS_LIB
+void CategoriesComparisonChart::themeChanged(int index) {
+	QChart::ChartTheme theme = (QChart::ChartTheme) themeCombo->itemData(index).toInt();
+	chart->setTheme(theme);
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	settings.setValue("chartTheme", theme);
+	settings.endGroup();
+}
+#endif
 void CategoriesComparisonChart::sourceChanged(int index) {
 	fromButton->setEnabled(index != 2);
 	fromEdit->setEnabled(index != 2);
@@ -331,6 +379,9 @@ void CategoriesComparisonChart::onFilterSelected(QString filter) {
 	}
 }
 void CategoriesComparisonChart::save() {
+#ifdef QT_CHARTS_LIB
+	QGraphicsScene *scene = chart->scene();
+#endif	
 	if(!scene) return;
 	QMimeDatabase db;
 	QMimeType image_mime = db.mimeTypeForName("image/*");
@@ -387,15 +438,16 @@ void CategoriesComparisonChart::save() {
 		return;
 	}
 	last_picture_directory = fileDialog.directory().absolutePath();
+
 	QRectF rect = scene->sceneRect();
-	rect.setX(0);
-	rect.setY(0);
-	rect.setRight(rect.right() + 20);
-	rect.setBottom(rect.bottom() + 20);
 	QPixmap pixmap((int) ceil(rect.width()), (int) ceil(rect.height()));
 	QPainter p(&pixmap);
+#ifdef QT_CHARTS_LIB
+	p.fillRect(pixmap.rect(), chart->backgroundBrush());
+#endif
 	p.setRenderHint(QPainter::Antialiasing, true);
-	scene->render(&p, QRectF(), rect);
+	scene->render(&p);
+
 	if(url_mime == png_mime) {pixmap.save(&ofile, "PNG");}
 	else if(url_mime == bmp_mime) {pixmap.save(&ofile, "BMP");}
 	else if(url_mime == eps_mime) {pixmap.save(&ofile, "EPS");}
@@ -416,18 +468,16 @@ void CategoriesComparisonChart::save() {
 }
 
 void CategoriesComparisonChart::print() {
+#ifdef QT_CHARTS_LIB
+	QGraphicsScene *scene = view->scene();
+#endif
 	if(!scene) return;
 	QPrinter pr;
 	QPrintDialog dialog(&pr, this);
 	if(dialog.exec() == QDialog::Accepted) {
 		QPainter p(&pr);
 		p.setRenderHint(QPainter::Antialiasing, true);
-		QRectF rect = scene->sceneRect();
-		rect.setX(0);
-		rect.setY(0);
-		rect.setRight(rect.right() + 20);
-		rect.setBottom(rect.bottom() + 20);
-		scene->render(&p, QRectF(), rect);
+		scene->render(&p);
 		p.end();
 	}
 }
@@ -476,6 +526,8 @@ void CategoriesComparisonChart::updateDisplay() {
 	current_account = NULL;
 	
 	bool include_subs = false;
+	
+	QString title_string = tr("Expenses");
 
 	AccountType type;
 	switch(sourceCombo->currentIndex()) {
@@ -498,6 +550,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			include_subs = true;
 		}
 		case 2: {
+			title_string = tr("Incomes");
 			type = ACCOUNT_TYPE_INCOMES;
 			CategoryAccount *account = budget->incomesAccounts.first();
 			while(account) {
@@ -510,6 +563,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			break;
 		}
 		case 4: {
+			title_string = tr("Accounts");
 			type = ACCOUNT_TYPE_ASSETS;
 			AssetsAccount *account = budget->assetsAccounts.first();
 			while(account) {
@@ -533,6 +587,8 @@ void CategoriesComparisonChart::updateDisplay() {
 			else current_account = budget->incomesAccounts.at(i - budget->expensesAccounts.count());
 			if(current_account) {
 				type = current_account->type();
+				if(type == ACCOUNT_TYPE_EXPENSES) title_string = tr("Expenses: %1").arg(current_account->nameWithParent());
+				else title_string = tr("Incomes: %1").arg(current_account->nameWithParent());
 				include_subs = !current_account->subCategories.isEmpty();
 				if(include_subs) {
 					values[current_account] = 0.0;
@@ -738,18 +794,7 @@ void CategoriesComparisonChart::updateDisplay() {
 
 	/*int days = first_date.daysTo(to_date) + 1;
 	double months = monthsBetweenDates(first_date, to_date), years = yearsBetweenDates(first_date, to_date);*/
-
-	QGraphicsScene *oldscene = scene;
-	scene = new QGraphicsScene(this);
-	scene->setBackgroundBrush(Qt::white);
-
-	QFont legend_font = font();
-	QFontMetrics fm(legend_font);
-	int fh = fm.height();
-
-	int diameter = 430;
-	int margin = 35;
-	int legend_x = diameter + margin * 2;
+	
 	Account *account = NULL;
 	QMap<QString, double>::iterator it_desc = desc_values.begin();
 	QMap<QString, double>::iterator it_desc_end = desc_values.end();
@@ -782,6 +827,115 @@ void CategoriesComparisonChart::updateDisplay() {
 			desc_values[tr("Other descriptions", "Referring to the generic description property")] = remaining_value;
 		}
 	}	
+
+
+#ifdef QT_CHARTS_LIB
+	QPieSeries *pie_series = new QPieSeries();
+	
+	if(current_account) {
+		if(include_subs) {
+			account = current_account->subCategories.first();
+		}
+	} else if(type == ACCOUNT_TYPE_ASSETS) {
+		account = budget->assetsAccounts.first();
+		if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
+	} else if(type == ACCOUNT_TYPE_EXPENSES) {
+		account = budget->expensesAccounts.first();
+	} else {
+		account = budget->incomesAccounts.first();
+	}
+	int index = 0;
+	bool show_legend = false;
+	while(account || (current_account && index < desc_order.size())) {
+		if(!current_account && include_subs) {
+			while(account && ((CategoryAccount*) account)->subCategories.size() > 0) {
+				if(values[account] != 0.0) break;
+				if(type == ACCOUNT_TYPE_EXPENSES) account = budget->expensesAccounts.next();
+				else account = budget->incomesAccounts.next();
+			}
+			if(!account) break;
+		} else if(!current_account && type != ACCOUNT_TYPE_ASSETS) {
+			while(account && account->topAccount() != account) {
+				if(type == ACCOUNT_TYPE_EXPENSES) account = budget->expensesAccounts.next();
+				else account = budget->incomesAccounts.next();
+			}
+			if(!account) break;
+		}
+
+		QString legend_string;
+		double legend_value = 0.0;
+		double current_value = 0.0;
+		if(current_account && !include_subs) {
+			if(desc_order[index].isEmpty()) {
+				legend_string = tr("No description", "Referring to the generic description property");
+			} else {
+				legend_string = desc_order[index];
+			}
+			current_value = desc_values[desc_order[index]];
+		} else {
+			if(current_account) legend_string = account->name();
+			else legend_string = account->nameWithParent();
+			current_value = values[account];
+		}
+		legend_value = (current_value * 100) / value;
+		int deci = 0;
+		if(legend_value < 10.0 && legend_value > -10.0) {
+			legend_value = round(legend_value * 10.0) / 10.0;
+			deci = 1;
+		} else {
+			legend_value = round(legend_value);
+		}
+
+		QPieSlice *slice = pie_series->append(QString("%1 (%2%)").arg(legend_string).arg(QLocale().toString(legend_value, 'f', deci)), current_value);
+		if(legend_value > 4.0) {
+			slice->setLabelVisible(true);
+		} else {
+			show_legend = true;
+		}
+		
+		if(type == ACCOUNT_TYPE_ASSETS) {
+			account = budget->assetsAccounts.next();
+			if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
+		} else if(current_account && include_subs) {
+			if(account != current_account) {
+				account = current_account->subCategories.next();
+				if(!account && values[current_account] != 0.0) account = current_account;
+			} else {
+				account = NULL;
+			}
+		} else if(type == ACCOUNT_TYPE_EXPENSES) {
+			account = budget->expensesAccounts.next();
+		} else {
+			account = budget->incomesAccounts.next();
+		}
+		index++;
+	}
+	
+	chart->removeAllSeries();
+	series = pie_series;
+	chart->setTitle(title_string);
+	QFont title_font = chart->font();
+	title_font.setPointSizeF(title_font.pointSize() * 1.5);
+	title_font.setWeight(QFont::Bold);
+	chart->setTitleFont(title_font);
+	if(show_legend) {
+		chart->legend()->setAlignment(Qt::AlignRight);
+		chart->legend()->show();
+	} else {
+		chart->legend()->hide();
+	}
+	chart->addSeries(series);
+#else
+	QGraphicsScene *oldscene = scene;
+	scene = new QGraphicsScene(this);
+	scene->setBackgroundBrush(Qt::white);
+	QFont legend_font = font();
+	QFontMetrics fm(legend_font);
+	int fh = fm.height();
+	int diameter = 430;
+	int margin = 35;
+	int legend_x = diameter + margin * 2;
+
 	
 	int n = 0;
 	if(current_account) {
@@ -955,15 +1109,17 @@ void CategoriesComparisonChart::updateDisplay() {
 	if(oldscene) {
 		delete oldscene;
 	}
-
+#endif
 }
 
+#ifndef QT_CHARTS_LIB
 void CategoriesComparisonChart::resizeEvent(QResizeEvent *e) {
 	QWidget::resizeEvent(e);
 	if(scene) {
 		view->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 	}
 }
+#endif
 
 void CategoriesComparisonChart::updateTransactions() {
 	updateDisplay();

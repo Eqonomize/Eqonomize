@@ -2584,6 +2584,8 @@ void Eqonomize::setBudgetPeriod() {
 	monthlyDayCombo->addItem(tr("3rd Last"));
 	monthlyDayCombo->addItem(tr("4th Last"));
 	monthlyDayCombo->addItem(tr("5th Last"));
+	if(i_budget_day > 0) monthlyDayCombo->setCurrentIndex(i_budget_day - 1);
+	else if(i_budget_day > -5) monthlyDayCombo->setCurrentIndex(28 - i_budget_day);
 	monthlyDayLayout->addWidget(monthlyDayCombo);
 	box1->addLayout(monthlyDayLayout);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
