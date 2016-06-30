@@ -421,7 +421,6 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 	monthlyDayCombo->addItem(tr("3rd Last"));
 	monthlyDayCombo->addItem(tr("4th Last"));
 	monthlyDayCombo->addItem(tr("5th Last"));
-	monthlyDayCombo->setMaxVisibleItems(7);
 	monthlyDayLayout->addWidget(monthlyDayCombo);
 	monthlyDayLayout->addWidget(new QLabel(tr("day"), monthlyRuleWidget));
 	monthlyWeekendCombo = new QComboBox(monthlyRuleWidget);
