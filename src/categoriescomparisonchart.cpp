@@ -31,6 +31,7 @@
 
 
 #ifdef QT_CHARTS_LIB
+#include <QtCharts/QLegendMarker>
 #else
 #include <QGraphicsView>
 #include <QGraphicsScene>
@@ -106,16 +107,13 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	layout->addLayout(buttons);
 #ifdef QT_CHARTS_LIB
 	chart = new QChart();
-	//chart->setAnimationOptions(QChart::SeriesAnimations);
 	view = new QChartView(chart, this);
-	view->setRubberBand(QChartView::RectangleRubberBand);
 	series = NULL;
 #else
 	scene = NULL;
 	view = new QGraphicsView(this);
 #endif
 	view->setRenderHint(QPainter::Antialiasing, true);
-	view->setRenderHint(QPainter::HighQualityAntialiasing, true);
 	layout->addWidget(view);
 	QWidget *settingsWidget = new QWidget(this);
 	QHBoxLayout *settingsLayout = new QHBoxLayout(settingsWidget);	
@@ -226,16 +224,7 @@ void CategoriesComparisonChart::resetOptions() {
 	sourceCombo->setCurrentIndex(0);
 	sourceChanged(0);
 }
-#ifdef QT_CHARTS_LIB
-void CategoriesComparisonChart::themeChanged(int index) {
-	QChart::ChartTheme theme = (QChart::ChartTheme) themeCombo->itemData(index).toInt();
-	chart->setTheme(theme);
-	QSettings settings;
-	settings.beginGroup("GeneralOptions");
-	settings.setValue("chartTheme", theme);
-	settings.endGroup();
-}
-#endif
+
 void CategoriesComparisonChart::sourceChanged(int index) {
 	fromButton->setEnabled(index != 2);
 	fromEdit->setEnabled(index != 2);
@@ -443,11 +432,15 @@ void CategoriesComparisonChart::save() {
 	QPixmap pixmap((int) ceil(rect.width()), (int) ceil(rect.height()));
 	QPainter p(&pixmap);
 #ifdef QT_CHARTS_LIB
+	bool drop_shadow_save = chart->isDropShadowEnabled();
+	chart->setDropShadowEnabled(false);
 	p.fillRect(pixmap.rect(), chart->backgroundBrush());
 #endif
 	p.setRenderHint(QPainter::Antialiasing, true);
 	scene->render(&p);
-
+#ifdef QT_CHARTS_LIB
+	chart->setDropShadowEnabled(drop_shadow_save);
+#endif
 	if(url_mime == png_mime) {pixmap.save(&ofile, "PNG");}
 	else if(url_mime == bmp_mime) {pixmap.save(&ofile, "BMP");}
 	else if(url_mime == eps_mime) {pixmap.save(&ofile, "EPS");}
@@ -887,6 +880,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 
 		QPieSlice *slice = pie_series->append(QString("%1 (%2%)").arg(legend_string).arg(QLocale().toString(legend_value, 'f', deci)), current_value);
+		
 		if(legend_value > 4.0) {
 			slice->setLabelVisible(true);
 		} else {
@@ -913,11 +907,9 @@ void CategoriesComparisonChart::updateDisplay() {
 	
 	chart->removeAllSeries();
 	series = pie_series;
-	chart->setTitle(title_string);
-	QFont title_font = chart->font();
-	title_font.setPointSizeF(title_font.pointSize() * 1.5);
-	title_font.setWeight(QFont::Bold);
-	chart->setTitleFont(title_font);
+	connect(pie_series, SIGNAL(hovered(QPieSlice*, bool)), this, SLOT(sliceHovered(QPieSlice*, bool)));
+	connect(pie_series, SIGNAL(clicked(QPieSlice*)), this, SLOT(sliceClicked(QPieSlice*)));
+	chart->setTitle(QString("<h2>%1<h2>").arg(title_string));
 	if(show_legend) {
 		chart->legend()->setAlignment(Qt::AlignRight);
 		chart->legend()->show();
@@ -1156,3 +1148,26 @@ void CategoriesComparisonChart::updateAccounts() {
 	updateDisplay();
 }
 
+#ifdef QT_CHARTS_LIB
+void CategoriesComparisonChart::themeChanged(int index) {
+	QChart::ChartTheme theme = (QChart::ChartTheme) themeCombo->itemData(index).toInt();
+	chart->setTheme(theme);
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	settings.setValue("chartTheme", theme);
+	settings.endGroup();
+}
+void CategoriesComparisonChart::sliceHovered(QPieSlice *slice, bool state) {
+	if(!slice) return;
+	slice->setLabelVisible(state || slice->percentage() >= 0.04);
+}
+void CategoriesComparisonChart::sliceClicked(QPieSlice *slice) {
+	if(!slice) return;
+	if(slice->isExploded()) {
+		slice->setLabelVisible(slice->percentage() >= 0.04);
+		slice->setExploded(false);
+	} else {
+		slice->setExploded(true);
+	}
+}
+#endif

@@ -27,8 +27,18 @@
 
 class QButtonGroup;
 class QComboBox;
+#ifdef QT_CHARTS_LIB
+#include <QtCharts/QChartView>
+#include <QtCharts/QChart>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QValueAxis>
+#include <QtCharts/QCategoryAxis>
+class QGraphicsItem;
+QT_CHARTS_USE_NAMESPACE
+#else
 class QGraphicsScene;
 class QGraphicsView;
+#endif
 class QPushButton;
 class QRadioButton;
 
@@ -54,8 +64,17 @@ class OverTimeChart : public QWidget {
 		EqonomizeMonthSelector *startDateEdit, *endDateEdit;
 		QPushButton *saveButton, *printButton;
 		QRadioButton *dailyButton, *valueButton, *countButton, *perButton;
+#ifdef QT_CHARTS_LIB
+		QChartView *view;
+		QChart *chart;
+		QComboBox *themeCombo;
+		QCategoryAxis *axisX;
+		QValueAxis *axisY;
+		QGraphicsItem *point_label;
+#else
 		QGraphicsScene *scene;
 		QGraphicsView *view;
+#endif		
 		QButtonGroup *valueGroup;
 		
 		QDate start_date, end_date;
@@ -64,8 +83,9 @@ class OverTimeChart : public QWidget {
 		QString current_description, current_payee;
 		int current_source;
 		bool has_empty_description, has_empty_payee;
-
+#ifndef QT_CHARTS_LIB
 		void resizeEvent(QResizeEvent*);
+#endif
 
 	public slots:
 
@@ -86,6 +106,11 @@ class OverTimeChart : public QWidget {
 		void endMonthChanged(const QDate&);
 		void endYearChanged(const QDate&);
 		void valueTypeToggled(bool);
+#ifdef QT_CHARTS_LIB
+		void themeChanged(int);
+		void legendClicked();
+		void onSeriesHovered(const QPointF&, bool state);
+#endif
 
 };
 

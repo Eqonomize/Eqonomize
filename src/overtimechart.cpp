@@ -24,13 +24,18 @@
 
 #include "overtimechart.h"
 
-#include <QButtonGroup>
+#ifdef QT_CHARTS_LIB
+#include <QtCharts/QLegendMarker>
+#include <QGraphicsItem>
+#include <QFont>
+#else
 #include <QGraphicsView>
 #include <QGraphicsScene>
-#include <QGraphicsSimpleTextItem>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsLineItem>
-#include <QGraphicsRectItem>
+#include <QGraphicsSimpleTextItem>
+#endif
+#include <QButtonGroup>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -87,15 +92,40 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->setContentsMargins(0, 0, 0, 0);
 
-	QDialogButtonBox *buttons = new QDialogButtonBox(this);
-	saveButton = buttons->addButton(tr("Save As…"), QDialogButtonBox::ActionRole);
-	printButton = buttons->addButton(tr("Print…"), QDialogButtonBox::ActionRole);
-	layout->addWidget(buttons);
-
+		QHBoxLayout *buttons = new QHBoxLayout();
+#ifdef QT_CHARTS_LIB
+	buttons->addWidget(new QLabel(tr("Theme:"), this));
+	themeCombo = new QComboBox(this);
+	themeCombo->addItem("Light", QChart::ChartThemeLight);
+	themeCombo->addItem("Blue Cerulean", QChart::ChartThemeBlueCerulean);
+	themeCombo->addItem("Dark", QChart::ChartThemeDark);
+	themeCombo->addItem("Brown Sand", QChart::ChartThemeBrownSand);
+	themeCombo->addItem("Blue NCS", QChart::ChartThemeBlueNcs);
+	themeCombo->addItem("High Contrast", QChart::ChartThemeHighContrast);
+	themeCombo->addItem("Blue Icy", QChart::ChartThemeBlueIcy);
+	themeCombo->addItem("Qt", QChart::ChartThemeQt);
+	buttons->addWidget(themeCombo);
+#endif
+	buttons->addStretch();
+	saveButton = new QPushButton(tr("Save As…"), this);
+	buttons->addWidget(saveButton);
+	printButton = new QPushButton(tr("Print…"), this);
+	buttons->addWidget(printButton);
+	layout->addLayout(buttons);
+#ifdef QT_CHARTS_LIB
+	chart = new QChart();
+	chart->setLocalizeNumbers(true);
+	view = new QChartView(chart, this);
+	view->setRubberBand(QChartView::RectangleRubberBand);
+	axisX = NULL;
+	axisY = new QValueAxis();
+	chart->addAxis(axisY, Qt::AlignLeft);
+	point_label = NULL;
+#else
 	scene = NULL;
 	view = new QGraphicsView(this);
+#endif
 	view->setRenderHint(QPainter::Antialiasing, true);
-	view->setRenderHint(QPainter::HighQualityAntialiasing, true);
 	layout->addWidget(view);
 
 	QSettings settings;
@@ -186,6 +216,9 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 
 	layout->addWidget(settingsWidget);
 
+#ifdef QT_CHARTS_LIB
+	connect(themeCombo, SIGNAL(activated(int)), this, SLOT(themeChanged(int)));
+#endif
 	connect(startDateEdit, SIGNAL(monthChanged(const QDate&)), this, SLOT(startMonthChanged(const QDate&)));
 	connect(startDateEdit, SIGNAL(yearChanged(const QDate&)), this, SLOT(startYearChanged(const QDate&)));
 	connect(endDateEdit, SIGNAL(monthChanged(const QDate&)), this, SLOT(endMonthChanged(const QDate&)));
@@ -206,6 +239,15 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 OverTimeChart::~OverTimeChart() {}
 
 void OverTimeChart::resetOptions() {
+#ifdef QT_CHARTS_LIB
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	settings.value("chartTheme", chart->theme()).toInt();
+	QChart::ChartTheme theme = (QChart::ChartTheme) settings.value("chartTheme", chart->theme()).toInt();
+	themeCombo->setCurrentIndex(theme);
+	chart->setTheme(theme);
+	settings.endGroup();
+#endif
 	sourceCombo->setCurrentIndex(0);
 	sourceChanged(0);
 	Transaction *trans = budget->transactions.first();
@@ -650,6 +692,9 @@ void OverTimeChart::onFilterSelected(QString filter) {
 	}
 }
 void OverTimeChart::save() {
+#ifdef QT_CHARTS_LIB
+	QGraphicsScene *scene = chart->scene();
+#endif	
 	if(!scene) return;
 	QMimeDatabase db;
 	QMimeType image_mime = db.mimeTypeForName("image/*");
@@ -706,15 +751,21 @@ void OverTimeChart::save() {
 		return;
 	}
 	last_picture_directory = fileDialog.directory().absolutePath();
+
 	QRectF rect = scene->sceneRect();
-	rect.setX(0);
-	rect.setY(0);
-	rect.setRight(rect.right() + 20);
-	rect.setBottom(rect.bottom() + 20);
 	QPixmap pixmap((int) ceil(rect.width()), (int) ceil(rect.height()));
 	QPainter p(&pixmap);
+#ifdef QT_CHARTS_LIB
+	bool drop_shadow_save = chart->isDropShadowEnabled();
+	chart->setDropShadowEnabled(false);
+	p.fillRect(pixmap.rect(), chart->backgroundBrush());
+#endif
 	p.setRenderHint(QPainter::Antialiasing, true);
-	scene->render(&p, QRectF(), rect);
+	scene->render(&p);
+#ifdef QT_CHARTS_LIB
+	chart->setDropShadowEnabled(drop_shadow_save);
+#endif	
+
 	if(url_mime == png_mime) {pixmap.save(&ofile, "PNG");}
 	else if(url_mime == bmp_mime) {pixmap.save(&ofile, "BMP");}
 	else if(url_mime == eps_mime) {pixmap.save(&ofile, "EPS");}
@@ -735,18 +786,16 @@ void OverTimeChart::save() {
 }
 
 void OverTimeChart::print() {
+#ifdef QT_CHARTS_LIB
+	QGraphicsScene *scene = view->scene();
+#endif
 	if(!scene) return;
 	QPrinter pr;
 	QPrintDialog dialog(&pr, this);
 	if(dialog.exec() == QDialog::Accepted) {
 		QPainter p(&pr);
 		p.setRenderHint(QPainter::Antialiasing, true);
-		QRectF rect = scene->sceneRect();
-		rect.setX(0);
-		rect.setY(0);
-		rect.setRight(rect.right() + 20);
-		rect.setBottom(rect.bottom() + 20);
-		scene->render(&p, QRectF(), rect);
+		scene->render(&p);
 		p.end();
 	}
 }
@@ -808,6 +857,8 @@ void OverTimeChart::updateDisplay() {
 	if(current_source == 26) current_source = 4;
 
 	int type = valueGroup->checkedId();
+
+	QString title_string;
 
 	if(current_source == 3 || current_source < 2) {
 		Account *account = budget->incomesAccounts.first();
@@ -884,7 +935,11 @@ void OverTimeChart::updateDisplay() {
 		bool include = false;
 		int sign = 1;
 		total_value = NULL;
-		if(!started && trans->date() >= first_date) started = true;
+		if(!started && trans->date() >= first_date) {
+			started = true;
+			first_date = trans->date();
+			first_date.setDate(first_date.year(), first_date.month(), 1);
+		}
 		if(started) {
 			switch(current_source) {
 				case -1: {}
@@ -1197,9 +1252,12 @@ void OverTimeChart::updateDisplay() {
 		case 24: {source_org = 21; break;}
 		
 	}
+	
+	int first_desc_i = 2;
+	if(source_org == 7 && is_parent) first_desc_i = 3;
 
 	Account *account = NULL;
-	int desc_i = 2;
+	int desc_i = first_desc_i;
 	int desc_nr = 0;
 	bool at_expenses = false;
 	if(source_org == 7) desc_nr = descriptionCombo->count();
@@ -1532,7 +1590,7 @@ void OverTimeChart::updateDisplay() {
 	}
 
 	account = current_account;
-	desc_i = 2;
+	desc_i = first_desc_i;
 	desc_nr = 0;
 	int imonth = QDate::currentDate().month();
 
@@ -1674,7 +1732,7 @@ void OverTimeChart::updateDisplay() {
 		case 2: {source_org = 2; break;}
 		default: {}
 	}
-	
+
 	if(source_org == 7 || source_org == 11) {
 		QString r_desc_str;
 		if(current_source == 12 || current_source == 14) {
@@ -1700,7 +1758,7 @@ void OverTimeChart::updateDisplay() {
 			(*mi)->count = 0.0;
 			(*mi)->date = newdate;
 		}
-		desc_i = 2;
+		desc_i = first_desc_i;
 		QString desc_str;
 		while(desc_i < desc_nr) {
 			if(source_org == 7) desc_str = descriptionCombo->itemText(desc_i);
@@ -1722,7 +1780,7 @@ void OverTimeChart::updateDisplay() {
 					i--;
 				}
 				if(i < 0) desc_order.push_front(desc_str);
-				if(desc_order.size() > 6) {
+				if(desc_order.size() > 6 && desc_nr - first_desc_i > 7) {
 					QVector<chart_month_info> *monthly_values2 = &monthly_desc[desc_order.last()];
 					QVector<chart_month_info>::iterator it2 = monthly_values2->begin();
 					QVector<chart_month_info>::iterator it2_e = monthly_values2->end();
@@ -1752,15 +1810,15 @@ void OverTimeChart::updateDisplay() {
 			desc_i++;
 		}
 		if(desc_order.isEmpty() && desc_nr > 0) {
-			desc_i = 2;
-			while(desc_i < desc_nr && desc_i - 2 < 6) {
+			desc_i = first_desc_i;
+			while(desc_i < desc_nr && desc_i - first_desc_i < 6) {
 				if(source_org == 7) desc_str = descriptionCombo->itemText(desc_i);
 				else desc_str = payeeCombo->itemText(desc_i);
 				desc_order.push_back(desc_str);
 				desc_i++;
 			}
 		}
-		if(desc_nr > desc_order.size()) {
+		if(desc_nr - first_desc_i > desc_order.size()) {
 			desc_order.push_back(r_desc_str);
 		}
 		maxvalue = 0.0;
@@ -1776,51 +1834,7 @@ void OverTimeChart::updateDisplay() {
 			}
 		}
 	}
-	
-
-	QGraphicsScene *oldscene = scene;
-	scene = new QGraphicsScene(this);
-	scene->setBackgroundBrush(Qt::white);
-	QFont legend_font = font();
-	QFontMetrics fm(legend_font);
-	int fh = fm.height();
-
-	int years = last_date.year() - first_date.year();
 	int months = months_between_dates(first_date, last_date) + 1;
-
-	int y_lines = 5;
-	if(type == 2) {
-		int intmax = (int) ceil(maxcount);
-		if(intmax % 5 > 0) maxvalue = ((intmax / 5) + 1) * 5;
-		else maxvalue = intmax;
-	} else {
-		if(-minvalue > maxvalue) maxvalue = -minvalue;
-		double maxvalue_exp = round(log10(maxvalue)) - 1.0;
-		if(maxvalue_exp <= 0.0) {
-			maxvalue /= 2.0;
-			maxvalue = ceil(maxvalue) * 2.0;
-		} else {
-			maxvalue /= pow(10, maxvalue_exp);
-			maxvalue = ceil(maxvalue) * pow(10, maxvalue_exp);
-		}
-		if(minvalue < 0.0) {
-			if(current_source == -1) {
-				minvalue = -maxvalue;
-				y_lines = 4;
-			} else {
-				if(maxvalue / -minvalue >= 4.0) {
-					minvalue = -maxvalue / 4;
-					y_lines = 5;
-				} else if(maxvalue / -minvalue > 2.0) {
-					minvalue = -maxvalue / 2;
-					y_lines = 6;
-				} else {
-					minvalue = -maxvalue;
-					y_lines = 4;
-				}
-			}
-		}
-	}
 	int n = 0;
 	QDate monthdate = first_date;
 	QDate curmonth = end_date;
@@ -1828,6 +1842,335 @@ void OverTimeChart::updateDisplay() {
 		monthdate = monthdate.addMonths(1);
 		n++;
 	}
+	QString axis_string;
+	switch(type) {
+		case 2: {axis_string = tr("Quantity"); break;}
+		case 1: {
+			if(current_source == 0) axis_string = tr("Daily average value (%1)").arg(QLocale().currencySymbol());
+			else if(current_source == -1) axis_string = tr("Daily average profit (%1)").arg(QLocale().currencySymbol());
+			else if(current_source % 2 == 1) axis_string = tr("Daily average income (%1)").arg(QLocale().currencySymbol());
+			else axis_string = tr("Daily average cost (%1)").arg(QLocale().currencySymbol());
+			break;
+		}
+		case 3: {
+			if(current_source == 0) axis_string = tr("Average value (%1)").arg(QLocale().currencySymbol());
+			else if(current_source % 2 == 1) axis_string = tr("Average income (%1)").arg(QLocale().currencySymbol());
+			else axis_string = tr("Average cost (%1)").arg(QLocale().currencySymbol());
+			break;
+		}
+		default: {
+			if(current_source == 0) axis_string = tr("Monthly value (%1)").arg(QLocale().currencySymbol());
+			else if(current_source == -1) axis_string = tr("Monthly profit (%1)").arg(QLocale().currencySymbol());
+			else if(current_source % 2 == 1) axis_string = tr("Monthly income (%1)").arg(QLocale().currencySymbol());
+			else axis_string = tr("Monthly cost (%1)").arg(QLocale().currencySymbol());
+			break;
+		}
+	}
+	
+	int y_lines = 5;
+
+	if(-minvalue > maxvalue) maxvalue = -minvalue;
+	int maxvalue_exp = floor(log10(maxvalue));
+	int maxvalue_digit;
+	double orig_maxvalue = maxvalue;
+	if(maxvalue_exp < 1.0) {
+		maxvalue_digit = ceil(maxvalue);
+		maxvalue = maxvalue_digit;
+		y_lines = maxvalue_digit;
+		maxvalue_exp = 0.0;
+	} else {			
+		maxvalue /= pow(10, maxvalue_exp);
+		if(maxvalue <= 1.0) {
+			maxvalue = 10.0;
+			maxvalue_exp -= 1.0;
+		}
+		maxvalue_digit = ceil(maxvalue);
+		y_lines = maxvalue_digit;
+		maxvalue = maxvalue_digit * pow(10, maxvalue_exp);
+		if(y_lines <= 5 && orig_maxvalue <= (maxvalue / (y_lines * 2)) * ((y_lines * 2) - 1)) {
+			maxvalue = (maxvalue / (y_lines * 2)) * ((y_lines * 2) - 1);
+			y_lines = (y_lines * 2) - 1;
+		}
+		if(y_lines <= 2) y_lines = 4;
+	}
+	if(minvalue < 0.0) {
+		if(current_source == -1) {				
+			if(y_lines < 6) {
+				y_lines *= 2;
+			} else {
+				maxvalue = ceil(maxvalue_digit / 2.0) * pow(10, maxvalue_exp) * 2;
+			}
+			minvalue = -maxvalue;
+		} else {
+			int neg_y_lines = -floor(minvalue / (maxvalue / y_lines));
+			minvalue = -neg_y_lines * (maxvalue / y_lines);
+			y_lines += neg_y_lines;
+		}
+	}
+
+#ifdef QT_CHARTS_LIB
+	bool show_legend;
+	switch(current_source) {
+		case -1:
+		case 1:
+		case 2:
+		case 5:
+		case 6:
+		case 9:
+		case 10:
+		case 15:
+		case 16:
+		case 19:
+		case 20: {show_legend = false; break;}
+		default: show_legend = true;
+	}
+
+	switch(current_source) {
+		case -1: {title_string = tr("Profits"); break;}
+		case 0: {title_string = tr("Incomes & Expenses"); break;}
+		case 3:
+		case 1: {title_string = tr("Incomes"); break;}
+		case 4:
+		case 2: {title_string = tr("Expenses"); break;}
+		case 21:
+		case 11:
+		case 7:
+		case 5: {title_string = tr("Incomes: %1").arg(current_account->nameWithParent()); break;}
+		case 22:
+		case 12:
+		case 8:
+		case 6: {title_string = tr("Expenses: %1").arg(current_account->nameWithParent()); break;}
+		case 13:
+		case 9: {title_string = tr("Incomes: %2, %1").arg(current_account->nameWithParent()).arg(current_description); break;}
+		case 14:
+		case 10: {title_string = tr("Expenses: %2, %1").arg(current_account->nameWithParent()).arg(current_description); break;}
+		case 19: {title_string = tr("Incomes: %3, %2, %1").arg(current_account->nameWithParent()).arg(current_description).arg(current_payee); break;}
+		case 20: {title_string = tr("Expenses: %3, %2, %1").arg(current_account->nameWithParent()).arg(current_description).arg(current_payee); break;}
+		case 23:
+		case 17:
+		case 15: {title_string = tr("Incomes: %2, %1").arg(current_account->nameWithParent()).arg(current_payee); break;}
+		case 24:
+		case 18:
+		case 16: {title_string = tr("Expenses: %2, %1").arg(current_account->nameWithParent()).arg(current_payee); break;}
+	}
+	chart->removeAllSeries();
+
+	axisY->setTitleText(axis_string);
+
+	int index = 0;
+	account = NULL;
+	desc_i = 0;
+	desc_nr = desc_order.size();
+
+	if(axisX) chart->removeAxis(axisX);
+	
+	axisX = new QCategoryAxis();
+	chart->addAxis(axisX, Qt::AlignBottom);
+	
+	last_date.setDate(last_date.year(), last_date.month(), 1);
+	axisX->setRange(QDateTime(first_date).toMSecsSinceEpoch(), QDateTime(last_date).toMSecsSinceEpoch());
+	
+	if(months > 72) {
+		QDate axis_date = first_date;		
+		if(axis_date.month() > 1) axis_date.setDate(axis_date.year() + 1, 1, 1);
+		axisX->setStartValue(QDateTime(axis_date).toMSecsSinceEpoch());
+		axisX->setLabelsPosition(QCategoryAxis::AxisLabelsPositionOnValue);
+		while(axis_date <= last_date) {
+			QDate next_axis_date = axis_date.addYears(1);
+			axisX->append(axis_date.toString("yyyy"), QDateTime(axis_date).toMSecsSinceEpoch());
+			axis_date = next_axis_date;
+		}
+	} else {
+		int monthjump = 1;
+		if(months >= 48) monthjump = 6;
+		else if(months >= 36) monthjump = 4;
+		else if(months >= 24) monthjump = 3;
+		else if(months >= 12) monthjump = 2;
+		QDate axis_date = first_date;
+		if(monthjump > 1) {
+			int mod_m = (axis_date.month() % monthjump);
+			if(mod_m == 0) axis_date = axis_date.addMonths(1);
+			else if(mod_m != 1) axis_date = axis_date.addMonths(monthjump - mod_m + 1);
+		}
+		axisX->setStartValue(QDateTime(axis_date).toMSecsSinceEpoch());
+		axisX->setLabelsPosition(QCategoryAxis::AxisLabelsPositionOnValue);
+		QString unique_s;
+		bool month_shown = false;
+		while(axis_date <= last_date) {
+			QDate next_axis_date = axis_date.addMonths(monthjump);
+			if(axis_date.month() == 1) {
+				if(month_shown) unique_s += " ";					
+				axisX->append(axis_date.toString("MMM<br>yyyy"), QDateTime(axis_date).toMSecsSinceEpoch());
+			} else {
+				axisX->append(axis_date.toString("MMM%1").arg(unique_s), QDateTime(axis_date).toMSecsSinceEpoch());
+			}
+			month_shown = true;
+			axis_date = next_axis_date;
+		}
+	}
+	axisX->setTitleText(tr("Time"));
+	
+	axisY->setRange(minvalue, maxvalue);
+	axisY->setTickCount(y_lines + 1);
+	double tickdiff = (maxvalue - minvalue) / y_lines;
+	int y_minor = round(tickdiff/pow(10, floor(log10(tickdiff)))) - 1;
+	if(y_minor == 0 && (type != 2 || maxvalue > 10.0)) {
+		if(y_lines <= 3) y_minor = 9;
+		else if(y_lines <= 6) y_minor = 4;
+		else if(y_lines <= 12) y_minor = 1;
+	}
+	axisY->setMinorTickCount(y_minor);
+	if(type == 2 || (maxvalue - minvalue) >= 50.0) axisY->setLabelFormat(QString("%.0f"));
+	else axisY->setLabelFormat(QString("%.%1f").arg(QString::number(MONETARY_DECIMAL_PLACES)));
+	
+	if(source_org == 3) account = budget->incomesAccounts.first();
+	else if(source_org == 4) account = budget->expensesAccounts.first();
+	else if(source_org == 21) account = current_account->subCategories.first();
+	else if(source_org == 2) {monthly_values = &monthly_expenses;}
+	else if(source_org == 1 || source_org == 0) {monthly_values = &monthly_incomes;}
+	while(source_org < 3 || account || ((source_org == 7 || source_org == 11) && desc_i < desc_nr)) {
+		while(exclude_subs && account && account->topAccount() != account) {
+			if(source_org == 3) account = budget->incomesAccounts.next();
+			else account = budget->expensesAccounts.next();
+		}
+		if(exclude_subs && !account) break;
+		if(source_org == 3 || source_org == 4 || source_org == 21) {monthly_values = &monthly_cats[account];}
+		else if(source_org == 7 || source_org == 11) {monthly_values = &monthly_desc[desc_order[desc_i]];}
+
+		QLineSeries *series = new QLineSeries();
+
+		QVector<chart_month_info>::iterator it_e = monthly_values->end();
+		for(QVector<chart_month_info>::iterator it = monthly_values->begin(); it != it_e; ++it) {
+			QDate date(it->date.year(), it->date.month(), 1);
+			series->append(QDateTime(date).toMSecsSinceEpoch(), it->value);
+		}
+		switch(current_source) {
+			case -1: {
+				series->setName(tr("Profits"));
+				break;
+			}
+			case 0: {
+				if(index == 0) series->setName(tr("Incomes"));
+				else if(index == 1) series->setName(tr("Expenses"));
+				break;
+			}
+			case 1: {series->setName(tr("Incomes")); break;}
+			case 2: {series->setName(tr("Expenses")); break;}
+			case 3: {}
+			case 4: {series->setName(account->nameWithParent()); break;}
+			case 21: {}
+			case 22: {series->setName(account->name()); break;}
+			case 23: {}
+			case 24: {
+				series->setName(tr("%1/%2", "%1: Category; %2: Payee/Payer").arg(account->name()).arg(current_payee));
+				break;
+			}
+			case 5: {}
+			case 6: {series->setName(current_account->nameWithParent()); break;}
+			case 17: {}
+			case 18: {}
+			case 7: {}
+			case 8: {
+				if(desc_order[desc_i].isEmpty()) series->setName(tr("No description", "Referring to the generic description property"));
+				else series->setName(desc_order[desc_i]);
+				break;
+			}
+			case 9: {}
+			case 10: {
+				if(current_description.isEmpty()) series->setName(tr("No description", "Referring to the generic description property"));
+				else series->setName(current_description);
+				break;
+			}
+			case 13: {}
+			case 11: {
+				if(desc_order[desc_i].isEmpty()) series->setName(tr("No payer"));
+				else series->setName(desc_order[desc_i]);
+				break;
+			}
+			case 14: {}
+			case 12: {
+				if(desc_order[desc_i].isEmpty()) series->setName(tr("No payee"));
+				else series->setName(desc_order[desc_i]);
+				break;
+			}
+			case 15: {
+				if(current_payee.isEmpty()) series->setName(tr("No payer"));
+				else series->setName(current_payee);
+				break;
+			}
+			case 16: {
+				if(current_payee.isEmpty()) series->setName(tr("No payee"));
+				else series->setName(current_payee);
+				break;
+			}
+			case 19: {
+				QString str1, str2;
+				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the generic description property"); str2 = tr("no payer");}
+				else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("no payer");}
+				else if(current_description.isEmpty()) {str1 = tr("No description", "Referring to the generic description property"); str2 = current_payee;}
+				else {str1 = current_description; str2 = current_payee;}
+				series->setName(tr("%1/%2", "%1: Generic Description; %2: Payer/Payer").arg(str1).arg(str2));
+				break;
+			}
+			case 20: {
+				QString str1, str2;
+				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the generic description property"); str2 = tr("no payee");}
+				else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("no payee");}
+				else if(current_description.isEmpty()) {str1 = tr("No description", "Referring to the generic description property"); str2 = current_payee;}
+				else {str1 = current_description; str2 = current_payee;}
+				series->setName(tr("%1/%2", "%1: Generic Description; %2: Payee/Payer").arg(str1).arg(str2));
+				break;
+			}
+		}
+		chart->addSeries(series);
+		series->attachAxis(axisY);
+		series->attachAxis(axisX);
+		if(index >= 5) {
+			QPen pen = series->pen();
+			if(index >= 10) pen.setStyle(Qt::DashLine);
+			else pen.setStyle(Qt::DotLine);
+			series->setPen(pen);
+			QList<QLegendMarker*> markers = chart->legend()->markers(series);
+			if(markers.count() > 0) {
+				pen.setWidth(2);
+				markers[0]->setPen(pen);
+				markers[0]->setBrush(QColor(0, 0, 0, 0));
+			}
+		}
+		connect(series, SIGNAL(hovered(const QPointF&, bool)), this, SLOT(onSeriesHovered(const QPointF&, bool)));
+		
+		index++;
+		if(source_org == 7 || source_org == 11) desc_i++;
+		else if(source_org == 3) account = budget->incomesAccounts.next();
+		else if(source_org == 4) account = budget->expensesAccounts.next();
+		else if(source_org == 21) {
+			if(account == current_account) break;
+			account = current_account->subCategories.next();
+			if(!account) account = current_account;
+		} else if(source_org == 0 && monthly_values != &monthly_expenses) {monthly_values = &monthly_expenses;}
+		else break;
+	}
+	
+	foreach(QLegendMarker* marker, chart->legend()->markers()) {
+		QObject::connect(marker, SIGNAL(clicked()), this, SLOT(legendClicked()));
+	}
+	
+	chart->setTitle(QString("<h2>%1<h2>").arg(title_string));
+	if(show_legend) {
+		chart->legend()->setAlignment(Qt::AlignRight);
+		chart->legend()->show();
+	} else {
+		chart->legend()->hide();
+	}
+#else
+	QGraphicsScene *oldscene = scene;
+	scene = new QGraphicsScene(this);
+	scene->setBackgroundBrush(Qt::white);
+	QFont legend_font = font();
+	QFontMetrics fm(legend_font);
+	int fh = fm.height();
+	
+	int years = last_date.year() - first_date.year();
 
 	int linelength = (int) ceil(600.0 / n);
 	int chart_height = 400;
@@ -1847,11 +2190,8 @@ void OverTimeChart::updateDisplay() {
 	axis_width += max_axis_value_width;
 
 	QGraphicsSimpleTextItem *axis_text = new QGraphicsSimpleTextItem();
-	if(type == 2) axis_text->setText(tr("Quantity"));
-	else if(current_source == 0) axis_text->setText(tr("Value (%1)").arg(QLocale().currencySymbol()));
-	else if(current_source == -1) axis_text->setText(tr("Profit (%1)").arg(QLocale().currencySymbol()));
-	else if(current_source % 2 == 1) axis_text->setText(tr("Income (%1)").arg(QLocale().currencySymbol()));
-	else axis_text->setText(tr("Cost (%1)").arg(QLocale().currencySymbol()));
+	
+	axis_text->setText(axis_string);
 	axis_text->setFont(legend_font);
 	axis_text->setBrush(Qt::black);
 	if(axis_text->boundingRect().width() / 2 > max_axis_value_width) max_axis_value_width = axis_text->boundingRect().width() / 2;
@@ -2149,6 +2489,8 @@ void OverTimeChart::updateDisplay() {
 	if(oldscene) {
 		delete oldscene;
 	}
+#endif
+	
 	if(current_source == 7 || current_source == 8 || current_source == 17 || current_source == 18) {
 		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, tr("No description", "Referring to the generic description property"));
 	} else if(current_source == 12 || current_source == 14) {
@@ -2157,14 +2499,14 @@ void OverTimeChart::updateDisplay() {
 		if(has_empty_payee) payeeCombo->setItemText(payeeCombo->count() - 1, tr("No payer"));
 	}
 }
-
+#ifndef QT_CHARTS_LIB
 void OverTimeChart::resizeEvent(QResizeEvent *e) {
 	QWidget::resizeEvent(e);
 	if(scene) {
 		view->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 	}
 }
-
+#endif
 void OverTimeChart::updateTransactions() {
 	if(descriptionCombo->isEnabled() && current_account) {
 		bool b_income = (current_account->type() == ACCOUNT_TYPE_INCOMES);
@@ -2331,4 +2673,160 @@ void OverTimeChart::updateAccounts() {
 	}
 	updateDisplay();
 }
+#ifdef QT_CHARTS_LIB
+class PointLabel : public QGraphicsItem {
+
+	public:
+
+		PointLabel(QGraphicsItem * parent = 0) : QGraphicsItem(parent) {}
+
+		void setText(const QString &text) {
+			m_text = text;
+			QFontMetrics metrics(m_font);
+			m_textRect = metrics.boundingRect(QRect(0, 0, 150, 150), Qt::AlignLeft, m_text);
+			m_textRect.translate(5, 5);
+			prepareGeometryChange();
+			m_rect = m_textRect.adjusted(-5, -5, 5, 5);
+		}
+		void setAnchor(QPointF point) {
+			m_anchor = point;
+		}
+
+		QRectF boundingRect() const {
+			QPointF anchor = mapFromParent(m_anchor);
+			QRectF rect;
+			rect.setLeft(qMin(m_rect.left(), anchor.x()));
+			rect.setRight(qMax(m_rect.right(), anchor.x()));
+			rect.setTop(qMin(m_rect.top(), anchor.y()));
+			rect.setBottom(qMax(m_rect.bottom(), anchor.y()));
+			return rect;
+		}
+		void paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*){
+			QPainterPath path;
+			path.addRoundedRect(m_rect, 5, 5);
+
+			QPointF anchor = mapFromParent(m_anchor);
+			if (!m_rect.contains(anchor)) {
+				QPointF point1, point2;
+
+				// establish the position of the anchor point in relation to m_rect
+				bool above = anchor.y() <= m_rect.top();
+				bool aboveCenter = anchor.y() > m_rect.top() && anchor.y() <= m_rect.center().y();
+				bool belowCenter = anchor.y() > m_rect.center().y() && anchor.y() <= m_rect.bottom();
+				bool below = anchor.y() > m_rect.bottom();
+
+				bool onLeft = anchor.x() <= m_rect.left();
+				bool leftOfCenter = anchor.x() > m_rect.left() && anchor.x() <= m_rect.center().x();
+				bool rightOfCenter = anchor.x() > m_rect.center().x() && anchor.x() <= m_rect.right();
+				bool onRight = anchor.x() > m_rect.right();
+
+				// get the nearest m_rect corner.
+				qreal x = (onRight + rightOfCenter) * m_rect.width();
+				qreal y = (below + belowCenter) * m_rect.height();
+				bool cornerCase = (above && onLeft) || (above && onRight) || (below && onLeft) || (below && onRight);
+				bool vertical = qAbs(anchor.x() - x) > qAbs(anchor.y() - y);
+
+				qreal x1 = x + leftOfCenter * 10 - rightOfCenter * 20 + cornerCase * !vertical * (onLeft * 10 - onRight * 20);
+				qreal y1 = y + aboveCenter * 10 - belowCenter * 20 + cornerCase * vertical * (above * 10 - below * 20);;
+				point1.setX(x1);
+				point1.setY(y1);
+
+				qreal x2 = x + leftOfCenter * 20 - rightOfCenter * 10 + cornerCase * !vertical * (onLeft * 20 - onRight * 10);;
+				qreal y2 = y + aboveCenter * 20 - belowCenter * 10 + cornerCase * vertical * (above * 20 - below * 10);;
+				point2.setX(x2);
+				point2.setY(y2);
+
+				path.moveTo(point1);
+				path.lineTo(mapFromParent(m_anchor));
+				path.lineTo(point2);
+				path = path.simplified();
+			}
+			painter->setBrush(QColor(255, 255, 255));
+			painter->drawPath(path);
+			painter->drawText(m_textRect, m_text);
+		}
+
+	private:
+	
+		QString m_text;
+		QRectF m_textRect;
+		QRectF m_rect;
+		QPointF m_anchor;
+		QFont m_font;
+
+};
+void OverTimeChart::onSeriesHovered(const QPointF &value, bool state) {
+	if(state) {
+		QXYSeries *series = qobject_cast<QXYSeries*>(sender());
+		QPointF pos = chart->mapToPosition(value, series);
+		PointLabel *item;
+		if(!point_label) {
+			item = new PointLabel(chart);
+			point_label = item;
+		} else {
+			item = (PointLabel*) point_label;
+		}
+		item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(QLocale().toCurrencyString(value.y())).arg(QDateTime::fromMSecsSinceEpoch(value.x()).toString(tr("MMMM yyyy", "Month and year"))));
+		item->setAnchor(pos);
+		item->setPos(pos + QPoint(10, -50));
+		item->setZValue(11);
+		item->show();		
+	} else if(point_label) {
+		point_label->hide();
+	}
+}
+void OverTimeChart::legendClicked() {
+	QLegendMarker* marker = qobject_cast<QLegendMarker*>(sender());
+	marker->series()->setVisible(!marker->series()->isVisible());
+	marker->setVisible(true);
+
+	qreal alpha = 1.0;
+	if(!marker->series()->isVisible()) {
+		alpha = 0.5;
+	}
+
+	QColor color;
+	QBrush brush = marker->labelBrush();
+	color = brush.color();
+	color.setAlphaF(alpha);
+	brush.setColor(color);
+	marker->setLabelBrush(brush);
+
+	brush = marker->brush();
+	color = brush.color();
+	if(color.alphaF() > 0.0) {
+		color.setAlphaF(alpha);
+		brush.setColor(color);
+		marker->setBrush(brush);
+	}
+
+	QPen pen = marker->pen();
+	color = pen.color();
+	color.setAlphaF(alpha);
+	pen.setColor(color);
+	marker->setPen(pen);
+}
+void OverTimeChart::themeChanged(int index) {
+	QChart::ChartTheme theme = (QChart::ChartTheme) themeCombo->itemData(index).toInt();
+	chart->setTheme(theme);
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	settings.setValue("chartTheme", theme);
+	settings.endGroup();
+	QList<QAbstractSeries*> series_list = chart->series();
+	for(int index = 5; index < series_list.count(); index++) {
+		QLineSeries *series = (QLineSeries*) series_list[index];
+		QPen pen = series->pen();
+		if(index >= 10) pen.setStyle(Qt::DashLine);
+		else pen.setStyle(Qt::DotLine);
+		series->setPen(pen);
+		QList<QLegendMarker*> markers = chart->legend()->markers(series);
+		if(markers.count() > 0) {
+			pen.setWidth(2);
+			markers[0]->setPen(pen);
+			markers[0]->setBrush(QColor(0, 0, 0, 0));
+		}
+	}
+}
+#endif
 

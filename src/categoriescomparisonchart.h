@@ -97,6 +97,8 @@ class CategoriesComparisonChart : public QWidget {
 		void sourceChanged(int);
 #ifdef QT_CHARTS_LIB
 		void themeChanged(int);
+		void sliceHovered(QPieSlice*, bool);
+		void sliceClicked(QPieSlice*);
 #endif
 
 };
