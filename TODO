@@ -12,10 +12,6 @@ FEATURES:
 
 - Loans: at the moment loans can only be handled by using regular
 account with negative value and transfers for paying off the loan.
-- Subcategories: requires a lot of work since at affects much of the
-code, but has been requested by many. The reason it wasn't implemented
-is that I find that if descriptions are used wisely, subcategories are
-not needed.
 - A beautiful summary view (with summary of assets, pending payments,
 recent transactions, etc.)
 - Reconciliation: "We all make mistakes at times and it would be nice to
@@ -29,12 +25,11 @@ testing)
 - More visualisations (charts)
 - Undo
 - Enhance manual
-- Gnome UI: it would fit my desktop environment better, but not really
-worth the effort.
 - Recurring split transactions
 - Multiple currencies
 - Plugins? Scripts?
 - OFX files
+- QIF/CSV subcategories
 
 - support for importing eqz files (so that we can do merging of files)
 - support for saving views in eqz format (e.g. splitting data in separate files)

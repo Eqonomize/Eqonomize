@@ -61,8 +61,6 @@
 #include <cmath>
 
 extern QString htmlize_string(QString str);
-extern double averageMonth(const QDate &date1, const QDate &date2);
-extern double averageYear(const QDate &date1, const QDate &date2);
 extern QString last_document_directory;
 
 struct month_info {
@@ -400,31 +398,32 @@ void OverTimeReport::updateDisplay() {
 	while(trans) {
 		if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
 			start_date = trans->date();
-			if(start_date.day() > 1) {
-				start_date = start_date.addMonths(1);
-				start_date.setDate(start_date.year(), start_date.month(), 1);
+			if(!budget->isFirstBudgetDay(start_date)) {
+				start_date = budget->firstBudgetDay(start_date);
+				budget->addBudgetMonthsSetFirst(start_date, 1);
 			}
 			break;
 		}
 		trans = budget->transactions.next();
 	}
-	if(start_date.isNull() || start_date > QDate::currentDate()) start_date = QDate::currentDate();
-	if(start_date.month() == QDate::currentDate().month() && start_date.year() == QDate::currentDate().year()) {
-		start_date = start_date.addMonths(-1);
-		start_date.setDate(start_date.year(), start_date.month(), 1);
+	QDate curmonth = budget->firstBudgetDay(QDate::currentDate());
+	if(start_date.isNull() || start_date > curmonth) start_date = curmonth;
+	if(start_date == curmonth) {
+		budget->addBudgetMonthsSetFirst(start_date, -1);
 	}
 	first_date = start_date;
 
 	QDate curdate = QDate::currentDate().addDays(-1);
-	if(curdate.day() < curdate.daysInMonth()) {
-		curdate = curdate.addMonths(-1);
-		curdate.setDate(curdate.year(), curdate.month(), curdate.daysInMonth());
+	if(!budget->isLastBudgetDay(curdate)) {
+		curdate = budget->lastBudgetDay(curdate);
+		budget->addBudgetMonthsSetLast(curdate, -1);
 	}
-	if(curdate <= first_date || (start_date.month() == curdate.month() && start_date.year() == curdate.year())) {
+	if(curdate < first_date || budget->isSameBudgetMonth(start_date, curdate)) {
 		curdate = QDate::currentDate();
 	}
 
 	bool started = false;
+	bool includes_planned = false;
 	trans = budget->transactions.first();
 	while(trans && trans->date() <= curdate) {
 		bool include = false;
@@ -446,12 +445,12 @@ void OverTimeReport::updateDisplay() {
 		if(include) {
 			if(!mi || trans->date() > mi->date) {
 				QDate newdate, olddate;
-				newdate.setDate(trans->date().year(), trans->date().month(), trans->date().daysInMonth());
+				newdate = budget->lastBudgetDay(trans->date());
 				if(mi) {
-					olddate = mi->date.addMonths(1);
-					olddate.setDate(olddate.year(), olddate.month(), olddate.daysInMonth());
+					olddate = mi->date;
+					budget->addBudgetMonthsSetLast(olddate, 1);
 				} else {
-					olddate.setDate(first_date.year(), first_date.month(), first_date.daysInMonth());
+					olddate = budget->lastBudgetDay(first_date);
 				}
 				while(olddate < newdate) {
 					monthly_values.append(month_info());
@@ -459,8 +458,7 @@ void OverTimeReport::updateDisplay() {
 					mi->value = 0.0;
 					mi->count = 0.0;
 					mi->date = olddate;
-					olddate = olddate.addMonths(1);
-					olddate.setDate(olddate.year(), olddate.month(), olddate.daysInMonth());
+					budget->addBudgetMonthsSetLast(olddate, 1);
 				}
 				monthly_values.append(month_info());
 				mi = &monthly_values.back();
@@ -476,8 +474,8 @@ void OverTimeReport::updateDisplay() {
 	}
 	if(mi) {
 		while(mi->date < curdate) {
-			QDate newdate = mi->date.addMonths(1);
-			newdate.setDate(newdate.year(), newdate.month(), newdate.daysInMonth());
+			QDate newdate = mi->date;
+			budget->addBudgetMonthsSetLast(newdate, 1);
 			monthly_values.append(month_info());
 			mi = &monthly_values.back();
 			mi->value = 0.0;
@@ -490,6 +488,7 @@ void OverTimeReport::updateDisplay() {
 	if(mi) {
 		ScheduledTransaction *strans = budget->scheduledTransactions.first();
 		while(strans && strans->transaction()->date() <= mi->date) {
+			started = true;
 			trans = strans->transaction();
 			bool include = false;
 			int sign = 1;
@@ -506,14 +505,33 @@ void OverTimeReport::updateDisplay() {
 			}
 			if(include) {
 				int count = (strans->recurrence() ? strans->recurrence()->countOccurrences(mi->date) : 1);
-				scheduled_value += (trans->value() * sign * count);
-				scheduled_count += count * trans->quantity();
+				if(count != 0) {
+					includes_planned = true;
+					scheduled_value += (trans->value() * sign * count);
+					scheduled_count += count * trans->quantity();
+				}
 			}
 			strans = budget->scheduledTransactions.next();
 		}
 	}
-	double average_month = averageMonth(first_date, curdate);
-	double average_year = averageYear(first_date, curdate);
+	if(monthly_values.isEmpty()) {
+		monthly_values.append(month_info());
+		mi = &monthly_values.back();
+		mi->value = 0.0;
+		mi->count = 0.0;
+		mi->date = budget->lastBudgetDay(first_date);
+		while(mi->date < curdate) {
+			QDate newdate = mi->date;
+			budget->addBudgetMonthsSetLast(newdate, 1);
+			monthly_values.append(month_info());
+			mi = &monthly_values.back();
+			mi->value = 0.0;
+			mi->count = 0.0;
+			mi->date = newdate;
+		}
+	}
+	double average_month = budget->averageMonth(first_date, curdate, true);
+	double average_year = budget->averageYear(first_date, curdate, true);
 	source = "";
 	QTextStream outf(&source, QIODevice::WriteOnly);
 	outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
@@ -535,7 +553,7 @@ void OverTimeReport::updateDisplay() {
 	bool use_footer1 = false;
 	if(enabled[0]) {
 		outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(valuetitle);
-		if(mi && mi->date > curdate) {outf << "*"; use_footer1 = true;}
+		if(includes_planned) {outf << "*"; use_footer1 = true;}
 		outf<< "</th>";
 	}
 	if(enabled[1]) outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tr("Daily Average")) << "</th>";
@@ -543,12 +561,12 @@ void OverTimeReport::updateDisplay() {
 	if(enabled[3]) outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tr("Yearly Average")) << (use_footer1 ? "**" : "*") << "</th>";
 	if(enabled[4]) {
 		outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tr("Quantity"));
-		if(mi && mi->date > curdate) {outf << "*"; use_footer1 = true;}
+		if(includes_planned) {outf << "*"; use_footer1 = true;}
 		outf<< "</th>";
 	}
 	if(enabled[5]) {
 		outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(pertitle);
-		if(mi && mi->date > curdate) {outf << "*"; use_footer1 = true;}
+		if(includes_planned) {outf << "*"; use_footer1 = true;}
 		outf<< "</th>";
 	}
 	outf << "\t\t\t\t</tr>" << '\n';
@@ -564,7 +582,7 @@ void OverTimeReport::updateDisplay() {
 	QDate year_date;
 	bool first_year = true, first_month = true;
 	bool multiple_months = monthly_values.size() > 1;
-	bool multiple_years = multiple_months && first_date.year() != curdate.year();
+	bool multiple_years = multiple_months && budget->budgetYear(first_date) != budget->budgetYear(curdate);
 	int i_count_frac = 0;
 	double intpart = 0.0;
 	while(it != it_b) {
@@ -577,7 +595,7 @@ void OverTimeReport::updateDisplay() {
 	it = monthly_values.end();
 	while(it != it_b) {
 		--it;
-		if(first_month || year != it->date.year()) {
+		if(first_month || year != budget->budgetYear(it->date)) {
 			if(!first_month && multiple_years) {
 				outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
 				outf << "\t\t\t\t\t<td></td>";
@@ -585,12 +603,12 @@ void OverTimeReport::updateDisplay() {
 				if(enabled[0]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(first_year ? (yearly_value + scheduled_value) : yearly_value)) << "</b></td>";
 				int days = 1;
 				if(first_year) {
-					days = curdate.dayOfYear();
-				} else if(year == first_date.year()) {
-					days = year_date.daysInYear();
-					days -= (first_date.dayOfYear() - 1);
+					days = budget->dayOfBudgetYear(curdate);
+				} else if(budget->budgetYear(first_date) == year) {
+					days = budget->daysInBudgetYear(year_date);
+					days -= (budget->dayOfBudgetYear(first_date) - 1);
 				} else {
-					days= year_date.daysInYear();
+					days = budget->daysInBudgetYear(year_date);
 				}
 				if(enabled[1]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(yearly_value / days)) << "</b></td>";
 				if(enabled[2]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(((yearly_value * average_month) / days))) << "</b></td>";
@@ -610,11 +628,11 @@ void OverTimeReport::updateDisplay() {
 			} else {
 				outf << "\t\t\t\t<tr>" << '\n';
 			}
-			year = it->date.year();
+			year = budget->budgetYear(it->date);
 			yearly_value = it->value;
 			yearly_count = it->count;
 			year_date = it->date;
-			outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(QString::number(it->date.year())) << "</td>";
+			outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(QString::number(budget->budgetYear(it->date))) << "</td>";
 		} else {
 			outf << "\t\t\t\t<tr>" << '\n';
 			yearly_value += it->value;
@@ -623,16 +641,16 @@ void OverTimeReport::updateDisplay() {
 		}
 		total_value += it->value;
 		total_count += it->count;
-		outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(QDate::longMonthName(it->date.month(), QDate::StandaloneFormat)) << "</td>";
+		outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(QDate::longMonthName(budget->budgetMonth(it->date), QDate::StandaloneFormat)) << "</td>";
 		if(enabled[0]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(first_month ? (it->value + scheduled_value) : it->value)) << "</td>";
 		int days = 0;
 		if(first_month) {
-			days = curdate.day();
+			days = budget->dayOfBudgetMonth(curdate);
 		} else if(it == it_b) {
-			days = it->date.daysInMonth();
-			days -= (first_date.day() - 1);
+			days = budget->daysInBudgetMonth(it->date);
+			days -= (budget->dayOfBudgetMonth(first_date) - 1);
 		} else {
-			days = it->date.daysInMonth();
+			days = budget->dayOfBudgetMonth(it->date);
 		}
 		if(enabled[1]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(it->value / days)) << "</td>";
 		if(enabled[2]) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString((it->value * average_month) / days)) << "</td>";
@@ -654,8 +672,8 @@ void OverTimeReport::updateDisplay() {
 		outf << "\t\t\t\t\t<td></td>";
 		outf << "\t\t\t\t\t<td align=\"left\"><b>" << htmlize_string(tr("Subtotal")) << "</b></td>";
 		if(enabled[0]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(yearly_value)) << "</b></td>";
-		int days = year_date.daysInYear();
-		days -= (first_date.dayOfYear() - 1);
+		int days = budget->daysInBudgetYear(year_date);
+		days -= (budget->dayOfBudgetYear(first_date) - 1);
 		if(enabled[1]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString(yearly_value / days)) << "</b></td>";
 		if(enabled[2]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString((yearly_value * average_month) / days)) << "</b></td>";
 		if(enabled[3]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toCurrencyString((yearly_value * average_year) / days)) << "</b></td>";

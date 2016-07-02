@@ -53,8 +53,6 @@
 
 #include <cmath>
 
-
-extern double monthsBetweenDates(const QDate &date1, const QDate &date2);
 extern void setColumnTextWidth(QTreeWidget *w, int i, QString str);
 extern void setColumnDateWidth(QTreeWidget *w, int i);
 extern void setColumnMoneyWidth(QTreeWidget *w, int i, double v = 9999999.99);

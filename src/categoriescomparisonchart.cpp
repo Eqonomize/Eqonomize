@@ -32,6 +32,7 @@
 
 #ifdef QT_CHARTS_LIB
 #include <QtCharts/QLegendMarker>
+#include <QtCharts/QPieLegendMarker>
 #else
 #include <QGraphicsView>
 #include <QGraphicsScene>
@@ -77,7 +78,6 @@
 
 #include <math.h>
 
-extern double monthsBetweenDates(const QDate &date1, const QDate &date2);
 extern QString last_picture_directory;
 
 CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *parent) : QWidget(parent), budget(budg) {
@@ -286,17 +286,11 @@ void CategoriesComparisonChart::fromChanged(const QDate &date) {
 	from_date = date;
 	if(fromButton->isChecked()) updateDisplay();
 }
-void CategoriesComparisonChart::prevMonth() {	
+void CategoriesComparisonChart::prevMonth() {
 	fromEdit->blockSignals(true);
 	toEdit->blockSignals(true);
-	from_date = from_date.addMonths(-1);
+	budget->goForwardBudgetMonths(from_date, to_date, -1);
 	fromEdit->setDate(from_date);
-	if(to_date.day() == to_date.daysInMonth()) {
-		to_date = to_date.addMonths(-1);
-		to_date.setDate(to_date.year(), to_date.month(), to_date.daysInMonth());
-	} else {
-		to_date = to_date.addMonths(-1);
-	}
 	toEdit->setDate(to_date);
 	fromEdit->blockSignals(false);
 	toEdit->blockSignals(false);
@@ -305,14 +299,8 @@ void CategoriesComparisonChart::prevMonth() {
 void CategoriesComparisonChart::nextMonth() {
 	fromEdit->blockSignals(true);
 	toEdit->blockSignals(true);
-	from_date = from_date.addMonths(1);
+	budget->goForwardBudgetMonths(from_date, to_date, 1);
 	fromEdit->setDate(from_date);
-	if(to_date.day() == to_date.daysInMonth()) {
-		to_date = to_date.addMonths(1);
-		to_date.setDate(to_date.year(), to_date.month(), to_date.daysInMonth());
-	} else {
-		to_date = to_date.addMonths(1);
-	}
 	toEdit->setDate(to_date);
 	fromEdit->blockSignals(false);
 	toEdit->blockSignals(false);
@@ -321,14 +309,8 @@ void CategoriesComparisonChart::nextMonth() {
 void CategoriesComparisonChart::prevYear() {
 	fromEdit->blockSignals(true);
 	toEdit->blockSignals(true);
-	from_date = from_date.addYears(-1);
+	budget->goForwardBudgetMonths(from_date, to_date, -12);
 	fromEdit->setDate(from_date);
-	if(to_date.day() == to_date.daysInMonth()) {
-		to_date = to_date.addYears(-1);
-		to_date.setDate(to_date.year(), to_date.month(), to_date.daysInMonth());
-	} else {
-		to_date = to_date.addYears(-1);
-	}
 	toEdit->setDate(to_date);
 	fromEdit->blockSignals(false);
 	toEdit->blockSignals(false);
@@ -337,14 +319,8 @@ void CategoriesComparisonChart::prevYear() {
 void CategoriesComparisonChart::nextYear() {
 	fromEdit->blockSignals(true);
 	toEdit->blockSignals(true);
-	from_date = from_date.addYears(1);
+	budget->goForwardBudgetMonths(from_date, to_date, 12);
 	fromEdit->setDate(from_date);
-	if(to_date.day() == to_date.daysInMonth()) {
-		to_date = to_date.addYears(1);
-		to_date.setDate(to_date.year(), to_date.month(), to_date.daysInMonth());
-	} else {
-		to_date = to_date.addYears(1);
-	}
 	toEdit->setDate(to_date);
 	fromEdit->blockSignals(false);
 	toEdit->blockSignals(false);
@@ -786,7 +762,7 @@ void CategoriesComparisonChart::updateDisplay() {
 	}
 
 	/*int days = first_date.daysTo(to_date) + 1;
-	double months = monthsBetweenDates(first_date, to_date), years = yearsBetweenDates(first_date, to_date);*/
+	double months = budget->monthsBetweenDates(first_date, to_date, true), years = budget->yearsBetweenDates(first_date, to_date, true);*/
 	
 	Account *account = NULL;
 	QMap<QString, double>::iterator it_desc = desc_values.begin();
@@ -910,13 +886,16 @@ void CategoriesComparisonChart::updateDisplay() {
 	connect(pie_series, SIGNAL(hovered(QPieSlice*, bool)), this, SLOT(sliceHovered(QPieSlice*, bool)));
 	connect(pie_series, SIGNAL(clicked(QPieSlice*)), this, SLOT(sliceClicked(QPieSlice*)));
 	chart->setTitle(QString("<h2>%1<h2>").arg(title_string));
+	chart->addSeries(series);
 	if(show_legend) {
 		chart->legend()->setAlignment(Qt::AlignRight);
 		chart->legend()->show();
+		foreach(QLegendMarker* marker, chart->legend()->markers()) {
+			QObject::connect(marker, SIGNAL(clicked()), this, SLOT(legendClicked()));
+		}
 	} else {
 		chart->legend()->hide();
 	}
-	chart->addSeries(series);
 #else
 	QGraphicsScene *oldscene = scene;
 	scene = new QGraphicsScene(this);
@@ -1158,8 +1137,8 @@ void CategoriesComparisonChart::themeChanged(int index) {
 	settings.endGroup();
 }
 void CategoriesComparisonChart::sliceHovered(QPieSlice *slice, bool state) {
-	if(!slice) return;
-	slice->setLabelVisible(state || slice->percentage() >= 0.04);
+	if(!slice || slice->isExploded() || slice->percentage() >= 0.04) return;
+	slice->setLabelVisible(state);
 }
 void CategoriesComparisonChart::sliceClicked(QPieSlice *slice) {
 	if(!slice) return;
@@ -1167,7 +1146,12 @@ void CategoriesComparisonChart::sliceClicked(QPieSlice *slice) {
 		slice->setLabelVisible(slice->percentage() >= 0.04);
 		slice->setExploded(false);
 	} else {
+		slice->setLabelVisible(true);
 		slice->setExploded(true);
 	}
+}
+void CategoriesComparisonChart::legendClicked() {
+	QPieLegendMarker* marker = qobject_cast<QPieLegendMarker*>(sender());
+	sliceClicked(marker->slice());
 }
 #endif

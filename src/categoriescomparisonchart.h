@@ -99,6 +99,7 @@ class CategoriesComparisonChart : public QWidget {
 		void themeChanged(int);
 		void sliceHovered(QPieSlice*, bool);
 		void sliceClicked(QPieSlice*);
+		void legendClicked();
 #endif
 
 };

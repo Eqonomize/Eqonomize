@@ -118,7 +118,7 @@ class Budget {
 	
 	protected:
 	
-		int i_quotation_decimals, i_share_decimals;
+		int i_quotation_decimals, i_share_decimals, i_budget_day;
 
 	public:
 
@@ -191,6 +191,33 @@ class Budget {
 		QMap<int, ExpensesAccount*> expensesAccounts_id;
 		QMap<int, AssetsAccount*> assetsAccounts_id;
 		QMap<int, Security*> securities_id;
+		
+		void setBudgetDay(int day_of_month);
+		int budgetDay() const;
+		
+		bool isSameBudgetMonth(const QDate &date1, const QDate &date2) const;
+		int daysInBudgetMonth(const QDate &date) const;
+		int daysInBudgetYear(const QDate &date) const;
+		int dayOfBudgetYear(const QDate &date) const;
+		int dayOfBudgetMonth(const QDate &date) const;
+		int budgetMonth(const QDate &date) const;
+		int budgetYear(const QDate &date) const;
+		bool isFirstBudgetDay(const QDate &date) const;
+		bool isLastBudgetDay(const QDate &date) const;
+		void addBudgetMonthsSetLast(QDate &date, int months) const;
+		void addBudgetMonthsSetFirst(QDate &date, int months) const;
+		QDate budgetDateToMonth(QDate date) const;
+		QDate firstBudgetDay(QDate date) const;
+		QDate lastBudgetDay(QDate date) const;
+		QDate firstBudgetDayOfYear(QDate date) const;
+		QDate lastBudgetDayOfYear(QDate date) const;
+		QDate monthToBudgetMonth(QDate date) const;
+		void goForwardBudgetMonths(QDate &from_date, QDate &to_date, int months) const;
+		double averageYear(const QDate &date1, const QDate &date2, bool use_budget_months = true);
+		double averageMonth(const QDate &date1, const QDate &date2, bool use_budget_months = true);
+		double yearsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months = true);
+		double monthsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months = true);
+		int calendarMonthsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months = true);
 
 };
 

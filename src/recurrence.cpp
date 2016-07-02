@@ -35,13 +35,7 @@ int months_between_dates(const QDate &date1, const QDate &date2) {
 		return date2.month() - date1.month();
 	}
 	int months = 12 - date1.month();
-	QDate yeardate;
-	yeardate.setDate(date1.year(), 1, 1);
-	yeardate = yeardate.addYears(1);
-	while(yeardate.year() != date2.year()) {
-		months += 12;
-		yeardate = yeardate.addYears(1);
-	}
+	months += (date2.year() - (date1.year() + 1)) * 12;
 	months += date2.month();
 	return months;
 }

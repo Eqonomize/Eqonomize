@@ -64,8 +64,6 @@
 #include <math.h>
 
 extern QString htmlize_string(QString str);
-extern double monthsBetweenDates(const QDate &date1, const QDate &date2);
-extern double yearsBetweenDates(const QDate &date1, const QDate &date2);
 extern QString last_document_directory;
 
 CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *parent, bool extra_parameters) : QWidget(parent), budget(budg), b_extra(extra_parameters) {
@@ -419,14 +417,8 @@ void CategoriesComparisonReport::fromChanged(const QDate &date) {
 void CategoriesComparisonReport::prevMonth() {
 	fromEdit->blockSignals(true);
 	toEdit->blockSignals(true);
-	from_date = from_date.addMonths(-1);
+	budget->goForwardBudgetMonths(from_date, to_date, -1);
 	fromEdit->setDate(from_date);
-	if(to_date.day() == to_date.daysInMonth()) {
-		to_date = to_date.addMonths(-1);
-		to_date.setDate(to_date.year(), to_date.month(), to_date.daysInMonth());
-	} else {
-		to_date = to_date.addMonths(-1);
-	}
 	toEdit->setDate(to_date);
 	fromEdit->blockSignals(false);
 	toEdit->blockSignals(false);
@@ -435,14 +427,8 @@ void CategoriesComparisonReport::prevMonth() {
 void CategoriesComparisonReport::nextMonth() {
 	fromEdit->blockSignals(true);
 	toEdit->blockSignals(true);
-	from_date = from_date.addMonths(1);
+	budget->goForwardBudgetMonths(from_date, to_date, 1);
 	fromEdit->setDate(from_date);
-	if(to_date.day() == to_date.daysInMonth()) {
-		to_date = to_date.addMonths(1);
-		to_date.setDate(to_date.year(), to_date.month(), to_date.daysInMonth());
-	} else {
-		to_date = to_date.addMonths(1);
-	}
 	toEdit->setDate(to_date);
 	fromEdit->blockSignals(false);
 	toEdit->blockSignals(false);
@@ -451,14 +437,8 @@ void CategoriesComparisonReport::nextMonth() {
 void CategoriesComparisonReport::prevYear() {
 	fromEdit->blockSignals(true);
 	toEdit->blockSignals(true);
-	from_date = from_date.addYears(-1);
+	budget->goForwardBudgetMonths(from_date, to_date, -12);
 	fromEdit->setDate(from_date);
-	if(to_date.day() == to_date.daysInMonth()) {
-		to_date = to_date.addYears(-1);
-		to_date.setDate(to_date.year(), to_date.month(), to_date.daysInMonth());
-	} else {
-		to_date = to_date.addYears(-1);
-	}
 	toEdit->setDate(to_date);
 	fromEdit->blockSignals(false);
 	toEdit->blockSignals(false);
@@ -467,14 +447,8 @@ void CategoriesComparisonReport::prevYear() {
 void CategoriesComparisonReport::nextYear() {
 	fromEdit->blockSignals(true);
 	toEdit->blockSignals(true);
-	from_date = from_date.addYears(1);
+	budget->goForwardBudgetMonths(from_date, to_date, 12);
 	fromEdit->setDate(from_date);
-	if(to_date.day() == to_date.daysInMonth()) {
-		to_date = to_date.addYears(1);
-		to_date.setDate(to_date.year(), to_date.month(), to_date.daysInMonth());
-	} else {
-		to_date = to_date.addYears(1);
-	}
 	toEdit->setDate(to_date);
 	fromEdit->blockSignals(false);
 	toEdit->blockSignals(false);
@@ -895,7 +869,7 @@ void CategoriesComparisonReport::updateDisplay() {
 	outf << "\t\t\t</thead>" << '\n';
 	outf << "\t\t\t<tbody>" << '\n';
 	int days = first_date.daysTo(to_date) + 1;
-	double months = monthsBetweenDates(first_date, to_date), years = yearsBetweenDates(first_date, to_date);
+	double months = budget->monthsBetweenDates(first_date, to_date, true), years = budget->yearsBetweenDates(first_date, to_date, true);
 	int i_count_frac = 0;
 	double intpart = 0.0;
 	if(current_account && !include_subs) {

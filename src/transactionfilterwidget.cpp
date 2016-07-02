@@ -48,9 +48,6 @@
 
 #include <cmath>
 
-extern double monthsBetweenDates(const QDate &date1, const QDate &date2);
-extern double yearsBetweenDates(const QDate &date1, const QDate &date2);
-
 TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int transaction_type, Budget *budg, QWidget *parent) : QWidget(parent), transtype(transaction_type), budget(budg), b_extra(extra_parameters) {
 	payeeEdit = NULL;
 	/*int rows = 5;
@@ -662,12 +659,12 @@ void TransactionFilterWidget::fromChanged(const QDate &date) {
 double TransactionFilterWidget::countYears() {
 	QDate first_date = firstDate();
 	if(first_date.isNull()) return 0.0;
-	return yearsBetweenDates(first_date, to_date);
+	return budget->yearsBetweenDates(first_date, to_date, true);
 }
 double TransactionFilterWidget::countMonths() {
 	QDate first_date = firstDate();
 	if(first_date.isNull()) return 0.0;
-	return monthsBetweenDates(first_date, to_date);
+	return budget->monthsBetweenDates(first_date, to_date, true);
 }
 int TransactionFilterWidget::countDays() {
 	QDate first_date = firstDate();

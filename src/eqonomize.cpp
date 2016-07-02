@@ -122,98 +122,6 @@ enum {
 
 QString last_document_directory, last_picture_directory;
 
-#define BUDGET_DATE_TO_MONTH(date) budget_date_to_month(date, i_budget_day)
-#define FIRST_BUDGET_DAY(date) date_to_first_budget_day(date, i_budget_day)
-#define LAST_BUDGET_DAY(date) date_to_last_budget_day(date, i_budget_day)
-#define ADD_BUDGET_MONTHS(date, months) date = date.addMonths(months); if(i_budget_day < 1) date.setDate(date.year(), date.month(), date.daysInMonth() + i_budget_day);
-#define FIRST_BUDGET_DAY_2(date) date_to_first_budget_day_2(date, i_budget_day)
-#define LAST_BUDGET_DAY_2(date) date_to_last_budget_day_2(date, i_budget_day)
-#define IS_FIRST_BUDGET_DAY(date) ((i_budget_day > 0 && date.day() == i_budget_day) || (i_budget_day <= 0 && date.day() == date.daysInMonth() - i_budget_day))
-#define IS_LAST_BUDGET_DAY(date) ((i_budget_day == 1 && date.day() == date.daysInMonth()) || (i_budget_day > 1 && date.day() == i_budget_day) || (i_budget_day <= 0 && date.day() == date.daysInMonth() - i_budget_day - 1))
-#define SAME_BUDGET_MONTH(date1, date2) is_same_budget_month(date1, date2, i_budget_day)
-
-bool is_same_budget_month(const QDate date1, const QDate &date2, int i_budget_day) {
-	if(date1 == date2) return true;
-	if(i_budget_day == 1) return date1.year() == date2.year() && date1.month() == date2.month();
-	const QDate *d1, *d2;
-	if(date1 < date2) {
-		d1 = &date1; d2 = &date2;
-	} else {
-		d1 = &date2; d2 = &date1;
-	}
-	if(d1->month() == d2->month()) {
-		if(i_budget_day < 1) i_budget_day = d1->daysInMonth() + i_budget_day;
-		return d1->year() == d2->year() && (d2->day() < i_budget_day) == (d1->day() < i_budget_day);
-	}
-	int i_budget_day2 = i_budget_day;
-	if(i_budget_day < 1) {
-		i_budget_day = d1->daysInMonth() + i_budget_day;
-		i_budget_day2 = d2->daysInMonth() + i_budget_day;
-	}
-	if((d2->day() >= i_budget_day2) || (d1->day() < i_budget_day)) return false;
-	QDate d1p1 = d1->addMonths(1);
-	return d1p1.year() == d2->year() && d1p1.month() == d2->month(); 
-}
-QDate budget_date_to_month(QDate date, int i_budget_day) {
-	if(i_budget_day < 1) i_budget_day = date.daysInMonth() + i_budget_day;
-	if(date.day() >= i_budget_day) {
-		if(i_budget_day > 15) date = date.addMonths(1);
-	} else {
-		if(i_budget_day <= 15) date = date.addMonths(-1);
-	}
-	date.setDate(date.year(), date.month(), 1);
-	return date;
-}
-QDate date_to_first_budget_day(QDate date, int i_budget_day) {
-	int ibd = i_budget_day;
-	if(i_budget_day < 1) ibd = date.daysInMonth() + i_budget_day;
-	if(date.day() < ibd) {
-		date = date.addMonths(-1);
-		if(i_budget_day < 1) ibd = date.daysInMonth() + i_budget_day;
-	}
-	date.setDate(date.year(), date.month(), ibd);
-	return date;
-}
-QDate date_to_last_budget_day(QDate date, int i_budget_day) {
-	int ibd = i_budget_day;
-	if(i_budget_day < 1) ibd = date.daysInMonth() + i_budget_day;
-	if(ibd == 1) {
-		date.setDate(date.year(), date.month(), date.daysInMonth());
-	} else {
-		if(date.day() >= ibd) {
-			date = date.addMonths(1);
-			if(i_budget_day < 1) ibd = date.daysInMonth() + i_budget_day;
-		}
-		date.setDate(date.year(), date.month(), ibd - 1);
-	}
-	return date;
-}
-QDate date_to_first_budget_day_2(QDate date, int i_budget_day) {
-	int ibd = i_budget_day;
-	if(i_budget_day < 1) ibd = date.daysInMonth() + i_budget_day;
-	if(date.day() == ibd) return date;
-	if(date.day() < ibd && ibd > 15) {
-		date = date.addMonths(-1);
-		if(i_budget_day < 1) ibd = date.daysInMonth() + i_budget_day;
-	}
-	date.setDate(date.year(), date.month(), ibd);
-	return date;
-}
-QDate date_to_last_budget_day_2(QDate date, int i_budget_day) {
-	int ibd = i_budget_day;
-	if(i_budget_day < 1) ibd = date.daysInMonth() + i_budget_day;
-	if(ibd == 1) {
-		date.setDate(date.year(), date.month(), date.daysInMonth());
-	} else {
-		if(date.day() >= ibd && ibd <= 15) {
-			date = date.addMonths(1);
-			if(i_budget_day < 1) ibd = date.daysInMonth() + i_budget_day;
-		}
-		date.setDate(date.year(), date.month(), ibd - 1);
-	}
-	return date;
-}
-
 void setColumnTextWidth(QTreeWidget *w, int i, QString str) {
 	QFontMetrics fm(w->font());
 	int tw = fm.width(str) + 10;
@@ -238,83 +146,6 @@ QTreeWidgetItem *selectedItem(QTreeWidget *w) {
 	QList<QTreeWidgetItem*> list = w->selectedItems();
 	if(list.isEmpty()) return NULL;
 	return list.first();
-}
-
-double averageMonth(const QDate &date1, const QDate &date2) {
-	double average_month = (double) date1.daysInYear() / (double) 12;
-	int years = 1;
-	QDate ydate;
-	ydate.setDate(date1.year(), 1, 1);
-	ydate = ydate.addYears(1);
-	while(ydate.year() <= date2.year()) {
-		average_month += (double) ydate.daysInYear() / (double) 12;
-		years++;
-		ydate = ydate.addYears(1);
-	}
-	return average_month / years;
-}
-double averageYear(const QDate &date1, const QDate &date2) {
-	double average_year = date1.daysInYear();
-	int years = 1;
-	QDate ydate;
-	ydate.setDate(date1.year(), 1, 1);
-	ydate = ydate.addYears(1);
-	while(ydate.year() <= date2.year()) {
-		average_year += ydate.daysInYear();
-		years++;
-		ydate = ydate.addYears(1);
-	}
-	return average_year / years;
-}
-double yearsBetweenDates(const QDate &date1, const QDate &date2) {
-	double years = 0.0;
-	if(date1.year() == date2.year()) {
-		int days = date1.daysTo(date2) + 1;
-		years = (double) days / (double) date2.daysInYear();
-	} else {
-		QDate yeardate;
-		yeardate.setDate(date1.year(), 1, 1);
-		years += (1.0 - (date1.dayOfYear() - 1.0) / (double) date1.daysInYear());
-		yeardate = yeardate.addYears(1);
-		while(yeardate.year() != date2.year()) {
-			years += 1.0;
-			yeardate = yeardate.addYears(1);
-		}
-		years += (double) date2.dayOfYear() / (double) date2.daysInYear();
-	}
-	return years;
-}
-double monthsBetweenDates(const QDate &date1, const QDate &date2) {
-	double months = 0.0;
-	if(date1.year() == date2.year()) {
-		if(date1.month() == date2.month()) {
-			int days = date1.daysTo(date2) + 1;
-			months = (double) days / (double) date2.daysInMonth();
-		} else {
-			QDate monthdate;
-			monthdate.setDate(date1.year(), date1.month(), 1);
-			months += (1.0 - ((date1.day() - 1.0) / (double) date1.daysInMonth()));
-			months += (date2.month() - date1.month() - 1);
-			monthdate.setDate(date2.year(), date2.month(), 1);
-			months += (double) date2.day() / (double) date2.daysInMonth();
-		}
-	} else {
-		QDate monthdate;
-		monthdate.setDate(date1.year(), date1.month(), 1);
-		months += (1.0 - ((date1.day() - 1.0) / (double) date1.daysInMonth()));
-		months += (12 - date1.month());
-		QDate yeardate;
-		yeardate.setDate(date1.year(), 1, 1);
-		yeardate = yeardate.addYears(1);
-		while(yeardate.year() != date2.year()) {
-			months += 12;
-			yeardate = yeardate.addYears(1);
-		}
-		monthdate.setDate(date2.year(), date2.month(), 1);
-		months += (double) date2.day() / (double) date2.daysInMonth();
-		months += date2.month() - 1;
-	}
-	return months;
 }
 
 class SecurityListViewItem : public QTreeWidgetItem {
@@ -2030,39 +1861,36 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	int initial_period = settings.value("initialPeriod", int(0)).toInt();
 	if(initial_period < 0 || initial_period > 4) initial_period = 0;
 
-	i_budget_day = settings.value("firstBudgetDay", int(1)).toInt();
-	if(i_budget_day < -26 || i_budget_day > 28) i_budget_day = 1;
-
 	prev_cur_date = QDate::currentDate();
 	QDate curdate = prev_cur_date;
 	bool from_enabled = true;
 
 	switch(initial_period) {
 		case 0: {
-			from_date = FIRST_BUDGET_DAY(curdate);
+			from_date = budget->firstBudgetDay(curdate);
 			to_date = curdate;
 			break;
 		}
 		case 1: {
 			from_date.setDate(curdate.year(), 1, 1);
-			from_date = FIRST_BUDGET_DAY(from_date);
+			from_date = budget->firstBudgetDay(from_date);
 			to_date = curdate;
 			break;
 		}
 		case 2: {
-			from_date = FIRST_BUDGET_DAY(curdate);
-			to_date = LAST_BUDGET_DAY(curdate);
+			from_date = budget->firstBudgetDay(curdate);
+			to_date = budget->lastBudgetDay(curdate);
 			break;
 		}
 		case 3: {
 			from_date.setDate(curdate.year(), 1, 1);
-			from_date = FIRST_BUDGET_DAY(from_date);
+			from_date = budget->firstBudgetDay(from_date);
 			to_date = from_date.addDays(curdate.daysInYear() - 1);
 			break;
 		}
 		case 4: {
 			from_date = QDate::fromString(settings.value("initialFromDate").toString(), Qt::ISODate);
-			if(!from_date.isValid()) from_date = FIRST_BUDGET_DAY(curdate);
+			if(!from_date.isValid()) from_date = budget->firstBudgetDay(curdate);
 			from_enabled = settings.value("initialFromDateEnabled", false).toBool();
 			to_date = QDate::fromString(settings.value("initialToDate").toString(), Qt::ISODate);
 			if(!to_date.isValid()) to_date = from_date.addDays(from_date.daysInMonth() - 1);
@@ -2070,9 +1898,9 @@ Eqonomize::Eqonomize() : QMainWindow() {
 		}
 	}
 	
-	frommonth_begin = FIRST_BUDGET_DAY(from_date);
-	prevmonth_begin = FIRST_BUDGET_DAY(to_date);
-	ADD_BUDGET_MONTHS(prevmonth_begin, -1);
+	frommonth_begin = budget->firstBudgetDay(from_date);
+	prevmonth_begin = budget->firstBudgetDay(to_date);
+	budget->addBudgetMonthsSetFirst(prevmonth_begin, -1);
 
 	setAcceptDrops(true);
 
@@ -2543,7 +2371,23 @@ void Eqonomize::useExtraProperties(bool b) {
 	settings.endGroup();
 
 }
-
+void Eqonomize::updateBudgetDay() {
+	frommonth_begin = budget->firstBudgetDay(from_date);
+	prevmonth_begin = budget->firstBudgetDay(to_date);
+	budget->addBudgetMonthsSetFirst(prevmonth_begin, -1);
+	budgetMonthEdit->blockSignals(true);
+	budgetMonthEdit->setDate(budget->budgetDateToMonth(to_date));
+	budgetMonthEdit->blockSignals(false);
+	if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentMonth) periodSelected(ActionAP_1);
+	else if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentYear) periodSelected(ActionAP_2);
+	else if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentWholeMonth) periodSelected(ActionAP_3);
+	else if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentWholeYear) periodSelected(ActionAP_4);
+	else filterAccounts();
+	if(otcDialog) ((OverTimeChartDialog*) otcDialog)->chart->resetOptions();
+	if(otrDialog) ((OverTimeReportDialog*) otrDialog)->report->resetOptions();
+	if(cccDialog) ((CategoriesComparisonChartDialog*) cccDialog)->chart->resetOptions();
+	if(ccrDialog) ((CategoriesComparisonReportDialog*) ccrDialog)->report->resetOptions();
+}
 void Eqonomize::setBudgetPeriod() {
 	QDialog *dialog = new QDialog(this, 0);
 	dialog->setWindowTitle(tr("Set Budget Period"));
@@ -2584,8 +2428,8 @@ void Eqonomize::setBudgetPeriod() {
 	monthlyDayCombo->addItem(tr("3rd Last"));
 	monthlyDayCombo->addItem(tr("4th Last"));
 	monthlyDayCombo->addItem(tr("5th Last"));
-	if(i_budget_day > 0) monthlyDayCombo->setCurrentIndex(i_budget_day - 1);
-	else if(i_budget_day > -5) monthlyDayCombo->setCurrentIndex(28 - i_budget_day);
+	if(budget->budgetDay() > 0) monthlyDayCombo->setCurrentIndex(budget->budgetDay() - 1);
+	else if(budget->budgetDay() > -5) monthlyDayCombo->setCurrentIndex(28 - budget->budgetDay());
 	monthlyDayLayout->addWidget(monthlyDayCombo);
 	box1->addLayout(monthlyDayLayout);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -2595,23 +2439,9 @@ void Eqonomize::setBudgetPeriod() {
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
 	box1->addWidget(buttonBox);
 	if(dialog->exec() == QDialog::Accepted) {
-		i_budget_day = monthlyDayCombo->currentIndex() + 1;
-		if(i_budget_day > 28) i_budget_day = -(i_budget_day - 28);
-		QSettings settings;
-		settings.beginGroup("GeneralOptions");
-		settings.setValue("firstBudgetDay", i_budget_day);
-		settings.endGroup();
-		frommonth_begin = FIRST_BUDGET_DAY(from_date);
-		prevmonth_begin = FIRST_BUDGET_DAY(to_date);
-		ADD_BUDGET_MONTHS(prevmonth_begin, -1);
-		budgetMonthEdit->blockSignals(true);
-		budgetMonthEdit->setDate(FIRST_BUDGET_DAY(to_date));
-		budgetMonthEdit->blockSignals(false);
-		if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentMonth) periodSelected(ActionAP_1);
-		else if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentYear) periodSelected(ActionAP_2);
-		else if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentWholeMonth) periodSelected(ActionAP_3);
-		else if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentWholeYear) periodSelected(ActionAP_4);
-		else filterAccounts();
+		budget->setBudgetDay(monthlyDayCombo->currentIndex() >= 28 ? -(monthlyDayCombo->currentIndex() - 28) : monthlyDayCombo->currentIndex() + 1);
+		updateBudgetDay();
+		setModified(true);
 	}
 	dialog->deleteLater();
 }
@@ -2736,19 +2566,17 @@ void Eqonomize::periodSelected(QAction *a) {
 	accountsPeriodToEdit->blockSignals(true);	
 	QDate curdate = QDate::currentDate();
 	if(a == ActionAP_1) {
-		from_date = FIRST_BUDGET_DAY(curdate);
+		from_date = budget->firstBudgetDay(curdate);
 		to_date = curdate;
 	} else if(a == ActionAP_2) {
-		from_date.setDate(curdate.year(), 1, 1);
-		from_date = FIRST_BUDGET_DAY(from_date);
+		from_date = budget->firstBudgetDayOfYear(curdate);
 		to_date = curdate;
 	} else if(a == ActionAP_3) {
-		from_date = FIRST_BUDGET_DAY(curdate);
-		to_date = LAST_BUDGET_DAY(curdate);
+		from_date = budget->firstBudgetDay(curdate);
+		to_date = budget->lastBudgetDay(curdate);
 	} else if(a == ActionAP_4) {
-		from_date.setDate(curdate.year(), 1, 1);
-		from_date = FIRST_BUDGET_DAY(from_date);
-		to_date = from_date.addDays(curdate.daysInYear() - 1);
+		from_date = budget->firstBudgetDayOfYear(curdate);
+		to_date = budget->lastBudgetDayOfYear(curdate);
 	} else if(a == ActionAP_5) {
 		to_date = curdate;
 		from_date = to_date.addMonths(-1).addDays(1);
@@ -2756,14 +2584,13 @@ void Eqonomize::periodSelected(QAction *a) {
 		to_date = curdate;
 		from_date = to_date.addYears(-1).addDays(1);
 	} else if(a == ActionAP_7) {
-		curdate = curdate.addMonths(-1);
-		from_date = FIRST_BUDGET_DAY(curdate);
-		to_date = LAST_BUDGET_DAY(curdate);
+		from_date = budget->firstBudgetDay(curdate);
+		budget->addBudgetMonthsSetFirst(from_date, -1);
+		to_date = budget->lastBudgetDay(from_date);
 	} else if(a == ActionAP_8) {
-		curdate = curdate.addYears(-1);
-		from_date.setDate(curdate.year(), 1, 1);
-		from_date = FIRST_BUDGET_DAY(from_date);
-		to_date = from_date.addDays(curdate.daysInYear() - 1);
+		from_date = budget->firstBudgetDayOfYear(curdate);
+		budget->addBudgetMonthsSetFirst(from_date, -12);
+		to_date = budget->lastBudgetDayOfYear(from_date);
 	}
 	accountsPeriodFromButton->setChecked(true);
 	accountsPeriodFromEdit->setEnabled(true);
@@ -3737,18 +3564,8 @@ void Eqonomize::accountsPeriodFromChanged(const QDate &date) {
 void Eqonomize::prevMonth() {
 	accountsPeriodFromEdit->blockSignals(true);
 	accountsPeriodToEdit->blockSignals(true);
-	from_date = from_date.addMonths(-1);
+	budget->goForwardBudgetMonths(from_date, to_date, -1);
 	accountsPeriodFromEdit->setDate(from_date);
-	to_date = accountsPeriodToEdit->date();
-	if((to_date == QDate::currentDate() && IS_FIRST_BUDGET_DAY(from_date))) {
-		to_date = to_date.addMonths(-1);
-		to_date = LAST_BUDGET_DAY(to_date);
-	} else if(to_date.day() == to_date.daysInMonth() && !IS_LAST_BUDGET_DAY(to_date)) {
-		to_date = to_date.addMonths(-1);
-		to_date.setDate(to_date.year(), to_date.month(), to_date.daysInMonth());
-	} else {
-		to_date = to_date.addMonths(-1);
-	}
 	accountsPeriodToEdit->setDate(to_date);
 	accountsPeriodFromEdit->blockSignals(false);
 	accountsPeriodToEdit->blockSignals(false);
@@ -3757,18 +3574,8 @@ void Eqonomize::prevMonth() {
 void Eqonomize::nextMonth() {
 	accountsPeriodFromEdit->blockSignals(true);
 	accountsPeriodToEdit->blockSignals(true);
-	from_date = from_date.addMonths(1);
+	budget->goForwardBudgetMonths(from_date, to_date, 1);
 	accountsPeriodFromEdit->setDate(from_date);
-	to_date = accountsPeriodToEdit->date();
-	if((to_date == QDate::currentDate() && IS_FIRST_BUDGET_DAY(from_date))) {
-		to_date = to_date.addMonths(1);
-		to_date = LAST_BUDGET_DAY(to_date);
-	} else if(to_date.day() == to_date.daysInMonth() && !IS_LAST_BUDGET_DAY(to_date)) {
-		to_date = to_date.addMonths(1);
-		to_date.setDate(to_date.year(), to_date.month(), to_date.daysInMonth());
-	} else {
-		to_date = to_date.addMonths(1);
-	}
 	accountsPeriodToEdit->setDate(to_date);
 	accountsPeriodFromEdit->blockSignals(false);
 	accountsPeriodToEdit->blockSignals(false);
@@ -3778,7 +3585,7 @@ void Eqonomize::currentMonth() {
 	accountsPeriodFromEdit->blockSignals(true);
 	accountsPeriodToEdit->blockSignals(true);
 	QDate curdate = QDate::currentDate();
-	from_date == FIRST_BUDGET_DAY(curdate);
+	from_date == budget->firstBudgetDay(curdate);
 	accountsPeriodFromEdit->setDate(from_date);
 	to_date = curdate;
 	accountsPeriodToEdit->setDate(to_date);
@@ -3789,17 +3596,8 @@ void Eqonomize::currentMonth() {
 void Eqonomize::prevYear() {
 	accountsPeriodFromEdit->blockSignals(true);
 	accountsPeriodToEdit->blockSignals(true);
-	from_date = from_date.addYears(-1);
+	budget->goForwardBudgetMonths(from_date, to_date, -12);
 	accountsPeriodFromEdit->setDate(from_date);
-	if((to_date == QDate::currentDate() && IS_FIRST_BUDGET_DAY(from_date))) {
-		to_date = to_date.addYears(-1);
-		to_date = LAST_BUDGET_DAY(to_date);
-	} else if(to_date.day() == to_date.daysInMonth() && !IS_LAST_BUDGET_DAY(to_date)) {
-		to_date = to_date.addYears(-1);
-		to_date.setDate(to_date.year(), to_date.month(), to_date.daysInMonth());
-	} else {
-		to_date = to_date.addYears(-1);
-	}
 	accountsPeriodToEdit->setDate(to_date);
 	accountsPeriodFromEdit->blockSignals(false);
 	accountsPeriodToEdit->blockSignals(false);
@@ -3808,17 +3606,8 @@ void Eqonomize::prevYear() {
 void Eqonomize::nextYear() {
 	accountsPeriodFromEdit->blockSignals(true);
 	accountsPeriodToEdit->blockSignals(true);
-	from_date = from_date.addYears(1);
+	budget->goForwardBudgetMonths(from_date, to_date, 12);
 	accountsPeriodFromEdit->setDate(from_date);
-	if((to_date == QDate::currentDate() && IS_FIRST_BUDGET_DAY(from_date))) {
-		to_date = to_date.addYears(1);
-		to_date = LAST_BUDGET_DAY(to_date);
-	} else if(to_date.day() == to_date.daysInMonth() && !IS_LAST_BUDGET_DAY(to_date)) {
-		to_date = to_date.addYears(1);
-		to_date.setDate(to_date.year(), to_date.month(), to_date.daysInMonth());
-	} else {
-		to_date = to_date.addYears(1);
-	}
 	accountsPeriodToEdit->setDate(to_date);
 	accountsPeriodFromEdit->blockSignals(false);
 	accountsPeriodToEdit->blockSignals(false);
@@ -3829,7 +3618,7 @@ void Eqonomize::currentYear() {
 	accountsPeriodToEdit->blockSignals(true);
 	QDate curdate = QDate::currentDate();
 	from_date.setDate(curdate.year(), 1, 1);
-	from_date = FIRST_BUDGET_DAY(from_date);
+	from_date = budget->firstBudgetDay(from_date);
 	accountsPeriodFromEdit->setDate(from_date);
 	to_date = curdate;
 	accountsPeriodToEdit->setDate(to_date);
@@ -4075,7 +3864,7 @@ void Eqonomize::reloadBudget() {
 	expensesWidget->transactionsReset();
 	incomesWidget->transactionsReset();
 	transfersWidget->transactionsReset();
-	filterAccounts();
+	updateBudgetDay();
 	updateScheduledTransactions();
 	updateSecurities();
 }
@@ -5252,7 +5041,6 @@ void Eqonomize::saveOptions() {
 	settings.setValue("currentEditTransferFromItem", transfersWidget->currentEditFromItem());
 	settings.setValue("currentEditTransferToItem", transfersWidget->currentEditToItem());
 	settings.setValue("useExtraProperties", b_extra);
-	settings.setValue("firstBudgetDay", i_budget_day);
 	settings.setValue("firstRun", false);
 	settings.setValue("size", size());
 	settings.setValue("windowState", saveState());
@@ -6158,7 +5946,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 	QDate date;
 	if(b_filter_to) {
 		if(!monthdate) {
-			if(!SAME_BUDGET_MONTH(transdate, to_date)) return;
+			if(!budget->isSameBudgetMonth(transdate, to_date)) return;
 		} else {
 			if(transdate > *monthdate) return;
 		}
@@ -6174,7 +5962,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			b_future = (transdate > QDate::currentDate());
 			if(!b_future) {
 				QDate curdate = QDate::currentDate();
-				if(SAME_BUDGET_MONTH(curdate, transdate)) {
+				if(budget->isSameBudgetMonth(curdate, transdate)) {
 					b_curmonth = true;
 					b_future = true;
 				}
@@ -6190,7 +5978,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 	bool balto = false;
 	double value = subtract ? -trans->value() : trans->value();
 	if(!monthdate) {
-		date = LAST_BUDGET_DAY(transdate);
+		date = budget->lastBudgetDay(transdate);
 		monthdate = &date;
 	}
 	if(n > 1) value *= n;
@@ -6557,7 +6345,7 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 		sub = ca->subCategories.next();
 	}
 
-	if(subs.isEmpty() && (it == it_e || FIRST_BUDGET_DAY_2(it.key()) > to_date)) {
+	if(subs.isEmpty() && (it == it_e || budget->monthToBudgetMonth(it.key()) > to_date)) {
 
 		i->setText(BUDGET_COLUMN, "-");
 		account_budget[account] = -1.0;
@@ -6568,31 +6356,30 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 		QDate monthdate, monthend, curdate = QDate::currentDate(), curmonth, frommonth;
 
 		frommonth = frommonth_begin;
-		if(it != it_e && accountsPeriodFromButton->isChecked() && frommonth > FIRST_BUDGET_DAY_2(it.key())) {
+		if(it != it_e && accountsPeriodFromButton->isChecked() && frommonth > budget->monthToBudgetMonth(it.key())) {
 			QMap<QDate, double>::const_iterator it_b = ca->mbudgets.begin();
 			it = it_e;
 			--it;
 			while(it != it_b) {
-				if(frommonth > FIRST_BUDGET_DAY_2(it.key())) break;
+				if(frommonth > budget->monthToBudgetMonth(it.key())) break;
 				--it;
 			}
 			after_from = false;
 		}
 		for(QVector<budget_info>::iterator sit = subs.begin(); sit != subs.end(); ++sit) {
-			if(accountsPeriodFromButton->isChecked() && frommonth > FIRST_BUDGET_DAY_2(sit->it.key())) {
+			if(accountsPeriodFromButton->isChecked() && frommonth > budget->monthToBudgetMonth(sit->it.key())) {
 				QMap<QDate, double>::const_iterator it_b = sit->ca->mbudgets.begin();
 				sit->it = sit->it_e;
 				--(sit->it);
 				while(sit->it != it_b) {
-					if(frommonth > FIRST_BUDGET_DAY_2(sit->it.key())) break;
+					if(frommonth > budget->monthToBudgetMonth(sit->it.key())) break;
 					--(sit->it);
 				}
 				after_from = false;
 			}
 		}
 		double diff = 0.0, future_diff = 0.0, future_change_diff = 0.0, m = 0.0, v = 0.0;
-		QDate monthlast;
-		monthlast.setDate(to_date.year(), to_date.month(), 1);
+		QDate monthlast = budget->firstBudgetDay(to_date);
 
 		QMap<QDate, double>::const_iterator it_n = it;
 		if(it_n != it_e) ++it_n;
@@ -6605,10 +6392,10 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 		monthdate = frommonth;
 
 		do {
-			if(it != it_e && FIRST_BUDGET_DAY_2(it.key()) <= monthdate) m = it.value();
+			if(it != it_e && budget->monthToBudgetMonth(it.key()) <= monthdate) m = it.value();
 			else m = -1.0;
 			if(m >= 0.0) {
-				monthend = LAST_BUDGET_DAY(monthdate);
+				monthend = budget->lastBudgetDay(monthdate);
 				has_budget = true;
 				bool b_lastmonth = (monthlast == monthdate && to_date != monthend);
 				v = account_month[account][monthend];
@@ -6616,7 +6403,7 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 					int days;
 					if(b_firstmonth) days = from_date.daysTo(b_lastmonth ? to_date : monthend);
 					else days = monthdate.daysTo(b_lastmonth ? to_date : monthend);
-					int dim = monthdate.daysTo(monthend);
+					int dim = monthdate.daysTo(monthend) + 1;
 					m = (m * (days + 1)) / dim;
 					if(b_firstmonth) v -= account_month_beginfirst[account];
 					if(b_lastmonth) v -= account_month_endlast[account];
@@ -6624,10 +6411,10 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 				mbudget += m;
 				diff += m - v;
 			} else if(!subs.isEmpty()) {
-				monthend = LAST_BUDGET_DAY(monthdate);
+				monthend = budget->lastBudgetDay(monthdate);
 				bool b_lastmonth = (monthlast == monthdate && to_date != monthend);
 				for(QVector<budget_info>::iterator sit = subs.begin(); sit != subs.end(); ++sit) {
-					if(FIRST_BUDGET_DAY_2(sit->it.key()) <= monthdate) m = sit->it.value();
+					if(budget->monthToBudgetMonth(sit->it.key()) <= monthdate) m = sit->it.value();
 					else m = -1.0;
 					if(m >= 0.0) {
 						has_subs_budget = true;
@@ -6647,13 +6434,13 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 				}
 			}
 			b_firstmonth = false;
-			ADD_BUDGET_MONTHS(monthdate, 1);
-			if(it_n != it_e && monthdate == FIRST_BUDGET_DAY_2(it_n.key())) {
+			budget->addBudgetMonthsSetFirst(monthdate, 1);
+			if(it_n != it_e && monthdate == budget->monthToBudgetMonth(it_n.key())) {
 				it = it_n;
 				++it_n;
 			}
 			for(QVector<budget_info>::iterator sit = subs.begin(); sit != subs.end(); ++sit) {
-				if(sit->it_n != sit->it_e && monthdate == FIRST_BUDGET_DAY_2(sit->it_n.key())) {
+				if(sit->it_n != sit->it_e && monthdate == budget->monthToBudgetMonth(sit->it_n.key())) {
 					sit->it = sit->it_n;
 					++(sit->it_n);
 				}
@@ -6668,16 +6455,16 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 			it = ca->mbudgets.begin();
 			while(it != it_e && it.value() < 0.0) ++it;
 			if(it != it_e) {
-				if(curdate < FIRST_BUDGET_DAY_2(it.key())) {
-					curmonth = FIRST_BUDGET_DAY_2(it.key());
+				if(curdate < budget->monthToBudgetMonth(it.key())) {
+					curmonth = budget->monthToBudgetMonth(it.key());
 					after_cur = true;
 				} else {
-					curmonth = FIRST_BUDGET_DAY_2(curdate);
+					curmonth = budget->monthToBudgetMonth(curdate);
 					QMap<QDate, double>::const_iterator it_b = ca->mbudgets.begin();
 					it = it_e;
 					--it;
 					while(it != it_b) {
-						if(curmonth > FIRST_BUDGET_DAY_2(it.key())) break;
+						if(curmonth > budget->monthToBudgetMonth(it.key())) break;
 						--it;
 					}
 					after_cur = false;
@@ -6689,15 +6476,15 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 			for(QVector<budget_info>::iterator sit = subs.begin(); sit != subs.end(); ++sit) {
 				sit->it = sit->ca->mbudgets.begin();
 				while(sit->it != sit->it_e && sit->it.value() < 0.0) ++(sit->it);
-				if(curdate < FIRST_BUDGET_DAY_2(sit->it.key())) {
-					if(after_cur && curmonth > FIRST_BUDGET_DAY_2(sit->it.key())) curmonth = FIRST_BUDGET_DAY_2(sit->it.key());
+				if(curdate < budget->monthToBudgetMonth(sit->it.key())) {
+					if(after_cur && curmonth > budget->monthToBudgetMonth(sit->it.key())) curmonth = budget->monthToBudgetMonth(sit->it.key());
 				} else {
-					if(after_cur) curmonth = FIRST_BUDGET_DAY_2(curdate);
+					if(after_cur) curmonth = budget->monthToBudgetMonth(curdate);
 					QMap<QDate, double>::const_iterator it_b = sit->ca->mbudgets.begin();
 					sit->it = sit->it_e;
 					--(sit->it);
 					while(sit->it != it_b) {
-						if(curmonth > FIRST_BUDGET_DAY_2(sit->it.key())) break;
+						if(curmonth > budget->monthToBudgetMonth(sit->it.key())) break;
 						--(sit->it);
 					}
 					after_cur = false;
@@ -6708,10 +6495,10 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 			bool had_from = after_from || from_date <= curdate;
 			bool b_curmonth = !after_cur && (curmonth != curdate);
 			do {
-				if(it != it_e && FIRST_BUDGET_DAY_2(it.key()) <= curmonth) m = it.value();
+				if(it != it_e && budget->monthToBudgetMonth(it.key()) <= curmonth) m = it.value();
 				else m = -1.0;
 				if(m >= 0.0) {
-					monthend = LAST_BUDGET_DAY(curmonth);
+					monthend = budget->lastBudgetDay(curmonth);
 					v = account_month[account][monthend];
 					bool b_lastmonth = (monthlast == curmonth && to_date != monthend);
 					bool b_frommonth = !had_from && frommonth == curmonth;
@@ -6742,7 +6529,6 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 						if(b_lastmonth) {
 							v -= account_month_endlast[account];
 							m = (m * curmonth.daysTo(to_date)) / dim;
-							
 						}
 						if(b_curmonth) {
 							days = curdate.daysTo(b_lastmonth ? to_date : monthend);
@@ -6767,11 +6553,11 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 					}
 					if(b_frommonth) had_from = true;					
 				} else if(!subs.isEmpty()) {
-					monthend = LAST_BUDGET_DAY(curmonth);					
+					monthend = budget->lastBudgetDay(curmonth);					
 					bool b_lastmonth = (monthlast == monthdate && to_date != monthend);
 					bool b_frommonth = !had_from && frommonth == curmonth;
 					for(QVector<budget_info>::iterator sit = subs.begin(); sit != subs.end(); ++sit) {
-						if(FIRST_BUDGET_DAY_2(sit->it.key()) <= curmonth) m = sit->it.value();
+						if(budget->monthToBudgetMonth(sit->it.key()) <= curmonth) m = sit->it.value();
 						else m = -1.0;
 						if(m >= 0.0) {
 							v = account_month[sit->ca][monthend];
@@ -6829,13 +6615,13 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 					}
 				}
 				b_curmonth = false;
-				ADD_BUDGET_MONTHS(curmonth, 1);
-				if(it_n != it_e && curmonth == FIRST_BUDGET_DAY_2(it_n.key())) {
+				budget->addBudgetMonthsSetFirst(curmonth, 1);
+				if(it_n != it_e && curmonth == budget->monthToBudgetMonth(it_n.key())) {
 					it = it_n;
 					++it_n;
 				}
 				for(QVector<budget_info>::iterator sit = subs.begin(); sit != subs.end(); ++sit) {
-					if(sit->it_n != sit->it_e && curmonth == FIRST_BUDGET_DAY_2(sit->it_n.key())) {
+					if(sit->it_n != sit->it_e && curmonth == budget->monthToBudgetMonth(sit->it_n.key())) {
 						sit->it = sit->it_n;
 						++(sit->it_n);
 					}
@@ -7023,12 +6809,12 @@ void Eqonomize::filterAccounts() {
 	Transaction *trans = budget->transactions.first();
 	QDate monthdate, monthdate_begin;
 	bool b_from = accountsPeriodFromButton->isChecked();
-	QDate lastmonth = LAST_BUDGET_DAY(to_date);
+	QDate lastmonth = budget->lastBudgetDay(to_date);
 	QDate curdate = QDate::currentDate(), curmonth, curmonth_begin;
-	curmonth_begin = FIRST_BUDGET_DAY(curdate);
-	prevmonth_begin = FIRST_BUDGET_DAY(to_date);
-	ADD_BUDGET_MONTHS(prevmonth_begin, -1);
-	curmonth = LAST_BUDGET_DAY(curdate);
+	curmonth_begin = budget->firstBudgetDay(curdate);
+	prevmonth_begin = budget->firstBudgetDay(to_date);
+	budget->addBudgetMonthsSetFirst(prevmonth_begin, -1);
+	curmonth = budget->lastBudgetDay(curdate);
 	frommonth_begin = QDate();
 	IncomesAccount *iaccount = budget->incomesAccounts.first();
 
@@ -7044,8 +6830,8 @@ void Eqonomize::filterAccounts() {
 		account_month_endlast[iaccount] = 0.0;
 		account_future_diff[iaccount] = 0.0;
 		account_future_diff_change[iaccount] = 0.0;
-		if(!iaccount->mbudgets.isEmpty() && iaccount->mbudgets.begin().value() >= 0.0 && (frommonth_begin.isNull() || FIRST_BUDGET_DAY_2(iaccount->mbudgets.begin().key()) < frommonth_begin)) {
-			frommonth_begin = FIRST_BUDGET_DAY_2(iaccount->mbudgets.begin().key());
+		if(!iaccount->mbudgets.isEmpty() && iaccount->mbudgets.begin().value() >= 0.0 && (frommonth_begin.isNull() || budget->monthToBudgetMonth(iaccount->mbudgets.begin().key()) < frommonth_begin)) {
+			frommonth_begin = budget->monthToBudgetMonth(iaccount->mbudgets.begin().key());
 		}
 		iaccount = budget->incomesAccounts.next();
 	}
@@ -7062,13 +6848,13 @@ void Eqonomize::filterAccounts() {
 		account_month_endlast[eaccount] = 0.0;
 		account_future_diff[eaccount] = 0.0;
 		account_future_diff_change[eaccount] = 0.0;
-		if(!eaccount->mbudgets.isEmpty() && eaccount->mbudgets.begin().value() >= 0.0 && (frommonth_begin.isNull() || FIRST_BUDGET_DAY_2(eaccount->mbudgets.begin().key()) < frommonth_begin)) {
-			frommonth_begin = FIRST_BUDGET_DAY_2(eaccount->mbudgets.begin().key());
+		if(!eaccount->mbudgets.isEmpty() && eaccount->mbudgets.begin().value() >= 0.0 && (frommonth_begin.isNull() || budget->monthToBudgetMonth(eaccount->mbudgets.begin().key()) < frommonth_begin)) {
+			frommonth_begin = budget->monthToBudgetMonth(eaccount->mbudgets.begin().key());
 		}
 		eaccount = budget->expensesAccounts.next();
 	}
 	if(frommonth_begin.isNull() || (b_from && frommonth_begin < from_date)) {
-		if(b_from) frommonth_begin = FIRST_BUDGET_DAY(from_date);
+		if(b_from) frommonth_begin = budget->firstBudgetDay(from_date);
 		else frommonth_begin = curmonth_begin;
 	}
 	if(frommonth_begin.isNull() || frommonth_begin > prevmonth_begin) {
@@ -7078,7 +6864,7 @@ void Eqonomize::filterAccounts() {
 	}
 
 	if(monthdate_begin > curmonth_begin) monthdate_begin = curmonth_begin;
-	monthdate = LAST_BUDGET_DAY(monthdate_begin);
+	monthdate = budget->lastBudgetDay(monthdate_begin);
 	bool b_future = false;
 	bool b_past = (curdate >= to_date);
 	if(b_past) {
@@ -7099,8 +6885,8 @@ void Eqonomize::filterAccounts() {
 		if(!b_past && !b_future && trans->date() >= curmonth_begin) b_future = true;
 		if(!b_from || b_future || trans->date() >= frommonth_begin || trans->date() >= prevmonth_begin) {
 			while(trans->date() > monthdate) {
-				ADD_BUDGET_MONTHS(monthdate_begin, 1);
-				monthdate = LAST_BUDGET_DAY(monthdate_begin);
+				budget->addBudgetMonthsSetFirst(monthdate_begin, 1);
+				monthdate = budget->lastBudgetDay(monthdate_begin);
 				iaccount = budget->incomesAccounts.first();
 				while(iaccount) {
 					account_month[iaccount][monthdate] = 0.0;
@@ -7120,8 +6906,8 @@ void Eqonomize::filterAccounts() {
 	}
 
 	while(lastmonth >= monthdate) {
-		ADD_BUDGET_MONTHS(monthdate_begin, 1);
-		monthdate = LAST_BUDGET_DAY(monthdate_begin);
+		budget->addBudgetMonthsSetFirst(monthdate_begin, 1);
+		monthdate = budget->lastBudgetDay(monthdate_begin);
 		iaccount = budget->incomesAccounts.first();
 		while(iaccount) {
 			account_month[iaccount][monthdate] = 0.0;
@@ -7163,7 +6949,7 @@ void Eqonomize::filterAccounts() {
 	assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	assetsItem->setText(CHANGE_COLUMN, QLocale().toString(assets_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
 	budgetMonthEdit->blockSignals(true);
-	budgetMonthEdit->setDate(FIRST_BUDGET_DAY(to_date));
+	budgetMonthEdit->setDate(budget->budgetDateToMonth(to_date));
 	budgetMonthEdit->blockSignals(false);
 	updateBudgetEdit();
 }

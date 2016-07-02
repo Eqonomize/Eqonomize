@@ -33,8 +33,6 @@
 
 #include <cmath>
 
-extern double yearsBetweenDates(const QDate &date1, const QDate &date2);
-
 void Security::init() {
 	transactions.setAutoDelete(false);
 	dividends.setAutoDelete(false);
@@ -413,7 +411,7 @@ double Security::yearlyRate() {
 	}
 	if(date1 == date2) return 0.0;
 	double change = q2 / q1 + shares_change;
-	return pow(change, 1 / yearsBetweenDates(date1, date2)) - 1;
+	return pow(change, 1 / o_budget->yearsBetweenDates(date1, date2, false)) - 1;
 }
 double Security::yearlyRate(const QDate &date) {
 	QMap<QDate, double>::const_iterator it_begin = quotations.begin();
@@ -450,7 +448,7 @@ double Security::yearlyRate(const QDate &date) {
 		rediv = reinvestedDividends.next();
 	}
 	double change = q2 / q1 + shares_change;
-	return pow(change, 1 / yearsBetweenDates(date1, date2)) - 1;
+	return pow(change, 1 / o_budget->yearsBetweenDates(date1, date2, false)) - 1;
 }
 double Security::yearlyRate(const QDate &date1, const QDate &date2) {
 	if(date1 > date2) return yearlyRate(date2, date1);
@@ -459,7 +457,7 @@ double Security::yearlyRate(const QDate &date1, const QDate &date2) {
 	if(it_begin == quotations.end()) return 0.0;
 	QDate curdate = QDate::currentDate();
 	if(date1 >= curdate) {
-		return pow(1 + (profit(date1, date2, true, true) / value(date1, true, true)), 1 / (yearsBetweenDates(date1, date2))) - 1;
+		return pow(1 + (profit(date1, date2, true, true) / value(date1, true, true)), 1 / (o_budget->yearsBetweenDates(date1, date2, false))) - 1;
 	}
 	if(date2 > curdate) {
 		double rate1 = yearlyRate(date1, curdate);
@@ -509,7 +507,7 @@ double Security::yearlyRate(const QDate &date1, const QDate &date2) {
 		rediv = reinvestedDividends.next();
 	}
 	double change = q2 / q1 + shares_change;
-	return pow(change, 1 / yearsBetweenDates(date1, date2)) - 1;
+	return pow(change, 1 / o_budget->yearsBetweenDates(date1, date2, false)) - 1;
 }
 double Security::expectedQuotation(const QDate &date) {
 	if(quotations.contains(date)) {

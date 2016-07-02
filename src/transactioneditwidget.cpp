@@ -52,8 +52,6 @@
 
 #include <cmath>
 
-extern double monthsBetweenDates(const QDate &date1, const QDate &d2);
-
 #define TEROWCOL(row, col)	row % rows, ((row / rows) * 2) + col
 
 EqonomizeDateEdit::EqonomizeDateEdit(QWidget *parent) : QDateEdit(QDate::currentDate(), parent) {}

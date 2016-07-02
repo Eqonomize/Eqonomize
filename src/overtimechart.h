@@ -30,9 +30,8 @@ class QComboBox;
 #ifdef QT_CHARTS_LIB
 #include <QtCharts/QChartView>
 #include <QtCharts/QChart>
-#include <QtCharts/QLineSeries>
 #include <QtCharts/QValueAxis>
-#include <QtCharts/QCategoryAxis>
+#include <QtCharts/QAbstractAxis>
 class QGraphicsItem;
 QT_CHARTS_USE_NAMESPACE
 #else
@@ -68,7 +67,8 @@ class OverTimeChart : public QWidget {
 		QChartView *view;
 		QChart *chart;
 		QComboBox *themeCombo;
-		QCategoryAxis *axisX;
+		QComboBox *typeCombo;
+		QAbstractAxis *axisX;
 		QValueAxis *axisY;
 		QGraphicsItem *point_label;
 #else
@@ -108,6 +108,7 @@ class OverTimeChart : public QWidget {
 		void valueTypeToggled(bool);
 #ifdef QT_CHARTS_LIB
 		void themeChanged(int);
+		void typeChanged(int);
 		void legendClicked();
 		void onSeriesHovered(const QPointF&, bool state);
 #endif
