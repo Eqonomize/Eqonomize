@@ -28,7 +28,8 @@
 #ifdef QT_CHARTS_LIB
 #include <QtCharts/QChartView>
 #include <QtCharts/QChart>
-#include <QtCharts/QPieSeries>
+#include <QtCharts/QAbstractSeries>
+#include <QtCharts/QPieSlice>
 QT_CHARTS_USE_NAMESPACE
 #else
 class QGraphicsScene;
@@ -68,6 +69,7 @@ class CategoriesComparisonChart : public QWidget {
 		QChart *chart;
 		QAbstractSeries *series;
 		QComboBox *themeCombo;
+		QComboBox *typeCombo;
 #else
 		QGraphicsScene *scene;
 		QGraphicsView *view;
@@ -97,6 +99,7 @@ class CategoriesComparisonChart : public QWidget {
 		void sourceChanged(int);
 #ifdef QT_CHARTS_LIB
 		void themeChanged(int);
+		void typeChanged(int);
 		void sliceHovered(QPieSlice*, bool);
 		void sliceClicked(QPieSlice*);
 		void legendClicked();

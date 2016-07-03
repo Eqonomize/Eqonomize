@@ -75,9 +75,9 @@ LedgerListViewItem::LedgerListViewItem(Transaction *trans, SplitTransaction *spl
 	setText(5, s6);
 	setText(6, s7);
 	setText(7, s8);
-	setTextAlignment(4, Qt::AlignRight);
-	setTextAlignment(5, Qt::AlignRight);
-	setTextAlignment(6, Qt::AlignRight);
+	setTextAlignment(4, Qt::AlignRight | Qt::AlignVCenter);
+	setTextAlignment(5, Qt::AlignRight | Qt::AlignVCenter);
+	setTextAlignment(6, Qt::AlignRight | Qt::AlignVCenter);
 }
 Transaction *LedgerListViewItem::transaction() const {
 	return o_trans;

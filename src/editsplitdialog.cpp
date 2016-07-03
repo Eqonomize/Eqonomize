@@ -65,8 +65,8 @@ class SplitListViewItem : public QTreeWidgetItem {
 
 SplitListViewItem::SplitListViewItem(Transaction *trans, bool deposit) : QTreeWidgetItem() {
 	setTransaction(trans, deposit);
-	setTextAlignment(2, Qt::AlignRight);
-	setTextAlignment(3, Qt::AlignRight);
+	setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
+	setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
 }
 bool SplitListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	int col = 0;

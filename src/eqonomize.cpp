@@ -110,7 +110,7 @@
 
 #define MAX_RECENT_FILES 10
 
-#define NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent, s1, s2, s3, s4) QTreeWidgetItem *i = new QTreeWidgetItem(parent); i->setText(0, s1); i->setText(1, s2); i->setText(2, s3); i->setText(3, s4); i->setTextAlignment(BUDGET_COLUMN, Qt::AlignRight); i->setTextAlignment(CHANGE_COLUMN, Qt::AlignRight); i->setTextAlignment(VALUE_COLUMN, Qt::AlignRight);
+#define NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent, s1, s2, s3, s4) QTreeWidgetItem *i = new QTreeWidgetItem(parent); i->setText(0, s1); i->setText(1, s2); i->setText(2, s3); i->setText(3, s4); i->setTextAlignment(BUDGET_COLUMN, Qt::AlignRight | Qt::AlignVCenter); i->setTextAlignment(CHANGE_COLUMN, Qt::AlignRight | Qt::AlignVCenter); i->setTextAlignment(VALUE_COLUMN, Qt::AlignRight | Qt::AlignVCenter);
 
 enum {
 	BACKUP_NEVER,
@@ -161,12 +161,12 @@ class SecurityListViewItem : public QTreeWidgetItem {
 			setText(5, s6);
 			setText(6, s7);
 			setText(7, s8);
-			setTextAlignment(1, Qt::AlignRight);
-			setTextAlignment(2, Qt::AlignRight);
-			setTextAlignment(3, Qt::AlignRight);
-			setTextAlignment(4, Qt::AlignRight);
-			setTextAlignment(5, Qt::AlignRight);
-			setTextAlignment(6, Qt::AlignRight);
+			setTextAlignment(1, Qt::AlignRight | Qt::AlignVCenter);
+			setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
+			setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
+			setTextAlignment(4, Qt::AlignRight | Qt::AlignVCenter);
+			setTextAlignment(5, Qt::AlignRight | Qt::AlignVCenter);
+			setTextAlignment(6, Qt::AlignRight | Qt::AlignVCenter);
 			//setTextAlignment(7, Qt::AlignCenter);
 			//setTextAlignment(8, Qt::AlignCenter);
 		}
@@ -202,7 +202,7 @@ class ScheduleListViewItem : public QTreeWidgetItem {
 };
 
 ScheduleListViewItem::ScheduleListViewItem(ScheduledTransaction *strans, const QDate &trans_date) : QTreeWidgetItem(UserType) {
-	setTextAlignment(3, Qt::AlignRight);
+	setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
 	//setTextAlignment(4, Qt::AlignCenter);
 	//setTextAlignment(5, Qt::AlignCenter);
 	setScheduledTransaction(strans);
@@ -263,7 +263,7 @@ class ConfirmScheduleListViewItem : public QTreeWidgetItem {
 
 ConfirmScheduleListViewItem::ConfirmScheduleListViewItem(Transaction *trans) : QTreeWidgetItem(UserType) {
 	setTransaction(trans);
-	setTextAlignment(3, Qt::AlignRight);
+	setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
 }
 bool ConfirmScheduleListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	int col = 0;
@@ -316,10 +316,10 @@ SecurityTransactionListViewItem::SecurityTransactionListViewItem(QString s1, QSt
 	setText(1, s2);
 	setText(2, s3);
 	setText(3, s4);
-	setTextAlignment(0, Qt::AlignLeft);
-	setTextAlignment(1, Qt::AlignLeft);
-	setTextAlignment(2, Qt::AlignRight);
-	setTextAlignment(3, Qt::AlignRight);
+	setTextAlignment(0, Qt::AlignLeft | Qt::AlignVCenter);
+	setTextAlignment(1, Qt::AlignLeft | Qt::AlignVCenter);
+	setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
+	setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
 }
 bool SecurityTransactionListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	int col = 0;
@@ -346,8 +346,8 @@ class QuotationListViewItem : public QTreeWidgetItem {
 QuotationListViewItem::QuotationListViewItem(const QDate &date_, double value_, int decimals_) : QTreeWidgetItem(UserType), date(date_), value(value_), decimals(decimals_) {
 	setText(0, QLocale().toString(date, QLocale::ShortFormat));
 	setText(1, format_money(value, decimals));
-	setTextAlignment(0, Qt::AlignRight);
-	setTextAlignment(1, Qt::AlignRight);
+	setTextAlignment(0, Qt::AlignRight | Qt::AlignVCenter);
+	setTextAlignment(1, Qt::AlignRight | Qt::AlignVCenter);
 }
 bool QuotationListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	QuotationListViewItem *i = (QuotationListViewItem*) &i_pre;
@@ -1791,9 +1791,9 @@ class TotalListViewItem : public QTreeWidgetItem {
 			setText(1, label2);
 			setText(2, label3);
 			setText(3, label4);
-			setTextAlignment(BUDGET_COLUMN, Qt::AlignRight);
-			setTextAlignment(CHANGE_COLUMN, Qt::AlignRight);
-			setTextAlignment(VALUE_COLUMN, Qt::AlignRight);
+			setTextAlignment(BUDGET_COLUMN, Qt::AlignRight | Qt::AlignVCenter);
+			setTextAlignment(CHANGE_COLUMN, Qt::AlignRight | Qt::AlignVCenter);
+			setTextAlignment(VALUE_COLUMN, Qt::AlignRight | Qt::AlignVCenter);
 			setBackground(0, parent->palette().alternateBase());
 			setBackground(1, parent->palette().alternateBase());
 			setBackground(2, parent->palette().alternateBase());
@@ -1804,9 +1804,9 @@ class TotalListViewItem : public QTreeWidgetItem {
 			setText(1, label2);
 			setText(2, label3);
 			setText(3, label4);
-			setTextAlignment(BUDGET_COLUMN, Qt::AlignRight);
-			setTextAlignment(CHANGE_COLUMN, Qt::AlignRight);
-			setTextAlignment(VALUE_COLUMN, Qt::AlignRight);
+			setTextAlignment(BUDGET_COLUMN, Qt::AlignRight | Qt::AlignVCenter);
+			setTextAlignment(CHANGE_COLUMN, Qt::AlignRight | Qt::AlignVCenter);
+			setTextAlignment(VALUE_COLUMN, Qt::AlignRight | Qt::AlignVCenter);
 			setBackground(0, parent->palette().alternateBase());
 			setBackground(1, parent->palette().alternateBase());
 			setBackground(2, parent->palette().alternateBase());
@@ -5384,10 +5384,10 @@ void Eqonomize::balanceAccount(Account *i_account) {
 	box1->addLayout(grid);
 	grid->addWidget(new QLabel(tr("Book value:"), dialog), 0, 0);
 	QLabel *label = new QLabel(QLocale().toCurrencyString(book_value), dialog);
-	label->setAlignment(Qt::AlignRight);
+	label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 	grid->addWidget(label, 0, 1);
 	label = new QLabel(tr("of which %1 is balanced").arg(QLocale().toCurrencyString(current_balancing)), dialog);
-	label->setAlignment(Qt::AlignRight);
+	label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 	grid->addWidget(label, 1, 1);
 	grid->addWidget(new QLabel(tr("Real value:"), dialog), 2, 0);
 	EqonomizeValueEdit *realEdit = new EqonomizeValueEdit(book_value, true, true, dialog);

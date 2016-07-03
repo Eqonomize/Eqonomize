@@ -32,7 +32,14 @@
 
 #ifdef QT_CHARTS_LIB
 #include <QtCharts/QLegendMarker>
+#include <QtCharts/QBarLegendMarker>
 #include <QtCharts/QPieLegendMarker>
+#include <QtCharts/QBarCategoryAxis>
+#include <QtCharts/QValueAxis>
+#include <QtCharts/QBarSeries>
+#include <QtCharts/QHorizontalBarSeries>
+#include <QtCharts/QBarSet>
+#include <QtCharts/QPieSeries>
 #else
 #include <QGraphicsView>
 #include <QGraphicsScene>
@@ -79,6 +86,7 @@
 #include <math.h>
 
 extern QString last_picture_directory;
+extern void calculate_minmax_lines(double &maxvalue, double &minvalue, int &y_lines, int &y_minor, bool minmaxequal = false, bool use_deciminor = true);
 
 CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *parent) : QWidget(parent), budget(budg) {
 
@@ -98,6 +106,12 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	themeCombo->addItem("Blue Icy", QChart::ChartThemeBlueIcy);
 	themeCombo->addItem("Qt", QChart::ChartThemeQt);
 	buttons->addWidget(themeCombo);
+	buttons->addWidget(new QLabel(tr("Chart type:"), this));
+	typeCombo = new QComboBox(this);
+	typeCombo->addItem(tr("Pie Chart"));
+	typeCombo->addItem(tr("Vertical Bar Chart"));
+	typeCombo->addItem(tr("Horizontal Bar Chart"));
+	buttons->addWidget(typeCombo);
 #endif
 	buttons->addStretch();
 	saveButton = new QPushButton(tr("Save As…"), this);
@@ -175,6 +189,7 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 
 #ifdef QT_CHARTS_LIB
 	connect(themeCombo, SIGNAL(activated(int)), this, SLOT(themeChanged(int)));
+	connect(typeCombo, SIGNAL(activated(int)), this, SLOT(typeChanged(int)));
 #endif
 	connect(sourceCombo, SIGNAL(activated(int)), this, SLOT(sourceChanged(int)));
 	connect(prevMonthButton, SIGNAL(clicked()), this, SLOT(prevMonth()));
@@ -200,6 +215,7 @@ void CategoriesComparisonChart::resetOptions() {
 	settings.value("chartTheme", chart->theme()).toInt();
 	QChart::ChartTheme theme = (QChart::ChartTheme) settings.value("chartTheme", chart->theme()).toInt();
 	themeCombo->setCurrentIndex(theme);
+	typeCombo->setCurrentIndex(0);
 	chart->setTheme(theme);
 	settings.endGroup();
 #endif
@@ -799,7 +815,19 @@ void CategoriesComparisonChart::updateDisplay() {
 
 
 #ifdef QT_CHARTS_LIB
-	QPieSeries *pie_series = new QPieSeries();
+	QPieSeries *pie_series = NULL;
+	QAbstractBarSeries *bar_series = NULL;
+	int chart_type = typeCombo->currentIndex() + 1;
+	double maxvalue = 0.0, minvalue = 0.0;
+
+	if(chart_type == 1) {
+		pie_series = new QPieSeries();
+		
+	} else if(chart_type == 3) {
+		bar_series = new QHorizontalBarSeries();
+	} else {
+		bar_series = new QBarSeries();
+	}
 	
 	if(current_account) {
 		if(include_subs) {
@@ -855,11 +883,19 @@ void CategoriesComparisonChart::updateDisplay() {
 			legend_value = round(legend_value);
 		}
 
-		QPieSlice *slice = pie_series->append(QString("%1 (%2%)").arg(legend_string).arg(QLocale().toString(legend_value, 'f', deci)), current_value);
-		
-		if(legend_value > 4.0) {
-			slice->setLabelVisible(true);
+		if(chart_type == 1) {
+			QPieSlice *slice = pie_series->append(QString("%1 (%2%)").arg(legend_string).arg(QLocale().toString(legend_value, 'f', deci)), current_value);
+			if(legend_value >= 8.0) {
+				slice->setLabelVisible(true);
+			} else {
+				show_legend = true;
+			}
 		} else {
+			QBarSet *set = new QBarSet(QString("%1 (%2%)").arg(legend_string).arg(QLocale().toString(legend_value, 'f', deci)));
+			set->append(current_value);
+			if(current_value > maxvalue) maxvalue = current_value;
+			if(current_value < minvalue) minvalue = current_value;
+			bar_series->append(set);
 			show_legend = true;
 		}
 		
@@ -882,11 +918,46 @@ void CategoriesComparisonChart::updateDisplay() {
 	}
 	
 	chart->removeAllSeries();
-	series = pie_series;
-	connect(pie_series, SIGNAL(hovered(QPieSlice*, bool)), this, SLOT(sliceHovered(QPieSlice*, bool)));
-	connect(pie_series, SIGNAL(clicked(QPieSlice*)), this, SLOT(sliceClicked(QPieSlice*)));
+	
+	foreach(QAbstractAxis* axis, chart->axes()) {
+		chart->removeAxis(axis);
+	}
+	
+	if(chart_type == 1) {
+		series = pie_series;
+		connect(pie_series, SIGNAL(hovered(QPieSlice*, bool)), this, SLOT(sliceHovered(QPieSlice*, bool)));
+		connect(pie_series, SIGNAL(clicked(QPieSlice*)), this, SLOT(sliceClicked(QPieSlice*)));
+		chart->addSeries(series);
+	} else {
+		series = bar_series;
+		bar_series->setBarWidth(1.0);
+		chart->addSeries(series);
+		QBarCategoryAxis *b_axis = new QBarCategoryAxis();
+		b_axis->append("");
+
+		int y_lines = 5, y_minor = 0;
+		calculate_minmax_lines(maxvalue, minvalue, y_lines, y_minor);
+		QValueAxis *v_axis = new QValueAxis();
+		v_axis->setRange(minvalue, maxvalue);
+		v_axis->setTickCount(y_lines + 1);
+		v_axis->setMinorTickCount(y_minor);
+		if(type == 2 || (maxvalue - minvalue) >= 50.0) v_axis->setLabelFormat(QString("%.0f"));
+		else v_axis->setLabelFormat(QString("%.%1f").arg(QString::number(MONETARY_DECIMAL_PLACES)));
+		
+		if(type == ACCOUNT_TYPE_ASSETS) v_axis->setTitleText(tr("Value") + QString(" (%1)").arg(QLocale().currencySymbol()));
+		else if(type == ACCOUNT_TYPE_INCOMES) v_axis->setTitleText(tr("Income") + QString(" (%1)").arg(QLocale().currencySymbol()));
+		else v_axis->setTitleText(tr("Cost") + QString(" (%1)").arg(QLocale().currencySymbol()));
+
+		if(chart_type == 3) {
+			chart->setAxisY(b_axis, series);
+			chart->setAxisX(v_axis, series);
+		} else {
+			chart->setAxisX(b_axis, series);
+			chart->setAxisY(v_axis, series);
+		}
+	}
+	
 	chart->setTitle(QString("<h2>%1<h2>").arg(title_string));
-	chart->addSeries(series);
 	if(show_legend) {
 		chart->legend()->setAlignment(Qt::AlignRight);
 		chart->legend()->show();
@@ -1136,14 +1207,17 @@ void CategoriesComparisonChart::themeChanged(int index) {
 	settings.setValue("chartTheme", theme);
 	settings.endGroup();
 }
+void CategoriesComparisonChart::typeChanged(int) {
+	updateDisplay();
+}
 void CategoriesComparisonChart::sliceHovered(QPieSlice *slice, bool state) {
-	if(!slice || slice->isExploded() || slice->percentage() >= 0.04) return;
+	if(!slice || slice->isExploded() || slice->percentage() >= 0.08) return;
 	slice->setLabelVisible(state);
 }
 void CategoriesComparisonChart::sliceClicked(QPieSlice *slice) {
 	if(!slice) return;
 	if(slice->isExploded()) {
-		slice->setLabelVisible(slice->percentage() >= 0.04);
+		slice->setLabelVisible(slice->percentage() >= 0.08);
 		slice->setExploded(false);
 	} else {
 		slice->setLabelVisible(true);
@@ -1151,7 +1225,13 @@ void CategoriesComparisonChart::sliceClicked(QPieSlice *slice) {
 	}
 }
 void CategoriesComparisonChart::legendClicked() {
-	QPieLegendMarker* marker = qobject_cast<QPieLegendMarker*>(sender());
-	sliceClicked(marker->slice());
+	if(typeCombo->currentIndex() == 0) {
+		QPieLegendMarker* marker = qobject_cast<QPieLegendMarker*>(sender());
+		sliceClicked(marker->slice());
+	} else {
+		QBarLegendMarker* marker = qobject_cast<QBarLegendMarker*>(sender());
+		if(marker->series()->count() == 1) updateDisplay();
+		else marker->series()->remove(marker->barset());
+	}
 }
 #endif

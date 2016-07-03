@@ -30,6 +30,7 @@ class QComboBox;
 #ifdef QT_CHARTS_LIB
 #include <QtCharts/QChartView>
 #include <QtCharts/QChart>
+#include <QtCharts/QBarSet>
 #include <QtCharts/QValueAxis>
 #include <QtCharts/QAbstractAxis>
 class QGraphicsItem;
@@ -110,7 +111,8 @@ class OverTimeChart : public QWidget {
 		void themeChanged(int);
 		void typeChanged(int);
 		void legendClicked();
-		void onSeriesHovered(const QPointF&, bool state);
+		void onSeriesHovered(const QPointF&, bool);
+		void onSeriesHovered(bool, int, QBarSet*);
 #endif
 
 };

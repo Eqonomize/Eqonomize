@@ -757,7 +757,7 @@ void TransactionListWidget::appendFilterTransaction(Transaction *trans, bool upd
 	if(!filterWidget->filterTransaction(trans)) {
 		QTreeWidgetItem *i = new TransactionListViewItem(trans->date(), trans, NULL, QLocale().toString(trans->date(), QLocale::ShortFormat), QString::null, QLocale().toCurrencyString(trans->value()));
 		transactionsView->insertTopLevelItem(0, i);
-		i->setTextAlignment(2, Qt::AlignRight);
+		i->setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
 		//i->setTextAlignment(3, Qt::AlignCenter);
 		//i->setTextAlignment(4, Qt::AlignCenter);
 		if(trans == selected_trans) {
@@ -798,7 +798,7 @@ void TransactionListWidget::appendFilterScheduledTransaction(ScheduledTransactio
 			QTreeWidgetItem *i = NULL;
 			i = new TransactionListViewItem(date, trans, strans, QString::null, trans->description(), QLocale().toCurrencyString(trans->value()));
 			transactionsView->insertTopLevelItem(0, i);
-			i->setTextAlignment(2, Qt::AlignRight);
+			i->setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
 			//i->setTextAlignment(3, Qt::AlignCenter);
 			//i->setTextAlignment(4, Qt::AlignCenter);
 			if(strans->recurrence()) i->setText(0, QLocale().toString(date, QLocale::ShortFormat) + "**");
