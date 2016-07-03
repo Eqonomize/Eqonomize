@@ -46,6 +46,7 @@
 #include <QMessageBox>
 
 #include "budget.h"
+#include "editaccountdialogs.h"
 #include "eqonomizevalueedit.h"
 #include "recurrence.h"
 #include "transactioneditwidget.h"
@@ -63,7 +64,7 @@ void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
 }
 
 
-TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_parameters, int transaction_type, bool split, bool transfer_to, Security *sec, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent) : QWidget(parent), transtype(transaction_type), budget(budg), security(sec), b_autoedit(auto_edit), b_extra(extra_parameters) {
+TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_parameters, int transaction_type, bool split, bool transfer_to, Security *sec, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent, bool allow_account_creation) : QWidget(parent), transtype(transaction_type), budget(budg), security(sec), b_autoedit(auto_edit), b_extra(extra_parameters), b_create_accounts(allow_account_creation) {
 	value_set = false; shares_set = false; sharevalue_set = false;
 	b_sec = (transtype == TRANSACTION_TYPE_SECURITY_BUY || transtype == TRANSACTION_TYPE_SECURITY_SELL);
 	QVBoxLayout *editVLayout = new QVBoxLayout(this);
@@ -86,6 +87,8 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	toCombo = NULL;
 	fromCombo = NULL;
 	securityCombo = NULL;
+	added_from_account = NULL;
+	added_to_account = NULL;
 	int i = 0;
 	if(b_sec) {
 		int decimals = budget->defaultShareDecimals();
@@ -366,6 +369,75 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	if(payeeEdit) connect(payeeEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
 	if(b_autoedit) connect(commentsEdit, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
 	if(securityCombo) connect(securityCombo, SIGNAL(activated(int)), this, SLOT(securityChanged()));
+	if(fromCombo && b_create_accounts) connect(fromCombo, SIGNAL(activated(int)), this, SLOT(fromActivated(int)));
+	if(toCombo && b_create_accounts) connect(toCombo, SIGNAL(activated(int)), this, SLOT(toActivated(int)));
+}
+void TransactionEditWidget::fromActivated(int index) {
+	if(index != fromCombo->count() - 1) return;
+	fromCombo->setCurrentIndex(froms.count() > 0 ? 0 : -1);
+	switch(transtype) {
+		case TRANSACTION_TYPE_SECURITY_BUY: {}
+		case TRANSACTION_TYPE_TRANSFER: {}
+		case TRANSACTION_TYPE_EXPENSE: {
+			EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, this, tr("New Account"));
+			if(dialog->exec() == QDialog::Accepted) {
+				AssetsAccount *account = dialog->newAccount();
+				budget->addAccount(account);
+				added_from_account = account;
+				updateAccounts();
+				emit accountAdded(account);
+			}
+			dialog->deleteLater();
+			break;
+		}
+		case TRANSACTION_TYPE_INCOME: {
+			EditIncomesAccountDialog *dialog = new EditIncomesAccountDialog(budget, NULL, this, tr("New Income Category"));
+			if(dialog->exec() == QDialog::Accepted) {
+				IncomesAccount *account = dialog->newAccount();
+				budget->addAccount(account);
+				added_from_account = account;
+				updateAccounts();
+				emit accountAdded(account);
+			}
+			dialog->deleteLater();
+			break;
+		}
+		case TRANSACTION_TYPE_SECURITY_SELL: {break;}
+	}
+}
+
+void TransactionEditWidget::toActivated(int index) {
+	if(index != toCombo->count() - 1) return;
+	toCombo->setCurrentIndex(tos.count() > 0 ? 0 : -1);
+	switch(transtype) {
+		case TRANSACTION_TYPE_SECURITY_SELL: {}
+		case TRANSACTION_TYPE_TRANSFER: {}
+		case TRANSACTION_TYPE_INCOME: {
+			EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, this, tr("New Account"));
+			if(dialog->exec() == QDialog::Accepted) {
+				AssetsAccount *account = dialog->newAccount();
+				budget->addAccount(account);
+				added_to_account = account;
+				updateAccounts();
+				emit accountAdded(account);
+			}
+			dialog->deleteLater();
+			break;
+		}
+		case TRANSACTION_TYPE_EXPENSE: {
+			EditExpensesAccountDialog *dialog = new EditExpensesAccountDialog(budget, NULL, this, tr("New Expense Category"));
+			if(dialog->exec() == QDialog::Accepted) {
+				ExpensesAccount *account = dialog->newAccount();
+				budget->addAccount(account);
+				added_to_account = account;
+				updateAccounts();
+				emit accountAdded(account);
+			}
+			dialog->deleteLater();
+			break;
+		}
+		case TRANSACTION_TYPE_SECURITY_BUY: {break;}
+	}
 }
 void TransactionEditWidget::focusDate() {
 	if(!dateEdit) return;
@@ -487,9 +559,17 @@ void TransactionEditWidget::setDefaultValue() {
 }
 void TransactionEditWidget::updateFromAccounts(Account *exclude_account) {
 	if(!fromCombo) return;
+	Account *current_account = NULL;
+	if(added_from_account) {
+		current_account = added_from_account;
+		added_from_account = NULL;
+	} else if(fromCombo->currentIndex() < froms.size()) {
+		current_account = froms[fromCombo->currentIndex()];
+	}
 	fromCombo->clear();
 	froms.clear();
 	Account *account;
+	int current_index = -1;
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
 			AssetsAccount *account = budget->assetsAccounts.first();
@@ -497,13 +577,22 @@ void TransactionEditWidget::updateFromAccounts(Account *exclude_account) {
 				if(account != exclude_account && (b_autoedit || ((AssetsAccount*) account)->accountType() != ASSETS_TYPE_SECURITIES)) {
 					fromCombo->addItem(account->name());
 					froms.push_back(account);
+					if(account == current_account) current_index = froms.count() - 1;
 				}
 				account = budget->assetsAccounts.next();
 			}
-			for(QVector<Account*>::size_type i = 0; i < froms.size(); i++) {
-				if(froms[i] != budget->balancingAccount && ((AssetsAccount*) froms[i])->accountType() != ASSETS_TYPE_SECURITIES) {
-					fromCombo->setCurrentIndex((int) i);
-					break;
+			if(b_create_accounts) {
+				fromCombo->insertSeparator(fromCombo->count());
+				fromCombo->addItem(tr("New Account…"));
+			}
+			if(current_index >= 0) {
+				fromCombo->setCurrentIndex(current_index);
+			} else {
+				for(QVector<Account*>::size_type i = 0; i < froms.size(); i++) {
+					if(froms[i] != budget->balancingAccount && ((AssetsAccount*) froms[i])->accountType() != ASSETS_TYPE_SECURITIES) {
+						fromCombo->setCurrentIndex((int) i);
+						break;
+					}
 				}
 			}
 			break;
@@ -514,13 +603,22 @@ void TransactionEditWidget::updateFromAccounts(Account *exclude_account) {
 				if(account != exclude_account && account != budget->balancingAccount && ((AssetsAccount*) account)->accountType() != ASSETS_TYPE_SECURITIES) {
 					fromCombo->addItem(account->name());
 					froms.push_back(account);
+					if(account == current_account) current_index = froms.count() - 1;
 				}
 				account = budget->assetsAccounts.next();
 			}
-			for(QVector<Account*>::size_type i = 0; i < froms.size(); i++) {
-				if(froms[i] != budget->balancingAccount && ((AssetsAccount*) froms[i])->accountType() != ASSETS_TYPE_SECURITIES) {
-					fromCombo->setCurrentIndex((int) i);
-					break;
+			if(b_create_accounts) {
+				fromCombo->insertSeparator(fromCombo->count());
+				fromCombo->addItem(tr("New Account…"));
+			}
+			if(current_index >= 0) {
+				fromCombo->setCurrentIndex(current_index);
+			} else {
+				for(QVector<Account*>::size_type i = 0; i < froms.size(); i++) {
+					if(froms[i] != budget->balancingAccount && ((AssetsAccount*) froms[i])->accountType() != ASSETS_TYPE_SECURITIES) {
+						fromCombo->setCurrentIndex((int) i);
+						break;
+					}
 				}
 			}
 			break;
@@ -531,10 +629,15 @@ void TransactionEditWidget::updateFromAccounts(Account *exclude_account) {
 				if(account != exclude_account) {
 					fromCombo->addItem(account->nameWithParent());
 					froms.push_back(account);
+					if(account == current_account) current_index = froms.count() - 1;
 				}
 				account = budget->incomesAccounts.next();
 			}
-			fromCombo->setCurrentIndex(0);
+			if(b_create_accounts) {
+				fromCombo->insertSeparator(fromCombo->count());
+				fromCombo->addItem(tr("New Income Category…"));
+			}
+			if(!b_create_accounts || fromCombo->count() > 2) fromCombo->setCurrentIndex(current_index >= 0 ? current_index : 0);
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_BUY: {
@@ -543,6 +646,7 @@ void TransactionEditWidget::updateFromAccounts(Account *exclude_account) {
 				if(account != exclude_account && account != budget->balancingAccount && ((AssetsAccount*) account)->accountType() != ASSETS_TYPE_SECURITIES) {
 					fromCombo->addItem(account->name());
 					froms.push_back(account);
+					if(account == current_account) current_index = froms.count() - 1;
 				}
 				account = budget->assetsAccounts.next();
 			}
@@ -554,7 +658,11 @@ void TransactionEditWidget::updateFromAccounts(Account *exclude_account) {
 					account = budget->incomesAccounts.next();
 				}
 			}
-			fromCombo->setCurrentIndex(0);
+			if(b_create_accounts) {
+				fromCombo->insertSeparator(fromCombo->count());
+				fromCombo->addItem(tr("New Account…"));
+			}
+			if(!b_create_accounts || fromCombo->count() > 2) fromCombo->setCurrentIndex(current_index >= 0 ? current_index : 0);
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
@@ -564,9 +672,17 @@ void TransactionEditWidget::updateFromAccounts(Account *exclude_account) {
 }
 void TransactionEditWidget::updateToAccounts(Account *exclude_account) {
 	if(!toCombo) return;
+	Account *current_account = NULL;
+	if(added_to_account) {
+		current_account = added_to_account;
+		added_to_account = NULL;
+	} else if(toCombo->currentIndex() < tos.size()) {
+		current_account = tos[toCombo->currentIndex()];
+	}
 	toCombo->clear();
 	tos.clear();
 	Account *account;
+	int current_index = -1;
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
 			account = budget->assetsAccounts.first();
@@ -574,13 +690,22 @@ void TransactionEditWidget::updateToAccounts(Account *exclude_account) {
 				if(account != exclude_account && (b_autoedit || ((AssetsAccount*) account)->accountType() != ASSETS_TYPE_SECURITIES)) {
 					toCombo->addItem(account->name());
 					tos.push_back(account);
+					if(account == current_account) current_index = tos.count() - 1;
 				}
 				account = budget->assetsAccounts.next();
 			}
-			for(QVector<Account*>::size_type i = 0; i < tos.size(); i++) {
-				if(tos[i] != budget->balancingAccount && ((AssetsAccount*) tos[i])->accountType() != ASSETS_TYPE_SECURITIES) {
-					toCombo->setCurrentIndex((int) i);
-					break;
+			if(b_create_accounts) {
+				toCombo->insertSeparator(toCombo->count());
+				toCombo->addItem(tr("New Account…"));
+			}
+			if(current_index >= 0) {
+				toCombo->setCurrentIndex(current_index);
+			} else {
+				for(QVector<Account*>::size_type i = 0; i < tos.size(); i++) {
+					if(tos[i] != budget->balancingAccount && ((AssetsAccount*) tos[i])->accountType() != ASSETS_TYPE_SECURITIES) {
+						toCombo->setCurrentIndex((int) i);
+						break;
+					}
 				}
 			}
 			break;
@@ -591,13 +716,22 @@ void TransactionEditWidget::updateToAccounts(Account *exclude_account) {
 				if(account != exclude_account && account != budget->balancingAccount && (b_autoedit || ((AssetsAccount*) account)->accountType() != ASSETS_TYPE_SECURITIES)) {
 					toCombo->addItem(account->name());
 					tos.push_back(account);
+					if(account == current_account) current_index = tos.count() - 1;
 				}
 				account = budget->assetsAccounts.next();
 			}
-			for(QVector<Account*>::size_type i = 0; i < tos.size(); i++) {
-				if(tos[i] != budget->balancingAccount && ((AssetsAccount*) tos[i])->accountType() != ASSETS_TYPE_SECURITIES) {
-					toCombo->setCurrentIndex((int) i);
-					break;
+			if(b_create_accounts) {
+				toCombo->insertSeparator(toCombo->count());
+				toCombo->addItem(tr("New Account…"));
+			}
+			if(current_index >= 0) {
+				toCombo->setCurrentIndex(current_index);
+			} else {
+				for(QVector<Account*>::size_type i = 0; i < tos.size(); i++) {
+					if(tos[i] != budget->balancingAccount && ((AssetsAccount*) tos[i])->accountType() != ASSETS_TYPE_SECURITIES) {
+						toCombo->setCurrentIndex((int) i);
+						break;
+					}
 				}
 			}
 			break;
@@ -608,10 +742,15 @@ void TransactionEditWidget::updateToAccounts(Account *exclude_account) {
 				if(account != exclude_account) {
 					toCombo->addItem(account->nameWithParent());
 					tos.push_back(account);
+					if(account == current_account) current_index = tos.count() - 1;
 				}
 				account = budget->expensesAccounts.next();
 			}
-			toCombo->setCurrentIndex(0);
+			if(b_create_accounts) {
+				toCombo->insertSeparator(toCombo->count());
+				toCombo->addItem(tr("New Expense Category…"));
+			}
+			if(!b_create_accounts || toCombo->count() > 2) toCombo->setCurrentIndex(current_index >= 0 ? current_index : 0);
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_BUY: {
@@ -623,10 +762,15 @@ void TransactionEditWidget::updateToAccounts(Account *exclude_account) {
 				if(account != exclude_account && account != budget->balancingAccount && ((AssetsAccount*) account)->accountType() != ASSETS_TYPE_SECURITIES) {
 					toCombo->addItem(account->name());
 					tos.push_back(account);
+					if(account == current_account) current_index = tos.count() - 1;
 				}
 				account = budget->assetsAccounts.next();
 			}
-			toCombo->setCurrentIndex(0);
+			if(b_create_accounts) {
+				toCombo->insertSeparator(toCombo->count());
+				toCombo->addItem(tr("New Account…"));
+			}
+			if(!b_create_accounts || toCombo->count() > 2) toCombo->setCurrentIndex(current_index >= 0 ? current_index : 0);
 			break;
 		}
 	}	
@@ -672,47 +816,47 @@ void TransactionEditWidget::transactionModified(Transaction *trans) {
 bool TransactionEditWidget::checkAccounts() {
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
-			if(fromCombo && fromCombo->count() == 0) {
+			if(fromCombo && fromCombo->count() < (b_create_accounts ? 3 : 1)) {
 				QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 				return false;
 			}
-			if(toCombo && toCombo->count() == 0) {
+			if(toCombo && toCombo->count() < (b_create_accounts ? 3 : 1)) {
 				QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 				return false;
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
-			if(fromCombo && fromCombo->count() == 0) {
+			if(fromCombo && fromCombo->count() < (b_create_accounts ? 3 : 1)) {
 				QMessageBox::critical(this, tr("Error"), tr("No income category available."));
 				return false;
 			}
-			if(toCombo && toCombo->count() == 0) {
+			if(toCombo && toCombo->count() < (b_create_accounts ? 3 : 1)) {
 				QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 				return false;
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_BUY: {
-			if(fromCombo && fromCombo->count() == 0) {
+			if(fromCombo && fromCombo->count() < (b_create_accounts ? 3 : 1)) {
 				QMessageBox::critical(this, tr("Error"), tr("No suitable account or income category available."));
 				return false;
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
-			if(toCombo && toCombo->count() == 0) {
+			if(toCombo && toCombo->count() < (b_create_accounts ? 3 : 1)) {
 				QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 				return false;
 			}
 			break;
 		}
 		default: {
-			if(toCombo && toCombo->count() == 0) {
+			if(toCombo && toCombo->count() < (b_create_accounts ? 3 : 1)) {
 				QMessageBox::critical(this, tr("Error"), tr("No expense category available."));
 				return false;
 			}
-			if(fromCombo && fromCombo->count() == 0) {
+			if(fromCombo && fromCombo->count() < (b_create_accounts ? 3 : 1)) {
 				QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 				return false;
 			}
@@ -733,6 +877,7 @@ bool TransactionEditWidget::validValues(bool) {
 		return false;
 	}
 	if(!checkAccounts()) return false;
+	if((toCombo && toCombo->currentIndex() >= tos.count()) || (fromCombo && fromCombo->currentIndex() >= froms.count())) return false;
 	if(toCombo && fromCombo && tos[toCombo->currentIndex()] == froms[fromCombo->currentIndex()]) {
 		QMessageBox::critical(this, tr("Error"), tr("Cannot transfer money to and from the same account."));
 		return false;
@@ -986,10 +1131,10 @@ void TransactionEditWidget::transactionsReset() {
 	if(payeeEdit) ((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
 }
 void TransactionEditWidget::setCurrentToItem(int index) {
-	if(toCombo) toCombo->setCurrentIndex(index);
+	if(toCombo && index < tos.count()) toCombo->setCurrentIndex(index);
 }
 void TransactionEditWidget::setCurrentFromItem(int index) {
-	if(fromCombo) fromCombo->setCurrentIndex(index);
+	if(fromCombo && index < froms.count()) fromCombo->setCurrentIndex(index);
 }
 void TransactionEditWidget::setAccount(Account *account) {
 	if(fromCombo && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_TRANSFER || transtype == TRANSACTION_TYPE_SECURITY_BUY)) {
@@ -1100,7 +1245,7 @@ void TransactionEditWidget::setScheduledTransaction(ScheduledTransaction *strans
 	}
 }
 
-TransactionEditDialog::TransactionEditDialog(bool extra_parameters, int transaction_type, bool split, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent) : QDialog(parent, 0){
+TransactionEditDialog::TransactionEditDialog(bool extra_parameters, int transaction_type, bool split, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent, bool allow_account_creation) : QDialog(parent, 0){
 	setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	switch(transaction_type) {
@@ -1114,7 +1259,7 @@ TransactionEditDialog::TransactionEditDialog(bool extra_parameters, int transact
 		case TRANSACTION_TYPE_SECURITY_BUY: {setWindowTitle(tr("Edit Securities Bought")); break;}
 		case TRANSACTION_TYPE_SECURITY_SELL: {setWindowTitle(tr("Edit Securities Sold")); break;}
 	}
-	editWidget = new TransactionEditWidget(false, extra_parameters, transaction_type, split, transfer_to, security, security_value_type, select_security, budg, this);
+	editWidget = new TransactionEditWidget(false, extra_parameters, transaction_type, split, transfer_to, security, security_value_type, select_security, budg, this, allow_account_creation);
 	box1->addWidget(editWidget);
 	editWidget->transactionsReset();
 	
@@ -1131,11 +1276,13 @@ void TransactionEditDialog::accept() {
 	}
 }
 
-MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parameters, int transaction_type, Budget *budg, QWidget *parent)  : QDialog(parent), transtype(transaction_type), budget(budg), b_extra(extra_parameters) {
+MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parameters, int transaction_type, Budget *budg, QWidget *parent, bool allow_account_creation)  : QDialog(parent), transtype(transaction_type), budget(budg), b_extra(extra_parameters), b_create_accounts(allow_account_creation) {
 
 	setWindowTitle(tr("Modify Transactions"));
 	setModal(true);
 
+	added_account = NULL;
+	
 	/*int rows = 4;
 	if(b_extra && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME)) rows= 5;
 	else if(transtype == TRANSACTION_TYPE_TRANSFER) rows = 3;
@@ -1206,12 +1353,41 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
 
+	connect(categoryCombo, SIGNAL(activated(int)), this, SLOT(categoryActivated(int)));
 	connect(descriptionButton, SIGNAL(toggled(bool)), descriptionEdit, SLOT(setEnabled(bool)));
 	if(valueButton) connect(valueButton, SIGNAL(toggled(bool)), valueEdit, SLOT(setEnabled(bool)));
 	connect(dateButton, SIGNAL(toggled(bool)), dateEdit, SLOT(setEnabled(bool)));
 
 }
-
+void MultipleTransactionsEditDialog::categoryActivated(int index) {
+	if(index != categoryCombo->count() - 1) return;
+	categoryCombo->setCurrentIndex(categories.count() > 0 ? 0 : -1);
+	switch(transtype) {
+		case TRANSACTION_TYPE_INCOME: {
+			EditIncomesAccountDialog *dialog = new EditIncomesAccountDialog(budget, NULL, this, tr("New Income Category"));
+			if(dialog->exec() == QDialog::Accepted) {
+				IncomesAccount *account = dialog->newAccount();
+				budget->addAccount(account);
+				added_account = account;
+				updateAccounts();
+			}
+			dialog->deleteLater();
+			break;
+		}
+		case TRANSACTION_TYPE_EXPENSE: {
+			EditExpensesAccountDialog *dialog = new EditExpensesAccountDialog(budget, NULL, this, tr("New Expense Category"));
+			if(dialog->exec() == QDialog::Accepted) {
+				ExpensesAccount *account = dialog->newAccount();
+				budget->addAccount(account);
+				added_account = account;
+				updateAccounts();
+			}
+			dialog->deleteLater();
+			break;
+		}
+		default: {break;}
+	}
+}
 void MultipleTransactionsEditDialog::setTransaction(Transaction *trans) {
 	if(trans) {
 		descriptionEdit->setText(trans->description());
@@ -1256,7 +1432,12 @@ void MultipleTransactionsEditDialog::updateAccounts() {
 			while(account) {
 				categoryCombo->addItem(account->nameWithParent());
 				categories.push_back(account);
+				if(account == added_account) categoryCombo->setCurrentIndex(categoryCombo->count() - 1);
 				account = budget->incomesAccounts.next();
+			}
+			if(b_create_accounts) {
+				categoryCombo->insertSeparator(categoryCombo->count());
+				categoryCombo->addItem(tr("New Income Category…"));
 			}
 			break;
 		}
@@ -1265,12 +1446,18 @@ void MultipleTransactionsEditDialog::updateAccounts() {
 			while(account) {
 				categoryCombo->addItem(account->nameWithParent());
 				categories.push_back(account);
+				if(account == added_account) categoryCombo->setCurrentIndex(categoryCombo->count() - 1);
 				account = budget->expensesAccounts.next();
+			}
+			if(b_create_accounts) {
+				categoryCombo->insertSeparator(categoryCombo->count());
+				categoryCombo->addItem(tr("New Expense Category…"));
 			}
 			break;
 		}
 		default: {}
 	}
+	added_account = NULL;
 }
 bool MultipleTransactionsEditDialog::modifyTransaction(Transaction *trans) {
 	if(!validValues()) return false;
@@ -1313,7 +1500,7 @@ bool MultipleTransactionsEditDialog::checkAccounts() {
 	switch(transtype) {
 		case TRANSACTION_TYPE_INCOME: {
 			if(!categoryButton->isChecked()) return true;
-			if(categoryCombo->count() == 0) {
+			if(categoryCombo->count() <= b_create_accounts ? 2 : 0) {
 				QMessageBox::critical(this, tr("Error"), tr("No income category available."));
 				return false;
 			}
@@ -1321,7 +1508,7 @@ bool MultipleTransactionsEditDialog::checkAccounts() {
 		}
 		case TRANSACTION_TYPE_EXPENSE: {
 			if(!categoryButton->isChecked()) return true;
-			if(categoryCombo->count() == 0) {
+			if(categoryCombo->count() <= b_create_accounts ? 2 : 0) {
 				QMessageBox::critical(this, tr("Error"), tr("No expense category available."));
 				return false;
 			}
@@ -1339,6 +1526,7 @@ bool MultipleTransactionsEditDialog::validValues() {
 		return false;
 	}
 	if(!checkAccounts()) return false;
+	if(categoryCombo->currentIndex() >= categories.count()) return false;
 	return true;
 }
 void MultipleTransactionsEditDialog::accept() {

@@ -149,7 +149,8 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	tabs = new QTabWidget(this);
 	tabs->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-	editWidget = new TransactionEditWidget(true, b_extra, transtype, false, false, NULL, SECURITY_SHARES_AND_QUOTATION, false, budget, this);
+	editWidget = new TransactionEditWidget(true, b_extra, transtype, false, false, NULL, SECURITY_SHARES_AND_QUOTATION, false, budget, this, true);
+	connect(editWidget, SIGNAL(accountAdded(Account*)), this , SIGNAL(accountAdded(Account*)));
 	editInfoLabel = new QLabel(QString::null);
 	editWidget->bottomLayout()->addWidget(editInfoLabel);
 	QDialogButtonBox *buttons = new QDialogButtonBox();
@@ -421,8 +422,9 @@ void TransactionListWidget::editTransaction() {
 			if(mainWin->editTransaction(i->transaction())) transactionSelectionChanged();
 		}
 	} else if(selection.count() > 1) {
+		budget->setRecordNewAccounts(true);
 		bool warned1 = false, warned2 = false, warned3 = false, warned4 = false;
-		MultipleTransactionsEditDialog *dialog = new MultipleTransactionsEditDialog(b_extra, transtype, budget, this);
+		MultipleTransactionsEditDialog *dialog = new MultipleTransactionsEditDialog(b_extra, transtype, budget, this, true);
 		TransactionListViewItem *i = (TransactionListViewItem*) transactionsView->currentItem();
 		if(!i->isSelected()) i = (TransactionListViewItem*) selection.first();
 		if(i) {
@@ -488,6 +490,8 @@ void TransactionListWidget::editTransaction() {
 		if(equal_date) dialog->dateButton->setChecked(true);
 		if(equal_category && dialog->categoryButton) dialog->categoryButton->setChecked(true);
 		if(dialog->exec() == QDialog::Accepted) {
+			foreach(Account* acc, budget->newAccounts) emit accountAdded(acc);
+			budget->newAccounts.clear();
 			QDate date = dialog->date();
 			bool future = !date.isNull() && date > QDate::currentDate();
 			for(int index = 0; index < selection.size(); index++) {
@@ -568,7 +572,11 @@ void TransactionListWidget::editTransaction() {
 				}
 			}
 			transactionSelectionChanged();
+		} else {
+			foreach(Account* acc, budget->newAccounts) emit accountAdded(acc);
+			budget->newAccounts.clear();
 		}
+		budget->setRecordNewAccounts(false);
 		dialog->deleteLater();
 	}
 }

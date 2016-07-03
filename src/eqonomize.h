@@ -352,6 +352,7 @@ class Eqonomize : public QMainWindow {
 		void popupAccountsMenu(const QPoint&);
 
 		void addAccount();
+		void accountAdded(Account *account);
 		void newAssetsAccount();
 		void newIncomesAccount(IncomesAccount *default_parent = NULL);
 		void newExpensesAccount(ExpensesAccount *default_parent = NULL);
@@ -500,91 +501,6 @@ class ConfirmScheduleDialog : public QDialog {
 		void edit();
 		void postpone();
 		void updateTransactions();
-		
-};
-
-class EditAssetsAccountDialog : public QDialog {
-
-	Q_OBJECT
-	
-	protected:
-
-		QLineEdit *nameEdit;
-		EqonomizeValueEdit *valueEdit;
-		QTextEdit *descriptionEdit;
-		QComboBox *typeCombo;
-		QCheckBox *budgetButton;
-		Budget *budget;
-		Account *current_account;
-		
-	public:
-		
-		EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title);
-
-		AssetsAccount *newAccount();
-		void modifyAccount(AssetsAccount *account);
-		void setAccount(AssetsAccount *account);
-
-	protected slots:
-
-		void typeActivated(int);
-		void accept();
-		
-};
-
-class EditExpensesAccountDialog : public QDialog {
-
-	Q_OBJECT
-	
-	protected:
-
-		QLineEdit *nameEdit;
-		QComboBox *parentCombo;
-		EqonomizeValueEdit *budgetEdit;
-		QTextEdit *descriptionEdit;
-		QCheckBox *budgetButton;
-		Budget *budget;
-		Account *current_account;
-		
-	public:
-		
-		EditExpensesAccountDialog(Budget *budg, ExpensesAccount *default_parent, QWidget *parent, QString title);
-		ExpensesAccount *newAccount();
-		void modifyAccount(ExpensesAccount *account);
-		void setAccount(ExpensesAccount *account);
-
-	protected slots:
-
-		void budgetEnabled(bool);
-		void accept();
-		
-};
-
-class EditIncomesAccountDialog : public QDialog {
-
-	Q_OBJECT
-	
-	protected:
-
-		QLineEdit *nameEdit;
-		QComboBox *parentCombo;
-		EqonomizeValueEdit *budgetEdit;
-		QTextEdit *descriptionEdit;
-		QCheckBox *budgetButton;
-		Budget *budget;
-		Account *current_account;
-		
-	public:
-		
-		EditIncomesAccountDialog(Budget *budg, IncomesAccount *default_parent, QWidget *parent, QString title);
-		IncomesAccount *newAccount();
-		void modifyAccount(IncomesAccount *account);
-		void setAccount(IncomesAccount *account);
-
-	protected slots:
-
-		void budgetEnabled(bool);
-		void accept();
 		
 };
 

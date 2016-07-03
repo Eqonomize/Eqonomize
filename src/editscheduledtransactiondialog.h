@@ -47,7 +47,7 @@ class EditScheduledTransactionDialog : public QDialog {
 		
 	public:
 		
-		EditScheduledTransactionDialog(bool extra_parameters, int transaction_type, Security *security, bool select_security, Budget *budg, QWidget *parent, QString title, Account *account = NULL);
+		EditScheduledTransactionDialog(bool extra_parameters, int transaction_type, Security *security, bool select_security, Budget *budg, QWidget *parent, QString title, Account *account = NULL, bool allow_account_creation = false);
 
 		bool checkAccounts();
 		void setTransaction(Transaction *trans);
@@ -55,9 +55,9 @@ class EditScheduledTransactionDialog : public QDialog {
 		ScheduledTransaction *createScheduledTransaction();
 		bool modifyScheduledTransaction(ScheduledTransaction *strans);
 		bool modifyTransaction(Transaction *trans, Recurrence *&rec);
-		static ScheduledTransaction *newScheduledTransaction(int transaction_type, Budget *budg, QWidget *parent, Security *security = NULL, bool select_security = false, Account *account = NULL, bool extra_parameters = false);
-		static bool editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool select_security = true, bool extra_parameters = false);
-		static bool editTransaction(Transaction *trans, Recurrence *&rec,  QWidget *parent, bool select_security = true, bool extra_parameters = false);
+		static ScheduledTransaction *newScheduledTransaction(int transaction_type, Budget *budg, QWidget *parent, Security *security = NULL, bool select_security = false, Account *account = NULL, bool extra_parameters = false, bool allow_account_creation = false);
+		static bool editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool select_security = true, bool extra_parameters = false, bool allow_account_creation = false);
+		static bool editTransaction(Transaction *trans, Recurrence *&rec,  QWidget *parent, bool select_security = true, bool extra_parameters = false, bool allow_account_creation = false);
 
 	protected slots:
 

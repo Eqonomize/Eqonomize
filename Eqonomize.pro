@@ -42,6 +42,7 @@ HEADERS += src/account.h \
            src/budget.h \
            src/categoriescomparisonchart.h \
            src/categoriescomparisonreport.h \
+           src/editaccountdialogs.h \
            src/editscheduledtransactiondialog.h \
            src/editsplitdialog.h \
            src/eqonomize.h \
@@ -63,6 +64,7 @@ SOURCES += src/account.cpp \
            src/budget.cpp \
            src/categoriescomparisonchart.cpp \
            src/categoriescomparisonreport.cpp \
+           src/editaccountdialogs.cpp \
            src/editscheduledtransactiondialog.cpp \
            src/editsplitdialog.cpp \
            src/eqonomize.cpp \

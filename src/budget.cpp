@@ -75,6 +75,7 @@ Budget::Budget() {
 	i_share_decimals = 4;
 	i_quotation_decimals = MONETARY_DECIMAL_PLACES;
 	i_budget_day = 1;
+	b_record_new_accounts = false;
 }
 Budget::~Budget() {}
 
@@ -744,7 +745,9 @@ void Budget::addAccount(Account *account) {
 		case ACCOUNT_TYPE_ASSETS: {assetsAccounts.inSort((AssetsAccount*) account); break;}
 	}
 	accounts.inSort(account);
+	if(b_record_new_accounts) newAccounts << account;
 }
+void Budget::setRecordNewAccounts(bool rna) {b_record_new_accounts = rna;}
 void Budget::accountModified(Account *account) {
 	switch(account->type()) {
 		case ACCOUNT_TYPE_EXPENSES: {expensesAccounts.sort(); break;}

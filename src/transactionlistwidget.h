@@ -86,6 +86,10 @@ class TransactionListWidget : public QWidget {
 		QLabel *editInfoLabel;
 		double current_value, current_quantity;
 		Transaction *selected_trans;
+		
+	signals:
+		
+		void accountAdded(Account*);
 
 	public slots:
 

@@ -26,6 +26,7 @@
 #include <QString>
 #include <QCoreApplication>
 #include <QFile>
+#include <QVector>
 
 #include "account.h"
 #include "transaction.h"
@@ -119,6 +120,7 @@ class Budget {
 	protected:
 	
 		int i_quotation_decimals, i_share_decimals, i_budget_day;
+		bool b_record_new_accounts;
 
 	public:
 
@@ -186,6 +188,9 @@ class Budget {
 		SplitTransactionList<SplitTransaction*> splitTransactions;
 		SecurityList<Security*> securities;
 		SecurityTradeList<SecurityTrade*> securityTrades;
+		
+		void setRecordNewAccounts(bool rna);
+		QVector<Account*> newAccounts;
 
 		QMap<int, IncomesAccount*> incomesAccounts_id;
 		QMap<int, ExpensesAccount*> expensesAccounts_id;

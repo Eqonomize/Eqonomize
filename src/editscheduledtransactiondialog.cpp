@@ -34,7 +34,7 @@
 #include "transactioneditwidget.h"
 
 
-EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parameters, int transaction_type, Security *security, bool select_security, Budget *budg, QWidget *parent, QString title, Account *account) : QDialog(parent), budget(budg), b_extra(extra_parameters) {
+EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parameters, int transaction_type, Security *security, bool select_security, Budget *budg, QWidget *parent, QString title, Account *account, bool allow_account_creation) : QDialog(parent), budget(budg), b_extra(extra_parameters) {
 	
 	setWindowTitle(title);
 	setModal(true);
@@ -44,27 +44,27 @@ EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parame
 	tabs = new QTabWidget();
 	switch(transaction_type) {
 		case TRANSACTION_TYPE_EXPENSE: {
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget); 
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
 			tabs->addTab(transactionEditWidget, tr("Expense")); 
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {			
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget); 
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
 			tabs->addTab(transactionEditWidget, tr("Income")); 
 			break;
 		}
 		case TRANSACTION_TYPE_TRANSFER: {			
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget); 
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
 			tabs->addTab(transactionEditWidget, tr("Transfer")); 
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_BUY: { 
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget); 
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
 			tabs->addTab(transactionEditWidget, tr("Security Buy")); 
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget); 
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
 			tabs->addTab(transactionEditWidget, tr("Security Sell")); 
 			break;
 		}
@@ -125,19 +125,19 @@ bool EditScheduledTransactionDialog::modifyTransaction(Transaction *trans, Recur
 	rec = recurrenceEditWidget->createRecurrence();
 	return true;
 }
-ScheduledTransaction *EditScheduledTransactionDialog::newScheduledTransaction(int transaction_type, Budget *budg, QWidget *parent, Security *security, bool select_security, Account *account, bool extra_parameters) {
+ScheduledTransaction *EditScheduledTransactionDialog::newScheduledTransaction(int transaction_type, Budget *budg, QWidget *parent, Security *security, bool select_security, Account *account, bool extra_parameters, bool allow_account_creation) {
 	EditScheduledTransactionDialog *dialog = NULL;
 	switch(transaction_type) {
-		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Expense"), account); break;}
+		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Expense"), account, allow_account_creation); break;}
 		case TRANSACTION_TYPE_INCOME: {
-			if(security || select_security) dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Dividend"), account);
-			else dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Income"), account);
+			if(security || select_security) dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Dividend"), account, allow_account_creation);
+			else dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Income"), account, allow_account_creation);
 			break;
 		}
-		case TRANSACTION_TYPE_TRANSFER: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Transfer"), account); break;}
-		case TRANSACTION_TYPE_SECURITY_BUY: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Security Buy"), account); break;}
+		case TRANSACTION_TYPE_TRANSFER: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Transfer"), account, allow_account_creation); break;}
+		case TRANSACTION_TYPE_SECURITY_BUY: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Security Buy"), account, allow_account_creation); break;}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
-			dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Security Sell"), account);
+			dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Security Sell"), account, allow_account_creation);
 			//dialog->transactionEditWidget->setMaxSharesDate(QDate::currentDate());
 			break;
 		}
@@ -149,18 +149,18 @@ ScheduledTransaction *EditScheduledTransactionDialog::newScheduledTransaction(in
 	dialog->deleteLater();
 	return strans;
 }
-bool EditScheduledTransactionDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool select_security, bool extra_parameters) {
+bool EditScheduledTransactionDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool select_security, bool extra_parameters, bool allow_account_creation) {
 	EditScheduledTransactionDialog *dialog = NULL;
 	switch(strans->transaction()->type()) {
-		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), NULL, false, strans->budget(), parent, tr("Edit Expense")); break;}
+		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), NULL, false, strans->budget(), parent, tr("Edit Expense"), NULL, allow_account_creation); break;}
 		case TRANSACTION_TYPE_INCOME: {
-			if(((Income*) strans->transaction())->security()) dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), ((Income*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Dividend"));
-			else dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), NULL, false, strans->budget(), parent, tr("Edit Income"));
+			if(((Income*) strans->transaction())->security()) dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), ((Income*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Dividend"), NULL, allow_account_creation);
+			else dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), NULL, false, strans->budget(), parent, tr("Edit Income"), NULL, allow_account_creation);
 			break;
 		}
-		case TRANSACTION_TYPE_TRANSFER: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), NULL, false, strans->budget(), parent, tr("Edit Transfer")); break;}
-		case TRANSACTION_TYPE_SECURITY_BUY: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), ((SecurityTransaction*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Securities Bought")); break;}
-		case TRANSACTION_TYPE_SECURITY_SELL: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), ((SecurityTransaction*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Securities Sold")); break;}
+		case TRANSACTION_TYPE_TRANSFER: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), NULL, false, strans->budget(), parent, tr("Edit Transfer"), NULL, allow_account_creation); break;}
+		case TRANSACTION_TYPE_SECURITY_BUY: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), ((SecurityTransaction*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Securities Bought"), NULL, allow_account_creation); break;}
+		case TRANSACTION_TYPE_SECURITY_SELL: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), ((SecurityTransaction*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Securities Sold"), NULL, allow_account_creation); break;}
 	}
 	dialog->setScheduledTransaction(strans);
 	bool b = false;
@@ -170,18 +170,18 @@ bool EditScheduledTransactionDialog::editScheduledTransaction(ScheduledTransacti
 	dialog->deleteLater();
 	return b;
 }
-bool EditScheduledTransactionDialog::editTransaction(Transaction *trans, Recurrence *&rec, QWidget *parent, bool select_security, bool extra_parameters) {
+bool EditScheduledTransactionDialog::editTransaction(Transaction *trans, Recurrence *&rec, QWidget *parent, bool select_security, bool extra_parameters, bool allow_account_creation) {
 	EditScheduledTransactionDialog *dialog = NULL;
 	switch(trans->type()) {
-		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), NULL, false, trans->budget(), parent, tr("Edit Expense")); break;}
+		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), NULL, false, trans->budget(), parent, tr("Edit Expense"), NULL, allow_account_creation); break;}
 		case TRANSACTION_TYPE_INCOME: {
-			if(((Income*) trans)->security()) dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), ((Income*) trans)->security(), select_security, trans->budget(), parent, tr("Edit Dividend"));
-			else dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), NULL, false, trans->budget(), parent, tr("Edit Income"));
+			if(((Income*) trans)->security()) dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), ((Income*) trans)->security(), select_security, trans->budget(), parent, tr("Edit Dividend"), NULL, allow_account_creation);
+			else dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), NULL, false, trans->budget(), parent, tr("Edit Income"), NULL, allow_account_creation);
 			break;
 		}
-		case TRANSACTION_TYPE_TRANSFER: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), NULL, false, trans->budget(), parent, tr("Edit Transfer")); break;}
-		case TRANSACTION_TYPE_SECURITY_BUY: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), ((SecurityTransaction*) trans)->security(), select_security, trans->budget(), parent, tr("Edit Securities Bought")); break;}
-		case TRANSACTION_TYPE_SECURITY_SELL: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), ((SecurityTransaction*) trans)->security(), select_security, trans->budget(), parent, tr("Edit Securities Sold")); break;}
+		case TRANSACTION_TYPE_TRANSFER: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), NULL, false, trans->budget(), parent, tr("Edit Transfer"), NULL, allow_account_creation); break;}
+		case TRANSACTION_TYPE_SECURITY_BUY: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), ((SecurityTransaction*) trans)->security(), select_security, trans->budget(), parent, tr("Edit Securities Bought"), NULL, allow_account_creation); break;}
+		case TRANSACTION_TYPE_SECURITY_SELL: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), ((SecurityTransaction*) trans)->security(), select_security, trans->budget(), parent, tr("Edit Securities Sold"), NULL, allow_account_creation); break;}
 	}
 	dialog->setTransaction(trans);
 	bool b = false;

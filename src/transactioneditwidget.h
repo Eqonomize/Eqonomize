@@ -57,7 +57,7 @@ class TransactionEditWidget : public QWidget {
 
 	public:
 
-		TransactionEditWidget(bool auto_edit, bool extra_parameters, int transaction_type, bool split, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent = 0);
+		TransactionEditWidget(bool auto_edit, bool extra_parameters, int transaction_type, bool split, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent = 0, bool allow_account_creation = false);
 		void setTransaction(Transaction *trans);
 		void setScheduledTransaction(ScheduledTransaction *strans, const QDate &date);
 		void updateFromAccounts(Account *exclude_account = NULL);
@@ -94,6 +94,8 @@ class TransactionEditWidget : public QWidget {
 		bool b_autoedit, b_sec, b_extra;
 		bool value_set, shares_set, sharevalue_set;
 		QDate shares_date;
+		bool b_create_accounts;
+		Account *added_from_account, *added_to_account;
 
 		QVector<Account*> froms, tos;
 		QLineEdit *descriptionEdit, *payeeEdit, *commentsEdit;
@@ -107,9 +109,12 @@ class TransactionEditWidget : public QWidget {
 
 		void addmodify();
 		void dateChanged(const QDate&);
+		void accountAdded(Account*);
 
 	public slots:
 
+		void fromActivated(int);
+		void toActivated(int);
 		void focusDate();
 		void valueChanged(double);
 		void securityChanged();
@@ -127,7 +132,7 @@ class TransactionEditDialog : public QDialog {
 
 	public:
 
-		TransactionEditDialog(bool extra_parameters, int transaction_type, bool split, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent);
+		TransactionEditDialog(bool extra_parameters, int transaction_type, bool split, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent, bool allow_account_creation = false);
 		TransactionEditWidget *editWidget;
 
 	protected slots:
@@ -142,7 +147,7 @@ class MultipleTransactionsEditDialog : public QDialog {
 
 	public:
 
-		MultipleTransactionsEditDialog(bool extra_parameters, int transaction_type, Budget *budg, QWidget *parent = 0);
+		MultipleTransactionsEditDialog(bool extra_parameters, int transaction_type, Budget *budg, QWidget *parent = 0, bool allow_account_creation = false);
 		void setTransaction(Transaction *trans);
 		void setScheduledTransaction(ScheduledTransaction *strans, const QDate &date);
 		void updateAccounts();
@@ -158,14 +163,17 @@ class MultipleTransactionsEditDialog : public QDialog {
 		int transtype;
 		Budget *budget;
 		bool b_extra;
+		bool b_create_accounts;
 		QVector<Account*> categories;
 		QLineEdit *descriptionEdit, *payeeEdit;
 		QComboBox *categoryCombo;
 		EqonomizeValueEdit *valueEdit;
 		QDateEdit *dateEdit;
+		Account *added_account;
 
 	protected slots:
 
+		void categoryActivated(int);
 		void accept();
 
 };
