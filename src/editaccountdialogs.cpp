@@ -270,6 +270,7 @@ EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, ExpensesAccou
 	grid->addWidget(new QLabel(tr("Name:"), this), 0, 0);
 	nameEdit = new QLineEdit(this);
 	grid->addWidget(nameEdit, 0, 1);
+	grid->addWidget(new QLabel(tr("Parent category:"), this), 1, 0);
 	parentCombo = new QComboBox(this);
 	parentCombo->setEditable(false);
 	grid->addWidget(parentCombo, 1, 1);
