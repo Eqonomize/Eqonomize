@@ -87,7 +87,7 @@ class TransactionListWidget : public QWidget {
 		QLabel *editInfoLabel;
 		double current_value, current_quantity;
 		Transaction *selected_trans;
-		QColor expenseColor;
+		QColor expenseColor, incomeColor, transferColor;
 		
 	signals:
 		

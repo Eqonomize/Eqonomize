@@ -76,7 +76,9 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 
 	QDialogButtonBox *buttons = new QDialogButtonBox(this);
 	saveButton = buttons->addButton(tr("Save As…"), QDialogButtonBox::ActionRole);
+	saveButton->setAutoDefault(false);
 	printButton = buttons->addButton(tr("Print…"), QDialogButtonBox::ActionRole);
+	printButton->setAutoDefault(false);
 	layout->addWidget(buttons);
 
 	htmlview = new QTextEdit(this);

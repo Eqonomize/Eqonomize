@@ -55,6 +55,11 @@
 #include "transactioneditwidget.h"
 
 extern QString htmlize_string(QString str);
+extern QColor createExpenseColor(QColor base_color);
+extern QColor createIncomeColor(QColor base_color);
+extern QColor createTransferColor(QColor base_color);
+
+QColor incomeColor, expenseColor;
 
 class LedgerListViewItem : public QTreeWidgetItem {
 	protected:
@@ -78,6 +83,10 @@ LedgerListViewItem::LedgerListViewItem(Transaction *trans, SplitTransaction *spl
 	setTextAlignment(4, Qt::AlignRight | Qt::AlignVCenter);
 	setTextAlignment(5, Qt::AlignRight | Qt::AlignVCenter);
 	setTextAlignment(6, Qt::AlignRight | Qt::AlignVCenter);
+	if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(4).color());
+	setForeground(4, incomeColor);
+	if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(5).color());
+	setForeground(5, expenseColor);
 }
 Transaction *LedgerListViewItem::transaction() const {
 	return o_trans;
@@ -614,6 +623,7 @@ void LedgerDialog::updateTransactions() {
 			}
 			if(split_this) {
 				LedgerListViewItem *i = new LedgerListViewItem(trans, split_this, NULL, QLocale().toString(split_this->date(), QLocale::ShortFormat), tr("Split Transaction"), split_this->description(), QString::null, (value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, (value < 0.0) ? QLocale().toCurrencyString(-value) : QString::null, QLocale().toCurrencyString(balance));
+				
 				transactionsView->insertTopLevelItem(0, i);
 				if(split_this == selected_split) {
 					i->setSelected(true);

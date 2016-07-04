@@ -123,6 +123,46 @@ enum {
 
 QString last_document_directory, last_picture_directory;
 
+QColor createExpenseColor(QColor base_color) {
+	qreal r, g, b;
+	base_color.getRgbF(&r, &g, &b);
+	if(r == 1.0) {
+		g /= 1.5;
+		b /= 1.5;
+	} else {
+		if(r >= 0.7) r = 1.0;
+		else r += 0.3;
+	}
+	base_color.setRgbF(r, g, b);
+	return base_color;
+}
+QColor createIncomeColor(QColor base_color) {
+	qreal r, g, b;
+	base_color.getRgbF(&r, &g, &b);
+	if(g == 1.0) {
+		r /= 1.5;
+		b /= 1.5;
+	} else {
+		if(g >= 0.7) g = 1.0;
+		else g += 0.3;
+	}
+	base_color.setRgbF(r, g, b);
+	return base_color;
+}
+QColor createTransferColor(QColor base_color) {
+	qreal r, g, b;
+	base_color.getRgbF(&r, &g, &b);
+	if(b == 1.0) {
+		g /= 1.5;
+		r /= 1.5;
+	} else {
+		if(b >= 0.7) b = 1.0;
+		else b += 0.3;
+	}
+	base_color.setRgbF(r, g, b);
+	return base_color;
+}
+
 void setColumnTextWidth(QTreeWidget *w, int i, QString str) {
 	QFontMetrics fm(w->font());
 	int tw = fm.width(str) + 10;
@@ -193,6 +233,7 @@ class ScheduleListViewItem : public QTreeWidgetItem {
 	protected:
 		ScheduledTransaction *o_strans;
 		QDate d_date;
+		QColor expenseColor, incomeColor, transferColor;
 	public:
 		ScheduleListViewItem(ScheduledTransaction *strans, const QDate &trans_date);
 		bool operator<(const QTreeWidgetItem &i_pre) const;
@@ -238,6 +279,16 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 	setText(4, trans->fromAccount()->name());
 	setText(5, trans->toAccount()->name());
 	setText(6, trans->comment());
+	if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
+		if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
+		setForeground(3, expenseColor);
+	} else if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() < 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() > 0.0)) {
+		if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(3).color());
+		setForeground(3, incomeColor);
+	} else {
+		if(!transferColor.isValid()) transferColor = createTransferColor(foreground(3).color());
+		setForeground(3, transferColor);
+	}
 	switch(trans->type()) {
 		case TRANSACTION_TYPE_TRANSFER: {setText(1, QObject::tr("Transfer")); break;}
 		case TRANSACTION_TYPE_INCOME: {
@@ -255,6 +306,7 @@ class ConfirmScheduleListViewItem : public QTreeWidgetItem {
 	Q_DECLARE_TR_FUNCTIONS(ConfirmScheduleListViewItem)
 	protected:
 		Transaction *o_trans;
+		QColor expenseColor, incomeColor, transferColor;
 	public:
 		ConfirmScheduleListViewItem(Transaction *trans);
 		bool operator<(const QTreeWidgetItem &i_pre) const;
@@ -296,6 +348,16 @@ void ConfirmScheduleListViewItem::setTransaction(Transaction *trans) {
 	}
 	setText(2, trans->description());
 	setText(3, QLocale().toCurrencyString(trans->value()));
+	if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
+		if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
+		setForeground(3, expenseColor);
+	} else if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() < 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() > 0.0)) {
+		if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(3).color());
+		setForeground(3, incomeColor);
+	} else {
+		if(!transferColor.isValid()) transferColor = createTransferColor(foreground(3).color());
+		setForeground(3, transferColor);
+	}
 }
 
 
@@ -893,8 +955,7 @@ OverTimeReportDialog::OverTimeReportDialog(Budget *budg, QWidget *parent) : QDia
 	report = new OverTimeReport(budg, this);
 	box1->addWidget(report);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-	buttonBox->button(QDialogButtonBox::Close)->setShortcut(Qt::CTRL | Qt::Key_Return);
-	buttonBox->button(QDialogButtonBox::Close)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Close)->setAutoDefault(false);
 	connect(buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), this, SLOT(reject()));
 	box1->addWidget(buttonBox);
 }
@@ -909,8 +970,7 @@ CategoriesComparisonReportDialog::CategoriesComparisonReportDialog(bool extra_pa
 	report = new CategoriesComparisonReport(budg, this, extra_parameters);
 	box1->addWidget(report);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-	buttonBox->button(QDialogButtonBox::Close)->setShortcut(Qt::CTRL | Qt::Key_Return);
-	buttonBox->button(QDialogButtonBox::Close)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Close)->setAutoDefault(false);
 	connect(buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), this, SLOT(reject()));
 	box1->addWidget(buttonBox);
 }
@@ -925,8 +985,7 @@ OverTimeChartDialog::OverTimeChartDialog(bool extra_parameters, Budget *budg, QW
 	chart = new OverTimeChart(budg, this, extra_parameters);
 	box1->addWidget(chart);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-	buttonBox->button(QDialogButtonBox::Close)->setShortcut(Qt::CTRL | Qt::Key_Return);
-	buttonBox->button(QDialogButtonBox::Close)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Close)->setAutoDefault(false);
 	connect(buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), this, SLOT(reject()));
 	box1->addWidget(buttonBox);
 }
@@ -941,8 +1000,7 @@ CategoriesComparisonChartDialog::CategoriesComparisonChartDialog(Budget *budg, Q
 	chart = new CategoriesComparisonChart(budg, this);
 	box1->addWidget(chart);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-	buttonBox->button(QDialogButtonBox::Close)->setShortcut(Qt::CTRL | Qt::Key_Return);
-	buttonBox->button(QDialogButtonBox::Close)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Close)->setAutoDefault(false);
 	connect(buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), this, SLOT(reject()));
 	box1->addWidget(buttonBox);
 }

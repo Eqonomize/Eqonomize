@@ -95,6 +95,12 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 
 	QHBoxLayout *buttons = new QHBoxLayout();
 #ifdef QT_CHARTS_LIB
+	buttons->addWidget(new QLabel(tr("Chart type:"), this));
+	typeCombo = new QComboBox(this);
+	typeCombo->addItem(tr("Pie Chart"));
+	typeCombo->addItem(tr("Vertical Bar Chart"));
+	typeCombo->addItem(tr("Horizontal Bar Chart"));
+	buttons->addWidget(typeCombo);
 	buttons->addWidget(new QLabel(tr("Theme:"), this));
 	themeCombo = new QComboBox(this);
 	themeCombo->addItem("Light", QChart::ChartThemeLight);
@@ -106,17 +112,13 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	themeCombo->addItem("Blue Icy", QChart::ChartThemeBlueIcy);
 	themeCombo->addItem("Qt", QChart::ChartThemeQt);
 	buttons->addWidget(themeCombo);
-	buttons->addWidget(new QLabel(tr("Chart type:"), this));
-	typeCombo = new QComboBox(this);
-	typeCombo->addItem(tr("Pie Chart"));
-	typeCombo->addItem(tr("Vertical Bar Chart"));
-	typeCombo->addItem(tr("Horizontal Bar Chart"));
-	buttons->addWidget(typeCombo);
 #endif
 	buttons->addStretch();
 	saveButton = new QPushButton(tr("Save As…"), this);
+	saveButton->setAutoDefault(false);
 	buttons->addWidget(saveButton);
 	printButton = new QPushButton(tr("Print…"), this);
+	printButton->setAutoDefault(false);
 	buttons->addWidget(printButton);
 	layout->addLayout(buttons);
 #ifdef QT_CHARTS_LIB

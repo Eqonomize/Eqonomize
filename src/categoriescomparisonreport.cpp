@@ -73,7 +73,9 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 
 	QDialogButtonBox *buttons = new QDialogButtonBox(this);
 	saveButton = buttons->addButton(tr("Save As…"), QDialogButtonBox::ActionRole);
+	saveButton->setAutoDefault(false);
 	printButton = buttons->addButton(tr("Print…"), QDialogButtonBox::ActionRole);
+	printButton->setAutoDefault(false);
 	layout->addWidget(buttons);
 
 	htmlview = new QTextEdit(this);
