@@ -159,7 +159,6 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	setColumnMoneyWidth(transactionsView, 5);
 	setColumnMoneyWidth(transactionsView, 6, 999999999999.99);
 	transactionsView->setSelectionMode(QTreeWidget::ExtendedSelection);
-	transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
 	QSizePolicy sp = transactionsView->sizePolicy();
 	sp.setHorizontalPolicy(QSizePolicy::MinimumExpanding);
 	transactionsView->setSizePolicy(sp);
@@ -201,6 +200,9 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	connect(mainWin, SIGNAL(accountsModified()), this, SLOT(updateAccounts()));
 
 	updateTransactions();
+	
+	if(!transactionsView->topLevelItem(0)) transactionsView->setMinimumWidth(transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) +  transactionsView->columnWidth(3) +  transactionsView->columnWidth(4) +  transactionsView->columnWidth(5) +  transactionsView->columnWidth(6) + 10);
+	else transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
 	
 	QSettings settings;
 	QSize dialog_size = settings.value("Ledger/size", QSize()).toSize();

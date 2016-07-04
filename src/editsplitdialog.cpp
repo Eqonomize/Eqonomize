@@ -36,6 +36,7 @@
 #include <QLocale>
 #include <QDateEdit>
 #include <QMessageBox>
+#include <QHeaderView>
 
 #include "budget.h"
 #include "editsplitdialog.h"
@@ -175,13 +176,13 @@ EditSplitDialog::EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *d
 	//headers << tr("Account/Category");
 	headers << tr("Payment");
 	headers << tr("Deposit");
-	transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
 	setColumnStrlenWidth(transactionsView, 0, 15);
 	setColumnStrlenWidth(transactionsView, 1, 25);
 	setColumnMoneyWidth(transactionsView, 2);
 	setColumnMoneyWidth(transactionsView, 3);
+	transactionsView->setMinimumWidth(transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) +  transactionsView->columnWidth(3) + 10);
 	box2->addWidget(transactionsView);
 	QDialogButtonBox *buttons = new QDialogButtonBox(0, Qt::Vertical);
 	QPushButton *newButton = buttons->addButton(tr("New"), QDialogButtonBox::ActionRole);

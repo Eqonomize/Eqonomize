@@ -886,7 +886,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 
 		if(chart_type == 1) {
-			if(current_value >= 0.01) {
+			if(current_value >= 0.01 || value < 0.01) {
 				QPieSlice *slice = pie_series->append(QString("%1 (%2%)").arg(legend_string).arg(QLocale().toString(legend_value, 'f', deci)), current_value);
 				if(legend_value >= 8.0) {
 					slice->setLabelVisible(true);
@@ -895,7 +895,7 @@ void CategoriesComparisonChart::updateDisplay() {
 				}
 			}
 		} else {
-			if(current_value >= 0.01 || current_value <= -0.01) {
+			if(current_value >= 0.01 || current_value <= -0.01 || (value < 0.01 && value > -0.01)) {
 				QBarSet *set = new QBarSet(QString("%1 (%2%)").arg(legend_string).arg(QLocale().toString(legend_value, 'f', deci)));
 				set->append(current_value);
 				if(current_value > maxvalue) maxvalue = current_value;

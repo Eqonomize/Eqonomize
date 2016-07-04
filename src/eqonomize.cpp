@@ -850,7 +850,6 @@ EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0)
 	sp.setHorizontalPolicy(QSizePolicy::MinimumExpanding);
 	quotationsView->setSizePolicy(sp);
 	quotationsLayout->addWidget(quotationsView);
-
 	QVBoxLayout *buttonsLayout = new QVBoxLayout();
 	quotationsLayout->addLayout(buttonsLayout);
 	quotationEdit = new EqonomizeValueEdit(0.01, 1.0, 0.01, i_quotation_decimals, true, this);
@@ -894,6 +893,7 @@ void EditQuotationsDialog::setSecurity(Security *security) {
 	quotationsView->setSortingEnabled(true);
 	titleLabel->setText(tr("Quotations for %1").arg(security->name()));	
 	quotationEdit->setRange(0.0, pow(10, -i_quotation_decimals), i_quotation_decimals);
+	if(items.isEmpty()) quotationsView->setMinimumWidth(quotationsView->columnWidth(0) + quotationsView->columnWidth(1) + 10);
 }
 void EditQuotationsDialog::modifyQuotations(Security *security) {
 	security->quotations.clear();
@@ -1214,12 +1214,13 @@ SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize 
 	headers << tr("Type");
 	headers << tr("Value");
 	headers << tr("Shares");	
-	transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
 	transactionsView->setHeaderLabels(headers);
 	setColumnDateWidth(transactionsView, 0);
 	setColumnStrlenWidth(transactionsView, 1, 25);
 	setColumnMoneyWidth(transactionsView, 2);
 	setColumnValueWidth(transactionsView, 3, 999999.99, 4);	
+	if(security->transactions.isEmpty()) transactionsView->setMinimumWidth(transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) +  transactionsView->columnWidth(3) + 10);
+	else transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
 	transactionsView->setRootIsDecorated(false);
 	QSizePolicy sp = transactionsView->sizePolicy();
 	sp.setHorizontalPolicy(QSizePolicy::MinimumExpanding);
@@ -3214,9 +3215,9 @@ void Eqonomize::popupAccountsMenu(const QPoint &p) {
 	QTreeWidgetItem *i = accountsView->itemAt(p);
 	if(i == NULL) return;
 	if(i == assetsItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS))) {
-		ActionAddAccount->setText("Add Account");
+		ActionAddAccount->setText(tr("Add Account"));
 	} else {
-		ActionAddAccount->setText("Add Category");
+		ActionAddAccount->setText(tr("Add Category"));
 		
 	}
 	if(!accountPopupMenu) {
@@ -3278,13 +3279,6 @@ void Eqonomize::showAccountTransactions(bool b) {
 			tabs->setCurrentIndex(SECURITIES_PAGE_INDEX);
 		} else {
 			LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, this, tr("Ledger"), b_extra);
-			QSettings settings;
-			QSize dialog_size = settings.value("Ledger/size", QSize()).toSize();
-			if(!dialog_size.isValid()) {
-				QDesktopWidget desktop;
-				dialog_size = QSize(900, 600).boundedTo(desktop.availableGeometry(this).size());
-			}
-			dialog->resize(dialog_size);
 			dialog->show();
 			connect(this, SIGNAL(timeToSaveConfig()), dialog, SLOT(saveConfig()));
 		}
