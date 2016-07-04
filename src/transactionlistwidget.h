@@ -25,6 +25,7 @@
 #include <QLabel>
 #include <QTextStream>
 #include <QWidget>
+#include <QColor>
 
 class QLabel;
 class QMenu;
@@ -86,6 +87,7 @@ class TransactionListWidget : public QWidget {
 		QLabel *editInfoLabel;
 		double current_value, current_quantity;
 		Transaction *selected_trans;
+		QColor expenseColor;
 		
 	signals:
 		

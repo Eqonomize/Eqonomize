@@ -760,12 +760,27 @@ void TransactionListWidget::removeTransaction() {
 void TransactionListWidget::addModifyTransaction() {
 	addTransaction();
 }
-
+#include <QDebug>
 void TransactionListWidget::appendFilterTransaction(Transaction *trans, bool update_total_value) {
 	if(!filterWidget->filterTransaction(trans)) {
 		QTreeWidgetItem *i = new TransactionListViewItem(trans->date(), trans, NULL, QLocale().toString(trans->date(), QLocale::ShortFormat), QString::null, QLocale().toCurrencyString(trans->value()));
 		transactionsView->insertTopLevelItem(0, i);
 		i->setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
+		if(!expenseColor.isValid()) {
+			expenseColor = i->foreground(2).color();
+			qInfo() << expenseColor << expenseColor.isValid();
+			qreal r, g, b;
+			expenseColor.getRgbF(&r, &g, &b);
+			if(r == 1.0) {
+				g /= 2;
+				b /= 2;
+			} else {
+				if(r >= 0.5) r = 1.0;
+				else r += 0.5;
+			}
+			expenseColor.setRgbF(r, g, b);
+		}
+		i->setForeground(2, expenseColor);
 		//i->setTextAlignment(3, Qt::AlignCenter);
 		//i->setTextAlignment(4, Qt::AlignCenter);
 		if(trans == selected_trans) {
@@ -807,6 +822,7 @@ void TransactionListWidget::appendFilterScheduledTransaction(ScheduledTransactio
 			i = new TransactionListViewItem(date, trans, strans, QString::null, trans->description(), QLocale().toCurrencyString(trans->value()));
 			transactionsView->insertTopLevelItem(0, i);
 			i->setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
+			i->setForeground(2, Qt::red);
 			//i->setTextAlignment(3, Qt::AlignCenter);
 			//i->setTextAlignment(4, Qt::AlignCenter);
 			if(strans->recurrence()) i->setText(0, QLocale().toString(date, QLocale::ShortFormat) + "**");
