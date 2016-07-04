@@ -134,8 +134,8 @@ QColor createExpenseColor(QColor base_color) {
 		g /= 1.5;
 		b /= 1.5;
 	} else {
-		if(r >= 0.7) r = 1.0;
-		else r += 0.3;
+		if(r >= 0.6) r = 1.0;
+		else r += 0.4;
 	}
 	base_color.setRgbF(r, g, b);
 	return base_color;

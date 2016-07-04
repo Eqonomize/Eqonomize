@@ -886,19 +886,23 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 
 		if(chart_type == 1) {
-			QPieSlice *slice = pie_series->append(QString("%1 (%2%)").arg(legend_string).arg(QLocale().toString(legend_value, 'f', deci)), current_value);
-			if(legend_value >= 8.0) {
-				slice->setLabelVisible(true);
-			} else {
-				show_legend = true;
+			if(current_value >= 0.01) {
+				QPieSlice *slice = pie_series->append(QString("%1 (%2%)").arg(legend_string).arg(QLocale().toString(legend_value, 'f', deci)), current_value);
+				if(legend_value >= 8.0) {
+					slice->setLabelVisible(true);
+				} else {
+					show_legend = true;
+				}
 			}
 		} else {
-			QBarSet *set = new QBarSet(QString("%1 (%2%)").arg(legend_string).arg(QLocale().toString(legend_value, 'f', deci)));
-			set->append(current_value);
-			if(current_value > maxvalue) maxvalue = current_value;
-			if(current_value < minvalue) minvalue = current_value;
-			bar_series->append(set);
-			show_legend = true;
+			if(current_value >= 0.01 || current_value <= -0.01) {
+				QBarSet *set = new QBarSet(QString("%1 (%2%)").arg(legend_string).arg(QLocale().toString(legend_value, 'f', deci)));
+				set->append(current_value);
+				if(current_value > maxvalue) maxvalue = current_value;
+				if(current_value < minvalue) minvalue = current_value;
+				bar_series->append(set);
+				show_legend = true;
+			}
 		}
 		
 		if(type == ACCOUNT_TYPE_ASSETS) {

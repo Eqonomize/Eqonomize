@@ -95,6 +95,7 @@ struct chart_month_info {
 extern QString last_picture_directory;
 
 void calculate_minmax_lines(double &maxvalue, double &minvalue, int &y_lines, int &y_minor, bool minmaxequal = false, bool use_deciminor = true) {
+	if(minvalue > -0.01) minvalue = 0.0;
 	if(-minvalue > maxvalue) maxvalue = -minvalue;
 	int maxvalue_exp = floor(log10(maxvalue));
 	int maxvalue_digit;
