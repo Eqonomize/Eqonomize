@@ -121,6 +121,10 @@ enum {
 	BACKUP_MONTHLY
 };
 
+#define CHANGE_COLUMN				2
+#define BUDGET_COLUMN				1
+#define VALUE_COLUMN				3
+
 QString last_document_directory, last_picture_directory;
 
 QColor createExpenseColor(QColor base_color) {
@@ -161,6 +165,23 @@ QColor createTransferColor(QColor base_color) {
 	}
 	base_color.setRgbF(r, g, b);
 	return base_color;
+}
+
+void setAccountChangeColor(QTreeWidgetItem *i, double change, bool is_expense) {
+	QColor fg = i->foreground(VALUE_COLUMN).color();
+	if((!is_expense && change < 0.0) || (is_expense && change > 0.0)) {
+		i->setForeground(CHANGE_COLUMN, createExpenseColor(fg));
+	} else if((is_expense && change < 0.0) || (!is_expense && change > 0.0)) {
+		i->setForeground(CHANGE_COLUMN, createIncomeColor(fg));
+	} else {
+		i->setForeground(CHANGE_COLUMN, fg);
+	}
+}
+void setAccountBudgetColor(QTreeWidgetItem *i, double budget_rem, bool is_expense) {
+	if(!is_expense) return;
+	QColor fg = i->foreground(VALUE_COLUMN).color();
+	if(budget_rem < 0.0) i->setForeground(BUDGET_COLUMN, createExpenseColor(fg));
+	else i->setForeground(BUDGET_COLUMN, createIncomeColor(fg));
 }
 
 void setColumnTextWidth(QTreeWidget *w, int i, QString str) {
@@ -1514,10 +1535,6 @@ void EditSecurityDialog::setSecurity(Security *security) {
 		default: {typeCombo->setCurrentIndex(0); break;}
 	}
 }
-
-#define CHANGE_COLUMN				2
-#define BUDGET_COLUMN				1
-#define VALUE_COLUMN				3
 
 class TotalListViewItem : public QTreeWidgetItem {
 	public:
@@ -3228,13 +3245,6 @@ void Eqonomize::showLedger() {
 		if(account == budget->balancingAccount && budget->assetsAccounts.count() > 1) account = budget->assetsAccounts[1];
 	}
 	LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, this, tr("Ledger"), b_extra);
-	QSettings settings;
-	QSize dialog_size = settings.value("Ledger/size", QSize()).toSize();
-	if(!dialog_size.isValid()) {
-		QDesktopWidget desktop;
-		dialog_size = QSize(900, 600).boundedTo(desktop.availableGeometry(this).size());
-	}
-	dialog->resize(dialog_size);
 	dialog->show();
 	connect(this, SIGNAL(timeToSaveConfig()), dialog, SLOT(saveConfig()));
 }
@@ -5838,6 +5848,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 				expenses_accounts_change -= value;
 				if(update_value_display) {
 					expensesItem->setText(CHANGE_COLUMN, QLocale().toString(expenses_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
+					setAccountChangeColor(expensesItem, expenses_accounts_change, true);
 				}
 			}
 			if(update_value_display) {
@@ -5888,6 +5899,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 				incomes_accounts_change += value;
 				if(update_value_display) {
 					incomesItem->setText(CHANGE_COLUMN, QLocale().toString(incomes_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
+					setAccountChangeColor(incomesItem, incomes_accounts_change, false);
 				}
 			}
 			if(update_value_display) {
@@ -5902,7 +5914,10 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					updateSecurityAccount((AssetsAccount*) trans->fromAccount(), false);
 					assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 					assetsItem->setText(CHANGE_COLUMN, QLocale().toString(assets_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
+					setAccountChangeColor(assetsItem, assets_accounts_change, false);
 					item_accounts[trans->fromAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES));
+					setAccountChangeColor(item_accounts[trans->fromAccount()], account_change[trans->fromAccount()], false);
+					
 				}
 				break;
 			}
@@ -5915,7 +5930,9 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					assets_accounts_change -= value;
 					if(update_value_display) {
 						assetsItem->setText(CHANGE_COLUMN, QLocale().toString(assets_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
+						setAccountChangeColor(assetsItem, assets_accounts_change, false);
 						item_accounts[trans->fromAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES));
+						setAccountChangeColor(item_accounts[trans->fromAccount()], account_change[trans->fromAccount()], false);
 					}
 				}
 				if(update_value_display) assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
@@ -5967,6 +5984,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 				expenses_accounts_change += value;
 				if(update_value_display) {
 					expensesItem->setText(CHANGE_COLUMN, QLocale().toString(expenses_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
+					setAccountChangeColor(expensesItem, expenses_accounts_change, true);
 				}
 			}
 			if(update_value_display) {
@@ -6016,6 +6034,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 				incomes_accounts_change -= value;
 				if(update_value_display) {
 					incomesItem->setText(CHANGE_COLUMN, QLocale().toString(incomes_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
+					setAccountChangeColor(incomesItem, incomes_accounts_change, false);
 				}
 			}
 			if(update_value_display) {
@@ -6030,7 +6049,9 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					updateSecurityAccount((AssetsAccount*) trans->toAccount(), false);
 					assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 					assetsItem->setText(CHANGE_COLUMN, QLocale().toString(assets_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
+					setAccountChangeColor(assetsItem, assets_accounts_change, false);
 					item_accounts[trans->toAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->toAccount()], 'f', MONETARY_DECIMAL_PLACES));
+					setAccountChangeColor(item_accounts[trans->toAccount()], account_change[trans->toAccount()], false);
 				}
 				break;
 			}
@@ -6043,7 +6064,9 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					assets_accounts_change += value;
 					if(update_value_display) {
 						assetsItem->setText(CHANGE_COLUMN, QLocale().toString(assets_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
+						setAccountChangeColor(assetsItem, assets_accounts_change, false);
 						item_accounts[trans->toAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->toAccount()], 'f', MONETARY_DECIMAL_PLACES));
+						setAccountChangeColor(item_accounts[trans->toAccount()], account_change[trans->toAccount()], false);
 					}
 				}
 				if(update_value_display) assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
@@ -6055,17 +6078,21 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 		if(!balfrom) {
 			item_accounts[trans->fromAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 			item_accounts[trans->fromAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES));
+			setAccountChangeColor(item_accounts[trans->fromAccount()], account_change[trans->fromAccount()], trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES);
 			if(from_sub) {
 				item_accounts[trans->fromAccount()->topAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->fromAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 				item_accounts[trans->fromAccount()->topAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->fromAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES));
+				setAccountChangeColor(item_accounts[trans->fromAccount()->topAccount()], account_change[trans->fromAccount()->topAccount()], trans->fromAccount()->topAccount()->type() == ACCOUNT_TYPE_EXPENSES);
 			}
 		}
 		if(!balto) {
 			item_accounts[trans->toAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->toAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 			item_accounts[trans->toAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->toAccount()], 'f', MONETARY_DECIMAL_PLACES));
+			setAccountChangeColor(item_accounts[trans->toAccount()], account_change[trans->toAccount()], trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES);
 			if(to_sub) {
 				item_accounts[trans->toAccount()->topAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->toAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 				item_accounts[trans->toAccount()->topAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->toAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES));
+				setAccountChangeColor(item_accounts[trans->toAccount()->topAccount()], account_change[trans->toAccount()->topAccount()], trans->toAccount()->topAccount()->type() == ACCOUNT_TYPE_EXPENSES);
 			}
 		}
 	}
@@ -6089,12 +6116,14 @@ void Eqonomize::updateTotalMonthlyExpensesBudget() {
 		}
 		if(b_budget) {
 			expensesItem->setText(BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(QLocale().toString(expenses_budget, 'f', MONETARY_DECIMAL_PLACES)).arg(QLocale().toString(expenses_budget_diff, 'f', MONETARY_DECIMAL_PLACES)));
+			setAccountBudgetColor(expensesItem, expenses_budget_diff, true);
 			return;
 		} else {
 			expenses_budget = -1.0;
 		}
 	}
 	expensesItem->setText(BUDGET_COLUMN, "-");
+	setAccountBudgetColor(expensesItem, 0.0, true);
 }
 void Eqonomize::updateTotalMonthlyIncomesBudget() {
 	if(budget->incomesAccounts.count() > 0) {
@@ -6113,12 +6142,14 @@ void Eqonomize::updateTotalMonthlyIncomesBudget() {
 		}
 		if(b_budget) {
 			incomesItem->setText(BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(QLocale().toString(incomes_budget, 'f', MONETARY_DECIMAL_PLACES)).arg(QLocale().toString(incomes_budget_diff, 'f', MONETARY_DECIMAL_PLACES)));
+			setAccountBudgetColor(incomesItem, incomes_budget_diff, false);
 			return;
 		} else {
 			incomes_budget = -1.0;
 		}
 	}
 	incomesItem->setText(BUDGET_COLUMN, "-");
+	setAccountBudgetColor(incomesItem, 0.0, false);
 }
 struct budget_info {
 	QMap<QDate, double>::const_iterator it;
@@ -6158,6 +6189,7 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 	if(subs.isEmpty() && (it == it_e || budget->monthToBudgetMonth(it.key()) > to_date)) {
 
 		i->setText(BUDGET_COLUMN, "-");
+		setAccountBudgetColor(i, 0.0, account->type() == ACCOUNT_TYPE_EXPENSES);
 		account_budget[account] = -1.0;
 
 	} else {
@@ -6442,6 +6474,7 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 		if(has_budget || has_subs_budget) {
 			if(has_budget) i->setText(BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(QLocale().toString(mbudget, 'f', MONETARY_DECIMAL_PLACES)).arg(QLocale().toString(diff, 'f', MONETARY_DECIMAL_PLACES)));
 			else i->setText(BUDGET_COLUMN, QString("(") + tr("%2 of %1", "%1: budget; %2: remaining budget").arg(QLocale().toString(mbudget, 'f', MONETARY_DECIMAL_PLACES)).arg(QLocale().toString(diff, 'f', MONETARY_DECIMAL_PLACES)) + QString(")"));
+			setAccountBudgetColor(i, diff, account->type() == ACCOUNT_TYPE_EXPENSES);
 			account_budget[account] = mbudget;
 			account_budget_diff[account] = diff;
 		} else {
@@ -6464,6 +6497,8 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 			}
 			item_accounts[budget->budgetAccount]->setText(CHANGE_COLUMN, QLocale().toString(account_change[budget->budgetAccount], 'f', MONETARY_DECIMAL_PLACES));
 			item_accounts[budget->budgetAccount]->setText(VALUE_COLUMN, QLocale().toString(account_value[budget->budgetAccount], 'f', MONETARY_DECIMAL_PLACES) + " ");
+			setAccountChangeColor(item_accounts[budget->budgetAccount], account_value[budget->budgetAccount], false);
+			
 		}
 		if(account->type() == ACCOUNT_TYPE_EXPENSES) {
 			assets_accounts_value -= future_diff;
@@ -6474,6 +6509,7 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 		}
 		assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 		assetsItem->setText(CHANGE_COLUMN, QLocale().toString(assets_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
+		setAccountChangeColor(assetsItem, assets_accounts_change, false);
 	}
 
 	if(item_accounts[account] == selectedItem(accountsView)) updateBudgetEdit();
@@ -6588,8 +6624,10 @@ void Eqonomize::updateSecurityAccount(AssetsAccount *account, bool update_displa
 	if(update_display) {
 		assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 		assetsItem->setText(CHANGE_COLUMN, QLocale().toString(assets_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
+		setAccountChangeColor(assetsItem, assets_accounts_change, false);
 		item_accounts[account]->setText(CHANGE_COLUMN, QLocale().toString(value - value_from, 'f', MONETARY_DECIMAL_PLACES));
 		item_accounts[account]->setText(VALUE_COLUMN, QLocale().toString(value, 'f', MONETARY_DECIMAL_PLACES) + " ");
+		setAccountChangeColor(item_accounts[account], value - value_from, false);
 	}
 }
 void Eqonomize::filterAccounts() {
@@ -6751,13 +6789,17 @@ void Eqonomize::filterAccounts() {
 	for(QMap<QTreeWidgetItem*, Account*>::Iterator it = account_items.begin(); it != account_items.end(); ++it) {
 		it.key()->setText(CHANGE_COLUMN, QLocale().toString(account_change[it.value()], 'f', MONETARY_DECIMAL_PLACES));
 		it.key()->setText(VALUE_COLUMN, QLocale().toString(account_value[it.value()], 'f', MONETARY_DECIMAL_PLACES) + " ");
+		setAccountChangeColor(it.key(), account_change[it.value()], it.value()->type() == ACCOUNT_TYPE_EXPENSES);
 	}
 	incomesItem->setText(VALUE_COLUMN, QLocale().toString(incomes_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	incomesItem->setText(CHANGE_COLUMN, QLocale().toString(incomes_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
+	setAccountChangeColor(incomesItem, incomes_accounts_change, false);
 	expensesItem->setText(VALUE_COLUMN, QLocale().toString(expenses_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	expensesItem->setText(CHANGE_COLUMN, QLocale().toString(expenses_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
+	setAccountChangeColor(expensesItem, expenses_accounts_change, true);
 	assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	assetsItem->setText(CHANGE_COLUMN, QLocale().toString(assets_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
+	setAccountChangeColor(assetsItem, assets_accounts_change, false);
 	budgetMonthEdit->blockSignals(true);
 	budgetMonthEdit->setDate(budget->budgetDateToMonth(to_date));
 	budgetMonthEdit->blockSignals(false);

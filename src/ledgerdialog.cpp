@@ -49,6 +49,7 @@
 #include <QPrintDialog>
 #include <QTextDocument>
 #include <QSettings>
+#include <QHeaderView>
 
 #include "budget.h"
 #include "eqonomize.h"
@@ -58,6 +59,12 @@ extern QString htmlize_string(QString str);
 extern QColor createExpenseColor(QColor base_color);
 extern QColor createIncomeColor(QColor base_color);
 extern QColor createTransferColor(QColor base_color);
+extern void setColumnTextWidth(QTreeWidget *w, int i, QString str);
+extern void setColumnDateWidth(QTreeWidget *w, int i);
+extern void setColumnMoneyWidth(QTreeWidget *w, int i, double v = 9999999.99);
+extern void setColumnValueWidth(QTreeWidget *w, int i, double v, int d = -1);
+extern void setColumnStrlenWidth(QTreeWidget *w, int i, int l);
+
 
 QColor incomeColor, expenseColor;
 
@@ -144,9 +151,15 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	headers << tr("Balance");
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
-	//transactionsView->setItemMargin(3);
-	transactionsView->setMinimumHeight(450);
+	setColumnDateWidth(transactionsView, 0);
+	setColumnStrlenWidth(transactionsView, 1, 15);
+	setColumnStrlenWidth(transactionsView, 2, 25);
+	setColumnStrlenWidth(transactionsView, 3, 20);
+	setColumnMoneyWidth(transactionsView, 4);
+	setColumnMoneyWidth(transactionsView, 5);
+	setColumnMoneyWidth(transactionsView, 6, 999999999999.99);
 	transactionsView->setSelectionMode(QTreeWidget::ExtendedSelection);
+	transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
 	QSizePolicy sp = transactionsView->sizePolicy();
 	sp.setHorizontalPolicy(QSizePolicy::MinimumExpanding);
 	transactionsView->setSizePolicy(sp);
@@ -188,6 +201,12 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	connect(mainWin, SIGNAL(accountsModified()), this, SLOT(updateAccounts()));
 
 	updateTransactions();
+	
+	QSettings settings;
+	QSize dialog_size = settings.value("Ledger/size", QSize()).toSize();
+	if(dialog_size.isValid()) {
+		resize(dialog_size);
+	}
 
 }
 LedgerDialog::~LedgerDialog() {}
