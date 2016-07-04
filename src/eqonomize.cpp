@@ -1063,7 +1063,7 @@ void ConfirmScheduleDialog::edit() {
 	} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
 		security = ((Income*) trans)->security();
 	}
-	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), false, false, security, SECURITY_ALL_VALUES, security != NULL, budget, this);
+	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), false, false, security, SECURITY_ALL_VALUES, security != NULL, budget, this, true);
 	dialog->editWidget->updateAccounts();
 	dialog->editWidget->setTransaction(trans);
 	//if(trans->type() == TRANSACTION_TYPE_SECURITY_SELL) dialog->editWidget->setMaxSharesDate(QDate::currentDate());
@@ -4918,9 +4918,13 @@ bool Eqonomize::checkSchedule(bool update_display) {
 	while(strans) {
 		if(strans->firstOccurrence() < QDate::currentDate() || (QTime::currentTime().hour() >= 18 && strans->firstOccurrence() == QDate::currentDate())) {
 			b = true;
+			budget->setRecordNewAccounts(true);
 			ConfirmScheduleDialog *dialog = new ConfirmScheduleDialog(b_extra, budget, this, tr("Confirm Schedule"));
 			updateScheduledTransactions();
 			dialog->exec();
+			foreach(Account* acc, budget->newAccounts) emit accountAdded(acc);
+			budget->newAccounts.clear();
+			budget->setRecordNewAccounts(false);
 			Transaction *trans = dialog->firstTransaction();
 			while(trans) {
 				budget->addTransaction(trans);
