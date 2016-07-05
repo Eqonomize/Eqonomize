@@ -2679,6 +2679,15 @@ void Eqonomize::appendSecurity(Security *security) {
 		case SECURITY_TYPE_OTHER: {i->setText(7, tr("Other")); break;}
 	}
 	securitiesView->insertTopLevelItem(securitiesView->topLevelItemCount(), i);
+	if(cost > 0.0) i->setForeground(4, createExpenseColor(i->foreground(0).color()));
+	else if(cost < 0.0) i->setForeground(4, createIncomeColor(i->foreground(0).color()));
+	else i->setForeground(4, createTransferColor(i->foreground(0).color()));
+	if(profit < 0.0) i->setForeground(5, createExpenseColor(i->foreground(0).color()));
+	else if(profit > 0.0) i->setForeground(5, createIncomeColor(i->foreground(0).color()));
+	else i->setForeground(5, createTransferColor(i->foreground(0).color()));
+	if(rate < 0.0) i->setForeground(6, createExpenseColor(i->foreground(0).color()));
+	else if(rate > 0.0) i->setForeground(6, createIncomeColor(i->foreground(0).color()));
+	else i->setForeground(6, createTransferColor(i->foreground(0).color()));
 	total_rate *= total_value;
 	total_value += value;
 	total_cost += cost;
@@ -2745,6 +2754,15 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i) {
 	i->setText(5, QLocale().toCurrencyString(profit));
 	i->setText(6, QLocale().toString(rate * 100) + "%");
 	i->setText(8, security->account()->name());
+	if(cost > 0.0) i->setForeground(4, createExpenseColor(i->foreground(0).color()));
+	else if(cost < 0.0) i->setForeground(4, createIncomeColor(i->foreground(0).color()));
+	else i->setForeground(4, createTransferColor(i->foreground(0).color()));
+	if(profit < 0.0) i->setForeground(5, createExpenseColor(i->foreground(0).color()));
+	else if(profit > 0.0) i->setForeground(5, createIncomeColor(i->foreground(0).color()));
+	else i->setForeground(5, createTransferColor(i->foreground(0).color()));
+	if(rate < 0.0) i->setForeground(6, createExpenseColor(i->foreground(0).color()));
+	else if(rate > 0.0) i->setForeground(6, createIncomeColor(i->foreground(0).color()));
+	else i->setForeground(6, createTransferColor(i->foreground(0).color()));
 	updateSecuritiesStatistics();
 }
 void Eqonomize::updateSecurities() {
