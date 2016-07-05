@@ -24,8 +24,8 @@
 
 #include "budget.h"
 
-#include <QDomDocument>
 #include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 #include <QTextStream>
 #include <QMap>
 #include <QSaveFile>
@@ -442,15 +442,16 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		ofile.cancelWriting();
 		return tr("Couldn't open file for writing");
 	}
+	QXmlStreamWriter xml(&ofile);
+	xml.setCodec("UTF-8");
+	xml.setAutoFormatting(true);
+	xml.setAutoFormattingIndent(-1);
 
-	QTextStream outf(&ofile);
-	outf.setCodec("UTF-8");
-	QDomDocument doc("EqonomizeDoc");
-	doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
-	QDomElement root = doc.createElement("EqonomizeDoc");
-	root.setAttribute("version", "0.6");
-	doc.appendChild(root);
-
+	xml.writeStartDocument();
+	xml.writeDTD("<!DOCTYPE EqonomizeDoc>");
+	xml.writeStartElement("EqonomizeDoc");
+	xml.writeAttribute("version", "0.6");
+	
 	int id = 1;
 	Account *account = accounts.first();
 	while(account) {
@@ -466,63 +467,62 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		id++;
 		security = securities.next();
 	}
-	QDomElement e = doc.createElement("budget_period");
-	QDomElement e2 = doc.createElement("first_day_of_month");
-	QDomText t = doc.createTextNode(QString::number(i_budget_day));
-	e2.appendChild(t);
-	e.appendChild(e2);
-	root.appendChild(e);
+	
+	xml.writeStartElement("budget_period");
+	xml.writeTextElement("first_day_of_month", QString::number(i_budget_day));
+	xml.writeEndElement();
+	
 	account = accounts.first();
 	while(account) {
 		if(account != balancingAccount && account->topAccount() == account) {
 			switch(account->type()) {
 				case ACCOUNT_TYPE_ASSETS: {
-					QDomElement e = doc.createElement("account");
-					account->save(&e);
-					root.appendChild(e);
+					xml.writeStartElement("account");
+					account->save(&xml);
+					xml.writeEndElement();
 					break;
 				}
 				case ACCOUNT_TYPE_INCOMES: {
-					QDomElement e = doc.createElement("category");
-					e.setAttribute("type", "incomes");
-					account->save(&e);
-					root.appendChild(e);
+					xml.writeStartElement("category");
+					xml.writeAttribute("type", "incomes");
+					account->save(&xml);
+					xml.writeEndElement();
 					break;
 				}
 				case ACCOUNT_TYPE_EXPENSES: {
-					QDomElement e = doc.createElement("category");
-					e.setAttribute("type", "expenses");
-					account->save(&e);
-					root.appendChild(e);
+					xml.writeStartElement("category");
+					xml.writeAttribute("type", "expenses");
+					account->save(&xml);
+					xml.writeEndElement();
 					break;
 				}
 			}
 		}
 		account = accounts.next();
 	}
-
+	
 	security = securities.first();
 	while(security) {
-		QDomElement e = doc.createElement("security");
-		security->save(&e);
-		root.appendChild(e);
+		xml.writeStartElement("security");
+		security->save(&xml);
+		xml.writeEndElement();
 		security = securities.next();
 	}
-
+	
 	ScheduledTransaction *strans = scheduledTransactions.first();
 	while(strans) {
-		QDomElement e = doc.createElement("schedule");
-		strans->save(&e);
-		root.appendChild(e);
+		xml.writeStartElement("schedule");
+		strans->save(&xml);
+		xml.writeEndElement();
 		strans = scheduledTransactions.next();
 	}
 
 	SplitTransaction *split = splitTransactions.first();
 	while(split) {
-		QDomElement e = doc.createElement("transaction");
-		e.setAttribute("type", "split");
-		split->save(&e);
-		root.appendChild(e);
+		xml.writeStartElement("transaction");
+		xml.writeAttribute("type", "split");
+		split->save(&xml);
+		xml.writeEndElement();
 		split = splitTransactions.next();
 	}
 
@@ -530,12 +530,12 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 	while(security) {
 		ReinvestedDividend *rediv = security->reinvestedDividends.first();
 		while(rediv) {
-			QDomElement e = doc.createElement("transaction");
-			e.setAttribute("type", "reinvested_dividend");
-			e.setAttribute("security", security->id());
-			e.setAttribute("date", rediv->date.toString(Qt::ISODate));
-			e.setAttribute("shares", QString::number(rediv->shares, 'f', security->decimals()));
-			root.appendChild(e);
+			xml.writeStartElement("transaction");
+			xml.writeAttribute("type", "reinvested_dividend");
+			xml.writeAttribute("security", QString::number(security->id()));
+			xml.writeAttribute("date", rediv->date.toString(Qt::ISODate));
+			xml.writeAttribute("shares", QString::number(rediv->shares, 'f', security->decimals()));
+			xml.writeEndElement();
 			rediv = security->reinvestedDividends.next();
 		}
 		security = securities.next();
@@ -543,55 +543,55 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 
 	SecurityTrade *ts = securityTrades.first();
 	while(ts) {
-		QDomElement e = doc.createElement("transaction");
-		e.setAttribute("type", "security_trade");
-		e.setAttribute("from_security", ts->from_security->id());
-		e.setAttribute("to_security", ts->to_security->id());
-		e.setAttribute("date", ts->date.toString(Qt::ISODate));
-		e.setAttribute("value", QString::number(ts->value, 'f', MONETARY_DECIMAL_PLACES));
-		e.setAttribute("from_shares", QString::number(ts->from_shares, 'f', ts->from_security->decimals()));
-		e.setAttribute("to_shares", QString::number(ts->to_shares, 'f', ts->to_security->decimals()));
-		root.appendChild(e);
+		xml.writeStartElement("transaction");
+		xml.writeAttribute("type", "security_trade");
+		xml.writeAttribute("from_security", QString::number(ts->from_security->id()));
+		xml.writeAttribute("to_security", QString::number(ts->to_security->id()));
+		xml.writeAttribute("date", ts->date.toString(Qt::ISODate));
+		xml.writeAttribute("value", QString::number(ts->value, 'f', MONETARY_DECIMAL_PLACES));
+		xml.writeAttribute("from_shares", QString::number(ts->from_shares, 'f', ts->from_security->decimals()));
+		xml.writeAttribute("to_shares", QString::number(ts->to_shares, 'f', ts->to_security->decimals()));
+		xml.writeEndElement();
 		ts = securityTrades.next();
 	}
 
 	Transaction *trans = transactions.first();
 	while(trans) {
 		if(!trans->parentSplit()) {
-			QDomElement e = doc.createElement("transaction");
+			xml.writeStartElement("transaction");
 			switch(trans->type()) {
 				case TRANSACTION_TYPE_TRANSFER: {
-					if(trans->fromAccount() == balancingAccount || trans->toAccount() == balancingAccount) e.setAttribute("type", "balancing");
-					else e.setAttribute("type", "transfer");
+					if(trans->fromAccount() == balancingAccount || trans->toAccount() == balancingAccount) xml.writeAttribute("type", "balancing");
+					else xml.writeAttribute("type", "transfer");
 					break;
 				}
 				case TRANSACTION_TYPE_INCOME: {
-					if(((Income*) trans)->security()) e.setAttribute("type", "dividend");
-					else if(trans->value() < 0.0) e.setAttribute("type", "repayment");
-					else e.setAttribute("type", "income");
+					if(((Income*) trans)->security()) xml.writeAttribute("type", "dividend");
+					else if(trans->value() < 0.0) xml.writeAttribute("type", "repayment");
+					else xml.writeAttribute("type", "income");
 					break;
 				}
 				case TRANSACTION_TYPE_EXPENSE: {
-					if(trans->value() < 0.0) e.setAttribute("type", "refund");
-					else e.setAttribute("type", "expense");
+					if(trans->value() < 0.0) xml.writeAttribute("type", "refund");
+					else xml.writeAttribute("type", "expense");
 					break;
 				}
 				case TRANSACTION_TYPE_SECURITY_BUY: {
-					e.setAttribute("type", "security_buy");
+					xml.writeAttribute("type", "security_buy");
 					break;
 				}
 				case TRANSACTION_TYPE_SECURITY_SELL: {
-					e.setAttribute("type", "security_sell");
+					xml.writeAttribute("type", "security_sell");
 					break;
 				}
 			}
-			trans->save(&e);
-			root.appendChild(e);
+			trans->save(&xml);
+			xml.writeEndElement();
 		}
 		trans = transactions.next();
 	}
-
-	outf << doc.toString();
+	
+	xml.writeEndElement();
 
 	if(ofile.error() != QFile::NoError) {
 		ofile.cancelWriting();

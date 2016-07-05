@@ -27,8 +27,8 @@
 #include <QCoreApplication>
 
 class QXmlStreamReader;
+class QXmlStreamWriter;
 class QXmlStreamAttributes;
-class QDomElement;
 
 class Account;
 class AssetsAccount;
@@ -95,6 +95,10 @@ class Transaction {
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
 		virtual bool readElements(QXmlStreamReader *xml, bool *valid);
+		virtual void save(QXmlStreamWriter *xml);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
+		virtual void writeElements(QXmlStreamWriter *xml);
+		
 		SplitTransaction *parentSplit() const;
 		void setParentSplit(SplitTransaction *parent);
 		virtual double value() const;
@@ -113,7 +117,6 @@ class Transaction {
 		void setToAccount(Account *new_to);
 		Budget *budget() const;
 		virtual TransactionType type() const = 0;
-		virtual void save(QDomElement *e) const;
 		
 };
 
@@ -134,6 +137,7 @@ class Expense : public Transaction {
 		Transaction *copy() const;
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
 
 		bool equals(const Transaction *transaction) const;
 		
@@ -146,7 +150,6 @@ class Expense : public Transaction {
 		const QString &payee() const;
 		void setPayee(QString new_payee);
 		TransactionType type() const;
-		void save(QDomElement *e) const;
 		
 };
 
@@ -168,6 +171,7 @@ class Income : public Transaction {
 		Transaction *copy() const;
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
 	
 		bool equals(const Transaction *transaction) const;
 
@@ -180,7 +184,6 @@ class Income : public Transaction {
 		const QString &payer() const;
 		void setPayer(QString new_payer);
 		TransactionType type() const;
-		void save(QDomElement *e) const;
 		void setSecurity(Security *parent_security);
 		Security *security() const;
 		
@@ -199,6 +202,7 @@ class Transfer : public Transaction {
 		virtual Transaction *copy() const;
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		
 		AssetsAccount *to() const;
 		void setTo(AssetsAccount *new_to);
@@ -207,7 +211,6 @@ class Transfer : public Transaction {
 		double amount() const;
 		void setAmount(double new_amount);
 		TransactionType type() const;
-		virtual void save(QDomElement *e) const;
 		
 };
 
@@ -224,10 +227,10 @@ class Balancing : public Transfer {
 		Transaction *copy() const;
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
 
 		AssetsAccount *account() const;
 		void setAccount(AssetsAccount *new_account);
-		void save(QDomElement *e) const;
 
 };
 
@@ -250,6 +253,7 @@ class SecurityTransaction : public Transaction {
 		virtual Transaction *copy() const = 0;
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
 
 		bool equals(const Transaction *transaction) const;
 
@@ -258,7 +262,6 @@ class SecurityTransaction : public Transaction {
 		virtual Account *account() const = 0;
 		virtual void setAccount(Account *account) = 0;
 		virtual TransactionType type() const = 0;
-		void save(QDomElement *e) const;
 		double shareValue() const;
 		double shares() const;
 		void setShareValue(double new_share_value);
@@ -281,12 +284,12 @@ class SecurityBuy : public SecurityTransaction {
 		Transaction *copy() const;
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
 
 		Account *account() const;
-		void setAccount(Account *account);		
+		void setAccount(Account *account);
 		Account *fromAccount() const;
 		TransactionType type() const;
-		void save(QDomElement *e) const;
 
 };
 
@@ -303,12 +306,12 @@ class SecuritySell : public SecurityTransaction {
 		Transaction *copy() const;
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
 
 		Account *account() const;
 		void setAccount(Account *account);
 		Account *toAccount() const;
 		TransactionType type() const;
-		void save(QDomElement *e) const;
 
 };
 
@@ -332,6 +335,9 @@ class ScheduledTransaction {
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
 		virtual bool readElements(QXmlStreamReader *xml, bool *valid);
+		virtual void save(QXmlStreamWriter *xml);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
+		virtual void writeElements(QXmlStreamWriter *xml);
 
 		Transaction *realize(const QDate &date);
 		Transaction *transaction() const;
@@ -339,7 +345,6 @@ class ScheduledTransaction {
 		void setRecurrence(Recurrence *rec, bool delete_old = true);
 		void setTransaction(Transaction *trans, bool delete_old = true);
 		Budget *budget() const;
-		virtual void save(QDomElement *e) const;
 		QDate firstOccurrence() const;
 		bool isOneTimeTransaction() const;
 		void setDate(const QDate &newdate);
@@ -368,6 +373,9 @@ class SplitTransaction {
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
 		virtual bool readElements(QXmlStreamReader *xml, bool *valid);
+		virtual void save(QXmlStreamWriter *xml);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
+		virtual void writeElements(QXmlStreamWriter *xml);
 
 		double value() const;
 		void addTransaction(Transaction *trans);
@@ -382,7 +390,6 @@ class SplitTransaction {
 		AssetsAccount *account() const;
 		void setAccount(AssetsAccount *new_account);
 		Budget *budget() const;
-		void save(QDomElement *e) const;
 
 		QVector<Transaction*> splits;
 

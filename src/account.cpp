@@ -22,9 +22,8 @@
 #  include <config.h>
 #endif
 
-#include <QDomElement>
-#include <QDomNode>
 #include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 #include <QXmlStreamAttribute>
 
 #include "account.h"
@@ -53,6 +52,18 @@ bool Account::readElements(QXmlStreamReader *xml, bool *valid) {
 	}
 	return true;
 }
+void Account::save(QXmlStreamWriter *xml) {
+	QXmlStreamAttributes attr;
+	writeAttributes(&attr);
+	xml->writeAttributes(attr);
+	writeElements(xml);
+}
+void Account::writeAttributes(QXmlStreamAttributes *attr) {
+	attr->append("name", s_name);
+	attr->append("id", QString::number(i_id));
+	if(!s_description.isEmpty()) attr->append("description", s_description);
+}
+void Account::writeElements(QXmlStreamWriter*) {}
 const QString &Account::name() const {return s_name;}
 QString Account::nameWithParent() const {return s_name;}
 Account *Account::topAccount() {return this;}
@@ -62,11 +73,6 @@ void Account::setDescription(QString new_description) {s_description = new_descr
 Budget *Account::budget() const {return o_budget;}
 int Account::id() const {return i_id;}
 void Account::setId(int new_id) {i_id = new_id;}
-void Account::save(QDomElement *e) {
-	e->setAttribute("name", s_name);
-	e->setAttribute("id", i_id);
-	if(!s_description.isEmpty()) e->setAttribute("description", s_description);
-}
 
 AssetsAccount::AssetsAccount(Budget *parent_budget, AssetsType initial_type, QString initial_name, double initial_balance, QString initial_description) : Account(parent_budget, initial_name, initial_description), at_type(initial_type), d_initbal(initial_type == ASSETS_TYPE_SECURITIES ? 0.0 : initial_balance) {}
 AssetsAccount::AssetsAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Account(parent_budget) {
@@ -107,6 +113,25 @@ void AssetsAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		}
 	}
 }
+void AssetsAccount::writeAttributes(QXmlStreamAttributes *attr) {
+	Account::writeAttributes(attr);
+	if(at_type != ASSETS_TYPE_SECURITIES) {
+		attr->append("initialbalance", QString::number(d_initbal, 'f', MONETARY_DECIMAL_PLACES));
+		if(o_budget->budgetAccount == this) {
+			attr->append("budgetaccount", QString::number(o_budget->budgetAccount == this));
+		}
+	}
+	switch(at_type) {
+		case ASSETS_TYPE_CURRENT: {attr->append("type", "current"); break;}
+		case ASSETS_TYPE_SAVINGS: {attr->append("type", "savings"); break;}
+		case ASSETS_TYPE_CREDIT_CARD: {attr->append("type", "credit card"); break;}
+		case ASSETS_TYPE_LIABILITIES: {attr->append("type", "liabilities"); break;}
+		case ASSETS_TYPE_SECURITIES: {attr->append("type", "securities"); break;}
+		case ASSETS_TYPE_BALANCING: {attr->append("type", "balancing"); break;}
+		case ASSETS_TYPE_CASH: {attr->append("type", "cash"); break;}
+	}
+}
+
 bool AssetsAccount::isBudgetAccount() const {
 	return o_budget->budgetAccount == this;
 }
@@ -133,24 +158,6 @@ double AssetsAccount::initialBalance() const {
 }
 void AssetsAccount::setInitialBalance(double new_initial_balance) {if(at_type != ASSETS_TYPE_SECURITIES) d_initbal = new_initial_balance;}
 AccountType AssetsAccount::type() const {return ACCOUNT_TYPE_ASSETS;}
-void AssetsAccount::save(QDomElement *e) {
-	Account::save(e);
-	if(at_type != ASSETS_TYPE_SECURITIES) {
-		e->setAttribute("initialbalance", QString::number(d_initbal, 'f', MONETARY_DECIMAL_PLACES));
-		if(o_budget->budgetAccount == this) {
-			e->setAttribute("budgetaccount", o_budget->budgetAccount == this);
-		}
-	}
-	switch(at_type) {
-		case ASSETS_TYPE_CURRENT: {e->setAttribute("type", "current"); break;}
-		case ASSETS_TYPE_SAVINGS: {e->setAttribute("type", "savings"); break;}
-		case ASSETS_TYPE_CREDIT_CARD: {e->setAttribute("type", "credit card"); break;}
-		case ASSETS_TYPE_LIABILITIES: {e->setAttribute("type", "liabilities"); break;}
-		case ASSETS_TYPE_SECURITIES: {e->setAttribute("type", "securities"); break;}
-		case ASSETS_TYPE_BALANCING: {e->setAttribute("type", "balancing"); break;}
-		case ASSETS_TYPE_CASH: {e->setAttribute("type", "cash"); break;}
-	}
-}
 void AssetsAccount::setAccountType(AssetsType new_type) {
 	at_type = new_type;
 	if(at_type == ASSETS_TYPE_SECURITIES) d_initbal = 0.0;
@@ -200,7 +207,7 @@ void CategoryAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Account::readAttributes(attr, valid);
 	if(attr->hasAttribute("monthlybudget")) {
 		double d_mbudget = attr->value("monthlybudget").toDouble();
-		if(d_mbudget >= 0.0) {			
+		if(d_mbudget >= 0.0) {
 			QDate date = QDate::currentDate();
 			date.setDate(date.year(), date.month(), 1);
 			mbudgets[date] = d_mbudget;
@@ -243,6 +250,28 @@ bool CategoryAccount::readElement(QXmlStreamReader *xml, bool *valid) {
 	}
 	return Account::readElement(xml, valid);
 }
+void CategoryAccount::writeAttributes(QXmlStreamAttributes *attr) {
+	Account::writeAttributes(attr);
+}
+void CategoryAccount::writeElements(QXmlStreamWriter *xml) {
+	Account::writeElements(xml);
+	QMap<QDate, double>::const_iterator it_end = mbudgets.end();
+	for(QMap<QDate, double>::const_iterator it = mbudgets.begin(); it != it_end; ++it) {
+		xml->writeStartElement("budget");
+		xml->writeAttribute("value", QString::number(it.value(), 'f', MONETARY_DECIMAL_PLACES));
+		xml->writeAttribute("date", it.key().toString(Qt::ISODate));
+		xml->writeEndElement();
+	}
+	CategoryAccount *cat = subCategories.first();
+	while(cat) {
+		xml->writeStartElement("category");
+		if(cat->type() == ACCOUNT_TYPE_INCOMES) xml->writeAttribute("type", "incomes");
+		else xml->writeAttribute("type", "expenses");
+		cat->save(xml);
+		xml->writeEndElement();
+		cat = subCategories.next();
+	}
+}
 double CategoryAccount::monthlyBudget(int year, int month, bool no_default) const {	
 	QDate date;
 	date.setDate(year, month, 1);
@@ -280,25 +309,6 @@ Account *CategoryAccount::topAccount() {
 }
 void CategoryAccount::setMonthlyBudget(const QDate &date, double new_monthly_budget) {
 	mbudgets[date] = new_monthly_budget;
-}
-void CategoryAccount::save(QDomElement *e) {
-	Account::save(e);
-	QMap<QDate, double>::const_iterator it_end = mbudgets.end();
-	for(QMap<QDate, double>::const_iterator it = mbudgets.begin(); it != it_end; ++it) {
-		QDomElement e2 = e->ownerDocument().createElement("budget");
-		e2.setAttribute("value", QString::number(it.value(), 'f', MONETARY_DECIMAL_PLACES));
-		e2.setAttribute("date", it.key().toString(Qt::ISODate));
-		e->appendChild(e2);
-	}
-	CategoryAccount *cat = subCategories.first();
-	while(cat) {
-		QDomElement e2 = e->ownerDocument().createElement("category");
-		if(cat->type() == ACCOUNT_TYPE_INCOMES) e2.setAttribute("type", "incomes");
-		if(cat->type() == ACCOUNT_TYPE_EXPENSES) e2.setAttribute("type", "expenses");
-		cat->save(&e2);
-		e->appendChild(e2);
-		cat = subCategories.next();
-	}
 }
 bool CategoryAccount::removeSubCategory(CategoryAccount *sub_account, bool set_parent) {
 	if(set_parent) return sub_account->setParentCategory(NULL);

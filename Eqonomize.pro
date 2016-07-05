@@ -29,8 +29,8 @@ TEMPLATE = app
 TARGET = eqonomize
 INCLUDEPATH += src
 CONFIG += qt
-QT += widgets network xml printsupport
-!equals(DISABLE_QTCHARTS,"yes"):!equals(ENABLE_QTCHARTS,"no"):qtHaveModule(charts)  {
+QT += widgets network printsupport
+!equals(DISABLE_QTCHARTS,"yes"):!equals(ENABLE_QTCHARTS,"no") {
 	QT += charts
 }
 MOC_DIR = build

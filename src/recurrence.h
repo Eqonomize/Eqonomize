@@ -25,8 +25,8 @@
 #include <QString>
 #include <QVector>
 
-class QDomElement;
 class QXmlStreamReader;
+class QXmlStreamWriter;
 class QXmlStreamAttributes;
 
 class Budget;
@@ -57,6 +57,10 @@ class Recurrence {
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
 		virtual bool readElements(QXmlStreamReader *xml, bool *valid);
+		
+		virtual void save(QXmlStreamWriter *xml);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
+		virtual void writeElements(QXmlStreamWriter *xml);
 
 		void updateDates();
 		virtual QDate nextOccurrence(const QDate &date, bool include_equals = false) const = 0;
@@ -79,7 +83,6 @@ class Recurrence {
 		bool removeException(const QDate &date);
 		void clearExceptions();
 		Budget *budget() const;
-		virtual void save(QDomElement *e) const;
 
 		QVector<QDate> exceptions;
 
@@ -100,12 +103,13 @@ class DailyRecurrence : public Recurrence {
 		Recurrence *copy() const;
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
+		
 		QDate nextOccurrence(const QDate &date, bool include_equals = false) const;
 		QDate prevOccurrence(const QDate &date, bool include_equals = false) const;
 		RecurrenceType type() const;
 		int frequency() const;
 		void set(const QDate &new_start_date, const QDate &new_end_date, int new_frequency, int occurrences = -1);
-		void save(QDomElement *e) const;
 
 };
 
@@ -125,13 +129,14 @@ class WeeklyRecurrence : public Recurrence {
 		Recurrence *copy() const;
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
+		
 		QDate nextOccurrence(const QDate &date, bool include_equals = false) const;
 		QDate prevOccurrence(const QDate &date, bool include_equals = false) const;
 		RecurrenceType type() const;
 		int frequency() const;
 		bool dayOfWeek(int i) const;
 		void set(const QDate &new_start_date, const QDate &new_end_date, bool d1, bool d2, bool d3, bool d4, bool d5, bool d6, bool d7, int new_frequency, int occurrences = -1);
-		void save(QDomElement *e) const;
 
 };
 
@@ -161,6 +166,8 @@ class MonthlyRecurrence : public Recurrence {
 		Recurrence *copy() const;
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
+		
 		QDate nextOccurrence(const QDate &date, bool include_equals = false) const;
 		QDate prevOccurrence(const QDate &date, bool include_equals = false) const;
 		RecurrenceType type() const;
@@ -171,7 +178,6 @@ class MonthlyRecurrence : public Recurrence {
 		int dayOfWeek() const;
 		void setOnDayOfWeek(const QDate &new_start_date, const QDate &new_end_date, int new_dayofweek, int new_week, int new_frequency, int occurrences = -1);
 		void setOnDay(const QDate &new_start_date, const QDate &new_end_date, int new_day, WeekendHandling new_weekendhandling, int new_frequency, int occurrences = -1);
-		void save(QDomElement *e) const;
 
 };
 
@@ -196,6 +202,8 @@ class YearlyRecurrence : public Recurrence {
 		Recurrence *copy() const;
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
+		
 		QDate nextOccurrence(const QDate &date, bool include_equals = false) const;
 		QDate prevOccurrence(const QDate &date, bool include_equals = false) const;
 		RecurrenceType type() const;
@@ -209,7 +217,6 @@ class YearlyRecurrence : public Recurrence {
 		void setOnDayOfWeek(const QDate &new_start_date, const QDate &new_end_date, int new_month, int new_dayofweek, int new_week, int new_frequency, int occurrences = -1);
 		void setOnDayOfMonth(const QDate &new_start_date, const QDate &new_end_date, int new_month, int new_day, WeekendHandling new_weekendhandling, int new_frequency, int occurrences = -1);
 		void setOnDayOfYear(const QDate &new_start_date, const QDate &new_end_date, int new_day, WeekendHandling new_weekendhandling, int new_frequency, int occurrences = -1);
-		void save(QDomElement *e) const;
 
 };
 

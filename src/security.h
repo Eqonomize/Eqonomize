@@ -29,8 +29,8 @@
 #include "transaction.h"
 
 class AssetsAccount;
-class QDomElement;
 class QXmlStreamReader;
+class QXmlStreamWriter;
 class QXmlStreamAttributes;
 class Security;
 class Budget;
@@ -190,6 +190,9 @@ class Security {
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
 		virtual bool readElements(QXmlStreamReader *xml, bool *valid);
+		virtual void save(QXmlStreamWriter *xml);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
+		virtual void writeElements(QXmlStreamWriter *xml);
 		const QString &name() const;
 		void setName(QString new_name);
 		const QString &description() const;
@@ -214,7 +217,6 @@ class Security {
 		void setDecimals(int new_decimals);
 		void setQuotationDecimals(int new_decimals);
 		void setAccount(AssetsAccount *new_account);
-		virtual void save(QDomElement *e) const;
 
 		double shares();
 		double shares(const QDate &date, bool estimate = false, bool no_scheduled_shares = false);

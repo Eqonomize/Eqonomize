@@ -22,9 +22,8 @@
 #  include <config.h>
 #endif
 
-#include <QDomElement>
-#include <QDomNode>
 #include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 #include <QXmlStreamAttribute>
 
 #include "budget.h"
@@ -97,6 +96,39 @@ bool Security::readElements(QXmlStreamReader *xml, bool *valid) {
 		if(!readElement(xml, valid)) xml->skipCurrentElement();
 	}
 	return true;
+}
+void Security::save(QXmlStreamWriter *xml) {
+	QXmlStreamAttributes attr;
+	writeAttributes(&attr);
+	xml->writeAttributes(attr);
+	writeElements(xml);
+}
+void Security::writeAttributes(QXmlStreamAttributes *attr) {
+	attr->append("id", QString::number(i_id));
+	attr->append("name", s_name);
+	switch(st_type) {
+		case SECURITY_TYPE_BOND: {attr->append("type", "bond"); break;}
+		case SECURITY_TYPE_STOCK: {attr->append("type", "stock"); break;}
+		case SECURITY_TYPE_MUTUAL_FUND: {attr->append("type", "mutual fund"); break;}
+		case SECURITY_TYPE_OTHER: {attr->append("type", "other"); break;}
+	}
+	if(i_decimals >= 0) attr->append("decimals", QString::number(i_decimals));
+	if(i_quotation_decimals >= 0) attr->append("quotationdecimals", QString::number(i_quotation_decimals));
+	attr->append("initialshares", QString::number(d_initial_shares, 'f', i_decimals));
+	if(!s_description.isEmpty()) attr->append("description", s_description);
+	attr->append("account", QString::number(o_account->id()));
+}
+void Security::writeElements(QXmlStreamWriter *xml) {
+	QMap<QDate, double>::const_iterator it_end = quotations.end();
+	QMap<QDate, double>::const_iterator it = quotations.begin();
+	QMap<QDate, bool>::const_iterator it_auto = quotations_auto.begin();
+	for(; it != it_end; ++it, ++it_auto) {
+		xml->writeStartElement("quotation");
+		xml->writeAttribute("value", QString::number(it.value(), 'f', quotationDecimals()));
+		xml->writeAttribute("date", it.key().toString(Qt::ISODate));
+		if(it_auto.value()) xml->writeAttribute("auto", QString::number(it_auto.value()));
+		xml->writeEndElement();
+	}
 }
 const QString &Security::name() const {return s_name;}
 void Security::setName(QString new_name) {s_name = new_name.trimmed(); o_budget->securityNameModified(this);}
@@ -172,31 +204,6 @@ int Security::quotationDecimals() const {
 }
 void Security::setDecimals(int new_decimals) {i_decimals = new_decimals;}
 void Security::setQuotationDecimals(int new_decimals) {i_quotation_decimals = new_decimals;}
-void Security::save(QDomElement *e) const {
-	e->setAttribute("id", i_id);
-	e->setAttribute("name", s_name);
-	switch(st_type) {
-		case SECURITY_TYPE_BOND: {e->setAttribute("type", "bond"); break;}
-		case SECURITY_TYPE_STOCK: {e->setAttribute("type", "stock"); break;}
-		case SECURITY_TYPE_MUTUAL_FUND: {e->setAttribute("type", "mutual fund"); break;}
-		case SECURITY_TYPE_OTHER: {e->setAttribute("type", "other"); break;}
-	}
-	if(i_decimals >= 0) e->setAttribute("decimals", i_decimals);
-	if(i_quotation_decimals >= 0) e->setAttribute("quotationdecimals", i_quotation_decimals);
-	e->setAttribute("initialshares", QString::number(d_initial_shares, 'f', i_decimals));
-	if(!s_description.isEmpty()) e->setAttribute("description", s_description);
-	e->setAttribute("account", o_account->id());
-	QMap<QDate, double>::const_iterator it_end = quotations.end();
-	QMap<QDate, double>::const_iterator it = quotations.begin();
-	QMap<QDate, bool>::const_iterator it_auto = quotations_auto.begin();
-	for(; it != it_end; ++it, ++it_auto) {
-		QDomElement e2 = e->ownerDocument().createElement("quotation");
-		e2.setAttribute("value", QString::number(it.value(), 'f', quotationDecimals()));
-		e2.setAttribute("date", it.key().toString(Qt::ISODate));
-		if(it_auto.value()) e2.setAttribute("auto", it_auto.value());
-		e->appendChild(e2);
-	}
-}
 
 double Security::shares() {
 	double n = d_initial_shares;

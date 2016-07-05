@@ -27,8 +27,8 @@
 
 #include "security.h"
 
-class QDomElement;
 class QXmlStreamReader;
+class QXmlStreamWriter;
 class QXmlStreamAttributes;
 
 class Budget;
@@ -69,6 +69,9 @@ class Account {
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
 		virtual bool readElements(QXmlStreamReader *xml, bool *valid);
+		virtual void save(QXmlStreamWriter *xml);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
+		virtual void writeElements(QXmlStreamWriter *xml);
 		const QString &name() const;
 		virtual QString nameWithParent() const;
 		virtual Account *topAccount();
@@ -79,7 +82,6 @@ class Account {
 		int id() const;
 		void setId(int new_id);
 		virtual AccountType type() const = 0;
-		virtual void save(QDomElement *e);
 
 };
 
@@ -100,6 +102,7 @@ class AssetsAccount : public Account {
 		virtual ~AssetsAccount();
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		bool isBudgetAccount() const;
 		void setAsBudgetAccount(bool will_be = true);
 		double initialBalance() const;
@@ -107,7 +110,6 @@ class AssetsAccount : public Account {
 		virtual AccountType type() const;
 		void setAccountType(AssetsType new_type);
 		virtual AssetsType accountType() const;
-		void save(QDomElement *e);
 
 };
 
@@ -139,6 +141,9 @@ class CategoryAccount : public Account {
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
+		virtual void writeElements(QXmlStreamWriter *xml);
+		
 		double monthlyBudget(int year, int month, bool no_default = false) const;
 		void setMonthlyBudget(int year, int month, double new_monthly_budget);
 		double monthlyBudget(const QDate &date, bool no_default = false) const;
@@ -146,7 +151,6 @@ class CategoryAccount : public Account {
 		QString nameWithParent() const;
 		virtual Account *topAccount();
 		virtual AccountType type() const = 0;
-		virtual void save(QDomElement *e);
 		
 		bool removeSubCategory(CategoryAccount *sub_account, bool set_parent = true);
 		bool addSubCategory(CategoryAccount *sub_account, bool set_parent = true);
