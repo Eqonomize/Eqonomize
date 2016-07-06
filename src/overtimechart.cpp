@@ -1923,27 +1923,37 @@ void OverTimeChart::updateDisplay() {
 	QString axis_string;
 	switch(type) {
 		case 1: {
-			if(current_source == 0) axis_string = tr("Daily average value") + QString(" (%1)").arg(QLocale().currencySymbol());
+			if(current_source == 0 && chart_type != 4) axis_string = tr("Daily average value") + QString(" (%1)").arg(QLocale().currencySymbol());
 			else if(current_source == -1) axis_string = tr("Daily average profit") + QString(" (%1)").arg(QLocale().currencySymbol());
-			else if(current_source % 2 == 1) axis_string = tr("Daily average income") + QString(" (%1)").arg(QLocale().currencySymbol());
+			else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Daily average income") + QString(" (%1)").arg(QLocale().currencySymbol());
 			else axis_string = tr("Daily average cost") + QString(" (%1)").arg(QLocale().currencySymbol());
 			break;
 		}
 		case 3: {
-			if(current_source == 0) axis_string = tr("Average value") + QString(" (%1)").arg(QLocale().currencySymbol());
-			else if(current_source % 2 == 1) axis_string = tr("Average income") + QString(" (%1)").arg(QLocale().currencySymbol());
+			if(current_source == 0 && chart_type != 4) axis_string = tr("Average value") + QString(" (%1)").arg(QLocale().currencySymbol());
+			else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Average income") + QString(" (%1)").arg(QLocale().currencySymbol());
 			else axis_string = tr("Average cost") + QString(" (%1)").arg(QLocale().currencySymbol());
 			break;
 		}
 		default: {
-			if(current_source == 0) axis_string = tr("Monthly value") + QString(" (%1)").arg(QLocale().currencySymbol());
+			if(current_source == 0 && chart_type != 4) axis_string = tr("Monthly value") + QString(" (%1)").arg(QLocale().currencySymbol());
 			else if(current_source == -1) axis_string = tr("Monthly profit") + QString(" (%1)").arg(QLocale().currencySymbol());
-			else if(current_source % 2 == 1) axis_string = tr("Monthly income") + QString(" (%1)").arg(QLocale().currencySymbol());
+			else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Monthly income") + QString(" (%1)").arg(QLocale().currencySymbol());
 			else axis_string = tr("Monthly cost") + QString(" (%1)").arg(QLocale().currencySymbol());
 			break;
 		}
 	}
 	if(includes_budget) axis_string += QString("<div style=\"font-weight: normal\">(*") + tr("Includes budgeted transactions") + ")</div>";
+	
+	
+	if(current_source == 0 && chart_type == 4 && type != 2) {
+		QVector<chart_month_info>::iterator it_e = monthly_expenses.end();
+		for(QVector<chart_month_info>::iterator it = monthly_expenses.begin(); it != it_e; ++it) {
+			it->value = -(it->value);
+			if(it->value < minvalue) minvalue = it->value;
+			else if(it->value > maxvalue) maxvalue = it->value;
+		}
+	}
 	
 	if(chart_type == 4) {
 		QVector<double> total_values;
@@ -1990,7 +2000,7 @@ void OverTimeChart::updateDisplay() {
 	
 	int y_lines = 5, y_minor = 0;
 
-	calculate_minmax_lines(maxvalue, minvalue, y_lines, y_minor, current_source == -1, type != 2);
+	calculate_minmax_lines(maxvalue, minvalue, y_lines, y_minor, current_source == -1 || (current_source == 0 && chart_type == 4 && type != 2), type != 2);
 	
 #ifdef QT_CHARTS_LIB
 	
