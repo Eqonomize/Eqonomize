@@ -348,7 +348,7 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 		case 'c': {
 			//outf.setEncoding(Q3TextStream::Locale);
 			QTreeWidgetItem *header = transactionsView->headerItem();
-			outf << "\"" << header->text(0) << "\",\"" << header->text(1) << "\",\"" << header->text(2) << "\",\"" << header->text(3) << "\",\"" << header->text(4);
+			outf << "\"" << header->text(0) << "\",\"" << header->text(1) << "\",\"" << header->text(2) << " (" << QLocale().currencySymbol() << ")" << "\",\"" << header->text(3) << "\",\"" << header->text(4);
 			if(comments_col == 6) outf << "\",\"" << tr("Quantity");
 			outf << "\",\"" << header->text(5);
 			if(comments_col == 6) outf << "\",\"" << header->text(6);
@@ -357,8 +357,8 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
 			while(i) {
 				Transaction *trans = i->transaction();
-				outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << i->text(2) << "\",\"" << i->text(3) << "\",\"" << i->text(4);
-				if(comments_col == 6) outf << "\",\"" << QLocale().toString(trans->quantity(), 'f', 2);
+				outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << QLocale().toString(trans->value(), 'f', MONETARY_DECIMAL_PLACES).replace("−","-").remove(" ") << "\",\"" << i->text(3) << "\",\"" << i->text(4);
+				if(comments_col == 6) outf << "\",\"" << QLocale().toString(trans->quantity(), 'f', 2).replace("−","-").remove(" ");
 				outf << "\",\"" << i->text(5);
 				if(comments_col == 6) outf << "\",\"" << i->text(6);
 				outf << "\"\n";
