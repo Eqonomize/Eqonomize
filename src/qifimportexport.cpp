@@ -127,13 +127,13 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	layout3->addWidget(openingBalanceEdit, 1, 1);
 
 	QIFWizardPage *page4 = new QIFWizardPage();
-	page4->setTitle(tr("Generic Descriptions"));
+	page4->setTitle(tr("Descriptions"));
 	page4->setSubTitle(tr("Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.", "Referring to generic description"));
 	setPage(4, page4);
 	QGridLayout *layout4 = new QGridLayout(page4);
 	layout4->addWidget(new QLabel(tr("Subcategories as:"), page4), 0, 0);
 	QButtonGroup *subcategoryGroup = new QButtonGroup(this);
-	subcategoryAsDescriptionButton = new QRadioButton(tr("Generic description"), page4);
+	subcategoryAsDescriptionButton = new QRadioButton(tr("Description"), page4);
 	subcategoryGroup->addButton(subcategoryAsDescriptionButton);
 	layout4->addWidget(subcategoryAsDescriptionButton, 0, 1);
 	subcategoryAsDescriptionButton->setChecked(true);
@@ -145,7 +145,7 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	layout4->addWidget(subcategoryIgnoreButton, 0, 3);
 	layout4->addWidget(new QLabel(tr("Payee as:"), page4), 1, 0);
 	QButtonGroup *payeeGroup = new QButtonGroup(this);
-	payeeAsDescriptionButton = new QRadioButton(tr("Generic description"), page4);
+	payeeAsDescriptionButton = new QRadioButton(tr("Description"), page4);
 	payeeGroup->addButton(payeeAsDescriptionButton);
 	layout4->addWidget(payeeAsDescriptionButton, 1, 1);
 	payeeAsPayeeButton = new QRadioButton(tr("Payee"), page4);
@@ -155,7 +155,7 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	payeeAsDescriptionButton->setChecked(!b_extra);
 	layout4->addWidget(new QLabel(tr("Memo as:"), page4), 2, 0);
 	QButtonGroup *memoGroup = new QButtonGroup(this);
-	memoAsDescriptionButton = new QRadioButton(tr("Generic description"), page4);
+	memoAsDescriptionButton = new QRadioButton(tr("Description"), page4);
 	memoGroup->addButton(memoAsDescriptionButton);
 	layout4->addWidget(memoAsDescriptionButton, 2, 1);
 	memoAsCommentButton = new QRadioButton(tr("Comments"), page4);
@@ -1231,7 +1231,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 							if(!date.isValid() || !qi.current_account) {
 								qi.failed_transactions++;
 							} else {
-								SplitTransaction *split = new SplitTransaction(budget, date, qi.current_account, description);
+								MultiItemTransaction *split = new MultiItemTransaction(budget, date, qi.current_account, description);
 								QVector<qif_split>::size_type c = splits.count();
 								for(QVector<qif_split>::size_type i = 0; i < c; i++) {
 									current_split = &splits[i];
@@ -1318,7 +1318,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 											qi.duplicates++;
 											delete tra;
 										} else {
-											split->splits.push_back(tra);
+											split->addTransaction(tra);
 											transfers.append(tra);
 										}
 									} else {
@@ -1356,14 +1356,14 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 											Expense *exp = new Expense(budget, -current_split->value, date, (ExpensesAccount*) cat, qi.current_account, description, current_split->memo);
 											if(value > 0.0) exp->setQuantity(-1.0);
 											exp->setPayee(payee);
-											split->splits.push_back(exp);
+											split->addTransaction(exp);
 											exp->setParentSplit(split);
 										} else {
 											//Income
 											Income *inc = new Income(budget, current_split->value, date, (IncomesAccount*) cat, qi.current_account, description, current_split->memo);
 											if(value < 0.0) inc->setQuantity(-1.0);
 											inc->setPayer(payee);
-											split->splits.push_back(inc);
+											split->addTransaction(inc);
 											inc->setParentSplit(split);
 										}
 									}
@@ -1709,9 +1709,9 @@ void exportQIFSplitTransaction(QTextStream &fstream, qif_info &qi, SplitTransact
 	if(qi.memo_as_description) {
 		if(!split->description().isEmpty()) fstream << "M" << split->description() << "\n";
 	} else if(!split->comment().isEmpty()) fstream << "M" << split->comment() << "\n";
-	QVector<Transaction*>::size_type c = split->splits.count();
+	QVector<Transaction*>::size_type c = split->count();
 	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
-		Transaction *trans = split->splits[i];
+		Transaction *trans = split->at(i);
 		Account *cat = NULL;
 		bool neg = false;
 		switch(trans->type()) {
@@ -1884,7 +1884,7 @@ void exportQIF(QTextStream &fstream, qif_info &qi, Budget *budget, bool export_c
 					exportQIFOpeningBalance(fstream, qi, qi.current_account, trans->date());
 					first = false;
 				}
-				if(trans->parentSplit() && trans->parentSplit()->account() == qi.current_account) {
+				if(trans->parentSplit() && trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS && ((MultiItemTransaction*) trans->parentSplit())->account() == qi.current_account) {
 					if(!split || split != trans->parentSplit()) {
 						split = trans->parentSplit();
 						exportQIFSplitTransaction(fstream, qi, split);

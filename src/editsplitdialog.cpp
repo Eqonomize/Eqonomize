@@ -38,10 +38,15 @@
 #include <QMessageBox>
 #include <QHeaderView>
 
+#include "accountcombobox.h"
 #include "budget.h"
 #include "editsplitdialog.h"
+#include "editaccountdialogs.h"
 #include "eqonomize.h"
+#include "eqonomizevalueedit.h"
 #include "transactioneditwidget.h"
+
+#include <QDebug>
 
 extern void setColumnTextWidth(QTreeWidget *w, int i, QString str);
 extern void setColumnDateWidth(QTreeWidget *w, int i);
@@ -49,31 +54,35 @@ extern void setColumnMoneyWidth(QTreeWidget *w, int i, double v = 9999999.99);
 extern void setColumnValueWidth(QTreeWidget *w, int i, double v, int d = -1);
 extern void setColumnStrlenWidth(QTreeWidget *w, int i, int l);
 
-class SplitListViewItem : public QTreeWidgetItem {
+class MultiItemListViewItem : public QTreeWidgetItem {
 
-	Q_DECLARE_TR_FUNCTIONS(SplitListViewItem)
+	Q_DECLARE_TR_FUNCTIONS(MultiItemListViewItem)
 	
 	protected:
+	
 		Transaction *o_trans;
 		bool b_deposit;
+		
 	public:
-		SplitListViewItem(Transaction *trans, bool deposit);
+	
+		MultiItemListViewItem(Transaction *trans, bool deposit);
 		bool operator<(const QTreeWidgetItem&) const;
 		Transaction *transaction() const;
 		bool isDeposit() const;
 		void setTransaction(Transaction *trans, bool deposit);
+
 };
 
-SplitListViewItem::SplitListViewItem(Transaction *trans, bool deposit) : QTreeWidgetItem() {
+MultiItemListViewItem::MultiItemListViewItem(Transaction *trans, bool deposit) : QTreeWidgetItem() {
 	setTransaction(trans, deposit);
 	setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
 	setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
 }
-bool SplitListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
+bool MultiItemListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	int col = 0;
 	if(treeWidget()) col = treeWidget()->sortColumn();
-	SplitListViewItem *i = (SplitListViewItem*) &i_pre;
-	if(col == 3) {
+	MultiItemListViewItem *i = (MultiItemListViewItem*) &i_pre;
+	if(col == 2) {
 		double value1 = 0.0;
 		double value2 = 0.0;
 		if(b_deposit && o_trans->value() < 0.0) value1 = -o_trans->value();
@@ -81,7 +90,7 @@ bool SplitListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 		if(i->isDeposit() && i->transaction()->value() < 0.0) value2 = -i->transaction()->value();
 		else if(!i->isDeposit() && i->transaction()->value() >= 0.0) value2 = i->transaction()->value();
 		return value1 < value2;
-	} else if(col == 4) {
+	} else if(col == 3) {
 		double value1 = 0.0;
 		double value2 = 0.0;
 		if(!b_deposit && o_trans->value() < 0.0) value1 = -o_trans->value();
@@ -92,13 +101,13 @@ bool SplitListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	}
 	return QTreeWidgetItem::operator<(i_pre);
 }
-Transaction *SplitListViewItem::transaction() const {
+Transaction *MultiItemListViewItem::transaction() const {
 	return o_trans;
 }
-bool SplitListViewItem::isDeposit() const {
+bool MultiItemListViewItem::isDeposit() const {
 	return b_deposit;
 }
-void SplitListViewItem::setTransaction(Transaction *trans, bool deposit) {
+void MultiItemListViewItem::setTransaction(Transaction *trans, bool deposit) {
 	o_trans = trans;
 	b_deposit = deposit;
 	Budget *budget = trans->budget();
@@ -127,17 +136,125 @@ void SplitListViewItem::setTransaction(Transaction *trans, bool deposit) {
 	}
 }
 
-EditSplitDialog::EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *default_account, bool extra_parameters) : QDialog(parent, 0), budget(budg), b_extra(extra_parameters) {
+class MultiAccountListViewItem : public QTreeWidgetItem {
 
+	Q_DECLARE_TR_FUNCTIONS(MultiAccountListViewItem)
+	
+	protected:
+	
+		Transaction *o_trans;
+		
+	public:
+	
+		MultiAccountListViewItem(Transaction *trans);
+		Transaction *transaction() const;
+		void setTransaction(Transaction *trans);
+
+};
+
+MultiAccountListViewItem::MultiAccountListViewItem(Transaction *trans) : QTreeWidgetItem() {
+	setTransaction(trans);
+	setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
+}
+Transaction *MultiAccountListViewItem::transaction() const {
+	return o_trans;
+}
+void MultiAccountListViewItem::setTransaction(Transaction *trans) {
+	o_trans = trans;
+	double value = trans->value();
+	setText(0, QLocale().toString(trans->date(), QLocale::ShortFormat));
+	if(trans->type() == TRANSACTION_TYPE_INCOME) {
+		setText(1, trans->toAccount()->nameWithParent());
+	} else {
+		setText(1, trans->fromAccount()->nameWithParent());
+	}
+	setText(2, value >= 0.0 ? QString::null : QLocale().toCurrencyString(-value));
+}
+
+EditLoanTransactionDialog::EditLoanTransactionDialog(Budget *budg, QWidget *parent, AssetsAccount *default_loan, bool allow_account_creation) : QDialog(parent, 0) {
+	setWindowTitle(tr("Debt Payment"));
+	setModal(true);
+	QVBoxLayout *box1 = new QVBoxLayout(this);
+	editWidget = new EditLoanTransactionWidget(budg, this, default_loan, allow_account_creation);
+	box1->addWidget(editWidget);
+	
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
+	buttonBox->button(QDialogButtonBox::Cancel)->setDefault(true);
+	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
+	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
+	box1->addWidget(buttonBox);
+	
+}
+EditLoanTransactionDialog::~EditLoanTransactionDialog() {}
+void EditLoanTransactionDialog::accept() {
+	if(!editWidget->validValues()) return;
+	QDialog::accept();
+}
+
+EditMultiAccountDialog::EditMultiAccountDialog(Budget *budg, QWidget *parent, bool create_expenses, bool extra_parameters, bool allow_account_creation) : QDialog(parent, 0) {
+
+	if(create_expenses) setWindowTitle(tr("Expense with Multiple Payments"));
+	else setWindowTitle(tr("Income with Multiple Payments"));
+	
+	setModal(true);
+	QVBoxLayout *box1 = new QVBoxLayout(this);
+	editWidget = new EditMultiAccountWidget(budg, this, create_expenses, extra_parameters, allow_account_creation);
+	box1->addWidget(editWidget);
+	
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
+	buttonBox->button(QDialogButtonBox::Cancel)->setDefault(true);
+	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
+	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
+	box1->addWidget(buttonBox);
+	
+}
+EditMultiAccountDialog::~EditMultiAccountDialog() {}
+void EditMultiAccountDialog::accept() {
+	if(!editWidget->validValues()) return;
+	QDialog::accept();
+}
+void EditMultiAccountDialog::reject() {
+	editWidget->reject();
+	QDialog::reject();
+}
+
+
+EditMultiItemDialog::EditMultiItemDialog(Budget *budg, QWidget *parent, AssetsAccount *default_account, bool extra_parameters, bool allow_account_creation) : QDialog(parent, 0) {
 	setWindowTitle(tr("Split Transaction"));
 	setModal(true);
+	QVBoxLayout *box1 = new QVBoxLayout(this);
+	editWidget = new EditMultiItemWidget(budg, this, default_account, extra_parameters, allow_account_creation);
+	box1->addWidget(editWidget);
+	
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
+	buttonBox->button(QDialogButtonBox::Cancel)->setDefault(true);
+	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
+	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
+	box1->addWidget(buttonBox);
+	
+}
+EditMultiItemDialog::~EditMultiItemDialog() {}
+void EditMultiItemDialog::accept() {
+	if(!editWidget->validValues()) return;
+	QDialog::accept();
+}
+void EditMultiItemDialog::reject() {
+	editWidget->reject();
+	QDialog::reject();
+}
+
+
+EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAccount *default_account, bool extra_parameters, bool allow_account_creation) : QWidget(parent), budget(budg), b_extra(extra_parameters), b_create_accounts(allow_account_creation) {
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 
-	grid->addWidget(new QLabel(tr("Generic Description:")), 0, 0);
+	grid->addWidget(new QLabel(tr("Description:")), 0, 0);
 	descriptionEdit = new QLineEdit();
 	grid->addWidget(descriptionEdit, 0, 1);
 	descriptionEdit->setFocus();
@@ -148,18 +265,9 @@ EditSplitDialog::EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *d
 	grid->addWidget(dateEdit, 1, 1);
 
 	grid->addWidget(new QLabel(tr("Account:")), 2, 0);
-	accountCombo = new QComboBox();
-	accountCombo->setEditable(false);
-	int i = 0;
-	AssetsAccount *account = budget->assetsAccounts.first();
-	while(account) {
-		if(account != budget->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
-			accountCombo->addItem(account->name());
-			if(account == default_account) accountCombo->setCurrentIndex(i);
-			i++;
-		}
-		account = budget->assetsAccounts.next();
-	}
+	accountCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, b_create_accounts, false);
+	accountCombo->updateAccounts();
+	accountCombo->setCurrentAccount(default_account);
 	grid->addWidget(accountCombo, 2, 1);
 
 	box1->addWidget(new QLabel(tr("Transactions:")));
@@ -203,28 +311,27 @@ EditSplitDialog::EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *d
 	totalLabel = new QLabel();
 	updateTotalValue();
 	box1->addWidget(totalLabel);
-	
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-	buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
-	buttonBox->button(QDialogButtonBox::Cancel)->setDefault(true);
-	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
-	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
-	box1->addWidget(buttonBox);
 
 	connect(transactionsView, SIGNAL(itemSelectionChanged()), this, SLOT(transactionSelectionChanged()));
 	connect(transactionsView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(edit(QTreeWidgetItem*)));
 	connect(removeButton, SIGNAL(clicked()), this, SLOT(remove()));
 	connect(editButton, SIGNAL(clicked()), this, SLOT(edit()));
+	connect(dateEdit, SIGNAL(dateChanged(const QDate&)), this, SIGNAL(dateChanged(const QDate&)));
+	connect(accountCombo, SIGNAL(newAccountRequested()), this, SLOT(newAccount()));
 
 }
-EditSplitDialog::~EditSplitDialog() {}
+EditMultiItemWidget::~EditMultiItemWidget() {}
 
-void EditSplitDialog::updateTotalValue() {
+void EditMultiItemWidget::newAccount() {
+	accountCombo->createAccount();
+}
+
+void EditMultiItemWidget::updateTotalValue() {
 	double total_value = 0.0;
 	QTreeWidgetItemIterator it(transactionsView);
 	QTreeWidgetItem *i = *it;
 	while(i) {
-		Transaction *trans = ((SplitListViewItem*) i)->transaction();
+		Transaction *trans = ((MultiItemListViewItem*) i)->transaction();
 		if(trans) {
 			if(trans->fromAccount()) total_value += trans->value();
 			else total_value -= trans->value();
@@ -234,30 +341,18 @@ void EditSplitDialog::updateTotalValue() {
 	}
 	totalLabel->setText(QString("<div align=\"left\"><b>%1</b> %2</div>").arg(tr("Total value:"), QLocale().toCurrencyString(total_value)));
 }
-AssetsAccount *EditSplitDialog::selectedAccount() {
-	int index = 0;
-	int cur_index = accountCombo->currentIndex();
-	AssetsAccount *account = budget->assetsAccounts.first();
-	while(account) {
-		if(account != budget->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
-			if(index == cur_index) {
-				break;
-			}
-			index++;
-		}
-		account = budget->assetsAccounts.next();
-	}
-	return account;
+AssetsAccount *EditMultiItemWidget::selectedAccount() {
+	return (AssetsAccount*) accountCombo->currentAccount();
 }
-void EditSplitDialog::transactionSelectionChanged() {
+void EditMultiItemWidget::transactionSelectionChanged() {
 	QList<QTreeWidgetItem*> list = transactionsView->selectedItems();
-	SplitListViewItem *i = NULL;
-	if(!list.isEmpty()) i = (SplitListViewItem*) list.first();
+	MultiItemListViewItem *i = NULL;
+	if(!list.isEmpty()) i = (MultiItemListViewItem*) list.first();
 	editButton->setEnabled(i && i->transaction());
 	removeButton->setEnabled(i && i->transaction());
 }
-void EditSplitDialog::newTransaction(int transtype, bool select_security, bool transfer_to, Account *exclude_account) {
-	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, transtype, true, transfer_to, NULL, SECURITY_ALL_VALUES, select_security, budget, this);
+void EditMultiItemWidget::newTransaction(int transtype, bool select_security, bool transfer_to, Account *exclude_account) {
+	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, transtype, true, transfer_to, NULL, SECURITY_ALL_VALUES, select_security, budget, this, b_create_accounts);
         dialog->editWidget->focusDescription();
 	dialog->editWidget->updateAccounts(exclude_account);
 	if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
@@ -269,45 +364,45 @@ void EditSplitDialog::newTransaction(int transtype, bool select_security, bool t
 	}
 	dialog->deleteLater();
 }
-void EditSplitDialog::newExpense() {
+void EditMultiItemWidget::newExpense() {
 	newTransaction(TRANSACTION_TYPE_EXPENSE);
 }
-void EditSplitDialog::newDividend() {
+void EditMultiItemWidget::newDividend() {
 	newTransaction(TRANSACTION_TYPE_INCOME, true);
 }
-void EditSplitDialog::newSecurityBuy() {
+void EditMultiItemWidget::newSecurityBuy() {
 	newTransaction(TRANSACTION_TYPE_SECURITY_BUY, true);
 }
-void EditSplitDialog::newSecuritySell() {
+void EditMultiItemWidget::newSecuritySell() {
 	newTransaction(TRANSACTION_TYPE_SECURITY_SELL, true);
 }
-void EditSplitDialog::newIncome() {
+void EditMultiItemWidget::newIncome() {
 	newTransaction(TRANSACTION_TYPE_INCOME);
 }
-void EditSplitDialog::newTransferFrom() {
+void EditMultiItemWidget::newTransferFrom() {
 	newTransaction(TRANSACTION_TYPE_TRANSFER, false, false, selectedAccount());
 }
-void EditSplitDialog::newTransferTo() {
+void EditMultiItemWidget::newTransferTo() {
 	newTransaction(TRANSACTION_TYPE_TRANSFER, false, true, selectedAccount());
 }
-void EditSplitDialog::remove() {
+void EditMultiItemWidget::remove() {
 	QList<QTreeWidgetItem*> list = transactionsView->selectedItems();
 	if(list.isEmpty()) return;
-	SplitListViewItem *i = (SplitListViewItem*) list.first();
+	MultiItemListViewItem *i = (MultiItemListViewItem*) list.first();
 	if(i->transaction()) {
 		delete i->transaction();
 	}
 	delete i;
 	updateTotalValue();
 }
-void EditSplitDialog::edit() {
+void EditMultiItemWidget::edit() {
 	QList<QTreeWidgetItem*> list = transactionsView->selectedItems();
 	if(list.isEmpty()) return;
 	edit(list.first());
 }
-void EditSplitDialog::edit(QTreeWidgetItem *i_pre) {
+void EditMultiItemWidget::edit(QTreeWidgetItem *i_pre) {
 	if(i_pre == NULL) return;
-	SplitListViewItem *i = (SplitListViewItem*) i_pre;
+	MultiItemListViewItem *i = (MultiItemListViewItem*) i_pre;
 	Transaction *trans = i->transaction();
 	if(trans) {
 		AssetsAccount *account = selectedAccount();
@@ -317,7 +412,7 @@ void EditSplitDialog::edit(QTreeWidgetItem *i_pre) {
 		} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
 			security = ((Income*) trans)->security();
 		}
-		TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), true, trans->toAccount() == NULL, security, SECURITY_ALL_VALUES, security != NULL, budget, this);
+		TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), true, trans->toAccount() == NULL, security, SECURITY_ALL_VALUES, security != NULL, budget, this, b_create_accounts);
 		dialog->editWidget->updateAccounts(account);
 		dialog->editWidget->setTransaction(trans);
 		if(dialog->exec() == QDialog::Accepted) {
@@ -329,42 +424,31 @@ void EditSplitDialog::edit(QTreeWidgetItem *i_pre) {
 		dialog->deleteLater();
 	}
 }
-SplitTransaction *EditSplitDialog::createSplitTransaction() {
+MultiItemTransaction *EditMultiItemWidget::createTransaction() {
 	if(!validValues()) return NULL;
 	AssetsAccount *account = selectedAccount();
-	SplitTransaction *split = new SplitTransaction(budget, dateEdit->date(), account, descriptionEdit->text());
+	MultiItemTransaction *split = new MultiItemTransaction(budget, dateEdit->date(), account, descriptionEdit->text());
 	QTreeWidgetItemIterator it(transactionsView);
 	QTreeWidgetItem *i = *it;
 	while(i) {
-		Transaction *trans = ((SplitListViewItem*) i)->transaction();
+		Transaction *trans = ((MultiItemListViewItem*) i)->transaction();
 		if(trans) split->addTransaction(trans);
 		++it;
 		i = *it;
 	}
 	return split;
 }
-void EditSplitDialog::setSplitTransaction(SplitTransaction *split) {
+void EditMultiItemWidget::setTransaction(MultiItemTransaction *split) {
 	descriptionEdit->setText(split->description());
 	dateEdit->setDate(split->date());
-	int index = 0;
-	AssetsAccount *account = budget->assetsAccounts.first();
-	while(account) {
-		if(account != budget->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
-			if(account == split->account()) {
-				accountCombo->setCurrentIndex(index);
-				break;
-			}
-			index++;
-		}
-		account = budget->assetsAccounts.next();
-	}
+	accountCombo->setCurrentAccount(split->account());
 	transactionsView->clear();
 	QList<QTreeWidgetItem *> items;
-	QVector<Transaction*>::size_type c = split->splits.count();
-	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
-		Transaction *trans = split->splits[i]->copy();
+	int c = split->count();
+	for(int i = 0; i < c; i++) {
+		Transaction *trans = split->at(i)->copy();
 		trans->setDate(QDate());
-		items.append(new SplitListViewItem(trans, (trans->toAccount() == split->account())));
+		items.append(new MultiItemListViewItem(trans, (trans->toAccount() == split->account())));
 		switch(trans->type()) {
 			case TRANSACTION_TYPE_EXPENSE: {
 				((Expense*) trans)->setFrom(NULL);
@@ -392,43 +476,46 @@ void EditSplitDialog::setSplitTransaction(SplitTransaction *split) {
 	transactionsView->addTopLevelItems(items);
 	updateTotalValue();
 	transactionsView->setSortingEnabled(true);
+	emit dateChanged(split->date());
 }
-void EditSplitDialog::appendTransaction(Transaction *trans, bool deposit) {
-	SplitListViewItem *i = new SplitListViewItem(trans, deposit);
+void EditMultiItemWidget::setTransaction(MultiItemTransaction *split, const QDate &date) {
+	setTransaction(split);
+	if(dateEdit) dateEdit->setDate(date);
+}
+
+void EditMultiItemWidget::appendTransaction(Transaction *trans, bool deposit) {
+	MultiItemListViewItem *i = new MultiItemListViewItem(trans, deposit);
 	transactionsView->insertTopLevelItem(transactionsView->topLevelItemCount(), i);
 	transactionsView->setSortingEnabled(true);
 }
 
-void EditSplitDialog::accept() {
-	if(!validValues()) return;
-	QDialog::accept();
-}
-void EditSplitDialog::reject() {
+void EditMultiItemWidget::reject() {
 	QTreeWidgetItemIterator it(transactionsView);
 	QTreeWidgetItem *i = *it;
 	while(i) {
-		Transaction *trans = ((SplitListViewItem*) i)->transaction();
+		Transaction *trans = ((MultiItemListViewItem*) i)->transaction();
 		if(trans) delete trans;
 		++it;
 		i = *it;
 	}
-	QDialog::reject();
 }
-bool EditSplitDialog::checkAccounts() {
-	if(accountCombo->count() == 0) {
+void EditMultiItemWidget::focusDescription() {
+	return descriptionEdit->setFocus();
+}
+QDate EditMultiItemWidget::date() {
+	return dateEdit->date();
+}
+bool EditMultiItemWidget::checkAccounts() {
+	if(!accountCombo->hasAccount()) {
 		QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 		return false;
 	}
 	return true;
 }
-bool EditSplitDialog::validValues() {
+bool EditMultiItemWidget::validValues() {
 	if(!checkAccounts()) return false;
 	if(!dateEdit->date().isValid()) {
 		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
-		return false;
-	}
-	if(dateEdit->date() > QDate::currentDate()) {
-		QMessageBox::critical(this, tr("Error"), tr("Future dates is not allowed."));
 		return false;
 	}
 	if(transactionsView->topLevelItemCount() < 2) {
@@ -436,10 +523,11 @@ bool EditSplitDialog::validValues() {
 		return false;
 	}
 	AssetsAccount *account = selectedAccount();
+	if(!account) return false;
 	QTreeWidgetItemIterator it(transactionsView);
 	QTreeWidgetItem *i = *it;
 	while(i) {
-		Transaction *trans = ((SplitListViewItem*) i)->transaction();
+		Transaction *trans = ((MultiItemListViewItem*) i)->transaction();
 		if(trans && (trans->fromAccount() == account || trans->toAccount() == account)) {
 			QMessageBox::critical(this, tr("Error"), tr("Cannot transfer money to and from the same account."));
 			return false;
@@ -447,6 +535,452 @@ bool EditSplitDialog::validValues() {
 		++it;
 		i = *it;
 	}
+	return true;
+}
+
+EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bool create_expenses, bool extra_parameters, bool allow_account_creation) : QWidget(parent), budget(budg), b_expense(create_expenses), b_extra(extra_parameters), b_create_accounts(allow_account_creation) {
+
+	QVBoxLayout *box1 = new QVBoxLayout(this);
+
+	QGridLayout *grid = new QGridLayout();
+	box1->addLayout(grid);
+
+	grid->addWidget(new QLabel(tr("Description:")), 0, 0);
+	descriptionEdit = new QLineEdit();
+	grid->addWidget(descriptionEdit, 0, 1);
+	descriptionEdit->setFocus();
+	
+	if(b_extra) {
+		grid->addWidget(new QLabel(tr("Quantity:")), 1, 0);
+		quantityEdit = new EqonomizeValueEdit(1.0, 2, true, false, this);
+		grid->addWidget(quantityEdit, 1, 1);
+	} else {
+		quantityEdit = NULL;
+	}
+
+	grid->addWidget(new QLabel(tr("Category:")), b_extra ? 2 : 1, 0);
+	categoryCombo = new AccountComboBox(b_expense ? ACCOUNT_TYPE_EXPENSES : ACCOUNT_TYPE_INCOMES, budget, b_create_accounts);
+	categoryCombo->updateAccounts();
+	grid->addWidget(categoryCombo, b_extra ? 2 : 1, 1);
+	
+	grid->addWidget(new QLabel(tr("Comment:")), b_extra ? 3 : 2, 0);
+	descriptionEdit = new QLineEdit();
+	grid->addWidget(descriptionEdit, b_extra ? 3 : 2, 1);
+	descriptionEdit->setFocus();
+
+	box1->addWidget(new QLabel(tr("Transactions:")));
+	QHBoxLayout *box2 = new QHBoxLayout();
+	box1->addLayout(box2);
+	transactionsView = new EqonomizeTreeWidget();
+	transactionsView->setSortingEnabled(true);
+	transactionsView->sortByColumn(0, Qt::DescendingOrder);
+	transactionsView->setAllColumnsShowFocus(true);
+	transactionsView->setColumnCount(3);
+	QStringList headers;
+	headers << tr("Date");
+	headers << tr("Account");
+	headers << tr("Value");
+	transactionsView->setHeaderLabels(headers);
+	transactionsView->setRootIsDecorated(false);
+	setColumnDateWidth(transactionsView, 0);
+	setColumnStrlenWidth(transactionsView, 1, 25);
+	setColumnMoneyWidth(transactionsView, 2);
+	transactionsView->setMinimumWidth(transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) + 10);
+	box2->addWidget(transactionsView);
+	QDialogButtonBox *buttons = new QDialogButtonBox(0, Qt::Vertical);
+	QPushButton *newButton = buttons->addButton(tr("New"), QDialogButtonBox::ActionRole);
+	editButton = buttons->addButton(tr("Edit…"), QDialogButtonBox::ActionRole);
+	editButton->setEnabled(false);
+	removeButton = buttons->addButton(tr("Delete"), QDialogButtonBox::ActionRole);
+	removeButton->setEnabled(false);
+	box2->addWidget(buttons);
+	totalLabel = new QLabel();
+	updateTotalValue();
+	box1->addWidget(totalLabel);
+
+	connect(transactionsView, SIGNAL(itemSelectionChanged()), this, SLOT(transactionSelectionChanged()));
+	connect(transactionsView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(edit(QTreeWidgetItem*)));
+	connect(newButton, SIGNAL(clicked()), this, SLOT(newTransaction()));
+	connect(removeButton, SIGNAL(clicked()), this, SLOT(remove()));
+	connect(editButton, SIGNAL(clicked()), this, SLOT(edit()));
+	connect(categoryCombo, SIGNAL(newAccountRequested()), this, SLOT(newCategory()));
+
+}
+EditMultiAccountWidget::~EditMultiAccountWidget() {}
+
+void EditMultiAccountWidget::newCategory() {
+	categoryCombo->createAccount();
+}
+
+void EditMultiAccountWidget::updateTotalValue() {
+	double total_value = 0.0;
+	QTreeWidgetItemIterator it(transactionsView);
+	QTreeWidgetItem *i = *it;
+	while(i) {
+		Transaction *trans = ((MultiAccountListViewItem*) i)->transaction();
+		if(trans) total_value += trans->value();
+		++it;
+		i = *it;
+	}
+	totalLabel->setText(QString("<div align=\"left\"><b>%1</b> %2</div>").arg(tr("Total value:"), QLocale().toCurrencyString(total_value)));
+}
+CategoryAccount *EditMultiAccountWidget::selectedCategory() {
+	return (CategoryAccount*) categoryCombo->currentAccount();
+}
+void EditMultiAccountWidget::transactionSelectionChanged() {
+	QList<QTreeWidgetItem*> list = transactionsView->selectedItems();
+	MultiAccountListViewItem *i = NULL;
+	if(!list.isEmpty()) i = (MultiAccountListViewItem*) list.first();
+	editButton->setEnabled(i && i->transaction());
+	removeButton->setEnabled(i && i->transaction());
+}
+void EditMultiAccountWidget::newTransaction() {
+	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, b_expense ? TRANSACTION_TYPE_EXPENSE : TRANSACTION_TYPE_INCOME, false, false, NULL, SECURITY_ALL_VALUES, false, budget, this, b_create_accounts, true);
+        dialog->editWidget->focusDescription();
+	dialog->editWidget->updateAccounts();
+	if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		Transaction *trans = dialog->editWidget->createTransaction();
+		if(trans) {
+			appendTransaction(trans);
+		}
+		updateTotalValue();
+	}
+	dialog->deleteLater();
+}
+void EditMultiAccountWidget::remove() {
+	QDate d_date = date();
+	QList<QTreeWidgetItem*> list = transactionsView->selectedItems();
+	if(list.isEmpty()) return;
+	MultiAccountListViewItem *i = (MultiAccountListViewItem*) list.first();
+	if(i->transaction()) {
+		delete i->transaction();
+	}
+	delete i;
+	updateTotalValue();
+	QDate d_date_new = date();
+	if(d_date != d_date_new) emit dateChanged(d_date_new);
+}
+void EditMultiAccountWidget::edit() {
+	QList<QTreeWidgetItem*> list = transactionsView->selectedItems();
+	if(list.isEmpty()) return;
+	edit(list.first());
+}
+void EditMultiAccountWidget::edit(QTreeWidgetItem *i_pre) {
+	if(i_pre == NULL) return;
+	MultiAccountListViewItem *i = (MultiAccountListViewItem*) i_pre;
+	Transaction *trans = i->transaction();
+	if(trans) {
+		TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), false, false, NULL, SECURITY_ALL_VALUES, false, budget, this, b_create_accounts, true);
+		dialog->editWidget->updateAccounts();
+		dialog->editWidget->setTransaction(trans);
+		if(dialog->exec() == QDialog::Accepted) {
+			QDate d_date = date();
+			if(dialog->editWidget->modifyTransaction(trans)) {
+				i->setTransaction(trans);
+			}
+			updateTotalValue();
+			QDate d_date_new = date();
+			if(d_date != d_date_new) emit dateChanged(d_date_new);
+		}
+		dialog->deleteLater();
+	}
+}
+MultiAccountTransaction *EditMultiAccountWidget::createTransaction() {
+	if(!validValues()) return NULL;
+	CategoryAccount *account = selectedCategory();
+	MultiAccountTransaction *split = new MultiAccountTransaction(budget, account, descriptionEdit->text());
+	QTreeWidgetItemIterator it(transactionsView);
+	QTreeWidgetItem *i = *it;
+	while(i) {
+		Transaction *trans = ((MultiAccountListViewItem*) i)->transaction();
+		if(trans) split->addTransaction(trans);
+		++it;
+		i = *it;
+	}
+	return split;
+}
+void EditMultiAccountWidget::setValues(QString description_string, CategoryAccount *category_account, double quantity_value, QString comment_string) {
+	descriptionEdit->setText(description_string);
+	commentEdit->setText(comment_string);
+	if(quantityEdit) quantityEdit->setValue(quantity_value);
+	categoryCombo->setCurrentAccount(category_account);
+}
+void EditMultiAccountWidget::setTransaction(Transactions *transs) {
+	if(transs->generaltype() == GENERAL_TRANSACTION_TYPE_SCHEDULE) {
+		setTransaction(((ScheduledTransaction*) transs)->transaction());
+		return;
+	}
+	descriptionEdit->setText(transs->description());
+	commentEdit->setText(transs->comment());
+	if(quantityEdit) quantityEdit->setValue(transs->quantity());
+	transactionsView->clear();
+	if(transs->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) transs)->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) {
+		MultiAccountTransaction *split = (MultiAccountTransaction*) transs;
+		categoryCombo->setCurrentAccount(split->category());
+		QList<QTreeWidgetItem *> items;
+		int c = split->count();
+		for(int i = 0; i < c; i++) {
+			Transaction *trans = split->at(i)->copy();
+			items.append(new MultiAccountListViewItem(trans));
+		}
+		transactionsView->addTopLevelItems(items);
+	} else if(transs->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
+		Transaction *trans = (Transaction*) transs;
+		if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
+			categoryCombo->setCurrentAccount(((Expense*) trans)->category());
+		} else if(trans->type() == TRANSACTION_TYPE_INCOME) {
+			categoryCombo->setCurrentAccount(((Income*) trans)->category());
+		}
+	}
+	updateTotalValue();
+	transactionsView->setSortingEnabled(true);
+	emit dateChanged(transs->date());
+}
+void EditMultiAccountWidget::setTransaction(MultiAccountTransaction *split, const QDate &date) {
+	descriptionEdit->setText(split->description());
+	categoryCombo->setCurrentAccount(split->category());
+	if(quantityEdit) quantityEdit->setValue(split->quantity());
+	commentEdit->setText(split->comment());
+	transactionsView->clear();
+	QList<QTreeWidgetItem *> items;
+	int c = split->count();
+	for(int i = 0; i < c; i++) {
+		Transaction *trans = split->at(i)->copy();
+		trans->setDate(date);
+		items.append(new MultiAccountListViewItem(trans));
+	}
+	transactionsView->addTopLevelItems(items);
+	updateTotalValue();
+	transactionsView->setSortingEnabled(true);
+	emit dateChanged(split->date());
+}
+
+void EditMultiAccountWidget::appendTransaction(Transaction *trans) {
+	QDate d_date = date();
+	MultiAccountListViewItem *i = new MultiAccountListViewItem(trans);
+	transactionsView->insertTopLevelItem(transactionsView->topLevelItemCount(), i);
+	transactionsView->setSortingEnabled(true);
+	QDate d_date_new = date();
+	if(d_date != d_date_new) emit dateChanged(d_date_new);
+}
+QDate EditMultiAccountWidget::date() {
+	QDate d_date;
+	QTreeWidgetItemIterator it(transactionsView);
+	QTreeWidgetItem *i = *it;
+	while(i) {
+		Transaction *trans = ((MultiAccountListViewItem*) i)->transaction();
+		if(trans && (d_date.isNull() || trans->date() < d_date)) d_date = trans->date();
+		++it;
+		i = *it;
+	}
+	if(d_date.isNull()) d_date = QDate::currentDate();
+	return d_date;
+}
+void EditMultiAccountWidget::reject() {
+	QTreeWidgetItemIterator it(transactionsView);
+	QTreeWidgetItem *i = *it;
+	while(i) {
+		Transaction *trans = ((MultiAccountListViewItem*) i)->transaction();
+		if(trans) delete trans;
+		++it;
+		i = *it;
+	}
+}
+void EditMultiAccountWidget::focusDescription() {
+	return descriptionEdit->setFocus();
+}
+bool EditMultiAccountWidget::checkAccounts() {
+	if(!categoryCombo->hasAccount()) {
+		QMessageBox::critical(this, tr("Error"), tr("No suitable expense categories available."));
+		return false;
+	}
+	return true;
+}
+bool EditMultiAccountWidget::validValues() {
+	if(!checkAccounts()) return false;
+	if(transactionsView->topLevelItemCount() < 2) {
+		QMessageBox::critical(this, tr("Error"), tr("A split must contain at least two transactions."));
+		return false;
+	}
+	if(!selectedCategory()) return false;
+	return true;
+}
+
+EditLoanTransactionWidget::EditLoanTransactionWidget(Budget *budg, QWidget *parent, AssetsAccount *default_loan, bool allow_account_creation) : QWidget(parent), budget(budg), b_create_accounts(allow_account_creation) {
+
+	QVBoxLayout *box1 = new QVBoxLayout(this);
+
+	QGridLayout *grid = new QGridLayout();
+	box1->addLayout(grid);
+	
+	grid->addWidget(new QLabel(tr("Debt:")), 0, 0);
+	loanCombo = new QComboBox();
+	loanCombo->setEditable(false);
+	grid->addWidget(loanCombo, 0, 1);
+
+	grid->addWidget(new QLabel(tr("Date:")), 1, 0);
+	dateEdit = new QDateEdit(QDate::currentDate());
+	dateEdit->setCalendarPopup(true);
+	grid->addWidget(dateEdit, 1, 1);
+	
+	grid->addWidget(new QLabel(tr("Debt reduction:")), 2, 0);
+	paymentEdit = new EqonomizeValueEdit(false, this);
+	grid->addWidget(paymentEdit, 2, 1);
+	
+	grid->addWidget(new QLabel(tr("Interest:")), 3, 0);
+	interestEdit = new EqonomizeValueEdit(false, this);
+	grid->addWidget(interestEdit, 3, 1);
+	
+	grid->addWidget(new QLabel(tr("Fee:")), 4, 0);
+	feeEdit = new EqonomizeValueEdit(false, this);
+	grid->addWidget(feeEdit, 4, 1);
+
+	totalLabel = new QLabel();
+	grid->addWidget(totalLabel, 5, 1);
+	
+	grid->addWidget(new QLabel(tr("Account:")), 6, 0);
+	accountCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, b_create_accounts);
+	accountCombo->updateAccounts();
+	grid->addWidget(accountCombo, 6, 1);
+	
+	grid->addWidget(new QLabel(tr("Expense Category:")), 7, 0);
+	categoryCombo = new AccountComboBox(ACCOUNT_TYPE_EXPENSES, budget, b_create_accounts);
+	categoryCombo->updateAccounts();
+	grid->addWidget(categoryCombo, 7, 1);
+	
+	grid->addWidget(new QLabel(tr("Comment:")), 8, 0);
+	commentEdit = new QLineEdit();
+	grid->addWidget(commentEdit, 8, 1);
+	
+	int i = 0;
+	AssetsAccount *account = budget->assetsAccounts.first();
+	while(account) {
+		if(account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD) {
+			loanCombo->addItem(account->name(), qVariantFromValue((void*) account));
+			if(account == default_loan) {
+				loanCombo->setCurrentIndex(i);
+				loanActivated(i);
+			}
+			i++;
+		}
+		account = budget->assetsAccounts.next();
+	}
+	
+	valueChanged(0.0);
+
+	connect(dateEdit, SIGNAL(dateChanged(const QDate&)), this, SIGNAL(dateChanged(const QDate&)));
+	connect(feeEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged(double)));
+	connect(paymentEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged(double)));
+	connect(interestEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged(double)));
+	connect(loanCombo, SIGNAL(activated(int)), this, SLOT(loanActivated(int)));
+	connect(accountCombo, SIGNAL(newAccountRequested()), this, SLOT(newAccount()));
+	connect(categoryCombo, SIGNAL(newAccountRequested()), this, SLOT(newCategory()));
+
+}
+EditLoanTransactionWidget::~EditLoanTransactionWidget() {}
+
+void EditLoanTransactionWidget::newAccount() {
+	accountCombo->createAccount();
+}
+void EditLoanTransactionWidget::newCategory() {
+	categoryCombo->createAccount();
+}
+void EditLoanTransactionWidget::loanActivated(int index) {
+	AssetsAccount *loan = (AssetsAccount*) loanCombo->itemData(index).value<void*>();
+	if(!loan) return;
+	LoanTransaction *trans = NULL;
+	SplitTransaction *split = budget->splitTransactions.last();
+	while(split) {
+		if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN && ((LoanTransaction*) split)->loan() == loan) {
+			trans = (LoanTransaction*) split;
+			break;
+		}
+		split = budget->splitTransactions.previous();
+	}
+	if(trans) {
+		paymentEdit->setValue(trans->payment());
+		feeEdit->setValue(trans->fee());
+		interestEdit->setValue(trans->interest());
+		accountCombo->setCurrentAccount(trans->account());
+	}
+	if(trans && trans->expenseCategory()) {
+		categoryCombo->setCurrentAccount(trans->expenseCategory());
+	} else if(loan->expenseCategory()) {
+		categoryCombo->setCurrentAccount(loan->expenseCategory());
+	}
+}
+
+void EditLoanTransactionWidget::valueChanged(double) {
+	categoryCombo->setEnabled(interestEdit->value() > 0.0 || feeEdit->value() > 0.0);
+	updateTotalValue();
+}
+
+void EditLoanTransactionWidget::updateTotalValue() {
+	totalLabel->setText(QString("<div align=\"left\"><b>%1</b> %2</div>").arg(tr("Total value:"), QLocale().toCurrencyString(feeEdit->value() + interestEdit->value() + paymentEdit->value())));
+}
+AssetsAccount *EditLoanTransactionWidget::selectedLoan() {
+	if(!loanCombo->currentData().isValid()) return NULL;
+	return (AssetsAccount*) loanCombo->currentData().value<void*>();
+}
+AssetsAccount *EditLoanTransactionWidget::selectedAccount() {
+	return (AssetsAccount*) accountCombo->currentAccount();
+}
+ExpensesAccount *EditLoanTransactionWidget::selectedCategory() {
+	return (ExpensesAccount*) categoryCombo->currentAccount();
+}
+
+LoanTransaction *EditLoanTransactionWidget::createTransaction() {
+	if(!validValues()) return NULL;
+	AssetsAccount *loan = selectedLoan();
+	AssetsAccount *account = selectedAccount();
+	ExpensesAccount *category = selectedCategory();
+	LoanTransaction *split = new LoanTransaction(budget, dateEdit->date(), loan, account);
+	if(paymentEdit->value() > 0.0) split->setPayment(paymentEdit->value());
+	if(feeEdit->value() > 0.0) split->setFee(feeEdit->value());
+	if(interestEdit->value() > 0.0) split->setInterest(interestEdit->value());
+	if(feeEdit->value() > 0.0 || interestEdit->value() > 0.0) split->setExpenseCategory(category);
+	split->setComment(commentEdit->text());
+	return split;
+}
+void EditLoanTransactionWidget::setTransaction(LoanTransaction *split) {
+	dateEdit->setDate(split->date());
+	loanCombo->setCurrentIndex(loanCombo->findData(qVariantFromValue((void*) split->loan())));
+	accountCombo->setCurrentAccount(split->account());
+	if(split->expenseCategory()) categoryCombo->setCurrentAccount(split->expenseCategory());
+	paymentEdit->setValue(split->payment());
+	interestEdit->setValue(split->interest());
+	feeEdit->setValue(split->fee());
+	valueChanged(0.0);
+	emit dateChanged(split->date());
+}
+void EditLoanTransactionWidget::setTransaction(LoanTransaction *split, const QDate &date) {
+	setTransaction(split);
+	if(dateEdit) dateEdit->setDate(date);
+}
+
+QDate EditLoanTransactionWidget::date() {
+	return dateEdit->date();
+}
+bool EditLoanTransactionWidget::checkAccounts() {
+	if(loanCombo->count() == 0 || !accountCombo->hasAccount() || !categoryCombo->hasAccount()) {
+		QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
+		return false;
+	}
+	return true;
+}
+bool EditLoanTransactionWidget::validValues() {
+	if(!checkAccounts()) return false;
+	if(!dateEdit->date().isValid()) {
+		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
+		return false;
+	}
+	if(feeEdit->value() <= 0.0 && interestEdit->value() <= 0.0 && paymentEdit->value() <= 0.0) {
+		QMessageBox::critical(this, tr("Error"), tr("At least one value must non-zero."));
+	}
+	AssetsAccount *account = selectedAccount();
+	AssetsAccount *loan = selectedLoan();
+	ExpensesAccount *category = selectedCategory();
+	if(!account || !category || !loan) return false;
 	return true;
 }
 

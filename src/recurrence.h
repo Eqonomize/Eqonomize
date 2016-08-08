@@ -65,8 +65,8 @@ class Recurrence {
 		void updateDates();
 		virtual QDate nextOccurrence(const QDate &date, bool include_equals = false) const = 0;
 		virtual QDate prevOccurrence(const QDate &date, bool include_equals = false) const = 0;
-		QDate firstOccurrence() const;
-		QDate lastOccurrence() const;
+		const QDate &firstOccurrence() const;
+		const QDate &lastOccurrence() const;
 		int countOccurrences(const QDate &startdate, const QDate &enddate) const;
 		int countOccurrences(const QDate &enddate) const;
 		bool removeOccurrence(const QDate &date);

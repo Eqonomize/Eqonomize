@@ -32,6 +32,7 @@
 #include "recurrence.h"
 #include "recurrenceeditwidget.h"
 #include "transactioneditwidget.h"
+#include "editsplitdialog.h"
 
 
 EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parameters, int transaction_type, Security *security, bool select_security, Budget *budg, QWidget *parent, QString title, Account *account, bool allow_account_creation) : QDialog(parent), budget(budg), b_extra(extra_parameters) {
@@ -102,7 +103,7 @@ void EditScheduledTransactionDialog::setTransaction(Transaction *trans) {
 	recurrenceEditWidget->setRecurrence(NULL);
 }
 void EditScheduledTransactionDialog::setScheduledTransaction(ScheduledTransaction *strans) {
-	transactionEditWidget->setTransaction(strans->transaction());
+	transactionEditWidget->setTransaction((Transaction*) strans->transaction());
 	recurrenceEditWidget->setRecurrence(strans->recurrence());
 }
 ScheduledTransaction *EditScheduledTransactionDialog::createScheduledTransaction() {
@@ -151,16 +152,16 @@ ScheduledTransaction *EditScheduledTransactionDialog::newScheduledTransaction(in
 }
 bool EditScheduledTransactionDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool select_security, bool extra_parameters, bool allow_account_creation) {
 	EditScheduledTransactionDialog *dialog = NULL;
-	switch(strans->transaction()->type()) {
-		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), NULL, false, strans->budget(), parent, tr("Edit Expense"), NULL, allow_account_creation); break;}
+	switch(strans->transactiontype()) {
+		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), NULL, false, strans->budget(), parent, tr("Edit Expense"), NULL, allow_account_creation); break;}
 		case TRANSACTION_TYPE_INCOME: {
-			if(((Income*) strans->transaction())->security()) dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), ((Income*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Dividend"), NULL, allow_account_creation);
-			else dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), NULL, false, strans->budget(), parent, tr("Edit Income"), NULL, allow_account_creation);
+			if(((Income*) strans->transaction())->security()) dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), ((Income*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Dividend"), NULL, allow_account_creation);
+			else dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), NULL, false, strans->budget(), parent, tr("Edit Income"), NULL, allow_account_creation);
 			break;
 		}
-		case TRANSACTION_TYPE_TRANSFER: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), NULL, false, strans->budget(), parent, tr("Edit Transfer"), NULL, allow_account_creation); break;}
-		case TRANSACTION_TYPE_SECURITY_BUY: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), ((SecurityTransaction*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Securities Bought"), NULL, allow_account_creation); break;}
-		case TRANSACTION_TYPE_SECURITY_SELL: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transaction()->type(), ((SecurityTransaction*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Securities Sold"), NULL, allow_account_creation); break;}
+		case TRANSACTION_TYPE_TRANSFER: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), NULL, false, strans->budget(), parent, tr("Edit Transfer"), NULL, allow_account_creation); break;}
+		case TRANSACTION_TYPE_SECURITY_BUY: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), ((SecurityTransaction*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Securities Bought"), NULL, allow_account_creation); break;}
+		case TRANSACTION_TYPE_SECURITY_SELL: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), ((SecurityTransaction*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Securities Sold"), NULL, allow_account_creation); break;}
 	}
 	dialog->setScheduledTransaction(strans);
 	bool b = false;
@@ -190,5 +191,297 @@ bool EditScheduledTransactionDialog::editTransaction(Transaction *trans, Recurre
 	}
 	dialog->deleteLater();
 	return b;
+}
+
+
+EditScheduledMultiItemDialog::EditScheduledMultiItemDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, AssetsAccount *account, bool allow_account_creation) : QDialog(parent), budget(budg), b_extra(extra_parameters) {
+	
+	setWindowTitle(title);
+	setModal(true);
+	
+	QVBoxLayout *box1 = new QVBoxLayout(this);
+	
+	tabs = new QTabWidget();
+	
+	transactionEditWidget = new EditMultiItemWidget(budget, NULL, account, b_extra, allow_account_creation); 
+	tabs->addTab(transactionEditWidget, tr("Transactions")); 
+
+	recurrenceEditWidget = new RecurrenceEditWidget(transactionEditWidget->date(), budget);
+	tabs->addTab(recurrenceEditWidget, tr("Recurrence"));
+	
+	box1->addWidget(tabs);
+	
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
+	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
+	box1->addWidget(buttonBox);
+	
+	connect(transactionEditWidget, SIGNAL(dateChanged(const QDate&)), recurrenceEditWidget, SLOT(setStartDate(const QDate&)));
+	transactionEditWidget->focusDescription();
+}
+
+bool EditScheduledMultiItemDialog::checkAccounts() {
+	return transactionEditWidget->checkAccounts();
+}
+void EditScheduledMultiItemDialog::accept() {
+	if(!transactionEditWidget->validValues()) {tabs->setCurrentIndex(0); return;}
+	recurrenceEditWidget->setStartDate(transactionEditWidget->date());
+	if(!recurrenceEditWidget->validValues()) {tabs->setCurrentIndex(1); return;}
+	QDialog::accept();
+}
+void EditScheduledMultiItemDialog::reject() {
+	transactionEditWidget->reject();
+	QDialog::reject();
+}
+void EditScheduledMultiItemDialog::setTransaction(MultiItemTransaction *split) {
+	transactionEditWidget->setTransaction(split);
+	recurrenceEditWidget->setRecurrence(NULL);
+}
+void EditScheduledMultiItemDialog::setScheduledTransaction(ScheduledTransaction *strans) {
+	transactionEditWidget->setTransaction((MultiItemTransaction*) strans->transaction());
+	recurrenceEditWidget->setRecurrence(strans->recurrence());
+}
+ScheduledTransaction *EditScheduledMultiItemDialog::createScheduledTransaction() {
+	MultiItemTransaction *split = transactionEditWidget->createTransaction();
+	if(!split) {tabs->setCurrentIndex(0); return NULL;}
+	recurrenceEditWidget->setStartDate(split->date());
+	return new ScheduledTransaction(budget, split, recurrenceEditWidget->createRecurrence());
+}
+MultiItemTransaction *EditScheduledMultiItemDialog::createTransaction(Recurrence *&rec) {
+	MultiItemTransaction *split = transactionEditWidget->createTransaction();
+	if(!split) {tabs->setCurrentIndex(0); return NULL;}
+	recurrenceEditWidget->setStartDate(split->date());
+	rec = recurrenceEditWidget->createRecurrence();
+	return split;
+}
+ScheduledTransaction *EditScheduledMultiItemDialog::newScheduledTransaction(Budget *budg, QWidget *parent, AssetsAccount *account, bool extra_parameters, bool allow_account_creation) {
+	EditScheduledMultiItemDialog *dialog = new EditScheduledMultiItemDialog(extra_parameters, budg, parent, tr("New Split Transaction"), account, allow_account_creation);
+	ScheduledTransaction *strans = NULL;
+	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		strans = dialog->createScheduledTransaction();
+	}
+	dialog->deleteLater();
+	return strans;
+}
+ScheduledTransaction *EditScheduledMultiItemDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
+	EditScheduledMultiItemDialog *dialog = new EditScheduledMultiItemDialog(extra_parameters, strans->budget(), parent, tr("Edit Split Transaction"), NULL, allow_account_creation);
+	dialog->setScheduledTransaction(strans);
+	strans = NULL;
+	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		strans = dialog->createScheduledTransaction();
+	}
+	dialog->deleteLater();
+	return strans;
+}
+MultiItemTransaction *EditScheduledMultiItemDialog::editTransaction(MultiItemTransaction *split, Recurrence *&rec, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
+	EditScheduledMultiItemDialog *dialog = new EditScheduledMultiItemDialog(extra_parameters, split->budget(), parent, tr("Edit Split Transaction"), NULL, allow_account_creation);
+	dialog->setTransaction(split);
+	split = NULL;
+	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		split = dialog->createTransaction(rec);
+	}
+	dialog->deleteLater();
+	return split;
+}
+
+EditScheduledMultiAccountDialog::EditScheduledMultiAccountDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, bool create_expenses, bool allow_account_creation) : QDialog(parent), budget(budg), b_extra(extra_parameters) {
+	
+	setWindowTitle(title);
+	setModal(true);
+	
+	QVBoxLayout *box1 = new QVBoxLayout(this);
+	
+	tabs = new QTabWidget();
+	
+	transactionEditWidget = new EditMultiAccountWidget(budget, NULL, create_expenses, b_extra, allow_account_creation); 
+	tabs->addTab(transactionEditWidget, tr("Transactions")); 
+
+	recurrenceEditWidget = new RecurrenceEditWidget(transactionEditWidget->date(), budget);
+	tabs->addTab(recurrenceEditWidget, tr("Recurrence"));
+	
+	box1->addWidget(tabs);
+	
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
+	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
+	box1->addWidget(buttonBox);
+	
+	connect(transactionEditWidget, SIGNAL(dateChanged(const QDate&)), recurrenceEditWidget, SLOT(setStartDate(const QDate&)));
+	transactionEditWidget->focusDescription();
+
+}
+
+bool EditScheduledMultiAccountDialog::checkAccounts() {
+	return transactionEditWidget->checkAccounts();
+}
+void EditScheduledMultiAccountDialog::accept() {
+	if(!transactionEditWidget->validValues()) {tabs->setCurrentIndex(0); return;}
+	recurrenceEditWidget->setStartDate(transactionEditWidget->date());
+	if(!recurrenceEditWidget->validValues()) {tabs->setCurrentIndex(1); return;}
+	QDialog::accept();
+}
+void EditScheduledMultiAccountDialog::reject() {
+	transactionEditWidget->reject();
+	QDialog::reject();
+}
+void EditScheduledMultiAccountDialog::setTransaction(MultiAccountTransaction *split) {
+	transactionEditWidget->setTransaction(split);
+	recurrenceEditWidget->setRecurrence(NULL);
+}
+void EditScheduledMultiAccountDialog::setValues(QString description_string, CategoryAccount *category_account, double quantity_value, QString comment_string) {
+	transactionEditWidget->setValues(description_string, category_account, quantity_value, comment_string);
+	recurrenceEditWidget->setRecurrence(NULL);
+}
+void EditScheduledMultiAccountDialog::setScheduledTransaction(ScheduledTransaction *strans) {
+	transactionEditWidget->setTransaction((MultiAccountTransaction*) strans->transaction());
+	recurrenceEditWidget->setRecurrence(strans->recurrence());
+}
+ScheduledTransaction *EditScheduledMultiAccountDialog::createScheduledTransaction() {
+	MultiAccountTransaction *split = transactionEditWidget->createTransaction();
+	if(!split) {tabs->setCurrentIndex(0); return NULL;}
+	recurrenceEditWidget->setStartDate(split->date());
+	return new ScheduledTransaction(budget, split, recurrenceEditWidget->createRecurrence());
+}
+MultiAccountTransaction *EditScheduledMultiAccountDialog::createTransaction(Recurrence *&rec) {
+	MultiAccountTransaction *split = transactionEditWidget->createTransaction();
+	if(!split) {tabs->setCurrentIndex(0); return NULL;}
+	recurrenceEditWidget->setStartDate(split->date());
+	rec = recurrenceEditWidget->createRecurrence();
+	return split;
+}
+ScheduledTransaction *EditScheduledMultiAccountDialog::newScheduledTransaction(Budget *budg, QWidget *parent, bool create_expenses, bool extra_parameters, bool allow_account_creation) {
+	EditScheduledMultiAccountDialog *dialog = new EditScheduledMultiAccountDialog(extra_parameters, budg, parent, create_expenses ? tr("New Expense with Multiple Payments") : tr("New Income with Multiple Payments"), create_expenses, allow_account_creation);
+	ScheduledTransaction *strans = NULL;
+	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		strans = dialog->createScheduledTransaction();
+	}
+	dialog->deleteLater();
+	return strans;
+}
+ScheduledTransaction *EditScheduledMultiAccountDialog::newScheduledTransaction(QString description_string, CategoryAccount *category_account, double quantity_value, QString comment_string, Budget *budg, QWidget *parent, bool create_expenses, bool extra_parameters, bool allow_account_creation) {
+	EditScheduledMultiAccountDialog *dialog = new EditScheduledMultiAccountDialog(extra_parameters, budg, parent, create_expenses ? tr("New Expense with Multiple Payments") : tr("New Income with Multiple Payments"), create_expenses, allow_account_creation);
+	dialog->setValues(description_string, category_account, quantity_value, comment_string);
+	ScheduledTransaction *strans = NULL;
+	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		strans = dialog->createScheduledTransaction();
+	}
+	dialog->deleteLater();
+	return strans;
+}
+ScheduledTransaction *EditScheduledMultiAccountDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
+	EditScheduledMultiAccountDialog *dialog = new EditScheduledMultiAccountDialog(extra_parameters, strans->budget(), parent, ((MultiAccountTransaction*) strans->transaction())->transactiontype() == TRANSACTION_TYPE_EXPENSE ? tr("Edit Expense with Multiple Payments") : tr("Edit Income with Multiple Payments"), NULL, allow_account_creation);
+	dialog->setScheduledTransaction(strans);
+	strans = NULL;
+	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		strans = dialog->createScheduledTransaction();
+	}
+	dialog->deleteLater();
+	return strans;
+}
+MultiAccountTransaction *EditScheduledMultiAccountDialog::editTransaction(MultiAccountTransaction *split, Recurrence *&rec, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
+	EditScheduledMultiAccountDialog *dialog = new EditScheduledMultiAccountDialog(extra_parameters, split->budget(), parent, split->transactiontype() == TRANSACTION_TYPE_EXPENSE ? tr("Edit Expense with Multiple Payments") : tr("Edit Income with Multiple Payments"), NULL, allow_account_creation);
+	dialog->setTransaction(split);
+	split = NULL;
+	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		split = dialog->createTransaction(rec);
+	}
+	dialog->deleteLater();
+	return split;
+}
+
+
+EditScheduledLoanTransactionDialog::EditScheduledLoanTransactionDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, AssetsAccount *loan, bool allow_account_creation) : QDialog(parent), budget(budg), b_extra(extra_parameters) {
+	
+	setWindowTitle(title);
+	setModal(true);
+	
+	QVBoxLayout *box1 = new QVBoxLayout(this);
+	
+	tabs = new QTabWidget();
+	
+	transactionEditWidget = new EditLoanTransactionWidget(budget, NULL, loan, allow_account_creation); 
+	tabs->addTab(transactionEditWidget, tr("Transaction")); 
+
+	recurrenceEditWidget = new RecurrenceEditWidget(transactionEditWidget->date(), budget);
+	tabs->addTab(recurrenceEditWidget, tr("Recurrence"));
+	
+	box1->addWidget(tabs);
+	
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
+	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
+	box1->addWidget(buttonBox);
+	
+	connect(transactionEditWidget, SIGNAL(dateChanged(const QDate&)), recurrenceEditWidget, SLOT(setStartDate(const QDate&)));
+
+}
+
+bool EditScheduledLoanTransactionDialog::checkAccounts() {
+	return transactionEditWidget->checkAccounts();
+}
+void EditScheduledLoanTransactionDialog::accept() {
+	if(!transactionEditWidget->validValues()) {tabs->setCurrentIndex(0); return;}
+	recurrenceEditWidget->setStartDate(transactionEditWidget->date());
+	if(!recurrenceEditWidget->validValues()) {tabs->setCurrentIndex(1); return;}
+	QDialog::accept();
+}
+void EditScheduledLoanTransactionDialog::reject() {
+	QDialog::reject();
+}
+void EditScheduledLoanTransactionDialog::setTransaction(LoanTransaction *split) {
+	transactionEditWidget->setTransaction(split);
+	recurrenceEditWidget->setRecurrence(NULL);
+}
+void EditScheduledLoanTransactionDialog::setScheduledTransaction(ScheduledTransaction *strans) {
+	transactionEditWidget->setTransaction((LoanTransaction*) strans->transaction());
+	recurrenceEditWidget->setRecurrence(strans->recurrence());
+}
+ScheduledTransaction *EditScheduledLoanTransactionDialog::createScheduledTransaction() {
+	LoanTransaction *split = transactionEditWidget->createTransaction();
+	if(!split) {tabs->setCurrentIndex(0); return NULL;}
+	recurrenceEditWidget->setStartDate(split->date());
+	return new ScheduledTransaction(budget, split, recurrenceEditWidget->createRecurrence());
+}
+LoanTransaction *EditScheduledLoanTransactionDialog::createTransaction(Recurrence *&rec) {
+	LoanTransaction *split = transactionEditWidget->createTransaction();
+	if(!split) {tabs->setCurrentIndex(0); return NULL;}
+	recurrenceEditWidget->setStartDate(split->date());
+	rec = recurrenceEditWidget->createRecurrence();
+	return split;
+}
+ScheduledTransaction *EditScheduledLoanTransactionDialog::newScheduledTransaction(Budget *budg, QWidget *parent, AssetsAccount *account, bool extra_parameters, bool allow_account_creation) {
+	EditScheduledLoanTransactionDialog *dialog = new EditScheduledLoanTransactionDialog(extra_parameters, budg, parent, tr("Edit Debt Payment"), account, allow_account_creation);
+	ScheduledTransaction *strans = NULL;
+	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		strans = dialog->createScheduledTransaction();
+	}
+	dialog->deleteLater();
+	return strans;
+}
+ScheduledTransaction *EditScheduledLoanTransactionDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
+	EditScheduledLoanTransactionDialog *dialog = new EditScheduledLoanTransactionDialog(extra_parameters, strans->budget(), parent, tr("New Debt Payment"), NULL, allow_account_creation);
+	dialog->setScheduledTransaction(strans);
+	strans = NULL;
+	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		strans = dialog->createScheduledTransaction();
+	}
+	dialog->deleteLater();
+	return strans;
+}
+LoanTransaction *EditScheduledLoanTransactionDialog::editTransaction(LoanTransaction *split, Recurrence *&rec, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
+	EditScheduledLoanTransactionDialog *dialog = new EditScheduledLoanTransactionDialog(extra_parameters, split->budget(), parent, tr("New Debt Payment"), NULL, allow_account_creation);
+	dialog->setTransaction(split);
+	split = NULL;
+	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		split = dialog->createTransaction(rec);
+	}
+	dialog->deleteLater();
+	return split;
 }
 

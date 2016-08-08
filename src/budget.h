@@ -47,7 +47,7 @@ static bool split_list_less_than(SplitTransaction *t1, SplitTransaction *t2) {
 	return t1->date() < t2->date();
 }
 static bool schedule_list_less_than(ScheduledTransaction *t1, ScheduledTransaction *t2) {
-	return t1->transaction()->date() < t2->transaction()->date();
+	return t1->date() < t2->date();
 }
 static bool trade_list_less_than(SecurityTrade *t1, SecurityTrade *t2) {
 	return t1->date < t2->date;
@@ -133,6 +133,9 @@ class Budget {
 		void clear();
 
 		void addTransaction(Transaction*);
+		void removeTransactions(Transactions*, bool keep = false);
+		
+		void addTransactions(Transactions*);
 		void removeTransaction(Transaction*, bool keep = false);
 
 		void addScheduledTransaction(ScheduledTransaction*);

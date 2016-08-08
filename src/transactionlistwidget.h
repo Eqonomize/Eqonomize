@@ -40,6 +40,7 @@ class Eqonomize;
 class ScheduledTransaction;
 class SplitTransaction;
 class Transaction;
+class Transactions;
 class TransactionEditWidget;
 class TransactionFilterWidget;
 
@@ -55,8 +56,7 @@ class TransactionListWidget : public QWidget {
 		void updateToAccounts();
 		void updateAccounts();
 		void onDisplay();
-		void appendFilterTransaction(Transaction*, bool);
-		void appendFilterScheduledTransaction(ScheduledTransaction *strans, bool update_total_value);
+		void appendFilterTransaction(Transactions*, bool, ScheduledTransaction* = NULL);
 		void setCurrentEditToItem(int index);
 		void setCurrentEditFromItem(int index);
 		int currentEditToItem();
@@ -86,7 +86,7 @@ class TransactionListWidget : public QWidget {
 		TransactionEditWidget *editWidget;
 		QLabel *editInfoLabel;
 		double current_value, current_quantity;
-		Transaction *selected_trans;
+		Transactions *selected_trans;
 		QColor expenseColor, incomeColor, transferColor;
 		
 	signals:
@@ -104,13 +104,10 @@ class TransactionListWidget : public QWidget {
 		void editSplitTransaction();
 		void splitUpTransaction();
 		void joinTransactions();
-		void onSplitRemoved(SplitTransaction*);	
-		void onTransactionAdded(Transaction*);
-		void onTransactionModified(Transaction*, Transaction*);
-		void onTransactionRemoved(Transaction*);
-		void onScheduledTransactionAdded(ScheduledTransaction*);
-		void onScheduledTransactionModified(ScheduledTransaction*, ScheduledTransaction*);
-		void onScheduledTransactionRemoved(ScheduledTransaction*);
+		void onTransactionSplitUp(SplitTransaction*);
+		void onTransactionAdded(Transactions*);
+		void onTransactionModified(Transactions*, Transactions*);
+		void onTransactionRemoved(Transactions*);
 		void filterTransactions();
 		void currentTransactionChanged(QTreeWidgetItem*);
 		void transactionSelectionChanged();

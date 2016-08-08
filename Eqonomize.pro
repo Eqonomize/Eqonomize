@@ -1,4 +1,4 @@
-unix {
+unix:!android:!macx {
 	isEmpty(PREFIX) {
 		PREFIX = /usr/local
 	}
@@ -39,6 +39,7 @@ DEFINES += TRANSLATIONS_DIR=\\\"$$TRANSLATIONS_DIR\\\"
 DEFINES += DOCUMENTATION_DIR=\\\"$$DOCUMENTATION_DIR\\\"
 
 HEADERS += src/account.h \
+           src/accountcombobox.h \
            src/budget.h \
            src/categoriescomparisonchart.h \
            src/categoriescomparisonreport.h \
@@ -61,6 +62,7 @@ HEADERS += src/account.h \
            src/transactionfilterwidget.h \
            src/transactionlistwidget.h
 SOURCES += src/account.cpp \
+           src/accountcombobox.cpp \
            src/budget.cpp \
            src/categoriescomparisonchart.cpp \
            src/categoriescomparisonreport.cpp \
@@ -84,7 +86,7 @@ SOURCES += src/account.cpp \
            src/transactionfilterwidget.cpp \
            src/transactionlistwidget.cpp
 
-unix {
+unix:!android:!macx {
 	TRANSLATIONS = 	translations/eqonomize_bg.ts \
 			translations/eqonomize_cs.ts \
 			translations/eqonomize_cs_new.ts \

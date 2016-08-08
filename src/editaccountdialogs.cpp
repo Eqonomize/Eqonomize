@@ -26,6 +26,8 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QGridLayout>
+#include <QDateEdit>
+#include <QRadioButton>
 #include <QLineEdit>
 #include <QTextEdit>
 #include <QDialogButtonBox>
@@ -35,40 +37,81 @@
 #include <QLocale>
 
 #include "budget.h"
+#include "accountcombobox.h"
 #include "editaccountdialogs.h"
 #include "eqonomizevalueedit.h"
 
-EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title) : QDialog(parent, 0), budget(budg) {
+EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title, bool new_loan) : QDialog(parent, 0), budget(budg) {
 
 	setWindowTitle(title);
 	setModal(true);
+	
+	int row = 0;
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
-	grid->addWidget(new QLabel(tr("Type:"), this), 0, 0);
-	typeCombo = new QComboBox(this);
-	typeCombo->setEditable(false);
-	typeCombo->addItem(tr("Cash"));
-	typeCombo->addItem(tr("Current Account"));
-	typeCombo->addItem(tr("Savings Account"));
-	typeCombo->addItem(tr("Credit Card"));
-	typeCombo->addItem(tr("Liabilities"));
-	typeCombo->addItem(tr("Securities"));
-	grid->addWidget(typeCombo, 0, 1);
-	grid->addWidget(new QLabel(tr("Name:"), this), 1, 0);
+	if(new_loan) {
+		typeCombo = NULL;
+	} else {
+		grid->addWidget(new QLabel(tr("Type:"), this), row, 0);
+		typeCombo = new QComboBox(this);
+		typeCombo->setEditable(false);
+		typeCombo->addItem(tr("Cash"));
+		typeCombo->addItem(tr("Current Account"));
+		typeCombo->addItem(tr("Savings Account"));
+		typeCombo->addItem(tr("Credit Card"));
+		typeCombo->addItem(tr("Debt"));
+		typeCombo->addItem(tr("Securities"));
+		grid->addWidget(typeCombo, row, 1); row++;
+	}
+	grid->addWidget(new QLabel(tr("Name:"), this), row, 0);
 	nameEdit = new QLineEdit(this);
-	grid->addWidget(nameEdit, 1, 1);
-	grid->addWidget(new QLabel(tr("Initial balance:"), this), 2, 0);
+	grid->addWidget(nameEdit, row, 1); row++;
+	grid->addWidget(new QLabel(new_loan ? ("Value:") : tr("Initial balance:"), this), row, 0);
 	valueEdit = new EqonomizeValueEdit(true, this);
-	grid->addWidget(valueEdit, 2, 1);
-	budgetButton = new QCheckBox(tr("Default account for budgeted transactions"), this);
-	budgetButton->setChecked(false);
-	grid->addWidget(budgetButton, 3, 0, 1, 2);
-	grid->addWidget(new QLabel(tr("Description:"), this), 4, 0);
+	grid->addWidget(valueEdit, row, 1); row++;
+	if(new_loan) {
+		initialButton = new QRadioButton(tr("Initial balance"), this);
+		initialButton->setChecked(true);
+		grid->addWidget(initialButton, row, 0, 1, 2);
+		row++;
+		transferButton = new QRadioButton(tr("Transferred to:"), this);
+		grid->addWidget(transferButton, row, 0);
+		accountCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, false, false, false, true, true, this);
+		accountCombo->updateAccounts();
+		grid->addWidget(accountCombo, row, 1); row++;
+		grid->addWidget(new QLabel(tr("Date:")), row, 0);
+		dateEdit = new QDateEdit(QDate::currentDate());
+		dateEdit->setCalendarPopup(true);
+		grid->addWidget(dateEdit, row, 1);
+		row++;
+		budgetButton = NULL;
+		if(!accountCombo->hasAccount()) {
+			transferButton->setEnabled(false);
+		}
+		transferToggled(false);
+	} else {
+		accountCombo = NULL;
+		dateEdit = NULL;
+		initialButton = NULL;
+		transferButton = NULL;
+		budgetButton = new QCheckBox(tr("Default account for budgeted transactions"), this);
+		budgetButton->setChecked(false);
+		grid->addWidget(budgetButton, row, 0, 1, 2); row++;
+	}
+	grid->addWidget(new QLabel(tr("Description:"), this), row, 0); row++;
 	descriptionEdit = new QTextEdit(this);
-	grid->addWidget(descriptionEdit, 5, 0, 1, 2);
+	grid->addWidget(descriptionEdit, row, 0, 1, 2); row++;
+	if(new_loan) {
+		closedButton = NULL;
+	} else {
+		closedButton = new QCheckBox(tr("Account is closed"), this);
+		closedButton->setChecked(false);
+		closedButton->hide();
+		grid->addWidget(closedButton, row, 0, 1, 2); row++;
+	}
 	nameEdit->setFocus();
 	current_account = NULL;
 	
@@ -79,26 +122,49 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
 	
-	connect(typeCombo, SIGNAL(activated(int)), this, SLOT(typeActivated(int)));
+	if(typeCombo) connect(typeCombo, SIGNAL(activated(int)), this, SLOT(typeActivated(int)));
+	if(closedButton) connect(closedButton, SIGNAL(toggled(bool)), this, SLOT(closedToggled(bool)));
+	if(transferButton) connect(transferButton, SIGNAL(toggled(bool)), this, SLOT(transferToggled(bool)));
 
+}
+void EditAssetsAccountDialog::transferToggled(bool b) {
+	dateEdit->setEnabled(b);
+	accountCombo->setEnabled(b);
+}
+void EditAssetsAccountDialog::closedToggled(bool b) {
+	if(b) budgetButton->setChecked(false);
+	budgetButton->setEnabled(!b);
 }
 void EditAssetsAccountDialog::typeActivated(int index) {
 	valueEdit->setEnabled(index != 5);
-	//budgetButton->setChecked(index == 1);
 	budgetButton->setEnabled(index != 5);
+	closedButton->setEnabled(index != 4);
+	if(index == 4) closedButton->setChecked(false);
+	if(index == 5) budgetButton->setChecked(false);
+	if(index == 5) valueEdit->setValue(0.0);
 }
-AssetsAccount *EditAssetsAccountDialog::newAccount() {
+AssetsAccount *EditAssetsAccountDialog::newAccount(Transaction **transfer) {
 	AssetsType type;
-	switch(typeCombo->currentIndex()) {
-		case 1: {type = ASSETS_TYPE_CURRENT; break;}
-		case 2: {type = ASSETS_TYPE_SAVINGS; break;}
-		case 3: {type = ASSETS_TYPE_CREDIT_CARD; break;}
-		case 4: {type = ASSETS_TYPE_LIABILITIES; break;}
-		case 5: {type = ASSETS_TYPE_SECURITIES;  break;}
-		default: {type = ASSETS_TYPE_CASH; break;}
+	if(typeCombo) {
+		switch(typeCombo->currentIndex()) {
+			case 1: {type = ASSETS_TYPE_CURRENT; break;}
+			case 2: {type = ASSETS_TYPE_SAVINGS; break;}
+			case 3: {type = ASSETS_TYPE_CREDIT_CARD; break;}
+			case 4: {type = ASSETS_TYPE_LIABILITIES; break;}
+			case 5: {type = ASSETS_TYPE_SECURITIES;  break;}
+			default: {type = ASSETS_TYPE_CASH; break;}
+		}
+	} else {
+		type = ASSETS_TYPE_LIABILITIES;
 	}
-	AssetsAccount *account = new AssetsAccount(budget, type, nameEdit->text(), valueEdit->value(), descriptionEdit->toPlainText());
-	account->setAsBudgetAccount(budgetButton->isChecked());
+	AssetsAccount *account = new AssetsAccount(budget, type, nameEdit->text(), 0.0, descriptionEdit->toPlainText());
+	if(transfer && transferButton && transferButton->isChecked()) {
+		Transaction *trans = new Transfer(budget, valueEdit->value(), dateEdit->date(), account, (AssetsAccount*) accountCombo->currentAccount(), nameEdit->text());
+		*transfer = trans;
+	} else {
+		account->setInitialBalance(valueEdit->value());
+	}
+	if(budgetButton) account->setAsBudgetAccount(budgetButton->isChecked());
 	return account;
 }
 void EditAssetsAccountDialog::modifyAccount(AssetsAccount *account) {
@@ -106,6 +172,7 @@ void EditAssetsAccountDialog::modifyAccount(AssetsAccount *account) {
 	account->setInitialBalance(valueEdit->value());
 	account->setDescription(descriptionEdit->toPlainText());
 	account->setAsBudgetAccount(budgetButton->isChecked());
+	account->setClosed(closedButton->isChecked());
 	switch(typeCombo->currentIndex()) {
 		case 1: {account->setAccountType(ASSETS_TYPE_CURRENT); break;}
 		case 2: {account->setAccountType(ASSETS_TYPE_SAVINGS); break;}
@@ -117,6 +184,7 @@ void EditAssetsAccountDialog::modifyAccount(AssetsAccount *account) {
 }
 void EditAssetsAccountDialog::setAccount(AssetsAccount *account) {
 	current_account = account;
+	closedButton->show();
 	nameEdit->setText(account->name());
 	valueEdit->setValue(account->initialBalance());
 	descriptionEdit->setPlainText(account->description());

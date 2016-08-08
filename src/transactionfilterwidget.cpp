@@ -114,7 +114,7 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	sp.setHorizontalPolicy(QSizePolicy::Expanding);
 	maxEdit->setSizePolicy(sp);
 	filterLayout->addWidget(maxEdit, 1, 3);
-	filterLayout->addWidget(new QLabel(tr("Generic Description:"), this), 3, 0);
+	filterLayout->addWidget(new QLabel(tr("Description:"), this), 3, 0);
 	descriptionEdit = new QLineEdit(this);
 	descriptionEdit->setCompleter(new QCompleter(this));
 	descriptionEdit->completer()->setModel(new QStandardItemModel(this));
@@ -414,87 +414,219 @@ void TransactionFilterWidget::updateAccounts() {
 	updateFromAccounts();
 	updateToAccounts();
 }
-bool TransactionFilterWidget::filterTransaction(Transaction *trans, bool checkdate) {
-	if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-		if(transtype == TRANSACTION_TYPE_TRANSFER && ((SecurityTransaction*) trans)->account()->type() != ACCOUNT_TYPE_ASSETS) return true;
-		if(transtype == TRANSACTION_TYPE_EXPENSE && ((SecurityTransaction*) trans)->account()->type() != ACCOUNT_TYPE_EXPENSES) return true;
-		if(transtype == TRANSACTION_TYPE_INCOME && ((SecurityTransaction*) trans)->account()->type() != ACCOUNT_TYPE_INCOMES) return true;
-	} else if(trans->type() != transtype) {
-		return true;
+bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool checkdate) {
+	Transaction *trans = NULL;
+	MultiAccountTransaction *split = NULL;
+	switch(transs->generaltype()) {
+		case GENERAL_TRANSACTION_TYPE_SINGLE: {
+			trans = (Transaction*) transs; 
+			if(trans->parentSplit() && trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) return true;
+			break;
+		}
+		case GENERAL_TRANSACTION_TYPE_SPLIT: {
+			if(((SplitTransaction*) transs)->type() != SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) return true;
+			split = (MultiAccountTransaction*) transs; 
+			break;
+		}
+		case GENERAL_TRANSACTION_TYPE_SCHEDULE: {return filterTransaction(((ScheduledTransaction*) transs)->transaction(), checkdate);}
+	}
+	if(trans) {
+		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+			if(transtype == TRANSACTION_TYPE_TRANSFER && ((SecurityTransaction*) trans)->account()->type() != ACCOUNT_TYPE_ASSETS) return true;
+			if(transtype == TRANSACTION_TYPE_EXPENSE && ((SecurityTransaction*) trans)->account()->type() != ACCOUNT_TYPE_EXPENSES) return true;
+			if(transtype == TRANSACTION_TYPE_INCOME && ((SecurityTransaction*) trans)->account()->type() != ACCOUNT_TYPE_INCOMES) return true;
+		} else if(trans->type() != transtype) {
+			return true;
+		}
+	} else {
+		if(split->transactiontype() != transtype) return true;
+		if(split->count() == 0) return true;
+		trans = split->at(0);
 	}
 	bool b_exact = exactMatchButton->isChecked();
 	bool b_exclude_subs = b_exact;
 	if(includeButton->isChecked()) {
 		Account *account = tos[toCombo->currentIndex() - 1];
 		if(toCombo->currentIndex() > 0 && account != trans->toAccount() && (b_exclude_subs || account != trans->toAccount()->topAccount())) {
-			return true;
+			if(split) {
+				bool b = false;
+				for(int split_i = 1; split_i < split->count(); split_i++) {
+					if(account == split->at(split_i)->toAccount() || (!b_exclude_subs && account == split->at(split_i)->toAccount()->topAccount())) {
+						b = true;
+						break;
+					}
+				}
+				if(!b) return true;
+			} else {
+				return true;
+			}
 		}
 		account = froms[fromCombo->currentIndex() - 1];
 		if(fromCombo->currentIndex() > 0 && account != trans->fromAccount() && (b_exclude_subs || account != trans->fromAccount()->topAccount())) {
-			return true;
+			if(split) {
+				bool b = false;
+				for(int split_i = 1; split_i < split->count(); split_i++) {
+					if(account == split->at(split_i)->fromAccount() || (!b_exclude_subs && account == split->at(split_i)->fromAccount()->topAccount())) {
+						b = true;
+						break;
+					}
+				}
+				if(!b) return true;
+			} else {
+				return true;
+			}
 		}
 		if(b_exact) {
-			if(!descriptionEdit->text().isEmpty() && trans->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) != 0) {
+			if(!descriptionEdit->text().isEmpty() && transs->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) != 0) {
 				return true;
 			}
 			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !payeeEdit->text().isEmpty() && ((Expense*) trans)->payee().compare(payeeEdit->text(), Qt::CaseInsensitive) != 0) {
-				return true;
+				if(split) {
+					bool b = false;
+					for(int split_i = 1; split_i < split->count(); split_i++) {
+						if(((Expense*) split->at(split_i))->payee().compare(payeeEdit->text(), Qt::CaseInsensitive) == 0) {
+							b = true;
+							break;
+						}
+					}
+					if(!b) return true;
+				} else {
+					return true;
+				}
 			}
 			if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !payeeEdit->text().isEmpty() && ((Income*) trans)->payer().compare(payeeEdit->text(), Qt::CaseInsensitive) != 0) {
-				return true;
+				if(split) {
+					bool b = false;
+					for(int split_i = 1; split_i < split->count(); split_i++) {
+						if(((Income*) split->at(split_i))->payer().compare(payeeEdit->text(), Qt::CaseInsensitive) == 0) {
+							b = true;
+							break;
+						}
+					}
+					if(!b) return true;
+				} else {
+					return true;
+				}
 			}
 		} else {
-			if(!descriptionEdit->text().isEmpty() && !trans->description().contains(descriptionEdit->text(), Qt::CaseInsensitive)) {
+			if(!descriptionEdit->text().isEmpty() && !transs->description().contains(descriptionEdit->text(), Qt::CaseInsensitive) && !transs->comment().contains(descriptionEdit->text(), Qt::CaseInsensitive)) {
 				return true;
 			}
 			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !payeeEdit->text().isEmpty() && !((Expense*) trans)->payee().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
-				return true;
+				if(split) {
+					bool b = false;
+					for(int split_i = 1; split_i < split->count(); split_i++) {
+						if(((Expense*) split->at(split_i))->payee().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
+							b = true;
+							break;
+						}
+					}
+					if(!b) return true;
+				} else {
+					return true;
+				}
 			}
 			if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !payeeEdit->text().isEmpty() && !((Income*) trans)->payer().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
-				return true;
+				if(split) {
+					bool b = false;
+					for(int split_i = 1; split_i < split->count(); split_i++) {
+						if(((Income*) split->at(split_i))->payer().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
+							b = true;
+							break;
+						}
+					}
+					if(!b) return true;
+				} else {
+					return true;
+				}
 			}
 		}
 	} else {
 		Account *account = tos[toCombo->currentIndex() - 1];
 		if(toCombo->currentIndex() > 0 && (account == trans->toAccount() || (!b_exclude_subs && account == trans->toAccount()->topAccount()))) {
-			return true;
+			if(!split || transtype != TRANSACTION_TYPE_INCOME || !split->account()) return true;
 		}
 		account = froms[fromCombo->currentIndex() - 1];
 		if(fromCombo->currentIndex() > 0 && (account == trans->fromAccount() || (!b_exclude_subs && account == trans->fromAccount()->topAccount()))) {
-			return true;
+			if(!split || transtype != TRANSACTION_TYPE_EXPENSE || !split->account()) return true;
 		}
 		if(b_exact) {
-			if(!descriptionEdit->text().isEmpty() && trans->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) == 0) {
+			if(!descriptionEdit->text().isEmpty() && transs->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) == 0) {
 				return true;
 			}
 			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE  && !payeeEdit->text().isEmpty() && ((Expense*) trans)->payee().compare(payeeEdit->text(), Qt::CaseInsensitive) == 0) {
-				return true;
+				if(split) {
+					bool b = false;
+					for(int split_i = 1; split_i < split->count(); split_i++) {
+						if(((Expense*) split->at(split_i))->payee().compare(payeeEdit->text(), Qt::CaseInsensitive) != 0) {
+							b = true;
+							break;
+						}
+					}
+					if(!b) return true;
+				} else {
+					return true;
+				}
 			}
 			if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME  && !payeeEdit->text().isEmpty() && ((Income*) trans)->payer().compare(payeeEdit->text(), Qt::CaseInsensitive) == 0) {
-				return true;
+				if(split) {
+					bool b = false;
+					for(int split_i = 1; split_i < split->count(); split_i++) {
+						if(((Income*) split->at(split_i))->payer().compare(payeeEdit->text(), Qt::CaseInsensitive) != 0) {
+							b = true;
+							break;
+						}
+					}
+					if(!b) return true;
+				} else {
+					return true;
+				}
 			}
 		} else {
-			if(!descriptionEdit->text().isEmpty() && trans->description().contains(descriptionEdit->text(), Qt::CaseInsensitive)) {
+			if(!descriptionEdit->text().isEmpty() && transs->description().contains(descriptionEdit->text(), Qt::CaseInsensitive)) {
 				return true;
 			}
 			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE  && !payeeEdit->text().isEmpty() && ((Expense*) trans)->payee().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
+				if(split) {
+					bool b = false;
+					for(int split_i = 1; split_i < split->count(); split_i++) {
+						if(!((Expense*) split->at(split_i))->payee().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
+							b = true;
+							break;
+						}
+					}
+					if(!b) return true;
+				} else {
+					return true;
+				}
 				return true;
 			}
 			if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME  && !payeeEdit->text().isEmpty() && ((Income*) trans)->payer().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
-				return true;
+				if(split) {
+					bool b = false;
+					for(int split_i = 1; split_i < split->count(); split_i++) {
+						if(!((Income*) split->at(split_i))->payer().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
+							b = true;
+							break;
+						}
+					}
+					if(!b) return true;
+				} else {
+					return true;
+				}
 			}
 		}
 	}
-	if(minButton->isChecked() && trans->value() < minEdit->value()) {
+	if(minButton->isChecked() && transs->value() < minEdit->value()) {
 		return true;
 	}
-	if(maxButton->isChecked() && trans->value() > maxEdit->value()) {
+	if(maxButton->isChecked() && transs->value() > maxEdit->value()) {
 		return true;
 	}
-	if(checkdate && dateFromButton->isChecked() && trans->date() < from_date) {
+	if(checkdate && dateFromButton->isChecked() && transs->date() < from_date) {
 		return true;
 	}
-	if(checkdate && trans->date() > to_date) {
+	if(checkdate && transs->date() > to_date) {
 		return true;
 	}
 	return false;
@@ -689,9 +821,19 @@ QDate TransactionFilterWidget::firstDate() {
 			if(first_date.isNull()) {
 				ScheduledTransaction *strans = budget->scheduledTransactions.first();
 				while(strans) {
-					if(strans->transaction()->type() == TRANSACTION_TYPE_EXPENSE || ((strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY) && ((SecurityTransaction*) strans->transaction())->account()->type() == ACCOUNT_TYPE_EXPENSES)) {
-						first_date = strans->transaction()->date();
-						break;
+					if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+						for(int i = 0; i < ((SplitTransaction*) strans->transaction())->count(); i++) {
+							Transaction *trans = ((SplitTransaction*) strans->transaction())->at(i);
+							if(trans->type() == TRANSACTION_TYPE_EXPENSE || ((trans->type() == TRANSACTION_TYPE_SECURITY_SELL || trans->type() == TRANSACTION_TYPE_SECURITY_BUY) && ((SecurityTransaction*) trans)->account()->type() == ACCOUNT_TYPE_EXPENSES)) {
+								first_date = trans->date();
+								break;
+							}
+						}
+					} else {
+						if(strans->transactiontype() == TRANSACTION_TYPE_EXPENSE || ((strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) && ((SecurityTransaction*) strans->transaction())->account()->type() == ACCOUNT_TYPE_EXPENSES)) {
+							first_date = strans->transaction()->date();
+							break;
+						}
 					}
 					strans = budget->scheduledTransactions.next();
 				}
@@ -712,9 +854,19 @@ QDate TransactionFilterWidget::firstDate() {
 			if(first_date.isNull()) {
 				ScheduledTransaction *strans = budget->scheduledTransactions.first();
 				while(strans) {
-					if(strans->transaction()->type() == TRANSACTION_TYPE_INCOME || ((strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY) && ((SecurityTransaction*) strans->transaction())->account()->type() == ACCOUNT_TYPE_INCOMES)) {
-						first_date = strans->transaction()->date();
-						break;
+					if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+						for(int i = 0; i < ((SplitTransaction*) strans->transaction())->count(); i++) {
+							Transaction *trans = ((SplitTransaction*) strans->transaction())->at(i);
+							if(trans->type() == TRANSACTION_TYPE_INCOME || ((trans->type() == TRANSACTION_TYPE_SECURITY_SELL || trans->type() == TRANSACTION_TYPE_SECURITY_BUY) && ((SecurityTransaction*) trans)->account()->type() == ACCOUNT_TYPE_INCOMES)) {
+								first_date = trans->date();
+								break;
+							}
+						}
+					} else {
+						if(strans->transactiontype() == TRANSACTION_TYPE_INCOME || ((strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) && ((SecurityTransaction*) strans->transaction())->account()->type() == ACCOUNT_TYPE_INCOMES)) {
+							first_date = strans->transaction()->date();
+							break;
+						}
 					}
 					strans = budget->scheduledTransactions.next();
 				}
@@ -735,9 +887,19 @@ QDate TransactionFilterWidget::firstDate() {
 			if(first_date.isNull()) {
 				ScheduledTransaction *strans = budget->scheduledTransactions.first();
 				while(strans) {
-					if(strans->transaction()->type() == TRANSACTION_TYPE_TRANSFER || ((strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY) && ((SecurityTransaction*) strans->transaction())->account()->type() == ACCOUNT_TYPE_ASSETS)) {
-						first_date = strans->transaction()->date();
-						break;
+					if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+						for(int i = 0; i < ((SplitTransaction*) strans->transaction())->count(); i++) {
+							Transaction *trans = ((SplitTransaction*) strans->transaction())->at(i);
+							if(trans->type() == TRANSACTION_TYPE_TRANSFER || ((trans->type() == TRANSACTION_TYPE_SECURITY_SELL || trans->type() == TRANSACTION_TYPE_SECURITY_BUY) && ((SecurityTransaction*) trans)->account()->type() == ACCOUNT_TYPE_ASSETS)) {
+								first_date = trans->date();
+								break;
+							}
+						}
+					} else {
+						if(strans->transactiontype() == TRANSACTION_TYPE_TRANSFER || ((strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) && ((SecurityTransaction*) strans->transaction())->account()->type() == ACCOUNT_TYPE_ASSETS)) {
+							first_date = strans->transaction()->date();
+							break;
+						}
 					}
 					strans = budget->scheduledTransactions.next();
 				}

@@ -26,15 +26,19 @@
 
 class QCheckBox;
 class QComboBox;
+class QDateEdit;
 class QLineEdit;
+class QRadioButton;
 class QTextEdit;
 
 class Account;
+class AccountComboBox;
 class AssetsAccount;
 class Budget;
 class EqonomizeValueEdit;
 class ExpensesAccount;
 class IncomesAccount;
+class Transaction;
 
 class EditAssetsAccountDialog : public QDialog {
 
@@ -43,18 +47,21 @@ class EditAssetsAccountDialog : public QDialog {
 	protected:
 
 		QLineEdit *nameEdit;
+		QDateEdit *dateEdit;
+		QRadioButton *initialButton, *transferButton;
 		EqonomizeValueEdit *valueEdit;
 		QTextEdit *descriptionEdit;
 		QComboBox *typeCombo;
-		QCheckBox *budgetButton;
+		AccountComboBox *accountCombo;
+		QCheckBox *budgetButton, *closedButton;
 		Budget *budget;
 		Account *current_account;
 		
 	public:
 		
-		EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title);
+		EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title, bool new_loan = false);
 
-		AssetsAccount *newAccount();
+		AssetsAccount *newAccount(Transaction **transfer = NULL);
 		void modifyAccount(AssetsAccount *account);
 		void setAccount(AssetsAccount *account);
 
@@ -62,7 +69,9 @@ class EditAssetsAccountDialog : public QDialog {
 
 		void typeActivated(int);
 		void accept();
-		
+		void closedToggled(bool);
+		void transferToggled(bool);
+
 };
 
 class EditExpensesAccountDialog : public QDialog {

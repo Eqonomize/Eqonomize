@@ -42,8 +42,6 @@
 #include "budget.h"
 #include "eqonomize.h"
 
-QString emptystr = "";
-
 int main(int argc, char **argv) {	
 	
 	QApplication app(argc, argv);

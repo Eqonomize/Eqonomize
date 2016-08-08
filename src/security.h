@@ -114,7 +114,7 @@ template<class type> class SecurityTransactionList : public EqonomizeList<type> 
 		}
 };
 static bool scheduled_security_list_less_than(ScheduledTransaction *t1, ScheduledTransaction *t2) {
-	return t1->transaction()->date() < t2->transaction()->date();
+	return t1->date() < t2->date();
 }
 
 template<class type> class ScheduledSecurityTransactionList : public EqonomizeList<type> {

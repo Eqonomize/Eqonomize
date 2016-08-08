@@ -24,13 +24,21 @@
 #include <qdialog.h>
 
 class Account;
+class AssetsAccount;
+class CategoryAccount;
 class Budget;
 class Recurrence;
 class RecurrenceEditWidget;
 class ScheduledTransaction;
 class Security;
 class Transaction;
+class MultiItemTransaction;
+class MultiAccountTransaction;
+class LoanTransaction;
 class TransactionEditWidget;
+class EditMultiItemWidget;
+class EditMultiAccountWidget;
+class EditLoanTransactionWidget;
 class QTabWidget;
 
 class EditScheduledTransactionDialog : public QDialog {
@@ -62,6 +70,104 @@ class EditScheduledTransactionDialog : public QDialog {
 	protected slots:
 
 		void accept();
+		
+};
+
+class EditScheduledMultiItemDialog : public QDialog {
+
+	Q_OBJECT
+	
+	protected:
+
+		Budget *budget;
+		bool b_extra;
+		RecurrenceEditWidget *recurrenceEditWidget;
+		EditMultiItemWidget *transactionEditWidget;
+		QTabWidget *tabs;
+		
+	public:
+		
+		EditScheduledMultiItemDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, AssetsAccount *account = NULL, bool allow_account_creation = false);
+
+		bool checkAccounts();
+		void setTransaction(MultiItemTransaction *split);
+		void setScheduledTransaction(ScheduledTransaction *strans);
+		ScheduledTransaction *createScheduledTransaction();
+		MultiItemTransaction *createTransaction(Recurrence *&rec);
+		static ScheduledTransaction *newScheduledTransaction(Budget *budg, QWidget *parent, AssetsAccount *account = NULL, bool extra_parameters = false, bool allow_account_creation = false);
+		static ScheduledTransaction *editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false);
+		static MultiItemTransaction *editTransaction(MultiItemTransaction *trans, Recurrence *&rec,  QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false);
+
+	protected slots:
+
+		void accept();
+		void reject();
+		
+};
+
+class EditScheduledMultiAccountDialog : public QDialog {
+
+	Q_OBJECT
+	
+	protected:
+
+		Budget *budget;
+		bool b_extra;
+		RecurrenceEditWidget *recurrenceEditWidget;
+		EditMultiAccountWidget *transactionEditWidget;
+		QTabWidget *tabs;
+		
+	public:
+		
+		EditScheduledMultiAccountDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, bool create_expenses = true, bool allow_account_creation = false);
+
+		bool checkAccounts();
+		void setTransaction(MultiAccountTransaction *split);
+		void setValues(QString description_string, CategoryAccount *category_account, double quantity_value, QString comment_string);
+		void setScheduledTransaction(ScheduledTransaction *strans);
+		ScheduledTransaction *createScheduledTransaction();
+		MultiAccountTransaction *createTransaction(Recurrence *&rec);
+		static ScheduledTransaction *newScheduledTransaction(Budget *budg, QWidget *parent, bool create_expenses = true, bool extra_parameters = false, bool allow_account_creation = false);
+		static ScheduledTransaction *newScheduledTransaction(QString description_string, CategoryAccount *category_account, double quantity_value, QString comment_string, Budget *budg, QWidget *parent, bool create_expenses = true, bool extra_parameters = false, bool allow_account_creation = false);
+		static ScheduledTransaction *editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false);
+		static MultiAccountTransaction *editTransaction(MultiAccountTransaction *trans, Recurrence *&rec,  QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false);
+
+	protected slots:
+
+		void accept();
+		void reject();
+		
+};
+
+class EditScheduledLoanTransactionDialog : public QDialog {
+
+	Q_OBJECT
+	
+	protected:
+
+		Budget *budget;
+		bool b_extra;
+		RecurrenceEditWidget *recurrenceEditWidget;
+		EditLoanTransactionWidget *transactionEditWidget;
+		QTabWidget *tabs;
+		
+	public:
+		
+		EditScheduledLoanTransactionDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, AssetsAccount *loan = NULL, bool allow_account_creation = false);
+
+		bool checkAccounts();
+		void setTransaction(LoanTransaction *split);
+		void setScheduledTransaction(ScheduledTransaction *strans);
+		ScheduledTransaction *createScheduledTransaction();
+		LoanTransaction *createTransaction(Recurrence *&rec);
+		static ScheduledTransaction *newScheduledTransaction(Budget *budg, QWidget *parent, AssetsAccount *loan = NULL, bool extra_parameters = false, bool allow_account_creation = false);
+		static ScheduledTransaction *editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false);
+		static LoanTransaction *editTransaction(LoanTransaction *trans, Recurrence *&rec,  QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false);
+
+	protected slots:
+
+		void accept();
+		void reject();
 		
 };
 

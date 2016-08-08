@@ -67,6 +67,7 @@ class OverTimeChart;
 class OverTimeReport;
 class Account;
 class AssetsAccount;
+class LoanAccount;
 class Budget;
 class ConfirmScheduleListViewItem;
 class EqonomizeMonthSelector;
@@ -81,6 +82,7 @@ class Security;
 class SecurityTrade;
 class SplitTransaction;
 class Transaction;
+class Transactions;
 class TransactionListWidget;
 class Transfer;
 
@@ -113,6 +115,7 @@ class Eqonomize : public QMainWindow {
 		void appendIncomesAccount(IncomesAccount *account, QTreeWidgetItem *parent_item);
 		void appendExpensesAccount(ExpensesAccount *account, QTreeWidgetItem *parent_item);
 		void appendAssetsAccount(AssetsAccount *account);
+		void appendLoanAccount(LoanAccount *account);
 		void updateMonthlyBudget(Account *account);
 		void updateTotalMonthlyExpensesBudget();
 		void updateTotalMonthlyIncomesBudget();
@@ -132,7 +135,9 @@ class Eqonomize : public QMainWindow {
 		bool removeOccurrence(ScheduledTransaction *strans, const QDate &date);
 		bool newScheduledTransaction(int transaction_type, Security *security = NULL, bool select_security = false);
 		bool newScheduledTransaction(int transaction_type, Security *security, bool select_security, QWidget *parent, Account *account = NULL);
-		bool newSplitTransaction(QWidget *parent, AssetsAccount *account = NULL);
+		bool newMultiAccountTransaction(QWidget *parent, bool create_expenses);
+		bool newMultiItemTransaction(QWidget *parent, AssetsAccount *account = NULL);
+		bool newLoanTransaction(QWidget *parent, AssetsAccount *loan = NULL);
 		bool editSplitTransaction(SplitTransaction *split);
 		bool editSplitTransaction(SplitTransaction *split, QWidget *parent);
 		bool splitUpTransaction(SplitTransaction *split);
@@ -156,15 +161,16 @@ class Eqonomize : public QMainWindow {
 		void showTransfers();
 		void updateSecuritiesStatistics();
 		bool crashRecovery(QUrl url);
-		bool newRefundRepayment(Transaction *trans);
+		bool newRefundRepayment(Transactions *trans);
 		void readOptions();
 		void setCommandLineParser(QCommandLineParser*);
 
 		QAction *ActionAP_1, *ActionAP_2, *ActionAP_3, *ActionAP_4, *ActionAP_5, *ActionAP_6, *ActionAP_7, *ActionAP_8;
 		QAction *ActionEditSchedule, *ActionEditOccurrence, *ActionDeleteSchedule, *ActionDeleteOccurrence;
-		QAction *ActionAddAccount, *ActionNewAssetsAccount, *ActionNewIncomesAccount, *ActionNewExpensesAccount, *ActionEditAccount, *ActionDeleteAccount, *ActionBalanceAccount, *ActionAddAccountMenu;
+		QAction *ActionAddAccount, *ActionNewAssetsAccount, *ActionNewLoan, *ActionNewIncomesAccount, *ActionNewExpensesAccount, *ActionEditAccount, *ActionDeleteAccount, *ActionBalanceAccount, *ActionAddAccountMenu;
 		QAction *ActionShowAccountTransactions, *ActionShowLedger;
-		QAction *ActionNewExpense, *ActionNewIncome, *ActionNewTransfer, *ActionNewSplitTransaction;
+		QAction *ActionNewExpense, *ActionNewIncome, *ActionNewTransfer, *ActionNewMultiItemTransaction;
+		QAction *ActionNewMultiAccountTransaction, *ActionNewLoanTransaction;
 		QAction *ActionEditTransaction, *ActionEditScheduledTransaction, *ActionEditSplitTransaction;
 		QAction *ActionJoinTransactions, *ActionSplitUpTransaction;
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
@@ -301,7 +307,10 @@ class Eqonomize : public QMainWindow {
 		void popupSecuritiesMenu(const QPoint&);
 		void updateSecurities();
 		
-		void newSplitTransaction();
+		void newMultiAccountExpense();
+		void newMultiAccountIncome();
+		void newMultiItemTransaction();
+		void newLoanTransaction();
 		void newScheduledExpense();
 		void newScheduledIncome();
 		void newScheduledTransfer();
@@ -354,6 +363,7 @@ class Eqonomize : public QMainWindow {
 		void addAccount();
 		void accountAdded(Account *account);
 		void newAssetsAccount();
+		void newLoan();
 		void newIncomesAccount(IncomesAccount *default_parent = NULL);
 		void newExpensesAccount(ExpensesAccount *default_parent = NULL);
 		void accountExecuted(QTreeWidgetItem*, int);
@@ -390,18 +400,10 @@ class Eqonomize : public QMainWindow {
 		void securitiesPrevYear();
 		void securitiesNextYear();
 		void securitiesCurrentYear();
-
-		void transactionAdded(Transaction*);
-		void transactionModified(Transaction*, Transaction*);
-		void transactionRemoved(Transaction*);
-
-		void scheduledTransactionAdded(ScheduledTransaction*);
-		void scheduledTransactionModified(ScheduledTransaction*, ScheduledTransaction*);
-		void scheduledTransactionRemoved(ScheduledTransaction*);
-		void scheduledTransactionRemoved(ScheduledTransaction*, ScheduledTransaction*);
-
-		void splitTransactionAdded(SplitTransaction*);
-		void splitTransactionRemoved(SplitTransaction*);
+		
+		void transactionAdded(Transactions*);
+		void transactionModified(Transactions*, Transactions*);
+		void transactionRemoved(Transactions*);
 
 		void filterAccounts();
 
@@ -491,8 +493,8 @@ class ConfirmScheduleDialog : public QDialog {
 		
 		ConfirmScheduleDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title);
 
-		Transaction *firstTransaction();
-		Transaction *nextTransaction();
+		Transactions *firstTransaction();
+		Transactions *nextTransaction();
 
 	public slots:
 		
@@ -570,7 +572,7 @@ class RefundDialog : public QDialog {
 
 	protected:
 
-		Transaction *transaction;
+		Transactions *transaction;
 		EqonomizeValueEdit *valueEdit, *quantityEdit;
 		QDateEdit *dateEdit;
 		QComboBox *accountCombo;
@@ -578,7 +580,7 @@ class RefundDialog : public QDialog {
 
 	public:
 
-		RefundDialog(Transaction *trans, QWidget *parent);
+		RefundDialog(Transactions *trans, QWidget *parent);
 
 		Transaction *createRefund();
 		bool validValues();

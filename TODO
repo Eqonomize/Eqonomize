@@ -29,3 +29,7 @@ be able to reconcile one's entries with a Bank Statement"
 - support for importing eqz files (so that we can do merging of files)
 - support for saving views in eqz format (e.g. splitting data in separate files)
 - make ledgers similar to expense/income views
+
+- Fix double click accounts
+- Option to carry over budget to next month
+

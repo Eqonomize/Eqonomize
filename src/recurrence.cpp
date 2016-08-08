@@ -181,10 +181,10 @@ void Recurrence::updateDates() {
 		d_enddate = d_startdate;
 	}
 }
-QDate Recurrence::firstOccurrence() const {
+const QDate &Recurrence::firstOccurrence() const {
 	return d_startdate;
 }
-QDate Recurrence::lastOccurrence() const {
+const QDate &Recurrence::lastOccurrence() const {
 	return d_enddate;
 }
 int Recurrence::countOccurrences(const QDate &startdate, const QDate &enddate) const {	

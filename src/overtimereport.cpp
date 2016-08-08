@@ -489,9 +489,19 @@ void OverTimeReport::updateDisplay() {
 	double scheduled_count = 0.0;
 	if(mi) {
 		ScheduledTransaction *strans = budget->scheduledTransactions.first();
+		int split_i = 0;
 		while(strans && strans->transaction()->date() <= mi->date) {
 			started = true;
-			trans = strans->transaction();
+			while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0) {
+				strans = budget->scheduledTransactions.next();
+				if(!strans) break;
+			}
+			if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+				trans = ((SplitTransaction*) strans->transaction())->at(split_i);
+				split_i++;
+			} else {
+				trans = (Transaction*) strans->transaction();
+			}
 			bool include = false;
 			int sign = 1;
 			if((type == 1 && trans->fromAccount()->type() == at) || (type == 2 && trans->fromAccount() == account) || (type == 3 && trans->fromAccount() == account && trans->description() == current_description) || (type == 0 && trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
@@ -513,7 +523,10 @@ void OverTimeReport::updateDisplay() {
 					scheduled_count += count * trans->quantity();
 				}
 			}
-			strans = budget->scheduledTransactions.next();
+			if(strans->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT || split_i >= ((SplitTransaction*) strans->transaction())->count()) {
+				strans = budget->scheduledTransactions.next();
+				split_i = 0;
+			}
 		}
 	}
 	if(monthly_values.isEmpty()) {

@@ -170,7 +170,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	connect(newMenu->addAction(mainWin->ActionNewExpense->icon(), mainWin->ActionNewExpense->text()), SIGNAL(triggered()), this, SLOT(newExpense()));
 	connect(newMenu->addAction(mainWin->ActionNewIncome->icon(), mainWin->ActionNewIncome->text()), SIGNAL(triggered()), this, SLOT(newIncome()));
 	connect(newMenu->addAction(mainWin->ActionNewTransfer->icon(), mainWin->ActionNewTransfer->text()), SIGNAL(triggered()), this, SLOT(newTransfer()));
-	connect(newMenu->addAction(mainWin->ActionNewSplitTransaction->icon(), mainWin->ActionNewSplitTransaction->text()), SIGNAL(triggered()), this, SLOT(newSplit()));
+	connect(newMenu->addAction(mainWin->ActionNewMultiItemTransaction->icon(), mainWin->ActionNewMultiItemTransaction->text()), SIGNAL(triggered()), this, SLOT(newSplit()));
 	editButton = buttons->addButton(tr("Edit…"), QDialogButtonBox::ActionRole);
 	editButton->setEnabled(false);
 	removeButton = buttons->addButton(tr("Delete"), QDialogButtonBox::ActionRole);
@@ -374,15 +374,17 @@ void LedgerDialog::printView() {
 }
 void LedgerDialog::joinTransactions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
-	SplitTransaction *split = NULL;
+	MultiItemTransaction *split = NULL;
 	for(int index = 0; index < selection.size(); index++) {
 		LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
-		Transaction *trans = i->transaction();
-		if(trans && !i->splitTransaction()) {
-			if(!split) {
-				split = new SplitTransaction(budget, i->transaction()->date(), account);
+		if(!i->splitTransaction() || i->splitTransaction()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
+			Transaction *trans = i->transaction();
+			if(trans && !i->splitTransaction()) {
+				if(!split) {
+					split = new MultiItemTransaction(budget, i->transaction()->date(), account);
+				}
+				split->addTransaction(trans);
 			}
-			split->splits.push_back(trans);
 		}
 	}
 	if(!split) return;
@@ -395,8 +397,8 @@ void LedgerDialog::splitUpTransaction() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	LedgerListViewItem *i = (LedgerListViewItem*) selection.first();
 	if(i) {
-		if(i->splitTransaction()) mainWin->splitUpTransaction(i->splitTransaction());
-		else if(i->transaction() && i->transaction()->parentSplit()) mainWin->splitUpTransaction(i->transaction()->parentSplit());
+		if(i->splitTransaction() && i->splitTransaction()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) mainWin->splitUpTransaction(i->splitTransaction());
+		else if(i->transaction() && i->transaction()->parentSplit() && i->transaction()->parentSplit()->type() != SPLIT_TRANSACTION_TYPE_LOAN) mainWin->splitUpTransaction(i->transaction()->parentSplit());
 	}
 }
 void LedgerDialog::transactionSelectionChanged() {
@@ -419,10 +421,10 @@ void LedgerDialog::transactionSelectionChanged() {
 		}
 		if((b_join || b_split) && i->splitTransaction()) {
 			b_join = false;
-			b_split = (selection.count() == 1);
+			b_split = (selection.count() == 1) && i->splitTransaction()->type() != SPLIT_TRANSACTION_TYPE_LOAN;
 		} else if(b_split) {
 			if(!split) split = trans->parentSplit();
-			if(!trans->parentSplit() || trans->parentSplit() != split) {
+			if(!trans->parentSplit() || trans->parentSplit() != split || trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
 				b_split = false;
 			}
 		}
@@ -443,7 +445,7 @@ void LedgerDialog::newTransfer() {
 	mainWin->newScheduledTransaction(TRANSACTION_TYPE_TRANSFER, NULL, false, this, account);
 }
 void LedgerDialog::newSplit() {
-	mainWin->newSplitTransaction(this, account);
+	mainWin->newMultiItemTransaction(this, account);
 }
 void LedgerDialog::remove() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
@@ -457,7 +459,7 @@ void LedgerDialog::remove() {
 		LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
 		if(i->splitTransaction()) {
 			budget->removeSplitTransaction(i->splitTransaction(), true);
-			mainWin->splitTransactionRemoved(i->splitTransaction());
+			mainWin->transactionRemoved(i->splitTransaction());
 			delete i->splitTransaction();
 		} else if(i->transaction()) {
 			budget->removeTransaction(i->transaction(), true);
@@ -582,7 +584,7 @@ void LedgerDialog::edit() {
 						mainWin->transactionRemoved(trans);
 						ScheduledTransaction *strans = new ScheduledTransaction(budget, trans, NULL);
 						budget->addScheduledTransaction(strans);
-						mainWin->scheduledTransactionAdded(strans);
+						mainWin->transactionAdded(strans);
 					} else {
 						mainWin->transactionModified(trans, oldtrans);
 					}
@@ -611,11 +613,12 @@ void LedgerDialog::updateTransactions() {
 	}
 	transactionsView->clear();
 	double balance = account->initialBalance();
-	if(balance != 0.0) transactionsView->insertTopLevelItem(0, new LedgerListViewItem(NULL, NULL, NULL, "-", "-", "Initial balance", "-", QString::null, QString::null, QLocale().toCurrencyString(balance)));
+	if(balance != 0.0) transactionsView->insertTopLevelItem(0, new LedgerListViewItem(NULL, NULL, NULL, "-", "-", tr("Initial balance"), "-", QString::null, QString::null, QLocale().toCurrencyString(balance)));
 	Transaction *trans = budget->transactions.first();
 	QVector<SplitTransaction*> splits;
 	while(trans) {
 		SplitTransaction *split_this = trans->parentSplit();
+		if(split_this && split_this->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) split_this = NULL;
 		bool skip = false;
 		if(!splits.isEmpty() && split_this) {
 			if(splits[splits.size() - 1]->date() != split_this->date()) {
@@ -629,8 +632,11 @@ void LedgerDialog::updateTransactions() {
 				}
 			}
 		}
+		AssetsAccount *split_account = NULL;
+		if(split_this && split_this->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) split_account = ((MultiItemTransaction*) split_this)->account();
+		else if(split_this && split_this->type() == SPLIT_TRANSACTION_TYPE_LOAN) split_account = ((LoanTransaction*) split_this)->account();
 		if(!skip && (trans->fromAccount() == account || trans->toAccount() == account)) {
-			if(split_this && split_this->account() != account) split_this = NULL;
+			if(split_this && split_account != account) split_this = NULL;
 			if(split_this) splits.push_back(split_this);
 			bool deposit = split_this || (trans->toAccount() == account);
 			double value = 0.0;
@@ -643,7 +649,7 @@ void LedgerDialog::updateTransactions() {
 				value = -value;
 			}
 			if(split_this) {
-				LedgerListViewItem *i = new LedgerListViewItem(trans, split_this, NULL, QLocale().toString(split_this->date(), QLocale::ShortFormat), tr("Split Transaction"), split_this->description(), QString::null, (value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, (value < 0.0) ? QLocale().toCurrencyString(-value) : QString::null, QLocale().toCurrencyString(balance));
+				LedgerListViewItem *i = new LedgerListViewItem(trans, split_this, NULL, QLocale().toString(split_this->date(), QLocale::ShortFormat), split_this->type() == SPLIT_TRANSACTION_TYPE_LOAN ? tr("Debt Payment") : tr("Split Transaction"), split_this->description(), QString::null, (value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, (value < 0.0) ? QLocale().toCurrencyString(-value) : QString::null, QLocale().toCurrencyString(balance));
 				
 				transactionsView->insertTopLevelItem(0, i);
 				if(split_this == selected_split) {

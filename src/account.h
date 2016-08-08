@@ -34,8 +34,8 @@ class QXmlStreamAttributes;
 class Budget;
 
 typedef enum {
-	ACCOUNT_TYPE_INCOMES,
 	ACCOUNT_TYPE_ASSETS,
+	ACCOUNT_TYPE_INCOMES,
 	ACCOUNT_TYPE_EXPENSES
 } AccountType;
 
@@ -78,6 +78,7 @@ class Account {
 		void setName(QString new_name);
 		const QString &description() const;
 		void setDescription(QString new_description);
+		virtual bool isClosed() const;
 		Budget *budget() const;
 		int id() const;
 		void setId(int new_id);
@@ -91,6 +92,9 @@ class AssetsAccount : public Account {
 
 		AssetsType at_type;
 		double d_initbal;
+		bool b_closed;
+		
+		ExpensesAccount *o_category;
 
 	public:
 
@@ -107,9 +111,14 @@ class AssetsAccount : public Account {
 		void setAsBudgetAccount(bool will_be = true);
 		double initialBalance() const;
 		void setInitialBalance(double new_initial_balance);
+		bool isClosed() const;
+		void setClosed(bool close_account = true);
 		virtual AccountType type() const;
 		void setAccountType(AssetsType new_type);
 		virtual AssetsType accountType() const;
+		
+		virtual ExpensesAccount *expenseCategory() const;
+		virtual void setExpenseCategory(ExpensesAccount *new_category);
 
 };
 
@@ -193,5 +202,6 @@ class ExpensesAccount : public CategoryAccount {
 		virtual AccountType type() const;
 
 };
+
 
 #endif

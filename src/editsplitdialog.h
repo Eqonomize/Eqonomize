@@ -22,6 +22,7 @@
 #ifndef EDIT_SPLIT_DIALOG_H
 #define EDIT_SPLIT_DIALOG_H
 
+#include <QWidget>
 #include <QDialog>
 
 class QLabel;
@@ -30,26 +31,129 @@ class QTreeWidget;
 class QTreeWidgetItem;
 class QLineEdit;
 class QComboBox;
-
 class QDateEdit;
 
-class Account;
-class AssetsAccount;
-class Budget;
-class SplitTransaction;
-class Transaction;
+class EqonomizeValueEdit;
 
-class EditSplitDialog : public QDialog {
+class Account;
+class AccountComboBox;
+class AssetsAccount;
+class CategoryAccount;
+class ExpensesAccount;
+class Budget;
+class MultiItemTransaction;
+class MultiAccountTransaction;
+class LoanTransaction;
+class Transaction;
+class Transactions;
+
+class EditMultiAccountWidget : public QWidget {
 
 	Q_OBJECT
 
 	protected:
 
 		Budget *budget;
-		bool b_extra;
+		bool b_expense, b_extra, b_create_accounts;
+		
+		EqonomizeValueEdit *quantityEdit;
+		AccountComboBox *categoryCombo;
+		QLineEdit *descriptionEdit, *commentEdit;
+		QTreeWidget *transactionsView;
+		QPushButton *editButton, *removeButton;
+		QLabel *totalLabel;
+
+		void appendTransaction(Transaction *trans);
+		void updateTotalValue();
+		CategoryAccount *selectedCategory();
+
+	public:
+
+		EditMultiAccountWidget(Budget *budg, QWidget *parent, bool create_expenses = true, bool extra_parameters = false, bool allow_account_creation = false);
+		~EditMultiAccountWidget();
+
+		MultiAccountTransaction *createTransaction();
+		void setValues(QString description_string, CategoryAccount *category_account, double quantity_value, QString comment_string);
+		void setTransaction(Transactions *transs);
+		void setTransaction(MultiAccountTransaction *split, const QDate &date);
+		bool validValues();
+		bool checkAccounts();
+		void focusDescription();
+		void reject();
+		QDate date();
+		
+	signals:
+	
+		void dateChanged(const QDate &date);
+
+	protected slots:
+		
+		void remove();
+		void edit();
+		void edit(QTreeWidgetItem*);
+		void transactionSelectionChanged();
+		void newTransaction();
+		void newCategory();
+
+};
+
+class EditLoanTransactionWidget : public QWidget {
+
+	Q_OBJECT
+
+	protected:
+
+		Budget *budget;
+		bool b_create_accounts;
 		
 		QDateEdit *dateEdit;
-		QComboBox *accountCombo;
+		EqonomizeValueEdit *paymentEdit, *interestEdit, *feeEdit;
+		QComboBox *loanCombo;
+		AccountComboBox *accountCombo, *categoryCombo;
+		QLineEdit *commentEdit;
+		QLabel *totalLabel;
+
+		void updateTotalValue();
+		AssetsAccount *selectedLoan();
+		ExpensesAccount *selectedCategory();
+		AssetsAccount *selectedAccount();
+
+	public:
+
+		EditLoanTransactionWidget(Budget *budg, QWidget *parent, AssetsAccount *default_loan = NULL, bool allow_account_creation = false);
+		~EditLoanTransactionWidget();
+
+		LoanTransaction *createTransaction();
+		void setTransaction(LoanTransaction *split);
+		void setTransaction(LoanTransaction *split, const QDate &date);
+		bool validValues();
+		bool checkAccounts();
+		QDate date();
+	
+	signals:
+	
+		void dateChanged(const QDate &date);
+
+	protected slots:
+		
+		void loanActivated(int index);
+		void newAccount();
+		void newCategory();
+		void valueChanged(double);
+
+};
+
+class EditMultiItemWidget : public QWidget {
+
+	Q_OBJECT
+
+	protected:
+
+		Budget *budget;
+		bool b_extra, b_create_accounts;
+		
+		QDateEdit *dateEdit;
+		AccountComboBox *accountCombo;
 		QLineEdit *descriptionEdit;
 		QTreeWidget *transactionsView;
 		QPushButton *editButton, *removeButton;
@@ -62,18 +166,24 @@ class EditSplitDialog : public QDialog {
 
 	public:
 
-		EditSplitDialog(Budget *budg, QWidget *parent, AssetsAccount *default_account = NULL, bool extra_parameters = false);
-		~EditSplitDialog();
+		EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAccount *default_account = NULL, bool extra_parameters = false, bool allow_account_creation = false);
+		~EditMultiItemWidget();
 
-		SplitTransaction *createSplitTransaction();
-		void setSplitTransaction(SplitTransaction *split);
+		MultiItemTransaction *createTransaction();
+		void setTransaction(MultiItemTransaction *split);
+		void setTransaction(MultiItemTransaction *split, const QDate &date);
 		bool validValues();
 		bool checkAccounts();
+		void reject();
+		void focusDescription();
+		QDate date();
+		
+	signals:
+	
+		void dateChanged(const QDate &date);
 
 	protected slots:
 		
-		void accept();
-		void reject();
 		void remove();
 		void edit();
 		void edit(QTreeWidgetItem*);
@@ -85,8 +195,63 @@ class EditSplitDialog : public QDialog {
 		void newSecuritySell();
 		void newTransferFrom();
 		void newTransferTo();
+		void newAccount();
 
 };
+
+class EditMultiItemDialog : public QDialog {
+
+	Q_OBJECT
+
+	public:
+
+		EditMultiItemDialog(Budget *budg, QWidget *parent, AssetsAccount *default_account = NULL, bool extra_parameters = false, bool allow_account_creation = false);
+		~EditMultiItemDialog();
+		
+		EditMultiItemWidget *editWidget;
+
+	protected slots:
+		
+		void accept();
+		void reject();
+
+};
+
+class EditMultiAccountDialog : public QDialog {
+
+	Q_OBJECT
+
+	public:
+
+		EditMultiAccountDialog(Budget *budg, QWidget *parent, bool create_expenses = true, bool extra_parameters = false, bool allow_account_creation = false);
+		~EditMultiAccountDialog();
+		
+		EditMultiAccountWidget *editWidget;
+
+	protected slots:
+		
+		void accept();
+		void reject();
+
+};
+
+class EditLoanTransactionDialog : public QDialog {
+
+	Q_OBJECT
+
+	public:
+
+		EditLoanTransactionDialog(Budget *budg, QWidget *parent, AssetsAccount *default_loan = NULL, bool allow_account_creation = false);
+		~EditLoanTransactionDialog();
+		
+		EditLoanTransactionWidget *editWidget;
+
+	protected slots:
+		
+		void accept();
+
+};
+
 
 #endif
 

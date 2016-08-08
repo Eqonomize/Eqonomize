@@ -39,6 +39,7 @@ class QLineEdit;
 class Account;
 class Budget;
 class Transaction;
+class Transactions;
 class EqonomizeValueEdit;
 
 class TransactionFilterWidget : public QWidget {
@@ -49,7 +50,7 @@ class TransactionFilterWidget : public QWidget {
 
 		TransactionFilterWidget(bool extra_parameters, int transaction_type, Budget *budg, QWidget *parent = 0);
 		~TransactionFilterWidget();
-		bool filterTransaction(Transaction *trans, bool checkdate = true);
+		bool filterTransaction(Transactions *transs, bool checkdate = true);
 		void updateFromAccounts();
 		void updateToAccounts();
 		void updateAccounts();

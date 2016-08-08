@@ -715,8 +715,18 @@ void CategoriesComparisonReport::updateDisplay() {
 	}
 	first_date_reached = false;
 	ScheduledTransaction *strans = budget->scheduledTransactions.first();
+	int split_i = 0;
 	while(strans) {
-		trans = strans->transaction();
+		while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0) {
+			strans = budget->scheduledTransactions.next();
+			if(!strans) break;
+		}
+		if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+			trans = ((SplitTransaction*) strans->transaction())->at(split_i);
+			split_i++;
+		} else {
+			trans = (Transaction*) strans->transaction();
+		}
 		if(!first_date_reached && trans->date() >= first_date) first_date_reached = true;
 		else if(first_date_reached && trans->date() > to_date) break;
 		if(first_date_reached) {
@@ -793,7 +803,10 @@ void CategoriesComparisonReport::updateDisplay() {
 				}
 			}
 		}
-		strans = budget->scheduledTransactions.next();
+		if(strans->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT || split_i >= ((SplitTransaction*) strans->transaction())->count()) {
+			strans = budget->scheduledTransactions.next();
+			split_i = 0;
+		}
 	}
 	if(current_account && include_subs) {
 		if(type == ACCOUNT_TYPE_EXPENSES) {

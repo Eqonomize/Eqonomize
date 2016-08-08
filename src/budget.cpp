@@ -31,18 +31,28 @@
 #include <QSaveFile>
 #include <QFileInfo>
 
+#include <QDebug>
+
 #include <locale.h>
 
 #include "recurrence.h"
 
 int currency_frac_digits() {
+#ifdef Q_OS_ANDROID
+	return 2;
+#else
 	char fd = localeconv()->frac_digits;
 	if(fd == CHAR_MAX) return 2;
 	return fd;
+#endif
 }
 
 bool currency_symbol_precedes() {
+#ifdef Q_OS_ANDROID
+	return true;
+#else
 	return localeconv()->p_cs_precedes;
+#endif
 }
 
 QString format_money(double v, int precision) {
@@ -151,17 +161,19 @@ QString Budget::loadFile(QString filename, QString &errors) {
 			if(valid) {
 				scheduledTransactions.append(strans);
 				if(strans->transaction()) {
-					if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+					if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
 						((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.append(strans);
-					} else if(strans->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
+					} else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
 						((Income*) strans->transaction())->security()->scheduledDividends.append(strans);
 					}
 				}
 			} else {
+			qInfo() << "E_SC";
 				transaction_errors++;
 				delete strans;
 			}
 		} else if(xml.name() == "transaction") {
+			SplitTransaction *split = NULL;
 			QStringRef type = xml.attributes().value("type");
 			bool valid = true;
 			if(type == "expense" || type == "refund") {
@@ -171,6 +183,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 					transactions.append(expense);
 				} else {
 					transaction_errors++;
+					qInfo() << "E_E";
 					delete expense;
 				}
 			} else if(type == "income" || type == "repayment") {
@@ -179,6 +192,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 					incomes.append(income);
 					transactions.append(income);
 				} else {
+				qInfo() << "E_I";
 					transaction_errors++;
 					delete income;
 				}
@@ -276,13 +290,23 @@ QString Budget::loadFile(QString filename, QString &errors) {
 					transaction_errors++;
 					delete trans;
 				}
-			} else if(type == "split") {
-				SplitTransaction *split = new SplitTransaction(this, &xml, &valid);
-				if(valid) {
+			} else if(type == "multiitem" || type == "split") {
+				split = new MultiItemTransaction(this, &xml, &valid);
+			} else if(type == "multiaccount") {
+				split = new MultiAccountTransaction(this, &xml, &valid);
+			} else if(type == "debtpayment") {
+				split = new LoanTransaction(this, &xml, &valid);
+			}
+			if(split) {
+				if(!valid) {
+					transaction_errors++;
+					delete split;
+					split = NULL;
+				} else {
 					splitTransactions.append(split);
-					QVector<Transaction*>::size_type c = split->splits.count();
-					for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
-						Transaction *trans = split->splits[i];
+					int c = split->count();
+					for(int i = 0; i < c; i++) {
+						Transaction *trans = split->at(i);
 						switch(trans->type()) {
 							case TRANSACTION_TYPE_TRANSFER: {
 								transfers.append((Transfer*) trans);
@@ -311,9 +335,6 @@ QString Budget::loadFile(QString filename, QString &errors) {
 						}
 						transactions.append(trans);
 					}
-				} else {
-					transaction_errors++;
-					delete split;
 				}
 			}
 		} else if(xml.name() == "category") {
@@ -351,6 +372,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 				account_errors++;
 				delete account;
 			}
+		
 		} else if(xml.name() == "security") {
 			bool valid = true;
 			Security *security = new Security(this, &xml, &valid);
@@ -364,12 +386,14 @@ QString Budget::loadFile(QString filename, QString &errors) {
 				delete security;
 			}
 		} else {
+			if(!errors.isEmpty()) errors += '\n';
 			errors += tr("Unknown XML element: \"%1\" at line %2, col %3").arg(xml.name().toString()).arg(xml.lineNumber()).arg(xml.columnNumber());
 			xml.skipCurrentElement();
 		}
 	}
 	
 	if (xml.hasError()) {
+		if(!errors.isEmpty()) errors += '\n';
 		errors += tr("XML parse error: \"%1\" at line %2, col %3").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
 	}
 
@@ -404,25 +428,21 @@ QString Budget::loadFile(QString filename, QString &errors) {
 
 	securities.sort();
 
-	bool had_line = false;
 	if(account_errors > 0) {
+		if(!errors.isEmpty()) errors += '\n';
 		errors += tr("Unable to load %n account(s).", "", account_errors);
-		had_line = true;
 	}
 	if(category_errors > 0) {
-		if(had_line) errors += "\n";
+		if(!errors.isEmpty()) errors += '\n';
 		errors += tr("Unable to load %n category/categories.", "", category_errors);
-		had_line = true;
 	}
 	if(security_errors > 0) {
-		if(had_line) errors += "\n";
+		if(!errors.isEmpty()) errors += '\n';
 		errors += tr("Unable to load %n security/securities.", "", security_errors);
-		had_line = true;
 	}
 	if(transaction_errors > 0) {
-		if(had_line) errors += "\n";
+		if(!errors.isEmpty()) errors += '\n';
 		errors += tr("Unable to load %n transaction(s).", "", transaction_errors);
-		had_line = true;
 	}
 	file.close();
 	return QString::null;
@@ -471,18 +491,20 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 	xml.writeStartElement("budget_period");
 	xml.writeTextElement("first_day_of_month", QString::number(i_budget_day));
 	xml.writeEndElement();
-	
+	qInfo() << "S0";
 	account = accounts.first();
 	while(account) {
 		if(account != balancingAccount && account->topAccount() == account) {
 			switch(account->type()) {
 				case ACCOUNT_TYPE_ASSETS: {
+				qInfo() << "S0a";
 					xml.writeStartElement("account");
 					account->save(&xml);
 					xml.writeEndElement();
 					break;
 				}
 				case ACCOUNT_TYPE_INCOMES: {
+				qInfo() << "S0b";
 					xml.writeStartElement("category");
 					xml.writeAttribute("type", "incomes");
 					account->save(&xml);
@@ -490,6 +512,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 					break;
 				}
 				case ACCOUNT_TYPE_EXPENSES: {
+				qInfo() << "S0c";
 					xml.writeStartElement("category");
 					xml.writeAttribute("type", "expenses");
 					account->save(&xml);
@@ -500,7 +523,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		}
 		account = accounts.next();
 	}
-	
+	qInfo() << "S0d";
 	security = securities.first();
 	while(security) {
 		xml.writeStartElement("security");
@@ -508,7 +531,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		xml.writeEndElement();
 		security = securities.next();
 	}
-	
+	qInfo() << "S0e";
 	ScheduledTransaction *strans = scheduledTransactions.first();
 	while(strans) {
 		xml.writeStartElement("schedule");
@@ -516,11 +539,25 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		xml.writeEndElement();
 		strans = scheduledTransactions.next();
 	}
-
+qInfo() << "S1";
 	SplitTransaction *split = splitTransactions.first();
 	while(split) {
 		xml.writeStartElement("transaction");
-		xml.writeAttribute("type", "split");
+		switch(split->type()) {
+			case SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS: {
+				xml.writeAttribute("type", "multiitem");
+				break;
+			}
+			case SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS: {
+			qInfo() << "S2";
+				xml.writeAttribute("type", "multiaccount");
+				break;
+			}
+			case SPLIT_TRANSACTION_TYPE_LOAN: {
+				xml.writeAttribute("type", "debtpayment");
+				break;
+			}
+		}
 		split->save(&xml);
 		xml.writeEndElement();
 		split = splitTransactions.next();
@@ -606,6 +643,21 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 
 }
 
+void Budget::addTransactions(Transactions *trans) {
+	switch(trans->generaltype()) {
+		case GENERAL_TRANSACTION_TYPE_SINGLE: {addTransaction((Transaction*) trans); break;}
+		case GENERAL_TRANSACTION_TYPE_SPLIT: {addSplitTransaction((SplitTransaction*) trans); break;}
+		case GENERAL_TRANSACTION_TYPE_SCHEDULE: {addScheduledTransaction((ScheduledTransaction*) trans); break;}
+	}
+}
+void Budget::removeTransactions(Transactions *trans, bool keep) {
+	switch(trans->generaltype()) {
+		case GENERAL_TRANSACTION_TYPE_SINGLE: {removeTransaction((Transaction*) trans, keep); break;}
+		case GENERAL_TRANSACTION_TYPE_SPLIT: {removeSplitTransaction((SplitTransaction*) trans, keep); break;}
+		case GENERAL_TRANSACTION_TYPE_SCHEDULE: {removeScheduledTransaction((ScheduledTransaction*) trans, keep); break;}
+	}
+}
+
 void Budget::addTransaction(Transaction *trans) {
 	switch(trans->type()) {
 		case TRANSACTION_TYPE_EXPENSE: {expenses.inSort((Expense*) trans); break;}
@@ -636,49 +688,53 @@ void Budget::removeTransaction(Transaction *trans, bool keep) {
 	transactions.removeRef(trans);
 	switch(trans->type()) {
 		case TRANSACTION_TYPE_EXPENSE: {
-			if(keep) expenses.setAutoDelete(false);
+			expenses.setAutoDelete(false);
 			expenses.removeRef((Expense*) trans);
-			if(keep) expenses.setAutoDelete(true);
+			expenses.setAutoDelete(true);
+			if(!keep) delete trans;
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
-			if(keep) incomes.setAutoDelete(false);
+			incomes.setAutoDelete(false);
 			if(((Income*) trans)->security()) {
 				((Income*) trans)->security()->dividends.removeRef((Income*) trans);
 			}
 			incomes.removeRef((Income*) trans);
-			if(keep) incomes.setAutoDelete(true);
+			incomes.setAutoDelete(true);
+			if(!keep) delete trans;
 			break;
 		}
 		case TRANSACTION_TYPE_TRANSFER: {
-			if(keep) transfers.setAutoDelete(false);
+			transfers.setAutoDelete(false);
 			transfers.removeRef((Transfer*) trans);
-			if(keep) transfers.setAutoDelete(true);
+			transfers.setAutoDelete(true);
+			if(!keep) delete trans;
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_BUY: {}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
 			SecurityTransaction *sectrans = (SecurityTransaction*) trans;
 			sectrans->security()->removeQuotation(sectrans->date(), true);
-			if(keep) securityTransactions.setAutoDelete(false);
+			securityTransactions.setAutoDelete(false);
 			sectrans->security()->transactions.removeRef(sectrans);
 			securityTransactions.removeRef(sectrans);
-			if(keep) securityTransactions.setAutoDelete(true);
+			securityTransactions.setAutoDelete(true);
+			if(!keep) delete trans;
 			break;
 		}
 	}
 }
 void Budget::addSplitTransaction(SplitTransaction *split) {
 	splitTransactions.inSort(split);
-	QVector<Transaction*>::size_type c = split->splits.count();
-	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
-		addTransaction(split->splits[i]);
+	int c = split->count();
+	for(int i = 0; i < c; i++) {
+		addTransaction(split->at(i));
 	}
 }
 void Budget::removeSplitTransaction(SplitTransaction *split, bool keep) {
-	QVector<Transaction*>::size_type c = split->splits.count();
-	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
-		Transaction *trans = split->splits[i];
+	int c = split->count();
+	for(int i = 0; i < c; i++) {
+		Transaction *trans = split->at(i);
 		transactions.removeRef(trans);
 		switch(trans->type()) {
 			case TRANSACTION_TYPE_EXPENSE: {
@@ -718,21 +774,17 @@ void Budget::removeSplitTransaction(SplitTransaction *split, bool keep) {
 }
 void Budget::addScheduledTransaction(ScheduledTransaction *strans) {
 	scheduledTransactions.inSort(strans);
-	if(strans->transaction()) {
-		if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-			((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.inSort(strans);
-		} else if(strans->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
-			((Income*) strans->transaction())->security()->scheduledDividends.inSort(strans);
-		}
+	if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
+		((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.inSort(strans);
+	} else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
+		((Income*) strans->transaction())->security()->scheduledDividends.inSort(strans);
 	}
 }
 void Budget::removeScheduledTransaction(ScheduledTransaction *strans, bool keep) {
-	if(strans->transaction()) {
-		 if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+	 if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
 			((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.removeRef(strans);
-		 } else if(strans->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
+	 } else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
 			((Income*) strans->transaction())->security()->scheduledDividends.removeRef(strans);
-		}
 	}
 	if(keep) scheduledTransactions.setAutoDelete(false);
 	scheduledTransactions.removeRef(strans);
@@ -778,7 +830,7 @@ void Budget::removeAccount(Account *account, bool keep) {
 		}
 		SplitTransaction *split = splitTransactions.first();
 		while(split) {
-			if(split->account() == account) {
+			if(split->relatesToAccount(account, true, true)) {
 				removeSplitTransaction(split);
 				split = splitTransactions.current();
 			}
@@ -786,7 +838,7 @@ void Budget::removeAccount(Account *account, bool keep) {
 		}
 		Transaction *trans = transactions.first();
 		while(trans) {
-			if(trans->fromAccount() == account || trans->toAccount() == account) {
+			if(trans->relatesToAccount(account, true, true)) {
 				removeTransaction(trans);
 				trans = transactions.current();
 			} else {
@@ -795,7 +847,7 @@ void Budget::removeAccount(Account *account, bool keep) {
 		}
 		ScheduledTransaction *strans = scheduledTransactions.first();
 		while(strans) {
-			if(strans->transaction()->fromAccount() == account || strans->transaction()->toAccount() == account) {
+			if(strans->relatesToAccount(account, true, true)) {
 				removeScheduledTransaction(strans);
 				strans = scheduledTransactions.current();
 			} else {
@@ -833,17 +885,17 @@ bool Budget::accountHasTransactions(Account *account, bool check_subs) {
 	}
 	SplitTransaction *split = splitTransactions.first();
 	while(split) {
-		if(split->account() == account) return true;
+		if(split->relatesToAccount(account, true, true)) return true;
 		split = splitTransactions.next();
 	}
 	Transaction *trans = transactions.first();
 	while(trans) {
-		if(trans->fromAccount() == account || trans->toAccount() == account) return true;
+		if(trans->relatesToAccount(account, true, true)) return true;
 		trans = transactions.next();
 	}
 	ScheduledTransaction *strans = scheduledTransactions.first();
 	while(strans) {
-		if(strans->transaction()->fromAccount() == account || strans->transaction()->toAccount() == account) return true;
+		if(strans->relatesToAccount(account, true, true)) return true;
 		strans = scheduledTransactions.next();
 	}
 	if(check_subs && (account->type() == ACCOUNT_TYPE_INCOMES || account->type() == ACCOUNT_TYPE_EXPENSES)) {
@@ -872,19 +924,17 @@ void Budget::moveTransactions(Account *account, Account *new_account, bool move_
 	}
 	SplitTransaction *split = splitTransactions.first();
 	while(split) {
-		if(split->account() == account) split->setAccount((AssetsAccount*) new_account);
+		split->replaceAccount(account, new_account);
 		split = splitTransactions.next();
 	}
 	Transaction *trans = transactions.first();
 	while(trans) {
-		if(trans->fromAccount() == account) trans->setFromAccount(new_account);
-		if(trans->toAccount() == account) trans->setToAccount(new_account);
+		trans->replaceAccount(account, new_account);
 		trans = transactions.next();
 	}
 	ScheduledTransaction *strans = scheduledTransactions.first();
 	while(strans) {
-		if(strans->transaction()->fromAccount() == account) strans->transaction()->setFromAccount(new_account);
-		if(strans->transaction()->toAccount() == account) strans->transaction()->setToAccount(new_account);
+		strans->replaceAccount(account, new_account);
 		strans = scheduledTransactions.next();
 	}
 }
@@ -929,12 +979,10 @@ void Budget::transactionDateModified(Transaction *t, const QDate &olddate) {
 	}
 }
 void Budget::scheduledTransactionDateModified(ScheduledTransaction *strans) {
-	if(strans->transaction()) {
-		if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-			if(((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.removeRef(strans)) ((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.inSort(strans);
-		} else if(strans->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
-			if(((Income*) strans->transaction())->security()->scheduledDividends.removeRef(strans)) ((Income*) strans->transaction())->security()->scheduledDividends.inSort(strans);
-		}
+	if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
+		if(((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.removeRef(strans)) ((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.inSort(strans);
+	} else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
+		if(((Income*) strans->transaction())->security()->scheduledDividends.removeRef(strans)) ((Income*) strans->transaction())->security()->scheduledDividends.inSort(strans);
 	}
 	scheduledTransactions.setAutoDelete(false);
 	if(scheduledTransactions.removeRef(strans)) scheduledTransactions.inSort(strans);

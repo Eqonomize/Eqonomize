@@ -241,12 +241,12 @@ double Security::shares(const QDate &date, bool estimate, bool no_scheduled_shar
 		else n += ts->to_shares;
 		ts = tradedShares.next();
 	}
-	if(no_scheduled_shares) {
+	if(!no_scheduled_shares) {
 		ScheduledTransaction *strans = scheduledTransactions.first();
-		while(trans && trans->date() <= date) {
+		while(strans && strans->date() <= date) {
 			int no = strans->recurrence()->countOccurrences(date);
 			if(no > 0) {
-				if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY) n += ((SecurityTransaction*) strans->transaction())->shares() * no;
+				if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) n += ((SecurityTransaction*) strans->transaction())->shares() * no;
 				else n -= ((SecurityTransaction*) strans->transaction())->shares() * no;
 			}
 			strans = scheduledTransactions.next();
@@ -308,10 +308,10 @@ double Security::cost(const QDate &date, bool no_scheduled_shares) {
 	}
 	if(!no_scheduled_shares) {
 		ScheduledTransaction *strans = scheduledTransactions.first();
-		while(strans && strans->transaction()->date() <= date) {
+		while(strans && strans->date() <= date) {
 			int n = strans->recurrence()->countOccurrences(date);
 			if(n > 0) {
-				if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY) c += strans->transaction()->value() * n;
+				if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) c += strans->transaction()->value() * n;
 				else c -= strans->transaction()->value() * n;
 			}
 			strans = scheduledTransactions.next();
@@ -376,9 +376,9 @@ double Security::profit(const QDate &date, bool estimate, bool no_scheduled_shar
 		if(p2 > 0.0) {
 			p += (p2 * days) / date2.daysTo(date1);
 		}
-	} else {
+	} else if(!no_scheduled_shares) {
 		ScheduledTransaction *strans = scheduledDividends.first();
-		while(strans && strans->transaction()->date() <= date) {
+		while(strans && strans->date() <= date) {
 			int n = strans->recurrence()->countOccurrences(date);
 			if(n > 0) {
 				p += strans->transaction()->value() * n;

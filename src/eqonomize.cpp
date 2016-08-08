@@ -278,7 +278,7 @@ bool ScheduleListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	if(col == 0) {
 		return d_date < i->date();
 	} else if(col == 3) {
-		return o_strans->transaction()->value() < i->scheduledTransaction()->transaction()->value();
+		return o_strans->value() < i->scheduledTransaction()->value();
 	}
 	return QTreeWidgetItem::operator<(i_pre);
 }
@@ -293,49 +293,91 @@ void ScheduleListViewItem::setDate(const QDate &newdate) {
 	setText(0, QLocale().toString(d_date, QLocale::ShortFormat));
 }
 void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans) {
-	o_strans = strans;
-	Transaction *trans = strans->transaction();
-	setText(2, trans->description());
-	setText(3, QLocale().toCurrencyString(trans->value()));
-	setText(4, trans->fromAccount()->name());
-	setText(5, trans->toAccount()->name());
-	setText(6, trans->comment());
-	if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
-		if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
-		setForeground(3, expenseColor);
-	} else if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() < 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() > 0.0)) {
-		if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(3).color());
-		setForeground(3, incomeColor);
-	} else {
-		if(!transferColor.isValid()) transferColor = createTransferColor(foreground(3).color());
-		setForeground(3, transferColor);
-	}
-	switch(trans->type()) {
-		case TRANSACTION_TYPE_TRANSFER: {setText(1, QObject::tr("Transfer")); break;}
-		case TRANSACTION_TYPE_INCOME: {
-			if(((Income*) trans)->security()) setText(1, QObject::tr("Dividend"));
-			else setText(1, QObject::tr("Income"));
-			break;
+	o_strans = strans;	
+	setText(2, strans->description());
+	if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
+		Transaction *trans = (Transaction*) strans->transaction();
+		setText(3, QLocale().toCurrencyString(trans->value()));
+		setText(4, trans->fromAccount()->name());
+		setText(5, trans->toAccount()->name());
+		if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
+			if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
+			setForeground(3, expenseColor);
+		} else if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() < 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() > 0.0)) {
+			if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(3).color());
+			setForeground(3, incomeColor);
+		} else {
+			if(!transferColor.isValid()) transferColor = createTransferColor(foreground(3).color());
+			setForeground(3, transferColor);
 		}
-		case TRANSACTION_TYPE_EXPENSE: {setText(1, QObject::tr("Expense")); break;}
-		case TRANSACTION_TYPE_SECURITY_BUY: {setText(1, QObject::tr("Security Buy")); break;}
-		case TRANSACTION_TYPE_SECURITY_SELL: {setText(1, QObject::tr("Security Sell")); break;}
+		switch(trans->type()) {
+			case TRANSACTION_TYPE_TRANSFER: {setText(1, QObject::tr("Transfer")); break;}
+			case TRANSACTION_TYPE_INCOME: {
+				if(((Income*) trans)->security()) setText(1, QObject::tr("Dividend"));
+				else setText(1, QObject::tr("Income"));
+				break;
+			}
+			case TRANSACTION_TYPE_EXPENSE: {setText(1, QObject::tr("Expense")); break;}
+			case TRANSACTION_TYPE_SECURITY_BUY: {setText(1, QObject::tr("Security Buy")); break;}
+			case TRANSACTION_TYPE_SECURITY_SELL: {setText(1, QObject::tr("Security Sell")); break;}
+		}
+	} else {
+		SplitTransaction *split = (SplitTransaction*) strans->transaction();
+		if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
+			setText(1, QObject::tr("Debt Payment"));
+			setText(3, QLocale().toCurrencyString(-split->value()));
+			if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
+			setForeground(3, expenseColor);
+			setText(4, ((LoanTransaction*) split)->account()->name());
+			setText(5, ((LoanTransaction*) split)->loan()->name());
+		} else {
+			bool b_reverse = false;
+			if(split->isIncomesAndExpenses()) {
+				if(split->cost() > 0.0) {
+					if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
+					setForeground(3, expenseColor);
+					setText(3, QLocale().toCurrencyString(split->cost()));
+					b_reverse = true;
+				} else {
+					if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(3).color());
+					setForeground(3, incomeColor);
+					setText(3, QLocale().toCurrencyString(split->income()));
+				}
+			} else {
+				if(!transferColor.isValid()) transferColor = createTransferColor(foreground(3).color());
+				setForeground(3, transferColor);
+				setText(3, QLocale().toCurrencyString(split->value()));
+			}
+			if(split->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
+				setText(b_reverse ? 4 : 5, ((MultiItemTransaction*) split)->account()->name());
+				setText(b_reverse ? 5 : 4, ((MultiItemTransaction*) split)->fromAccountsString());
+				if(((MultiItemTransaction*) split)->transactiontype() == TRANSACTION_TYPE_INCOME) setText(1, QObject::tr("Income"));
+				else if(((MultiItemTransaction*) split)->transactiontype() == TRANSACTION_TYPE_EXPENSE) setText(1, QObject::tr("Expense"));
+				else setText(1, QObject::tr("Split Transaction"));
+			} else {
+				setText(b_reverse ? 4 : 5, ((MultiAccountTransaction*) split)->category()->name());
+				setText(b_reverse ? 5 : 4, ((MultiAccountTransaction*) split)->accountsString());
+				if(((MultiAccountTransaction*) split)->transactiontype() == TRANSACTION_TYPE_INCOME) setText(1, QObject::tr("Income"));
+				else setText(1, QObject::tr("Expense"));
+			}
+		}
 	}
+	setText(6, strans->comment());
 }
 
 class ConfirmScheduleListViewItem : public QTreeWidgetItem {
 	Q_DECLARE_TR_FUNCTIONS(ConfirmScheduleListViewItem)
 	protected:
-		Transaction *o_trans;
+		Transactions *o_trans;
 		QColor expenseColor, incomeColor, transferColor;
 	public:
-		ConfirmScheduleListViewItem(Transaction *trans);
+		ConfirmScheduleListViewItem(Transactions *trans);
 		bool operator<(const QTreeWidgetItem &i_pre) const;
-		Transaction *transaction() const;
-		void setTransaction(Transaction *trans);
+		Transactions *transaction() const;
+		void setTransaction(Transactions *trans);
 };
 
-ConfirmScheduleListViewItem::ConfirmScheduleListViewItem(Transaction *trans) : QTreeWidgetItem(UserType) {
+ConfirmScheduleListViewItem::ConfirmScheduleListViewItem(Transactions *trans) : QTreeWidgetItem(UserType) {
 	setTransaction(trans);
 	setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
 }
@@ -350,35 +392,71 @@ bool ConfirmScheduleListViewItem::operator<(const QTreeWidgetItem &i_pre) const 
 	}
 	return QTreeWidgetItem::operator<(i_pre);
 }
-Transaction *ConfirmScheduleListViewItem::transaction() const {
+Transactions *ConfirmScheduleListViewItem::transaction() const {
 	return o_trans;
 }
-void ConfirmScheduleListViewItem::setTransaction(Transaction *trans) {
-	o_trans = trans;
-	setText(0, QLocale().toString(trans->date(), QLocale::ShortFormat));
-	switch(trans->type()) {
-		case TRANSACTION_TYPE_TRANSFER: {setText(1, tr("Transfer")); break;}
-		case TRANSACTION_TYPE_INCOME: {
-			if(((Income*) trans)->security()) setText(1, tr("Dividend"));
-			else setText(1, tr("Income"));
-			break;
+void ConfirmScheduleListViewItem::setTransaction(Transactions *transs) {
+	o_trans = transs;
+	setText(0, QLocale().toString(transs->date(), QLocale::ShortFormat));
+	if(transs->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
+		Transaction *trans = (Transaction*) transs;
+		switch(trans->type()) {
+			case TRANSACTION_TYPE_TRANSFER: {setText(1, tr("Transfer")); break;}
+			case TRANSACTION_TYPE_INCOME: {
+				if(((Income*) trans)->security()) setText(1, tr("Dividend"));
+				else setText(1, tr("Income"));
+				break;
+			}
+			case TRANSACTION_TYPE_EXPENSE: {setText(1, tr("Expense")); break;}
+			case TRANSACTION_TYPE_SECURITY_BUY: {setText(1, tr("Security Buy")); break;}
+			case TRANSACTION_TYPE_SECURITY_SELL: {setText(1, tr("Security Sell")); break;}
 		}
-		case TRANSACTION_TYPE_EXPENSE: {setText(1, tr("Expense")); break;}
-		case TRANSACTION_TYPE_SECURITY_BUY: {setText(1, tr("Security Buy")); break;}
-		case TRANSACTION_TYPE_SECURITY_SELL: {setText(1, tr("Security Sell")); break;}
-	}
-	setText(2, trans->description());
-	setText(3, QLocale().toCurrencyString(trans->value()));
-	if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
-		if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
-		setForeground(3, expenseColor);
-	} else if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() < 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() > 0.0)) {
-		if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(3).color());
-		setForeground(3, incomeColor);
+		if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
+			if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
+			setForeground(3, expenseColor);
+		} else if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() < 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() > 0.0)) {
+			if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(3).color());
+			setForeground(3, incomeColor);
+		} else {
+			if(!transferColor.isValid()) transferColor = createTransferColor(foreground(3).color());
+			setForeground(3, transferColor);
+		}
+		setText(3, QLocale().toCurrencyString(trans->value()));
 	} else {
-		if(!transferColor.isValid()) transferColor = createTransferColor(foreground(3).color());
-		setForeground(3, transferColor);
+		SplitTransaction *split = (SplitTransaction*) transs;
+		if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
+			setText(3, QLocale().toCurrencyString(-split->value()));
+			if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
+			setForeground(3, expenseColor);
+			setText(1, tr("Debt Payment"));
+		} else {
+			if(split->isIncomesAndExpenses()) {
+				if(split->cost() > 0.0) {
+					if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
+					setForeground(3, expenseColor);
+					setText(3, QLocale().toCurrencyString(split->cost()));
+				} else {
+					if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(3).color());
+					setForeground(3, incomeColor);
+					setText(3, QLocale().toCurrencyString(split->income()));
+				}
+			} else {
+				if(!transferColor.isValid()) transferColor = createTransferColor(foreground(3).color());
+				setForeground(3, transferColor);
+				setText(3, QLocale().toCurrencyString(split->value()));
+			}
+			if(split->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
+				if(((MultiItemTransaction*) split)->transactiontype() == TRANSACTION_TYPE_INCOME) setText(1, QObject::tr("Income"));
+				else if(((MultiItemTransaction*) split)->transactiontype() == TRANSACTION_TYPE_EXPENSE) setText(1, QObject::tr("Expense"));
+				else setText(1, QObject::tr("Split Transaction"));
+			} else {
+				if(((MultiAccountTransaction*) split)->transactiontype() == TRANSACTION_TYPE_INCOME) setText(1, QObject::tr("Income"));
+				else setText(1, QObject::tr("Expense"));
+			}
+		}
 	}
+	setText(2, transs->description());
+	
 }
 
 
@@ -443,10 +521,8 @@ bool QuotationListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	return QTreeWidgetItem::operator<(i_pre);
 }
 
-RefundDialog::RefundDialog(Transaction *trans, QWidget *parent) : QDialog(parent, 0), transaction(trans) {
+RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(parent, 0), transaction(trans) {
 
-	if(trans->type() == TRANSACTION_TYPE_INCOME) setWindowTitle(tr("Repayment"));
-	else setWindowTitle(tr("Refund"));
 	setModal(true);
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
@@ -460,8 +536,21 @@ RefundDialog::RefundDialog(Transaction *trans, QWidget *parent) : QDialog(parent
 	layout->addWidget(dateEdit, 0, 1);
 	dateEdit->setFocus();
 	dateEdit->setCurrentSection(QDateTimeEdit::DaySection);
+	
+	TransactionType t_type = TRANSACTION_TYPE_EXPENSE;
+	Transaction *curtrans = NULL;
+	if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+		if(((MultiAccountTransaction*) trans)->category()->type() == ACCOUNT_TYPE_INCOMES) t_type = TRANSACTION_TYPE_INCOME;
+		curtrans = ((MultiAccountTransaction*) trans)->at(0);
+	} else if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
+		t_type = ((Transaction*) trans)->type();
+		curtrans = (Transaction*) trans;
+	}
+	
+	if(t_type == TRANSACTION_TYPE_INCOME) setWindowTitle(tr("Repayment"));
+	else setWindowTitle(tr("Refund"));
 
-	if(trans->type() == TRANSACTION_TYPE_INCOME) layout->addWidget(new QLabel(tr("Cost:"), this), 1, 0);
+	if(t_type == TRANSACTION_TYPE_INCOME) layout->addWidget(new QLabel(tr("Cost:"), this), 1, 0);
 	else layout->addWidget(new QLabel(tr("Income:"), this), 1, 0);
 	valueEdit = new EqonomizeValueEdit(trans->value(), false, true, this);
 	layout->addWidget(valueEdit, 1, 1);
@@ -474,7 +563,7 @@ RefundDialog::RefundDialog(Transaction *trans, QWidget *parent) : QDialog(parent
 	while(account) {
 		if(account != transaction->budget()->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
 			accountCombo->addItem(account->name());
-			if((transaction->type() == TRANSACTION_TYPE_EXPENSE && account == ((Expense*) transaction)->from()) || (transaction->type() == TRANSACTION_TYPE_INCOME && account == ((Income*) transaction)->to())) accountCombo->setCurrentIndex(i);
+			if((t_type == TRANSACTION_TYPE_EXPENSE && account == ((Expense*) curtrans)->from()) || (t_type == TRANSACTION_TYPE_INCOME && account == ((Income*) curtrans)->to())) accountCombo->setCurrentIndex(i);
 			i++;
 		}
 		account = transaction->budget()->assetsAccounts.next();
@@ -487,7 +576,7 @@ RefundDialog::RefundDialog(Transaction *trans, QWidget *parent) : QDialog(parent
 
 	layout->addWidget(new QLabel(tr("Comments:"), this), 4, 0);
 	commentsEdit = new QLineEdit(this);
-	if(trans->type() == TRANSACTION_TYPE_INCOME) commentsEdit->setText(tr("Repayment"));
+	if(t_type == TRANSACTION_TYPE_INCOME) commentsEdit->setText(tr("Repayment"));
 	else commentsEdit->setText(tr("Refund"));
 	layout->addWidget(commentsEdit, 4, 1);
 	
@@ -512,12 +601,13 @@ Transaction *RefundDialog::createRefund() {
 		}
 		account = transaction->budget()->assetsAccounts.next();
 	}
-	trans = transaction->copy();
-	if(transaction->type() == TRANSACTION_TYPE_EXPENSE) {
-		((Expense*) trans)->setFrom(account);
-	} else {
-		((Income*) trans)->setTo(account);
+	if(transaction->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+		trans = ((MultiAccountTransaction*) transaction)->at(0)->copy();
+	} else if(transaction->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
+		trans = (Transaction*) transaction->copy();
 	}
+	if(trans->type() == TRANSACTION_TYPE_EXPENSE) ((Expense*) trans)->setFrom(account);
+	else ((Income*) trans)->setTo(account);
 	trans->setQuantity(-quantityEdit->value());
 	trans->setValue(-valueEdit->value());
 	trans->setDate(dateEdit->date());
@@ -1099,7 +1189,7 @@ void ConfirmScheduleDialog::transactionSelectionChanged() {
 void ConfirmScheduleDialog::remove() {
 	QTreeWidgetItem *i = selectedItem(transactionsView);
 	if(i == NULL) return;
-	Transaction *trans = ((ConfirmScheduleListViewItem*) i)->transaction();
+	Transactions *trans = ((ConfirmScheduleListViewItem*) i)->transaction();
 	delete trans;
 	delete i;
 	if(transactionsView->topLevelItemCount() == 0) reject();
@@ -1121,7 +1211,7 @@ void ConfirmScheduleDialog::postpone() {
 	box1->addWidget(buttonBox);
 	if(dialog->exec() == QDialog::Accepted) {
 		if(datePicker->selectedDate() > QDate::currentDate()) {
-			Transaction *trans = ((ConfirmScheduleListViewItem*) i)->transaction();
+			Transactions *trans = ((ConfirmScheduleListViewItem*) i)->transaction();
 			trans->setDate(datePicker->selectedDate());
 			budget->addScheduledTransaction(new ScheduledTransaction(budget, trans, NULL));
 			delete i;
@@ -1135,40 +1225,98 @@ void ConfirmScheduleDialog::postpone() {
 void ConfirmScheduleDialog::edit() {
 	QTreeWidgetItem *i = selectedItem(transactionsView);
 	if(i == NULL) return;
-	Transaction *trans = ((ConfirmScheduleListViewItem*) i)->transaction();
+	Transactions *transs = ((ConfirmScheduleListViewItem*) i)->transaction();
 	Security *security = NULL;
-	if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-		security = ((SecurityTransaction*) trans)->security();
-	} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
-		security = ((Income*) trans)->security();
-	}
-	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), false, false, security, SECURITY_ALL_VALUES, security != NULL, budget, this, true);
-	dialog->editWidget->updateAccounts();
-	dialog->editWidget->setTransaction(trans);
-	//if(trans->type() == TRANSACTION_TYPE_SECURITY_SELL) dialog->editWidget->setMaxSharesDate(QDate::currentDate());
-	if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
-		if(dialog->editWidget->modifyTransaction(trans)) {
-			if(trans->date() > QDate::currentDate()) {
-				budget->addScheduledTransaction(new ScheduledTransaction(budget, trans, NULL));
-				delete i;
-			} else {
-				((ConfirmScheduleListViewItem*) i)->setTransaction(trans);
+	if(transs->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
+		Transaction *trans = (Transaction*) transs;
+		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+			security = ((SecurityTransaction*) trans)->security();
+		} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
+			security = ((Income*) trans)->security();
+		}
+		TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), false, false, security, SECURITY_ALL_VALUES, security != NULL, budget, this, true);
+		dialog->editWidget->updateAccounts();
+		dialog->editWidget->setTransaction(trans);
+		//if(trans->type() == TRANSACTION_TYPE_SECURITY_SELL) dialog->editWidget->setMaxSharesDate(QDate::currentDate());
+		if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+			if(dialog->editWidget->modifyTransaction(trans)) {
+				if(trans->date() > QDate::currentDate()) {
+					budget->addScheduledTransaction(new ScheduledTransaction(budget, trans, NULL));
+					delete i;
+				} else {
+					((ConfirmScheduleListViewItem*) i)->setTransaction(trans);
+				}
 			}
 		}
+		dialog->deleteLater();
+	} else if(transs->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+		if(((SplitTransaction*) transs)->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
+			MultiItemTransaction *split = (MultiItemTransaction*) transs;
+			EditMultiItemDialog *dialog = new EditMultiItemDialog(budget, this, NULL, b_extra, true);
+			dialog->editWidget->setTransaction(split);
+			if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+				MultiItemTransaction *split_new = dialog->editWidget->createTransaction();
+				if(split_new) {
+					delete split;
+					if(split_new->date() > QDate::currentDate()) {
+						budget->addScheduledTransaction(new ScheduledTransaction(budget, split_new, NULL));
+						delete i;
+					} else {
+						((ConfirmScheduleListViewItem*) i)->setTransaction(split_new);
+					}
+				}
+			}
+			dialog->deleteLater();
+		} else if(((SplitTransaction*) transs)->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) {
+			MultiAccountTransaction *split = (MultiAccountTransaction*) transs;
+			EditMultiAccountDialog *dialog = new EditMultiAccountDialog(budget, this, split->transactiontype() == TRANSACTION_TYPE_EXPENSE, b_extra, true);
+			dialog->editWidget->setTransaction(split);
+			if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+				MultiAccountTransaction *split_new = dialog->editWidget->createTransaction();
+				if(split_new) {
+					delete split;
+					if(split_new->date() > QDate::currentDate()) {
+						budget->addScheduledTransaction(new ScheduledTransaction(budget, split_new, NULL));
+						delete i;
+					} else {
+						((ConfirmScheduleListViewItem*) i)->setTransaction(split_new);
+					}
+				}
+			}
+			dialog->deleteLater();
+		} else if(((SplitTransaction*) transs)->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
+			LoanTransaction *split = (LoanTransaction*) transs;
+			EditLoanTransactionDialog *dialog = new EditLoanTransactionDialog(budget, this, NULL, true);
+			dialog->editWidget->setTransaction(split);
+			if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+				LoanTransaction *split_new = dialog->editWidget->createTransaction();
+				if(split_new) {
+					delete split;
+					if(split_new->date() > QDate::currentDate()) {
+						budget->addScheduledTransaction(new ScheduledTransaction(budget, split_new, NULL));
+						delete i;
+					} else {
+						((ConfirmScheduleListViewItem*) i)->setTransaction(split_new);
+					}
+				}
+			}
+			dialog->deleteLater();
+		}
 	}
-	dialog->deleteLater();
 	if(transactionsView->topLevelItemCount() == 0) reject();
 }
 void ConfirmScheduleDialog::updateTransactions() {
 	ScheduledTransaction *strans = budget->scheduledTransactions.first();
 	QList<QTreeWidgetItem *> items;
 	while(strans) {
-		Transaction *trans = NULL;
+		Transactions *trans = NULL;
 		if(strans->firstOccurrence() < QDate::currentDate() || (QTime::currentTime().hour() >= 18 && strans->firstOccurrence() == QDate::currentDate())) {
 			bool b = strans->isOneTimeTransaction();
 			trans = strans->realize(strans->firstOccurrence());
-			if(b) budget->removeScheduledTransaction(strans);
-			strans = budget->scheduledTransactions.first();
+			if(b) {
+				budget->removeScheduledTransaction(strans);
+				strans = budget->scheduledTransactions.first();
+			}
 		} else {
 			strans = budget->scheduledTransactions.next();
 		}
@@ -1183,13 +1331,13 @@ void ConfirmScheduleDialog::updateTransactions() {
 	QTreeWidgetItem *i = *it;
 	if(i) i->setSelected(true);
 }
-Transaction *ConfirmScheduleDialog::firstTransaction() {
+Transactions *ConfirmScheduleDialog::firstTransaction() {
 	current_index = 0;
 	current_item = (ConfirmScheduleListViewItem*) transactionsView->topLevelItem(current_index);
 	if(current_item) return current_item->transaction();
 	return NULL;
 }
-Transaction *ConfirmScheduleDialog::nextTransaction() {
+Transactions *ConfirmScheduleDialog::nextTransaction() {
 	current_index++;
 	current_item = (ConfirmScheduleListViewItem*) transactionsView->topLevelItem(current_index);
 	if(current_item) return current_item->transaction();
@@ -1277,12 +1425,12 @@ void SecurityTransactionsDialog::remove() {
 	} else if(i->strans) {
 		ScheduledTransaction *strans = i->strans;
 		security->budget()->removeScheduledTransaction(strans, true);
-		mainWin->scheduledTransactionRemoved(strans);
+		mainWin->transactionRemoved(strans);
 		delete strans;
 	} else if(i->sdiv) {
 		ScheduledTransaction *sdiv = i->sdiv;
 		security->budget()->removeScheduledTransaction(sdiv, true);
-		mainWin->scheduledTransactionRemoved(sdiv);
+		mainWin->transactionRemoved(sdiv);
 		delete sdiv;
 	} else if(i->ts) {
 		SecurityTrade *ts = i->ts;
@@ -1361,16 +1509,16 @@ void SecurityTransactionsDialog::updateTransactions() {
 	}
 	ScheduledTransaction *strans = security->scheduledTransactions.first();
 	while(strans) {
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->transaction()->date(), QLocale::ShortFormat), QString::null, QLocale().toCurrencyString(strans->transaction()->value()), QLocale().toString(((SecurityTransaction*) strans->transaction())->shares(), 'f', security->decimals()));
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString::null, QLocale().toCurrencyString(strans->transaction()->value()), QLocale().toString(((SecurityTransaction*) strans->transaction())->shares(), 'f', security->decimals()));
 		i->strans = strans;
-		i->date = strans->transaction()->date();
+		i->date = strans->date();
 		i->value = strans->transaction()->value();
 		i->shares = ((SecurityTransaction*) strans->transaction())->shares();
 		if(strans->recurrence()) {
-			if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, tr("Shares Bought (Recurring)"));
+			if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, tr("Shares Bought (Recurring)"));
 			else i->setText(1, tr("Shares Sold (Recurring)"));
 		} else {
-			if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, tr("Shares Bought (Scheduled)"));
+			if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, tr("Shares Bought (Scheduled)"));
 			else i->setText(1, tr("Shares Sold (Scheduled)"));
 		}
 		items.append(i);
@@ -1378,9 +1526,9 @@ void SecurityTransactionsDialog::updateTransactions() {
 	}
 	strans = security->scheduledDividends.first();
 	while(strans) {
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->transaction()->date(), QLocale::ShortFormat), QString::null, QLocale().toCurrencyString(strans->transaction()->value()), "-");
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString::null, QLocale().toCurrencyString(strans->transaction()->value()), "-");
 		i->sdiv = strans;
-		i->date = strans->transaction()->date();
+		i->date = strans->date();
 		i->value = strans->transaction()->value();
 		if(strans->recurrence()) {
 			i->setText(1, tr("Recurring Dividend"));
@@ -1711,7 +1859,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	setColumnTextWidth(accountsView, BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(QLocale().toString(99999999.99, 'f', MONETARY_DECIMAL_PLACES)).arg(QLocale().toString(99999999.99, 'f', MONETARY_DECIMAL_PLACES)));
 	setColumnMoneyWidth(accountsView, CHANGE_COLUMN, 999999999999.99);
 	setColumnMoneyWidth(accountsView, VALUE_COLUMN, 999999999999.99);
-	assetsItem = new TotalListViewItem(accountsView, tr("Accounts"), QString::null, QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
+	assetsItem = new TotalListViewItem(accountsView, tr("Assets & Liabilities"), QString::null, QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	incomesItem = new TotalListViewItem(accountsView, assetsItem, tr("Incomes"), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	expensesItem = new TotalListViewItem(accountsView, incomesItem, tr("Expenses"), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	assetsItem->setFlags(assetsItem->flags() & ~Qt::ItemIsDragEnabled);
@@ -2253,8 +2401,8 @@ void Eqonomize::budgetMonthChanged(const QDate &date) {
 	accountsPeriodFromEdit->blockSignals(true);
 	accountsPeriodFromButton->blockSignals(true);
 	accountsPeriodToEdit->blockSignals(true);
-	from_date = date;
-	to_date = from_date.addDays(from_date.daysInMonth() - 1);
+	from_date = budget->firstBudgetDay(date);
+	to_date = budget->lastBudgetDay(from_date);
 	accountsPeriodFromButton->setChecked(true);
 	accountsPeriodFromEdit->setDate(from_date);
 	accountsPeriodToEdit->setDate(to_date);
@@ -2777,56 +2925,145 @@ void Eqonomize::updateSecurities() {
 		security = budget->securities.next();
 	}
 }
-void  Eqonomize::newSplitTransaction() {
-	newSplitTransaction(this);
+void  Eqonomize::newMultiAccountExpense() {
+	newMultiAccountTransaction(this, true);
 }
-bool Eqonomize::newSplitTransaction(QWidget *parent, AssetsAccount *account) {
-	EditSplitDialog *dialog = new EditSplitDialog(budget, parent, account, b_extra);
-	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {
-		SplitTransaction *split = dialog->createSplitTransaction();
-		if(split) {
-			budget->addSplitTransaction(split);
-			splitTransactionAdded(split);
-			dialog->deleteLater();
-			return true;
+void  Eqonomize::newMultiAccountIncome() {
+	newMultiAccountTransaction(this, false);
+}
+bool Eqonomize::newMultiAccountTransaction(QWidget *parent, bool create_expenses) {
+	budget->setRecordNewAccounts(true);
+	ScheduledTransaction *strans = EditScheduledMultiAccountDialog::newScheduledTransaction(budget, parent, create_expenses, b_extra, true);
+	if(strans) {
+		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
+		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
+			Transaction *trans = (Transaction*) strans->transaction()->copy();
+			delete strans;
+			budget->addTransaction(trans);
+			transactionAdded(trans);
+		} else {
+			budget->addScheduledTransaction(strans);
+			transactionAdded(strans);
+			checkSchedule();
 		}
+		budget->setRecordNewAccounts(false);
+		return true;
+	} else {
+		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
 	}
-	dialog->deleteLater();
+	budget->setRecordNewAccounts(false);
+	return false;
+}
+void  Eqonomize::newMultiItemTransaction() {
+	newMultiItemTransaction(this);
+}
+bool Eqonomize::newMultiItemTransaction(QWidget *parent, AssetsAccount *account) {
+	budget->setRecordNewAccounts(true);
+	ScheduledTransaction *strans = EditScheduledMultiItemDialog::newScheduledTransaction(budget, parent, account, b_extra, true);
+	if(strans) {
+		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
+		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
+			MultiItemTransaction *trans = (MultiItemTransaction*) strans->transaction()->copy();
+			delete strans;
+			budget->addSplitTransaction(trans);
+			transactionAdded(trans);
+		} else {
+			budget->addScheduledTransaction(strans);
+			transactionAdded(strans);
+			checkSchedule();
+		}
+		budget->setRecordNewAccounts(false);
+		return true;
+	} else {
+		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
+	}
+	budget->setRecordNewAccounts(false);
+	return false;
+}
+void  Eqonomize::newLoanTransaction() {
+	newLoanTransaction(this);
+}
+bool Eqonomize::newLoanTransaction(QWidget *parent, AssetsAccount *loan) {
+	budget->setRecordNewAccounts(true);
+	ScheduledTransaction *strans = EditScheduledLoanTransactionDialog::newScheduledTransaction(budget, parent, loan, b_extra, true);
+	if(strans) {
+		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
+		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
+			LoanTransaction *trans = (LoanTransaction*) strans->transaction()->copy();
+			delete strans;
+			budget->addSplitTransaction(trans);
+			transactionAdded(trans);
+		} else {
+			budget->addScheduledTransaction(strans);
+			transactionAdded(strans);
+			checkSchedule();
+		}
+		budget->setRecordNewAccounts(false);
+		return true;
+	} else {
+		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
+	}
+	budget->setRecordNewAccounts(false);
 	return false;
 }
 bool Eqonomize::editSplitTransaction(SplitTransaction *split) {
 	return editSplitTransaction(split, this);
 }
 bool Eqonomize::editSplitTransaction(SplitTransaction *split, QWidget *parent)  {
-	EditSplitDialog *dialog = new EditSplitDialog(budget, parent, NULL, b_extra);
-	dialog->setSplitTransaction(split);
-	if(dialog->exec() == QDialog::Accepted) {
-		SplitTransaction *new_split = dialog->createSplitTransaction();
-		if(new_split) {
-			removeSplitTransaction(split);
-			budget->addSplitTransaction(new_split);
-			splitTransactionAdded(new_split);
-			dialog->deleteLater();
-			return true;
-		}
+	Recurrence *rec = NULL;
+	budget->setRecordNewAccounts(true);
+	SplitTransaction *new_split = NULL;
+	if(split->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
+		new_split = EditScheduledMultiItemDialog::editTransaction((MultiItemTransaction*) split, rec, parent, b_extra, true);
+	} else if(split->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) {
+		new_split = EditScheduledMultiAccountDialog::editTransaction((MultiAccountTransaction*) split, rec, parent, b_extra, true);
+	} else if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
+		new_split = EditScheduledLoanTransactionDialog::editTransaction((LoanTransaction*) split, rec, parent, b_extra, true);
 	}
-	dialog->deleteLater();
+	if(new_split) {
+		budget->removeSplitTransaction(split, true);
+		transactionRemoved(split);
+		delete split;
+		split = new_split;
+		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
+		if(!rec && split->date() <= QDate::currentDate()) {
+			budget->addSplitTransaction(split);
+			transactionAdded(split);
+		} else {
+			ScheduledTransaction *strans = new ScheduledTransaction(budget, split, rec);
+			budget->addScheduledTransaction(strans);
+			transactionAdded(strans);
+			checkSchedule();
+		}
+		budget->setRecordNewAccounts(false);
+		return true;
+	}
+	foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+	budget->newAccounts.clear();
+	budget->setRecordNewAccounts(false);
 	return false;
 }
 bool Eqonomize::splitUpTransaction(SplitTransaction *split) {
-	expensesWidget->onSplitRemoved(split);
-	incomesWidget->onSplitRemoved(split);
-	transfersWidget->onSplitRemoved(split);
+	expensesWidget->onTransactionSplitUp(split);
+	incomesWidget->onTransactionSplitUp(split);
+	transfersWidget->onTransactionSplitUp(split);
 	split->clear(true);
 	budget->removeSplitTransaction(split, true);
-	splitTransactionRemoved(split);
+	transactionRemoved(split);
 	delete split;
 	setModified(true);
 	return true;
 }
 bool Eqonomize::removeSplitTransaction(SplitTransaction *split) {
 	budget->removeSplitTransaction(split, true);
-	splitTransactionRemoved(split);
+	transactionRemoved(split);
 	delete split;
 	return true;
 }
@@ -2840,13 +3077,13 @@ bool Eqonomize::newScheduledTransaction(int transaction_type, Security *security
 		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 		budget->newAccounts.clear();
 		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
-			Transaction *trans = strans->transaction()->copy();
+			Transaction *trans = (Transaction*) strans->transaction()->copy();
 			delete strans;
 			budget->addTransaction(trans);
 			transactionAdded(trans);
 		} else {
 			budget->addScheduledTransaction(strans);
-			scheduledTransactionAdded(strans);
+			transactionAdded(strans);
 			checkSchedule();
 		}
 		return true;
@@ -2871,71 +3108,187 @@ bool Eqonomize::editScheduledTransaction(ScheduledTransaction *strans) {
 }
 bool Eqonomize::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent) {
 	budget->setRecordNewAccounts(true);
-	ScheduledTransaction *old_strans = strans->copy();
-	if(EditScheduledTransactionDialog::editScheduledTransaction(strans, parent, true, b_extra, true)) {
-		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
-		budget->newAccounts.clear();
-		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
-			Transaction *trans = strans->transaction()->copy();
-			budget->removeScheduledTransaction(strans, true);
-			scheduledTransactionRemoved(strans, old_strans);
-			delete strans;
-			budget->addTransaction(trans);
-			transactionAdded(trans);
+	if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
+		ScheduledTransaction *old_strans = strans->copy();
+		if(EditScheduledTransactionDialog::editScheduledTransaction(strans, parent, true, b_extra, true)) {
+			foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+			budget->newAccounts.clear();
+			if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
+				Transactions *trans = strans->transaction()->copy();
+				budget->removeScheduledTransaction(strans, true);
+				transactionModified(strans, old_strans);
+				transactionRemoved(strans);
+				delete strans;
+				budget->addTransactions(trans);
+				transactionAdded(trans);
+			} else {
+				transactionModified(strans, old_strans);
+				checkSchedule();
+			}
+			delete old_strans;
+			return true;
 		} else {
-			scheduledTransactionModified(strans, old_strans);
-			checkSchedule();
+			foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+			budget->newAccounts.clear();
 		}
 		delete old_strans;
-		return true;
-	} else {
-		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
-		budget->newAccounts.clear();
+	} else if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+		ScheduledTransaction *strans_new = NULL;
+		if(((SplitTransaction*) strans->transaction())->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
+			strans_new = EditScheduledMultiItemDialog::editScheduledTransaction(strans, parent, b_extra, true);
+		} else if(((SplitTransaction*) strans->transaction())->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) {
+			strans_new = EditScheduledMultiAccountDialog::editScheduledTransaction(strans, parent, b_extra, true);
+		} else if(((SplitTransaction*) strans->transaction())->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
+			strans_new = EditScheduledLoanTransactionDialog::editScheduledTransaction(strans, parent, b_extra, true);
+		}
+		if(strans_new) {
+			foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+			budget->newAccounts.clear();
+			budget->removeScheduledTransaction(strans, true);
+			transactionRemoved(strans);
+			delete strans;
+			strans = strans_new;
+			if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
+				Transactions *trans = strans->transaction()->copy();
+				budget->removeScheduledTransaction(strans, true);
+				transactionRemoved(strans);
+				delete strans;
+				budget->addTransactions(trans);
+				transactionAdded(trans);
+			} else {
+				budget->addScheduledTransaction(strans);
+				transactionAdded(strans);
+				checkSchedule();
+			}
+			budget->setRecordNewAccounts(false);
+			return true;
+		} else {
+			foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+			budget->newAccounts.clear();
+		}
 	}
 	budget->setRecordNewAccounts(false);
-	delete old_strans;
 	return false;
 }
 bool Eqonomize::editOccurrence(ScheduledTransaction *strans, const QDate &date) {
 	return editOccurrence(strans, date, this);
 }
 bool Eqonomize::editOccurrence(ScheduledTransaction *strans, const QDate &date, QWidget *parent) {
-	Security *security = NULL;
-	if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-		security = ((SecurityTransaction*) strans->transaction())->security();
-	} else if(strans->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
-		security = ((Income*) strans->transaction())->security();
-	}
-	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, strans->transaction()->type(), false, false, security, SECURITY_ALL_VALUES, security != NULL, budget, parent, true);
-	dialog->editWidget->updateAccounts();
-	dialog->editWidget->setScheduledTransaction(strans, date);
 	budget->setRecordNewAccounts(true);
-	if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
-		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
-		budget->newAccounts.clear();
-		Transaction *trans = dialog->editWidget->createTransaction();
-		if(trans) {
-			if(trans->date() > QDate::currentDate()) {
-				ScheduledTransaction *strans_new = new ScheduledTransaction(budget, trans, NULL);
-				budget->addScheduledTransaction(strans_new);
-				scheduledTransactionAdded(strans_new);
-			} else {
-				budget->addTransaction(trans);
-				transactionAdded(trans);
-			}
-			ScheduledTransaction *old_strans = strans->copy();
-			strans->addException(date);
-			scheduledTransactionModified(strans, old_strans);
-			delete old_strans;
-			dialog->deleteLater();
-			return true;
+	if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
+		Security *security = NULL;
+		if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
+			security = ((SecurityTransaction*) strans->transaction())->security();
+		} else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
+			security = ((Income*) strans->transaction())->security();
 		}
-	} else {
-		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
-		budget->newAccounts.clear();
+		TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, strans->transactiontype(), false, false, security, SECURITY_ALL_VALUES, security != NULL, budget, parent, true);
+		dialog->editWidget->updateAccounts();
+		dialog->editWidget->setTransaction((Transaction*) strans->transaction(), date);
+		if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+			foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+			budget->newAccounts.clear();
+			Transaction *trans = dialog->editWidget->createTransaction();
+			if(trans) {
+				if(trans->date() > QDate::currentDate()) {
+					ScheduledTransaction *strans_new = new ScheduledTransaction(budget, trans, NULL);
+					budget->addScheduledTransaction(strans_new);
+					transactionAdded(strans_new);
+				} else {
+					budget->addTransaction(trans);
+					transactionAdded(trans);
+				}
+				ScheduledTransaction *old_strans = strans->copy();
+				strans->addException(date);
+				transactionModified(strans, old_strans);
+				delete old_strans;
+				dialog->deleteLater();
+				budget->setRecordNewAccounts(false);
+				return true;
+			}
+		}
+		dialog->deleteLater();
+	} else if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+		if(((SplitTransaction*) strans->transaction())->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
+			EditMultiItemDialog *dialog = new EditMultiItemDialog(budget, parent, NULL, b_extra, true);
+			dialog->editWidget->setTransaction((MultiItemTransaction*) strans->transaction(), date);
+			if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+				foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+				budget->newAccounts.clear();
+				MultiItemTransaction *split = dialog->editWidget->createTransaction();
+				if(split) {
+					if(split->date() > QDate::currentDate()) {
+						ScheduledTransaction *strans_new = new ScheduledTransaction(budget, split, NULL);
+						budget->addScheduledTransaction(strans_new);
+						transactionAdded(strans_new);
+					} else {
+						budget->addSplitTransaction(split);
+						transactionAdded(split);
+					}
+					transactionRemoved(strans);
+					strans->addException(date);
+					transactionAdded(strans);
+					dialog->deleteLater();
+					budget->setRecordNewAccounts(false);
+					return true;
+				}
+			}			
+			dialog->deleteLater();
+		} else if(((SplitTransaction*) strans->transaction())->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) {
+			EditMultiAccountDialog *dialog = new EditMultiAccountDialog(budget, parent, ((MultiAccountTransaction*) strans->transaction())->transactiontype() == TRANSACTION_TYPE_EXPENSE, b_extra, true);
+			dialog->editWidget->setTransaction((MultiAccountTransaction*) strans->transaction(), date);
+			if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+				foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+				budget->newAccounts.clear();
+				MultiAccountTransaction *split = dialog->editWidget->createTransaction();
+				if(split) {
+					if(split->date() > QDate::currentDate()) {
+						ScheduledTransaction *strans_new = new ScheduledTransaction(budget, split, NULL);
+						budget->addScheduledTransaction(strans_new);
+						transactionAdded(strans_new);
+					} else {
+						budget->addSplitTransaction(split);
+						transactionAdded(split);
+					}
+					transactionRemoved(strans);
+					strans->addException(date);
+					transactionAdded(strans);
+					dialog->deleteLater();
+					budget->setRecordNewAccounts(false);
+					return true;
+				}
+			}			
+			dialog->deleteLater();
+		} else if(((SplitTransaction*) strans->transaction())->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
+			EditLoanTransactionDialog *dialog = new EditLoanTransactionDialog(budget, parent, NULL, true);
+			dialog->editWidget->setTransaction((LoanTransaction*) strans->transaction(), date);
+			if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+				foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+				budget->newAccounts.clear();
+				LoanTransaction *split = dialog->editWidget->createTransaction();
+				if(split) {
+					if(split->date() > QDate::currentDate()) {
+						ScheduledTransaction *strans_new = new ScheduledTransaction(budget, split, NULL);
+						budget->addScheduledTransaction(strans_new);
+						transactionAdded(strans_new);
+					} else {
+						budget->addSplitTransaction(split);
+						transactionAdded(split);
+					}
+					transactionRemoved(strans);
+					strans->addException(date);
+					transactionAdded(strans);
+					dialog->deleteLater();
+					budget->setRecordNewAccounts(false);
+					return true;
+				}
+			}			
+			dialog->deleteLater();
+		}
 	}
+	foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+	budget->newAccounts.clear();
 	budget->setRecordNewAccounts(false);
-	dialog->deleteLater();
 	return false;
 }
 void Eqonomize::editScheduledTransaction() {
@@ -2950,7 +3303,7 @@ void Eqonomize::editOccurrence() {
 }
 bool Eqonomize::removeScheduledTransaction(ScheduledTransaction *strans) {
 	budget->removeScheduledTransaction(strans, true);
-	scheduledTransactionRemoved(strans);
+	transactionRemoved(strans);
 	delete strans;
 	return true;
 }
@@ -2965,7 +3318,7 @@ bool Eqonomize::removeOccurrence(ScheduledTransaction *strans, const QDate &date
 	} else {
 		ScheduledTransaction *oldstrans = strans->copy();
 		strans->addException(date);
-		scheduledTransactionModified(strans, oldstrans);
+		transactionModified(strans, oldstrans);
 		delete oldstrans;
 	}
 	return true;
@@ -3033,7 +3386,7 @@ void Eqonomize::joinSelectedTransactions() {
 	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
 	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
 	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
-	else 	return;
+	else return;
 	if(!w) return;
 	w->joinTransactions();
 }
@@ -3055,25 +3408,31 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent) {
 	budget->setRecordNewAccounts(true);
 	if(trans->parentSplit()) {
 		SplitTransaction *split = trans->parentSplit();
-		Security *security = NULL;
-		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-			security = ((SecurityTransaction*) trans)->security();
-		} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
-			security = ((Income*) trans)->security();
-		}
-		TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), true, trans->fromAccount() == split->account(), security, SECURITY_ALL_VALUES, security != NULL, budget, parent, true);
-		dialog->editWidget->updateAccounts(split->account());
-		dialog->editWidget->setTransaction(trans);
-		if(dialog->exec() == QDialog::Accepted) {
-			foreach(Account* acc, budget->newAccounts) accountAdded(acc);
-			budget->newAccounts.clear();
-			if(dialog->editWidget->modifyTransaction(trans)) {
-				transactionModified(trans, oldtrans);
-				delete oldtrans;
-				return true;
+		if(split->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
+			Security *security = NULL;
+			if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+				security = ((SecurityTransaction*) trans)->security();
+			} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
+				security = ((Income*) trans)->security();
 			}
+			TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), true, trans->fromAccount() == ((MultiItemTransaction*) split)->account(), security, SECURITY_ALL_VALUES, security != NULL, budget, parent, true);
+			dialog->editWidget->updateAccounts(((MultiItemTransaction*) split)->account());
+			dialog->editWidget->setTransaction(trans);
+			if(dialog->exec() == QDialog::Accepted) {
+				foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+				budget->newAccounts.clear();
+				if(dialog->editWidget->modifyTransaction(trans)) {
+					transactionModified(trans, oldtrans);
+					delete oldtrans;
+					budget->setRecordNewAccounts(false);
+					return true;
+				}
+			}
+			dialog->deleteLater();
+		} else {
+			budget->setRecordNewAccounts(false);
+			return editSplitTransaction(split, parent);
 		}
-		dialog->deleteLater();
 	} else if(EditScheduledTransactionDialog::editTransaction(trans, rec, parent, true, b_extra, true)) {
 		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 		budget->newAccounts.clear();
@@ -3084,9 +3443,11 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent) {
 			transactionRemoved(trans);
 			ScheduledTransaction *strans = new ScheduledTransaction(budget, trans, rec);
 			budget->addScheduledTransaction(strans);
-			scheduledTransactionAdded(strans);
+			transactionAdded(strans);
+			checkSchedule();
 		}
 		delete oldtrans;
+		budget->setRecordNewAccounts(false);
 		return true;
 	}
 	foreach(Account* acc, budget->newAccounts) accountAdded(acc);
@@ -3105,14 +3466,20 @@ void Eqonomize::newRefundRepayment() {
 	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) expensesWidget->newRefundRepayment();
 	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) incomesWidget->newRefundRepayment();
 }
-bool Eqonomize::newRefundRepayment(Transaction *trans) {
-	if(trans->type() != TRANSACTION_TYPE_EXPENSE && trans->type() != TRANSACTION_TYPE_INCOME) return false;
+bool Eqonomize::newRefundRepayment(Transactions *trans) {
+	if(!((trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) trans)->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) || (trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE && (((Transaction*) trans)->type() == TRANSACTION_TYPE_EXPENSE || ((Transaction*) trans)->type() == TRANSACTION_TYPE_INCOME)))) return false;
 	RefundDialog *dialog = new RefundDialog(trans, this);
 	if(dialog->exec() == QDialog::Accepted) {
 		Transaction *new_trans = dialog->createRefund();
 		if(new_trans) {
-			budget->addTransaction(new_trans);
-			transactionAdded(new_trans);
+			if(new_trans->date() > QDate::currentDate()) {
+				ScheduledTransaction *strans = new ScheduledTransaction(budget, new_trans, NULL);
+				budget->addScheduledTransaction(strans);
+				transactionAdded(strans);
+			} else {
+				budget->addTransaction(new_trans);
+				transactionAdded(new_trans);
+			}
 			dialog->deleteLater();
 			return true;
 		}
@@ -3644,20 +4011,26 @@ void Eqonomize::reloadBudget() {
 		if(!eaccount->parentCategory()) appendExpensesAccount(eaccount, expensesItem);
 		eaccount = budget->expensesAccounts.next();
 	}
+	qInfo() << "A";
 	account_value[budget->balancingAccount] = 0.0;
 	account_change[budget->balancingAccount] = 0.0;
 	expensesWidget->updateAccounts();
 	incomesWidget->updateAccounts();
 	transfersWidget->updateAccounts();
+	qInfo() << "B";
 	assetsItem->setExpanded(true);
 	incomesItem->setExpanded(true);
 	expensesItem->setExpanded(true);
+	qInfo() << "C";
 	expensesWidget->transactionsReset();
 	incomesWidget->transactionsReset();
 	transfersWidget->transactionsReset();
+	qInfo() << "D";
 	updateBudgetDay();
 	updateScheduledTransactions();
+	qInfo() << "E";
 	updateSecurities();
+	qInfo() << "F";
 }
 void Eqonomize::openURL(const QUrl& url) {
 
@@ -4475,12 +4848,14 @@ void Eqonomize::setupActions() {
 	
 	NEW_ACTION_NOMENU(ActionAddAccount, tr("Add Account…"), "document-new", 0, this, SLOT(addAccount()), "add_account");
 	NEW_ACTION(ActionNewAssetsAccount, tr("New Account…"), "eqz-account", 0, this, SLOT(newAssetsAccount()), "new_assets_account", accountsMenu);
+	NEW_ACTION(ActionNewLoan, tr("New Loan…"), "eqz-account", 0, this, SLOT(newLoan()), "new_loan", accountsMenu);
 	NEW_ACTION(ActionNewIncomesAccount, tr("New Income Category…"), "eqz-income", 0, this, SLOT(newIncomesAccount()), "new_incomes_account", accountsMenu);
 	NEW_ACTION(ActionNewExpensesAccount, tr("New Expense Category…"), "eqz-expense", 0, this, SLOT(newExpensesAccount()), "new_expenses_account", accountsMenu);
 	NEW_ACTION_NOMENU(ActionAddAccountMenu, tr("Add Account…"), "eqz-account", 0, this, SLOT(addAccount()), "add_account");
 	QMenu *newAccountMenu = new QMenu(tr("Add Account"), this);
 	newAccountMenu->setIcon(QIcon::fromTheme("eqz-account"));
 	newAccountMenu->addAction(ActionNewAssetsAccount);
+	newAccountMenu->addAction(ActionNewLoan);
 	newAccountMenu->addAction(ActionNewIncomesAccount);
 	newAccountMenu->addAction(ActionNewExpensesAccount);
 	ActionAddAccountMenu->setMenu(newAccountMenu);
@@ -4501,8 +4876,10 @@ void Eqonomize::setupActions() {
 	transactionsToolbar->addAction(ActionNewIncome);
 	NEW_ACTION(ActionNewTransfer, tr("New Transfer…"), "eqz-transfer", Qt::CTRL+Qt::Key_T, this, SLOT(newScheduledTransfer()), "new_transfer", transactionsMenu);
 	transactionsToolbar->addAction(ActionNewTransfer);
-	NEW_ACTION(ActionNewSplitTransaction, tr("New Split Transaction…"), "eqz-split-transaction", Qt::CTRL+Qt::Key_W, this, SLOT(newSplitTransaction()), "new_split_transaction", transactionsMenu);
-	transactionsToolbar->addAction(ActionNewSplitTransaction);
+	NEW_ACTION(ActionNewMultiItemTransaction, tr("New Split Transaction…"), "eqz-split-transaction", Qt::CTRL+Qt::Key_W, this, SLOT(newMultiItemTransaction()), "new_multi_item_transaction", transactionsMenu);
+	transactionsToolbar->addAction(ActionNewMultiItemTransaction);
+	NEW_ACTION(ActionNewMultiAccountTransaction, tr("New Expense with Multiple Payments…"), "eqz-split-transaction", 0, this, SLOT(newMultiAccountExpense()), "new_multi_account_expense", transactionsMenu);
+	NEW_ACTION(ActionNewLoanTransaction, tr("New Debt Payment/Interest…"), "eqz-split-transaction", 0, this, SLOT(newLoanTransaction()), "new_loan_transaction", transactionsMenu);
 	NEW_ACTION_NOMENU(ActionNewRefund, tr("Refund…"), "eqz-income", 0, this, SLOT(newRefund()), "new_refund");
 	NEW_ACTION_NOMENU(ActionNewRepayment, tr("Repayment…"), "eqz-expense", 0, this, SLOT(newRepayment()), "new_repayment");
 	NEW_ACTION(ActionNewRefundRepayment, tr("New Refund/Repayment…"), "eqz-refund-repayment", 0, this, SLOT(newRefundRepayment()), "new_refund_repayment", transactionsMenu);
@@ -4880,6 +5257,7 @@ void Eqonomize::readOptions() {
 	transfersWidget->restoreState(settings.value("transfersListState").toByteArray());
 	securitiesView->header()->restoreState(settings.value("securitiesListState").toByteArray());
 	scheduleView->header()->restoreState(settings.value("scheduleListState").toByteArray());
+	scheduleView->sortByColumn(0, Qt::AscendingOrder);
 	settings.endGroup();
 	updateRecentFiles();
 }
@@ -5005,9 +5383,9 @@ bool Eqonomize::checkSchedule(bool update_display) {
 			foreach(Account* acc, budget->newAccounts) emit accountAdded(acc);
 			budget->newAccounts.clear();
 			budget->setRecordNewAccounts(false);
-			Transaction *trans = dialog->firstTransaction();
+			Transactions *trans = dialog->firstTransaction();
 			while(trans) {
-				budget->addTransaction(trans);
+				budget->addTransactions(trans);
 				trans = dialog->nextTransaction();
 			}
 			dialog->deleteLater();
@@ -5108,6 +5486,32 @@ void Eqonomize::newAssetsAccount() {
 	}
 	dialog->deleteLater();
 }
+void Eqonomize::newLoan() {
+	EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, this, tr("New Loan"), true);
+	if(dialog->exec() == QDialog::Accepted) {
+		Transaction *trans = NULL;
+		AssetsAccount *account = dialog->newAccount(&trans);
+		budget->addAccount(account);
+		appendAssetsAccount(account);
+		filterAccounts();
+		expensesWidget->updateFromAccounts();
+		incomesWidget->updateToAccounts();
+		transfersWidget->updateAccounts();
+		emit accountsModified();
+		if(trans) {
+			if(trans->date() > QDate::currentDate()) {
+				ScheduledTransaction *strans = new ScheduledTransaction(budget, trans, NULL);
+				budget->addScheduledTransaction(strans);
+				transactionAdded(strans);
+			} else {
+				budget->addTransaction(trans);
+				transactionAdded(trans);
+			}
+		}
+		setModified(true);
+	}
+	dialog->deleteLater();
+}
 void Eqonomize::newIncomesAccount(IncomesAccount *default_parent) {
 	EditIncomesAccountDialog *dialog = new EditIncomesAccountDialog(budget, default_parent, this, tr("New Income Category"));
 	if(dialog->exec() == QDialog::Accepted) {
@@ -5153,7 +5557,9 @@ void Eqonomize::accountExecuted(QTreeWidgetItem *i, int c) {
 	if(i == NULL) return;
 	switch(c) {
 		case 0: {
-			if(account_items.contains(i)) {
+			if(i->childCount() > 0) {
+				i->setExpanded(!i->isExpanded());
+			} else if(account_items.contains(i)) {
 				editAccount(account_items[i]);
 			}
 			break;
@@ -5257,7 +5663,9 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 			Account *previous_budget_account = budget->budgetAccount;
 			if(dialog->exec() == QDialog::Accepted) {
 				dialog->modifyAccount(account);
-				budget->accountModified(account);				
+				qInfo() << "EA1";
+				budget->accountModified(account);
+				qInfo() << "EA2";
 				if(previous_budget_account != budget->budgetAccount) {
 					if(account->isBudgetAccount() && previous_budget_account) {
 						item_accounts[previous_budget_account]->setText(0, previous_budget_account->name());
@@ -5273,15 +5681,21 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 					i->setText(VALUE_COLUMN, QLocale().toString(account_value[account], 'f', MONETARY_DECIMAL_PLACES) + " ");
 					assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 				}
+				qInfo() << "EA3";
+				i->setHidden(account->isClosed() && account_value[account] == 0.0 && account_change[account] == 0.0);
+				qInfo() << "EA4";
 				emit accountsModified();
 				setModified(true);
+				qInfo() << "EA5";
 				expensesWidget->updateFromAccounts();
 				incomesWidget->updateToAccounts();
 				transfersWidget->updateAccounts();
+				qInfo() << "EA6";
 				assetsItem->sortChildren(0, Qt::AscendingOrder);
 				expensesWidget->filterTransactions();
 				incomesWidget->filterTransactions();
 				transfersWidget->filterTransactions();
+				qInfo() << "EA7";
 				dialog->deleteLater();
 				return true;
 			}
@@ -5451,6 +5865,7 @@ void Eqonomize::deleteAccount() {
 				}
 				break;
 			}
+			default: {break;}
 		}
 		if(accounts_left) {
 			dialog = new QDialog(this, 0);
@@ -5505,6 +5920,7 @@ void Eqonomize::deleteAccount() {
 					}
 					break;
 				}
+				default: {break;}
 			}
 			grid->addWidget(label, 0, 0, 1, 2);
 			grid->addWidget(deleteButton, 1, 0);
@@ -5566,141 +5982,207 @@ void Eqonomize::deleteAccount() {
 	}
 }
 
-void Eqonomize::transactionAdded(Transaction *trans) {
-	addTransactionValue(trans, trans->date(), true);
-	emit transactionsModified();
+void Eqonomize::transactionAdded(Transactions *transs) {
 	setModified(true);
-	expensesWidget->onTransactionAdded(trans);
-	incomesWidget->onTransactionAdded(trans);
-	transfersWidget->onTransactionAdded(trans);
-	if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-		updateSecurity(((SecurityTransaction*) trans)->security());
-	} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
-		updateSecurity(((Income*) trans)->security());
-	}
-}
-void Eqonomize::transactionModified(Transaction *trans, Transaction *oldtrans) {
-	subtractTransactionValue(oldtrans, true);
-	addTransactionValue(trans, trans->date(), true);
-	emit transactionsModified();
-	setModified(true);
-	expensesWidget->onTransactionModified(trans, oldtrans);
-	incomesWidget->onTransactionModified(trans, oldtrans);
-	transfersWidget->onTransactionModified(trans, oldtrans);
-	if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-		updateSecurity(((SecurityTransaction*) trans)->security());
-		if(((SecurityTransaction*) trans)->security() != ((SecurityTransaction*) oldtrans)->security()) {
-			updateSecurity(((SecurityTransaction*) oldtrans)->security());
-		}
-	} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
-		updateSecurity(((Income*) trans)->security());
-		if(((Income*) trans)->security() != ((Income*) oldtrans)->security()) {
-			updateSecurity(((Income*) oldtrans)->security());
-		}
-	}
-}
-void Eqonomize::transactionRemoved(Transaction *trans) {
-	subtractTransactionValue(trans, true);
-	emit transactionsModified();
-	setModified(true);
-	expensesWidget->onTransactionRemoved(trans);
-	incomesWidget->onTransactionRemoved(trans);
-	transfersWidget->onTransactionRemoved(trans);
-	if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-		updateSecurity(((SecurityTransaction*) trans)->security());
-	} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
-		updateSecurity(((Income*) trans)->security());
-	}
-}
-
-void Eqonomize::scheduledTransactionAdded(ScheduledTransaction *strans) {
-	appendScheduledTransaction(strans);
-	addScheduledTransactionValue(strans, true);
-	emit transactionsModified();
-	setModified(true);
-	expensesWidget->onScheduledTransactionAdded(strans);
-	incomesWidget->onScheduledTransactionAdded(strans);
-	transfersWidget->onScheduledTransactionAdded(strans);
-	if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-		updateSecurity(((SecurityTransaction*) strans->transaction())->security());
-	} else if(strans->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
-		updateSecurity(((Income*) strans->transaction())->security());
-	}
-}
-void Eqonomize::scheduledTransactionModified(ScheduledTransaction *strans, ScheduledTransaction *oldstrans) {
-	QTreeWidgetItemIterator it(scheduleView);
-	ScheduleListViewItem *i = (ScheduleListViewItem*) *it;
-	while(i) {
-		if(i->scheduledTransaction() == strans) {
-			i->setScheduledTransaction(strans);
-			i->setDate(strans->firstOccurrence());
+	switch(transs->generaltype()) {
+		case GENERAL_TRANSACTION_TYPE_SINGLE: {
+			Transaction *trans = (Transaction*) transs;
+			addTransactionValue(trans, trans->date(), true);
+			if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+				updateSecurity(((SecurityTransaction*) trans)->security());
+			} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
+				updateSecurity(((Income*) trans)->security());
+			}
 			break;
 		}
-		++it;
-		i = (ScheduleListViewItem*) *it;
-	}
-	subtractScheduledTransactionValue(oldstrans, true);
-	addScheduledTransactionValue(strans, true);
-	emit transactionsModified();
-	setModified(true);
-	expensesWidget->onScheduledTransactionModified(strans, oldstrans);
-	incomesWidget->onScheduledTransactionModified(strans, oldstrans);
-	transfersWidget->onScheduledTransactionModified(strans, oldstrans);
-	if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-		updateSecurity(((SecurityTransaction*) strans->transaction())->security());
-		if(((SecurityTransaction*) strans->transaction())->security() != ((SecurityTransaction*) oldstrans->transaction())->security()) {
-			updateSecurity(((SecurityTransaction*) oldstrans->transaction())->security());
-		}
-	} else if(strans->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
-		updateSecurity(((Income*) strans->transaction())->security());
-		if(((Income*) strans->transaction())->security() != ((Income*) oldstrans->transaction())->security()) {
-			updateSecurity(((Income*) oldstrans->transaction())->security());
-		}
-	}
-}
-void Eqonomize::scheduledTransactionRemoved(ScheduledTransaction *strans) {
-	scheduledTransactionRemoved(strans, strans);
-}
-void Eqonomize::scheduledTransactionRemoved(ScheduledTransaction *strans, ScheduledTransaction *old_strans) {
-	QTreeWidgetItemIterator it(scheduleView);
-	ScheduleListViewItem *i = (ScheduleListViewItem*) *it;
-	while(i) {
-		if(i->scheduledTransaction() == strans) {
-			delete i;
+		case GENERAL_TRANSACTION_TYPE_SPLIT: {
+			SplitTransaction *split = (SplitTransaction*) transs;
+			int c = split->count();
+			for(int i = 0; i < c; i++) {
+				Transaction *trans = split->at(i);
+				addTransactionValue(trans, trans->date(), true);
+				expensesWidget->onTransactionAdded(trans);
+				incomesWidget->onTransactionAdded(trans);
+				transfersWidget->onTransactionAdded(trans);
+				if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+					updateSecurity(((SecurityTransaction*) trans)->security());
+				} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
+					updateSecurity(((Income*) trans)->security());
+				}
+			}
 			break;
 		}
-		++it;
-		i = (ScheduleListViewItem*) *it;
+		case GENERAL_TRANSACTION_TYPE_SCHEDULE: {
+			ScheduledTransaction *strans = (ScheduledTransaction*) transs;
+			appendScheduledTransaction(strans);
+			addScheduledTransactionValue(strans, true);
+			if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
+				updateSecurity(((SecurityTransaction*) strans->transaction())->security());
+			} else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
+				updateSecurity(((Income*) strans->transaction())->security());
+			}
+			if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+				SplitTransaction *split = (SplitTransaction*) strans->transaction();
+				int c = split->count();
+				for(int i = 0; i < c; i++) {
+					Transaction *trans = split->at(i);
+					if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+						updateSecurity(((SecurityTransaction*) trans)->security());
+					} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
+						updateSecurity(((Income*) trans)->security());
+					}
+				}
+			}
+			break;
+		}
 	}
-	subtractScheduledTransactionValue(old_strans, true);
 	emit transactionsModified();
+	expensesWidget->onTransactionAdded(transs);
+	incomesWidget->onTransactionAdded(transs);
+	transfersWidget->onTransactionAdded(transs);
+}
+void Eqonomize::transactionModified(Transactions *transs, Transactions *oldtranss) {
 	setModified(true);
-	expensesWidget->onScheduledTransactionRemoved(strans);
-	incomesWidget->onScheduledTransactionRemoved(strans);
-	transfersWidget->onScheduledTransactionRemoved(strans);
-	if(strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-		updateSecurity(((SecurityTransaction*) strans->transaction())->security());
-	} else if(strans->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
-		updateSecurity(((Income*) strans->transaction())->security());
+	switch(transs->generaltype()) {
+		case GENERAL_TRANSACTION_TYPE_SINGLE: {
+			Transaction *trans = (Transaction*) transs;
+			Transaction *oldtrans = (Transaction*) oldtranss;
+			subtractTransactionValue(oldtrans, true);
+			addTransactionValue(trans, trans->date(), true);
+			if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+				updateSecurity(((SecurityTransaction*) trans)->security());
+			} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
+				updateSecurity(((Income*) trans)->security());
+			}
+			if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+				updateSecurity(((SecurityTransaction*) trans)->security());
+				if(((SecurityTransaction*) trans)->security() != ((SecurityTransaction*) oldtrans)->security()) {
+					updateSecurity(((SecurityTransaction*) oldtrans)->security());
+				}
+			} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
+				updateSecurity(((Income*) trans)->security());
+				if(((Income*) trans)->security() != ((Income*) oldtrans)->security()) {
+					updateSecurity(((Income*) oldtrans)->security());
+				}
+			}
+			break;
+		}
+		case GENERAL_TRANSACTION_TYPE_SPLIT: {
+			return;
+		}
+		case GENERAL_TRANSACTION_TYPE_SCHEDULE: {
+			ScheduledTransaction *strans = (ScheduledTransaction*) transs;
+			ScheduledTransaction *oldstrans = (ScheduledTransaction*) oldtranss;
+			if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+				return;
+			}
+			QTreeWidgetItemIterator it(scheduleView);
+			ScheduleListViewItem *i = (ScheduleListViewItem*) *it;
+			while(i) {
+				if(i->scheduledTransaction() == strans) {
+					i->setScheduledTransaction(strans);
+					i->setDate(strans->firstOccurrence());
+					break;
+				}
+				++it;
+				i = (ScheduleListViewItem*) *it;
+			}
+			subtractScheduledTransactionValue(oldstrans, true);
+			addScheduledTransactionValue(strans, true);
+			if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
+				updateSecurity(((SecurityTransaction*) strans->transaction())->security());
+				if(((SecurityTransaction*) strans->transaction())->security() != ((SecurityTransaction*) oldstrans->transaction())->security()) {
+					updateSecurity(((SecurityTransaction*) oldstrans->transaction())->security());
+				}
+			} else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
+				updateSecurity(((Income*) strans->transaction())->security());
+				if(((Income*) strans->transaction())->security() != ((Income*) oldstrans->transaction())->security()) {
+					updateSecurity(((Income*) oldstrans->transaction())->security());
+				}
+			}
+			break;
+		}
 	}
-}
-void Eqonomize::splitTransactionAdded(SplitTransaction *split) {
-	blockSignals(true);
-	QVector<Transaction*>::size_type c = split->splits.count();
-	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
-		transactionAdded(split->splits[i]);
-	}
-	blockSignals(false);
 	emit transactionsModified();
+	expensesWidget->onTransactionModified(transs, oldtranss);
+	incomesWidget->onTransactionModified(transs, oldtranss);
+	transfersWidget->onTransactionModified(transs, oldtranss);
 }
-void Eqonomize::splitTransactionRemoved(SplitTransaction *split) {
-	blockSignals(true);
-	QVector<Transaction*>::size_type c = split->splits.count();
-	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
-		transactionRemoved(split->splits[i]);
+void Eqonomize::transactionRemoved(Transactions *transs) {
+qInfo() << "RTE0";
+	setModified(true);
+	qInfo() << "RTE0:2";
+	switch(transs->generaltype()) {
+		case GENERAL_TRANSACTION_TYPE_SINGLE: {
+		qInfo() << "RTE0:3";
+			Transaction *trans = (Transaction*) transs;
+			subtractTransactionValue(trans, true);
+			if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+				updateSecurity(((SecurityTransaction*) trans)->security());
+			} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
+				updateSecurity(((Income*) trans)->security());
+			}
+			break;
+		}
+		case GENERAL_TRANSACTION_TYPE_SPLIT: {
+		qInfo() << "RTE1";
+			SplitTransaction *split = (SplitTransaction*) transs;
+			int c = split->count();
+			for(int i = 0; i < c; i++) {
+			qInfo() << "RTE2";
+				Transaction *trans = split->at(i);
+				subtractTransactionValue(trans, true);
+				qInfo() << "RTE3";
+				expensesWidget->onTransactionRemoved(trans);
+				incomesWidget->onTransactionRemoved(trans);
+				transfersWidget->onTransactionRemoved(trans);
+				qInfo() << "RTE4";
+				if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+					updateSecurity(((SecurityTransaction*) trans)->security());
+				} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
+					updateSecurity(((Income*) trans)->security());
+				}
+				qInfo() << "RTE5";
+			}
+			break;
+		}
+		case GENERAL_TRANSACTION_TYPE_SCHEDULE: {
+			ScheduledTransaction *strans = (ScheduledTransaction*) transs;
+			QTreeWidgetItemIterator it(scheduleView);
+			ScheduleListViewItem *i = (ScheduleListViewItem*) *it;
+			while(i) {
+				if(i->scheduledTransaction() == strans) {
+					delete i;
+					break;
+				}
+				++it;
+				i = (ScheduleListViewItem*) *it;
+			}
+			subtractScheduledTransactionValue(strans, true);
+			if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
+				updateSecurity(((SecurityTransaction*) strans->transaction())->security());
+			} else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
+				updateSecurity(((Income*) strans->transaction())->security());
+			}
+			if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+				SplitTransaction *split = (SplitTransaction*) strans->transaction();
+				int c = split->count();
+				for(int i = 0; i < c; i++) {
+					Transaction *trans = split->at(i);
+					if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+						updateSecurity(((SecurityTransaction*) trans)->security());
+					} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
+						updateSecurity(((Income*) trans)->security());
+					}
+				}
+			}
+			break;
+		}
 	}
-	blockSignals(false);
 	emit transactionsModified();
+	expensesWidget->onTransactionRemoved(transs);
+	incomesWidget->onTransactionRemoved(transs);
+	transfersWidget->onTransactionRemoved(transs);
 }
 
 void Eqonomize::appendExpensesAccount(ExpensesAccount *account, QTreeWidgetItem *parent_item) {
@@ -5743,9 +6225,11 @@ void Eqonomize::appendAssetsAccount(AssetsAccount *account) {
 	account_value[account] = account->initialBalance();
 	assets_accounts_value += account->initialBalance();
 	account_change[account] = 0.0;
+	if(account->isClosed() && account->initialBalance() == 0.0) i->setHidden(true);
 	assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	assetsItem->sortChildren(0, Qt::AscendingOrder);
 }
+void Eqonomize::appendLoanAccount(LoanAccount*) {}
 
 bool Eqonomize::filterTransaction(Transaction *trans) {
 	if(accountsPeriodFromButton->isChecked() && trans->date() < from_date) return true;
@@ -5756,14 +6240,32 @@ void Eqonomize::subtractScheduledTransactionValue(ScheduledTransaction *strans, 
 	addScheduledTransactionValue(strans, update_value_display, true);
 }
 void Eqonomize::addScheduledTransactionValue(ScheduledTransaction *strans, bool update_value_display, bool subtract) {
-	if(!strans->recurrence()) return addTransactionValue(strans->transaction(), strans->transaction()->date(), update_value_display, subtract, -1, -1, NULL);
+	if(!strans->recurrence()) {
+		if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+			SplitTransaction *split = (SplitTransaction*) strans->transaction();
+			int c = split->count();
+			for(int i = 0; i < c; i++) {
+				addTransactionValue(split->at(i), strans->date(), update_value_display, subtract, -1, -1, NULL);
+			}
+			return;
+		}
+		return addTransactionValue((Transaction*) strans->transaction(), strans->transaction()->date(), update_value_display, subtract, -1, -1, NULL);
+	}
 	Recurrence *rec = strans->recurrence();
 	QDate curdate = rec->firstOccurrence();
 	int b_future = 1;
 	if(to_date <= QDate::currentDate()) b_future = 0;
 	else if(strans->transaction()->date() <= QDate::currentDate()) b_future = -1;
 	while(!curdate.isNull() && curdate <= to_date) {
-		addTransactionValue(strans->transaction(), curdate, update_value_display, subtract, 1, b_future, NULL);
+		if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+			SplitTransaction *split = (SplitTransaction*) strans->transaction();
+			int c = split->count();
+			for(int i = 0; i < c; i++) {
+				addTransactionValue(split->at(i), curdate, update_value_display, subtract, 1, b_future, NULL);
+			}
+		} else {
+			addTransactionValue((Transaction*) strans->transaction(), curdate, update_value_display, subtract, 1, b_future, NULL);
+		}
 		curdate = rec->nextOccurrence(curdate);
 	}
 }
@@ -5929,7 +6431,6 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					setAccountChangeColor(assetsItem, assets_accounts_change, false);
 					item_accounts[trans->fromAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES));
 					setAccountChangeColor(item_accounts[trans->fromAccount()], account_change[trans->fromAccount()], false);
-					
 				}
 				break;
 			}
@@ -5945,9 +6446,12 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 						setAccountChangeColor(assetsItem, assets_accounts_change, false);
 						item_accounts[trans->fromAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES));
 						setAccountChangeColor(item_accounts[trans->fromAccount()], account_change[trans->fromAccount()], false);
+						item_accounts[trans->fromAccount()]->setHidden(trans->fromAccount()->isClosed() && account_change[trans->fromAccount()] == 0.0 && account_value[trans->fromAccount()] == 0.0);
 					}
 				}
-				if(update_value_display) assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
+				if(update_value_display) {
+					assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");				
+				}
 			}
 			break;
 		}
@@ -6079,6 +6583,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 						setAccountChangeColor(assetsItem, assets_accounts_change, false);
 						item_accounts[trans->toAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->toAccount()], 'f', MONETARY_DECIMAL_PLACES));
 						setAccountChangeColor(item_accounts[trans->toAccount()], account_change[trans->toAccount()], false);
+						item_accounts[trans->toAccount()]->setHidden(trans->toAccount()->isClosed() && account_change[trans->toAccount()] == 0.0 && account_value[trans->toAccount()] == 0.0);
 					}
 				}
 				if(update_value_display) assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
@@ -6091,6 +6596,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			item_accounts[trans->fromAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 			item_accounts[trans->fromAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES));
 			setAccountChangeColor(item_accounts[trans->fromAccount()], account_change[trans->fromAccount()], trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES);
+			item_accounts[trans->fromAccount()]->setHidden(trans->fromAccount()->isClosed() && account_change[trans->fromAccount()] == 0.0 && account_value[trans->fromAccount()] == 0.0);
 			if(from_sub) {
 				item_accounts[trans->fromAccount()->topAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->fromAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 				item_accounts[trans->fromAccount()->topAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->fromAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES));
@@ -6101,6 +6607,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			item_accounts[trans->toAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->toAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 			item_accounts[trans->toAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->toAccount()], 'f', MONETARY_DECIMAL_PLACES));
 			setAccountChangeColor(item_accounts[trans->toAccount()], account_change[trans->toAccount()], trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES);
+			item_accounts[trans->toAccount()]->setHidden(trans->toAccount()->isClosed() && account_change[trans->toAccount()] == 0.0 && account_value[trans->toAccount()] == 0.0);
 			if(to_sub) {
 				item_accounts[trans->toAccount()->topAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->toAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 				item_accounts[trans->toAccount()->topAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->toAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES));
@@ -6215,7 +6722,7 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 			it = it_e;
 			--it;
 			while(it != it_b) {
-				if(frommonth > budget->monthToBudgetMonth(it.key())) break;
+				if(frommonth >= budget->monthToBudgetMonth(it.key())) break;
 				--it;
 			}
 			after_from = false;
@@ -6226,7 +6733,7 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 				sit->it = sit->it_e;
 				--(sit->it);
 				while(sit->it != it_b) {
-					if(frommonth > budget->monthToBudgetMonth(sit->it.key())) break;
+					if(frommonth >= budget->monthToBudgetMonth(sit->it.key())) break;
 					--(sit->it);
 				}
 				after_from = false;
@@ -6318,7 +6825,7 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 					it = it_e;
 					--it;
 					while(it != it_b) {
-						if(curmonth > budget->monthToBudgetMonth(it.key())) break;
+						if(curmonth >= budget->monthToBudgetMonth(it.key())) break;
 						--it;
 					}
 					after_cur = false;
@@ -6338,7 +6845,7 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 					sit->it = sit->it_e;
 					--(sit->it);
 					while(sit->it != it_b) {
-						if(curmonth > budget->monthToBudgetMonth(sit->it.key())) break;
+						if(curmonth >= budget->monthToBudgetMonth(sit->it.key())) break;
 						--(sit->it);
 					}
 					after_cur = false;
@@ -6510,7 +7017,6 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 			item_accounts[budget->budgetAccount]->setText(CHANGE_COLUMN, QLocale().toString(account_change[budget->budgetAccount], 'f', MONETARY_DECIMAL_PLACES));
 			item_accounts[budget->budgetAccount]->setText(VALUE_COLUMN, QLocale().toString(account_value[budget->budgetAccount], 'f', MONETARY_DECIMAL_PLACES) + " ");
 			setAccountChangeColor(item_accounts[budget->budgetAccount], account_value[budget->budgetAccount], false);
-			
 		}
 		if(account->type() == ACCOUNT_TYPE_EXPENSES) {
 			assets_accounts_value -= future_diff;
@@ -6640,6 +7146,7 @@ void Eqonomize::updateSecurityAccount(AssetsAccount *account, bool update_displa
 		item_accounts[account]->setText(CHANGE_COLUMN, QLocale().toString(value - value_from, 'f', MONETARY_DECIMAL_PLACES));
 		item_accounts[account]->setText(VALUE_COLUMN, QLocale().toString(value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 		setAccountChangeColor(item_accounts[account], value - value_from, false);
+		item_accounts[account]->setHidden(account->isClosed() && value == 0.0 && value_from == 0.0);
 	}
 }
 void Eqonomize::filterAccounts() {
@@ -6802,6 +7309,7 @@ void Eqonomize::filterAccounts() {
 		it.key()->setText(CHANGE_COLUMN, QLocale().toString(account_change[it.value()], 'f', MONETARY_DECIMAL_PLACES));
 		it.key()->setText(VALUE_COLUMN, QLocale().toString(account_value[it.value()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 		setAccountChangeColor(it.key(), account_change[it.value()], it.value()->type() == ACCOUNT_TYPE_EXPENSES);
+		it.key()->setHidden(it.value()->isClosed() && account_change[it.value()] == 0.0 && account_value[it.value()] == 0.0);
 	}
 	incomesItem->setText(VALUE_COLUMN, QLocale().toString(incomes_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	incomesItem->setText(CHANGE_COLUMN, QLocale().toString(incomes_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
@@ -6820,6 +7328,7 @@ void Eqonomize::filterAccounts() {
 
 EqonomizeTreeWidget::EqonomizeTreeWidget(QWidget *parent) : QTreeWidget(parent) {
 	setAlternatingRowColors(true);
+	setExpandsOnDoubleClick(false);
 }
 EqonomizeTreeWidget::EqonomizeTreeWidget() : QTreeWidget() {}
 void EqonomizeTreeWidget::keyPressEvent(QKeyEvent *e) {

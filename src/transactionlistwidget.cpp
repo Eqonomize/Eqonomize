@@ -51,6 +51,8 @@
 #include "transactionfilterwidget.h"
 #include "transactionlistwidget.h"
 
+#include <QDebug>
+
 #include <cmath>
 
 extern void setColumnTextWidth(QTreeWidget *w, int i, QString str);
@@ -67,12 +69,14 @@ class TransactionListViewItem : public QTreeWidgetItem {
 	protected:
 		Transaction *o_trans;
 		ScheduledTransaction *o_strans;
+		MultiAccountTransaction *o_split;
 		QDate d_date;
 	public:
-		TransactionListViewItem(const QDate &trans_date, Transaction *trans, ScheduledTransaction *strans, QString, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null);
+		TransactionListViewItem(const QDate &trans_date, Transaction *trans, ScheduledTransaction *strans, MultiAccountTransaction *split, QString, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null);
 		bool operator<(const QTreeWidgetItem &i_pre) const;
 		Transaction *transaction() const;
 		ScheduledTransaction *scheduledTransaction() const;
+		MultiAccountTransaction *splitTransaction() const;
 		const QDate &date() const;
 		void setDate(const QDate &newdate);
 };
@@ -204,6 +208,7 @@ QByteArray TransactionListWidget::saveState() {
 }
 void TransactionListWidget::restoreState(const QByteArray &state) {
 	transactionsView->header()->restoreState(state);
+	transactionsView->sortByColumn(0, Qt::DescendingOrder);
 }
 
 void TransactionListWidget::currentDateChanged(const QDate &olddate, const QDate &newdate) {
@@ -229,7 +234,7 @@ void TransactionListWidget::popupListMenu(const QPoint &p) {
 			case TRANSACTION_TYPE_INCOME: {listPopupMenu->addAction(mainWin->ActionNewIncome); listPopupMenu->addAction(mainWin->ActionNewRepayment); break;}
 			case TRANSACTION_TYPE_TRANSFER: {listPopupMenu->addAction(mainWin->ActionNewTransfer); break;}
 		}
-		listPopupMenu->addAction(mainWin->ActionNewSplitTransaction);
+		listPopupMenu->addAction(mainWin->ActionNewMultiItemTransaction);
 		listPopupMenu->addSeparator();
 		listPopupMenu->addAction(mainWin->ActionEditTransaction);
 		listPopupMenu->addAction(mainWin->ActionEditScheduledTransaction);
@@ -372,7 +377,6 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 	return true;
 
 }
-
 void TransactionListWidget::transactionsReset() {
 	filterWidget->transactionsReset();
 	editWidget->transactionsReset();
@@ -390,7 +394,7 @@ void TransactionListWidget::addTransaction() {
 	} else {
 		budget->addTransaction(trans);
 	}
-	if(strans) mainWin->scheduledTransactionAdded(strans);
+	if(strans) mainWin->transactionAdded(strans);
 	else mainWin->transactionAdded(trans);
 }
 void TransactionListWidget::editScheduledTransaction() {
@@ -421,6 +425,8 @@ void TransactionListWidget::editTransaction() {
 			} else {
 				if(mainWin->editOccurrence(i->scheduledTransaction(), i->date())) transactionSelectionChanged();
 			}
+		} else if(i->splitTransaction()) {
+			if(mainWin->editSplitTransaction(i->splitTransaction())) transactionSelectionChanged();
 		} else {
 			if(mainWin->editTransaction(i->transaction())) transactionSelectionChanged();
 		}
@@ -431,58 +437,96 @@ void TransactionListWidget::editTransaction() {
 		TransactionListViewItem *i = (TransactionListViewItem*) transactionsView->currentItem();
 		if(!i->isSelected()) i = (TransactionListViewItem*) selection.first();
 		if(i) {
-			if(i->scheduledTransaction()) dialog->setScheduledTransaction(i->scheduledTransaction(), i->date());
+			if(i->scheduledTransaction()) dialog->setTransaction(i->transaction(), i->date());
 			else dialog->setTransaction(i->transaction());
 		}
 		bool equal_date = true, equal_description = true, equal_value = true, equal_category = (transtype != TRANSACTION_TYPE_TRANSFER), equal_payee = (dialog->payeeButton != NULL);
 		Transaction *comptrans = NULL;
 		Account *compcat = NULL;
 		QDate compdate;
+		QString compdesc;
+		double compvalue = 0.0;
 		for(int index = 0; index < selection.size(); index++) {
 			TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
 			if(!comptrans) {
-				comptrans = i->transaction();
-				compdate = i->date();
-				if(i->transaction()->parentSplit()) equal_date = false;
-				if(i->transaction()->type() != TRANSACTION_TYPE_EXPENSE && i->transaction()->type() != TRANSACTION_TYPE_INCOME) equal_payee = false;
-				if(i->transaction()->type() == TRANSACTION_TYPE_INCOME) {
-					compcat = ((Income*) i->transaction())->category();
-				} else if(i->transaction()->type() == TRANSACTION_TYPE_EXPENSE) {
-					compcat = ((Expense*) i->transaction())->category();
-				} else if(i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-					equal_value = false;
-					equal_description = false;
-					compcat = ((SecurityTransaction*) i->transaction())->account();
-					if(compcat->type() == ACCOUNT_TYPE_ASSETS) {
-						equal_category = false;
+				if(i->splitTransaction()) {
+					comptrans = i->splitTransaction()->at(0);
+					compvalue = i->splitTransaction()->value();
+					for(int split_i = 1; split_i < i->splitTransaction()->count(); split_i++) {
+						Transaction *i_trans = i->splitTransaction()->at(split_i);
+						if((comptrans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) comptrans)->payee() != ((Expense*) i_trans)->payee()) || (comptrans->type() == TRANSACTION_TYPE_INCOME && ((Income*) comptrans)->payer() != ((Income*) i_trans)->payer())) {
+							equal_payee = false;
+						}
+						if(i_trans->date() != comptrans->date()) {
+							equal_date = false;
+						}
 					}
-				}
-			} else {
-				if(equal_date && (compdate != i->date() || i->transaction()->parentSplit())) {
-					equal_date = false;
-				}
-				if(equal_description && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || comptrans->description() != i->transaction()->description())) {
-					equal_description = false;
-				}
-				if(equal_payee && (i->transaction()->type() != comptrans->type() || (comptrans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) comptrans)->payee() != ((Expense*) i->transaction())->payee()) || (comptrans->type() == TRANSACTION_TYPE_INCOME && ((Income*) comptrans)->payer() != ((Income*) i->transaction())->payer()))) {
-					equal_payee = false;
-				}
-				if(equal_value && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || comptrans->value() != i->transaction()->value())) {
-					equal_value = false;
-				}
-				if(equal_category) {
+					compcat = i->splitTransaction()->category();
+					compdesc = i->splitTransaction()->description();
+				} else {
+					comptrans = i->transaction();
+					compvalue = comptrans->value();
+					if(i->transaction()->parentSplit()) equal_date = false;
+					if(i->transaction()->type() != TRANSACTION_TYPE_EXPENSE && i->transaction()->type() != TRANSACTION_TYPE_INCOME) equal_payee = false;
+					if(i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+						equal_value = false;
+						equal_description = false;
+						compcat = ((SecurityTransaction*) i->transaction())->account();
+						if(compcat->type() == ACCOUNT_TYPE_ASSETS) {
+							equal_category = false;
+						}
+					}
 					if(i->transaction()->type() == TRANSACTION_TYPE_INCOME) {
-						if(compcat != ((Income*) i->transaction())->category()) {
-							equal_category = false;
-						}
+						compcat = ((Income*) i->transaction())->category();
 					} else if(i->transaction()->type() == TRANSACTION_TYPE_EXPENSE) {
-						if(compcat != ((Expense*) i->transaction())->category()) {
-							equal_category = false;
+						compcat = ((Expense*) i->transaction())->category();
+					}
+					compdesc != i->transaction()->description();
+				}
+				compdate = i->date();
+			} else {
+				Transaction *trans = i->transaction();
+				if(i->splitTransaction()) {
+					trans = i->splitTransaction()->at(0);
+					for(int split_i = 0; split_i < i->splitTransaction()->count(); split_i++) {
+						Transaction *i_trans = i->splitTransaction()->at(split_i);
+						if(equal_payee && ((comptrans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) comptrans)->payee() != ((Expense*) i_trans)->payee()) || (comptrans->type() == TRANSACTION_TYPE_INCOME && ((Income*) comptrans)->payer() != ((Income*) i_trans)->payer()))) {
+							equal_payee = false;
 						}
-					} else if(i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-						if(compcat != ((SecurityTransaction*) i->transaction())->account()) {
-							equal_category = false;
+						if(equal_date && i_trans->date() != comptrans->date()) {
+							equal_date = false;
 						}
+					}
+					if(equal_value && i->splitTransaction()->value() != compvalue) equal_value = false;
+					if(equal_category && i->splitTransaction()->category() != compcat) equal_category = false;
+					if(equal_description && compdesc != i->splitTransaction()->description()) equal_description = false;
+				} else {
+					if(equal_date && (compdate != i->date() || trans->parentSplit())) {
+						equal_date = false;
+					}
+					if(equal_payee && (trans->type() != comptrans->type() || (comptrans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) comptrans)->payee() != ((Expense*) trans)->payee()) || (comptrans->type() == TRANSACTION_TYPE_INCOME && ((Income*) comptrans)->payer() != ((Income*) trans)->payer()))) {
+						equal_payee = false;
+					}
+					if(equal_value && (trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL || compvalue != trans->value())) {
+						equal_value = false;
+					}
+					if(equal_category) {
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {
+							if(compcat != ((Income*) trans)->category()) {
+								equal_category = false;
+							}
+						} else if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
+							if(compcat != ((Expense*) trans)->category()) {
+								equal_category = false;
+							}
+						} else if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+							if(compcat != ((SecurityTransaction*) trans)->account()) {
+								equal_category = false;
+							}
+						}
+					}
+					if(equal_description && (trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL || compdesc != trans->description())) {
+						equal_description = false;
 					}
 				}
 			}
@@ -499,79 +543,84 @@ void TransactionListWidget::editTransaction() {
 			bool future = !date.isNull() && date > QDate::currentDate();
 			for(int index = 0; index < selection.size(); index++) {
 				TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
-				if(!warned1 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL)) {
-					if(dialog->valueButton->isChecked()) {
-						QMessageBox::critical(this, tr("Error"), tr("Cannot set the value of security transactions using the dialog for modifying multiple transactions."));
-						warned1 = true;
-					}
-				}
-				if(!warned2 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
-					if(dialog->descriptionButton->isChecked()) {
-						QMessageBox::critical(this, tr("Error"), tr("Cannot change description of dividends and security transactions.", "Referring to the generic description property"));
-						warned2 = true;
-					}
-				}
-				if(!warned3 && dialog->payeeButton && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
-					if(dialog->payeeButton->isChecked()) {
-						QMessageBox::critical(this, tr("Error"), tr("Cannot change payer of dividends and security transactions."));
-						warned3 = true;
-					}
-				}
-				if(!warned4 && i->transaction()->parentSplit()) {
-					if(dialog->dateButton->isChecked()) {
-						QMessageBox::critical(this, tr("Error"), tr("Cannot change date of transactions that are part of a split transaction."));
-						warned4 = true;
-					}
-				}
-				ScheduledTransaction *strans = i->scheduledTransaction();
-				if(strans && strans->isOneTimeTransaction() && (date.isNull() || date == strans->transaction()->date())) {
-					ScheduledTransaction *old_strans = strans->copy();
-					Transaction *trans = strans->transaction();
-					if(dialog->modifyTransaction(trans)) {
-						mainWin->scheduledTransactionModified(strans, old_strans);
-					}
-					delete old_strans;
-				} else if(strans) {
-					date = i->date();
-					Transaction *trans = strans->transaction()->copy();
-					trans->setDate(date);
-					if(dialog->modifyTransaction(trans)) {
-						if(future) {
-							ScheduledTransaction *strans_new = new ScheduledTransaction(budget, trans, NULL);
-							budget->addScheduledTransaction(strans_new);
-							mainWin->scheduledTransactionAdded(strans_new);
-						} else {
-							budget->addTransaction(trans);
-							mainWin->transactionAdded(trans);
+				if(i->splitTransaction()) {
+				} else {
+					if(!warned1 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL)) {
+						if(dialog->valueButton->isChecked()) {
+							QMessageBox::critical(this, tr("Error"), tr("Cannot set the value of security transactions using the dialog for modifying multiple transactions."));
+							warned1 = true;
 						}
-						if(strans->isOneTimeTransaction()) {
-							budget->removeScheduledTransaction(strans, true);
-							mainWin->scheduledTransactionRemoved(strans);
-							delete strans;
-						} else {
-							ScheduledTransaction *old_strans = strans->copy();
-							strans->addException(date);
-							mainWin->scheduledTransactionModified(strans, old_strans);
-							delete old_strans;
+					}
+					if(!warned2 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
+						if(dialog->descriptionButton->isChecked()) {
+							QMessageBox::critical(this, tr("Error"), tr("Cannot change description of dividends and security transactions.", "Referring to the generic description property"));
+							warned2 = true;
+						}
+					}
+					if(!warned3 && dialog->payeeButton && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
+						if(dialog->payeeButton->isChecked()) {
+							QMessageBox::critical(this, tr("Error"), tr("Cannot change payer of dividends and security transactions."));
+							warned3 = true;
+						}
+					}
+					if(!warned4 && i->transaction()->parentSplit()) {
+						if(dialog->dateButton->isChecked()) {
+							QMessageBox::critical(this, tr("Error"), tr("Cannot change date of transactions that are part of a split transaction."));
+							warned4 = true;
+						}
+					}
+					ScheduledTransaction *strans = i->scheduledTransaction();
+					if(strans && strans->isOneTimeTransaction() && (date.isNull() || date == strans->transaction()->date())) {
+						ScheduledTransaction *old_strans = strans->copy();
+						Transaction *trans = (Transaction*) strans->transaction();
+						if(dialog->modifyTransaction(trans)) {
+							mainWin->transactionModified(strans, old_strans);
+						}
+						delete old_strans;
+					} else if(strans) {
+						if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
+							date = i->date();
+							Transaction *trans = (Transaction*) strans->transaction()->copy();
+							trans->setDate(date);
+							if(dialog->modifyTransaction(trans)) {
+								if(future) {
+									ScheduledTransaction *strans_new = new ScheduledTransaction(budget, trans, NULL);
+									budget->addScheduledTransaction(strans_new);
+									mainWin->transactionAdded(strans_new);
+								} else {
+									budget->addTransaction(trans);
+									mainWin->transactionAdded(trans);
+								}
+								if(strans->isOneTimeTransaction()) {
+									budget->removeScheduledTransaction(strans, true);
+									mainWin->transactionRemoved(strans);
+									delete strans;
+								} else {
+									ScheduledTransaction *old_strans = strans->copy();
+									strans->addException(date);
+									mainWin->transactionModified(strans, old_strans);
+									delete old_strans;
+								}
+							} else {
+								delete trans;
+							}
 						}
 					} else {
-						delete trans;
-					}
-				} else {
-					Transaction *trans = i->transaction();
-					Transaction *oldtrans = trans->copy();
-					if(dialog->modifyTransaction(trans)) {
-						if(future && !trans->parentSplit()) {
-							budget->removeTransaction(trans, true);
-							mainWin->transactionRemoved(trans);
-							strans = new ScheduledTransaction(budget, trans, NULL);
-							budget->addScheduledTransaction(strans);
-							mainWin->scheduledTransactionAdded(strans);
-						} else {
-							mainWin->transactionModified(trans, oldtrans);
+						Transaction *trans = i->transaction();
+						Transaction *oldtrans = trans->copy();
+						if(dialog->modifyTransaction(trans)) {
+							if(future && !trans->parentSplit()) {
+								budget->removeTransaction(trans, true);
+								mainWin->transactionRemoved(trans);
+								strans = new ScheduledTransaction(budget, trans, NULL);
+								budget->addScheduledTransaction(strans);
+								mainWin->transactionAdded(strans);
+							} else {
+								mainWin->transactionModified(trans, oldtrans);
+							}
 						}
+						delete oldtrans;
 					}
-					delete oldtrans;
 				}
 			}
 			transactionSelectionChanged();
@@ -592,6 +641,10 @@ void TransactionListWidget::modifyTransaction() {
 	}
 	TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
 	if(!i) return;
+	if(((TransactionListViewItem*) i)->splitTransaction()) {
+		editTransaction();
+		return;
+	}
 	if(((TransactionListViewItem*) i)->transaction()->parentSplit()) {
 		editSplitTransaction();
 		return;
@@ -600,10 +653,14 @@ void TransactionListWidget::modifyTransaction() {
 		editTransaction();
 		return;
 	}
+	if(i->scheduledTransaction() && i->scheduledTransaction()->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SINGLE) {
+		editTransaction();
+		return;
+	}
 	if(!editWidget->validValues(true)) return;
 	if(i->scheduledTransaction()) {
 		if(i->scheduledTransaction()->isOneTimeTransaction()) {
-			Transaction *trans = i->scheduledTransaction()->transaction()->copy();
+			Transaction *trans = (Transaction*) i->scheduledTransaction()->transaction()->copy();
 			if(!editWidget->modifyTransaction(trans)) {
 				delete trans;
 				return;
@@ -616,7 +673,7 @@ void TransactionListWidget::modifyTransaction() {
 			} else {
 				budget->addTransaction(trans);
 			}
-			if(strans) mainWin->scheduledTransactionAdded(strans);
+			if(strans) mainWin->transactionAdded(strans);
 			else mainWin->transactionAdded(trans);
 			QTreeWidgetItemIterator it(transactionsView);
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
@@ -636,7 +693,7 @@ void TransactionListWidget::modifyTransaction() {
 				QDate curdate_copy = i->date();
 				ScheduledTransaction *oldstrans = curstranscopy->copy();
 				curstranscopy->addException(curdate_copy);
-				mainWin->scheduledTransactionModified(curstranscopy, oldstrans);
+				mainWin->transactionModified(curstranscopy, oldstrans);
 				delete oldstrans;
 			}
 			return;
@@ -648,7 +705,7 @@ void TransactionListWidget::modifyTransaction() {
 			ScheduledTransaction *strans = new ScheduledTransaction(budget, newtrans, NULL);
 			removeTransaction();
 			budget->addScheduledTransaction(strans);
-			mainWin->scheduledTransactionAdded(strans);
+			mainWin->transactionAdded(strans);
 			QTreeWidgetItemIterator it(transactionsView);
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
 			while(i) {
@@ -664,7 +721,7 @@ void TransactionListWidget::modifyTransaction() {
 			delete newtrans;
 		}
 	} else {
-		Transaction *oldtrans = i->transaction()->copy();
+		Transaction *oldtrans = (Transaction*) i->transaction()->copy();
 		if(editWidget->modifyTransaction(i->transaction())) {
 			mainWin->transactionModified(i->transaction(), oldtrans);
 		}
@@ -685,13 +742,14 @@ void TransactionListWidget::removeSplitTransaction() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() >= 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
-		if(i->transaction()->parentSplit()) {
-			SplitTransaction *split = i->transaction()->parentSplit();
-			if(QMessageBox::warning(this, tr("Delete transactions?"), tr("Are you sure you want to delete all (%1) transactions in the selected split transaction?").arg(split->splits.count()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel) {
+		if(i->splitTransaction() || i->transaction()->parentSplit()) {
+			SplitTransaction *split = i->splitTransaction();
+			if(!split) split = i->transaction()->parentSplit();
+			if(QMessageBox::warning(this, tr("Delete transactions?"), tr("Are you sure you want to delete all (%1) transactions in the selected split transaction?").arg(split->count()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel) {
 				return;
 			}
 			budget->removeSplitTransaction(split, true);
-			mainWin->splitTransactionRemoved(split);
+			mainWin->transactionRemoved(split);
 			delete split;
 			editClear();
 		}
@@ -709,17 +767,17 @@ void TransactionListWidget::splitUpTransaction() {
 }
 void TransactionListWidget::joinTransactions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
-	SplitTransaction *split = NULL;
+	MultiItemTransaction *split = NULL;
 	for(int index = 0; index < selection.size(); index++) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
 		Transaction *trans = i->transaction();
-		if(trans && (!i->scheduledTransaction() && !trans->parentSplit())) {
+		if(trans && !i->scheduledTransaction() && !i->splitTransaction() && !trans->parentSplit()) {
 			if(!split) {
-				if((trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) && ((SecurityTransaction*) trans)->account()->type() == ACCOUNT_TYPE_ASSETS) split = new SplitTransaction(budget, i->transaction()->date(), (AssetsAccount*) ((SecurityTransaction*) trans)->account());
-				else if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) split = new SplitTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->fromAccount());
-				else split = new SplitTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->toAccount());
+				if((trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) && ((SecurityTransaction*) trans)->account()->type() == ACCOUNT_TYPE_ASSETS) split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) ((SecurityTransaction*) trans)->account());
+				else if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->fromAccount());
+				else split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->toAccount());
 			}
-			split->splits.push_back(trans);
+			split->addTransaction(trans);
 		}
 	}
 	if(!split) return;
@@ -737,6 +795,7 @@ void TransactionListWidget::removeTransaction() {
 			return;
 		}
 	}
+	qInfo() << "RT1";
 	transactionsView->clearSelection();
 	for(int index = 0; index < selection.size(); index++) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
@@ -744,14 +803,22 @@ void TransactionListWidget::removeTransaction() {
 			ScheduledTransaction *strans = i->scheduledTransaction();
 			if(strans->isOneTimeTransaction()) {
 				budget->removeScheduledTransaction(strans, true);
-				mainWin->scheduledTransactionRemoved(strans);
+				mainWin->transactionRemoved(strans);
 				delete strans;
 			} else {
 				ScheduledTransaction *oldstrans = strans->copy();
 				strans->addException(i->date());
-				mainWin->scheduledTransactionModified(strans, oldstrans);
+				mainWin->transactionModified(strans, oldstrans);
 				delete oldstrans;
 			}
+		} else if(i->splitTransaction()) {
+		qInfo() << "RT2";
+			MultiAccountTransaction *split = i->splitTransaction();
+			budget->removeSplitTransaction(split, true);
+			qInfo() << "RT3";
+			mainWin->transactionRemoved(split);
+			qInfo() << "RT4";
+			delete split;
 		} else {
 			Transaction *trans = i->transaction();
 			budget->removeTransaction(trans, true);
@@ -764,47 +831,44 @@ void TransactionListWidget::addModifyTransaction() {
 	addTransaction();
 }
 
-void TransactionListWidget::appendFilterTransaction(Transaction *trans, bool update_total_value) {
-	if(!filterWidget->filterTransaction(trans)) {
-		QTreeWidgetItem *i = new TransactionListViewItem(trans->date(), trans, NULL, QLocale().toString(trans->date(), QLocale::ShortFormat), QString::null, QLocale().toCurrencyString(trans->value()));
-		transactionsView->insertTopLevelItem(0, i);
-		i->setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
-		if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
-			if(!expenseColor.isValid()) expenseColor = createExpenseColor(i->foreground(2).color());
-			i->setForeground(2, expenseColor);
-		} else if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() < 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() > 0.0)) {
-			if(!incomeColor.isValid()) incomeColor = createIncomeColor(i->foreground(2).color());
-			i->setForeground(2, incomeColor);
-		} else {
-			if(!transferColor.isValid()) transferColor = createTransferColor(i->foreground(2).color());
-			i->setForeground(2, transferColor);
+void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool update_total_value, ScheduledTransaction *strans) {
+	Transaction *trans = NULL;
+	MultiAccountTransaction *split = NULL;
+	switch(transs->generaltype()) {
+		case GENERAL_TRANSACTION_TYPE_SINGLE: {
+			if(filterWidget->filterTransaction(transs, !strans)) return;
+			trans = (Transaction*) transs;
+			break;
 		}
-		//i->setTextAlignment(3, Qt::AlignCenter);
-		//i->setTextAlignment(4, Qt::AlignCenter);
-		if(trans == selected_trans) {
-			transactionsView->blockSignals(true);
-			i->setSelected(true);
-			transactionsView->blockSignals(false);
+		case GENERAL_TRANSACTION_TYPE_SPLIT: {
+			if(((SplitTransaction*) transs)->type() != SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) return;
+			if(filterWidget->filterTransaction(transs, !strans)) return;
+			split = (MultiAccountTransaction*) transs;
+			break;
 		}
-		if(trans->parentSplit()) i->setText(1, trans->description() + "*");
-		else i->setText(1, trans->description());
-		i->setText(from_col, trans->fromAccount()->name());
-		i->setText(to_col, trans->toAccount()->name());
-		if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_EXPENSE) i->setText(5, ((Expense*) trans)->payee());
-		else if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_INCOME) i->setText(5, ((Income*) trans)->payer());
-		i->setText(comments_col, trans->comment());
-		current_value += trans->value();
-		current_quantity += trans->quantity();
-		if(update_total_value) {
-			updateStatistics();
-			transactionsView->setSortingEnabled(true);
+		case GENERAL_TRANSACTION_TYPE_SCHEDULE: {
+			strans = (ScheduledTransaction*) transs;
+			transs = strans->transaction();
+			if(transs->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+				if(((SplitTransaction*) transs)->type() != SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) {
+					SplitTransaction *split2 = (SplitTransaction*) transs;
+					int c = split2->count();
+					for(int i = 0; i < c; i++) {
+						appendFilterTransaction(split2->at(i), update_total_value, strans);
+					}
+					return;
+				}
+				split = (MultiAccountTransaction*) transs;
+			} else {
+				trans = (Transaction*) transs;
+			}
+			if(filterWidget->filterTransaction(transs, false)) return;
+			break;
 		}
 	}
-}
-void TransactionListWidget::appendFilterScheduledTransaction(ScheduledTransaction *strans, bool update_total_value) {
-	if(!filterWidget->filterTransaction(strans->transaction(), false)) {
-		QDate date = filterWidget->startDate();
-		QDate enddate = filterWidget->endDate();
+	QDate date = filterWidget->startDate();
+	QDate enddate = filterWidget->endDate();
+	if(strans) {
 		if(strans->isOneTimeTransaction()) {
 			if(date.isNull()) date = strans->firstOccurrence();
 			else if(date > strans->firstOccurrence()) date = QDate();
@@ -814,168 +878,309 @@ void TransactionListWidget::appendFilterScheduledTransaction(ScheduledTransactio
 			else date = strans->recurrence()->nextOccurrence(date, true);
 		}
 		if(date.isNull() || date > enddate) update_total_value = false;
-		Transaction *trans = strans->transaction();
-		while(!date.isNull() && date <= enddate) {
-			QTreeWidgetItem *i = NULL;
-			i = new TransactionListViewItem(date, trans, strans, QString::null, trans->description(), QLocale().toCurrencyString(trans->value()));
-			transactionsView->insertTopLevelItem(0, i);
-			i->setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
-			if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
-				if(!expenseColor.isValid()) expenseColor = createExpenseColor(i->foreground(2).color());
-				i->setForeground(2, expenseColor);
-			} else if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() < 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() > 0.0)) {
-				if(!incomeColor.isValid()) incomeColor = createIncomeColor(i->foreground(2).color());
-				i->setForeground(2, incomeColor);
-			} else {
-				if(!transferColor.isValid()) transferColor = createTransferColor(i->foreground(2).color());
-				i->setForeground(2, transferColor);
-			}
-			//i->setTextAlignment(3, Qt::AlignCenter);
-			//i->setTextAlignment(4, Qt::AlignCenter);
-			if(strans->recurrence()) i->setText(0, QLocale().toString(date, QLocale::ShortFormat) + "**");
-			else i->setText(0, QLocale().toString(date, QLocale::ShortFormat));
+	} else {
+		date = transs->date();
+	}
+	while(!strans || (!date.isNull() && date <= enddate)) {
+
+		QTreeWidgetItem *i = new TransactionListViewItem(date, trans, strans, split, QString::null, QString::null, QLocale().toCurrencyString(transs->value()));
+		
+		if(strans && strans->recurrence()) i->setText(0, QLocale().toString(date, QLocale::ShortFormat) + "**");
+		else i->setText(0, QLocale().toString(date, QLocale::ShortFormat));
+		transactionsView->insertTopLevelItem(0, i);
+		i->setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
+		
+		if((split && split->cost() > 0.0) || (trans && ((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)))) {
+			if(!expenseColor.isValid()) expenseColor = createExpenseColor(i->foreground(2).color());
+			i->setForeground(2, expenseColor);
+		} else if((split && split->cost() < 0.0) || (trans && ((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() < 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() > 0.0)))) {
+			if(!incomeColor.isValid()) incomeColor = createIncomeColor(i->foreground(2).color());
+			i->setForeground(2, incomeColor);
+		} else {
+			if(!transferColor.isValid()) transferColor = createTransferColor(i->foreground(2).color());
+			i->setForeground(2, transferColor);
+		}
+		//i->setTextAlignment(3, Qt::AlignCenter);
+		//i->setTextAlignment(4, Qt::AlignCenter);
+		if((trans && trans == selected_trans) || (split && split == selected_trans)) {
+			transactionsView->blockSignals(true);
+			i->setSelected(true);
+			transactionsView->blockSignals(false);
+		}
+		if(trans && trans->parentSplit()) i->setText(1, trans->description() + "*");
+		else i->setText(1, transs->description());
+		if(trans) {
 			i->setText(from_col, trans->fromAccount()->name());
 			i->setText(to_col, trans->toAccount()->name());
 			if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_EXPENSE) i->setText(5, ((Expense*) trans)->payee());
 			else if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_INCOME) i->setText(5, ((Income*) trans)->payer());
-			i->setText(comments_col, trans->comment());
-			current_value += trans->value();
-			current_quantity += trans->quantity();
-			if(!strans->isOneTimeTransaction()) date = strans->recurrence()->nextOccurrence(date);
-			else break;
+		} else if(split) {
+			i->setText(3, split->category()->name());
+			i->setText(4, split->accountsString());
+			if(comments_col == 6) i->setText(5, split->payees());
 		}
-		if(update_total_value) {
-			updateStatistics();
-			transactionsView->setSortingEnabled(true);
-		}
+		i->setText(comments_col, transs->comment());
+		current_value += transs->value();
+		current_quantity += transs->quantity();
+		if(strans && !strans->isOneTimeTransaction()) date = strans->recurrence()->nextOccurrence(date);
+		else break;
+	}
+	if(update_total_value) {
+		updateStatistics();
+		transactionsView->setSortingEnabled(true);
 	}
 }
 
-void TransactionListWidget::onSplitRemoved(SplitTransaction *split) {
-	QTreeWidgetItemIterator it(transactionsView);
-	TransactionListViewItem *i = (TransactionListViewItem*) *it;
-	while(i) {
-		if(i->transaction()->parentSplit() == split) {
-			i->setText(1, i->transaction()->description());
-		}
-		++it;
-		i = (TransactionListViewItem*) *it;
-	}
-}
-void TransactionListWidget::onTransactionAdded(Transaction *trans) {
-	appendFilterTransaction(trans, true);
-	filterWidget->transactionAdded(trans);
-	editWidget->transactionAdded(trans);
-}
-void TransactionListWidget::onTransactionModified(Transaction *trans, Transaction *oldtrans) {
-	current_value -= oldtrans->value();
-	current_quantity -= oldtrans->quantity();
-	bool b_filter = filterWidget->filterTransaction(trans);
-	if(!b_filter) {
-		current_value += trans->value();
-		current_quantity += trans->quantity();
-	}
-	QTreeWidgetItemIterator it(transactionsView);
-	TransactionListViewItem *i = (TransactionListViewItem*) *it;
-	while(i) {
-		if(i->transaction() == trans) {
-			break;
-		}
-		++it;
-		i = (TransactionListViewItem*) *it;
-	}
-	if(i && b_filter) {
-		delete i;
-		i = NULL;
-	}
-	updateStatistics();
-	if(i) {
-		i->setDate(trans->date());
-		i->setText(0, QLocale().toString(trans->date(), QLocale::ShortFormat));
-		if(trans->parentSplit()) i->setText(1, trans->description() + "*");
-		else i->setText(1, trans->description());
-		i->setText(2, QLocale().toCurrencyString(trans->value()));
-		i->setText(from_col, trans->fromAccount()->name());
-		i->setText(to_col, trans->toAccount()->name());
-		if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_EXPENSE) i->setText(5, ((Expense*) trans)->payee());
-		else if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_INCOME) i->setText(5, ((Income*) trans)->payer());
-		i->setText(comments_col, trans->comment());
-	}
-	if(oldtrans->description() != trans->description()) filterWidget->transactionModified(trans);
-	editWidget->transactionModified(trans);
-}
-void TransactionListWidget::onTransactionRemoved(Transaction *trans) {
-	QTreeWidgetItemIterator it(transactionsView);
-	TransactionListViewItem *i = (TransactionListViewItem*) *it;
-	while(i) {
-		if(i->transaction() == trans) {
-			delete i;
-			current_value -= trans->value();
-			current_quantity -= trans->quantity();
+void TransactionListWidget::onTransactionSplitUp(SplitTransaction *split) {
+	if(split->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) {
+		for(int i = 0; i < split->count(); i++) {
+			split->at(i)->setParentSplit(NULL);
+			appendFilterTransaction(split->at(i), false);
+			split->at(i)->setParentSplit(split);
 			updateStatistics();
+			transactionsView->setSortingEnabled(true);
+		}
+	} else {
+		QTreeWidgetItemIterator it(transactionsView);
+		TransactionListViewItem *i = (TransactionListViewItem*) *it;
+		while(i) {
+			if(i->transaction()->parentSplit() == split) {
+				i->setText(1, i->transaction()->description());
+			}
+			++it;
+			i = (TransactionListViewItem*) *it;
+		}
+	}
+}
+void TransactionListWidget::onTransactionAdded(Transactions *trans) {
+	appendFilterTransaction(trans, true);
+	switch(trans->generaltype()) {
+		case GENERAL_TRANSACTION_TYPE_SINGLE: {
+			filterWidget->transactionAdded((Transaction*) trans);
+			editWidget->transactionAdded((Transaction*) trans);
 			break;
 		}
-		++it;
-		i = (TransactionListViewItem*) *it;
-	}
-	editWidget->transactionRemoved(trans);
-}
-void TransactionListWidget::onScheduledTransactionAdded(ScheduledTransaction *strans) {
-	appendFilterScheduledTransaction(strans, true);
-	filterWidget->transactionAdded(strans->transaction());
-	editWidget->transactionAdded(strans->transaction());
-}
-void TransactionListWidget::onScheduledTransactionModified(ScheduledTransaction *strans, ScheduledTransaction *oldstrans) {
-	QTreeWidgetItemIterator it(transactionsView);
-	TransactionListViewItem *i = (TransactionListViewItem*) *it;
-	while(i) {
-		if(i->scheduledTransaction() == strans) {
-			current_value -= oldstrans->transaction()->value();
-			current_quantity -= oldstrans->transaction()->quantity();
-			QTreeWidgetItem *i_del = i;
-			++it;
-			i = (TransactionListViewItem*) *it;
-			delete i_del;
-		} else {
-			++it;
-			i = (TransactionListViewItem*) *it;
+		case GENERAL_TRANSACTION_TYPE_SCHEDULE: {
+			ScheduledTransaction *strans = (ScheduledTransaction*) trans;
+			if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
+				editWidget->transactionAdded((Transaction*) strans->transaction());
+				filterWidget->transactionAdded((Transaction*) strans->transaction());
+			} else if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+				SplitTransaction *split = (SplitTransaction*) strans->transaction();
+				int n = split->count();
+				for(int split_i = 0; split_i < n; split_i++) {
+					editWidget->transactionAdded(split->at(split_i));
+					filterWidget->transactionAdded(split->at(split_i));
+				}
+			}
+			break;
+		}
+		case GENERAL_TRANSACTION_TYPE_SPLIT: {
+			break;
 		}
 	}
-	appendFilterScheduledTransaction(strans, true);
-	updateStatistics();
-	if(oldstrans->transaction()->description() != strans->transaction()->description()) filterWidget->transactionModified(strans->transaction());
-	editWidget->transactionModified(strans->transaction());
+}
+void TransactionListWidget::onTransactionModified(Transactions *transs, Transactions *oldtranss) {
+	switch(transs->generaltype()) {
+		case GENERAL_TRANSACTION_TYPE_SINGLE: {
+			Transaction *trans = (Transaction*) transs;
+			Transaction *oldtrans = (Transaction*) oldtranss;
+			QTreeWidgetItemIterator it(transactionsView);
+			TransactionListViewItem *i = (TransactionListViewItem*) *it;
+			while(i) {
+				if(i->transaction() == trans) {
+					current_value -= oldtrans->value();
+					current_quantity -= oldtrans->quantity();
+					break;
+				}
+				++it;
+				i = (TransactionListViewItem*) *it;
+			}
+			if(!i) {
+				appendFilterTransaction(trans, true);
+			} else {
+				if(filterWidget->filterTransaction(trans)) {
+					delete i;
+				} else {
+					current_value += trans->value();
+					current_quantity += trans->quantity();
+					i->setDate(trans->date());
+					i->setText(0, QLocale().toString(trans->date(), QLocale::ShortFormat));
+					if(trans->parentSplit()) i->setText(1, trans->description() + "*");
+					else i->setText(1, trans->description());
+					i->setText(2, QLocale().toCurrencyString(trans->value()));
+					i->setText(from_col, trans->fromAccount()->name());
+					i->setText(to_col, trans->toAccount()->name());
+					if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_EXPENSE) i->setText(5, ((Expense*) trans)->payee());
+					else if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_INCOME) i->setText(5, ((Income*) trans)->payer());
+					i->setText(comments_col, trans->comment());
+				}
+				updateStatistics();
+			}
+			if(oldtrans->description() != trans->description()) filterWidget->transactionModified(trans);
+			editWidget->transactionModified(trans);
+			break;
+		}
+		case GENERAL_TRANSACTION_TYPE_SCHEDULE: {
+			ScheduledTransaction *strans = (ScheduledTransaction*) transs;
+			ScheduledTransaction *oldstrans = (ScheduledTransaction*) oldtranss;
+			QTreeWidgetItemIterator it(transactionsView);
+			TransactionListViewItem *i = (TransactionListViewItem*) *it;
+			while(i) {
+				if(i->scheduledTransaction() == strans) {
+					current_value -= oldstrans->transaction()->value();
+					current_quantity -= oldstrans->transaction()->quantity();
+					QTreeWidgetItem *i_del = i;
+					++it;
+					i = (TransactionListViewItem*) *it;
+					delete i_del;
+				} else {
+					++it;
+					i = (TransactionListViewItem*) *it;
+				}
+			}
+			appendFilterTransaction(strans, true);
+			updateStatistics();
+			if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
+				if(oldstrans->transaction()->description() != strans->transaction()->description()) filterWidget->transactionModified((Transaction*) strans->transaction());
+				editWidget->transactionModified((Transaction*) strans->transaction());
+			} else if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+				SplitTransaction *split = (SplitTransaction*) strans->transaction();
+				bool b_filter = (oldstrans->transaction()->description() != strans->transaction()->description());
+				int n = split->count();
+				for(int split_i = 0; split_i < n; split_i++) {
+					editWidget->transactionModified(split->at(split_i));
+					if(b_filter) filterWidget->transactionModified(split->at(split_i));
+				}
+			}
+			break;
+		}
+		case GENERAL_TRANSACTION_TYPE_SPLIT: {
+			if(((SplitTransaction*) transs)->type() != SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) break;
+			MultiAccountTransaction *split = (MultiAccountTransaction*) transs;
+			MultiAccountTransaction *oldsplit = (MultiAccountTransaction*) oldtranss;
+			QTreeWidgetItemIterator it(transactionsView);
+			TransactionListViewItem *i = (TransactionListViewItem*) *it;
+			while(i) {
+				if(i->splitTransaction() == split) {
+					current_value -= oldsplit->value();
+					current_quantity -= oldsplit->quantity();
+					break;
+				}
+				++it;
+				i = (TransactionListViewItem*) *it;
+			}
+			if(!i) {
+				appendFilterTransaction(split, true);
+			} else {
+				if(filterWidget->filterTransaction(split)) {
+					delete i;
+				} else {
+					current_value += split->value();
+					current_quantity += split->quantity();
+					i->setDate(split->date());
+					i->setText(0, QLocale().toString(split->date(), QLocale::ShortFormat));
+					i->setText(1, split->description() + "*");
+					i->setText(2, QLocale().toCurrencyString(split->value()));
+					i->setText(3, split->category()->name());
+					i->setText(4, split->accountsString());
+					if(comments_col == 6) i->setText(5, split->payees());
+					i->setText(comments_col, split->comment());
+				}
+				updateStatistics();
+			}
+			break;
+		}
+	}
+}
+void TransactionListWidget::onTransactionRemoved(Transactions *transs) {
+qInfo() << "RT5";
+	switch(transs->generaltype()) {
+		case GENERAL_TRANSACTION_TYPE_SINGLE: {
+		qInfo() << "RT6";
+			Transaction *trans = (Transaction*) transs;
+			QTreeWidgetItemIterator it(transactionsView);
+			TransactionListViewItem *i = (TransactionListViewItem*) *it;
+			while(i) {
+				if(i->transaction() == trans) {
+					delete i;
+					current_value -= trans->value();
+					current_quantity -= trans->quantity();
+					updateStatistics();
+					break;
+				}
+				++it;
+				i = (TransactionListViewItem*) *it;
+			}
+			editWidget->transactionRemoved(trans);
+			qInfo() << "RT7";
+			break;
+		}
+		case GENERAL_TRANSACTION_TYPE_SCHEDULE: {
+			ScheduledTransaction *strans = (ScheduledTransaction*) transs;
+			QTreeWidgetItemIterator it(transactionsView);
+			TransactionListViewItem *i = (TransactionListViewItem*) *it;
+			while(i) {
+				if(i->scheduledTransaction() == strans) {
+					current_value -= strans->transaction()->value();
+					current_quantity -= strans->transaction()->quantity();
+					QTreeWidgetItem *i_del = i;
+					++it;
+					i = (TransactionListViewItem*) *it;
+					delete i_del;
+				} else {
+					++it;
+					i = (TransactionListViewItem*) *it;
+				}
+			}
+			updateStatistics();
+			if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
+				editWidget->transactionRemoved((Transaction*) strans->transaction());
+			} else if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+				SplitTransaction *split = (SplitTransaction*) strans->transaction();
+				int n = split->count();
+				for(int split_i = 0; split_i < n; split_i++) {
+					editWidget->transactionRemoved(split->at(split_i));
+				}
+			}
+			break;
+		}
+		case GENERAL_TRANSACTION_TYPE_SPLIT: {
+		qInfo() << "RT8";
+			if(((SplitTransaction*) transs)->type() != SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) break;
+			MultiAccountTransaction *split = (MultiAccountTransaction*) transs;
+			QTreeWidgetItemIterator it(transactionsView);
+			TransactionListViewItem *i = (TransactionListViewItem*) *it;
+			while(i) {
+				if(i->splitTransaction() == split) {
+					delete i;
+					current_value -= split->value();
+					current_quantity -= split->quantity();
+					updateStatistics();
+					break;
+				}
+				++it;
+				i = (TransactionListViewItem*) *it;
+			}
+			qInfo() << "RT9";
+			break;
+		}
+	}
 }
 void TransactionListWidget::editClear() {
 	transactionsView->clearSelection();
 	editInfoLabel->setText(QString::null);
 	editWidget->setTransaction(NULL);
 }
-void TransactionListWidget::onScheduledTransactionRemoved(ScheduledTransaction *strans) {
-	QTreeWidgetItemIterator it(transactionsView);
-	TransactionListViewItem *i = (TransactionListViewItem*) *it;
-	while(i) {
-		if(i->scheduledTransaction() == strans) {
-			current_value -= strans->transaction()->value();
-			current_quantity -= strans->transaction()->quantity();
-			QTreeWidgetItem *i_del = i;
-			++it;
-			i = (TransactionListViewItem*) *it;
-			delete i_del;
-		} else {
-			++it;
-			i = (TransactionListViewItem*) *it;
-		}
-	}
-	updateStatistics();
-	editWidget->transactionRemoved(strans->transaction());
-}
 void TransactionListWidget::filterTransactions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	selected_trans = NULL;
 	if(selection.count() == 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
-		if(!i->scheduledTransaction()) {selected_trans = i->transaction();}
+		if(!i->scheduledTransaction()) {
+			if(i->splitTransaction()) selected_trans = i->splitTransaction();
+			else selected_trans = i->transaction();
+		}
 	}
 	transactionsView->clear();
 	current_value = 0.0;
@@ -994,13 +1199,6 @@ void TransactionListWidget::filterTransactions() {
 				}
 				sectrans = budget->securityTransactions.next();
 			}
-			ScheduledTransaction *strans = budget->scheduledTransactions.first();
-			while(strans) {
-				if(strans->transaction()->type() == TRANSACTION_TYPE_EXPENSE || ((strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) && ((SecurityTransaction*) strans->transaction())->account()->type() == ACCOUNT_TYPE_EXPENSES)) {
-					appendFilterScheduledTransaction(strans, false);
-				}
-				strans = budget->scheduledTransactions.next();
-			}
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
@@ -1015,13 +1213,6 @@ void TransactionListWidget::filterTransactions() {
 					appendFilterTransaction(sectrans, false);
 				}
 				sectrans = budget->securityTransactions.next();
-			}
-			ScheduledTransaction *strans = budget->scheduledTransactions.first();
-			while(strans) {
-				if(strans->transaction()->type() == TRANSACTION_TYPE_INCOME || ((strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) && ((SecurityTransaction*) strans->transaction())->account()->type() == ACCOUNT_TYPE_INCOMES)) {
-					appendFilterScheduledTransaction(strans, false);
-				}
-				strans = budget->scheduledTransactions.next();
 			}
 			break;
 		}
@@ -1038,15 +1229,18 @@ void TransactionListWidget::filterTransactions() {
 				}
 				sectrans = budget->securityTransactions.next();
 			}
-			ScheduledTransaction *strans = budget->scheduledTransactions.first();
-			while(strans) {
-				if(strans->transaction()->type() == TRANSACTION_TYPE_TRANSFER || ((strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || strans->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) && ((SecurityTransaction*) strans->transaction())->account()->type() == ACCOUNT_TYPE_ASSETS)) {
-					appendFilterScheduledTransaction(strans, false);
-				}
-				strans = budget->scheduledTransactions.next();
-			}
 			break;
 		}
+	}
+	ScheduledTransaction *strans = budget->scheduledTransactions.first();
+	while(strans) {
+		appendFilterTransaction(strans, false);
+		strans = budget->scheduledTransactions.next();
+	}
+	SplitTransaction *split = budget->splitTransactions.first();
+	while(split) {
+		appendFilterTransaction(split, false);
+		split = budget->splitTransactions.next();
 	}
 	selected_trans = NULL;
 	selection = transactionsView->selectedItems();
@@ -1061,13 +1255,15 @@ void TransactionListWidget::currentTransactionChanged(QTreeWidgetItem *i) {
 	if(i == NULL) {
 		editWidget->setTransaction(NULL);
 		editInfoLabel->setText(QString::null);
+	} else if(((TransactionListViewItem*) i)->splitTransaction()) {
+		editWidget->setMultiAccountTransaction(((TransactionListViewItem*) i)->splitTransaction());
 	} else if(((TransactionListViewItem*) i)->transaction()->parentSplit()) {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction());
 		SplitTransaction *split = ((TransactionListViewItem*) i)->transaction()->parentSplit();
 		if(split->description().isEmpty() || split->description().length() > 10) editInfoLabel->setText(tr("* Part of split transaction"));
 		else editInfoLabel->setText(tr("* Part of split (%1)").arg(split->description()));
 	} else if(((TransactionListViewItem*) i)->scheduledTransaction()) {
-		editWidget->setScheduledTransaction(((TransactionListViewItem*) i)->scheduledTransaction(), ((TransactionListViewItem*) i)->date());
+		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction(), ((TransactionListViewItem*) i)->date());
 		if(((TransactionListViewItem*) i)->scheduledTransaction()->isOneTimeTransaction()) editInfoLabel->setText(QString::null);
 		else editInfoLabel->setText(tr("** Recurring (editing occurrance)"));
 	} else {
@@ -1086,7 +1282,7 @@ void TransactionListWidget::transactionSelectionChanged() {
 		QTreeWidgetItem *i = selection.first();
 		if(selection.count() > 1) {
 			modifyButton->setText(tr("Modify…"));
-		} else if(((TransactionListViewItem*) i)->transaction()->parentSplit() || ((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || ((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+		} else if(((TransactionListViewItem*) i)->splitTransaction() || ((TransactionListViewItem*) i)->transaction()->parentSplit() || ((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || ((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
 			modifyButton->setText(tr("Edit…"));
 		} else {
 			modifyButton->setText(tr("Apply"));
@@ -1105,43 +1301,46 @@ void TransactionListWidget::newRefundRepayment() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() == 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
-		if((i->transaction()->type() == TRANSACTION_TYPE_EXPENSE && i->transaction()->value() > 0.0) || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && i->transaction()->value() > 0.0 && !((Income*) i->transaction())->security())) {
+		if(i->splitTransaction()) {
+			if(i->splitTransaction()->value() > 0.0) mainWin->newRefundRepayment(i->splitTransaction());
+		} else if((i->transaction()->type() == TRANSACTION_TYPE_EXPENSE && i->transaction()->value() > 0.0) || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && i->transaction()->value() > 0.0 && !((Income*) i->transaction())->security())) {
 			mainWin->newRefundRepayment(i->transaction());
 		}
 	}
 }
 void TransactionListWidget::updateTransactionActions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
-	bool b_transaction = false, b_scheduledtransaction = false, b_split = false;
+	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_join = false;
 	bool refundable = false, repayable = false;
 	if(selection.count() == 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
-		b_split = i->transaction() && i->transaction()->parentSplit();
-		b_scheduledtransaction = !b_split && i->scheduledTransaction() && i->scheduledTransaction()->recurrence();
+		b_split = (i->transaction() && i->transaction()->parentSplit());
+		b_scheduledtransaction = i->scheduledTransaction() && i->scheduledTransaction()->recurrence();
 		b_transaction = !b_scheduledtransaction || !i->scheduledTransaction()->isOneTimeTransaction();
-		refundable = (i->transaction()->type() == TRANSACTION_TYPE_EXPENSE && i->transaction()->value() > 0.0);
-		repayable = (i->transaction()->type() == TRANSACTION_TYPE_INCOME && i->transaction()->value() > 0.0 && !((Income*) i->transaction())->security());
+		refundable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_EXPENSE && i->transaction()->value() > 0.0));
+		repayable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && i->transaction()->value() > 0.0 && !((Income*) i->transaction())->security()));
 	} else if(selection.count() > 1) {
 		b_transaction = true;
-	}
-	bool b_join = (selection.count() > 0);
-	b_split = b_join;
-	for(int index = 0; index < selection.size(); index++) {
-		TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
-		Transaction *trans = i->transaction();
-		if(i->scheduledTransaction() || trans->parentSplit()) {
-			b_join = false;
-			break;
+		b_join = true;
+		if(b_join) {
+			for(int index = 0; index < selection.size(); index++) {
+				TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
+				if(i->splitTransaction() || i->scheduledTransaction() || i->transaction()->parentSplit()) {
+					b_join = false;
+					break;
+				}
+			}
 		}
-	}
-	SplitTransaction *split = NULL;
-	for(int index = 0; index < selection.size(); index++) {
-		TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
-		Transaction *trans = i->transaction();
-		if(!split) split = trans->parentSplit();
-		if(!trans->parentSplit() || trans->parentSplit() != split) {
-			b_split = false;
-			break;
+		b_split = true;
+		SplitTransaction *split = NULL;
+		for(int index = 0; index < selection.size(); index++) {
+			TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
+			Transaction *trans = i->transaction();
+			if(!split) split = trans->parentSplit();
+			if(!trans->parentSplit() || trans->parentSplit() != split) {
+				b_split = false;
+				break;
+			}
 		}
 	}
 	mainWin->ActionNewRefund->setEnabled(refundable);
@@ -1195,7 +1394,7 @@ void TransactionListWidget::setFilter(QDate fromdate, QDate todate, double min, 
 	filterWidget->setFilter(fromdate, todate, min, max, from_account, to_account, description, payee, exclude, exact_match);
 }
 
-TransactionListViewItem::TransactionListViewItem(const QDate &trans_date, Transaction *trans, ScheduledTransaction *strans, QString s1, QString s2, QString s3, QString s4, QString s5, QString s6, QString s7, QString s8) : QTreeWidgetItem(), o_trans(trans), o_strans(strans), d_date(trans_date) {
+TransactionListViewItem::TransactionListViewItem(const QDate &trans_date, Transaction *trans, ScheduledTransaction *strans, MultiAccountTransaction *split, QString s1, QString s2, QString s3, QString s4, QString s5, QString s6, QString s7, QString s8) : QTreeWidgetItem(), o_trans(trans), o_strans(strans), o_split(split), d_date(trans_date) {
 	setText(0, s1);
 	setText(1, s2);
 	setText(2, s3);
@@ -1212,6 +1411,9 @@ bool TransactionListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	if(col == 0) {
 		return d_date < i->date();
 	} else if(col == 2) {
+		if(o_split && i->splitTransaction()) return o_split->value() < i->splitTransaction()->value();
+		if(o_split) return o_split->value() < i->transaction()->value();
+		if(i->splitTransaction()) return o_trans->value() < i->splitTransaction()->value();
 		return o_trans->value() < i->transaction()->value();
 	}
 	return QTreeWidgetItem::operator<(i_pre);
@@ -1221,6 +1423,9 @@ Transaction *TransactionListViewItem::transaction() const {
 }
 ScheduledTransaction *TransactionListViewItem::scheduledTransaction() const {
 	return o_strans;
+}
+MultiAccountTransaction *TransactionListViewItem::splitTransaction() const {
+	return o_split;
 }
 const QDate &TransactionListViewItem::date() const {
 	return d_date;
