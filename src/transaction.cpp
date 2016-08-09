@@ -212,6 +212,10 @@ void LoanFee::writeAttributes(QXmlStreamAttributes *attr) {
 
 AssetsAccount *LoanFee::loan() const {return o_loan;}
 void LoanFee::setLoan(AssetsAccount *new_loan) {o_loan = new_loan;}
+const QString &LoanFee::payee() const {
+	if(o_loan) return o_loan->maintainer();
+	return s_payee;
+}
 QString LoanFee::description() const {return tr("Debt payment: %1 (fee)").arg(o_loan->name());}
 TransactionSubType LoanFee::subtype() const {return TRANSACTION_SUBTYPE_LOAN_FEE;}
 void LoanFee::replaceAccount(Account *old_account, Account *new_account) {
@@ -250,6 +254,10 @@ void LoanInterest::writeAttributes(QXmlStreamAttributes *attr) {
 
 AssetsAccount *LoanInterest::loan() const {return o_loan;}
 void LoanInterest::setLoan(AssetsAccount *new_loan) {o_loan = new_loan;}
+const QString &LoanInterest::payee() const {
+	if(o_loan) return o_loan->maintainer();
+	return s_payee;
+}
 QString LoanInterest::description() const {return tr("Debt payment: %1 (interest)").arg(o_loan->name());}
 TransactionSubType LoanInterest::subtype() const {return TRANSACTION_SUBTYPE_LOAN_INTEREST;}
 bool LoanInterest::relatesToAccount(Account *account, bool include_subs, bool include_non_value) const {return (include_non_value && o_loan == account) || Expense::relatesToAccount(account, include_subs, include_non_value);}
@@ -1408,6 +1416,7 @@ void MultiAccountTransaction::addTransaction(Transaction *trans) {
 		splits.push_back(trans);
 		trans->setParentSplit(this);
 	}
+	trans->setDescription(s_description);
 	QVector<Transaction*>::size_type c = splits.size();
 	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
 		splits[i]->setQuantity(d_quantity / c);
@@ -1537,7 +1546,7 @@ double LoanTransaction::cost() const {return interest() + fee();}
 void LoanTransaction::setInterest(double new_value) {
 	if(!o_interest) {
 		if(new_value != 0.0) {
-			o_interest = new LoanInterest(o_budget, new_value, d_date, o_fee ? o_fee->category() : o_loan->expenseCategory(), o_account, o_loan);
+			o_interest = new LoanInterest(o_budget, new_value, d_date, o_fee ? o_fee->category() : NULL, o_account, o_loan);
 			o_interest->setParentSplit(this);
 		}
 	} else {
@@ -1547,7 +1556,7 @@ void LoanTransaction::setInterest(double new_value) {
 void LoanTransaction::setFee(double new_value) {
 	if(!o_fee) {
 		if(new_value != 0.0) {
-			o_fee = new LoanFee(o_budget, new_value, d_date, o_interest ? o_interest->category() : o_loan->expenseCategory(), o_account, o_loan);
+			o_fee = new LoanFee(o_budget, new_value, d_date, o_interest ? o_interest->category() : NULL, o_account, o_loan);
 			o_fee->setParentSplit(this);
 		}
 	} else {
@@ -1604,7 +1613,7 @@ void LoanTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		if(valid) *valid = false;
 		return;
 	}
-	ExpensesAccount *cat = o_loan->expenseCategory();
+	ExpensesAccount *cat = NULL;
 	if(attr->hasAttribute("expensecategory")) {
 		int category_id = attr->value("expensecategory").toInt();
 		if(budget()->expensesAccounts_id.contains(category_id)) {
@@ -1612,16 +1621,18 @@ void LoanTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		}
 	}
 	if(attr->hasAttribute("reduction")) {
-		o_payment = new LoanPayment(o_budget, attr->value("reduction").toDouble(), d_date, o_account, o_loan);
+		o_payment = new LoanPayment(o_budget, attr->value("reduction").toDouble(), d_date, o_account, o_loan);		
 		o_payment->setParentSplit(this);
 	}
 	if(attr->hasAttribute("interest")) {
 		o_interest = new LoanInterest(o_budget, attr->value("interest").toDouble(), d_date, cat, o_account, o_loan);
 		o_interest->setParentSplit(this);
+		if(valid && !cat) *valid = false;
 	}
 	if(attr->hasAttribute("fee")) {
 		o_fee = new LoanFee(o_budget, attr->value("fee").toDouble(), d_date, cat, o_account, o_loan);
 		o_fee->setParentSplit(this);
+		if(valid && !cat) *valid = false;
 	}
 	if(valid && !o_fee && !o_interest && !o_payment) *valid = false;
 }
@@ -1631,7 +1642,7 @@ bool LoanTransaction::readElement(QXmlStreamReader*, bool*) {
 void LoanTransaction::writeAttributes(QXmlStreamAttributes *attr) {
 	SplitTransaction::writeAttributes(attr);
 	attr->append("debt", QString::number(o_loan->id()));
-	if(expenseCategory() != o_loan->expenseCategory()) attr->append("expensecategory", QString::number(expenseCategory()->id()));
+	if(expenseCategory()) attr->append("expensecategory", QString::number(expenseCategory()->id()));
 	if(o_payment) attr->append("reduction", QString::number(o_payment->value(), 'f', MONETARY_DECIMAL_PLACES));
 	if(o_interest) attr->append("interest", QString::number(o_interest->value(), 'f', MONETARY_DECIMAL_PLACES));
 	if(o_fee) attr->append("fee", QString::number(o_fee->value(), 'f', MONETARY_DECIMAL_PLACES));
@@ -1648,7 +1659,7 @@ void LoanTransaction::setLoan(AssetsAccount *new_loan) {
 ExpensesAccount *LoanTransaction::expenseCategory() const {
 	if(o_interest) return o_interest->category();
 	else if(o_fee) return o_fee->category();
-	return o_loan->expenseCategory();
+	return NULL;
 }
 void LoanTransaction::setExpenseCategory(ExpensesAccount *new_category) {
 	if(o_interest) o_interest->setCategory(new_category);

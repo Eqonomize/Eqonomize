@@ -67,6 +67,8 @@ class OverTimeChart;
 class OverTimeReport;
 class Account;
 class AssetsAccount;
+class CategoryAccount;
+class ExpensesAccount;
 class LoanAccount;
 class Budget;
 class ConfirmScheduleListViewItem;
@@ -135,6 +137,9 @@ class Eqonomize : public QMainWindow {
 		bool removeOccurrence(ScheduledTransaction *strans, const QDate &date);
 		bool newScheduledTransaction(int transaction_type, Security *security = NULL, bool select_security = false);
 		bool newScheduledTransaction(int transaction_type, Security *security, bool select_security, QWidget *parent, Account *account = NULL);
+		bool newExpenseWithLoan(QString description_value, double value_value, double quantity_value, QDate date_value, ExpensesAccount *category_value, QString payee_value, QString comment_value);
+		bool newExpenseWithLoan(QWidget *parent);
+		bool newMultiAccountTransaction(bool create_expenses, QString description_string, CategoryAccount *category_account, double quantity_value, QString comment_string);
 		bool newMultiAccountTransaction(QWidget *parent, bool create_expenses);
 		bool newMultiItemTransaction(QWidget *parent, AssetsAccount *account = NULL);
 		bool newLoanTransaction(QWidget *parent, AssetsAccount *loan = NULL);
@@ -170,7 +175,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionAddAccount, *ActionNewAssetsAccount, *ActionNewLoan, *ActionNewIncomesAccount, *ActionNewExpensesAccount, *ActionEditAccount, *ActionDeleteAccount, *ActionBalanceAccount, *ActionAddAccountMenu;
 		QAction *ActionShowAccountTransactions, *ActionShowLedger;
 		QAction *ActionNewExpense, *ActionNewIncome, *ActionNewTransfer, *ActionNewMultiItemTransaction;
-		QAction *ActionNewMultiAccountTransaction, *ActionNewLoanTransaction;
+		QAction *ActionNewMultiAccountExpense, *ActionNewExpenseWithLoan, *ActionNewLoanTransaction;
 		QAction *ActionEditTransaction, *ActionEditScheduledTransaction, *ActionEditSplitTransaction;
 		QAction *ActionJoinTransactions, *ActionSplitUpTransaction;
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
@@ -307,6 +312,7 @@ class Eqonomize : public QMainWindow {
 		void popupSecuritiesMenu(const QPoint&);
 		void updateSecurities();
 		
+		void newExpenseWithLoan();
 		void newMultiAccountExpense();
 		void newMultiAccountIncome();
 		void newMultiItemTransaction();

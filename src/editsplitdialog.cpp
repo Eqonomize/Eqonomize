@@ -564,9 +564,8 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	grid->addWidget(categoryCombo, b_extra ? 2 : 1, 1);
 	
 	grid->addWidget(new QLabel(tr("Comment:")), b_extra ? 3 : 2, 0);
-	descriptionEdit = new QLineEdit();
-	grid->addWidget(descriptionEdit, b_extra ? 3 : 2, 1);
-	descriptionEdit->setFocus();
+	commentEdit = new QLineEdit();
+	grid->addWidget(commentEdit, b_extra ? 3 : 2, 1);
 
 	box1->addWidget(new QLabel(tr("Transactions:")));
 	QHBoxLayout *box2 = new QHBoxLayout();
@@ -905,8 +904,6 @@ void EditLoanTransactionWidget::loanActivated(int index) {
 	}
 	if(trans && trans->expenseCategory()) {
 		categoryCombo->setCurrentAccount(trans->expenseCategory());
-	} else if(loan->expenseCategory()) {
-		categoryCombo->setCurrentAccount(loan->expenseCategory());
 	}
 }
 

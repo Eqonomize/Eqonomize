@@ -43,6 +43,7 @@ class AccountComboBox;
 class EqonomizeValueEdit;
 class Security;
 class Transaction;
+class Transactions;
 class MultiAccountTransaction;
 
 typedef enum {
@@ -58,14 +59,14 @@ class TransactionEditWidget : public QWidget {
 
 	public:
 
-		TransactionEditWidget(bool auto_edit, bool extra_parameters, int transaction_type, bool split, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent = 0, bool allow_account_creation = false, bool multiaccount = false);
+		TransactionEditWidget(bool auto_edit, bool extra_parameters, int transaction_type, bool split, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent = 0, bool allow_account_creation = false, bool multiaccount = false, bool withloan = false);
 		void setTransaction(Transaction *trans);
 		void setMultiAccountTransaction(MultiAccountTransaction *split);
 		void setTransaction(Transaction *strans, const QDate &date);
 		void updateFromAccounts(Account *exclude_account = NULL);
 		void updateToAccounts(Account *exclude_account = NULL);
 		void updateAccounts(Account *exclude_account = NULL);
-		void transactionsReset();
+		void transactionsReset();		
 		void setCurrentToItem(int index);
 		void setCurrentFromItem(int index);
 		void setAccount(Account *account);
@@ -78,8 +79,17 @@ class TransactionEditWidget : public QWidget {
 		void transactionModified(Transaction *trans);
 		bool modifyTransaction(Transaction *trans);
 		Transaction *createTransaction();
+		Transactions *createTransactionWithLoan();
 		bool validValues(bool ask_questions = false);
+		void setValues(QString description_value, double value_value, double quantity_value, QDate date_value, Account *from_account_value, Account *to_account_value, QString payee_value, QString comment_value);
 		QDate date();
+		QString description() const;
+		QString payee() const;
+		QString comments() const;
+		double value() const;
+		double quantity() const;
+		Account *fromAccount() const;
+		Account *toAccount() const;
 		Security *selectedSecurity();
 		void setMaxShares(double max);
 		void setMaxSharesDate(QDate quotation_date);
@@ -98,10 +108,10 @@ class TransactionEditWidget : public QWidget {
 		QDate shares_date;
 		bool b_create_accounts;
 
-		QLineEdit *descriptionEdit, *payeeEdit, *commentsEdit;
+		QLineEdit *descriptionEdit, *lenderEdit, *payeeEdit, *commentsEdit;
 		AccountComboBox *fromCombo, *toCombo;
 		QComboBox *securityCombo;
-		EqonomizeValueEdit *valueEdit, *sharesEdit, *quotationEdit, *quantityEdit;
+		EqonomizeValueEdit *valueEdit, *downPaymentEdit, *sharesEdit, *quotationEdit, *quantityEdit;
 		QPushButton *maxSharesButton;
 		EqonomizeDateEdit *dateEdit;
 		QHBoxLayout *bottom_layout;
@@ -111,6 +121,8 @@ class TransactionEditWidget : public QWidget {
 		void addmodify();
 		void dateChanged(const QDate&);
 		void accountAdded(Account*);
+		void multipleAccountsRequested();
+		void newLoanRequested();
 
 	public slots:
 
@@ -135,7 +147,7 @@ class TransactionEditDialog : public QDialog {
 
 	public:
 
-		TransactionEditDialog(bool extra_parameters, int transaction_type, bool split, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent, bool allow_account_creation = false, bool multiaccount = false);
+		TransactionEditDialog(bool extra_parameters, int transaction_type, bool split, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent, bool allow_account_creation = false, bool multiaccount = false, bool withloan = false);
 		TransactionEditWidget *editWidget;
 
 	protected slots:

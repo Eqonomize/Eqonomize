@@ -27,6 +27,7 @@
 class QCheckBox;
 class QComboBox;
 class QDateEdit;
+class QLabel;
 class QLineEdit;
 class QRadioButton;
 class QTextEdit;
@@ -46,7 +47,8 @@ class EditAssetsAccountDialog : public QDialog {
 	
 	protected:
 
-		QLineEdit *nameEdit;
+		QLineEdit *nameEdit, *maintainerEdit;
+		QLabel *maintainerLabel;
 		QDateEdit *dateEdit;
 		QRadioButton *initialButton, *transferButton;
 		EqonomizeValueEdit *valueEdit;

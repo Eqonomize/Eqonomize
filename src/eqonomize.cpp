@@ -2925,11 +2925,89 @@ void Eqonomize::updateSecurities() {
 		security = budget->securities.next();
 	}
 }
-void  Eqonomize::newMultiAccountExpense() {
+void Eqonomize::newExpenseWithLoan() {
+	newExpenseWithLoan(this);
+}
+bool Eqonomize::newExpenseWithLoan(QString description_value, double value_value, double quantity_value, QDate date_value, ExpensesAccount *category_value, QString payee_value, QString comment_value) {
+	budget->setRecordNewAccounts(true);
+	ScheduledTransaction *strans = EditScheduledTransactionDialog::newScheduledTransaction(description_value, value_value, quantity_value, date_value, NULL, category_value, payee_value, comment_value, TRANSACTION_TYPE_EXPENSE, budget, this, NULL, false, NULL, b_extra, true, true);
+	if(strans) {
+		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
+		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
+			Transactions *trans = strans->transaction()->copy();
+			delete strans;
+			budget->addTransactions(trans);
+			transactionAdded(trans);
+		} else {
+			budget->addScheduledTransaction(strans);
+			transactionAdded(strans);
+			checkSchedule();
+		}
+		budget->setRecordNewAccounts(false);
+		return true;
+	} else {
+		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
+	}
+	budget->setRecordNewAccounts(false);
+	return false;
+}
+bool Eqonomize::newExpenseWithLoan(QWidget *parent) {
+	budget->setRecordNewAccounts(true);
+	ScheduledTransaction *strans = EditScheduledTransactionDialog::newScheduledTransaction(TRANSACTION_TYPE_EXPENSE, budget, parent, NULL, false, NULL, b_extra, true, true);
+	if(strans) {
+		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
+		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
+			Transactions *trans = strans->transaction()->copy();
+			delete strans;
+			budget->addTransactions(trans);
+			transactionAdded(trans);
+		} else {
+			budget->addScheduledTransaction(strans);
+			transactionAdded(strans);
+			checkSchedule();
+		}
+		budget->setRecordNewAccounts(false);
+		return true;
+	} else {
+		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
+	}
+	budget->setRecordNewAccounts(false);
+	return false;
+}
+void Eqonomize::newMultiAccountExpense() {
 	newMultiAccountTransaction(this, true);
 }
-void  Eqonomize::newMultiAccountIncome() {
+void Eqonomize::newMultiAccountIncome() {
 	newMultiAccountTransaction(this, false);
+}
+bool Eqonomize::newMultiAccountTransaction(bool create_expenses, QString description_string, CategoryAccount *category_account, double quantity_value, QString comment_string) {
+	budget->setRecordNewAccounts(true);
+	ScheduledTransaction *strans = EditScheduledMultiAccountDialog::newScheduledTransaction(description_string, category_account, quantity_value, comment_string, budget, this, create_expenses, b_extra, true);
+	if(strans) {
+		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
+		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
+			MultiAccountTransaction *trans = (MultiAccountTransaction*) strans->transaction()->copy();
+			delete strans;
+			budget->addSplitTransaction(trans);
+			transactionAdded(trans);
+		} else {
+			budget->addScheduledTransaction(strans);
+			transactionAdded(strans);
+			checkSchedule();
+		}
+		budget->setRecordNewAccounts(false);
+		return true;
+	} else {
+		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
+	}
+	budget->setRecordNewAccounts(false);
+	return false;
 }
 bool Eqonomize::newMultiAccountTransaction(QWidget *parent, bool create_expenses) {
 	budget->setRecordNewAccounts(true);
@@ -2938,9 +3016,9 @@ bool Eqonomize::newMultiAccountTransaction(QWidget *parent, bool create_expenses
 		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 		budget->newAccounts.clear();
 		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
-			Transaction *trans = (Transaction*) strans->transaction()->copy();
+			MultiAccountTransaction *trans = (MultiAccountTransaction*) strans->transaction()->copy();
 			delete strans;
-			budget->addTransaction(trans);
+			budget->addSplitTransaction(trans);
 			transactionAdded(trans);
 		} else {
 			budget->addScheduledTransaction(strans);
@@ -4878,7 +4956,8 @@ void Eqonomize::setupActions() {
 	transactionsToolbar->addAction(ActionNewTransfer);
 	NEW_ACTION(ActionNewMultiItemTransaction, tr("New Split Transaction…"), "eqz-split-transaction", Qt::CTRL+Qt::Key_W, this, SLOT(newMultiItemTransaction()), "new_multi_item_transaction", transactionsMenu);
 	transactionsToolbar->addAction(ActionNewMultiItemTransaction);
-	NEW_ACTION(ActionNewMultiAccountTransaction, tr("New Expense with Multiple Payments…"), "eqz-split-transaction", 0, this, SLOT(newMultiAccountExpense()), "new_multi_account_expense", transactionsMenu);
+	NEW_ACTION(ActionNewMultiAccountExpense, tr("New Expense with Multiple Payments…"), "eqz-expense", 0, this, SLOT(newMultiAccountExpense()), "new_multi_account_expense", transactionsMenu);
+	NEW_ACTION(ActionNewExpenseWithLoan, tr("New Expense Payed with Loan / Payment Plan…"), "eqz-expense", 0, this, SLOT(newExpenseWithLoan()), "new_expense_with_loan", transactionsMenu);
 	NEW_ACTION(ActionNewLoanTransaction, tr("New Debt Payment/Interest…"), "eqz-split-transaction", 0, this, SLOT(newLoanTransaction()), "new_loan_transaction", transactionsMenu);
 	NEW_ACTION_NOMENU(ActionNewRefund, tr("Refund…"), "eqz-income", 0, this, SLOT(newRefund()), "new_refund");
 	NEW_ACTION_NOMENU(ActionNewRepayment, tr("Repayment…"), "eqz-expense", 0, this, SLOT(newRepayment()), "new_repayment");
@@ -5682,7 +5761,7 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 					assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 				}
 				qInfo() << "EA3";
-				i->setHidden(account->isClosed() && account_value[account] == 0.0 && account_change[account] == 0.0);
+				i->setHidden(account->isClosed() && is_zero(account_value[account]) && is_zero(account_change[account]));
 				qInfo() << "EA4";
 				emit accountsModified();
 				setModified(true);
@@ -6225,7 +6304,7 @@ void Eqonomize::appendAssetsAccount(AssetsAccount *account) {
 	account_value[account] = account->initialBalance();
 	assets_accounts_value += account->initialBalance();
 	account_change[account] = 0.0;
-	if(account->isClosed() && account->initialBalance() == 0.0) i->setHidden(true);
+	if(account->isClosed() && is_zero(account->initialBalance())) i->setHidden(true);
 	assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	assetsItem->sortChildren(0, Qt::AscendingOrder);
 }
@@ -6446,7 +6525,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 						setAccountChangeColor(assetsItem, assets_accounts_change, false);
 						item_accounts[trans->fromAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES));
 						setAccountChangeColor(item_accounts[trans->fromAccount()], account_change[trans->fromAccount()], false);
-						item_accounts[trans->fromAccount()]->setHidden(trans->fromAccount()->isClosed() && account_change[trans->fromAccount()] == 0.0 && account_value[trans->fromAccount()] == 0.0);
+						item_accounts[trans->fromAccount()]->setHidden(trans->fromAccount()->isClosed() && is_zero(account_change[trans->fromAccount()]) && is_zero(account_value[trans->fromAccount()]));
 					}
 				}
 				if(update_value_display) {
@@ -6583,7 +6662,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 						setAccountChangeColor(assetsItem, assets_accounts_change, false);
 						item_accounts[trans->toAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->toAccount()], 'f', MONETARY_DECIMAL_PLACES));
 						setAccountChangeColor(item_accounts[trans->toAccount()], account_change[trans->toAccount()], false);
-						item_accounts[trans->toAccount()]->setHidden(trans->toAccount()->isClosed() && account_change[trans->toAccount()] == 0.0 && account_value[trans->toAccount()] == 0.0);
+						item_accounts[trans->toAccount()]->setHidden(trans->toAccount()->isClosed() && is_zero(account_change[trans->toAccount()]) && is_zero(account_value[trans->toAccount()]));
 					}
 				}
 				if(update_value_display) assetsItem->setText(VALUE_COLUMN, QLocale().toString(assets_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
@@ -6596,7 +6675,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			item_accounts[trans->fromAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 			item_accounts[trans->fromAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES));
 			setAccountChangeColor(item_accounts[trans->fromAccount()], account_change[trans->fromAccount()], trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES);
-			item_accounts[trans->fromAccount()]->setHidden(trans->fromAccount()->isClosed() && account_change[trans->fromAccount()] == 0.0 && account_value[trans->fromAccount()] == 0.0);
+			item_accounts[trans->fromAccount()]->setHidden(trans->fromAccount()->isClosed() && is_zero(account_change[trans->fromAccount()]) && is_zero(account_value[trans->fromAccount()]));
 			if(from_sub) {
 				item_accounts[trans->fromAccount()->topAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->fromAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 				item_accounts[trans->fromAccount()->topAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->fromAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES));
@@ -6607,7 +6686,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			item_accounts[trans->toAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->toAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 			item_accounts[trans->toAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->toAccount()], 'f', MONETARY_DECIMAL_PLACES));
 			setAccountChangeColor(item_accounts[trans->toAccount()], account_change[trans->toAccount()], trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES);
-			item_accounts[trans->toAccount()]->setHidden(trans->toAccount()->isClosed() && account_change[trans->toAccount()] == 0.0 && account_value[trans->toAccount()] == 0.0);
+			item_accounts[trans->toAccount()]->setHidden(trans->toAccount()->isClosed() && is_zero(account_change[trans->toAccount()]) && is_zero(account_value[trans->toAccount()]));
 			if(to_sub) {
 				item_accounts[trans->toAccount()->topAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->toAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 				item_accounts[trans->toAccount()->topAccount()]->setText(CHANGE_COLUMN, QLocale().toString(account_change[trans->toAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES));
@@ -7005,7 +7084,7 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 		future_change_diff -= account_future_diff_change[account];
 		account_future_diff[account] = future_diff_bak;
 		account_future_diff_change[account] = future_diff_change_bak;
-		if(future_diff == 0.0 && future_change_diff == 0.0) return;
+		if(is_zero(future_diff) && is_zero(future_change_diff)) return;
 		if(budget->budgetAccount) {
 			if(account->type() == ACCOUNT_TYPE_EXPENSES) {
 				account_value[budget->budgetAccount] -= future_diff;
@@ -7146,7 +7225,7 @@ void Eqonomize::updateSecurityAccount(AssetsAccount *account, bool update_displa
 		item_accounts[account]->setText(CHANGE_COLUMN, QLocale().toString(value - value_from, 'f', MONETARY_DECIMAL_PLACES));
 		item_accounts[account]->setText(VALUE_COLUMN, QLocale().toString(value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 		setAccountChangeColor(item_accounts[account], value - value_from, false);
-		item_accounts[account]->setHidden(account->isClosed() && value == 0.0 && value_from == 0.0);
+		item_accounts[account]->setHidden(account->isClosed() && is_zero(value) && is_zero(value_from));
 	}
 }
 void Eqonomize::filterAccounts() {
@@ -7309,7 +7388,7 @@ void Eqonomize::filterAccounts() {
 		it.key()->setText(CHANGE_COLUMN, QLocale().toString(account_change[it.value()], 'f', MONETARY_DECIMAL_PLACES));
 		it.key()->setText(VALUE_COLUMN, QLocale().toString(account_value[it.value()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 		setAccountChangeColor(it.key(), account_change[it.value()], it.value()->type() == ACCOUNT_TYPE_EXPENSES);
-		it.key()->setHidden(it.value()->isClosed() && account_change[it.value()] == 0.0 && account_value[it.value()] == 0.0);
+		it.key()->setHidden(it.value()->isClosed() && is_zero(account_change[it.value()]) && is_zero(account_value[it.value()]));
 	}
 	incomesItem->setText(VALUE_COLUMN, QLocale().toString(incomes_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	incomesItem->setText(CHANGE_COLUMN, QLocale().toString(incomes_accounts_change, 'f', MONETARY_DECIMAL_PLACES));

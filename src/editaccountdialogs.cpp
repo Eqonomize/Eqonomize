@@ -59,7 +59,7 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 		typeCombo = new QComboBox(this);
 		typeCombo->setEditable(false);
 		typeCombo->addItem(tr("Cash"));
-		typeCombo->addItem(tr("Current Account"));
+		typeCombo->addItem(tr("Transactional Account"));
 		typeCombo->addItem(tr("Savings Account"));
 		typeCombo->addItem(tr("Credit Card"));
 		typeCombo->addItem(tr("Debt"));
@@ -69,6 +69,10 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	grid->addWidget(new QLabel(tr("Name:"), this), row, 0);
 	nameEdit = new QLineEdit(this);
 	grid->addWidget(nameEdit, row, 1); row++;
+	maintainerLabel = new QLabel(tr("Bank:"));
+	grid->addWidget(maintainerLabel, row, 0);
+	maintainerEdit = new QLineEdit(this);
+	grid->addWidget(maintainerEdit, row, 1); row++;
 	grid->addWidget(new QLabel(new_loan ? ("Value:") : tr("Initial balance:"), this), row, 0);
 	valueEdit = new EqonomizeValueEdit(true, this);
 	grid->addWidget(valueEdit, row, 1); row++;
@@ -92,6 +96,7 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 			transferButton->setEnabled(false);
 		}
 		transferToggled(false);
+		maintainerLabel->setText(tr("Lender:"));
 	} else {
 		accountCombo = NULL;
 		dateEdit = NULL;
@@ -100,6 +105,8 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 		budgetButton = new QCheckBox(tr("Default account for budgeted transactions"), this);
 		budgetButton->setChecked(false);
 		grid->addWidget(budgetButton, row, 0, 1, 2); row++;
+		maintainerEdit->setEnabled(false);
+		maintainerLabel->setEnabled(false);
 	}
 	grid->addWidget(new QLabel(tr("Description:"), this), row, 0); row++;
 	descriptionEdit = new QTextEdit(this);
@@ -142,6 +149,11 @@ void EditAssetsAccountDialog::typeActivated(int index) {
 	if(index == 4) closedButton->setChecked(false);
 	if(index == 5) budgetButton->setChecked(false);
 	if(index == 5) valueEdit->setValue(0.0);
+	maintainerEdit->setEnabled(index != 0);
+	maintainerLabel->setEnabled(index != 0);
+	if(index == 3) maintainerLabel->setText(tr("Issuer:"));
+	else if(index == 4) maintainerLabel->setText(tr("Lender:"));
+	else maintainerLabel->setText(tr("Bank:"));
 }
 AssetsAccount *EditAssetsAccountDialog::newAccount(Transaction **transfer) {
 	AssetsType type;
@@ -158,6 +170,8 @@ AssetsAccount *EditAssetsAccountDialog::newAccount(Transaction **transfer) {
 		type = ASSETS_TYPE_LIABILITIES;
 	}
 	AssetsAccount *account = new AssetsAccount(budget, type, nameEdit->text(), 0.0, descriptionEdit->toPlainText());
+	if(maintainerEdit->isEnabled()) account->setMaintainer(maintainerEdit->text());
+	else account->setMaintainer("");
 	if(transfer && transferButton && transferButton->isChecked()) {
 		Transaction *trans = new Transfer(budget, valueEdit->value(), dateEdit->date(), account, (AssetsAccount*) accountCombo->currentAccount(), nameEdit->text());
 		*transfer = trans;
@@ -169,6 +183,8 @@ AssetsAccount *EditAssetsAccountDialog::newAccount(Transaction **transfer) {
 }
 void EditAssetsAccountDialog::modifyAccount(AssetsAccount *account) {
 	account->setName(nameEdit->text());
+	if(maintainerEdit->isEnabled()) account->setMaintainer(maintainerEdit->text());
+	else account->setMaintainer("");
 	account->setInitialBalance(valueEdit->value());
 	account->setDescription(descriptionEdit->toPlainText());
 	account->setAsBudgetAccount(budgetButton->isChecked());
@@ -186,6 +202,7 @@ void EditAssetsAccountDialog::setAccount(AssetsAccount *account) {
 	current_account = account;
 	closedButton->show();
 	nameEdit->setText(account->name());
+	maintainerEdit->setText(account->maintainer());
 	valueEdit->setValue(account->initialBalance());
 	descriptionEdit->setPlainText(account->description());
 	budgetButton->setChecked(account->isBudgetAccount());

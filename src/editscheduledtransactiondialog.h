@@ -48,22 +48,24 @@ class EditScheduledTransactionDialog : public QDialog {
 	protected:
 
 		Budget *budget;
-		bool b_extra;
+		bool b_extra, b_loan;
 		RecurrenceEditWidget *recurrenceEditWidget;
 		TransactionEditWidget *transactionEditWidget;
 		QTabWidget *tabs;
 		
 	public:
 		
-		EditScheduledTransactionDialog(bool extra_parameters, int transaction_type, Security *security, bool select_security, Budget *budg, QWidget *parent, QString title, Account *account = NULL, bool allow_account_creation = false);
+		EditScheduledTransactionDialog(bool extra_parameters, int transaction_type, Security *security, bool select_security, Budget *budg, QWidget *parent, QString title, Account *account = NULL, bool allow_account_creation = false, bool withloan = false);
 
 		bool checkAccounts();
 		void setTransaction(Transaction *trans);
+		void setValues(QString description_value, double value_value, double quantity_value, QDate date_value, Account *from_account_value, Account *to_account_value, QString payee_value, QString comment_value);
 		void setScheduledTransaction(ScheduledTransaction *strans);
 		ScheduledTransaction *createScheduledTransaction();
 		bool modifyScheduledTransaction(ScheduledTransaction *strans);
 		bool modifyTransaction(Transaction *trans, Recurrence *&rec);
-		static ScheduledTransaction *newScheduledTransaction(int transaction_type, Budget *budg, QWidget *parent, Security *security = NULL, bool select_security = false, Account *account = NULL, bool extra_parameters = false, bool allow_account_creation = false);
+		static ScheduledTransaction *newScheduledTransaction(QString description_value, double value_value, double quantity_value, QDate date_value, Account *from_account_value, Account *to_account_value, QString payee_value, QString comment_value, int transaction_type, Budget *budg, QWidget *parent, Security *security = NULL, bool select_security = false, Account *account = NULL, bool extra_parameters = false, bool allow_account_creation = false, bool withloan = false);
+		static ScheduledTransaction *newScheduledTransaction(int transaction_type, Budget *budg, QWidget *parent, Security *security = NULL, bool select_security = false, Account *account = NULL, bool extra_parameters = false, bool allow_account_creation = false, bool withloan = false);
 		static bool editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool select_security = true, bool extra_parameters = false, bool allow_account_creation = false);
 		static bool editTransaction(Transaction *trans, Recurrence *&rec,  QWidget *parent, bool select_security = true, bool extra_parameters = false, bool allow_account_creation = false);
 

@@ -200,7 +200,7 @@ class Expense : public Transaction {
 		void setFrom(AssetsAccount *new_from);
 		double cost() const;
 		void setCost(double new_cost);
-		const QString &payee() const;
+		virtual const QString &payee() const;
 		void setPayee(QString new_payee);
 		virtual QString description() const;
 		TransactionType type() const;
@@ -231,6 +231,7 @@ class LoanFee : public Expense {
 	
 		AssetsAccount *loan() const;
 		void setLoan(AssetsAccount *new_loan);
+		const QString &payee() const;
 		virtual QString description() const;
 		TransactionSubType subtype() const;
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
@@ -259,6 +260,7 @@ class LoanInterest : public Expense {
 	
 		AssetsAccount *loan() const;
 		void setLoan(AssetsAccount *new_loan);
+		const QString &payee() const;
 		virtual QString description() const;
 		TransactionSubType subtype() const;
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;

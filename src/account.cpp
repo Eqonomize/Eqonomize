@@ -75,15 +75,15 @@ Budget *Account::budget() const {return o_budget;}
 int Account::id() const {return i_id;}
 void Account::setId(int new_id) {i_id = new_id;}
 
-AssetsAccount::AssetsAccount(Budget *parent_budget, AssetsType initial_type, QString initial_name, double initial_balance, QString initial_description) : Account(parent_budget, initial_name, initial_description), at_type(initial_type), d_initbal(initial_type == ASSETS_TYPE_SECURITIES ? 0.0 : initial_balance), b_closed(false), o_category(NULL) {}
-AssetsAccount::AssetsAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Account(parent_budget), o_category(NULL) {
+AssetsAccount::AssetsAccount(Budget *parent_budget, AssetsType initial_type, QString initial_name, double initial_balance, QString initial_description) : Account(parent_budget, initial_name, initial_description), at_type(initial_type), d_initbal(initial_type == ASSETS_TYPE_SECURITIES ? 0.0 : initial_balance), b_closed(false) {}
+AssetsAccount::AssetsAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Account(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-AssetsAccount::AssetsAccount(Budget *parent_budget) : Account(parent_budget), at_type(ASSETS_TYPE_CASH), d_initbal(0.0), b_closed(false), o_category(NULL) {}
-AssetsAccount::AssetsAccount() : Account(), at_type(ASSETS_TYPE_CASH), d_initbal(0.0), b_closed(false), o_category(NULL) {}
-AssetsAccount::AssetsAccount(const AssetsAccount *account) : Account(account), at_type(account->accountType()), d_initbal(account->initialBalance()), b_closed(account->isClosed()), o_category(account->expenseCategory()) {}
+AssetsAccount::AssetsAccount(Budget *parent_budget) : Account(parent_budget), at_type(ASSETS_TYPE_CASH), d_initbal(0.0), b_closed(false) {}
+AssetsAccount::AssetsAccount() : Account(), at_type(ASSETS_TYPE_CASH), d_initbal(0.0), b_closed(false) {}
+AssetsAccount::AssetsAccount(const AssetsAccount *account) : Account(account), at_type(account->accountType()), d_initbal(account->initialBalance()), b_closed(account->isClosed()) {}
 AssetsAccount::~AssetsAccount() {if(o_budget->budgetAccount == this) o_budget->budgetAccount = NULL;}
 
 void AssetsAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
@@ -104,6 +104,9 @@ void AssetsAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	} else {
 		at_type = ASSETS_TYPE_CASH;
 	}
+	if(at_type == ASSETS_TYPE_LIABILITIES) s_maintainer = attr->value("lender").toString();
+	else if(at_type == ASSETS_TYPE_CREDIT_CARD) s_maintainer = attr->value("issuer").toString();
+	else s_maintainer = attr->value("bank").toString();
 	if(at_type != ASSETS_TYPE_SECURITIES) {
 		d_initbal = attr->value("initialbalance").toDouble();
 		if(attr->hasAttribute("budgetaccount")) {
@@ -112,10 +115,6 @@ void AssetsAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 				o_budget->budgetAccount = this;
 			}
 		}
-	}
-	if(at_type == ASSETS_TYPE_LIABILITIES && attr->hasAttribute("expensecategory")) {
-		int id_category = attr->value("expensecategory").toInt();
-		if(budget()->expensesAccounts_id.contains(id_category)) o_category = budget()->expensesAccounts_id[id_category];
 	}
 	if(at_type != ASSETS_TYPE_LIABILITIES && attr->hasAttribute("closed")) {
 		b_closed = attr->value("closed").toInt();
@@ -140,8 +139,12 @@ void AssetsAccount::writeAttributes(QXmlStreamAttributes *attr) {
 		case ASSETS_TYPE_BALANCING: {attr->append("type", "balancing"); break;}
 		case ASSETS_TYPE_CASH: {attr->append("type", "cash"); break;}
 	}
+	if(!s_maintainer.isEmpty()) {
+		if(at_type == ASSETS_TYPE_LIABILITIES) attr->append("lender", s_maintainer);
+		else if(at_type == ASSETS_TYPE_CREDIT_CARD) attr->append("issuer", s_maintainer);
+		else attr->append("bank", s_maintainer);
+	}
 	if(b_closed) attr->append("closed", QString::number(b_closed));
-	if(o_category) attr->append("expensecategory", QString::number(o_category->id()));
 }
 
 bool AssetsAccount::isBudgetAccount() const {
@@ -183,9 +186,9 @@ void AssetsAccount::setClosed(bool close_account) {
 	b_closed = close_account;
 	if(b_closed) setAsBudgetAccount(false);
 }
+const QString &AssetsAccount::maintainer() const {return s_maintainer;}
+void AssetsAccount::setMaintainer(QString maintainer_name) {s_maintainer = maintainer_name;}
 AssetsType AssetsAccount::accountType() const {return at_type;}
-ExpensesAccount *AssetsAccount::expenseCategory() const {return o_category;}
-void AssetsAccount::setExpenseCategory(ExpensesAccount *new_category) {o_category = new_category;}
 
 bool account_list_less_than(Account *t1, Account *t2) {
 	if(t1->type() != ACCOUNT_TYPE_ASSETS && t2->type() != ACCOUNT_TYPE_ASSETS) {

@@ -55,6 +55,10 @@ bool currency_symbol_precedes() {
 #endif
 }
 
+bool is_zero(double value) {
+	return value < 0.0000001 && value > -0.0000001;
+}
+
 QString format_money(double v, int precision) {
 	if(precision == MONETARY_DECIMAL_PLACES) return QLocale().toCurrencyString(v);
 	if(currency_symbol_precedes()) {

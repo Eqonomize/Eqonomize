@@ -93,9 +93,8 @@ class AssetsAccount : public Account {
 		AssetsType at_type;
 		double d_initbal;
 		bool b_closed;
+		QString s_maintainer;
 		
-		ExpensesAccount *o_category;
-
 	public:
 
 		AssetsAccount(Budget *parent_budget, AssetsType initial_type, QString initial_name, double initial_balance = 0.0, QString initial_description = QString::null);
@@ -113,12 +112,11 @@ class AssetsAccount : public Account {
 		void setInitialBalance(double new_initial_balance);
 		bool isClosed() const;
 		void setClosed(bool close_account = true);
+		const QString &maintainer() const;
+		void setMaintainer(QString maintainer_name);
 		virtual AccountType type() const;
 		void setAccountType(AssetsType new_type);
 		virtual AssetsType accountType() const;
-		
-		virtual ExpensesAccount *expenseCategory() const;
-		virtual void setExpenseCategory(ExpensesAccount *new_category);
 
 };
 

@@ -35,7 +35,7 @@
 #include "editsplitdialog.h"
 
 
-EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parameters, int transaction_type, Security *security, bool select_security, Budget *budg, QWidget *parent, QString title, Account *account, bool allow_account_creation) : QDialog(parent), budget(budg), b_extra(extra_parameters) {
+EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parameters, int transaction_type, Security *security, bool select_security, Budget *budg, QWidget *parent, QString title, Account *account, bool allow_account_creation, bool withloan) : QDialog(parent), budget(budg), b_extra(extra_parameters), b_loan(withloan) {
 	
 	setWindowTitle(title);
 	setModal(true);
@@ -45,7 +45,7 @@ EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parame
 	tabs = new QTabWidget();
 	switch(transaction_type) {
 		case TRANSACTION_TYPE_EXPENSE: {
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation, false, withloan); 
 			tabs->addTab(transactionEditWidget, tr("Expense")); 
 			break;
 		}
@@ -102,12 +102,17 @@ void EditScheduledTransactionDialog::setTransaction(Transaction *trans) {
 	transactionEditWidget->setTransaction(trans);
 	recurrenceEditWidget->setRecurrence(NULL);
 }
+void EditScheduledTransactionDialog::setValues(QString description_value, double value_value, double quantity_value, QDate date_value, Account *from_account_value, Account *to_account_value, QString payee_value, QString comment_value) {
+	transactionEditWidget->setValues(description_value, value_value, quantity_value, date_value, from_account_value, to_account_value, payee_value, comment_value);
+}
 void EditScheduledTransactionDialog::setScheduledTransaction(ScheduledTransaction *strans) {
 	transactionEditWidget->setTransaction((Transaction*) strans->transaction());
 	recurrenceEditWidget->setRecurrence(strans->recurrence());
 }
 ScheduledTransaction *EditScheduledTransactionDialog::createScheduledTransaction() {
-	Transaction *trans = transactionEditWidget->createTransaction();
+	Transactions *trans = NULL;
+	if(b_loan) trans = transactionEditWidget->createTransactionWithLoan();
+	else trans = transactionEditWidget->createTransaction();
 	if(!trans) {tabs->setCurrentIndex(0); return NULL;}
 	recurrenceEditWidget->setStartDate(trans->date());
 	return new ScheduledTransaction(budget, trans, recurrenceEditWidget->createRecurrence());
@@ -126,10 +131,35 @@ bool EditScheduledTransactionDialog::modifyTransaction(Transaction *trans, Recur
 	rec = recurrenceEditWidget->createRecurrence();
 	return true;
 }
-ScheduledTransaction *EditScheduledTransactionDialog::newScheduledTransaction(int transaction_type, Budget *budg, QWidget *parent, Security *security, bool select_security, Account *account, bool extra_parameters, bool allow_account_creation) {
+ScheduledTransaction *EditScheduledTransactionDialog::newScheduledTransaction(QString description_value, double value_value, double quantity_value, QDate date_value, Account *from_account_value, Account *to_account_value, QString payee_value, QString comment_value, int transaction_type, Budget *budg, QWidget *parent, Security *security, bool select_security, Account *account, bool extra_parameters, bool allow_account_creation, bool withloan) {
 	EditScheduledTransactionDialog *dialog = NULL;
 	switch(transaction_type) {
-		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Expense"), account, allow_account_creation); break;}
+		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, withloan ? tr("New Expense Payed with Loan") : tr("New Expense"), account, allow_account_creation, withloan); break;}
+		case TRANSACTION_TYPE_INCOME: {
+			if(security || select_security) dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Dividend"), account, allow_account_creation);
+			else dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Income"), account, allow_account_creation);
+			break;
+		}
+		case TRANSACTION_TYPE_TRANSFER: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Transfer"), account, allow_account_creation); break;}
+		case TRANSACTION_TYPE_SECURITY_BUY: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Security Buy"), account, allow_account_creation); break;}
+		case TRANSACTION_TYPE_SECURITY_SELL: {
+			dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Security Sell"), account, allow_account_creation);
+			//dialog->transactionEditWidget->setMaxSharesDate(QDate::currentDate());
+			break;
+		}
+	}
+	dialog->setValues(description_value, value_value, quantity_value, date_value, from_account_value, to_account_value, payee_value, comment_value);
+	ScheduledTransaction *strans = NULL;
+	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		strans = dialog->createScheduledTransaction();
+	}
+	dialog->deleteLater();
+	return strans;
+}
+ScheduledTransaction *EditScheduledTransactionDialog::newScheduledTransaction(int transaction_type, Budget *budg, QWidget *parent, Security *security, bool select_security, Account *account, bool extra_parameters, bool allow_account_creation, bool withloan) {
+	EditScheduledTransactionDialog *dialog = NULL;
+	switch(transaction_type) {
+		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, withloan ? tr("New Expense Payed with Loan") : tr("New Expense"), account, allow_account_creation, withloan); break;}
 		case TRANSACTION_TYPE_INCOME: {
 			if(security || select_security) dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Dividend"), account, allow_account_creation);
 			else dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Income"), account, allow_account_creation);
@@ -373,7 +403,7 @@ ScheduledTransaction *EditScheduledMultiAccountDialog::newScheduledTransaction(Q
 	return strans;
 }
 ScheduledTransaction *EditScheduledMultiAccountDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
-	EditScheduledMultiAccountDialog *dialog = new EditScheduledMultiAccountDialog(extra_parameters, strans->budget(), parent, ((MultiAccountTransaction*) strans->transaction())->transactiontype() == TRANSACTION_TYPE_EXPENSE ? tr("Edit Expense with Multiple Payments") : tr("Edit Income with Multiple Payments"), NULL, allow_account_creation);
+	EditScheduledMultiAccountDialog *dialog = new EditScheduledMultiAccountDialog(extra_parameters, strans->budget(), parent, ((MultiAccountTransaction*) strans->transaction())->transactiontype() == TRANSACTION_TYPE_EXPENSE ? tr("Edit Expense with Multiple Payments") : tr("Edit Income with Multiple Payments"), ((MultiAccountTransaction*) strans->transaction())->transactiontype() == TRANSACTION_TYPE_EXPENSE, allow_account_creation);
 	dialog->setScheduledTransaction(strans);
 	strans = NULL;
 	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {
@@ -383,7 +413,7 @@ ScheduledTransaction *EditScheduledMultiAccountDialog::editScheduledTransaction(
 	return strans;
 }
 MultiAccountTransaction *EditScheduledMultiAccountDialog::editTransaction(MultiAccountTransaction *split, Recurrence *&rec, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
-	EditScheduledMultiAccountDialog *dialog = new EditScheduledMultiAccountDialog(extra_parameters, split->budget(), parent, split->transactiontype() == TRANSACTION_TYPE_EXPENSE ? tr("Edit Expense with Multiple Payments") : tr("Edit Income with Multiple Payments"), NULL, allow_account_creation);
+	EditScheduledMultiAccountDialog *dialog = new EditScheduledMultiAccountDialog(extra_parameters, split->budget(), parent, split->transactiontype() == TRANSACTION_TYPE_EXPENSE ? tr("Edit Expense with Multiple Payments") : tr("Edit Income with Multiple Payments"), split->transactiontype() == TRANSACTION_TYPE_EXPENSE, allow_account_creation);
 	dialog->setTransaction(split);
 	split = NULL;
 	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {

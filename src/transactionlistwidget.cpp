@@ -156,8 +156,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	tabs = new QTabWidget(this);
 	tabs->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-	editWidget = new TransactionEditWidget(true, b_extra, transtype, false, false, NULL, SECURITY_SHARES_AND_QUOTATION, false, budget, this, true);
-	connect(editWidget, SIGNAL(accountAdded(Account*)), this , SIGNAL(accountAdded(Account*)));
+	editWidget = new TransactionEditWidget(true, b_extra, transtype, false, false, NULL, SECURITY_SHARES_AND_QUOTATION, false, budget, this, true);	
 	editInfoLabel = new QLabel(QString::null);
 	editWidget->bottomLayout()->addWidget(editInfoLabel);
 	QDialogButtonBox *buttons = new QDialogButtonBox();
@@ -194,6 +193,10 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 
 	connect(transactionsView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(transactionExecuted(QTreeWidgetItem*)));
 	connect(transactionsView, SIGNAL(returnPressed(QTreeWidgetItem*)), this, SLOT(transactionExecuted(QTreeWidgetItem*)));
+	
+	connect(editWidget, SIGNAL(accountAdded(Account*)), this, SIGNAL(accountAdded(Account*)));
+	connect(editWidget, SIGNAL(newLoanRequested()), this, SLOT(newTransactionWithLoan()));
+	connect(editWidget, SIGNAL(multipleAccountsRequested()), this, SLOT(newMultiAccountTransaction()));
 
 }
 
@@ -1296,6 +1299,17 @@ void TransactionListWidget::transactionSelectionChanged() {
 		}
 	}
 	updateTransactionActions();
+}
+void TransactionListWidget::newMultiAccountTransaction() {
+	if(mainWin->newMultiAccountTransaction(transtype == TRANSACTION_TYPE_EXPENSE, editWidget->description(), transtype == TRANSACTION_TYPE_EXPENSE ? (CategoryAccount*) editWidget->toAccount() : (CategoryAccount*) editWidget->fromAccount(), editWidget->quantity(), editWidget->comments())) {
+		editClear();
+	}
+}
+void TransactionListWidget::newTransactionWithLoan() {
+	if(mainWin->newExpenseWithLoan(editWidget->description(), editWidget->value(), editWidget->quantity(), editWidget->date(), (ExpensesAccount*) editWidget->toAccount(), editWidget->payee(), editWidget->comments())) {
+		editClear();
+	}
+	
 }
 void TransactionListWidget::newRefundRepayment() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();

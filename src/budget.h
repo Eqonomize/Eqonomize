@@ -38,6 +38,7 @@
 
 int currency_frac_digits();
 bool currency_symbol_precedes();
+bool is_zero(double);
 QString format_money(double v, int precision);
 
 static bool transaction_list_less_than(Transaction *t1, Transaction *t2) {

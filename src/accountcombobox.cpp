@@ -47,7 +47,7 @@ Account *AccountComboBox::currentAccount() const {
 	return (Account*) currentData().value<void*>();
 }
 void AccountComboBox::setCurrentAccount(Account *account) {
-	setCurrentIndex(findData(qVariantFromValue((void*) account)));
+	if(account) setCurrentIndex(findData(qVariantFromValue((void*) account)));
 }
 int AccountComboBox::currentAccountIndex() const {
 	int index = currentIndex() - firstAccountIndex();
