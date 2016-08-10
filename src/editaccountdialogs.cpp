@@ -64,6 +64,7 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 		typeCombo->addItem(tr("Credit Card"));
 		typeCombo->addItem(tr("Debt"));
 		typeCombo->addItem(tr("Securities"));
+		typeCombo->addItem(tr("Other"));
 		grid->addWidget(typeCombo, row, 1); row++;
 	}
 	grid->addWidget(new QLabel(tr("Name:"), this), row, 0);
@@ -73,7 +74,8 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	grid->addWidget(maintainerLabel, row, 0);
 	maintainerEdit = new QLineEdit(this);
 	grid->addWidget(maintainerEdit, row, 1); row++;
-	grid->addWidget(new QLabel(new_loan ? ("Value:") : tr("Initial balance:"), this), row, 0);
+	valueLabel = new QLabel(new_loan ? ("Debt:") : tr("Initial balance:"), this);
+	grid->addWidget(valueLabel, row, 0);
 	valueEdit = new EqonomizeValueEdit(true, this);
 	grid->addWidget(valueEdit, row, 1); row++;
 	if(new_loan) {
@@ -144,10 +146,10 @@ void EditAssetsAccountDialog::closedToggled(bool b) {
 }
 void EditAssetsAccountDialog::typeActivated(int index) {
 	valueEdit->setEnabled(index != 5);
-	budgetButton->setEnabled(index != 5);
+	budgetButton->setEnabled(index != 5 && index != 4 && index != 3);
 	closedButton->setEnabled(index != 4);
 	if(index == 4) closedButton->setChecked(false);
-	if(index == 5) budgetButton->setChecked(false);
+	if(index == 5 || index == 4 || index == 3) budgetButton->setChecked(false);
 	if(index == 5) valueEdit->setValue(0.0);
 	maintainerEdit->setEnabled(index != 0);
 	maintainerLabel->setEnabled(index != 0);
@@ -159,12 +161,13 @@ AssetsAccount *EditAssetsAccountDialog::newAccount(Transaction **transfer) {
 	AssetsType type;
 	if(typeCombo) {
 		switch(typeCombo->currentIndex()) {
+			case 0: {type = ASSETS_TYPE_CASH; break;}
 			case 1: {type = ASSETS_TYPE_CURRENT; break;}
 			case 2: {type = ASSETS_TYPE_SAVINGS; break;}
 			case 3: {type = ASSETS_TYPE_CREDIT_CARD; break;}
 			case 4: {type = ASSETS_TYPE_LIABILITIES; break;}
 			case 5: {type = ASSETS_TYPE_SECURITIES;  break;}
-			default: {type = ASSETS_TYPE_CASH; break;}
+			default: {type = ASSETS_TYPE_OTHER; break;}
 		}
 	} else {
 		type = ASSETS_TYPE_LIABILITIES;
@@ -175,6 +178,8 @@ AssetsAccount *EditAssetsAccountDialog::newAccount(Transaction **transfer) {
 	if(transfer && transferButton && transferButton->isChecked()) {
 		Transaction *trans = new Transfer(budget, valueEdit->value(), dateEdit->date(), account, (AssetsAccount*) accountCombo->currentAccount(), nameEdit->text());
 		*transfer = trans;
+	} else if(type == ASSETS_TYPE_LIABILITIES && transferButton) {
+		account->setInitialBalance(-valueEdit->value());
 	} else {
 		account->setInitialBalance(valueEdit->value());
 	}
@@ -190,12 +195,13 @@ void EditAssetsAccountDialog::modifyAccount(AssetsAccount *account) {
 	account->setAsBudgetAccount(budgetButton->isChecked());
 	account->setClosed(closedButton->isChecked());
 	switch(typeCombo->currentIndex()) {
+		case 0: {account->setAccountType(ASSETS_TYPE_CASH); break;}
 		case 1: {account->setAccountType(ASSETS_TYPE_CURRENT); break;}
 		case 2: {account->setAccountType(ASSETS_TYPE_SAVINGS); break;}
 		case 3: {account->setAccountType(ASSETS_TYPE_CREDIT_CARD); break;}
 		case 4: {account->setAccountType(ASSETS_TYPE_LIABILITIES); break;}
 		case 5: {account->setAccountType(ASSETS_TYPE_SECURITIES);  break;}
-		default: {account->setAccountType(ASSETS_TYPE_CASH); break;}
+		default: {account->setAccountType(ASSETS_TYPE_OTHER); break;}
 	}
 }
 void EditAssetsAccountDialog::setAccount(AssetsAccount *account) {
@@ -207,12 +213,13 @@ void EditAssetsAccountDialog::setAccount(AssetsAccount *account) {
 	descriptionEdit->setPlainText(account->description());
 	budgetButton->setChecked(account->isBudgetAccount());
 	switch(account->accountType()) {
+		case ASSETS_TYPE_CASH: {typeCombo->setCurrentIndex(0); break;}
 		case ASSETS_TYPE_CURRENT: {typeCombo->setCurrentIndex(1); break;}
 		case ASSETS_TYPE_SAVINGS: {typeCombo->setCurrentIndex(2); break;}
 		case ASSETS_TYPE_CREDIT_CARD: {typeCombo->setCurrentIndex(3); break;}
 		case ASSETS_TYPE_LIABILITIES: {typeCombo->setCurrentIndex(4); break;}
 		case ASSETS_TYPE_SECURITIES: {typeCombo->setCurrentIndex(5);  break;}
-		default: {typeCombo->setCurrentIndex(0); break;}
+		default: {typeCombo->setCurrentIndex(6); break;}
 	}
 	typeActivated(typeCombo->currentIndex());
 }

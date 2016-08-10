@@ -1381,10 +1381,10 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 							AssetsAccount *acc = budget->findAssetsAccount(category);
 							if(is_opening_balance || acc == qi.current_account) {
 								if(!acc) {
-									AssetsType account_type = ASSETS_TYPE_CURRENT;
+									AssetsType account_type = ASSETS_TYPE_OTHER;
 									if(type == 11) account_type = ASSETS_TYPE_CASH;
 									else if(type == 12) account_type = ASSETS_TYPE_CREDIT_CARD;
-									else if(type == 13) account_type = ASSETS_TYPE_SAVINGS;
+									else if(type == 10) account_type = ASSETS_TYPE_CURRENT;
 									else if(type == 14) account_type = ASSETS_TYPE_LIABILITIES;
 									acc = new AssetsAccount(budget, account_type, category);
 									budget->addAccount(acc);
@@ -1499,19 +1499,19 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 						if(name.isEmpty()) name = Budget::tr("Unnamed");
 						qi.current_account = budget->findAssetsAccount(name);
 						if(!qi.current_account) {
-							AssetsType account_type = ASSETS_TYPE_CURRENT;
+							AssetsType account_type = ASSETS_TYPE_OTHER;
 							if(qi.unknown_defs.contains(atype)) {
 								int ut_type = qi.unknown_defs[atype];
 								if(ut_type == 9) account_type = ASSETS_TYPE_SECURITIES;
 								else if(ut_type == 11) account_type = ASSETS_TYPE_CASH;
 								else if(ut_type == 12) account_type = ASSETS_TYPE_CREDIT_CARD;
-								else if(ut_type == 13) account_type = ASSETS_TYPE_SAVINGS;
+								else if(ut_type == 10) account_type = ASSETS_TYPE_CURRENT;
 								else if(ut_type == 14) account_type = ASSETS_TYPE_LIABILITIES;
 							} else if(atype == "cash") account_type = ASSETS_TYPE_CASH;
 							else if(atype == "invst" || atype == "mutual") account_type = ASSETS_TYPE_SECURITIES;
 							else if(atype == "ccard" || atype == "creditcard") account_type = ASSETS_TYPE_CREDIT_CARD;
 							else if(atype == "oth l") account_type = ASSETS_TYPE_LIABILITIES;
-							else if(atype == "oth a") account_type = ASSETS_TYPE_SAVINGS;
+							else if(atype == "oth a") account_type = ASSETS_TYPE_OTHER;
 							else if(atype != "bank" && atype != "port") {
 								if(test) {
 									qi.unknown_defs_pre[atype_bak] = atype;
@@ -1751,6 +1751,7 @@ void exportQIFOpeningBalance(QTextStream &fstream, qif_info &qi, AssetsAccount *
 		case ASSETS_TYPE_SECURITIES: {fstream << "Invst"; break;}
 		case ASSETS_TYPE_BALANCING: {fstream << "Oth A"; break;}
 		case ASSETS_TYPE_CASH: {fstream << "Cash"; break;}
+		default: {fstream << "Oth A"; break;}
 	}
 	fstream << "\n";
 	if(account->accountType() == ASSETS_TYPE_SECURITIES) {
@@ -1797,6 +1798,7 @@ void exportQIFAccount(QTextStream &fstream, qif_info&, Account *account) {
 			case ASSETS_TYPE_SECURITIES: {fstream << "Invst"; break;}
 			case ASSETS_TYPE_BALANCING: {fstream << "Oth A"; break;}
 			case ASSETS_TYPE_CASH: {fstream << "Cash"; break;}
+			default: {fstream << "Oth A"; break;}
 		}
 		fstream << "\n";
 	}

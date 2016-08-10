@@ -120,7 +120,7 @@ class EditLoanTransactionWidget : public QWidget {
 
 	public:
 
-		EditLoanTransactionWidget(Budget *budg, QWidget *parent, AssetsAccount *default_loan = NULL, bool allow_account_creation = false);
+		EditLoanTransactionWidget(Budget *budg, QWidget *parent, AssetsAccount *default_loan = NULL, bool allow_account_creation = false, bool only_interest = false);
 		~EditLoanTransactionWidget();
 
 		LoanTransaction *createTransaction();
@@ -241,7 +241,7 @@ class EditLoanTransactionDialog : public QDialog {
 
 	public:
 
-		EditLoanTransactionDialog(Budget *budg, QWidget *parent, AssetsAccount *default_loan = NULL, bool allow_account_creation = false);
+		EditLoanTransactionDialog(Budget *budg, QWidget *parent, AssetsAccount *default_loan = NULL, bool allow_account_creation = false, bool only_interest = false);
 		~EditLoanTransactionDialog();
 		
 		EditLoanTransactionWidget *editWidget;

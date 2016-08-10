@@ -64,7 +64,7 @@ void AccountComboBox::updateAccounts(Account *exclude_account) {
 	switch(i_type) {
 		case ACCOUNT_TYPE_ASSETS: {
 			if(new_account_action) addItem(tr("New account…"), qVariantFromValue(NULL));
-			if(new_loan_action) addItem(tr("Payed with loan…"), qVariantFromValue(NULL));
+			if(new_loan_action) addItem(tr("Payed with loan / payment plan…"), qVariantFromValue(NULL));
 			if(multiple_accounts_action) addItem(tr("Multiple accounts/payments…"), qVariantFromValue(NULL));
 			if(count() > 0) insertSeparator(count());
 			bool add_secondary_list = false;

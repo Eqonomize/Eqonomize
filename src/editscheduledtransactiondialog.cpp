@@ -424,7 +424,7 @@ MultiAccountTransaction *EditScheduledMultiAccountDialog::editTransaction(MultiA
 }
 
 
-EditScheduledLoanTransactionDialog::EditScheduledLoanTransactionDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, AssetsAccount *loan, bool allow_account_creation) : QDialog(parent), budget(budg), b_extra(extra_parameters) {
+EditScheduledLoanTransactionDialog::EditScheduledLoanTransactionDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, AssetsAccount *loan, bool allow_account_creation, bool only_interest) : QDialog(parent), budget(budg), b_extra(extra_parameters) {
 	
 	setWindowTitle(title);
 	setModal(true);
@@ -433,7 +433,7 @@ EditScheduledLoanTransactionDialog::EditScheduledLoanTransactionDialog(bool extr
 	
 	tabs = new QTabWidget();
 	
-	transactionEditWidget = new EditLoanTransactionWidget(budget, NULL, loan, allow_account_creation); 
+	transactionEditWidget = new EditLoanTransactionWidget(budget, NULL, loan, allow_account_creation, only_interest); 
 	tabs->addTab(transactionEditWidget, tr("Transaction")); 
 
 	recurrenceEditWidget = new RecurrenceEditWidget(transactionEditWidget->date(), budget);
@@ -485,8 +485,8 @@ LoanTransaction *EditScheduledLoanTransactionDialog::createTransaction(Recurrenc
 	rec = recurrenceEditWidget->createRecurrence();
 	return split;
 }
-ScheduledTransaction *EditScheduledLoanTransactionDialog::newScheduledTransaction(Budget *budg, QWidget *parent, AssetsAccount *account, bool extra_parameters, bool allow_account_creation) {
-	EditScheduledLoanTransactionDialog *dialog = new EditScheduledLoanTransactionDialog(extra_parameters, budg, parent, tr("Edit Debt Payment"), account, allow_account_creation);
+ScheduledTransaction *EditScheduledLoanTransactionDialog::newScheduledTransaction(Budget *budg, QWidget *parent, AssetsAccount *account, bool extra_parameters, bool allow_account_creation, bool only_interest) {
+	EditScheduledLoanTransactionDialog *dialog = new EditScheduledLoanTransactionDialog(extra_parameters, budg, parent, tr("Edit Debt Payment"), account, allow_account_creation, only_interest);
 	ScheduledTransaction *strans = NULL;
 	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {
 		strans = dialog->createScheduledTransaction();

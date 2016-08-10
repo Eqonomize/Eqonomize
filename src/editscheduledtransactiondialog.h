@@ -155,14 +155,14 @@ class EditScheduledLoanTransactionDialog : public QDialog {
 		
 	public:
 		
-		EditScheduledLoanTransactionDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, AssetsAccount *loan = NULL, bool allow_account_creation = false);
+		EditScheduledLoanTransactionDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, AssetsAccount *loan = NULL, bool allow_account_creation = false, bool only_interest = false);
 
 		bool checkAccounts();
 		void setTransaction(LoanTransaction *split);
 		void setScheduledTransaction(ScheduledTransaction *strans);
 		ScheduledTransaction *createScheduledTransaction();
 		LoanTransaction *createTransaction(Recurrence *&rec);
-		static ScheduledTransaction *newScheduledTransaction(Budget *budg, QWidget *parent, AssetsAccount *loan = NULL, bool extra_parameters = false, bool allow_account_creation = false);
+		static ScheduledTransaction *newScheduledTransaction(Budget *budg, QWidget *parent, AssetsAccount *loan = NULL, bool extra_parameters = false, bool allow_account_creation = false, bool only_interest = false);
 		static ScheduledTransaction *editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false);
 		static LoanTransaction *editTransaction(LoanTransaction *trans, Recurrence *&rec,  QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false);
 

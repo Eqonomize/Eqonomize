@@ -101,15 +101,17 @@ void AssetsAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		at_type = ASSETS_TYPE_SECURITIES;
 	} else if(type == "balancing") {
 		at_type = ASSETS_TYPE_BALANCING;
-	} else {
+	} else if(type == "cash") {
 		at_type = ASSETS_TYPE_CASH;
+	} else {
+		at_type = ASSETS_TYPE_OTHER;
 	}
 	if(at_type == ASSETS_TYPE_LIABILITIES) s_maintainer = attr->value("lender").toString();
 	else if(at_type == ASSETS_TYPE_CREDIT_CARD) s_maintainer = attr->value("issuer").toString();
 	else s_maintainer = attr->value("bank").toString();
 	if(at_type != ASSETS_TYPE_SECURITIES) {
 		d_initbal = attr->value("initialbalance").toDouble();
-		if(attr->hasAttribute("budgetaccount")) {
+		if(attr->hasAttribute("budgetaccount") && at_type != ASSETS_TYPE_LIABILITIES && at_type != ASSETS_TYPE_CREDIT_CARD) {
 			bool b_budget = attr->value("budgetaccount").toInt();
 			if(b_budget) {
 				o_budget->budgetAccount = this;
@@ -138,6 +140,7 @@ void AssetsAccount::writeAttributes(QXmlStreamAttributes *attr) {
 		case ASSETS_TYPE_SECURITIES: {attr->append("type", "securities"); break;}
 		case ASSETS_TYPE_BALANCING: {attr->append("type", "balancing"); break;}
 		case ASSETS_TYPE_CASH: {attr->append("type", "cash"); break;}
+		default: {attr->append("type", "other"); break;}
 	}
 	if(!s_maintainer.isEmpty()) {
 		if(at_type == ASSETS_TYPE_LIABILITIES) attr->append("lender", s_maintainer);

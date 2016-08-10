@@ -142,7 +142,7 @@ class Eqonomize : public QMainWindow {
 		bool newMultiAccountTransaction(bool create_expenses, QString description_string, CategoryAccount *category_account, double quantity_value, QString comment_string);
 		bool newMultiAccountTransaction(QWidget *parent, bool create_expenses);
 		bool newMultiItemTransaction(QWidget *parent, AssetsAccount *account = NULL);
-		bool newLoanTransaction(QWidget *parent, AssetsAccount *loan = NULL);
+		bool newLoanTransaction(QWidget *parent, AssetsAccount *loan = NULL, bool only_interest = false);
 		bool editSplitTransaction(SplitTransaction *split);
 		bool editSplitTransaction(SplitTransaction *split, QWidget *parent);
 		bool splitUpTransaction(SplitTransaction *split);
@@ -175,7 +175,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionAddAccount, *ActionNewAssetsAccount, *ActionNewLoan, *ActionNewIncomesAccount, *ActionNewExpensesAccount, *ActionEditAccount, *ActionDeleteAccount, *ActionBalanceAccount, *ActionAddAccountMenu;
 		QAction *ActionShowAccountTransactions, *ActionShowLedger;
 		QAction *ActionNewExpense, *ActionNewIncome, *ActionNewTransfer, *ActionNewMultiItemTransaction;
-		QAction *ActionNewMultiAccountExpense, *ActionNewExpenseWithLoan, *ActionNewLoanTransaction;
+		QAction *ActionNewMultiAccountExpense, *ActionNewExpenseWithLoan, *ActionNewLoanTransaction, *ActionNewDebtInterest;
 		QAction *ActionEditTransaction, *ActionEditScheduledTransaction, *ActionEditSplitTransaction;
 		QAction *ActionJoinTransactions, *ActionSplitUpTransaction;
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
@@ -224,7 +224,7 @@ class Eqonomize : public QMainWindow {
 		QVBoxLayout *expensesLayout, *incomesLayout, *transfersLayout;
 		TransactionListWidget *expensesWidget, *incomesWidget, *transfersWidget;
 		QTreeWidget *accountsView, *securitiesView, *scheduleView;
-		QTreeWidgetItem *assetsItem, *incomesItem, *expensesItem;
+		QTreeWidgetItem *assetsItem, *liabilitiesItem, *incomesItem, *expensesItem;
 		QCheckBox *accountsPeriodFromButton;
 		QDateEdit *accountsPeriodFromEdit, *accountsPeriodToEdit;
 		QCheckBox *partialBudgetButton;
@@ -239,8 +239,8 @@ class Eqonomize : public QMainWindow {
 		QCommandLineParser *parser;
 
 		double total_value, total_cost, total_profit, total_rate;
-		double expenses_accounts_value, incomes_accounts_value, assets_accounts_value;
-		double expenses_accounts_change, incomes_accounts_change, assets_accounts_change;
+		double expenses_accounts_value, incomes_accounts_value, assets_accounts_value, liabilities_accounts_value;
+		double expenses_accounts_change, incomes_accounts_change, assets_accounts_change, liabilities_accounts_change;
 		double expenses_budget, expenses_budget_diff, incomes_budget, incomes_budget_diff;
 		QMap<Account*, double> account_value;
 		QMap<Account*, double> account_change;
@@ -317,6 +317,7 @@ class Eqonomize : public QMainWindow {
 		void newMultiAccountIncome();
 		void newMultiItemTransaction();
 		void newLoanTransaction();
+		void newDebtInterest();
 		void newScheduledExpense();
 		void newScheduledIncome();
 		void newScheduledTransfer();

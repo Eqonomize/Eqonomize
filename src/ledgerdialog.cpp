@@ -377,7 +377,7 @@ void LedgerDialog::joinTransactions() {
 	MultiItemTransaction *split = NULL;
 	for(int index = 0; index < selection.size(); index++) {
 		LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
-		if(!i->splitTransaction() || i->splitTransaction()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
+		if(!i->splitTransaction()) {
 			Transaction *trans = i->transaction();
 			if(trans && !i->splitTransaction()) {
 				if(!split) {

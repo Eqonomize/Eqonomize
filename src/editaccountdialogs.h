@@ -48,7 +48,7 @@ class EditAssetsAccountDialog : public QDialog {
 	protected:
 
 		QLineEdit *nameEdit, *maintainerEdit;
-		QLabel *maintainerLabel;
+		QLabel *valueLabel, *maintainerLabel;
 		QDateEdit *dateEdit;
 		QRadioButton *initialButton, *transferButton;
 		EqonomizeValueEdit *valueEdit;
