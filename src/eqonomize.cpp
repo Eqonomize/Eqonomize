@@ -6601,9 +6601,9 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					if(update_value_display) {
 						if(from_is_debt) {
 							liabilitiesItem->setText(CHANGE_COLUMN, QLocale().toString(-liabilities_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
-							setAccountChangeColor(liabilitiesItem, liabilities_accounts_change, false);
+							setAccountChangeColor(liabilitiesItem, -liabilities_accounts_change, true);
 							item_accounts[trans->fromAccount()]->setText(CHANGE_COLUMN, QLocale().toString(-account_change[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES));
-							setAccountChangeColor(item_accounts[trans->fromAccount()], -account_change[trans->fromAccount()], false);
+							setAccountChangeColor(item_accounts[trans->fromAccount()], -account_change[trans->fromAccount()], true);
 						} else {
 							assetsItem->setText(CHANGE_COLUMN, QLocale().toString(assets_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
 							setAccountChangeColor(assetsItem, assets_accounts_change, false);
@@ -6749,9 +6749,9 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					if(update_value_display) {
 						if(to_is_debt) {
 							liabilitiesItem->setText(CHANGE_COLUMN, QLocale().toString(-liabilities_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
-							setAccountChangeColor(liabilitiesItem, -liabilities_accounts_change, false);
+							setAccountChangeColor(liabilitiesItem, -liabilities_accounts_change, true);
 							item_accounts[trans->toAccount()]->setText(CHANGE_COLUMN, QLocale().toString(-account_change[trans->toAccount()], 'f', MONETARY_DECIMAL_PLACES));
-							setAccountChangeColor(item_accounts[trans->toAccount()], -account_change[trans->toAccount()], false);
+							setAccountChangeColor(item_accounts[trans->toAccount()], -account_change[trans->toAccount()], true);
 						} else {
 							assetsItem->setText(CHANGE_COLUMN, QLocale().toString(assets_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
 							setAccountChangeColor(assetsItem, assets_accounts_change, false);
@@ -6773,7 +6773,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 		if(!balfrom) {
 			item_accounts[trans->fromAccount()]->setText(VALUE_COLUMN, QLocale().toString(from_is_debt ? -account_value[trans->fromAccount()] : account_value[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 			item_accounts[trans->fromAccount()]->setText(CHANGE_COLUMN, QLocale().toString(from_is_debt ? -account_change[trans->fromAccount()] : account_change[trans->fromAccount()], 'f', MONETARY_DECIMAL_PLACES));
-			setAccountChangeColor(item_accounts[trans->fromAccount()], from_is_debt ? -account_change[trans->fromAccount()] : account_change[trans->fromAccount()], trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES);
+			setAccountChangeColor(item_accounts[trans->fromAccount()], from_is_debt ? -account_change[trans->fromAccount()] : account_change[trans->fromAccount()], from_is_debt || trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES);
 			item_accounts[trans->fromAccount()]->setHidden(trans->fromAccount()->isClosed() && is_zero(account_change[trans->fromAccount()]) && is_zero(account_value[trans->fromAccount()]));
 			if(from_sub) {
 				item_accounts[trans->fromAccount()->topAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->fromAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
@@ -6784,7 +6784,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 		if(!balto) {
 			item_accounts[trans->toAccount()]->setText(VALUE_COLUMN, QLocale().toString(to_is_debt ? -account_value[trans->toAccount()] : account_value[trans->toAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
 			item_accounts[trans->toAccount()]->setText(CHANGE_COLUMN, QLocale().toString(to_is_debt ? -account_change[trans->toAccount()] : account_change[trans->toAccount()], 'f', MONETARY_DECIMAL_PLACES));
-			setAccountChangeColor(item_accounts[trans->toAccount()], to_is_debt ? -account_change[trans->toAccount()] : account_change[trans->toAccount()], trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES);
+			setAccountChangeColor(item_accounts[trans->toAccount()], to_is_debt ? -account_change[trans->toAccount()] : account_change[trans->toAccount()], to_is_debt || trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES);
 			item_accounts[trans->toAccount()]->setHidden(trans->toAccount()->isClosed() && is_zero(account_change[trans->toAccount()]) && is_zero(account_value[trans->toAccount()]));
 			if(to_sub) {
 				item_accounts[trans->toAccount()->topAccount()]->setText(VALUE_COLUMN, QLocale().toString(account_value[trans->toAccount()->topAccount()], 'f', MONETARY_DECIMAL_PLACES) + " ");
@@ -7490,7 +7490,7 @@ void Eqonomize::filterAccounts() {
 		bool is_debt = (it.key()->parent() == liabilitiesItem);
 		it.key()->setText(CHANGE_COLUMN, QLocale().toString(is_debt ? -account_change[it.value()] : account_change[it.value()], 'f', MONETARY_DECIMAL_PLACES));
 		it.key()->setText(VALUE_COLUMN, QLocale().toString(is_debt ? -account_value[it.value()] : account_value[it.value()], 'f', MONETARY_DECIMAL_PLACES) + " ");
-		setAccountChangeColor(it.key(), is_debt ? -account_change[it.value()] : account_change[it.value()], it.value()->type() == ACCOUNT_TYPE_EXPENSES);
+		setAccountChangeColor(it.key(), is_debt ? -account_change[it.value()] : account_change[it.value()], is_debt || it.value()->type() == ACCOUNT_TYPE_EXPENSES);
 		it.key()->setHidden(it.value()->isClosed() && is_zero(account_change[it.value()]) && is_zero(account_value[it.value()]));
 	}
 	incomesItem->setText(VALUE_COLUMN, QLocale().toString(incomes_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
@@ -7504,7 +7504,7 @@ void Eqonomize::filterAccounts() {
 	setAccountChangeColor(assetsItem, assets_accounts_change, false);
 	liabilitiesItem->setText(VALUE_COLUMN, QLocale().toString(-liabilities_accounts_value, 'f', MONETARY_DECIMAL_PLACES) + " ");
 	liabilitiesItem->setText(CHANGE_COLUMN, QLocale().toString(-liabilities_accounts_change, 'f', MONETARY_DECIMAL_PLACES));
-	setAccountChangeColor(liabilitiesItem, -liabilities_accounts_change, false);
+	setAccountChangeColor(liabilitiesItem, -liabilities_accounts_change, true);
 	budgetMonthEdit->blockSignals(true);
 	budgetMonthEdit->setDate(budget->budgetDateToMonth(to_date));
 	budgetMonthEdit->blockSignals(false);

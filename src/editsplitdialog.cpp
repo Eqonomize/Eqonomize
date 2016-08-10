@@ -37,6 +37,7 @@
 #include <QDateEdit>
 #include <QMessageBox>
 #include <QHeaderView>
+#include <QRadioButton>
 
 #include "accountcombobox.h"
 #include "budget.h"
@@ -254,7 +255,7 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 
-	grid->addWidget(new QLabel(tr("Description:")), 0, 0);
+	grid->addWidget(new QLabel(tr("Description:", "Generic Description")), 0, 0);
 	descriptionEdit = new QLineEdit();
 	grid->addWidget(descriptionEdit, 0, 1);
 	descriptionEdit->setFocus();
@@ -545,7 +546,7 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 
-	grid->addWidget(new QLabel(tr("Description:")), 0, 0);
+	grid->addWidget(new QLabel(tr("Description:", "Generic Description")), 0, 0);
 	descriptionEdit = new QLineEdit();
 	grid->addWidget(descriptionEdit, 0, 1);
 	descriptionEdit->setFocus();
@@ -563,7 +564,7 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	categoryCombo->updateAccounts();
 	grid->addWidget(categoryCombo, b_extra ? 2 : 1, 1);
 	
-	grid->addWidget(new QLabel(tr("Comment:")), b_extra ? 3 : 2, 0);
+	grid->addWidget(new QLabel(tr("Comments:")), b_extra ? 3 : 2, 0);
 	commentEdit = new QLineEdit();
 	grid->addWidget(commentEdit, b_extra ? 3 : 2, 1);
 
@@ -840,13 +841,24 @@ EditLoanTransactionWidget::EditLoanTransactionWidget(Budget *budg, QWidget *pare
 		feeEdit = NULL;
 		totalLabel = NULL;
 		accountCombo = NULL;
+		addedInterestButton = NULL;
+		payedInterestButton = NULL;
 	} else {
+		QHBoxLayout *payedAddedLayout = new QHBoxLayout();
+		payedAddedLayout->addStretch(1);
+		payedInterestButton = new QRadioButton(tr("Payed"), this);
+		payedAddedLayout->addWidget(payedInterestButton);
+		addedInterestButton = new QRadioButton(tr("Added to debt"), this);
+		payedAddedLayout->addWidget(addedInterestButton);
+		payedInterestButton->setChecked(true);
+		grid->addLayout(payedAddedLayout, row, 0, 1, 2); row++;
+		
 		grid->addWidget(new QLabel(tr("Fee:")), row, 0);
 		feeEdit = new EqonomizeValueEdit(false, this);
 		grid->addWidget(feeEdit, row, 1); row++;
 
 		totalLabel = new QLabel();
-		grid->addWidget(totalLabel, row, 1); row++;
+		grid->addWidget(totalLabel, row, 0, 1, 2); row++;
 	
 		grid->addWidget(new QLabel(tr("Account:")), row, 0);
 		accountCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, b_create_accounts);
@@ -854,7 +866,7 @@ EditLoanTransactionWidget::EditLoanTransactionWidget(Budget *budg, QWidget *pare
 		grid->addWidget(accountCombo, row, 1); row++;
 	}
 	
-	grid->addWidget(new QLabel(tr("Expense Category:")), row, 0);
+	grid->addWidget(new QLabel(tr("Expense category:")), row, 0);
 	categoryCombo = new AccountComboBox(ACCOUNT_TYPE_EXPENSES, budget, b_create_accounts);
 	categoryCombo->updateAccounts();
 	grid->addWidget(categoryCombo, row, 1); row++;
@@ -862,7 +874,7 @@ EditLoanTransactionWidget::EditLoanTransactionWidget(Budget *budg, QWidget *pare
 	if(only_interest) {
 		commentEdit = NULL;
 	} else {
-		grid->addWidget(new QLabel(tr("Comment:")), row, 0);
+		grid->addWidget(new QLabel(tr("Comments:")), row, 0);
 		commentEdit = new QLineEdit();
 		grid->addWidget(commentEdit, row, 1); row++;
 	}
@@ -874,19 +886,21 @@ EditLoanTransactionWidget::EditLoanTransactionWidget(Budget *budg, QWidget *pare
 			loanCombo->addItem(account->name(), qVariantFromValue((void*) account));
 			if(account == default_loan) {
 				loanCombo->setCurrentIndex(i);
-				loanActivated(i);
 			}
 			i++;
 		}
 		account = budget->assetsAccounts.next();
 	}
+	loanActivated(loanCombo->currentIndex());
 	
-	valueChanged(0.0);
+	valueChanged();
 
 	if(dateEdit) connect(dateEdit, SIGNAL(dateChanged(const QDate&)), this, SIGNAL(dateChanged(const QDate&)));
-	if(feeEdit) connect(feeEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged(double)));
-	if(paymentEdit) connect(paymentEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged(double)));
-	if(interestEdit) connect(interestEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged(double)));
+	if(feeEdit) connect(feeEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
+	if(paymentEdit) connect(paymentEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
+	if(interestEdit) connect(interestEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
+	if(payedInterestButton) connect(payedInterestButton, SIGNAL(toggled(bool)), this, SLOT(valueChanged()));
+	if(addedInterestButton) connect(addedInterestButton, SIGNAL(toggled(bool)), this, SLOT(valueChanged()));
 	if(loanCombo) connect(loanCombo, SIGNAL(activated(int)), this, SLOT(loanActivated(int)));
 	if(accountCombo) connect(accountCombo, SIGNAL(newAccountRequested()), this, SLOT(newAccount()));
 	if(categoryCombo) connect(categoryCombo, SIGNAL(newAccountRequested()), this, SLOT(newCategory()));
@@ -901,6 +915,7 @@ void EditLoanTransactionWidget::newCategory() {
 	categoryCombo->createAccount();
 }
 void EditLoanTransactionWidget::loanActivated(int index) {
+	if(index < 0) return;
 	AssetsAccount *loan = (AssetsAccount*) loanCombo->itemData(index).value<void*>();
 	if(!loan) return;
 	LoanTransaction *trans = NULL;
@@ -922,20 +937,36 @@ void EditLoanTransactionWidget::loanActivated(int index) {
 		if(trans && trans->expenseCategory()) {
 			categoryCombo->setCurrentAccount(trans->expenseCategory());
 		} else {
-			Expense *etrans = budget->expenses.last();
-			while(etrans) {
-				if(etrans->from() == loan) {
-					categoryCombo->setCurrentAccount(etrans->category());
-					break;
+			ExpensesAccount *cat = NULL;
+			SplitTransaction *split = budget->splitTransactions.previous();
+			while(split) {
+				if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN && ((LoanTransaction*) split)->loan() == loan) {
+					cat = ((LoanTransaction*) split)->expenseCategory();
+					if(cat) break;
 				}
-				etrans = budget->expenses.previous();
+				split = budget->splitTransactions.previous();
+			}
+			if(cat) {
+				categoryCombo->setCurrentAccount(cat);
+			} else {
+				Expense *etrans = budget->expenses.last();
+				while(etrans) {
+					if(etrans->from() == loan) {
+						categoryCombo->setCurrentAccount(etrans->category());
+						break;
+					}
+					etrans = budget->expenses.previous();
+				}
 			}
 		}
 	}
 }
 
-void EditLoanTransactionWidget::valueChanged(double) {
+void EditLoanTransactionWidget::valueChanged() {
 	if(categoryCombo) categoryCombo->setEnabled(!paymentEdit || (interestEdit && interestEdit->value() > 0.0) || (feeEdit && feeEdit->value() > 0.0));
+	if(accountCombo && interestEdit && payedInterestButton) {
+		accountCombo->setEnabled(interestEdit->value() == 0.0 || (feeEdit && feeEdit->value() > 0.0) || (paymentEdit && paymentEdit->value() > 0.0) || payedInterestButton->isChecked());
+	}
 	updateTotalValue();
 }
 
@@ -945,7 +976,7 @@ void EditLoanTransactionWidget::updateTotalValue() {
 	if(feeEdit) value += feeEdit->value();
 	if(interestEdit) value += interestEdit->value();
 	if(paymentEdit) value += paymentEdit->value();
-	totalLabel->setText(QString("<div align=\"left\"><b>%1</b> %2</div>").arg(tr("Total value:"), QLocale().toCurrencyString(value)));
+	totalLabel->setText(QString("<div align=\"right\"><b>%1</b> %2</div>").arg(tr("Total value:"), QLocale().toCurrencyString(value)));
 }
 AssetsAccount *EditLoanTransactionWidget::selectedLoan() {
 	if(!loanCombo || !loanCombo->currentData().isValid()) return NULL;
@@ -959,7 +990,6 @@ ExpensesAccount *EditLoanTransactionWidget::selectedCategory() {
 	if(!categoryCombo) return NULL;
 	return (ExpensesAccount*) categoryCombo->currentAccount();
 }
-
 LoanTransaction *EditLoanTransactionWidget::createTransaction() {
 	if(!validValues()) return NULL;
 	AssetsAccount *loan = selectedLoan();
@@ -968,8 +998,8 @@ LoanTransaction *EditLoanTransactionWidget::createTransaction() {
 	LoanTransaction *split = new LoanTransaction(budget, dateEdit->date(), loan, account ? account : loan);
 	if(paymentEdit && paymentEdit->value() > 0.0) split->setPayment(paymentEdit->value());
 	if(feeEdit && feeEdit->value() > 0.0) split->setFee(feeEdit->value());
-	if(interestEdit && interestEdit->value() > 0.0) split->setInterest(interestEdit->value());
-	if(feeEdit->value() > 0.0 || interestEdit->value() > 0.0) split->setExpenseCategory(category);
+	if(interestEdit && interestEdit->value() > 0.0) split->setInterest(interestEdit->value(), !(addedInterestButton && addedInterestButton->isChecked()));
+	if((feeEdit && feeEdit->value() > 0.0) || (interestEdit && interestEdit->value() > 0.0)) split->setExpenseCategory(category);
 	if(commentEdit) split->setComment(commentEdit->text());
 	return split;
 }
@@ -980,8 +1010,10 @@ void EditLoanTransactionWidget::setTransaction(LoanTransaction *split) {
 	if(categoryCombo && split->expenseCategory()) categoryCombo->setCurrentAccount(split->expenseCategory());
 	if(paymentEdit) paymentEdit->setValue(split->payment());
 	if(interestEdit) interestEdit->setValue(split->interest());
+	if(payedInterestButton && split->interestPayed()) payedInterestButton->setChecked(true);
+	else if(addedInterestButton) addedInterestButton->setChecked(true);
 	if(feeEdit) feeEdit->setValue(split->fee());
-	valueChanged(0.0);
+	valueChanged();
 	emit dateChanged(split->date());
 }
 void EditLoanTransactionWidget::setTransaction(LoanTransaction *split, const QDate &date) {

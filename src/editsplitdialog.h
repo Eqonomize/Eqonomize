@@ -32,6 +32,7 @@ class QTreeWidgetItem;
 class QLineEdit;
 class QComboBox;
 class QDateEdit;
+class QRadioButton;
 
 class EqonomizeValueEdit;
 
@@ -108,6 +109,7 @@ class EditLoanTransactionWidget : public QWidget {
 		
 		QDateEdit *dateEdit;
 		EqonomizeValueEdit *paymentEdit, *interestEdit, *feeEdit;
+		QRadioButton *payedInterestButton, *addedInterestButton;
 		QComboBox *loanCombo;
 		AccountComboBox *accountCombo, *categoryCombo;
 		QLineEdit *commentEdit;
@@ -139,7 +141,7 @@ class EditLoanTransactionWidget : public QWidget {
 		void loanActivated(int index);
 		void newAccount();
 		void newCategory();
-		void valueChanged(double);
+		void valueChanged();
 
 };
 

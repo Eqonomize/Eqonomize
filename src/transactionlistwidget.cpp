@@ -848,6 +848,7 @@ void TransactionListWidget::removeTransaction() {
 			mainWin->transactionRemoved(split);
 			delete split;
 		} else {
+		//if parent split: unfinished
 			Transaction *trans = i->transaction();
 			budget->removeTransaction(trans, true);
 			mainWin->transactionRemoved(trans);

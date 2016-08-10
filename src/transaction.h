@@ -108,6 +108,8 @@ class Transactions {
 
 class Transaction : public Transactions {
 
+	Q_DECLARE_TR_FUNCTIONS(Transaction)
+
 	protected:
 
 		Budget *o_budget;
@@ -175,6 +177,8 @@ class Transaction : public Transactions {
 
 class Expense : public Transaction {
 
+	Q_DECLARE_TR_FUNCTIONS(Expense)
+
 	protected:
 
 		QString s_payee;
@@ -212,6 +216,8 @@ class Expense : public Transaction {
 
 class LoanFee : public Expense {
 
+	Q_DECLARE_TR_FUNCTIONS(LoanFee)
+
 	protected:
 	
 		AssetsAccount *o_loan;
@@ -240,6 +246,8 @@ class LoanFee : public Expense {
 };
 
 class LoanInterest : public Expense {
+
+	Q_DECLARE_TR_FUNCTIONS(LoanInterest)
 
 	protected:
 	
@@ -270,6 +278,8 @@ class LoanInterest : public Expense {
 
 
 class Income : public Transaction {
+
+	Q_DECLARE_TR_FUNCTIONS(Income)
 
 	protected:
 
@@ -309,6 +319,8 @@ class Income : public Transaction {
 
 class Transfer : public Transaction {
 
+	Q_DECLARE_TR_FUNCTIONS(Transfer)
+
 	public:
 	
 		Transfer(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description = emptystr, QString initial_comment = emptystr);
@@ -336,6 +348,8 @@ class Transfer : public Transaction {
 
 class LoanPayment : public Transfer {
 
+	Q_DECLARE_TR_FUNCTIONS(LoanPayment)
+
 	public:
 	
 		LoanPayment(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = emptystr);
@@ -359,6 +373,8 @@ class LoanPayment : public Transfer {
 
 class Balancing : public Transfer {
 
+	Q_DECLARE_TR_FUNCTIONS(Balancing)
+
 	public:
 
 		Balancing(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_account, QString initial_comment = emptystr);
@@ -381,6 +397,8 @@ class Balancing : public Transfer {
 };
 
 class SecurityTransaction : public Transaction {
+
+	Q_DECLARE_TR_FUNCTIONS(SecurityTransaction)
 
 	protected:
 
@@ -420,6 +438,8 @@ class SecurityTransaction : public Transaction {
 
 class SecurityBuy : public SecurityTransaction {
 
+	Q_DECLARE_TR_FUNCTIONS(SecurityBuy)
+
 	public:
 
 		SecurityBuy(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, Account *from_account, QString initial_comment = emptystr);
@@ -443,6 +463,8 @@ class SecurityBuy : public SecurityTransaction {
 
 class SecuritySell : public SecurityTransaction {
 
+	Q_DECLARE_TR_FUNCTIONS(SecuritySell)
+
 	public:
 
 		SecuritySell(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, Account *to_account, QString initial_comment = emptystr);
@@ -465,6 +487,8 @@ class SecuritySell : public SecurityTransaction {
 };
 
 class ScheduledTransaction : public Transactions {
+
+	Q_DECLARE_TR_FUNCTIONS(ScheduledTransaction)
 
 	protected:
 
@@ -513,6 +537,8 @@ class ScheduledTransaction : public Transactions {
 };
 
 class SplitTransaction : public Transactions {
+
+	Q_DECLARE_TR_FUNCTIONS(SplitTransaction)
 	
 	protected:
 
@@ -572,6 +598,8 @@ class SplitTransaction : public Transactions {
 };
 
 class MultiItemTransaction : public SplitTransaction {
+
+	Q_DECLARE_TR_FUNCTIONS(MultiItemTransaction)
 	
 	protected:
 
@@ -611,6 +639,8 @@ class MultiItemTransaction : public SplitTransaction {
 };
 
 class MultiAccountTransaction : public SplitTransaction {
+
+	Q_DECLARE_TR_FUNCTIONS(MultiAccountTransaction)
 
 	protected:
 	
@@ -657,6 +687,8 @@ class MultiAccountTransaction : public SplitTransaction {
 };
 
 class LoanTransaction : public SplitTransaction {
+
+	Q_DECLARE_TR_FUNCTIONS(LoanTransaction)
 	
 	protected:
 	
@@ -685,10 +717,12 @@ class LoanTransaction : public SplitTransaction {
 		virtual double quantity() const;
 		virtual double cost() const;
 		
-		void setInterest(double new_value);
+		void setInterest(double new_value, bool payed_from_account = true);
+		void setInterestPayed(bool payed_from_account);
 		void setFee(double new_value);
 		void setPayment(double new_value);
 		double interest() const;
+		bool interestPayed() const;
 		double fee() const;
 		double payment() const;
 		
@@ -710,6 +744,7 @@ class LoanTransaction : public SplitTransaction {
 		int count() const;
 		virtual Transaction *operator[] (int index) const;
 		virtual Transaction *at(int index) const;
+		virtual void removeTransaction(Transaction *trans, bool keep = false);
 		
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);

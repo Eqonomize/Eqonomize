@@ -172,7 +172,6 @@ QString Budget::loadFile(QString filename, QString &errors) {
 					}
 				}
 			} else {
-			qInfo() << "E_SC";
 				transaction_errors++;
 				delete strans;
 			}
@@ -187,7 +186,6 @@ QString Budget::loadFile(QString filename, QString &errors) {
 					transactions.append(expense);
 				} else {
 					transaction_errors++;
-					qInfo() << "E_E";
 					delete expense;
 				}
 			} else if(type == "income" || type == "repayment") {
@@ -196,7 +194,6 @@ QString Budget::loadFile(QString filename, QString &errors) {
 					incomes.append(income);
 					transactions.append(income);
 				} else {
-				qInfo() << "E_I";
 					transaction_errors++;
 					delete income;
 				}
@@ -495,20 +492,17 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 	xml.writeStartElement("budget_period");
 	xml.writeTextElement("first_day_of_month", QString::number(i_budget_day));
 	xml.writeEndElement();
-	qInfo() << "S0";
 	account = accounts.first();
 	while(account) {
 		if(account != balancingAccount && account->topAccount() == account) {
 			switch(account->type()) {
 				case ACCOUNT_TYPE_ASSETS: {
-				qInfo() << "S0a";
 					xml.writeStartElement("account");
 					account->save(&xml);
 					xml.writeEndElement();
 					break;
 				}
 				case ACCOUNT_TYPE_INCOMES: {
-				qInfo() << "S0b";
 					xml.writeStartElement("category");
 					xml.writeAttribute("type", "incomes");
 					account->save(&xml);
@@ -516,7 +510,6 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 					break;
 				}
 				case ACCOUNT_TYPE_EXPENSES: {
-				qInfo() << "S0c";
 					xml.writeStartElement("category");
 					xml.writeAttribute("type", "expenses");
 					account->save(&xml);
@@ -527,7 +520,6 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		}
 		account = accounts.next();
 	}
-	qInfo() << "S0d";
 	security = securities.first();
 	while(security) {
 		xml.writeStartElement("security");
@@ -535,7 +527,6 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		xml.writeEndElement();
 		security = securities.next();
 	}
-	qInfo() << "S0e";
 	ScheduledTransaction *strans = scheduledTransactions.first();
 	while(strans) {
 		xml.writeStartElement("schedule");
@@ -543,27 +534,27 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		xml.writeEndElement();
 		strans = scheduledTransactions.next();
 	}
-qInfo() << "S1";
 	SplitTransaction *split = splitTransactions.first();
 	while(split) {
-		xml.writeStartElement("transaction");
-		switch(split->type()) {
-			case SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS: {
-				xml.writeAttribute("type", "multiitem");
-				break;
+		if(split->count() > 0) {
+			xml.writeStartElement("transaction");
+			switch(split->type()) {
+				case SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS: {
+					xml.writeAttribute("type", "multiitem");
+					break;
+				}
+				case SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS: {
+					xml.writeAttribute("type", "multiaccount");
+					break;
+				}
+				case SPLIT_TRANSACTION_TYPE_LOAN: {
+					xml.writeAttribute("type", "debtpayment");
+					break;
+				}
 			}
-			case SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS: {
-			qInfo() << "S2";
-				xml.writeAttribute("type", "multiaccount");
-				break;
-			}
-			case SPLIT_TRANSACTION_TYPE_LOAN: {
-				xml.writeAttribute("type", "debtpayment");
-				break;
-			}
+			split->save(&xml);
+			xml.writeEndElement();
 		}
-		split->save(&xml);
-		xml.writeEndElement();
 		split = splitTransactions.next();
 	}
 

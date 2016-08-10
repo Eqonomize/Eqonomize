@@ -766,7 +766,7 @@ void ScheduledTransaction::writeElements(QXmlStreamWriter *xml) {
 				break;
 			}
 			case SPLIT_TRANSACTION_TYPE_LOAN: {
-				xml->writeStartElement("type", "debtpayment");
+				xml->writeAttribute("type", "debtpayment");
 				break;
 			}
 		}
@@ -1543,14 +1543,20 @@ double LoanTransaction::quantity() const {
 	return 1.0;
 }
 double LoanTransaction::cost() const {return interest() + fee();}
-void LoanTransaction::setInterest(double new_value) {
+void LoanTransaction::setInterest(double new_value, bool payed_from_account) {
 	if(!o_interest) {
 		if(new_value != 0.0) {
-			o_interest = new LoanInterest(o_budget, new_value, d_date, o_fee ? o_fee->category() : NULL, o_account, o_loan);
+			o_interest = new LoanInterest(o_budget, new_value, d_date, o_fee ? o_fee->category() : NULL, payed_from_account ? o_account : o_loan, o_loan);
 			o_interest->setParentSplit(this);
 		}
 	} else {
 		o_interest->setValue(new_value);
+	}
+}
+void LoanTransaction::setInterestPayed(bool payed_from_account) {
+	if(o_interest) {
+		if(payed_from_account) o_interest->setFrom(o_account);
+		else o_interest->setFrom(o_loan);
 	}
 }
 void LoanTransaction::setFee(double new_value) {
@@ -1576,6 +1582,9 @@ void LoanTransaction::setPayment(double new_value) {
 double LoanTransaction::interest() const {
 	if(o_interest) return o_interest->value();
 	return 0.0;
+}
+bool LoanTransaction::interestPayed() const {
+	return !o_interest || o_interest->from() != o_loan;
 }
 double LoanTransaction::fee() const {
 	if(o_fee) return o_fee->value();
@@ -1613,6 +1622,17 @@ void LoanTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		if(valid) *valid = false;
 		return;
 	}
+	if(attr->hasAttribute("from")) {
+		int account_id = attr->value("from").toInt();
+		if(budget()->assetsAccounts_id.contains(account_id)) {
+			o_account = budget()->assetsAccounts_id[account_id];
+		} else {
+			if(valid) *valid = false;
+			return;
+		}
+	} else {
+		o_account = o_loan;
+	}
 	ExpensesAccount *cat = NULL;
 	if(attr->hasAttribute("expensecategory")) {
 		int category_id = attr->value("expensecategory").toInt();
@@ -1625,7 +1645,9 @@ void LoanTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		o_payment->setParentSplit(this);
 	}
 	if(attr->hasAttribute("interest")) {
-		o_interest = new LoanInterest(o_budget, attr->value("interest").toDouble(), d_date, cat, o_account, o_loan);
+		bool interest_payed = true;
+		if(attr->hasAttribute("interestpayed")) interest_payed = attr->value("interestpayed").toInt();
+		o_interest = new LoanInterest(o_budget, attr->value("interest").toDouble(), d_date, cat, interest_payed ? o_account : o_loan, o_loan);
 		o_interest->setParentSplit(this);
 		if(valid && !cat) *valid = false;
 	}
@@ -1642,6 +1664,12 @@ bool LoanTransaction::readElement(QXmlStreamReader*, bool*) {
 void LoanTransaction::writeAttributes(QXmlStreamAttributes *attr) {
 	SplitTransaction::writeAttributes(attr);
 	attr->append("debt", QString::number(o_loan->id()));
+	if(o_account && o_account != o_loan && (o_payment || o_fee || (o_interest && o_interest->from() != o_loan))) {
+		attr->append("from", QString::number(o_account->id()));
+		if(o_interest && o_interest->from() == o_loan) {
+			attr->append("interestpayed", QString::number(false));
+		}
+	}
 	if(expenseCategory()) attr->append("expensecategory", QString::number(expenseCategory()->id()));
 	if(o_payment) attr->append("reduction", QString::number(o_payment->value(), 'f', MONETARY_DECIMAL_PLACES));
 	if(o_interest) attr->append("interest", QString::number(o_interest->value(), 'f', MONETARY_DECIMAL_PLACES));
@@ -1713,6 +1741,13 @@ Transaction *LoanTransaction::at(int index) const {
 	}
 	if(index == 2 && o_payment && o_interest) return o_fee;
 	return NULL;
+}
+void LoanTransaction::removeTransaction(Transaction *trans, bool keep) {
+	if(trans == o_interest) o_interest = NULL;
+	else if(trans == o_fee) o_fee = NULL;
+	else if(trans == o_payment) o_payment = NULL;
+	trans->setParentSplit(NULL);
+	o_budget->removeTransaction(trans, keep);
 }
 bool LoanTransaction::relatesToAccount(Account *account, bool include_subs, bool include_non_value) const {
 	return (include_non_value && (o_account == account || o_loan == account)) || (o_fee && o_fee->relatesToAccount(account, include_subs, include_non_value)) || (o_interest && o_interest->relatesToAccount(account, include_subs, include_non_value)) || (o_payment && o_payment->relatesToAccount(account, include_subs, include_non_value));
