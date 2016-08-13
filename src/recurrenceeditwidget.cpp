@@ -305,7 +305,7 @@ bool EditRangeDialog::validValues() {
 RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg, QWidget *parent) : QWidget(parent), date(startdate), budget(budg) {
 
 	QVBoxLayout *recurrenceLayout = new QVBoxLayout(this);
-	recurrenceLayout->setContentsMargins(0, 0, 0, 0);
+	//recurrenceLayout->setContentsMargins(0, 0, 0, 0);
 
 	recurrenceButton = new QCheckBox(tr("Enable recurrance"), this);
 	recurrenceLayout->addWidget(recurrenceButton);

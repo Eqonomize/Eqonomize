@@ -7445,13 +7445,13 @@ void Eqonomize::filterAccounts() {
 	bool b_past = (curdate >= to_date);
 	if(b_past) {
 		footer1->hide();
-		assetsItem->setText(0, tr("Accounts"));
+		assetsItem->setText(0, tr("Assets"));
 		if(budget->budgetAccount) {
 			item_accounts[budget->budgetAccount]->setText(0, budget->budgetAccount->name());
 		}
 	} else {
 		footer1->show();
-		assetsItem->setText(0, tr("Accounts") + "*");
+		assetsItem->setText(0, tr("Assets") + "*");
 		if(budget->budgetAccount) {
 			item_accounts[budget->budgetAccount]->setText(0, budget->budgetAccount->name() + "*");
 		}

@@ -401,7 +401,7 @@ void LedgerDialog::joinTransactions() {
 		LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
 		if(!i->splitTransaction()) {
 			Transaction *trans = i->transaction();
-			if(trans && !i->splitTransaction()) {
+			if(trans && !trans->parentSplit()) {
 				if(!split) {
 					split = new MultiItemTransaction(budget, i->transaction()->date(), account);
 				}
@@ -420,42 +420,43 @@ void LedgerDialog::splitUpTransaction() {
 	LedgerListViewItem *i = (LedgerListViewItem*) selection.first();
 	if(i) {
 		if(i->splitTransaction() && i->splitTransaction()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) mainWin->splitUpTransaction(i->splitTransaction());
-		else if(i->transaction() && i->transaction()->parentSplit() && i->transaction()->parentSplit()->type() != SPLIT_TRANSACTION_TYPE_LOAN) mainWin->splitUpTransaction(i->transaction()->parentSplit());
+		else if(i->transaction() && i->transaction()->parentSplit() && i->transaction()->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) mainWin->splitUpTransaction(i->transaction()->parentSplit());
 	}
 }
 void LedgerDialog::transactionSelectionChanged() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
-	bool selected = !selection.isEmpty();
-	removeButton->setEnabled(selected);
-	editButton->setEnabled(selected);
+	bool selected = !selection.isEmpty();	
 	bool b_join = selected;
 	bool b_split = selected;
+	bool b_edit = selected;
+	bool b_remove = selected;
 	SplitTransaction *split = NULL;
 	for(int index = 0; index < selection.size(); index++) {
 		LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
 		Transaction *trans = i->transaction();
-		if(!trans) {
-			removeButton->setEnabled(false);
-			if(selection.count() > 1) editButton->setEnabled(false);
+		if(i->splitTransaction()) {
+			if(b_edit && (index > 0 || selection.size() > 1)) b_edit = false;
+			b_join = false;
+			if(b_split) b_split = (selection.count() == 1) && (i->splitTransaction()->type() != SPLIT_TRANSACTION_TYPE_LOAN);
+		} else if(!trans) {
+			if(selection.size() > 1) b_edit = false;
+			b_remove = false;
 			b_join = false;
 			b_split = false;
 			break;
-		}
-		if((b_join || b_split) && i->splitTransaction()) {
-			b_join = false;
-			b_split = (selection.count() == 1) && i->splitTransaction()->type() != SPLIT_TRANSACTION_TYPE_LOAN;
-		} else if(b_split) {
-			if(!split) split = trans->parentSplit();
-			if(!trans->parentSplit() || trans->parentSplit() != split || trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
-				b_split = false;
+		} else {
+			if(b_edit && trans->parentSplit() && (index > 0 || selection.size() > 1)) b_edit = false;
+			if(b_split) {
+				if(!split) split = trans->parentSplit();
+				if(!trans->parentSplit() || trans->parentSplit() != split || trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) b_split = false;
 			}
-		}
-		if(b_join && trans->parentSplit()) {
-			b_join = false;
+			if(b_join && trans->parentSplit()) b_join = false;
 		}
 	}
 	joinButton->setEnabled(b_join);
 	splitUpButton->setEnabled(b_split);
+	removeButton->setEnabled(b_remove);
+	editButton->setEnabled(b_edit);
 }
 void LedgerDialog::newExpense() {
 	mainWin->newScheduledTransaction(TRANSACTION_TYPE_EXPENSE, NULL, false, this, account);
@@ -486,9 +487,10 @@ void LedgerDialog::remove() {
 	for(int index = 0; index < selection.size(); index++) {
 		LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
 		if(i->splitTransaction()) {
-			budget->removeSplitTransaction(i->splitTransaction(), true);
-			mainWin->transactionRemoved(i->splitTransaction());
-			delete i->splitTransaction();
+			SplitTransaction *split = i->splitTransaction();
+			budget->removeSplitTransaction(split, true);
+			mainWin->transactionRemoved(split);
+			delete split;
 		} else if(i->transaction()) {
 			Transaction *trans = i->transaction();
 			if(trans->parentSplit() && trans->parentSplit()->count() == 1) {
@@ -519,7 +521,7 @@ void LedgerDialog::edit() {
 		else if(i->transaction()->parentSplit()) mainWin->editSplitTransaction(i->transaction()->parentSplit(), this);
 		else if(i->transaction()) mainWin->editTransaction(i->transaction(), this);
 	} else if(selection.count() > 1) {
-		bool warned1 = false, warned2 = false, warned3 = false, warned4 = false;
+		bool warned1 = false, warned2 = false, warned3 = false;
 		bool equal_date = true, equal_description = true, equal_value = true, equal_category = true, equal_payee = b_extra;
 		int transtype = -1;
 		Transaction *comptrans = NULL;
@@ -527,52 +529,53 @@ void LedgerDialog::edit() {
 		QDate compdate;
 		for(int index = 0; index < selection.size(); index++) {
 			LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
-			if(!comptrans) {
-				comptrans = i->transaction();
-				compdate = i->transaction()->date();
-				transtype = i->transaction()->type();
-				if(i->transaction()->parentSplit()) equal_date = false;
-				if(i->transaction()->type() != TRANSACTION_TYPE_EXPENSE && i->transaction()->type() != TRANSACTION_TYPE_INCOME) equal_payee = false;
-				if(i->transaction()->type() == TRANSACTION_TYPE_INCOME) {
-					compcat = ((Income*) i->transaction())->category();
-				} else if(i->transaction()->type() == TRANSACTION_TYPE_EXPENSE) {
-					compcat = ((Expense*) i->transaction())->category();
-				} else if(i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-					equal_value = false;
-					equal_description = false;
-					compcat = ((SecurityTransaction*) i->transaction())->account();
-					if(compcat->type() == ACCOUNT_TYPE_ASSETS) {
-						equal_category = false;
-					}
-				}
-			} else {
-				if(transtype >= 0 && comptrans->type() != transtype) {
-					transtype = -1;
-				}
-				if(equal_date && (compdate != i->transaction()->date() || i->transaction()->parentSplit())) {
-					equal_date = false;
-				}
-				if(equal_description && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || comptrans->description() != i->transaction()->description())) {
-					equal_description = false;
-				}
-				if(equal_payee && (i->transaction()->type() != comptrans->type() || (comptrans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) comptrans)->payee() != ((Expense*) i->transaction())->payee()) || (comptrans->type() == TRANSACTION_TYPE_INCOME && ((Income*) comptrans)->payer() != ((Income*) i->transaction())->payer()))) {
-					equal_payee = false;
-				}
-				if(equal_value && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || comptrans->value() != i->transaction()->value())) {
-					equal_value = false;
-				}
-				if(equal_category) {
+			if(i->transaction() && !i->transaction()->parentSplit()) {
+				if(!comptrans) {
+					comptrans = i->transaction();
+					compdate = i->transaction()->date();
+					transtype = i->transaction()->type();
+					if(i->transaction()->type() != TRANSACTION_TYPE_EXPENSE && i->transaction()->type() != TRANSACTION_TYPE_INCOME) equal_payee = false;
 					if(i->transaction()->type() == TRANSACTION_TYPE_INCOME) {
-						if(compcat != ((Income*) i->transaction())->category()) {
-							equal_category = false;
-						}
+						compcat = ((Income*) i->transaction())->category();
 					} else if(i->transaction()->type() == TRANSACTION_TYPE_EXPENSE) {
-						if(compcat != ((Expense*) i->transaction())->category()) {
+						compcat = ((Expense*) i->transaction())->category();
+					} else if(i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+						equal_value = false;
+						equal_description = false;
+						compcat = ((SecurityTransaction*) i->transaction())->account();
+						if(compcat->type() == ACCOUNT_TYPE_ASSETS) {
 							equal_category = false;
 						}
-					} else if(i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-						if(compcat != ((SecurityTransaction*) i->transaction())->account()) {
-							equal_category = false;
+					}
+				} else {
+					if(transtype >= 0 && comptrans->type() != transtype) {
+						transtype = -1;
+					}
+					if(equal_date && (compdate != i->transaction()->date())) {
+						equal_date = false;
+					}
+					if(equal_description && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || comptrans->description() != i->transaction()->description())) {
+						equal_description = false;
+					}
+					if(equal_payee && (i->transaction()->type() != comptrans->type() || (comptrans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) comptrans)->payee() != ((Expense*) i->transaction())->payee()) || (comptrans->type() == TRANSACTION_TYPE_INCOME && ((Income*) comptrans)->payer() != ((Income*) i->transaction())->payer()))) {
+						equal_payee = false;
+					}
+					if(equal_value && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || comptrans->value() != i->transaction()->value())) {
+						equal_value = false;
+					}
+					if(equal_category) {
+						if(i->transaction()->type() == TRANSACTION_TYPE_INCOME) {
+							if(compcat != ((Income*) i->transaction())->category()) {
+								equal_category = false;
+							}
+						} else if(i->transaction()->type() == TRANSACTION_TYPE_EXPENSE) {
+							if(compcat != ((Expense*) i->transaction())->category()) {
+								equal_category = false;
+							}
+						} else if(i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+							if(compcat != ((SecurityTransaction*) i->transaction())->account()) {
+								equal_category = false;
+							}
 						}
 					}
 				}
@@ -594,44 +597,40 @@ void LedgerDialog::edit() {
 			bool future = !date.isNull() && date > QDate::currentDate();
 			for(int index = 0; index < selection.size(); index++) {
 				LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
-				if(!warned1 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL)) {
-					if(dialog->valueButton && dialog->valueButton->isChecked()) {
-						QMessageBox::critical(this, tr("Error"), tr("Cannot set the value of security transactions using the dialog for modifying multiple transactions."));
-						warned1 = true;
+				if(i->transaction() && !i->transaction()->parentSplit()) {
+					if(!warned1 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL)) {
+						if(dialog->valueButton && dialog->valueButton->isChecked()) {
+							QMessageBox::critical(this, tr("Error"), tr("Cannot set the value of security transactions using the dialog for modifying multiple transactions."));
+							warned1 = true;
+						}
 					}
-				}
-				if(!warned2 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
-					if(dialog->descriptionButton->isChecked()) {
-						QMessageBox::critical(this, tr("Error"), tr("Cannot change description of dividends and security transactions.", "Referring to the generic description property"));
-						warned2 = true;
+					if(!warned2 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
+						if(dialog->descriptionButton->isChecked()) {
+							QMessageBox::critical(this, tr("Error"), tr("Cannot change description of dividends and security transactions.", "Referring to the generic description property"));
+							warned2 = true;
+						}
 					}
-				}
-				if(!warned3 && dialog->payeeButton && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
-					if(dialog->payeeButton->isChecked()) {
-						QMessageBox::critical(this, tr("Error"), tr("Cannot change payer of dividends and security transactions."));
-						warned3 = true;
+					if(!warned3 && dialog->payeeButton && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
+						if(dialog->payeeButton->isChecked()) {
+							QMessageBox::critical(this, tr("Error"), tr("Cannot change payer of dividends and security transactions."));
+							warned3 = true;
+						}
 					}
-				}
-				if(!warned4 && i->transaction()->parentSplit()) {
-					if(dialog->dateButton->isChecked()) {
-						QMessageBox::critical(this, tr("Error"), tr("Cannot change date of transactions that are part of a split transaction."));
-						warned4 = true;
+					Transaction *trans = i->transaction();
+					Transaction *oldtrans = trans->copy();
+					if(dialog->modifyTransaction(trans)) {
+						if(future) {
+							budget->removeTransaction(trans, true);
+							mainWin->transactionRemoved(trans);
+							ScheduledTransaction *strans = new ScheduledTransaction(budget, trans, NULL);
+							budget->addScheduledTransaction(strans);
+							mainWin->transactionAdded(strans);
+						} else {
+							mainWin->transactionModified(trans, oldtrans);
+						}
 					}
+					delete oldtrans;
 				}
-				Transaction *trans = i->transaction();
-				Transaction *oldtrans = trans->copy();
-				if(dialog->modifyTransaction(trans)) {
-					if(future && !trans->parentSplit()) {
-						budget->removeTransaction(trans, true);
-						mainWin->transactionRemoved(trans);
-						ScheduledTransaction *strans = new ScheduledTransaction(budget, trans, NULL);
-						budget->addScheduledTransaction(strans);
-						mainWin->transactionAdded(strans);
-					} else {
-						mainWin->transactionModified(trans, oldtrans);
-					}
-				}
-				delete oldtrans;
 			}
 		}
 		dialog->deleteLater();

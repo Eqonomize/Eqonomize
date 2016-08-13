@@ -545,6 +545,7 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
+	box1->addStretch(1);
 
 	grid->addWidget(new QLabel(tr("Description:", "Generic Description")), 0, 0);
 	descriptionEdit = new QLineEdit();
@@ -812,6 +813,7 @@ EditLoanTransactionWidget::EditLoanTransactionWidget(Budget *budg, QWidget *pare
 
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
+	box1->addStretch(1);
 	
 	int row = 0;
 	

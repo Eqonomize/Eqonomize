@@ -595,7 +595,7 @@ void TransactionListWidget::editTransaction() {
 						if(i->transaction()->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
 							if(!warned5) {
 								if(dialog->dateButton->isChecked() || dialog->descriptionButton->isChecked() || dialog->categoryButton->isChecked() || (dialog->payeeButton && dialog->payeeButton->isChecked())) {
-									QMessageBox::critical(this, tr("Error"), tr("Cannot change date, description, expense category or payee of transactions that are part of a loan payment using the dialog for modifying multiple transactions.", "Referring to the generic description property"));
+									QMessageBox::critical(this, tr("Error"), tr("Cannot change date, description, expense category or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.", "Referring to the generic description property"));
 									warned5 = true;
 								}
 							}
@@ -817,7 +817,7 @@ void TransactionListWidget::splitUpTransaction() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() >= 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
-		if(i->transaction()->parentSplit()) {
+		if(i->transaction() && i->transaction()->parentSplit()) {
 			mainWin->splitUpTransaction(i->transaction()->parentSplit());
 			transactionSelectionChanged();
 		}
