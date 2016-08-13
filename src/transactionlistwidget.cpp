@@ -435,7 +435,7 @@ void TransactionListWidget::editTransaction() {
 		}
 	} else if(selection.count() > 1) {
 		budget->setRecordNewAccounts(true);
-		bool warned1 = false, warned2 = false, warned3 = false, warned4 = false;
+		bool warned1 = false, warned2 = false, warned3 = false, warned4 = false, warned5 = false;
 		MultipleTransactionsEditDialog *dialog = new MultipleTransactionsEditDialog(b_extra, transtype, budget, this, true);
 		TransactionListViewItem *i = (TransactionListViewItem*) transactionsView->currentItem();
 		if(!i->isSelected()) i = (TransactionListViewItem*) selection.first();
@@ -449,7 +449,6 @@ void TransactionListWidget::editTransaction() {
 		QDate compdate;
 		QString compdesc;
 		double compvalue = 0.0;
-		QList<SplitTransaction*> splits;
 		for(int index = 0; index < selection.size(); index++) {
 			TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
 			if(!comptrans) {
@@ -548,14 +547,15 @@ void TransactionListWidget::editTransaction() {
 		if(equal_date) dialog->dateButton->setChecked(true);
 		if(equal_category && dialog->categoryButton) dialog->categoryButton->setChecked(true);
 		if(dialog->exec() == QDialog::Accepted) {
-			QList<SplitTransaction*> new_splits, old_splits;
 			foreach(Account* acc, budget->newAccounts) emit accountAdded(acc);
 			budget->newAccounts.clear();
 			QDate date = dialog->date();
 			bool future = !date.isNull() && date > QDate::currentDate();
+			mainWin->startBatchEdit();
 			for(int index = 0; index < selection.size(); index++) {
 				TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
-				if(i->splitTransaction()) {
+				if(i->scheduledTransaction() && (i->splitTransaction() || (i->transaction() && i->transaction()->parentSplit()))) {
+				} else if(i->splitTransaction()) {
 					bool b = false;
 					SplitTransaction *new_split = i->splitTransaction()->copy();
 					for(int split_i = 0; split_i < new_split->count(); split_i++) {
@@ -563,8 +563,12 @@ void TransactionListWidget::editTransaction() {
 						b = dialog->modifyTransaction(i_trans, split_i == 0);
 					}
 					if(b) {
-						new_splits << new_split;
-						old_splits << i->splitTransaction();
+						SplitTransaction *old_split = i->splitTransaction();
+						budget->removeSplitTransaction(old_split, true);
+						mainWin->transactionRemoved(old_split);
+						delete old_split;
+						budget->addSplitTransaction(new_split);
+						mainWin->transactionAdded(new_split);
 					} else {
 						delete new_split;
 					}
@@ -587,13 +591,21 @@ void TransactionListWidget::editTransaction() {
 							warned3 = true;
 						}
 					}
-					if(!warned4 && i->transaction()->parentSplit()) {
-						if(dialog->dateButton->isChecked()) {
-							QMessageBox::critical(this, tr("Error"), tr("Cannot change date of transactions that are part of a split transaction."));
-							warned4 = true;
+					if(i->transaction()->parentSplit()) {
+						if(i->transaction()->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
+							if(!warned5) {
+								if(dialog->dateButton->isChecked() || dialog->descriptionButton->isChecked() || dialog->categoryButton->isChecked() || (dialog->payeeButton && dialog->payeeButton->isChecked())) {
+									QMessageBox::critical(this, tr("Error"), tr("Cannot change date, description, expense category or payee of transactions that are part of a loan payment using the dialog for modifying multiple transactions.", "Referring to the generic description property"));
+									warned5 = true;
+								}
+							}
+						} else if(!warned4) {
+							if(dialog->dateButton->isChecked()) {
+								QMessageBox::critical(this, tr("Error"), tr("Cannot change date of transactions that are part of a split transaction."));
+								warned4 = true;
+							}
 						}
 					}
-					//unfinished
 					ScheduledTransaction *strans = i->scheduledTransaction();
 					if(strans && strans->isOneTimeTransaction() && (date.isNull() || date == strans->transaction()->date())) {
 						ScheduledTransaction *old_strans = strans->copy();
@@ -648,13 +660,7 @@ void TransactionListWidget::editTransaction() {
 					}
 				}
 			}
-			for(int index = 0; index < new_splits.count(); index++) {
-				budget->removeSplitTransaction(old_splits[index], true);
-				mainWin->transactionRemoved(old_splits[index]);
-				delete old_splits[index];
-				budget->addSplitTransaction(new_splits[index]);
-				mainWin->transactionAdded(new_splits[index]);
-			}
+			mainWin->endBatchEdit();
 			transactionSelectionChanged();
 		} else {
 			foreach(Account* acc, budget->newAccounts) emit accountAdded(acc);
@@ -764,7 +770,27 @@ void TransactionListWidget::removeScheduledTransaction() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() == 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
-		if(i->scheduledTransaction()) {
+		if(!i->scheduledTransaction()) return;
+		if(i->transaction() && i->transaction()->parentSplit()) {
+			ScheduledTransaction *strans = i->scheduledTransaction();
+			Transaction *trans = i->transaction();
+			budget->removeScheduledTransaction(i->scheduledTransaction(), true);
+			mainWin->transactionRemoved(i->scheduledTransaction());
+			SplitTransaction *split = (SplitTransaction*) strans->transaction();
+			if(split->count() == 1) {
+				delete strans;
+			} else if(split->type() != SPLIT_TRANSACTION_TYPE_LOAN && split->count() == 2) {
+				split->removeTransaction(trans);
+				ScheduledTransaction *strans_new = new ScheduledTransaction(budget, split->at(0)->copy(), strans->recurrence()->copy());
+				delete strans;
+				budget->addScheduledTransaction(strans_new);
+				mainWin->transactionAdded(strans_new);
+			} else {
+				split->removeTransaction(trans);
+				budget->addScheduledTransaction(strans);
+				mainWin->transactionAdded(strans);
+			}
+		} else {
 			mainWin->removeScheduledTransaction(i->scheduledTransaction());
 			editClear();
 		}
@@ -826,35 +852,100 @@ void TransactionListWidget::removeTransaction() {
 		if(QMessageBox::warning(this, tr("Delete transactions?"), tr("Are you sure you want to delete all (%1) selected transactions?").arg(selection.count()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel) {
 			return;
 		}
+		mainWin->startBatchEdit();
 	}
 	transactionsView->clearSelection();
-	for(int index = 0; index < selection.size(); index++) {
+	for(int index = 0; index < selection.count(); index++) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
 		if(i->scheduledTransaction()) {
 			ScheduledTransaction *strans = i->scheduledTransaction();
-			if(strans->isOneTimeTransaction()) {
-				budget->removeScheduledTransaction(strans, true);
-				mainWin->transactionRemoved(strans);
-				delete strans;
+			if(i->splitTransaction()) {
+				if(strans->isOneTimeTransaction()) {
+					budget->removeScheduledTransaction(strans, true);
+					mainWin->transactionRemoved(strans);
+					delete strans;
+				} else {
+					QList<QDate> exception_dates;
+					exception_dates << i->date();
+					for(int index2 = index; index2 < selection.count(); index2++) {
+						TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
+						if(i->scheduledTransaction() == strans) {
+							exception_dates << i->date();
+						}
+					}
+					mainWin->transactionRemoved(strans);
+					for(int date_index = 0; date_index < exception_dates.count(); date_index++) {
+						if(strans->isOneTimeTransaction()) {
+							budget->removeScheduledTransaction(strans, true);
+							delete strans;
+							strans = NULL;
+							break;
+						}
+						strans->addException(exception_dates[date_index]);
+					}
+					if(strans) mainWin->transactionAdded(strans);
+				}
+			} else if(i->transaction() && i->transaction()->parentSplit()) {
+				if(index == 0 && selection.count() == 1) {
+					QDate date = i->date();
+					SplitTransaction *split = (SplitTransaction*) strans->transaction()->copy();
+					split->setDate(date);
+					for(int split_i = 0; split_i < split->count(); split_i++) {
+						if(((SplitTransaction*) strans->transaction())->at(split_i) == i->transaction()) {
+							split->removeTransaction(split->at(split_i));
+							break;
+						}
+					}
+					ScheduledTransaction *strans_new = new ScheduledTransaction(budget, split, NULL);
+					mainWin->transactionAdded(strans_new);
+					if(strans->isOneTimeTransaction()) {
+						mainWin->transactionRemoved(strans);
+						budget->removeScheduledTransaction(strans, true);
+						delete strans;
+					} else {
+						mainWin->transactionRemoved(strans);
+						strans->addException(date);
+						mainWin->transactionAdded(strans);
+					}
+				}
 			} else {
-				ScheduledTransaction *oldstrans = strans->copy();
-				strans->addException(i->date());
-				mainWin->transactionModified(strans, oldstrans);
-				delete oldstrans;
+				if(strans->isOneTimeTransaction()) {
+					budget->removeScheduledTransaction(strans, true);
+					mainWin->transactionRemoved(strans);
+					delete strans;
+				} else {
+					ScheduledTransaction *oldstrans = strans->copy();
+					strans->addException(i->date());
+					mainWin->transactionModified(strans, oldstrans);
+					delete oldstrans;
+				}
 			}
 		} else if(i->splitTransaction()) {
 			MultiAccountTransaction *split = i->splitTransaction();
 			budget->removeSplitTransaction(split, true);
 			mainWin->transactionRemoved(split);
 			delete split;
-		} else {
-		//if parent split: unfinished
+		} else {		
 			Transaction *trans = i->transaction();
-			budget->removeTransaction(trans, true);
-			mainWin->transactionRemoved(trans);
-			delete trans;
+			if(trans->parentSplit() && trans->parentSplit()->count() == 1) {
+				SplitTransaction *split = trans->parentSplit();
+				budget->removeSplitTransaction(split, true);
+				mainWin->transactionRemoved(split);
+				delete split;
+			} else if(trans->parentSplit() && trans->parentSplit()->type() != SPLIT_TRANSACTION_TYPE_LOAN && trans->parentSplit()->count() == 2) {
+				SplitTransaction *split = trans->parentSplit();
+				mainWin->splitUpTransaction(split);
+				budget->removeTransaction(trans, true);
+				mainWin->transactionRemoved(trans);
+				delete trans;
+			} else {
+				budget->removeTransaction(trans, true);
+				mainWin->transactionRemoved(trans);
+				delete trans;
+			}
 		}
 	}
+	mainWin->endBatchEdit();
 }
 void TransactionListWidget::addModifyTransaction() {
 	addTransaction();
@@ -979,6 +1070,7 @@ void TransactionListWidget::onTransactionSplitUp(SplitTransaction *split) {
 			++it;
 			i = (TransactionListViewItem*) *it;
 		}
+		transactionSelectionChanged();
 	}
 }
 void TransactionListWidget::onTransactionAdded(Transactions *trans) {
@@ -1313,6 +1405,20 @@ void TransactionListWidget::transactionSelectionChanged() {
 		}
 		modifyButton->setEnabled(true);
 		removeButton->setEnabled(true);
+		if(selection.count() > 1) {
+			for(int index = 0; index < selection.size(); index++) {
+				TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
+				if(i->scheduledTransaction()) {
+					if(i->transaction() && i->transaction()->parentSplit()) {
+						modifyButton->setEnabled(false);
+						removeButton->setEnabled(false);
+						break;
+					} else if(i->splitTransaction()) {
+						modifyButton->setEnabled(false);
+					}
+				}
+			}
+		}
 		if(transactionsView->currentItem()->isSelected()) {
 			currentTransactionChanged(transactionsView->currentItem());
 		} else if(selection.count() == 1) {
@@ -1345,37 +1451,44 @@ void TransactionListWidget::newRefundRepayment() {
 }
 void TransactionListWidget::updateTransactionActions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
-	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_join = false;
+	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_join = false, b_delete = false;
 	bool refundable = false, repayable = false;
 	if(selection.count() == 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
 		b_split = (i->transaction() && i->transaction()->parentSplit());
 		b_scheduledtransaction = i->scheduledTransaction() && i->scheduledTransaction()->recurrence();
 		b_transaction = !b_scheduledtransaction || !i->scheduledTransaction()->isOneTimeTransaction();
+		b_delete = b_transaction;
 		refundable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_EXPENSE && i->transaction()->value() > 0.0));
 		repayable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && i->transaction()->value() > 0.0 && !((Income*) i->transaction())->security()));
 	} else if(selection.count() > 1) {
 		b_transaction = true;
+		b_delete = true;
 		b_join = true;
+		b_split = true;
+		SplitTransaction *split = NULL;
 		if(b_join) {
 			for(int index = 0; index < selection.size(); index++) {
 				TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
-				if(i->splitTransaction() || i->scheduledTransaction() || i->transaction()->parentSplit()) {
+				if(b_join && (i->splitTransaction() || i->scheduledTransaction() || i->transaction()->parentSplit())) {
 					b_join = false;
-					break;
 				}
-			}
-		}
-		b_split = true;
-		SplitTransaction *split = NULL;
-		for(int index = 0; index < selection.size(); index++) {
-			TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
-			Transaction *trans = i->transaction();
-			if(!trans) break;
-			if(!split) split = trans->parentSplit();
-			if(!trans->parentSplit() || trans->parentSplit() != split) {
-				b_split = false;
-				break;
+				if(b_transaction && i->scheduledTransaction() && (i->splitTransaction() || (i->transaction() && i->transaction()->parentSplit()))) {
+					b_transaction = false;
+					if(!i->splitTransaction()) b_delete = false;
+				}
+				if(b_split) {
+					Transaction *trans = i->transaction();
+					if(!trans) {
+						b_split = false;
+					} else {
+						if(!split) split = trans->parentSplit();
+						if(!trans->parentSplit() || trans->parentSplit() != split) {
+							b_split = false;							
+						}
+					}
+				}
+				if(!b_split && !b_join && !b_transaction && !b_delete) break;
 			}
 		}
 	}

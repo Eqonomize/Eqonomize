@@ -83,17 +83,19 @@ LedgerListViewItem::LedgerListViewItem(Transaction *trans, SplitTransaction *spl
 	setText(1, s2);
 	setText(2, s3);
 	setText(3, s4);
-	setText(4, s5);
-	setText(5, s6);
-	setText(6, s7);
-	setText(7, s8);
+	setText(5, s5);
+	setText(6, s6);
+	setText(7, s7);
+	setText(4, s8);
 	setTextAlignment(4, Qt::AlignRight | Qt::AlignVCenter);
 	setTextAlignment(5, Qt::AlignRight | Qt::AlignVCenter);
 	setTextAlignment(6, Qt::AlignRight | Qt::AlignVCenter);
-	if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(4).color());
-	setForeground(4, incomeColor);
-	if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(5).color());
-	setForeground(5, expenseColor);
+	setTextAlignment(7, Qt::AlignRight | Qt::AlignVCenter);
+	if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(4).color());
+	setForeground(4, expenseColor);
+	if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(5).color());
+	setForeground(5, incomeColor);
+	setForeground(6, expenseColor);
 }
 Transaction *LedgerListViewItem::transaction() const {
 	return o_trans;
@@ -137,15 +139,18 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 
 	QHBoxLayout *box2 = new QHBoxLayout();
 	box1->addLayout(box2);
+	QVBoxLayout *box3 = new QVBoxLayout();
+	box2->addLayout(box3);
 	transactionsView = new EqonomizeTreeWidget(this);
 	transactionsView->setSortingEnabled(false);
 	transactionsView->setAllColumnsShowFocus(true);
-	transactionsView->setColumnCount(7);
+	transactionsView->setColumnCount(8);
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Type");
 	headers << tr("Description", "Generic Description");
 	headers << tr("Account/Category");
+	headers << tr("Expense");
 	headers << tr("Deposit");
 	headers << tr("Withdrawal");
 	headers << tr("Balance");
@@ -157,16 +162,21 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	setColumnStrlenWidth(transactionsView, 3, 20);
 	setColumnMoneyWidth(transactionsView, 4);
 	setColumnMoneyWidth(transactionsView, 5);
-	setColumnMoneyWidth(transactionsView, 6, 999999999999.99);
+	setColumnMoneyWidth(transactionsView, 6);
+	setColumnMoneyWidth(transactionsView, 7, 999999999999.99);
 	transactionsView->setSelectionMode(QTreeWidget::ExtendedSelection);
 	QSizePolicy sp = transactionsView->sizePolicy();
 	sp.setHorizontalPolicy(QSizePolicy::MinimumExpanding);
 	transactionsView->setSizePolicy(sp);
-	box2->addWidget(transactionsView);
+	box3->addWidget(transactionsView);
 	QDialogButtonBox *buttons = new QDialogButtonBox(Qt::Vertical, this);
 	QPushButton *newButton = buttons->addButton(tr("New"), QDialogButtonBox::ActionRole);
 	QMenu *newMenu = new QMenu(this);
 	newButton->setMenu(newMenu);
+	ActionNewLoanTransaction = newMenu->addAction(mainWin->ActionNewLoanTransaction->icon(), mainWin->ActionNewLoanTransaction->text());
+	connect(ActionNewLoanTransaction, SIGNAL(triggered()), this, SLOT(newLoanTransaction()));
+	ActionNewDebtInterest = newMenu->addAction(mainWin->ActionNewDebtInterest->icon(), mainWin->ActionNewDebtInterest->text());
+	connect(ActionNewDebtInterest, SIGNAL(triggered()), this, SLOT(newDebtInterest()));
 	connect(newMenu->addAction(mainWin->ActionNewExpense->icon(), mainWin->ActionNewExpense->text()), SIGNAL(triggered()), this, SLOT(newExpense()));
 	connect(newMenu->addAction(mainWin->ActionNewIncome->icon(), mainWin->ActionNewIncome->text()), SIGNAL(triggered()), this, SLOT(newIncome()));
 	connect(newMenu->addAction(mainWin->ActionNewTransfer->icon(), mainWin->ActionNewTransfer->text()), SIGNAL(triggered()), this, SLOT(newTransfer()));
@@ -180,6 +190,9 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	splitUpButton = buttons->addButton(tr("Split Up"), QDialogButtonBox::ActionRole);
 	splitUpButton->setEnabled(false);
 	box2->addWidget(buttons);
+	
+	statLabel = new QLabel("", this);
+	box3->addWidget(statLabel);
 	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
 	buttonBox->button(QDialogButtonBox::Close)->setShortcut(Qt::CTRL | Qt::Key_Return);
@@ -195,14 +208,15 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	connect(splitUpButton, SIGNAL(clicked()), this, SLOT(splitUpTransaction()));
 	connect(exportButton, SIGNAL(clicked()), this, SLOT(saveView()));
 	connect(printButton, SIGNAL(clicked()), this, SLOT(printView()));
-	connect(accountCombo, SIGNAL(activated(int)), this, SLOT(accountChanged(int)));
+	connect(accountCombo, SIGNAL(activated(int)), this, SLOT(accountActivated(int)));
 	connect(mainWin, SIGNAL(transactionsModified()), this, SLOT(updateTransactions()));
 	connect(mainWin, SIGNAL(accountsModified()), this, SLOT(updateAccounts()));
 
-	updateTransactions();
+	accountChanged();
 	
-	if(!transactionsView->topLevelItem(0)) transactionsView->setMinimumWidth(transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) +  transactionsView->columnWidth(3) +  transactionsView->columnWidth(4) +  transactionsView->columnWidth(5) +  transactionsView->columnWidth(6) + 10);
-	else transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
+	//if(!transactionsView->topLevelItem(0)) 
+	transactionsView->setMinimumWidth(transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) +  transactionsView->columnWidth(3) +  transactionsView->columnWidth(4) +  transactionsView->columnWidth(5) +  transactionsView->columnWidth(6) + 10);
+	//else transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
 	
 	QSettings settings;
 	QSize dialog_size = settings.value("Ledger/size", QSize()).toSize();
@@ -218,7 +232,15 @@ void LedgerDialog::saveConfig() {
 	settings.setValue("Ledger/size", size());
 }
 
-void LedgerDialog::accountChanged(int index) {
+void LedgerDialog::accountChanged() {
+	if(!account) return;
+	bool b_loan = (account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD);
+	transactionsView->setColumnHidden(4, !b_loan);
+	ActionNewDebtInterest->setVisible(b_loan);
+	ActionNewLoanTransaction->setVisible(b_loan);
+	updateTransactions();
+}
+void LedgerDialog::accountActivated(int index) {
 	int i = 0;
 	AssetsAccount *aaccount = budget->assetsAccounts.first();
 	while(aaccount) {
@@ -231,7 +253,7 @@ void LedgerDialog::accountChanged(int index) {
 		}
 		aaccount = budget->assetsAccounts.next();
 	}
-	updateTransactions();
+	accountChanged();
 }
 void LedgerDialog::updateAccounts() {
 	accountCombo->blockSignals(true);
@@ -254,7 +276,7 @@ void LedgerDialog::updateAccounts() {
 			close();
 			return;
 		}
-		accountChanged(0);
+		accountActivated(0);
 	} else {
 		updateTransactions();
 	}
@@ -447,6 +469,12 @@ void LedgerDialog::newTransfer() {
 void LedgerDialog::newSplit() {
 	mainWin->newMultiItemTransaction(this, account);
 }
+void LedgerDialog::newLoanTransaction() {
+	mainWin->newLoanTransaction(this, account, false);
+}
+void LedgerDialog::newDebtInterest() {
+	mainWin->newLoanTransaction(this, account, true);
+}
 void LedgerDialog::remove() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() > 1) {
@@ -462,9 +490,23 @@ void LedgerDialog::remove() {
 			mainWin->transactionRemoved(i->splitTransaction());
 			delete i->splitTransaction();
 		} else if(i->transaction()) {
-			budget->removeTransaction(i->transaction(), true);
-			mainWin->transactionRemoved(i->transaction());
-			delete i->transaction();
+			Transaction *trans = i->transaction();
+			if(trans->parentSplit() && trans->parentSplit()->count() == 1) {
+				SplitTransaction *split = trans->parentSplit();
+				budget->removeSplitTransaction(split, true);
+				mainWin->transactionRemoved(split);
+				delete split;
+			} else if(trans->parentSplit() && trans->parentSplit()->type() != SPLIT_TRANSACTION_TYPE_LOAN && trans->parentSplit()->count() == 2) {
+				SplitTransaction *split = trans->parentSplit();
+				mainWin->splitUpTransaction(split);
+				budget->removeTransaction(trans, true);
+				mainWin->transactionRemoved(trans);
+				delete trans;
+			} else {
+				budget->removeTransaction(trans, true);
+				mainWin->transactionRemoved(trans);
+				delete trans;
+			}
 		}
 	}
 }
@@ -599,8 +641,6 @@ void LedgerDialog::edit(QTreeWidgetItem*) {
 	edit();
 }
 void LedgerDialog::updateTransactions() {
-	/*int contents_x = transactionsView->contentsX();
-	int contents_y = transactionsView->contentsY();*/
 	int scroll_h = transactionsView->horizontalScrollBar()->value();
 	int scroll_v = transactionsView->verticalScrollBar()->value();
 	Transaction *selected_transaction = NULL;
@@ -613,67 +653,130 @@ void LedgerDialog::updateTransactions() {
 	}
 	transactionsView->clear();
 	double balance = account->initialBalance();
+	double total_balance = account->initialBalance();
+	double reductions = 0.0;
+	double expenses = 0.0;
+	int quantity = 0;
+	QDate curdate = QDate::currentDate();
 	if(balance != 0.0) transactionsView->insertTopLevelItem(0, new LedgerListViewItem(NULL, NULL, NULL, "-", "-", tr("Initial balance"), "-", QString::null, QString::null, QLocale().toCurrencyString(balance)));
 	Transaction *trans = budget->transactions.first();
+	SplitTransaction *split = budget->splitTransactions.first();
+	Transactions *transs = trans;
+	if(!transs || (split && split->date() < trans->date())) transs = split;
 	QVector<SplitTransaction*> splits;
-	while(trans) {
-		SplitTransaction *split_this = trans->parentSplit();
-		if(split_this && split_this->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) split_this = NULL;
-		bool skip = false;
-		if(!splits.isEmpty() && split_this) {
-			if(splits[splits.size() - 1]->date() != split_this->date()) {
-				splits.clear();
-			} else if(split_this) {
-				for(QVector<SplitTransaction*>::size_type i = 0; i < splits.size(); i++) {
-					if(split_this == splits[i]) {
-						skip = true;
-						break;
+	while(transs) {
+		if(transs == split) {
+			if(split->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS && ((MultiItemTransaction*) split)->account() == account) {
+				double value = split->accountChange(account);
+				balance += value;
+				total_balance += balance;
+				LedgerListViewItem *i = new LedgerListViewItem(NULL, split, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Split Transaction"), split->description(), ((MultiItemTransaction*) split)->fromAccountsString(), (value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, (value < 0.0) ? QLocale().toCurrencyString(-value) : QString::null, QLocale().toCurrencyString(balance));
+				transactionsView->insertTopLevelItem(0, i);
+				quantity++;
+				if(split == selected_split) {
+					i->setSelected(true);
+				}
+			} else if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
+				if(((LoanTransaction*) split)->loan() == account) {
+					LoanTransaction *lsplit = (LoanTransaction*) split;
+					Transaction *ltrans = lsplit->paymentTransaction();
+					if(ltrans) {
+						double value = ltrans->value();
+						balance += value;
+						total_balance += balance;
+						reductions += value;
+						LedgerListViewItem *i = new LedgerListViewItem(ltrans, NULL, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), tr("Reduction"), ltrans->fromAccount()->name(), (value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, value >= 0.0 ? QString::null : QLocale().toCurrencyString(-value), QLocale().toCurrencyString(balance));
+						transactionsView->insertTopLevelItem(0, i);
+						if(ltrans == selected_transaction) {
+							i->setSelected(true);
+						}
+						quantity++;
+					}
+					ltrans = lsplit->feeTransaction();
+					if(ltrans) {
+						double value = ltrans->value();
+						expenses += value;
+						bool to_balance = (ltrans->fromAccount() == account);
+						if(to_balance) {
+							balance -= value;
+							total_balance += balance;
+							reductions -= value;
+							quantity++;
+						}
+						LedgerListViewItem *i = new LedgerListViewItem(ltrans, NULL, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), tr("Fee"), ltrans->fromAccount()->name(), (to_balance || value >= 0.0) ? QString::null : QLocale().toCurrencyString(-value), (to_balance && value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, QLocale().toCurrencyString(balance), to_balance ? QString::null : QLocale().toCurrencyString(value));
+						transactionsView->insertTopLevelItem(0, i);
+						if(ltrans == selected_transaction) {
+							i->setSelected(true);
+						}
+					}
+					ltrans = lsplit->interestTransaction();
+					if(ltrans) {
+						double value = ltrans->value();
+						expenses += value;
+						bool to_balance = (ltrans->fromAccount() == account);
+						if(to_balance) {
+							balance -= value;
+							total_balance += balance;
+							reductions -= value;
+							quantity++;
+						}
+						LedgerListViewItem *i = new LedgerListViewItem(ltrans, NULL, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), tr("Interest"), ltrans->fromAccount()->name(), (to_balance || value >= 0.0) ? QString::null : QLocale().toCurrencyString(-value), (to_balance && value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, QLocale().toCurrencyString(balance), to_balance ? QString::null : QLocale().toCurrencyString(value));
+						transactionsView->insertTopLevelItem(0, i);
+						if(ltrans == selected_transaction) {
+							i->setSelected(true);
+						}
+					}
+				} else if(((LoanTransaction*) split)->account() == account) {
+					double value = split->accountChange(account);
+					if(value != 0.0) {
+						balance += value;
+						total_balance += balance;
+						LedgerListViewItem *i = new LedgerListViewItem(NULL, split, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), split->description(), ((LoanTransaction*) split)->loan()->name(), (value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, (value < 0.0) ? QLocale().toCurrencyString(-value) : QString::null, QLocale().toCurrencyString(balance));
+						transactionsView->insertTopLevelItem(0, i);
+						quantity++;
+						if(split == selected_split) {
+							i->setSelected(true);
+						}
 					}
 				}
 			}
-		}
-		AssetsAccount *split_account = NULL;
-		if(split_this && split_this->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) split_account = ((MultiItemTransaction*) split_this)->account();
-		else if(split_this && split_this->type() == SPLIT_TRANSACTION_TYPE_LOAN) split_account = ((LoanTransaction*) split_this)->account();
-		if(!skip && (trans->fromAccount() == account || trans->toAccount() == account)) {
-			if(split_this && split_account != account) split_this = NULL;
-			if(split_this) splits.push_back(split_this);
-			bool deposit = split_this || (trans->toAccount() == account);
-			double value = 0.0;
-			if(split_this) value = split_this->value();
-			else value = trans->value();
-			if(deposit) balance += value;
-			else balance -= value;
-			if(!split_this && value < 0.0) {
-				deposit = !deposit;
-				value = -value;
-			}
-			if(split_this) {
-				LedgerListViewItem *i = new LedgerListViewItem(trans, split_this, NULL, QLocale().toString(split_this->date(), QLocale::ShortFormat), split_this->type() == SPLIT_TRANSACTION_TYPE_LOAN ? tr("Debt Payment") : tr("Split Transaction"), split_this->description(), QString::null, (value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, (value < 0.0) ? QLocale().toCurrencyString(-value) : QString::null, QLocale().toCurrencyString(balance));
-				
-				transactionsView->insertTopLevelItem(0, i);
-				if(split_this == selected_split) {
-					i->setSelected(true);
-				}
+		} else if(transs->relatesToAccount(account) && (!trans->parentSplit() || trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS || (trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS && ((MultiItemTransaction*) trans->parentSplit())->account() != account))) {
+			double value = trans->accountChange(account);
+			balance += value;
+			total_balance += balance;
+			LedgerListViewItem *i = new LedgerListViewItem(trans, NULL, NULL, QLocale().toString(trans->date(), QLocale::ShortFormat), QString::null, trans->description(), account == trans->fromAccount() ? trans->toAccount()->name() : trans->fromAccount()->name(), (value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, value >= 0.0 ? QString::null : QLocale().toCurrencyString(-value), QLocale().toCurrencyString(balance));
+			quantity++;
+			transactionsView->insertTopLevelItem(0, i);
+			if(trans->type() == TRANSACTION_TYPE_INCOME) {
+				if(value >= 0.0) i->setText(1, tr("Income"));
+				else i->setText(1, tr("Repayment"));
+			} else if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
+				if(value <= 0.0) i->setText(1, tr("Expense"));
+				else i->setText(1, tr("Refund"));
+			} else if(trans->relatesToAccount(budget->balancingAccount)) {
+				 i->setText(1, tr("Balancing"));
 			} else {
-				LedgerListViewItem *i = new LedgerListViewItem(trans, NULL, NULL, QLocale().toString(trans->date(), QLocale::ShortFormat), QString::null, trans->description(), deposit ? trans->fromAccount()->name() : trans->toAccount()->name(), (deposit && value >= 0.0) ? QLocale().toCurrencyString(value < 0.0 ? -value : value) : QString::null, (deposit && value >= 0.0) ? QString::null : QLocale().toCurrencyString(value < 0.0 ? -value : value), QLocale().toCurrencyString(balance));
-				transactionsView->insertTopLevelItem(0, i);
-				if(trans->type() == TRANSACTION_TYPE_INCOME) {
-					if(value >= 0.0) i->setText(1, tr("Income"));
-					else i->setText(1, tr("Repayment"));
-				} else if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
-					if(value >= 0.0) i->setText(1, tr("Expense"));
-					else i->setText(1, tr("Refund"));
-				} else if(trans->toAccount() == budget->balancingAccount || trans->fromAccount() == budget->balancingAccount) i->setText(1, tr("Balancing"));
-				else i->setText(1, tr("Transfer"));
-				if(trans == selected_transaction) {
-					i->setSelected(true);
-				}
+				i->setText(1, tr("Transfer"));
+			}
+			if(trans == selected_transaction) {
+				i->setSelected(true);
 			}
 		}
-		trans = budget->transactions.next();
+		if(transs == trans) {
+			trans = budget->transactions.next();
+			if(trans && trans->date() > curdate) trans = NULL;
+		} else {
+			split = budget->splitTransactions.next();
+			if(split && split->date() > curdate) split = NULL;
+		}
+		transs = trans;
+		if(!transs || (split && split->date() < trans->date())) transs = split;
 	}
-	//transactionsView->setContentsPos(contents_x, contents_y);
+	if(account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD) {
+		statLabel->setText(QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg(tr("Current debt:")).arg(tr("Total debt reduction:")).arg(tr("Total interest and fees:")).arg(QLocale().toCurrencyString(-balance)).arg(QLocale().toCurrencyString(reductions)).arg(QLocale().toCurrencyString(expenses)));
+	} else {	
+		statLabel->setText(QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg("Current balance:").arg("Average balance:").arg(tr("Number of transactions:")).arg(QLocale().toCurrencyString(balance)).arg(QLocale().toCurrencyString(total_balance / (quantity + 1))).arg(QLocale().toString(quantity)));
+	}
 	transactionsView->horizontalScrollBar()->setValue(scroll_h);
 	transactionsView->verticalScrollBar()->setValue(scroll_v);
 }

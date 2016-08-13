@@ -530,6 +530,12 @@ void SecurityTransaction::setSecurity(Security *parent_security) {
 	o_security = parent_security;
 }
 Security *SecurityTransaction::security() const {return o_security;}
+bool SecurityTransaction::relatesToAccount(Account *account, bool, bool) const {return fromAccount() == account || toAccount() == account;}
+double SecurityTransaction::accountChange(Account *account, bool) const {
+	if(fromAccount() == account) return -value();
+	if(toAccount() == account) return value();
+	return 0.0;
+}
 
 SecurityBuy::SecurityBuy(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, Account *from_account, QString initial_comment) : SecurityTransaction(parent_security, initial_value, initial_shares, initial_share_value, initial_date, initial_comment) {
 	setAccount(from_account);
@@ -1513,7 +1519,7 @@ TransactionType MultiAccountTransaction::transactiontype() const {
 }
 bool MultiAccountTransaction::isIncomesAndExpenses() const {return true;}
 bool MultiAccountTransaction::relatesToAccount(Account *account, bool include_subs, bool include_non_value) const {
-	return (include_non_value && (o_category == account || (include_subs && o_category->topAccount() == account))) || SplitTransaction::relatesToAccount(account, include_subs, include_non_value);
+	return (include_non_value && o_category && (o_category == account || (include_subs && o_category->topAccount() == account))) || SplitTransaction::relatesToAccount(account, include_subs, include_non_value);
 }
 void MultiAccountTransaction::replaceAccount(Account *old_account, Account *new_account) {
 	if(o_category == old_account && (new_account->type() == ACCOUNT_TYPE_INCOMES || new_account->type() == ACCOUNT_TYPE_EXPENSES)) o_category = (CategoryAccount*) new_account;
@@ -1594,6 +1600,11 @@ double LoanTransaction::payment() const {
 	if(o_payment) return o_payment->value();
 	return 0.0;
 }
+
+LoanFee *LoanTransaction::feeTransaction() const {return o_fee;}
+LoanInterest *LoanTransaction::interestTransaction() const {return o_interest;}
+LoanPayment *LoanTransaction::paymentTransaction() const {return o_payment;}
+
 void LoanTransaction::clear(bool keep) {
 	if(o_fee) {
 		o_fee->setParentSplit(NULL);
@@ -1758,6 +1769,13 @@ void LoanTransaction::replaceAccount(Account *old_account, Account *new_account)
 	if(o_fee) o_fee->replaceAccount(old_account, new_account);
 	if(o_interest) o_interest->replaceAccount(old_account, new_account);
 	if(o_payment) o_payment->replaceAccount(old_account, new_account);
+}
+double LoanTransaction::accountChange(Account *account, bool include_subs) const {
+	double v = 0.0;
+	if(o_fee) v += o_fee->accountChange(account, include_subs);
+	if(o_interest) v += o_interest->accountChange(account, include_subs);
+	if(o_payment) v += o_payment->accountChange(account, include_subs);
+	return v;
 }
 
 

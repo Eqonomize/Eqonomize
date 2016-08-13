@@ -837,7 +837,16 @@ void CategoriesComparisonChart::updateDisplay() {
 
 	if(chart_type == 1) {
 		pie_series = new QPieSeries();
-		
+		if(!current_account && type == ACCOUNT_TYPE_ASSETS) {
+			account = budget->assetsAccounts.first();
+			if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
+			value = 0.0;
+			while(account) {
+				if(values[account] > 0.0) value += values[account];
+				account = budget->assetsAccounts.next();
+				if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
+			}
+		}
 	} else if(chart_type == 3) {
 		bar_series = new QHorizontalBarSeries();
 	} else {
@@ -899,7 +908,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 
 		if(chart_type == 1) {
-			if(current_value >= 0.01 || value < 0.01) {
+			if(current_value >= 0.01) {
 				QPieSlice *slice = pie_series->append(QString("%1 (%2%)").arg(legend_string).arg(QLocale().toString(legend_value, 'f', deci)), current_value);
 				if(legend_value >= 8.0) {
 					slice->setLabelVisible(true);

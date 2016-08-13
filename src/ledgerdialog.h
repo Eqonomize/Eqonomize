@@ -30,6 +30,8 @@ class QPushButton;
 class QTreeWidget;
 class QTreeWidgetItem;
 class QComboBox;
+class QLabel;
+class QAction;
 
 class Eqonomize;
 class AssetsAccount;
@@ -50,8 +52,11 @@ class LedgerDialog : public QDialog {
 		QPushButton *editButton, *removeButton, *joinButton, *splitUpButton;
 		QPushButton *exportButton, *printButton;
 		QComboBox *accountCombo;
+		QLabel *statLabel;
+		QAction *ActionNewDebtInterest, *ActionNewLoanTransaction;
 
 		bool exportList(QTextStream &outf, int fileformat);
+		void accountChanged();
 		
 	public:
 		
@@ -74,11 +79,13 @@ class LedgerDialog : public QDialog {
 		void newIncome();
 		void newTransfer();
 		void newSplit();
+		void newLoanTransaction();
+		void newDebtInterest();
 		void joinTransactions();
 		void splitUpTransaction();
 		void saveView();
 		void printView();
-		void accountChanged(int);
+		void accountActivated(int);
 		void reject();
 		
 };

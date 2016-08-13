@@ -1726,6 +1726,8 @@ class AccountsListView : public EqonomizeTreeWidget {
 
 Eqonomize::Eqonomize() : QMainWindow() {
 
+	in_batch_edit = false;
+
 	expenses_budget = 0.0;
 	expenses_budget_diff = 0.0;
 	incomes_budget = 0.0;
@@ -1871,6 +1873,11 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	liabilitiesItem->setFlags(liabilitiesItem->flags() & ~Qt::ItemIsDropEnabled);
 	expensesItem->setFlags(expensesItem->flags() & ~Qt::ItemIsDragEnabled);
 	incomesItem->setFlags(incomesItem->flags() & ~Qt::ItemIsDragEnabled);
+	QFont itemfont = assetsItem->font(0);
+	itemfont.setWeight(QFont::DemiBold);
+	assetsItem->setFont(0, itemfont); liabilitiesItem->setFont(0, itemfont); incomesItem->setFont(0, itemfont); expensesItem->setFont(0, itemfont);
+	assetsItem->setFont(2, itemfont); liabilitiesItem->setFont(2, itemfont); incomesItem->setFont(2, itemfont); expensesItem->setFont(2, itemfont);
+	assetsItem->setFont(3, itemfont); liabilitiesItem->setFont(3, itemfont); incomesItem->setFont(3, itemfont); expensesItem->setFont(3, itemfont);
 	accountsLayoutView->addWidget(accountsView);
 	QHBoxLayout *accountsLayoutFooter = new QHBoxLayout();
 	accountsLayoutView->addLayout(accountsLayoutFooter);
@@ -2184,6 +2191,8 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	newScheduleMenu->addAction(ActionNewExpense);
 	newScheduleMenu->addAction(ActionNewIncome);
 	newScheduleMenu->addAction(ActionNewTransfer);
+	newScheduleMenu->addAction(ActionNewLoanTransaction);
+	newScheduleMenu->addAction(ActionNewMultiItemTransaction);
 	editScheduleMenu->addAction(ActionEditSchedule);
 	editScheduleMenu->addAction(ActionEditOccurrence);
 	removeScheduleMenu->addAction(ActionDeleteSchedule);
@@ -3401,11 +3410,15 @@ void Eqonomize::removeScheduledTransaction() {
 bool Eqonomize::removeOccurrence(ScheduledTransaction *strans, const QDate &date) {
 	if(strans->isOneTimeTransaction()) {
 		removeScheduledTransaction(strans);
-	} else {
+	} else if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
 		ScheduledTransaction *oldstrans = strans->copy();
 		strans->addException(date);
 		transactionModified(strans, oldstrans);
 		delete oldstrans;
+	} else {
+		transactionRemoved(strans);
+		strans->addException(date);
+		transactionAdded(strans);
 	}
 	return true;
 }
@@ -3685,7 +3698,7 @@ void Eqonomize::updateTransactionActions() {
 void Eqonomize::popupAccountsMenu(const QPoint &p) {
 	QTreeWidgetItem *i = accountsView->itemAt(p);
 	if(i == NULL) return;
-	if(i == liabilitiesItem || (account_items.contains(i) && account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i]->type())->accountType() == ASSETS_TYPE_LIABILITIES)) {
+	if(i == liabilitiesItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS) && (((AssetsAccount*) account_items[i])->accountType() == ASSETS_TYPE_LIABILITIES))) {
 		ActionAddAccount->setText(tr("Add Loan"));
 	} else if(i == assetsItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS))) {
 		ActionAddAccount->setText(tr("Add Account"));
@@ -4020,8 +4033,11 @@ void Eqonomize::setModified(bool has_been_modified) {
 	modified = has_been_modified;
 	ActionFileSave->setEnabled(modified || !current_url.isValid());
 	setWindowModified(has_been_modified);
-	if(modified) emit budgetUpdated();
-	else auto_save_timeout = true;
+	if(modified) {
+		if(!in_batch_edit) emit budgetUpdated();
+	} else {
+		auto_save_timeout = true;
+	}
 }
 void Eqonomize::createDefaultBudget() {
 	if(!askSave()) return;
@@ -5548,6 +5564,18 @@ bool Eqonomize::checkSchedule(bool update_display) {
 	return b;
 }
 
+
+void Eqonomize::startBatchEdit() {
+	in_batch_edit = true;
+}
+void Eqonomize::endBatchEdit() {
+	if(in_batch_edit) {
+		in_batch_edit = false;
+		emit budgetUpdated();
+		emit transactionsModified();
+	}
+}
+
 void Eqonomize::updateScheduledTransactions() {
 	scheduleView->clear();
 	ScheduledTransaction *strans = budget->scheduledTransactions.first();
@@ -5568,7 +5596,7 @@ void Eqonomize::addAccount() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
 	if(i == NULL) {
 		newAssetsAccount();
-	} else if(i == liabilitiesItem || (account_items.contains(i) && account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i]->type())->accountType() == ASSETS_TYPE_LIABILITIES)) {
+	} else if(i == liabilitiesItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS) && (((AssetsAccount*) account_items[i])->accountType() == ASSETS_TYPE_LIABILITIES))) {
 		newLoan();
 	} else if(i == assetsItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS))) {
 		newAssetsAccount();
@@ -6191,7 +6219,7 @@ void Eqonomize::transactionAdded(Transactions *transs) {
 			break;
 		}
 	}
-	emit transactionsModified();
+	if(!in_batch_edit) emit transactionsModified();
 	expensesWidget->onTransactionAdded(transs);
 	incomesWidget->onTransactionAdded(transs);
 	transfersWidget->onTransactionAdded(transs);
@@ -6258,7 +6286,7 @@ void Eqonomize::transactionModified(Transactions *transs, Transactions *oldtrans
 			break;
 		}
 	}
-	emit transactionsModified();
+	if(!in_batch_edit) emit transactionsModified();
 	expensesWidget->onTransactionModified(transs, oldtranss);
 	incomesWidget->onTransactionModified(transs, oldtranss);
 	transfersWidget->onTransactionModified(transs, oldtranss);
@@ -6326,7 +6354,7 @@ void Eqonomize::transactionRemoved(Transactions *transs) {
 			break;
 		}
 	}
-	emit transactionsModified();
+	if(!in_batch_edit) emit transactionsModified();
 	expensesWidget->onTransactionRemoved(transs);
 	incomesWidget->onTransactionRemoved(transs);
 	transfersWidget->onTransactionRemoved(transs);

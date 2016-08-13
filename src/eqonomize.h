@@ -105,6 +105,10 @@ class Eqonomize : public QMainWindow {
 		Budget *budget;
 
 		bool first_run;
+		bool in_batch_edit;
+
+		void startBatchEdit();
+		void endBatchEdit();
 
 		void appendFilterExpense(Expense *expense, bool update_total_cost, bool update_accounts);
 		void appendFilterIncome(Income *income, bool update_total_income, bool update_accounts);

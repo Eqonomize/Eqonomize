@@ -433,6 +433,9 @@ class SecurityTransaction : public Transaction {
 		void setShares(double new_shares);
 		void setSecurity(Security *parent_security);
 		Security *security() const;
+
+		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
+		virtual double accountChange(Account *account, bool include_subs = true) const;
 		
 };
 
@@ -717,6 +720,10 @@ class LoanTransaction : public SplitTransaction {
 		virtual double quantity() const;
 		virtual double cost() const;
 		
+		LoanFee *feeTransaction() const;
+		LoanInterest *interestTransaction() const;
+		LoanPayment *paymentTransaction() const;
+		
 		void setInterest(double new_value, bool payed_from_account = true);
 		void setInterestPayed(bool payed_from_account);
 		void setFee(double new_value);
@@ -748,6 +755,7 @@ class LoanTransaction : public SplitTransaction {
 		
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
+		virtual double accountChange(Account *account, bool include_subs = true) const;
 		
 };
 
