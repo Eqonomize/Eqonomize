@@ -57,7 +57,7 @@ class EditAssetsAccountDialog : public QDialog {
 		AccountComboBox *accountCombo;
 		QCheckBox *budgetButton, *closedButton;
 		Budget *budget;
-		Account *current_account;
+		AssetsAccount *current_account;
 		
 	public:
 		

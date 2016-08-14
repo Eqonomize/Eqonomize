@@ -145,6 +145,18 @@ void EditAssetsAccountDialog::closedToggled(bool b) {
 	budgetButton->setEnabled(!b);
 }
 void EditAssetsAccountDialog::typeActivated(int index) {
+	if(index == 5 && current_account && current_account->accountType() != ASSETS_TYPE_SECURITIES && budget->accountHasTransactions(current_account)) {
+		QMessageBox::critical(this, tr("Error"), tr("Type cannot be changed to securities for accounts with transactions."));
+		switch(current_account->accountType()) {
+			case ASSETS_TYPE_CASH: {typeCombo->setCurrentIndex(0); break;}
+			case ASSETS_TYPE_CURRENT: {typeCombo->setCurrentIndex(1); break;}
+			case ASSETS_TYPE_SAVINGS: {typeCombo->setCurrentIndex(2); break;}
+			case ASSETS_TYPE_CREDIT_CARD: {typeCombo->setCurrentIndex(3); break;}
+			case ASSETS_TYPE_LIABILITIES: {typeCombo->setCurrentIndex(4); break;}
+			default: {typeCombo->setCurrentIndex(6); break;}
+		}
+		return;
+	}
 	valueEdit->setEnabled(index != 5);
 	budgetButton->setEnabled(index != 5 && index != 4 && index != 3);
 	closedButton->setEnabled(index != 4);
@@ -212,13 +224,25 @@ void EditAssetsAccountDialog::setAccount(AssetsAccount *account) {
 	valueEdit->setValue(account->initialBalance());
 	descriptionEdit->setPlainText(account->description());
 	budgetButton->setChecked(account->isBudgetAccount());
+	typeCombo->setEnabled(true);
 	switch(account->accountType()) {
 		case ASSETS_TYPE_CASH: {typeCombo->setCurrentIndex(0); break;}
 		case ASSETS_TYPE_CURRENT: {typeCombo->setCurrentIndex(1); break;}
 		case ASSETS_TYPE_SAVINGS: {typeCombo->setCurrentIndex(2); break;}
 		case ASSETS_TYPE_CREDIT_CARD: {typeCombo->setCurrentIndex(3); break;}
 		case ASSETS_TYPE_LIABILITIES: {typeCombo->setCurrentIndex(4); break;}
-		case ASSETS_TYPE_SECURITIES: {typeCombo->setCurrentIndex(5);  break;}
+		case ASSETS_TYPE_SECURITIES: {
+			typeCombo->setCurrentIndex(5);
+			Security *sec = budget->securities.first();
+			while(sec) {
+				if(sec->account() == account) {
+					typeCombo->setEnabled(false);
+					break;
+				}
+				sec = budget->securities.next();
+			}
+			break;
+		}
 		default: {typeCombo->setCurrentIndex(6); break;}
 	}
 	typeActivated(typeCombo->currentIndex());
