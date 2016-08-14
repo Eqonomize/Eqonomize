@@ -109,7 +109,7 @@ class AssetsAccount : public Account {
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		bool isBudgetAccount() const;
 		void setAsBudgetAccount(bool will_be = true);
-		double initialBalance() const;
+		double initialBalance(bool calculate_for_securities = true) const;
 		void setInitialBalance(double new_initial_balance);
 		bool isClosed() const;
 		void setClosed(bool close_account = true);

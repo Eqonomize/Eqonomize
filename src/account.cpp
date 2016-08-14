@@ -160,8 +160,9 @@ void AssetsAccount::setAsBudgetAccount(bool will_be) {
 		o_budget->budgetAccount = NULL;
 	}
 }
-double AssetsAccount::initialBalance() const {
+double AssetsAccount::initialBalance(bool calculate_for_securities) const {
 	if(at_type == ASSETS_TYPE_SECURITIES) {
+		if(!calculate_for_securities) return 0.0;
 		double d = 0.0;
 		Security *sec = o_budget->securities.first();
 		while(sec) {

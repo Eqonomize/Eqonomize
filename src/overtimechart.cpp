@@ -1037,18 +1037,18 @@ void OverTimeChart::updateDisplay() {
 		if(started) {
 			switch(current_source) {
 				case -2: {
-					if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS) {
+					if(trans->type() != TRANSACTION_TYPE_SECURITY_BUY && trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS && trans->toAccount() != budget->balancingAccount) {
 						monthly_values = &monthly_cats[trans->toAccount()];
 						mi = &mi_c[trans->toAccount()];
 						isfirst = &isfirst_c[trans->toAccount()];
-						if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) {
+						if(trans->type() != TRANSACTION_TYPE_SECURITY_SELL && trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && trans->fromAccount() != budget->balancingAccount) {
 							monthly_values2 = &monthly_cats[trans->fromAccount()];
 							mi2 = &mi_c[trans->fromAccount()];
 							isfirst2 = &isfirst_c[trans->fromAccount()];
 						}
 						sign = 1;
 						include = true;
-					} else if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) {
+					} else if(trans->type() != TRANSACTION_TYPE_SECURITY_SELL && trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && trans->fromAccount() != budget->balancingAccount) {
 						monthly_values = &monthly_cats[trans->fromAccount()];
 						mi = &mi_c[trans->fromAccount()];
 						isfirst = &isfirst_c[trans->fromAccount()];
@@ -1481,18 +1481,18 @@ void OverTimeChart::updateDisplay() {
 		total_value = NULL;
 		switch(current_source) {
 			case -2: {
-				if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS) {
+				if(trans->type() != TRANSACTION_TYPE_SECURITY_BUY && trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS && trans->toAccount() != budget->balancingAccount) {
 					monthly_values = &monthly_cats[trans->toAccount()];
 					mi = &mi_c[trans->toAccount()];
 					isfirst = &isfirst_c[trans->toAccount()];
-					if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) {
+					if(trans->type() != TRANSACTION_TYPE_SECURITY_SELL && trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && trans->fromAccount() != budget->balancingAccount) {
 						monthly_values2 = &monthly_cats[trans->fromAccount()];
 						mi2 = &mi_c[trans->fromAccount()];
 						isfirst2 = &isfirst_c[trans->fromAccount()];
 					}
 					sign = 1;
 					include = true;
-				} else if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) {
+				} else if(trans->type() != TRANSACTION_TYPE_SECURITY_SELL && trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && trans->fromAccount() != budget->balancingAccount) {
 					monthly_values = &monthly_cats[trans->fromAccount()];
 					mi = &mi_c[trans->fromAccount()];
 					isfirst = &isfirst_c[trans->fromAccount()];
@@ -1891,7 +1891,7 @@ void OverTimeChart::updateDisplay() {
 				ass = budget->assetsAccounts.next();
 				if(!ass) break;
 			}
-			double acc_total = ass->initialBalance();			
+			double acc_total = ass->initialBalance(false);
 			QVector<chart_month_info>::iterator it = monthly_cats[ass].begin();
 			QVector<chart_month_info>::iterator it_e = monthly_cats[ass].end();
 			chart_month_info initial_cmi;
@@ -1918,6 +1918,20 @@ void OverTimeChart::updateDisplay() {
 				it = monthly_cats[ass].begin();
 			}
 			ass = budget->assetsAccounts.next();
+		}
+		Security *sec = budget->securities.first();
+		while(sec) {
+			ass = sec->account();
+			QVector<chart_month_info>::iterator it = monthly_cats[ass].begin();
+			QVector<chart_month_info>::iterator it_e = monthly_cats[ass].end();
+			QDate prevdate = it->date;
+			budget->addBudgetMonthsSetLast(prevdate, -1);
+			while(it != it_e) {
+				it->value += sec->value(prevdate);
+				prevdate = it->date;
+				it++;
+			}
+			sec = budget->securities.next();
 		}
 	}
 
