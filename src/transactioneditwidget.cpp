@@ -1300,7 +1300,7 @@ bool MultipleTransactionsEditDialog::modifyTransaction(Transaction *trans, bool 
 				b_date = false;
 				b_descr = false;
 				if(change_parent) {
-					LoanTransaction *split = (LoanTransaction*) trans->parentSplit();
+					DebtPayment *split = (DebtPayment*) trans->parentSplit();
 					if(dateButton->isChecked()) split->setDate(dateEdit->date());
 					if(categoryButton && categoryButton->isChecked()) split->setExpenseCategory((ExpensesAccount*) categoryCombo->currentAccount());
 				}

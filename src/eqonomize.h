@@ -146,7 +146,7 @@ class Eqonomize : public QMainWindow {
 		bool newMultiAccountTransaction(bool create_expenses, QString description_string, CategoryAccount *category_account, double quantity_value, QString comment_string);
 		bool newMultiAccountTransaction(QWidget *parent, bool create_expenses);
 		bool newMultiItemTransaction(QWidget *parent, AssetsAccount *account = NULL);
-		bool newLoanTransaction(QWidget *parent, AssetsAccount *loan = NULL, bool only_interest = false);
+		bool newDebtPayment(QWidget *parent, AssetsAccount *loan = NULL, bool only_interest = false);
 		bool editSplitTransaction(SplitTransaction *split);
 		bool editSplitTransaction(SplitTransaction *split, QWidget *parent);
 		bool splitUpTransaction(SplitTransaction *split);
@@ -179,7 +179,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionAddAccount, *ActionNewAssetsAccount, *ActionNewLoan, *ActionNewIncomesAccount, *ActionNewExpensesAccount, *ActionEditAccount, *ActionDeleteAccount, *ActionBalanceAccount, *ActionAddAccountMenu;
 		QAction *ActionShowAccountTransactions, *ActionShowLedger;
 		QAction *ActionNewExpense, *ActionNewIncome, *ActionNewTransfer, *ActionNewMultiItemTransaction;
-		QAction *ActionNewMultiAccountExpense, *ActionNewExpenseWithLoan, *ActionNewLoanTransaction, *ActionNewDebtInterest;
+		QAction *ActionNewMultiAccountExpense, *ActionNewExpenseWithLoan, *ActionNewDebtPayment, *ActionNewDebtInterest;
 		QAction *ActionEditTransaction, *ActionEditScheduledTransaction, *ActionEditSplitTransaction;
 		QAction *ActionJoinTransactions, *ActionSplitUpTransaction;
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
@@ -320,7 +320,7 @@ class Eqonomize : public QMainWindow {
 		void newMultiAccountExpense();
 		void newMultiAccountIncome();
 		void newMultiItemTransaction();
-		void newLoanTransaction();
+		void newDebtPayment();
 		void newDebtInterest();
 		void newScheduledExpense();
 		void newScheduledIncome();

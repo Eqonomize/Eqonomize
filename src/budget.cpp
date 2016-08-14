@@ -296,7 +296,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 			} else if(type == "multiaccount") {
 				split = new MultiAccountTransaction(this, &xml, &valid);
 			} else if(type == "debtpayment") {
-				split = new LoanTransaction(this, &xml, &valid);
+				split = new DebtPayment(this, &xml, &valid);
 			}
 			if(split) {
 				if(!valid) {

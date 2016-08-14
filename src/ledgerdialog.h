@@ -53,7 +53,7 @@ class LedgerDialog : public QDialog {
 		QPushButton *exportButton, *printButton;
 		QComboBox *accountCombo;
 		QLabel *statLabel;
-		QAction *ActionNewDebtInterest, *ActionNewLoanTransaction;
+		QAction *ActionNewDebtInterest, *ActionNewDebtPayment;
 
 		bool exportList(QTextStream &outf, int fileformat);
 		void accountChanged();
@@ -79,7 +79,7 @@ class LedgerDialog : public QDialog {
 		void newIncome();
 		void newTransfer();
 		void newSplit();
-		void newLoanTransaction();
+		void newDebtPayment();
 		void newDebtInterest();
 		void joinTransactions();
 		void splitUpTransaction();

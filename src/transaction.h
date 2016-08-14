@@ -214,9 +214,9 @@ class Expense : public Transaction {
 		
 };
 
-class LoanFee : public Expense {
+class DebtFee : public Expense {
 
-	Q_DECLARE_TR_FUNCTIONS(LoanFee)
+	Q_DECLARE_TR_FUNCTIONS(DebtFee)
 
 	protected:
 	
@@ -224,12 +224,12 @@ class LoanFee : public Expense {
 
 	public:
 	
-		LoanFee(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = emptystr);
-		LoanFee(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
-		LoanFee(Budget *parent_budget);
-		LoanFee();
-		LoanFee(const LoanFee *loanfee);
-		virtual ~LoanFee();
+		DebtFee(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = emptystr);
+		DebtFee(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		DebtFee(Budget *parent_budget);
+		DebtFee();
+		DebtFee(const DebtFee *loanfee);
+		virtual ~DebtFee();
 		Transaction *copy() const;
 		
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
@@ -245,9 +245,9 @@ class LoanFee : public Expense {
 	
 };
 
-class LoanInterest : public Expense {
+class DebtInterest : public Expense {
 
-	Q_DECLARE_TR_FUNCTIONS(LoanInterest)
+	Q_DECLARE_TR_FUNCTIONS(DebtInterest)
 
 	protected:
 	
@@ -255,12 +255,12 @@ class LoanInterest : public Expense {
 
 	public:
 	
-		LoanInterest(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = emptystr);
-		LoanInterest(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
-		LoanInterest(Budget *parent_budget);
-		LoanInterest();
-		LoanInterest(const LoanInterest *interest);
-		virtual ~LoanInterest();
+		DebtInterest(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = emptystr);
+		DebtInterest(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		DebtInterest(Budget *parent_budget);
+		DebtInterest();
+		DebtInterest(const DebtInterest *interest);
+		virtual ~DebtInterest();
 		Transaction *copy() const;
 		
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
@@ -346,18 +346,18 @@ class Transfer : public Transaction {
 		
 };
 
-class LoanPayment : public Transfer {
+class DebtReduction : public Transfer {
 
-	Q_DECLARE_TR_FUNCTIONS(LoanPayment)
+	Q_DECLARE_TR_FUNCTIONS(DebtReduction)
 
 	public:
 	
-		LoanPayment(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = emptystr);
-		LoanPayment(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
-		LoanPayment(Budget *parent_budget);
-		LoanPayment();
-		LoanPayment(const LoanPayment *loanpayment);
-		virtual ~LoanPayment();
+		DebtReduction(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = emptystr);
+		DebtReduction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		DebtReduction(Budget *parent_budget);
+		DebtReduction();
+		DebtReduction(const DebtReduction *loanpayment);
+		virtual ~DebtReduction();
 		Transaction *copy() const;
 		
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
@@ -689,26 +689,26 @@ class MultiAccountTransaction : public SplitTransaction {
 	
 };
 
-class LoanTransaction : public SplitTransaction {
+class DebtPayment : public SplitTransaction {
 
-	Q_DECLARE_TR_FUNCTIONS(LoanTransaction)
+	Q_DECLARE_TR_FUNCTIONS(DebtPayment)
 	
 	protected:
 	
 		AssetsAccount *o_loan;
-		LoanFee *o_fee;
-		LoanInterest *o_interest;
-		LoanPayment *o_payment;
+		DebtFee *o_fee;
+		DebtInterest *o_interest;
+		DebtReduction *o_payment;
 		AssetsAccount *o_account;
 	
 	public:
 	
-		LoanTransaction(Budget *parent_budget, QDate initial_date, AssetsAccount *initial_loan, AssetsAccount *initial_account);
-		LoanTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
-		LoanTransaction(const LoanTransaction *split);
-		LoanTransaction(Budget *parent_budget);
-		LoanTransaction();
-		virtual ~LoanTransaction();
+		DebtPayment(Budget *parent_budget, QDate initial_date, AssetsAccount *initial_loan, AssetsAccount *initial_account);
+		DebtPayment(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		DebtPayment(const DebtPayment *split);
+		DebtPayment(Budget *parent_budget);
+		DebtPayment();
+		virtual ~DebtPayment();
 		virtual SplitTransaction *copy() const;
 		
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
@@ -720,9 +720,9 @@ class LoanTransaction : public SplitTransaction {
 		virtual double quantity() const;
 		virtual double cost() const;
 		
-		LoanFee *feeTransaction() const;
-		LoanInterest *interestTransaction() const;
-		LoanPayment *paymentTransaction() const;
+		DebtFee *feeTransaction() const;
+		DebtInterest *interestTransaction() const;
+		DebtReduction *paymentTransaction() const;
 		
 		void setInterest(double new_value, bool payed_from_account = true);
 		void setInterestPayed(bool payed_from_account);

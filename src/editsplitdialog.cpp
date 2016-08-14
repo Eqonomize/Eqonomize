@@ -172,11 +172,11 @@ void MultiAccountListViewItem::setTransaction(Transaction *trans) {
 	setText(2, value >= 0.0 ? QString::null : QLocale().toCurrencyString(-value));
 }
 
-EditLoanTransactionDialog::EditLoanTransactionDialog(Budget *budg, QWidget *parent, AssetsAccount *default_loan, bool allow_account_creation, bool only_interest) : QDialog(parent, 0) {
+EditDebtPaymentDialog::EditDebtPaymentDialog(Budget *budg, QWidget *parent, AssetsAccount *default_loan, bool allow_account_creation, bool only_interest) : QDialog(parent, 0) {
 	setWindowTitle(tr("Debt Payment"));
 	setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
-	editWidget = new EditLoanTransactionWidget(budg, this, default_loan, allow_account_creation, only_interest);
+	editWidget = new EditDebtPaymentWidget(budg, this, default_loan, allow_account_creation, only_interest);
 	box1->addWidget(editWidget);
 	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -187,8 +187,8 @@ EditLoanTransactionDialog::EditLoanTransactionDialog(Budget *budg, QWidget *pare
 	box1->addWidget(buttonBox);
 	
 }
-EditLoanTransactionDialog::~EditLoanTransactionDialog() {}
-void EditLoanTransactionDialog::accept() {
+EditDebtPaymentDialog::~EditDebtPaymentDialog() {}
+void EditDebtPaymentDialog::accept() {
 	if(!editWidget->validValues()) return;
 	QDialog::accept();
 }
@@ -807,7 +807,7 @@ bool EditMultiAccountWidget::validValues() {
 	return true;
 }
 
-EditLoanTransactionWidget::EditLoanTransactionWidget(Budget *budg, QWidget *parent, AssetsAccount *default_loan, bool allow_account_creation, bool only_interest) : QWidget(parent), budget(budg), b_create_accounts(allow_account_creation) {
+EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, AssetsAccount *default_loan, bool allow_account_creation, bool only_interest) : QWidget(parent), budget(budg), b_create_accounts(allow_account_creation) {
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 
@@ -908,23 +908,23 @@ EditLoanTransactionWidget::EditLoanTransactionWidget(Budget *budg, QWidget *pare
 	if(categoryCombo) connect(categoryCombo, SIGNAL(newAccountRequested()), this, SLOT(newCategory()));
 
 }
-EditLoanTransactionWidget::~EditLoanTransactionWidget() {}
+EditDebtPaymentWidget::~EditDebtPaymentWidget() {}
 
-void EditLoanTransactionWidget::newAccount() {
+void EditDebtPaymentWidget::newAccount() {
 	accountCombo->createAccount();
 }
-void EditLoanTransactionWidget::newCategory() {
+void EditDebtPaymentWidget::newCategory() {
 	categoryCombo->createAccount();
 }
-void EditLoanTransactionWidget::loanActivated(int index) {
+void EditDebtPaymentWidget::loanActivated(int index) {
 	if(index < 0) return;
 	AssetsAccount *loan = (AssetsAccount*) loanCombo->itemData(index).value<void*>();
 	if(!loan) return;
-	LoanTransaction *trans = NULL;
+	DebtPayment *trans = NULL;
 	SplitTransaction *split = budget->splitTransactions.last();
 	while(split) {
-		if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN && ((LoanTransaction*) split)->loan() == loan) {
-			trans = (LoanTransaction*) split;
+		if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN && ((DebtPayment*) split)->loan() == loan) {
+			trans = (DebtPayment*) split;
 			break;
 		}
 		split = budget->splitTransactions.previous();
@@ -942,8 +942,8 @@ void EditLoanTransactionWidget::loanActivated(int index) {
 			ExpensesAccount *cat = NULL;
 			SplitTransaction *split = budget->splitTransactions.previous();
 			while(split) {
-				if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN && ((LoanTransaction*) split)->loan() == loan) {
-					cat = ((LoanTransaction*) split)->expenseCategory();
+				if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN && ((DebtPayment*) split)->loan() == loan) {
+					cat = ((DebtPayment*) split)->expenseCategory();
 					if(cat) break;
 				}
 				split = budget->splitTransactions.previous();
@@ -964,7 +964,7 @@ void EditLoanTransactionWidget::loanActivated(int index) {
 	}
 }
 
-void EditLoanTransactionWidget::valueChanged() {
+void EditDebtPaymentWidget::valueChanged() {
 	if(categoryCombo) categoryCombo->setEnabled(!paymentEdit || (interestEdit && interestEdit->value() > 0.0) || (feeEdit && feeEdit->value() > 0.0));
 	if(accountCombo && interestEdit && payedInterestButton) {
 		accountCombo->setEnabled(interestEdit->value() == 0.0 || (feeEdit && feeEdit->value() > 0.0) || (paymentEdit && paymentEdit->value() > 0.0) || payedInterestButton->isChecked());
@@ -972,7 +972,7 @@ void EditLoanTransactionWidget::valueChanged() {
 	updateTotalValue();
 }
 
-void EditLoanTransactionWidget::updateTotalValue() {
+void EditDebtPaymentWidget::updateTotalValue() {
 	if(!totalLabel) return;
 	double value = 0.0;
 	if(feeEdit) value += feeEdit->value();
@@ -980,24 +980,24 @@ void EditLoanTransactionWidget::updateTotalValue() {
 	if(paymentEdit) value += paymentEdit->value();
 	totalLabel->setText(QString("<div align=\"right\"><b>%1</b> %2</div>").arg(tr("Total value:"), QLocale().toCurrencyString(value)));
 }
-AssetsAccount *EditLoanTransactionWidget::selectedLoan() {
+AssetsAccount *EditDebtPaymentWidget::selectedLoan() {
 	if(!loanCombo || !loanCombo->currentData().isValid()) return NULL;
 	return (AssetsAccount*) loanCombo->currentData().value<void*>();
 }
-AssetsAccount *EditLoanTransactionWidget::selectedAccount() {
+AssetsAccount *EditDebtPaymentWidget::selectedAccount() {
 	if(!accountCombo) return NULL;
 	return (AssetsAccount*) accountCombo->currentAccount();
 }
-ExpensesAccount *EditLoanTransactionWidget::selectedCategory() {
+ExpensesAccount *EditDebtPaymentWidget::selectedCategory() {
 	if(!categoryCombo) return NULL;
 	return (ExpensesAccount*) categoryCombo->currentAccount();
 }
-LoanTransaction *EditLoanTransactionWidget::createTransaction() {
+DebtPayment *EditDebtPaymentWidget::createTransaction() {
 	if(!validValues()) return NULL;
 	AssetsAccount *loan = selectedLoan();
 	AssetsAccount *account = selectedAccount();
 	ExpensesAccount *category = selectedCategory();
-	LoanTransaction *split = new LoanTransaction(budget, dateEdit->date(), loan, account ? account : loan);
+	DebtPayment *split = new DebtPayment(budget, dateEdit->date(), loan, account ? account : loan);
 	if(paymentEdit && paymentEdit->value() > 0.0) split->setPayment(paymentEdit->value());
 	if(feeEdit && feeEdit->value() > 0.0) split->setFee(feeEdit->value());
 	if(interestEdit && interestEdit->value() > 0.0) split->setInterest(interestEdit->value(), !(addedInterestButton && addedInterestButton->isChecked()));
@@ -1005,7 +1005,7 @@ LoanTransaction *EditLoanTransactionWidget::createTransaction() {
 	if(commentEdit) split->setComment(commentEdit->text());
 	return split;
 }
-void EditLoanTransactionWidget::setTransaction(LoanTransaction *split) {
+void EditDebtPaymentWidget::setTransaction(DebtPayment *split) {
 	if(dateEdit) dateEdit->setDate(split->date());
 	if(loanCombo) loanCombo->setCurrentIndex(loanCombo->findData(qVariantFromValue((void*) split->loan())));
 	if(accountCombo) accountCombo->setCurrentAccount(split->account());
@@ -1018,23 +1018,23 @@ void EditLoanTransactionWidget::setTransaction(LoanTransaction *split) {
 	valueChanged();
 	emit dateChanged(split->date());
 }
-void EditLoanTransactionWidget::setTransaction(LoanTransaction *split, const QDate &date) {
+void EditDebtPaymentWidget::setTransaction(DebtPayment *split, const QDate &date) {
 	setTransaction(split);
 	if(dateEdit) dateEdit->setDate(date);
 }
 
-QDate EditLoanTransactionWidget::date() {
+QDate EditDebtPaymentWidget::date() {
 	if(!dateEdit) return QDate::currentDate();
 	return dateEdit->date();
 }
-bool EditLoanTransactionWidget::checkAccounts() {
+bool EditDebtPaymentWidget::checkAccounts() {
 	if((loanCombo && loanCombo->count() == 0) || (accountCombo && !accountCombo->hasAccount()) || (categoryCombo && !categoryCombo->hasAccount())) {
 		QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 		return false;
 	}
 	return true;
 }
-bool EditLoanTransactionWidget::validValues() {
+bool EditDebtPaymentWidget::validValues() {
 	if(!checkAccounts()) return false;
 	if(dateEdit && !dateEdit->date().isValid()) {
 		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));

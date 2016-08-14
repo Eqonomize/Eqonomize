@@ -44,7 +44,7 @@ class ExpensesAccount;
 class Budget;
 class MultiItemTransaction;
 class MultiAccountTransaction;
-class LoanTransaction;
+class DebtPayment;
 class Transaction;
 class Transactions;
 
@@ -98,7 +98,7 @@ class EditMultiAccountWidget : public QWidget {
 
 };
 
-class EditLoanTransactionWidget : public QWidget {
+class EditDebtPaymentWidget : public QWidget {
 
 	Q_OBJECT
 
@@ -122,12 +122,12 @@ class EditLoanTransactionWidget : public QWidget {
 
 	public:
 
-		EditLoanTransactionWidget(Budget *budg, QWidget *parent, AssetsAccount *default_loan = NULL, bool allow_account_creation = false, bool only_interest = false);
-		~EditLoanTransactionWidget();
+		EditDebtPaymentWidget(Budget *budg, QWidget *parent, AssetsAccount *default_loan = NULL, bool allow_account_creation = false, bool only_interest = false);
+		~EditDebtPaymentWidget();
 
-		LoanTransaction *createTransaction();
-		void setTransaction(LoanTransaction *split);
-		void setTransaction(LoanTransaction *split, const QDate &date);
+		DebtPayment *createTransaction();
+		void setTransaction(DebtPayment *split);
+		void setTransaction(DebtPayment *split, const QDate &date);
 		bool validValues();
 		bool checkAccounts();
 		QDate date();
@@ -237,16 +237,16 @@ class EditMultiAccountDialog : public QDialog {
 
 };
 
-class EditLoanTransactionDialog : public QDialog {
+class EditDebtPaymentDialog : public QDialog {
 
 	Q_OBJECT
 
 	public:
 
-		EditLoanTransactionDialog(Budget *budg, QWidget *parent, AssetsAccount *default_loan = NULL, bool allow_account_creation = false, bool only_interest = false);
-		~EditLoanTransactionDialog();
+		EditDebtPaymentDialog(Budget *budg, QWidget *parent, AssetsAccount *default_loan = NULL, bool allow_account_creation = false, bool only_interest = false);
+		~EditDebtPaymentDialog();
 		
-		EditLoanTransactionWidget *editWidget;
+		EditDebtPaymentWidget *editWidget;
 
 	protected slots:
 		

@@ -330,8 +330,8 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 			setText(3, QLocale().toCurrencyString(-split->value()));
 			if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
 			setForeground(3, expenseColor);
-			setText(4, ((LoanTransaction*) split)->account()->name());
-			setText(5, ((LoanTransaction*) split)->loan()->name());
+			setText(4, ((DebtPayment*) split)->account()->name());
+			setText(5, ((DebtPayment*) split)->loan()->name());
 		} else {
 			bool b_reverse = false;
 			if(split->isIncomesAndExpenses()) {
@@ -1287,11 +1287,11 @@ void ConfirmScheduleDialog::edit() {
 			}
 			dialog->deleteLater();
 		} else if(((SplitTransaction*) transs)->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
-			LoanTransaction *split = (LoanTransaction*) transs;
-			EditLoanTransactionDialog *dialog = new EditLoanTransactionDialog(budget, this, NULL, true);
+			DebtPayment *split = (DebtPayment*) transs;
+			EditDebtPaymentDialog *dialog = new EditDebtPaymentDialog(budget, this, NULL, true);
 			dialog->editWidget->setTransaction(split);
 			if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
-				LoanTransaction *split_new = dialog->editWidget->createTransaction();
+				DebtPayment *split_new = dialog->editWidget->createTransaction();
 				if(split_new) {
 					delete split;
 					if(split_new->date() > QDate::currentDate()) {
@@ -2191,7 +2191,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	newScheduleMenu->addAction(ActionNewExpense);
 	newScheduleMenu->addAction(ActionNewIncome);
 	newScheduleMenu->addAction(ActionNewTransfer);
-	newScheduleMenu->addAction(ActionNewLoanTransaction);
+	newScheduleMenu->addAction(ActionNewDebtPayment);
 	newScheduleMenu->addAction(ActionNewMultiItemTransaction);
 	editScheduleMenu->addAction(ActionEditSchedule);
 	editScheduleMenu->addAction(ActionEditOccurrence);
@@ -3076,20 +3076,20 @@ bool Eqonomize::newMultiItemTransaction(QWidget *parent, AssetsAccount *account)
 	budget->setRecordNewAccounts(false);
 	return false;
 }
-void  Eqonomize::newLoanTransaction() {
-	newLoanTransaction(this);
+void  Eqonomize::newDebtPayment() {
+	newDebtPayment(this);
 }
 void  Eqonomize::newDebtInterest() {
-	newLoanTransaction(this, NULL, true);
+	newDebtPayment(this, NULL, true);
 }
-bool Eqonomize::newLoanTransaction(QWidget *parent, AssetsAccount *loan, bool only_interest) {
+bool Eqonomize::newDebtPayment(QWidget *parent, AssetsAccount *loan, bool only_interest) {
 	budget->setRecordNewAccounts(true);
-	ScheduledTransaction *strans = EditScheduledLoanTransactionDialog::newScheduledTransaction(budget, parent, loan, b_extra, true, only_interest);
+	ScheduledTransaction *strans = EditScheduledDebtPaymentDialog::newScheduledTransaction(budget, parent, loan, b_extra, true, only_interest);
 	if(strans) {
 		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 		budget->newAccounts.clear();
 		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
-			LoanTransaction *trans = (LoanTransaction*) strans->transaction()->copy();
+			DebtPayment *trans = (DebtPayment*) strans->transaction()->copy();
 			delete strans;
 			budget->addSplitTransaction(trans);
 			transactionAdded(trans);
@@ -3119,7 +3119,7 @@ bool Eqonomize::editSplitTransaction(SplitTransaction *split, QWidget *parent)  
 	} else if(split->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) {
 		new_split = EditScheduledMultiAccountDialog::editTransaction((MultiAccountTransaction*) split, rec, parent, b_extra, true);
 	} else if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
-		new_split = EditScheduledLoanTransactionDialog::editTransaction((LoanTransaction*) split, rec, parent, b_extra, true);
+		new_split = EditScheduledDebtPaymentDialog::editTransaction((DebtPayment*) split, rec, parent, b_extra, true);
 	}
 	if(new_split) {
 		budget->removeSplitTransaction(split, true);
@@ -3234,7 +3234,7 @@ bool Eqonomize::editScheduledTransaction(ScheduledTransaction *strans, QWidget *
 		} else if(((SplitTransaction*) strans->transaction())->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) {
 			strans_new = EditScheduledMultiAccountDialog::editScheduledTransaction(strans, parent, b_extra, true);
 		} else if(((SplitTransaction*) strans->transaction())->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
-			strans_new = EditScheduledLoanTransactionDialog::editScheduledTransaction(strans, parent, b_extra, true);
+			strans_new = EditScheduledDebtPaymentDialog::editScheduledTransaction(strans, parent, b_extra, true);
 		}
 		if(strans_new) {
 			foreach(Account* acc, budget->newAccounts) accountAdded(acc);
@@ -3355,12 +3355,12 @@ bool Eqonomize::editOccurrence(ScheduledTransaction *strans, const QDate &date, 
 			}			
 			dialog->deleteLater();
 		} else if(((SplitTransaction*) strans->transaction())->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
-			EditLoanTransactionDialog *dialog = new EditLoanTransactionDialog(budget, parent, NULL, true);
-			dialog->editWidget->setTransaction((LoanTransaction*) strans->transaction(), date);
+			EditDebtPaymentDialog *dialog = new EditDebtPaymentDialog(budget, parent, NULL, true);
+			dialog->editWidget->setTransaction((DebtPayment*) strans->transaction(), date);
 			if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
 				foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 				budget->newAccounts.clear();
-				LoanTransaction *split = dialog->editWidget->createTransaction();
+				DebtPayment *split = dialog->editWidget->createTransaction();
 				if(split) {
 					if(split->date() > QDate::currentDate()) {
 						ScheduledTransaction *strans_new = new ScheduledTransaction(budget, split, NULL);
@@ -5052,7 +5052,7 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionDeleteSplitTransaction, tr("Remove Split Transaction"), "edit-delete", 0, this, SLOT(deleteSelectedSplitTransaction()), "delete_split_transaction", transactionsMenu);
 	
 	loansMenu->addSeparator();
-	NEW_ACTION(ActionNewLoanTransaction, tr("New Debt Payment…"), "eqz-split-transaction", 0, this, SLOT(newLoanTransaction()), "new_loan_transaction", loansMenu);
+	NEW_ACTION(ActionNewDebtPayment, tr("New Debt Payment…"), "eqz-split-transaction", 0, this, SLOT(newDebtPayment()), "new_loan_transaction", loansMenu);
 	NEW_ACTION(ActionNewDebtInterest, tr("New Unpayed Interest…"), "eqz-expense", 0, this, SLOT(newDebtInterest()), "new_debt_interest", loansMenu);
 	NEW_ACTION(ActionNewExpenseWithLoan, tr("New Expense Payed with Loan / Payment Plan…"), "eqz-expense", 0, this, SLOT(newExpenseWithLoan()), "new_expense_with_loan", loansMenu);
 

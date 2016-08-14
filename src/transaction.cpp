@@ -180,23 +180,23 @@ TransactionSubType Expense::subtype() const {return TRANSACTION_SUBTYPE_EXPENSE;
 bool Expense::relatesToAccount(Account *account, bool include_subs, bool include_non_value) const {return Transaction::relatesToAccount(account, include_subs, include_non_value);}
 void Expense::replaceAccount(Account *old_account, Account *new_account) {Transaction::replaceAccount(old_account, new_account);}
 
-LoanFee::LoanFee(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment) : Expense(parent_budget, initial_cost, initial_date, initial_category, initial_from, emptystr, initial_comment), o_loan(initial_loan) {
+DebtFee::DebtFee(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment) : Expense(parent_budget, initial_cost, initial_date, initial_category, initial_from, emptystr, initial_comment), o_loan(initial_loan) {
 }
-LoanFee::LoanFee(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Expense(parent_budget) {
+DebtFee::DebtFee(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Expense(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-LoanFee::LoanFee(Budget *parent_budget) : Expense(parent_budget), o_loan(NULL) {}
-LoanFee::LoanFee() : Expense(), o_loan(NULL) {}
-LoanFee::LoanFee(const LoanFee *loanfee) : Expense(loanfee) {
+DebtFee::DebtFee(Budget *parent_budget) : Expense(parent_budget), o_loan(NULL) {}
+DebtFee::DebtFee() : Expense(), o_loan(NULL) {}
+DebtFee::DebtFee(const DebtFee *loanfee) : Expense(loanfee) {
 	o_loan = loanfee->loan();
 }
-bool LoanFee::relatesToAccount(Account *account, bool include_subs, bool include_non_value) const {return (include_non_value && o_loan == account) || Expense::relatesToAccount(account, include_subs, include_non_value);}
-LoanFee::~LoanFee() {}
-Transaction *LoanFee::copy() const {return new LoanFee(this);}
+bool DebtFee::relatesToAccount(Account *account, bool include_subs, bool include_non_value) const {return (include_non_value && o_loan == account) || Expense::relatesToAccount(account, include_subs, include_non_value);}
+DebtFee::~DebtFee() {}
+Transaction *DebtFee::copy() const {return new DebtFee(this);}
 
-void LoanFee::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+void DebtFee::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Expense::readAttributes(attr, valid);
 	int id_loan = attr->value("debt").toInt();
 	if(budget()->assetsAccounts_id.contains(id_loan)) {
@@ -205,40 +205,40 @@ void LoanFee::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		if(valid) *valid = false;
 	}
 }
-void LoanFee::writeAttributes(QXmlStreamAttributes *attr) {
+void DebtFee::writeAttributes(QXmlStreamAttributes *attr) {
 	Expense::writeAttributes(attr);
 	attr->append("debt", QString::number(o_loan->id()));
 }
 
-AssetsAccount *LoanFee::loan() const {return o_loan;}
-void LoanFee::setLoan(AssetsAccount *new_loan) {o_loan = new_loan;}
-const QString &LoanFee::payee() const {
+AssetsAccount *DebtFee::loan() const {return o_loan;}
+void DebtFee::setLoan(AssetsAccount *new_loan) {o_loan = new_loan;}
+const QString &DebtFee::payee() const {
 	if(o_loan) return o_loan->maintainer();
 	return s_payee;
 }
-QString LoanFee::description() const {return tr("Debt payment: %1 (fee)").arg(o_loan->name());}
-TransactionSubType LoanFee::subtype() const {return TRANSACTION_SUBTYPE_LOAN_FEE;}
-void LoanFee::replaceAccount(Account *old_account, Account *new_account) {
+QString DebtFee::description() const {return tr("Debt payment: %1 (fee)").arg(o_loan->name());}
+TransactionSubType DebtFee::subtype() const {return TRANSACTION_SUBTYPE_LOAN_FEE;}
+void DebtFee::replaceAccount(Account *old_account, Account *new_account) {
 	if(o_loan == old_account && new_account->type() == ACCOUNT_TYPE_ASSETS) o_loan = (AssetsAccount*) new_account;
 	Transaction::replaceAccount(old_account, new_account);
 }
 
-LoanInterest::LoanInterest(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment) : Expense(parent_budget, initial_cost, initial_date, initial_category, initial_from, emptystr, initial_comment), o_loan(initial_loan) {
+DebtInterest::DebtInterest(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment) : Expense(parent_budget, initial_cost, initial_date, initial_category, initial_from, emptystr, initial_comment), o_loan(initial_loan) {
 }
-LoanInterest::LoanInterest(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Expense(parent_budget) {
+DebtInterest::DebtInterest(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Expense(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-LoanInterest::LoanInterest(Budget *parent_budget) : Expense(parent_budget), o_loan(NULL) {}
-LoanInterest::LoanInterest() : Expense(), o_loan(NULL) {}
-LoanInterest::LoanInterest(const LoanInterest *loaninterest) : Expense(loaninterest) {
+DebtInterest::DebtInterest(Budget *parent_budget) : Expense(parent_budget), o_loan(NULL) {}
+DebtInterest::DebtInterest() : Expense(), o_loan(NULL) {}
+DebtInterest::DebtInterest(const DebtInterest *loaninterest) : Expense(loaninterest) {
 	o_loan = loaninterest->loan();
 }
-LoanInterest::~LoanInterest() {}
-Transaction *LoanInterest::copy() const {return new LoanInterest(this);}
+DebtInterest::~DebtInterest() {}
+Transaction *DebtInterest::copy() const {return new DebtInterest(this);}
 
-void LoanInterest::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+void DebtInterest::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Expense::readAttributes(attr, valid);
 	int id_loan = attr->value("debt").toInt();
 	if(budget()->assetsAccounts_id.contains(id_loan)) {
@@ -247,21 +247,21 @@ void LoanInterest::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		if(valid) *valid = false;
 	}
 }
-void LoanInterest::writeAttributes(QXmlStreamAttributes *attr) {
+void DebtInterest::writeAttributes(QXmlStreamAttributes *attr) {
 	Expense::writeAttributes(attr);
 	attr->append("debt", QString::number(o_loan->id()));
 }
 
-AssetsAccount *LoanInterest::loan() const {return o_loan;}
-void LoanInterest::setLoan(AssetsAccount *new_loan) {o_loan = new_loan;}
-const QString &LoanInterest::payee() const {
+AssetsAccount *DebtInterest::loan() const {return o_loan;}
+void DebtInterest::setLoan(AssetsAccount *new_loan) {o_loan = new_loan;}
+const QString &DebtInterest::payee() const {
 	if(o_loan) return o_loan->maintainer();
 	return s_payee;
 }
-QString LoanInterest::description() const {return tr("Debt payment: %1 (interest)").arg(o_loan->name());}
-TransactionSubType LoanInterest::subtype() const {return TRANSACTION_SUBTYPE_LOAN_INTEREST;}
-bool LoanInterest::relatesToAccount(Account *account, bool include_subs, bool include_non_value) const {return (include_non_value && o_loan == account) || Expense::relatesToAccount(account, include_subs, include_non_value);}
-void LoanInterest::replaceAccount(Account *old_account, Account *new_account) {
+QString DebtInterest::description() const {return tr("Debt payment: %1 (interest)").arg(o_loan->name());}
+TransactionSubType DebtInterest::subtype() const {return TRANSACTION_SUBTYPE_LOAN_INTEREST;}
+bool DebtInterest::relatesToAccount(Account *account, bool include_subs, bool include_non_value) const {return (include_non_value && o_loan == account) || Expense::relatesToAccount(account, include_subs, include_non_value);}
+void DebtInterest::replaceAccount(Account *old_account, Account *new_account) {
 	if(o_loan == old_account && new_account->type() == ACCOUNT_TYPE_ASSETS) o_loan = (AssetsAccount*) new_account;
 	Transaction::replaceAccount(old_account, new_account);
 }
@@ -403,19 +403,19 @@ QString Transfer::description() const {return Transaction::description();}
 TransactionType Transfer::type() const {return TRANSACTION_TYPE_TRANSFER;}
 TransactionSubType Transfer::subtype() const {return TRANSACTION_SUBTYPE_TRANSFER;}
 
-LoanPayment::LoanPayment(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment) : Transfer(parent_budget, initial_amount, initial_date, initial_from, initial_loan, emptystr, initial_comment) {}
-LoanPayment::LoanPayment(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transfer(parent_budget) {
+DebtReduction::DebtReduction(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment) : Transfer(parent_budget, initial_amount, initial_date, initial_from, initial_loan, emptystr, initial_comment) {}
+DebtReduction::DebtReduction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transfer(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-LoanPayment::LoanPayment(Budget *parent_budget) : Transfer(parent_budget) {}
-LoanPayment::LoanPayment() : Transfer() {}
-LoanPayment::LoanPayment(const LoanPayment *loanpayment) : Transfer(loanpayment) {}
-LoanPayment::~LoanPayment() {}
-Transaction *LoanPayment::copy() const {return new LoanPayment(this);}
+DebtReduction::DebtReduction(Budget *parent_budget) : Transfer(parent_budget) {}
+DebtReduction::DebtReduction() : Transfer() {}
+DebtReduction::DebtReduction(const DebtReduction *loanpayment) : Transfer(loanpayment) {}
+DebtReduction::~DebtReduction() {}
+Transaction *DebtReduction::copy() const {return new DebtReduction(this);}
 
-void LoanPayment::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+void DebtReduction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Transfer::readAttributes(attr, valid);
 	int id_loan = attr->value("debt").toInt();
 	if(budget()->assetsAccounts_id.contains(id_loan)) {
@@ -424,15 +424,15 @@ void LoanPayment::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		if(valid) *valid = false;
 	}
 }
-void LoanPayment::writeAttributes(QXmlStreamAttributes *attr) {
+void DebtReduction::writeAttributes(QXmlStreamAttributes *attr) {
 	Transfer::writeAttributes(attr);
 	attr->append("debt", QString::number(loan()->id()));
 }
 
-AssetsAccount *LoanPayment::loan() const {return (AssetsAccount*) to();}
-void LoanPayment::setLoan(AssetsAccount *new_loan) {setTo(new_loan);}
-QString LoanPayment::description() const {return tr("Debt payment: %1 (reduction)").arg(loan()->name());}
-TransactionSubType LoanPayment::subtype() const {return TRANSACTION_SUBTYPE_LOAN_PAYMENT;}
+AssetsAccount *DebtReduction::loan() const {return (AssetsAccount*) to();}
+void DebtReduction::setLoan(AssetsAccount *new_loan) {setTo(new_loan);}
+QString DebtReduction::description() const {return tr("Debt payment: %1 (reduction)").arg(loan()->name());}
+TransactionSubType DebtReduction::subtype() const {return TRANSACTION_SUBTYPE_LOAN_PAYMENT;}
 
 Balancing::Balancing(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_account, QString initial_comment) : Transfer(parent_budget, initial_amount < 0.0 ? -initial_amount : initial_amount, initial_date, initial_amount < 0.0 ? initial_account : parent_budget->balancingAccount, initial_amount < 0.0 ? parent_budget->balancingAccount : initial_account, initial_comment) {}
 Balancing::Balancing(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transfer(parent_budget) {
@@ -698,7 +698,7 @@ bool ScheduledTransaction::readElement(QXmlStreamReader *xml, bool*) {
 			o_trans = new MultiAccountTransaction(budget(), xml, &valid2);
 		} else if(type == "debtpayment") {
 			if(o_trans) delete o_trans;
-			o_trans = new LoanTransaction(budget(), xml, &valid2);
+			o_trans = new DebtPayment(budget(), xml, &valid2);
 		}
 		if(!valid2) {
 			delete o_trans;
@@ -1527,85 +1527,85 @@ void MultiAccountTransaction::replaceAccount(Account *old_account, Account *new_
 }
 
 
-LoanTransaction::LoanTransaction(Budget *parent_budget, QDate initial_date, AssetsAccount *initial_loan, AssetsAccount *initial_account) : SplitTransaction(parent_budget, initial_date), o_loan(initial_loan), o_fee(NULL), o_interest(NULL), o_payment(NULL), o_account(initial_account) {}
-LoanTransaction::LoanTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : SplitTransaction(parent_budget), o_loan(NULL), o_fee(NULL), o_interest(NULL), o_payment(NULL), o_account(NULL) {
+DebtPayment::DebtPayment(Budget *parent_budget, QDate initial_date, AssetsAccount *initial_loan, AssetsAccount *initial_account) : SplitTransaction(parent_budget, initial_date), o_loan(initial_loan), o_fee(NULL), o_interest(NULL), o_payment(NULL), o_account(initial_account) {}
+DebtPayment::DebtPayment(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : SplitTransaction(parent_budget), o_loan(NULL), o_fee(NULL), o_interest(NULL), o_payment(NULL), o_account(NULL) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-LoanTransaction::LoanTransaction(const LoanTransaction *split) : SplitTransaction(split), o_loan(split->loan()), o_fee(NULL), o_interest(NULL), o_payment(NULL), o_account(split->account()) {
+DebtPayment::DebtPayment(const DebtPayment *split) : SplitTransaction(split), o_loan(split->loan()), o_fee(NULL), o_interest(NULL), o_payment(NULL), o_account(split->account()) {
 	if(split->fee() != 0.0) setFee(split->fee());
 	if(split->interest() != 0.0) setInterest(split->interest());
 	if(split->payment() != 0.0) setPayment(split->payment());
 	setExpenseCategory(split->expenseCategory());
 }
-LoanTransaction::LoanTransaction(Budget *parent_budget) : SplitTransaction(parent_budget), o_loan(NULL), o_fee(NULL), o_interest(NULL), o_payment(NULL), o_account(NULL) {}
-LoanTransaction::LoanTransaction() : SplitTransaction(), o_loan(NULL), o_fee(NULL), o_interest(NULL), o_payment(NULL), o_account(NULL) {}
-LoanTransaction::~LoanTransaction() {}
-SplitTransaction *LoanTransaction::copy() const {return new LoanTransaction(this);}
+DebtPayment::DebtPayment(Budget *parent_budget) : SplitTransaction(parent_budget), o_loan(NULL), o_fee(NULL), o_interest(NULL), o_payment(NULL), o_account(NULL) {}
+DebtPayment::DebtPayment() : SplitTransaction(), o_loan(NULL), o_fee(NULL), o_interest(NULL), o_payment(NULL), o_account(NULL) {}
+DebtPayment::~DebtPayment() {}
+SplitTransaction *DebtPayment::copy() const {return new DebtPayment(this);}
 
-double LoanTransaction::value() const {return interest() + fee() + payment();}
-double LoanTransaction::quantity() const {
+double DebtPayment::value() const {return interest() + fee() + payment();}
+double DebtPayment::quantity() const {
 	return 1.0;
 }
-double LoanTransaction::cost() const {return interest() + fee();}
-void LoanTransaction::setInterest(double new_value, bool payed_from_account) {
+double DebtPayment::cost() const {return interest() + fee();}
+void DebtPayment::setInterest(double new_value, bool payed_from_account) {
 	if(!o_interest) {
 		if(new_value != 0.0) {
-			o_interest = new LoanInterest(o_budget, new_value, d_date, o_fee ? o_fee->category() : NULL, payed_from_account ? o_account : o_loan, o_loan);
+			o_interest = new DebtInterest(o_budget, new_value, d_date, o_fee ? o_fee->category() : NULL, payed_from_account ? o_account : o_loan, o_loan);
 			o_interest->setParentSplit(this);
 		}
 	} else {
 		o_interest->setValue(new_value);
 	}
 }
-void LoanTransaction::setInterestPayed(bool payed_from_account) {
+void DebtPayment::setInterestPayed(bool payed_from_account) {
 	if(o_interest) {
 		if(payed_from_account) o_interest->setFrom(o_account);
 		else o_interest->setFrom(o_loan);
 	}
 }
-void LoanTransaction::setFee(double new_value) {
+void DebtPayment::setFee(double new_value) {
 	if(!o_fee) {
 		if(new_value != 0.0) {
-			o_fee = new LoanFee(o_budget, new_value, d_date, o_interest ? o_interest->category() : NULL, o_account, o_loan);
+			o_fee = new DebtFee(o_budget, new_value, d_date, o_interest ? o_interest->category() : NULL, o_account, o_loan);
 			o_fee->setParentSplit(this);
 		}
 	} else {
 		o_fee->setValue(new_value);
 	}
 }
-void LoanTransaction::setPayment(double new_value) {
+void DebtPayment::setPayment(double new_value) {
 	if(!o_payment) {
 		if(new_value != 0.0) {
-			o_payment = new LoanPayment(o_budget, new_value, d_date, o_account, o_loan);
+			o_payment = new DebtReduction(o_budget, new_value, d_date, o_account, o_loan);
 			o_payment->setParentSplit(this);
 		}
 	} else {
 		o_payment->setValue(new_value);
 	}
 }
-double LoanTransaction::interest() const {
+double DebtPayment::interest() const {
 	if(o_interest) return o_interest->value();
 	return 0.0;
 }
-bool LoanTransaction::interestPayed() const {
+bool DebtPayment::interestPayed() const {
 	return !o_interest || o_interest->from() != o_loan;
 }
-double LoanTransaction::fee() const {
+double DebtPayment::fee() const {
 	if(o_fee) return o_fee->value();
 	return 0.0;
 }
-double LoanTransaction::payment() const {
+double DebtPayment::payment() const {
 	if(o_payment) return o_payment->value();
 	return 0.0;
 }
 
-LoanFee *LoanTransaction::feeTransaction() const {return o_fee;}
-LoanInterest *LoanTransaction::interestTransaction() const {return o_interest;}
-LoanPayment *LoanTransaction::paymentTransaction() const {return o_payment;}
+DebtFee *DebtPayment::feeTransaction() const {return o_fee;}
+DebtInterest *DebtPayment::interestTransaction() const {return o_interest;}
+DebtReduction *DebtPayment::paymentTransaction() const {return o_payment;}
 
-void LoanTransaction::clear(bool keep) {
+void DebtPayment::clear(bool keep) {
 	if(o_fee) {
 		o_fee->setParentSplit(NULL);
 		if(!keep) o_budget->removeTransaction(o_fee);
@@ -1623,7 +1623,7 @@ void LoanTransaction::clear(bool keep) {
 	}
 }
 
-void LoanTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+void DebtPayment::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	SplitTransaction::readAttributes(attr, valid);
 	o_loan = NULL;
 	int loan_id = attr->value("debt").toInt();
@@ -1652,27 +1652,27 @@ void LoanTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		}
 	}
 	if(attr->hasAttribute("reduction")) {
-		o_payment = new LoanPayment(o_budget, attr->value("reduction").toDouble(), d_date, o_account, o_loan);		
+		o_payment = new DebtReduction(o_budget, attr->value("reduction").toDouble(), d_date, o_account, o_loan);		
 		o_payment->setParentSplit(this);
 	}
 	if(attr->hasAttribute("interest")) {
 		bool interest_payed = true;
 		if(attr->hasAttribute("interestpayed")) interest_payed = attr->value("interestpayed").toInt();
-		o_interest = new LoanInterest(o_budget, attr->value("interest").toDouble(), d_date, cat, interest_payed ? o_account : o_loan, o_loan);
+		o_interest = new DebtInterest(o_budget, attr->value("interest").toDouble(), d_date, cat, interest_payed ? o_account : o_loan, o_loan);
 		o_interest->setParentSplit(this);
 		if(valid && !cat) *valid = false;
 	}
 	if(attr->hasAttribute("fee")) {
-		o_fee = new LoanFee(o_budget, attr->value("fee").toDouble(), d_date, cat, o_account, o_loan);
+		o_fee = new DebtFee(o_budget, attr->value("fee").toDouble(), d_date, cat, o_account, o_loan);
 		o_fee->setParentSplit(this);
 		if(valid && !cat) *valid = false;
 	}
 	if(valid && !o_fee && !o_interest && !o_payment) *valid = false;
 }
-bool LoanTransaction::readElement(QXmlStreamReader*, bool*) {
+bool DebtPayment::readElement(QXmlStreamReader*, bool*) {
 	return false;
 }
-void LoanTransaction::writeAttributes(QXmlStreamAttributes *attr) {
+void DebtPayment::writeAttributes(QXmlStreamAttributes *attr) {
 	SplitTransaction::writeAttributes(attr);
 	attr->append("debt", QString::number(o_loan->id()));
 	if(o_account && o_account != o_loan && (o_payment || o_fee || (o_interest && o_interest->from() != o_loan))) {
@@ -1686,57 +1686,57 @@ void LoanTransaction::writeAttributes(QXmlStreamAttributes *attr) {
 	if(o_interest) attr->append("interest", QString::number(o_interest->value(), 'f', MONETARY_DECIMAL_PLACES));
 	if(o_fee) attr->append("fee", QString::number(o_fee->value(), 'f', MONETARY_DECIMAL_PLACES));
 }
-void LoanTransaction::writeElements(QXmlStreamWriter*) {}
+void DebtPayment::writeElements(QXmlStreamWriter*) {}
 
-AssetsAccount *LoanTransaction::loan() const {return o_loan;}
-void LoanTransaction::setLoan(AssetsAccount *new_loan) {
+AssetsAccount *DebtPayment::loan() const {return o_loan;}
+void DebtPayment::setLoan(AssetsAccount *new_loan) {
 	if(o_fee) o_fee->setLoan(new_loan);
 	if(o_interest) o_interest->setLoan(new_loan);
 	if(o_payment) o_payment->setLoan(new_loan);
 	o_loan = new_loan;
 }
-ExpensesAccount *LoanTransaction::expenseCategory() const {
+ExpensesAccount *DebtPayment::expenseCategory() const {
 	if(o_interest) return o_interest->category();
 	else if(o_fee) return o_fee->category();
 	return NULL;
 }
-void LoanTransaction::setExpenseCategory(ExpensesAccount *new_category) {
+void DebtPayment::setExpenseCategory(ExpensesAccount *new_category) {
 	if(o_interest) o_interest->setCategory(new_category);
 	if(o_fee) o_fee->setCategory(new_category);
 }
-AssetsAccount *LoanTransaction::account() const {return o_account;}
-void LoanTransaction::setAccount(AssetsAccount *new_account) {
+AssetsAccount *DebtPayment::account() const {return o_account;}
+void DebtPayment::setAccount(AssetsAccount *new_account) {
 	if(o_fee) o_fee->setFrom(new_account);
 	if(o_interest) o_interest->setFrom(new_account);
 	if(o_payment) o_payment->setFrom(new_account);
 	o_account = new_account;
 }
-void LoanTransaction::setDate(QDate new_date) {
+void DebtPayment::setDate(QDate new_date) {
 	QDate old_date = d_date; d_date = new_date; o_budget->splitTransactionDateModified(this, old_date);
 	if(o_fee) o_fee->setDate(d_date);
 	if(o_interest) o_interest->setDate(d_date);
 	if(o_payment) o_payment->setDate(d_date);
 }
 
-QString LoanTransaction::description() const {
+QString DebtPayment::description() const {
 	return tr("Debt payment: %1").arg(o_loan->name());
 }
-SplitTransactionType LoanTransaction::type() const {
+SplitTransactionType DebtPayment::type() const {
 	return SPLIT_TRANSACTION_TYPE_LOAN;
 }
-bool LoanTransaction::isIncomesAndExpenses() const {return true;}
+bool DebtPayment::isIncomesAndExpenses() const {return true;}
 
-int LoanTransaction::count() const {
+int DebtPayment::count() const {
 	int c = 0;
 	if(o_fee) c++;
 	if(o_interest) c++;
 	if(o_payment) c++;
 	return c;
 }
-Transaction *LoanTransaction::operator[] (int index) const {
+Transaction *DebtPayment::operator[] (int index) const {
 	return at(index);
 }
-Transaction *LoanTransaction::at(int index) const {
+Transaction *DebtPayment::at(int index) const {
 	if(index == 0) {
 		if(o_payment) return o_payment;
 		if(o_interest) return o_interest;
@@ -1753,24 +1753,24 @@ Transaction *LoanTransaction::at(int index) const {
 	if(index == 2 && o_payment && o_interest) return o_fee;
 	return NULL;
 }
-void LoanTransaction::removeTransaction(Transaction *trans, bool keep) {
+void DebtPayment::removeTransaction(Transaction *trans, bool keep) {
 	if(trans == o_interest) o_interest = NULL;
 	else if(trans == o_fee) o_fee = NULL;
 	else if(trans == o_payment) o_payment = NULL;
 	trans->setParentSplit(NULL);
 	o_budget->removeTransaction(trans, keep);
 }
-bool LoanTransaction::relatesToAccount(Account *account, bool include_subs, bool include_non_value) const {
+bool DebtPayment::relatesToAccount(Account *account, bool include_subs, bool include_non_value) const {
 	return (include_non_value && (o_account == account || o_loan == account)) || (o_fee && o_fee->relatesToAccount(account, include_subs, include_non_value)) || (o_interest && o_interest->relatesToAccount(account, include_subs, include_non_value)) || (o_payment && o_payment->relatesToAccount(account, include_subs, include_non_value));
 }
-void LoanTransaction::replaceAccount(Account *old_account, Account *new_account) {
+void DebtPayment::replaceAccount(Account *old_account, Account *new_account) {
 	if(o_account == old_account && new_account->type() == ACCOUNT_TYPE_ASSETS) o_account = (AssetsAccount*) new_account;
 	if(o_loan == old_account && new_account->type() == ACCOUNT_TYPE_ASSETS) o_loan = (AssetsAccount*) new_account;
 	if(o_fee) o_fee->replaceAccount(old_account, new_account);
 	if(o_interest) o_interest->replaceAccount(old_account, new_account);
 	if(o_payment) o_payment->replaceAccount(old_account, new_account);
 }
-double LoanTransaction::accountChange(Account *account, bool include_subs) const {
+double DebtPayment::accountChange(Account *account, bool include_subs) const {
 	double v = 0.0;
 	if(o_fee) v += o_fee->accountChange(account, include_subs);
 	if(o_interest) v += o_interest->accountChange(account, include_subs);
