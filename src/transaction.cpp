@@ -217,7 +217,7 @@ const QString &DebtFee::payee() const {
 	return s_payee;
 }
 QString DebtFee::description() const {return tr("Debt payment: %1 (fee)").arg(o_loan->name());}
-TransactionSubType DebtFee::subtype() const {return TRANSACTION_SUBTYPE_LOAN_FEE;}
+TransactionSubType DebtFee::subtype() const {return TRANSACTION_SUBTYPE_DEBT_FEE;}
 void DebtFee::replaceAccount(Account *old_account, Account *new_account) {
 	if(o_loan == old_account && new_account->type() == ACCOUNT_TYPE_ASSETS) o_loan = (AssetsAccount*) new_account;
 	Transaction::replaceAccount(old_account, new_account);
@@ -259,7 +259,7 @@ const QString &DebtInterest::payee() const {
 	return s_payee;
 }
 QString DebtInterest::description() const {return tr("Debt payment: %1 (interest)").arg(o_loan->name());}
-TransactionSubType DebtInterest::subtype() const {return TRANSACTION_SUBTYPE_LOAN_INTEREST;}
+TransactionSubType DebtInterest::subtype() const {return TRANSACTION_SUBTYPE_DEBT_INTEREST;}
 bool DebtInterest::relatesToAccount(Account *account, bool include_subs, bool include_non_value) const {return (include_non_value && o_loan == account) || Expense::relatesToAccount(account, include_subs, include_non_value);}
 void DebtInterest::replaceAccount(Account *old_account, Account *new_account) {
 	if(o_loan == old_account && new_account->type() == ACCOUNT_TYPE_ASSETS) o_loan = (AssetsAccount*) new_account;
@@ -432,7 +432,7 @@ void DebtReduction::writeAttributes(QXmlStreamAttributes *attr) {
 AssetsAccount *DebtReduction::loan() const {return (AssetsAccount*) to();}
 void DebtReduction::setLoan(AssetsAccount *new_loan) {setTo(new_loan);}
 QString DebtReduction::description() const {return tr("Debt payment: %1 (reduction)").arg(loan()->name());}
-TransactionSubType DebtReduction::subtype() const {return TRANSACTION_SUBTYPE_LOAN_PAYMENT;}
+TransactionSubType DebtReduction::subtype() const {return TRANSACTION_SUBTYPE_DEBT_REDUCTION;}
 
 Balancing::Balancing(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_account, QString initial_comment) : Transfer(parent_budget, initial_amount < 0.0 ? -initial_amount : initial_amount, initial_date, initial_amount < 0.0 ? initial_account : parent_budget->balancingAccount, initial_amount < 0.0 ? parent_budget->balancingAccount : initial_account, initial_comment) {}
 Balancing::Balancing(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transfer(parent_budget) {

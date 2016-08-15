@@ -99,8 +99,10 @@ class TransactionEditWidget : public QWidget {
 	protected:
 
 		QHash<QString, Transaction*> default_values;
+		QHash<QString, Transaction*> default_payee_values;
+		QHash<Account*, Transaction*> default_category_values;
 		int transtype;
-		bool description_changed;
+		bool description_changed, payee_changed;
 		Budget *budget;
 		Security *security;
 		bool b_autoedit, b_sec, b_extra;
@@ -137,6 +139,9 @@ class TransactionEditWidget : public QWidget {
 		void quotationChanged(double);
 		void descriptionChanged(const QString&);
 		void setDefaultValue();
+		void payeeChanged(const QString&);
+		void setDefaultValueFromPayee();
+		void setDefaultValueFromCategory();
 		void maxShares();
 
 };

@@ -220,7 +220,7 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	sourceCombo->addItem(tr("Profits"));
 	sourceCombo->addItem(tr("Expenses"));
 	sourceCombo->addItem(tr("Incomes"));
-	sourceCombo->addItem(tr("Assets"));
+	sourceCombo->addItem(tr("Assets and Liabilities"));
 	if(b_extra) choicesLayout_extra->addWidget(sourceCombo, 0, 0);
 	else choicesLayout->addWidget(sourceCombo);
 	categoryCombo = new QComboBox(settingsWidget);

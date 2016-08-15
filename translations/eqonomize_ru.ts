@@ -3659,6 +3659,38 @@ Confirm that they have indeed occurred (or will occur today).</source>
     </message>
 </context>
 <context>
+    <name>DebtFee</name>
+    <message>
+        <location filename="../src/transaction.cpp" line="219"/>
+        <source>Debt payment: %1 (fee)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DebtInterest</name>
+    <message>
+        <location filename="../src/transaction.cpp" line="261"/>
+        <source>Debt payment: %1 (interest)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DebtPayment</name>
+    <message>
+        <location filename="../src/transaction.cpp" line="1722"/>
+        <source>Debt payment: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DebtReduction</name>
+    <message>
+        <location filename="../src/transaction.cpp" line="434"/>
+        <source>Debt payment: %1 (reduction)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>EditAssetsAccountDialog</name>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="58"/>
@@ -3715,7 +3747,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="73"/>
-        <location filename="../src/editaccountdialogs.cpp" line="158"/>
+        <location filename="../src/editaccountdialogs.cpp" line="170"/>
         <source>Bank:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3746,7 +3778,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="101"/>
-        <location filename="../src/editaccountdialogs.cpp" line="157"/>
+        <location filename="../src/editaccountdialogs.cpp" line="169"/>
         <source>Lender:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3766,25 +3798,125 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="156"/>
+        <location filename="../src/editaccountdialogs.cpp" line="149"/>
+        <source>Type cannot be changed to securities for accounts with transactions.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="168"/>
         <source>Issuer:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="230"/>
-        <location filename="../src/editaccountdialogs.cpp" line="236"/>
+        <location filename="../src/editaccountdialogs.cpp" line="149"/>
+        <location filename="../src/editaccountdialogs.cpp" line="254"/>
+        <location filename="../src/editaccountdialogs.cpp" line="260"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="230"/>
+        <location filename="../src/editaccountdialogs.cpp" line="254"/>
         <source>Empty name.</source>
         <translation type="unfinished">Пустое имя.</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="236"/>
+        <location filename="../src/editaccountdialogs.cpp" line="260"/>
         <source>The entered name is used by another account.</source>
         <translation type="unfinished">Введенное имя уже используется в другом бюджете</translation>
+    </message>
+</context>
+<context>
+    <name>EditDebtPaymentDialog</name>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="176"/>
+        <source>Debt Payment</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EditDebtPaymentWidget</name>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="820"/>
+        <source>Debt:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="825"/>
+        <source>Date:</source>
+        <translation type="unfinished">Дата:</translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="833"/>
+        <source>Debt reduction:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="838"/>
+        <source>Interest:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="851"/>
+        <source>Payed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="853"/>
+        <source>Added to debt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="858"/>
+        <source>Fee:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="865"/>
+        <source>Account:</source>
+        <translation type="unfinished">Счет:</translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="871"/>
+        <source>Expense category:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="879"/>
+        <source>Comments:</source>
+        <translation type="unfinished">Коментарии:</translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="981"/>
+        <source>Total value:</source>
+        <translation type="unfinished">Итог:</translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="1032"/>
+        <location filename="../src/editsplitdialog.cpp" line="1040"/>
+        <location filename="../src/editsplitdialog.cpp" line="1045"/>
+        <location filename="../src/editsplitdialog.cpp" line="1048"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="1032"/>
+        <source>No suitable account available.</source>
+        <translation type="unfinished">Имеющийся счет не пригоден</translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="1040"/>
+        <source>Invalid date.</source>
+        <translation type="unfinished">Неверные данные.</translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="1045"/>
+        <source>Interest must not be zero.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="1048"/>
+        <source>At least one value must non-zero.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3825,43 +3957,43 @@ Confirm that they have indeed occurred (or will occur today).</source>
 <context>
     <name>EditExpensesAccountDialog</name>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="362"/>
+        <location filename="../src/editaccountdialogs.cpp" line="386"/>
         <source>Name:</source>
         <translation type="unfinished">Имя:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="365"/>
+        <location filename="../src/editaccountdialogs.cpp" line="389"/>
         <source>Parent category:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="369"/>
+        <location filename="../src/editaccountdialogs.cpp" line="393"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="382"/>
+        <location filename="../src/editaccountdialogs.cpp" line="406"/>
         <source>Monthly budget:</source>
         <translation type="unfinished">Месячный бюджет</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="388"/>
+        <location filename="../src/editaccountdialogs.cpp" line="412"/>
         <source>Description:</source>
         <translation type="unfinished">Описание:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="446"/>
-        <location filename="../src/editaccountdialogs.cpp" line="452"/>
+        <location filename="../src/editaccountdialogs.cpp" line="470"/>
+        <location filename="../src/editaccountdialogs.cpp" line="476"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="446"/>
+        <location filename="../src/editaccountdialogs.cpp" line="470"/>
         <source>Empty name.</source>
         <translation type="unfinished">Пустое имя.</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="452"/>
+        <location filename="../src/editaccountdialogs.cpp" line="476"/>
         <source>The entered name is used by another expense category.</source>
         <translation type="unfinished">Введенное имя уже используется в другой категории расходов.</translation>
     </message>
@@ -3869,139 +4001,72 @@ Confirm that they have indeed occurred (or will occur today).</source>
 <context>
     <name>EditIncomesAccountDialog</name>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="254"/>
+        <location filename="../src/editaccountdialogs.cpp" line="278"/>
         <source>Name:</source>
         <translation type="unfinished">Имя:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="257"/>
+        <location filename="../src/editaccountdialogs.cpp" line="281"/>
         <source>Parent category:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="261"/>
+        <location filename="../src/editaccountdialogs.cpp" line="285"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="275"/>
+        <location filename="../src/editaccountdialogs.cpp" line="299"/>
         <source>Monthly budget:</source>
         <translation type="unfinished">Месячный бюджет</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="281"/>
+        <location filename="../src/editaccountdialogs.cpp" line="305"/>
         <source>Description:</source>
         <translation type="unfinished">Описание:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="339"/>
-        <location filename="../src/editaccountdialogs.cpp" line="345"/>
+        <location filename="../src/editaccountdialogs.cpp" line="363"/>
+        <location filename="../src/editaccountdialogs.cpp" line="369"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="339"/>
+        <location filename="../src/editaccountdialogs.cpp" line="363"/>
         <source>Empty name.</source>
         <translation type="unfinished">Пустое имя.</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="345"/>
+        <location filename="../src/editaccountdialogs.cpp" line="369"/>
         <source>The entered name is used by another income category.</source>
         <translation type="unfinished">Введенное имя уже используется в другой категории доходов.</translation>
     </message>
 </context>
 <context>
-    <name>EditLoanTransactionDialog</name>
-    <message>
-        <location filename="../src/editsplitdialog.cpp" line="176"/>
-        <source>Debt Payment</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>EditLoanTransactionWidget</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="818"/>
-        <source>Debt:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/editsplitdialog.cpp" line="823"/>
         <source>Date:</source>
-        <translation type="unfinished">Дата:</translation>
+        <translation type="obsolete">Дата:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="831"/>
-        <source>Debt reduction:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/editsplitdialog.cpp" line="836"/>
-        <source>Interest:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/editsplitdialog.cpp" line="849"/>
-        <source>Payed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/editsplitdialog.cpp" line="851"/>
-        <source>Added to debt</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/editsplitdialog.cpp" line="856"/>
-        <source>Fee:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/editsplitdialog.cpp" line="863"/>
         <source>Account:</source>
-        <translation type="unfinished">Счет:</translation>
+        <translation type="obsolete">Счет:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="869"/>
-        <source>Expense category:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/editsplitdialog.cpp" line="877"/>
         <source>Comments:</source>
-        <translation type="unfinished">Коментарии:</translation>
+        <translation type="obsolete">Коментарии:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="979"/>
         <source>Total value:</source>
-        <translation type="unfinished">Итог:</translation>
+        <translation type="obsolete">Итог:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1030"/>
-        <location filename="../src/editsplitdialog.cpp" line="1038"/>
-        <location filename="../src/editsplitdialog.cpp" line="1043"/>
-        <location filename="../src/editsplitdialog.cpp" line="1046"/>
-        <source>Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/editsplitdialog.cpp" line="1030"/>
         <source>No suitable account available.</source>
-        <translation type="unfinished">Имеющийся счет не пригоден</translation>
+        <translation type="obsolete">Имеющийся счет не пригоден</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1038"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Неверные данные.</translation>
-    </message>
-    <message>
-        <location filename="../src/editsplitdialog.cpp" line="1043"/>
-        <source>Interest must not be zero.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/editsplitdialog.cpp" line="1046"/>
-        <source>At least one value must non-zero.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Неверные данные.</translation>
     </message>
 </context>
 <context>
@@ -4024,79 +4089,79 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation type="obsolete">Описание:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="549"/>
+        <location filename="../src/editsplitdialog.cpp" line="550"/>
         <source>Description:</source>
         <comment>Generic Description</comment>
         <translation type="unfinished">Описание:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="555"/>
+        <location filename="../src/editsplitdialog.cpp" line="556"/>
         <source>Quantity:</source>
         <translation type="unfinished">Количество:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="562"/>
+        <location filename="../src/editsplitdialog.cpp" line="563"/>
         <source>Category:</source>
         <translation type="unfinished">Категория:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="567"/>
+        <location filename="../src/editsplitdialog.cpp" line="568"/>
         <source>Comments:</source>
         <translation type="unfinished">Коментарии:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="571"/>
+        <location filename="../src/editsplitdialog.cpp" line="572"/>
         <source>Transactions:</source>
         <translation type="unfinished">Транзакция:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="580"/>
+        <location filename="../src/editsplitdialog.cpp" line="581"/>
         <source>Date</source>
         <translation type="unfinished">Дата</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="581"/>
+        <location filename="../src/editsplitdialog.cpp" line="582"/>
         <source>Account</source>
         <translation type="unfinished">Счет</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="582"/>
+        <location filename="../src/editsplitdialog.cpp" line="583"/>
         <source>Value</source>
         <translation type="unfinished">Значение</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="591"/>
+        <location filename="../src/editsplitdialog.cpp" line="592"/>
         <source>New</source>
         <translation type="unfinished">Новый</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="592"/>
+        <location filename="../src/editsplitdialog.cpp" line="593"/>
         <source>Edit…</source>
         <translation type="unfinished">Правка…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="594"/>
+        <location filename="../src/editsplitdialog.cpp" line="595"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="625"/>
+        <location filename="../src/editsplitdialog.cpp" line="626"/>
         <source>Total value:</source>
         <translation type="unfinished">Итог:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="794"/>
-        <location filename="../src/editsplitdialog.cpp" line="802"/>
+        <location filename="../src/editsplitdialog.cpp" line="795"/>
+        <location filename="../src/editsplitdialog.cpp" line="803"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="794"/>
+        <location filename="../src/editsplitdialog.cpp" line="795"/>
         <source>No suitable expense categories available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="802"/>
+        <location filename="../src/editsplitdialog.cpp" line="803"/>
         <source>A split must contain at least two transactions.</source>
         <translation type="unfinished">Разделение должно быть ограниченно минимум двумя транзакциями.</translation>
     </message>
@@ -4376,7 +4441,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     </message>
 </context>
 <context>
-    <name>EditScheduledLoanTransactionDialog</name>
+    <name>EditScheduledDebtPaymentDialog</name>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="437"/>
         <source>Transaction</source>
@@ -4397,6 +4462,13 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="508"/>
         <source>New Debt Payment</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EditScheduledLoanTransactionDialog</name>
+    <message>
+        <source>Recurrence</source>
+        <translation type="obsolete">Повторение</translation>
     </message>
 </context>
 <context>
@@ -4912,8 +4984,6 @@ Confirm that they have indeed occurred (or will occur today).</source>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4953"/>
-        <location filename="../src/eqonomize.cpp" line="7448"/>
-        <location filename="../src/eqonomize.cpp" line="7454"/>
         <source>Accounts</source>
         <translation type="unfinished">Счета</translation>
     </message>
@@ -4926,6 +4996,8 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="1866"/>
         <location filename="../src/eqonomize.cpp" line="4535"/>
+        <location filename="../src/eqonomize.cpp" line="7448"/>
+        <location filename="../src/eqonomize.cpp" line="7454"/>
         <source>Assets</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7390,38 +7462,6 @@ What do you want to do with them?</source>
     </message>
 </context>
 <context>
-    <name>LoanFee</name>
-    <message>
-        <location filename="../src/transaction.cpp" line="219"/>
-        <source>Debt payment: %1 (fee)</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>LoanInterest</name>
-    <message>
-        <location filename="../src/transaction.cpp" line="261"/>
-        <source>Debt payment: %1 (interest)</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>LoanPayment</name>
-    <message>
-        <location filename="../src/transaction.cpp" line="434"/>
-        <source>Debt payment: %1 (reduction)</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>LoanTransaction</name>
-    <message>
-        <location filename="../src/transaction.cpp" line="1722"/>
-        <source>Debt payment: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>MultiItemListViewItem</name>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="123"/>
@@ -7472,7 +7512,7 @@ What do you want to do with them?</source>
 <context>
     <name>MultipleTransactionsEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1161"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1162"/>
         <source>Modify Transactions</source>
         <translation type="unfinished">Модифицировать транзакции</translation>
     </message>
@@ -7481,42 +7521,42 @@ What do you want to do with them?</source>
         <translation type="obsolete">Имя:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1174"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1175"/>
         <source>Generic Description:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1184"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1185"/>
         <source>Amount:</source>
         <translation type="unfinished">Количество:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1185"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1186"/>
         <source>Income:</source>
         <translation type="unfinished">Доход:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1186"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1187"/>
         <source>Cost:</source>
         <translation type="unfinished">Цена:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1194"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1195"/>
         <source>Date:</source>
         <translation type="unfinished">Дата:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1205"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1206"/>
         <source>Category:</source>
         <translation type="unfinished">Категория:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1219"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1220"/>
         <source>Payer:</source>
         <translation type="unfinished">Платильщик:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1220"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1221"/>
         <source>Payee:</source>
         <translation type="unfinished">Получатель:</translation>
     </message>
@@ -7537,24 +7577,24 @@ What do you want to do with them?</source>
         <translation type="obsolete">Новая категория расходов</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1350"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1358"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1369"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1351"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1359"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1370"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1350"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1351"/>
         <source>No income category available.</source>
         <translation type="unfinished">Нет доступной категории доходов.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1358"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1359"/>
         <source>No expense category available.</source>
         <translation type="unfinished">Нет доступной категории расходов</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1369"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1370"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Неверные данные.</translation>
     </message>
@@ -7583,36 +7623,36 @@ What do you want to do with them?</source>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="220"/>
-        <location filename="../src/overtimechart.cpp" line="2097"/>
-        <location filename="../src/overtimechart.cpp" line="2247"/>
-        <location filename="../src/overtimechart.cpp" line="2618"/>
+        <location filename="../src/overtimechart.cpp" line="2268"/>
+        <location filename="../src/overtimechart.cpp" line="2419"/>
+        <location filename="../src/overtimechart.cpp" line="2790"/>
         <source>Profits</source>
         <translation type="unfinished">Прибыль</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="221"/>
-        <location filename="../src/overtimechart.cpp" line="2104"/>
-        <location filename="../src/overtimechart.cpp" line="2252"/>
-        <location filename="../src/overtimechart.cpp" line="2256"/>
-        <location filename="../src/overtimechart.cpp" line="2623"/>
-        <location filename="../src/overtimechart.cpp" line="2627"/>
+        <location filename="../src/overtimechart.cpp" line="2275"/>
+        <location filename="../src/overtimechart.cpp" line="2424"/>
+        <location filename="../src/overtimechart.cpp" line="2428"/>
+        <location filename="../src/overtimechart.cpp" line="2795"/>
+        <location filename="../src/overtimechart.cpp" line="2799"/>
         <source>Expenses</source>
         <translation type="unfinished">Расходы</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="222"/>
-        <location filename="../src/overtimechart.cpp" line="2102"/>
-        <location filename="../src/overtimechart.cpp" line="2251"/>
-        <location filename="../src/overtimechart.cpp" line="2255"/>
-        <location filename="../src/overtimechart.cpp" line="2622"/>
-        <location filename="../src/overtimechart.cpp" line="2626"/>
+        <location filename="../src/overtimechart.cpp" line="2273"/>
+        <location filename="../src/overtimechart.cpp" line="2423"/>
+        <location filename="../src/overtimechart.cpp" line="2427"/>
+        <location filename="../src/overtimechart.cpp" line="2794"/>
+        <location filename="../src/overtimechart.cpp" line="2798"/>
         <source>Incomes</source>
         <translation type="unfinished">Доходы</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="228"/>
         <location filename="../src/overtimechart.cpp" line="568"/>
-        <location filename="../src/overtimechart.cpp" line="2858"/>
+        <location filename="../src/overtimechart.cpp" line="3030"/>
         <source>All Categories Combined</source>
         <translation type="unfinished">Объединить все категории</translation>
     </message>
@@ -7651,9 +7691,8 @@ What do you want to do with them?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="223"/>
-        <location filename="../src/overtimechart.cpp" line="2243"/>
-        <location filename="../src/overtimechart.cpp" line="2614"/>
+        <location filename="../src/overtimechart.cpp" line="2414"/>
+        <location filename="../src/overtimechart.cpp" line="2786"/>
         <source>Assets</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7661,11 +7700,16 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="234"/>
         <location filename="../src/overtimechart.cpp" line="438"/>
         <location filename="../src/overtimechart.cpp" line="557"/>
-        <location filename="../src/overtimechart.cpp" line="2761"/>
-        <location filename="../src/overtimechart.cpp" line="2882"/>
+        <location filename="../src/overtimechart.cpp" line="2933"/>
+        <location filename="../src/overtimechart.cpp" line="3054"/>
         <source>All Descriptions Combined</source>
         <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Объединить все описания</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="223"/>
+        <source>Assets and Liabilities</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="242"/>
@@ -7705,23 +7749,23 @@ What do you want to do with them?</source>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="278"/>
-        <location filename="../src/overtimechart.cpp" line="1952"/>
+        <location filename="../src/overtimechart.cpp" line="2124"/>
         <source>Average value</source>
         <translation type="unfinished">Среднее значение</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="446"/>
         <location filename="../src/overtimechart.cpp" line="561"/>
-        <location filename="../src/overtimechart.cpp" line="2764"/>
-        <location filename="../src/overtimechart.cpp" line="2887"/>
+        <location filename="../src/overtimechart.cpp" line="2936"/>
+        <location filename="../src/overtimechart.cpp" line="3059"/>
         <source>All Payers Combined</source>
         <translation type="unfinished">Объединить всех плательщиков</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="447"/>
         <location filename="../src/overtimechart.cpp" line="562"/>
-        <location filename="../src/overtimechart.cpp" line="2765"/>
-        <location filename="../src/overtimechart.cpp" line="2886"/>
+        <location filename="../src/overtimechart.cpp" line="2937"/>
+        <location filename="../src/overtimechart.cpp" line="3058"/>
         <source>All Payees Combined</source>
         <translation type="unfinished">Объединить всех получателей.</translation>
     </message>
@@ -7738,119 +7782,114 @@ What do you want to do with them?</source>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="481"/>
-        <location filename="../src/overtimechart.cpp" line="2762"/>
+        <location filename="../src/overtimechart.cpp" line="2934"/>
         <source>All Descriptions Split</source>
         <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Все описания разбить</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="530"/>
-        <location filename="../src/overtimechart.cpp" line="2272"/>
-        <location filename="../src/overtimechart.cpp" line="2278"/>
-        <location filename="../src/overtimechart.cpp" line="2306"/>
-        <location filename="../src/overtimechart.cpp" line="2308"/>
-        <location filename="../src/overtimechart.cpp" line="2315"/>
-        <location filename="../src/overtimechart.cpp" line="2317"/>
-        <location filename="../src/overtimechart.cpp" line="2643"/>
-        <location filename="../src/overtimechart.cpp" line="2649"/>
-        <location filename="../src/overtimechart.cpp" line="2677"/>
-        <location filename="../src/overtimechart.cpp" line="2679"/>
-        <location filename="../src/overtimechart.cpp" line="2686"/>
-        <location filename="../src/overtimechart.cpp" line="2688"/>
-        <location filename="../src/overtimechart.cpp" line="2730"/>
-        <location filename="../src/overtimechart.cpp" line="2800"/>
+        <location filename="../src/overtimechart.cpp" line="2444"/>
+        <location filename="../src/overtimechart.cpp" line="2450"/>
+        <location filename="../src/overtimechart.cpp" line="2478"/>
+        <location filename="../src/overtimechart.cpp" line="2480"/>
+        <location filename="../src/overtimechart.cpp" line="2487"/>
+        <location filename="../src/overtimechart.cpp" line="2489"/>
+        <location filename="../src/overtimechart.cpp" line="2815"/>
+        <location filename="../src/overtimechart.cpp" line="2821"/>
+        <location filename="../src/overtimechart.cpp" line="2849"/>
+        <location filename="../src/overtimechart.cpp" line="2851"/>
+        <location filename="../src/overtimechart.cpp" line="2858"/>
+        <location filename="../src/overtimechart.cpp" line="2860"/>
+        <location filename="../src/overtimechart.cpp" line="2902"/>
+        <location filename="../src/overtimechart.cpp" line="2972"/>
         <source>No description</source>
         <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Без описания</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1844"/>
+        <location filename="../src/overtimechart.cpp" line="2016"/>
         <source>Other descriptions</source>
         <comment>Referring to the generic description property</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1941"/>
+        <location filename="../src/overtimechart.cpp" line="2113"/>
         <source>Value</source>
         <translation type="unfinished">Значение</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1966"/>
+        <location filename="../src/overtimechart.cpp" line="2138"/>
         <source>Includes budgeted transactions</source>
         <translation type="unfinished">Включая бюджетные транзакции</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2095"/>
-        <source>Total Assets</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/overtimechart.cpp" line="2098"/>
+        <location filename="../src/overtimechart.cpp" line="2269"/>
         <source>Excluding any profits or losses in trading of security shares</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2100"/>
+        <location filename="../src/overtimechart.cpp" line="2271"/>
         <source>Incomes &amp; Expenses</source>
         <translation type="unfinished">Расход и Доход</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2108"/>
+        <location filename="../src/overtimechart.cpp" line="2279"/>
         <source>Incomes: %1</source>
         <translation type="unfinished">Доходы: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2112"/>
+        <location filename="../src/overtimechart.cpp" line="2283"/>
         <source>Expenses: %1</source>
         <translation type="unfinished">Расходы: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2114"/>
-        <location filename="../src/overtimechart.cpp" line="2121"/>
+        <location filename="../src/overtimechart.cpp" line="2285"/>
+        <location filename="../src/overtimechart.cpp" line="2292"/>
         <source>Incomes: %2, %1</source>
         <translation type="unfinished">Доход: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2116"/>
-        <location filename="../src/overtimechart.cpp" line="2124"/>
+        <location filename="../src/overtimechart.cpp" line="2287"/>
+        <location filename="../src/overtimechart.cpp" line="2295"/>
         <source>Expenses: %2, %1</source>
         <translation type="unfinished">Расход: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2117"/>
+        <location filename="../src/overtimechart.cpp" line="2288"/>
         <source>Incomes: %3, %2, %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2118"/>
+        <location filename="../src/overtimechart.cpp" line="2289"/>
         <source>Expenses: %3, %2, %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2310"/>
-        <location filename="../src/overtimechart.cpp" line="2681"/>
+        <location filename="../src/overtimechart.cpp" line="2482"/>
+        <location filename="../src/overtimechart.cpp" line="2853"/>
         <source>%1/%2</source>
         <comment>%1: Generic Description; %2: Payer/Payer</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2319"/>
-        <location filename="../src/overtimechart.cpp" line="2690"/>
+        <location filename="../src/overtimechart.cpp" line="2491"/>
+        <location filename="../src/overtimechart.cpp" line="2862"/>
         <source>%1/%2</source>
         <comment>%1: Generic Description; %2: Payee/Payer</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3033"/>
-        <location filename="../src/overtimechart.cpp" line="3075"/>
+        <location filename="../src/overtimechart.cpp" line="3205"/>
+        <location filename="../src/overtimechart.cpp" line="3247"/>
         <source>%1
 Value: %2
 Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3033"/>
-        <location filename="../src/overtimechart.cpp" line="3075"/>
+        <location filename="../src/overtimechart.cpp" line="3205"/>
+        <location filename="../src/overtimechart.cpp" line="3247"/>
         <source>MMMM yyyy</source>
         <comment>Month and year</comment>
         <translation type="unfinished"></translation>
@@ -7861,13 +7900,13 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="483"/>
-        <location filename="../src/overtimechart.cpp" line="2766"/>
+        <location filename="../src/overtimechart.cpp" line="2938"/>
         <source>All Payers Split</source>
         <translation type="unfinished">Всех плательщиков  разделить</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="484"/>
-        <location filename="../src/overtimechart.cpp" line="2767"/>
+        <location filename="../src/overtimechart.cpp" line="2939"/>
         <source>All Payees Split</source>
         <translation type="unfinished">Всех получателей разделить</translation>
     </message>
@@ -7877,30 +7916,30 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="538"/>
-        <location filename="../src/overtimechart.cpp" line="2284"/>
-        <location filename="../src/overtimechart.cpp" line="2295"/>
-        <location filename="../src/overtimechart.cpp" line="2655"/>
-        <location filename="../src/overtimechart.cpp" line="2666"/>
-        <location filename="../src/overtimechart.cpp" line="2734"/>
-        <location filename="../src/overtimechart.cpp" line="2816"/>
+        <location filename="../src/overtimechart.cpp" line="2456"/>
+        <location filename="../src/overtimechart.cpp" line="2467"/>
+        <location filename="../src/overtimechart.cpp" line="2827"/>
+        <location filename="../src/overtimechart.cpp" line="2838"/>
+        <location filename="../src/overtimechart.cpp" line="2906"/>
+        <location filename="../src/overtimechart.cpp" line="2988"/>
         <source>No payer</source>
         <translation type="unfinished">Без платильщика</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="539"/>
-        <location filename="../src/overtimechart.cpp" line="2290"/>
-        <location filename="../src/overtimechart.cpp" line="2300"/>
-        <location filename="../src/overtimechart.cpp" line="2661"/>
-        <location filename="../src/overtimechart.cpp" line="2671"/>
-        <location filename="../src/overtimechart.cpp" line="2732"/>
-        <location filename="../src/overtimechart.cpp" line="2817"/>
+        <location filename="../src/overtimechart.cpp" line="2462"/>
+        <location filename="../src/overtimechart.cpp" line="2472"/>
+        <location filename="../src/overtimechart.cpp" line="2833"/>
+        <location filename="../src/overtimechart.cpp" line="2843"/>
+        <location filename="../src/overtimechart.cpp" line="2904"/>
+        <location filename="../src/overtimechart.cpp" line="2989"/>
         <source>No payee</source>
         <translation type="unfinished">Без получателя</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="570"/>
         <location filename="../src/overtimechart.cpp" line="582"/>
-        <location filename="../src/overtimechart.cpp" line="2859"/>
+        <location filename="../src/overtimechart.cpp" line="3031"/>
         <source>All Categories Split</source>
         <translation type="unfinished">Все категории разделить</translation>
     </message>
@@ -7933,12 +7972,12 @@ Date: %3</source>
         <translation type="unfinished">Ошибка чтения файла; Файл не сохранен</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1840"/>
+        <location filename="../src/overtimechart.cpp" line="2012"/>
         <source>Other payees</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1842"/>
+        <location filename="../src/overtimechart.cpp" line="2014"/>
         <source>Other payers</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7959,72 +7998,82 @@ Date: %3</source>
         <translation type="obsolete">Цена (%1)</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2466"/>
+        <location filename="../src/overtimechart.cpp" line="2638"/>
         <source>Time</source>
         <translation type="unfinished">Время</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2263"/>
-        <location filename="../src/overtimechart.cpp" line="2634"/>
+        <location filename="../src/overtimechart.cpp" line="2435"/>
+        <location filename="../src/overtimechart.cpp" line="2806"/>
         <source>%1/%2</source>
         <comment>%1: Category; %2: Payee/Payer</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1945"/>
+        <location filename="../src/overtimechart.cpp" line="2117"/>
         <source>Daily average value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1946"/>
+        <location filename="../src/overtimechart.cpp" line="2118"/>
         <source>Daily average profit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1947"/>
+        <location filename="../src/overtimechart.cpp" line="2119"/>
         <source>Daily average income</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1948"/>
+        <location filename="../src/overtimechart.cpp" line="2120"/>
         <source>Daily average cost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1953"/>
+        <location filename="../src/overtimechart.cpp" line="2125"/>
         <source>Average income</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1954"/>
+        <location filename="../src/overtimechart.cpp" line="2126"/>
         <source>Average cost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1958"/>
+        <location filename="../src/overtimechart.cpp" line="2130"/>
         <source>Monthly value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1959"/>
+        <location filename="../src/overtimechart.cpp" line="2131"/>
         <source>Monthly profit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1960"/>
+        <location filename="../src/overtimechart.cpp" line="2132"/>
         <source>Monthly income</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="1961"/>
+        <location filename="../src/overtimechart.cpp" line="2133"/>
         <source>Monthly cost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2306"/>
-        <location filename="../src/overtimechart.cpp" line="2307"/>
-        <location filename="../src/overtimechart.cpp" line="2677"/>
-        <location filename="../src/overtimechart.cpp" line="2678"/>
+        <location filename="../src/overtimechart.cpp" line="2266"/>
+        <source>Assets &amp; Liabilities</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="2415"/>
+        <source>Liabilities</source>
+        <translation type="unfinished">Задолженность</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="2478"/>
+        <location filename="../src/overtimechart.cpp" line="2479"/>
+        <location filename="../src/overtimechart.cpp" line="2849"/>
+        <location filename="../src/overtimechart.cpp" line="2850"/>
         <source>no payer</source>
         <translation type="unfinished">нет платильщика</translation>
     </message>
@@ -8038,10 +8087,10 @@ Date: %3</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2315"/>
-        <location filename="../src/overtimechart.cpp" line="2316"/>
-        <location filename="../src/overtimechart.cpp" line="2686"/>
-        <location filename="../src/overtimechart.cpp" line="2687"/>
+        <location filename="../src/overtimechart.cpp" line="2487"/>
+        <location filename="../src/overtimechart.cpp" line="2488"/>
+        <location filename="../src/overtimechart.cpp" line="2858"/>
+        <location filename="../src/overtimechart.cpp" line="2859"/>
         <source>no payee</source>
         <translation type="unfinished">нет получателя</translation>
     </message>
@@ -8949,32 +8998,32 @@ Date: %3</source>
 <context>
     <name>TransactionEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1132"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1133"/>
         <source>Edit Expense</source>
         <translation type="unfinished">Править расход</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1134"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1135"/>
         <source>Edit Dividend</source>
         <translation type="unfinished">Править дивиденты</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1135"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1136"/>
         <source>Edit Income</source>
         <translation type="unfinished">Править доход</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1138"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1139"/>
         <source>Edit Transfer</source>
         <translation type="unfinished">Править перевод</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1139"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1140"/>
         <source>Edit Securities Bought</source>
         <translation type="unfinished">Править ценные покупки</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1140"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1141"/>
         <source>Edit Securities Sold</source>
         <translation type="unfinished">Править ценные продажи</translation>
     </message>
@@ -8982,46 +9031,46 @@ Date: %3</source>
 <context>
     <name>TransactionEditWidget</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="101"/>
-        <location filename="../src/transactioneditwidget.cpp" line="161"/>
+        <location filename="../src/transactioneditwidget.cpp" line="102"/>
+        <location filename="../src/transactioneditwidget.cpp" line="162"/>
         <source>Security:</source>
         <translation type="unfinished">Ценные бумаги:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="121"/>
-        <location filename="../src/transactioneditwidget.cpp" line="193"/>
+        <location filename="../src/transactioneditwidget.cpp" line="122"/>
+        <location filename="../src/transactioneditwidget.cpp" line="194"/>
         <source>Cost:</source>
         <translation type="unfinished">Цена:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="122"/>
-        <location filename="../src/transactioneditwidget.cpp" line="191"/>
+        <location filename="../src/transactioneditwidget.cpp" line="123"/>
+        <location filename="../src/transactioneditwidget.cpp" line="192"/>
         <source>Income:</source>
         <translation type="unfinished">Доход:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="129"/>
+        <location filename="../src/transactioneditwidget.cpp" line="130"/>
         <source>Shares bought:</source>
         <translation type="unfinished">Распределенные покупки:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="134"/>
+        <location filename="../src/transactioneditwidget.cpp" line="135"/>
         <source>Shares sold:</source>
         <translation type="unfinished">Распределенные продажи:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="139"/>
+        <location filename="../src/transactioneditwidget.cpp" line="140"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="147"/>
+        <location filename="../src/transactioneditwidget.cpp" line="148"/>
         <source>Price per share:</source>
         <translation type="unfinished">Стоимость через акции:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="153"/>
-        <location filename="../src/transactioneditwidget.cpp" line="211"/>
+        <location filename="../src/transactioneditwidget.cpp" line="154"/>
+        <location filename="../src/transactioneditwidget.cpp" line="212"/>
         <source>Date:</source>
         <translation type="unfinished">Дата:</translation>
     </message>
@@ -9030,75 +9079,75 @@ Date: %3</source>
         <translation type="obsolete">Имя:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="180"/>
+        <location filename="../src/transactioneditwidget.cpp" line="181"/>
         <source>Description:</source>
         <translation type="unfinished">Описание:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="189"/>
+        <location filename="../src/transactioneditwidget.cpp" line="190"/>
         <source>Amount:</source>
         <translation type="unfinished">Количество:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="199"/>
+        <location filename="../src/transactioneditwidget.cpp" line="200"/>
         <source>Downpayment:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="205"/>
+        <location filename="../src/transactioneditwidget.cpp" line="206"/>
         <source>Quantity:</source>
         <translation type="unfinished">Количество:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="221"/>
+        <location filename="../src/transactioneditwidget.cpp" line="222"/>
         <source>From:</source>
         <translation type="unfinished">Из:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="227"/>
+        <location filename="../src/transactioneditwidget.cpp" line="228"/>
         <source>To:</source>
         <translation type="unfinished">К:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="237"/>
-        <location filename="../src/transactioneditwidget.cpp" line="280"/>
+        <location filename="../src/transactioneditwidget.cpp" line="238"/>
+        <location filename="../src/transactioneditwidget.cpp" line="281"/>
         <source>Category:</source>
         <translation type="unfinished">Категория:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="244"/>
-        <location filename="../src/transactioneditwidget.cpp" line="270"/>
+        <location filename="../src/transactioneditwidget.cpp" line="245"/>
+        <location filename="../src/transactioneditwidget.cpp" line="271"/>
         <source>To account:</source>
         <translation type="unfinished">К счету:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="251"/>
+        <location filename="../src/transactioneditwidget.cpp" line="252"/>
         <source>Payer:</source>
         <translation type="unfinished">Платильщик:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="260"/>
-        <location filename="../src/transactioneditwidget.cpp" line="291"/>
+        <location filename="../src/transactioneditwidget.cpp" line="261"/>
+        <location filename="../src/transactioneditwidget.cpp" line="292"/>
         <source>From account:</source>
         <translation type="unfinished">Со счета:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="288"/>
+        <location filename="../src/transactioneditwidget.cpp" line="289"/>
         <source>Downpayment account:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="299"/>
+        <location filename="../src/transactioneditwidget.cpp" line="300"/>
         <source>Payee:</source>
         <translation type="unfinished">Получатель:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="307"/>
+        <location filename="../src/transactioneditwidget.cpp" line="308"/>
         <source>Lender:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="313"/>
+        <location filename="../src/transactioneditwidget.cpp" line="314"/>
         <source>Comments:</source>
         <translation type="unfinished">Коментарии:</translation>
     </message>
@@ -9127,103 +9176,103 @@ Date: %3</source>
         <translation type="obsolete">Новая категория расходов</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="644"/>
-        <location filename="../src/transactioneditwidget.cpp" line="648"/>
-        <location filename="../src/transactioneditwidget.cpp" line="655"/>
-        <location filename="../src/transactioneditwidget.cpp" line="659"/>
-        <location filename="../src/transactioneditwidget.cpp" line="666"/>
-        <location filename="../src/transactioneditwidget.cpp" line="673"/>
-        <location filename="../src/transactioneditwidget.cpp" line="680"/>
-        <location filename="../src/transactioneditwidget.cpp" line="684"/>
-        <location filename="../src/transactioneditwidget.cpp" line="691"/>
-        <location filename="../src/transactioneditwidget.cpp" line="698"/>
-        <location filename="../src/transactioneditwidget.cpp" line="706"/>
-        <location filename="../src/transactioneditwidget.cpp" line="710"/>
-        <location filename="../src/transactioneditwidget.cpp" line="717"/>
-        <location filename="../src/transactioneditwidget.cpp" line="724"/>
-        <location filename="../src/transactioneditwidget.cpp" line="732"/>
-        <location filename="../src/transactioneditwidget.cpp" line="736"/>
-        <location filename="../src/transactioneditwidget.cpp" line="740"/>
-        <location filename="../src/transactioneditwidget.cpp" line="752"/>
+        <location filename="../src/transactioneditwidget.cpp" line="645"/>
+        <location filename="../src/transactioneditwidget.cpp" line="649"/>
+        <location filename="../src/transactioneditwidget.cpp" line="656"/>
+        <location filename="../src/transactioneditwidget.cpp" line="660"/>
+        <location filename="../src/transactioneditwidget.cpp" line="667"/>
+        <location filename="../src/transactioneditwidget.cpp" line="674"/>
+        <location filename="../src/transactioneditwidget.cpp" line="681"/>
+        <location filename="../src/transactioneditwidget.cpp" line="685"/>
+        <location filename="../src/transactioneditwidget.cpp" line="692"/>
+        <location filename="../src/transactioneditwidget.cpp" line="699"/>
+        <location filename="../src/transactioneditwidget.cpp" line="707"/>
+        <location filename="../src/transactioneditwidget.cpp" line="711"/>
+        <location filename="../src/transactioneditwidget.cpp" line="718"/>
+        <location filename="../src/transactioneditwidget.cpp" line="725"/>
+        <location filename="../src/transactioneditwidget.cpp" line="733"/>
+        <location filename="../src/transactioneditwidget.cpp" line="737"/>
+        <location filename="../src/transactioneditwidget.cpp" line="741"/>
+        <location filename="../src/transactioneditwidget.cpp" line="753"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="644"/>
-        <location filename="../src/transactioneditwidget.cpp" line="648"/>
-        <location filename="../src/transactioneditwidget.cpp" line="659"/>
-        <location filename="../src/transactioneditwidget.cpp" line="673"/>
-        <location filename="../src/transactioneditwidget.cpp" line="684"/>
+        <location filename="../src/transactioneditwidget.cpp" line="645"/>
+        <location filename="../src/transactioneditwidget.cpp" line="649"/>
+        <location filename="../src/transactioneditwidget.cpp" line="660"/>
+        <location filename="../src/transactioneditwidget.cpp" line="674"/>
+        <location filename="../src/transactioneditwidget.cpp" line="685"/>
         <source>No suitable account available.</source>
         <translation type="unfinished">Имеющийся счет не пригоден</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="655"/>
+        <location filename="../src/transactioneditwidget.cpp" line="656"/>
         <source>No income category available.</source>
         <translation type="unfinished">Нет доступной категории доходов.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="666"/>
+        <location filename="../src/transactioneditwidget.cpp" line="667"/>
         <source>No suitable account or income category available.</source>
         <translation type="unfinished">Не годный счет или категория доходов.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="680"/>
+        <location filename="../src/transactioneditwidget.cpp" line="681"/>
         <source>No expense category available.</source>
         <translation type="unfinished">Нет доступной категории расходов</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="691"/>
+        <location filename="../src/transactioneditwidget.cpp" line="692"/>
         <source>No security available.</source>
         <translation type="unfinished">Нет имеющихся ценных бумаг.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="698"/>
+        <location filename="../src/transactioneditwidget.cpp" line="699"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Неверные данные.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="706"/>
+        <location filename="../src/transactioneditwidget.cpp" line="707"/>
         <source>Cannot transfer money to and from the same account.</source>
         <translation type="unfinished">Невозможно перевести деньги на тот же самый счет.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="710"/>
+        <location filename="../src/transactioneditwidget.cpp" line="711"/>
         <source>Downpayment must be less than total cost.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="717"/>
+        <location filename="../src/transactioneditwidget.cpp" line="718"/>
         <source>Cannot create a regular transfer to/from a securities account.</source>
         <translation type="unfinished">Невозможно создать регулярный трансфер в/из счета ценным бумаг.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="724"/>
+        <location filename="../src/transactioneditwidget.cpp" line="725"/>
         <source>Cannot create a regular income to a securities account.</source>
         <translation type="unfinished">Невозможно создать регулярный доход в счете ценных бумаг.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="732"/>
+        <location filename="../src/transactioneditwidget.cpp" line="733"/>
         <source>Zero shares not allowed.</source>
         <translation type="unfinished">Акции с нулевой стоимостью не разрешены.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="736"/>
+        <location filename="../src/transactioneditwidget.cpp" line="737"/>
         <source>Zero value not allowed.</source>
         <translation type="unfinished">Нулевая стоимость не разрешена.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="740"/>
+        <location filename="../src/transactioneditwidget.cpp" line="741"/>
         <source>Zero price per share not allowed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="752"/>
+        <location filename="../src/transactioneditwidget.cpp" line="753"/>
         <source>Cannot create a regular expense from a securities account.</source>
         <translation type="unfinished">Невозможно создать регулярный расход с счета ценных бумаг.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="814"/>
+        <location filename="../src/transactioneditwidget.cpp" line="815"/>
         <source>Loan for %1</source>
         <translation type="unfinished"></translation>
     </message>

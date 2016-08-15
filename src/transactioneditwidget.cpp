@@ -321,6 +321,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	editVLayout->addStretch(1);
 
 	description_changed = false;
+	payee_changed = false;
 	if(descriptionEdit) {
 		descriptionEdit->completer()->setCaseSensitivity(Qt::CaseInsensitive);
 	}
@@ -408,6 +409,10 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			connect(descriptionEdit, SIGNAL(textChanged(const QString&)), this, SLOT(descriptionChanged(const QString&)));
 		}
 	}
+	if(payeeEdit) {
+		connect(payeeEdit, SIGNAL(editingFinished()), this, SLOT(setDefaultValueFromPayee()));
+		connect(payeeEdit, SIGNAL(textChanged(const QString&)), this, SLOT(payeeChanged(const QString&)));
+	}
 	if(b_autoedit && dateEdit) connect(dateEdit, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
 	if(payeeEdit && lenderEdit) connect(payeeEdit, SIGNAL(returnPressed()), lenderEdit, SLOT(setFocus()));
 	else if(payeeEdit && commentsEdit) connect(payeeEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
@@ -443,11 +448,17 @@ void TransactionEditWidget::fromActivated() {
 	if(toCombo && transtype != TRANSACTION_TYPE_EXPENSE) toCombo->setFocus();
 	else if(payeeEdit) payeeEdit->setFocus();
 	else if(commentsEdit) commentsEdit->setFocus();
+	if(transtype == TRANSACTION_TYPE_INCOME) {
+		setDefaultValueFromCategory();
+	}
 }
 void TransactionEditWidget::toActivated() {
 	if(fromCombo && transtype == TRANSACTION_TYPE_EXPENSE) fromCombo->setFocus();
 	else if(payeeEdit) payeeEdit->setFocus();
 	else if(commentsEdit) commentsEdit->setFocus();
+	if(transtype == TRANSACTION_TYPE_EXPENSE) {
+		setDefaultValueFromCategory();
+	}
 }
 void TransactionEditWidget::focusDate() {
 	if(!dateEdit) return;
@@ -574,6 +585,9 @@ QDate TransactionEditWidget::date() {
 void TransactionEditWidget::descriptionChanged(const QString&) {
 	description_changed = true;
 }
+void TransactionEditWidget::payeeChanged(const QString&) {
+	payee_changed = true;
+}
 void TransactionEditWidget::setDefaultValue() {
 	if(descriptionEdit && description_changed && !descriptionEdit->text().isEmpty() && valueEdit && valueEdit->value() == 0.0) {
 		Transaction *trans = NULL;
@@ -581,14 +595,59 @@ void TransactionEditWidget::setDefaultValue() {
 		if(trans) {
 			if(trans->parentSplit() && trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) valueEdit->setValue(trans->parentSplit()->value());
 			else valueEdit->setValue(trans->value());
-			toCombo->setCurrentAccount(trans->toAccount());
-			fromCombo->setCurrentAccount(trans->fromAccount());
+			if(toCombo) toCombo->setCurrentAccount(trans->toAccount());
+			if(fromCombo) fromCombo->setCurrentAccount(trans->fromAccount());
 			if(quantityEdit) {
 				if(trans->quantity() <= 0.0) quantityEdit->setValue(1.0);
 				else quantityEdit->setValue(trans->quantity());
 			}
 			if(payeeEdit && trans->type() == TRANSACTION_TYPE_EXPENSE) payeeEdit->setText(((Expense*) trans)->payee());
 			if(payeeEdit && trans->type() == TRANSACTION_TYPE_INCOME) payeeEdit->setText(((Income*) trans)->payer());
+		}
+	}
+}
+void TransactionEditWidget::setDefaultValueFromPayee() {
+	if(payeeEdit && payee_changed && !payeeEdit->text().isEmpty() && valueEdit && valueEdit->value() == 0.0 && descriptionEdit && descriptionEdit->text().isEmpty()) {
+		Transaction *trans = NULL;
+		if(default_payee_values.contains(payeeEdit->text().toLower())) trans = default_payee_values[payeeEdit->text().toLower()];
+		if(trans) {
+			if(trans->parentSplit() && trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) valueEdit->setValue(trans->parentSplit()->value());
+			else valueEdit->setValue(trans->value());
+			if(toCombo) toCombo->setCurrentAccount(trans->toAccount());
+			if(fromCombo) fromCombo->setCurrentAccount(trans->fromAccount());
+			if(quantityEdit) {
+				if(trans->quantity() <= 0.0) quantityEdit->setValue(1.0);
+				else quantityEdit->setValue(trans->quantity());
+			}
+			if(descriptionEdit) descriptionEdit->setText(trans->description());
+			if(valueEdit) {
+				valueEdit->setFocus();
+				valueEdit->selectAll();
+			}
+		}
+	}
+}
+void TransactionEditWidget::setDefaultValueFromCategory() {
+	if(((transtype == TRANSACTION_TYPE_INCOME && fromCombo) || (transtype == TRANSACTION_TYPE_EXPENSE && toCombo)) && valueEdit && valueEdit->value() == 0.0 && descriptionEdit && descriptionEdit->text().isEmpty()) {
+		Transaction *trans = NULL;
+		if(transtype == TRANSACTION_TYPE_INCOME && default_category_values.contains(fromAccount())) trans = default_category_values[fromAccount()];
+		else if(transtype == TRANSACTION_TYPE_EXPENSE && default_category_values.contains(toAccount())) trans = default_category_values[toAccount()];
+		if(trans) {
+			if(trans->parentSplit() && trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) valueEdit->setValue(trans->parentSplit()->value());
+			else valueEdit->setValue(trans->value());
+			if(toCombo && transtype == TRANSACTION_TYPE_INCOME) toCombo->setCurrentAccount(trans->toAccount());
+			if(fromCombo && transtype == TRANSACTION_TYPE_EXPENSE) fromCombo->setCurrentAccount(trans->fromAccount());
+			if(quantityEdit) {
+				if(trans->quantity() <= 0.0) quantityEdit->setValue(1.0);
+				else quantityEdit->setValue(trans->quantity());
+			}
+			if(descriptionEdit) descriptionEdit->setText(trans->description());
+			if(payeeEdit && trans->type() == TRANSACTION_TYPE_EXPENSE) payeeEdit->setText(((Expense*) trans)->payee());
+			if(payeeEdit && trans->type() == TRANSACTION_TYPE_INCOME) payeeEdit->setText(((Income*) trans)->payer());
+			if(valueEdit) {
+				valueEdit->setFocus();
+				valueEdit->selectAll();
+			}
 		}
 	}
 }
@@ -605,7 +664,7 @@ void TransactionEditWidget::updateAccounts(Account *exclude_account) {
 	updateFromAccounts(exclude_account);
 }
 void TransactionEditWidget::transactionAdded(Transaction *trans) {
-	if(descriptionEdit && trans->type() == transtype && (transtype != TRANSACTION_TYPE_INCOME || !((Income*) trans)->security())) {
+	if(descriptionEdit && trans->type() == transtype && (transtype != TRANSACTION_TYPE_INCOME || !((Income*) trans)->security()) && trans->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && trans->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST) {
 		if(!trans->description().isEmpty()) {
 			if(!default_values.contains(trans->description().toLower())) {
 				QList<QStandardItem*> row;
@@ -617,21 +676,28 @@ void TransactionEditWidget::transactionAdded(Transaction *trans) {
 			default_values[trans->description().toLower()] = trans;
 		}
 		if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().isEmpty()) {
-			if(((QStandardItemModel*) payeeEdit->completer()->model())->findItems(((Expense*) trans)->payee().toLower(), Qt::MatchExactly, 1).isEmpty()) {
+			if(!default_payee_values.contains(((Expense*) trans)->payee().toLower())) {
 				QList<QStandardItem*> row;
 				row << new QStandardItem(((Expense*) trans)->payee());
 				row << new QStandardItem(((Expense*) trans)->payee().toLower());
 				((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
 				((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
 			}
+			default_payee_values[((Expense*) trans)->payee().toLower()] = trans;
 		} else if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !((Income*) trans)->security() && !((Income*) trans)->payer().isEmpty()) {
-			if(((QStandardItemModel*) payeeEdit->completer()->model())->findItems(((Income*) trans)->payer().toLower(), Qt::MatchExactly, 1).isEmpty()) {
+			if(!default_payee_values.contains(((Income*) trans)->payer().toLower())) {
 				QList<QStandardItem*> row;
 				row << new QStandardItem(((Income*) trans)->payer());
 				row << new QStandardItem(((Income*) trans)->payer().toLower());
 				((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
 				((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
 			}
+			default_payee_values[((Income*) trans)->payer().toLower()] = trans;
+		}
+		if(transtype == TRANSACTION_TYPE_INCOME && fromCombo) {
+			default_category_values[trans->fromAccount()] = trans;
+		} else if(transtype == TRANSACTION_TYPE_EXPENSE && toCombo) {
+			default_category_values[trans->toAccount()] = trans;
 		}
 	}
 }
@@ -887,8 +953,8 @@ void TransactionEditWidget::transactionRemoved(Transaction *trans) {
 			case TRANSACTION_TYPE_EXPENSE: {
 				Expense *expense = budget->expenses.last();
 				while(expense) {
-					if(expense != trans && expense->description().toLower() == lower_description) {
-						default_values[expense->description().toLower()] = expense;
+					if(expense != trans && expense->description().toLower() == lower_description && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST) {
+						default_values[lower_description] = expense;
 						descr_found = true;
 						break;
 					}
@@ -899,8 +965,8 @@ void TransactionEditWidget::transactionRemoved(Transaction *trans) {
 			case TRANSACTION_TYPE_INCOME: {
 				Income *income = budget->incomes.last();
 				while(income) {
-					if(income != trans && income->description() == lower_description) {
-						default_values[income->description().toLower()] = income;
+					if(income != trans && !income->security() && income->description().toLower() == lower_description) {
+						default_values[lower_description] = income;
 						descr_found = true;
 						break;
 					}
@@ -911,8 +977,8 @@ void TransactionEditWidget::transactionRemoved(Transaction *trans) {
 			case TRANSACTION_TYPE_TRANSFER: {
 				Transfer *transfer= budget->transfers.last();
 				while(transfer) {
-					if(transfer != trans && transfer->description() == lower_description) {
-						default_values[transfer->description().toLower()] = transfer;
+					if(transfer != trans && transfer->description().toLower() == lower_description) {
+						default_values[lower_description] = transfer;
 						descr_found = true;
 						break;
 					}
@@ -922,7 +988,62 @@ void TransactionEditWidget::transactionRemoved(Transaction *trans) {
 			}
 			default: {}
 		}
-		if(!descr_found) default_values.remove(trans->description().toLower());
+		if(!descr_found) default_values.remove(lower_description);
+	}
+	if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && trans->type() == transtype && !((Income*) trans)->payer().isEmpty() && default_payee_values.contains(((Income*) trans)->payer().toLower()) && default_payee_values[((Income*) trans)->payer().toLower()] == trans) {
+		QString lower_payee = ((Income*) trans)->payer().toLower();
+		bool payee_found = false;
+		Income *income = budget->incomes.last();
+		while(income) {
+			if(income != trans && !income->security()  && income->payer().toLower() == lower_payee) {
+				default_payee_values[lower_payee] = income;
+				payee_found = true;
+				break;
+			}
+			income = budget->incomes.previous();
+		}
+		if(!payee_found) default_payee_values.remove(lower_payee);
+	}
+	if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && trans->type() == transtype && !((Expense*) trans)->payee().isEmpty() && default_payee_values.contains(((Expense*) trans)->payee().toLower()) && default_payee_values[((Expense*) trans)->payee().toLower()] == trans) {
+		QString lower_payee = ((Expense*) trans)->payee().toLower();
+		bool payee_found = false;
+		Expense *expense = budget->expenses.last();
+		while(expense) {
+			if(expense != trans && expense->payee().toLower() == lower_payee && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST) {
+				default_payee_values[lower_payee] = expense;
+				payee_found = true;
+				break;
+			}
+			expense = budget->expenses.previous();
+		}
+		if(!payee_found) default_payee_values.remove(lower_payee);
+	}
+	if(transtype == TRANSACTION_TYPE_INCOME && fromCombo && trans->type() == transtype && default_category_values.contains(trans->fromAccount()) && default_category_values[trans->fromAccount()] == trans) {
+		bool category_found = false;
+		Account *cat = trans->fromAccount();
+		Income *income = budget->incomes.last();
+		while(income) {
+			if(income != trans && !income->security()  && income->fromAccount() == cat) {
+				default_category_values[cat] = income;
+				category_found = true;
+				break;
+			}
+			income = budget->incomes.previous();
+		}
+		if(!category_found) default_category_values.remove(cat);
+	} else if(transtype == TRANSACTION_TYPE_EXPENSE && toCombo && trans->type() == transtype && default_category_values.contains(trans->toAccount()) && default_category_values[trans->toAccount()] == trans) {
+		bool category_found = false;
+		Account *cat = trans->toAccount();
+		Expense *expense = budget->expenses.last();
+		while(expense) {
+			if(expense != trans && expense->toAccount() == cat && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST) {
+				default_category_values[cat] = expense;
+				category_found = true;
+				break;
+			}
+			expense = budget->expenses.previous();
+		}
+		if(!category_found) default_category_values.remove(cat);
 	}
 }
 void TransactionEditWidget::transactionsReset() {
@@ -930,24 +1051,28 @@ void TransactionEditWidget::transactionsReset() {
 	((QStandardItemModel*) descriptionEdit->completer()->model())->clear();
 	if(payeeEdit) ((QStandardItemModel*) payeeEdit->completer()->model())->clear();
 	default_values.clear();
-	QStringList payee_list;
+	default_payee_values.clear();
+	default_category_values.clear();
 	switch(transtype) {
 		case TRANSACTION_TYPE_EXPENSE: {
 			Expense *expense = budget->expenses.last();
 			while(expense) {
-				if(!expense->description().isEmpty() && !default_values.contains(expense->description().toLower())) {
+				if(!expense->description().isEmpty() && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST && !default_values.contains(expense->description().toLower())) {
 					QList<QStandardItem*> row;
 					row << new QStandardItem(expense->description());
 					row << new QStandardItem(expense->description().toLower());
 					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
 					default_values[expense->description().toLower()] = expense;
 				}
-				if(payeeEdit && !expense->payee().isEmpty() && !payee_list.contains(expense->payee(), Qt::CaseInsensitive)) {
+				if(payeeEdit && !expense->payee().isEmpty() && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST && !default_payee_values.contains(expense->payee().toLower())) {
 					QList<QStandardItem*> row;
 					row << new QStandardItem(expense->payee());
 					row << new QStandardItem(expense->payee().toLower());
 					((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
-					payee_list << expense->payee().toLower();
+					default_payee_values[expense->payee().toLower()] = expense;
+				}
+				if(toCombo && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST && !default_category_values.contains(expense->category())) {
+					default_category_values[expense->category()] = expense;
 				}
 				expense = budget->expenses.previous();
 			}
@@ -963,12 +1088,15 @@ void TransactionEditWidget::transactionsReset() {
 					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
 					default_values[income->description().toLower()] = income;
 				}
-				if(payeeEdit && !income->security() && !income->payer().isEmpty() && !payee_list.contains(income->payer(), Qt::CaseInsensitive)) {
+				if(payeeEdit && !income->security() && !income->payer().isEmpty() && !default_payee_values.contains(income->payer().toLower())) {
 					QList<QStandardItem*> row;
 					row << new QStandardItem(income->payer());
 					row << new QStandardItem(income->payer().toLower());
 					((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
-					payee_list << income->payer().toLower();
+					default_payee_values[income->payer().toLower()] = income;
+				}
+				if(fromCombo && !income->security() && !default_category_values.contains(income->category())) {
+					default_category_values[income->category()] = income;
 				}
 				income = budget->incomes.previous();
 			}
@@ -1021,6 +1149,7 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 	if(trans == NULL) {
 		value_set = false; shares_set = false; sharevalue_set = false;
 		description_changed = false;
+		payee_changed = false;
 		if(dateEdit) dateEdit->setDate(QDate::currentDate());
 		if(b_sec) {
 			if(sharesEdit) sharesEdit->setValue(0.0);
@@ -1060,9 +1189,10 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 			if(valueEdit) valueEdit->setFocus();
 			else sharesEdit->setFocus();
 		} else {
+			description_changed = false;
+			payee_changed = false;
 			if(descriptionEdit) {
 				descriptionEdit->setText(trans->description());
-				description_changed = false;
 				descriptionEdit->setFocus();
 				descriptionEdit->selectAll();
 			} else {
@@ -1112,9 +1242,10 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 			}
 		}
 	}
+	description_changed = false;
+	payee_changed = false;
 	if(descriptionEdit) {
 		descriptionEdit->setText(split->description());
-		description_changed = false;
 		descriptionEdit->setFocus();
 		descriptionEdit->selectAll();
 	} else {
