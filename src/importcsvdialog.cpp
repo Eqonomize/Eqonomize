@@ -58,7 +58,7 @@
 
 extern QString last_document_directory;
 
-ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent), budget(budg) {
+ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *parent) : QWizard(parent), b_extra(extra_parameters), budget(budg) {
 
 	setWindowTitle(tr("Import CSV file"));
 	setModal(true);
@@ -133,146 +133,198 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	page3->setTitle(tr("Columns Specification"));
 	setPage(2, page3);
 	QGridLayout *layout3 = new QGridLayout(page3);
+	
+	int row = 0;
 
-	layout3->addWidget(new QLabel(tr("Description:"), page3), 0, 0);
+	layout3->addWidget(new QLabel(tr("Description:"), page3), row, 0);
 	descriptionGroup = new QButtonGroup(this);
 	columnDescriptionButton = new QRadioButton(tr("Column"), page3);
 	descriptionGroup->addButton(columnDescriptionButton);
-	layout3->addWidget(columnDescriptionButton, 0, 1);
+	layout3->addWidget(columnDescriptionButton, row, 1);
 	columnDescriptionEdit = new QSpinBox(page3);
 	columnDescriptionEdit->setRange(1, 100);
 	columnDescriptionEdit->setValue(2);
 	columnDescriptionButton->setChecked(true);
-	layout3->addWidget(columnDescriptionEdit, 0, 2);
+	layout3->addWidget(columnDescriptionEdit, row, 2);
 	valueDescriptionButton = new QRadioButton(tr("Value"), page3);
 	descriptionGroup->addButton(valueDescriptionButton);
-	layout3->addWidget(valueDescriptionButton, 0, 3);
+	layout3->addWidget(valueDescriptionButton, row, 3);
 	valueDescriptionEdit = new QLineEdit(page3);
 	valueDescriptionEdit->setEnabled(false);
-	layout3->addWidget(valueDescriptionEdit, 0, 4);
+	layout3->addWidget(valueDescriptionEdit, row, 4);
+	row++;
 
 	costLabel = new QLabel(tr("Cost:"), page3);
-	layout3->addWidget(costLabel, 1, 0);
+	layout3->addWidget(costLabel, row, 0);
 	costGroup = new QButtonGroup(this);
 	columnCostButton = new QRadioButton(tr("Column"), page3);
 	costGroup->addButton(columnCostButton);
-	layout3->addWidget(columnCostButton, 1, 1);
+	layout3->addWidget(columnCostButton, row, 1);
 	columnCostEdit = new QSpinBox(page3);
 	columnCostEdit->setRange(1, 100);
 	columnCostEdit->setValue(3);
 	columnCostButton->setChecked(true);
-	layout3->addWidget(columnCostEdit, 1, 2);
+	layout3->addWidget(columnCostEdit, row, 2);
 	valueCostButton = new QRadioButton(tr("Value"), page3);
 	costGroup->addButton(valueCostButton);
-	layout3->addWidget(valueCostButton, 1, 3);
+	layout3->addWidget(valueCostButton, row, 3);
 	valueCostEdit = new EqonomizeValueEdit(false, page3);
 	valueCostEdit->setEnabled(false);
-	layout3->addWidget(valueCostEdit, 1, 4);
+	layout3->addWidget(valueCostEdit, row, 4);
 	costLabel->hide();
 	valueCostEdit->hide();
 	valueCostButton->hide();
 	columnCostEdit->hide();
 	columnCostButton->hide();
+	row++;
 
 	valueLabel = new QLabel(tr("Cost:"), page3);
-	layout3->addWidget(valueLabel, 2, 0);
+	layout3->addWidget(valueLabel, row, 0);
 	valueGroup = new QButtonGroup(this);
 	columnValueButton = new QRadioButton(tr("Column"), page3);
 	valueGroup->addButton(columnValueButton);
-	layout3->addWidget(columnValueButton, 2, 1);
+	layout3->addWidget(columnValueButton, row, 1);
 	columnValueEdit = new QSpinBox(page3);
 	columnValueEdit->setRange(1, 100);
 	columnValueEdit->setValue(3);
 	columnValueButton->setChecked(true);
-	layout3->addWidget(columnValueEdit, 2, 2);
+	layout3->addWidget(columnValueEdit, row, 2);
 	valueValueButton = new QRadioButton(tr("Value"), page3);
 	valueGroup->addButton(valueValueButton);
-	layout3->addWidget(valueValueButton, 2, 3);
+	layout3->addWidget(valueValueButton, row, 3);
 	valueValueEdit = new EqonomizeValueEdit(false, page3);
 	valueValueEdit->setEnabled(false);
-	layout3->addWidget(valueValueEdit, 2, 4);
+	layout3->addWidget(valueValueEdit, row, 4);
+	row++;
 
-	layout3->addWidget(new QLabel(tr("Date:"), page3), 3, 0);
+	layout3->addWidget(new QLabel(tr("Date:"), page3), row, 0);
 	dateGroup = new QButtonGroup(this);
 	columnDateButton = new QRadioButton(tr("Column"), page3);
 	dateGroup->addButton(columnDateButton);
-	layout3->addWidget(columnDateButton, 3, 1);
+	layout3->addWidget(columnDateButton, row, 1);
 	columnDateEdit = new QSpinBox(page3);
 	columnDateEdit->setRange(1, 100);
 	columnDateEdit->setValue(1);
 	columnDateButton->setChecked(true);
-	layout3->addWidget(columnDateEdit, 3, 2);
+	layout3->addWidget(columnDateEdit, row, 2);
 	valueDateButton = new QRadioButton(tr("Value"), page3);
 	dateGroup->addButton(valueDateButton);
-	layout3->addWidget(valueDateButton, 3, 3);
+	layout3->addWidget(valueDateButton, row, 3);
 	valueDateEdit = new QDateEdit(QDate::currentDate(), page3);
 	valueDateEdit->setCalendarPopup(true);
 	valueDateEdit->setEnabled(false);
-	layout3->addWidget(valueDateEdit, 3, 4);
+	layout3->addWidget(valueDateEdit, row, 4);
+	row++;
 
 	AC1Label = new QLabel(tr("Category:"), page3);
-	layout3->addWidget(AC1Label, 4, 0);
+	layout3->addWidget(AC1Label, row, 0);
 	AC1Group = new QButtonGroup(this);
 	columnAC1Button = new QRadioButton(tr("Column"), page3);
 	AC1Group->addButton(columnAC1Button);
-	layout3->addWidget(columnAC1Button, 4, 1);
+	layout3->addWidget(columnAC1Button, row, 1);
 	columnAC1Edit = new QSpinBox(page3);
 	columnAC1Edit->setRange(1, 100);
 	columnAC1Edit->setValue(4);
 	columnAC1Edit->setEnabled(false);
-	layout3->addWidget(columnAC1Edit, 4, 2);
+	layout3->addWidget(columnAC1Edit, row, 2);
 	valueAC1Button = new QRadioButton(tr("Value"), page3);
 	AC1Group->addButton(valueAC1Button);
 	valueAC1Button->setChecked(true);
-	layout3->addWidget(valueAC1Button, 4, 3);
+	layout3->addWidget(valueAC1Button, row, 3);
 	valueAC1Edit = new QComboBox(page3);
 	valueAC1Edit->setEditable(false);
-	layout3->addWidget(valueAC1Edit, 4, 4);
+	layout3->addWidget(valueAC1Edit, row, 4);
+	row++;
 
 	AC2Label = new QLabel(tr("From account:"), page3);
-	layout3->addWidget(AC2Label, 5, 0);
+	layout3->addWidget(AC2Label, row, 0);
 	AC2Group = new QButtonGroup(this);
 	columnAC2Button = new QRadioButton(tr("Column"), page3);
 	AC2Group->addButton(columnAC2Button);
-	layout3->addWidget(columnAC2Button, 5, 1);
+	layout3->addWidget(columnAC2Button, row, 1);
 	columnAC2Edit = new QSpinBox(page3);
 	columnAC2Edit->setRange(1, 100);
 	columnAC2Edit->setValue(5);
 	columnAC2Edit->setEnabled(false);
-	layout3->addWidget(columnAC2Edit, 5, 2);
+	layout3->addWidget(columnAC2Edit, row, 2);
 	valueAC2Button = new QRadioButton(tr("Value"), page3);
 	AC2Group->addButton(valueAC2Button);
 	valueAC2Button->setChecked(true);
-	layout3->addWidget(valueAC2Button, 5, 3);
+	layout3->addWidget(valueAC2Button, row, 3);
 	valueAC2Edit = new QComboBox(page3);
 	valueAC2Edit->setEditable(false);
-	layout3->addWidget(valueAC2Edit, 5, 4);
-
-	layout3->addWidget(new QLabel(tr("Comments:"), page3), 6, 0);
+	layout3->addWidget(valueAC2Edit, row, 4);
+	row++;
+	
+	if(b_extra) {
+	
+		quantityLabel = new QLabel(tr("Quantity:"), page3);
+		layout3->addWidget(quantityLabel, row, 0);
+		quantityGroup = new QButtonGroup(this);
+		columnQuantityButton = new QRadioButton(tr("Column"), page3);
+		quantityGroup->addButton(columnQuantityButton);
+		layout3->addWidget(columnQuantityButton, row, 1);
+		columnQuantityEdit = new QSpinBox(page3);
+		columnQuantityEdit->setRange(1, 100);
+		columnQuantityEdit->setValue(6);
+		columnQuantityEdit->setEnabled(false);
+		layout3->addWidget(columnQuantityEdit, row, 2);
+		valueQuantityButton = new QRadioButton(tr("Value"), page3);
+		quantityGroup->addButton(valueQuantityButton);
+		valueQuantityButton->setChecked(true);
+		layout3->addWidget(valueQuantityButton, row, 3);
+		valueQuantityEdit = new EqonomizeValueEdit(1.0, 2, false, false, page3);
+		layout3->addWidget(valueQuantityEdit, row, 4);
+		row++;
+		
+		payeeLabel = new QLabel(tr("Payee:"), page3);
+		layout3->addWidget(payeeLabel, row, 0);
+		payeeGroup = new QButtonGroup(this);
+		columnPayeeButton = new QRadioButton(tr("Column"), page3);
+		payeeGroup->addButton(columnPayeeButton);
+		layout3->addWidget(columnPayeeButton, row, 1);
+		columnPayeeEdit = new QSpinBox(page3);
+		columnPayeeEdit->setRange(1, 100);
+		columnPayeeEdit->setValue(7);
+		columnPayeeEdit->setEnabled(false);
+		layout3->addWidget(columnPayeeEdit, row, 2);
+		valuePayeeButton = new QRadioButton(tr("Value"), page3);
+		payeeGroup->addButton(valuePayeeButton);
+		valuePayeeButton->setChecked(true);
+		layout3->addWidget(valuePayeeButton, row, 3);
+		valuePayeeEdit = new QLineEdit(page3);
+		layout3->addWidget(valuePayeeEdit, row, 4);
+		row++;
+		
+	}
+	
+	layout3->addWidget(new QLabel(tr("Comments:"), page3), row, 0);
 	commentsGroup = new QButtonGroup(this);
 	columnCommentsButton = new QRadioButton(tr("Column"), page3);
 	commentsGroup->addButton(columnCommentsButton);
-	layout3->addWidget(columnCommentsButton, 6, 1);
+	layout3->addWidget(columnCommentsButton, row, 1);
 	columnCommentsEdit = new QSpinBox(page3);
 	columnCommentsEdit->setRange(1, 100);
-	columnCommentsEdit->setValue(6);
+	columnCommentsEdit->setValue(b_extra ? 8 : 6);
 	columnCommentsEdit->setEnabled(false);
-	layout3->addWidget(columnCommentsEdit, 6, 2);
+	layout3->addWidget(columnCommentsEdit, row, 2);
 	valueCommentsButton = new QRadioButton(tr("Value"), page3);
 	commentsGroup->addButton(valueCommentsButton);
 	valueCommentsButton->setChecked(true);
-	layout3->addWidget(valueCommentsButton, 6, 3);
+	layout3->addWidget(valueCommentsButton, row, 3);
 	valueCommentsEdit = new QLineEdit(page3);
-	layout3->addWidget(valueCommentsEdit, 6, 4);
+	layout3->addWidget(valueCommentsEdit, row, 4);
+	row++;
 
 	QHBoxLayout *layout3_cm = new QHBoxLayout();
 	layout3_cm->addStretch(1);
 	createMissingButton = new QCheckBox(tr("Create missing categories and accounts"), page3);
 	createMissingButton->setChecked(true);
 	layout3_cm->addWidget(createMissingButton);
-	layout3->addLayout(layout3_cm, 7, 0, 1, 5);
+	layout3->addLayout(layout3_cm, row, 0, 1, 5);
+	row++;
 
-	layout3->addItem(new QSpacerItem(1, 1, QSizePolicy::Minimum, QSizePolicy::Expanding), 8, 0, 1, 5);
+	layout3->addItem(new QSpacerItem(1, 1, QSizePolicy::Minimum, QSizePolicy::Expanding), row, 0, 1, 5);
 
 	setOption(QWizard::HaveHelpButton, false);
 
@@ -303,6 +355,12 @@ ImportCSVDialog::ImportCSVDialog(Budget *budg, QWidget *parent) : QWizard(parent
 	connect(columnCommentsButton, SIGNAL(toggled(bool)), columnCommentsEdit, SLOT(setEnabled(bool)));
 	connect(valueCommentsButton, SIGNAL(toggled(bool)), valueCommentsEdit, SLOT(setEnabled(bool)));
 	connect(typeGroup, SIGNAL(buttonClicked(int)), this, SLOT(typeChanged(int)));
+	if(b_extra) {
+		connect(columnQuantityButton, SIGNAL(toggled(bool)), columnQuantityEdit, SLOT(setEnabled(bool)));
+		connect(valueQuantityButton, SIGNAL(toggled(bool)), valueQuantityEdit, SLOT(setEnabled(bool)));
+		connect(columnPayeeButton, SIGNAL(toggled(bool)), columnPayeeEdit, SLOT(setEnabled(bool)));
+		connect(valuePayeeButton, SIGNAL(toggled(bool)), valuePayeeEdit, SLOT(setEnabled(bool)));
+	}
 
 }
 
@@ -363,12 +421,31 @@ void ImportCSVDialog::typeChanged(int id) {
 		columnAC2Edit->setValue(5);
 		columnCommentsEdit->setValue(6);
 	}
+	if(b_extra) {
+		quantityLabel->setVisible(id != 2);
+		valueQuantityEdit->setVisible(id != 2);
+		columnQuantityEdit->setVisible(id != 2);
+		columnQuantityButton->setVisible(id != 2);
+		valueQuantityButton->setVisible(id != 2);
+		payeeLabel->setVisible(id != 2);
+		valuePayeeEdit->setVisible(id != 2);
+		columnPayeeEdit->setVisible(id != 2);
+		columnPayeeButton->setVisible(id != 2);
+		valuePayeeButton->setVisible(id != 2);
+		columnCommentsEdit->setValue((id == 2) ? 6 : 8);
+		if(id == 2) {
+			valueQuantityButton->setChecked(true);
+			valuePayeeButton->setChecked(true);
+		}
+	}
+	
 	switch(id) {
 		case 0: {
 			typeDescriptionLabel->setText(tr("Imports data as expenses. Costs have positive value. Value is the only required column."));
 			valueLabel->setText(tr("Cost:"));
 			AC1Label->setText(tr("Category:"));
 			AC2Label->setText(tr("From account:"));
+			if(b_extra) payeeLabel->setText(tr("Payee:"));
 			ExpensesAccount *ea = budget->expensesAccounts.first();
 			while(ea) {valueAC1Edit->addItem(ea->name()); ea = budget->expensesAccounts.next();}
 			break;
@@ -378,6 +455,7 @@ void ImportCSVDialog::typeChanged(int id) {
 			valueLabel->setText(tr("Income:"));
 			AC1Label->setText(tr("Category:"));
 			AC2Label->setText(tr("To account:"));
+			if(b_extra) payeeLabel->setText(tr("Payer:"));
 			IncomesAccount *ia = budget->incomesAccounts.first();
 			while(ia) {valueAC1Edit->addItem(ia->name()); ia = budget->incomesAccounts.next();}
 			break;
@@ -400,6 +478,7 @@ void ImportCSVDialog::typeChanged(int id) {
 			valueLabel->setText(tr("Value:"));
 			AC1Label->setText(tr("Category:"));
 			AC2Label->setText(tr("Account:"));
+			if(b_extra) payeeLabel->setText(tr("Payee/payer:"));
 			break;
 		}
 		case 4: {
@@ -411,6 +490,7 @@ void ImportCSVDialog::typeChanged(int id) {
 			valueLabel->setText(tr("Income:"));
 			AC1Label->setText(tr("Category:"));
 			AC2Label->setText(tr("Account:"));
+			if(b_extra) payeeLabel->setText(tr("Payee/payer:"));
 			break;
 		}
 		case ALL_TYPES_ID: {
@@ -426,6 +506,7 @@ void ImportCSVDialog::typeChanged(int id) {
 			valueLabel->setText(tr("Value:"));
 			AC1Label->setText(tr("From:"));
 			AC2Label->setText(tr("To:"));
+			if(b_extra) payeeLabel->setText(tr("Payee/payer:"));
 			break;
 		}
 	}
@@ -704,6 +785,10 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	int AC1_c = columnAC1Button->isChecked() ? columnAC1Edit->value() : -1;
 	int AC2_c = columnAC2Button->isChecked() ? columnAC2Edit->value() : -1;
 	int comments_c = columnCommentsButton->isChecked() ? columnCommentsEdit->value() : -1;
+	int payee_c = -1;
+	if(b_extra && columnPayeeButton->isChecked()) payee_c = columnPayeeEdit->value();
+	int quantity_c = -1;
+	if(b_extra && columnQuantityButton->isChecked()) quantity_c = columnQuantityEdit->value();
 	int ncolumns = 0, min_columns = 0;
 	if(value_c > ncolumns) ncolumns = value_c;
 	if(cost_c > ncolumns) ncolumns = cost_c;
@@ -713,29 +798,46 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	min_columns = ncolumns;
 	if(description_c > ncolumns) ncolumns = description_c;
 	if(comments_c > ncolumns) ncolumns = comments_c;
-	if((description_c > 0 && (description_c == value_c || description_c == cost_c || description_c == date_c || description_c == AC1_c || description_c == AC2_c || description_c == comments_c))
-		   || (value_c > 0 && (value_c == date_c || value_c == cost_c || value_c == AC1_c || value_c == AC2_c || value_c == comments_c))
-		   || (cost_c > 0 && (cost_c == date_c || cost_c == AC1_c || cost_c == AC2_c || cost_c == comments_c))
-		   || (date_c > 0 && (date_c == AC1_c || date_c == AC2_c || date_c == comments_c))
-		   || (AC1_c > 0 && (AC1_c == AC2_c || AC1_c == comments_c))
-		   || (AC2_c > 0 && AC2_c == comments_c)
+	if(payee_c > ncolumns) ncolumns = payee_c;
+	if(quantity_c > ncolumns) ncolumns = quantity_c;
+	if((description_c > 0 && (description_c == value_c || description_c == cost_c || description_c == date_c || description_c == AC1_c || description_c == AC2_c || description_c == comments_c || description_c == payee_c || description_c == quantity_c))
+		   || (value_c > 0 && (value_c == date_c || value_c == cost_c || value_c == AC1_c || value_c == AC2_c || value_c == comments_c || value_c == payee_c || value_c == quantity_c))
+		   || (cost_c > 0 && (cost_c == date_c || cost_c == AC1_c || cost_c == AC2_c || cost_c == comments_c || cost_c == payee_c || cost_c == quantity_c))
+		   || (date_c > 0 && (date_c == AC1_c || date_c == AC2_c || date_c == comments_c || date_c == payee_c || date_c == quantity_c))
+		   || (AC1_c > 0 && (AC1_c == AC2_c || AC1_c == comments_c || AC1_c == payee_c || AC1_c == quantity_c))
+		   || (AC2_c > 0 && (AC2_c == comments_c || AC2_c == payee_c || AC2_c == quantity_c))
+		   || (comments_c > 0 && (comments_c == payee_c || comments_c == quantity_c))
+		   || (payee_c > 0 && (payee_c == quantity_c))
 	  ) {
 		QMessageBox::critical(this, tr("Error"), tr("The same column number is selected multiple times."));
 		return false;
 	}
 	bool create_missing = createMissingButton->isChecked() && type != ALL_TYPES_ID;
-	QString description, comments;
+	QString description, comments, payee;
+	double quantity = 1.0;
 	if(!test && description_c < 0) description = valueDescriptionEdit->text();
 	if(!test && comments_c < 0) comments = valueCommentsEdit->text();
+	if(!test && b_extra && quantity_c < 0) quantity = valueQuantityEdit->value();
 	QMap<QString, Account*> eaccounts, iaccounts, aaccounts;
 	Account *ac1 = NULL, *ac2 = NULL;
 	if(!test && (AC1_c >= 0 || AC2_c >= 0)) {
 		ExpensesAccount *ea = budget->expensesAccounts.first();
-		while(ea) {eaccounts[ea->name()] = ea; ea = budget->expensesAccounts.next();}
+		while(ea) {
+			eaccounts[ea->nameWithParent()] = ea;
+			if(ea->parentCategory() && !eaccounts.contains(ea->name())) eaccounts[ea->name()] = ea;
+			ea = budget->expensesAccounts.next();
+		}
 		IncomesAccount *ia = budget->incomesAccounts.first();
-		while(ia) {iaccounts[ia->name()] = ia; ia = budget->incomesAccounts.next();}
+		while(ia) {
+			iaccounts[ia->nameWithParent()] = ia;
+			if(ia->parentCategory() && !iaccounts.contains(ia->name())) iaccounts[ia->name()] = ia;
+			ia = budget->incomesAccounts.next();
+		}
 		AssetsAccount *aa = budget->assetsAccounts.first();
-		while(aa) {aaccounts[aa->name()] = aa; aa = budget->assetsAccounts.next();}
+		while(aa) {
+			aaccounts[aa->name()] = aa; 
+			aa = budget->assetsAccounts.next();
+		}
 	}
 	if(AC1_c < 0) {
 		int i = 0;
@@ -1103,11 +1205,100 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 				if(success && comments_c > 0) {
 					comments = columns[comments_c - 1];
 				}
+				if(success && payee_c > 0) {
+					payee = columns[payee_c - 1];
+				}
+				if(success && quantity_c > 0) {
+					if(!columns[quantity_c - 1].isEmpty()) {
+						bool ok = true;
+						if(first_row == 0) {
+							ok = false;
+							QString &str = columns[quantity_c - 1];
+							int l = (int) str.length();
+							for(int i = 0; i < l; i++) {
+								if(str[i].isDigit()) {
+									ok = true;
+									break;
+								}
+							}
+						}
+						if(!ok) {
+							quantity = 1.0;
+						} else {
+							quantity = readCSVValue(columns[quantity_c - 1], ci->value_format, &ok);
+							if(!ok) {
+								quantity = 1.0;
+							}
+						}
+					} else {
+						quantity = 1.0;
+					}
+				}
 				if(success) {
 					if(!new_ac1.isEmpty()) {
-						if(type == 0 || ((type == 3 || type == 4) && value < 0.0)) {ac1 = new ExpensesAccount(budget, new_ac1); budget->addAccount(ac1); eaccounts[ac1->name()] = ac1;}
-						else if(type == 1 || type == 3 || type == 4) {ac1 = new IncomesAccount(budget, new_ac1); budget->addAccount(ac1); iaccounts[ac1->name()] = ac1;}
-						else if(type == 2) {ac1 = new AssetsAccount(budget, ASSETS_TYPE_CASH, new_ac1); budget->addAccount(ac1); aaccounts[ac1->name()] = ac1;}
+						if(type == 0 || ((type == 3 || type == 4) && value < 0.0)) {
+							if(new_ac1.indexOf(':') > 0) {
+								QString new_ac1a = new_ac1.section(':', 0, 0).trimmed();
+								QString new_ac1b = new_ac1.section(':', 1).trimmed();
+								Account *ac1a = NULL;
+								if(!new_ac1a.isEmpty()) {
+									QMap<QString, Account*>::iterator it_ac_a = eaccounts.find(new_ac1a);
+									if(it_ac_a != eaccounts.end()) {
+										ac1a = it_ac_a.value();
+									} else {
+										ac1a = new ExpensesAccount(budget, new_ac1a);
+										budget->addAccount(ac1a);
+										eaccounts[ac1a->name()] = ac1a;
+									}
+								}
+								if(new_ac1b.isEmpty()) {
+									ac1 = ac1a;
+								} else {
+									ac1 = new ExpensesAccount(budget, new_ac1b);
+									((ExpensesAccount*) ac1)->setParentCategory((ExpensesAccount*) ac1a);
+									budget->addAccount(ac1);
+									eaccounts[ac1->nameWithParent()] = ac1;
+									if(!eaccounts.contains(ac1->name())) eaccounts[ac1->name()] = ac1;
+								}
+							} else {
+								ac1 = new ExpensesAccount(budget, new_ac1);
+								budget->addAccount(ac1);
+								eaccounts[ac1->name()] = ac1;
+							}
+						} else if(type == 1 || type == 3 || type == 4) {
+							if(new_ac1.indexOf(':') > 0) {
+								QString new_ac1a = new_ac1.section(':', 0, 0);
+								QString new_ac1b = new_ac1.section(':', 1);
+								Account *ac1a = NULL;
+								QMap<QString, Account*>::iterator it_ac_a = iaccounts.find(new_ac1a);
+								if(!new_ac1a.isEmpty()) {
+									if(it_ac_a != iaccounts.end()) {
+										ac1a = it_ac_a.value();
+									} else {
+										ac1a = new IncomesAccount(budget, new_ac1a);
+										budget->addAccount(ac1a);
+										iaccounts[ac1a->name()] = ac1a;
+									}
+								}
+								if(new_ac1b.isEmpty()) {
+									ac1 = ac1a;
+								} else {
+									ac1 = new IncomesAccount(budget, new_ac1b);
+									((IncomesAccount*) ac1)->setParentCategory((IncomesAccount*) ac1a);
+									budget->addAccount(ac1);
+									iaccounts[ac1->nameWithParent()] = ac1;
+									if(!iaccounts.contains(ac1->name())) iaccounts[ac1->name()] = ac1;
+								}
+							} else {
+								ac1 = new IncomesAccount(budget, new_ac1);
+								budget->addAccount(ac1);
+								iaccounts[ac1->name()] = ac1;
+							}
+						} else if(type == 2) {
+							ac1 = new AssetsAccount(budget, ASSETS_TYPE_CASH, new_ac1); 
+							budget->addAccount(ac1); 
+							aaccounts[ac1->name()] = ac1;
+						}
 						new_ac1 = "";
 					}
 					if(!new_ac2.isEmpty()) {
@@ -1120,11 +1311,13 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 					switch(type) {
 						case 0: {
 							trans = new Expense(budget, value, date, (ExpensesAccount*) ac1, (AssetsAccount*) ac2, description, comments);
+							((Expense*) trans)->setPayee(payee);
 							successes++;
 							break;
 						}
 						case 1: {
 							trans = new Income(budget, value, date, (IncomesAccount*) ac1, (AssetsAccount*) ac2, description, comments);
+							((Income*) trans)->setPayer(payee);
 							successes++;
 							break;
 						}
@@ -1143,8 +1336,10 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 						case 4: {
 							if(value < 0.0) {
 								trans = new Expense(budget, -value, date, (ExpensesAccount*) ac1, (AssetsAccount*) ac2, description, comments);
+								((Expense*) trans)->setPayee(payee);
 							} else {
 								trans = new Income(budget, value, date, (IncomesAccount*) ac1, (AssetsAccount*) ac2, description, comments);
+								((Income*) trans)->setPayer(payee);
 							}
 							successes++;
 							break;
@@ -1154,8 +1349,10 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 								trans = new Balancing(budget, value, date, (AssetsAccount*) ac2, description);
 							} else if(ac1->type() == ACCOUNT_TYPE_INCOMES) {
 								trans = new Income(budget, value, date, (IncomesAccount*) ac1, (AssetsAccount*) ac2, description, comments);
+								((Income*) trans)->setPayer(payee);
 							} else if(ac2->type() == ACCOUNT_TYPE_EXPENSES) {
 								trans = new Expense(budget, value, date, (ExpensesAccount*) ac2, (AssetsAccount*) ac1, description, comments);
+								((Expense*) trans)->setPayee(payee);
 							} else {
 								trans = new Transfer(budget, value, date, (AssetsAccount*) ac1, (AssetsAccount*) ac2, description, comments);
 							}
@@ -1164,11 +1361,12 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 						}
 					}
 					if(trans) {
+						trans->setQuantity(quantity);
 						if(trans->date() > curdate) {
 							budget->addScheduledTransaction(new ScheduledTransaction(budget, trans, NULL));
 						} else {
 							budget->addTransaction(trans);
-						}
+						}						
 					}
 				} else {
 					failed++;

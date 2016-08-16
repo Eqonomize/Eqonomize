@@ -4241,7 +4241,7 @@ bool Eqonomize::saveURL(const QUrl& url) {
 }
 
 void Eqonomize::importCSV() {
-	ImportCSVDialog *dialog = new ImportCSVDialog(budget, this);
+	ImportCSVDialog *dialog = new ImportCSVDialog(b_extra, budget, this);
 	if(dialog->exec() == QDialog::Accepted) {
 		reloadBudget();
 		emit accountsModified();

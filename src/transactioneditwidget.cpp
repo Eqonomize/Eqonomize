@@ -1047,8 +1047,7 @@ void TransactionEditWidget::transactionRemoved(Transaction *trans) {
 	}
 }
 void TransactionEditWidget::transactionsReset() {
-	if(!descriptionEdit) return;
-	((QStandardItemModel*) descriptionEdit->completer()->model())->clear();
+	if(descriptionEdit) ((QStandardItemModel*) descriptionEdit->completer()->model())->clear();
 	if(payeeEdit) ((QStandardItemModel*) payeeEdit->completer()->model())->clear();
 	default_values.clear();
 	default_payee_values.clear();
@@ -1057,22 +1056,24 @@ void TransactionEditWidget::transactionsReset() {
 		case TRANSACTION_TYPE_EXPENSE: {
 			Expense *expense = budget->expenses.last();
 			while(expense) {
-				if(!expense->description().isEmpty() && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST && !default_values.contains(expense->description().toLower())) {
-					QList<QStandardItem*> row;
-					row << new QStandardItem(expense->description());
-					row << new QStandardItem(expense->description().toLower());
-					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
-					default_values[expense->description().toLower()] = expense;
-				}
-				if(payeeEdit && !expense->payee().isEmpty() && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST && !default_payee_values.contains(expense->payee().toLower())) {
-					QList<QStandardItem*> row;
-					row << new QStandardItem(expense->payee());
-					row << new QStandardItem(expense->payee().toLower());
-					((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
-					default_payee_values[expense->payee().toLower()] = expense;
-				}
-				if(toCombo && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST && !default_category_values.contains(expense->category())) {
-					default_category_values[expense->category()] = expense;
+				if(expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST) {
+					if(descriptionEdit && !expense->description().isEmpty() && !default_values.contains(expense->description().toLower())) {
+						QList<QStandardItem*> row;
+						row << new QStandardItem(expense->description());
+						row << new QStandardItem(expense->description().toLower());
+						((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+						default_values[expense->description().toLower()] = expense;
+					}
+					if(payeeEdit && !expense->payee().isEmpty() && !default_payee_values.contains(expense->payee().toLower())) {
+						QList<QStandardItem*> row;
+						row << new QStandardItem(expense->payee());
+						row << new QStandardItem(expense->payee().toLower());
+						((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
+						default_payee_values[expense->payee().toLower()] = expense;
+					}
+					if(toCombo && !default_category_values.contains(expense->category())) {
+						default_category_values[expense->category()] = expense;
+					}
 				}
 				expense = budget->expenses.previous();
 			}
@@ -1081,22 +1082,24 @@ void TransactionEditWidget::transactionsReset() {
 		case TRANSACTION_TYPE_INCOME: {
 			Income *income = budget->incomes.last();
 			while(income) {
-				if(!income->security() && !income->description().isEmpty() && !default_values.contains(income->description().toLower())) {
-					QList<QStandardItem*> row;
-					row << new QStandardItem(income->description());
-					row << new QStandardItem(income->description().toLower());
-					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
-					default_values[income->description().toLower()] = income;
-				}
-				if(payeeEdit && !income->security() && !income->payer().isEmpty() && !default_payee_values.contains(income->payer().toLower())) {
-					QList<QStandardItem*> row;
-					row << new QStandardItem(income->payer());
-					row << new QStandardItem(income->payer().toLower());
-					((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
-					default_payee_values[income->payer().toLower()] = income;
-				}
-				if(fromCombo && !income->security() && !default_category_values.contains(income->category())) {
-					default_category_values[income->category()] = income;
+				if(!income->security()) {
+					if(descriptionEdit && !income->description().isEmpty() && !default_values.contains(income->description().toLower())) {
+						QList<QStandardItem*> row;
+						row << new QStandardItem(income->description());
+						row << new QStandardItem(income->description().toLower());
+						((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+						default_values[income->description().toLower()] = income;
+					}
+					if(payeeEdit && !income->payer().isEmpty() && !default_payee_values.contains(income->payer().toLower())) {
+						QList<QStandardItem*> row;
+						row << new QStandardItem(income->payer());
+						row << new QStandardItem(income->payer().toLower());
+						((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
+						default_payee_values[income->payer().toLower()] = income;
+					}
+					if(fromCombo && !default_category_values.contains(income->category())) {
+						default_category_values[income->category()] = income;
+					}
 				}
 				income = budget->incomes.previous();
 			}
@@ -1105,7 +1108,7 @@ void TransactionEditWidget::transactionsReset() {
 		case TRANSACTION_TYPE_TRANSFER: {
 			Transfer *transfer= budget->transfers.last();
 			while(transfer) {
-				if(!transfer->description().isEmpty() && !default_values.contains(transfer->description().toLower())) {
+				if(descriptionEdit && !transfer->description().isEmpty() && !default_values.contains(transfer->description().toLower())) {
 					QList<QStandardItem*> row;
 					row << new QStandardItem(transfer->description());
 					row << new QStandardItem(transfer->description().toLower());
@@ -1118,7 +1121,7 @@ void TransactionEditWidget::transactionsReset() {
 		}
 		default: {}
 	}
-	((QStandardItemModel*) descriptionEdit->completer()->model())->sort(1);
+	if(descriptionEdit) ((QStandardItemModel*) descriptionEdit->completer()->model())->sort(1);
 	if(payeeEdit) ((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
 }
 void TransactionEditWidget::setCurrentToItem(int index) {

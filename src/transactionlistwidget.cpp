@@ -365,7 +365,7 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
 			while(i) {
 				Transaction *trans = i->transaction();
-				outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << QLocale().toString(trans->value(), 'f', MONETARY_DECIMAL_PLACES).replace("−","-").remove(" ") << "\",\"" << i->text(3) << "\",\"" << i->text(4);
+				outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << QLocale().toString(trans->value(), 'f', MONETARY_DECIMAL_PLACES).replace("−","-").remove(" ") << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->toAccount()->nameWithParent() : trans->fromAccount()->nameWithParent()) << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->fromAccount()->nameWithParent() : trans->toAccount()->nameWithParent());
 				if(comments_col == 6) outf << "\",\"" << QLocale().toString(trans->quantity(), 'f', 2).replace("−","-").remove(" ");
 				outf << "\",\"" << i->text(5);
 				if(comments_col == 6) outf << "\",\"" << i->text(6);
