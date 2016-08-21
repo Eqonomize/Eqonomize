@@ -147,10 +147,13 @@ unix:!android:!macx {
 	mimeiconsvg.path = $$ICON_DIR/hicolor/scalable/mimetypes
 
 	actioniconssvg.files = 	data/scalable/eqz-account.svg \
+				data/scalable/eqz-liabilities.svg \
 				data/scalable/eqz-expense.svg \
 				data/scalable/eqz-income.svg \
 				data/scalable/eqz-transfer.svg \
 				data/scalable/eqz-refund-repayment.svg \
+				data/scalable/eqz-debt-payment.svg \
+				data/scalable/eqz-debt-interest.svg \
 				data/scalable/eqz-security.svg \
 				data/scalable/eqz-schedule.svg \
 				data/scalable/eqz-split-transaction.svg \
@@ -170,10 +173,13 @@ unix:!android:!macx {
 				data/scalable/eqz-overtime-report.svg
 	actioniconssvg.path = $$ICON_DIR/hicolor/scalable/actions
 	actionicons16.files = 	data/16/eqz-account.png \
+				data/16/eqz-liabilities.png \
 				data/16/eqz-expense.png \
 				data/16/eqz-income.png \
 				data/16/eqz-transfer.png \
 				data/16/eqz-refund-repayment.png \
+				data/16/eqz-debt-payment.png \
+				data/16/eqz-debt-interest.png \
 				data/16/eqz-security.png \
 				data/16/eqz-schedule.png \
 				data/16/eqz-split-transaction.png \
@@ -193,10 +199,13 @@ unix:!android:!macx {
 				data/16/eqz-overtime-report.png
 	actionicons16.path = $$ICON_DIR/hicolor/16x16/actions
 	actionicons22.files = 	data/22/eqz-account.png \
+				data/22/eqz-liabilities.png \
 				data/22/eqz-expense.png \
 				data/22/eqz-income.png \
 				data/22/eqz-transfer.png \
 				data/22/eqz-refund-repayment.png \
+				data/22/eqz-debt-payment.png \
+				data/22/eqz-debt-interest.png \
 				data/22/eqz-security.png \
 				data/22/eqz-schedule.png \
 				data/22/eqz-split-transaction.png \
@@ -216,10 +225,13 @@ unix:!android:!macx {
 				data/22/eqz-overtime-report.png
 	actionicons22.path = $$ICON_DIR/hicolor/22x22/actions
 	actionicons32.files = 	data/32/eqz-account.png \
+				data/32/eqz-liabilities.png \
 				data/32/eqz-expense.png \
 				data/32/eqz-income.png \
 				data/32/eqz-transfer.png \
 				data/32/eqz-refund-repayment.png \
+				data/32/eqz-debt-payment.png \
+				data/32/eqz-debt-interest.png \
 				data/32/eqz-security.png \
 				data/32/eqz-schedule.png \
 				data/32/eqz-split-transaction.png \
@@ -239,10 +251,13 @@ unix:!android:!macx {
 				data/32/eqz-overtime-report.png
 	actionicons32.path = $$ICON_DIR/hicolor/32x32/actions
 	actionicons48.files = 	data/48/eqz-account.png \
+				data/48/eqz-liabilities.png \
 				data/48/eqz-expense.png \
 				data/48/eqz-income.png \
 				data/48/eqz-transfer.png \
 				data/48/eqz-refund-repayment.png \
+				data/48/eqz-debt-payment.png \
+				data/48/eqz-debt-interest.png \
 				data/48/eqz-security.png \
 				data/48/eqz-schedule.png \
 				data/48/eqz-split-transaction.png \
@@ -262,10 +277,13 @@ unix:!android:!macx {
 				data/48/eqz-overtime-report.png
 	actionicons48.path = $$ICON_DIR/hicolor/48x48/actions
 	actionicons64.files = 	data/64/eqz-account.png \
+				data/64/eqz-liabilities.png \
 				data/64/eqz-expense.png \
 				data/64/eqz-income.png \
 				data/64/eqz-transfer.png \
 				data/64/eqz-refund-repayment.png \
+				data/64/eqz-debt-payment.png \
+				data/64/eqz-debt-interest.png \
 				data/64/eqz-security.png \
 				data/64/eqz-schedule.png \
 				data/64/eqz-split-transaction.png \

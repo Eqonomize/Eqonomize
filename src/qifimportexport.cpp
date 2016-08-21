@@ -125,53 +125,11 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	openingBalanceEdit = new QLineEdit(page3);
 	openingBalanceEdit->setText("Opening Balance");
 	layout3->addWidget(openingBalanceEdit, 1, 1);
-
+	
 	QIFWizardPage *page4 = new QIFWizardPage();
-	page4->setTitle(tr("Descriptions"));
-	page4->setSubTitle(tr("Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.", "Referring to generic description"));
+	page4->setTitle(tr("Import File"));
+	page4->setSubTitle(tr("No (further) issues were found. Press finish to import the selected QIF file."));
 	setPage(4, page4);
-	QGridLayout *layout4 = new QGridLayout(page4);
-	layout4->addWidget(new QLabel(tr("Subcategories as:"), page4), 0, 0);
-	QButtonGroup *subcategoryGroup = new QButtonGroup(this);
-	subcategoryAsDescriptionButton = new QRadioButton(tr("Description"), page4);
-	subcategoryGroup->addButton(subcategoryAsDescriptionButton);
-	layout4->addWidget(subcategoryAsDescriptionButton, 0, 1);
-	subcategoryAsDescriptionButton->setChecked(true);
-	subcategoryAsCategoryButton = new QRadioButton(tr("Category"), page4);
-	subcategoryGroup->addButton(subcategoryAsCategoryButton);
-	layout4->addWidget(subcategoryAsCategoryButton, 0, 2);
-	subcategoryIgnoreButton = new QRadioButton(tr("Ignore"), page4);
-	subcategoryGroup->addButton(subcategoryIgnoreButton);
-	layout4->addWidget(subcategoryIgnoreButton, 0, 3);
-	layout4->addWidget(new QLabel(tr("Payee as:"), page4), 1, 0);
-	QButtonGroup *payeeGroup = new QButtonGroup(this);
-	payeeAsDescriptionButton = new QRadioButton(tr("Description"), page4);
-	payeeGroup->addButton(payeeAsDescriptionButton);
-	layout4->addWidget(payeeAsDescriptionButton, 1, 1);
-	payeeAsPayeeButton = new QRadioButton(tr("Payee"), page4);
-	payeeGroup->addButton(payeeAsPayeeButton);
-	layout4->addWidget(payeeAsPayeeButton, 1, 2);
-	payeeAsPayeeButton->setChecked(b_extra);
-	payeeAsDescriptionButton->setChecked(!b_extra);
-	layout4->addWidget(new QLabel(tr("Memo as:"), page4), 2, 0);
-	QButtonGroup *memoGroup = new QButtonGroup(this);
-	memoAsDescriptionButton = new QRadioButton(tr("Description"), page4);
-	memoGroup->addButton(memoAsDescriptionButton);
-	layout4->addWidget(memoAsDescriptionButton, 2, 1);
-	memoAsCommentButton = new QRadioButton(tr("Comments"), page4);
-	memoGroup->addButton(memoAsCommentButton);
-	layout4->addWidget(memoAsCommentButton, 2, 2);
-	memoAsCommentButton->setChecked(true);
-	layout4->addWidget(new QLabel(tr("Priority:"), page4), 3, 0);
-	descriptionPriorityCombo = new QComboBox(page4);
-	descriptionPriorityCombo->setEditable(false);
-	descriptionPriorityCombo->addItem(tr("Subcategory/Payee/Comments"));
-	descriptionPriorityCombo->addItem(tr("Payee/Subcategory/Comments"));
-	descriptionPriorityCombo->addItem(tr("Subcategory/Comments/Payee"));
-	descriptionPriorityCombo->addItem(tr("Payee/Comments/Subcategory"));
-	descriptionPriorityCombo->addItem(tr("Comments/Subcategory/Payee"));
-	descriptionPriorityCombo->addItem(tr("Comments/Payee/Subcategory"));
-	layout4->addWidget(descriptionPriorityCombo, 3, 1, 1, 3);
 
 	setOption(QWizard::HaveHelpButton, false);
 
@@ -440,11 +398,6 @@ void ImportQIFDialog::nextClicked() {
 }
 
 void ImportQIFDialog::accept() {
-	qi.subcategory_as_description = subcategoryAsDescriptionButton->isChecked();
-	qi.subcategory_as_category = subcategoryAsCategoryButton->isChecked();
-	qi.payee_as_description = payeeAsDescriptionButton->isChecked();
-	qi.memo_as_description = memoAsDescriptionButton->isChecked();
-	qi.description_priority = descriptionPriorityCombo->currentIndex();
 	QString url = fileEdit->text().trimmed();
 	if(url.isEmpty()) {
 		return;
@@ -520,38 +473,22 @@ ExportQIFDialog::ExportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	grid->addWidget(accountCombo, 0, 1);
 	accountCombo->setFocus();
 
-	grid->addWidget(new QLabel(tr("Export transaction description as:", "Referring to generic description"), this), 1, 0, 1, 2);
-	QHBoxLayout *descLayout = new QHBoxLayout();
-	QButtonGroup *group = new QButtonGroup(this);
-	descriptionAsPayeeButton = new QRadioButton(tr("Payee"), this);
-	group->addButton(descriptionAsPayeeButton);
-	descLayout->addWidget(descriptionAsPayeeButton);
-	if(!b_extra) descriptionAsPayeeButton->setChecked(true);
-	descriptionAsMemoButton = new QRadioButton(tr("Memo"), this);
-	group->addButton(descriptionAsMemoButton);
-	descLayout->addWidget(descriptionAsMemoButton);
-	if(b_extra) descriptionAsMemoButton->setChecked(true);
-	descriptionAsSubcategoryButton = new QRadioButton(tr("Subcategory"), this);
-	group->addButton(descriptionAsSubcategoryButton);
-	descLayout->addWidget(descriptionAsSubcategoryButton);
-	grid->addLayout(descLayout, 2, 0, 1, 2);
-
-	grid->addWidget(new QLabel(tr("Date format:"), this), 3, 0);
+	grid->addWidget(new QLabel(tr("Date format:"), this), 1, 0);
 	dateFormatCombo = new QComboBox(this);
 	dateFormatCombo->setEditable(false);
 	dateFormatCombo->addItem("Standard (YYYY-MM-DD)");
 	dateFormatCombo->addItem("Local");
 	dateFormatCombo->addItem("US (MM/DD/YY)");
-	grid->addWidget(dateFormatCombo, 3, 1);
+	grid->addWidget(dateFormatCombo, 1, 1);
 
-	grid->addWidget(new QLabel(tr("Value format:"), this), 4, 0);
+	grid->addWidget(new QLabel(tr("Value format:"), this), 2, 0);
 	valueFormatCombo = new QComboBox(this);
 	valueFormatCombo->setEditable(false);
 	valueFormatCombo->addItem("1,000,000.00");
 	valueFormatCombo->addItem("1.000.000,00");
-	grid->addWidget(valueFormatCombo, 4, 1);
+	grid->addWidget(valueFormatCombo, 2, 1);
 
-	grid->addWidget(new QLabel(tr("File:"), this), 5, 0);
+	grid->addWidget(new QLabel(tr("File:"), this), 3, 0);
 	QHBoxLayout *layouth = new QHBoxLayout();
 	fileEdit = new QLineEdit(this);
 	QCompleter *completer = new QCompleter(this);
@@ -560,7 +497,7 @@ ExportQIFDialog::ExportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	layouth->addWidget(fileEdit);
 	fileButton = new QPushButton(QIcon::fromTheme("document-open"), QString(), this);
 	layouth->addWidget(fileButton);
-	grid->addLayout(layouth, 5, 1);
+	grid->addLayout(layouth, 3, 1);
 	
 	buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
@@ -593,9 +530,7 @@ void ExportQIFDialog::selectFile() {
 	}
 }
 void ExportQIFDialog::accept() {
-	qi.subcategory_as_description = descriptionAsSubcategoryButton->isChecked();
-	qi.payee_as_description = descriptionAsPayeeButton->isChecked();
-	qi.memo_as_description = descriptionAsMemoButton->isChecked();
+
 	QString url = fileEdit->text().trimmed();
 	if(url.isEmpty()) {
 		return;
@@ -770,7 +705,7 @@ struct qif_split {
 
 void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 	QDate date;
-	QString memo, description, payee, category, subcategory, atype, atype_bak, name, ticker_symbol, security;
+	QString memo, description, payee, category, subcategory, atype, atype_bak, name, subname, ticker_symbol, security;
 	bool incomecat = false;
 	double value = 0.0;
 	//double commission = 0.0, price = 0.0, sec_amount = 0.0;
@@ -793,11 +728,6 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 		qi.percentage_format = 0;
 		qi.separator = -1;
 		qi.opening_balance_str = "opening balance";
-		qi.payee_as_description = false;
-		qi.subcategory_as_description = true;
-		qi.subcategory_as_category = false;
-		qi.memo_as_description = false;
-		qi.description_priority = 0;
 		qi.p1 = true;
 		qi.p2 = true;
 		qi.p3 = true;
@@ -1060,19 +990,12 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 						if(i >= 0) {
 							bool is_transfer = line.length() >= 2 && line[0] == '[' && line.endsWith("]");
 							if(is_transfer) line.truncate(line.length() - 1);
-							if(qi.subcategory_as_category) {
-								i = line.lastIndexOf(':');
-								category.remove(0, i + 1);
-								category = category.trimmed();
-								if(is_transfer) category += "]";
-							} else {
-								category.truncate(i);
-								category = category.trimmed();
-								if(is_transfer) category += "]";
-								subcategory = line;
-								subcategory.remove(0, i + 1);
-								subcategory = subcategory.trimmed();
-							}
+							category.truncate(i);
+							category = category.trimmed();
+							if(is_transfer) category += "]";
+							subcategory = line;
+							subcategory.remove(0, i + 1);
+							subcategory = subcategory.trimmed();
 						}
 					}
 					break;
@@ -1130,19 +1053,12 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 						if(i >= 0) {
 							bool is_transfer = line.length() >= 2 && line[0] == '[' && line.endsWith("]");
 							if(is_transfer) line.truncate(line.length() - 1);
-							if(qi.subcategory_as_category) {
-								i = line.lastIndexOf(':');
-								current_split->category.remove(0, i + 1);
-								current_split->category = current_split->category.trimmed();
-								if(is_transfer) current_split->category += "]";
-							} else {
-								current_split->category.truncate(i);
-								current_split->category = current_split->category.trimmed();
-								if(is_transfer) current_split->category += "]";
-								current_split->subcategory = line;
-								current_split->subcategory.remove(0, i + 1);
-								current_split->subcategory = current_split->subcategory.trimmed();
-							}
+							current_split->category.truncate(i);
+							current_split->category = current_split->category.trimmed();
+							if(is_transfer) current_split->category += "]";
+							current_split->subcategory = line;
+							current_split->subcategory.remove(0, i + 1);
+							current_split->subcategory = current_split->subcategory.trimmed();
 						}
 					}
 					break;
@@ -1187,99 +1103,20 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 						QString payee_lower = payee.toLower();
 						bool is_opening_balance = splits.empty() && is_transfer && (payee_lower == qi.opening_balance_str || payee_lower == "opening balance" || payee_lower == "opening");
 						if(test && !qi.account_defined && is_opening_balance && !qi.had_transaction) qi.account_defined = true;
-						if(!test && !is_opening_balance) {
-							switch(qi.description_priority) {
-								case 0: {
-									if(qi.subcategory_as_description && !subcategory.isEmpty()) {description = subcategory; subcategory = "";}
-									else if(qi.payee_as_description && !payee.isEmpty()) {description = payee; payee = "";}
-									else if(qi.memo_as_description && !memo.isEmpty()) {description = memo; memo = "";}
-									break;
-								}
-								case 1: {
-									if(qi.payee_as_description && !payee.isEmpty()) {description = payee; payee = "";}
-									else if(qi.subcategory_as_description && !subcategory.isEmpty()) {description = subcategory; subcategory = "";}
-									else if(qi.memo_as_description && !memo.isEmpty()) {description = memo; memo = "";}
-									break;
-								}
-								case 2: {
-									if(qi.subcategory_as_description && !subcategory.isEmpty()) {description = subcategory; subcategory = "";}
-									else if(qi.memo_as_description && !memo.isEmpty()) {description = memo; memo = "";}
-									else if(qi.payee_as_description && !payee.isEmpty()) {description = payee; payee = "";}
-									break;
-								}
-								case 3: {
-									if(qi.payee_as_description && !payee.isEmpty()) {description = payee; payee = "";}
-									else if(qi.memo_as_description && !memo.isEmpty()) {description = memo; memo = "";}
-									else if(qi.subcategory_as_description && !subcategory.isEmpty()) {description = subcategory; subcategory = "";}
-									break;
-								}
-								case 4: {
-									if(qi.memo_as_description && !memo.isEmpty()) {description = memo; memo = "";}
-									else if(qi.subcategory_as_description && !subcategory.isEmpty()) {description = subcategory; subcategory = "";}
-									else if(qi.payee_as_description && !payee.isEmpty()) {description = payee; payee = "";}
-									break;
-								}
-								case 5: {
-									if(qi.memo_as_description && !memo.isEmpty()) {description = memo; memo = "";}
-									else if(qi.payee_as_description && !payee.isEmpty()) {description = payee; payee = "";}
-									else if(qi.subcategory_as_description && !subcategory.isEmpty()) {description = subcategory; subcategory = "";}
-									break;
-								}
-							}
-						}
 						if(!test && !splits.empty()) {
 							if(!date.isValid() || !qi.current_account) {
 								qi.failed_transactions++;
 							} else {
-								MultiItemTransaction *split = new MultiItemTransaction(budget, date, qi.current_account, description);
+								MultiItemTransaction *split = new MultiItemTransaction(budget, date, qi.current_account, memo);
 								QVector<qif_split>::size_type c = splits.count();
 								for(QVector<qif_split>::size_type i = 0; i < c; i++) {
 									current_split = &splits[i];
 									bool is_transfer = current_split->category.length() >= 2 && current_split->category[0] == '[' && current_split->category.endsWith("]");
-									description = "";
 									if(current_split->percentage != 0.0 && current_split->value == 0.0) {
 										if(i == c - 1) current_split->value = value;
 										else current_split->value = (value * current_split->percentage) / 100;
 									}
 									value -= current_split->value;
-									switch(qi.description_priority) {
-										case 0: {
-											if(qi.subcategory_as_description && !current_split->subcategory.isEmpty()) {description = current_split->subcategory; current_split->subcategory = "";}
-											else if(qi.payee_as_description && !payee.isEmpty()) {description = payee; payee = "";}
-											else if(qi.memo_as_description && !current_split->memo.isEmpty()) {description = current_split->memo; current_split->memo = "";}
-											break;
-										}
-										case 1: {
-											if(qi.payee_as_description && !payee.isEmpty()) {description = payee; payee = "";}
-											else if(qi.subcategory_as_description && !current_split->subcategory.isEmpty()) {description = current_split->subcategory; current_split->subcategory = "";}
-											else if(qi.memo_as_description && !current_split->memo.isEmpty()) {description = current_split->memo; current_split->memo = "";}
-											break;
-										}
-										case 2: {
-											if(qi.subcategory_as_description && !current_split->subcategory.isEmpty()) {description = current_split->subcategory; current_split->subcategory = "";}
-											else if(qi.memo_as_description && !current_split->memo.isEmpty()) {description = current_split->memo; current_split->memo = "";}
-											else if(qi.payee_as_description && !payee.isEmpty()) {description = payee; payee = "";}
-											break;
-										}
-										case 3: {
-											if(qi.payee_as_description && !payee.isEmpty()) {description = payee; payee = "";}
-											else if(qi.memo_as_description && !current_split->memo.isEmpty()) {description = current_split->memo; current_split->memo = "";}
-											else if(qi.subcategory_as_description && !current_split->subcategory.isEmpty()) {description = current_split->subcategory; current_split->subcategory = "";}
-											break;
-										}
-										case 4: {
-											if(qi.memo_as_description && !current_split->memo.isEmpty()) {description = current_split->memo; current_split->memo = "";}
-											else if(qi.subcategory_as_description && !current_split->subcategory.isEmpty()) {description = current_split->subcategory; current_split->subcategory = "";}
-											else if(qi.payee_as_description && !payee.isEmpty()) {description = payee; payee = "";}
-											break;
-										}
-										case 5: {
-											if(qi.memo_as_description && !current_split->memo.isEmpty()) {description = current_split->memo; current_split->memo = "";}
-											else if(qi.payee_as_description && !payee.isEmpty()) {description = payee; payee = "";}
-											else if(qi.subcategory_as_description && !current_split->subcategory.isEmpty()) {description = current_split->subcategory; current_split->subcategory = "";}
-											break;
-										}
-									}
 									if(!test && is_transfer) {
 										//Transfer
 										current_split->category.remove(0, 1);
@@ -1294,8 +1131,8 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 											qi.accounts++;
 										}
 										Transfer *tra = NULL;
-										if(current_split->value < 0.0) tra = new Transfer(budget, -current_split->value, date, qi.current_account, acc, description, current_split->memo);
-										else tra = new Transfer(budget, current_split->value, date, acc, qi.current_account, description, current_split->memo);
+										if(current_split->value < 0.0) tra = new Transfer(budget, -current_split->value, date, qi.current_account, acc, current_split->memo);
+										else tra = new Transfer(budget, current_split->value, date, acc, qi.current_account, current_split->memo);
 										bool duplicate = false;
 										Transfer *trans = budget->transfers.first();
 										while(trans) {
@@ -1327,40 +1164,44 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 										if(empty) {
 											current_split->category = Budget::tr("Uncategorized");
 										}
-										Account *cat = NULL;
-										if(b_exp) {
-											cat = budget->findExpensesAccount(current_split->category);
-											if(!empty && !cat) {
-												cat = budget->findIncomesAccount(current_split->category);
-												if(cat) b_exp = false;
-											}
-											if(!cat) {
-												cat = new ExpensesAccount(budget, current_split->category);
-												budget->addAccount(cat);
-												qi.categories++;
-											}
+										CategoryAccount *cat = NULL, *parent_cat = NULL;
+										if(!b_exp) parent_cat = budget->findIncomesAccount(current_split->category, NULL);
+										else parent_cat = budget->findExpensesAccount(current_split->category, NULL);
+										if(!empty && !parent_cat) {
+											if(b_exp) parent_cat = budget->findIncomesAccount(current_split->category, NULL);
+											else parent_cat = budget->findExpensesAccount(current_split->category, NULL);
+											if(parent_cat) b_exp = !b_exp;
+										} 
+										if(!parent_cat) {
+											if(!b_exp) parent_cat = new IncomesAccount(budget, current_split->category);
+											else parent_cat = new ExpensesAccount(budget, current_split->category);
+											budget->addAccount(parent_cat);
+											qi.categories++;
+										}
+										if(subcategory.isEmpty()) {
+											cat = parent_cat;
+											parent_cat = NULL;
 										} else {
-											cat = budget->findIncomesAccount(current_split->category);
-											if(!empty && !cat) {
-												cat = budget->findExpensesAccount(current_split->category);
-												if(cat) b_exp = true;
-											}
+											if(!b_exp) cat = budget->findIncomesAccount(current_split->subcategory, parent_cat);
+											else cat = budget->findExpensesAccount(current_split->subcategory, parent_cat);
 											if(!cat) {
-												cat = new IncomesAccount(budget, current_split->category);
+												if(!b_exp) cat = new IncomesAccount(budget, current_split->subcategory);
+												else cat = new ExpensesAccount(budget, current_split->subcategory);
+												cat->setParentCategory(parent_cat);
 												budget->addAccount(cat);
 												qi.categories++;
 											}
 										}
 										if(b_exp) {
 											//Expense
-											Expense *exp = new Expense(budget, -current_split->value, date, (ExpensesAccount*) cat, qi.current_account, description, current_split->memo);
+											Expense *exp = new Expense(budget, -current_split->value, date, (ExpensesAccount*) cat, qi.current_account, current_split->memo);
 											if(value > 0.0) exp->setQuantity(-1.0);
 											exp->setPayee(payee);
 											split->addTransaction(exp);
 											exp->setParentSplit(split);
 										} else {
 											//Income
-											Income *inc = new Income(budget, current_split->value, date, (IncomesAccount*) cat, qi.current_account, description, current_split->memo);
+											Income *inc = new Income(budget, current_split->value, date, (IncomesAccount*) cat, qi.current_account, current_split->memo);
 											if(value < 0.0) inc->setQuantity(-1.0);
 											inc->setPayer(payee);
 											split->addTransaction(inc);
@@ -1405,8 +1246,8 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 								if(!date.isValid() || !qi.current_account) {
 									qi.failed_transactions++;
 								} else {
-									if(value < 0.0) tra = new Transfer(budget, -value, date, qi.current_account, acc, description, memo);
-									else tra = new Transfer(budget, value, date, acc, qi.current_account, description, memo);
+									if(value < 0.0) tra = new Transfer(budget, -value, date, qi.current_account, acc, memo);
+									else tra = new Transfer(budget, value, date, acc, qi.current_account, memo);
 									bool duplicate = false;
 									Transfer *trans = budget->transfers.first();
 									while(trans) {
@@ -1441,26 +1282,30 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 							if(empty) {
 								category = Budget::tr("Uncategorized");
 							}
-							Account *cat = NULL;
-							if(b_exp) {
-								cat = budget->findExpensesAccount(category);
-								if(!empty && !cat) {
-									cat = budget->findIncomesAccount(category);
-									if(cat) b_exp = false;
-								}
-								if(!cat) {
-									cat = new ExpensesAccount(budget, category);
-									budget->addAccount(cat);
-									qi.categories++;
-								}
+							CategoryAccount *cat = NULL, *parent_cat = NULL;
+							if(!b_exp) parent_cat = budget->findIncomesAccount(category, NULL);
+							else parent_cat = budget->findExpensesAccount(category, NULL);
+							if(!empty && !parent_cat) {
+								if(b_exp) parent_cat = budget->findIncomesAccount(category, NULL);
+								else parent_cat = budget->findExpensesAccount(category, NULL);
+								if(parent_cat) b_exp = !b_exp;
+							} 
+							if(!parent_cat) {
+								if(!b_exp) parent_cat = new IncomesAccount(budget, category);
+								else parent_cat = new ExpensesAccount(budget, category);
+								budget->addAccount(parent_cat);
+								qi.categories++;
+							}
+							if(subcategory.isEmpty()) {
+								cat = parent_cat;
+								parent_cat = NULL;
 							} else {
-								cat = budget->findIncomesAccount(category);
-								if(!empty && !cat) {
-									cat = budget->findExpensesAccount(category);
-									if(cat) b_exp = true;
-								}
+								if(!b_exp) cat = budget->findIncomesAccount(subcategory, parent_cat);
+								else cat = budget->findExpensesAccount(subcategory, parent_cat);
 								if(!cat) {
-									cat = new IncomesAccount(budget, category);
+									if(!b_exp) cat = new IncomesAccount(budget, subcategory);
+									else cat = new ExpensesAccount(budget, subcategory);
+									cat->setParentCategory(parent_cat);
 									budget->addAccount(cat);
 									qi.categories++;
 								}
@@ -1470,7 +1315,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 								if(!date.isValid() || !qi.current_account) {
 									qi.failed_transactions++;
 								} else {
-									Expense *exp = new Expense(budget, -value, date, (ExpensesAccount*) cat, qi.current_account, description, memo);
+									Expense *exp = new Expense(budget, -value, date, (ExpensesAccount*) cat, qi.current_account, memo);
 									if(value > 0.0) exp->setQuantity(-1.0);
 									exp->setPayee(payee);
 									budget->addTransaction(exp);
@@ -1481,7 +1326,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 								if(!date.isValid() || !qi.current_account) {
 									qi.failed_transactions++;
 								} else {
-									Income *inc = new Income(budget, value, date, (IncomesAccount*) cat, qi.current_account, description, memo);
+									Income *inc = new Income(budget, value, date, (IncomesAccount*) cat, qi.current_account, memo);
 									if(value < 0.0) inc->setQuantity(-1.0);
 									inc->setPayer(payee);
 									budget->addTransaction(inc);
@@ -1528,21 +1373,33 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 						transfers.clear();
 					} else if(type == 2 && !test) {
 						//category
-						int i = name.lastIndexOf(':');
-						if(i >= 0 && qi.subcategory_as_category) {
-							name.remove(0, i + 1);
-							name = name.trimmed();
-							i = -1;
-						}
-						if(i < 0 && !name.isEmpty()) {
+						subname = name.section(':', 1).trimmed();
+						name = name.section(':', 0, 0).trimmed();
+						if(!name.isEmpty()) {
 							if(incomecat) {
-								if(!budget->findIncomesAccount(name)) {
-									budget->addAccount(new IncomesAccount(budget, name, description));
+								IncomesAccount *acc = budget->findIncomesAccount(name, NULL);
+								if(!acc) {
+									acc = new IncomesAccount(budget, name, subname.isEmpty() ? QString() : description);
+									budget->addAccount(acc);
+									qi.categories++;
+								}
+								if(!subname.isEmpty() && !budget->findIncomesAccount(subname, acc)) {
+									IncomesAccount *subacc = new IncomesAccount(budget, subname, description);
+									subacc->setParentCategory(acc);
+									budget->addAccount(subacc);
 									qi.categories++;
 								}
 							} else {
-								if(!budget->findExpensesAccount(name)) {
-									budget->addAccount(new ExpensesAccount(budget, name, description));
+								ExpensesAccount *acc = budget->findExpensesAccount(name, NULL);
+								if(!acc) {
+									acc = new ExpensesAccount(budget, name, subname.isEmpty() ? QString() : description);
+									budget->addAccount(acc);
+									qi.categories++;
+								}
+								if(!subname.isEmpty() && !budget->findExpensesAccount(subname, acc)) {
+									ExpensesAccount *subacc = new ExpensesAccount(budget, subname, description);
+									subacc->setParentCategory(acc);
+									budget->addAccount(subacc);
 									qi.categories++;
 								}
 							}
@@ -1682,18 +1539,15 @@ void exportQIFTransaction(QTextStream &fstream, qif_info &qi, Transaction *trans
 	}
 	fstream << "T" << writeQIFValue(neg ? -trans->value() : trans->value(), qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
 	fstream << "C" << "X" << "\n";
-	if(!sectrans && qi.payee_as_description && !trans->description().isEmpty()) fstream << "P" << trans->description() << "\n";
-	else if(payee && !payee->isEmpty()) fstream << "P" << *payee << "\n";
-	if(!sectrans && qi.memo_as_description && !trans->description().isEmpty()) fstream << "M" << trans->description() << "\n";
-	else if(!trans->comment().isEmpty()) fstream << "M" << trans->comment() << "\n";
+	if(payee && !payee->isEmpty()) fstream << "P" << *payee << "\n";
+	if(!sectrans && !trans->description().isEmpty()) fstream << "M" << trans->description() << "\n";
 	else if(sectrans && !secacc) fstream << "M" << trans->description() << "\n";
 	if(sectrans && secacc && d_com != 0.0) {
 		fstream << "O" << writeQIFValue(d_com, qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
 	}
 	if(!cat) fstream << "L" << "[" << ((SecurityTransaction*) trans)->security()->account()->name() << ":" << ((SecurityTransaction*) trans)->security()->name() << "]" << "\n";
 	else if(cat->type() == ACCOUNT_TYPE_ASSETS) fstream << "L" << "[" << cat->name() << "]" << "\n";
-	else if(qi.subcategory_as_description && !trans->description().isEmpty()) fstream << "L" << cat->name() << ":" << trans->description() << "\n";
-	else fstream << "L" << cat->name() << "\n";
+	else fstream << "L" << cat->nameWithParent(false) << "\n";
 	if(sectrans && secacc) fstream << "$" << writeQIFValue((trans->type() == TRANSACTION_TYPE_SECURITY_SELL) ? -trans->value() : trans->value(), qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
 	fstream << "^" << "\n";
 
@@ -1703,12 +1557,7 @@ void exportQIFSplitTransaction(QTextStream &fstream, qif_info &qi, SplitTransact
 	fstream << "D" << writeQIFDate(split->date(), qi.date_format) << "\n";
 	fstream << "T" << writeQIFValue(split->value(), qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
 	fstream << "C" << "X" << "\n";
-	if(qi.payee_as_description) {
-		if(!split->description().isEmpty()) fstream << "P" << split->description() << "\n";
-	}
-	if(qi.memo_as_description) {
-		if(!split->description().isEmpty()) fstream << "M" << split->description() << "\n";
-	} else if(!split->comment().isEmpty()) fstream << "M" << split->comment() << "\n";
+	if(!split->description().isEmpty()) fstream << "M" << split->description() << "\n";
 	QVector<Transaction*>::size_type c = split->count();
 	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
 		Transaction *trans = split->at(i);
@@ -1732,10 +1581,8 @@ void exportQIFSplitTransaction(QTextStream &fstream, qif_info &qi, SplitTransact
 			default: {}
 		}
 		if(cat->type() == ACCOUNT_TYPE_ASSETS) fstream << "S" << "[" << cat->name() << "]" << "\n";
-		else if(qi.subcategory_as_description && !trans->description().isEmpty()) fstream << "S" << cat->name() << ":" << trans->description() << "\n";
-		else fstream << "S" << cat->name() << "\n";
-		if(!trans->description().isEmpty() && (qi.memo_as_description || (!qi.subcategory_as_description && trans->comment().isEmpty()))) fstream << "E" << trans->description() << "\n";
-		else if(!trans->comment().isEmpty()) fstream << "E" << trans->comment() << "\n";
+		fstream << "S" << cat->nameWithParent(false) << "\n";
+		if(!trans->description().isEmpty()) fstream << "E" << trans->description() << "\n";
 		fstream << "$" << writeQIFValue(neg ? -trans->value() : trans->value(), qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
 	}
 	fstream << "^" << "\n";
@@ -1787,7 +1634,7 @@ void exportQIFOpeningBalance(QTextStream &fstream, qif_info &qi, AssetsAccount *
 void exportQIFAccount(QTextStream &fstream, qif_info&, Account *account) {
 	if(account->type() == ACCOUNT_TYPE_ASSETS) fstream << "!Account" << "\n";
 	else fstream << "!Type:Cat" << "\n";
-	fstream << "N" << account->name() << "\n";
+	fstream << "N" << account->nameWithParent(false) << "\n";
 	if(account->type() == ACCOUNT_TYPE_ASSETS) {
 		fstream << "T";
 		switch(((AssetsAccount*) account)->accountType()) {
@@ -1827,22 +1674,19 @@ void exportQIF(QTextStream &fstream, qif_info &qi, Budget *budget, bool export_c
 	if(qi.current_account) {
 		if(export_cats) {
 			QMap<IncomesAccount*, bool> icats;
-			QMap<QString, bool> isubcats;
 			QMap<ExpensesAccount*, bool> ecats;
-			QMap<QString, bool> esubcats;
 			Income *inc = budget->incomes.first();
 			while(inc) {
 				if(inc->to() == qi.current_account) {
 					icats[inc->category()] = true;
-					if(qi.subcategory_as_description && !inc->description().isEmpty()) isubcats[inc->category()->name() + ":" + inc->description()] = true;
-				}
+									}
 				inc = budget->incomes.next();
 			}
 			Expense *exp = budget->expenses.first();
 			while(exp) {
 				if(exp->from() == qi.current_account) {
 					ecats[exp->category()] = true;
-					if(qi.subcategory_as_description && !exp->description().isEmpty()) esubcats[exp->category()->name() + ":" + exp->description()] = true;
+					
 				}
 				exp = budget->expenses.next();
 			}
@@ -1850,23 +1694,9 @@ void exportQIF(QTextStream &fstream, qif_info &qi, Budget *budget, bool export_c
 			for(QMap<IncomesAccount*, bool>::iterator iit = icats.begin(); iit != iit_e; ++iit) {
 				exportQIFAccount(fstream, qi, iit.key());
 			}
-			QMap<QString, bool>::iterator sit_e = isubcats.end();
-			for(QMap<QString, bool>::iterator sit = isubcats.begin(); sit != sit_e; ++sit) {
-				fstream << "!Type:Cat" << "\n";
-				fstream << "N" << sit.key() << "\n";
-				fstream << "I" << "\n";
-				fstream << "^" << "\n";
-			}
 			QMap<ExpensesAccount*, bool>::iterator eit_e = ecats.end();
 			for(QMap<ExpensesAccount*, bool>::iterator eit = ecats.begin(); eit != eit_e; ++eit) {
 				exportQIFAccount(fstream, qi, eit.key());
-			}
-			sit_e = esubcats.end();
-			for(QMap<QString, bool>::iterator sit = esubcats.begin(); sit != sit_e; ++sit) {
-				fstream << "!Type:Cat" << "\n";
-				fstream << "N" << sit.key() << "\n";
-				fstream << "E" << "\n";
-				fstream << "^" << "\n";
 			}
 			Security *sec = budget->securities.first();
 			while(sec) {
@@ -1923,41 +1753,15 @@ void exportQIF(QTextStream &fstream, qif_info &qi, Budget *budget, bool export_c
 		}
 	} else {
 		if(export_cats) {
-			QMap<QString, bool> isubcats;
-			QMap<QString, bool> esubcats;
-			Income *inc = budget->incomes.first();
-			while(inc) {
-				if(qi.subcategory_as_description && !inc->description().isEmpty()) isubcats[inc->category()->name() + ":" + inc->description()] = true;
-				inc = budget->incomes.next();
-			}
-			Expense *exp = budget->expenses.first();
-			while(exp) {
-				if(qi.subcategory_as_description && !exp->description().isEmpty()) esubcats[exp->category()->name() + ":" + exp->description()] = true;
-				exp = budget->expenses.next();
-			}
 			IncomesAccount *iaccount = budget->incomesAccounts.first();
 			while(iaccount) {
 				exportQIFAccount(fstream, qi, iaccount);
 				iaccount = budget->incomesAccounts.next();
 			}
-			QMap<QString, bool>::iterator sit_e = isubcats.end();
-			for(QMap<QString, bool>::iterator sit = isubcats.begin(); sit != sit_e; ++sit) {
-				fstream << "!Type:Cat" << "\n";
-				fstream << "N" << sit.key() << "\n";
-				fstream << "I" << "\n";
-				fstream << "^" << "\n";
-			}
 			ExpensesAccount *eaccount = budget->expensesAccounts.first();
 			while(eaccount) {
 				exportQIFAccount(fstream, qi, eaccount);
 				eaccount = budget->expensesAccounts.next();
-			}
-			sit_e = esubcats.end();
-			for(QMap<QString, bool>::iterator sit = esubcats.begin(); sit != sit_e; ++sit) {
-				fstream << "!Type:Cat" << "\n";
-				fstream << "N" << sit.key() << "\n";
-				fstream << "E" << "\n";
-				fstream << "^" << "\n";
 			}
 			Security *sec = budget->securities.first();
 			while(sec) {

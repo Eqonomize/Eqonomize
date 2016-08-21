@@ -74,7 +74,7 @@ class Account {
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		virtual void writeElements(QXmlStreamWriter *xml);
 		const QString &name() const;
-		virtual QString nameWithParent() const;
+		virtual QString nameWithParent(bool formatted = true) const;
 		virtual Account *topAccount();
 		void setName(QString new_name);
 		const QString &description() const;
@@ -156,7 +156,7 @@ class CategoryAccount : public Account {
 		void setMonthlyBudget(int year, int month, double new_monthly_budget);
 		double monthlyBudget(const QDate &date, bool no_default = false) const;
 		void setMonthlyBudget(const QDate &date, double new_monthly_budget);
-		QString nameWithParent() const;
+		QString nameWithParent(bool formatted = true) const;
 		virtual Account *topAccount();
 		virtual AccountType type() const = 0;
 		

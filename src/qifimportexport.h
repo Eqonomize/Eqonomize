@@ -55,8 +55,6 @@ struct qif_info {
 	int lz;
 	QString opening_balance_str;
 	int accounts, categories, transactions, securities, security_transactions, duplicates, failed_transactions;
-	bool payee_as_description, subcategory_as_description, subcategory_as_category, memo_as_description;
-	int description_priority;
 };
 
 class ImportQIFDialog : public QWizard {
@@ -73,10 +71,8 @@ class ImportQIFDialog : public QWizard {
 		QLineEdit *fileEdit;
 		QPushButton *fileButton;
 		QTreeWidget *defsView;
-		QComboBox *defsCombo, *dateFormatCombo, *accountCombo, *descriptionPriorityCombo;
+		QComboBox *defsCombo, *dateFormatCombo, *accountCombo;
 		QLineEdit *openingBalanceEdit;
-		QRadioButton *payeeAsDescriptionButton, *payeeAsPayeeButton, *memoAsDescriptionButton, *memoAsCommentButton;
-		QRadioButton *subcategoryAsDescriptionButton, *subcategoryAsCategoryButton, *subcategoryIgnoreButton;
 		
 	public:
 		

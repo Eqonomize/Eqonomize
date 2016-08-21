@@ -177,6 +177,8 @@ class Budget {
 		AssetsAccount *findAssetsAccount(QString name);
 		IncomesAccount *findIncomesAccount(QString name);
 		ExpensesAccount *findExpensesAccount(QString name);
+		IncomesAccount *findIncomesAccount(QString name, CategoryAccount *parent_acc);
+		ExpensesAccount *findExpensesAccount(QString name, CategoryAccount *parent_acc);
 
 		AccountList<IncomesAccount*> incomesAccounts;
 		AccountList<ExpensesAccount*> expensesAccounts;

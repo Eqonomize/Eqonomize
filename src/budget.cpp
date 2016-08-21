@@ -1144,6 +1144,22 @@ ExpensesAccount *Budget::findExpensesAccount(QString name) {
 	}
 	return NULL;
 }
+IncomesAccount *Budget::findIncomesAccount(QString name, CategoryAccount *parent_acc) {
+	IncomesAccount *account = incomesAccounts.first();
+	while(account) {
+		if(account->name() == name && account->parentCategory() == parent_acc) return account;
+		account = incomesAccounts.next();
+	}
+	return NULL;
+}
+ExpensesAccount *Budget::findExpensesAccount(QString name, CategoryAccount *parent_acc) {
+	ExpensesAccount *account = expensesAccounts.first();
+	while(account) {
+		if(account->name() == name && account->parentCategory() == parent_acc) return account;
+		account = expensesAccounts.next();
+	}
+	return NULL;
+}
 
 void Budget::setBudgetDay(int day_of_month) {if(day_of_month <= 28 && day_of_month >= -26) i_budget_day = day_of_month;}
 int Budget::budgetDay() const {return i_budget_day;}

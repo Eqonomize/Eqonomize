@@ -1864,9 +1864,13 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	setColumnMoneyWidth(accountsView, CHANGE_COLUMN, 999999999999.99);
 	setColumnMoneyWidth(accountsView, VALUE_COLUMN, 999999999999.99);
 	assetsItem = new TotalListViewItem(accountsView, tr("Assets"), QString::null, QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
+	assetsItem->setIcon(0, QIcon::fromTheme("eqz-account"));
 	liabilitiesItem = new TotalListViewItem(accountsView, assetsItem, tr("Liabilities"), QString::null, QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
+	liabilitiesItem->setIcon(0, QIcon::fromTheme("eqz-liabilities"));
 	incomesItem = new TotalListViewItem(accountsView, liabilitiesItem, tr("Incomes"), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
+	incomesItem->setIcon(0, QIcon::fromTheme("eqz-income"));
 	expensesItem = new TotalListViewItem(accountsView, incomesItem, tr("Expenses"), "-", QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES), QLocale().toString(0.0, 'f', MONETARY_DECIMAL_PLACES) + " ");
+	expensesItem->setIcon(0, QIcon::fromTheme("eqz-expense"));
 	assetsItem->setFlags(assetsItem->flags() & ~Qt::ItemIsDragEnabled);
 	assetsItem->setFlags(assetsItem->flags() & ~Qt::ItemIsDropEnabled);
 	liabilitiesItem->setFlags(liabilitiesItem->flags() & ~Qt::ItemIsDragEnabled);
@@ -5002,7 +5006,7 @@ void Eqonomize::setupActions() {
 	
 	NEW_ACTION_NOMENU(ActionAddAccount, tr("Add Account…"), "document-new", 0, this, SLOT(addAccount()), "add_account");
 	NEW_ACTION(ActionNewAssetsAccount, tr("New Account…"), "eqz-account", 0, this, SLOT(newAssetsAccount()), "new_assets_account", accountsMenu);
-	NEW_ACTION(ActionNewLoan, tr("New Loan…"), "eqz-account", 0, this, SLOT(newLoan()), "new_loan", loansMenu);
+	NEW_ACTION(ActionNewLoan, tr("New Loan…"), "eqz-liabilities", 0, this, SLOT(newLoan()), "new_loan", loansMenu);
 	NEW_ACTION(ActionNewIncomesAccount, tr("New Income Category…"), "eqz-income", 0, this, SLOT(newIncomesAccount()), "new_incomes_account", accountsMenu);
 	NEW_ACTION(ActionNewExpensesAccount, tr("New Expense Category…"), "eqz-expense", 0, this, SLOT(newExpensesAccount()), "new_expenses_account", accountsMenu);
 	NEW_ACTION_NOMENU(ActionAddAccountMenu, tr("Add Account…"), "eqz-account", 0, this, SLOT(addAccount()), "add_account");
@@ -5052,9 +5056,10 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionDeleteSplitTransaction, tr("Remove Split Transaction"), "edit-delete", 0, this, SLOT(deleteSelectedSplitTransaction()), "delete_split_transaction", transactionsMenu);
 	
 	loansMenu->addSeparator();
-	NEW_ACTION(ActionNewDebtPayment, tr("New Debt Payment…"), "eqz-split-transaction", 0, this, SLOT(newDebtPayment()), "new_loan_transaction", loansMenu);
-	NEW_ACTION(ActionNewDebtInterest, tr("New Unpayed Interest…"), "eqz-expense", 0, this, SLOT(newDebtInterest()), "new_debt_interest", loansMenu);
+	NEW_ACTION(ActionNewDebtPayment, tr("New Debt Payment…"), "eqz-debt-payment", 0, this, SLOT(newDebtPayment()), "new_loan_transaction", loansMenu);
+	NEW_ACTION(ActionNewDebtInterest, tr("New Unpayed Interest…"), "eqz-debt-interest", 0, this, SLOT(newDebtInterest()), "new_debt_interest", loansMenu);
 	NEW_ACTION(ActionNewExpenseWithLoan, tr("New Expense Payed with Loan / Payment Plan…"), "eqz-expense", 0, this, SLOT(newExpenseWithLoan()), "new_expense_with_loan", loansMenu);
+	transactionsToolbar->addAction(ActionNewDebtPayment);
 
 	NEW_ACTION(ActionNewSecurity, tr("New Security…"), "document-new", 0, this, SLOT(newSecurity()), "new_security", securitiesMenu);
 	NEW_ACTION_ALT(ActionEditSecurity, tr("Edit Security…"), "document-edit", "eqz-edit", 0, this, SLOT(editSecurity()), "edit_security", securitiesMenu);

@@ -65,7 +65,7 @@ void Account::writeAttributes(QXmlStreamAttributes *attr) {
 }
 void Account::writeElements(QXmlStreamWriter*) {}
 const QString &Account::name() const {return s_name;}
-QString Account::nameWithParent() const {return s_name;}
+QString Account::nameWithParent(bool) const {return s_name;}
 Account *Account::topAccount() {return this;}
 void Account::setName(QString new_name) {s_name = new_name.trimmed(); o_budget->accountNameModified(this);}
 const QString &Account::description() const {return s_description;}
@@ -329,8 +329,11 @@ double CategoryAccount::monthlyBudget(const QDate &date, bool no_default) const 
 	}
 	return it.value();
 }
-QString CategoryAccount::nameWithParent() const{
-	if(o_parent) return o_parent->name() + QString(": ") + name(); 
+QString CategoryAccount::nameWithParent(bool formatted) const{
+	if(o_parent) {
+		if(formatted) return o_parent->name() + QString(": ") + name();
+		else return o_parent->name() + QString(":") + name();  
+	}
 	return name();
 }
 Account *CategoryAccount::topAccount() {
