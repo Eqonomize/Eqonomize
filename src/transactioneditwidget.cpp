@@ -248,7 +248,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				editLayout->addWidget(toCombo, TEROWCOL(i, 1));
 				i++;
 			}
-			if(b_extra && !select_security && !security) {
+			if(b_extra && !split && !select_security && !security) {
 				editLayout->addWidget(new QLabel(tr("Payer:"), this), TEROWCOL(i, 0));
 				payeeEdit = new QLineEdit(this);
 				editLayout->addWidget(payeeEdit, TEROWCOL(i, 1));
@@ -296,7 +296,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				editLayout->addWidget(fromCombo, TEROWCOL(i, 1));
 				i++;
 			}
-			if(b_extra) {
+			if(b_extra && !split) {
 				editLayout->addWidget(new QLabel(tr("Payee:"), this), TEROWCOL(i, 0));
 				payeeEdit = new QLineEdit(this);
 				editLayout->addWidget(payeeEdit, TEROWCOL(i, 1));
@@ -1411,9 +1411,11 @@ bool MultipleTransactionsEditDialog::modifyTransaction(Transaction *trans, bool 
 		switch(trans->parentSplit()->type()) {
 			case SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS: {
 				b_date = false;
+				b_payee = false;
 				if(change_parent) {
 					MultiItemTransaction *split = (MultiItemTransaction*) trans->parentSplit();
 					if(dateButton->isChecked()) split->setDate(dateEdit->date());
+					if(payeeEdit && payeeButton->isChecked()) split->setPayee(payeeEdit->text());
 				}
 				break;
 			}

@@ -29,13 +29,14 @@
 
 #include "budget.h"
 
+class QCheckBox;
+class QComboBox;
+class QDialogButtonBox;
+class QLineEdit;
+class QPushButton;
 class QRadioButton;
 class QTreeWidget;
 class QTreeWidgetItem;
-class QComboBox;
-class QLineEdit;
-class QDialogButtonBox;
-class QPushButton;
 
 class Budget;
 class AssetsAccount;
@@ -73,6 +74,7 @@ class ImportQIFDialog : public QWizard {
 		QTreeWidget *defsView;
 		QComboBox *defsCombo, *dateFormatCombo, *accountCombo;
 		QLineEdit *openingBalanceEdit;
+		QCheckBox *ignoreDuplicateTransactionsButton;
 		
 	public:
 		
@@ -123,7 +125,7 @@ class ExportQIFDialog : public QDialog {
 };
 
 
-void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget);
+void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bool ignore_duplicates);
 bool importQIFFile(Budget *budget, QWidget *parent, bool extra_parameters = false);
 
 void exportQIF(QTextStream &fstream, qif_info &qi, Budget *budget, bool export_cats = true);

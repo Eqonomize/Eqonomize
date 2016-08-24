@@ -9,8 +9,6 @@ BUGS:
 
 FEATURES:
 
-- Loans: at the moment loans can only be handled by using regular
-account with negative value and transfers for paying off the loan.
 - Multiple currencies
 - Security: encrypt files?
 - Import and export more file types: OFX, Gnucash, kmymoney2, etc.
@@ -23,8 +21,6 @@ recent transactions, etc.)
 be able to reconcile one's entries with a Bank Statement"
 - Undo
 - Enhance manual
-- Recurring split transactions
-- QIF/CSV subcategories
 
 - support for importing eqz files (so that we can do merging of files)
 - support for saving views in eqz format (e.g. splitting data in separate files)

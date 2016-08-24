@@ -44,6 +44,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QPushButton>
+#include <QCheckBox>
 #include <QCompleter>
 #include <QDirModel>
 
@@ -52,6 +53,8 @@
 
 #include <cmath>
 #include <ctime>
+
+#include <QDebug>
 
 extern QString last_document_directory;
 
@@ -130,6 +133,10 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	page4->setTitle(tr("Import File"));
 	page4->setSubTitle(tr("No (further) issues were found. Press finish to import the selected QIF file."));
 	setPage(4, page4);
+	QGridLayout *layout4 = new QGridLayout(page4);
+	ignoreDuplicateTransactionsButton = new QCheckBox("Ignore duplicate transactions", page4);
+	layout4->addWidget(ignoreDuplicateTransactionsButton, 0, 0, 1, -1);
+	
 
 	setOption(QWizard::HaveHelpButton, false);
 
@@ -255,7 +262,7 @@ void ImportQIFDialog::nextClicked() {
 			return;
 		}
 		QTextStream fstream(&file);
-		importQIF(fstream, true, qi, budget);
+		importQIF(fstream, true, qi, budget, ignoreDuplicateTransactionsButton->isChecked());
 		int ps = qi.p1 + qi.p2 + qi.p3 + qi.p4;
 		file.close();
 		if(b_page1 && (int) qi.unknown_defs.count() > defsView->topLevelItemCount()) {
@@ -416,7 +423,7 @@ void ImportQIFDialog::accept() {
 	last_document_directory = fileInfo.absoluteDir().absolutePath();
 	
 	QTextStream fstream(&file);
-	importQIF(fstream, false, qi, budget);
+	importQIF(fstream, false, qi, budget, ignoreDuplicateTransactionsButton->isChecked());
 	file.close();
 	QString info = "";
 	info += tr("Successfully imported %n transaction(s).", "", qi.transactions);
@@ -462,7 +469,6 @@ ExportQIFDialog::ExportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	grid->addWidget(new QLabel(tr("Account:"), this), 0, 0);
 	accountCombo = new QComboBox(this);
 	accountCombo->setEditable(false);
-	accountCombo->addItem(tr("All", "All accounts"));
 	AssetsAccount *account = budget->assetsAccounts.first();
 	while(account) {
 		if(account != budget->balancingAccount) {
@@ -470,6 +476,7 @@ ExportQIFDialog::ExportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 		}
 		account = budget->assetsAccounts.next();
 	}
+	accountCombo->addItem(tr("All", "All accounts"));
 	grid->addWidget(accountCombo, 0, 1);
 	accountCombo->setFocus();
 
@@ -537,8 +544,7 @@ void ExportQIFDialog::accept() {
 	}
 	int cur_index = accountCombo->currentIndex();
 	AssetsAccount *account = NULL;
-	if(cur_index > 0) {
-		cur_index--;
+	if(cur_index >= 0 && cur_index < (accountCombo->count() - 1)) {
 		int index = 0;
 		account = budget->assetsAccounts.first();
 		while(account) {
@@ -703,7 +709,7 @@ struct qif_split {
 	double value, percentage;
 };
 
-void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
+void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bool ignore_duplicates) {
 	QDate date;
 	QString memo, description, payee, category, subcategory, atype, atype_bak, name, subname, ticker_symbol, security;
 	bool incomecat = false;
@@ -712,6 +718,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 	QString line = fstream.readLine().trimmed(), line_bak;
 	QString date_format = "", alt_date_format = "";
 	QList<Transfer*> transfers;
+	QList<Transfer*> previous_transfers;
 	QVector<qif_split> splits;
 	qif_split *current_split = NULL;
 	int type = -1;
@@ -1134,24 +1141,16 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 										if(current_split->value < 0.0) tra = new Transfer(budget, -current_split->value, date, qi.current_account, acc, current_split->memo);
 										else tra = new Transfer(budget, current_split->value, date, acc, qi.current_account, current_split->memo);
 										bool duplicate = false;
-										Transfer *trans = budget->transfers.first();
-										while(trans) {
-											if(trans->equals(tra)) {
-												Transfer *trans2 = NULL;
+										QList<Transfer*>::iterator it_e = previous_transfers.end();
+										for(QList<Transfer*>::iterator it = previous_transfers.begin(); it != it_e; ++it) {
+											if(tra->equals(*it, false)) {
 												duplicate = true;
-												for(int index = 0; index < transfers.size(); index++) {
-													trans2 = transfers[index];
-													if(!trans2) break;
-													if(trans2 == trans) {
-														duplicate = false;
-														break;
-													}
-												}
 												break;
 											}
-											trans = budget->transfers.next();
 										}
 										if(duplicate) {
+											delete tra;
+										} else if(ignore_duplicates && budget->findDuplicateTransaction(tra)) {
 											qi.duplicates++;
 											delete tra;
 										} else {
@@ -1196,21 +1195,37 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 											//Expense
 											Expense *exp = new Expense(budget, -current_split->value, date, (ExpensesAccount*) cat, qi.current_account, current_split->memo);
 											if(value > 0.0) exp->setQuantity(-1.0);
-											exp->setPayee(payee);
-											split->addTransaction(exp);
-											exp->setParentSplit(split);
+											if(ignore_duplicates && budget->findDuplicateTransaction(exp)) {
+												qi.duplicates++;
+												delete exp;
+											} else {
+												split->addTransaction(exp);
+											}
 										} else {
 											//Income
 											Income *inc = new Income(budget, current_split->value, date, (IncomesAccount*) cat, qi.current_account, current_split->memo);
 											if(value < 0.0) inc->setQuantity(-1.0);
-											inc->setPayer(payee);
-											split->addTransaction(inc);
-											inc->setParentSplit(split);
+											if(ignore_duplicates && budget->findDuplicateTransaction(inc)) {
+												qi.duplicates++;
+												delete inc;
+											} else {
+												split->addTransaction(inc);
+											}
 										}
 									}
 								}
-								budget->addSplitTransaction(split);
-								qi.transactions++;
+								if(!payee.isEmpty()) split->setPayee(payee);
+								if(split->count() >= 2) {
+									budget->addSplitTransaction(split);
+									qi.transactions++;
+								} else if(split->count() == 1) {
+									budget->addTransaction(split->at(0));
+									qi.transactions++;
+									split->clear();
+									delete split;
+								} else {
+									delete split;
+								}
 							}
 						} else if(!test && is_transfer) {
 							//Transfer
@@ -1235,6 +1250,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 									acc->setInitialBalance(value);
 								}
 								qi.current_account = acc;
+								previous_transfers << transfers;
 								transfers.clear();
 							} else {
 								if(!acc) {
@@ -1249,24 +1265,16 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 									if(value < 0.0) tra = new Transfer(budget, -value, date, qi.current_account, acc, memo);
 									else tra = new Transfer(budget, value, date, acc, qi.current_account, memo);
 									bool duplicate = false;
-									Transfer *trans = budget->transfers.first();
-									while(trans) {
-										if(trans->equals(tra)) {
-											Transfer *trans2 = NULL;
+									QList<Transfer*>::iterator it_e = previous_transfers.end();
+									for(QList<Transfer*>::iterator it = previous_transfers.begin(); it != it_e; ++it) {
+										if(tra->equals(*it, false)) {
 											duplicate = true;
-											for(int index = 0; index < transfers.size(); index++) {
-											trans2 = transfers[index];
-											if(!trans2) break;
-												if(trans2 == trans) {
-													duplicate = false;
-													break;
-												}
-											}
 											break;
 										}
-										trans = budget->transfers.next();
 									}
 									if(duplicate) {
+										delete tra;
+									} else if(ignore_duplicates && budget->findDuplicateTransaction(tra)) {
 										qi.duplicates++;
 										delete tra;
 									} else {
@@ -1318,8 +1326,14 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 									Expense *exp = new Expense(budget, -value, date, (ExpensesAccount*) cat, qi.current_account, memo);
 									if(value > 0.0) exp->setQuantity(-1.0);
 									exp->setPayee(payee);
-									budget->addTransaction(exp);
-									qi.transactions++;
+									if(ignore_duplicates && budget->findDuplicateTransaction(exp)) {
+										qi.duplicates++;
+										delete exp;
+									} else {
+										budget->addTransaction(exp);
+										qInfo() << exp->description();
+										qi.transactions++;
+									}
 								}
 							} else {
 								//Income
@@ -1329,8 +1343,14 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 									Income *inc = new Income(budget, value, date, (IncomesAccount*) cat, qi.current_account, memo);
 									if(value < 0.0) inc->setQuantity(-1.0);
 									inc->setPayer(payee);
-									budget->addTransaction(inc);
-									qi.transactions++;
+									if(ignore_duplicates && budget->findDuplicateTransaction(inc)) {
+										qi.duplicates++;
+										delete inc;
+									} else {	
+										budget->addTransaction(inc);
+										qInfo() << inc->description();
+										qi.transactions++;
+									}
 								}
 							}
 						}
@@ -1370,6 +1390,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget) {
 								qi.accounts++;
 							}
 						}
+						previous_transfers << transfers;
 						transfers.clear();
 					} else if(type == 2 && !test) {
 						//category
@@ -1553,12 +1574,14 @@ void exportQIFTransaction(QTextStream &fstream, qif_info &qi, Transaction *trans
 
 }
 
-void exportQIFSplitTransaction(QTextStream &fstream, qif_info &qi, SplitTransaction *split) {
+void exportQIFSplitTransaction(QTextStream &fstream, qif_info &qi, MultiItemTransaction *split) {
 	fstream << "D" << writeQIFDate(split->date(), qi.date_format) << "\n";
 	fstream << "T" << writeQIFValue(split->value(), qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
 	fstream << "C" << "X" << "\n";
-	if(!split->description().isEmpty()) fstream << "M" << split->description() << "\n";
 	QVector<Transaction*>::size_type c = split->count();
+	if(!split->payee().isEmpty()) fstream << "P" << split->payee() << "\n";
+	if(!split->description().isEmpty()) fstream << "M" << split->description() << "\n";
+	bool b_more = false;
 	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
 		Transaction *trans = split->at(i);
 		Account *cat = NULL;
@@ -1578,14 +1601,25 @@ void exportQIFSplitTransaction(QTextStream &fstream, qif_info &qi, SplitTransact
 				else cat = ((Transfer*) trans)->from();
 				break;
 			}
-			default: {}
+			default: {b_more = true; break;}
 		}
 		if(cat->type() == ACCOUNT_TYPE_ASSETS) fstream << "S" << "[" << cat->name() << "]" << "\n";
-		fstream << "S" << cat->nameWithParent(false) << "\n";
+		else fstream << "S" << cat->nameWithParent(false) << "\n";
 		if(!trans->description().isEmpty()) fstream << "E" << trans->description() << "\n";
 		fstream << "$" << writeQIFValue(neg ? -trans->value() : trans->value(), qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
 	}
 	fstream << "^" << "\n";
+	if(b_more) {
+		for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
+			Transaction *trans = split->at(i);
+			switch(trans->type()) {
+				case TRANSACTION_TYPE_EXPENSE: {}
+				case TRANSACTION_TYPE_INCOME: {}
+				case TRANSACTION_TYPE_TRANSFER: {break;}
+				default: {exportQIFTransaction(fstream, qi, trans); break;}
+			}
+		}
+	}
 }
 
 void exportQIFOpeningBalance(QTextStream &fstream, qif_info &qi, AssetsAccount *account, const QDate &date) {
@@ -1719,7 +1753,7 @@ void exportQIF(QTextStream &fstream, qif_info &qi, Budget *budget, bool export_c
 				if(trans->parentSplit() && trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS && ((MultiItemTransaction*) trans->parentSplit())->account() == qi.current_account) {
 					if(!split || split != trans->parentSplit()) {
 						split = trans->parentSplit();
-						exportQIFSplitTransaction(fstream, qi, split);
+						exportQIFSplitTransaction(fstream, qi, (MultiItemTransaction*) split);
 					}
 				} else {
 					exportQIFTransaction(fstream, qi, trans);

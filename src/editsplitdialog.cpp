@@ -38,6 +38,8 @@
 #include <QMessageBox>
 #include <QHeaderView>
 #include <QRadioButton>
+#include <QCompleter>
+#include <QStandardItemModel>
 
 #include "accountcombobox.h"
 #include "budget.h"
@@ -247,7 +249,6 @@ void EditMultiItemDialog::reject() {
 	QDialog::reject();
 }
 
-
 EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAccount *default_account, bool extra_parameters, bool allow_account_creation) : QWidget(parent), budget(budg), b_extra(extra_parameters), b_create_accounts(allow_account_creation) {
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
@@ -259,6 +260,26 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	descriptionEdit = new QLineEdit();
 	grid->addWidget(descriptionEdit, 0, 1);
 	descriptionEdit->setFocus();
+	descriptionEdit->setCompleter(new QCompleter(this));
+	descriptionEdit->completer()->setModel(new QStandardItemModel(this));
+	descriptionEdit->completer()->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+	descriptionEdit->completer()->setCaseSensitivity(Qt::CaseInsensitive);
+	
+	QStringList descr_list;
+	QString descr;
+	SplitTransaction *split = budget->splitTransactions.last();
+	while(split) {
+		descr = split->description();
+		if(split->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS && !descr.isEmpty() && !descr_list.contains(descr, Qt::CaseInsensitive)) {
+			QList<QStandardItem*> row;
+			row << new QStandardItem(descr);
+			row << new QStandardItem(descr.toLower());
+			((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+			descr_list << descr.toLower();
+		}
+		split = budget->splitTransactions.previous();
+	}
+	((QStandardItemModel*) descriptionEdit->completer()->model())->sort(1);
 
 	grid->addWidget(new QLabel(tr("Date:")), 1, 0);
 	dateEdit = new QDateEdit(QDate::currentDate());
@@ -270,6 +291,46 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	accountCombo->updateAccounts();
 	accountCombo->setCurrentAccount(default_account);
 	grid->addWidget(accountCombo, 2, 1);
+	
+	if(b_extra) {
+		grid->addWidget(new QLabel(tr("Payee/Payer:")), 3, 0);
+		payeeEdit = new QLineEdit();
+		grid->addWidget(payeeEdit, 3, 1);
+		payeeEdit->setCompleter(new QCompleter(this));
+		payeeEdit->completer()->setModel(new QStandardItemModel(this));
+		payeeEdit->completer()->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+		payeeEdit->completer()->setCaseSensitivity(Qt::CaseInsensitive);
+		QStringList payee_list;
+		Expense *expense = budget->expenses.last();
+		while(expense) {
+			if(expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST) {
+				if(!expense->payee().isEmpty() && !payee_list.contains(expense->payee(), Qt::CaseInsensitive)) {
+					QList<QStandardItem*> row;
+					row << new QStandardItem(expense->payee());
+					row << new QStandardItem(expense->payee().toLower());
+					((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
+					payee_list << expense->payee().toLower();
+				}
+			}
+			expense = budget->expenses.previous();
+		}
+		Income *income = budget->incomes.last();
+		while(income) {
+			if(!income->security()) {
+				if(!income->payer().isEmpty() && !payee_list.contains(income->payer(), Qt::CaseInsensitive)) {
+					QList<QStandardItem*> row;
+					row << new QStandardItem(income->payer());
+					row << new QStandardItem(income->payer().toLower());
+					((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
+					payee_list << income->payer().toLower();
+				}
+			}
+			income = budget->incomes.previous();
+		}
+		((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
+	} else {
+		payeeEdit = NULL;
+	}
 
 	box1->addWidget(new QLabel(tr("Transactions:")));
 	QHBoxLayout *box2 = new QHBoxLayout();
@@ -429,6 +490,7 @@ MultiItemTransaction *EditMultiItemWidget::createTransaction() {
 	if(!validValues()) return NULL;
 	AssetsAccount *account = selectedAccount();
 	MultiItemTransaction *split = new MultiItemTransaction(budget, dateEdit->date(), account, descriptionEdit->text());
+	if(payeeEdit) split->setPayee(payeeEdit->text());
 	QTreeWidgetItemIterator it(transactionsView);
 	QTreeWidgetItem *i = *it;
 	while(i) {
@@ -443,6 +505,7 @@ void EditMultiItemWidget::setTransaction(MultiItemTransaction *split) {
 	descriptionEdit->setText(split->description());
 	dateEdit->setDate(split->date());
 	accountCombo->setCurrentAccount(split->account());
+	if(payeeEdit) payeeEdit->setText(split->payee());
 	transactionsView->clear();
 	QList<QTreeWidgetItem *> items;
 	int c = split->count();

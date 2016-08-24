@@ -129,8 +129,7 @@ template<class type> class AccountList : public EqonomizeList<type> {
 			qSort(QList<type>::begin(), QList<type>::end(), account_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::append(value);
-			sort();
+			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, account_list_less_than), value);
 		}
 };
 

@@ -64,8 +64,7 @@ template<class type> class TransactionList : public EqonomizeList<type> {
 			qSort(QList<type>::begin(), QList<type>::end(), transaction_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::append(value);
-			sort();
+			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, transaction_list_less_than), value);
 		}
 };
 template<class type> class SplitTransactionList : public EqonomizeList<type> {
@@ -75,8 +74,7 @@ template<class type> class SplitTransactionList : public EqonomizeList<type> {
 			qSort(QList<type>::begin(), QList<type>::end(), split_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::append(value);
-			sort();
+			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, split_list_less_than), value);
 		}
 };
 template<class type> class ScheduledTransactionList : public EqonomizeList<type> {
@@ -86,8 +84,7 @@ template<class type> class ScheduledTransactionList : public EqonomizeList<type>
 			qSort(QList<type>::begin(), QList<type>::end(), schedule_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::append(value);
-			sort();
+			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, schedule_list_less_than), value);
 		}
 
 };
@@ -98,8 +95,7 @@ template<class type> class SecurityList : public EqonomizeList<type> {
 			qSort(QList<type>::begin(), QList<type>::end(), security_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::append(value);
-			sort();
+			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, security_list_less_than), value);
 		}
 };
 template<class type> class SecurityTradeList : public EqonomizeList<type> {
@@ -109,8 +105,7 @@ template<class type> class SecurityTradeList : public EqonomizeList<type> {
 			qSort(QList<type>::begin(), QList<type>::end(), trade_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::append(value);
-			sort();
+			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, trade_list_less_than), value);
 		}
 };
 
@@ -151,6 +146,8 @@ class Budget {
 
 		bool accountHasTransactions(Account*, bool check_subs = true);
 		void moveTransactions(Account*, Account*, bool move_from_subs = true);
+		
+		Transaction *findDuplicateTransaction(Transaction *trans); 
 
 		void addSecurity(Security*);
 		void removeSecurity(Security*, bool keep = false);

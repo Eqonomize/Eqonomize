@@ -397,6 +397,7 @@ void LedgerDialog::printView() {
 void LedgerDialog::joinTransactions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	MultiItemTransaction *split = NULL;
+	QString payee;
 	for(int index = 0; index < selection.size(); index++) {
 		LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
 		if(!i->splitTransaction()) {
@@ -405,11 +406,16 @@ void LedgerDialog::joinTransactions() {
 				if(!split) {
 					split = new MultiItemTransaction(budget, i->transaction()->date(), account);
 				}
+				if(payee.isEmpty()) {
+					if(trans->type() == TRANSACTION_TYPE_EXPENSE) payee = ((Expense*) trans)->payee();
+					else if(trans->type() == TRANSACTION_TYPE_INCOME) payee = ((Income*) trans)->payer();
+				}
 				split->addTransaction(trans);
 			}
 		}
 	}
 	if(!split) return;
+	if(!payee.isEmpty()) split->setPayee(payee);
 	if(!mainWin->editSplitTransaction(split, this)) {
 		split->clear(true);
 		delete split;

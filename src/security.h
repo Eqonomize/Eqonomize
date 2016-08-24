@@ -109,8 +109,7 @@ template<class type> class SecurityTransactionList : public EqonomizeList<type> 
 			qSort(QList<type>::begin(), QList<type>::end(), security_transaction_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::append(value);
-			sort();
+			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, security_transaction_list_less_than), value);
 		}
 };
 static bool scheduled_security_list_less_than(ScheduledTransaction *t1, ScheduledTransaction *t2) {
@@ -124,8 +123,7 @@ template<class type> class ScheduledSecurityTransactionList : public EqonomizeLi
 			qSort(QList<type>::begin(), QList<type>::end(), scheduled_security_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::append(value);
-			sort();
+			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, scheduled_security_list_less_than), value);
 		}
 };
 static bool reinvested_dividend_list_less_than(ReinvestedDividend *t1, ReinvestedDividend *t2) {
@@ -138,8 +136,7 @@ template<class type> class ReinvestedDividendList : public EqonomizeList<type> {
 			qSort(QList<type>::begin(), QList<type>::end(), reinvested_dividend_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::append(value);
-			sort();
+			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, reinvested_dividend_list_less_than), value);
 		}
 };
 static bool traded_shares_list_less_than(SecurityTrade *t1, SecurityTrade *t2) {
@@ -152,8 +149,7 @@ template<class type> class TradedSharesList : public EqonomizeList<type> {
 			qSort(QList<type>::begin(), QList<type>::end(), traded_shares_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::append(value);
-			sort();
+			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, traded_shares_list_less_than), value);
 		}
 };
 

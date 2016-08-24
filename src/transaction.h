@@ -41,9 +41,6 @@ class ScheduledTransaction;
 class Security;
 class SplitTransaction;
 
-static QString emptystr;
-static QDate emptydate;
-
 typedef enum {
 	TRANSACTION_TYPE_EXPENSE,
 	TRANSACTION_TYPE_INCOME,
@@ -132,7 +129,7 @@ class Transaction : public Transactions {
 
 	public:
 
-		Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description = emptystr, QString initial_comment = emptystr);
+		Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description = QString(), QString initial_comment = QString());
 		Transaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		Transaction(Budget *parent_budget);
 		Transaction();
@@ -140,7 +137,7 @@ class Transaction : public Transactions {
 		virtual ~Transaction();
 		virtual Transaction *copy() const = 0;
 
-		virtual bool equals(const Transaction *transaction) const;
+		virtual bool equals(const Transaction *transaction, bool strict_comparison = true) const;
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
@@ -185,7 +182,7 @@ class Expense : public Transaction {
 
 	public:
 
-		Expense(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, QString initial_description = emptystr, QString initial_comment = emptystr);
+		Expense(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, QString initial_description = QString(), QString initial_comment = QString());
 		Expense(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		Expense(Budget *parent_budget);
 		Expense();
@@ -196,7 +193,7 @@ class Expense : public Transaction {
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 
-		bool equals(const Transaction *transaction) const;
+		bool equals(const Transaction *transaction, bool strict_comparison = true) const;
 		
 		ExpensesAccount *category() const;
 		void setCategory(ExpensesAccount *new_category);
@@ -224,7 +221,7 @@ class DebtFee : public Expense {
 
 	public:
 	
-		DebtFee(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = emptystr);
+		DebtFee(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString());
 		DebtFee(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		DebtFee(Budget *parent_budget);
 		DebtFee();
@@ -255,7 +252,7 @@ class DebtInterest : public Expense {
 
 	public:
 	
-		DebtInterest(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = emptystr);
+		DebtInterest(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString());
 		DebtInterest(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		DebtInterest(Budget *parent_budget);
 		DebtInterest();
@@ -288,7 +285,7 @@ class Income : public Transaction {
 
 	public:
 
-		Income(Budget *parent_budget, double initial_income, QDate initial_date, IncomesAccount *initial_category, AssetsAccount *initial_to, QString initial_description = emptystr, QString initial_comment = emptystr);
+		Income(Budget *parent_budget, double initial_income, QDate initial_date, IncomesAccount *initial_category, AssetsAccount *initial_to, QString initial_description = QString(), QString initial_comment = QString());
 		Income(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		Income(Budget *parent_budget);
 		Income();
@@ -299,7 +296,7 @@ class Income : public Transaction {
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 	
-		bool equals(const Transaction *transaction) const;
+		bool equals(const Transaction *transaction, bool strict_comparison = true) const;
 
 		IncomesAccount *category() const;
 		void setCategory(IncomesAccount *new_category);
@@ -323,7 +320,7 @@ class Transfer : public Transaction {
 
 	public:
 	
-		Transfer(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description = emptystr, QString initial_comment = emptystr);
+		Transfer(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description = QString(), QString initial_comment = QString());
 		Transfer(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		Transfer(Budget *parent_budget);
 		Transfer();
@@ -352,7 +349,7 @@ class DebtReduction : public Transfer {
 
 	public:
 	
-		DebtReduction(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = emptystr);
+		DebtReduction(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString());
 		DebtReduction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		DebtReduction(Budget *parent_budget);
 		DebtReduction();
@@ -377,7 +374,7 @@ class Balancing : public Transfer {
 
 	public:
 
-		Balancing(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_account, QString initial_comment = emptystr);
+		Balancing(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_account, QString initial_comment = QString());
 		Balancing(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		Balancing(Budget *parent_budget);
 		Balancing();
@@ -408,7 +405,7 @@ class SecurityTransaction : public Transaction {
 
 	public:
 
-		SecurityTransaction(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, QString initial_comment = emptystr);
+		SecurityTransaction(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, QString initial_comment = QString());
 		SecurityTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		SecurityTransaction(Budget *parent_budget);
 		SecurityTransaction();
@@ -419,7 +416,7 @@ class SecurityTransaction : public Transaction {
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 
-		bool equals(const Transaction *transaction) const;
+		bool equals(const Transaction *transaction, bool strict_comparison = true) const;
 
 		virtual Account *fromAccount() const;
 		virtual Account *toAccount() const;
@@ -445,7 +442,7 @@ class SecurityBuy : public SecurityTransaction {
 
 	public:
 
-		SecurityBuy(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, Account *from_account, QString initial_comment = emptystr);
+		SecurityBuy(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, Account *from_account, QString initial_comment = QString());
 		SecurityBuy(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		SecurityBuy(Budget *parent_budget);
 		SecurityBuy();
@@ -470,7 +467,7 @@ class SecuritySell : public SecurityTransaction {
 
 	public:
 
-		SecuritySell(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, Account *to_account, QString initial_comment = emptystr);
+		SecuritySell(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, Account *to_account, QString initial_comment = QString());
 		SecuritySell(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		SecuritySell(Budget *parent_budget);
 		SecuritySell();
@@ -553,7 +550,7 @@ class SplitTransaction : public Transactions {
 		
 	public:
 		
-		SplitTransaction(Budget *parent_budget, QDate initial_date, QString initial_description = emptystr);
+		SplitTransaction(Budget *parent_budget, QDate initial_date, QString initial_description = QString());
 		SplitTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		SplitTransaction(const SplitTransaction *split);
 		SplitTransaction(Budget *parent_budget);
@@ -607,10 +604,11 @@ class MultiItemTransaction : public SplitTransaction {
 	protected:
 
 		AssetsAccount *o_account;
+		QString s_payee;
 
 	public:
 
-		MultiItemTransaction(Budget *parent_budget, QDate initial_date, AssetsAccount *initial_account, QString initial_description = emptystr);
+		MultiItemTransaction(Budget *parent_budget, QDate initial_date, AssetsAccount *initial_account, QString initial_description = QString());
 		MultiItemTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		MultiItemTransaction(const MultiItemTransaction *split);
 		MultiItemTransaction(Budget *parent_budget);
@@ -630,6 +628,8 @@ class MultiItemTransaction : public SplitTransaction {
 		AssetsAccount *account() const;
 		void setAccount(AssetsAccount *new_account);
 		QString fromAccountsString() const;
+		virtual const QString &payee() const;
+		void setPayee(QString new_payee);
 		
 		void addTransaction(Transaction *trans);
 		
@@ -652,7 +652,7 @@ class MultiAccountTransaction : public SplitTransaction {
 
 	public:
 	
-		MultiAccountTransaction(Budget *parent_budget, CategoryAccount *initial_category, QString initial_description = emptystr);
+		MultiAccountTransaction(Budget *parent_budget, CategoryAccount *initial_category, QString initial_description = QString());
 		MultiAccountTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		MultiAccountTransaction(const MultiAccountTransaction *split);
 		MultiAccountTransaction(Budget *parent_budget);

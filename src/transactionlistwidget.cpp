@@ -471,10 +471,10 @@ void TransactionListWidget::editTransaction() {
 					compvalue = comptrans->value();
 					if(i->transaction()->parentSplit()) {
 						if(i->transaction()->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
-							equal_category = false;
-							equal_payee = false;
+							equal_category = false;							
 							equal_description = false;
 						}
+						equal_payee = false;
 						equal_date = false;
 					}
 					if(i->transaction()->type() != TRANSACTION_TYPE_EXPENSE && i->transaction()->type() != TRANSACTION_TYPE_INCOME) equal_payee = false;
@@ -514,7 +514,7 @@ void TransactionListWidget::editTransaction() {
 					if(equal_date && (compdate != i->date() || trans->parentSplit())) {
 						equal_date = false;
 					}
-					if(equal_payee && (trans->type() != comptrans->type() || (comptrans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) comptrans)->payee() != ((Expense*) trans)->payee()) || (comptrans->type() == TRANSACTION_TYPE_INCOME && ((Income*) comptrans)->payer() != ((Income*) trans)->payer()))) {
+					if(equal_payee && (trans->parentSplit() || trans->type() != comptrans->type() || (comptrans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) comptrans)->payee() != ((Expense*) trans)->payee()) || (comptrans->type() == TRANSACTION_TYPE_INCOME && ((Income*) comptrans)->payer() != ((Income*) trans)->payer()))) {
 						equal_payee = false;
 					}
 					if(equal_value && (trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL || compvalue != trans->value())) {
@@ -600,8 +600,8 @@ void TransactionListWidget::editTransaction() {
 								}
 							}
 						} else if(!warned4) {
-							if(dialog->dateButton->isChecked()) {
-								QMessageBox::critical(this, tr("Error"), tr("Cannot change date of transactions that are part of a split transaction."));
+							if(dialog->dateButton->isChecked() || (dialog->payeeButton && dialog->payeeButton->isChecked())) {
+								QMessageBox::critical(this, tr("Error"), tr("Cannot change date or payer/payee of transactions that are part of a split transaction."));
 								warned4 = true;
 							}
 						}
@@ -826,6 +826,7 @@ void TransactionListWidget::splitUpTransaction() {
 void TransactionListWidget::joinTransactions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	MultiItemTransaction *split = NULL;
+	QString payee;
 	for(int index = 0; index < selection.size(); index++) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
 		Transaction *trans = i->transaction();
@@ -835,10 +836,15 @@ void TransactionListWidget::joinTransactions() {
 				else if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->fromAccount());
 				else split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->toAccount());
 			}
+			if(payee.isEmpty()) {
+				if(trans->type() == TRANSACTION_TYPE_EXPENSE) payee = ((Expense*) trans)->payee();
+				else if(trans->type() == TRANSACTION_TYPE_INCOME) payee = ((Income*) trans)->payer();
+			}
 			split->addTransaction(trans);
 		}
 	}
 	if(!split) return;
+	if(!payee.isEmpty()) split->setPayee(payee);
 	if(mainWin->editSplitTransaction(split)) {
 		editClear();
 	} else {

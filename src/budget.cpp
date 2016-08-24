@@ -146,7 +146,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 	int category_errors = 0, account_errors = 0, transaction_errors = 0, security_errors = 0;
 
 	assetsAccounts_id[balancingAccount->id()] = balancingAccount;
-	
+
 	while(xml.readNextStartElement()) {
 		if(xml.name() == "budget_period") {
 			while(xml.readNextStartElement()) {
@@ -392,7 +392,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 			xml.skipCurrentElement();
 		}
 	}
-	
+
 	if (xml.hasError()) {
 		if(!errors.isEmpty()) errors += '\n';
 		errors += tr("XML parse error: \"%1\" at line %2, col %3").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
@@ -988,6 +988,17 @@ void Budget::splitTransactionDateModified(SplitTransaction *split, const QDate&)
 	if(splitTransactions.removeRef(split)) splitTransactions.inSort(split);
 	splitTransactions.setAutoDelete(true);
 }
+
+Transaction *Budget::findDuplicateTransaction(Transaction *trans) {
+	TransactionList<Transaction*>::iterator it = qLowerBound(transactions.begin(), transactions.end(), trans, transaction_list_less_than);
+	while(it != transactions.end()) {
+		if((*it)->date() > trans->date()) return NULL;
+		if(trans->equals(*it, false)) return *it;
+		++it;
+	}
+	return NULL;
+}
+
 void Budget::accountNameModified(Account *account) {
 	if(accounts.removeRef(account)) accounts.inSort(account);
 	switch(account->type()) {
