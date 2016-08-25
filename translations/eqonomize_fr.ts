@@ -3036,7 +3036,7 @@ i18n: file ./eqonomizeui.rc line 56
 <context>
     <name>Balancing</name>
     <message>
-        <location filename="../src/transaction.cpp" line="449"/>
+        <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
         <translation>Equilibrage du compte</translation>
     </message>
@@ -3122,15 +3122,15 @@ i18n: file ./eqonomizeui.rc line 56
         <translation>Erreur lors de l&apos;enregistrement ; fichier non sauvegardé</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="1125"/>
-        <location filename="../src/qifimportexport.cpp" line="1220"/>
-        <location filename="../src/qifimportexport.cpp" line="1344"/>
+        <location filename="../src/qifimportexport.cpp" line="1132"/>
+        <location filename="../src/qifimportexport.cpp" line="1235"/>
+        <location filename="../src/qifimportexport.cpp" line="1364"/>
         <source>Unnamed</source>
         <translation>Anonyme</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="1165"/>
-        <location filename="../src/qifimportexport.cpp" line="1283"/>
+        <location filename="../src/qifimportexport.cpp" line="1164"/>
+        <location filename="../src/qifimportexport.cpp" line="1291"/>
         <source>Uncategorized</source>
         <translation>N&apos;est pas catégorisé</translation>
     </message>
@@ -3772,7 +3772,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
 <context>
     <name>DebtFee</name>
     <message>
-        <location filename="../src/transaction.cpp" line="219"/>
+        <location filename="../src/transaction.cpp" line="215"/>
         <source>Debt payment: %1 (fee)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3780,7 +3780,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
 <context>
     <name>DebtInterest</name>
     <message>
-        <location filename="../src/transaction.cpp" line="261"/>
+        <location filename="../src/transaction.cpp" line="257"/>
         <source>Debt payment: %1 (interest)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3788,7 +3788,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
 <context>
     <name>DebtPayment</name>
     <message>
-        <location filename="../src/transaction.cpp" line="1722"/>
+        <location filename="../src/transaction.cpp" line="1743"/>
         <source>Debt payment: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3796,7 +3796,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
 <context>
     <name>DebtReduction</name>
     <message>
-        <location filename="../src/transaction.cpp" line="434"/>
+        <location filename="../src/transaction.cpp" line="427"/>
         <source>Debt payment: %1 (reduction)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3939,7 +3939,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
 <context>
     <name>EditDebtPaymentDialog</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="176"/>
+        <location filename="../src/editsplitdialog.cpp" line="178"/>
         <source>Debt Payment</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3947,85 +3947,85 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
 <context>
     <name>EditDebtPaymentWidget</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="820"/>
+        <location filename="../src/editsplitdialog.cpp" line="883"/>
         <source>Debt:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="825"/>
+        <location filename="../src/editsplitdialog.cpp" line="888"/>
         <source>Date:</source>
         <translation type="unfinished">Date:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="833"/>
+        <location filename="../src/editsplitdialog.cpp" line="896"/>
         <source>Debt reduction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="838"/>
+        <location filename="../src/editsplitdialog.cpp" line="901"/>
         <source>Interest:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="851"/>
+        <location filename="../src/editsplitdialog.cpp" line="914"/>
         <source>Payed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="853"/>
+        <location filename="../src/editsplitdialog.cpp" line="916"/>
         <source>Added to debt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="858"/>
+        <location filename="../src/editsplitdialog.cpp" line="921"/>
         <source>Fee:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="865"/>
+        <location filename="../src/editsplitdialog.cpp" line="928"/>
         <source>Account:</source>
         <translation type="unfinished">Compte:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="871"/>
+        <location filename="../src/editsplitdialog.cpp" line="934"/>
         <source>Expense category:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="879"/>
+        <location filename="../src/editsplitdialog.cpp" line="942"/>
         <source>Comments:</source>
         <translation type="unfinished">Commentaires:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="981"/>
+        <location filename="../src/editsplitdialog.cpp" line="1044"/>
         <source>Total value:</source>
         <translation type="unfinished">Valeur totale:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1032"/>
-        <location filename="../src/editsplitdialog.cpp" line="1040"/>
-        <location filename="../src/editsplitdialog.cpp" line="1045"/>
-        <location filename="../src/editsplitdialog.cpp" line="1048"/>
+        <location filename="../src/editsplitdialog.cpp" line="1095"/>
+        <location filename="../src/editsplitdialog.cpp" line="1103"/>
+        <location filename="../src/editsplitdialog.cpp" line="1108"/>
+        <location filename="../src/editsplitdialog.cpp" line="1111"/>
         <source>Error</source>
         <translation type="unfinished">Erreur</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1032"/>
+        <location filename="../src/editsplitdialog.cpp" line="1095"/>
         <source>No suitable account available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1040"/>
+        <location filename="../src/editsplitdialog.cpp" line="1103"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Date invalide.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1045"/>
+        <location filename="../src/editsplitdialog.cpp" line="1108"/>
         <source>Interest must not be zero.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1048"/>
+        <location filename="../src/editsplitdialog.cpp" line="1111"/>
         <source>At least one value must non-zero.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4183,12 +4183,12 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
 <context>
     <name>EditMultiAccountDialog</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="198"/>
+        <location filename="../src/editsplitdialog.cpp" line="200"/>
         <source>Expense with Multiple Payments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="199"/>
+        <location filename="../src/editsplitdialog.cpp" line="201"/>
         <source>Income with Multiple Payments</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4200,79 +4200,79 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <translation type="obsolete">Description:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="550"/>
+        <location filename="../src/editsplitdialog.cpp" line="613"/>
         <source>Description:</source>
         <comment>Generic Description</comment>
         <translation type="unfinished">Description:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="556"/>
+        <location filename="../src/editsplitdialog.cpp" line="619"/>
         <source>Quantity:</source>
         <translation type="unfinished">Quantité:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="563"/>
+        <location filename="../src/editsplitdialog.cpp" line="626"/>
         <source>Category:</source>
         <translation type="unfinished">Catégorie:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="568"/>
+        <location filename="../src/editsplitdialog.cpp" line="631"/>
         <source>Comments:</source>
         <translation type="unfinished">Commentaires:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="572"/>
+        <location filename="../src/editsplitdialog.cpp" line="635"/>
         <source>Transactions:</source>
         <translation type="unfinished">Transactions:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="581"/>
+        <location filename="../src/editsplitdialog.cpp" line="644"/>
         <source>Date</source>
         <translation type="unfinished">Date</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="582"/>
+        <location filename="../src/editsplitdialog.cpp" line="645"/>
         <source>Account</source>
         <translation type="unfinished">Compte</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="583"/>
+        <location filename="../src/editsplitdialog.cpp" line="646"/>
         <source>Value</source>
         <translation type="unfinished">Valeur</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="592"/>
+        <location filename="../src/editsplitdialog.cpp" line="655"/>
         <source>New</source>
         <translation type="unfinished">Nouveau</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="593"/>
+        <location filename="../src/editsplitdialog.cpp" line="656"/>
         <source>Edit…</source>
         <translation type="unfinished">Éditer…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="595"/>
+        <location filename="../src/editsplitdialog.cpp" line="658"/>
         <source>Delete</source>
         <translation type="unfinished">Supprimer</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="626"/>
+        <location filename="../src/editsplitdialog.cpp" line="689"/>
         <source>Total value:</source>
         <translation type="unfinished">Valeur totale:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="795"/>
-        <location filename="../src/editsplitdialog.cpp" line="803"/>
+        <location filename="../src/editsplitdialog.cpp" line="858"/>
+        <location filename="../src/editsplitdialog.cpp" line="866"/>
         <source>Error</source>
         <translation type="unfinished">Erreur</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="795"/>
+        <location filename="../src/editsplitdialog.cpp" line="858"/>
         <source>No suitable expense categories available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="803"/>
+        <location filename="../src/editsplitdialog.cpp" line="866"/>
         <source>A split must contain at least two transactions.</source>
         <translation type="unfinished">Une séparation doit contenir au moins deux transactions.</translation>
     </message>
@@ -4280,7 +4280,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
 <context>
     <name>EditMultiItemDialog</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="226"/>
+        <location filename="../src/editsplitdialog.cpp" line="228"/>
         <source>Split Transaction</source>
         <translation type="unfinished">Transaction séparée</translation>
     </message>
@@ -4292,127 +4292,132 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <translation type="obsolete">Description:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="258"/>
+        <location filename="../src/editsplitdialog.cpp" line="259"/>
         <source>Description:</source>
         <comment>Generic Description</comment>
         <translation type="unfinished">Description:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="263"/>
+        <location filename="../src/editsplitdialog.cpp" line="284"/>
         <source>Date:</source>
         <translation type="unfinished">Date:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="268"/>
+        <location filename="../src/editsplitdialog.cpp" line="289"/>
         <source>Account:</source>
         <translation type="unfinished">Compte:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="274"/>
+        <location filename="../src/editsplitdialog.cpp" line="296"/>
+        <source>Payee/Payer:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="335"/>
         <source>Transactions:</source>
         <translation type="unfinished">Transactions:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="283"/>
+        <location filename="../src/editsplitdialog.cpp" line="344"/>
         <source>Type</source>
         <translation type="unfinished">Type</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="284"/>
+        <location filename="../src/editsplitdialog.cpp" line="345"/>
         <source>Description</source>
         <comment>Generic Description</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="286"/>
+        <location filename="../src/editsplitdialog.cpp" line="347"/>
         <source>Payment</source>
         <translation type="unfinished">Paiement</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="287"/>
+        <location filename="../src/editsplitdialog.cpp" line="348"/>
         <source>Deposit</source>
         <translation type="unfinished">Dépôt</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="297"/>
+        <location filename="../src/editsplitdialog.cpp" line="358"/>
         <source>New</source>
         <translation type="unfinished">Nouveau</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="300"/>
+        <location filename="../src/editsplitdialog.cpp" line="361"/>
         <source>New Expense…</source>
         <translation type="unfinished">Nouvelle dépense…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="301"/>
+        <location filename="../src/editsplitdialog.cpp" line="362"/>
         <source>New Income…</source>
         <translation type="unfinished">Nouveau revenu…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="302"/>
+        <location filename="../src/editsplitdialog.cpp" line="363"/>
         <source>New Deposit…</source>
         <translation type="unfinished">Nouveau dépôt…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="303"/>
+        <location filename="../src/editsplitdialog.cpp" line="364"/>
         <source>New Withdrawal…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="304"/>
+        <location filename="../src/editsplitdialog.cpp" line="365"/>
         <source>Shares Bought…</source>
         <translation type="unfinished">Parts achetées…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="305"/>
+        <location filename="../src/editsplitdialog.cpp" line="366"/>
         <source>Shares Sold…</source>
         <translation type="unfinished">Parts vendues…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="306"/>
+        <location filename="../src/editsplitdialog.cpp" line="367"/>
         <source>New Dividend…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="307"/>
+        <location filename="../src/editsplitdialog.cpp" line="368"/>
         <source>Edit…</source>
         <translation type="unfinished">Éditer…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="309"/>
+        <location filename="../src/editsplitdialog.cpp" line="370"/>
         <source>Delete</source>
         <translation type="unfinished">Supprimer</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="343"/>
+        <location filename="../src/editsplitdialog.cpp" line="404"/>
         <source>Total value:</source>
         <translation type="unfinished">Valeur totale:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="511"/>
-        <location filename="../src/editsplitdialog.cpp" line="519"/>
-        <location filename="../src/editsplitdialog.cpp" line="523"/>
-        <location filename="../src/editsplitdialog.cpp" line="533"/>
+        <location filename="../src/editsplitdialog.cpp" line="574"/>
+        <location filename="../src/editsplitdialog.cpp" line="582"/>
+        <location filename="../src/editsplitdialog.cpp" line="586"/>
+        <location filename="../src/editsplitdialog.cpp" line="596"/>
         <source>Error</source>
         <translation type="unfinished">Erreur</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="511"/>
+        <location filename="../src/editsplitdialog.cpp" line="574"/>
         <source>No suitable account available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="519"/>
+        <location filename="../src/editsplitdialog.cpp" line="582"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Date invalide.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="523"/>
+        <location filename="../src/editsplitdialog.cpp" line="586"/>
         <source>A split must contain at least two transactions.</source>
         <translation type="unfinished">Une séparation doit contenir au moins deux transactions.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="533"/>
+        <location filename="../src/editsplitdialog.cpp" line="596"/>
         <source>Cannot transfer money to and from the same account.</source>
         <translation type="unfinished">Impossible de transférer de l&apos;argent de et vers le même compte.</translation>
     </message>
@@ -6543,17 +6548,17 @@ Que voulez vous en faire ?</translation>
 <context>
     <name>ExportQIFDialog</name>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="454"/>
+        <location filename="../src/qifimportexport.cpp" line="461"/>
         <source>Export QIF File</source>
         <translation>Exporter le fichier QIF</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="462"/>
+        <location filename="../src/qifimportexport.cpp" line="469"/>
         <source>Account:</source>
         <translation>Compte:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="465"/>
+        <location filename="../src/qifimportexport.cpp" line="479"/>
         <source>All</source>
         <comment>All accounts</comment>
         <translation>Tout</translation>
@@ -6580,39 +6585,39 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Sous-catégorie</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="476"/>
+        <location filename="../src/qifimportexport.cpp" line="483"/>
         <source>Date format:</source>
         <translation>Format de date:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="484"/>
+        <location filename="../src/qifimportexport.cpp" line="491"/>
         <source>Value format:</source>
         <translation>Format de valeur:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="491"/>
+        <location filename="../src/qifimportexport.cpp" line="498"/>
         <source>File:</source>
         <translation>Fichier:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="559"/>
-        <location filename="../src/qifimportexport.cpp" line="573"/>
-        <location filename="../src/qifimportexport.cpp" line="583"/>
+        <location filename="../src/qifimportexport.cpp" line="565"/>
+        <location filename="../src/qifimportexport.cpp" line="579"/>
+        <location filename="../src/qifimportexport.cpp" line="589"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="559"/>
+        <location filename="../src/qifimportexport.cpp" line="565"/>
         <source>Selected file is a directory.</source>
         <translation>Le fichier sélectionné est un dossier.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="566"/>
+        <location filename="../src/qifimportexport.cpp" line="572"/>
         <source>Overwrite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="566"/>
+        <location filename="../src/qifimportexport.cpp" line="572"/>
         <source>The selected file already exists. Would you like to overwrite the old copy?</source>
         <translation>Le fichier existe déjà. Voulez-vous réécrire par dessus l&apos;ancien fichier?</translation>
     </message>
@@ -6621,12 +6626,12 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Vous avez sélectionné un répertoire!</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="573"/>
+        <location filename="../src/qifimportexport.cpp" line="579"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation>Impossible d&apos; ouvrir le fichier en écriture.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="583"/>
+        <location filename="../src/qifimportexport.cpp" line="589"/>
         <source>Error while writing file; file was not saved.</source>
         <translation>Erreur lors de l&apos; écriture du fichier ; fichier non sauvegardé.</translation>
     </message>
@@ -7061,82 +7066,82 @@ Que voulez vous en faire ?</translation>
 <context>
     <name>ImportQIFDialog</name>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="60"/>
+        <location filename="../src/qifimportexport.cpp" line="63"/>
         <source>Import QIF file</source>
         <translation>Importer le fichier QIF</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="66"/>
+        <location filename="../src/qifimportexport.cpp" line="69"/>
         <source>File Selection</source>
         <translation>Sélection de fichier</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="67"/>
+        <location filename="../src/qifimportexport.cpp" line="70"/>
         <source>Select a QIF file to import. When you click next, the file be analysed and you might need to answer some questions about the format of the file.</source>
         <translation>Sélectionner un fichier QIF pour l&apos;importation. Quand vous cliquez sur prochain, le fichier sera analysé et vous pourrez devoir répondre à des questions sur le format du fichier.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="70"/>
+        <location filename="../src/qifimportexport.cpp" line="73"/>
         <source>File:</source>
         <translation>Fichier:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="82"/>
+        <location filename="../src/qifimportexport.cpp" line="85"/>
         <source>Local Definitions</source>
         <translation>Définitions locales</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="83"/>
+        <location filename="../src/qifimportexport.cpp" line="86"/>
         <source>Unknown elements where found in the QIF file. It is possible that this is because of localized type names. Please map them to the correct standard names.</source>
         <translation>Le fichier QIF présente des éléments inconnus. Cela est certainement du à l&apos;utilisation de caractères locaux. Veuillez les remplacer par des caractères standards.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="89"/>
+        <location filename="../src/qifimportexport.cpp" line="92"/>
         <source>Local Text</source>
         <translation>Texte local</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="90"/>
+        <location filename="../src/qifimportexport.cpp" line="93"/>
         <source>Standard Text</source>
         <translation>Texte standard</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="93"/>
+        <location filename="../src/qifimportexport.cpp" line="96"/>
         <source>Select standard text:</source>
         <translation>Sélectionner un texte standard:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="99"/>
+        <location filename="../src/qifimportexport.cpp" line="102"/>
         <source>Date Format</source>
         <translation>Format de date</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="100"/>
+        <location filename="../src/qifimportexport.cpp" line="103"/>
         <source>The date format in the QIF file is ambiguous. Please select the correct format.</source>
         <translation>Le format de date dans le fichier QIF est ambigu. S&apos;il vous plaît sélectionner le format correct.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="103"/>
+        <location filename="../src/qifimportexport.cpp" line="106"/>
         <source>Date format:</source>
         <translation>Format de date:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="109"/>
+        <location filename="../src/qifimportexport.cpp" line="112"/>
         <source>Default Account</source>
         <translation>Compte par défaut</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="110"/>
+        <location filename="../src/qifimportexport.cpp" line="113"/>
         <source>Could not find any account definitions in the QIF file. Please select a default account. It is also possible that this is caused by a localized opening balance text.</source>
         <translation>Impossible de trouver les définitions de compte dans le fichier QIF. S&apos;il vous plaît sélectionner un compte par défaut. Il est également possible que cela soit du au solde ouvert traduit en français.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="113"/>
+        <location filename="../src/qifimportexport.cpp" line="116"/>
         <source>Default account:</source>
         <translation>Compte par défaut:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="124"/>
+        <location filename="../src/qifimportexport.cpp" line="127"/>
         <source>Opening balance text:</source>
         <translation>Texte du solde ouvert:</translation>
     </message>
@@ -7222,118 +7227,118 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Commentaires/Bénéficiaire/Sous-Catégorie</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="130"/>
+        <location filename="../src/qifimportexport.cpp" line="133"/>
         <source>Import File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="131"/>
+        <location filename="../src/qifimportexport.cpp" line="134"/>
         <source>No (further) issues were found. Press finish to import the selected QIF file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="230"/>
-        <location filename="../src/qifimportexport.cpp" line="236"/>
-        <location filename="../src/qifimportexport.cpp" line="240"/>
-        <location filename="../src/qifimportexport.cpp" line="250"/>
-        <location filename="../src/qifimportexport.cpp" line="253"/>
-        <location filename="../src/qifimportexport.cpp" line="307"/>
-        <location filename="../src/qifimportexport.cpp" line="407"/>
-        <location filename="../src/qifimportexport.cpp" line="410"/>
+        <location filename="../src/qifimportexport.cpp" line="237"/>
+        <location filename="../src/qifimportexport.cpp" line="243"/>
+        <location filename="../src/qifimportexport.cpp" line="247"/>
+        <location filename="../src/qifimportexport.cpp" line="257"/>
+        <location filename="../src/qifimportexport.cpp" line="260"/>
+        <location filename="../src/qifimportexport.cpp" line="314"/>
+        <location filename="../src/qifimportexport.cpp" line="414"/>
+        <location filename="../src/qifimportexport.cpp" line="417"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="230"/>
+        <location filename="../src/qifimportexport.cpp" line="237"/>
         <source>A file must be selected.</source>
         <translation>Vous devez sélectionner un fichier.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="236"/>
+        <location filename="../src/qifimportexport.cpp" line="243"/>
         <source>Selected file is a directory.</source>
         <translation>Le fichier sélectionné est un dossier.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="240"/>
+        <location filename="../src/qifimportexport.cpp" line="247"/>
         <source>Selected file does not exist.</source>
         <translation>Le fichier sélectionné n&apos;existe pas.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="250"/>
-        <location filename="../src/qifimportexport.cpp" line="407"/>
+        <location filename="../src/qifimportexport.cpp" line="257"/>
+        <location filename="../src/qifimportexport.cpp" line="414"/>
         <source>Couldn&apos;t open %1 for reading.</source>
         <translation>Impossible d&apos; ouvrir le fichier %1 en lecture.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="253"/>
-        <location filename="../src/qifimportexport.cpp" line="410"/>
+        <location filename="../src/qifimportexport.cpp" line="260"/>
+        <location filename="../src/qifimportexport.cpp" line="417"/>
         <source>Error reading %1.</source>
         <translation>Erreur lors de la lecture de %1.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="276"/>
-        <location filename="../src/qifimportexport.cpp" line="284"/>
-        <location filename="../src/qifimportexport.cpp" line="300"/>
+        <location filename="../src/qifimportexport.cpp" line="283"/>
+        <location filename="../src/qifimportexport.cpp" line="291"/>
+        <location filename="../src/qifimportexport.cpp" line="307"/>
         <source>Unknown</source>
         <translation>Inconnu</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="285"/>
+        <location filename="../src/qifimportexport.cpp" line="292"/>
         <source>Account</source>
         <translation>Compte</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="286"/>
+        <location filename="../src/qifimportexport.cpp" line="293"/>
         <source>Bank</source>
         <translation>Banque</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="287"/>
+        <location filename="../src/qifimportexport.cpp" line="294"/>
         <source>Cash</source>
         <translation>Liquide</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="288"/>
+        <location filename="../src/qifimportexport.cpp" line="295"/>
         <source>Cat (Category)</source>
         <translation>Cat (Catégorie)</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="289"/>
+        <location filename="../src/qifimportexport.cpp" line="296"/>
         <source>CCard (Credit Card)</source>
         <translation>CCard (Carte de crédit)</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="290"/>
+        <location filename="../src/qifimportexport.cpp" line="297"/>
         <source>Invst (Investment)</source>
         <translation>Invest (Investissement)</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="291"/>
+        <location filename="../src/qifimportexport.cpp" line="298"/>
         <source>Oth A (Other Assets)</source>
         <translation>Oth A (Other Assets = autres actifs)</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="292"/>
+        <location filename="../src/qifimportexport.cpp" line="299"/>
         <source>Oth L (Other Liabilities)</source>
         <translation>Oth L (Des otres liabilities)</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="293"/>
+        <location filename="../src/qifimportexport.cpp" line="300"/>
         <source>Security</source>
         <translation>Titre</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="294"/>
+        <location filename="../src/qifimportexport.cpp" line="301"/>
         <source>Other</source>
         <translation>Autre</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="307"/>
+        <location filename="../src/qifimportexport.cpp" line="314"/>
         <source>Unrecognized date format.</source>
         <translation>Format de date non reconnu.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="422"/>
+        <location filename="../src/qifimportexport.cpp" line="429"/>
         <source>Successfully imported %n transaction(s).</source>
         <translation>
             <numerusform>%n transaction importée avec succès.</numerusform>
@@ -7341,7 +7346,7 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="425"/>
+        <location filename="../src/qifimportexport.cpp" line="432"/>
         <source>Successfully imported %n account(s).</source>
         <translation>
             <numerusform>%n compte importé avec succès.</numerusform>
@@ -7349,7 +7354,7 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="429"/>
+        <location filename="../src/qifimportexport.cpp" line="436"/>
         <source>Successfully imported %n category/categories.</source>
         <translation>
             <numerusform>%n catégorie importée avec succès.</numerusform>
@@ -7357,7 +7362,7 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="433"/>
+        <location filename="../src/qifimportexport.cpp" line="440"/>
         <source>%n duplicate transaction(s) was ignored.</source>
         <translation>
             <numerusform>%n transaction dupliquée a été ignorée.</numerusform>
@@ -7365,7 +7370,7 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="437"/>
+        <location filename="../src/qifimportexport.cpp" line="444"/>
         <source>Failed to import %n transaction(s).</source>
         <translation>
             <numerusform>Echec à l&apos;importation d&apos;%n transaction.</numerusform>
@@ -7373,7 +7378,7 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="441"/>
+        <location filename="../src/qifimportexport.cpp" line="448"/>
         <source>%n security/securities were not imported.</source>
         <translation>
             <numerusform>%n titre n&apos;a pas été importée.</numerusform>
@@ -7381,7 +7386,7 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="445"/>
+        <location filename="../src/qifimportexport.cpp" line="452"/>
         <source>%n security transaction(s) were not imported.</source>
         <translation>
             <numerusform>%n opération de titre n&apos;a pas été importée.</numerusform>
@@ -7389,7 +7394,7 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="447"/>
+        <location filename="../src/qifimportexport.cpp" line="454"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7397,7 +7402,7 @@ Que voulez vous en faire ?</translation>
 <context>
     <name>Income</name>
     <message>
-        <location filename="../src/transaction.cpp" line="337"/>
+        <location filename="../src/transaction.cpp" line="330"/>
         <source>Dividend: %1</source>
         <translation>Dividende: %1</translation>
     </message>
@@ -7497,9 +7502,9 @@ Que voulez vous en faire ?</translation>
         <location filename="../src/ledgerdialog.cpp" line="303"/>
         <location filename="../src/ledgerdialog.cpp" line="309"/>
         <location filename="../src/ledgerdialog.cpp" line="383"/>
-        <location filename="../src/ledgerdialog.cpp" line="603"/>
         <location filename="../src/ledgerdialog.cpp" line="609"/>
         <location filename="../src/ledgerdialog.cpp" line="615"/>
+        <location filename="../src/ledgerdialog.cpp" line="621"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
@@ -7530,43 +7535,43 @@ Que voulez vous en faire ?</translation>
         <translation>Transactions pour %1</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="482"/>
+        <location filename="../src/ledgerdialog.cpp" line="488"/>
         <source>Delete transactions?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="482"/>
+        <location filename="../src/ledgerdialog.cpp" line="488"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation>Êtes-vous certain de vouloir supprimer toutes (%1) les transactions sélectionnées?</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="603"/>
+        <location filename="../src/ledgerdialog.cpp" line="609"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <translation>Impossible de fixer la valeur des transactions de titre en utilisant la fenêtre de modification multiple des transactions.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="609"/>
+        <location filename="../src/ledgerdialog.cpp" line="615"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the generic description property</comment>
         <translation>Impossible de changer le nom des dividendes et transactions de titre.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="775"/>
+        <location filename="../src/ledgerdialog.cpp" line="781"/>
         <source>Current debt:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="775"/>
+        <location filename="../src/ledgerdialog.cpp" line="781"/>
         <source>Total debt reduction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="775"/>
+        <location filename="../src/ledgerdialog.cpp" line="781"/>
         <source>Total interest and fees:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="777"/>
+        <location filename="../src/ledgerdialog.cpp" line="783"/>
         <source>Number of transactions:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7575,7 +7580,7 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Impossible de changer le nom des dividendes et transactions de titre.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="615"/>
+        <location filename="../src/ledgerdialog.cpp" line="621"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <translation>Impossible de changer le débiteur des dividendes et transactions de titres.</translation>
     </message>
@@ -7584,66 +7589,66 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Impossible de dater les transactions qui font parti d&apos;une transaction séparée.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="660"/>
+        <location filename="../src/ledgerdialog.cpp" line="666"/>
         <source>Initial balance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="672"/>
+        <location filename="../src/ledgerdialog.cpp" line="678"/>
         <source>Split Transaction</source>
         <translation>Transaction séparée</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="687"/>
-        <location filename="../src/ledgerdialog.cpp" line="705"/>
-        <location filename="../src/ledgerdialog.cpp" line="722"/>
-        <location filename="../src/ledgerdialog.cpp" line="733"/>
+        <location filename="../src/ledgerdialog.cpp" line="693"/>
+        <location filename="../src/ledgerdialog.cpp" line="711"/>
+        <location filename="../src/ledgerdialog.cpp" line="728"/>
+        <location filename="../src/ledgerdialog.cpp" line="739"/>
         <source>Debt Payment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="687"/>
+        <location filename="../src/ledgerdialog.cpp" line="693"/>
         <source>Reduction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="705"/>
+        <location filename="../src/ledgerdialog.cpp" line="711"/>
         <source>Fee</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="722"/>
+        <location filename="../src/ledgerdialog.cpp" line="728"/>
         <source>Interest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="750"/>
+        <location filename="../src/ledgerdialog.cpp" line="756"/>
         <source>Income</source>
         <translation>Revenu</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="751"/>
+        <location filename="../src/ledgerdialog.cpp" line="757"/>
         <source>Repayment</source>
         <translation>Remboursement</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="153"/>
-        <location filename="../src/ledgerdialog.cpp" line="753"/>
+        <location filename="../src/ledgerdialog.cpp" line="759"/>
         <source>Expense</source>
         <translation>Dépense</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="754"/>
+        <location filename="../src/ledgerdialog.cpp" line="760"/>
         <source>Refund</source>
         <translation>Rembourser</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="756"/>
+        <location filename="../src/ledgerdialog.cpp" line="762"/>
         <source>Balancing</source>
         <translation>solde</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="758"/>
+        <location filename="../src/ledgerdialog.cpp" line="764"/>
         <source>Transfer</source>
         <translation>Transfère</translation>
     </message>
@@ -7651,47 +7656,47 @@ Que voulez vous en faire ?</translation>
 <context>
     <name>MultiItemListViewItem</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="123"/>
+        <location filename="../src/editsplitdialog.cpp" line="125"/>
         <source>Dividend</source>
         <translation type="unfinished">Dividende</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="124"/>
+        <location filename="../src/editsplitdialog.cpp" line="126"/>
         <source>Income</source>
         <translation type="unfinished">Revenu</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="125"/>
+        <location filename="../src/editsplitdialog.cpp" line="127"/>
         <source>Repayment</source>
         <translation type="unfinished">Remboursement</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="127"/>
+        <location filename="../src/editsplitdialog.cpp" line="129"/>
         <source>Expense</source>
         <translation type="unfinished">Dépense</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="128"/>
+        <location filename="../src/editsplitdialog.cpp" line="130"/>
         <source>Refund</source>
         <translation type="unfinished">Rembourser</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="130"/>
+        <location filename="../src/editsplitdialog.cpp" line="132"/>
         <source>Security Buy</source>
         <translation type="unfinished">Achat de titres</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="132"/>
+        <location filename="../src/editsplitdialog.cpp" line="134"/>
         <source>Security Sell</source>
         <translation type="unfinished">Vente de titres</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="134"/>
+        <location filename="../src/editsplitdialog.cpp" line="136"/>
         <source>Balancing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <location filename="../src/editsplitdialog.cpp" line="138"/>
         <source>Transfer</source>
         <translation type="unfinished">Transfère</translation>
     </message>
@@ -7768,24 +7773,24 @@ Que voulez vous en faire ?</translation>
         <translation type="obsolete">Nouvelle catégorie de dépense…</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1485"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1493"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1504"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1487"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1495"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1506"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1485"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1487"/>
         <source>No income category available.</source>
         <translation>Pas de catégorie de revenu disponible.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1493"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1495"/>
         <source>No expense category available.</source>
         <translation>Pas de catégorie de dépense disponible.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1504"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1506"/>
         <source>Invalid date.</source>
         <translation>Date invalide.</translation>
     </message>
@@ -9044,7 +9049,7 @@ Date: %3</source>
 <context>
     <name>SecurityBuy</name>
     <message>
-        <location filename="../src/transaction.cpp" line="575"/>
+        <location filename="../src/transaction.cpp" line="568"/>
         <source>Security: %1 (bought)</source>
         <translation>Titre: %1 (acheté)</translation>
     </message>
@@ -9052,7 +9057,7 @@ Date: %3</source>
 <context>
     <name>SecuritySell</name>
     <message>
-        <location filename="../src/transaction.cpp" line="616"/>
+        <location filename="../src/transaction.cpp" line="609"/>
         <source>Security: %1 (sold)</source>
         <translation>Titre: %1 (vendu)</translation>
     </message>
@@ -9691,7 +9696,7 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="165"/>
-        <location filename="../src/transactionlistwidget.cpp" line="1404"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1410"/>
         <source>Apply</source>
         <translation>Appliquer</translation>
     </message>
@@ -9839,6 +9844,11 @@ Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/transactionlistwidget.cpp" line="604"/>
+        <source>Cannot change date or payee/payer of transactions that are part of a split transaction.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Cannot change description of dividends and security transactions.</source>
         <translation type="vanished">Impossible de changer le nom des dividendes et transactions de titre.</translation>
     </message>
@@ -9848,13 +9858,12 @@ Date: %3</source>
         <translation>Impossible de changer le débiteur des dividendes et transactions de titres.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="604"/>
         <source>Cannot change date of transactions that are part of a split transaction.</source>
-        <translation>Impossible de dater les transactions qui font parti d&apos;une transaction séparée.</translation>
+        <translation type="vanished">Impossible de dater les transactions qui font parti d&apos;une transaction séparée.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="806"/>
-        <location filename="../src/transactionlistwidget.cpp" line="852"/>
+        <location filename="../src/transactionlistwidget.cpp" line="858"/>
         <source>Delete transactions?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9864,32 +9873,32 @@ Date: %3</source>
         <translation>Êtes-vous certain de vouloir supprimer toutes les (%1) transactions sélectionnées comme transaction séparée?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="852"/>
+        <location filename="../src/transactionlistwidget.cpp" line="858"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation>Êtes-vous certain de vouloir supprimer toutes (%1) les transactions sélectionnées?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1379"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1385"/>
         <source>* Part of split transaction</source>
         <translation>* partie de la transaction séparée</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1380"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1386"/>
         <source>* Part of split (%1)</source>
         <translation>* Partie de la séparation (%1)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1384"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1390"/>
         <source>** Recurring (editing occurrance)</source>
         <translation>** Se reproduit (éditer l&apos; occurrence)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1400"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1406"/>
         <source>Modify…</source>
         <translation>Modifier…</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1402"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1408"/>
         <source>Edit…</source>
         <translation>Éditer…</translation>
     </message>

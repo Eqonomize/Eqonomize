@@ -3119,7 +3119,7 @@ i18n: file ./eqonomizeui.rc line 56
 <context>
     <name>Balancing</name>
     <message>
-        <location filename="../src/transaction.cpp" line="449"/>
+        <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
         <translation type="unfinished">Echilibrare cont</translation>
     </message>
@@ -3209,15 +3209,15 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished">S-a întâlnit o eroare la salvarea fișierului; acesta nu a fost salvat</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="1125"/>
-        <location filename="../src/qifimportexport.cpp" line="1220"/>
-        <location filename="../src/qifimportexport.cpp" line="1344"/>
+        <location filename="../src/qifimportexport.cpp" line="1132"/>
+        <location filename="../src/qifimportexport.cpp" line="1235"/>
+        <location filename="../src/qifimportexport.cpp" line="1364"/>
         <source>Unnamed</source>
         <translation type="unfinished">Fără nume</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="1165"/>
-        <location filename="../src/qifimportexport.cpp" line="1283"/>
+        <location filename="../src/qifimportexport.cpp" line="1164"/>
+        <location filename="../src/qifimportexport.cpp" line="1291"/>
         <source>Uncategorized</source>
         <translation type="unfinished">Fără categorie</translation>
     </message>
@@ -3859,7 +3859,7 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
 <context>
     <name>DebtFee</name>
     <message>
-        <location filename="../src/transaction.cpp" line="219"/>
+        <location filename="../src/transaction.cpp" line="215"/>
         <source>Debt payment: %1 (fee)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3867,7 +3867,7 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
 <context>
     <name>DebtInterest</name>
     <message>
-        <location filename="../src/transaction.cpp" line="261"/>
+        <location filename="../src/transaction.cpp" line="257"/>
         <source>Debt payment: %1 (interest)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3875,7 +3875,7 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
 <context>
     <name>DebtPayment</name>
     <message>
-        <location filename="../src/transaction.cpp" line="1722"/>
+        <location filename="../src/transaction.cpp" line="1743"/>
         <source>Debt payment: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3883,7 +3883,7 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
 <context>
     <name>DebtReduction</name>
     <message>
-        <location filename="../src/transaction.cpp" line="434"/>
+        <location filename="../src/transaction.cpp" line="427"/>
         <source>Debt payment: %1 (reduction)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4026,7 +4026,7 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
 <context>
     <name>EditDebtPaymentDialog</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="176"/>
+        <location filename="../src/editsplitdialog.cpp" line="178"/>
         <source>Debt Payment</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4034,85 +4034,85 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
 <context>
     <name>EditDebtPaymentWidget</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="820"/>
+        <location filename="../src/editsplitdialog.cpp" line="883"/>
         <source>Debt:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="825"/>
+        <location filename="../src/editsplitdialog.cpp" line="888"/>
         <source>Date:</source>
         <translation type="unfinished">Dată:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="833"/>
+        <location filename="../src/editsplitdialog.cpp" line="896"/>
         <source>Debt reduction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="838"/>
+        <location filename="../src/editsplitdialog.cpp" line="901"/>
         <source>Interest:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="851"/>
+        <location filename="../src/editsplitdialog.cpp" line="914"/>
         <source>Payed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="853"/>
+        <location filename="../src/editsplitdialog.cpp" line="916"/>
         <source>Added to debt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="858"/>
+        <location filename="../src/editsplitdialog.cpp" line="921"/>
         <source>Fee:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="865"/>
+        <location filename="../src/editsplitdialog.cpp" line="928"/>
         <source>Account:</source>
         <translation type="unfinished">Cont:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="871"/>
+        <location filename="../src/editsplitdialog.cpp" line="934"/>
         <source>Expense category:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="879"/>
+        <location filename="../src/editsplitdialog.cpp" line="942"/>
         <source>Comments:</source>
         <translation type="unfinished">Comentarii:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="981"/>
+        <location filename="../src/editsplitdialog.cpp" line="1044"/>
         <source>Total value:</source>
         <translation type="unfinished">Valoare totală:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1032"/>
-        <location filename="../src/editsplitdialog.cpp" line="1040"/>
-        <location filename="../src/editsplitdialog.cpp" line="1045"/>
-        <location filename="../src/editsplitdialog.cpp" line="1048"/>
+        <location filename="../src/editsplitdialog.cpp" line="1095"/>
+        <location filename="../src/editsplitdialog.cpp" line="1103"/>
+        <location filename="../src/editsplitdialog.cpp" line="1108"/>
+        <location filename="../src/editsplitdialog.cpp" line="1111"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1032"/>
+        <location filename="../src/editsplitdialog.cpp" line="1095"/>
         <source>No suitable account available.</source>
         <translation type="unfinished">Nici un cont potrivit nu este disponibil.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1040"/>
+        <location filename="../src/editsplitdialog.cpp" line="1103"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Dată nevalidă.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1045"/>
+        <location filename="../src/editsplitdialog.cpp" line="1108"/>
         <source>Interest must not be zero.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1048"/>
+        <location filename="../src/editsplitdialog.cpp" line="1111"/>
         <source>At least one value must non-zero.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4270,12 +4270,12 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
 <context>
     <name>EditMultiAccountDialog</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="198"/>
+        <location filename="../src/editsplitdialog.cpp" line="200"/>
         <source>Expense with Multiple Payments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="199"/>
+        <location filename="../src/editsplitdialog.cpp" line="201"/>
         <source>Income with Multiple Payments</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4287,79 +4287,79 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Descriere:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="550"/>
+        <location filename="../src/editsplitdialog.cpp" line="613"/>
         <source>Description:</source>
         <comment>Generic Description</comment>
         <translation type="unfinished">Descriere:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="556"/>
+        <location filename="../src/editsplitdialog.cpp" line="619"/>
         <source>Quantity:</source>
         <translation type="unfinished">Cantitate:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="563"/>
+        <location filename="../src/editsplitdialog.cpp" line="626"/>
         <source>Category:</source>
         <translation type="unfinished">Categorie:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="568"/>
+        <location filename="../src/editsplitdialog.cpp" line="631"/>
         <source>Comments:</source>
         <translation type="unfinished">Comentarii:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="572"/>
+        <location filename="../src/editsplitdialog.cpp" line="635"/>
         <source>Transactions:</source>
         <translation type="unfinished">Tranzacții:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="581"/>
+        <location filename="../src/editsplitdialog.cpp" line="644"/>
         <source>Date</source>
         <translation type="unfinished">Dată</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="582"/>
+        <location filename="../src/editsplitdialog.cpp" line="645"/>
         <source>Account</source>
         <translation type="unfinished">Cont</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="583"/>
+        <location filename="../src/editsplitdialog.cpp" line="646"/>
         <source>Value</source>
         <translation type="unfinished">Valoare</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="592"/>
+        <location filename="../src/editsplitdialog.cpp" line="655"/>
         <source>New</source>
         <translation type="unfinished">Nou</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="593"/>
+        <location filename="../src/editsplitdialog.cpp" line="656"/>
         <source>Edit…</source>
         <translation type="unfinished">Editează…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="595"/>
+        <location filename="../src/editsplitdialog.cpp" line="658"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="626"/>
+        <location filename="../src/editsplitdialog.cpp" line="689"/>
         <source>Total value:</source>
         <translation type="unfinished">Valoare totală:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="795"/>
-        <location filename="../src/editsplitdialog.cpp" line="803"/>
+        <location filename="../src/editsplitdialog.cpp" line="858"/>
+        <location filename="../src/editsplitdialog.cpp" line="866"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="795"/>
+        <location filename="../src/editsplitdialog.cpp" line="858"/>
         <source>No suitable expense categories available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="803"/>
+        <location filename="../src/editsplitdialog.cpp" line="866"/>
         <source>A split must contain at least two transactions.</source>
         <translation type="unfinished">O împărțire trebuie să conțină cel puțin două tranzacții.</translation>
     </message>
@@ -4367,7 +4367,7 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
 <context>
     <name>EditMultiItemDialog</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="226"/>
+        <location filename="../src/editsplitdialog.cpp" line="228"/>
         <source>Split Transaction</source>
         <translation type="unfinished">Împarte tranzacția</translation>
     </message>
@@ -4379,127 +4379,132 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Descriere:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="258"/>
+        <location filename="../src/editsplitdialog.cpp" line="259"/>
         <source>Description:</source>
         <comment>Generic Description</comment>
         <translation type="unfinished">Descriere:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="263"/>
+        <location filename="../src/editsplitdialog.cpp" line="284"/>
         <source>Date:</source>
         <translation type="unfinished">Dată:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="268"/>
+        <location filename="../src/editsplitdialog.cpp" line="289"/>
         <source>Account:</source>
         <translation type="unfinished">Cont:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="274"/>
+        <location filename="../src/editsplitdialog.cpp" line="296"/>
+        <source>Payee/Payer:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="335"/>
         <source>Transactions:</source>
         <translation type="unfinished">Tranzacții:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="283"/>
+        <location filename="../src/editsplitdialog.cpp" line="344"/>
         <source>Type</source>
         <translation type="unfinished">Tip</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="284"/>
+        <location filename="../src/editsplitdialog.cpp" line="345"/>
         <source>Description</source>
         <comment>Generic Description</comment>
         <translation type="unfinished">Descriere</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="286"/>
+        <location filename="../src/editsplitdialog.cpp" line="347"/>
         <source>Payment</source>
         <translation type="unfinished">Plată</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="287"/>
+        <location filename="../src/editsplitdialog.cpp" line="348"/>
         <source>Deposit</source>
         <translation type="unfinished">Depozit</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="297"/>
+        <location filename="../src/editsplitdialog.cpp" line="358"/>
         <source>New</source>
         <translation type="unfinished">Nou</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="300"/>
+        <location filename="../src/editsplitdialog.cpp" line="361"/>
         <source>New Expense…</source>
         <translation type="unfinished">Cheltuială nouă…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="301"/>
+        <location filename="../src/editsplitdialog.cpp" line="362"/>
         <source>New Income…</source>
         <translation type="unfinished">Venit nou…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="302"/>
+        <location filename="../src/editsplitdialog.cpp" line="363"/>
         <source>New Deposit…</source>
         <translation type="unfinished">Depozit nou…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="303"/>
+        <location filename="../src/editsplitdialog.cpp" line="364"/>
         <source>New Withdrawal…</source>
         <translation type="unfinished">Retragere nouă…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="304"/>
+        <location filename="../src/editsplitdialog.cpp" line="365"/>
         <source>Shares Bought…</source>
         <translation type="unfinished">Acțiuni cumpărate…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="305"/>
+        <location filename="../src/editsplitdialog.cpp" line="366"/>
         <source>Shares Sold…</source>
         <translation type="unfinished">Acțiuni vândute…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="306"/>
+        <location filename="../src/editsplitdialog.cpp" line="367"/>
         <source>New Dividend…</source>
         <translation type="unfinished">Dividend nou…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="307"/>
+        <location filename="../src/editsplitdialog.cpp" line="368"/>
         <source>Edit…</source>
         <translation type="unfinished">Editează…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="309"/>
+        <location filename="../src/editsplitdialog.cpp" line="370"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="343"/>
+        <location filename="../src/editsplitdialog.cpp" line="404"/>
         <source>Total value:</source>
         <translation type="unfinished">Valoare totală:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="511"/>
-        <location filename="../src/editsplitdialog.cpp" line="519"/>
-        <location filename="../src/editsplitdialog.cpp" line="523"/>
-        <location filename="../src/editsplitdialog.cpp" line="533"/>
+        <location filename="../src/editsplitdialog.cpp" line="574"/>
+        <location filename="../src/editsplitdialog.cpp" line="582"/>
+        <location filename="../src/editsplitdialog.cpp" line="586"/>
+        <location filename="../src/editsplitdialog.cpp" line="596"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="511"/>
+        <location filename="../src/editsplitdialog.cpp" line="574"/>
         <source>No suitable account available.</source>
         <translation type="unfinished">Nici un cont potrivit nu este disponibil.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="519"/>
+        <location filename="../src/editsplitdialog.cpp" line="582"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Dată nevalidă.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="523"/>
+        <location filename="../src/editsplitdialog.cpp" line="586"/>
         <source>A split must contain at least two transactions.</source>
         <translation type="unfinished">O împărțire trebuie să conțină cel puțin două tranzacții.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="533"/>
+        <location filename="../src/editsplitdialog.cpp" line="596"/>
         <source>Cannot transfer money to and from the same account.</source>
         <translation type="unfinished">Nu se pot transfera bani din și către același cont.</translation>
     </message>
@@ -6605,17 +6610,17 @@ Ce doriți să le faceți cu ele?</translation>
 <context>
     <name>ExportQIFDialog</name>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="454"/>
+        <location filename="../src/qifimportexport.cpp" line="461"/>
         <source>Export QIF File</source>
         <translation type="unfinished">Exportă fișier QIF</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="462"/>
+        <location filename="../src/qifimportexport.cpp" line="469"/>
         <source>Account:</source>
         <translation type="unfinished">Cont:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="465"/>
+        <location filename="../src/qifimportexport.cpp" line="479"/>
         <source>All</source>
         <comment>All accounts</comment>
         <translation type="unfinished"></translation>
@@ -6642,39 +6647,39 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Subcategorie</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="476"/>
+        <location filename="../src/qifimportexport.cpp" line="483"/>
         <source>Date format:</source>
         <translation type="unfinished">Format dată:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="484"/>
+        <location filename="../src/qifimportexport.cpp" line="491"/>
         <source>Value format:</source>
         <translation type="unfinished">Format valoare:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="491"/>
+        <location filename="../src/qifimportexport.cpp" line="498"/>
         <source>File:</source>
         <translation type="unfinished">Fișier:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="559"/>
-        <location filename="../src/qifimportexport.cpp" line="573"/>
-        <location filename="../src/qifimportexport.cpp" line="583"/>
+        <location filename="../src/qifimportexport.cpp" line="565"/>
+        <location filename="../src/qifimportexport.cpp" line="579"/>
+        <location filename="../src/qifimportexport.cpp" line="589"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="559"/>
+        <location filename="../src/qifimportexport.cpp" line="565"/>
         <source>Selected file is a directory.</source>
         <translation type="unfinished">Fișierul selectat este un director.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="566"/>
+        <location filename="../src/qifimportexport.cpp" line="572"/>
         <source>Overwrite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="566"/>
+        <location filename="../src/qifimportexport.cpp" line="572"/>
         <source>The selected file already exists. Would you like to overwrite the old copy?</source>
         <translation type="unfinished">Fișierul selectat deja există. Doriți să suprascrieți copia veche?</translation>
     </message>
@@ -6683,12 +6688,12 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Ați selectat un director!</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="573"/>
+        <location filename="../src/qifimportexport.cpp" line="579"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation type="unfinished">Nu s-a putut deschide fișierul pentru scriere.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="583"/>
+        <location filename="../src/qifimportexport.cpp" line="589"/>
         <source>Error while writing file; file was not saved.</source>
         <translation type="unfinished">Eroare la scrierea fișierului; acesta nu a fost salvat.</translation>
     </message>
@@ -7121,82 +7126,82 @@ Ce doriți să le faceți cu ele?</translation>
 <context>
     <name>ImportQIFDialog</name>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="60"/>
+        <location filename="../src/qifimportexport.cpp" line="63"/>
         <source>Import QIF file</source>
         <translation type="unfinished">Importă fișier QIF</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="66"/>
+        <location filename="../src/qifimportexport.cpp" line="69"/>
         <source>File Selection</source>
         <translation type="unfinished">Selectare fişier</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="67"/>
+        <location filename="../src/qifimportexport.cpp" line="70"/>
         <source>Select a QIF file to import. When you click next, the file be analysed and you might need to answer some questions about the format of the file.</source>
         <translation type="unfinished">Selectați fișierul QIF pentru importare. Când apăsați „Următor”, fișierul va fi analizat și s-ar putea să trebuiască să răspundeți la câteva întrebări despre formatul fișierului.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="70"/>
+        <location filename="../src/qifimportexport.cpp" line="73"/>
         <source>File:</source>
         <translation type="unfinished">Fișier:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="82"/>
+        <location filename="../src/qifimportexport.cpp" line="85"/>
         <source>Local Definitions</source>
         <translation type="unfinished">Definiții locale</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="83"/>
+        <location filename="../src/qifimportexport.cpp" line="86"/>
         <source>Unknown elements where found in the QIF file. It is possible that this is because of localized type names. Please map them to the correct standard names.</source>
         <translation type="unfinished">S-au găsit elemente necunoscute în fișierul QIF, posibil datorită localizării numelor de tipuri. Asociați-le cu numele standard corecte.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="89"/>
+        <location filename="../src/qifimportexport.cpp" line="92"/>
         <source>Local Text</source>
         <translation type="unfinished">Text local</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="90"/>
+        <location filename="../src/qifimportexport.cpp" line="93"/>
         <source>Standard Text</source>
         <translation type="unfinished">Text standard</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="93"/>
+        <location filename="../src/qifimportexport.cpp" line="96"/>
         <source>Select standard text:</source>
         <translation type="unfinished">Selectați textul standard:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="99"/>
+        <location filename="../src/qifimportexport.cpp" line="102"/>
         <source>Date Format</source>
         <translation type="unfinished">Format dată</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="100"/>
+        <location filename="../src/qifimportexport.cpp" line="103"/>
         <source>The date format in the QIF file is ambiguous. Please select the correct format.</source>
         <translation type="unfinished">Formatul de dată în fișierul QIF este ambiguu. Selectați formatul corect.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="103"/>
+        <location filename="../src/qifimportexport.cpp" line="106"/>
         <source>Date format:</source>
         <translation type="unfinished">Format dată:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="109"/>
+        <location filename="../src/qifimportexport.cpp" line="112"/>
         <source>Default Account</source>
         <translation type="unfinished">Cont implicit</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="110"/>
+        <location filename="../src/qifimportexport.cpp" line="113"/>
         <source>Could not find any account definitions in the QIF file. Please select a default account. It is also possible that this is caused by a localized opening balance text.</source>
         <translation type="unfinished">Nu s-au putut găsi definiții de conturi în fișierul QIF. Selectați un cont implicit. Această eroare poate fi cauzată și de localizarea textului balanței de deschidere.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="113"/>
+        <location filename="../src/qifimportexport.cpp" line="116"/>
         <source>Default account:</source>
         <translation type="unfinished">Cont implicit:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="124"/>
+        <location filename="../src/qifimportexport.cpp" line="127"/>
         <source>Opening balance text:</source>
         <translation type="unfinished">Text balanță de deschidere:</translation>
     </message>
@@ -7274,118 +7279,118 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Comentarii/beneficiar/subcategorie</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="130"/>
+        <location filename="../src/qifimportexport.cpp" line="133"/>
         <source>Import File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="131"/>
+        <location filename="../src/qifimportexport.cpp" line="134"/>
         <source>No (further) issues were found. Press finish to import the selected QIF file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="230"/>
-        <location filename="../src/qifimportexport.cpp" line="236"/>
-        <location filename="../src/qifimportexport.cpp" line="240"/>
-        <location filename="../src/qifimportexport.cpp" line="250"/>
-        <location filename="../src/qifimportexport.cpp" line="253"/>
-        <location filename="../src/qifimportexport.cpp" line="307"/>
-        <location filename="../src/qifimportexport.cpp" line="407"/>
-        <location filename="../src/qifimportexport.cpp" line="410"/>
+        <location filename="../src/qifimportexport.cpp" line="237"/>
+        <location filename="../src/qifimportexport.cpp" line="243"/>
+        <location filename="../src/qifimportexport.cpp" line="247"/>
+        <location filename="../src/qifimportexport.cpp" line="257"/>
+        <location filename="../src/qifimportexport.cpp" line="260"/>
+        <location filename="../src/qifimportexport.cpp" line="314"/>
+        <location filename="../src/qifimportexport.cpp" line="414"/>
+        <location filename="../src/qifimportexport.cpp" line="417"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="230"/>
+        <location filename="../src/qifimportexport.cpp" line="237"/>
         <source>A file must be selected.</source>
         <translation type="unfinished">Trebuie să selectați un fișier.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="236"/>
+        <location filename="../src/qifimportexport.cpp" line="243"/>
         <source>Selected file is a directory.</source>
         <translation type="unfinished">Fișierul selectat este un director.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="240"/>
+        <location filename="../src/qifimportexport.cpp" line="247"/>
         <source>Selected file does not exist.</source>
         <translation type="unfinished">Fișierul selectat nu există.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="250"/>
-        <location filename="../src/qifimportexport.cpp" line="407"/>
+        <location filename="../src/qifimportexport.cpp" line="257"/>
+        <location filename="../src/qifimportexport.cpp" line="414"/>
         <source>Couldn&apos;t open %1 for reading.</source>
         <translation type="unfinished">Nu s-a putut deschide %1 pentru citire.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="253"/>
-        <location filename="../src/qifimportexport.cpp" line="410"/>
+        <location filename="../src/qifimportexport.cpp" line="260"/>
+        <location filename="../src/qifimportexport.cpp" line="417"/>
         <source>Error reading %1.</source>
         <translation type="unfinished">Eroare la citirea %1.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="276"/>
-        <location filename="../src/qifimportexport.cpp" line="284"/>
-        <location filename="../src/qifimportexport.cpp" line="300"/>
+        <location filename="../src/qifimportexport.cpp" line="283"/>
+        <location filename="../src/qifimportexport.cpp" line="291"/>
+        <location filename="../src/qifimportexport.cpp" line="307"/>
         <source>Unknown</source>
         <translation type="unfinished">Necunoscut</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="285"/>
+        <location filename="../src/qifimportexport.cpp" line="292"/>
         <source>Account</source>
         <translation type="unfinished">Cont</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="286"/>
+        <location filename="../src/qifimportexport.cpp" line="293"/>
         <source>Bank</source>
         <translation type="unfinished">Bancă</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="287"/>
+        <location filename="../src/qifimportexport.cpp" line="294"/>
         <source>Cash</source>
         <translation type="unfinished">Numerar</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="288"/>
+        <location filename="../src/qifimportexport.cpp" line="295"/>
         <source>Cat (Category)</source>
         <translation type="unfinished">Cat (Categorie)</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="289"/>
+        <location filename="../src/qifimportexport.cpp" line="296"/>
         <source>CCard (Credit Card)</source>
         <translation type="unfinished">CCard (card credit)</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="290"/>
+        <location filename="../src/qifimportexport.cpp" line="297"/>
         <source>Invst (Investment)</source>
         <translation type="unfinished">Invst (Investiție)</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="291"/>
+        <location filename="../src/qifimportexport.cpp" line="298"/>
         <source>Oth A (Other Assets)</source>
         <translation type="unfinished">Alte R (Alte resurse)</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="292"/>
+        <location filename="../src/qifimportexport.cpp" line="299"/>
         <source>Oth L (Other Liabilities)</source>
         <translation type="unfinished">Alte P (alte pasive)</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="293"/>
+        <location filename="../src/qifimportexport.cpp" line="300"/>
         <source>Security</source>
         <translation type="unfinished">Titlu de valoare</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="294"/>
+        <location filename="../src/qifimportexport.cpp" line="301"/>
         <source>Other</source>
         <translation type="unfinished">Altul</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="307"/>
+        <location filename="../src/qifimportexport.cpp" line="314"/>
         <source>Unrecognized date format.</source>
         <translation type="unfinished">Format dată nerecunoscut.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="422"/>
+        <location filename="../src/qifimportexport.cpp" line="429"/>
         <source>Successfully imported %n transaction(s).</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -7394,7 +7399,7 @@ Ce doriți să le faceți cu ele?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="425"/>
+        <location filename="../src/qifimportexport.cpp" line="432"/>
         <source>Successfully imported %n account(s).</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -7403,7 +7408,7 @@ Ce doriți să le faceți cu ele?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="429"/>
+        <location filename="../src/qifimportexport.cpp" line="436"/>
         <source>Successfully imported %n category/categories.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -7412,7 +7417,7 @@ Ce doriți să le faceți cu ele?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="433"/>
+        <location filename="../src/qifimportexport.cpp" line="440"/>
         <source>%n duplicate transaction(s) was ignored.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -7421,7 +7426,7 @@ Ce doriți să le faceți cu ele?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="437"/>
+        <location filename="../src/qifimportexport.cpp" line="444"/>
         <source>Failed to import %n transaction(s).</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -7430,7 +7435,7 @@ Ce doriți să le faceți cu ele?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="441"/>
+        <location filename="../src/qifimportexport.cpp" line="448"/>
         <source>%n security/securities were not imported.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -7439,7 +7444,7 @@ Ce doriți să le faceți cu ele?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="445"/>
+        <location filename="../src/qifimportexport.cpp" line="452"/>
         <source>%n security transaction(s) were not imported.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -7448,7 +7453,7 @@ Ce doriți să le faceți cu ele?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="447"/>
+        <location filename="../src/qifimportexport.cpp" line="454"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7456,7 +7461,7 @@ Ce doriți să le faceți cu ele?</translation>
 <context>
     <name>Income</name>
     <message>
-        <location filename="../src/transaction.cpp" line="337"/>
+        <location filename="../src/transaction.cpp" line="330"/>
         <source>Dividend: %1</source>
         <translation type="unfinished">Dividend: %1</translation>
     </message>
@@ -7552,9 +7557,9 @@ Ce doriți să le faceți cu ele?</translation>
         <location filename="../src/ledgerdialog.cpp" line="303"/>
         <location filename="../src/ledgerdialog.cpp" line="309"/>
         <location filename="../src/ledgerdialog.cpp" line="383"/>
-        <location filename="../src/ledgerdialog.cpp" line="603"/>
         <location filename="../src/ledgerdialog.cpp" line="609"/>
         <location filename="../src/ledgerdialog.cpp" line="615"/>
+        <location filename="../src/ledgerdialog.cpp" line="621"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7585,43 +7590,43 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished">Tranzacții pentru %1</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="482"/>
+        <location filename="../src/ledgerdialog.cpp" line="488"/>
         <source>Delete transactions?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="482"/>
+        <location filename="../src/ledgerdialog.cpp" line="488"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation type="unfinished">Sigur doriți ștergerea tuturor (%1) tranzacții selectate?</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="603"/>
+        <location filename="../src/ledgerdialog.cpp" line="609"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <translation type="unfinished">Nu se poate modifica valoarea tranzacțiilor cu titluri de valoare prin fereastra de modificare tranzacții multiple.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="609"/>
+        <location filename="../src/ledgerdialog.cpp" line="615"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the generic description property</comment>
         <translation type="unfinished">Nu se poate schimba descrierea dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="775"/>
+        <location filename="../src/ledgerdialog.cpp" line="781"/>
         <source>Current debt:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="775"/>
+        <location filename="../src/ledgerdialog.cpp" line="781"/>
         <source>Total debt reduction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="775"/>
+        <location filename="../src/ledgerdialog.cpp" line="781"/>
         <source>Total interest and fees:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="777"/>
+        <location filename="../src/ledgerdialog.cpp" line="783"/>
         <source>Number of transactions:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7630,7 +7635,7 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Nu se poate schimba descrierea dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="615"/>
+        <location filename="../src/ledgerdialog.cpp" line="621"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <translation type="unfinished">Nu se poate schimba plătitorul dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
@@ -7639,66 +7644,66 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Nu se poate schimba data tranzacțiilor care sunt parte a unei tranzacții împărțite.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="660"/>
+        <location filename="../src/ledgerdialog.cpp" line="666"/>
         <source>Initial balance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="672"/>
+        <location filename="../src/ledgerdialog.cpp" line="678"/>
         <source>Split Transaction</source>
         <translation type="unfinished">Împarte tranzacția</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="687"/>
-        <location filename="../src/ledgerdialog.cpp" line="705"/>
-        <location filename="../src/ledgerdialog.cpp" line="722"/>
-        <location filename="../src/ledgerdialog.cpp" line="733"/>
+        <location filename="../src/ledgerdialog.cpp" line="693"/>
+        <location filename="../src/ledgerdialog.cpp" line="711"/>
+        <location filename="../src/ledgerdialog.cpp" line="728"/>
+        <location filename="../src/ledgerdialog.cpp" line="739"/>
         <source>Debt Payment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="687"/>
+        <location filename="../src/ledgerdialog.cpp" line="693"/>
         <source>Reduction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="705"/>
+        <location filename="../src/ledgerdialog.cpp" line="711"/>
         <source>Fee</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="722"/>
+        <location filename="../src/ledgerdialog.cpp" line="728"/>
         <source>Interest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="750"/>
+        <location filename="../src/ledgerdialog.cpp" line="756"/>
         <source>Income</source>
         <translation type="unfinished">Venit</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="751"/>
+        <location filename="../src/ledgerdialog.cpp" line="757"/>
         <source>Repayment</source>
         <translation type="unfinished">Restituire</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="153"/>
-        <location filename="../src/ledgerdialog.cpp" line="753"/>
+        <location filename="../src/ledgerdialog.cpp" line="759"/>
         <source>Expense</source>
         <translation type="unfinished">Cheltuială</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="754"/>
+        <location filename="../src/ledgerdialog.cpp" line="760"/>
         <source>Refund</source>
         <translation type="unfinished">Rambursare</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="756"/>
+        <location filename="../src/ledgerdialog.cpp" line="762"/>
         <source>Balancing</source>
         <translation type="unfinished">Echilibrare</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="758"/>
+        <location filename="../src/ledgerdialog.cpp" line="764"/>
         <source>Transfer</source>
         <translation type="unfinished">Transfer</translation>
     </message>
@@ -7706,47 +7711,47 @@ Ce doriți să le faceți cu ele?</translation>
 <context>
     <name>MultiItemListViewItem</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="123"/>
+        <location filename="../src/editsplitdialog.cpp" line="125"/>
         <source>Dividend</source>
         <translation type="unfinished">Dividend</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="124"/>
+        <location filename="../src/editsplitdialog.cpp" line="126"/>
         <source>Income</source>
         <translation type="unfinished">Venit</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="125"/>
+        <location filename="../src/editsplitdialog.cpp" line="127"/>
         <source>Repayment</source>
         <translation type="unfinished">Restituire</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="127"/>
+        <location filename="../src/editsplitdialog.cpp" line="129"/>
         <source>Expense</source>
         <translation type="unfinished">Cheltuială</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="128"/>
+        <location filename="../src/editsplitdialog.cpp" line="130"/>
         <source>Refund</source>
         <translation type="unfinished">Rambursare</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="130"/>
+        <location filename="../src/editsplitdialog.cpp" line="132"/>
         <source>Security Buy</source>
         <translation type="unfinished">Cumpărare titlu de valoare</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="132"/>
+        <location filename="../src/editsplitdialog.cpp" line="134"/>
         <source>Security Sell</source>
         <translation type="unfinished">Vânzare titlu de valoare</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="134"/>
+        <location filename="../src/editsplitdialog.cpp" line="136"/>
         <source>Balancing</source>
         <translation type="unfinished">Echilibrare</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <location filename="../src/editsplitdialog.cpp" line="138"/>
         <source>Transfer</source>
         <translation type="unfinished">Transfer</translation>
     </message>
@@ -7823,24 +7828,24 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Categorie de cheltuială nouă…</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1485"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1493"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1504"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1487"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1495"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1506"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1485"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1487"/>
         <source>No income category available.</source>
         <translation type="unfinished">Nu este definită nici o categorie de venit.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1493"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1495"/>
         <source>No expense category available.</source>
         <translation type="unfinished">Nu este definită nici o categorie de cheltuieli.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1504"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1506"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Dată nevalidă.</translation>
     </message>
@@ -9091,7 +9096,7 @@ Date: %3</source>
 <context>
     <name>SecurityBuy</name>
     <message>
-        <location filename="../src/transaction.cpp" line="575"/>
+        <location filename="../src/transaction.cpp" line="568"/>
         <source>Security: %1 (bought)</source>
         <translation type="unfinished">Titlu de valoare: %1 (cumpărat)</translation>
     </message>
@@ -9099,7 +9104,7 @@ Date: %3</source>
 <context>
     <name>SecuritySell</name>
     <message>
-        <location filename="../src/transaction.cpp" line="616"/>
+        <location filename="../src/transaction.cpp" line="609"/>
         <source>Security: %1 (sold)</source>
         <translation type="unfinished">Titlu de valoare: %1 (vândut)</translation>
     </message>
@@ -9730,7 +9735,7 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="165"/>
-        <location filename="../src/transactionlistwidget.cpp" line="1404"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1410"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9870,6 +9875,11 @@ Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/transactionlistwidget.cpp" line="604"/>
+        <source>Cannot change date or payee/payer of transactions that are part of a split transaction.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Cannot change description of dividends and security transactions.</source>
         <translation type="obsolete">Nu se poate schimba descrierea dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
@@ -9879,13 +9889,12 @@ Date: %3</source>
         <translation type="unfinished">Nu se poate schimba plătitorul dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="604"/>
         <source>Cannot change date of transactions that are part of a split transaction.</source>
-        <translation type="unfinished">Nu se poate schimba data tranzacțiilor care sunt parte a unei tranzacții împărțite.</translation>
+        <translation type="obsolete">Nu se poate schimba data tranzacțiilor care sunt parte a unei tranzacții împărțite.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="806"/>
-        <location filename="../src/transactionlistwidget.cpp" line="852"/>
+        <location filename="../src/transactionlistwidget.cpp" line="858"/>
         <source>Delete transactions?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9895,32 +9904,32 @@ Date: %3</source>
         <translation type="unfinished">Sigur doriți ștergerea tuturor (%1) tranzacții din tranzacția împărțită selectată?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="852"/>
+        <location filename="../src/transactionlistwidget.cpp" line="858"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation type="unfinished">Sigur doriți ștergerea tuturor (%1) tranzacții selectate?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1379"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1385"/>
         <source>* Part of split transaction</source>
         <translation type="unfinished">* Parte tranzacție împărțită</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1380"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1386"/>
         <source>* Part of split (%1)</source>
         <translation type="unfinished">* Parte din împărțire (%1)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1384"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1390"/>
         <source>** Recurring (editing occurrance)</source>
         <translation type="unfinished">** Recurentă (editare frecvență)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1400"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1406"/>
         <source>Modify…</source>
         <translation type="unfinished">Modificare…</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1402"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1408"/>
         <source>Edit…</source>
         <translation type="unfinished">Editează…</translation>
     </message>

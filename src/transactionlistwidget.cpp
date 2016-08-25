@@ -601,7 +601,7 @@ void TransactionListWidget::editTransaction() {
 							}
 						} else if(!warned4) {
 							if(dialog->dateButton->isChecked() || (dialog->payeeButton && dialog->payeeButton->isChecked())) {
-								QMessageBox::critical(this, tr("Error"), tr("Cannot change date or payer/payee of transactions that are part of a split transaction."));
+								QMessageBox::critical(this, tr("Error"), tr("Cannot change date or payee/payer of transactions that are part of a split transaction."));
 								warned4 = true;
 							}
 						}

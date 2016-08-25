@@ -164,14 +164,13 @@ Transaction *MultiAccountListViewItem::transaction() const {
 }
 void MultiAccountListViewItem::setTransaction(Transaction *trans) {
 	o_trans = trans;
-	double value = trans->value();
 	setText(0, QLocale().toString(trans->date(), QLocale::ShortFormat));
 	if(trans->type() == TRANSACTION_TYPE_INCOME) {
 		setText(1, trans->toAccount()->nameWithParent());
 	} else {
 		setText(1, trans->fromAccount()->nameWithParent());
 	}
-	setText(2, value >= 0.0 ? QString::null : QLocale().toCurrencyString(-value));
+	setText(2, QLocale().toCurrencyString(trans->value()));
 }
 
 EditDebtPaymentDialog::EditDebtPaymentDialog(Budget *budg, QWidget *parent, AssetsAccount *default_loan, bool allow_account_creation, bool only_interest) : QDialog(parent, 0) {
@@ -643,7 +642,8 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Account");
-	headers << tr("Value");
+	if(b_expense) headers << tr("Cost");
+	else headers << tr("Income");
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
 	setColumnDateWidth(transactionsView, 0);
