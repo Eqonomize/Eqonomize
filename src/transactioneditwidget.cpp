@@ -948,14 +948,13 @@ Transaction *TransactionEditWidget::createTransaction() {
 void TransactionEditWidget::transactionRemoved(Transaction *trans) {
 	if(descriptionEdit && trans->type() == transtype && !trans->description().isEmpty() && default_values.contains(trans->description().toLower()) && default_values[trans->description().toLower()] == trans) {
 		QString lower_description = trans->description().toLower();
-		bool descr_found = false;
+		default_values[trans->description().toLower()] = NULL;
 		switch(transtype) {
 			case TRANSACTION_TYPE_EXPENSE: {
 				Expense *expense = budget->expenses.last();
 				while(expense) {
 					if(expense != trans && expense->description().toLower() == lower_description && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST) {
 						default_values[lower_description] = expense;
-						descr_found = true;
 						break;
 					}
 					expense = budget->expenses.previous();
@@ -967,7 +966,6 @@ void TransactionEditWidget::transactionRemoved(Transaction *trans) {
 				while(income) {
 					if(income != trans && !income->security() && income->description().toLower() == lower_description) {
 						default_values[lower_description] = income;
-						descr_found = true;
 						break;
 					}
 					income = budget->incomes.previous();
@@ -979,7 +977,6 @@ void TransactionEditWidget::transactionRemoved(Transaction *trans) {
 				while(transfer) {
 					if(transfer != trans && transfer->description().toLower() == lower_description) {
 						default_values[lower_description] = transfer;
-						descr_found = true;
 						break;
 					}
 					transfer = budget->transfers.previous();
@@ -988,35 +985,30 @@ void TransactionEditWidget::transactionRemoved(Transaction *trans) {
 			}
 			default: {}
 		}
-		if(!descr_found) default_values.remove(lower_description);
 	}
 	if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && trans->type() == transtype && !((Income*) trans)->payer().isEmpty() && default_payee_values.contains(((Income*) trans)->payer().toLower()) && default_payee_values[((Income*) trans)->payer().toLower()] == trans) {
+		default_payee_values[((Income*) trans)->payer().toLower()] = NULL;
 		QString lower_payee = ((Income*) trans)->payer().toLower();
-		bool payee_found = false;
 		Income *income = budget->incomes.last();
 		while(income) {
 			if(income != trans && !income->security()  && income->payer().toLower() == lower_payee) {
 				default_payee_values[lower_payee] = income;
-				payee_found = true;
 				break;
 			}
 			income = budget->incomes.previous();
 		}
-		if(!payee_found) default_payee_values.remove(lower_payee);
 	}
 	if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && trans->type() == transtype && !((Expense*) trans)->payee().isEmpty() && default_payee_values.contains(((Expense*) trans)->payee().toLower()) && default_payee_values[((Expense*) trans)->payee().toLower()] == trans) {
+		default_payee_values[((Expense*) trans)->payee().toLower()] = NULL;
 		QString lower_payee = ((Expense*) trans)->payee().toLower();
-		bool payee_found = false;
 		Expense *expense = budget->expenses.last();
 		while(expense) {
 			if(expense != trans && expense->payee().toLower() == lower_payee && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST) {
 				default_payee_values[lower_payee] = expense;
-				payee_found = true;
 				break;
 			}
 			expense = budget->expenses.previous();
 		}
-		if(!payee_found) default_payee_values.remove(lower_payee);
 	}
 	if(transtype == TRANSACTION_TYPE_INCOME && fromCombo && trans->type() == transtype && default_category_values.contains(trans->fromAccount()) && default_category_values[trans->fromAccount()] == trans) {
 		bool category_found = false;
