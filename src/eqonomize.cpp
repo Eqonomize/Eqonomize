@@ -1762,7 +1762,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 	
-	b_extra = settings.value("useExtraProperties", false).toBool();
+	b_extra = settings.value("useExtraProperties", true).toBool();
 	int initial_period = settings.value("initialPeriod", int(0)).toInt();
 	if(initial_period < 0 || initial_period > 4) initial_period = 0;
 

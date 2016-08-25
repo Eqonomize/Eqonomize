@@ -3448,7 +3448,7 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
 <context>
     <name>EditDebtPaymentDialog</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="178"/>
+        <location filename="../src/editsplitdialog.cpp" line="177"/>
         <source>Debt Payment</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3692,12 +3692,12 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
 <context>
     <name>EditMultiAccountDialog</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="200"/>
+        <location filename="../src/editsplitdialog.cpp" line="199"/>
         <source>Expense with Multiple Payments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="201"/>
+        <location filename="../src/editsplitdialog.cpp" line="200"/>
         <source>Income with Multiple Payments</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3709,45 +3709,54 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <translation type="obsolete">Beschreibung:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="613"/>
+        <location filename="../src/editsplitdialog.cpp" line="612"/>
         <source>Description:</source>
         <comment>Generic Description</comment>
         <translation type="unfinished">Beschreibung:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="619"/>
+        <location filename="../src/editsplitdialog.cpp" line="618"/>
         <source>Quantity:</source>
         <translation type="unfinished">Menge:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="626"/>
+        <location filename="../src/editsplitdialog.cpp" line="625"/>
         <source>Category:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="631"/>
+        <location filename="../src/editsplitdialog.cpp" line="630"/>
         <source>Comments:</source>
         <translation type="unfinished">Kommentare:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="635"/>
+        <location filename="../src/editsplitdialog.cpp" line="634"/>
         <source>Transactions:</source>
         <translation type="unfinished">Transaktionen:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="644"/>
+        <location filename="../src/editsplitdialog.cpp" line="643"/>
         <source>Date</source>
         <translation type="unfinished">Datum</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="645"/>
+        <location filename="../src/editsplitdialog.cpp" line="644"/>
         <source>Account</source>
         <translation type="unfinished">Konto</translation>
     </message>
     <message>
+        <location filename="../src/editsplitdialog.cpp" line="645"/>
+        <source>Cost</source>
+        <translation type="unfinished">Kosten</translation>
+    </message>
+    <message>
         <location filename="../src/editsplitdialog.cpp" line="646"/>
+        <source>Income</source>
+        <translation type="unfinished">Einnahmen</translation>
+    </message>
+    <message>
         <source>Value</source>
-        <translation type="unfinished">Wert</translation>
+        <translation type="obsolete">Wert</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="655"/>
@@ -3789,7 +3798,7 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
 <context>
     <name>EditMultiItemDialog</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="228"/>
+        <location filename="../src/editsplitdialog.cpp" line="227"/>
         <source>Split Transaction</source>
         <translation type="unfinished">Teiltransaktion</translation>
     </message>
@@ -3801,132 +3810,132 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <translation type="obsolete">Beschreibung:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="259"/>
+        <location filename="../src/editsplitdialog.cpp" line="258"/>
         <source>Description:</source>
         <comment>Generic Description</comment>
         <translation type="unfinished">Beschreibung:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="284"/>
+        <location filename="../src/editsplitdialog.cpp" line="283"/>
         <source>Date:</source>
         <translation type="unfinished">Datum:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="289"/>
+        <location filename="../src/editsplitdialog.cpp" line="288"/>
         <source>Account:</source>
         <translation type="unfinished">Konto:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="296"/>
+        <location filename="../src/editsplitdialog.cpp" line="295"/>
         <source>Payee/Payer:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="335"/>
+        <location filename="../src/editsplitdialog.cpp" line="334"/>
         <source>Transactions:</source>
         <translation type="unfinished">Transaktionen:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="344"/>
+        <location filename="../src/editsplitdialog.cpp" line="343"/>
         <source>Type</source>
         <translation type="unfinished">Typ</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="345"/>
+        <location filename="../src/editsplitdialog.cpp" line="344"/>
         <source>Description</source>
         <comment>Generic Description</comment>
         <translation type="unfinished">Beschreibung</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="347"/>
+        <location filename="../src/editsplitdialog.cpp" line="346"/>
         <source>Payment</source>
         <translation type="unfinished">Zahlung</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="348"/>
+        <location filename="../src/editsplitdialog.cpp" line="347"/>
         <source>Deposit</source>
         <translation type="unfinished">Einlage</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="358"/>
+        <location filename="../src/editsplitdialog.cpp" line="357"/>
         <source>New</source>
         <translation type="unfinished">Neu</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="361"/>
+        <location filename="../src/editsplitdialog.cpp" line="360"/>
         <source>New Expense…</source>
         <translation type="unfinished">Neue Ausgabe…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="362"/>
+        <location filename="../src/editsplitdialog.cpp" line="361"/>
         <source>New Income…</source>
         <translation type="unfinished">Neue Einnahme…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="363"/>
+        <location filename="../src/editsplitdialog.cpp" line="362"/>
         <source>New Deposit…</source>
         <translation type="unfinished">Neue Einlage…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="364"/>
+        <location filename="../src/editsplitdialog.cpp" line="363"/>
         <source>New Withdrawal…</source>
         <translation type="unfinished">Neue Abhebung…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="365"/>
+        <location filename="../src/editsplitdialog.cpp" line="364"/>
         <source>Shares Bought…</source>
         <translation type="unfinished">Anteile gekauft…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="366"/>
+        <location filename="../src/editsplitdialog.cpp" line="365"/>
         <source>Shares Sold…</source>
         <translation type="unfinished">Anteile verkauft…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="367"/>
+        <location filename="../src/editsplitdialog.cpp" line="366"/>
         <source>New Dividend…</source>
         <translation type="unfinished">Neue Dividende…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="368"/>
+        <location filename="../src/editsplitdialog.cpp" line="367"/>
         <source>Edit…</source>
         <translation type="unfinished">Bearbeiten…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="370"/>
+        <location filename="../src/editsplitdialog.cpp" line="369"/>
         <source>Delete</source>
         <translation type="unfinished">Löschen</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="404"/>
+        <location filename="../src/editsplitdialog.cpp" line="403"/>
         <source>Total value:</source>
         <translation type="unfinished">Gesamtwert:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="574"/>
-        <location filename="../src/editsplitdialog.cpp" line="582"/>
-        <location filename="../src/editsplitdialog.cpp" line="586"/>
-        <location filename="../src/editsplitdialog.cpp" line="596"/>
+        <location filename="../src/editsplitdialog.cpp" line="573"/>
+        <location filename="../src/editsplitdialog.cpp" line="581"/>
+        <location filename="../src/editsplitdialog.cpp" line="585"/>
+        <location filename="../src/editsplitdialog.cpp" line="595"/>
         <source>Error</source>
         <translation type="unfinished">Fehler</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="574"/>
+        <location filename="../src/editsplitdialog.cpp" line="573"/>
         <source>No suitable account available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="582"/>
+        <location filename="../src/editsplitdialog.cpp" line="581"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Ungültiges Datum.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="586"/>
+        <location filename="../src/editsplitdialog.cpp" line="585"/>
         <source>A split must contain at least two transactions.</source>
         <translation type="unfinished">Eine geteilte Transaktion besteht aus mindestens zwei Transaktionen.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="596"/>
+        <location filename="../src/editsplitdialog.cpp" line="595"/>
         <source>Cannot transfer money to and from the same account.</source>
         <translation type="unfinished">Transfer zum selben Konto könenn nicht durchgeführt werden.</translation>
     </message>
@@ -7236,7 +7245,7 @@ Was wollen Sie mit diesen tun?</translation>
 <context>
     <name>MultipleTransactionsEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1296"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1288"/>
         <source>Modify Transactions</source>
         <translation>Transaktionen bearbeiten</translation>
     </message>
@@ -7249,42 +7258,42 @@ Was wollen Sie mit diesen tun?</translation>
         <translation type="obsolete">Name:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1309"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1301"/>
         <source>Generic Description:</source>
         <translation type="unfinished">Allgemeine Bezeichnung:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1319"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1311"/>
         <source>Amount:</source>
         <translation>Menge:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1320"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1312"/>
         <source>Income:</source>
         <translation>Einnahmen:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1321"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1313"/>
         <source>Cost:</source>
         <translation>Kosten:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1329"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1321"/>
         <source>Date:</source>
         <translation>Datum:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1340"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1332"/>
         <source>Category:</source>
         <translation>Kategorie:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1354"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1346"/>
         <source>Payer:</source>
         <translation>Zahler:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1355"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1347"/>
         <source>Payee:</source>
         <translation>Empfänger:</translation>
     </message>
@@ -7297,24 +7306,24 @@ Was wollen Sie mit diesen tun?</translation>
         <translation type="obsolete">Neue Ausgabenkategorie</translation>
     </message>
     <message>
+        <location filename="../src/transactioneditwidget.cpp" line="1479"/>
         <location filename="../src/transactioneditwidget.cpp" line="1487"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1495"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1506"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1498"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1487"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1479"/>
         <source>No income category available.</source>
         <translation>Keine Einkommenkategorie verfügbar.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1495"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1487"/>
         <source>No expense category available.</source>
         <translation>Keine Ausgabenkategorie verfügbar.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1506"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1498"/>
         <source>Invalid date.</source>
         <translation>Ungültiges Datum.</translation>
     </message>
@@ -8716,32 +8725,32 @@ Date: %3</source>
 <context>
     <name>TransactionEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1267"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1259"/>
         <source>Edit Expense</source>
         <translation>Ausgabe bearbeiten</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1269"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1261"/>
         <source>Edit Dividend</source>
         <translation>Dividende bearbeiten</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1270"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1262"/>
         <source>Edit Income</source>
         <translation>Einnahme bearbeiten</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1273"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1265"/>
         <source>Edit Transfer</source>
         <translation>Überweisung bearbeiten</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1274"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1266"/>
         <source>Edit Securities Bought</source>
         <translation>Gekaufte Wertpapiere bearbeiten</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1275"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1267"/>
         <source>Edit Securities Sold</source>
         <translation>Verkaufte Wertpapiere bearbeiten</translation>
     </message>
