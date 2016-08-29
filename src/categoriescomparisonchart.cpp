@@ -828,6 +828,16 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 	}	
 
+	if(!current_account && type == ACCOUNT_TYPE_ASSETS) {
+		account = budget->assetsAccounts.first();
+		if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
+		value = 0.0;
+		while(account) {
+			if(values[account] > 0.0) value += values[account];
+			account = budget->assetsAccounts.next();
+			if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
+		}
+	}
 
 #ifdef QT_CHARTS_LIB
 	QPieSeries *pie_series = NULL;
@@ -836,17 +846,7 @@ void CategoriesComparisonChart::updateDisplay() {
 	double maxvalue = 0.0, minvalue = 0.0;
 
 	if(chart_type == 1) {
-		pie_series = new QPieSeries();
-		if(!current_account && type == ACCOUNT_TYPE_ASSETS) {
-			account = budget->assetsAccounts.first();
-			if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
-			value = 0.0;
-			while(account) {
-				if(values[account] > 0.0) value += values[account];
-				account = budget->assetsAccounts.next();
-				if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
-			}
-		}
+		pie_series = new QPieSeries();		
 	} else if(chart_type == 3) {
 		bar_series = new QHorizontalBarSeries();
 	} else {
@@ -1023,7 +1023,6 @@ void CategoriesComparisonChart::updateDisplay() {
 	
 	int index = 0;
 	int text_width = 0;
-	double value_bak = value;
 	while(account || (current_account && index < desc_order.size())) {
 		if(!current_account && include_subs) {
 			while(account && ((CategoryAccount*) account)->subCategories.size() > 0) {
@@ -1053,7 +1052,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			else legend_string = account->nameWithParent();
 			legend_value = values[account];
 		}
-		legend_value = (legend_value * 100) / value_bak;
+		legend_value = (legend_value * 100) / value;
 		int deci = 0;
 		if(legend_value < 10.0 && legend_value > -10.0) {
 			legend_value = round(legend_value * 10.0) / 10.0;
@@ -1068,17 +1067,6 @@ void CategoriesComparisonChart::updateDisplay() {
 		legend_text->setPos(legend_x + 10 + fh + 5, margin + 10 + (fh + 5) * index);
 		scene->addItem(legend_text);
 		
-		if(current_account && !include_subs) {
-			if(desc_values[desc_order[index]] < 0.0) {
-				value -= desc_values[desc_order[index]];
-				desc_values[desc_order[index]] = 0.0;
-			}
-		} else {
-			if(values[account] < 0.0) {
-				value -= values[account];
-				values[account] = 0.0;
-			}
-		}
 		if(type == ACCOUNT_TYPE_ASSETS) {
 			account = budget->assetsAccounts.next();
 			if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
@@ -1112,7 +1100,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		account = budget->incomesAccounts.first();
 	}
 	index = 0;
-	double current_value = 0.0;
+	double current_value = 0.0, current_value_1 = 0.0;
 	int prev_end = 0;
 	while(account || (current_account && index < desc_order.size())) {
 		if(!current_account && include_subs) {
@@ -1129,18 +1117,21 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 			if(!account) break;
 		}
-		if(current_account && !include_subs) current_value += desc_values[desc_order[index]];
-		else current_value += values[account];
-		int next_end = (int) lround((current_value * 360 * 16) / value);
-		int length = (next_end - prev_end);
-		QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(-diameter/ 2.0, -diameter/ 2.0, diameter, diameter);
-		ellipse->setStartAngle(prev_end);
-		ellipse->setSpanAngle(length);
-		prev_end = next_end;
-		ellipse->setPen(Qt::NoPen);
-		ellipse->setBrush(getBrush(index));
-		ellipse->setPos(diameter / 2 + margin, diameter / 2 + margin);
-		scene->addItem(ellipse);
+		if(current_account && !include_subs) current_value_1 = desc_values[desc_order[index]];
+		else current_value_1 = values[account];
+		if(current_value_1 > 0.0) {
+			current_value += current_value_1;
+			int next_end = (int) lround((current_value * 360 * 16) / value);
+			int length = (next_end - prev_end);
+			QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(-diameter/ 2.0, -diameter/ 2.0, diameter, diameter);
+			ellipse->setStartAngle(prev_end);
+			ellipse->setSpanAngle(length);
+			prev_end = next_end;
+			ellipse->setPen(Qt::NoPen);
+			ellipse->setBrush(getBrush(index));
+			ellipse->setPos(diameter / 2 + margin, diameter / 2 + margin);
+			scene->addItem(ellipse);
+		}
 		QGraphicsRectItem *legend_box = new QGraphicsRectItem(legend_x + 10, margin + 10 + (fh + 5) * index, fh, fh);
 		legend_box->setPen(QPen(Qt::black));
 		legend_box->setBrush(getBrush(index));

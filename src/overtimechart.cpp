@@ -454,8 +454,10 @@ void OverTimeChart::categoryChanged(int index) {
 			current_source = 2;
 		}
 		descriptionCombo->setEnabled(false);
-		if(b_extra) payeeCombo->setEnabled(false);
-		payeeCombo->setCurrentIndex(0);
+		if(b_extra) {
+			payeeCombo->setEnabled(false);
+			payeeCombo->setCurrentIndex(0);
+		}
 	} else if(index == 1) {
 		if(b_income) {
 			current_source = (index == 2 ? 25 : 3);
@@ -463,8 +465,10 @@ void OverTimeChart::categoryChanged(int index) {
 			current_source = (index == 2 ? 26 : 4);
 		}
 		descriptionCombo->setEnabled(false);
-		if(b_extra) payeeCombo->setEnabled(false);
-		payeeCombo->setCurrentIndex(0);
+		if(b_extra) {
+			payeeCombo->setEnabled(false);
+			payeeCombo->setCurrentIndex(0);
+		}
 	} else {
 		if(!b_income) {
 			int i = categoryCombo->currentIndex() - 2;
@@ -1796,8 +1800,9 @@ void OverTimeChart::updateDisplay() {
 	if(budget->isLastBudgetDay(QDate::currentDate())) {
 		budget->addBudgetMonthsSetLast(imonth, 1);
 	}
-
+#ifdef QT_CHARTS_LIB
 	bool includes_budget = false;
+#endif
 	at_expenses = false;
 	if(source_org == 7) {desc_nr = descriptionCombo->count(); account = NULL;}
 	else if(source_org == 11) {desc_nr = payeeCombo->count(); account = NULL;}
@@ -1831,7 +1836,9 @@ void OverTimeChart::updateDisplay() {
 					double d_budget = ((CategoryAccount*) account)->monthlyBudget(budget->budgetYear((*mi)->date), budget->budgetMonth((*mi)->date), false);					
 					if(d_budget >= 0.0 && d_budget > (*mi)->value) {
 						(*mi)->value = d_budget;
+#ifdef QT_CHARTS_LIB
 						includes_budget = true;
+#endif
 					}
 				}
 			}
@@ -2135,8 +2142,9 @@ void OverTimeChart::updateDisplay() {
 			}
 		}
 	}
+#ifdef QT_CHARTS_LIB
 	if(includes_budget) axis_string += QString("<div style=\"font-weight: normal\">(*") + tr("Includes budgeted transactions") + ")</div>";
-	
+#endif	
 	if(current_source == 0 && chart_type == 4 && type != 2) {
 		QVector<chart_month_info>::iterator it_e = monthly_expenses.end();
 		for(QVector<chart_month_info>::iterator it = monthly_expenses.begin(); it != it_e; ++it) {
@@ -2695,7 +2703,7 @@ void OverTimeChart::updateDisplay() {
 					break;
 				}
 			}
-			budget->addBudgetMonths(monthdate, 1);
+			budget->addBudgetMonthsSetFirst(monthdate, 1);
 		}
 	}
 	monthdate = first_date;
@@ -2720,7 +2728,7 @@ void OverTimeChart::updateDisplay() {
 			axis_text->setPos(margin + axis_width + index * linelength, chart_height + chart_y + 11);
 			scene->addItem(axis_text);
 		}
-		budget->addBudgetMonths(monthdate, 1);
+		budget->addBudgetMonthsSetFirst(monthdate, 1);
 		index++;
 	}
 	QGraphicsLineItem *x_mark = new QGraphicsLineItem();
