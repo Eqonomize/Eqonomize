@@ -1,3 +1,123 @@
+2016-08-29  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Fix charts withput extra properties
+	* Fix charts without QtCharts
+	
+2016-08-25  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Fix value column in multi-account transaction dialog
+	* Fix multiple duplicate completion items when removing, than adding transaction with unique description
+	* Use extra properties by default
+
+2016-08-24  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Place "All" last in export QIF dialog account combo (it is not a appropriate default option)
+	* Common payee/payer for multi item transactions
+
+2016-08-21  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Import/export sub categories from/to QIF files
+
+2016-08-16  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Import sub categories, payees and quantity from CSV files
+
+2016-08-15  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Autocomplete transaction also when selecting category or payee
+
+2016-08-14  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Loans, multi account transactions, scheduled split transactions, debt payments, etc.
+	* Bold summary/parent items with icons in account view
+
+2016-07-08  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Export transactions to CSV file with a more compatible number format
+
+2016-07-06  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Assets over time chart
+	* Show expenses as negative values in stacked bar chart for incomes and expenses
+
+2016-07-05  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Completely remove dependency on Qt Xml by using QXmlStreamWriter instead of QDom*
+	* Colors for securities
+
+2016-07-04  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Create new account/category from selection combo box
+	* Fix crash when deleting all transactions with a particular description and then adding a new
+	* Colored values in lists
+	* Do not show negative values in pie chart and hide zero values in category comparison charts
+	* Add missing label in edit expense category dialog
+	* Set minimum width for empty lists
+
+2016-07-03  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* New Chart types
+
+2016-07-02  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Custom budget month start
+
+2016-07-01  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Use QtCharts
+
+2016-06-29  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Subcategories
+	* New Icons
+
+2016-06-28  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* File backups
+	* Backup frequency option
+
+2016-06-27  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Fix copying to backup '~' file (remove existing file first)
+
+2016-06-26  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Move cursor to day in dates
+
+2016-06-25  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Move from QDom* in Qt Xml to QXmlStreamReader
+
+2016-06-23  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* List layout enhancements and save/restore state of lists
+	* Simplify and enhance EqonomizeValueEdit (restrictions of KDoubleSpinBox removed)
+
+2016-06-22  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* New icons
+	* File save handling fixes
+
+2016-06-21  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Fix csv import of categories
+	* Decimals in quotations option and set default decimals in shares from previous securities
+	* Make chart and report non-modal again
+	* Initialize locale to fix number of decimal signs and currency placement
+
+2016-06-20  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Print preview
+
+2016-06-19  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Chart/report dialog layout enhancements
+	* Max 10 descriptions in categories chart and 6 items in over time chart
+
+2016-06-18  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* New Icons
+
 2016-06-16  Hanna Knutsson <hanna_k@fmgirl.com>
 
 	* Remove all KDE dependencies and use qmake instead of CMake
