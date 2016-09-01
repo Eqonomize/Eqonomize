@@ -823,8 +823,8 @@ void CategoriesComparisonChart::updateDisplay() {
 			++it_desc;
 		}
 		if(desc_values.size() > desc_order.size()) {
-			desc_order.push_back(tr("Other descriptions", "Referring to the generic description property"));
-			desc_values[tr("Other descriptions", "Referring to the generic description property")] = remaining_value;
+			desc_order.push_back(tr("Other descriptions", "Referring to the transaction description property (transaction title/generic article name)"));
+			desc_values[tr("Other descriptions", "Referring to the transaction description property (transaction title/generic article name)")] = remaining_value;
 		}
 	}	
 
@@ -888,7 +888,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		double current_value = 0.0;
 		if(current_account && !include_subs) {
 			if(desc_order[index].isEmpty()) {
-				legend_string = tr("No description", "Referring to the generic description property");
+				legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
 			} else {
 				legend_string = desc_order[index];
 			}
@@ -1042,7 +1042,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		double legend_value = 0.0;
 		if(current_account && !include_subs) {
 			if(desc_order[index].isEmpty()) {
-				legend_string = tr("No description", "Referring to the generic description property");
+				legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
 			} else {
 				legend_string = desc_order[index];
 			}

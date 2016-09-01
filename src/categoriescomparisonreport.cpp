@@ -119,7 +119,7 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 		subsButton->setChecked(true);
 		group->addButton(subsButton);
 		payeeLayout->addWidget(subsButton);
-		descriptionButton = new QRadioButton(tr("Descriptions for", "Referring to the generic description property"), payeeDescriptionWidget);
+		descriptionButton = new QRadioButton(tr("Descriptions for", "Referring to the transaction description property (transaction title/generic article name)"), payeeDescriptionWidget);
 		group->addButton(descriptionButton);
 		payeeLayout->addWidget(descriptionButton);
 		payeeCombo = new QComboBox(payeeDescriptionWidget);
@@ -141,7 +141,7 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 		subsButton->setChecked(true);
 		group->addButton(subsButton);
 		sourceLayout->addWidget(subsButton);
-		descriptionButton = new QRadioButton(tr("Descriptions", "Referring to the generic description property"), settingsWidget);
+		descriptionButton = new QRadioButton(tr("Descriptions", "Referring to the transaction description property (transaction title/generic article name)"), settingsWidget);
 		group->addButton(descriptionButton);
 		sourceLayout->addWidget(descriptionButton);
 	}	
@@ -311,7 +311,7 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 		} else {
 			payeeDescriptionWidget->setEnabled(true);
 			if(current_account) {
-				descriptionCombo->addItem(tr("All descriptions", "Referring to the generic description property"));
+				descriptionCombo->addItem(tr("All descriptions", "Referring to the transaction description property (transaction title/generic article name)"));
 				if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->addItem(tr("All payees"));
 				else payeeCombo->addItem(tr("All payers"));
 				has_empty_description = false;
@@ -336,7 +336,7 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 				for(QMap<QString, bool>::iterator it = descriptions.begin(); it != it_e; ++it) {
 					descriptionCombo->addItem(it.key());
 				}
-				if(has_empty_description) descriptionCombo->addItem(tr("No description", "Referring to the generic description property"));
+				if(has_empty_description) descriptionCombo->addItem(tr("No description", "Referring to the transaction description property (transaction title/generic article name)"));
 				QMap<QString, bool>::iterator it2_e = payees.end();
 				for(QMap<QString, bool>::iterator it2 = payees.begin(); it2 != it2_e; ++it2) {
 					payeeCombo->addItem(it2.key());
@@ -821,12 +821,12 @@ void CategoriesComparisonReport::updateDisplay() {
 	QString title;
 	if(current_account && type == ACCOUNT_TYPE_EXPENSES) {
 		if(include_subs) title = tr("Expenses: %1").arg(current_account->name());
-		else if(i_source == 4) title = tr("Expenses: %2, %1").arg(current_account->nameWithParent()).arg(current_description.isEmpty() ? tr("No description", "Referring to the generic description property") : current_description);
+		else if(i_source == 4) title = tr("Expenses: %2, %1").arg(current_account->nameWithParent()).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description);
 		else if(i_source == 3) title = tr("Expenses: %2, %1").arg(current_account->nameWithParent()).arg(current_payee.isEmpty() ? tr("No payee") : current_payee);
 		else title = tr("Expenses: %1").arg(current_account->nameWithParent());
 	} else if(current_account && type == ACCOUNT_TYPE_INCOMES) {
 		if(include_subs) title = tr("Incomes: %1").arg(current_account->name());
-		else if(i_source == 4) title = tr("Incomes: %2, %1").arg(current_account->nameWithParent()).arg(current_description.isEmpty() ? tr("No description", "Referring to the generic description property") : current_description);
+		else if(i_source == 4) title = tr("Incomes: %2, %1").arg(current_account->nameWithParent()).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description);
 		else if(i_source == 3) title = tr("Incomes: %2, %1").arg(current_account->nameWithParent()).arg(current_payee.isEmpty() ? tr("No payer") : current_payee);
 		else title = tr("Incomes: %1").arg(current_account->nameWithParent());
 	} else {
@@ -956,7 +956,7 @@ void CategoriesComparisonReport::updateDisplay() {
 				if(it.key().isEmpty()) {
 					if((i_source == 4 || i_source == 2) && type == ACCOUNT_TYPE_EXPENSES) outf << FIRST_COL << htmlize_string(tr("No payee")) << "</td>";
 					else if(i_source == 4 || i_source == 2) outf << FIRST_COL << htmlize_string(tr("No payer")) << "</td>";
-					else outf << FIRST_COL << htmlize_string(tr("No description", "Referring to the generic description property")) << "</td>";
+					else outf << FIRST_COL << htmlize_string(tr("No description", "Referring to the transaction description property (transaction title/generic article name)")) << "</td>";
 				} else {
 					outf << FIRST_COL << htmlize_string(it.key()) << "</td>";
 				}
@@ -1080,7 +1080,7 @@ void CategoriesComparisonReport::updateDisplay() {
 	outf << "</html>" << '\n';
 	htmlview->setHtml(source);
 	if(current_account && b_extra) {
-		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, tr("No description", "Referring to the generic description property"));
+		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, tr("No description", "Referring to the transaction description property (transaction title/generic article name)"));
 		if(has_empty_payee) {
 			if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->setItemText(payeeCombo->count() - 1, tr("No payee"));
 			else payeeCombo->setItemText(payeeCombo->count() - 1, tr("No payer"));
@@ -1097,7 +1097,7 @@ void CategoriesComparisonReport::updateTransactions() {
 		descriptionCombo->blockSignals(true);
 		payeeCombo->clear();
 		descriptionCombo->clear();
-		descriptionCombo->addItem(tr("All descriptions", "Referring to the generic description property"));
+		descriptionCombo->addItem(tr("All descriptions", "Referring to the transaction description property (transaction title/generic article name)"));
 		if(current_account->type() == ACCOUNT_TYPE_EXPENSES) payeeCombo->addItem(tr("All payees"));
 		else payeeCombo->addItem(tr("All payers"));
 		has_empty_description = false;
@@ -1127,7 +1127,7 @@ void CategoriesComparisonReport::updateTransactions() {
 		}
 		if(has_empty_description) {
 			if(restore_d && current_description.isEmpty()) curindex_d = i;
-			descriptionCombo->addItem(tr("No description", "Referring to the generic description property"));
+			descriptionCombo->addItem(tr("No description", "Referring to the transaction description property (transaction title/generic article name)"));
 		}
 		if(curindex_d < descriptionCombo->count()) {
 			descriptionCombo->setCurrentIndex(curindex_d);

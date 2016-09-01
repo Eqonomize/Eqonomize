@@ -50,8 +50,7 @@
 
 TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int transaction_type, Budget *budg, QWidget *parent) : QWidget(parent), transtype(transaction_type), budget(budg), b_extra(extra_parameters) {
 	payeeEdit = NULL;
-	/*int rows = 5;
-	if(b_extra && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME)) rows = 6;*/
+	excludeSubsButton = NULL;
 	QGridLayout *filterLayout = new QGridLayout(this);
 	dateFromButton = new QCheckBox(tr("From:"), this);
 	dateFromButton->setChecked(false);
@@ -142,8 +141,10 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	filterExcludeLayout->addWidget(excludeButton);
 	exactMatchButton = new QCheckBox(tr("Exact match"), this);
 	filterExcludeLayout->addWidget(exactMatchButton);
-	excludeSubsButton = new QCheckBox(tr("Exclude subcategories"), this);
-	filterExcludeLayout->addWidget(excludeSubsButton);
+	if(b_extra && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME)) {
+		excludeSubsButton = new QCheckBox(tr("Exclude subcategories"), this);
+		filterExcludeLayout->addWidget(excludeSubsButton);
+	}
 	filterExcludeLayout->addItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Minimum));
 	clearButton = new QPushButton(tr("Clear"), this);
 	clearButton->setEnabled(false);
@@ -188,7 +189,7 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	connect(maxButton, SIGNAL(toggled(bool)), maxEdit, SLOT(setEnabled(bool)));
 	connect(maxEdit, SIGNAL(valueChanged(double)), this, SIGNAL(filter()));
 	connect(exactMatchButton, SIGNAL(toggled(bool)), this, SIGNAL(filter()));
-	connect(excludeSubsButton, SIGNAL(toggled(bool)), this, SIGNAL(filter()));
+	if(excludeSubsButton) connect(excludeSubsButton, SIGNAL(toggled(bool)), this, SIGNAL(filter()));
 
 }
 
@@ -255,7 +256,7 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 	excludeButton->blockSignals(true);
 	includeButton->blockSignals(true);
 	exactMatchButton->blockSignals(true);
-	excludeSubsButton->blockSignals(true);
+	if(excludeSubsButton) excludeSubsButton->blockSignals(true);
 	dateToEdit->setDate(todate);
 	to_date = todate;
 	if(fromdate.isNull()) {
@@ -315,7 +316,7 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 	if(payeeEdit) descriptionEdit->setText(payee);
 	excludeButton->setChecked(exclude);
 	exactMatchButton->setChecked(exact_match);
-	excludeSubsButton->setChecked(exclude_subs);
+	if(excludeSubsButton) excludeSubsButton->setChecked(exclude_subs);
 	checkEnableClear();
 	dateFromButton->blockSignals(false);
 	dateFromEdit->blockSignals(false);
@@ -331,7 +332,7 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 	excludeButton->blockSignals(false);
 	includeButton->blockSignals(false);
 	exactMatchButton->blockSignals(false);
-	excludeSubsButton->blockSignals(false);
+	if(excludeSubsButton) excludeSubsButton->blockSignals(false);
 	emit filter();
 }
 void TransactionFilterWidget::updateFromAccounts() {
@@ -444,7 +445,7 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 		trans = split->at(0);
 	}
 	bool b_exact = exactMatchButton->isChecked();
-	bool b_exclude_subs = b_exact;
+	bool b_exclude_subs = excludeSubsButton ? excludeSubsButton->isChecked() : b_exact;
 	if(includeButton->isChecked()) {
 		Account *account = tos[toCombo->currentIndex() - 1];
 		if(toCombo->currentIndex() > 0 && account != trans->toAccount() && (b_exclude_subs || account != trans->toAccount()->topAccount())) {

@@ -1141,7 +1141,7 @@ ConfirmScheduleDialog::ConfirmScheduleDialog(bool extra_parameters, Budget *budg
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Type");
-	headers << tr("Description", "Generic Description");
+	headers << tr("Description", "Transaction description property (transaction title/generic article name)");
 	headers << tr("Amount");
 	transactionsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
 	transactionsView->setHeaderLabels(headers);
@@ -1311,21 +1311,18 @@ void ConfirmScheduleDialog::updateTransactions() {
 	ScheduledTransaction *strans = budget->scheduledTransactions.first();
 	QList<QTreeWidgetItem *> items;
 	while(strans) {
-		Transactions *trans = NULL;
 		if(strans->firstOccurrence() < QDate::currentDate() || (QTime::currentTime().hour() >= 18 && strans->firstOccurrence() == QDate::currentDate())) {
 			bool b = strans->isOneTimeTransaction();
-			trans = strans->realize(strans->firstOccurrence());
-			if(b) {
-				budget->removeScheduledTransaction(strans);
-				strans = budget->scheduledTransactions.first();
+			Transactions *trans = strans->realize(strans->firstOccurrence());
+			if(trans) {
+				QTreeWidgetItem *i = new ConfirmScheduleListViewItem(trans);
+				items.append(i);
 			}
+			if(b) budget->removeScheduledTransaction(strans);
+			strans = budget->scheduledTransactions.first();
 		} else {
 			strans = budget->scheduledTransactions.next();
-		}
-		if(trans) {
-			QTreeWidgetItem *i = new ConfirmScheduleListViewItem(trans);
-			items.append(i);
-		}
+		}		
 	}
 	transactionsView->addTopLevelItems(items);
 	transactionsView->setSortingEnabled(true);
@@ -2143,7 +2140,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QStringList scheduleViewHeaders;
 	scheduleViewHeaders << tr("Next Occurrence");
 	scheduleViewHeaders << tr("Type");
-	scheduleViewHeaders << tr("Description", "Generic Description");
+	scheduleViewHeaders << tr("Description", "Transaction description property (transaction title/generic article name)");
 	scheduleViewHeaders << tr("Amount");
 	scheduleViewHeaders << tr("From");
 	scheduleViewHeaders << tr("To");

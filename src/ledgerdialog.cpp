@@ -148,7 +148,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Type");
-	headers << tr("Description", "Generic Description");
+	headers << tr("Description", "Transaction description property (transaction title/generic article name)");
 	headers << tr("Account/Category");
 	headers << tr("Expense");
 	headers << tr("Deposit");
@@ -612,7 +612,7 @@ void LedgerDialog::edit() {
 					}
 					if(!warned2 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
 						if(dialog->descriptionButton->isChecked()) {
-							QMessageBox::critical(this, tr("Error"), tr("Cannot change description of dividends and security transactions.", "Referring to the generic description property"));
+							QMessageBox::critical(this, tr("Error"), tr("Cannot change description of dividends and security transactions.", "Referring to the transaction description property (transaction title/generic article name)"));
 							warned2 = true;
 						}
 					}

@@ -255,7 +255,7 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 
-	grid->addWidget(new QLabel(tr("Description:", "Generic Description")), 0, 0);
+	grid->addWidget(new QLabel(tr("Description:", "Transaction description property (transaction title/generic article name)")), 0, 0);
 	descriptionEdit = new QLineEdit();
 	grid->addWidget(descriptionEdit, 0, 1);
 	descriptionEdit->setFocus();
@@ -341,7 +341,7 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	transactionsView->setColumnCount(4);
 	QStringList headers;
 	headers << tr("Type");
-	headers << tr("Description", "Generic Description");
+	headers << tr("Description", "Transaction description property (transaction title/generic article name)");
 	//headers << tr("Account/Category");
 	headers << tr("Payment");
 	headers << tr("Deposit");
@@ -609,7 +609,7 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	box1->addLayout(grid);
 	box1->addStretch(1);
 
-	grid->addWidget(new QLabel(tr("Description:", "Generic Description")), 0, 0);
+	grid->addWidget(new QLabel(tr("Description:", "Transaction description property (transaction title/generic article name)")), 0, 0);
 	descriptionEdit = new QLineEdit();
 	grid->addWidget(descriptionEdit, 0, 1);
 	descriptionEdit->setFocus();

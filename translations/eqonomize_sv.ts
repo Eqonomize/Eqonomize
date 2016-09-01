@@ -2630,17 +2630,17 @@ Vad vill du göra med dem?</translation>
         <translation>Felaktigt rotelement %1 in XML dokumentet</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="391"/>
+        <location filename="../src/budget.cpp" line="399"/>
         <source>Unknown XML element: &quot;%1&quot; at line %2, col %3</source>
         <translation>Okänt XML-elemnt: &quot;%1&quot; på rad %2, kolumn %3</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="398"/>
+        <location filename="../src/budget.cpp" line="406"/>
         <source>XML parse error: &quot;%1&quot; at line %2, col %3</source>
         <translation>XML-tolkningsfal: &quot;%1&quot; på rad %2, kolumn %3</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/budget.cpp" line="434"/>
+        <location filename="../src/budget.cpp" line="442"/>
         <source>Unable to load %n account(s).</source>
         <translation>
             <numerusform>Kunde inte läsa in %n konto.</numerusform>
@@ -2648,7 +2648,7 @@ Vad vill du göra med dem?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/budget.cpp" line="438"/>
+        <location filename="../src/budget.cpp" line="446"/>
         <source>Unable to load %n category/categories.</source>
         <translation>
             <numerusform>Kunde inte läsa in %n kategori.</numerusform>
@@ -2656,7 +2656,7 @@ Vad vill du göra med dem?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/budget.cpp" line="442"/>
+        <location filename="../src/budget.cpp" line="450"/>
         <source>Unable to load %n security/securities.</source>
         <translation>
             <numerusform>Kunde inte läsa in %n värdepapper.</numerusform>
@@ -2664,7 +2664,7 @@ Vad vill du göra med dem?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/budget.cpp" line="446"/>
+        <location filename="../src/budget.cpp" line="454"/>
         <source>Unable to load %n transaction(s).</source>
         <translation>
             <numerusform>Kunde inte läsa in %n transaktion.</numerusform>
@@ -2672,18 +2672,18 @@ Vad vill du göra med dem?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="456"/>
+        <location filename="../src/budget.cpp" line="464"/>
         <source>File is a directory</source>
         <translation>Filen är en mapp</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="464"/>
+        <location filename="../src/budget.cpp" line="472"/>
         <source>Couldn&apos;t open file for writing</source>
         <translation>Kunde öppna och skriva till filen</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="630"/>
-        <location filename="../src/budget.cpp" line="634"/>
+        <location filename="../src/budget.cpp" line="638"/>
+        <location filename="../src/budget.cpp" line="642"/>
         <source>Error while writing file; file was not saved</source>
         <translation>Fil vid skrivande till fil; filen sparades inte</translation>
     </message>
@@ -2783,45 +2783,45 @@ Vad vill du göra med dem?</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="167"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1204"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1195"/>
         <source>All Expenses, without subcategories</source>
         <translation>Alla utgifter, utan underkategorier</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="168"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1205"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1196"/>
         <source>All Expenses, with subcategories</source>
         <translation>Alla utgifter, med underkategorier</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="169"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1206"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1197"/>
         <source>All Incomes, without subcategories</source>
         <translation>Alla inkomster, utan underkategorier</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="170"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1207"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1198"/>
         <source>All Incomes, with subcategories</source>
         <translation>Alla inkomster, med underkategorier</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="171"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1208"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1199"/>
         <source>All Accounts</source>
         <translation>Alla konton</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="174"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="577"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1212"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1203"/>
         <source>Expenses: %1</source>
         <translation>Utgifter: %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="179"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="578"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1219"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1210"/>
         <source>Incomes: %1</source>
         <translation>Inkomster: %1</translation>
     </message>
@@ -2880,15 +2880,35 @@ Vad vill du göra med dem?</translation>
         <location filename="../src/categoriescomparisonchart.cpp" line="826"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="827"/>
         <source>Other descriptions</source>
-        <comment>Referring to the generic description property</comment>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Andra benämningar</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="891"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1046"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1045"/>
+        <source>No description</source>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
+        <translation>Ingen benämning</translation>
+    </message>
+    <message>
+        <source>Other descriptions</source>
+        <comment>Referring to the Transaction description property (transaction title/generic article name)</comment>
+        <translation type="vanished">Andra benämningar</translation>
+    </message>
+    <message>
+        <source>No description</source>
+        <comment>Referring to the Transaction description property (transaction title/generic article name)</comment>
+        <translation type="vanished">Ingen benämning</translation>
+    </message>
+    <message>
+        <source>Other descriptions</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="vanished">Andra benämningar</translation>
+    </message>
+    <message>
         <source>No description</source>
         <comment>Referring to the generic description property</comment>
-        <translation>Ingen benämning</translation>
+        <translation type="vanished">Ingen benämning</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="975"/>
@@ -2972,6 +2992,21 @@ Vad vill du göra med dem?</translation>
         <translation>Underkategorier</translation>
     </message>
     <message>
+        <source>Descriptions for</source>
+        <comment>Referring to the Transaction description property (transaction title/generic article name)</comment>
+        <translation type="vanished">Benämningar för</translation>
+    </message>
+    <message>
+        <source>All descriptions</source>
+        <comment>Referring to the Transaction description property (transaction title/generic article name)</comment>
+        <translation type="vanished">Alla benämningar</translation>
+    </message>
+    <message>
+        <source>No description</source>
+        <comment>Referring to the Transaction description property (transaction title/generic article name)</comment>
+        <translation type="vanished">Ingen benämning</translation>
+    </message>
+    <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="1165"/>
         <source>All Categories</source>
         <translation>Alla kategorier</translation>
@@ -3000,6 +3035,11 @@ Vad vill du göra med dem?</translation>
         <location filename="../src/categoriescomparisonreport.cpp" line="129"/>
         <source>Payees/payers for</source>
         <translation>Mottagare/utbetalare för</translation>
+    </message>
+    <message>
+        <source>Descriptions</source>
+        <comment>Referring to the Transaction description property (transaction title/generic article name)</comment>
+        <translation type="vanished">Benämningar</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="153"/>
@@ -3074,22 +3114,42 @@ Vad vill du göra med dem?</translation>
         <translation type="vanished">Ingen benämning</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="122"/>
         <source>Descriptions for</source>
         <comment>Referring to the generic description property</comment>
+        <translation type="vanished">Benämningar för</translation>
+    </message>
+    <message>
+        <source>Descriptions</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="vanished">Benämningar</translation>
+    </message>
+    <message>
+        <source>All descriptions</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="vanished">Alla benämningar</translation>
+    </message>
+    <message>
+        <source>No description</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="vanished">Ingen benämning</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="122"/>
+        <source>Descriptions for</source>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Benämningar för</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="144"/>
         <source>Descriptions</source>
-        <comment>Referring to the generic description property</comment>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Benämningar</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="314"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1100"/>
         <source>All descriptions</source>
-        <comment>Referring to the generic description property</comment>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Alla benämningar</translation>
     </message>
     <message>
@@ -3100,7 +3160,7 @@ Vad vill du göra med dem?</translation>
         <location filename="../src/categoriescomparisonreport.cpp" line="1083"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1130"/>
         <source>No description</source>
-        <comment>Referring to the generic description property</comment>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Ingen benämning</translation>
     </message>
     <message>
@@ -3289,9 +3349,14 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation type="vanished">Benämning</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1144"/>
         <source>Description</source>
         <comment>Generic Description</comment>
+        <translation type="vanished">Benämning</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="1144"/>
+        <source>Description</source>
+        <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation>Benämning</translation>
     </message>
     <message>
@@ -3863,10 +3928,9 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation type="vanished">Kommentarer:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="612"/>
         <source>Description:</source>
         <comment>Generic Description</comment>
-        <translation>Benämning:</translation>
+        <translation type="vanished">Benämning:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="630"/>
@@ -3891,6 +3955,12 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <source>Value</source>
         <translation type="vanished">Värde</translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="612"/>
+        <source>Description:</source>
+        <comment>Transaction description property (transaction title/generic article name)</comment>
+        <translation>Benämning:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="645"/>
@@ -3954,10 +4024,9 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation type="vanished">Benämning:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="258"/>
         <source>Description:</source>
         <comment>Generic Description</comment>
-        <translation>Benämning:</translation>
+        <translation type="vanished">Benämning:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="283"/>
@@ -3985,9 +4054,20 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Typ</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="344"/>
         <source>Description</source>
         <comment>Generic Description</comment>
+        <translation type="vanished">Benämning</translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="258"/>
+        <source>Description:</source>
+        <comment>Transaction description property (transaction title/generic article name)</comment>
+        <translation>Benämning:</translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="344"/>
+        <source>Description</source>
+        <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation>Benämning</translation>
     </message>
     <message>
@@ -5016,10 +5096,9 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation type="vanished">Allmän benämning</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2146"/>
         <source>Description</source>
         <comment>Generic Description</comment>
-        <translation>Benämning</translation>
+        <translation type="vanished">Benämning</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2147"/>
@@ -5508,6 +5587,12 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <location filename="../src/eqonomize.cpp" line="4614"/>
         <source>Liabilities</source>
         <translation>Skulder</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2146"/>
+        <source>Description</source>
+        <comment>Transaction description property (transaction title/generic article name)</comment>
+        <translation>Benämning</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4641"/>
@@ -7173,10 +7258,9 @@ Vad vill du göra med dem?</translation>
         <translation type="vanished">Allmän benämning</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="151"/>
         <source>Description</source>
         <comment>Generic Description</comment>
-        <translation>Benämning</translation>
+        <translation type="vanished">Benämning</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="152"/>
@@ -7278,8 +7362,13 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="615"/>
         <source>Cannot change description of dividends and security transactions.</source>
-        <comment>Referring to the generic description property</comment>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Kan inte ändra benämningar för utdelningar och värdepapperstransaktioner.</translation>
+    </message>
+    <message>
+        <source>Cannot change description of dividends and security transactions.</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="vanished">Kan inte ändra benämningar för utdelningar och värdepapperstransaktioner.</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="781"/>
@@ -7362,6 +7451,17 @@ Vad vill du göra med dem?</translation>
         <location filename="../src/ledgerdialog.cpp" line="759"/>
         <source>Expense</source>
         <translation>Utgift</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="151"/>
+        <source>Description</source>
+        <comment>Transaction description property (transaction title/generic article name)</comment>
+        <translation>Benämning</translation>
+    </message>
+    <message>
+        <source>Cannot change description of dividends and security transactions.</source>
+        <comment>Referring to the Transaction description property (transaction title/generic article name)</comment>
+        <translation type="vanished">Kan inte ändra benämningar för utdelningar och värdepapperstransaktioner.</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="760"/>
@@ -7458,7 +7558,7 @@ Vad vill du göra med dem?</translation>
 <context>
     <name>MultipleTransactionsEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1288"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1294"/>
         <source>Modify Transactions</source>
         <translation>Ändra transaktioner</translation>
     </message>
@@ -7471,42 +7571,47 @@ Vad vill du göra med dem?</translation>
         <translation type="vanished">Benämning:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1301"/>
         <source>Generic Description:</source>
-        <translation>Allmän benämning:</translation>
+        <translation type="vanished">Allmän benämning:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1311"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1307"/>
+        <source>Description:</source>
+        <comment>Transaction description property (transaction title/generic article name)</comment>
+        <translation>Benämning:</translation>
+    </message>
+    <message>
+        <location filename="../src/transactioneditwidget.cpp" line="1317"/>
         <source>Amount:</source>
         <translation>Värde:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1312"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1318"/>
         <source>Income:</source>
         <translation>Inkomst:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1313"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1319"/>
         <source>Cost:</source>
         <translation>Kostnad:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1321"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1327"/>
         <source>Date:</source>
         <translation>Datum:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1332"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1338"/>
         <source>Category:</source>
         <translation>Kategori:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1346"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1352"/>
         <source>Payer:</source>
         <translation>Utbetalare:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1347"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1353"/>
         <source>Payee:</source>
         <translation>Mottagare:</translation>
     </message>
@@ -7527,24 +7632,24 @@ Vad vill du göra med dem?</translation>
         <translation type="vanished">Ny utgiftskategori…</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1479"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1487"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1498"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1485"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1493"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1504"/>
         <source>Error</source>
         <translation>Fel</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1479"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1485"/>
         <source>No income category available.</source>
         <translation>Ingen inkomstkategory finns tillgänglig.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1487"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1493"/>
         <source>No expense category available.</source>
         <translation>Ingen utgiftskategory finns tillänglig.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1498"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1504"/>
         <source>Invalid date.</source>
         <translation>Felaktigt datum.</translation>
     </message>
@@ -7577,36 +7682,36 @@ Vad vill du göra med dem?</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="220"/>
-        <location filename="../src/overtimechart.cpp" line="2268"/>
-        <location filename="../src/overtimechart.cpp" line="2419"/>
-        <location filename="../src/overtimechart.cpp" line="2790"/>
+        <location filename="../src/overtimechart.cpp" line="2276"/>
+        <location filename="../src/overtimechart.cpp" line="2427"/>
+        <location filename="../src/overtimechart.cpp" line="2798"/>
         <source>Profits</source>
         <translation>Förtjänst</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="221"/>
-        <location filename="../src/overtimechart.cpp" line="2275"/>
-        <location filename="../src/overtimechart.cpp" line="2424"/>
-        <location filename="../src/overtimechart.cpp" line="2428"/>
-        <location filename="../src/overtimechart.cpp" line="2795"/>
-        <location filename="../src/overtimechart.cpp" line="2799"/>
+        <location filename="../src/overtimechart.cpp" line="2283"/>
+        <location filename="../src/overtimechart.cpp" line="2432"/>
+        <location filename="../src/overtimechart.cpp" line="2436"/>
+        <location filename="../src/overtimechart.cpp" line="2803"/>
+        <location filename="../src/overtimechart.cpp" line="2807"/>
         <source>Expenses</source>
         <translation>Utgifter</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="222"/>
-        <location filename="../src/overtimechart.cpp" line="2273"/>
-        <location filename="../src/overtimechart.cpp" line="2423"/>
-        <location filename="../src/overtimechart.cpp" line="2427"/>
-        <location filename="../src/overtimechart.cpp" line="2794"/>
-        <location filename="../src/overtimechart.cpp" line="2798"/>
+        <location filename="../src/overtimechart.cpp" line="2281"/>
+        <location filename="../src/overtimechart.cpp" line="2431"/>
+        <location filename="../src/overtimechart.cpp" line="2435"/>
+        <location filename="../src/overtimechart.cpp" line="2802"/>
+        <location filename="../src/overtimechart.cpp" line="2806"/>
         <source>Incomes</source>
         <translation>Inkomster</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="228"/>
-        <location filename="../src/overtimechart.cpp" line="568"/>
-        <location filename="../src/overtimechart.cpp" line="3030"/>
+        <location filename="../src/overtimechart.cpp" line="572"/>
+        <location filename="../src/overtimechart.cpp" line="3038"/>
         <source>All Categories Combined</source>
         <translation>Alla kategorier kombinerade</translation>
     </message>
@@ -7645,20 +7750,64 @@ Vad vill du göra med dem?</translation>
         <translation>Staplat stapeldiagram</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2414"/>
-        <location filename="../src/overtimechart.cpp" line="2786"/>
+        <location filename="../src/overtimechart.cpp" line="234"/>
+        <location filename="../src/overtimechart.cpp" line="438"/>
+        <location filename="../src/overtimechart.cpp" line="561"/>
+        <location filename="../src/overtimechart.cpp" line="2941"/>
+        <location filename="../src/overtimechart.cpp" line="3062"/>
+        <source>All Descriptions Combined</source>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
+        <translation>Alla benämningar kombinerade</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="483"/>
+        <source>All Subcategories and Descriptions Combined</source>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
+        <translation>Alla underkategorier och benämningar kombinerade</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="485"/>
+        <location filename="../src/overtimechart.cpp" line="2942"/>
+        <source>All Descriptions Split</source>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
+        <translation>Alla benämningar uppdelade</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="534"/>
+        <location filename="../src/overtimechart.cpp" line="2452"/>
+        <location filename="../src/overtimechart.cpp" line="2458"/>
+        <location filename="../src/overtimechart.cpp" line="2486"/>
+        <location filename="../src/overtimechart.cpp" line="2488"/>
+        <location filename="../src/overtimechart.cpp" line="2495"/>
+        <location filename="../src/overtimechart.cpp" line="2497"/>
+        <location filename="../src/overtimechart.cpp" line="2823"/>
+        <location filename="../src/overtimechart.cpp" line="2829"/>
+        <location filename="../src/overtimechart.cpp" line="2857"/>
+        <location filename="../src/overtimechart.cpp" line="2859"/>
+        <location filename="../src/overtimechart.cpp" line="2866"/>
+        <location filename="../src/overtimechart.cpp" line="2868"/>
+        <location filename="../src/overtimechart.cpp" line="2910"/>
+        <location filename="../src/overtimechart.cpp" line="2980"/>
+        <source>No description</source>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
+        <translation>Ingen benämning</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="2023"/>
+        <source>Other descriptions</source>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
+        <translation>Andra benämningar</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="2422"/>
+        <location filename="../src/overtimechart.cpp" line="2794"/>
         <source>Assets</source>
         <translation>Tillgångar</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="234"/>
-        <location filename="../src/overtimechart.cpp" line="438"/>
-        <location filename="../src/overtimechart.cpp" line="557"/>
-        <location filename="../src/overtimechart.cpp" line="2933"/>
-        <location filename="../src/overtimechart.cpp" line="3054"/>
         <source>All Descriptions Combined</source>
         <comment>Referring to the generic description property</comment>
-        <translation>Alla benämningar kombinerade</translation>
+        <translation type="vanished">Alla benämningar kombinerade</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="223"/>
@@ -7666,8 +7815,13 @@ Vad vill du göra med dem?</translation>
         <translation>Tillgångar och skulder</translation>
     </message>
     <message>
+        <source>All Descriptions Combined</source>
+        <comment>Referring to the Transaction description property (transaction title/generic article name)</comment>
+        <translation type="vanished">Alla benämningar kombinerade</translation>
+    </message>
+    <message>
         <location filename="../src/overtimechart.cpp" line="242"/>
-        <location filename="../src/overtimechart.cpp" line="563"/>
+        <location filename="../src/overtimechart.cpp" line="567"/>
         <source>All Payees/Payers Combined</source>
         <translation>Alla mottagare/utbetalare kombinerade</translation>
     </message>
@@ -7703,69 +7857,50 @@ Vad vill du göra med dem?</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="278"/>
-        <location filename="../src/overtimechart.cpp" line="2124"/>
+        <location filename="../src/overtimechart.cpp" line="2131"/>
         <source>Average value</source>
         <translation>Genomsnittligt värde</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="446"/>
-        <location filename="../src/overtimechart.cpp" line="561"/>
-        <location filename="../src/overtimechart.cpp" line="2936"/>
-        <location filename="../src/overtimechart.cpp" line="3059"/>
+        <location filename="../src/overtimechart.cpp" line="565"/>
+        <location filename="../src/overtimechart.cpp" line="2944"/>
+        <location filename="../src/overtimechart.cpp" line="3067"/>
         <source>All Payers Combined</source>
         <translation>Alla utbetalare kombinerade</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="447"/>
-        <location filename="../src/overtimechart.cpp" line="562"/>
-        <location filename="../src/overtimechart.cpp" line="2937"/>
-        <location filename="../src/overtimechart.cpp" line="3058"/>
+        <location filename="../src/overtimechart.cpp" line="566"/>
+        <location filename="../src/overtimechart.cpp" line="2945"/>
+        <location filename="../src/overtimechart.cpp" line="3066"/>
         <source>All Payees Combined</source>
         <translation>Alla mottagare kombinerade</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="478"/>
+        <location filename="../src/overtimechart.cpp" line="482"/>
         <source>All Subcategories Split</source>
         <translation>Alla underkategorier uppdelade</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="479"/>
         <source>All Subcategories and Descriptions Combined</source>
         <comment>Referring to the generic description property</comment>
-        <translation>Alla underkategorier och benämningar kombinerade</translation>
+        <translation type="vanished">Alla underkategorier och benämningar kombinerade</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="481"/>
-        <location filename="../src/overtimechart.cpp" line="2934"/>
         <source>All Descriptions Split</source>
         <comment>Referring to the generic description property</comment>
-        <translation>Alla benämningar uppdelade</translation>
+        <translation type="vanished">Alla benämningar uppdelade</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="530"/>
-        <location filename="../src/overtimechart.cpp" line="2444"/>
-        <location filename="../src/overtimechart.cpp" line="2450"/>
-        <location filename="../src/overtimechart.cpp" line="2478"/>
-        <location filename="../src/overtimechart.cpp" line="2480"/>
-        <location filename="../src/overtimechart.cpp" line="2487"/>
-        <location filename="../src/overtimechart.cpp" line="2489"/>
-        <location filename="../src/overtimechart.cpp" line="2815"/>
-        <location filename="../src/overtimechart.cpp" line="2821"/>
-        <location filename="../src/overtimechart.cpp" line="2849"/>
-        <location filename="../src/overtimechart.cpp" line="2851"/>
-        <location filename="../src/overtimechart.cpp" line="2858"/>
-        <location filename="../src/overtimechart.cpp" line="2860"/>
-        <location filename="../src/overtimechart.cpp" line="2902"/>
-        <location filename="../src/overtimechart.cpp" line="2972"/>
         <source>No description</source>
         <comment>Referring to the generic description property</comment>
-        <translation>Ingen benämning</translation>
+        <translation type="vanished">Ingen benämning</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2016"/>
         <source>Other descriptions</source>
         <comment>Referring to the generic description property</comment>
-        <translation>Andra benämningar</translation>
+        <translation type="vanished">Andra benämningar</translation>
     </message>
     <message>
         <source>Daily average value (%1)</source>
@@ -7812,74 +7947,70 @@ Vad vill du göra med dem?</translation>
         <translation type="vanished">Månatlig kostnad (%1)</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2138"/>
+        <location filename="../src/overtimechart.cpp" line="2146"/>
         <source>Includes budgeted transactions</source>
         <translation>Inkluderar budgeterade transaktioner</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2266"/>
+        <location filename="../src/overtimechart.cpp" line="2274"/>
         <source>Assets &amp; Liabilities</source>
         <translation>Tillgångar och skulder</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2271"/>
+        <location filename="../src/overtimechart.cpp" line="2279"/>
         <source>Incomes &amp; Expenses</source>
         <translation>Inkomster och utgifter</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2279"/>
+        <location filename="../src/overtimechart.cpp" line="2287"/>
         <source>Incomes: %1</source>
         <translation>Inkomster: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2283"/>
+        <location filename="../src/overtimechart.cpp" line="2291"/>
         <source>Expenses: %1</source>
         <translation>Utgifter: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2285"/>
-        <location filename="../src/overtimechart.cpp" line="2292"/>
+        <location filename="../src/overtimechart.cpp" line="2293"/>
+        <location filename="../src/overtimechart.cpp" line="2300"/>
         <source>Incomes: %2, %1</source>
         <translation>Inkomster: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2287"/>
         <location filename="../src/overtimechart.cpp" line="2295"/>
+        <location filename="../src/overtimechart.cpp" line="2303"/>
         <source>Expenses: %2, %1</source>
         <translation>Utgifter: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2288"/>
+        <location filename="../src/overtimechart.cpp" line="2296"/>
         <source>Incomes: %3, %2, %1</source>
         <translation>Inkomster: %3, %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2289"/>
+        <location filename="../src/overtimechart.cpp" line="2297"/>
         <source>Expenses: %3, %2, %1</source>
         <translation>Utgifter: %3, %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2415"/>
+        <location filename="../src/overtimechart.cpp" line="2423"/>
         <source>Liabilities</source>
         <translation>Skulder</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2482"/>
-        <location filename="../src/overtimechart.cpp" line="2853"/>
         <source>%1/%2</source>
         <comment>%1: Generic Description; %2: Payer/Payer</comment>
-        <translation>%1/%2</translation>
+        <translation type="vanished">%1/%2</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2491"/>
-        <location filename="../src/overtimechart.cpp" line="2862"/>
         <source>%1/%2</source>
         <comment>%1: Generic Description; %2: Payee/Payer</comment>
-        <translation>%1/%2</translation>
+        <translation type="vanished">%1/%2</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3205"/>
-        <location filename="../src/overtimechart.cpp" line="3247"/>
+        <location filename="../src/overtimechart.cpp" line="3213"/>
+        <location filename="../src/overtimechart.cpp" line="3255"/>
         <source>%1
 Value: %2
 Date: %3</source>
@@ -7888,8 +8019,8 @@ Värde: %2
 Datum: %3</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3205"/>
-        <location filename="../src/overtimechart.cpp" line="3247"/>
+        <location filename="../src/overtimechart.cpp" line="3213"/>
+        <location filename="../src/overtimechart.cpp" line="3255"/>
         <source>MMMM yyyy</source>
         <comment>Month and year</comment>
         <translation>MMMM, yyyy</translation>
@@ -7909,14 +8040,14 @@ Datum: %3</translation>
         <translation type="vanished">Alla beskrivningar uppdelade</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="483"/>
-        <location filename="../src/overtimechart.cpp" line="2938"/>
+        <location filename="../src/overtimechart.cpp" line="487"/>
+        <location filename="../src/overtimechart.cpp" line="2946"/>
         <source>All Payers Split</source>
         <translation>Alla utbetalare uppdelade</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="484"/>
-        <location filename="../src/overtimechart.cpp" line="2939"/>
+        <location filename="../src/overtimechart.cpp" line="488"/>
+        <location filename="../src/overtimechart.cpp" line="2947"/>
         <source>All Payees Split</source>
         <translation>Alla mottagare uppdelade</translation>
     </message>
@@ -7925,69 +8056,69 @@ Datum: %3</translation>
         <translation type="vanished">Ingen beskrivning</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="538"/>
-        <location filename="../src/overtimechart.cpp" line="2456"/>
-        <location filename="../src/overtimechart.cpp" line="2467"/>
-        <location filename="../src/overtimechart.cpp" line="2827"/>
-        <location filename="../src/overtimechart.cpp" line="2838"/>
-        <location filename="../src/overtimechart.cpp" line="2906"/>
-        <location filename="../src/overtimechart.cpp" line="2988"/>
+        <location filename="../src/overtimechart.cpp" line="542"/>
+        <location filename="../src/overtimechart.cpp" line="2464"/>
+        <location filename="../src/overtimechart.cpp" line="2475"/>
+        <location filename="../src/overtimechart.cpp" line="2835"/>
+        <location filename="../src/overtimechart.cpp" line="2846"/>
+        <location filename="../src/overtimechart.cpp" line="2914"/>
+        <location filename="../src/overtimechart.cpp" line="2996"/>
         <source>No payer</source>
         <translation>Ingen utbetalare</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="539"/>
-        <location filename="../src/overtimechart.cpp" line="2462"/>
-        <location filename="../src/overtimechart.cpp" line="2472"/>
-        <location filename="../src/overtimechart.cpp" line="2833"/>
-        <location filename="../src/overtimechart.cpp" line="2843"/>
-        <location filename="../src/overtimechart.cpp" line="2904"/>
-        <location filename="../src/overtimechart.cpp" line="2989"/>
+        <location filename="../src/overtimechart.cpp" line="543"/>
+        <location filename="../src/overtimechart.cpp" line="2470"/>
+        <location filename="../src/overtimechart.cpp" line="2480"/>
+        <location filename="../src/overtimechart.cpp" line="2841"/>
+        <location filename="../src/overtimechart.cpp" line="2851"/>
+        <location filename="../src/overtimechart.cpp" line="2912"/>
+        <location filename="../src/overtimechart.cpp" line="2997"/>
         <source>No payee</source>
         <translation>Ingen mottagare</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="570"/>
-        <location filename="../src/overtimechart.cpp" line="582"/>
-        <location filename="../src/overtimechart.cpp" line="3031"/>
+        <location filename="../src/overtimechart.cpp" line="574"/>
+        <location filename="../src/overtimechart.cpp" line="586"/>
+        <location filename="../src/overtimechart.cpp" line="3039"/>
         <source>All Categories Split</source>
         <translation>Alla kategorier uppdelade</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="629"/>
-        <location filename="../src/overtimechart.cpp" line="659"/>
-        <location filename="../src/overtimechart.cpp" line="689"/>
-        <location filename="../src/overtimechart.cpp" line="719"/>
-        <location filename="../src/overtimechart.cpp" line="829"/>
-        <location filename="../src/overtimechart.cpp" line="862"/>
+        <location filename="../src/overtimechart.cpp" line="633"/>
+        <location filename="../src/overtimechart.cpp" line="663"/>
+        <location filename="../src/overtimechart.cpp" line="693"/>
+        <location filename="../src/overtimechart.cpp" line="723"/>
+        <location filename="../src/overtimechart.cpp" line="833"/>
+        <location filename="../src/overtimechart.cpp" line="866"/>
         <source>Error</source>
         <translation>Fel</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="629"/>
-        <location filename="../src/overtimechart.cpp" line="659"/>
-        <location filename="../src/overtimechart.cpp" line="689"/>
-        <location filename="../src/overtimechart.cpp" line="719"/>
+        <location filename="../src/overtimechart.cpp" line="633"/>
+        <location filename="../src/overtimechart.cpp" line="663"/>
+        <location filename="../src/overtimechart.cpp" line="693"/>
+        <location filename="../src/overtimechart.cpp" line="723"/>
         <source>Invalid date.</source>
         <translation>Felaktigt datum.</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="829"/>
+        <location filename="../src/overtimechart.cpp" line="833"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation>Kunde inte öppna och skriva till filen.</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="862"/>
+        <location filename="../src/overtimechart.cpp" line="866"/>
         <source>Error while writing file; file was not saved.</source>
         <translation>Fel vid skrivande av fil; filen sparades inte.</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2012"/>
+        <location filename="../src/overtimechart.cpp" line="2019"/>
         <source>Other payees</source>
         <translation>Andra mottagare</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2014"/>
+        <location filename="../src/overtimechart.cpp" line="2021"/>
         <source>Other payers</source>
         <translation>Andra utbetalare</translation>
     </message>
@@ -8012,86 +8143,120 @@ Datum: %3</translation>
         <translation type="vanished">Kostnad (%1)</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2638"/>
+        <location filename="../src/overtimechart.cpp" line="2646"/>
         <source>Time</source>
         <translation>Tid</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2435"/>
-        <location filename="../src/overtimechart.cpp" line="2806"/>
+        <location filename="../src/overtimechart.cpp" line="2443"/>
+        <location filename="../src/overtimechart.cpp" line="2814"/>
         <source>%1/%2</source>
         <comment>%1: Category; %2: Payee/Payer</comment>
         <translation>%1/%2</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2113"/>
+        <source>All Subcategories and Descriptions Combined</source>
+        <comment>Referring to the Transaction description property (transaction title/generic article name)</comment>
+        <translation type="vanished">Alla underkategorier och benämningar kombinerade</translation>
+    </message>
+    <message>
+        <source>All Descriptions Split</source>
+        <comment>Referring to the Transaction description property (transaction title/generic article name)</comment>
+        <translation type="vanished">Alla benämningar uppdelade</translation>
+    </message>
+    <message>
+        <source>No description</source>
+        <comment>Referring to the Transaction description property (transaction title/generic article name)</comment>
+        <translation type="vanished">Ingen benämning</translation>
+    </message>
+    <message>
+        <source>Other descriptions</source>
+        <comment>Referring to the Transaction description property (transaction title/generic article name)</comment>
+        <translation type="vanished">Andra benämningar</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="2120"/>
         <source>Value</source>
         <translation>Värde</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2117"/>
+        <location filename="../src/overtimechart.cpp" line="2124"/>
         <source>Daily average value</source>
         <translation>Genomsnittligt dagligt värde</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2118"/>
+        <location filename="../src/overtimechart.cpp" line="2125"/>
         <source>Daily average profit</source>
         <translation>Genomsnittlig daglig förtjänst</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2119"/>
+        <location filename="../src/overtimechart.cpp" line="2126"/>
         <source>Daily average income</source>
         <translation>Genomsnittlig daglig inkomst</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2120"/>
+        <location filename="../src/overtimechart.cpp" line="2127"/>
         <source>Daily average cost</source>
         <translation>Genomsnittlig daglig kostnad</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2125"/>
+        <location filename="../src/overtimechart.cpp" line="2132"/>
         <source>Average income</source>
         <translation>Genomsnittlig inkomst</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2126"/>
+        <location filename="../src/overtimechart.cpp" line="2133"/>
         <source>Average cost</source>
         <translation>Genomsnittlig kostnad</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2130"/>
+        <location filename="../src/overtimechart.cpp" line="2137"/>
         <source>Monthly value</source>
         <translation>Månatligt värde</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2131"/>
+        <location filename="../src/overtimechart.cpp" line="2138"/>
         <source>Monthly profit</source>
         <translation>Månatlig förtjänst</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2132"/>
+        <location filename="../src/overtimechart.cpp" line="2139"/>
         <source>Monthly income</source>
         <translation>Månatlig inkomst</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2133"/>
+        <location filename="../src/overtimechart.cpp" line="2140"/>
         <source>Monthly cost</source>
         <translation>Månatlig kostnad</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="2490"/>
+        <location filename="../src/overtimechart.cpp" line="2861"/>
+        <source>%1/%2</source>
+        <comment>%1: Description; %2: Payer/Payer</comment>
+        <translation>%1/%2</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimechart.cpp" line="2499"/>
+        <location filename="../src/overtimechart.cpp" line="2870"/>
+        <source>%1/%2</source>
+        <comment>%1: Description; %2: Payee/Payer</comment>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <source>Total Assets</source>
         <translation type="vanished">Totala tillgångar</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2269"/>
+        <location filename="../src/overtimechart.cpp" line="2277"/>
         <source>Excluding any profits or losses in trading of security shares</source>
         <translation>Exklusive vinster eller förluster från handel med värdepapper</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2478"/>
-        <location filename="../src/overtimechart.cpp" line="2479"/>
-        <location filename="../src/overtimechart.cpp" line="2849"/>
-        <location filename="../src/overtimechart.cpp" line="2850"/>
+        <location filename="../src/overtimechart.cpp" line="2486"/>
+        <location filename="../src/overtimechart.cpp" line="2487"/>
+        <location filename="../src/overtimechart.cpp" line="2857"/>
+        <location filename="../src/overtimechart.cpp" line="2858"/>
         <source>no payer</source>
         <translation>ingen utbetalare</translation>
     </message>
@@ -8104,10 +8269,10 @@ Datum: %3</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2487"/>
-        <location filename="../src/overtimechart.cpp" line="2488"/>
-        <location filename="../src/overtimechart.cpp" line="2858"/>
-        <location filename="../src/overtimechart.cpp" line="2859"/>
+        <location filename="../src/overtimechart.cpp" line="2495"/>
+        <location filename="../src/overtimechart.cpp" line="2496"/>
+        <location filename="../src/overtimechart.cpp" line="2866"/>
+        <location filename="../src/overtimechart.cpp" line="2867"/>
         <source>no payee</source>
         <translation>ingen mottagare</translation>
     </message>
@@ -8223,14 +8388,24 @@ Datum: %3</translation>
         <translation type="vanished">Ingen beskrivning</translation>
     </message>
     <message>
+        <source>All Descriptions Combined</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="vanished">Alla benämninar kombinerade</translation>
+    </message>
+    <message>
+        <source>No description</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="vanished">Ingen benämning</translation>
+    </message>
+    <message>
         <location filename="../src/overtimereport.cpp" line="112"/>
         <location filename="../src/overtimereport.cpp" line="183"/>
         <location filename="../src/overtimereport.cpp" line="232"/>
         <location filename="../src/overtimereport.cpp" line="735"/>
         <location filename="../src/overtimereport.cpp" line="801"/>
         <source>All Descriptions Combined</source>
-        <comment>Referring to the generic description property</comment>
-        <translation>Alla benämninar kombinerade</translation>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
+        <translation>Alla benämningar kombinerade</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="220"/>
@@ -8238,7 +8413,7 @@ Datum: %3</translation>
         <location filename="../src/overtimereport.cpp" line="389"/>
         <location filename="../src/overtimereport.cpp" line="757"/>
         <source>No description</source>
-        <comment>Referring to the generic description property</comment>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Ingen benämning</translation>
     </message>
     <message>
@@ -9018,32 +9193,32 @@ Datum: %3</translation>
 <context>
     <name>TransactionEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1259"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1265"/>
         <source>Edit Expense</source>
         <translation>Redigera utgift</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1261"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1267"/>
         <source>Edit Dividend</source>
         <translation>Redigera utdelning</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1262"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1268"/>
         <source>Edit Income</source>
         <translation>Redigera inkomst</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1265"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1271"/>
         <source>Edit Transfer</source>
         <translation>Redigera överföring</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1266"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1272"/>
         <source>Edit Securities Bought</source>
         <translation>Redigera köp</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1267"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1273"/>
         <source>Edit Securities Sold</source>
         <translation>Redigera försäljning</translation>
     </message>
@@ -9058,13 +9233,13 @@ Datum: %3</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="122"/>
-        <location filename="../src/transactioneditwidget.cpp" line="194"/>
+        <location filename="../src/transactioneditwidget.cpp" line="195"/>
         <source>Cost:</source>
         <translation>Kostnad:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="123"/>
-        <location filename="../src/transactioneditwidget.cpp" line="192"/>
+        <location filename="../src/transactioneditwidget.cpp" line="193"/>
         <source>Income:</source>
         <translation>Inkomst:</translation>
     </message>
@@ -9090,14 +9265,13 @@ Datum: %3</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="154"/>
-        <location filename="../src/transactioneditwidget.cpp" line="212"/>
+        <location filename="../src/transactioneditwidget.cpp" line="214"/>
         <source>Date:</source>
         <translation>Datum:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="181"/>
         <source>Description:</source>
-        <translation>Benämning:</translation>
+        <translation type="vanished">Benämning:</translation>
     </message>
     <message>
         <source>Name:</source>
@@ -9112,70 +9286,70 @@ Datum: %3</translation>
         <translation type="vanished">Allmän benämning:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="190"/>
+        <location filename="../src/transactioneditwidget.cpp" line="191"/>
         <source>Amount:</source>
         <translation>Värde:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="200"/>
+        <location filename="../src/transactioneditwidget.cpp" line="201"/>
         <source>Downpayment:</source>
         <translation>Handpenning:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="206"/>
+        <location filename="../src/transactioneditwidget.cpp" line="207"/>
         <source>Quantity:</source>
         <translation>Kvantitet:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="222"/>
+        <location filename="../src/transactioneditwidget.cpp" line="228"/>
         <source>From:</source>
         <translation>Från:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="228"/>
+        <location filename="../src/transactioneditwidget.cpp" line="234"/>
         <source>To:</source>
         <translation>Till:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="238"/>
-        <location filename="../src/transactioneditwidget.cpp" line="281"/>
+        <location filename="../src/transactioneditwidget.cpp" line="244"/>
+        <location filename="../src/transactioneditwidget.cpp" line="287"/>
         <source>Category:</source>
         <translation>Kategori:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="245"/>
-        <location filename="../src/transactioneditwidget.cpp" line="271"/>
+        <location filename="../src/transactioneditwidget.cpp" line="251"/>
+        <location filename="../src/transactioneditwidget.cpp" line="277"/>
         <source>To account:</source>
         <translation>Till konto:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="252"/>
+        <location filename="../src/transactioneditwidget.cpp" line="258"/>
         <source>Payer:</source>
         <translation>Utbetalare:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="261"/>
-        <location filename="../src/transactioneditwidget.cpp" line="292"/>
+        <location filename="../src/transactioneditwidget.cpp" line="267"/>
+        <location filename="../src/transactioneditwidget.cpp" line="298"/>
         <source>From account:</source>
         <translation>Från konto:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="289"/>
+        <location filename="../src/transactioneditwidget.cpp" line="295"/>
         <source>Downpayment account:</source>
         <translation>Konto för handpenning:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="300"/>
+        <location filename="../src/transactioneditwidget.cpp" line="306"/>
         <source>Payee:</source>
         <translation>Mottagare:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="308"/>
+        <location filename="../src/transactioneditwidget.cpp" line="314"/>
         <source>Lender:</source>
         <translation>Långivare:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="314"/>
+        <location filename="../src/transactioneditwidget.cpp" line="320"/>
         <source>Comments:</source>
         <translation>Kommentarer:</translation>
     </message>
@@ -9204,103 +9378,119 @@ Datum: %3</translation>
         <translation type="vanished">Ny utgiftskategori…</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="711"/>
-        <location filename="../src/transactioneditwidget.cpp" line="715"/>
-        <location filename="../src/transactioneditwidget.cpp" line="722"/>
-        <location filename="../src/transactioneditwidget.cpp" line="726"/>
-        <location filename="../src/transactioneditwidget.cpp" line="733"/>
-        <location filename="../src/transactioneditwidget.cpp" line="740"/>
-        <location filename="../src/transactioneditwidget.cpp" line="747"/>
-        <location filename="../src/transactioneditwidget.cpp" line="751"/>
-        <location filename="../src/transactioneditwidget.cpp" line="758"/>
-        <location filename="../src/transactioneditwidget.cpp" line="765"/>
-        <location filename="../src/transactioneditwidget.cpp" line="773"/>
-        <location filename="../src/transactioneditwidget.cpp" line="777"/>
-        <location filename="../src/transactioneditwidget.cpp" line="784"/>
-        <location filename="../src/transactioneditwidget.cpp" line="791"/>
-        <location filename="../src/transactioneditwidget.cpp" line="799"/>
-        <location filename="../src/transactioneditwidget.cpp" line="803"/>
-        <location filename="../src/transactioneditwidget.cpp" line="807"/>
-        <location filename="../src/transactioneditwidget.cpp" line="819"/>
+        <location filename="../src/transactioneditwidget.cpp" line="181"/>
+        <source>Description:</source>
+        <comment>Transaction description property (transaction title/generic article name)</comment>
+        <translation>Benämning:</translation>
+    </message>
+    <message>
+        <location filename="../src/transactioneditwidget.cpp" line="186"/>
+        <source>Transaction title/generic article name</source>
+        <translation>Transaktionstitel/allmänt artikelnamn</translation>
+    </message>
+    <message>
+        <location filename="../src/transactioneditwidget.cpp" line="209"/>
+        <source>Number of items included in the transaction. Entered cost is total cost for all items.</source>
+        <translation>Antal enheter inkluderade i transaktionen. Angiven kostnad är total kostnad för alla enheter.</translation>
+    </message>
+    <message>
+        <location filename="../src/transactioneditwidget.cpp" line="717"/>
+        <location filename="../src/transactioneditwidget.cpp" line="721"/>
+        <location filename="../src/transactioneditwidget.cpp" line="728"/>
+        <location filename="../src/transactioneditwidget.cpp" line="732"/>
+        <location filename="../src/transactioneditwidget.cpp" line="739"/>
+        <location filename="../src/transactioneditwidget.cpp" line="746"/>
+        <location filename="../src/transactioneditwidget.cpp" line="753"/>
+        <location filename="../src/transactioneditwidget.cpp" line="757"/>
+        <location filename="../src/transactioneditwidget.cpp" line="764"/>
+        <location filename="../src/transactioneditwidget.cpp" line="771"/>
+        <location filename="../src/transactioneditwidget.cpp" line="779"/>
+        <location filename="../src/transactioneditwidget.cpp" line="783"/>
+        <location filename="../src/transactioneditwidget.cpp" line="790"/>
+        <location filename="../src/transactioneditwidget.cpp" line="797"/>
+        <location filename="../src/transactioneditwidget.cpp" line="805"/>
+        <location filename="../src/transactioneditwidget.cpp" line="809"/>
+        <location filename="../src/transactioneditwidget.cpp" line="813"/>
+        <location filename="../src/transactioneditwidget.cpp" line="825"/>
         <source>Error</source>
         <translation>Fel</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="711"/>
-        <location filename="../src/transactioneditwidget.cpp" line="715"/>
-        <location filename="../src/transactioneditwidget.cpp" line="726"/>
-        <location filename="../src/transactioneditwidget.cpp" line="740"/>
-        <location filename="../src/transactioneditwidget.cpp" line="751"/>
+        <location filename="../src/transactioneditwidget.cpp" line="717"/>
+        <location filename="../src/transactioneditwidget.cpp" line="721"/>
+        <location filename="../src/transactioneditwidget.cpp" line="732"/>
+        <location filename="../src/transactioneditwidget.cpp" line="746"/>
+        <location filename="../src/transactioneditwidget.cpp" line="757"/>
         <source>No suitable account available.</source>
         <translation>Inget lämpligt konto finns tillgängligt.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="722"/>
+        <location filename="../src/transactioneditwidget.cpp" line="728"/>
         <source>No income category available.</source>
         <translation>Ingen inkomstkategory finns tillgänglig.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="733"/>
+        <location filename="../src/transactioneditwidget.cpp" line="739"/>
         <source>No suitable account or income category available.</source>
         <translation>Inga lämpliga konton eller inkomstkategorier finns tillgängliga.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="747"/>
+        <location filename="../src/transactioneditwidget.cpp" line="753"/>
         <source>No expense category available.</source>
         <translation>Ingen utgiftskategory finns tillänglig.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="758"/>
+        <location filename="../src/transactioneditwidget.cpp" line="764"/>
         <source>No security available.</source>
         <translation>Inget värdepapper o finns tillgängligt.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="765"/>
+        <location filename="../src/transactioneditwidget.cpp" line="771"/>
         <source>Invalid date.</source>
         <translation>Felaktigt datum.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="773"/>
+        <location filename="../src/transactioneditwidget.cpp" line="779"/>
         <source>Cannot transfer money to and from the same account.</source>
         <translation>Kan inte överföra pengar till och från samma konto.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="777"/>
+        <location filename="../src/transactioneditwidget.cpp" line="783"/>
         <source>Downpayment must be less than total cost.</source>
         <translation>Handpenningen måste vara lägre än den totala kostnaden.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="784"/>
+        <location filename="../src/transactioneditwidget.cpp" line="790"/>
         <source>Cannot create a regular transfer to/from a securities account.</source>
         <translation>Kan inte skapa en vanlig överföring till/från ett konto för värdepapper.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="791"/>
+        <location filename="../src/transactioneditwidget.cpp" line="797"/>
         <source>Cannot create a regular income to a securities account.</source>
         <translation>Kan inte skapa en vanlig inkomst till ett konto för värdepapper.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="799"/>
+        <location filename="../src/transactioneditwidget.cpp" line="805"/>
         <source>Zero shares not allowed.</source>
         <translation>Noll andelar är inte tillåtet.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="803"/>
+        <location filename="../src/transactioneditwidget.cpp" line="809"/>
         <source>Zero value not allowed.</source>
         <translation>Noll värde är inte tillåtet.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="807"/>
+        <location filename="../src/transactioneditwidget.cpp" line="813"/>
         <source>Zero price per share not allowed.</source>
         <translation>Noll pris per andel är inte tillåtet.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="819"/>
+        <location filename="../src/transactioneditwidget.cpp" line="825"/>
         <source>Cannot create a regular expense from a securities account.</source>
         <translation>Kan inte skapa en normal utgift från ett konto för värdepapper.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="881"/>
+        <location filename="../src/transactioneditwidget.cpp" line="887"/>
         <source>Loan for %1</source>
         <translation>Lån för %1</translation>
     </message>
@@ -9308,60 +9498,60 @@ Datum: %3</translation>
 <context>
     <name>TransactionFilterWidget</name>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="56"/>
-        <location filename="../src/transactionfilterwidget.cpp" line="73"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="55"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="72"/>
         <source>From:</source>
         <translation>Från:</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="63"/>
-        <location filename="../src/transactionfilterwidget.cpp" line="77"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="62"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="76"/>
         <source>To:</source>
         <translation>Till:</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="81"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="80"/>
         <source>Min amount:</source>
         <translation>Lägsta värde:</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="82"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="81"/>
         <source>Max amount:</source>
         <translation>Högsta värde:</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="84"/>
-        <location filename="../src/transactionfilterwidget.cpp" line="95"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="83"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="94"/>
         <source>Category:</source>
         <translation>Kategori:</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="88"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="87"/>
         <source>To account:</source>
         <translation>Till konto:</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="92"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="91"/>
         <source>Min income:</source>
         <translation>Lägsta inkomst:</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="93"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="92"/>
         <source>Max income:</source>
         <translation>Högsta inkomst:</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="99"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="98"/>
         <source>From account:</source>
         <translation>Från konto:</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="103"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="102"/>
         <source>Min cost:</source>
         <translation>Lägsta kostnad:</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="104"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="103"/>
         <source>Max cost:</source>
         <translation>Högsta kostnad:</translation>
     </message>
@@ -9370,32 +9560,32 @@ Datum: %3</translation>
         <translation type="vanished">Allmän benämning:</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="117"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="116"/>
         <source>Description:</source>
         <translation>Benämning:</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="125"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="124"/>
         <source>Payer:</source>
         <translation>Utbetalare:</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="126"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="125"/>
         <source>Payee:</source>
         <translation>Mottagare:</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="136"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="135"/>
         <source>Include</source>
         <translation>Inkludera</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="140"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="139"/>
         <source>Exclude</source>
         <translation>Exkludera</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="143"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="142"/>
         <source>Exact match</source>
         <translation>Exakt matchning</translation>
     </message>
@@ -9405,39 +9595,39 @@ Datum: %3</translation>
         <translation>Uteslut underkategorier</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="148"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="149"/>
         <source>Clear</source>
         <translation>Töm</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="159"/>
         <location filename="../src/transactionfilterwidget.cpp" line="160"/>
-        <location filename="../src/transactionfilterwidget.cpp" line="340"/>
-        <location filename="../src/transactionfilterwidget.cpp" line="378"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="161"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="341"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="379"/>
         <source>All</source>
         <translation>Alla</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="744"/>
-        <location filename="../src/transactionfilterwidget.cpp" line="749"/>
-        <location filename="../src/transactionfilterwidget.cpp" line="770"/>
-        <location filename="../src/transactionfilterwidget.cpp" line="774"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="745"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="750"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="771"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="775"/>
         <source>Error</source>
         <translation>Fel</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="744"/>
-        <location filename="../src/transactionfilterwidget.cpp" line="770"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="745"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="771"/>
         <source>Invalid date.</source>
         <translation>Felaktigt datum.</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="749"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="750"/>
         <source>To date is before from date.</source>
         <translation>Slutdatum är före startdatum.</translation>
     </message>
     <message>
-        <location filename="../src/transactionfilterwidget.cpp" line="774"/>
+        <location filename="../src/transactionfilterwidget.cpp" line="775"/>
         <source>From date is after to date.</source>
         <translation>Startdatum är efter slutdatum.</translation>
     </message>
@@ -9546,9 +9736,14 @@ Datum: %3</translation>
         <translation type="vanished">Allmän benämning</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="105"/>
         <source>Description</source>
         <comment>Generic Description</comment>
+        <translation type="vanished">Benämning</translation>
+    </message>
+    <message>
+        <location filename="../src/transactionlistwidget.cpp" line="105"/>
+        <source>Description</source>
+        <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation>Benämning</translation>
     </message>
     <message>
@@ -9654,14 +9849,34 @@ Datum: %3</translation>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="584"/>
         <source>Cannot change description of dividends and security transactions.</source>
-        <comment>Referring to the generic description property</comment>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Kan inte ändra benämningar för utdelningar och värdepapperstransaktioner.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="598"/>
         <source>Cannot change date, description, expense category or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.</source>
-        <comment>Referring to the generic description property</comment>
+        <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Datum, benämning, utgiftskategori och mottagare kan inte ändras för skuldbetalningar i dialogen för att ändra flera transaktioner.</translation>
+    </message>
+    <message>
+        <source>Cannot change description of dividends and security transactions.</source>
+        <comment>Referring to the Transaction description property (transaction title/generic article name)</comment>
+        <translation type="vanished">Kan inte ändra benämningar för utdelningar och värdepapperstransaktioner.</translation>
+    </message>
+    <message>
+        <source>Cannot change date, description, expense category or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.</source>
+        <comment>Referring to the Transaction description property (transaction title/generic article name)</comment>
+        <translation type="vanished">Datum, benämning, utgiftskategori och mottagare kan inte ändras för skuldbetalningar i dialogen för att ändra flera transaktioner.</translation>
+    </message>
+    <message>
+        <source>Cannot change description of dividends and security transactions.</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="vanished">Kan inte ändra benämningar för utdelningar och värdepapperstransaktioner.</translation>
+    </message>
+    <message>
+        <source>Cannot change date, description, expense category or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.</source>
+        <comment>Referring to the generic description property</comment>
+        <translation type="vanished">Datum, benämning, utgiftskategori och mottagare kan inte ändras för skuldbetalningar i dialogen för att ändra flera transaktioner.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="604"/>

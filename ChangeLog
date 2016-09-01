@@ -1,8 +1,15 @@
+2016-09-01  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Fix include subcategories in filtering and remove the button for transfers and when extra properties is disabled (for improved layout)
+	* Remove quantity from incomes edit
+	* Add tooltip to description and quantity
+	* Fix not all transactions being listed in confirm schedule dialog
+
 2016-08-29  Hanna Knutsson <hanna_k@fmgirl.com>
 
 	* Fix charts withput extra properties
 	* Fix charts without QtCharts
-	
+
 2016-08-25  Hanna Knutsson <hanna_k@fmgirl.com>
 
 	* Fix value column in multi-account transaction dialog

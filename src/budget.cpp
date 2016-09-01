@@ -172,6 +172,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 					}
 				}
 			} else {
+			qInfo() << xml.name();
 				transaction_errors++;
 				delete strans;
 			}
@@ -185,6 +186,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 					expenses.append(expense);
 					transactions.append(expense);
 				} else {
+				qInfo() << type;
 					transaction_errors++;
 					delete expense;
 				}
@@ -194,6 +196,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 					incomes.append(income);
 					transactions.append(income);
 				} else {
+				qInfo() << type;
 					transaction_errors++;
 					delete income;
 				}
@@ -204,6 +207,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 					transactions.append(income);
 					income->security()->dividends.append(income);
 				} else {
+				qInfo() << type;
 					transaction_errors++;
 					delete income;
 				}
@@ -259,6 +263,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 					transfers.append(transfer);
 					transactions.append(transfer);
 				} else {
+				qInfo() << type;
 					transaction_errors++;
 					delete transfer;
 				}
@@ -300,6 +305,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 			}
 			if(split) {
 				if(!valid) {
+				qInfo() << type;
 					transaction_errors++;
 					delete split;
 					split = NULL;
@@ -348,6 +354,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 					expensesAccounts.append(account);
 					accounts.append(account);
 				} else {
+				qInfo() << type;
 					category_errors++;
 					delete account;
 				}
@@ -358,6 +365,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 					incomesAccounts.append(account);
 					accounts.append(account);
 				} else {
+				qInfo() << type;
 					category_errors++;
 					delete account;
 				}

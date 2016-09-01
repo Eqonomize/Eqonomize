@@ -178,11 +178,12 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			}
 			i++;
 		} else if(!multiaccount) {
-			editLayout->addWidget(new QLabel(tr("Description:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Description:", "Transaction description property (transaction title/generic article name)"), this), TEROWCOL(i, 0));			
 			descriptionEdit = new QLineEdit(this);
 			descriptionEdit->setCompleter(new QCompleter(this));
 			descriptionEdit->completer()->setModel(new QStandardItemModel(this));
 			descriptionEdit->completer()->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+			descriptionEdit->setToolTip(tr("Transaction title/generic article name"));
 			editLayout->addWidget(descriptionEdit, TEROWCOL(i, 1));
 			i++;
 		}		
@@ -202,9 +203,10 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			editLayout->addWidget(downPaymentEdit, TEROWCOL(i, 1));
 			i++;
 		}
-		if(b_extra && !multiaccount && !select_security && !security && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME)) {
+		if(b_extra && !multiaccount && !select_security && !security && transtype == TRANSACTION_TYPE_EXPENSE) {
 			editLayout->addWidget(new QLabel(tr("Quantity:"), this), TEROWCOL(i, 0));
 			quantityEdit = new EqonomizeValueEdit(1.0, 2, true, false, this);
+			quantityEdit->setToolTip(tr("Number of items included in the transaction. Entered cost is total cost for all items."));
 			editLayout->addWidget(quantityEdit, TEROWCOL(i, 1));
 			i++;
 		}
@@ -214,7 +216,11 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			dateEdit->setCalendarPopup(true);
 			editLayout->addWidget(dateEdit, TEROWCOL(i, 1));
 			i++;
+			if(b_extra && cols == 2 && !multiaccount && !select_security && !security && transtype == TRANSACTION_TYPE_INCOME) {
+				i++;
+			}
 		}
+		
 	}
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
@@ -1298,7 +1304,7 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 	QGridLayout *editLayout = new QGridLayout();
 	box1->addLayout(editLayout);
 
-	descriptionButton = new QCheckBox(tr("Generic Description:"), this);
+	descriptionButton = new QCheckBox(tr("Description:", "Transaction description property (transaction title/generic article name)"), this);
 	descriptionButton->setChecked(false);
 	editLayout->addWidget(descriptionButton, 0, 0);
 	descriptionEdit = new QLineEdit(this);

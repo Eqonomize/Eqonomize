@@ -102,7 +102,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	transactionsView->setAllColumnsShowFocus(true);
 	QStringList headers;
 	headers << tr("Date");
-	headers << tr("Description", "Generic Description");
+	headers << tr("Description", "Transaction description property (transaction title/generic article name)");
 	comments_col = 5;
 	switch(transtype) {
 		case TRANSACTION_TYPE_EXPENSE: {
@@ -581,7 +581,7 @@ void TransactionListWidget::editTransaction() {
 					}
 					if(!warned2 && (i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) i->transaction())->security()))) {
 						if(dialog->descriptionButton->isChecked()) {
-							QMessageBox::critical(this, tr("Error"), tr("Cannot change description of dividends and security transactions.", "Referring to the generic description property"));
+							QMessageBox::critical(this, tr("Error"), tr("Cannot change description of dividends and security transactions.", "Referring to the transaction description property (transaction title/generic article name)"));
 							warned2 = true;
 						}
 					}
@@ -595,7 +595,7 @@ void TransactionListWidget::editTransaction() {
 						if(i->transaction()->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
 							if(!warned5) {
 								if(dialog->dateButton->isChecked() || dialog->descriptionButton->isChecked() || dialog->categoryButton->isChecked() || (dialog->payeeButton && dialog->payeeButton->isChecked())) {
-									QMessageBox::critical(this, tr("Error"), tr("Cannot change date, description, expense category or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.", "Referring to the generic description property"));
+									QMessageBox::critical(this, tr("Error"), tr("Cannot change date, description, expense category or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.", "Referring to the transaction description property (transaction title/generic article name)"));
 									warned5 = true;
 								}
 							}
