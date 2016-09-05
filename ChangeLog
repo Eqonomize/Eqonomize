@@ -1,3 +1,7 @@
+2016-09-05  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Fix and enhance exceptions dialog
+
 2016-09-01  Hanna Knutsson <hanna_k@fmgirl.com>
 
 	* Fix include subcategories in filtering and remove the button for transfers and when extra properties is disabled (for improved layout)

@@ -133,10 +133,11 @@ class EditExceptionsDialog : public QDialog {
 	
 	protected:
 
-		QDateEdit *dateEdit;
-		QPushButton *changeButton, *addButton, *deleteButton;
-		QListWidget *exceptionsList;
+		QPushButton *addButton, *deleteButton;
+		QListWidget *occurrencesList, *exceptionsList;
+		QLabel *infoLabel;
 		QStringList savedExceptions;
+		Recurrence *o_rec;
 	
 	public:
 
@@ -154,7 +155,6 @@ class EditExceptionsDialog : public QDialog {
 		void reject();
 		void onSelectionChanged();
 		void addException();
-		void changeException();
 		void deleteException();
 		
 };

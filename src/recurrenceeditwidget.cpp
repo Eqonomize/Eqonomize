@@ -54,28 +54,34 @@ EditExceptionsDialog::EditExceptionsDialog(QWidget *parent)  : QDialog(parent, 0
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	
-	QHBoxLayout *exceptionsLayout = new QHBoxLayout();
-	box1->addLayout(exceptionsLayout);
-
-	exceptionsList = new QListWidget(this);
-	exceptionsLayout->addWidget(exceptionsList);
-
+	QGridLayout *layout = new QGridLayout();
+	box1->addLayout(layout);
+	
+	layout->addWidget(new QLabel(tr("Occurrences:"), this), 0, 0);
+	occurrencesList = new QListWidget(this);
+	occurrencesList->setSelectionMode(QListWidget::ExtendedSelection);
+	layout->addWidget(occurrencesList, 1, 0);
+	
 	QVBoxLayout *buttonsLayout = new QVBoxLayout();
-	exceptionsLayout->addLayout(buttonsLayout);
-	dateEdit = new QDateEdit(this);
-	dateEdit->setCalendarPopup(true);
-	dateEdit->setDate(QDate::currentDate());
-	buttonsLayout->addWidget(dateEdit);
-	addButton = new QPushButton(tr("Add"), this);
+	layout->addLayout(buttonsLayout, 0, 1, -1, 1);
+	buttonsLayout->addStretch(1);
+	addButton = new QPushButton(tr("Add Exception"), this);
+	addButton->setEnabled(false);
 	buttonsLayout->addWidget(addButton);
-	changeButton = new QPushButton(tr("Apply"), this);
-	changeButton->setEnabled(false);
-	buttonsLayout->addWidget(changeButton);
-	deleteButton = new QPushButton(tr("Delete"), this);
+	deleteButton = new QPushButton(tr("Remove Exception"), this);
 	deleteButton->setEnabled(false);
 	buttonsLayout->addWidget(deleteButton);
 	buttonsLayout->addStretch(1);
+
+	layout->addWidget(new QLabel(tr("Exceptions:"), this), 0, 2);
+	exceptionsList = new QListWidget(this);
+	exceptionsList->setSelectionMode(QListWidget::ExtendedSelection);
+	layout->addWidget(exceptionsList, 1, 2);
 	
+	infoLabel = new QLabel(QString("<i>") + tr("Only the first fifty occurrences are shown.") + QString("</i>"), this);
+	infoLabel->hide();
+	layout->addWidget(infoLabel, 2, 0, 1, -1);
+
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	buttonBox->button(QDialogButtonBox::Cancel)->setDefault(true);
@@ -83,27 +89,41 @@ EditExceptionsDialog::EditExceptionsDialog(QWidget *parent)  : QDialog(parent, 0
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
 
+	connect(occurrencesList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
 	connect(exceptionsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
 	connect(addButton, SIGNAL(clicked()), this, SLOT(addException()));
-	connect(changeButton, SIGNAL(clicked()), this, SLOT(changeException()));
 	connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteException()));
 
 }
 EditExceptionsDialog::~EditExceptionsDialog() {
 }
+
 void EditExceptionsDialog::setRecurrence(Recurrence *rec) {
+	occurrencesList->clear();
 	exceptionsList->clear();
 	if(rec) {
+		QDate next_date = rec->firstOccurrence();
+		int i = 0;
+		for(; i < 50 && next_date.isValid(); i++) {
+			occurrencesList->addItem(QLocale().toString(next_date, QLocale::ShortFormat));
+			next_date = rec->nextOccurrence(next_date);
+		}
+		if(i == 50) {
+			infoLabel->show();
+		} else {
+			infoLabel->hide();
+		}
 		for(QVector<QDate>::size_type i = 0; i < rec->exceptions.size(); i++) {
 			exceptionsList->addItem(QLocale().toString(rec->exceptions[i], QLocale::ShortFormat));
 		}
 		exceptionsList->sortItems();
 	}
+	o_rec = rec;
 	saveValues();
 }
 void EditExceptionsDialog::modifyExceptions(Recurrence *rec) {
 	for(int i = 0; i < exceptionsList->count(); i++) {
-		rec->addException(QLocale().toDate(exceptionsList->item(i)->text()));
+		rec->addException(QLocale().toDate(exceptionsList->item(i)->text(), QLocale::ShortFormat));
 	}
 }
 bool EditExceptionsDialog::validValues() {
@@ -130,44 +150,34 @@ void EditExceptionsDialog::reject() {
 }
 void EditExceptionsDialog::onSelectionChanged() {
 	QList<QListWidgetItem*> list = exceptionsList->selectedItems();
-	if(!list.isEmpty()) {
-		changeButton->setEnabled(true);
-		deleteButton->setEnabled(true);
-		dateEdit->setDate(QLocale().toDate(list.first()->text()));
-	} else {
-		changeButton->setEnabled(false);
-		deleteButton->setEnabled(false);
+	deleteButton->setEnabled(!list.isEmpty());
+	list = occurrencesList->selectedItems();
+	if(!list.isEmpty() && list.first() == occurrencesList->item(0)) {
+		occurrencesList->item(0)->setSelected(false);
+		list.removeFirst();
 	}
+	addButton->setEnabled(!list.isEmpty());
 }
 void EditExceptionsDialog::addException() {
-	QDate date = dateEdit->date();
-	if(!date.isValid()) {
-		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
-		return;
+	QList<QListWidgetItem*> list = occurrencesList->selectedItems();
+	for(int i = 0; i < list.count(); i++) {
+		exceptionsList->addItem(list[i]->text());
+		delete list[i];
 	}
-	QString sdate = QLocale().toString(date, QLocale::ShortFormat);
-	QList<QListWidgetItem*> list = exceptionsList->findItems(sdate, Qt::MatchExactly);
-	if(list.isEmpty()) {
-		exceptionsList->addItem(sdate);
-		exceptionsList->sortItems();
-	}
-}
-void EditExceptionsDialog::changeException() {
-	QList<QListWidgetItem*> list = exceptionsList->selectedItems();
-	if(list.isEmpty()) return;
-	QDate date = dateEdit->date();
-	if(!date.isValid()) {
-		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
-		return;
-	}
-	QString sdate = QLocale().toString(date, QLocale::ShortFormat);
-	list.first()->setText(sdate);
 	exceptionsList->sortItems();
 }
 void EditExceptionsDialog::deleteException() {
 	QList<QListWidgetItem*> list = exceptionsList->selectedItems();
-	if(list.isEmpty()) return;
-	delete list.first();
+	for(int i = 0; i < list.count(); i++) {
+		delete list[i];
+	}
+	modifyExceptions(o_rec);
+	occurrencesList->clear();
+	QDate next_date = o_rec->firstOccurrence();
+	for(int i = 0; i < 50 && next_date.isValid(); i++) {
+		occurrencesList->addItem(QLocale().toString(next_date, QLocale::ShortFormat));
+		next_date = o_rec->nextOccurrence(next_date);
+	}
 }
 
 EditRangeDialog::EditRangeDialog(const QDate &startdate, QWidget *parent) : QDialog(parent, 0), date(startdate) {
@@ -531,7 +541,7 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 	recurrenceLayout->addLayout(buttonLayout);
 	rangeButton = new QPushButton(tr("Range…"), this);
 	buttonLayout->addWidget(rangeButton);
-	exceptionsButton = new QPushButton(tr("Exceptions…"), this);
+	exceptionsButton = new QPushButton(tr("Occurrences/Exceptions…"), this);
 	buttonLayout->addWidget(exceptionsButton);
 
 	recurrenceLayout->addStretch(1);
@@ -579,8 +589,11 @@ RecurrenceEditWidget::~RecurrenceEditWidget() {
 }
 
 void RecurrenceEditWidget::editExceptions() {
+	Recurrence *rec = createRecurrence();
+	exceptionsDialog->setRecurrence(rec);
 	exceptionsDialog->exec();
 	exceptionsDialog->hide();
+	delete rec;
 }
 void RecurrenceEditWidget::editRange() {
 	rangeDialog->exec();
