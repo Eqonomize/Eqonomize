@@ -958,8 +958,7 @@ void YearlyRecurrence::writeAttributes(QXmlStreamAttributes *attr) {
 		attr->append("weekendhandling", QString::number(wh_weekendhandling));
 	}
 }
-
-QDate YearlyRecurrence::nextOccurrence(const QDate &date, bool include_equals) const {	
+QDate YearlyRecurrence::nextOccurrence(const QDate &date, bool include_equals) const {
 	if(!include_equals) {
 		if(date < startDate()) return firstOccurrence();
 	} else {
@@ -997,7 +996,7 @@ QDate YearlyRecurrence::nextOccurrence(const QDate &date, bool include_equals) c
 		if(day == 0 || nextdate.month() > i_month || (nextdate.month() == i_month && nextdate.day() > day)) {
 			do {
 				nextdate = nextdate.addYears(i_frequency);
-				day = get_day_in_month(nextdate.year(), i_month, i_week, i_dayofweek);
+				if(i_dayofweek > 0) day = get_day_in_month(nextdate.year(), i_month, i_week, i_dayofweek);
 				if(!endDate().isNull() && nextdate.year() > endDate().year()) return QDate();
 			} while(day == 0);
 		}
