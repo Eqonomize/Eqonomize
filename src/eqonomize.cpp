@@ -5448,6 +5448,28 @@ void Eqonomize::dropEvent(QDropEvent *event) {
 
 void Eqonomize::fileNew() {
 	createDefaultBudget();
+	if(!askSave()) return;
+	budget->clear();
+	current_url = "";
+	setWindowTitle(tr("Untitled") + "[*]");
+	ActionFileReload->setEnabled(false);
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	settings.setValue("lastURL", current_url.url());
+	if(!cr_tmp_file.isEmpty()) {
+		QFile autosaveFile(cr_tmp_file);
+		autosaveFile.remove();
+		cr_tmp_file = "";
+	}
+	settings.endGroup();
+	settings.sync();
+
+	reloadBudget();
+	setModified(false);
+	ActionFileSave->setEnabled(true);
+	emit accountsModified();
+	emit transactionsModified();
+	emit budgetUpdated();
 }
 
 void Eqonomize::fileOpen() {
