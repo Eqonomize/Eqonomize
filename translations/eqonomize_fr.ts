@@ -2995,7 +2995,7 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/accountcombobox.cpp" line="66"/>
         <source>New account…</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau compte…</translation>
     </message>
     <message>
         <location filename="../src/accountcombobox.cpp" line="67"/>
@@ -3010,27 +3010,27 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/accountcombobox.cpp" line="96"/>
         <source>New income category…</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvelle catégorie de revenu…</translation>
     </message>
     <message>
         <location filename="../src/accountcombobox.cpp" line="112"/>
         <source>New expense category…</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvelle catégorie de dépense…</translation>
     </message>
     <message>
         <location filename="../src/accountcombobox.cpp" line="135"/>
         <source>New Account</source>
-        <translation type="unfinished">Nouveau compte</translation>
+        <translation>Nouveau compte</translation>
     </message>
     <message>
         <location filename="../src/accountcombobox.cpp" line="143"/>
         <source>New Income Category</source>
-        <translation type="unfinished">Nouvelle catégorie de revenus</translation>
+        <translation>Nouvelle catégorie de revenus</translation>
     </message>
     <message>
         <location filename="../src/accountcombobox.cpp" line="151"/>
         <source>New Expense Category</source>
-        <translation type="unfinished">Nouvelle catégorie de dépenses</translation>
+        <translation>Nouvelle catégorie de dépenses</translation>
     </message>
 </context>
 <context>
@@ -3278,17 +3278,17 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="517"/>
         <source>Expenses</source>
-        <translation type="unfinished">Dépenses</translation>
+        <translation>Dépenses</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="540"/>
         <source>Incomes</source>
-        <translation type="unfinished">Revenus</translation>
+        <translation>Revenus</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="553"/>
         <source>Accounts</source>
-        <translation type="unfinished">Comptes</translation>
+        <translation>Comptes</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="826"/>
@@ -3302,7 +3302,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonchart.cpp" line="1045"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pas de description</translation>
     </message>
     <message>
         <source>No description</source>
@@ -3312,17 +3312,17 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="975"/>
         <source>Value</source>
-        <translation type="unfinished">Valeur</translation>
+        <translation>Valeur</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="976"/>
         <source>Income</source>
-        <translation type="unfinished">Revenu</translation>
+        <translation>Revenu</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="977"/>
         <source>Cost</source>
-        <translation type="unfinished">Coût</translation>
+        <translation>Coût</translation>
     </message>
     <message>
         <source>Value (%1)</source>
@@ -3513,7 +3513,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="122"/>
         <source>Descriptions for</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Descriptions pour</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="144"/>
@@ -3526,7 +3526,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="1100"/>
         <source>All descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toutes les descriptions</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="339"/>
@@ -3537,7 +3537,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="1130"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pas de description</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="345"/>
@@ -3733,7 +3733,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <location filename="../src/eqonomize.cpp" line="1144"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Description</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1145"/>
@@ -3895,7 +3895,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <location filename="../src/editaccountdialogs.cpp" line="73"/>
         <location filename="../src/editaccountdialogs.cpp" line="170"/>
         <source>Bank:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Banque:</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="77"/>
@@ -3910,7 +3910,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="82"/>
         <source>Initial balance</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Équilibre initial</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="86"/>
@@ -3920,7 +3920,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="91"/>
         <source>Date:</source>
-        <translation type="unfinished">Date:</translation>
+        <translation>Date:</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="101"/>
@@ -3989,7 +3989,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/editsplitdialog.cpp" line="888"/>
         <source>Date:</source>
-        <translation type="unfinished">Date:</translation>
+        <translation>Date:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="896"/>
@@ -4019,22 +4019,22 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/editsplitdialog.cpp" line="928"/>
         <source>Account:</source>
-        <translation type="unfinished">Compte:</translation>
+        <translation>Compte:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="934"/>
         <source>Expense category:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Catégorie de dépenses:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="942"/>
         <source>Comments:</source>
-        <translation type="unfinished">Commentaires:</translation>
+        <translation>Commentaires:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="1044"/>
         <source>Total value:</source>
-        <translation type="unfinished">Valeur totale:</translation>
+        <translation>Valeur totale:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="1095"/>
@@ -4042,7 +4042,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <location filename="../src/editsplitdialog.cpp" line="1108"/>
         <location filename="../src/editsplitdialog.cpp" line="1111"/>
         <source>Error</source>
-        <translation type="unfinished">Erreur</translation>
+        <translation>Erreur</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="1095"/>
@@ -4052,7 +4052,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/editsplitdialog.cpp" line="1103"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Date invalide.</translation>
+        <translation>Date invalide.</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="1108"/>
@@ -4075,7 +4075,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="60"/>
         <source>Occurrences:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Occurrences:</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="68"/>
@@ -4090,7 +4090,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="76"/>
         <source>Exceptions:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exceptions:</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="81"/>
@@ -4266,42 +4266,42 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/editsplitdialog.cpp" line="618"/>
         <source>Quantity:</source>
-        <translation type="unfinished">Quantité:</translation>
+        <translation>Quantité:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="625"/>
         <source>Category:</source>
-        <translation type="unfinished">Catégorie:</translation>
+        <translation>Catégorie:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="630"/>
         <source>Comments:</source>
-        <translation type="unfinished">Commentaires:</translation>
+        <translation>Commentaires:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="634"/>
         <source>Transactions:</source>
-        <translation type="unfinished">Transactions:</translation>
+        <translation>Transactions:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="643"/>
         <source>Date</source>
-        <translation type="unfinished">Date</translation>
+        <translation>Date</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="644"/>
         <source>Account</source>
-        <translation type="unfinished">Compte</translation>
+        <translation>Compte</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="645"/>
         <source>Cost</source>
-        <translation type="unfinished">Coût</translation>
+        <translation>Coût</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="646"/>
         <source>Income</source>
-        <translation type="unfinished">Revenu</translation>
+        <translation>Revenu</translation>
     </message>
     <message>
         <source>Value</source>
@@ -4310,28 +4310,28 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/editsplitdialog.cpp" line="655"/>
         <source>New</source>
-        <translation type="unfinished">Nouveau</translation>
+        <translation>Nouveau</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="656"/>
         <source>Edit…</source>
-        <translation type="unfinished">Éditer…</translation>
+        <translation>Éditer…</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="658"/>
         <source>Delete</source>
-        <translation type="unfinished">Supprimer</translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="689"/>
         <source>Total value:</source>
-        <translation type="unfinished">Valeur totale:</translation>
+        <translation>Valeur totale:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="858"/>
         <location filename="../src/editsplitdialog.cpp" line="866"/>
         <source>Error</source>
-        <translation type="unfinished">Erreur</translation>
+        <translation>Erreur</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="858"/>
@@ -4341,7 +4341,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/editsplitdialog.cpp" line="866"/>
         <source>A split must contain at least two transactions.</source>
-        <translation type="unfinished">Une séparation doit contenir au moins deux transactions.</translation>
+        <translation>Une séparation doit contenir au moins deux transactions.</translation>
     </message>
 </context>
 <context>
@@ -4349,7 +4349,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/editsplitdialog.cpp" line="227"/>
         <source>Split Transaction</source>
-        <translation type="unfinished">Transaction séparée</translation>
+        <translation>Transaction séparée</translation>
     </message>
 </context>
 <context>
@@ -4366,27 +4366,27 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/editsplitdialog.cpp" line="283"/>
         <source>Date:</source>
-        <translation type="unfinished">Date:</translation>
+        <translation>Date:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="288"/>
         <source>Account:</source>
-        <translation type="unfinished">Compte:</translation>
+        <translation>Compte:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="295"/>
         <source>Payee/Payer:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bénéficiaire/débiteur:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="334"/>
         <source>Transactions:</source>
-        <translation type="unfinished">Transactions:</translation>
+        <translation>Transactions:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="343"/>
         <source>Type</source>
-        <translation type="unfinished">Type</translation>
+        <translation>Type</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="258"/>
@@ -4398,42 +4398,42 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <location filename="../src/editsplitdialog.cpp" line="344"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Description</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="346"/>
         <source>Payment</source>
-        <translation type="unfinished">Paiement</translation>
+        <translation>Paiement</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="347"/>
         <source>Deposit</source>
-        <translation type="unfinished">Dépôt</translation>
+        <translation>Dépôt</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="357"/>
         <source>New</source>
-        <translation type="unfinished">Nouveau</translation>
+        <translation>Nouveau</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="360"/>
         <source>New Expense…</source>
-        <translation type="unfinished">Nouvelle dépense…</translation>
+        <translation>Nouvelle dépense…</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="361"/>
         <source>New Income…</source>
-        <translation type="unfinished">Nouveau revenu…</translation>
+        <translation>Nouveau revenu…</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="362"/>
         <source>New Deposit…</source>
-        <translation type="unfinished">Nouveau dépôt…</translation>
+        <translation>Nouveau dépôt…</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="363"/>
         <source>New Withdrawal…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nouveau retrait…</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="364"/>
@@ -4448,22 +4448,22 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/editsplitdialog.cpp" line="366"/>
         <source>New Dividend…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nouveau dividende…</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="367"/>
         <source>Edit…</source>
-        <translation type="unfinished">Éditer…</translation>
+        <translation>Éditer…</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="369"/>
         <source>Delete</source>
-        <translation type="unfinished">Supprimer</translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="403"/>
         <source>Total value:</source>
-        <translation type="unfinished">Valeur totale:</translation>
+        <translation>Valeur totale:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="573"/>
@@ -4471,27 +4471,27 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <location filename="../src/editsplitdialog.cpp" line="585"/>
         <location filename="../src/editsplitdialog.cpp" line="595"/>
         <source>Error</source>
-        <translation type="unfinished">Erreur</translation>
+        <translation>Erreur</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="573"/>
         <source>No suitable account available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pas de compte approprié disponible.</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="581"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Date invalide.</translation>
+        <translation>Date invalide.</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="585"/>
         <source>A split must contain at least two transactions.</source>
-        <translation type="unfinished">Une séparation doit contenir au moins deux transactions.</translation>
+        <translation>Une séparation doit contenir au moins deux transactions.</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="595"/>
         <source>Cannot transfer money to and from the same account.</source>
-        <translation type="unfinished">Impossible de transférer de l&apos;argent de et vers le même compte.</translation>
+        <translation>Impossible de transférer de l&apos;argent de et vers le même compte.</translation>
     </message>
 </context>
 <context>
@@ -4633,12 +4633,12 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="437"/>
         <source>Transaction</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Transaction</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="440"/>
         <source>Recurrence</source>
-        <translation type="unfinished">Récurrence</translation>
+        <translation>Récurrence</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="489"/>
@@ -4664,12 +4664,12 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="329"/>
         <source>Transactions</source>
-        <translation type="unfinished">Transactions</translation>
+        <translation>Transactions</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="332"/>
         <source>Recurrence</source>
-        <translation type="unfinished">Récurrence</translation>
+        <translation>Récurrence</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="387"/>
@@ -4701,23 +4701,23 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="237"/>
         <source>Transactions</source>
-        <translation type="unfinished">Transactions</translation>
+        <translation>Transactions</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="240"/>
         <source>Recurrence</source>
-        <translation type="unfinished">Récurrence</translation>
+        <translation>Récurrence</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="290"/>
         <source>New Split Transaction</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau transaction séparée</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="299"/>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="309"/>
         <source>Edit Split Transaction</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Editer une transaction séparée</translation>
     </message>
 </context>
 <context>
@@ -5422,167 +5422,167 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/eqonomize.cpp" line="2319"/>
         <source>1st</source>
-        <translation type="unfinished">1er</translation>
+        <translation>1er</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2320"/>
         <source>2nd</source>
-        <translation type="unfinished">2ème</translation>
+        <translation>2ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2321"/>
         <source>3rd</source>
-        <translation type="unfinished">3ème</translation>
+        <translation>3ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2322"/>
         <source>4th</source>
-        <translation type="unfinished">4ème</translation>
+        <translation>4ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2323"/>
         <source>5th</source>
-        <translation type="unfinished">5ème</translation>
+        <translation>5ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2324"/>
         <source>6th</source>
-        <translation type="unfinished">6ème</translation>
+        <translation>6ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2325"/>
         <source>7th</source>
-        <translation type="unfinished">7ème</translation>
+        <translation>7ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2326"/>
         <source>8th</source>
-        <translation type="unfinished">8ème</translation>
+        <translation>8ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2327"/>
         <source>9th</source>
-        <translation type="unfinished">9ème</translation>
+        <translation>9ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2328"/>
         <source>10th</source>
-        <translation type="unfinished">10ème</translation>
+        <translation>10ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2329"/>
         <source>11th</source>
-        <translation type="unfinished">11ème</translation>
+        <translation>11ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2330"/>
         <source>12th</source>
-        <translation type="unfinished">12ème</translation>
+        <translation>12ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2331"/>
         <source>13th</source>
-        <translation type="unfinished">13ème</translation>
+        <translation>13ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2332"/>
         <source>14th</source>
-        <translation type="unfinished">14ème</translation>
+        <translation>14ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2333"/>
         <source>15th</source>
-        <translation type="unfinished">15ème</translation>
+        <translation>15ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2334"/>
         <source>16th</source>
-        <translation type="unfinished">16ème</translation>
+        <translation>16ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2335"/>
         <source>17th</source>
-        <translation type="unfinished">17ème</translation>
+        <translation>17ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2336"/>
         <source>18th</source>
-        <translation type="unfinished">18ème</translation>
+        <translation>18ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2337"/>
         <source>19th</source>
-        <translation type="unfinished">19ème</translation>
+        <translation>19ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2338"/>
         <source>20th</source>
-        <translation type="unfinished">20ème</translation>
+        <translation>20ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2339"/>
         <source>21st</source>
-        <translation type="unfinished">21ème</translation>
+        <translation>21ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2340"/>
         <source>22nd</source>
-        <translation type="unfinished">22ème</translation>
+        <translation>22ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2341"/>
         <source>23rd</source>
-        <translation type="unfinished">23ème</translation>
+        <translation>23ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2342"/>
         <source>24th</source>
-        <translation type="unfinished">24ème</translation>
+        <translation>24ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2343"/>
         <source>25th</source>
-        <translation type="unfinished">25ème</translation>
+        <translation>25ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2344"/>
         <source>26th</source>
-        <translation type="unfinished">26ème</translation>
+        <translation>26ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2345"/>
         <source>27th</source>
-        <translation type="unfinished">27ème</translation>
+        <translation>27ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2346"/>
         <source>28th</source>
-        <translation type="unfinished">28ème</translation>
+        <translation>28ème</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2347"/>
         <source>Last</source>
-        <translation type="unfinished">Dernier(e)</translation>
+        <translation>Dernier(e)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2348"/>
         <source>2nd Last</source>
-        <translation type="unfinished">Avant dernier(e)</translation>
+        <translation>Avant dernier(e)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2349"/>
         <source>3rd Last</source>
-        <translation type="unfinished">3ème dernier(e)</translation>
+        <translation>3ème dernier(e)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2350"/>
         <source>4th Last</source>
-        <translation type="unfinished">4ème dernier(e)</translation>
+        <translation>4ème dernier(e)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2351"/>
         <source>5th Last</source>
-        <translation type="unfinished">5ème dernier(e)</translation>
+        <translation>5ème dernier(e)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2527"/>
@@ -6132,18 +6132,18 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <location filename="../src/eqonomize.cpp" line="7472"/>
         <location filename="../src/eqonomize.cpp" line="7478"/>
         <source>Assets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Actifs</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2143"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Description</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4944"/>
         <source>&amp;Loans</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Crédits</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5006"/>
@@ -6168,7 +6168,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     <message>
         <location filename="../src/eqonomize.cpp" line="5025"/>
         <source>Show Ledger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Montrer le registre</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5028"/>
@@ -6536,7 +6536,7 @@ Do you want to load the last auto-saved version of the file?</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="6030"/>
         <source>Remove subcategories?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Enlever les sous-catégories?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="6030"/>
@@ -6882,13 +6882,13 @@ Que voulez vous en faire ?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="261"/>
         <source>Quantity:</source>
-        <translation type="unfinished">Quantité:</translation>
+        <translation>Quantité:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="280"/>
         <location filename="../src/importcsvdialog.cpp" line="448"/>
         <source>Payee:</source>
-        <translation type="unfinished">Bénéficiaire:</translation>
+        <translation>Bénéficiaire:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="301"/>
@@ -6925,7 +6925,7 @@ Que voulez vous en faire ?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="458"/>
         <source>Payer:</source>
-        <translation type="unfinished">Débiteur:</translation>
+        <translation>Débiteur:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="464"/>
@@ -6959,7 +6959,7 @@ Que voulez vous en faire ?</translation>
         <location filename="../src/importcsvdialog.cpp" line="493"/>
         <location filename="../src/importcsvdialog.cpp" line="509"/>
         <source>Payee/payer:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bénéficiaire/débiteur:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="485"/>
@@ -7398,12 +7398,12 @@ Que voulez vous en faire ?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="298"/>
         <source>Oth A (Other Assets)</source>
-        <translation>Oth A (Other Assets = autres actifs)</translation>
+        <translation type="unfinished">Oth A (Autres actifs)</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="299"/>
         <source>Oth L (Other Liabilities)</source>
-        <translation>Oth L (Des otres liabilities)</translation>
+        <translation type="unfinished">Oth L (Des otres dettes)</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="300"/>
@@ -7678,7 +7678,7 @@ Que voulez vous en faire ?</translation>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="666"/>
         <source>Initial balance</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Équilibre initial</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="678"/>
@@ -7728,7 +7728,7 @@ Que voulez vous en faire ?</translation>
         <location filename="../src/ledgerdialog.cpp" line="151"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Description</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="760"/>
@@ -7756,22 +7756,22 @@ Que voulez vous en faire ?</translation>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="126"/>
         <source>Income</source>
-        <translation type="unfinished">Revenu</translation>
+        <translation>Revenu</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="127"/>
         <source>Repayment</source>
-        <translation type="unfinished">Remboursement</translation>
+        <translation>Remboursement</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="129"/>
         <source>Expense</source>
-        <translation type="unfinished">Dépense</translation>
+        <translation>Dépense</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="130"/>
         <source>Refund</source>
-        <translation type="unfinished">Rembourser</translation>
+        <translation>Rembourser</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="132"/>
@@ -7786,12 +7786,12 @@ Que voulez vous en faire ?</translation>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="136"/>
         <source>Balancing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Solde</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="138"/>
         <source>Transfer</source>
-        <translation type="unfinished">Transfère</translation>
+        <translation>Transfère</translation>
     </message>
 </context>
 <context>
@@ -7988,14 +7988,14 @@ Que voulez vous en faire ?</translation>
         <location filename="../src/overtimechart.cpp" line="483"/>
         <source>All Subcategories and Descriptions Combined</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toutes les sous-catégories et descriptions combinées</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="485"/>
         <location filename="../src/overtimechart.cpp" line="2942"/>
         <source>All Descriptions Split</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toutes les descriptions séparées</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="534"/>
@@ -8015,7 +8015,7 @@ Que voulez vous en faire ?</translation>
         <location filename="../src/overtimechart.cpp" line="2980"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pas de description</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2023"/>
@@ -8027,7 +8027,7 @@ Que voulez vous en faire ?</translation>
         <location filename="../src/overtimechart.cpp" line="2422"/>
         <location filename="../src/overtimechart.cpp" line="2794"/>
         <source>Assets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Actifs</translation>
     </message>
     <message>
         <source>All Descriptions Combined</source>
@@ -8037,7 +8037,7 @@ Que voulez vous en faire ?</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="223"/>
         <source>Assets and Liabilities</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Actifs et dettes</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="234"/>
@@ -8047,7 +8047,7 @@ Que voulez vous en faire ?</translation>
         <location filename="../src/overtimechart.cpp" line="3062"/>
         <source>All Descriptions Combined</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toutes les descriptions combinées</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="242"/>
@@ -8110,7 +8110,7 @@ Que voulez vous en faire ?</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="482"/>
         <source>All Subcategories Split</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toutes les sous-catégories séparées</translation>
     </message>
     <message>
         <source>All Descriptions Split</source>
@@ -8125,7 +8125,7 @@ Que voulez vous en faire ?</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="2120"/>
         <source>Value</source>
-        <translation type="unfinished">Valeur</translation>
+        <translation>Valeur</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2146"/>
@@ -8140,39 +8140,39 @@ Que voulez vous en faire ?</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="2279"/>
         <source>Incomes &amp; Expenses</source>
-        <translation type="unfinished">Revenus &amp; Dépenses</translation>
+        <translation>Revenus &amp; Dépenses</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2287"/>
         <source>Incomes: %1</source>
-        <translation type="unfinished">Revenus: %1</translation>
+        <translation>Revenus: %1</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2291"/>
         <source>Expenses: %1</source>
-        <translation type="unfinished">Dépenses: %1</translation>
+        <translation>Dépenses: %1</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2293"/>
         <location filename="../src/overtimechart.cpp" line="2300"/>
         <source>Incomes: %2, %1</source>
-        <translation type="unfinished">Revenus: %2, %1</translation>
+        <translation>Revenus: %2, %1</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2295"/>
         <location filename="../src/overtimechart.cpp" line="2303"/>
         <source>Expenses: %2, %1</source>
-        <translation type="unfinished">Dépenses: %2, %1</translation>
+        <translation>Dépenses: %2, %1</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2296"/>
         <source>Incomes: %3, %2, %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Revenus: %3, %2, %1</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2297"/>
         <source>Expenses: %3, %2, %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Dépenses: %3, %2, %1</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="3213"/>
@@ -8307,57 +8307,57 @@ Date: %3</source>
     <message>
         <location filename="../src/overtimechart.cpp" line="2124"/>
         <source>Daily average value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Valeur moyenne journalière</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2125"/>
         <source>Daily average profit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Profit moyen journalier</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2126"/>
         <source>Daily average income</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Revenu moyen journalier</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2127"/>
         <source>Daily average cost</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Coût moyen journalier</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2132"/>
         <source>Average income</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Revenu moyen</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2133"/>
         <source>Average cost</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Coût moyen</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2137"/>
         <source>Monthly value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Valeur mensuelle</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2138"/>
         <source>Monthly profit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Profit mensuel</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2139"/>
         <source>Monthly income</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Revenu mensuel</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2140"/>
         <source>Monthly cost</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Coût mensuel</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2274"/>
         <source>Assets &amp; Liabilities</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Actifs &amp; dettes</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2423"/>
@@ -8537,7 +8537,7 @@ Date: %3</source>
         <location filename="../src/overtimereport.cpp" line="801"/>
         <source>All Descriptions Combined</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toutes les descriptions combinées</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="220"/>
@@ -8546,7 +8546,7 @@ Date: %3</source>
         <location filename="../src/overtimereport.cpp" line="757"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pas de description</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="292"/>
@@ -8740,7 +8740,7 @@ Date: %3</source>
         <location filename="../src/eqonomize.cpp" line="358"/>
         <location filename="../src/eqonomize.cpp" line="453"/>
         <source>Split Transaction</source>
-        <translation type="unfinished">Transaction séparée</translation>
+        <translation>Transaction séparée</translation>
     </message>
 </context>
 <context>
@@ -9881,7 +9881,7 @@ Date: %3</source>
         <location filename="../src/transactionlistwidget.cpp" line="105"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Description</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="173"/>
@@ -9987,7 +9987,7 @@ Date: %3</source>
         <location filename="../src/transactionlistwidget.cpp" line="584"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Impossible de changer la description des dividendes et transactions de titre.</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="598"/>

@@ -3155,24 +3155,24 @@ i18n: file ./eqonomizeui.rc line 56
     <message numerus="yes">
         <location filename="../src/budget.cpp" line="446"/>
         <source>Unable to load %n category/categories.</source>
-        <translation>
-            <numerusform>Не може да се зареди 1 група.</numerusform>
+        <translation type="unfinished">
+            <numerusform>Не може да се зареди %n група.</numerusform>
             <numerusform>Не може да се заредят %n групи.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/budget.cpp" line="450"/>
         <source>Unable to load %n security/securities.</source>
-        <translation>
-            <numerusform>Не може да се зареди 1 ценна книга.</numerusform>
+        <translation type="unfinished">
+            <numerusform>Не може да се зареди %n ценна книга.</numerusform>
             <numerusform>Не може да се заредят %n ценни книжа.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/budget.cpp" line="454"/>
         <source>Unable to load %n transaction(s).</source>
-        <translation>
-            <numerusform>Не може да се зареди 1 транзакция.</numerusform>
+        <translation type="unfinished">
+            <numerusform>Не може да се зареди %n транзакция.</numerusform>
             <numerusform>Не може да се заредят %n транзакции.</numerusform>
         </translation>
     </message>
@@ -7134,7 +7134,7 @@ What do you want to do with them?</source>
         <location filename="../src/importcsvdialog.cpp" line="1389"/>
         <source>Successfully imported %n transaction(s).</source>
         <translation>
-            <numerusform>Успешно въведени 1 транзакция.</numerusform>
+            <numerusform>Успешно въведени %n транзакция.</numerusform>
             <numerusform>Успешно въведени %n транзакции.</numerusform>
         </translation>
     </message>
@@ -7147,7 +7147,7 @@ What do you want to do with them?</source>
         <location filename="../src/importcsvdialog.cpp" line="1395"/>
         <source>Failed to import %n data row(s).</source>
         <translation>
-            <numerusform>Неуспешно въвеждане на 1 ред с данни.</numerusform>
+            <numerusform>Неуспешно въвеждане на %n ред с данни.</numerusform>
             <numerusform>Неуспешно въвеждане на %n редове с данни.</numerusform>
         </translation>
     </message>
@@ -7504,7 +7504,7 @@ What do you want to do with them?</source>
         <location filename="../src/qifimportexport.cpp" line="429"/>
         <source>Successfully imported %n transaction(s).</source>
         <translation>
-            <numerusform>Успешно въведени 1 транзакция.</numerusform>
+            <numerusform>Успешно въведени %n транзакция.</numerusform>
             <numerusform>Успешно въведени %n транзакции.</numerusform>
         </translation>
     </message>
@@ -7512,7 +7512,7 @@ What do you want to do with them?</source>
         <location filename="../src/qifimportexport.cpp" line="432"/>
         <source>Successfully imported %n account(s).</source>
         <translation>
-            <numerusform>Успешно внесена 1 сметка.</numerusform>
+            <numerusform>Успешно внесена %n сметка.</numerusform>
             <numerusform>Успешно внесени %n сметки.</numerusform>
         </translation>
     </message>
@@ -7520,7 +7520,7 @@ What do you want to do with them?</source>
         <location filename="../src/qifimportexport.cpp" line="436"/>
         <source>Successfully imported %n category/categories.</source>
         <translation>
-            <numerusform>Успешно внесена 1 категория.</numerusform>
+            <numerusform>Успешно внесена %n категория.</numerusform>
             <numerusform>Успешно внесени %n категории.</numerusform>
         </translation>
     </message>
@@ -7528,7 +7528,7 @@ What do you want to do with them?</source>
         <location filename="../src/qifimportexport.cpp" line="440"/>
         <source>%n duplicate transaction(s) was ignored.</source>
         <translation>
-            <numerusform>1 дубликат на транзакцията беше игнориран.</numerusform>
+            <numerusform>%n дубликат на транзакцията беше игнориран.</numerusform>
             <numerusform>%n дубликати на транзакцията бяха игнорирани.</numerusform>
         </translation>
     </message>
@@ -7536,7 +7536,7 @@ What do you want to do with them?</source>
         <location filename="../src/qifimportexport.cpp" line="444"/>
         <source>Failed to import %n transaction(s).</source>
         <translation>
-            <numerusform>Неуспех за внос на 1 транзакция.</numerusform>
+            <numerusform>Неуспех за внос на %n транзакция.</numerusform>
             <numerusform>Неуспех за внос на %n транзакции.</numerusform>
         </translation>
     </message>
@@ -7544,7 +7544,7 @@ What do you want to do with them?</source>
         <location filename="../src/qifimportexport.cpp" line="448"/>
         <source>%n security/securities were not imported.</source>
         <translation>
-            <numerusform>1 обезпечение не е бил внесено.</numerusform>
+            <numerusform>%n обезпечение не е бил внесено.</numerusform>
             <numerusform>%n обезпечения не са били внесени.</numerusform>
         </translation>
     </message>
@@ -7552,7 +7552,7 @@ What do you want to do with them?</source>
         <location filename="../src/qifimportexport.cpp" line="452"/>
         <source>%n security transaction(s) were not imported.</source>
         <translation>
-            <numerusform>1 обезпечение на транзакцията не е било внесено.</numerusform>
+            <numerusform>%n обезпечение на транзакцията не е било внесено.</numerusform>
             <numerusform>%n обезпечения на транзакциите не са били внесени.</numerusform>
         </translation>
     </message>

@@ -89,7 +89,6 @@ SOURCES += src/account.cpp \
 unix:!android:!macx {
 	TRANSLATIONS = 	translations/eqonomize_bg.ts \
 			translations/eqonomize_cs.ts \
-			translations/eqonomize_cs_new.ts \
 			translations/eqonomize_de.ts \
 			translations/eqonomize_es.ts \
 			translations/eqonomize_fr.ts \
@@ -108,6 +107,8 @@ unix:!android:!macx {
 			translations/eqonomize_cs.qm \
 			translations/eqonomize_de.qm \
 			translations/eqonomize_fr.qm \
+			translations/eqonomize_hu.qm \
+			translations/eqonomize_nl.qm \
 			translations/eqonomize_sv.qm
 		
 	qm.path = $$TRANSLATIONS_DIR

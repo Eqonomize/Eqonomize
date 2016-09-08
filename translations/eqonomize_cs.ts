@@ -5361,142 +5361,142 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="2319"/>
         <source>1st</source>
-        <translation type="unfinished">1.</translation>
+        <translation>1.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2320"/>
         <source>2nd</source>
-        <translation type="unfinished">2.</translation>
+        <translation>2.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2321"/>
         <source>3rd</source>
-        <translation type="unfinished">3.</translation>
+        <translation>3.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2322"/>
         <source>4th</source>
-        <translation type="unfinished">4.</translation>
+        <translation>4.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2323"/>
         <source>5th</source>
-        <translation type="unfinished">5.</translation>
+        <translation>5.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2324"/>
         <source>6th</source>
-        <translation type="unfinished">6.</translation>
+        <translation>6.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2325"/>
         <source>7th</source>
-        <translation type="unfinished">7.</translation>
+        <translation>7.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2326"/>
         <source>8th</source>
-        <translation type="unfinished">8.</translation>
+        <translation>8.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2327"/>
         <source>9th</source>
-        <translation type="unfinished">9.</translation>
+        <translation>9.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2328"/>
         <source>10th</source>
-        <translation type="unfinished">10.</translation>
+        <translation>10.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2329"/>
         <source>11th</source>
-        <translation type="unfinished">11.</translation>
+        <translation>11.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2330"/>
         <source>12th</source>
-        <translation type="unfinished">12.</translation>
+        <translation>12.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2331"/>
         <source>13th</source>
-        <translation type="unfinished">13.</translation>
+        <translation>13.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2332"/>
         <source>14th</source>
-        <translation type="unfinished">14.</translation>
+        <translation>14.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2333"/>
         <source>15th</source>
-        <translation type="unfinished">15.</translation>
+        <translation>15.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2334"/>
         <source>16th</source>
-        <translation type="unfinished">16.</translation>
+        <translation>16.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2335"/>
         <source>17th</source>
-        <translation type="unfinished">17.</translation>
+        <translation>17.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2336"/>
         <source>18th</source>
-        <translation type="unfinished">18.</translation>
+        <translation>18.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2337"/>
         <source>19th</source>
-        <translation type="unfinished">19.</translation>
+        <translation>19.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2338"/>
         <source>20th</source>
-        <translation type="unfinished">20.</translation>
+        <translation>20.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2339"/>
         <source>21st</source>
-        <translation type="unfinished">21.</translation>
+        <translation>21.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2340"/>
         <source>22nd</source>
-        <translation type="unfinished">22.</translation>
+        <translation>22.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2341"/>
         <source>23rd</source>
-        <translation type="unfinished">23.</translation>
+        <translation>23.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2342"/>
         <source>24th</source>
-        <translation type="unfinished">24.</translation>
+        <translation>24.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2343"/>
         <source>25th</source>
-        <translation type="unfinished">25.</translation>
+        <translation>25.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2344"/>
         <source>26th</source>
-        <translation type="unfinished">26.</translation>
+        <translation>26.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2345"/>
         <source>27th</source>
-        <translation type="unfinished">27.</translation>
+        <translation>27.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2346"/>
         <source>28th</source>
-        <translation type="unfinished">28.</translation>
+        <translation>28.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2347"/>
