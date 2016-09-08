@@ -136,7 +136,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	
 	int row = 0;
 
-	layout3->addWidget(new QLabel(tr("Description:"), page3), row, 0);
+	layout3->addWidget(new QLabel(tr("Description:", "Transaction description property (transaction title/generic article name)"), page3), row, 0);
 	descriptionGroup = new QButtonGroup(this);
 	columnDescriptionButton = new QRadioButton(tr("Column"), page3);
 	descriptionGroup->addButton(columnDescriptionButton);

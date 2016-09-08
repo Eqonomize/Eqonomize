@@ -113,7 +113,7 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	sp.setHorizontalPolicy(QSizePolicy::Expanding);
 	maxEdit->setSizePolicy(sp);
 	filterLayout->addWidget(maxEdit, 1, 3);
-	filterLayout->addWidget(new QLabel(tr("Description:"), this), 3, 0);
+	filterLayout->addWidget(new QLabel(tr("Description:", "Transaction description property (transaction title/generic article name)"), this), 3, 0);
 	descriptionEdit = new QLineEdit(this);
 	descriptionEdit->setCompleter(new QCompleter(this));
 	descriptionEdit->completer()->setModel(new QStandardItemModel(this));
