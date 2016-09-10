@@ -129,9 +129,9 @@ void MultiItemListViewItem::setTransaction(Transaction *trans, bool deposit) {
 		if(value >= 0) setText(0, tr("Expense"));
 		else setText(0, tr("Refund"));
 	} else if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) {
-		setText(0, tr("Security Buy"));
+		setText(0, tr("Securities Purchase", "Financial security (e.g. stock, mutual fund)"));
 	} else if(trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
-		setText(0, tr("Security Sell"));
+		setText(0, tr("Securities Sale", "Financial security (e.g. stock, mutual fund)"));
 	} else if(trans->toAccount() == budget->balancingAccount || trans->fromAccount() == budget->balancingAccount) {
 		setText(0, tr("Balancing"));
 	} else {
@@ -361,8 +361,8 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Income…")), SIGNAL(triggered()), this, SLOT(newIncome()));
 	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Deposit…")), SIGNAL(triggered()), this, SLOT(newTransferTo()));
 	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Withdrawal…")), SIGNAL(triggered()), this, SLOT(newTransferFrom()));
-	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("Shares Bought…")), SIGNAL(triggered()), this, SLOT(newSecurityBuy()));
-	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("Shares Sold…")), SIGNAL(triggered()), this, SLOT(newSecuritySell()));
+	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Securities Purchase…", "Financial security (e.g. stock, mutual fund)")), SIGNAL(triggered()), this, SLOT(newSecurityBuy()));
+	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Securities Sale…", "Financial security (e.g. stock, mutual fund)")), SIGNAL(triggered()), this, SLOT(newSecuritySell()));
 	connect(newMenu->addAction(QIcon::fromTheme("document-new"), tr("New Dividend…")), SIGNAL(triggered()), this, SLOT(newDividend()));
 	editButton = buttons->addButton(tr("Edit…"), QDialogButtonBox::ActionRole);
 	editButton->setEnabled(false);

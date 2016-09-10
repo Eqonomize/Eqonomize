@@ -2274,7 +2274,7 @@ void OverTimeChart::updateDisplay() {
 		case -2: {title_string = tr("Assets & Liabilities"); break;}
 		case -1: {
 			title_string = tr("Profits"); 
-			if(!budget->securities.isEmpty()) note_string = tr("Excluding any profits or losses in trading of security shares");
+			if(!budget->securities.isEmpty()) note_string = tr("Excluding any profits or losses in trading of security shares", "Financial security (e.g. stock, mutual fund)");
 			break;}
 		case 0: {title_string = tr("Incomes & Expenses"); break;}
 		case 3:

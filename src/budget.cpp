@@ -447,7 +447,7 @@ QString Budget::loadFile(QString filename, QString &errors) {
 	}
 	if(security_errors > 0) {
 		if(!errors.isEmpty()) errors += '\n';
-		errors += tr("Unable to load %n security/securities.", "", security_errors);
+		errors += tr("Unable to load %n security/securities.", "Financial security (e.g. stock, mutual fund)", security_errors);
 	}
 	if(transaction_errors > 0) {
 		if(!errors.isEmpty()) errors += '\n';

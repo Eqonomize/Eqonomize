@@ -99,7 +99,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	int i = 0;
 	if(b_sec) {
 		int decimals = budget->defaultShareDecimals();
-		editLayout->addWidget(new QLabel(tr("Security:"), this), TEROWCOL(i, 0));
+		editLayout->addWidget(new QLabel(tr("Security:", "Financial security (e.g. stock, mutual fund)"), this), TEROWCOL(i, 0));
 		if(select_security) {
 			securityCombo = new QComboBox(this);
 			securityCombo->setEditable(false);
@@ -127,12 +127,12 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		}
 		if(security_value_type != SECURITY_VALUE_AND_QUOTATION) {
 			if(transtype == TRANSACTION_TYPE_SECURITY_BUY) {
-				editLayout->addWidget(new QLabel(tr("Shares bought:"), this), TEROWCOL(i, 0));
+				editLayout->addWidget(new QLabel(tr("Shares bought:", "Financial shares"), this), TEROWCOL(i, 0));
 				sharesEdit = new EqonomizeValueEdit(0.0, decimals, false, false, this);
 				editLayout->addWidget(sharesEdit, TEROWCOL(i, 1));
 				i++;
 			} else {
-				editLayout->addWidget(new QLabel(tr("Shares sold:"), this), TEROWCOL(i, 0));
+				editLayout->addWidget(new QLabel(tr("Shares sold:", "Financial shares"), this), TEROWCOL(i, 0));
 				QHBoxLayout *sharesLayout = new QHBoxLayout();
 				sharesEdit = new EqonomizeValueEdit(0.0, decimals, false, false, this);
 				sharesEdit->setSizePolicy(QSizePolicy::Expanding, sharesEdit->sizePolicy().verticalPolicy());
@@ -145,7 +145,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			}
 		}
 		if(security_value_type != SECURITY_VALUE_AND_SHARES) {
-			editLayout->addWidget(new QLabel(tr("Price per share:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Price per share:", "Financial shares"), this), TEROWCOL(i, 0));
 			quotationEdit = new EqonomizeValueEdit(0.0, security ? security->quotationDecimals() : budget->defaultQuotationDecimals(), false, true, this);
 			editLayout->addWidget(quotationEdit, TEROWCOL(i, 1));
 			i++;
@@ -159,7 +159,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		i++;
 	} else {
 		if(transtype == TRANSACTION_TYPE_INCOME && (security || select_security)) {
-			editLayout->addWidget(new QLabel(tr("Security:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Security:", "Financial security (e.g. stock, mutual fund)"), this), TEROWCOL(i, 0));
 			if(select_security) {
 				securityCombo = new QComboBox(this);
 				securityCombo->setEditable(false);
@@ -761,7 +761,7 @@ bool TransactionEditWidget::checkAccounts() {
 		}
 	}
 	if(securityCombo && securityCombo->count() == 0) {
-		QMessageBox::critical(this, tr("Error"), tr("No security available."));
+		QMessageBox::critical(this, tr("Error"), tr("No security available.", "Financial security (e.g. stock, mutual fund)"));
 		return false;
 	}
 	return true;
@@ -1269,8 +1269,8 @@ TransactionEditDialog::TransactionEditDialog(bool extra_parameters, int transact
 			break;
 		}
 		case TRANSACTION_TYPE_TRANSFER: {setWindowTitle(tr("Edit Transfer")); break;}
-		case TRANSACTION_TYPE_SECURITY_BUY: {setWindowTitle(tr("Edit Securities Bought")); break;}
-		case TRANSACTION_TYPE_SECURITY_SELL: {setWindowTitle(tr("Edit Securities Sold")); break;}
+		case TRANSACTION_TYPE_SECURITY_BUY: {setWindowTitle(tr("Edit Securities Purchase", "Financial security (e.g. stock, mutual fund)")); break;}
+		case TRANSACTION_TYPE_SECURITY_SELL: {setWindowTitle(tr("Edit Securities Sale", "Financial security (e.g. stock, mutual fund)")); break;}
 	}
 	editWidget = new TransactionEditWidget(false, extra_parameters, transaction_type, split, transfer_to, security, security_value_type, select_security, budg, this, allow_account_creation, multiaccount, withloan);
 	box1->addWidget(editWidget);

@@ -611,6 +611,7 @@ class EditReinvestedDividendDialog : public QDialog {
 		Budget *budget;
 		QComboBox *securityCombo;
 		EqonomizeValueEdit *sharesEdit;
+		QLabel *sharesLabel;
 		QDateEdit *dateEdit;
 
 	public:
@@ -641,6 +642,7 @@ class EditSecurityTradeDialog : public QDialog {
 
 		Budget *budget;
 		QComboBox *fromSecurityCombo, *toSecurityCombo;
+		QLabel *sharesFromLabel, *shareToLabel;
 		EqonomizeValueEdit *valueEdit, *fromSharesEdit, *toSharesEdit;
 		QDateEdit *dateEdit;
 

@@ -445,11 +445,11 @@ void ImportQIFDialog::accept() {
 	}
 	if(qi.securities > 0) {
 		info += "\n";
-		info += tr("%n security/securities were not imported.", "", qi.securities);
+		info += tr("%n security/securities were not imported.", "Financial security (e.g. stock, mutual fund)", qi.securities);
 	}
 	if(qi.security_transactions > 0) {
 		info += "\n";
-		info += tr("%n security transaction(s) were not imported.", "", qi.security_transactions);
+		info += tr("%n security transaction(s) were not imported.", "Financial security (e.g. stock, mutual fund)", qi.security_transactions);
 	}
 	QMessageBox::information(this, tr("Information"), info);
 	if(qi.transactions || qi.accounts || qi.categories) return QWizard::accept();

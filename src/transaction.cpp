@@ -565,7 +565,7 @@ void SecurityBuy::writeAttributes(QXmlStreamAttributes *attr) {
 	attr->append("account", QString::number(account()->id()));
 }
 
-QString SecurityBuy::description() const {return tr("Security: %1 (bought)").arg(o_security->name());}
+QString SecurityBuy::description() const {return tr("Security: %1 (bought)", "Financial security (e.g. stock, mutual fund)").arg(o_security->name());}
 Account *SecurityBuy::fromAccount() const {return Transaction::fromAccount();}
 Account *SecurityBuy::account() const {return fromAccount();}
 void SecurityBuy::setAccount(Account *new_account) {setFromAccount(new_account);}
@@ -606,7 +606,7 @@ void SecuritySell::writeAttributes(QXmlStreamAttributes *attr) {
 	attr->append("account", QString::number(account()->id()));
 }
 
-QString SecuritySell::description() const {return tr("Security: %1 (sold)").arg(o_security->name());}
+QString SecuritySell::description() const {return tr("Security: %1 (sold)", "Financial security (e.g. stock, mutual fund)").arg(o_security->name());}
 Account *SecuritySell::toAccount() const {return Transaction::toAccount();}
 Account *SecuritySell::account() const {return toAccount();}
 void SecuritySell::setAccount(Account *new_account) {setToAccount(new_account);}

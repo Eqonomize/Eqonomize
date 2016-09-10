@@ -320,8 +320,8 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 				break;
 			}
 			case TRANSACTION_TYPE_EXPENSE: {setText(1, QObject::tr("Expense")); break;}
-			case TRANSACTION_TYPE_SECURITY_BUY: {setText(1, QObject::tr("Security Buy")); break;}
-			case TRANSACTION_TYPE_SECURITY_SELL: {setText(1, QObject::tr("Security Sell")); break;}
+			case TRANSACTION_TYPE_SECURITY_BUY: {setText(1, QObject::tr("Securities Purchase", "Financial security (e.g. stock, mutual fund)")); break;}
+			case TRANSACTION_TYPE_SECURITY_SELL: {setText(1, QObject::tr("Securities Sale", "Financial security (e.g. stock, mutual fund)")); break;}
 		}
 	} else {
 		SplitTransaction *split = (SplitTransaction*) strans->transaction();
@@ -410,8 +410,8 @@ void ConfirmScheduleListViewItem::setTransaction(Transactions *transs) {
 				break;
 			}
 			case TRANSACTION_TYPE_EXPENSE: {setText(1, tr("Expense")); break;}
-			case TRANSACTION_TYPE_SECURITY_BUY: {setText(1, tr("Security Buy")); break;}
-			case TRANSACTION_TYPE_SECURITY_SELL: {setText(1, tr("Security Sell")); break;}
+			case TRANSACTION_TYPE_SECURITY_BUY: {setText(1, tr("Securities Purchase", "Financial security (e.g. stock, mutual fund)")); break;}
+			case TRANSACTION_TYPE_SECURITY_SELL: {setText(1, tr("Securities Sale", "Financial security (e.g. stock, mutual fund)")); break;}
 		}
 		if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
 			if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
@@ -641,7 +641,7 @@ EditReinvestedDividendDialog::EditReinvestedDividendDialog(Budget *budg, Securit
 
 	securityCombo = NULL;
 
-	layout->addWidget(new QLabel(tr("Security:"), this), 0, 0);
+	layout->addWidget(new QLabel(tr("Security:", "Financial security (e.g. stock, mutual fund)"), this), 0, 0);
 	if(select_security) {
 		securityCombo = new QComboBox(this);
 		securityCombo->setEditable(false);
@@ -658,7 +658,7 @@ EditReinvestedDividendDialog::EditReinvestedDividendDialog(Budget *budg, Securit
 		layout->addWidget(new QLabel(sec->name(), this), 0, 1);
 	}
 
-	layout->addWidget(new QLabel(tr("Shares added:"), this), 1, 0);
+	layout->addWidget(new QLabel(tr("Shares added:", "Financial shares"), this), 1, 0);
 	sharesEdit = new EqonomizeValueEdit(0.0, selectedSecurity()->decimals(), false, false, this);
 	layout->addWidget(sharesEdit, 1, 1);
 	sharesEdit->setFocus();
@@ -726,14 +726,14 @@ bool EditReinvestedDividendDialog::validValues() {
 
 EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QWidget *parent)  : QDialog(parent, 0), budget(budg) {
 
-	setWindowTitle(tr("Security Trade"));
+	setWindowTitle(tr("Securities Exchange", "Shares of one security directly exchanged for shares of another; Financial security (e.g. stock, mutual fund)"));
 	setModal(true);
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	QGridLayout *layout = new QGridLayout();
 	box1->addLayout(layout);
 
-	layout->addWidget(new QLabel(tr("From security:"), this), 0, 0);
+	layout->addWidget(new QLabel(tr("From security:", "Financial security (e.g. stock, mutual fund)"), this), 0, 0);
 	fromSecurityCombo = new QComboBox(this);
 	fromSecurityCombo->setEditable(false);
 	Security *c_sec = budget->securities.first();
@@ -749,7 +749,7 @@ EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QW
 	}
 	layout->addWidget(fromSecurityCombo, 0, 1);
 
-	layout->addWidget(new QLabel(tr("Shares moved:"), this), 1, 0);
+	layout->addWidget(new QLabel(tr("Shares moved:", "Financial shares"), this), 1, 0);
 	QHBoxLayout *sharesLayout = new QHBoxLayout();
 	fromSharesEdit = new EqonomizeValueEdit(0.0, sec ? sec->shares() : 10000.0, 1.0, 0.0, sec ? sec->decimals() : 4, false, this);
 	fromSharesEdit->setSizePolicy(QSizePolicy::Expanding, fromSharesEdit->sizePolicy().verticalPolicy());
@@ -760,7 +760,7 @@ EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QW
 	layout->addLayout(sharesLayout, 1, 1);
 	fromSharesEdit->setFocus();
 
-	layout->addWidget(new QLabel(tr("To security:"), this), 2, 0);
+	layout->addWidget(new QLabel(tr("To security:", "Financial security (e.g. stock, mutual fund)"), this), 2, 0);
 	toSecurityCombo = new QComboBox(this);
 	toSecurityCombo->setEditable(false);
 	c_sec = budget->securities.first();
@@ -777,7 +777,7 @@ EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QW
 	}
 	layout->addWidget(toSecurityCombo, 2, 1);
 
-	layout->addWidget(new QLabel(tr("Shares received:"), this), 3, 0);
+	layout->addWidget(new QLabel(tr("Shares received:", "Financial shares"), this), 3, 0);
 	toSharesEdit = new EqonomizeValueEdit(0.0, sec ? sec->decimals() : 4, false, false, this);
 	layout->addWidget(toSharesEdit, 3, 1);
 
@@ -878,7 +878,7 @@ SecurityTrade *EditSecurityTradeDialog::createSecurityTrade() {
 }
 bool EditSecurityTradeDialog::checkSecurities() {
 	if(toSecurityCombo->count() < 2) {
-		QMessageBox::critical(this, tr("Error"), tr("No other security available for trade in the account."));
+		QMessageBox::critical(this, tr("Error"), tr("No other security available for exchange in the account.", "Shares of one security directly exchanged for shares of another; Financial security (e.g. stock, mutual fund)"));
 		return false;
 	}
 	return true;
@@ -890,7 +890,7 @@ void EditSecurityTradeDialog::accept() {
 }
 bool EditSecurityTradeDialog::validValues() {
 	if(selectedFromSecurity() == selectedToSecurity()) {
-		QMessageBox::critical(this, tr("Error"), tr("Selected to and from securities are the same."));
+		QMessageBox::critical(this, tr("Error"), tr("Selected to and from securities are the same.", "Financial security (e.g. stock, mutual fund)"));
 		return false;
 	}
 	if(!dateEdit->date().isValid()) {
@@ -898,7 +898,7 @@ bool EditSecurityTradeDialog::validValues() {
 		return false;
 	}
 	if(fromSharesEdit->value() == 0.0 || toSharesEdit->value() == 0.0) {
-		QMessageBox::critical(this, tr("Error"), tr("Zero shares not allowed."));
+		QMessageBox::critical(this, tr("Error"), tr("Zero shares not allowed.", "Financial shares"));
 		return false;
 	}
 	if(valueEdit->value() == 0.0) {
@@ -910,14 +910,14 @@ bool EditSecurityTradeDialog::validValues() {
 
 EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0) {
 
-	setWindowTitle(tr("Quotations"));
+	setWindowTitle(tr("Quotations", "Financial quotation"));
 	setModal(true);
 	
 	i_quotation_decimals = MONETARY_DECIMAL_PLACES;
 
 	QVBoxLayout *quotationsVLayout = new QVBoxLayout(this);
 
-	titleLabel = new QLabel(tr("Quotations"), this);
+	titleLabel = new QLabel(tr("Quotations", "Financial quotation"), this);
 	quotationsVLayout->addWidget(titleLabel);
 	QHBoxLayout *quotationsLayout = new QHBoxLayout();
 	quotationsVLayout->addLayout(quotationsLayout);
@@ -930,7 +930,7 @@ EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0)
 	quotationsView->setAlternatingRowColors(true);
 	QStringList headers;
 	headers << tr("Date");
-	headers << tr("Price per Share");
+	headers << tr("Price per Share", "Financial Shares");
 	quotationsView->header()->setStretchLastSection(true);
 	quotationsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
 	quotationsView->setHeaderLabels(headers);
@@ -983,7 +983,7 @@ void EditQuotationsDialog::setSecurity(Security *security) {
 	}
 	quotationsView->addTopLevelItems(items);
 	quotationsView->setSortingEnabled(true);
-	titleLabel->setText(tr("Quotations for %1").arg(security->name()));	
+	titleLabel->setText(tr("Quotations for %1", "Financial quotation").arg(security->name()));	
 	quotationEdit->setRange(0.0, pow(10, -i_quotation_decimals), i_quotation_decimals);
 	if(items.isEmpty()) quotationsView->setMinimumWidth(quotationsView->columnWidth(0) + quotationsView->columnWidth(1) + 10);
 }
@@ -1360,7 +1360,7 @@ SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize 
 	headers << tr("Date");
 	headers << tr("Type");
 	headers << tr("Value");
-	headers << tr("Shares");	
+	headers << tr("Shares", "Financial shares");
 	transactionsView->setHeaderLabels(headers);
 	setColumnDateWidth(transactionsView, 0);
 	setColumnStrlenWidth(transactionsView, 1, 25);
@@ -1470,8 +1470,8 @@ void SecurityTransactionsDialog::updateTransactions() {
 		i->date = trans->date();
 		i->value = trans->value();
 		i->shares = trans->shares();
-		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, tr("Shares Bought"));
-		else i->setText(1, tr("Shares Sold"));
+		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, tr("Shares Bought", "Financial shares"));
+		else i->setText(1, tr("Shares Sold", "Financial shares"));
 		items.append(i);
 		trans = security->transactions.next();
 	}
@@ -1498,7 +1498,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 		double shares;
 		if(ts->from_security == security) shares = ts->from_shares;
 		else shares = ts->to_shares;
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(ts->date, QLocale::ShortFormat), ts->from_security == security ? tr("Shares Sold (Traded)") :  tr("Shares Bought (Traded)"), QLocale().toCurrencyString(ts->value), QLocale().toString(shares, 'f', security->decimals()));
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(ts->date, QLocale::ShortFormat), ts->from_security == security ? tr("Shares Sold (Exchanged)", "Shares of one security directly exchanged for shares of another; Financial shares") :  tr("Shares Bought (Exchanged)", "Shares of one security directly exchanged for shares of another; Financial shares"), QLocale().toCurrencyString(ts->value), QLocale().toString(shares, 'f', security->decimals()));
 		i->ts = ts;
 		i->date = ts->date;
 		i->shares = shares;
@@ -1514,11 +1514,11 @@ void SecurityTransactionsDialog::updateTransactions() {
 		i->value = strans->transaction()->value();
 		i->shares = ((SecurityTransaction*) strans->transaction())->shares();
 		if(strans->recurrence()) {
-			if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, tr("Shares Bought (Recurring)"));
-			else i->setText(1, tr("Shares Sold (Recurring)"));
+			if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, tr("Shares Bought (Recurring)", "Financial shares"));
+			else i->setText(1, tr("Shares Sold (Recurring)", "Financial shares"));
 		} else {
-			if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, tr("Shares Bought (Scheduled)"));
-			else i->setText(1, tr("Shares Sold (Scheduled)"));
+			if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, tr("Shares Bought (Scheduled)", "Financial shares"));
+			else i->setText(1, tr("Shares Sold (Scheduled)", "Financial shares"));
 		}
 		items.append(i);
 		strans = security->scheduledTransactions.next();
@@ -1554,7 +1554,6 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	typeCombo = new QComboBox(this);
 	typeCombo->setEditable(false);
 	typeCombo->addItem(tr("Mutual Fund"));
-	typeCombo->addItem(tr("Bond"));
 	typeCombo->addItem(tr("Stock"));
 	typeCombo->addItem(tr("Other"));
 	grid->addWidget(typeCombo, 0, 1);
@@ -1574,22 +1573,22 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 		account = budget->assetsAccounts.next();
 	}
 	grid->addWidget(accountCombo, 2, 1);
-	grid->addWidget(new QLabel(tr("Decimals in shares:"), this), 3, 0);
+	grid->addWidget(new QLabel(tr("Decimals in shares:", "Financial shares"), this), 3, 0);
 	decimalsEdit = new QSpinBox(this);
 	decimalsEdit->setRange(0, 8);
 	decimalsEdit->setSingleStep(1);
 	decimalsEdit->setValue(budget->defaultShareDecimals());
 	grid->addWidget(decimalsEdit, 3, 1);
-	grid->addWidget(new QLabel(tr("Initial shares:"), this), 4, 0);
+	grid->addWidget(new QLabel(tr("Initial shares:", "Financial shares"), this), 4, 0);
 	sharesEdit = new EqonomizeValueEdit(0.0, 4, false, false, this);
 	grid->addWidget(sharesEdit, 4, 1);
-	grid->addWidget(new QLabel(tr("Decimals in quotations:"), this), 5, 0);
+	grid->addWidget(new QLabel(tr("Decimals in quotations:", "Financial quotation"), this), 5, 0);
 	quotationDecimalsEdit = new QSpinBox(this);
 	quotationDecimalsEdit->setRange(0, 8);
 	quotationDecimalsEdit->setSingleStep(1);
 	quotationDecimalsEdit->setValue(budget->defaultQuotationDecimals());
 	grid->addWidget(quotationDecimalsEdit, 5, 1);
-	quotationLabel = new QLabel(tr("Initial quotation:"), this);
+	quotationLabel = new QLabel(tr("Initial quotation:", "Financial quotation"), this);
 	grid->addWidget(quotationLabel, 6, 0);
 	quotationEdit = new EqonomizeValueEdit(false, this);
 	grid->addWidget(quotationEdit, 6, 1);
@@ -1631,9 +1630,8 @@ Security *EditSecurityDialog::newSecurity() {
 	if(!checkAccount()) return NULL;
 	SecurityType type;
 	switch(typeCombo->currentIndex()) {
-		case 1: {type = SECURITY_TYPE_BOND; break;}
-		case 2: {type = SECURITY_TYPE_STOCK; break;}
-		case 3: {type = SECURITY_TYPE_OTHER; break;}
+		case 1: {type = SECURITY_TYPE_STOCK; break;}
+		case 2: {type = SECURITY_TYPE_OTHER; break;}
 		default: {type = SECURITY_TYPE_MUTUAL_FUND; break;}
 	}
 	Security *security = new Security(budget, accounts[accountCombo->currentIndex()], type, sharesEdit->value(), decimalsEdit->value(), quotationDecimalsEdit->value(), nameEdit->text(), descriptionEdit->toPlainText());
@@ -1651,9 +1649,8 @@ bool EditSecurityDialog::modifySecurity(Security *security) {
 	security->setDecimals(decimalsEdit->value());
 	security->setQuotationDecimals(quotationDecimalsEdit->value());
 	switch(typeCombo->currentIndex()) {
-		case 1: {security->setType(SECURITY_TYPE_BOND); break;}
-		case 2: {security->setType(SECURITY_TYPE_STOCK); break;}
-		case 3: {security->setType(SECURITY_TYPE_OTHER); break;}
+		case 1: {security->setType(SECURITY_TYPE_STOCK); break;}
+		case 2: {security->setType(SECURITY_TYPE_OTHER); break;}
 		default: {security->setType(SECURITY_TYPE_MUTUAL_FUND); break;}
 	}
 	return true;
@@ -1677,9 +1674,9 @@ void EditSecurityDialog::setSecurity(Security *security) {
 		}
 	}
 	switch(security->type()) {
-		case SECURITY_TYPE_BOND: {typeCombo->setCurrentIndex(1); break;}
-		case SECURITY_TYPE_STOCK: {typeCombo->setCurrentIndex(2); break;}
-		case SECURITY_TYPE_OTHER: {typeCombo->setCurrentIndex(3); break;}
+		case SECURITY_TYPE_BOND: {typeCombo->setCurrentIndex(2); break;}
+		case SECURITY_TYPE_STOCK: {typeCombo->setCurrentIndex(1); break;}
+		case SECURITY_TYPE_OTHER: {typeCombo->setCurrentIndex(2); break;}
 		default: {typeCombo->setCurrentIndex(0); break;}
 	}
 }
@@ -1825,7 +1822,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	transfers_page = new QWidget(this);
 	tabs->addTab(transfers_page, QIcon::fromTheme("eqz-transfer"), tr("Transfers"));
 	securities_page = new QWidget(this);
-	tabs->addTab(securities_page, QIcon::fromTheme("eqz-security"), tr("Securities"));
+	tabs->addTab(securities_page, QIcon::fromTheme("eqz-security"), tr("Securities", "Financial security (e.g. stock, mutual fund)"));
 	schedule_page = new QWidget(this);
 	tabs->addTab(schedule_page, QIcon::fromTheme("eqz-schedule"), tr("Schedule"));
 
@@ -2015,12 +2012,12 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	securitiesLayout->setContentsMargins(0, securitiesLayout->contentsMargins().top(), 0, 0);
 	
 	QDialogButtonBox *securitiesButtons = new QDialogButtonBox(securities_page);
-	newSecurityButton = securitiesButtons->addButton(tr("New Security…"), QDialogButtonBox::ActionRole);
+	newSecurityButton = securitiesButtons->addButton(tr("New Security…", "Financial security (e.g. stock, mutual fund)"), QDialogButtonBox::ActionRole);
 	newSecurityButton->setEnabled(true);
 	newSecurityTransactionButton = securitiesButtons->addButton(tr("New Transaction"), QDialogButtonBox::ActionRole);
 	QMenu *newSecurityTransactionMenu = new QMenu(this);
 	newSecurityTransactionButton->setMenu(newSecurityTransactionMenu);
-	setQuotationButton = securitiesButtons->addButton(tr("Set Quotation…"), QDialogButtonBox::ActionRole);
+	setQuotationButton = securitiesButtons->addButton(tr("Set Quotation…", "Financial quotation"), QDialogButtonBox::ActionRole);
 	setQuotationButton->setEnabled(false);
 	securitiesLayout->addWidget(securitiesButtons);
 
@@ -2034,8 +2031,8 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QStringList securitiesViewHeaders;
 	securitiesViewHeaders << tr("Name");
 	securitiesViewHeaders << tr("Value");
-	securitiesViewHeaders << tr("Shares");
-	securitiesViewHeaders << tr("Quotation");
+	securitiesViewHeaders << tr("Shares", "Financial shares");
+	securitiesViewHeaders << tr("Quotation", "Financial quotation");
 	securitiesViewHeaders << tr("Cost");
 	securitiesViewHeaders << tr("Profit");
 	securitiesViewHeaders << tr("Yearly Rate");
@@ -2524,7 +2521,7 @@ void Eqonomize::periodSelected(QAction *a) {
 }
 
 void Eqonomize::newSecurity() {
-	EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("New Security"));
+	EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("New Security", "Financial security (e.g. stock, mutual fund)"));
 	if(dialog->checkAccount() && dialog->exec() == QDialog::Accepted) {
 		Security *security = dialog->newSecurity();
 		if(security) {
@@ -2539,7 +2536,7 @@ void Eqonomize::newSecurity() {
 void Eqonomize::editSecurity(QTreeWidgetItem *i) {
 	if(!i) return;
 	Security *security = ((SecurityListViewItem*) i)->security();
-	EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("Edit Security"));
+	EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("Edit Security", "Financial security (e.g. stock, mutual fund)"));
 	dialog->setSecurity(security);
 	if(dialog->checkAccount() && dialog->exec() == QDialog::Accepted) {
 		if(dialog->modifySecurity(security)) {
@@ -2565,7 +2562,7 @@ void Eqonomize::deleteSecurity() {
 	if(i == NULL) return;
 	Security *security = i->security();
 	bool has_trans = budget->securityHasTransactions(security);
-	if(!has_trans || QMessageBox::warning(this, tr("Delete security?"), tr("Are you sure you want to delete the security \"%1\" and all associated transactions?").arg(security->name()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Ok) {
+	if(!has_trans || QMessageBox::warning(this, tr("Delete security?", "Financial security (e.g. stock, mutual fund)"), tr("Are you sure you want to delete the security \"%1\" and all associated transactions?", "Financial security (e.g. stock, mutual fund)").arg(security->name()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Ok) {
 		total_value -= i->value;
 		total_rate *= total_cost;
 		total_cost -= i->cost;
@@ -2627,7 +2624,7 @@ bool Eqonomize::editReinvestedDividend(ReinvestedDividend *rediv, Security *secu
 }
 void Eqonomize::newReinvestedDividend() {
 	if(budget->securities.count() == 0) {
-		QMessageBox::critical(this, tr("Error"), tr("No security available."));
+		QMessageBox::critical(this, tr("Error"), tr("No security available.", "Financial security (e.g. stock, mutual fund)"));
 		return;
 	}
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
@@ -2699,12 +2696,12 @@ void Eqonomize::setQuotation() {
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
 	if(i == NULL) return;
 	QDialog *dialog = new QDialog(this, 0);
-	dialog->setWindowTitle(tr("Set Quotation (%1)").arg(i->security()->name()));
+	dialog->setWindowTitle(tr("Set Quotation (%1)", "Financial quotation").arg(i->security()->name()));
 	dialog->setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
-	grid->addWidget(new QLabel(tr("Price per share:"), dialog), 0, 0);
+	grid->addWidget(new QLabel(tr("Price per share:", "Financial shares"), dialog), 0, 0);
 	EqonomizeValueEdit *quotationEdit = new EqonomizeValueEdit(0.01, pow(10, -i->security()->quotationDecimals()), i->security()->getQuotation(QDate::currentDate()), i->security()->quotationDecimals(), true, dialog);
 	quotationEdit->setFocus();
 	grid->addWidget(quotationEdit, 0, 1);
@@ -2751,7 +2748,7 @@ void Eqonomize::editQuotations() {
 void Eqonomize::editSecurityTransactions() {
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
 	if(!i) return;
-	SecurityTransactionsDialog *dialog = new SecurityTransactionsDialog(i->security(), this, tr("Security Transactions"));
+	SecurityTransactionsDialog *dialog = new SecurityTransactionsDialog(i->security(), this, tr("Security Transactions", "Financial security (e.g. stock, mutual fund)"));
 	dialog->exec();
 	dialog->deleteLater();
 }
@@ -4440,13 +4437,13 @@ bool Eqonomize::exportSecuritiesList(QTextStream &outf, int fileformat) {
 			outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
 			outf << "<html>" << '\n';
 			outf << "\t<head>" << '\n';
-			outf << "\t\t<title>"; outf << htmlize_string(tr("Securities")); outf << "</title>" << '\n';
+			outf << "\t\t<title>"; outf << htmlize_string(tr("Securities", "Financial security (e.g. stock, mutual fund)")); outf << "</title>" << '\n';
 			outf << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << '\n';
 			outf << "\t\t<meta name=\"GENERATOR\" content=\"" << qApp->applicationDisplayName() << "\">" << '\n';
 			outf << "\t</head>" << '\n';
 			outf << "\t<body>" << '\n';
 			outf << "\t\t<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
-			outf << "\t\t\t<caption>"; outf << htmlize_string(tr("Securities")); outf << "</caption>" << '\n';
+			outf << "\t\t\t<caption>"; outf << htmlize_string(tr("Securities", "Financial security (e.g. stock, mutual fund)")); outf << "</caption>" << '\n';
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
 			QTreeWidgetItem *header = securitiesView->headerItem();
@@ -4560,7 +4557,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 						case ASSETS_TYPE_SAVINGS: {outf << htmlize_string(tr("Savings Account")); break;}
 						case ASSETS_TYPE_CREDIT_CARD: {outf << htmlize_string(tr("Credit Card")); break;}
 						case ASSETS_TYPE_LIABILITIES: {outf << htmlize_string(tr("Liabilities")); break;}
-						case ASSETS_TYPE_SECURITIES: {outf << htmlize_string(tr("Securities"));  break;}
+						case ASSETS_TYPE_SECURITIES: {outf << htmlize_string(tr("Securities", "Financial security (e.g. stock, mutual fund)"));  break;}
 						default: {outf << htmlize_string(tr("Other")); break;}
 					}
 					outf << "</td>";
@@ -4609,7 +4606,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 						case ASSETS_TYPE_SAVINGS: {outf << htmlize_string(tr("Savings Account")); break;}
 						case ASSETS_TYPE_CREDIT_CARD: {outf << htmlize_string(tr("Credit Card")); break;}
 						case ASSETS_TYPE_LIABILITIES: {outf << htmlize_string(tr("Liabilities")); break;}
-						case ASSETS_TYPE_SECURITIES: {outf << htmlize_string(tr("Securities"));  break;}
+						case ASSETS_TYPE_SECURITIES: {outf << htmlize_string(tr("Securities", "Financial security (e.g. stock, mutual fund)"));  break;}
 						default: {outf << htmlize_string(tr("Other")); break;}
 					}
 					outf << "</td>";
@@ -4785,7 +4782,7 @@ void Eqonomize::showPrintPreview() {
 		}
 	} else if(tabs->currentIndex() == SECURITIES_PAGE_INDEX) {
 		if(securitiesView->topLevelItemCount() == 0) {
-			QMessageBox::critical(this, tr("Error"), tr("Empty securities list."));
+			QMessageBox::critical(this, tr("Error"), tr("Empty securities list.", "Financial security (e.g. stock, mutual fund)"));
 			return;
 		}
 	} else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
@@ -4817,7 +4814,7 @@ void Eqonomize::printView() {
 		}
 	} else if(tabs->currentIndex() == SECURITIES_PAGE_INDEX) {
 		if(securitiesView->topLevelItemCount() == 0) {
-			QMessageBox::critical(this, tr("Error"), tr("Empty securities list."));
+			QMessageBox::critical(this, tr("Error"), tr("Empty securities list.", "Financial security (e.g. stock, mutual fund)"));
 			return;
 		}
 	} else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
@@ -4874,7 +4871,7 @@ void Eqonomize::saveView() {
 		}
 	} else if(tabs->currentIndex() == SECURITIES_PAGE_INDEX) {
 		if(securitiesView->topLevelItemCount() == 0) {
-			QMessageBox::critical(this, tr("Error"), tr("Empty securities list."));
+			QMessageBox::critical(this, tr("Error"), tr("Empty securities list.", "Financial security (e.g. stock, mutual fund)"));
 			return;
 		}
 	} else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
@@ -4942,7 +4939,7 @@ void Eqonomize::setupActions() {
 	QMenu *accountsMenu = menuBar()->addMenu(tr("&Accounts"));
 	QMenu *transactionsMenu = menuBar()->addMenu(tr("&Transactions"));
 	QMenu *loansMenu = menuBar()->addMenu(tr("&Loans"));
-	QMenu *securitiesMenu = menuBar()->addMenu(tr("&Securities"));
+	QMenu *securitiesMenu = menuBar()->addMenu(tr("&Securities", "Financial security (e.g. stock, mutual fund)"));
 	QMenu *statisticsMenu = menuBar()->addMenu(tr("Stat&istics"));
 	QMenu *settingsMenu = menuBar()->addMenu(tr("S&ettings"));
 	QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
@@ -5058,19 +5055,20 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionNewExpenseWithLoan, tr("New Expense Payed with Loan / Payment Plan…"), "eqz-expense", 0, this, SLOT(newExpenseWithLoan()), "new_expense_with_loan", loansMenu);
 	transactionsToolbar->addAction(ActionNewDebtPayment);
 
-	NEW_ACTION(ActionNewSecurity, tr("New Security…"), "document-new", 0, this, SLOT(newSecurity()), "new_security", securitiesMenu);
-	NEW_ACTION_ALT(ActionEditSecurity, tr("Edit Security…"), "document-edit", "eqz-edit", 0, this, SLOT(editSecurity()), "edit_security", securitiesMenu);
-	NEW_ACTION(ActionDeleteSecurity, tr("Remove Security"), "edit-delete", 0, this, SLOT(deleteSecurity()), "delete_security", securitiesMenu);
+	NEW_ACTION(ActionNewSecurity, tr("New Security…", "Financial security (e.g. stock, mutual fund)"), "document-new", 0, this, SLOT(newSecurity()), "new_security", securitiesMenu);
+	NEW_ACTION_ALT(ActionEditSecurity, tr("Edit Security…", "Financial security (e.g. stock, mutual fund)"), "document-edit", "eqz-edit", 0, this, SLOT(editSecurity()), "edit_security", securitiesMenu);
+	NEW_ACTION(ActionDeleteSecurity, tr("Remove Security", "Financial security (e.g. stock, mutual fund)"), "edit-delete", 0, this, SLOT(deleteSecurity()), "delete_security", securitiesMenu);
 	securitiesMenu->addSeparator();
-	NEW_ACTION(ActionBuyShares, tr("Shares Bought…"), "eqz-income", 0, this, SLOT(buySecurities()), "buy_shares", securitiesMenu);
-	NEW_ACTION(ActionSellShares, tr("Shares Sold…"), "eqz-expense", 0, this, SLOT(sellSecurities()), "sell_shares", securitiesMenu);
-	NEW_ACTION(ActionNewSecurityTrade, tr("Shares Moved…"), "eqz-transfer", 0, this, SLOT(newSecurityTrade()), "new_security_trade", securitiesMenu);
+	NEW_ACTION(ActionBuyShares, tr("Shares Bought…", "Financial shares"), "eqz-income", 0, this, SLOT(buySecurities()), "buy_shares", securitiesMenu);
+	NEW_ACTION(ActionSellShares, tr("Shares Sold…", "Financial shares"), "eqz-expense", 0, this, SLOT(sellSecurities()), "sell_shares", securitiesMenu);
+	NEW_ACTION(ActionNewSecurityTrade, tr("Shares Exchanged…", "Shares of one security directly exchanged for shares of another; Financial shares"), "eqz-transfer", 0, this, SLOT(newSecurityTrade()), "new_security_trade", securitiesMenu);
+	ActionNewSecurityTrade->setToolTip(tr("Shares of one security directly exchanged for shares of another", "Financial shares"));
 	NEW_ACTION(ActionNewDividend, tr("Dividend…"), "eqz-income", 0, this, SLOT(newDividend()), "new_dividend", securitiesMenu);
 	NEW_ACTION(ActionNewReinvestedDividend, tr("Reinvested Dividend…"), "eqz-income", 0, this, SLOT(newReinvestedDividend()), "new_reinvested_dividend", securitiesMenu);
 	NEW_ACTION(ActionEditSecurityTransactions, tr("Transactions…"), "eqz-transactions", 0, this, SLOT(editSecurityTransactions()), "edit_security_transactions", securitiesMenu);
 	securitiesMenu->addSeparator();
-	NEW_ACTION(ActionSetQuotation, tr("Set Quotation…"), "view-calendar-day", 0, this, SLOT(setQuotation()), "set_quotation", securitiesMenu);
-	NEW_ACTION(ActionEditQuotations, tr("Edit Quotations…"), "view-calendar-list", 0, this, SLOT(editQuotations()), "edit_quotations", securitiesMenu);
+	NEW_ACTION(ActionSetQuotation, tr("Set Quotation…", "Financial quotation"), "view-calendar-day", 0, this, SLOT(setQuotation()), "set_quotation", securitiesMenu);
+	NEW_ACTION(ActionEditQuotations, tr("Edit Quotations…", "Financial quotation"), "view-calendar-list", 0, this, SLOT(editQuotations()), "edit_quotations", securitiesMenu);
 
 	NEW_ACTION(ActionOverTimeReport, tr("Development Over Time Report…"), "eqz-overtime-report", 0, this, SLOT(showOverTimeReport()), "over_time_report", statisticsMenu);
 	statisticsToolbar->addAction(ActionOverTimeReport);
