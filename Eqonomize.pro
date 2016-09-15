@@ -108,8 +108,11 @@ unix:!android:!macx {
 			translations/eqonomize_de.qm \
 			translations/eqonomize_fr.qm \
 			translations/eqonomize_hu.qm \
+			translations/eqonomize_it.qm \
 			translations/eqonomize_nl.qm \
+			translations/eqonomize_ro.qm \
 			translations/eqonomize_ru.qm \
+			translations/eqonomize_sk.qm \
 			translations/eqonomize_sv.qm
 		
 	qm.path = $$TRANSLATIONS_DIR
