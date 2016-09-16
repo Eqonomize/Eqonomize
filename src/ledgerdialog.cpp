@@ -153,7 +153,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	headers << tr("Expense");
 	headers << tr("Deposit");
 	headers << tr("Withdrawal");
-	headers << tr("Balance");
+	headers << tr("Balance", "Account balance");
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
 	setColumnDateWidth(transactionsView, 0);
@@ -663,7 +663,7 @@ void LedgerDialog::updateTransactions() {
 	double expenses = 0.0;
 	int quantity = 0;
 	QDate curdate = QDate::currentDate();
-	if(balance != 0.0) transactionsView->insertTopLevelItem(0, new LedgerListViewItem(NULL, NULL, NULL, "-", "-", tr("Initial balance"), "-", QString::null, QString::null, QLocale().toCurrencyString(balance)));
+	if(balance != 0.0) transactionsView->insertTopLevelItem(0, new LedgerListViewItem(NULL, NULL, NULL, "-", "-", tr("Opening balance", "Account balance"), "-", QString::null, QString::null, QLocale().toCurrencyString(balance)));
 	Transaction *trans = budget->transactions.first();
 	SplitTransaction *split = budget->splitTransactions.first();
 	Transactions *transs = trans;
@@ -759,7 +759,7 @@ void LedgerDialog::updateTransactions() {
 				if(value <= 0.0) i->setText(1, tr("Expense"));
 				else i->setText(1, tr("Refund"));
 			} else if(trans->relatesToAccount(budget->balancingAccount)) {
-				 i->setText(1, tr("Balancing"));
+				 i->setText(1, tr("Balancing", "Account balancing"));
 			} else {
 				i->setText(1, tr("Transfer"));
 			}
@@ -780,7 +780,7 @@ void LedgerDialog::updateTransactions() {
 	if(account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD) {
 		statLabel->setText(QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg(tr("Current debt:")).arg(tr("Total debt reduction:")).arg(tr("Total interest and fees:")).arg(QLocale().toCurrencyString(-balance)).arg(QLocale().toCurrencyString(reductions)).arg(QLocale().toCurrencyString(expenses)));
 	} else {	
-		statLabel->setText(QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg("Current balance:").arg("Average balance:").arg(tr("Number of transactions:")).arg(QLocale().toCurrencyString(balance)).arg(QLocale().toCurrencyString(total_balance / (quantity + 1))).arg(QLocale().toString(quantity)));
+		statLabel->setText(QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg("Current balance:", "Account balance").arg("Average balance:", "Account balance").arg(tr("Number of transactions:")).arg(QLocale().toCurrencyString(balance)).arg(QLocale().toCurrencyString(total_balance / (quantity + 1))).arg(QLocale().toString(quantity)));
 	}
 	transactionsView->horizontalScrollBar()->setValue(scroll_h);
 	transactionsView->verticalScrollBar()->setValue(scroll_v);

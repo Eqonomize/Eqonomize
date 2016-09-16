@@ -3978,7 +3978,7 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="62"/>
         <source>Transactional Account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Betaalrekening</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="65"/>
@@ -4007,9 +4007,8 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="unfinished">Bank:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="77"/>
         <source>Initial balance:</source>
-        <translation type="unfinished">Openingsbalans:</translation>
+        <translation type="obsolete">Openingsbalans:</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="77"/>
@@ -4017,9 +4016,8 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="82"/>
         <source>Initial balance</source>
-        <translation type="unfinished">Openingsbalans</translation>
+        <translation type="obsolete">Openingsbalans</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="86"/>
@@ -4068,6 +4066,18 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <location filename="../src/editaccountdialogs.cpp" line="260"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="77"/>
+        <source>Opening balance:</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Openingsbalans:</translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="82"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Openingsbalans</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="254"/>
@@ -4374,7 +4384,7 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
     <message>
         <location filename="../src/editsplitdialog.cpp" line="634"/>
         <source>Transactions:</source>
-        <translation type="unfinished">Transacties:</translation>
+        <translation>Transacties:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="643"/>
@@ -4618,10 +4628,15 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="obsolete">Prijs per aandeel</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="913"/>
-        <location filename="../src/eqonomize.cpp" line="920"/>
         <source>Quotations</source>
         <comment>Financial quotation</comment>
+        <translation type="obsolete">Noteringen</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="913"/>
+        <location filename="../src/eqonomize.cpp" line="920"/>
+        <source>Quotes</source>
+        <comment>Financial quote</comment>
         <translation type="unfinished">Noteringen</translation>
     </message>
     <message>
@@ -4647,9 +4662,14 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="986"/>
+        <source>Quotes for %1</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Noteringen voor %1</translation>
+    </message>
+    <message>
         <source>Quotations for %1</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Noteringen voor %1</translation>
+        <translation type="obsolete">Noteringen voor %1</translation>
     </message>
     <message>
         <source>Quotations for %1</source>
@@ -5011,8 +5031,13 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="obsolete">Obligatie</translation>
     </message>
     <message>
+        <source>Stock</source>
+        <translation type="obsolete">Aandelen</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="1557"/>
         <source>Stock</source>
+        <comment>Financial stock</comment>
         <translation type="unfinished">Aandelen</translation>
     </message>
     <message>
@@ -5044,15 +5069,20 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1585"/>
-        <source>Decimals in quotations:</source>
-        <comment>Financial quotation</comment>
+        <source>Decimals in quotes:</source>
+        <comment>Financial quote</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1591"/>
+        <source>Initial quote:</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Aanvankelijke notering:</translation>
+    </message>
+    <message>
         <source>Initial quotation:</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Aanvankelijke Notering:</translation>
+        <translation type="obsolete">Aanvankelijke Notering:</translation>
     </message>
     <message>
         <source>Decimals in shares:</source>
@@ -5882,10 +5912,8 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="unfinished">Obligatie</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2837"/>
-        <location filename="../src/eqonomize.cpp" line="2906"/>
         <source>Stock</source>
-        <translation type="unfinished">Aandelen</translation>
+        <translation type="obsolete">Aandelen</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2838"/>
@@ -5939,9 +5967,8 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="unfinished">Contant geld</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4058"/>
         <source>Check Account</source>
-        <translation type="unfinished">Lopende rekening</translation>
+        <translation type="obsolete">Lopende rekening</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4059"/>
@@ -6040,10 +6067,8 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="unfinished">Mutatie</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
         <source>Balance</source>
-        <translation type="unfinished">Balans</translation>
+        <translation type="obsolete">Balans</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4556"/>
@@ -6064,6 +6089,32 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <location filename="../src/eqonomize.cpp" line="4608"/>
         <source>Liabilities</source>
         <translation type="unfinished">Passiva</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2020"/>
+        <location filename="../src/eqonomize.cpp" line="5070"/>
+        <source>Set Quote…</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Voer notering in…</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2035"/>
+        <source>Quote</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Notering</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2699"/>
+        <source>Set Quote (%1)</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Voer notering in (%1)</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2837"/>
+        <location filename="../src/eqonomize.cpp" line="2906"/>
+        <source>Stock</source>
+        <comment>Financial stock</comment>
+        <translation type="unfinished">Aandelen</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4635"/>
@@ -6331,9 +6382,8 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="unfinished">Bewerk…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
         <source>Balance…</source>
-        <translation type="unfinished">Balans…</translation>
+        <translation type="obsolete">Balans…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5021"/>
@@ -6636,11 +6686,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Nieuw effecten…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2020"/>
-        <location filename="../src/eqonomize.cpp" line="5070"/>
         <source>Set Quotation…</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Voer notering in…</translation>
+        <translation type="obsolete">Voer notering in…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2034"/>
@@ -6649,10 +6697,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Aandelen</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2035"/>
         <source>Quotation</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Notering</translation>
+        <translation type="obsolete">Notering</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2524"/>
@@ -6685,10 +6732,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Geen effecten beschikbaar.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2699"/>
         <source>Set Quotation (%1)</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Voer notering in (%1)</translation>
+        <translation type="obsolete">Voer notering in (%1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2704"/>
@@ -6703,6 +6749,19 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Effecten transacties</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="4058"/>
+        <source>Checking Account</source>
+        <comment>Transactional account</comment>
+        <translation type="unfinished">Betaalrekening</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Saldo</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="4785"/>
         <location filename="../src/eqonomize.cpp" line="4817"/>
         <location filename="../src/eqonomize.cpp" line="4874"/>
@@ -6715,6 +6774,12 @@ Do you want to load the last auto-saved version of the file?</source>
         <source>&amp;Securities</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">&amp;Effecten</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Balance…</source>
+        <comment>Balance account</comment>
+        <translation type="unfinished">Balans…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5059"/>
@@ -6741,10 +6806,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Aandelen verkocht…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5071"/>
         <source>Edit Quotations…</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Bewerk noteringen…</translation>
+        <translation type="obsolete">Bewerk noteringen…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5232"/>
@@ -6914,6 +6978,12 @@ Wat wil je er mee doen?</translation>
         <source>Shares of one security directly exchanged for shares of another</source>
         <comment>Financial shares</comment>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5071"/>
+        <source>Edit Quotes…</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Bewerk noteringen…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -7855,9 +7925,14 @@ Wat wil je er mee doen?</translation>
         <translation type="unfinished">Opname</translation>
     </message>
     <message>
+        <source>Balance</source>
+        <translation type="obsolete">Balans</translation>
+    </message>
+    <message>
         <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
-        <translation type="unfinished">Balans</translation>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Saldo</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="173"/>
@@ -7950,6 +8025,18 @@ Wat wil je er mee doen?</translation>
         <translation type="unfinished">Kan de debiteur van dividenden en effectentransacties niet wijzigen.</translation>
     </message>
     <message>
+        <location filename="../src/ledgerdialog.cpp" line="666"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Openingsbalans</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Balancing</source>
+        <comment>Account balancing</comment>
+        <translation type="unfinished">Balans</translation>
+    </message>
+    <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <translation type="obsolete">Met het scherm voor het wijzigen van meerdere transacties kunt u de waarde van beleggingstransacties niet instellen.</translation>
     </message>
@@ -7996,9 +8083,8 @@ Wat wil je er mee doen?</translation>
         <translation type="obsolete">Kan de datum van transacties die deel zijn van een gesplitste transactie niet wijzigen.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="666"/>
         <source>Initial balance</source>
-        <translation type="unfinished">Openingsbalans</translation>
+        <translation type="obsolete">Openingsbalans</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="678"/>
@@ -8061,9 +8147,8 @@ Wat wil je er mee doen?</translation>
         <translation type="unfinished">Terugstorten</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="762"/>
         <source>Balancing</source>
-        <translation type="unfinished">Balans</translation>
+        <translation type="obsolete">Balans</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="764"/>

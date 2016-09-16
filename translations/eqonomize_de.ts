@@ -20,17 +20,14 @@
     <message>
         <source>Couldn&apos;t open %1 for reading</source>
         <translation type="vanished">Konnte %1 nicht zum Lesen öffnen</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Not a valid Eqonomize! file (XML parse error: &quot;%2&quot; at line %3, col %4)</source>
         <translation type="vanished">Keine gültige Eqonomize!-Datei (XML-Analysefehler: &quot;%2&quot; in Zeile %3, Position %4)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Invalid root element %1 in XML document</source>
         <translation type="vanished">Ungültiges Wurzelelement %1 im XML-Dokument</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message numerus="yes">
         <source>Unable to load 1 account.</source>
@@ -38,8 +35,6 @@
             <numerusform>Konnte 1 Konto nicht laden.</numerusform>
             <numerusform>Konnte %1 Konten nicht laden.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Unable to load %1 accounts.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>Unable to load 1 category.</source>
@@ -47,8 +42,6 @@
             <numerusform>Konnte 1 Kategorie nicht laden.</numerusform>
             <numerusform>Konnte %1 Kategorien nicht laden.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Unable to load %1 categories.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>Unable to load 1 security.</source>
@@ -56,8 +49,6 @@
             <numerusform>Konnte 1 Wertpapier nicht laden.</numerusform>
             <numerusform>Konnte %1 Wertpapiere nicht laden.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Unable to load %1 securities.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>Unable to load 1 transaction.</source>
@@ -65,8 +56,6 @@
             <numerusform>Konnte 1 Transaktion nicht laden.</numerusform>
             <numerusform>Konnte %1 Transaktionen nicht laden.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Unable to load %1 transactions.</extra-po-msgid_plural>
     </message>
     <message>
         <source>File is a directory</source>
@@ -107,12 +96,10 @@
     <message>
         <source>Expenses: %1</source>
         <translation type="vanished">Ausgaben: %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Incomes: %1</source>
         <translation type="vanished">Einnahmen: %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Invalid date.</source>
@@ -213,12 +200,10 @@
     <message>
         <source>Expenses: %2, %1</source>
         <translation type="vanished">Ausgaben: %2, %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Incomes: %2, %1</source>
         <translation type="vanished">Einnahmen: %2, %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Incomes &amp; Expenses</source>
@@ -228,13 +213,11 @@
         <source>%1 (%2&amp;ndash;%3)</source>
         <comment>html format; %1: title; %2: from date; %3: to date</comment>
         <translation type="vanished">%1 (%2&amp;ndash;%3)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%1 (to %2)</source>
         <comment>html format; %1: title; %2: to date</comment>
         <translation type="vanished">%1 (bis %2)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Category</source>
@@ -547,7 +530,6 @@
     <message>
         <source>Quotations for %1</source>
         <translation type="vanished">Kurse für %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Report</source>
@@ -574,7 +556,6 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <source>Transactions for %1</source>
         <translation type="vanished">Transaktionen für %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares</source>
@@ -747,23 +728,19 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <source>Remaining Budget (%1)</source>
         <translation type="vanished">Verbleibendes Budget (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Change (%1)</source>
         <translation type="vanished">Änderung (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total (%1)</source>
         <translation type="vanished">Gesamt (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%2 of %1</source>
         <comment>%2 remains of %1 budget</comment>
         <translation type="vanished">%2 von %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Includes budgeted transactions</source>
@@ -900,7 +877,6 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <source>Are you sure you want to delete the security &quot;%1&quot; and all associated transactions?</source>
         <translation type="vanished">Sind Sie sicher, daß Sie die Sicherheit &quot;%1&quot; und alle zugehörigen Transaktionen löschen wollen?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No security available.</source>
@@ -909,7 +885,6 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <source>Set Quotation (%1)</source>
         <translation type="vanished">Rate setzen (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Price per share:</source>
@@ -954,7 +929,6 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <source>Error loading %1: %2.</source>
         <translation type="vanished">Fehler beim Laden von %1: %2</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t open file</source>
@@ -963,7 +937,6 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <source>Error saving %1: %2.</source>
         <translation type="vanished">Fehler beim Speichern von %1: %2</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t save file</source>
@@ -982,13 +955,11 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <source>Accounts &amp;amp; Categories (%1&amp;ndash;%2)</source>
         <comment>html format</comment>
         <translation type="vanished">Konten &amp;amp Kategorien (%1&amp;ndash;%2)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Accounts &amp;amp; Categories (to %1)</source>
         <comment>html format</comment>
         <translation type="vanished">Konten &amp;amp; Kategorien (bis %1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Change</source>
@@ -1318,17 +1289,14 @@ Was wollen Sie mit diesen tun?</translation>
         <source>%2 of %1</source>
         <comment>%1: budget; %2: remaining budget</comment>
         <translation type="vanished">%2 von %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%1 (with no budget)</source>
         <translation type="vanished">%1 (ohne Budget)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%1 (with budget %2)</source>
         <translation type="vanished">%1 (mit Budget %2)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>&amp;Import</source>
@@ -1503,12 +1471,10 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <source>Couldn&apos;t open %1 for reading.</source>
         <translation type="vanished">Konnte %1 nicht zum lesen öffnen.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Error reading %1.</source>
         <translation type="vanished">Fehler beim Lesen von %1.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message numerus="yes">
         <source>Successfully imported 1 transaction.</source>
@@ -1516,8 +1482,6 @@ Was wollen Sie mit diesen tun?</translation>
             <numerusform>Eine Transaktion erfolgreich eingelesen.</numerusform>
             <numerusform>%1 Transaktionen erfolgreich eingelesen.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Successfully imported %1 transactions.</extra-po-msgid_plural>
     </message>
     <message>
         <source>Unable to import any transactions imported.</source>
@@ -1529,8 +1493,6 @@ Was wollen Sie mit diesen tun?</translation>
             <numerusform>Ein Datensatz konnte nicht eingelesen werden.</numerusform>
             <numerusform>%1 Datensätze konnten nicht importiert werden.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Failed to import %1 data rows.</extra-po-msgid_plural>
     </message>
     <message>
         <source>Required columns missing.</source>
@@ -1644,7 +1606,6 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation type="vanished">Sind Sie sicher, daß Sie alle (%1) ausgewählten Transaktionen löschen wollen?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
@@ -1749,22 +1710,18 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <source>Value (%1)</source>
         <translation type="vanished">Wert (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Profit (%1)</source>
         <translation type="vanished">Ertrag (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Income (%1)</source>
         <translation type="vanished">Einnahmen (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cost (%1)</source>
         <translation type="vanished">Kosten (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Time</source>
@@ -1778,7 +1735,6 @@ Was wollen Sie mit diesen tun?</translation>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payer</comment>
         <translation type="vanished">%1/%2</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>no payee</source>
@@ -1788,7 +1744,6 @@ Was wollen Sie mit diesen tun?</translation>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payee</comment>
         <translation type="vanished">%1/%2</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Average Profit</source>
@@ -1809,7 +1764,6 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <source>Adjusted for the average month / year (%1 / %2 days)</source>
         <translation type="vanished">An den durchschnittlichen Monat / das durchschnittliche Jahr angepasst (%1 / %2 Tage)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Subtotal</source>
@@ -1961,8 +1915,6 @@ Was wollen Sie mit diesen tun?</translation>
             <numerusform>Ein Konto wurde erfolgreich importiert.</numerusform>
             <numerusform>%1 Konten wurden erfolgreich importiert.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Successfully imported %1 accounts.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>Successfully imported 1 category.</source>
@@ -1970,8 +1922,6 @@ Was wollen Sie mit diesen tun?</translation>
             <numerusform>Eine Kategorie wurde erfolgreich importiert.</numerusform>
             <numerusform>%1 Kategorien wurden erfolgreich importiert.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Successfully imported %1 categories.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>1 duplicate transaction was ignored.</source>
@@ -1979,8 +1929,6 @@ Was wollen Sie mit diesen tun?</translation>
             <numerusform>Eine doppelte Transaktion wurde ignoriert.</numerusform>
             <numerusform>%1 doppelte Transaktionen wurden ignoriert.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>%1 duplicate transactions was ignored.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>Failed to import 1 transaction.</source>
@@ -1988,8 +1936,6 @@ Was wollen Sie mit diesen tun?</translation>
             <numerusform>Fehler beim impotrieren von 1 Transaktion.</numerusform>
             <numerusform>Fehler beim Importieren von %1 Transaktionen.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Failed to import %1 transactions.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>1 security was not imported.</source>
@@ -1997,8 +1943,6 @@ Was wollen Sie mit diesen tun?</translation>
             <numerusform>Eine Wertpapier wurde nicht importiert.</numerusform>
             <numerusform>%1 Wertpapier wurden nicht importiert.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>%1 securities were not imported.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>1 security transaction was not imported.</source>
@@ -2006,8 +1950,6 @@ Was wollen Sie mit diesen tun?</translation>
             <numerusform>Eine Wertpapiertransaktion wurde nicht importiert.</numerusform>
             <numerusform>%1 Wertpapiertransaktionen wurden nicht importiert.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>%1 security transactions were not imported.</extra-po-msgid_plural>
     </message>
     <message>
         <source>Export QIF File</source>
@@ -2049,7 +1991,6 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <source>Begins on: %1</source>
         <translation type="vanished">Beginnt am: %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No ending date</source>
@@ -2319,7 +2260,6 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <source>Dividend: %1</source>
         <translation type="vanished">Dividende: %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Account balancing</source>
@@ -2328,12 +2268,10 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <source>Security: %1 (bought)</source>
         <translation type="vanished">Wertpapier: %1 (gekauft)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security: %1 (sold)</source>
         <translation type="vanished">Wertpapier: %1 (verkauft)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares bought:</source>
@@ -2426,7 +2364,6 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <source>New/Edit %1</source>
         <translation type="vanished">%1 anlegen/bearbeiten</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Filter</source>
@@ -2463,7 +2400,6 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <source>Are you sure you want to delete all (%1) transactions in the selected split transaction?</source>
         <translation type="vanished">Sind Sie sicher, daß Sie alle (%1) ausgewählten geteilten Transaktionen löschen wollen?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>* Part of split transaction</source>
@@ -2472,7 +2408,6 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <source>* Part of split (%1)</source>
         <translation type="vanished">* Teil (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>** Recurring (editing occurrance)</source>
@@ -3416,7 +3351,7 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="62"/>
         <source>Transactional Account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Girokonto</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="65"/>
@@ -3445,19 +3380,17 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <translation>Bank:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="77"/>
         <source>Initial balance:</source>
-        <translation>Wert zu Beginn:</translation>
+        <translation type="vanished">Wert zu Beginn:</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="77"/>
         <source>Debt:</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="82"/>
         <source>Initial balance</source>
-        <translation>Wert zu Beginn</translation>
+        <translation type="vanished">Wert zu Beginn</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="86"/>
@@ -3506,6 +3439,18 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <location filename="../src/editaccountdialogs.cpp" line="260"/>
         <source>Error</source>
         <translation>Fehler</translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="77"/>
+        <source>Opening balance:</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Anfangsbestand:</translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="82"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Anfangsbestand</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="254"/>
@@ -4072,10 +4017,15 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <translation type="vanished">Preis pro Anteil</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="913"/>
-        <location filename="../src/eqonomize.cpp" line="920"/>
         <source>Quotations</source>
         <comment>Financial quotation</comment>
+        <translation type="obsolete">Kurse</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="913"/>
+        <location filename="../src/eqonomize.cpp" line="920"/>
+        <source>Quotes</source>
+        <comment>Financial quote</comment>
         <translation type="unfinished">Kurse</translation>
     </message>
     <message>
@@ -4101,9 +4051,14 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="986"/>
+        <source>Quotes for %1</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Kurse für %1</translation>
+    </message>
+    <message>
         <source>Quotations for %1</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Kurse für %1</translation>
+        <translation type="obsolete">Kurse für %1</translation>
     </message>
     <message>
         <source>Quotations for %1</source>
@@ -4465,9 +4420,14 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <translation type="vanished">Anleihe</translation>
     </message>
     <message>
+        <source>Stock</source>
+        <translation type="vanished">Aktie</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="1557"/>
         <source>Stock</source>
-        <translation>Aktie</translation>
+        <comment>Financial stock</comment>
+        <translation type="unfinished">Aktie</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1558"/>
@@ -4498,15 +4458,25 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1585"/>
-        <source>Decimals in quotations:</source>
-        <comment>Financial quotation</comment>
-        <translation type="unfinished">Dezimal in Kurs:</translation>
+        <source>Decimals in quotes:</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1591"/>
+        <source>Initial quote:</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Startkurs:</translation>
+    </message>
+    <message>
+        <source>Decimals in quotations:</source>
+        <comment>Financial quotation</comment>
+        <translation type="obsolete">Dezimal in Kurs:</translation>
+    </message>
+    <message>
         <source>Initial quotation:</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Startkurs:</translation>
+        <translation type="obsolete">Startkurs:</translation>
     </message>
     <message>
         <source>Decimals in shares:</source>
@@ -5370,10 +5340,8 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <translation>Anleihe</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2837"/>
-        <location filename="../src/eqonomize.cpp" line="2906"/>
         <source>Stock</source>
-        <translation>Aktie</translation>
+        <translation type="vanished">Aktie</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2838"/>
@@ -5427,9 +5395,8 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <translation>Bargeld</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4058"/>
         <source>Check Account</source>
-        <translation>Konto überprüfen</translation>
+        <translation type="obsolete">Kontokorrent</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4059"/>
@@ -5528,10 +5495,8 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <translation>Änderung</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
         <source>Balance</source>
-        <translation>Bilanz</translation>
+        <translation type="vanished">Bilanz</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4556"/>
@@ -5561,11 +5526,9 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <translation type="unfinished">Neues Wertpapier…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2020"/>
-        <location filename="../src/eqonomize.cpp" line="5070"/>
         <source>Set Quotation…</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Kurs setzen…</translation>
+        <translation type="obsolete">Kurs setzen…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2034"/>
@@ -5574,10 +5537,9 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <translation type="unfinished">Anteile</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2035"/>
         <source>Quotation</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Kurs</translation>
+        <translation type="obsolete">Kurs</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2565"/>
@@ -5598,10 +5560,9 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <translation type="unfinished">Kein Wertpapier verfügbar.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2699"/>
         <source>Set Quotation (%1)</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Rate setzen (%1)</translation>
+        <translation type="obsolete">Rate setzen (%1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2704"/>
@@ -5614,6 +5575,13 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <source>Security Transactions</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Wertpapiertransaktionen</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2837"/>
+        <location filename="../src/eqonomize.cpp" line="2906"/>
+        <source>Stock</source>
+        <comment>Financial stock</comment>
+        <translation type="unfinished">Aktie</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4635"/>
@@ -5859,6 +5827,19 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <translation type="unfinished">Aktiva</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="2020"/>
+        <location filename="../src/eqonomize.cpp" line="5070"/>
+        <source>Set Quote…</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Kurs setzen…</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2035"/>
+        <source>Quote</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Kurs</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="2140"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
@@ -5875,6 +5856,12 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <source>Edit Security</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Wertpapier bearbeiten</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2699"/>
+        <source>Set Quote (%1)</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Kurs setzen (%1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4941"/>
@@ -5898,9 +5885,8 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <translation>Bearbeiten…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
         <source>Balance…</source>
-        <translation>Bilanzieren…</translation>
+        <translation type="vanished">Bilanzieren…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5021"/>
@@ -6218,12 +6204,31 @@ Wollen Sie die letzte automatisch gespeicherte Version dieser Datei laden?</tran
         <translation>Unbennant</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="4058"/>
+        <source>Checking Account</source>
+        <comment>Transactional account</comment>
+        <translation type="unfinished">Girokonto</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Kontostand</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="4785"/>
         <location filename="../src/eqonomize.cpp" line="4817"/>
         <location filename="../src/eqonomize.cpp" line="4874"/>
         <source>Empty securities list.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Leere Wertpapierliste.</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Balance…</source>
+        <comment>Balance account</comment>
+        <translation type="unfinished">Bilanzieren…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5059"/>
@@ -6250,10 +6255,9 @@ Wollen Sie die letzte automatisch gespeicherte Version dieser Datei laden?</tran
         <translation type="unfinished">Anteile verkauft…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5071"/>
         <source>Edit Quotations…</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Kurse bearbeiten…</translation>
+        <translation type="obsolete">Kurse bearbeiten…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5479"/>
@@ -6418,6 +6422,12 @@ Was wollen Sie mit diesen tun?</translation>
         <source>Shares of one security directly exchanged for shares of another</source>
         <comment>Financial shares</comment>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5071"/>
+        <source>Edit Quotes…</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Kurse bearbeiten…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -7036,7 +7046,7 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="127"/>
         <source>Opening balance text:</source>
-        <translation>Starteinlagen-Text:</translation>
+        <translation type="unfinished">Starteinlagen-Text:</translation>
     </message>
     <message>
         <source>Descriptions</source>
@@ -7372,9 +7382,14 @@ Was wollen Sie mit diesen tun?</translation>
         <translation>Abhebung</translation>
     </message>
     <message>
+        <source>Balance</source>
+        <translation type="vanished">Bilanz</translation>
+    </message>
+    <message>
         <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
-        <translation>Bilanz</translation>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Kontostand</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="173"/>
@@ -7467,6 +7482,18 @@ Was wollen Sie mit diesen tun?</translation>
         <translation type="unfinished">Der Zahlungspflichtige von Dividenden und Wertpapiere kann nicht verändert werden.</translation>
     </message>
     <message>
+        <location filename="../src/ledgerdialog.cpp" line="666"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Anfangsbestand</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Balancing</source>
+        <comment>Account balancing</comment>
+        <translation type="unfinished">Bilanzieren</translation>
+    </message>
+    <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <translation type="vanished">Der Wert von Wertpapiertransaktionen kann nicht über den Dialog zum Ändern mehrerer Transaktionen geändert werden.</translation>
     </message>
@@ -7513,9 +7540,8 @@ Was wollen Sie mit diesen tun?</translation>
         <translation type="vanished">Das Datum von Teilen einer geteilten Transaktion kann nicht verändert werden.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="666"/>
         <source>Initial balance</source>
-        <translation type="unfinished">Wert zu Beginn</translation>
+        <translation type="obsolete">Wert zu Beginn</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="678"/>
@@ -7578,9 +7604,8 @@ Was wollen Sie mit diesen tun?</translation>
         <translation>Rückerstattung</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="762"/>
         <source>Balancing</source>
-        <translation>Bilanzieren</translation>
+        <translation type="vanished">Bilanzieren</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="764"/>
@@ -8019,7 +8044,9 @@ Was wollen Sie mit diesen tun?</translation>
         <source>%1
 Value: %2
 Date: %3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1
+Wert: %2
+Datum: %3</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="3213"/>
@@ -8108,12 +8135,12 @@ Date: %3</source>
     <message>
         <location filename="../src/overtimechart.cpp" line="2019"/>
         <source>Other payees</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Andere Zahlungsempfänger</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2021"/>
         <source>Other payers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Andere Zahlungspflichtigen</translation>
     </message>
     <message>
         <source>Value (%1)</source>

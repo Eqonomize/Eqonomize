@@ -6,1904 +6,1527 @@
     <message>
         <source>Balancing</source>
         <translation type="vanished">Rozvaha</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t open %1 for reading</source>
         <translation type="vanished">%1 nelze přečíst</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Not a valid Eqonomize! file (XML parse error: &quot;%2&quot; at line %3, col %4)</source>
         <translation type="vanished">Neplatný Eqonomize! soubor (chyba XML: &quot;%2&quot; na řádku %3, sloupec %4)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Invalid root element %1 in XML document</source>
         <translation type="vanished">Neplatný kořenový prvek %1 v dokumentu XML</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>File is a directory</source>
         <translation type="vanished">Soubor je adresář</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t open file for writing</source>
         <translation type="vanished">Soubor nelze otevřít pro zápis</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Error while writing file; file was not saved</source>
         <translation type="vanished">Během zápisu došlo k chybě; soubor nebyl uložen</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>From</source>
         <translation type="vanished">Od</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>To</source>
         <translation type="vanished">Do</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Source:</source>
         <translation type="vanished">Zdroj:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Expenses</source>
         <translation type="vanished">Všechny výdaje</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Incomes</source>
         <translation type="vanished">Všechny příjmy</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Accounts</source>
         <translation type="vanished">Všechny účty</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Expenses: %1</source>
         <translation type="vanished">Výdaje: %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Incomes: %1</source>
         <translation type="vanished">Příjmy: %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Invalid date.</source>
         <translation type="vanished">Neplatné datum.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>To date is before from date.</source>
         <translation type="vanished">Datum do je před datumem od.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>From date is after to date.</source>
         <translation type="vanished">Datum od je před datumem do.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The selected file already exists. Would you like to overwrite the old copy?</source>
         <translation type="vanished">Vybraný soubor již existuje. Chcete ho přepsat?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>You selected a directory!</source>
         <translation type="vanished">Vybrali jste adresář!</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t open file for writing.</source>
         <translation type="vanished">Soubor nelze otevřít pro zápis.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Error while writing file; file was not saved.</source>
         <translation type="vanished">Chyba během zápisu souboru; soubor nebyl uložen.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No description</source>
         <translation type="vanished">Bez popisu</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Categories</source>
         <translation type="vanished">Všechny kategorie</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Descriptions for</source>
         <translation type="vanished">Popis pro</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payees/payers for</source>
         <translation type="vanished">Příjemci/plátci pro</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Period:</source>
         <translation type="vanished">Období:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Columns:</source>
         <translation type="vanished">Sloupce:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Value</source>
         <translation type="vanished">Hodnota</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Daily</source>
         <translation type="vanished">Denně</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Monthly</source>
         <translation type="vanished">Měsíčně</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Yearly</source>
         <translation type="vanished">Ročně</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Quantity</source>
         <translation type="vanished">Počet</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Average value</source>
         <translation type="vanished">Průměrná hodnota</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All descriptions</source>
         <translation type="vanished">Všechny popisy</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All payees</source>
         <translation type="vanished">Všichni příjemci</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All payers</source>
         <translation type="vanished">Všichni plátci</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No payee</source>
         <translation type="vanished">Žádný příjemce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No payer</source>
         <translation type="vanished">Žádný plátce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Expenses: %2, %1</source>
         <translation type="vanished">Výdaje: %2, %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Incomes: %2, %1</source>
         <translation type="vanished">Příjmy: %2, %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Incomes &amp; Expenses</source>
         <translation type="vanished">Příjmy &amp; výdaje</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%1 (%2&amp;ndash;%3)</source>
         <comment>html format; %1: title; %2: from date; %3: to date</comment>
         <translation type="vanished">%1 (%2&amp;ndash;%3)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%1 (to %2)</source>
         <comment>html format; %1: title; %2: to date</comment>
         <translation type="vanished">%1 (do %2)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Category</source>
         <translation type="vanished">Kategorie</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cost</source>
         <translation type="vanished">Cena</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Income</source>
         <translation type="vanished">Příjem</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Daily Average</source>
         <translation type="vanished">Denní průměr</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Monthly Average</source>
         <translation type="vanished">Měsíční průměr</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Yearly Average</source>
         <translation type="vanished">Roční průměr</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Average Cost</source>
         <translation type="vanished">Průměrná cena</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Average Income</source>
         <translation type="vanished">Průměrný příjem</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Average Value</source>
         <translation type="vanished">Průměrná hodnota</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total</source>
         <translation type="vanished">Celkem</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total incomes</source>
         <translation type="vanished">Příjmy celkem</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total expenses</source>
         <translation type="vanished">Výdaje celkem</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total (Profits)</source>
         <translation type="vanished">Celkem (zisky)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Expense</source>
         <translation type="vanished">Výdaj</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transfer</source>
         <translation type="vanished">Převod</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security Buy</source>
         <translation type="vanished">Nákup cenných papírů</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security Sell</source>
         <translation type="vanished">Prodej cenných papírů</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Recurrence</source>
         <translation type="vanished">Opakování</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Expense</source>
         <translation type="vanished">Nový výdaj</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Dividend</source>
         <translation type="vanished">Nová dividenda</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Income</source>
         <translation type="vanished">Nový příjem</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Transfer</source>
         <translation type="vanished">Nový převod</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Security Buy</source>
         <translation type="vanished">Nový nákup cenných papírů</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Security Sell</source>
         <translation type="vanished">Nový prodej cenných papírů</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Expense</source>
         <translation type="vanished">Upravit výdaj</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Dividend</source>
         <translation type="vanished">Upravit dividendu</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Income</source>
         <translation type="vanished">Upravit příjem</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Transfer</source>
         <translation type="vanished">Upravit převod</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Securities Bought</source>
         <translation type="vanished">Upravit nákup cenných papírů</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Securities Sold</source>
         <translation type="vanished">Upravit prodej cenných papírů</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Dividend</source>
         <translation type="vanished">Dividenda</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Repayment</source>
         <translation type="vanished">Splátka</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Refund</source>
         <translation type="vanished">Úhrada</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Split Transaction</source>
         <translation type="vanished">Rozdělená transakce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Description:</source>
         <translation type="vanished">Popis:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Date:</source>
         <translation type="vanished">Datum:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Account:</source>
         <translation type="vanished">Účet:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transactions:</source>
         <translation type="vanished">Transakce:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Type</source>
         <translation type="vanished">Typ</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Description</source>
         <translation type="vanished">Popis</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Account/Category</source>
         <translation type="vanished">Účet/Kategorie</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payment</source>
         <translation type="vanished">Platba</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Deposit</source>
         <translation type="vanished">Vklad</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New</source>
         <translation type="vanished">Nový</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Expense…</source>
         <translation type="vanished">Nový výdaj…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Income…</source>
         <translation type="vanished">Nový příjem…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Deposit…</source>
         <translation type="vanished">Nový vklad…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Withdrawal…</source>
         <translation type="vanished">Nový výběr…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security Shares Sold…</source>
         <translation type="vanished">Cenné papíry prodané..</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Dividend…</source>
         <translation type="vanished">Nová dividenda…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit…</source>
         <translation type="vanished">Upravit…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total value:</source>
         <translation type="vanished">Celková hodnota:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No suitable account available.</source>
         <translation type="vanished">Vhodný účet není k dispozici.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Future dates is not allowed.</source>
         <translation type="vanished">Budoucí datumy nejsou povoleny.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>A split must contain at least two transactions.</source>
         <translation type="vanished">Pro rozdělení potřebujete nejméně dvě transakce.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot transfer money to and from the same account.</source>
         <translation type="vanished">Peníze nelze převést na stejný účet.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cost:</source>
         <translation type="vanished">Cena:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Income:</source>
         <translation type="vanished">Příjem:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Quantity:</source>
         <translation type="vanished">Počet:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Comments:</source>
         <translation type="vanished">Poznámky:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Reinvested Dividend</source>
         <translation type="vanished">Reinvestované dividendy</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security:</source>
         <translation type="vanished">Cenný papír:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares added:</source>
         <translation type="vanished">Podíly přidané:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security Trade</source>
         <translation type="vanished">Obchod cenným papírem</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>From security:</source>
         <translation type="vanished">Z cenného papíru:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares moved:</source>
         <translation type="vanished">Přesunuté podíly:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All</source>
         <translation type="vanished">Vše</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>To security:</source>
         <translation type="vanished">K cennému papíru:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares received:</source>
         <translation type="vanished">Podíly přijaté:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Value:</source>
         <translation type="vanished">Hodnota:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No other security available for trade in the account.</source>
         <translation type="vanished">Na účtu už není žádný cenný papír pro obchodování.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Selected to and from securities are the same.</source>
         <translation type="vanished">Pro a od jsou stejné.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Zero shares not allowed.</source>
         <translation type="vanished">Nulové podíly nejsou povoleny.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Zero value not allowed.</source>
         <translation type="vanished">Nulová hodnota není povolena.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Quotations</source>
         <translation type="vanished">Kurzy</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Date</source>
         <translation type="vanished">Datum</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Price per Share</source>
         <translation type="vanished">Cena za podíl</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Quotations for %1</source>
         <translation type="vanished">Kurz pro %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The following transactions was scheduled to occur today or before today.
 Confirm that they have indeed occurred (or will occur today).</source>
         <translation type="vanished">Následující transakce byly naplánovány na dnešní nebo dřívější datum.
 Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Amount</source>
         <translation type="vanished">Množství</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Postpone…</source>
         <translation type="vanished">Odložit…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Can only postpone to future dates.</source>
         <translation type="vanished">Odložit lze pouze na budoucí datum.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transactions for %1</source>
         <translation type="vanished">Transakce pro %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares</source>
         <translation type="vanished">Podíly</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Bought</source>
         <translation type="vanished">Podíly koupené</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Sold</source>
         <translation type="vanished">Podíly prodané</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Sold (Traded)</source>
         <translation type="vanished">Prodej podílů (obchodní)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Bought (Traded)</source>
         <translation type="vanished">Koupené podíly (obchodované)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Bought (Recurring)</source>
         <translation type="vanished">Koupené podíly (opakované)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Sold (Recurring)</source>
         <translation type="vanished">Prodané podíly (opakované)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Bought (Scheduled)</source>
         <translation type="vanished">Koupené podíly (plánované)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Sold (Scheduled)</source>
         <translation type="vanished">Prodané podíly (plánované)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Recurring Dividend</source>
         <translation type="vanished">Opakované dividendy</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Scheduled Dividend</source>
         <translation type="vanished">Plánované dividendy</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Type:</source>
         <translation type="vanished">Typ:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Mutual Fund</source>
         <translation type="vanished">Vzájemný fond</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Bond</source>
         <translation type="vanished">Dluhopis</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Stock</source>
         <translation type="vanished">Akcie</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Other</source>
         <translation type="vanished">Jiný</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Name:</source>
         <translation type="vanished">Název:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Decimals in Shares:</source>
         <translation type="vanished">Desetiny v podílech:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Initial Shares:</source>
         <translation type="vanished">Počáteční podíly:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Initial quotation:</source>
         <translation type="vanished">Počáteční kurz:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No suitable account or income category available.</source>
         <translation type="vanished">Neexistuje vhodná kategorie účtů nebo příjmů.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cash</source>
         <translation type="vanished">Hotovost</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Current Account</source>
         <translation type="vanished">Běžný účet</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Savings Account</source>
         <translation type="vanished">Spořící účet</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Credit Card</source>
         <translation type="vanished">Platební karta</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Liabilities</source>
         <translation type="vanished">Dluhy</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Securities</source>
         <translation type="vanished">Cenné papíry</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Initial balance:</source>
         <translation type="vanished">Počáteční bilance:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Default account for budgeted transactions</source>
         <translation type="vanished">Výchozí účet pro rozpočtové transakce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty name.</source>
         <translation type="vanished">Prázdný název.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The entered name is used by another account.</source>
         <translation type="vanished">Tento název už používá jiný účet.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Monthly budget:</source>
         <translation type="vanished">Měsíční rozpočet:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The entered name is used by another income category.</source>
         <translation type="vanished">Tento název už používá jiná kategorie příjmů.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The entered name is used by another expense category.</source>
         <translation type="vanished">Tento název už používá jiná kategorie výdajů.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Accounts</source>
         <translation type="vanished">Účty</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Accounts &amp; Categories</source>
         <translation type="vanished">Účty &amp; Kategorie</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Expenses</source>
         <translation type="vanished">Výdaje</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Incomes</source>
         <translation type="vanished">Příjmy</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transfers</source>
         <translation type="vanished">Převody</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Schedule</source>
         <translation type="vanished">Plán</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Scheduled Transactions</source>
         <translation type="vanished">Plánované transakce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Account / Category</source>
         <translation type="vanished">Účet / Skupina</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remaining Budget (%1)</source>
         <translation type="vanished">Zbývající rozpočet (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Change (%1)</source>
         <translation type="vanished">Změna (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total (%1)</source>
         <translation type="vanished">Celkem (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%2 of %1</source>
         <comment>%2 remains of %1 budget</comment>
         <translation type="vanished">%1 ze %2</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Includes budgeted transactions</source>
         <translation type="vanished">Zahrnuje rozpočtové transakce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Period</source>
         <translation type="vanished">Období</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Select Period</source>
         <translation type="vanished">Vybrat období</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Current Month</source>
         <translation type="vanished">Tento měsíc</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Current Year</source>
         <translation type="vanished">Tento rok</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Current Whole Month</source>
         <translation type="vanished">Celý tento měsíc</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Current Whole Year</source>
         <translation type="vanished">Celý tento rok</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Whole Past Month</source>
         <translation type="vanished">Celý minulý měsíc</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Whole Past Year</source>
         <translation type="vanished">Celý minulý rok</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Previous Month</source>
         <translation type="vanished">Minulý měsíc</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Previous Year</source>
         <translation type="vanished">Minulý rok</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Show partial budget</source>
         <translation type="vanished">Ukázat částečný rozpočet</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Budget</source>
         <translation type="vanished">Upravit rozpočet</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Budget:</source>
         <translation type="vanished">Rozpočet:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Month:</source>
         <translation type="vanished">Měsíc:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Result previous month:</source>
         <translation type="vanished">Výsledek minulého měsíce:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Security…</source>
         <translation type="vanished">Nový cenný papír…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Transaction</source>
         <translation type="vanished">Nová transakce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Set Quotation…</source>
         <translation type="vanished">Nastavit kurz…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Name</source>
         <translation type="vanished">Název</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Quotation</source>
         <translation type="vanished">Kurz</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Profit</source>
         <translation type="vanished">Zisk</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Yearly Rate</source>
         <translation type="vanished">Roční sazba</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Account</source>
         <translation type="vanished">Účet</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Statistics Period</source>
         <translation type="vanished">Doba statistiky</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Schedule</source>
         <translation type="vanished">Nový plán</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit</source>
         <translation type="vanished">Upravit</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Next Occurrence</source>
         <translation type="vanished">Další výskyt</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Comments</source>
         <translation type="vanished">Komentáře</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Security</source>
         <translation type="vanished">Nový cenný papír</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Security</source>
         <translation type="vanished">Upravit cenný papír</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Profit:</source>
         <translation type="vanished">Zisk:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Rate:</source>
         <translation type="vanished">Sazba:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Are you sure you want to delete the security &quot;%1&quot; and all associated transactions?</source>
         <translation type="vanished">Opravdu chcete smazat cenný papír  &quot;%1&quot; a všechny související transakce?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No security available.</source>
         <translation type="vanished">Žádný cenný papír k dispozici.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Set Quotation (%1)</source>
         <translation type="vanished">Stanovit plán rozpočtu (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Price per share:</source>
         <translation type="vanished">Cena za akcii:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Future dates are not allowed.</source>
         <translation type="vanished">Budoucí datumy nejsou povoleny.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security Transactions</source>
         <translation type="vanished">Transakce s cennými papíry</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Ledger</source>
         <translation type="vanished">Účetní kniha</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Check Account</source>
         <translation type="vanished">Ověřit účet</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Salary</source>
         <translation type="vanished">Plat</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Bills</source>
         <translation type="vanished">Účty</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Clothing</source>
         <translation type="vanished">Oblečení</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Groceries</source>
         <translation type="vanished">Potraviny</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Leisure</source>
         <translation type="vanished">Volný čas</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t fetch %1.</source>
         <translation type="vanished">Nelze přinést %1.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Error loading %1: %2.</source>
         <translation type="vanished">Chyba při spouštění  %1: %2.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t open file</source>
         <translation type="vanished">Soubor nelze otevřít</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Error saving %1: %2.</source>
         <translation type="vanished">Chyba při ukládání %1: %2.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t save file</source>
         <translation type="vanished">Soubor nelze uložit</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Failed to upload file to %1.</source>
         <translation type="vanished">Nepodařilo se nahrát soubor do %1.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Report</source>
         <translation type="vanished">Sestava</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Chart</source>
         <translation type="vanished">Graf</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transaction Schedule</source>
         <translation type="vanished">Plán transakce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Accounts &amp;amp; Categories</source>
         <comment>html format</comment>
         <translation type="vanished">Účty &amp;amp; Kategorie</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Accounts &amp;amp; Categories (%1&amp;ndash;%2)</source>
         <comment>html format</comment>
         <translation type="vanished">Účty &amp;amp; Kategorie (%1&amp;ndash;%2)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Accounts &amp;amp; Categories (to %1)</source>
         <comment>html format</comment>
         <translation type="vanished">Účty &amp;amp; Kategorie (do %1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Change</source>
         <translation type="vanished">Změna</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Balance</source>
         <translation type="vanished">Bilance</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Budget</source>
         <translation type="vanished">Rozpočet</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remaining Budget</source>
         <translation type="vanished">Zbývající rozpočet</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total Incomes</source>
         <translation type="vanished">Celkové příjmy</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Costs</source>
         <translation type="vanished">Ceny</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total Expenses</source>
         <translation type="vanished">Celkové výdaje</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty expenses list.</source>
         <translation type="vanished">Prázdný seznam výdajů.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty incomes list.</source>
         <translation type="vanished">Prázdný seznam příjmů.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty transfers list.</source>
         <translation type="vanished">Prázdný seznam převodů.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty securities list.</source>
         <translation type="vanished">Prázdný seznam cenných papírů.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty schedule list.</source>
         <translation type="vanished">Prázdný seznam plánů.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Export View…</source>
         <translation type="vanished">Exportovat…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Print View…</source>
         <translation type="vanished">Tisk…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Initial Period</source>
         <translation type="vanished">Počáteční období</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remember Last Dates</source>
         <translation type="vanished">Zapamatovat poslední datumy</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Import CSV File…</source>
         <translation type="vanished">Importovat soubor CSV…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Import QIF File…</source>
         <translation type="vanished">Importovat soubor QIF…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Export As QIF File…</source>
         <translation type="vanished">Exportovat jako soubor QIF…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Add Account…</source>
         <translation type="vanished">Přidat účet…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Account…</source>
         <translation type="vanished">Nový účet…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Income Category…</source>
         <translation type="vanished">Nová kategorie příjmů…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Expense Category…</source>
         <translation type="vanished">Nová kategorie výdajů…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Balance…</source>
         <translation type="vanished">Bilance…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Show Transactions</source>
         <translation type="vanished">Ukázat transakce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Transfer…</source>
         <translation type="vanished">Nový převod…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Split Transaction…</source>
         <translation type="vanished">Nová rozdělená transakce…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Transaction(s) (Occurrence)…</source>
         <translation type="vanished">Upravit transakce (výskyt)…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Occurrence…</source>
         <translation type="vanished">Upravit výskyt…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Schedule (Recurrence)…</source>
         <translation type="vanished">Upravit plán (opakování)…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Schedule…</source>
         <translation type="vanished">Upravit plán…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remove Transaction(s) (Occurrence)</source>
         <translation type="vanished">Odstranit transakce (výskyt)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remove Occurrence</source>
         <translation type="vanished">Odstranit výskyt</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Delete Schedule (Recurrence)</source>
         <translation type="vanished">Odstranit plán (opakování)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Delete Schedule</source>
         <translation type="vanished">Smazat plán</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Split Transaction…</source>
         <translation type="vanished">Upravit rozdělenou transakci…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remove Split Transaction</source>
         <translation type="vanished">Odstranit rozdělenou transakci</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Join Transactions…</source>
         <translation type="vanished">Spojit transakce…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Split Up Transaction</source>
         <translation type="vanished">Rozdělit transakci</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Refund…</source>
         <translation type="vanished">Úhrada…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Repayment…</source>
         <translation type="vanished">Splátka…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Refund/Repayment…</source>
         <translation type="vanished">Nová úhrada/splátka…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Security…</source>
         <translation type="vanished">Upravit cenný papír…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remove Security</source>
         <translation type="vanished">Smazat cenný papír</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Sold…</source>
         <translation type="vanished">Prodané podíly…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Bought…</source>
         <translation type="vanished">Nakoupené podíly…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Dividend…</source>
         <translation type="vanished">Dividenda…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Reinvested Dividend…</source>
         <translation type="vanished">Reinvestovaná dividenda…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Moved…</source>
         <translation type="vanished">Přesunuté podíly…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Quotations…</source>
         <translation type="vanished">Upravit kurz…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transactions…</source>
         <translation type="vanished">Transakce…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Development Over Time Report…</source>
         <translation type="vanished">Výkaz časového vývoje…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Categories Comparison Report…</source>
         <translation type="vanished">Výkaz porovnání kategorií…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Categories Comparison Chart…</source>
         <translation type="vanished">Schéma vývoje kategorií…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Development Over Time Chart…</source>
         <translation type="vanished">Schéma časového vývoje…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Use Additional Transaction Properties</source>
         <translation type="vanished">Použít další vlastnosti transakcí</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Eqonomize! exited unexpectedly before the file was saved and data was lost.
 Do you want to load the last auto-saved version of the file?</source>
         <translation type="vanished">Eqonomize! byl nečekaně zavřen bez uložení a data byla ztracena.
 Přejete si spustit poslední automaticky uloženou verzi souboru?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Crash Recovery</source>
         <translation type="vanished">Obnovení po pádu</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The current file has been modified. Do you want to save it?</source>
         <translation type="vanished">Soubor byl změněn. Přejete si ho uložit?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Confirm Schedule</source>
         <translation type="vanished">Potvrdit plán</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Account</source>
         <translation type="vanished">Nový účet</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Income Category</source>
         <translation type="vanished">Nová skupina příjmů</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Expense Category</source>
         <translation type="vanished">Nová kategorie výdajů</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Balance Account</source>
         <translation type="vanished">Bilanční účet</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Book value:</source>
         <translation type="vanished">Účetní hodnota:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Real value:</source>
         <translation type="vanished">Skutečná hodnota:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Account</source>
         <translation type="vanished">Upravit účet</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Income Category</source>
         <translation type="vanished">Upravit kategorii příjmů</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Expense Category</source>
         <translation type="vanished">Upravit kategorii výdajů</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Move transactions?</source>
         <translation type="vanished">Přesunout transakce?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Move to:</source>
         <translation type="vanished">Přesunout do:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The category contains some expenses.
 What do you want to do with them?</source>
         <translation type="vanished">Kategorie obsahuje výdaje.
 Co s nimi chcete udělat?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The category contains some incomes.
 What do you want to do with them?</source>
         <translation type="vanished">Kategorie obsahuje příjmy.
 Co s nimi chcete udělat?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The account contains some transactions.
 What do you want to do with them?</source>
         <translation type="vanished">Účet obsahuje transakce.
 Co s nimi chcete udělat?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The category contains some expenses that will be removed. Do you still want to remove the category?</source>
         <translation type="vanished">Kategorie obsahuje výdaje, které budou odstraněny. Opravdu chcete kategorii odstranit?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remove Category?</source>
         <translation type="vanished">Odstranit kategorii?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The category contains some incomes that will be removed. Do you still want to remove the category?</source>
         <translation type="vanished">Kategorie obsahuje příjmy, které budou odstraněny. Opravdu chcete kategorii odstranit?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The account contains some transactions that will be removed. Do you still want to remove the account?</source>
         <translation type="vanished">Účet obsahuje transakce, které budou odstraněny. Opravdu chcete účet odstranit?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remove Account?</source>
         <translation type="vanished">Odstranit účet?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%2 of %1</source>
         <comment>%1: budget; %2: remaining budget</comment>
         <translation type="vanished">%2 ze %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%1 (with no budget)</source>
         <translation type="vanished">%1 (se žádným rozpočtem)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%1 (with budget %2)</source>
         <translation type="vanished">%1 (s rozpočtem %2)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Import CSV file</source>
         <translation type="vanished">Imporovat soubor CSV</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transaction Type Selection</source>
         <translation type="vanished">Výběr typu transakce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Expenses and incomes (negative cost)</source>
         <translation type="vanished">Výdaje a příjmy (záporná cena)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Expenses and incomes (separate columns)</source>
         <translation type="vanished">Výdaje a příjmy (oddělené sloupce)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All types</source>
         <translation type="vanished">Všechny typy</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>File Selection</source>
         <translation type="vanished">Výběr souboru</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>File:</source>
         <translation type="vanished">Soubor:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>First data row:</source>
         <translation type="vanished">První řádek údajů:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Auto</source>
         <translation type="vanished">Auto</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Column delimiter:</source>
         <translation type="vanished">Oddělovač sloupců:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Comma</source>
         <translation type="vanished">Čárka</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Tabulator</source>
         <translation type="vanished">Tabulátor</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Semicolon</source>
         <translation type="vanished">Středník</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Space</source>
         <translation type="vanished">Mezera</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Columns Specification</source>
         <translation type="vanished">Popis sloupce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Column</source>
         <translation type="vanished">Sloupec</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Category:</source>
         <translation type="vanished">Kategorie:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>From account:</source>
         <translation type="vanished">Z účtu:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Create missing categories and accounts</source>
         <translation type="vanished">Vytvořit chybějící kategorie a účty</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Imports data as expenses. Costs have positive value. Value is the only required column.</source>
         <translation type="vanished">Importovat údaje jako výdaje. Ceny jsou kladné. Vyžadován pouze sloupec hodnota.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Imports data as incomes. Value is the only required column.</source>
         <translation type="vanished">Importovat údaje jako příjmy. Vyžadován pouze sloupec hodnota.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>To account:</source>
         <translation type="vanished">Na účet:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Imports data as transfers. Value is the only required column.</source>
         <translation type="vanished">Importovat údaje jako převody. Vyžadován pouze sloupec hodnota.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Amount:</source>
         <translation type="vanished">Množství:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Imports data as expenses and incomes. Costs have negative value. Value and category are both required columns.</source>
         <translation type="vanished">Importovat údaje jako výdaje a příjmy. Ceny jsou kladné. Vyžadován sloupec hodnota i kategorie.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Imports data as expenses and incomes. Costs and incomes have separate columns. Income, cost, and category are all required columns.</source>
         <translation type="vanished">Importovat údaje jako výdaje a příjmy. Ceny a příjmy jsou v oddělených sloupcích. Vyžadovány sloupce příjem, cena a kategorie.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Imports data as expenses, incomes, and transfers. Costs have negative or positive value. Value, to, and from are all required columns. Accounts and categories must be existing.</source>
         <translation type="vanished">Importovat údaje jako výdaje, příjmy a převody. Ceny jsou kladné nebo záporné. Vyžadovány sloupce pro a od. Účty a kategorie musí existovat.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>From:</source>
         <translation type="vanished">Od:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>To:</source>
         <translation type="vanished">Do:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>A file must be selected.</source>
         <translation type="vanished">Vyberte soubor.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Selected file is a directory.</source>
         <translation type="vanished">Vybraný soubor je adresář.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Selected file does not exist.</source>
         <translation type="vanished">Vybraný soubor neexistuje.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty delimiter.</source>
         <translation type="vanished">Prázdný oddělovač.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The same column number is selected multiple times.</source>
         <translation type="vanished">Stejné číslo sloupce je vybráno vícekrát.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Selected from account is the same as the to account.</source>
         <translation type="vanished">Vybrané z účtu je stejné jako na účet.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t open %1 for reading.</source>
         <translation type="vanished">Nelze otevřít %1 ke čtení.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Error reading %1.</source>
         <translation type="vanished">Chyba při čtení %1.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Unable to import any transactions imported.</source>
         <translation type="vanished">Nelze importovat.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Required columns missing.</source>
         <translation type="vanished">Požadované sloupce chybí.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Invalid value.</source>
         <translation type="vanished">Neplatná hodnota.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty category name.</source>
         <translation type="vanished">Prázdný název kategorie.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty account name.</source>
         <translation type="vanished">Prázdný název účtu.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Unknown category found.</source>
         <translation type="vanished">Nalezena neznámá kategorie.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Unknown account found.</source>
         <translation type="vanished">Nalezen neznámý účet.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot import security transactions (to/from security accounts).</source>
         <translation type="vanished">Nelze imporotvat transakci s cennými papíry (z/na účet cenných papírů).</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Balancing account wrongly used.</source>
         <translation type="vanished">Bilanční účet použit špatně.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Same to and from account/category.</source>
         <translation type="vanished">Stejné do a z účet/kategorie.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No data found.</source>
         <translation type="vanished">Žádná data nenalezena.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Unrecognized date format.</source>
         <translation type="vanished">Neznámý formát datumu.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Specify Format</source>
         <translation type="vanished">Upřesněte formát</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format.</source>
         <translation type="vanished">Formát datumů a/nebo čísel v souboru CSV je nejednoznačný. Prosím vyberte správný formát.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Date format:</source>
         <translation type="vanished">Formát data:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Value format:</source>
         <translation type="vanished">Formát hodnoty:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Export…</source>
         <translation type="vanished">Exportovat…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Print…</source>
         <translation type="vanished">Tisk…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Withdrawal</source>
         <translation type="vanished">Výběr</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Join…</source>
         <translation type="vanished">Připojit…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Split Up</source>
         <translation type="vanished">Rozdělit</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty transaction list.</source>
         <translation type="vanished">Vyprázdnit seznam transakcí.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation type="vanished">Opravdu chcete smazat všechny (%1) vybrané transakce?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <translation type="vanished">Nelze zadat hodnotu transakce s cenným papírem použitím dialogu pro změnu více transakcí.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot change description of dividends and security transactions.</source>
         <translation type="vanished">Nelze změnit popis dividend a transakcí s cennými papíry.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot change payer of dividends and security transactions.</source>
         <translation type="vanished">Nelze změnit plátce dividend a transakce s cennými papíry.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot change date of transactions that are part of a split transaction.</source>
         <translation type="vanished">Nelze změnit datum transakcí, které jsou součástí rozdělené transakce.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Eqonomize!</source>
@@ -1932,370 +1555,297 @@ Co s nimi chcete udělat?</translation>
     <message>
         <source>Incomes and Expenses</source>
         <translation type="vanished">Příjmy a výdaje</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Profits</source>
         <translation type="vanished">Zisky</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Categories Combined</source>
         <translation type="vanished">Všechny kategorie kombinované</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Descriptions Combined</source>
         <translation type="vanished">Všechny popisy kombinované</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Payees/Payers Combined</source>
         <translation type="vanished">Všichni plátci/příjemci kombinovaní</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Start date:</source>
         <translation type="vanished">Datum zahájení:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>End date:</source>
         <translation type="vanished">Datum ukončení:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Monthly total</source>
         <translation type="vanished">Celkem měsíčne</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Daily average</source>
         <translation type="vanished">Denní průměr</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Payers Combined</source>
         <translation type="vanished">Všichni plátce kombinovaní</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Payees Combined</source>
         <translation type="vanished">Všichni příjemci kombinovaní</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Descriptions Split</source>
         <translation type="vanished">Rozdělení všech popisů</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Payers Split</source>
         <translation type="vanished">Rozdělení všech plátců</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Payees Split</source>
         <translation type="vanished">Rozdělení všech příjemců</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Categories Split</source>
         <translation type="vanished">Rozdělení všech kategorií</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Value (%1)</source>
         <translation type="vanished">Hodnota (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Profit (%1)</source>
         <translation type="vanished">Zisk (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Income (%1)</source>
         <translation type="vanished">Příjem (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cost (%1)</source>
         <translation type="vanished">Cena (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Time</source>
         <translation type="vanished">Čas</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>no payer</source>
         <translation type="vanished">Žádný plátce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payer</comment>
         <translation type="vanished">%1/%2</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>no payee</source>
         <translation type="vanished">Žádný příjemce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payee</comment>
         <translation type="vanished">%1/%2</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Error after saving file; data may not have been saved.</source>
         <translation type="vanished">Chyba po uložení souboru; údaje možná nebyly uloženy.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Average Profit</source>
         <translation type="vanished">Průměrný zisk</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Year</source>
         <translation type="vanished">Rok</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Month</source>
         <translation type="vanished">Měsíc</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Includes scheduled transactions</source>
         <translation type="vanished">Včetně plánovaných transakcí</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Adjusted for the average month / year (%1 / %2 days)</source>
         <translation type="vanished">Nastaveno na průměrný měsíc / rok (%1 / %2 dnů)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Subtotal</source>
         <translation type="vanished">Mezisoučet</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Unnamed</source>
         <translation type="vanished">Bez názvu</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Uncategorized</source>
         <translation type="vanished">Neroztříděno</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Import QIF file</source>
         <translation type="vanished">Importovat soubor QIF</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Select a QIF file to import. When you click next, the file be analysed and you might need to answer some questions about the format of the file.</source>
         <translation type="vanished">Vyberte soubor QIF. Po kliknutí na další, bude soubor analyzován a pravděpodobně budete muset odpovědět na otázky týkající se formátu souboru.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Local Definitions</source>
         <translation type="vanished">Místní definice</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Unknown elements where found in the QIF file. It is possible that this is because of localized type names. Please map them to the correct standard names.</source>
         <translation type="vanished">Byly nalezeny neznámé prvky v souboru QIF. Možná je to způsobeno místními názvy. Prosím opravte je na běžné názvy.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Local Text</source>
         <translation type="vanished">Místní text</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Standard Text</source>
         <translation type="vanished">Běžný text</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Select standard text:</source>
         <translation type="vanished">Vyberte běžný název:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Date Format</source>
         <translation type="vanished">Formát datumu</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The date format in the QIF file is ambiguous. Please select the correct format.</source>
         <translation type="vanished">Formát datumu v souboru QIF není správný. Prosím vyberte správný formát.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Default Account</source>
         <translation type="vanished">Výchozí účet</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Could not find any account definitions in the QIF file. Please select a default account. It is also possible that this is caused by a localized opening balance text.</source>
         <translation type="vanished">V souboru QIF nelze najít žádný účet. Prosím vyberte výchozí účet. Problém může také spočívat v lokalizaci textu otevírané bilance.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Default account:</source>
         <translation type="vanished">Výchozí účet:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Opening balance text:</source>
         <translation type="vanished">Text otevírané bilance:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Descriptions</source>
         <translation type="vanished">Popisy</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.</source>
         <translation type="vanished">Popis transakcí v souboru QIF nemá typické vlastnosti. Proto máte možnost vybrat, jak bude popis importovaných transakcí nastaven.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Subcategories as:</source>
         <translation type="vanished">Podkategorie jako:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Ignore</source>
         <translation type="vanished">Ignorovat</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payee as:</source>
         <translation type="vanished">Příjemce jako:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payee</source>
         <translation type="vanished">Příjemce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Memo as:</source>
         <translation type="vanished">Poznámka jako:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Priority:</source>
         <translation type="vanished">Priorita:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Subcategory/Payee/Comments</source>
         <translation type="vanished">Podkategorie/Příjemce/Komentáře</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payee/Subcategory/Comments</source>
         <translation type="vanished">Příjemce/Podkategorie/Komentáře</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Subcategory/Comments/Payee</source>
         <translation type="vanished">Podkategorie/Komentáře/Příjemce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payee/Comments/Subcategory</source>
         <translation type="vanished">Příjemce/Komentáře/Podkategorie</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Comments/Subcategory/Payee</source>
         <translation type="vanished">Komentáře/Podkategorie/Příjemce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Comments/Payee/Subcategory</source>
         <translation type="vanished">Komentáře/Příjemce/Podkategorie</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Unknown</source>
         <translation type="vanished">Neznámý</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Bank</source>
         <translation type="vanished">Banka</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cat (Category)</source>
         <translation type="vanished">Kat (Kategorie)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>CCard (Credit Card)</source>
         <translation type="vanished">PKarta (Platební karta)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Invst (Investment)</source>
         <translation type="vanished">Invst (Investice)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Oth A (Other Assets)</source>
         <translation type="vanished">Ost A (Ostatní aktiva)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Oth L (Other Liabilities)</source>
         <translation type="vanished">Ost P (Ostatní pasiva)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security</source>
         <translation type="vanished">Akcie</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Export QIF File</source>
         <translation type="vanished">Exportovat soubor QIF</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All</source>
         <comment>All accounts</comment>
         <translation type="vanished">Vše</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Export transaction description as:</source>
         <translation type="vanished">Exportovat popis transakce jako:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Memo</source>
         <translation type="vanished">Poznámka</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Subcategory</source>
         <translation type="vanished">Podkategorie</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>&amp;Import</source>
@@ -2303,7 +1853,6 @@ Co s nimi chcete udělat?</translation>
 i18n: file ./eqonomizeui.rc line 5
 </extracomment>
         <translation type="vanished">&amp;Importovat</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>&amp;Accounts</source>
@@ -2311,7 +1860,6 @@ i18n: file ./eqonomizeui.rc line 5
 i18n: file ./eqonomizeui.rc line 12
 </extracomment>
         <translation type="vanished">&amp;Účty</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -2319,7 +1867,6 @@ i18n: file ./eqonomizeui.rc line 12
 i18n: file ./eqonomizeui.rc line 24
 </extracomment>
         <translation type="vanished">&amp;Transakce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>&amp;Securities</source>
@@ -2327,7 +1874,6 @@ i18n: file ./eqonomizeui.rc line 24
 i18n: file ./eqonomizeui.rc line 41
 </extracomment>
         <translation type="vanished">&amp;Cenné papíry</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Stat&amp;istics</source>
@@ -2335,558 +1881,448 @@ i18n: file ./eqonomizeui.rc line 41
 i18n: file ./eqonomizeui.rc line 56
 </extracomment>
         <translation type="vanished">Stat&amp;istiky</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Your names</source>
         <comment>NAME OF TRANSLATORS</comment>
         <translation type="vanished">,Launchpad Contributions:,Jan Štemberk</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Your emails</source>
         <comment>EMAIL OF TRANSLATORS</comment>
         <translation type="vanished">,,stemberkj@seznam.cz</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Exceptions</source>
         <translation type="vanished">Upravit výjimky</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Recurrence Range</source>
         <translation type="vanished">Upravit rozsah opakování</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Begins on: %1</source>
         <translation type="vanished">Začíná: %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No ending date</source>
         <translation type="vanished">Chybí datum ukončení</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>End after</source>
         <translation type="vanished">Ukončit po</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>occurrence(s)</source>
         <translation type="vanished">výskyt(y)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>End on</source>
         <translation type="vanished">Ukončit</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>End date before start date.</source>
         <translation type="vanished">Datum ukončení předchází datumu zahájení.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Enable recurrance</source>
         <translation type="vanished">Zapnout opakování</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Recurrence Rule</source>
         <translation type="vanished">Pravidlo opakování</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Weekly</source>
         <translation type="vanished">Týdně</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Recur every</source>
         <translation type="vanished">Opakovat každých</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>day(s)</source>
         <translation type="vanished">den (dní)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>week(s) on:</source>
         <translation type="vanished">týden v:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>month(s), after the start month</source>
         <translation type="vanished">měsíc(e) po zahajovacím měsíci</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Recur on the</source>
         <translation type="vanished">Opakovat v</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>1st</source>
         <translation type="vanished">1.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>2nd</source>
         <translation type="vanished">2.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>3rd</source>
         <translation type="vanished">3.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>4th</source>
         <translation type="vanished">4.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>5th</source>
         <translation type="vanished">5.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>6th</source>
         <translation type="vanished">6.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>7th</source>
         <translation type="vanished">7.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>8th</source>
         <translation type="vanished">8.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>9th</source>
         <translation type="vanished">9.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>10th</source>
         <translation type="vanished">10.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>11th</source>
         <translation type="vanished">11.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>12th</source>
         <translation type="vanished">12.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>13th</source>
         <translation type="vanished">13.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>14th</source>
         <translation type="vanished">14.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>15th</source>
         <translation type="vanished">15.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>16th</source>
         <translation type="vanished">16.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>17th</source>
         <translation type="vanished">17.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>18th</source>
         <translation type="vanished">18.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>19th</source>
         <translation type="vanished">19.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>20th</source>
         <translation type="vanished">20.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>21st</source>
         <translation type="vanished">21.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>22nd</source>
         <translation type="vanished">22.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>23rd</source>
         <translation type="vanished">23.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>24th</source>
         <translation type="vanished">24.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>25th</source>
         <translation type="vanished">25.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>26th</source>
         <translation type="vanished">26.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>27th</source>
         <translation type="vanished">27.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>28th</source>
         <translation type="vanished">28.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>29th</source>
         <translation type="vanished">29.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>30th</source>
         <translation type="vanished">30.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>31st</source>
         <translation type="vanished">31.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Last</source>
         <translation type="vanished">Poslední</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>2nd Last</source>
         <translation type="vanished">2. poslední</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>3rd Last</source>
         <translation type="vanished">3. poslední</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>4th Last</source>
         <translation type="vanished">4. poslední</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>5th Last</source>
         <translation type="vanished">5. poslední</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>day</source>
         <translation type="vanished">den</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>possibly on weekend</source>
         <translation type="vanished">pravděpodobně o víkendu</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>but before weekend</source>
         <translation type="vanished">ale před víkendem</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>but after weekend</source>
         <translation type="vanished">ale po víkendu</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>year(s), after the start year</source>
         <translation type="vanished">rok(ů) po zahajovacím roce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Recur on day</source>
         <comment>part before XXX of &apos;Recur on day XXX of month YYY&apos;</comment>
         <translation type="vanished">Opakovat dne</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>of</source>
         <comment>part between XXX and YYY of &apos;Recur on day XXX of month YYY&apos;</comment>
         <translation type="vanished">z</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>On the</source>
         <comment>Part before NNN in &apos;Recur on the NNN. WEEKDAY of MONTH&apos;</comment>
         <translation type="vanished">v</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Recur on day #</source>
         <translation type="vanished">Opakovat dne #</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source> of the year</source>
         <comment>part after NNN of &apos;Recur on day #NNN of the year&apos;</comment>
         <translation type="vanished"> roku</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Range…</source>
         <translation type="vanished">Rozsah…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Exceptions…</source>
         <translation type="vanished">Výjimky…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No day of week selected for weekly recurrence.</source>
         <translation type="vanished">Není vybrán den pro týdenní opakovaní.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Selected day will never occur with selected frequency and start date.</source>
         <translation type="vanished">Vybraný den se nikdy nevyskytne s vybranou frekvencí a datumem zahájení.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Selected day does not exist in selected month.</source>
         <translation type="vanished">Vybraný den není součástí tohoto měsíce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Dividend: %1</source>
         <translation type="vanished">Dividenda: %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Account balancing</source>
         <translation type="vanished">Zůstatek účtu</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security: %1 (bought)</source>
         <translation type="vanished">Akcie: %1 (nakoupená)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security: %1 (sold)</source>
         <translation type="vanished">Akcie: %1 (prodaná)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares bought:</source>
         <translation type="vanished">Nakoupené cenné papíry:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares sold:</source>
         <translation type="vanished">Prodané cenné papíry:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payer:</source>
         <translation type="vanished">Plátce:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payee:</source>
         <translation type="vanished">Příjemce:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No income category available.</source>
         <translation type="vanished">Žádná kategorie příjmů není k dispozici.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No expense category available.</source>
         <translation type="vanished">Žádná kategorie výdajů není k dispozici.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot create a regular transfer to/from a securities account.</source>
         <translation type="vanished">Nelze uskutečnit pravidelný převod na/z účtu cenných papírů.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot create a regular income to a securities account.</source>
         <translation type="vanished">Nelze uskutečnit pravidelný příjem na účet cenných papírů.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Zero price per share not allowed.</source>
         <translation type="vanished">Nulová cena není povolena</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot create a regular expense from a securities account.</source>
         <translation type="vanished">Nelze uskutečnit pravidelný výdaj z účtu cenných papírů.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Modify Transactions</source>
         <translation type="vanished">Změnit transakce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Min amount:</source>
         <translation type="vanished">Min množství:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Max amount:</source>
         <translation type="vanished">Max množství:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Min income:</source>
         <translation type="vanished">Min příjem:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Max income:</source>
         <translation type="vanished">Max příjem:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Min cost:</source>
         <translation type="vanished">Min cena:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Max cost:</source>
         <translation type="vanished">Max cena:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Include</source>
         <translation type="vanished">Včetně</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Exclude</source>
         <translation type="vanished">Kromě</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>From Account</source>
         <translation type="vanished">Z účtu</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>To Account</source>
         <translation type="vanished">Na účet</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payer</source>
         <translation type="vanished">Plátce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New/Edit %1</source>
         <translation type="vanished">Nový/Upravit %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Filter</source>
         <translation type="vanished">Filtr</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total:</source>
         <translation type="vanished">Celkem:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Average:</source>
         <translation type="vanished">Průměr:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Monthly:</source>
         <translation type="vanished">Měsíčně:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total cost:</source>
         <translation type="vanished">Celková cena:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total income:</source>
         <translation type="vanished">Celkový příjem:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total amount:</source>
         <translation type="vanished">Celkové množství</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Monthly average:</source>
         <translation type="vanished">Měsíční průměr:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Are you sure you want to delete all (%1) transactions in the selected split transaction?</source>
         <translation type="vanished">Opravdu chcete vymazat všech (%1) transakcí ve vybrané rozdělené transakci?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>* Part of split transaction</source>
         <translation type="vanished">* Část rozdělené transakce</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>* Part of split (%1)</source>
         <translation type="vanished">Část rozdělení (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>** Recurring (editing occurrance)</source>
         <translation type="vanished">**Opakování (upravující výskyt)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Modify…</source>
         <translation type="vanished">Změnit…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
 </context>
 <context>
@@ -3811,7 +3247,7 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="62"/>
         <source>Transactional Account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Šekové konto</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="65"/>
@@ -3840,9 +3276,8 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation type="unfinished">Banka:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="77"/>
         <source>Initial balance:</source>
-        <translation>Počáteční bilance:</translation>
+        <translation type="vanished">Počáteční bilance:</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="77"/>
@@ -3850,9 +3285,8 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="82"/>
         <source>Initial balance</source>
-        <translation>Počáteční bilance</translation>
+        <translation type="vanished">Počáteční bilance</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="86"/>
@@ -3901,6 +3335,18 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <location filename="../src/editaccountdialogs.cpp" line="260"/>
         <source>Error</source>
         <translation>Chyba</translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="77"/>
+        <source>Opening balance:</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Počáteční zůstatek:</translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="82"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Počáteční zůstatek</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="254"/>
@@ -4471,10 +3917,15 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation type="vanished">Cena za podíl</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="913"/>
-        <location filename="../src/eqonomize.cpp" line="920"/>
         <source>Quotations</source>
         <comment>Financial quotation</comment>
+        <translation type="obsolete">Kurzy</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="913"/>
+        <location filename="../src/eqonomize.cpp" line="920"/>
+        <source>Quotes</source>
+        <comment>Financial quote</comment>
         <translation type="unfinished">Kurzy</translation>
     </message>
     <message>
@@ -4500,9 +3951,14 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="986"/>
+        <source>Quotes for %1</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Kurz pro %1</translation>
+    </message>
+    <message>
         <source>Quotations for %1</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Kurz pro %1</translation>
+        <translation type="obsolete">Kurz pro %1</translation>
     </message>
     <message>
         <source>Quotations for %1</source>
@@ -4864,9 +4320,14 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation type="vanished">Dluhopis</translation>
     </message>
     <message>
+        <source>Stock</source>
+        <translation type="obsolete">Akcie</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="1557"/>
         <source>Stock</source>
-        <translation>Akcie</translation>
+        <comment>Financial stock</comment>
+        <translation type="unfinished">Akcie</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1558"/>
@@ -4897,15 +4358,20 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1585"/>
-        <source>Decimals in quotations:</source>
-        <comment>Financial quotation</comment>
+        <source>Decimals in quotes:</source>
+        <comment>Financial quote</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1591"/>
+        <source>Initial quote:</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Počáteční kurz:</translation>
+    </message>
+    <message>
         <source>Initial quotation:</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Počáteční kurz:</translation>
+        <translation type="obsolete">Počáteční kurz:</translation>
     </message>
     <message>
         <source>Decimals in shares:</source>
@@ -5771,10 +5237,8 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation>Dluhopis</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2837"/>
-        <location filename="../src/eqonomize.cpp" line="2906"/>
         <source>Stock</source>
-        <translation>Akcie</translation>
+        <translation type="vanished">Akcie</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2838"/>
@@ -5828,9 +5292,8 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation>Hotovost</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4058"/>
         <source>Check Account</source>
-        <translation>Šekový účet</translation>
+        <translation type="vanished">Šekový účet</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4059"/>
@@ -5929,10 +5392,8 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation>Změna</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
         <source>Balance</source>
-        <translation>Bilance</translation>
+        <translation type="vanished">Bilance</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4556"/>
@@ -5962,11 +5423,9 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation type="unfinished">Nový cenný papír…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2020"/>
-        <location filename="../src/eqonomize.cpp" line="5070"/>
         <source>Set Quotation…</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Nastavit kurz…</translation>
+        <translation type="obsolete">Nastavit kurz…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2034"/>
@@ -5975,10 +5434,9 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation type="unfinished">Podíly</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2035"/>
         <source>Quotation</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Kurz</translation>
+        <translation type="obsolete">Kurz</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2524"/>
@@ -6011,10 +5469,9 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation type="unfinished">Žádný cenný papír k dispozici.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2699"/>
         <source>Set Quotation (%1)</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Stanovit plán rozpočtu (%1)</translation>
+        <translation type="obsolete">Stanovit plán rozpočtu (%1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2704"/>
@@ -6027,6 +5484,26 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <source>Security Transactions</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Transakce s cennými papíry</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2837"/>
+        <location filename="../src/eqonomize.cpp" line="2906"/>
+        <source>Stock</source>
+        <comment>Financial stock</comment>
+        <translation type="unfinished">Akcie</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4058"/>
+        <source>Checking Account</source>
+        <comment>Transactional account</comment>
+        <translation type="unfinished">Šekové konto</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Zůstatek</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4635"/>
@@ -6304,9 +5781,8 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation>Upravit…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
         <source>Balance…</source>
-        <translation>Bilance…</translation>
+        <translation type="vanished">Bilance…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5021"/>
@@ -6624,6 +6100,12 @@ Přejete si spustit poslední automaticky uloženou verzi souboru?</translation>
         <translation type="unfinished">Prázdný seznam cenných papírů.</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Balance…</source>
+        <comment>Balance account</comment>
+        <translation type="unfinished">Bilance…</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="5059"/>
         <source>Edit Security…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
@@ -6653,10 +6135,9 @@ Přejete si spustit poslední automaticky uloženou verzi souboru?</translation>
         <translation type="obsolete">Přesunuté podíly…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5071"/>
         <source>Edit Quotations…</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Upravit kurz…</translation>
+        <translation type="obsolete">Upravit kurz…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5479"/>
@@ -6811,6 +6292,25 @@ Co s nimi chcete udělat?</translation>
         <translation>%2 ze %1</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="2020"/>
+        <location filename="../src/eqonomize.cpp" line="5070"/>
+        <source>Set Quote…</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Nastavit kurz…</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2035"/>
+        <source>Quote</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Kurz</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2699"/>
+        <source>Set Quote (%1)</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Nastavit kurz (%1)</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="5064"/>
         <source>Shares Exchanged…</source>
         <comment>Shares of one security directly exchanged for shares of another; Financial shares</comment>
@@ -6821,6 +6321,12 @@ Co s nimi chcete udělat?</translation>
         <source>Shares of one security directly exchanged for shares of another</source>
         <comment>Financial shares</comment>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5071"/>
+        <source>Edit Quotes…</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Upravit kurz…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -7440,7 +6946,7 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="127"/>
         <source>Opening balance text:</source>
-        <translation>Text otevírané bilance:</translation>
+        <translation type="unfinished">Text otevírané bilance:</translation>
     </message>
     <message>
         <source>Descriptions</source>
@@ -7769,9 +7275,14 @@ Co s nimi chcete udělat?</translation>
         <translation>Výběr</translation>
     </message>
     <message>
+        <source>Balance</source>
+        <translation type="vanished">Bilance</translation>
+    </message>
+    <message>
         <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
-        <translation>Bilance</translation>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Zůstatek</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="173"/>
@@ -7864,6 +7375,18 @@ Co s nimi chcete udělat?</translation>
         <translation type="unfinished">Nelze změnit plátce dividend a transakce s cennými papíry.</translation>
     </message>
     <message>
+        <location filename="../src/ledgerdialog.cpp" line="666"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Počáteční zůstatek</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Balancing</source>
+        <comment>Account balancing</comment>
+        <translation type="unfinished">Rozvaha</translation>
+    </message>
+    <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <translation type="vanished">Nelze zadat hodnotu transakce s cenným papírem použitím dialogu pro změnu více transakcí.</translation>
     </message>
@@ -7910,9 +7433,8 @@ Co s nimi chcete udělat?</translation>
         <translation type="vanished">Nelze změnit datum transakcí, které jsou součástí rozdělené transakce.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="666"/>
         <source>Initial balance</source>
-        <translation type="unfinished">Počáteční bilance</translation>
+        <translation type="obsolete">Počáteční bilance</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="678"/>
@@ -7975,9 +7497,8 @@ Co s nimi chcete udělat?</translation>
         <translation>Úhrada</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="762"/>
         <source>Balancing</source>
-        <translation>Rozvaha</translation>
+        <translation type="vanished">Rozvaha</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="764"/>

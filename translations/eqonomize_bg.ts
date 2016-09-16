@@ -6,31 +6,25 @@
     <message>
         <source>Balancing</source>
         <translation type="vanished">балансиране</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t open %1 for reading</source>
         <translation type="vanished">Не може да се отвори %1 за четене</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Not a valid Eqonomize! file (XML parse error: &quot;%2&quot; at line %3, col %4)</source>
         <translation type="vanished">Невалиден Eqonomize! файл (XML синтактична грешка: &quot;%2&quot; ред %3, колона %4)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Invalid root element %1 in XML document</source>
         <translation type="vanished">Невалиден основен елемент %1 в XML документ</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message numerus="yes">
         <source>Unable to load 1 account.</source>
         <translation type="vanished">
-            <numerusform>Не може да се зареди 1 сметка</numerusform>
+            <numerusform>Не може да се зареди %n сметка</numerusform>
             <numerusform>Не може да се заредят %n сметки</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Unable to load %n accounts.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>Unable to load 1 category.</source>
@@ -38,8 +32,6 @@
             <numerusform>Не може да се зареди 1 група</numerusform>
             <numerusform>Не може да се заредят %n групи</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Unable to load %n categories.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>Unable to load 1 security.</source>
@@ -47,8 +39,6 @@
             <numerusform>Не може да се зареди 1 ценна книга</numerusform>
             <numerusform>Не може да се заредят %n ценни книжа</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Unable to load %n securities.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>Unable to load 1 transaction.</source>
@@ -56,1765 +46,1415 @@
             <numerusform>Не може да се зареди 1 транзакция</numerusform>
             <numerusform>Не може да се заредят %n транзакции</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Unable to load %n transactions.</extra-po-msgid_plural>
     </message>
     <message>
         <source>File is a directory</source>
         <translation type="vanished">Файлът е папка</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t open file for writing</source>
         <translation type="vanished">Не мога да отворя файл за писане</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Error while writing file; file was not saved</source>
         <translation type="vanished">Грешка при запис на файл; файлът не е бил запазен</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>From</source>
         <translation type="vanished">От</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>To</source>
         <translation type="vanished">До</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Source:</source>
         <translation type="vanished">Източник:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Expenses</source>
         <translation type="vanished">Всички разходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Incomes</source>
         <translation type="vanished">Всички приходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Accounts</source>
         <translation type="vanished">Всички сметки</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Expenses: %1</source>
         <translation type="vanished">Разходи: %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Incomes: %1</source>
         <translation type="vanished">Приходи: %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Invalid date.</source>
         <translation type="vanished">Грешна дата.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>To date is before from date.</source>
         <translation type="vanished">Към настоящия момент е преди считано от датата.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>From date is after to date.</source>
         <translation type="vanished">Към настоящия момент е след датата.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The selected file already exists. Would you like to overwrite the old copy?</source>
         <translation type="vanished">Избраният файл вече съществува. Бихте ли искали да го замените с по-стар?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>You selected a directory!</source>
         <translation type="vanished">Избрали сте директория!</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t open file for writing.</source>
         <translation type="vanished">Не мога да отворя файла за писане.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Error while writing file; file was not saved.</source>
         <translation type="vanished">Грешка при запис на файл; файлът не е запазен.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No description</source>
         <translation type="vanished">Няма описание</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Categories</source>
         <translation type="vanished">Всички категории</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Descriptions for</source>
         <translation type="vanished">Описания за</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payees/payers for</source>
         <translation type="vanished">Получатели на плащане / платци за</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Period:</source>
         <translation type="vanished">Период:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Columns:</source>
         <translation type="vanished">Колони:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Value</source>
         <translation type="vanished">Стойност</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Daily</source>
         <translation type="vanished">ежедневно</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Monthly</source>
         <translation type="vanished">Месечно</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Yearly</source>
         <translation type="vanished">Годишно</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Quantity</source>
         <translation type="vanished">Количество</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Average value</source>
         <translation type="vanished">Средна стойност</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All descriptions</source>
         <translation type="vanished">Всички описания</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All payees</source>
         <translation type="vanished">Всички получатели на пари</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All payers</source>
         <translation type="vanished">Всички платци</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No payee</source>
         <translation type="vanished">Няма получател на пари</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No payer</source>
         <translation type="vanished">Няма платец</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Expenses: %2, %1</source>
         <translation type="vanished">Разходи: %2, %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Incomes: %2, %1</source>
         <translation type="vanished">Приходи: %2, %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Incomes &amp; Expenses</source>
         <translation type="vanished">Приходи &amp; Разходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%1 (%2&amp;ndash;%3)</source>
         <comment>html format; %1: title; %2: from date; %3: to date</comment>
         <translation type="vanished">%1 (%2&amp;ndash;%3)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%1 (to %2)</source>
         <comment>html format; %1: title; %2: to date</comment>
         <translation type="vanished">%1 (до %2)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Category</source>
         <translation type="vanished">Категория</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cost</source>
         <translation type="vanished">Цена</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Income</source>
         <translation type="vanished">Приход</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Daily Average</source>
         <translation type="vanished">Средно Дневно</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Monthly Average</source>
         <translation type="vanished">Средно на месец</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Yearly Average</source>
         <translation type="vanished">Средно годишно</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Average Cost</source>
         <translation type="vanished">Средна цена</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Average Income</source>
         <translation type="vanished">Среден доход</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Average Value</source>
         <translation type="vanished">Средна стойност</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total</source>
         <translation type="vanished">Общо</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total incomes</source>
         <translation type="vanished">Общо приходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total expenses</source>
         <translation type="vanished">Общо разходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total (Profits)</source>
         <translation type="vanished">Общо (печалбите)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Expense</source>
         <translation type="vanished">Разход</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transfer</source>
         <translation type="vanished">Прехвърляне</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security Buy</source>
         <translation type="vanished">Покупка споръчител</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security Sell</source>
         <translation type="vanished">Продажба с поръчител</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Recurrence</source>
         <translation type="vanished">Повторение</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Expense</source>
         <translation type="vanished">Нов разход</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Dividend</source>
         <translation type="vanished">Нов дивидент</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Income</source>
         <translation type="vanished">Нов приход</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Transfer</source>
         <translation type="vanished">Нов трансфер</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Security Buy</source>
         <translation type="vanished">Нова покупка с поръчител</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Security Sell</source>
         <translation type="vanished">Нова продажба с поръчител</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Expense</source>
         <translation type="vanished">Редактиране на разходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Dividend</source>
         <translation type="vanished">Редактиране на дивиденти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Income</source>
         <translation type="vanished">Редактиране на приходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Transfer</source>
         <translation type="vanished">Редактиране на трансфери</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Securities Bought</source>
         <translation type="vanished">Редактиране на покупка на ценни книжа</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Securities Sold</source>
         <translation type="vanished">Редактиране на продажба на ценни книжа</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Dividend</source>
         <translation type="vanished">Дивиденти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Repayment</source>
         <translation type="vanished">Върната сума</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Refund</source>
         <translation type="vanished">Обезщетение</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Split Transaction</source>
         <translation type="vanished">Разделяне на транзакциите</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Description:</source>
         <translation type="vanished">Описание:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Date:</source>
         <translation type="vanished">Дата:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Account:</source>
         <translation type="vanished">Сметка:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transactions:</source>
         <translation type="vanished">Транзакции:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Type</source>
         <translation type="vanished">Вид</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Description</source>
         <translation type="vanished">Описание</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Account/Category</source>
         <translation type="vanished">Сметка/Категория</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payment</source>
         <translation type="vanished">Плащане</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Deposit</source>
         <translation type="vanished">Депозит/внос</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New</source>
         <translation type="vanished">Нов</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Expense…</source>
         <translation type="vanished">Нов разход …</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Income…</source>
         <translation type="vanished">Нов приход…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Deposit…</source>
         <translation type="vanished">Нова вноска…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Withdrawal…</source>
         <translation type="vanished">Ново теглене …</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Security Shares Bought…</source>
         <translation type="vanished">Покупка на нови ценни книжа и акции</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security Shares Sold…</source>
         <translation type="vanished">Продажба на акции…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Dividend…</source>
         <translation type="vanished">Нов дивидент…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit…</source>
         <translation type="vanished">Редактиране…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total value:</source>
         <translation type="vanished">Обща стойност:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No suitable account available.</source>
         <translation type="vanished">Няма подходяща сметка на разположение.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Future dates is not allowed.</source>
         <translation type="vanished">Бъдещи дати не са позволени.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>A split must contain at least two transactions.</source>
         <translation type="vanished">Разделянето трябва да съдържа най-малко две транзакции.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot transfer money to and from the same account.</source>
         <translation type="vanished">Не можете да прехвърляте пари от една и съща сметка.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cost:</source>
         <translation type="vanished">Разходи:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Income:</source>
         <translation type="vanished">Приход:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Quantity:</source>
         <translation type="vanished">Количество:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Comments:</source>
         <translation type="vanished">Коментари:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Reinvested Dividend</source>
         <translation type="vanished">Реинвестирани дивиденти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security:</source>
         <translation type="vanished">Ценна книга:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares added:</source>
         <translation type="vanished">Добавяне на акции:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security Trade</source>
         <translation type="vanished">Сигурност на търговията</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>From security:</source>
         <translation type="vanished">От ценна книга:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares moved:</source>
         <translation type="vanished">Преместни акции:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All</source>
         <translation type="vanished">Всичко</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>To security:</source>
         <translation type="vanished">На ценна книга:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares received:</source>
         <translation type="vanished">Получени акции:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Value:</source>
         <translation type="vanished">Стойност:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No other security available for trade in the account.</source>
         <translation type="vanished">Няма друга защита за търговия по сметката.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Selected to and from securities are the same.</source>
         <translation type="vanished">Избраните и тези ценни книжа са едни и същи.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Zero shares not allowed.</source>
         <translation type="vanished">Нулеви акции не са разрешени.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Zero value not allowed.</source>
         <translation type="vanished">Нулева стойност, не се допуска.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Quotations</source>
         <translation type="vanished">Оферти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Date</source>
         <translation type="vanished">Дата</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Price per Share</source>
         <translation type="vanished">Цена на акция</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Quotations for %1</source>
         <translation type="vanished">Котировки на %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The following transactions was scheduled to occur today or before today.
 Confirm that they have indeed occurred (or will occur today).</source>
         <translation type="vanished">Следните транзакции бе насрочено да се състоят днес или вчера.
 Уверете се, че те наистина са се случили (или ще се появят днес).</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Amount</source>
         <translation type="vanished">Сума</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Postpone…</source>
         <translation type="vanished">Отлагане…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Can only postpone to future dates.</source>
         <translation type="vanished">Може само да се отложи за бъдещи дати.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transactions for %1</source>
         <translation type="vanished">Транзакции за %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares</source>
         <translation type="vanished">Акции</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Bought</source>
         <translation type="vanished">Изкупени акции</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Sold</source>
         <translation type="vanished">Изкупени акции</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Sold (Traded)</source>
         <translation type="vanished">Акции Продадени (търгувани)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Bought (Traded)</source>
         <translation type="vanished">Изкупени акции (търгувани)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Bought (Recurring)</source>
         <translation type="vanished">Изкупени акции (повтарящи се)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Sold (Recurring)</source>
         <translation type="vanished">Акции Продадени (повтарящи се)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Bought (Scheduled)</source>
         <translation type="vanished">Изкупени акции (по график)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Sold (Scheduled)</source>
         <translation type="vanished">Акции Продадени (по график)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Recurring Dividend</source>
         <translation type="vanished">Повтарящи се дивиденти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Scheduled Dividend</source>
         <translation type="vanished">Планирани дивиденти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Type:</source>
         <translation type="vanished">Вид:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Mutual Fund</source>
         <translation type="vanished">Взаимен фонд</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Bond</source>
         <translation type="vanished">Облигация</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Stock</source>
         <translation type="vanished">Наличност</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Other</source>
         <translation type="vanished">Друг</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Name:</source>
         <translation type="vanished">Име:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Decimals in Shares:</source>
         <translation type="vanished">Десетични в акции:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Initial Shares:</source>
         <translation type="vanished">Първоначални акции:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Initial quotation:</source>
         <translation type="vanished">Първоначален оферта:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No suitable account or income category available.</source>
         <translation type="vanished">Няма свободна подходяща сметка или категория доходи.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cash</source>
         <translation type="vanished">Пари в брой</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Current Account</source>
         <translation type="vanished">Текуща сметка</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Savings Account</source>
         <translation type="vanished">Спестовна сметка</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Credit Card</source>
         <translation type="vanished">Кредитна карта</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Liabilities</source>
         <translation type="vanished">Задължения</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Securities</source>
         <translation type="vanished">Ценни книжа</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Initial balance:</source>
         <translation type="vanished">Начален баланс:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Default account for budgeted transactions</source>
         <translation type="vanished">Основна сметка за бюджетни транзакции</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty name.</source>
         <translation type="vanished">Празно име.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The entered name is used by another account.</source>
         <translation type="vanished">Въведеното име се използва от друга сметка.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Monthly budget:</source>
         <translation type="vanished">Месечен бюджет:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The entered name is used by another income category.</source>
         <translation type="vanished">Въведеното име се използва от друга категория доходи.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The entered name is used by another expense category.</source>
         <translation type="vanished">Въведеното име се използва от друга категория сметки.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Accounts</source>
         <translation type="vanished">Сметки</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Accounts &amp; Categories</source>
         <translation type="vanished">Сметки и категории</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Expenses</source>
         <translation type="vanished">Разходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Incomes</source>
         <translation type="vanished">Приходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transfers</source>
         <translation type="vanished">Трансфери</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Schedule</source>
         <translation type="vanished">График</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Scheduled Transactions</source>
         <translation type="vanished">Планирани Транзакции</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Account / Category</source>
         <translation type="vanished">Сметка / Категория</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remaining Budget (%1)</source>
         <translation type="vanished">Оставащ бюджет (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Change (%1)</source>
         <translation type="vanished">Смени (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total (%1)</source>
         <translation type="vanished">Общо (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%2 of %1</source>
         <comment>%2 remains of %1 budget</comment>
         <translation type="vanished">%2 от %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Includes budgeted transactions</source>
         <translation type="vanished">Включва бюджетни транзакции</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Period</source>
         <translation type="vanished">Период</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Select Period</source>
         <translation type="vanished">Избор на период</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Current Month</source>
         <translation type="vanished">Текущ месец</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Current Year</source>
         <translation type="vanished">Текуща година</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Current Whole Month</source>
         <translation type="vanished">Целият текущ месец</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Current Whole Year</source>
         <translation type="vanished">Цялата текуща година</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Whole Past Month</source>
         <translation type="vanished">Целият изминал месец</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Whole Past Year</source>
         <translation type="vanished">Цялата изминала година</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Previous Month</source>
         <translation type="vanished">Предходния месец</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Previous Year</source>
         <translation type="vanished">Предходната година</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Show partial budget</source>
         <translation type="vanished">Покажи частично бюджета</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Budget</source>
         <translation type="vanished">Редактиране на бюджета</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Budget:</source>
         <translation type="vanished">Бюджет:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Month:</source>
         <translation type="vanished">Месец:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Result previous month:</source>
         <translation type="vanished">Резултат за предходния месец:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Security…</source>
         <translation type="vanished">Нов поръчител…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Transaction</source>
         <translation type="vanished">Нова транзакция</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Set Quotation…</source>
         <translation type="vanished">Задаване оферта …</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Name</source>
         <translation type="vanished">Име</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Quotation</source>
         <translation type="vanished">Оферта</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Profit</source>
         <translation type="vanished">Печалба</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Yearly Rate</source>
         <translation type="vanished">Годишен темп</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Account</source>
         <translation type="vanished">Сметка</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Statistics Period</source>
         <translation type="vanished">Статистически период</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Schedule</source>
         <translation type="vanished">Нов график</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit</source>
         <translation type="vanished">Редактиране</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Next Occurrence</source>
         <translation type="vanished">Следващо появяване</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Comments</source>
         <translation type="vanished">Коментари</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Security</source>
         <translation type="vanished">Нов поръчител</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Security</source>
         <translation type="vanished">Редактирай поръчителя</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Profit:</source>
         <translation type="vanished">Печалба:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Rate:</source>
         <translation type="vanished">Оценка:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Are you sure you want to delete the security &quot;%1&quot; and all associated transactions?</source>
         <translation type="vanished">Сигурен ли сте, че искате да изтриете поръчител &quot;%1&quot; и всички свързани сделки?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No security available.</source>
         <translation type="vanished">Няма свободен поръчител</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Set Quotation (%1)</source>
         <translation type="vanished">Направи оферта (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Price per share:</source>
         <translation type="vanished">Цена за една акция:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Future dates are not allowed.</source>
         <translation type="vanished">Бъдещи дати не са позволени.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security Transactions</source>
         <translation type="vanished">Сделки с ценни книжа</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Ledger</source>
         <translation type="vanished">Главна счетоводна книга</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Untitled</source>
         <translation type="vanished">Неозаглавен</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Check Account</source>
         <translation type="vanished">Проверка на сметка</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Salary</source>
         <translation type="vanished">Заплата</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Bills</source>
         <translation type="vanished">Сметки</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Clothing</source>
         <translation type="vanished">Облекло</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Groceries</source>
         <translation type="vanished">Хранителни</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Leisure</source>
         <translation type="vanished">Свободно време</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t fetch %1.</source>
         <translation type="vanished">Не можа да бъде извлечен %1.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Error loading %1: %2.</source>
         <translation type="vanished">Грешка при зареждане на %1: %2.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t open file</source>
         <translation type="vanished">Не мога да отворя файл</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Error saving %1: %2.</source>
         <translation type="vanished">грешка при запазване %1: %2.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t save file</source>
         <translation type="vanished">Файлът не може да се запази</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Failed to upload file to %1.</source>
         <translation type="vanished">Неуспешно качване на файл в %1.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Report</source>
         <translation type="vanished">Отчет</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Chart</source>
         <translation type="vanished">Диаграма</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transaction Schedule</source>
         <translation type="vanished">График на транзакциите</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Accounts &amp;amp; Categories</source>
         <comment>html format</comment>
         <translation type="vanished">Сметки &amp;amp; Категории</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Accounts &amp;amp; Categories (%1&amp;ndash;%2)</source>
         <comment>html format</comment>
         <translation type="vanished">Сметки &amp;amp; Категории (%1&amp;ndash;%2)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Accounts &amp;amp; Categories (to %1)</source>
         <comment>html format</comment>
         <translation type="vanished">Сметки &amp;amp; Категории (to %1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Change</source>
         <translation type="vanished">Промяна</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Balance</source>
         <translation type="vanished">Баланс</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Budget</source>
         <translation type="vanished">Бюджет</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remaining Budget</source>
         <translation type="vanished">Оставащ бюджет</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total Incomes</source>
         <translation type="vanished">Общо приходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Costs</source>
         <translation type="vanished">Разходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total Expenses</source>
         <translation type="vanished">Общо разходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty expenses list.</source>
         <translation type="vanished">Празен списък с разходи.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty incomes list.</source>
         <translation type="vanished">Празен списък с приходи.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty transfers list.</source>
         <translation type="vanished">Празен списък с трансфери.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty securities list.</source>
         <translation type="vanished">Празен списък с поръчители.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty schedule list.</source>
         <translation type="vanished">Празен списък с графици.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Export View…</source>
         <translation type="vanished">Преглед на износа …</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Print View…</source>
         <translation type="vanished">Покажи страницата за печат…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Initial Period</source>
         <translation type="vanished">Първоначален период</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remember Last Dates</source>
         <translation type="vanished">Запомни последните дати</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Import CSV File…</source>
         <translation type="vanished">Импортиране CSV файла …</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Import QIF File…</source>
         <translation type="vanished">Импортиране QIF файла …</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Export As QIF File…</source>
         <translation type="vanished">Износ като файл QIF …</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Add Account…</source>
         <translation type="vanished">Добави сметка</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Account…</source>
         <translation type="vanished">Нова сметка</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Income Category…</source>
         <translation type="vanished">Нова категория доходи …</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Expense Category…</source>
         <translation type="vanished">Нова категория разходи…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Balance…</source>
         <translation type="vanished">Баланс…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Show Transactions</source>
         <translation type="vanished">Покажи транзакцията</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Transfer…</source>
         <translation type="vanished">Нов трансфер…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Split Transaction…</source>
         <translation type="vanished">Ново разделяне на на транзакция …</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Transaction(s) (Occurrence)…</source>
         <translation type="vanished">Редактиране на транзакцията(ите) (в действителност) …</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Occurrence…</source>
         <translation type="vanished">Редактирай събитието…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Schedule (Recurrence)…</source>
         <translation type="vanished">Редактирай графика (повторяемост) …</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Schedule…</source>
         <translation type="vanished">Редактирай графика</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remove Transaction(s) (Occurrence)</source>
         <translation type="vanished">Премахване на транзакцията (е) (събитие)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remove Occurrence</source>
         <translation type="vanished">Премахни събитието</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Delete Schedule (Recurrence)</source>
         <translation type="vanished">Изтриване на график (Повторение)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Delete Schedule</source>
         <translation type="vanished">Изтриване на график</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Split Transaction…</source>
         <translation type="vanished">Редактиране на разделянето на транзакциите…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remove Split Transaction</source>
         <translation type="vanished">Премахни разделянето на транзакциите…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Join Transactions…</source>
         <translation type="vanished">Присъединете се към транзакциите…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Split Up Transaction</source>
         <translation type="vanished">Разделяне на транзакциите</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Refund…</source>
         <translation type="vanished">Възстановяване…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Repayment…</source>
         <translation type="vanished">Изплащане…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Refund/Repayment…</source>
         <translation type="vanished">Ново Възстановяване/Изплащане</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Security…</source>
         <translation type="vanished">Редактиране на поръчител…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remove Security</source>
         <translation type="vanished">Премахни поръчител</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Sold…</source>
         <translation type="vanished">Продадени акции …</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Bought…</source>
         <translation type="vanished">Изкупени акции…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Dividend…</source>
         <translation type="vanished">Дивиденти…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Reinvested Dividend…</source>
         <translation type="vanished">Реинвестирани дивиденти…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares Moved…</source>
         <translation type="vanished">Преместени акции…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Quotations…</source>
         <translation type="vanished">Редактиране на офертите…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transactions…</source>
         <translation type="vanished">Транзакции…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Development Over Time Report…</source>
         <translation type="vanished">Разработка през време на доклада…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Categories Comparison Report…</source>
         <translation type="vanished">Доклад за сравнение на категориите…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Categories Comparison Chart…</source>
         <translation type="vanished">Диаграма за сравнение на категориите…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Development Over Time Chart…</source>
         <translation type="vanished">Развитие на графиката с времето…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Use Additional Transaction Properties</source>
         <translation type="vanished">Използвайте допълнителни свойства по сделката</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Eqonomize! exited unexpectedly before the file was saved and data was lost.
 Do you want to load the last auto-saved version of the file?</source>
         <translation type="vanished">Eqonomize! завърши неочаквано преди файлът е бъде запазен и данните бяха изгубени.
 Искате ли да заредите последната автоматично записана версия на файла?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Crash Recovery</source>
         <translation type="vanished">Възстановяване след срив</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The current file has been modified. Do you want to save it?</source>
         <translation type="vanished">Текущия файл е бил променен. Искате ли да го запазите?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Confirm Schedule</source>
         <translation type="vanished">Потвърдете списъка</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Account</source>
         <translation type="vanished">Нова сметка</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Income Category</source>
         <translation type="vanished">Нова категория доходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New Expense Category</source>
         <translation type="vanished">Нова категория разходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Balance Account</source>
         <translation type="vanished">Баланс на сметката</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Book value:</source>
         <translation type="vanished">Счетоводна стойност:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Real value:</source>
         <translation type="vanished">Реална стойност:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Account</source>
         <translation type="vanished">Редактиране на сметка</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Income Category</source>
         <translation type="vanished">Редактиране на категория доходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Expense Category</source>
         <translation type="vanished">Редактиране на категория разходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Move transactions?</source>
         <translation type="vanished">Преместване на транзакцията?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Move to:</source>
         <translation type="vanished">Преместване в:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The category contains some expenses.
 What do you want to do with them?</source>
         <translation type="vanished">Категорията съдържа някои разходи.
 Какво желаете да правя с тях?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The category contains some incomes.
 What do you want to do with them?</source>
         <translation type="vanished">Категорията съдържа някои доходи.
 Какво желаете да правя с тях?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The account contains some transactions.
 What do you want to do with them?</source>
         <translation type="vanished">Сметката съдържа някои транзакции.
 Какво желаете да правя с тях?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The category contains some expenses that will be removed. Do you still want to remove the category?</source>
         <translation type="vanished">Категорията съдържа някои разходи, които ще бъдат премахнати. Все още ли искате да премахнете категорията?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remove Category?</source>
         <translation type="vanished">Премахване на категорията?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The category contains some incomes that will be removed. Do you still want to remove the category?</source>
         <translation type="vanished">Категория съдържа някои доходи, които ще бъдат премахнати. Все още ли искате да премахнете категорията?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The account contains some transactions that will be removed. Do you still want to remove the account?</source>
         <translation type="vanished">Сметката съдържа някои транзакции, които ще бъдат премахнати. Все още ли искате да премахнете сметката?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Remove Account?</source>
         <translation type="vanished">Премахване на сметката?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%2 of %1</source>
         <comment>%1: budget; %2: remaining budget</comment>
         <translation type="vanished">%2 от %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%1 (with no budget)</source>
         <translation type="vanished">%1 (извън бюджета)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%1 (with budget %2)</source>
         <translation type="vanished">%1 (с никакъв бюджет %2)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Import CSV file</source>
         <translation type="vanished">Въведи CSV файла</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transaction Type Selection</source>
         <translation type="vanished">Избор на тип на транзакцията</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Expenses and incomes (negative cost)</source>
         <translation type="vanished">Разходи и приходи (отрицателен разход)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Expenses and incomes (separate columns)</source>
         <translation type="vanished">Разходи и приходи (отделни колони)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All types</source>
         <translation type="vanished">Всички типове</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>File Selection</source>
         <translation type="vanished">Избор на файл</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>File:</source>
         <translation type="vanished">Файл:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>First data row:</source>
         <translation type="vanished">Първият ред данни:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Auto</source>
         <translation type="vanished">Автоматично</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Column delimiter:</source>
         <translation type="vanished">Колона разделител:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Comma</source>
         <translation type="vanished">Запетая</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Tabulator</source>
         <translation type="vanished">Табулатор</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Semicolon</source>
         <translation type="vanished">Точка и запетая</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Space</source>
         <translation type="vanished">Интервал</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Columns Specification</source>
         <translation type="vanished">Колони спецификации</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Column</source>
         <translation type="vanished">Колона</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Category:</source>
         <translation type="vanished">Категория:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>From account:</source>
         <translation type="vanished">От сметката:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Create missing categories and accounts</source>
         <translation type="vanished">Създай липсващи категории и сметки</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Imports data as expenses. Costs have positive value. Value is the only required column.</source>
         <translation type="vanished">Въведи данните като разходи. Разходите трябва да са положителна стойност. Стойността е единственото, за което трябва колона.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Imports data as incomes. Value is the only required column.</source>
         <translation type="vanished">Въведи данните като доходи.Стойността е единственото, за което трябва колона.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>To account:</source>
         <translation type="vanished">В сметката:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Imports data as transfers. Value is the only required column.</source>
         <translation type="vanished">Въведи данните като трансфери.Стойността е единственото, за което трябва колона.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Amount:</source>
         <translation type="vanished">Сума:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Imports data as expenses and incomes. Costs have negative value. Value and category are both required columns.</source>
         <translation type="vanished">Въведи данните като доходи и разходи. Разходите трябва да са отрицателна стойност. Стойността и категориите, изискват колона.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Imports data as expenses and incomes. Costs and incomes have separate columns. Income, cost, and category are all required columns.</source>
         <translation type="vanished">Въведи данните като доходи и разходи.Разходи и приходи са с отделни колони. Доходи, разходи и категории са с всички необходими колони.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Imports data as expenses, incomes, and transfers. Costs have negative or positive value. Value, to, and from are all required columns. Accounts and categories must be existing.</source>
         <translation type="vanished">Въведи данните като разходи, приходи и трансфери.Разходите трябва да са с отрицателна или положителна стойност.Стойността, до,и от,са необходими колони. Сметки и категории трябва да съществуват.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>From:</source>
         <translation type="vanished">От:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>To:</source>
         <translation type="vanished">До:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>A file must be selected.</source>
         <translation type="vanished">Файлът трябва да бъде избран.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Selected file is a directory.</source>
         <translation type="vanished">Избраният файл е директория.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Selected file does not exist.</source>
         <translation type="vanished">Избраният файл не съществува.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty delimiter.</source>
         <translation type="vanished">Празен разделител.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The same column number is selected multiple times.</source>
         <translation type="vanished">Един и същ номер на колона е избран няколко пъти.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Selected from account is the same as the to account.</source>
         <translation type="vanished">Избраното от сметката е същото като осчетоводеното.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Couldn&apos;t open %1 for reading.</source>
         <translation type="vanished">Не мога да отворя %1 за четене.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Error reading %1.</source>
         <translation type="vanished">Грешка при четенето на %1.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message numerus="yes">
         <source>Successfully imported 1 transaction.</source>
@@ -1822,13 +1462,10 @@ What do you want to do with them?</source>
             <numerusform>Успешно въведени 1 транзакция.</numerusform>
             <numerusform>Успешно въведени %n транзакции.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Successfully imported %n transactions.</extra-po-msgid_plural>
     </message>
     <message>
         <source>Unable to import any transactions imported.</source>
         <translation type="vanished">Не може да се въвеждат никакви, внесени транзакции.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message numerus="yes">
         <source>Failed to import 1 data row.</source>
@@ -1836,186 +1473,150 @@ What do you want to do with them?</source>
             <numerusform>Неуспешно въвеждане на 1 ред с данни.</numerusform>
             <numerusform>Неуспешно въвеждане на %n редове с данни.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Failed to import %n data rows.</extra-po-msgid_plural>
     </message>
     <message>
         <source>Required columns missing.</source>
         <translation type="vanished">Задължителните колони липсват.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Invalid value.</source>
         <translation type="vanished">Невалидна стойност.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty category name.</source>
         <translation type="vanished">Празно име на категорията.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty account name.</source>
         <translation type="vanished">Празно име на сметката.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Unknown category found.</source>
         <translation type="vanished">Неизвестна категория намерена.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Unknown account found.</source>
         <translation type="vanished">Неизвестна сметка намерена.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot import security transactions (to/from security accounts).</source>
         <translation type="vanished">Не могат да бъдат внесени сделки с ценни книжа (до / от сметките за сигурност).</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Balancing account wrongly used.</source>
         <translation type="vanished">Балансирането на сметката е използвано погрешно.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Same to and from account/category.</source>
         <translation type="vanished">Същото към и от сметката / категория.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No data found.</source>
         <translation type="vanished">Няма намерени данни.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Unrecognized date format.</source>
         <translation type="vanished">Неразпознат формат за дата.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Specify Format</source>
         <translation type="vanished">Определете Format</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format.</source>
         <translation type="vanished">Форматът на дати и / или цифри в CSV файла е двусмислен. Моля, изберете правилния формат.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Date format:</source>
         <translation type="vanished">Формат на датата:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Value format:</source>
         <translation type="vanished">Стойност на формата:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>tomorrow</source>
         <comment>the day after today</comment>
         <translation type="vanished">утре</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>today</source>
         <comment>this day</comment>
         <translation type="vanished">днес</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>yesterday</source>
         <comment>the day before today</comment>
         <translation type="vanished">вчера</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>&amp;Today</source>
         <comment>@option today</comment>
         <translation type="vanished">&amp;Днес</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>To&amp;morrow</source>
         <comment>@option tomorrow</comment>
         <translation type="vanished">У&amp;тре</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Next &amp;Week</source>
         <comment>@option next week</comment>
         <translation type="vanished">Следващата &amp;седмица</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Next M&amp;onth</source>
         <comment>@option next month</comment>
         <translation type="vanished">Следващия &amp;месец</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No Date</source>
         <comment>@option do not specify a date</comment>
         <translation type="vanished">Липсва дата</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Export…</source>
         <translation type="vanished">Изнасяне…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Print…</source>
         <translation type="vanished">Отпечатай…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Withdrawal</source>
         <translation type="vanished">Изтегляне</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Join…</source>
         <translation type="vanished">Присъединете се към…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Split Up</source>
         <translation type="vanished">Разделяне на</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Empty transaction list.</source>
         <translation type="vanished">Празен списък транзакции.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation type="vanished">Сигурен ли сте, че искате да изтриете всички (%1), избрани транзакции?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <translation type="vanished">Не може да се зададе стойност на сделки с ценни книжа, използвайки диалогов прозорец за промяна на много транзакции.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot change description of dividends and security transactions.</source>
         <translation type="vanished">Не може да се промени описанието на дивидентите и сделките с ценни книжа.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot change payer of dividends and security transactions.</source>
         <translation type="vanished">Не може да се промени платецът на дивидентите и сделки с ценни книжа.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot change date of transactions that are part of a split transaction.</source>
         <translation type="vanished">Не може да се промени датата на сделките, които са част от разделянето на транзакцията.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Eqonomize!</source>
@@ -2044,344 +1645,276 @@ What do you want to do with them?</source>
     <message>
         <source>Incomes and Expenses</source>
         <translation type="vanished">Доходи и Разходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Profits</source>
         <translation type="vanished">Печалби</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Categories Combined</source>
         <translation type="vanished">Всички категории комбинирани</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Descriptions Combined</source>
         <translation type="vanished">Всички описания комбинирани</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Payees/Payers Combined</source>
         <translation type="vanished">Всички получатели/платци комбинирано</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Start date:</source>
         <translation type="vanished">Начална дата:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>End date:</source>
         <translation type="vanished">Крайна дата:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Monthly total</source>
         <translation type="vanished">Месечно общо</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Daily average</source>
         <translation type="vanished">Средно дневно</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Payers Combined</source>
         <translation type="vanished">Всички платци комбинирано</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Payees Combined</source>
         <translation type="vanished">Всички получатели комбинирано</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Descriptions Split</source>
         <translation type="vanished">Разделяне на всички описания</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Payers Split</source>
         <translation type="vanished">Разделяне на всички платци</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Payees Split</source>
         <translation type="vanished">Разделяне на всички  получатели</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All Categories Split</source>
         <translation type="vanished">Разделяне на всички категории</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Value (%1)</source>
         <translation type="vanished">Стойност (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Profit (%1)</source>
         <translation type="vanished">Печалба (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Income (%1)</source>
         <translation type="vanished">Доходи (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cost (%1)</source>
         <translation type="vanished">Разход (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Time</source>
         <translation type="vanished">Време</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>no payer</source>
         <translation type="vanished">никакъв платец</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payer</comment>
         <translation type="vanished">%1/%2</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>no payee</source>
         <translation type="vanished">няма получател</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payee</comment>
         <translation type="vanished">%1/%2</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Error after saving file; data may not have been saved.</source>
         <translation type="vanished">Грешка след записване на файла; като данните не може да бъдат спасени.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Average Profit</source>
         <translation type="vanished">Средна печалба</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Year</source>
         <translation type="vanished">Година</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Month</source>
         <translation type="vanished">Месец</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Includes scheduled transactions</source>
         <translation type="vanished">Включва планираните транзакции</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Adjusted for the average month / year (%1 / %2 days)</source>
         <translation type="vanished">Коригирано за средно месечно / годишно (%1 / %2 дни)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Subtotal</source>
         <translation type="vanished">Междинна сума</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Unnamed</source>
         <translation type="vanished">Без име</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Uncategorized</source>
         <translation type="vanished">Некатегоризиран</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Import QIF file</source>
         <translation type="vanished">Въведи QIF файла</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Select a QIF file to import. When you click next, the file be analysed and you might need to answer some questions about the format of the file.</source>
         <translation type="vanished">Изберете QIF файла, за въвеждане. Когато натиснете Напред, файлът ще бъде анализиран и може да се наложи да отговорите на няколко въпроса за формата на файла.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Local Definitions</source>
         <translation type="vanished">Местни определения</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Unknown elements where found in the QIF file. It is possible that this is because of localized type names. Please map them to the correct standard names.</source>
         <translation type="vanished">Неизвестни елементи, които са установени в QIF файла. Възможно е, че това е така, защото са локализирани типови имена. Моля, да ги съпоставите с правилните стандартни имена.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Local Text</source>
         <translation type="vanished">Локален текст</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Standard Text</source>
         <translation type="vanished">Стандартен текст</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Select standard text:</source>
         <translation type="vanished">Избери стандартен техт:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Date Format</source>
         <translation type="vanished">Формат на датата</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>The date format in the QIF file is ambiguous. Please select the correct format.</source>
         <translation type="vanished">Форматът на датата във файла QIF е двусмислен. Моля, изберете правилния формат.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Default Account</source>
         <translation type="vanished">Сметка по подразбиране</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Could not find any account definitions in the QIF file. Please select a default account. It is also possible that this is caused by a localized opening balance text.</source>
         <translation type="vanished">Не можаха да бъдат намерени определения за сметката в QIF файла. Моля, изберете акаунта по подразбиране. Възможно е също така, това да е причинено от локален текст за началното салдо.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Default account:</source>
         <translation type="vanished">Сметка по подразбиране:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Opening balance text:</source>
         <translation type="vanished">Начален баланс:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Descriptions</source>
         <translation type="vanished">Описание</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Transactions in QIF files does not have any specific description property. You are therefore given the option to choose how the description of imported transactions will be set.</source>
         <translation type="vanished">Транзакциите във файловете QIF не разполагат с конкретни описание на собствеността. Ето защо това ви дава възможност да изберете как ще бъде създадено описанието на въведените транзакции.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Subcategories as:</source>
         <translation type="vanished">Подкатегории като:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Ignore</source>
         <translation type="vanished">игнорирай</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payee as:</source>
         <translation type="vanished">Получателя на плащането като:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payee</source>
         <translation type="vanished">Получател</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Memo as:</source>
         <translation type="vanished">Отбележи като:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Priority:</source>
         <translation type="vanished">Приоритет:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Subcategory/Payee/Comments</source>
         <translation type="vanished">Подкатегория /Бенефициент/Коментари</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payee/Subcategory/Comments</source>
         <translation type="vanished">Бенефициент/Подкатегория /Коментари</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Subcategory/Comments/Payee</source>
         <translation type="vanished">Подкатегория/Коментари /Бенефициент</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payee/Comments/Subcategory</source>
         <translation type="vanished">Бенефициент/Коментари /Подкатегория</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Comments/Subcategory/Payee</source>
         <translation type="vanished">Коментари /Подкатегория/Бенефициент</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Comments/Payee/Subcategory</source>
         <translation type="vanished">Коментари /Бенефициент/Подкатегория</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Unknown</source>
         <translation type="vanished">Неизвестен</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Bank</source>
         <translation type="vanished">Банка</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cat (Category)</source>
         <translation type="vanished">Cat (Категория)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>CCard (Credit Card)</source>
         <translation type="vanished">CCard (кредитна карта)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Invst (Investment)</source>
         <translation type="vanished">Invst (Инвестиции)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Oth A (Other Assets)</source>
         <translation type="vanished">Oth A (Други активи)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Oth L (Other Liabilities)</source>
         <translation type="vanished">Oth L (Други активи)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security</source>
         <translation type="vanished">Сигурност</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message numerus="yes">
         <source>Successfully imported 1 account.</source>
@@ -2389,8 +1922,6 @@ What do you want to do with them?</source>
             <numerusform>Успешно внесена 1 сметка.</numerusform>
             <numerusform>Успешно внесени %n сметки.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Successfully imported %n accounts.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>Successfully imported 1 category.</source>
@@ -2398,8 +1929,6 @@ What do you want to do with them?</source>
             <numerusform>Успешно внесена 1 категория.</numerusform>
             <numerusform>Успешно внесени %n категории.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Successfully imported %n categories.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>1 duplicate transaction was ignored.</source>
@@ -2407,8 +1936,6 @@ What do you want to do with them?</source>
             <numerusform>1 дубликат на транзакцията беше игнориран.</numerusform>
             <numerusform>%n дубликати на транзакцията бяха игнорирани.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>%n duplicate transactions was ignored.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>Failed to import 1 transaction.</source>
@@ -2416,8 +1943,6 @@ What do you want to do with them?</source>
             <numerusform>Неуспех за внос на 1 транзакция.</numerusform>
             <numerusform>Неуспех за внос на %n транзакции.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>Failed to import %n transactions.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>1 security was not imported.</source>
@@ -2425,8 +1950,6 @@ What do you want to do with them?</source>
             <numerusform>1 обезпечение не е бил внесено.</numerusform>
             <numerusform>%n обезпечения не са били внесени.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>%n securities were not imported.</extra-po-msgid_plural>
     </message>
     <message numerus="yes">
         <source>1 security transaction was not imported.</source>
@@ -2434,34 +1957,27 @@ What do you want to do with them?</source>
             <numerusform>1 обезпечение на транзакцията не е било внесено.</numerusform>
             <numerusform>%n обезпечения на транзакциите не са били внесени.</numerusform>
         </translation>
-        <extra-po-flags>kde-format</extra-po-flags>
-        <extra-po-msgid_plural>%n security transactions were not imported.</extra-po-msgid_plural>
     </message>
     <message>
         <source>Export QIF File</source>
         <translation type="vanished">Износ на QIF файла</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>All</source>
         <comment>All accounts</comment>
         <translation type="vanished">Всички</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Export transaction description as:</source>
         <translation type="vanished">Износ описанието на сделката като:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Memo</source>
         <translation type="vanished">Бележка</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Subcategory</source>
         <translation type="vanished">Подкатегория</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>&amp;Import</source>
@@ -2469,7 +1985,6 @@ What do you want to do with them?</source>
 i18n: file ./eqonomizeui.rc line 5
 </extracomment>
         <translation type="vanished">&amp;Внасяне</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>&amp;Accounts</source>
@@ -2477,7 +1992,6 @@ i18n: file ./eqonomizeui.rc line 5
 i18n: file ./eqonomizeui.rc line 12
 </extracomment>
         <translation type="vanished">&amp;Сметки</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -2485,7 +1999,6 @@ i18n: file ./eqonomizeui.rc line 12
 i18n: file ./eqonomizeui.rc line 24
 </extracomment>
         <translation type="vanished">&amp;Транзакции</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>&amp;Securities</source>
@@ -2493,7 +2006,6 @@ i18n: file ./eqonomizeui.rc line 24
 i18n: file ./eqonomizeui.rc line 41
 </extracomment>
         <translation type="vanished">&amp;Обезпечения</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Stat&amp;istics</source>
@@ -2501,564 +2013,453 @@ i18n: file ./eqonomizeui.rc line 41
 i18n: file ./eqonomizeui.rc line 56
 </extracomment>
         <translation type="vanished">Стат&amp;истика</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Your names</source>
         <comment>NAME OF TRANSLATORS</comment>
         <translation type="vanished"> ,Launchpad Contributions:,slavov</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Your emails</source>
         <comment>EMAIL OF TRANSLATORS</comment>
         <translation type="vanished">,,sslavov64@gmail.com</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Exceptions</source>
         <translation type="vanished">Редактиране на изключенията</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Edit Recurrence Range</source>
         <translation type="vanished">Редактиране периода на повторение</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Begins on: %1</source>
         <translation type="vanished">Начало на: %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No ending date</source>
         <translation type="vanished">Няма крайна дата</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>End after</source>
         <translation type="vanished">Край след</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>occurrence(s)</source>
         <translation type="vanished">възникване (щи)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>End on</source>
         <translation type="vanished">Край на</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>End date before start date.</source>
         <translation type="vanished">Крайната дата е преди началната дата.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Enable recurrance</source>
         <translation type="vanished">Разрешаване на повторение</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Recurrence Rule</source>
         <translation type="vanished">Правило за повторение</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Weekly</source>
         <translation type="vanished">Седмично</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Recur every</source>
         <translation type="vanished">Повтаряй всеки</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>day(s)</source>
         <translation type="vanished">ден/дни</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>week(s) on:</source>
         <translation type="vanished">седмица(и) в:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>month(s), after the start month</source>
         <translation type="vanished">месец (и),след началото на месеца</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Recur on the</source>
         <translation type="vanished">Повтаряй на</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>1st</source>
         <translation type="vanished">1-ви</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>2nd</source>
         <translation type="vanished">2-ри</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>3rd</source>
         <translation type="vanished">3-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>4th</source>
         <translation type="vanished">4-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>5th</source>
         <translation type="vanished">5-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>6th</source>
         <translation type="vanished">6-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>7th</source>
         <translation type="vanished">7-ми</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>8th</source>
         <translation type="vanished">8-ми</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>9th</source>
         <translation type="vanished">9-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>10th</source>
         <translation type="vanished">10-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>11th</source>
         <translation type="vanished">11-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>12th</source>
         <translation type="vanished">12-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>13th</source>
         <translation type="vanished">13-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>14th</source>
         <translation type="vanished">14-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>15th</source>
         <translation type="vanished">15-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>16th</source>
         <translation type="vanished">16-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>17th</source>
         <translation type="vanished">17-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>18th</source>
         <translation type="vanished">18-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>19th</source>
         <translation type="vanished">19-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>20th</source>
         <translation type="vanished">20-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>21st</source>
         <translation type="vanished">21-ви</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>22nd</source>
         <translation type="vanished">22-ри</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>23rd</source>
         <translation type="vanished">23-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>24th</source>
         <translation type="vanished">24-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>25th</source>
         <translation type="vanished">25-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>26th</source>
         <translation type="vanished">26-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>27th</source>
         <translation type="vanished">27-ми</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>28th</source>
         <translation type="vanished">28-ми</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>29th</source>
         <translation type="vanished">29-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>30th</source>
         <translation type="vanished">30-ти</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>31st</source>
         <translation type="vanished">31-ви</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Last</source>
         <translation type="vanished">Последен</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>2nd Last</source>
         <translation type="vanished">2-ия последен</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>3rd Last</source>
         <translation type="vanished">3-ия последен</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>4th Last</source>
         <translation type="vanished">4-ия последен</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>5th Last</source>
         <translation type="vanished">5-ия последен</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>day</source>
         <translation type="vanished">ден</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>possibly on weekend</source>
         <translation type="vanished">по възможност през уикенда</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>but before weekend</source>
         <translation type="vanished">но преди уикенда</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>but after weekend</source>
         <translation type="vanished">но след уикенда</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>year(s), after the start year</source>
         <translation type="vanished">година (и), след началната година</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Recur on day</source>
         <comment>part before XXX of &apos;Recur on day XXX of month YYY&apos;</comment>
         <translation type="vanished">Повторение на ден</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>of</source>
         <comment>part between XXX and YYY of &apos;Recur on day XXX of month YYY&apos;</comment>
         <translation type="vanished">от</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>On the</source>
         <comment>Part before NNN in &apos;Recur on the NNN. WEEKDAY of MONTH&apos;</comment>
         <translation type="vanished">На</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>of</source>
         <comment>part between WEEKDAY and MONTH in &apos;Recur on NNN. WEEKDAY of MONTH&apos;</comment>
         <translation type="vanished">от</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Recur on day #</source>
         <translation type="vanished">Повторение на ден #</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source> of the year</source>
         <comment>part after NNN of &apos;Recur on day #NNN of the year&apos;</comment>
         <translation type="vanished"> от годината</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Range…</source>
         <translation type="vanished">Диапазон…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Exceptions…</source>
         <translation type="vanished">Изключения…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No day of week selected for weekly recurrence.</source>
         <translation type="vanished">Няма ден от седмицата избран за седмичното повторение.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Selected day will never occur with selected frequency and start date.</source>
         <translation type="vanished">Избраният ден никога няма да настъпи с избраната честота и начална дата.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Selected day does not exist in selected month.</source>
         <translation type="vanished">Избраният ден не съществува в избрания месец.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Dividend: %1</source>
         <translation type="vanished">Дивидент: %1</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Account balancing</source>
         <translation type="vanished">Балансиране на сметката</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security: %1 (bought)</source>
         <translation type="vanished">Ценна книга: %1 (закупена)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Security: %1 (sold)</source>
         <translation type="vanished">Ценна книга: %1 (продадена)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares bought:</source>
         <translation type="vanished">Изкупени акции:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Shares sold:</source>
         <translation type="vanished">Продадени акции:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payer:</source>
         <translation type="vanished">Платец:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payee:</source>
         <translation type="vanished">Получател:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No income category available.</source>
         <translation type="vanished">Няма свободна категория доходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>No expense category available.</source>
         <translation type="vanished">Няма свободна категория разходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot create a regular transfer to/from a securities account.</source>
         <translation type="vanished">Не може да се създаде редовен трансфер до / от сметката за ценни книжа.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot create a regular income to a securities account.</source>
         <translation type="vanished">Не може да се създаде редовен трансфер до сметка за ценни книжа.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Zero price per share not allowed.</source>
         <translation type="vanished">Нулева цена на акция не е разрешена.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Cannot create a regular expense from a securities account.</source>
         <translation type="vanished">Не може да се създаде редовен разход от сметката за ценни книжа.</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Modify Transactions</source>
         <translation type="vanished">Промяна на транзакции</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Min amount:</source>
         <translation type="vanished">Мин сума:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Max amount:</source>
         <translation type="vanished">Макс сума:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Min income:</source>
         <translation type="vanished">Мин доход:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Max income:</source>
         <translation type="vanished">Макс доход:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Min cost:</source>
         <translation type="vanished">Мин цена:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Max cost:</source>
         <translation type="vanished">Макс цена:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Include</source>
         <translation type="vanished">Включително</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Exclude</source>
         <translation type="vanished">Изключване</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>From Account</source>
         <translation type="vanished">От сметката</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>To Account</source>
         <translation type="vanished">В сметката</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Payer</source>
         <translation type="vanished">Платец</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>New/Edit Expense</source>
         <translation type="vanished">Нови/Редактиране разходи</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Filter</source>
         <translation type="vanished">Филтър</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total:</source>
         <translation type="vanished">Общо:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Average:</source>
         <translation type="vanished">Средно:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Monthly:</source>
         <translation type="vanished">Месечно:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total cost:</source>
         <translation type="vanished">Обща цена:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total income:</source>
         <translation type="vanished">Общо доходи:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Total amount:</source>
         <translation type="vanished">Обща сума:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Monthly average:</source>
         <translation type="vanished">Средно на месец:</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Are you sure you want to delete all (%1) transactions in the selected split transaction?</source>
         <translation type="vanished">Сигурен ли сте, че искате да изтриете всички (%1) сделки в избраната разделена транзакция?</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>* Part of split transaction</source>
         <translation type="vanished">* Част от разделянето на транзакцията</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>* Part of split (%1)</source>
         <translation type="vanished">* Част от разделянето (%1)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>** Recurring (editing occurrance)</source>
         <translation type="vanished">** Повторение (редактирени на събитието)</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
         <source>Modify…</source>
         <translation type="vanished">Променяне…</translation>
-        <extra-po-flags>kde-format</extra-po-flags>
     </message>
 </context>
 <context>
@@ -3978,7 +3379,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="62"/>
         <source>Transactional Account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Чекова сметка</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="65"/>
@@ -4007,9 +3408,8 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation>Банка:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="77"/>
         <source>Initial balance:</source>
-        <translation>Начален баланс:</translation>
+        <translation type="vanished">Начален баланс:</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="77"/>
@@ -4017,9 +3417,8 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="82"/>
         <source>Initial balance</source>
-        <translation>Начален баланс</translation>
+        <translation type="vanished">Начален баланс</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="86"/>
@@ -4068,6 +3467,18 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/editaccountdialogs.cpp" line="260"/>
         <source>Error</source>
         <translation>Грешка</translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="77"/>
+        <source>Opening balance:</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Начално салдо:</translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="82"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Начално салдо</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="254"/>
@@ -4638,11 +4049,16 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation type="vanished">Цена на акция</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="913"/>
-        <location filename="../src/eqonomize.cpp" line="920"/>
         <source>Quotations</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Оферти</translation>
+        <translation type="obsolete">Оферти</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="913"/>
+        <location filename="../src/eqonomize.cpp" line="920"/>
+        <source>Quotes</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Котировки</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="933"/>
@@ -4667,9 +4083,14 @@ Confirm that they have indeed occurred (or will occur today).</source>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="986"/>
+        <source>Quotes for %1</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Котировки на %1</translation>
+    </message>
+    <message>
         <source>Quotations for %1</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Котировки на %1</translation>
+        <translation type="obsolete">Котировки на %1</translation>
     </message>
     <message>
         <source>Quotations for %1</source>
@@ -5031,9 +4452,14 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation type="vanished">Облигация</translation>
     </message>
     <message>
+        <source>Stock</source>
+        <translation type="obsolete">Акция</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="1557"/>
         <source>Stock</source>
-        <translation>Наличност</translation>
+        <comment>Financial stock</comment>
+        <translation type="unfinished">Акция</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1558"/>
@@ -5064,15 +4490,20 @@ Confirm that they have indeed occurred (or will occur today).</source>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1585"/>
-        <source>Decimals in quotations:</source>
-        <comment>Financial quotation</comment>
+        <source>Decimals in quotes:</source>
+        <comment>Financial quote</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1591"/>
+        <source>Initial quote:</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Първоначален котировка:</translation>
+    </message>
+    <message>
         <source>Initial quotation:</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Първоначален оферта:</translation>
+        <translation type="obsolete">Първоначален оферта:</translation>
     </message>
     <message>
         <source>Decimals in shares:</source>
@@ -5910,10 +5341,8 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation>Облигация</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2837"/>
-        <location filename="../src/eqonomize.cpp" line="2906"/>
         <source>Stock</source>
-        <translation>Наличност</translation>
+        <translation type="obsolete">Акция</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2838"/>
@@ -5967,9 +5396,8 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation>Пари в брой</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4058"/>
         <source>Check Account</source>
-        <translation>Проверка на сметка</translation>
+        <translation type="vanished">Проверка на сметка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4059"/>
@@ -6068,10 +5496,8 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation>Промяна</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
         <source>Balance</source>
-        <translation>Баланс</translation>
+        <translation type="vanished">Баланс</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4556"/>
@@ -6092,6 +5518,32 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="4608"/>
         <source>Liabilities</source>
         <translation>Задължения</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2020"/>
+        <location filename="../src/eqonomize.cpp" line="5070"/>
+        <source>Set Quote…</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Задаване котировкa…</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2035"/>
+        <source>Quote</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Котировка</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2699"/>
+        <source>Set Quote (%1)</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Задаване котировка (%1)</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2837"/>
+        <location filename="../src/eqonomize.cpp" line="2906"/>
+        <source>Stock</source>
+        <comment>Financial stock</comment>
+        <translation type="unfinished">Акция</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4635"/>
@@ -6363,9 +5815,8 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation>Редактиране…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
         <source>Balance…</source>
-        <translation>Баланс…</translation>
+        <translation type="vanished">Баланс…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5021"/>
@@ -6673,11 +6124,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Нов поръчител…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2020"/>
-        <location filename="../src/eqonomize.cpp" line="5070"/>
         <source>Set Quotation…</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Задаване оферта …</translation>
+        <translation type="obsolete">Задаване оферта …</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2034"/>
@@ -6686,10 +6135,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Акции</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2035"/>
         <source>Quotation</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Оферта</translation>
+        <translation type="obsolete">Оферта</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2524"/>
@@ -6722,10 +6170,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Няма свободен поръчител.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2699"/>
         <source>Set Quotation (%1)</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Направи оферта (%1)</translation>
+        <translation type="obsolete">Направи оферта (%1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2704"/>
@@ -6740,6 +6187,19 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Сделки с ценни книжа</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="4058"/>
+        <source>Checking Account</source>
+        <comment>Transactional account</comment>
+        <translation type="unfinished">Чекова сметка</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Cалдо</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="4785"/>
         <location filename="../src/eqonomize.cpp" line="4817"/>
         <location filename="../src/eqonomize.cpp" line="4874"/>
@@ -6752,6 +6212,12 @@ Do you want to load the last auto-saved version of the file?</source>
         <source>&amp;Securities</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">&amp;Обезпечения</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Balance…</source>
+        <comment>Balance account</comment>
+        <translation type="unfinished">Баланс…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5059"/>
@@ -6778,10 +6244,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Продадени акции …</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5071"/>
         <source>Edit Quotations…</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Редактиране на офертите…</translation>
+        <translation type="obsolete">Редактиране на офертите…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5232"/>
@@ -6951,6 +6416,12 @@ What do you want to do with them?</source>
         <source>Shares of one security directly exchanged for shares of another</source>
         <comment>Financial shares</comment>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5071"/>
+        <source>Edit Quotes…</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Редактиране на котировки…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -7564,7 +7035,7 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/qifimportexport.cpp" line="127"/>
         <source>Opening balance text:</source>
-        <translation>Начален баланс:</translation>
+        <translation type="unfinished">Начален баланс:</translation>
     </message>
     <message>
         <source>Descriptions</source>
@@ -7892,9 +7363,14 @@ What do you want to do with them?</source>
         <translation>Изтегляне</translation>
     </message>
     <message>
+        <source>Balance</source>
+        <translation type="vanished">Баланс</translation>
+    </message>
+    <message>
         <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
-        <translation>Баланс</translation>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Cалдо</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="173"/>
@@ -7987,6 +7463,18 @@ What do you want to do with them?</source>
         <translation type="unfinished">Не може да се промени платецът на дивидентите и сделки с ценни книжа.</translation>
     </message>
     <message>
+        <location filename="../src/ledgerdialog.cpp" line="666"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Начално салдо</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Balancing</source>
+        <comment>Account balancing</comment>
+        <translation type="unfinished">балансиране</translation>
+    </message>
+    <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <translation type="vanished">Не може да се зададе стойност на сделки с ценни книжа, използвайки диалогов прозорец за промяна на много транзакции.</translation>
     </message>
@@ -8033,9 +7521,8 @@ What do you want to do with them?</source>
         <translation type="vanished">Не може да се промени датата на сделките, които са част от разделянето на транзакцията.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="666"/>
         <source>Initial balance</source>
-        <translation type="unfinished">Начален баланс</translation>
+        <translation type="obsolete">Начален баланс</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="678"/>
@@ -8098,9 +7585,8 @@ What do you want to do with them?</source>
         <translation>Обезщетение</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="762"/>
         <source>Balancing</source>
-        <translation>балансиране</translation>
+        <translation type="vanished">балансиране</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="764"/>

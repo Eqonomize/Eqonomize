@@ -3987,7 +3987,7 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="62"/>
         <source>Transactional Account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cont curent</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="65"/>
@@ -4016,9 +4016,8 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="unfinished">Bancă:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="77"/>
         <source>Initial balance:</source>
-        <translation type="unfinished">Balanță inițială:</translation>
+        <translation type="obsolete">Balanță inițială:</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="77"/>
@@ -4026,9 +4025,8 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="82"/>
         <source>Initial balance</source>
-        <translation type="unfinished">Balanță inițială</translation>
+        <translation type="obsolete">Balanță inițială</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="86"/>
@@ -4077,6 +4075,18 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <location filename="../src/editaccountdialogs.cpp" line="260"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="77"/>
+        <source>Opening balance:</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Soldul de deschidere:</translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="82"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Soldul de deschidere</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="254"/>
@@ -4627,10 +4637,15 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Preț per acțiune</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="913"/>
-        <location filename="../src/eqonomize.cpp" line="920"/>
         <source>Quotations</source>
         <comment>Financial quotation</comment>
+        <translation type="obsolete">Cotație</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="913"/>
+        <location filename="../src/eqonomize.cpp" line="920"/>
+        <source>Quotes</source>
+        <comment>Financial quote</comment>
         <translation type="unfinished">Cotație</translation>
     </message>
     <message>
@@ -4656,9 +4671,14 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="986"/>
+        <source>Quotes for %1</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Cotații pentru %1</translation>
+    </message>
+    <message>
         <source>Quotations for %1</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Cotații pentru %1</translation>
+        <translation type="obsolete">Cotații pentru %1</translation>
     </message>
     <message>
         <source>Quotations for %1</source>
@@ -5020,8 +5040,13 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Obligațiune</translation>
     </message>
     <message>
+        <source>Stock</source>
+        <translation type="obsolete">Stoc</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="1557"/>
         <source>Stock</source>
+        <comment>Financial stock</comment>
         <translation type="unfinished">Stoc</translation>
     </message>
     <message>
@@ -5053,15 +5078,20 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1585"/>
-        <source>Decimals in quotations:</source>
-        <comment>Financial quotation</comment>
+        <source>Decimals in quotes:</source>
+        <comment>Financial quote</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1591"/>
+        <source>Initial quote:</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Cotație inițială:</translation>
+    </message>
+    <message>
         <source>Initial quotation:</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Cotație inițială:</translation>
+        <translation type="obsolete">Cotație inițială:</translation>
     </message>
     <message>
         <source>Decimals in Shares:</source>
@@ -5883,10 +5913,8 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="unfinished">Obligațiune</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2837"/>
-        <location filename="../src/eqonomize.cpp" line="2906"/>
         <source>Stock</source>
-        <translation type="unfinished">Stoc</translation>
+        <translation type="obsolete">Stoc</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2838"/>
@@ -5940,9 +5968,8 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="unfinished">Numerar</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4058"/>
         <source>Check Account</source>
-        <translation type="unfinished">Cont cec</translation>
+        <translation type="obsolete">Cont cec</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4059"/>
@@ -6041,10 +6068,8 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="unfinished">Modifică</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
         <source>Balance</source>
-        <translation type="unfinished">Balanță</translation>
+        <translation type="obsolete">Balanță</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4556"/>
@@ -6065,6 +6090,32 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <location filename="../src/eqonomize.cpp" line="4608"/>
         <source>Liabilities</source>
         <translation type="unfinished">Pasive</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2020"/>
+        <location filename="../src/eqonomize.cpp" line="5070"/>
+        <source>Set Quote…</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Stabilire cotație…</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2035"/>
+        <source>Quote</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Cotație</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2699"/>
+        <source>Set Quote (%1)</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Stabilește cotația (%1)</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2837"/>
+        <location filename="../src/eqonomize.cpp" line="2906"/>
+        <source>Stock</source>
+        <comment>Financial stock</comment>
+        <translation type="unfinished">Stoc</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4635"/>
@@ -6332,9 +6383,8 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="unfinished">Editează…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
         <source>Balance…</source>
-        <translation type="unfinished">Echilibrare…</translation>
+        <translation type="obsolete">Echilibrare…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5021"/>
@@ -6638,11 +6688,9 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="unfinished">Titlu de valoare nou…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2020"/>
-        <location filename="../src/eqonomize.cpp" line="5070"/>
         <source>Set Quotation…</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Stabilire cotație…</translation>
+        <translation type="obsolete">Stabilire cotație…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2034"/>
@@ -6651,10 +6699,9 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="unfinished">Acțiuni</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2035"/>
         <source>Quotation</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Cotație</translation>
+        <translation type="obsolete">Cotație</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2524"/>
@@ -6687,10 +6734,9 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="unfinished">Nu este disponibil nici un titlu de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2699"/>
         <source>Set Quotation (%1)</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Stabilește cotația (%1)</translation>
+        <translation type="obsolete">Stabilește cotația (%1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2704"/>
@@ -6705,6 +6751,19 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="unfinished">Tranzacții titluri de valoare</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="4058"/>
+        <source>Checking Account</source>
+        <comment>Transactional account</comment>
+        <translation type="unfinished">Cont curent</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Balanță</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="4785"/>
         <location filename="../src/eqonomize.cpp" line="4817"/>
         <location filename="../src/eqonomize.cpp" line="4874"/>
@@ -6717,6 +6776,12 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <source>&amp;Securities</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Titluri de &amp;valoare</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Balance…</source>
+        <comment>Balance account</comment>
+        <translation type="unfinished">Echilibrare…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5059"/>
@@ -6743,10 +6808,9 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="unfinished">Acțiuni vândute…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5071"/>
         <source>Edit Quotations…</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Editare cotații…</translation>
+        <translation type="obsolete">Editare cotații…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5232"/>
@@ -6916,6 +6980,12 @@ Ce doriți să le faceți cu ele?</translation>
         <source>Shares of one security directly exchanged for shares of another</source>
         <comment>Financial shares</comment>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5071"/>
+        <source>Edit Quotes…</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Editare cotații…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -7852,8 +7922,13 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished">Retragere</translation>
     </message>
     <message>
+        <source>Balance</source>
+        <translation type="obsolete">Balanță</translation>
+    </message>
+    <message>
         <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
+        <comment>Account balance</comment>
         <translation type="unfinished">Balanță</translation>
     </message>
     <message>
@@ -7947,6 +8022,18 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished">Nu se poate schimba plătitorul dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
     <message>
+        <location filename="../src/ledgerdialog.cpp" line="666"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Soldul de deschidere</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Balancing</source>
+        <comment>Account balancing</comment>
+        <translation type="unfinished">Echilibrare</translation>
+    </message>
+    <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <translation type="obsolete">Nu se poate modifica valoarea tranzacțiilor cu titluri de valoare prin fereastra de modificare tranzacții multiple.</translation>
     </message>
@@ -7993,9 +8080,8 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Nu se poate schimba data tranzacțiilor care sunt parte a unei tranzacții împărțite.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="666"/>
         <source>Initial balance</source>
-        <translation type="unfinished">Balanță inițială</translation>
+        <translation type="obsolete">Balanță inițială</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="678"/>
@@ -8058,9 +8144,8 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished">Rambursare</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="762"/>
         <source>Balancing</source>
-        <translation type="unfinished">Echilibrare</translation>
+        <translation type="obsolete">Echilibrare</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="764"/>
@@ -8355,7 +8440,7 @@ Ce doriți să le faceți cu ele?</translation>
         <location filename="../src/overtimechart.cpp" line="2422"/>
         <location filename="../src/overtimechart.cpp" line="2794"/>
         <source>Assets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Resurse</translation>
     </message>
     <message>
         <source>All Descriptions Combined</source>
@@ -8818,7 +8903,7 @@ Date: %3</source>
     <message>
         <location filename="../src/overtimereport.cpp" line="120"/>
         <source>Columns:</source>
-        <translation type="unfinished">Coloane:</translation>
+        <translation>Coloane:</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="123"/>

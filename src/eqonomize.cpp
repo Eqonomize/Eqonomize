@@ -910,14 +910,14 @@ bool EditSecurityTradeDialog::validValues() {
 
 EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0) {
 
-	setWindowTitle(tr("Quotations", "Financial quotation"));
+	setWindowTitle(tr("Quotes", "Financial quote"));
 	setModal(true);
 	
 	i_quotation_decimals = MONETARY_DECIMAL_PLACES;
 
 	QVBoxLayout *quotationsVLayout = new QVBoxLayout(this);
 
-	titleLabel = new QLabel(tr("Quotations", "Financial quotation"), this);
+	titleLabel = new QLabel(tr("Quotes", "Financial quote"), this);
 	quotationsVLayout->addWidget(titleLabel);
 	QHBoxLayout *quotationsLayout = new QHBoxLayout();
 	quotationsVLayout->addLayout(quotationsLayout);
@@ -983,7 +983,7 @@ void EditQuotationsDialog::setSecurity(Security *security) {
 	}
 	quotationsView->addTopLevelItems(items);
 	quotationsView->setSortingEnabled(true);
-	titleLabel->setText(tr("Quotations for %1", "Financial quotation").arg(security->name()));	
+	titleLabel->setText(tr("Quotes for %1", "Financial quote").arg(security->name()));	
 	quotationEdit->setRange(0.0, pow(10, -i_quotation_decimals), i_quotation_decimals);
 	if(items.isEmpty()) quotationsView->setMinimumWidth(quotationsView->columnWidth(0) + quotationsView->columnWidth(1) + 10);
 }
@@ -1554,7 +1554,7 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	typeCombo = new QComboBox(this);
 	typeCombo->setEditable(false);
 	typeCombo->addItem(tr("Mutual Fund"));
-	typeCombo->addItem(tr("Stock"));
+	typeCombo->addItem(tr("Stock", "Financial stock"));
 	typeCombo->addItem(tr("Other"));
 	grid->addWidget(typeCombo, 0, 1);
 	typeCombo->setFocus();
@@ -1582,13 +1582,13 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	grid->addWidget(new QLabel(tr("Initial shares:", "Financial shares"), this), 4, 0);
 	sharesEdit = new EqonomizeValueEdit(0.0, 4, false, false, this);
 	grid->addWidget(sharesEdit, 4, 1);
-	grid->addWidget(new QLabel(tr("Decimals in quotations:", "Financial quotation"), this), 5, 0);
+	grid->addWidget(new QLabel(tr("Decimals in quotes:", "Financial quote"), this), 5, 0);
 	quotationDecimalsEdit = new QSpinBox(this);
 	quotationDecimalsEdit->setRange(0, 8);
 	quotationDecimalsEdit->setSingleStep(1);
 	quotationDecimalsEdit->setValue(budget->defaultQuotationDecimals());
 	grid->addWidget(quotationDecimalsEdit, 5, 1);
-	quotationLabel = new QLabel(tr("Initial quotation:", "Financial quotation"), this);
+	quotationLabel = new QLabel(tr("Initial quote:", "Financial quote"), this);
 	grid->addWidget(quotationLabel, 6, 0);
 	quotationEdit = new EqonomizeValueEdit(false, this);
 	grid->addWidget(quotationEdit, 6, 1);
@@ -2017,7 +2017,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	newSecurityTransactionButton = securitiesButtons->addButton(tr("New Transaction"), QDialogButtonBox::ActionRole);
 	QMenu *newSecurityTransactionMenu = new QMenu(this);
 	newSecurityTransactionButton->setMenu(newSecurityTransactionMenu);
-	setQuotationButton = securitiesButtons->addButton(tr("Set Quotation…", "Financial quotation"), QDialogButtonBox::ActionRole);
+	setQuotationButton = securitiesButtons->addButton(tr("Set Quote…", "Financial quote"), QDialogButtonBox::ActionRole);
 	setQuotationButton->setEnabled(false);
 	securitiesLayout->addWidget(securitiesButtons);
 
@@ -2032,7 +2032,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	securitiesViewHeaders << tr("Name");
 	securitiesViewHeaders << tr("Value");
 	securitiesViewHeaders << tr("Shares", "Financial shares");
-	securitiesViewHeaders << tr("Quotation", "Financial quotation");
+	securitiesViewHeaders << tr("Quote", "Financial quote");
 	securitiesViewHeaders << tr("Cost");
 	securitiesViewHeaders << tr("Profit");
 	securitiesViewHeaders << tr("Yearly Rate");
@@ -2696,7 +2696,7 @@ void Eqonomize::setQuotation() {
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
 	if(i == NULL) return;
 	QDialog *dialog = new QDialog(this, 0);
-	dialog->setWindowTitle(tr("Set Quotation (%1)", "Financial quotation").arg(i->security()->name()));
+	dialog->setWindowTitle(tr("Set Quote (%1)", "Financial quote").arg(i->security()->name()));
 	dialog->setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
 	QGridLayout *grid = new QGridLayout();
@@ -2834,7 +2834,7 @@ void Eqonomize::appendSecurity(Security *security) {
 	i->profit = profit;
 	switch(security->type()) {
 		case SECURITY_TYPE_BOND: {i->setText(7, tr("Bond")); break;}
-		case SECURITY_TYPE_STOCK: {i->setText(7, tr("Stock")); break;}
+		case SECURITY_TYPE_STOCK: {i->setText(7, tr("Stock", "Financial stock")); break;}
 		case SECURITY_TYPE_MUTUAL_FUND: {i->setText(7, tr("Mutual Fund")); break;}
 		case SECURITY_TYPE_OTHER: {i->setText(7, tr("Other")); break;}
 	}
@@ -2903,7 +2903,7 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i) {
 	i->setText(0, security->name());
 	switch(security->type()) {
 		case SECURITY_TYPE_BOND: {i->setText(7, tr("Bond")); break;}
-		case SECURITY_TYPE_STOCK: {i->setText(7, tr("Stock")); break;}
+		case SECURITY_TYPE_STOCK: {i->setText(7, tr("Stock", "Financial stock")); break;}
 		case SECURITY_TYPE_MUTUAL_FUND: {i->setText(7, tr("Mutual Fund")); break;}
 		case SECURITY_TYPE_OTHER: {i->setText(7, tr("Other")); break;}
 	}
@@ -4055,7 +4055,7 @@ void Eqonomize::createDefaultBudget() {
 	settings.sync();
 	
 	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_CASH, tr("Cash")));
-	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_CURRENT, tr("Check Account")));
+	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_CURRENT, tr("Checking Account", "Transactional account")));
 	budget->addAccount(new AssetsAccount(budget, ASSETS_TYPE_SAVINGS, tr("Savings Account")));
 	budget->addAccount(new IncomesAccount(budget, tr("Salary")));
 	budget->addAccount(new IncomesAccount(budget, tr("Other")));
@@ -4538,7 +4538,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change"));
 			bool includes_budget = (to_date > QDate::currentDate() && (expenses_budget >= 0.0 || incomes_budget >= 0.0));
 			outf << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Balance"));
+			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Balance", "Account balance"));
 			outf << "</th>" << '\n';
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';			
@@ -4588,7 +4588,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Type")) << "</th>";
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change"));
 			outf << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Balance"));
+			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Balance", "Account balance"));
 			outf << "</th>" << '\n';
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';			
@@ -5014,7 +5014,7 @@ void Eqonomize::setupActions() {
 	accountsToolbar->addAction(ActionAddAccountMenu);
 	accountsMenu->addSeparator();
 	NEW_ACTION_ALT(ActionEditAccount, tr("Edit…"), "document-edit", "eqz-edit", 0, this, SLOT(editAccount()), "edit_account", accountsMenu);
-	NEW_ACTION(ActionBalanceAccount, tr("Balance…"), "eqz-balance", 0, this, SLOT(balanceAccount()), "balance_account", accountsMenu);
+	NEW_ACTION(ActionBalanceAccount, tr("Balance…", "Balance account"), "eqz-balance", 0, this, SLOT(balanceAccount()), "balance_account", accountsMenu);
 	accountsMenu->addSeparator();
 	NEW_ACTION(ActionDeleteAccount, tr("Remove"), "edit-delete", 0, this, SLOT(deleteAccount()), "delete_account", accountsMenu);
 	accountsMenu->addSeparator();
@@ -5067,8 +5067,8 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionNewReinvestedDividend, tr("Reinvested Dividend…"), "eqz-income", 0, this, SLOT(newReinvestedDividend()), "new_reinvested_dividend", securitiesMenu);
 	NEW_ACTION(ActionEditSecurityTransactions, tr("Transactions…"), "eqz-transactions", 0, this, SLOT(editSecurityTransactions()), "edit_security_transactions", securitiesMenu);
 	securitiesMenu->addSeparator();
-	NEW_ACTION(ActionSetQuotation, tr("Set Quotation…", "Financial quotation"), "view-calendar-day", 0, this, SLOT(setQuotation()), "set_quotation", securitiesMenu);
-	NEW_ACTION(ActionEditQuotations, tr("Edit Quotations…", "Financial quotation"), "view-calendar-list", 0, this, SLOT(editQuotations()), "edit_quotations", securitiesMenu);
+	NEW_ACTION(ActionSetQuotation, tr("Set Quote…", "Financial quote"), "view-calendar-day", 0, this, SLOT(setQuotation()), "set_quotation", securitiesMenu);
+	NEW_ACTION(ActionEditQuotations, tr("Edit Quotes…", "Financial quote"), "view-calendar-list", 0, this, SLOT(editQuotations()), "edit_quotations", securitiesMenu);
 
 	NEW_ACTION(ActionOverTimeReport, tr("Development Over Time Report…"), "eqz-overtime-report", 0, this, SLOT(showOverTimeReport()), "over_time_report", statisticsMenu);
 	statisticsToolbar->addAction(ActionOverTimeReport);

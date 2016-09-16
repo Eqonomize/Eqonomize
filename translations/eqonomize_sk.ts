@@ -2203,7 +2203,7 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="63"/>
         <source>Savings Account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sporiaci účet</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="64"/>
@@ -2217,7 +2217,7 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="62"/>
         <source>Transactional Account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Šekový účet</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="65"/>
@@ -2246,9 +2246,8 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="77"/>
         <source>Initial balance:</source>
-        <translation type="unfinished">Počiatočné vyrovnanie:</translation>
+        <translation type="obsolete">Počiatočné vyrovnanie:</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="77"/>
@@ -2256,9 +2255,8 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="82"/>
         <source>Initial balance</source>
-        <translation type="unfinished">Počiatočné vyrovnanie</translation>
+        <translation type="obsolete">Počiatočné vyrovnanie</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="86"/>
@@ -2307,6 +2305,18 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <location filename="../src/editaccountdialogs.cpp" line="260"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="77"/>
+        <source>Opening balance:</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Počiatočný zostatok:</translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="82"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Počiatočný zostatok</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="254"/>
@@ -2849,11 +2859,16 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <translation type="obsolete">Prevodová cena</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="913"/>
-        <location filename="../src/eqonomize.cpp" line="920"/>
         <source>Quotations</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Predbežný rozpočet</translation>
+        <translation type="obsolete">Predbežný rozpočet</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="913"/>
+        <location filename="../src/eqonomize.cpp" line="920"/>
+        <source>Quotes</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Ceny</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="933"/>
@@ -2878,9 +2893,14 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="986"/>
+        <source>Quotes for %1</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Ceny pre %1</translation>
+    </message>
+    <message>
         <source>Quotations for %1</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Predbežný rozpočet pre %1</translation>
+        <translation type="obsolete">Predbežný rozpočet pre %1</translation>
     </message>
     <message>
         <source>Quotations for %1</source>
@@ -3242,8 +3262,13 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <translation type="obsolete">Záväzok</translation>
     </message>
     <message>
+        <source>Stock</source>
+        <translation type="obsolete">Akcie</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="1557"/>
         <source>Stock</source>
+        <comment>Financial stock</comment>
         <translation type="unfinished">Akcie</translation>
     </message>
     <message>
@@ -3275,15 +3300,20 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1585"/>
-        <source>Decimals in quotations:</source>
-        <comment>Financial quotation</comment>
+        <source>Decimals in quotes:</source>
+        <comment>Financial quote</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1591"/>
+        <source>Initial quote:</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Prebiehajúce cena:</translation>
+    </message>
+    <message>
         <source>Initial quotation:</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Prebiehajúce plány rozpočtu:</translation>
+        <translation type="obsolete">Prebiehajúce plány rozpočtu:</translation>
     </message>
     <message>
         <source>Decimals in Shares:</source>
@@ -4088,10 +4118,8 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <translation type="unfinished">Záväzok</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2837"/>
-        <location filename="../src/eqonomize.cpp" line="2906"/>
         <source>Stock</source>
-        <translation type="unfinished">Akcie</translation>
+        <translation type="obsolete">Akcie</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2838"/>
@@ -4145,16 +4173,15 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <translation type="unfinished">Hotovosť</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4058"/>
         <source>Check Account</source>
-        <translation type="unfinished">Kontrola účtu</translation>
+        <translation type="obsolete">Kontrola účtu</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4059"/>
         <location filename="../src/eqonomize.cpp" line="4557"/>
         <location filename="../src/eqonomize.cpp" line="4606"/>
         <source>Savings Account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sporiaci účet</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4060"/>
@@ -4216,7 +4243,7 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <location filename="../src/eqonomize.cpp" line="4664"/>
         <location filename="../src/eqonomize.cpp" line="4712"/>
         <source>Total</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spolu</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4525"/>
@@ -4246,10 +4273,8 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <translation type="unfinished">Obrat</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
         <source>Balance</source>
-        <translation type="unfinished">Vyváženosť</translation>
+        <translation type="obsolete">Vyváženosť</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4556"/>
@@ -4279,11 +4304,9 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <translation type="unfinished">Nová akcia…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2020"/>
-        <location filename="../src/eqonomize.cpp" line="5070"/>
         <source>Set Quotation…</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Nastav predbežný rozpočet…</translation>
+        <translation type="obsolete">Nastav predbežný rozpočet…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2034"/>
@@ -4292,10 +4315,9 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <translation type="unfinished">Podiely</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2035"/>
         <source>Quotation</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Predbežný rozpočet</translation>
+        <translation type="obsolete">Predbežný rozpočet</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2524"/>
@@ -4328,10 +4350,9 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2699"/>
         <source>Set Quotation (%1)</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Nastav predbežný rozpočet (%1)</translation>
+        <translation type="obsolete">Nastav predbežný rozpočet (%1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2704"/>
@@ -4344,6 +4365,26 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <source>Security Transactions</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Prevod akcii</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2837"/>
+        <location filename="../src/eqonomize.cpp" line="2906"/>
+        <source>Stock</source>
+        <comment>Financial stock</comment>
+        <translation type="unfinished">Akcie</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4058"/>
+        <source>Checking Account</source>
+        <comment>Transactional account</comment>
+        <translation type="unfinished">Šekový účet</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Zostatok</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4635"/>
@@ -4599,9 +4640,8 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <translation type="unfinished">Upraviť…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
         <source>Balance…</source>
-        <translation type="unfinished">Vyrovnanie…</translation>
+        <translation type="obsolete">Vyrovnanie…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5021"/>
@@ -4754,6 +4794,12 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <location filename="../src/eqonomize.cpp" line="5068"/>
         <source>Transactions…</source>
         <translation type="unfinished">Prevody…</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5071"/>
+        <source>Edit Quotes…</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Uprav ceny…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5073"/>
@@ -5034,12 +5080,37 @@ What do you want to do with them?</source>
         <translation type="unfinished">%2 z %1</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="2020"/>
+        <location filename="../src/eqonomize.cpp" line="5070"/>
+        <source>Set Quote…</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Nastav cena…</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2035"/>
+        <source>Quote</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Cena</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2699"/>
+        <source>Set Quote (%1)</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Nastav cena (%1)</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="4785"/>
         <location filename="../src/eqonomize.cpp" line="4817"/>
         <location filename="../src/eqonomize.cpp" line="4874"/>
         <source>Empty securities list.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Prázdny zoznam akcií.</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Balance…</source>
+        <comment>Balance account</comment>
+        <translation type="unfinished">Vyrovnanie…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5059"/>
@@ -5064,12 +5135,6 @@ What do you want to do with them?</source>
         <source>Shares Sold…</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Predaj podielov…</translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="5071"/>
-        <source>Edit Quotations…</source>
-        <comment>Financial quotation</comment>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -5306,7 +5371,7 @@ What do you want to do with them?</source>
         <location filename="../src/importcsvdialog.cpp" line="479"/>
         <location filename="../src/importcsvdialog.cpp" line="491"/>
         <source>Category:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kategória:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="239"/>
@@ -5371,7 +5436,7 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="465"/>
         <source>Amount:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Množstvo:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="473"/>
@@ -5410,12 +5475,12 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="507"/>
         <source>From:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Od:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="508"/>
         <source>To:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Do:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="535"/>
@@ -5920,9 +5985,8 @@ What do you want to do with them?</source>
         <translation type="unfinished">Výber</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
-        <translation type="unfinished">Vyváženosť</translation>
+        <translation type="obsolete">Vyváženosť</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="173"/>
@@ -5997,6 +6061,18 @@ What do you want to do with them?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/ledgerdialog.cpp" line="666"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Počiatočný zostatok</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Balancing</source>
+        <comment>Account balancing</comment>
+        <translation type="unfinished">Vyrovnanie</translation>
+    </message>
+    <message>
         <location filename="../src/ledgerdialog.cpp" line="781"/>
         <source>Current debt:</source>
         <translation type="unfinished"></translation>
@@ -6017,15 +6093,20 @@ What do you want to do with them?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="666"/>
         <source>Initial balance</source>
-        <translation type="unfinished">Počiatočné vyrovnanie</translation>
+        <translation type="obsolete">Počiatočné vyrovnanie</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="151"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Popis</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="156"/>
+        <source>Balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Zostatok</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="609"/>
@@ -6095,9 +6176,8 @@ What do you want to do with them?</source>
         <translation type="unfinished">Vrátenie</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="762"/>
         <source>Balancing</source>
-        <translation type="unfinished">Vyrovnanie</translation>
+        <translation type="obsolete">Vyrovnanie</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="764"/>
@@ -6203,7 +6283,7 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1338"/>
         <source>Category:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kategória:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1352"/>
@@ -6305,7 +6385,7 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="2422"/>
         <location filename="../src/overtimechart.cpp" line="2794"/>
         <source>Assets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aktíva</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="228"/>
@@ -6927,7 +7007,7 @@ Date: %3</source>
     <message>
         <location filename="../src/overtimereport.cpp" line="703"/>
         <source>Total</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spolu</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="719"/>
@@ -7776,18 +7856,18 @@ Date: %3</source>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="228"/>
         <source>From:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Od:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="234"/>
         <source>To:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Do:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="244"/>
         <location filename="../src/transactioneditwidget.cpp" line="287"/>
         <source>Category:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kategória:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="251"/>

@@ -3999,18 +3999,12 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="77"/>
         <source>Initial balance:</source>
-        <translation type="unfinished">Balanço inicial</translation>
+        <translation type="obsolete">Balanço inicial</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="77"/>
         <source>Debt:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/editaccountdialogs.cpp" line="82"/>
-        <source>Initial balance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4059,6 +4053,18 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
         <location filename="../src/editaccountdialogs.cpp" line="254"/>
         <location filename="../src/editaccountdialogs.cpp" line="260"/>
         <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="77"/>
+        <source>Opening balance:</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="82"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4610,11 +4616,16 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
         <translation type="obsolete">Preço por Ação</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="913"/>
-        <location filename="../src/eqonomize.cpp" line="920"/>
         <source>Quotations</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Cotações</translation>
+        <translation type="obsolete">Cotações</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="913"/>
+        <location filename="../src/eqonomize.cpp" line="920"/>
+        <source>Quotes</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="933"/>
@@ -4639,9 +4650,14 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="986"/>
+        <source>Quotes for %1</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Quotations for %1</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Cotações para %1</translation>
+        <translation type="obsolete">Cotações para %1</translation>
     </message>
     <message>
         <source>Quotations for %1</source>
@@ -5003,8 +5019,13 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
         <translation type="obsolete">Ação</translation>
     </message>
     <message>
+        <source>Stock</source>
+        <translation type="obsolete">Bolsa</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="1557"/>
         <source>Stock</source>
+        <comment>Financial stock</comment>
         <translation type="unfinished">Bolsa</translation>
     </message>
     <message>
@@ -5036,15 +5057,20 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1585"/>
-        <source>Decimals in quotations:</source>
-        <comment>Financial quotation</comment>
+        <source>Decimals in quotes:</source>
+        <comment>Financial quote</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1591"/>
+        <source>Initial quote:</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Initial quotation:</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Cotações iniciais:</translation>
+        <translation type="obsolete">Cotações iniciais:</translation>
     </message>
     <message>
         <source>Decimals in Shares:</source>
@@ -5866,10 +5892,8 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
         <translation type="unfinished">Ação</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2837"/>
-        <location filename="../src/eqonomize.cpp" line="2906"/>
         <source>Stock</source>
-        <translation type="unfinished">Bolsa</translation>
+        <translation type="obsolete">Bolsa</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2838"/>
@@ -5923,9 +5947,8 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
         <translation type="unfinished">Dinheiro</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4058"/>
         <source>Check Account</source>
-        <translation type="unfinished">Confirir conta</translation>
+        <translation type="obsolete">Confirir conta</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4059"/>
@@ -6024,10 +6047,8 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
         <translation type="unfinished">Change</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
         <source>Balance</source>
-        <translation type="unfinished">Balanço</translation>
+        <translation type="obsolete">Balanço</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4556"/>
@@ -6048,6 +6069,32 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
         <location filename="../src/eqonomize.cpp" line="4608"/>
         <source>Liabilities</source>
         <translation type="unfinished">Obrigações</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2020"/>
+        <location filename="../src/eqonomize.cpp" line="5070"/>
+        <source>Set Quote…</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2035"/>
+        <source>Quote</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2699"/>
+        <source>Set Quote (%1)</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2837"/>
+        <location filename="../src/eqonomize.cpp" line="2906"/>
+        <source>Stock</source>
+        <comment>Financial stock</comment>
+        <translation type="unfinished">Bolsa</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4635"/>
@@ -6315,9 +6362,8 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
         <translation type="unfinished">Editar…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
         <source>Balance…</source>
-        <translation type="unfinished">Balanço</translation>
+        <translation type="obsolete">Balanço</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5021"/>
@@ -6620,11 +6666,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Nova securamça…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2020"/>
-        <location filename="../src/eqonomize.cpp" line="5070"/>
         <source>Set Quotation…</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Definir cotação…</translation>
+        <translation type="obsolete">Definir cotação…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2034"/>
@@ -6633,10 +6677,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Ações</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2035"/>
         <source>Quotation</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Cotação</translation>
+        <translation type="obsolete">Cotação</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2524"/>
@@ -6669,10 +6712,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Nenhum asegurança disponível.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2699"/>
         <source>Set Quotation (%1)</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Definir cotação (%1)</translation>
+        <translation type="obsolete">Definir cotação (%1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2704"/>
@@ -6687,6 +6729,19 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Transações de segurança</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="4058"/>
+        <source>Checking Account</source>
+        <comment>Transactional account</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Balanço</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="4785"/>
         <location filename="../src/eqonomize.cpp" line="4817"/>
         <location filename="../src/eqonomize.cpp" line="4874"/>
@@ -6699,6 +6754,12 @@ Do you want to load the last auto-saved version of the file?</source>
         <source>&amp;Securities</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">&amp;Seguranças</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Balance…</source>
+        <comment>Balance account</comment>
+        <translation type="unfinished">Balanço</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5059"/>
@@ -6725,10 +6786,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Ações vendidas</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5071"/>
         <source>Edit Quotations…</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Editar cotações…</translation>
+        <translation type="obsolete">Editar cotações…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5232"/>
@@ -6897,6 +6957,12 @@ O que você gostaria de fazer com elas?</translation>
         <location filename="../src/eqonomize.cpp" line="5065"/>
         <source>Shares of one security directly exchanged for shares of another</source>
         <comment>Financial shares</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5071"/>
+        <source>Edit Quotes…</source>
+        <comment>Financial quote</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7825,8 +7891,13 @@ O que você gostaria de fazer com elas?</translation>
         <translation type="unfinished">Sacar</translation>
     </message>
     <message>
+        <source>Balance</source>
+        <translation type="obsolete">Balanço</translation>
+    </message>
+    <message>
         <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
+        <comment>Account balance</comment>
         <translation type="unfinished">Balanço</translation>
     </message>
     <message>
@@ -7920,6 +7991,18 @@ O que você gostaria de fazer com elas?</translation>
         <translation type="unfinished">Impossível mudar o sacado de dividendos e transações de segurança;</translation>
     </message>
     <message>
+        <location filename="../src/ledgerdialog.cpp" line="666"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Balancing</source>
+        <comment>Account balancing</comment>
+        <translation type="unfinished">balanço</translation>
+    </message>
+    <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <translation type="obsolete">Impossível mudar o valor das transações de segurança usando o diálogo para modificar transações múltiplas.</translation>
     </message>
@@ -7964,11 +8047,6 @@ O que você gostaria de fazer com elas?</translation>
     <message>
         <source>Cannot change date of transactions that are part of a split transaction.</source>
         <translation type="obsolete">Impossível mudar a data das transações que são parte de uma transação divídida.</translation>
-    </message>
-    <message>
-        <location filename="../src/ledgerdialog.cpp" line="666"/>
-        <source>Initial balance</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="678"/>
@@ -8031,9 +8109,8 @@ O que você gostaria de fazer com elas?</translation>
         <translation type="unfinished">Reembolso</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="762"/>
         <source>Balancing</source>
-        <translation type="unfinished">balanço</translation>
+        <translation type="obsolete">balanço</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="764"/>

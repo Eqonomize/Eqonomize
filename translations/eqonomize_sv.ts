@@ -3550,9 +3550,8 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Bank:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="77"/>
         <source>Initial balance:</source>
-        <translation>Startvärde:</translation>
+        <translation type="vanished">Startvärde:</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="77"/>
@@ -3560,9 +3559,8 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Skuld:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="82"/>
         <source>Initial balance</source>
-        <translation>Startvärde</translation>
+        <translation type="vanished">Startvärde</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="86"/>
@@ -3611,6 +3609,18 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <location filename="../src/editaccountdialogs.cpp" line="260"/>
         <source>Error</source>
         <translation>Fel</translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="77"/>
+        <source>Opening balance:</source>
+        <comment>Account balance</comment>
+        <translation>Startvärde:</translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="82"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation>Startvärde</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="254"/>
@@ -4236,10 +4246,15 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation type="vanished">Pris per andel</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="913"/>
-        <location filename="../src/eqonomize.cpp" line="920"/>
         <source>Quotations</source>
         <comment>Financial quotation</comment>
+        <translation type="vanished">Kurser</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="913"/>
+        <location filename="../src/eqonomize.cpp" line="920"/>
+        <source>Quotes</source>
+        <comment>Financial quote</comment>
         <translation>Kurser</translation>
     </message>
     <message>
@@ -4265,9 +4280,14 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="986"/>
+        <source>Quotes for %1</source>
+        <comment>Financial quote</comment>
+        <translation>Kurser för %1</translation>
+    </message>
+    <message>
         <source>Quotations for %1</source>
         <comment>Financial quotation</comment>
-        <translation>Kurser för %1</translation>
+        <translation type="vanished">Kurser för %1</translation>
     </message>
     <message>
         <source>Quotations for %1</source>
@@ -4669,8 +4689,13 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation type="vanished">Obligation</translation>
     </message>
     <message>
+        <source>Stock</source>
+        <translation type="vanished">Aktie</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="1557"/>
         <source>Stock</source>
+        <comment>Financial stock</comment>
         <translation>Aktie</translation>
     </message>
     <message>
@@ -4702,15 +4727,25 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1585"/>
-        <source>Decimals in quotations:</source>
-        <comment>Financial quotation</comment>
+        <source>Decimals in quotes:</source>
+        <comment>Financial quote</comment>
         <translation>Decimaler i kursangivelser:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1591"/>
+        <source>Initial quote:</source>
+        <comment>Financial quote</comment>
+        <translation>Initial kurs:</translation>
+    </message>
+    <message>
+        <source>Decimals in quotations:</source>
+        <comment>Financial quotation</comment>
+        <translation type="vanished">Decimaler i kursangivelser:</translation>
+    </message>
+    <message>
         <source>Initial quotation:</source>
         <comment>Financial quotation</comment>
-        <translation>Initial kurs:</translation>
+        <translation type="vanished">Initial kurs:</translation>
     </message>
     <message>
         <source>Decimals in shares:</source>
@@ -5598,10 +5633,8 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Obligation</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2837"/>
-        <location filename="../src/eqonomize.cpp" line="2906"/>
         <source>Stock</source>
-        <translation>Aktie</translation>
+        <translation type="vanished">Aktie</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2838"/>
@@ -5655,9 +5688,8 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Kontanter</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4058"/>
         <source>Check Account</source>
-        <translation>Transaktionskonto</translation>
+        <translation type="vanished">Transaktionskonto</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4059"/>
@@ -5756,10 +5788,8 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Ändra</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
         <source>Balance</source>
-        <translation>Balans</translation>
+        <translation type="vanished">Balans</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4556"/>
@@ -6050,11 +6080,9 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Nytt värdepapper…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2020"/>
-        <location filename="../src/eqonomize.cpp" line="5070"/>
         <source>Set Quotation…</source>
         <comment>Financial quotation</comment>
-        <translation>Ange kurs…</translation>
+        <translation type="vanished">Ange kurs…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2034"/>
@@ -6063,10 +6091,9 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Andelar</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2035"/>
         <source>Quotation</source>
         <comment>Financial quotation</comment>
-        <translation>Kurs</translation>
+        <translation type="vanished">Kurs</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2524"/>
@@ -6099,10 +6126,9 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Inget värdepapper o finns tillgängligt.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2699"/>
         <source>Set Quotation (%1)</source>
         <comment>Financial quotation</comment>
-        <translation>Ange kurs (%1)</translation>
+        <translation type="vanished">Ange kurs (%1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2704"/>
@@ -6115,6 +6141,13 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <source>Security Transactions</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Värdepapperstransaktioner</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2837"/>
+        <location filename="../src/eqonomize.cpp" line="2906"/>
+        <source>Stock</source>
+        <comment>Financial stock</comment>
+        <translation>Aktie</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4785"/>
@@ -6141,9 +6174,8 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Redigera…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
         <source>Balance…</source>
-        <translation>Balansera…</translation>
+        <translation type="vanished">Balansera…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5021"/>
@@ -6270,10 +6302,9 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation type="vanished">Andelar flyttade...</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5071"/>
         <source>Edit Quotations…</source>
         <comment>Financial quotation</comment>
-        <translation>Redigera kursangivelser…</translation>
+        <translation type="vanished">Redigera kursangivelser…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5084"/>
@@ -6507,6 +6538,25 @@ Vill du öppna den senast automatiskt sparade versionen av filen?</translation>
         <translation>Namnlös</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="4058"/>
+        <source>Checking Account</source>
+        <comment>Transactional account</comment>
+        <translation>Transaktionskonto</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Account balance</comment>
+        <translation>Saldo</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Balance…</source>
+        <comment>Balance account</comment>
+        <translation>Balansera…</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="5064"/>
         <source>Shares Exchanged…</source>
         <comment>Shares of one security directly exchanged for shares of another; Financial shares</comment>
@@ -6517,6 +6567,12 @@ Vill du öppna den senast automatiskt sparade versionen av filen?</translation>
         <source>Shares of one security directly exchanged for shares of another</source>
         <comment>Financial shares</comment>
         <translation>Andelar av ett väderpapper direkt utbytta mot andelar av ett annat</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5071"/>
+        <source>Edit Quotes…</source>
+        <comment>Financial quote</comment>
+        <translation>Redigera kursangivelser…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5479"/>
@@ -6669,6 +6725,25 @@ Vad vill du göra med dem?</translation>
         <source>%2 of %1</source>
         <comment>%1: budget; %2: remaining budget</comment>
         <translation>%2 av %1</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2020"/>
+        <location filename="../src/eqonomize.cpp" line="5070"/>
+        <source>Set Quote…</source>
+        <comment>Financial quote</comment>
+        <translation>Ange kurs…</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2035"/>
+        <source>Quote</source>
+        <comment>Financial quote</comment>
+        <translation>Kurs</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2699"/>
+        <source>Set Quote (%1)</source>
+        <comment>Financial quote</comment>
+        <translation>Ange kurs (%1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -7293,7 +7368,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="127"/>
         <source>Opening balance text:</source>
-        <translation>Öppningsbalanstext:</translation>
+        <translation>Text för ingående saldo:</translation>
     </message>
     <message>
         <source>Descriptions</source>
@@ -7633,9 +7708,14 @@ Vad vill du göra med dem?</translation>
         <translation>Uttag</translation>
     </message>
     <message>
+        <source>Balance</source>
+        <translation type="vanished">Balans</translation>
+    </message>
+    <message>
         <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
-        <translation>Balans</translation>
+        <comment>Account balance</comment>
+        <translation>Saldo</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="173"/>
@@ -7728,6 +7808,18 @@ Vad vill du göra med dem?</translation>
         <translation>Kan inte ändra utbetalare för utdelningar och värdepapperstransaktioner.</translation>
     </message>
     <message>
+        <location filename="../src/ledgerdialog.cpp" line="666"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation>Ingående saldo</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Balancing</source>
+        <comment>Account balancing</comment>
+        <translation>Kontobalansering</translation>
+    </message>
+    <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <translation type="vanished">Kan inte ange värde för värdepapperstransaktioner med dialogen för att ändra flera transaktioner.</translation>
     </message>
@@ -7774,9 +7866,8 @@ Vad vill du göra med dem?</translation>
         <translation type="vanished">Kan inte ändra datum på transaktioner som ingår i en delad transaktion.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="666"/>
         <source>Initial balance</source>
-        <translation>Startvärde</translation>
+        <translation type="vanished">Startvärde</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="678"/>
@@ -7839,9 +7930,8 @@ Vad vill du göra med dem?</translation>
         <translation>Återbetalning</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="762"/>
         <source>Balancing</source>
-        <translation>Balanskonto</translation>
+        <translation type="vanished">Balanskonto</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="764"/>

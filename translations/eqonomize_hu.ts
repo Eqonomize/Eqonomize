@@ -3964,7 +3964,7 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="62"/>
         <source>Transactional Account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Folyószámla</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="65"/>
@@ -3993,9 +3993,8 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <translation type="unfinished">Bank:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="77"/>
         <source>Initial balance:</source>
-        <translation>Nyitóegyenleg:</translation>
+        <translation type="vanished">Nyitóegyenleg:</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="77"/>
@@ -4003,9 +4002,8 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="82"/>
         <source>Initial balance</source>
-        <translation type="unfinished">Nyitóegyenleg</translation>
+        <translation type="obsolete">Nyitóegyenleg</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="86"/>
@@ -4054,6 +4052,18 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <location filename="../src/editaccountdialogs.cpp" line="260"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="77"/>
+        <source>Opening balance:</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Nyitóegyenleg:</translation>
+    </message>
+    <message>
+        <location filename="../src/editaccountdialogs.cpp" line="82"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Nyitóegyenleg</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="254"/>
@@ -4604,10 +4614,15 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <translation type="vanished">Részvényenkénti ár</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="913"/>
-        <location filename="../src/eqonomize.cpp" line="920"/>
         <source>Quotations</source>
         <comment>Financial quotation</comment>
+        <translation type="obsolete">Árfolyamok</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="913"/>
+        <location filename="../src/eqonomize.cpp" line="920"/>
+        <source>Quotes</source>
+        <comment>Financial quote</comment>
         <translation type="unfinished">Árfolyamok</translation>
     </message>
     <message>
@@ -4633,9 +4648,14 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="986"/>
+        <source>Quotes for %1</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">%1 árfolyamai</translation>
+    </message>
+    <message>
         <source>Quotations for %1</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">%1 árfolyamai</translation>
+        <translation type="obsolete">%1 árfolyamai</translation>
     </message>
     <message>
         <source>Quotations for %1</source>
@@ -4997,9 +5017,14 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <translation type="vanished">Kötvény</translation>
     </message>
     <message>
+        <source>Stock</source>
+        <translation type="vanished">Részvény</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="1557"/>
         <source>Stock</source>
-        <translation>Részvény</translation>
+        <comment>Financial stock</comment>
+        <translation type="unfinished">Részvény</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1558"/>
@@ -5030,15 +5055,20 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1585"/>
-        <source>Decimals in quotations:</source>
-        <comment>Financial quotation</comment>
+        <source>Decimals in quotes:</source>
+        <comment>Financial quote</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1591"/>
+        <source>Initial quote:</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Kezdő árfolyam:</translation>
+    </message>
+    <message>
         <source>Initial quotation:</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Kezdő árfolyam:</translation>
+        <translation type="obsolete">Kezdő árfolyam:</translation>
     </message>
     <message>
         <source>Decimals in shares:</source>
@@ -5868,10 +5898,8 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <translation>Kötvény</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2837"/>
-        <location filename="../src/eqonomize.cpp" line="2906"/>
         <source>Stock</source>
-        <translation>Részvény</translation>
+        <translation type="vanished">Részvény</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2838"/>
@@ -5925,9 +5953,8 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <translation>Készpénz</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4058"/>
         <source>Check Account</source>
-        <translation>Számlaellenőrzés</translation>
+        <translation type="vanished">Számlaellenőrzés</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4059"/>
@@ -6026,10 +6053,8 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <translation>Változás</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
         <source>Balance</source>
-        <translation>Egyenleg</translation>
+        <translation type="vanished">Egyenleg</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4556"/>
@@ -6050,6 +6075,32 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <location filename="../src/eqonomize.cpp" line="4608"/>
         <source>Liabilities</source>
         <translation>Tartozások</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2020"/>
+        <location filename="../src/eqonomize.cpp" line="5070"/>
+        <source>Set Quote…</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Árfolyam beállítása…</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2035"/>
+        <source>Quote</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Árfolyam</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2699"/>
+        <source>Set Quote (%1)</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Árfolyam beállítása (%1)</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="2837"/>
+        <location filename="../src/eqonomize.cpp" line="2906"/>
+        <source>Stock</source>
+        <comment>Financial stock</comment>
+        <translation type="unfinished">Részvény</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4635"/>
@@ -6317,9 +6368,8 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <translation>Szerkesztés…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
         <source>Balance…</source>
-        <translation>Egyenleg…</translation>
+        <translation type="vanished">Egyenleg…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5021"/>
@@ -6622,11 +6672,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Új értékpapír…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2020"/>
-        <location filename="../src/eqonomize.cpp" line="5070"/>
         <source>Set Quotation…</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Árfolyam beállítása…</translation>
+        <translation type="obsolete">Árfolyam beállítása…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2034"/>
@@ -6635,10 +6683,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Részvények</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2035"/>
         <source>Quotation</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Árfolyam</translation>
+        <translation type="obsolete">Árfolyam</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2524"/>
@@ -6671,10 +6718,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Nincs lehetséges értékpapír.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2699"/>
         <source>Set Quotation (%1)</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Árfolyam beállítása (%1)</translation>
+        <translation type="obsolete">Árfolyam beállítása (%1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2704"/>
@@ -6689,6 +6735,19 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Értékpapír tranzakciók</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="4058"/>
+        <source>Checking Account</source>
+        <comment>Transactional account</comment>
+        <translation type="unfinished">Folyószámla</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Egyenleg</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="4785"/>
         <location filename="../src/eqonomize.cpp" line="4817"/>
         <location filename="../src/eqonomize.cpp" line="4874"/>
@@ -6701,6 +6760,12 @@ Do you want to load the last auto-saved version of the file?</source>
         <source>&amp;Securities</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">&amp;Értékpapírok</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Balance…</source>
+        <comment>Balance account</comment>
+        <translation type="unfinished">Egyenleg…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5059"/>
@@ -6727,10 +6792,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Részvények eladása…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5071"/>
         <source>Edit Quotations…</source>
         <comment>Financial quotation</comment>
-        <translation type="unfinished">Árfolyamok szerkesztése…</translation>
+        <translation type="obsolete">Árfolyamok szerkesztése…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5232"/>
@@ -6903,6 +6967,12 @@ Biztosan el akarod távolítani a számlát?</translation>
         <source>Shares of one security directly exchanged for shares of another</source>
         <comment>Financial shares</comment>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5071"/>
+        <source>Edit Quotes…</source>
+        <comment>Financial quote</comment>
+        <translation type="unfinished">Árfolyamok szerkesztése…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -7514,7 +7584,7 @@ Biztosan el akarod távolítani a számlát?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="127"/>
         <source>Opening balance text:</source>
-        <translation>Nyitóegyenleg szöveg:</translation>
+        <translation type="unfinished">Nyitóegyenleg szöveg:</translation>
     </message>
     <message>
         <source>Descriptions</source>
@@ -7833,9 +7903,14 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation>Kivét</translation>
     </message>
     <message>
+        <source>Balance</source>
+        <translation type="vanished">Egyenleg</translation>
+    </message>
+    <message>
         <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
-        <translation>Egyenleg</translation>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Egyenleg</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="173"/>
@@ -7928,6 +8003,18 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="unfinished">Az osztalékok és értékpapír-tranzakciók kifizetője nem változtatható meg.</translation>
     </message>
     <message>
+        <location filename="../src/ledgerdialog.cpp" line="666"/>
+        <source>Opening balance</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished">Nyitóegyenleg</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Balancing</source>
+        <comment>Account balancing</comment>
+        <translation type="unfinished">Kiegyenlítés</translation>
+    </message>
+    <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <translation type="vanished">Az értékpapír-tranzakciók értékét  nem lehet beállítani a többszörös tranzakciók módosítása párbeszédablakban.</translation>
     </message>
@@ -7974,9 +8061,8 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="obsolete">Osztott tranzakcióban szereplő tranzakciók dátuma nem változtatható meg.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="666"/>
         <source>Initial balance</source>
-        <translation>Nyitóegyenleg</translation>
+        <translation type="vanished">Nyitóegyenleg</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="678"/>
@@ -8039,9 +8125,8 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation>Visszatérítés</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="762"/>
         <source>Balancing</source>
-        <translation>Kiegyenlítés</translation>
+        <translation type="vanished">Kiegyenlítés</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="764"/>
