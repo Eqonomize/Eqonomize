@@ -106,6 +106,7 @@ unix:!android:!macx {
 	qm.files = 	translations/eqonomize_bg.qm \
 			translations/eqonomize_cs.qm \
 			translations/eqonomize_de.qm \
+			translations/eqonomize_es.qm \
 			translations/eqonomize_fr.qm \
 			translations/eqonomize_hu.qm \
 			translations/eqonomize_it.qm \

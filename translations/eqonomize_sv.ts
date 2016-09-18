@@ -9404,7 +9404,10 @@ Datum: %3</translation>
         <translation>men efter helgen</translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="440"/>
+        <source>nearest weekday</source>
+        <translation type="obsolete">närmaste vardag</translation>
+    </message>
+    <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="493"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="532"/>
         <source>nearest weekend day</source>
@@ -9414,6 +9417,11 @@ Datum: %3</translation>
         <location filename="../src/recurrenceeditwidget.cpp" line="473"/>
         <source>year(s), after the start year</source>
         <translation>år, efter startåret</translation>
+    </message>
+    <message>
+        <location filename="../src/recurrenceeditwidget.cpp" line="440"/>
+        <source>on nearest weekday</source>
+        <translation>på närmaste vardag</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="478"/>

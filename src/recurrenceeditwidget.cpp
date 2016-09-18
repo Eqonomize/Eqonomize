@@ -437,7 +437,7 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 	monthlyWeekendCombo->addItem(tr("possibly on weekend"));
 	monthlyWeekendCombo->addItem(tr("but before weekend"));
 	monthlyWeekendCombo->addItem(tr("but after weekend"));
-	monthlyWeekendCombo->addItem(tr("nearest weekend day"));
+	monthlyWeekendCombo->addItem(tr("on nearest weekday"));
 	monthlyDayLayout->addWidget(monthlyWeekendCombo);
 	monthlyDayLayout->addStretch(1);
 	monthlyButtonLayout->addLayout(monthlyDayLayout, 0, 1);

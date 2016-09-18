@@ -8918,7 +8918,6 @@ Datum: %3</translation>
         <translation>aber nach einem Wochenende</translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="440"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="493"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="532"/>
         <source>nearest weekend day</source>
@@ -8928,6 +8927,11 @@ Datum: %3</translation>
         <location filename="../src/recurrenceeditwidget.cpp" line="473"/>
         <source>year(s), after the start year</source>
         <translation>Jahr(e) nach dem Startjahr</translation>
+    </message>
+    <message>
+        <location filename="../src/recurrenceeditwidget.cpp" line="440"/>
+        <source>on nearest weekday</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="478"/>

@@ -7406,7 +7406,6 @@ Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="440"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="493"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="532"/>
         <source>nearest weekend day</source>
@@ -7415,6 +7414,11 @@ Date: %3</source>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="473"/>
         <source>year(s), after the start year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/recurrenceeditwidget.cpp" line="440"/>
+        <source>on nearest weekday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -9339,7 +9339,6 @@ Data: %3</translation>
         <translation type="unfinished">ma dopo il fine settimana</translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="440"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="493"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="532"/>
         <source>nearest weekend day</source>
@@ -9349,6 +9348,11 @@ Data: %3</translation>
         <location filename="../src/recurrenceeditwidget.cpp" line="473"/>
         <source>year(s), after the start year</source>
         <translation type="unfinished">anno/i, dopo l&apos;anno di inizio</translation>
+    </message>
+    <message>
+        <location filename="../src/recurrenceeditwidget.cpp" line="440"/>
+        <source>on nearest weekday</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="478"/>
