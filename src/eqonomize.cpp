@@ -4538,7 +4538,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change"));
 			bool includes_budget = (to_date > QDate::currentDate() && (expenses_budget >= 0.0 || incomes_budget >= 0.0));
 			outf << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Balance", "Account balance"));
+			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Balance", "Noun. Balance of an account"));
 			outf << "</th>" << '\n';
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';			
@@ -4588,7 +4588,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Type")) << "</th>";
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change"));
 			outf << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Balance", "Account balance"));
+			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Balance", "Noun. Balance of an account"));
 			outf << "</th>" << '\n';
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';			
@@ -5014,7 +5014,7 @@ void Eqonomize::setupActions() {
 	accountsToolbar->addAction(ActionAddAccountMenu);
 	accountsMenu->addSeparator();
 	NEW_ACTION_ALT(ActionEditAccount, tr("Edit…"), "document-edit", "eqz-edit", 0, this, SLOT(editAccount()), "edit_account", accountsMenu);
-	NEW_ACTION(ActionBalanceAccount, tr("Balance…", "Balance account"), "eqz-balance", 0, this, SLOT(balanceAccount()), "balance_account", accountsMenu);
+	NEW_ACTION(ActionBalanceAccount, tr("Adjust balance…", "Referring to account balance"), "eqz-balance", 0, this, SLOT(balanceAccount()), "balance_account", accountsMenu);
 	accountsMenu->addSeparator();
 	NEW_ACTION(ActionDeleteAccount, tr("Remove"), "edit-delete", 0, this, SLOT(deleteAccount()), "delete_account", accountsMenu);
 	accountsMenu->addSeparator();
@@ -5809,7 +5809,7 @@ void Eqonomize::balanceAccount(Account *i_account) {
 		trans = budget->transactions.next();
 	}
 	QDialog *dialog = new QDialog(this, 0);
-	dialog->setWindowTitle(tr("Balance Account"));
+	dialog->setWindowTitle(tr("Adjust Account Balance"));
 	dialog->setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
 	QGridLayout *grid = new QGridLayout();
@@ -5818,7 +5818,7 @@ void Eqonomize::balanceAccount(Account *i_account) {
 	QLabel *label = new QLabel(QLocale().toCurrencyString(book_value), dialog);
 	label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 	grid->addWidget(label, 0, 1);
-	label = new QLabel(tr("of which %1 is balanced").arg(QLocale().toCurrencyString(current_balancing)), dialog);
+	label = new QLabel(tr("of which %1 is balanced", "Referring to account balance").arg(QLocale().toCurrencyString(current_balancing)), dialog);
 	label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 	grid->addWidget(label, 1, 1);
 	grid->addWidget(new QLabel(tr("Real value:"), dialog), 2, 0);

@@ -81,7 +81,7 @@ Budget::Budget() {
 	assetsAccounts.setAutoDelete(true);
 	securityTrades.setAutoDelete(true);
 	accounts.setAutoDelete(false);
-	balancingAccount = new AssetsAccount(this, ASSETS_TYPE_BALANCING, tr("Balancing"), 0.0);
+	balancingAccount = new AssetsAccount(this, ASSETS_TYPE_BALANCING, tr("Balancing", "Name of account for transactions that adjust account balances"), 0.0);
 	balancingAccount->setId(0);
 	assetsAccounts.append(balancingAccount);
 	accounts.append(balancingAccount);

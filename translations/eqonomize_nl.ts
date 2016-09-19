@@ -3107,16 +3107,26 @@ i18n: file ./eqonomizeui.rc line 56
 <context>
     <name>Balancing</name>
     <message>
+        <source>Account balancing</source>
+        <translation type="obsolete">Afletteren</translation>
+    </message>
+    <message>
         <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
+        <comment>Balancing of an account</comment>
         <translation type="unfinished">Afletteren</translation>
     </message>
 </context>
 <context>
     <name>Budget</name>
     <message>
+        <source>Balancing</source>
+        <translation type="obsolete">Balans</translation>
+    </message>
+    <message>
         <location filename="../src/budget.cpp" line="84"/>
         <source>Balancing</source>
+        <comment>Name of account for transactions that adjust account balances</comment>
         <translation type="unfinished">Balans</translation>
     </message>
     <message>
@@ -3278,25 +3288,25 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonchart.cpp" line="167"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="1195"/>
         <source>All Expenses, without subcategories</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alle uitgaven, zonder subcategorieën</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="168"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="1196"/>
         <source>All Expenses, with subcategories</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alle uitgaven, mit subcategorieën</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="169"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="1197"/>
         <source>All Incomes, without subcategories</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alle inkomsten, zonder subcategorieën</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="170"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="1198"/>
         <source>All Incomes, with subcategories</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alle inkomsten, zonder subcategorieën</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="171"/>
@@ -3374,7 +3384,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonchart.cpp" line="827"/>
         <source>Other descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Andere omschrijvingen</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="891"/>
@@ -3707,7 +3717,7 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="833"/>
         <source>Incomes &amp; Expenses</source>
-        <translation type="unfinished">Inkomsten &amp; uitgaven</translation>
+        <translation type="unfinished">Inkomsten en uitgaven</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="846"/>
@@ -5805,6 +5815,17 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="unfinished">Op 4 na laatste</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Adjust balance…</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5812"/>
+        <source>Adjust Account Balance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>New Security</source>
         <translation type="obsolete">Nieuw waardepapier</translation>
     </message>
@@ -6115,6 +6136,13 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <source>Stock</source>
         <comment>Financial stock</comment>
         <translation type="unfinished">Aandelen</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Noun. Balance of an account</comment>
+        <translation type="unfinished">Saldo</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4635"/>
@@ -6755,11 +6783,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Betaalrekening</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
         <source>Balance</source>
         <comment>Account balance</comment>
-        <translation type="unfinished">Saldo</translation>
+        <translation type="obsolete">Saldo</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4785"/>
@@ -6776,10 +6802,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">&amp;Effecten</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
         <source>Balance…</source>
         <comment>Balance account</comment>
-        <translation type="unfinished">Balans…</translation>
+        <translation type="obsolete">Balans…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5059"/>
@@ -6856,19 +6881,13 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Nieuwe uitgaven categorie</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5812"/>
         <source>Balance Account</source>
-        <translation type="unfinished">Balansrekening</translation>
+        <translation type="obsolete">Balansrekening</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5817"/>
         <source>Book value:</source>
         <translation type="unfinished">Boek waarde:</translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
-        <source>of which %1 is balanced</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5824"/>
@@ -6968,6 +6987,11 @@ Wat wil je er mee doen?</translation>
         <translation type="unfinished">%2 van %1</translation>
     </message>
     <message>
+        <source>Balance…</source>
+        <comment>Verb. Balance an account</comment>
+        <translation type="obsolete">Balans…</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="5064"/>
         <source>Shares Exchanged…</source>
         <comment>Shares of one security directly exchanged for shares of another; Financial shares</comment>
@@ -6984,6 +7008,17 @@ Wat wil je er mee doen?</translation>
         <source>Edit Quotes…</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Bewerk noteringen…</translation>
+    </message>
+    <message>
+        <source>Balance Account</source>
+        <comment>Verb</comment>
+        <translation type="obsolete">Balansrekening</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balanced</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -7474,7 +7509,12 @@ Wat wil je er mee doen?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1404"/>
         <source>Balancing account wrongly used.</source>
+        <comment>Referring to the account used for adjustments of account balances.</comment>
         <translation type="unfinished">Balansrekening verkeerd gebuikt.</translation>
+    </message>
+    <message>
+        <source>Balancing account wrongly used.</source>
+        <translation type="obsolete">Balansrekening verkeerd gebuikt.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1405"/>
@@ -7929,9 +7969,14 @@ Wat wil je er mee doen?</translation>
         <translation type="obsolete">Balans</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
         <comment>Account balance</comment>
+        <translation type="obsolete">Saldo</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="156"/>
+        <source>Balance</source>
+        <comment>Noun. Balance of an account</comment>
         <translation type="unfinished">Saldo</translation>
     </message>
     <message>
@@ -8032,9 +8077,19 @@ Wat wil je er mee doen?</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Account Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Afletteren</translation>
+    </message>
+    <message>
+        <source>Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="obsolete">Balans</translation>
+    </message>
+    <message>
         <source>Balancing</source>
         <comment>Account balancing</comment>
-        <translation type="unfinished">Balans</translation>
+        <translation type="obsolete">Balans</translation>
     </message>
     <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
@@ -8196,6 +8251,17 @@ Wat wil je er mee doen?</translation>
         <translation type="unfinished">Effecten verkopen</translation>
     </message>
     <message>
+        <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <source>Account Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Afletteren</translation>
+    </message>
+    <message>
+        <source>Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="obsolete">Balans</translation>
+    </message>
+    <message>
         <source>Security Buy</source>
         <translation type="obsolete">Effecten aankopen</translation>
     </message>
@@ -8204,9 +8270,8 @@ Wat wil je er mee doen?</translation>
         <translation type="obsolete">Effecten verkopen</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="136"/>
         <source>Balancing</source>
-        <translation type="unfinished">Balans</translation>
+        <translation type="obsolete">Balans</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="138"/>
@@ -8296,7 +8361,7 @@ Wat wil je er mee doen?</translation>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1485"/>
         <source>No income category available.</source>
-        <translation type="unfinished">Geen beschikbare inkomenscategorie.</translation>
+        <translation type="unfinished">Geen beschikbare inkomsten categorie.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1493"/>
@@ -8437,7 +8502,7 @@ Wat wil je er mee doen?</translation>
         <location filename="../src/overtimechart.cpp" line="2023"/>
         <source>Other descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Andere omschrijvingen</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2422"/>
@@ -8453,7 +8518,7 @@ Wat wil je er mee doen?</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="223"/>
         <source>Assets and Liabilities</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activa en passiva</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="234"/>
@@ -8526,7 +8591,7 @@ Wat wil je er mee doen?</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="482"/>
         <source>All Subcategories Split</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alle subcategorieën apart</translation>
     </message>
     <message>
         <source>All Descriptions Split</source>
@@ -8551,7 +8616,7 @@ Wat wil je er mee doen?</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="2279"/>
         <source>Incomes &amp; Expenses</source>
-        <translation type="unfinished">Inkomsten &amp; uitgaven</translation>
+        <translation type="unfinished">Inkomsten en uitgaven</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2287"/>
@@ -8591,7 +8656,9 @@ Wat wil je er mee doen?</translation>
         <source>%1
 Value: %2
 Date: %3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1
+Waarde: %2
+Datum: %3</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="3213"/>
@@ -8680,12 +8747,12 @@ Date: %3</source>
     <message>
         <location filename="../src/overtimechart.cpp" line="2019"/>
         <source>Other payees</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Andere crediteuren</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2021"/>
         <source>Other payers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Andere debiteuren</translation>
     </message>
     <message>
         <source>Value (%1)</source>
@@ -8733,57 +8800,57 @@ Date: %3</source>
     <message>
         <location filename="../src/overtimechart.cpp" line="2124"/>
         <source>Daily average value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dagelijks gemiddelde waarde</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2125"/>
         <source>Daily average profit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dagelijks gemiddelde winst</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2126"/>
         <source>Daily average income</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dagelijks gemiddelde inkomsten</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2127"/>
         <source>Daily average cost</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dagelijks gemiddelde kosten</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2132"/>
         <source>Average income</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gemiddelde inkomsten</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2133"/>
         <source>Average cost</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gemiddelde kosten</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2137"/>
         <source>Monthly value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Maandelijkse waarde</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2138"/>
         <source>Monthly profit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Maandelijkse winst</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2139"/>
         <source>Monthly income</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Maandelijkse inkomsten</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2140"/>
         <source>Monthly cost</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Maandelijkse kosten</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2274"/>
         <source>Assets &amp; Liabilities</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activa en passiva</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2277"/>
@@ -10092,7 +10159,7 @@ Date: %3</source>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="728"/>
         <source>No income category available.</source>
-        <translation type="unfinished">Geen beschikbare inkomenscategorie.</translation>
+        <translation type="unfinished">Geen beschikbare inkomsten categorie.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="739"/>

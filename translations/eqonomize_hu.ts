@@ -3098,17 +3098,27 @@ i18n: file ./eqonomizeui.rc line 56
 <context>
     <name>Balancing</name>
     <message>
+        <source>Account balancing</source>
+        <translation type="vanished">Számlaegyenleg</translation>
+    </message>
+    <message>
         <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
-        <translation>Számlaegyenleg</translation>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Számlaegyenleg</translation>
     </message>
 </context>
 <context>
     <name>Budget</name>
     <message>
+        <source>Balancing</source>
+        <translation type="vanished">Kiegyenlítés</translation>
+    </message>
+    <message>
         <location filename="../src/budget.cpp" line="84"/>
         <source>Balancing</source>
-        <translation>Kiegyenlítés</translation>
+        <comment>Name of account for transactions that adjust account balances</comment>
+        <translation type="unfinished">Kiegyenlítés</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="134"/>
@@ -5791,6 +5801,17 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <translation>Hátulról 5.</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Adjust balance…</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5812"/>
+        <source>Adjust Account Balance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>New Security</source>
         <translation type="vanished">Új értékpapír</translation>
     </message>
@@ -6101,6 +6122,13 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <source>Stock</source>
         <comment>Financial stock</comment>
         <translation type="unfinished">Részvény</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Noun. Balance of an account</comment>
+        <translation type="unfinished">Egyenleg</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4635"/>
@@ -6741,11 +6769,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Folyószámla</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
         <source>Balance</source>
         <comment>Account balance</comment>
-        <translation type="unfinished">Egyenleg</translation>
+        <translation type="obsolete">Egyenleg</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4785"/>
@@ -6762,10 +6788,9 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">&amp;Értékpapírok</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
         <source>Balance…</source>
         <comment>Balance account</comment>
-        <translation type="unfinished">Egyenleg…</translation>
+        <translation type="obsolete">Egyenleg…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5059"/>
@@ -6842,19 +6867,13 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation>Új kiadási kategória</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5812"/>
         <source>Balance Account</source>
-        <translation>Mérlegszámla</translation>
+        <translation type="vanished">Mérlegszámla</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5817"/>
         <source>Book value:</source>
         <translation>Könyvérték:</translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
-        <source>of which %1 is balanced</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5824"/>
@@ -6957,6 +6976,11 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation>%2 maradt (terv: %1)</translation>
     </message>
     <message>
+        <source>Balance…</source>
+        <comment>Verb. Balance an account</comment>
+        <translation type="obsolete">Egyenleg…</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="5064"/>
         <source>Shares Exchanged…</source>
         <comment>Shares of one security directly exchanged for shares of another; Financial shares</comment>
@@ -6973,6 +6997,17 @@ Biztosan el akarod távolítani a számlát?</translation>
         <source>Edit Quotes…</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Árfolyamok szerkesztése…</translation>
+    </message>
+    <message>
+        <source>Balance Account</source>
+        <comment>Verb</comment>
+        <translation type="obsolete">Mérlegszámla</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balanced</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -7461,7 +7496,12 @@ Biztosan el akarod távolítani a számlát?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1404"/>
         <source>Balancing account wrongly used.</source>
-        <translation>Rosszult használt mérlegszámla.</translation>
+        <comment>Referring to the account used for adjustments of account balances.</comment>
+        <translation type="unfinished">Rosszult használt mérlegszámla.</translation>
+    </message>
+    <message>
+        <source>Balancing account wrongly used.</source>
+        <translation type="vanished">Rosszult használt mérlegszámla.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1405"/>
@@ -7907,9 +7947,14 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="vanished">Egyenleg</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
         <comment>Account balance</comment>
+        <translation type="obsolete">Egyenleg</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="156"/>
+        <source>Balance</source>
+        <comment>Noun. Balance of an account</comment>
         <translation type="unfinished">Egyenleg</translation>
     </message>
     <message>
@@ -8010,9 +8055,19 @@ Biztosan el akarod távolítani a számlát?</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Account Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Számlaegyenleg</translation>
+    </message>
+    <message>
+        <source>Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="obsolete">Kiegyenlítés</translation>
+    </message>
+    <message>
         <source>Balancing</source>
         <comment>Account balancing</comment>
-        <translation type="unfinished">Kiegyenlítés</translation>
+        <translation type="obsolete">Kiegyenlítés</translation>
     </message>
     <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
@@ -8174,6 +8229,17 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="unfinished">Értékpapír eladás</translation>
     </message>
     <message>
+        <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <source>Account Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Számlaegyenleg</translation>
+    </message>
+    <message>
+        <source>Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="obsolete">Kiegyenlítés</translation>
+    </message>
+    <message>
         <source>Security Buy</source>
         <translation type="vanished">Értékpapír vétel</translation>
     </message>
@@ -8182,9 +8248,8 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="vanished">Értékpapír eladás</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="136"/>
         <source>Balancing</source>
-        <translation>Kiegyenlítés</translation>
+        <translation type="vanished">Kiegyenlítés</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="138"/>

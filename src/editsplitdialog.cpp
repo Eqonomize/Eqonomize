@@ -133,7 +133,7 @@ void MultiItemListViewItem::setTransaction(Transaction *trans, bool deposit) {
 	} else if(trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
 		setText(0, tr("Securities Sale", "Financial security (e.g. stock, mutual fund)"));
 	} else if(trans->toAccount() == budget->balancingAccount || trans->fromAccount() == budget->balancingAccount) {
-		setText(0, tr("Balancing"));
+		setText(0, tr("Account Balancing", "Balancing of an account"));
 	} else {
 		setText(0, tr("Transfer"));
 	}

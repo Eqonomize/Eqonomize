@@ -3036,17 +3036,32 @@ i18n: file ./eqonomizeui.rc line 56
 <context>
     <name>Balancing</name>
     <message>
+        <source>Account balancing</source>
+        <translation type="vanished">Equilibrage du compte</translation>
+    </message>
+    <message>
         <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
-        <translation>Equilibrage du compte</translation>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Equilibrage du compte</translation>
     </message>
 </context>
 <context>
     <name>Budget</name>
     <message>
+        <source>Balancing</source>
+        <translation type="vanished">Solde</translation>
+    </message>
+    <message>
         <location filename="../src/budget.cpp" line="84"/>
         <source>Balancing</source>
-        <translation>Solde</translation>
+        <comment>Name of account for transactions that adjust account balances</comment>
+        <translation type="unfinished">Équilibrage</translation>
+    </message>
+    <message>
+        <source>Balancing Account</source>
+        <comment>Name of account for transactions that adjust account balances</comment>
+        <translation type="obsolete">Compte d&apos;équilibrage</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="134"/>
@@ -5790,17 +5805,36 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <translation type="unfinished">Compte courant</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
-        <source>Balance</source>
-        <comment>Account balance</comment>
-        <translation type="unfinished">Solde</translation>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Adjust balance…</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished">Régler le solde…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <location filename="../src/eqonomize.cpp" line="5812"/>
+        <source>Adjust Account Balance</source>
+        <translation type="unfinished">Régler le solde du compte</translation>
+    </message>
+    <message>
+        <source>Balance Account</source>
+        <comment>Verb</comment>
+        <translation type="obsolete">Équilibre du compte</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balanced</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Balance</source>
+        <comment>Account balance</comment>
+        <translation type="obsolete">Solde</translation>
+    </message>
+    <message>
         <source>Balance…</source>
         <comment>Balance account</comment>
-        <translation type="unfinished">Équilibre…</translation>
+        <translation type="obsolete">Équilibre…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5064"/>
@@ -6179,6 +6213,13 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <source>Security Transactions</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Transactions de titres</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Noun. Balance of an account</comment>
+        <translation type="unfinished">Solde</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4635"/>
@@ -6792,19 +6833,13 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation>Nouvelle catégorie de dépenses</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5812"/>
         <source>Balance Account</source>
-        <translation>Équilibre du compte</translation>
+        <translation type="vanished">Équilibre du compte</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5817"/>
         <source>Book value:</source>
         <translation>Valeur comptable:</translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
-        <source>of which %1 is balanced</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5824"/>
@@ -6923,6 +6958,11 @@ Que voulez vous en faire ?</translation>
         <source>Empty securities list.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Liste des titres vides.</translation>
+    </message>
+    <message>
+        <source>Balance…</source>
+        <comment>Verb. Balance an account</comment>
+        <translation type="obsolete">Équilibre…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5059"/>
@@ -7451,7 +7491,12 @@ Que voulez vous en faire ?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1404"/>
         <source>Balancing account wrongly used.</source>
-        <translation>Equilibrage des comptes mal utilisé.</translation>
+        <comment>Referring to the account used for adjustments of account balances.</comment>
+        <translation type="unfinished">Equilibrage des comptes mal utilisé.</translation>
+    </message>
+    <message>
+        <source>Balancing account wrongly used.</source>
+        <translation type="vanished">Equilibrage des comptes mal utilisé.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1405"/>
@@ -7918,6 +7963,12 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Équilibre</translation>
     </message>
     <message>
+        <location filename="../src/ledgerdialog.cpp" line="156"/>
+        <source>Balance</source>
+        <comment>Noun. Balance of an account</comment>
+        <translation type="unfinished">Solde</translation>
+    </message>
+    <message>
         <location filename="../src/ledgerdialog.cpp" line="173"/>
         <source>New</source>
         <translation>Nouveau</translation>
@@ -7991,9 +8042,14 @@ Que voulez vous en faire ?</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Account Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Équilibrage du compte</translation>
+    </message>
+    <message>
         <source>Balancing</source>
-        <comment>Account balancing</comment>
-        <translation type="unfinished"></translation>
+        <comment>Balancing of an account</comment>
+        <translation type="obsolete">L&apos;équilibrage de compte</translation>
     </message>
     <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
@@ -8091,10 +8147,9 @@ Que voulez vous en faire ?</translation>
         <translation type="unfinished">Description</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
         <comment>Account balance</comment>
-        <translation type="unfinished">Solde</translation>
+        <translation type="obsolete">Solde</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="609"/>
@@ -8175,6 +8230,17 @@ Que voulez vous en faire ?</translation>
         <translation type="unfinished">Vente de titres</translation>
     </message>
     <message>
+        <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <source>Account Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Équilibrage du compte</translation>
+    </message>
+    <message>
+        <source>Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="obsolete">L&apos;équilibrage de compte</translation>
+    </message>
+    <message>
         <source>Security Buy</source>
         <translation type="obsolete">Achat de titres</translation>
     </message>
@@ -8183,9 +8249,8 @@ Que voulez vous en faire ?</translation>
         <translation type="obsolete">Vente de titres</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="136"/>
         <source>Balancing</source>
-        <translation type="unfinished">Solde</translation>
+        <translation type="obsolete">Solde</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="138"/>

@@ -2602,17 +2602,32 @@ Vad vill du göra med dem?</translation>
 <context>
     <name>Balancing</name>
     <message>
+        <source>Account balancing</source>
+        <translation type="vanished">Balansering av konto</translation>
+    </message>
+    <message>
         <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
+        <comment>Balancing of an account</comment>
         <translation>Balansering av konto</translation>
     </message>
 </context>
 <context>
     <name>Budget</name>
     <message>
+        <source>Balancing</source>
+        <translation type="vanished">Balanskonto</translation>
+    </message>
+    <message>
         <location filename="../src/budget.cpp" line="84"/>
         <source>Balancing</source>
+        <comment>Name of account for transactions that adjust account balances</comment>
         <translation>Balanskonto</translation>
+    </message>
+    <message>
+        <source>Balancing Account</source>
+        <comment>Name of account for transactions that adjust account balances</comment>
+        <translation type="obsolete">Balanseringskonto</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="134"/>
@@ -5522,6 +5537,17 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>5:e sista</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Adjust balance…</source>
+        <comment>Referring to account balance</comment>
+        <translation>Justera saldo…</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5812"/>
+        <source>Adjust Account Balance</source>
+        <translation>Justera kontosaldo</translation>
+    </message>
+    <message>
         <source>New Security</source>
         <translation type="vanished">Nytt värdepapper</translation>
     </message>
@@ -6150,6 +6176,13 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Aktie</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Noun. Balance of an account</comment>
+        <translation>Saldo</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="4785"/>
         <location filename="../src/eqonomize.cpp" line="4817"/>
         <location filename="../src/eqonomize.cpp" line="4874"/>
@@ -6544,17 +6577,14 @@ Vill du öppna den senast automatiskt sparade versionen av filen?</translation>
         <translation>Transaktionskonto</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
         <source>Balance</source>
         <comment>Account balance</comment>
-        <translation>Saldo</translation>
+        <translation type="vanished">Saldo</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
         <source>Balance…</source>
         <comment>Balance account</comment>
-        <translation>Balansera…</translation>
+        <translation type="vanished">Balansera…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5064"/>
@@ -6615,9 +6645,8 @@ Vill du öppna den senast automatiskt sparade versionen av filen?</translation>
         <translation>Ny utgiftskategori</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5812"/>
         <source>Balance Account</source>
-        <translation>Balansera konto</translation>
+        <translation type="vanished">Balansera konto</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5817"/>
@@ -6625,9 +6654,8 @@ Vill du öppna den senast automatiskt sparade versionen av filen?</translation>
         <translation>Bokfört värde:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
         <source>of which %1 is balanced</source>
-        <translation>varav %1 är balanserade</translation>
+        <translation type="vanished">varav %1 är balanserade</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5824"/>
@@ -6744,6 +6772,22 @@ Vad vill du göra med dem?</translation>
         <source>Set Quote (%1)</source>
         <comment>Financial quote</comment>
         <translation>Ange kurs (%1)</translation>
+    </message>
+    <message>
+        <source>Balance…</source>
+        <comment>Verb. Balance an account</comment>
+        <translation type="vanished">Balansera…</translation>
+    </message>
+    <message>
+        <source>Balance Account</source>
+        <comment>Verb</comment>
+        <translation type="vanished">Balansera konto</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balanced</source>
+        <comment>Referring to account balance</comment>
+        <translation>varav %1 är balanserade</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -7198,6 +7242,12 @@ Vad vill du göra med dem?</translation>
             <numerusform>Misslyckades att importera %n datarader.</numerusform>
         </translation>
     </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="1404"/>
+        <source>Balancing account wrongly used.</source>
+        <comment>Referring to the account used for adjustments of account balances.</comment>
+        <translation>Balanseringskonto felaktigt använt.</translation>
+    </message>
     <message numerus="yes">
         <source>Failed to import %n data rows.</source>
         <translation type="vanished">
@@ -7243,9 +7293,8 @@ Vad vill du göra med dem?</translation>
         <translation>Kan inte importera värdepapperstransaktioner (till/från konto för värdepapper).</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1404"/>
         <source>Balancing account wrongly used.</source>
-        <translation>Balanseringskonto felaktigt använt.</translation>
+        <translation type="vanished">Balanseringskonto felaktigt använt.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1405"/>
@@ -7712,9 +7761,14 @@ Vad vill du göra med dem?</translation>
         <translation type="vanished">Balans</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
         <comment>Account balance</comment>
+        <translation type="vanished">Saldo</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="156"/>
+        <source>Balance</source>
+        <comment>Noun. Balance of an account</comment>
         <translation>Saldo</translation>
     </message>
     <message>
@@ -7815,9 +7869,19 @@ Vad vill du göra med dem?</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Account Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation>Balansering av konto</translation>
+    </message>
+    <message>
+        <source>Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="vanished">Kontobalansering</translation>
+    </message>
+    <message>
         <source>Balancing</source>
         <comment>Account balancing</comment>
-        <translation>Kontobalansering</translation>
+        <translation type="vanished">Kontobalansering</translation>
     </message>
     <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
@@ -8007,6 +8071,17 @@ Vad vill du göra med dem?</translation>
         <translation>Värdepappersförsäljning</translation>
     </message>
     <message>
+        <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <source>Account Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Balansering av konto</translation>
+    </message>
+    <message>
+        <source>Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="vanished">Kontobalansering</translation>
+    </message>
+    <message>
         <source>Securities Purchase</source>
         <comment>Financial security (e.g. stock, bond)</comment>
         <translation type="vanished">Värdepappersköp</translation>
@@ -8025,9 +8100,8 @@ Vad vill du göra med dem?</translation>
         <translation type="vanished">Försäljning</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="136"/>
         <source>Balancing</source>
-        <translation>Balanskonto</translation>
+        <translation type="vanished">Balanskonto</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="138"/>

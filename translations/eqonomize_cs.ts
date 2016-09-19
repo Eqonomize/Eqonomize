@@ -2371,17 +2371,27 @@ i18n: file ./eqonomizeui.rc line 56
 <context>
     <name>Balancing</name>
     <message>
+        <source>Account balancing</source>
+        <translation type="vanished">Zůstatek účtu</translation>
+    </message>
+    <message>
         <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
-        <translation>Zůstatek účtu</translation>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Zůstatek účtu</translation>
     </message>
 </context>
 <context>
     <name>Budget</name>
     <message>
+        <source>Balancing</source>
+        <translation type="vanished">Rozvaha</translation>
+    </message>
+    <message>
         <location filename="../src/budget.cpp" line="84"/>
         <source>Balancing</source>
-        <translation>Rozvaha</translation>
+        <comment>Name of account for transactions that adjust account balances</comment>
+        <translation type="unfinished">Rozvaha</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="134"/>
@@ -5130,6 +5140,17 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation type="unfinished">5. poslední</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Adjust balance…</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5812"/>
+        <source>Adjust Account Balance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>New Security</source>
         <translation type="vanished">Nový cenný papír</translation>
     </message>
@@ -5499,11 +5520,9 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation type="unfinished">Šekové konto</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
         <source>Balance</source>
         <comment>Account balance</comment>
-        <translation type="unfinished">Zůstatek</translation>
+        <translation type="obsolete">Zůstatek</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4635"/>
@@ -6100,10 +6119,9 @@ Přejete si spustit poslední automaticky uloženou verzi souboru?</translation>
         <translation type="unfinished">Prázdný seznam cenných papírů.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
         <source>Balance…</source>
         <comment>Balance account</comment>
-        <translation type="unfinished">Bilance…</translation>
+        <translation type="obsolete">Bilance…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5059"/>
@@ -6180,19 +6198,13 @@ Přejete si spustit poslední automaticky uloženou verzi souboru?</translation>
         <translation>Nová kategorie výdajů</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5812"/>
         <source>Balance Account</source>
-        <translation>Bilanční účet</translation>
+        <translation type="vanished">Bilanční účet</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5817"/>
         <source>Book value:</source>
         <translation>Účetní hodnota:</translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
-        <source>of which %1 is balanced</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5824"/>
@@ -6311,6 +6323,18 @@ Co s nimi chcete udělat?</translation>
         <translation type="unfinished">Nastavit kurz (%1)</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Noun. Balance of an account</comment>
+        <translation type="unfinished">Zůstatek</translation>
+    </message>
+    <message>
+        <source>Balance…</source>
+        <comment>Verb. Balance an account</comment>
+        <translation type="obsolete">Bilance…</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="5064"/>
         <source>Shares Exchanged…</source>
         <comment>Shares of one security directly exchanged for shares of another; Financial shares</comment>
@@ -6327,6 +6351,17 @@ Co s nimi chcete udělat?</translation>
         <source>Edit Quotes…</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Upravit kurz…</translation>
+    </message>
+    <message>
+        <source>Balance Account</source>
+        <comment>Verb</comment>
+        <translation type="obsolete">Bilanční účet</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balanced</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -6823,7 +6858,12 @@ Co s nimi chcete udělat?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1404"/>
         <source>Balancing account wrongly used.</source>
-        <translation>Bilanční účet použit špatně.</translation>
+        <comment>Referring to the account used for adjustments of account balances.</comment>
+        <translation type="unfinished">Bilanční účet použit špatně.</translation>
+    </message>
+    <message>
+        <source>Balancing account wrongly used.</source>
+        <translation type="vanished">Bilanční účet použit špatně.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1405"/>
@@ -7279,9 +7319,14 @@ Co s nimi chcete udělat?</translation>
         <translation type="vanished">Bilance</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
         <comment>Account balance</comment>
+        <translation type="obsolete">Zůstatek</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="156"/>
+        <source>Balance</source>
+        <comment>Noun. Balance of an account</comment>
         <translation type="unfinished">Zůstatek</translation>
     </message>
     <message>
@@ -7382,9 +7427,19 @@ Co s nimi chcete udělat?</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Account Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Zůstatek účtu</translation>
+    </message>
+    <message>
+        <source>Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="obsolete">Rozvaha</translation>
+    </message>
+    <message>
         <source>Balancing</source>
         <comment>Account balancing</comment>
-        <translation type="unfinished">Rozvaha</translation>
+        <translation type="obsolete">Rozvaha</translation>
     </message>
     <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
@@ -7546,6 +7601,17 @@ Co s nimi chcete udělat?</translation>
         <translation type="unfinished">Prodej cenných papírů</translation>
     </message>
     <message>
+        <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <source>Account Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Zůstatek účtu</translation>
+    </message>
+    <message>
+        <source>Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="obsolete">Rozvaha</translation>
+    </message>
+    <message>
         <source>Security Buy</source>
         <translation type="vanished">Nákup cenných papírů</translation>
     </message>
@@ -7554,9 +7620,8 @@ Co s nimi chcete udělat?</translation>
         <translation type="vanished">Prodej cenných papírů</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="136"/>
         <source>Balancing</source>
-        <translation>Rozvaha</translation>
+        <translation type="vanished">Rozvaha</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="138"/>

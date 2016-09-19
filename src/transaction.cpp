@@ -439,7 +439,7 @@ Balancing::Balancing(const Balancing *balancing) : Transfer(balancing) {}
 Balancing::~Balancing() {}
 Transaction *Balancing::copy() const {return new Balancing(this);}
 QString Balancing::description() const {
-	if(s_description.isEmpty()) return tr("Account balancing");
+	if(s_description.isEmpty()) return tr("Account balancing", "Balancing of an account");
 	return s_description;
 }
 TransactionSubType Balancing::subtype() const {return TRANSACTION_SUBTYPE_BALANCING;}

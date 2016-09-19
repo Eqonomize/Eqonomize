@@ -153,7 +153,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	headers << tr("Expense");
 	headers << tr("Deposit");
 	headers << tr("Withdrawal");
-	headers << tr("Balance", "Account balance");
+	headers << tr("Balance", "Noun. Balance of an account");
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
 	setColumnDateWidth(transactionsView, 0);
@@ -759,7 +759,7 @@ void LedgerDialog::updateTransactions() {
 				if(value <= 0.0) i->setText(1, tr("Expense"));
 				else i->setText(1, tr("Refund"));
 			} else if(trans->relatesToAccount(budget->balancingAccount)) {
-				 i->setText(1, tr("Balancing", "Account balancing"));
+				 i->setText(1, tr("Account Balancing", "Balancing of an account"));
 			} else {
 				i->setText(1, tr("Transfer"));
 			}

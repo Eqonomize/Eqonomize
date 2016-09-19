@@ -1401,7 +1401,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 		if(AC1_missing) {details += "\n-"; if(type == 0 || type == 1 || type == 2) {details += tr("Unknown category found.");} else {details += tr("Unknown account found.");}}
 		if(AC2_missing) {details += "\n-"; details += tr("Unknown account found.");}
 		if(AC_security) {details += "\n-"; details += tr("Cannot import security transactions (to/from security accounts).");}
-		if(AC_balancing) {details += "\n-"; details += tr("Balancing account wrongly used.");}
+		if(AC_balancing) {details += "\n-"; details += tr("Balancing account wrongly used.", "Referring to the account used for adjustments of account balances.");}
 		if(AC_same) {details += "\n-"; details += tr("Same to and from account/category.");}
 	} else if(successes == 0) {
 		info = tr("No data found.");

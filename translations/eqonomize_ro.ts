@@ -3119,16 +3119,26 @@ i18n: file ./eqonomizeui.rc line 56
 <context>
     <name>Balancing</name>
     <message>
+        <source>Account balancing</source>
+        <translation type="obsolete">Echilibrare cont</translation>
+    </message>
+    <message>
         <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
+        <comment>Balancing of an account</comment>
         <translation type="unfinished">Echilibrare cont</translation>
     </message>
 </context>
 <context>
     <name>Budget</name>
     <message>
+        <source>Balancing</source>
+        <translation type="obsolete">Echilibrare</translation>
+    </message>
+    <message>
         <location filename="../src/budget.cpp" line="84"/>
         <source>Balancing</source>
+        <comment>Name of account for transactions that adjust account balances</comment>
         <translation type="unfinished">Echilibrare</translation>
     </message>
     <message>
@@ -5806,6 +5816,17 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="unfinished">a 5-a de la coadă</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Adjust balance…</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5812"/>
+        <source>Adjust Account Balance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>New Security</source>
         <translation type="obsolete">Titlu de valoare nou</translation>
     </message>
@@ -6116,6 +6137,13 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <source>Stock</source>
         <comment>Financial stock</comment>
         <translation type="unfinished">Stoc</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Noun. Balance of an account</comment>
+        <translation type="unfinished">Balanță</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4635"/>
@@ -6757,11 +6785,9 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="unfinished">Cont curent</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
         <source>Balance</source>
         <comment>Account balance</comment>
-        <translation type="unfinished">Balanță</translation>
+        <translation type="obsolete">Balanță</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4785"/>
@@ -6778,10 +6804,9 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="unfinished">Titluri de &amp;valoare</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
         <source>Balance…</source>
         <comment>Balance account</comment>
-        <translation type="unfinished">Echilibrare…</translation>
+        <translation type="obsolete">Echilibrare…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5059"/>
@@ -6858,19 +6883,13 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="unfinished">Categorie de cheltuieli nouă</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5812"/>
         <source>Balance Account</source>
-        <translation type="unfinished">Echilibrare cont</translation>
+        <translation type="obsolete">Echilibrare cont</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5817"/>
         <source>Book value:</source>
         <translation type="unfinished">Valoare registru:</translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
-        <source>of which %1 is balanced</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5824"/>
@@ -6970,6 +6989,11 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished">%2 din %1</translation>
     </message>
     <message>
+        <source>Balance…</source>
+        <comment>Verb. Balance an account</comment>
+        <translation type="obsolete">Echilibrare…</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="5064"/>
         <source>Shares Exchanged…</source>
         <comment>Shares of one security directly exchanged for shares of another; Financial shares</comment>
@@ -6986,6 +7010,17 @@ Ce doriți să le faceți cu ele?</translation>
         <source>Edit Quotes…</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Editare cotații…</translation>
+    </message>
+    <message>
+        <source>Balance Account</source>
+        <comment>Verb</comment>
+        <translation type="obsolete">Echilibrare cont</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balanced</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -7478,7 +7513,12 @@ Ce doriți să le faceți cu ele?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1404"/>
         <source>Balancing account wrongly used.</source>
+        <comment>Referring to the account used for adjustments of account balances.</comment>
         <translation type="unfinished">Cont de echilibrare folosit incorect.</translation>
+    </message>
+    <message>
+        <source>Balancing account wrongly used.</source>
+        <translation type="obsolete">Cont de echilibrare folosit incorect.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1405"/>
@@ -7926,9 +7966,14 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Balanță</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
         <comment>Account balance</comment>
+        <translation type="obsolete">Balanță</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="156"/>
+        <source>Balance</source>
+        <comment>Noun. Balance of an account</comment>
         <translation type="unfinished">Balanță</translation>
     </message>
     <message>
@@ -8029,9 +8074,19 @@ Ce doriți să le faceți cu ele?</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Account Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Echilibrare cont</translation>
+    </message>
+    <message>
+        <source>Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="obsolete">Echilibrare</translation>
+    </message>
+    <message>
         <source>Balancing</source>
         <comment>Account balancing</comment>
-        <translation type="unfinished">Echilibrare</translation>
+        <translation type="obsolete">Echilibrare</translation>
     </message>
     <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
@@ -8193,6 +8248,17 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished">Vânzare titlu de valoare</translation>
     </message>
     <message>
+        <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <source>Account Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Echilibrare cont</translation>
+    </message>
+    <message>
+        <source>Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="obsolete">Echilibrare</translation>
+    </message>
+    <message>
         <source>Security Buy</source>
         <translation type="obsolete">Cumpărare titlu de valoare</translation>
     </message>
@@ -8201,9 +8267,8 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Vânzare titlu de valoare</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="136"/>
         <source>Balancing</source>
-        <translation type="unfinished">Echilibrare</translation>
+        <translation type="obsolete">Echilibrare</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="138"/>

@@ -2920,16 +2920,26 @@ i18n: file ./eqonomizeui.rc line 56
 <context>
     <name>Balancing</name>
     <message>
+        <source>Account balancing</source>
+        <translation type="obsolete">Баланс счета</translation>
+    </message>
+    <message>
         <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
+        <comment>Balancing of an account</comment>
         <translation type="unfinished">Баланс счета</translation>
     </message>
 </context>
 <context>
     <name>Budget</name>
     <message>
+        <source>Balancing</source>
+        <translation type="obsolete">Баланс</translation>
+    </message>
+    <message>
         <location filename="../src/budget.cpp" line="84"/>
         <source>Balancing</source>
+        <comment>Name of account for transactions that adjust account balances</comment>
         <translation type="unfinished">Баланс</translation>
     </message>
     <message>
@@ -5645,17 +5655,36 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation type="unfinished">Чековый счет</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4541"/>
-        <location filename="../src/eqonomize.cpp" line="4591"/>
-        <source>Balance</source>
-        <comment>Account balance</comment>
-        <translation type="unfinished">Баланс</translation>
+        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <source>Adjust balance…</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5017"/>
+        <location filename="../src/eqonomize.cpp" line="5812"/>
+        <source>Adjust Account Balance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Balance Account</source>
+        <comment>Verb</comment>
+        <translation type="obsolete">Баланс счета</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balanced</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Balance</source>
+        <comment>Account balance</comment>
+        <translation type="obsolete">Баланс</translation>
+    </message>
+    <message>
         <source>Balance…</source>
         <comment>Balance account</comment>
-        <translation type="unfinished">Баланс…</translation>
+        <translation type="obsolete">Баланс…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5064"/>
@@ -6030,6 +6059,13 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <source>Security Transactions</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Транзакции ценных бумаг</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4541"/>
+        <location filename="../src/eqonomize.cpp" line="4591"/>
+        <source>Balance</source>
+        <comment>Noun. Balance of an account</comment>
+        <translation type="unfinished">Баланс</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4635"/>
@@ -6626,19 +6662,13 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Новая категория расходов</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5812"/>
         <source>Balance Account</source>
-        <translation type="unfinished">Баланс счета</translation>
+        <translation type="obsolete">Баланс счета</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5817"/>
         <source>Book value:</source>
         <translation type="unfinished">Книга ценности:</translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
-        <source>of which %1 is balanced</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5824"/>
@@ -6755,6 +6785,11 @@ What do you want to do with them?</source>
         <source>Empty securities list.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Пустой список ценных бумаг.</translation>
+    </message>
+    <message>
+        <source>Balance…</source>
+        <comment>Verb. Balance an account</comment>
+        <translation type="obsolete">Баланс…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5059"/>
@@ -7267,7 +7302,12 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1404"/>
         <source>Balancing account wrongly used.</source>
+        <comment>Referring to the account used for adjustments of account balances.</comment>
         <translation type="unfinished">Счет баланса неверно используется.</translation>
+    </message>
+    <message>
+        <source>Balancing account wrongly used.</source>
+        <translation type="obsolete">Счет баланса неверно используется.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1405"/>
@@ -7781,9 +7821,19 @@ What do you want to do with them?</source>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Account Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Баланс счета</translation>
+    </message>
+    <message>
+        <source>Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="obsolete">Баланс</translation>
+    </message>
+    <message>
         <source>Balancing</source>
         <comment>Account balancing</comment>
-        <translation type="unfinished">Баланс</translation>
+        <translation type="obsolete">Баланс</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="781"/>
@@ -7816,10 +7866,9 @@ What do you want to do with them?</source>
         <translation type="unfinished">Описание</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="156"/>
         <source>Balance</source>
         <comment>Account balance</comment>
-        <translation type="unfinished">Баланс</translation>
+        <translation type="obsolete">Баланс</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="609"/>
@@ -7884,6 +7933,12 @@ What do you want to do with them?</source>
         <translation type="unfinished">Расход</translation>
     </message>
     <message>
+        <location filename="../src/ledgerdialog.cpp" line="156"/>
+        <source>Balance</source>
+        <comment>Noun. Balance of an account</comment>
+        <translation type="unfinished">Баланс</translation>
+    </message>
+    <message>
         <location filename="../src/ledgerdialog.cpp" line="760"/>
         <source>Refund</source>
         <translation type="unfinished">Получение оплаты</translation>
@@ -7938,6 +7993,17 @@ What do you want to do with them?</source>
         <translation type="unfinished">Продажи ценных бумаг</translation>
     </message>
     <message>
+        <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <source>Account Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="unfinished">Баланс счета</translation>
+    </message>
+    <message>
+        <source>Balancing</source>
+        <comment>Balancing of an account</comment>
+        <translation type="obsolete">Баланс</translation>
+    </message>
+    <message>
         <source>Security Buy</source>
         <translation type="obsolete">Покупки ценных бумаг</translation>
     </message>
@@ -7946,9 +8012,8 @@ What do you want to do with them?</source>
         <translation type="obsolete">Продажи ценных бумаг</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="136"/>
         <source>Balancing</source>
-        <translation type="unfinished">Баланс</translation>
+        <translation type="obsolete">Баланс</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="138"/>
