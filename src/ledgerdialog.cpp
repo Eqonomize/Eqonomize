@@ -759,7 +759,7 @@ void LedgerDialog::updateTransactions() {
 				if(value <= 0.0) i->setText(1, tr("Expense"));
 				else i->setText(1, tr("Refund"));
 			} else if(trans->relatesToAccount(budget->balancingAccount)) {
-				 i->setText(1, tr("Account Balancing", "Balancing of an account"));
+				 i->setText(1, tr("Account Balance Adjustment"));
 			} else {
 				i->setText(1, tr("Transfer"));
 			}

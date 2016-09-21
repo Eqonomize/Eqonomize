@@ -2606,10 +2606,14 @@ Vad vill du göra med dem?</translation>
         <translation type="vanished">Balansering av konto</translation>
     </message>
     <message>
-        <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
         <comment>Balancing of an account</comment>
-        <translation>Balansering av konto</translation>
+        <translation type="vanished">Balansering av konto</translation>
+    </message>
+    <message>
+        <location filename="../src/transaction.cpp" line="442"/>
+        <source>Account Balance Adjustment</source>
+        <translation>Justering av kontosaldo</translation>
     </message>
 </context>
 <context>
@@ -5548,6 +5552,12 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Justera kontosaldo</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balance adjustment</source>
+        <comment>Referring to account balance</comment>
+        <translation>varav %1 utgör saldojustering</translation>
+    </message>
+    <message>
         <source>New Security</source>
         <translation type="vanished">Nytt värdepapper</translation>
     </message>
@@ -6784,10 +6794,9 @@ Vad vill du göra med dem?</translation>
         <translation type="vanished">Balansera konto</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
         <source>of which %1 is balanced</source>
         <comment>Referring to account balance</comment>
-        <translation>varav %1 är balanserade</translation>
+        <translation type="vanished">varav %1 är balanserade</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -7869,9 +7878,13 @@ Vad vill du göra med dem?</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Account Balance Adjustment</source>
+        <translation>Justering av kontosaldo</translation>
+    </message>
+    <message>
         <source>Account Balancing</source>
         <comment>Balancing of an account</comment>
-        <translation>Balansering av konto</translation>
+        <translation type="vanished">Balansering av konto</translation>
     </message>
     <message>
         <source>Balancing</source>
@@ -8072,9 +8085,13 @@ Vad vill du göra med dem?</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <source>Account Balance Adjustment</source>
+        <translation>Justering av kontosaldo</translation>
+    </message>
+    <message>
         <source>Account Balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Balansering av konto</translation>
+        <translation type="obsolete">Balansering av konto</translation>
     </message>
     <message>
         <source>Balancing</source>

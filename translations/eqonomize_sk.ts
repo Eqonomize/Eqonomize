@@ -1372,8 +1372,7 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
     <name>Balancing</name>
     <message>
         <location filename="../src/transaction.cpp" line="442"/>
-        <source>Account balancing</source>
-        <comment>Balancing of an account</comment>
+        <source>Account Balance Adjustment</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4996,6 +4995,12 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balance adjustment</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="5824"/>
         <source>Real value:</source>
         <translation type="unfinished"></translation>
@@ -5151,12 +5156,6 @@ What do you want to do with them?</source>
         <source>Shares Sold…</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Predaj podielov…</translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
-        <source>of which %1 is balanced</source>
-        <comment>Referring to account balance</comment>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -6091,8 +6090,7 @@ What do you want to do with them?</source>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
-        <source>Account Balancing</source>
-        <comment>Balancing of an account</comment>
+        <source>Account Balance Adjustment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6264,8 +6262,7 @@ What do you want to do with them?</source>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="136"/>
-        <source>Account Balancing</source>
-        <comment>Balancing of an account</comment>
+        <source>Account Balance Adjustment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

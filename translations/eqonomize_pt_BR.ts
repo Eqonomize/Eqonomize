@@ -3065,7 +3065,7 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/accountcombobox.cpp" line="66"/>
         <source>New account…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nova conta…</translation>
     </message>
     <message>
         <location filename="../src/accountcombobox.cpp" line="67"/>
@@ -3080,12 +3080,12 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/accountcombobox.cpp" line="96"/>
         <source>New income category…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nova categoria de receitas…</translation>
     </message>
     <message>
         <location filename="../src/accountcombobox.cpp" line="112"/>
         <source>New expense category…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nova categoria de despesas…</translation>
     </message>
     <message>
         <location filename="../src/accountcombobox.cpp" line="135"/>
@@ -3095,12 +3095,12 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/accountcombobox.cpp" line="143"/>
         <source>New Income Category</source>
-        <translation type="unfinished">Nova categoria de Receitas</translation>
+        <translation type="unfinished">Nova categoria de receitas</translation>
     </message>
     <message>
         <location filename="../src/accountcombobox.cpp" line="151"/>
         <source>New Expense Category</source>
-        <translation type="unfinished">Nova gategoria de Despesas</translation>
+        <translation type="unfinished">Nova categoria de despesas</translation>
     </message>
 </context>
 <context>
@@ -3110,10 +3110,14 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="obsolete">Balanceamento da conta</translation>
     </message>
     <message>
-        <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Balanceamento da conta</translation>
+        <translation type="obsolete">Balanceamento da conta</translation>
+    </message>
+    <message>
+        <location filename="../src/transaction.cpp" line="442"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3126,7 +3130,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/budget.cpp" line="84"/>
         <source>Balancing</source>
         <comment>Name of account for transactions that adjust account balances</comment>
-        <translation type="unfinished">balanço</translation>
+        <translation type="unfinished">Balanço</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="134"/>
@@ -3136,7 +3140,7 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/budget.cpp" line="139"/>
         <source>Not a valid Eqonomize! file (XML parse error: &quot;%1&quot; at line %2, col %3)</source>
-        <translation type="unfinished">Não é um arquivo Eqonomize! válido (XML parse error: &quot;%2&quot; at line %3, col %4) {1&quot;?} {2,?} {3)?}</translation>
+        <translation type="unfinished">Não é um arquivo Eqonomize! válido (XML parse error: &quot;%1&quot; at line %2, col %3)</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="140"/>
@@ -3189,18 +3193,18 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/budget.cpp" line="464"/>
         <source>File is a directory</source>
-        <translation type="unfinished">O arquivo é um diretório.</translation>
+        <translation type="unfinished">O arquivo é um diretório</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="472"/>
         <source>Couldn&apos;t open file for writing</source>
-        <translation type="unfinished">Impossível abrir o arquivo para editá-lo.</translation>
+        <translation type="unfinished">Impossível abrir o arquivo para editá-lo</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="638"/>
         <location filename="../src/budget.cpp" line="642"/>
         <source>Error while writing file; file was not saved</source>
-        <translation type="unfinished">Erro gravando o arquivo; arquivo não foi salvo.</translation>
+        <translation type="unfinished">Erro gravando o arquivo; arquivo não foi salvo</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="1132"/>
@@ -3221,7 +3225,7 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="117"/>
         <source>Save As…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Salvar como…</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="120"/>
@@ -3304,7 +3308,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonchart.cpp" line="171"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="1199"/>
         <source>All Accounts</source>
-        <translation type="unfinished">Todas as Contas</translation>
+        <translation type="unfinished">Todas as contas</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="174"/>
@@ -3334,7 +3338,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonchart.cpp" line="260"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="286"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Data Inválida</translation>
+        <translation type="unfinished">Data inválida.</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="265"/>
@@ -3440,7 +3444,7 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="75"/>
         <source>Save As…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Salvar como…</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="77"/>
@@ -3466,7 +3470,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="118"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="140"/>
         <source>Subcategories</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Subcategorias</translation>
     </message>
     <message>
         <source>Descriptions for</source>
@@ -3568,7 +3572,7 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="196"/>
         <source>Average value</source>
-        <translation type="unfinished">valor médio</translation>
+        <translation type="unfinished">Valor médio</translation>
     </message>
     <message>
         <source>All descriptions</source>
@@ -3578,7 +3582,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="315"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1101"/>
         <source>All payees</source>
-        <translation type="unfinished">Todos Emitentes</translation>
+        <translation type="unfinished">Todos emitentes</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="316"/>
@@ -3627,7 +3631,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="1100"/>
         <source>All descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished">todas descrições</translation>
+        <translation type="unfinished">Todas descrições</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="339"/>
@@ -3647,7 +3651,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="1085"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1147"/>
         <source>No payee</source>
-        <translation type="unfinished">nenhuem emitente</translation>
+        <translation type="unfinished">Nenhuem emitente</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="346"/>
@@ -3656,7 +3660,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="1086"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1148"/>
         <source>No payer</source>
-        <translation type="unfinished">nehum sacado</translation>
+        <translation type="unfinished">Nehum sacado</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="372"/>
@@ -3672,7 +3676,7 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonreport.cpp" line="372"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="398"/>
         <source>Invalid date.</source>
-        <translation type="unfinished">Data Inválida</translation>
+        <translation type="unfinished">Data inválida.</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="377"/>
@@ -3709,7 +3713,7 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="833"/>
         <source>Incomes &amp; Expenses</source>
-        <translation type="unfinished">Receitas e Despesas</translation>
+        <translation type="unfinished">Receitas e despesas</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="846"/>
@@ -3741,17 +3745,17 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="872"/>
         <source>Daily Average</source>
-        <translation type="unfinished">Balanço do DIa</translation>
+        <translation type="unfinished">Balanço do dIa</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="873"/>
         <source>Monthly Average</source>
-        <translation type="unfinished">Balanço do Mês</translation>
+        <translation type="unfinished">Balanço do mês</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="874"/>
         <source>Yearly Average</source>
-        <translation type="unfinished">Balanço Anual</translation>
+        <translation type="unfinished">Balanço anual</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="877"/>
@@ -3761,7 +3765,7 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="879"/>
         <source>Average Income</source>
-        <translation type="unfinished">BAlanço de Receita</translation>
+        <translation type="unfinished">Balanço de receita</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="881"/>
@@ -3776,12 +3780,12 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="1016"/>
         <source>Total incomes</source>
-        <translation type="unfinished">Receitas Totais</translation>
+        <translation type="unfinished">Receitas totais</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="1055"/>
         <source>Total expenses</source>
-        <translation type="unfinished">Gastos Totais</translation>
+        <translation type="unfinished">Gastos totais</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="1066"/>
@@ -6281,7 +6285,7 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="4982"/>
         <source>Save As…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Salvar como…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4983"/>
@@ -6870,6 +6874,12 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Valor contábil</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balance adjustment</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="5824"/>
         <source>Real value:</source>
         <translation type="unfinished">Valor real</translation>
@@ -6993,12 +7003,6 @@ O que você gostaria de fazer com elas?</translation>
         <source>Balance Account</source>
         <comment>Verb</comment>
         <translation type="obsolete">Balanço da Conta</translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
-        <source>of which %1 is balanced</source>
-        <comment>Referring to account balance</comment>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -8043,8 +8047,7 @@ O que você gostaria de fazer com elas?</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
-        <source>Account Balancing</source>
-        <comment>Balancing of an account</comment>
+        <source>Account Balance Adjustment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -8214,8 +8217,7 @@ O que você gostaria de fazer com elas?</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="136"/>
-        <source>Account Balancing</source>
-        <comment>Balancing of an account</comment>
+        <source>Account Balance Adjustment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -8341,7 +8343,7 @@ O que você gostaria de fazer com elas?</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="179"/>
         <source>Save As…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Salvar como…</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="182"/>
@@ -8883,7 +8885,7 @@ Date: %3</source>
     <message>
         <location filename="../src/overtimereport.cpp" line="78"/>
         <source>Save As…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Salvar como…</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="80"/>

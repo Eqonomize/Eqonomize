@@ -241,6 +241,10 @@ void TransactionFilterWidget::clearFilter() {
 void TransactionFilterWidget::checkEnableClear() {
 	clearButton->setEnabled(dateFromButton->isChecked() || minButton->isChecked() || maxButton->isChecked() || fromCombo->currentIndex() || toCombo->currentIndex() || !descriptionEdit->text().isEmpty() || (payeeEdit && !payeeEdit->text().isEmpty()) || to_date != QDate::currentDate());
 }
+void TransactionFilterWidget::focusDescription() {
+	descriptionEdit->setFocus();
+	descriptionEdit->selectAll();
+}
 void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString payee, bool exclude, bool exact_match, bool exclude_subs) {
 	dateFromButton->blockSignals(true);
 	dateFromEdit->blockSignals(true);

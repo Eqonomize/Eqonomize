@@ -276,6 +276,8 @@ class Eqonomize : public QMainWindow {
 		void updateBudgetDay();
 		void setBudgetPeriod();
 		
+		void showFilter();
+		
 		void showHelp();
 		void reportBug();
 		void showAbout();

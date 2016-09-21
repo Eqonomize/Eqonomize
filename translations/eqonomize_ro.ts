@@ -3123,10 +3123,14 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="obsolete">Echilibrare cont</translation>
     </message>
     <message>
-        <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Echilibrare cont</translation>
+        <translation type="obsolete">Echilibrare cont</translation>
+    </message>
+    <message>
+        <location filename="../src/transaction.cpp" line="442"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6892,6 +6896,12 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="unfinished">Valoare registru:</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balance adjustment</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="5824"/>
         <source>Real value:</source>
         <translation type="unfinished">Valoare reală:</translation>
@@ -7015,12 +7025,6 @@ Ce doriți să le faceți cu ele?</translation>
         <source>Balance Account</source>
         <comment>Verb</comment>
         <translation type="obsolete">Echilibrare cont</translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
-        <source>of which %1 is balanced</source>
-        <comment>Referring to account balance</comment>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -8074,9 +8078,13 @@ Ce doriți să le faceți cu ele?</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Account Balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Echilibrare cont</translation>
+        <translation type="obsolete">Echilibrare cont</translation>
     </message>
     <message>
         <source>Balancing</source>
@@ -8249,9 +8257,13 @@ Ce doriți să le faceți cu ele?</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Account Balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Echilibrare cont</translation>
+        <translation type="obsolete">Echilibrare cont</translation>
     </message>
     <message>
         <source>Balancing</source>

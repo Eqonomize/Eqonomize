@@ -3111,10 +3111,14 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="obsolete">Afletteren</translation>
     </message>
     <message>
-        <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Afletteren</translation>
+        <translation type="obsolete">Afletteren</translation>
+    </message>
+    <message>
+        <location filename="../src/transaction.cpp" line="442"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6890,6 +6894,12 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Boek waarde:</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balance adjustment</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="5824"/>
         <source>Real value:</source>
         <translation type="unfinished">Echte waarde:</translation>
@@ -7013,12 +7023,6 @@ Wat wil je er mee doen?</translation>
         <source>Balance Account</source>
         <comment>Verb</comment>
         <translation type="obsolete">Balansrekening</translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
-        <source>of which %1 is balanced</source>
-        <comment>Referring to account balance</comment>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -8077,9 +8081,13 @@ Wat wil je er mee doen?</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Account Balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Afletteren</translation>
+        <translation type="obsolete">Afletteren</translation>
     </message>
     <message>
         <source>Balancing</source>
@@ -8252,9 +8260,13 @@ Wat wil je er mee doen?</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Account Balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Afletteren</translation>
+        <translation type="obsolete">Afletteren</translation>
     </message>
     <message>
         <source>Balancing</source>

@@ -122,7 +122,7 @@ class TransactionListWidget : public QWidget {
 		void removeScheduledTransaction();
 		void addModifyTransaction();
 		void popupListMenu(const QPoint&);
-		void showFilter();
+		void showFilter(bool focus_description = false);
 		void showEdit();
 		void transactionExecuted(QTreeWidgetItem*);
 

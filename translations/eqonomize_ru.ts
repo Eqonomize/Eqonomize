@@ -2924,10 +2924,14 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="obsolete">Баланс счета</translation>
     </message>
     <message>
-        <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Баланс счета</translation>
+        <translation type="obsolete">Баланс счета</translation>
+    </message>
+    <message>
+        <location filename="../src/transaction.cpp" line="442"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5671,12 +5675,6 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation type="obsolete">Баланс счета</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
-        <source>of which %1 is balanced</source>
-        <comment>Referring to account balance</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Balance</source>
         <comment>Account balance</comment>
         <translation type="obsolete">Баланс</translation>
@@ -6669,6 +6667,12 @@ Do you want to load the last auto-saved version of the file?</source>
         <location filename="../src/eqonomize.cpp" line="5817"/>
         <source>Book value:</source>
         <translation type="unfinished">Книга ценности:</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balance adjustment</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5824"/>
@@ -7821,9 +7825,13 @@ What do you want to do with them?</source>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Account Balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Баланс счета</translation>
+        <translation type="obsolete">Баланс счета</translation>
     </message>
     <message>
         <source>Balancing</source>
@@ -7994,9 +8002,13 @@ What do you want to do with them?</source>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Account Balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Баланс счета</translation>
+        <translation type="obsolete">Баланс счета</translation>
     </message>
     <message>
         <source>Balancing</source>

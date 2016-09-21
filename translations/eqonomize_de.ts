@@ -2484,10 +2484,14 @@ Was wollen Sie mit diesen tun?</translation>
         <translation type="vanished">Kontenbilanzierung</translation>
     </message>
     <message>
-        <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Kontenbilanzierung</translation>
+        <translation type="obsolete">Kontenbilanzierung</translation>
+    </message>
+    <message>
+        <location filename="../src/transaction.cpp" line="442"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished">Einstellung der Kontostand</translation>
     </message>
 </context>
 <context>
@@ -6339,6 +6343,12 @@ Wollen Sie die letzte automatisch gespeicherte Version dieser Datei laden?</tran
         <translation>Buchwert:</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balance adjustment</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="5824"/>
         <source>Real value:</source>
         <translation>Realwert:</translation>
@@ -6462,12 +6472,6 @@ Was wollen Sie mit diesen tun?</translation>
         <source>Balance Account</source>
         <comment>Verb</comment>
         <translation type="obsolete">Konto bilanzieren</translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
-        <source>of which %1 is balanced</source>
-        <comment>Referring to account balance</comment>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -7539,9 +7543,13 @@ Was wollen Sie mit diesen tun?</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished">Einstellung der Kontostand</translation>
+    </message>
+    <message>
         <source>Account Balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Kontenbilanzierung</translation>
+        <translation type="obsolete">Kontenbilanzierung</translation>
     </message>
     <message>
         <source>Balancing</source>
@@ -7714,9 +7722,13 @@ Was wollen Sie mit diesen tun?</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished">Einstellung der Kontostand</translation>
+    </message>
+    <message>
         <source>Account Balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Kontenbilanzierung</translation>
+        <translation type="obsolete">Kontenbilanzierung</translation>
     </message>
     <message>
         <source>Balancing</source>

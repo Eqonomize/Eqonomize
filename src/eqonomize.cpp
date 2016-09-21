@@ -75,6 +75,7 @@
 #include <QLocalSocket>
 #include <QLocalServer>
 #include <QLocale>
+#include <QShortcut>
 #include <QTextBrowser>
 #include <QToolButton>
 
@@ -3492,7 +3493,7 @@ void Eqonomize::splitUpSelectedTransaction() {
 	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
 	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
 	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
-	else 	return;
+	else return;
 	if(!w) return;
 	w->splitUpTransaction();
 }
@@ -4961,6 +4962,8 @@ void Eqonomize::setupActions() {
 	statisticsToolbar->setFloatable(false);
 	statisticsToolbar->setMovable(false);
 	
+	new QShortcut(QKeySequence::Find, this, SLOT(showFilter()));
+	
 	NEW_ACTION_3(ActionFileNew, tr("&New"), "document-new", QKeySequence::New, this, SLOT(fileNew()), "file_new", fileMenu);
 	fileToolbar->addAction(ActionFileNew);
 	NEW_ACTION_3(ActionFileOpen, tr("&Open…"), "document-open", QKeySequence::Open, this, SLOT(fileOpen()), "file_open", fileMenu);
@@ -5178,6 +5181,15 @@ void Eqonomize::updateRecentFiles(QString filePath){
 		recentFileActionList.at(i)->setVisible(false);
 	}
 	recentFilesMenu->setEnabled(recentFilePaths.size() > 0);
+}
+
+void Eqonomize::showFilter() {
+	TransactionListWidget *w = NULL;
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
+	if(!w) return;
+	w->showFilter(true);
 }
 
 void Eqonomize::showHelp() {
@@ -5818,7 +5830,7 @@ void Eqonomize::balanceAccount(Account *i_account) {
 	QLabel *label = new QLabel(QLocale().toCurrencyString(book_value), dialog);
 	label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 	grid->addWidget(label, 0, 1);
-	label = new QLabel(tr("of which %1 is balanced", "Referring to account balance").arg(QLocale().toCurrencyString(current_balancing)), dialog);
+	label = new QLabel(tr("of which %1 is balance adjustment", "Referring to account balance").arg(QLocale().toCurrencyString(current_balancing)), dialog);
 	label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 	grid->addWidget(label, 1, 1);
 	grid->addWidget(new QLabel(tr("Real value:"), dialog), 2, 0);

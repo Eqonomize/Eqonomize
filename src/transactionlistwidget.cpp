@@ -1543,7 +1543,10 @@ int TransactionListWidget::currentEditToItem() {
 int TransactionListWidget::currentEditFromItem() {
 	return editWidget->currentFromItem();
 }
-void TransactionListWidget::showFilter() {tabs->setCurrentWidget(filterWidget);}
+void TransactionListWidget::showFilter(bool focus_description) {
+	tabs->setCurrentWidget(filterWidget);
+	if(focus_description) filterWidget->focusDescription();
+}
 void TransactionListWidget::showEdit() {tabs->setCurrentWidget(editWidget);}
 void TransactionListWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString payee, bool exclude, bool exact_match) {
 	filterWidget->setFilter(fromdate, todate, min, max, from_account, to_account, description, payee, exclude, exact_match);

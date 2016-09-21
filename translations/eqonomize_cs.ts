@@ -2375,10 +2375,14 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="vanished">Zůstatek účtu</translation>
     </message>
     <message>
-        <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Zůstatek účtu</translation>
+        <translation type="obsolete">Zůstatek účtu</translation>
+    </message>
+    <message>
+        <location filename="../src/transaction.cpp" line="442"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6207,6 +6211,12 @@ Přejete si spustit poslední automaticky uloženou verzi souboru?</translation>
         <translation>Účetní hodnota:</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balance adjustment</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="5824"/>
         <source>Real value:</source>
         <translation>Skutečná hodnota:</translation>
@@ -6356,12 +6366,6 @@ Co s nimi chcete udělat?</translation>
         <source>Balance Account</source>
         <comment>Verb</comment>
         <translation type="obsolete">Bilanční účet</translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
-        <source>of which %1 is balanced</source>
-        <comment>Referring to account balance</comment>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -7427,9 +7431,13 @@ Co s nimi chcete udělat?</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Account Balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Zůstatek účtu</translation>
+        <translation type="obsolete">Zůstatek účtu</translation>
     </message>
     <message>
         <source>Balancing</source>
@@ -7602,9 +7610,13 @@ Co s nimi chcete udělat?</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Account Balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Zůstatek účtu</translation>
+        <translation type="obsolete">Zůstatek účtu</translation>
     </message>
     <message>
         <source>Balancing</source>

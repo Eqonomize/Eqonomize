@@ -3102,10 +3102,14 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="vanished">Számlaegyenleg</translation>
     </message>
     <message>
-        <location filename="../src/transaction.cpp" line="442"/>
         <source>Account balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Számlaegyenleg</translation>
+        <translation type="obsolete">Számlaegyenleg</translation>
+    </message>
+    <message>
+        <location filename="../src/transaction.cpp" line="442"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6876,6 +6880,12 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation>Könyvérték:</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="5821"/>
+        <source>of which %1 is balance adjustment</source>
+        <comment>Referring to account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="5824"/>
         <source>Real value:</source>
         <translation>Valódi érték:</translation>
@@ -7002,12 +7012,6 @@ Biztosan el akarod távolítani a számlát?</translation>
         <source>Balance Account</source>
         <comment>Verb</comment>
         <translation type="obsolete">Mérlegszámla</translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="5821"/>
-        <source>of which %1 is balanced</source>
-        <comment>Referring to account balance</comment>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7305"/>
@@ -8055,9 +8059,13 @@ Biztosan el akarod távolítani a számlát?</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="762"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Account Balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Számlaegyenleg</translation>
+        <translation type="obsolete">Számlaegyenleg</translation>
     </message>
     <message>
         <source>Balancing</source>
@@ -8230,9 +8238,13 @@ Biztosan el akarod távolítani a számlát?</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="136"/>
+        <source>Account Balance Adjustment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Account Balancing</source>
         <comment>Balancing of an account</comment>
-        <translation type="unfinished">Számlaegyenleg</translation>
+        <translation type="obsolete">Számlaegyenleg</translation>
     </message>
     <message>
         <source>Balancing</source>
