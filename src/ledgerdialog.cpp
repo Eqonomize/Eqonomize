@@ -56,9 +56,9 @@
 #include "transactioneditwidget.h"
 
 extern QString htmlize_string(QString str);
-extern QColor createExpenseColor(QColor base_color);
-extern QColor createIncomeColor(QColor base_color);
-extern QColor createTransferColor(QColor base_color);
+extern QColor createExpenseColor(QTreeWidgetItem *i, int = 0);
+extern QColor createIncomeColor(QTreeWidgetItem *i, int = 0);
+extern QColor createTransferColor(QTreeWidgetItem *i, int = 0);
 extern void setColumnTextWidth(QTreeWidget *w, int i, QString str);
 extern void setColumnDateWidth(QTreeWidget *w, int i);
 extern void setColumnMoneyWidth(QTreeWidget *w, int i, double v = 9999999.99);
@@ -91,9 +91,9 @@ LedgerListViewItem::LedgerListViewItem(Transaction *trans, SplitTransaction *spl
 	setTextAlignment(5, Qt::AlignRight | Qt::AlignVCenter);
 	setTextAlignment(6, Qt::AlignRight | Qt::AlignVCenter);
 	setTextAlignment(7, Qt::AlignRight | Qt::AlignVCenter);
-	if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(4).color());
+	if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 4);
 	setForeground(4, expenseColor);
-	if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(5).color());
+	if(!incomeColor.isValid()) incomeColor = createIncomeColor(this, 5);
 	setForeground(5, incomeColor);
 	setForeground(6, expenseColor);
 }

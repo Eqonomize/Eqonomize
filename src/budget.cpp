@@ -479,7 +479,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 	xml.writeStartDocument();
 	xml.writeDTD("<!DOCTYPE EqonomizeDoc>");
 	xml.writeStartElement("EqonomizeDoc");
-	xml.writeAttribute("version", "0.6");
+	xml.writeAttribute("version", "0.99.1");
 	
 	int id = 1;
 	Account *account = accounts.first();

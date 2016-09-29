@@ -61,9 +61,9 @@ extern void setColumnMoneyWidth(QTreeWidget *w, int i, double v = 9999999.99);
 extern void setColumnValueWidth(QTreeWidget *w, int i, double v, int d = -1);
 extern void setColumnStrlenWidth(QTreeWidget *w, int i, int l);
 
-extern QColor createExpenseColor(QColor base_color);
-extern QColor createIncomeColor(QColor base_color);
-extern QColor createTransferColor(QColor base_color);
+extern QColor createExpenseColor(QTreeWidgetItem *i, int = 0);
+extern QColor createIncomeColor(QTreeWidgetItem *i, int = 0);
+extern QColor createTransferColor(QTreeWidgetItem *i, int = 0);
 
 class TransactionListViewItem : public QTreeWidgetItem {
 	protected:
@@ -1017,13 +1017,13 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 		i->setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
 		
 		if((split && split->cost() > 0.0) || (trans && ((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)))) {
-			if(!expenseColor.isValid()) expenseColor = createExpenseColor(i->foreground(2).color());
+			if(!expenseColor.isValid()) expenseColor = createExpenseColor(i, 2);
 			i->setForeground(2, expenseColor);
 		} else if((split && split->cost() < 0.0) || (trans && ((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() < 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() > 0.0)))) {
-			if(!incomeColor.isValid()) incomeColor = createIncomeColor(i->foreground(2).color());
+			if(!incomeColor.isValid()) incomeColor = createIncomeColor(i, 2);
 			i->setForeground(2, incomeColor);
 		} else {
-			if(!transferColor.isValid()) transferColor = createTransferColor(i->foreground(2).color());
+			if(!transferColor.isValid()) transferColor = createTransferColor(i, 2);
 			i->setForeground(2, transferColor);
 		}
 		//i->setTextAlignment(3, Qt::AlignCenter);

@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
 	app.setApplicationName("eqonomize");
 	app.setApplicationDisplayName("Eqonomize!");
 	app.setOrganizationName("Eqonomize");
-	app.setApplicationVersion("0.6");
+	app.setApplicationVersion("0.99.1");
 	
 	setlocale(LC_MONETARY, "");
 	

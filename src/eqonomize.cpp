@@ -133,9 +133,10 @@ QString last_document_directory, last_picture_directory;
 QColor createExpenseColor(QColor base_color) {
 	qreal r, g, b;
 	base_color.getRgbF(&r, &g, &b);
-	if(r == 1.0) {
+	if(r >= 0.8) {
 		g /= 1.5;
 		b /= 1.5;
+		r = 1.0;
 	} else {
 		if(r >= 0.6) r = 1.0;
 		else r += 0.4;
@@ -146,9 +147,10 @@ QColor createExpenseColor(QColor base_color) {
 QColor createIncomeColor(QColor base_color) {
 	qreal r, g, b;
 	base_color.getRgbF(&r, &g, &b);
-	if(g == 1.0) {
+	if(g >= 0.8) {
 		r /= 1.5;
 		b /= 1.5;
+		g = 1.0;
 	} else {
 		if(g >= 0.7) g = 1.0;
 		else g += 0.3;
@@ -159,9 +161,10 @@ QColor createIncomeColor(QColor base_color) {
 QColor createTransferColor(QColor base_color) {
 	qreal r, g, b;
 	base_color.getRgbF(&r, &g, &b);
-	if(b == 1.0) {
+	if(b >= 0.8) {
 		g /= 1.5;
 		r /= 1.5;
+		b = 1.0;
 	} else {
 		if(b >= 0.7) b = 1.0;
 		else b += 0.3;
@@ -170,21 +173,25 @@ QColor createTransferColor(QColor base_color) {
 	return base_color;
 }
 
+QColor createExpenseColor(QTreeWidgetItem *i, int = 0) {return createExpenseColor(i->treeWidget()->palette().color(i->treeWidget()->foregroundRole()));}
+QColor createIncomeColor(QTreeWidgetItem *i, int = 0) {return createIncomeColor(i->treeWidget()->palette().color(i->treeWidget()->foregroundRole()));}
+QColor createTransferColor(QTreeWidgetItem *i, int = 0) {return createTransferColor(i->treeWidget()->palette().color(i->treeWidget()->foregroundRole()));}
+
 void setAccountChangeColor(QTreeWidgetItem *i, double change, bool is_expense) {
-	QColor fg = i->foreground(VALUE_COLUMN).color();
+	//QColor fg = i->foreground(VALUE_COLUMN).color();
 	if((!is_expense && change < 0.0) || (is_expense && change > 0.0)) {
-		i->setForeground(CHANGE_COLUMN, createExpenseColor(fg));
+		i->setForeground(CHANGE_COLUMN, createExpenseColor(i, VALUE_COLUMN));
 	} else if((is_expense && change < 0.0) || (!is_expense && change > 0.0)) {
-		i->setForeground(CHANGE_COLUMN, createIncomeColor(fg));
+		i->setForeground(CHANGE_COLUMN, createIncomeColor(i, VALUE_COLUMN));
 	} else {
-		i->setForeground(CHANGE_COLUMN, fg);
+		i->setForeground(CHANGE_COLUMN, i->treeWidget()->palette().color(i->treeWidget()->foregroundRole()));
 	}
 }
 void setAccountBudgetColor(QTreeWidgetItem *i, double budget_rem, bool is_expense) {
 	if(!is_expense) return;
-	QColor fg = i->foreground(VALUE_COLUMN).color();
-	if(budget_rem < 0.0) i->setForeground(BUDGET_COLUMN, createExpenseColor(fg));
-	else i->setForeground(BUDGET_COLUMN, createIncomeColor(fg));
+	//QColor fg = i->foreground(VALUE_COLUMN).color();
+	if(budget_rem < 0.0) i->setForeground(BUDGET_COLUMN, createExpenseColor(i, VALUE_COLUMN));
+	else i->setForeground(BUDGET_COLUMN, createIncomeColor(i, VALUE_COLUMN));
 }
 
 void setColumnTextWidth(QTreeWidget *w, int i, QString str) {
@@ -259,7 +266,7 @@ class ScheduleListViewItem : public QTreeWidgetItem {
 		QDate d_date;
 		QColor expenseColor, incomeColor, transferColor;
 	public:
-		ScheduleListViewItem(ScheduledTransaction *strans, const QDate &trans_date);
+		ScheduleListViewItem(QTreeWidget *parent, ScheduledTransaction *strans, const QDate &trans_date);
 		bool operator<(const QTreeWidgetItem &i_pre) const;
 		ScheduledTransaction *scheduledTransaction() const;
 		void setScheduledTransaction(ScheduledTransaction *strans);
@@ -267,7 +274,7 @@ class ScheduleListViewItem : public QTreeWidgetItem {
 		void setDate(const QDate &newdate);
 };
 
-ScheduleListViewItem::ScheduleListViewItem(ScheduledTransaction *strans, const QDate &trans_date) : QTreeWidgetItem(UserType) {
+ScheduleListViewItem::ScheduleListViewItem(QTreeWidget *parent, ScheduledTransaction *strans, const QDate &trans_date) : QTreeWidgetItem(parent, UserType) {
 	setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
 	//setTextAlignment(4, Qt::AlignCenter);
 	//setTextAlignment(5, Qt::AlignCenter);
@@ -304,13 +311,13 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 		setText(4, trans->fromAccount()->name());
 		setText(5, trans->toAccount()->name());
 		if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
-			if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
+			if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 3);
 			setForeground(3, expenseColor);
 		} else if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() < 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() > 0.0)) {
-			if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(3).color());
+			if(!incomeColor.isValid()) incomeColor = createIncomeColor(this, 3);
 			setForeground(3, incomeColor);
-		} else {
-			if(!transferColor.isValid()) transferColor = createTransferColor(foreground(3).color());
+		} else {		
+			if(!transferColor.isValid()) transferColor = createTransferColor(this, 3);
 			setForeground(3, transferColor);
 		}
 		switch(trans->type()) {
@@ -329,7 +336,7 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 		if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
 			setText(1, QObject::tr("Debt Payment"));
 			setText(3, QLocale().toCurrencyString(-split->value()));
-			if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
+			if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 3);
 			setForeground(3, expenseColor);
 			setText(4, ((DebtPayment*) split)->account()->name());
 			setText(5, ((DebtPayment*) split)->loan()->name());
@@ -337,17 +344,17 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 			bool b_reverse = false;
 			if(split->isIncomesAndExpenses()) {
 				if(split->cost() > 0.0) {
-					if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
+					if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 3);
 					setForeground(3, expenseColor);
 					setText(3, QLocale().toCurrencyString(split->cost()));
 					b_reverse = true;
 				} else {
-					if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(3).color());
+					if(!incomeColor.isValid()) incomeColor = createIncomeColor(this, 3);
 					setForeground(3, incomeColor);
 					setText(3, QLocale().toCurrencyString(split->income()));
 				}
 			} else {
-				if(!transferColor.isValid()) transferColor = createTransferColor(foreground(3).color());
+				if(!transferColor.isValid()) transferColor = createTransferColor(this, 3);
 				setForeground(3, transferColor);
 				setText(3, QLocale().toCurrencyString(split->value()));
 			}
@@ -374,13 +381,13 @@ class ConfirmScheduleListViewItem : public QTreeWidgetItem {
 		Transactions *o_trans;
 		QColor expenseColor, incomeColor, transferColor;
 	public:
-		ConfirmScheduleListViewItem(Transactions *trans);
+		ConfirmScheduleListViewItem(QTreeWidget *parent, Transactions *trans);
 		bool operator<(const QTreeWidgetItem &i_pre) const;
 		Transactions *transaction() const;
 		void setTransaction(Transactions *trans);
 };
 
-ConfirmScheduleListViewItem::ConfirmScheduleListViewItem(Transactions *trans) : QTreeWidgetItem(UserType) {
+ConfirmScheduleListViewItem::ConfirmScheduleListViewItem(QTreeWidget *parent, Transactions *trans) : QTreeWidgetItem(parent, UserType) {
 	setTransaction(trans);
 	setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
 }
@@ -415,13 +422,13 @@ void ConfirmScheduleListViewItem::setTransaction(Transactions *transs) {
 			case TRANSACTION_TYPE_SECURITY_SELL: {setText(1, tr("Securities Sale", "Financial security (e.g. stock, mutual fund)")); break;}
 		}
 		if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
-			if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
+			if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 3);
 			setForeground(3, expenseColor);
 		} else if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() < 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() > 0.0)) {
-			if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(3).color());
+			if(!incomeColor.isValid()) incomeColor = createIncomeColor(this, 3);
 			setForeground(3, incomeColor);
 		} else {
-			if(!transferColor.isValid()) transferColor = createTransferColor(foreground(3).color());
+			if(!transferColor.isValid()) transferColor = createTransferColor(this, 3);
 			setForeground(3, transferColor);
 		}
 		setText(3, QLocale().toCurrencyString(trans->value()));
@@ -429,22 +436,22 @@ void ConfirmScheduleListViewItem::setTransaction(Transactions *transs) {
 		SplitTransaction *split = (SplitTransaction*) transs;
 		if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
 			setText(3, QLocale().toCurrencyString(-split->value()));
-			if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
+			if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 3);
 			setForeground(3, expenseColor);
 			setText(1, tr("Debt Payment"));
 		} else {
 			if(split->isIncomesAndExpenses()) {
 				if(split->cost() > 0.0) {
-					if(!expenseColor.isValid()) expenseColor = createExpenseColor(foreground(3).color());
+					if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 3);
 					setForeground(3, expenseColor);
 					setText(3, QLocale().toCurrencyString(split->cost()));
 				} else {
-					if(!incomeColor.isValid()) incomeColor = createIncomeColor(foreground(3).color());
+					if(!incomeColor.isValid()) incomeColor = createIncomeColor(this, 3);
 					setForeground(3, incomeColor);
 					setText(3, QLocale().toCurrencyString(split->income()));
 				}
 			} else {
-				if(!transferColor.isValid()) transferColor = createTransferColor(foreground(3).color());
+				if(!transferColor.isValid()) transferColor = createTransferColor(this, 3);
 				setForeground(3, transferColor);
 				setText(3, QLocale().toCurrencyString(split->value()));
 			}
@@ -459,7 +466,6 @@ void ConfirmScheduleListViewItem::setTransaction(Transactions *transs) {
 		}
 	}
 	setText(2, transs->description());
-	
 }
 
 
@@ -1310,14 +1316,12 @@ void ConfirmScheduleDialog::edit() {
 }
 void ConfirmScheduleDialog::updateTransactions() {
 	ScheduledTransaction *strans = budget->scheduledTransactions.first();
-	QList<QTreeWidgetItem *> items;
 	while(strans) {
 		if(strans->firstOccurrence() < QDate::currentDate() || (QTime::currentTime().hour() >= 18 && strans->firstOccurrence() == QDate::currentDate())) {
 			bool b = strans->isOneTimeTransaction();
 			Transactions *trans = strans->realize(strans->firstOccurrence());
 			if(trans) {
-				QTreeWidgetItem *i = new ConfirmScheduleListViewItem(trans);
-				items.append(i);
+				new ConfirmScheduleListViewItem(transactionsView, trans);
 			}
 			if(b) budget->removeScheduledTransaction(strans);
 			strans = budget->scheduledTransactions.first();
@@ -1325,7 +1329,6 @@ void ConfirmScheduleDialog::updateTransactions() {
 			strans = budget->scheduledTransactions.next();
 		}		
 	}
-	transactionsView->addTopLevelItems(items);
 	transactionsView->setSortingEnabled(true);
 	QTreeWidgetItemIterator it(transactionsView);
 	QTreeWidgetItem *i = *it;
@@ -2840,15 +2843,15 @@ void Eqonomize::appendSecurity(Security *security) {
 		case SECURITY_TYPE_OTHER: {i->setText(7, tr("Other")); break;}
 	}
 	securitiesView->insertTopLevelItem(securitiesView->topLevelItemCount(), i);
-	if(cost > 0.0) i->setForeground(4, createExpenseColor(i->foreground(0).color()));
-	else if(cost < 0.0) i->setForeground(4, createIncomeColor(i->foreground(0).color()));
-	else i->setForeground(4, createTransferColor(i->foreground(0).color()));
-	if(profit < 0.0) i->setForeground(5, createExpenseColor(i->foreground(0).color()));
-	else if(profit > 0.0) i->setForeground(5, createIncomeColor(i->foreground(0).color()));
-	else i->setForeground(5, createTransferColor(i->foreground(0).color()));
-	if(rate < 0.0) i->setForeground(6, createExpenseColor(i->foreground(0).color()));
-	else if(rate > 0.0) i->setForeground(6, createIncomeColor(i->foreground(0).color()));
-	else i->setForeground(6, createTransferColor(i->foreground(0).color()));
+	if(cost > 0.0) i->setForeground(4, createExpenseColor(i, 0));
+	else if(cost < 0.0) i->setForeground(4, createIncomeColor(i, 0));
+	else i->setForeground(4, createTransferColor(i, 0));
+	if(profit < 0.0) i->setForeground(5, createExpenseColor(i, 0));
+	else if(profit > 0.0) i->setForeground(5, createIncomeColor(i, 0));
+	else i->setForeground(5, createTransferColor(i, 0));
+	if(rate < 0.0) i->setForeground(6, createExpenseColor(i, 0));
+	else if(rate > 0.0) i->setForeground(6, createIncomeColor(i, 0));
+	else i->setForeground(6, createTransferColor(i, 0));
 	total_rate *= total_value;
 	total_value += value;
 	total_cost += cost;
@@ -2915,15 +2918,15 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i) {
 	i->setText(5, QLocale().toCurrencyString(profit));
 	i->setText(6, QLocale().toString(rate * 100) + "%");
 	i->setText(8, security->account()->name());
-	if(cost > 0.0) i->setForeground(4, createExpenseColor(i->foreground(0).color()));
-	else if(cost < 0.0) i->setForeground(4, createIncomeColor(i->foreground(0).color()));
-	else i->setForeground(4, createTransferColor(i->foreground(0).color()));
-	if(profit < 0.0) i->setForeground(5, createExpenseColor(i->foreground(0).color()));
-	else if(profit > 0.0) i->setForeground(5, createIncomeColor(i->foreground(0).color()));
-	else i->setForeground(5, createTransferColor(i->foreground(0).color()));
-	if(rate < 0.0) i->setForeground(6, createExpenseColor(i->foreground(0).color()));
-	else if(rate > 0.0) i->setForeground(6, createIncomeColor(i->foreground(0).color()));
-	else i->setForeground(6, createTransferColor(i->foreground(0).color()));
+	if(cost > 0.0) i->setForeground(4, createExpenseColor(i, 0));
+	else if(cost < 0.0) i->setForeground(4, createIncomeColor(i, 0));
+	else i->setForeground(4, createTransferColor(i, 0));
+	if(profit < 0.0) i->setForeground(5, createExpenseColor(i, 0));
+	else if(profit > 0.0) i->setForeground(5, createIncomeColor(i, 0));
+	else i->setForeground(5, createTransferColor(i, 0));
+	if(rate < 0.0) i->setForeground(6, createExpenseColor(i, 0));
+	else if(rate > 0.0) i->setForeground(6, createIncomeColor(i, 0));
+	else i->setForeground(6, createTransferColor(i, 0));
 	updateSecuritiesStatistics();
 }
 void Eqonomize::updateSecurities() {
@@ -5241,7 +5244,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v0.6</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.0-beta1</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);
@@ -5613,16 +5616,14 @@ void Eqonomize::endBatchEdit() {
 void Eqonomize::updateScheduledTransactions() {
 	scheduleView->clear();
 	ScheduledTransaction *strans = budget->scheduledTransactions.first();
-	QList<QTreeWidgetItem *> items;
 	while(strans) {
-		items.append(new ScheduleListViewItem(strans, strans->firstOccurrence()));
+		new ScheduleListViewItem(scheduleView, strans, strans->firstOccurrence());
 		strans = budget->scheduledTransactions.next();
 	}
-	scheduleView->addTopLevelItems(items);
 	scheduleView->setSortingEnabled(true);
 }
 void Eqonomize::appendScheduledTransaction(ScheduledTransaction *strans) {
-	scheduleView->insertTopLevelItem(scheduleView->topLevelItemCount(), new ScheduleListViewItem(strans, strans->firstOccurrence()));
+	new ScheduleListViewItem(scheduleView, strans, strans->firstOccurrence());
 	scheduleView->setSortingEnabled(true);
 }
 
