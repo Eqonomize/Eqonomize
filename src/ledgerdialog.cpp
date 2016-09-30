@@ -74,7 +74,8 @@ class LedgerListViewItem : public QTreeWidgetItem {
 		SplitTransaction *o_split;
 	public:
 		LedgerListViewItem(Transaction *trans, SplitTransaction *split, QTreeWidget *parent, QString, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null);
-		Transaction *transaction() const;
+		void setColors();
+		Transaction *transaction() const;		
 		SplitTransaction *splitTransaction() const;
 };
 
@@ -91,6 +92,15 @@ LedgerListViewItem::LedgerListViewItem(Transaction *trans, SplitTransaction *spl
 	setTextAlignment(5, Qt::AlignRight | Qt::AlignVCenter);
 	setTextAlignment(6, Qt::AlignRight | Qt::AlignVCenter);
 	setTextAlignment(7, Qt::AlignRight | Qt::AlignVCenter);
+	if(parent) {
+		if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 4);
+		setForeground(4, expenseColor);
+		if(!incomeColor.isValid()) incomeColor = createIncomeColor(this, 5);
+		setForeground(5, incomeColor);
+		setForeground(6, expenseColor);
+	}
+}
+void LedgerListViewItem::setColors() { 
 	if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 4);
 	setForeground(4, expenseColor);
 	if(!incomeColor.isValid()) incomeColor = createIncomeColor(this, 5);
@@ -663,7 +673,7 @@ void LedgerDialog::updateTransactions() {
 	double expenses = 0.0;
 	int quantity = 0;
 	QDate curdate = QDate::currentDate();
-	if(balance != 0.0) transactionsView->insertTopLevelItem(0, new LedgerListViewItem(NULL, NULL, NULL, "-", "-", tr("Opening balance", "Account balance"), "-", QString::null, QString::null, QLocale().toCurrencyString(balance)));
+	if(balance != 0.0) new LedgerListViewItem(NULL, NULL, transactionsView, "-", "-", tr("Opening balance", "Account balance"), "-", QString::null, QString::null, QLocale().toCurrencyString(balance));
 	Transaction *trans = budget->transactions.first();
 	SplitTransaction *split = budget->splitTransactions.first();
 	Transactions *transs = trans;
@@ -677,6 +687,7 @@ void LedgerDialog::updateTransactions() {
 				total_balance += balance;
 				LedgerListViewItem *i = new LedgerListViewItem(NULL, split, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Split Transaction"), split->description(), ((MultiItemTransaction*) split)->fromAccountsString(), (value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, (value < 0.0) ? QLocale().toCurrencyString(-value) : QString::null, QLocale().toCurrencyString(balance));
 				transactionsView->insertTopLevelItem(0, i);
+				i->setColors();
 				quantity++;
 				if(split == selected_split) {
 					i->setSelected(true);
@@ -692,6 +703,7 @@ void LedgerDialog::updateTransactions() {
 						reductions += value;
 						LedgerListViewItem *i = new LedgerListViewItem(ltrans, NULL, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), tr("Reduction"), ltrans->fromAccount()->name(), (value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, value >= 0.0 ? QString::null : QLocale().toCurrencyString(-value), QLocale().toCurrencyString(balance));
 						transactionsView->insertTopLevelItem(0, i);
+						i->setColors();
 						if(ltrans == selected_transaction) {
 							i->setSelected(true);
 						}
@@ -710,6 +722,7 @@ void LedgerDialog::updateTransactions() {
 						}
 						LedgerListViewItem *i = new LedgerListViewItem(ltrans, NULL, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), tr("Fee"), ltrans->fromAccount()->name(), (to_balance || value >= 0.0) ? QString::null : QLocale().toCurrencyString(-value), (to_balance && value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, QLocale().toCurrencyString(balance), to_balance ? QString::null : QLocale().toCurrencyString(value));
 						transactionsView->insertTopLevelItem(0, i);
+						i->setColors();
 						if(ltrans == selected_transaction) {
 							i->setSelected(true);
 						}
@@ -727,6 +740,7 @@ void LedgerDialog::updateTransactions() {
 						}
 						LedgerListViewItem *i = new LedgerListViewItem(ltrans, NULL, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), tr("Interest"), ltrans->fromAccount()->name(), (to_balance || value >= 0.0) ? QString::null : QLocale().toCurrencyString(-value), (to_balance && value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, QLocale().toCurrencyString(balance), to_balance ? QString::null : QLocale().toCurrencyString(value));
 						transactionsView->insertTopLevelItem(0, i);
+						i->setColors();
 						if(ltrans == selected_transaction) {
 							i->setSelected(true);
 						}
@@ -738,6 +752,7 @@ void LedgerDialog::updateTransactions() {
 						total_balance += balance;
 						LedgerListViewItem *i = new LedgerListViewItem(NULL, split, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), split->description(), ((DebtPayment*) split)->loan()->name(), (value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, (value < 0.0) ? QLocale().toCurrencyString(-value) : QString::null, QLocale().toCurrencyString(balance));
 						transactionsView->insertTopLevelItem(0, i);
+						i->setColors();
 						quantity++;
 						if(split == selected_split) {
 							i->setSelected(true);
@@ -752,6 +767,7 @@ void LedgerDialog::updateTransactions() {
 			LedgerListViewItem *i = new LedgerListViewItem(trans, NULL, NULL, QLocale().toString(trans->date(), QLocale::ShortFormat), QString::null, trans->description(), account == trans->fromAccount() ? trans->toAccount()->name() : trans->fromAccount()->name(), (value >= 0.0) ? QLocale().toCurrencyString(value) : QString::null, value >= 0.0 ? QString::null : QLocale().toCurrencyString(-value), QLocale().toCurrencyString(balance));
 			quantity++;
 			transactionsView->insertTopLevelItem(0, i);
+			i->setColors();
 			if(trans->type() == TRANSACTION_TYPE_INCOME) {
 				if(value >= 0.0) i->setText(1, tr("Income"));
 				else i->setText(1, tr("Repayment"));
@@ -780,7 +796,7 @@ void LedgerDialog::updateTransactions() {
 	if(account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD) {
 		statLabel->setText(QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg(tr("Current debt:")).arg(tr("Total debt reduction:")).arg(tr("Total interest and fees:")).arg(QLocale().toCurrencyString(-balance)).arg(QLocale().toCurrencyString(reductions)).arg(QLocale().toCurrencyString(expenses)));
 	} else {	
-		statLabel->setText(QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg("Current balance:", "Account balance").arg("Average balance:", "Account balance").arg(tr("Number of transactions:")).arg(QLocale().toCurrencyString(balance)).arg(QLocale().toCurrencyString(total_balance / (quantity + 1))).arg(QLocale().toString(quantity)));
+		statLabel->setText(QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg(tr("Current balance:", "Account balance")).arg(tr("Average balance:", "Account balance")).arg(tr("Number of transactions:")).arg(QLocale().toCurrencyString(balance)).arg(QLocale().toCurrencyString(total_balance / (quantity + 1))).arg(QLocale().toString(quantity)));
 	}
 	transactionsView->horizontalScrollBar()->setValue(scroll_h);
 	transactionsView->verticalScrollBar()->setValue(scroll_v);
