@@ -15,7 +15,7 @@
    id="svg4592"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="overtime-chart.svg"
+   sodipodi:docname="eqz-overtime-chart.svg"
    inkscape:export-filename="/home/alexander/chart2/res/typepointline_16.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -82,8 +82,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="8"
-     inkscape:cx="23.111151"
-     inkscape:cy="24.376449"
+     inkscape:cx="-6.826349"
+     inkscape:cy="24.126449"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:grid-bbox="true"
@@ -128,7 +128,7 @@
        inkscape:connector-curvature="0" />
     <path
        inkscape:connector-curvature="0"
-       style="fill:#2e3436;fill-opacity:1;stroke:none"
+       style="fill:#2e3436;fill-opacity:1;stroke:#ffffff;stroke-opacity:1;stroke-width:0.4;stroke-miterlimit:4;stroke-dasharray:none"
        d="m 5.875,-26 0,34.101563 0,2.273437 2.2734375,0 34.1015605,0 0,-2.273437 -34.1015605,0 0,-34.101563 L 5.875,-26 Z"
        id="rect3778" />
     <g

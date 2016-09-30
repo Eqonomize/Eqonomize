@@ -325,11 +325,11 @@
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0.0"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8284271"
-     inkscape:cx="-23.110246"
-     inkscape:cy="47.995025"
+     inkscape:cx="-107.78628"
+     inkscape:cy="47.287918"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -373,6 +373,20 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-1003.3222)">
+    <g
+       id="g4215"
+       transform="translate(62.104077,7.7677673)">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4254-36"
+         d="m -57.27565,1033.6446 37.47666,0"
+         style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path4254-3-7"
+         d="m -57.27565,1038.5942 37.47666,0"
+         style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    </g>
     <g
        style="display:inline"
        id="g1574"

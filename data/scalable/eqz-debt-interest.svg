@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="eqz-loan-interest.svg"
+   sodipodi:docname="eqz-debt-interest.svg"
    inkscape:export-filename="/home/alexander/libo/icon-themes/tango_testing/cmd/lc_numberformatcurrency.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -256,9 +256,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4"
-     inkscape:cx="-37.985246"
-     inkscape:cy="47.995025"
+     inkscape:zoom="8"
+     inkscape:cx="17.061056"
+     inkscape:cy="19.243056"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -304,7 +304,7 @@
      transform="translate(0,-1003.3222)">
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:27.5px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#333333;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       style="font-style:normal;font-weight:normal;font-size:27.5px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#333333;fill-opacity:1;stroke:#ffffff;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
        x="7"
        y="1045.3221"
        id="text4200"
@@ -313,7 +313,7 @@
          id="tspan4202"
          x="7"
          y="1045.3221"
-         style="font-size:45px;fill:#333333;">%</tspan></text>
+         style="font-size:45px;fill:#333333;stroke:#ffffff;stroke-opacity:1;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none">%</tspan></text>
     <rect
        style="opacity:1;fill:url(#linearGradient3833);fill-opacity:1;stroke:none"
        id="rect3036"

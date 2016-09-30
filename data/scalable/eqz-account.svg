@@ -27,15 +27,30 @@
      inkscape:window-y="0"
      pagecolor="#ffffff"
      inkscape:window-height="699"
-     inkscape:zoom="7.1823417"
+     inkscape:zoom="4"
      inkscape:window-x="0"
      borderopacity="1.0"
      inkscape:current-layer="svg1"
-     inkscape:cx="-10.580838"
-     inkscape:cy="6.7883045"
+     inkscape:cx="18.701284"
+     inkscape:cy="6.5098438"
      inkscape:window-width="1024"
      inkscape:pageopacity="0.0"
      showgrid="false" />
+  <path
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#333333;stroke-width:2.81607985;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     d="m 19.637386,20.34467 c -0.07449,0 -0.134512,0.10963 -0.134512,0.246016 l 0,18.318358 c 0,0.136391 0.06003,0.246286 0.134512,0.246286 l 7.725227,0 c 0.07449,0 0.134512,-0.109889 0.134512,-0.246286 l 0,-18.318358 c 0,-0.136389 -0.06003,-0.246016 -0.134512,-0.246016 l -7.725227,0 z"
+     id="rect4139-3"
+     inkscape:connector-curvature="0" />
+  <path
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#333333;stroke-width:2.81607985;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     d="m 28.137387,20.34467 c -0.07449,0 -0.134512,0.10963 -0.134512,0.246016 l 0,18.318358 c 0,0.136391 0.06003,0.246286 0.134512,0.246286 l 7.725227,0 c 0.07449,0 0.134512,-0.109889 0.134512,-0.246286 l 0,-18.318358 c 0,-0.136389 -0.06003,-0.246016 -0.134512,-0.246016 l -7.725227,0 z"
+     id="rect4139-6"
+     inkscape:connector-curvature="0" />
+  <path
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#333333;stroke-width:2.81607985;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     d="m 11.674496,19.666937 c -0.07449,0 -0.134512,0.10963 -0.134512,0.246016 l 0,18.318358 c 0,0.136391 0.06003,0.246286 0.134512,0.246286 l 7.725227,0 c 0.07449,0 0.134512,-0.109889 0.134512,-0.246286 l 0,-18.318358 c 0,-0.136389 -0.06003,-0.246016 -0.134512,-0.246016 l -7.725227,0 z"
+     id="rect4139"
+     inkscape:connector-curvature="0" />
   <path
      inkscape:connector-curvature="0"
      d="m 9.8268749,37.689518 -1.8451443,4.032571 31.9101434,0 -1.8628,-4.032571 -28.2019096,0 z"
@@ -86,7 +101,7 @@
             <dc:title>Openclipart</dc:title>
           </cc:Agent>
         </dc:publisher>
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
       <cc:License
          rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">

@@ -1878,6 +1878,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QFont itemfont = assetsItem->font(0);
 	itemfont.setWeight(QFont::DemiBold);
 	assetsItem->setFont(0, itemfont); liabilitiesItem->setFont(0, itemfont); incomesItem->setFont(0, itemfont); expensesItem->setFont(0, itemfont);
+	assetsItem->setFont(1, itemfont); liabilitiesItem->setFont(1, itemfont); incomesItem->setFont(1, itemfont); expensesItem->setFont(1, itemfont);
 	assetsItem->setFont(2, itemfont); liabilitiesItem->setFont(2, itemfont); incomesItem->setFont(2, itemfont); expensesItem->setFont(2, itemfont);
 	assetsItem->setFont(3, itemfont); liabilitiesItem->setFont(3, itemfont); incomesItem->setFont(3, itemfont); expensesItem->setFont(3, itemfont);
 	accountsLayoutView->addWidget(accountsView);
