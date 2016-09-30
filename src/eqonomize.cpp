@@ -173,9 +173,9 @@ QColor createTransferColor(QColor base_color) {
 	return base_color;
 }
 
-QColor createExpenseColor(QTreeWidgetItem *i, int = 0) {return createExpenseColor(i->treeWidget()->palette().color(i->treeWidget()->foregroundRole()));}
-QColor createIncomeColor(QTreeWidgetItem *i, int = 0) {return createIncomeColor(i->treeWidget()->palette().color(i->treeWidget()->foregroundRole()));}
-QColor createTransferColor(QTreeWidgetItem *i, int = 0) {return createTransferColor(i->treeWidget()->palette().color(i->treeWidget()->foregroundRole()));}
+QColor createExpenseColor(QTreeWidgetItem *i, int = 0) {return createExpenseColor(i->treeWidget()->viewport()->palette().color(i->treeWidget()->viewport()->foregroundRole()));}
+QColor createIncomeColor(QTreeWidgetItem *i, int = 0) {return createIncomeColor(i->treeWidget()->viewport()->palette().color(i->treeWidget()->viewport()->foregroundRole()));}
+QColor createTransferColor(QTreeWidgetItem *i, int = 0) {return createTransferColor(i->treeWidget()->viewport()->palette().color(i->treeWidget()->viewport()->foregroundRole()));}
 
 void setAccountChangeColor(QTreeWidgetItem *i, double change, bool is_expense) {
 	//QColor fg = i->foreground(VALUE_COLUMN).color();
@@ -1695,10 +1695,10 @@ class TotalListViewItem : public QTreeWidgetItem {
 			setTextAlignment(BUDGET_COLUMN, Qt::AlignRight | Qt::AlignVCenter);
 			setTextAlignment(CHANGE_COLUMN, Qt::AlignRight | Qt::AlignVCenter);
 			setTextAlignment(VALUE_COLUMN, Qt::AlignRight | Qt::AlignVCenter);
-			/*setBackground(0, parent->palette().alternateBase());
-			setBackground(1, parent->palette().alternateBase());
-			setBackground(2, parent->palette().alternateBase());
-			setBackground(3, parent->palette().alternateBase());*/
+			/*setBackground(0, parent->viewport()->palette().alternateBase());
+			setBackground(1, parent->viewport()->palette().alternateBase());
+			setBackground(2, parent->viewport()->palette().alternateBase());
+			setBackground(3, parent->viewport()->palette().alternateBase());*/
 		}
 		TotalListViewItem(QTreeWidget *parent, QTreeWidgetItem *after, QString label1, QString label2 = QString::null, QString label3 = QString::null, QString label4 = QString::null) : QTreeWidgetItem(parent, after, UserType) {
 			setText(0, label1);
