@@ -1,3 +1,7 @@
+2017-01-25  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Fix text editing in filter, reset selection on filtering and focus description entry when changing edit/filter tab
+
 2016-09-30  Hanna Knutsson <hanna_k@fmgirl.com>
 
 	* Fix text colors and background of top level items in account tree 

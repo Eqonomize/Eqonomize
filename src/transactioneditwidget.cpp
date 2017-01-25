@@ -1143,6 +1143,7 @@ int TransactionEditWidget::currentFromItem() {
 	if(!fromCombo) return -1;
 	return fromCombo->currentAccountIndex();
 }
+
 void TransactionEditWidget::setTransaction(Transaction *trans) {
 	if(valueEdit) valueEdit->blockSignals(true);
 	if(sharesEdit) sharesEdit->blockSignals(true);
@@ -1161,9 +1162,9 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 		} else {
 			if(descriptionEdit) {
 				descriptionEdit->clear();
-				descriptionEdit->setFocus();
+				if(isVisible()) descriptionEdit->setFocus();
 			} else {
-				valueEdit->setFocus();
+				if(isVisible()) valueEdit->setFocus();
 			}
 			valueEdit->setValue(0.0);
 		}
@@ -1187,17 +1188,21 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 			if(sharesEdit) sharesEdit->setValue(((SecurityTransaction*) trans)->shares());
 			if(quotationEdit) quotationEdit->setValue(((SecurityTransaction*) trans)->shareValue());
 			if(valueEdit) valueEdit->setValue(trans->value());
-			if(valueEdit) valueEdit->setFocus();
-			else sharesEdit->setFocus();
+			if(isVisible()) {
+				if(valueEdit) valueEdit->setFocus();
+				else sharesEdit->setFocus();
+			}
 		} else {
 			description_changed = false;
 			payee_changed = false;
 			if(descriptionEdit) {
 				descriptionEdit->setText(trans->description());
-				descriptionEdit->setFocus();
-				descriptionEdit->selectAll();
+				if(isVisible()) {
+					descriptionEdit->setFocus();
+					descriptionEdit->selectAll();
+				}
 			} else {
-				valueEdit->setFocus();
+				if(isVisible()) valueEdit->setFocus();
 			}
 			valueEdit->setValue(trans->value());
 			if(quantityEdit) quantityEdit->setValue(trans->quantity());
@@ -1247,10 +1252,12 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 	payee_changed = false;
 	if(descriptionEdit) {
 		descriptionEdit->setText(split->description());
-		descriptionEdit->setFocus();
-		descriptionEdit->selectAll();
+		if(isVisible()) {
+			descriptionEdit->setFocus();
+			descriptionEdit->selectAll();
+		}
 	} else {
-		valueEdit->setFocus();
+		if(isVisible()) valueEdit->setFocus();
 	}
 	valueEdit->setValue(split->value());
 	if(quantityEdit) quantityEdit->setValue(split->quantity());

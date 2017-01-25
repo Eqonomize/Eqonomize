@@ -125,6 +125,7 @@ class TransactionListWidget : public QWidget {
 		void showFilter(bool focus_description = false);
 		void showEdit();
 		void transactionExecuted(QTreeWidgetItem*);
+		void currentTabChanged(int);
 
 };
 

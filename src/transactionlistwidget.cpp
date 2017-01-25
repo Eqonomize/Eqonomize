@@ -180,6 +180,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 
 	updateStatistics();
 
+	connect(tabs, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged(int)));
 	connect(addButton, SIGNAL(clicked()), this, SLOT(addTransaction()));
 	connect(modifyButton, SIGNAL(clicked()), this, SLOT(modifyTransaction()));
 	connect(editWidget, SIGNAL(addmodify()), this, SLOT(addModifyTransaction()));
@@ -1295,15 +1296,15 @@ void TransactionListWidget::editClear() {
 	editWidget->setTransaction(NULL);
 }
 void TransactionListWidget::filterTransactions() {
-	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
+	//QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	selected_trans = NULL;
-	if(selection.count() == 1) {
+	/*if(selection.count() == 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
 		if(!i->scheduledTransaction()) {
 			if(i->splitTransaction()) selected_trans = i->splitTransaction();
 			else selected_trans = i->transaction();
 		}
-	}
+	}*/
 	transactionsView->clear();
 	current_value = 0.0;
 	current_quantity = 0.0;
@@ -1364,11 +1365,11 @@ void TransactionListWidget::filterTransactions() {
 		appendFilterTransaction(split, false);
 		split = budget->splitTransactions.next();
 	}
-	selected_trans = NULL;
+	/*selected_trans = NULL;
 	selection = transactionsView->selectedItems();
-	if(selection.count() == 0) {
+	if(selection.count() == 0) {*/
 		editInfoLabel->setText("");
-	}
+	//}
 	updateStatistics();
 	transactionsView->setSortingEnabled(true);
 }
@@ -1550,6 +1551,10 @@ void TransactionListWidget::showFilter(bool focus_description) {
 void TransactionListWidget::showEdit() {tabs->setCurrentWidget(editWidget);}
 void TransactionListWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString payee, bool exclude, bool exact_match) {
 	filterWidget->setFilter(fromdate, todate, min, max, from_account, to_account, description, payee, exclude, exact_match);
+}
+void TransactionListWidget::currentTabChanged(int index) {
+	if(index == 0) editWidget->focusDescription();
+	else if(index == 1) filterWidget->focusDescription();
 }
 
 TransactionListViewItem::TransactionListViewItem(const QDate &trans_date, Transaction *trans, ScheduledTransaction *strans, MultiAccountTransaction *split, QString s1, QString s2, QString s3, QString s4, QString s5, QString s6, QString s7, QString s8) : QTreeWidgetItem(), o_trans(trans), o_strans(strans), o_split(split), d_date(trans_date) {
