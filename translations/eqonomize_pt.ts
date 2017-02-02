@@ -6435,7 +6435,7 @@ Confirme se elas ocorreram (ou se irão ocorrer hoje).</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="5040"/>
         <source>New Expense with Multiple Payments…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nova despesa com múltiplos pagamentos…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5041"/>
@@ -6515,12 +6515,12 @@ Confirme se elas ocorreram (ou se irão ocorrer hoje).</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="5060"/>
         <source>New Debt Payment…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Novo pagamento de dívida…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5061"/>
         <source>New Unpayed Interest…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Novo divindo não pago…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5062"/>
@@ -6599,7 +6599,7 @@ Confirme se elas ocorreram (ou se irão ocorrer hoje).</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="5093"/>
         <source>Set Budget Period…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Definir o período do orçamento…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5095"/>
@@ -6609,12 +6609,12 @@ Confirme se elas ocorreram (ou se irão ocorrer hoje).</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="5102"/>
         <source>Remember Last Dates</source>
-        <translation type="unfinished">Lembrar ultimas datas</translation>
+        <translation type="unfinished">Lembrar últimas datas</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5105"/>
         <source>Backup Frequency</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Frequência do backup</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5108"/>
@@ -6639,29 +6639,29 @@ Confirme se elas ocorreram (ou se irão ocorrer hoje).</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="5112"/>
         <source>Never</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nunca</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5115"/>
         <location filename="../src/eqonomize.cpp" line="5221"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ajuda</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5118"/>
         <source>Report Bug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Reportar bug</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5120"/>
         <location filename="../src/eqonomize.cpp" line="5248"/>
         <source>About %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sobre %1</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5121"/>
         <source>About Qt</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sobre Qt</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5248"/>
@@ -6677,7 +6677,8 @@ Confirme se elas ocorreram (ou se irão ocorrer hoje).</translation>
         <location filename="../src/eqonomize.cpp" line="5265"/>
         <source>%1 exited unexpectedly before the file was saved and data was lost.
 Do you want to load the last auto-saved version of the file?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 foi fechado inesperadamente antes do ficheiro ter sido guardado e perderam-se dados.
+Deseja abrir a última versão guardada automaticamente do ficheiro? </translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4049"/>
@@ -6827,17 +6828,17 @@ Do you want to load the last auto-saved version of the file?</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="5248"/>
         <source>License: GNU General Public License Version 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Licença: GNU General Public License Version 3</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5495"/>
         <source>Eqonomize! Accounting File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ficheiro da conta Eqonomize!</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5548"/>
         <source>Save file?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Guardar ficheiro?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5548"/>
@@ -6857,7 +6858,7 @@ Do you want to load the last auto-saved version of the file?</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="5698"/>
         <source>New Loan</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Novo empréstimo</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5724"/>
@@ -6882,7 +6883,7 @@ Do you want to load the last auto-saved version of the file?</source>
         <location filename="../src/eqonomize.cpp" line="5835"/>
         <source>of which %1 is balance adjustment</source>
         <comment>Referring to account balance</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">do qual %1 é um ajuste do saldo</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5838"/>
@@ -6907,12 +6908,12 @@ Do you want to load the last auto-saved version of the file?</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="6042"/>
         <source>Remove subcategories?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Remover subcategorias?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="6042"/>
         <source>Do you wish to remove the category including all subcategories?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Deseja remover a categoria, incluindo todas as subcategorias?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="6091"/>
@@ -7081,7 +7082,7 @@ O que lhes deseja fazer?</translation>
         <location filename="../src/qifimportexport.cpp" line="579"/>
         <location filename="../src/qifimportexport.cpp" line="589"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erro</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="565"/>
@@ -7389,7 +7390,7 @@ O que lhes deseja fazer?</translation>
         <location filename="../src/importcsvdialog.cpp" line="1410"/>
         <location filename="../src/importcsvdialog.cpp" line="1421"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erro</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="535"/>
@@ -7709,7 +7710,7 @@ O que lhes deseja fazer?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="134"/>
         <source>No (further) issues were found. Press finish to import the selected QIF file.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Não foram detectatdas (mais) problemas. Carregue em terminar para importar o ficheiro QIF seleccionado.</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="237"/>
@@ -7721,7 +7722,7 @@ O que lhes deseja fazer?</translation>
         <location filename="../src/qifimportexport.cpp" line="414"/>
         <location filename="../src/qifimportexport.cpp" line="417"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erro</translation>
     </message>
     <message>
         <location filename="../src/qifimportexport.cpp" line="237"/>
@@ -7873,7 +7874,7 @@ O que lhes deseja fazer?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="454"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Informação</translation>
     </message>
 </context>
 <context>
@@ -7988,7 +7989,7 @@ O que lhes deseja fazer?</translation>
         <location filename="../src/ledgerdialog.cpp" line="625"/>
         <location filename="../src/ledgerdialog.cpp" line="631"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erro</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="297"/>
@@ -8019,7 +8020,7 @@ O que lhes deseja fazer?</translation>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="498"/>
         <source>Delete transactions?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Apagar transações?</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="498"/>
@@ -8059,13 +8060,13 @@ O que lhes deseja fazer?</translation>
         <location filename="../src/ledgerdialog.cpp" line="799"/>
         <source>Current balance:</source>
         <comment>Account balance</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Saldo atual:</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="799"/>
         <source>Average balance:</source>
         <comment>Account balance</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Saldo médio:</translation>
     </message>
     <message>
         <source>Account Balancing</source>
@@ -8099,7 +8100,7 @@ O que lhes deseja fazer?</translation>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="797"/>
         <source>Current debt:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dívida actual:</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="797"/>
@@ -8144,7 +8145,7 @@ O que lhes deseja fazer?</translation>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="704"/>
         <source>Reduction</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Redução</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="723"/>
@@ -8154,7 +8155,7 @@ O que lhes deseja fazer?</translation>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="741"/>
         <source>Interest</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dividendo</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="772"/>
