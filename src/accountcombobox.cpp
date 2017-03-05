@@ -30,6 +30,7 @@
 AccountComboBox::AccountComboBox(int account_type, Budget *budg, bool add_new_account_action, bool add_new_loan_action, bool add_multiple_accounts_action, bool exclude_securities_accounts, bool exclude_balancing_account, QWidget *parent) : QComboBox(parent), i_type(account_type), budget(budg), new_account_action(add_new_account_action), new_loan_action(add_new_loan_action && i_type == ACCOUNT_TYPE_ASSETS), multiple_accounts_action(add_multiple_accounts_action && i_type == ACCOUNT_TYPE_ASSETS), b_exclude_securities(exclude_securities_accounts), b_exclude_balancing(exclude_balancing_account) {
 	setEditable(false);
 	added_account = NULL;
+	block_account_selected = false;
 	connect(this, SIGNAL(activated(int)), this, SLOT(accountActivated(int)));
 }
 AccountComboBox::~AccountComboBox() {}
@@ -176,7 +177,13 @@ void AccountComboBox::accountActivated(int index) {
 		setCurrentIndex(firstAccountIndex());
 		emit multipleAccountsRequested();
 	} else {
-		emit accountSelected();
+		if(!block_account_selected) {
+			emit accountSelected();
+		}
 	}
 }
-
+void AccountComboBox::keyPressEvent(QKeyEvent *e) {
+	block_account_selected = true;
+	QComboBox::keyPressEvent(e);
+	block_account_selected = false;
+}

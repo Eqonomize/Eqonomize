@@ -38,7 +38,10 @@ class AccountComboBox : public QComboBox {
 		Budget *budget;
 		bool new_account_action, new_loan_action, multiple_accounts_action;
 		bool b_exclude_securities, b_exclude_balancing;
+		bool block_account_selected;
 		Account *added_account, *exclude_account;
+		
+		void keyPressEvent(QKeyEvent *e);
 	
 	public:
 	
