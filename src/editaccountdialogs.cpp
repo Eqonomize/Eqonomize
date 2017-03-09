@@ -219,6 +219,7 @@ void EditAssetsAccountDialog::modifyAccount(AssetsAccount *account) {
 void EditAssetsAccountDialog::setAccount(AssetsAccount *account) {
 	current_account = account;
 	closedButton->show();
+	closedButton->setChecked(account->isClosed());
 	nameEdit->setText(account->name());
 	maintainerEdit->setText(account->maintainer());
 	valueEdit->setValue(account->initialBalance());
