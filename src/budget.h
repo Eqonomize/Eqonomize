@@ -32,7 +32,7 @@
 #include "transaction.h"
 #include "security.h"
 
-#define MONETARY_DECIMAL_PLACES currency_frac_digits()
+#define MONETARY_DECIMAL_PLACES 2
 #define CURRENCY_IS_PREFIX currency_symbol_precedes()
 #define IS_GREGORIAN_CALENDAR true
 
