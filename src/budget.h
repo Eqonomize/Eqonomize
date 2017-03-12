@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2017 by Hanna Knutsson            *
  *   hanna_k@fmgirl.com                                                    *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -28,9 +28,11 @@
 #include <QFile>
 #include <QVector>
 
+#include "eqonomizelist.h"
 #include "account.h"
 #include "transaction.h"
 #include "security.h"
+#include "currency.h"
 
 #define MONETARY_DECIMAL_PLACES 2
 #define CURRENCY_IS_PREFIX currency_symbol_precedes()
@@ -117,6 +119,8 @@ class Budget {
 	
 		int i_quotation_decimals, i_share_decimals, i_budget_day;
 		bool b_record_new_accounts;
+		Currency *default_currency;
+		Currency *currency_euro;
 
 	public:
 
@@ -176,7 +180,13 @@ class Budget {
 		ExpensesAccount *findExpensesAccount(QString name);
 		IncomesAccount *findIncomesAccount(QString name, CategoryAccount *parent_acc);
 		ExpensesAccount *findExpensesAccount(QString name, CategoryAccount *parent_acc);
-
+		
+		Currency *defaultCurrency();
+		void setDefaultCurrency(Currency*);
+		void addCurrency(Currency*);
+		void removeCurrency(Currency*);
+		Currency *findCurrency(QString code);
+		
 		AccountList<IncomesAccount*> incomesAccounts;
 		AccountList<ExpensesAccount*> expensesAccounts;
 		AccountList<AssetsAccount*> assetsAccounts;
@@ -191,6 +201,7 @@ class Budget {
 		SplitTransactionList<SplitTransaction*> splitTransactions;
 		SecurityList<Security*> securities;
 		SecurityTradeList<SecurityTrade*> securityTrades;
+		CurrencyList<Currency*> currencies;
 		
 		void setRecordNewAccounts(bool rna);
 		QVector<Account*> newAccounts;

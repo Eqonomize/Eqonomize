@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2017 by Hanna Knutsson            *
  *   hanna_k@fmgirl.com                                                    *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -25,13 +25,14 @@
 #include <QMap>
 #include <QString>
 
-#include "security.h"
+#include "eqonomizelist.h"
 
 class QXmlStreamReader;
 class QXmlStreamWriter;
 class QXmlStreamAttributes;
 
 class Budget;
+class Currency;
 
 typedef enum {
 	ACCOUNT_TYPE_ASSETS,
@@ -95,6 +96,7 @@ class AssetsAccount : public Account {
 		double d_initbal;
 		bool b_closed;
 		QString s_maintainer;
+		Currency *o_currency;
 		
 	public:
 
@@ -118,6 +120,8 @@ class AssetsAccount : public Account {
 		virtual AccountType type() const;
 		void setAccountType(AssetsType new_type);
 		virtual AssetsType accountType() const;
+		Currency *currency() const;
+		void setCurrency(Currency *new_currency);
 
 };
 

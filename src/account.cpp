@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2017 by Hanna Knutsson            *
  *   hanna_k@fmgirl.com                                                    *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -75,15 +75,20 @@ Budget *Account::budget() const {return o_budget;}
 int Account::id() const {return i_id;}
 void Account::setId(int new_id) {i_id = new_id;}
 
-AssetsAccount::AssetsAccount(Budget *parent_budget, AssetsType initial_type, QString initial_name, double initial_balance, QString initial_description) : Account(parent_budget, initial_name, initial_description), at_type(initial_type), d_initbal(initial_type == ASSETS_TYPE_SECURITIES ? 0.0 : initial_balance), b_closed(false) {}
+AssetsAccount::AssetsAccount(Budget *parent_budget, AssetsType initial_type, QString initial_name, double initial_balance, QString initial_description) : Account(parent_budget, initial_name, initial_description), at_type(initial_type), d_initbal(initial_type == ASSETS_TYPE_SECURITIES ? 0.0 : initial_balance), b_closed(false) {
+	o_currency = parent_budget->defaultCurrency();
+}
 AssetsAccount::AssetsAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Account(parent_budget) {
+	o_currency = NULL;
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-AssetsAccount::AssetsAccount(Budget *parent_budget) : Account(parent_budget), at_type(ASSETS_TYPE_CASH), d_initbal(0.0), b_closed(false) {}
-AssetsAccount::AssetsAccount() : Account(), at_type(ASSETS_TYPE_CASH), d_initbal(0.0), b_closed(false) {}
-AssetsAccount::AssetsAccount(const AssetsAccount *account) : Account(account), at_type(account->accountType()), d_initbal(account->initialBalance()), b_closed(account->isClosed()) {}
+AssetsAccount::AssetsAccount(Budget *parent_budget) : Account(parent_budget), at_type(ASSETS_TYPE_CASH), d_initbal(0.0), b_closed(false) {
+	o_currency = parent_budget->defaultCurrency();
+}
+AssetsAccount::AssetsAccount() : Account(), at_type(ASSETS_TYPE_CASH), d_initbal(0.0), b_closed(false), o_currency(NULL) {}
+AssetsAccount::AssetsAccount(const AssetsAccount *account) : Account(account), at_type(account->accountType()), d_initbal(account->initialBalance()), b_closed(account->isClosed()), o_currency(account->currency()) {}
 AssetsAccount::~AssetsAccount() {if(o_budget->budgetAccount == this) o_budget->budgetAccount = NULL;}
 
 void AssetsAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
@@ -109,6 +114,11 @@ void AssetsAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	if(at_type == ASSETS_TYPE_LIABILITIES) s_maintainer = attr->value("lender").toString();
 	else if(at_type == ASSETS_TYPE_CREDIT_CARD) s_maintainer = attr->value("issuer").toString();
 	else s_maintainer = attr->value("bank").toString();
+	QString s_cur = attr->value("currency").toString();
+	if(!s_cur.isEmpty()) {
+		o_currency = o_budget->findCurrency(s_cur);
+	}
+	if(!o_currency) o_currency = o_budget->defaultCurrency();
 	if(at_type != ASSETS_TYPE_SECURITIES) {
 		d_initbal = attr->value("initialbalance").toDouble();
 		if(attr->hasAttribute("budgetaccount") && at_type != ASSETS_TYPE_LIABILITIES && at_type != ASSETS_TYPE_CREDIT_CARD) {
@@ -126,6 +136,7 @@ void AssetsAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 }
 void AssetsAccount::writeAttributes(QXmlStreamAttributes *attr) {
 	Account::writeAttributes(attr);
+	if(o_currency) attr->append("currency", o_currency->code());
 	if(at_type != ASSETS_TYPE_SECURITIES) {
 		attr->append("initialbalance", QString::number(d_initbal, 'f', MONETARY_DECIMAL_PLACES));
 		if(o_budget->budgetAccount == this) {
@@ -193,6 +204,8 @@ void AssetsAccount::setClosed(bool close_account) {
 const QString &AssetsAccount::maintainer() const {return s_maintainer;}
 void AssetsAccount::setMaintainer(QString maintainer_name) {s_maintainer = maintainer_name;}
 AssetsType AssetsAccount::accountType() const {return at_type;}
+Currency *AssetsAccount::currency() const {return o_currency;}
+void AssetsAccount::setCurrency(Currency *new_currency) {o_currency = new_currency;}
 
 bool account_list_less_than(Account *t1, Account *t2) {
 	if(t1->type() != ACCOUNT_TYPE_ASSETS && t2->type() != ACCOUNT_TYPE_ASSETS) {

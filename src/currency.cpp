@@ -35,31 +35,86 @@ Currency::Currency() {
 	i_decimals = -1;
 	b_precedes = -1;
 }
-Currency::Currency(QString initial_code, QString initial_symbol, QString initial_name, double initial_rate) {
+Currency::Currency(QString initial_code, QString initial_symbol, QString initial_name, double initial_rate, QDate date) {
 	s_code = initial_code;
 	s_symbol = initial_symbol;
 	s_name = initial_name;
 	d_rate = initial_rate;
 	i_decimals = -1;
 	b_precedes = -1;
+	if(date.isValid()) rate_date = date;
+	else rate_date = QDate::currentDate();
+}
+Currency::Currency(QXmlStreamReader *xml, bool *valid) {
+	d_rate = 1.0;
+	i_decimals = -1;
+	b_precedes = -1;
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
 }
 Currency::~Currency() {}
 Currency *Currency::copy() const {
-	Currency *this_copy = new Currency(s_code, s_symbol, s_name, d_rate);
+	Currency *this_copy = new Currency(s_code, s_symbol, s_name, d_rate, rate_date);
 	this_copy->setSymbolPrecedes(b_precedes);
 	this_copy->setFractionalDigits(i_decimals);
 	return this_copy;
 }
 
+void Currency::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	s_name = attr->value("name").trimmed().toString();
+	s_code = attr->value("code").trimmed().toString();
+	if(s_code.isEmpty() && valid) *valid = false;
+	s_symbol = attr->value("symbol").trimmed().toString();
+}
+bool Currency::readElement(QXmlStreamReader *xml, bool*) {
+	if(xml->name() == "rate") {
+		QXmlStreamAttributes attr = xml->attributes();
+		rate_date = QDate::fromString(attr.value("date").toString(), Qt::ISODate);
+		d_rate = attr.value("value").toDouble();
+		if(!rate_date.isValid()) rate_date = QDate::currentDate();
+		return false;
+	}
+	return false;
+}
+bool Currency::readElements(QXmlStreamReader *xml, bool *valid) {
+	while(xml->readNextStartElement()) {
+		if(!readElement(xml, valid)) xml->skipCurrentElement();
+	}
+	return true;
+}
+void Currency::save(QXmlStreamWriter *xml) {
+	QXmlStreamAttributes attr;
+	writeAttributes(&attr);
+	xml->writeAttributes(attr);
+	writeElements(xml);
+}
+void Currency::writeAttributes(QXmlStreamAttributes *attr) {
+	attr->append("code", s_code);
+	if(!s_symbol.isEmpty()) attr->append("symbol", s_symbol);
+	if(!s_name.isEmpty()) attr->append("name", s_name);
+}
+void Currency::writeElements(QXmlStreamWriter *xml) {
+	if(rate_date.isValid()) {
+		xml->writeStartElement("rate");
+		xml->writeAttribute("value", QString::number(d_rate, 'f', 4));
+		xml->writeAttribute("date", rate_date.toString(Qt::ISODate));
+		xml->writeEndElement();
+	}
+}
+
 double Currency::exchangeRate() const {
 	return d_rate;
 }
-void Currency::setExchangeRate(double new_rate) {
+void Currency::setExchangeRate(double new_rate, QDate date) {
 	d_rate = new_rate;
+	if(date.isValid()) rate_date = date;
+	else rate_date = QDate::currentDate();
 }
+QDate Currency::exchangeRateDate() const {return rate_date;}
 
 double Currency::convertTo(double value, const Currency *to_currency) const {
-	return value * d_rate / to_currency->exchangeRate();
+	return value / d_rate * to_currency->exchangeRate();
 }
 double Currency::convertFrom(double value, const Currency *from_currency) const {
 	return from_currency->convertTo(value, this);
@@ -107,5 +162,9 @@ int Currency::fractionalDigits() const {
 }
 void Currency::setFractionalDigits(int new_frac_digits) {
 	i_decimals = new_frac_digits;
+}
+
+bool currency_list_less_than(Currency *c1, Currency *c2) {
+	return QString::localeAwareCompare(c1->code(), c2->code()) < 0;
 }
 

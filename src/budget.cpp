@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2017 by Hanna Knutsson            *
  *   hanna_k@fmgirl.com                                                    *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -68,6 +68,9 @@ QString format_money(double v, int precision) {
 }
 
 Budget::Budget() {
+	currency_euro = new Currency("EUR", "€", "Euro", 1.0);
+	addCurrency(currency_euro);
+	default_currency = currency_euro;
 	expenses.setAutoDelete(true);
 	incomes.setAutoDelete(true);
 	transfers.setAutoDelete(true);
@@ -1176,6 +1179,28 @@ ExpensesAccount *Budget::findExpensesAccount(QString name, CategoryAccount *pare
 	while(account) {
 		if(account->name() == name && account->parentCategory() == parent_acc) return account;
 		account = expensesAccounts.next();
+	}
+	return NULL;
+}
+
+Currency *Budget::defaultCurrency() {
+	return default_currency;
+}
+void Budget::setDefaultCurrency(Currency *cur) {
+	if(!cur) default_currency = currency_euro;
+	else default_currency = cur;
+}
+void Budget::addCurrency(Currency *cur) {
+	currencies.inSort(cur);
+}
+void Budget::removeCurrency(Currency *cur) {
+	currencies.removeRef(cur);
+}
+Currency *Budget::findCurrency(QString code) {
+	Currency *cur = currencies.first();
+	while(cur) {
+		if(cur->code() == code) return cur;
+		cur = currencies.next();
 	}
 	return NULL;
 }

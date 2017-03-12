@@ -49,6 +49,7 @@ HEADERS += src/account.h \
            src/editscheduledtransactiondialog.h \
            src/editsplitdialog.h \
            src/eqonomize.h \
+           src/eqonomizelist.h \
            src/eqonomizemonthselector.h \
            src/eqonomizevalueedit.h \
            src/importcsvdialog.h \

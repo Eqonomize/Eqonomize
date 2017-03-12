@@ -22,7 +22,10 @@
 #define CURRENCY_H
 
 #include <QString>
+#include <QDate>
 #include <QCoreApplication>
+
+#include "eqonomizelist.h"
 
 class QXmlStreamReader;
 class QXmlStreamWriter;
@@ -35,6 +38,7 @@ class Currency {
 	protected:
 	
 		double d_rate;
+		QDate rate_date;
 		int i_decimals;
 		int b_precedes;
 		QString s_code, s_symbol, s_name;
@@ -42,12 +46,22 @@ class Currency {
 	public:
 		
 		Currency();
-		Currency(QString initial_code, QString initial_symbol, QString initial_name, double initial_rate);
+		Currency(QString initial_code, QString initial_symbol, QString initial_name, double initial_rate, QDate date = QDate());
+		Currency(QXmlStreamReader *xml, bool *valid);
 		~Currency();
 		Currency *copy() const;
+		
+		void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		bool readElement(QXmlStreamReader *xml, bool *valid);
+		bool readElements(QXmlStreamReader *xml, bool *valid);
+		void save(QXmlStreamWriter *xml);
+		void writeAttributes(QXmlStreamAttributes *attr);
+		void writeElements(QXmlStreamWriter *xml);
 	
 		double exchangeRate() const;
-		void setExchangeRate(double new_rate);
+		void setExchangeRate(double new_rate, QDate date = QDate());
+		
+		QDate exchangeRateDate() const;
 		
 		double convertTo(double value, const Currency *to_currency) const;
 		double convertFrom(double value, const Currency *from_currency) const;
@@ -68,5 +82,18 @@ class Currency {
 		void setFractionalDigits(int new_frac_digits);
 	
 };
+
+bool currency_list_less_than(Currency *c1, Currency *c2);
+template<class type> class CurrencyList : public EqonomizeList<type> {
+	public:
+		CurrencyList() : EqonomizeList<type>() {};
+		void sort() {
+			qSort(QList<type>::begin(), QList<type>::end(), currency_list_less_than);
+		}
+		void inSort(type value) {
+			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, currency_list_less_than), value);
+		}
+};
+
 
 #endif
