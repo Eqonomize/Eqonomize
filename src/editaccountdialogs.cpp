@@ -35,6 +35,7 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QLocale>
+#include <QDebug>
 
 #include "budget.h"
 #include "accountcombobox.h"
@@ -67,6 +68,21 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 		typeCombo->addItem(tr("Other"));
 		grid->addWidget(typeCombo, row, 1); row++;
 	}
+	
+	grid->addWidget(new QLabel(tr("Currency:"), this), row, 0);
+	currencyCombo = new QComboBox(this);
+	currencyCombo->setEditable(false);
+	grid->addWidget(currencyCombo, row, 1); row++;
+	Currency *currency = budget->currencies.first();
+	int i = 0;
+	while(currency) {
+		currencyCombo->addItem(currency->code());
+		currencyCombo->setItemData(i, qVariantFromValue((void*) currency));
+		if(currency == budget->defaultCurrency()) currencyCombo->setCurrentIndex(i);
+		i++;
+		currency = budget->currencies.next();
+	}
+	
 	grid->addWidget(new QLabel(tr("Name:"), this), row, 0);
 	nameEdit = new QLineEdit(this);
 	grid->addWidget(nameEdit, row, 1); row++;
@@ -185,6 +201,8 @@ AssetsAccount *EditAssetsAccountDialog::newAccount(Transaction **transfer) {
 		type = ASSETS_TYPE_LIABILITIES;
 	}
 	AssetsAccount *account = new AssetsAccount(budget, type, nameEdit->text(), 0.0, descriptionEdit->toPlainText());
+	int i = currencyCombo->currentIndex();
+	account->setCurrency((Currency*) currencyCombo->itemData(i).value<void*>());
 	if(maintainerEdit->isEnabled()) account->setMaintainer(maintainerEdit->text());
 	else account->setMaintainer("");
 	if(transfer && transferButton && transferButton->isChecked()) {
@@ -215,6 +233,8 @@ void EditAssetsAccountDialog::modifyAccount(AssetsAccount *account) {
 		case 5: {account->setAccountType(ASSETS_TYPE_SECURITIES);  break;}
 		default: {account->setAccountType(ASSETS_TYPE_OTHER); break;}
 	}
+	int i = currencyCombo->currentIndex();
+	account->setCurrency((Currency*) currencyCombo->itemData(i).value<void*>());
 }
 void EditAssetsAccountDialog::setAccount(AssetsAccount *account) {
 	current_account = account;
@@ -245,6 +265,12 @@ void EditAssetsAccountDialog::setAccount(AssetsAccount *account) {
 			break;
 		}
 		default: {typeCombo->setCurrentIndex(6); break;}
+	}
+	for(int i = 0; i < currencyCombo->count(); i++) {
+		if(currencyCombo->itemData(i).value<void*>() == account->currency()) {
+			currencyCombo->setCurrentIndex(i);
+			break;
+		}
 	}
 	typeActivated(typeCombo->currentIndex());
 }

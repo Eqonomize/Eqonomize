@@ -53,7 +53,7 @@ class EditAssetsAccountDialog : public QDialog {
 		QRadioButton *initialButton, *transferButton;
 		EqonomizeValueEdit *valueEdit;
 		QTextEdit *descriptionEdit;
-		QComboBox *typeCombo;
+		QComboBox *typeCombo, *currencyCombo;
 		AccountComboBox *accountCombo;
 		QCheckBox *budgetButton, *closedButton;
 		Budget *budget;

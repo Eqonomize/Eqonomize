@@ -67,10 +67,8 @@ QString format_money(double v, int precision) {
 	return QLocale().toString(v, 'f', precision) + " " + QLocale().currencySymbol();
 }
 
-Budget::Budget() {
-	currency_euro = new Currency("EUR", "€", "Euro", 1.0);
-	addCurrency(currency_euro);
-	default_currency = currency_euro;
+Budget::Budget() {	
+	currencies.setAutoDelete(true);
 	expenses.setAutoDelete(true);
 	incomes.setAutoDelete(true);
 	transfers.setAutoDelete(true);
@@ -84,6 +82,13 @@ Budget::Budget() {
 	assetsAccounts.setAutoDelete(true);
 	securityTrades.setAutoDelete(true);
 	accounts.setAutoDelete(false);
+	currency_euro = new Currency(this, "EUR", "€", "Euro", 1.0);
+	addCurrency(currency_euro);
+	loadCurrencies();
+	QString default_code = QLocale().currencySymbol(QLocale::CurrencyIsoCode);
+	if(default_code.isEmpty()) default_code = "USD";
+	default_currency = findCurrency(default_code);
+	if(!default_currency) default_currency = currency_euro;
 	balancingAccount = new AssetsAccount(this, ASSETS_TYPE_BALANCING, tr("Balancing", "Name of account for transactions that adjust account balances"), 0.0);
 	balancingAccount->setId(0);
 	assetsAccounts.append(balancingAccount);
@@ -130,6 +135,59 @@ void Budget::clear() {
 	accounts.append(balancingAccount);
 	budgetAccount = NULL;
 }
+
+void Budget::loadCurrencies() {
+	QString filename = QString(DATA_DIR) + "/currencies.xml";
+	QFile file(filename);
+	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		qDebug() << tr("Couldn't open %1 for reading").arg(filename);
+		return;
+	} else if(!file.size()) {
+		return;
+	}
+	QXmlStreamReader xml(&file);
+	if(!xml.readNextStartElement()) {
+		qDebug() << tr("Not a valid Eqonomize! file (XML parse error: \"%1\" at line %2, col %3)").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
+		return;
+	}
+	if(xml.name() != "Eqonomize") {
+		qDebug() << tr("Invalid root element %1 in XML document").arg(xml.name().toString());
+		return;
+	}
+	
+	int currency_errors = 0;
+
+	while(xml.readNextStartElement()) {
+		if(xml.name() == "currency") {
+			bool valid = true;
+			Currency *currency = new Currency(this, &xml, &valid);
+			if(valid) {
+				currencies.append(currency);
+			} else {
+				currency_errors++;
+				delete currency;
+			}
+		
+		} else {
+			qDebug() << tr("Unknown XML element: \"%1\" at line %2, col %3").arg(xml.name().toString()).arg(xml.lineNumber()).arg(xml.columnNumber());
+			xml.skipCurrentElement();
+		}
+	}
+	
+	if(currency_errors > 0) {
+		qDebug() << tr("Unable to load %n currency/currencies.", "", currency_errors);
+	}
+	
+	currencies.sort();
+
+	if(xml.hasError()) {
+		qDebug() << tr("XML parse error: \"%1\" at line %2, col %3").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
+	}
+	
+	file.close();
+	
+}
+
 
 QString Budget::loadFile(QString filename, QString &errors) {
 	QFile file(filename);

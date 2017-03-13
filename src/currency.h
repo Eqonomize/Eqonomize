@@ -31,6 +31,13 @@ class QXmlStreamReader;
 class QXmlStreamWriter;
 class QXmlStreamAttributes;
 
+class Budget;
+
+typedef enum {
+	EXCHANGE_RATE_SOURCE_NONE,
+	EXCHANGE_RATE_SOURCE_ECB
+} ExchangeRateSource;
+
 class Currency {
 	
 	Q_DECLARE_TR_FUNCTIONS(Currency)
@@ -42,12 +49,15 @@ class Currency {
 		int i_decimals;
 		int b_precedes;
 		QString s_code, s_symbol, s_name;
+		ExchangeRateSource r_source;
+		Budget *o_budget;
 	
 	public:
 		
 		Currency();
-		Currency(QString initial_code, QString initial_symbol, QString initial_name, double initial_rate, QDate date = QDate());
-		Currency(QXmlStreamReader *xml, bool *valid);
+		Currency(Budget *parent_budget);
+		Currency(Budget *parent_budget, QString initial_code, QString initial_symbol, QString initial_name, double initial_rate, QDate date = QDate());
+		Currency(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		~Currency();
 		Currency *copy() const;
 		
@@ -60,6 +70,9 @@ class Currency {
 	
 		double exchangeRate() const;
 		void setExchangeRate(double new_rate, QDate date = QDate());
+		
+		ExchangeRateSource exchangeRateSource() const;
+		void setExchangeRateSource(ExchangeRateSource source);
 		
 		QDate exchangeRateDate() const;
 		
@@ -76,7 +89,7 @@ class Currency {
 		void setName(QString new_name);
 		
 		bool symbolPrecedes() const;
-		void setSymbolPrecedes(bool new_precedes);
+		void setSymbolPrecedes(int new_precedes);
 		
 		int fractionalDigits() const;
 		void setFractionalDigits(int new_frac_digits);

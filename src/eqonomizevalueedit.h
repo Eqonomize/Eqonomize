@@ -23,27 +23,33 @@
 
 #include <QDoubleSpinBox>
 
+class Currency;
+class Budget;
+
 class EqonomizeValueEdit : public QDoubleSpinBox {
 
 	Q_OBJECT
 
 	public:
 
-		EqonomizeValueEdit(bool allow_negative = true, QWidget *parent = 0);
-		EqonomizeValueEdit(double value, bool allow_negative, bool show_currency, QWidget *parent);
-		EqonomizeValueEdit(double value, int precision, bool allow_negative, bool show_currency, QWidget *parent);
-		EqonomizeValueEdit(double lower, double step, double value, int precision, bool show_currency, QWidget *parent);
-		EqonomizeValueEdit(double lower, double upper, double step, double value, int precision, bool show_currency, QWidget *parent);
+		EqonomizeValueEdit(bool allow_negative = true, QWidget *parent = 0, Budget *budg = NULL);
+		EqonomizeValueEdit(double value, bool allow_negative, bool show_currency, QWidget *parent, Budget *budg = NULL);
+		EqonomizeValueEdit(double value, int precision, bool allow_negative, bool show_currency, QWidget *parent, Budget *budg = NULL);
+		EqonomizeValueEdit(double lower, double step, double value, int precision, bool show_currency, QWidget *parent, Budget *budg = NULL);
+		EqonomizeValueEdit(double lower, double upper, double step, double value, int precision, bool show_currency, QWidget *parent, Budget *budg = NULL);
 		~EqonomizeValueEdit();
 		void init(double lower, double upper, double step, double value, int precision, bool show_currency);
 		
 		void setRange(double lower, double step, int precision);
 		void setRange(double lower, double upper, double step, int precision);
 		void setPrecision(int precision);
+		
+		void setCurrency(Currency *currency);
 
 	protected:
 		
 		int i_precision;
+		Budget *budget;
 	
 	protected slots:
 	

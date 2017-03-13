@@ -31,19 +31,19 @@
 
 #define MAX_VALUE 1000000000000.0
 
-EqonomizeValueEdit::EqonomizeValueEdit(bool allow_negative, QWidget *parent) : QDoubleSpinBox(parent) {
+EqonomizeValueEdit::EqonomizeValueEdit(bool allow_negative, QWidget *parent, Budget *budg) : QDoubleSpinBox(parent), budget(budg) {
 	init(allow_negative ? -MAX_VALUE : 0.0, MAX_VALUE, 1.0, 0.0, MONETARY_DECIMAL_PLACES, true);
 }
-EqonomizeValueEdit::EqonomizeValueEdit(double value, bool allow_negative, bool show_currency, QWidget *parent) : QDoubleSpinBox(parent) {
+EqonomizeValueEdit::EqonomizeValueEdit(double value, bool allow_negative, bool show_currency, QWidget *parent, Budget *budg) : QDoubleSpinBox(parent), budget(budg) {
 	init(allow_negative ? -MAX_VALUE : 0.0, MAX_VALUE, 1.0, value, MONETARY_DECIMAL_PLACES, show_currency);
 }
-EqonomizeValueEdit::EqonomizeValueEdit(double value, int precision, bool allow_negative, bool show_currency, QWidget *parent) : QDoubleSpinBox(parent) {
+EqonomizeValueEdit::EqonomizeValueEdit(double value, int precision, bool allow_negative, bool show_currency, QWidget *parent, Budget *budg) : QDoubleSpinBox(parent), budget(budg) {
 	init(allow_negative ? -MAX_VALUE : 0.0, MAX_VALUE, 1.0, value, precision, show_currency);
 }
-EqonomizeValueEdit::EqonomizeValueEdit(double lower, double step, double value, int precision, bool show_currency, QWidget *parent) : QDoubleSpinBox(parent) {
+EqonomizeValueEdit::EqonomizeValueEdit(double lower, double step, double value, int precision, bool show_currency, QWidget *parent, Budget *budg) : QDoubleSpinBox(parent), budget(budg) {
 	init(lower, MAX_VALUE, step, value, precision, show_currency);
 }
-EqonomizeValueEdit::EqonomizeValueEdit(double lower, double upper, double step, double value, int precision, bool show_currency, QWidget *parent) : QDoubleSpinBox(parent) {
+EqonomizeValueEdit::EqonomizeValueEdit(double lower, double upper, double step, double value, int precision, bool show_currency, QWidget *parent, Budget *budg) : QDoubleSpinBox(parent), budget(budg) {
 	init(lower, upper, step, value, precision, show_currency);
 }
 EqonomizeValueEdit::~EqonomizeValueEdit() {}
@@ -56,10 +56,14 @@ void EqonomizeValueEdit::init(double lower, double upper, double step, double va
 	setValue(value);
 	setAlignment(Qt::AlignRight);
 	if(show_currency) {
-		if(CURRENCY_IS_PREFIX) {
-			setPrefix(QLocale().currencySymbol() + " ");
+		if(budget) {
+			setCurrency(budget->defaultCurrency());
 		} else {
-			setSuffix(QString(" ") + QLocale().currencySymbol());
+			if(CURRENCY_IS_PREFIX) {
+				setPrefix(QLocale().currencySymbol());
+			} else {
+				setSuffix(QString(" ") + QLocale().currencySymbol());
+			}
 		}
 	}
 	connect(this, SIGNAL(editingFinished()), this, SLOT(onEditingFinished()));
@@ -80,5 +84,11 @@ void EqonomizeValueEdit::setPrecision(int precision) {
 	if(precision == i_precision) return;
 	i_precision = precision;
 	setDecimals(precision);
+}
+void EqonomizeValueEdit::setCurrency(Currency *currency) {
+	if(currency && currency->symbolPrecedes()) setPrefix((currency == budget->defaultCurrency() ? currency->symbol() : currency->code()));
+	else setPrefix(QString());
+	if(currency && !currency->symbolPrecedes()) setSuffix(" " + (currency == budget->defaultCurrency() ? currency->symbol() : currency->code()));
+	else setSuffix(QString());
 }
 

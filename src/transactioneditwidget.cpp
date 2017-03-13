@@ -194,7 +194,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		} else {
 			editLayout->addWidget(new QLabel(tr("Cost:"), this), TEROWCOL(i, 0));
 		}
-		valueEdit = new EqonomizeValueEdit(!withloan, this);
+		valueEdit = new EqonomizeValueEdit(!withloan, this, budget);
 		editLayout->addWidget(valueEdit, TEROWCOL(i, 1));
 		i++;
 		if(withloan) {
@@ -457,6 +457,10 @@ void TransactionEditWidget::fromActivated() {
 	if(transtype == TRANSACTION_TYPE_INCOME) {
 		setDefaultValueFromCategory();
 	}
+	Account *acc = fromCombo->currentAccount();
+	if(valueEdit && acc && acc->type() == ACCOUNT_TYPE_ASSETS) {
+		valueEdit->setCurrency(((AssetsAccount*) acc)->currency());
+	}
 }
 void TransactionEditWidget::toActivated() {
 	if(fromCombo && transtype == TRANSACTION_TYPE_EXPENSE) fromCombo->setFocus();
@@ -464,6 +468,10 @@ void TransactionEditWidget::toActivated() {
 	else if(commentsEdit) commentsEdit->setFocus();
 	if(transtype == TRANSACTION_TYPE_EXPENSE) {
 		setDefaultValueFromCategory();
+	}
+	Account *acc = toCombo->currentAccount();
+	if(valueEdit && acc && acc->type() == ACCOUNT_TYPE_ASSETS && transtype != TRANSACTION_TYPE_TRANSFER) {
+		valueEdit->setCurrency(((AssetsAccount*) acc)->currency());
 	}
 }
 void TransactionEditWidget::focusDate() {
@@ -660,10 +668,18 @@ void TransactionEditWidget::setDefaultValueFromCategory() {
 void TransactionEditWidget::updateFromAccounts(Account *exclude_account) {
 	if(!fromCombo) return;
 	fromCombo->updateAccounts(exclude_account);
+	Account *acc = fromCombo->currentAccount();
+	if(valueEdit && acc && acc->type() == ACCOUNT_TYPE_ASSETS) {
+		valueEdit->setCurrency(((AssetsAccount*) acc)->currency());
+	}
 }
 void TransactionEditWidget::updateToAccounts(Account *exclude_account) {
 	if(!toCombo) return;
 	toCombo->updateAccounts(exclude_account);
+	Account *acc = toCombo->currentAccount();
+	if(valueEdit && acc && acc->type() == ACCOUNT_TYPE_ASSETS && transtype != TRANSACTION_TYPE_TRANSFER) {
+		valueEdit->setCurrency(((AssetsAccount*) acc)->currency());
+	}
 }
 void TransactionEditWidget::updateAccounts(Account *exclude_account) {
 	updateToAccounts(exclude_account);

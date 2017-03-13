@@ -9,6 +9,9 @@ unix:!android:!macx {
 	isEmpty(TRANSLATIONS_DIR) {
 		TRANSLATIONS_DIR = $$PREFIX/share/eqonomize/translations
 	}
+	isEmpty(DATA_DIR) {
+		DATA_DIR = $$PREFIX/share/eqonomize
+	}
 	isEmpty(DOCUMENTATION_DIR) {
 		DOCUMENTATION_DIR = $$PREFIX/share/doc/eqonomize/html
 	}
@@ -24,6 +27,7 @@ unix:!android:!macx {
 } else {
 	TRANSLATIONS_DIR = ":/translations"
 	ICON_DIR = ":/data"
+	DATA_DIR = ":/data"
 	DOCUMENTATION_DIR = ":/doc/html"
 }
 TEMPLATE = app
@@ -38,6 +42,7 @@ MOC_DIR = build
 OBJECTS_DIR = build
 DEFINES += TRANSLATIONS_DIR=\\\"$$TRANSLATIONS_DIR\\\"
 DEFINES += DOCUMENTATION_DIR=\\\"$$DOCUMENTATION_DIR\\\"
+DEFINES += DATA_DIR=\\\"$$DATA_DIR\\\"
 
 HEADERS += src/account.h \
            src/accountcombobox.h \
@@ -122,6 +127,8 @@ unix:!android:!macx {
 			translations/eqonomize_sv.qm
 		
 	qm.path = $$TRANSLATIONS_DIR
+	data.files = data/currencies.xml
+	data.path = $$DATA_DIR
 	doc.files = doc/html/*
 	doc.path = $$DOCUMENTATION_DIR
 	desktop.files = data/eqonomize.desktop
@@ -314,11 +321,11 @@ unix:!android:!macx {
 				data/64/eqz-overtime-report.png
 	actionicons64.path = $$ICON_DIR/hicolor/64x64/actions
 
-	INSTALLS += 	target qm doc desktop mime \ 
+	INSTALLS += 	target qm data doc desktop mime \ 
 			appicon16 appicon22 appicon32 appicon64 appicon128 appiconsvg \
 			mimeicon16 mimeicon22 mimeicon32 mimeicon48 mimeicon64 mimeicon128 mimeiconsvg \
 			actionicons16 actionicons22 actionicons32 actionicons48 actionicons64 actioniconssvg
 } else {
-	RESOURCES = doc.qrc icons.qrc translations.qrc
+	RESOURCES = data.qrc doc.qrc icons.qrc translations.qrc
 }
 win32: RC_FILE = winicon.rc

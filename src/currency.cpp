@@ -30,32 +30,44 @@
 #include "budget.h"
 #include "currency.h"
 
-Currency::Currency() {
+Currency::Currency(Budget *parent_budget) {
+	o_budget = parent_budget;
 	d_rate = 1.0;
 	i_decimals = -1;
 	b_precedes = -1;
+	r_source = EXCHANGE_RATE_SOURCE_NONE;
 }
-Currency::Currency(QString initial_code, QString initial_symbol, QString initial_name, double initial_rate, QDate date) {
+Currency::Currency() {
+	o_budget = NULL;
+	d_rate = 1.0;
+	i_decimals = -1;
+	b_precedes = -1;
+	r_source = EXCHANGE_RATE_SOURCE_NONE;
+}
+Currency::Currency(Budget *parent_budget, QString initial_code, QString initial_symbol, QString initial_name, double initial_rate, QDate date) {
+	o_budget = parent_budget;
 	s_code = initial_code;
 	s_symbol = initial_symbol;
 	s_name = initial_name;
 	d_rate = initial_rate;
 	i_decimals = -1;
 	b_precedes = -1;
+	r_source = EXCHANGE_RATE_SOURCE_NONE;
 	if(date.isValid()) rate_date = date;
 	else rate_date = QDate::currentDate();
 }
-Currency::Currency(QXmlStreamReader *xml, bool *valid) {
+Currency::Currency(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) {
+	o_budget = parent_budget;
 	d_rate = 1.0;
 	i_decimals = -1;
-	b_precedes = -1;
+	b_precedes = -1;	
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
 Currency::~Currency() {}
 Currency *Currency::copy() const {
-	Currency *this_copy = new Currency(s_code, s_symbol, s_name, d_rate, rate_date);
+	Currency *this_copy = new Currency(o_budget, s_code, s_symbol, s_name, d_rate, rate_date);
 	this_copy->setSymbolPrecedes(b_precedes);
 	this_copy->setFractionalDigits(i_decimals);
 	return this_copy;
@@ -66,6 +78,9 @@ void Currency::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	s_code = attr->value("code").trimmed().toString();
 	if(s_code.isEmpty() && valid) *valid = false;
 	s_symbol = attr->value("symbol").trimmed().toString();
+	QString s_source = attr->value("source").trimmed().toString();
+	if(s_source == "ECB") r_source = EXCHANGE_RATE_SOURCE_ECB;
+	else r_source = EXCHANGE_RATE_SOURCE_NONE;
 }
 bool Currency::readElement(QXmlStreamReader *xml, bool*) {
 	if(xml->name() == "rate") {
@@ -93,11 +108,12 @@ void Currency::writeAttributes(QXmlStreamAttributes *attr) {
 	attr->append("code", s_code);
 	if(!s_symbol.isEmpty()) attr->append("symbol", s_symbol);
 	if(!s_name.isEmpty()) attr->append("name", s_name);
+	if(r_source == EXCHANGE_RATE_SOURCE_ECB) attr->append("source", "ECB");
 }
 void Currency::writeElements(QXmlStreamWriter *xml) {
 	if(rate_date.isValid()) {
 		xml->writeStartElement("rate");
-		xml->writeAttribute("value", QString::number(d_rate, 'f', 4));
+		xml->writeAttribute("value", QString::number(d_rate, 'f', 5));
 		xml->writeAttribute("date", rate_date.toString(Qt::ISODate));
 		xml->writeEndElement();
 	}
@@ -113,6 +129,13 @@ void Currency::setExchangeRate(double new_rate, QDate date) {
 }
 QDate Currency::exchangeRateDate() const {return rate_date;}
 
+ExchangeRateSource Currency::exchangeRateSource() const {
+	return r_source;
+}
+void Currency::setExchangeRateSource(ExchangeRateSource source) {
+	r_source = source;
+}
+
 double Currency::convertTo(double value, const Currency *to_currency) const {
 	return value / d_rate * to_currency->exchangeRate();
 }
@@ -126,9 +149,9 @@ QString Currency::formatValue(double value, int nr_of_decimals) const {
 		else nr_of_decimals = i_decimals;
 	}
 	if((b_precedes < 0 && currency_symbol_precedes()) || b_precedes > 0) {
-		return (s_symbol.isEmpty() ? s_code : s_symbol) + " " + QLocale().toString(value, 'f', nr_of_decimals);
+		return ((this != o_budget->defaultCurrency() || s_symbol.isEmpty()) ? s_code : s_symbol) + " " + QLocale().toString(value, 'f', nr_of_decimals);
 	}
-	return QLocale().toString(value, 'f', nr_of_decimals) + " " + (s_symbol.isEmpty() ? s_code : s_symbol);
+	return QLocale().toString(value, 'f', nr_of_decimals) + " " + ((this != o_budget->defaultCurrency() || s_symbol.isEmpty()) ? s_code : s_symbol);
 }
 
 const QString &Currency::code() const {
@@ -151,13 +174,14 @@ void Currency::setName(QString new_name) {
 }
 
 bool Currency::symbolPrecedes() const {
-	return b_precedes;
+	return (b_precedes < 0 && currency_symbol_precedes()) || b_precedes > 0;
 }
-void Currency::setSymbolPrecedes(bool new_precedes) {
+void Currency::setSymbolPrecedes(int new_precedes) {
 	b_precedes = new_precedes;
 }
 
 int Currency::fractionalDigits() const {
+	if(i_decimals < 0) return MONETARY_DECIMAL_PLACES;
 	return i_decimals;
 }
 void Currency::setFractionalDigits(int new_frac_digits) {

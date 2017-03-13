@@ -126,6 +126,8 @@ class Budget {
 
 		Budget();
 		~Budget();
+		
+		void loadCurrencies();
 
 		QString loadFile(QString filename, QString &errors);
 		QString saveFile(QString filename, QFile::Permissions permissions = QFile::ReadUser | QFile::WriteUser);
