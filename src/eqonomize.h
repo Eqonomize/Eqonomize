@@ -562,10 +562,11 @@ class EditQuotationsDialog : public QDialog {
 		QDateEdit *dateEdit;
 		QPushButton *changeButton, *addButton, *deleteButton;
 		int i_quotation_decimals;
+		Budget *budget;
 
 	public:
 
-		EditQuotationsDialog(QWidget *parent);
+		EditQuotationsDialog(Budget *budg, QWidget *parent);
 
 		void setSecurity(Security *security);
 		void modifyQuotations(Security *security);

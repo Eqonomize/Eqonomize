@@ -145,6 +145,10 @@ void Security::setInitialShares(double initial_shares) {d_initial_shares = initi
 SecurityType Security::type() const {return st_type;}
 void Security::setType(SecurityType new_type) {st_type = new_type;}
 AssetsAccount *Security::account() const {return o_account;}
+Currency *Security::currency() const {
+	if(o_account) return o_account->currency();
+	return budget()->defaultCurrency();
+}
 void Security::setAccount(AssetsAccount *new_account) {o_account = new_account;}
 int Security::id() const {return i_id;}
 void Security::setId(int new_id) {i_id = new_id;}

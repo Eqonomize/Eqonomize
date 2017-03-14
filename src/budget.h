@@ -133,6 +133,8 @@ class Budget {
 		QString saveFile(QString filename, QFile::Permissions permissions = QFile::ReadUser | QFile::WriteUser);
 		
 		void clear();
+		
+		QString formatMoney(double v, int precision = -1);
 
 		void addTransaction(Transaction*);
 		void removeTransactions(Transactions*, bool keep = false);

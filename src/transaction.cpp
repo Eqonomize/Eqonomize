@@ -35,6 +35,15 @@
 static const QString emptystr;
 static const QDate emptydate;
 
+QString Transactions::valueString(int precision) const {
+	return valueString(value(), precision);
+}
+QString Transactions::valueString(double value_, int precision) const {
+	Currency *cur = currency();
+	if(!cur) cur = budget()->defaultCurrency();
+	return cur->formatValue(value_, precision);
+}
+
 Transaction::Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description, QString initial_comment) : o_budget(parent_budget), d_value(initial_value), d_date(initial_date), o_from(from), o_to(to), s_description(initial_description.trimmed()), s_comment(initial_comment), d_quantity(1.0), o_split(NULL) {}
 Transaction::Transaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : o_budget(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
@@ -92,7 +101,15 @@ bool Transaction::equals(const Transaction *transaction, bool strict_comparison)
 
 SplitTransaction *Transaction::parentSplit() const {return o_split;}
 void Transaction::setParentSplit(SplitTransaction *parent) {o_split = parent;}
-double Transaction::value() const {return d_value;}
+double Transaction::value(bool convert) const {
+	if(convert && currency() && currency() != budget()->defaultCurrency()) return currency()->convertTo(d_value, budget()->defaultCurrency());
+	return d_value;
+}
+Currency *Transaction::currency() const {
+	if(o_from->type() == ACCOUNT_TYPE_ASSETS && o_from != budget()->balancingAccount) return ((AssetsAccount*) o_from)->currency();
+	if(o_to->type() == ACCOUNT_TYPE_ASSETS) return ((AssetsAccount*) o_to)->currency();
+	return NULL;
+}
 void Transaction::setValue(double new_value) {d_value = new_value;}
 double Transaction::quantity() const {return d_quantity;}
 void Transaction::setQuantity(double new_quantity) {d_quantity = new_quantity;}
@@ -114,9 +131,9 @@ void Transaction::replaceAccount(Account *old_account, Account *new_account) {
 	if(o_from == old_account) o_from = new_account;
 	if(o_to == old_account) o_to = new_account;
 }
-double Transaction::accountChange(Account *account, bool include_subs) const {
-	if(o_from == account || (include_subs && o_from->topAccount() == account)) return -value();
-	if(o_to == account || (include_subs && o_to->topAccount() == account)) return value();
+double Transaction::accountChange(Account *account, bool include_subs, bool convert) const {
+	if(o_from == account || (include_subs && o_from->topAccount() == account)) return -value(convert);
+	if(o_to == account || (include_subs && o_to->topAccount() == account)) return value(convert);
 	return 0.0;
 }
 
@@ -166,7 +183,7 @@ ExpensesAccount *Expense::category() const {return (ExpensesAccount*) toAccount(
 void Expense::setCategory(ExpensesAccount *new_category) {setToAccount(new_category);}
 AssetsAccount *Expense::from() const {return (AssetsAccount*) fromAccount();}
 void Expense::setFrom(AssetsAccount *new_from) {setFromAccount(new_from);}
-double Expense::cost() const {return value();}
+double Expense::cost(bool convert) const {return value(convert);}
 void Expense::setCost(double new_cost) {setValue(new_cost);}
 const QString &Expense::payee() const {return s_payee;}
 void Expense::setPayee(QString new_payee) {s_payee = new_payee;}
@@ -319,7 +336,7 @@ IncomesAccount *Income::category() const {return (IncomesAccount*) fromAccount()
 void Income::setCategory(IncomesAccount *new_category) {setFromAccount(new_category);}
 AssetsAccount *Income::to() const {return (AssetsAccount*) toAccount();}
 void Income::setTo(AssetsAccount *new_to) {setToAccount(new_to);}
-double Income::income() const {return value();}
+double Income::income(bool convert) const {return value(convert);}
 void Income::setIncome(double new_income) {setValue(new_income);}
 const QString &Income::payer() const {
 	if(o_security) return o_security->name(); 
@@ -340,7 +357,9 @@ void Income::setSecurity(Security *parent_security) {
 }
 Security *Income::security() const {return o_security;}
 
-Transfer::Transfer(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description, QString initial_comment) : Transaction(parent_budget, initial_amount < 0.0 ? -initial_amount : initial_amount, initial_date, initial_amount < 0.0 ? initial_to : initial_from, initial_amount < 0.0 ? initial_from : initial_to, initial_description, initial_comment) {}
+Transfer::Transfer(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description, QString initial_comment) : Transaction(parent_budget, initial_amount < 0.0 ? -initial_amount : initial_amount, initial_date, initial_amount < 0.0 ? initial_to : initial_from, initial_amount < 0.0 ? initial_from : initial_to, initial_description, initial_comment) {
+	d_deposit = amount();
+}
 Transfer::Transfer(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transaction(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
@@ -348,7 +367,9 @@ Transfer::Transfer(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : 
 }
 Transfer::Transfer(Budget *parent_budget) : Transaction(parent_budget) {}
 Transfer::Transfer() : Transaction() {}
-Transfer::Transfer(const Transfer *transfer) : Transaction(transfer) {}
+Transfer::Transfer(const Transfer *transfer) : Transaction(transfer) {
+	d_deposit = transfer->deposit();
+}
 Transfer::~Transfer() {}
 Transaction *Transfer::copy() const {return new Transfer(this);}
 
@@ -357,14 +378,12 @@ void Transfer::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	int id_from = attr->value("from").toInt();
 	int id_to = attr->value("to").toInt();
 	if(budget()->assetsAccounts_id.contains(id_from) && budget()->assetsAccounts_id.contains(id_to)) {
-		setAmount(attr->value("amount").toDouble());
-		if(amount() < 0.0) {
-			setAmount(-amount());
-			setFrom(budget()->assetsAccounts_id[id_to]);
-			setTo(budget()->assetsAccounts_id[id_from]);
+		setFrom(budget()->assetsAccounts_id[id_from]);
+		setTo(budget()->assetsAccounts_id[id_to]);
+		if(attr->hasAttribute("amount")) {
+			setAmount(attr->value("amount").toDouble());
 		} else {
-			setFrom(budget()->assetsAccounts_id[id_from]);
-			setTo(budget()->assetsAccounts_id[id_to]);
+			setAmount(attr->value("withdrawal").toDouble(), attr->value("deposit").toDouble());
 		}
 	} else {
 		if(valid) *valid =false;
@@ -372,7 +391,12 @@ void Transfer::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 }
 void Transfer::writeAttributes(QXmlStreamAttributes *attr) {
 	Transaction::writeAttributes(attr);
-	attr->append("amount", QString::number(amount(), 'f', MONETARY_DECIMAL_PLACES));
+	if(d_deposit != amount()) {
+		attr->append("withdrawal", QString::number(amount(), 'f', MONETARY_DECIMAL_PLACES));
+		attr->append("deposit", QString::number(d_deposit, 'f', MONETARY_DECIMAL_PLACES));
+	} else {
+		attr->append("amount", QString::number(amount(), 'f', MONETARY_DECIMAL_PLACES));
+	}
 	attr->append("from", QString::number(from()->id()));
 	attr->append("to", QString::number(to()->id()));
 }
@@ -381,7 +405,11 @@ AssetsAccount *Transfer::to() const {return (AssetsAccount*) toAccount();}
 void Transfer::setTo(AssetsAccount *new_to) {setToAccount(new_to);}
 AssetsAccount *Transfer::from() const {return (AssetsAccount*) fromAccount();}
 void Transfer::setFrom(AssetsAccount *new_from) {setFromAccount(new_from);}
-double Transfer::amount() const {return value();}
+double Transfer::amount(bool convert) const {return value(convert);}
+void Transfer::setValue(double new_value) {
+	Transaction::setValue(new_value);
+	d_deposit = new_value;
+}
 void Transfer::setAmount(double new_amount) {
 	if(new_amount < 0.0) {
 		setValue(-new_amount);
@@ -391,6 +419,33 @@ void Transfer::setAmount(double new_amount) {
 	} else {
 		setValue(new_amount);
 	}
+}
+void Transfer::setAmount(double withdrawal_amount, double deposit_amount) {
+	if(withdrawal_amount < 0.0) {
+		setValue(-withdrawal_amount);
+		AssetsAccount *from_bak = from();
+		setFrom(to());
+		setTo(from_bak);
+		d_deposit = -deposit_amount;
+	} else {
+		setValue(withdrawal_amount);
+		d_deposit = deposit_amount;
+	}
+}
+Currency *Transfer::withdrawalCurrency() const {
+	return from()->currency();
+}
+Currency *Transfer::depositCurrency() const {
+	if(!to()->currency()) return from()->currency();
+	return to()->currency();
+}
+double Transfer::withdrawal(bool convert) const {
+	return value(convert);
+}
+double Transfer::deposit(bool convert) const {
+	if(convert && to() && to()->currency()) return to()->currency()->convertTo(d_deposit, budget()->defaultCurrency());
+	else if(convert) return withdrawal(true);
+	return d_deposit;
 }
 QString Transfer::description() const {return Transaction::description();}
 TransactionType Transfer::type() const {return TRANSACTION_TYPE_TRANSFER;}
@@ -427,7 +482,7 @@ void DebtReduction::setLoan(AssetsAccount *new_loan) {setTo(new_loan);}
 QString DebtReduction::description() const {return tr("Debt payment: %1 (reduction)").arg(loan()->name());}
 TransactionSubType DebtReduction::subtype() const {return TRANSACTION_SUBTYPE_DEBT_REDUCTION;}
 
-Balancing::Balancing(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_account, QString initial_comment) : Transfer(parent_budget, initial_amount < 0.0 ? -initial_amount : initial_amount, initial_date, initial_amount < 0.0 ? initial_account : parent_budget->balancingAccount, initial_amount < 0.0 ? parent_budget->balancingAccount : initial_account, initial_comment) {}
+Balancing::Balancing(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_account, QString initial_comment) : Transfer(parent_budget, -initial_amount, initial_date, initial_account, parent_budget->balancingAccount, initial_comment) {}
 Balancing::Balancing(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transfer(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
@@ -444,17 +499,11 @@ QString Balancing::description() const {
 }
 TransactionSubType Balancing::subtype() const {return TRANSACTION_SUBTYPE_BALANCING;}
 
-void Balancing::readAttributes(QXmlStreamAttributes *attr, bool *valid) {	
+void Balancing::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Transaction::readAttributes(attr, valid);
-	d_value = attr->value("amount").toDouble();
-	if(d_value < 0.0) {
-		d_value = -d_value;
-		setToAccount(budget()->balancingAccount);
-		setFromAccount(NULL);
-	} else {
-		setFromAccount(budget()->balancingAccount);
-		setToAccount(NULL);
-	}
+	d_value = -attr->value("amount").toDouble();
+	setToAccount(budget()->balancingAccount);
+	setFromAccount(NULL);
 	int id_account = attr->value("account").toInt();
 	if(budget()->assetsAccounts_id.contains(id_account)) {
 		setAccount(budget()->assetsAccounts_id[id_account]);
@@ -464,8 +513,11 @@ void Balancing::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 }
 void Balancing::writeAttributes(QXmlStreamAttributes *attr) {
 	Transaction::writeAttributes(attr);
-	attr->append("amount", QString::number(toAccount() == o_budget->balancingAccount ? -amount() : amount(), 'f', MONETARY_DECIMAL_PLACES));
+	attr->append("amount", QString::number(-amount(), 'f', MONETARY_DECIMAL_PLACES));
 	attr->append("account", QString::number(account()->id()));
+}
+void Balancing::setAmount(double new_amount) {
+	setValue(-new_amount);
 }
 
 AssetsAccount *Balancing::account() const {return toAccount() == o_budget->balancingAccount ? (AssetsAccount*) fromAccount() : (AssetsAccount*) toAccount();}
@@ -508,7 +560,10 @@ bool SecurityTransaction::equals(const Transaction *transaction, bool strict_com
 }
 
 double SecurityTransaction::shares() const {return d_shares;}
-double SecurityTransaction::shareValue() const {return d_share_value;}
+double SecurityTransaction::shareValue(bool convert) const {
+	if(convert && o_security && o_security->currency()) return o_security->currency()->convertTo(d_share_value, budget()->defaultCurrency());
+	return d_share_value;
+}
 void SecurityTransaction::setShares(double new_shares) {
 	d_shares = new_shares;
 }
@@ -524,9 +579,9 @@ void SecurityTransaction::setSecurity(Security *parent_security) {
 }
 Security *SecurityTransaction::security() const {return o_security;}
 bool SecurityTransaction::relatesToAccount(Account *account, bool, bool) const {return fromAccount() == account || toAccount() == account;}
-double SecurityTransaction::accountChange(Account *account, bool) const {
-	if(fromAccount() == account) return -value();
-	if(toAccount() == account) return value();
+double SecurityTransaction::accountChange(Account *account, bool, bool convert) const {
+	if(fromAccount() == account) return -value(convert);
+	if(toAccount() == account) return value(convert);
 	return 0.0;
 }
 
@@ -859,9 +914,13 @@ void ScheduledTransaction::setTransaction(Transactions *trans, bool delete_old) 
 	if(o_rec && o_trans) o_trans->setDate(o_rec->startDate());
 	else if(o_trans) o_budget->scheduledTransactionDateModified(this);
 }
-double ScheduledTransaction::value() const {
+double ScheduledTransaction::value(bool convert) const {
 	if(!o_trans) return 0.0;
-	return o_trans->value();
+	return o_trans->value(convert);
+}
+Currency *ScheduledTransaction::currency() const {
+	if(!o_trans) return NULL;
+	return o_trans->currency();
 }
 double ScheduledTransaction::quantity() const {
 	if(!o_trans) return 0.0;
@@ -882,8 +941,8 @@ int ScheduledTransaction::transactiontype() const {
 }
 bool ScheduledTransaction::relatesToAccount(Account *account, bool include_subs, bool include_non_value) const {return o_trans && o_trans->relatesToAccount(account, include_subs, include_non_value);}
 void ScheduledTransaction::replaceAccount(Account *old_account, Account *new_account) {if(o_trans) o_trans->replaceAccount(old_account, new_account);}
-double ScheduledTransaction::accountChange(Account *account, bool include_subs) const {
-	if(o_trans) return o_trans->accountChange(account, include_subs);
+double ScheduledTransaction::accountChange(Account *account, bool include_subs, bool convert) const {
+	if(o_trans) return o_trans->accountChange(account, include_subs, convert);
 	return 0.0;
 }
 
@@ -1000,11 +1059,11 @@ void SplitTransaction::replaceAccount(Account *old_account, Account *new_account
 		splits[i]->replaceAccount(old_account, new_account);
 	}
 }
-double SplitTransaction::accountChange(Account *account, bool include_subs) const {
+double SplitTransaction::accountChange(Account *account, bool include_subs, bool convert) const {
 	double v = 0.0;
 	int c = splits.count();
 	for(int i = 0; i < c; i++) {
-		v += splits[i]->accountChange(account, include_subs);
+		v += splits[i]->accountChange(account, include_subs, convert);
 	}
 	return v;
 }
@@ -1178,13 +1237,17 @@ void MultiItemTransaction::writeElements(QXmlStreamWriter *xml) {
 	}
 }
 
-double MultiItemTransaction::value() const {
+double MultiItemTransaction::value(bool convert) const {
 	double d_value = 0.0;
 	QVector<Transaction*>::size_type c = splits.size();
 	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
-		d_value += splits[i]->accountChange(o_account, false);
+		d_value += splits[i]->accountChange(o_account, false, convert);
 	}
 	return d_value;
+}
+Currency *MultiItemTransaction::currency() const {
+	if(!o_account) return NULL;
+	return o_account->currency();
 }
 double MultiItemTransaction::quantity() const {
 	double d_quantity = 0.0;
@@ -1194,13 +1257,13 @@ double MultiItemTransaction::quantity() const {
 	}
 	return d_quantity;
 }
-double MultiItemTransaction::cost() const {
+double MultiItemTransaction::cost(bool convert) const {
 	double d_value = 0.0;
 	QVector<Transaction*>::size_type c = splits.size();
 	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
 		Transaction *trans = splits[i];
-		if(trans->type() == TRANSACTION_TYPE_INCOME) d_value -= trans->value();
-		if(trans->type() == TRANSACTION_TYPE_EXPENSE) d_value += trans->value();
+		if(trans->type() == TRANSACTION_TYPE_INCOME) d_value -= trans->value(convert);
+		if(trans->type() == TRANSACTION_TYPE_EXPENSE) d_value += trans->value(convert);
 	}
 	return d_value;
 }
@@ -1410,14 +1473,18 @@ void MultiAccountTransaction::writeElements(QXmlStreamWriter *xml) {
 		xml->writeEndElement();
 	}
 }
-double MultiAccountTransaction::value() const {
+double MultiAccountTransaction::value(bool convert) const {
 	double d_value = 0.0;
 	QVector<Transaction*>::size_type c = splits.size();
 	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
 		Transaction *trans = splits[i];
-		d_value += trans->value();
+		d_value += trans->value(convert);
 	}
 	return d_value;
+}
+Currency *MultiAccountTransaction::currency() const {
+	if(splits.isEmpty()) return NULL;
+	return splits[0]->currency();
 }
 double MultiAccountTransaction::quantity() const {return d_quantity;}
 void MultiAccountTransaction::setQuantity(double new_quantity) {
@@ -1427,11 +1494,12 @@ void MultiAccountTransaction::setQuantity(double new_quantity) {
 		splits[i]->setQuantity(d_quantity / c);
 	}
 }
-double MultiAccountTransaction::cost() const {
-	if(o_category->type() == ACCOUNT_TYPE_INCOMES) return -value();
-	return value();
+double MultiAccountTransaction::cost(bool convert) const {
+	if(o_category->type() == ACCOUNT_TYPE_INCOMES) return -value(convert);
+	return value(convert);
 }
 void MultiAccountTransaction::addTransaction(Transaction *trans) {
+	if(currency() && trans->currency() != currency()) return;
 	if(o_category->type() == ACCOUNT_TYPE_EXPENSES && trans->type() == TRANSACTION_TYPE_EXPENSE) {
 		if(!d_date.isValid() || trans->date() < d_date) d_date = trans->date();
 		((Expense*) trans)->setCategory((ExpensesAccount*) o_category);
@@ -1544,6 +1612,7 @@ bool MultiAccountTransaction::relatesToAccount(Account *account, bool include_su
 }
 void MultiAccountTransaction::replaceAccount(Account *old_account, Account *new_account) {
 	if(o_category == old_account && (new_account->type() == ACCOUNT_TYPE_INCOMES || new_account->type() == ACCOUNT_TYPE_EXPENSES)) o_category = (CategoryAccount*) new_account;
+	if(new_account->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) new_account)->currency() != currency()) return;
 	SplitTransaction::replaceAccount(old_account, new_account);
 }
 
@@ -1565,11 +1634,15 @@ DebtPayment::DebtPayment() : SplitTransaction(), o_loan(NULL), o_fee(NULL), o_in
 DebtPayment::~DebtPayment() {}
 SplitTransaction *DebtPayment::copy() const {return new DebtPayment(this);}
 
-double DebtPayment::value() const {return interest() + fee() + payment();}
+double DebtPayment::value(bool convert) const {return interest(convert) + fee(convert) + payment(convert);}
+Currency *DebtPayment::currency() const {
+	if(!o_loan) return NULL;
+	return o_loan->currency();
+}
 double DebtPayment::quantity() const {
 	return 1.0;
 }
-double DebtPayment::cost() const {return interest() + fee();}
+double DebtPayment::cost(bool convert) const {return interest(convert) + fee(convert);}
 void DebtPayment::setInterest(double new_value, bool payed_from_account) {
 	if(!o_interest) {
 		if(new_value != 0.0) {
@@ -1606,19 +1679,19 @@ void DebtPayment::setPayment(double new_value) {
 		o_payment->setValue(new_value);
 	}
 }
-double DebtPayment::interest() const {
-	if(o_interest) return o_interest->value();
+double DebtPayment::interest(bool convert) const {
+	if(o_interest) return o_interest->value(convert);
 	return 0.0;
 }
 bool DebtPayment::interestPayed() const {
 	return !o_interest || o_interest->from() != o_loan;
 }
-double DebtPayment::fee() const {
-	if(o_fee) return o_fee->value();
+double DebtPayment::fee(bool convert) const {
+	if(o_fee) return o_fee->value(convert);
 	return 0.0;
 }
-double DebtPayment::payment() const {
-	if(o_payment) return o_payment->value();
+double DebtPayment::payment(bool convert) const {
+	if(o_payment) return o_payment->value(convert);
 	return 0.0;
 }
 
@@ -1785,17 +1858,18 @@ bool DebtPayment::relatesToAccount(Account *account, bool include_subs, bool inc
 	return (include_non_value && (o_account == account || o_loan == account)) || (o_fee && o_fee->relatesToAccount(account, include_subs, include_non_value)) || (o_interest && o_interest->relatesToAccount(account, include_subs, include_non_value)) || (o_payment && o_payment->relatesToAccount(account, include_subs, include_non_value));
 }
 void DebtPayment::replaceAccount(Account *old_account, Account *new_account) {
+	if(new_account->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) new_account)->currency() != currency()) return;
 	if(o_account == old_account && new_account->type() == ACCOUNT_TYPE_ASSETS) o_account = (AssetsAccount*) new_account;
 	if(o_loan == old_account && new_account->type() == ACCOUNT_TYPE_ASSETS) o_loan = (AssetsAccount*) new_account;
 	if(o_fee) o_fee->replaceAccount(old_account, new_account);
 	if(o_interest) o_interest->replaceAccount(old_account, new_account);
 	if(o_payment) o_payment->replaceAccount(old_account, new_account);
 }
-double DebtPayment::accountChange(Account *account, bool include_subs) const {
+double DebtPayment::accountChange(Account *account, bool include_subs, bool convert) const {
 	double v = 0.0;
-	if(o_fee) v += o_fee->accountChange(account, include_subs);
-	if(o_interest) v += o_interest->accountChange(account, include_subs);
-	if(o_payment) v += o_payment->accountChange(account, include_subs);
+	if(o_fee) v += o_fee->accountChange(account, include_subs, convert);
+	if(o_interest) v += o_interest->accountChange(account, include_subs, convert);
+	if(o_payment) v += o_payment->accountChange(account, include_subs, convert);
 	return v;
 }
 

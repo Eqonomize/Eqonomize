@@ -35,6 +35,7 @@ class QXmlStreamWriter;
 class QXmlStreamAttributes;
 class Security;
 class Budget;
+class Currency;
 
 typedef enum {
 	SECURITY_TYPE_BOND,
@@ -158,6 +159,7 @@ class Security {
 		void clearQuotations();
 		double getQuotation(const QDate &date, QDate *actual_date = NULL) const;
 		AssetsAccount *account() const;
+		Currency *currency() const;
 		void addReinvestedDividend(const QDate &date, double added_shares);
 		int decimals() const;
 		int quotationDecimals() const;

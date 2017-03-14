@@ -137,9 +137,11 @@ void Currency::setExchangeRateSource(ExchangeRateSource source) {
 }
 
 double Currency::convertTo(double value, const Currency *to_currency) const {
+	if(to_currency == this) return value;
 	return value / d_rate * to_currency->exchangeRate();
 }
 double Currency::convertFrom(double value, const Currency *from_currency) const {
+	if(from_currency == this) return value;
 	return from_currency->convertTo(value, this);
 }
 

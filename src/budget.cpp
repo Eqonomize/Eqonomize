@@ -90,6 +90,7 @@ Budget::Budget() {
 	default_currency = findCurrency(default_code);
 	if(!default_currency) default_currency = currency_euro;
 	balancingAccount = new AssetsAccount(this, ASSETS_TYPE_BALANCING, tr("Balancing", "Name of account for transactions that adjust account balances"), 0.0);
+	balancingAccount->setCurrency(NULL);
 	balancingAccount->setId(0);
 	assetsAccounts.append(balancingAccount);
 	accounts.append(balancingAccount);
@@ -134,6 +135,10 @@ void Budget::clear() {
 	assetsAccounts.append(balancingAccount);
 	accounts.append(balancingAccount);
 	budgetAccount = NULL;
+}
+
+QString Budget::formatMoney(double v, int precision) {
+	return default_currency->formatValue(v, precision);
 }
 
 void Budget::loadCurrencies() {

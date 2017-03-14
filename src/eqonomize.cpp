@@ -205,7 +205,7 @@ void setColumnDateWidth(QTreeWidget *w, int i) {
 	setColumnTextWidth(w, i, QLocale().toString(QDate::currentDate(), QLocale::ShortFormat));
 }
 void setColumnMoneyWidth(QTreeWidget *w, int i, double v = 9999999.99) {
-	setColumnTextWidth(w, i, QLocale().toCurrencyString(v));
+	setColumnTextWidth(w, i, QLocale().toString(v, 'f', MONETARY_DECIMAL_PLACES) + " XXX");
 }
 void setColumnValueWidth(QTreeWidget *w, int i, double v, int d = -1) {
 	setColumnTextWidth(w, i, QLocale().toString(v, 'f', d < 0 ? MONETARY_DECIMAL_PLACES : d));
@@ -307,7 +307,7 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 	setText(2, strans->description());
 	if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
 		Transaction *trans = (Transaction*) strans->transaction();
-		setText(3, QLocale().toCurrencyString(trans->value()));
+		setText(3, trans->valueString());
 		setText(4, trans->fromAccount()->name());
 		setText(5, trans->toAccount()->name());
 		if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
@@ -335,7 +335,7 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 		SplitTransaction *split = (SplitTransaction*) strans->transaction();
 		if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
 			setText(1, QObject::tr("Debt Payment"));
-			setText(3, QLocale().toCurrencyString(-split->value()));
+			setText(3, split->valueString(-split->value()));
 			if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 3);
 			setForeground(3, expenseColor);
 			setText(4, ((DebtPayment*) split)->account()->name());
@@ -346,17 +346,17 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 				if(split->cost() > 0.0) {
 					if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 3);
 					setForeground(3, expenseColor);
-					setText(3, QLocale().toCurrencyString(split->cost()));
+					setText(3, split->valueString(split->cost()));
 					b_reverse = true;
 				} else {
 					if(!incomeColor.isValid()) incomeColor = createIncomeColor(this, 3);
 					setForeground(3, incomeColor);
-					setText(3, QLocale().toCurrencyString(split->income()));
+					setText(3, split->valueString(split->income()));
 				}
 			} else {
 				if(!transferColor.isValid()) transferColor = createTransferColor(this, 3);
 				setForeground(3, transferColor);
-				setText(3, QLocale().toCurrencyString(split->value()));
+				setText(3, split->valueString());
 			}
 			if(split->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
 				setText(b_reverse ? 4 : 5, ((MultiItemTransaction*) split)->account()->name());
@@ -431,11 +431,11 @@ void ConfirmScheduleListViewItem::setTransaction(Transactions *transs) {
 			if(!transferColor.isValid()) transferColor = createTransferColor(this, 3);
 			setForeground(3, transferColor);
 		}
-		setText(3, QLocale().toCurrencyString(trans->value()));
+		setText(3, trans->valueString());
 	} else {
 		SplitTransaction *split = (SplitTransaction*) transs;
 		if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
-			setText(3, QLocale().toCurrencyString(-split->value()));
+			setText(3, split->valueString(-split->value()));
 			if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 3);
 			setForeground(3, expenseColor);
 			setText(1, tr("Debt Payment"));
@@ -444,16 +444,16 @@ void ConfirmScheduleListViewItem::setTransaction(Transactions *transs) {
 				if(split->cost() > 0.0) {
 					if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 3);
 					setForeground(3, expenseColor);
-					setText(3, QLocale().toCurrencyString(split->cost()));
+					setText(3, split->valueString(split->cost()));
 				} else {
 					if(!incomeColor.isValid()) incomeColor = createIncomeColor(this, 3);
 					setForeground(3, incomeColor);
-					setText(3, QLocale().toCurrencyString(split->income()));
+					setText(3, split->valueString(split->income()));
 				}
 			} else {
 				if(!transferColor.isValid()) transferColor = createTransferColor(this, 3);
 				setForeground(3, transferColor);
-				setText(3, QLocale().toCurrencyString(split->value()));
+				setText(3, split->valueString());
 			}
 			if(split->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
 				if(((MultiItemTransaction*) split)->transactiontype() == TRANSACTION_TYPE_INCOME) setText(1, QObject::tr("Income"));
@@ -915,7 +915,7 @@ bool EditSecurityTradeDialog::validValues() {
 	return true;
 }
 
-EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0) {
+EditQuotationsDialog::EditQuotationsDialog(Budget *budg, QWidget *parent) : QDialog(parent, 0), budget(budg) {
 
 	setWindowTitle(tr("Quotes", "Financial quote"));
 	setModal(true);
@@ -951,7 +951,7 @@ EditQuotationsDialog::EditQuotationsDialog(QWidget *parent) : QDialog(parent, 0)
 	quotationsLayout->addWidget(quotationsView);
 	QVBoxLayout *buttonsLayout = new QVBoxLayout();
 	quotationsLayout->addLayout(buttonsLayout);
-	quotationEdit = new EqonomizeValueEdit(0.01, 1.0, 0.01, i_quotation_decimals, true, this);
+	quotationEdit = new EqonomizeValueEdit(0.01, 1.0, 0.01, i_quotation_decimals, true, this, budget);
 	buttonsLayout->addWidget(quotationEdit);
 	dateEdit = new QDateEdit(this);
 	dateEdit->setCalendarPopup(true);
@@ -990,8 +990,9 @@ void EditQuotationsDialog::setSecurity(Security *security) {
 	}
 	quotationsView->addTopLevelItems(items);
 	quotationsView->setSortingEnabled(true);
-	titleLabel->setText(tr("Quotes for %1", "Financial quote").arg(security->name()));	
+	titleLabel->setText(tr("Quotes for %1", "Financial quote").arg(security->name()));
 	quotationEdit->setRange(0.0, pow(10, -i_quotation_decimals), i_quotation_decimals);
+	quotationEdit->setCurrency(security->currency());
 	if(items.isEmpty()) quotationsView->setMinimumWidth(quotationsView->columnWidth(0) + quotationsView->columnWidth(1) + 10);
 }
 void EditQuotationsDialog::modifyQuotations(Security *security) {
@@ -1028,7 +1029,7 @@ void EditQuotationsDialog::addQuotation() {
 	while(i) {
 		if(i->date == date) {
 			i->value = quotationEdit->value();
-			i->setText(1, format_money(i->value, i->decimals));
+			i->setText(1, budget->formatMoney(i->value, i->decimals));
 			return;
 		}
 		++it;
@@ -1050,7 +1051,7 @@ void EditQuotationsDialog::changeQuotation() {
 	while(i2) {
 		if(i2->date == date) {
 			i2->value = quotationEdit->value();
-			i2->setText(1, format_money(i2->value, i2->decimals));
+			i2->setText(1, budget->formatMoney(i2->value, i2->decimals));
 			return;
 		}
 		++it;
@@ -1059,7 +1060,7 @@ void EditQuotationsDialog::changeQuotation() {
 	i->date = date;
 	i->value = quotationEdit->value();
 	i->setText(0, QLocale().toString(date, QLocale::ShortFormat));
-	i->setText(1, format_money(i->value, i->decimals));
+	i->setText(1, budget->formatMoney(i->value, i->decimals));
 }
 void EditQuotationsDialog::deleteQuotation() {
 	QuotationListViewItem *i = (QuotationListViewItem*) selectedItem(quotationsView);
@@ -1469,7 +1470,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	QList<QTreeWidgetItem *> items;
 	SecurityTransaction *trans = security->transactions.first();
 	while(trans) {
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(trans->date(), QLocale::ShortFormat), QString::null, QLocale().toCurrencyString(trans->value()), QLocale().toString(trans->shares(), 'f', security->decimals()));
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(trans->date(), QLocale::ShortFormat), QString::null, trans->valueString(), QLocale().toString(trans->shares(), 'f', security->decimals()));
 		i->trans = trans;
 		i->date = trans->date();
 		i->value = trans->value();
@@ -1481,7 +1482,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	}
 	Income *div = security->dividends.first();
 	while(div) {
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(div->date(), QLocale::ShortFormat), tr("Dividend"), QLocale().toCurrencyString(div->value()), "-");
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(div->date(), QLocale::ShortFormat), tr("Dividend"), div->valueString(), "-");
 		i->div = div;
 		i->date = div->date();
 		i->value = div->value();
@@ -1502,7 +1503,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 		double shares;
 		if(ts->from_security == security) shares = ts->from_shares;
 		else shares = ts->to_shares;
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(ts->date, QLocale::ShortFormat), ts->from_security == security ? tr("Shares Sold (Exchanged)", "Shares of one security directly exchanged for shares of another; Financial shares") :  tr("Shares Bought (Exchanged)", "Shares of one security directly exchanged for shares of another; Financial shares"), QLocale().toCurrencyString(ts->value), QLocale().toString(shares, 'f', security->decimals()));
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(ts->date, QLocale::ShortFormat), ts->from_security == security ? tr("Shares Sold (Exchanged)", "Shares of one security directly exchanged for shares of another; Financial shares") :  tr("Shares Bought (Exchanged)", "Shares of one security directly exchanged for shares of another; Financial shares"), security->currency()->formatValue(ts->value), QLocale().toString(shares, 'f', security->decimals()));
 		i->ts = ts;
 		i->date = ts->date;
 		i->shares = shares;
@@ -1512,7 +1513,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	}
 	ScheduledTransaction *strans = security->scheduledTransactions.first();
 	while(strans) {
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString::null, QLocale().toCurrencyString(strans->transaction()->value()), QLocale().toString(((SecurityTransaction*) strans->transaction())->shares(), 'f', security->decimals()));
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString::null, strans->transaction()->valueString(), QLocale().toString(((SecurityTransaction*) strans->transaction())->shares(), 'f', security->decimals()));
 		i->strans = strans;
 		i->date = strans->date();
 		i->value = strans->transaction()->value();
@@ -1529,7 +1530,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	}
 	strans = security->scheduledDividends.first();
 	while(strans) {
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString::null, QLocale().toCurrencyString(strans->transaction()->value()), "-");
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString::null, strans->transaction()->valueString(), "-");
 		i->sdiv = strans;
 		i->date = strans->date();
 		i->value = strans->transaction()->value();
@@ -1858,16 +1859,16 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QFontMetrics fm(accountsView->font());
 	accountsView->header()->setSectionResizeMode(QHeaderView::Fixed);
 	accountsView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
-	setColumnTextWidth(accountsView, BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(budget->defaultCurrency()->formatValue(99999999.99)).arg(budget->defaultCurrency()->formatValue(99999999.99)));
+	setColumnTextWidth(accountsView, BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(QLocale().toString(99999999.99, 'f', MONETARY_DECIMAL_PLACES) + " XXX").arg(QLocale().toString(99999999.99, 'f', MONETARY_DECIMAL_PLACES) + " XXX"));
 	setColumnMoneyWidth(accountsView, CHANGE_COLUMN, 999999999999.99);
 	setColumnMoneyWidth(accountsView, VALUE_COLUMN, 999999999999.99);
-	assetsItem = new TotalListViewItem(accountsView, tr("Assets"), QString::null, budget->defaultCurrency()->formatValue(0.0), budget->defaultCurrency()->formatValue(0.0) + " ");
+	assetsItem = new TotalListViewItem(accountsView, tr("Assets"), QString::null, budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
 	assetsItem->setIcon(0, QIcon::fromTheme("eqz-account"));
-	liabilitiesItem = new TotalListViewItem(accountsView, assetsItem, tr("Liabilities"), QString::null, budget->defaultCurrency()->formatValue(0.0), budget->defaultCurrency()->formatValue(0.0) + " ");
+	liabilitiesItem = new TotalListViewItem(accountsView, assetsItem, tr("Liabilities"), QString::null, budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
 	liabilitiesItem->setIcon(0, QIcon::fromTheme("eqz-liabilities"));
-	incomesItem = new TotalListViewItem(accountsView, liabilitiesItem, tr("Incomes"), "-", budget->defaultCurrency()->formatValue(0.0), budget->defaultCurrency()->formatValue(0.0) + " ");
+	incomesItem = new TotalListViewItem(accountsView, liabilitiesItem, tr("Incomes"), "-", budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
 	incomesItem->setIcon(0, QIcon::fromTheme("eqz-income"));
-	expensesItem = new TotalListViewItem(accountsView, incomesItem, tr("Expenses"), "-", budget->defaultCurrency()->formatValue(0.0), budget->defaultCurrency()->formatValue(0.0) + " ");
+	expensesItem = new TotalListViewItem(accountsView, incomesItem, tr("Expenses"), "-", budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
 	expensesItem->setIcon(0, QIcon::fromTheme("eqz-expense"));
 	assetsItem->setFlags(assetsItem->flags() & ~Qt::ItemIsDragEnabled);
 	assetsItem->setFlags(assetsItem->flags() & ~Qt::ItemIsDropEnabled);
@@ -2560,7 +2561,7 @@ void Eqonomize::editSecurity() {
 	editSecurity(i);
 }
 void Eqonomize::updateSecuritiesStatistics() {
-	securitiesStatLabel->setText(QString("<div align=\"right\"><b>%1</b> %5 &nbsp; <b>%2</b> %6 &nbsp; <b>%3</b> %7 &nbsp; <b>%4</b> %8%</div>").arg(tr("Total value:")).arg(tr("Cost:")).arg(tr("Profit:")).arg(tr("Rate:")).arg(QLocale().toCurrencyString(total_value), QLocale().toCurrencyString(total_cost)).arg(QLocale().toCurrencyString(total_profit)).arg(QLocale().toString(total_rate * 100)));
+	securitiesStatLabel->setText(QString("<div align=\"right\"><b>%1</b> %5 &nbsp; <b>%2</b> %6 &nbsp; <b>%3</b> %7 &nbsp; <b>%4</b> %8%</div>").arg(tr("Total value:")).arg(tr("Cost:")).arg(tr("Profit:")).arg(tr("Rate:")).arg(budget->formatMoney(total_value), budget->formatMoney(total_cost)).arg(budget->formatMoney(total_profit)).arg(QLocale().toString(total_rate * 100)));
 }
 void Eqonomize::deleteSecurity() {
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
@@ -2740,7 +2741,7 @@ void Eqonomize::editQuotations() {
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
 	if(!i) return;
 	Security *security = i->security();
-	EditQuotationsDialog *dialog = new EditQuotationsDialog(this);
+	EditQuotationsDialog *dialog = new EditQuotationsDialog(budget, this);
 	dialog->setSecurity(security);
 	if(dialog->exec() == QDialog::Accepted) {
 		dialog->modifyQuotations(security);
@@ -2831,7 +2832,7 @@ void Eqonomize::appendSecurity(Security *security) {
 		rate = security->yearlyRate(securities_to_date);
 		profit = security->profit(securities_to_date, true);
 	}
-	SecurityListViewItem *i = new SecurityListViewItem(security, security->name(), QLocale().toCurrencyString(value), QLocale().toString(shares, 'f', security->decimals()), format_money(quotation, security->quotationDecimals()), QLocale().toCurrencyString(cost), QLocale().toCurrencyString(profit), QLocale().toString(rate * 100) + "%");
+	SecurityListViewItem *i = new SecurityListViewItem(security, security->name(), security->account()->currency()->formatValue(value), QLocale().toString(shares, 'f', security->decimals()), security->account()->currency()->formatValue(quotation, security->quotationDecimals()), security->account()->currency()->formatValue(cost), security->account()->currency()->formatValue(profit), QLocale().toString(rate * 100) + "%");
 	i->setText(8, security->account()->name());
 	i->value = value;
 	i->cost = cost;
@@ -2876,12 +2877,13 @@ void Eqonomize::updateSecurity(Security *security) {
 }
 void Eqonomize::updateSecurity(QTreeWidgetItem *i) {
 	Security *security = ((SecurityListViewItem*) i)->security();
+	Currency *cur = security->currency();
 	total_rate *= total_value;
-	total_value -= ((SecurityListViewItem*) i)->value;
-	total_cost -= ((SecurityListViewItem*) i)->cost;
-	total_rate -= ((SecurityListViewItem*) i)->value * ((SecurityListViewItem*) i)->rate;
+	total_value -= cur->convertTo(((SecurityListViewItem*) i)->value, budget->defaultCurrency());
+	total_cost -= cur->convertTo(((SecurityListViewItem*) i)->cost, budget->defaultCurrency());
+	total_rate -= cur->convertTo(((SecurityListViewItem*) i)->value, budget->defaultCurrency()) * ((SecurityListViewItem*) i)->rate;
 	if(total_cost != 0.0) total_rate /= total_value;
-	total_profit -= ((SecurityListViewItem*) i)->profit;
+	total_profit -= cur->convertTo(((SecurityListViewItem*) i)->profit, budget->defaultCurrency());
 	double value = 0.0, cost = 0.0, rate = 0.0, profit = 0.0, quotation = 0.0, shares = 0.0;
 	value = security->value(securities_to_date, true);
 	cost = security->cost(securities_to_date);
@@ -2900,9 +2902,9 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i) {
 	((SecurityListViewItem*) i)->rate = rate;
 	((SecurityListViewItem*) i)->profit = profit;
 	total_rate *= total_value;
-	total_value += value;
-	total_cost += cost;
-	total_rate += value * rate;
+	total_value += cur->convertTo(value, budget->defaultCurrency());
+	total_cost += cur->convertTo(cost, budget->defaultCurrency());
+	total_rate += cur->convertTo(value, budget->defaultCurrency()) * rate;
 	if(total_cost != 0.0) total_rate /= total_value;
 	total_profit += profit;
 	i->setText(0, security->name());
@@ -2912,11 +2914,11 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i) {
 		case SECURITY_TYPE_MUTUAL_FUND: {i->setText(7, tr("Mutual Fund")); break;}
 		case SECURITY_TYPE_OTHER: {i->setText(7, tr("Other")); break;}
 	}
-	i->setText(1, QLocale().toCurrencyString(value));
+	i->setText(1, cur->formatValue(value));
 	i->setText(2, QLocale().toString(shares, 'f', security->decimals()));
-	i->setText(3, format_money(quotation, security->quotationDecimals()));
-	i->setText(4, QLocale().toCurrencyString(cost));
-	i->setText(5, QLocale().toCurrencyString(profit));
+	i->setText(3, cur->formatValue(quotation, security->quotationDecimals()));
+	i->setText(4, cur->formatValue(cost));
+	i->setText(5, cur->formatValue(profit));
 	i->setText(6, QLocale().toString(rate * 100) + "%");
 	i->setText(8, security->account()->name());
 	if(cost > 0.0) i->setForeground(4, createExpenseColor(i, 0));
@@ -4484,11 +4486,11 @@ bool Eqonomize::exportSecuritiesList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t\t<tr>" << '\n';
 			if(securitiesView->topLevelItemCount() > 1) {
 				outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
-				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(total_value)) << "</b></td>";
+				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(total_value)) << "</b></td>";
 				outf << "<td align=\"right\" style=\"border-top: thin solid\"><b>-</b></td>";
 				outf << "<td align=\"right\" style=\"border-top: thin solid\"><b>-</b></td>";
-				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(total_cost)) << "</b></td>";
-				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(total_profit)) << "</b></td>";
+				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(total_cost)) << "</b></td>";
+				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(total_profit)) << "</b></td>";
 				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toString(total_rate * 100) + "%") << "</b></td>";
 				outf << "<td align=\"center\" style=\"border-top: thin solid\"><b>-</b></td>";
 				outf << "<td align=\"center\" style=\"border-top: thin solid\"><b>-</b></td>" << "\n";
@@ -4566,8 +4568,8 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 						default: {outf << htmlize_string(tr("Other")); break;}
 					}
 					outf << "</td>";
-					outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(account_change[account])) << "</td>";
-					outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(account_value[account])) << "</td>" << "\n";
+					outf << "<td nowrap align=\"right\">" << htmlize_string(((AssetsAccount*) account)->currency()->formatValue(account_change[account])) << "</td>";
+					outf << "<td nowrap align=\"right\">" << htmlize_string(((AssetsAccount*) account)->currency()->formatValue(account_value[account])) << "</td>" << "\n";
 					outf << "\t\t\t\t</tr>" << '\n';
 				}
 				account = budget->assetsAccounts.next();
@@ -4578,8 +4580,8 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "</b></td>";
 			outf << "<td style=\"border-top: thin solid\">";
 			outf << "</td>";
-			outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(assets_accounts_change)) << "</b></td>";
-			outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(QLocale().toCurrencyString(assets_accounts_value)) << "</b></td>" << "\n";
+			outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(assets_accounts_change)) << "</b></td>";
+			outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(assets_accounts_value)) << "</b></td>" << "\n";
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</tbody>" << '\n';
 			outf << "\t\t</table>" << '\n';
@@ -5829,14 +5831,15 @@ void Eqonomize::balanceAccount(Account *i_account) {
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 	grid->addWidget(new QLabel(tr("Book value:"), dialog), 0, 0);
-	QLabel *label = new QLabel(QLocale().toCurrencyString(book_value), dialog);
+	QLabel *label = new QLabel(account->currency()->formatValue(book_value), dialog);
 	label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 	grid->addWidget(label, 0, 1);
-	label = new QLabel(tr("of which %1 is balance adjustment", "Referring to account balance").arg(QLocale().toCurrencyString(current_balancing)), dialog);
+	label = new QLabel(tr("of which %1 is balance adjustment", "Referring to account balance").arg(account->currency()->formatValue(current_balancing)), dialog);
 	label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 	grid->addWidget(label, 1, 1);
 	grid->addWidget(new QLabel(tr("Real value:"), dialog), 2, 0);
-	EqonomizeValueEdit *realEdit = new EqonomizeValueEdit(book_value, true, true, dialog);
+	EqonomizeValueEdit *realEdit = new EqonomizeValueEdit(book_value, true, true, dialog, budget);
+	realEdit->setCurrency(account->currency());
 	grid->addWidget(realEdit, 2, 1);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);

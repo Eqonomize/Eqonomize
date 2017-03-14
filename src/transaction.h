@@ -40,6 +40,7 @@ class Recurrence;
 class ScheduledTransaction;
 class Security;
 class SplitTransaction;
+class Currency;
 
 typedef enum {
 	TRANSACTION_TYPE_EXPENSE,
@@ -89,7 +90,10 @@ class Transactions {
 		virtual ~Transactions() {}
 		virtual Transactions *copy() const = 0;
 	
-		virtual double value() const = 0;
+		virtual double value(bool convert = false) const = 0;
+		virtual Currency *currency() const = 0;
+		virtual QString valueString(int precision = -1) const;
+		virtual QString valueString(double value_, int precision = -1) const;
 		virtual double quantity() const = 0;
 		virtual const QDate &date() const = 0;
 		virtual void setDate(QDate new_date) = 0;
@@ -99,7 +103,7 @@ class Transactions {
 		virtual GeneralTransactionType generaltype() const = 0;
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const = 0;
 		virtual void replaceAccount(Account *old_account, Account *new_account) = 0;
-		virtual double accountChange(Account *account, bool include_subs = true) const = 0;
+		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const = 0;
 	
 };
 
@@ -148,8 +152,9 @@ class Transaction : public Transactions {
 		
 		SplitTransaction *parentSplit() const;
 		void setParentSplit(SplitTransaction *parent);
-		virtual double value() const;
-		void setValue(double new_value);
+		virtual double value(bool convert = false) const;
+		virtual Currency *currency() const;
+		virtual void setValue(double new_value);
 		virtual double quantity() const;
 		void setQuantity(double new_quantity);
 		const QDate &date() const;
@@ -168,7 +173,7 @@ class Transaction : public Transactions {
 		virtual TransactionSubType subtype() const;
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
-		virtual double accountChange(Account *account, bool include_subs = true) const;
+		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
 		
 };
 
@@ -199,7 +204,7 @@ class Expense : public Transaction {
 		void setCategory(ExpensesAccount *new_category);
 		AssetsAccount *from() const;
 		void setFrom(AssetsAccount *new_from);
-		double cost() const;
+		double cost(bool convert = false) const;
 		void setCost(double new_cost);
 		virtual const QString &payee() const;
 		void setPayee(QString new_payee);
@@ -302,7 +307,7 @@ class Income : public Transaction {
 		void setCategory(IncomesAccount *new_category);
 		AssetsAccount *to() const;
 		void setTo(AssetsAccount *new_to);
-		double income() const;
+		double income(bool convert = false) const;
 		void setIncome(double new_income);
 		const QString &payer() const;
 		void setPayer(QString new_payer);
@@ -317,6 +322,10 @@ class Income : public Transaction {
 class Transfer : public Transaction {
 
 	Q_DECLARE_TR_FUNCTIONS(Transfer)
+	
+	protected:
+	
+		double d_deposit;
 
 	public:
 	
@@ -330,13 +339,19 @@ class Transfer : public Transaction {
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
-		
+
 		AssetsAccount *to() const;
 		void setTo(AssetsAccount *new_to);
 		AssetsAccount *from() const;
 		void setFrom(AssetsAccount *new_from);
-		double amount() const;
-		void setAmount(double new_amount);
+		double amount(bool convert = false) const;
+		void setValue(double new_value);
+		virtual void setAmount(double new_amount);
+		void setAmount(double withdrawal, double deposit);
+		Currency *withdrawalCurrency() const;
+		Currency *depositCurrency() const;
+		double withdrawal(bool convert = false) const;
+		double deposit(bool convert = false) const;
 		virtual QString description() const;
 		TransactionType type() const;
 		virtual TransactionSubType subtype() const;
@@ -384,6 +399,8 @@ class Balancing : public Transfer {
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
+		
+		virtual void setAmount(double new_amount);
 
 		AssetsAccount *account() const;
 		void setAccount(AssetsAccount *new_account);
@@ -424,7 +441,7 @@ class SecurityTransaction : public Transaction {
 		virtual void setAccount(Account *account) = 0;
 		virtual TransactionType type() const = 0;
 		virtual QString description() const;
-		double shareValue() const;
+		double shareValue(bool convert = false) const;
 		double shares() const;
 		void setShareValue(double new_share_value);
 		void setShares(double new_shares);
@@ -432,7 +449,7 @@ class SecurityTransaction : public Transaction {
 		Security *security() const;
 
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
-		virtual double accountChange(Account *account, bool include_subs = true) const;
+		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
 		
 };
 
@@ -523,7 +540,8 @@ class ScheduledTransaction : public Transactions {
 		virtual bool isOneTimeTransaction() const;
 		virtual void setDate(QDate newdate);
 		virtual void addException(QDate exceptiondate);
-		virtual double value() const;
+		virtual double value(bool convert = false) const;
+		virtual Currency *currency() const;
 		virtual double quantity() const;
 		virtual QString description() const;
 		virtual const QString &comment() const;
@@ -532,7 +550,7 @@ class ScheduledTransaction : public Transactions {
 		
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
-		virtual double accountChange(Account *account, bool include_subs = true) const;
+		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
 	
 };
 
@@ -558,8 +576,9 @@ class SplitTransaction : public Transactions {
 		virtual ~SplitTransaction();
 		virtual SplitTransaction *copy() const = 0;
 		
-		virtual double value() const = 0;
-		virtual double cost() const = 0;
+		virtual double value(bool convert = false) const = 0;
+		virtual Currency *currency() const = 0;
+		virtual double cost(bool convert = false) const = 0;
 		virtual double quantity() const = 0;
 		double income() const;
 		
@@ -593,7 +612,7 @@ class SplitTransaction : public Transactions {
 		
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
-		virtual double accountChange(Account *account, bool include_subs = true) const;
+		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
 
 };
 
@@ -621,9 +640,10 @@ class MultiItemTransaction : public SplitTransaction {
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		virtual void writeElements(QXmlStreamWriter *xml);
 
-		virtual double value() const;
+		virtual double value(bool convert = false) const;
+		virtual Currency *currency() const;
 		virtual double quantity() const;
-		virtual double cost() const;
+		virtual double cost(bool convert = false) const;
 		double income() const;
 		AssetsAccount *account() const;
 		void setAccount(AssetsAccount *new_account);
@@ -665,10 +685,11 @@ class MultiAccountTransaction : public SplitTransaction {
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		virtual void writeElements(QXmlStreamWriter *xml);
 		
-		virtual double value() const;
+		virtual double value(bool convert = false) const;
+		virtual Currency *currency() const;
 		virtual double quantity() const;
 		void setQuantity(double new_quantity);
-		virtual double cost() const;
+		virtual double cost(bool convert = false) const;
 		
 		CategoryAccount *category() const;
 		void setCategory(CategoryAccount *new_category);
@@ -716,9 +737,10 @@ class DebtPayment : public SplitTransaction {
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		virtual void writeElements(QXmlStreamWriter *xml);
 		
-		virtual double value() const;
+		virtual double value(bool convert = false) const;
+		virtual Currency *currency() const;
 		virtual double quantity() const;
-		virtual double cost() const;
+		virtual double cost(bool convert = false) const;
 		
 		DebtFee *feeTransaction() const;
 		DebtInterest *interestTransaction() const;
@@ -728,10 +750,10 @@ class DebtPayment : public SplitTransaction {
 		void setInterestPayed(bool payed_from_account);
 		void setFee(double new_value);
 		void setPayment(double new_value);
-		double interest() const;
+		double interest(bool convert = false) const;
 		bool interestPayed() const;
-		double fee() const;
-		double payment() const;
+		double fee(bool convert = false) const;
+		double payment(bool convert = false) const;
 		
 		void clear(bool keep = false);
 		
@@ -755,7 +777,7 @@ class DebtPayment : public SplitTransaction {
 		
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
-		virtual double accountChange(Account *account, bool include_subs = true) const;
+		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
 		
 };
 
