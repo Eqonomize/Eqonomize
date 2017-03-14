@@ -113,7 +113,7 @@ class TransactionEditWidget : public QWidget {
 		QLineEdit *descriptionEdit, *lenderEdit, *payeeEdit, *commentsEdit;
 		AccountComboBox *fromCombo, *toCombo;
 		QComboBox *securityCombo;
-		EqonomizeValueEdit *valueEdit, *downPaymentEdit, *sharesEdit, *quotationEdit, *quantityEdit;
+		EqonomizeValueEdit *valueEdit, *depositEdit, *downPaymentEdit, *sharesEdit, *quotationEdit, *quantityEdit;
 		QPushButton *maxSharesButton;
 		EqonomizeDateEdit *dateEdit;
 		QHBoxLayout *bottom_layout;
@@ -130,8 +130,11 @@ class TransactionEditWidget : public QWidget {
 
 		void newFromAccount();
 		void newToAccount();
+		void valueNextField();
 		void fromActivated();
 		void toActivated();
+		void fromChanged();
+		void toChanged();
 		void focusDate();
 		void valueChanged(double);
 		void securityChanged();

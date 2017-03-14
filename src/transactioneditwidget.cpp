@@ -44,6 +44,7 @@
 #include <QStringList>
 #include <QKeyEvent>
 #include <QMessageBox>
+#include <QDebug>
 
 #include "budget.h"
 #include "accountcombobox.h"
@@ -73,21 +74,23 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	if(auto_edit) cols = 2;
 	int rows = 6;
 	if(b_sec && security_value_type == SECURITY_ALL_VALUES) rows += 1;
-	else if(b_extra && !security && !select_security && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME)) rows += (multiaccount ? 1 : 2);
+	else if(b_extra && !security && !select_security && transtype == TRANSACTION_TYPE_EXPENSE) rows += (multiaccount ? 1 : 2);
+	else if(b_extra && !security && !select_security && transtype == TRANSACTION_TYPE_INCOME && !multiaccount) rows ++;
+	else if(transtype == TRANSACTION_TYPE_TRANSFER) rows++;
 	if(withloan) rows += 2;
 	if(multiaccount) rows -= 4;
 	if(split && !b_sec) rows -= 2;
-	if(rows % cols > 0) rows += rows / cols + 1;
+	if(rows % cols > 0) rows = rows / cols + 1;
 	else rows = rows / cols;
 	QGridLayout *editLayout = new QGridLayout();
 	editVLayout->addLayout(editLayout);
 	editVLayout->addStretch(1);
 	valueEdit = NULL;
+	depositEdit = NULL;
 	downPaymentEdit = NULL;
 	dateEdit = NULL;
 	sharesEdit = NULL;
 	quotationEdit = NULL;
-	valueEdit = NULL;
 	descriptionEdit = NULL;
 	payeeEdit = NULL;
 	lenderEdit = NULL;
@@ -188,7 +191,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			i++;
 		}		
 		if(transtype == TRANSACTION_TYPE_TRANSFER) {
-			editLayout->addWidget(new QLabel(tr("Amount:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Withdrawal:"), this), TEROWCOL(i, 0));
 		} else if(transtype == TRANSACTION_TYPE_INCOME) {
 			editLayout->addWidget(new QLabel(tr("Income:"), this), TEROWCOL(i, 0));
 		} else {
@@ -197,6 +200,12 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		valueEdit = new EqonomizeValueEdit(!withloan, this, budget);
 		editLayout->addWidget(valueEdit, TEROWCOL(i, 1));
 		i++;
+		if(transtype == TRANSACTION_TYPE_TRANSFER) {
+			editLayout->addWidget(new QLabel(tr("Deposit:"), this), TEROWCOL(i, 0));
+			depositEdit = new EqonomizeValueEdit(true, this, budget);
+			editLayout->addWidget(depositEdit, TEROWCOL(i, 1));
+			i++;
+		}
 		if(withloan) {
 			editLayout->addWidget(new QLabel(tr("Downpayment:"), this), TEROWCOL(i, 0));
 			downPaymentEdit = new EqonomizeValueEdit(false, this);
@@ -342,8 +351,6 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	if(b_sec) {
 		switch(security_value_type) {
 			case SECURITY_ALL_VALUES: {
-				connect(valueEdit, SIGNAL(returnPressed()), sharesEdit, SLOT(setFocus()));
-				connect(valueEdit, SIGNAL(returnPressed()), sharesEdit, SLOT(selectAll()));
 				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(setFocus()));
 				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(selectAll()));
 				if(dateEdit) {
@@ -362,8 +369,6 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				break;
 			}
 			case SECURITY_VALUE_AND_SHARES: {
-				connect(valueEdit, SIGNAL(returnPressed()), sharesEdit, SLOT(setFocus()));
-				connect(valueEdit, SIGNAL(returnPressed()), sharesEdit, SLOT(selectAll()));
 				if(dateEdit) {
 					connect(sharesEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 				}
@@ -371,8 +376,6 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				break;
 			}
 			case SECURITY_VALUE_AND_QUOTATION: {
-				connect(valueEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(setFocus()));
-				connect(valueEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(selectAll()));
 				if(dateEdit) {
 					connect(quotationEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 				}
@@ -384,8 +387,6 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		if(quotationEdit) connect(quotationEdit, SIGNAL(valueChanged(double)), this, SLOT(quotationChanged(double)));
 	} else {
 		if(downPaymentEdit) {
-			connect(valueEdit, SIGNAL(returnPressed()), downPaymentEdit, SLOT(setFocus()));
-			connect(valueEdit, SIGNAL(returnPressed()), downPaymentEdit, SLOT(selectAll()));
 			if(quantityEdit) {
 				connect(downPaymentEdit, SIGNAL(returnPressed()), quantityEdit, SLOT(setFocus()));
 				connect(downPaymentEdit, SIGNAL(returnPressed()), quantityEdit, SLOT(selectAll()));
@@ -397,16 +398,10 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 					connect(downPaymentEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 				}
 			}
-		} else if(quantityEdit) {
-			connect(valueEdit, SIGNAL(returnPressed()), quantityEdit, SLOT(setFocus()));
-			connect(valueEdit, SIGNAL(returnPressed()), quantityEdit, SLOT(selectAll()));
-			if(dateEdit) {
-				connect(quantityEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
-			}
-		} else  {
-			if(dateEdit) {
-				connect(valueEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
-			}
+		} else if(quantityEdit && dateEdit) {
+			connect(quantityEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
+		} else if(depositEdit && dateEdit) {
+			connect(depositEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 		}
 		if(descriptionEdit) {
 			connect(descriptionEdit, SIGNAL(returnPressed()), valueEdit, SLOT(setFocus()));
@@ -415,6 +410,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			connect(descriptionEdit, SIGNAL(textChanged(const QString&)), this, SLOT(descriptionChanged(const QString&)));
 		}
 	}
+	if(valueEdit) connect(valueEdit, SIGNAL(returnPressed()), this, SLOT(valueNextField()));
 	if(payeeEdit) {
 		connect(payeeEdit, SIGNAL(editingFinished()), this, SLOT(setDefaultValueFromPayee()));
 		connect(payeeEdit, SIGNAL(textChanged(const QString&)), this, SLOT(payeeChanged(const QString&)));
@@ -430,12 +426,31 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		connect(fromCombo, SIGNAL(newLoanRequested()), this, SIGNAL(newLoanRequested()));
 		connect(fromCombo, SIGNAL(multipleAccountsRequested()), this, SIGNAL(multipleAccountsRequested()));
 		connect(fromCombo, SIGNAL(accountSelected()), this, SLOT(fromActivated()));
+		connect(fromCombo, SIGNAL(currentAccountChanged()), this, SLOT(fromChanged()));
 	}
 	if(toCombo) {
 		connect(toCombo, SIGNAL(newAccountRequested()), this, SLOT(newToAccount()));
 		connect(toCombo, SIGNAL(newLoanRequested()), this, SIGNAL(newLoanRequested()));
 		connect(toCombo, SIGNAL(multipleAccountsRequested()), this, SIGNAL(multipleAccountsRequested()));
 		connect(toCombo, SIGNAL(accountSelected()), this, SLOT(toActivated()));
+		connect(toCombo, SIGNAL(currentAccountChanged()), this, SLOT(toChanged()));
+	}
+}
+void TransactionEditWidget::valueNextField() {
+	if(depositEdit && depositEdit->isEnabled()) {
+		depositEdit->setFocus();
+		depositEdit->selectAll();
+	} else if(sharesEdit) {
+		sharesEdit->setFocus();
+		sharesEdit->selectAll();
+	} else if(downPaymentEdit) {
+		downPaymentEdit->setFocus();
+		downPaymentEdit->selectAll();
+	} else if(quantityEdit) {
+		quantityEdit->setFocus();
+		quantityEdit->selectAll();
+	} else if(dateEdit) {
+		focusDate();
 	}
 }
 void TransactionEditWidget::newFromAccount() {
@@ -457,10 +472,6 @@ void TransactionEditWidget::fromActivated() {
 	if(transtype == TRANSACTION_TYPE_INCOME) {
 		setDefaultValueFromCategory();
 	}
-	Account *acc = fromCombo->currentAccount();
-	if(valueEdit && acc && acc->type() == ACCOUNT_TYPE_ASSETS) {
-		valueEdit->setCurrency(((AssetsAccount*) acc)->currency());
-	}
 }
 void TransactionEditWidget::toActivated() {
 	if(fromCombo && transtype == TRANSACTION_TYPE_EXPENSE) fromCombo->setFocus();
@@ -469,9 +480,47 @@ void TransactionEditWidget::toActivated() {
 	if(transtype == TRANSACTION_TYPE_EXPENSE) {
 		setDefaultValueFromCategory();
 	}
-	Account *acc = toCombo->currentAccount();
-	if(valueEdit && acc && acc->type() == ACCOUNT_TYPE_ASSETS && transtype != TRANSACTION_TYPE_TRANSFER) {
+}
+void TransactionEditWidget::fromChanged() {
+	Account *acc = fromCombo->currentAccount();
+	if(!acc) return;
+	if(valueEdit && acc->type() == ACCOUNT_TYPE_ASSETS) {
 		valueEdit->setCurrency(((AssetsAccount*) acc)->currency());
+	}
+	if(transtype == TRANSACTION_TYPE_TRANSFER) {
+		Account *acc2 = NULL;
+		if(fromCombo) acc2 = toCombo->currentAccount();
+		if(acc2 && depositEdit) {
+			if(acc->currency() != acc2->currency()) {
+				depositEdit->setEnabled(true);
+			} else {
+				depositEdit->setEnabled(false);
+				depositEdit->setValue(valueEdit->value());
+			}
+		}
+	}
+}
+void TransactionEditWidget::toChanged() {
+	Account *acc = toCombo->currentAccount();
+	if(!acc) return;
+	if(transtype == TRANSACTION_TYPE_TRANSFER) {
+		if(depositEdit) {
+			depositEdit->setCurrency(acc->currency());
+			Account *acc2 = NULL;
+			if(fromCombo) acc2 = fromCombo->currentAccount();
+			if(acc2) {
+				if(acc->currency() != acc2->currency()) {
+					depositEdit->setEnabled(true);
+				} else {
+					depositEdit->setEnabled(false);
+					depositEdit->setValue(valueEdit->value());
+				}
+			}
+		}
+	} else {
+		if(valueEdit && acc->type() == ACCOUNT_TYPE_ASSETS) {
+			valueEdit->setCurrency(acc->currency());
+		}
 	}
 }
 void TransactionEditWidget::focusDate() {
@@ -668,18 +717,10 @@ void TransactionEditWidget::setDefaultValueFromCategory() {
 void TransactionEditWidget::updateFromAccounts(Account *exclude_account) {
 	if(!fromCombo) return;
 	fromCombo->updateAccounts(exclude_account);
-	Account *acc = fromCombo->currentAccount();
-	if(valueEdit && acc && acc->type() == ACCOUNT_TYPE_ASSETS) {
-		valueEdit->setCurrency(((AssetsAccount*) acc)->currency());
-	}
 }
 void TransactionEditWidget::updateToAccounts(Account *exclude_account) {
 	if(!toCombo) return;
 	toCombo->updateAccounts(exclude_account);
-	Account *acc = toCombo->currentAccount();
-	if(valueEdit && acc && acc->type() == ACCOUNT_TYPE_ASSETS && transtype != TRANSACTION_TYPE_TRANSFER) {
-		valueEdit->setCurrency(((AssetsAccount*) acc)->currency());
-	}
 }
 void TransactionEditWidget::updateAccounts(Account *exclude_account) {
 	updateToAccounts(exclude_account);
@@ -929,7 +970,7 @@ Transaction *TransactionEditWidget::createTransaction() {
 	if(!validValues()) return NULL;
 	Transaction *trans;
 	if(transtype == TRANSACTION_TYPE_TRANSFER) {
-		Transfer *transfer = new Transfer(budget, valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), fromCombo ? (AssetsAccount*) fromCombo->currentAccount() : NULL, toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString::null, commentsEdit ? commentsEdit->text() : NULL);
+		Transfer *transfer = new Transfer(budget, valueEdit->value(), depositEdit->value(), dateEdit ? dateEdit->date() : QDate(), fromCombo ? (AssetsAccount*) fromCombo->currentAccount() : NULL, toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString::null, commentsEdit ? commentsEdit->text() : NULL);
 		trans = transfer;
 	} else if(transtype == TRANSACTION_TYPE_INCOME) {
 		Income *income = new Income(budget, valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), fromCombo ? (IncomesAccount*) fromCombo->currentAccount() : NULL, toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString::null, commentsEdit ? commentsEdit->text() : NULL);

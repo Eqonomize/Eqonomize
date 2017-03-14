@@ -372,6 +372,13 @@ Security *Income::security() const {return o_security;}
 Transfer::Transfer(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description, QString initial_comment) : Transaction(parent_budget, initial_amount < 0.0 ? -initial_amount : initial_amount, initial_date, initial_amount < 0.0 ? initial_to : initial_from, initial_amount < 0.0 ? initial_from : initial_to, initial_description, initial_comment) {
 	d_deposit = amount();
 }
+Transfer::Transfer(Budget *parent_budget, double initial_withdrawal, double initial_deposit, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description, QString initial_comment) : Transaction(parent_budget, initial_withdrawal < 0.0 ? -initial_deposit : initial_withdrawal, initial_date, initial_withdrawal < 0.0 ? initial_to : initial_from, initial_withdrawal < 0.0 ? initial_from : initial_to, initial_description, initial_comment) {
+	if(initial_withdrawal < 0.0) {
+		d_deposit = -initial_withdrawal;
+	} else {
+		d_deposit = initial_deposit;
+	}
+}
 Transfer::Transfer(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transaction(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);

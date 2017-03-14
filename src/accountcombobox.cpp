@@ -32,6 +32,7 @@ AccountComboBox::AccountComboBox(int account_type, Budget *budg, bool add_new_ac
 	added_account = NULL;
 	block_account_selected = false;
 	connect(this, SIGNAL(activated(int)), this, SLOT(accountActivated(int)));
+	connect(this, SIGNAL(currentIndexChanged(int)), this, SIGNAL(currentAccountChanged()));
 }
 AccountComboBox::~AccountComboBox() {}
 
@@ -48,7 +49,10 @@ Account *AccountComboBox::currentAccount() const {
 	return (Account*) currentData().value<void*>();
 }
 void AccountComboBox::setCurrentAccount(Account *account) {
-	if(account) setCurrentIndex(findData(qVariantFromValue((void*) account)));
+	if(account) {
+		setCurrentIndex(findData(qVariantFromValue((void*) account)));
+		//emit currentAccountChanged();
+	}
 }
 int AccountComboBox::currentAccountIndex() const {
 	int index = currentIndex() - firstAccountIndex();
@@ -162,6 +166,7 @@ Account *AccountComboBox::createAccount() {
 		updateAccounts();
 		setCurrentAccount(account);
 		emit accountSelected();
+		//emit currentAccountChanged();
 	}
 	return account;
 }
@@ -180,6 +185,7 @@ void AccountComboBox::accountActivated(int index) {
 		if(!block_account_selected) {
 			emit accountSelected();
 		}
+		//emit currentAccountChanged();
 	}
 }
 void AccountComboBox::keyPressEvent(QKeyEvent *e) {

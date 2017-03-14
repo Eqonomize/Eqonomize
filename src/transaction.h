@@ -334,6 +334,7 @@ class Transfer : public Transaction {
 	public:
 	
 		Transfer(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description = QString(), QString initial_comment = QString());
+		Transfer(Budget *parent_budget, double initial_withdrawal, double initial_deposit, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description = QString(), QString initial_comment = QString());
 		Transfer(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		Transfer(Budget *parent_budget);
 		Transfer();
