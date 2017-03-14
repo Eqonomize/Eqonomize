@@ -547,6 +547,7 @@ class EditSecurityDialog : public QDialog {
 
 		void decimalsChanged(int);
 		void quotationDecimalsChanged(int);
+		void accountActivated(int);
 
 };
  
@@ -602,6 +603,7 @@ class RefundDialog : public QDialog {
 	protected slots:
 		
 		void accept();
+		void accountActivated(int);
 
 };
 

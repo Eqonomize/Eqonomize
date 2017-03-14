@@ -85,6 +85,7 @@ class Account {
 		int id() const;
 		void setId(int new_id);
 		virtual AccountType type() const = 0;
+		virtual Currency *currency() const;
 
 };
 
@@ -111,7 +112,7 @@ class AssetsAccount : public Account {
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		bool isBudgetAccount() const;
 		void setAsBudgetAccount(bool will_be = true);
-		double initialBalance(bool calculate_for_securities = true) const;
+		double initialBalance(bool calculate_for_securities = true, bool convert = false) const;
 		void setInitialBalance(double new_initial_balance);
 		bool isClosed() const;
 		void setClosed(bool close_account = true);

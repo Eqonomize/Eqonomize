@@ -105,9 +105,21 @@ double Transaction::value(bool convert) const {
 	if(convert && currency() && currency() != budget()->defaultCurrency()) return currency()->convertTo(d_value, budget()->defaultCurrency());
 	return d_value;
 }
+double Transaction::fromValue(bool convert) const {return value(convert);}
+double Transaction::toValue(bool convert) const {return value(convert);}
 Currency *Transaction::currency() const {
-	if(o_from->type() == ACCOUNT_TYPE_ASSETS && o_from != budget()->balancingAccount) return ((AssetsAccount*) o_from)->currency();
-	if(o_to->type() == ACCOUNT_TYPE_ASSETS) return ((AssetsAccount*) o_to)->currency();
+	if(fromAccount()->type() == ACCOUNT_TYPE_ASSETS) return ((AssetsAccount*) fromAccount())->currency();
+	if(toAccount()->type() == ACCOUNT_TYPE_ASSETS) return ((AssetsAccount*) toAccount())->currency();
+	return NULL;
+}
+Currency *Transaction::fromCurrency() const {
+	if(fromAccount()->type() == ACCOUNT_TYPE_ASSETS) return ((AssetsAccount*) fromAccount())->currency();
+	if(toAccount()->type() == ACCOUNT_TYPE_ASSETS) return ((AssetsAccount*) toAccount())->currency();
+	return NULL;
+}
+Currency *Transaction::toCurrency() const {
+	if(toAccount()->type() == ACCOUNT_TYPE_ASSETS) return ((AssetsAccount*) toAccount())->currency();
+	if(fromAccount()->type() == ACCOUNT_TYPE_ASSETS) return ((AssetsAccount*) fromAccount())->currency();
 	return NULL;
 }
 void Transaction::setValue(double new_value) {d_value = new_value;}
@@ -447,6 +459,8 @@ double Transfer::deposit(bool convert) const {
 	else if(convert) return withdrawal(true);
 	return d_deposit;
 }
+double Transfer::fromValue(bool convert) const {return withdrawal(convert);}
+double Transfer::toValue(bool convert) const {return deposit(convert);}
 QString Transfer::description() const {return Transaction::description();}
 TransactionType Transfer::type() const {return TRANSACTION_TYPE_TRANSFER;}
 TransactionSubType Transfer::subtype() const {return TRANSACTION_SUBTYPE_TRANSFER;}
@@ -571,6 +585,15 @@ void SecurityTransaction::setShareValue(double new_share_value) {
 	d_share_value = new_share_value;
 	if(o_security) o_security->setQuotation(d_date, d_share_value, true);
 }
+double SecurityTransaction::value(bool convert) const {
+	return fromValue(convert);
+}
+double SecurityTransaction::fromValue(bool convert) const {
+	return Transaction::value(convert);
+}
+double SecurityTransaction::toValue(bool convert) const {
+	return Transaction::value(convert);
+}
 Account *SecurityTransaction::fromAccount() const {return o_security->account();}
 Account *SecurityTransaction::toAccount() const {return o_security->account();}
 QString SecurityTransaction::description() const {return Transaction::description();}
@@ -580,8 +603,8 @@ void SecurityTransaction::setSecurity(Security *parent_security) {
 Security *SecurityTransaction::security() const {return o_security;}
 bool SecurityTransaction::relatesToAccount(Account *account, bool, bool) const {return fromAccount() == account || toAccount() == account;}
 double SecurityTransaction::accountChange(Account *account, bool, bool convert) const {
-	if(fromAccount() == account) return -value(convert);
-	if(toAccount() == account) return value(convert);
+	if(fromAccount() == account) return -fromValue(convert);
+	if(toAccount() == account) return toValue(convert);
 	return 0.0;
 }
 
@@ -618,6 +641,11 @@ void SecurityBuy::writeAttributes(QXmlStreamAttributes *attr) {
 	SecurityTransaction::writeAttributes(attr);
 	attr->append("cost", QString::number(d_value, 'f', MONETARY_DECIMAL_PLACES));
 	attr->append("account", QString::number(account()->id()));
+}
+
+double SecurityBuy::toValue(bool convert) const {
+	if(convert && o_security && o_security->currency()) return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency());
+	return d_shares * d_share_value;
 }
 
 QString SecurityBuy::description() const {return tr("Security: %1 (bought)", "Financial security (e.g. stock, mutual fund)").arg(o_security->name());}
@@ -659,6 +687,11 @@ void SecuritySell::writeAttributes(QXmlStreamAttributes *attr) {
 	SecurityTransaction::writeAttributes(attr);
 	attr->append("income", QString::number(d_value, 'f', MONETARY_DECIMAL_PLACES));
 	attr->append("account", QString::number(account()->id()));
+}
+
+double SecuritySell::fromValue(bool convert) const {
+	if(convert && o_security && o_security->currency()) return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency());
+	return d_shares * d_share_value;
 }
 
 QString SecuritySell::description() const {return tr("Security: %1 (sold)", "Financial security (e.g. stock, mutual fund)").arg(o_security->name());}

@@ -153,7 +153,11 @@ class Transaction : public Transactions {
 		SplitTransaction *parentSplit() const;
 		void setParentSplit(SplitTransaction *parent);
 		virtual double value(bool convert = false) const;
+		virtual double fromValue(bool convert = false) const;
+		virtual double toValue(bool convert = false) const;
 		virtual Currency *currency() const;
+		virtual Currency *fromCurrency() const;
+		virtual Currency *toCurrency() const;
 		virtual void setValue(double new_value);
 		virtual double quantity() const;
 		void setQuantity(double new_quantity);
@@ -352,6 +356,8 @@ class Transfer : public Transaction {
 		Currency *depositCurrency() const;
 		double withdrawal(bool convert = false) const;
 		double deposit(bool convert = false) const;
+		double fromValue(bool convert = false) const;
+		double toValue(bool convert = false) const;
 		virtual QString description() const;
 		TransactionType type() const;
 		virtual TransactionSubType subtype() const;
@@ -434,13 +440,15 @@ class SecurityTransaction : public Transaction {
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 
 		bool equals(const Transaction *transaction, bool strict_comparison = true) const;
-
 		virtual Account *fromAccount() const;
 		virtual Account *toAccount() const;
 		virtual Account *account() const = 0;
 		virtual void setAccount(Account *account) = 0;
 		virtual TransactionType type() const = 0;
 		virtual QString description() const;
+		virtual double value(bool convert = false) const;
+		virtual double fromValue(bool convert = false) const;
+		virtual double toValue(bool convert = false) const;
 		double shareValue(bool convert = false) const;
 		double shares() const;
 		void setShareValue(double new_share_value);
@@ -472,6 +480,7 @@ class SecurityBuy : public SecurityTransaction {
 
 		Account *account() const;
 		void setAccount(Account *account);
+		double toValue(bool convert = false) const;
 		Account *fromAccount() const;
 		QString description() const;
 		TransactionType type() const;
@@ -497,6 +506,7 @@ class SecuritySell : public SecurityTransaction {
 
 		Account *account() const;
 		void setAccount(Account *account);
+		double fromValue(bool convert = false) const;
 		Account *toAccount() const;
 		QString description() const;
 		TransactionType type() const;
