@@ -168,7 +168,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	valueCostButton = new QRadioButton(tr("Value"), page3);
 	costGroup->addButton(valueCostButton);
 	layout3->addWidget(valueCostButton, row, 3);
-	valueCostEdit = new EqonomizeValueEdit(false, page3);
+	valueCostEdit = new EqonomizeValueEdit(false, page3, budget);
 	valueCostEdit->setEnabled(false);
 	layout3->addWidget(valueCostEdit, row, 4);
 	costLabel->hide();
@@ -192,7 +192,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	valueValueButton = new QRadioButton(tr("Value"), page3);
 	valueGroup->addButton(valueValueButton);
 	layout3->addWidget(valueValueButton, row, 3);
-	valueValueEdit = new EqonomizeValueEdit(false, page3);
+	valueValueEdit = new EqonomizeValueEdit(false, page3, budget);
 	valueValueEdit->setEnabled(false);
 	layout3->addWidget(valueValueEdit, row, 4);
 	row++;
@@ -273,7 +273,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 		quantityGroup->addButton(valueQuantityButton);
 		valueQuantityButton->setChecked(true);
 		layout3->addWidget(valueQuantityButton, row, 3);
-		valueQuantityEdit = new EqonomizeValueEdit(1.0, 2, false, false, page3);
+		valueQuantityEdit = new EqonomizeValueEdit(1.0, 2, false, false, page3, budget);
 		layout3->addWidget(valueQuantityEdit, row, 4);
 		row++;
 		

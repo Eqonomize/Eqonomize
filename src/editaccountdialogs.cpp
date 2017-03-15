@@ -92,7 +92,7 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	grid->addWidget(maintainerEdit, row, 1); row++;
 	valueLabel = new QLabel(new_loan ? tr("Debt:") : tr("Opening balance:", "Account balance"), this);
 	grid->addWidget(valueLabel, row, 0);
-	valueEdit = new EqonomizeValueEdit(true, this);
+	valueEdit = new EqonomizeValueEdit(true, this, budget);
 	grid->addWidget(valueEdit, row, 1); row++;
 	if(new_loan) {
 		initialButton = new QRadioButton(tr("Opening balance", "Account balance"), this);
@@ -148,6 +148,7 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	box1->addWidget(buttonBox);
 	
 	if(typeCombo) connect(typeCombo, SIGNAL(activated(int)), this, SLOT(typeActivated(int)));
+	if(currencyCombo) connect(currencyCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(currencyChanged(int)));
 	if(closedButton) connect(closedButton, SIGNAL(toggled(bool)), this, SLOT(closedToggled(bool)));
 	if(transferButton) connect(transferButton, SIGNAL(toggled(bool)), this, SLOT(transferToggled(bool)));
 
@@ -159,6 +160,9 @@ void EditAssetsAccountDialog::transferToggled(bool b) {
 void EditAssetsAccountDialog::closedToggled(bool b) {
 	if(b) budgetButton->setChecked(false);
 	budgetButton->setEnabled(!b);
+}
+void EditAssetsAccountDialog::currencyChanged(int index) {
+	valueEdit->setCurrency((Currency*) currencyCombo->itemData(index).value<void*>());
 }
 void EditAssetsAccountDialog::typeActivated(int index) {
 	if(index == 5 && current_account && current_account->accountType() != ASSETS_TYPE_SECURITIES && budget->accountHasTransactions(current_account)) {
@@ -326,7 +330,7 @@ EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, IncomesAccount 
 	budgetButton = new QCheckBox(tr("Monthly budget:"), this);
 	budgetButton->setChecked(false);
 	grid->addWidget(budgetButton, 2, 0);
-	budgetEdit = new EqonomizeValueEdit(false, this);
+	budgetEdit = new EqonomizeValueEdit(false, this, budget);
 	budgetEdit->setEnabled(false);
 	grid->addWidget(budgetEdit, 2, 1);
 	grid->addWidget(new QLabel(tr("Description:"), this), 3, 0);
@@ -433,7 +437,7 @@ EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, ExpensesAccou
 	budgetButton = new QCheckBox(tr("Monthly budget:"), this);
 	budgetButton->setChecked(false);
 	grid->addWidget(budgetButton, 2, 0);
-	budgetEdit = new EqonomizeValueEdit(false, this);
+	budgetEdit = new EqonomizeValueEdit(false, this, budget);
 	budgetEdit->setEnabled(false);
 	grid->addWidget(budgetEdit, 2, 1);
 	grid->addWidget(new QLabel(tr("Description:"), this), 3, 0);

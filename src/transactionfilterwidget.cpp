@@ -103,11 +103,11 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 		maxButton = new QCheckBox(tr("Max cost:"), this);
 	}
 	filterLayout->addWidget(minButton, 1, 0);
-	minEdit = new EqonomizeValueEdit(false, this);
+	minEdit = new EqonomizeValueEdit(false, this, budget);
 	minEdit->setEnabled(false);
 	filterLayout->addWidget(minEdit, 1, 1);
 	filterLayout->addWidget(maxButton, 1, 2);
-	maxEdit = new EqonomizeValueEdit(false, this);
+	maxEdit = new EqonomizeValueEdit(false, this, budget);
 	maxEdit->setEnabled(false);
 	QSizePolicy sp = maxEdit->sizePolicy();
 	sp.setHorizontalPolicy(QSizePolicy::Expanding);
@@ -622,10 +622,10 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 			}
 		}
 	}
-	if(minButton->isChecked() && transs->value() < minEdit->value()) {
+	if(minButton->isChecked() && transs->value(true) < minEdit->value()) {
 		return true;
 	}
-	if(maxButton->isChecked() && transs->value() > maxEdit->value()) {
+	if(maxButton->isChecked() && transs->value(true) > maxEdit->value()) {
 		return true;
 	}
 	if(checkdate && dateFromButton->isChecked() && transs->date() < from_date) {

@@ -68,16 +68,17 @@ class MultiItemListViewItem : public QTreeWidgetItem {
 		
 	public:
 	
-		MultiItemListViewItem(Transaction *trans, bool deposit);
+		MultiItemListViewItem(Transaction *trans, Currency *cur, bool deposit);
 		bool operator<(const QTreeWidgetItem&) const;
 		Transaction *transaction() const;
 		bool isDeposit() const;
-		void setTransaction(Transaction *trans, bool deposit);
+		void setTransaction(Transaction *trans, Currency *cur, bool deposit);
+		void currencyChanged(Currency *cur);
 
 };
 
-MultiItemListViewItem::MultiItemListViewItem(Transaction *trans, bool deposit) : QTreeWidgetItem() {
-	setTransaction(trans, deposit);
+MultiItemListViewItem::MultiItemListViewItem(Transaction *trans, Currency *cur, bool deposit) : QTreeWidgetItem() {
+	setTransaction(trans, cur, deposit);
 	setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
 	setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
 }
@@ -110,17 +111,20 @@ Transaction *MultiItemListViewItem::transaction() const {
 bool MultiItemListViewItem::isDeposit() const {
 	return b_deposit;
 }
-void MultiItemListViewItem::setTransaction(Transaction *trans, bool deposit) {
+void MultiItemListViewItem::setTransaction(Transaction *trans, Currency *cur, bool deposit) {	
 	o_trans = trans;
 	b_deposit = deposit;
 	Budget *budget = trans->budget();
-	double value = trans->value();
+	if(!cur) cur = budget->defaultCurrency();
+	double value = 0.0;
+	if(deposit) value = trans->toValue();
+	else value = trans->fromValue();
 	setText(1, trans->description());
 	//setText(2, deposit ? trans->fromAccount()->nameWithParent() : trans->toAccount()->nameWithParent());
-	if(deposit) setText(2, value >= 0.0 ? QString::null : QLocale().toCurrencyString(-value));
-	else setText(2, value < 0.0 ? QString::null : QLocale().toCurrencyString(value));
-	if(!deposit) setText(3, value >= 0.0 ? QString::null : QLocale().toCurrencyString(-value));
-	else setText(3, value < 0.0 ? QString::null : QLocale().toCurrencyString(value));
+	if(deposit) setText(2, value >= 0.0 ? QString::null : cur->formatValue(-value));
+	else setText(2, value < 0.0 ? QString::null : cur->formatValue(value));
+	if(!deposit) setText(3, value >= 0.0 ? QString::null : cur->formatValue(-value));
+	else setText(3, value < 0.0 ? QString::null : cur->formatValue(value));
 	if(trans->type() == TRANSACTION_TYPE_INCOME) {
 		if(((Income*) trans)->security()) setText(0, tr("Dividend"));
 		else if(value >= 0) setText(0, tr("Income"));
@@ -137,6 +141,9 @@ void MultiItemListViewItem::setTransaction(Transaction *trans, bool deposit) {
 	} else {
 		setText(0, tr("Transfer"));
 	}
+}
+void MultiItemListViewItem::currencyChanged(Currency *cur) {
+	setTransaction(o_trans, cur, b_deposit);
 }
 
 class MultiAccountListViewItem : public QTreeWidgetItem {
@@ -170,7 +177,7 @@ void MultiAccountListViewItem::setTransaction(Transaction *trans) {
 	} else {
 		setText(1, trans->fromAccount()->nameWithParent());
 	}
-	setText(2, QLocale().toCurrencyString(trans->value()));
+	setText(2, trans->valueString());
 }
 
 EditDebtPaymentDialog::EditDebtPaymentDialog(Budget *budg, QWidget *parent, AssetsAccount *default_loan, bool allow_account_creation, bool only_interest) : QDialog(parent, 0) {
@@ -379,12 +386,26 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	connect(editButton, SIGNAL(clicked()), this, SLOT(edit()));
 	connect(dateEdit, SIGNAL(dateChanged(const QDate&)), this, SIGNAL(dateChanged(const QDate&)));
 	connect(accountCombo, SIGNAL(newAccountRequested()), this, SLOT(newAccount()));
+	connect(accountCombo, SIGNAL(currentAccountChanged()), this, SLOT(accountChanged()));
 
 }
 EditMultiItemWidget::~EditMultiItemWidget() {}
 
 void EditMultiItemWidget::newAccount() {
 	accountCombo->createAccount();
+}
+void EditMultiItemWidget::accountChanged() {
+	Account *account = selectedAccount();
+	if(account) {
+		updateTotalValue();
+		QTreeWidgetItemIterator it(transactionsView);
+		QTreeWidgetItem *i = *it;
+		while(i) {			
+			((MultiItemListViewItem*) i)->currencyChanged(account->currency());
+			++it;
+			i = *it;
+		}
+	}
 }
 
 void EditMultiItemWidget::updateTotalValue() {
@@ -394,13 +415,15 @@ void EditMultiItemWidget::updateTotalValue() {
 	while(i) {
 		Transaction *trans = ((MultiItemListViewItem*) i)->transaction();
 		if(trans) {
-			if(trans->fromAccount()) total_value += trans->value();
-			else total_value -= trans->value();
+			if(trans->fromAccount()) total_value += trans->toValue();
+			else total_value -= trans->fromValue();
 		}
 		++it;
 		i = *it;
 	}
-	totalLabel->setText(QString("<div align=\"left\"><b>%1</b> %2</div>").arg(tr("Total value:"), QLocale().toCurrencyString(total_value)));
+	Currency *cur = budget->defaultCurrency();
+	if(selectedAccount()) cur = selectedAccount()->currency();
+	totalLabel->setText(QString("<div align=\"left\"><b>%1</b> %2</div>").arg(tr("Total value:"), cur->formatValue(total_value)));
 }
 AssetsAccount *EditMultiItemWidget::selectedAccount() {
 	return (AssetsAccount*) accountCombo->currentAccount();
@@ -413,7 +436,9 @@ void EditMultiItemWidget::transactionSelectionChanged() {
 	removeButton->setEnabled(i && i->transaction());
 }
 void EditMultiItemWidget::newTransaction(int transtype, bool select_security, bool transfer_to, Account *exclude_account) {
-	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, transtype, true, transfer_to, NULL, SECURITY_ALL_VALUES, select_security, budget, this, b_create_accounts);
+	Currency *cur = budget->defaultCurrency();
+	if(selectedAccount()) cur = selectedAccount()->currency();
+	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, transtype, cur, transfer_to, NULL, SECURITY_ALL_VALUES, select_security, budget, this, b_create_accounts);
         dialog->editWidget->focusDescription();
 	dialog->editWidget->updateAccounts(exclude_account);
 	if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
@@ -467,18 +492,20 @@ void EditMultiItemWidget::edit(QTreeWidgetItem *i_pre) {
 	Transaction *trans = i->transaction();
 	if(trans) {
 		AssetsAccount *account = selectedAccount();
+		Currency *cur = budget->defaultCurrency();
+		if(account) cur = account->currency();
 		Security *security = NULL;
 		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
 			security = ((SecurityTransaction*) trans)->security();
 		} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
 			security = ((Income*) trans)->security();
 		}
-		TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), true, trans->toAccount() == NULL, security, SECURITY_ALL_VALUES, security != NULL, budget, this, b_create_accounts);
+		TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), cur, trans->toAccount() == NULL, security, SECURITY_ALL_VALUES, security != NULL, budget, this, b_create_accounts);
 		dialog->editWidget->updateAccounts(account);
 		dialog->editWidget->setTransaction(trans);
 		if(dialog->exec() == QDialog::Accepted) {
 			if(dialog->editWidget->modifyTransaction(trans)) {
-				i->setTransaction(trans, trans->toAccount() == NULL);
+				i->setTransaction(trans, cur, trans->toAccount() == NULL);
 			}
 			updateTotalValue();
 		}
@@ -511,7 +538,7 @@ void EditMultiItemWidget::setTransaction(MultiItemTransaction *split) {
 	for(int i = 0; i < c; i++) {
 		Transaction *trans = split->at(i)->copy();
 		trans->setDate(QDate());
-		items.append(new MultiItemListViewItem(trans, (trans->toAccount() == split->account())));
+		items.append(new MultiItemListViewItem(trans, split->currency(), (trans->toAccount() == split->account())));
 		switch(trans->type()) {
 			case TRANSACTION_TYPE_EXPENSE: {
 				((Expense*) trans)->setFrom(NULL);
@@ -547,7 +574,9 @@ void EditMultiItemWidget::setTransaction(MultiItemTransaction *split, const QDat
 }
 
 void EditMultiItemWidget::appendTransaction(Transaction *trans, bool deposit) {
-	MultiItemListViewItem *i = new MultiItemListViewItem(trans, deposit);
+	Currency *cur = budget->defaultCurrency();
+	if(selectedAccount()) cur = selectedAccount()->currency();
+	MultiItemListViewItem *i = new MultiItemListViewItem(trans, cur, deposit);
 	transactionsView->insertTopLevelItem(transactionsView->topLevelItemCount(), i);
 	transactionsView->setSortingEnabled(true);
 }
@@ -604,6 +633,8 @@ bool EditMultiItemWidget::validValues() {
 EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bool create_expenses, bool extra_parameters, bool allow_account_creation) : QWidget(parent), budget(budg), b_expense(create_expenses), b_extra(extra_parameters), b_create_accounts(allow_account_creation) {
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
+	
+	current_currency = NULL;
 
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
@@ -616,7 +647,7 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	
 	if(b_extra) {
 		grid->addWidget(new QLabel(tr("Quantity:")), 1, 0);
-		quantityEdit = new EqonomizeValueEdit(1.0, 2, true, false, this);
+		quantityEdit = new EqonomizeValueEdit(1.0, 2, true, false, this, budget);
 		grid->addWidget(quantityEdit, 1, 1);
 	} else {
 		quantityEdit = NULL;
@@ -686,7 +717,9 @@ void EditMultiAccountWidget::updateTotalValue() {
 		++it;
 		i = *it;
 	}
-	totalLabel->setText(QString("<div align=\"left\"><b>%1</b> %2</div>").arg(tr("Total value:"), QLocale().toCurrencyString(total_value)));
+	Currency *cur = current_currency;
+	if(!cur) cur = budget->defaultCurrency();
+	totalLabel->setText(QString("<div align=\"left\"><b>%1</b> %2</div>").arg(tr("Total value:"), cur->formatValue(total_value)));
 }
 CategoryAccount *EditMultiAccountWidget::selectedCategory() {
 	return (CategoryAccount*) categoryCombo->currentAccount();
@@ -699,11 +732,12 @@ void EditMultiAccountWidget::transactionSelectionChanged() {
 	removeButton->setEnabled(i && i->transaction());
 }
 void EditMultiAccountWidget::newTransaction() {
-	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, b_expense ? TRANSACTION_TYPE_EXPENSE : TRANSACTION_TYPE_INCOME, false, false, NULL, SECURITY_ALL_VALUES, false, budget, this, b_create_accounts, true);
+	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, b_expense ? TRANSACTION_TYPE_EXPENSE : TRANSACTION_TYPE_INCOME, NULL, false, NULL, SECURITY_ALL_VALUES, false, budget, this, b_create_accounts, true);
         dialog->editWidget->focusDescription();
-	dialog->editWidget->updateAccounts();
+	dialog->editWidget->updateAccounts(NULL, current_currency);
 	if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
 		Transaction *trans = dialog->editWidget->createTransaction();
+		current_currency = trans->currency();
 		if(trans) {
 			appendTransaction(trans);
 		}
@@ -720,6 +754,7 @@ void EditMultiAccountWidget::remove() {
 		delete i->transaction();
 	}
 	delete i;
+	if(transactionsView->topLevelItemCount() == 0) current_currency = NULL;
 	updateTotalValue();
 	QDate d_date_new = date();
 	if(d_date != d_date_new) emit dateChanged(d_date_new);
@@ -734,14 +769,16 @@ void EditMultiAccountWidget::edit(QTreeWidgetItem *i_pre) {
 	MultiAccountListViewItem *i = (MultiAccountListViewItem*) i_pre;
 	Transaction *trans = i->transaction();
 	if(trans) {
-		TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), false, false, NULL, SECURITY_ALL_VALUES, false, budget, this, b_create_accounts, true);
-		dialog->editWidget->updateAccounts();
+		TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), NULL, false, NULL, SECURITY_ALL_VALUES, false, budget, this, b_create_accounts, true);
+		if(transactionsView->topLevelItemCount() > 1) dialog->editWidget->updateAccounts(NULL, current_currency);
+		else dialog->editWidget->updateAccounts();
 		dialog->editWidget->setTransaction(trans);
 		if(dialog->exec() == QDialog::Accepted) {
 			QDate d_date = date();
 			if(dialog->editWidget->modifyTransaction(trans)) {
 				i->setTransaction(trans);
 			}
+			current_currency = trans->currency();
 			updateTotalValue();
 			QDate d_date_new = date();
 			if(d_date != d_date_new) emit dateChanged(d_date_new);
@@ -774,6 +811,7 @@ void EditMultiAccountWidget::setTransaction(Transactions *transs) {
 		setTransaction(((ScheduledTransaction*) transs)->transaction());
 		return;
 	}
+	current_currency = transs->currency();
 	descriptionEdit->setText(transs->description());
 	commentEdit->setText(transs->comment());
 	if(quantityEdit) quantityEdit->setValue(transs->quantity());
@@ -801,6 +839,7 @@ void EditMultiAccountWidget::setTransaction(Transactions *transs) {
 	emit dateChanged(transs->date());
 }
 void EditMultiAccountWidget::setTransaction(MultiAccountTransaction *split, const QDate &date) {
+	current_currency = split->currency();
 	descriptionEdit->setText(split->description());
 	categoryCombo->setCurrentAccount(split->category());
 	if(quantityEdit) quantityEdit->setValue(split->quantity());
@@ -894,12 +933,12 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 		paymentEdit = NULL;
 	} else {
 		grid->addWidget(new QLabel(tr("Debt reduction:")), row, 0);
-		paymentEdit = new EqonomizeValueEdit(false, this);
+		paymentEdit = new EqonomizeValueEdit(false, this, budget);
 		grid->addWidget(paymentEdit, row, 1); row++;
 	}
 	
 	grid->addWidget(new QLabel(tr("Interest:")), row, 0);
-	interestEdit = new EqonomizeValueEdit(false, this);
+	interestEdit = new EqonomizeValueEdit(false, this, budget);
 	grid->addWidget(interestEdit, row, 1); row++;
 	
 	if(only_interest) {
@@ -919,7 +958,7 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 		grid->addLayout(payedAddedLayout, row, 0, 1, 2); row++;
 		
 		grid->addWidget(new QLabel(tr("Fee:")), row, 0);
-		feeEdit = new EqonomizeValueEdit(false, this);
+		feeEdit = new EqonomizeValueEdit(false, this, budget);
 		grid->addWidget(feeEdit, row, 1); row++;
 
 		totalLabel = new QLabel();

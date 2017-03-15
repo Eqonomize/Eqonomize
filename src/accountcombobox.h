@@ -25,6 +25,7 @@
 
 class Account;
 class Budget;
+class Currency;
 
 class AccountComboBox : public QComboBox {
 
@@ -52,7 +53,7 @@ class AccountComboBox : public QComboBox {
 		void setCurrentAccount(Account *account);
 		int currentAccountIndex() const;
 		void setCurrentAccountIndex(int index);
-		void updateAccounts(Account *exclude_account = NULL);
+		void updateAccounts(Account *exclude_account = NULL, Currency *force_currency = NULL);
 		bool hasAccount() const;
 		Account *createAccount();
 		

@@ -50,7 +50,8 @@ Account *AccountComboBox::currentAccount() const {
 }
 void AccountComboBox::setCurrentAccount(Account *account) {
 	if(account) {
-		setCurrentIndex(findData(qVariantFromValue((void*) account)));
+		int index = findData(qVariantFromValue((void*) account));
+		if(index >= 0) setCurrentIndex(index);
 		//emit currentAccountChanged();
 	}
 }
@@ -63,7 +64,7 @@ void AccountComboBox::setCurrentAccountIndex(int index) {
 	index += firstAccountIndex();
 	if(index < count()) setCurrentIndex(index);
 }
-void AccountComboBox::updateAccounts(Account *exclude_account) {
+void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_currency) {
 	Account *current_account = currentAccount();
 	clear();
 	switch(i_type) {
@@ -75,10 +76,12 @@ void AccountComboBox::updateAccounts(Account *exclude_account) {
 			bool add_secondary_list = false;
 			AssetsAccount *account = budget->assetsAccounts.first();
 			while(account) {
-				if((account->accountType() == ASSETS_TYPE_SECURITIES && !b_exclude_securities) || account->accountType() == ASSETS_TYPE_LIABILITIES || (account == budget->balancingAccount && !b_exclude_balancing) || account->isClosed()) {
-					add_secondary_list = true;
-				} else if(account != exclude_account && account->accountType() != ASSETS_TYPE_SECURITIES && account != budget->balancingAccount) {
-					addItem(account->name(), qVariantFromValue((void*) account));
+				if(account != exclude_account && (!force_currency || account->currency() == force_currency)) {
+					if((account->accountType() == ASSETS_TYPE_SECURITIES && !b_exclude_securities) || account->accountType() == ASSETS_TYPE_LIABILITIES || (account == budget->balancingAccount && !b_exclude_balancing) || account->isClosed()) {
+						add_secondary_list = true;
+					} else if(account->accountType() != ASSETS_TYPE_SECURITIES && account != budget->balancingAccount) {
+						addItem(account->name(), qVariantFromValue((void*) account));
+					}
 				}
 				account = budget->assetsAccounts.next();
 			}

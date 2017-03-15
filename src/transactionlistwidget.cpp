@@ -156,7 +156,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	tabs = new QTabWidget(this);
 	tabs->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-	editWidget = new TransactionEditWidget(true, b_extra, transtype, false, false, NULL, SECURITY_SHARES_AND_QUOTATION, false, budget, this, true);	
+	editWidget = new TransactionEditWidget(true, b_extra, transtype, NULL, false, NULL, SECURITY_SHARES_AND_QUOTATION, false, budget, this, true);	
 	editInfoLabel = new QLabel(QString::null);
 	editWidget->bottomLayout()->addWidget(editInfoLabel);
 	QDialogButtonBox *buttons = new QDialogButtonBox();
@@ -227,7 +227,7 @@ void TransactionListWidget::updateStatistics() {
 	int i_count_frac = 0;
 	double intpart = 0.0;
 	if(modf(current_quantity, &intpart) != 0.0) i_count_frac = 2;
-	statLabel->setText(QString("<div align=\"right\"><b>%1</b> %5 &nbsp; <b>%2</b> %6 &nbsp; <b>%3</b> %7 &nbsp; <b>%4</b> %8</div>").arg(tr("Quantity:")).arg(tr("Total:")).arg(tr("Average:")).arg(tr("Monthly:")).arg(QLocale().toString(current_quantity, 'f', i_count_frac)).arg(QLocale().toCurrencyString(current_value)).arg(QLocale().toCurrencyString(current_quantity == 0.0 ? 0.0 : current_value / current_quantity)).arg(QLocale().toCurrencyString(current_value == 0.0 ? current_value : current_value / filterWidget->countMonths())));
+	statLabel->setText(QString("<div align=\"right\"><b>%1</b> %5 &nbsp; <b>%2</b> %6 &nbsp; <b>%3</b> %7 &nbsp; <b>%4</b> %8</div>").arg(tr("Quantity:")).arg(tr("Total:")).arg(tr("Average:")).arg(tr("Monthly:")).arg(QLocale().toString(current_quantity, 'f', i_count_frac)).arg(budget->formatMoney(current_value)).arg(budget->formatMoney(current_quantity == 0.0 ? 0.0 : current_value / current_quantity)).arg(budget->formatMoney(current_value == 0.0 ? current_value : current_value / filterWidget->countMonths())));
 }
 
 void TransactionListWidget::popupListMenu(const QPoint &p) {
@@ -344,11 +344,11 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 					break;
 				}
 			}
-			outf << htmlize_string(QLocale().toCurrencyString(current_value));
+			outf << htmlize_string(budget->formatMoney(current_value));
 			outf << ", ";
-			outf << htmlize_string(tr("Average:")) << " " << htmlize_string(QLocale().toCurrencyString(current_value == 0.0 ? current_value : current_value / current_quantity));
+			outf << htmlize_string(tr("Average:")) << " " << htmlize_string(budget->formatMoney(current_value == 0.0 ? current_value : current_value / current_quantity));
 			outf << ", ";
-			outf << htmlize_string(tr("Monthly average:")) << " " << htmlize_string(QLocale().toCurrencyString(current_value == 0.0 ? current_value : current_value / filterWidget->countMonths()));
+			outf << htmlize_string(tr("Monthly average:")) << " " << htmlize_string(budget->formatMoney(current_value == 0.0 ? current_value : current_value / filterWidget->countMonths()));
 			outf << "</div>\n";
 			outf << "\t</body>" << '\n';
 			outf << "</html>" << '\n';
@@ -357,7 +357,7 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 		case 'c': {
 			//outf.setEncoding(Q3TextStream::Locale);
 			QTreeWidgetItem *header = transactionsView->headerItem();
-			outf << "\"" << header->text(0) << "\",\"" << header->text(1) << "\",\"" << header->text(2) << " (" << QLocale().currencySymbol() << ")" << "\",\"" << header->text(3) << "\",\"" << header->text(4);
+			outf << "\"" << header->text(0) << "\",\"" << header->text(1) << "\",\"" << header->text(2) << "\",\"" << header->text(3) << "\",\"" << header->text(4);
 			if(comments_col == 6) outf << "\",\"" << tr("Quantity");
 			outf << "\",\"" << header->text(5);
 			if(comments_col == 6) outf << "\",\"" << header->text(6);
@@ -366,7 +366,7 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
 			while(i) {
 				Transaction *trans = i->transaction();
-				outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << QLocale().toString(trans->value(), 'f', MONETARY_DECIMAL_PLACES).replace("−","-").remove(" ") << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->toAccount()->nameWithParent() : trans->fromAccount()->nameWithParent()) << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->fromAccount()->nameWithParent() : trans->toAccount()->nameWithParent());
+				outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << trans->valueString().replace("−","-").remove(" ") << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->toAccount()->nameWithParent() : trans->fromAccount()->nameWithParent()) << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->fromAccount()->nameWithParent() : trans->toAccount()->nameWithParent());
 				if(comments_col == 6) outf << "\",\"" << QLocale().toString(trans->quantity(), 'f', 2).replace("−","-").remove(" ");
 				outf << "\",\"" << i->text(5);
 				if(comments_col == 6) outf << "\",\"" << i->text(6);
@@ -1010,7 +1010,7 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 	}
 	while(!strans || (!date.isNull() && date <= enddate)) {
 
-		QTreeWidgetItem *i = new TransactionListViewItem(date, trans, strans, split, QString::null, QString::null, QLocale().toCurrencyString(transs->value()));
+		QTreeWidgetItem *i = new TransactionListViewItem(date, trans, strans, split, QString::null, QString::null, transs->valueString());
 		
 		if(strans && strans->recurrence()) i->setText(0, QLocale().toString(date, QLocale::ShortFormat) + "**");
 		else i->setText(0, QLocale().toString(date, QLocale::ShortFormat));
@@ -1047,7 +1047,7 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 			if(comments_col == 6) i->setText(5, split->payees());
 		}
 		i->setText(comments_col, transs->comment());
-		current_value += transs->value();
+		current_value += transs->value(true);
 		current_quantity += transs->quantity();
 		if(strans && !strans->isOneTimeTransaction()) date = strans->recurrence()->nextOccurrence(date);
 		else break;
@@ -1117,7 +1117,7 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
 			while(i) {
 				if(i->transaction() == trans) {
-					current_value -= oldtrans->value();
+					current_value -= oldtrans->value(true);
 					current_quantity -= oldtrans->quantity();
 					break;
 				}
@@ -1130,13 +1130,13 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 				if(filterWidget->filterTransaction(trans)) {
 					delete i;
 				} else {
-					current_value += trans->value();
+					current_value += trans->value(true);
 					current_quantity += trans->quantity();
 					i->setDate(trans->date());
 					i->setText(0, QLocale().toString(trans->date(), QLocale::ShortFormat));
 					if(trans->parentSplit()) i->setText(1, trans->description() + "*");
 					else i->setText(1, trans->description());
-					i->setText(2, QLocale().toCurrencyString(trans->value()));
+					i->setText(2, trans->valueString());
 					i->setText(from_col, trans->fromAccount()->name());
 					i->setText(to_col, trans->toAccount()->name());
 					if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_EXPENSE) i->setText(5, ((Expense*) trans)->payee());
@@ -1156,7 +1156,7 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
 			while(i) {
 				if(i->scheduledTransaction() == strans) {
-					current_value -= oldstrans->transaction()->value();
+					current_value -= oldstrans->transaction()->value(true);
 					current_quantity -= oldstrans->transaction()->quantity();
 					QTreeWidgetItem *i_del = i;
 					++it;
@@ -1191,7 +1191,7 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
 			while(i) {
 				if(i->splitTransaction() == split) {
-					current_value -= oldsplit->value();
+					current_value -= oldsplit->value(true);
 					current_quantity -= oldsplit->quantity();
 					break;
 				}
@@ -1204,12 +1204,12 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 				if(filterWidget->filterTransaction(split)) {
 					delete i;
 				} else {
-					current_value += split->value();
+					current_value += split->value(true);
 					current_quantity += split->quantity();
 					i->setDate(split->date());
 					i->setText(0, QLocale().toString(split->date(), QLocale::ShortFormat));
 					i->setText(1, split->description() + "*");
-					i->setText(2, QLocale().toCurrencyString(split->value()));
+					i->setText(2, split->valueString());
 					i->setText(3, split->category()->name());
 					i->setText(4, split->accountsString());
 					if(comments_col == 6) i->setText(5, split->payees());
@@ -1230,7 +1230,7 @@ void TransactionListWidget::onTransactionRemoved(Transactions *transs) {
 			while(i) {
 				if(i->transaction() == trans) {
 					delete i;
-					current_value -= trans->value();
+					current_value -= trans->value(true);
 					current_quantity -= trans->quantity();
 					updateStatistics();
 					break;
@@ -1247,7 +1247,7 @@ void TransactionListWidget::onTransactionRemoved(Transactions *transs) {
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
 			while(i) {
 				if(i->scheduledTransaction() == strans) {
-					current_value -= strans->transaction()->value();
+					current_value -= strans->transaction()->value(true);
 					current_quantity -= strans->transaction()->quantity();
 					QTreeWidgetItem *i_del = i;
 					++it;
@@ -1278,7 +1278,7 @@ void TransactionListWidget::onTransactionRemoved(Transactions *transs) {
 			while(i) {
 				if(i->splitTransaction() == split) {
 					delete i;
-					current_value -= split->value();
+					current_value -= split->value(true);
 					current_quantity -= split->quantity();
 					updateStatistics();
 					break;
@@ -1574,10 +1574,10 @@ bool TransactionListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	if(col == 0) {
 		return d_date < i->date();
 	} else if(col == 2) {
-		if(o_split && i->splitTransaction()) return o_split->value() < i->splitTransaction()->value();
-		if(o_split) return o_split->value() < i->transaction()->value();
-		if(i->splitTransaction()) return o_trans->value() < i->splitTransaction()->value();
-		return o_trans->value() < i->transaction()->value();
+		if(o_split && i->splitTransaction()) return o_split->value(true) < i->splitTransaction()->value(true);
+		if(o_split) return o_split->value(true) < i->transaction()->value(true);
+		if(i->splitTransaction()) return o_trans->value(true) < i->splitTransaction()->value(true);
+		return o_trans->value(true) < i->transaction()->value(true);
 	}
 	return QTreeWidgetItem::operator<(i_pre);
 }

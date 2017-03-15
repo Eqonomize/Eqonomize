@@ -70,6 +70,7 @@ class EditAssetsAccountDialog : public QDialog {
 	protected slots:
 
 		void typeActivated(int);
+		void currencyChanged(int);
 		void accept();
 		void closedToggled(bool);
 		void transferToggled(bool);

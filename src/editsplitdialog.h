@@ -47,6 +47,7 @@ class MultiAccountTransaction;
 class DebtPayment;
 class Transaction;
 class Transactions;
+class Currency;
 
 class EditMultiAccountWidget : public QWidget {
 
@@ -56,6 +57,7 @@ class EditMultiAccountWidget : public QWidget {
 
 		Budget *budget;
 		bool b_expense, b_extra, b_create_accounts;
+		Currency *current_currency;
 		
 		EqonomizeValueEdit *quantityEdit;
 		AccountComboBox *categoryCombo;
@@ -187,6 +189,7 @@ class EditMultiItemWidget : public QWidget {
 
 	protected slots:
 		
+		void accountChanged();
 		void remove();
 		void edit();
 		void edit(QTreeWidgetItem*);

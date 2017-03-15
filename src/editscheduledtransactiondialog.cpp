@@ -45,27 +45,27 @@ EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parame
 	tabs = new QTabWidget();
 	switch(transaction_type) {
 		case TRANSACTION_TYPE_EXPENSE: {
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation, false, withloan); 
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation, false, withloan); 
 			tabs->addTab(transactionEditWidget, tr("Expense")); 
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {			
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
 			tabs->addTab(transactionEditWidget, tr("Income")); 
 			break;
 		}
 		case TRANSACTION_TYPE_TRANSFER: {			
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
 			tabs->addTab(transactionEditWidget, tr("Transfer")); 
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_BUY: { 
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
 			tabs->addTab(transactionEditWidget, tr("Securities Purchase", "Financial security (e.g. stock, mutual fund)")); 
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, false, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
 			tabs->addTab(transactionEditWidget, tr("Securities Sale", "Financial security (e.g. stock, mutual fund)")); 
 			break;
 		}
