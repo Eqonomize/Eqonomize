@@ -634,8 +634,6 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	
-	current_currency = NULL;
-
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 	box1->addStretch(1);
@@ -711,13 +709,14 @@ void EditMultiAccountWidget::updateTotalValue() {
 	double total_value = 0.0;
 	QTreeWidgetItemIterator it(transactionsView);
 	QTreeWidgetItem *i = *it;
+	Currency *cur = NULL;
 	while(i) {
 		Transaction *trans = ((MultiAccountListViewItem*) i)->transaction();
+		if(!cur || trans->currency() == budget->defaultCurrency()) cur = trans->currency();
 		if(trans) total_value += trans->value();
 		++it;
 		i = *it;
 	}
-	Currency *cur = current_currency;
 	if(!cur) cur = budget->defaultCurrency();
 	totalLabel->setText(QString("<div align=\"left\"><b>%1</b> %2</div>").arg(tr("Total value:"), cur->formatValue(total_value)));
 }
@@ -734,10 +733,9 @@ void EditMultiAccountWidget::transactionSelectionChanged() {
 void EditMultiAccountWidget::newTransaction() {
 	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, b_expense ? TRANSACTION_TYPE_EXPENSE : TRANSACTION_TYPE_INCOME, NULL, false, NULL, SECURITY_ALL_VALUES, false, budget, this, b_create_accounts, true);
         dialog->editWidget->focusDescription();
-	dialog->editWidget->updateAccounts(NULL, current_currency);
+	dialog->editWidget->updateAccounts();
 	if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
 		Transaction *trans = dialog->editWidget->createTransaction();
-		current_currency = trans->currency();
 		if(trans) {
 			appendTransaction(trans);
 		}
@@ -754,7 +752,6 @@ void EditMultiAccountWidget::remove() {
 		delete i->transaction();
 	}
 	delete i;
-	if(transactionsView->topLevelItemCount() == 0) current_currency = NULL;
 	updateTotalValue();
 	QDate d_date_new = date();
 	if(d_date != d_date_new) emit dateChanged(d_date_new);
@@ -770,15 +767,13 @@ void EditMultiAccountWidget::edit(QTreeWidgetItem *i_pre) {
 	Transaction *trans = i->transaction();
 	if(trans) {
 		TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), NULL, false, NULL, SECURITY_ALL_VALUES, false, budget, this, b_create_accounts, true);
-		if(transactionsView->topLevelItemCount() > 1) dialog->editWidget->updateAccounts(NULL, current_currency);
-		else dialog->editWidget->updateAccounts();
+		dialog->editWidget->updateAccounts();
 		dialog->editWidget->setTransaction(trans);
 		if(dialog->exec() == QDialog::Accepted) {
 			QDate d_date = date();
 			if(dialog->editWidget->modifyTransaction(trans)) {
 				i->setTransaction(trans);
 			}
-			current_currency = trans->currency();
 			updateTotalValue();
 			QDate d_date_new = date();
 			if(d_date != d_date_new) emit dateChanged(d_date_new);
@@ -811,7 +806,6 @@ void EditMultiAccountWidget::setTransaction(Transactions *transs) {
 		setTransaction(((ScheduledTransaction*) transs)->transaction());
 		return;
 	}
-	current_currency = transs->currency();
 	descriptionEdit->setText(transs->description());
 	commentEdit->setText(transs->comment());
 	if(quantityEdit) quantityEdit->setValue(transs->quantity());
@@ -839,7 +833,6 @@ void EditMultiAccountWidget::setTransaction(Transactions *transs) {
 	emit dateChanged(transs->date());
 }
 void EditMultiAccountWidget::setTransaction(MultiAccountTransaction *split, const QDate &date) {
-	current_currency = split->currency();
 	descriptionEdit->setText(split->description());
 	categoryCombo->setCurrentAccount(split->category());
 	if(quantityEdit) quantityEdit->setValue(split->quantity());
@@ -930,9 +923,13 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 	grid->addWidget(dateEdit, row, 1); row++;
 	
 	if(only_interest) {
+		reductionEdit = NULL;
 		paymentEdit = NULL;
 	} else {
 		grid->addWidget(new QLabel(tr("Debt reduction:")), row, 0);
+		reductionEdit = new EqonomizeValueEdit(false, this, budget);
+		grid->addWidget(reductionEdit, row, 1); row++;
+		grid->addWidget(new QLabel(tr("Reduction payment:")), row, 0);
 		paymentEdit = new EqonomizeValueEdit(false, this, budget);
 		grid->addWidget(paymentEdit, row, 1); row++;
 	}
@@ -996,18 +993,21 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 		account = budget->assetsAccounts.next();
 	}
 	loanActivated(loanCombo->currentIndex());
-	
+	accountChanged();
 	valueChanged();
+	interestSourceChanged();
 
 	if(dateEdit) connect(dateEdit, SIGNAL(dateChanged(const QDate&)), this, SIGNAL(dateChanged(const QDate&)));
 	if(feeEdit) connect(feeEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
 	if(paymentEdit) connect(paymentEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
+	if(reductionEdit) connect(reductionEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
 	if(interestEdit) connect(interestEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
-	if(payedInterestButton) connect(payedInterestButton, SIGNAL(toggled(bool)), this, SLOT(valueChanged()));
-	if(addedInterestButton) connect(addedInterestButton, SIGNAL(toggled(bool)), this, SLOT(valueChanged()));
+	if(payedInterestButton) connect(payedInterestButton, SIGNAL(toggled(bool)), this, SLOT(interestSourceChanged()));
+	if(addedInterestButton) connect(addedInterestButton, SIGNAL(toggled(bool)), this, SLOT(interestSourceChanged()));
 	if(loanCombo) connect(loanCombo, SIGNAL(activated(int)), this, SLOT(loanActivated(int)));
 	if(accountCombo) connect(accountCombo, SIGNAL(newAccountRequested()), this, SLOT(newAccount()));
 	if(categoryCombo) connect(categoryCombo, SIGNAL(newAccountRequested()), this, SLOT(newCategory()));
+	if(accountCombo) connect(accountCombo, SIGNAL(currentAccountChanged()), this, SLOT(accountChanged()));
 
 }
 EditDebtPaymentWidget::~EditDebtPaymentWidget() {}
@@ -1017,6 +1017,24 @@ void EditDebtPaymentWidget::newAccount() {
 }
 void EditDebtPaymentWidget::newCategory() {
 	categoryCombo->createAccount();
+}
+void EditDebtPaymentWidget::accountChanged() {
+	Account *acc = selectedAccount();
+	if(!acc) return;
+	if(feeEdit) feeEdit->setCurrency(acc->currency());
+	if(interestEdit && payedInterestButton && payedInterestButton->isChecked()) interestEdit->setCurrency(acc->currency());
+	if(paymentEdit) {
+		paymentEdit->setCurrency(acc->currency());
+		Account *loan_acc = selectedLoan();
+		if(loan_acc && loan_acc->currency() == acc->currency()) {
+			if(is_zero(reductionEdit->value())) reductionEdit->setValue(paymentEdit->value());
+			else paymentEdit->setValue(reductionEdit->value());
+			paymentEdit->setEnabled(false);
+		} else {
+			paymentEdit->setEnabled(true);
+		}
+	}
+	updateTotalValue();
 }
 void EditDebtPaymentWidget::loanActivated(int index) {
 	if(index < 0) return;
@@ -1033,6 +1051,7 @@ void EditDebtPaymentWidget::loanActivated(int index) {
 	}
 	if(trans) {
 		if(paymentEdit) paymentEdit->setValue(trans->payment());
+		if(reductionEdit) reductionEdit->setValue(trans->reduction());
 		if(feeEdit) feeEdit->setValue(trans->fee());
 		if(interestEdit) interestEdit->setValue(trans->interest());
 		if(accountCombo) accountCombo->setCurrentAccount(trans->account());
@@ -1064,23 +1083,64 @@ void EditDebtPaymentWidget::loanActivated(int index) {
 			}
 		}
 	}
+	reductionEdit->setCurrency(loan->currency());
+	if((!addedInterestButton || addedInterestButton->isChecked()) && interestEdit) interestEdit->setCurrency(loan->currency());
 }
 
 void EditDebtPaymentWidget::valueChanged() {
-	if(categoryCombo) categoryCombo->setEnabled(!paymentEdit || (interestEdit && interestEdit->value() > 0.0) || (feeEdit && feeEdit->value() > 0.0));
+	if(categoryCombo) categoryCombo->setEnabled((!paymentEdit && !reductionEdit) || (interestEdit && interestEdit->value() > 0.0) || (feeEdit && feeEdit->value() > 0.0));
 	if(accountCombo && interestEdit && payedInterestButton) {
-		accountCombo->setEnabled(interestEdit->value() == 0.0 || (feeEdit && feeEdit->value() > 0.0) || (paymentEdit && paymentEdit->value() > 0.0) || payedInterestButton->isChecked());
+		accountCombo->setEnabled(interestEdit->value() == 0.0 || (feeEdit && feeEdit->value() > 0.0) || (paymentEdit && paymentEdit->value() > 0.0) || (reductionEdit && reductionEdit->value() > 0.0) || payedInterestButton->isChecked());
+	}
+	if(paymentEdit && !paymentEdit->isEnabled()) {
+		paymentEdit->setValue(reductionEdit->value());
 	}
 	updateTotalValue();
+}
+void EditDebtPaymentWidget::interestSourceChanged() {
+	if(addedInterestButton->isChecked()) {
+		if(selectedLoan()) interestEdit->setCurrency(selectedLoan()->currency());
+	} else {
+		if(selectedAccount()) interestEdit->setCurrency(selectedAccount()->currency());
+	}
+	valueChanged();
 }
 
 void EditDebtPaymentWidget::updateTotalValue() {
 	if(!totalLabel) return;
 	double value = 0.0;
-	if(feeEdit) value += feeEdit->value();
-	if(interestEdit) value += interestEdit->value();
-	if(paymentEdit) value += paymentEdit->value();
-	totalLabel->setText(QString("<div align=\"right\"><b>%1</b> %2</div>").arg(tr("Total value:"), QLocale().toCurrencyString(value)));
+	Currency *cur = budget->defaultCurrency();
+	Currency *cur1 = NULL;
+	if(selectedLoan()) cur1 = selectedLoan()->currency();
+	Currency *cur2 = NULL;	
+	if(selectedAccount()) cur2 = selectedAccount()->currency();
+	bool payed_interest = payedInterestButton && payedInterestButton->isChecked();
+	if(!cur2 && cur1) {
+		cur = cur1;
+	} else if(cur2) {
+		bool b1 = feeEdit && feeEdit->value() != 0.0;
+		bool b2 = interestEdit && interestEdit->value() != 0.0;
+		bool b3 = paymentEdit && paymentEdit->value() != 0.0;
+		if(b1 || b3 || (b2 && payed_interest)) cur = cur2;
+		else if(cur1) cur = cur1;
+	}
+	if(feeEdit) {
+		if(cur2 && cur2 != cur) value += cur2->convertTo(feeEdit->value(), cur);
+		else value += feeEdit->value();
+	}
+	if(interestEdit) {
+		if(payed_interest && cur2 && cur2 != cur) value += cur2->convertTo(interestEdit->value(), cur);
+		else if(!payed_interest && cur1 && cur1 != cur) value += cur1->convertTo(interestEdit->value(), cur);
+		else value += interestEdit->value();
+	}
+	if((cur2 || !cur1) && paymentEdit && paymentEdit->value() != 0.0) {
+		if(cur2 && cur2 != cur) value += cur2->convertTo(paymentEdit->value(), cur);
+		else value += paymentEdit->value();
+	} else if(reductionEdit) {
+		if(cur1 && cur1 != cur) value += cur1->convertTo(reductionEdit->value(), cur);
+		else value += reductionEdit->value();
+	}
+	totalLabel->setText(QString("<div align=\"right\"><b>%1</b> %2</div>").arg(tr("Total value:"), cur->formatValue(value)));
 }
 AssetsAccount *EditDebtPaymentWidget::selectedLoan() {
 	if(!loanCombo || !loanCombo->currentData().isValid()) return NULL;
@@ -1100,7 +1160,7 @@ DebtPayment *EditDebtPaymentWidget::createTransaction() {
 	AssetsAccount *account = selectedAccount();
 	ExpensesAccount *category = selectedCategory();
 	DebtPayment *split = new DebtPayment(budget, dateEdit->date(), loan, account ? account : loan);
-	if(paymentEdit && paymentEdit->value() > 0.0) split->setPayment(paymentEdit->value());
+	if((reductionEdit && reductionEdit->value() > 0.0) || (paymentEdit && paymentEdit->value() > 0.0)) split->setPayment(paymentEdit->value(), reductionEdit->value());
 	if(feeEdit && feeEdit->value() > 0.0) split->setFee(feeEdit->value());
 	if(interestEdit && interestEdit->value() > 0.0) split->setInterest(interestEdit->value(), !(addedInterestButton && addedInterestButton->isChecked()));
 	if((feeEdit && feeEdit->value() > 0.0) || (interestEdit && interestEdit->value() > 0.0)) split->setExpenseCategory(category);
@@ -1113,6 +1173,7 @@ void EditDebtPaymentWidget::setTransaction(DebtPayment *split) {
 	if(accountCombo) accountCombo->setCurrentAccount(split->account());
 	if(categoryCombo && split->expenseCategory()) categoryCombo->setCurrentAccount(split->expenseCategory());
 	if(paymentEdit) paymentEdit->setValue(split->payment());
+	if(reductionEdit) reductionEdit->setValue(split->reduction());
 	if(interestEdit) interestEdit->setValue(split->interest());
 	if(payedInterestButton && split->interestPayed()) payedInterestButton->setChecked(true);
 	else if(addedInterestButton) addedInterestButton->setChecked(true);
@@ -1142,13 +1203,13 @@ bool EditDebtPaymentWidget::validValues() {
 		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		return false;
 	}
-	if((!feeEdit || feeEdit->value() <= 0.0) && (!interestEdit || interestEdit->value() <= 0.0) && (!paymentEdit || paymentEdit->value() <= 0.0)) {
-		if(!feeEdit && !paymentEdit) {
+	if((!feeEdit || feeEdit->value() <= 0.0) && (!interestEdit || interestEdit->value() <= 0.0) && (!paymentEdit || paymentEdit->value() <= 0.0) && (!reductionEdit || reductionEdit->value() <= 0.0)) {
+		if(!feeEdit && !reductionEdit) {
 			QMessageBox::critical(this, tr("Error"), tr("Interest must not be zero."));
 			interestEdit->setFocus();
 		} else {
 			QMessageBox::critical(this, tr("Error"), tr("At least one value must non-zero."));
-			if(paymentEdit) paymentEdit->setFocus();
+			if(reductionEdit) reductionEdit->setFocus();
 		}
 		return false;
 	}

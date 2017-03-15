@@ -372,6 +372,7 @@ class DebtReduction : public Transfer {
 	public:
 	
 		DebtReduction(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString());
+		DebtReduction(Budget *parent_budget, double initial_payment, double initial_reduction, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString());
 		DebtReduction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		DebtReduction(Budget *parent_budget);
 		DebtReduction();
@@ -761,10 +762,12 @@ class DebtPayment : public SplitTransaction {
 		void setInterestPayed(bool payed_from_account);
 		void setFee(double new_value);
 		void setPayment(double new_value);
+		void setPayment(double new_payment, double new_reduction);
 		double interest(bool convert = false) const;
 		bool interestPayed() const;
 		double fee(bool convert = false) const;
 		double payment(bool convert = false) const;
+		double reduction(bool convert = false) const;
 		
 		void clear(bool keep = false);
 		

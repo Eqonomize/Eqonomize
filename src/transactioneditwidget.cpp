@@ -374,6 +374,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		if(depositEdit && transfer_to) depositEdit->setCurrency(splitcurrency);
 	}
 	if(dateEdit) connect(dateEdit, SIGNAL(dateChanged(const QDate&)), this, SIGNAL(dateChanged(const QDate&)));
+	if(valueEdit) connect(valueEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged(double)));
 	if(b_sec) {
 		switch(security_value_type) {
 			case SECURITY_ALL_VALUES: {
@@ -407,8 +408,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				}
 				break;
 			}
-		}
-		if(valueEdit) connect(valueEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged(double)));
+		}		
 		if(sharesEdit) connect(sharesEdit, SIGNAL(valueChanged(double)), this, SLOT(sharesChanged(double)));
 		if(quotationEdit) connect(quotationEdit, SIGNAL(valueChanged(double)), this, SLOT(quotationChanged(double)));
 	} else {
@@ -510,18 +510,11 @@ void TransactionEditWidget::toActivated() {
 }
 void TransactionEditWidget::fromChanged() {
 	Account *acc = fromCombo->currentAccount();
-	if(downPaymentEdit) {
-		if(acc) {
-			downPaymentEdit->setEnabled(true);
-		} else {
-			downPaymentEdit->setEnabled(false);
-			downPaymentEdit->setValue(0.0);
-		}
-		return;
-	}
 	if(!acc) return;
-	if(valueEdit && acc->type() == ACCOUNT_TYPE_ASSETS) {
-		valueEdit->setCurrency(((AssetsAccount*) acc)->currency());
+	if(downPaymentEdit) {
+		downPaymentEdit->setCurrency(acc->currency());
+	} else if(valueEdit && acc->type() == ACCOUNT_TYPE_ASSETS) {
+		valueEdit->setCurrency(acc->currency());
 	}
 	if(transtype == TRANSACTION_TYPE_TRANSFER) {
 		Currency *cur2 = splitcurrency;
@@ -533,7 +526,8 @@ void TransactionEditWidget::fromChanged() {
 				depositEdit->setEnabled(true);
 			} else {
 				depositEdit->setEnabled(false);
-				depositEdit->setValue(valueEdit->value());
+				if(is_zero(valueEdit->value())) valueEdit->setValue(depositEdit->value());
+				else depositEdit->setValue(valueEdit->value());
 			}
 		}
 	}
@@ -553,7 +547,8 @@ void TransactionEditWidget::toChanged() {
 					depositEdit->setEnabled(true);
 				} else {
 					depositEdit->setEnabled(false);
-					depositEdit->setValue(valueEdit->value());
+					if(is_zero(valueEdit->value())) valueEdit->setValue(depositEdit->value());
+					else depositEdit->setValue(valueEdit->value());
 				}
 			}
 		}
@@ -584,12 +579,9 @@ void TransactionEditWidget::securityChanged() {
 		if(sharesEdit && security && shares_date.isValid()) sharesEdit->setMaximum(security->shares(shares_date));
 	}
 }
-void TransactionEditWidget::currencyChanged(int index) {
-	updateFromAccounts(NULL, (Currency*) currencyCombo->itemData(index).value<void*>());
-	if(downPaymentEdit) downPaymentEdit->setCurrency((Currency*) currencyCombo->itemData(index).value<void*>());
-	
-}
+void TransactionEditWidget::currencyChanged(int) {}
 void TransactionEditWidget::valueChanged(double value) {
+	if(valueEdit && depositEdit && !depositEdit->isEnabled()) depositEdit->setValue(value);
 	if(!quotationEdit || !sharesEdit || !valueEdit) return;
 	value_set = true;
 	if(shares_set && !sharevalue_set) {
@@ -764,7 +756,6 @@ void TransactionEditWidget::setDefaultValueFromCategory() {
 }
 void TransactionEditWidget::updateFromAccounts(Account *exclude_account, Currency *force_currency) {
 	if(!fromCombo) return;
-	if(!force_currency && currencyCombo) force_currency = (Currency*) currencyCombo->currentData().value<void*>();
 	fromCombo->updateAccounts(exclude_account, force_currency);
 }
 void TransactionEditWidget::updateToAccounts(Account *exclude_account, Currency *force_currency) {
@@ -773,7 +764,6 @@ void TransactionEditWidget::updateToAccounts(Account *exclude_account, Currency 
 }
 void TransactionEditWidget::updateAccounts(Account *exclude_account, Currency *force_currency) {
 	updateToAccounts(exclude_account, force_currency);
-	if(!force_currency && currencyCombo) force_currency = (Currency*) currencyCombo->currentData().value<void*>();
 	updateFromAccounts(exclude_account, force_currency);
 }
 void TransactionEditWidget::transactionAdded(Transaction *trans) {

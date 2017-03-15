@@ -473,6 +473,7 @@ TransactionType Transfer::type() const {return TRANSACTION_TYPE_TRANSFER;}
 TransactionSubType Transfer::subtype() const {return TRANSACTION_SUBTYPE_TRANSFER;}
 
 DebtReduction::DebtReduction(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment) : Transfer(parent_budget, initial_amount, initial_date, initial_from, initial_loan, QString(), initial_comment) {}
+DebtReduction::DebtReduction(Budget *parent_budget, double initial_payment, double initial_reduction, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment) : Transfer(parent_budget, initial_payment, initial_reduction, initial_date, initial_from, initial_loan, QString(), initial_comment) {}
 DebtReduction::DebtReduction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transfer(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
@@ -1515,16 +1516,27 @@ void MultiAccountTransaction::writeElements(QXmlStreamWriter *xml) {
 }
 double MultiAccountTransaction::value(bool convert) const {
 	double d_value = 0.0;
+	Currency *cur = currency();
 	QVector<Transaction*>::size_type c = splits.size();
 	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
 		Transaction *trans = splits[i];
-		d_value += trans->value(convert);
+		if(!convert && cur != trans->currency()) {
+			d_value += cur->convertFrom(trans->value(), trans->currency());
+		} else {
+			d_value += trans->value(convert);
+		}
 	}
 	return d_value;
 }
 Currency *MultiAccountTransaction::currency() const {
-	if(splits.isEmpty()) return NULL;
-	return splits[0]->currency();
+	if(splits.isEmpty()) return budget()->defaultCurrency();
+	Currency *cur = splits[0]->currency();
+	if(cur != budget()->defaultCurrency()) {
+		for(QVector<Transaction*>::size_type i = 1; i < splits.size(); i++) {
+			if(splits[i]->currency() == budget()->defaultCurrency()) return budget()->defaultCurrency();
+		}
+	}
+	return cur;
 }
 double MultiAccountTransaction::quantity() const {return d_quantity;}
 void MultiAccountTransaction::setQuantity(double new_quantity) {
@@ -1539,7 +1551,6 @@ double MultiAccountTransaction::cost(bool convert) const {
 	return value(convert);
 }
 void MultiAccountTransaction::addTransaction(Transaction *trans) {
-	if(currency() && trans->currency() != currency()) return;
 	if(o_category->type() == ACCOUNT_TYPE_EXPENSES && trans->type() == TRANSACTION_TYPE_EXPENSE) {
 		if(!d_date.isValid() || trans->date() < d_date) d_date = trans->date();
 		((Expense*) trans)->setCategory((ExpensesAccount*) o_category);
@@ -1719,6 +1730,16 @@ void DebtPayment::setPayment(double new_value) {
 		o_payment->setValue(new_value);
 	}
 }
+void DebtPayment::setPayment(double new_payment, double new_reduction) {
+	if(!o_payment) {
+		if(new_payment != 0.0 || new_reduction != 0.0) {
+			o_payment = new DebtReduction(o_budget, new_payment, new_reduction, d_date, o_account, o_loan);
+			o_payment->setParentSplit(this);
+		}
+	} else {
+		o_payment->setAmount(new_payment, new_reduction);
+	}
+}
 double DebtPayment::interest(bool convert) const {
 	if(o_interest) return o_interest->value(convert);
 	return 0.0;
@@ -1731,7 +1752,11 @@ double DebtPayment::fee(bool convert) const {
 	return 0.0;
 }
 double DebtPayment::payment(bool convert) const {
-	if(o_payment) return o_payment->value(convert);
+	if(o_payment) return o_payment->fromValue(convert);
+	return 0.0;
+}
+double DebtPayment::reduction(bool convert) const {
+	if(o_payment) return o_payment->toValue(convert);
 	return 0.0;
 }
 
@@ -1786,7 +1811,11 @@ void DebtPayment::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		}
 	}
 	if(attr->hasAttribute("reduction")) {
-		o_payment = new DebtReduction(o_budget, attr->value("reduction").toDouble(), d_date, o_account, o_loan);		
+		if(attr->hasAttribute("payment")) {
+			o_payment = new DebtReduction(o_budget, attr->value("payment").toDouble(), attr->value("reduction").toDouble(), d_date, o_account, o_loan);
+		} else {
+			o_payment = new DebtReduction(o_budget, attr->value("reduction").toDouble(), d_date, o_account, o_loan);
+		}
 		o_payment->setParentSplit(this);
 	}
 	if(attr->hasAttribute("interest")) {
@@ -1816,7 +1845,10 @@ void DebtPayment::writeAttributes(QXmlStreamAttributes *attr) {
 		}
 	}
 	if(expenseCategory()) attr->append("expensecategory", QString::number(expenseCategory()->id()));
-	if(o_payment) attr->append("reduction", QString::number(o_payment->value(), 'f', MONETARY_DECIMAL_PLACES));
+	if(o_payment) {
+		attr->append("reduction", QString::number(o_payment->toValue(), 'f', MONETARY_DECIMAL_PLACES));
+		if(o_payment->toValue() != o_payment->fromValue()) attr->append("payment", QString::number(o_payment->fromValue(), 'f', MONETARY_DECIMAL_PLACES));
+	}
 	if(o_interest) attr->append("interest", QString::number(o_interest->value(), 'f', MONETARY_DECIMAL_PLACES));
 	if(o_fee) attr->append("fee", QString::number(o_fee->value(), 'f', MONETARY_DECIMAL_PLACES));
 }

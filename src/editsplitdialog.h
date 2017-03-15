@@ -47,7 +47,6 @@ class MultiAccountTransaction;
 class DebtPayment;
 class Transaction;
 class Transactions;
-class Currency;
 
 class EditMultiAccountWidget : public QWidget {
 
@@ -57,7 +56,6 @@ class EditMultiAccountWidget : public QWidget {
 
 		Budget *budget;
 		bool b_expense, b_extra, b_create_accounts;
-		Currency *current_currency;
 		
 		EqonomizeValueEdit *quantityEdit;
 		AccountComboBox *categoryCombo;
@@ -110,7 +108,7 @@ class EditDebtPaymentWidget : public QWidget {
 		bool b_create_accounts;
 		
 		QDateEdit *dateEdit;
-		EqonomizeValueEdit *paymentEdit, *interestEdit, *feeEdit;
+		EqonomizeValueEdit *reductionEdit, *paymentEdit, *interestEdit, *feeEdit;
 		QRadioButton *payedInterestButton, *addedInterestButton;
 		QComboBox *loanCombo;
 		AccountComboBox *accountCombo, *categoryCombo;
@@ -140,10 +138,12 @@ class EditDebtPaymentWidget : public QWidget {
 
 	protected slots:
 		
+		void accountChanged();
 		void loanActivated(int index);
 		void newAccount();
 		void newCategory();
 		void valueChanged();
+		void interestSourceChanged();
 
 };
 
