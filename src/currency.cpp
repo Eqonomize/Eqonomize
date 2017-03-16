@@ -145,11 +145,12 @@ double Currency::convertFrom(double value, const Currency *from_currency) const 
 	return from_currency->convertTo(value, this);
 }
 
-QString Currency::formatValue(double value, int nr_of_decimals) const {
+QString Currency::formatValue(double value, int nr_of_decimals, bool show_currency) const {
 	if(nr_of_decimals < 0) {
 		if(i_decimals < 0) nr_of_decimals = MONETARY_DECIMAL_PLACES;
 		else nr_of_decimals = i_decimals;
 	}
+	if(!show_currency) return QLocale().toString(value, 'f', nr_of_decimals);
 	if((b_precedes < 0 && currency_symbol_precedes()) || b_precedes > 0) {
 		return ((this != o_budget->defaultCurrency() || s_symbol.isEmpty()) ? s_code : s_symbol) + " " + QLocale().toString(value, 'f', nr_of_decimals);
 	}
@@ -159,10 +160,12 @@ QString Currency::formatValue(double value, int nr_of_decimals) const {
 const QString &Currency::code() const {
 	return s_code;
 }
-const QString &Currency::symbol() const {
+const QString &Currency::symbol(bool return_code_if_empty) const {
+	if(return_code_if_empty && s_symbol.isEmpty())  return s_code;
 	return s_symbol;
 }
-const QString &Currency::name() const {
+const QString &Currency::name(bool return_code_if_empty) const {
+	if(return_code_if_empty && s_name.isEmpty()) return s_code;
 	return s_name;
 }
 void Currency::setCode(QString new_code) {

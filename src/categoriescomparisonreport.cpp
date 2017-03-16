@@ -658,19 +658,19 @@ void CategoriesComparisonReport::updateDisplay() {
 				if(include) {
 					if(i_source == 2 || i_source == 4) {
 						if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
-							desc_values[((Expense*) trans)->payee()] += trans->value() * sign;
-							value += trans->value() * sign;
+							desc_values[((Expense*) trans)->payee()] += trans->value(true) * sign;
+							value += trans->value(true) * sign;
 							desc_counts[((Expense*) trans)->payee()] += trans->quantity();
 							value_count += trans->quantity();
 						} else if(trans->type() == TRANSACTION_TYPE_INCOME) {
-							desc_values[((Income*) trans)->payer()] += trans->value() * sign;
-							value += trans->value() * sign;
+							desc_values[((Income*) trans)->payer()] += trans->value(true) * sign;
+							value += trans->value(true) * sign;
 							desc_counts[((Income*) trans)->payer()] += trans->quantity();
 							value_count += trans->quantity();
 						}
 					} else {
-						desc_values[trans->description()] += trans->value() * sign;
-						value += trans->value() * sign;
+						desc_values[trans->description()] += trans->value(true) * sign;
+						value += trans->value(true) * sign;
 						desc_counts[trans->description()] += trans->quantity();
 						value_count += trans->quantity();
 					}
@@ -683,23 +683,23 @@ void CategoriesComparisonReport::updateDisplay() {
 				while(true) {
 					if(!current_account || to_account->topAccount() == current_account || from_account->topAccount() == current_account) {
 						if(from_account->type() == ACCOUNT_TYPE_EXPENSES) {
-							values[from_account] -= trans->value();
-							costs -= trans->value();
+							values[from_account] -= trans->value(true);
+							costs -= trans->value(true);
 							counts[from_account] += trans->quantity();
 							costs_count += trans->quantity();
 						} else if(from_account->type() == ACCOUNT_TYPE_INCOMES) {
-							values[from_account] += trans->value();
-							incomes += trans->value();
+							values[from_account] += trans->value(true);
+							incomes += trans->value(true);
 							counts[from_account] += trans->quantity();
 							incomes_count += trans->quantity();
 						} else if(to_account->type() == ACCOUNT_TYPE_EXPENSES) {
-							values[to_account] += trans->value();
-							costs += trans->value();
+							values[to_account] += trans->value(true);
+							costs += trans->value(true);
 							counts[to_account] += trans->quantity();
 							costs_count += trans->quantity();
 						} else if(to_account->type() == ACCOUNT_TYPE_INCOMES) {
-							values[to_account] -= trans->value();
-							incomes -= trans->value();
+							values[to_account] -= trans->value(true);
+							incomes -= trans->value(true);
 							counts[to_account] += trans->quantity();
 							incomes_count += trans->quantity();
 						}					
@@ -746,19 +746,19 @@ void CategoriesComparisonReport::updateDisplay() {
 					int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
 					if(i_source == 2 || i_source == 4) {
 						if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
-							desc_values[((Expense*) trans)->payee()] += trans->value() * count * sign;
-							value += trans->value() * count * sign;
+							desc_values[((Expense*) trans)->payee()] += trans->value(true) * count * sign;
+							value += trans->value(true) * count * sign;
 							desc_counts[((Expense*) trans)->payee()] += count * trans->quantity();
 							value_count += count * trans->quantity();
 						} else if(trans->type() == TRANSACTION_TYPE_INCOME) {
-							desc_values[((Income*) trans)->payer()] += trans->value() * count * sign;
-							value += trans->value() * count * sign;
+							desc_values[((Income*) trans)->payer()] += trans->value(true) * count * sign;
+							value += trans->value(true) * count * sign;
 							desc_counts[((Income*) trans)->payer()] += count * trans->quantity();
 							value_count += count * trans->quantity();
 						}
 					} else {
-						desc_values[trans->description()] += trans->value() * count * sign;
-						value += trans->value() * count * sign;
+						desc_values[trans->description()] += trans->value(true) * count * sign;
+						value += trans->value(true) * count * sign;
 						desc_counts[trans->description()] += count * trans->quantity();
 						value_count += count * trans->quantity();
 					}
@@ -773,27 +773,27 @@ void CategoriesComparisonReport::updateDisplay() {
 						if(from_account->type() == ACCOUNT_TYPE_EXPENSES) {
 							int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
 							counts[from_account] += count * trans->quantity();
-							values[from_account] -= trans->value() * count;
+							values[from_account] -= trans->value(true) * count;
 							costs_count += count * trans->quantity();
-							costs -= trans->value() * count;
+							costs -= trans->value(true) * count;
 						} else if(from_account->type() == ACCOUNT_TYPE_INCOMES) {
 							int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
 							counts[from_account] += count * trans->quantity();
-							values[from_account] += trans->value() * count;
+							values[from_account] += trans->value(true) * count;
 							incomes_count += count * trans->quantity();
-							incomes += trans->value() * count;
+							incomes += trans->value(true) * count;
 						} else if(to_account->type() == ACCOUNT_TYPE_EXPENSES) {
 							int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
 							counts[to_account] += count * trans->quantity();
-							values[to_account] += trans->value() * count;
+							values[to_account] += trans->value(true) * count;
 							costs_count += count * trans->quantity();
-							costs += trans->value() * count;
+							costs += trans->value(true) * count;
 						} else if(to_account->type() == ACCOUNT_TYPE_INCOMES) {
 							int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
 							counts[to_account] += count * trans->quantity();
-							values[to_account] -= trans->value() * count;
+							values[to_account] -= trans->value(true) * count;
 							incomes_count += count * trans->quantity();
-							incomes -= trans->value() * count;
+							incomes -= trans->value(true) * count;
 						}
 					}
 					if(current_account || !include_subs) break;
@@ -935,12 +935,12 @@ void CategoriesComparisonReport::updateDisplay() {
 				outf << "\t\t\t\t<tr>" << '\n';
 				outf << FIRST_COL << htmlize_string(account->name()) << "</td>";
 				col = 1;
-				if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account])) << "</td>"; col++;}
-				if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account] / days)) << "</td>"; col++;}
-				if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account] / months)) << "</td>"; col++;}
-				if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account] / years)) << "</td>"; col++;}
+				if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(values[account])) << "</td>"; col++;}
+				if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(values[account] / days)) << "</td>"; col++;}
+				if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(values[account] / months)) << "</td>"; col++;}
+				if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(values[account] / years)) << "</td>"; col++;}
 				if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toString(counts[account], 'f', i_count_frac)) << "</td>"; col++;}
-				if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(counts[account] == 0.0 ? 0.0 : (values[account] / counts[account]))) << "</td>";
+				if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(counts[account] == 0.0 ? 0.0 : (values[account] / counts[account]))) << "</td>";
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
 				if(account == current_account) break;
@@ -961,12 +961,12 @@ void CategoriesComparisonReport::updateDisplay() {
 					outf << FIRST_COL << htmlize_string(it.key()) << "</td>";
 				}
 				col = 1;
-				if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(it.value())) << "</td>"; col++;}
-				if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(it.value() / days)) << "</td>"; col++;}
-				if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(it.value() / months)) << "</td>"; col++;}
-				if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(it.value() / years)) << "</td>"; col++;}
+				if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(it.value())) << "</td>"; col++;}
+				if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(it.value() / days)) << "</td>"; col++;}
+				if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(it.value() / months)) << "</td>"; col++;}
+				if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(it.value() / years)) << "</td>"; col++;}
 				if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toString(itc.value(), 'f', i_count_frac)) << "</td>"; col++;}
-				if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(itc.value() == 0.0 ? 0.0 : (it.value() / itc.value()))) << "</td>";
+				if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(itc.value() == 0.0 ? 0.0 : (it.value() / itc.value()))) << "</td>";
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
 			}
@@ -974,12 +974,12 @@ void CategoriesComparisonReport::updateDisplay() {
 		outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
 		outf << FIRST_COL_BOTTOM << htmlize_string(tr("Total")) << "</b></td>";
 		col = 1;
-		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(value)) << "</b></td>"; col++;}
-		if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(value / days)) << "</b></td>"; col++;}
-		if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(value / months)) << "</b></td>"; col++;}
-		if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(value / years)) << "</b></td>"; col++;}
+		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(value)) << "</b></td>"; col++;}
+		if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(value / days)) << "</b></td>"; col++;}
+		if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(value / months)) << "</b></td>"; col++;}
+		if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(value / years)) << "</b></td>"; col++;}
 		if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toString(value_count, 'f', i_count_frac)) << "</b></td>"; col++;}
-		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(value_count == 0.0 ? 0.0 : (value / value_count))) << "</b></td>";
+		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(value_count == 0.0 ? 0.0 : (value / value_count))) << "</b></td>";
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
 	} else {
@@ -990,21 +990,21 @@ void CategoriesComparisonReport::updateDisplay() {
 				if(account->parentCategory()) {
 					outf << FIRST_COL << "<i>" << htmlize_string(account->nameWithParent()) << "</i></td>";
 					col = 1;
-					if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(QLocale().toCurrencyString(values[account])) << "</i></td>"; col++;}
-					if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(QLocale().toCurrencyString(values[account] / days)) << "</i></td>"; col++;}
-					if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(QLocale().toCurrencyString(values[account] / months)) << "</i></td>"; col++;}
-					if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(QLocale().toCurrencyString(values[account] / years)) << "</i></td>"; col++;}
+					if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(values[account])) << "</i></td>"; col++;}
+					if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(values[account] / days)) << "</i></td>"; col++;}
+					if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(values[account] / months)) << "</i></td>"; col++;}
+					if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(values[account] / years)) << "</i></td>"; col++;}
 					if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(QLocale().toString(counts[account], 'f', i_count_frac)) << "</i></td>"; col++;}
-					if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(QLocale().toCurrencyString(counts[account] == 0.0 ? 0.0 : (values[account] / counts[account]))) << "</i></td>";
+					if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(counts[account] == 0.0 ? 0.0 : (values[account] / counts[account]))) << "</i></td>";
 				} else {
 					outf << FIRST_COL << htmlize_string(account->nameWithParent()) << "</td>";
 					col = 1;
-					if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account])) << "</td>"; col++;}
-					if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account] / days)) << "</td>"; col++;}
-					if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account] / months)) << "</td>"; col++;}
-					if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(values[account] / years)) << "</td>"; col++;}
+					if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(values[account])) << "</td>"; col++;}
+					if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(values[account] / days)) << "</td>"; col++;}
+					if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(values[account] / months)) << "</td>"; col++;}
+					if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(values[account] / years)) << "</td>"; col++;}
 					if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toString(counts[account], 'f', i_count_frac)) << "</td>"; col++;}
-					if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(counts[account] == 0.0 ? 0.0 : (values[account] / counts[account]))) << "</td>";
+					if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(counts[account] == 0.0 ? 0.0 : (values[account] / counts[account]))) << "</td>";
 				}
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
@@ -1015,12 +1015,12 @@ void CategoriesComparisonReport::updateDisplay() {
 		outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
 		outf << FIRST_COL_DIV << htmlize_string(tr("Total incomes")) << "</b></td>";
 		col = 1;
-		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(QLocale().toCurrencyString(incomes)) << "</b></td>"; col++;}
-		if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(QLocale().toCurrencyString(incomes / days)) << "</b></td>"; col++;}
-		if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(QLocale().toCurrencyString(incomes / months)) << "</b></td>"; col++;}
-		if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(QLocale().toCurrencyString(incomes / years)) << "</b></td>"; col++;}
+		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(budget->formatMoney(incomes)) << "</b></td>"; col++;}
+		if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(budget->formatMoney(incomes / days)) << "</b></td>"; col++;}
+		if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(budget->formatMoney(incomes / months)) << "</b></td>"; col++;}
+		if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(budget->formatMoney(incomes / years)) << "</b></td>"; col++;}
 		if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(QLocale().toString(incomes_count, 'f', i_count_frac)) << "</b></td>"; col++;}
-		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(QLocale().toCurrencyString(incomes_count == 0.0 ? 0.0 : (incomes / incomes_count))) << "</b></td>";
+		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(budget->formatMoney(incomes_count == 0.0 ? 0.0 : (incomes / incomes_count))) << "</b></td>";
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
 		account = budget->expensesAccounts.first();
@@ -1030,21 +1030,21 @@ void CategoriesComparisonReport::updateDisplay() {
 				if(account->parentCategory()) {
 					outf << FIRST_COL << "<i>" << htmlize_string(account->nameWithParent()) << "</i></td>";
 					col = 1;
-					if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(QLocale().toCurrencyString(-values[account])) << "</i></td>"; col++;}
-					if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(QLocale().toCurrencyString(-values[account] / days)) << "</i></td>"; col++;}
-					if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(QLocale().toCurrencyString(-values[account] / months)) << "</i></td>"; col++;}
-					if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(QLocale().toCurrencyString(-values[account] / years)) << "</i></td>"; col++;}
+					if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(-values[account])) << "</i></td>"; col++;}
+					if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(-values[account] / days)) << "</i></td>"; col++;}
+					if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(-values[account] / months)) << "</i></td>"; col++;}
+					if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(-values[account] / years)) << "</i></td>"; col++;}
 					if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(QLocale().toString(counts[account], 'f', i_count_frac)) << "</i></td>"; col++;}
-					if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(QLocale().toCurrencyString(counts[account] == 0.0 ? 0.0 : (-values[account] / counts[account]))) << "</i></td>";
+					if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(counts[account] == 0.0 ? 0.0 : (-values[account] / counts[account]))) << "</i></td>";
 				} else {
 					outf << FIRST_COL << htmlize_string(account->nameWithParent()) << "</td>";
 					col = 1;
-					if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(-values[account])) << "</td>"; col++;}
-					if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(-values[account] / days)) << "</td>"; col++;}
-					if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(-values[account] / months)) << "</td>"; col++;}
-					if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(-values[account] / years)) << "</td>"; col++;}
+					if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(-values[account])) << "</td>"; col++;}
+					if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(-values[account] / days)) << "</td>"; col++;}
+					if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(-values[account] / months)) << "</td>"; col++;}
+					if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(-values[account] / years)) << "</td>"; col++;}
 					if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toString(counts[account], 'f', i_count_frac)) << "</td>"; col++;}
-					if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(QLocale().toCurrencyString(counts[account] == 0.0 ? 0.0 : (-values[account] / counts[account]))) << "</td>";
+					if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(counts[account] == 0.0 ? 0.0 : (-values[account] / counts[account]))) << "</td>";
 				}
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
@@ -1054,23 +1054,23 @@ void CategoriesComparisonReport::updateDisplay() {
 		outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
 		outf << FIRST_COL_BOTTOM << htmlize_string(tr("Total expenses")) << "</b></td>";
 		col = 1;
-		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(-costs)) << "</b></td>"; col++;}
-		if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(-costs / days)) << "</b></td>"; col++;}
-		if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(-costs / months)) << "</b></td>"; col++;}
-		if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(-costs / years)) << "</b></td>"; col++;}
+		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(-costs)) << "</b></td>"; col++;}
+		if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(-costs / days)) << "</b></td>"; col++;}
+		if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(-costs / months)) << "</b></td>"; col++;}
+		if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(-costs / years)) << "</b></td>"; col++;}
 		if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toString(costs_count, 'f', i_count_frac)) << "</b></td>"; col++;}
-		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(costs_count == 0.0 ? 0.0 : (-costs / costs_count))) << "</b></td>";
+		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(costs_count == 0.0 ? 0.0 : (-costs / costs_count))) << "</b></td>";
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
 		outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
 		outf << FIRST_COL_BOTTOM << htmlize_string(tr("Total (Profits)")) << "</b></td>";
 		col = 1;
-		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString(incomes - costs)) << "</b></td>"; col++;}
-		if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString((incomes - costs) / days)) << "</b></td>"; col++;}
-		if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString((incomes - costs) / months)) << "</b></td>"; col++;}
-		if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString((incomes - costs) / years)) << "</b></td>"; col++;}
+		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(incomes - costs)) << "</b></td>"; col++;}
+		if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney((incomes - costs) / days)) << "</b></td>"; col++;}
+		if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney((incomes - costs) / months)) << "</b></td>"; col++;}
+		if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney((incomes - costs) / years)) << "</b></td>"; col++;}
 		if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toString(incomes_count + costs_count, 'f', i_count_frac)) << "</b></td>"; col++;}
-		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(QLocale().toCurrencyString((incomes_count + costs_count) == 0.0 ? 0.0 : ((incomes - costs) / (incomes_count + costs_count)))) << "</b></td>";
+		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney((incomes_count + costs_count) == 0.0 ? 0.0 : ((incomes - costs) / (incomes_count + costs_count)))) << "</b></td>";
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
 	}

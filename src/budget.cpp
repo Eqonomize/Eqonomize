@@ -137,8 +137,8 @@ void Budget::clear() {
 	budgetAccount = NULL;
 }
 
-QString Budget::formatMoney(double v, int precision) {
-	return default_currency->formatValue(v, precision);
+QString Budget::formatMoney(double v, int precision, bool show_currency) {
+	return default_currency->formatValue(v, precision, show_currency);
 }
 
 void Budget::loadCurrencies() {

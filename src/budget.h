@@ -134,7 +134,7 @@ class Budget {
 		
 		void clear();
 		
-		QString formatMoney(double v, int precision = -1);
+		QString formatMoney(double v, int precision = -1, bool show_currency = true);
 
 		void addTransaction(Transaction*);
 		void removeTransactions(Transactions*, bool keep = false);

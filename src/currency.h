@@ -79,11 +79,11 @@ class Currency {
 		double convertTo(double value, const Currency *to_currency) const;
 		double convertFrom(double value, const Currency *from_currency) const;
 		
-		QString formatValue(double value, int nr_of_decimals = -1) const;
+		QString formatValue(double value, int nr_of_decimals = -1, bool show_currency = true) const;
 
 		const QString &code() const;
-		const QString &symbol() const;
-		const QString &name() const;
+		const QString &symbol(bool return_code_if_empty = false) const;
+		const QString &name(bool return_code_if_empty = false) const;
 		void setCode(QString new_code);
 		void setSymbol(QString new_symbol);
 		void setName(QString new_name);

@@ -1032,6 +1032,7 @@ void OverTimeChart::updateDisplay() {
 	while(trans && trans->date() <= last_date) {
 		bool include = false;
 		int sign = 1;
+		bool use_to_value = false;
 		total_value = NULL;
 		monthly_values2 = NULL;
 		if(!started && (current_source == -2 || trans->date() >= first_date)) {
@@ -1045,6 +1046,7 @@ void OverTimeChart::updateDisplay() {
 						monthly_values = &monthly_cats[trans->toAccount()];
 						mi = &mi_c[trans->toAccount()];
 						isfirst = &isfirst_c[trans->toAccount()];
+						use_to_value = true;
 						if(trans->type() != TRANSACTION_TYPE_SECURITY_SELL && trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && trans->fromAccount() != budget->balancingAccount) {
 							monthly_values2 = &monthly_cats[trans->fromAccount()];
 							mi2 = &mi_c[trans->fromAccount()];
@@ -1325,11 +1327,13 @@ void OverTimeChart::updateDisplay() {
 				}
 				monthly_values->append(chart_month_info());
 				(*mi) = &monthly_values->back();
-				(*mi)->value = trans->value() * sign;
+				if(use_to_value) (*mi)->value = trans->toValue(true) * sign;
+				else (*mi)->value = trans->value(true) * sign;
 				(*mi)->count = trans->quantity();
 				(*mi)->date = newdate;
 			} else {
-				(*mi)->value += trans->value() * sign;
+				if(use_to_value) (*mi)->value = trans->toValue(true) * sign;
+				else (*mi)->value += trans->value(true) * sign;
 				(*mi)->count += trans->quantity();
 			}
 			if(monthly_values2) {
@@ -1355,15 +1359,15 @@ void OverTimeChart::updateDisplay() {
 					}
 					monthly_values2->append(chart_month_info());
 					(*mi2) = &monthly_values2->back();
-					(*mi2)->value = trans->value() * sign * -1;
+					(*mi2)->value = trans->value(true) * sign * -1;
 					(*mi2)->date = newdate;
 				} else {
-					(*mi2)->value += trans->value() * sign * -1;
+					(*mi2)->value += trans->value(true) * sign * -1;
 				}
 			}
 			if(total_value) {
 				if(type == 2) *total_value += trans->quantity();
-				else *total_value += trans->value() * sign;
+				else *total_value += trans->value(true) * sign;
 			}
 		}
 		trans = budget->transactions.next();
@@ -1482,6 +1486,7 @@ void OverTimeChart::updateDisplay() {
 		monthly_values2 = NULL;
 		bool include = false;
 		int sign = 1;
+		bool use_to_value = false;
 		total_value = NULL;
 		switch(current_source) {
 			case -2: {
@@ -1489,6 +1494,7 @@ void OverTimeChart::updateDisplay() {
 					monthly_values = &monthly_cats[trans->toAccount()];
 					mi = &mi_c[trans->toAccount()];
 					isfirst = &isfirst_c[trans->toAccount()];
+					use_to_value = true;
 					if(trans->type() != TRANSACTION_TYPE_SECURITY_SELL && trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && trans->fromAccount() != budget->balancingAccount) {
 						monthly_values2 = &monthly_cats[trans->fromAccount()];
 						mi2 = &mi_c[trans->fromAccount()];
@@ -1754,11 +1760,12 @@ void OverTimeChart::updateDisplay() {
 						++cmi_it;
 					}
 					(*mi) = cmi_it;
-					(*mi)->value += trans->value() * sign;
+					if(use_to_value) (*mi)->value += trans->toValue(true) * sign;
+					else (*mi)->value += trans->value(true) * sign;
 					(*mi)->count += trans->quantity();
 					if(total_value) {
 						if(type == 2) *total_value += trans->quantity();
-						else *total_value += trans->value() * sign;
+						else *total_value += trans->value(true) * sign;
 					}
 				}
 				if(strans->recurrence()) {
@@ -1776,7 +1783,7 @@ void OverTimeChart::updateDisplay() {
 							++cmi_it;
 						}
 						(*mi2) = cmi_it;
-						(*mi2)->value += trans->value() * sign * -1;
+						(*mi2)->value += trans->value(true) * sign * -1;
 					}
 					if(strans->recurrence()) {
 						transdate = strans->recurrence()->nextOccurrence(transdate);
@@ -2117,27 +2124,27 @@ void OverTimeChart::updateDisplay() {
 	
 	QString axis_string;
 	if(current_source == -2) {
-		axis_string = tr("Value") + QString(" (%1)").arg(QLocale().currencySymbol());
+		axis_string = tr("Value") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
 	} else {
 		switch(type) {
 			case 1: {
-				if(current_source == 0 && chart_type != 4) axis_string = tr("Daily average value") + QString(" (%1)").arg(QLocale().currencySymbol());
-				else if(current_source == -1) axis_string = tr("Daily average profit") + QString(" (%1)").arg(QLocale().currencySymbol());
-				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Daily average income") + QString(" (%1)").arg(QLocale().currencySymbol());
-				else axis_string = tr("Daily average cost") + QString(" (%1)").arg(QLocale().currencySymbol());
+				if(current_source == 0 && chart_type != 4) axis_string = tr("Daily average value") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				else if(current_source == -1) axis_string = tr("Daily average profit") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Daily average income") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				else axis_string = tr("Daily average cost") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
 				break;
 			}
 			case 3: {
-				if(current_source == 0 && chart_type != 4) axis_string = tr("Average value") + QString(" (%1)").arg(QLocale().currencySymbol());
-				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Average income") + QString(" (%1)").arg(QLocale().currencySymbol());
-				else axis_string = tr("Average cost") + QString(" (%1)").arg(QLocale().currencySymbol());
+				if(current_source == 0 && chart_type != 4) axis_string = tr("Average value") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Average income") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				else axis_string = tr("Average cost") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
 				break;
 			}
 			default: {
-				if(current_source == 0 && chart_type != 4) axis_string = tr("Monthly value") + QString(" (%1)").arg(QLocale().currencySymbol());
-				else if(current_source == -1) axis_string = tr("Monthly profit") + QString(" (%1)").arg(QLocale().currencySymbol());
-				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Monthly income") + QString(" (%1)").arg(QLocale().currencySymbol());
-				else axis_string = tr("Monthly cost") + QString(" (%1)").arg(QLocale().currencySymbol());
+				if(current_source == 0 && chart_type != 4) axis_string = tr("Monthly value") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				else if(current_source == -1) axis_string = tr("Monthly profit") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Monthly income") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				else axis_string = tr("Monthly cost") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
 				break;
 			}
 		}
@@ -3210,7 +3217,7 @@ void OverTimeChart::onSeriesHovered(bool state, int index, QBarSet *set) {
 			pos.setX(pos.x() + (bar_width / 2));
 		}
 		QDate date = start_date.addMonths(index);
-		item->setText(tr("%1\nValue: %2\nDate: %3").arg(set->label()).arg(QLocale().toCurrencyString(set->at(index))).arg(budget->budgetDateToMonth(date).toString(tr("MMMM yyyy", "Month and year"))));
+		item->setText(tr("%1\nValue: %2\nDate: %3").arg(set->label()).arg(budget->formatMoney(set->at(index))).arg(budget->budgetDateToMonth(date).toString(tr("MMMM yyyy", "Month and year"))));
 		item->setAnchor(pos);
 		item->setPos(pos + QPoint(10, -50));
 		item->setZValue(11);
@@ -3252,7 +3259,7 @@ void OverTimeChart::onSeriesHovered(const QPointF &value, bool state) {
 			}
 		}
 		QPointF pos = chart->mapToPosition(QPointF(value_x, value_y), series);
-		item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(QLocale().toCurrencyString(value_y)).arg(budget->budgetDateToMonth(date).toString(tr("MMMM yyyy", "Month and year"))));
+		item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(budget->formatMoney(value_y)).arg(budget->budgetDateToMonth(date).toString(tr("MMMM yyyy", "Month and year"))));
 		item->setAnchor(pos);
 		item->setPos(pos + QPoint(10, -50));
 		item->setZValue(11);
