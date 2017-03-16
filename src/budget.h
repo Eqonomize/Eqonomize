@@ -27,6 +27,7 @@
 #include <QCoreApplication>
 #include <QFile>
 #include <QVector>
+#include <QByteArray>
 
 #include "eqonomizelist.h"
 #include "account.h"
@@ -128,6 +129,11 @@ class Budget {
 		~Budget();
 		
 		void loadCurrencies();
+		void loadGlobalCurrencies();
+		void loadLocalCurrencies();
+		void loadCurrenciesFile(QString filename, bool is_local);
+		QString loadECBData(QByteArray data);
+		bool saveCurrencies();
 
 		QString loadFile(QString filename, QString &errors);
 		QString saveFile(QString filename, QFile::Permissions permissions = QFile::ReadUser | QFile::WriteUser);

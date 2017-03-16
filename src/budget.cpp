@@ -30,6 +30,7 @@
 #include <QMap>
 #include <QSaveFile>
 #include <QFileInfo>
+#include <QStandardPaths>
 
 #include <QDebug>
 
@@ -142,8 +143,18 @@ QString Budget::formatMoney(double v, int precision, bool show_currency) {
 }
 
 void Budget::loadCurrencies() {
-	QString filename = QString(DATA_DIR) + "/currencies.xml";
+	loadGlobalCurrencies();
+	loadLocalCurrencies();
+}
+void Budget::loadGlobalCurrencies() {
+	loadCurrenciesFile(QString(DATA_DIR) + "/currencies.xml", false);
+}
+void Budget::loadLocalCurrencies() {
+	loadCurrenciesFile(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/currencies.xml", true);
+}
+void Budget::loadCurrenciesFile(QString filename, bool is_local) {
 	QFile file(filename);
+	if(is_local && !file.exists()) return;
 	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		qDebug() << tr("Couldn't open %1 for reading").arg(filename);
 		return;
@@ -152,7 +163,7 @@ void Budget::loadCurrencies() {
 	}
 	QXmlStreamReader xml(&file);
 	if(!xml.readNextStartElement()) {
-		qDebug() << tr("Not a valid Eqonomize! file (XML parse error: \"%1\" at line %2, col %3)").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
+		qDebug() << tr("XML parse error: \"%1\" at line %2, col %3").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
 		return;
 	}
 	if(xml.name() != "Eqonomize") {
@@ -167,7 +178,18 @@ void Budget::loadCurrencies() {
 			bool valid = true;
 			Currency *currency = new Currency(this, &xml, &valid);
 			if(valid) {
-				currencies.append(currency);
+				if(is_local) {
+					Currency *currency_old = findCurrency(currency->code());
+					if(currency_old) {
+						currency_old->merge(currency);
+						delete currency;
+					} else {
+						currency->setAsLocal();
+						currencies.append(currency);
+					}
+				} else {
+					currencies.append(currency);
+				}
 			} else {
 				currency_errors++;
 				delete currency;
@@ -193,17 +215,115 @@ void Budget::loadCurrencies() {
 	
 }
 
+QString Budget::loadECBData(QByteArray data) {
+	
+	QXmlStreamReader xml(data);
+	
+	if(!xml.readNextStartElement()) {
+		return tr("XML parse error: \"%1\" at line %2, col %3").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
+	}
+	
+	
+	bool had_data = false;
+	
+	while(xml.readNextStartElement()) {
+		if(xml.name() == "Cube") {
+			while(xml.readNextStartElement()) {
+				if(xml.name() == "Cube") {
+					QXmlStreamAttributes attr = xml.attributes();
+					QDate date = QDate::fromString(attr.value("time").trimmed().toString(), Qt::ISODate);
+					while(xml.readNextStartElement()) {
+						if(xml.name() == "Cube") {						
+							attr = xml.attributes();
+							QString code = attr.value("currency").trimmed().toString();
+							double exrate = attr.value("rate").toDouble();
+							Currency *cur = findCurrency(code);
+							if(cur && exrate > 0.0 && date.isValid() && date >= cur->exchangeRateDate()) {
+								cur->setExchangeRate(exrate, date);
+							}
+							had_data = true;
+						}
+						xml.skipCurrentElement();
+					}
+					break;
+				}
+				xml.skipCurrentElement();
+			}
+			break;
+		}
+		xml.skipCurrentElement();
+	}
+	
+	if(!had_data) return tr("No exchange rates found in downloaded ECB data");
+	
+	return QString();
+}
+
+bool Budget::saveCurrencies() {
+	
+	QString filename = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/currencies.xml";
+	
+	QFileInfo info(filename);
+	if(info.isDir()) {
+		qDebug() << tr("File is a directory");
+		return false;
+	}
+
+	QSaveFile ofile(filename);
+	ofile.open(QIODevice::WriteOnly);
+	if(!ofile.isOpen()) {
+		ofile.cancelWriting();
+		qDebug() << tr("Couldn't open file for writing");
+		return false;
+	}
+	QXmlStreamWriter xml(&ofile);
+	xml.setCodec("UTF-8");
+	xml.setAutoFormatting(true);
+	xml.setAutoFormattingIndent(-1);
+
+	xml.writeStartDocument();
+	xml.writeStartElement("Eqonomize");
+	xml.writeAttribute("version", "0.99.1");
+	
+	Currency *currency = currencies.first();
+	while(currency) {
+		if(currency->hasLocalChanges()) {
+			xml.writeStartElement("currency");
+			currency->save(&xml, true);
+			xml.writeEndElement();
+		}
+		currency = currencies.next();
+	}
+	xml.writeEndElement();
+
+	if(ofile.error() != QFile::NoError) {
+		ofile.cancelWriting();
+		qDebug() << tr("Error while writing file; file was not saved");
+		return false;
+	}
+
+	if(!ofile.commit()) {
+		qDebug() << tr("Error while writing file; file was not saved");
+		return false;
+	}
+	
+	return true;
+}
+
 
 QString Budget::loadFile(QString filename, QString &errors) {
+
 	QFile file(filename);
 	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		return tr("Couldn't open %1 for reading").arg(filename);
 	} else if(!file.size()) {
 		return QString::null;
 	}
+
 	QXmlStreamReader xml(&file);
 	if(!xml.readNextStartElement()) return tr("Not a valid Eqonomize! file (XML parse error: \"%1\" at line %2, col %3)").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
 	if(xml.name() != "EqonomizeDoc") return tr("Invalid root element %1 in XML document").arg(xml.name().toString());
+
 	/*QString s_version = xml.attributes().value("version").toString();
 	float f_version = s_version.toFloat();*/
 	

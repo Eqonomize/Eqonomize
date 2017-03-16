@@ -37,6 +37,7 @@
 #include <QUrl>
 #include <QApplication>
 #include <QMainWindow>
+#include <QNetworkAccessManager>
 
 class QAction;
 class QActionGroup;
@@ -49,7 +50,6 @@ class QSpinBox;
 class QTabWidget;
 class QVBoxLayout;
 class QComboBox;
-class QAction;
 class QLineEdit;
 class QCommandLineParser;
 class QToolBar;
@@ -60,6 +60,7 @@ class QLocalSocket;
 class QLocalServer;
 class QPrinter;
 class QDialog;
+class QNetworkReply;
 
 class CategoriesComparisonChart;
 class CategoriesComparisonReport;
@@ -194,6 +195,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionExtraProperties, *ActionSetBudgetPeriod, *AIPCurrentMonth, *AIPCurrentYear, *AIPCurrentWholeMonth, *AIPCurrentWholeYear, *AIPRememberLastDates, *ABFDaily, *ABFWeekly, *ABFFortnightly, *ABFMonthly, *ABFNever;
 		QActionGroup *ActionSelectInitialPeriod, *ActionSelectBackupFrequency;
 		QAction *ActionHelp, *ActionWhatsThis, *ActionReportBug, *ActionAbout, *ActionAboutQt;
+		QAction *ActionUpdateExchangeRates;
 		
 	protected:
 
@@ -262,6 +264,8 @@ class Eqonomize : public QMainWindow {
 		QMenu *accountPopupMenu, *securitiesPopupMenu, *schedulePopupMenu;
 		
 		QDialog *helpDialog, *cccDialog, *ccrDialog, *otcDialog, *otrDialog;
+		
+		QNetworkAccessManager nam;
 
 	public slots:
 
@@ -286,6 +290,9 @@ class Eqonomize : public QMainWindow {
 		void importCSV();
 		void importQIF();
 		void exportQIF();
+		
+		void updateExchangeRates();
+		void ECBDataDownloaded(QNetworkReply*);
 		
 		void serverNewConnection();
 		void socketReadyRead();

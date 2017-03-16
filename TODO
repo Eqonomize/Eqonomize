@@ -9,7 +9,7 @@ BUGS:
 
 FEATURES:
 
-- Multiple currencies
+- Attach files
 - Security: encrypt files?
 - Import and export more file types: OFX, Gnucash, kmymoney2, etc.
 - Test QIF import/export (I have not been able to do any real world

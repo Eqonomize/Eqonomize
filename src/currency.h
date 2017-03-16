@@ -51,22 +51,25 @@ class Currency {
 		QString s_code, s_symbol, s_name;
 		ExchangeRateSource r_source;
 		Budget *o_budget;
+		bool b_local_rate, b_local_name, b_local_symbol, b_local_format;
 	
 	public:
 		
 		Currency();
 		Currency(Budget *parent_budget);
-		Currency(Budget *parent_budget, QString initial_code, QString initial_symbol, QString initial_name, double initial_rate, QDate date = QDate());
+		Currency(Budget *parent_budget, QString initial_code, QString initial_symbol, QString initial_name, double initial_rate, QDate date = QDate(), int initial_decimals = -1, int initial_precedes = -1);
 		Currency(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		~Currency();
 		Currency *copy() const;
 		
+		bool merge(Currency *currency);
+		
 		void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		bool readElement(QXmlStreamReader *xml, bool *valid);
 		bool readElements(QXmlStreamReader *xml, bool *valid);
-		void save(QXmlStreamWriter *xml);
-		void writeAttributes(QXmlStreamAttributes *attr);
-		void writeElements(QXmlStreamWriter *xml);
+		void save(QXmlStreamWriter *xml, bool local_save = true);
+		void writeAttributes(QXmlStreamAttributes *attr, bool local_save = true);
+		void writeElements(QXmlStreamWriter *xml, bool local_save = true);
 	
 		double exchangeRate() const;
 		void setExchangeRate(double new_rate, QDate date = QDate());
@@ -88,11 +91,26 @@ class Currency {
 		void setSymbol(QString new_symbol);
 		void setName(QString new_name);
 		
-		bool symbolPrecedes() const;
+		int symbolPrecedes(bool return_default_if_unset = true) const;
 		void setSymbolPrecedes(int new_precedes);
 		
-		int fractionalDigits() const;
+		int fractionalDigits(bool return_default_if_unset = true) const;
 		void setFractionalDigits(int new_frac_digits);
+		
+		bool hasLocalChanges() const;
+		void setAsLocal();
+		
+		bool exchangeRateIsUpdated() const;
+		void setExchangeRateIsUpdated(bool exchange_rate_is_updated = true);
+		
+		bool formatHasChanged() const;
+		void setFormatHasChanged(bool format_has_changed = true);
+		
+		bool nameHasChanged() const;
+		void setNameHasChanged(bool name_has_changed = true);
+		
+		bool symbolHasChanged() const;
+		void setSymbolHasChanged(bool symbol_has_changed = true);
 	
 };
 

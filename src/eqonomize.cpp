@@ -78,6 +78,8 @@
 #include <QShortcut>
 #include <QTextBrowser>
 #include <QToolButton>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 #include <QDebug>
 
@@ -4289,7 +4291,24 @@ void Eqonomize::exportQIF() {
 	exportQIFFile(budget, this, b_extra);
 }
 
-
+void Eqonomize::updateExchangeRates() {
+	nam.get(QNetworkRequest(QUrl("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml")));
+	connect(&nam, SIGNAL(finished(QNetworkReply*)), this, SLOT(ECBDataDownloaded(QNetworkReply*)));
+}
+void Eqonomize::ECBDataDownloaded(QNetworkReply *reply) {
+	if(reply->error() != QNetworkReply::NoError) {
+		QMessageBox::critical(this, tr("Error"), tr("Failed to download exchange rates from %1: %2.").arg("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml").arg(reply->errorString()));
+	} else {
+		QString errors = budget->loadECBData(reply->readAll());
+		if(!errors.isEmpty()) {
+			QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml").arg(errors));
+		} else {
+			budget->saveCurrencies();
+			reloadBudget();
+		}
+	}
+	reply->deleteLater();
+}
 
 void Eqonomize::showOverTimeReport() {
 	if(!otrDialog) {
@@ -5023,6 +5042,8 @@ void Eqonomize::setupActions() {
 	fileToolbar->addAction(ActionSaveView);
 	NEW_ACTION(ActionExportQIF, tr("Export As QIF File…"), "document-export", 0, this, SLOT(exportQIF()), "export_qif", fileMenu);
 	fileMenu->addSeparator();
+	NEW_ACTION(ActionUpdateExchangeRates, tr("Update Exchange Rates"), "view-refresh", 0, this, SLOT(updateExchangeRates()), "update_exchange_rates", fileMenu);
+	fileMenu->addSeparator();
 	QList<QKeySequence> keySequences;	
 	keySequences << QKeySequence(Qt::CTRL+Qt::Key_Q);
 	keySequences << QKeySequence(QKeySequence::Quit);
@@ -5426,6 +5447,9 @@ void Eqonomize::saveOptions() {
 		settings.setValue("initialToDate", to_date.toString(Qt::ISODate));
 	}
 	settings.endGroup();
+	
+	budget->saveCurrencies();
+	
 	emit timeToSaveConfig();
 }
 
