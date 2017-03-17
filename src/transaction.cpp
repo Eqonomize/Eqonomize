@@ -102,23 +102,23 @@ bool Transaction::equals(const Transaction *transaction, bool strict_comparison)
 SplitTransaction *Transaction::parentSplit() const {return o_split;}
 void Transaction::setParentSplit(SplitTransaction *parent) {o_split = parent;}
 double Transaction::value(bool convert) const {
-	if(convert && currency() && currency() != budget()->defaultCurrency()) return currency()->convertTo(d_value, budget()->defaultCurrency());
+	if(convert && currency() && currency() != budget()->defaultCurrency()) return currency()->convertTo(d_value, budget()->defaultCurrency(), d_date);
 	return d_value;
 }
 double Transaction::fromValue(bool convert) const {return value(convert);}
 double Transaction::toValue(bool convert) const {return value(convert);}
 Currency *Transaction::currency() const {
-	if(fromAccount()->type() == ACCOUNT_TYPE_ASSETS) return ((AssetsAccount*) fromAccount())->currency();
+	if(fromAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) fromAccount())->currency()) return ((AssetsAccount*) fromAccount())->currency();
 	if(toAccount()->type() == ACCOUNT_TYPE_ASSETS) return ((AssetsAccount*) toAccount())->currency();
 	return NULL;
 }
 Currency *Transaction::fromCurrency() const {
-	if(fromAccount()->type() == ACCOUNT_TYPE_ASSETS) return ((AssetsAccount*) fromAccount())->currency();
+	if(fromAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) fromAccount())->currency()) return ((AssetsAccount*) fromAccount())->currency();
 	if(toAccount()->type() == ACCOUNT_TYPE_ASSETS) return ((AssetsAccount*) toAccount())->currency();
 	return NULL;
 }
 Currency *Transaction::toCurrency() const {
-	if(toAccount()->type() == ACCOUNT_TYPE_ASSETS) return ((AssetsAccount*) toAccount())->currency();
+	if(toAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) toAccount())->currency()) return ((AssetsAccount*) toAccount())->currency();
 	if(fromAccount()->type() == ACCOUNT_TYPE_ASSETS) return ((AssetsAccount*) fromAccount())->currency();
 	return NULL;
 }
@@ -462,7 +462,7 @@ double Transfer::withdrawal(bool convert) const {
 	return value(convert);
 }
 double Transfer::deposit(bool convert) const {
-	if(convert && to() && to()->currency()) return to()->currency()->convertTo(d_deposit, budget()->defaultCurrency());
+	if(convert && to() && to()->currency()) return to()->currency()->convertTo(d_deposit, budget()->defaultCurrency(), date());
 	else if(convert) return withdrawal(true);
 	return d_deposit;
 }
@@ -583,7 +583,7 @@ bool SecurityTransaction::equals(const Transaction *transaction, bool strict_com
 
 double SecurityTransaction::shares() const {return d_shares;}
 double SecurityTransaction::shareValue(bool convert) const {
-	if(convert && o_security && o_security->currency()) return o_security->currency()->convertTo(d_share_value, budget()->defaultCurrency());
+	if(convert && o_security && o_security->currency()) return o_security->currency()->convertTo(d_share_value, budget()->defaultCurrency(), date());
 	return d_share_value;
 }
 void SecurityTransaction::setShares(double new_shares) {
@@ -652,7 +652,7 @@ void SecurityBuy::writeAttributes(QXmlStreamAttributes *attr) {
 }
 
 double SecurityBuy::toValue(bool convert) const {
-	if(convert && o_security && o_security->currency()) return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency());
+	if(convert && o_security && o_security->currency()) return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency(), date());
 	return d_shares * d_share_value;
 }
 
@@ -698,7 +698,7 @@ void SecuritySell::writeAttributes(QXmlStreamAttributes *attr) {
 }
 
 double SecuritySell::fromValue(bool convert) const {
-	if(convert && o_security && o_security->currency()) return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency());
+	if(convert && o_security && o_security->currency()) return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency(), date());
 	return d_shares * d_share_value;
 }
 

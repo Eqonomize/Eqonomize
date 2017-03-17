@@ -85,7 +85,7 @@ Budget::Budget() {
 	accounts.setAutoDelete(false);
 	currency_euro = new Currency(this, "EUR", "€", "Euro", 1.0);
 	addCurrency(currency_euro);
-	loadCurrencies();
+	loadCurrencies();	
 	QString default_code = QLocale().currencySymbol(QLocale::CurrencyIsoCode);
 	if(default_code.isEmpty()) default_code = "USD";
 	default_currency = findCurrency(default_code);
@@ -154,7 +154,10 @@ void Budget::loadLocalCurrencies() {
 }
 void Budget::loadCurrenciesFile(QString filename, bool is_local) {
 	QFile file(filename);
-	if(is_local && !file.exists()) return;
+	if(is_local && !file.exists()) {
+		saveCurrencies();
+		return;
+	}
 	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		qDebug() << tr("Couldn't open %1 for reading").arg(filename);
 		return;
@@ -170,6 +173,8 @@ void Budget::loadCurrenciesFile(QString filename, bool is_local) {
 		qDebug() << tr("Invalid root element %1 in XML document").arg(xml.name().toString());
 		return;
 	}
+
+	bool oldversion = (xml.attributes().value("version").toString() != QString(VERSION));
 	
 	int currency_errors = 0;
 
@@ -212,6 +217,8 @@ void Budget::loadCurrenciesFile(QString filename, bool is_local) {
 	}
 	
 	file.close();
+
+	if(oldversion && is_local) saveCurrencies();
 	
 }
 
@@ -238,18 +245,16 @@ QString Budget::loadECBData(QByteArray data) {
 							QString code = attr.value("currency").trimmed().toString();
 							double exrate = attr.value("rate").toDouble();
 							Currency *cur = findCurrency(code);
-							if(cur && exrate > 0.0 && date.isValid() && date >= cur->exchangeRateDate()) {
+							if(cur && exrate > 0.0 && date.isValid()) {
 								cur->setExchangeRate(exrate, date);
 							}
 							had_data = true;
 						}
 						xml.skipCurrentElement();
 					}
-					break;
 				}
 				xml.skipCurrentElement();
 			}
-			break;
 		}
 		xml.skipCurrentElement();
 	}
@@ -283,11 +288,11 @@ bool Budget::saveCurrencies() {
 
 	xml.writeStartDocument();
 	xml.writeStartElement("Eqonomize");
-	xml.writeAttribute("version", "0.99.1");
+	xml.writeAttribute("version", VERSION);
 	
 	Currency *currency = currencies.first();
 	while(currency) {
-		if(currency->hasLocalChanges()) {
+		if(currency != currency_euro) {
 			xml.writeStartElement("currency");
 			currency->save(&xml, true);
 			xml.writeEndElement();
@@ -665,7 +670,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 	xml.writeStartDocument();
 	xml.writeDTD("<!DOCTYPE EqonomizeDoc>");
 	xml.writeStartElement("EqonomizeDoc");
-	xml.writeAttribute("version", "0.99.1");
+	xml.writeAttribute("version", VERSION);
 	
 	int id = 1;
 	Account *account = accounts.first();

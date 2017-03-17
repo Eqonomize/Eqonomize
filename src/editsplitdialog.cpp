@@ -1124,20 +1124,23 @@ void EditDebtPaymentWidget::updateTotalValue() {
 		if(b1 || b3 || (b2 && payed_interest)) cur = cur2;
 		else if(cur1) cur = cur1;
 	}
+	QDate date;
+	if(dateEdit) date = dateEdit->date();
+	if(!date.isValid()) date = QDate::currentDate();
 	if(feeEdit) {
-		if(cur2 && cur2 != cur) value += cur2->convertTo(feeEdit->value(), cur);
+		if(cur2 && cur2 != cur) value += cur2->convertTo(feeEdit->value(), cur, date);
 		else value += feeEdit->value();
 	}
 	if(interestEdit) {
-		if(payed_interest && cur2 && cur2 != cur) value += cur2->convertTo(interestEdit->value(), cur);
-		else if(!payed_interest && cur1 && cur1 != cur) value += cur1->convertTo(interestEdit->value(), cur);
+		if(payed_interest && cur2 && cur2 != cur) value += cur2->convertTo(interestEdit->value(), cur, date);
+		else if(!payed_interest && cur1 && cur1 != cur) value += cur1->convertTo(interestEdit->value(), cur, date);
 		else value += interestEdit->value();
 	}
 	if((cur2 || !cur1) && paymentEdit && paymentEdit->value() != 0.0) {
-		if(cur2 && cur2 != cur) value += cur2->convertTo(paymentEdit->value(), cur);
+		if(cur2 && cur2 != cur) value += cur2->convertTo(paymentEdit->value(), cur, date);
 		else value += paymentEdit->value();
 	} else if(reductionEdit) {
-		if(cur1 && cur1 != cur) value += cur1->convertTo(reductionEdit->value(), cur);
+		if(cur1 && cur1 != cur) value += cur1->convertTo(reductionEdit->value(), cur, date);
 		else value += reductionEdit->value();
 	}
 	totalLabel->setText(QString("<div align=\"right\"><b>%1</b> %2</div>").arg(tr("Total value:"), cur->formatValue(value)));

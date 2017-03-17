@@ -43,6 +43,7 @@ OBJECTS_DIR = build
 DEFINES += TRANSLATIONS_DIR=\\\"$$TRANSLATIONS_DIR\\\"
 DEFINES += DOCUMENTATION_DIR=\\\"$$DOCUMENTATION_DIR\\\"
 DEFINES += DATA_DIR=\\\"$$DATA_DIR\\\"
+DEFINES += VERSION=\\\"$$VERSION\\\"
 
 HEADERS += src/account.h \
            src/accountcombobox.h \

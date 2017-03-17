@@ -172,7 +172,7 @@ void AssetsAccount::setAsBudgetAccount(bool will_be) {
 		o_budget->budgetAccount = NULL;
 	}
 }
-double AssetsAccount::initialBalance(bool calculate_for_securities, bool convert) const {
+double AssetsAccount::initialBalance(bool calculate_for_securities) const {
 	if(at_type == ASSETS_TYPE_SECURITIES) {
 		if(!calculate_for_securities) return 0.0;
 		double d = 0.0;
@@ -183,10 +183,8 @@ double AssetsAccount::initialBalance(bool calculate_for_securities, bool convert
 			}
 			sec = o_budget->securities.next();
 		}
-		if(convert && o_currency) return o_currency->convertTo(d, o_budget->defaultCurrency());
 		return d;
 	}
-	if(convert && o_currency) return o_currency->convertTo(d_initbal, o_budget->defaultCurrency());
 	return d_initbal;
 }
 void AssetsAccount::setInitialBalance(double new_initial_balance) {if(at_type != ASSETS_TYPE_SECURITIES) d_initbal = new_initial_balance;}

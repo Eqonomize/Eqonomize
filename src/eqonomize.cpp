@@ -4177,6 +4177,7 @@ void Eqonomize::openURL(const QUrl& url) {
 	if(!errors.isEmpty()) {
 		QMessageBox::critical(this, tr("Error"), errors);
 	}
+	
 	setWindowTitle(url.fileName() + "[*]");
 	current_url = url;
 	ActionFileReload->setEnabled(true);
@@ -5448,8 +5449,6 @@ void Eqonomize::saveOptions() {
 	}
 	settings.endGroup();
 	
-	budget->saveCurrencies();
-	
 	emit timeToSaveConfig();
 }
 
@@ -5915,9 +5914,10 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 			EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, parent, tr("Edit Account"));
 			AssetsAccount *account = (AssetsAccount*) i_account;
 			dialog->setAccount(account);
-			double prev_ib = account->initialBalance(true, true);
+			double prev_ib = account->initialBalance();
 			bool prev_debt = (i->parent() == liabilitiesItem);
 			Account *previous_budget_account = budget->budgetAccount;
+			Currency *cur = account->currency();
 			if(dialog->exec() == QDialog::Accepted) {
 				dialog->modifyAccount(account);
 				budget->accountModified(account);
@@ -5927,30 +5927,30 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 					} else {
 						i->setText(0, account->name());
 					}
-					filterAccounts();
-				} else {
-					account_value[account] += (account->initialBalance() - prev_ib);
-					bool is_debt = IS_DEBT(account);
-					if(account->isBudgetAccount() && to_date > QDate::currentDate()) i->setText(0, account->name() + "*");
-					else i->setText(0, account->name());
-					if(is_debt != prev_debt) {
-						if(is_debt) {
-							assetsItem->removeChild(i);
-							liabilitiesItem->addChild(i);
-						} else {
-							liabilitiesItem->removeChild(i);
-							assetsItem->addChild(i);
-						}
-						filterAccounts();
-					} else if(is_debt) {
-						liabilities_accounts_value += (account->initialBalance(true, true) - prev_ib);
-						i->setText(VALUE_COLUMN, account->currency()->formatValue(-account_value[account]) + " ");
-						liabilitiesItem->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_accounts_value) + " ");
+				}					
+				account_value[account] += (account->initialBalance() - prev_ib);
+				bool is_debt = IS_DEBT(account);
+				if(account->isBudgetAccount() && to_date > QDate::currentDate()) i->setText(0, account->name() + "*");
+				else i->setText(0, account->name());
+				if(is_debt != prev_debt) {
+					if(is_debt) {
+						assetsItem->removeChild(i);
+						liabilitiesItem->addChild(i);
 					} else {
-						assets_accounts_value += (account->initialBalance(true, true) - prev_ib);
-						i->setText(VALUE_COLUMN, account->currency()->formatValue(account_value[account]) + " ");
-						assetsItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
+						liabilitiesItem->removeChild(i);
+						assetsItem->addChild(i);
 					}
+					filterAccounts();
+				} else if(previous_budget_account != budget->budgetAccount) {
+					filterAccounts();
+				} else if(is_debt) {
+					liabilities_accounts_value += account->currency()->convertTo(account->initialBalance() - prev_ib, budget->defaultCurrency(), to_date);
+					i->setText(VALUE_COLUMN, account->currency()->formatValue(-account_value[account]) + " ");
+					liabilitiesItem->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_accounts_value) + " ");
+				} else {
+					assets_accounts_value += account->currency()->convertTo(account->initialBalance() - prev_ib, budget->defaultCurrency(), to_date);
+					i->setText(VALUE_COLUMN, account->currency()->formatValue(account_value[account]) + " ");
+					assetsItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
 				}
 				i->setHidden(account->isClosed() && is_zero(account_value[account]) && is_zero(account_change[account]));
 				emit accountsModified();
@@ -5963,6 +5963,8 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 				expensesWidget->filterTransactions();
 				incomesWidget->filterTransactions();
 				transfersWidget->filterTransactions();
+				updateScheduledTransactions();
+				updateSecurities();
 				dialog->deleteLater();
 				return true;
 			}
@@ -5996,6 +5998,7 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 				}
 				incomesItem->sortChildren(0, Qt::AscendingOrder);
 				incomesWidget->filterTransactions();
+				updateScheduledTransactions();
 				dialog->deleteLater();
 				return true;
 			}
@@ -6029,6 +6032,7 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 				}
 				expensesItem->sortChildren(0, Qt::AscendingOrder);
 				expensesWidget->filterTransactions();
+				updateScheduledTransactions();
 				dialog->deleteLater();
 				return true;
 			}
@@ -6485,11 +6489,11 @@ void Eqonomize::appendAssetsAccount(AssetsAccount *account) {
 	item_accounts[account] = i;
 	account_value[account] = initial_balance;
 	if(is_debt) {
-		liabilities_accounts_value += account->currency()->convertTo(initial_balance, budget->defaultCurrency());
+		liabilities_accounts_value += account->currency()->convertTo(initial_balance, budget->defaultCurrency(), to_date);
 		liabilitiesItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
 		liabilitiesItem->sortChildren(0, Qt::AscendingOrder);
 	} else {
-		assets_accounts_value += account->currency()->convertTo(initial_balance, budget->defaultCurrency());;
+		assets_accounts_value += account->currency()->convertTo(initial_balance, budget->defaultCurrency(), to_date);
 		assetsItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
 		assetsItem->sortChildren(0, Qt::AscendingOrder);
 	}
@@ -6578,7 +6582,8 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 	bool balfrom = false, balto = false;
 	bool to_is_debt = false, from_is_debt = false;
 	double value = subtract ? -trans->fromValue(false) : trans->fromValue(false);
-	double cvalue = subtract ? -trans->fromValue(true) : trans->fromValue(true);
+	double cvalue = trans->fromCurrency()->convertTo(trans->fromValue(false), budget->defaultCurrency(), to_date);
+	if(subtract) cvalue = -cvalue;
 	if(!monthdate) {
 		date = budget->lastBudgetDay(transdate);
 		monthdate = &date;
@@ -6736,7 +6741,8 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 		}
 	}
 	value = subtract ? -trans->toValue(false) : trans->toValue(false);
-	cvalue = subtract ? -trans->toValue(true) : trans->toValue(true);
+	cvalue = trans->toCurrency()->convertTo(trans->toValue(false), budget->defaultCurrency(), to_date);
+	if(subtract) cvalue = -cvalue;
 	switch(trans->toAccount()->type()) {
 		case ACCOUNT_TYPE_EXPENSES: {
 			if(b_lastmonth) {
@@ -7427,10 +7433,10 @@ void Eqonomize::updateSecurityAccount(AssetsAccount *account, bool update_displa
 	if(!b_from) {
 		value_from = account->initialBalance();
 	}
-	assets_accounts_value -= account->currency()->convertTo(account_value[account], budget->defaultCurrency());
-	assets_accounts_value += account->currency()->convertTo(value, budget->defaultCurrency());
-	assets_accounts_change -= account->currency()->convertTo(account_change[account], budget->defaultCurrency());
-	assets_accounts_change += account->currency()->convertTo((value - value_from), budget->defaultCurrency());
+	assets_accounts_value -= account->currency()->convertTo(account_value[account], budget->defaultCurrency(), to_date);
+	assets_accounts_value += account->currency()->convertTo(value, budget->defaultCurrency(), to_date);
+	assets_accounts_change -= account->currency()->convertTo(account_change[account], budget->defaultCurrency(), to_date);
+	assets_accounts_change += account->currency()->convertTo((value - value_from), budget->defaultCurrency(), to_date);
 	account_value[account] = value;
 	account_change[account] = value - value_from;
 	if(update_display) {

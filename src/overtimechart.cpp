@@ -78,6 +78,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QDebug>
 
 #include "account.h"
 #include "budget.h"
@@ -936,6 +937,8 @@ void OverTimeChart::updateDisplay() {
 	QStringList desc_order;
 	bool exclude_subs = (current_source == 3 || current_source == 4);
 	bool is_parent = (current_account && !current_account->subCategories.isEmpty());
+	bool do_convert = (current_source != -2);
+	
 	if(current_source == 25) current_source = 3;
 	if(current_source == 26) current_source = 4;
 
@@ -1327,13 +1330,13 @@ void OverTimeChart::updateDisplay() {
 				}
 				monthly_values->append(chart_month_info());
 				(*mi) = &monthly_values->back();
-				if(use_to_value) (*mi)->value = trans->toValue(true) * sign;
-				else (*mi)->value = trans->value(true) * sign;
+				if(use_to_value) (*mi)->value = trans->toValue(do_convert) * sign;
+				else (*mi)->value = trans->value(do_convert) * sign;
 				(*mi)->count = trans->quantity();
 				(*mi)->date = newdate;
 			} else {
-				if(use_to_value) (*mi)->value = trans->toValue(true) * sign;
-				else (*mi)->value += trans->value(true) * sign;
+				if(use_to_value) (*mi)->value = trans->toValue(do_convert) * sign;
+				else (*mi)->value += trans->value(do_convert) * sign;
 				(*mi)->count += trans->quantity();
 			}
 			if(monthly_values2) {
@@ -1359,15 +1362,15 @@ void OverTimeChart::updateDisplay() {
 					}
 					monthly_values2->append(chart_month_info());
 					(*mi2) = &monthly_values2->back();
-					(*mi2)->value = trans->value(true) * sign * -1;
+					(*mi2)->value = trans->value(do_convert) * sign * -1;
 					(*mi2)->date = newdate;
 				} else {
-					(*mi2)->value += trans->value(true) * sign * -1;
+					(*mi2)->value += trans->value(do_convert) * sign * -1;
 				}
 			}
 			if(total_value) {
 				if(type == 2) *total_value += trans->quantity();
-				else *total_value += trans->value(true) * sign;
+				else *total_value += trans->value(do_convert) * sign;
 			}
 		}
 		trans = budget->transactions.next();
@@ -1760,12 +1763,12 @@ void OverTimeChart::updateDisplay() {
 						++cmi_it;
 					}
 					(*mi) = cmi_it;
-					if(use_to_value) (*mi)->value += trans->toValue(true) * sign;
-					else (*mi)->value += trans->value(true) * sign;
+					if(use_to_value) (*mi)->value += trans->toValue(do_convert) * sign;
+					else (*mi)->value += trans->value(do_convert) * sign;
 					(*mi)->count += trans->quantity();
 					if(total_value) {
 						if(type == 2) *total_value += trans->quantity();
-						else *total_value += trans->value(true) * sign;
+						else *total_value += trans->value(do_convert) * sign;
 					}
 				}
 				if(strans->recurrence()) {
@@ -1783,7 +1786,7 @@ void OverTimeChart::updateDisplay() {
 							++cmi_it;
 						}
 						(*mi2) = cmi_it;
-						(*mi2)->value += trans->value(true) * sign * -1;
+						(*mi2)->value += trans->value(do_convert) * sign * -1;
 					}
 					if(strans->recurrence()) {
 						transdate = strans->recurrence()->nextOccurrence(transdate);
@@ -1909,11 +1912,12 @@ void OverTimeChart::updateDisplay() {
 			QVector<chart_month_info>::iterator it = monthly_cats[ass].begin();
 			QVector<chart_month_info>::iterator it_e = monthly_cats[ass].end();
 			chart_month_info initial_cmi;
-			initial_cmi.date = it->date;
-			initial_cmi.value = acc_total;
+			initial_cmi.date = it->date;			
+			initial_cmi.value = ass->currency()->convertTo(acc_total, budget->defaultCurrency(), it->date);
 			while(true) {
 				acc_total += it->value;
-				it->value = acc_total;
+				it->value = ass->currency()->convertTo(acc_total, budget->defaultCurrency(), it->date);
+				qDebug() << it->date;
 				QVector<chart_month_info>::iterator it_next = it;
 				++it_next;
 				if(it_next == it_e) {
@@ -1941,7 +1945,7 @@ void OverTimeChart::updateDisplay() {
 			QDate prevdate = it->date;
 			budget->addBudgetMonthsSetLast(prevdate, -1);
 			while(it != it_e) {
-				it->value += sec->value(prevdate);
+				it->value += ass->currency()->convertTo(sec->value(prevdate), budget->defaultCurrency(), it->date);
 				prevdate = it->date;
 				it++;
 			}

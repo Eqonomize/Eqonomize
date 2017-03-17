@@ -23,6 +23,7 @@
 
 #include <QString>
 #include <QDate>
+#include <QMap>
 #include <QCoreApplication>
 
 #include "eqonomizelist.h"
@@ -43,9 +44,7 @@ class Currency {
 	Q_DECLARE_TR_FUNCTIONS(Currency)
 	
 	protected:
-	
-		double d_rate;
-		QDate rate_date;
+			
 		int i_decimals;
 		int b_precedes;
 		QString s_code, s_symbol, s_name;
@@ -54,6 +53,8 @@ class Currency {
 		bool b_local_rate, b_local_name, b_local_symbol, b_local_format;
 	
 	public:
+	
+		QMap<QDate, double> rates;
 		
 		Currency();
 		Currency(Budget *parent_budget);
@@ -71,16 +72,16 @@ class Currency {
 		void writeAttributes(QXmlStreamAttributes *attr, bool local_save = true);
 		void writeElements(QXmlStreamWriter *xml, bool local_save = true);
 	
-		double exchangeRate() const;
+		double exchangeRate(QDate date = QDate(), bool exact_match = false) const;
 		void setExchangeRate(double new_rate, QDate date = QDate());
 		
 		ExchangeRateSource exchangeRateSource() const;
 		void setExchangeRateSource(ExchangeRateSource source);
 		
-		QDate exchangeRateDate() const;
-		
 		double convertTo(double value, const Currency *to_currency) const;
 		double convertFrom(double value, const Currency *from_currency) const;
+		double convertTo(double value, const Currency *to_currency, const QDate &date) const;
+		double convertFrom(double value, const Currency *from_currency, const QDate &date) const;
 		
 		QString formatValue(double value, int nr_of_decimals = -1, bool show_currency = true) const;
 
@@ -128,3 +129,4 @@ template<class type> class CurrencyList : public EqonomizeList<type> {
 
 
 #endif
+

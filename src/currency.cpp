@@ -26,13 +26,13 @@
 #include <QXmlStreamWriter>
 #include <QXmlStreamAttribute>
 #include <QLocale>
+#include <QDebug>
 
 #include "budget.h"
 #include "currency.h"
 
 Currency::Currency(Budget *parent_budget) {
 	o_budget = parent_budget;
-	d_rate = 1.0;
 	i_decimals = -1;
 	b_precedes = -1;
 	r_source = EXCHANGE_RATE_SOURCE_NONE;
@@ -40,7 +40,6 @@ Currency::Currency(Budget *parent_budget) {
 }
 Currency::Currency() {
 	o_budget = NULL;
-	d_rate = 1.0;
 	i_decimals = -1;
 	b_precedes = -1;
 	r_source = EXCHANGE_RATE_SOURCE_NONE;
@@ -51,17 +50,15 @@ Currency::Currency(Budget *parent_budget, QString initial_code, QString initial_
 	s_code = initial_code;
 	s_symbol = initial_symbol;
 	s_name = initial_name;
-	d_rate = initial_rate;
+	if(!date.isValid() && initial_rate != 1.0) date = QDate::currentDate();
+	if(date.isValid()) rates[date] = initial_rate;
 	i_decimals = initial_decimals;
 	b_precedes = initial_precedes;
 	b_local_rate = false; b_local_name = false; b_local_symbol = false; b_local_format = false;
 	r_source = EXCHANGE_RATE_SOURCE_NONE;
-	if(date.isValid()) rate_date = date;
-	else rate_date = QDate::currentDate();
 }
 Currency::Currency(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) {
 	o_budget = parent_budget;
-	d_rate = 1.0;
 	i_decimals = -1;
 	b_precedes = -1;
 	b_local_rate = false; b_local_name = false; b_local_symbol = false; b_local_format = false;
@@ -71,7 +68,8 @@ Currency::Currency(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) {
 }
 Currency::~Currency() {}
 Currency *Currency::copy() const {
-	Currency *this_copy = new Currency(o_budget, s_code, s_symbol, s_name, d_rate, rate_date, b_precedes, i_decimals);
+	Currency *this_copy = new Currency(o_budget, s_code, s_symbol, s_name, 1.0, QDate(), b_precedes, i_decimals);
+	this_copy->rates = rates;
 	this_copy->setExchangeRateIsUpdated(b_local_rate);
 	this_copy->setNameHasChanged(b_local_name);
 	this_copy->setSymbolHasChanged(b_local_symbol);
@@ -91,12 +89,13 @@ bool Currency::merge(Currency *currency) {
 		b_local_symbol = true;
 		s_symbol = currency->symbol();
 	}
-	if(currency->exchangeRateDate().isValid() && (!rate_date.isValid() || rate_date < currency->exchangeRateDate() || (rate_date == currency->exchangeRateDate() && d_rate != currency->exchangeRate()))) {
-		has_changed = true;
-		b_local_rate = true;
-		rate_date = currency->exchangeRateDate();
-		d_rate = currency->exchangeRate();
+	QMap<QDate, double>::const_iterator it = currency->rates.constBegin();
+	while (it != currency->rates.constEnd()) {
+		rates[it.key()] = it.value();
+		++it;
 	}
+	b_local_rate = true;
+	has_changed = true;
 	if(currency->fractionalDigits(false) >= 0 && currency->fractionalDigits(false) != i_decimals) {
 		has_changed = true;
 		b_local_format = true;
@@ -124,9 +123,8 @@ void Currency::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 bool Currency::readElement(QXmlStreamReader *xml, bool*) {
 	if(xml->name() == "rate") {
 		QXmlStreamAttributes attr = xml->attributes();
-		rate_date = QDate::fromString(attr.value("date").toString(), Qt::ISODate);
-		d_rate = attr.value("value").toDouble();
-		if(!rate_date.isValid()) rate_date = QDate::currentDate();
+		QDate date = QDate::fromString(attr.value("date").toString(), Qt::ISODate);
+		if(date.isValid()) rates[date] = attr.value("value").toDouble();
 		return false;
 	}
 	return false;
@@ -151,26 +149,35 @@ void Currency::writeAttributes(QXmlStreamAttributes *attr, bool local_save) {
 	if((!local_save || b_local_format) && b_precedes >= 0) attr->append("precedes", QString::number(b_precedes));
 	if(!local_save && r_source == EXCHANGE_RATE_SOURCE_ECB) attr->append("source", "ECB");
 }
-void Currency::writeElements(QXmlStreamWriter *xml, bool local_save) {
-	if(local_save && !b_local_rate) return;
-	if(rate_date.isValid()) {
+void Currency::writeElements(QXmlStreamWriter *xml, bool) {
+	QMap<QDate, double>::const_iterator it = rates.constBegin();
+	while (it != rates.constEnd()) {
 		xml->writeStartElement("rate");
-		xml->writeAttribute("value", QString::number(d_rate, 'f', 5));
-		xml->writeAttribute("date", rate_date.toString(Qt::ISODate));
+		xml->writeAttribute("value", QString::number(it.value(), 'f', 5));
+		xml->writeAttribute("date", it.key().toString(Qt::ISODate));
 		xml->writeEndElement();
+		++it;
 	}
 }
 
-double Currency::exchangeRate() const {
-	return d_rate;
+double Currency::exchangeRate(QDate date, bool exact_match) const {
+	if(exact_match) {
+		QMap<QDate, double>::const_iterator it = rates.find(date);
+		if(it == rates.constEnd()) return -1.0;
+		return it.value();
+	}
+	if(rates.isEmpty()) return 1.0;
+	if(!date.isValid()) return rates.last();	
+	QMap<QDate, double>::const_iterator it = rates.lowerBound(date);
+	if(it == rates.constEnd()) return rates.last();
+	if(it.key() != date && it != rates.constBegin()) --it;
+	return it.value();
 }
 void Currency::setExchangeRate(double new_rate, QDate date) {
-	d_rate = new_rate;
-	if(date.isValid()) rate_date = date;
-	else rate_date = QDate::currentDate();
+	if(!date.isValid()) date = QDate::currentDate();
+	rates[date] = new_rate;
 	b_local_rate = true;
 }
-QDate Currency::exchangeRateDate() const {return rate_date;}
 
 ExchangeRateSource Currency::exchangeRateSource() const {
 	return r_source;
@@ -181,11 +188,25 @@ void Currency::setExchangeRateSource(ExchangeRateSource source) {
 
 double Currency::convertTo(double value, const Currency *to_currency) const {
 	if(to_currency == this) return value;
-	return value / d_rate * to_currency->exchangeRate();
+	if(rates.isEmpty()) return value * to_currency->exchangeRate();
+	return value / rates.last() * to_currency->exchangeRate();
 }
 double Currency::convertFrom(double value, const Currency *from_currency) const {
 	if(from_currency == this) return value;
 	return from_currency->convertTo(value, this);
+}
+double Currency::convertTo(double value, const Currency *to_currency, const QDate &date) const {
+	if(to_currency == this) return value;
+	if(rates.isEmpty()) return value * to_currency->exchangeRate(date);
+	if(!date.isValid()) return value / rates.last() * to_currency->exchangeRate(date);
+	QMap<QDate, double>::const_iterator it = rates.lowerBound(date);	
+	if(it == rates.constEnd()) return value / rates.last() * to_currency->exchangeRate(date);
+	if(it.key() != date && it != rates.constBegin()) --it;
+	return value / it.value() * to_currency->exchangeRate(date);
+}
+double Currency::convertFrom(double value, const Currency *from_currency, const QDate &date) const {
+	if(from_currency == this) return value;
+	return from_currency->convertTo(value, this, date);
 }
 
 QString Currency::formatValue(double value, int nr_of_decimals, bool show_currency) const {
