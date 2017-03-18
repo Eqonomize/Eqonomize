@@ -40,6 +40,7 @@
 #include "budget.h"
 #include "accountcombobox.h"
 #include "editaccountdialogs.h"
+#include "editcurrencydialog.h"
 #include "eqonomizevalueedit.h"
 
 EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title, bool new_loan) : QDialog(parent, 0), budget(budg) {
@@ -48,6 +49,8 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	setModal(true);
 	
 	int row = 0;
+	prev_currency_index = 1;
+	b_currencies_edited = false;
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	
@@ -73,15 +76,8 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	currencyCombo = new QComboBox(this);
 	currencyCombo->setEditable(false);
 	grid->addWidget(currencyCombo, row, 1); row++;
-	Currency *currency = budget->currencies.first();
-	int i = 0;
-	while(currency) {
-		currencyCombo->addItem(currency->code());
-		currencyCombo->setItemData(i, qVariantFromValue((void*) currency));
-		if(currency == budget->defaultCurrency()) currencyCombo->setCurrentIndex(i);
-		i++;
-		currency = budget->currencies.next();
-	}
+	editCurrencyButton = new QPushButton(tr("Edit"), this);
+	grid->addWidget(editCurrencyButton, row, 1, Qt::AlignRight); row++;
 	
 	grid->addWidget(new QLabel(tr("Name:"), this), row, 0);
 	nameEdit = new QLineEdit(this);
@@ -92,7 +88,7 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	grid->addWidget(maintainerEdit, row, 1); row++;
 	valueLabel = new QLabel(new_loan ? tr("Debt:") : tr("Opening balance:", "Account balance"), this);
 	grid->addWidget(valueLabel, row, 0);
-	valueEdit = new EqonomizeValueEdit(true, this, budget);
+	valueEdit = new EqonomizeValueEdit(true, this, budget);	
 	grid->addWidget(valueEdit, row, 1); row++;
 	if(new_loan) {
 		initialButton = new QRadioButton(tr("Opening balance", "Account balance"), this);
@@ -140,6 +136,8 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	nameEdit->setFocus();
 	current_account = NULL;
 	
+	updateCurrencyList(budget->defaultCurrency());
+	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
@@ -148,10 +146,28 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	box1->addWidget(buttonBox);
 	
 	if(typeCombo) connect(typeCombo, SIGNAL(activated(int)), this, SLOT(typeActivated(int)));
-	if(currencyCombo) connect(currencyCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(currencyChanged(int)));
+	if(currencyCombo) connect(currencyCombo, SIGNAL(activated(int)), this, SLOT(currencyActivated(int)));
 	if(closedButton) connect(closedButton, SIGNAL(toggled(bool)), this, SLOT(closedToggled(bool)));
 	if(transferButton) connect(transferButton, SIGNAL(toggled(bool)), this, SLOT(transferToggled(bool)));
+	connect(editCurrencyButton, SIGNAL(clicked()), this, SLOT(editCurrency()));
 
+}
+void EditAssetsAccountDialog::updateCurrencyList(Currency *select_currency) {
+	currencyCombo->clear();
+	currencyCombo->addItem(tr("New currency..."));
+	Currency *currency = budget->currencies.first();
+	int i = 1;
+	while(currency) {
+		currencyCombo->addItem(currency->code());
+		currencyCombo->setItemData(i, qVariantFromValue((void*) currency));
+		if(currency == select_currency) {
+			prev_currency_index = i;
+			currencyCombo->setCurrentIndex(i);
+			valueEdit->setCurrency((Currency*) currencyCombo->itemData(i).value<void*>());
+		}
+		i++;
+		currency = budget->currencies.next();
+	}
 }
 void EditAssetsAccountDialog::transferToggled(bool b) {
 	dateEdit->setEnabled(b);
@@ -161,8 +177,42 @@ void EditAssetsAccountDialog::closedToggled(bool b) {
 	if(b) budgetButton->setChecked(false);
 	budgetButton->setEnabled(!b);
 }
-void EditAssetsAccountDialog::currencyChanged(int index) {
-	valueEdit->setCurrency((Currency*) currencyCombo->itemData(index).value<void*>());
+void EditAssetsAccountDialog::currencyActivated(int index) {
+	Currency *cur = NULL;
+	if(index > 0) cur = (Currency*) currencyCombo->itemData(index).value<void*>();
+	if(index != prev_currency_index && current_account && cur != current_account->currency() && budget->accountHasTransactions(current_account) && QMessageBox::question(this, tr("Warning"), tr("If you change the currency of an account, the currency of all associated transactions will also change, without any conversion. Do do wish to continue anyway.")) != QMessageBox::Yes) {
+		currencyCombo->setCurrentIndex(prev_currency_index);
+		return;
+	}
+	if(index == 0) {
+		EditCurrencyDialog *dialog = new EditCurrencyDialog(budget, NULL, true, this);
+		if(dialog->exec() == QDialog::Accepted) {
+			Currency *dcur = budget->defaultCurrency();
+			cur = dialog->createCurrency();
+			if(dcur != budget->defaultCurrency()) b_currencies_edited = true;
+			updateCurrencyList(cur);
+		} else {
+			currencyCombo->setCurrentIndex(prev_currency_index);
+		}
+		dialog->deleteLater();
+	} else {
+		valueEdit->setCurrency(cur);
+		prev_currency_index = index;
+	}
+}
+void EditAssetsAccountDialog::editCurrency() {
+	int i = currencyCombo->currentIndex();
+	if(i == 0) return;
+	Currency *cur = (Currency*) currencyCombo->itemData(i).value<void*>();
+	EditCurrencyDialog *dialog = new EditCurrencyDialog(budget, cur, true, this);
+	if(dialog->exec() == QDialog::Accepted) {
+		dialog->modifyCurrency(cur);
+		b_currencies_edited = true;
+	}
+	dialog->deleteLater();
+}
+bool EditAssetsAccountDialog::currenciesModified() {
+	return b_currencies_edited;
 }
 void EditAssetsAccountDialog::typeActivated(int index) {
 	if(index == 5 && current_account && current_account->accountType() != ASSETS_TYPE_SECURITIES && budget->accountHasTransactions(current_account)) {
@@ -247,6 +297,7 @@ void EditAssetsAccountDialog::setAccount(AssetsAccount *account) {
 	nameEdit->setText(account->name());
 	maintainerEdit->setText(account->maintainer());
 	valueEdit->setValue(account->initialBalance());
+	valueEdit->setCurrency(account->currency());
 	descriptionEdit->setPlainText(account->description());
 	budgetButton->setChecked(account->isBudgetAccount());
 	typeCombo->setEnabled(true);
@@ -269,10 +320,11 @@ void EditAssetsAccountDialog::setAccount(AssetsAccount *account) {
 			break;
 		}
 		default: {typeCombo->setCurrentIndex(6); break;}
-	}
-	for(int i = 0; i < currencyCombo->count(); i++) {
+	}	
+	for(int i = 0; i < currencyCombo->count(); i++) {		
 		if(currencyCombo->itemData(i).value<void*>() == account->currency()) {
 			currencyCombo->setCurrentIndex(i);
+			prev_currency_index = i;
 			break;
 		}
 	}

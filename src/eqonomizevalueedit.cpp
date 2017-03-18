@@ -29,13 +29,15 @@
 #include <cmath>
 #include <cfloat>
 
+#include <QDebug>
+
 #define MAX_VALUE 1000000000000.0
 
 EqonomizeValueEdit::EqonomizeValueEdit(bool allow_negative, QWidget *parent, Budget *budg) : QDoubleSpinBox(parent), budget(budg) {
-	init(allow_negative ? -MAX_VALUE : 0.0, MAX_VALUE, 1.0, 0.0, MONETARY_DECIMAL_PLACES, true);
+	init(allow_negative ? -MAX_VALUE : 0.0, MAX_VALUE, 1.0, 0.0, -1, true);
 }
 EqonomizeValueEdit::EqonomizeValueEdit(double value, bool allow_negative, bool show_currency, QWidget *parent, Budget *budg) : QDoubleSpinBox(parent), budget(budg) {
-	init(allow_negative ? -MAX_VALUE : 0.0, MAX_VALUE, 1.0, value, MONETARY_DECIMAL_PLACES, show_currency);
+	init(allow_negative ? -MAX_VALUE : 0.0, MAX_VALUE, 1.0, value, -1, show_currency);
 }
 EqonomizeValueEdit::EqonomizeValueEdit(double value, int precision, bool allow_negative, bool show_currency, QWidget *parent, Budget *budg) : QDoubleSpinBox(parent), budget(budg) {
 	init(allow_negative ? -MAX_VALUE : 0.0, MAX_VALUE, 1.0, value, precision, show_currency);
@@ -50,14 +52,13 @@ EqonomizeValueEdit::~EqonomizeValueEdit() {}
 
 void EqonomizeValueEdit::init(double lower, double upper, double step, double value, int precision, bool show_currency) {
 	i_precision = precision;
-	setDecimals(precision);
 	QDoubleSpinBox::setRange(lower, upper);
 	setSingleStep(step);
-	setValue(value);
 	setAlignment(Qt::AlignRight);
 	if(show_currency) {
 		if(budget) {
-			setCurrency(budget->defaultCurrency());
+			if(i_precision < 0) i_precision = budget->defaultCurrency()->fractionalDigits(true);
+			setCurrency(budget->defaultCurrency(), true);
 		} else {
 			if(CURRENCY_IS_PREFIX) {
 				setPrefix(QLocale().currencySymbol());
@@ -66,6 +67,9 @@ void EqonomizeValueEdit::init(double lower, double upper, double step, double va
 			}
 		}
 	}
+	if(i_precision < 0) i_precision = MONETARY_DECIMAL_PLACES;
+	setDecimals(precision);
+	setValue(value);
 	connect(this, SIGNAL(editingFinished()), this, SLOT(onEditingFinished()));
 }
 void EqonomizeValueEdit::onEditingFinished() {
@@ -85,10 +89,27 @@ void EqonomizeValueEdit::setPrecision(int precision) {
 	i_precision = precision;
 	setDecimals(precision);
 }
-void EqonomizeValueEdit::setCurrency(Currency *currency) {
-	if(currency && currency->symbolPrecedes()) setPrefix((currency == budget->defaultCurrency() ? currency->symbol() : currency->code()));
-	else setPrefix(QString());
-	if(currency && !currency->symbolPrecedes()) setSuffix(" " + (currency == budget->defaultCurrency() ? currency->symbol() : currency->code()));
-	else setSuffix(QString());
+void EqonomizeValueEdit::setCurrency(Currency *currency, bool keep_precision, int as_default) {
+
+	if(!currency) {
+		setSuffix(QString());
+		setPrefix(QString());
+		return;
+	}
+	
+	if((as_default == 0 || (as_default < 0 && currency != budget->defaultCurrency())) || currency->symbol().isEmpty()) {
+		setSuffix(QString(" ") + currency->code());
+		setPrefix(QString());
+	} else {
+		if(currency && currency->symbolPrecedes()) setPrefix(currency->symbol());
+		else setPrefix(QString());
+		if(currency && !currency->symbolPrecedes()) setSuffix(" " + currency->symbol());
+		else setSuffix(QString());
+	}
+	if(!keep_precision) {
+		setDecimals(currency->fractionalDigits(true));
+	}
+
 }
+
 

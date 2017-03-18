@@ -52,6 +52,7 @@ HEADERS += src/account.h \
            src/categoriescomparisonreport.h \
            src/currency.h \
            src/editaccountdialogs.h \
+           src/editcurrencydialog.h \
            src/editscheduledtransactiondialog.h \
            src/editsplitdialog.h \
            src/eqonomize.h \
@@ -77,6 +78,7 @@ SOURCES += src/account.cpp \
            src/categoriescomparisonreport.cpp \
            src/currency.cpp \
            src/editaccountdialogs.cpp \
+           src/editcurrencydialog.cpp \
            src/editscheduledtransactiondialog.cpp \
            src/editsplitdialog.cpp \
            src/eqonomize.cpp \

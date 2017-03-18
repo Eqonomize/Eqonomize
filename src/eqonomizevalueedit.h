@@ -44,7 +44,7 @@ class EqonomizeValueEdit : public QDoubleSpinBox {
 		void setRange(double lower, double upper, double step, int precision);
 		void setPrecision(int precision);
 		
-		void setCurrency(Currency *currency);
+		void setCurrency(Currency *currency, bool keep_precision = false, int as_default = -1);
 
 	protected:
 		

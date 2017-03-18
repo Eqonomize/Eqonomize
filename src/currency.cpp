@@ -36,14 +36,14 @@ Currency::Currency(Budget *parent_budget) {
 	i_decimals = -1;
 	b_precedes = -1;
 	r_source = EXCHANGE_RATE_SOURCE_NONE;
-	b_local_rate = false; b_local_name = false; b_local_symbol = false; b_local_format = false;
+	b_local_rate = true; b_local_name = true; b_local_symbol = true; b_local_format = true;
 }
 Currency::Currency() {
 	o_budget = NULL;
 	i_decimals = -1;
 	b_precedes = -1;
 	r_source = EXCHANGE_RATE_SOURCE_NONE;
-	b_local_rate = false; b_local_name = false; b_local_symbol = false; b_local_format = false;
+	b_local_rate = true; b_local_name = true; b_local_symbol = true; b_local_format = true;
 }
 Currency::Currency(Budget *parent_budget, QString initial_code, QString initial_symbol, QString initial_name, double initial_rate, QDate date, int initial_decimals, int initial_precedes) {
 	o_budget = parent_budget;
@@ -54,7 +54,8 @@ Currency::Currency(Budget *parent_budget, QString initial_code, QString initial_
 	if(date.isValid()) rates[date] = initial_rate;
 	i_decimals = initial_decimals;
 	b_precedes = initial_precedes;
-	b_local_rate = false; b_local_name = false; b_local_symbol = false; b_local_format = false;
+	if(i_decimals < 0) i_decimals = -1;
+	b_local_rate = true; b_local_name = true; b_local_symbol = true; b_local_format = true;
 	r_source = EXCHANGE_RATE_SOURCE_NONE;
 }
 Currency::Currency(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) {
@@ -119,6 +120,7 @@ void Currency::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	else r_source = EXCHANGE_RATE_SOURCE_NONE;
 	if(attr->hasAttribute("decimals")) i_decimals = attr->value("decimals").toInt();
 	if(attr->hasAttribute("precedes")) b_precedes = attr->value("precedes").toInt();
+	if(i_decimals < 0) i_decimals = -1;
 }
 bool Currency::readElement(QXmlStreamReader *xml, bool*) {
 	if(xml->name() == "rate") {
@@ -173,6 +175,10 @@ double Currency::exchangeRate(QDate date, bool exact_match) const {
 	if(it.key() != date && it != rates.constBegin()) --it;
 	return it.value();
 }
+QDate Currency::lastExchangeRateDate() const {
+	if(rates.isEmpty()) return QDate();
+	return rates.lastKey();
+}
 void Currency::setExchangeRate(double new_rate, QDate date) {
 	if(!date.isValid()) date = QDate::currentDate();
 	rates[date] = new_rate;
@@ -215,9 +221,12 @@ QString Currency::formatValue(double value, int nr_of_decimals, bool show_curren
 		else nr_of_decimals = i_decimals;
 	}
 	if(!show_currency) return QLocale().toString(value, 'f', nr_of_decimals);
-	if((b_precedes < 0 && currency_symbol_precedes()) || b_precedes > 0) {
-		return ((this != o_budget->defaultCurrency() || s_symbol.isEmpty()) ? s_code : s_symbol) + " " + QLocale().toString(value, 'f', nr_of_decimals);
-	}
+	if((this == o_budget->defaultCurrency()) && !s_symbol.isEmpty()) {
+		if((b_precedes < 0 && currency_symbol_precedes()) || b_precedes > 0) {
+			return s_symbol + QLocale().toString(value, 'f', nr_of_decimals);
+		}
+		return QLocale().toString(value, 'f', nr_of_decimals) + " " + s_symbol;
+	}	
 	return QLocale().toString(value, 'f', nr_of_decimals) + " " + ((this != o_budget->defaultCurrency() || s_symbol.isEmpty()) ? s_code : s_symbol);
 }
 
@@ -259,6 +268,7 @@ int Currency::fractionalDigits(bool return_default_if_unset) const {
 }
 void Currency::setFractionalDigits(int new_frac_digits) {
 	i_decimals = new_frac_digits;
+	if(i_decimals < 0) i_decimals = -1;
 	b_local_format = true;
 }
 bool Currency::hasLocalChanges() const {return b_local_format || b_local_rate || b_local_name || b_local_symbol;}

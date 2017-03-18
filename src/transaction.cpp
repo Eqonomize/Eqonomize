@@ -82,7 +82,7 @@ void Transaction::writeAttributes(QXmlStreamAttributes *attr) {
 	attr->append("date", d_date.toString(Qt::ISODate));
 	if(!s_description.isEmpty()) attr->append("description", s_description);
 	if(!s_comment.isEmpty())  attr->append("comment", s_comment);
-	if(d_quantity != 1.0) attr->append("quantity", QString::number(d_quantity, 'f', MONETARY_DECIMAL_PLACES));
+	if(d_quantity != 1.0) attr->append("quantity", QString::number(d_quantity, 'f', QUANTITY_DECIMAL_PLACES));
 }
 void Transaction::writeElements(QXmlStreamWriter*) {}
 
@@ -177,8 +177,8 @@ void Expense::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 }
 void Expense::writeAttributes(QXmlStreamAttributes *attr) {
 	Transaction::writeAttributes(attr);
-	if(cost() < 0.0) attr->append("income", QString::number(-cost(), 'f', MONETARY_DECIMAL_PLACES));
-	else attr->append("cost", QString::number(cost(), 'f', MONETARY_DECIMAL_PLACES));
+	if(cost() < 0.0) attr->append("income", QString::number(-cost(), 'f', SAVE_MONETARY_DECIMAL_PLACES));
+	else attr->append("cost", QString::number(cost(), 'f', SAVE_MONETARY_DECIMAL_PLACES));
 	attr->append("category", QString::number(category()->id()));
 	attr->append("from", QString::number(from()->id()));
 	if(!s_payee.isEmpty()) attr->append("payee", s_payee);
@@ -328,8 +328,8 @@ void Income::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 }
 void Income::writeAttributes(QXmlStreamAttributes *attr) {
 	Transaction::writeAttributes(attr);
-	if(income() < 0.0 && !o_security) attr->append("cost", QString::number(-income(), 'f', MONETARY_DECIMAL_PLACES));
-	else attr->append("income", QString::number(income(), 'f', MONETARY_DECIMAL_PLACES));
+	if(income() < 0.0 && !o_security) attr->append("cost", QString::number(-income(), 'f', SAVE_MONETARY_DECIMAL_PLACES));
+	else attr->append("income", QString::number(income(), 'f', SAVE_MONETARY_DECIMAL_PLACES));
 	attr->append("category", QString::number(category()->id()));
 	attr->append("to", QString::number(to()->id()));
 	if(o_security) attr->append("security", QString::number(o_security->id()));
@@ -411,10 +411,10 @@ void Transfer::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 void Transfer::writeAttributes(QXmlStreamAttributes *attr) {
 	Transaction::writeAttributes(attr);
 	if(d_deposit != amount()) {
-		attr->append("withdrawal", QString::number(amount(), 'f', MONETARY_DECIMAL_PLACES));
-		attr->append("deposit", QString::number(d_deposit, 'f', MONETARY_DECIMAL_PLACES));
+		attr->append("withdrawal", QString::number(amount(), 'f', SAVE_MONETARY_DECIMAL_PLACES));
+		attr->append("deposit", QString::number(d_deposit, 'f', SAVE_MONETARY_DECIMAL_PLACES));
 	} else {
-		attr->append("amount", QString::number(amount(), 'f', MONETARY_DECIMAL_PLACES));
+		attr->append("amount", QString::number(amount(), 'f', SAVE_MONETARY_DECIMAL_PLACES));
 	}
 	attr->append("from", QString::number(from()->id()));
 	attr->append("to", QString::number(to()->id()));
@@ -535,7 +535,7 @@ void Balancing::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 }
 void Balancing::writeAttributes(QXmlStreamAttributes *attr) {
 	Transaction::writeAttributes(attr);
-	attr->append("amount", QString::number(-amount(), 'f', MONETARY_DECIMAL_PLACES));
+	attr->append("amount", QString::number(-amount(), 'f', SAVE_MONETARY_DECIMAL_PLACES));
 	attr->append("account", QString::number(account()->id()));
 }
 void Balancing::setAmount(double new_amount) {
@@ -568,7 +568,7 @@ void SecurityTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid
 void SecurityTransaction::writeAttributes(QXmlStreamAttributes *attr) {
 	Transaction::writeAttributes(attr);
 	attr->append("shares", QString::number(d_shares, 'f', o_security->decimals()));
-	attr->append("sharevalue", QString::number(d_share_value, 'f', MONETARY_DECIMAL_PLACES));
+	attr->append("sharevalue", QString::number(d_share_value, 'f', SAVE_MONETARY_DECIMAL_PLACES));
 	attr->append("security", QString::number(o_security->id()));
 }
 
@@ -647,7 +647,7 @@ void SecurityBuy::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 }
 void SecurityBuy::writeAttributes(QXmlStreamAttributes *attr) {
 	SecurityTransaction::writeAttributes(attr);
-	attr->append("cost", QString::number(d_value, 'f', MONETARY_DECIMAL_PLACES));
+	attr->append("cost", QString::number(d_value, 'f', SAVE_MONETARY_DECIMAL_PLACES));
 	attr->append("account", QString::number(account()->id()));
 }
 
@@ -693,7 +693,7 @@ void SecuritySell::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 }
 void SecuritySell::writeAttributes(QXmlStreamAttributes *attr) {
 	SecurityTransaction::writeAttributes(attr);
-	attr->append("income", QString::number(d_value, 'f', MONETARY_DECIMAL_PLACES));
+	attr->append("income", QString::number(d_value, 'f', SAVE_MONETARY_DECIMAL_PLACES));
 	attr->append("account", QString::number(account()->id()));
 }
 
@@ -1494,7 +1494,7 @@ void MultiAccountTransaction::writeAttributes(QXmlStreamAttributes *attr) {
 	if(!s_description.isEmpty()) attr->append("description", s_description);
 	if(!s_comment.isEmpty())  attr->append("comment", s_comment);
 	attr->append("category", QString::number(o_category->id()));
-	if(d_quantity != 1.0) attr->append("quantity", QString::number(d_quantity, 'f', MONETARY_DECIMAL_PLACES));
+	if(d_quantity != 1.0) attr->append("quantity", QString::number(d_quantity, 'f', QUANTITY_DECIMAL_PLACES));
 }
 void MultiAccountTransaction::writeElements(QXmlStreamWriter *xml) {
 	QVector<Transaction*>::iterator it_end = splits.end();
@@ -1846,11 +1846,11 @@ void DebtPayment::writeAttributes(QXmlStreamAttributes *attr) {
 	}
 	if(expenseCategory()) attr->append("expensecategory", QString::number(expenseCategory()->id()));
 	if(o_payment) {
-		attr->append("reduction", QString::number(o_payment->toValue(), 'f', MONETARY_DECIMAL_PLACES));
-		if(o_payment->toValue() != o_payment->fromValue()) attr->append("payment", QString::number(o_payment->fromValue(), 'f', MONETARY_DECIMAL_PLACES));
+		attr->append("reduction", QString::number(o_payment->toValue(), 'f', SAVE_MONETARY_DECIMAL_PLACES));
+		if(o_payment->toValue() != o_payment->fromValue()) attr->append("payment", QString::number(o_payment->fromValue(), 'f', SAVE_MONETARY_DECIMAL_PLACES));
 	}
-	if(o_interest) attr->append("interest", QString::number(o_interest->value(), 'f', MONETARY_DECIMAL_PLACES));
-	if(o_fee) attr->append("fee", QString::number(o_fee->value(), 'f', MONETARY_DECIMAL_PLACES));
+	if(o_interest) attr->append("interest", QString::number(o_interest->value(), 'f', SAVE_MONETARY_DECIMAL_PLACES));
+	if(o_fee) attr->append("fee", QString::number(o_fee->value(), 'f', SAVE_MONETARY_DECIMAL_PLACES));
 }
 void DebtPayment::writeElements(QXmlStreamWriter*) {}
 

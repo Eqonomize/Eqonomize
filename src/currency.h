@@ -58,7 +58,7 @@ class Currency {
 		
 		Currency();
 		Currency(Budget *parent_budget);
-		Currency(Budget *parent_budget, QString initial_code, QString initial_symbol, QString initial_name, double initial_rate, QDate date = QDate(), int initial_decimals = -1, int initial_precedes = -1);
+		Currency(Budget *parent_budget, QString initial_code, QString initial_symbol = QString(), QString initial_name = QString(), double initial_rate = 1.0, QDate date = QDate(), int initial_decimals = -1, int initial_precedes = -1);
 		Currency(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		~Currency();
 		Currency *copy() const;
@@ -73,6 +73,7 @@ class Currency {
 		void writeElements(QXmlStreamWriter *xml, bool local_save = true);
 	
 		double exchangeRate(QDate date = QDate(), bool exact_match = false) const;
+		QDate lastExchangeRateDate() const;
 		void setExchangeRate(double new_rate, QDate date = QDate());
 		
 		ExchangeRateSource exchangeRateSource() const;

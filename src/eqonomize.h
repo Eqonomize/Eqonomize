@@ -192,10 +192,11 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionClearRecentFiles;
 		QAction *ActionOverTimeReport, *ActionCategoriesComparisonReport, *ActionOverTimeChart, *ActionCategoriesComparisonChart;
 		QAction *ActionImportCSV, *ActionImportQIF, *ActionExportQIF;
+		QAction *ActionUpdateExchangeRates;
 		QAction *ActionExtraProperties, *ActionSetBudgetPeriod, *AIPCurrentMonth, *AIPCurrentYear, *AIPCurrentWholeMonth, *AIPCurrentWholeYear, *AIPRememberLastDates, *ABFDaily, *ABFWeekly, *ABFFortnightly, *ABFMonthly, *ABFNever;
+		QAction *ActionSetMainCurrency;
 		QActionGroup *ActionSelectInitialPeriod, *ActionSelectBackupFrequency;
 		QAction *ActionHelp, *ActionWhatsThis, *ActionReportBug, *ActionAbout, *ActionAboutQt;
-		QAction *ActionUpdateExchangeRates;
 		
 	protected:
 
@@ -243,7 +244,9 @@ class Eqonomize : public QMainWindow {
 		QLabel *securitiesStatLabel;
 		QLabel *footer1;
 		QCommandLineParser *parser;
-
+		QComboBox *setMainCurrencyCombo;
+		
+		int prev_set_main_currency_index;
 		double total_value, total_cost, total_profit, total_rate;
 		double expenses_accounts_value, incomes_accounts_value, assets_accounts_value, liabilities_accounts_value;
 		double expenses_accounts_change, incomes_accounts_change, assets_accounts_change, liabilities_accounts_change;
@@ -293,6 +296,10 @@ class Eqonomize : public QMainWindow {
 		
 		void updateExchangeRates();
 		void ECBDataDownloaded(QNetworkReply*);
+		void currenciesModified();
+		void warnAndAskForExchangeRate();
+		void setMainCurrency();
+		void setMainCurrencyIndexChanged(int index);
 		
 		void serverNewConnection();
 		void socketReadyRead();

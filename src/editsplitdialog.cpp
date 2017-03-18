@@ -645,7 +645,7 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	
 	if(b_extra) {
 		grid->addWidget(new QLabel(tr("Quantity:")), 1, 0);
-		quantityEdit = new EqonomizeValueEdit(1.0, 2, true, false, this, budget);
+		quantityEdit = new EqonomizeValueEdit(1.0, QUANTITY_DECIMAL_PLACES, true, false, this, budget);
 		grid->addWidget(quantityEdit, 1, 1);
 	} else {
 		quantityEdit = NULL;

@@ -124,7 +124,7 @@ void Security::writeElements(QXmlStreamWriter *xml) {
 	QMap<QDate, bool>::const_iterator it_auto = quotations_auto.begin();
 	for(; it != it_end; ++it, ++it_auto) {
 		xml->writeStartElement("quotation");
-		xml->writeAttribute("value", QString::number(it.value(), 'f', quotationDecimals()));
+		xml->writeAttribute("value", QString::number(it.value(), 'f', quotationDecimals() > SAVE_MONETARY_DECIMAL_PLACES ?  quotationDecimals() : SAVE_MONETARY_DECIMAL_PLACES));
 		xml->writeAttribute("date", it.key().toString(Qt::ISODate));
 		if(it_auto.value()) xml->writeAttribute("auto", QString::number(it_auto.value()));
 		xml->writeEndElement();

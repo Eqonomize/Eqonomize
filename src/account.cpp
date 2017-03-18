@@ -139,7 +139,7 @@ void AssetsAccount::writeAttributes(QXmlStreamAttributes *attr) {
 	Account::writeAttributes(attr);
 	if(o_currency) attr->append("currency", o_currency->code());
 	if(at_type != ASSETS_TYPE_SECURITIES) {
-		attr->append("initialbalance", QString::number(d_initbal, 'f', MONETARY_DECIMAL_PLACES));
+		attr->append("initialbalance", QString::number(d_initbal, 'f', SAVE_MONETARY_DECIMAL_PLACES));
 		if(o_budget->budgetAccount == this) {
 			attr->append("budgetaccount", QString::number(o_budget->budgetAccount == this));
 		}
@@ -302,7 +302,7 @@ void CategoryAccount::writeElements(QXmlStreamWriter *xml) {
 	QMap<QDate, double>::const_iterator it_end = mbudgets.end();
 	for(QMap<QDate, double>::const_iterator it = mbudgets.begin(); it != it_end; ++it) {
 		xml->writeStartElement("budget");
-		xml->writeAttribute("value", QString::number(it.value(), 'f', MONETARY_DECIMAL_PLACES));
+		xml->writeAttribute("value", QString::number(it.value(), 'f', SAVE_MONETARY_DECIMAL_PLACES));
 		xml->writeAttribute("date", it.key().toString(Qt::ISODate));
 		xml->writeEndElement();
 	}

@@ -29,6 +29,7 @@ class QComboBox;
 class QDateEdit;
 class QLabel;
 class QLineEdit;
+class QPushButton;
 class QRadioButton;
 class QTextEdit;
 
@@ -36,6 +37,7 @@ class Account;
 class AccountComboBox;
 class AssetsAccount;
 class Budget;
+class Currency;
 class EqonomizeValueEdit;
 class ExpensesAccount;
 class IncomesAccount;
@@ -54,10 +56,13 @@ class EditAssetsAccountDialog : public QDialog {
 		EqonomizeValueEdit *valueEdit;
 		QTextEdit *descriptionEdit;
 		QComboBox *typeCombo, *currencyCombo;
+		QPushButton *editCurrencyButton;
 		AccountComboBox *accountCombo;
 		QCheckBox *budgetButton, *closedButton;
 		Budget *budget;
 		AssetsAccount *current_account;
+		int prev_currency_index;
+		bool b_currencies_edited;
 		
 	public:
 		
@@ -66,14 +71,17 @@ class EditAssetsAccountDialog : public QDialog {
 		AssetsAccount *newAccount(Transaction **transfer = NULL);
 		void modifyAccount(AssetsAccount *account);
 		void setAccount(AssetsAccount *account);
+		void updateCurrencyList(Currency*);
+		bool currenciesModified();
 
 	protected slots:
 
 		void typeActivated(int);
-		void currencyChanged(int);
+		void currencyActivated(int);
 		void accept();
 		void closedToggled(bool);
 		void transferToggled(bool);
+		void editCurrency();
 
 };
 

@@ -2411,7 +2411,7 @@ void OverTimeChart::updateDisplay() {
 	axisY->setTickCount(y_lines + 1);
 	axisY->setMinorTickCount(y_minor);
 	if(type == 2 || (maxvalue - minvalue) >= 50.0) axisY->setLabelFormat(QString("%.0f"));
-	else axisY->setLabelFormat(QString("%.%1f").arg(QString::number(MONETARY_DECIMAL_PLACES)));
+	else axisY->setLabelFormat(QString("%.%1f").arg(QString::number(budget->defaultCurrency()->fractionalDigits())));
 	
 	if(source_org == 3) account = budget->incomesAccounts.first();
 	else if(source_org == 4) account = budget->expensesAccounts.first();

@@ -85,11 +85,8 @@ Budget::Budget() {
 	accounts.setAutoDelete(false);
 	currency_euro = new Currency(this, "EUR", "€", "Euro", 1.0);
 	addCurrency(currency_euro);
-	loadCurrencies();	
-	QString default_code = QLocale().currencySymbol(QLocale::CurrencyIsoCode);
-	if(default_code.isEmpty()) default_code = "USD";
-	default_currency = findCurrency(default_code);
-	if(!default_currency) default_currency = currency_euro;
+	loadCurrencies();
+	default_currency = currency_euro;
 	balancingAccount = new AssetsAccount(this, ASSETS_TYPE_BALANCING, tr("Balancing", "Name of account for transactions that adjust account balances"), 0.0);
 	balancingAccount->setCurrency(NULL);
 	balancingAccount->setId(0);
@@ -97,7 +94,7 @@ Budget::Budget() {
 	accounts.append(balancingAccount);
 	budgetAccount = NULL;
 	i_share_decimals = 4;
-	i_quotation_decimals = MONETARY_DECIMAL_PLACES;
+	i_quotation_decimals = 4;
 	i_budget_day = 1;
 	b_record_new_accounts = false;
 }
@@ -230,8 +227,8 @@ QString Budget::loadECBData(QByteArray data) {
 		return tr("XML parse error: \"%1\" at line %2, col %3").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
 	}
 	
-	
 	bool had_data = false;
+	
 	
 	while(xml.readNextStartElement()) {
 		if(xml.name() == "Cube") {
@@ -240,15 +237,30 @@ QString Budget::loadECBData(QByteArray data) {
 					QXmlStreamAttributes attr = xml.attributes();
 					QDate date = QDate::fromString(attr.value("time").trimmed().toString(), Qt::ISODate);
 					while(xml.readNextStartElement()) {
-						if(xml.name() == "Cube") {						
+						if(xml.name() == "Cube") {							
 							attr = xml.attributes();
 							QString code = attr.value("currency").trimmed().toString();
 							double exrate = attr.value("rate").toDouble();
-							Currency *cur = findCurrency(code);
-							if(cur && exrate > 0.0 && date.isValid()) {
-								cur->setExchangeRate(exrate, date);
+							if(!code.isEmpty() && exrate > 0.0 && date.isValid()) {
+								if(!had_data) {
+									Currency *cur = currencies.first();
+									while(cur) {
+										if(cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_ECB) {
+											cur->setExchangeRateSource(EXCHANGE_RATE_SOURCE_NONE);
+										}
+										cur = currencies.next();
+									}
+								}
+								Currency *cur = findCurrency(code);
+								if(cur) {
+									cur->setExchangeRate(exrate, date);
+								} else {
+									cur = new Currency(this, code, QString(), QString(), exrate, date);
+									addCurrency(cur);
+								}
+								cur->setExchangeRateSource(EXCHANGE_RATE_SOURCE_ECB);
+								had_data = true;
 							}
-							had_data = true;
 						}
 						xml.skipCurrentElement();
 					}
@@ -316,7 +328,7 @@ bool Budget::saveCurrencies() {
 }
 
 
-QString Budget::loadFile(QString filename, QString &errors) {
+QString Budget::loadFile(QString filename, QString &errors, bool *default_currency_created) {
 
 	QFile file(filename);
 	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -337,6 +349,9 @@ QString Budget::loadFile(QString filename, QString &errors) {
 	int category_errors = 0, account_errors = 0, transaction_errors = 0, security_errors = 0;
 
 	assetsAccounts_id[balancingAccount->id()] = balancingAccount;
+	
+	Currency *cur = NULL;
+	if(default_currency_created) *default_currency_created = false;
 
 	while(xml.readNextStartElement()) {
 		if(xml.name() == "budget_period") {
@@ -350,6 +365,20 @@ QString Budget::loadFile(QString filename, QString &errors) {
 					xml.skipCurrentElement();
 				}
 			}
+		} else if(xml.name() == "currency") {
+			QString cur_code = xml.attributes().value("code").trimmed().toString();
+			if(!cur && !cur_code.isEmpty()) {
+				cur = findCurrency(cur_code);
+				if(cur) {
+					setDefaultCurrency(cur);
+				} else {
+					cur = new Currency(this, cur_code);
+					addCurrency(cur);
+					setDefaultCurrency(cur);
+					if(default_currency_created) *default_currency_created = true;
+				}
+			}
+			xml.skipCurrentElement();
 		} else if(xml.name() == "schedule") {
 			bool valid = true;
 			ScheduledTransaction *strans = new ScheduledTransaction(this, &xml, &valid);
@@ -562,6 +591,11 @@ QString Budget::loadFile(QString filename, QString &errors) {
 				}
 			}
 		} else if(xml.name() == "account") {
+			if(!cur) {
+				bool b = resetDefaultCurrency();
+				cur = defaultCurrency();
+				if(default_currency_created) *default_currency_created = b;
+			}
 			bool valid = true;
 			AssetsAccount *account = new AssetsAccount(this, &xml, &valid);
 			if(valid) {
@@ -590,6 +624,12 @@ QString Budget::loadFile(QString filename, QString &errors) {
 			errors += tr("Unknown XML element: \"%1\" at line %2, col %3").arg(xml.name().toString()).arg(xml.lineNumber()).arg(xml.columnNumber());
 			xml.skipCurrentElement();
 		}
+	}
+	
+	if(!cur) {
+		bool b = resetDefaultCurrency();
+		cur = defaultCurrency();
+		if(default_currency_created) *default_currency_created = b;
 	}
 
 	if (xml.hasError()) {
@@ -691,6 +731,9 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 	xml.writeStartElement("budget_period");
 	xml.writeTextElement("first_day_of_month", QString::number(i_budget_day));
 	xml.writeEndElement();
+	xml.writeStartElement("currency");
+	xml.writeAttribute("code", default_currency->code());
+	xml.writeEndElement();
 	account = accounts.first();
 	while(account) {
 		if(account != balancingAccount && account->topAccount() == account) {
@@ -779,7 +822,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		xml.writeAttribute("from_security", QString::number(ts->from_security->id()));
 		xml.writeAttribute("to_security", QString::number(ts->to_security->id()));
 		xml.writeAttribute("date", ts->date.toString(Qt::ISODate));
-		xml.writeAttribute("value", QString::number(ts->value, 'f', MONETARY_DECIMAL_PLACES));
+		xml.writeAttribute("value", QString::number(ts->value, 'f', SAVE_MONETARY_DECIMAL_PLACES));
 		xml.writeAttribute("from_shares", QString::number(ts->from_shares, 'f', ts->from_security->decimals()));
 		xml.writeAttribute("to_shares", QString::number(ts->to_shares, 'f', ts->to_security->decimals()));
 		xml.writeEndElement();
@@ -1377,6 +1420,17 @@ Currency *Budget::defaultCurrency() {
 void Budget::setDefaultCurrency(Currency *cur) {
 	if(!cur) default_currency = currency_euro;
 	else default_currency = cur;
+}
+bool Budget::resetDefaultCurrency() {
+	QString default_code = QLocale().currencySymbol(QLocale::CurrencyIsoCode);
+	if(default_code.isEmpty()) default_code = "USD";
+	default_currency = findCurrency(default_code);
+	if(!default_currency) {
+		default_currency = new Currency(this, default_code, QLocale().currencySymbol(QLocale::CurrencySymbol), QLocale().currencySymbol(QLocale::CurrencyDisplayName));
+		addCurrency(default_currency);
+		return true;
+	}
+	return false;
 }
 void Budget::addCurrency(Currency *cur) {
 	currencies.inSort(cur);

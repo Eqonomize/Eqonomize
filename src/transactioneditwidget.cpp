@@ -153,7 +153,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		if(security_value_type != SECURITY_VALUE_AND_SHARES) {
 			editLayout->addWidget(new QLabel(tr("Price per share:", "Financial shares"), this), TEROWCOL(i, 0));
 			quotationEdit = new EqonomizeValueEdit(0.0, security ? security->quotationDecimals() : budget->defaultQuotationDecimals(), false, true, this, budget);
-			if(security) quotationEdit->setCurrency(security->currency());
+			if(security) quotationEdit->setCurrency(security->currency(), true);
 			editLayout->addWidget(quotationEdit, TEROWCOL(i, 1));
 			i++;
 		}
@@ -237,7 +237,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		}
 		if(b_extra && !multiaccount && !select_security && !security && transtype == TRANSACTION_TYPE_EXPENSE) {
 			editLayout->addWidget(new QLabel(tr("Quantity:"), this), TEROWCOL(i, 0));
-			quantityEdit = new EqonomizeValueEdit(1.0, 2, true, false, this);
+			quantityEdit = new EqonomizeValueEdit(1.0, QUANTITY_DECIMAL_PLACES, true, false, this);
 			quantityEdit->setToolTip(tr("Number of items included in the transaction. Entered cost is total cost for all items."));
 			editLayout->addWidget(quantityEdit, TEROWCOL(i, 1));
 			i++;
@@ -574,7 +574,7 @@ void TransactionEditWidget::securityChanged() {
 		if(sharesEdit) sharesEdit->setPrecision(security->decimals());
 		if(quotationEdit) {
 			quotationEdit->setPrecision(security->quotationDecimals());
-			quotationEdit->setCurrency(security->currency());
+			quotationEdit->setCurrency(security->currency(), false);
 		}
 		if(sharesEdit && security && shares_date.isValid()) sharesEdit->setMaximum(security->shares(shares_date));
 	}

@@ -36,6 +36,8 @@
 #include "currency.h"
 
 #define MONETARY_DECIMAL_PLACES 2
+#define SAVE_MONETARY_DECIMAL_PLACES 4
+#define QUANTITY_DECIMAL_PLACES 2
 #define CURRENCY_IS_PREFIX currency_symbol_precedes()
 #define IS_GREGORIAN_CALENDAR true
 
@@ -120,10 +122,11 @@ class Budget {
 	
 		int i_quotation_decimals, i_share_decimals, i_budget_day;
 		bool b_record_new_accounts;
-		Currency *default_currency;
-		Currency *currency_euro;
+		Currency *default_currency;		
 
 	public:
+	
+		Currency *currency_euro;
 
 		Budget();
 		~Budget();
@@ -135,7 +138,7 @@ class Budget {
 		QString loadECBData(QByteArray data);
 		bool saveCurrencies();
 
-		QString loadFile(QString filename, QString &errors);
+		QString loadFile(QString filename, QString &errors, bool *default_currency_created = NULL);
 		QString saveFile(QString filename, QFile::Permissions permissions = QFile::ReadUser | QFile::WriteUser);
 		
 		void clear();
@@ -193,6 +196,7 @@ class Budget {
 		
 		Currency *defaultCurrency();
 		void setDefaultCurrency(Currency*);
+		bool resetDefaultCurrency();
 		void addCurrency(Currency*);
 		void removeCurrency(Currency*);
 		Currency *findCurrency(QString code);

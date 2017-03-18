@@ -1,3 +1,7 @@
+2017-03-18  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Support multiple currencies
+
 2017-01-25  Hanna Knutsson <hanna_k@fmgirl.com>
 
 	* Fix text editing in filter, reset selection on filtering and focus description entry when changing edit/filter tab

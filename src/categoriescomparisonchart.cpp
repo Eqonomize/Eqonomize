@@ -970,7 +970,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		v_axis->setTickCount(y_lines + 1);
 		v_axis->setMinorTickCount(y_minor);
 		if(type == 2 || (maxvalue - minvalue) >= 50.0) v_axis->setLabelFormat(QString("%.0f"));
-		else v_axis->setLabelFormat(QString("%.%1f").arg(QString::number(MONETARY_DECIMAL_PLACES)));
+		else v_axis->setLabelFormat(QString("%.%1f").arg(QString::number(budget->defaultCurrency()->fractionalDigits())));
 		
 		if(type == ACCOUNT_TYPE_ASSETS) v_axis->setTitleText(tr("Value") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true)));
 		else if(type == ACCOUNT_TYPE_INCOMES) v_axis->setTitleText(tr("Income") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true)));
