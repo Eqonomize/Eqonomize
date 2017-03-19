@@ -1060,7 +1060,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		} else {
 			legend_value = round(legend_value);
 		}
-		QGraphicsSimpleTextItem *legend_text = new QGraphicsSimpleTextItem(QString("%1 (%2%)").arg(legend_string).arg(budhet->formatMoney(legend_value, deci, false)));
+		QGraphicsSimpleTextItem *legend_text = new QGraphicsSimpleTextItem(QString("%1 (%2%)").arg(legend_string).arg(budget->formatMoney(legend_value, deci, false)));
 		if(legend_text->boundingRect().width() > text_width) text_width = legend_text->boundingRect().width();
 		legend_text->setFont(legend_font);
 		legend_text->setBrush(Qt::black);
