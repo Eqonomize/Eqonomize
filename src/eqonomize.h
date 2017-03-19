@@ -59,6 +59,7 @@ class QTextEdit;
 class QLocalSocket;
 class QLocalServer;
 class QPrinter;
+class QProgressDialog;
 class QDialog;
 class QNetworkReply;
 
@@ -245,6 +246,8 @@ class Eqonomize : public QMainWindow {
 		QLabel *footer1;
 		QCommandLineParser *parser;
 		QComboBox *setMainCurrencyCombo;
+		QProgressDialog *updateExchangeRatesProgressDialog;
+		QNetworkReply *updateExchangeRatesReply;
 		
 		int prev_set_main_currency_index;
 		double total_value, total_cost, total_profit, total_rate;
@@ -294,8 +297,11 @@ class Eqonomize : public QMainWindow {
 		void importQIF();
 		void exportQIF();
 		
-		void updateExchangeRates();
-		void ECBDataDownloaded(QNetworkReply*);
+		void updateExchangeRates(bool do_currencies_modified = true);
+		void ECBDataDownloaded_false();
+		void ECBDataDownloaded_true();
+		void ECBDataDownloaded(bool do_currencies_modified);
+		void cancelUpdateExchangeRates();
 		void currenciesModified();
 		void warnAndAskForExchangeRate();
 		void setMainCurrency();

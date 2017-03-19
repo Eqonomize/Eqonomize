@@ -80,6 +80,7 @@
 #include <QToolButton>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QProgressDialog>
 
 #include <QDebug>
 
@@ -4208,7 +4209,16 @@ void Eqonomize::openURL(const QUrl& url) {
 	while(acc) {
 		if(acc->currency() != NULL && acc->currency() != cur && (acc->currency() == budget->currency_euro || acc->currency()->exchangeRateSource() != EXCHANGE_RATE_SOURCE_NONE)) {
 			if(cur) {
-				updateExchangeRates();
+				settings.beginGroup("GeneralOptions");		
+				QDate last_update = QDate::fromString(settings.value("lastExchangeRatesUpdate").toString(), Qt::ISODate);
+				QDate last_update_try = QDate::fromString(settings.value("lastExchangeRatesUpdateTry").toString(), Qt::ISODate);
+				settings.endGroup();
+				QDate curdate = QDate::currentDate();
+				if(!last_update_try.isValid() || curdate > last_update_try) {
+					if(!last_update.isValid() || curdate >= last_update.addDays(7)) {
+						updateExchangeRates(false);
+					}
+				}
 				break;
 			}
 			cur = acc->currency();
@@ -4315,23 +4325,53 @@ void Eqonomize::exportQIF() {
 	exportQIFFile(budget, this, b_extra);
 }
 
-void Eqonomize::updateExchangeRates() {
-	nam.get(QNetworkRequest(QUrl("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml")));
-	connect(&nam, SIGNAL(finished(QNetworkReply*)), this, SLOT(ECBDataDownloaded(QNetworkReply*)));
-}
-void Eqonomize::ECBDataDownloaded(QNetworkReply *reply) {
-	if(reply->error() != QNetworkReply::NoError) {
-		QMessageBox::critical(this, tr("Error"), tr("Failed to download exchange rates from %1: %2.").arg("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml").arg(reply->errorString()));
+void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
+	updateExchangeRatesProgressDialog = new QProgressDialog(tr("Updating exchange rates..."), tr("Abort"), 0, 1, this);
+	updateExchangeRatesProgressDialog->setWindowModality(Qt::WindowModal);
+	updateExchangeRatesProgressDialog->setMinimumDuration(100);
+	connect(updateExchangeRatesProgressDialog, SIGNAL(canceled()), this, SLOT(cancelUpdateExchangeRates()));
+	updateExchangeRatesProgressDialog->setValue(0);
+	updateExchangeRatesReply = nam.get(QNetworkRequest(QUrl("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml")));
+	if(do_currencies_modified) {
+		connect(updateExchangeRatesReply, SIGNAL(finished()), this, SLOT(ECBDataDownloaded_true()));
 	} else {
-		QString errors = budget->loadECBData(reply->readAll());
+		connect(updateExchangeRatesReply, SIGNAL(finished()), this, SLOT(ECBDataDownloaded_false()));
+	}
+}
+void Eqonomize::ECBDataDownloaded_false() {
+	ECBDataDownloaded(false);
+}
+void Eqonomize::ECBDataDownloaded_true() {
+	ECBDataDownloaded(true);
+}
+void Eqonomize::ECBDataDownloaded(bool do_currencies_modified) {
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	if(updateExchangeRatesReply->error() == QNetworkReply::OperationCanceledError) {
+		//canceled by user
+		updateExchangeRatesProgressDialog->reset();
+	} else if(updateExchangeRatesReply->error() != QNetworkReply::NoError) {
+		updateExchangeRatesProgressDialog->reset();
+		QMessageBox::critical(this, tr("Error"), tr("Failed to download exchange rates from %1: %2.").arg("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml").arg(updateExchangeRatesReply->errorString()));
+		updateExchangeRatesReply->abort();
+	} else {
+		QString errors = budget->loadECBData(updateExchangeRatesReply->readAll());
 		if(!errors.isEmpty()) {
 			QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml").arg(errors));
 		} else {
+			settings.setValue("lastExchangeRatesUpdate", QDate::currentDate().toString(Qt::ISODate));
 			budget->saveCurrencies();
-			currenciesModified();
+			if(do_currencies_modified) currenciesModified();
+			updateExchangeRatesProgressDialog->setValue(1);
 		}
 	}
-	reply->deleteLater();
+	settings.setValue("lastExchangeRatesUpdateTry", QDate::currentDate().toString(Qt::ISODate));
+	settings.endGroup();	
+	updateExchangeRatesProgressDialog->deleteLater();
+	updateExchangeRatesReply->deleteLater();
+}
+void Eqonomize::cancelUpdateExchangeRates() {
+	updateExchangeRatesReply->abort();
 }
 
 void Eqonomize::currenciesModified() {

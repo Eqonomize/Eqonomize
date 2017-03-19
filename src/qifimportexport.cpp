@@ -1548,35 +1548,35 @@ void exportQIFTransaction(QTextStream &fstream, qif_info &qi, Transaction *trans
 				d_com = sec->shares() * sec->shareValue() - sec->value();
 			}
 			if(d_com != 0.0) {
-				double deci_pow = pow(10, MONETARY_DECIMAL_PLACES);
+				double deci_pow = pow(10, SAVE_MONETARY_DECIMAL_PLACES);
 				d_com = round(d_com * deci_pow) / deci_pow;
 			}
 			fstream << "Y" << sec->security()->name() << "\n";
-			fstream << "I" << writeQIFValue(sec->shareValue(), qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
+			fstream << "I" << writeQIFValue(sec->shareValue(), qi.value_format, SAVE_MONETARY_DECIMAL_PLACES) << "\n";
 			fstream << "Q" << writeQIFValue(sec->shares(), qi.value_format, sec->security()->decimals()) << "\n";
 			cat = ((SecurityTransaction*) trans)->account();
 			break;
 		}
 	}
-	fstream << "T" << writeQIFValue(neg ? -trans->value() : trans->value(), qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
+	fstream << "T" << writeQIFValue(neg ? -trans->value() : trans->value(), qi.value_format, SAVE_MONETARY_DECIMAL_PLACES) << "\n";
 	fstream << "C" << "X" << "\n";
 	if(payee && !payee->isEmpty()) fstream << "P" << *payee << "\n";
 	if(!sectrans && !trans->description().isEmpty()) fstream << "M" << trans->description() << "\n";
 	else if(sectrans && !secacc) fstream << "M" << trans->description() << "\n";
 	if(sectrans && secacc && d_com != 0.0) {
-		fstream << "O" << writeQIFValue(d_com, qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
+		fstream << "O" << writeQIFValue(d_com, qi.value_format, SAVE_MONETARY_DECIMAL_PLACES) << "\n";
 	}
 	if(!cat) fstream << "L" << "[" << ((SecurityTransaction*) trans)->security()->account()->name() << ":" << ((SecurityTransaction*) trans)->security()->name() << "]" << "\n";
 	else if(cat->type() == ACCOUNT_TYPE_ASSETS) fstream << "L" << "[" << cat->name() << "]" << "\n";
 	else fstream << "L" << cat->nameWithParent(false) << "\n";
-	if(sectrans && secacc) fstream << "$" << writeQIFValue((trans->type() == TRANSACTION_TYPE_SECURITY_SELL) ? -trans->value() : trans->value(), qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
+	if(sectrans && secacc) fstream << "$" << writeQIFValue((trans->type() == TRANSACTION_TYPE_SECURITY_SELL) ? -trans->value() : trans->value(), qi.value_format, SAVE_MONETARY_DECIMAL_PLACES) << "\n";
 	fstream << "^" << "\n";
 
 }
 
 void exportQIFSplitTransaction(QTextStream &fstream, qif_info &qi, MultiItemTransaction *split) {
 	fstream << "D" << writeQIFDate(split->date(), qi.date_format) << "\n";
-	fstream << "T" << writeQIFValue(split->value(), qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
+	fstream << "T" << writeQIFValue(split->value(), qi.value_format, SAVE_MONETARY_DECIMAL_PLACES) << "\n";
 	fstream << "C" << "X" << "\n";
 	QVector<Transaction*>::size_type c = split->count();
 	if(!split->payee().isEmpty()) fstream << "P" << split->payee() << "\n";
@@ -1606,7 +1606,7 @@ void exportQIFSplitTransaction(QTextStream &fstream, qif_info &qi, MultiItemTran
 		if(cat->type() == ACCOUNT_TYPE_ASSETS) fstream << "S" << "[" << cat->name() << "]" << "\n";
 		else fstream << "S" << cat->nameWithParent(false) << "\n";
 		if(!trans->description().isEmpty()) fstream << "E" << trans->description() << "\n";
-		fstream << "$" << writeQIFValue(neg ? -trans->value() : trans->value(), qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
+		fstream << "$" << writeQIFValue(neg ? -trans->value() : trans->value(), qi.value_format, SAVE_MONETARY_DECIMAL_PLACES) << "\n";
 	}
 	fstream << "^" << "\n";
 	if(b_more) {
@@ -1645,9 +1645,9 @@ void exportQIFOpeningBalance(QTextStream &fstream, qif_info &qi, AssetsAccount *
 				else fstream << "D" << writeQIFDate(it.key(), qi.date_format) << "\n";
 				fstream << "N" << "ShrsIn" << "\n";
 				fstream << "Y" << sec->name() << "\n";
-				if(it != sec->quotations.end()) fstream << "I" << writeQIFValue(it.value(), qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
+				if(it != sec->quotations.end()) fstream << "I" << writeQIFValue(it.value(), qi.value_format, SAVE_MONETARY_DECIMAL_PLACES) << "\n";
 				fstream << "Q" << writeQIFValue(sec->initialShares(), qi.value_format, sec->decimals()) << "\n";
-				if(it != sec->quotations.end()) fstream << "T" << writeQIFValue(sec->initialBalance(), qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
+				if(it != sec->quotations.end()) fstream << "T" << writeQIFValue(sec->initialBalance(), qi.value_format, SAVE_MONETARY_DECIMAL_PLACES) << "\n";
 				fstream << "C" << "X" << "\n";
 				fstream << "P" << "Opening Balance" << "\n";
 				fstream << "M" << "Opening" << "\n";
@@ -1657,7 +1657,7 @@ void exportQIFOpeningBalance(QTextStream &fstream, qif_info &qi, AssetsAccount *
 		}
 	} else {
 		fstream << "D" << writeQIFDate(date, qi.date_format) << "\n";
-		fstream << "T" << writeQIFValue(account->initialBalance(), qi.value_format, MONETARY_DECIMAL_PLACES) << "\n";
+		fstream << "T" << writeQIFValue(account->initialBalance(), qi.value_format, SAVE_MONETARY_DECIMAL_PLACES) << "\n";
 		fstream << "C" << "X" << "\n";
 		fstream << "P" << "Opening Balance" << "\n";
 		fstream << "L" << "[" << account->name() << "]" << "\n";
