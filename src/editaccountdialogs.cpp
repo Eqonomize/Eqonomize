@@ -154,7 +154,7 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 }
 void EditAssetsAccountDialog::updateCurrencyList(Currency *select_currency) {
 	currencyCombo->clear();
-	currencyCombo->addItem(tr("New currency..."));
+	currencyCombo->addItem(tr("New currency…"));
 	Currency *currency = budget->currencies.first();
 	int i = 1;
 	while(currency) {
@@ -180,7 +180,7 @@ void EditAssetsAccountDialog::closedToggled(bool b) {
 void EditAssetsAccountDialog::currencyActivated(int index) {
 	Currency *cur = NULL;
 	if(index > 0) cur = (Currency*) currencyCombo->itemData(index).value<void*>();
-	if(index != prev_currency_index && current_account && cur != current_account->currency() && budget->accountHasTransactions(current_account) && QMessageBox::question(this, tr("Warning"), tr("If you change the currency of an account, the currency of all associated transactions will also change, without any conversion. Do do wish to continue anyway.")) != QMessageBox::Yes) {
+	if(index != prev_currency_index && current_account && cur != current_account->currency() && budget->accountHasTransactions(current_account) && QMessageBox::question(this, tr("Warning"), tr("If you change the currency of an account, the currency of all associated transactions will also change, without any conversion. Do do wish to continue anyway?")) != QMessageBox::Yes) {
 		currencyCombo->setCurrentIndex(prev_currency_index);
 		return;
 	}

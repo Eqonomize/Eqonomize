@@ -271,7 +271,7 @@ QString Budget::loadECBData(QByteArray data) {
 		xml.skipCurrentElement();
 	}
 	
-	if(!had_data) return tr("No exchange rates found in downloaded ECB data");
+	if(!had_data) return tr("No exchange rates found in the downloaded ECB data.");
 	
 	return QString();
 }

@@ -4326,7 +4326,7 @@ void Eqonomize::exportQIF() {
 }
 
 void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
-	updateExchangeRatesProgressDialog = new QProgressDialog(tr("Updating exchange rates..."), tr("Abort"), 0, 1, this);
+	updateExchangeRatesProgressDialog = new QProgressDialog(tr("Updating exchange rates…"), tr("Abort"), 0, 1, this);
 	updateExchangeRatesProgressDialog->setWindowModality(Qt::WindowModal);
 	updateExchangeRatesProgressDialog->setMinimumDuration(100);
 	connect(updateExchangeRatesProgressDialog, SIGNAL(canceled()), this, SLOT(cancelUpdateExchangeRates()));
@@ -4427,7 +4427,7 @@ void Eqonomize::setMainCurrency() {
 	setMainCurrencyCombo = new QComboBox(this);
 	setMainCurrencyCombo->setEditable(false);
 	grid->addWidget(setMainCurrencyCombo, 0, 1);
-	setMainCurrencyCombo->addItem(tr("New currency..."));
+	setMainCurrencyCombo->addItem(tr("New currency…"));
 	Currency *currency = budget->currencies.first();
 	int i = 1;
 	while(currency) {
@@ -4478,7 +4478,7 @@ void Eqonomize::setMainCurrencyIndexChanged(int index) {
 			Currency *cur = dialog->createCurrency();
 			Currency *currency = budget->currencies.first();
 			setMainCurrencyCombo->clear();
-			setMainCurrencyCombo->addItem(tr("New currency..."));
+			setMainCurrencyCombo->addItem(tr("New currency…"));
 			int i = 1;
 			while(currency) {
 				setMainCurrencyCombo->addItem(currency->code());

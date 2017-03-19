@@ -195,7 +195,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			i++;
 		}		
 		if(transtype == TRANSACTION_TYPE_TRANSFER) {
-			editLayout->addWidget(new QLabel(tr("Withdrawal:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Withdrawal:", "Money taken out from account"), this), TEROWCOL(i, 0));
 		} else if(transtype == TRANSACTION_TYPE_INCOME) {
 			editLayout->addWidget(new QLabel(tr("Income:"), this), TEROWCOL(i, 0));
 		} else {
@@ -224,7 +224,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		}
 		i++;
 		if(transtype == TRANSACTION_TYPE_TRANSFER) {
-			editLayout->addWidget(new QLabel(tr("Deposit:"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Deposit:", "Money put into account"), this), TEROWCOL(i, 0));
 			depositEdit = new EqonomizeValueEdit(true, this, budget);
 			editLayout->addWidget(depositEdit, TEROWCOL(i, 1));
 			i++;

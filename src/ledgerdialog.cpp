@@ -161,8 +161,8 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	headers << tr("Description", "Transaction description property (transaction title/generic article name)");
 	headers << tr("Account/Category");
 	headers << tr("Expense");
-	headers << tr("Deposit");
-	headers << tr("Withdrawal");
+	headers << tr("Deposit", "Money put into account");
+	headers << tr("Withdrawal", "Money taken out from account");
 	headers << tr("Balance", "Noun. Balance of an account");
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
