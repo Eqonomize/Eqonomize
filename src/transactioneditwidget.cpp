@@ -258,7 +258,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		case TRANSACTION_TYPE_TRANSFER: {
 			if(!split || transfer_to) {
 				editLayout->addWidget(new QLabel(tr("From:"), this), TEROWCOL(i, 0));
-				fromCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, b_create_accounts, false, false, !b_autoedit, false, this);
+				fromCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, b_create_accounts, false, false, !b_autoedit, true, this);
 				editLayout->addWidget(fromCombo, TEROWCOL(i, 1));
 				i++;
 			}
@@ -521,8 +521,8 @@ void TransactionEditWidget::fromChanged() {
 		if(toCombo && toCombo->currentAccount()) {
 			cur2 = toCombo->currentAccount()->currency();
 		}
-		if(cur2 && depositEdit) {
-			if(acc->currency() != cur2) {
+		if(depositEdit) {
+			if(cur2 && acc->currency() && acc->currency() != cur2) {
 				depositEdit->setEnabled(true);
 			} else {
 				depositEdit->setEnabled(false);
@@ -542,14 +542,12 @@ void TransactionEditWidget::toChanged() {
 			if(fromCombo && fromCombo->currentAccount()) {
 				cur2 = fromCombo->currentAccount()->currency();
 			}
-			if(cur2) {
-				if(acc->currency() != cur2) {
-					depositEdit->setEnabled(true);
-				} else {
-					depositEdit->setEnabled(false);
-					if(is_zero(valueEdit->value())) valueEdit->setValue(depositEdit->value());
-					else depositEdit->setValue(valueEdit->value());
-				}
+			if(cur2 && acc->currency() && acc->currency() != cur2) {
+				depositEdit->setEnabled(true);
+			} else {
+				depositEdit->setEnabled(false);
+				if(is_zero(valueEdit->value())) valueEdit->setValue(depositEdit->value());
+				else depositEdit->setValue(valueEdit->value());
 			}
 		}
 	} else {
@@ -960,7 +958,11 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 	}
 	if(dateEdit) trans->setDate(dateEdit->date());
 	if(fromCombo) trans->setFromAccount(fromCombo->currentAccount());
-	if(toCombo) trans->setToAccount(toCombo->currentAccount());
+	if(toCombo) {
+		if(toCombo->currentAccount() != budget->balancingAccount && trans->toAccount() != budget->balancingAccount) {
+			trans->setToAccount(toCombo->currentAccount());
+		}
+	}
 	trans->setValue(valueEdit->value());
 	if(descriptionEdit && (trans->type() != TRANSACTION_TYPE_INCOME || !((Income*) trans)->security())) trans->setDescription(descriptionEdit->text());
 	if(commentsEdit) trans->setComment(commentsEdit->text());
@@ -1017,8 +1019,14 @@ Transaction *TransactionEditWidget::createTransaction() {
 	if(!validValues()) return NULL;
 	Transaction *trans;
 	if(transtype == TRANSACTION_TYPE_TRANSFER) {
-		Transfer *transfer = new Transfer(budget, valueEdit->value(), depositEdit->value(), dateEdit ? dateEdit->date() : QDate(), fromCombo ? (AssetsAccount*) fromCombo->currentAccount() : NULL, toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString::null, commentsEdit ? commentsEdit->text() : NULL);
-		trans = transfer;
+		if(toCombo && toCombo->currentAccount() == budget->balancingAccount) {
+			trans = new Balancing(budget, -valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), fromCombo ? (AssetsAccount*) fromCombo->currentAccount() : NULL);
+		} else if(fromCombo && fromCombo->currentAccount() == budget->balancingAccount) {
+			trans = new Balancing(budget, valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL);
+		} else {
+			Transfer *transfer = new Transfer(budget, valueEdit->value(), depositEdit->value(), dateEdit ? dateEdit->date() : QDate(), fromCombo ? (AssetsAccount*) fromCombo->currentAccount() : NULL, toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString::null, commentsEdit ? commentsEdit->text() : NULL);
+			trans = transfer;
+		}
 	} else if(transtype == TRANSACTION_TYPE_INCOME) {
 		Income *income = new Income(budget, valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), fromCombo ? (IncomesAccount*) fromCombo->currentAccount() : NULL, toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString::null, commentsEdit ? commentsEdit->text() : NULL);
 		if(selectedSecurity()) income->setSecurity(selectedSecurity());
