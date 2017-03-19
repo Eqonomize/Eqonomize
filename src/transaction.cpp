@@ -50,7 +50,7 @@ Transaction::Transaction(Budget *parent_budget, QXmlStreamReader *xml, bool *val
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-Transaction::Transaction(Budget *parent_budget) : o_budget(parent_budget) {}
+Transaction::Transaction(Budget *parent_budget) : o_budget(parent_budget), d_value(0.0), o_from(NULL), o_to(NULL), d_quantity(1.0), o_split(NULL) {}
 Transaction::Transaction() : o_budget(NULL), d_value(0.0), o_from(NULL), o_to(NULL), d_quantity(1.0), o_split(NULL) {}
 Transaction::Transaction(const Transaction *transaction) : o_budget(transaction->budget()), d_value(transaction->value()), d_date(transaction->date()), o_from(transaction->fromAccount()), o_to(transaction->toAccount()), s_description(transaction->description()), s_comment(transaction->comment()), d_quantity(transaction->quantity()), o_split(NULL) {}
 Transaction::~Transaction() {}
@@ -504,7 +504,15 @@ void DebtReduction::setLoan(AssetsAccount *new_loan) {setTo(new_loan);}
 QString DebtReduction::description() const {return tr("Debt payment: %1 (reduction)").arg(loan()->name());}
 TransactionSubType DebtReduction::subtype() const {return TRANSACTION_SUBTYPE_DEBT_REDUCTION;}
 
-Balancing::Balancing(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_account, QString initial_comment) : Transfer(parent_budget, -initial_amount, initial_date, initial_account, parent_budget->balancingAccount, initial_comment) {}
+Balancing::Balancing(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_account, QString initial_comment) : Transfer(parent_budget) {
+	d_value = -initial_amount;
+	d_deposit = -initial_amount;
+	d_date = initial_date;
+	s_comment = initial_comment;
+	o_from = initial_account;
+	o_to = budget()->balancingAccount;
+	
+}
 Balancing::Balancing(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transfer(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
@@ -528,7 +536,7 @@ void Balancing::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	setFromAccount(NULL);
 	int id_account = attr->value("account").toInt();
 	if(budget()->assetsAccounts_id.contains(id_account)) {
-		setAccount(budget()->assetsAccounts_id[id_account]);
+		setFromAccount(budget()->assetsAccounts_id[id_account]);
 	} else {
 		if(valid) *valid = false;
 	}
