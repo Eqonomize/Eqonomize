@@ -22,6 +22,8 @@
 #  include <config.h>
 #endif
 
+#include <QDebug>
+
 #include "accountcombobox.h"
 #include "account.h"
 #include "budget.h"

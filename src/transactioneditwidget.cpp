@@ -763,6 +763,7 @@ void TransactionEditWidget::updateToAccounts(Account *exclude_account, Currency 
 	toCombo->updateAccounts(exclude_account, force_currency);
 }
 void TransactionEditWidget::updateAccounts(Account *exclude_account, Currency *force_currency) {
+	if(fromCombo) fromCombo->clear();
 	updateToAccounts(exclude_account, force_currency);
 	updateFromAccounts(exclude_account, force_currency);
 }
