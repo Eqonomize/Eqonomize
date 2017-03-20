@@ -549,6 +549,9 @@ void Balancing::writeAttributes(QXmlStreamAttributes *attr) {
 void Balancing::setAmount(double new_amount) {
 	setValue(-new_amount);
 }
+void Balancing::setAmount(double withdrawal_amount, double) {
+	setValue(withdrawal_amount);
+}
 
 AssetsAccount *Balancing::account() const {return toAccount() == o_budget->balancingAccount ? (AssetsAccount*) fromAccount() : (AssetsAccount*) toAccount();}
 void Balancing::setAccount(AssetsAccount *new_account) {toAccount() == o_budget->balancingAccount ? setFromAccount(new_account) : setToAccount(new_account);}

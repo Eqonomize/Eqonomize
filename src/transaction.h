@@ -352,7 +352,7 @@ class Transfer : public Transaction {
 		double amount(bool convert = false) const;
 		void setValue(double new_value);
 		virtual void setAmount(double new_amount);
-		void setAmount(double withdrawal, double deposit);
+		virtual void setAmount(double withdrawal, double deposit);
 		Currency *withdrawalCurrency() const;
 		Currency *depositCurrency() const;
 		double withdrawal(bool convert = false) const;
@@ -409,6 +409,7 @@ class Balancing : public Transfer {
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		
 		virtual void setAmount(double new_amount);
+		virtual void setAmount(double withdrawal, double deposit);
 
 		AssetsAccount *account() const;
 		void setAccount(AssetsAccount *new_account);

@@ -963,7 +963,11 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 			trans->setToAccount(toCombo->currentAccount());
 		}
 	}
-	trans->setValue(valueEdit->value());
+	if(depositEdit && trans->type() == TRANSACTION_TYPE_TRANSFER) {
+		((Transfer*) trans)->setAmount(valueEdit->value(), depositEdit->value());
+	} else {
+		trans->setValue(valueEdit->value());
+	}
 	if(descriptionEdit && (trans->type() != TRANSACTION_TYPE_INCOME || !((Income*) trans)->security())) trans->setDescription(descriptionEdit->text());
 	if(commentsEdit) trans->setComment(commentsEdit->text());
 	if(quantityEdit) trans->setQuantity(quantityEdit->value());
