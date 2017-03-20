@@ -69,7 +69,7 @@ void EqonomizeValueEdit::init(double lower, double upper, double step, double va
 		}
 	}
 	if(i_precision < 0) i_precision = MONETARY_DECIMAL_PLACES;
-	setDecimals(precision);
+	setDecimals(i_precision);
 	setValue(value);
 	connect(this, SIGNAL(editingFinished()), this, SLOT(onEditingFinished()));
 }
@@ -155,7 +155,6 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 	int i = str.indexOf(QRegExp("[-+]"));
 	if(i >= 1) {
 		QStringList terms = str.split(QRegExp("[-+]"));
-		
 	}
 	QDoubleSpinBox::fixup(input);
 }

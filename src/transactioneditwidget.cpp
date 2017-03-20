@@ -201,7 +201,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		} else {
 			editLayout->addWidget(new QLabel(tr("Cost:"), this), TEROWCOL(i, 0));
 		}
-		valueEdit = new EqonomizeValueEdit(0.0, !withloan, !withloan, this, budget);
+		valueEdit = new EqonomizeValueEdit(0.0, budget->defaultCurrency()->fractionalDigits(true), !withloan, !withloan, this, budget);
 		if(withloan) {
 			valueEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 			QHBoxLayout *valueLayout = new QHBoxLayout();
@@ -577,7 +577,10 @@ void TransactionEditWidget::securityChanged() {
 		if(sharesEdit && security && shares_date.isValid()) sharesEdit->setMaximum(security->shares(shares_date));
 	}
 }
-void TransactionEditWidget::currencyChanged(int) {}
+void TransactionEditWidget::currencyChanged(int index) {
+	Currency *cur = (Currency*) currencyCombo->itemData(index).value<void*>();
+	valueEdit->setPrecision(cur->fractionalDigits());
+}
 void TransactionEditWidget::valueChanged(double value) {
 	if(valueEdit && depositEdit && !depositEdit->isEnabled()) depositEdit->setValue(value);
 	if(!quotationEdit || !sharesEdit || !valueEdit) return;
