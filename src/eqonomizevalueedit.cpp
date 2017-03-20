@@ -117,7 +117,7 @@ void EqonomizeValueEdit::setCurrency(Currency *currency, bool keep_precision, in
 }
 QValidator::State EqonomizeValueEdit::validate(QString &input, int &pos) const {
 	QValidator::State s = QDoubleSpinBox::validate(input, pos);
-	if(s == QValidator::Invalid) return QValidator::Intermediate;
+	if(s == QValidator::Invalid && (pos == 0 || (input[pos - 1] != '[' && input[pos - 1] != ']' && input[pos - 1] != '(' && input[pos - 1] != ')' && input[pos - 1] != ' '))) return QValidator::Intermediate;
 	return s;
 }
 void EqonomizeValueEdit::fixup(QString &input) const {
@@ -151,10 +151,65 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 				return;
 			}
 		}
-	}
-	int i = str.indexOf(QRegExp("[-+]"));
+	}	
+	int i = str.indexOf(QRegExp("[-+]"), 1);
 	if(i >= 1) {
 		QStringList terms = str.split(QRegExp("[-+]"));
+		QChar c = '+';
+		i = 0;
+		double v = 0.0;
+		for(int terms_i = 0; terms_i < terms.size(); terms_i++) {
+			if(terms[terms_i].isEmpty()) {
+				if(i < str.length() && str[i] == '-') {
+					if(c == '-') c = '+';
+					else c = '-';
+				}
+			} else {
+				i += terms[terms_i].length();
+				fixup(terms[terms_i]);
+				if(c == '-') v -= QLocale().toDouble(terms[terms_i]);
+				else v += QLocale().toDouble(terms[terms_i]);
+				if(i < str.length()) c = str[i];
+			}
+		}
+		input = QLocale().toString(v, 'f', decimals());
+		QDoubleSpinBox::fixup(input);
+		return;
+	}
+	if(str.indexOf("**") >= 0) str = str.replace("**", "^");
+	i = str.indexOf('*', 1);
+	if(i >= 1 && i != str.length() - 1) {
+		QString factor1 = str.left(i);
+		QString factor2 = str.right(str.length() - (i + 1));
+		qDebug() << factor1 << factor2;
+		fixup(factor1);
+		fixup(factor2);
+		double v = QLocale().toDouble(factor1) * QLocale().toDouble(factor2);
+		input = QLocale().toString(v, 'f', decimals());
+		QDoubleSpinBox::fixup(input);
+		return;
+	}
+	i = str.indexOf('/', 1);
+	if(i >= 1 && i != str.length() - 1) {
+		QString num = str.left(i);
+		QString den = str.right(str.length() - (i + 1));
+		fixup(num);
+		fixup(den);
+		double v = QLocale().toDouble(num) / QLocale().toDouble(den);
+		input = QLocale().toString(v, 'f', decimals());
+		QDoubleSpinBox::fixup(input);
+		return;
+	}
+	i = str.indexOf('^', 1);
+	if(i >= 1 && i != str.length() - 1) {
+		QString base = str.left(i);
+		QString exp = str.right(str.length() - (i + 1));
+		fixup(base);
+		fixup(exp);
+		double v = pow(QLocale().toDouble(base), QLocale().toDouble(exp));
+		input = QLocale().toString(v, 'f', decimals());
+		QDoubleSpinBox::fixup(input);
+		return;
 	}
 	QDoubleSpinBox::fixup(input);
 }
