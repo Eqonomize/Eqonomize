@@ -4431,7 +4431,11 @@ void Eqonomize::setMainCurrency() {
 	Currency *currency = budget->currencies.first();
 	int i = 1;
 	while(currency) {
-		setMainCurrencyCombo->addItem(currency->code());
+		if(!currency->name(false).isEmpty()) {
+			setMainCurrencyCombo->addItem(QString("%1 (%2)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
+		} else {
+			setMainCurrencyCombo->addItem(currency->code());
+		}
 		setMainCurrencyCombo->setItemData(i, qVariantFromValue((void*) currency));
 		if(currency == budget->defaultCurrency()) {
 			setMainCurrencyCombo->setCurrentIndex(i);

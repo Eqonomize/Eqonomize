@@ -158,7 +158,11 @@ void EditAssetsAccountDialog::updateCurrencyList(Currency *select_currency) {
 	Currency *currency = budget->currencies.first();
 	int i = 1;
 	while(currency) {
-		currencyCombo->addItem(currency->code());
+		if(!currency->name(false).isEmpty()) {
+			currencyCombo->addItem(QString("%1 (%2)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
+		} else {
+			currencyCombo->addItem(currency->code());
+		}
 		currencyCombo->setItemData(i, qVariantFromValue((void*) currency));
 		if(currency == select_currency) {
 			prev_currency_index = i;

@@ -3168,6 +3168,11 @@ i18n: file ./eqonomizeui.rc line 56
         <source>XML parse error: &quot;%1&quot; at line %2, col %3</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/budget.cpp" line="86"/>
+        <source>European Euro</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message numerus="yes">
         <location filename="../src/budget.cpp" line="207"/>
         <source>Unable to load %n currency/currencies.</source>
@@ -4041,7 +4046,7 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="85"/>
-        <location filename="../src/editaccountdialogs.cpp" line="240"/>
+        <location filename="../src/editaccountdialogs.cpp" line="244"/>
         <source>Bank:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4066,7 +4071,7 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
     </message>
     <message>
         <location filename="../src/editaccountdialogs.cpp" line="113"/>
-        <location filename="../src/editaccountdialogs.cpp" line="239"/>
+        <location filename="../src/editaccountdialogs.cpp" line="243"/>
         <source>Lender:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4086,24 +4091,24 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="183"/>
+        <location filename="../src/editaccountdialogs.cpp" line="187"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="219"/>
+        <location filename="../src/editaccountdialogs.cpp" line="223"/>
         <source>Type cannot be changed to securities for accounts with transactions.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="238"/>
+        <location filename="../src/editaccountdialogs.cpp" line="242"/>
         <source>Issuer:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="219"/>
-        <location filename="../src/editaccountdialogs.cpp" line="337"/>
-        <location filename="../src/editaccountdialogs.cpp" line="343"/>
+        <location filename="../src/editaccountdialogs.cpp" line="223"/>
+        <location filename="../src/editaccountdialogs.cpp" line="341"/>
+        <location filename="../src/editaccountdialogs.cpp" line="347"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4125,17 +4130,17 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="183"/>
+        <location filename="../src/editaccountdialogs.cpp" line="187"/>
         <source>If you change the currency of an account, the currency of all associated transactions will also change, without any conversion. Do do wish to continue anyway?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="337"/>
+        <location filename="../src/editaccountdialogs.cpp" line="341"/>
         <source>Empty name.</source>
         <translation type="unfinished">Nome em branco.</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="343"/>
+        <location filename="../src/editaccountdialogs.cpp" line="347"/>
         <source>The entered name is used by another account.</source>
         <translation type="unfinished">O nome digitado é usado por uma outra conta.</translation>
     </message>
@@ -4354,43 +4359,43 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
 <context>
     <name>EditExpensesAccountDialog</name>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="469"/>
+        <location filename="../src/editaccountdialogs.cpp" line="473"/>
         <source>Name:</source>
         <translation type="unfinished">Nome:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="472"/>
+        <location filename="../src/editaccountdialogs.cpp" line="476"/>
         <source>Parent category:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="476"/>
+        <location filename="../src/editaccountdialogs.cpp" line="480"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="489"/>
+        <location filename="../src/editaccountdialogs.cpp" line="493"/>
         <source>Monthly budget:</source>
         <translation type="unfinished">Orçamento mensal.</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="495"/>
+        <location filename="../src/editaccountdialogs.cpp" line="499"/>
         <source>Description:</source>
         <translation type="unfinished">Descrição:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="553"/>
-        <location filename="../src/editaccountdialogs.cpp" line="559"/>
+        <location filename="../src/editaccountdialogs.cpp" line="557"/>
+        <location filename="../src/editaccountdialogs.cpp" line="563"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="553"/>
+        <location filename="../src/editaccountdialogs.cpp" line="557"/>
         <source>Empty name.</source>
         <translation type="unfinished">Nome em branco.</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="559"/>
+        <location filename="../src/editaccountdialogs.cpp" line="563"/>
         <source>The entered name is used by another expense category.</source>
         <translation type="unfinished">O nome digitado já é usado por outra categoria de despesa.</translation>
     </message>
@@ -4398,43 +4403,43 @@ Confirme se elas realmente ocorreram (ou irão ocorrer hoje).</translation>
 <context>
     <name>EditIncomesAccountDialog</name>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="361"/>
+        <location filename="../src/editaccountdialogs.cpp" line="365"/>
         <source>Name:</source>
         <translation type="unfinished">Nome:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="364"/>
+        <location filename="../src/editaccountdialogs.cpp" line="368"/>
         <source>Parent category:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="368"/>
+        <location filename="../src/editaccountdialogs.cpp" line="372"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="382"/>
+        <location filename="../src/editaccountdialogs.cpp" line="386"/>
         <source>Monthly budget:</source>
         <translation type="unfinished">Orçamento mensal.</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="388"/>
+        <location filename="../src/editaccountdialogs.cpp" line="392"/>
         <source>Description:</source>
         <translation type="unfinished">Descrição:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="446"/>
-        <location filename="../src/editaccountdialogs.cpp" line="452"/>
+        <location filename="../src/editaccountdialogs.cpp" line="450"/>
+        <location filename="../src/editaccountdialogs.cpp" line="456"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="446"/>
+        <location filename="../src/editaccountdialogs.cpp" line="450"/>
         <source>Empty name.</source>
         <translation type="unfinished">Nome em branco.</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="452"/>
+        <location filename="../src/editaccountdialogs.cpp" line="456"/>
         <source>The entered name is used by another income category.</source>
         <translation type="unfinished">O nome digitado já é usado por outra categoria de receita.</translation>
     </message>
@@ -10851,6 +10856,164 @@ Date: %3</source>
         <location filename="../src/transactionlistwidget.cpp" line="1409"/>
         <source>Edit…</source>
         <translation type="unfinished">Editar…</translation>
+    </message>
+</context>
+<context>
+    <name>currencies.xml</name>
+    <message>
+        <location filename="../src/currencies.xml.h" line="1"/>
+        <source>U.S. Dollar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="2"/>
+        <source>Japansese Yen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="3"/>
+        <source>Bulgarian Lev</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="4"/>
+        <source>Czech Koruna</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="5"/>
+        <source>Danish Krone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="6"/>
+        <source>British Pound</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="7"/>
+        <source>Hungarian Forint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="8"/>
+        <source>Polish Zloty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="9"/>
+        <source>Romanian New Leu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="10"/>
+        <source>Swedish Krona</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="11"/>
+        <source>Swiss Franc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="12"/>
+        <source>Norwegian Krone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="13"/>
+        <source>Croatian Kuna</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="14"/>
+        <source>Russian Ruble</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="15"/>
+        <source>Turkish New Lira</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="16"/>
+        <source>Australian Dollar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="17"/>
+        <source>Brazilian Real</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="18"/>
+        <source>Canadian Dollar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="19"/>
+        <source>Chinese Yuan Renminbi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="20"/>
+        <source>Hong Kong Dollar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="21"/>
+        <source>Indonesian Rupiah</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="22"/>
+        <source>Israeli New Sheqel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="23"/>
+        <source>Indian Rupee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="24"/>
+        <source>South Korean Won</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="25"/>
+        <source>Mexican Peso</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="26"/>
+        <source>Malaysian Ringgit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="27"/>
+        <source>New Zeeland Dollar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="28"/>
+        <source>Philippine Peso</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="29"/>
+        <source>Singapore Dollar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="30"/>
+        <source>Thai Baht</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/currencies.xml.h" line="31"/>
+        <source>South African Rand</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

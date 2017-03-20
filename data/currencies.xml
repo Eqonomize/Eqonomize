@@ -30,7 +30,7 @@
 	<currency code="SEK" symbol="kr" name="Swedish Krona" source="ECB">
 		<rate value="9.5778" date="2017-03-10"/>
 	</currency>
-	<currency code="CHF" symbol="Fr" name="Swiss Francs" source="ECB">
+	<currency code="CHF" symbol="Fr" name="Swiss Franc" source="ECB">
 		<rate value="1.0743" date="2017-03-10"/>
 	</currency>
 	<currency code="NOK" symbol="kr" name="Norwegian Krone" source="ECB">

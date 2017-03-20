@@ -51,6 +51,7 @@ HEADERS += src/account.h \
            src/categoriescomparisonchart.h \
            src/categoriescomparisonreport.h \
            src/currency.h \
+           src/currencies.xml.h \
            src/editaccountdialogs.h \
            src/editcurrencydialog.h \
            src/editscheduledtransactiondialog.h \
