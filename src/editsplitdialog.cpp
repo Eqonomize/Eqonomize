@@ -992,6 +992,7 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 		}
 		account = budget->assetsAccounts.next();
 	}
+
 	loanActivated(loanCombo->currentIndex());
 	accountChanged();
 	valueChanged();
@@ -1083,7 +1084,7 @@ void EditDebtPaymentWidget::loanActivated(int index) {
 			}
 		}
 	}
-	reductionEdit->setCurrency(loan->currency());
+	if(reductionEdit) reductionEdit->setCurrency(loan->currency());
 	if((!addedInterestButton || addedInterestButton->isChecked()) && interestEdit) interestEdit->setCurrency(loan->currency());
 }
 
@@ -1098,9 +1099,9 @@ void EditDebtPaymentWidget::valueChanged() {
 	updateTotalValue();
 }
 void EditDebtPaymentWidget::interestSourceChanged() {
-	if(addedInterestButton->isChecked()) {
+	if(addedInterestButton && addedInterestButton->isChecked()) {
 		if(selectedLoan()) interestEdit->setCurrency(selectedLoan()->currency());
-	} else {
+	} else if(interestEdit) {
 		if(selectedAccount()) interestEdit->setCurrency(selectedAccount()->currency());
 	}
 	valueChanged();
