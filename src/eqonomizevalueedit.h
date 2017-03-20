@@ -48,13 +48,15 @@ class EqonomizeValueEdit : public QDoubleSpinBox {
 		
 		virtual void fixup(QString &input) const;
 		virtual QValidator::State validate(QString &input, int &pos) const;
+		virtual QString textFromValue(double value) const;
+		virtual double valueFromText(const QString &text) const;
 
 	protected:
 		
 		int i_precision;
 		Budget *budget;
 		Currency *o_currency;
-
+		QString s_prefix, s_suffix;
 	
 	protected slots:
 	

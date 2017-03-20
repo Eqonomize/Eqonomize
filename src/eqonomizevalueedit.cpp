@@ -62,9 +62,11 @@ void EqonomizeValueEdit::init(double lower, double upper, double step, double va
 			setCurrency(budget->defaultCurrency(), true);
 		} else {
 			if(CURRENCY_IS_PREFIX) {
-				setPrefix(QLocale().currencySymbol());
+				//setPrefix(QLocale().currencySymbol());
+				s_prefix = QLocale().currencySymbol();
 			} else {
-				setSuffix(QString(" ") + QLocale().currencySymbol());
+				//setSuffix(QString(" ") + QLocale().currencySymbol());
+				s_suffix = QLocale().currencySymbol();
 			}
 		}
 	}
@@ -96,22 +98,33 @@ void EqonomizeValueEdit::setCurrency(Currency *currency, bool keep_precision, in
 	else o_currency = currency;
 	
 	if(!currency) {
-		setSuffix(QString());
-		setPrefix(QString());
+		s_suffix = QString();
+		s_prefix = QString();
+		//setSuffix(QString());
+		//setPrefix(QString());
+		setValue(value());
 		return;
 	}
 	
 	if((as_default == 0 || (as_default < 0 && currency != budget->defaultCurrency())) || currency->symbol().isEmpty()) {
-		setSuffix(QString(" ") + currency->code());
-		setPrefix(QString());
+		//setSuffix(QString(" ") + currency->code());
+		//setPrefix(QString());
+		s_suffix = currency->code();
+		s_prefix = QString();
 	} else {
-		if(currency && currency->symbolPrecedes()) setPrefix(currency->symbol());
+		/*if(currency && currency->symbolPrecedes()) setPrefix(currency->symbol());
 		else setPrefix(QString());
 		if(currency && !currency->symbolPrecedes()) setSuffix(" " + currency->symbol());
-		else setSuffix(QString());
+		else setSuffix(QString());*/
+		if(currency && currency->symbolPrecedes()) s_prefix = currency->symbol();
+		else s_prefix = QString();
+		if(currency && !currency->symbolPrecedes()) s_suffix = currency->symbol();
+		else s_suffix = QString();
 	}
 	if(!keep_precision) {
 		setDecimals(currency->fractionalDigits(true));
+	} else {
+		setValue(value());
 	}
 
 }
@@ -120,38 +133,24 @@ QValidator::State EqonomizeValueEdit::validate(QString &input, int &pos) const {
 	if(s == QValidator::Invalid && (pos == 0 || (input[pos - 1] != '[' && input[pos - 1] != ']' && input[pos - 1] != '(' && input[pos - 1] != ')' && input[pos - 1] != ' '))) return QValidator::Intermediate;
 	return s;
 }
+
+QString EqonomizeValueEdit::textFromValue(double value) const {
+	if(!s_suffix.isEmpty()) return s_prefix + QLocale().toString(value, 'f', decimals()) + QString(" ") + s_suffix;
+	return s_prefix + QLocale().toString(value, 'f', decimals());
+}
+double EqonomizeValueEdit::valueFromText(const QString &text) const {
+	QString str = text;
+	if(!s_suffix.isEmpty()) {
+		str.remove(QString(" ") + s_suffix);
+	}
+	if(!s_prefix.isEmpty()) {
+		str.remove(s_prefix);
+	}
+	return QDoubleSpinBox::valueFromText(str);
+}
+
 void EqonomizeValueEdit::fixup(QString &input) const {
-	QString str = input.mid(prefix().length(), input.length() - prefix().length() - suffix().length()).trimmed();
-	if(budget && o_currency) {
-		int i = str.indexOf(QRegExp("[1234567890.,-+]"));
-		if(i >= 1) {
-			QString scur = str.left(i).trimmed();
-			Currency *cur = budget->findCurrency(scur);
-			if(!cur && budget->defaultCurrency()->symbol(false) == scur) cur = budget->defaultCurrency();
-			if(!cur) cur = budget->findCurrencySymbol(scur, true);
-			if(cur) {
-				QString value = str.right(str.length() - i);
-				fixup(value);
-				input = QLocale().toString(cur->convertTo(QLocale().toDouble(value), o_currency), 'f', decimals());
-				QDoubleSpinBox::fixup(input);
-				return;
-			}
-		}
-		i = str.lastIndexOf(QRegExp("[1234567890.,-+]"));
-		if(i >= 0 && i < str.length() - 1) {
-			QString scur = str.right(str.length() - (i + 1)).trimmed();
-			Currency *cur = budget->findCurrency(scur);
-			if(!cur && budget->defaultCurrency()->symbol(false) == scur) cur = budget->defaultCurrency();
-			if(!cur) cur = budget->findCurrencySymbol(scur, true);
-			if(cur) {
-				QString value = str.left(i + 1);
-				fixup(value);
-				input = QLocale().toString(cur->convertTo(QLocale().toDouble(value), o_currency), 'f', decimals());
-				QDoubleSpinBox::fixup(input);
-				return;
-			}
-		}
-	}	
+	QString str = input.trimmed();
 	int i = str.indexOf(QRegExp("[-+]"), 1);
 	if(i >= 1) {
 		QStringList terms = str.split(QRegExp("[-+]"));
@@ -176,12 +175,11 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 		QDoubleSpinBox::fixup(input);
 		return;
 	}
-	if(str.indexOf("**") >= 0) str = str.replace("**", "^");
+	if(str.indexOf("**") >= 0) str.replace("**", "^");
 	i = str.indexOf('*', 1);
 	if(i >= 1 && i != str.length() - 1) {
 		QString factor1 = str.left(i);
 		QString factor2 = str.right(str.length() - (i + 1));
-		qDebug() << factor1 << factor2;
 		fixup(factor1);
 		fixup(factor2);
 		double v = QLocale().toDouble(factor1) * QLocale().toDouble(factor2);
@@ -199,6 +197,100 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 		input = QLocale().toString(v, 'f', decimals());
 		QDoubleSpinBox::fixup(input);
 		return;
+	}	
+	i = str.indexOf('%');
+	if(i >= 0) {
+		double v = 0.01;
+		if(str.length() > 1) {
+			if(i > 0 && i < str.length() - 1) {
+				QString str2 = str.right(str.length() - 1 - i);
+				str = str.left(i);
+				i = 0;
+				fixup(str2);
+				v = QLocale().toDouble(str2) * v;
+			} else if(i == str.length() - 1) {
+				str = str.left(i);
+				fixup(str);
+			} else if(i == 0) {
+				str = str.right(str.length() - 1);
+				fixup(str);
+			}
+			v = QLocale().toDouble(str) * v;
+		}
+		input = QLocale().toString(v, 'f', decimals());
+		QDoubleSpinBox::fixup(input);
+		return;
+	}	
+	if((budget && o_currency) || !s_suffix.isEmpty() || !s_prefix.isEmpty()) {
+		int i = str.indexOf(QRegExp("[1234567890.,-+]"));
+		if(i >= 1) {
+			QString scur = str.left(i).trimmed();
+			if(scur == s_prefix) {
+				input = str.right(str.length() - i);
+				QDoubleSpinBox::fixup(input);
+				return;
+			}
+			if(budget && o_currency) {
+				Currency *cur = budget->findCurrency(scur);
+				if(!cur && budget->defaultCurrency()->symbol(false) == scur) cur = budget->defaultCurrency();
+				if(!cur) cur = budget->findCurrencySymbol(scur, true);
+				if(cur) {
+					QString value = str.right(str.length() - i);
+					if(cur == o_currency) {
+						input = value;
+					} else {
+						fixup(value);
+						input = QLocale().toString(cur->convertTo(QLocale().toDouble(value), o_currency), 'f', decimals());
+					}
+					QDoubleSpinBox::fixup(input);
+					return;
+				}
+			}
+		}
+		i = str.lastIndexOf(QRegExp("[1234567890.,-+]"));
+		if(i >= 0 && i < str.length() - 1) {
+			QString scur = str.right(str.length() - (i + 1)).trimmed();
+			if(scur == s_suffix) {
+				input = str.left(i + 1);
+				QDoubleSpinBox::fixup(input);
+				return;
+			}
+			if(budget && o_currency) {
+				Currency *cur = budget->findCurrency(scur);
+				if(!cur && budget->defaultCurrency()->symbol(false) == scur) cur = budget->defaultCurrency();
+				if(!cur) cur = budget->findCurrencySymbol(scur, true);
+				if(cur) {
+					QString value = str.left(i + 1);
+					if(cur == o_currency) {
+						input = value;
+					} else {
+						fixup(value);
+						input = QLocale().toString(cur->convertTo(QLocale().toDouble(value), o_currency), 'f', decimals());
+					}
+					QDoubleSpinBox::fixup(input);
+					return;
+				}
+			}
+		}
+		if(str == s_prefix || str == s_suffix) {
+			input = "1";
+			QDoubleSpinBox::fixup(input);
+			return;
+		}
+		if(budget && o_currency) {
+			Currency *cur = budget->findCurrency(str);
+			if(!cur && budget->defaultCurrency()->symbol(false) == str) cur = budget->defaultCurrency();
+			if(!cur) cur = budget->findCurrencySymbol(str, true);
+			if(cur) {
+				if(cur == o_currency) {
+					input = "1";
+				} else {
+					input = QLocale().toString(cur->convertTo(1, o_currency), 'f', decimals());
+				}
+				QDoubleSpinBox::fixup(input);
+				return;
+			}
+		}
 	}
 	i = str.indexOf('^', 1);
 	if(i >= 1 && i != str.length() - 1) {
