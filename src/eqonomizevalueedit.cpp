@@ -127,6 +127,7 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 		if(i >= 1) {
 			QString scur = str.left(i).trimmed();
 			Currency *cur = budget->findCurrency(scur);
+			if(!cur && budget->defaultCurrency()->symbol(false) == scur) cur = budget->defaultCurrency();
 			if(!cur) cur = budget->findCurrencySymbol(scur, true);
 			if(cur) {
 				QString value = str.right(str.length() - i);
@@ -140,6 +141,7 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 		if(i >= 0 && i < str.length() - 1) {
 			QString scur = str.right(str.length() - (i + 1)).trimmed();
 			Currency *cur = budget->findCurrency(scur);
+			if(!cur && budget->defaultCurrency()->symbol(false) == scur) cur = budget->defaultCurrency();
 			if(!cur) cur = budget->findCurrencySymbol(scur, true);
 			if(cur) {
 				QString value = str.left(i + 1);
@@ -149,6 +151,11 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 				return;
 			}
 		}
+	}
+	int i = str.indexOf(QRegExp("[-+]"));
+	if(i >= 1) {
+		QStringList terms = str.split(QRegExp("[-+]"));
+		
 	}
 	QDoubleSpinBox::fixup(input);
 }

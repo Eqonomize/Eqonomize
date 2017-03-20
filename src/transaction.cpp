@@ -144,8 +144,8 @@ void Transaction::replaceAccount(Account *old_account, Account *new_account) {
 	if(o_to == old_account) o_to = new_account;
 }
 double Transaction::accountChange(Account *account, bool include_subs, bool convert) const {
-	if(o_from == account || (include_subs && o_from->topAccount() == account)) return -value(convert);
-	if(o_to == account || (include_subs && o_to->topAccount() == account)) return value(convert);
+	if(o_from == account || (include_subs && o_from->topAccount() == account)) return -fromValue(convert);
+	if(o_to == account || (include_subs && o_to->topAccount() == account)) return toValue(convert);
 	return 0.0;
 }
 
