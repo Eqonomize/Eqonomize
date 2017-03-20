@@ -1,96 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Eqonomize version="0.99.1">
-	<currency code="USD" symbol="$" source="ECB">
+	<currency code="USD" symbol="$" name="U.S. Dollar" source="ECB">
 		<rate value="1.0606" date="2017-03-10"/>
 	</currency>
-	<currency code="JPY" symbol="&#xA5;" source="ECB">
-		<rate value="122.42" date="2017-03-10"/>
+	<currency code="JPY" symbol="&#xA5;" name="Japansese Yen" source="ECB">
+		<rate value="122.42" name="Danish Kroner" date="2017-03-10"/>
 	</currency>
-	<currency code="BGN" symbol="лв." source="ECB">
+	<currency code="BGN" symbol="лв." name="Bulgarian Lev" source="ECB">
 		<rate value="1.9558" date="2017-03-10"/>
 	</currency>
-	<currency code="CZK" symbol="K&#x10D;" source="ECB">
+	<currency code="CZK" symbol="K&#x10D;" name="Czech Koruna" source="ECB">
 		<rate value="27.021" date="2017-03-10"/>
 	</currency>
-	<currency code="DKK" symbol="kr" source="ECB">
+	<currency code="DKK" symbol="kr" name="Danish Krone" source="ECB">
 		<rate value="7.4331" date="2017-03-10"/>
 	</currency>
-	<currency code="GBP" symbol="&#xA5;" source="ECB">
+	<currency code="GBP" symbol="&#xA5;" name="British Pound" source="ECB">
 		<rate value="0.87250" date="2017-03-10"/>
 	</currency>
-	<currency code="HUF" symbol="Ft" source="ECB">
+	<currency code="HUF" symbol="Ft" name="Hungarian Forint" source="ECB">
 		<rate value="312.27" date="2017-03-10"/>
 	</currency>
-	<currency code="PLN" symbol="z&#x0142;" source="ECB">
+	<currency code="PLN" symbol="z&#x0142;" name="Polish Zloty" source="ECB">
 		<rate value="4.3259" date="2017-03-10"/>
 	</currency>
-	<currency code="RON" symbol="L" source="ECB">
+	<currency code="RON" symbol="L" name="Romanian New Leu" source="ECB">
 		<rate value="4.5490" date="2017-03-10"/>
 	</currency>
-	<currency code="SEK" symbol="kr" source="ECB">
+	<currency code="SEK" symbol="kr" name="Swedish Krona" source="ECB">
 		<rate value="9.5778" date="2017-03-10"/>
 	</currency>
-	<currency code="CHF" symbol="Fr" source="ECB">
+	<currency code="CHF" symbol="Fr" name="Swiss Francs" source="ECB">
 		<rate value="1.0743" date="2017-03-10"/>
 	</currency>
-	<currency code="NOK" symbol="kr" source="ECB">
+	<currency code="NOK" symbol="kr" name="Norwegian Krone" source="ECB">
 		<rate value="9.1405" date="2017-03-10"/>
 	</currency>
-	<currency code="HRK" symbol="kn" source="ECB">
+	<currency code="HRK" symbol="kn" name="Croatian Kuna" source="ECB">
 		<rate value="7.4190" date="2017-03-10"/>
 	</currency>
-	<currency code="RUB" symbol="&#x20BD;" source="ECB">
+	<currency code="RUB" symbol="&#x20BD;" name="Russian Ruble" source="ECB">
 		<rate value="62.6964" date="2017-03-10"/>
 	</currency>
-	<currency code="TRY" symbol="&#x20BA;" source="ECB">
+	<currency code="TRY" symbol="&#x20BA;" name="Turkish New Lira" source="ECB">
 		<rate value="3.9801" date="2017-03-10"/>
 	</currency>
-	<currency code="AUD" symbol="$" source="ECB">
+	<currency code="AUD" symbol="$" name="Australian Dollar" source="ECB">
 		<rate value="1.4095" date="2017-03-10"/>
 	</currency>
-	<currency code="BRL" symbol="R$" source="ECB">
+	<currency code="BRL" symbol="R$" name="Brazilian Real" source="ECB">
 		<rate value="3.3694" date="2017-03-10"/>
 	</currency>
-	<currency code="CAD" symbol="$" source="ECB">
+	<currency code="CAD" symbol="$" name="Canadian Dollar" source="ECB">
 		<rate value="1.4322" date="2017-03-10"/>
 	</currency>
-	<currency code="CNY" symbol="&#x00a5;" source="ECB">
+	<currency code="CNY" symbol="&#x00a5;" name="Chinese Yuan Renminbi" source="ECB">
 		<rate value="7.3336" date="2017-03-10"/>
 	</currency>
-	<currency code="HKD" symbol="$" source="ECB">
+	<currency code="HKD" symbol="$" name="Hong Kong Dollar" source="ECB">
 		<rate value="8.2367" date="2017-03-10"/>
 	</currency>
-	<currency code="IDR" symbol="Rp" source="ECB">
+	<currency code="IDR" symbol="Rp" name="Indonesian Rupiah" source="ECB">
 		<rate value="14185.77" date="2017-03-10"/>
 	</currency>
-	<currency code="ILS" symbol="&#x20AA;" source="ECB">
+	<currency code="ILS" symbol="&#x20AA;" name="Israeli New Sheqel" source="ECB">
 		<rate value="3.9086" date="2017-03-10"/>
 	</currency>
-	<currency code="INR" symbol="&#x20B9;" source="ECB">
+	<currency code="INR" symbol="&#x20B9;" name="Indian Rupee" source="ECB">
 		<rate value="70.6725" date="2017-03-10"/>
 	</currency>
-	<currency code="KRW" symbol="&#x20A9;" source="ECB">
+	<currency code="KRW" symbol="&#x20A9;" name="South Korean Won" source="ECB">
 		<rate value="1226.28" date="2017-03-10"/>
 	</currency>
-	<currency code="MXN" symbol="$" source="ECB">
+	<currency code="MXN" symbol="$" name="Mexican Peso" source="ECB">
 		<rate value="20.9681" date="2017-03-10"/>
 	</currency>
-	<currency code="MYR" symbol="RM" source="ECB">
+	<currency code="MYR" symbol="RM" name="Malaysian Ringgit" source="ECB">
 		<rate value="4.7231" date="2017-03-10"/>
 	</currency>
-	<currency code="NZD" symbol="$" source="ECB">
+	<currency code="NZD" symbol="$" name="New Zeeland Dollar" source="ECB">
 		<rate value="1.5348" date="2017-03-10"/>
 	</currency>
-	<currency code="PHP" symbol="&#x20B1;" source="ECB">
+	<currency code="PHP" symbol="&#x20B1;" name="Philippine Peso" source="ECB">
 		<rate value="53.281" date="2017-03-10"/>
 	</currency>
-	<currency code="SGD" symbol="$" source="ECB">
+	<currency code="SGD" symbol="$" name="Singapore Dollar" source="ECB">
 		<rate value="1.5041" date="2017-03-10"/>
 	</currency>
-	<currency code="THB" symbol="&#x0e3f;" source="ECB">
+	<currency code="THB" symbol="&#x0e3f;" name="Thai Baht" source="ECB">
 		<rate value="37.556" date="2017-03-10"/>
 	</currency>
-	<currency code="ZAR" symbol="R" source="ECB">
+	<currency code="ZAR" symbol="R" name="South African Rand" source="ECB">
 		<rate value="14.0681" date="2017-03-10"/>
 	</currency>
 </Eqonomize>

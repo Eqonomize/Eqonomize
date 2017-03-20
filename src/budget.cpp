@@ -83,7 +83,7 @@ Budget::Budget() {
 	assetsAccounts.setAutoDelete(true);
 	securityTrades.setAutoDelete(true);
 	accounts.setAutoDelete(false);
-	currency_euro = new Currency(this, "EUR", "€", "Euro", 1.0);
+	currency_euro = new Currency(this, "EUR", "€", tr("European Euro"), 1.0);
 	addCurrency(currency_euro);
 	loadCurrencies();
 	default_currency = currency_euro;
