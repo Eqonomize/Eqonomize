@@ -200,6 +200,7 @@ class Budget {
 		void addCurrency(Currency*);
 		void removeCurrency(Currency*);
 		Currency *findCurrency(QString code);
+		Currency *findCurrencySymbol(QString symbol, bool require_unique = false);
 		
 		AccountList<IncomesAccount*> incomesAccounts;
 		AccountList<ExpensesAccount*> expensesAccounts;

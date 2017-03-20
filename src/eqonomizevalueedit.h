@@ -44,12 +44,17 @@ class EqonomizeValueEdit : public QDoubleSpinBox {
 		void setRange(double lower, double upper, double step, int precision);
 		void setPrecision(int precision);
 		
-		void setCurrency(Currency *currency, bool keep_precision = false, int as_default = -1);
+		void setCurrency(Currency *currency, bool keep_precision = false, int as_default = -1, bool is_temporary = false);
+		
+		virtual void fixup(QString &input) const;
+		virtual QValidator::State validate(QString &input, int &pos) const;
 
 	protected:
 		
 		int i_precision;
 		Budget *budget;
+		Currency *o_currency;
+
 	
 	protected slots:
 	

@@ -1446,6 +1446,19 @@ Currency *Budget::findCurrency(QString code) {
 	}
 	return NULL;
 }
+Currency *Budget::findCurrencySymbol(QString symbol, bool require_unique)  {
+	Currency *found_cur = NULL;
+	Currency *cur = currencies.first();
+	while(cur) {
+		if(cur->symbol(false) == symbol) {
+			if(!require_unique) return cur;
+			else if(found_cur) return NULL;
+			else found_cur = cur;
+		}
+		cur = currencies.next();
+	}
+	return found_cur;
+}
 
 void Budget::setBudgetDay(int day_of_month) {if(day_of_month <= 28 && day_of_month >= -26) i_budget_day = day_of_month;}
 int Budget::budgetDay() const {return i_budget_day;}

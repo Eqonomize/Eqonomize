@@ -51,6 +51,7 @@ EqonomizeValueEdit::EqonomizeValueEdit(double lower, double upper, double step, 
 EqonomizeValueEdit::~EqonomizeValueEdit() {}
 
 void EqonomizeValueEdit::init(double lower, double upper, double step, double value, int precision, bool show_currency) {
+	o_currency = NULL;
 	i_precision = precision;
 	QDoubleSpinBox::setRange(lower, upper);
 	setSingleStep(step);
@@ -89,8 +90,11 @@ void EqonomizeValueEdit::setPrecision(int precision) {
 	i_precision = precision;
 	setDecimals(precision);
 }
-void EqonomizeValueEdit::setCurrency(Currency *currency, bool keep_precision, int as_default) {
+void EqonomizeValueEdit::setCurrency(Currency *currency, bool keep_precision, int as_default, bool is_temporary) {
 
+	if(is_temporary) o_currency = NULL;
+	else o_currency = currency;
+	
 	if(!currency) {
 		setSuffix(QString());
 		setPrefix(QString());
@@ -111,5 +115,41 @@ void EqonomizeValueEdit::setCurrency(Currency *currency, bool keep_precision, in
 	}
 
 }
-
+QValidator::State EqonomizeValueEdit::validate(QString &input, int &pos) const {
+	QValidator::State s = QDoubleSpinBox::validate(input, pos);
+	if(s == QValidator::Invalid) return QValidator::Intermediate;
+	return s;
+}
+void EqonomizeValueEdit::fixup(QString &input) const {
+	QString str = input.mid(prefix().length(), input.length() - prefix().length() - suffix().length()).trimmed();
+	if(budget && o_currency) {
+		int i = str.indexOf(QRegExp("[1234567890.,-+]"));
+		if(i >= 1) {
+			QString scur = str.left(i).trimmed();
+			Currency *cur = budget->findCurrency(scur);
+			if(!cur) cur = budget->findCurrencySymbol(scur, true);
+			if(cur) {
+				QString value = str.right(str.length() - i);
+				fixup(value);
+				input = QLocale().toString(cur->convertTo(QLocale().toDouble(value), o_currency), 'f', decimals());
+				QDoubleSpinBox::fixup(input);
+				return;
+			}
+		}
+		i = str.lastIndexOf(QRegExp("[1234567890.,-+]"));
+		if(i >= 0 && i < str.length() - 1) {
+			QString scur = str.right(str.length() - (i + 1)).trimmed();
+			Currency *cur = budget->findCurrency(scur);
+			if(!cur) cur = budget->findCurrencySymbol(scur, true);
+			if(cur) {
+				QString value = str.left(i + 1);
+				fixup(value);
+				input = QLocale().toString(cur->convertTo(QLocale().toDouble(value), o_currency), 'f', decimals());
+				QDoubleSpinBox::fixup(input);
+				return;
+			}
+		}
+	}
+	QDoubleSpinBox::fixup(input);
+}
 

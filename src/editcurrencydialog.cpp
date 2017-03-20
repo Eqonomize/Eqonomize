@@ -138,7 +138,7 @@ EditCurrencyDialog::EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_
 
 void EditCurrencyDialog::currencyChanged() {
 	Currency *cur = new Currency(budget, codeEdit->text().trimmed(), symbolEdit->text().trimmed(), nameEdit->text().trimmed(), 1.0, QDate::currentDate(), decimalsEdit->value(), prefixButton->isChecked() ? 1 : (suffixButton->isChecked() ? 0 : - 1));
-	rateEdit->setCurrency(cur, true, defaultButton && defaultButton->isChecked());
+	rateEdit->setCurrency(cur, true, defaultButton && defaultButton->isChecked(), true);
 	delete cur;
 }
 Currency *EditCurrencyDialog::createCurrency() {
