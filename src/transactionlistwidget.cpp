@@ -450,9 +450,10 @@ void TransactionListWidget::editTransaction() {
 			if(i->scheduledTransaction()) dialog->setTransaction(i->transaction(), i->date());
 			else dialog->setTransaction(i->transaction());
 		}
-		bool equal_date = true, equal_description = true, equal_value = true, equal_category = (transtype != TRANSACTION_TYPE_TRANSFER), equal_payee = (dialog->payeeButton != NULL);
+		bool equal_date = true, equal_description = true, equal_value = true, equal_category = (transtype != TRANSACTION_TYPE_TRANSFER), equal_payee = (dialog->payeeButton != NULL), equal_currency = true;
 		Transaction *comptrans = NULL;
 		Account *compcat = NULL;
+		Currency *compcur = NULL;
 		QDate compdate;
 		QString compdesc;
 		double compvalue = 0.0;
@@ -462,6 +463,7 @@ void TransactionListWidget::editTransaction() {
 				if(i->splitTransaction()) {
 					comptrans = i->splitTransaction()->at(0);
 					compvalue = i->splitTransaction()->value();
+					compcur = i->splitTransaction()->currency();
 					for(int split_i = 1; split_i < i->splitTransaction()->count(); split_i++) {
 						Transaction *i_trans = i->splitTransaction()->at(split_i);
 						if((comptrans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) comptrans)->payee() != ((Expense*) i_trans)->payee()) || (comptrans->type() == TRANSACTION_TYPE_INCOME && ((Income*) comptrans)->payer() != ((Income*) i_trans)->payer())) {
@@ -470,6 +472,7 @@ void TransactionListWidget::editTransaction() {
 						if(i_trans->date() != comptrans->date()) {
 							equal_date = false;
 						}
+						if(equal_currency && (i_trans->fromCurrency() != compcur || i_trans->toCurrency() != compcur)) equal_currency = false;
 					}
 					compcat = i->splitTransaction()->category();
 					compdesc = i->splitTransaction()->description();
@@ -498,6 +501,8 @@ void TransactionListWidget::editTransaction() {
 					} else if(i->transaction()->type() == TRANSACTION_TYPE_EXPENSE) {
 						compcat = ((Expense*) i->transaction())->category();
 					}
+					compcur = i->transaction()->fromCurrency();
+					if(i->transaction()->toCurrency() != compcur) equal_currency = false;
 					compdesc != i->transaction()->description();
 				}
 				compdate = i->date();
@@ -513,6 +518,7 @@ void TransactionListWidget::editTransaction() {
 						if(equal_date && i_trans->date() != comptrans->date()) {
 							equal_date = false;
 						}
+						if(equal_currency && (i_trans->fromCurrency() != compcur || i_trans->toCurrency() != compcur)) equal_currency = false;
 					}
 					if(equal_value && i->splitTransaction()->value() != compvalue) equal_value = false;
 					if(equal_category && i->splitTransaction()->category() != compcat) equal_category = false;
@@ -545,12 +551,14 @@ void TransactionListWidget::editTransaction() {
 					if(equal_description && (trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL || compdesc != trans->description())) {
 						equal_description = false;
 					}
+					if(equal_currency && (i->transaction()->toCurrency() != compcur || i->transaction()->fromCurrency() != compcur)) equal_currency = false;
 				}
 			}
 		}
 		if(equal_description) dialog->descriptionButton->setChecked(true);
 		if(equal_payee) dialog->payeeButton->setChecked(true);
-		if(equal_value) dialog->valueButton->setChecked(true);
+		if(equal_value && equal_currency) dialog->valueButton->setChecked(true);
+		if(!equal_currency) dialog->valueButton->setEnabled(false);
 		if(equal_date) dialog->dateButton->setChecked(true);
 		if(equal_category && dialog->categoryButton) dialog->categoryButton->setChecked(true);
 		if(dialog->exec() == QDialog::Accepted) {

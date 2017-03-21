@@ -1507,7 +1507,7 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 		else valueButton = new QCheckBox(tr("Cost:"), this);
 		valueButton->setChecked(false);
 		editLayout->addWidget(valueButton, 1, 0);
-		valueEdit = new EqonomizeValueEdit(false, this);
+		valueEdit = new EqonomizeValueEdit(false, this, budget);
 		valueEdit->setEnabled(false);
 		editLayout->addWidget(valueEdit, 1, 1);
 	}
@@ -1567,7 +1567,10 @@ void MultipleTransactionsEditDialog::setTransaction(Transaction *trans) {
 	if(trans) {
 		descriptionEdit->setText(trans->description());
 		dateEdit->setDate(trans->date());
-		if(valueEdit) valueEdit->setValue(trans->value());
+		if(valueEdit) {
+			valueEdit->setValue(trans->value());
+			valueEdit->setCurrency(trans->currency());
+		}
 		if(transtype == TRANSACTION_TYPE_EXPENSE) {
 			categoryCombo->setCurrentAccount(((Expense*) trans)->category());
 			if(payeeEdit) payeeEdit->setText(((Expense*) trans)->payee());
@@ -1578,7 +1581,10 @@ void MultipleTransactionsEditDialog::setTransaction(Transaction *trans) {
 	} else {
 		descriptionEdit->clear();
 		dateEdit->setDate(QDate::currentDate());
-		if(valueEdit) valueEdit->setValue(0.0);
+		if(valueEdit) {
+			valueEdit->setValue(0.0);
+			valueEdit->setCurrency(budget->defaultCurrency());
+		}
 		if(payeeEdit) payeeEdit->clear();
 	}
 }
