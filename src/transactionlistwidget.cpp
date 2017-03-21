@@ -56,7 +56,7 @@
 
 #include <cmath>
 
-extern QString last_attachment_directory;
+extern QString last_associated_file_directory;
 
 extern void setColumnTextWidth(QTreeWidget *w, int i, QString str);
 extern void setColumnDateWidth(QTreeWidget *w, int i);
@@ -218,31 +218,33 @@ void TransactionListWidget::restoreState(const QByteArray &state) {
 	transactionsView->sortByColumn(0, Qt::DescendingOrder);
 }
 
-void TransactionListWidget::selectAttachment() {
+void TransactionListWidget::selectAssociatedFile() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() > 0) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
 		Transactions *transs = i->transaction();
 		if(i->splitTransaction()) transs = i->splitTransaction();
+		else if(i->transaction()->parentSplit()) transs = i->transaction()->parentSplit();
 		if(transs) {
-			QString url = QFileDialog::getOpenFileName(this, QString(), transs->attachment().isEmpty() ? last_attachment_directory : transs->attachment());
+			QString url = QFileDialog::getOpenFileName(this, QString(), transs->associatedFile().isEmpty() ? last_associated_file_directory : transs->associatedFile());
 			if(!url.isEmpty()) {
 				QFileInfo fileInfo(url);
-				last_attachment_directory = fileInfo.absoluteDir().absolutePath();
-				transs->setAttachment(url);
-				mainWin->ActionOpenAttachment->setEnabled(true);
+				last_associated_file_directory = fileInfo.absoluteDir().absolutePath();
+				transs->setAssociatedFile(url);
+				mainWin->ActionOpenAssociatedFile->setEnabled(true);
 			}
 		}
 	}
 }
-void TransactionListWidget::openAttachment() {
+void TransactionListWidget::openAssociatedFile() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() > 0) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
 		Transactions *transs = i->transaction();
 		if(i->splitTransaction()) transs = i->splitTransaction();
+		else if(i->transaction()->parentSplit()) transs = i->transaction()->parentSplit();
 		if(transs) {
-			QDesktopServices::openUrl(QUrl::fromLocalFile(transs->attachment()));
+			QDesktopServices::openUrl(QUrl::fromLocalFile(transs->associatedFile()));
 		}
 	}
 }
@@ -280,8 +282,8 @@ void TransactionListWidget::popupListMenu(const QPoint &p) {
 		listPopupMenu->addAction(mainWin->ActionJoinTransactions);
 		listPopupMenu->addAction(mainWin->ActionSplitUpTransaction);
 		listPopupMenu->addSeparator();
-		listPopupMenu->addAction(mainWin->ActionSelectAttachment);
-		listPopupMenu->addAction(mainWin->ActionOpenAttachment);
+		listPopupMenu->addAction(mainWin->ActionSelectAssociatedFile);
+		listPopupMenu->addAction(mainWin->ActionOpenAssociatedFile);
 		listPopupMenu->addSeparator();
 		listPopupMenu->addAction(mainWin->ActionDeleteTransaction);
 		listPopupMenu->addAction(mainWin->ActionDeleteScheduledTransaction);
@@ -1518,9 +1520,11 @@ void TransactionListWidget::updateTransactionActions() {
 		refundable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_EXPENSE && i->transaction()->value() > 0.0));
 		repayable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && i->transaction()->value() > 0.0 && !((Income*) i->transaction())->security()));
 		if(i->splitTransaction()) {
-			b_attachment = !i->splitTransaction()->attachment().isEmpty();
+			b_attachment = !i->splitTransaction()->associatedFile().isEmpty();
+		} else if(b_split) {
+			b_attachment = !i->transaction()->parentSplit()->associatedFile().isEmpty();
 		} else if(i->transaction()) {
-			b_attachment = !i->transaction()->attachment().isEmpty();
+			b_attachment = !i->transaction()->associatedFile().isEmpty();
 		}
 		b_select = true;
 	} else if(selection.count() > 1) {
@@ -1554,15 +1558,15 @@ void TransactionListWidget::updateTransactionActions() {
 			}
 		}
 		b_select = b_split && split;
-		b_attachment = b_select && !split->attachment().isEmpty();
+		b_attachment = b_select && !split->associatedFile().isEmpty();
 	}
 	mainWin->ActionNewRefund->setEnabled(refundable);
 	mainWin->ActionNewRepayment->setEnabled(repayable);
 	mainWin->ActionNewRefundRepayment->setEnabled(refundable || repayable);
 	mainWin->ActionEditTransaction->setEnabled(b_transaction);
 	mainWin->ActionDeleteTransaction->setEnabled(b_transaction);
-	mainWin->ActionSelectAttachment->setEnabled(b_select);
-	mainWin->ActionOpenAttachment->setEnabled(b_attachment);
+	mainWin->ActionSelectAssociatedFile->setEnabled(b_select);
+	mainWin->ActionOpenAssociatedFile->setEnabled(b_attachment);
 	mainWin->ActionEditScheduledTransaction->setEnabled(b_scheduledtransaction);
 	mainWin->ActionDeleteScheduledTransaction->setEnabled(b_scheduledtransaction);
 	mainWin->ActionEditSplitTransaction->setEnabled(b_split);

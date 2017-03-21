@@ -99,8 +99,8 @@ class Transactions {
 		virtual void setDate(QDate new_date) = 0;
 		virtual QString description() const = 0;
 		virtual const QString &comment() const = 0;
-		virtual const QString &attachment() const = 0;
-		virtual void setAttachment(QString new_attachment) = 0;
+		virtual const QString &associatedFile() const = 0;
+		virtual void setAssociatedFile(QString new_attachment) = 0;
 		virtual Budget *budget() const = 0;
 		virtual GeneralTransactionType generaltype() const = 0;
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const = 0;
@@ -127,7 +127,7 @@ class Transaction : public Transactions {
 		QString s_description;
 		QString s_comment;
 		
-		QString s_attachment;
+		QString s_file;
 
 		double d_quantity;
 
@@ -171,8 +171,8 @@ class Transaction : public Transactions {
 		void setDescription(QString new_description);
 		virtual const QString &comment() const;
 		void setComment(QString new_comment);
-		const QString &attachment() const;
-		void setAttachment(QString new_attachment);
+		const QString &associatedFile() const;
+		void setAssociatedFile(QString new_attachment);
 		virtual Account *fromAccount() const;
 		void setFromAccount(Account *new_from);
 		virtual Account *toAccount() const;
@@ -564,8 +564,8 @@ class ScheduledTransaction : public Transactions {
 		virtual double quantity() const;
 		virtual QString description() const;
 		virtual const QString &comment() const;
-		virtual const QString &attachment() const;
-		virtual void setAttachment(QString new_attachment);
+		virtual const QString &associatedFile() const;
+		virtual void setAssociatedFile(QString new_attachment);
 		virtual GeneralTransactionType generaltype() const;
 		virtual int transactiontype() const;
 		
@@ -585,7 +585,7 @@ class SplitTransaction : public Transactions {
 		QDate d_date;
 		QString s_description;
 		QString s_comment;
-		QString s_attachment;
+		QString s_file;
 		QVector<Transaction*> splits;
 		
 	public:
@@ -621,8 +621,8 @@ class SplitTransaction : public Transactions {
 		virtual void setDescription(QString new_description);
 		const QString &comment() const;
 		virtual void setComment(QString new_comment);
-		const QString &attachment() const;
-		virtual void setAttachment(QString new_attachment);
+		const QString &associatedFile() const;
+		virtual void setAssociatedFile(QString new_attachment);
 		
 		virtual int count() const;
 		virtual Transaction *operator[] (int index) const;

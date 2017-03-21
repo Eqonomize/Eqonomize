@@ -40,6 +40,10 @@
 #include <QRadioButton>
 #include <QCompleter>
 #include <QStandardItemModel>
+#include <QStandardPaths>
+#include <QDirModel>
+#include <QDesktopServices>
+#include <QFileDialog>
 
 #include "accountcombobox.h"
 #include "budget.h"
@@ -50,6 +54,8 @@
 #include "transactioneditwidget.h"
 
 #include <QDebug>
+
+extern QString last_associated_file_directory;
 
 extern void setColumnTextWidth(QTreeWidget *w, int i, QString str);
 extern void setColumnDateWidth(QTreeWidget *w, int i);
@@ -337,6 +343,24 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	} else {
 		payeeEdit = NULL;
 	}
+	
+	grid->addWidget(new QLabel(tr("Associated file:"), this), b_extra ? 4 : 3, 0);
+	QHBoxLayout *fileLayout = new QHBoxLayout();
+	fileEdit = new QLineEdit(this);
+	QCompleter *completer = new QCompleter(this);
+	completer->setModel(new QDirModel(completer));
+	fileEdit->setCompleter(completer);
+	fileLayout->addWidget(fileEdit);
+	QPushButton *selectFileButton = new QPushButton(QIcon::fromTheme("document-open"), QString(), this);
+	selectFileButton->setToolTip(tr("Select a file"));
+	selectFileButton->setAutoDefault(false);
+	fileLayout->addWidget(selectFileButton);
+	QPushButton *openFileButton = new QPushButton(QIcon::fromTheme("zoom-in"), QString(), this);
+	openFileButton->setToolTip(tr("Open the file"));
+	openFileButton->setAutoDefault(false);
+	fileLayout->addWidget(openFileButton);
+	openFileButton->setFocusPolicy(Qt::ClickFocus);
+	grid->addLayout(fileLayout, b_extra ? 4 : 3, 1);
 
 	box1->addWidget(new QLabel(tr("Transactions:")));
 	QHBoxLayout *box2 = new QHBoxLayout();
@@ -380,6 +404,8 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	updateTotalValue();
 	box1->addWidget(totalLabel);
 
+	connect(selectFileButton, SIGNAL(clicked()), this, SLOT(selectFile()));
+	connect(openFileButton, SIGNAL(clicked()), this, SLOT(openFile()));
 	connect(transactionsView, SIGNAL(itemSelectionChanged()), this, SLOT(transactionSelectionChanged()));
 	connect(transactionsView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(edit(QTreeWidgetItem*)));
 	connect(removeButton, SIGNAL(clicked()), this, SLOT(remove()));
@@ -391,6 +417,17 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 }
 EditMultiItemWidget::~EditMultiItemWidget() {}
 
+void EditMultiItemWidget::selectFile() {
+	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_associated_file_directory : fileEdit->text());
+	if(!url.isEmpty()) {
+		QFileInfo fileInfo(url);
+		last_associated_file_directory = fileInfo.absoluteDir().absolutePath();
+		fileEdit->setText(url);
+	}
+}
+void EditMultiItemWidget::openFile() {
+	QDesktopServices::openUrl(QUrl::fromLocalFile(fileEdit->text()));
+}
 void EditMultiItemWidget::newAccount() {
 	accountCombo->createAccount();
 }
@@ -517,6 +554,7 @@ MultiItemTransaction *EditMultiItemWidget::createTransaction() {
 	AssetsAccount *account = selectedAccount();
 	MultiItemTransaction *split = new MultiItemTransaction(budget, dateEdit->date(), account, descriptionEdit->text());
 	if(payeeEdit) split->setPayee(payeeEdit->text());
+	if(fileEdit) split->setAssociatedFile(fileEdit->text());
 	QTreeWidgetItemIterator it(transactionsView);
 	QTreeWidgetItem *i = *it;
 	while(i) {
@@ -532,6 +570,7 @@ void EditMultiItemWidget::setTransaction(MultiItemTransaction *split) {
 	dateEdit->setDate(split->date());
 	accountCombo->setCurrentAccount(split->account());
 	if(payeeEdit) payeeEdit->setText(split->payee());
+	if(fileEdit) fileEdit->setText(split->associatedFile());
 	transactionsView->clear();
 	QList<QTreeWidgetItem *> items;
 	int c = split->count();
@@ -656,9 +695,27 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	categoryCombo->updateAccounts();
 	grid->addWidget(categoryCombo, b_extra ? 2 : 1, 1);
 	
-	grid->addWidget(new QLabel(tr("Comments:")), b_extra ? 3 : 2, 0);
+	grid->addWidget(new QLabel(tr("Associated file:"), this), b_extra ? 3 : 2, 0);
+	QHBoxLayout *fileLayout = new QHBoxLayout();
+	fileEdit = new QLineEdit(this);
+	QCompleter *completer = new QCompleter(this);
+	completer->setModel(new QDirModel(completer));
+	fileEdit->setCompleter(completer);
+	fileLayout->addWidget(fileEdit);
+	QPushButton *selectFileButton = new QPushButton(QIcon::fromTheme("document-open"), QString(), this);
+	selectFileButton->setToolTip(tr("Select a file"));
+	selectFileButton->setAutoDefault(false);
+	fileLayout->addWidget(selectFileButton);
+	QPushButton *openFileButton = new QPushButton(QIcon::fromTheme("zoom-in"), QString(), this);
+	openFileButton->setToolTip(tr("Open the file"));
+	openFileButton->setAutoDefault(false);
+	fileLayout->addWidget(openFileButton);
+	openFileButton->setFocusPolicy(Qt::ClickFocus);
+	grid->addLayout(fileLayout, b_extra ? 3 : 2, 1);
+	
+	grid->addWidget(new QLabel(tr("Comments:")), b_extra ? 4 : 3, 0);
 	commentEdit = new QLineEdit();
-	grid->addWidget(commentEdit, b_extra ? 3 : 2, 1);
+	grid->addWidget(commentEdit, b_extra ? 4 : 3, 1);
 
 	box1->addWidget(new QLabel(tr("Transactions:")));
 	QHBoxLayout *box2 = new QHBoxLayout();
@@ -691,6 +748,8 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	updateTotalValue();
 	box1->addWidget(totalLabel);
 
+	connect(selectFileButton, SIGNAL(clicked()), this, SLOT(selectFile()));
+	connect(openFileButton, SIGNAL(clicked()), this, SLOT(openFile()));
 	connect(transactionsView, SIGNAL(itemSelectionChanged()), this, SLOT(transactionSelectionChanged()));
 	connect(transactionsView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(edit(QTreeWidgetItem*)));
 	connect(newButton, SIGNAL(clicked()), this, SLOT(newTransaction()));
@@ -700,6 +759,18 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 
 }
 EditMultiAccountWidget::~EditMultiAccountWidget() {}
+
+void EditMultiAccountWidget::selectFile() {
+	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_associated_file_directory : fileEdit->text());
+	if(!url.isEmpty()) {
+		QFileInfo fileInfo(url);
+		last_associated_file_directory = fileInfo.absoluteDir().absolutePath();
+		fileEdit->setText(url);
+	}
+}
+void EditMultiAccountWidget::openFile() {
+	QDesktopServices::openUrl(QUrl::fromLocalFile(fileEdit->text()));
+}
 
 void EditMultiAccountWidget::newCategory() {
 	categoryCombo->createAccount();
@@ -785,6 +856,8 @@ MultiAccountTransaction *EditMultiAccountWidget::createTransaction() {
 	if(!validValues()) return NULL;
 	CategoryAccount *account = selectedCategory();
 	MultiAccountTransaction *split = new MultiAccountTransaction(budget, account, descriptionEdit->text());
+	split->setComment(commentEdit->text());
+	split->setAssociatedFile(fileEdit->text());
 	QTreeWidgetItemIterator it(transactionsView);
 	QTreeWidgetItem *i = *it;
 	while(i) {
@@ -808,6 +881,7 @@ void EditMultiAccountWidget::setTransaction(Transactions *transs) {
 	}
 	descriptionEdit->setText(transs->description());
 	commentEdit->setText(transs->comment());
+	fileEdit->setText(transs->associatedFile());
 	if(quantityEdit) quantityEdit->setValue(transs->quantity());
 	transactionsView->clear();
 	if(transs->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) transs)->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) {
@@ -837,6 +911,7 @@ void EditMultiAccountWidget::setTransaction(MultiAccountTransaction *split, cons
 	categoryCombo->setCurrentAccount(split->category());
 	if(quantityEdit) quantityEdit->setValue(split->quantity());
 	commentEdit->setText(split->comment());
+	fileEdit->setText(split->associatedFile());
 	transactionsView->clear();
 	QList<QTreeWidgetItem *> items;
 	int c = split->count();
@@ -979,7 +1054,28 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 	
 	if(only_interest) {
 		commentEdit = NULL;
+		fileEdit = NULL;
 	} else {
+		grid->addWidget(new QLabel(tr("Associated file:"), this), row, 0);
+		QHBoxLayout *fileLayout = new QHBoxLayout();
+		fileEdit = new QLineEdit(this);
+		QCompleter *completer = new QCompleter(this);
+		completer->setModel(new QDirModel(completer));
+		fileEdit->setCompleter(completer);
+		fileLayout->addWidget(fileEdit);
+		QPushButton *selectFileButton = new QPushButton(QIcon::fromTheme("document-open"), QString(), this);
+		selectFileButton->setToolTip(tr("Select a file"));
+		selectFileButton->setAutoDefault(false);
+		fileLayout->addWidget(selectFileButton);
+		QPushButton *openFileButton = new QPushButton(QIcon::fromTheme("zoom-in"), QString(), this);
+		openFileButton->setToolTip(tr("Open the file"));
+		openFileButton->setAutoDefault(false);
+		fileLayout->addWidget(openFileButton);
+		openFileButton->setFocusPolicy(Qt::ClickFocus);
+		grid->addLayout(fileLayout, row, 1);
+		row++;
+		connect(selectFileButton, SIGNAL(clicked()), this, SLOT(selectFile()));
+		connect(openFileButton, SIGNAL(clicked()), this, SLOT(openFile()));
 		grid->addWidget(new QLabel(tr("Comments:")), row, 0);
 		commentEdit = new QLineEdit();
 		grid->addWidget(commentEdit, row, 1); row++;
@@ -1017,6 +1113,18 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 
 }
 EditDebtPaymentWidget::~EditDebtPaymentWidget() {}
+
+void EditDebtPaymentWidget::selectFile() {
+	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_associated_file_directory : fileEdit->text());
+	if(!url.isEmpty()) {
+		QFileInfo fileInfo(url);
+		last_associated_file_directory = fileInfo.absoluteDir().absolutePath();
+		fileEdit->setText(url);
+	}
+}
+void EditDebtPaymentWidget::openFile() {
+	QDesktopServices::openUrl(QUrl::fromLocalFile(fileEdit->text()));
+}
 
 void EditDebtPaymentWidget::newAccount() {
 	accountCombo->createAccount();
@@ -1177,6 +1285,7 @@ DebtPayment *EditDebtPaymentWidget::createTransaction() {
 	if(interestEdit && interestEdit->value() > 0.0) split->setInterest(interestEdit->value(), !(addedInterestButton && addedInterestButton->isChecked()));
 	if((feeEdit && feeEdit->value() > 0.0) || (interestEdit && interestEdit->value() > 0.0)) split->setExpenseCategory(category);
 	if(commentEdit) split->setComment(commentEdit->text());
+	if(fileEdit) split->setAssociatedFile(fileEdit->text());
 	return split;
 }
 void EditDebtPaymentWidget::setTransaction(DebtPayment *split) {

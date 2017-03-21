@@ -73,7 +73,7 @@ void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
 }
 
 
-extern QString last_attachment_directory;
+extern QString last_associated_file_directory;
 
 TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_parameters, int transaction_type, Currency *split_currency, bool transfer_to, Security *sec, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent, bool allow_account_creation, bool multiaccount, bool withloan) : QWidget(parent), transtype(transaction_type), budget(budg), security(sec), b_autoedit(auto_edit), b_extra(extra_parameters), b_create_accounts(allow_account_creation) {
 	bool split = (split_currency != NULL);
@@ -517,10 +517,10 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	useMultipleCurrencies(budget->usesMultipleCurrencies());
 }
 void TransactionEditWidget::selectFile() {
-	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_attachment_directory : fileEdit->text());
+	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_associated_file_directory : fileEdit->text());
 	if(!url.isEmpty()) {
 		QFileInfo fileInfo(url);
-		last_attachment_directory = fileInfo.absoluteDir().absolutePath();
+		last_associated_file_directory = fileInfo.absoluteDir().absolutePath();
 		fileEdit->setText(url);
 	}
 }
@@ -1056,7 +1056,7 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 		((SecurityTransaction*) trans)->setShares(shares);
 		((SecurityTransaction*) trans)->setShareValue(share_value);
 		if(commentsEdit) trans->setComment(commentsEdit->text());
-		if(fileEdit) trans->setAttachment(fileEdit->text());
+		if(fileEdit) trans->setAssociatedFile(fileEdit->text());
 		return true;
 	} else if(b_transsec) {
 		return false;
@@ -1075,7 +1075,7 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 	}
 	if(descriptionEdit && (trans->type() != TRANSACTION_TYPE_INCOME || !((Income*) trans)->security())) trans->setDescription(descriptionEdit->text());
 	if(commentsEdit) trans->setComment(commentsEdit->text());
-	if(fileEdit) trans->setAttachment(fileEdit->text());
+	if(fileEdit) trans->setAssociatedFile(fileEdit->text());
 	if(quantityEdit) trans->setQuantity(quantityEdit->value());
 	if(payeeEdit && trans->type() == TRANSACTION_TYPE_EXPENSE) ((Expense*) trans)->setPayee(payeeEdit->text());
 	if(payeeEdit && trans->type() == TRANSACTION_TYPE_INCOME) ((Income*) trans)->setPayer(payeeEdit->text());
@@ -1114,7 +1114,7 @@ Transactions *TransactionEditWidget::createTransactionWithLoan() {
 	
 	MultiAccountTransaction *split = new MultiAccountTransaction(budget, (CategoryAccount*) toCombo->currentAccount(), descriptionEdit->text());
 	split->setComment(commentsEdit->text());
-	if(fileEdit) split->setAttachment(fileEdit->text());
+	if(fileEdit) split->setAssociatedFile(fileEdit->text());
 	if(quantityEdit) split->setQuantity(quantityEdit->value());
 	
 	Expense *expense = new Expense(budget, valueEdit->value() - downPaymentEdit->value(), dateEdit->date(), (ExpensesAccount*) toCombo->currentAccount(), loan);
@@ -1172,7 +1172,7 @@ Transaction *TransactionEditWidget::createTransaction() {
 		if(payeeEdit) expense->setPayee(payeeEdit->text());
 		trans = expense;
 	}
-	if(fileEdit) trans->setAttachment(fileEdit->text());
+	if(fileEdit) trans->setAssociatedFile(fileEdit->text());
 	return trans;
 }
 void TransactionEditWidget::transactionRemoved(Transaction *trans) {
@@ -1402,7 +1402,7 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 		value_set = true; shares_set = true; sharevalue_set = true;
 		if(dateEdit) dateEdit->setDate(trans->date());
 		if(commentsEdit) commentsEdit->setText(trans->comment());
-		if(fileEdit) fileEdit->setText(trans->attachment());
+		if(fileEdit) fileEdit->setText(trans->associatedFile());
 		if(toCombo && (!b_sec || transtype == TRANSACTION_TYPE_SECURITY_SELL)) {
 			toCombo->setCurrentAccount(trans->toAccount());
 		}
@@ -1458,7 +1458,7 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 	if(valueEdit) valueEdit->blockSignals(true);
 	if(dateEdit) dateEdit->setDate(split->date());
 	if(commentsEdit) commentsEdit->setText(split->comment());
-	if(fileEdit) fileEdit->setText(split->attachment());
+	if(fileEdit) fileEdit->setText(split->associatedFile());
 	if(split->transactiontype() == TRANSACTION_TYPE_EXPENSE) {
 		if(toCombo) {
 			toCombo->setCurrentAccount(split->category());

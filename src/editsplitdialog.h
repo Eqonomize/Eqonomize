@@ -59,7 +59,7 @@ class EditMultiAccountWidget : public QWidget {
 		
 		EqonomizeValueEdit *quantityEdit;
 		AccountComboBox *categoryCombo;
-		QLineEdit *descriptionEdit, *commentEdit;
+		QLineEdit *descriptionEdit, *commentEdit, *fileEdit;
 		QTreeWidget *transactionsView;
 		QPushButton *editButton, *removeButton;
 		QLabel *totalLabel;
@@ -89,6 +89,8 @@ class EditMultiAccountWidget : public QWidget {
 
 	protected slots:
 		
+		void selectFile();
+		void openFile();
 		void remove();
 		void edit();
 		void edit(QTreeWidgetItem*);
@@ -112,7 +114,7 @@ class EditDebtPaymentWidget : public QWidget {
 		QRadioButton *payedInterestButton, *addedInterestButton;
 		QComboBox *loanCombo;
 		AccountComboBox *accountCombo, *categoryCombo;
-		QLineEdit *commentEdit;
+		QLineEdit *commentEdit, *fileEdit;
 		QLabel *paymentLabel, *totalLabel;
 
 		void updateTotalValue();
@@ -138,6 +140,8 @@ class EditDebtPaymentWidget : public QWidget {
 
 	protected slots:
 		
+		void selectFile();
+		void openFile();
 		void accountChanged();
 		void loanActivated(int index);
 		void newAccount();
@@ -158,8 +162,7 @@ class EditMultiItemWidget : public QWidget {
 		
 		QDateEdit *dateEdit;
 		AccountComboBox *accountCombo;
-		QLineEdit *descriptionEdit;
-		QLineEdit *payeeEdit;
+		QLineEdit *descriptionEdit, *payeeEdit, *fileEdit;
 		QTreeWidget *transactionsView;
 		QPushButton *editButton, *removeButton;
 		QLabel *totalLabel;
@@ -189,6 +192,8 @@ class EditMultiItemWidget : public QWidget {
 
 	protected slots:
 		
+		void selectFile();
+		void openFile();
 		void accountChanged();
 		void remove();
 		void edit();

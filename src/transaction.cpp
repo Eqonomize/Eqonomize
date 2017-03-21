@@ -52,7 +52,7 @@ Transaction::Transaction(Budget *parent_budget, QXmlStreamReader *xml, bool *val
 }
 Transaction::Transaction(Budget *parent_budget) : o_budget(parent_budget), d_value(0.0), o_from(NULL), o_to(NULL), d_quantity(1.0), o_split(NULL) {}
 Transaction::Transaction() : o_budget(NULL), d_value(0.0), o_from(NULL), o_to(NULL), d_quantity(1.0), o_split(NULL) {}
-Transaction::Transaction(const Transaction *transaction) : o_budget(transaction->budget()), d_value(transaction->value()), d_date(transaction->date()), o_from(transaction->fromAccount()), o_to(transaction->toAccount()), s_description(transaction->description()), s_comment(transaction->comment()), s_attachment(transaction->attachment()), d_quantity(transaction->quantity()), o_split(NULL) {}
+Transaction::Transaction(const Transaction *transaction) : o_budget(transaction->budget()), d_value(transaction->value()), d_date(transaction->date()), o_from(transaction->fromAccount()), o_to(transaction->toAccount()), s_description(transaction->description()), s_comment(transaction->comment()), s_file(transaction->associatedFile()), d_quantity(transaction->quantity()), o_split(NULL) {}
 Transaction::~Transaction() {}
 
 void Transaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
@@ -61,7 +61,7 @@ void Transaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	d_date = QDate::fromString(attr->value("date").toString(), Qt::ISODate);
 	s_description = attr->value("description").trimmed().toString();
 	s_comment = attr->value("comment").toString();
-	s_attachment = attr->value("file").trimmed().toString();
+	s_file = attr->value("file").trimmed().toString();
 	if(attr->hasAttribute("quantity")) d_quantity = attr->value("quantity").toDouble();
 	else d_quantity = 1.0;
 	if(valid && (*valid)) *valid = d_date.isValid();
@@ -83,7 +83,7 @@ void Transaction::writeAttributes(QXmlStreamAttributes *attr) {
 	attr->append("date", d_date.toString(Qt::ISODate));
 	if(!s_description.isEmpty()) attr->append("description", s_description);
 	if(!s_comment.isEmpty()) attr->append("comment", s_comment);
-	if(!s_attachment.isEmpty()) attr->append("file", s_attachment);
+	if(!s_file.isEmpty()) attr->append("file", s_file);
 	if(d_quantity != 1.0) attr->append("quantity", QString::number(d_quantity, 'f', QUANTITY_DECIMAL_PLACES));
 }
 void Transaction::writeElements(QXmlStreamWriter*) {}
@@ -97,7 +97,7 @@ bool Transaction::equals(const Transaction *transaction, bool strict_comparison)
 	if(description() != transaction->description()) return false;
 	if(strict_comparison && quantity() != transaction->quantity()) return false;
 	if(comment() != transaction->comment() && (strict_comparison || comment().isEmpty() == transaction->comment().isEmpty())) return false;
-	if(attachment() != transaction->attachment() && (strict_comparison || attachment().isEmpty() == transaction->attachment().isEmpty())) return false;
+	if(associatedFile() != transaction->associatedFile() && (strict_comparison || associatedFile().isEmpty() == transaction->associatedFile().isEmpty())) return false;
 	if(budget() != transaction->budget()) return false;
 	return true;
 }
@@ -134,8 +134,8 @@ QString Transaction::description() const {return s_description;}
 void Transaction::setDescription(QString new_description) {s_description = new_description.trimmed();}
 const QString &Transaction::comment() const {return s_comment;}
 void Transaction::setComment(QString new_comment) {s_comment = new_comment;}
-const QString &Transaction::attachment() const {return s_attachment;}
-void Transaction::setAttachment(QString new_attachment) {s_attachment = new_attachment;}
+const QString &Transaction::associatedFile() const {return s_file;}
+void Transaction::setAssociatedFile(QString new_attachment) {s_file = new_attachment;}
 Account *Transaction::fromAccount() const {return o_from;}
 void Transaction::setFromAccount(Account *new_from) {o_from = new_from;}
 Account *Transaction::toAccount() const {return o_to;}
@@ -991,12 +991,12 @@ const QString &ScheduledTransaction::comment() const {
 	if(o_trans) return o_trans->comment();
 	return emptystr;
 }
-const QString &ScheduledTransaction::attachment() const {
-	if(o_trans) return o_trans->attachment();
+const QString &ScheduledTransaction::associatedFile() const {
+	if(o_trans) return o_trans->associatedFile();
 	return emptystr;
 }
-void ScheduledTransaction::setAttachment(QString new_attachment) {
-	if(o_trans) o_trans->setAttachment(new_attachment);
+void ScheduledTransaction::setAssociatedFile(QString new_attachment) {
+	if(o_trans) o_trans->setAssociatedFile(new_attachment);
 }
 GeneralTransactionType ScheduledTransaction::generaltype() const {return GENERAL_TRANSACTION_TYPE_SCHEDULE;}
 int ScheduledTransaction::transactiontype() const {
@@ -1016,7 +1016,7 @@ SplitTransaction::SplitTransaction(Budget *parent_budget, QXmlStreamReader *xml,
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-SplitTransaction::SplitTransaction(const SplitTransaction *split) : o_budget(split->budget()), d_date(split->date()), s_description(split->description()), s_comment(split->comment()), s_attachment(split->attachment()) {
+SplitTransaction::SplitTransaction(const SplitTransaction *split) : o_budget(split->budget()), d_date(split->date()), s_description(split->description()), s_comment(split->comment()), s_file(split->associatedFile()) {
 	for(int i = 0; i < split->count(); i++) {
 		Transaction *trans = split->at(i)->copy();
 		trans->setParentSplit(this);
@@ -1033,7 +1033,7 @@ void SplitTransaction::readAttributes(QXmlStreamAttributes *attr, bool*) {
 	if(attr->hasAttribute("date")) d_date = QDate::fromString(attr->value("date").toString(), Qt::ISODate);
 	s_description = attr->value("description").trimmed().toString();
 	s_comment = attr->value("comment").toString();
-	s_attachment = attr->value("file").trimmed().toString();
+	s_file = attr->value("file").trimmed().toString();
 }
 bool SplitTransaction::readElement(QXmlStreamReader*, bool*) {
 	return false;
@@ -1054,7 +1054,7 @@ void SplitTransaction::writeAttributes(QXmlStreamAttributes *attr) {
 	if(d_date.isValid()) attr->append("date", d_date.toString(Qt::ISODate));
 	if(!s_description.isEmpty()) attr->append("description", s_description);
 	if(!s_comment.isEmpty()) attr->append("comment", s_comment);
-	if(!s_attachment.isEmpty()) attr->append("file", s_attachment);
+	if(!s_file.isEmpty()) attr->append("file", s_file);
 }
 
 void SplitTransaction::writeElements(QXmlStreamWriter*) {}
@@ -1098,8 +1098,8 @@ QString SplitTransaction::description() const {return s_description;}
 void SplitTransaction::setDescription(QString new_description) {s_description = new_description.trimmed();}
 const QString &SplitTransaction::comment() const {return s_comment;}
 void SplitTransaction::setComment(QString new_comment) {s_comment = new_comment;}
-const QString &SplitTransaction::attachment() const {return s_attachment;}
-void SplitTransaction::setAttachment(QString new_attachment) {s_attachment = new_attachment;}
+const QString &SplitTransaction::associatedFile() const {return s_file;}
+void SplitTransaction::setAssociatedFile(QString new_attachment) {s_file = new_attachment;}
 Budget *SplitTransaction::budget() const {return o_budget;}
 
 int SplitTransaction::count() const {return splits.count();}
