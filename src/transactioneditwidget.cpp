@@ -530,18 +530,24 @@ void TransactionEditWidget::valueNextField() {
 	}
 }
 void TransactionEditWidget::newFromAccount() {
+	budget->resetDefaultCurrencyChanged();
+	budget->resetCurrenciesModified();
 	Account *account = fromCombo->createAccount();
 	if(account) {		
 		emit accountAdded(account);
 		if(toCombo) toCombo->updateAccounts();
 	}
+	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) emit currenciesModified();
 }
 void TransactionEditWidget::newToAccount() {
+	budget->resetDefaultCurrencyChanged();
+	budget->resetCurrenciesModified();
 	Account *account = toCombo->createAccount();
 	if(account) {		
 		emit accountAdded(account);
 		if(fromCombo) fromCombo->updateAccounts();
 	}
+	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) emit currenciesModified();
 }
 void TransactionEditWidget::fromActivated() {
 	if(toCombo && transtype != TRANSACTION_TYPE_EXPENSE) toCombo->setFocus();

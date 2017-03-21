@@ -62,7 +62,6 @@ class EditAssetsAccountDialog : public QDialog {
 		Budget *budget;
 		AssetsAccount *current_account;
 		int prev_currency_index;
-		bool b_currencies_edited;
 		
 	public:
 		
@@ -72,7 +71,6 @@ class EditAssetsAccountDialog : public QDialog {
 		void modifyAccount(AssetsAccount *account);
 		void setAccount(AssetsAccount *account);
 		void updateCurrencyList(Currency*);
-		bool currenciesModified();
 
 	protected slots:
 

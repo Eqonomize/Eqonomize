@@ -50,7 +50,6 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	
 	int row = 0;
 	prev_currency_index = 1;
-	b_currencies_edited = false;
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	
@@ -191,9 +190,7 @@ void EditAssetsAccountDialog::currencyActivated(int index) {
 	if(index == 0) {
 		EditCurrencyDialog *dialog = new EditCurrencyDialog(budget, NULL, true, this);
 		if(dialog->exec() == QDialog::Accepted) {
-			Currency *dcur = budget->defaultCurrency();
 			cur = dialog->createCurrency();
-			if(dcur != budget->defaultCurrency()) b_currencies_edited = true;
 			updateCurrencyList(cur);
 		} else {
 			currencyCombo->setCurrentIndex(prev_currency_index);
@@ -211,12 +208,8 @@ void EditAssetsAccountDialog::editCurrency() {
 	EditCurrencyDialog *dialog = new EditCurrencyDialog(budget, cur, true, this);
 	if(dialog->exec() == QDialog::Accepted) {
 		dialog->modifyCurrency(cur);
-		b_currencies_edited = true;
 	}
 	dialog->deleteLater();
-}
-bool EditAssetsAccountDialog::currenciesModified() {
-	return b_currencies_edited;
 }
 void EditAssetsAccountDialog::typeActivated(int index) {
 	if(index == 5 && current_account && current_account->accountType() != ASSETS_TYPE_SECURITIES && budget->accountHasTransactions(current_account)) {

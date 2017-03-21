@@ -196,6 +196,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	connect(transactionsView, SIGNAL(returnPressed(QTreeWidgetItem*)), this, SLOT(transactionExecuted(QTreeWidgetItem*)));
 	
 	connect(editWidget, SIGNAL(accountAdded(Account*)), this, SIGNAL(accountAdded(Account*)));
+	connect(editWidget, SIGNAL(currenciesModified()), this, SIGNAL(currenciesModified()));
 	connect(editWidget, SIGNAL(newLoanRequested()), this, SLOT(newTransactionWithLoan()));
 	connect(editWidget, SIGNAL(multipleAccountsRequested()), this, SLOT(newMultiAccountTransaction()));
 
@@ -438,6 +439,9 @@ void TransactionListWidget::editTransaction() {
 		}
 	} else if(selection.count() > 1) {
 		budget->setRecordNewAccounts(true);
+		budget->resetDefaultCurrencyChanged();
+		budget->resetCurrenciesModified();
+		
 		bool warned1 = false, warned2 = false, warned3 = false, warned4 = false, warned5 = false;
 		MultipleTransactionsEditDialog *dialog = new MultipleTransactionsEditDialog(b_extra, transtype, budget, this, true);
 		TransactionListViewItem *i = (TransactionListViewItem*) transactionsView->currentItem();
@@ -669,6 +673,7 @@ void TransactionListWidget::editTransaction() {
 			foreach(Account* acc, budget->newAccounts) emit accountAdded(acc);
 			budget->newAccounts.clear();
 		}
+		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) emit currenciesModified();
 		budget->setRecordNewAccounts(false);
 		dialog->deleteLater();
 	}

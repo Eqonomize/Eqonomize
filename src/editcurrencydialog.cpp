@@ -160,6 +160,7 @@ void EditCurrencyDialog::modifyCurrency(Currency *cur) {
 	} else {
 		cur->setSymbolPrecedes(-1);
 	}
+	budget->currencyModified(cur);
 	budget->saveCurrencies();
 	if(defaultButton && defaultButton->isChecked()) budget->setDefaultCurrency(cur);
 }

@@ -121,8 +121,8 @@ class Budget {
 	protected:
 	
 		int i_quotation_decimals, i_share_decimals, i_budget_day;
-		bool b_record_new_accounts;
-		Currency *default_currency;		
+		bool b_record_new_accounts, b_default_currency_changed, b_currency_modified;
+		Currency *default_currency;
 
 	public:
 	
@@ -202,6 +202,11 @@ class Budget {
 		Currency *findCurrency(QString code);
 		Currency *findCurrencySymbol(QString symbol, bool require_unique = false);
 		bool usesMultipleCurrencies();
+		bool defaultCurrencyChanged();
+		void resetDefaultCurrencyChanged();
+		bool currenciesModified();
+		void resetCurrenciesModified();
+		void currencyModified(Currency*);
 		
 		AccountList<IncomesAccount*> incomesAccounts;
 		AccountList<ExpensesAccount*> expensesAccounts;

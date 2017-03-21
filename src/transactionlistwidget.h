@@ -94,6 +94,7 @@ class TransactionListWidget : public QWidget {
 	signals:
 		
 		void accountAdded(Account*);
+		void currenciesModified();
 
 	public slots:
 

@@ -1418,22 +1418,34 @@ Currency *Budget::defaultCurrency() {
 	return default_currency;
 }
 void Budget::setDefaultCurrency(Currency *cur) {
+	Currency *prev_default = default_currency;
 	if(!cur) default_currency = currency_euro;
 	else default_currency = cur;
+	if(prev_default != default_currency) b_default_currency_changed = true;
 }
 bool Budget::resetDefaultCurrency() {
+	Currency *prev_default = default_currency;
 	QString default_code = QLocale().currencySymbol(QLocale::CurrencyIsoCode);
 	if(default_code.isEmpty()) default_code = "USD";
 	default_currency = findCurrency(default_code);
 	if(!default_currency) {
 		default_currency = new Currency(this, default_code, QLocale().currencySymbol(QLocale::CurrencySymbol), QLocale().currencySymbol(QLocale::CurrencyDisplayName));
+		b_default_currency_changed = true;
 		addCurrency(default_currency);
 		return true;
 	}
+	if(prev_default != default_currency) b_default_currency_changed = true;
 	return false;
 }
+bool Budget::defaultCurrencyChanged() {return b_default_currency_changed;}
+void Budget::resetDefaultCurrencyChanged() {b_default_currency_changed = false;}
+bool Budget::currenciesModified() {return b_currency_modified;}
+void Budget::resetCurrenciesModified() {b_currency_modified = false;}
 void Budget::addCurrency(Currency *cur) {
 	currencies.inSort(cur);
+}
+void Budget::currencyModified(Currency*) {
+	b_currency_modified = true;
 }
 void Budget::removeCurrency(Currency *cur) {
 	currencies.removeRef(cur);

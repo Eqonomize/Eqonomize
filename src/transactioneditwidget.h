@@ -132,6 +132,7 @@ class TransactionEditWidget : public QWidget {
 		void addmodify();
 		void dateChanged(const QDate&);
 		void accountAdded(Account*);
+		void currenciesModified();
 		void multipleAccountsRequested();
 		void newLoanRequested();
 
