@@ -509,7 +509,7 @@ void TransactionEditWidget::useMultipleCurrencies(bool b) {
 	if(b) {
 		if(withdrawalLabel) withdrawalLabel->setText(tr("Withdrawal:", "Money taken out from account"));
 	} else {
-		if(withdrawalLabel) withdrawalLabel->setText(tr("Amount"));
+		if(withdrawalLabel) withdrawalLabel->setText(tr("Amount:"));
 	}
 }
 void TransactionEditWidget::valueNextField() {
