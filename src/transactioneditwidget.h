@@ -34,6 +34,7 @@ class QPushButton;
 class QLineEdit;
 class QComboBox;
 class QHBoxLayout;
+class QGridLayout;
 
 class EqonomizeDateEdit;
 
@@ -61,6 +62,8 @@ class TransactionEditWidget : public QWidget {
 	public:
 
 		TransactionEditWidget(bool auto_edit, bool extra_parameters, int transaction_type, Currency *split_currency, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent = 0, bool allow_account_creation = false, bool multiaccount = false, bool withloan = false);
+		
+		void useMultipleCurrencies(bool b);
 		void setTransaction(Transaction *trans);
 		void setMultiAccountTransaction(MultiAccountTransaction *split);
 		void setTransaction(Transaction *strans, const QDate &date);
@@ -110,15 +113,19 @@ class TransactionEditWidget : public QWidget {
 		bool value_set, shares_set, sharevalue_set;
 		QDate shares_date;
 		bool b_create_accounts;
+		bool b_multiple_currencies;
 		Currency *splitcurrency;
+		int dateRow, dateLabelCol, dateEditCol, depositRow, depositLabelCol, depositEditCol;
 
 		QLineEdit *descriptionEdit, *lenderEdit, *payeeEdit, *commentsEdit;
 		AccountComboBox *fromCombo, *toCombo;
 		QComboBox *securityCombo, *currencyCombo;
+		QLabel *withdrawalLabel, *depositLabel, *dateLabel;
 		EqonomizeValueEdit *valueEdit, *depositEdit, *downPaymentEdit, *sharesEdit, *quotationEdit, *quantityEdit;
 		QPushButton *maxSharesButton;
 		EqonomizeDateEdit *dateEdit;
 		QHBoxLayout *bottom_layout;
+		QGridLayout *editLayout;
 
 	signals:
 

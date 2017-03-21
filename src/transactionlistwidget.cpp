@@ -203,7 +203,6 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 
 //QSize TransactionListWidget::minimumSizeHint() const {return filterWidget->minimumSizeHint().expandedTo(editWidget->minimumSizeHint());}
 //QSize TransactionListWidget::sizeHint() const {return QSize(filterWidget->sizeHint().expandedTo(editWidget->sizeHint()).width() + 12, QWidget::sizeHint().height());}
-
 QSize TransactionListWidget::minimumSizeHint() const {return QWidget::minimumSizeHint();}
 QSize TransactionListWidget::sizeHint() const {return minimumSizeHint();}
 
@@ -215,6 +214,9 @@ void TransactionListWidget::restoreState(const QByteArray &state) {
 	transactionsView->sortByColumn(0, Qt::DescendingOrder);
 }
 
+void TransactionListWidget::useMultipleCurrencies(bool b) {
+	editWidget->useMultipleCurrencies(b);
+}
 void TransactionListWidget::currentDateChanged(const QDate &olddate, const QDate &newdate) {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.isEmpty()) editWidget->currentDateChanged(olddate, newdate);

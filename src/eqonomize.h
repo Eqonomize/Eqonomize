@@ -306,6 +306,7 @@ class Eqonomize : public QMainWindow {
 		void warnAndAskForExchangeRate();
 		void setMainCurrency();
 		void setMainCurrencyIndexChanged(int index);
+		void updateUsesMultipleCurrencies();
 		
 		void serverNewConnection();
 		void socketReadyRead();

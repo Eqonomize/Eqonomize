@@ -4171,6 +4171,7 @@ void Eqonomize::reloadBudget() {
 	updateBudgetDay();
 	updateScheduledTransactions();
 	updateSecurities();
+	updateUsesMultipleCurrencies();
 }
 void Eqonomize::openURL(const QUrl& url) {
 
@@ -4204,7 +4205,8 @@ void Eqonomize::openURL(const QUrl& url) {
 	
 	if(new_currency) warnAndAskForExchangeRate();
 	
-	Currency *cur = NULL;
+	Currency *cur = budget->defaultCurrency();
+	if(cur != budget->currency_euro && cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_NONE) cur = NULL;
 	AssetsAccount *acc = budget->assetsAccounts.first();
 	while(acc) {
 		if(acc->currency() != NULL && acc->currency() != cur && (acc->currency() == budget->currency_euro || acc->currency()->exchangeRateSource() != EXCHANGE_RATE_SOURCE_NONE)) {
@@ -4385,6 +4387,7 @@ void Eqonomize::currenciesModified() {
 	updateScheduledTransactions();
 	updateSecurities();
 	emit transactionsModified();
+	updateUsesMultipleCurrencies();
 }
 
 void Eqonomize::warnAndAskForExchangeRate() {
@@ -4501,6 +4504,12 @@ void Eqonomize::setMainCurrencyIndexChanged(int index) {
 	} else {
 		prev_set_main_currency_index = index;
 	}
+}
+void Eqonomize::updateUsesMultipleCurrencies() {
+	bool b = budget->usesMultipleCurrencies();
+	transfersWidget->useMultipleCurrencies(b);
+	incomesWidget->useMultipleCurrencies(b);
+	expensesWidget->useMultipleCurrencies(b);
 }
 
 void Eqonomize::showOverTimeReport() {
@@ -5902,6 +5911,7 @@ void Eqonomize::accountAdded(Account *acc) {
 			if(sender() != expensesWidget) expensesWidget->updateFromAccounts();
 			if(sender() != incomesWidget) incomesWidget->updateToAccounts();
 			if(sender() != transfersWidget) transfersWidget->updateAccounts();
+			updateUsesMultipleCurrencies();
 			break;
 		}
 		case ACCOUNT_TYPE_INCOMES: {
@@ -5944,6 +5954,7 @@ void Eqonomize::newAssetsAccount() {
 			expensesWidget->updateFromAccounts();
 			incomesWidget->updateToAccounts();
 			transfersWidget->updateAccounts();
+			updateUsesMultipleCurrencies();
 		}
 		emit accountsModified();
 		setModified(true);
@@ -5968,6 +5979,7 @@ void Eqonomize::newLoan() {
 			expensesWidget->updateFromAccounts();
 			incomesWidget->updateToAccounts();
 			transfersWidget->updateAccounts();
+			updateUsesMultipleCurrencies();
 		}
 		emit accountsModified();
 		if(trans) {
@@ -6189,6 +6201,7 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 				updateScheduledTransactions();
 				updateSecurities();
 				dialog->deleteLater();
+				updateUsesMultipleCurrencies();
 				return true;
 			} else if(dialog->currenciesModified()) {
 				currenciesModified();
@@ -6339,6 +6352,7 @@ void Eqonomize::deleteAccount() {
 		transfersWidget->updateAccounts();
 		incomesWidget->updateAccounts();
 		filterAccounts();
+		updateUsesMultipleCurrencies();
 		emit accountsModified();
 		setModified(true);
 	} else {
@@ -6474,6 +6488,7 @@ void Eqonomize::deleteAccount() {
 			emit accountsModified();
 			emit transactionsModified();
 			setModified(true);
+			updateUsesMultipleCurrencies();
 		}
 		if(dialog) dialog->deleteLater();
 	}

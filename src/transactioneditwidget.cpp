@@ -55,7 +55,9 @@
 
 #include <cmath>
 
-#define TEROWCOL(row, col)	(b_autoedit ? row % rows : row), (b_autoedit ? ((row / rows) * 2) + col : col)
+#define CURROW(row, col)	(b_autoedit ? row % rows : row)
+#define CURCOL(row, col)	(b_autoedit ? ((row / rows) * 2) + col : col)
+#define TEROWCOL(row, col)	CURROW(row, col), CURCOL(row, col)
 
 EqonomizeDateEdit::EqonomizeDateEdit(QWidget *parent) : QDateEdit(QDate::currentDate(), parent) {}
 void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
@@ -84,7 +86,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	if(split && !b_sec) rows -= 2;
 	if(rows % cols > 0) rows = rows / cols + 1;
 	else rows = rows / cols;
-	QGridLayout *editLayout = new QGridLayout();
+	editLayout = new QGridLayout();
 	editVLayout->addLayout(editLayout);
 	editVLayout->addStretch(1);
 	valueEdit = NULL;
@@ -102,6 +104,9 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	securityCombo = NULL;
 	currencyCombo = NULL;
 	commentsEdit = NULL;
+	dateLabel = NULL;
+	depositLabel = NULL;
+	withdrawalLabel = NULL;
 	int i = 0;
 	if(b_sec) {
 		int decimals = budget->defaultShareDecimals();
@@ -158,10 +163,14 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			i++;
 		}
 		if(!split) {
-			editLayout->addWidget(new QLabel(tr("Date:"), this), TEROWCOL(i, 0));
+			dateLabel = new QLabel(tr("Date:"), this);
+			editLayout->addWidget(dateLabel, TEROWCOL(i, 0));
+			dateRow = CURROW(i, 0);
+			dateLabelCol = CURCOL(i, 0);
 			dateEdit = new EqonomizeDateEdit(this);
 			dateEdit->setCalendarPopup(true);
 			editLayout->addWidget(dateEdit, TEROWCOL(i, 1));
+			dateEditCol = CURCOL(i, 1);
 		}
 		i++;
 	} else {
@@ -195,7 +204,8 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			i++;
 		}		
 		if(transtype == TRANSACTION_TYPE_TRANSFER) {
-			editLayout->addWidget(new QLabel(tr("Withdrawal:", "Money taken out from account"), this), TEROWCOL(i, 0));
+			withdrawalLabel = new QLabel(tr("Withdrawal:", "Money taken out from account"), this);
+			editLayout->addWidget(withdrawalLabel, TEROWCOL(i, 0));
 		} else if(transtype == TRANSACTION_TYPE_INCOME) {
 			editLayout->addWidget(new QLabel(tr("Income:"), this), TEROWCOL(i, 0));
 		} else {
@@ -224,9 +234,13 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		}
 		i++;
 		if(transtype == TRANSACTION_TYPE_TRANSFER) {
-			editLayout->addWidget(new QLabel(tr("Deposit:", "Money put into account"), this), TEROWCOL(i, 0));
+			depositLabel = new QLabel(tr("Deposit:", "Money put into account"), this);
+			editLayout->addWidget(depositLabel, TEROWCOL(i, 0));
+			depositRow = CURROW(i, 0);
+			depositLabelCol = CURCOL(i, 0);
 			depositEdit = new EqonomizeValueEdit(true, this, budget);
 			editLayout->addWidget(depositEdit, TEROWCOL(i, 1));
+			depositEditCol = CURCOL(i, 1);
 			i++;
 		}
 		if(withloan) {
@@ -243,10 +257,14 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			i++;
 		}
 		if(!split) {
-			editLayout->addWidget(new QLabel(tr("Date:"), this), TEROWCOL(i, 0));
+			dateLabel = new QLabel(tr("Date:"), this);
+			editLayout->addWidget(dateLabel, TEROWCOL(i, 0));
+			dateRow = CURROW(i, 0);
+			dateLabelCol = CURCOL(i, 0);
 			dateEdit = new EqonomizeDateEdit(this);
 			dateEdit->setCalendarPopup(true);
 			editLayout->addWidget(dateEdit, TEROWCOL(i, 1));
+			dateEditCol = CURCOL(i, 1);
 			i++;
 			if(b_extra && cols == 2 && !multiaccount && !select_security && !security && transtype == TRANSACTION_TYPE_INCOME) {
 				i++;
@@ -462,6 +480,37 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		connect(toCombo, SIGNAL(accountSelected()), this, SLOT(toActivated()));
 		connect(toCombo, SIGNAL(currentAccountChanged()), this, SLOT(toChanged()));
 	}
+	b_multiple_currencies = true;
+	useMultipleCurrencies(budget->usesMultipleCurrencies());
+}
+void TransactionEditWidget::useMultipleCurrencies(bool b) {
+	if(b == b_multiple_currencies) return;
+	b_multiple_currencies = b;
+	if(!depositEdit) return;
+	if(b_autoedit && dateEdit) {
+		editLayout->removeWidget(dateLabel);
+		editLayout->removeWidget(depositLabel);
+		editLayout->removeWidget(dateEdit);
+		editLayout->removeWidget(depositEdit);
+		if(b) {
+			editLayout->addWidget(depositEdit, depositRow, depositEditCol);
+			editLayout->addWidget(depositLabel, depositRow, depositLabelCol);
+			editLayout->addWidget(dateEdit, dateRow, dateEditCol);
+			editLayout->addWidget(dateLabel, dateRow, dateLabelCol);
+		} else {
+			editLayout->addWidget(dateEdit, depositRow, depositEditCol);
+			editLayout->addWidget(dateLabel, depositRow, depositLabelCol);
+			editLayout->addWidget(depositEdit, dateRow, dateEditCol);
+			editLayout->addWidget(depositLabel, dateRow, dateLabelCol);
+		}
+	}
+	depositEdit->setVisible(b);
+	depositLabel->setVisible(b);
+	if(b) {
+		if(withdrawalLabel) withdrawalLabel->setText(tr("Withdrawal:", "Money taken out from account"));
+	} else {
+		if(withdrawalLabel) withdrawalLabel->setText(tr("Amount"));
+	}
 }
 void TransactionEditWidget::valueNextField() {
 	if(depositEdit && depositEdit->isEnabled()) {
@@ -482,14 +531,16 @@ void TransactionEditWidget::valueNextField() {
 }
 void TransactionEditWidget::newFromAccount() {
 	Account *account = fromCombo->createAccount();
-	if(account) {
+	if(account) {		
 		emit accountAdded(account);
+		if(toCombo) toCombo->updateAccounts();
 	}
 }
 void TransactionEditWidget::newToAccount() {
 	Account *account = toCombo->createAccount();
-	if(account) {
+	if(account) {		
 		emit accountAdded(account);
+		if(fromCombo) fromCombo->updateAccounts();
 	}
 }
 void TransactionEditWidget::fromActivated() {
@@ -1289,6 +1340,7 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 		}
 		if(commentsEdit) commentsEdit->clear();
 		if(quantityEdit) quantityEdit->setValue(1.0);
+		if(depositEdit) depositEdit->setValue(0.0);
 		if(payeeEdit) payeeEdit->clear();
 		if(dateEdit) emit dateChanged(dateEdit->date());
 	} else {

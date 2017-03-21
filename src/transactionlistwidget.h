@@ -51,6 +51,8 @@ class TransactionListWidget : public QWidget {
 	public:
 		
 		TransactionListWidget(bool extra_parameters, int transaction_type, Budget *budg, Eqonomize *main_win, QWidget *parent = 0);
+		
+		void useMultipleCurrencies(bool b);
 		void transactionsReset();
 		void updateFromAccounts();
 		void updateToAccounts();

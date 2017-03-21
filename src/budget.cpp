@@ -1459,6 +1459,16 @@ Currency *Budget::findCurrencySymbol(QString symbol, bool require_unique)  {
 	}
 	return found_cur;
 }
+bool Budget::usesMultipleCurrencies() {
+	AssetsAccount *acc = assetsAccounts.first();
+	while(acc) {
+		if(acc->currency() != NULL && acc->currency() != default_currency) {
+			return true;
+		}
+		acc = assetsAccounts.next();
+	}
+	return false;
+}
 
 void Budget::setBudgetDay(int day_of_month) {if(day_of_month <= 28 && day_of_month >= -26) i_budget_day = day_of_month;}
 int Budget::budgetDay() const {return i_budget_day;}
