@@ -928,10 +928,15 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 	} else {
 		grid->addWidget(new QLabel(tr("Debt reduction:")), row, 0);
 		reductionEdit = new EqonomizeValueEdit(false, this, budget);
-		grid->addWidget(reductionEdit, row, 1); row++;
-		grid->addWidget(new QLabel(tr("Reduction payment:")), row, 0);
+		grid->addWidget(reductionEdit, row, 1); row++;		
+		paymentLabel = new QLabel(tr("Reduction payment:"));
+		grid->addWidget(paymentLabel, row, 0);
 		paymentEdit = new EqonomizeValueEdit(false, this, budget);
 		grid->addWidget(paymentEdit, row, 1); row++;
+		if(!budget->usesMultipleCurrencies()) {
+			paymentLabel->setVisible(false);
+			paymentEdit->setVisible(false);
+		}
 	}
 	
 	grid->addWidget(new QLabel(tr("Interest:")), row, 0);
@@ -1015,6 +1020,9 @@ EditDebtPaymentWidget::~EditDebtPaymentWidget() {}
 
 void EditDebtPaymentWidget::newAccount() {
 	accountCombo->createAccount();
+	bool b = budget->usesMultipleCurrencies();
+	paymentLabel->setVisible(b);
+	paymentEdit->setVisible(b);
 }
 void EditDebtPaymentWidget::newCategory() {
 	categoryCombo->createAccount();

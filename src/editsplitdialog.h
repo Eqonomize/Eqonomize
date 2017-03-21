@@ -113,7 +113,7 @@ class EditDebtPaymentWidget : public QWidget {
 		QComboBox *loanCombo;
 		AccountComboBox *accountCombo, *categoryCombo;
 		QLineEdit *commentEdit;
-		QLabel *totalLabel;
+		QLabel *paymentLabel, *totalLabel;
 
 		void updateTotalValue();
 		AssetsAccount *selectedLoan();
