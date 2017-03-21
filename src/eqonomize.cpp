@@ -5408,8 +5408,8 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionJoinTransactions, tr("Join Transactions…"), "eqz-join-transactions", 0, this, SLOT(joinSelectedTransactions()), "join_transactions", transactionsMenu);
 	NEW_ACTION(ActionSplitUpTransaction, tr("Split Up Transaction"), "eqz-split-transaction", 0, this, SLOT(splitUpSelectedTransaction()), "split_up_transaction", transactionsMenu);
 	transactionsMenu->addSeparator();
-	NEW_ACTION(ActionSelectAttachment, tr("Select Attachment"), "file-properties", 0, this, SLOT(selectAttachment()), "select_attachment", transactionsMenu);
-	NEW_ACTION(ActionOpenAttachment, tr("Open Attachment"), "file-open", 0, this, SLOT(openAttachment()), "open_attachment", transactionsMenu);
+	NEW_ACTION(ActionSelectAttachment, tr("Select Associated file"), "file-properties", 0, this, SLOT(selectAttachment()), "select_attachment", transactionsMenu);
+	NEW_ACTION(ActionOpenAttachment, tr("Open Associated file"), "file-open", 0, this, SLOT(openAttachment()), "open_attachment", transactionsMenu);
 	transactionsMenu->addSeparator();
 	NEW_ACTION(ActionDeleteTransaction, tr("Remove Transaction(s) (Occurrence)"), "edit-delete", 0, this, SLOT(deleteSelectedTransaction()), "delete_transaction", transactionsMenu);
 	NEW_ACTION_NOMENU(ActionDeleteOccurrence, tr("Remove Occurrence"), "edit-delete", 0, this, SLOT(removeOccurrence()), "delete_occurrence");

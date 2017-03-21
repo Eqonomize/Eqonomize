@@ -375,7 +375,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		i++;
 	}
 	if(!b_autoedit && !split && !multiaccount) {
-		editLayout->addWidget(new QLabel(tr("Attachment:"), this), TEROWCOL(i, 0));
+		editLayout->addWidget(new QLabel(tr("Associated file:"), this), TEROWCOL(i, 0));
 		QHBoxLayout *fileLayout = new QHBoxLayout();
 		fileEdit = new QLineEdit(this);
 		QCompleter *completer = new QCompleter(this);
