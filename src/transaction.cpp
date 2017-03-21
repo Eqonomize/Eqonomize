@@ -61,7 +61,7 @@ void Transaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	d_date = QDate::fromString(attr->value("date").toString(), Qt::ISODate);
 	s_description = attr->value("description").trimmed().toString();
 	s_comment = attr->value("comment").toString();
-	s_attachment = attr->value("attachment").toString();
+	s_attachment = attr->value("attachment").trimmed().toString();
 	if(attr->hasAttribute("quantity")) d_quantity = attr->value("quantity").toDouble();
 	else d_quantity = 1.0;
 	if(valid && (*valid)) *valid = d_date.isValid();
@@ -83,7 +83,7 @@ void Transaction::writeAttributes(QXmlStreamAttributes *attr) {
 	attr->append("date", d_date.toString(Qt::ISODate));
 	if(!s_description.isEmpty()) attr->append("description", s_description);
 	if(!s_comment.isEmpty()) attr->append("comment", s_comment);
-	if(!s_comment.isEmpty()) attr->append("attachment", s_comment);
+	if(!s_attachment.isEmpty()) attr->append("attachment", s_attachment);
 	if(d_quantity != 1.0) attr->append("quantity", QString::number(d_quantity, 'f', QUANTITY_DECIMAL_PLACES));
 }
 void Transaction::writeElements(QXmlStreamWriter*) {}
@@ -1030,7 +1030,7 @@ void SplitTransaction::readAttributes(QXmlStreamAttributes *attr, bool*) {
 	if(attr->hasAttribute("date")) d_date = QDate::fromString(attr->value("date").toString(), Qt::ISODate);
 	s_description = attr->value("description").trimmed().toString();
 	s_comment = attr->value("comment").toString();
-	s_attachment = attr->value("attachment").toString();
+	s_attachment = attr->value("attachment").trimmed().toString();
 }
 bool SplitTransaction::readElement(QXmlStreamReader*, bool*) {
 	return false;
@@ -1050,8 +1050,8 @@ void SplitTransaction::save(QXmlStreamWriter *xml) {
 void SplitTransaction::writeAttributes(QXmlStreamAttributes *attr) {
 	if(d_date.isValid()) attr->append("date", d_date.toString(Qt::ISODate));
 	if(!s_description.isEmpty()) attr->append("description", s_description);
-	if(!s_comment.isEmpty())  attr->append("comment", s_comment);
-	if(!s_attachment.isEmpty())  attr->append("attachment", s_comment);
+	if(!s_comment.isEmpty()) attr->append("comment", s_comment);
+	if(!s_attachment.isEmpty()) attr->append("attachment", s_attachment);
 }
 
 void SplitTransaction::writeElements(QXmlStreamWriter*) {}

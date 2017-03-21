@@ -44,6 +44,9 @@
 #include <QStringList>
 #include <QKeyEvent>
 #include <QMessageBox>
+#include <QStandardPaths>
+#include <QDirModel>
+#include <QDesktopServices>
 #include <QDebug>
 
 #include "budget.h"
@@ -59,6 +62,8 @@
 #define CURCOL(row, col)	(b_autoedit ? ((row / rows) * 2) + col : col)
 #define TEROWCOL(row, col)	CURROW(row, col), CURCOL(row, col)
 
+#define FILE_BUTTON_TEXT	tr("Select a file")
+
 EqonomizeDateEdit::EqonomizeDateEdit(QWidget *parent) : QDateEdit(QDate::currentDate(), parent) {}
 void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
 	QDateEdit::keyPressEvent(event);
@@ -67,6 +72,8 @@ void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
 	}
 }
 
+
+extern QString last_attachment_directory;
 
 TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_parameters, int transaction_type, Currency *split_currency, bool transfer_to, Security *sec, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent, bool allow_account_creation, bool multiaccount, bool withloan) : QWidget(parent), transtype(transaction_type), budget(budg), security(sec), b_autoedit(auto_edit), b_extra(extra_parameters), b_create_accounts(allow_account_creation) {
 	bool split = (split_currency != NULL);
@@ -107,6 +114,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	dateLabel = NULL;
 	depositLabel = NULL;
 	withdrawalLabel = NULL;
+	fileEdit = NULL;
 	int i = 0;
 	if(b_sec) {
 		int decimals = budget->defaultShareDecimals();
@@ -366,6 +374,28 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		editLayout->addWidget(lenderEdit, TEROWCOL(i, 1));
 		i++;
 	}
+	if(!b_autoedit && !split && !multiaccount) {
+		editLayout->addWidget(new QLabel(tr("Attachment:"), this), TEROWCOL(i, 0));
+		QHBoxLayout *fileLayout = new QHBoxLayout();
+		fileEdit = new QLineEdit(this);
+		QCompleter *completer = new QCompleter(this);
+		completer->setModel(new QDirModel(completer));
+		fileEdit->setCompleter(completer);
+		fileLayout->addWidget(fileEdit);
+		QPushButton *selectFileButton = new QPushButton(QIcon::fromTheme("document-open"), QString(), this);
+		selectFileButton->setToolTip(tr("Select a file"));
+		selectFileButton->setAutoDefault(false);
+		fileLayout->addWidget(selectFileButton);
+		QPushButton *openFileButton = new QPushButton(QIcon::fromTheme("zoom-in"), QString(), this);
+		openFileButton->setToolTip(tr("Open the file"));
+		openFileButton->setAutoDefault(false);
+		fileLayout->addWidget(openFileButton);
+		openFileButton->setFocusPolicy(Qt::ClickFocus);
+		editLayout->addLayout(fileLayout, TEROWCOL(i, 1));
+		i++;
+		connect(selectFileButton, SIGNAL(clicked()), this, SLOT(selectFile()));
+		connect(openFileButton, SIGNAL(clicked()), this, SLOT(openFile()));
+	}
 	if(!multiaccount) {
 		editLayout->addWidget(new QLabel(tr("Comments:"), this), TEROWCOL(i, 0));
 		commentsEdit = new QLineEdit(this);
@@ -461,8 +491,11 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	}
 	if(b_autoedit && dateEdit) connect(dateEdit, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
 	if(payeeEdit && lenderEdit) connect(payeeEdit, SIGNAL(returnPressed()), lenderEdit, SLOT(setFocus()));
+	else if(payeeEdit && fileEdit) connect(payeeEdit, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
 	else if(payeeEdit && commentsEdit) connect(payeeEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
-	if(lenderEdit && commentsEdit) connect(lenderEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
+	if(lenderEdit && fileEdit) connect(lenderEdit, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
+	else if(lenderEdit && commentsEdit) connect(lenderEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
+	if(fileEdit && commentsEdit) connect(fileEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
 	if(commentsEdit && b_autoedit) connect(commentsEdit, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
 	if(securityCombo) connect(securityCombo, SIGNAL(activated(int)), this, SLOT(securityChanged()));
 	if(currencyCombo) connect(currencyCombo, SIGNAL(activated(int)), this, SLOT(currencyChanged(int)));
@@ -482,6 +515,17 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	}
 	b_multiple_currencies = true;
 	useMultipleCurrencies(budget->usesMultipleCurrencies());
+}
+void TransactionEditWidget::selectFile() {
+	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_attachment_directory : fileEdit->text());
+	if(!url.isEmpty()) {
+		QFileInfo fileInfo(url);
+		last_attachment_directory = fileInfo.absoluteDir().absolutePath();
+		fileEdit->setText(url);
+	}
+}
+void TransactionEditWidget::openFile() {
+	QDesktopServices::openUrl(QUrl::fromLocalFile(fileEdit->text()));
 }
 void TransactionEditWidget::useMultipleCurrencies(bool b) {
 	if(b == b_multiple_currencies) return;
@@ -1012,6 +1056,7 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 		((SecurityTransaction*) trans)->setShares(shares);
 		((SecurityTransaction*) trans)->setShareValue(share_value);
 		if(commentsEdit) trans->setComment(commentsEdit->text());
+		if(fileEdit) trans->setAttachment(fileEdit->text());
 		return true;
 	} else if(b_transsec) {
 		return false;
@@ -1030,6 +1075,7 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 	}
 	if(descriptionEdit && (trans->type() != TRANSACTION_TYPE_INCOME || !((Income*) trans)->security())) trans->setDescription(descriptionEdit->text());
 	if(commentsEdit) trans->setComment(commentsEdit->text());
+	if(fileEdit) trans->setAttachment(fileEdit->text());
 	if(quantityEdit) trans->setQuantity(quantityEdit->value());
 	if(payeeEdit && trans->type() == TRANSACTION_TYPE_EXPENSE) ((Expense*) trans)->setPayee(payeeEdit->text());
 	if(payeeEdit && trans->type() == TRANSACTION_TYPE_INCOME) ((Income*) trans)->setPayer(payeeEdit->text());
@@ -1068,6 +1114,7 @@ Transactions *TransactionEditWidget::createTransactionWithLoan() {
 	
 	MultiAccountTransaction *split = new MultiAccountTransaction(budget, (CategoryAccount*) toCombo->currentAccount(), descriptionEdit->text());
 	split->setComment(commentsEdit->text());
+	if(fileEdit) split->setAttachment(fileEdit->text());
 	if(quantityEdit) split->setQuantity(quantityEdit->value());
 	
 	Expense *expense = new Expense(budget, valueEdit->value() - downPaymentEdit->value(), dateEdit->date(), (ExpensesAccount*) toCombo->currentAccount(), loan);
@@ -1125,6 +1172,7 @@ Transaction *TransactionEditWidget::createTransaction() {
 		if(payeeEdit) expense->setPayee(payeeEdit->text());
 		trans = expense;
 	}
+	if(fileEdit) trans->setAttachment(fileEdit->text());
 	return trans;
 }
 void TransactionEditWidget::transactionRemoved(Transaction *trans) {
@@ -1345,6 +1393,7 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 			valueEdit->setValue(0.0);
 		}
 		if(commentsEdit) commentsEdit->clear();
+		if(fileEdit) fileEdit->clear();
 		if(quantityEdit) quantityEdit->setValue(1.0);
 		if(depositEdit) depositEdit->setValue(0.0);
 		if(payeeEdit) payeeEdit->clear();
@@ -1353,6 +1402,7 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 		value_set = true; shares_set = true; sharevalue_set = true;
 		if(dateEdit) dateEdit->setDate(trans->date());
 		if(commentsEdit) commentsEdit->setText(trans->comment());
+		if(fileEdit) fileEdit->setText(trans->attachment());
 		if(toCombo && (!b_sec || transtype == TRANSACTION_TYPE_SECURITY_SELL)) {
 			toCombo->setCurrentAccount(trans->toAccount());
 		}
@@ -1408,6 +1458,7 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 	if(valueEdit) valueEdit->blockSignals(true);
 	if(dateEdit) dateEdit->setDate(split->date());
 	if(commentsEdit) commentsEdit->setText(split->comment());
+	if(fileEdit) fileEdit->setText(split->attachment());
 	if(split->transactiontype() == TRANSACTION_TYPE_EXPENSE) {
 		if(toCombo) {
 			toCombo->setCurrentAccount(split->category());

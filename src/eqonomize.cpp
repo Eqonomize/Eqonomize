@@ -133,7 +133,7 @@ enum {
 
 #define IS_DEBT(account) (account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD)
 
-QString last_document_directory, last_picture_directory;
+QString last_document_directory, last_attachment_directory, last_picture_directory;
 
 QColor createExpenseColor(QColor base_color) {
 	qreal r, g, b;
@@ -1779,6 +1779,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	
 	last_picture_directory = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
 	last_document_directory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+	last_attachment_directory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
 
 	partial_budget = false;
 

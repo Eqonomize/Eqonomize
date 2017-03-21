@@ -117,7 +117,7 @@ class TransactionEditWidget : public QWidget {
 		Currency *splitcurrency;
 		int dateRow, dateLabelCol, dateEditCol, depositRow, depositLabelCol, depositEditCol;
 
-		QLineEdit *descriptionEdit, *lenderEdit, *payeeEdit, *commentsEdit;
+		QLineEdit *descriptionEdit, *lenderEdit, *payeeEdit, *commentsEdit, *fileEdit;
 		AccountComboBox *fromCombo, *toCombo;
 		QComboBox *securityCombo, *currencyCombo;
 		QLabel *withdrawalLabel, *depositLabel, *dateLabel;
@@ -138,6 +138,8 @@ class TransactionEditWidget : public QWidget {
 
 	public slots:
 
+		void selectFile();
+		void openFile();
 		void newFromAccount();
 		void newToAccount();
 		void valueNextField();
