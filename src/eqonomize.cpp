@@ -89,6 +89,7 @@
 #include "editcurrencydialog.h"
 #include "categoriescomparisonchart.h"
 #include "categoriescomparisonreport.h"
+#include "currencyconversiondialog.h"
 #include "editscheduledtransactiondialog.h"
 #include "editsplitdialog.h"
 #include "eqonomize.h"
@@ -1773,6 +1774,8 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	ccrDialog = NULL;
 	otcDialog = NULL;
 	otrDialog = NULL;
+	
+	currencyConversionWindow = NULL;
 	
 	last_picture_directory = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
 	last_document_directory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
@@ -4429,7 +4432,6 @@ void Eqonomize::ECBDataDownloaded(bool do_currencies_modified) {
 void Eqonomize::cancelUpdateExchangeRates() {
 	updateExchangeRatesReply->abort();
 }
-
 void Eqonomize::currenciesModified() {
 	expensesWidget->updateFromAccounts();
 	incomesWidget->updateToAccounts();
@@ -4440,8 +4442,12 @@ void Eqonomize::currenciesModified() {
 	filterAccounts();
 	updateScheduledTransactions();
 	updateSecurities();
+	if(budget->defaultCurrencyChanged()) setModified(true);
 	emit transactionsModified();
 	updateUsesMultipleCurrencies();
+	if(currencyConversionWindow && currencyConversionWindow->isVisible()) {
+		currencyConversionWindow->convertFrom();
+	}
 }
 
 void Eqonomize::warnAndAskForExchangeRate() {
@@ -4490,7 +4496,7 @@ void Eqonomize::setMainCurrency() {
 	int i = 1;
 	while(currency) {
 		if(!currency->name(false).isEmpty()) {
-			setMainCurrencyCombo->addItem(QString("%1 (%2)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
+			setMainCurrencyCombo->addItem(QString("%2 (%1)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
 		} else {
 			setMainCurrencyCombo->addItem(currency->code());
 		}
@@ -4565,6 +4571,16 @@ void Eqonomize::updateUsesMultipleCurrencies() {
 	transfersWidget->useMultipleCurrencies(b);
 	incomesWidget->useMultipleCurrencies(b);
 	expensesWidget->useMultipleCurrencies(b);
+}
+void Eqonomize::openCurrencyConversion() {
+	if(!currencyConversionWindow) {
+		currencyConversionWindow = new CurrencyConversionDialog(budget, this);
+	}
+	bool b = currencyConversionWindow->isVisible();
+	currencyConversionWindow->show();
+	if(!b) currencyConversionWindow->convertFrom();
+	currencyConversionWindow->raise();
+	currencyConversionWindow->activateWindow();
 }
 
 void Eqonomize::showOverTimeReport() {
@@ -5300,6 +5316,7 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionExportQIF, tr("Export As QIF File…"), "document-export", 0, this, SLOT(exportQIF()), "export_qif", fileMenu);
 	fileMenu->addSeparator();
 	NEW_ACTION(ActionUpdateExchangeRates, tr("Update Exchange Rates"), "view-refresh", 0, this, SLOT(updateExchangeRates()), "update_exchange_rates", fileMenu);
+	NEW_ACTION_2(ActionConvertCurrencies, tr("Currency Converter"), 0, this, SLOT(openCurrencyConversion()), "convert_currencies", fileMenu);
 	fileMenu->addSeparator();
 	QList<QKeySequence> keySequences;	
 	keySequences << QKeySequence(Qt::CTRL+Qt::Key_Q);
@@ -5889,7 +5906,7 @@ bool Eqonomize::checkSchedule(bool update_display) {
 			b = true;
 			budget->setRecordNewAccounts(true);
 			budget->resetDefaultCurrencyChanged();
-	budget->resetCurrenciesModified();
+			budget->resetCurrenciesModified();
 			ConfirmScheduleDialog *dialog = new ConfirmScheduleDialog(b_extra, budget, this, tr("Confirm Schedule"));
 			updateScheduledTransactions();
 			dialog->exec();
@@ -6236,8 +6253,11 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 						liabilitiesItem->removeChild(i);
 						assetsItem->addChild(i);
 					}
-					filterAccounts();
-				} else if(budget->currenciesModified() || budget->defaultCurrencyChanged() || previous_budget_account != budget->budgetAccount || currency_changed) {
+					if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
+					else filterAccounts();
+				} else if(budget->currenciesModified() || budget->defaultCurrencyChanged()) {
+					currenciesModified();
+				} else if(previous_budget_account != budget->budgetAccount || currency_changed) {
 					filterAccounts();
 				} else if(is_debt) {
 					liabilities_accounts_value += account->currency()->convertTo(account->initialBalance() - prev_ib, budget->defaultCurrency(), to_date);
@@ -6251,22 +6271,23 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 				i->setHidden(account->isClosed() && is_zero(account_value[account]) && is_zero(account_change[account]));
 				emit accountsModified();
 				setModified(true);
-				expensesWidget->updateFromAccounts();
-				incomesWidget->updateToAccounts();
-				transfersWidget->updateAccounts();
+				if(!budget->currenciesModified() && !budget->defaultCurrencyChanged()) {
+					expensesWidget->updateFromAccounts();
+					incomesWidget->updateToAccounts();
+					transfersWidget->updateAccounts();
+					expensesWidget->filterTransactions();
+					incomesWidget->filterTransactions();
+					transfersWidget->filterTransactions();
+					updateScheduledTransactions();
+					updateSecurities();
+				}
 				assetsItem->sortChildren(0, Qt::AscendingOrder);
 				liabilitiesItem->sortChildren(0, Qt::AscendingOrder);
-				expensesWidget->filterTransactions();
-				incomesWidget->filterTransactions();
-				transfersWidget->filterTransactions();
-				updateScheduledTransactions();
-				updateSecurities();
 				dialog->deleteLater();
 				updateUsesMultipleCurrencies();
 				return true;
 			} else if(budget->currenciesModified() || budget->defaultCurrencyChanged()) {
 				currenciesModified();
-				if(budget->defaultCurrencyChanged()) setModified(true);
 			}
 			dialog->deleteLater();
 			break;

@@ -50,8 +50,9 @@ HEADERS += src/account.h \
            src/budget.h \
            src/categoriescomparisonchart.h \
            src/categoriescomparisonreport.h \
-           src/currency.h \
            src/currencies.xml.h \
+           src/currency.h \
+           src/currencyconversiondialog.h \
            src/editaccountdialogs.h \
            src/editcurrencydialog.h \
            src/editscheduledtransactiondialog.h \
@@ -78,6 +79,7 @@ SOURCES += src/account.cpp \
            src/categoriescomparisonchart.cpp \
            src/categoriescomparisonreport.cpp \
            src/currency.cpp \
+           src/currencyconversiondialog.cpp \
            src/editaccountdialogs.cpp \
            src/editcurrencydialog.cpp \
            src/editscheduledtransactiondialog.cpp \

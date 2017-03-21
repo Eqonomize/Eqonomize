@@ -158,7 +158,7 @@ void EditAssetsAccountDialog::updateCurrencyList(Currency *select_currency) {
 	int i = 1;
 	while(currency) {
 		if(!currency->name(false).isEmpty()) {
-			currencyCombo->addItem(QString("%1 (%2)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
+			currencyCombo->addItem(QString("%2 (%1)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
 		} else {
 			currencyCombo->addItem(currency->code());
 		}

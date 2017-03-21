@@ -65,6 +65,7 @@ class QNetworkReply;
 
 class CategoriesComparisonChart;
 class CategoriesComparisonReport;
+class CurrencyConversionDialog;
 class OverTimeChart;
 class OverTimeReport;
 class Account;
@@ -193,7 +194,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionClearRecentFiles;
 		QAction *ActionOverTimeReport, *ActionCategoriesComparisonReport, *ActionOverTimeChart, *ActionCategoriesComparisonChart;
 		QAction *ActionImportCSV, *ActionImportQIF, *ActionExportQIF;
-		QAction *ActionUpdateExchangeRates;
+		QAction *ActionConvertCurrencies, *ActionUpdateExchangeRates;
 		QAction *ActionExtraProperties, *ActionSetBudgetPeriod, *AIPCurrentMonth, *AIPCurrentYear, *AIPCurrentWholeMonth, *AIPCurrentWholeYear, *AIPRememberLastDates, *ABFDaily, *ABFWeekly, *ABFFortnightly, *ABFMonthly, *ABFNever;
 		QAction *ActionSetMainCurrency;
 		QActionGroup *ActionSelectInitialPeriod, *ActionSelectBackupFrequency;
@@ -248,6 +249,7 @@ class Eqonomize : public QMainWindow {
 		QComboBox *setMainCurrencyCombo;
 		QProgressDialog *updateExchangeRatesProgressDialog;
 		QNetworkReply *updateExchangeRatesReply;
+		CurrencyConversionDialog *currencyConversionWindow;
 		
 		int prev_set_main_currency_index;
 		double total_value, total_cost, total_profit, total_rate;
@@ -307,6 +309,7 @@ class Eqonomize : public QMainWindow {
 		void setMainCurrency();
 		void setMainCurrencyIndexChanged(int index);
 		void updateUsesMultipleCurrencies();
+		void openCurrencyConversion();
 		
 		void serverNewConnection();
 		void socketReadyRead();
