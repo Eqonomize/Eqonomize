@@ -888,6 +888,9 @@ void TransactionListWidget::joinTransactions() {
 				else if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->fromAccount());
 				else split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->toAccount());
 			}
+			if(split->associatedFile().isEmpty() && !trans->associatedFile().isEmpty()) {
+				split->setAssociatedFile(trans->associatedFile());
+			}
 			if(payee.isEmpty()) {
 				if(trans->type() == TRANSACTION_TYPE_EXPENSE) payee = ((Expense*) trans)->payee();
 				else if(trans->type() == TRANSACTION_TYPE_INCOME) payee = ((Income*) trans)->payer();

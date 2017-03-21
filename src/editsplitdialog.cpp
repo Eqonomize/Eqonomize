@@ -576,6 +576,7 @@ void EditMultiItemWidget::setTransaction(MultiItemTransaction *split) {
 	int c = split->count();
 	for(int i = 0; i < c; i++) {
 		Transaction *trans = split->at(i)->copy();
+		trans->setAssociatedFile(QString());
 		trans->setDate(QDate());
 		items.append(new MultiItemListViewItem(trans, split->currency(), (trans->toAccount() == split->account())));
 		switch(trans->type()) {
@@ -891,6 +892,8 @@ void EditMultiAccountWidget::setTransaction(Transactions *transs) {
 		int c = split->count();
 		for(int i = 0; i < c; i++) {
 			Transaction *trans = split->at(i)->copy();
+			trans->setComment(QString());
+			trans->setAssociatedFile(QString());
 			items.append(new MultiAccountListViewItem(trans));
 		}
 		transactionsView->addTopLevelItems(items);
@@ -917,6 +920,8 @@ void EditMultiAccountWidget::setTransaction(MultiAccountTransaction *split, cons
 	int c = split->count();
 	for(int i = 0; i < c; i++) {
 		Transaction *trans = split->at(i)->copy();
+		trans->setComment(QString());
+		trans->setAssociatedFile(QString());
 		trans->setDate(date);
 		items.append(new MultiAccountListViewItem(trans));
 	}

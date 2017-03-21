@@ -3217,6 +3217,12 @@ bool Eqonomize::splitUpTransaction(SplitTransaction *split) {
 	expensesWidget->onTransactionSplitUp(split);
 	incomesWidget->onTransactionSplitUp(split);
 	transfersWidget->onTransactionSplitUp(split);
+	int c = split->count();
+	for(int i = 0; i < c; i++) {
+		Transaction *trans = split->at(i);
+		if(trans->comment().isEmpty()) trans->setComment(split->comment());
+		if(trans->associatedFile().isEmpty()) trans->setAssociatedFile(split->associatedFile());
+	}
 	split->clear(true);
 	budget->removeSplitTransaction(split, true);
 	transactionRemoved(split);
@@ -5408,8 +5414,8 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionJoinTransactions, tr("Join Transactions…"), "eqz-join-transactions", 0, this, SLOT(joinSelectedTransactions()), "join_transactions", transactionsMenu);
 	NEW_ACTION(ActionSplitUpTransaction, tr("Split Up Transaction"), "eqz-split-transaction", 0, this, SLOT(splitUpSelectedTransaction()), "split_up_transaction", transactionsMenu);
 	transactionsMenu->addSeparator();
-	NEW_ACTION(ActionSelectAssociatedFile, tr("Select Associated file"), "file-properties", 0, this, SLOT(selectAssociatedFile()), "select_attachment", transactionsMenu);
-	NEW_ACTION(ActionOpenAssociatedFile, tr("Open Associated file"), "file-open", 0, this, SLOT(openAssociatedFile()), "open_attachment", transactionsMenu);
+	NEW_ACTION(ActionSelectAssociatedFile, tr("Select Associated File"), "file-properties", 0, this, SLOT(selectAssociatedFile()), "select_attachment", transactionsMenu);
+	NEW_ACTION(ActionOpenAssociatedFile, tr("Open Associated File"), "file-open", 0, this, SLOT(openAssociatedFile()), "open_attachment", transactionsMenu);
 	transactionsMenu->addSeparator();
 	NEW_ACTION(ActionDeleteTransaction, tr("Remove Transaction(s) (Occurrence)"), "edit-delete", 0, this, SLOT(deleteSelectedTransaction()), "delete_transaction", transactionsMenu);
 	NEW_ACTION_NOMENU(ActionDeleteOccurrence, tr("Remove Occurrence"), "edit-delete", 0, this, SLOT(removeOccurrence()), "delete_occurrence");
