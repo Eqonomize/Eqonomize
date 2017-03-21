@@ -100,6 +100,7 @@ class Transactions {
 		virtual QString description() const = 0;
 		virtual const QString &comment() const = 0;
 		virtual const QString &attachment() const = 0;
+		virtual void setAttachment(QString new_attachment) = 0;
 		virtual Budget *budget() const = 0;
 		virtual GeneralTransactionType generaltype() const = 0;
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const = 0;
@@ -564,6 +565,7 @@ class ScheduledTransaction : public Transactions {
 		virtual QString description() const;
 		virtual const QString &comment() const;
 		virtual const QString &attachment() const;
+		virtual void setAttachment(QString new_attachment);
 		virtual GeneralTransactionType generaltype() const;
 		virtual int transactiontype() const;
 		

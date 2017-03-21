@@ -995,6 +995,9 @@ const QString &ScheduledTransaction::attachment() const {
 	if(o_trans) return o_trans->attachment();
 	return emptystr;
 }
+void ScheduledTransaction::setAttachment(QString new_attachment) {
+	if(o_trans) o_trans->setAttachment(new_attachment);
+}
 GeneralTransactionType ScheduledTransaction::generaltype() const {return GENERAL_TRANSACTION_TYPE_SCHEDULE;}
 int ScheduledTransaction::transactiontype() const {
 	if(o_trans && o_trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) return ((Transaction*) o_trans)->type();

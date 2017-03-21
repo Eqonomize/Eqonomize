@@ -42,6 +42,7 @@
 #include <QUrl>
 #include <QTabWidget>
 #include <QMessageBox>
+#include <QDesktopServices>
 
 #include "budget.h"
 #include "editscheduledtransactiondialog.h"
@@ -54,6 +55,8 @@
 #include <QDebug>
 
 #include <cmath>
+
+extern QString last_attachment_directory;
 
 extern void setColumnTextWidth(QTreeWidget *w, int i, QString str);
 extern void setColumnDateWidth(QTreeWidget *w, int i);
@@ -215,6 +218,34 @@ void TransactionListWidget::restoreState(const QByteArray &state) {
 	transactionsView->sortByColumn(0, Qt::DescendingOrder);
 }
 
+void TransactionListWidget::selectAttachment() {
+	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
+	if(selection.count() > 0) {
+		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
+		Transactions *transs = i->transaction();
+		if(i->splitTransaction()) transs = i->splitTransaction();
+		if(transs) {
+			QString url = QFileDialog::getOpenFileName(this, QString(), transs->attachment().isEmpty() ? last_attachment_directory : transs->attachment());
+			if(!url.isEmpty()) {
+				QFileInfo fileInfo(url);
+				last_attachment_directory = fileInfo.absoluteDir().absolutePath();
+				transs->setAttachment(url);
+				mainWin->ActionOpenAttachment->setEnabled(true);
+			}
+		}
+	}
+}
+void TransactionListWidget::openAttachment() {
+	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
+	if(selection.count() > 0) {
+		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
+		Transactions *transs = i->transaction();
+		if(i->splitTransaction()) transs = i->splitTransaction();
+		if(transs) {
+			QDesktopServices::openUrl(QUrl::fromLocalFile(transs->attachment()));
+		}
+	}
+}
 void TransactionListWidget::useMultipleCurrencies(bool b) {
 	editWidget->useMultipleCurrencies(b);
 }
@@ -248,6 +279,9 @@ void TransactionListWidget::popupListMenu(const QPoint &p) {
 		listPopupMenu->addAction(mainWin->ActionEditSplitTransaction);
 		listPopupMenu->addAction(mainWin->ActionJoinTransactions);
 		listPopupMenu->addAction(mainWin->ActionSplitUpTransaction);
+		listPopupMenu->addSeparator();
+		listPopupMenu->addAction(mainWin->ActionSelectAttachment);
+		listPopupMenu->addAction(mainWin->ActionOpenAttachment);
 		listPopupMenu->addSeparator();
 		listPopupMenu->addAction(mainWin->ActionDeleteTransaction);
 		listPopupMenu->addAction(mainWin->ActionDeleteScheduledTransaction);
@@ -1473,7 +1507,7 @@ void TransactionListWidget::newRefundRepayment() {
 }
 void TransactionListWidget::updateTransactionActions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
-	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_join = false, b_delete = false;
+	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_join = false, b_delete = false, b_attachment = false, b_select = false;
 	bool refundable = false, repayable = false;
 	if(selection.count() == 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
@@ -1483,6 +1517,12 @@ void TransactionListWidget::updateTransactionActions() {
 		b_delete = b_transaction;
 		refundable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_EXPENSE && i->transaction()->value() > 0.0));
 		repayable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && i->transaction()->value() > 0.0 && !((Income*) i->transaction())->security()));
+		if(i->splitTransaction()) {
+			b_attachment = !i->splitTransaction()->attachment().isEmpty();
+		} else if(i->transaction()) {
+			b_attachment = !i->transaction()->attachment().isEmpty();
+		}
+		b_select = true;
 	} else if(selection.count() > 1) {
 		b_transaction = true;
 		b_delete = true;
@@ -1513,12 +1553,16 @@ void TransactionListWidget::updateTransactionActions() {
 				if(!b_split && !b_join && !b_transaction && !b_delete) break;
 			}
 		}
+		b_select = b_split && split;
+		b_attachment = b_select && !split->attachment().isEmpty();
 	}
 	mainWin->ActionNewRefund->setEnabled(refundable);
 	mainWin->ActionNewRepayment->setEnabled(repayable);
 	mainWin->ActionNewRefundRepayment->setEnabled(refundable || repayable);
 	mainWin->ActionEditTransaction->setEnabled(b_transaction);
 	mainWin->ActionDeleteTransaction->setEnabled(b_transaction);
+	mainWin->ActionSelectAttachment->setEnabled(b_select);
+	mainWin->ActionOpenAttachment->setEnabled(b_attachment);
 	mainWin->ActionEditScheduledTransaction->setEnabled(b_scheduledtransaction);
 	mainWin->ActionDeleteScheduledTransaction->setEnabled(b_scheduledtransaction);
 	mainWin->ActionEditSplitTransaction->setEnabled(b_split);

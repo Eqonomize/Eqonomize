@@ -98,6 +98,8 @@ class TransactionListWidget : public QWidget {
 
 	public slots:
 
+		void selectAttachment();
+		void openAttachment();
 		void editClear();
 		void updateStatistics();
 		void updateTransactionActions();

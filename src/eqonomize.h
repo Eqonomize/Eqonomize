@@ -185,6 +185,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionNewMultiAccountExpense, *ActionNewExpenseWithLoan, *ActionNewDebtPayment, *ActionNewDebtInterest;
 		QAction *ActionEditTransaction, *ActionEditScheduledTransaction, *ActionEditSplitTransaction;
 		QAction *ActionJoinTransactions, *ActionSplitUpTransaction;
+		QAction *ActionSelectAttachment, *ActionOpenAttachment;
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
 		QAction *ActionNewSecurity, *ActionEditSecurity, *ActionBuyShares, *ActionSellShares, *ActionNewDividend, *ActionNewReinvestedDividend, *ActionNewSecurityTrade, *ActionSetQuotation, *ActionEditQuotations, *ActionEditSecurityTransactions, *ActionDeleteSecurity;
 		QAction *ActionNewRefund, *ActionNewRepayment, *ActionNewRefundRepayment;
@@ -367,6 +368,9 @@ class Eqonomize : public QMainWindow {
 		void deleteSelectedSplitTransaction();
 		void joinSelectedTransactions();
 		void splitUpSelectedTransaction();
+		
+		void selectAttachment();
+		void openAttachment();
 
 		void newRefund();
 		void newRepayment();

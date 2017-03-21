@@ -3690,6 +3690,44 @@ void Eqonomize::editSelectedTransaction() {
 	if(!w) return;
 	w->editTransaction();
 }
+void Eqonomize::selectAttachment() {
+	TransactionListWidget *w = NULL;
+	if(tabs->currentIndex() == ACCOUNTS_PAGE_INDEX) return;
+	else if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
+	else if(tabs->currentIndex() == SECURITIES_PAGE_INDEX) return;
+	else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
+		ScheduleListViewItem *i = (ScheduleListViewItem*) selectedItem(scheduleView);
+		if(i == NULL) return;
+		QString url = QFileDialog::getOpenFileName(this, QString(), i->scheduledTransaction()->attachment().isEmpty() ? last_attachment_directory : i->scheduledTransaction()->attachment());
+		if(!url.isEmpty()) {
+			QFileInfo fileInfo(url);
+			last_attachment_directory = fileInfo.absoluteDir().absolutePath();
+			i->scheduledTransaction()->setAttachment(url);
+			ActionOpenAttachment->setEnabled(true);
+		}
+		return;
+	}
+	if(!w) return;
+	w->selectAttachment();
+}
+void Eqonomize::openAttachment() {
+	TransactionListWidget *w = NULL;
+	if(tabs->currentIndex() == ACCOUNTS_PAGE_INDEX) return;
+	else if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
+	else if(tabs->currentIndex() == SECURITIES_PAGE_INDEX) return;
+	else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
+		ScheduleListViewItem *i = (ScheduleListViewItem*) selectedItem(scheduleView);
+		if(i == NULL) return;
+		QDesktopServices::openUrl(QUrl::fromLocalFile(i->scheduledTransaction()->attachment()));
+		return;
+	}
+	if(!w) return;
+	w->openAttachment();
+}
 void Eqonomize::deleteSelectedScheduledTransaction() {
 	TransactionListWidget *w = NULL;
 	if(tabs->currentIndex() == ACCOUNTS_PAGE_INDEX) return;
@@ -3757,17 +3795,16 @@ void Eqonomize::onPageChange(int index) {
 }
 void Eqonomize::updateTransactionActions() {
 	TransactionListWidget *w = NULL;
-	bool b_transaction = false, b_scheduledtransaction = false;
-	if(tabs->currentIndex() == ACCOUNTS_PAGE_INDEX) {b_transaction = false; b_scheduledtransaction = false;}
-	else if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	bool b_transaction = false, b_scheduledtransaction = false, b_attachment = false;
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
 	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
 	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
-	else if(tabs->currentIndex() == SECURITIES_PAGE_INDEX) {b_transaction = false; b_scheduledtransaction = false;}
 	else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
 		ScheduleListViewItem *i = (ScheduleListViewItem*) selectedItem(scheduleView);
 		b_transaction = i && !i->scheduledTransaction()->isOneTimeTransaction();
+		b_attachment = i && !i->scheduledTransaction()->attachment().isEmpty();
 		b_scheduledtransaction = (i != NULL);
-	}
+	} else {}
 	if(w) {
 		w->updateTransactionActions();
 	} else {
@@ -3777,6 +3814,8 @@ void Eqonomize::updateTransactionActions() {
 		ActionDeleteSplitTransaction->setEnabled(false);
 		ActionEditTransaction->setEnabled(b_transaction);
 		ActionDeleteTransaction->setEnabled(b_transaction);
+		ActionSelectAttachment->setEnabled(b_transaction);
+		ActionOpenAttachment->setEnabled(b_attachment);
 		ActionEditScheduledTransaction->setEnabled(b_scheduledtransaction);
 		ActionDeleteScheduledTransaction->setEnabled(b_scheduledtransaction);
 		ActionNewRefund->setEnabled(false);
@@ -5369,6 +5408,9 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionJoinTransactions, tr("Join Transactions…"), "eqz-join-transactions", 0, this, SLOT(joinSelectedTransactions()), "join_transactions", transactionsMenu);
 	NEW_ACTION(ActionSplitUpTransaction, tr("Split Up Transaction"), "eqz-split-transaction", 0, this, SLOT(splitUpSelectedTransaction()), "split_up_transaction", transactionsMenu);
 	transactionsMenu->addSeparator();
+	NEW_ACTION(ActionSelectAttachment, tr("Select Attachment"), "file-properties", 0, this, SLOT(selectAttachment()), "select_attachment", transactionsMenu);
+	NEW_ACTION(ActionOpenAttachment, tr("Open Attachment"), "file-open", 0, this, SLOT(openAttachment()), "open_attachment", transactionsMenu);
+	transactionsMenu->addSeparator();
 	NEW_ACTION(ActionDeleteTransaction, tr("Remove Transaction(s) (Occurrence)"), "edit-delete", 0, this, SLOT(deleteSelectedTransaction()), "delete_transaction", transactionsMenu);
 	NEW_ACTION_NOMENU(ActionDeleteOccurrence, tr("Remove Occurrence"), "edit-delete", 0, this, SLOT(removeOccurrence()), "delete_occurrence");
 	NEW_ACTION(ActionDeleteScheduledTransaction, tr("Delete Schedule (Recurrence)"), "edit-delete", 0, this, SLOT(deleteSelectedScheduledTransaction()), "delete_scheduled_transaction", transactionsMenu);
@@ -5451,6 +5493,8 @@ void Eqonomize::setupActions() {
 	ActionDeleteTransaction->setEnabled(false);
 	ActionEditSplitTransaction->setEnabled(false);
 	ActionDeleteSplitTransaction->setEnabled(false);
+	ActionSelectAttachment->setEnabled(false);
+	ActionOpenAttachment->setEnabled(false);
 	ActionJoinTransactions->setEnabled(false);
 	ActionSplitUpTransaction->setEnabled(false);
 	ActionEditScheduledTransaction->setEnabled(false);
