@@ -1875,6 +1875,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QStringList accountsViewHeaders;
 	accountsViewHeaders << tr("Account / Category");
 	accountsViewHeaders << tr("Remaining Budget");
+	//: Noun, how much the account balance has changed
 	accountsViewHeaders << tr("Change");
 	accountsViewHeaders << tr("Total");
 	accountsView->setHeaderLabels(accountsViewHeaders);
@@ -4938,6 +4939,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t\t<tr>" << '\n';
 			outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Name")) << "</th>";
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Type")) << "</th>";
+			//: Noun, how much the account balance has changed
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change"));
 			bool includes_budget = (to_date > QDate::currentDate() && (expenses_budget >= 0.0 || incomes_budget >= 0.0));
 			outf << "</th>";
@@ -4989,6 +4991,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t\t<tr>" << '\n';
 			outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Name")) << "</th>";
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Type")) << "</th>";
+			//: Noun, how much the account balance has changed
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change"));
 			outf << "</th>";
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Balance", "Noun. Balance of an account"));
@@ -5038,6 +5041,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Category")) << "</th>";
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Budget")) << "</th>";
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Remaining Budget")) << "</th>";
+			//: Noun, how much the account balance has changed
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change")) << "</th>" << '\n';
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Total Incomes")) << "</th>" << '\n';
 			outf << "\t\t\t\t</tr>" << '\n';
@@ -5086,6 +5090,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Category")) << "</th>";
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Budget")) << "</th>";
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Remaining Budget")) << "</th>";
+			//: Noun, how much the account balance has changed
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change")) << "</th>" << '\n';
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Total Expenses")) << "</th>" << '\n';
 			outf << "\t\t\t\t</tr>" << '\n';
@@ -5137,6 +5142,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 		}
 		case 'c': {
 			//outf.setEncoding(Q3TextStream::Locale);
+			//: Noun, how much the account balance has changed
 			outf << "\"" << tr("Account/Category") << "\",\"" << tr("Change") << "\",\"" << tr("Value") << "\"\n";
 			Account *account = budget->assetsAccounts.first();
 			while(account) {
