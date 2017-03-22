@@ -2252,16 +2252,24 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	
 
 	QTimer *scheduleTimer = new QTimer();
+	scheduleTimer->setTimerType(Qt::VeryCoarseTimer);
 	connect(scheduleTimer, SIGNAL(timeout()), this, SLOT(checkSchedule()));
 	scheduleTimer->start(1000 * 60 * 30);
+	
+	QTimer *updateExchangeRatesTimer = new QTimer();
+	updateExchangeRatesTimer->setTimerType(Qt::VeryCoarseTimer);
+	connect(scheduleTimer, SIGNAL(timeout()), this, SLOT(checkExchangeRatesTimeOut()));
+	updateExchangeRatesTimer->start(1000 * 60 * 60 * 6);
 
 	auto_save_timeout = true;
 
 	QTimer *autoSaveTimer = new QTimer();
+	autoSaveTimer->setTimerType(Qt::VeryCoarseTimer);
 	connect(autoSaveTimer, SIGNAL(timeout()), this, SLOT(onAutoSaveTimeout()));
 	autoSaveTimer->start(1000 * 60 * 1);
 
 	QTimer *dateTimer = new QTimer();
+	dateTimer->setTimerType(Qt::VeryCoarseTimer);
 	connect(dateTimer, SIGNAL(timeout()), this, SLOT(checkDate()));
 	dateTimer->start(1000 * 60);
 	
@@ -4314,16 +4322,7 @@ void Eqonomize::openURL(const QUrl& url) {
 	while(acc) {
 		if(acc->currency() != NULL && acc->currency() != cur && (acc->currency() == budget->currency_euro || acc->currency()->exchangeRateSource() != EXCHANGE_RATE_SOURCE_NONE)) {
 			if(cur) {
-				settings.beginGroup("GeneralOptions");		
-				QDate last_update = QDate::fromString(settings.value("lastExchangeRatesUpdate").toString(), Qt::ISODate);
-				QDate last_update_try = QDate::fromString(settings.value("lastExchangeRatesUpdateTry").toString(), Qt::ISODate);
-				settings.endGroup();
-				QDate curdate = QDate::currentDate();
-				if(!last_update_try.isValid() || curdate > last_update_try) {
-					if(!last_update.isValid() || curdate >= last_update.addDays(7)) {
-						updateExchangeRates(false);
-					}
-				}
+				if(timeToUpdateExchangeRates()) updateExchangeRates(false);
 				break;
 			}
 			cur = acc->currency();
@@ -4430,6 +4429,35 @@ void Eqonomize::exportQIF() {
 	exportQIFFile(budget, this, b_extra);
 }
 
+void Eqonomize::checkExchangeRatesTimeOut() {
+	Currency *cur = budget->defaultCurrency();
+	if(cur != budget->currency_euro && cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_NONE) cur = NULL;
+	AssetsAccount *acc = budget->assetsAccounts.first();
+	while(acc) {
+		if(acc->currency() != NULL && acc->currency() != cur && (acc->currency() == budget->currency_euro || acc->currency()->exchangeRateSource() != EXCHANGE_RATE_SOURCE_NONE)) {
+			if(cur) {
+				if(timeToUpdateExchangeRates()) updateExchangeRates(true);
+				break;
+			}
+			cur = acc->currency();
+		}
+		acc = budget->assetsAccounts.next();
+	}
+}
+bool Eqonomize::timeToUpdateExchangeRates() {
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	QDate last_update = QDate::fromString(settings.value("lastExchangeRatesUpdate").toString(), Qt::ISODate);
+	QDate last_update_try = QDate::fromString(settings.value("lastExchangeRatesUpdateTry").toString(), Qt::ISODate);
+	settings.endGroup();
+	QDate curdate = QDate::currentDate();
+	if(!last_update_try.isValid() || curdate > last_update_try) {
+		if(!last_update.isValid() || curdate >= last_update.addDays(7)) {
+			return true;
+		}
+	}
+	return false;
+}
 void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
 	updateExchangeRatesProgressDialog = new QProgressDialog(tr("Updating exchange rates…"), tr("Abort"), 0, 1, this);
 	updateExchangeRatesProgressDialog->setWindowModality(Qt::WindowModal);
@@ -4437,7 +4465,7 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
 	connect(updateExchangeRatesProgressDialog, SIGNAL(canceled()), this, SLOT(cancelUpdateExchangeRates()));
 	updateExchangeRatesProgressDialog->setValue(0);
 	updateExchangeRatesReply = nam.get(QNetworkRequest(QUrl("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml")));
-	if(do_currencies_modified) {
+	if(do_currencies_modified && budget->usesMultipleCurrencies()) {
 		connect(updateExchangeRatesReply, SIGNAL(finished()), this, SLOT(ECBDataDownloaded_true()));
 	} else {
 		connect(updateExchangeRatesReply, SIGNAL(finished()), this, SLOT(ECBDataDownloaded_false()));
@@ -4466,12 +4494,18 @@ void Eqonomize::ECBDataDownloaded(bool do_currencies_modified) {
 		} else {
 			settings.setValue("lastExchangeRatesUpdate", QDate::currentDate().toString(Qt::ISODate));
 			budget->saveCurrencies();
-			if(do_currencies_modified) currenciesModified();
+			if(do_currencies_modified) {
+				currenciesModified();
+			} else {
+				if(currencyConversionWindow && currencyConversionWindow->isVisible()) {
+					currencyConversionWindow->convertFrom();
+				}
+			}
 			updateExchangeRatesProgressDialog->setValue(1);
 		}
 	}
 	settings.setValue("lastExchangeRatesUpdateTry", QDate::currentDate().toString(Qt::ISODate));
-	settings.endGroup();	
+	settings.endGroup();
 	updateExchangeRatesProgressDialog->deleteLater();
 	updateExchangeRatesReply->deleteLater();
 }
@@ -4619,6 +4653,9 @@ void Eqonomize::updateUsesMultipleCurrencies() {
 	expensesWidget->useMultipleCurrencies(b);
 }
 void Eqonomize::openCurrencyConversion() {
+	if(timeToUpdateExchangeRates()) {
+		updateExchangeRates(true);
+	}
 	if(!currencyConversionWindow) {
 		currencyConversionWindow = new CurrencyConversionDialog(budget, this);
 	}

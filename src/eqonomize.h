@@ -176,6 +176,7 @@ class Eqonomize : public QMainWindow {
 		bool newRefundRepayment(Transactions *trans);
 		void readOptions();
 		void setCommandLineParser(QCommandLineParser*);
+		bool timeToUpdateExchangeRates();
 
 		QAction *ActionAP_1, *ActionAP_2, *ActionAP_3, *ActionAP_4, *ActionAP_5, *ActionAP_6, *ActionAP_7, *ActionAP_8;
 		QAction *ActionEditSchedule, *ActionEditOccurrence, *ActionDeleteSchedule, *ActionDeleteOccurrence;
@@ -300,6 +301,7 @@ class Eqonomize : public QMainWindow {
 		void importQIF();
 		void exportQIF();
 		
+		void checkExchangeRatesTimeOut();
 		void updateExchangeRates(bool do_currencies_modified = true);
 		void ECBDataDownloaded_false();
 		void ECBDataDownloaded_true();
