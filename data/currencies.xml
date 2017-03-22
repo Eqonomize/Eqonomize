@@ -15,7 +15,7 @@
 	<currency code="DKK" symbol="kr" name="Danish Krone" source="ECB">
 		<rate value="7.4331" date="2017-03-10"/>
 	</currency>
-	<currency code="GBP" symbol="&#xA5;" name="British Pound" source="ECB">
+	<currency code="GBP" symbol="&#xA3;" name="British Pound" source="ECB">
 		<rate value="0.87250" date="2017-03-10"/>
 	</currency>
 	<currency code="HUF" symbol="Ft" name="Hungarian Forint" source="ECB">
