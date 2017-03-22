@@ -1910,13 +1910,13 @@ void OverTimeChart::updateDisplay() {
 			}
 			QVector<chart_month_info>::iterator it = monthly_cats[ass].begin();
 			QVector<chart_month_info>::iterator it_e = monthly_cats[ass].end();
-			double acc_total = ass->currency()->convertTo(ass->initialBalance(false), budget->defaultCurrency(), it->date);
+			double acc_total = ass->initialBalance(false);
 			chart_month_info initial_cmi;
 			initial_cmi.date = it->date;
-			initial_cmi.value = acc_total;
+			initial_cmi.value = ass->currency()->convertTo(acc_total, budget->defaultCurrency(), it->date);
 			while(true) {
-				acc_total += ass->currency()->convertTo(it->value, budget->defaultCurrency(), it->date);
-				it->value = acc_total;
+				acc_total += it->value;
+				it->value = ass->currency()->convertTo(acc_total, budget->defaultCurrency(), it->date);
 				QVector<chart_month_info>::iterator it_next = it;
 				++it_next;
 				if(it_next == it_e) {
