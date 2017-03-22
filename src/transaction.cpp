@@ -26,6 +26,8 @@
 #include <QXmlStreamWriter>
 #include <QXmlStreamAttribute>
 
+#include <QDebug>
+
 #include "account.h"
 #include "budget.h"
 #include "recurrence.h"
@@ -1702,8 +1704,8 @@ DebtPayment::DebtPayment(Budget *parent_budget, QXmlStreamReader *xml, bool *val
 }
 DebtPayment::DebtPayment(const DebtPayment *split) : SplitTransaction(split), o_loan(split->loan()), o_fee(NULL), o_interest(NULL), o_payment(NULL), o_account(split->account()) {
 	if(split->fee() != 0.0) setFee(split->fee());
-	if(split->interest() != 0.0) setInterest(split->interest());
-	if(split->payment() != 0.0) setPayment(split->payment());
+	if(split->interest() != 0.0) setInterest(split->interest(), split->interestPayed());
+	if(split->payment() != 0.0) setPayment(split->payment(), split->reduction());
 	setExpenseCategory(split->expenseCategory());
 }
 DebtPayment::DebtPayment(Budget *parent_budget) : SplitTransaction(parent_budget), o_loan(NULL), o_fee(NULL), o_interest(NULL), o_payment(NULL), o_account(NULL) {}
