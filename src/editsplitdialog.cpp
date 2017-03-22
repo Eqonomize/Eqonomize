@@ -801,7 +801,7 @@ void EditMultiAccountWidget::updateTotalValue() {
 		++it2;
 		i = *it2;
 	}	
-	totalLabel->setText(QString("<div align=\"left\"><b>%1</b> %2</div>").arg(tr("Total value:"), cur->formatValue(total_value)));
+	totalLabel->setText(QString("<div align=\"left\"><b>%1</b> %2</div>").arg(tr("Total cost:"), cur->formatValue(total_value)));
 }
 CategoryAccount *EditMultiAccountWidget::selectedCategory() {
 	return (CategoryAccount*) categoryCombo->currentAccount();
