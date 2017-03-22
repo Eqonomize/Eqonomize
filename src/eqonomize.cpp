@@ -7882,8 +7882,10 @@ void Eqonomize::filterAccounts() {
 		} else {
 			account_value[aaccount] = aaccount->initialBalance();
 			account_change[aaccount] = 0.0;
-			if(IS_DEBT(aaccount)) liabilities_accounts_value += aaccount->initialBalance();
-			else assets_accounts_value += aaccount->initialBalance();
+			if(aaccount->currency()) {
+				if(IS_DEBT(aaccount)) liabilities_accounts_value += aaccount->currency()->convertTo(account_value[aaccount], budget->defaultCurrency(), to_date);
+				else assets_accounts_value += aaccount->currency()->convertTo(account_value[aaccount], budget->defaultCurrency(), to_date);
+			}
 		}
 		aaccount = budget->assetsAccounts.next();
 	}	
