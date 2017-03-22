@@ -784,10 +784,10 @@ void EditMultiAccountWidget::updateTotalValue() {
 	Currency *cur = NULL;
 	while(i) {
 		Transaction *trans = ((MultiAccountListViewItem*) i)->transaction();
-		if(!cur || trans->currency() == budget->defaultCurrency() || trans->value() > highest_value) {
+		if(!cur || trans->currency() == budget->defaultCurrency() || trans->value(true) > highest_value) {
 			cur = trans->currency();
 			if(cur == budget->defaultCurrency()) break;
-			highest_value = trans->value();
+			highest_value = trans->value(true);
 		}
 		++it;
 		i = *it;
@@ -1241,40 +1241,47 @@ void EditDebtPaymentWidget::interestSourceChanged() {
 
 void EditDebtPaymentWidget::updateTotalValue() {
 	if(!totalLabel) return;
-	double value = 0.0;
+	double value = 0.0, v1 = 0.0, v2 = 0.0, v3 = 0.0;
 	Currency *cur = budget->defaultCurrency();
-	Currency *cur1 = NULL;
-	if(selectedLoan()) cur1 = selectedLoan()->currency();
-	Currency *cur2 = NULL;	
-	if(selectedAccount()) cur2 = selectedAccount()->currency();
-	bool payed_interest = payedInterestButton && payedInterestButton->isChecked();
-	if(!cur2 && cur1) {
-		cur = cur1;
-	} else if(cur2) {
-		bool b1 = feeEdit && feeEdit->value() != 0.0;
-		bool b2 = interestEdit && interestEdit->value() != 0.0;
-		bool b3 = paymentEdit && paymentEdit->value() != 0.0;
-		if(b1 || b3 || (b2 && payed_interest)) cur = cur2;
-		else if(cur1) cur = cur1;
-	}
+	Currency *cur3 = cur;
 	QDate date;
 	if(dateEdit) date = dateEdit->date();
 	if(!date.isValid()) date = QDate::currentDate();
+	if((!feeEdit || feeEdit->currency() != cur) && (!interestEdit || interestEdit->currency() != cur) && (!paymentEdit || paymentEdit->currency() != cur) && (!reductionEdit || reductionEdit->currency() != cur)) {
+		if(feeEdit && feeEdit->currency()) feeEdit->currency()->convertTo(feeEdit->value(), cur, date);
+		if(interestEdit && interestEdit->currency()) {
+			v2 = interestEdit->currency()->convertTo(interestEdit->value(), cur, date);
+			if(feeEdit && feeEdit->currency() == interestEdit->currency()) v1 += v2;
+		}
+		if(paymentEdit && paymentEdit->currency() && (paymentEdit->value() > 0.0 || (!reductionEdit || !reductionEdit->currency() || reductionEdit->value() <= 0.0))) {
+			cur3 = paymentEdit->currency();
+			v3 = cur3->convertTo(paymentEdit->value(), cur, date);
+			if(feeEdit && feeEdit->currency() == paymentEdit->currency()) v1 += v3;
+			else if(interestEdit && interestEdit->currency() == paymentEdit->currency()) v2 += v3;
+		} else if(reductionEdit && reductionEdit->currency()) {
+			cur3 = reductionEdit->currency();
+			v3 = cur3->convertTo(reductionEdit->value(), cur, date);
+			if(feeEdit && feeEdit->currency() == reductionEdit->currency()) v1 += v3;
+			else if(interestEdit && interestEdit->currency() == reductionEdit->currency()) v2 += v3;
+		}
+		if(v3 >= v1 && v3 >= v2 && cur3) {
+			cur = cur3;
+		} else if(v2 >= v1 && interestEdit && interestEdit->currency()) {
+			cur = interestEdit->currency();
+		} else if(v1 > 0.0 && feeEdit && feeEdit->currency()) {
+			cur = feeEdit->currency();
+		}
+	}
 	if(feeEdit) {
-		if(cur2 && cur2 != cur) value += cur2->convertTo(feeEdit->value(), cur, date);
-		else value += feeEdit->value();
+		value += feeEdit->currency()->convertTo(feeEdit->value(), cur, date);
 	}
 	if(interestEdit) {
-		if(payed_interest && cur2 && cur2 != cur) value += cur2->convertTo(interestEdit->value(), cur, date);
-		else if(!payed_interest && cur1 && cur1 != cur) value += cur1->convertTo(interestEdit->value(), cur, date);
-		else value += interestEdit->value();
+		value += interestEdit->currency()->convertTo(interestEdit->value(), cur, date);
 	}
-	if((cur2 || !cur1) && paymentEdit && paymentEdit->value() != 0.0) {
-		if(cur2 && cur2 != cur) value += cur2->convertTo(paymentEdit->value(), cur, date);
-		else value += paymentEdit->value();
-	} else if(reductionEdit) {
-		if(cur1 && cur1 != cur) value += cur1->convertTo(reductionEdit->value(), cur, date);
-		else value += reductionEdit->value();
+	if(paymentEdit && paymentEdit->currency() && (paymentEdit->value() > 0.0 || (!reductionEdit || !reductionEdit->currency() || reductionEdit->value() <= 0.0))) {
+		value += cur3->convertTo(paymentEdit->value(), cur, date);
+	} else if(reductionEdit && reductionEdit->currency()) {
+		value += cur3->convertTo(reductionEdit->value(), cur, date);
 	}
 	totalLabel->setText(QString("<div align=\"right\"><b>%1</b> %2</div>").arg(tr("Total value:"), cur->formatValue(value)));
 }
@@ -1317,7 +1324,11 @@ void EditDebtPaymentWidget::setTransaction(DebtPayment *split) {
 	if(payedInterestButton && split->interestPayed()) payedInterestButton->setChecked(true);
 	else if(addedInterestButton) addedInterestButton->setChecked(true);
 	if(feeEdit) feeEdit->setValue(split->fee());
+	if(reductionEdit) reductionEdit->setCurrency(split->loan()->currency());
+	if((!addedInterestButton || addedInterestButton->isChecked()) && interestEdit) interestEdit->setCurrency(split->loan()->currency());
+	accountChanged();
 	valueChanged();
+	interestSourceChanged();
 	emit dateChanged(split->date());
 }
 void EditDebtPaymentWidget::setTransaction(DebtPayment *split, const QDate &date) {

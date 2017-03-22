@@ -4168,105 +4168,105 @@ Conferma che è veramente occorsa (o che occorrerà oggi).</translation>
 <context>
     <name>EditDebtPaymentWidget</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="995"/>
+        <location filename="../src/editsplitdialog.cpp" line="1006"/>
         <source>Debt:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1000"/>
+        <location filename="../src/editsplitdialog.cpp" line="1011"/>
         <source>Date:</source>
         <translation type="unfinished">Data:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1009"/>
+        <location filename="../src/editsplitdialog.cpp" line="1020"/>
         <source>Debt reduction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1012"/>
+        <location filename="../src/editsplitdialog.cpp" line="1023"/>
         <source>Reduction payment:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1022"/>
+        <location filename="../src/editsplitdialog.cpp" line="1033"/>
         <source>Interest:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1035"/>
+        <location filename="../src/editsplitdialog.cpp" line="1046"/>
         <source>Payed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1037"/>
+        <location filename="../src/editsplitdialog.cpp" line="1048"/>
         <source>Added to debt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1042"/>
+        <location filename="../src/editsplitdialog.cpp" line="1053"/>
         <source>Fee:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1049"/>
+        <location filename="../src/editsplitdialog.cpp" line="1060"/>
         <source>Account:</source>
         <translation type="unfinished">Conto:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1055"/>
+        <location filename="../src/editsplitdialog.cpp" line="1066"/>
         <source>Expense category:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1064"/>
+        <location filename="../src/editsplitdialog.cpp" line="1075"/>
         <source>Associated file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1072"/>
+        <location filename="../src/editsplitdialog.cpp" line="1083"/>
         <source>Select a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1076"/>
+        <location filename="../src/editsplitdialog.cpp" line="1087"/>
         <source>Open the file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1084"/>
+        <location filename="../src/editsplitdialog.cpp" line="1095"/>
         <source>Comments:</source>
         <translation type="unfinished">Commenti:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1268"/>
+        <location filename="../src/editsplitdialog.cpp" line="1286"/>
         <source>Total value:</source>
         <translation type="unfinished">Valore totale:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1323"/>
-        <location filename="../src/editsplitdialog.cpp" line="1331"/>
-        <location filename="../src/editsplitdialog.cpp" line="1336"/>
-        <location filename="../src/editsplitdialog.cpp" line="1339"/>
+        <location filename="../src/editsplitdialog.cpp" line="1345"/>
+        <location filename="../src/editsplitdialog.cpp" line="1353"/>
+        <location filename="../src/editsplitdialog.cpp" line="1358"/>
+        <location filename="../src/editsplitdialog.cpp" line="1361"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1323"/>
+        <location filename="../src/editsplitdialog.cpp" line="1345"/>
         <source>No suitable account available.</source>
         <translation type="unfinished">Nessun conto adeguato è disponibile.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1331"/>
+        <location filename="../src/editsplitdialog.cpp" line="1353"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Data non valida.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1336"/>
+        <location filename="../src/editsplitdialog.cpp" line="1358"/>
         <source>Interest must not be zero.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1339"/>
+        <location filename="../src/editsplitdialog.cpp" line="1361"/>
         <source>At least one value must non-zero.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4509,6 +4509,11 @@ Conferma che è veramente occorsa (o che occorrerà oggi).</translation>
         <translation type="unfinished">Entrata</translation>
     </message>
     <message>
+        <location filename="../src/editsplitdialog.cpp" line="804"/>
+        <source>Total cost:</source>
+        <translation type="unfinished">Totale dei costi:</translation>
+    </message>
+    <message>
         <source>Value</source>
         <translation type="obsolete">Valore</translation>
     </message>
@@ -4528,23 +4533,22 @@ Conferma che è veramente occorsa (o che occorrerà oggi).</translation>
         <translation type="unfinished">Elimina</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="793"/>
         <source>Total value:</source>
-        <translation type="unfinished">Valore totale:</translation>
+        <translation type="obsolete">Valore totale:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="970"/>
-        <location filename="../src/editsplitdialog.cpp" line="978"/>
+        <location filename="../src/editsplitdialog.cpp" line="981"/>
+        <location filename="../src/editsplitdialog.cpp" line="989"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="970"/>
+        <location filename="../src/editsplitdialog.cpp" line="981"/>
         <source>No suitable expense categories available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="978"/>
+        <location filename="../src/editsplitdialog.cpp" line="989"/>
         <source>A split must contain at least two transactions.</source>
         <translation type="unfinished">Una suddivisione deve contenere almeno due transazioni.</translation>
     </message>
@@ -4911,13 +4915,13 @@ Conferma che è veramente occorsa (o che occorrerà oggi).</translation>
         <translation type="unfinished">Ricorrenza</translation>
     </message>
     <message>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="489"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="498"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="508"/>
         <source>Edit Debt Payment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="498"/>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="508"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="489"/>
         <source>New Debt Payment</source>
         <translation type="unfinished"></translation>
     </message>

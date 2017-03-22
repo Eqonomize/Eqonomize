@@ -160,6 +160,7 @@ void EqonomizeValueEdit::setCurrency(Currency *currency, bool keep_precision, in
 	}
 
 }
+Currency *EqonomizeValueEdit::currency() {return o_currency;}
 QValidator::State EqonomizeValueEdit::validate(QString &input, int &pos) const {
 	QValidator::State s = QDoubleSpinBox::validate(input, pos);
 	if(s == QValidator::Invalid && (pos == 0 || (input[pos - 1] != '[' && input[pos - 1] != ']' && input[pos - 1] != '(' && input[pos - 1] != ')' && input[pos - 1] != ' '))) return QValidator::Intermediate;
