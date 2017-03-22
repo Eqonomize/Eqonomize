@@ -778,18 +778,29 @@ void EditMultiAccountWidget::newCategory() {
 }
 
 void EditMultiAccountWidget::updateTotalValue() {
-	double total_value = 0.0;
+	double total_value = 0.0, highest_value = 0.0;
 	QTreeWidgetItemIterator it(transactionsView);
 	QTreeWidgetItem *i = *it;
 	Currency *cur = NULL;
 	while(i) {
 		Transaction *trans = ((MultiAccountListViewItem*) i)->transaction();
-		if(!cur || trans->currency() == budget->defaultCurrency()) cur = trans->currency();
-		if(trans) total_value += trans->value();
+		if(!cur || trans->currency() == budget->defaultCurrency() || trans->value() > highest_value) {
+			cur = trans->currency();
+			if(cur == budget->defaultCurrency()) break;
+			highest_value = trans->value();
+		}
 		++it;
 		i = *it;
 	}
 	if(!cur) cur = budget->defaultCurrency();
+	QTreeWidgetItemIterator it2(transactionsView);
+	i = *it2;
+	while(i) {
+		Transaction *trans = ((MultiAccountListViewItem*) i)->transaction();
+		if(trans) total_value += trans->currency()->convertTo(trans->value(), cur, trans->date());
+		++it2;
+		i = *it2;
+	}	
 	totalLabel->setText(QString("<div align=\"left\"><b>%1</b> %2</div>").arg(tr("Total value:"), cur->formatValue(total_value)));
 }
 CategoryAccount *EditMultiAccountWidget::selectedCategory() {
