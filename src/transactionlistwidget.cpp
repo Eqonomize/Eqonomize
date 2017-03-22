@@ -242,7 +242,7 @@ void TransactionListWidget::openAssociatedFile() {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
 		Transactions *transs = i->transaction();
 		if(i->splitTransaction()) transs = i->splitTransaction();
-		else if(i->transaction()->parentSplit()) transs = i->transaction()->parentSplit();
+		else if(i->transaction()->parentSplit() && transs->associatedFile().isEmpty()) transs = i->transaction()->parentSplit();
 		if(transs) {
 			QDesktopServices::openUrl(QUrl::fromLocalFile(transs->associatedFile()));
 		}
@@ -1095,12 +1095,14 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 			i->setText(to_col, trans->toAccount()->name());
 			if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_EXPENSE) i->setText(5, ((Expense*) trans)->payee());
 			else if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_INCOME) i->setText(5, ((Income*) trans)->payer());
+			if(trans->parentSplit() && trans->comment().isEmpty()) i->setText(comments_col, trans->parentSplit()->comment());
+			else i->setText(comments_col, trans->comment());
 		} else if(split) {
 			i->setText(3, split->category()->name());
 			i->setText(4, split->accountsString());
 			if(comments_col == 6) i->setText(5, split->payees());
-		}
-		i->setText(comments_col, transs->comment());
+			i->setText(comments_col, transs->comment());
+		}		
 		current_value += transs->value(true);
 		current_quantity += transs->quantity();
 		if(strans && !strans->isOneTimeTransaction()) date = strans->recurrence()->nextOccurrence(date);
@@ -1195,7 +1197,8 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 					i->setText(to_col, trans->toAccount()->name());
 					if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_EXPENSE) i->setText(5, ((Expense*) trans)->payee());
 					else if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_INCOME) i->setText(5, ((Income*) trans)->payer());
-					i->setText(comments_col, trans->comment());
+					if(trans->parentSplit() && trans->comment().isEmpty()) i->setText(comments_col, trans->parentSplit()->comment());
+					else i->setText(comments_col, trans->comment());
 				}
 				updateStatistics();
 			}
@@ -1524,10 +1527,13 @@ void TransactionListWidget::updateTransactionActions() {
 		repayable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && i->transaction()->value() > 0.0 && !((Income*) i->transaction())->security()));
 		if(i->splitTransaction()) {
 			b_attachment = !i->splitTransaction()->associatedFile().isEmpty();
-		} else if(b_split) {
-			b_attachment = !i->transaction()->parentSplit()->associatedFile().isEmpty();
-		} else if(i->transaction()) {
-			b_attachment = !i->transaction()->associatedFile().isEmpty();
+		} else {
+			if(b_split) {
+				b_attachment = !i->transaction()->parentSplit()->associatedFile().isEmpty();
+			}
+			if(!b_attachment && i->transaction()) {
+				b_attachment = !i->transaction()->associatedFile().isEmpty();
+			}
 		}
 		b_select = true;
 	} else if(selection.count() > 1) {
