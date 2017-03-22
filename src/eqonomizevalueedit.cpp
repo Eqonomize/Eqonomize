@@ -29,6 +29,7 @@
 #include <cmath>
 #include <cfloat>
 
+#include <QLineEdit>
 #include <QDebug>
 
 #define MAX_VALUE 1000000000000.0
@@ -91,6 +92,37 @@ void EqonomizeValueEdit::setPrecision(int precision) {
 	if(precision == i_precision) return;
 	i_precision = precision;
 	setDecimals(precision);
+}
+void EqonomizeValueEdit::selectNumber() {
+	if(s_prefix.isEmpty() && s_suffix.isEmpty()) {
+		selectAll();
+		return;
+	}
+	QLineEdit *w = findChild<QLineEdit*>();
+	if(w) {
+		QString text = w->text();
+		int start = 0;
+		int end = text.length();
+		if(!s_prefix.isEmpty() && text.startsWith(s_prefix)) {
+			start = s_prefix.length();
+		}
+		if(!s_suffix.isEmpty() && text.endsWith(QString(" ") + s_suffix)) {
+			end -= (s_suffix.length() + 1);
+		}		
+		w->setSelection(end, start - end);
+	}
+}
+void EqonomizeValueEdit::focusInEvent(QFocusEvent *e) {
+	if(e->reason() == Qt::TabFocusReason || e->reason() == Qt::BacktabFocusReason) {
+		QDoubleSpinBox::focusInEvent(e);
+		selectNumber();
+	} else {
+		QDoubleSpinBox::focusInEvent(e);
+	}
+	
+}
+void EqonomizeValueEdit::enterFocus() {
+	setFocus(Qt::TabFocusReason);
 }
 void EqonomizeValueEdit::setCurrency(Currency *currency, bool keep_precision, int as_default, bool is_temporary) {
 
@@ -226,7 +258,7 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 		if(i >= 1) {
 			QString scur = str.left(i).trimmed();
 			if(scur == s_prefix) {
-				input = str.right(str.length() - i);
+				input = str.right(str.length() - i).trimmed();
 				QDoubleSpinBox::fixup(input);
 				return;
 			}
@@ -251,7 +283,7 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 		if(i >= 0 && i < str.length() - 1) {
 			QString scur = str.right(str.length() - (i + 1)).trimmed();
 			if(scur == s_suffix) {
-				input = str.left(i + 1);
+				input = str.left(i + 1).trimmed();
 				QDoubleSpinBox::fixup(input);
 				return;
 			}

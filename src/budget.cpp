@@ -304,11 +304,9 @@ bool Budget::saveCurrencies() {
 	
 	Currency *currency = currencies.first();
 	while(currency) {
-		if(currency != currency_euro) {
-			xml.writeStartElement("currency");
-			currency->save(&xml, true);
-			xml.writeEndElement();
-		}
+		xml.writeStartElement("currency");
+		currency->save(&xml, true);
+		xml.writeEndElement();
 		currency = currencies.next();
 	}
 	xml.writeEndElement();

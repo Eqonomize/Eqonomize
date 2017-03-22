@@ -35,11 +35,13 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QLocale>
+#include <QRegExpValidator>
 #include <QDebug>
 
 #include "budget.h"
 #include "eqonomizevalueedit.h"
 #include "editcurrencydialog.h"
+
 
 EditCurrencyDialog::EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_set_as_default, QWidget *parent) : QDialog(parent, 0), budget(budg), currency(cur) {
 
@@ -59,6 +61,8 @@ EditCurrencyDialog::EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_
 	if(currency) {
 		codeEdit->setText(currency->code());
 		codeEdit->setEnabled(false);
+	} else {
+		codeEdit->setValidator(new QRegExpValidator(QRegExp("^[^\\d\\s\\.\\,\\+\\-\\*\\^]+$")));
 	}
 	grid->addWidget(codeEdit, row, 1); row++;
 	grid->addWidget(new QLabel(tr("Symbol:"), this), row, 0);
@@ -100,6 +104,7 @@ EditCurrencyDialog::EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_
 	grid->addWidget(rateEdit, row, 1); row++;
 	grid->addWidget(new QLabel(tr("Date:"), this), row, 0);
 	dateEdit = new QDateEdit(this);
+	dateEdit->setCalendarPopup(true);
 	if(currency == budget->currency_euro) dateEdit->setEnabled(false);
 	QDate date;
 	if(currency) date = currency->lastExchangeRateDate();
@@ -142,7 +147,7 @@ void EditCurrencyDialog::currencyChanged() {
 	delete cur;
 }
 Currency *EditCurrencyDialog::createCurrency() {
-	Currency *cur = new Currency(budget, codeEdit->text().trimmed(), symbolEdit->text().trimmed(), nameEdit->text().trimmed(), rateEdit->value(), QDate::currentDate(), decimalsEdit->value(), prefixButton->isChecked() ? 1 : (suffixButton->isChecked() ? 0 : - 1));
+	Currency *cur = new Currency(budget, codeEdit->text().trimmed(), symbolEdit->text().trimmed(), nameEdit->text().trimmed(), rateEdit->value(), (rateEdit->value() == 1.0 && dateEdit->date() == QDate::currentDate()) ? QDate() : dateEdit->date(), decimalsEdit->value(), prefixButton->isChecked() ? 1 : (suffixButton->isChecked() ? 0 : - 1));
 	budget->addCurrency(cur);
 	budget->saveCurrencies();
 	if(defaultButton && defaultButton->isChecked()) budget->setDefaultCurrency(cur);
@@ -151,7 +156,9 @@ Currency *EditCurrencyDialog::createCurrency() {
 void EditCurrencyDialog::modifyCurrency(Currency *cur) {
 	cur->setName(nameEdit->text().trimmed());
 	cur->setSymbol(symbolEdit->text().trimmed());
-	cur->setExchangeRate(rateEdit->value(), dateEdit->date());
+	if(cur != budget->currency_euro && (!cur->rates.isEmpty() || rateEdit->value() != 1.0 || dateEdit->date() != QDate::currentDate())) {
+		cur->setExchangeRate(rateEdit->value(), dateEdit->date());
+	}
 	cur->setFractionalDigits(decimalsEdit->value());
 	if(prefixButton->isChecked()) {
 		cur->setSymbolPrecedes(1);

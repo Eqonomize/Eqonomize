@@ -462,8 +462,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	} else {
 		if(downPaymentEdit) {
 			if(quantityEdit) {
-				connect(downPaymentEdit, SIGNAL(returnPressed()), quantityEdit, SLOT(setFocus()));
-				connect(downPaymentEdit, SIGNAL(returnPressed()), quantityEdit, SLOT(selectAll()));
+				connect(downPaymentEdit, SIGNAL(returnPressed()), quantityEdit, SLOT(enterFocus()));
 				if(dateEdit) {
 					connect(quantityEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 				}
@@ -478,8 +477,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			connect(depositEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 		}
 		if(descriptionEdit) {
-			connect(descriptionEdit, SIGNAL(returnPressed()), valueEdit, SLOT(setFocus()));
-			connect(descriptionEdit, SIGNAL(returnPressed()), valueEdit, SLOT(selectAll()));
+			connect(descriptionEdit, SIGNAL(returnPressed()), valueEdit, SLOT(enterFocus()));
 			connect(descriptionEdit, SIGNAL(editingFinished()), this, SLOT(setDefaultValue()));
 			connect(descriptionEdit, SIGNAL(textChanged(const QString&)), this, SLOT(descriptionChanged(const QString&)));
 		}
@@ -558,14 +556,12 @@ void TransactionEditWidget::useMultipleCurrencies(bool b) {
 }
 void TransactionEditWidget::valueNextField() {
 	if(depositEdit && depositEdit->isEnabled()) {
-		depositEdit->setFocus();
-		depositEdit->selectAll();
+		depositEdit->enterFocus();
 	} else if(sharesEdit) {
 		sharesEdit->setFocus();
 		sharesEdit->selectAll();
 	} else if(downPaymentEdit) {
-		downPaymentEdit->setFocus();
-		downPaymentEdit->selectAll();
+		downPaymentEdit->enterFocus();
 	} else if(quantityEdit) {
 		quantityEdit->setFocus();
 		quantityEdit->selectAll();
