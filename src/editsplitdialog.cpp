@@ -1295,6 +1295,8 @@ DebtPayment *EditDebtPaymentWidget::createTransaction() {
 }
 void EditDebtPaymentWidget::setTransaction(DebtPayment *split) {
 	if(dateEdit) dateEdit->setDate(split->date());
+	if(commentEdit) commentEdit->setText(split->comment());
+	if(fileEdit) fileEdit->setText(split->associatedFile());
 	if(loanCombo) loanCombo->setCurrentIndex(loanCombo->findData(qVariantFromValue((void*) split->loan())));
 	if(accountCombo) accountCombo->setCurrentAccount(split->account());
 	if(categoryCombo && split->expenseCategory()) categoryCombo->setCurrentAccount(split->expenseCategory());
