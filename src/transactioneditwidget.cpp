@@ -680,6 +680,7 @@ void TransactionEditWidget::currencyChanged(int index) {
 }
 void TransactionEditWidget::valueChanged(double value) {
 	if(valueEdit && depositEdit && !depositEdit->isEnabled()) depositEdit->setValue(value);
+	if(valueEdit && commentsEdit && !calculatedText.isEmpty() && commentsEdit->text().isEmpty()) commentsEdit->setText(calculatedText);
 	if(!quotationEdit || !sharesEdit || !valueEdit) return;
 	value_set = true;
 	if(shares_set && !sharevalue_set) {

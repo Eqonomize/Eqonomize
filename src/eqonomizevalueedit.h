@@ -26,6 +26,8 @@
 class Currency;
 class Budget;
 
+extern QString calculatedText;
+
 class EqonomizeValueEdit : public QDoubleSpinBox {
 
 	Q_OBJECT
@@ -60,6 +62,7 @@ class EqonomizeValueEdit : public QDoubleSpinBox {
 		Currency *o_currency;
 		QString s_prefix, s_suffix;
 		
+		bool fixup_sub(QString &input) const;
 		virtual void focusInEvent(QFocusEvent*);
 		
 	public slots:
