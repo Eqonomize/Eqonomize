@@ -35,6 +35,7 @@
 #define MAX_VALUE 1000000000000.0
 
 QString calculatedText;
+const EqonomizeValueEdit *calculatedText_object = NULL;
 
 EqonomizeValueEdit::EqonomizeValueEdit(bool allow_negative, QWidget *parent, Budget *budg) : QDoubleSpinBox(parent), budget(budg) {
 	init(allow_negative ? -MAX_VALUE : 0.0, MAX_VALUE, 1.0, 0.0, -1, true);
@@ -193,8 +194,14 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 		input = input.left(input.length() - s_suffix.length());
 		if(input.isEmpty()) input = "1";
 	}
-	calculatedText = input.trimmed();
-	if(!fixup_sub(input)) calculatedText.clear();
+	QString calculatedText_pre = input.trimmed();
+	if(fixup_sub(input)) {
+		calculatedText = calculatedText_pre;
+		calculatedText_object = this;
+	} else if(calculatedText_object == this) {
+		calculatedText_object = NULL;
+		calculatedText.clear();
+	}
 }
 bool EqonomizeValueEdit::fixup_sub(QString &input) const {
 	QString str = input.trimmed();

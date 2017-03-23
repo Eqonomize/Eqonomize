@@ -26,8 +26,6 @@
 class Currency;
 class Budget;
 
-extern QString calculatedText;
-
 class EqonomizeValueEdit : public QDoubleSpinBox {
 
 	Q_OBJECT
@@ -79,5 +77,7 @@ class EqonomizeValueEdit : public QDoubleSpinBox {
 
 };
 
+extern QString calculatedText;
+extern const EqonomizeValueEdit *calculatedText_object;
 
 #endif
