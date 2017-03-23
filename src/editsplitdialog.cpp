@@ -995,6 +995,8 @@ bool EditMultiAccountWidget::validValues() {
 
 EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, AssetsAccount *default_loan, bool allow_account_creation, bool only_interest) : QWidget(parent), budget(budg), b_create_accounts(allow_account_creation) {
 
+	b_search = true;
+
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 
 	QGridLayout *grid = new QGridLayout();
@@ -1110,12 +1112,17 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 		account = budget->assetsAccounts.next();
 	}
 
+	b_search = true;
 	loanActivated(loanCombo->currentIndex());
 	accountChanged();
 	valueChanged();
 	interestSourceChanged();
+	b_search = true;
 
 	if(dateEdit) connect(dateEdit, SIGNAL(dateChanged(const QDate&)), this, SIGNAL(dateChanged(const QDate&)));
+	if(dateEdit) connect(dateEdit, SIGNAL(dateChanged(const QDate&)), this, SLOT(hasBeenModified()));
+	if(commentEdit) connect(commentEdit, SIGNAL(textEdited(const QString&)), this, SLOT(hasBeenModified()));
+	if(fileEdit) connect(fileEdit, SIGNAL(textChanged(const QString&)), this, SLOT(hasBeenModified()));
 	if(feeEdit) connect(feeEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
 	if(paymentEdit) connect(paymentEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
 	if(reductionEdit) connect(reductionEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
@@ -1152,72 +1159,61 @@ void EditDebtPaymentWidget::newCategory() {
 	categoryCombo->createAccount();
 }
 void EditDebtPaymentWidget::accountChanged() {
-	Account *acc = selectedAccount();
-	if(!acc) return;
-	if(feeEdit) feeEdit->setCurrency(acc->currency());
-	if(interestEdit && payedInterestButton && payedInterestButton->isChecked()) interestEdit->setCurrency(acc->currency());
-	if(paymentEdit) {
-		paymentEdit->setCurrency(acc->currency());
-		Account *loan_acc = selectedLoan();
-		if(loan_acc && loan_acc->currency() == acc->currency()) {
-			if(is_zero(reductionEdit->value())) reductionEdit->setValue(paymentEdit->value());
-			else paymentEdit->setValue(reductionEdit->value());
-			paymentEdit->setEnabled(false);
-		} else {
-			paymentEdit->setEnabled(true);
-		}
-	}
-	updateTotalValue();
+	valueChanged();
 }
 void EditDebtPaymentWidget::loanActivated(int index) {
 	if(index < 0) return;
 	AssetsAccount *loan = (AssetsAccount*) loanCombo->itemData(index).value<void*>();
 	if(!loan) return;
-	DebtPayment *trans = NULL;
-	SplitTransaction *split = budget->splitTransactions.last();
-	while(split) {
-		if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN && ((DebtPayment*) split)->loan() == loan) {
-			trans = (DebtPayment*) split;
-			break;
-		}
-		split = budget->splitTransactions.previous();
-	}
-	if(trans) {
-		if(paymentEdit) paymentEdit->setValue(trans->payment());
-		if(reductionEdit) reductionEdit->setValue(trans->reduction());
-		if(feeEdit) feeEdit->setValue(trans->fee());
-		if(interestEdit) interestEdit->setValue(trans->interest());
-		if(accountCombo) accountCombo->setCurrentAccount(trans->account());
-	}
-	if(categoryCombo) {
-		if(trans && trans->expenseCategory()) {
-			categoryCombo->setCurrentAccount(trans->expenseCategory());
-		} else {
-			ExpensesAccount *cat = NULL;
-			SplitTransaction *split = budget->splitTransactions.previous();
-			while(split) {
-				if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN && ((DebtPayment*) split)->loan() == loan) {
-					cat = ((DebtPayment*) split)->expenseCategory();
-					if(cat) break;
-				}
-				split = budget->splitTransactions.previous();
+	if(b_search) {
+		DebtPayment *trans = NULL;
+		SplitTransaction *split = budget->splitTransactions.last();
+		while(split) {
+			if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN && ((DebtPayment*) split)->loan() == loan) {
+				trans = (DebtPayment*) split;
+				break;
 			}
-			if(cat) {
-				categoryCombo->setCurrentAccount(cat);
+			split = budget->splitTransactions.previous();
+		}
+		if(trans) {
+			if(paymentEdit) paymentEdit->setValue(trans->payment());
+			if(reductionEdit) reductionEdit->setValue(trans->reduction());
+			if(feeEdit) feeEdit->setValue(trans->fee());
+			if(interestEdit) interestEdit->setValue(trans->interest());
+			if(accountCombo) accountCombo->setCurrentAccount(trans->account());
+		}
+		if(categoryCombo) {
+			if(trans && trans->expenseCategory()) {
+				categoryCombo->setCurrentAccount(trans->expenseCategory());
 			} else {
-				Expense *etrans = budget->expenses.last();
-				while(etrans) {
-					if(etrans->from() == loan) {
-						categoryCombo->setCurrentAccount(etrans->category());
-						break;
+				ExpensesAccount *cat = NULL;
+				SplitTransaction *split = budget->splitTransactions.previous();
+				while(split) {
+					if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN && ((DebtPayment*) split)->loan() == loan) {
+						cat = ((DebtPayment*) split)->expenseCategory();
+						if(cat) break;
 					}
-					etrans = budget->expenses.previous();
+					split = budget->splitTransactions.previous();
+				}
+				if(cat) {
+					categoryCombo->setCurrentAccount(cat);
+				} else {
+					Expense *etrans = budget->expenses.last();
+					while(etrans) {
+						if(etrans->from() == loan) {
+							categoryCombo->setCurrentAccount(etrans->category());
+							break;
+						}
+						etrans = budget->expenses.previous();
+					}
 				}
 			}
 		}
+		valueChanged();
+		b_search = true;
+	} else {
+		valueChanged();
 	}
-	if(reductionEdit) reductionEdit->setCurrency(loan->currency());
-	if((!addedInterestButton || addedInterestButton->isChecked()) && interestEdit) interestEdit->setCurrency(loan->currency());
 }
 
 void EditDebtPaymentWidget::valueChanged() {
@@ -1225,17 +1221,32 @@ void EditDebtPaymentWidget::valueChanged() {
 	if(accountCombo && interestEdit && payedInterestButton) {
 		accountCombo->setEnabled(interestEdit->value() == 0.0 || (feeEdit && feeEdit->value() > 0.0) || (paymentEdit && paymentEdit->value() > 0.0) || (reductionEdit && reductionEdit->value() > 0.0) || payedInterestButton->isChecked());
 	}
+	Account *acc = selectedAccount();
+	AssetsAccount *loan = selectedLoan();
+	if(!acc) return;
+	if(feeEdit) feeEdit->setCurrency(acc->currency());
+	if(reductionEdit) reductionEdit->setCurrency(loan->currency());
+	if((!addedInterestButton || addedInterestButton->isChecked()) && interestEdit) interestEdit->setCurrency(loan->currency());
+	if(addedInterestButton && addedInterestButton->isChecked()) {
+		if(selectedLoan()) interestEdit->setCurrency(loan->currency());
+	} else if(interestEdit) {
+		if(selectedAccount()) interestEdit->setCurrency(acc->currency());
+	}
+	if(paymentEdit) {
+		paymentEdit->setCurrency(acc->currency());
+		if(loan && loan->currency() == acc->currency()) {
+			paymentEdit->setEnabled(false);
+		} else {
+			paymentEdit->setEnabled(true);
+		}
+	}
 	if(paymentEdit && !paymentEdit->isEnabled()) {
 		paymentEdit->setValue(reductionEdit->value());
 	}
 	updateTotalValue();
+	hasBeenModified();
 }
 void EditDebtPaymentWidget::interestSourceChanged() {
-	if(addedInterestButton && addedInterestButton->isChecked()) {
-		if(selectedLoan()) interestEdit->setCurrency(selectedLoan()->currency());
-	} else if(interestEdit) {
-		if(selectedAccount()) interestEdit->setCurrency(selectedAccount()->currency());
-	}
 	valueChanged();
 }
 
@@ -1324,11 +1335,7 @@ void EditDebtPaymentWidget::setTransaction(DebtPayment *split) {
 	if(payedInterestButton && split->interestPayed()) payedInterestButton->setChecked(true);
 	else if(addedInterestButton) addedInterestButton->setChecked(true);
 	if(feeEdit) feeEdit->setValue(split->fee());
-	if(reductionEdit) reductionEdit->setCurrency(split->loan()->currency());
-	if((!addedInterestButton || addedInterestButton->isChecked()) && interestEdit) interestEdit->setCurrency(split->loan()->currency());
-	accountChanged();
 	valueChanged();
-	interestSourceChanged();
 	emit dateChanged(split->date());
 }
 void EditDebtPaymentWidget::setTransaction(DebtPayment *split, const QDate &date) {
@@ -1339,6 +1346,9 @@ void EditDebtPaymentWidget::setTransaction(DebtPayment *split, const QDate &date
 QDate EditDebtPaymentWidget::date() {
 	if(!dateEdit) return QDate::currentDate();
 	return dateEdit->date();
+}
+void EditDebtPaymentWidget::hasBeenModified() {
+	b_search = false;
 }
 bool EditDebtPaymentWidget::checkAccounts() {
 	if((loanCombo && loanCombo->count() == 0) || (accountCombo && !accountCombo->hasAccount()) || (categoryCombo && !categoryCombo->hasAccount())) {

@@ -107,7 +107,7 @@ class EditDebtPaymentWidget : public QWidget {
 	protected:
 
 		Budget *budget;
-		bool b_create_accounts;
+		bool b_create_accounts, b_search;
 		
 		QDateEdit *dateEdit;
 		EqonomizeValueEdit *reductionEdit, *paymentEdit, *interestEdit, *feeEdit;
@@ -136,7 +136,7 @@ class EditDebtPaymentWidget : public QWidget {
 	
 	signals:
 	
-		void dateChanged(const QDate &date);
+		void dateChanged(const QDate &d);
 
 	protected slots:
 		
@@ -148,6 +148,7 @@ class EditDebtPaymentWidget : public QWidget {
 		void newCategory();
 		void valueChanged();
 		void interestSourceChanged();
+		void hasBeenModified();
 
 };
 
