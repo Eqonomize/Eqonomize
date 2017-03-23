@@ -138,7 +138,7 @@ class Budget {
 		QString loadECBData(QByteArray data);
 		bool saveCurrencies();
 
-		QString loadFile(QString filename, QString &errors, bool *default_currency_created = NULL);
+		QString loadFile(QString filename, QString &errors, bool *default_currency_created = NULL, bool merge = false);
 		QString saveFile(QString filename, QFile::Permissions permissions = QFile::ReadUser | QFile::WriteUser);
 		
 		void clear();

@@ -4285,13 +4285,13 @@ void Eqonomize::reloadBudget() {
 	updateSecurities();
 	updateUsesMultipleCurrencies();
 }
-void Eqonomize::openURL(const QUrl& url) {
+void Eqonomize::openURL(const QUrl& url, bool merge) {
 
-	if(url != current_url && crashRecovery(QUrl(url))) return;
+	if(!merge && url != current_url && crashRecovery(QUrl(url))) return;
 
 	QString errors;
 	bool new_currency = false;
-	QString error = budget->loadFile(url.toLocalFile(), errors, &new_currency);
+	QString error = budget->loadFile(url.toLocalFile(), errors, &new_currency, merge);
 	if(!error.isNull()) {
 		QMessageBox::critical(this, tr("Couldn't open file"), tr("Error loading %1: %2.").arg(url.toString()).arg(error));
 		return;
@@ -4300,22 +4300,24 @@ void Eqonomize::openURL(const QUrl& url) {
 		QMessageBox::critical(this, tr("Error"), errors);
 	}
 	
-	setWindowTitle(url.fileName() + "[*]");
-	current_url = url;
-	ActionFileReload->setEnabled(true);
-	QSettings settings;
-	settings.beginGroup("GeneralOptions");
-	settings.setValue("lastURL", current_url.url());
-	if(!cr_tmp_file.isEmpty()) {
-		QFile autosaveFile(cr_tmp_file);
-		autosaveFile.remove();
-		cr_tmp_file = "";
-	}
-	settings.endGroup();
-	settings.sync();
-	updateRecentFiles(url.toLocalFile());
+	if(!merge) {
+		setWindowTitle(url.fileName() + "[*]");
+		current_url = url;
+		ActionFileReload->setEnabled(true);
+		QSettings settings;
+		settings.beginGroup("GeneralOptions");
+		settings.setValue("lastURL", current_url.url());
+		if(!cr_tmp_file.isEmpty()) {
+			QFile autosaveFile(cr_tmp_file);
+			autosaveFile.remove();
+			cr_tmp_file = "";
+		}
+		settings.endGroup();
+		settings.sync();
+		updateRecentFiles(url.toLocalFile());
 	
-	if(new_currency) warnAndAskForExchangeRate();
+		if(new_currency) warnAndAskForExchangeRate();
+	}
 	
 	Currency *cur = budget->defaultCurrency();
 	if(cur != budget->currency_euro && cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_NONE) cur = NULL;
@@ -4426,6 +4428,18 @@ void Eqonomize::importQIF() {
 		setModified(true);
 	}
 }
+
+void Eqonomize::importEQZ() {
+	QMimeDatabase db;
+	QMimeType mime = db.mimeTypeForName("application/x-eqonomize");
+	QString filter_string;
+	if(mime.isValid()) filter_string = mime.filterString();
+	if(filter_string.isEmpty()) filter_string = tr("Eqonomize! Accounting File") + "(*.eqz)";
+	QString url = QFileDialog::getOpenFileName(this, QString(), current_url.isValid() ? current_url.adjusted(QUrl::RemoveFilename).toLocalFile() : QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + QString("/"), filter_string);
+	if(!url.isEmpty()) openURL(QUrl::fromLocalFile(url), true);
+	setModified(true);
+}
+
 void Eqonomize::exportQIF() {
 	exportQIFFile(budget, this, b_extra);
 }
@@ -5398,6 +5412,7 @@ void Eqonomize::setupActions() {
 	fileToolbar->addAction(ActionPrintPreview);
 	fileMenu->addSeparator();
 	QMenu *importMenu = fileMenu->addMenu(tr("Import"));
+	NEW_ACTION(ActionImportEQZ, tr("Import %1 File…").arg(qApp->applicationDisplayName()), "document-import", 0, this, SLOT(importEQZ()), "import_eqz", importMenu);
 	NEW_ACTION(ActionImportCSV, tr("Import CSV File…"), "document-import", 0, this, SLOT(importCSV()), "import_csv", importMenu);
 	NEW_ACTION(ActionImportQIF, tr("Import QIF File…"), "document-import", 0, this, SLOT(importQIF()), "import_qif", importMenu);
 	NEW_ACTION_ALT(ActionSaveView, tr("Export View…"), "document-export", "eqz-export", 0, this, SLOT(saveView()), "save_view", fileMenu);

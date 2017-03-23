@@ -326,7 +326,7 @@ bool Budget::saveCurrencies() {
 }
 
 
-QString Budget::loadFile(QString filename, QString &errors, bool *default_currency_created) {
+QString Budget::loadFile(QString filename, QString &errors, bool *default_currency_created, bool merge) {
 
 	QFile file(filename);
 	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -342,25 +342,29 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	/*QString s_version = xml.attributes().value("version").toString();
 	float f_version = s_version.toFloat();*/
 	
-	clear();
+	if(!merge) clear();
 	errors = "";
 	int category_errors = 0, account_errors = 0, transaction_errors = 0, security_errors = 0;
 
 	assetsAccounts_id[balancingAccount->id()] = balancingAccount;
 	
-	Currency *cur = NULL;
+	Currency *cur = NULL, *prev_default_cur = default_currency;
 	if(default_currency_created) *default_currency_created = false;
 
 	while(xml.readNextStartElement()) {
 		if(xml.name() == "budget_period") {
-			while(xml.readNextStartElement()) {
-				if(xml.name() == "first_day_of_month") {
-					QString s_day = xml.readElementText();
-					bool ok = true;
-					int i_day = s_day.toInt(&ok);
-					if(ok) setBudgetDay(i_day);
-				} else {
-					xml.skipCurrentElement();
+			if(merge) {
+				xml.skipCurrentElement();
+			} else {
+				while(xml.readNextStartElement()) {
+					if(xml.name() == "first_day_of_month") {
+						QString s_day = xml.readElementText();
+						bool ok = true;
+						int i_day = s_day.toInt(&ok);
+						if(ok) setBudgetDay(i_day);
+					} else {
+						xml.skipCurrentElement();
+					}
 				}
 			}
 		} else if(xml.name() == "currency") {
@@ -368,11 +372,11 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			if(!cur && !cur_code.isEmpty()) {
 				cur = findCurrency(cur_code);
 				if(cur) {
-					setDefaultCurrency(cur);
+					default_currency = cur;
 				} else {
 					cur = new Currency(this, cur_code);
 					addCurrency(cur);
-					setDefaultCurrency(cur);
+					default_currency = cur;
 					if(default_currency_created) *default_currency_created = true;
 				}
 			}
@@ -390,7 +394,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					}
 				}
 			} else {
-			qInfo() << xml.name();
 				transaction_errors++;
 				delete strans;
 			}
@@ -404,7 +407,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					expenses.append(expense);
 					transactions.append(expense);
 				} else {
-				qInfo() << type;
 					transaction_errors++;
 					delete expense;
 				}
@@ -414,7 +416,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					incomes.append(income);
 					transactions.append(income);
 				} else {
-				qInfo() << type;
 					transaction_errors++;
 					delete income;
 				}
@@ -425,7 +426,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					transactions.append(income);
 					income->security()->dividends.append(income);
 				} else {
-				qInfo() << type;
 					transaction_errors++;
 					delete income;
 				}
@@ -481,7 +481,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					transfers.append(transfer);
 					transactions.append(transfer);
 				} else {
-				qInfo() << type;
 					transaction_errors++;
 					delete transfer;
 				}
@@ -523,7 +522,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			}
 			if(split) {
 				if(!valid) {
-				qInfo() << type;
 					transaction_errors++;
 					delete split;
 					split = NULL;
@@ -569,10 +567,12 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 				ExpensesAccount *account = new ExpensesAccount(this, &xml, &valid);
 				if(valid) {
 					expensesAccounts_id[account->id()] = account;
+					if(merge && findExpensesAccount(account->name())) {
+						account->setName(QString("%1 (%2)").arg(account->name()).arg(tr("imported")));
+					}
 					expensesAccounts.append(account);
 					accounts.append(account);
 				} else {
-				qInfo() << type;
 					category_errors++;
 					delete account;
 				}
@@ -580,24 +580,33 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 				IncomesAccount *account = new IncomesAccount(this, &xml, &valid);
 				if(valid) {
 					incomesAccounts_id[account->id()] = account;
+					if(merge && findIncomesAccount(account->name())) {
+						account->setName(QString("%1 (%2)").arg(account->name()).arg(tr("imported")));
+					}
 					incomesAccounts.append(account);
 					accounts.append(account);
 				} else {
-				qInfo() << type;
 					category_errors++;
 					delete account;
 				}
 			}
 		} else if(xml.name() == "account") {
 			if(!cur) {
-				bool b = resetDefaultCurrency();
-				cur = defaultCurrency();
-				if(default_currency_created) *default_currency_created = b;
+				if(merge) {
+					cur = default_currency;
+				} else {
+					bool b = resetDefaultCurrency();
+					cur = default_currency;
+					if(default_currency_created) *default_currency_created = b;
+				}
 			}
 			bool valid = true;
 			AssetsAccount *account = new AssetsAccount(this, &xml, &valid);
 			if(valid) {
 				assetsAccounts_id[account->id()] = account;
+				if(merge && findAssetsAccount(account->name())) {
+					account->setName(QString("%1 (%2)").arg(account->name()).arg(tr("imported")));
+				}
 				assetsAccounts.append(account);
 				accounts.append(account);
 			} else {
@@ -610,6 +619,9 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			Security *security = new Security(this, &xml, &valid);
 			if(valid) {
 				securities_id[security->id()] = security;
+				if(merge && findSecurity(security->name())) {
+					security->setName(QString("%1 (%2)").arg(security->name()).arg(tr("imported")));
+				}
 				securities.append(security);
 				i_quotation_decimals = security->quotationDecimals();
 				i_share_decimals = security->decimals();
@@ -624,11 +636,13 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 		}
 	}
 	
-	if(!cur) {
+	if(!cur && !merge) {
 		bool b = resetDefaultCurrency();
 		cur = defaultCurrency();
 		if(default_currency_created) *default_currency_created = b;
 	}
+	
+	if(merge) default_currency = prev_default_cur;
 
 	if (xml.hasError()) {
 		if(!errors.isEmpty()) errors += '\n';

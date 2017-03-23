@@ -195,7 +195,7 @@ class Eqonomize : public QMainWindow {
 		QList<QAction*> recentFileActionList;
 		QAction *ActionClearRecentFiles;
 		QAction *ActionOverTimeReport, *ActionCategoriesComparisonReport, *ActionOverTimeChart, *ActionCategoriesComparisonChart;
-		QAction *ActionImportCSV, *ActionImportQIF, *ActionExportQIF;
+		QAction *ActionImportCSV, *ActionImportQIF, *ActionImportEQZ, *ActionExportQIF;
 		QAction *ActionConvertCurrencies, *ActionUpdateExchangeRates;
 		QAction *ActionExtraProperties, *ActionSetBudgetPeriod, *AIPCurrentMonth, *AIPCurrentYear, *AIPCurrentWholeMonth, *AIPCurrentWholeYear, *AIPRememberLastDates, *ABFDaily, *ABFWeekly, *ABFFortnightly, *ABFMonthly, *ABFNever;
 		QAction *ActionSetMainCurrency;
@@ -299,6 +299,7 @@ class Eqonomize : public QMainWindow {
 	
 		void importCSV();
 		void importQIF();
+		void importEQZ();
 		void exportQIF();
 		
 		void checkExchangeRatesTimeOut();
@@ -385,7 +386,7 @@ class Eqonomize : public QMainWindow {
 
 		void updateTransactionActions();
 		
-		void openURL(const QUrl&);
+		void openURL(const QUrl&, bool merge = false);
 		void fileNew();
 		void fileOpen();
 		void fileOpenRecent(const QUrl&);
