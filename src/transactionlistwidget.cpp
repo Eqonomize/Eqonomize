@@ -1643,15 +1643,38 @@ bool TransactionListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	int col = 0;
 	if(treeWidget()) col = treeWidget()->sortColumn();
 	TransactionListViewItem *i = (TransactionListViewItem*) &i_pre;
+	Transactions *t1 = o_split;
+	if(!t1) t1 = o_trans;
+	Transactions *t2 = i->splitTransaction();
+	if(!t2) t2 = i->transaction();
 	if(col == 0) {
-		return d_date < i->date();
+		if(d_date < i->date()) return true;
+		if(d_date > i->date()) return false;
 	} else if(col == 2) {
-		if(o_split && i->splitTransaction()) return o_split->value(true) < i->splitTransaction()->value(true);
-		if(o_split) return o_split->value(true) < i->transaction()->value(true);
-		if(i->splitTransaction()) return o_trans->value(true) < i->splitTransaction()->value(true);
-		return o_trans->value(true) < i->transaction()->value(true);
+		double d1 = t1->value(true), d2 = t2->value(true);
+		if(d1 < d2) return true;
+		if(d1 > d2) return false;
+	} else {
+		int r = text(col).localeAwareCompare(i_pre.text(col));
+		if(r != 0) return r < 0;
 	}
-	return QTreeWidgetItem::operator<(i_pre);
+	if(t1->timestamp() < t2->timestamp()) return true;
+	if(t1->timestamp() > t2->timestamp()) return false;
+	if(!o_split && o_trans->parentSplit()) {
+		if(i->splitTransaction() || !i->transaction()->parentSplit()) {
+			t1 = o_trans->parentSplit();
+		} else if(i->transaction()->parentSplit() != o_trans->parentSplit()) {
+			t1 = o_trans->parentSplit();
+			t2 = i->transaction()->parentSplit();
+			int r = t2->description().localeAwareCompare(t1->description());
+			if(r == 0) return (void*) t1 < (void*) t2;
+			else return r < 0;
+		}
+	} else if(!i->splitTransaction() && i->transaction()->parentSplit()) {
+		t2 = i->transaction()->parentSplit();
+	} 
+	return t2->description().localeAwareCompare(t1->description()) < 0;
+	//return QTreeWidgetItem::operator<(i_pre);
 }
 Transaction *TransactionListViewItem::transaction() const {
 	return o_trans;

@@ -9,7 +9,6 @@ BUGS:
 
 FEATURES:
 
-- Attach files
 - Security: encrypt files?
 - Import and export more file types: OFX, Gnucash, kmymoney2, etc.
 - Test QIF import/export (I have not been able to do any real world
@@ -22,7 +21,6 @@ be able to reconcile one's entries with a Bank Statement"
 - Undo
 - Enhance manual
 
-- support for importing eqz files (so that we can do merging of files)
 - support for saving views in eqz format (e.g. splitting data in separate files)
 - make ledgers similar to expense/income views
 

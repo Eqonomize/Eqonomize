@@ -386,7 +386,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		selectFileButton->setToolTip(tr("Select a file"));
 		selectFileButton->setAutoDefault(false);
 		fileLayout->addWidget(selectFileButton);
-		QPushButton *openFileButton = new QPushButton(QIcon::fromTheme("zoom-in"), QString(), this);
+		QPushButton *openFileButton = new QPushButton(QIcon::fromTheme("system-run"), QString(), this);
 		openFileButton->setToolTip(tr("Open the file"));
 		openFileButton->setAutoDefault(false);
 		fileLayout->addWidget(openFileButton);

@@ -2702,6 +2702,7 @@ bool Eqonomize::editSecurityTrade(SecurityTrade *ts, QWidget *parent) {
 	if(dialog->exec() == QDialog::Accepted) {
 		SecurityTrade *ts_new = dialog->createSecurityTrade();
 		if(ts_new) {
+			ts_new->timestamp = ts->timestamp;
 			budget->removeSecurityTrade(ts, true);
 			budget->addSecurityTrade(ts_new);
 			updateSecurity(ts_new->from_security);

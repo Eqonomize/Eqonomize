@@ -96,6 +96,9 @@ class Transactions {
 		virtual QString valueString(double value_, int precision = -1) const;
 		virtual double quantity() const = 0;
 		virtual const QDate &date() const = 0;
+		virtual const qint64 &timestamp() const = 0;
+		virtual void setTimestamp(qint64 cr_time) = 0;
+		virtual void setTimestamp();
 		virtual void setDate(QDate new_date) = 0;
 		virtual QString description() const = 0;
 		virtual const QString &comment() const = 0;
@@ -119,7 +122,7 @@ class Transaction : public Transactions {
 		
 		double d_value;
 
-		QDate d_date;
+		QDate d_date;		
 		
 		Account *o_from;
 		Account *o_to;
@@ -132,6 +135,8 @@ class Transaction : public Transactions {
 		double d_quantity;
 
 		SplitTransaction *o_split;
+		
+		qint64 i_time;
 
 		//TransactionStatus ts_status;
 
@@ -167,6 +172,8 @@ class Transaction : public Transactions {
 		void setQuantity(double new_quantity);
 		const QDate &date() const;
 		void setDate(QDate new_date);
+		const qint64 &timestamp() const;
+		void setTimestamp(qint64 cr_time);
 		virtual QString description() const;
 		void setDescription(QString new_description);
 		virtual const QString &comment() const;
@@ -555,6 +562,8 @@ class ScheduledTransaction : public Transactions {
 		void setTransaction(Transactions *trans, bool delete_old = true);
 		Budget *budget() const;
 		virtual const QDate &date() const;
+		const qint64 &timestamp() const;
+		void setTimestamp(qint64 cr_time);
 		virtual const QDate &firstOccurrence() const;
 		virtual bool isOneTimeTransaction() const;
 		virtual void setDate(QDate newdate);
@@ -582,11 +591,12 @@ class SplitTransaction : public Transactions {
 	protected:
 
 		Budget *o_budget;
-		QDate d_date;
+		QDate d_date;		
 		QString s_description;
 		QString s_comment;
 		QString s_file;
 		QVector<Transaction*> splits;
+		qint64 i_time;
 		
 	public:
 		
@@ -617,6 +627,8 @@ class SplitTransaction : public Transactions {
 		
 		const QDate &date() const;
 		virtual void setDate(QDate new_date);
+		const qint64 &timestamp() const;
+		void setTimestamp(qint64 cr_time);
 		QString description() const;
 		virtual void setDescription(QString new_description);
 		const QString &comment() const;
@@ -809,10 +821,11 @@ class DebtPayment : public SplitTransaction {
 
 class SecurityTrade {
 	public:
-		SecurityTrade(const QDate &date_, double value_, double from_shares_, Security *from_security_, double to_shares_, Security *to_security_) : date(date_), value(value_), from_shares(from_shares_), to_shares(to_shares_), from_security(from_security_), to_security(to_security_) {}
-		QDate date;
+		SecurityTrade(const QDate &date_, double value_, double from_shares_, Security *from_security_, double to_shares_, Security *to_security_) : date(date_), value(value_), from_shares(from_shares_), to_shares(to_shares_), from_security(from_security_), to_security(to_security_), timestamp(QDateTime::currentSecsSinceEpoch()) {}
+		QDate date;		
 		double value, from_shares, to_shares;
 		Security *from_security, *to_security;
+		qint64 timestamp;
 };
 
 

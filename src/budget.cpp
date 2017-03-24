@@ -38,6 +38,39 @@
 
 #include "recurrence.h"
 
+
+bool transaction_list_less_than(Transaction *t1, Transaction *t2) {
+	if(t1->date() < t2->date()) return true;
+	if(t1->date() > t2->date()) return false;
+	if(t1->timestamp() < t2->timestamp()) return true;
+	if(t1->timestamp() < t2->timestamp()) return false;
+	if(t1->parentSplit()) {
+		if(!t2->parentSplit()) {
+			return t2->description().localeAwareCompare(t1->parentSplit()->description()) < 0;
+		} else if(t1->parentSplit() != t2->parentSplit()) {
+			if(t1->parentSplit()->timestamp() != t2->parentSplit()->timestamp()) return t1->parentSplit()->timestamp() < t2->parentSplit()->timestamp();
+			int r = t2->parentSplit()->description().localeAwareCompare(t1->parentSplit()->description());
+			if(r == 0) return (void*) t1->parentSplit() < (void*) t2->parentSplit();
+			else return r < 0;
+		}
+	} else if(t2->parentSplit()) {
+		return t2->parentSplit()->description().localeAwareCompare(t1->description()) < 0;
+	}
+	return t2->description().localeAwareCompare(t1->description()) < 0;
+}
+bool split_list_less_than(SplitTransaction *t1, SplitTransaction *t2) {
+	return t1->date() < t2->date() || (t1->date() == t2->date() && (t1->timestamp() < t2->timestamp() || (t1->timestamp() == t2->timestamp() && t2->description().localeAwareCompare(t1->description()) < 0)));
+}
+bool schedule_list_less_than(ScheduledTransaction *t1, ScheduledTransaction *t2) {
+	return t1->date() < t2->date() || (t1->date() == t2->date() && (t1->timestamp() < t2->timestamp() || (t1->timestamp() == t2->timestamp() && t2->description().localeAwareCompare(t1->description()) < 0)));
+}
+bool trade_list_less_than(SecurityTrade *t1, SecurityTrade *t2) {
+	return t1->date < t2->date || (t1->date == t2->date && t1->timestamp < t2->timestamp);
+}
+bool security_list_less_than(Security *t1, Security *t2) {
+	return QString::localeAwareCompare(t1->name(), t2->name()) < 0;
+}
+
 int currency_frac_digits() {
 #ifdef Q_OS_ANDROID
 	return 2;
@@ -156,18 +189,18 @@ void Budget::loadCurrenciesFile(QString filename, bool is_local) {
 		return;
 	}
 	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		qDebug() << tr("Couldn't open %1 for reading").arg(filename);
+		qCritical() << tr("Couldn't open %1 for reading").arg(filename);
 		return;
 	} else if(!file.size()) {
 		return;
 	}
 	QXmlStreamReader xml(&file);
 	if(!xml.readNextStartElement()) {
-		qDebug() << tr("XML parse error: \"%1\" at line %2, col %3").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
+		qCritical() << tr("XML parse error: \"%1\" at line %2, col %3").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
 		return;
 	}
 	if(xml.name() != "Eqonomize") {
-		qDebug() << tr("Invalid root element %1 in XML document").arg(xml.name().toString());
+		qCritical() << tr("Invalid root element %1 in XML document").arg(xml.name().toString());
 		return;
 	}
 
@@ -198,19 +231,19 @@ void Budget::loadCurrenciesFile(QString filename, bool is_local) {
 			}
 		
 		} else {
-			qDebug() << tr("Unknown XML element: \"%1\" at line %2, col %3").arg(xml.name().toString()).arg(xml.lineNumber()).arg(xml.columnNumber());
+			qCritical() << tr("Unknown XML element: \"%1\" at line %2, col %3").arg(xml.name().toString()).arg(xml.lineNumber()).arg(xml.columnNumber());
 			xml.skipCurrentElement();
 		}
 	}
 	
 	if(currency_errors > 0) {
-		qDebug() << tr("Unable to load %n currency/currencies.", "", currency_errors);
+		qCritical() << tr("Unable to load %n currency/currencies.", "", currency_errors);
 	}
 	
 	currencies.sort();
 
 	if(xml.hasError()) {
-		qDebug() << tr("XML parse error: \"%1\" at line %2, col %3").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
+		qCritical() << tr("XML parse error: \"%1\" at line %2, col %3").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
 	}
 	
 	file.close();
@@ -282,7 +315,7 @@ bool Budget::saveCurrencies() {
 	
 	QFileInfo info(filename);
 	if(info.isDir()) {
-		qDebug() << tr("File is a directory");
+		qCritical() << tr("File is a directory");
 		return false;
 	}
 
@@ -290,7 +323,7 @@ bool Budget::saveCurrencies() {
 	ofile.open(QIODevice::WriteOnly);
 	if(!ofile.isOpen()) {
 		ofile.cancelWriting();
-		qDebug() << tr("Couldn't open file for writing");
+		qCritical() << tr("Couldn't open file for writing");
 		return false;
 	}
 	QXmlStreamWriter xml(&ofile);
@@ -313,12 +346,12 @@ bool Budget::saveCurrencies() {
 
 	if(ofile.error() != QFile::NoError) {
 		ofile.cancelWriting();
-		qDebug() << tr("Error while writing file; file was not saved");
+		qCritical() << tr("Error while writing file; file was not saved");
 		return false;
 	}
 
 	if(!ofile.commit()) {
-		qDebug() << tr("Error while writing file; file was not saved");
+		qCritical() << tr("Error while writing file; file was not saved");
 		return false;
 	}
 	
@@ -454,6 +487,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 				double to_shares = attr.value("to_shares").toDouble();
 				int from_id = attr.value("from_security").toInt();
 				int to_id = attr.value("to_security").toInt();
+				qint64 i_time = attr.value("timestamp").toLongLong();
 				Security *from_security;
 				if(securities_id.contains(from_id)) {
 					from_security = securities_id[from_id];
@@ -468,6 +502,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 				}
 				if(date.isValid() && from_security && to_security && from_security != to_security) {
 					SecurityTrade *ts = new SecurityTrade(date, value, from_shares, from_security, to_shares, to_security);
+					ts->timestamp = i_time;
 					securityTrades.append(ts);
 					from_security->tradedShares.append(ts);
 					to_security->tradedShares.append(ts);
@@ -834,6 +869,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		xml.writeAttribute("from_security", QString::number(ts->from_security->id()));
 		xml.writeAttribute("to_security", QString::number(ts->to_security->id()));
 		xml.writeAttribute("date", ts->date.toString(Qt::ISODate));
+		xml.writeAttribute("timestamp", QString::number(ts->timestamp));
 		xml.writeAttribute("value", QString::number(ts->value, 'f', SAVE_MONETARY_DECIMAL_PLACES));
 		xml.writeAttribute("from_shares", QString::number(ts->from_shares, 'f', ts->from_security->decimals()));
 		xml.writeAttribute("to_shares", QString::number(ts->to_shares, 'f', ts->to_security->decimals()));
@@ -1187,7 +1223,7 @@ void Budget::moveTransactions(Account *account, Account *new_account, bool move_
 		strans = scheduledTransactions.next();
 	}
 }
-void Budget::transactionDateModified(Transaction *t, const QDate &olddate) {
+void Budget::transactionSortModified(Transaction *t) {
 	if(transactions.removeRef(t)) transactions.inSort(t);
 	switch(t->type()) {
 		case TRANSACTION_TYPE_EXPENSE: {
@@ -1221,13 +1257,27 @@ void Budget::transactionDateModified(Transaction *t, const QDate &olddate) {
 			securityTransactions.setAutoDelete(false);
 			if(securityTransactions.removeRef(tr)) securityTransactions.inSort(tr);
 			securityTransactions.setAutoDelete(true);
-			tr->security()->removeQuotation(olddate, true);
-			tr->security()->setQuotation(tr->date(), tr->shareValue(), true);
 			break;
 		}
 	}
 }
-void Budget::scheduledTransactionDateModified(ScheduledTransaction *strans) {
+void Budget::transactionDateModified(Transaction *t, const QDate &olddate) {
+	switch(t->type()) {
+		case TRANSACTION_TYPE_SECURITY_BUY: {}
+		case TRANSACTION_TYPE_SECURITY_SELL: {
+			SecurityTransaction *tr = (SecurityTransaction*) t;
+			tr->security()->removeQuotation(olddate, true);
+			tr->security()->setQuotation(tr->date(), tr->shareValue(), true);
+			break;
+		}
+		default: {
+			break;
+		}
+	}
+}
+void Budget::scheduledTransactionDateModified(ScheduledTransaction*) {
+}
+void Budget::scheduledTransactionSortModified(ScheduledTransaction *strans) {
 	if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
 		if(((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.removeRef(strans)) ((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.inSort(strans);
 	} else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
@@ -1237,11 +1287,12 @@ void Budget::scheduledTransactionDateModified(ScheduledTransaction *strans) {
 	if(scheduledTransactions.removeRef(strans)) scheduledTransactions.inSort(strans);
 	scheduledTransactions.setAutoDelete(true);
 }
-void Budget::splitTransactionDateModified(SplitTransaction *split, const QDate&) {
+void Budget::splitTransactionSortModified(SplitTransaction *split) {
 	splitTransactions.setAutoDelete(false);
 	if(splitTransactions.removeRef(split)) splitTransactions.inSort(split);
 	splitTransactions.setAutoDelete(true);
 }
+void Budget::splitTransactionDateModified(SplitTransaction*, const QDate&) {}
 
 Transaction *Budget::findDuplicateTransaction(Transaction *trans) {
 	TransactionList<Transaction*>::iterator it = qLowerBound(transactions.begin(), transactions.end(), trans, transaction_list_less_than);

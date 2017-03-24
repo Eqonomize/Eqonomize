@@ -3116,7 +3116,7 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="obsolete">Afletteren</translation>
     </message>
     <message>
-        <location filename="../src/transaction.cpp" line="534"/>
+        <location filename="../src/transaction.cpp" line="552"/>
         <source>Account Balance Adjustment</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3128,54 +3128,54 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="obsolete">Balans</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="90"/>
+        <location filename="../src/budget.cpp" line="123"/>
         <source>Balancing</source>
         <comment>Name of account for transactions that adjust account balances</comment>
         <translation type="unfinished">Balans</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="159"/>
-        <location filename="../src/budget.cpp" line="333"/>
+        <location filename="../src/budget.cpp" line="192"/>
+        <location filename="../src/budget.cpp" line="366"/>
         <source>Couldn&apos;t open %1 for reading</source>
         <translation type="unfinished">Kan %1 niet openen om te lezen</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="274"/>
+        <location filename="../src/budget.cpp" line="307"/>
         <source>No exchange rates found in the downloaded ECB data.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="339"/>
+        <location filename="../src/budget.cpp" line="372"/>
         <source>Not a valid Eqonomize! file (XML parse error: &quot;%1&quot; at line %2, col %3)</source>
         <translation type="unfinished">Ongeldig Eqonomize! bestand (XML parserfout: &quot;%1&quot; in regel %2, kolom %3)</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="170"/>
-        <location filename="../src/budget.cpp" line="340"/>
+        <location filename="../src/budget.cpp" line="203"/>
+        <location filename="../src/budget.cpp" line="373"/>
         <source>Invalid root element %1 in XML document</source>
         <translation type="unfinished">Ongeldig bronelement %1 in XML document</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="201"/>
-        <location filename="../src/budget.cpp" line="634"/>
+        <location filename="../src/budget.cpp" line="234"/>
+        <location filename="../src/budget.cpp" line="669"/>
         <source>Unknown XML element: &quot;%1&quot; at line %2, col %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="166"/>
-        <location filename="../src/budget.cpp" line="213"/>
-        <location filename="../src/budget.cpp" line="227"/>
-        <location filename="../src/budget.cpp" line="649"/>
+        <location filename="../src/budget.cpp" line="199"/>
+        <location filename="../src/budget.cpp" line="246"/>
+        <location filename="../src/budget.cpp" line="260"/>
+        <location filename="../src/budget.cpp" line="684"/>
         <source>XML parse error: &quot;%1&quot; at line %2, col %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="86"/>
+        <location filename="../src/budget.cpp" line="119"/>
         <source>European Euro</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/budget.cpp" line="207"/>
+        <location filename="../src/budget.cpp" line="240"/>
         <source>Unable to load %n currency/currencies.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -3183,15 +3183,15 @@ i18n: file ./eqonomizeui.rc line 56
         </translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="571"/>
-        <location filename="../src/budget.cpp" line="584"/>
-        <location filename="../src/budget.cpp" line="608"/>
-        <location filename="../src/budget.cpp" line="623"/>
+        <location filename="../src/budget.cpp" line="606"/>
+        <location filename="../src/budget.cpp" line="619"/>
+        <location filename="../src/budget.cpp" line="643"/>
+        <location filename="../src/budget.cpp" line="658"/>
         <source>imported</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/budget.cpp" line="685"/>
+        <location filename="../src/budget.cpp" line="720"/>
         <source>Unable to load %n account(s).</source>
         <translation type="unfinished">
             <numerusform>Kan %n rekening niet inlezen.</numerusform>
@@ -3199,7 +3199,7 @@ i18n: file ./eqonomizeui.rc line 56
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/budget.cpp" line="689"/>
+        <location filename="../src/budget.cpp" line="724"/>
         <source>Unable to load %n category/categories.</source>
         <translation type="unfinished">
             <numerusform>Kan %n categorie niet inlezen.</numerusform>
@@ -3207,7 +3207,7 @@ i18n: file ./eqonomizeui.rc line 56
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/budget.cpp" line="693"/>
+        <location filename="../src/budget.cpp" line="728"/>
         <source>Unable to load %n security/securities.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">
@@ -3223,7 +3223,7 @@ i18n: file ./eqonomizeui.rc line 56
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/budget.cpp" line="697"/>
+        <location filename="../src/budget.cpp" line="732"/>
         <source>Unable to load %n transaction(s).</source>
         <translation type="unfinished">
             <numerusform>Kan %n transactie niet inlezen.</numerusform>
@@ -3231,22 +3231,22 @@ i18n: file ./eqonomizeui.rc line 56
         </translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="285"/>
-        <location filename="../src/budget.cpp" line="707"/>
+        <location filename="../src/budget.cpp" line="318"/>
+        <location filename="../src/budget.cpp" line="742"/>
         <source>File is a directory</source>
         <translation type="unfinished">Bestand is een directory</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="293"/>
-        <location filename="../src/budget.cpp" line="715"/>
+        <location filename="../src/budget.cpp" line="326"/>
+        <location filename="../src/budget.cpp" line="750"/>
         <source>Couldn&apos;t open file for writing</source>
         <translation type="unfinished">Kan bestand niet openen om te schrijven</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="316"/>
-        <location filename="../src/budget.cpp" line="321"/>
-        <location filename="../src/budget.cpp" line="884"/>
-        <location filename="../src/budget.cpp" line="888"/>
+        <location filename="../src/budget.cpp" line="349"/>
+        <location filename="../src/budget.cpp" line="354"/>
+        <location filename="../src/budget.cpp" line="920"/>
+        <location filename="../src/budget.cpp" line="924"/>
         <source>Error while writing file; file was not saved</source>
         <translation type="unfinished">Fout tijdens het schrijven van het bestand; bestand is niet opgeslagen</translation>
     </message>
@@ -3974,7 +3974,7 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
 <context>
     <name>DebtFee</name>
     <message>
-        <location filename="../src/transaction.cpp" line="251"/>
+        <location filename="../src/transaction.cpp" line="269"/>
         <source>Debt payment: %1 (fee)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3982,7 +3982,7 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
 <context>
     <name>DebtInterest</name>
     <message>
-        <location filename="../src/transaction.cpp" line="293"/>
+        <location filename="../src/transaction.cpp" line="311"/>
         <source>Debt payment: %1 (interest)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3990,7 +3990,7 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
 <context>
     <name>DebtPayment</name>
     <message>
-        <location filename="../src/transaction.cpp" line="1916"/>
+        <location filename="../src/transaction.cpp" line="1976"/>
         <source>Debt payment: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3998,7 +3998,7 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
 <context>
     <name>DebtReduction</name>
     <message>
-        <location filename="../src/transaction.cpp" line="511"/>
+        <location filename="../src/transaction.cpp" line="529"/>
         <source>Debt payment: %1 (reduction)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4996,23 +4996,23 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
 <context>
     <name>EditScheduledDebtPaymentDialog</name>
     <message>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="437"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="445"/>
         <source>Transaction</source>
         <translation type="unfinished">Transactie</translation>
     </message>
     <message>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="440"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="448"/>
         <source>Recurrence</source>
         <translation type="unfinished">Herhaling</translation>
     </message>
     <message>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="498"/>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="508"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="506"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="518"/>
         <source>Edit Debt Payment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="489"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="497"/>
         <source>New Debt Payment</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5027,36 +5027,36 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
 <context>
     <name>EditScheduledMultiAccountDialog</name>
     <message>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="329"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="333"/>
         <source>Transactions</source>
         <translation type="unfinished">Transacties</translation>
     </message>
     <message>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="332"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="336"/>
         <source>Recurrence</source>
         <translation type="unfinished">Herhaling</translation>
     </message>
     <message>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="387"/>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="396"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="391"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="400"/>
         <source>New Expense with Multiple Payments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="387"/>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="396"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="391"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="400"/>
         <source>New Income with Multiple Payments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="406"/>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="416"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="410"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="422"/>
         <source>Edit Expense with Multiple Payments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="406"/>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="416"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="410"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="422"/>
         <source>Edit Income with Multiple Payments</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5080,7 +5080,7 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="299"/>
-        <location filename="../src/editscheduledtransactiondialog.cpp" line="309"/>
+        <location filename="../src/editscheduledtransactiondialog.cpp" line="311"/>
         <source>Edit Split Transaction</source>
         <translation type="unfinished">Bewerk gesplitste transactie</translation>
     </message>
@@ -5586,7 +5586,7 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
     <message>
         <location filename="../src/eqonomize.cpp" line="1856"/>
         <location filename="../src/eqonomize.cpp" line="1900"/>
-        <location filename="../src/eqonomize.cpp" line="5052"/>
+        <location filename="../src/eqonomize.cpp" line="5053"/>
         <source>Incomes</source>
         <translation type="unfinished">Inkomsten</translation>
     </message>
@@ -5627,13 +5627,13 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="obsolete">%2 van %1</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5374"/>
+        <location filename="../src/eqonomize.cpp" line="5375"/>
         <source>Accounts</source>
         <translation type="unfinished">Rekeningen</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1920"/>
-        <location filename="../src/eqonomize.cpp" line="5150"/>
+        <location filename="../src/eqonomize.cpp" line="5151"/>
         <source>Includes budgeted transactions</source>
         <translation type="unfinished">Inclusief gebudgetteerde transacties</translation>
     </message>
@@ -5663,25 +5663,25 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1962"/>
-        <location filename="../src/eqonomize.cpp" line="5525"/>
+        <location filename="../src/eqonomize.cpp" line="5526"/>
         <source>Current Month</source>
         <translation type="unfinished">Huidige maand</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1963"/>
-        <location filename="../src/eqonomize.cpp" line="5526"/>
+        <location filename="../src/eqonomize.cpp" line="5527"/>
         <source>Current Year</source>
         <translation type="unfinished">Huidig jaar</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1964"/>
-        <location filename="../src/eqonomize.cpp" line="5527"/>
+        <location filename="../src/eqonomize.cpp" line="5528"/>
         <source>Current Whole Month</source>
         <translation type="unfinished">Huidige hele maand</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1965"/>
-        <location filename="../src/eqonomize.cpp" line="5528"/>
+        <location filename="../src/eqonomize.cpp" line="5529"/>
         <source>Current Whole Year</source>
         <translation type="unfinished">Huidig heel jaar</translation>
     </message>
@@ -5745,14 +5745,14 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2072"/>
-        <location filename="../src/eqonomize.cpp" line="4954"/>
-        <location filename="../src/eqonomize.cpp" line="5006"/>
+        <location filename="../src/eqonomize.cpp" line="4955"/>
+        <location filename="../src/eqonomize.cpp" line="5007"/>
         <source>Name</source>
         <translation type="unfinished">Naam</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2073"/>
-        <location filename="../src/eqonomize.cpp" line="5160"/>
+        <location filename="../src/eqonomize.cpp" line="5161"/>
         <source>Value</source>
         <translation type="unfinished">Waarde</translation>
     </message>
@@ -5782,8 +5782,8 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
     <message>
         <location filename="../src/eqonomize.cpp" line="2079"/>
         <location filename="../src/eqonomize.cpp" line="2179"/>
-        <location filename="../src/eqonomize.cpp" line="4955"/>
-        <location filename="../src/eqonomize.cpp" line="5007"/>
+        <location filename="../src/eqonomize.cpp" line="4956"/>
+        <location filename="../src/eqonomize.cpp" line="5008"/>
         <source>Type</source>
         <translation type="unfinished">Type</translation>
     </message>
@@ -5809,8 +5809,8 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2168"/>
-        <location filename="../src/eqonomize.cpp" line="5448"/>
-        <location filename="../src/eqonomize.cpp" line="6581"/>
+        <location filename="../src/eqonomize.cpp" line="5449"/>
+        <location filename="../src/eqonomize.cpp" line="6582"/>
         <source>Remove</source>
         <translation type="unfinished">Verwijderen</translation>
     </message>
@@ -6014,85 +6014,85 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="unfinished">Op 4 na laatste</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4477"/>
+        <location filename="../src/eqonomize.cpp" line="4478"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4503"/>
+        <location filename="../src/eqonomize.cpp" line="4504"/>
         <source>Failed to download exchange rates from %1: %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4508"/>
+        <location filename="../src/eqonomize.cpp" line="4509"/>
         <source>Error reading data from %1: %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4551"/>
+        <location filename="../src/eqonomize.cpp" line="4552"/>
         <source>Unrecognized Currency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4556"/>
+        <location filename="../src/eqonomize.cpp" line="4557"/>
         <source>No exchange rate is available for the default currency (%1). If you wish to use multiple currencies you should set the exchange rate manually.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4580"/>
+        <location filename="../src/eqonomize.cpp" line="4581"/>
         <source>Set Main Currency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4585"/>
+        <location filename="../src/eqonomize.cpp" line="4586"/>
         <source>Currency:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4606"/>
+        <location filename="../src/eqonomize.cpp" line="4607"/>
         <source>Replace all occurrences of the former main currency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5415"/>
+        <location filename="../src/eqonomize.cpp" line="5416"/>
         <source>Import %1 File…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5446"/>
+        <location filename="../src/eqonomize.cpp" line="5447"/>
         <source>Adjust balance…</source>
         <comment>Referring to account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5485"/>
+        <location filename="../src/eqonomize.cpp" line="5486"/>
         <source>New Debt Payment…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5486"/>
+        <location filename="../src/eqonomize.cpp" line="5487"/>
         <source>New Unpayed Interest…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5487"/>
+        <location filename="../src/eqonomize.cpp" line="5488"/>
         <source>New Expense Payed with Loan / Payment Plan…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5694"/>
+        <location filename="../src/eqonomize.cpp" line="5695"/>
         <source>%1 exited unexpectedly before the file was saved and data was lost.
 Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4437"/>
-        <location filename="../src/eqonomize.cpp" line="5936"/>
+        <location filename="../src/eqonomize.cpp" line="4438"/>
+        <location filename="../src/eqonomize.cpp" line="5937"/>
         <source>Eqonomize! Accounting File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6291"/>
+        <location filename="../src/eqonomize.cpp" line="6292"/>
         <source>Adjust Account Balance</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6130,37 +6130,37 @@ Do you want to load the last auto-saved version of the file?</source>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2677"/>
-        <location filename="../src/eqonomize.cpp" line="2772"/>
-        <location filename="../src/eqonomize.cpp" line="2774"/>
-        <location filename="../src/eqonomize.cpp" line="3920"/>
-        <location filename="../src/eqonomize.cpp" line="3925"/>
-        <location filename="../src/eqonomize.cpp" line="3946"/>
-        <location filename="../src/eqonomize.cpp" line="3950"/>
-        <location filename="../src/eqonomize.cpp" line="4036"/>
-        <location filename="../src/eqonomize.cpp" line="4041"/>
-        <location filename="../src/eqonomize.cpp" line="4062"/>
-        <location filename="../src/eqonomize.cpp" line="4066"/>
-        <location filename="../src/eqonomize.cpp" line="4300"/>
-        <location filename="../src/eqonomize.cpp" line="4503"/>
-        <location filename="../src/eqonomize.cpp" line="4508"/>
-        <location filename="../src/eqonomize.cpp" line="5193"/>
-        <location filename="../src/eqonomize.cpp" line="5198"/>
-        <location filename="../src/eqonomize.cpp" line="5203"/>
-        <location filename="../src/eqonomize.cpp" line="5208"/>
-        <location filename="../src/eqonomize.cpp" line="5213"/>
-        <location filename="../src/eqonomize.cpp" line="5225"/>
-        <location filename="../src/eqonomize.cpp" line="5230"/>
-        <location filename="../src/eqonomize.cpp" line="5235"/>
-        <location filename="../src/eqonomize.cpp" line="5240"/>
-        <location filename="../src/eqonomize.cpp" line="5245"/>
-        <location filename="../src/eqonomize.cpp" line="5282"/>
-        <location filename="../src/eqonomize.cpp" line="5287"/>
-        <location filename="../src/eqonomize.cpp" line="5292"/>
-        <location filename="../src/eqonomize.cpp" line="5297"/>
-        <location filename="../src/eqonomize.cpp" line="5302"/>
-        <location filename="../src/eqonomize.cpp" line="5328"/>
-        <location filename="../src/eqonomize.cpp" line="5335"/>
-        <location filename="../src/eqonomize.cpp" line="5705"/>
+        <location filename="../src/eqonomize.cpp" line="2773"/>
+        <location filename="../src/eqonomize.cpp" line="2775"/>
+        <location filename="../src/eqonomize.cpp" line="3921"/>
+        <location filename="../src/eqonomize.cpp" line="3926"/>
+        <location filename="../src/eqonomize.cpp" line="3947"/>
+        <location filename="../src/eqonomize.cpp" line="3951"/>
+        <location filename="../src/eqonomize.cpp" line="4037"/>
+        <location filename="../src/eqonomize.cpp" line="4042"/>
+        <location filename="../src/eqonomize.cpp" line="4063"/>
+        <location filename="../src/eqonomize.cpp" line="4067"/>
+        <location filename="../src/eqonomize.cpp" line="4301"/>
+        <location filename="../src/eqonomize.cpp" line="4504"/>
+        <location filename="../src/eqonomize.cpp" line="4509"/>
+        <location filename="../src/eqonomize.cpp" line="5194"/>
+        <location filename="../src/eqonomize.cpp" line="5199"/>
+        <location filename="../src/eqonomize.cpp" line="5204"/>
+        <location filename="../src/eqonomize.cpp" line="5209"/>
+        <location filename="../src/eqonomize.cpp" line="5214"/>
+        <location filename="../src/eqonomize.cpp" line="5226"/>
+        <location filename="../src/eqonomize.cpp" line="5231"/>
+        <location filename="../src/eqonomize.cpp" line="5236"/>
+        <location filename="../src/eqonomize.cpp" line="5241"/>
+        <location filename="../src/eqonomize.cpp" line="5246"/>
+        <location filename="../src/eqonomize.cpp" line="5283"/>
+        <location filename="../src/eqonomize.cpp" line="5288"/>
+        <location filename="../src/eqonomize.cpp" line="5293"/>
+        <location filename="../src/eqonomize.cpp" line="5298"/>
+        <location filename="../src/eqonomize.cpp" line="5303"/>
+        <location filename="../src/eqonomize.cpp" line="5329"/>
+        <location filename="../src/eqonomize.cpp" line="5336"/>
+        <location filename="../src/eqonomize.cpp" line="5706"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6177,21 +6177,21 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Prijs per aandeel:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2759"/>
+        <location filename="../src/eqonomize.cpp" line="2760"/>
         <source>Date:</source>
         <translation type="unfinished">Datum:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2772"/>
-        <location filename="../src/eqonomize.cpp" line="3920"/>
-        <location filename="../src/eqonomize.cpp" line="3946"/>
-        <location filename="../src/eqonomize.cpp" line="4036"/>
-        <location filename="../src/eqonomize.cpp" line="4062"/>
+        <location filename="../src/eqonomize.cpp" line="2773"/>
+        <location filename="../src/eqonomize.cpp" line="3921"/>
+        <location filename="../src/eqonomize.cpp" line="3947"/>
+        <location filename="../src/eqonomize.cpp" line="4037"/>
+        <location filename="../src/eqonomize.cpp" line="4063"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Ongeldige datum.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2774"/>
+        <location filename="../src/eqonomize.cpp" line="2775"/>
         <source>Future dates are not allowed.</source>
         <translation type="unfinished">Datum in de toekomst is niet toegestaan.</translation>
     </message>
@@ -6200,8 +6200,8 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Waardepapier transacties</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2887"/>
-        <location filename="../src/eqonomize.cpp" line="2957"/>
+        <location filename="../src/eqonomize.cpp" line="2888"/>
+        <location filename="../src/eqonomize.cpp" line="2958"/>
         <source>Bond</source>
         <translation type="unfinished">Obligatie</translation>
     </message>
@@ -6210,53 +6210,53 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Aandelen</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2889"/>
-        <location filename="../src/eqonomize.cpp" line="2959"/>
+        <location filename="../src/eqonomize.cpp" line="2890"/>
+        <location filename="../src/eqonomize.cpp" line="2960"/>
         <source>Mutual Fund</source>
         <translation type="unfinished">Beleggingsfonds</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2890"/>
-        <location filename="../src/eqonomize.cpp" line="2960"/>
-        <location filename="../src/eqonomize.cpp" line="4209"/>
-        <location filename="../src/eqonomize.cpp" line="4214"/>
-        <location filename="../src/eqonomize.cpp" line="4980"/>
-        <location filename="../src/eqonomize.cpp" line="5030"/>
+        <location filename="../src/eqonomize.cpp" line="2891"/>
+        <location filename="../src/eqonomize.cpp" line="2961"/>
+        <location filename="../src/eqonomize.cpp" line="4210"/>
+        <location filename="../src/eqonomize.cpp" line="4215"/>
+        <location filename="../src/eqonomize.cpp" line="4981"/>
+        <location filename="../src/eqonomize.cpp" line="5031"/>
         <source>Other</source>
         <translation type="unfinished">Overig</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3846"/>
+        <location filename="../src/eqonomize.cpp" line="3847"/>
         <source>Add Loan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3850"/>
+        <location filename="../src/eqonomize.cpp" line="3851"/>
         <source>Add Category</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3878"/>
-        <location filename="../src/eqonomize.cpp" line="3911"/>
+        <location filename="../src/eqonomize.cpp" line="3879"/>
+        <location filename="../src/eqonomize.cpp" line="3912"/>
         <source>Ledger</source>
         <translation type="unfinished">Grootboek</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3925"/>
-        <location filename="../src/eqonomize.cpp" line="4041"/>
+        <location filename="../src/eqonomize.cpp" line="3926"/>
+        <location filename="../src/eqonomize.cpp" line="4042"/>
         <source>To date is before from date.</source>
         <translation type="unfinished">Tot-datum ligt voor Vanaf-datum.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3950"/>
-        <location filename="../src/eqonomize.cpp" line="4066"/>
+        <location filename="../src/eqonomize.cpp" line="3951"/>
+        <location filename="../src/eqonomize.cpp" line="4067"/>
         <source>From date is after to date.</source>
         <translation type="unfinished">Vanaf-datum ligt na Tot-datum.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4205"/>
-        <location filename="../src/eqonomize.cpp" line="4974"/>
-        <location filename="../src/eqonomize.cpp" line="5024"/>
+        <location filename="../src/eqonomize.cpp" line="4206"/>
+        <location filename="../src/eqonomize.cpp" line="4975"/>
+        <location filename="../src/eqonomize.cpp" line="5025"/>
         <source>Cash</source>
         <translation type="unfinished">Contant geld</translation>
     </message>
@@ -6265,111 +6265,111 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Lopende rekening</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4207"/>
-        <location filename="../src/eqonomize.cpp" line="4976"/>
-        <location filename="../src/eqonomize.cpp" line="5026"/>
+        <location filename="../src/eqonomize.cpp" line="4208"/>
+        <location filename="../src/eqonomize.cpp" line="4977"/>
+        <location filename="../src/eqonomize.cpp" line="5027"/>
         <source>Savings Account</source>
         <translation type="unfinished">Spaarrekening</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4208"/>
+        <location filename="../src/eqonomize.cpp" line="4209"/>
         <source>Salary</source>
         <translation type="unfinished">Salaris</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4210"/>
+        <location filename="../src/eqonomize.cpp" line="4211"/>
         <source>Bills</source>
         <translation type="unfinished">Rekeningen</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4211"/>
+        <location filename="../src/eqonomize.cpp" line="4212"/>
         <source>Clothing</source>
         <translation type="unfinished">Kleding</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4212"/>
+        <location filename="../src/eqonomize.cpp" line="4213"/>
         <source>Groceries</source>
         <translation type="unfinished">Boodschappen</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4213"/>
+        <location filename="../src/eqonomize.cpp" line="4214"/>
         <source>Leisure</source>
         <translation type="unfinished">Vrijetijd</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4296"/>
-        <location filename="../src/eqonomize.cpp" line="5699"/>
+        <location filename="../src/eqonomize.cpp" line="4297"/>
+        <location filename="../src/eqonomize.cpp" line="5700"/>
         <source>Couldn&apos;t open file</source>
         <translation type="unfinished">Kan bestand niet openen</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4296"/>
-        <location filename="../src/eqonomize.cpp" line="5699"/>
+        <location filename="../src/eqonomize.cpp" line="4297"/>
+        <location filename="../src/eqonomize.cpp" line="5700"/>
         <source>Error loading %1: %2.</source>
         <translation type="unfinished">Fout tijdens inlezen %1: %2.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4390"/>
+        <location filename="../src/eqonomize.cpp" line="4391"/>
         <source>Couldn&apos;t save file</source>
         <translation type="unfinished">Kan bestand niet opslaan</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4390"/>
+        <location filename="../src/eqonomize.cpp" line="4391"/>
         <source>Error saving %1: %2.</source>
         <translation type="unfinished">Fout bij opslaan %1: %2.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4477"/>
+        <location filename="../src/eqonomize.cpp" line="4478"/>
         <source>Updating exchange rates…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4589"/>
-        <location filename="../src/eqonomize.cpp" line="4644"/>
+        <location filename="../src/eqonomize.cpp" line="4590"/>
+        <location filename="../src/eqonomize.cpp" line="4645"/>
         <source>New currency…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4790"/>
-        <location filename="../src/eqonomize.cpp" line="4796"/>
+        <location filename="../src/eqonomize.cpp" line="4791"/>
+        <location filename="../src/eqonomize.cpp" line="4797"/>
         <source>Transaction Schedule</source>
         <translation type="unfinished">Transactie planning</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1880"/>
-        <location filename="../src/eqonomize.cpp" line="4899"/>
-        <location filename="../src/eqonomize.cpp" line="4990"/>
-        <location filename="../src/eqonomize.cpp" line="5040"/>
-        <location filename="../src/eqonomize.cpp" line="5085"/>
-        <location filename="../src/eqonomize.cpp" line="5134"/>
+        <location filename="../src/eqonomize.cpp" line="4900"/>
+        <location filename="../src/eqonomize.cpp" line="4991"/>
+        <location filename="../src/eqonomize.cpp" line="5041"/>
+        <location filename="../src/eqonomize.cpp" line="5086"/>
+        <location filename="../src/eqonomize.cpp" line="5135"/>
         <source>Total</source>
         <translation type="unfinished">Totaal</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4943"/>
+        <location filename="../src/eqonomize.cpp" line="4944"/>
         <source>Accounts &amp;amp; Categories</source>
         <comment>html format</comment>
         <translation type="unfinished">Rekeningen &amp;amp; categorieën</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4948"/>
+        <location filename="../src/eqonomize.cpp" line="4949"/>
         <source>Accounts &amp;amp; Categories (%1&amp;ndash;%2)</source>
         <comment>html format</comment>
         <translation type="unfinished">Rekeningen &amp;amp; categorieën (%1&amp;ndash;%2)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4949"/>
+        <location filename="../src/eqonomize.cpp" line="4950"/>
         <source>Accounts &amp;amp; Categories (to %1)</source>
         <comment>html format</comment>
         <translation type="unfinished">Rekeningen &amp;amp; categorieën (naar %1)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1879"/>
-        <location filename="../src/eqonomize.cpp" line="4957"/>
-        <location filename="../src/eqonomize.cpp" line="5009"/>
-        <location filename="../src/eqonomize.cpp" line="5059"/>
-        <location filename="../src/eqonomize.cpp" line="5108"/>
-        <location filename="../src/eqonomize.cpp" line="5160"/>
+        <location filename="../src/eqonomize.cpp" line="4958"/>
+        <location filename="../src/eqonomize.cpp" line="5010"/>
+        <location filename="../src/eqonomize.cpp" line="5060"/>
+        <location filename="../src/eqonomize.cpp" line="5109"/>
+        <location filename="../src/eqonomize.cpp" line="5161"/>
         <source>Change</source>
         <extracomment>Noun, how much the account balance has changed</extracomment>
         <translation type="unfinished">Mutatie</translation>
@@ -6379,28 +6379,28 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Balans</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4975"/>
-        <location filename="../src/eqonomize.cpp" line="5025"/>
+        <location filename="../src/eqonomize.cpp" line="4976"/>
+        <location filename="../src/eqonomize.cpp" line="5026"/>
         <source>Current Account</source>
         <translation type="unfinished">Lopende rekening</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4977"/>
-        <location filename="../src/eqonomize.cpp" line="5027"/>
+        <location filename="../src/eqonomize.cpp" line="4978"/>
+        <location filename="../src/eqonomize.cpp" line="5028"/>
         <source>Credit Card</source>
         <translation type="unfinished">Creditcard</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1898"/>
-        <location filename="../src/eqonomize.cpp" line="4978"/>
-        <location filename="../src/eqonomize.cpp" line="5003"/>
-        <location filename="../src/eqonomize.cpp" line="5028"/>
+        <location filename="../src/eqonomize.cpp" line="4979"/>
+        <location filename="../src/eqonomize.cpp" line="5004"/>
+        <location filename="../src/eqonomize.cpp" line="5029"/>
         <source>Liabilities</source>
         <translation type="unfinished">Passiva</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2060"/>
-        <location filename="../src/eqonomize.cpp" line="5502"/>
+        <location filename="../src/eqonomize.cpp" line="5503"/>
         <source>Set Quote…</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Voer notering in…</translation>
@@ -6412,83 +6412,83 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Notering</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2749"/>
+        <location filename="../src/eqonomize.cpp" line="2750"/>
         <source>Set Quote (%1)</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Voer notering in (%1)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2888"/>
-        <location filename="../src/eqonomize.cpp" line="2958"/>
+        <location filename="../src/eqonomize.cpp" line="2889"/>
+        <location filename="../src/eqonomize.cpp" line="2959"/>
         <source>Stock</source>
         <comment>Financial stock</comment>
         <translation type="unfinished">Aandelen</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4960"/>
-        <location filename="../src/eqonomize.cpp" line="5011"/>
+        <location filename="../src/eqonomize.cpp" line="4961"/>
+        <location filename="../src/eqonomize.cpp" line="5012"/>
         <source>Balance</source>
         <comment>Noun. Balance of an account</comment>
         <translation type="unfinished">Saldo</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5055"/>
-        <location filename="../src/eqonomize.cpp" line="5104"/>
+        <location filename="../src/eqonomize.cpp" line="5056"/>
+        <location filename="../src/eqonomize.cpp" line="5105"/>
         <source>Category</source>
         <translation type="unfinished">Categorie</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5056"/>
-        <location filename="../src/eqonomize.cpp" line="5105"/>
+        <location filename="../src/eqonomize.cpp" line="5057"/>
+        <location filename="../src/eqonomize.cpp" line="5106"/>
         <source>Budget</source>
         <translation type="unfinished">Budget</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1877"/>
-        <location filename="../src/eqonomize.cpp" line="5057"/>
-        <location filename="../src/eqonomize.cpp" line="5106"/>
+        <location filename="../src/eqonomize.cpp" line="5058"/>
+        <location filename="../src/eqonomize.cpp" line="5107"/>
         <source>Remaining Budget</source>
         <translation type="unfinished">Resterend budget</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5060"/>
+        <location filename="../src/eqonomize.cpp" line="5061"/>
         <source>Total Incomes</source>
         <translation type="unfinished">Totale inkomsten</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5101"/>
+        <location filename="../src/eqonomize.cpp" line="5102"/>
         <source>Costs</source>
         <translation type="unfinished">Kosten</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5109"/>
+        <location filename="../src/eqonomize.cpp" line="5110"/>
         <source>Total Expenses</source>
         <translation type="unfinished">Totale uitgaven</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5160"/>
+        <location filename="../src/eqonomize.cpp" line="5161"/>
         <source>Account/Category</source>
         <extracomment>Noun, how much the account balance has changed</extracomment>
         <translation type="unfinished">Rekening/categorie</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5193"/>
-        <location filename="../src/eqonomize.cpp" line="5225"/>
-        <location filename="../src/eqonomize.cpp" line="5282"/>
+        <location filename="../src/eqonomize.cpp" line="5194"/>
+        <location filename="../src/eqonomize.cpp" line="5226"/>
+        <location filename="../src/eqonomize.cpp" line="5283"/>
         <source>Empty expenses list.</source>
         <translation type="unfinished">Lege uitgaven lijst.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5198"/>
-        <location filename="../src/eqonomize.cpp" line="5230"/>
-        <location filename="../src/eqonomize.cpp" line="5287"/>
+        <location filename="../src/eqonomize.cpp" line="5199"/>
+        <location filename="../src/eqonomize.cpp" line="5231"/>
+        <location filename="../src/eqonomize.cpp" line="5288"/>
         <source>Empty incomes list.</source>
         <translation type="unfinished">Lege inkomsten lijst.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5203"/>
-        <location filename="../src/eqonomize.cpp" line="5235"/>
-        <location filename="../src/eqonomize.cpp" line="5292"/>
+        <location filename="../src/eqonomize.cpp" line="5204"/>
+        <location filename="../src/eqonomize.cpp" line="5236"/>
+        <location filename="../src/eqonomize.cpp" line="5293"/>
         <source>Empty transfers list.</source>
         <translation type="unfinished">Lege transactie lijst.</translation>
     </message>
@@ -6497,34 +6497,34 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Lege waardepapieren lijst.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5213"/>
-        <location filename="../src/eqonomize.cpp" line="5245"/>
-        <location filename="../src/eqonomize.cpp" line="5302"/>
+        <location filename="../src/eqonomize.cpp" line="5214"/>
+        <location filename="../src/eqonomize.cpp" line="5246"/>
+        <location filename="../src/eqonomize.cpp" line="5303"/>
         <source>Empty schedule list.</source>
         <translation type="unfinished">Lege planning.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5328"/>
+        <location filename="../src/eqonomize.cpp" line="5329"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation type="unfinished">Kan bestand niet openen voor schrijven.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5335"/>
+        <location filename="../src/eqonomize.cpp" line="5336"/>
         <source>Error while writing file; file was not saved.</source>
         <translation type="unfinished">Fout tijdens het schrijven van het bestand; bestand is niet opgeslagen.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5361"/>
+        <location filename="../src/eqonomize.cpp" line="5362"/>
         <source>&amp;File</source>
         <translation type="unfinished">&amp;Bestand</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5362"/>
+        <location filename="../src/eqonomize.cpp" line="5363"/>
         <source>&amp;Accounts</source>
         <translation type="unfinished">&amp;Rekeningen</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5363"/>
+        <location filename="../src/eqonomize.cpp" line="5364"/>
         <source>&amp;Transactions</source>
         <translation type="unfinished">&amp;Transacties</translation>
     </message>
@@ -6533,157 +6533,157 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">&amp;Effecten</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5366"/>
+        <location filename="../src/eqonomize.cpp" line="5367"/>
         <source>Stat&amp;istics</source>
         <translation type="unfinished">&amp;Overzichten</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5367"/>
+        <location filename="../src/eqonomize.cpp" line="5368"/>
         <source>S&amp;ettings</source>
         <translation type="unfinished">&amp;Instellungen</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5368"/>
+        <location filename="../src/eqonomize.cpp" line="5369"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5370"/>
+        <location filename="../src/eqonomize.cpp" line="5371"/>
         <source>File</source>
         <translation type="unfinished">Bestand</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5378"/>
+        <location filename="../src/eqonomize.cpp" line="5379"/>
         <source>Transactions</source>
         <translation type="unfinished">Transacties</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5382"/>
+        <location filename="../src/eqonomize.cpp" line="5383"/>
         <source>Statistics</source>
         <translation type="unfinished">Overzichten</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5389"/>
+        <location filename="../src/eqonomize.cpp" line="5390"/>
         <source>&amp;New</source>
         <translation type="unfinished">&amp;Nieuw</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5391"/>
+        <location filename="../src/eqonomize.cpp" line="5392"/>
         <source>&amp;Open…</source>
         <translation type="unfinished">&amp;Openen…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5393"/>
+        <location filename="../src/eqonomize.cpp" line="5394"/>
         <source>Open Recent</source>
         <translation type="unfinished">Recent geopend</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5403"/>
+        <location filename="../src/eqonomize.cpp" line="5404"/>
         <source>Clear List</source>
         <translation type="unfinished">Lijst wissen</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5405"/>
+        <location filename="../src/eqonomize.cpp" line="5406"/>
         <source>&amp;Save</source>
         <translation type="unfinished">Op&amp;slaan</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5407"/>
+        <location filename="../src/eqonomize.cpp" line="5408"/>
         <source>Save As…</source>
         <translation type="unfinished">Opslaan als…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5408"/>
+        <location filename="../src/eqonomize.cpp" line="5409"/>
         <source>&amp;Revert</source>
         <translation type="unfinished">&amp;Herladen</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5410"/>
+        <location filename="../src/eqonomize.cpp" line="5411"/>
         <source>&amp;Print…</source>
         <translation type="unfinished">Af&amp;drukken…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5411"/>
+        <location filename="../src/eqonomize.cpp" line="5412"/>
         <source>Print Preview…</source>
         <translation type="unfinished">Afdrukvoorbeeld…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5414"/>
+        <location filename="../src/eqonomize.cpp" line="5415"/>
         <source>Import</source>
         <translation type="unfinished">Importeer</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5416"/>
+        <location filename="../src/eqonomize.cpp" line="5417"/>
         <source>Import CSV File…</source>
         <translation type="unfinished">Importeer CSV bestand…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5417"/>
+        <location filename="../src/eqonomize.cpp" line="5418"/>
         <source>Import QIF File…</source>
         <translation type="unfinished">Importeer QIF bestand…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5418"/>
+        <location filename="../src/eqonomize.cpp" line="5419"/>
         <source>Export View…</source>
         <translation type="unfinished">Exporteer overzicht…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5420"/>
+        <location filename="../src/eqonomize.cpp" line="5421"/>
         <source>Export As QIF File…</source>
         <translation type="unfinished">Exporteer als QIF bestand…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5422"/>
+        <location filename="../src/eqonomize.cpp" line="5423"/>
         <source>Update Exchange Rates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5423"/>
+        <location filename="../src/eqonomize.cpp" line="5424"/>
         <source>Currency Converter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5428"/>
+        <location filename="../src/eqonomize.cpp" line="5429"/>
         <source>&amp;Quit</source>
         <translation type="unfinished">&amp;Afsluiten</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5430"/>
-        <location filename="../src/eqonomize.cpp" line="5435"/>
+        <location filename="../src/eqonomize.cpp" line="5431"/>
+        <location filename="../src/eqonomize.cpp" line="5436"/>
         <source>Add Account…</source>
         <translation type="unfinished">Rekening toevoegen…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5431"/>
+        <location filename="../src/eqonomize.cpp" line="5432"/>
         <source>New Account…</source>
         <translation type="unfinished">Nieuwe rekening…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5432"/>
+        <location filename="../src/eqonomize.cpp" line="5433"/>
         <source>New Loan…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5433"/>
+        <location filename="../src/eqonomize.cpp" line="5434"/>
         <source>New Income Category…</source>
         <translation type="unfinished">Nieuwe inkomsten categorie…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5434"/>
+        <location filename="../src/eqonomize.cpp" line="5435"/>
         <source>New Expense Category…</source>
         <translation type="unfinished">Nieuwe uitgaven categorie…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3848"/>
-        <location filename="../src/eqonomize.cpp" line="5436"/>
+        <location filename="../src/eqonomize.cpp" line="3849"/>
+        <location filename="../src/eqonomize.cpp" line="5437"/>
         <source>Add Account</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1896"/>
-        <location filename="../src/eqonomize.cpp" line="4951"/>
-        <location filename="../src/eqonomize.cpp" line="7974"/>
-        <location filename="../src/eqonomize.cpp" line="7980"/>
+        <location filename="../src/eqonomize.cpp" line="4952"/>
+        <location filename="../src/eqonomize.cpp" line="7975"/>
+        <location filename="../src/eqonomize.cpp" line="7981"/>
         <source>Assets</source>
         <translation type="unfinished">Activa</translation>
     </message>
@@ -6699,12 +6699,12 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Waardepapier transacties</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5364"/>
+        <location filename="../src/eqonomize.cpp" line="5365"/>
         <source>&amp;Loans</source>
         <translation type="unfinished">&amp;Leningen</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5445"/>
+        <location filename="../src/eqonomize.cpp" line="5446"/>
         <source>Edit…</source>
         <translation type="unfinished">Bewerk…</translation>
     </message>
@@ -6713,122 +6713,122 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Balans…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5450"/>
+        <location filename="../src/eqonomize.cpp" line="5451"/>
         <source>Show Transactions</source>
         <translation type="unfinished">Toon transacties</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5451"/>
+        <location filename="../src/eqonomize.cpp" line="5452"/>
         <source>Show Ledger</source>
         <translation type="unfinished">Toon grootboek</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5454"/>
+        <location filename="../src/eqonomize.cpp" line="5455"/>
         <source>New Expense…</source>
         <translation type="unfinished">Nieuwe kosten…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5456"/>
+        <location filename="../src/eqonomize.cpp" line="5457"/>
         <source>New Income…</source>
         <translation type="unfinished">Nieuwe inkomsten…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5458"/>
+        <location filename="../src/eqonomize.cpp" line="5459"/>
         <source>New Transfer…</source>
         <translation type="unfinished">Nieuwe overboeking…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5460"/>
+        <location filename="../src/eqonomize.cpp" line="5461"/>
         <source>New Split Transaction…</source>
         <translation type="unfinished">Nieuwe gesplitste transactie…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5462"/>
+        <location filename="../src/eqonomize.cpp" line="5463"/>
         <source>New Expense with Multiple Payments…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5463"/>
+        <location filename="../src/eqonomize.cpp" line="5464"/>
         <source>Refund…</source>
         <translation type="unfinished">Restitutie…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5464"/>
+        <location filename="../src/eqonomize.cpp" line="5465"/>
         <source>Repayment…</source>
         <translation type="unfinished">Terugbetaling…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5465"/>
+        <location filename="../src/eqonomize.cpp" line="5466"/>
         <source>New Refund/Repayment…</source>
         <translation type="unfinished">Nieuw restitutie/terugbetaling…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5467"/>
+        <location filename="../src/eqonomize.cpp" line="5468"/>
         <source>Edit Transaction(s) (Occurrence)…</source>
         <translation type="unfinished">Bewerk transactie(s) (gebeurtenis)…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5468"/>
+        <location filename="../src/eqonomize.cpp" line="5469"/>
         <source>Edit Occurrence…</source>
         <translation type="unfinished">Bewerk herhaling…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5469"/>
+        <location filename="../src/eqonomize.cpp" line="5470"/>
         <source>Edit Schedule (Recurrence)…</source>
         <translation type="unfinished">Bewerk planning (herhaling)…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5470"/>
+        <location filename="../src/eqonomize.cpp" line="5471"/>
         <source>Edit Schedule…</source>
         <translation type="unfinished">Bewerk planning…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5471"/>
+        <location filename="../src/eqonomize.cpp" line="5472"/>
         <source>Edit Split Transaction…</source>
         <translation type="unfinished">Bewerk gesplitste transactie…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5472"/>
+        <location filename="../src/eqonomize.cpp" line="5473"/>
         <source>Join Transactions…</source>
         <translation type="unfinished">Transacties samenvoegen…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5473"/>
+        <location filename="../src/eqonomize.cpp" line="5474"/>
         <source>Split Up Transaction</source>
         <translation type="unfinished">Splits transacties</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5475"/>
+        <location filename="../src/eqonomize.cpp" line="5476"/>
         <source>Select Associated File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5476"/>
+        <location filename="../src/eqonomize.cpp" line="5477"/>
         <source>Open Associated File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5478"/>
+        <location filename="../src/eqonomize.cpp" line="5479"/>
         <source>Remove Transaction(s) (Occurrence)</source>
         <translation type="unfinished">Verwijder transactie(s) (gebeurtenis)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5479"/>
+        <location filename="../src/eqonomize.cpp" line="5480"/>
         <source>Remove Occurrence</source>
         <translation type="unfinished">Verwijder herhaling</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5480"/>
+        <location filename="../src/eqonomize.cpp" line="5481"/>
         <source>Delete Schedule (Recurrence)</source>
         <translation type="unfinished">Verwijder planning (herhaling)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5481"/>
+        <location filename="../src/eqonomize.cpp" line="5482"/>
         <source>Delete Schedule</source>
         <translation type="unfinished">Verwijder planning</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5482"/>
+        <location filename="../src/eqonomize.cpp" line="5483"/>
         <source>Remove Split Transaction</source>
         <translation type="unfinished">Verwijder gesplitste transactie</translation>
     </message>
@@ -6853,17 +6853,17 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Aandelen verplaatst…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5498"/>
+        <location filename="../src/eqonomize.cpp" line="5499"/>
         <source>Dividend…</source>
         <translation type="unfinished">Dividend…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5499"/>
+        <location filename="../src/eqonomize.cpp" line="5500"/>
         <source>Reinvested Dividend…</source>
         <translation type="unfinished">Herinversteerd dividend…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5500"/>
+        <location filename="../src/eqonomize.cpp" line="5501"/>
         <source>Transactions…</source>
         <translation type="unfinished">Transacties…</translation>
     </message>
@@ -6872,141 +6872,141 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Bewerk noteringen…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5505"/>
+        <location filename="../src/eqonomize.cpp" line="5506"/>
         <source>Development Over Time Report…</source>
         <translation type="unfinished">Rapportage per periode…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5507"/>
+        <location filename="../src/eqonomize.cpp" line="5508"/>
         <source>Categories Comparison Report…</source>
         <translation type="unfinished">Rapportage per categorie…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5509"/>
+        <location filename="../src/eqonomize.cpp" line="5510"/>
         <source>Development Over Time Chart…</source>
         <translation type="unfinished">Grafiek per periode…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5511"/>
+        <location filename="../src/eqonomize.cpp" line="5512"/>
         <source>Categories Comparison Chart…</source>
         <translation type="unfinished">Grafiek per categorie…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5514"/>
+        <location filename="../src/eqonomize.cpp" line="5515"/>
         <source>Use Additional Transaction Properties</source>
         <translation type="unfinished">Extra transactie-eigenschappen gebruiken</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5516"/>
+        <location filename="../src/eqonomize.cpp" line="5517"/>
         <source>Show quantity and payer/payee for incomes and expenses.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5518"/>
+        <location filename="../src/eqonomize.cpp" line="5519"/>
         <source>Set Main Currency…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5520"/>
+        <location filename="../src/eqonomize.cpp" line="5521"/>
         <source>Set Budget Period…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5522"/>
+        <location filename="../src/eqonomize.cpp" line="5523"/>
         <source>Initial Period</source>
         <translation type="unfinished">Start met periode</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5529"/>
+        <location filename="../src/eqonomize.cpp" line="5530"/>
         <source>Remember Last Dates</source>
         <translation type="unfinished">Onthoud laatst gebuikte datums</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5532"/>
+        <location filename="../src/eqonomize.cpp" line="5533"/>
         <source>Backup Frequency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5535"/>
+        <location filename="../src/eqonomize.cpp" line="5536"/>
         <source>Daily</source>
         <translation type="unfinished">Dagelijks</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5536"/>
+        <location filename="../src/eqonomize.cpp" line="5537"/>
         <source>Weekly</source>
         <translation type="unfinished">Wekelijks</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5537"/>
+        <location filename="../src/eqonomize.cpp" line="5538"/>
         <source>Fortnightly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5538"/>
+        <location filename="../src/eqonomize.cpp" line="5539"/>
         <source>Monthly</source>
         <translation type="unfinished">Maandelijks</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5539"/>
+        <location filename="../src/eqonomize.cpp" line="5540"/>
         <source>Never</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5542"/>
-        <location filename="../src/eqonomize.cpp" line="5650"/>
+        <location filename="../src/eqonomize.cpp" line="5543"/>
+        <location filename="../src/eqonomize.cpp" line="5651"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5545"/>
+        <location filename="../src/eqonomize.cpp" line="5546"/>
         <source>Report Bug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5547"/>
-        <location filename="../src/eqonomize.cpp" line="5677"/>
+        <location filename="../src/eqonomize.cpp" line="5548"/>
+        <location filename="../src/eqonomize.cpp" line="5678"/>
         <source>About %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5548"/>
+        <location filename="../src/eqonomize.cpp" line="5549"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5677"/>
+        <location filename="../src/eqonomize.cpp" line="5678"/>
         <source>A personal accounting program</source>
         <translation type="unfinished">Een persoonlijk boekhoudprogramma</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5677"/>
+        <location filename="../src/eqonomize.cpp" line="5678"/>
         <source>License: GNU General Public License Version 3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5694"/>
+        <location filename="../src/eqonomize.cpp" line="5695"/>
         <source>Crash Recovery</source>
         <translation type="unfinished">Herstellen na vastlopen</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4192"/>
-        <location filename="../src/eqonomize.cpp" line="5906"/>
+        <location filename="../src/eqonomize.cpp" line="4193"/>
+        <location filename="../src/eqonomize.cpp" line="5907"/>
         <source>Untitled</source>
         <translation type="unfinished">Naamloos</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1860"/>
-        <location filename="../src/eqonomize.cpp" line="4858"/>
-        <location filename="../src/eqonomize.cpp" line="4864"/>
-        <location filename="../src/eqonomize.cpp" line="4979"/>
-        <location filename="../src/eqonomize.cpp" line="5029"/>
+        <location filename="../src/eqonomize.cpp" line="4859"/>
+        <location filename="../src/eqonomize.cpp" line="4865"/>
+        <location filename="../src/eqonomize.cpp" line="4980"/>
+        <location filename="../src/eqonomize.cpp" line="5030"/>
         <source>Securities</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Effecten</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2055"/>
-        <location filename="../src/eqonomize.cpp" line="5490"/>
+        <location filename="../src/eqonomize.cpp" line="5491"/>
         <source>New Security…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nieuw effecten…</translation>
@@ -7063,19 +7063,19 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Voer notering in (%1)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2754"/>
+        <location filename="../src/eqonomize.cpp" line="2755"/>
         <source>Price per share:</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Prijs per aandeel:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2802"/>
+        <location filename="../src/eqonomize.cpp" line="2803"/>
         <source>Security Transactions</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Effecten transacties</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4206"/>
+        <location filename="../src/eqonomize.cpp" line="4207"/>
         <source>Checking Account</source>
         <comment>Transactional account</comment>
         <translation type="unfinished">Betaalrekening</translation>
@@ -7086,15 +7086,15 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Saldo</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5208"/>
-        <location filename="../src/eqonomize.cpp" line="5240"/>
-        <location filename="../src/eqonomize.cpp" line="5297"/>
+        <location filename="../src/eqonomize.cpp" line="5209"/>
+        <location filename="../src/eqonomize.cpp" line="5241"/>
+        <location filename="../src/eqonomize.cpp" line="5298"/>
         <source>Empty securities list.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Lege effecten lijst.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5365"/>
+        <location filename="../src/eqonomize.cpp" line="5366"/>
         <source>&amp;Securities</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">&amp;Effecten</translation>
@@ -7105,25 +7105,25 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Balans…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5491"/>
+        <location filename="../src/eqonomize.cpp" line="5492"/>
         <source>Edit Security…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Bewerk effecten…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5492"/>
+        <location filename="../src/eqonomize.cpp" line="5493"/>
         <source>Remove Security</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Verwijder effecten</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5494"/>
+        <location filename="../src/eqonomize.cpp" line="5495"/>
         <source>Shares Bought…</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Aandelen gekocht…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5495"/>
+        <location filename="../src/eqonomize.cpp" line="5496"/>
         <source>Shares Sold…</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Aandelen verkocht…</translation>
@@ -7134,37 +7134,37 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Bewerk noteringen…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5989"/>
+        <location filename="../src/eqonomize.cpp" line="5990"/>
         <source>The current file has been modified. Do you want to save it?</source>
         <translation type="unfinished">Het huidige bestand is gewijzigd. Wilt u het bestand opslaan?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5989"/>
+        <location filename="../src/eqonomize.cpp" line="5990"/>
         <source>Save file?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6019"/>
+        <location filename="../src/eqonomize.cpp" line="6020"/>
         <source>Confirm Schedule</source>
         <translation type="unfinished">Bevestig planning</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6128"/>
+        <location filename="../src/eqonomize.cpp" line="6129"/>
         <source>New Account</source>
         <translation type="unfinished">Nieuwe rekening</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6153"/>
+        <location filename="../src/eqonomize.cpp" line="6154"/>
         <source>New Loan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6189"/>
+        <location filename="../src/eqonomize.cpp" line="6190"/>
         <source>New Income Category</source>
         <translation type="unfinished">Nieuwe inkomsten categorie</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6206"/>
+        <location filename="../src/eqonomize.cpp" line="6207"/>
         <source>New Expense Category</source>
         <translation type="unfinished">Nieuwe uitgaven categorie</translation>
     </message>
@@ -7173,109 +7173,109 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Balansrekening</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6296"/>
+        <location filename="../src/eqonomize.cpp" line="6297"/>
         <source>Book value:</source>
         <translation type="unfinished">Boek waarde:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6300"/>
+        <location filename="../src/eqonomize.cpp" line="6301"/>
         <source>of which %1 is balance adjustment</source>
         <comment>Referring to account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6303"/>
+        <location filename="../src/eqonomize.cpp" line="6304"/>
         <source>Real value:</source>
         <translation type="unfinished">Echte waarde:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6333"/>
+        <location filename="../src/eqonomize.cpp" line="6334"/>
         <source>Edit Account</source>
         <translation type="unfinished">Bewerk rekening</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6405"/>
+        <location filename="../src/eqonomize.cpp" line="6406"/>
         <source>Edit Income Category</source>
         <translation type="unfinished">Bewerk inkomsten categorie</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6439"/>
+        <location filename="../src/eqonomize.cpp" line="6440"/>
         <source>Edit Expense Category</source>
         <translation type="unfinished">Bewerk uitgaven categorie</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6524"/>
+        <location filename="../src/eqonomize.cpp" line="6525"/>
         <source>Remove subcategories?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6524"/>
+        <location filename="../src/eqonomize.cpp" line="6525"/>
         <source>Do you wish to remove the category including all subcategories?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6574"/>
+        <location filename="../src/eqonomize.cpp" line="6575"/>
         <source>Move transactions?</source>
         <translation type="unfinished">Verplaats transactie?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6583"/>
+        <location filename="../src/eqonomize.cpp" line="6584"/>
         <source>Move to:</source>
         <translation type="unfinished">Verplaatsen naar:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6590"/>
+        <location filename="../src/eqonomize.cpp" line="6591"/>
         <source>The category contains some expenses.
 What do you want to do with them?</source>
         <translation type="unfinished">De categorie bevat enkele uitgaven.
 Wat wil je er mee doen?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6602"/>
+        <location filename="../src/eqonomize.cpp" line="6603"/>
         <source>The category contains some incomes.
 What do you want to do with them?</source>
         <translation type="unfinished">De categorie bevat enkele inkomsten.
 Wat wil je er mee doen?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6614"/>
+        <location filename="../src/eqonomize.cpp" line="6615"/>
         <source>The account contains some transactions.
 What do you want to do with them?</source>
         <translation type="unfinished">Het account bevat enkele transacties.
 Wat wil je er mee doen?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6643"/>
         <location filename="../src/eqonomize.cpp" line="6644"/>
+        <location filename="../src/eqonomize.cpp" line="6645"/>
         <source>Remove Category?</source>
         <translation type="unfinished">Verwijder categorie?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6643"/>
+        <location filename="../src/eqonomize.cpp" line="6644"/>
         <source>The category contains some expenses that will be removed. Do you still want to remove the category?</source>
         <translation type="unfinished">De categorie bevat enkele uitgaven die verwijderd zullen worden. Wil je nog steeds de categorie verwijderen?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6644"/>
+        <location filename="../src/eqonomize.cpp" line="6645"/>
         <source>The category contains some incomes that will be removed. Do you still want to remove the category?</source>
         <translation type="unfinished">De categorie bevat enkele inkomsten die verwijderd zullen worden. Wil je nog steeds de categorie verwijderen?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6645"/>
+        <location filename="../src/eqonomize.cpp" line="6646"/>
         <source>Remove Account?</source>
         <translation type="unfinished">Verwijder account?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6645"/>
+        <location filename="../src/eqonomize.cpp" line="6646"/>
         <source>The account contains some transactions that will be removed. Do you still want to remove the account?</source>
         <translation type="unfinished">De categorie bevat enkele transacties die verwijderd zullen worden. Wil je nog steeds de categorie verwijderen?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1893"/>
-        <location filename="../src/eqonomize.cpp" line="7369"/>
-        <location filename="../src/eqonomize.cpp" line="7395"/>
-        <location filename="../src/eqonomize.cpp" line="7726"/>
+        <location filename="../src/eqonomize.cpp" line="7370"/>
+        <location filename="../src/eqonomize.cpp" line="7396"/>
         <location filename="../src/eqonomize.cpp" line="7727"/>
+        <location filename="../src/eqonomize.cpp" line="7728"/>
         <source>%2 of %1</source>
         <comment>%1: budget; %2: remaining budget</comment>
         <translation type="unfinished">%2 van %1</translation>
@@ -7286,19 +7286,19 @@ Wat wil je er mee doen?</translation>
         <translation type="obsolete">Balans…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5496"/>
+        <location filename="../src/eqonomize.cpp" line="5497"/>
         <source>Shares Exchanged…</source>
         <comment>Shares of one security directly exchanged for shares of another; Financial shares</comment>
         <translation type="unfinished">Aandelen verplaatst…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5497"/>
+        <location filename="../src/eqonomize.cpp" line="5498"/>
         <source>Shares of one security directly exchanged for shares of another</source>
         <comment>Financial shares</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5503"/>
+        <location filename="../src/eqonomize.cpp" line="5504"/>
         <source>Edit Quotes…</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Bewerk noteringen…</translation>
@@ -7309,14 +7309,14 @@ Wat wil je er mee doen?</translation>
         <translation type="obsolete">Balansrekening</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7809"/>
-        <location filename="../src/eqonomize.cpp" line="7833"/>
+        <location filename="../src/eqonomize.cpp" line="7810"/>
+        <location filename="../src/eqonomize.cpp" line="7834"/>
         <source>%1 (with no budget)</source>
         <translation type="unfinished">%1 (zonder budget)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7810"/>
-        <location filename="../src/eqonomize.cpp" line="7834"/>
+        <location filename="../src/eqonomize.cpp" line="7811"/>
+        <location filename="../src/eqonomize.cpp" line="7835"/>
         <source>%1 (with budget %2)</source>
         <translation type="unfinished">%1 (met budget %2)</translation>
     </message>
@@ -8192,7 +8192,7 @@ Wat wil je er mee doen?</translation>
 <context>
     <name>Income</name>
     <message>
-        <location filename="../src/transaction.cpp" line="366"/>
+        <location filename="../src/transaction.cpp" line="384"/>
         <source>Dividend: %1</source>
         <translation type="unfinished">Dividend: %1</translation>
     </message>
@@ -8600,7 +8600,7 @@ Wat wil je er mee doen?</translation>
 <context>
     <name>MultipleTransactionsEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1529"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1530"/>
         <source>Modify Transactions</source>
         <translation type="unfinished">Transacties bewerken</translation>
     </message>
@@ -8613,43 +8613,43 @@ Wat wil je er mee doen?</translation>
         <translation type="obsolete">Naam:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1542"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1543"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Omschrijving:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1552"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1553"/>
         <source>Amount:</source>
         <translation type="unfinished">Hoeveelheid:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1553"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1554"/>
         <source>Income:</source>
         <translation type="unfinished">Inkomsten:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1554"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1555"/>
         <source>Cost:</source>
         <translation type="unfinished">Kosten:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1562"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1563"/>
         <source>Date:</source>
         <translation type="unfinished">Datum:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1573"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1574"/>
         <source>Category:</source>
         <translation type="unfinished">Categorie:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1587"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1588"/>
         <source>Payer:</source>
         <translation type="unfinished">Debiteur:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1588"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1589"/>
         <source>Payee:</source>
         <translation type="unfinished">Crediteur:</translation>
     </message>
@@ -8670,24 +8670,24 @@ Wat wil je er mee doen?</translation>
         <translation type="obsolete">Nieuwe Uitgaven Categorie…</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1726"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1734"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1745"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1727"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1735"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1746"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1726"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1727"/>
         <source>No income category available.</source>
         <translation type="unfinished">Geen beschikbare inkomsten categorie.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1734"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1735"/>
         <source>No expense category available.</source>
         <translation type="unfinished">Geen beschikbare uitgavencategorie.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1745"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1746"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Ongeldige datum.</translation>
     </message>
@@ -10001,7 +10001,7 @@ Datum: %3</translation>
         <translation type="obsolete">Effecten: %1 (gekocht)</translation>
     </message>
     <message>
-        <location filename="../src/transaction.cpp" line="677"/>
+        <location filename="../src/transaction.cpp" line="695"/>
         <source>Security: %1 (bought)</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Effecten: %1 (gekocht)</translation>
@@ -10014,7 +10014,7 @@ Datum: %3</translation>
         <translation type="obsolete">Effecten: %1 (verkocht)</translation>
     </message>
     <message>
-        <location filename="../src/transaction.cpp" line="723"/>
+        <location filename="../src/transaction.cpp" line="741"/>
         <source>Security: %1 (sold)</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Effecten: %1 (verkocht)</translation>
@@ -10215,33 +10215,33 @@ Datum: %3</translation>
 <context>
     <name>TransactionEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1500"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1501"/>
         <source>Edit Expense</source>
         <translation type="unfinished">Kosten bewerken</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1502"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1503"/>
         <source>Edit Dividend</source>
         <translation type="unfinished">Dividend bewerken</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1503"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1504"/>
         <source>Edit Income</source>
         <translation type="unfinished">Inkomsten bewerken</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1506"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1507"/>
         <source>Edit Transfer</source>
         <translation type="unfinished">Overboeking bewerken</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1507"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1508"/>
         <source>Edit Securities Purchase</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Gekochte effecten bewerken</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1508"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1509"/>
         <source>Edit Securities Sale</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Verkochte effecten bewerken</translation>
@@ -10401,7 +10401,7 @@ Datum: %3</translation>
         <translation type="unfinished">Opmerkingen:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="960"/>
+        <location filename="../src/transactioneditwidget.cpp" line="961"/>
         <source>No security available.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Geen effecten beschikbaar.</translation>
@@ -10472,48 +10472,48 @@ Datum: %3</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="913"/>
-        <location filename="../src/transactioneditwidget.cpp" line="917"/>
-        <location filename="../src/transactioneditwidget.cpp" line="924"/>
-        <location filename="../src/transactioneditwidget.cpp" line="928"/>
-        <location filename="../src/transactioneditwidget.cpp" line="935"/>
-        <location filename="../src/transactioneditwidget.cpp" line="942"/>
-        <location filename="../src/transactioneditwidget.cpp" line="949"/>
-        <location filename="../src/transactioneditwidget.cpp" line="953"/>
-        <location filename="../src/transactioneditwidget.cpp" line="960"/>
-        <location filename="../src/transactioneditwidget.cpp" line="968"/>
-        <location filename="../src/transactioneditwidget.cpp" line="978"/>
-        <location filename="../src/transactioneditwidget.cpp" line="982"/>
-        <location filename="../src/transactioneditwidget.cpp" line="989"/>
-        <location filename="../src/transactioneditwidget.cpp" line="996"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1004"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1008"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1012"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1024"/>
+        <location filename="../src/transactioneditwidget.cpp" line="914"/>
+        <location filename="../src/transactioneditwidget.cpp" line="918"/>
+        <location filename="../src/transactioneditwidget.cpp" line="925"/>
+        <location filename="../src/transactioneditwidget.cpp" line="929"/>
+        <location filename="../src/transactioneditwidget.cpp" line="936"/>
+        <location filename="../src/transactioneditwidget.cpp" line="943"/>
+        <location filename="../src/transactioneditwidget.cpp" line="950"/>
+        <location filename="../src/transactioneditwidget.cpp" line="954"/>
+        <location filename="../src/transactioneditwidget.cpp" line="961"/>
+        <location filename="../src/transactioneditwidget.cpp" line="969"/>
+        <location filename="../src/transactioneditwidget.cpp" line="979"/>
+        <location filename="../src/transactioneditwidget.cpp" line="983"/>
+        <location filename="../src/transactioneditwidget.cpp" line="990"/>
+        <location filename="../src/transactioneditwidget.cpp" line="997"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1005"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1009"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1013"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1025"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="913"/>
-        <location filename="../src/transactioneditwidget.cpp" line="917"/>
-        <location filename="../src/transactioneditwidget.cpp" line="928"/>
-        <location filename="../src/transactioneditwidget.cpp" line="942"/>
-        <location filename="../src/transactioneditwidget.cpp" line="953"/>
+        <location filename="../src/transactioneditwidget.cpp" line="914"/>
+        <location filename="../src/transactioneditwidget.cpp" line="918"/>
+        <location filename="../src/transactioneditwidget.cpp" line="929"/>
+        <location filename="../src/transactioneditwidget.cpp" line="943"/>
+        <location filename="../src/transactioneditwidget.cpp" line="954"/>
         <source>No suitable account available.</source>
         <translation type="unfinished">Geen geschikte rekening beschikbaar.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="924"/>
+        <location filename="../src/transactioneditwidget.cpp" line="925"/>
         <source>No income category available.</source>
         <translation type="unfinished">Geen beschikbare inkomsten categorie.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="935"/>
+        <location filename="../src/transactioneditwidget.cpp" line="936"/>
         <source>No suitable account or income category available.</source>
         <translation type="unfinished">Geen geschikte rekening of inkomsten categorie beschikbaar.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="949"/>
+        <location filename="../src/transactioneditwidget.cpp" line="950"/>
         <source>No expense category available.</source>
         <translation type="unfinished">Geen beschikbare uitgavencategorie.</translation>
     </message>
@@ -10522,52 +10522,52 @@ Datum: %3</translation>
         <translation type="obsolete">Geen effecten beschikbaar.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="968"/>
+        <location filename="../src/transactioneditwidget.cpp" line="969"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Ongeldige datum.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="978"/>
+        <location filename="../src/transactioneditwidget.cpp" line="979"/>
         <source>Cannot transfer money to and from the same account.</source>
         <translation type="unfinished">Kan geen geld overmaken naar en van dezelde rekening.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="982"/>
+        <location filename="../src/transactioneditwidget.cpp" line="983"/>
         <source>Downpayment must be less than total cost.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="989"/>
+        <location filename="../src/transactioneditwidget.cpp" line="990"/>
         <source>Cannot create a regular transfer to/from a securities account.</source>
         <translation type="unfinished">Van of naar een effectenrekening kan geen gewone overboeking worden ingevoerd.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="996"/>
+        <location filename="../src/transactioneditwidget.cpp" line="997"/>
         <source>Cannot create a regular income to a securities account.</source>
         <translation type="unfinished">Naar een effectenrekening kan geen gewoon inkomen worden geboekt.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1004"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1005"/>
         <source>Zero shares not allowed.</source>
         <translation type="unfinished">Nul effecten niet toegestaan.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1008"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1009"/>
         <source>Zero value not allowed.</source>
         <translation type="unfinished">Geen waarde niet toegestaan.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1012"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1013"/>
         <source>Zero price per share not allowed.</source>
         <translation type="unfinished">Het is niet toegestaan om een prijs per aandeel van nul in te voeren.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1024"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1025"/>
         <source>Cannot create a regular expense from a securities account.</source>
         <translation type="unfinished">Van een effectenrekening kan geen gewone uitgave worden geboekt.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1098"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1099"/>
         <source>Loan for %1</source>
         <translation type="unfinished"></translation>
     </message>

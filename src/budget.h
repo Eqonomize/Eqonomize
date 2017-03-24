@@ -46,21 +46,11 @@ bool currency_symbol_precedes();
 bool is_zero(double);
 QString format_money(double v, int precision);
 
-static bool transaction_list_less_than(Transaction *t1, Transaction *t2) {
-	return t1->date() < t2->date();
-}
-static bool split_list_less_than(SplitTransaction *t1, SplitTransaction *t2) {
-	return t1->date() < t2->date();
-}
-static bool schedule_list_less_than(ScheduledTransaction *t1, ScheduledTransaction *t2) {
-	return t1->date() < t2->date();
-}
-static bool trade_list_less_than(SecurityTrade *t1, SecurityTrade *t2) {
-	return t1->date < t2->date;
-}
-static bool security_list_less_than(Security *t1, Security *t2) {
-	return QString::localeAwareCompare(t1->name(), t2->name()) < 0;
-}
+bool transaction_list_less_than(Transaction *t1, Transaction *t2);
+bool split_list_less_than(SplitTransaction *t1, SplitTransaction *t2);
+bool schedule_list_less_than(ScheduledTransaction *t1, ScheduledTransaction *t2);
+bool trade_list_less_than(SecurityTrade *t1, SecurityTrade *t2);
+bool security_list_less_than(Security *t1, Security *t2);
 
 template<class type> class TransactionList : public EqonomizeList<type> {
 	public:
@@ -180,6 +170,9 @@ class Budget {
 		void scheduledTransactionDateModified(ScheduledTransaction*);
 		void transactionDateModified(Transaction*, const QDate &olddate);
 		void splitTransactionDateModified(SplitTransaction*, const QDate &olddate);
+		void scheduledTransactionSortModified(ScheduledTransaction*);
+		void transactionSortModified(Transaction*);
+		void splitTransactionSortModified(SplitTransaction*);
 		void accountNameModified(Account*);
 		void securityNameModified(Security*);
 		void securityTradeDateModified(SecurityTrade*, const QDate &olddate);
