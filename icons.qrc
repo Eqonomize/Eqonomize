@@ -69,6 +69,7 @@
 	<file alias="actions/16x16/edit-delete.png">data/standard/16/edit-delete.png</file>
 	<file alias="actions/16x16/help-about.png">data/standard/16/help-about.png</file>
 	<file alias="actions/16x16/help-contents.png">data/standard/16/help-contents.png</file>
+	<file alias="actions/16x16/system-run.png">data/standard/16/system-run.png</file>
 	<file alias="apps/32x32/eqonomize.png">data/32/eqonomize.png</file>
 	<file alias="actions/32x32/eqz-account.png">data/32/eqz-account.png</file>
 	<file alias="actions/32x32/eqz-balance.png">data/32/eqz-balance.png</file>
@@ -104,6 +105,7 @@
 	<file alias="actions/32x32/edit-delete.png">data/standard/32/edit-delete.png</file>
 	<file alias="actions/32x32/help-about.png">data/standard/32/help-about.png</file>
 	<file alias="actions/32x32/help-contents.png">data/standard/32/help-contents.png</file>
+	<file alias="actions/32x32/system-run.png">data/standard/32/system-run.png</file>
 	<file alias="actions/48x48/eqz-account.png">data/48/eqz-account.png</file>
 	<file alias="actions/48x48/eqz-balance.png">data/48/eqz-balance.png</file>
 	<file alias="actions/48x48/eqz-categories-chart.png">data/48/eqz-categories-chart.png</file>
@@ -138,6 +140,7 @@
 	<file alias="actions/48x48/edit-delete.png">data/standard/48/edit-delete.png</file>
 	<file alias="actions/48x48/help-about.png">data/standard/48/help-about.png</file>
 	<file alias="actions/48x48/help-contents.png">data/standard/48/help-contents.png</file>
+	<file alias="actions/48x48/system-run.png">data/standard/48/system-run.png</file>
 	<file alias="apps/64x64/eqonomize.png">data/64/eqonomize.png</file>
 	<file alias="actions/64x64/eqz-account.png">data/64/eqz-account.png</file>
 	<file alias="actions/64x64/eqz-balance.png">data/64/eqz-balance.png</file>
@@ -205,5 +208,6 @@
 	<file alias="actions/22x22/edit-delete.png">data/standard/22/edit-delete.png</file>
 	<file alias="actions/22x22/help-about.png">data/standard/22/help-about.png</file>
 	<file alias="actions/22x22/help-contents.png">data/standard/22/help-contents.png</file>
+	<file alias="actions/22x22/system-run.png">data/standard/22/system-run.png</file>
 </qresource>
 </RCC>
