@@ -224,34 +224,36 @@ bool EqonomizeValueEdit::fixup_sub(QString &input) const {
 				else v += QLocale().toDouble(terms[terms_i]);
 				if(i < str.length()) c = str[i];
 			}
+			i++;
 		}
 		input = QLocale().toString(v, 'f', decimals());
 		QDoubleSpinBox::fixup(input);
 		return true;
 	}
 	if(str.indexOf("**") >= 0) str.replace("**", "^");
-	i = str.indexOf('*', 1);
-	if(i >= 1 && i != str.length() - 1) {
-		QString factor1 = str.left(i);
-		QString factor2 = str.right(str.length() - (i + 1));
-		fixup_sub(factor1);
-		fixup_sub(factor2);
-		double v = QLocale().toDouble(factor1) * QLocale().toDouble(factor2);
+	i = str.indexOf(QRegExp("[*/]"), 0);
+	if(i >= 1) {
+		QStringList terms = str.split(QRegExp("[*/]"));
+		QChar c = '*';
+		i = 0;
+		double v = 1.0;
+		for(int terms_i = 0; terms_i < terms.size(); terms_i++) {
+			if(terms[terms_i].isEmpty()) {
+				if(c == '/') v /= 0.0;
+				else v *= 0.0;
+			} else {
+				i += terms[terms_i].length();
+				fixup_sub(terms[terms_i]);
+				if(c == '/') v /= QLocale().toDouble(terms[terms_i]);
+				else v *= QLocale().toDouble(terms[terms_i]);
+				if(i < str.length()) c = str[i];
+			}
+			i++;
+		}
 		input = QLocale().toString(v, 'f', decimals());
 		QDoubleSpinBox::fixup(input);
 		return true;
 	}
-	i = str.indexOf('/', 1);
-	if(i >= 1 && i != str.length() - 1) {
-		QString num = str.left(i);
-		QString den = str.right(str.length() - (i + 1));
-		fixup_sub(num);
-		fixup_sub(den);
-		double v = QLocale().toDouble(num) / QLocale().toDouble(den);
-		input = QLocale().toString(v, 'f', decimals());
-		QDoubleSpinBox::fixup(input);
-		return true;
-	}	
 	i = str.indexOf('%');
 	if(i >= 0) {
 		double v = 0.01;

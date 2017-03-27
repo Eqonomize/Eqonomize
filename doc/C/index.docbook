@@ -58,7 +58,7 @@
 <title>Introduction</title>
 
 <para>
-	&eqonomize; is a tool for keeping track of and monitoring personal finances. This means entering of everyday expenses and incomes – when you buy something, receive salary, pay bills, transfer money between bank accounts, invest in stock, etc. &eqonomize; provides tools for making this process as easy and efficient as possible. You can then effortlessly retrieve information and statistics about your financial situation. You can for example easily identify major leaks and direct saving efforts to the right areas. You can also monitor performance in relation to a budget and check what your choices might mean for your future wealth.
+	&eqonomize; is a tool for keeping track of and monitoring personal finances. This means entering of everyday expenses and incomes – when you buy something, receive salary, pay bills, transfer money between bank accounts, invest in stock, etc. &eqonomize; provides tools for making this process as easy and efficient as possible. You can then effortlessly retrieve information and statistics about your financial situation. You will for example be able to easily identify major leaks, and direct saving efforts to the right areas. You can also monitor performance in relation to a budget and check what your choices might mean for your future wealth.
 </para>
 <para>
 	The purpose of this manual is to describe how to practically use &eqonomize; for those who do not find the graphical user interface self-explanatory, as well as document some less obvious efficiency-enhancing features and explain how &eqonomize; interprets the data you provide.
@@ -78,7 +78,7 @@
 <title>Using &eqonomize;</title>
 
 <para>
-	The main window consists of six different views. When &eqonomize; is started, the account view is shown. To change view click on the corresponding icon in the vertical list on the right side of the window.
+	The main window consists of six different views. When &eqonomize; is started, the account view is shown. To change view click on the corresponding icon in the horizontal list above.
 </para>
 
 <sect1 id="accounts_and_categories">
@@ -136,7 +136,7 @@
 		<title>Expenses</title>
 		<mediaobject><imageobject><imagedata format="PNG" fileref="expenses-view.png"/></imageobject></mediaobject>
 		<para>
-			The first time you record an expense you need to follow these steps:
+			The first time you record an expense you should follow these steps:
 			<orderedlist>
 				<listitem><para>Switch to the expenses view, using the left-hand icons. The input focus is now in the description entry.</para></listitem>
 				<listitem><para>Type in a description for the expense. Your free to use the description property as you want, but I suggest you keep short and consistent without any inflections, as a subcategory for optimum efficiency and good statistics. For example, if you buy a delicious red royal gala apple and have an expense category for fruit, the description will be <quote>Apple</quote>, and if you want to record additional information put <quote>Delicious red royal gala</quote> as comment (others might find it more appropriate to use <quote>Groceries</quote> as category and <quote>Fruit</quote> as description). Press <keycap>Enter</keycap> or <keycap>Tab</keycap> and focus will move to the cost entry.</para></listitem>
@@ -399,12 +399,11 @@
 			</tgroup>
 		</table>
 		<para>
-			All transactions do in addition have two optional properties. The description property provides information about the nature of the transaction. For expenses and incomes this can be considered a flexible subcategory. The comment property is used for any additional information, not used for categorisation, about the transaction. If you for example buy a pair of shoes, you might create an expense in a clothing category, with the description <quote>Shoes</quote> and comments <quote>Shiny red Pradas</quote>.
+			All transactions do in addition have three optional properties. The description property provides information about the nature of the transaction. For expenses and incomes this can be considered a flexible subcategory. The comment property is used for any additional information, not used for categorisation, about the transaction. If you for example buy a pair of shoes, you might create an expense in a clothing category, with the description <quote>Shoes</quote> and comments <quote>Shiny red Pradas</quote>. The third property, <quote>Associated File</quote>, allows you to specify a link to file on the computer which will be connected to the transaction. This will typically be receipt, invoice or payslip, but any file can be selected. The file will not be moved, copied or modified. If the file is moved or renamed outside of &eqonomize;, the file will not be accessible from within the program. 
 		</para>
 		<para>
-			Expenses and incomes do also have two properties which are not by default activated in the program. The quantity property denotes how many entities was involved in the transaction. This can be a whole number, as in two CD's, or a fraction, as in 0.56 kg apples (units are not included). This property is by default set to 1 and does not affect the value (the value per entity equals the value divided by the quantity). Expenses also have a payee property for the person or entity, for example the store where goods where bought, which receives the money, and incomes have payer property for the one who gives you the money, for example your employer.
+			Expenses have two additional properties which can be show or hidden using <menuchoice><guimenu>Settings</guimenu><guimenuitem>Use Additional Transaction Properties</guimenuitem></menuchoice> (deactivating this option will not permanently remove any properties from already entered transactions). The quantity property denotes how many entities was involved in the transaction. This can be a whole number, as in two CD's, or a fraction, as in 0.56 kg apples (units are not included). This property is by default set to 1 and does not affect the value (the value per entity equals the value divided by the quantity). Expenses also have a payee property for the person or entity, for example the store where goods where bought, which receives the money. Incomes also have the payer property for the one who gives you the money, for example your employer.
 		</para>
-		
 	</sect1>
 	
 	<sect1 id="accounting-schedule">
@@ -491,10 +490,10 @@
 <qandaset id="faqlist">
 <qandaentry>
 <question>
-<para>How do I change the currency used?</para>
+<para></para>
 </question>
 <answer>
-	<para>Change the money settings in the KDE Control Center under <menuchoice><guimenu>Regional &amp; Accessibility</guimenu><guisubmenu>Country/Region &amp; Language</guisubmenu></menuchoice>. Note that the this only affects the currency symbol displayed. The actual data does not use any specific currency.</para>
+	<para></para>
 </answer>
 </qandaentry>
 </qandaset>
@@ -513,7 +512,7 @@ distribution. -->
 &eqonomize;
 </para>
 <para>
-Program copyright 2006 Hanna Knutsson <email>hanna_k@fmgirl.com</email>
+Program copyright 2017 Hanna Knutsson <email>hanna_k@fmgirl.com</email>
 </para>
 <para>
 Contributors:
@@ -524,7 +523,7 @@ Contributors:
 </para>
 
 <para>
-Documentation copyright 2006 Hanna Knutsson <email>hanna_k@fmgirl.com</email>
+Documentation copyright 2017 Hanna Knutsson <email>hanna_k@fmgirl.com</email>
 </para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
