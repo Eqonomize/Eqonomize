@@ -70,6 +70,7 @@ class EqonomizeValueEdit : public QDoubleSpinBox {
 	protected slots:
 	
 		void onEditingFinished();
+		void onTextChanged(const QString&);
 
 	signals:
 

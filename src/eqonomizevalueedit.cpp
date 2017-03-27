@@ -77,6 +77,16 @@ void EqonomizeValueEdit::init(double lower, double upper, double step, double va
 	setDecimals(i_precision);
 	setValue(value);
 	connect(this, SIGNAL(editingFinished()), this, SLOT(onEditingFinished()));
+	QLineEdit *w = findChild<QLineEdit*>();
+	if(w) connect(w, SIGNAL(textChanged(const QString&)), this, SLOT(onTextChanged(const QString&)));
+}
+void EqonomizeValueEdit::onTextChanged(const QString &text) {
+	if(text == s_suffix) {
+		QLineEdit *w = findChild<QLineEdit*>();
+		if(w) {
+			w->setCursorPosition(0);
+		}
+	}
 }
 void EqonomizeValueEdit::onEditingFinished() {
 	if(hasFocus()) emit returnPressed();
@@ -158,7 +168,7 @@ Currency *EqonomizeValueEdit::currency() {return o_currency;}
 
 QValidator::State EqonomizeValueEdit::validate(QString &input, int &pos) const {
 	QValidator::State s = QDoubleSpinBox::validate(input, pos);
-	if(s == QValidator::Invalid && (pos == 0 || (input[pos - 1] != '[' && input[pos - 1] != ']' && input[pos - 1] != '(' && input[pos - 1] != ')'))) return QValidator::Intermediate;
+	if(s == QValidator::Invalid && (pos == 0 || (input[pos - 1] != '[' && input[pos - 1] != ']' && input[pos - 1] != '(' && input[pos - 1] != ')' && input[pos - 1] != ' '))) return QValidator::Intermediate;
 	return s;
 }
 
@@ -180,11 +190,11 @@ double EqonomizeValueEdit::valueFromText(const QString &text) const {
 void EqonomizeValueEdit::fixup(QString &input) const {
 	if(!s_prefix.isEmpty() && input.startsWith(s_prefix)) {
 		input = input.right(input.length() - s_prefix.length());
-		if(input.isEmpty()) input = "1";
+		if(input.isEmpty()) input = QLocale().toString(1);
 	}
 	if(!s_suffix.isEmpty() && input.endsWith(s_suffix)) {
 		input = input.left(input.length() - s_suffix.length());
-		if(input.isEmpty()) input = "1";
+		if(input.isEmpty()) input = QLocale().toString(1);
 	}
 	QString calculatedText_pre = input.trimmed();
 	input.remove(QRegExp("\\s"));
@@ -198,32 +208,52 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 }
 bool EqonomizeValueEdit::fixup_sub(QString &input) const {
 	input = input.trimmed();
+	if(input.isEmpty()) {
+		input = QLocale().toString(0);
+		QDoubleSpinBox::fixup(input);
+		return false;
+	}
 	input.replace(QLocale().negativeSign(), '-');
 	input.replace(QLocale().positiveSign(), '+');
 	int i = input.indexOf(QRegExp("[-+]"), 1);
 	if(i >= 1) {
 		QStringList terms = input.split(QRegExp("[-+]"));
-		QChar c = '+';
 		i = 0;
 		double v = 0.0;
-		for(int terms_i = 0; terms_i < terms.size(); terms_i++) {
-			if(terms[terms_i].isEmpty()) {
-				if(i < input.length() && input[i] == '-') {
-					if(c == '-') c = '+';
-					else c = '-';
-				}
-			} else {
-				i += terms[terms_i].length();
-				fixup_sub(terms[terms_i]);
-				if(c == '-') v -= QLocale().toDouble(terms[terms_i]);
-				else v += QLocale().toDouble(terms[terms_i]);
-				if(i < input.length()) c = input[i];
-			}
+		QList<bool> signs;
+		signs << true;
+		for(int terms_i = 0; terms_i < terms.size() - 1; terms_i++) {
+			i += terms[terms_i].length();
+			if(input[i] == '-') signs << false;
+			else signs << true;
 			i++;
 		}
-		input = QLocale().toString(v, 'f', decimals());
-		QDoubleSpinBox::fixup(input);
-		return true;
+		for(int terms_i = 0; terms_i < terms.size() - 1; terms_i++) {
+			if(terms_i <terms[terms_i].endsWith('*') || terms[terms_i].endsWith('/') || terms[terms_i].endsWith('^')) {
+				if(!signs[terms_i + 1]) terms[terms_i] += '-';
+				else terms[terms_i] += '+';
+				terms[terms_i] += terms[terms_i + 1];
+				signs.removeAt(terms_i + 1);
+				terms.removeAt(terms_i + 1);
+				terms_i--;
+			}
+		}
+		if(terms.size() > 1) {
+			for(int terms_i = 0; terms_i < terms.size(); terms_i++) {
+				if(terms[terms_i].isEmpty()) {
+					if(!signs[terms_i] && terms_i + 1 < terms.size()) {
+						signs[terms_i + 1] = !signs[terms_i + 1];
+					}
+				} else {
+					fixup_sub(terms[terms_i]);
+					if(!signs[terms_i]) v -= QLocale().toDouble(terms[terms_i]);
+					else v += QLocale().toDouble(terms[terms_i]);
+				}
+			}
+			input = QLocale().toString(v, 'f', decimals());
+			QDoubleSpinBox::fixup(input);
+			return true;
+		}
 	}
 	if(input.indexOf("**") >= 0) input.replace("**", "^");
 	i = input.indexOf(QRegExp("[*/]"), 0);
@@ -260,7 +290,7 @@ bool EqonomizeValueEdit::fixup_sub(QString &input) const {
 		QDoubleSpinBox::fixup(input);
 		return true;
 	}
-	i = input.indexOf('%');
+	i = input.indexOf(QLocale().percent());
 	if(i >= 0) {
 		double v = 0.01;
 		if(input.length() > 1) {
@@ -284,7 +314,7 @@ bool EqonomizeValueEdit::fixup_sub(QString &input) const {
 		return true;
 	}	
 	if(budget && o_currency) {
-		int i = input.indexOf(QRegExp("[\\d-+^]"));
+		int i = input.indexOf(QRegExp(QString("[\\d+-\\^") + QLocale().decimalPoint() + QLocale().groupSeparator() + QString("]")));
 		if(i >= 1) {
 			QString scur = input.left(i).trimmed();
 			Currency *cur = budget->findCurrency(scur);
@@ -305,7 +335,7 @@ bool EqonomizeValueEdit::fixup_sub(QString &input) const {
 			QMessageBox::critical((QWidget*) parent(), tr("Error"), tr("Unknown or ambiguous currency, or unrecognized characters, in expression: %1.").arg(scur));
 		}
 		if(i >= 0) {
-			i = input.lastIndexOf(QRegExp("[\\d-+^]"));
+			i = input.lastIndexOf(QRegExp(QString("[\\d+-\\^") + QLocale().decimalPoint() + QLocale().groupSeparator() + QString("]")));
 			if(i >= 0 && i < input.length() - 1) {
 				QString scur = input.right(input.length() - (i + 1)).trimmed();
 				Currency *cur = budget->findCurrency(scur);
@@ -331,7 +361,7 @@ bool EqonomizeValueEdit::fixup_sub(QString &input) const {
 			if(!cur) cur = budget->findCurrencySymbol(input, true);
 			if(cur) {
 				if(cur == o_currency) {
-					input = "1";
+					input = QLocale().toString(1);
 				} else {
 					input = QLocale().toString(cur->convertTo(1, o_currency), 'f', decimals());
 				}
@@ -363,8 +393,10 @@ bool EqonomizeValueEdit::fixup_sub(QString &input) const {
 	}
 	
 	if(!budget || !o_currency) {
-		i = input.indexOf(QRegExp("[^\\d+-]"));
-		if(i >= 0) QMessageBox::critical((QWidget*) parent(), tr("Error"), tr("Unrecognized characters in expression."));
+		i = input.indexOf(QRegExp(QString("[^\\d+-") + QLocale().decimalPoint() + QLocale().groupSeparator() + QString("]")));
+		if(i >= 0) {
+			QMessageBox::critical((QWidget*) parent(), tr("Error"), tr("Unrecognized characters in expression."));
+		}
 	}
 	input.replace('-', QLocale().negativeSign());
 	input.replace('+', QLocale().positiveSign());
