@@ -22,6 +22,7 @@
 #define EQONOMIZE_VALUE_EDIT_H
 
 #include <QDoubleSpinBox>
+#include <QStringList>
 
 class Currency;
 class Budget;
@@ -60,7 +61,7 @@ class EqonomizeValueEdit : public QDoubleSpinBox {
 		Currency *o_currency;
 		QString s_prefix, s_suffix;
 		
-		bool fixup_sub(QString &input) const;
+		bool fixup_sub(QString &input, QStringList &errors) const;
 		virtual void focusInEvent(QFocusEvent*);
 		
 	public slots:
