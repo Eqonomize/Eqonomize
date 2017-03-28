@@ -1794,6 +1794,9 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	b_extra = settings.value("useExtraProperties", true).toBool();
 	int initial_period = settings.value("initialPeriod", int(0)).toInt();
 	if(initial_period < 0 || initial_period > 4) initial_period = 0;
+	
+	bool b_uler = settings.value("useLatestExchangeRate", true).toBool();
+	budget->setDefaultTransactionConversionRateDate(b_uler ? TRANSACTION_CONVERSION_LATEST_RATE : TRANSACTION_CONVERSION_RATE_AT_DATE);
 
 	prev_cur_date = QDate::currentDate();
 	QDate curdate = prev_cur_date;
@@ -2338,6 +2341,24 @@ void Eqonomize::useExtraProperties(bool b) {
 	settings.setValue("useExtraProperties", b_extra);
 	settings.endGroup();
 
+}
+void Eqonomize::useLatestExchangeRate(bool b) {
+	if(b != (budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_LATEST_RATE)) {
+		if(b) budget->setDefaultTransactionConversionRateDate(TRANSACTION_CONVERSION_LATEST_RATE);
+		else budget->setDefaultTransactionConversionRateDate(TRANSACTION_CONVERSION_RATE_AT_DATE);
+		expensesWidget->filterTransactions();
+		incomesWidget->filterTransactions();
+		transfersWidget->filterTransactions();
+		filterAccounts();
+		updateScheduledTransactions();
+		updateSecurities();
+		emit transactionsModified();
+	
+		QSettings settings;
+		settings.beginGroup("GeneralOptions");
+		settings.setValue("useLatestExchangeRate", budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_LATEST_RATE);
+		settings.endGroup();
+	}
 }
 void Eqonomize::updateBudgetDay() {
 	frommonth_begin = budget->firstBudgetDay(from_date);
@@ -5518,6 +5539,10 @@ void Eqonomize::setupActions() {
 	
 	NEW_ACTION_2(ActionSetMainCurrency, tr("Set Main Currency…"), 0, this, SLOT(setMainCurrency()), "set_main_currency", settingsMenu);
 	
+	NEW_TOGGLE_ACTION(ActionUseLatestExchangeRate, tr("Show Latest Exchange Rate for Transactions"), 0, this, SLOT(useLatestExchangeRate(bool)), "use_latest_exchange_rate", settingsMenu);
+	ActionUseLatestExchangeRate->setChecked(budget->defaultTransactionConversionRateDate() != TRANSACTION_CONVERSION_RATE_AT_DATE);
+	ActionUseLatestExchangeRate->setToolTip(tr("Use the latest action rate, instead of the exchange rate closest before the transaction date, when converting the value of transactions."));
+	
 	NEW_ACTION(ActionSetBudgetPeriod, tr("Set Budget Period…"), "view-calendar-day", 0, this, SLOT(setBudgetPeriod()), "set_budget_period", settingsMenu);
 	
 	QMenu *periodMenu = settingsMenu->addMenu(tr("Initial Period"));
@@ -5816,6 +5841,7 @@ void Eqonomize::saveOptions() {
 	settings.setValue("currentEditTransferFromItem", transfersWidget->currentEditFromItem());
 	settings.setValue("currentEditTransferToItem", transfersWidget->currentEditToItem());
 	settings.setValue("useExtraProperties", b_extra);
+	settings.setValue("useLatestExchangeRate", budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_LATEST_RATE);
 	settings.setValue("firstRun", false);
 	settings.setValue("size", size());
 	settings.setValue("windowState", saveState());
@@ -7016,7 +7042,9 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 	bool to_is_debt = false, from_is_debt = false;
 	double value = subtract ? -trans->fromValue(false) : trans->fromValue(false);
 	double cvalue = trans->fromCurrency()->convertTo(trans->fromValue(false), budget->defaultCurrency(), to_date);
+	double cvalue_then = trans->fromValue(true);
 	if(subtract) cvalue = -cvalue;
+	if(subtract) cvalue_then = -cvalue_then;
 	if(!monthdate) {
 		date = budget->lastBudgetDay(transdate);
 		monthdate = &date;
@@ -7027,10 +7055,10 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 	switch(trans->fromAccount()->type()) {
 		case ACCOUNT_TYPE_EXPENSES: {
 			if(b_lastmonth) {
-				account_month_endlast[trans->fromAccount()] -= cvalue;
-				if(from_sub) account_month_endlast[trans->fromAccount()->topAccount()] -= cvalue;
-				account_month[trans->fromAccount()][*monthdate] -= cvalue;
-				if(from_sub) account_month[trans->fromAccount()->topAccount()][*monthdate] -= cvalue;
+				account_month_endlast[trans->fromAccount()] -= cvalue_then;
+				if(from_sub) account_month_endlast[trans->fromAccount()->topAccount()] -= cvalue_then;
+				account_month[trans->fromAccount()][*monthdate] -= cvalue_then;
+				if(from_sub) account_month[trans->fromAccount()->topAccount()][*monthdate] -= cvalue_then;
 				if(update_value_display) {
 					updateMonthlyBudget(trans->fromAccount());
 					if(from_sub) updateMonthlyBudget(trans->fromAccount()->topAccount());
@@ -7040,18 +7068,18 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			}
 			bool update_month_display = false;
 			if(b_firstmonth) {
-				account_month_beginfirst[trans->fromAccount()] -= cvalue;
-				if(from_sub) account_month_beginfirst[trans->fromAccount()->topAccount()] -= cvalue;
+				account_month_beginfirst[trans->fromAccount()] -= cvalue_then;
+				if(from_sub) account_month_beginfirst[trans->fromAccount()->topAccount()] -= cvalue_then;
 				update_month_display = true;
 			}
 			if(b_curmonth) {
-				account_month_begincur[trans->fromAccount()] -= cvalue;
-				if(from_sub) account_month_begincur[trans->fromAccount()->topAccount()] -= cvalue;
+				account_month_begincur[trans->fromAccount()] -= cvalue_then;
+				if(from_sub) account_month_begincur[trans->fromAccount()->topAccount()] -= cvalue_then;
 				update_month_display = true;
 			}
 			if(b_future || (!frommonth_begin.isNull() && transdate >= frommonth_begin) || (!prevmonth_begin.isNull() && transdate >= prevmonth_begin)) {
-				account_month[trans->fromAccount()][*monthdate] -= cvalue;
-				if(from_sub) account_month[trans->fromAccount()->topAccount()][*monthdate] -= cvalue;
+				account_month[trans->fromAccount()][*monthdate] -= cvalue_then;
+				if(from_sub) account_month[trans->fromAccount()->topAccount()][*monthdate] -= cvalue_then;
 				update_month_display = true;
 			}
 			if(update_value_display && update_month_display) {
@@ -7059,13 +7087,13 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 				if(from_sub) updateMonthlyBudget(trans->fromAccount()->topAccount());
 				updateTotalMonthlyExpensesBudget();
 			}
-			account_value[trans->fromAccount()] -= cvalue;
-			if(from_sub) account_value[trans->fromAccount()->topAccount()] -= cvalue;
-			expenses_accounts_value -= cvalue;
+			account_value[trans->fromAccount()] -= cvalue_then;
+			if(from_sub) account_value[trans->fromAccount()->topAccount()] -= cvalue_then;
+			expenses_accounts_value -= cvalue_then;
 			if(!b_filter) {
-				account_change[trans->fromAccount()] -= cvalue;
-				if(from_sub) account_value[trans->fromAccount()->topAccount()] -= cvalue;
-				expenses_accounts_change -= cvalue;
+				account_change[trans->fromAccount()] -= cvalue_then;
+				if(from_sub) account_value[trans->fromAccount()->topAccount()] -= cvalue_then;
+				expenses_accounts_change -= cvalue_then;
 				if(update_value_display) {
 					expensesItem->setText(CHANGE_COLUMN, budget->formatMoney(expenses_accounts_change));
 					setAccountChangeColor(expensesItem, expenses_accounts_change, true);
@@ -7078,10 +7106,10 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 		}
 		case ACCOUNT_TYPE_INCOMES: {
 			if(b_lastmonth) {
-				account_month_endlast[trans->fromAccount()] += cvalue;
-				if(from_sub) account_month_endlast[trans->fromAccount()->topAccount()] += cvalue;
-				account_month[trans->fromAccount()][*monthdate] += cvalue;
-				if(from_sub) account_month[trans->fromAccount()->topAccount()][*monthdate] += cvalue;
+				account_month_endlast[trans->fromAccount()] += cvalue_then;
+				if(from_sub) account_month_endlast[trans->fromAccount()->topAccount()] += cvalue_then;
+				account_month[trans->fromAccount()][*monthdate] += cvalue_then;
+				if(from_sub) account_month[trans->fromAccount()->topAccount()][*monthdate] += cvalue_then;
 				if(update_value_display) {
 					updateMonthlyBudget(trans->fromAccount());
 					if(from_sub) updateMonthlyBudget(trans->fromAccount()->topAccount());
@@ -7091,18 +7119,18 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			}
 			bool update_month_display = false;
 			if(b_firstmonth) {
-				account_month_beginfirst[trans->fromAccount()] += cvalue;
-				if(from_sub) account_month_beginfirst[trans->fromAccount()->topAccount()] += cvalue;
+				account_month_beginfirst[trans->fromAccount()] += cvalue_then;
+				if(from_sub) account_month_beginfirst[trans->fromAccount()->topAccount()] += cvalue_then;
 				update_month_display = true;
 			}
 			if(b_curmonth) {
-				account_month_begincur[trans->fromAccount()] += cvalue;
-				if(from_sub) account_month_begincur[trans->fromAccount()->topAccount()] += cvalue;
+				account_month_begincur[trans->fromAccount()] += cvalue_then;
+				if(from_sub) account_month_begincur[trans->fromAccount()->topAccount()] += cvalue_then;
 				update_month_display = true;
 			}
 			if(b_future || (!frommonth_begin.isNull() && transdate >= frommonth_begin) || (!prevmonth_begin.isNull() && transdate >= prevmonth_begin)) {
-				account_month[trans->fromAccount()][*monthdate] += cvalue;
-				if(from_sub) account_month[trans->fromAccount()->topAccount()][*monthdate] += cvalue;
+				account_month[trans->fromAccount()][*monthdate] += cvalue_then;
+				if(from_sub) account_month[trans->fromAccount()->topAccount()][*monthdate] += cvalue_then;
 				update_month_display = true;
 			}
 			if(update_value_display && update_month_display) {
@@ -7110,13 +7138,13 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 				if(from_sub) updateMonthlyBudget(trans->fromAccount()->topAccount());
 				updateTotalMonthlyIncomesBudget();
 			}
-			account_value[trans->fromAccount()] += cvalue;
-			if(from_sub) account_value[trans->fromAccount()->topAccount()] += cvalue;
-			incomes_accounts_value += cvalue;
+			account_value[trans->fromAccount()] += cvalue_then;
+			if(from_sub) account_value[trans->fromAccount()->topAccount()] += cvalue_then;
+			incomes_accounts_value += cvalue_then;
 			if(!b_filter) {
-				account_change[trans->fromAccount()] += cvalue;
-				if(from_sub) account_change[trans->fromAccount()->topAccount()] += cvalue;
-				incomes_accounts_change += cvalue;
+				account_change[trans->fromAccount()] += cvalue_then;
+				if(from_sub) account_change[trans->fromAccount()->topAccount()] += cvalue_then;
+				incomes_accounts_change += cvalue_then;
 				if(update_value_display) {
 					incomesItem->setText(CHANGE_COLUMN, budget->formatMoney(incomes_accounts_change));
 					setAccountChangeColor(incomesItem, incomes_accounts_change, false);
@@ -7175,14 +7203,16 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 	}
 	value = subtract ? -trans->toValue(false) : trans->toValue(false);
 	cvalue = trans->toCurrency()->convertTo(trans->toValue(false), budget->defaultCurrency(), to_date);
+	cvalue_then = trans->toValue(true);
 	if(subtract) cvalue = -cvalue;
+	if(subtract) cvalue_then = -cvalue_then;
 	switch(trans->toAccount()->type()) {
 		case ACCOUNT_TYPE_EXPENSES: {
 			if(b_lastmonth) {
-				account_month_endlast[trans->toAccount()] += cvalue;
-				if(to_sub) account_month_endlast[trans->toAccount()->topAccount()] += cvalue;
-				account_month[trans->toAccount()][*monthdate] += cvalue;
-				if(to_sub) account_month[trans->toAccount()->topAccount()][*monthdate] += cvalue;
+				account_month_endlast[trans->toAccount()] += cvalue_then;
+				if(to_sub) account_month_endlast[trans->toAccount()->topAccount()] += cvalue_then;
+				account_month[trans->toAccount()][*monthdate] += cvalue_then;
+				if(to_sub) account_month[trans->toAccount()->topAccount()][*monthdate] += cvalue_then;
 				if(update_value_display) {
 					updateMonthlyBudget(trans->toAccount());
 					if(to_sub) updateMonthlyBudget(trans->toAccount()->topAccount());
@@ -7192,18 +7222,18 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			}
 			bool update_month_display = false;
 			if(b_firstmonth) {
-				account_month_beginfirst[trans->toAccount()] += cvalue;
-				if(to_sub) account_month_beginfirst[trans->toAccount()->topAccount()] += cvalue;
+				account_month_beginfirst[trans->toAccount()] += cvalue_then;
+				if(to_sub) account_month_beginfirst[trans->toAccount()->topAccount()] += cvalue_then;
 				update_month_display = true;
 			}
 			if(b_curmonth) {
-				account_month_begincur[trans->toAccount()] += cvalue;
-				if(to_sub) account_month_begincur[trans->toAccount()->topAccount()] += cvalue;
+				account_month_begincur[trans->toAccount()] += cvalue_then;
+				if(to_sub) account_month_begincur[trans->toAccount()->topAccount()] += cvalue_then;
 				update_month_display = true;
 			}
 			if(b_future || (!frommonth_begin.isNull() && transdate >= frommonth_begin) || (!prevmonth_begin.isNull() && transdate >= prevmonth_begin)) {
-				account_month[trans->toAccount()][*monthdate] += cvalue;
-				if(to_sub) account_month[trans->toAccount()->topAccount()][*monthdate] += cvalue;
+				account_month[trans->toAccount()][*monthdate] += cvalue_then;
+				if(to_sub) account_month[trans->toAccount()->topAccount()][*monthdate] += cvalue_then;
 				update_month_display = true;
 			}
 			if(update_value_display && update_month_display) {
@@ -7211,13 +7241,13 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 				if(to_sub) updateMonthlyBudget(trans->toAccount()->topAccount());
 				updateTotalMonthlyExpensesBudget();
 			}
-			account_value[trans->toAccount()] += cvalue;
-			if(to_sub) account_value[trans->toAccount()->topAccount()] += cvalue;
-			expenses_accounts_value += cvalue;
+			account_value[trans->toAccount()] += cvalue_then;
+			if(to_sub) account_value[trans->toAccount()->topAccount()] += cvalue_then;
+			expenses_accounts_value += cvalue_then;
 			if(!b_filter) {
-				account_change[trans->toAccount()] += cvalue;
-				if(to_sub) account_change[trans->toAccount()->topAccount()] += cvalue;
-				expenses_accounts_change += cvalue;
+				account_change[trans->toAccount()] += cvalue_then;
+				if(to_sub) account_change[trans->toAccount()->topAccount()] += cvalue_then;
+				expenses_accounts_change += cvalue_then;
 				if(update_value_display) {
 					expensesItem->setText(CHANGE_COLUMN, budget->formatMoney(expenses_accounts_change));
 					setAccountChangeColor(expensesItem, expenses_accounts_change, true);
@@ -7230,10 +7260,10 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 		}
 		case ACCOUNT_TYPE_INCOMES: {
 			if(b_lastmonth) {
-				account_month_endlast[trans->toAccount()] -= cvalue;
-				if(to_sub) account_month_endlast[trans->toAccount()->topAccount()] -= cvalue;
-				account_month[trans->toAccount()][*monthdate] -= cvalue;
-				if(to_sub) account_month[trans->toAccount()->topAccount()][*monthdate] -= cvalue;
+				account_month_endlast[trans->toAccount()] -= cvalue_then;
+				if(to_sub) account_month_endlast[trans->toAccount()->topAccount()] -= cvalue_then;
+				account_month[trans->toAccount()][*monthdate] -= cvalue_then;
+				if(to_sub) account_month[trans->toAccount()->topAccount()][*monthdate] -= cvalue_then;
 				if(update_value_display) {
 					updateMonthlyBudget(trans->toAccount());
 					if(to_sub) updateMonthlyBudget(trans->toAccount()->topAccount());
@@ -7243,18 +7273,18 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			}
 			bool update_month_display = false;
 			if(b_firstmonth) {
-				account_month_beginfirst[trans->toAccount()] -= cvalue;
-				if(to_sub) account_month_beginfirst[trans->toAccount()->topAccount()] -= cvalue;
+				account_month_beginfirst[trans->toAccount()] -= cvalue_then;
+				if(to_sub) account_month_beginfirst[trans->toAccount()->topAccount()] -= cvalue_then;
 				update_month_display = true;
 			}
 			if(b_curmonth) {
-				account_month_begincur[trans->toAccount()] -= cvalue;
-				if(to_sub) account_month_begincur[trans->toAccount()->topAccount()] -= cvalue;
+				account_month_begincur[trans->toAccount()] -= cvalue_then;
+				if(to_sub) account_month_begincur[trans->toAccount()->topAccount()] -= cvalue_then;
 				update_month_display = true;
 			}
 			if(b_future || (!frommonth_begin.isNull() && transdate >= frommonth_begin) || (!prevmonth_begin.isNull() && transdate >= prevmonth_begin)) {
-				account_month[trans->toAccount()][*monthdate] -= cvalue;
-				if(to_sub) account_month[trans->toAccount()->topAccount()][*monthdate] -= cvalue;
+				account_month[trans->toAccount()][*monthdate] -= cvalue_then;
+				if(to_sub) account_month[trans->toAccount()->topAccount()][*monthdate] -= cvalue_then;
 				update_month_display = true;
 			}
 			if(update_value_display && update_month_display) {
@@ -7262,11 +7292,11 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 				if(to_sub) updateMonthlyBudget(trans->toAccount()->topAccount());
 				updateTotalMonthlyIncomesBudget();
 			}
-			account_value[trans->toAccount()] -= cvalue;
-			incomes_accounts_value -= cvalue;
+			account_value[trans->toAccount()] -= cvalue_then;
+			incomes_accounts_value -= cvalue_then;
 			if(!b_filter) {
-				account_change[trans->toAccount()] -= cvalue;
-				if(to_sub) account_change[trans->toAccount()->topAccount()] -= cvalue;
+				account_change[trans->toAccount()] -= cvalue_then;
+				if(to_sub) account_change[trans->toAccount()->topAccount()] -= cvalue_then;
 				incomes_accounts_change -= value;
 				if(update_value_display) {
 					incomesItem->setText(CHANGE_COLUMN, budget->formatMoney(incomes_accounts_change));

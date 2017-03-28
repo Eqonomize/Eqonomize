@@ -679,7 +679,10 @@ void TransactionEditWidget::currencyChanged(int index) {
 	valueEdit->setPrecision(cur->fractionalDigits());
 }
 void TransactionEditWidget::valueChanged(double value) {
-	if(valueEdit && depositEdit && !depositEdit->isEnabled()) depositEdit->setValue(value);
+	if(valueEdit && depositEdit) {
+		if(!depositEdit->isEnabled()) depositEdit->setValue(value);
+		else if(depositEdit->value() == 0.0 && valueEdit->currency() && depositEdit->currency()) depositEdit->setValue(valueEdit->currency()->convertTo(value, depositEdit->currency()));
+	}
 	if(valueEdit && commentsEdit && calculatedText_object == valueEdit && !calculatedText.isEmpty() && commentsEdit->text().isEmpty()) commentsEdit->setText(calculatedText);
 	if(!quotationEdit || !sharesEdit || !valueEdit) return;
 	value_set = true;

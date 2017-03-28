@@ -104,6 +104,7 @@ EditCurrencyDialog::EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_
 	grid->addWidget(rateEdit, row, 1); row++;
 	grid->addWidget(new QLabel(tr("Date:"), this), row, 0);
 	dateEdit = new QDateEdit(this);
+	dateEdit->setMaximumDate(QDate::currentDate());
 	dateEdit->setCalendarPopup(true);
 	if(currency == budget->currency_euro) dateEdit->setEnabled(false);
 	QDate date;

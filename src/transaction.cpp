@@ -116,7 +116,10 @@ void Transaction::setParentSplit(SplitTransaction *parent) {
 	o_budget->transactionSortModified(this);
 }
 double Transaction::value(bool convert) const {
-	if(convert && currency() && currency() != budget()->defaultCurrency()) return currency()->convertTo(d_value, budget()->defaultCurrency(), d_date);
+	if(convert && currency() && currency() != budget()->defaultCurrency()) {
+		if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) return currency()->convertTo(d_value, budget()->defaultCurrency(), d_date);
+		else return currency()->convertTo(d_value, budget()->defaultCurrency());
+	}
 	return d_value;
 }
 double Transaction::fromValue(bool convert) const {return value(convert);}
@@ -492,8 +495,10 @@ double Transfer::withdrawal(bool convert) const {
 	return value(convert);
 }
 double Transfer::deposit(bool convert) const {
-	if(convert && to() && to()->currency()) return to()->currency()->convertTo(d_deposit, budget()->defaultCurrency(), date());
-	else if(convert) return withdrawal(true);
+	if(convert && to() && to()->currency()) {
+		if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) return to()->currency()->convertTo(d_deposit, budget()->defaultCurrency(), date());
+		else return to()->currency()->convertTo(d_deposit, budget()->defaultCurrency());
+	} else if(convert) return withdrawal(true);
 	return d_deposit;
 }
 double Transfer::fromValue(bool convert) const {return withdrawal(convert);}
@@ -624,7 +629,10 @@ bool SecurityTransaction::equals(const Transaction *transaction, bool strict_com
 
 double SecurityTransaction::shares() const {return d_shares;}
 double SecurityTransaction::shareValue(bool convert) const {
-	if(convert && o_security && o_security->currency()) return o_security->currency()->convertTo(d_share_value, budget()->defaultCurrency(), date());
+	if(convert && o_security && o_security->currency()) {
+		if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) return o_security->currency()->convertTo(d_share_value, budget()->defaultCurrency(), date());
+		else return o_security->currency()->convertTo(d_share_value, budget()->defaultCurrency());
+	}
 	return d_share_value;
 }
 void SecurityTransaction::setShares(double new_shares) {
@@ -693,7 +701,10 @@ void SecurityBuy::writeAttributes(QXmlStreamAttributes *attr) {
 }
 
 double SecurityBuy::toValue(bool convert) const {
-	if(convert && o_security && o_security->currency()) return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency(), date());
+	if(convert && o_security && o_security->currency()) {
+		if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency(), date());
+		else return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency());
+	}
 	return d_shares * d_share_value;
 }
 
@@ -739,7 +750,10 @@ void SecuritySell::writeAttributes(QXmlStreamAttributes *attr) {
 }
 
 double SecuritySell::fromValue(bool convert) const {
-	if(convert && o_security && o_security->currency()) return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency(), date());
+	if(convert && o_security && o_security->currency()) {
+		if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency(), date());
+		else return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency());
+	}
 	return d_shares * d_share_value;
 }
 
@@ -1612,7 +1626,8 @@ double MultiAccountTransaction::value(bool convert) const {
 	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
 		Transaction *trans = splits[i];
 		if(!convert && cur != trans->currency()) {
-			d_value += cur->convertFrom(trans->value(), trans->currency());
+			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) d_value += cur->convertFrom(trans->value(), trans->currency(), trans->date());
+			else d_value += cur->convertFrom(trans->value(), trans->currency());
 		} else {
 			d_value += trans->value(convert);
 		}

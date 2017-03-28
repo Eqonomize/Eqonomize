@@ -197,7 +197,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionOverTimeReport, *ActionCategoriesComparisonReport, *ActionOverTimeChart, *ActionCategoriesComparisonChart;
 		QAction *ActionImportCSV, *ActionImportQIF, *ActionImportEQZ, *ActionExportQIF;
 		QAction *ActionConvertCurrencies, *ActionUpdateExchangeRates;
-		QAction *ActionExtraProperties, *ActionSetBudgetPeriod, *AIPCurrentMonth, *AIPCurrentYear, *AIPCurrentWholeMonth, *AIPCurrentWholeYear, *AIPRememberLastDates, *ABFDaily, *ABFWeekly, *ABFFortnightly, *ABFMonthly, *ABFNever;
+		QAction *ActionExtraProperties, *ActionUseLatestExchangeRate, *ActionSetBudgetPeriod, *AIPCurrentMonth, *AIPCurrentYear, *AIPCurrentWholeMonth, *AIPCurrentWholeYear, *AIPRememberLastDates, *ABFDaily, *ABFWeekly, *ABFFortnightly, *ABFMonthly, *ABFNever;
 		QAction *ActionSetMainCurrency;
 		QActionGroup *ActionSelectInitialPeriod, *ActionSelectBackupFrequency;
 		QAction *ActionHelp, *ActionWhatsThis, *ActionReportBug, *ActionAbout, *ActionAboutQt;
@@ -286,6 +286,8 @@ class Eqonomize : public QMainWindow {
 		void onActivateRequested(const QStringList&, const QString&);
 
 		void useExtraProperties(bool);
+		
+		void useLatestExchangeRate(bool);
 
 		void updateBudgetDay();
 		void setBudgetPeriod();

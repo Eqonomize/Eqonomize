@@ -130,6 +130,7 @@ Budget::Budget() {
 	i_quotation_decimals = 4;
 	i_budget_day = 1;
 	b_record_new_accounts = false;
+	i_tcrd = TRANSACTION_CONVERSION_RATE_AT_DATE;
 }
 Budget::~Budget() {}
 
@@ -358,6 +359,8 @@ bool Budget::saveCurrencies() {
 	return true;
 }
 
+TransactionConversionRateDate Budget::defaultTransactionConversionRateDate() const {return i_tcrd;}
+void Budget::setDefaultTransactionConversionRateDate(TransactionConversionRateDate tcrd) {i_tcrd = tcrd;}
 
 QString Budget::loadFile(QString filename, QString &errors, bool *default_currency_created, bool merge) {
 

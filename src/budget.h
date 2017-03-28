@@ -41,6 +41,11 @@
 #define CURRENCY_IS_PREFIX currency_symbol_precedes()
 #define IS_GREGORIAN_CALENDAR true
 
+typedef enum {
+	TRANSACTION_CONVERSION_RATE_AT_DATE,
+	TRANSACTION_CONVERSION_LATEST_RATE
+} TransactionConversionRateDate;
+
 int currency_frac_digits();
 bool currency_symbol_precedes();
 bool is_zero(double);
@@ -112,6 +117,8 @@ class Budget {
 	
 		int i_quotation_decimals, i_share_decimals, i_budget_day;
 		bool b_record_new_accounts, b_default_currency_changed, b_currency_modified;
+		TransactionConversionRateDate i_tcrd;
+		
 		Currency *default_currency;
 
 	public:
@@ -127,6 +134,9 @@ class Budget {
 		void loadCurrenciesFile(QString filename, bool is_local);
 		QString loadECBData(QByteArray data);
 		bool saveCurrencies();
+		
+		TransactionConversionRateDate defaultTransactionConversionRateDate() const;
+		void setDefaultTransactionConversionRateDate(TransactionConversionRateDate tcrd);
 
 		QString loadFile(QString filename, QString &errors, bool *default_currency_created = NULL, bool merge = false);
 		QString saveFile(QString filename, QFile::Permissions permissions = QFile::ReadUser | QFile::WriteUser);
