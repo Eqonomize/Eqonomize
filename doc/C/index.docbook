@@ -1,50 +1,46 @@
-<?xml version="1.0" ?>
-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
-  <!ENTITY eqonomize "<application>Eqonomize!</application>">
-  <!ENTITY kappname "&eqonomize;"><!-- Do *not* replace kappname-->
-  <!ENTITY % addindex "IGNORE">
-  <!ENTITY % English "INCLUDE">
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+  <!ENTITY legal SYSTEM "legal.xml">
+  <!ENTITY appversion "0.99.2">
+  <!ENTITY manrevision "0.99.2">
+  <!ENTITY date "March 2017">
+  <!ENTITY app "Eqonomize!">
 ]>
-
-<book lang="&language;">
-
+<book id="index" lang="en">
+<title>&app; Manual v&manrevision;</title>
 <bookinfo>
-<title>The &eqonomize; Handbook</title>
+	<copyright>
+		<year>2008, 2017</year>
+		<holder>Hanna Knutsson</holder>
+	</copyright>
+	<publisher> 
+		<publishername>Hanna Knutsson</publishername> 
+	</publisher> 
+	<authorgroup>
+		<author>
+			<firstname>Hanna</firstname>
+			<surname>Knutsson</surname>
+		</author>
+	</authorgroup>
 
-<authorgroup>
-<author>
-<firstname>Hanna</firstname>
-<othername></othername>
-<surname>K.</surname>
-<affiliation>
-<address><email>hanna_k@fmgirl.com</email></address>
-</affiliation>
-</author>
-</authorgroup>
-
-<!-- TRANS:ROLES_OF_TRANSLATORS -->
-
-<copyright>
-<year>2008</year>
-<holder>Hanna Knutsson</holder>
-</copyright>
-<!-- Translators: put here the copyright notice of the translation -->
-<!-- Put here the FDL notice.  Read the explanation in fdl-notice.docbook
-     and in the FDL itself on how to use it. -->
-<legalnotice>&FDLNotice;</legalnotice>
-
-<date>2006-09-05</date>
-<releaseinfo>0.4</releaseinfo>
-
-
+	<releaseinfo>This manual describes version &appversion; of &app;.
+	</releaseinfo> 
+	<legalnotice> 
+		<title>Feedback</title> 
+		<para>
+			To report a bug or make a suggestion regarding the &app; application or this manual create a new issue at <ulink url="https://github.com/Eqonomize/Eqonomize/issues"/>.
+		</para>
+	</legalnotice> 
+	
 <abstract>
 <para>
-	&eqonomize; is a personal accounting software, with focus on efficiency and ease of use for the small household economy. &eqonomize; provides a complete solution, with bookkeeping by double entry and support for scheduled recurring transactions, security investments, and budgeting. It gives a clear overview of past and present transactions, and development of incomes and expenses, with descriptive tables and charts, as well as an approximation of future account values.
+	&app; is a personal accounting software, with focus on efficiency and ease of use for the small household economy. &app; provides a complete solution, with bookkeeping by double entry and support for scheduled recurring transactions, security investments, and budgeting. It gives a clear overview of past and present transactions, and development of incomes and expenses, with descriptive tables and charts, as well as an approximation of future account values.
 </para>
 </abstract>
 
 <keywordset>
-<keyword>KDE</keyword>
+<keyword>Qt</keyword>
 <keyword>Eqonomize</keyword>
 <keyword>Money</keyword>
 <keyword>Finances</keyword>
@@ -58,16 +54,16 @@
 <title>Introduction</title>
 
 <para>
-	&eqonomize; is a tool for keeping track of and monitoring personal finances. This means entering of everyday expenses and incomes – when you buy something, receive salary, pay bills, transfer money between bank accounts, invest in stock, etc. &eqonomize; provides tools for making this process as easy and efficient as possible. You can then effortlessly retrieve information and statistics about your financial situation. You will for example be able to easily identify major leaks, and direct saving efforts to the right areas. You can also monitor performance in relation to a budget and check what your choices might mean for your future wealth.
+	&app; is a tool for keeping track of and monitoring personal finances. This means entering of everyday expenses and incomes – when you buy something, receive salary, pay bills, transfer money between bank accounts, invest in stock, etc. &app; provides tools for making this process as easy and efficient as possible. You can then effortlessly retrieve information and statistics about your financial situation. You will for example be able to easily identify major leaks, and direct saving efforts to the right areas. You can also monitor performance in relation to a budget and check what your choices might mean for your future wealth.
 </para>
 <para>
-	The purpose of this manual is to describe how to practically use &eqonomize; for those who do not find the graphical user interface self-explanatory, as well as document some less obvious efficiency-enhancing features and explain how &eqonomize; interprets the data you provide.
+	The purpose of this manual is to describe how to practically use &app; for those who do not find the graphical user interface self-explanatory, as well as document some less obvious efficiency-enhancing features and explain how &app; interprets the data you provide.
 </para>
 <para>
-	When first using &eqonomize; you should read <xref linkend="using-eqonomize"/>; especially the first parts <xref linkend="accounts_and_categories"/> and <xref linkend="transactions"/>, which step by step describes how to begin using the basic features.
+	When first using &app; you should read <xref linkend="using-eqonomize"/>; especially the first parts <xref linkend="accounts_and_categories"/> and <xref linkend="transactions"/>, which step by step describes how to begin using the basic features.
 </para>
 <para>
-	<xref linkend="accounting"/> provides a more theoretic explanation and description of &eqonomize;' approach to accounting.
+	<xref linkend="accounting"/> provides a more theoretic explanation and description of &app;' approach to accounting.
 </para>
 <para>
 	In addition there are some reference sections.
@@ -78,13 +74,13 @@
 <title>Gettings Started</title>
 
 <para>
-	The main window consists of six different views. When &eqonomize; is started, the account view is shown. To change view click on the corresponding icon in the horizontal list above.
+	The main window consists of six different views. When &app; is started, the account view is shown. To change view click on the corresponding icon in the horizontal list above.
 </para>
 
 <sect1 id="accounts_and_categories">
 	<title>Accounts &amp; Categories</title>
 	<para>
-		The first time you start &eqonomize; the account view is displayed with a predefined set of accounts and categories. These can be considered as an example or a starting point for a setup matching your own conditions. You can either begin by modifying the suggested accounts and categories or start from scratch with <menuchoice><guimenu>File</guimenu><guimenuitem>New</guimenuitem></menuchoice> (<keycombo><keycap>Ctrl</keycap><keycap>N</keycap></keycombo>).
+		The first time you start &app; the account view is displayed with a predefined set of accounts and categories. These can be considered as an example or a starting point for a setup matching your own conditions. You can either begin by modifying the suggested accounts and categories or start from scratch with <menuchoice><guimenu>File</guimenu><guimenuitem>New</guimenuitem></menuchoice> (<keycombo><keycap>Ctrl</keycap><keycap>N</keycap></keycombo>).
 	</para>
 	<mediaobject><imageobject><imagedata format="PNG" fileref="new-account.png"/></imageobject></mediaobject>
 	<para>
@@ -93,7 +89,7 @@
 	<sect2 id="budget">
 		<title>Budget</title>
 		<para>
-			&eqonomize; allows you to specify a budget for each month and category. This way you can continuously compare actual and planned expenses. You can also check what your current budget will mean for your future wealth.
+			&app; allows you to specify a budget for each month and category. This way you can continuously compare actual and planned expenses. You can also check what your current budget will mean for your future wealth.
 		</para>		
 		<para>
 			A budget is initially asked for when creating a category. Then you can update it from the budget tab at the bottom of the accounts view, for the category selected in the list. If the budget has not been set for a month, the budget for the previous month is used.
@@ -149,7 +145,7 @@
 				<listitem><para>Click <guibutton>Add</guibutton> or press <keycap>Enter</keycap>.</para></listitem>
 			</orderedlist>
 			<note><para><keycap>Enter</keycap> adds a transaction if pressed with input focus in the date or comment entry. Otherwise it moves input focus to the next entry.</para></note>
-			Repeat the process to record another expense. When you enter the next (and all subsequent expenses) expense you can however usually do it more efficiently. Date, account and category will not be reset each time, so often you need at least not change account. More importantly &eqonomize; remembers the last expense entered for each unique description. When you enter a description, all values, except date, will be filled in with the properties of the last expense with the same description. Even more so, as you type the description a list will pop up with all previous descriptions with matching opening letters. This means that you often will follow this much shorter process:
+			Repeat the process to record another expense. When you enter the next (and all subsequent expenses) expense you can however usually do it more efficiently. Date, account and category will not be reset each time, so often you need at least not change account. More importantly &app; remembers the last expense entered for each unique description. When you enter a description, all values, except date, will be filled in with the properties of the last expense with the same description. Even more so, as you type the description a list will pop up with all previous descriptions with matching opening letters. This means that you often will follow this much shorter process:
 			<orderedlist>
 				<listitem><para>Type the first letter of a description and select the correct one from the list.</para></listitem>
 				<listitem><para>Check if the cost is the same this time and press enter.</para></listitem>
@@ -188,14 +184,14 @@
 <sect1 id="saving">
 	<title>Saving</title>
 	<para>
-		When you have made some changes you need to save your work. Save the file using <menuchoice><guimenu>File</guimenu><guimenuitem>Save</guimenuitem></menuchoice> (<keycombo><keycap>Ctrl</keycap><keycap>S</keycap></keycombo>) or the corresponding toolbar button. The first time your work is saved &eqonomize; will ask for a location and name for the file. &eqonomize; will then automatically open that file each time the program is started.
+		When you have made some changes you need to save your work. Save the file using <menuchoice><guimenu>File</guimenu><guimenuitem>Save</guimenuitem></menuchoice> (<keycombo><keycap>Ctrl</keycap><keycap>S</keycap></keycombo>) or the corresponding toolbar button. The first time your work is saved &app; will ask for a location and name for the file. &app; will then automatically open that file each time the program is started.
 	</para>	
 	<para>
-		If when exiting &eqonomize; there are some changes that have been made after the last save, you will be asked if the file should be saved before closing. If you in the dialog toggle <guilabel>Do not ask again</guilabel> and click <guibutton>Yes</guibutton> the file will automatically be saved each time &eqonomize; is closed.
+		If when exiting &app; there are some changes that have been made after the last save, you will be asked if the file should be saved before closing. If you in the dialog toggle <guilabel>Do not ask again</guilabel> and click <guibutton>Yes</guibutton> the file will automatically be saved each time &app; is closed.
 		<mediaobject><imageobject><imagedata format="PNG" fileref="ask-save.png"/></imageobject></mediaobject>
 	</para>
 	<para>
-		Before the file is saved, a backup copy is made with the name prefixed by <quote>~</quote>. Also, at most once per minute, the current data is saved (in the default KDE autosave folder, usually ~/autosave), to prevent data loss in case &eqonomize; exits unexpectedly (if for example you by accident hit the reset button on the computer).
+		Before the file is saved, a backup copy is made with the name prefixed by <quote>~</quote>. Also, at most once per minute, the current data is saved (in the default KDE autosave folder, usually ~/autosave), to prevent data loss in case &app; exits unexpectedly (if for example you by accident hit the reset button on the computer).
 	</para>
 </sect1>
 
@@ -219,13 +215,13 @@
 </chapter>
 
 <chapter id="accounting">
-	<title>Accounting with &eqonomize;</title>
+	<title>Accounting with &app;</title>
 	
 	<sect1 id="accounting-overview">
 		<title>Overview</title>
 		
 		<para>
-			The basics principle behind accounting in &eqonomize; is the idea of money flowing through transactions between accounts as reservoirs. A transaction represents a gain (you receive money), loss (you buy something), or transformation (you withdraw from or deposit in a bank account) of money.
+			The basics principle behind accounting in &app; is the idea of money flowing through transactions between accounts as reservoirs. A transaction represents a gain (you receive money), loss (you buy something), or transformation (you withdraw from or deposit in a bank account) of money.
 		</para>
 		<para>
 			A transaction always means that money is moved from one account to another. An expense (something is bought) can for example mean that you pay with cash from your cash account. The money is then put in an expense account. This account represents the products and services you pay for. It represents the money that you do not have as a result of expenses, and is therefor useful for record keeping.
@@ -245,14 +241,14 @@
 		  <para>
 		    
 		  </para>
-		</sect1>
+		</sect2>
 		
 	</sect1>
 	
 	<sect1 id="accounting-transactions">
 		<title>Transactions</title>
 		<para>
-			&eqonomize; has three different basic transactions types – expenses, incomes, and transfers. Securities uses some special transactions which are described in <xref linkend="accounting-securities"/>.
+			&app; has three different basic transactions types – expenses, incomes, and transfers. Securities uses some special transactions which are described in <xref linkend="accounting-securities"/>.
 		</para>
 		<para>
 			Expenses represents a loss of money, a transaction where you give away money, mostly in return for something else. This can be a payment for products and services, or a gift (or you lend someone money).
@@ -319,7 +315,7 @@
 			</tgroup>
 		</table>
 		<para>
-			All transactions do in addition have three optional properties. The description property provides information about the nature of the transaction. For expenses and incomes this can be considered a flexible subcategory. The comment property is used for any additional information, not used for categorisation, about the transaction. If you for example buy a pair of shoes, you might create an expense in a clothing category, with the description <quote>Shoes</quote> and comments <quote>Shiny red Pradas</quote>. The third property, <quote>Associated File</quote>, allows you to specify a link to file on the computer which will be connected to the transaction. This will typically be receipt, invoice or payslip, but any file can be selected. The file will not be moved, copied or modified. If the file is moved or renamed outside of &eqonomize;, the file will not be accessible from within the program. 
+			All transactions do in addition have three optional properties. The description property provides information about the nature of the transaction. For expenses and incomes this can be considered a flexible subcategory. The comment property is used for any additional information, not used for categorisation, about the transaction. If you for example buy a pair of shoes, you might create an expense in a clothing category, with the description <quote>Shoes</quote> and comments <quote>Shiny red Pradas</quote>. The third property, <quote>Associated File</quote>, allows you to specify a link to file on the computer which will be connected to the transaction. This will typically be receipt, invoice or payslip, but any file can be selected. The file will not be moved, copied or modified. If the file is moved or renamed outside of &app;, the file will not be accessible from within the program. 
 		</para>
 		<para>
 			Expenses have two additional properties which can be show or hidden using <menuchoice><guimenu>Settings</guimenu><guimenuitem>Use Additional Transaction Properties</guimenuitem></menuchoice> (deactivating this option will not permanently remove any properties from already entered transactions). The quantity property denotes how many entities was involved in the transaction. This can be a whole number, as in two CD's, or a fraction, as in 0.56 kg apples (units are not included). This property is by default set to 1 and does not affect the value (the value per entity equals the value divided by the quantity). Expenses also have a payee property for the person or entity, for example the store where goods where bought, which receives the money. Incomes also have the payer property for the one who gives you the money, for example your employer.
@@ -363,10 +359,10 @@
 		<title>Scheduled Transactions</title>
 		
 		<para>
-			A scheduled transaction is a transaction that is planned to occur, thus it has not occurred yet. It is basically just a transaction, of any type, that has a date set in the future. When a scheduled transaction has occurred, it becomes a regular transaction. Scheduled transactions makes it possible to keep track of and be reminded of future transactions. &eqonomize; will request for a confirmation when the transaction is expected to have occurred.
+			A scheduled transaction is a transaction that is planned to occur, thus it has not occurred yet. It is basically just a transaction, of any type, that has a date set in the future. When a scheduled transaction has occurred, it becomes a regular transaction. Scheduled transactions makes it possible to keep track of and be reminded of future transactions. &app; will request for a confirmation when the transaction is expected to have occurred.
 		</para>
 		<para>
-			A scheduled transaction can be recurring, thus it will regularly occur on a certain date or with a certain interval. This is useful mostly for bills and salaries, which then need not be entered manually each time and you can check &eqonomize; for upcoming payments. When a scheduled recurring transaction has occurred, a regular transaction is created, the occurrence date is removed from the recurrence, and the scheduled transaction date is moved forward to the next occurrence. A scheduled transaction with no occurrences left is removed.
+			A scheduled transaction can be recurring, thus it will regularly occur on a certain date or with a certain interval. This is useful mostly for bills and salaries, which then need not be entered manually each time and you can check &app; for upcoming payments. When a scheduled recurring transaction has occurred, a regular transaction is created, the occurrence date is removed from the recurrence, and the scheduled transaction date is moved forward to the next occurrence. A scheduled transaction with no occurrences left is removed.
 		</para>
 		<para>
 			Single occurrence scheduled transactions are create just like ordinary transactions, except with a future date. Recurring transactions can only be created from the dialogs, with recurrences specified in the second tab.
@@ -377,17 +373,17 @@
 			<mediaobject><imageobject><imagedata format="PNG" fileref="schedule-view.png"/></imageobject></mediaobject>
 		</para>		
 		<para>
-			When a scheduled transaction is due, when the current date has gone past the date of the occurrence (or same date after 6 pm), &eqonomize; will ask you to confirm that the transaction really has occurred. You are then given the option to accept the transaction as it is, make some changes (for example the cost of your telephone bill might vary slightly), or postpone it. If the scheduled transaction is not postponed, it will become an ordinary transaction.
+			When a scheduled transaction is due, when the current date has gone past the date of the occurrence (or same date after 6 pm), &app; will ask you to confirm that the transaction really has occurred. You are then given the option to accept the transaction as it is, make some changes (for example the cost of your telephone bill might vary slightly), or postpone it. If the scheduled transaction is not postponed, it will become an ordinary transaction.
 			<mediaobject><imageobject><imagedata format="PNG" fileref="confirm-schedule.png"/></imageobject></mediaobject>
 		</para>
 	</sect1>
   <sect1 id="accounting-securities">
 	  <title>Securities</title>
 	  <para>
-		  Securities represents money invested in stock, bonds and mutual funds. &eqonomize; does not differentiate between different kinds of securities, even though the terminology used is better suited for some. Securities and associated statistics are displayed in the securities view (accessed using the icons on the left).
+		  Securities represents money invested in stock, bonds and mutual funds. &app; does not differentiate between different kinds of securities, even though the terminology used is better suited for some. Securities and associated statistics are displayed in the securities view (accessed using the icons on the left).
 	  </para>	
 	  <para>
-		  The create a new security in &eqonomize; use <menuchoice><guimenu>Securities</guimenu><guimenuitem>New Security...</guimenuitem></menuchoice> or the <guibutton>New Security...</guibutton> button. First select account. Securities are associated with an account of securities type, which cannot be associated with ordinary transactions. Enter name of the security and select type. Specify initial shares if you do not want to back-track all transactions (it is always preferred to use transactions instead, for better statistics). Specify then also date and quotation.
+		  The create a new security in &app; use <menuchoice><guimenu>Securities</guimenu><guimenuitem>New Security...</guimenuitem></menuchoice> or the <guibutton>New Security...</guibutton> button. First select account. Securities are associated with an account of securities type, which cannot be associated with ordinary transactions. Enter name of the security and select type. Specify initial shares if you do not want to back-track all transactions (it is always preferred to use transactions instead, for better statistics). Specify then also date and quotation.
 		  <mediaobject><imageobject><imagedata format="PNG" fileref="new-security.png"/></imageobject></mediaobject>
 	  </para>
 	  <sect2 id="security_transactions">
@@ -429,16 +425,19 @@
   <sect1 id="accounting-currencies">
 	  <title>Using Multiple Currencies</title>
 	  <para>
-		  &eqonomize; support per account currencies. A different currency can be selected for each account (for assets and liabilities). 
+		  &app; support per account currencies. A different currency can be selected for each account (for assets and liabilities). 
 	  </para>
 	  <para>
 		  The sum of values from accounts in different currencies and the total value and change of categories (for example in the accounts view, or in the statistical reports and diagrams) will be shown in the main currency. By default the main currency is set to the currency of the system default location, but this can be changed from the settings menu, or in the edit dialog of each currency.
 	  </para>
 	  <para>
-		  
+		  For transfers between accounts with different currencies both withdrawn and deposited amount must be specified. The same is true for loan payments (reductions) where the loan is in a different currency from the account used for the payment.
 	  </para>
 	  <para>
-		  
+		  Included exchange rates support automatic exchange rate updates using data from the European Central Bank. If multiple currencies are in use, the exchange rates are automatically updated once every week, but they can also be updated using the <menuchoice><guimenu>File</guimenu><guimenuitem>Update Exchange Rates</guimenuitem></menuchoice>.
+		</para>
+	  <para>
+	    If a currency you use is not available you can add it manually using the top item in currency menu when creating a new or editing a present account (it can also be done from main currency selection window). You must specify the three letter code of the currency and you should enter an exchange rate in European euros. The currently selected currency of the account can be edited using the button directly under the currency menu.
 	  </para>
 	</sect1>
 </chapter>
@@ -447,7 +446,7 @@
 <title>Command Reference</title>
 
 <sect1 id="eqonomize-mainwindow">
-<title>The main &eqonomize; window</title>
+<title>The main &app; window</title>
 
 <sect2>
 <title>The File Menu</title>
@@ -456,7 +455,7 @@
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
+<keycombo action="simul">Ctrl<keycap>N</keycap></keycombo>
 </shortcut>
 <guimenu>File</guimenu>
 <guimenuitem>New</guimenuitem>
@@ -466,7 +465,7 @@
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo>
+<keycombo action="simul">Ctrl<keycap>S</keycap></keycombo>
 </shortcut>
 <guimenu>File</guimenu>
 <guimenuitem>Save</guimenuitem>
@@ -476,22 +475,15 @@
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo>
+<keycombo action="simul">Ctrl<keycap>Q</keycap></keycombo>
 </shortcut>
 <guimenu>File</guimenu>
 <guimenuitem>Quit</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Quits</action> &eqonomize;</para></listitem>
+<listitem><para><action>Quits</action> &app;</para></listitem>
 </varlistentry>
 </variablelist>
 </para>
-
-</sect2>
-
-<sect2>
-<title>The <guimenu>Help</guimenu> Menu</title>
-
-&help.menu.documentation;
 
 </sect2>
 
@@ -523,7 +515,7 @@ distribution. -->
 <title>Credits and License</title>
 
 <para>
-&eqonomize;
+&app;
 </para>
 <para>
 Program copyright 2017 Hanna Knutsson <email>hanna_k@fmgirl.com</email>
@@ -542,7 +534,7 @@ Documentation copyright 2017 Hanna Knutsson <email>hanna_k@fmgirl.com</email>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
-&underFDL;               <!-- FDL: do not remove -->
+<!--&underFDL; -->               <!-- FDL: do not remove -->
 
 <!-- Determine which license your application is licensed under, 
      and delete all the remaining licenses below:
@@ -550,11 +542,11 @@ Documentation copyright 2017 Hanna Knutsson <email>hanna_k@fmgirl.com</email>
      (NOTE:  All documentation are licensed under the FDL, 
      regardless of what license the application uses) -->
 
-&underGPL;        	 <!-- GPL License -->
+<!-- &underGPL; -->        	 <!-- GPL License -->
 
 </chapter>
 
-&documentation.index;
+<!-- &documentation.index; -->
 </book>
 
 <!--

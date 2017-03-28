@@ -1,3 +1,3 @@
 mkdir html
 ./generatehtml_lang C
-./generatehtml_lang fr
+#./generatehtml_lang fr
