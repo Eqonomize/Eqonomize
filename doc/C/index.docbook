@@ -124,7 +124,7 @@
 	<title>Transactions</title>
 	<para>
 		After accounts and categories have been added, you can start recording transactions each time money have been deposited or withdrawn from one of you accounts. If you have kept book before, either on paper, or in another program, you can either import a file (see <xref linkend="import_export"/>) or enter each transaction manually by hand. Just remember to enter the correct opening balance for each account.
-	</para>
+	</para>n
 	<para>
 		Transactions can be entered in two ways, either with the new expense/income/transfer dialogs (where you have the option to create a recurring transaction), or from the transaction views. The latter option is usually preferred.
 	</para>
@@ -239,7 +239,7 @@
 		<title>Accounts and Categories</title>
     <sect2 id="Assets &amp; Liabilities">
 		  <para>
-		    
+		    &app; does not differentiate between accounts for assets and liabilities, except that they are group differently in the account view and that liabilities support some special transactions for convenience. 
 		  </para>
 		</sect2>
 		
@@ -248,7 +248,7 @@
 	<sect1 id="accounting-transactions">
 		<title>Transactions</title>
 		<para>
-			&app; has three different basic transactions types – expenses, incomes, and transfers. Securities uses some special transactions which are described in <xref linkend="accounting-securities"/>.
+			&app; has three different basic transactions types – expenses, incomes, and transfers. Securities uses some special transactions which are described in <xref linkend="accounting-securities"/>. The account types debt and credit card are used for lialibilities, the rest for assets. The securities type represents special accounts that are the only ones that can be associated with securities and only supports security transactions.
 		</para>
 		<para>
 			Expenses represents a loss of money, a transaction where you give away money, mostly in return for something else. This can be a payment for products and services, or a gift (or you lend someone money).
@@ -338,10 +338,10 @@
 	<sect1 id="split_transactions">
 		<title>Split Transactions</title>
 		<para>
-			Split transactions are used when a transfer to/from an account is instantly used for multiple transactions. This is not when money is withdrawn from a bank account through an ATM and you go shopping (that is first a transfer from a bank account to cash, then multiple regular expenses). A split transaction can for example be appropriate when you pay with your credit card in a store and tell them to withdraw some extra money, which you get as cash in your hand. You might also use splits when multiple products is bought with the same payment.
+			Split transactions are used when a single transfer to/from an account is used for multiple transactions. This is not when money is withdrawn from a bank account through an ATM and you go shopping (that is first a transfer from a bank account to cash, then multiple regular expenses). A split transaction will for example be appropriate when you make a single payment for multiple products (especially if they are categorised differently), or when you pay with your credit card in a store and tell them to withdraw some extra money, which you get as cash in your hand.
 		</para>
 		<para>
-			It is up to you how and when you want to use split transactions, as multiple ordinary transactions can be used with the same end result, even though one way might be a bit more correct than the other.
+			It is up to you how and when you want to use split transactions, as multiple ordinary transactions can be used with the same end result, even though one way might represent what happened in reality better.
 		</para>		
 		<para>
 			You can create a split from scratch with <menuchoice><guimenu>Transactions</guimenu><guimenuitem>New Split Transaction...</guimenuitem></menuchoice> or from the context menu. It is however often more efficient to use the join action. This way you can enter transactions the usual way and later join them in a split transactions. Select the transactions to join and activate <guimenuitem>Join Transactions...</guimenuitem> from the <guimenu>Transactions</guimenu> menu or the context menu, and enter a description. All transactions in a split transaction have a common date and account.
@@ -351,7 +351,30 @@
 			To reverse the action and transform transactions in a split transaction to ordinary transactions, select a transaction and use <guimenuitem>Split Up</guimenuitem>.
 		</para>
 		<para>
-			In transaction list (ledger) for the account associated with the split, the split will be shown as only one transaction, but everywhere else the parts of the split will appear as ordinary transactions.
+			In transaction list (ledger) for the account associated with the split, the split will be shown as only one transaction, but everywhere else the parts of the split will appear as ordinary transactions. You cannot edit a transaction that is part of a split transaction directly from the fields below the transaction lists. Instead you should press <guibutton>Edit...</guibutton> to edit the whole split transaction, or double click the transaction in the list to edit the separate transaction (excluding the common date and account of the split transaction).
+		</para>
+	</sect1>
+	
+	<sect1 id="multiaccount_transactions">
+		<title>Expenses with Multiple Payments</title>
+		<para>
+			Expenses with multiple payments are similar to split transactions, but instead of using a common date and account, they share description, category, quantity and comments. The intended usage is for when multiple payments, primarily from different accounts, are made for a single product/service. They should not be used for payment plans/loans, although an expenses with multiple payments is created for expenses with a downpayment.
+		</para>
+		<para>
+		  Expenses with multiple payments will show up single transaction in the expenses, but as multiple transactions in the account ledgers. Similarily to split transactions they cannot be edited directly from the fields under the expenses list.
+		</para>
+	</sect1>
+	
+	<sect1 id="loan_payments">
+		<title>Loan Payments</title>
+		<para>
+			Loan payments are a third kind of combined transaction. These group together payments on loans (reductions), interest and fees. Ordinary transactions can also be used for these purposes. 
+		</para>
+		<para>
+		  <menuchoice><guimenu>Loans</guimenu><guimenuitem>New Unpayed Interest...</guimenuitem></menuchoice> also creates loan payment transactions but provides a simplified dialog when the debt has increased because of added interest.
+		</para>
+		<para>
+		  Transactions in a loan payment can not be edited separately.
 		</para>
 	</sect1>
 	
@@ -439,6 +462,15 @@
 	  <para>
 	    If a currency you use is not available you can add it manually using the top item in currency menu when creating a new or editing a present account (it can also be done from main currency selection window). You must specify the three letter code of the currency and you should enter an exchange rate in European euros. The currently selected currency of the account can be edited using the button directly under the currency menu.
 	  </para>
+	  <sect2 id="which-exchange-rate">
+  	  <title>Which Exchange Rate is used When?</title>
+  	  <para>
+  	    &app; saves, but does not download, historical exchange rates. It is not obvious which exchange rate should and is used when converting the value of transaction to a different currency, for display. In the account view, the exchange rate nearest the current end date (of the displayed period) is always for the sum of assets and liabilities. 
+  	    </para>
+  	    <para>
+  	    For expense and income categories, however, their are two options (selectable from the Settings menu) available. The first option is to use the appropriate exchange rate for the date of each separate transaction. The second default option is to simply use to current exchange rate, regardless of the transaction date (or the current end date). The same logic is used for in the transaction lists for transactions using multiple currencies, as well as in different statistics (with the exception of historical account values). None of the options are optimal and which one is more appropriate depends on the typical flow between accounts in different currencies. This is however of minor importance for stable currencies.
+  	  </para>
+	  </sect2>
 	</sect1>
 </chapter>
 

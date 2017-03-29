@@ -169,10 +169,14 @@ double Currency::exchangeRate(QDate date, bool exact_match) const {
 		return it.value();
 	}
 	if(rates.isEmpty()) return 1.0;
-	if(!date.isValid()) return rates.last();	
+	if(!date.isValid()) return rates.last();
 	QMap<QDate, double>::const_iterator it = rates.lowerBound(date);
 	if(it == rates.constEnd()) return rates.last();
-	if(it.key() != date && it != rates.constBegin()) --it;
+	if(it.key() != date && it != rates.constBegin()) {
+		QMap<QDate, double>::const_iterator it2 = it;
+		--it2;
+		if(date.daysTo(it.key()) >= it2.key().daysTo(date)) it = it2;
+	}
 	return it.value();
 }
 QDate Currency::lastExchangeRateDate() const {
@@ -207,7 +211,11 @@ double Currency::convertTo(double value, const Currency *to_currency, const QDat
 	if(!date.isValid()) return value / rates.last() * to_currency->exchangeRate(date);
 	QMap<QDate, double>::const_iterator it = rates.lowerBound(date);	
 	if(it == rates.constEnd()) return value / rates.last() * to_currency->exchangeRate(date);
-	if(it.key() != date && it != rates.constBegin()) --it;
+	if(it.key() != date && it != rates.constBegin()) {
+		QMap<QDate, double>::const_iterator it2 = it;
+		--it2;
+		if(date.daysTo(it.key()) >= it2.key().daysTo(date)) it = it2;
+	}
 	return value / it.value() * to_currency->exchangeRate(date);
 }
 double Currency::convertFrom(double value, const Currency *from_currency, const QDate &date) const {

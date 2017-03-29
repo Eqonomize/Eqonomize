@@ -4498,23 +4498,13 @@ bool Eqonomize::timeToUpdateExchangeRates() {
 void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
 	updateExchangeRatesProgressDialog = new QProgressDialog(tr("Updating exchange rates…"), tr("Abort"), 0, 1, this);
 	updateExchangeRatesProgressDialog->setWindowModality(Qt::WindowModal);
-	updateExchangeRatesProgressDialog->setMinimumDuration(100);
+	updateExchangeRatesProgressDialog->setMinimumDuration(200);
 	connect(updateExchangeRatesProgressDialog, SIGNAL(canceled()), this, SLOT(cancelUpdateExchangeRates()));
 	updateExchangeRatesProgressDialog->setValue(0);
 	updateExchangeRatesReply = nam.get(QNetworkRequest(QUrl("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml")));
-	if(do_currencies_modified && budget->usesMultipleCurrencies()) {
-		connect(updateExchangeRatesReply, SIGNAL(finished()), this, SLOT(ECBDataDownloaded_true()));
-	} else {
-		connect(updateExchangeRatesReply, SIGNAL(finished()), this, SLOT(ECBDataDownloaded_false()));
-	}
-}
-void Eqonomize::ECBDataDownloaded_false() {
-	ECBDataDownloaded(false);
-}
-void Eqonomize::ECBDataDownloaded_true() {
-	ECBDataDownloaded(true);
-}
-void Eqonomize::ECBDataDownloaded(bool do_currencies_modified) {
+	QEventLoop loop;
+	connect(updateExchangeRatesReply, SIGNAL(finished()), &loop, SLOT(quit()));
+	loop.exec();
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 	if(updateExchangeRatesReply->error() == QNetworkReply::OperationCanceledError) {

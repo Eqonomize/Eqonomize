@@ -306,9 +306,6 @@ class Eqonomize : public QMainWindow {
 		
 		void checkExchangeRatesTimeOut();
 		void updateExchangeRates(bool do_currencies_modified = true);
-		void ECBDataDownloaded_false();
-		void ECBDataDownloaded_true();
-		void ECBDataDownloaded(bool do_currencies_modified);
 		void cancelUpdateExchangeRates();
 		void currenciesModified();
 		void warnAndAskForExchangeRate();
