@@ -1650,31 +1650,16 @@ bool TransactionListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	if(col == 0) {
 		if(d_date < i->date()) return true;
 		if(d_date > i->date()) return false;
+		if((o_strans == NULL) != (i->scheduledTransaction() == NULL)) return o_strans == NULL;
+		if(t1->timestamp() < t2->timestamp()) return true;
+		if(t1->timestamp() > t2->timestamp()) return false;
+		return t2->description().localeAwareCompare(t1->description()) < 0;
 	} else if(col == 2) {
 		double d1 = t1->value(true), d2 = t2->value(true);
 		if(d1 < d2) return true;
 		if(d1 > d2) return false;
-	} else {
-		int r = text(col).localeAwareCompare(i_pre.text(col));
-		if(r != 0) return r < 0;
 	}
-	if(t1->timestamp() < t2->timestamp()) return true;
-	if(t1->timestamp() > t2->timestamp()) return false;
-	if(!o_split && o_trans->parentSplit()) {
-		if(i->splitTransaction() || !i->transaction()->parentSplit()) {
-			t1 = o_trans->parentSplit();
-		} else if(i->transaction()->parentSplit() != o_trans->parentSplit()) {
-			t1 = o_trans->parentSplit();
-			t2 = i->transaction()->parentSplit();
-			int r = t2->description().localeAwareCompare(t1->description());
-			if(r == 0) return (void*) t1 < (void*) t2;
-			else return r < 0;
-		}
-	} else if(!i->splitTransaction() && i->transaction()->parentSplit()) {
-		t2 = i->transaction()->parentSplit();
-	} 
-	return t2->description().localeAwareCompare(t1->description()) < 0;
-	//return QTreeWidgetItem::operator<(i_pre);
+	return QTreeWidgetItem::operator<(i_pre);
 }
 Transaction *TransactionListViewItem::transaction() const {
 	return o_trans;

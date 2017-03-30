@@ -1795,8 +1795,8 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	int initial_period = settings.value("initialPeriod", int(0)).toInt();
 	if(initial_period < 0 || initial_period > 4) initial_period = 0;
 	
-	bool b_uler = settings.value("useLatestExchangeRate", true).toBool();
-	budget->setDefaultTransactionConversionRateDate(b_uler ? TRANSACTION_CONVERSION_LATEST_RATE : TRANSACTION_CONVERSION_RATE_AT_DATE);
+	bool b_uerftd = settings.value("useExchangeRateForTransactionDate", false).toBool();
+	budget->setDefaultTransactionConversionRateDate(b_uerftd ? TRANSACTION_CONVERSION_RATE_AT_DATE : TRANSACTION_CONVERSION_LATEST_RATE);
 
 	prev_cur_date = QDate::currentDate();
 	QDate curdate = prev_cur_date;
@@ -2342,10 +2342,10 @@ void Eqonomize::useExtraProperties(bool b) {
 	settings.endGroup();
 
 }
-void Eqonomize::useLatestExchangeRate(bool b) {
-	if(b != (budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_LATEST_RATE)) {
-		if(b) budget->setDefaultTransactionConversionRateDate(TRANSACTION_CONVERSION_LATEST_RATE);
-		else budget->setDefaultTransactionConversionRateDate(TRANSACTION_CONVERSION_RATE_AT_DATE);
+void Eqonomize::useExchangeRateForTransactionDate(bool b) {
+	if(b != (budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE)) {
+		if(b) budget->setDefaultTransactionConversionRateDate(TRANSACTION_CONVERSION_RATE_AT_DATE);
+		else budget->setDefaultTransactionConversionRateDate(TRANSACTION_CONVERSION_LATEST_RATE);
 		expensesWidget->filterTransactions();
 		incomesWidget->filterTransactions();
 		transfersWidget->filterTransactions();
@@ -2356,7 +2356,7 @@ void Eqonomize::useLatestExchangeRate(bool b) {
 	
 		QSettings settings;
 		settings.beginGroup("GeneralOptions");
-		settings.setValue("useLatestExchangeRate", budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_LATEST_RATE);
+		settings.setValue("useExchangeRateForTransactionDate", budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE);
 		settings.endGroup();
 	}
 }
@@ -5529,9 +5529,9 @@ void Eqonomize::setupActions() {
 	
 	NEW_ACTION_2(ActionSetMainCurrency, tr("Set Main Currency…"), 0, this, SLOT(setMainCurrency()), "set_main_currency", settingsMenu);
 	
-	NEW_TOGGLE_ACTION(ActionUseLatestExchangeRate, tr("Show Latest Exchange Rate for Transactions"), 0, this, SLOT(useLatestExchangeRate(bool)), "use_latest_exchange_rate", settingsMenu);
-	ActionUseLatestExchangeRate->setChecked(budget->defaultTransactionConversionRateDate() != TRANSACTION_CONVERSION_RATE_AT_DATE);
-	ActionUseLatestExchangeRate->setToolTip(tr("Use the latest action rate, instead of the exchange rate closest before the transaction date, when converting the value of transactions."));
+	NEW_TOGGLE_ACTION(ActionUseExchangeRateForTransactionDate, tr("Use Exchange Rate for Transaction Date"), 0, this, SLOT(useExchangeRateForTransactionDate(bool)), "use_exchange_rate_for_transaction_date", settingsMenu);
+	ActionUseExchangeRateForTransactionDate->setChecked(budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE);
+	ActionUseExchangeRateForTransactionDate->setToolTip(tr("Use the exchange rate nearest the transaction date, instead of the latest available rate, when converting the value of transactions."));
 	
 	NEW_ACTION(ActionSetBudgetPeriod, tr("Set Budget Period…"), "view-calendar-day", 0, this, SLOT(setBudgetPeriod()), "set_budget_period", settingsMenu);
 	
@@ -5831,7 +5831,7 @@ void Eqonomize::saveOptions() {
 	settings.setValue("currentEditTransferFromItem", transfersWidget->currentEditFromItem());
 	settings.setValue("currentEditTransferToItem", transfersWidget->currentEditToItem());
 	settings.setValue("useExtraProperties", b_extra);
-	settings.setValue("useLatestExchangeRate", budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_LATEST_RATE);
+	settings.setValue("useExchangeRateForTransactionDate", budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE);
 	settings.setValue("firstRun", false);
 	settings.setValue("size", size());
 	settings.setValue("windowState", saveState());
