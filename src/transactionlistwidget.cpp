@@ -1653,7 +1653,6 @@ bool TransactionListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 		if((o_strans == NULL) != (i->scheduledTransaction() == NULL)) return o_strans == NULL;
 		if(t1->timestamp() < t2->timestamp()) return true;
 		if(t1->timestamp() > t2->timestamp()) return false;
-		return t2->description().localeAwareCompare(t1->description()) < 0;
 	} else if(col == 2) {
 		double d1 = t1->value(true), d2 = t2->value(true);
 		if(d1 < d2) return true;

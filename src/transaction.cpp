@@ -1013,6 +1013,7 @@ Transactions *ScheduledTransaction::realize(QDate date) {
 	if(o_rec && !o_rec->removeOccurrence(date)) return NULL;
 	if(!o_rec && date != o_trans->date()) return NULL;
 	Transactions *trans = o_trans->copy();
+	trans->setTimestamp();
 	if(o_rec) {
 		o_trans->setDate(o_rec->startDate());
 		o_budget->scheduledTransactionSortModified(this);

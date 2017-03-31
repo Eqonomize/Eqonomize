@@ -368,7 +368,7 @@
 	<sect1 id="loan_payments">
 		<title>Loan Payments</title>
 		<para>
-			Loan payments are a third kind of combined transaction. These group together payments on loans (reductions), interest and fees. Ordinary transactions can also be used for these purposes. 
+			Loan payments are a third kind of combined transaction. These group together payments on loans (reductions), interest and fees. Ordinary transactions can also be used for these purposes. Interest and fee are expenses and loan reductions are transfers.
 		</para>
 		<para>
 		  <menuchoice><guimenu>Loans</guimenu><guimenuitem>New Unpayed Interest...</guimenuitem></menuchoice> also creates loan payment transactions but provides a simplified dialog when the debt has increased because of added interest.

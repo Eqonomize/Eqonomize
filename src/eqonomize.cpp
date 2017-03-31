@@ -229,7 +229,7 @@ class SecurityListViewItem : public QTreeWidgetItem {
 	protected:
 		Security *o_security;
 	public:
-		SecurityListViewItem(Security *sec, QString s1, QString s2 = QString::null, QString s3 = QString::null, QString s4 = QString::null, QString s5 = QString::null, QString s6 = QString::null, QString s7 = QString::null, QString s8 = QString::null) : QTreeWidgetItem(UserType), o_security(sec) {
+		SecurityListViewItem(Security *sec, QString s1, QString s2 = QString::null, QString s3 = QString::null, QString s4 = QString::null, QString s5 = QString::null, QString s6 = QString::null, QString s7 = QString::null, QString s8 = QString::null, QString s9 = QString::null) : QTreeWidgetItem(UserType), o_security(sec) {
 			setText(0, s1);
 			setText(1, s2);
 			setText(2, s3);
@@ -238,28 +238,55 @@ class SecurityListViewItem : public QTreeWidgetItem {
 			setText(5, s6);
 			setText(6, s7);
 			setText(7, s8);
+			setText(8, s9);
 			setTextAlignment(1, Qt::AlignRight | Qt::AlignVCenter);
 			setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
 			setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
 			setTextAlignment(4, Qt::AlignRight | Qt::AlignVCenter);
 			setTextAlignment(5, Qt::AlignRight | Qt::AlignVCenter);
 			setTextAlignment(6, Qt::AlignRight | Qt::AlignVCenter);
-			//setTextAlignment(7, Qt::AlignCenter);
-			//setTextAlignment(8, Qt::AlignCenter);
 		}
 		bool operator<(const QTreeWidgetItem &i_pre) const {
 			int col = 0;
 			if(treeWidget()) col = treeWidget()->sortColumn();
 			SecurityListViewItem *i = (SecurityListViewItem*) &i_pre;
-			if(col >= 2 && col <= 6) {
-				double d1 = text(col).toDouble();
-				double d2 = i->text(col).toDouble();
-				return d1 < d2;
+			switch(col) {
+				case 1: {
+					if(value < i->value) return true;
+					if(value > i->value) return false;
+					break;
+				}
+				case 2: {
+					if(shares < i->shares) return true;
+					if(shares > i->shares) return false;
+					break;
+				}
+				case 3: {
+					if(quote < i->quote) return true;
+					if(quote > i->quote) return false;
+					break;
+				}
+				case 4: {
+					if(cost < i->cost) return true;
+					if(cost > i->cost) return false;
+					break;
+				}
+				case 5: {
+					if(profit < i->profit) return true;
+					if(profit > i->profit) return false;
+					break;
+				}
+				case 6: {
+					if(rate < i->rate) return true;
+					if(rate > i->rate) return false;
+					break;
+				}
+				default: {break;}
 			}
 			return QTreeWidgetItem::operator<(i_pre);
 		}
 		Security* security() const {return o_security;}
-		double cost, value, rate, profit;
+		double cost, value, rate, profit, shares, quote;
 };
 
 class ScheduleListViewItem : public QTreeWidgetItem {
@@ -291,9 +318,13 @@ bool ScheduleListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	if(treeWidget()) col = treeWidget()->sortColumn();
 	ScheduleListViewItem *i = (ScheduleListViewItem*) &i_pre;
 	if(col == 0) {
-		return d_date < i->date();
+		if(d_date < i->date()) return true;
+		if(d_date > i->date()) return false;
+		return o_strans->description().localeAwareCompare(o_strans->description()) >= 0;
 	} else if(col == 3) {
-		return o_strans->value() < i->scheduledTransaction()->value();
+		double d1 = o_strans->value(true), d2 = i->scheduledTransaction()->value(true);
+		if(d1 < d2) return true;
+		if(d1 > d2) return false;
 	}
 	return QTreeWidgetItem::operator<(i_pre);
 }
@@ -2899,12 +2930,15 @@ void Eqonomize::appendSecurity(Security *security) {
 		rate = security->yearlyRate(securities_to_date);
 		profit = security->profit(securities_to_date, true);
 	}
-	SecurityListViewItem *i = new SecurityListViewItem(security, security->name(), security->account()->currency()->formatValue(value), QLocale().toString(shares, 'f', security->decimals()), security->account()->currency()->formatValue(quotation, security->quotationDecimals()), security->account()->currency()->formatValue(cost), security->account()->currency()->formatValue(profit), QLocale().toString(rate * 100) + "%");
-	i->setText(8, security->account()->name());
-	i->value = value;
-	i->cost = cost;
+	Currency *cur = security->currency();
+	if(!cur) cur = budget->defaultCurrency();
+	SecurityListViewItem *i = new SecurityListViewItem(security, security->name(), cur->formatValue(value), QLocale().toString(shares, 'f', security->decimals()), cur->formatValue(quotation, security->quotationDecimals()), cur->formatValue(cost), cur->formatValue(profit), QLocale().toString(rate * 100) + "%", QString::null, security->account()->name());
+	i->value = cur->convertTo(value, budget->defaultCurrency());
+	i->cost = cur->convertTo(cost, budget->defaultCurrency());
 	i->rate = rate;
-	i->profit = profit;
+	i->profit = cur->convertTo(profit, budget->defaultCurrency());
+	i->shares = shares;
+	i->quote = cur->convertTo(quotation, budget->defaultCurrency());
 	switch(security->type()) {
 		case SECURITY_TYPE_BOND: {i->setText(7, tr("Bond")); break;}
 		case SECURITY_TYPE_STOCK: {i->setText(7, tr("Stock", "Financial stock")); break;}
@@ -2922,11 +2956,11 @@ void Eqonomize::appendSecurity(Security *security) {
 	else if(rate > 0.0) i->setForeground(6, createIncomeColor(i, 0));
 	else i->setForeground(6, createTransferColor(i, 0));
 	total_rate *= total_value;
-	total_value += value;
-	total_cost += cost;
-	total_rate += value * rate;
+	total_value += i->value;
+	total_cost += i->cost;
+	total_rate += i->value * rate;
 	if(total_cost != 0.0) total_rate /= total_value;
-	total_profit += profit;
+	total_profit += i->profit;
 	updateSecuritiesStatistics();
 	securitiesView->setSortingEnabled(true);
 }
@@ -2946,11 +2980,11 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i) {
 	Security *security = ((SecurityListViewItem*) i)->security();
 	Currency *cur = security->currency();
 	total_rate *= total_value;
-	total_value -= cur->convertTo(((SecurityListViewItem*) i)->value, budget->defaultCurrency());
-	total_cost -= cur->convertTo(((SecurityListViewItem*) i)->cost, budget->defaultCurrency());
-	total_rate -= cur->convertTo(((SecurityListViewItem*) i)->value, budget->defaultCurrency()) * ((SecurityListViewItem*) i)->rate;
+	total_value -= ((SecurityListViewItem*) i)->value;
+	total_cost -= ((SecurityListViewItem*) i)->cost;
+	total_rate -= ((SecurityListViewItem*) i)->value * ((SecurityListViewItem*) i)->rate;
 	if(total_cost != 0.0) total_rate /= total_value;
-	total_profit -= cur->convertTo(((SecurityListViewItem*) i)->profit, budget->defaultCurrency());
+	total_profit -= ((SecurityListViewItem*) i)->profit;
 	double value = 0.0, cost = 0.0, rate = 0.0, profit = 0.0, quotation = 0.0, shares = 0.0;
 	value = security->value(securities_to_date, true);
 	cost = security->cost(securities_to_date);
@@ -2964,16 +2998,18 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i) {
 		rate = security->yearlyRate(securities_to_date);
 		profit = security->profit(securities_to_date, true);
 	}
-	((SecurityListViewItem*) i)->value = value;
-	((SecurityListViewItem*) i)->cost = cost;
+	((SecurityListViewItem*) i)->value = cur->convertTo(value, budget->defaultCurrency());
+	((SecurityListViewItem*) i)->cost = cur->convertTo(cost, budget->defaultCurrency());
 	((SecurityListViewItem*) i)->rate = rate;
-	((SecurityListViewItem*) i)->profit = profit;
+	((SecurityListViewItem*) i)->profit = cur->convertTo(profit, budget->defaultCurrency());
+	((SecurityListViewItem*) i)->shares = shares;
+	((SecurityListViewItem*) i)->quote = cur->convertTo(quotation, budget->defaultCurrency());
 	total_rate *= total_value;
-	total_value += cur->convertTo(value, budget->defaultCurrency());
-	total_cost += cur->convertTo(cost, budget->defaultCurrency());
-	total_rate += cur->convertTo(value, budget->defaultCurrency()) * rate;
+	total_value += ((SecurityListViewItem*) i)->value;
+	total_cost += ((SecurityListViewItem*) i)->cost;
+	total_rate += ((SecurityListViewItem*) i)->value * rate;
 	if(total_cost != 0.0) total_rate /= total_value;
-	total_profit += profit;
+	total_profit += ((SecurityListViewItem*) i)->profit;
 	i->setText(0, security->name());
 	switch(security->type()) {
 		case SECURITY_TYPE_BOND: {i->setText(7, tr("Bond")); break;}
