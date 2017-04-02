@@ -599,6 +599,7 @@ void TransactionListWidget::editTransaction() {
 		if(equal_category && dialog->categoryButton) dialog->categoryButton->setChecked(true);
 		if(dialog->exec() == QDialog::Accepted) {
 			foreach(Account* acc, budget->newAccounts) emit accountAdded(acc);
+			if(!budget->newAccounts.isEmpty()) updateAccounts();
 			budget->newAccounts.clear();
 			QDate date = dialog->date();
 			bool future = !date.isNull() && date > QDate::currentDate();
@@ -715,6 +716,7 @@ void TransactionListWidget::editTransaction() {
 			transactionSelectionChanged();
 		} else {
 			foreach(Account* acc, budget->newAccounts) emit accountAdded(acc);
+			if(!budget->newAccounts.isEmpty()) updateAccounts();
 			budget->newAccounts.clear();
 		}
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) emit currenciesModified();
