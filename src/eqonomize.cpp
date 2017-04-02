@@ -6467,13 +6467,18 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 				setModified(true);
 				incomesWidget->updateFromAccounts();
 				if(prev_parent != account->parentCategory()) {
+					QTreeWidgetItem *prev_parent_item = i->parent();
 					item_accounts.remove(account);
 					account_items.remove(i);
 					delete i;
 					QTreeWidgetItem *parent_item = incomesItem;
 					if(account->parentCategory()) parent_item = item_accounts[account->parentCategory()];
 					NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, account->name(), "-", budget->formatMoney(account_change[account]), budget->formatMoney(account_value[account]) + " ");
-					if(parent_item) i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
+					if(account->parentCategory()) {
+						i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
+						parent_item->setFlags(parent_item->flags() & ~Qt::ItemIsDragEnabled);
+					}
+					if(prev_parent_item->childCount() == 0) prev_parent_item->setFlags(prev_parent_item->flags() | Qt::ItemIsDragEnabled);
 					account_items[i] = account;
 					item_accounts[account] = i;
 					parent_item->sortChildren(0, Qt::AscendingOrder);
@@ -6501,13 +6506,18 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 				setModified(true);
 				expensesWidget->updateToAccounts();
 				if(prev_parent != account->parentCategory()) {
+					QTreeWidgetItem *prev_parent_item = i->parent();
 					item_accounts.remove(account);
 					account_items.remove(i);
 					delete i;
 					QTreeWidgetItem *parent_item = expensesItem;
 					if(account->parentCategory()) parent_item = item_accounts[account->parentCategory()];
 					NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, account->name(), "-", budget->formatMoney(account_change[account]), budget->formatMoney(account_value[account]) + " ");
-					if(parent_item) i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
+					if(account->parentCategory()) {
+						i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
+						parent_item->setFlags(parent_item->flags() & ~Qt::ItemIsDragEnabled);
+					}
+					if(prev_parent_item->childCount() == 0) prev_parent_item->setFlags(prev_parent_item->flags() | Qt::ItemIsDragEnabled);
 					account_items[i] = account;
 					item_accounts[account] = i;
 					parent_item->sortChildren(0, Qt::AscendingOrder);
@@ -6558,11 +6568,13 @@ void Eqonomize::accountMoved(QTreeWidgetItem *i, QTreeWidgetItem *target) {
 		else if(account->type() == ACCOUNT_TYPE_EXPENSES) parent_item = expensesItem;
 		else parent_item = incomesItem;
 		NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, ca->name(), "-", budget->formatMoney(account_change[ca]), budget->formatMoney(account_value[ca]) + " ");
-		if(parent_item) {
+		if(ca->parentCategory()) {
 			i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
 			parent_item->setFlags(parent_item->flags() & ~Qt::ItemIsDragEnabled);
+		} else {
+			i->setFlags(i->flags() | Qt::ItemIsDropEnabled);
 		}
-		if(prev_parent_item->childCount() == 0) prev_parent_item->setFlags(parent_item->flags() | Qt::ItemIsDragEnabled);
+		if(prev_parent_item->childCount() == 0) prev_parent_item->setFlags(prev_parent_item->flags() | Qt::ItemIsDragEnabled);
 		account_items[i] = ca;
 		item_accounts[ca] = i;
 		parent_item->sortChildren(0, Qt::AscendingOrder);
@@ -6711,6 +6723,7 @@ void Eqonomize::deleteAccount() {
 					ca = ((CategoryAccount*) account)->subCategories.next();
 				}
 			}
+			if(account->topAccount() != account && i->parent()->childCount() == 0) i->parent()->setFlags(i->parent()->flags() | Qt::ItemIsDragEnabled);
 			item_accounts.remove(account);
 			account_items.remove(i);
 			delete i;
@@ -6936,7 +6949,10 @@ void Eqonomize::transactionRemoved(Transactions *transs) {
 void Eqonomize::appendExpensesAccount(ExpensesAccount *account, QTreeWidgetItem *parent_item) {
 	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, account->name(), "-", budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
 	if(!account->subCategories.isEmpty()) i->setFlags(i->flags() & ~Qt::ItemIsDragEnabled);
-	if(account->parentCategory()) i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
+	if(account->parentCategory()) {
+		i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
+		parent_item->setFlags(parent_item->flags() & ~Qt::ItemIsDragEnabled);
+	}
 	account_items[i] = account;
 	item_accounts[account] = i;
 	account_value[account] = 0.0;
@@ -6951,7 +6967,10 @@ void Eqonomize::appendExpensesAccount(ExpensesAccount *account, QTreeWidgetItem 
 void Eqonomize::appendIncomesAccount(IncomesAccount *account, QTreeWidgetItem *parent_item) {
 	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, account->name(), "-", budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
 	if(!account->subCategories.isEmpty()) i->setFlags(i->flags() & ~Qt::ItemIsDragEnabled);
-	if(account->parentCategory()) i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
+	if(account->parentCategory()) {
+		i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
+		parent_item->setFlags(parent_item->flags() & ~Qt::ItemIsDragEnabled);
+	}
 	account_items[i] = account;
 	item_accounts[account] = i;
 	account_value[account] = 0.0;
