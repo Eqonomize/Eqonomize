@@ -182,11 +182,10 @@ double Security::getQuotation(const QDate &date, QDate *actual_date) const {
 	if(it != it_begin) {
 		--it;
 		while(true) {
-			if(it.key() <= date) {
+			if(it.key() <= date || it == it_begin) {
 				if(actual_date) *actual_date = it.key();
 				return it.value();
 			}
-			if(it == it_begin) break;
 			--it;
 		}
 	}
@@ -232,8 +231,7 @@ double Security::shares() {
 	return n;
 }
 double Security::shares(const QDate &date, bool estimate, bool no_scheduled_shares) {
-	double n = 0.0;
-	if(quotations.begin() == quotations.end() || quotations.begin().key() <= date) n += d_initial_shares;
+	double n = d_initial_shares;
 	SecurityTransaction *trans = transactions.first();
 	while(trans && trans->date() <= date) {
 		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) n += trans->shares();
@@ -298,7 +296,7 @@ double Security::cost(const QDate &date, bool no_scheduled_shares, Currency *cur
 	if(!cur) cur = currency();
 	double c = d_initial_shares;
 	QMap<QDate, double>::const_iterator it = quotations.begin();
-	if(it == quotations.end() || date < it.key()) {
+	if(it == quotations.end()) {
 		c = 0.0;
 	} else {
 		c *= it.value();
