@@ -463,6 +463,7 @@ class SecurityTransaction : public Transaction {
 		virtual TransactionType type() const = 0;
 		virtual QString description() const;
 		virtual double value(bool convert = false) const;
+		virtual Currency *currency() const;
 		virtual double fromValue(bool convert = false) const;
 		virtual double toValue(bool convert = false) const;
 		double shareValue(bool convert = false) const;

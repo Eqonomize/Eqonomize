@@ -962,7 +962,7 @@ void Budget::addTransaction(Transaction *trans) {
 			SecurityTransaction *sectrans = (SecurityTransaction*) trans;
 			securityTransactions.inSort(sectrans);
 			sectrans->security()->transactions.inSort(sectrans);
-			sectrans->security()->setQuotation(sectrans->date(), sectrans->shareValue(), true);
+			if(sectrans->shareValue() > 0.0) sectrans->security()->setQuotation(sectrans->date(), sectrans->shareValue(), true);
 			break;
 		}
 	}
@@ -1269,8 +1269,10 @@ void Budget::transactionDateModified(Transaction *t, const QDate &olddate) {
 		case TRANSACTION_TYPE_SECURITY_BUY: {}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
 			SecurityTransaction *tr = (SecurityTransaction*) t;
-			tr->security()->removeQuotation(olddate, true);
-			tr->security()->setQuotation(tr->date(), tr->shareValue(), true);
+			if(tr->shareValue() > 0.0) {
+				tr->security()->removeQuotation(olddate, true);
+				tr->security()->setQuotation(tr->date(), tr->shareValue(), true);
+			}
 			break;
 		}
 		default: {

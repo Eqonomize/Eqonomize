@@ -286,7 +286,7 @@ class SecurityListViewItem : public QTreeWidgetItem {
 			return QTreeWidgetItem::operator<(i_pre);
 		}
 		Security* security() const {return o_security;}
-		double cost, value, rate, profit, shares, quote;
+		double cost, value, rate, profit, shares, quote, scost, sprofit;
 };
 
 class ScheduleListViewItem : public QTreeWidgetItem {
@@ -1004,7 +1004,7 @@ EditQuotationsDialog::EditQuotationsDialog(Budget *budg, QWidget *parent) : QDia
 	quotationsLayout->addWidget(quotationsView);
 	QVBoxLayout *buttonsLayout = new QVBoxLayout();
 	quotationsLayout->addLayout(buttonsLayout);
-	quotationEdit = new EqonomizeValueEdit(0.01, 1.0, 0.01, i_quotation_decimals, true, this, budget);
+	quotationEdit = new EqonomizeValueEdit(0.0, pow(10, -i_quotation_decimals), 0.0, i_quotation_decimals, true, this, budget);
 	buttonsLayout->addWidget(quotationEdit);
 	dateEdit = new QDateEdit(this);
 	dateEdit->setCalendarPopup(true);
@@ -1622,23 +1622,15 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	grid->addWidget(new QLabel(tr("Account:"), this), 2, 0);
 	accountCombo = new QComboBox(this);
 	accountCombo->setEditable(false);
-	AssetsAccount *account = budget->assetsAccounts.first();
-	while(account) {
-		if(account->accountType() == ASSETS_TYPE_SECURITIES) {
-			accountCombo->addItem(account->name());
-			accounts.push_back(account);
-		}
-		account = budget->assetsAccounts.next();
-	}
 	grid->addWidget(accountCombo, 2, 1);
 	grid->addWidget(new QLabel(tr("Decimals in shares:", "Financial shares"), this), 3, 0);
 	decimalsEdit = new QSpinBox(this);
 	decimalsEdit->setRange(0, 8);
 	decimalsEdit->setSingleStep(1);
-	decimalsEdit->setValue(budget->defaultShareDecimals());
+	decimalsEdit->setValue(budget->defaultShareDecimals());	
 	grid->addWidget(decimalsEdit, 3, 1);
 	grid->addWidget(new QLabel(tr("Initial shares:", "Financial shares"), this), 4, 0);
-	sharesEdit = new EqonomizeValueEdit(0.0, 4, false, false, this, budget);
+	sharesEdit = new EqonomizeValueEdit(0.0, budget->defaultShareDecimals(), false, false, this, budget);
 	grid->addWidget(sharesEdit, 4, 1);
 	grid->addWidget(new QLabel(tr("Decimals in quotes:", "Financial quote"), this), 5, 0);
 	quotationDecimalsEdit = new QSpinBox(this);
@@ -1649,7 +1641,17 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	quotationLabel = new QLabel(tr("Initial quote:", "Financial quote"), this);
 	grid->addWidget(quotationLabel, 6, 0);
 	quotationEdit = new EqonomizeValueEdit(false, this, budget);
+	quotationDecimalsChanged(budget->defaultQuotationDecimals());
 	grid->addWidget(quotationEdit, 6, 1);
+	AssetsAccount *account = budget->assetsAccounts.first();
+	while(account) {
+		if(account->accountType() == ASSETS_TYPE_SECURITIES) {
+			accountCombo->addItem(account->name());
+			if(accounts.isEmpty()) quotationEdit->setCurrency(account->currency(), true);
+			accounts.push_back(account);
+		}
+		account = budget->assetsAccounts.next();
+	}
 	quotationDateLabel = new QLabel(tr("Date:"), this);
 	grid->addWidget(quotationDateLabel, 7, 0);
 	quotationDateEdit = new QDateEdit(QDate::currentDate(), this);
@@ -1669,11 +1671,12 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 
 	connect(decimalsEdit, SIGNAL(valueChanged(int)), this, SLOT(decimalsChanged(int)));
 	connect(quotationDecimalsEdit, SIGNAL(valueChanged(int)), this, SLOT(quotationDecimalsChanged(int)));
-	connect(accountCombo, SIGNAL(activated(int)), this, SLOT(accountActivated(int)));
+	connect(accountCombo, SIGNAL(currentAccountChanged(int)), this, SLOT(accountActivated(int)));
 
 }
 void EditSecurityDialog::accountActivated(int i) {
-	AssetsAccount *account = accounts[i];
+	AssetsAccount *account = NULL;
+	if(i >= 0) account = accounts[i];
 	quotationEdit->setCurrency(account ? account->currency() : budget->defaultCurrency(), true);
 }
 bool EditSecurityDialog::checkAccount() {
@@ -2667,10 +2670,10 @@ void Eqonomize::deleteSecurity() {
 	if(!has_trans || QMessageBox::warning(this, tr("Delete security?", "Financial security (e.g. stock, mutual fund)"), tr("Are you sure you want to delete the security \"%1\" and all associated transactions?", "Financial security (e.g. stock, mutual fund)").arg(security->name()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Ok) {
 		total_value -= i->value;
 		total_rate *= total_cost;
-		total_cost -= i->cost;
-		total_rate -= i->cost * i->rate;
+		total_cost -= i->scost;
+		total_rate -= i->scost * i->rate;
 		if(total_cost != 0.0) total_rate /= total_cost;
-		total_profit -= i->profit;
+		total_profit -= i->sprofit;
 		updateSecuritiesStatistics();
 		delete i;
 		budget->removeSecurity(security);
@@ -2805,7 +2808,7 @@ void Eqonomize::setQuotation() {
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 	grid->addWidget(new QLabel(tr("Price per share:", "Financial shares"), dialog), 0, 0);
-	EqonomizeValueEdit *quotationEdit = new EqonomizeValueEdit(0.01, pow(10, -i->security()->quotationDecimals()), i->security()->getQuotation(QDate::currentDate()), i->security()->quotationDecimals(), true, dialog, budget);
+	EqonomizeValueEdit *quotationEdit = new EqonomizeValueEdit(0.0, pow(10, -i->security()->quotationDecimals()), i->security()->getQuotation(QDate::currentDate()), i->security()->quotationDecimals(), true, dialog, budget);
 	quotationEdit->setFocus();
 	quotationEdit->setCurrency(i->security()->currency(), true);
 	grid->addWidget(quotationEdit, 0, 1);
@@ -2932,13 +2935,24 @@ void Eqonomize::appendSecurity(Security *security) {
 	}
 	Currency *cur = security->currency();
 	if(!cur) cur = budget->defaultCurrency();
-	SecurityListViewItem *i = new SecurityListViewItem(security, security->name(), cur->formatValue(value), QLocale().toString(shares, 'f', security->decimals()), cur->formatValue(quotation, security->quotationDecimals()), cur->formatValue(cost), cur->formatValue(profit), QLocale().toString(rate * 100) + "%", QString::null, security->account()->name());
-	i->value = cur->convertTo(value, budget->defaultCurrency());
-	i->cost = cur->convertTo(cost, budget->defaultCurrency());
+	SecurityListViewItem *i = new SecurityListViewItem(security, security->name(), cur->formatValue(value), QLocale().toString(shares, 'f', security->decimals()), cur->formatValue(quotation, security->quotationDecimals()), cur->formatValue(cost), cur->formatValue(profit), QLocale().toString(rate * 100) + "%", QString::null, security->account()->name());	
 	i->rate = rate;
-	i->profit = cur->convertTo(profit, budget->defaultCurrency());
 	i->shares = shares;
-	i->quote = cur->convertTo(quotation, budget->defaultCurrency());
+	if(cur != budget->defaultCurrency()) {
+		i->sprofit = security->profit(securities_to_date, true, false, budget->defaultCurrency());
+		i->scost = security->cost(securities_to_date, false, budget->defaultCurrency());
+		i->profit = cur->convertTo(profit, budget->defaultCurrency());
+		i->quote = cur->convertTo(quotation, budget->defaultCurrency());
+		i->value = cur->convertTo(value, budget->defaultCurrency());
+		i->cost = cur->convertTo(cost, budget->defaultCurrency());
+	} else {
+		i->sprofit = profit;
+		i->scost = cost;
+		i->profit = profit;
+		i->quote = quotation;
+		i->value = value;
+		i->cost = cost;
+	}
 	switch(security->type()) {
 		case SECURITY_TYPE_BOND: {i->setText(7, tr("Bond")); break;}
 		case SECURITY_TYPE_STOCK: {i->setText(7, tr("Stock", "Financial stock")); break;}
@@ -2957,10 +2971,10 @@ void Eqonomize::appendSecurity(Security *security) {
 	else i->setForeground(6, createTransferColor(i, 0));
 	total_rate *= total_value;
 	total_value += i->value;
-	total_cost += i->cost;
+	total_cost += i->scost;
 	total_rate += i->value * rate;
 	if(total_cost != 0.0) total_rate /= total_value;
-	total_profit += i->profit;
+	total_profit += i->sprofit;
 	updateSecuritiesStatistics();
 	securitiesView->setSortingEnabled(true);
 }
@@ -2976,15 +2990,16 @@ void Eqonomize::updateSecurity(Security *security) {
 		i = *it;
 	}
 }
-void Eqonomize::updateSecurity(QTreeWidgetItem *i) {
-	Security *security = ((SecurityListViewItem*) i)->security();
+void Eqonomize::updateSecurity(QTreeWidgetItem *i_pre) {
+	SecurityListViewItem* i = (SecurityListViewItem*) i_pre;
+	Security *security = i->security();
 	Currency *cur = security->currency();
 	total_rate *= total_value;
-	total_value -= ((SecurityListViewItem*) i)->value;
-	total_cost -= ((SecurityListViewItem*) i)->cost;
-	total_rate -= ((SecurityListViewItem*) i)->value * ((SecurityListViewItem*) i)->rate;
+	total_value -= i->value;
+	total_cost -= i->scost;
+	total_rate -= i->value * i->rate;
 	if(total_cost != 0.0) total_rate /= total_value;
-	total_profit -= ((SecurityListViewItem*) i)->profit;
+	total_profit -= ((SecurityListViewItem*) i)->sprofit;
 	double value = 0.0, cost = 0.0, rate = 0.0, profit = 0.0, quotation = 0.0, shares = 0.0;
 	value = security->value(securities_to_date, true);
 	cost = security->cost(securities_to_date);
@@ -2998,18 +3013,29 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i) {
 		rate = security->yearlyRate(securities_to_date);
 		profit = security->profit(securities_to_date, true);
 	}
-	((SecurityListViewItem*) i)->value = cur->convertTo(value, budget->defaultCurrency());
-	((SecurityListViewItem*) i)->cost = cur->convertTo(cost, budget->defaultCurrency());
-	((SecurityListViewItem*) i)->rate = rate;
-	((SecurityListViewItem*) i)->profit = cur->convertTo(profit, budget->defaultCurrency());
-	((SecurityListViewItem*) i)->shares = shares;
-	((SecurityListViewItem*) i)->quote = cur->convertTo(quotation, budget->defaultCurrency());
+	i->rate = rate;
+	i->shares = shares;
+	if(cur != budget->defaultCurrency()) {
+		i->sprofit = security->profit(securities_to_date, true, false, budget->defaultCurrency());
+		i->scost = security->cost(securities_to_date, false, budget->defaultCurrency());
+		i->profit = cur->convertTo(profit, budget->defaultCurrency());
+		i->quote = cur->convertTo(quotation, budget->defaultCurrency());
+		i->value = cur->convertTo(value, budget->defaultCurrency());
+		i->cost = cur->convertTo(cost, budget->defaultCurrency());
+	} else {
+		i->sprofit = profit;
+		i->scost = cost;
+		i->profit = profit;
+		i->quote = quotation;
+		i->value = value;
+		i->cost = cost;
+	}
 	total_rate *= total_value;
-	total_value += ((SecurityListViewItem*) i)->value;
-	total_cost += ((SecurityListViewItem*) i)->cost;
-	total_rate += ((SecurityListViewItem*) i)->value * rate;
+	total_value += i->value;
+	total_cost += i->scost;
+	total_rate += i->value * rate;
 	if(total_cost != 0.0) total_rate /= total_value;
-	total_profit += ((SecurityListViewItem*) i)->profit;
+	total_profit += i->profit;
 	i->setText(0, security->name());
 	switch(security->type()) {
 		case SECURITY_TYPE_BOND: {i->setText(7, tr("Bond")); break;}

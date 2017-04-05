@@ -171,11 +171,11 @@ class Security {
 		double shares(const QDate &date, bool estimate = false, bool no_scheduled_shares = false);
 		double value();
 		double value(const QDate &date, bool estimate = false, bool no_scheduled_shares = false);
-		double cost();
-		double cost(const QDate &date, bool no_scheduled_shares = false);
-		double profit();
-		double profit(const QDate &date, bool estimate = false, bool no_scheduled_shares = false);
-		double profit(const QDate &date1, const QDate &date2, bool estimate = false, bool no_scheduled_shares = false);
+		double cost(Currency *cur = NULL);
+		double cost(const QDate &date, bool no_scheduled_shares = false, Currency *cur = NULL);
+		double profit(Currency *cur = NULL);
+		double profit(const QDate &date, bool estimate = false, bool no_scheduled_shares = false, Currency *cur = NULL);
+		double profit(const QDate &date1, const QDate &date2, bool estimate = false, bool no_scheduled_shares = false, Currency *cur = NULL);
 		double yearlyRate();
 		double yearlyRate(const QDate &date);
 		double yearlyRate(const QDate &date_from, const QDate &date_to);

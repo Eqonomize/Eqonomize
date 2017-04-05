@@ -25,6 +25,7 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 #include <QXmlStreamAttribute>
+#include <QDebug>
 
 #include "budget.h"
 #include "recurrence.h"
@@ -293,15 +294,34 @@ double Security::value(const QDate &date, bool estimate, bool no_scheduled_share
 	if(estimate && date > QDate::currentDate()) return shares(date, estimate, no_scheduled_shares) * expectedQuotation(date);
 	return shares(date, estimate, no_scheduled_shares) * getQuotation(date);
 }
-double Security::cost(const QDate &date, bool no_scheduled_shares) {
+double Security::cost(const QDate &date, bool no_scheduled_shares, Currency *cur) {
+	if(!cur) cur = currency();
 	double c = d_initial_shares;
 	QMap<QDate, double>::const_iterator it = quotations.begin();
-	if(it == quotations.end() || date < it.key()) c = 0.0;
-	else c *= it.value();
+	if(it == quotations.end() || date < it.key()) {
+		c = 0.0;
+	} else {
+		c *= it.value();
+		if(cur != currency()) {
+			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
+				c = currency()->convertTo(c, cur, it.key());
+			} else {
+				c = currency()->convertTo(c, cur, date);
+			}
+		}
+	}
 	SecurityTransaction *trans = transactions.first();
 	while(trans && trans->date() <= date) {
-		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) c += trans->value();
-		else c -= trans->value();
+		double v = trans->value();
+		if(cur != trans->currency()) {
+			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
+				v = trans->currency()->convertTo(v, cur, trans->date());
+			} else {
+				v = trans->currency()->convertTo(v, cur, date);
+			}
+		}
+		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) c += v;
+		else c -= v;
 		trans = transactions.next();
 	}
 	SecurityTrade *ts = tradedShares.first();
@@ -315,23 +335,46 @@ double Security::cost(const QDate &date, bool no_scheduled_shares) {
 		while(strans && strans->date() <= date) {
 			int n = strans->recurrence()->countOccurrences(date);
 			if(n > 0) {
-				if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) c += strans->transaction()->value() * n;
-				else c -= strans->transaction()->value() * n;
+				double v = strans->value();
+				if(cur != strans->currency()) {
+					v = strans->currency()->convertTo(v, cur);
+				}
+				if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) c += v * n;
+				else c -= v * n;
 			}
 			strans = scheduledTransactions.next();
 		}
 	}
 	return c;
 }
-double Security::cost() {
+double Security::cost(Currency *cur) {
+	if(!cur) cur = currency();
 	double c = d_initial_shares;
 	QMap<QDate, double>::const_iterator it = quotations.begin();
-	if(it == quotations.end()) c = 0.0;
-	else c *= it.value();
+	if(it == quotations.end()) {
+		c = 0.0;
+	} else {
+		c *= it.value();
+		if(cur != currency()) {
+			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
+				c = currency()->convertTo(c, cur, it.key());
+			} else {
+				c = currency()->convertTo(c, cur);
+			}
+		}
+	}
 	SecurityTransaction *trans = transactions.first();
 	while(trans) {
-		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) c += trans->value();
-		else c -= trans->value();
+		double v = trans->value();
+		if(cur != trans->currency()) {
+			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
+				v = trans->currency()->convertTo(v, cur, trans->date());
+			} else {
+				v = trans->currency()->convertTo(v, cur);
+			}
+		}
+		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) c += v;
+		else c -= v;
 		trans = transactions.next();
 	}
 	SecurityTrade *ts = tradedShares.first();
@@ -342,20 +385,46 @@ double Security::cost() {
 	}
 	return c;
 }
-double Security::profit() {
-	double p = value() - cost();
+double Security::profit(Currency *cur) {
+	if(!cur) cur = currency();
+	double p = value();
+	if(cur != currency()) {
+		p = currency()->convertTo(p, cur);
+	}
+	p -= cost(cur);
 	Income *trans = dividends.first();
 	while(trans) {
-		p += trans->income();
+		if(cur != trans->currency()) {
+			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
+				p += trans->currency()->convertTo(trans->income(), cur, trans->date());
+			} else {
+				p += trans->currency()->convertTo(trans->income(), cur);
+			}
+		} else {
+			p += trans->income();
+		}
 		trans = dividends.next();
 	}
 	return p;
 }
-double Security::profit(const QDate &date, bool estimate, bool no_scheduled_shares) {
-	double p = value(date, estimate, no_scheduled_shares) - cost(date, no_scheduled_shares);
+double Security::profit(const QDate &date, bool estimate, bool no_scheduled_shares, Currency *cur) {
+	if(!cur) cur = currency();
+	double p = value(date, estimate, no_scheduled_shares);
+	if(cur != currency()) {
+		p = currency()->convertTo(p, cur, date);
+	}
+	p -= cost(date, no_scheduled_shares, cur);
 	Income *trans = dividends.first();
 	while(trans && trans->date() <= date) {
-		p += trans->income();
+		if(cur != trans->currency()) {
+			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
+				p += trans->currency()->convertTo(trans->income(), cur, trans->date());
+			} else {
+				p += trans->currency()->convertTo(trans->income(), cur, date);
+			}
+		} else {
+			p += trans->income();
+		}
 		trans = dividends.next();
 	}
 	if(estimate && date > QDate::currentDate() && dividends.count() > 0) {
@@ -373,7 +442,11 @@ double Security::profit(const QDate &date, bool estimate, bool no_scheduled_shar
 		trans = dividends.first();
 		while(trans) {
 			if(trans->date() > date2) {
-				p2 += trans->income();
+				if(cur != trans->currency()) {
+					p2 += trans->currency()->convertTo(trans->income(), cur);
+				} else {
+					p2 += trans->income();
+				}
 			}
 			trans = dividends.next();
 		}
@@ -385,15 +458,19 @@ double Security::profit(const QDate &date, bool estimate, bool no_scheduled_shar
 		while(strans && strans->date() <= date) {
 			int n = strans->recurrence()->countOccurrences(date);
 			if(n > 0) {
-				p += strans->transaction()->value() * n;
+				if(cur != strans->currency()) {
+					p += strans->currency()->convertTo(strans->value() * n, cur);
+				} else {
+					p += strans->value() * n;
+				}
 			}
 			strans = scheduledDividends.next();
 		}
 	}
 	return p;
 }
-double Security::profit(const QDate &date1, const QDate &date2, bool estimate, bool no_scheduled_shares) {
-	return profit(date2, estimate, no_scheduled_shares) - profit(date1, estimate, no_scheduled_shares);
+double Security::profit(const QDate &date1, const QDate &date2, bool estimate, bool no_scheduled_shares, Currency *cur) {
+	return profit(date2, estimate, no_scheduled_shares) - profit(date1, estimate, no_scheduled_shares, cur);
 }
 double Security::yearlyRate() {
 	QMap<QDate, double>::const_iterator it_begin = quotations.begin();

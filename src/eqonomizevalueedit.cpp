@@ -225,7 +225,6 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 	input = input.trimmed();
 	if(input.isEmpty()) {
 		input = QLocale().toString(0);
-		QDoubleSpinBox::fixup(input);
 		return false;
 	}
 	input.replace(QLocale().negativeSign(), '-');
@@ -266,7 +265,6 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 				}
 			}
 			input = QLocale().toString(v, 'f', decimals());
-			QDoubleSpinBox::fixup(input);
 			return true;
 		}
 	}
@@ -302,7 +300,6 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 			i++;
 		}
 		input = QLocale().toString(v, 'f', decimals());
-		QDoubleSpinBox::fixup(input);
 		return true;
 	}
 	i = input.indexOf(QLocale().percent());
@@ -325,7 +322,6 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 			v = QLocale().toDouble(input) * v;
 		}
 		input = QLocale().toString(v, 'f', decimals());
-		QDoubleSpinBox::fixup(input);
 		return true;
 	}	
 	if(budget && o_currency) {
@@ -350,7 +346,6 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 					fixup_sub(value, errors);
 					input = QLocale().toString(cur->convertTo(QLocale().toDouble(value), o_currency), 'f', decimals());
 				}
-				QDoubleSpinBox::fixup(input);
 				return true;
 			}
 			errors << tr("Unknown or ambiguous currency, or unrecognized characters, in expression: %1.").arg(scur);
@@ -371,7 +366,6 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 						fixup_sub(value, errors);
 						input = QLocale().toString(cur->convertTo(QLocale().toDouble(value), o_currency), 'f', decimals());
 					}
-					QDoubleSpinBox::fixup(input);
 					return true;
 				}
 				errors << tr("Unknown or ambiguous currency, or unrecognized characters, in expression: %1.").arg(scur);
@@ -386,7 +380,6 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 				} else {
 					input = QLocale().toString(cur->convertTo(1, o_currency), 'f', decimals());
 				}
-				QDoubleSpinBox::fixup(input);
 				return true;
 			}
 			errors << tr("Unknown or ambiguous currency, or unrecognized characters, in expression: %1.").arg(input);
@@ -408,7 +401,6 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 				double v = pow(QLocale().toDouble(base), QLocale().toDouble(exp));
 				input = QLocale().toString(v, 'f', decimals());
 			}
-			QDoubleSpinBox::fixup(input);
 			return true;
 		}
 	}
@@ -426,8 +418,8 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 		}
 	}
 	input.replace('-', QLocale().negativeSign());
-	input.replace('+', QLocale().positiveSign());
-	QDoubleSpinBox::fixup(input);
+	input.replace('+', QLocale().positiveSign());	
+	input = QLocale().toString(QLocale().toDouble(input), 'f', decimals());
 	return false;
 }
 

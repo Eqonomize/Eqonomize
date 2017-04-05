@@ -166,6 +166,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		if(security_value_type != SECURITY_VALUE_AND_SHARES) {
 			editLayout->addWidget(new QLabel(tr("Price per share:", "Financial shares"), this), TEROWCOL(i, 0));
 			quotationEdit = new EqonomizeValueEdit(0.0, security ? security->quotationDecimals() : budget->defaultQuotationDecimals(), false, true, this, budget);
+			quotationEdit->setToolTip(tr("Set to zero if you do not want the price per share of the security to updated."));
 			if(security) quotationEdit->setCurrency(security->currency(), true);
 			editLayout->addWidget(quotationEdit, TEROWCOL(i, 1));
 			i++;
@@ -688,7 +689,11 @@ void TransactionEditWidget::valueChanged(double value) {
 	value_set = true;
 	if(shares_set && !sharevalue_set) {
 		quotationEdit->blockSignals(true);
-		quotationEdit->setValue(value / sharesEdit->value());
+		if(valueEdit->currency() && quotationEdit->currency() && valueEdit->currency() != quotationEdit->currency()) {
+			//quotationEdit->setValue(valueEdit->currency()->convertTo(value / sharesEdit->value(), quotationEdit->currency(), date()));
+		} else {
+			quotationEdit->setValue(value / sharesEdit->value());
+		}
 		quotationEdit->blockSignals(false);
 	} else if(!shares_set && sharevalue_set) {
 		sharesEdit->blockSignals(true);
@@ -701,11 +706,16 @@ void TransactionEditWidget::sharesChanged(double value) {
 	shares_set = true;
 	if(value_set && !sharevalue_set) {
 		quotationEdit->blockSignals(true);
-		quotationEdit->setValue(valueEdit->value() / value);
+		if(valueEdit->currency() && quotationEdit->currency() && valueEdit->currency() != quotationEdit->currency()) {
+			//quotationEdit->setValue(valueEdit->currency()->convertTo(valueEdit->value() / value, quotationEdit->currency(), date()));
+		} else {
+			quotationEdit->setValue(valueEdit->value() / value);
+		}
 		quotationEdit->blockSignals(false);
 	} else if(!value_set && sharevalue_set) {
 		valueEdit->blockSignals(true);
-		valueEdit->setValue(value * quotationEdit->value());
+		if(valueEdit->currency() && quotationEdit->currency() && valueEdit->currency() != quotationEdit->currency()) valueEdit->setValue(quotationEdit->currency()->convertTo(quotationEdit->value() * value, valueEdit->currency(), date()));
+		else valueEdit->setValue(value * quotationEdit->value());
 		valueEdit->blockSignals(false);
 	}
 }
@@ -714,11 +724,13 @@ void TransactionEditWidget::quotationChanged(double value) {
 	sharevalue_set = true;
 	if(value_set && !shares_set) {
 		sharesEdit->blockSignals(true);
-		sharesEdit->setValue(valueEdit->value() / value);
+		if(valueEdit->currency() && quotationEdit->currency() && valueEdit->currency() != quotationEdit->currency()) sharesEdit->setValue(valueEdit->currency()->convertTo(valueEdit->value(), quotationEdit->currency(), date()) / value);
+		else sharesEdit->setValue(valueEdit->value() / value);
 		sharesEdit->blockSignals(false);
 	} else if(!value_set && shares_set) {
 		valueEdit->blockSignals(true);
-		valueEdit->setValue(value * sharesEdit->value());
+		if(valueEdit->currency() && quotationEdit->currency() && valueEdit->currency() != quotationEdit->currency()) valueEdit->setValue(quotationEdit->currency()->convertTo(value * sharesEdit->value(), valueEdit->currency(), date()));
+		else valueEdit->setValue(value * sharesEdit->value());
 		valueEdit->blockSignals(false);
 	}
 }
@@ -1012,10 +1024,10 @@ bool TransactionEditWidget::validValues(bool) {
 				QMessageBox::critical(this, tr("Error"), tr("Zero value not allowed."));
 				return false;
 			}
-			if(quotationEdit && quotationEdit->value() == 0.0) {
+			/*if(quotationEdit && quotationEdit->value() == 0.0) {
 				QMessageBox::critical(this, tr("Error"), tr("Zero price per share not allowed."));
 				return false;
-			}
+			}*/
 			/*if(ask_questions && sharesEdit && selectedSecurity() && sharesEdit->value() > selectedSecurity()->shares(dateEdit->date())) {
 				if(QMessageBox::warning(this, tr("Warning"), tr("Number of sold shares are greater than available shares at selected date. Do you want to create the transaction nevertheless?"), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel) {
 					return false;
