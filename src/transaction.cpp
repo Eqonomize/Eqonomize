@@ -591,19 +591,22 @@ void Balancing::setAmount(double withdrawal_amount, double) {
 AssetsAccount *Balancing::account() const {return toAccount() == o_budget->balancingAccount ? (AssetsAccount*) fromAccount() : (AssetsAccount*) toAccount();}
 void Balancing::setAccount(AssetsAccount *new_account) {toAccount() == o_budget->balancingAccount ? setFromAccount(new_account) : setToAccount(new_account);}
 
-SecurityTransaction::SecurityTransaction(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, QString initial_comment) : Transaction(parent_security->budget(), initial_value, initial_date, NULL, NULL, QString::null, initial_comment), o_security(parent_security), d_shares(initial_shares), d_share_value(initial_share_value) {
+SecurityTransaction::SecurityTransaction(Security *parent_security, double initial_value, double initial_shares, QDate initial_date, QString initial_comment) : Transaction(parent_security->budget(), initial_value, initial_date, NULL, NULL, QString::null, initial_comment), o_security(parent_security), d_shares(initial_shares) {
 }
 SecurityTransaction::SecurityTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transaction(parent_budget, xml, valid) {}
 SecurityTransaction::SecurityTransaction(Budget *parent_budget) : Transaction(parent_budget) {}
-SecurityTransaction::SecurityTransaction() : Transaction(), o_security(NULL), d_shares(0.0), d_share_value(0.0) {}
-SecurityTransaction::SecurityTransaction(const SecurityTransaction *transaction) : Transaction(transaction), o_security(transaction->security()), d_shares(transaction->shares()), d_share_value(transaction->shareValue()) {}
+SecurityTransaction::SecurityTransaction() : Transaction(), o_security(NULL), d_shares(0.0) {}
+SecurityTransaction::SecurityTransaction(const SecurityTransaction *transaction) : Transaction(transaction), o_security(transaction->security()), d_shares(transaction->shares()) {}
 SecurityTransaction::~SecurityTransaction() {}
 
 void SecurityTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Transaction::readAttributes(attr, valid);
 	d_shares = attr->value("shares").toDouble();
-	if(attr->hasAttribute("sharevalue")) d_share_value = attr->value("sharevalue").toDouble();
-	else d_share_value = 0.0;
+	if(attr->hasAttribute("sharevalue")) {
+		double v = attr->value("sharevalue").toDouble();
+		if(d_shares <= 0.0 && v != 0.0) d_shares = d_value < v;
+		else if(d_value == 0.0) d_value = d_shares * v;
+	}
 	int id = attr->value("security").toInt();
 	if(budget()->securities_id.contains(id)) {
 		o_security = budget()->securities_id[id];
@@ -614,7 +617,6 @@ void SecurityTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid
 void SecurityTransaction::writeAttributes(QXmlStreamAttributes *attr) {
 	Transaction::writeAttributes(attr);
 	attr->append("shares", QString::number(d_shares, 'f', o_security->decimals()));
-	if(d_share_value > 0.0) attr->append("sharevalue", QString::number(d_share_value, 'f', SAVE_MONETARY_DECIMAL_PLACES));
 	attr->append("security", QString::number(o_security->id()));
 }
 
@@ -622,25 +624,22 @@ bool SecurityTransaction::equals(const Transaction *transaction, bool strict_com
 	if(!Transaction::equals(transaction, strict_comparison)) return false;
 	SecurityTransaction *sectrans = (SecurityTransaction*) transaction;
 	if(d_shares != sectrans->shares()) return false;
-	if(d_share_value != sectrans->shareValue()) return false;
 	if(o_security != sectrans->security()) return false;
 	return true;
 }
 
 double SecurityTransaction::shares() const {return d_shares;}
 double SecurityTransaction::shareValue(bool convert) const {
+	double v = 0.0;
+	if(o_security) v = o_security->getQuotation(date());
 	if(convert && o_security && o_security->currency()) {
-		if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) return o_security->currency()->convertTo(d_share_value, budget()->defaultCurrency(), date());
-		else return o_security->currency()->convertTo(d_share_value, budget()->defaultCurrency());
+		if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) return o_security->currency()->convertTo(v, budget()->defaultCurrency(), date());
+		else return o_security->currency()->convertTo(v, budget()->defaultCurrency());
 	}
-	return d_share_value;
+	return v;
 }
 void SecurityTransaction::setShares(double new_shares) {
 	d_shares = new_shares;
-}
-void SecurityTransaction::setShareValue(double new_share_value) {
-	d_share_value = new_share_value;
-	if(o_security && d_share_value > 0.0) o_security->setQuotation(d_date, d_share_value, true);
 }
 double SecurityTransaction::value(bool convert) const {
 	return Transaction::value(convert);
@@ -668,7 +667,7 @@ double SecurityTransaction::accountChange(Account *account, bool, bool convert) 
 	return 0.0;
 }
 
-SecurityBuy::SecurityBuy(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, Account *from_account, QString initial_comment) : SecurityTransaction(parent_security, initial_value, initial_shares, initial_share_value, initial_date, initial_comment) {
+SecurityBuy::SecurityBuy(Security *parent_security, double initial_value, double initial_shares, QDate initial_date, Account *from_account, QString initial_comment) : SecurityTransaction(parent_security, initial_value, initial_shares, initial_date, initial_comment) {
 	setAccount(from_account);
 }
 SecurityBuy::SecurityBuy(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : SecurityTransaction(parent_budget) {
@@ -685,9 +684,9 @@ SecurityBuy::~SecurityBuy() {}
 Transaction *SecurityBuy::copy() const {return new SecurityBuy(this);}
 
 void SecurityBuy::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
-	SecurityTransaction::readAttributes(attr, valid);
-	int id_account = attr->value("account").toInt();
 	d_value = attr->value("cost").toDouble();
+	SecurityTransaction::readAttributes(attr, valid);
+	int id_account = attr->value("account").toInt();	
 	if(budget()->assetsAccounts_id.contains(id_account)) {
 		setAccount(budget()->assetsAccounts_id[id_account]);
 	} else if(budget()->incomesAccounts_id.contains(id_account)) {
@@ -703,12 +702,7 @@ void SecurityBuy::writeAttributes(QXmlStreamAttributes *attr) {
 }
 
 double SecurityBuy::toValue(bool convert) const {
-	if(d_share_value <= 0.0) return fromValue(convert);
-	if(convert && o_security && o_security->currency()) {
-		if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency(), date());
-		else return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency());
-	}
-	return d_shares * d_share_value;
+	return shareValue(convert) * d_shares;
 }
 
 QString SecurityBuy::description() const {return tr("Security: %1 (bought)", "Financial security (e.g. stock, mutual fund)").arg(o_security->name());}
@@ -717,7 +711,7 @@ Account *SecurityBuy::account() const {return fromAccount();}
 void SecurityBuy::setAccount(Account *new_account) {setFromAccount(new_account);}
 TransactionType SecurityBuy::type() const {return TRANSACTION_TYPE_SECURITY_BUY;}
 
-SecuritySell::SecuritySell(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, Account *to_account, QString initial_comment) : SecurityTransaction(parent_security, initial_value, initial_shares, initial_share_value, initial_date, initial_comment) {
+SecuritySell::SecuritySell(Security *parent_security, double initial_value, double initial_shares, QDate initial_date, Account *to_account, QString initial_comment) : SecurityTransaction(parent_security, initial_value, initial_shares, initial_date, initial_comment) {
 	setAccount(to_account);
 }
 SecuritySell::SecuritySell(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : SecurityTransaction(parent_budget) {
@@ -734,9 +728,9 @@ SecuritySell::~SecuritySell() {}
 Transaction *SecuritySell::copy() const {return new SecuritySell(this);}
 
 void SecuritySell::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
-	SecurityTransaction::readAttributes(attr, valid);
-	int id_account = attr->value("account").toInt();
 	d_value = attr->value("income").toDouble();
+	SecurityTransaction::readAttributes(attr, valid);
+	int id_account = attr->value("account").toInt();	
 	if(budget()->assetsAccounts_id.contains(id_account)) {
 		setAccount(budget()->assetsAccounts_id[id_account]);
 	} else if(budget()->expensesAccounts_id.contains(id_account)) {
@@ -752,12 +746,7 @@ void SecuritySell::writeAttributes(QXmlStreamAttributes *attr) {
 }
 
 double SecuritySell::fromValue(bool convert) const {
-	if(d_share_value <= 0.0) return toValue(convert);
-	if(convert && o_security && o_security->currency()) {
-		if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency(), date());
-		else return o_security->currency()->convertTo(d_shares * d_share_value, budget()->defaultCurrency());
-	}
-	return d_shares * d_share_value;
+	return shareValue(convert) * d_shares;
 }
 
 QString SecuritySell::description() const {return tr("Security: %1 (sold)", "Financial security (e.g. stock, mutual fund)").arg(o_security->name());}

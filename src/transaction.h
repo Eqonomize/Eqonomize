@@ -440,11 +440,11 @@ class SecurityTransaction : public Transaction {
 
 		Security *o_security;
 		
-		double d_shares, d_share_value;
+		double d_shares;
 
 	public:
 
-		SecurityTransaction(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, QString initial_comment = QString());
+		SecurityTransaction(Security *parent_security, double initial_value, double initial_shares, QDate initial_date, QString initial_comment = QString());
 		SecurityTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		SecurityTransaction(Budget *parent_budget);
 		SecurityTransaction();
@@ -468,7 +468,6 @@ class SecurityTransaction : public Transaction {
 		virtual double toValue(bool convert = false) const;
 		double shareValue(bool convert = false) const;
 		double shares() const;
-		void setShareValue(double new_share_value);
 		void setShares(double new_shares);
 		void setSecurity(Security *parent_security);
 		Security *security() const;
@@ -484,7 +483,7 @@ class SecurityBuy : public SecurityTransaction {
 
 	public:
 
-		SecurityBuy(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, Account *from_account, QString initial_comment = QString());
+		SecurityBuy(Security *parent_security, double initial_value, double initial_shares, QDate initial_date, Account *from_account, QString initial_comment = QString());
 		SecurityBuy(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		SecurityBuy(Budget *parent_budget);
 		SecurityBuy();
@@ -510,7 +509,7 @@ class SecuritySell : public SecurityTransaction {
 
 	public:
 
-		SecuritySell(Security *parent_security, double initial_value, double initial_shares, double initial_share_value, QDate initial_date, Account *to_account, QString initial_comment = QString());
+		SecuritySell(Security *parent_security, double initial_value, double initial_shares, QDate initial_date, Account *to_account, QString initial_comment = QString());
 		SecuritySell(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		SecuritySell(Budget *parent_budget);
 		SecuritySell();

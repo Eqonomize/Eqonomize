@@ -199,6 +199,7 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 	}
 	QString calculatedText_pre = input.trimmed();
 	input.remove(QRegExp("\\s"));
+	input.remove(QLocale().groupSeparator());
 	QStringList errors;
 	bool calculated = false;
 	input = QLocale().toString(fixup_sub(input, errors, calculated), 'f', decimals());

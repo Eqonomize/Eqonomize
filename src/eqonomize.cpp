@@ -1671,7 +1671,7 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 
 	connect(decimalsEdit, SIGNAL(valueChanged(int)), this, SLOT(decimalsChanged(int)));
 	connect(quotationDecimalsEdit, SIGNAL(valueChanged(int)), this, SLOT(quotationDecimalsChanged(int)));
-	connect(accountCombo, SIGNAL(currentAccountChanged(int)), this, SLOT(accountActivated(int)));
+	connect(accountCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(accountActivated(int)));
 
 }
 void EditSecurityDialog::accountActivated(int i) {
@@ -2510,7 +2510,7 @@ void Eqonomize::budgetEditReturnPressed() {
 	if(!i && account_items.contains(i) && account_items[i]->type() == ACCOUNT_TYPE_INCOMES) i = expensesItem->child(0);
 	if(i) {
 		i->setSelected(true);
-		if(budgetEdit->isEnabled()) budgetEdit->selectAll();
+		if(budgetEdit->isEnabled()) budgetEdit->selectNumber();
 		else budgetButton->setFocus();
 	}
 }
@@ -6324,7 +6324,7 @@ void Eqonomize::accountExecuted(QTreeWidgetItem *i, int c) {
 					accountsTabs->setCurrentIndex(1);
 					if(budgetEdit->isEnabled()) {
 						budgetEdit->setFocus();
-						budgetEdit->selectAll();
+						budgetEdit->selectNumber();
 					} else {
 						budgetButton->setFocus();
 					}
@@ -7871,8 +7871,7 @@ void Eqonomize::updateBudgetEdit() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
 	budgetEdit->blockSignals(true);
 	budgetButton->blockSignals(true);
-	if(i == NULL || i == liabilitiesItem || i == assetsItem || i == incomesItem || i == expensesItem || account_items[i]->type() == ACCOUNT_TYPE_ASSETS) {
-		budgetEdit->setValue(0.0);
+	if(i == NULL || i == liabilitiesItem || i == assetsItem || i == incomesItem || i == expensesItem || account_items[i]->type() == ACCOUNT_TYPE_ASSETS) {		
 		budgetEdit->setEnabled(false);
 		budgetButton->setEnabled(false);
 		if(i == incomesItem || i == expensesItem) {
@@ -7911,8 +7910,9 @@ void Eqonomize::updateBudgetEdit() {
 			if(!b_budget_prev) prevMonthBudgetLabel->setText(tr("%1 (with no budget)").arg(budget->formatMoney(v_prev)));
 			else prevMonthBudgetLabel->setText(tr("%1 (with budget %2)").arg(budget->formatMoney(v_prev)).arg(budget->formatMoney(d_prev)));
 			budgetButton->setChecked(b_budget);
-			budgetEdit->setValue(d_to);
+			if(budgetEdit->value() != d_to) budgetEdit->setValue(d_to);
 		} else {
+			if(budgetEdit->value() != 0.0) budgetEdit->setValue(0.0);
 			budgetButton->setChecked(false);
 			prevMonthBudgetLabel->setText("-");
 		}
@@ -7922,11 +7922,11 @@ void Eqonomize::updateBudgetEdit() {
 		tomonth.setDate(to_date.year(), to_date.month(), 1);
 		double d = ca->monthlyBudget(tomonth);
 		if(d < 0.0) {
-			budgetEdit->setValue(0.0);
+			if(budgetEdit->value() != 0.0) budgetEdit->setValue(0.0);
 			budgetButton->setChecked(false);
 			budgetEdit->setEnabled(false);
 		} else {
-			budgetEdit->setValue(d);
+			if(budgetEdit->value() != d) budgetEdit->setValue(d);
 			budgetButton->setChecked(true);
 			budgetEdit->setEnabled(true);
 		}

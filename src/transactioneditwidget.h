@@ -114,12 +114,14 @@ class TransactionEditWidget : public QWidget {
 		QDate shares_date;
 		bool b_create_accounts;
 		bool b_multiple_currencies;
+		bool b_prev_update_quote;
 		Currency *splitcurrency;
 		int dateRow, dateLabelCol, dateEditCol, depositRow, depositLabelCol, depositEditCol;
 
 		QLineEdit *descriptionEdit, *lenderEdit, *payeeEdit, *commentsEdit, *fileEdit;
 		AccountComboBox *fromCombo, *toCombo;
 		QComboBox *securityCombo, *currencyCombo;
+		QCheckBox *setQuoteButton;
 		QLabel *withdrawalLabel, *depositLabel, *dateLabel;
 		EqonomizeValueEdit *valueEdit, *depositEdit, *downPaymentEdit, *sharesEdit, *quotationEdit, *quantityEdit;
 		QPushButton *maxSharesButton;

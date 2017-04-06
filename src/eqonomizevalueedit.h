@@ -51,8 +51,7 @@ class EqonomizeValueEdit : public QDoubleSpinBox {
 		virtual void fixup(QString &input) const;
 		virtual QValidator::State validate(QString &input, int &pos) const;
 		virtual QString textFromValue(double value) const;
-		virtual double valueFromText(const QString &text) const;
-		void selectNumber();
+		virtual double valueFromText(const QString &text) const;		
 
 	protected:
 		
@@ -67,6 +66,7 @@ class EqonomizeValueEdit : public QDoubleSpinBox {
 	public slots:
 	
 		void enterFocus();
+		void selectNumber();
 	
 	protected slots:
 	

@@ -88,11 +88,12 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	else if(b_extra && !security && !select_security && transtype == TRANSACTION_TYPE_EXPENSE) rows += (multiaccount ? 1 : 2);
 	else if(b_extra && !security && !select_security && transtype == TRANSACTION_TYPE_INCOME && !multiaccount) rows ++;
 	else if(transtype == TRANSACTION_TYPE_TRANSFER) rows++;
+	if(b_sec && security_value_type != SECURITY_VALUE_AND_SHARES) rows++;
 	if(withloan) rows += 2;
 	if(multiaccount) rows -= 4;
 	if(split && !b_sec) rows -= 2;
 	if(rows % cols > 0) rows = rows / cols + 1;
-	else rows = rows / cols;
+	else rows = rows / cols;	
 	editLayout = new QGridLayout();
 	editVLayout->addLayout(editLayout);
 	editVLayout->addStretch(1);
@@ -102,6 +103,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	dateEdit = NULL;
 	sharesEdit = NULL;
 	quotationEdit = NULL;
+	setQuoteButton = NULL;
 	descriptionEdit = NULL;
 	payeeEdit = NULL;
 	lenderEdit = NULL;
@@ -159,7 +161,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				maxSharesButton = new QPushButton(tr("All"), this);
 				maxSharesButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 				sharesLayout->addWidget(maxSharesButton);
-				editLayout->addLayout(sharesLayout, TEROWCOL(i, 1));
+				editLayout->addLayout(sharesLayout, TEROWCOL(i, 1), Qt::AlignRight);
 				i++;
 			}
 		}
@@ -167,8 +169,12 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			editLayout->addWidget(new QLabel(tr("Price per share:", "Financial shares"), this), TEROWCOL(i, 0));
 			quotationEdit = new EqonomizeValueEdit(0.0, security ? security->quotationDecimals() : budget->defaultQuotationDecimals(), false, true, this, budget);
 			quotationEdit->setToolTip(tr("Set to zero if you do not want the price per share of the security to updated."));
-			if(security) quotationEdit->setCurrency(security->currency(), true);
 			editLayout->addWidget(quotationEdit, TEROWCOL(i, 1));
+			i++;
+			setQuoteButton = new QCheckBox(tr("Set security share value"), this);
+			setQuoteButton->setChecked(true);
+			b_prev_update_quote = true;
+			editLayout->addWidget(setQuoteButton, TEROWCOL(i, 1));
 			i++;
 		}
 		if(!split) {
@@ -428,7 +434,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		switch(security_value_type) {
 			case SECURITY_ALL_VALUES: {
 				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(setFocus()));
-				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(selectAll()));
+				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(selectNumber()));
 				if(dateEdit) {
 					connect(quotationEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 				}
@@ -437,7 +443,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			}
 			case SECURITY_SHARES_AND_QUOTATION: {
 				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(setFocus()));
-				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(selectAll()));
+				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(selectNumber()));
 				if(dateEdit) {
 					connect(quotationEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 				}
@@ -514,6 +520,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	}
 	b_multiple_currencies = true;
 	useMultipleCurrencies(budget->usesMultipleCurrencies());
+	if(security) securityChanged();
 }
 void TransactionEditWidget::selectFile() {
 	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_associated_file_directory : fileEdit->text());
@@ -613,6 +620,20 @@ void TransactionEditWidget::fromChanged() {
 		downPaymentEdit->setCurrency(acc->currency());
 	} else if(valueEdit && acc->type() == ACCOUNT_TYPE_ASSETS) {
 		valueEdit->setCurrency(acc->currency());
+		if(quotationEdit && selectedSecurity()) {
+			quotationEdit->setCurrency(acc->currency());
+			security = selectedSecurity();
+			bool b = (security->currency() == quotationEdit->currency());
+			if(setQuoteButton->isEnabled() != b) {
+				setQuoteButton->setEnabled(b);
+				if(b) {
+					setQuoteButton->setChecked(b_prev_update_quote);
+				} else {
+					b_prev_update_quote = setQuoteButton->isChecked();
+					setQuoteButton->setChecked(false);
+				}
+			}
+		}
 	}
 	if(transtype == TRANSACTION_TYPE_TRANSFER) {
 		Currency *cur2 = splitcurrency;
@@ -651,6 +672,20 @@ void TransactionEditWidget::toChanged() {
 	} else {
 		if(valueEdit && acc->type() == ACCOUNT_TYPE_ASSETS) {
 			valueEdit->setCurrency(acc->currency());
+			if(quotationEdit && selectedSecurity()) {
+				quotationEdit->setCurrency(acc->currency());
+				security = selectedSecurity();
+				bool b = (security->currency() == quotationEdit->currency());
+				if(setQuoteButton->isEnabled() != b) {
+					setQuoteButton->setEnabled(b);
+					if(b) {
+						setQuoteButton->setChecked(b_prev_update_quote);
+					} else {
+						b_prev_update_quote = setQuoteButton->isChecked();
+						setQuoteButton->setChecked(false);
+					}
+				}
+			}
 		}
 	}
 }
@@ -669,8 +704,22 @@ void TransactionEditWidget::securityChanged() {
 	if(security) {
 		if(sharesEdit) sharesEdit->setPrecision(security->decimals());
 		if(quotationEdit) {
+			if(quotationEdit->value() == 0.0 && date().isValid() && security->currency() == quotationEdit->currency() && security->hasQuotation(date())) {
+				quotationEdit->blockSignals(true);
+				quotationEdit->setValue(security->getQuotation(date()));
+				quotationEdit->blockSignals(false);
+			}
 			quotationEdit->setPrecision(security->quotationDecimals());
-			quotationEdit->setCurrency(security->currency(), false);
+			bool b = (security->currency() == quotationEdit->currency());
+			if(setQuoteButton->isEnabled() != b) {
+				setQuoteButton->setEnabled(b);
+				if(b) {
+					setQuoteButton->setChecked(b_prev_update_quote);
+				} else {
+					b_prev_update_quote = setQuoteButton->isChecked();
+					setQuoteButton->setChecked(false);
+				}
+			}
 		}
 		if(sharesEdit && security && shares_date.isValid()) sharesEdit->setMaximum(security->shares(shares_date));
 	}
@@ -687,51 +736,40 @@ void TransactionEditWidget::valueChanged(double value) {
 	if(valueEdit && commentsEdit && calculatedText_object == valueEdit && !calculatedText.isEmpty() && commentsEdit->text().isEmpty()) commentsEdit->setText(calculatedText);
 	if(!quotationEdit || !sharesEdit || !valueEdit) return;
 	value_set = true;
-	if(shares_set && !sharevalue_set) {
-		quotationEdit->blockSignals(true);
-		if(valueEdit->currency() && quotationEdit->currency() && valueEdit->currency() != quotationEdit->currency()) {
-			//quotationEdit->setValue(valueEdit->currency()->convertTo(value / sharesEdit->value(), quotationEdit->currency(), date()));
-		} else {
-			quotationEdit->setValue(value / sharesEdit->value());
-		}
-		quotationEdit->blockSignals(false);
-	} else if(!shares_set && sharevalue_set) {
+	if(!shares_set && quotationEdit->value() != 0.0) {
 		sharesEdit->blockSignals(true);
 		sharesEdit->setValue(value / quotationEdit->value());
 		sharesEdit->blockSignals(false);
+	} else if(sharesEdit->value() != 0.0) {
+		quotationEdit->blockSignals(true);
+		quotationEdit->setValue(value / sharesEdit->value());
+		quotationEdit->blockSignals(false);
 	}
 }
 void TransactionEditWidget::sharesChanged(double value) {
 	if(!quotationEdit || !sharesEdit || !valueEdit) return;
 	shares_set = true;
-	if(value_set && !sharevalue_set) {
-		quotationEdit->blockSignals(true);
-		if(valueEdit->currency() && quotationEdit->currency() && valueEdit->currency() != quotationEdit->currency()) {
-			//quotationEdit->setValue(valueEdit->currency()->convertTo(valueEdit->value() / value, quotationEdit->currency(), date()));
-		} else {
-			quotationEdit->setValue(valueEdit->value() / value);
-		}
-		quotationEdit->blockSignals(false);
-	} else if(!value_set && sharevalue_set) {
+	if(!value_set && quotationEdit->value() != 0.0) {
 		valueEdit->blockSignals(true);
-		if(valueEdit->currency() && quotationEdit->currency() && valueEdit->currency() != quotationEdit->currency()) valueEdit->setValue(quotationEdit->currency()->convertTo(quotationEdit->value() * value, valueEdit->currency(), date()));
-		else valueEdit->setValue(value * quotationEdit->value());
+		valueEdit->setValue(value * quotationEdit->value());
 		valueEdit->blockSignals(false);
+	} else if(value != 0.0) {
+		quotationEdit->blockSignals(true);
+		quotationEdit->setValue(valueEdit->value() / value);
+		quotationEdit->blockSignals(false);
 	}
 }
 void TransactionEditWidget::quotationChanged(double value) {
 	if(!quotationEdit || !sharesEdit || !valueEdit) return;
 	sharevalue_set = true;
-	if(value_set && !shares_set) {
-		sharesEdit->blockSignals(true);
-		if(valueEdit->currency() && quotationEdit->currency() && valueEdit->currency() != quotationEdit->currency()) sharesEdit->setValue(valueEdit->currency()->convertTo(valueEdit->value(), quotationEdit->currency(), date()) / value);
-		else sharesEdit->setValue(valueEdit->value() / value);
-		sharesEdit->blockSignals(false);
-	} else if(!value_set && shares_set) {
+	if(!value_set) {
 		valueEdit->blockSignals(true);
-		if(valueEdit->currency() && quotationEdit->currency() && valueEdit->currency() != quotationEdit->currency()) valueEdit->setValue(quotationEdit->currency()->convertTo(value * sharesEdit->value(), valueEdit->currency(), date()));
-		else valueEdit->setValue(value * sharesEdit->value());
+		valueEdit->setValue(value * sharesEdit->value());
 		valueEdit->blockSignals(false);
+	} else if(value != 0.0) {
+		sharesEdit->blockSignals(true);
+		sharesEdit->setValue(valueEdit->value() / value);
+		sharesEdit->blockSignals(false);
 	}
 }
 void TransactionEditWidget::setMaxShares(double max) {
@@ -839,7 +877,7 @@ void TransactionEditWidget::setDefaultValueFromPayee() {
 			if(descriptionEdit) descriptionEdit->setText(trans->description());
 			if(valueEdit) {
 				valueEdit->setFocus();
-				valueEdit->selectAll();
+				valueEdit->selectNumber();
 			}
 		}
 	}
@@ -863,7 +901,7 @@ void TransactionEditWidget::setDefaultValueFromCategory() {
 			if(payeeEdit && trans->type() == TRANSACTION_TYPE_INCOME) payeeEdit->setText(((Income*) trans)->payer());
 			if(valueEdit) {
 				valueEdit->setFocus();
-				valueEdit->selectAll();
+				valueEdit->selectNumber();
 			}
 		}
 	}
@@ -1024,10 +1062,10 @@ bool TransactionEditWidget::validValues(bool) {
 				QMessageBox::critical(this, tr("Error"), tr("Zero value not allowed."));
 				return false;
 			}
-			/*if(quotationEdit && quotationEdit->value() == 0.0) {
+			if(quotationEdit && quotationEdit->value() == 0.0) {
 				QMessageBox::critical(this, tr("Error"), tr("Zero price per share not allowed."));
 				return false;
-			}*/
+			}
 			/*if(ask_questions && sharesEdit && selectedSecurity() && sharesEdit->value() > selectedSecurity()->shares(dateEdit->date())) {
 				if(QMessageBox::warning(this, tr("Warning"), tr("Number of sold shares are greater than available shares at selected date. Do you want to create the transaction nevertheless?"), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel) {
 					return false;
@@ -1056,6 +1094,7 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 		} else {
 			if(toCombo) ((SecurityTransaction*) trans)->setAccount(toCombo->currentAccount());
 		}
+		if(securityCombo) ((SecurityTransaction*) trans)->setSecurity(selectedSecurity());
 		if(dateEdit) trans->setDate(dateEdit->date());
 		double shares = 0.0, value = 0.0, share_value = 0.0;
 		if(valueEdit) value = valueEdit->value();
@@ -1066,7 +1105,7 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 		else if(!valueEdit) value = shares * share_value;
 		((SecurityTransaction*) trans)->setValue(value);
 		((SecurityTransaction*) trans)->setShares(shares);
-		((SecurityTransaction*) trans)->setShareValue(share_value);
+		if(setQuoteButton && setQuoteButton->isChecked()) ((SecurityTransaction*) trans)->security()->setQuotation(trans->date(), share_value);
 		if(commentsEdit) trans->setComment(commentsEdit->text());
 		if(fileEdit) trans->setAssociatedFile(fileEdit->text());
 		return true;
@@ -1165,7 +1204,8 @@ Transaction *TransactionEditWidget::createTransaction() {
 		if(!quotationEdit) share_value = value / shares;
 		else if(!sharesEdit) shares = value / share_value;
 		else if(!valueEdit) value = shares * share_value;
-		SecurityBuy *secbuy = new SecurityBuy(selectedSecurity(), value, shares, share_value, dateEdit ? dateEdit->date() : QDate(), fromCombo ? fromCombo->currentAccount() : NULL, commentsEdit ? commentsEdit->text() : NULL);
+		SecurityBuy *secbuy = new SecurityBuy(selectedSecurity(), value, shares, dateEdit ? dateEdit->date() : QDate(), fromCombo ? fromCombo->currentAccount() : NULL, commentsEdit ? commentsEdit->text() : NULL);
+		if(setQuoteButton && setQuoteButton->isChecked()) selectedSecurity()->setQuotation(secbuy->date(), share_value);
 		trans = secbuy;
 	} else if(transtype == TRANSACTION_TYPE_SECURITY_SELL) {
 		if(!selectedSecurity()) return NULL;
@@ -1176,7 +1216,8 @@ Transaction *TransactionEditWidget::createTransaction() {
 		if(!quotationEdit) share_value = value / shares;
 		else if(!sharesEdit) shares = value / share_value;
 		else if(!valueEdit) value = shares * share_value;
-		SecuritySell *secsell = new SecuritySell(selectedSecurity(), value, shares, share_value, dateEdit ? dateEdit->date() : QDate(), toCombo ? toCombo->currentAccount() : NULL, commentsEdit ? commentsEdit->text() : NULL);
+		SecuritySell *secsell = new SecuritySell(selectedSecurity(), value, shares, dateEdit ? dateEdit->date() : QDate(), toCombo ? toCombo->currentAccount() : NULL, commentsEdit ? commentsEdit->text() : NULL);
+		if(setQuoteButton && setQuoteButton->isChecked()) selectedSecurity()->setQuotation(secsell->date(), share_value);
 		trans = secsell;
 	} else {
 		Expense *expense = new Expense(budget, valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), toCombo ? (ExpensesAccount*) toCombo->currentAccount() : NULL, fromCombo ? (AssetsAccount*) fromCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString::null, commentsEdit ? commentsEdit->text() : NULL);
@@ -1431,7 +1472,20 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 			if(transtype != trans->type()) return;
 			//if(transtype == TRANSACTION_TYPE_SECURITY_SELL) setMaxShares(((SecurityTransaction*) trans)->security()->shares(QDate::currentDate()) + ((SecurityTransaction*) trans)->shares());
 			if(sharesEdit) sharesEdit->setValue(((SecurityTransaction*) trans)->shares());
-			if(quotationEdit) quotationEdit->setValue(((SecurityTransaction*) trans)->shareValue());
+			if(quotationEdit) {
+				quotationEdit->setValue(((SecurityTransaction*) trans)->value() / ((SecurityTransaction*) trans)->shares());
+				if(setQuoteButton) {
+					Security *sec = ((SecurityTransaction*) trans)->security();
+					if(sec->currency() == quotationEdit->currency()) {
+						setQuoteButton->setChecked(sec->hasQuotation(trans->date()) && sec->getQuotation(trans->date()) == quotationEdit->value());
+						setQuoteButton->setEnabled(true);
+					} else {
+						b_prev_update_quote = setQuoteButton->isChecked();
+						setQuoteButton->setChecked(false);
+						setQuoteButton->setEnabled(false);
+					}
+				}
+			}
 			if(isVisible()) {
 				if(valueEdit) valueEdit->setFocus();
 				else sharesEdit->setFocus();
