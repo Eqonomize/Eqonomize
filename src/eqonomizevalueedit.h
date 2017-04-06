@@ -61,7 +61,7 @@ class EqonomizeValueEdit : public QDoubleSpinBox {
 		Currency *o_currency;
 		QString s_prefix, s_suffix;
 		
-		bool fixup_sub(QString &input, QStringList &errors) const;
+		double fixup_sub(QString &input, QStringList &errors, bool &calculated) const;
 		virtual void focusInEvent(QFocusEvent*);
 		
 	public slots:

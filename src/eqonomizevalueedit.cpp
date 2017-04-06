@@ -200,7 +200,9 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 	QString calculatedText_pre = input.trimmed();
 	input.remove(QRegExp("\\s"));
 	QStringList errors;
-	if(fixup_sub(input, errors) && errors.isEmpty()) {
+	bool calculated = false;
+	input = QLocale().toString(fixup_sub(input, errors, calculated), 'f', decimals());
+	if(calculated && errors.isEmpty()) {
 		calculatedText = calculatedText_pre;
 		calculatedText_object = this;
 	} else if(calculatedText_object == this) {
@@ -221,11 +223,10 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 		}
 	}
 }
-bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
+double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &calculated) const {
 	input = input.trimmed();
 	if(input.isEmpty()) {
-		input = QLocale().toString(0);
-		return false;
+		return 0.0;
 	}
 	input.replace(QLocale().negativeSign(), '-');
 	input.replace(QLocale().positiveSign(), '+');
@@ -258,14 +259,13 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 					if(!signs[terms_i] && terms_i + 1 < terms.size()) {
 						signs[terms_i + 1] = !signs[terms_i + 1];
 					}
-				} else {
-					fixup_sub(terms[terms_i], errors);
-					if(!signs[terms_i]) v -= QLocale().toDouble(terms[terms_i]);
-					else v += QLocale().toDouble(terms[terms_i]);
+				} else {					
+					if(!signs[terms_i]) v -= fixup_sub(terms[terms_i], errors, calculated);
+					else v += fixup_sub(terms[terms_i], errors, calculated);
 				}
-			}
-			input = QLocale().toString(v, 'f', decimals());
-			return true;
+			}			
+			calculated = true;
+			return v;
 		}
 	}
 	if(input.indexOf("**") >= 0) input.replace("**", "^");
@@ -284,23 +284,22 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 				}
 			} else {
 				i += terms[terms_i].length();
-				fixup_sub(terms[terms_i], errors);
 				if(c == '/') {
-					double den = QLocale().toDouble(terms[terms_i]);
+					double den = fixup_sub(terms[terms_i], errors, calculated);
 					if(den == 0.0) {
 						errors << tr("Division by zero.");
 					} else {
 						v /= den;
 					}
 				} else {
-					v *= QLocale().toDouble(terms[terms_i]);
+					v *= fixup_sub(terms[terms_i], errors, calculated);
 				}
 				if(i < input.length()) c = input[i];
 			}
 			i++;
 		}
-		input = QLocale().toString(v, 'f', decimals());
-		return true;
+		calculated = true;
+		return v;
 	}
 	i = input.indexOf(QLocale().percent());
 	if(i >= 0) {
@@ -310,19 +309,16 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 				QString str = input.right(input.length() - 1 - i);
 				input = input.left(i);
 				i = 0;
-				fixup_sub(str, errors);
-				v = QLocale().toDouble(str) * v;
+				v = fixup_sub(str, errors, calculated) * v;
 			} else if(i == input.length() - 1) {
 				input = input.left(i);
-				fixup_sub(input, errors);
 			} else if(i == 0) {
 				input = input.right(input.length() - 1);
-				fixup_sub(input, errors);
 			}
-			v = QLocale().toDouble(input) * v;
+			v = fixup_sub(input, errors, calculated) * v;
 		}
-		input = QLocale().toString(v, 'f', decimals());
-		return true;
+		calculated = true;
+		return v;
 	}	
 	if(budget && o_currency) {
 		QString reg_exp_str = "[\\d\\+\\-\\^";
@@ -338,15 +334,13 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 			if(!cur && budget->defaultCurrency()->symbol(false) == scur) cur = budget->defaultCurrency();
 			if(!cur) cur = budget->findCurrencySymbol(scur, true);
 			if(cur) {
-				QString value = input.right(input.length() - i);
-				if(cur == o_currency) {
-					fixup_sub(value, errors);
-					input = value;
-				} else {
-					fixup_sub(value, errors);
-					input = QLocale().toString(cur->convertTo(QLocale().toDouble(value), o_currency), 'f', decimals());
+				QString value = input.right(input.length() - i);				
+				double v = fixup_sub(value, errors, calculated);
+				if(cur != o_currency) {
+					v = cur->convertTo(v, o_currency);
 				}
-				return true;
+				calculated = true;
+				return v;
 			}
 			errors << tr("Unknown or ambiguous currency, or unrecognized characters, in expression: %1.").arg(scur);
 		}
@@ -359,14 +353,12 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 				if(!cur) cur = budget->findCurrencySymbol(scur, true);
 				if(cur) {
 					QString value = input.left(i + 1);
-					if(cur == o_currency) {
-						fixup_sub(value, errors);
-						input = value;
-					} else {
-						fixup_sub(value, errors);
-						input = QLocale().toString(cur->convertTo(QLocale().toDouble(value), o_currency), 'f', decimals());
+					double v = fixup_sub(value, errors, calculated);
+					if(cur != o_currency) {
+						v = cur->convertTo(v, o_currency);
 					}
-					return true;
+					calculated = true;
+					return v;
 				}
 				errors << tr("Unknown or ambiguous currency, or unrecognized characters, in expression: %1.").arg(scur);
 			}
@@ -375,12 +367,12 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 			if(!cur && budget->defaultCurrency()->symbol(false) == input) cur = budget->defaultCurrency();
 			if(!cur) cur = budget->findCurrencySymbol(input, true);
 			if(cur) {
-				if(cur == o_currency) {
-					input = QLocale().toString(1);
-				} else {
-					input = QLocale().toString(cur->convertTo(1, o_currency), 'f', decimals());
+				double v = 1.0;
+				if(cur != o_currency) {
+					v = cur->convertTo(v, o_currency);
 				}
-				return true;
+				calculated = true;
+				return v;
 			}
 			errors << tr("Unknown or ambiguous currency, or unrecognized characters, in expression: %1.").arg(input);
 		}
@@ -392,16 +384,15 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 			errors << tr("Empty base.");
 		} else {
 			QString exp = input.right(input.length() - (i + 1));
+			double v;
 			if(exp.isEmpty()) {
 				errors << tr("Error"), tr("Empty exponent.");
-				input = "1";
+				v = 1.0;
 			} else {
-				fixup_sub(base, errors);
-				fixup_sub(exp, errors);
-				double v = pow(QLocale().toDouble(base), QLocale().toDouble(exp));
-				input = QLocale().toString(v, 'f', decimals());
+				v = pow(fixup_sub(base, errors, calculated), fixup_sub(exp, errors, calculated));
 			}
-			return true;
+			calculated = true;
+			return v;
 		}
 	}
 	
@@ -418,8 +409,7 @@ bool EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors) const {
 		}
 	}
 	input.replace('-', QLocale().negativeSign());
-	input.replace('+', QLocale().positiveSign());	
-	input = QLocale().toString(QLocale().toDouble(input), 'f', decimals());
-	return false;
+	input.replace('+', QLocale().positiveSign());
+	return QLocale().toDouble(input);
 }
 
