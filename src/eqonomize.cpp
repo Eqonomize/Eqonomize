@@ -605,14 +605,13 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(paren
 	accountCombo = new QComboBox(this);
 	accountCombo->setEditable(false);
 	int i = 0;
-	AssetsAccount *account = transaction->budget()->assetsAccounts.first();
-	while(account) {
+	for(AccountList<AssetsAccount*>::iterator it = transaction->budget()->assetsAccounts.begin(); it != transaction->budget()->assetsAccounts.end(); ++it) {
+		AssetsAccount *account = *it;
 		if(account != transaction->budget()->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
 			accountCombo->addItem(account->name());
 			if((t_type == TRANSACTION_TYPE_EXPENSE && account == ((Expense*) curtrans)->from()) || (t_type == TRANSACTION_TYPE_INCOME && account == ((Income*) curtrans)->to())) accountCombo->setCurrentIndex(i);
 			i++;
 		}
-		account = transaction->budget()->assetsAccounts.next();
 	}
 	layout->addWidget(accountCombo, 2, 1);
 
@@ -637,28 +636,28 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(paren
 }
 void RefundDialog::accountActivated(int cur_i) {
 	int i = 0;
-	AssetsAccount *account = transaction->budget()->assetsAccounts.first();
-	while(account) {
+	AssetsAccount *account = NULL;
+	for(AccountList<AssetsAccount*>::iterator it = transaction->budget()->assetsAccounts.begin(); it != transaction->budget()->assetsAccounts.end(); ++it) {
+		account = *it;
 		if(account != transaction->budget()->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
 			if(i == cur_i) break;
 			i++;
 		}
-		account = transaction->budget()->assetsAccounts.next();
 	}
-	valueEdit->setCurrency(account->currency());
+	if(account) valueEdit->setCurrency(account->currency());
 }
 Transaction *RefundDialog::createRefund() {
 	if(!validValues()) return NULL;
 	Transaction *trans = NULL;
 	int i = 0;
 	int cur_i = accountCombo->currentIndex();
-	AssetsAccount *account = transaction->budget()->assetsAccounts.first();
-	while(account) {
+	AssetsAccount *account = NULL;
+	for(AccountList<AssetsAccount*>::iterator it = transaction->budget()->assetsAccounts.begin(); it != transaction->budget()->assetsAccounts.end(); ++it) {
+		account = *it;
 		if(account != transaction->budget()->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
 			if(i == cur_i) break;
 			i++;
 		}
-		account = transaction->budget()->assetsAccounts.next();
 	}
 	if(transaction->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
 		trans = ((MultiAccountTransaction*) transaction)->at(0)->copy();
@@ -792,16 +791,24 @@ EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QW
 
 	layout->addWidget(new QLabel(tr("From security:", "Financial security (e.g. stock, mutual fund)"), this), 0, 0);
 	fromSecurityCombo = new QComboBox(this);
-	fromSecurityCombo->setEditable(false);
-	Security *c_sec = budget->securities.first();
-	if(!sec) sec = c_sec;
+	fromSecurityCombo->setEditable(false);	
+	bool sel = false;
 	int i = 0;
-	while(c_sec) {
-		fromSecurityCombo->addItem(c_sec->name());
+	for(SecurityList<Security*>::iterator it = budget->securities.begin(); it != budget->securities.end(); ++it) {
+		Security *c_sec = *it;
+		fromSecurityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
 		if(c_sec == sec) {
 			fromSecurityCombo->setCurrentIndex(i);
+		} else if(!sel && !sec) {
+			for(SecurityList<Security*>::iterator it2 = budget->securities.begin(); it2 != budget->securities.end(); ++it2) {
+				Security *c_sec2 = *it2;
+				if(c_sec2 != c_sec && c_sec2->account() == c_sec->account()) {
+					fromSecurityCombo->setCurrentIndex(i);
+					sel = true;
+					break;
+				}
+			}
 		}
-		c_sec = budget->securities.next();
 		i++;
 	}
 	layout->addWidget(fromSecurityCombo, 0, 1);
@@ -820,27 +827,11 @@ EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QW
 	layout->addWidget(new QLabel(tr("To security:", "Financial security (e.g. stock, mutual fund)"), this), 2, 0);
 	toSecurityCombo = new QComboBox(this);
 	toSecurityCombo->setEditable(false);
-	c_sec = budget->securities.first();
-	bool sel = false;
-	i = 0;
-	while(c_sec) {
-		toSecurityCombo->addItem(c_sec->name());
-		if(sec && !sel && c_sec != sec && c_sec->account() == sec->account()) {
-			sel = true;
-			toSecurityCombo->setCurrentIndex(i);
-		}
-		c_sec = budget->securities.next();
-		i++;
-	}
 	layout->addWidget(toSecurityCombo, 2, 1);
 
 	layout->addWidget(new QLabel(tr("Shares received:", "Financial shares"), this), 3, 0);
 	toSharesEdit = new EqonomizeValueEdit(0.0, sec ? sec->decimals() : 4, false, false, this, budget);
 	layout->addWidget(toSharesEdit, 3, 1);
-
-	layout->addWidget(new QLabel(tr("Value:"), this), 4, 0);
-	valueEdit = new EqonomizeValueEdit(false, this, budget);
-	layout->addWidget(valueEdit, 4, 1);
 
 	layout->addWidget(new QLabel(tr("Date:"), this), 5, 0);
 	dateEdit = new QDateEdit(QDate::currentDate(), this);
@@ -854,48 +845,48 @@ EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QW
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
 
+	fromSecurityChanged(true);
 	toSecurityChanged();
-	fromSecurityChanged();
 
 	connect(maxSharesButton, SIGNAL(clicked()), this, SLOT(maxShares()));
-	connect(fromSecurityCombo, SIGNAL(activated(int)), this, SLOT(fromSecurityChanged()));
-	connect(toSecurityCombo, SIGNAL(activated(int)), this, SLOT(toSecurityChanged()));
+	connect(fromSecurityCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(fromSecurityChanged()));
+	connect(toSecurityCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(toSecurityChanged()));
 
 }
 void EditSecurityTradeDialog::maxShares() {
 	fromSharesEdit->setValue(fromSharesEdit->maximum());
 }
 Security *EditSecurityTradeDialog::selectedFromSecurity() {
-	int index = fromSecurityCombo->currentIndex();
-	Security *sec = budget->securities.first();
-	int i = 0;
-	while(sec) {
-		if(i == index) {
-			return sec;
-		}
-		i++;
-		sec = budget->securities.next();
-	}
-	return NULL;
+	if(!fromSecurityCombo->currentData().isValid()) return NULL;
+	return (Security*) fromSecurityCombo->currentData().value<void*>();
 }
 Security *EditSecurityTradeDialog::selectedToSecurity() {
-	int index = toSecurityCombo->currentIndex();
-	Security *sec = budget->securities.first();
-	int i = 0;
-	while(sec) {
-		if(i == index) {
-			return sec;
-		}
-		i++;
-		sec = budget->securities.next();
-	}
-	return NULL;
+	if(!toSecurityCombo->currentData().isValid()) return NULL;
+	return (Security*) toSecurityCombo->currentData().value<void*>();
 }
-void EditSecurityTradeDialog::fromSecurityChanged() {
+void EditSecurityTradeDialog::fromSecurityChanged(bool in_init) {
 	Security *sec = selectedFromSecurity();
+	toSecurityCombo->clear();
 	if(sec) {
 		fromSharesEdit->setPrecision(sec->decimals());
 		fromSharesEdit->setMaximum(sec->shares());
+		Security *to_sec = selectedToSecurity();
+		int i = 0;
+		for(SecurityList<Security*>::iterator it = budget->securities.begin(); it != budget->securities.end(); ++it) {
+			Security *c_sec = *it;
+			if(c_sec != sec && c_sec->account() == sec->account()) {
+				toSecurityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
+				if(c_sec == to_sec) {
+					toSecurityCombo->setCurrentIndex(i);
+				}
+			}
+			i++;
+		}
+		if(!in_init && !checkSecurities()) {
+			fromSecurityCombo->setCurrentIndex(prev_from_index);
+		} else {
+			prev_from_index = fromSecurityCombo->currentIndex();
+		}
 	}
 }
 void EditSecurityTradeDialog::toSecurityChanged() {
@@ -903,42 +894,24 @@ void EditSecurityTradeDialog::toSecurityChanged() {
 	if(sec) {
 		toSharesEdit->setPrecision(sec->decimals());
 	}
-	valueEdit->setCurrency(sec ? sec->currency() : budget->defaultCurrency(), true);
 }
 void EditSecurityTradeDialog::setSecurityTrade(SecurityTrade *ts) {
 	dateEdit->setDate(ts->date);
-	Security *sec = budget->securities.first();
-	int i = 0;
-	while(sec) {
-		if(sec == ts->from_security) {
-			fromSecurityCombo->setCurrentIndex(i);
-			break;
-		}
-		i++;
-		sec = budget->securities.next();
-	}
+	int index = fromSecurityCombo->findData(qVariantFromValue((void*) ts->from_security));
+	if(index >= 0) fromSecurityCombo->setCurrentIndex(index);
 	fromSharesEdit->setMaximum(ts->from_security->shares() + ts->from_shares);
 	fromSharesEdit->setValue(ts->from_shares);
 	toSharesEdit->setValue(ts->to_shares);
-	valueEdit->setValue(ts->value);
-	sec = budget->securities.first();
-	i = 0;
-	while(sec) {
-		if(sec == ts->to_security) {
-			toSecurityCombo->setCurrentIndex(i);
-			break;
-		}
-		i++;
-		sec = budget->securities.next();
-	}
+	index = fromSecurityCombo->findData(qVariantFromValue((void*) ts->to_security));
+	if(index >= 0) toSecurityCombo->setCurrentIndex(index);
 }
 SecurityTrade *EditSecurityTradeDialog::createSecurityTrade() {
 	if(!validValues()) return NULL;
-	return new SecurityTrade(dateEdit->date(), valueEdit->value(), fromSharesEdit->value(), selectedFromSecurity(), toSharesEdit->value(), selectedToSecurity());
+	return new SecurityTrade(dateEdit->date(), fromSharesEdit->value(), selectedFromSecurity(), toSharesEdit->value(), selectedToSecurity());
 }
 bool EditSecurityTradeDialog::checkSecurities() {
-	if(toSecurityCombo->count() < 2) {
-		QMessageBox::critical(this, tr("Error"), tr("No other security available for exchange in the account.", "Shares of one security directly exchanged for shares of another; Financial security (e.g. stock, mutual fund)"));
+	if(toSecurityCombo->count() == 0) {
+		QMessageBox::critical(isVisible() ? this : parentWidget(), tr("Error"), tr("No other security available for exchange in the account.", "Shares of one security directly exchanged for shares of another; Financial security (e.g. stock, mutual fund)"));
 		return false;
 	}
 	return true;
@@ -959,10 +932,6 @@ bool EditSecurityTradeDialog::validValues() {
 	}
 	if(fromSharesEdit->value() == 0.0 || toSharesEdit->value() == 0.0) {
 		QMessageBox::critical(this, tr("Error"), tr("Zero shares not allowed.", "Financial shares"));
-		return false;
-	}
-	if(valueEdit->value() == 0.0) {
-		QMessageBox::critical(this, tr("Error"), tr("Zero value not allowed."));
 		return false;
 	}
 	return true;
@@ -1554,13 +1523,18 @@ void SecurityTransactionsDialog::updateTransactions() {
 	SecurityTrade *ts = security->tradedShares.first();
 	while(ts) {
 		double shares;
-		if(ts->from_security == security) shares = ts->from_shares;
-		else shares = ts->to_shares;
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(ts->date, QLocale::ShortFormat), ts->from_security == security ? tr("Shares Sold (Exchanged)", "Shares of one security directly exchanged for shares of another; Financial shares") :  tr("Shares Bought (Exchanged)", "Shares of one security directly exchanged for shares of another; Financial shares"), security->currency()->formatValue(ts->value), QLocale().toString(shares, 'f', security->decimals()));
+		double ts_value;
+		if(ts->from_security == security) {
+			shares = ts->from_shares;
+		} else {
+			shares = ts->to_shares;
+		}
+		ts_value = shares * security->getQuotation(ts->date);
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(ts->date, QLocale::ShortFormat), ts->from_security == security ? tr("Shares Sold (Exchanged)", "Shares of one security directly exchanged for shares of another; Financial shares") :  tr("Shares Bought (Exchanged)", "Shares of one security directly exchanged for shares of another; Financial shares"), security->currency()->formatValue(ts_value), QLocale().toString(shares, 'f', security->decimals()));
 		i->ts = ts;
 		i->date = ts->date;
 		i->shares = shares;
-		i->value = ts->value;
+		i->value = ts_value;
 		items.append(i);
 		ts = security->tradedShares.next();
 	}
@@ -1643,14 +1617,12 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	quotationEdit = new EqonomizeValueEdit(false, this, budget);
 	quotationDecimalsChanged(budget->defaultQuotationDecimals());
 	grid->addWidget(quotationEdit, 6, 1);
-	AssetsAccount *account = budget->assetsAccounts.first();
-	while(account) {
+	for(AccountList<AssetsAccount*>::iterator it = budget->assetsAccounts.begin(); it != budget->assetsAccounts.end(); ++it) {
+		AssetsAccount *account = *it;
 		if(account->accountType() == ASSETS_TYPE_SECURITIES) {
-			accountCombo->addItem(account->name());
-			if(accounts.isEmpty()) quotationEdit->setCurrency(account->currency(), true);
-			accounts.push_back(account);
+			if(accountCombo->count() == 0) quotationEdit->setCurrency(account->currency(), true);
+			accountCombo->addItem(account->name(), qVariantFromValue((void*) account));
 		}
-		account = budget->assetsAccounts.next();
 	}
 	quotationDateLabel = new QLabel(tr("Date:"), this);
 	grid->addWidget(quotationDateLabel, 7, 0);
@@ -1674,14 +1646,14 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	connect(accountCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(accountActivated(int)));
 
 }
-void EditSecurityDialog::accountActivated(int i) {
+void EditSecurityDialog::accountActivated(int i) {	
 	AssetsAccount *account = NULL;
-	if(i >= 0) account = accounts[i];
+	if(i >= 0) account = (AssetsAccount*) accountCombo->itemData(i).value<void*>();
 	quotationEdit->setCurrency(account ? account->currency() : budget->defaultCurrency(), true);
 }
 bool EditSecurityDialog::checkAccount() {
 	if(accountCombo->count() == 0) {
-		QMessageBox::critical(this, tr("Error"), tr("No suitable account or income category available."));
+		QMessageBox::critical(isVisible() ? this : parentWidget(), tr("Error"), tr("No suitable account or income category available."));
 		return false;
 	}
 	return true;
@@ -1700,7 +1672,7 @@ Security *EditSecurityDialog::newSecurity() {
 		case 2: {type = SECURITY_TYPE_OTHER; break;}
 		default: {type = SECURITY_TYPE_MUTUAL_FUND; break;}
 	}
-	Security *security = new Security(budget, accounts[accountCombo->currentIndex()], type, sharesEdit->value(), decimalsEdit->value(), quotationDecimalsEdit->value(), nameEdit->text(), descriptionEdit->toPlainText());
+	Security *security = new Security(budget, (AssetsAccount*) accountCombo->currentData().value<void*>(), type, sharesEdit->value(), decimalsEdit->value(), quotationDecimalsEdit->value(), nameEdit->text(), descriptionEdit->toPlainText());
 	if(quotationEdit->value() > 0.0) {
 		security->setQuotation(quotationDateEdit->date(), quotationEdit->value());
 	}
@@ -1711,7 +1683,7 @@ bool EditSecurityDialog::modifySecurity(Security *security) {
 	security->setName(nameEdit->text());
 	security->setInitialShares(sharesEdit->value());
 	security->setDescription(descriptionEdit->toPlainText());
-	security->setAccount(accounts[accountCombo->currentIndex()]);
+	security->setAccount((AssetsAccount*) accountCombo->currentData().value<void*>());
 	security->setDecimals(decimalsEdit->value());
 	security->setQuotationDecimals(quotationDecimalsEdit->value());
 	switch(typeCombo->currentIndex()) {
@@ -1733,12 +1705,8 @@ void EditSecurityDialog::setSecurity(Security *security) {
 	quotationDecimalsEdit->setValue(security->quotationDecimals());
 	quotationDecimalsChanged(security->quotationDecimals());
 	sharesEdit->setValue(security->initialShares());
-	for(QVector<AssetsAccount*>::size_type i = 0; i < accounts.size(); i++) {
-		if(security->account() == accounts[i]) {
-			accountCombo->setCurrentIndex(i);
-			break;
-		}
-	}
+	int index = accountCombo->findData(qVariantFromValue((void*) security->account()));
+	if(index >= 0) accountCombo->setCurrentIndex(index);
 	switch(security->type()) {
 		case SECURITY_TYPE_BOND: {typeCombo->setCurrentIndex(2); break;}
 		case SECURITY_TYPE_STOCK: {typeCombo->setCurrentIndex(1); break;}
@@ -2644,9 +2612,13 @@ void Eqonomize::editSecurity(QTreeWidgetItem *i) {
 	EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("Edit Security", "Financial security (e.g. stock, mutual fund)"));
 	dialog->setSecurity(security);
 	if(dialog->checkAccount() && dialog->exec() == QDialog::Accepted) {
+		AssetsAccount *prev_acc = security->account();
 		if(dialog->modifySecurity(security)) {
 			updateSecurity(i);
 			updateSecurityAccount(security->account());
+			if(prev_acc != security->account()) {
+				updateSecurityAccount(prev_acc);
+			}
 			setModified(true);
 			incomesWidget->filterTransactions();
 			transfersWidget->filterTransactions();

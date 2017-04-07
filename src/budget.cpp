@@ -485,7 +485,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			} else if(type == "security_trade") {
 				QXmlStreamAttributes attr = xml.attributes();
 				QDate date = QDate::fromString(attr.value("date").toString(), Qt::ISODate);
-				double value = attr.value("value").toDouble();
 				double from_shares = attr.value("from_shares").toDouble();
 				double to_shares = attr.value("to_shares").toDouble();
 				int from_id = attr.value("from_security").toInt();
@@ -504,7 +503,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					to_security = NULL;
 				}
 				if(date.isValid() && from_security && to_security && from_security != to_security) {
-					SecurityTrade *ts = new SecurityTrade(date, value, from_shares, from_security, to_shares, to_security);
+					SecurityTrade *ts = new SecurityTrade(date, from_shares, from_security, to_shares, to_security);
 					ts->timestamp = i_time;
 					securityTrades.append(ts);
 					from_security->tradedShares.append(ts);
@@ -873,7 +872,6 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		xml.writeAttribute("to_security", QString::number(ts->to_security->id()));
 		xml.writeAttribute("date", ts->date.toString(Qt::ISODate));
 		xml.writeAttribute("timestamp", QString::number(ts->timestamp));
-		xml.writeAttribute("value", QString::number(ts->value, 'f', SAVE_MONETARY_DECIMAL_PLACES));
 		xml.writeAttribute("from_shares", QString::number(ts->from_shares, 'f', ts->from_security->decimals()));
 		xml.writeAttribute("to_shares", QString::number(ts->to_shares, 'f', ts->to_security->decimals()));
 		xml.writeEndElement();
@@ -1404,8 +1402,6 @@ void Budget::addSecurityTrade(SecurityTrade *ts) {
 	securityTrades.inSort(ts);
 	ts->from_security->tradedShares.inSort(ts);
 	ts->to_security->tradedShares.inSort(ts);
-	ts->from_security->setQuotation(ts->date, ts->value / ts->from_shares, true);
-	ts->to_security->setQuotation(ts->date, ts->value / ts->to_shares, true);
 }
 void Budget::removeSecurityTrade(SecurityTrade *ts, bool keep) {
 	ts->from_security->tradedShares.removeRef(ts);
@@ -1430,8 +1426,6 @@ void Budget::securityTradeDateModified(SecurityTrade *ts, const QDate &olddate) 
 	}
 	ts->from_security->removeQuotation(olddate, true);
 	ts->to_security->removeQuotation(olddate, true);
-	ts->from_security->setQuotation(ts->date, ts->value / ts->from_shares, true);
-	ts->to_security->setQuotation(ts->date, ts->value / ts->to_shares, true);
 }
 Account *Budget::findAccount(QString name) {
 	Account *account = accounts.first();

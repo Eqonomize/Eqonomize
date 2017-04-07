@@ -324,8 +324,16 @@ double Security::cost(const QDate &date, bool no_scheduled_shares, Currency *cur
 	}
 	SecurityTrade *ts = tradedShares.first();
 	while(ts && ts->date <= date) {
-		if(ts->from_security == this) c -= ts->value;
-		else c += ts->value;
+		double v = ts->from_shares * ts->from_security->getQuotation(ts->date);
+		if(cur != ts->from_security->currency()) {
+			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
+				v = ts->from_security->currency()->convertTo(v, cur, ts->date);
+			} else {
+				v = ts->from_security->currency()->convertTo(v, cur, date);
+			}
+		}
+		if(ts->from_security == this) c -= v;
+		else c += v;
 		ts = tradedShares.next();
 	}
 	if(!no_scheduled_shares) {
@@ -377,8 +385,16 @@ double Security::cost(Currency *cur) {
 	}
 	SecurityTrade *ts = tradedShares.first();
 	while(ts) {
-		if(ts->from_security == this) c -= ts->value;
-		else c += ts->value;
+		double v = ts->from_shares * ts->from_security->getQuotation(ts->date);
+		if(cur != ts->from_security->currency()) {
+			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
+				v = ts->from_security->currency()->convertTo(v, cur, ts->date);
+			} else {
+				v = ts->from_security->currency()->convertTo(v, cur);
+			}
+		}
+		if(ts->from_security == this) c -= v;
+		else c += v;
 		ts = tradedShares.next();
 	}
 	return c;

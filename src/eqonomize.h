@@ -563,7 +563,6 @@ class EditSecurityDialog : public QDialog {
 		QSpinBox *decimalsEdit, *quotationDecimalsEdit;
 		QLabel *quotationLabel, *quotationDateLabel;
 		Budget *budget;
-		QVector<AssetsAccount*> accounts;
 
 	public:
 		
@@ -678,8 +677,9 @@ class EditSecurityTradeDialog : public QDialog {
 		Budget *budget;
 		QComboBox *fromSecurityCombo, *toSecurityCombo;
 		QLabel *sharesFromLabel, *shareToLabel;
-		EqonomizeValueEdit *valueEdit, *fromSharesEdit, *toSharesEdit;
+		EqonomizeValueEdit *fromSharesEdit, *toSharesEdit;
 		QDateEdit *dateEdit;
+		int prev_from_index;
 
 	public:
 
@@ -696,7 +696,7 @@ class EditSecurityTradeDialog : public QDialog {
 		void maxShares();
 		Security *selectedFromSecurity();
 		Security *selectedToSecurity();
-		void fromSecurityChanged();
+		void fromSecurityChanged(bool = false);
 		void toSecurityChanged();
 
 };
