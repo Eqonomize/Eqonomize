@@ -605,7 +605,7 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(paren
 	accountCombo = new QComboBox(this);
 	accountCombo->setEditable(false);
 	int i = 0;
-	for(AccountList<AssetsAccount*>::iterator it = transaction->budget()->assetsAccounts.begin(); it != transaction->budget()->assetsAccounts.end(); ++it) {
+	for(AccountList<AssetsAccount*>::const_iterator it = transaction->budget()->assetsAccounts.constBegin(); it != transaction->budget()->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *account = *it;
 		if(account != transaction->budget()->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
 			accountCombo->addItem(account->name());
@@ -637,7 +637,7 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(paren
 void RefundDialog::accountActivated(int cur_i) {
 	int i = 0;
 	AssetsAccount *account = NULL;
-	for(AccountList<AssetsAccount*>::iterator it = transaction->budget()->assetsAccounts.begin(); it != transaction->budget()->assetsAccounts.end(); ++it) {
+	for(AccountList<AssetsAccount*>::const_iterator it = transaction->budget()->assetsAccounts.constBegin(); it != transaction->budget()->assetsAccounts.constEnd(); ++it) {
 		account = *it;
 		if(account != transaction->budget()->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
 			if(i == cur_i) break;
@@ -652,7 +652,7 @@ Transaction *RefundDialog::createRefund() {
 	int i = 0;
 	int cur_i = accountCombo->currentIndex();
 	AssetsAccount *account = NULL;
-	for(AccountList<AssetsAccount*>::iterator it = transaction->budget()->assetsAccounts.begin(); it != transaction->budget()->assetsAccounts.end(); ++it) {
+	for(AccountList<AssetsAccount*>::const_iterator it = transaction->budget()->assetsAccounts.constBegin(); it != transaction->budget()->assetsAccounts.constEnd(); ++it) {
 		account = *it;
 		if(account != transaction->budget()->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
 			if(i == cur_i) break;
@@ -701,12 +701,11 @@ EditReinvestedDividendDialog::EditReinvestedDividendDialog(Budget *budg, Securit
 	if(select_security) {
 		securityCombo = new QComboBox(this);
 		securityCombo->setEditable(false);
-		Security *c_sec = budget->securities.first();
 		int i2 = 0;
-		while(c_sec) {
-			securityCombo->addItem(c_sec->name());
+		for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
+			Security *c_sec = *it;
+			securityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
 			if(c_sec == sec) securityCombo->setCurrentIndex(i2);
-			c_sec = budget->securities.next();
 			i2++;
 		}
 		layout->addWidget(securityCombo, 0, 1);
@@ -735,16 +734,8 @@ EditReinvestedDividendDialog::EditReinvestedDividendDialog(Budget *budg, Securit
 
 }
 Security *EditReinvestedDividendDialog::selectedSecurity() {
-	if(securityCombo) {
-		int i = securityCombo->currentIndex();
-		if(i >= 0) {
-			Security *c_sec = budget->securities.first();
-			while(i > 0 && c_sec) {
-				c_sec = budget->securities.next();
-				i--;
-			}
-			return c_sec;
-		}
+	if(securityCombo && securityCombo->currentData().isValid()) {
+		return (Security*) securityCombo->currentData().value<void*>();
 	}
 	return NULL;
 }
@@ -794,13 +785,13 @@ EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QW
 	fromSecurityCombo->setEditable(false);	
 	bool sel = false;
 	int i = 0;
-	for(SecurityList<Security*>::iterator it = budget->securities.begin(); it != budget->securities.end(); ++it) {
+	for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
 		Security *c_sec = *it;
 		fromSecurityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
 		if(c_sec == sec) {
 			fromSecurityCombo->setCurrentIndex(i);
 		} else if(!sel && !sec) {
-			for(SecurityList<Security*>::iterator it2 = budget->securities.begin(); it2 != budget->securities.end(); ++it2) {
+			for(SecurityList<Security*>::const_iterator it2 = budget->securities.constBegin(); it2 != budget->securities.constEnd(); ++it2) {
 				Security *c_sec2 = *it2;
 				if(c_sec2 != c_sec && c_sec2->account() == c_sec->account()) {
 					fromSecurityCombo->setCurrentIndex(i);
@@ -872,7 +863,7 @@ void EditSecurityTradeDialog::fromSecurityChanged(bool in_init) {
 		fromSharesEdit->setMaximum(sec->shares());
 		Security *to_sec = selectedToSecurity();
 		int i = 0;
-		for(SecurityList<Security*>::iterator it = budget->securities.begin(); it != budget->securities.end(); ++it) {
+		for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
 			Security *c_sec = *it;
 			if(c_sec != sec && c_sec->account() == sec->account()) {
 				toSecurityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
@@ -1007,7 +998,7 @@ void EditQuotationsDialog::setSecurity(Security *security) {
 	i_quotation_decimals = security->quotationDecimals();
 	QList<QTreeWidgetItem *> items;
 	QMap<QDate, double>::const_iterator it_end = security->quotations.end();
-	for(QMap<QDate, double>::const_iterator it = security->quotations.begin(); it != it_end; ++it) {
+	for(QMap<QDate, double>::const_iterator it = security->quotations.constBegin(); it != it_end; ++it) {
 		items.append(new QuotationListViewItem(it.key(), it.value(), i_quotation_decimals));
 	}
 	quotationsView->addTopLevelItems(items);
@@ -1338,8 +1329,8 @@ void ConfirmScheduleDialog::edit() {
 	if(transactionsView->topLevelItemCount() == 0) reject();
 }
 void ConfirmScheduleDialog::updateTransactions() {
-	ScheduledTransaction *strans = budget->scheduledTransactions.first();
-	while(strans) {
+	for(ScheduledTransactionList<ScheduledTransaction*>::iterator it = budget->scheduledTransactions.begin(); it != budget->scheduledTransactions.end();) {
+		ScheduledTransaction *strans = *it;
 		if(strans->firstOccurrence() < QDate::currentDate() || (QTime::currentTime().hour() >= 18 && strans->firstOccurrence() == QDate::currentDate())) {
 			bool b = strans->isOneTimeTransaction();
 			Transactions *trans = strans->realize(strans->firstOccurrence());
@@ -1347,10 +1338,10 @@ void ConfirmScheduleDialog::updateTransactions() {
 				new ConfirmScheduleListViewItem(transactionsView, trans);
 			}
 			if(b) budget->removeScheduledTransaction(strans);
-			strans = budget->scheduledTransactions.first();
+			it = budget->scheduledTransactions.begin();
 		} else {
-			strans = budget->scheduledTransactions.next();
-		}		
+			++it;
+		}
 	}
 	transactionsView->setSortingEnabled(true);
 	QTreeWidgetItemIterator it(transactionsView);
@@ -1490,8 +1481,8 @@ void SecurityTransactionsDialog::edit(QTreeWidgetItem *i_pre) {
 void SecurityTransactionsDialog::updateTransactions() {
 	transactionsView->clear();
 	QList<QTreeWidgetItem *> items;
-	SecurityTransaction *trans = security->transactions.first();
-	while(trans) {
+	for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = security->transactions.constBegin(); it != security->transactions.constEnd(); ++it) {
+		SecurityTransaction *trans = *it;
 		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(trans->date(), QLocale::ShortFormat), QString::null, trans->valueString(), QLocale().toString(trans->shares(), 'f', security->decimals()));
 		i->trans = trans;
 		i->date = trans->date();
@@ -1500,28 +1491,25 @@ void SecurityTransactionsDialog::updateTransactions() {
 		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) i->setText(1, tr("Shares Bought", "Financial shares"));
 		else i->setText(1, tr("Shares Sold", "Financial shares"));
 		items.append(i);
-		trans = security->transactions.next();
 	}
-	Income *div = security->dividends.first();
-	while(div) {
+	for(SecurityTransactionList<Income*>::const_iterator it = security->dividends.constBegin(); it != security->dividends.constEnd(); ++it) {
+		Income *div = *it;
 		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(div->date(), QLocale::ShortFormat), tr("Dividend"), div->valueString(), "-");
 		i->div = div;
 		i->date = div->date();
 		i->value = div->value();
 		items.append(i);
-		div = security->dividends.next();
 	}
-	ReinvestedDividend *rediv = security->reinvestedDividends.first();
-	while(rediv) {
+	for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = security->reinvestedDividends.constBegin(); it != security->reinvestedDividends.constEnd(); ++it) {
+		ReinvestedDividend *rediv = *it;
 		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(rediv->date, QLocale::ShortFormat), tr("Reinvested Dividend"), "-", QLocale().toString(rediv->shares, 'f', security->decimals()));
 		i->rediv = rediv;
 		i->date = rediv->date;
 		i->shares = rediv->shares;
 		items.append(i);
-		rediv = security->reinvestedDividends.next();
 	}
-	SecurityTrade *ts = security->tradedShares.first();
-	while(ts) {
+	for(TradedSharesList<SecurityTrade*>::const_iterator it = security->tradedShares.constBegin(); it != security->tradedShares.constEnd(); ++it) {
+		SecurityTrade *ts = *it;
 		double shares;
 		double ts_value;
 		if(ts->from_security == security) {
@@ -1536,10 +1524,9 @@ void SecurityTransactionsDialog::updateTransactions() {
 		i->shares = shares;
 		i->value = ts_value;
 		items.append(i);
-		ts = security->tradedShares.next();
 	}
-	ScheduledTransaction *strans = security->scheduledTransactions.first();
-	while(strans) {
+	for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = security->scheduledTransactions.constBegin(); it != security->scheduledTransactions.constEnd(); ++it) {
+		ScheduledTransaction *strans = *it;
 		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString::null, strans->transaction()->valueString(), QLocale().toString(((SecurityTransaction*) strans->transaction())->shares(), 'f', security->decimals()));
 		i->strans = strans;
 		i->date = strans->date();
@@ -1553,10 +1540,9 @@ void SecurityTransactionsDialog::updateTransactions() {
 			else i->setText(1, tr("Shares Sold (Scheduled)", "Financial shares"));
 		}
 		items.append(i);
-		strans = security->scheduledTransactions.next();
 	}
-	strans = security->scheduledDividends.first();
-	while(strans) {
+	for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = security->scheduledDividends.constBegin(); it != security->scheduledDividends.constEnd(); ++it) {
+		ScheduledTransaction *strans = *it;
 		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString::null, strans->transaction()->valueString(), "-");
 		i->sdiv = strans;
 		i->date = strans->date();
@@ -1567,7 +1553,6 @@ void SecurityTransactionsDialog::updateTransactions() {
 			i->setText(1, tr("Scheduled Dividend"));
 		}
 		items.append(i);
-		strans = security->scheduledDividends.next();
 	}
 	transactionsView->addTopLevelItems(items);
 	transactionsView->setSortingEnabled(true);
@@ -1617,7 +1602,7 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	quotationEdit = new EqonomizeValueEdit(false, this, budget);
 	quotationDecimalsChanged(budget->defaultQuotationDecimals());
 	grid->addWidget(quotationEdit, 6, 1);
-	for(AccountList<AssetsAccount*>::iterator it = budget->assetsAccounts.begin(); it != budget->assetsAccounts.end(); ++it) {
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *account = *it;
 		if(account->accountType() == ASSETS_TYPE_SECURITIES) {
 			if(accountCombo->count() == 0) quotationEdit->setCurrency(account->currency(), true);
@@ -2504,21 +2489,19 @@ void Eqonomize::budgetChanged(double value) {
 	CategoryAccount *ca = (CategoryAccount*) account;
 	QDate month = budgetMonthEdit->date();
 	ca->mbudgets[month] = value;
-	ca = budget->incomesAccounts.first();
-	while(ca) {
+	for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+		ca = *it;
 		if(!ca->mbudgets.contains(month)) {
 			value = ca->monthlyBudget(month);
 			ca->mbudgets[month] = value;
 		}
-		ca = budget->incomesAccounts.next();
 	}
-	ca = budget->expensesAccounts.first();
-	while(ca) {
+	for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+		ca = *it;
 		if(!ca->mbudgets.contains(month)) {
 			value = ca->monthlyBudget(month);
 			ca->mbudgets[month] = value;
 		}
-		ca = budget->expensesAccounts.next();
 	}
 	setModified(true);
 	filterAccounts();
@@ -2532,21 +2515,19 @@ void Eqonomize::budgetToggled(bool b) {
 	QDate month = budgetMonthEdit->date();
 	if(b) ca->mbudgets[month] = budgetEdit->value();
 	else ca->mbudgets[month] = -1;
-	ca = budget->incomesAccounts.first();
-	while(ca) {
+	for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+		ca = *it;
 		if(!ca->mbudgets.contains(month)) {
 			double value = ca->monthlyBudget(month);
 			ca->mbudgets[month] = value;
 		}
-		ca = budget->incomesAccounts.next();
 	}
-	ca = budget->expensesAccounts.first();
-	while(ca) {
+	for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+		ca = *it;
 		if(!ca->mbudgets.contains(month)) {
 			double value = ca->monthlyBudget(month);
 			ca->mbudgets[month] = value;
 		}
-		ca = budget->expensesAccounts.next();
 	}
 	setModified(true);
 	filterAccounts();
@@ -3039,10 +3020,9 @@ void Eqonomize::updateSecurities() {
 	total_cost = 0.0;
 	total_profit = 0.0;
 	total_rate = 0.0;
-	Security *security = budget->securities.first();
-	while(security) {
+	for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
+		Security *security = *it;
 		appendSecurity(security);
-		security = budget->securities.next();
 	}
 }
 void Eqonomize::newExpenseWithLoan() {
@@ -4307,22 +4287,19 @@ void Eqonomize::reloadBudget() {
 	}
 	account_items.clear();
 	item_accounts.clear();
-	AssetsAccount *aaccount = budget->assetsAccounts.first();
-	while(aaccount) {
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *aaccount = *it;
 		if(aaccount != budget->balancingAccount) {
 			appendAssetsAccount(aaccount);
 		}
-		aaccount = budget->assetsAccounts.next();
 	}
-	IncomesAccount *iaccount = budget->incomesAccounts.first();
-	while(iaccount) {
+	for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+		IncomesAccount *iaccount = *it;
 		if(!iaccount->parentCategory()) appendIncomesAccount(iaccount, incomesItem);
-		iaccount = budget->incomesAccounts.next();
 	}
-	ExpensesAccount *eaccount = budget->expensesAccounts.first();
-	while(eaccount) {
+	for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+		ExpensesAccount *eaccount = *it;
 		if(!eaccount->parentCategory()) appendExpensesAccount(eaccount, expensesItem);
-		eaccount = budget->expensesAccounts.next();
 	}
 	account_value[budget->balancingAccount] = 0.0;
 	account_change[budget->balancingAccount] = 0.0;
@@ -4377,8 +4354,8 @@ void Eqonomize::openURL(const QUrl& url, bool merge) {
 	
 	Currency *cur = budget->defaultCurrency();
 	if(cur != budget->currency_euro && cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_NONE) cur = NULL;
-	AssetsAccount *acc = budget->assetsAccounts.first();
-	while(acc) {
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *acc = *it;
 		if(acc->currency() != NULL && acc->currency() != cur && (acc->currency() == budget->currency_euro || acc->currency()->exchangeRateSource() != EXCHANGE_RATE_SOURCE_NONE)) {
 			if(cur) {
 				if(timeToUpdateExchangeRates()) updateExchangeRates(false);
@@ -4386,7 +4363,6 @@ void Eqonomize::openURL(const QUrl& url, bool merge) {
 			}
 			cur = acc->currency();
 		}
-		acc = budget->assetsAccounts.next();
 	}
 
 	reloadBudget();
@@ -4503,8 +4479,8 @@ void Eqonomize::exportQIF() {
 void Eqonomize::checkExchangeRatesTimeOut() {
 	Currency *cur = budget->defaultCurrency();
 	if(cur != budget->currency_euro && cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_NONE) cur = NULL;
-	AssetsAccount *acc = budget->assetsAccounts.first();
-	while(acc) {
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *acc = *it;
 		if(acc->currency() != NULL && acc->currency() != cur && (acc->currency() == budget->currency_euro || acc->currency()->exchangeRateSource() != EXCHANGE_RATE_SOURCE_NONE)) {
 			if(cur) {
 				if(timeToUpdateExchangeRates()) updateExchangeRates(true);
@@ -4512,7 +4488,6 @@ void Eqonomize::checkExchangeRatesTimeOut() {
 			}
 			cur = acc->currency();
 		}
-		acc = budget->assetsAccounts.next();
 	}
 }
 bool Eqonomize::timeToUpdateExchangeRates() {
@@ -4633,9 +4608,9 @@ void Eqonomize::setMainCurrency() {
 	setMainCurrencyCombo->setEditable(false);
 	grid->addWidget(setMainCurrencyCombo, 0, 1);
 	setMainCurrencyCombo->addItem(tr("New currency…"));
-	Currency *currency = budget->currencies.first();
 	int i = 1;
-	while(currency) {
+	for(CurrencyList<Currency*>::const_iterator it = budget->currencies.constBegin(); it != budget->currencies.constEnd(); ++it) {
+		Currency *currency = *it;
 		if(!currency->name(false).isEmpty()) {
 			setMainCurrencyCombo->addItem(QString("%2 (%1)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
 		} else {
@@ -4647,7 +4622,6 @@ void Eqonomize::setMainCurrency() {
 			prev_set_main_currency_index = i;
 		}
 		i++;
-		currency = budget->currencies.next();
 	}
 	QCheckBox *replaceButton = new QCheckBox(tr("Replace all occurrences of the former main currency"), dialog);
 	replaceButton->setChecked(false);
@@ -4665,12 +4639,11 @@ void Eqonomize::setMainCurrency() {
 		if(index > 0) cur = (Currency*) setMainCurrencyCombo->itemData(index).value<void*>();
 		if(cur && cur != budget->defaultCurrency()) {
 			if(replaceButton->isChecked()) {
-				AssetsAccount *acc = budget->assetsAccounts.first();
-				while(acc) {
+				for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+					AssetsAccount *acc = *it;
 					if(acc->currency() == budget->defaultCurrency()) {
 						acc->setCurrency(cur);
 					}
-					acc = budget->assetsAccounts.next();
 				}
 			}
 			budget->setDefaultCurrency(cur);
@@ -4685,11 +4658,11 @@ void Eqonomize::setMainCurrencyIndexChanged(int index) {
 		EditCurrencyDialog *dialog = new EditCurrencyDialog(budget, NULL, false, this);
 		if(dialog->exec() == QDialog::Accepted) {
 			Currency *cur = dialog->createCurrency();
-			Currency *currency = budget->currencies.first();
 			setMainCurrencyCombo->clear();
 			setMainCurrencyCombo->addItem(tr("New currency…"));
 			int i = 1;
-			while(currency) {
+			for(CurrencyList<Currency*>::const_iterator it = budget->currencies.constBegin(); it != budget->currencies.constEnd(); ++it) {
+				Currency *currency = *it;
 				setMainCurrencyCombo->addItem(currency->code());
 				setMainCurrencyCombo->setItemData(i, qVariantFromValue((void*) currency));
 				if(currency == cur) {
@@ -4697,7 +4670,6 @@ void Eqonomize::setMainCurrencyIndexChanged(int index) {
 					prev_set_main_currency_index = i;
 				}
 				i++;
-				currency = budget->currencies.next();
 			}
 		} else {
 			setMainCurrencyCombo->setCurrentIndex(prev_set_main_currency_index);
@@ -5008,8 +4980,8 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';			
 			outf << "\t\t\t<tbody>" << '\n';
-			Account *account = budget->assetsAccounts.first();
-			while(account) {
+			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+				Account *account = *it;
 				if(!IS_DEBT(((AssetsAccount*) account))) {
 					outf << "\t\t\t\t<tr>" << '\n';
 					outf << "\t\t\t\t\t<td>" << htmlize_string(account->name());
@@ -5030,7 +5002,6 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 					outf << "<td nowrap align=\"right\">" << htmlize_string(((AssetsAccount*) account)->currency()->formatValue(account_value[account])) << "</td>" << "\n";
 					outf << "\t\t\t\t</tr>" << '\n';
 				}
-				account = budget->assetsAccounts.next();
 			}
 			outf << "\t\t\t\t<tr>" << '\n';
 			outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total"));
@@ -5057,10 +5028,10 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Balance", "Noun. Balance of an account"));
 			outf << "</th>" << '\n';
 			outf << "\t\t\t\t</tr>" << '\n';
-			outf << "\t\t\t</thead>" << '\n';			
+			outf << "\t\t\t</thead>" << '\n';
 			outf << "\t\t\t<tbody>" << '\n';
-			account = budget->assetsAccounts.first();
-			while(account) {
+			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+				Account *account = *it;
 				if(IS_DEBT(((AssetsAccount*) account))) {
 					outf << "\t\t\t\t<tr>" << '\n';
 					outf << "\t\t\t\t\t<td>" << htmlize_string(account->name());
@@ -5080,7 +5051,6 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 					outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(-account_value[account])) << "</td>" << "\n";
 					outf << "\t\t\t\t</tr>" << '\n';
 				}
-				account = budget->assetsAccounts.next();
 			}
 			outf << "\t\t\t\t<tr>" << '\n';
 			outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total"));
@@ -5107,8 +5077,8 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';
 			outf << "\t\t\t<tbody>" << '\n';
-			account = budget->incomesAccounts.first();
-			while(account) {
+			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+				Account *account = *it;
 				outf << "\t\t\t\t<tr>" << '\n';
 				outf << "\t\t\t\t\t<td>" << htmlize_string(account->name()) << "</td>";
 				if(account_budget[account] < 0.0) {
@@ -5125,7 +5095,6 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 				outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(account_change[account])) << "</td>";
 				outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(account_value[account])) << "</td>" << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
-				account = budget->incomesAccounts.next();
 			}
 			outf << "\t\t\t\t<tr>" << '\n';
 			outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
@@ -5156,8 +5125,8 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';
 			outf << "\t\t\t<tbody>" << '\n';
-			account = budget->expensesAccounts.first();
-			while(account) {
+			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+				Account *account = *it;
 				outf << "\t\t\t\t<tr>" << '\n';
 				outf << "\t\t\t\t\t<td>" << htmlize_string(account->name()) << "</td>";
 				if(account_budget[account] < 0.0) {
@@ -5174,7 +5143,6 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 				outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(account_change[account])) << "</td>";
 				outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toCurrencyString(account_value[account])) << "</td>" << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
-				account = budget->expensesAccounts.next();
 			}
 			outf << "\t\t\t\t<tr>" << '\n';
 			outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
@@ -5204,20 +5172,17 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			//outf.setEncoding(Q3TextStream::Locale);
 			//: Noun, how much the account balance has changed
 			outf << "\"" << tr("Account/Category") << "\",\"" << tr("Change") << "\",\"" << tr("Value") << "\"\n";
-			Account *account = budget->assetsAccounts.first();
-			while(account) {
+			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+				Account *account = *it;
 				outf << "\"" << account->name() << "\",\"" << QLocale().toCurrencyString(account_change[account]) << "\",\"" << QLocale().toCurrencyString(account_value[account]) << "\"\n";
-				account = budget->assetsAccounts.next();
 			}
-			account = budget->incomesAccounts.first();
-			while(account) {
+			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+				Account *account = *it;
 				outf << "\"" << account->name() << "\",\"" << QLocale().toCurrencyString(account_change[account]) << "\",\"" << QLocale().toCurrencyString(account_value[account]) << "\"\n";
-				account = budget->incomesAccounts.next();
 			}
-			account = budget->expensesAccounts.first();
-			while(account) {
+			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+				Account *account = *it;
 				outf << "\"" << account->name() << "\",\"" << QLocale().toCurrencyString(account_change[account]) << "\",\"" << QLocale().toCurrencyString(account_value[account]) << "\"\n";
-				account = budget->expensesAccounts.next();
 			}
 			break;
 		}
@@ -6060,8 +6025,8 @@ void Eqonomize::checkSchedule() {
 }
 bool Eqonomize::checkSchedule(bool update_display) {
 	bool b = false;
-	ScheduledTransaction *strans = budget->scheduledTransactions.first();
-	while(strans) {
+	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd(); ++it) {
+		ScheduledTransaction *strans = *it;
 		if(strans->firstOccurrence() < QDate::currentDate() || (QTime::currentTime().hour() >= 18 && strans->firstOccurrence() == QDate::currentDate())) {
 			b = true;
 			budget->setRecordNewAccounts(true);
@@ -6082,7 +6047,6 @@ bool Eqonomize::checkSchedule(bool update_display) {
 			dialog->deleteLater();
 			break;
 		}
-		strans = budget->scheduledTransactions.next();
 	}
 	if(b && update_display) {
 		expensesWidget->transactionsReset();
@@ -6111,10 +6075,9 @@ void Eqonomize::endBatchEdit() {
 
 void Eqonomize::updateScheduledTransactions() {
 	scheduleView->clear();
-	ScheduledTransaction *strans = budget->scheduledTransactions.first();
-	while(strans) {
+	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd(); ++it) {
+		ScheduledTransaction *strans = *it;
 		new ScheduleListViewItem(scheduleView, strans, strans->firstOccurrence());
-		strans = budget->scheduledTransactions.next();
 	}
 	scheduleView->setSortingEnabled(true);
 }
@@ -6326,8 +6289,8 @@ void Eqonomize::balanceAccount(Account *i_account) {
 	AssetsAccount *account = (AssetsAccount*) i_account;
 	double book_value = account->initialBalance();
 	double current_balancing = 0.0;
-	Transaction *trans = budget->transactions.first();
-	while(trans) {
+	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+		Transaction *trans = *it;
 		if(trans->fromAccount() == account) {
 			book_value -= trans->value();
 			if(trans->toAccount() == budget->balancingAccount) current_balancing -= trans->value();
@@ -6336,7 +6299,6 @@ void Eqonomize::balanceAccount(Account *i_account) {
 			book_value += trans->value();
 			if(trans->fromAccount() == budget->balancingAccount) current_balancing += trans->value();
 		}
-		trans = budget->transactions.next();
 	}
 	QDialog *dialog = new QDialog(this, 0);
 	dialog->setWindowTitle(tr("Adjust Account Balance"));
@@ -6362,7 +6324,7 @@ void Eqonomize::balanceAccount(Account *i_account) {
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
 	box1->addWidget(buttonBox);
 	if(dialog->exec() == QDialog::Accepted && realEdit->value() != book_value) {
-		trans = new Balancing(budget, realEdit->value() - book_value, QDate::currentDate(), account);
+		Transaction *trans = new Balancing(budget, realEdit->value() - book_value, QDate::currentDate(), account);
 		budget->addTransaction(trans);
 		transactionAdded(trans);
 	}
@@ -6588,12 +6550,11 @@ void Eqonomize::deleteAccount() {
 	}
 	if(!budget->accountHasTransactions(account)) {
 		if((account->type() == ACCOUNT_TYPE_INCOMES || account->type() == ACCOUNT_TYPE_EXPENSES) && !((CategoryAccount*) account)->subCategories.isEmpty()) {
-			CategoryAccount *ca = ((CategoryAccount*) account)->subCategories.first();
-			while(ca) {
+			for(AccountList<CategoryAccount*>::const_iterator it = ((CategoryAccount*) account)->subCategories.constBegin(); it != ((CategoryAccount*) account)->subCategories.constEnd(); ++it) {
+				CategoryAccount *ca = *it;
 				QTreeWidgetItem *ca_i = item_accounts[ca];
 				item_accounts.remove(ca);
 				account_items.remove(ca_i);
-				ca = ((CategoryAccount*) account)->subCategories.next();
 			}
 		}
 		item_accounts.remove(account);
@@ -6620,13 +6581,12 @@ void Eqonomize::deleteAccount() {
 			case ACCOUNT_TYPE_EXPENSES: {accounts_left = budget->expensesAccounts.count() > 1; break;}
 			case ACCOUNT_TYPE_INCOMES: {accounts_left = budget->incomesAccounts.count() > 1; break;}
 			case ACCOUNT_TYPE_ASSETS: {
-				AssetsAccount *aaccount = budget->assetsAccounts.first();
-				while(aaccount) {
+				for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+					AssetsAccount *aaccount = *it;
 					if(aaccount != budget->balancingAccount && aaccount != account && ((((AssetsAccount*) account)->accountType() == ASSETS_TYPE_SECURITIES) == (aaccount->accountType() == ASSETS_TYPE_SECURITIES))) {
 						accounts_left = true;
 						break;
 					}
-					aaccount = budget->assetsAccounts.next();
 				}
 				break;
 			}
@@ -6651,37 +6611,34 @@ void Eqonomize::deleteAccount() {
 			switch(account->type()) {
 				case ACCOUNT_TYPE_EXPENSES: {
 					label = new QLabel(tr("The category contains some expenses.\nWhat do you want to do with them?"), dialog);
-					ExpensesAccount *eaccount = budget->expensesAccounts.first();
-					while(eaccount) {
+					for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+						ExpensesAccount *eaccount = *it;
 						if(eaccount != account) {
 							moveToCombo->addItem(eaccount->name());
 							moveto_accounts.push_back(eaccount);
 						}
-						eaccount = budget->expensesAccounts.next();
 					}
 					break;
 				}
 				case ACCOUNT_TYPE_INCOMES: {
 					label = new QLabel(tr("The category contains some incomes.\nWhat do you want to do with them?"), dialog);
-					IncomesAccount *iaccount = budget->incomesAccounts.first();
-					while(iaccount) {
+					for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+						IncomesAccount *iaccount = *it;
 						if(iaccount != account) {
 							moveToCombo->addItem(iaccount->name());
 							moveto_accounts.push_back(iaccount);
 						}
-						iaccount = budget->incomesAccounts.next();
 					}
 					break;
 				}
 				case ACCOUNT_TYPE_ASSETS: {
 					label = new QLabel(tr("The account contains some transactions.\nWhat do you want to do with them?"), dialog);
-					AssetsAccount *aaccount = budget->assetsAccounts.first();
-					while(aaccount) {
+					for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+						AssetsAccount *aaccount = *it;
 						if(aaccount != budget->balancingAccount && aaccount != account && ((((AssetsAccount*) account)->accountType() == ASSETS_TYPE_SECURITIES) == (aaccount->accountType() == ASSETS_TYPE_SECURITIES))) {
 							moveToCombo->addItem(aaccount->name());
 							moveto_accounts.push_back(aaccount);
 						}
-						aaccount = budget->assetsAccounts.next();
 					}
 					break;
 				}
@@ -6713,12 +6670,11 @@ void Eqonomize::deleteAccount() {
 				budget->moveTransactions(account, moveto_accounts[moveToCombo->currentIndex()]);
 			}
 			if((account->type() == ACCOUNT_TYPE_INCOMES || account->type() == ACCOUNT_TYPE_EXPENSES) && !((CategoryAccount*) account)->subCategories.isEmpty()) {
-				CategoryAccount *ca = ((CategoryAccount*) account)->subCategories.first();
-				while(ca) {
+				for(AccountList<CategoryAccount*>::const_iterator it = ((CategoryAccount*) account)->subCategories.constBegin(); it != ((CategoryAccount*) account)->subCategories.constEnd(); ++it) {
+					CategoryAccount *ca = *it;
 					QTreeWidgetItem *ca_i = item_accounts[ca];
 					item_accounts.remove(ca);
 					account_items.remove(ca_i);
-					ca = ((CategoryAccount*) account)->subCategories.next();
 				}
 			}
 			if(account->topAccount() != account && i->parent()->childCount() == 0) i->parent()->setFlags(i->parent()->flags() | Qt::ItemIsDragEnabled);
@@ -6956,10 +6912,9 @@ void Eqonomize::appendExpensesAccount(ExpensesAccount *account, QTreeWidgetItem 
 	account_value[account] = 0.0;
 	account_change[account] = 0.0;
 	parent_item->sortChildren(0, Qt::AscendingOrder);
-	ExpensesAccount *ea = (ExpensesAccount*) account->subCategories.first();
-	while(ea) {
+	for(AccountList<CategoryAccount*>::const_iterator it = account->subCategories.constBegin(); it != account->subCategories.constEnd(); ++it) {
+		ExpensesAccount *ea = (ExpensesAccount*) *it;
 		appendExpensesAccount(ea, i);
-		ea = (ExpensesAccount*) account->subCategories.next();
 	}
 }
 void Eqonomize::appendIncomesAccount(IncomesAccount *account, QTreeWidgetItem *parent_item) {
@@ -6974,10 +6929,9 @@ void Eqonomize::appendIncomesAccount(IncomesAccount *account, QTreeWidgetItem *p
 	account_value[account] = 0.0;
 	account_change[account] = 0.0;
 	parent_item->sortChildren(0, Qt::AscendingOrder);
-	IncomesAccount *ia = (IncomesAccount*) account->subCategories.first();
-	while(ia) {
+	for(AccountList<CategoryAccount*>::const_iterator it = account->subCategories.constBegin(); it != account->subCategories.constEnd(); ++it) {
+		IncomesAccount *ia = (IncomesAccount*) *it;
 		appendIncomesAccount(ia, i);
-		ia = (IncomesAccount*) account->subCategories.next();
 	}
 }
 void Eqonomize::appendAssetsAccount(AssetsAccount *account) {
@@ -7426,9 +7380,9 @@ void Eqonomize::updateTotalMonthlyExpensesBudget() {
 	if(budget->expensesAccounts.count() > 0) {
 		expenses_budget = 0.0;
 		expenses_budget_diff = 0.0;
-		ExpensesAccount *eaccount = budget->expensesAccounts.first();
 		bool b_budget = false;
-		while(eaccount) {
+		for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+			ExpensesAccount *eaccount = *it;
 			if(!eaccount->parentCategory()) {
 				double d = account_budget[eaccount];
 				if(d >= 0.0) {
@@ -7437,7 +7391,6 @@ void Eqonomize::updateTotalMonthlyExpensesBudget() {
 					b_budget = true;
 				}
 			}
-			eaccount = budget->expensesAccounts.next();
 		}
 		if(b_budget) {
 			expensesItem->setText(BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(budget->formatMoney(expenses_budget)).arg(budget->formatMoney(expenses_budget_diff)));
@@ -7454,16 +7407,15 @@ void Eqonomize::updateTotalMonthlyIncomesBudget() {
 	if(budget->incomesAccounts.count() > 0) {
 		incomes_budget = 0.0;
 		incomes_budget_diff = 0.0;
-		IncomesAccount *iaccount = budget->incomesAccounts.first();
 		bool b_budget = false;
-		while(iaccount) {
+		for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+			IncomesAccount *iaccount = *it;
 			double d = account_budget[iaccount];
 			if(d >= 0.0) {
 				incomes_budget += d;
 				incomes_budget_diff += account_budget_diff[iaccount];
 				b_budget = true;
 			}
-			iaccount = budget->incomesAccounts.next();
 		}
 		if(b_budget) {
 			incomesItem->setText(BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(budget->formatMoney(incomes_budget)).arg(budget->formatMoney(incomes_budget_diff)));
@@ -7489,15 +7441,15 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 	CategoryAccount *ca = (CategoryAccount*) account;
 	double mbudget = 0.0;
 	QTreeWidgetItem *i = item_accounts[account];
-	QMap<QDate, double>::const_iterator it = ca->mbudgets.begin();
-	QMap<QDate, double>::const_iterator it_e = ca->mbudgets.end();
+	QMap<QDate, double>::iterator it = ca->mbudgets.begin();
+	QMap<QDate, double>::iterator it_e = ca->mbudgets.end();
 	QVector<budget_info> subs;
 	while(it != it_e && it.value() < 0.0) ++it;
 
 	QMap<QDate, double>::const_iterator tmp_it;
 	QMap<QDate, double>::const_iterator tmp_it_e;
-	CategoryAccount *sub = ca->subCategories.first();
-	while(sub) {
+	for(AccountList<CategoryAccount*>::const_iterator it = ca->subCategories.constBegin(); it != ca->subCategories.constEnd(); ++it) {
+		CategoryAccount *sub = *it;
 		tmp_it = sub->mbudgets.begin();
 		tmp_it_e = sub->mbudgets.end();
 		while(tmp_it != tmp_it_e && tmp_it.value() < 0.0) ++tmp_it;
@@ -7508,7 +7460,6 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 			bi.ca = sub;
 			subs << bi;
 		}
-		sub = ca->subCategories.next();
 	}
 
 	if(subs.isEmpty() && (it == it_e || budget->monthToBudgetMonth(it.key()) > to_date)) {
@@ -7524,7 +7475,7 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 
 		frommonth = frommonth_begin;
 		if(it != it_e && accountsPeriodFromButton->isChecked() && frommonth > budget->monthToBudgetMonth(it.key())) {
-			QMap<QDate, double>::const_iterator it_b = ca->mbudgets.begin();
+			QMap<QDate, double>::iterator it_b = ca->mbudgets.begin();
 			it = it_e;
 			--it;
 			while(it != it_b) {
@@ -7535,7 +7486,7 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 		}
 		for(QVector<budget_info>::iterator sit = subs.begin(); sit != subs.end(); ++sit) {
 			if(accountsPeriodFromButton->isChecked() && frommonth > budget->monthToBudgetMonth(sit->it.key())) {
-				QMap<QDate, double>::const_iterator it_b = sit->ca->mbudgets.begin();
+				QMap<QDate, double>::iterator it_b = sit->ca->mbudgets.begin();
 				sit->it = sit->it_e;
 				--(sit->it);
 				while(sit->it != it_b) {
@@ -7548,7 +7499,7 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 		double diff = 0.0, future_diff = 0.0, future_change_diff = 0.0, m = 0.0, v = 0.0;
 		QDate monthlast = budget->firstBudgetDay(to_date);
 
-		QMap<QDate, double>::const_iterator it_n = it;
+		QMap<QDate, double>::iterator it_n = it;
 		if(it_n != it_e) ++it_n;
 		for(QVector<budget_info>::iterator sit = subs.begin(); sit != subs.end(); ++sit) {
 			sit->it_n = sit->it;
@@ -7851,11 +7802,18 @@ void Eqonomize::updateBudgetEdit() {
 			tomonth.setDate(to_date.year(), to_date.month(), 1);
 			prevmonth_end = prevmonth_begin.addDays(prevmonth_begin.daysInMonth() - 1);
 			double d_to = 0.0, d_prev = 0.0, v_prev = 0.0;
-			CategoryAccount *ca;
+			CategoryAccount *ca = NULL;
 			bool b_budget = false, b_budget_prev = false;
-			if(i == incomesItem) ca = budget->incomesAccounts.first();
-			else ca = budget->expensesAccounts.first();
-			while(ca) {
+			AccountList<ExpensesAccount*>::const_iterator it_e = budget->expensesAccounts.constBegin();
+			AccountList<IncomesAccount*>::const_iterator it_i = budget->incomesAccounts.constBegin();
+			while((i == incomesItem && it_i != budget->incomesAccounts.constEnd()) || (i != incomesItem && it_e != budget->expensesAccounts.constEnd())) {
+				if(i == incomesItem) {
+					ca = *it_i;
+					++it_i;
+				} else {
+					ca = *it_e;
+					++it_e;
+				}
 				double d = ca->monthlyBudget(tomonth);
 				if(d >= 0.0) {
 					d_to += d;
@@ -7867,16 +7825,19 @@ void Eqonomize::updateBudgetEdit() {
 					b_budget_prev = true;
 					v_prev += account_month[ca][prevmonth_end];
 				}
-				if(i == incomesItem) ca = budget->incomesAccounts.next();
-				else ca = budget->expensesAccounts.next();
 			}
 			if(!b_budget_prev) {
-				if(i == incomesItem) ca = budget->incomesAccounts.first();
-				else ca = budget->expensesAccounts.first();
-				while(ca) {
+				it_e = budget->expensesAccounts.constBegin();
+				it_i = budget->incomesAccounts.constBegin();
+				while((i == incomesItem && it_i != budget->incomesAccounts.constEnd()) || (i != incomesItem && it_e != budget->expensesAccounts.constEnd())) {
+					if(i == incomesItem) {
+						ca = *it_i;
+						++it_i;
+					} else {
+						ca = *it_e;
+						++it_e;
+					}
 					v_prev += account_month[ca][prevmonth_end];
-					if(i == incomesItem) ca = budget->incomesAccounts.next();
-					else ca = budget->expensesAccounts.next();
 				}
 			}
 			if(!b_budget_prev) prevMonthBudgetLabel->setText(tr("%1 (with no budget)").arg(budget->formatMoney(v_prev)));
@@ -7928,13 +7889,12 @@ void Eqonomize::accountsSelectionChanged() {
 void Eqonomize::updateSecurityAccount(AssetsAccount *account, bool update_display) {
 	double value = 0.0, value_from = 0.0;
 	bool b_from = accountsPeriodFromButton->isChecked();
-	Security *security = budget->securities.first();
-	while(security) {
+	for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
+		Security *security = *it;
 		if(security->account() == account) {
 			value += security->value(to_date, true);
 			if(b_from) value_from += security->value(from_date, true);
 		}
-		security = budget->securities.next();
 	}
 	if(!b_from) {
 		value_from = account->initialBalance();
@@ -7968,8 +7928,8 @@ void Eqonomize::filterAccounts() {
 	incomes_budget_diff = 0.0;
 	expenses_budget = 0.0;
 	expenses_budget_diff = 0.0;
-	AssetsAccount *aaccount = budget->assetsAccounts.first();
-	while(aaccount) {
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *aaccount = *it;
 		if(aaccount->accountType() == ASSETS_TYPE_SECURITIES) {
 			account_value[aaccount] = 0.0;
 			account_change[aaccount] = 0.0;
@@ -7982,9 +7942,7 @@ void Eqonomize::filterAccounts() {
 				else assets_accounts_value += aaccount->currency()->convertTo(account_value[aaccount], budget->defaultCurrency(), to_date);
 			}
 		}
-		aaccount = budget->assetsAccounts.next();
-	}	
-	Transaction *trans = budget->transactions.first();
+	}
 	QDate monthdate, monthdate_begin;
 	bool b_from = accountsPeriodFromButton->isChecked();
 	QDate lastmonth = budget->lastBudgetDay(to_date);
@@ -7994,8 +7952,8 @@ void Eqonomize::filterAccounts() {
 	budget->addBudgetMonthsSetFirst(prevmonth_begin, -1);
 	curmonth = budget->lastBudgetDay(curdate);
 	frommonth_begin = QDate();
-	IncomesAccount *iaccount = budget->incomesAccounts.first();
-	while(iaccount) {
+	for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+		IncomesAccount *iaccount = *it;
 		account_value[iaccount] = 0.0;
 		account_change[iaccount] = 0.0;
 		account_month[iaccount] = QMap<QDate, double>();
@@ -8010,10 +7968,9 @@ void Eqonomize::filterAccounts() {
 		if(!iaccount->mbudgets.isEmpty() && iaccount->mbudgets.begin().value() >= 0.0 && (frommonth_begin.isNull() || budget->monthToBudgetMonth(iaccount->mbudgets.begin().key()) < frommonth_begin)) {
 			frommonth_begin = budget->monthToBudgetMonth(iaccount->mbudgets.begin().key());
 		}
-		iaccount = budget->incomesAccounts.next();
 	}
-	ExpensesAccount *eaccount = budget->expensesAccounts.first();
-	while(eaccount) {
+	for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+		ExpensesAccount *eaccount = *it;
 		account_value[eaccount] = 0.0;
 		account_change[eaccount] = 0.0;
 		account_month[eaccount] = QMap<QDate, double>();
@@ -8028,7 +7985,6 @@ void Eqonomize::filterAccounts() {
 		if(!eaccount->mbudgets.isEmpty() && eaccount->mbudgets.begin().value() >= 0.0 && (frommonth_begin.isNull() || budget->monthToBudgetMonth(eaccount->mbudgets.begin().key()) < frommonth_begin)) {
 			frommonth_begin = budget->monthToBudgetMonth(eaccount->mbudgets.begin().key());
 		}
-		eaccount = budget->expensesAccounts.next();
 	}
 	if(frommonth_begin.isNull() || (b_from && frommonth_begin < from_date)) {
 		if(b_from) frommonth_begin = budget->firstBudgetDay(from_date);
@@ -8056,49 +8012,46 @@ void Eqonomize::filterAccounts() {
 			item_accounts[budget->budgetAccount]->setText(0, budget->budgetAccount->name() + "*");
 		}
 	}
-	while(trans && trans->date() <= lastmonth) {
+	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+		Transaction *trans = *it;
+		if(trans->date() > lastmonth) break;
 		if(!b_past && !b_future && trans->date() >= curmonth_begin) b_future = true;
 		if(!b_from || b_future || trans->date() >= frommonth_begin || trans->date() >= prevmonth_begin) {
 			while(trans->date() > monthdate) {
 				budget->addBudgetMonthsSetFirst(monthdate_begin, 1);
 				monthdate = budget->lastBudgetDay(monthdate_begin);
-				iaccount = budget->incomesAccounts.first();
-				while(iaccount) {
+				for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+					IncomesAccount *iaccount = *it;
 					account_month[iaccount][monthdate] = 0.0;
-					iaccount = budget->incomesAccounts.next();
 				}
-				eaccount = budget->expensesAccounts.first();
-				while(eaccount) {
+				for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+					ExpensesAccount *eaccount = *it;
 					account_month[eaccount][monthdate] = 0.0;
-					eaccount = budget->expensesAccounts.next();
 				}
 			}
 			addTransactionValue(trans, trans->date(), false, false, -1, b_future, &monthdate);
 		} else {
 			addTransactionValue(trans, trans->date(), false, false, -1, b_future, NULL);
 		}
-		trans = budget->transactions.next();
 	}
 	while(lastmonth >= monthdate) {
 		budget->addBudgetMonthsSetFirst(monthdate_begin, 1);
 		monthdate = budget->lastBudgetDay(monthdate_begin);
-		iaccount = budget->incomesAccounts.first();
-		while(iaccount) {
+		for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+			IncomesAccount *iaccount = *it;
 			account_month[iaccount][monthdate] = 0.0;
-			iaccount = budget->incomesAccounts.next();
 		}
-		eaccount = budget->expensesAccounts.first();
-		while(eaccount) {
+		for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+			ExpensesAccount *eaccount = *it;
 			account_month[eaccount][monthdate] = 0.0;
-			eaccount = budget->expensesAccounts.next();
 		}
 	}
-	ScheduledTransaction *strans = budget->scheduledTransactions.first();
-	while(strans && strans->transaction()->date() <= lastmonth) {
+	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd(); ++it) {
+		ScheduledTransaction *strans = *it;
+		if(strans->transaction()->date() > lastmonth) break;
 		addScheduledTransactionValue(strans, false, false);
-		strans = budget->scheduledTransactions.next();
 	}
-	for(QMap<QTreeWidgetItem*, Account*>::Iterator it = account_items.begin(); it != account_items.end(); ++it) {
+	for(QMap<QTreeWidgetItem*, Account*>::iterator it = account_items.begin(); it != account_items.end(); ++it) {
 		switch(it.value()->type()) {
 			case ACCOUNT_TYPE_INCOMES: {}
 			case ACCOUNT_TYPE_EXPENSES: {
@@ -8110,7 +8063,7 @@ void Eqonomize::filterAccounts() {
 	}
 	updateTotalMonthlyIncomesBudget();
 	updateTotalMonthlyExpensesBudget();
-	for(QMap<QTreeWidgetItem*, Account*>::Iterator it = account_items.begin(); it != account_items.end(); ++it) {
+	for(QMap<QTreeWidgetItem*, Account*>::iterator it = account_items.begin(); it != account_items.end(); ++it) {
 		bool is_debt = (it.key()->parent() == liabilitiesItem);
 		it.key()->setText(CHANGE_COLUMN, it.value()->currency()->formatValue(is_debt ? -account_change[it.value()] : account_change[it.value()]));
 		it.key()->setText(VALUE_COLUMN, it.value()->currency()->formatValue(is_debt ? -account_value[it.value()] : account_value[it.value()]) + " ");

@@ -176,12 +176,11 @@ double AssetsAccount::initialBalance(bool calculate_for_securities) const {
 	if(at_type == ASSETS_TYPE_SECURITIES) {
 		if(!calculate_for_securities) return 0.0;
 		double d = 0.0;
-		Security *sec = o_budget->securities.first();
-		while(sec) {
+		for(SecurityList<Security*>::const_iterator it = o_budget->securities.constBegin(); it != o_budget->securities.constEnd(); ++it) {
+			Security *sec = *it;
 			if(sec->account() == this) {
 				d += sec->initialBalance();
 			}
-			sec = o_budget->securities.next();
 		}
 		return d;
 	}
@@ -238,11 +237,10 @@ CategoryAccount::CategoryAccount() : Account(), o_parent(NULL) {}
 CategoryAccount::CategoryAccount(const CategoryAccount *account) : Account(account), o_parent(NULL) {}
 CategoryAccount::~CategoryAccount() {
 	if(o_parent) o_parent->removeSubCategory(this, false);
-	CategoryAccount *ca = subCategories.first();
-	while(ca) {
+	for(AccountList<CategoryAccount*>::const_iterator it = subCategories.constBegin(); it != subCategories.constEnd(); ++it) {
+		CategoryAccount *ca = *it;
 		ca->o_parent = NULL;
 		delete ca;
-		ca = subCategories.next();
 	}
 	subCategories.clear();
 }
@@ -306,14 +304,13 @@ void CategoryAccount::writeElements(QXmlStreamWriter *xml) {
 		xml->writeAttribute("date", it.key().toString(Qt::ISODate));
 		xml->writeEndElement();
 	}
-	CategoryAccount *cat = subCategories.first();
-	while(cat) {
+	for(AccountList<CategoryAccount*>::const_iterator it = subCategories.constBegin(); it != subCategories.constEnd(); ++it) {
+		CategoryAccount *cat = *it;
 		xml->writeStartElement("category");
 		if(cat->type() == ACCOUNT_TYPE_INCOMES) xml->writeAttribute("type", "incomes");
 		else xml->writeAttribute("type", "expenses");
 		cat->save(xml);
 		xml->writeEndElement();
-		cat = subCategories.next();
 	}
 }
 double CategoryAccount::monthlyBudget(int year, int month, bool no_default) const {	

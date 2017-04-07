@@ -149,17 +149,15 @@ void Budget::clear() {
 	assetsAccounts.setAutoDelete(false);
 	assetsAccounts.removeRef(balancingAccount);
 	assetsAccounts.setAutoDelete(true);
-	CategoryAccount *ca = incomesAccounts.first();
-	while(ca) {
+	for(AccountList<IncomesAccount*>::const_iterator it = incomesAccounts.constBegin(); it != incomesAccounts.constEnd(); ++it) {
+		CategoryAccount *ca = *it;
 		if(ca->parentCategory()) ca->o_parent = NULL;
 		ca->subCategories.clear();
-		ca = incomesAccounts.next();
 	}
-	ca = expensesAccounts.first();
-	while(ca) {
+	for(AccountList<ExpensesAccount*>::const_iterator it = expensesAccounts.constBegin(); it != expensesAccounts.constEnd(); ++it) {
+		CategoryAccount *ca = *it;
 		if(ca->parentCategory()) ca->o_parent = NULL;
 		ca->subCategories.clear();
-		ca = expensesAccounts.next();
 	}
 	incomesAccounts.clear();
 	expensesAccounts.clear();
@@ -277,12 +275,11 @@ QString Budget::loadECBData(QByteArray data) {
 							double exrate = attr.value("rate").toDouble();
 							if(!code.isEmpty() && exrate > 0.0 && date.isValid()) {
 								if(!had_data) {
-									Currency *cur = currencies.first();
-									while(cur) {
+									for(CurrencyList<Currency*>::const_iterator it = currencies.constBegin(); it != currencies.constEnd(); ++it) {
+										Currency *cur = *it;
 										if(cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_ECB) {
 											cur->setExchangeRateSource(EXCHANGE_RATE_SOURCE_NONE);
 										}
-										cur = currencies.next();
 									}
 								}
 								Currency *cur = findCurrency(code);
@@ -336,12 +333,11 @@ bool Budget::saveCurrencies() {
 	xml.writeStartElement("Eqonomize");
 	xml.writeAttribute("version", VERSION);
 	
-	Currency *currency = currencies.first();
-	while(currency) {
+	for(CurrencyList<Currency*>::const_iterator it = currencies.constBegin(); it != currencies.constEnd(); ++it) {
+		Currency *currency = *it;
 		xml.writeStartElement("currency");
 		currency->save(&xml, true);
 		xml.writeEndElement();
-		currency = currencies.next();
 	}
 	xml.writeEndElement();
 
@@ -696,15 +692,14 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	transfers.sort();
 	securityTransactions.sort();
 	securityTrades.sort();
-	Security *security = securities.first();
-	while(security) {
+	for(SecurityList<Security*>::const_iterator it = securities.constBegin(); it != securities.constEnd(); ++it) {
+		Security *security = *it;
 		security->dividends.sort();
 		security->transactions.sort();
 		security->scheduledTransactions.sort();
 		security->scheduledDividends.sort();
 		security->reinvestedDividends.sort();
 		security->tradedShares.sort();
-		security = securities.next();
 	}
 	transactions.sort();
 	scheduledTransactions.sort();
@@ -762,19 +757,17 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 	xml.writeAttribute("version", VERSION);
 	
 	int id = 1;
-	Account *account = accounts.first();
-	while(account) {
+	for(AccountList<Account*>::const_iterator it = accounts.constBegin(); it != accounts.constEnd(); ++it) {
+		Account *account = *it;
 		if(account != balancingAccount) {
 			account->setId(id);
 			id++;
 		}
-		account = accounts.next();
 	}
-	Security *security = securities.first();
-	while(security) {
+	for(SecurityList<Security*>::const_iterator it = securities.constBegin(); it != securities.constEnd(); ++it) {
+		Security *security = *it;
 		security->setId(id);
 		id++;
-		security = securities.next();
 	}
 	
 	xml.writeStartElement("budget_period");
@@ -783,8 +776,8 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 	xml.writeStartElement("currency");
 	xml.writeAttribute("code", default_currency->code());
 	xml.writeEndElement();
-	account = accounts.first();
-	while(account) {
+	for(AccountList<Account*>::const_iterator it = accounts.constBegin(); it != accounts.constEnd(); ++it) {
+		Account *account = *it;
 		if(account != balancingAccount && account->topAccount() == account) {
 			switch(account->type()) {
 				case ACCOUNT_TYPE_ASSETS: {
@@ -809,24 +802,21 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 				}
 			}
 		}
-		account = accounts.next();
 	}
-	security = securities.first();
-	while(security) {
+	for(SecurityList<Security*>::const_iterator it = securities.constBegin(); it != securities.constEnd(); ++it) {
+		Security *security = *it;
 		xml.writeStartElement("security");
 		security->save(&xml);
 		xml.writeEndElement();
-		security = securities.next();
 	}
-	ScheduledTransaction *strans = scheduledTransactions.first();
-	while(strans) {
+	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = scheduledTransactions.constBegin(); it != scheduledTransactions.constEnd(); ++it) {
+		ScheduledTransaction *strans = *it;
 		xml.writeStartElement("schedule");
 		strans->save(&xml);
 		xml.writeEndElement();
-		strans = scheduledTransactions.next();
 	}
-	SplitTransaction *split = splitTransactions.first();
-	while(split) {
+	for(SplitTransactionList<SplitTransaction*>::const_iterator it = splitTransactions.constBegin(); it != splitTransactions.constEnd(); ++it) {
+		SplitTransaction *split = *it;
 		if(split->count() > 0) {
 			xml.writeStartElement("transaction");
 			switch(split->type()) {
@@ -846,26 +836,23 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 			split->save(&xml);
 			xml.writeEndElement();
 		}
-		split = splitTransactions.next();
 	}
 
-	security = securities.first();
-	while(security) {
-		ReinvestedDividend *rediv = security->reinvestedDividends.first();
-		while(rediv) {
+	for(SecurityList<Security*>::const_iterator it = securities.constBegin(); it != securities.constEnd(); ++it) {
+		Security *security = *it;
+		for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = security->reinvestedDividends.constBegin(); it != security->reinvestedDividends.constEnd(); ++it) {
+			ReinvestedDividend *rediv = *it;
 			xml.writeStartElement("transaction");
 			xml.writeAttribute("type", "reinvested_dividend");
 			xml.writeAttribute("security", QString::number(security->id()));
 			xml.writeAttribute("date", rediv->date.toString(Qt::ISODate));
 			xml.writeAttribute("shares", QString::number(rediv->shares, 'f', security->decimals()));
 			xml.writeEndElement();
-			rediv = security->reinvestedDividends.next();
 		}
-		security = securities.next();
 	}
 
-	SecurityTrade *ts = securityTrades.first();
-	while(ts) {
+	for(SecurityTradeList<SecurityTrade*>::const_iterator it = securityTrades.constBegin(); it != securityTrades.constEnd(); ++it) {
+		SecurityTrade *ts = *it;
 		xml.writeStartElement("transaction");
 		xml.writeAttribute("type", "security_trade");
 		xml.writeAttribute("from_security", QString::number(ts->from_security->id()));
@@ -875,11 +862,10 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		xml.writeAttribute("from_shares", QString::number(ts->from_shares, 'f', ts->from_security->decimals()));
 		xml.writeAttribute("to_shares", QString::number(ts->to_shares, 'f', ts->to_security->decimals()));
 		xml.writeEndElement();
-		ts = securityTrades.next();
 	}
 
-	Transaction *trans = transactions.first();
-	while(trans) {
+	for(TransactionList<Transaction*>::const_iterator it = transactions.constBegin(); it != transactions.constEnd(); ++it) {
+		Transaction *trans = *it;
 		if(!trans->parentSplit()) {
 			xml.writeStartElement("transaction");
 			switch(trans->type()) {
@@ -911,7 +897,6 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 			trans->save(&xml);
 			xml.writeEndElement();
 		}
-		trans = transactions.next();
 	}
 	
 	xml.writeEndElement();
@@ -1096,48 +1081,40 @@ void Budget::accountModified(Account *account) {
 }
 void Budget::removeAccount(Account *account, bool keep) {
 	if(account->type() == ACCOUNT_TYPE_INCOMES || account->type() == ACCOUNT_TYPE_EXPENSES) {
-		CategoryAccount *subcat = ((CategoryAccount*) account)->subCategories.first();
-		while(subcat) {
+		for(AccountList<CategoryAccount*>::const_iterator it = ((CategoryAccount*) account)->subCategories.constBegin(); it != ((CategoryAccount*) account)->subCategories.constEnd(); ++it) {
+			CategoryAccount *subcat = *it;
 			if(!keep) subcat->o_parent = NULL;
 			removeAccount(subcat, keep);
-			subcat = ((CategoryAccount*) account)->subCategories.next();			
 		}
 		if(!keep) ((CategoryAccount*) account)->subCategories.clear();
 	}
 	if(accountHasTransactions(account, false)) {
-		Security *security = securities.first();
-		while(security) {
+		for(int i = 0; i < securities.size(); ++i) {
+			Security *security = securities.at(i);
 			if(security->account() == account) {
 				removeSecurity(security);
-				security = securities.current();
-			} else {
-				security = securities.next();
+				--i;
 			}
 		}
-		SplitTransaction *split = splitTransactions.first();
-		while(split) {
+		for(int i = 0; i < splitTransactions.size(); ++i) {
+			SplitTransaction *split = splitTransactions.at(i);
 			if(split->relatesToAccount(account, true, true)) {
 				removeSplitTransaction(split);
-				split = splitTransactions.current();
+				--i;
 			}
-			split = splitTransactions.next();
 		}
-		Transaction *trans = transactions.first();
-		while(trans) {
+		for(int i = 0; i < transactions.size(); ++i) {
+			Transaction *trans = transactions.at(i);
 			if(trans->relatesToAccount(account, true, true)) {
 				removeTransaction(trans);
-				trans = transactions.current();
-			} else {
-				trans = transactions.next();
+				--i;
 			}
 		}
-		ScheduledTransaction *strans = scheduledTransactions.first();
-		while(strans) {
+		for(int i = 0; i < transactions.size(); ++i) {
+			ScheduledTransaction *strans = scheduledTransactions.at(i);
 			if(strans->relatesToAccount(account, true, true)) {
 				removeScheduledTransaction(strans);
-				strans = scheduledTransactions.current();
-			} else {
-				strans = scheduledTransactions.next();
+				--i;
 			}
 		}
 	}
@@ -1164,64 +1141,54 @@ void Budget::removeAccount(Account *account, bool keep) {
 	}
 }
 bool Budget::accountHasTransactions(Account *account, bool check_subs) {
-	Security *security = securities.first();
-	while(security) {
+	for(SecurityList<Security*>::const_iterator it = securities.constBegin(); it != securities.constEnd(); ++it) {
+		Security *security = *it;
 		if(security->account() == account) return true;
-		security = securities.next();
 	}
-	SplitTransaction *split = splitTransactions.first();
-	while(split) {
+	for(SplitTransactionList<SplitTransaction*>::const_iterator it = splitTransactions.constBegin(); it != splitTransactions.constEnd(); ++it) {
+		SplitTransaction *split = *it;
 		if(split->relatesToAccount(account, true, true)) return true;
-		split = splitTransactions.next();
 	}
-	Transaction *trans = transactions.first();
-	while(trans) {
+	for(TransactionList<Transaction*>::const_iterator it = transactions.constBegin(); it != transactions.constEnd(); ++it) {
+		Transaction *trans = *it;
 		if(trans->relatesToAccount(account, true, true)) return true;
-		trans = transactions.next();
 	}
-	ScheduledTransaction *strans = scheduledTransactions.first();
-	while(strans) {
+	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = scheduledTransactions.constBegin(); it != scheduledTransactions.constEnd(); ++it) {
+		ScheduledTransaction *strans = *it;
 		if(strans->relatesToAccount(account, true, true)) return true;
-		strans = scheduledTransactions.next();
 	}
 	if(check_subs && (account->type() == ACCOUNT_TYPE_INCOMES || account->type() == ACCOUNT_TYPE_EXPENSES)) {
-		CategoryAccount *subcat = ((CategoryAccount*) account)->subCategories.first();
-		while(subcat) {
+		for(AccountList<CategoryAccount*>::const_iterator it = ((CategoryAccount*) account)->subCategories.constBegin(); it != ((CategoryAccount*) account)->subCategories.constEnd(); ++it) {
+			CategoryAccount *subcat = *it;
 			if(accountHasTransactions(subcat, true)) return true;
-			subcat = ((CategoryAccount*) account)->subCategories.next();
 		}
 	}
 	return false;
 }
 void Budget::moveTransactions(Account *account, Account *new_account, bool move_from_subs) {
 	if(move_from_subs && (account->type() == ACCOUNT_TYPE_INCOMES || account->type() == ACCOUNT_TYPE_EXPENSES)) {
-		CategoryAccount *subcat = ((CategoryAccount*) account)->subCategories.first();
-		while(subcat) {
+		for(AccountList<CategoryAccount*>::const_iterator it = ((CategoryAccount*) account)->subCategories.constBegin(); it != ((CategoryAccount*) account)->subCategories.constEnd(); ++it) {
+			CategoryAccount *subcat = *it;
 			moveTransactions(subcat, new_account);
-			subcat = ((CategoryAccount*) account)->subCategories.next();
 		}
 	}
 	if(account->type() == ACCOUNT_TYPE_ASSETS && new_account->type() == ACCOUNT_TYPE_ASSETS) {
-		Security *security = securities.first();
-		while(security) {
+		for(SecurityList<Security*>::const_iterator it = securities.constBegin(); it != securities.constEnd(); ++it) {
+			Security *security = *it;
 			if(security->account() == account) security->setAccount((AssetsAccount*) new_account);
-			security = securities.next();
 		}
 	}
-	SplitTransaction *split = splitTransactions.first();
-	while(split) {
+	for(SplitTransactionList<SplitTransaction*>::const_iterator it = splitTransactions.constBegin(); it != splitTransactions.constEnd(); ++it) {
+		SplitTransaction *split = *it;
 		split->replaceAccount(account, new_account);
-		split = splitTransactions.next();
 	}
-	Transaction *trans = transactions.first();
-	while(trans) {
+	for(TransactionList<Transaction*>::const_iterator it = transactions.constBegin(); it != transactions.constEnd(); ++it) {
+		Transaction *trans = *it;
 		trans->replaceAccount(account, new_account);
-		trans = transactions.next();
 	}
-	ScheduledTransaction *strans = scheduledTransactions.first();
-	while(strans) {
+	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = scheduledTransactions.constBegin(); it != scheduledTransactions.constEnd(); ++it) {
+		ScheduledTransaction *strans = *it;
 		strans->replaceAccount(account, new_account);
-		strans = scheduledTransactions.next();
 	}
 }
 void Budget::transactionSortModified(Transaction *t) {
@@ -1298,8 +1265,8 @@ void Budget::splitTransactionSortModified(SplitTransaction *split) {
 void Budget::splitTransactionDateModified(SplitTransaction*, const QDate&) {}
 
 Transaction *Budget::findDuplicateTransaction(Transaction *trans) {
-	TransactionList<Transaction*>::iterator it = qLowerBound(transactions.begin(), transactions.end(), trans, transaction_list_less_than);
-	while(it != transactions.end()) {
+	TransactionList<Transaction*>::const_iterator it = qLowerBound(transactions.constBegin(), transactions.constEnd(), trans, transaction_list_less_than);
+	while(it != transactions.constEnd()) {
 		if((*it)->date() > trans->date()) return NULL;
 		if(trans->equals(*it, false)) return *it;
 		++it;
@@ -1340,34 +1307,29 @@ void Budget::addSecurity(Security *security) {
 }
 void Budget::removeSecurity(Security *security, bool keep) {
 	if(securityHasTransactions(security)) {
-		SecurityTransaction *trans = security->transactions.first();
-		while(trans) {
+		for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = security->transactions.constBegin(); it != security->transactions.constEnd(); ++it) {
+			SecurityTransaction *trans = *it;
 			transactions.removeRef(trans);
 			securityTransactions.removeRef(trans);
-			trans = security->transactions.next();
 		}
-		Income *i = security->dividends.first();
-		while(i) {
+		for(SecurityTransactionList<Income*>::const_iterator it = security->dividends.constBegin(); it != security->dividends.constEnd(); ++it) {
+			Income *i = *it;
 			transactions.removeRef(i);
 			incomes.removeRef(i);
-			i = security->dividends.next();
 		}
-		ScheduledTransaction *strans = security->scheduledTransactions.first();
-		while(strans) {
+		for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = security->scheduledTransactions.constBegin(); it != security->scheduledTransactions.constEnd(); ++it) {
+			ScheduledTransaction *strans = *it;
 			scheduledTransactions.removeRef(strans);
-			strans = security->scheduledTransactions.next();
 		}
-		strans = security->scheduledDividends.first();
-		while(strans) {
+		for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = security->scheduledDividends.constBegin(); it != security->scheduledDividends.constEnd(); ++it) {
+			ScheduledTransaction *strans = *it;
 			scheduledTransactions.removeRef(strans);
-			strans = security->scheduledDividends.next();
 		}
-		SecurityTrade *ts = security->tradedShares.first();
-		while(ts) {
-			ts->from_security->tradedShares.removeRef(ts);
-			ts->to_security->tradedShares.removeRef(ts);
+		for(TradedSharesList<SecurityTrade*>::const_iterator it = security->tradedShares.constBegin(); it != security->tradedShares.constEnd(); ++it) {
+			SecurityTrade *ts = *it;
+			if(ts->to_security == security) ts->from_security->tradedShares.removeRef(ts);
+			else ts->to_security->tradedShares.removeRef(ts);
 			securityTrades.removeRef(ts);
-			ts = security->tradedShares.next();
 		}
 	}
 	if(keep) securities.setAutoDelete(false);
@@ -1385,10 +1347,9 @@ void Budget::securityNameModified(Security *security) {
 	securities.setAutoDelete(true);
 }
 Security *Budget::findSecurity(QString name) {
-	Security *sec = securities.first();
-	while(sec) {
+	for(SecurityList<Security*>::const_iterator it = securities.constBegin(); it != securities.constEnd(); ++it) {
+		Security *sec = *it;
 		if(sec->name() == name) return sec;
-		sec = securities.next();
 	}
 	return NULL;
 }
@@ -1428,50 +1389,44 @@ void Budget::securityTradeDateModified(SecurityTrade *ts, const QDate &olddate) 
 	ts->to_security->removeQuotation(olddate, true);
 }
 Account *Budget::findAccount(QString name) {
-	Account *account = accounts.first();
-	while(account) {
+	for(AccountList<Account*>::const_iterator it = accounts.constBegin(); it != accounts.constEnd(); ++it) {
+		Account *account = *it;
 		if(account->name() == name) return account;
-		account = accounts.next();
 	}
 	return NULL;
 }
 AssetsAccount *Budget::findAssetsAccount(QString name) {
-	AssetsAccount *account = assetsAccounts.first();
-	while(account) {
+	for(AccountList<AssetsAccount*>::const_iterator it = assetsAccounts.constBegin(); it != assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *account = *it;
 		if(account->name() == name) return account;
-		account = assetsAccounts.next();
 	}
 	return NULL;
 }
 IncomesAccount *Budget::findIncomesAccount(QString name) {
-	IncomesAccount *account = incomesAccounts.first();
-	while(account) {
+	for(AccountList<IncomesAccount*>::const_iterator it = incomesAccounts.constBegin(); it != incomesAccounts.constEnd(); ++it) {
+		IncomesAccount *account = *it;
 		if(account->name() == name) return account;
-		account = incomesAccounts.next();
 	}
 	return NULL;
 }
 ExpensesAccount *Budget::findExpensesAccount(QString name) {
-	ExpensesAccount *account = expensesAccounts.first();
-	while(account) {
+	for(AccountList<ExpensesAccount*>::const_iterator it = expensesAccounts.constBegin(); it != expensesAccounts.constEnd(); ++it) {
+		ExpensesAccount *account = *it;
 		if(account->name() == name) return account;
-		account = expensesAccounts.next();
 	}
 	return NULL;
 }
 IncomesAccount *Budget::findIncomesAccount(QString name, CategoryAccount *parent_acc) {
-	IncomesAccount *account = incomesAccounts.first();
-	while(account) {
+	for(AccountList<IncomesAccount*>::const_iterator it = incomesAccounts.constBegin(); it != incomesAccounts.constEnd(); ++it) {
+		IncomesAccount *account = *it;
 		if(account->name() == name && account->parentCategory() == parent_acc) return account;
-		account = incomesAccounts.next();
 	}
 	return NULL;
 }
 ExpensesAccount *Budget::findExpensesAccount(QString name, CategoryAccount *parent_acc) {
-	ExpensesAccount *account = expensesAccounts.first();
-	while(account) {
+	for(AccountList<ExpensesAccount*>::const_iterator it = expensesAccounts.constBegin(); it != expensesAccounts.constEnd(); ++it) {
+		ExpensesAccount *account = *it;
 		if(account->name() == name && account->parentCategory() == parent_acc) return account;
-		account = expensesAccounts.next();
 	}
 	return NULL;
 }
@@ -1513,33 +1468,30 @@ void Budget::removeCurrency(Currency *cur) {
 	currencies.removeRef(cur);
 }
 Currency *Budget::findCurrency(QString code) {
-	Currency *cur = currencies.first();
-	while(cur) {
+	for(CurrencyList<Currency*>::const_iterator it = currencies.constBegin(); it != currencies.constEnd(); ++it) {
+		Currency *cur = *it;
 		if(cur->code() == code) return cur;
-		cur = currencies.next();
 	}
 	return NULL;
 }
 Currency *Budget::findCurrencySymbol(QString symbol, bool require_unique)  {
 	Currency *found_cur = NULL;
-	Currency *cur = currencies.first();
-	while(cur) {
+	for(CurrencyList<Currency*>::const_iterator it = currencies.constBegin(); it != currencies.constEnd(); ++it) {
+		Currency *cur = *it;
 		if(cur->symbol(false) == symbol) {
 			if(!require_unique) return cur;
 			else if(found_cur) return NULL;
 			else found_cur = cur;
 		}
-		cur = currencies.next();
 	}
 	return found_cur;
 }
 bool Budget::usesMultipleCurrencies() {
-	AssetsAccount *acc = assetsAccounts.first();
-	while(acc) {
+	for(AccountList<AssetsAccount*>::const_iterator it = assetsAccounts.constBegin(); it != assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *acc = *it;
 		if(acc->currency() != NULL && acc->currency() != default_currency) {
 			return true;
 		}
-		acc = assetsAccounts.next();
 	}
 	return false;
 }
