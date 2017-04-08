@@ -1499,12 +1499,21 @@ void OverTimeChart::updateDisplay() {
 	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd();) {
 		ScheduledTransaction *strans = *it;
 		if(strans->firstOccurrence() > last_date) break;
-		while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0) {
-			++it;
-			if(it == budget->scheduledTransactions.constEnd()) break;
-			strans = *it;
-			if(strans->firstOccurrence() > last_date) break;
-		}
+		if(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0) {
+			do {
+				++it;
+				if(it == budget->scheduledTransactions.constEnd()) {
+					strans = NULL;
+					break;
+				}
+				strans = *it;
+				if(strans->firstOccurrence() > last_date) {
+					strans = NULL;
+					break;
+				}
+			} while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0);
+			if(!strans) break;
+		}		
 		if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
 			trans = ((SplitTransaction*) strans->transaction())->at(split_i);
 			split_i++;

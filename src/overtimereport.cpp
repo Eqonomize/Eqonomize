@@ -486,12 +486,22 @@ void OverTimeReport::updateDisplay() {
 		int split_i = 0;
 		for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd();) {
 			ScheduledTransaction *strans = *it;
-			if(strans->transaction()->date() > mi->date) break;
+			if(strans->firstOccurrence() > mi->date) break;
 			started = true;
-			while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0) {
-				++it;
-				if(it == budget->scheduledTransactions.constEnd()) break;
-				strans = *it;
+			if(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0) {
+				do {
+					++it;
+					if(it == budget->scheduledTransactions.constEnd()) {
+						strans = NULL;
+						break;
+					}
+					strans = *it;
+					if(strans->firstOccurrence() > mi->date) {
+						strans = NULL;
+						break;
+					}
+				} while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0);
+				if(!strans) break;
 			}
 			Transaction *trans = NULL;
 			if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {

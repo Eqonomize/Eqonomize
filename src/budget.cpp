@@ -840,8 +840,8 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 
 	for(SecurityList<Security*>::const_iterator it = securities.constBegin(); it != securities.constEnd(); ++it) {
 		Security *security = *it;
-		for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = security->reinvestedDividends.constBegin(); it != security->reinvestedDividends.constEnd(); ++it) {
-			ReinvestedDividend *rediv = *it;
+		for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it2 = security->reinvestedDividends.constBegin(); it2 != security->reinvestedDividends.constEnd(); ++it2) {
+			ReinvestedDividend *rediv = *it2;
 			xml.writeStartElement("transaction");
 			xml.writeAttribute("type", "reinvested_dividend");
 			xml.writeAttribute("security", QString::number(security->id()));
