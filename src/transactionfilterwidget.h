@@ -73,7 +73,6 @@ class TransactionFilterWidget : public QWidget {
 		int transtype;
 		Budget *budget;
 		bool b_extra;
-		QVector<Account*> froms, tos;
 		QComboBox *fromCombo, *toCombo;
 		QCheckBox *minButton, *maxButton, *dateFromButton;
 		EqonomizeValueEdit *minEdit, *maxEdit;

@@ -205,13 +205,12 @@ void OverTimeReport::categoryChanged(int index) {
 		}
 		has_empty_description = false;
 		QMap<QString, bool> descriptions;
-		Transaction *trans = budget->transactions.first();
-		while(trans) {
+		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+			Transaction *trans = *it;
 			if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
 				if(trans->description().isEmpty()) has_empty_description = true;
 				else descriptions[trans->description()] = true;
 			}
-			trans = budget->transactions.next();
 		}
 		QMap<QString, bool>::iterator it_e = descriptions.end();
 		for(QMap<QString, bool>::iterator it = descriptions.begin(); it != it_e; ++it) {
@@ -234,18 +233,16 @@ void OverTimeReport::sourceChanged(int index) {
 	current_account = NULL;
 	categoryCombo->addItem(tr("All Categories Combined"));
 	if(index == 2) {
-		Account *account = budget->incomesAccounts.first();
-		while(account) {
+		for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+			Account *account = *it;
 			categoryCombo->addItem(account->nameWithParent());
-			account = budget->incomesAccounts.next();
 		}
 		categoryCombo->setEnabled(true);
 		current_source = 1;
 	} else if(index == 1) {
-		Account *account = budget->expensesAccounts.first();
-		while(account) {
+		for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+			Account *account = *it;
 			categoryCombo->addItem(account->nameWithParent());
-			account = budget->expensesAccounts.next();
 		}
 		categoryCombo->setEnabled(true);
 		current_source = 2;
@@ -394,10 +391,9 @@ void OverTimeReport::updateDisplay() {
 			break;
 		}
 	}
-
-	Transaction *trans = budget->transactions.first();
 	QDate start_date;
-	while(trans) {
+	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+		Transaction *trans = *it;
 		if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
 			start_date = trans->date();
 			if(!budget->isFirstBudgetDay(start_date)) {
@@ -406,7 +402,6 @@ void OverTimeReport::updateDisplay() {
 			}
 			break;
 		}
-		trans = budget->transactions.next();
 	}
 	QDate curmonth = budget->firstBudgetDay(QDate::currentDate());
 	if(start_date.isNull() || start_date > curmonth) start_date = curmonth;
@@ -426,8 +421,9 @@ void OverTimeReport::updateDisplay() {
 
 	bool started = false;
 	bool includes_planned = false;
-	trans = budget->transactions.first();
-	while(trans && trans->date() <= curdate) {
+	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+		Transaction *trans = *it;
+		if(trans->date() > curdate) break;
 		bool include = false;
 		int sign = 1;
 		if(!started && trans->date() >= first_date) started = true;
@@ -472,7 +468,6 @@ void OverTimeReport::updateDisplay() {
 				mi->count += trans->quantity();
 			}
 		}
-		trans = budget->transactions.next();
 	}
 	if(mi) {
 		while(mi->date < curdate) {
@@ -488,14 +483,17 @@ void OverTimeReport::updateDisplay() {
 	double scheduled_value = 0.0;
 	double scheduled_count = 0.0;
 	if(mi) {
-		ScheduledTransaction *strans = budget->scheduledTransactions.first();
 		int split_i = 0;
-		while(strans && strans->transaction()->date() <= mi->date) {
+		for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd();) {
+			ScheduledTransaction *strans = *it;
+			if(strans->transaction()->date() > mi->date) break;
 			started = true;
 			while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0) {
-				strans = budget->scheduledTransactions.next();
-				if(!strans) break;
+				++it;
+				if(it == budget->scheduledTransactions.constEnd()) break;
+				strans = *it;
 			}
+			Transaction *trans = NULL;
 			if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
 				trans = ((SplitTransaction*) strans->transaction())->at(split_i);
 				split_i++;
@@ -524,7 +522,7 @@ void OverTimeReport::updateDisplay() {
 				}
 			}
 			if(strans->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT || split_i >= ((SplitTransaction*) strans->transaction())->count()) {
-				strans = budget->scheduledTransactions.next();
+				++it;
 				split_i = 0;
 			}
 		}
@@ -735,13 +733,12 @@ void OverTimeReport::updateTransactions() {
 		descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the transaction description property (transaction title/generic article name)"));
 		has_empty_description = false;
 		QMap<QString, bool> descriptions;
-		Transaction *trans = budget->transactions.first();
-		while(trans) {
+		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+			Transaction *trans = *it;
 			if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
 				if(trans->description().isEmpty()) has_empty_description = true;
 				else descriptions[trans->description()] = true;
 			}
-			trans = budget->transactions.next();
 		}
 		QMap<QString, bool>::iterator it_e = descriptions.end();
 		int i = 1;
@@ -778,19 +775,17 @@ void OverTimeReport::updateAccounts() {
 		categoryCombo->addItem(tr("All Categories Combined"));
 		int i = 1;
 		if(sourceCombo->currentIndex() == 1) {
-			Account *account = budget->expensesAccounts.first();
-			while(account) {
+			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+				Account *account = *it;
 				categoryCombo->addItem(account->nameWithParent());
 				if(account == current_account) curindex = i;
-				account = budget->expensesAccounts.next();
 				i++;
 			}
 		} else {
-			Account *account = budget->incomesAccounts.first();
-			while(account) {
+			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+				Account *account = *it;
 				categoryCombo->addItem(account->nameWithParent());
 				if(account == current_account) curindex = i;
-				account = budget->incomesAccounts.next();
 				i++;
 			}
 		}

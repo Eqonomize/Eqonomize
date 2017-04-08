@@ -131,14 +131,13 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	accountCombo = new QComboBox(this);
 	accountCombo->setEditable(false);
 	int i = 0;
-	AssetsAccount *aaccount = budget->assetsAccounts.first();
-	while(aaccount) {
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *aaccount = *it;
 		if(aaccount != budget->balancingAccount && aaccount->accountType() != ASSETS_TYPE_SECURITIES) {
-			accountCombo->addItem(aaccount->name());
+			accountCombo->addItem(aaccount->name(), qVariantFromValue((void*) aaccount));
 			if(aaccount == account) accountCombo->setCurrentIndex(i);
 			i++;
 		}
-		aaccount = budget->assetsAccounts.next();
 	}
 	topbox->addWidget(accountCombo);
 	QDialogButtonBox *topbuttons = new QDialogButtonBox(this);
@@ -251,35 +250,23 @@ void LedgerDialog::accountChanged() {
 	updateTransactions();
 }
 void LedgerDialog::accountActivated(int index) {
-	int i = 0;
-	AssetsAccount *aaccount = budget->assetsAccounts.first();
-	while(aaccount) {
-		if(aaccount != budget->balancingAccount && aaccount->accountType() != ASSETS_TYPE_SECURITIES) {
-			if(i == index) {
-				account = aaccount;
-				break;
-			}
-			i++;
-		}
-		aaccount = budget->assetsAccounts.next();
-	}
+	if(accountCombo->itemData(index).isValid()) account = (AssetsAccount*) accountCombo->itemData(index).value<void*>();
 	accountChanged();
 }
 void LedgerDialog::updateAccounts() {
 	accountCombo->blockSignals(true);
 	int i = 0;
 	bool account_found = false;
-	AssetsAccount *aaccount = budget->assetsAccounts.first();
-	while(aaccount) {
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *aaccount = *it;
 		if(aaccount != budget->balancingAccount && aaccount->accountType() != ASSETS_TYPE_SECURITIES) {
-			accountCombo->addItem(aaccount->name());
+			accountCombo->addItem(aaccount->name(), qVariantFromValue((void*) aaccount));
 			if(aaccount == account) {
 				accountCombo->setCurrentIndex(i);
 				account_found = true;
 			}
 			i++;
 		}
-		aaccount = budget->assetsAccounts.next();
 	}
 	if(!account_found) {
 		if(accountCombo->count() == 0) {
@@ -679,8 +666,13 @@ void LedgerDialog::updateTransactions() {
 	int quantity = 0;
 	QDate curdate = QDate::currentDate();
 	if(balance != 0.0) new LedgerListViewItem(NULL, NULL, transactionsView, "-", "-", tr("Opening balance", "Account balance"), "-", QString::null, QString::null, account->currency()->formatValue(balance));
-	Transaction *trans = budget->transactions.first();
-	SplitTransaction *split = budget->splitTransactions.first();
+
+	int trans_index = 0;
+	int split_index = 0;
+	Transaction *trans = NULL;
+	if(trans_index < budget->transactions.size()) trans = budget->transactions.at(trans_index);
+	SplitTransaction *split = NULL;
+	if(split_index < budget->splitTransactions.size()) split = budget->splitTransactions.at(split_index);
 	Transactions *transs = trans;
 	if(!transs || (split && split->date() < trans->date())) transs = split;
 	QVector<SplitTransaction*> splits;
@@ -789,10 +781,14 @@ void LedgerDialog::updateTransactions() {
 			}
 		}
 		if(transs == trans) {
-			trans = budget->transactions.next();
+			++trans_index;
+			trans = NULL;
+			if(trans_index < budget->transactions.size()) trans = budget->transactions.at(trans_index);
 			if(trans && trans->date() > curdate) trans = NULL;
 		} else {
-			split = budget->splitTransactions.next();
+			++split_index;
+			split = NULL;
+			if(split_index < budget->splitTransactions.size()) split = budget->splitTransactions.at(split_index);
 			if(split && split->date() > curdate) split = NULL;
 		}
 		transs = trans;

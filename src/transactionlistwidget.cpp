@@ -1369,60 +1369,52 @@ void TransactionListWidget::filterTransactions() {
 	current_quantity = 0.0;
 	switch(transtype) {
 		case TRANSACTION_TYPE_EXPENSE: {
-			Expense *expense = budget->expenses.first();
-			while(expense) {
+			for(TransactionList<Expense*>::const_iterator it = budget->expenses.constBegin(); it != budget->expenses.constEnd(); ++it) {
+				Expense *expense = *it;
 				appendFilterTransaction(expense, false);
-				expense = budget->expenses.next();
 			}
-			SecurityTransaction *sectrans = budget->securityTransactions.first();
-			while(sectrans) {
+			for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = budget->securityTransactions.constBegin(); it != budget->securityTransactions.constEnd(); ++it) {
+				SecurityTransaction *sectrans = *it;
 				if(sectrans->account()->type() == ACCOUNT_TYPE_EXPENSES) {
 					appendFilterTransaction(sectrans, false);
 				}
-				sectrans = budget->securityTransactions.next();
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
-			Income *income = budget->incomes.first();
-			while(income) {
+			for(TransactionList<Income*>::const_iterator it = budget->incomes.constBegin(); it != budget->incomes.constEnd(); ++it) {
+				Income *income = *it;
 				appendFilterTransaction(income, false);
-				income = budget->incomes.next();
 			}
-			SecurityTransaction *sectrans = budget->securityTransactions.first();
-			while(sectrans) {
+			for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = budget->securityTransactions.constBegin(); it != budget->securityTransactions.constEnd(); ++it) {
+				SecurityTransaction *sectrans = *it;
 				if(sectrans->account()->type() == ACCOUNT_TYPE_INCOMES) {
 					appendFilterTransaction(sectrans, false);
 				}
-				sectrans = budget->securityTransactions.next();
 			}
 			break;
 		}
 		default: {
-			Transfer *transfer = budget->transfers.first();
-			while(transfer) {
+			for(TransactionList<Transfer*>::const_iterator it = budget->transfers.constBegin(); it != budget->transfers.constEnd(); ++it) {
+				Transfer *transfer = *it;
 				appendFilterTransaction(transfer, false);
-				transfer = budget->transfers.next();
 			}
-			SecurityTransaction *sectrans = budget->securityTransactions.first();
-			while(sectrans) {
+			for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = budget->securityTransactions.constBegin(); it != budget->securityTransactions.constEnd(); ++it) {
+				SecurityTransaction *sectrans = *it;
 				if(sectrans->account()->type() == ACCOUNT_TYPE_ASSETS) {
 					appendFilterTransaction(sectrans, false);
 				}
-				sectrans = budget->securityTransactions.next();
 			}
 			break;
 		}
 	}
-	ScheduledTransaction *strans = budget->scheduledTransactions.first();
-	while(strans) {
+	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd(); ++it) {
+		ScheduledTransaction *strans = *it;
 		appendFilterTransaction(strans, false);
-		strans = budget->scheduledTransactions.next();
 	}
-	SplitTransaction *split = budget->splitTransactions.first();
-	while(split) {
+	for(SplitTransactionList<SplitTransaction*>::const_iterator it = budget->splitTransactions.constBegin(); it != budget->splitTransactions.constEnd(); ++it) {
+		SplitTransaction *split = *it;
 		appendFilterTransaction(split, false);
-		split = budget->splitTransactions.next();
 	}
 	/*selected_trans = NULL;
 	selection = transactionsView->selectedItems();

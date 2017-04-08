@@ -26,9 +26,8 @@
 template<class type> class EqonomizeList : public QList<type> {
 	protected:
 		bool b_auto_delete;
-		int i_index;
 	public:
-		EqonomizeList() : QList<type>(), b_auto_delete(false), i_index(0) {};
+		EqonomizeList() : QList<type>(), b_auto_delete(false) {};
 		virtual ~EqonomizeList () {}
 		void setAutoDelete(bool b) {
 			b_auto_delete = b;
@@ -39,38 +38,10 @@ template<class type> class EqonomizeList : public QList<type> {
 			} else {
 				QList<type>::clear();
 			}
-		}		
+		}
 		bool removeRef(type value) {
 			if(b_auto_delete) delete value;
 			return QList<type>::removeOne(value);
-		}		
-		type first() {
-			i_index = 0;
-			if(QList<type>::isEmpty()) return NULL;
-			return QList<type>::first();
-		}
-		type last() {
-			i_index = QList<type>::count();
-			if(QList<type>::isEmpty()) return NULL;
-			i_index--;
-			return QList<type>::at(i_index);
-		}
-		type getFirst() {
-			return QList<type>::first();
-		}
-		type next() {
-			i_index++;
-			if(i_index >= QList<type>::count()) return NULL;
-			return QList<type>::at(i_index);
-		}
-		type current() {
-			if(i_index >= QList<type>::count()) return NULL;
-			return QList<type>::at(i_index);
-		}
-		type previous() {			
-			if(i_index == 0) return NULL;
-			i_index--;
-			return QList<type>::at(i_index);
 		}
 };
 

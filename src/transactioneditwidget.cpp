@@ -124,12 +124,11 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		if(select_security) {
 			securityCombo = new QComboBox(this);
 			securityCombo->setEditable(false);
-			Security *c_sec = budget->securities.first();
 			int i2 = 0;
-			while(c_sec) {
-				securityCombo->addItem(c_sec->name());
+			for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
+				Security *c_sec = *it;
+				securityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
 				if(c_sec == security) securityCombo->setCurrentIndex(i2);
-				c_sec = budget->securities.next();
 				i2++;
 			}
 			editLayout->addWidget(securityCombo, TEROWCOL(i, 1));
@@ -194,12 +193,11 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			if(select_security) {
 				securityCombo = new QComboBox(this);
 				securityCombo->setEditable(false);
-				Security *c_sec = budget->securities.first();
 				int i2 = 0;
-				while(c_sec) {
-					securityCombo->addItem(c_sec->name());
+				for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
+					Security *c_sec = *it;
+					securityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
 					if(c_sec == security) securityCombo->setCurrentIndex(i2);
-					c_sec = budget->securities.next();
 					i2++;
 				}
 				editLayout->addWidget(securityCombo, TEROWCOL(i, 1));
@@ -233,14 +231,13 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			valueLayout->addWidget(valueEdit);
 			currencyCombo = new QComboBox(this);
 			currencyCombo->setEditable(false);
-			Currency *currency = budget->currencies.first();
 			int i2 = 0;
-			while(currency) {
+			for(CurrencyList<Currency*>::const_iterator it = budget->currencies.constBegin(); it != budget->currencies.constEnd(); ++it) {
+				Currency *currency = *it;
 				currencyCombo->addItem(currency->code());
 				currencyCombo->setItemData(i2, qVariantFromValue((void*) currency));
 				if(currency == budget->defaultCurrency()) currencyCombo->setCurrentIndex(i2);
 				i2++;
-				currency = budget->currencies.next();
 			}
 			valueLayout->addWidget(currencyCombo);
 			editLayout->addLayout(valueLayout, TEROWCOL(i, 1));
@@ -1133,16 +1130,8 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 	return true;
 }
 Security *TransactionEditWidget::selectedSecurity() {
-	if(securityCombo) {
-		int i = securityCombo->currentIndex();
-		if(i >= 0) {
-			Security *c_sec = budget->securities.first();
-			while(i > 0 && c_sec) {
-				c_sec = budget->securities.next();
-				i--;
-			}
-			return c_sec;
-		}
+	if(securityCombo && securityCombo->currentData().isValid()) {
+		return (Security*) securityCombo->currentData().value<void*>();
 	}
 	return security;
 }
@@ -1234,35 +1223,35 @@ void TransactionEditWidget::transactionRemoved(Transaction *trans) {
 		default_values[trans->description().toLower()] = NULL;
 		switch(transtype) {
 			case TRANSACTION_TYPE_EXPENSE: {
-				Expense *expense = budget->expenses.last();
-				while(expense) {
+				for(TransactionList<Expense*>::const_iterator it = budget->expenses.constEnd(); it != budget->expenses.constBegin();) {
+					--it;
+					Expense *expense = *it;
 					if(expense != trans && expense->description().toLower() == lower_description && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST) {
 						default_values[lower_description] = expense;
 						break;
 					}
-					expense = budget->expenses.previous();
 				}
 				break;
 			}
 			case TRANSACTION_TYPE_INCOME: {
-				Income *income = budget->incomes.last();
-				while(income) {
+				for(TransactionList<Income*>::const_iterator it = budget->incomes.constEnd(); it != budget->incomes.constBegin();) {
+					--it;
+					Income *income = *it;
 					if(income != trans && !income->security() && income->description().toLower() == lower_description) {
 						default_values[lower_description] = income;
 						break;
 					}
-					income = budget->incomes.previous();
 				}
 				break;
 			}
 			case TRANSACTION_TYPE_TRANSFER: {
-				Transfer *transfer= budget->transfers.last();
-				while(transfer) {
+				for(TransactionList<Transfer*>::const_iterator it = budget->transfers.constEnd(); it != budget->transfers.constBegin();) {
+					--it;
+					Transfer *transfer = *it;
 					if(transfer != trans && transfer->description().toLower() == lower_description) {
 						default_values[lower_description] = transfer;
 						break;
 					}
-					transfer = budget->transfers.previous();
 				}
 				break;
 			}
@@ -1272,51 +1261,51 @@ void TransactionEditWidget::transactionRemoved(Transaction *trans) {
 	if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && trans->type() == transtype && !((Income*) trans)->payer().isEmpty() && default_payee_values.contains(((Income*) trans)->payer().toLower()) && default_payee_values[((Income*) trans)->payer().toLower()] == trans) {
 		default_payee_values[((Income*) trans)->payer().toLower()] = NULL;
 		QString lower_payee = ((Income*) trans)->payer().toLower();
-		Income *income = budget->incomes.last();
-		while(income) {
+		for(TransactionList<Income*>::const_iterator it = budget->incomes.constEnd(); it != budget->incomes.constBegin();) {
+			--it;
+			Income *income = *it;
 			if(income != trans && !income->security()  && income->payer().toLower() == lower_payee) {
 				default_payee_values[lower_payee] = income;
 				break;
 			}
-			income = budget->incomes.previous();
 		}
 	}
 	if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && trans->type() == transtype && !((Expense*) trans)->payee().isEmpty() && default_payee_values.contains(((Expense*) trans)->payee().toLower()) && default_payee_values[((Expense*) trans)->payee().toLower()] == trans) {
 		default_payee_values[((Expense*) trans)->payee().toLower()] = NULL;
 		QString lower_payee = ((Expense*) trans)->payee().toLower();
-		Expense *expense = budget->expenses.last();
-		while(expense) {
+		for(TransactionList<Expense*>::const_iterator it = budget->expenses.constEnd(); it != budget->expenses.constBegin();) {
+			--it;
+			Expense *expense = *it;
 			if(expense != trans && expense->payee().toLower() == lower_payee && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST) {
 				default_payee_values[lower_payee] = expense;
 				break;
 			}
-			expense = budget->expenses.previous();
 		}
 	}
 	if(transtype == TRANSACTION_TYPE_INCOME && fromCombo && trans->type() == transtype && default_category_values.contains(trans->fromAccount()) && default_category_values[trans->fromAccount()] == trans) {
 		bool category_found = false;
 		Account *cat = trans->fromAccount();
-		Income *income = budget->incomes.last();
-		while(income) {
+		for(TransactionList<Income*>::const_iterator it = budget->incomes.constEnd(); it != budget->incomes.constBegin();) {
+			--it;
+			Income *income = *it;
 			if(income != trans && !income->security()  && income->fromAccount() == cat) {
 				default_category_values[cat] = income;
 				category_found = true;
 				break;
 			}
-			income = budget->incomes.previous();
 		}
 		if(!category_found) default_category_values.remove(cat);
 	} else if(transtype == TRANSACTION_TYPE_EXPENSE && toCombo && trans->type() == transtype && default_category_values.contains(trans->toAccount()) && default_category_values[trans->toAccount()] == trans) {
 		bool category_found = false;
 		Account *cat = trans->toAccount();
-		Expense *expense = budget->expenses.last();
-		while(expense) {
+		for(TransactionList<Expense*>::const_iterator it = budget->expenses.constEnd(); it != budget->expenses.constBegin();) {
+			--it;
+			Expense *expense = *it;
 			if(expense != trans && expense->toAccount() == cat && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST) {
 				default_category_values[cat] = expense;
 				category_found = true;
 				break;
 			}
-			expense = budget->expenses.previous();
 		}
 		if(!category_found) default_category_values.remove(cat);
 	}
@@ -1329,8 +1318,9 @@ void TransactionEditWidget::transactionsReset() {
 	default_category_values.clear();
 	switch(transtype) {
 		case TRANSACTION_TYPE_EXPENSE: {
-			Expense *expense = budget->expenses.last();
-			while(expense) {
+			for(TransactionList<Expense*>::const_iterator it = budget->expenses.constEnd(); it != budget->expenses.constBegin();) {
+				--it;
+				Expense *expense = *it;
 				if(expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST) {
 					if(descriptionEdit && !expense->description().isEmpty() && !default_values.contains(expense->description().toLower())) {
 						QList<QStandardItem*> row;
@@ -1350,13 +1340,13 @@ void TransactionEditWidget::transactionsReset() {
 						default_category_values[expense->category()] = expense;
 					}
 				}
-				expense = budget->expenses.previous();
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
-			Income *income = budget->incomes.last();
-			while(income) {
+			for(TransactionList<Income*>::const_iterator it = budget->incomes.constEnd(); it != budget->incomes.constBegin();) {
+				--it;
+				Income *income = *it;
 				if(!income->security()) {
 					if(descriptionEdit && !income->description().isEmpty() && !default_values.contains(income->description().toLower())) {
 						QList<QStandardItem*> row;
@@ -1376,13 +1366,13 @@ void TransactionEditWidget::transactionsReset() {
 						default_category_values[income->category()] = income;
 					}
 				}
-				income = budget->incomes.previous();
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_TRANSFER: {
-			Transfer *transfer= budget->transfers.last();
-			while(transfer) {
+			for(TransactionList<Transfer*>::const_iterator it = budget->transfers.constEnd(); it != budget->transfers.constBegin();) {
+				--it;
+				Transfer *transfer = *it;
 				if(descriptionEdit && !transfer->description().isEmpty() && !default_values.contains(transfer->description().toLower())) {
 					QList<QStandardItem*> row;
 					row << new QStandardItem(transfer->description());
@@ -1390,7 +1380,6 @@ void TransactionEditWidget::transactionsReset() {
 					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
 					default_values[transfer->description().toLower()] = transfer;
 				}
-				transfer = budget->transfers.previous();
 			}
 			break;
 		}

@@ -116,12 +116,11 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	layout3->addWidget(new QLabel(tr("Default account:"), page3), 0, 0);
 	accountCombo = new QComboBox(page3);
 	accountCombo->setEditable(false);
-	AssetsAccount *account = budget->assetsAccounts.first();
-	while(account) {
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *account = *it;
 		if(account != budget->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
-			accountCombo->addItem(account->name());
+			accountCombo->addItem(account->name(), qVariantFromValue((void*) account));
 		}
-		account = budget->assetsAccounts.next();
 	}
 	layout3->addWidget(accountCombo, 0, 1);
 	layout3->addWidget(new QLabel(tr("Opening balance text:"), page3), 1, 0);
@@ -386,19 +385,7 @@ void ImportQIFDialog::nextClicked() {
 			return;
 		}
 	} else if(currentId() == 3) {
-		if(accountCombo->count() > 0) {
-			int i = accountCombo->currentIndex();
-			AssetsAccount *account = budget->assetsAccounts.first();
-			while(account) {
-				if(account != budget->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
-					if(i == 0) {
-						qi.current_account = account;
-					}
-					i--;
-				}
-				account = budget->assetsAccounts.next();
-			}
-		}
+		if(accountCombo->currentData().isValid()) qi.current_account = (AssetsAccount*) accountCombo->currentData().value<void*>();
 		button(CommitButton)->setEnabled(false);
 	}
 	QWizard::next();
@@ -469,14 +456,13 @@ ExportQIFDialog::ExportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	grid->addWidget(new QLabel(tr("Account:"), this), 0, 0);
 	accountCombo = new QComboBox(this);
 	accountCombo->setEditable(false);
-	AssetsAccount *account = budget->assetsAccounts.first();
-	while(account) {
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *account = *it;
 		if(account != budget->balancingAccount) {
-			accountCombo->addItem(account->name());
+			accountCombo->addItem(account->name(), qVariantFromValue((void*) account));
 		}
-		account = budget->assetsAccounts.next();
 	}
-	accountCombo->addItem(tr("All", "All accounts"));
+	accountCombo->addItem(tr("All", "All accounts"), qVariantFromValue((void*) NULL));
 	grid->addWidget(accountCombo, 0, 1);
 	accountCombo->setFocus();
 
@@ -542,21 +528,8 @@ void ExportQIFDialog::accept() {
 	if(url.isEmpty()) {
 		return;
 	}
-	int cur_index = accountCombo->currentIndex();
 	AssetsAccount *account = NULL;
-	if(cur_index >= 0 && cur_index < (accountCombo->count() - 1)) {
-		int index = 0;
-		account = budget->assetsAccounts.first();
-		while(account) {
-			if(account != budget->balancingAccount) {
-				if(index == cur_index) {
-					break;
-				}
-				index++;
-			}
-			account = budget->assetsAccounts.next();
-		}
-	}
+	if(accountCombo->currentData().isValid()) account = (AssetsAccount*) accountCombo->currentData().value<void*>();
 	qi.current_account = account;
 	qi.value_format = valueFormatCombo->currentIndex() + 1;
 	qi.date_format = dateFormatCombo->currentIndex() + 1;
@@ -1439,10 +1412,9 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 							if(qi.current_account && qi.current_account->accountType() == ASSETS_TYPE_SECURITIES) {
 								saccount = qi.current_account;
 							} else {
-								saccount = budget->assetsAccounts.first();
-								while(saccount) {
+								for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+									saccount = *it;
 									if(saccount->accountType() == ASSETS_TYPE_SECURITIES) break;
-									saccount = budget->assetsAccounts.next();
 								}
 								if(!saccount) {
 									saccount = new AssetsAccount(budget, ASSETS_TYPE_SECURITIES, Budget::tr("Securities"));
@@ -1637,8 +1609,8 @@ void exportQIFOpeningBalance(QTextStream &fstream, qif_info &qi, AssetsAccount *
 	fstream << "\n";
 	if(account->accountType() == ASSETS_TYPE_SECURITIES) {
 		Budget *budget = account->budget();
-		Security *sec = budget->securities.first();
-		while(sec) {
+		for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
+			Security *sec = *it;
 			if(sec->account() == account && sec->initialShares() > 0.0) {
 				QMap<QDate, double>::const_iterator it = sec->quotations.begin();
 				if(it == sec->quotations.end()) fstream << "D" << writeQIFDate(date, qi.date_format) << "\n";
@@ -1653,7 +1625,6 @@ void exportQIFOpeningBalance(QTextStream &fstream, qif_info &qi, AssetsAccount *
 				fstream << "M" << "Opening" << "\n";
 				fstream << "^" << "\n";
 			}
-			sec = budget->securities.next();
 		}
 	} else {
 		fstream << "D" << writeQIFDate(date, qi.date_format) << "\n";
@@ -1709,20 +1680,18 @@ void exportQIF(QTextStream &fstream, qif_info &qi, Budget *budget, bool export_c
 		if(export_cats) {
 			QMap<IncomesAccount*, bool> icats;
 			QMap<ExpensesAccount*, bool> ecats;
-			Income *inc = budget->incomes.first();
-			while(inc) {
+			for(TransactionList<Income*>::const_iterator it = budget->incomes.constBegin(); it != budget->incomes.constEnd(); ++it) {
+				Income *inc = *it;
 				if(inc->to() == qi.current_account) {
 					icats[inc->category()] = true;
-									}
-				inc = budget->incomes.next();
+				}
 			}
-			Expense *exp = budget->expenses.first();
-			while(exp) {
+			for(TransactionList<Expense*>::const_iterator it = budget->expenses.constBegin(); it != budget->expenses.constEnd(); ++it) {
+				Expense *exp = *it;
 				if(exp->from() == qi.current_account) {
 					ecats[exp->category()] = true;
 					
 				}
-				exp = budget->expenses.next();
 			}
 			QMap<IncomesAccount*, bool>::iterator iit_e = icats.end();
 			for(QMap<IncomesAccount*, bool>::iterator iit = icats.begin(); iit != iit_e; ++iit) {
@@ -1732,19 +1701,18 @@ void exportQIF(QTextStream &fstream, qif_info &qi, Budget *budget, bool export_c
 			for(QMap<ExpensesAccount*, bool>::iterator eit = ecats.begin(); eit != eit_e; ++eit) {
 				exportQIFAccount(fstream, qi, eit.key());
 			}
-			Security *sec = budget->securities.first();
-			while(sec) {
+			for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
+				Security *sec = *it;
 				if(sec->account() == qi.current_account) {
 					exportQIFSecurity(fstream, qi, sec);
 				}
-				sec = budget->securities.next();
 			}
 		}
 		exportQIFAccount(fstream, qi, qi.current_account);
-		Transaction *trans = budget->transactions.first();
 		bool first = true;
 		SplitTransaction *split = NULL;
-		while(trans) {
+		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+			Transaction *trans = *it;		
 			if(trans->fromAccount() == qi.current_account || trans->toAccount() == qi.current_account) {
 				if(first) {
 					exportQIFOpeningBalance(fstream, qi, qi.current_account, trans->date());
@@ -1759,55 +1727,47 @@ void exportQIF(QTextStream &fstream, qif_info &qi, Budget *budget, bool export_c
 					exportQIFTransaction(fstream, qi, trans);
 				}
 			}
-			trans = budget->transactions.next();
 		}
 		if(first) {
 			exportQIFOpeningBalance(fstream, qi, qi.current_account, QDate::currentDate());
 		}
-		Security *sec = budget->securities.first();
-		while(sec) {
+		for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
+			Security *sec = *it;
 			if(sec->account() == qi.current_account) {
-				Income *inc = sec->dividends.first();
-				while(inc) {
+				for(SecurityTransactionList<Income*>::const_iterator it2 = sec->dividends.constBegin(); it2 != sec->dividends.constEnd(); ++it2) {
+					Income *inc = *it2;
 					exportQIFTransaction(fstream, qi, inc);
-					inc = sec->dividends.next();
 				}
-				ReinvestedDividend *rediv = sec->reinvestedDividends.first();
-				while(rediv) {
+				for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it2 = sec->reinvestedDividends.constBegin(); it2 != sec->reinvestedDividends.constEnd(); ++it2) {
+					ReinvestedDividend *rediv = *it2;
 					fstream << "D" << writeQIFDate(rediv->date, qi.date_format) << "\n";
 					fstream << "N" << "ReinvDiv" << "\n";
 					fstream << "Y" << sec->name() << "\n";
 					fstream << "Q" << writeQIFValue(rediv->shares, qi.value_format, sec->decimals()) << "\n";
 					fstream << "C" << "X" << "\n";
 					fstream << "^" << "\n";
-					rediv = sec->reinvestedDividends.next();
 				}
 			}
-			sec = budget->securities.next();
 		}
 	} else {
 		if(export_cats) {
-			IncomesAccount *iaccount = budget->incomesAccounts.first();
-			while(iaccount) {
+			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+				IncomesAccount *iaccount = *it;
 				exportQIFAccount(fstream, qi, iaccount);
-				iaccount = budget->incomesAccounts.next();
 			}
-			ExpensesAccount *eaccount = budget->expensesAccounts.first();
-			while(eaccount) {
+			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+				ExpensesAccount *eaccount = *it;
 				exportQIFAccount(fstream, qi, eaccount);
-				eaccount = budget->expensesAccounts.next();
 			}
-			Security *sec = budget->securities.first();
-			while(sec) {
+			for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
+				Security *sec = *it;
 				exportQIFSecurity(fstream, qi, sec);
-				sec = budget->securities.next();
 			}
 		}
-		AssetsAccount *account = budget->assetsAccounts.first();
-		while(account) {
+		for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+			AssetsAccount *account = *it;
 			qi.current_account = account;
 			exportQIF(fstream, qi, budget, false);
-			account = budget->assetsAccounts.next();
 		}
 	}
 }

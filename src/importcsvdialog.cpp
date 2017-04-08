@@ -394,8 +394,10 @@ void ImportCSVDialog::typeChanged(int id) {
 	valueAC1Edit->clear();
 	valueAC2Edit->clear();
 	if(id < 5) {
-		AssetsAccount *aa = budget->assetsAccounts.first();
-		while(aa) {if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC2Edit->addItem(aa->name()); aa = budget->assetsAccounts.next();}
+		for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+			AssetsAccount *aa = *it;
+			if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC2Edit->addItem(aa->name(), qVariantFromValue((void*) aa));
+		}
 	}
 	if(id == 4) {
 		costLabel->show();
@@ -446,8 +448,10 @@ void ImportCSVDialog::typeChanged(int id) {
 			AC1Label->setText(tr("Category:"));
 			AC2Label->setText(tr("From account:"));
 			if(b_extra) payeeLabel->setText(tr("Payee:"));
-			ExpensesAccount *ea = budget->expensesAccounts.first();
-			while(ea) {valueAC1Edit->addItem(ea->name()); ea = budget->expensesAccounts.next();}
+			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+				ExpensesAccount *ea = *it;
+				valueAC1Edit->addItem(ea->name(), qVariantFromValue((void*) ea));
+			}
 			break;
 		}
 		case 1: {
@@ -456,8 +460,10 @@ void ImportCSVDialog::typeChanged(int id) {
 			AC1Label->setText(tr("Category:"));
 			AC2Label->setText(tr("To account:"));
 			if(b_extra) payeeLabel->setText(tr("Payer:"));
-			IncomesAccount *ia = budget->incomesAccounts.first();
-			while(ia) {valueAC1Edit->addItem(ia->name()); ia = budget->incomesAccounts.next();}
+			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+				IncomesAccount *ia = *it;
+				valueAC1Edit->addItem(ia->name(), qVariantFromValue((void*) ia));
+			}
 			break;
 		}
 		case 2: {
@@ -465,8 +471,10 @@ void ImportCSVDialog::typeChanged(int id) {
 			valueLabel->setText(tr("Amount:"));
 			AC1Label->setText(tr("From account:"));
 			AC2Label->setText(tr("To account:"));
-			AssetsAccount *aa = budget->assetsAccounts.first();
-			while(aa) {if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC1Edit->addItem(aa->name()); aa = budget->assetsAccounts.next();}
+			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+				AssetsAccount *aa = *it;
+				if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC1Edit->addItem(aa->name(), qVariantFromValue((void*) *it));
+			}
 			break;
 		}
 		case 3: {
@@ -821,66 +829,26 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	QMap<QString, Account*> eaccounts, iaccounts, aaccounts;
 	Account *ac1 = NULL, *ac2 = NULL;
 	if(!test && (AC1_c >= 0 || AC2_c >= 0)) {
-		ExpensesAccount *ea = budget->expensesAccounts.first();
-		while(ea) {
+		for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+			ExpensesAccount *ea = *it;
 			eaccounts[ea->nameWithParent()] = ea;
 			if(ea->parentCategory() && !eaccounts.contains(ea->name())) eaccounts[ea->name()] = ea;
-			ea = budget->expensesAccounts.next();
 		}
-		IncomesAccount *ia = budget->incomesAccounts.first();
-		while(ia) {
+		for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+			IncomesAccount *ia = *it;
 			iaccounts[ia->nameWithParent()] = ia;
 			if(ia->parentCategory() && !iaccounts.contains(ia->name())) iaccounts[ia->name()] = ia;
-			ia = budget->incomesAccounts.next();
 		}
-		AssetsAccount *aa = budget->assetsAccounts.first();
-		while(aa) {
+		for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+			AssetsAccount *aa = *it;
 			aaccounts[aa->name()] = aa; 
-			aa = budget->assetsAccounts.next();
 		}
 	}
 	if(AC1_c < 0) {
-		int i = 0;
-		Account *account = NULL;
-		if(type == 0) account = budget->expensesAccounts.first();
-		else if(type == 1) account = budget->incomesAccounts.first();
-		else if(type == 2) account = budget->assetsAccounts.first();
-		while(account) {
-			if(type == 2) {
-				while(account == budget->balancingAccount || ((AssetsAccount*) account)->accountType() == ASSETS_TYPE_SECURITIES) {
-					account = budget->assetsAccounts.next();
-					if(!account) break;
-				}
-			}
-			if(i == valueAC1Edit->currentIndex()) {
-				ac1 = account;
-				break;
-			}
-			if(type == 0) {
-				account = budget->expensesAccounts.next();
-			} else if(type == 1) {
-				account = budget->incomesAccounts.next();
-			} else if(type == 2) {
-				account = budget->assetsAccounts.next();
-			}
-			i++;
-		}
+		if(valueAC1Edit->currentData().isValid()) ac1 = (Account*) valueAC1Edit->currentData().value<void*>();
 	}
 	if(AC2_c < 0) {
-		int i = 0;
-		Account *account = budget->assetsAccounts.first();
-		while(account) {
-			while(account == budget->balancingAccount || ((AssetsAccount*) account)->accountType() == ASSETS_TYPE_SECURITIES) {
-				account = budget->assetsAccounts.next();
-				if(!account) break;
-			}
-			if(i == valueAC2Edit->currentIndex()) {
-				ac2 = account;
-				break;
-			}
-			account = budget->assetsAccounts.next();
-			i++;
-		}
+		if(valueAC2Edit->currentData().isValid()) ac2 = (Account*) valueAC2Edit->currentData().value<void*>();
 		if(ac1 == ac2) {
 			QMessageBox::critical(this, tr("Error"), tr("Selected from account is the same as the to account."));
 			return false;

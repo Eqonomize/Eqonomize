@@ -211,54 +211,51 @@ void Security::setQuotationDecimals(int new_decimals) {i_quotation_decimals = ne
 
 double Security::shares() {
 	double n = d_initial_shares;
-	SecurityTransaction *trans = transactions.first();
-	while(trans) {
+	for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = transactions.constBegin(); it != transactions.constEnd(); ++it) {
+		SecurityTransaction *trans = *it;
 		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) n += trans->shares();
 		else n -= trans->shares();
-		trans = transactions.next();
 	}
-	SecurityTrade *ts = tradedShares.first();
-	while(ts) {
+	for(TradedSharesList<SecurityTrade*>::const_iterator it = tradedShares.constBegin(); it != tradedShares.constEnd(); ++it) {
+		SecurityTrade *ts = *it;
 		if(ts->from_security == this) n -= ts->from_shares;
 		else n += ts->to_shares;
-		ts = tradedShares.next();
 	}
-	ReinvestedDividend *rediv = reinvestedDividends.first();
-	while(rediv) {
+	for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
+		ReinvestedDividend *rediv = *it;
 		n += rediv->shares;
-		rediv = reinvestedDividends.next();
 	}
 	return n;
 }
 double Security::shares(const QDate &date, bool estimate, bool no_scheduled_shares) {
 	double n = d_initial_shares;
-	SecurityTransaction *trans = transactions.first();
-	while(trans && trans->date() <= date) {
+	for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = transactions.constBegin(); it != transactions.constEnd(); ++it) {
+		SecurityTransaction *trans = *it;
+		if(trans->date() > date) break;
 		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) n += trans->shares();
 		else n -= trans->shares();
-		trans = transactions.next();
 	}
-	SecurityTrade *ts = tradedShares.first();
-	while(ts && ts->date <= date) {
+	for(TradedSharesList<SecurityTrade*>::const_iterator it = tradedShares.constBegin(); it != tradedShares.constEnd(); ++it) {
+		SecurityTrade *ts = *it;
+		if(ts->date > date) break;
 		if(ts->from_security == this) n -= ts->from_shares;
 		else n += ts->to_shares;
-		ts = tradedShares.next();
 	}
 	if(!no_scheduled_shares) {
-		ScheduledTransaction *strans = scheduledTransactions.first();
-		while(strans && strans->date() <= date) {
+		for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = scheduledTransactions.constBegin(); it != scheduledTransactions.constEnd(); ++it) {
+			ScheduledTransaction *strans = *it;
+			if(strans->date() > date) break;
 			int no = strans->recurrence()->countOccurrences(date);
 			if(no > 0) {
 				if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) n += ((SecurityTransaction*) strans->transaction())->shares() * no;
 				else n -= ((SecurityTransaction*) strans->transaction())->shares() * no;
 			}
-			strans = scheduledTransactions.next();
 		}
 	}
-	ReinvestedDividend *rediv = reinvestedDividends.first();
-	while(rediv && rediv->date <= date) {
+	for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
+		ReinvestedDividend *rediv = *it;
+		if(rediv->date > date) break;
 		n += rediv->shares;
-		rediv = reinvestedDividends.next();
 	}
 	if(estimate && date > QDate::currentDate() && reinvestedDividends.count() > 0) {		
 		QDate date1 = QDate::currentDate();
@@ -272,12 +269,11 @@ double Security::shares(const QDate &date, bool estimate, bool no_scheduled_shar
 		if(years == 0) years = 1;
 		QDate date2 = date1.addYears(-years);
 		double n2 = 0.0;
-		rediv = reinvestedDividends.first();
-		while(trans) {
+		for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
+			ReinvestedDividend *rediv = *it;
 			if(rediv->date > date2) {
 				n2 += rediv->shares;
 			}
-			rediv = reinvestedDividends.next();
 		}
 		if(n2 > 0.0) {
 			n += (n2 * days) / date2.daysTo(date1);
@@ -295,21 +291,22 @@ double Security::value(const QDate &date, bool estimate, bool no_scheduled_share
 double Security::cost(const QDate &date, bool no_scheduled_shares, Currency *cur) {
 	if(!cur) cur = currency();
 	double c = d_initial_shares;
-	QMap<QDate, double>::const_iterator it = quotations.begin();
-	if(it == quotations.end()) {
+	QMap<QDate, double>::const_iterator it_q = quotations.begin();
+	if(it_q == quotations.end()) {
 		c = 0.0;
 	} else {
-		c *= it.value();
+		c *= it_q.value();
 		if(cur != currency()) {
 			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
-				c = currency()->convertTo(c, cur, it.key());
+				c = currency()->convertTo(c, cur, it_q.key());
 			} else {
 				c = currency()->convertTo(c, cur, date);
 			}
 		}
 	}
-	SecurityTransaction *trans = transactions.first();
-	while(trans && trans->date() <= date) {
+	for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = transactions.constBegin(); it != transactions.constEnd(); ++it) {
+		SecurityTransaction *trans = *it;
+		if(trans->date() > date) break;
 		double v = trans->value();
 		if(cur != trans->currency()) {
 			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
@@ -320,10 +317,10 @@ double Security::cost(const QDate &date, bool no_scheduled_shares, Currency *cur
 		}
 		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) c += v;
 		else c -= v;
-		trans = transactions.next();
 	}
-	SecurityTrade *ts = tradedShares.first();
-	while(ts && ts->date <= date) {
+	for(TradedSharesList<SecurityTrade*>::const_iterator it = tradedShares.constBegin(); it != tradedShares.constEnd(); ++it) {
+		SecurityTrade *ts = *it;
+		if(ts->date > date) break;
 		double v = ts->from_shares * ts->from_security->getQuotation(ts->date);
 		if(cur != ts->from_security->currency()) {
 			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
@@ -334,11 +331,11 @@ double Security::cost(const QDate &date, bool no_scheduled_shares, Currency *cur
 		}
 		if(ts->from_security == this) c -= v;
 		else c += v;
-		ts = tradedShares.next();
 	}
 	if(!no_scheduled_shares) {
-		ScheduledTransaction *strans = scheduledTransactions.first();
-		while(strans && strans->date() <= date) {
+		for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = scheduledTransactions.constBegin(); it != scheduledTransactions.constEnd(); ++it) {
+			ScheduledTransaction *strans = *it;
+			if(strans->date() > date) break;
 			int n = strans->recurrence()->countOccurrences(date);
 			if(n > 0) {
 				double v = strans->value();
@@ -348,7 +345,6 @@ double Security::cost(const QDate &date, bool no_scheduled_shares, Currency *cur
 				if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) c += v * n;
 				else c -= v * n;
 			}
-			strans = scheduledTransactions.next();
 		}
 	}
 	return c;
@@ -356,21 +352,21 @@ double Security::cost(const QDate &date, bool no_scheduled_shares, Currency *cur
 double Security::cost(Currency *cur) {
 	if(!cur) cur = currency();
 	double c = d_initial_shares;
-	QMap<QDate, double>::const_iterator it = quotations.begin();
-	if(it == quotations.end()) {
+	QMap<QDate, double>::const_iterator it_q = quotations.begin();
+	if(it_q == quotations.end()) {
 		c = 0.0;
 	} else {
-		c *= it.value();
+		c *= it_q.value();
 		if(cur != currency()) {
 			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
-				c = currency()->convertTo(c, cur, it.key());
+				c = currency()->convertTo(c, cur, it_q.key());
 			} else {
 				c = currency()->convertTo(c, cur);
 			}
 		}
 	}
-	SecurityTransaction *trans = transactions.first();
-	while(trans) {
+	for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = transactions.constBegin(); it != transactions.constEnd(); ++it) {
+		SecurityTransaction *trans = *it;
 		double v = trans->value();
 		if(cur != trans->currency()) {
 			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
@@ -381,10 +377,9 @@ double Security::cost(Currency *cur) {
 		}
 		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) c += v;
 		else c -= v;
-		trans = transactions.next();
 	}
-	SecurityTrade *ts = tradedShares.first();
-	while(ts) {
+	for(TradedSharesList<SecurityTrade*>::const_iterator it = tradedShares.constBegin(); it != tradedShares.constEnd(); ++it) {
+		SecurityTrade *ts = *it;
 		double v = ts->from_shares * ts->from_security->getQuotation(ts->date);
 		if(cur != ts->from_security->currency()) {
 			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
@@ -395,7 +390,6 @@ double Security::cost(Currency *cur) {
 		}
 		if(ts->from_security == this) c -= v;
 		else c += v;
-		ts = tradedShares.next();
 	}
 	return c;
 }
@@ -406,8 +400,8 @@ double Security::profit(Currency *cur) {
 		p = currency()->convertTo(p, cur);
 	}
 	p -= cost(cur);
-	Income *trans = dividends.first();
-	while(trans) {
+	for(SecurityTransactionList<Income*>::const_iterator it = dividends.constBegin(); it != dividends.constEnd(); ++it) {
+		Income *trans = *it;
 		if(cur != trans->currency()) {
 			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
 				p += trans->currency()->convertTo(trans->income(), cur, trans->date());
@@ -417,7 +411,6 @@ double Security::profit(Currency *cur) {
 		} else {
 			p += trans->income();
 		}
-		trans = dividends.next();
 	}
 	return p;
 }
@@ -428,8 +421,9 @@ double Security::profit(const QDate &date, bool estimate, bool no_scheduled_shar
 		p = currency()->convertTo(p, cur, date);
 	}
 	p -= cost(date, no_scheduled_shares, cur);
-	Income *trans = dividends.first();
-	while(trans && trans->date() <= date) {
+	for(SecurityTransactionList<Income*>::const_iterator it = dividends.constBegin(); it != dividends.constEnd(); ++it) {
+		Income *trans = *it;
+		if(trans->date() > date) break;
 		if(cur != trans->currency()) {
 			if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) {
 				p += trans->currency()->convertTo(trans->income(), cur, trans->date());
@@ -439,7 +433,6 @@ double Security::profit(const QDate &date, bool estimate, bool no_scheduled_shar
 		} else {
 			p += trans->income();
 		}
-		trans = dividends.next();
 	}
 	if(estimate && date > QDate::currentDate() && dividends.count() > 0) {
 		QDate date1 = QDate::currentDate();
@@ -453,8 +446,8 @@ double Security::profit(const QDate &date, bool estimate, bool no_scheduled_shar
 		if(years == 0) years = 1;
 		QDate date2 = date1.addYears(-years);
 		double p2 = 0.0;
-		trans = dividends.first();
-		while(trans) {
+		for(SecurityTransactionList<Income*>::const_iterator it = dividends.constBegin(); it != dividends.constEnd(); ++it) {
+			Income *trans = *it;
 			if(trans->date() > date2) {
 				if(cur != trans->currency()) {
 					p2 += trans->currency()->convertTo(trans->income(), cur);
@@ -462,14 +455,14 @@ double Security::profit(const QDate &date, bool estimate, bool no_scheduled_shar
 					p2 += trans->income();
 				}
 			}
-			trans = dividends.next();
 		}
 		if(p2 > 0.0) {
 			p += (p2 * days) / date2.daysTo(date1);
 		}
 	} else if(!no_scheduled_shares) {
-		ScheduledTransaction *strans = scheduledDividends.first();
-		while(strans && strans->date() <= date) {
+		for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = scheduledDividends.constBegin(); it != scheduledDividends.constEnd(); ++it) {
+			ScheduledTransaction *strans = *it;
+			if(strans->date() > date) break;
 			int n = strans->recurrence()->countOccurrences(date);
 			if(n > 0) {
 				if(cur != strans->currency()) {
@@ -478,7 +471,6 @@ double Security::profit(const QDate &date, bool estimate, bool no_scheduled_shar
 					p += strans->value() * n;
 				}
 			}
-			strans = scheduledDividends.next();
 		}
 	}
 	return p;
@@ -498,18 +490,16 @@ double Security::yearlyRate() {
 		int days2 = it_end.key().daysTo(date2);
 		q2 *= pow(q2 / q1, days2 / (days - days2));
 	}
-	Income *trans = dividends.first();
-	while(trans) {
+	for(SecurityTransactionList<Income*>::const_iterator it = dividends.constBegin(); it != dividends.constEnd(); ++it) {
+		Income *trans = *it;
 		double s = shares(trans->date());
 		if(s > 0.0) q2 += trans->income() / s;
-		trans = dividends.next();
 	}
 	double shares_change = 0.0;
-	ReinvestedDividend *rediv = reinvestedDividends.first();
-	while(rediv) {
+	for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
+		ReinvestedDividend *rediv = *it;
 		double s = shares(rediv->date);
 		if(s > 0.0) shares_change += rediv->shares / (s - rediv->shares);
-		rediv = reinvestedDividends.next();
 	}
 	if(date1 == date2) return 0.0;
 	double change = q2 / q1 + shares_change;
@@ -536,18 +526,18 @@ double Security::yearlyRate(const QDate &date) {
 		int days2 = date2_q.daysTo(date2);
 		q2 *= pow(q2 / q1, days2 / (days - days2));
 	}
-	Income *trans = dividends.first();
-	while(trans && trans->date() <= date2) {
+	for(SecurityTransactionList<Income*>::const_iterator it = dividends.constBegin(); it != dividends.constEnd(); ++it) {
+		Income *trans = *it;
+		if(trans->date() > date2) break;
 		double s = shares(trans->date());
 		if(s > 0.0) q2 += trans->income() / s;
-		trans = dividends.next();
 	}
 	double shares_change = 0.0;
-	ReinvestedDividend *rediv = reinvestedDividends.first();
-	while(rediv && rediv->date <= date2) {
+	for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
+		ReinvestedDividend *rediv = *it;
+		if(rediv->date > date2) break;
 		double s = shares(rediv->date);
 		if(s > 0.0) shares_change += rediv->shares / (s - rediv->shares);
-		rediv = reinvestedDividends.next();
 	}
 	double change = q2 / q1 + shares_change;
 	return pow(change, 1 / o_budget->yearsBetweenDates(date1, date2, false)) - 1;
@@ -591,22 +581,22 @@ double Security::yearlyRate(const QDate &date1, const QDate &date2) {
 			q2 *= pow(rate, days2 / (days - days2));
 		}
 	}
-	Income *trans = dividends.first();
-	while(trans && trans->date() <= date2) {
+	for(SecurityTransactionList<Income*>::const_iterator it = dividends.constBegin(); it != dividends.constEnd(); ++it) {
+		Income *trans = *it;
+		if(trans->date() > date2) break;
 		if(trans->date() >= date1) {
 			double s = shares(trans->date());
 			if(s > 0.0) q2 += trans->income() / s;
 		}
-		trans = dividends.next();
 	}
 	double shares_change = 0.0;
-	ReinvestedDividend *rediv = reinvestedDividends.first();
-	while(rediv && rediv->date <= date2) {
+	for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
+		ReinvestedDividend *rediv = *it;
+		if(rediv->date > date2) break;
 		if(rediv->date >= date1) {
 			double s = shares(rediv->date);
 			if(s > 0.0) shares_change += rediv->shares / (s - rediv->shares);
 		}
-		rediv = reinvestedDividends.next();
 	}
 	double change = q2 / q1 + shares_change;
 	return pow(change, 1 / o_budget->yearsBetweenDates(date1, date2, false)) - 1;

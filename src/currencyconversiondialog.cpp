@@ -88,13 +88,12 @@ void CurrencyConversionDialog::updateCurrencies() {
 	if(!fromCur) {
 		fromCur = budget->defaultCurrency();
 		if(toCur == fromCur) {
-			AssetsAccount *acc = budget->assetsAccounts.first();
-			while(acc) {
+			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+				AssetsAccount *acc = *it;
 				if(acc->currency() != NULL && acc->currency() != toCur) {
 					fromCur = acc->currency();
 					break;
 				}
-				acc = budget->assetsAccounts.next();
 			}
 		}
 		if(toCur == fromCur) fromCur = budget->currency_euro;
@@ -105,9 +104,9 @@ void CurrencyConversionDialog::updateCurrencies() {
 	}
 	fromCombo->clear();
 	toCombo->clear();
-	Currency *currency = budget->currencies.first();
 	int i = 0;
-	while(currency) {
+	for(CurrencyList<Currency*>::const_iterator it = budget->currencies.constBegin(); it != budget->currencies.constEnd(); ++it) {
+		Currency *currency = *it;
 		if(!currency->name(false).isEmpty()) {
 			fromCombo->addItem(QString("%2 (%1)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
 			toCombo->addItem(QString("%2 (%1)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
@@ -120,12 +119,12 @@ void CurrencyConversionDialog::updateCurrencies() {
 		if(currency == fromCur) fromCombo->setCurrentIndex(i);
 		if(currency == toCur) toCombo->setCurrentIndex(i);
 		i++;
-		currency = budget->currencies.next();
 	}
 	if(prev_fromCur != fromCur || prev_toCur != toCur) convertFrom();
 }
 
 void CurrencyConversionDialog::convertFrom() {
+	if(!fromCombo->currentData().isValid() || !toCombo->currentData().isValid()) return;
 	Currency *fromCur  = (Currency*) fromCombo->currentData().value<void*>();
 	Currency *toCur  = (Currency*) toCombo->currentData().value<void*>();
 	if(!fromCur || !toCur) return;
@@ -134,6 +133,7 @@ void CurrencyConversionDialog::convertFrom() {
 	toEdit->blockSignals(false);
 }
 void CurrencyConversionDialog::convertTo() {
+	if(!fromCombo->currentData().isValid() || !toCombo->currentData().isValid()) return;
 	Currency *fromCur  = (Currency*) fromCombo->currentData().value<void*>();
 	Currency *toCur  = (Currency*) toCombo->currentData().value<void*>();
 	if(!fromCur || !toCur) return;

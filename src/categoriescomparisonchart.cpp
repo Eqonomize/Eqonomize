@@ -169,15 +169,13 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	sourceCombo->addItem(tr("All Incomes, without subcategories"));
 	sourceCombo->addItem(tr("All Incomes, with subcategories"));
 	sourceCombo->addItem(tr("All Accounts"));
-	Account *account = budget->expensesAccounts.first();
-	while(account) {
+	for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+		Account *account = *it;
 		sourceCombo->addItem(tr("Expenses: %1").arg(account->nameWithParent()));
-		account = budget->expensesAccounts.next();
 	}
-	account = budget->incomesAccounts.first();
-	while(account) {
+	for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+		Account *account = *it;
 		sourceCombo->addItem(tr("Incomes: %1").arg(account->nameWithParent()));
-		account = budget->incomesAccounts.next();
 	}
 	typeLayout->addWidget(sourceCombo);
 	typeLayout->setStretchFactor(sourceCombo, 1);
@@ -222,13 +220,12 @@ void CategoriesComparisonChart::resetOptions() {
 	settings.endGroup();
 #endif
 	QDate first_date;
-	Transaction *trans = budget->transactions.first();
-	while(trans) {
+	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+		Transaction *trans = *it;
 		if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
 			first_date = trans->date();
 			break;
 		}
-		trans = budget->transactions.next();
 	}
 	to_date = QDate::currentDate();
 	from_date = to_date.addYears(-1).addDays(1);
@@ -523,13 +520,12 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 		case 0: {
 			type = ACCOUNT_TYPE_EXPENSES;
-			CategoryAccount *account = budget->expensesAccounts.first();
-			while(account) {
+			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+				CategoryAccount *account = *it;
 				if(include_subs || !account->parentCategory()) {
 					values[account] = 0.0;
 					counts[account] = 0.0;
 				}
-				account = budget->expensesAccounts.next();
 			}
 			break;
 		}
@@ -539,21 +535,20 @@ void CategoriesComparisonChart::updateDisplay() {
 		case 2: {
 			title_string = tr("Incomes");
 			type = ACCOUNT_TYPE_INCOMES;
-			CategoryAccount *account = budget->incomesAccounts.first();
-			while(account) {
+			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+				CategoryAccount *account = *it;
 				if(include_subs || !account->parentCategory()) {
 					values[account] = 0.0;
 					counts[account] = 0.0;
 				}
-				account = budget->incomesAccounts.next();
 			}
 			break;
 		}
 		case 4: {
 			title_string = tr("Accounts");
 			type = ACCOUNT_TYPE_ASSETS;
-			AssetsAccount *account = budget->assetsAccounts.first();
-			while(account) {
+			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+				AssetsAccount *account = *it;
 				if(account != budget->balancingAccount) {
 					if(account->accountType() == ASSETS_TYPE_SECURITIES) {
 						values[account] = 0.0;
@@ -563,7 +558,6 @@ void CategoriesComparisonChart::updateDisplay() {
 					}
 					counts[account] = 0.0;
 				}
-				account = budget->assetsAccounts.next();
 			}
 			break;
 		}
@@ -580,20 +574,18 @@ void CategoriesComparisonChart::updateDisplay() {
 				if(include_subs) {
 					values[current_account] = 0.0;
 					counts[current_account] = 0.0;
-					Account *account = current_account->subCategories.first();
-					while(account) {
+					for(AccountList<CategoryAccount*>::const_iterator it = current_account->subCategories.constBegin(); it != current_account->subCategories.constEnd(); ++it) {
+						Account *account = *it;
 						values[account] = 0.0;
 						counts[account] = 0.0;
-						account = current_account->subCategories.next();
 					}
 				} else {
-					Transaction *trans = budget->transactions.first();
-					while(trans) {
+					for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+						Transaction *trans = *it;
 						if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
 							desc_values[trans->description()] = 0.0;
 							desc_counts[trans->description()] = 0.0;
 						}
-						trans = budget->transactions.next();
 					}
 				}
 			}
@@ -607,19 +599,18 @@ void CategoriesComparisonChart::updateDisplay() {
 	} else if(fromButton->isChecked()) {
 		first_date = from_date;
 	} else {
-		Transaction *trans = budget->transactions.first();
-		while(trans) {
+		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+			Transaction *trans = *it;
 			if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
 				first_date = trans->date();
 				break;
 			}
-			trans = budget->transactions.next();
 		}
 		if(first_date.isNull()) first_date = QDate::currentDate();
 		if(first_date > to_date) first_date = to_date;
 	}
-	Transaction *trans = budget->transactions.first();
-	while(trans) {
+	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+		Transaction *trans = *it;
 		if(!first_date_reached && trans->date() >= first_date) first_date_reached = true;
 		else if(first_date_reached && trans->date() > to_date) break;
 		if(first_date_reached) {
@@ -686,15 +677,16 @@ void CategoriesComparisonChart::updateDisplay() {
 				}
 			}
 		}
-		trans = budget->transactions.next();
 	}
 	first_date_reached = false;
-	ScheduledTransaction *strans = budget->scheduledTransactions.first();
 	int split_i = 0;
-	while(strans) {
+	Transaction *trans = NULL;
+	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd();) {
+		ScheduledTransaction *strans = *it;
 		while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0) {
-			strans = budget->scheduledTransactions.next();
-			if(!strans) break;
+			++it;
+			if(it == budget->scheduledTransactions.constEnd()) break;
+			strans = *it;
 		}
 		if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
 			trans = ((SplitTransaction*) strans->transaction())->at(split_i);
@@ -777,18 +769,17 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 		}
 		if(strans->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT || split_i >= ((SplitTransaction*) strans->transaction())->count()) {
-			strans = budget->scheduledTransactions.next();
+			++it;
 			split_i = 0;
 		}
 	}
 
 	if(type == ACCOUNT_TYPE_ASSETS) {
-		Security *security = budget->securities.first();
-		while(security) {
+		for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
+			Security *security = *it;
 			double val = security->value(to_date, true);
 			values[security->account()] += val;
 			value += val;
-			security = budget->securities.next();
 		}
 	}
 
@@ -829,13 +820,12 @@ void CategoriesComparisonChart::updateDisplay() {
 	}	
 
 	if(!current_account && type == ACCOUNT_TYPE_ASSETS) {
-		account = budget->assetsAccounts.first();
-		if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
 		value = 0.0;
-		while(account) {
-			if(values[account] > 0.0) value += values[account];
-			account = budget->assetsAccounts.next();
-			if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
+		for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+			account = *it;
+			if(account != budget->balancingAccount) {
+				if(values[account] > 0.0) value += values[account];
+			}
 		}
 	}
 
@@ -852,18 +842,26 @@ void CategoriesComparisonChart::updateDisplay() {
 	} else {
 		bar_series = new QBarSeries();
 	}
-	
+	int account_index = 0;
+	account = NULL;
 	if(current_account) {
 		if(include_subs) {
-			account = current_account->subCategories.first();
+			if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);
 		}
 	} else if(type == ACCOUNT_TYPE_ASSETS) {
-		account = budget->assetsAccounts.first();
-		if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
+		if(account_index < budget->assetsAccounts.size()) {
+			account = budget->assetsAccounts.at(account_index);
+			if(account == budget->balancingAccount) {
+				++account_index;
+				if(account_index < budget->assetsAccounts.size()) {
+					account = budget->assetsAccounts.at(account_index);
+				}
+			}
+		}
 	} else if(type == ACCOUNT_TYPE_EXPENSES) {
-		account = budget->expensesAccounts.first();
+		if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
 	} else {
-		account = budget->incomesAccounts.first();
+		if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
 	}
 	int index = 0;
 	bool show_legend = false;
@@ -871,14 +869,18 @@ void CategoriesComparisonChart::updateDisplay() {
 		if(!current_account && include_subs) {
 			while(account && ((CategoryAccount*) account)->subCategories.size() > 0) {
 				if(values[account] != 0.0) break;
-				if(type == ACCOUNT_TYPE_EXPENSES) account = budget->expensesAccounts.next();
-				else account = budget->incomesAccounts.next();
+				++account_index;
+				account = NULL;
+				if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
+				else if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
 			}
 			if(!account) break;
 		} else if(!current_account && type != ACCOUNT_TYPE_ASSETS) {
 			while(account && account->topAccount() != account) {
-				if(type == ACCOUNT_TYPE_EXPENSES) account = budget->expensesAccounts.next();
-				else account = budget->incomesAccounts.next();
+				++account_index;
+				account = NULL;
+				if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
+				else if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
 			}
 			if(!account) break;
 		}
@@ -927,20 +929,32 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 		}
 		
-		if(type == ACCOUNT_TYPE_ASSETS) {
-			account = budget->assetsAccounts.next();
-			if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
-		} else if(current_account && include_subs) {
-			if(account != current_account) {
-				account = current_account->subCategories.next();
-				if(!account && values[current_account] != 0.0) account = current_account;
+		++account_index;
+		if(current_account) {
+			if(include_subs && account != current_account) {
+				if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);
+				else if(values[current_account] != 0.0) account = current_account;
+				else account = NULL;
 			} else {
 				account = NULL;
 			}
+		} else if(type == ACCOUNT_TYPE_ASSETS) {
+			account = NULL;
+			if(account_index < budget->assetsAccounts.size()) {
+				account = budget->assetsAccounts.at(account_index);
+				if(account == budget->balancingAccount) {
+					++account_index;
+					if(account_index < budget->assetsAccounts.size()) {
+						account = budget->assetsAccounts.at(account_index);
+					}
+				}
+			}
 		} else if(type == ACCOUNT_TYPE_EXPENSES) {
-			account = budget->expensesAccounts.next();
+			account = NULL;
+			if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
 		} else {
-			account = budget->incomesAccounts.next();
+			account = NULL;
+			if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
 		}
 		index++;
 	}
@@ -1008,17 +1022,26 @@ void CategoriesComparisonChart::updateDisplay() {
 
 	
 	int n = 0;
+	int account_index = 0;
+	account = NULL;
 	if(current_account) {
 		if(include_subs) {
-			account = current_account->subCategories.first();
+			if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);
 		}
 	} else if(type == ACCOUNT_TYPE_ASSETS) {
-		account = budget->assetsAccounts.first();
-		if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
+		if(account_index < budget->assetsAccounts.size()) {
+			account = budget->assetsAccounts.at(account_index);
+			if(account == budget->balancingAccount) {
+				++account_index;
+				if(account_index < budget->assetsAccounts.size()) {
+					account = budget->assetsAccounts.at(account_index);
+				}
+			}
+		}
 	} else if(type == ACCOUNT_TYPE_EXPENSES) {
-		account = budget->expensesAccounts.first();
+		if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
 	} else {
-		account = budget->incomesAccounts.first();
+		if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
 	}
 	
 	int index = 0;
@@ -1027,14 +1050,18 @@ void CategoriesComparisonChart::updateDisplay() {
 		if(!current_account && include_subs) {
 			while(account && ((CategoryAccount*) account)->subCategories.size() > 0) {
 				if(values[account] != 0.0) break;
-				if(type == ACCOUNT_TYPE_EXPENSES) account = budget->expensesAccounts.next();
-				else account = budget->incomesAccounts.next();
+				++account_index;
+				account = NULL;
+				if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
+				else if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
 			}
 			if(!account) break;
 		} else if(!current_account && type != ACCOUNT_TYPE_ASSETS) {
 			while(account && account->topAccount() != account) {
-				if(type == ACCOUNT_TYPE_EXPENSES) account = budget->expensesAccounts.next();
-				else account = budget->incomesAccounts.next();
+				++account_index;
+				account = NULL;
+				if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
+				else if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
 			}
 			if(!account) break;
 		}
@@ -1067,37 +1094,58 @@ void CategoriesComparisonChart::updateDisplay() {
 		legend_text->setPos(legend_x + 10 + fh + 5, margin + 10 + (fh + 5) * index);
 		scene->addItem(legend_text);
 		
-		if(type == ACCOUNT_TYPE_ASSETS) {
-			account = budget->assetsAccounts.next();
-			if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
-		} else if(current_account && include_subs) {
-			if(account != current_account) {
-				account = current_account->subCategories.next();
-				if(!account && values[current_account] != 0.0) account = current_account;
+		++account_index;
+		if(current_account) {
+			if(include_subs && account != current_account) {
+				if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);
+				else if(values[current_account] != 0.0) account = current_account;
+				else account = NULL;
 			} else {
 				account = NULL;
 			}
+		} else if(type == ACCOUNT_TYPE_ASSETS) {
+			account = NULL;
+			if(account_index < budget->assetsAccounts.size()) {
+				account = budget->assetsAccounts.at(account_index);
+				if(account == budget->balancingAccount) {
+					++account_index;
+					if(account_index < budget->assetsAccounts.size()) {
+						account = budget->assetsAccounts.at(account_index);
+					}
+				}
+			}
 		} else if(type == ACCOUNT_TYPE_EXPENSES) {
-			account = budget->expensesAccounts.next();
+			account = NULL;
+			if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
 		} else {
-			account = budget->incomesAccounts.next();
+			account = NULL;
+			if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
 		}
 		index++;
 		n++;
 	}
 
 
+	account_index = 0;
+	account = NULL;
 	if(current_account) {
 		if(include_subs) {
-			account = current_account->subCategories.first();
+			if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);
 		}
 	} else if(type == ACCOUNT_TYPE_ASSETS) {
-		account = budget->assetsAccounts.first();
-		if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
+		if(account_index < budget->assetsAccounts.size()) {
+			account = budget->assetsAccounts.at(account_index);
+			if(account == budget->balancingAccount) {
+				++account_index;
+				if(account_index < budget->assetsAccounts.size()) {
+					account = budget->assetsAccounts.at(account_index);
+				}
+			}
+		}
 	} else if(type == ACCOUNT_TYPE_EXPENSES) {
-		account = budget->expensesAccounts.first();
+		if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
 	} else {
-		account = budget->incomesAccounts.first();
+		if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
 	}
 	index = 0;
 	double current_value = 0.0, current_value_1 = 0.0;
@@ -1106,14 +1154,18 @@ void CategoriesComparisonChart::updateDisplay() {
 		if(!current_account && include_subs) {
 			while(account && ((CategoryAccount*) account)->subCategories.size() > 0) {
 				if(values[account] != 0.0) break;
-				if(type == ACCOUNT_TYPE_EXPENSES) account = budget->expensesAccounts.next();
-				else account = budget->incomesAccounts.next();
+				++account_index;
+				account = NULL;
+				if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
+				else if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
 			}
 			if(!account) break;
 		} else if(!current_account && type != ACCOUNT_TYPE_ASSETS) {
 			while(account && account->topAccount() != account) {
-				if(type == ACCOUNT_TYPE_EXPENSES) account = budget->expensesAccounts.next();
-				else account = budget->incomesAccounts.next();
+				++account_index;
+				account = NULL;
+				if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
+				else if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
 			}
 			if(!account) break;
 		}
@@ -1136,20 +1188,32 @@ void CategoriesComparisonChart::updateDisplay() {
 		legend_box->setPen(QPen(Qt::black));
 		legend_box->setBrush(getBrush(index));
 		scene->addItem(legend_box);
-		if(type == ACCOUNT_TYPE_ASSETS) {
-			account = budget->assetsAccounts.next();
-			if(account == budget->balancingAccount) account = budget->assetsAccounts.next();
-		} else if(current_account && include_subs) {
-			if(account != current_account) {
-				account = current_account->subCategories.next();
-				if(!account && values[current_account] != 0.0) account = current_account;
+		++account_index;
+		if(current_account) {
+			if(include_subs && account != current_account) {
+				if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);
+				else if(values[current_account] != 0.0) account = current_account;
+				else account = NULL;
 			} else {
 				account = NULL;
 			}
+		} else if(type == ACCOUNT_TYPE_ASSETS) {
+			account = NULL;
+			if(account_index < budget->assetsAccounts.size()) {
+				account = budget->assetsAccounts.at(account_index);
+				if(account == budget->balancingAccount) {
+					++account_index;
+					if(account_index < budget->assetsAccounts.size()) {
+						account = budget->assetsAccounts.at(account_index);
+					}
+				}
+			}
 		} else if(type == ACCOUNT_TYPE_EXPENSES) {
-			account = budget->expensesAccounts.next();
+			account = NULL;
+			if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
 		} else {
-			account = budget->incomesAccounts.next();
+			account = NULL;
+			if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
 		}
 		index++;
 	}
@@ -1198,18 +1262,16 @@ void CategoriesComparisonChart::updateAccounts() {
 	sourceCombo->addItem(tr("All Incomes, with subcategories"));
 	sourceCombo->addItem(tr("All Accounts"));
 	int i = 3;
-	Account *account = budget->expensesAccounts.first();
-	while(account) {
+	for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+		Account *account = *it;
 		sourceCombo->addItem(tr("Expenses: %1").arg(account->nameWithParent()));
 		if(account == current_account) curindex = i;
-		account = budget->expensesAccounts.next();
 		i++;
 	}
-	account = budget->incomesAccounts.first();
-	while(account) {
+	for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+		Account *account = *it;
 		sourceCombo->addItem(tr("Incomes: %1").arg(account->nameWithParent()));
 		if(account == current_account) curindex = i;
-		account = budget->incomesAccounts.next();
 		i++;
 	}
 	if(curindex < sourceCombo->count()) sourceCombo->setCurrentIndex(curindex);

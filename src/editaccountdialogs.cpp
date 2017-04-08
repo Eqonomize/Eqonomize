@@ -154,9 +154,9 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 void EditAssetsAccountDialog::updateCurrencyList(Currency *select_currency) {
 	currencyCombo->clear();
 	currencyCombo->addItem(tr("New currency…"));
-	Currency *currency = budget->currencies.first();
 	int i = 1;
-	while(currency) {
+	for(CurrencyList<Currency*>::const_iterator it = budget->currencies.constBegin(); it != budget->currencies.constEnd(); ++it) {
+		Currency *currency = *it;
 		if(!currency->name(false).isEmpty()) {
 			currencyCombo->addItem(QString("%2 (%1)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
 		} else {
@@ -169,7 +169,6 @@ void EditAssetsAccountDialog::updateCurrencyList(Currency *select_currency) {
 			valueEdit->setCurrency((Currency*) currencyCombo->itemData(i).value<void*>());
 		}
 		i++;
-		currency = budget->currencies.next();
 	}
 }
 void EditAssetsAccountDialog::transferToggled(bool b) {
@@ -306,13 +305,12 @@ void EditAssetsAccountDialog::setAccount(AssetsAccount *account) {
 		case ASSETS_TYPE_LIABILITIES: {typeCombo->setCurrentIndex(4); break;}
 		case ASSETS_TYPE_SECURITIES: {
 			typeCombo->setCurrentIndex(5);
-			Security *sec = budget->securities.first();
-			while(sec) {
+			for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
+				Security *sec = *it;
 				if(sec->account() == account) {
 					typeCombo->setEnabled(false);
 					break;
 				}
-				sec = budget->securities.next();
 			}
 			break;
 		}
@@ -364,16 +362,15 @@ EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, IncomesAccount 
 	grid->addWidget(parentCombo, 1, 1);
 	parentCombo->addItem(tr("None"));
 	parentCombo->setCurrentIndex(0);
-	IncomesAccount *account = budget->incomesAccounts.first();
 	int i = 1;
-	while(account) {
+	for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+		IncomesAccount *account = *it;
 		if(!account->parentCategory()) {
 			parentCombo->addItem(account->name());
 			parentCombo->setItemData(i, qVariantFromValue((void*) account));
 			if(account == default_parent) parentCombo->setCurrentIndex(i);
 			i++;
 		}
-		account = budget->incomesAccounts.next();
 	}
 	
 	budgetButton = new QCheckBox(tr("Monthly budget:"), this);
@@ -472,16 +469,15 @@ EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, ExpensesAccou
 	grid->addWidget(parentCombo, 1, 1);
 	parentCombo->addItem(tr("None"));
 	parentCombo->setCurrentIndex(0);
-	ExpensesAccount *account = budget->expensesAccounts.first();
 	int i = 1;
-	while(account) {
+	for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+		ExpensesAccount *account = *it;
 		if(!account->parentCategory()) {
 			parentCombo->addItem(account->name());
 			parentCombo->setItemData(i, qVariantFromValue((void*) account));
 			if(account == default_parent) parentCombo->setCurrentIndex(i);
 			i++;
 		}
-		account = budget->expensesAccounts.next();
 	}
 	budgetButton = new QCheckBox(tr("Monthly budget:"), this);
 	budgetButton->setChecked(false);

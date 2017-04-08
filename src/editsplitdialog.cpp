@@ -279,8 +279,9 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	
 	QStringList descr_list;
 	QString descr;
-	SplitTransaction *split = budget->splitTransactions.last();
-	while(split) {
+	for(SplitTransactionList<SplitTransaction*>::const_iterator it = budget->splitTransactions.constEnd(); it != budget->splitTransactions.constBegin();) {
+		--it;
+		SplitTransaction *split = *it;
 		descr = split->description();
 		if(split->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS && !descr.isEmpty() && !descr_list.contains(descr, Qt::CaseInsensitive)) {
 			QList<QStandardItem*> row;
@@ -289,7 +290,6 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 			((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
 			descr_list << descr.toLower();
 		}
-		split = budget->splitTransactions.previous();
 	}
 	((QStandardItemModel*) descriptionEdit->completer()->model())->sort(1);
 
@@ -313,8 +313,9 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 		payeeEdit->completer()->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
 		payeeEdit->completer()->setCaseSensitivity(Qt::CaseInsensitive);
 		QStringList payee_list;
-		Expense *expense = budget->expenses.last();
-		while(expense) {
+		for(TransactionList<Expense*>::const_iterator it = budget->expenses.constEnd(); it != budget->expenses.constBegin();) {
+			--it;
+			Expense *expense = *it;
 			if(expense->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && expense->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST) {
 				if(!expense->payee().isEmpty() && !payee_list.contains(expense->payee(), Qt::CaseInsensitive)) {
 					QList<QStandardItem*> row;
@@ -324,10 +325,10 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 					payee_list << expense->payee().toLower();
 				}
 			}
-			expense = budget->expenses.previous();
 		}
-		Income *income = budget->incomes.last();
-		while(income) {
+		for(TransactionList<Income*>::const_iterator it = budget->incomes.constEnd(); it != budget->incomes.constBegin();) {
+			--it;
+			Income *income = *it;
 			if(!income->security()) {
 				if(!income->payer().isEmpty() && !payee_list.contains(income->payer(), Qt::CaseInsensitive)) {
 					QList<QStandardItem*> row;
@@ -337,7 +338,6 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 					payee_list << income->payer().toLower();
 				}
 			}
-			income = budget->incomes.previous();
 		}
 		((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
 	} else {
@@ -1103,8 +1103,8 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 	}
 	
 	int i = 0;
-	AssetsAccount *account = budget->assetsAccounts.first();
-	while(account) {
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *account = *it;
 		if(account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD) {
 			loanCombo->addItem(account->name(), qVariantFromValue((void*) account));
 			if(account == default_loan) {
@@ -1112,7 +1112,6 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 			}
 			i++;
 		}
-		account = budget->assetsAccounts.next();
 	}
 
 	b_search = true;
@@ -1169,14 +1168,15 @@ void EditDebtPaymentWidget::loanActivated(int index) {
 	AssetsAccount *loan = (AssetsAccount*) loanCombo->itemData(index).value<void*>();
 	if(!loan) return;
 	if(b_search) {
-		DebtPayment *trans = NULL;
-		SplitTransaction *split = budget->splitTransactions.last();
-		while(split) {
+		DebtPayment *trans = NULL;		
+		SplitTransactionList<SplitTransaction*>::const_iterator it = budget->splitTransactions.constEnd();
+		while(it != budget->splitTransactions.constBegin()) {
+			--it;
+			SplitTransaction *split = *it;
 			if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN && ((DebtPayment*) split)->loan() == loan) {
 				trans = (DebtPayment*) split;
 				break;
 			}
-			split = budget->splitTransactions.previous();
 		}
 		if(trans) {
 			if(paymentEdit) paymentEdit->setValue(trans->payment());
@@ -1190,24 +1190,24 @@ void EditDebtPaymentWidget::loanActivated(int index) {
 				categoryCombo->setCurrentAccount(trans->expenseCategory());
 			} else {
 				ExpensesAccount *cat = NULL;
-				SplitTransaction *split = budget->splitTransactions.previous();
-				while(split) {
+				while(it != budget->splitTransactions.constBegin()) {
+					--it;
+					SplitTransaction *split = *it;
 					if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN && ((DebtPayment*) split)->loan() == loan) {
 						cat = ((DebtPayment*) split)->expenseCategory();
 						if(cat) break;
 					}
-					split = budget->splitTransactions.previous();
 				}
 				if(cat) {
 					categoryCombo->setCurrentAccount(cat);
 				} else {
-					Expense *etrans = budget->expenses.last();
-					while(etrans) {
+					for(TransactionList<Expense*>::const_iterator it = budget->expenses.constEnd(); it != budget->expenses.constBegin();) {
+						--it;
+						Expense *etrans = *it;
 						if(etrans->from() == loan) {
 							categoryCombo->setCurrentAccount(etrans->category());
 							break;
 						}
-						etrans = budget->expenses.previous();
 					}
 				}
 			}

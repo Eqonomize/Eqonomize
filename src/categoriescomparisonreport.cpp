@@ -55,6 +55,7 @@
 #include <QPrintDialog>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QDebug>
 
 #include "account.h"
 #include "budget.h"
@@ -95,15 +96,13 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	sourceCombo->setEditable(false);
 	sourceCombo->addItem(tr("All Categories, excluding subcategories"));
 	sourceCombo->addItem(tr("All Categories, including subcategories"));
-	Account *account = budget->expensesAccounts.first();
-	while(account) {
+	for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+		Account *account = *it;
 		sourceCombo->addItem(tr("Expenses: %1").arg(account->nameWithParent()));
-		account = budget->expensesAccounts.next();
 	}
-	account = budget->incomesAccounts.first();
-	while(account) {
+	for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+		Account *account = *it;
 		sourceCombo->addItem(tr("Incomes: %1").arg(account->nameWithParent()));
-		account = budget->incomesAccounts.next();
 	}	
 	sourceLayout->addWidget(sourceCombo);
 	sourceLayout->setStretchFactor(sourceCombo, 1);
@@ -233,13 +232,12 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 
 void CategoriesComparisonReport::resetOptions() {
 	QDate first_date;
-	Transaction *trans = budget->transactions.first();
-	while(trans) {
+	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+		Transaction *trans = *it;
 		if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
 			first_date = trans->date();
 			break;
 		}
-		trans = budget->transactions.next();
 	}
 	to_date = QDate::currentDate();
 	from_date = to_date.addYears(-1).addDays(1);
@@ -317,8 +315,8 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 				has_empty_description = false;
 				has_empty_payee = false;
 				QMap<QString, bool> descriptions, payees;
-				Transaction *trans = budget->transactions.first();
-				while(trans) {
+				for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+					Transaction *trans = *it;
 					if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
 						if(trans->description().isEmpty()) has_empty_description = true;
 						else descriptions[trans->description()] = true;
@@ -330,7 +328,6 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 							else payees[((Income*) trans)->payer()] = true;
 						}
 					}
-					trans = budget->transactions.next();
 				}
 				QMap<QString, bool>::iterator it_e = descriptions.end();
 				for(QMap<QString, bool>::iterator it = descriptions.begin(); it != it_e; ++it) {
@@ -571,21 +568,19 @@ void CategoriesComparisonReport::updateDisplay() {
 	if(current_account) type = current_account->type();
 	switch(i_source) {
 		case 0: {
-			CategoryAccount *account = budget->expensesAccounts.first();
-			while(account) {
+			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+				CategoryAccount *account = *it;
 				if(include_subs || !account->parentCategory()) {
 					values[account] = 0.0;
 					counts[account] = 0.0;
 				}
-				account = budget->expensesAccounts.next();
 			}
-			account = budget->incomesAccounts.first();
-			while(account) {
+			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+				CategoryAccount *account = *it;
 				if(include_subs || !account->parentCategory()) {
 					values[account] = 0.0;
 					counts[account] = 0.0;
 				}
-				account = budget->incomesAccounts.next();
 			}
 			break;
 		}
@@ -593,15 +588,14 @@ void CategoriesComparisonReport::updateDisplay() {
 			if(include_subs) {
 				values[current_account] = 0.0;
 				counts[current_account] = 0.0;
-				CategoryAccount *account = current_account->subCategories.first();
-				while(account) {
+				for(AccountList<CategoryAccount*>::const_iterator it = current_account->subCategories.constBegin(); it != current_account->subCategories.constEnd(); ++it) {
+					CategoryAccount *account = *it;
 					values[account] = 0.0;
 					counts[account] = 0.0;
-					account = current_account->subCategories.next();
 				}
 			} else if(current_account) {
-				Transaction *trans = budget->transactions.first();
-				while(trans) {
+				for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+					Transaction *trans = *it;
 					if((trans->fromAccount() == current_account || trans->toAccount() == current_account) && (i_source <= 2 || (i_source == 4 && trans->description() == current_description) || (i_source == 3 && ((trans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) trans)->payee() == current_payee) || (trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->payer() == current_payee))))) {
 						if(i_source == 2 || i_source == 4) {
 							if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
@@ -616,7 +610,6 @@ void CategoriesComparisonReport::updateDisplay() {
 							desc_counts[trans->description()] = 0.0;
 						}
 					}
-					trans = budget->transactions.next();
 				}
 			}
 		}
@@ -626,20 +619,19 @@ void CategoriesComparisonReport::updateDisplay() {
 	if(fromButton->isChecked()) {
 		first_date = from_date;
 	} else {
-		Transaction *trans = budget->transactions.first();
-		while(trans) {
+		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+			Transaction *trans = *it;
 			if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
 				first_date = trans->date();
 				break;
 			}
-			trans = budget->transactions.next();
 		}
 		if(first_date.isNull()) first_date = QDate::currentDate();
 		if(first_date > to_date) first_date = to_date;
 	}
-	Transaction *trans = budget->transactions.first();
 	bool first_date_reached = false;
-	while(trans) {
+	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+		Transaction *trans = *it;
 		if(!first_date_reached && trans->date() >= first_date) first_date_reached = true;
 		else if(first_date_reached && trans->date() > to_date) break;
 		if(first_date_reached) {
@@ -711,15 +703,16 @@ void CategoriesComparisonReport::updateDisplay() {
 				}
 			}
 		}
-		trans = budget->transactions.next();
 	}
 	first_date_reached = false;
-	ScheduledTransaction *strans = budget->scheduledTransactions.first();
+	Transaction *trans = NULL;
 	int split_i = 0;
-	while(strans) {
+	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd();) {
+		ScheduledTransaction *strans = *it;
 		while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0) {
-			strans = budget->scheduledTransactions.next();
-			if(!strans) break;
+			++it;
+			if(it == budget->scheduledTransactions.constEnd()) break;
+			strans = *it;
 		}
 		if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
 			trans = ((SplitTransaction*) strans->transaction())->at(split_i);
@@ -804,7 +797,7 @@ void CategoriesComparisonReport::updateDisplay() {
 			}
 		}
 		if(strans->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT || split_i >= ((SplitTransaction*) strans->transaction())->count()) {
-			strans = budget->scheduledTransactions.next();
+			++it;
 			split_i = 0;
 		}
 	}
@@ -899,39 +892,43 @@ void CategoriesComparisonReport::updateDisplay() {
 		if(modf(counts[current_account], &intpart) != 0.0) {
 			i_count_frac = 2;
 		} else {
-			CategoryAccount *account = current_account->subCategories.first();
-			while(account) {
+			for(AccountList<CategoryAccount*>::const_iterator it = current_account->subCategories.constBegin(); it != current_account->subCategories.constEnd(); ++it) {
+				CategoryAccount *account = *it;
 				if(modf(counts[account], &intpart) != 0.0) {
 					i_count_frac = 2;
 					break;
 				}
-				account = current_account->subCategories.next();
 			}
 		}
 	} else {
-		CategoryAccount *account = budget->incomesAccounts.first();
-		while(account) {
+		for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+			CategoryAccount *account = *it;
 			if((include_subs || !account->parentCategory()) && modf(counts[account], &intpart) != 0.0) {
 				i_count_frac = 2;
 				break;
 			}
-			account = budget->incomesAccounts.next();
 		}
 		if(i_count_frac == 0) {
-			account = budget->expensesAccounts.first();
-			while(account) {
+			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+				CategoryAccount *account = *it;
 				if((include_subs || !account->parentCategory()) && modf(counts[account], &intpart) != 0.0) {
 					i_count_frac = 2;
 					break;
 				}
-				account = budget->expensesAccounts.next();
 			}
 		}
 	}
 	if(current_account) {
 		if(include_subs) {
-			CategoryAccount *account = current_account->subCategories.first();
-			while(account) {
+			CategoryAccount *account = NULL;
+			for(AccountList<CategoryAccount*>::const_iterator it = current_account->subCategories.constBegin();;) {
+				if(account == current_account) break;
+				if(it != current_account->subCategories.constEnd()) {
+					account = *it;
+					++it;
+				} else {
+					account = current_account;
+				}
 				outf << "\t\t\t\t<tr>" << '\n';
 				outf << FIRST_COL << htmlize_string(account->name()) << "</td>";
 				col = 1;
@@ -943,9 +940,6 @@ void CategoriesComparisonReport::updateDisplay() {
 				if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(counts[account] == 0.0 ? 0.0 : (values[account] / counts[account]))) << "</td>";
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
-				if(account == current_account) break;
-				account = current_account->subCategories.next();
-				if(!account) account = current_account;
 			}
 		} else {
 			QMap<QString, double>::iterator it_e = desc_values.end();
@@ -983,8 +977,8 @@ void CategoriesComparisonReport::updateDisplay() {
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
 	} else {
-		CategoryAccount *account = budget->incomesAccounts.first();
-		while(account) {
+		for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+			CategoryAccount *account = *it;
 			if(include_subs || !account->parentCategory()) {
 				outf << "\t\t\t\t<tr>" << '\n';
 				if(account->parentCategory()) {
@@ -1010,7 +1004,6 @@ void CategoriesComparisonReport::updateDisplay() {
 				outf << "\t\t\t\t</tr>" << '\n';
 					
 			}
-			account = budget->incomesAccounts.next();
 		}
 		outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
 		outf << FIRST_COL_DIV << htmlize_string(tr("Total incomes")) << "</b></td>";
@@ -1023,8 +1016,8 @@ void CategoriesComparisonReport::updateDisplay() {
 		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(budget->formatMoney(incomes_count == 0.0 ? 0.0 : (incomes / incomes_count))) << "</b></td>";
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
-		account = budget->expensesAccounts.first();
-		while(account) {
+		for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+			CategoryAccount *account = *it;
 			if(include_subs || !account->parentCategory()) {
 				outf << "\t\t\t\t<tr>" << '\n';
 				if(account->parentCategory()) {
@@ -1049,7 +1042,6 @@ void CategoriesComparisonReport::updateDisplay() {
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
 			}
-			account = budget->expensesAccounts.next();
 		}
 		outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
 		outf << FIRST_COL_BOTTOM << htmlize_string(tr("Total expenses")) << "</b></td>";
@@ -1103,8 +1095,8 @@ void CategoriesComparisonReport::updateTransactions() {
 		has_empty_description = false;
 		has_empty_payee = false;
 		QMap<QString, bool> descriptions, payees;
-		Transaction *trans = budget->transactions.first();
-		while(trans) {
+		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+			Transaction *trans = *it;
 			if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
 				if(trans->description().isEmpty()) has_empty_description = true;
 				else descriptions[trans->description()] = true;
@@ -1116,7 +1108,6 @@ void CategoriesComparisonReport::updateTransactions() {
 					else payees[((Income*) trans)->payer()] = true;
 				}
 			}
-			trans = budget->transactions.next();
 		}
 		int i = 1;
 		QMap<QString, bool>::iterator it_e = descriptions.end();
@@ -1164,18 +1155,16 @@ void CategoriesComparisonReport::updateAccounts() {
 	sourceCombo->clear();
 	sourceCombo->addItem(tr("All Categories"));
 	int i = 1;
-	Account *account = budget->expensesAccounts.first();
-	while(account) {
+	for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+		Account *account = *it;
 		sourceCombo->addItem(tr("Expenses: %1").arg(account->nameWithParent()));
 		if(account == current_account) curindex = i;
-		account = budget->expensesAccounts.next();
 		i++;
 	}
-	account = budget->incomesAccounts.first();
-	while(account) {
+	for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+		Account *account = *it;
 		sourceCombo->addItem(tr("Incomes: %1").arg(account->nameWithParent()));
 		if(account == current_account) curindex = i;
-		account = budget->incomesAccounts.next();
 		i++;
 	}
 	if(curindex < sourceCombo->count()) sourceCombo->setCurrentIndex(curindex);

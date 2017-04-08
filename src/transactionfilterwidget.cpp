@@ -157,8 +157,8 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 		filterLayout->addItem(new QSpacerItem(1, 1, QSizePolicy::Minimum, QSizePolicy::Expanding), 4, 0, 1, 4);
 	}
 
-	fromCombo->addItem(tr("All"));
-	toCombo->addItem(tr("All"));
+	fromCombo->addItem(tr("All"), qVariantFromValue((void*) NULL));
+	toCombo->addItem(tr("All"), qVariantFromValue((void*) NULL));
 
 	if(payeeEdit) {
 		connect(payeeEdit, SIGNAL(textChanged(const QString&)), this, SIGNAL(filter()));
@@ -293,24 +293,20 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 		maxEdit->setValue(max);
 	}
 	if(from_account) {
-		for(QVector<Account*>::size_type i = 0; i < froms.size(); i++) {
-			if(froms[i] == from_account) {
-				fromCombo->setCurrentIndex(i + 1);
-				emit fromActivated(i + 1);
-				break;
-			}
+		int i = fromCombo->findData(qVariantFromValue((void*) from_account));
+		if(i >= 0) {
+			fromCombo->setCurrentIndex(i);
+			emit fromActivated(i);
 		}
 	} else {
 		fromCombo->setCurrentIndex(0);
 		emit fromActivated(0);
 	}
 	if(to_account) {
-		for(QVector<Account*>::size_type i = 0; i < tos.size(); i++) {
-			if(tos[i] == to_account) {
-				toCombo->setCurrentIndex(i + 1);
-				emit toActivated(i + 1);
-				break;
-			}
+		int i = toCombo->findData(qVariantFromValue((void*) to_account));
+		if(i >= 0) {
+			toCombo->setCurrentIndex(i);
+			emit toActivated(i);
 		}
 	} else {
 		toCombo->setCurrentIndex(0);
@@ -341,36 +337,28 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 }
 void TransactionFilterWidget::updateFromAccounts() {
 	fromCombo->clear();
-	froms.clear();
-	fromCombo->addItem(tr("All"));
-	Account *account;
+	fromCombo->addItem(tr("All"), qVariantFromValue((void*) NULL));
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
-			account = budget->assetsAccounts.first();
-			while(account) {
-				fromCombo->addItem(account->name());
-				froms.push_back(account);
-				account = budget->assetsAccounts.next();
+			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+				Account *account = *it;
+				fromCombo->addItem(account->name(), qVariantFromValue((void*) account));
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_EXPENSE: {
-			account = budget->assetsAccounts.first();
-			while(account) {
+			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+				Account *account = *it;
 				if(account != budget->balancingAccount && ((AssetsAccount*) account)->accountType() != ASSETS_TYPE_SECURITIES) {
-					fromCombo->addItem(account->name());
-					froms.push_back(account);
+					fromCombo->addItem(account->name(), qVariantFromValue((void*) account));
 				}
-				account = budget->assetsAccounts.next();
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
-			account = budget->incomesAccounts.first();
-			while(account) {
-				fromCombo->addItem(account->name());
-				froms.push_back(account);
-				account = budget->incomesAccounts.next();
+			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+				Account *account = *it;
+				fromCombo->addItem(account->name(), qVariantFromValue((void*) account));
 			}
 			break;
 		}
@@ -379,36 +367,28 @@ void TransactionFilterWidget::updateFromAccounts() {
 }
 void TransactionFilterWidget::updateToAccounts() {
 	toCombo->clear();
-	tos.clear();
-	toCombo->addItem(tr("All"));
-	Account *account;
+	toCombo->addItem(tr("All"), qVariantFromValue((void*) NULL));
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
-			account = budget->assetsAccounts.first();
-			while(account) {
-				toCombo->addItem(account->name());
-				tos.push_back(account);
-				account = budget->assetsAccounts.next();
+			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+				Account *account = *it;
+				toCombo->addItem(account->name(), qVariantFromValue((void*) account));
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
-			account = budget->assetsAccounts.first();
-			while(account) {
+			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+				Account *account = *it;
 				if(account != budget->balancingAccount) {
-					toCombo->addItem(account->name());
-					tos.push_back(account);
+					toCombo->addItem(account->name(), qVariantFromValue((void*) account));
 				}
-				account = budget->assetsAccounts.next();
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_EXPENSE: {
-			account = budget->expensesAccounts.first();
-			while(account) {
-				toCombo->addItem(account->nameWithParent());
-				tos.push_back(account);
-				account = budget->expensesAccounts.next();
+			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+				Account *account = *it;
+				toCombo->addItem(account->nameWithParent(), qVariantFromValue((void*) account));
 			}
 			break;
 		}
@@ -451,7 +431,7 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 	bool b_exact = exactMatchButton->isChecked();
 	bool b_exclude_subs = excludeSubsButton ? excludeSubsButton->isChecked() : b_exact;
 	if(includeButton->isChecked()) {
-		Account *account = tos[toCombo->currentIndex() - 1];
+		Account *account = (Account*) toCombo->currentData().value<void*>();
 		if(toCombo->currentIndex() > 0 && account != trans->toAccount() && (b_exclude_subs || account != trans->toAccount()->topAccount())) {
 			if(split) {
 				bool b = false;
@@ -466,7 +446,7 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 				return true;
 			}
 		}
-		account = froms[fromCombo->currentIndex() - 1];
+		account = (Account*) fromCombo->currentData().value<void*>();
 		if(fromCombo->currentIndex() > 0 && account != trans->fromAccount() && (b_exclude_subs || account != trans->fromAccount()->topAccount())) {
 			if(split) {
 				bool b = false;
@@ -547,11 +527,11 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 			}
 		}
 	} else {
-		Account *account = tos[toCombo->currentIndex() - 1];
+		Account *account = (Account*) toCombo->currentData().value<void*>();
 		if(toCombo->currentIndex() > 0 && (account == trans->toAccount() || (!b_exclude_subs && account == trans->toAccount()->topAccount()))) {
 			if(!split || transtype != TRANSACTION_TYPE_INCOME || !split->account()) return true;
 		}
-		account = froms[fromCombo->currentIndex() - 1];
+		account = (Account*) fromCombo->currentData().value<void*>();
 		if(fromCombo->currentIndex() > 0 && (account == trans->fromAccount() || (!b_exclude_subs && account == trans->fromAccount()->topAccount()))) {
 			if(!split || transtype != TRANSACTION_TYPE_EXPENSE || !split->account()) return true;
 		}
@@ -650,8 +630,9 @@ void TransactionFilterWidget::transactionsReset() {
 	QStringList descr_list;
 	switch(transtype) {
 		case TRANSACTION_TYPE_EXPENSE: {
-			Expense *expense = budget->expenses.last();
-			while(expense) {
+			for(TransactionList<Expense*>::const_iterator it = budget->expenses.constEnd(); it != budget->expenses.constBegin();) {
+				--it;
+				Expense *expense = *it;
 				if(!expense->description().isEmpty() && !descr_list.contains(expense->description(), Qt::CaseInsensitive)) {
 					QList<QStandardItem*> row;
 					row << new QStandardItem(expense->description());
@@ -666,13 +647,13 @@ void TransactionFilterWidget::transactionsReset() {
 					((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
 					payee_list << expense->payee().toLower();
 				}
-				expense = budget->expenses.previous();
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
-			Income *income = budget->incomes.last();
-			while(income) {
+			for(TransactionList<Income*>::const_iterator it = budget->incomes.constEnd(); it != budget->incomes.constBegin();) {
+				--it;
+				Income *income = *it;
 				if(!income->security() && !income->description().isEmpty() && !descr_list.contains(income->description(), Qt::CaseInsensitive)) {
 					QList<QStandardItem*> row;
 					row << new QStandardItem(income->description());
@@ -687,13 +668,13 @@ void TransactionFilterWidget::transactionsReset() {
 					((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
 					payee_list << income->payer().toLower();
 				}
-				income = budget->incomes.previous();
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_TRANSFER: {
-			Transfer *transfer= budget->transfers.last();
-			while(transfer) {
+			for(TransactionList<Transfer*>::const_iterator it = budget->transfers.constEnd(); it != budget->transfers.constBegin();) {
+				--it;
+				Transfer *transfer = *it;
 				if(!transfer->description().isEmpty() && !descr_list.contains(transfer->description(), Qt::CaseInsensitive)) {
 					QList<QStandardItem*> row;
 					row << new QStandardItem(transfer->description());
@@ -701,7 +682,6 @@ void TransactionFilterWidget::transactionsReset() {
 					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
 					descr_list << transfer->description().toLower();
 				}
-				transfer = budget->transfers.previous();
 			}
 			break;
 		}
@@ -813,19 +793,18 @@ QDate TransactionFilterWidget::firstDate() {
 	QDate first_date;
 	switch(transtype) {
 		case TRANSACTION_TYPE_EXPENSE: {
-			if(!budget->expenses.isEmpty()) first_date = budget->expenses.getFirst()->date();
-			SecurityTransaction *sectrans = budget->securityTransactions.first();
-			while(sectrans) {
+			if(!budget->expenses.isEmpty()) first_date = budget->expenses.first()->date();
+			for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = budget->securityTransactions.constBegin(); it != budget->securityTransactions.constEnd(); ++it) {
+				SecurityTransaction *sectrans = *it;
 				if(!first_date.isNull() && sectrans->date() >= first_date) break;
 				if(sectrans->account()->type() == ACCOUNT_TYPE_EXPENSES) {
 					first_date = sectrans->date();
 					break;
 				}
-				sectrans = budget->securityTransactions.next();
 			}
 			if(first_date.isNull()) {
-				ScheduledTransaction *strans = budget->scheduledTransactions.first();
-				while(strans) {
+				for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd(); ++it) {
+					ScheduledTransaction *strans = *it;
 					if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
 						for(int i = 0; i < ((SplitTransaction*) strans->transaction())->count(); i++) {
 							Transaction *trans = ((SplitTransaction*) strans->transaction())->at(i);
@@ -840,25 +819,23 @@ QDate TransactionFilterWidget::firstDate() {
 							break;
 						}
 					}
-					strans = budget->scheduledTransactions.next();
 				}
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
-			if(!budget->incomes.isEmpty()) first_date = budget->incomes.getFirst()->date();
-			SecurityTransaction *sectrans = budget->securityTransactions.first();
-			while(sectrans) {
+			if(!budget->incomes.isEmpty()) first_date = budget->incomes.first()->date();
+			for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = budget->securityTransactions.constBegin(); it != budget->securityTransactions.constEnd(); ++it) {
+				SecurityTransaction *sectrans = *it;
 				if(!first_date.isNull() && sectrans->date() >= first_date) break;
 				if(sectrans->account()->type() == ACCOUNT_TYPE_INCOMES) {
 					first_date = sectrans->date();
 					break;
 				}
-				sectrans = budget->securityTransactions.next();
 			}
 			if(first_date.isNull()) {
-				ScheduledTransaction *strans = budget->scheduledTransactions.first();
-				while(strans) {
+				for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd(); ++it) {
+					ScheduledTransaction *strans = *it;
 					if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
 						for(int i = 0; i < ((SplitTransaction*) strans->transaction())->count(); i++) {
 							Transaction *trans = ((SplitTransaction*) strans->transaction())->at(i);
@@ -873,25 +850,23 @@ QDate TransactionFilterWidget::firstDate() {
 							break;
 						}
 					}
-					strans = budget->scheduledTransactions.next();
 				}
 			}
 			break;
 		}
 		case TRANSACTION_TYPE_TRANSFER: {
-			if(!budget->transfers.isEmpty()) first_date = budget->transfers.getFirst()->date();
-			SecurityTransaction *sectrans = budget->securityTransactions.first();
-			while(sectrans) {
+			if(!budget->transfers.isEmpty()) first_date = budget->transfers.first()->date();
+			for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = budget->securityTransactions.constBegin(); it != budget->securityTransactions.constEnd(); ++it) {
+				SecurityTransaction *sectrans = *it;
 				if(!first_date.isNull() && sectrans->date() >= first_date) break;
 				if(sectrans->account()->type() == ACCOUNT_TYPE_ASSETS) {
 					first_date = sectrans->date();
 					break;
 				}
-				sectrans = budget->securityTransactions.next();
 			}
 			if(first_date.isNull()) {
-				ScheduledTransaction *strans = budget->scheduledTransactions.first();
-				while(strans) {
+				for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd(); ++it) {
+					ScheduledTransaction *strans = *it;
 					if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
 						for(int i = 0; i < ((SplitTransaction*) strans->transaction())->count(); i++) {
 							Transaction *trans = ((SplitTransaction*) strans->transaction())->at(i);
@@ -906,7 +881,6 @@ QDate TransactionFilterWidget::firstDate() {
 							break;
 						}
 					}
-					strans = budget->scheduledTransactions.next();
 				}
 			}
 			break;

@@ -608,7 +608,7 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(paren
 	for(AccountList<AssetsAccount*>::const_iterator it = transaction->budget()->assetsAccounts.constBegin(); it != transaction->budget()->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *account = *it;
 		if(account != transaction->budget()->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
-			accountCombo->addItem(account->name());
+			accountCombo->addItem(account->name(), qVariantFromValue((void*) account));
 			if((t_type == TRANSACTION_TYPE_EXPENSE && account == ((Expense*) curtrans)->from()) || (t_type == TRANSACTION_TYPE_INCOME && account == ((Income*) curtrans)->to())) accountCombo->setCurrentIndex(i);
 			i++;
 		}
@@ -635,30 +635,15 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(paren
 
 }
 void RefundDialog::accountActivated(int cur_i) {
-	int i = 0;
-	AssetsAccount *account = NULL;
-	for(AccountList<AssetsAccount*>::const_iterator it = transaction->budget()->assetsAccounts.constBegin(); it != transaction->budget()->assetsAccounts.constEnd(); ++it) {
-		account = *it;
-		if(account != transaction->budget()->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
-			if(i == cur_i) break;
-			i++;
-		}
-	}
+	if(!accountCombo->itemData(cur_i).isValid()) return;
+	AssetsAccount *account = (AssetsAccount*) accountCombo->itemData(cur_i).value<void*>();
 	if(account) valueEdit->setCurrency(account->currency());
 }
 Transaction *RefundDialog::createRefund() {
 	if(!validValues()) return NULL;
 	Transaction *trans = NULL;
-	int i = 0;
-	int cur_i = accountCombo->currentIndex();
 	AssetsAccount *account = NULL;
-	for(AccountList<AssetsAccount*>::const_iterator it = transaction->budget()->assetsAccounts.constBegin(); it != transaction->budget()->assetsAccounts.constEnd(); ++it) {
-		account = *it;
-		if(account != transaction->budget()->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
-			if(i == cur_i) break;
-			i++;
-		}
-	}
+	if(accountCombo->currentData().isValid()) account = (AssetsAccount*) accountCombo->currentData().value<void*>();
 	if(transaction->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
 		trans = ((MultiAccountTransaction*) transaction)->at(0)->copy();
 	} else if(transaction->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
