@@ -147,7 +147,7 @@ class EditDebtPaymentWidget : public QWidget {
 		void newAccount();
 		void newCategory();
 		void valueChanged();
-		void reductionChanged(double);
+		void reductionEditingFinished();
 		void interestSourceChanged();
 		void hasBeenModified();
 

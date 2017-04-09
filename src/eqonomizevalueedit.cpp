@@ -168,8 +168,25 @@ void EqonomizeValueEdit::setCurrency(Currency *currency, bool keep_precision, in
 Currency *EqonomizeValueEdit::currency() {return o_currency;}
 
 QValidator::State EqonomizeValueEdit::validate(QString &input, int &pos) const {
-	QValidator::State s = QDoubleSpinBox::validate(input, pos);
-	if(s == QValidator::Invalid && (pos == 0 || (input[pos - 1] != '[' && input[pos - 1] != ']' && input[pos - 1] != '(' && input[pos - 1] != ')' && input[pos - 1] != ' '))) return QValidator::Intermediate;
+	QString input2 = input;
+	int pos2 = pos;
+	QValidator::State s = QDoubleSpinBox::validate(input2, pos2);
+	if(s == QValidator::Invalid && (pos == 0 || (input[pos - 1] != '[' && input[pos - 1] != ']' && input[pos - 1] != '(' && input[pos - 1] != ')'))) {
+		QString str = input2.trimmed();
+		if(!s_suffix.isEmpty() && str.endsWith(s_suffix)) {
+			str = str.left(str.length() - s_suffix.length());
+		}
+		if(!s_prefix.isEmpty() && str.endsWith(s_prefix)) {
+			str = str.right(str.length() - s_prefix.length());
+		}
+		str = str.simplified();
+		str.remove(' ');
+		if(str != input2) {
+			if(pos2 > str.length()) pos2 = str.length();
+			if(QDoubleSpinBox::validate(str, pos2) == QValidator::Acceptable) return QValidator::Acceptable;
+		}
+		return QValidator::Intermediate;
+	}
 	return s;
 }
 
@@ -177,14 +194,15 @@ QString EqonomizeValueEdit::textFromValue(double value) const {
 	if(!s_suffix.isEmpty()) return s_prefix + QLocale().toString(value, 'f', decimals()) + QString(" ") + s_suffix;
 	return s_prefix + QLocale().toString(value, 'f', decimals());
 }
-double EqonomizeValueEdit::valueFromText(const QString &text) const {
-	QString str = text;
+double EqonomizeValueEdit::valueFromText(const QString &t) const {
+	QString str = t.simplified();
 	if(!s_suffix.isEmpty()) {
-		str.remove(QString(" ") + s_suffix);
+		str.remove(s_suffix);
 	}
 	if(!s_prefix.isEmpty()) {
 		str.remove(s_prefix);
 	}
+	str.remove(' ');
 	return QDoubleSpinBox::valueFromText(str);
 }
 

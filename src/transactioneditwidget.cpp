@@ -167,7 +167,6 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		if(security_value_type != SECURITY_VALUE_AND_SHARES) {
 			editLayout->addWidget(new QLabel(tr("Price per share:", "Financial shares"), this), TEROWCOL(i, 0));
 			quotationEdit = new EqonomizeValueEdit(0.0, security ? security->quotationDecimals() : budget->defaultQuotationDecimals(), false, true, this, budget);
-			quotationEdit->setToolTip(tr("Set to zero if you do not want the price per share of the security to updated."));
 			editLayout->addWidget(quotationEdit, TEROWCOL(i, 1));
 			i++;
 			setQuoteButton = new QCheckBox(tr("Set security share value"), this);
@@ -423,10 +422,16 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	}
 	if(splitcurrency) {
 		if(valueEdit && !transfer_to) valueEdit->setCurrency(splitcurrency);
+		if(quotationEdit && !transfer_to) quotationEdit->setCurrency(splitcurrency);
 		if(depositEdit && transfer_to) depositEdit->setCurrency(splitcurrency);
 	}
 	if(dateEdit) connect(dateEdit, SIGNAL(dateChanged(const QDate&)), this, SIGNAL(dateChanged(const QDate&)));
-	if(valueEdit) connect(valueEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged(double)));
+	if(valueEdit) {
+		connect(valueEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged(double)));
+		if(depositEdit) {
+			connect(valueEdit, SIGNAL(editingFinished()), this, SLOT(valueEditingFinished()));
+		}
+	}
 	if(b_sec) {
 		switch(security_value_type) {
 			case SECURITY_ALL_VALUES: {
@@ -725,10 +730,14 @@ void TransactionEditWidget::currencyChanged(int index) {
 	Currency *cur = (Currency*) currencyCombo->itemData(index).value<void*>();
 	valueEdit->setPrecision(cur->fractionalDigits());
 }
+void TransactionEditWidget::valueEditingFinished() {
+	if(valueEdit && depositEdit && depositEdit->isEnabled() && depositEdit->value() == 0.0 && valueEdit->currency() && depositEdit->currency()) {
+		depositEdit->setValue(valueEdit->currency()->convertTo(valueEdit->value(), depositEdit->currency()));
+	}
+}
 void TransactionEditWidget::valueChanged(double value) {
 	if(valueEdit && depositEdit) {
 		if(!depositEdit->isEnabled()) depositEdit->setValue(value);
-		else if(depositEdit->value() == 0.0 && valueEdit->currency() && depositEdit->currency()) depositEdit->setValue(valueEdit->currency()->convertTo(value, depositEdit->currency()));
 	}
 	if(valueEdit && commentsEdit && calculatedText_object == valueEdit && !calculatedText.isEmpty() && commentsEdit->text().isEmpty()) commentsEdit->setText(calculatedText);
 	if(!quotationEdit || !sharesEdit || !valueEdit) return;

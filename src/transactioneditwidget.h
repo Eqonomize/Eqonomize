@@ -150,6 +150,7 @@ class TransactionEditWidget : public QWidget {
 		void fromChanged();
 		void toChanged();
 		void focusDate();
+		void valueEditingFinished();
 		void valueChanged(double);
 		void securityChanged();
 		void currencyChanged(int);

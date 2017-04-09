@@ -1127,7 +1127,8 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 	if(fileEdit) connect(fileEdit, SIGNAL(textChanged(const QString&)), this, SLOT(hasBeenModified()));
 	if(feeEdit) connect(feeEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
 	if(paymentEdit) connect(paymentEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
-	if(reductionEdit) connect(reductionEdit, SIGNAL(valueChanged(double)), this, SLOT(reductionChanged(double)));
+	if(reductionEdit && paymentEdit) connect(reductionEdit, SIGNAL(editingFinished()), this, SLOT(reductionEditingFinished()));
+	if(reductionEdit) connect(reductionEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
 	if(interestEdit) connect(interestEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
 	if(payedInterestButton) connect(payedInterestButton, SIGNAL(toggled(bool)), this, SLOT(interestSourceChanged()));
 	if(addedInterestButton) connect(addedInterestButton, SIGNAL(toggled(bool)), this, SLOT(interestSourceChanged()));
@@ -1219,13 +1220,11 @@ void EditDebtPaymentWidget::loanActivated(int index) {
 	}
 }
 
-void EditDebtPaymentWidget::reductionChanged(double value) {
+void EditDebtPaymentWidget::reductionEditingFinished() {
 	if(paymentEdit && paymentEdit->isEnabled() && paymentEdit->value() == 0.0 && paymentEdit->currency() && reductionEdit->currency()) {
-		paymentEdit->setValue(reductionEdit->currency()->convertTo(value, paymentEdit->currency()));
+		paymentEdit->setValue(reductionEdit->currency()->convertTo(reductionEdit->value(), paymentEdit->currency()));
 	}
-	valueChanged();
 }
-
 void EditDebtPaymentWidget::valueChanged() {
 	if(categoryCombo) categoryCombo->setEnabled((!paymentEdit && !reductionEdit) || (interestEdit && interestEdit->value() > 0.0) || (feeEdit && feeEdit->value() > 0.0));
 	if(accountCombo && interestEdit && payedInterestButton) {
