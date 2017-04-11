@@ -320,7 +320,7 @@ bool ScheduleListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	if(col == 0) {
 		if(d_date < i->date()) return true;
 		if(d_date > i->date()) return false;
-		return o_strans->description().localeAwareCompare(o_strans->description()) >= 0;
+		return o_strans->description().localeAwareCompare(i->scheduledTransaction()->description()) < 0;
 	} else if(col == 3) {
 		double d1 = o_strans->value(true), d2 = i->scheduledTransaction()->value(true);
 		if(d1 < d2) return true;
