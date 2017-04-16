@@ -4191,7 +4191,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="60"/>
         <source>Occurrences:</source>
-        <translation type="unfinished">Hаличность:</translation>
+        <translation type="unfinished">Наличность:</translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="68"/>
@@ -4679,7 +4679,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="958"/>
         <source>Add</source>
-        <translation type="unfinished">Добавить</translation>
+        <translation>Добавить</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="960"/>
@@ -5457,7 +5457,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="7989"/>
         <location filename="../src/eqonomize.cpp" line="7995"/>
         <source>Assets</source>
-        <translation type="unfinished">Aктивы</translation>
+        <translation type="unfinished">Активы</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1903"/>
@@ -6471,12 +6471,12 @@ Do you want to load the last auto-saved version of the file?</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="5363"/>
         <source>S&amp;ettings</source>
-        <translation type="unfinished">&amp;Hастройкa</translation>
+        <translation type="unfinished">&amp;Настройкa</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5364"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Cпрaвкa</translation>
+        <translation type="unfinished">&amp;Справка</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5366"/>
@@ -6496,12 +6496,12 @@ Do you want to load the last auto-saved version of the file?</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="5385"/>
         <source>&amp;New</source>
-        <translation type="unfinished">Cозд&amp;ать</translation>
+        <translation type="unfinished">Созд&amp;ать</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5387"/>
         <source>&amp;Open…</source>
-        <translation type="unfinished">&amp;Oткрыть…</translation>
+        <translation type="unfinished">&amp;Открыть…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5389"/>
@@ -6526,7 +6526,7 @@ Do you want to load the last auto-saved version of the file?</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="5404"/>
         <source>&amp;Revert</source>
-        <translation type="unfinished">O&amp;бновить</translation>
+        <translation type="unfinished">О&amp;бновить</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5406"/>
@@ -7600,8 +7600,8 @@ What do you want to do with them?</source>
         <source>Failed to import %n data row(s).</source>
         <translation type="unfinished">
             <numerusform>Ошибка импорта данных из %n строчки.</numerusform>
-            <numerusform>Ошибка импорта данных из %n строчeк.</numerusform>
-            <numerusform>Ошибка импорта данных из %n строчeк.</numerusform>
+            <numerusform>Ошибка импорта данных из %n строчек.</numerusform>
+            <numerusform>Ошибка импорта данных из %n строчек.</numerusform>
         </translation>
     </message>
     <message>
@@ -8099,7 +8099,7 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="197"/>
         <source>Join…</source>
-        <translation type="unfinished">соеденить…</translation>
+        <translation type="unfinished">Соеденить…</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="199"/>
@@ -8618,7 +8618,7 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="2508"/>
         <location filename="../src/overtimechart.cpp" line="2893"/>
         <source>Assets</source>
-        <translation type="unfinished">Aктивы</translation>
+        <translation type="unfinished">Активы</translation>
     </message>
     <message>
         <source>All Descriptions Combined</source>
@@ -10594,8 +10594,7 @@ Date: %3</source>
         <location filename="../src/transactionlistwidget.cpp" line="168"/>
         <location filename="../src/transactionlistwidget.cpp" line="1462"/>
         <source>Apply</source>
-        <translation type="unfinished">	
-применить</translation>
+        <translation type="unfinished">применить</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="169"/>
