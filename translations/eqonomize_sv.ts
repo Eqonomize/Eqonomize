@@ -1041,10 +1041,18 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Huvudvaluta</translation>
     </message>
     <message>
+        <location filename="../src/editcurrencydialog.cpp" line="153"/>
+        <location filename="../src/editcurrencydialog.cpp" line="172"/>
         <location filename="../src/editcurrencydialog.cpp" line="180"/>
         <location filename="../src/editcurrencydialog.cpp" line="185"/>
         <source>Error</source>
         <translation>Fel</translation>
+    </message>
+    <message>
+        <location filename="../src/editcurrencydialog.cpp" line="153"/>
+        <location filename="../src/editcurrencydialog.cpp" line="172"/>
+        <source>Failed to save currencies.</source>
+        <translation>Misslyckades med att spara valutor.</translation>
     </message>
     <message>
         <location filename="../src/editcurrencydialog.cpp" line="180"/>
@@ -2595,6 +2603,8 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <location filename="../src/eqonomize.cpp" line="4318"/>
         <location filename="../src/eqonomize.cpp" line="4509"/>
         <location filename="../src/eqonomize.cpp" line="4514"/>
+        <location filename="../src/eqonomize.cpp" line="4517"/>
+        <location filename="../src/eqonomize.cpp" line="4580"/>
         <location filename="../src/eqonomize.cpp" line="5189"/>
         <location filename="../src/eqonomize.cpp" line="5194"/>
         <location filename="../src/eqonomize.cpp" line="5199"/>
@@ -3123,6 +3133,12 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <location filename="../src/eqonomize.cpp" line="4493"/>
         <source>Updating exchange rates…</source>
         <translation>Updatera valutakurser…</translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="4517"/>
+        <location filename="../src/eqonomize.cpp" line="4580"/>
+        <source>Failed to save currencies.</source>
+        <translation>Misslyckades med att spara valutor.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4595"/>

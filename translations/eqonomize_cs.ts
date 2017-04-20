@@ -3502,10 +3502,18 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/editcurrencydialog.cpp" line="153"/>
+        <location filename="../src/editcurrencydialog.cpp" line="172"/>
         <location filename="../src/editcurrencydialog.cpp" line="180"/>
         <location filename="../src/editcurrencydialog.cpp" line="185"/>
         <source>Error</source>
         <translation type="unfinished">Chyba</translation>
+    </message>
+    <message>
+        <location filename="../src/editcurrencydialog.cpp" line="153"/>
+        <location filename="../src/editcurrencydialog.cpp" line="172"/>
+        <source>Failed to save currencies.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/editcurrencydialog.cpp" line="180"/>
@@ -5352,6 +5360,12 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="4517"/>
+        <location filename="../src/eqonomize.cpp" line="4580"/>
+        <source>Failed to save currencies.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="4557"/>
         <source>Unrecognized Currency</source>
         <translation type="unfinished"></translation>
@@ -5460,6 +5474,8 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <location filename="../src/eqonomize.cpp" line="4318"/>
         <location filename="../src/eqonomize.cpp" line="4509"/>
         <location filename="../src/eqonomize.cpp" line="4514"/>
+        <location filename="../src/eqonomize.cpp" line="4517"/>
+        <location filename="../src/eqonomize.cpp" line="4580"/>
         <location filename="../src/eqonomize.cpp" line="5189"/>
         <location filename="../src/eqonomize.cpp" line="5194"/>
         <location filename="../src/eqonomize.cpp" line="5199"/>

@@ -150,7 +150,7 @@ void EditCurrencyDialog::currencyChanged() {
 Currency *EditCurrencyDialog::createCurrency() {
 	Currency *cur = new Currency(budget, codeEdit->text().trimmed(), symbolEdit->text().trimmed(), nameEdit->text().trimmed(), rateEdit->value(), (rateEdit->value() == 1.0 && dateEdit->date() == QDate::currentDate()) ? QDate() : dateEdit->date(), decimalsEdit->value(), prefixButton->isChecked() ? 1 : (suffixButton->isChecked() ? 0 : - 1));
 	budget->addCurrency(cur);
-	budget->saveCurrencies();
+	if(!budget->saveCurrencies()) QMessageBox::critical(isVisible() ? this : parentWidget(), tr("Error"), tr("Failed to save currencies."));
 	if(defaultButton && defaultButton->isChecked()) budget->setDefaultCurrency(cur);
 	return cur;
 }
@@ -169,7 +169,7 @@ void EditCurrencyDialog::modifyCurrency(Currency *cur) {
 		cur->setSymbolPrecedes(-1);
 	}
 	budget->currencyModified(cur);
-	budget->saveCurrencies();
+	if(!budget->saveCurrencies()) QMessageBox::critical(isVisible() ? this : parentWidget(), tr("Error"), tr("Failed to save currencies."));
 	if(defaultButton && defaultButton->isChecked()) budget->setDefaultCurrency(cur);
 }
 void EditCurrencyDialog::accept() {

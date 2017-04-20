@@ -179,7 +179,7 @@ void Budget::loadGlobalCurrencies() {
 	loadCurrenciesFile(QString(DATA_DIR) + "/currencies.xml", false);
 }
 void Budget::loadLocalCurrencies() {
-	loadCurrenciesFile(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/currencies.xml", true);
+	loadCurrenciesFile(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/currencies.xml", true);
 }
 void Budget::loadCurrenciesFile(QString filename, bool is_local) {
 	QFile file(filename);
@@ -309,7 +309,7 @@ QString Budget::loadECBData(QByteArray data) {
 
 bool Budget::saveCurrencies() {
 	
-	QString filename = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/currencies.xml";
+	QString filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/currencies.xml";
 	
 	QFileInfo info(filename);
 	if(info.isDir()) {

@@ -3633,10 +3633,18 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation>Основна валута</translation>
     </message>
     <message>
+        <location filename="../src/editcurrencydialog.cpp" line="153"/>
+        <location filename="../src/editcurrencydialog.cpp" line="172"/>
         <location filename="../src/editcurrencydialog.cpp" line="180"/>
         <location filename="../src/editcurrencydialog.cpp" line="185"/>
         <source>Error</source>
         <translation>Грешка</translation>
+    </message>
+    <message>
+        <location filename="../src/editcurrencydialog.cpp" line="153"/>
+        <location filename="../src/editcurrencydialog.cpp" line="172"/>
+        <source>Failed to save currencies.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/editcurrencydialog.cpp" line="180"/>
@@ -5455,6 +5463,12 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation>Грешка при четене на данни от %1: %2.</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="4517"/>
+        <location filename="../src/eqonomize.cpp" line="4580"/>
+        <source>Failed to save currencies.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="4557"/>
         <source>Unrecognized Currency</source>
         <translation>Непозната Валута</translation>
@@ -5562,6 +5576,8 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="4318"/>
         <location filename="../src/eqonomize.cpp" line="4509"/>
         <location filename="../src/eqonomize.cpp" line="4514"/>
+        <location filename="../src/eqonomize.cpp" line="4517"/>
+        <location filename="../src/eqonomize.cpp" line="4580"/>
         <location filename="../src/eqonomize.cpp" line="5189"/>
         <location filename="../src/eqonomize.cpp" line="5194"/>
         <location filename="../src/eqonomize.cpp" line="5199"/>
