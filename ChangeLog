@@ -1,3 +1,19 @@
+2017-04-07  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Security transactions enhancements and fixes
+
+2017-04-02  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Account drag and drop fixes
+
+2017-03-23  Hanna Knutsson <hanna_k@fmgirl.com>	
+
+	* Import/merge Eqonomize! files
+
+2017-03-21  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Add timestamp property for transactions to be able to consistently sort transactions in the order they were added
+
 2017-03-21  Hanna Knutsson <hanna_k@fmgirl.com>
 
 	* Artithmetic expression and currency conversion in input fields (spin boxes)
