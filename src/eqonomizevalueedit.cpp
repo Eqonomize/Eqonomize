@@ -263,7 +263,7 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 			i++;
 		}
 		for(int terms_i = 0; terms_i < terms.size() - 1; terms_i++) {
-			if(terms_i <terms[terms_i].endsWith('*') || terms[terms_i].endsWith('/') || terms[terms_i].endsWith('^')) {
+			if(terms[terms_i].endsWith('*') || terms[terms_i].endsWith('/') || terms[terms_i].endsWith('^')) {
 				if(!signs[terms_i + 1]) terms[terms_i] += '-';
 				else terms[terms_i] += '+';
 				terms[terms_i] += terms[terms_i + 1];
