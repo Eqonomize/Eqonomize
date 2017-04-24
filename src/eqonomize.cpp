@@ -4514,7 +4514,8 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
 			QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml").arg(errors));
 		} else {
 			settings.setValue("lastExchangeRatesUpdate", QDate::currentDate().toString(Qt::ISODate));
-			if(!budget->saveCurrencies()) QMessageBox::critical(this, tr("Error"), tr("Failed to save currencies."));
+			QString error = budget->saveCurrencies();
+			if(!error.isNull()) QMessageBox::critical(this, tr("Error"), tr("Error saving currencies: %1.").arg(error));
 			if(do_currencies_modified) {
 				currenciesModified();
 			} else {
@@ -4577,7 +4578,8 @@ void Eqonomize::warnAndAskForExchangeRate() {
 		cur->setExchangeRate(rateEdit->value());
 		budget->currencyModified(cur);
 	}
-	if(!budget->saveCurrencies()) QMessageBox::critical(this, tr("Error"), tr("Failed to save currencies."));
+	QString error = budget->saveCurrencies();
+	if(!error.isNull()) QMessageBox::critical(this, tr("Error"), tr("Error saving currencies: %1.").arg(error));
 	dialog->deleteLater();
 }
 

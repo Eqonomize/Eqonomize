@@ -184,7 +184,8 @@ void Budget::loadLocalCurrencies() {
 void Budget::loadCurrenciesFile(QString filename, bool is_local) {
 	QFile file(filename);
 	if(is_local && !file.exists()) {
-		saveCurrencies();
+		QString error = saveCurrencies();
+		if(!error.isNull()) qCritical() << error;
 		return;
 	}
 	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -247,7 +248,10 @@ void Budget::loadCurrenciesFile(QString filename, bool is_local) {
 	
 	file.close();
 
-	if(oldversion && is_local) saveCurrencies();
+	if(oldversion && is_local) {
+		QString error = saveCurrencies();
+		if(!error.isNull()) qCritical() << error;
+	}
 	
 }
 
@@ -307,22 +311,20 @@ QString Budget::loadECBData(QByteArray data) {
 	return QString();
 }
 
-bool Budget::saveCurrencies() {
+QString Budget::saveCurrencies() {
 	
 	QString filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/currencies.xml";
 	
 	QFileInfo info(filename);
 	if(info.isDir()) {
-		qCritical() << tr("File is a directory");
-		return false;
+		return tr("File is a directory");
 	}
 
 	QSaveFile ofile(filename);
 	ofile.open(QIODevice::WriteOnly);
 	if(!ofile.isOpen()) {
 		ofile.cancelWriting();
-		qCritical() << tr("Couldn't open file for writing");
-		return false;
+		return tr("Couldn't open file for writing");
 	}
 	QXmlStreamWriter xml(&ofile);
 	xml.setCodec("UTF-8");
@@ -343,16 +345,14 @@ bool Budget::saveCurrencies() {
 
 	if(ofile.error() != QFile::NoError) {
 		ofile.cancelWriting();
-		qCritical() << tr("Error while writing file; file was not saved");
-		return false;
+		return tr("Error while writing file; file was not saved");
 	}
 
 	if(!ofile.commit()) {
-		qCritical() << tr("Error while writing file; file was not saved");
-		return false;
+		return tr("Error while writing file; file was not saved");
 	}
 	
-	return true;
+	return QString::null;
 }
 
 TransactionConversionRateDate Budget::defaultTransactionConversionRateDate() const {return i_tcrd;}
