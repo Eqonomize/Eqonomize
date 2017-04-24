@@ -255,6 +255,7 @@ void LedgerDialog::accountActivated(int index) {
 }
 void LedgerDialog::updateAccounts() {
 	accountCombo->blockSignals(true);
+	accountCombo->clear();
 	int i = 0;
 	bool account_found = false;
 	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
@@ -416,7 +417,7 @@ void LedgerDialog::printView() {
 	bool run_print = true;
 	if(first_date.isValid()) {
 		QDialog *dialog = new QDialog(this, 0);
-		dialog->setWindowTitle(tr("Date Range"));
+		dialog->setWindowTitle(tr("Select Time Period"));
 		QVBoxLayout *box1 = new QVBoxLayout(dialog);
 		QGridLayout *grid = new QGridLayout();
 		box1->addLayout(grid);
