@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2017 by Hanna Knutsson            *
  *   hanna_k@fmgirl.com                                                    *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -308,8 +308,8 @@ void LedgerDialog::saveView() {
 	}
 
 }
-bool LedgerDialog::exportList(QTextStream &outf, int fileformat) {
-
+bool LedgerDialog::exportList(QTextStream &outf, int fileformat, QDate first_date, QDate last_date) {
+	bool b_loan = (account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD);
 	switch(fileformat) {
 		case 'h': {
 			outf.setCodec("UTF-8");
@@ -330,24 +330,33 @@ bool LedgerDialog::exportList(QTextStream &outf, int fileformat) {
 			outf << "<th>" << htmlize_string(header->text(1)) << "</th>";
 			outf << "<th>" << htmlize_string(header->text(2)) << "</th>";
 			outf << "<th>" << htmlize_string(header->text(3)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(4)) << "</th>";
+			if(b_loan) outf << "<th>" << htmlize_string(header->text(4)) << "</th>";
 			outf << "<th>" << htmlize_string(header->text(5)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(6)) << "</th>" << "\n";
+			outf << "<th>" << htmlize_string(header->text(6)) << "</th>";
+			outf << "<th>" << htmlize_string(header->text(7)) << "</th>" << "\n";
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';
 			outf << "\t\t\t<tbody>" << '\n';
 			QTreeWidgetItemIterator it(transactionsView);
 			LedgerListViewItem *i = (LedgerListViewItem*) *it;
 			while(i) {
-				outf << "\t\t\t\t<tr>" << '\n';
-				outf << "\t\t\t\t\t<td nowrap align=\"right\">" << htmlize_string(i->text(0)) << "</td>";
-				outf << "<td>" << htmlize_string(i->text(1)) << "</td>";
-				outf << "<td>" << htmlize_string(i->text(2)) << "</td>";
-				outf << "<td>" << htmlize_string(i->text(3)) << "</td>";
-				outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(4)) << "</td>";
-				outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(5)) << "</td>";
-				outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(6)) << "</td>" << "\n";
-				outf << "\t\t\t\t</tr>" << '\n';
+				bool include = true;
+				Transactions *transs = i->transaction();
+				if(!transs) transs = i->splitTransaction();
+				if(first_date.isValid() && (!transs || transs->date() < first_date)) include = false;
+				if(include && last_date.isValid() && transs && transs->date() > last_date) include = false;
+				if(include) {
+					outf << "\t\t\t\t<tr>" << '\n';
+					outf << "\t\t\t\t\t<td nowrap align=\"right\">" << htmlize_string(i->text(0)) << "</td>";
+					outf << "<td>" << htmlize_string(i->text(1)) << "</td>";
+					outf << "<td>" << htmlize_string(i->text(2)) << "</td>";
+					outf << "<td>" << htmlize_string(i->text(3)) << "</td>";
+					if(b_loan) outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(4)) << "</td>";
+					outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(5)) << "</td>";
+					outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(6)) << "</td>";
+					outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(7)) << "</td>" << "\n";
+					outf << "\t\t\t\t</tr>" << '\n';
+				}
 				++it;
 				i = (LedgerListViewItem*) *it;
 			}
@@ -360,11 +369,22 @@ bool LedgerDialog::exportList(QTextStream &outf, int fileformat) {
 		case 'c': {
 			//outf.setEncoding(Q3TextStream::Locale);
 			QTreeWidgetItem *header = transactionsView->headerItem();
-			outf << "\"" << header->text(0) << "\",\"" << header->text(1) << "\",\"" << header->text(2) << "\",\"" << header->text(3) << "\",\"" << header->text(4) << "\",\""<< header->text(5) << "\",\"" << header->text(6) << "\"\n";
+			outf << "\"" << header->text(0) << "\",\"" << header->text(1) << "\",\"" << header->text(2) << "\",\"" << header->text(3);
+			if(b_loan) outf << "\",\"" << header->text(4);
+			outf << "\",\""<< header->text(5) << "\",\"" << header->text(6) << "\",\"" << header->text(7) << "\"\n";
 			QTreeWidgetItemIterator it(transactionsView);
 			LedgerListViewItem *i = (LedgerListViewItem*) *it;
 			while(i) {
-				outf << "\"" << i->text(0) << "\",\"" << i->text(1) << "\",\"" << i->text(2) << "\",\"" << i->text(3) << "\",\"" << i->text(4) << "\",\"" << i->text(5) << "\",\"" << i->text(6) << "\"\n";
+				bool include = true;
+				Transactions *transs = i->transaction();
+				if(!transs) transs = i->splitTransaction();
+				if(first_date.isValid() && (!transs || transs->date() < first_date)) include = false;
+				if(include && last_date.isValid() && transs && transs->date() > last_date) include = false;
+				if(include) {
+					outf << "\"" << i->text(0) << "\",\"" << i->text(1) << "\",\"" << i->text(2) << "\",\"" << i->text(3);
+					if(b_loan) outf << "\",\"" << i->text(4);
+					outf << "\",\"" << i->text(5) << "\",\"" << i->text(6) << "\",\"" << i->text(7) << "\"\n";
+				}
 				++it;
 				i = (LedgerListViewItem*) *it;
 			}
@@ -380,16 +400,65 @@ void LedgerDialog::printView() {
 		QMessageBox::critical(this, tr("Error"), tr("Empty transaction list."));
 		return;
 	}
-	QPrinter printer;
-	QPrintDialog print_dialog(&printer, this);
-	if(print_dialog.exec() == QDialog::Accepted) {
-		QString str;
-		QTextStream stream(&str, QIODevice::WriteOnly);
-		exportList(stream, 'h');
-		QTextDocument htmldoc;
-		htmldoc.setHtml(str);
-		htmldoc.print(&printer);
+	QDate first_date, last_date = QDate::currentDate();
+	QTreeWidgetItemIterator it(transactionsView);
+	LedgerListViewItem *i = (LedgerListViewItem*) *it;
+	Transactions *transs = NULL, *prev_transs = NULL;
+	while(i) {
+		prev_transs = transs;
+		transs = i->transaction();
+		if(!transs) transs = i->splitTransaction();
+		++it;
+		i = (LedgerListViewItem*) *it;
 	}
+	if(!transs) transs = prev_transs;
+	if(transs) first_date = transs->date();
+	bool run_print = true;
+	if(first_date.isValid()) {
+		QDialog *dialog = new QDialog(this, 0);
+		dialog->setWindowTitle(tr("Date Range"));
+		QVBoxLayout *box1 = new QVBoxLayout(dialog);
+		QGridLayout *grid = new QGridLayout();
+		box1->addLayout(grid);
+		grid->addWidget(new QLabel(tr("From:"), dialog), 0, 0);
+		QDateEdit *dateFromEdit = new QDateEdit(first_date, dialog);
+		dateFromEdit->setCalendarPopup(true);
+		grid->addWidget(dateFromEdit, 0, 1);
+		grid->addWidget(new QLabel(tr("To:"), dialog), 1, 0);
+		QDateEdit *dateToEdit = new QDateEdit(QDate::currentDate(), dialog);
+		dateToEdit->setCalendarPopup(true);
+		grid->addWidget(dateToEdit, 1, 1);
+		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+		buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+		buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+		connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
+		connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
+		box1->addWidget(buttonBox);
+		if(dialog->exec() == QDialog::Accepted) {
+			if(dateFromEdit->date() <= first_date) first_date = QDate();
+			else first_date = dateFromEdit->date();
+			last_date = dateToEdit->date();
+			if(last_date < first_date) {
+				QMessageBox::critical(this, tr("Error"), tr("To date is before from date."));
+				run_print = false;
+			}
+		} else {
+			run_print = false;
+		}
+		dialog->deleteLater();
+	}
+	if(run_print) {
+		QPrinter printer;
+		QPrintDialog print_dialog(&printer, this);
+		if(print_dialog.exec() == QDialog::Accepted) {
+			QString str;
+			QTextStream stream(&str, QIODevice::WriteOnly);
+			exportList(stream, 'h', first_date, last_date);
+			QTextDocument htmldoc;
+			htmldoc.setHtml(str);
+			htmldoc.print(&printer);
+		}
+	}	
 }
 void LedgerDialog::joinTransactions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();

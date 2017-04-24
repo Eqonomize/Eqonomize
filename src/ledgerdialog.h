@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2017 by Hanna Knutsson            *
  *   hanna_k@fmgirl.com                                                    *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -24,7 +24,8 @@
 
 #include <qtextstream.h>
 
-#include <qdialog.h>
+#include <QDialog>
+#include <QDate>
 
 class QPushButton;
 class QTreeWidget;
@@ -55,7 +56,7 @@ class LedgerDialog : public QDialog {
 		QLabel *statLabel;
 		QAction *ActionNewDebtInterest, *ActionNewDebtPayment;
 
-		bool exportList(QTextStream &outf, int fileformat);
+		bool exportList(QTextStream &outf, int fileformat, QDate first_date = QDate(), QDate last_date = QDate());
 		void accountChanged();
 		
 	public:
