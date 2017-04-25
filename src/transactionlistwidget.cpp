@@ -1083,6 +1083,17 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 			if(!transferColor.isValid()) transferColor = createTransferColor(i, 2);
 			i->setForeground(2, transferColor);
 		}
+		if(strans) {
+			QFont font = i->font(0);
+			font.setItalic(true);
+			i->setFont(0, font);
+			i->setFont(1, font);
+			i->setFont(2, font);
+			i->setFont(3, font);
+			i->setFont(4, font);
+			i->setFont(5, font);
+			i->setFont(6, font);
+		}
 		//i->setTextAlignment(3, Qt::AlignCenter);
 		//i->setTextAlignment(4, Qt::AlignCenter);
 		if((trans && trans == selected_trans) || (split && split == selected_trans)) {
