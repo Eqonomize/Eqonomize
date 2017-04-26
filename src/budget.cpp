@@ -729,6 +729,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 		errors += tr("Unable to load %n transaction(s).", "", transaction_errors);
 	}
 	file.close();
+	resetDefaultCurrencyChanged();
 	return QString::null;
 }
 

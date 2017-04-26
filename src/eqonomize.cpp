@@ -4517,6 +4517,7 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
 			QString error = budget->saveCurrencies();
 			if(!error.isNull()) QMessageBox::critical(this, tr("Error"), tr("Error saving currencies: %1.").arg(error));
 			if(do_currencies_modified) {
+				budget->resetDefaultCurrencyChanged();
 				currenciesModified();
 			} else {
 				if(currencyConversionWindow && currencyConversionWindow->isVisible()) {
@@ -4544,7 +4545,10 @@ void Eqonomize::currenciesModified() {
 	filterAccounts();
 	updateScheduledTransactions();
 	updateSecurities();
-	if(budget->defaultCurrencyChanged()) setModified(true);
+	if(budget->defaultCurrencyChanged()) {
+		setModified(true);
+		budget->resetDefaultCurrencyChanged();
+	}
 	emit transactionsModified();
 	updateUsesMultipleCurrencies();
 	if(currencyConversionWindow && currencyConversionWindow->isVisible()) {
