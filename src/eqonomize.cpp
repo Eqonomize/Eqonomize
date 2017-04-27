@@ -434,7 +434,7 @@ bool ConfirmScheduleListViewItem::operator<(const QTreeWidgetItem &i_pre) const 
 	if(col == 0) {
 		return o_trans->date() < i->transaction()->date();
 	} else if(col == 3) {
-		return o_trans->value() < i->transaction()->value();
+		return o_trans->value(true) < i->transaction()->value(true);
 	}
 	return QTreeWidgetItem::operator<(i_pre);
 }
@@ -1329,19 +1329,19 @@ void ConfirmScheduleDialog::updateTransactions() {
 		}
 	}
 	transactionsView->setSortingEnabled(true);
-	QTreeWidgetItemIterator it(transactionsView);
-	QTreeWidgetItem *i = *it;
+	QTreeWidgetItemIterator qit(transactionsView);
+	QTreeWidgetItem *i = *qit;
 	if(i) i->setSelected(true);
 }
 Transactions *ConfirmScheduleDialog::firstTransaction() {
 	current_index = 0;
-	current_item = (ConfirmScheduleListViewItem*) transactionsView->topLevelItem(current_index);
+	ConfirmScheduleListViewItem *current_item = (ConfirmScheduleListViewItem*) transactionsView->topLevelItem(current_index);
 	if(current_item) return current_item->transaction();
 	return NULL;
 }
 Transactions *ConfirmScheduleDialog::nextTransaction() {
 	current_index++;
-	current_item = (ConfirmScheduleListViewItem*) transactionsView->topLevelItem(current_index);
+	ConfirmScheduleListViewItem *current_item = (ConfirmScheduleListViewItem*) transactionsView->topLevelItem(current_index);
 	if(current_item) return current_item->transaction();
 	return NULL;
 }
@@ -4358,7 +4358,7 @@ void Eqonomize::openURL(const QUrl& url, bool merge) {
 
 	setModified(false);
 	ActionFileSave->setEnabled(false);
-
+	
 	checkSchedule(true);
 
 }
@@ -6020,24 +6020,26 @@ bool Eqonomize::checkSchedule(bool update_display) {
 		ScheduledTransaction *strans = *it;
 		if(strans->firstOccurrence() < QDate::currentDate() || (QTime::currentTime().hour() >= 18 && strans->firstOccurrence() == QDate::currentDate())) {
 			b = true;
-			budget->setRecordNewAccounts(true);
-			budget->resetDefaultCurrencyChanged();
-			budget->resetCurrenciesModified();
-			ConfirmScheduleDialog *dialog = new ConfirmScheduleDialog(b_extra, budget, this, tr("Confirm Schedule"));
-			updateScheduledTransactions();
-			dialog->exec();
-			foreach(Account* acc, budget->newAccounts) emit accountAdded(acc);
-			budget->newAccounts.clear();
-			if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
-			budget->setRecordNewAccounts(false);
-			Transactions *trans = dialog->firstTransaction();
-			while(trans) {
-				budget->addTransactions(trans);
-				trans = dialog->nextTransaction();
-			}
-			dialog->deleteLater();
 			break;
 		}
+	}
+	if(b) {
+		budget->setRecordNewAccounts(true);
+		budget->resetDefaultCurrencyChanged();
+		budget->resetCurrenciesModified();
+		qApp->processEvents();
+		ConfirmScheduleDialog *dialog = new ConfirmScheduleDialog(b_extra, budget, this, tr("Confirm Schedule"));
+		dialog->exec();
+		foreach(Account* acc, budget->newAccounts) emit accountAdded(acc);
+		budget->newAccounts.clear();
+		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
+		budget->setRecordNewAccounts(false);
+		Transactions *trans = dialog->firstTransaction();
+		while(trans) {
+			budget->addTransactions(trans);
+			trans = dialog->nextTransaction();
+		}
+		dialog->deleteLater();
 	}
 	if(b && update_display) {
 		expensesWidget->transactionsReset();

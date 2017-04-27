@@ -529,7 +529,6 @@ class ConfirmScheduleDialog : public QDialog {
 		Budget *budget;
 		bool b_extra;
 		QPushButton *editButton, *removeButton, *postponeButton;
-		ConfirmScheduleListViewItem *current_item;
 		int current_index;
 		
 	public:
