@@ -399,7 +399,9 @@ void CategoriesComparisonChart::save() {
 	fileDialog.selectNameFilter(png_filter);
 	fileDialog.setDefaultSuffix(png_mime.preferredSuffix());
 	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
 	fileDialog.setSupportedSchemes(QStringList("file"));
+#endif
 	fileDialog.setDirectory(last_picture_directory);
 	connect(&fileDialog, SIGNAL(filterSelected(QString)), this, SLOT(onFilterSelected(QString)));
 	QString url;

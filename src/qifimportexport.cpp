@@ -514,7 +514,9 @@ void ExportQIFDialog::selectFile() {
 	fileDialog.setNameFilter("*.qif");
 	fileDialog.setDefaultSuffix("qif");
 	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
 	fileDialog.setSupportedSchemes(QStringList("file"));
+#endif
 	fileDialog.setOption(QFileDialog::DontConfirmOverwrite, true);
 	fileDialog.setDirectory(fileEdit->text().isEmpty() ? last_document_directory + "/" : fileEdit->text().trimmed());
 	if(fileDialog.exec()) {

@@ -460,7 +460,9 @@ void CategoriesComparisonReport::save() {
 	fileDialog.setNameFilter(db.mimeTypeForName("text/html").filterString());
 	fileDialog.setDefaultSuffix(db.mimeTypeForName("text/html").preferredSuffix());
 	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
 	fileDialog.setSupportedSchemes(QStringList("file"));
+#endif
 	fileDialog.setDirectory(last_document_directory);
 	QString url;
 	if(!fileDialog.exec()) return;

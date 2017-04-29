@@ -32,6 +32,7 @@
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QDebug>
+#include <QFocusEvent>
 
 #define MAX_VALUE 1000000000000.0
 

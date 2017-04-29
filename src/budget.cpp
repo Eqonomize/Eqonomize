@@ -30,6 +30,7 @@
 #include <QMap>
 #include <QSaveFile>
 #include <QFileInfo>
+#include <QDir>
 #include <QStandardPaths>
 
 #include <QDebug>
@@ -319,6 +320,7 @@ QString Budget::saveCurrencies() {
 	if(info.isDir()) {
 		return tr("File is a directory");
 	}
+	info.dir().mkpath(".");
 
 	QSaveFile ofile(filename);
 	ofile.open(QIODevice::WriteOnly);

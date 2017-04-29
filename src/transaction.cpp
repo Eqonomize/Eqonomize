@@ -46,16 +46,18 @@ QString Transactions::valueString(double value_, int precision) const {
 	if(!cur) cur = budget()->defaultCurrency();
 	return cur->formatValue(value_, precision);
 }
-void Transactions::setTimestamp() {setTimestamp(QDateTime::currentSecsSinceEpoch());}
+void Transactions::setTimestamp() {
+	setTimestamp(QDateTime::currentMSecsSinceEpoch() * 1000);
+}
 
-Transaction::Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description, QString initial_comment) : o_budget(parent_budget), d_value(initial_value), d_date(initial_date), o_from(from), o_to(to), s_description(initial_description.trimmed()), s_comment(initial_comment), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentSecsSinceEpoch()) {}
+Transaction::Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description, QString initial_comment) : o_budget(parent_budget), d_value(initial_value), d_date(initial_date), o_from(from), o_to(to), s_description(initial_description.trimmed()), s_comment(initial_comment), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentMSecsSinceEpoch() * 1000) {}
 Transaction::Transaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : o_budget(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-Transaction::Transaction(Budget *parent_budget) : o_budget(parent_budget), d_value(0.0), o_from(NULL), o_to(NULL), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentSecsSinceEpoch()) {}
-Transaction::Transaction() : o_budget(NULL), d_value(0.0), o_from(NULL), o_to(NULL), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentSecsSinceEpoch()) {}
+Transaction::Transaction(Budget *parent_budget) : o_budget(parent_budget), d_value(0.0), o_from(NULL), o_to(NULL), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentMSecsSinceEpoch() * 1000) {}
+Transaction::Transaction() : o_budget(NULL), d_value(0.0), o_from(NULL), o_to(NULL), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentMSecsSinceEpoch() * 1000) {}
 Transaction::Transaction(const Transaction *transaction) : o_budget(transaction->budget()), d_value(transaction->value()), d_date(transaction->date()), o_from(transaction->fromAccount()), o_to(transaction->toAccount()), s_description(transaction->description()), s_comment(transaction->comment()), s_file(transaction->associatedFile()), d_quantity(transaction->quantity()), o_split(NULL), i_time(transaction->timestamp()) {}
 Transaction::~Transaction() {}
 
@@ -1066,7 +1068,7 @@ double ScheduledTransaction::accountChange(Account *account, bool include_subs, 
 	return 0.0;
 }
 
-SplitTransaction::SplitTransaction(Budget *parent_budget, QDate initial_date, QString initial_description) : o_budget(parent_budget), d_date(initial_date), s_description(initial_description.trimmed()), i_time(QDateTime::currentSecsSinceEpoch()) {}
+SplitTransaction::SplitTransaction(Budget *parent_budget, QDate initial_date, QString initial_description) : o_budget(parent_budget), d_date(initial_date), s_description(initial_description.trimmed()), i_time(QDateTime::currentMSecsSinceEpoch() * 1000) {}
 SplitTransaction::SplitTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : o_budget(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
@@ -1079,8 +1081,8 @@ SplitTransaction::SplitTransaction(const SplitTransaction *split) : o_budget(spl
 		splits.push_back(trans);
 	}
 }
-SplitTransaction::SplitTransaction(Budget *parent_budget) : o_budget(parent_budget), i_time(QDateTime::currentSecsSinceEpoch()) {}
-SplitTransaction::SplitTransaction() : o_budget(NULL), i_time(QDateTime::currentSecsSinceEpoch()) {}
+SplitTransaction::SplitTransaction(Budget *parent_budget) : o_budget(parent_budget), i_time(QDateTime::currentMSecsSinceEpoch() * 1000) {}
+SplitTransaction::SplitTransaction() : o_budget(NULL), i_time(QDateTime::currentMSecsSinceEpoch() * 1000) {}
 SplitTransaction::~SplitTransaction() {
 	clear();
 }
@@ -1979,7 +1981,7 @@ void DebtPayment::setAccount(AssetsAccount *new_account) {
 void DebtPayment::setDate(QDate new_date) {
 	if(new_date != d_date) {
 		QDate old_date = d_date; d_date = new_date; 
-		i_time = QDateTime::currentSecsSinceEpoch();
+		i_time = QDateTime::currentMSecsSinceEpoch() * 1000;
 		o_budget->splitTransactionSortModified(this);
 		o_budget->splitTransactionDateModified(this, old_date);
 	}

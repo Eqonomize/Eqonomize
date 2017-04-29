@@ -5314,7 +5314,9 @@ void Eqonomize::saveView() {
 	fileDialog.selectNameFilter(html_filter);
 	fileDialog.setDefaultSuffix(db.mimeTypeForName("text/html").preferredSuffix());
 	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
 	fileDialog.setSupportedSchemes(QStringList("file"));
+#endif
 	fileDialog.setDirectory(last_document_directory);
 	connect(&fileDialog, SIGNAL(filterSelected(QString)), this, SLOT(onFilterSelected(QString)));
 	QString url;
@@ -5976,7 +5978,9 @@ bool Eqonomize::fileSaveAs() {
 	fileDialog.setNameFilter(filter_string);
 	fileDialog.setDefaultSuffix(suffix);
 	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
 	fileDialog.setSupportedSchemes(QStringList("file"));
+#endif
 	if(current_url.isValid()) {
 		fileDialog.setDirectory(current_url.adjusted(QUrl::RemoveFilename).toLocalFile());
 	} else {

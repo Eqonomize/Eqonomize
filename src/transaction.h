@@ -821,7 +821,7 @@ class DebtPayment : public SplitTransaction {
 
 class SecurityTrade {
 	public:
-		SecurityTrade(const QDate &date_, double from_shares_, Security *from_security_, double to_shares_, Security *to_security_) : date(date_), from_shares(from_shares_), to_shares(to_shares_), from_security(from_security_), to_security(to_security_), timestamp(QDateTime::currentSecsSinceEpoch()) {}
+		SecurityTrade(const QDate &date_, double from_shares_, Security *from_security_, double to_shares_, Security *to_security_) : date(date_), from_shares(from_shares_), to_shares(to_shares_), from_security(from_security_), to_security(to_security_), timestamp(QDateTime::currentMSecsSinceEpoch() * 1000) {}
 		QDate date;		
 		double from_shares, to_shares;
 		Security *from_security, *to_security;
