@@ -21,6 +21,7 @@
 	<file alias="actions/scalable/eqz-overtime-report.svg">data/scalable/eqz-overtime-report.svg</file>
 	<file alias="actions/scalable/eqz-previous-month.svg">data/scalable/eqz-previous-month.svg</file>
 	<file alias="actions/scalable/eqz-previous-year.svg">data/scalable/eqz-previous-year.svg</file>
+	<file alias="actions/scalable/eqz-refund-repayment.svg">data/scalable/eqz-refund-repayment.svg</file>
 	<file alias="actions/scalable/eqz-schedule.svg">data/scalable/eqz-schedule.svg</file>
 	<file alias="actions/scalable/eqz-security.svg">data/scalable/eqz-security.svg</file>
 	<file alias="actions/scalable/eqz-split-transaction.svg">data/scalable/eqz-split-transaction.svg</file>
@@ -34,6 +35,7 @@
 	<file alias="actions/scalable/document-save-as.svg">data/standard/document-save-as.svg</file>
 	<file alias="actions/scalable/document-save.svg">data/standard/document-save.svg</file>
 	<file alias="actions/scalable/edit-delete.svg">data/standard/edit-delete.svg</file>
+	<file alias="actions/scalable/view-refresh.svg">data/standard/view-refresh.svg</file>
 	<file alias="apps/16x16/eqonomize.png">data/16/eqonomize.png</file>
 	<file alias="actions/16x16/eqz-account.png">data/16/eqz-account.png</file>
 	<file alias="actions/16x16/eqz-balance.png">data/16/eqz-balance.png</file>
@@ -54,6 +56,7 @@
 	<file alias="actions/16x16/eqz-overtime-report.png">data/16/eqz-overtime-report.png</file>
 	<file alias="actions/16x16/eqz-previous-month.png">data/16/eqz-previous-month.png</file>
 	<file alias="actions/16x16/eqz-previous-year.png">data/16/eqz-previous-year.png</file>
+	<file alias="actions/16x16/eqz-refund-repayment.png">data/16/eqz-refund-repayment.png</file>
 	<file alias="actions/16x16/eqz-schedule.png">data/16/eqz-schedule.png</file>
 	<file alias="actions/16x16/eqz-security.png">data/16/eqz-security.png</file>
 	<file alias="actions/16x16/eqz-split-transaction.png">data/16/eqz-split-transaction.png</file>
@@ -70,6 +73,7 @@
 	<file alias="actions/16x16/help-about.png">data/standard/16/help-about.png</file>
 	<file alias="actions/16x16/help-contents.png">data/standard/16/help-contents.png</file>
 	<file alias="actions/16x16/system-run.png">data/standard/16/system-run.png</file>
+	<file alias="actions/16x16/view-refresh.png">data/standard/16/view-refresh.png</file>
 	<file alias="apps/32x32/eqonomize.png">data/32/eqonomize.png</file>
 	<file alias="actions/32x32/eqz-account.png">data/32/eqz-account.png</file>
 	<file alias="actions/32x32/eqz-balance.png">data/32/eqz-balance.png</file>
@@ -90,6 +94,7 @@
 	<file alias="actions/32x32/eqz-overtime-report.png">data/32/eqz-overtime-report.png</file>
 	<file alias="actions/32x32/eqz-previous-month.png">data/32/eqz-previous-month.png</file>
 	<file alias="actions/32x32/eqz-previous-year.png">data/32/eqz-previous-year.png</file>
+	<file alias="actions/32x32/eqz-refund-repayment.png">data/32/eqz-refund-repayment.png</file>
 	<file alias="actions/32x32/eqz-schedule.png">data/32/eqz-schedule.png</file>
 	<file alias="actions/32x32/eqz-security.png">data/32/eqz-security.png</file>
 	<file alias="actions/32x32/eqz-split-transaction.png">data/32/eqz-split-transaction.png</file>
@@ -106,6 +111,7 @@
 	<file alias="actions/32x32/help-about.png">data/standard/32/help-about.png</file>
 	<file alias="actions/32x32/help-contents.png">data/standard/32/help-contents.png</file>
 	<file alias="actions/32x32/system-run.png">data/standard/32/system-run.png</file>
+	<file alias="actions/32x32/view-refresh.png">data/standard/32/view-refresh.png</file>
 	<file alias="actions/48x48/eqz-account.png">data/48/eqz-account.png</file>
 	<file alias="actions/48x48/eqz-balance.png">data/48/eqz-balance.png</file>
 	<file alias="actions/48x48/eqz-categories-chart.png">data/48/eqz-categories-chart.png</file>
@@ -125,6 +131,7 @@
 	<file alias="actions/48x48/eqz-overtime-report.png">data/48/eqz-overtime-report.png</file>
 	<file alias="actions/48x48/eqz-previous-month.png">data/48/eqz-previous-month.png</file>
 	<file alias="actions/48x48/eqz-previous-year.png">data/48/eqz-previous-year.png</file>
+	<file alias="actions/48x48/eqz-refund-repayment.png">data/48/eqz-refund-repayment.png</file>
 	<file alias="actions/48x48/eqz-schedule.png">data/48/eqz-schedule.png</file>
 	<file alias="actions/48x48/eqz-security.png">data/48/eqz-security.png</file>
 	<file alias="actions/48x48/eqz-split-transaction.png">data/48/eqz-split-transaction.png</file>
@@ -141,6 +148,7 @@
 	<file alias="actions/48x48/help-about.png">data/standard/48/help-about.png</file>
 	<file alias="actions/48x48/help-contents.png">data/standard/48/help-contents.png</file>
 	<file alias="actions/48x48/system-run.png">data/standard/48/system-run.png</file>
+	<file alias="actions/48x48/view-refresh.png">data/standard/48/view-refresh.png</file>
 	<file alias="apps/64x64/eqonomize.png">data/64/eqonomize.png</file>
 	<file alias="actions/64x64/eqz-account.png">data/64/eqz-account.png</file>
 	<file alias="actions/64x64/eqz-balance.png">data/64/eqz-balance.png</file>
@@ -161,6 +169,7 @@
 	<file alias="actions/64x64/eqz-overtime-report.png">data/64/eqz-overtime-report.png</file>
 	<file alias="actions/64x64/eqz-previous-month.png">data/64/eqz-previous-month.png</file>
 	<file alias="actions/64x64/eqz-previous-year.png">data/64/eqz-previous-year.png</file>
+	<file alias="actions/64x64/eqz-refund-repayment.png">data/64/eqz-refund-repayment.png</file>
 	<file alias="actions/64x64/eqz-schedule.png">data/64/eqz-schedule.png</file>
 	<file alias="actions/64x64/eqz-security.png">data/64/eqz-security.png</file>
 	<file alias="actions/64x64/eqz-split-transaction.png">data/64/eqz-split-transaction.png</file>
@@ -173,6 +182,7 @@
 	<file alias="actions/64x64/document-save-as.png">data/standard/64/document-save-as.png</file>
 	<file alias="actions/64x64/document-save.png">data/standard/64/document-save.png</file>
 	<file alias="actions/64x64/edit-delete.png">data/standard/64/edit-delete.png</file>
+	<file alias="actions/64x64/view-refresh.png">data/standard/64/view-refresh.png</file>
 	<file alias="apps/22x22/eqonomize.png">data/22/eqonomize.png</file>
 	<file alias="actions/22x22/eqz-account.png">data/22/eqz-account.png</file>
 	<file alias="actions/22x22/eqz-balance.png">data/22/eqz-balance.png</file>
@@ -193,6 +203,7 @@
 	<file alias="actions/22x22/eqz-overtime-report.png">data/22/eqz-overtime-report.png</file>
 	<file alias="actions/22x22/eqz-previous-month.png">data/22/eqz-previous-month.png</file>
 	<file alias="actions/22x22/eqz-previous-year.png">data/22/eqz-previous-year.png</file>
+	<file alias="actions/22x22/eqz-refund-repayment.png">data/22/eqz-refund-repayment.png</file>
 	<file alias="actions/22x22/eqz-schedule.png">data/22/eqz-schedule.png</file>
 	<file alias="actions/22x22/eqz-security.png">data/22/eqz-security.png</file>
 	<file alias="actions/22x22/eqz-split-transaction.png">data/22/eqz-split-transaction.png</file>
@@ -209,5 +220,6 @@
 	<file alias="actions/22x22/help-about.png">data/standard/22/help-about.png</file>
 	<file alias="actions/22x22/help-contents.png">data/standard/22/help-contents.png</file>
 	<file alias="actions/22x22/system-run.png">data/standard/22/system-run.png</file>
+	<file alias="actions/22x22/view-refresh.png">data/standard/22/view-refresh.png</file>
 </qresource>
 </RCC>
