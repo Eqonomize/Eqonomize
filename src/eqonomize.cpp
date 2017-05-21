@@ -4973,7 +4973,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t<tbody>" << '\n';
 			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 				Account *account = *it;
-				if(!IS_DEBT(((AssetsAccount*) account))) {
+				if(!IS_DEBT(((AssetsAccount*) account)) && account != budget->balancingAccount) {
 					outf << "\t\t\t\t<tr>" << '\n';
 					outf << "\t\t\t\t\t<td>" << htmlize_string(account->name());
 					if(includes_budget && ((AssetsAccount*) account)->isBudgetAccount()) outf << "*";
@@ -5104,7 +5104,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t<br>" << '\n';
 			outf << "\t\t<br>" << '\n';
 			outf << "\t\t<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
-			outf << "\t\t\t<caption>"; outf << htmlize_string(tr("Costs")); outf << "</caption>" << '\n';
+			outf << "\t\t\t<caption>"; outf << htmlize_string(tr("Expenses")); outf << "</caption>" << '\n';
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
 			outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Category")) << "</th>";

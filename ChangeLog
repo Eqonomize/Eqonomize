@@ -1,3 +1,7 @@
+2017-05-21  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Fix account list html export (and print preview)
+
 2017-04-25  Hanna Knutsson <hanna_k@fmgirl.com>
 
 	* Italicize scheduled transactions in expenses, incomes and transactions lists
