@@ -1216,7 +1216,7 @@ MultiItemTransaction::MultiItemTransaction(Budget *parent_budget, QXmlStreamRead
 	readElements(xml, valid);
 	if(valid && splits.count() == 0) *valid = false;
 }
-MultiItemTransaction::MultiItemTransaction(const MultiItemTransaction *split) : SplitTransaction(split), o_account(split->account()) {}
+MultiItemTransaction::MultiItemTransaction(const MultiItemTransaction *split) : SplitTransaction(split), o_account(split->account()), s_payee(split->payee()) {}
 MultiItemTransaction::MultiItemTransaction(Budget *parent_budget) : SplitTransaction(parent_budget), o_account(NULL) {}
 MultiItemTransaction::MultiItemTransaction() : SplitTransaction(), o_account(NULL) {}
 MultiItemTransaction::~MultiItemTransaction() {}
