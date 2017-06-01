@@ -1,3 +1,7 @@
+2017-06-01  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Fix payee lost when split transaction copied (affects scheduled split transactions)
+
 2017-05-21  Hanna Knutsson <hanna_k@fmgirl.com>
 
 	* Fix account list html export (and print preview)
