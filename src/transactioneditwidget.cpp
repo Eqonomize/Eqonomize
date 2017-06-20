@@ -739,7 +739,10 @@ void TransactionEditWidget::valueChanged(double value) {
 	if(valueEdit && depositEdit) {
 		if(!depositEdit->isEnabled()) depositEdit->setValue(value);
 	}
-	if(valueEdit && commentsEdit && calculatedText_object == valueEdit && !calculatedText.isEmpty() && commentsEdit->text().isEmpty()) commentsEdit->setText(calculatedText);
+	if(valueEdit && commentsEdit && calculatedText_object == valueEdit && !calculatedText.isEmpty()) {
+		if(commentsEdit->text().isEmpty()) commentsEdit->setText(calculatedText);
+		calculatedText = "";
+	}
 	if(!quotationEdit || !sharesEdit || !valueEdit) return;
 	value_set = true;
 	if(!shares_set && quotationEdit->value() != 0.0) {
