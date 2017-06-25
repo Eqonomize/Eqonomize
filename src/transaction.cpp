@@ -50,7 +50,7 @@ void Transactions::setTimestamp() {
 	setTimestamp(QDateTime::currentMSecsSinceEpoch() * 1000);
 }
 
-Transaction::Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description, QString initial_comment) : o_budget(parent_budget), d_value(initial_value), d_date(initial_date), o_from(from), o_to(to), s_description(initial_description.trimmed()), s_comment(initial_comment), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentMSecsSinceEpoch() * 1000) {}
+Transaction::Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description, QString initial_comment) : o_budget(parent_budget), d_value(initial_value), d_date(initial_date), o_from(from), o_to(to), s_description(initial_description.trimmed()), s_comment(initial_comment.trimmed()), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentMSecsSinceEpoch() * 1000) {}
 Transaction::Transaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : o_budget(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
@@ -67,7 +67,7 @@ void Transaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	d_date = QDate::fromString(attr->value("date").toString(), Qt::ISODate);
 	i_time = attr->value("timestamp").toString().toLongLong();
 	s_description = attr->value("description").trimmed().toString();
-	s_comment = attr->value("comment").toString();
+	s_comment = attr->value("comment").trimmed().toString();
 	s_file = attr->value("file").trimmed().toString();
 	if(attr->hasAttribute("quantity")) d_quantity = attr->value("quantity").toDouble();
 	else d_quantity = 1.0;
@@ -163,9 +163,9 @@ void Transaction::setDescription(QString new_description) {
 	o_budget->transactionSortModified(this);
 }
 const QString &Transaction::comment() const {return s_comment;}
-void Transaction::setComment(QString new_comment) {s_comment = new_comment;}
+void Transaction::setComment(QString new_comment) {s_comment = new_comment.trimmed();}
 const QString &Transaction::associatedFile() const {return s_file;}
-void Transaction::setAssociatedFile(QString new_attachment) {s_file = new_attachment;}
+void Transaction::setAssociatedFile(QString new_attachment) {s_file = new_attachment.trimmed();}
 Account *Transaction::fromAccount() const {return o_from;}
 void Transaction::setFromAccount(Account *new_from) {o_from = new_from;}
 Account *Transaction::toAccount() const {return o_to;}
@@ -205,7 +205,7 @@ void Expense::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		setFrom(budget()->assetsAccounts_id[id_from]);
 		if(attr->hasAttribute("income")) setCost(-attr->value("income").toDouble());
 		else setCost(attr->value("cost").toDouble());
-		s_payee = attr->value("payee").toString();
+		s_payee = attr->value("payee").trimmed().toString();
 	} else {
 		if(valid) *valid = false;
 	}
@@ -233,7 +233,7 @@ void Expense::setFrom(AssetsAccount *new_from) {setFromAccount(new_from);}
 double Expense::cost(bool convert) const {return value(convert);}
 void Expense::setCost(double new_cost) {setValue(new_cost);}
 const QString &Expense::payee() const {return s_payee;}
-void Expense::setPayee(QString new_payee) {s_payee = new_payee;}
+void Expense::setPayee(QString new_payee) {s_payee = new_payee.trimmed();}
 QString Expense::description() const {return Transaction::description();}
 TransactionType Expense::type() const {return TRANSACTION_TYPE_EXPENSE;}
 TransactionSubType Expense::subtype() const {return TRANSACTION_SUBTYPE_EXPENSE;}
@@ -358,7 +358,7 @@ void Income::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		o_security = NULL;
 	}
 	if(!o_security) {
-		s_payer = attr->value("payer").toString();
+		s_payer = attr->value("payer").trimmed().toString();
 	}
 }
 void Income::writeAttributes(QXmlStreamAttributes *attr) {
@@ -389,7 +389,7 @@ const QString &Income::payer() const {
 	if(o_security) return o_security->name(); 
 	return s_payer;
 }
-void Income::setPayer(QString new_payer) {s_payer = new_payer;}
+void Income::setPayer(QString new_payer) {s_payer = new_payer.trimmed();}
 QString Income::description() const {
 	if(o_security) return tr("Dividend: %1").arg(o_security->name());
 	return Transaction::description();
@@ -1091,7 +1091,7 @@ void SplitTransaction::readAttributes(QXmlStreamAttributes *attr, bool*) {
 	if(attr->hasAttribute("date")) d_date = QDate::fromString(attr->value("date").toString(), Qt::ISODate);
 	i_time = attr->value("timestamp").toString().toLongLong();
 	s_description = attr->value("description").trimmed().toString();
-	s_comment = attr->value("comment").toString();
+	s_comment = attr->value("comment").trimmed().toString();
 	s_file = attr->value("file").trimmed().toString();
 }
 bool SplitTransaction::readElement(QXmlStreamReader*, bool*) {
@@ -1225,7 +1225,7 @@ SplitTransaction *MultiItemTransaction::copy() const {return new MultiItemTransa
 void MultiItemTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	o_account = NULL;
 	SplitTransaction::readAttributes(attr, valid);
-	s_payee = attr->value("payee").toString(); 
+	s_payee = attr->value("payee").trimmed().toString(); 
 	int id = attr->value("account").toInt();
 	if(d_date.isValid() && budget()->assetsAccounts_id.contains(id)) {
 		o_account = budget()->assetsAccounts_id[id];
@@ -1487,7 +1487,7 @@ void MultiItemTransaction::setPayee(QString new_payee) {
 			default: {}
 		}
 	}
-	s_payee = new_payee;
+	s_payee = new_payee.trimmed();
 }
 QString MultiItemTransaction::fromAccountsString() const {
 	QVector<Transaction*>::size_type c = splits.count();

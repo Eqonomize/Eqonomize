@@ -29,7 +29,7 @@
 #include "account.h"
 #include "budget.h"
 
-Account::Account(Budget *parent_budget, QString initial_name, QString initial_description) : o_budget(parent_budget), i_id(-1), s_name(initial_name.trimmed()), s_description(initial_description) {}
+Account::Account(Budget *parent_budget, QString initial_name, QString initial_description) : o_budget(parent_budget), i_id(-1), s_name(initial_name.trimmed()), s_description(initial_description.trimmed()) {}
 Account::Account(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : o_budget(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
@@ -43,7 +43,7 @@ Account::~Account() {}
 void Account::readAttributes(QXmlStreamAttributes *attr, bool*) {
 	i_id = attr->value("id").toInt();
 	s_name = attr->value("name").trimmed().toString();
-	s_description = attr->value("description").toString();
+	s_description = attr->value("description").trimmed().toString();
 }
 bool Account::readElement(QXmlStreamReader*, bool*) {return false;}
 bool Account::readElements(QXmlStreamReader *xml, bool *valid) {
@@ -69,7 +69,7 @@ QString Account::nameWithParent(bool) const {return s_name;}
 Account *Account::topAccount() {return this;}
 void Account::setName(QString new_name) {s_name = new_name.trimmed(); o_budget->accountNameModified(this);}
 const QString &Account::description() const {return s_description;}
-void Account::setDescription(QString new_description) {s_description = new_description;}
+void Account::setDescription(QString new_description) {s_description = new_description.trimmed();}
 bool Account::isClosed() const {return false;}
 Budget *Account::budget() const {return o_budget;}
 int Account::id() const {return i_id;}
@@ -94,7 +94,7 @@ AssetsAccount::~AssetsAccount() {if(o_budget->budgetAccount == this) o_budget->b
 
 void AssetsAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Account::readAttributes(attr, valid);
-	QString type = attr->value("type").toString();
+	QString type = attr->value("type").trimmed().toString();
 	if(type == "current") {
 		at_type = ASSETS_TYPE_CURRENT;
 	} else if(type == "savings") {
@@ -112,10 +112,10 @@ void AssetsAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	} else {
 		at_type = ASSETS_TYPE_OTHER;
 	}
-	if(at_type == ASSETS_TYPE_LIABILITIES) s_maintainer = attr->value("lender").toString();
-	else if(at_type == ASSETS_TYPE_CREDIT_CARD) s_maintainer = attr->value("issuer").toString();
-	else s_maintainer = attr->value("bank").toString();
-	QString s_cur = attr->value("currency").toString();
+	if(at_type == ASSETS_TYPE_LIABILITIES) s_maintainer = attr->value("lender").trimmed().toString();
+	else if(at_type == ASSETS_TYPE_CREDIT_CARD) s_maintainer = attr->value("issuer").trimmed().toString();
+	else s_maintainer = attr->value("bank").trimmed().toString();
+	QString s_cur = attr->value("currency").trimmed().toString();
 	if(!s_cur.isEmpty()) {
 		o_currency = o_budget->findCurrency(s_cur);
 	}
