@@ -104,7 +104,7 @@ int main(int argc, char **argv) {
 		}
 	}
 	
-	if(QIcon::themeName().isEmpty() || !QIcon::hasThemeIcon("eqonomize")) {
+	if(QIcon::themeName().isEmpty() || !QIcon::hasThemeIcon("eqz-account")) {
 		QIcon::setThemeName("EQZ");
 	}
 	app.setWindowIcon(QIcon::fromTheme("eqonomize"));
