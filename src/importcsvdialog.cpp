@@ -1393,7 +1393,7 @@ void ImportCSVDialog::accept() {
 		QDialog *dialog = new QDialog(this, 0);
 		dialog->setWindowTitle(tr("Specify Format"));
 		dialog->setModal(true);
-		QVBoxLayout *box1 = new QVBoxLayout(this);
+		QVBoxLayout *box1 = new QVBoxLayout(dialog);
 		QGridLayout *grid = new QGridLayout();
 		box1->addLayout(grid);
 		QLabel *label = new QLabel(tr("The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format."), dialog);
