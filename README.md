@@ -46,3 +46,4 @@ In a terminal window in the top source code directory run
   * Can import transactions from a csv file, for example a spreadsheet file, with a customizable number of variable transaction parameters.
   * Tables can be saved as html files and charts in a number of different image formats, including png and jpeg. 
 
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](hanna.knutsson@protonmail.com)
