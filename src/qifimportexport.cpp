@@ -573,6 +573,11 @@ QDate readQIFDate(const QString &str, const QString &date_format, const QString 
 	QDate date = QDate::fromString(str, date_format);
 	if(!date.isValid() && !alt_date_format.isEmpty()) {
 		date = QDate::fromString(str, alt_date_format);
+		if(date.year() < 1970 && alt_date_format.count('y') < 4) {
+			date = date.addYears(100);
+		}
+	} else if(date.year() < 1970 && date_format.count('y') < 4) {
+		date = date.addYears(100);
 	}
 	return date;
 }

@@ -569,6 +569,11 @@ QDate readCSVDate(const QString &str, const QString &date_format, const QString 
 	QDate date = QDate::fromString(str, date_format);
 	if(!date.isValid() && !alt_date_format.isEmpty()) {
 		date = QDate::fromString(str, alt_date_format);
+		if(date.year() < 1970 && alt_date_format.count('y') < 4) {
+			date = date.addYears(100);
+		}
+	} else if(date.year() < 1970 && date_format.count('y') < 4) {
+		date = date.addYears(100);
 	}
 	return date;
 }
@@ -1086,8 +1091,8 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 					QMap<QString, Account*>::iterator it_ac;
 					bool found = false;
 					if(type == ALL_TYPES_ID) {
-						it_ac = iaccounts.find(columns[AC2_c - 1]);
-						found = (it_ac != iaccounts.end());
+						it_ac = eaccounts.find(columns[AC2_c - 1]);
+						found = (it_ac != eaccounts.end());
 						if(!found) {
 							it_ac = aaccounts.find(columns[AC2_c - 1]);
 							found = (it_ac != aaccounts.end());
