@@ -565,7 +565,7 @@ void ImportCSVDialog::nextClicked() {
 	QWizard::next();
 }
 
-QDate readCSVDate(const QString &str, const QString &date_format, const QString &alt_date_format) {	
+QDate readCSVDate(const QString &str, const QString &date_format, const QString &alt_date_format) {
 	QDate date = QDate::fromString(str, date_format);
 	if(!date.isValid() && !alt_date_format.isEmpty()) {
 		date = QDate::fromString(str, alt_date_format);
@@ -576,7 +576,7 @@ double readCSVValue(const QString &str, int value_format, bool *ok) {
 	QString str2 = str;
 	int l = (int) str2.length();
 	for(int i = 0; i < l; i++) {
-		if(str2[i].isDigit()) {
+		if(str2[i].isDigit() || str2[i] == '+' || str2[i] == '-' || str2[i] == "−" || (value_format == 1 && str2[i] == '.') || (value_format == 2 && str2[i] == ',')) {
 			if(i > 0) {
 				str2.remove(0, i);
 				l -= i;

@@ -1,3 +1,8 @@
+2017-07-05  Hanna Knutsson <hanna_k@fmgirl.com>
+
+	* Fix reading of negative values and values beginning with decimal separator during CSV import
+	* Fix the CSV import date/number format dialog
+
 2017-06-25  Hanna Knutsson <hanna_k@fmgirl.com>
 
 	* Remove blank space at beginning and end of payee/payer, comments, etc.

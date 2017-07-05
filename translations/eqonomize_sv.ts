@@ -3845,7 +3845,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="84"/>
         <source>Expenses and incomes (negative cost)</source>
-        <translation>Utgifter och inkomster (negativa kostnad)</translation>
+        <translation>Utgifter och inkomster (negativ kostnad)</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="87"/>
@@ -4033,7 +4033,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="481"/>
         <source>Imports data as expenses and incomes. Costs have negative value. Value and category are both required columns.</source>
-        <translation>Importerar data som utgifter och inkomster. Kostnader har negativt värde.Värde och kategori är både nödvändiga kolumner.</translation>
+        <translation>Importerar data som utgifter och inkomster. Kostnader har negativt värde. Värde och kategori är både nödvändiga kolumner.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="486"/>
@@ -4057,7 +4057,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="493"/>
         <source>Imports data as expenses and incomes. Costs and incomes have separate columns. Income, cost, and category are all required columns.</source>
-        <translation>Importerar data som utgifter och inkomster. Kostnader och inkomster har separata kolumner.Kostnad, inkomst och kategori är alla nödvändiga kolumner.</translation>
+        <translation>Importerar data som utgifter och inkomster. Kostnader och inkomster har separata kolumner. Kostnad, inkomst och kategori är alla nödvändiga kolumner.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="505"/>
