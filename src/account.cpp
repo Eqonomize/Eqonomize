@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2006-2008, 2014, 2016-2017 by Hanna Knutsson            *
- *   hanna_k@fmgirl.com                                                    *
+ *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
  *                                                                         *

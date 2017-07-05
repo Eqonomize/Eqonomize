@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
- *   hanna_k@fmgirl.com                                                    *
+ *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
  *                                                                         *
@@ -135,6 +135,25 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	QGridLayout *layout3 = new QGridLayout(page3);
 	
 	int row = 0;
+	
+	layout3->addWidget(new QLabel(tr("Date:"), page3), row, 0);
+	dateGroup = new QButtonGroup(this);
+	columnDateButton = new QRadioButton(tr("Column"), page3);
+	dateGroup->addButton(columnDateButton);
+	layout3->addWidget(columnDateButton, row, 1);
+	columnDateEdit = new QSpinBox(page3);
+	columnDateEdit->setRange(1, 100);
+	columnDateEdit->setValue(1);
+	columnDateButton->setChecked(true);
+	layout3->addWidget(columnDateEdit, row, 2);
+	valueDateButton = new QRadioButton(tr("Value"), page3);
+	dateGroup->addButton(valueDateButton);
+	layout3->addWidget(valueDateButton, row, 3);
+	valueDateEdit = new QDateEdit(QDate::currentDate(), page3);
+	valueDateEdit->setCalendarPopup(true);
+	valueDateEdit->setEnabled(false);
+	layout3->addWidget(valueDateEdit, row, 4);
+	row++;
 
 	layout3->addWidget(new QLabel(tr("Description:", "Transaction description property (transaction title/generic article name)"), page3), row, 0);
 	descriptionGroup = new QButtonGroup(this);
@@ -195,25 +214,6 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	valueValueEdit = new EqonomizeValueEdit(false, page3, budget);
 	valueValueEdit->setEnabled(false);
 	layout3->addWidget(valueValueEdit, row, 4);
-	row++;
-
-	layout3->addWidget(new QLabel(tr("Date:"), page3), row, 0);
-	dateGroup = new QButtonGroup(this);
-	columnDateButton = new QRadioButton(tr("Column"), page3);
-	dateGroup->addButton(columnDateButton);
-	layout3->addWidget(columnDateButton, row, 1);
-	columnDateEdit = new QSpinBox(page3);
-	columnDateEdit->setRange(1, 100);
-	columnDateEdit->setValue(1);
-	columnDateButton->setChecked(true);
-	layout3->addWidget(columnDateEdit, row, 2);
-	valueDateButton = new QRadioButton(tr("Value"), page3);
-	dateGroup->addButton(valueDateButton);
-	layout3->addWidget(valueDateButton, row, 3);
-	valueDateEdit = new QDateEdit(QDate::currentDate(), page3);
-	valueDateEdit->setCalendarPopup(true);
-	valueDateEdit->setEnabled(false);
-	layout3->addWidget(valueDateEdit, row, 4);
 	row++;
 
 	AC1Label = new QLabel(tr("Category:"), page3);

@@ -1,122 +1,124 @@
-2017-07-05  Hanna Knutsson <hanna_k@fmgirl.com>
+2017-07-05  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix reading of negative values and values beginning with decimal separator during CSV import
 	* Fix the CSV import date/number format dialog
+	* Fix import of expenses when importing all types of transactions from CSV file
+	* Fix reading of year with less than four digits in CSV or QIF file
 
-2017-06-25  Hanna Knutsson <hanna_k@fmgirl.com>
+2017-06-25  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Remove blank space at beginning and end of payee/payer, comments, etc.
 
-2017-06-01  Hanna Knutsson <hanna_k@fmgirl.com>
+2017-06-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix payee lost when split transaction copied (affects scheduled split transactions)
 
-2017-05-21  Hanna Knutsson <hanna_k@fmgirl.com>
+2017-05-21  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix account list html export (and print preview)
 
-2017-04-25  Hanna Knutsson <hanna_k@fmgirl.com>
+2017-04-25  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Italicize scheduled transactions in expenses, incomes and transactions lists
 
-2017-04-07  Hanna Knutsson <hanna_k@fmgirl.com>
+2017-04-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Security transactions enhancements and fixes
 
-2017-04-02  Hanna Knutsson <hanna_k@fmgirl.com>
+2017-04-02  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Account drag and drop fixes
 
-2017-03-23  Hanna Knutsson <hanna_k@fmgirl.com>	
+2017-03-23  Hanna Knutsson <hanna.knutsson@protonmail.com>	
 
 	* Import/merge Eqonomize! files
 
-2017-03-21  Hanna Knutsson <hanna_k@fmgirl.com>
+2017-03-21  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Add timestamp property for transactions to be able to consistently sort transactions in the order they were added
 
-2017-03-21  Hanna Knutsson <hanna_k@fmgirl.com>
+2017-03-21  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Artithmetic expression and currency conversion in input fields (spin boxes)
 	* Currency converter
 	* "Associated file" transaction property
 
-2017-03-18  Hanna Knutsson <hanna_k@fmgirl.com>
+2017-03-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Support multiple currencies
 
-2017-01-25  Hanna Knutsson <hanna_k@fmgirl.com>
+2017-01-25  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix text editing in filter, reset selection on filtering and focus description entry when changing edit/filter tab
 
-2016-09-30  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-09-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix text colors and background of top level items in account tree 
 	* Enhance visibility of icons with dark theme
 
-2016-09-06  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-09-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix yearly recurrence
 
-2016-09-05  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-09-05  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix and enhance exceptions dialog
 
-2016-09-01  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-09-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix include subcategories in filtering and remove the button for transfers and when extra properties is disabled (for improved layout)
 	* Remove quantity from incomes edit
 	* Add tooltip to description and quantity
 	* Fix not all transactions being listed in confirm schedule dialog
 
-2016-08-29  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-08-29  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix charts withput extra properties
 	* Fix charts without QtCharts
 
-2016-08-25  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-08-25  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix value column in multi-account transaction dialog
 	* Fix multiple duplicate completion items when removing, than adding transaction with unique description
 	* Use extra properties by default
 
-2016-08-24  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-08-24  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Place "All" last in export QIF dialog account combo (it is not a appropriate default option)
 	* Common payee/payer for multi item transactions
 
-2016-08-21  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-08-21  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Import/export sub categories from/to QIF files
 
-2016-08-16  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-08-16  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Import sub categories, payees and quantity from CSV files
 
-2016-08-15  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-08-15  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Autocomplete transaction also when selecting category or payee
 
-2016-08-14  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-08-14  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Loans, multi account transactions, scheduled split transactions, debt payments, etc.
 	* Bold summary/parent items with icons in account view
 
-2016-07-08  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-07-08  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Export transactions to CSV file with a more compatible number format
 
-2016-07-06  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-07-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Assets over time chart
 	* Show expenses as negative values in stacked bar chart for incomes and expenses
 
-2016-07-05  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-07-05  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Completely remove dependency on Qt Xml by using QXmlStreamWriter instead of QDom*
 	* Colors for securities
 
-2016-07-04  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-07-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Create new account/category from selection combo box
 	* Fix crash when deleting all transactions with a particular description and then adding a new
@@ -125,183 +127,183 @@
 	* Add missing label in edit expense category dialog
 	* Set minimum width for empty lists
 
-2016-07-03  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-07-03  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* New Chart types
 
-2016-07-02  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-07-02  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Custom budget month start
 
-2016-07-01  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-07-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Use QtCharts
 
-2016-06-29  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-06-29  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Subcategories
 	* New Icons
 
-2016-06-28  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-06-28  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* File backups
 	* Backup frequency option
 
-2016-06-27  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-06-27  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix copying to backup '~' file (remove existing file first)
 
-2016-06-26  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-06-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Move cursor to day in dates
 
-2016-06-25  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-06-25  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Move from QDom* in Qt Xml to QXmlStreamReader
 
-2016-06-23  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-06-23  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* List layout enhancements and save/restore state of lists
 	* Simplify and enhance EqonomizeValueEdit (restrictions of KDoubleSpinBox removed)
 
-2016-06-22  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-06-22  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* New icons
 	* File save handling fixes
 
-2016-06-21  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-06-21  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix csv import of categories
 	* Decimals in quotations option and set default decimals in shares from previous securities
 	* Make chart and report non-modal again
 	* Initialize locale to fix number of decimal signs and currency placement
 
-2016-06-20  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-06-20  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Print preview
 
-2016-06-19  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-06-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Chart/report dialog layout enhancements
 	* Max 10 descriptions in categories chart and 6 items in over time chart
 
-2016-06-18  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-06-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* New Icons
 
-2016-06-16  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-06-16  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Remove all KDE dependencies and use qmake instead of CMake
 
-2016-06-14  Hanna Knutsson <hanna_k@fmgirl.com>
+2016-06-14  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Make sure save filename ends with ".eqz"
 	* Fix "scheduled operations don't go further than next year if range is other than 'no end'"
 	* Search whole description and payer/payee when filtering and add exact match option
 
-2014-07-21  Hanna Knutsson <hanna_k@fmgirl.com>
+2014-07-21  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Restore remote file access
 
-2014-07-11  Hanna Knutsson <hanna_k@fmgirl.com>
+2014-07-11  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Port to Qt 5 and KDE Framework 5
 	* Minor accumulated enhancements and fixes
 
-2009-07-03  Hanna Knutsson <hanna_k@fmgirl.com>
+2009-07-03  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix transaction not added on date edit enter (missing signal)
 	* Fix csv export (change text/x-csv to text/csv)
 
-2008-11-12  Hanna Knutsson <hanna_k@fmgirl.com>
+2008-11-12  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* KDE4 version commited
 
-2008-03-04  Hanna Knutsson <hanna_k@fmgirl.com>
+2008-03-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix mysterious crash when two scheduled transactions have the same date and description
 
-2007-08-20  Hanna Knutsson <hanna_k@fmgirl.com>
+2007-08-20  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix saving of weekly recurrence
 
-2007-07-30  Hanna Knutsson <hanna_k@fmgirl.com>
+2007-07-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix positive net result of split transaction displayed in wrong column
 
-2007-05-04  Hanna Knutsson <hanna_k@fmgirl.com>
+2007-05-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix calculation of scheduled transactions after a scheduled transaction has been confirmed
 	* Fix calculation of scheduled transaction after the date has changed to before the current date
 	* Sort scheduled transactions list after date changes
 	* Fix security transaction joining
 
-2007-03-30  Hanna Knutsson <hanna_k@fmgirl.com>
+2007-03-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Allow user to select initial period
 	* Do not limit sold shares to current number of shares
 	* Fixes for the new value input widget
 
-2007-03-29  Hanna Knutsson <hanna_k@fmgirl.com>
+2007-03-29  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Keep permissions of exisiting files
 
-2007-03-28  Hanna Knutsson <hanna_k@fmgirl.com>
+2007-03-28  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Make it possible to join security transactions and add ability to create new security transaction from edit split dialog
 	* Do not require a selected security to be able to create a security transaction and make it possible to change security from edit transaction dialogs
 	* Execute different actions when double clicking on security row depending on clicked column
 
-2007-03-26  Hanna Knutsson <hanna_k@fmgirl.com>
+2007-03-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Future statistics in over time chart
 
-2006-11-28  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-11-28  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* New value input with support for zero decimals
 
-2006-11-27  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-11-27  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Spanish and Italian translations
 	* Update French translations
 	* Some bug fixes
 
-2006-10-22  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-10-22  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix "Edit..." button for split transaction in list
 	* Show extra properties when editing transaction from split transaction edit dialog
 
-2006-10-07  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-10-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Reset quantity to 1.0
 
-2006-09-19  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-09-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix balancing
 
-2006-09-03  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-09-03  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Manual updates
 	* Minor polishing
 
-2006-09-02  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-09-02  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Updated icons
 
-2006-09-01  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-09-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* German translation (Martin F. Hohenberg <martin.hohenberg@gmail.com>, Elias Probst <elias.probst@gmx.de>)
 	* Update cvs.sh for autoconf 2.6
 	* Fix de.po
 
-2006-08-27  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-27  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Miscellaneous fixes
 	* Postpone option in confirm schedule dialog
 	* Manual updates
 	* Close confirm schedule dialog if no transactions are left
 
-2006-08-22  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-22  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* QIF export fixes
 	* Handle non-standard (local) QIF type names
@@ -310,7 +312,7 @@
 	* Updated french translation (Jérôme Rapinat <gnupower@hotmail.fr>, Antoine Rodriguez <antoiner@gmail.com>)
 	* Minor fixes and polishing
 
-2006-08-21  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-21  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* QIF import of securities
 	* Securities type "Other"
@@ -319,7 +321,7 @@
 	* Fix crash when selecting initial balance item in ledger dialog
 	* Fix and extend date update when current date changes
 
-2006-08-20  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-20  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Enhanced splits
 	* Join and split up actions
@@ -329,22 +331,22 @@
 	* Add percents to legend texts and decrease margins in categories comparison chart
 	* QIF import of splits
 
-2006-08-19  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Splits
 
-2006-08-18  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Add comments entry to refund/repayment dialog
 
-2006-08-17  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-17  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Refunds and repayments
 	* Enhanced date and number format handling for csv import
 	* Enhanced QIF import
 	* Ask save on quit (use close() instead of kapp->quit())
 
-2006-08-16  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-16  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Update securities when account has been deleted
 	* Auto-save with crash recovery
@@ -353,7 +355,7 @@
 	* Add do not ask again option to save? dialog on exit
 	* Revert menu item
 
-2006-08-15  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-15  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Continue QIF import work
 	* Account ledger dialog
@@ -361,12 +363,12 @@
 	* Switch securities and accounts period to date to current date if date changes and to date was current date
 	* Fix move to account selection
 
-2006-08-14  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-14  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Update change column when transaction added or changed
 	* Fix changing date of transaction with future date
 
-2006-08-13  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-13  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Work on QIF import begun
 	* Updated french translation (Jérôme Rapinat <gnupower@hotmail.fr>)
@@ -374,7 +376,7 @@
 	* Use pow(10, x) instead of exp10(x)
 	* Fix crash with no from date in accounts view and empty (or no) accounts
 
-2006-08-11  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-11  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* French translation (Jérôme Rapinat <gnupower@hotmail.fr>)
 	* Alternative for credit and debit in different columns
@@ -382,70 +384,70 @@
 	* More flexible value and date reading in csv file
 	* Miscellaneous...
 
-2006-08-08  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-08  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Begin documentation
 	* Add option to show Profits line in over time chart
 
-2006-08-07  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* i18n fixes
 	* Finish Swedish translation
 
-2006-08-04  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix calculation of remaining budget when from date is after current date
 	* Display as previous budget result the result for the month before selected month
 
-2006-08-03  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-03  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Use button menus for period selection, schedule buttons, and security transactions
 	* Move next/previous year/month buttons up in accounts view
 	* Payees/payers for over time chart
 
-2006-08-02  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-08-02  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Change focus order to put quantity after value
 	* Call layout() for KButtonBox
 
-2006-07-31  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-07-31  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Use quantity instead of count
 	* Replace "Daily" with "Average" statistic
 	* Fix resizing issues
 	* More flexible reports
 
-2006-07-30  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-07-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* More flexible charts
 	* Optional Payee/Payer and Quantity parameters for expenses/incomes
 
-2006-07-29  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-07-29  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Budget edit tab in accounts view
 	* Select period combo
 	* By default set to date to current date
 	* Lots more...
 
-2006-07-27  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-07-27  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Normally do not show incomplete months (possibly first and current) in development over time report
 	* Ability to set budget separately for each month
 	* Budget account property for accounts
 	* Show budgeted value (if greater than scheduled transactions) for future value and change of accounts
 
-2006-07-26  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-07-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Add option to compare accounts in categories comparison chart
 
-2006-07-25  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-07-25  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Work around Hebrew, Hijri and Jalali addMonths() bug
 	* Check length of month names
 	* Fix calculation of total change for securities accounts
 	* Fix checking of todays schedule
 
-2006-07-24  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-07-24  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Change name to Eqonomize!
 	* Make report and chart dialogs non-modal
@@ -453,28 +455,28 @@
 	* Only confirm scheduled transactions occurring the current date if time is after 18.00
 	* Some bug and tweaks fixes
 
-2006-07-23  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-07-23  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Categories comparison chart
 	* Over time chart
 	* Don't use "words" in date picker popup as future dates is not very useful
 
-2006-07-22  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-07-22  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Use KCalenderSystem everywhere and avoid assumptions based on the gregorian calendar
 	* Add some more valid recurrence checks
 	* Security trade (buy and sell in the same transaction)
 
-2006-07-21  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-07-21  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Use comma as delimiter and put values in quotes, when saving csv file
 	* Import of CSV files
 
-2006-07-20  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-07-20  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* "Development Over Time" and "Categories Comparison" reports
 
-2006-07-19  Hanna Knutsson <hanna_k@fmgirl.com>
+2006-07-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Add daily average to transactions statisitcs
 	* Printing
