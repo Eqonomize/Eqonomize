@@ -3261,15 +3261,15 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished">S-a întâlnit o eroare la salvarea fișierului; acesta nu a fost salvat</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="1107"/>
-        <location filename="../src/qifimportexport.cpp" line="1210"/>
-        <location filename="../src/qifimportexport.cpp" line="1339"/>
+        <location filename="../src/qifimportexport.cpp" line="1112"/>
+        <location filename="../src/qifimportexport.cpp" line="1215"/>
+        <location filename="../src/qifimportexport.cpp" line="1344"/>
         <source>Unnamed</source>
         <translation type="unfinished">Fără nume</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="1139"/>
-        <location filename="../src/qifimportexport.cpp" line="1266"/>
+        <location filename="../src/qifimportexport.cpp" line="1144"/>
+        <location filename="../src/qifimportexport.cpp" line="1271"/>
         <source>Uncategorized</source>
         <translation type="unfinished">Fără categorie</translation>
     </message>
@@ -7527,57 +7527,57 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished">Toate tipurile</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="98"/>
+        <location filename="../src/importcsvdialog.cpp" line="99"/>
         <source>File Selection</source>
         <translation type="unfinished">Selectare fişier</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="102"/>
+        <location filename="../src/importcsvdialog.cpp" line="103"/>
         <source>File:</source>
         <translation type="unfinished">Fișier:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="112"/>
+        <location filename="../src/importcsvdialog.cpp" line="113"/>
         <source>First data row:</source>
         <translation type="unfinished">Primul rând de date:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="115"/>
+        <location filename="../src/importcsvdialog.cpp" line="116"/>
         <source>Auto</source>
         <translation type="unfinished">Automat</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="118"/>
+        <location filename="../src/importcsvdialog.cpp" line="119"/>
         <source>Column delimiter:</source>
         <translation type="unfinished">Separator coloane:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="121"/>
+        <location filename="../src/importcsvdialog.cpp" line="122"/>
         <source>Comma</source>
         <translation type="unfinished">Virgulă</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="122"/>
+        <location filename="../src/importcsvdialog.cpp" line="123"/>
         <source>Tabulator</source>
         <translation type="unfinished">Tabulator</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="123"/>
+        <location filename="../src/importcsvdialog.cpp" line="124"/>
         <source>Semicolon</source>
         <translation type="unfinished">Punct și virgulă</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="124"/>
+        <location filename="../src/importcsvdialog.cpp" line="125"/>
         <source>Space</source>
         <translation type="unfinished">Spațiu</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="125"/>
+        <location filename="../src/importcsvdialog.cpp" line="126"/>
         <source>Other</source>
         <translation type="unfinished">Altul</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="133"/>
+        <location filename="../src/importcsvdialog.cpp" line="134"/>
         <source>Columns Specification</source>
         <translation type="unfinished">Specificații coloane</translation>
     </message>
@@ -7586,230 +7586,230 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Descriere:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="139"/>
+        <location filename="../src/importcsvdialog.cpp" line="159"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Descriere:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="141"/>
-        <location filename="../src/importcsvdialog.cpp" line="160"/>
-        <location filename="../src/importcsvdialog.cpp" line="184"/>
-        <location filename="../src/importcsvdialog.cpp" line="202"/>
-        <location filename="../src/importcsvdialog.cpp" line="222"/>
-        <location filename="../src/importcsvdialog.cpp" line="242"/>
-        <location filename="../src/importcsvdialog.cpp" line="264"/>
-        <location filename="../src/importcsvdialog.cpp" line="283"/>
-        <location filename="../src/importcsvdialog.cpp" line="303"/>
+        <location filename="../src/importcsvdialog.cpp" line="142"/>
+        <location filename="../src/importcsvdialog.cpp" line="161"/>
+        <location filename="../src/importcsvdialog.cpp" line="180"/>
+        <location filename="../src/importcsvdialog.cpp" line="199"/>
+        <location filename="../src/importcsvdialog.cpp" line="218"/>
+        <location filename="../src/importcsvdialog.cpp" line="238"/>
+        <location filename="../src/importcsvdialog.cpp" line="260"/>
+        <location filename="../src/importcsvdialog.cpp" line="279"/>
+        <location filename="../src/importcsvdialog.cpp" line="299"/>
         <source>Column</source>
         <translation type="unfinished">Coloană</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="149"/>
-        <location filename="../src/importcsvdialog.cpp" line="168"/>
-        <location filename="../src/importcsvdialog.cpp" line="192"/>
-        <location filename="../src/importcsvdialog.cpp" line="210"/>
-        <location filename="../src/importcsvdialog.cpp" line="230"/>
-        <location filename="../src/importcsvdialog.cpp" line="250"/>
-        <location filename="../src/importcsvdialog.cpp" line="272"/>
-        <location filename="../src/importcsvdialog.cpp" line="291"/>
-        <location filename="../src/importcsvdialog.cpp" line="311"/>
+        <location filename="../src/importcsvdialog.cpp" line="150"/>
+        <location filename="../src/importcsvdialog.cpp" line="169"/>
+        <location filename="../src/importcsvdialog.cpp" line="188"/>
+        <location filename="../src/importcsvdialog.cpp" line="207"/>
+        <location filename="../src/importcsvdialog.cpp" line="226"/>
+        <location filename="../src/importcsvdialog.cpp" line="246"/>
+        <location filename="../src/importcsvdialog.cpp" line="268"/>
+        <location filename="../src/importcsvdialog.cpp" line="287"/>
+        <location filename="../src/importcsvdialog.cpp" line="307"/>
         <source>Value</source>
         <translation type="unfinished">Valoare</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="157"/>
-        <location filename="../src/importcsvdialog.cpp" line="181"/>
-        <location filename="../src/importcsvdialog.cpp" line="447"/>
+        <location filename="../src/importcsvdialog.cpp" line="177"/>
+        <location filename="../src/importcsvdialog.cpp" line="196"/>
+        <location filename="../src/importcsvdialog.cpp" line="454"/>
         <source>Cost:</source>
         <translation type="unfinished">Cost:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="200"/>
+        <location filename="../src/importcsvdialog.cpp" line="140"/>
         <source>Date:</source>
         <translation type="unfinished">Dată:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="219"/>
-        <location filename="../src/importcsvdialog.cpp" line="448"/>
-        <location filename="../src/importcsvdialog.cpp" line="460"/>
-        <location filename="../src/importcsvdialog.cpp" line="487"/>
-        <location filename="../src/importcsvdialog.cpp" line="499"/>
+        <location filename="../src/importcsvdialog.cpp" line="215"/>
+        <location filename="../src/importcsvdialog.cpp" line="455"/>
+        <location filename="../src/importcsvdialog.cpp" line="467"/>
+        <location filename="../src/importcsvdialog.cpp" line="494"/>
+        <location filename="../src/importcsvdialog.cpp" line="506"/>
         <source>Category:</source>
         <translation type="unfinished">Categorie:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="239"/>
-        <location filename="../src/importcsvdialog.cpp" line="449"/>
-        <location filename="../src/importcsvdialog.cpp" line="472"/>
+        <location filename="../src/importcsvdialog.cpp" line="235"/>
+        <location filename="../src/importcsvdialog.cpp" line="456"/>
+        <location filename="../src/importcsvdialog.cpp" line="479"/>
         <source>From account:</source>
         <translation type="unfinished">De la contul:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="261"/>
+        <location filename="../src/importcsvdialog.cpp" line="257"/>
         <source>Quantity:</source>
         <translation type="unfinished">Cantitate:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="280"/>
-        <location filename="../src/importcsvdialog.cpp" line="450"/>
+        <location filename="../src/importcsvdialog.cpp" line="276"/>
+        <location filename="../src/importcsvdialog.cpp" line="457"/>
         <source>Payee:</source>
         <translation type="unfinished">Beneficiar:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="301"/>
+        <location filename="../src/importcsvdialog.cpp" line="297"/>
         <source>Comments:</source>
         <translation type="unfinished">Comentarii:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="321"/>
+        <location filename="../src/importcsvdialog.cpp" line="317"/>
         <source>Create missing categories and accounts</source>
         <translation type="unfinished">Creare categorii și conturi lipsă</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="446"/>
+        <location filename="../src/importcsvdialog.cpp" line="453"/>
         <source>Imports data as expenses. Costs have positive value. Value is the only required column.</source>
         <translation type="unfinished">Importă datele ca cheltuieli. Costurile au valori pozitive. Singura coloană necesară este valoarea.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="458"/>
+        <location filename="../src/importcsvdialog.cpp" line="465"/>
         <source>Imports data as incomes. Value is the only required column.</source>
         <translation type="unfinished">Importă datele ca venituri. Singura coloană necesară este valoarea.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="459"/>
-        <location filename="../src/importcsvdialog.cpp" line="498"/>
+        <location filename="../src/importcsvdialog.cpp" line="466"/>
+        <location filename="../src/importcsvdialog.cpp" line="505"/>
         <source>Income:</source>
         <translation type="unfinished">Venit:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="461"/>
-        <location filename="../src/importcsvdialog.cpp" line="473"/>
+        <location filename="../src/importcsvdialog.cpp" line="468"/>
+        <location filename="../src/importcsvdialog.cpp" line="480"/>
         <source>To account:</source>
         <translation type="unfinished">Către contul:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="462"/>
+        <location filename="../src/importcsvdialog.cpp" line="469"/>
         <source>Payer:</source>
         <translation type="unfinished">Plătitor:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="470"/>
+        <location filename="../src/importcsvdialog.cpp" line="477"/>
         <source>Imports data as transfers. Value is the only required column.</source>
         <translation type="unfinished">Importă datele ca transferuri. Singura coloană necesară este valoarea.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="471"/>
+        <location filename="../src/importcsvdialog.cpp" line="478"/>
         <source>Amount:</source>
         <translation type="unfinished">Cantitate:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="481"/>
+        <location filename="../src/importcsvdialog.cpp" line="488"/>
         <source>Imports data as expenses and incomes. Costs have negative value. Value and category are both required columns.</source>
         <translation type="unfinished">Importă datele ca cheltuieli și venituri. Costurile au valori negative. Valoarea și categoria sunt coloane necesare.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="486"/>
-        <location filename="../src/importcsvdialog.cpp" line="514"/>
+        <location filename="../src/importcsvdialog.cpp" line="493"/>
+        <location filename="../src/importcsvdialog.cpp" line="521"/>
         <source>Value:</source>
         <translation type="unfinished">Valoare:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="488"/>
-        <location filename="../src/importcsvdialog.cpp" line="500"/>
+        <location filename="../src/importcsvdialog.cpp" line="495"/>
+        <location filename="../src/importcsvdialog.cpp" line="507"/>
         <source>Account:</source>
         <translation type="unfinished">Cont:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="489"/>
-        <location filename="../src/importcsvdialog.cpp" line="501"/>
-        <location filename="../src/importcsvdialog.cpp" line="517"/>
+        <location filename="../src/importcsvdialog.cpp" line="496"/>
+        <location filename="../src/importcsvdialog.cpp" line="508"/>
+        <location filename="../src/importcsvdialog.cpp" line="524"/>
         <source>Payee/payer:</source>
         <translation type="unfinished">Beneficiar/plătitor:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="493"/>
+        <location filename="../src/importcsvdialog.cpp" line="500"/>
         <source>Imports data as expenses and incomes. Costs and incomes have separate columns. Income, cost, and category are all required columns.</source>
         <translation type="unfinished">Importă datele ca cheltuieli și venituri. Costurile și veniturile au coloane separate. Veniturile, costurile și categoria sunt coloane necesare.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="505"/>
+        <location filename="../src/importcsvdialog.cpp" line="512"/>
         <source>Imports data as expenses, incomes, and transfers. Costs have negative or positive value. Value, to, and from are all required columns. Accounts and categories must be existing.</source>
         <translation type="unfinished">Importă datele ca cheltuieli, venituri și transferuri. Costurile au valori pozitive sau negative. Valoarea, destinația și originea sunt coloane necesare. Trebuie să existe și conturile și categoriile.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="515"/>
+        <location filename="../src/importcsvdialog.cpp" line="522"/>
         <source>From:</source>
         <translation type="unfinished">Din:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="516"/>
+        <location filename="../src/importcsvdialog.cpp" line="523"/>
         <source>To:</source>
         <translation type="unfinished">Către:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="543"/>
-        <location filename="../src/importcsvdialog.cpp" line="549"/>
-        <location filename="../src/importcsvdialog.cpp" line="553"/>
-        <location filename="../src/importcsvdialog.cpp" line="559"/>
-        <location filename="../src/importcsvdialog.cpp" line="820"/>
-        <location filename="../src/importcsvdialog.cpp" line="853"/>
-        <location filename="../src/importcsvdialog.cpp" line="861"/>
-        <location filename="../src/importcsvdialog.cpp" line="876"/>
-        <location filename="../src/importcsvdialog.cpp" line="879"/>
-        <location filename="../src/importcsvdialog.cpp" line="1378"/>
-        <location filename="../src/importcsvdialog.cpp" line="1389"/>
+        <location filename="../src/importcsvdialog.cpp" line="550"/>
+        <location filename="../src/importcsvdialog.cpp" line="556"/>
+        <location filename="../src/importcsvdialog.cpp" line="560"/>
+        <location filename="../src/importcsvdialog.cpp" line="566"/>
+        <location filename="../src/importcsvdialog.cpp" line="832"/>
+        <location filename="../src/importcsvdialog.cpp" line="865"/>
+        <location filename="../src/importcsvdialog.cpp" line="873"/>
+        <location filename="../src/importcsvdialog.cpp" line="888"/>
+        <location filename="../src/importcsvdialog.cpp" line="891"/>
+        <location filename="../src/importcsvdialog.cpp" line="1390"/>
+        <location filename="../src/importcsvdialog.cpp" line="1401"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="543"/>
+        <location filename="../src/importcsvdialog.cpp" line="550"/>
         <source>A file must be selected.</source>
         <translation type="unfinished">Trebuie să selectați un fișier.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="549"/>
+        <location filename="../src/importcsvdialog.cpp" line="556"/>
         <source>Selected file is a directory.</source>
         <translation type="unfinished">Fișierul selectat este un director.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="553"/>
+        <location filename="../src/importcsvdialog.cpp" line="560"/>
         <source>Selected file does not exist.</source>
         <translation type="unfinished">Fișierul selectat nu există.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="559"/>
+        <location filename="../src/importcsvdialog.cpp" line="566"/>
         <source>Empty delimiter.</source>
         <translation type="unfinished">Separator gol.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="820"/>
+        <location filename="../src/importcsvdialog.cpp" line="832"/>
         <source>The same column number is selected multiple times.</source>
         <translation type="unfinished">Același număr de coloană este selectat de mai multe ori.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="853"/>
+        <location filename="../src/importcsvdialog.cpp" line="865"/>
         <source>Selected from account is the same as the to account.</source>
         <translation type="unfinished">Contul origine este același cu cel destinație.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="861"/>
-        <location filename="../src/importcsvdialog.cpp" line="1366"/>
+        <location filename="../src/importcsvdialog.cpp" line="873"/>
+        <location filename="../src/importcsvdialog.cpp" line="1378"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Dată nevalidă.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="876"/>
+        <location filename="../src/importcsvdialog.cpp" line="888"/>
         <source>Couldn&apos;t open %1 for reading.</source>
         <translation type="unfinished">Nu s-a putut deschide %1 pentru citire.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="879"/>
+        <location filename="../src/importcsvdialog.cpp" line="891"/>
         <source>Error reading %1.</source>
         <translation type="unfinished">Eroare la citirea %1.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1357"/>
+        <location filename="../src/importcsvdialog.cpp" line="1369"/>
         <source>Successfully imported %n transaction(s).</source>
         <translation type="unfinished">
             <numerusform>S-a importat cu succes %n tranzacție.</numerusform>
@@ -7818,12 +7818,12 @@ Ce doriți să le faceți cu ele?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1359"/>
+        <location filename="../src/importcsvdialog.cpp" line="1371"/>
         <source>Unable to import any transactions.</source>
         <translation type="unfinished">Nu se poate importa nici o tranzacție.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1363"/>
+        <location filename="../src/importcsvdialog.cpp" line="1375"/>
         <source>Failed to import %n data row(s).</source>
         <translation type="unfinished">
             <numerusform>Nu s-a putut importa %n rând.</numerusform>
@@ -7832,44 +7832,44 @@ Ce doriți să le faceți cu ele?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1364"/>
+        <location filename="../src/importcsvdialog.cpp" line="1376"/>
         <source>Required columns missing.</source>
         <translation type="unfinished">Coloanele necesare lipsesc.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1365"/>
+        <location filename="../src/importcsvdialog.cpp" line="1377"/>
         <source>Invalid value.</source>
         <translation type="unfinished">Valoare nevalidă.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1367"/>
+        <location filename="../src/importcsvdialog.cpp" line="1379"/>
         <source>Empty category name.</source>
         <translation type="unfinished">Nume categorie gol.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1367"/>
-        <location filename="../src/importcsvdialog.cpp" line="1368"/>
+        <location filename="../src/importcsvdialog.cpp" line="1379"/>
+        <location filename="../src/importcsvdialog.cpp" line="1380"/>
         <source>Empty account name.</source>
         <translation type="unfinished">Nume cont gol.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1369"/>
+        <location filename="../src/importcsvdialog.cpp" line="1381"/>
         <source>Unknown category found.</source>
         <translation type="unfinished">S-a găsit o categorie necunoscută.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1369"/>
-        <location filename="../src/importcsvdialog.cpp" line="1370"/>
+        <location filename="../src/importcsvdialog.cpp" line="1381"/>
+        <location filename="../src/importcsvdialog.cpp" line="1382"/>
         <source>Unknown account found.</source>
         <translation type="unfinished">S-a găsit un cont necunoscut.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1371"/>
+        <location filename="../src/importcsvdialog.cpp" line="1383"/>
         <source>Cannot import security transactions (to/from security accounts).</source>
         <translation type="unfinished">Nu s-au putut importa tranzacțiile de titluri de valoare (din/către conturile de titluri de valoare).</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1372"/>
+        <location filename="../src/importcsvdialog.cpp" line="1384"/>
         <source>Balancing account wrongly used.</source>
         <comment>Referring to the account used for adjustments of account balances.</comment>
         <translation type="unfinished">Cont de echilibrare folosit incorect.</translation>
@@ -7879,42 +7879,42 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Cont de echilibrare folosit incorect.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1373"/>
+        <location filename="../src/importcsvdialog.cpp" line="1385"/>
         <source>Same to and from account/category.</source>
         <translation type="unfinished">Cont/categorie origine și destinație identice.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1375"/>
+        <location filename="../src/importcsvdialog.cpp" line="1387"/>
         <source>No data found.</source>
         <translation type="unfinished">Nu s-au găsit date.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1380"/>
+        <location filename="../src/importcsvdialog.cpp" line="1392"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1389"/>
+        <location filename="../src/importcsvdialog.cpp" line="1401"/>
         <source>Unrecognized date format.</source>
         <translation type="unfinished">Format dată nerecunoscut.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1394"/>
+        <location filename="../src/importcsvdialog.cpp" line="1406"/>
         <source>Specify Format</source>
         <translation type="unfinished">Specificați formatul</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1399"/>
+        <location filename="../src/importcsvdialog.cpp" line="1411"/>
         <source>The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format.</source>
         <translation type="unfinished">Formatul datelor și/sau numerelor din fișierul CSV este ambiguu. Selectați formatul corect.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1404"/>
+        <location filename="../src/importcsvdialog.cpp" line="1416"/>
         <source>Date format:</source>
         <translation type="unfinished">Format dată:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1447"/>
+        <location filename="../src/importcsvdialog.cpp" line="1459"/>
         <source>Value format:</source>
         <translation type="unfinished">Format valoare:</translation>
     </message>
@@ -8082,6 +8082,11 @@ Ce doriți să le faceți cu ele?</translation>
     <message>
         <location filename="../src/qifimportexport.cpp" line="133"/>
         <source>No (further) issues were found. Press finish to import the selected QIF file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qifimportexport.cpp" line="136"/>
+        <source>Ignore duplicate transactions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -8688,7 +8693,7 @@ Ce doriți să le faceți cu ele?</translation>
 <context>
     <name>MultipleTransactionsEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1597"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1600"/>
         <source>Modify Transactions</source>
         <translation type="unfinished">Modifică tranzacții</translation>
     </message>
@@ -8701,43 +8706,43 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Nume:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1610"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1613"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Descriere:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1620"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1623"/>
         <source>Amount:</source>
         <translation type="unfinished">Cantitate:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1621"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1624"/>
         <source>Income:</source>
         <translation type="unfinished">Venit:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1622"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1625"/>
         <source>Cost:</source>
         <translation type="unfinished">Cost:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1630"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1633"/>
         <source>Date:</source>
         <translation type="unfinished">Dată:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1641"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1644"/>
         <source>Category:</source>
         <translation type="unfinished">Categorie:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1655"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1658"/>
         <source>Payer:</source>
         <translation type="unfinished">Plătitor:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1656"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1659"/>
         <source>Payee:</source>
         <translation type="unfinished">Beneficiar:</translation>
     </message>
@@ -8758,24 +8763,24 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Categorie de cheltuială nouă…</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1794"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1802"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1813"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1821"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1829"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1840"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1794"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1821"/>
         <source>No income category available.</source>
         <translation type="unfinished">Nu este definită nici o categorie de venit.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1802"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1829"/>
         <source>No expense category available.</source>
         <translation type="unfinished">Nu este definită nici o categorie de cheltuieli.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1813"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1840"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Dată nevalidă.</translation>
     </message>
@@ -10303,33 +10308,33 @@ Date: %3</source>
 <context>
     <name>TransactionEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1568"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1571"/>
         <source>Edit Expense</source>
         <translation type="unfinished">Editează cheltuială</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1570"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1573"/>
         <source>Edit Dividend</source>
         <translation type="unfinished">Editează dividend</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1571"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1574"/>
         <source>Edit Income</source>
         <translation type="unfinished">Editează venit</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1574"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1577"/>
         <source>Edit Transfer</source>
         <translation type="unfinished">Editează transfer</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1575"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1578"/>
         <source>Edit Securities Purchase</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Editează titluri de valoare cumpărate</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1576"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1579"/>
         <source>Edit Securities Sale</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Editează titluri de valoare vândute</translation>
@@ -10494,7 +10499,7 @@ Date: %3</source>
         <translation type="unfinished">Comentarii:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1020"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1023"/>
         <source>No security available.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nu este disponibil nici un titlu de valoare.</translation>
@@ -10565,48 +10570,48 @@ Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="973"/>
-        <location filename="../src/transactioneditwidget.cpp" line="977"/>
-        <location filename="../src/transactioneditwidget.cpp" line="984"/>
-        <location filename="../src/transactioneditwidget.cpp" line="988"/>
-        <location filename="../src/transactioneditwidget.cpp" line="995"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1002"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1009"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1013"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1020"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1028"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1038"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1042"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1049"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1056"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1064"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1068"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1072"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1084"/>
+        <location filename="../src/transactioneditwidget.cpp" line="976"/>
+        <location filename="../src/transactioneditwidget.cpp" line="980"/>
+        <location filename="../src/transactioneditwidget.cpp" line="987"/>
+        <location filename="../src/transactioneditwidget.cpp" line="991"/>
+        <location filename="../src/transactioneditwidget.cpp" line="998"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1005"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1012"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1016"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1023"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1031"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1041"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1045"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1052"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1059"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1067"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1071"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1075"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1087"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="973"/>
-        <location filename="../src/transactioneditwidget.cpp" line="977"/>
-        <location filename="../src/transactioneditwidget.cpp" line="988"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1002"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1013"/>
+        <location filename="../src/transactioneditwidget.cpp" line="976"/>
+        <location filename="../src/transactioneditwidget.cpp" line="980"/>
+        <location filename="../src/transactioneditwidget.cpp" line="991"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1005"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1016"/>
         <source>No suitable account available.</source>
         <translation type="unfinished">Nici un cont potrivit nu este disponibil.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="984"/>
+        <location filename="../src/transactioneditwidget.cpp" line="987"/>
         <source>No income category available.</source>
         <translation type="unfinished">Nu este definită nici o categorie de venit.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="995"/>
+        <location filename="../src/transactioneditwidget.cpp" line="998"/>
         <source>No suitable account or income category available.</source>
         <translation type="unfinished">Nu există nici un cont sau tip de venit potrivit.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1009"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1012"/>
         <source>No expense category available.</source>
         <translation type="unfinished">Nu este definită nici o categorie de cheltuieli.</translation>
     </message>
@@ -10615,52 +10620,52 @@ Date: %3</source>
         <translation type="obsolete">Nu este disponibil nici un titlu de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1028"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1031"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Dată nevalidă.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1038"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1041"/>
         <source>Cannot transfer money to and from the same account.</source>
         <translation type="unfinished">Nu se pot transfera bani din și către același cont.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1042"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1045"/>
         <source>Downpayment must be less than total cost.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1049"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1052"/>
         <source>Cannot create a regular transfer to/from a securities account.</source>
         <translation type="unfinished">Nu se poate crea un transfer obișnuit din/de la un cont de titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1056"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1059"/>
         <source>Cannot create a regular income to a securities account.</source>
         <translation type="unfinished">Nu se poate crea un venit obișnuit întrun cont de titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1064"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1067"/>
         <source>Zero shares not allowed.</source>
         <translation type="unfinished">Acțiuni zero nu este permis.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1068"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1071"/>
         <source>Zero value not allowed.</source>
         <translation type="unfinished">Valoarea zero nu este permisă.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1072"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1075"/>
         <source>Zero price per share not allowed.</source>
         <translation type="unfinished">Preț zero pe acțiune nu este permis.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1084"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1087"/>
         <source>Cannot create a regular expense from a securities account.</source>
         <translation type="unfinished">Nu se pot crea cheltuieli obișnuite întrun cont de titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1151"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1154"/>
         <source>Loan for %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10877,7 +10882,7 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="168"/>
-        <location filename="../src/transactionlistwidget.cpp" line="1473"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1548"/>
         <source>Apply</source>
         <translation type="unfinished">Aplică</translation>
     </message>
@@ -10996,31 +11001,36 @@ Date: %3</source>
         <translation type="unfinished">Medie lunară:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="630"/>
-        <location filename="../src/transactionlistwidget.cpp" line="636"/>
-        <location filename="../src/transactionlistwidget.cpp" line="642"/>
-        <location filename="../src/transactionlistwidget.cpp" line="650"/>
-        <location filename="../src/transactionlistwidget.cpp" line="656"/>
+        <location filename="../src/transactionlistwidget.cpp" line="686"/>
+        <location filename="../src/transactionlistwidget.cpp" line="692"/>
+        <location filename="../src/transactionlistwidget.cpp" line="698"/>
+        <location filename="../src/transactionlistwidget.cpp" line="706"/>
+        <location filename="../src/transactionlistwidget.cpp" line="712"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="630"/>
+        <location filename="../src/transactionlistwidget.cpp" line="686"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nu se poate modifica valoarea tranzacțiilor cu titluri de valoare prin fereastra de modificare tranzacții multiple.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="636"/>
+        <location filename="../src/transactionlistwidget.cpp" line="692"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nu se poate schimba descrierea dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="642"/>
+        <location filename="../src/transactionlistwidget.cpp" line="698"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nu se poate schimba plătitorul dividendelor și tranzacțiilor cu titluri de valoare.</translation>
+    </message>
+    <message>
+        <location filename="../src/transactionlistwidget.cpp" line="712"/>
+        <source>Cannot change date or payee/payer of transactions that are part of a split transaction or debt payment, unless all transactions are selected.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
@@ -11032,7 +11042,7 @@ Date: %3</source>
         <translation type="obsolete">Nu se poate schimba descrierea dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="650"/>
+        <location filename="../src/transactionlistwidget.cpp" line="706"/>
         <source>Cannot change date, description, expense category or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished"></translation>
@@ -11048,11 +11058,6 @@ Date: %3</source>
         <translation type="obsolete">Nu se poate schimba descrierea dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="656"/>
-        <source>Cannot change date or payee/payer of transactions that are part of a split transaction.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cannot change description of dividends and security transactions.</source>
         <translation type="obsolete">Nu se poate schimba descrierea dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
@@ -11065,43 +11070,43 @@ Date: %3</source>
         <translation type="obsolete">Nu se poate schimba data tranzacțiilor care sunt parte a unei tranzacții împărțite.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="860"/>
-        <location filename="../src/transactionlistwidget.cpp" line="915"/>
+        <location filename="../src/transactionlistwidget.cpp" line="935"/>
+        <location filename="../src/transactionlistwidget.cpp" line="990"/>
         <source>Delete transactions?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="860"/>
+        <location filename="../src/transactionlistwidget.cpp" line="935"/>
         <source>Are you sure you want to delete all (%1) transactions in the selected split transaction?</source>
         <translation type="unfinished">Sigur doriți ștergerea tuturor (%1) tranzacții din tranzacția împărțită selectată?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="915"/>
+        <location filename="../src/transactionlistwidget.cpp" line="990"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation type="unfinished">Sigur doriți ștergerea tuturor (%1) tranzacții selectate?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1448"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1523"/>
         <source>* Part of split transaction</source>
         <translation type="unfinished">* Parte tranzacție împărțită</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1449"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1524"/>
         <source>* Part of split (%1)</source>
         <translation type="unfinished">* Parte din împărțire (%1)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1453"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1528"/>
         <source>** Recurring (editing occurrance)</source>
         <translation type="unfinished">** Recurentă (editare frecvență)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1469"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1544"/>
         <source>Modify…</source>
         <translation type="unfinished">Modificare…</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1471"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1546"/>
         <source>Edit…</source>
         <translation type="unfinished">Editează…</translation>
     </message>

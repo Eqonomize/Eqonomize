@@ -133,7 +133,7 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	page4->setSubTitle(tr("No (further) issues were found. Press finish to import the selected QIF file."));
 	setPage(4, page4);
 	QGridLayout *layout4 = new QGridLayout(page4);
-	ignoreDuplicateTransactionsButton = new QCheckBox("Ignore duplicate transactions", page4);
+	ignoreDuplicateTransactionsButton = new QCheckBox(tr("Ignore duplicate transactions"), page4);
 	layout4->addWidget(ignoreDuplicateTransactionsButton, 0, 0, 1, -1);
 	
 

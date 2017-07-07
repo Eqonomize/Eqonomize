@@ -1,6 +1,8 @@
 2017-07-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Batch editing of date and payee/payer of split transactions
+	* CSV import dialog layout fixes
+	* Fix import of expenses from CSV files with separate columns for cost and income
 
 2017-07-05  Hanna Knutsson <hanna.knutsson@protonmail.com>
 

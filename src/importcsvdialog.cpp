@@ -93,6 +93,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	typeDescriptionLabel = new QLabel(page1);
 	typeDescriptionLabel->setWordWrap(true);
 	layout1->addWidget(typeDescriptionLabel);
+	layout1->addItem(new QSpacerItem(1, 1, QSizePolicy::Minimum, QSizePolicy::Expanding));
 
 	QIFWizardPage *page2 = new QIFWizardPage();
 	page2->setTitle(tr("File Selection"));
@@ -190,11 +191,6 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	valueCostEdit = new EqonomizeValueEdit(false, page3, budget);
 	valueCostEdit->setEnabled(false);
 	layout3->addWidget(valueCostEdit, row, 4);
-	costLabel->hide();
-	valueCostEdit->hide();
-	valueCostButton->hide();
-	columnCostEdit->hide();
-	columnCostButton->hide();
 	row++;
 
 	valueLabel = new QLabel(tr("Cost:"), page3);
@@ -361,6 +357,17 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 		connect(columnPayeeButton, SIGNAL(toggled(bool)), columnPayeeEdit, SLOT(setEnabled(bool)));
 		connect(valuePayeeButton, SIGNAL(toggled(bool)), valuePayeeEdit, SLOT(setEnabled(bool)));
 	}
+	
+	page3->adjustSize();
+	page2->setMinimumWidth(page3->minimumSizeHint().width() + 100);
+	page2->setMinimumHeight(page3->minimumSizeHint().height() + 100);
+	page1->setMinimumSize(page2->minimumSize());
+	
+	costLabel->hide();
+	valueCostEdit->hide();
+	valueCostButton->hide();
+	columnCostEdit->hide();
+	columnCostButton->hide();
 
 }
 
@@ -990,7 +997,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 						bool ok = true;
 						if(first_row == 0) {
 							ok = false;
-							QString &str = columns[value_c - 1];
+							QString &str = columns[cost_c - 1];
 							int l = (int) str.length();
 							for(int i = 0; i < l; i++) {
 								if(str[i].isDigit()) {
@@ -1041,6 +1048,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 						}
 					}
 				}
+				if(success && first_row == 0) first_row = row;
 				if(test && ci->p1 + ci->p2 + ci->p3 + ci->p4 < 2 && ci->lz >= 0 && ci->value_format > 0) break;
 				if(test) success = false;
 				if(success && type == ALL_TYPES_ID && value < 0.0) {
@@ -1183,25 +1191,10 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 				}
 				if(success && quantity_c > 0) {
 					if(!columns[quantity_c - 1].isEmpty()) {
-						bool ok = true;
-						if(first_row == 0) {
-							ok = false;
-							QString &str = columns[quantity_c - 1];
-							int l = (int) str.length();
-							for(int i = 0; i < l; i++) {
-								if(str[i].isDigit()) {
-									ok = true;
-									break;
-								}
-							}
-						}
+						bool ok = false;
+						quantity = readCSVValue(columns[quantity_c - 1], ci->value_format, &ok);
 						if(!ok) {
 							quantity = 1.0;
-						} else {
-							quantity = readCSVValue(columns[quantity_c - 1], ci->value_format, &ok);
-							if(!ok) {
-								quantity = 1.0;
-							}
 						}
 					} else {
 						quantity = 1.0;
@@ -1345,8 +1338,6 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 					failed++;
 				}
 			}
-			//had_data = true;
-			if(first_row == 0) first_row = 1;
 		}
 		line = fstream.readLine();
 	}
