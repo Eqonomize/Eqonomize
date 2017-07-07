@@ -493,6 +493,8 @@ void TransactionListWidget::editTransaction() {
 		QDate compdate;
 		QString compdesc;
 		double compvalue = 0.0;
+		bool incomplete_split = false;
+		QList<MultiItemTransaction*> splits;
 		for(int index = 0; index < selection.size(); index++) {
 			TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
 			if(!comptrans) {
@@ -517,11 +519,33 @@ void TransactionListWidget::editTransaction() {
 					compvalue = comptrans->value();
 					if(i->transaction()->parentSplit()) {
 						if(i->transaction()->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
-							equal_category = false;							
+							equal_category = false;
 							equal_description = false;
+							equal_payee = false;
+							equal_date = false;
+						} else if(i->transaction()->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
+							MultiItemTransaction *split = (MultiItemTransaction*) i->transaction()->parentSplit();
+							for(int index2 = 0; index2 < split->count(); index2++) {
+								Transaction *split_trans = split->at(index2);
+								if(split_trans != i->transaction()) {
+									bool b_match = false;
+									for(int index3 = index + 1; index3 < selection.size(); index3++) {
+										 if(((TransactionListViewItem*) selection.at(index3))->transaction() == split_trans) {
+										 	b_match = true;
+										 	break;
+										 }
+									}
+									if(b_match) {
+										if(!i->scheduledTransaction()) splits << split;
+									} else {
+										equal_payee = false;
+										equal_date = false;
+										incomplete_split = true;
+										break;
+									}
+								}
+							}
 						}
-						equal_payee = false;
-						equal_date = false;
 					}
 					if(i->transaction()->type() != TRANSACTION_TYPE_EXPENSE && i->transaction()->type() != TRANSACTION_TYPE_INCOME) equal_payee = false;
 					if(i->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || i->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
@@ -560,11 +584,43 @@ void TransactionListWidget::editTransaction() {
 					if(equal_category && i->splitTransaction()->category() != compcat) equal_category = false;
 					if(equal_description && compdesc != i->splitTransaction()->description()) equal_description = false;
 				} else {
-					if(equal_date && (compdate != i->date() || trans->parentSplit())) {
+					if(equal_date && compdate != i->date()) {
 						equal_date = false;
 					}
-					if(equal_payee && (trans->parentSplit() || trans->type() != comptrans->type() || (comptrans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) comptrans)->payee() != ((Expense*) trans)->payee()) || (comptrans->type() == TRANSACTION_TYPE_INCOME && ((Income*) comptrans)->payer() != ((Income*) trans)->payer()))) {
+					if(equal_payee && (trans->type() != comptrans->type() || (comptrans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) comptrans)->payee() != ((Expense*) trans)->payee()) || (comptrans->type() == TRANSACTION_TYPE_INCOME && ((Income*) comptrans)->payer() != ((Income*) trans)->payer()))) {
 						equal_payee = false;
+					}
+					if(i->transaction()->parentSplit()) {
+						if(i->transaction()->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
+							equal_payee = false;
+							equal_date = false;
+							equal_payee = false;
+							equal_date = false;
+						} else if(i->transaction()->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
+							MultiItemTransaction *split = (MultiItemTransaction*) i->transaction()->parentSplit();
+							if(!splits.contains(split)) {
+								for(int index2 = 0; index2 < split->count(); index2++) {
+									Transaction *split_trans = split->at(index2);
+									if(split_trans != i->transaction()) {
+										bool b_match = false;
+										for(int index3 = index + 1; index3 < selection.size(); index3++) {
+											 if(((TransactionListViewItem*) selection.at(index3))->transaction() == split_trans) {
+											 	b_match = true;
+											 	break;
+											 }
+										}
+										if(b_match) {
+											if(!i->scheduledTransaction()) splits << split;
+										} else {
+											equal_payee = false;
+											equal_date = false;
+											incomplete_split = true;
+											break;
+										}
+									}
+								}
+							}
+						}
 					}
 					if(equal_value && (trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL || compvalue != trans->value())) {
 						equal_value = false;
@@ -651,9 +707,9 @@ void TransactionListWidget::editTransaction() {
 									warned5 = true;
 								}
 							}
-						} else if(!warned4) {
+						} else if(incomplete_split && !warned4) {
 							if(dialog->dateButton->isChecked() || (dialog->payeeButton && dialog->payeeButton->isChecked())) {
-								QMessageBox::critical(this, tr("Error"), tr("Cannot change date or payee/payer of transactions that are part of a split transaction."));
+								QMessageBox::critical(this, tr("Error"), tr("Cannot change date or payee/payer of transactions that are part of a split transaction or debt payment, unless all transactions are selected."));
 								warned4 = true;
 							}
 						}
@@ -710,6 +766,25 @@ void TransactionListWidget::editTransaction() {
 						}
 						delete oldtrans;
 					}
+				}
+			}
+			for(int index = 0; index < splits.size(); index++) {
+				MultiItemTransaction *old_split = splits.at(index);
+				SplitTransaction *new_split = old_split->copy();
+				if(dialog->modifySplitTransaction(new_split)) {
+					budget->removeSplitTransaction(old_split, true);
+					mainWin->transactionRemoved(old_split);
+					delete old_split;
+					if(!future) {
+						budget->addSplitTransaction(new_split);
+						mainWin->transactionAdded(new_split);
+					} else {
+						ScheduledTransaction *strans = new ScheduledTransaction(budget, new_split, NULL);
+						budget->addScheduledTransaction(strans);
+						mainWin->transactionAdded(strans);
+					}
+				} else {
+					delete new_split;
 				}
 			}
 			mainWin->endBatchEdit();

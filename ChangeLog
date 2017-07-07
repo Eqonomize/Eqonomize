@@ -1,3 +1,7 @@
+2017-07-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Batch editing of date and payee/payer of split transactions
+
 2017-07-05  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix reading of negative values and values beginning with decimal separator during CSV import

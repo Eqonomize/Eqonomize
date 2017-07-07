@@ -1787,6 +1787,30 @@ bool MultipleTransactionsEditDialog::modifyTransaction(Transaction *trans, bool 
 	if(b_date && dateButton->isChecked()) trans->setDate(dateEdit->date());
 	return true;
 }
+bool MultipleTransactionsEditDialog::modifySplitTransaction(SplitTransaction *trans) {
+	if(!validValues()) return false;
+	if(!dateButton->isChecked() && (!payeeEdit || !payeeButton->isChecked())) return false;
+	switch(trans->type()) {
+		case SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS: {
+			MultiItemTransaction *split = (MultiItemTransaction*) trans;
+			if(dateButton->isChecked()) split->setDate(dateEdit->date());
+			if(payeeEdit && payeeButton->isChecked()) split->setPayee(payeeEdit->text());
+			return true;
+		}
+		case SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS: {
+			break;
+		}
+		case SPLIT_TRANSACTION_TYPE_LOAN: {
+			DebtPayment *split = (DebtPayment*) trans;
+			if(dateButton->isChecked()) {
+				split->setDate(dateEdit->date());
+				return true;
+			}
+			break;
+		}
+	}
+	return false;
+}
 
 bool MultipleTransactionsEditDialog::checkAccounts() {
 	if(!categoryCombo) return true;

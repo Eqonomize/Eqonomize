@@ -46,6 +46,7 @@ class Security;
 class Transaction;
 class Transactions;
 class MultiAccountTransaction;
+class SplitTransaction;
 class Currency;
 
 typedef enum {
@@ -191,6 +192,7 @@ class MultipleTransactionsEditDialog : public QDialog {
 		void setTransaction(Transaction *strans, const QDate &date);
 		void updateAccounts();
 		bool modifyTransaction(Transaction *trans, bool change_parent = false);
+		bool modifySplitTransaction(SplitTransaction *trans);
 		bool validValues();
 		bool checkAccounts();
 		QDate date();
