@@ -587,8 +587,17 @@ QDate readCSVDate(const QString &str, const QString &date_format, const QString 
 double readCSVValue(const QString &str, int value_format, bool *ok) {
 	QString str2 = str;
 	int l = (int) str2.length();
+	str2.replace(QLocale().negativeSign(), '-');
+	str2.replace(QLocale().positiveSign(), '+');
+	str2.replace(QChar(0x2212), '-');
+	if(value_format == 2) {
+		str2.replace(".", "");
+		str2.replace(",", ".");
+	} else if(value_format == 1) {
+		str2.replace(",", "");
+	}
 	for(int i = 0; i < l; i++) {
-		if(str2[i].isDigit() || str2[i] == '+' || str2[i] == '-' || str2[i] == "−" || (value_format == 1 && str2[i] == '.') || (value_format == 2 && str2[i] == ',')) {
+		if(str2[i].isDigit() || str2[i] == '+' || str2[i] == '-' || str2[i] == '.') {
 			if(i > 0) {
 				str2.remove(0, i);
 				l -= i;
@@ -604,12 +613,6 @@ double readCSVValue(const QString &str, int value_format, bool *ok) {
 			}
 			break;
 		}
-	}
-	if(value_format == 2) {
-		str2.replace(".", "");
-		str2.replace(",", ".");
-	} else if(value_format == 1) {
-		str2.replace(",", "");
 	}
 	return str2.toDouble(ok);
 }

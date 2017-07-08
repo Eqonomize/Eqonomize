@@ -1,4 +1,4 @@
-VERSION = 0.99.2
+VERSION = 0.99.3
 unix:!android:!macx {
 	isEmpty(PREFIX) {
 		PREFIX = /usr/local
