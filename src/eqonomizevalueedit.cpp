@@ -250,6 +250,14 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 	}
 	input.replace(QLocale().negativeSign(), '-');
 	input.replace(QLocale().positiveSign(), '+');
+	input.replace("⋅", "*");
+	input.replace("×", "*");
+	input.replace("−", "-");
+	input.replace("∕", "/");
+	input.replace("÷", "/");
+	input.replace("²", "^2");
+	input.replace("³", "^3");
+	input.replace("√", QString('^') + QLocale().toString(0.5));
 	int i = input.indexOf(QRegExp("[-+]"), 1);
 	if(i >= 1) {
 		QStringList terms = input.split(QRegExp("[-+]"));
