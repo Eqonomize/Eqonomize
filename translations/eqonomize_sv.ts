@@ -4079,13 +4079,13 @@ Vad vill du göra med dem?</translation>
         <location filename="../src/importcsvdialog.cpp" line="556"/>
         <location filename="../src/importcsvdialog.cpp" line="560"/>
         <location filename="../src/importcsvdialog.cpp" line="566"/>
-        <location filename="../src/importcsvdialog.cpp" line="832"/>
-        <location filename="../src/importcsvdialog.cpp" line="865"/>
-        <location filename="../src/importcsvdialog.cpp" line="873"/>
-        <location filename="../src/importcsvdialog.cpp" line="888"/>
+        <location filename="../src/importcsvdialog.cpp" line="835"/>
+        <location filename="../src/importcsvdialog.cpp" line="868"/>
+        <location filename="../src/importcsvdialog.cpp" line="876"/>
         <location filename="../src/importcsvdialog.cpp" line="891"/>
-        <location filename="../src/importcsvdialog.cpp" line="1390"/>
-        <location filename="../src/importcsvdialog.cpp" line="1401"/>
+        <location filename="../src/importcsvdialog.cpp" line="894"/>
+        <location filename="../src/importcsvdialog.cpp" line="1377"/>
+        <location filename="../src/importcsvdialog.cpp" line="1388"/>
         <source>Error</source>
         <translation>Fel</translation>
     </message>
@@ -4110,33 +4110,33 @@ Vad vill du göra med dem?</translation>
         <translation>Tom avgränsare.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="832"/>
+        <location filename="../src/importcsvdialog.cpp" line="835"/>
         <source>The same column number is selected multiple times.</source>
         <translation>Samma kolumnnummer är valt flera gånger.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="865"/>
+        <location filename="../src/importcsvdialog.cpp" line="868"/>
         <source>Selected from account is the same as the to account.</source>
         <translation>Valt från-konto är det samma som till-kontot.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="873"/>
-        <location filename="../src/importcsvdialog.cpp" line="1378"/>
+        <location filename="../src/importcsvdialog.cpp" line="876"/>
+        <location filename="../src/importcsvdialog.cpp" line="1365"/>
         <source>Invalid date.</source>
         <translation>Felaktigt datum.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="888"/>
+        <location filename="../src/importcsvdialog.cpp" line="891"/>
         <source>Couldn&apos;t open %1 for reading.</source>
         <translation>Kunde inte öppna och läsa %1.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="891"/>
+        <location filename="../src/importcsvdialog.cpp" line="894"/>
         <source>Error reading %1.</source>
         <translation>Fel vid läsande av %1.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1369"/>
+        <location filename="../src/importcsvdialog.cpp" line="1356"/>
         <source>Successfully imported %n transaction(s).</source>
         <translation>
             <numerusform>Lyckades importera %n transaktion.</numerusform>
@@ -4144,12 +4144,12 @@ Vad vill du göra med dem?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1371"/>
+        <location filename="../src/importcsvdialog.cpp" line="1358"/>
         <source>Unable to import any transactions.</source>
         <translation>Lyckades inte importera några transaktioner.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1375"/>
+        <location filename="../src/importcsvdialog.cpp" line="1362"/>
         <source>Failed to import %n data row(s).</source>
         <translation>
             <numerusform>Misslyckades att importera %n datarad.</numerusform>
@@ -4157,85 +4157,85 @@ Vad vill du göra med dem?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1384"/>
+        <location filename="../src/importcsvdialog.cpp" line="1371"/>
         <source>Balancing account wrongly used.</source>
         <comment>Referring to the account used for adjustments of account balances.</comment>
         <translation>Balanseringskonto felaktigt använt.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1376"/>
+        <location filename="../src/importcsvdialog.cpp" line="1363"/>
         <source>Required columns missing.</source>
         <translation>Nödvändig kolumn fattas.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1377"/>
+        <location filename="../src/importcsvdialog.cpp" line="1364"/>
         <source>Invalid value.</source>
         <translation>Ogiltigt värde.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1379"/>
+        <location filename="../src/importcsvdialog.cpp" line="1366"/>
         <source>Empty category name.</source>
         <translation>Tomt kategorinamn.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1379"/>
-        <location filename="../src/importcsvdialog.cpp" line="1380"/>
+        <location filename="../src/importcsvdialog.cpp" line="1366"/>
+        <location filename="../src/importcsvdialog.cpp" line="1367"/>
         <source>Empty account name.</source>
         <translation>Tomt kontonamn.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1381"/>
+        <location filename="../src/importcsvdialog.cpp" line="1368"/>
         <source>Unknown category found.</source>
         <translation>Okänd kategory funnen.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1381"/>
-        <location filename="../src/importcsvdialog.cpp" line="1382"/>
+        <location filename="../src/importcsvdialog.cpp" line="1368"/>
+        <location filename="../src/importcsvdialog.cpp" line="1369"/>
         <source>Unknown account found.</source>
         <translation>Okänt konto funnet.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1383"/>
+        <location filename="../src/importcsvdialog.cpp" line="1370"/>
         <source>Cannot import security transactions (to/from security accounts).</source>
         <translation>Kan inte importera värdepapperstransaktioner (till/från konto för värdepapper).</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1385"/>
+        <location filename="../src/importcsvdialog.cpp" line="1372"/>
         <source>Same to and from account/category.</source>
         <translation>Samma konto/kategori till och från.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1387"/>
+        <location filename="../src/importcsvdialog.cpp" line="1374"/>
         <source>No data found.</source>
         <translation>Ingen data funnen.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1392"/>
+        <location filename="../src/importcsvdialog.cpp" line="1379"/>
         <source>Information</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1401"/>
+        <location filename="../src/importcsvdialog.cpp" line="1388"/>
         <source>Unrecognized date format.</source>
         <translation>Obekant datum format.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1406"/>
+        <location filename="../src/importcsvdialog.cpp" line="1393"/>
         <source>Specify Format</source>
         <translation>Ange format</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1411"/>
+        <location filename="../src/importcsvdialog.cpp" line="1398"/>
         <source>The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format.</source>
         <translation>Formatet på datum och/eller nummer i CSV-filen är tvetydiga. Var vänlig välj det korrekta formatet.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1416"/>
+        <location filename="../src/importcsvdialog.cpp" line="1403"/>
         <source>Date format:</source>
         <translation>Datumformat:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1459"/>
+        <location filename="../src/importcsvdialog.cpp" line="1446"/>
         <source>Value format:</source>
         <translation>Värdeformat:</translation>
     </message>
@@ -6699,6 +6699,7 @@ Datum: %3</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="123"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
         <source>Income</source>
         <translation>Inkomst</translation>
     </message>
@@ -6739,7 +6740,7 @@ Datum: %3</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="168"/>
-        <location filename="../src/transactionlistwidget.cpp" line="1548"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1564"/>
         <source>Apply</source>
         <translation>Verkställ</translation>
     </message>
@@ -6775,106 +6776,113 @@ Datum: %3</translation>
         <translation>Filter</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
-        <location filename="../src/transactionlistwidget.cpp" line="370"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
+        <location filename="../src/transactionlistwidget.cpp" line="386"/>
         <source>Quantity:</source>
         <translation>Kvantitet:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
         <source>Total:</source>
         <translation>Summa:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
-        <location filename="../src/transactionlistwidget.cpp" line="388"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
+        <location filename="../src/transactionlistwidget.cpp" line="404"/>
         <source>Average:</source>
         <translation>Genomsnitt:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
+        <source>Cost:</source>
+        <translation>Kostnad:</translation>
+    </message>
+    <message>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
         <source>Monthly:</source>
         <translation>Månadsvis:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="311"/>
-        <location filename="../src/transactionlistwidget.cpp" line="323"/>
+        <location filename="../src/transactionlistwidget.cpp" line="327"/>
+        <location filename="../src/transactionlistwidget.cpp" line="339"/>
         <source>Expenses</source>
         <translation>Utgifter</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="312"/>
-        <location filename="../src/transactionlistwidget.cpp" line="324"/>
+        <location filename="../src/transactionlistwidget.cpp" line="328"/>
+        <location filename="../src/transactionlistwidget.cpp" line="340"/>
         <source>Incomes</source>
         <translation>Inkomster</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="313"/>
-        <location filename="../src/transactionlistwidget.cpp" line="325"/>
+        <location filename="../src/transactionlistwidget.cpp" line="329"/>
+        <location filename="../src/transactionlistwidget.cpp" line="341"/>
         <source>Transfers</source>
         <translation>Överföringar</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="336"/>
-        <location filename="../src/transactionlistwidget.cpp" line="400"/>
+        <location filename="../src/transactionlistwidget.cpp" line="352"/>
+        <location filename="../src/transactionlistwidget.cpp" line="416"/>
         <source>Quantity</source>
         <translation>Kvantitet</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="374"/>
+        <location filename="../src/transactionlistwidget.cpp" line="390"/>
         <source>Total cost:</source>
         <translation>Total kostnad:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="378"/>
+        <location filename="../src/transactionlistwidget.cpp" line="394"/>
         <source>Total income:</source>
         <translation>Total inkomst:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="382"/>
+        <location filename="../src/transactionlistwidget.cpp" line="398"/>
         <source>Total amount:</source>
         <translation>Totalt värde:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="390"/>
+        <location filename="../src/transactionlistwidget.cpp" line="406"/>
         <source>Monthly average:</source>
         <translation>Månatligt genomsnitt:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="686"/>
-        <location filename="../src/transactionlistwidget.cpp" line="692"/>
-        <location filename="../src/transactionlistwidget.cpp" line="698"/>
-        <location filename="../src/transactionlistwidget.cpp" line="706"/>
-        <location filename="../src/transactionlistwidget.cpp" line="712"/>
+        <location filename="../src/transactionlistwidget.cpp" line="702"/>
+        <location filename="../src/transactionlistwidget.cpp" line="708"/>
+        <location filename="../src/transactionlistwidget.cpp" line="714"/>
+        <location filename="../src/transactionlistwidget.cpp" line="722"/>
+        <location filename="../src/transactionlistwidget.cpp" line="728"/>
         <source>Error</source>
         <translation>Fel</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="686"/>
+        <location filename="../src/transactionlistwidget.cpp" line="702"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Kan inte ange värde för värdepapperstransaktioner med dialogen för att modifier flera transaktioner.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="692"/>
+        <location filename="../src/transactionlistwidget.cpp" line="708"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
         <translation>Kan inte ändra beskrivning för utdelningar och värdepapperstransaktioner.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="698"/>
+        <location filename="../src/transactionlistwidget.cpp" line="714"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Kan inte ändra utbetalare för utdelningar och värdepapperstransaktioner.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="706"/>
+        <location filename="../src/transactionlistwidget.cpp" line="722"/>
         <source>Cannot change date, description, expense category or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Datum, benämning, utgiftskategori och mottagare kan inte ändras för skuldbetalningar i dialogen för att ändra flera transaktioner.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="712"/>
+        <location filename="../src/transactionlistwidget.cpp" line="728"/>
         <source>Cannot change date or payee/payer of transactions that are part of a split transaction or debt payment, unless all transactions are selected.</source>
         <translation>Datum, benämning, utgiftskategori och mottagare kan inte ändras för skuldbetalningar i dialogen för att ändra flera transaktioner, såvida inte alla transaktioner är valda.</translation>
     </message>
@@ -6883,43 +6891,43 @@ Datum: %3</translation>
         <translation type="vanished">Kan inte ändra datum eller mottagare/utbetalare på transaktioner som ingår i en delad transaktion.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="935"/>
-        <location filename="../src/transactionlistwidget.cpp" line="990"/>
+        <location filename="../src/transactionlistwidget.cpp" line="951"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1006"/>
         <source>Delete transactions?</source>
         <translation>Ta bort transaktioner?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="935"/>
+        <location filename="../src/transactionlistwidget.cpp" line="951"/>
         <source>Are you sure you want to delete all (%1) transactions in the selected split transaction?</source>
         <translation>Vill du verkligen ta bort alla (%1) transaktioner i den valda delade transaktionen?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="990"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1006"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation>Vill du verkligen ta bort alla (%1) valda transaktioner?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1523"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1539"/>
         <source>* Part of split transaction</source>
         <translation>* Del av delad transaktion</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1524"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1540"/>
         <source>* Part of split (%1)</source>
         <translation>* Del av delad transaktion (%1)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1528"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1544"/>
         <source>** Recurring (editing occurrance)</source>
         <translation>** Återkommande (redigerar tillfälle)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1544"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1560"/>
         <source>Modify…</source>
         <translation>Ändra…</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1546"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1562"/>
         <source>Edit…</source>
         <translation>Redigera…</translation>
     </message>

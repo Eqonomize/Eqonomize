@@ -7731,13 +7731,13 @@ Que voulez vous en faire ?</translation>
         <location filename="../src/importcsvdialog.cpp" line="556"/>
         <location filename="../src/importcsvdialog.cpp" line="560"/>
         <location filename="../src/importcsvdialog.cpp" line="566"/>
-        <location filename="../src/importcsvdialog.cpp" line="832"/>
-        <location filename="../src/importcsvdialog.cpp" line="865"/>
-        <location filename="../src/importcsvdialog.cpp" line="873"/>
-        <location filename="../src/importcsvdialog.cpp" line="888"/>
+        <location filename="../src/importcsvdialog.cpp" line="835"/>
+        <location filename="../src/importcsvdialog.cpp" line="868"/>
+        <location filename="../src/importcsvdialog.cpp" line="876"/>
         <location filename="../src/importcsvdialog.cpp" line="891"/>
-        <location filename="../src/importcsvdialog.cpp" line="1390"/>
-        <location filename="../src/importcsvdialog.cpp" line="1401"/>
+        <location filename="../src/importcsvdialog.cpp" line="894"/>
+        <location filename="../src/importcsvdialog.cpp" line="1377"/>
+        <location filename="../src/importcsvdialog.cpp" line="1388"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
@@ -7762,33 +7762,33 @@ Que voulez vous en faire ?</translation>
         <translation>Délimiteur vide.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="832"/>
+        <location filename="../src/importcsvdialog.cpp" line="835"/>
         <source>The same column number is selected multiple times.</source>
         <translation>Le même numéro de colonne est sélectionné plusieurs fois.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="865"/>
+        <location filename="../src/importcsvdialog.cpp" line="868"/>
         <source>Selected from account is the same as the to account.</source>
         <translation>Le compte de destination est le même que le compte source.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="873"/>
-        <location filename="../src/importcsvdialog.cpp" line="1378"/>
+        <location filename="../src/importcsvdialog.cpp" line="876"/>
+        <location filename="../src/importcsvdialog.cpp" line="1365"/>
         <source>Invalid date.</source>
         <translation>Date invalide.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="888"/>
+        <location filename="../src/importcsvdialog.cpp" line="891"/>
         <source>Couldn&apos;t open %1 for reading.</source>
         <translation>Impossible d&apos; ouvrir le fichier %1 en lecture.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="891"/>
+        <location filename="../src/importcsvdialog.cpp" line="894"/>
         <source>Error reading %1.</source>
         <translation>Erreur lors de la lecture de %1.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1369"/>
+        <location filename="../src/importcsvdialog.cpp" line="1356"/>
         <source>Successfully imported %n transaction(s).</source>
         <translation>
             <numerusform>%n transaction importée avec succès.</numerusform>
@@ -7796,12 +7796,12 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1371"/>
+        <location filename="../src/importcsvdialog.cpp" line="1358"/>
         <source>Unable to import any transactions.</source>
         <translation>Impossible d&apos;enregistrer les transactions importées.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1375"/>
+        <location filename="../src/importcsvdialog.cpp" line="1362"/>
         <source>Failed to import %n data row(s).</source>
         <translation>
             <numerusform>Echec à l&apos;importation de %n donnée.</numerusform>
@@ -7809,44 +7809,44 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1376"/>
+        <location filename="../src/importcsvdialog.cpp" line="1363"/>
         <source>Required columns missing.</source>
         <translation>Les colonnes nécessaires sont manquantes.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1377"/>
+        <location filename="../src/importcsvdialog.cpp" line="1364"/>
         <source>Invalid value.</source>
         <translation>Valeur invalide.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1379"/>
+        <location filename="../src/importcsvdialog.cpp" line="1366"/>
         <source>Empty category name.</source>
         <translation>Nom de catégorie vide.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1379"/>
-        <location filename="../src/importcsvdialog.cpp" line="1380"/>
+        <location filename="../src/importcsvdialog.cpp" line="1366"/>
+        <location filename="../src/importcsvdialog.cpp" line="1367"/>
         <source>Empty account name.</source>
         <translation>Nom de compte vide.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1381"/>
+        <location filename="../src/importcsvdialog.cpp" line="1368"/>
         <source>Unknown category found.</source>
         <translation>Catégorie inconnue trouvée.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1381"/>
-        <location filename="../src/importcsvdialog.cpp" line="1382"/>
+        <location filename="../src/importcsvdialog.cpp" line="1368"/>
+        <location filename="../src/importcsvdialog.cpp" line="1369"/>
         <source>Unknown account found.</source>
         <translation>Compte inconnu trouvé.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1383"/>
+        <location filename="../src/importcsvdialog.cpp" line="1370"/>
         <source>Cannot import security transactions (to/from security accounts).</source>
         <translation>Impossible d&apos;importer les transaction de titre (comptes A/De).</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1384"/>
+        <location filename="../src/importcsvdialog.cpp" line="1371"/>
         <source>Balancing account wrongly used.</source>
         <comment>Referring to the account used for adjustments of account balances.</comment>
         <translation type="unfinished">Equilibrage des comptes mal utilisé.</translation>
@@ -7856,42 +7856,42 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Equilibrage des comptes mal utilisé.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1385"/>
+        <location filename="../src/importcsvdialog.cpp" line="1372"/>
         <source>Same to and from account/category.</source>
         <translation>Même De et A compte/catégorie.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1387"/>
+        <location filename="../src/importcsvdialog.cpp" line="1374"/>
         <source>No data found.</source>
         <translation>Pas de donnée trouvée.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1392"/>
+        <location filename="../src/importcsvdialog.cpp" line="1379"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1401"/>
+        <location filename="../src/importcsvdialog.cpp" line="1388"/>
         <source>Unrecognized date format.</source>
         <translation>Format de date non reconnu.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1406"/>
+        <location filename="../src/importcsvdialog.cpp" line="1393"/>
         <source>Specify Format</source>
         <translation>Format spécifié</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1411"/>
+        <location filename="../src/importcsvdialog.cpp" line="1398"/>
         <source>The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format.</source>
         <translation>Le format des dates et/ou nombres dans le fichier CSV est ambigu. S&apos;il vous plaît sélectionner le format correct.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1416"/>
+        <location filename="../src/importcsvdialog.cpp" line="1403"/>
         <source>Date format:</source>
         <translation>Format de date:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1459"/>
+        <location filename="../src/importcsvdialog.cpp" line="1446"/>
         <source>Value format:</source>
         <translation>Format de valeur:</translation>
     </message>
@@ -10840,6 +10840,7 @@ Date: %3</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="123"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
         <source>Income</source>
         <translation>Revenu</translation>
     </message>
@@ -10880,7 +10881,7 @@ Date: %3</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="168"/>
-        <location filename="../src/transactionlistwidget.cpp" line="1548"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1564"/>
         <source>Apply</source>
         <translation>Appliquer</translation>
     </message>
@@ -10941,100 +10942,107 @@ Date: %3</translation>
         <translation>Filtre</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
-        <location filename="../src/transactionlistwidget.cpp" line="370"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
+        <location filename="../src/transactionlistwidget.cpp" line="386"/>
         <source>Quantity:</source>
         <translation>Quantité:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
         <source>Total:</source>
         <translation>Total:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
-        <location filename="../src/transactionlistwidget.cpp" line="388"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
+        <location filename="../src/transactionlistwidget.cpp" line="404"/>
         <source>Average:</source>
         <translation>Moyenne:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
+        <source>Cost:</source>
+        <translation type="unfinished">Coût:</translation>
+    </message>
+    <message>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
         <source>Monthly:</source>
         <translation>Mensuel:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="311"/>
-        <location filename="../src/transactionlistwidget.cpp" line="323"/>
+        <location filename="../src/transactionlistwidget.cpp" line="327"/>
+        <location filename="../src/transactionlistwidget.cpp" line="339"/>
         <source>Expenses</source>
         <translation>Dépenses</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="312"/>
-        <location filename="../src/transactionlistwidget.cpp" line="324"/>
+        <location filename="../src/transactionlistwidget.cpp" line="328"/>
+        <location filename="../src/transactionlistwidget.cpp" line="340"/>
         <source>Incomes</source>
         <translation>Revenus</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="313"/>
-        <location filename="../src/transactionlistwidget.cpp" line="325"/>
+        <location filename="../src/transactionlistwidget.cpp" line="329"/>
+        <location filename="../src/transactionlistwidget.cpp" line="341"/>
         <source>Transfers</source>
         <translation>Transferts</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="336"/>
-        <location filename="../src/transactionlistwidget.cpp" line="400"/>
+        <location filename="../src/transactionlistwidget.cpp" line="352"/>
+        <location filename="../src/transactionlistwidget.cpp" line="416"/>
         <source>Quantity</source>
         <translation>Quantité</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="374"/>
+        <location filename="../src/transactionlistwidget.cpp" line="390"/>
         <source>Total cost:</source>
         <translation>Coût total:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="378"/>
+        <location filename="../src/transactionlistwidget.cpp" line="394"/>
         <source>Total income:</source>
         <translation>Revenu total:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="382"/>
+        <location filename="../src/transactionlistwidget.cpp" line="398"/>
         <source>Total amount:</source>
         <translation>Quantité totale:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="390"/>
+        <location filename="../src/transactionlistwidget.cpp" line="406"/>
         <source>Monthly average:</source>
         <translation>Moyenne mensuelle:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="686"/>
-        <location filename="../src/transactionlistwidget.cpp" line="692"/>
-        <location filename="../src/transactionlistwidget.cpp" line="698"/>
-        <location filename="../src/transactionlistwidget.cpp" line="706"/>
-        <location filename="../src/transactionlistwidget.cpp" line="712"/>
+        <location filename="../src/transactionlistwidget.cpp" line="702"/>
+        <location filename="../src/transactionlistwidget.cpp" line="708"/>
+        <location filename="../src/transactionlistwidget.cpp" line="714"/>
+        <location filename="../src/transactionlistwidget.cpp" line="722"/>
+        <location filename="../src/transactionlistwidget.cpp" line="728"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="686"/>
+        <location filename="../src/transactionlistwidget.cpp" line="702"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Impossible de fixer la valeur des transactions de titre en utilisant la fenêtre de modification multiple des transactions.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="692"/>
+        <location filename="../src/transactionlistwidget.cpp" line="708"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Impossible de changer la description des dividendes et transactions de titre.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="698"/>
+        <location filename="../src/transactionlistwidget.cpp" line="714"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Impossible de changer le débiteur des dividendes et transactions de titres.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="712"/>
+        <location filename="../src/transactionlistwidget.cpp" line="728"/>
         <source>Cannot change date or payee/payer of transactions that are part of a split transaction or debt payment, unless all transactions are selected.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11048,7 +11056,7 @@ Date: %3</translation>
         <translation type="obsolete">Impossible de changer la description des dividendes et transactions de titre.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="706"/>
+        <location filename="../src/transactionlistwidget.cpp" line="722"/>
         <source>Cannot change date, description, expense category or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished"></translation>
@@ -11071,43 +11079,43 @@ Date: %3</translation>
         <translation type="vanished">Impossible de dater les transactions qui font parti d&apos;une transaction séparée.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="935"/>
-        <location filename="../src/transactionlistwidget.cpp" line="990"/>
+        <location filename="../src/transactionlistwidget.cpp" line="951"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1006"/>
         <source>Delete transactions?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="935"/>
+        <location filename="../src/transactionlistwidget.cpp" line="951"/>
         <source>Are you sure you want to delete all (%1) transactions in the selected split transaction?</source>
         <translation>Êtes-vous certain de vouloir supprimer toutes les (%1) transactions sélectionnées comme transaction séparée?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="990"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1006"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation>Êtes-vous certain de vouloir supprimer toutes (%1) les transactions sélectionnées?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1523"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1539"/>
         <source>* Part of split transaction</source>
         <translation>* partie de la transaction séparée</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1524"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1540"/>
         <source>* Part of split (%1)</source>
         <translation>* Partie de la séparation (%1)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1528"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1544"/>
         <source>** Recurring (editing occurrance)</source>
         <translation>** Se reproduit (éditer l&apos; occurrence)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1544"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1560"/>
         <source>Modify…</source>
         <translation>Modifier…</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1546"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1562"/>
         <source>Edit…</source>
         <translation>Éditer…</translation>
     </message>

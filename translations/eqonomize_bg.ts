@@ -7187,13 +7187,13 @@ What do you want to do with them?</source>
         <location filename="../src/importcsvdialog.cpp" line="556"/>
         <location filename="../src/importcsvdialog.cpp" line="560"/>
         <location filename="../src/importcsvdialog.cpp" line="566"/>
-        <location filename="../src/importcsvdialog.cpp" line="832"/>
-        <location filename="../src/importcsvdialog.cpp" line="865"/>
-        <location filename="../src/importcsvdialog.cpp" line="873"/>
-        <location filename="../src/importcsvdialog.cpp" line="888"/>
+        <location filename="../src/importcsvdialog.cpp" line="835"/>
+        <location filename="../src/importcsvdialog.cpp" line="868"/>
+        <location filename="../src/importcsvdialog.cpp" line="876"/>
         <location filename="../src/importcsvdialog.cpp" line="891"/>
-        <location filename="../src/importcsvdialog.cpp" line="1390"/>
-        <location filename="../src/importcsvdialog.cpp" line="1401"/>
+        <location filename="../src/importcsvdialog.cpp" line="894"/>
+        <location filename="../src/importcsvdialog.cpp" line="1377"/>
+        <location filename="../src/importcsvdialog.cpp" line="1388"/>
         <source>Error</source>
         <translation>Грешка</translation>
     </message>
@@ -7218,33 +7218,33 @@ What do you want to do with them?</source>
         <translation>Празен разделител.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="832"/>
+        <location filename="../src/importcsvdialog.cpp" line="835"/>
         <source>The same column number is selected multiple times.</source>
         <translation>Един и същ номер на колона е избран няколко пъти.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="865"/>
+        <location filename="../src/importcsvdialog.cpp" line="868"/>
         <source>Selected from account is the same as the to account.</source>
         <translation>Избраното от сметката е същото като осчетоводеното.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="873"/>
-        <location filename="../src/importcsvdialog.cpp" line="1378"/>
+        <location filename="../src/importcsvdialog.cpp" line="876"/>
+        <location filename="../src/importcsvdialog.cpp" line="1365"/>
         <source>Invalid date.</source>
         <translation>Грешна дата.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="888"/>
+        <location filename="../src/importcsvdialog.cpp" line="891"/>
         <source>Couldn&apos;t open %1 for reading.</source>
         <translation>Не мога да отворя %1 за четене.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="891"/>
+        <location filename="../src/importcsvdialog.cpp" line="894"/>
         <source>Error reading %1.</source>
         <translation>Грешка при четенето на %1.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1369"/>
+        <location filename="../src/importcsvdialog.cpp" line="1356"/>
         <source>Successfully imported %n transaction(s).</source>
         <translation>
             <numerusform>Успешно въведени %n транзакция.</numerusform>
@@ -7252,12 +7252,12 @@ What do you want to do with them?</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1371"/>
+        <location filename="../src/importcsvdialog.cpp" line="1358"/>
         <source>Unable to import any transactions.</source>
         <translation>Не може да се въвеждат никакви, внесени транзакции.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1375"/>
+        <location filename="../src/importcsvdialog.cpp" line="1362"/>
         <source>Failed to import %n data row(s).</source>
         <translation>
             <numerusform>Неуспешно въвеждане на %n ред с данни.</numerusform>
@@ -7265,44 +7265,44 @@ What do you want to do with them?</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1376"/>
+        <location filename="../src/importcsvdialog.cpp" line="1363"/>
         <source>Required columns missing.</source>
         <translation>Задължителните колони липсват.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1377"/>
+        <location filename="../src/importcsvdialog.cpp" line="1364"/>
         <source>Invalid value.</source>
         <translation>Невалидна стойност.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1379"/>
+        <location filename="../src/importcsvdialog.cpp" line="1366"/>
         <source>Empty category name.</source>
         <translation>Празно име на категорията.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1379"/>
-        <location filename="../src/importcsvdialog.cpp" line="1380"/>
+        <location filename="../src/importcsvdialog.cpp" line="1366"/>
+        <location filename="../src/importcsvdialog.cpp" line="1367"/>
         <source>Empty account name.</source>
         <translation>Празно име на сметката.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1381"/>
+        <location filename="../src/importcsvdialog.cpp" line="1368"/>
         <source>Unknown category found.</source>
         <translation>Неизвестна категория намерена.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1381"/>
-        <location filename="../src/importcsvdialog.cpp" line="1382"/>
+        <location filename="../src/importcsvdialog.cpp" line="1368"/>
+        <location filename="../src/importcsvdialog.cpp" line="1369"/>
         <source>Unknown account found.</source>
         <translation>Неизвестна сметка намерена.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1383"/>
+        <location filename="../src/importcsvdialog.cpp" line="1370"/>
         <source>Cannot import security transactions (to/from security accounts).</source>
         <translation>Не могат да бъдат внесени сделки с ценни книжа (до / от сметките за сигурност).</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1384"/>
+        <location filename="../src/importcsvdialog.cpp" line="1371"/>
         <source>Balancing account wrongly used.</source>
         <comment>Referring to the account used for adjustments of account balances.</comment>
         <translation>Балансирането на сметката е използвано погрешно.</translation>
@@ -7312,42 +7312,42 @@ What do you want to do with them?</source>
         <translation type="vanished">Балансирането на сметката е използвано погрешно.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1385"/>
+        <location filename="../src/importcsvdialog.cpp" line="1372"/>
         <source>Same to and from account/category.</source>
         <translation>Същото към и от сметката / категория.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1387"/>
+        <location filename="../src/importcsvdialog.cpp" line="1374"/>
         <source>No data found.</source>
         <translation>Няма намерени данни.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1392"/>
+        <location filename="../src/importcsvdialog.cpp" line="1379"/>
         <source>Information</source>
         <translation>Информация</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1401"/>
+        <location filename="../src/importcsvdialog.cpp" line="1388"/>
         <source>Unrecognized date format.</source>
         <translation>Неразпознат формат за дата.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1406"/>
+        <location filename="../src/importcsvdialog.cpp" line="1393"/>
         <source>Specify Format</source>
         <translation>Определете Format</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1411"/>
+        <location filename="../src/importcsvdialog.cpp" line="1398"/>
         <source>The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format.</source>
         <translation>Форматът на дати и / или цифри в CSV файла е двусмислен. Моля, изберете правилния формат.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1416"/>
+        <location filename="../src/importcsvdialog.cpp" line="1403"/>
         <source>Date format:</source>
         <translation>Формат на датата:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1459"/>
+        <location filename="../src/importcsvdialog.cpp" line="1446"/>
         <source>Value format:</source>
         <translation>Стойност на формата:</translation>
     </message>
@@ -10278,6 +10278,7 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="123"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
         <source>Income</source>
         <translation>Приход</translation>
     </message>
@@ -10318,7 +10319,7 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="168"/>
-        <location filename="../src/transactionlistwidget.cpp" line="1548"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1564"/>
         <source>Apply</source>
         <translation>Прилагане</translation>
     </message>
@@ -10375,100 +10376,107 @@ Date: %3</source>
         <translation>Филтър</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
-        <location filename="../src/transactionlistwidget.cpp" line="370"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
+        <location filename="../src/transactionlistwidget.cpp" line="386"/>
         <source>Quantity:</source>
         <translation>Количество:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
         <source>Total:</source>
         <translation>Общо:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
-        <location filename="../src/transactionlistwidget.cpp" line="388"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
+        <location filename="../src/transactionlistwidget.cpp" line="404"/>
         <source>Average:</source>
         <translation>Средно:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
+        <source>Cost:</source>
+        <translation type="unfinished">Разходи:</translation>
+    </message>
+    <message>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
         <source>Monthly:</source>
         <translation>Месечно:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="311"/>
-        <location filename="../src/transactionlistwidget.cpp" line="323"/>
+        <location filename="../src/transactionlistwidget.cpp" line="327"/>
+        <location filename="../src/transactionlistwidget.cpp" line="339"/>
         <source>Expenses</source>
         <translation>Разходи</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="312"/>
-        <location filename="../src/transactionlistwidget.cpp" line="324"/>
+        <location filename="../src/transactionlistwidget.cpp" line="328"/>
+        <location filename="../src/transactionlistwidget.cpp" line="340"/>
         <source>Incomes</source>
         <translation>Приходи</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="313"/>
-        <location filename="../src/transactionlistwidget.cpp" line="325"/>
+        <location filename="../src/transactionlistwidget.cpp" line="329"/>
+        <location filename="../src/transactionlistwidget.cpp" line="341"/>
         <source>Transfers</source>
         <translation>Трансфери</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="336"/>
-        <location filename="../src/transactionlistwidget.cpp" line="400"/>
+        <location filename="../src/transactionlistwidget.cpp" line="352"/>
+        <location filename="../src/transactionlistwidget.cpp" line="416"/>
         <source>Quantity</source>
         <translation>Количество</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="374"/>
+        <location filename="../src/transactionlistwidget.cpp" line="390"/>
         <source>Total cost:</source>
         <translation>Обща цена:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="378"/>
+        <location filename="../src/transactionlistwidget.cpp" line="394"/>
         <source>Total income:</source>
         <translation>Общо доходи:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="382"/>
+        <location filename="../src/transactionlistwidget.cpp" line="398"/>
         <source>Total amount:</source>
         <translation>Обща сума:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="390"/>
+        <location filename="../src/transactionlistwidget.cpp" line="406"/>
         <source>Monthly average:</source>
         <translation>Средно на месец:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="686"/>
-        <location filename="../src/transactionlistwidget.cpp" line="692"/>
-        <location filename="../src/transactionlistwidget.cpp" line="698"/>
-        <location filename="../src/transactionlistwidget.cpp" line="706"/>
-        <location filename="../src/transactionlistwidget.cpp" line="712"/>
+        <location filename="../src/transactionlistwidget.cpp" line="702"/>
+        <location filename="../src/transactionlistwidget.cpp" line="708"/>
+        <location filename="../src/transactionlistwidget.cpp" line="714"/>
+        <location filename="../src/transactionlistwidget.cpp" line="722"/>
+        <location filename="../src/transactionlistwidget.cpp" line="728"/>
         <source>Error</source>
         <translation>Грешка</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="686"/>
+        <location filename="../src/transactionlistwidget.cpp" line="702"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Не може да се зададе стойност на сделки с ценни книжа, използвайки диалогов прозорец за промяна на много транзакции.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="692"/>
+        <location filename="../src/transactionlistwidget.cpp" line="708"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Не може да се промени описанието на дивидентите и сделките с ценни книжа.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="698"/>
+        <location filename="../src/transactionlistwidget.cpp" line="714"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Не може да се промени платецът на дивидентите и сделки с ценни книжа.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="712"/>
+        <location filename="../src/transactionlistwidget.cpp" line="728"/>
         <source>Cannot change date or payee/payer of transactions that are part of a split transaction or debt payment, unless all transactions are selected.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10482,7 +10490,7 @@ Date: %3</source>
         <translation type="vanished">Не може да се промени описанието на дивидентите и сделките с ценни книжа.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="706"/>
+        <location filename="../src/transactionlistwidget.cpp" line="722"/>
         <source>Cannot change date, description, expense category or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished"></translation>
@@ -10514,43 +10522,43 @@ Date: %3</source>
         <translation type="vanished">Не може да се промени датата на сделките, които са част от разделянето на транзакцията.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="935"/>
-        <location filename="../src/transactionlistwidget.cpp" line="990"/>
+        <location filename="../src/transactionlistwidget.cpp" line="951"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1006"/>
         <source>Delete transactions?</source>
         <translation type="unfinished">Изтриване на транзакциите?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="935"/>
+        <location filename="../src/transactionlistwidget.cpp" line="951"/>
         <source>Are you sure you want to delete all (%1) transactions in the selected split transaction?</source>
         <translation>Сигурен ли сте, че искате да изтриете всички (%1) сделки в избраната разделена транзакция?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="990"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1006"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation>Сигурен ли сте, че искате да изтриете всички (%1), избрани транзакции?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1523"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1539"/>
         <source>* Part of split transaction</source>
         <translation>* Част от разделянето на транзакцията</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1524"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1540"/>
         <source>* Part of split (%1)</source>
         <translation>* Част от разделянето (%1)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1528"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1544"/>
         <source>** Recurring (editing occurrance)</source>
         <translation>** Повторение (редактирени на събитието)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1544"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1560"/>
         <source>Modify…</source>
         <translation>Променяне…</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1546"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1562"/>
         <source>Edit…</source>
         <translation>Редактиране…</translation>
     </message>

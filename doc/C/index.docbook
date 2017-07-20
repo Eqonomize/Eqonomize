@@ -211,6 +211,12 @@
 			<mediaobject><imageobject><imagedata format="PNG" fileref="csv-columns.png"/></imageobject></mediaobject>
 		</para>
 	</sect2>
+	<sect2 id="csv_html_export">
+		<title>CSV or HTML Export</title>
+		<para>
+			
+		</para>
+	</sect2>
 </sect1>
 </chapter>
 
@@ -237,12 +243,39 @@
 	
 	<sect1 id="accounting-accounts">
 		<title>Accounts and Categories</title>
-    <sect2 id="Assets &amp; Liabilities">
+    <sect2 id="assets-liabilities">
+      <title>Assets &amp; Liabilities</title>
 		  <para>
-		    &app; does not differentiate between accounts for assets and liabilities, except that they are group differently in the account view and that liabilities support some special transactions for convenience. 
+		    &app; does not differentiate between accounts for assets and liabilities, except that they are grouped differently in the account view and that liabilities support some special transactions for convenience. 
+		  </para>
+	  	<sect3 id="ledger">
+	  	  <title>The Ledger</title>
+	  	  <para>
+	  	   The ledger shows all transactions to and from an account in chronological order. The ledger is accessed by double-clicking the change or balance column of an account in the account view, <guimenuitem>Show Transactions</guimenuitem> in the context menu, <menuchoice><guimenu>Accounts</guimenu><guimenuitem>Show Ledger</guimenuitem></menuchoice>, or by clicking the corresponding button in the toolbar.
+	  	  </para>
+  		</sect3>
+  		<sect3 id="adjust-balance">
+	  	  <title>Adjust Balance</title>
+	  	  <para>
+	  	    If the account balance shown in &app; from the actual balance, and you are unable to find out what is wrong or missing (e.g. by comparing transactions with receipts or bank statements with the ledger), you have the possibility the adjust the account balance (using <guimenuitem>Adjust balance...</guimenuitem> in the <guimenu>Accounts</guimenu> menu or in the context menu of an account. When you enter the real value of the account in the dialog, an account balance adjustment transfer to a hidden balancing account is created to match the book value with the real value. This should be avoided, but may sometimes be necessary (usually for cash accounts).
+  		  </para>
+		  </sect3>
+  		<sect3 id="close-account">
+	  	  <title>Marking an Account as Closed</title>
+	  	  <para>
+	  	   An account can be mark as closed at the bottom of the dialog for account editing. The account will then be hidden from the account view when the change and balance values for the select period is zero. The closed account will be moved to the bottom section of the account list for transactions.
+	  	  </para>
+  		</sect3>
+		</sect2>
+		<sect2 id="categories">
+		  <title>Categories</title>
+		  <para>
+		    Incomes and expenses are organised in categories with associated budgets.
+		  </para>
+		  <para>
+		    &app; supports one level of subcategories. Subcategories can be created using <guimenuitem>Add Category</guimenuitem> in the context menu of a category or by selecting a parent category in the new/edit expense category dialog. Subcategories can also be moved to and from parent categories using drag and drop.
 		  </para>
 		</sect2>
-		
 	</sect1>
 	
 	<sect1 id="accounting-transactions">
@@ -318,9 +351,10 @@
 			All transactions do in addition have three optional properties. The description property provides information about the nature of the transaction. For expenses and incomes this can be considered a flexible subcategory. The comment property is used for any additional information, not used for categorisation, about the transaction. If you for example buy a pair of shoes, you might create an expense in a clothing category, with the description <quote>Shoes</quote> and comments <quote>Shiny red Pradas</quote>. The third property, <quote>Associated File</quote>, allows you to specify a link to file on the computer which will be connected to the transaction. This will typically be receipt, invoice or payslip, but any file can be selected. The file will not be moved, copied or modified. If the file is moved or renamed outside of &app;, the file will not be accessible from within the program. 
 		</para>
 		<para>
-			Expenses have two additional properties which can be show or hidden using <menuchoice><guimenu>Settings</guimenu><guimenuitem>Use Additional Transaction Properties</guimenuitem></menuchoice> (deactivating this option will not permanently remove any properties from already entered transactions). The quantity property denotes how many entities was involved in the transaction. This can be a whole number, as in two CD's, or a fraction, as in 0.56 kg apples (units are not included). This property is by default set to 1 and does not affect the value (the value per entity equals the value divided by the quantity). Expenses also have a payee property for the person or entity, for example the store where goods where bought, which receives the money. Incomes also have the payer property for the one who gives you the money, for example your employer.
+			Expenses have two additional properties which can be shown or hidden using <menuchoice><guimenu>Settings</guimenu><guimenuitem>Use Additional Transaction Properties</guimenuitem></menuchoice> (deactivating this option will not permanently remove any properties from already entered transactions). The quantity property denotes how many entities was involved in the transaction. This can be a whole number, as in two CD's, or a fraction, as in 0.56 kg apples (units are not included). This property is by default set to 1 and does not affect the value (the value per entity equals the value divided by the quantity). Expenses also have a payee property for the person or entity, for example the store where goods where bought, which receives the money. Incomes also have the payer property for the one who gives you the money, for example your employer.
 		</para>
-		<sect2 id="The value input field">
+		<sect2 id="value-input">
+		  <title>The Input Field</title>
 		  <para>
 		    The input field for transaction values support basic arithmetics. Addition, subtraction, multiplication, division and exponentiation are supported and uses standard order of operations (1+2*3 equals 7, not 9). Parentheses can not be used. 
 		  </para>
@@ -330,7 +364,7 @@
 		  <para>
 		    By default the value field uses the current currency as prefix or suffix. This can be omitted when entering a new value and are ignored when using currency conversion (expressions similar to <quote>£5 €</quote> are allowed).
 		  </para>
-		    If arithmetics or conversion have been used the calculated expression is copied to the comments field, if empty.
+		    If arithmetics or conversion have been used, the calculated expression is copied to the comments field, if empty.
 		  <para>
 		  </para>
 		</sect2>
@@ -344,14 +378,14 @@
 			It is up to you how and when you want to use split transactions, as multiple ordinary transactions can be used with the same end result, even though one way might represent what happened in reality better.
 		</para>		
 		<para>
-			You can create a split from scratch with <menuchoice><guimenu>Transactions</guimenu><guimenuitem>New Split Transaction...</guimenuitem></menuchoice> or from the context menu. It is however often more efficient to use the join action. This way you can enter transactions the usual way and later join them in a split transactions. Select the transactions to join and activate <guimenuitem>Join Transactions...</guimenuitem> from the <guimenu>Transactions</guimenu> menu or the context menu, and enter a description. All transactions in a split transaction have a common date and account.
+			You can create a split from scratch using <menuchoice><guimenu>Transactions</guimenu><guimenuitem>New Split Transaction...</guimenuitem></menuchoice> or from the context menu. It is however often more efficient to use the join action. This way you can enter transactions the usual way and later join them in a split transactions. Select the transactions to join and activate <guimenuitem>Join Transactions...</guimenuitem> from the <guimenu>Transactions</guimenu> menu or the context menu, and enter a description. All transactions in a split transaction have a common date and account.
 			<mediaobject><imageobject><imagedata format="PNG" fileref="split-transaction.png"/></imageobject></mediaobject>
 		</para>
 		<para>
 			To reverse the action and transform transactions in a split transaction to ordinary transactions, select a transaction and use <guimenuitem>Split Up</guimenuitem>.
 		</para>
 		<para>
-			In transaction list (ledger) for the account associated with the split, the split will be shown as only one transaction, but everywhere else the parts of the split will appear as ordinary transactions. You cannot edit a transaction that is part of a split transaction directly from the fields below the transaction lists. Instead you should press <guibutton>Edit...</guibutton> to edit the whole split transaction, or double click the transaction in the list to edit the separate transaction (excluding the common date and account of the split transaction).
+			In transaction list (ledger) for the account associated with the split, the split will be shown as only one transaction, but everywhere else the parts of the split will appear as ordinary transactions. You cannot edit a transaction that is part of a split transaction directly from the fields below the transaction lists. Instead you should press <guibutton>Edit...</guibutton> to edit the whole split transaction, or double click the transaction in the list to edit the separate transaction (excluding the common date, account and payee/payer properties of the split transaction).
 		</para>
 	</sect1>
 	
@@ -360,8 +394,12 @@
 		<para>
 			Expenses with multiple payments are similar to split transactions, but instead of using a common date and account, they share description, category, quantity and comments. The intended usage is for when multiple payments, primarily from different accounts, are made for a single product/service. They should not be used for payment plans/loans, although an expenses with multiple payments is created for expenses with a downpayment.
 		</para>
+		  Expenses with multiple payments can be created using the <menuchoice><guimenu>Transactions</guimenu><guimenuitem>New Expense with Multiple Payments...</guimenuitem></menuchoice> or by selecting <guimenuitem>Multiple accounts/payments...</guimenuitem> when selecting account for an expense.
 		<para>
 		  Expenses with multiple payments will show up single transaction in the expenses, but as multiple transactions in the account ledgers. Similarily to split transactions they cannot be edited directly from the fields under the expenses list.
+		</para>
+		<para>
+		  Note that even if you create a recurring expense with multiple payments where each payment has a different date, all recurrences after the first occurrence will use the same date for each seprate payment. If future date is set for the first, or only, occurrence, the program will ask for confirmation of the expense on the first date.
 		</para>
 	</sect1>
 	
@@ -382,13 +420,13 @@
 		<title>Scheduled Transactions</title>
 		
 		<para>
-			A scheduled transaction is a transaction that is planned to occur, thus it has not occurred yet. It is basically just a transaction, of any type, that has a date set in the future. When a scheduled transaction has occurred, it becomes a regular transaction. Scheduled transactions makes it possible to keep track of and be reminded of future transactions. &app; will request for a confirmation when the transaction is expected to have occurred.
+			A scheduled transaction is a transaction that is planned to occur, thus it has not occurred yet. It is basically just a transaction, of any type, that has a date set in the future. When a scheduled transaction has occurred, it becomes a regular transaction. Scheduled transactions makes it possible to keep track of and be reminded of future transactions. &app; will ask for a confirmation when the transaction is expected to have occurred.
 		</para>
 		<para>
-			A scheduled transaction can be recurring, thus it will regularly occur on a certain date or with a certain interval. This is useful mostly for bills and salaries, which then need not be entered manually each time and you can check &app; for upcoming payments. When a scheduled recurring transaction has occurred, a regular transaction is created, the occurrence date is removed from the recurrence, and the scheduled transaction date is moved forward to the next occurrence. A scheduled transaction with no occurrences left is removed.
+			A scheduled transaction can be recurring, thus it will regularly occur on a certain date or with a certain interval. This is useful mostly for bills and salaries, which then need not be entered manually each time and you can check &app; for upcoming payments. When a scheduled recurring transaction has occurred, a regular transaction is created, the occurrence date is removed from the recurrence, and the scheduled transaction date is moved forward to the next occurrence. If you modify the properties reccurring transaction previous occurrences will not be affected and vice versa. A scheduled transaction with no occurrences left is removed.
 		</para>
 		<para>
-			Single occurrence scheduled transactions are create just like ordinary transactions, except with a future date. Recurring transactions can only be created from the dialogs, with recurrences specified in the second tab.
+			Single occurrence scheduled transactions are create just like ordinary transactions, except with a future date. Recurring transactions can only be created from the transaction dialogs (opened from the schedule view, toolbar buttons or menu items, or when double clicking a transaction), with recurrences specified in the second tab.
 			<mediaobject><imageobject><imagedata format="PNG" fileref="recurrence.png"/></imageobject></mediaobject>
 		</para>		
 		<para>
@@ -451,6 +489,12 @@
 		  &app; support per account currencies. A different currency can be selected for each account (for assets and liabilities). 
 	  </para>
 	  <para>
+	    The main currency determines the default currency for new accounts and the currency used for statistics. By default the main currency is set to the system wide local currency. Use <menuchoice><guimenu>Settings</guimenu><guimenuitem>Set Main Currency...</guimenuitem></menuchoice> to change the main currency. A dialog is then shown, where you can select a new main currency, with the option to change the currency of all accounts using the previous main currency.
+	  </para>
+	  <para>
+	    The currency of an account is selected in the dialog for account creation/editing. It is generally not advicable to change the currency of an account with associated transactions. This will leave the numerical value of associated transactions unchanged, but the actual monetary value might radically change.
+	  </para>
+	  <para>
 		  The sum of values from accounts in different currencies and the total value and change of categories (for example in the accounts view, or in the statistical reports and diagrams) will be shown in the main currency. By default the main currency is set to the currency of the system default location, but this can be changed from the settings menu, or in the edit dialog of each currency.
 	  </para>
 	  <para>
@@ -471,6 +515,8 @@
   	    For expense and income categories, however, their are two options (selectable from the Settings menu) available. The first option is to use the appropriate exchange rate for the date of each separate transaction. The second default option is to simply use to current exchange rate, regardless of the transaction date (or the current end date). The same logic is used for in the transaction lists for transactions using multiple currencies, as well as in different statistics (with the exception of historical account values). None of the options are optimal and which one is more appropriate depends on the typical flow between accounts in different currencies. This is however of minor importance for stable currencies.
   	  </para>
 	  </sect2>
+	</sect1>
+	<sect1 id="accounting-statistics">
 	</sect1>
 </chapter>
 

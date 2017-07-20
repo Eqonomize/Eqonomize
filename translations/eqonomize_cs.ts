@@ -7097,13 +7097,13 @@ Co s nimi chcete udělat?</translation>
         <location filename="../src/importcsvdialog.cpp" line="556"/>
         <location filename="../src/importcsvdialog.cpp" line="560"/>
         <location filename="../src/importcsvdialog.cpp" line="566"/>
-        <location filename="../src/importcsvdialog.cpp" line="832"/>
-        <location filename="../src/importcsvdialog.cpp" line="865"/>
-        <location filename="../src/importcsvdialog.cpp" line="873"/>
-        <location filename="../src/importcsvdialog.cpp" line="888"/>
+        <location filename="../src/importcsvdialog.cpp" line="835"/>
+        <location filename="../src/importcsvdialog.cpp" line="868"/>
+        <location filename="../src/importcsvdialog.cpp" line="876"/>
         <location filename="../src/importcsvdialog.cpp" line="891"/>
-        <location filename="../src/importcsvdialog.cpp" line="1390"/>
-        <location filename="../src/importcsvdialog.cpp" line="1401"/>
+        <location filename="../src/importcsvdialog.cpp" line="894"/>
+        <location filename="../src/importcsvdialog.cpp" line="1377"/>
+        <location filename="../src/importcsvdialog.cpp" line="1388"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
@@ -7128,33 +7128,33 @@ Co s nimi chcete udělat?</translation>
         <translation>Prázdný oddělovač.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="832"/>
+        <location filename="../src/importcsvdialog.cpp" line="835"/>
         <source>The same column number is selected multiple times.</source>
         <translation>Stejné číslo sloupce je vybráno vícekrát.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="865"/>
+        <location filename="../src/importcsvdialog.cpp" line="868"/>
         <source>Selected from account is the same as the to account.</source>
         <translation>Vybrané z účtu je stejné jako na účet.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="873"/>
-        <location filename="../src/importcsvdialog.cpp" line="1378"/>
+        <location filename="../src/importcsvdialog.cpp" line="876"/>
+        <location filename="../src/importcsvdialog.cpp" line="1365"/>
         <source>Invalid date.</source>
         <translation>Neplatné datum.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="888"/>
+        <location filename="../src/importcsvdialog.cpp" line="891"/>
         <source>Couldn&apos;t open %1 for reading.</source>
         <translation>Nelze otevřít %1 ke čtení.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="891"/>
+        <location filename="../src/importcsvdialog.cpp" line="894"/>
         <source>Error reading %1.</source>
         <translation>Chyba při čtení %1.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1369"/>
+        <location filename="../src/importcsvdialog.cpp" line="1356"/>
         <source>Successfully imported %n transaction(s).</source>
         <translation>
             <numerusform>Transakce byla úspěšně importována.</numerusform>
@@ -7163,12 +7163,12 @@ Co s nimi chcete udělat?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1371"/>
+        <location filename="../src/importcsvdialog.cpp" line="1358"/>
         <source>Unable to import any transactions.</source>
         <translation>Nelze importovat.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1375"/>
+        <location filename="../src/importcsvdialog.cpp" line="1362"/>
         <source>Failed to import %n data row(s).</source>
         <translation>
             <numerusform>Chyba při importu datové řady.</numerusform>
@@ -7177,44 +7177,44 @@ Co s nimi chcete udělat?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1376"/>
+        <location filename="../src/importcsvdialog.cpp" line="1363"/>
         <source>Required columns missing.</source>
         <translation>Požadované sloupce chybí.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1377"/>
+        <location filename="../src/importcsvdialog.cpp" line="1364"/>
         <source>Invalid value.</source>
         <translation>Neplatná hodnota.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1379"/>
+        <location filename="../src/importcsvdialog.cpp" line="1366"/>
         <source>Empty category name.</source>
         <translation>Prázdný název kategorie.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1379"/>
-        <location filename="../src/importcsvdialog.cpp" line="1380"/>
+        <location filename="../src/importcsvdialog.cpp" line="1366"/>
+        <location filename="../src/importcsvdialog.cpp" line="1367"/>
         <source>Empty account name.</source>
         <translation>Prázdný název účtu.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1381"/>
+        <location filename="../src/importcsvdialog.cpp" line="1368"/>
         <source>Unknown category found.</source>
         <translation>Nalezena neznámá kategorie.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1381"/>
-        <location filename="../src/importcsvdialog.cpp" line="1382"/>
+        <location filename="../src/importcsvdialog.cpp" line="1368"/>
+        <location filename="../src/importcsvdialog.cpp" line="1369"/>
         <source>Unknown account found.</source>
         <translation>Nalezen neznámý účet.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1383"/>
+        <location filename="../src/importcsvdialog.cpp" line="1370"/>
         <source>Cannot import security transactions (to/from security accounts).</source>
         <translation>Nelze imporotvat transakci s cennými papíry (z/na účet cenných papírů).</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1384"/>
+        <location filename="../src/importcsvdialog.cpp" line="1371"/>
         <source>Balancing account wrongly used.</source>
         <comment>Referring to the account used for adjustments of account balances.</comment>
         <translation type="unfinished">Bilanční účet použit špatně.</translation>
@@ -7224,42 +7224,42 @@ Co s nimi chcete udělat?</translation>
         <translation type="vanished">Bilanční účet použit špatně.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1385"/>
+        <location filename="../src/importcsvdialog.cpp" line="1372"/>
         <source>Same to and from account/category.</source>
         <translation>Stejné do a z účet/kategorie.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1387"/>
+        <location filename="../src/importcsvdialog.cpp" line="1374"/>
         <source>No data found.</source>
         <translation>Žádná data nenalezena.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1392"/>
+        <location filename="../src/importcsvdialog.cpp" line="1379"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1401"/>
+        <location filename="../src/importcsvdialog.cpp" line="1388"/>
         <source>Unrecognized date format.</source>
         <translation>Neznámý formát datumu.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1406"/>
+        <location filename="../src/importcsvdialog.cpp" line="1393"/>
         <source>Specify Format</source>
         <translation>Upřesněte formát</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1411"/>
+        <location filename="../src/importcsvdialog.cpp" line="1398"/>
         <source>The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format.</source>
         <translation>Formát datumů a/nebo čísel v souboru CSV je nejednoznačný. Prosím vyberte správný formát.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1416"/>
+        <location filename="../src/importcsvdialog.cpp" line="1403"/>
         <source>Date format:</source>
         <translation>Formát data:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1459"/>
+        <location filename="../src/importcsvdialog.cpp" line="1446"/>
         <source>Value format:</source>
         <translation>Formát hodnoty:</translation>
     </message>
@@ -10235,6 +10235,7 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="123"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
         <source>Income</source>
         <translation>Příjem</translation>
     </message>
@@ -10275,7 +10276,7 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="168"/>
-        <location filename="../src/transactionlistwidget.cpp" line="1548"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1564"/>
         <source>Apply</source>
         <translation>Použít</translation>
     </message>
@@ -10332,100 +10333,107 @@ Date: %3</source>
         <translation>Filtr</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
-        <location filename="../src/transactionlistwidget.cpp" line="370"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
+        <location filename="../src/transactionlistwidget.cpp" line="386"/>
         <source>Quantity:</source>
         <translation>Počet:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
         <source>Total:</source>
         <translation>Celkem:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
-        <location filename="../src/transactionlistwidget.cpp" line="388"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
+        <location filename="../src/transactionlistwidget.cpp" line="404"/>
         <source>Average:</source>
         <translation>Průměr:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="266"/>
+        <location filename="../src/transactionlistwidget.cpp" line="276"/>
+        <source>Cost:</source>
+        <translation type="unfinished">Cena:</translation>
+    </message>
+    <message>
+        <location filename="../src/transactionlistwidget.cpp" line="281"/>
         <source>Monthly:</source>
         <translation>Měsíčně:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="311"/>
-        <location filename="../src/transactionlistwidget.cpp" line="323"/>
+        <location filename="../src/transactionlistwidget.cpp" line="327"/>
+        <location filename="../src/transactionlistwidget.cpp" line="339"/>
         <source>Expenses</source>
         <translation>Výdaje</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="312"/>
-        <location filename="../src/transactionlistwidget.cpp" line="324"/>
+        <location filename="../src/transactionlistwidget.cpp" line="328"/>
+        <location filename="../src/transactionlistwidget.cpp" line="340"/>
         <source>Incomes</source>
         <translation>Příjmy</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="313"/>
-        <location filename="../src/transactionlistwidget.cpp" line="325"/>
+        <location filename="../src/transactionlistwidget.cpp" line="329"/>
+        <location filename="../src/transactionlistwidget.cpp" line="341"/>
         <source>Transfers</source>
         <translation>Převody</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="336"/>
-        <location filename="../src/transactionlistwidget.cpp" line="400"/>
+        <location filename="../src/transactionlistwidget.cpp" line="352"/>
+        <location filename="../src/transactionlistwidget.cpp" line="416"/>
         <source>Quantity</source>
         <translation>Počet</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="374"/>
+        <location filename="../src/transactionlistwidget.cpp" line="390"/>
         <source>Total cost:</source>
         <translation>Celková cena:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="378"/>
+        <location filename="../src/transactionlistwidget.cpp" line="394"/>
         <source>Total income:</source>
         <translation>Celkový příjem:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="382"/>
+        <location filename="../src/transactionlistwidget.cpp" line="398"/>
         <source>Total amount:</source>
         <translation>Celkové množství:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="390"/>
+        <location filename="../src/transactionlistwidget.cpp" line="406"/>
         <source>Monthly average:</source>
         <translation>Měsíční průměr:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="686"/>
-        <location filename="../src/transactionlistwidget.cpp" line="692"/>
-        <location filename="../src/transactionlistwidget.cpp" line="698"/>
-        <location filename="../src/transactionlistwidget.cpp" line="706"/>
-        <location filename="../src/transactionlistwidget.cpp" line="712"/>
+        <location filename="../src/transactionlistwidget.cpp" line="702"/>
+        <location filename="../src/transactionlistwidget.cpp" line="708"/>
+        <location filename="../src/transactionlistwidget.cpp" line="714"/>
+        <location filename="../src/transactionlistwidget.cpp" line="722"/>
+        <location filename="../src/transactionlistwidget.cpp" line="728"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="686"/>
+        <location filename="../src/transactionlistwidget.cpp" line="702"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nelze zadat hodnotu transakce s cenným papírem použitím dialogu pro změnu více transakcí.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="692"/>
+        <location filename="../src/transactionlistwidget.cpp" line="708"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nelze změnit popis dividend a transakcí s cennými papíry.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="698"/>
+        <location filename="../src/transactionlistwidget.cpp" line="714"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nelze změnit plátce dividend a transakce s cennými papíry.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="712"/>
+        <location filename="../src/transactionlistwidget.cpp" line="728"/>
         <source>Cannot change date or payee/payer of transactions that are part of a split transaction or debt payment, unless all transactions are selected.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10439,7 +10447,7 @@ Date: %3</source>
         <translation type="obsolete">Nelze změnit popis dividend a transakcí s cennými papíry.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="706"/>
+        <location filename="../src/transactionlistwidget.cpp" line="722"/>
         <source>Cannot change date, description, expense category or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished"></translation>
@@ -10467,43 +10475,43 @@ Date: %3</source>
         <translation type="vanished">Nelze změnit datum transakcí, které jsou součástí rozdělené transakce.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="935"/>
-        <location filename="../src/transactionlistwidget.cpp" line="990"/>
+        <location filename="../src/transactionlistwidget.cpp" line="951"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1006"/>
         <source>Delete transactions?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="935"/>
+        <location filename="../src/transactionlistwidget.cpp" line="951"/>
         <source>Are you sure you want to delete all (%1) transactions in the selected split transaction?</source>
         <translation>Opravdu chcete vymazat všech (%1) transakcí ve vybrané rozdělené transakci?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="990"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1006"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation>Opravdu chcete smazat všechny (%1) vybrané transakce?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1523"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1539"/>
         <source>* Part of split transaction</source>
         <translation>* Část rozdělené transakce</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1524"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1540"/>
         <source>* Part of split (%1)</source>
         <translation>Část rozdělení (%1)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1528"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1544"/>
         <source>** Recurring (editing occurrance)</source>
         <translation>**Opakování (upravující výskyt)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1544"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1560"/>
         <source>Modify…</source>
         <translation>Změnit…</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1546"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1562"/>
         <source>Edit…</source>
         <translation>Upravit…</translation>
     </message>

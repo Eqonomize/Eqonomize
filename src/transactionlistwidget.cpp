@@ -260,10 +260,26 @@ void TransactionListWidget::transactionExecuted(QTreeWidgetItem*) {
 	editTransaction();
 }
 void TransactionListWidget::updateStatistics() {
-	int i_count_frac = 0;
-	double intpart = 0.0;
-	if(modf(current_quantity, &intpart) != 0.0) i_count_frac = 2;
-	statLabel->setText(QString("<div align=\"right\"><b>%1</b> %5 &nbsp; <b>%2</b> %6 &nbsp; <b>%3</b> %7 &nbsp; <b>%4</b> %8</div>").arg(tr("Quantity:")).arg(tr("Total:")).arg(tr("Average:")).arg(tr("Monthly:")).arg(QLocale().toString(current_quantity, 'f', i_count_frac)).arg(budget->formatMoney(current_value)).arg(budget->formatMoney(current_quantity == 0.0 ? 0.0 : current_value / current_quantity)).arg(budget->formatMoney(current_value == 0.0 ? current_value : current_value / filterWidget->countMonths())));
+	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
+	if((transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME) && selection.count() > 1) {
+		double value = 0.0, quantity = 0.0;
+		for(int index = 0; index < selection.count(); index++) {
+			TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
+			Transactions *transs = i->splitTransaction();
+			if(!transs) transs = i->transaction();
+			value += transs->value(true);
+			quantity += transs->quantity();
+		}
+		int i_count_frac = 0;
+		double intpart = 0.0;
+		if(modf(quantity, &intpart) != 0.0) i_count_frac = 2;
+		statLabel->setText(QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg(tr("Quantity:")).arg(transtype == TRANSACTION_TYPE_INCOME ? tr("Income") : tr("Cost:")).arg(tr("Average:")).arg(QLocale().toString(quantity, 'f', i_count_frac)).arg(budget->formatMoney(value)).arg(budget->formatMoney(quantity == 0.0 ? 0.0 : value / quantity)));
+	} else {
+		int i_count_frac = 0;
+		double intpart = 0.0;
+		if(modf(current_quantity, &intpart) != 0.0) i_count_frac = 2;
+		statLabel->setText(QString("<div align=\"right\"><b>%1</b> %5 &nbsp; <b>%2</b> %6 &nbsp; <b>%3</b> %7 &nbsp; <b>%4</b> %8</div>").arg(tr("Quantity:")).arg(tr("Total:")).arg(tr("Average:")).arg(tr("Monthly:")).arg(QLocale().toString(current_quantity, 'f', i_count_frac)).arg(budget->formatMoney(current_value)).arg(budget->formatMoney(current_quantity == 0.0 ? 0.0 : current_value / current_quantity)).arg(budget->formatMoney(current_value == 0.0 ? current_value : current_value / filterWidget->countMonths())));
+	}
 }
 
 void TransactionListWidget::popupListMenu(const QPoint &p) {
@@ -1570,6 +1586,7 @@ void TransactionListWidget::transactionSelectionChanged() {
 		}
 	}
 	updateTransactionActions();
+	if(transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE) updateStatistics();
 }
 void TransactionListWidget::newMultiAccountTransaction() {
 	if(mainWin->newMultiAccountTransaction(transtype == TRANSACTION_TYPE_EXPENSE, editWidget->description(), transtype == TRANSACTION_TYPE_EXPENSE ? (CategoryAccount*) editWidget->toAccount() : (CategoryAccount*) editWidget->fromAccount(), editWidget->quantity(), editWidget->comments())) {
