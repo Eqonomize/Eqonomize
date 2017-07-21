@@ -172,7 +172,7 @@ QValidator::State EqonomizeValueEdit::validate(QString &input, int &pos) const {
 	QString input2 = input;
 	int pos2 = pos;
 	QValidator::State s = QDoubleSpinBox::validate(input2, pos2);
-	if(s == QValidator::Invalid && (pos == 0 || (input[pos - 1] != '[' && input[pos - 1] != ']' && input[pos - 1] != '(' && input[pos - 1] != ')'))) {
+	if(s == QValidator::Invalid) {
 		QString str = input2.trimmed();
 		if(!s_suffix.isEmpty() && str.endsWith(s_suffix)) {
 			str = str.left(str.length() - s_suffix.length());
@@ -219,6 +219,16 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 	QString calculatedText_pre = input.trimmed();
 	input.remove(QRegExp("\\s"));
 	input.remove(QLocale().groupSeparator());
+	input.replace("⋅", "*");
+	input.replace("×", "*");
+	input.replace("−", "-");
+	input.replace("∕", "/");
+	input.replace("÷", "/");
+	input.replace("²", "^2");
+	input.replace("³", "^3");
+	input.replace(']', ')');
+	input.replace('[', '(');
+	input.replace("√", QString('^') + QLocale().toString(0.5));
 	QStringList errors;
 	bool calculated = false;
 	input = QLocale().toString(fixup_sub(input, errors, calculated), 'f', decimals());
@@ -250,15 +260,44 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 	}
 	input.replace(QLocale().negativeSign(), '-');
 	input.replace(QLocale().positiveSign(), '+');
-	input.replace("⋅", "*");
-	input.replace("×", "*");
-	input.replace("−", "-");
-	input.replace("∕", "/");
-	input.replace("÷", "/");
-	input.replace("²", "^2");
-	input.replace("³", "^3");
-	input.replace("√", QString('^') + QLocale().toString(0.5));
-	int i = input.indexOf(QRegExp("[-+]"), 1);
+	int i = input.indexOf(')', 1);
+	if(i < 1) {
+		i = input.indexOf('(', 0);
+		if(i == 0) {
+			input.remove(0, 1);
+			return fixup_sub(input, errors, calculated);
+		} else if(i >= 0) {
+			input += ')';
+			i = input.length() - 1;
+		} else {
+			i = -1;
+		}
+	}
+	if(i >= 1) {
+		int i2 = input.lastIndexOf('(', i - 1);
+		if(i2 < 0 || i2 > i) {
+			if(i == input.length() - 1) {
+				input.chop(1);
+				return fixup_sub(input, errors, calculated);
+			}
+			input.prepend('(');
+			i++;
+			i2 = 0;
+		}
+		if(i2 == 0 && i == input.length() - 1) {
+			input.remove(0, 1);
+			input.chop(1);
+			return fixup_sub(input, errors, calculated);
+		}
+		if(i < input.length() - 1 && (input[i + 1].isNumber() || input[i + 1] == '(')) input.insert(i + 1, '*');
+		QString str = input.mid(i2 + 1, i - i2 - 1);
+		double v = fixup_sub(str, errors, calculated);
+		input.replace(i2, i - i2 + 1, QLocale().toString(v, 'f', decimals() + 2));
+		if(i2 > 0 && (input[i2 - 1].isNumber() || input[i2 - 1] == ')')) input.insert(i2, '*');
+		calculated = true;
+		return fixup_sub(input, errors, calculated);
+	}
+	i = input.indexOf(QRegExp("[-+]"), 1);
 	if(i >= 1) {
 		QStringList terms = input.split(QRegExp("[-+]"));
 		i = 0;
