@@ -3,17 +3,17 @@ Eqonomize! is a personal accounting software, with focus on efficiency and ease 
 
 ![Image of Eqonomize](https://github.com/Eqonomize/eqonomize.github.io/blob/master/images/eqonomize-new.png?raw=true)
 
-##Requirements
+## Requirements
 * Qt 5, with Qt Charts module (optional, but highly recommended)
 
-##Installation
+## Installation
 In a terminal window in the top source code directory run
 * `qmake` *(to comile without Qt Charts, run `qmake ENABLE_QTCHARTS=no`)*
 * `lrelease Eqonomize.pro` *(not required if using a release source tarball, only if using the git version)*
 * `make` *(or `nmake` for Microsoft Windows)*
 * `make install`
 
-##Features
+## Features
 * Bookkeeping
   * Bookkeeping by double entry.
   * Transactions: expenses, incomes, transfers, and security transactions.
