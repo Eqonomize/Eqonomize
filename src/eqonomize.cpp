@@ -4551,8 +4551,9 @@ void Eqonomize::currenciesModified() {
 	}
 	emit transactionsModified();
 	updateUsesMultipleCurrencies();
-	if(currencyConversionWindow && currencyConversionWindow->isVisible()) {
-		currencyConversionWindow->convertFrom();
+	if(currencyConversionWindow) {
+		currencyConversionWindow->updateCurrencies();
+		if(currencyConversionWindow->isVisible()) currencyConversionWindow->convertFrom();
 	}
 }
 
@@ -4623,7 +4624,7 @@ void Eqonomize::setMainCurrency() {
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
 	box1->addWidget(buttonBox);
-	connect(setMainCurrencyCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setMainCurrencyIndexChanged(int)));
+	connect(setMainCurrencyCombo, SIGNAL(activated(int)), this, SLOT(setMainCurrencyIndexChanged(int)));
 	if(dialog->exec() == QDialog::Accepted) {
 		Currency *cur = NULL;
 		int index = setMainCurrencyCombo->currentIndex();
@@ -4649,6 +4650,7 @@ void Eqonomize::setMainCurrencyIndexChanged(int index) {
 		EditCurrencyDialog *dialog = new EditCurrencyDialog(budget, NULL, false, this);
 		if(dialog->exec() == QDialog::Accepted) {
 			Currency *cur = dialog->createCurrency();
+			if(currencyConversionWindow) currencyConversionWindow->updateCurrencies();
 			setMainCurrencyCombo->clear();
 			setMainCurrencyCombo->addItem(tr("New currency…"));
 			int i = 1;

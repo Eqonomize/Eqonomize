@@ -1,3 +1,8 @@
+2017-09-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix new currency does not appear in the currency converter after application reopened (part of issue #27)
+	* Fix new currency dialog reopens when creating new currency from set main currency dialog
+
 2017-07-21  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Support for parentheses for calculation in input fields
