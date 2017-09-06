@@ -177,7 +177,7 @@ void Budget::loadCurrencies() {
 	loadLocalCurrencies();
 }
 void Budget::loadGlobalCurrencies() {
-	loadCurrenciesFile(QString(DATA_DIR) + "/currencies.xml", false);
+	loadCurrenciesFile(DATA_DIR "/currencies.xml", false);
 }
 void Budget::loadLocalCurrencies() {
 	loadCurrenciesFile(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/currencies.xml", true);

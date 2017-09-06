@@ -2,6 +2,15 @@ VERSION = 0.99.3
 isEmpty(PREFIX) {
 	PREFIX = /usr/local
 }
+isEmpty(DESKTOP_DIR) {
+	DESKTOP_DIR = $$PREFIX/share/applications
+}
+isEmpty(DESKTOP_ICON_DIR) {
+	DESKTOP_ICON_DIR = $$PREFIX/share/icons
+}
+equals(INSTALL_THEME_ICONS,"no") {
+	DEFINES += LOAD_EQZICONS_FROM_FILE=1
+}
 unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 	isEmpty(DOCUMENTATION_DIR) {
 		DOCUMENTATION_DIR = $$PREFIX/share/doc/eqonomize/html
@@ -18,13 +27,9 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 	isEmpty(MIME_DIR) {
 		MIME_DIR = $$PREFIX/share/mime/packages
 	}
-	isEmpty(DESKTOP_DIR) {
-		DESKTOP_DIR = $$PREFIX/share/applications
-	}
 	isEmpty(ICON_DIR) {
 		equals(INSTALL_THEME_ICONS,"no") {
 			ICON_DIR = $$PREFIX/share/eqonomize/icons
-			DEFINES += LOAD_EQZICONS_FROM_FILE=1
 		} else {
 			ICON_DIR = $$PREFIX/share/icons
 		}
@@ -338,9 +343,19 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 			appicon16 appicon22 appicon32 appicon64 appicon128 appiconsvg \
 			mimeicon16 mimeicon22 mimeicon32 mimeicon48 mimeicon64 mimeicon128 mimeiconsvg \
 			actionicons16 actionicons22 actionicons32 actionicons48 actionicons64 actioniconssvg
+			
+	!equals($$DESKTOP_ICON_DIR, $$ICON_DIR) {
+		desktopappicon64.files = data/64/eqonomize.png
+		desktopappicon64.path = $$DESKTOP_ICON_DIR/hicolor/64x64/apps
+		INSTALLS += desktopappicon64
+	}
 } else {
 	RESOURCES = data.qrc doc.qrc icons.qrc translations.qrc
 	target.path = $$PREFIX/bin
-	INSTALLS += target
+	desktop.files = data/eqonomize.desktop
+	desktop.path = $$DESKTOP_DIR
+	appicon64.files = data/64/eqonomize.png
+	appicon64.path = $$DESKTOP_ICON_DIR/hicolor/64x64/apps
+	INSTALLS += target desktop appicon64
 }
 win32: RC_FILE = winicon.rc

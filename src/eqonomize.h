@@ -39,9 +39,15 @@
 #include <QNetworkAccessManager>
 
 #ifdef LOAD_EQZICONS_FROM_FILE
-	#define LOAD_APP_ICON(x) QIcon(ICON_DIR "/hicolor/scalable/apps/" x ".svg")
-	#define LOAD_ICON(x) (QString(x).startsWith("eqz") ? QIcon(ICON_DIR "/hicolor/scalable/actions/" x ".svg") : QIcon::fromTheme(x))
-	#define LOAD_ICON2(x, y) (QString(x).startsWith("eqz") ? QIcon(ICON_DIR "/hicolor/scalable/actions/" x ".svg") : QIcon::fromTheme(x, y))
+	#ifdef RESOURCES_COMPILED
+		#define LOAD_APP_ICON(x) QIcon(ICON_DIR "/EQZ/apps/64x64/" x ".png")
+		#define LOAD_ICON(x) (QString(x).startsWith("eqz") ? QIcon(ICON_DIR "/EQZ/actions/64x64/" x ".png") : QIcon::fromTheme(x))
+		#define LOAD_ICON2(x, y) (QString(x).startsWith("eqz") ? QIcon(ICON_DIR "/EQZ/actions/64x64/" x ".png") : QIcon::fromTheme(x, y))
+	#else
+		#define LOAD_APP_ICON(x) QIcon(ICON_DIR "/hicolor/64x64/apps/" x ".png")
+		#define LOAD_ICON(x) (QString(x).startsWith("eqz") ? QIcon(ICON_DIR "/hicolor/64x64/actions/" x ".png") : QIcon::fromTheme(x))
+		#define LOAD_ICON2(x, y) (QString(x).startsWith("eqz") ? QIcon(ICON_DIR "/hicolor/64x64/actions/" x ".png") : QIcon::fromTheme(x, y))
+	#endif
 #else
 	#define LOAD_APP_ICON(x) QIcon::fromTheme(x)
 	#define LOAD_ICON(x) QIcon::fromTheme(x)
