@@ -1824,17 +1824,17 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	tabs->setIconSize(tabs->iconSize() * 1.5);
 
 	accounts_page = new QWidget(this);
-	tabs->addTab(accounts_page, QIcon::fromTheme("eqz-account"), tr("Accounts && Categories"));
+	tabs->addTab(accounts_page, LOAD_ICON("eqz-account"), tr("Accounts && Categories"));
 	expenses_page = new QWidget(this);
-	tabs->addTab(expenses_page, QIcon::fromTheme("eqz-expense"), tr("Expenses"));
+	tabs->addTab(expenses_page, LOAD_ICON("eqz-expense"), tr("Expenses"));
 	incomes_page = new QWidget(this);
-	tabs->addTab(incomes_page, QIcon::fromTheme("eqz-income"), tr("Incomes"));
+	tabs->addTab(incomes_page, LOAD_ICON("eqz-income"), tr("Incomes"));
 	transfers_page = new QWidget(this);
-	tabs->addTab(transfers_page, QIcon::fromTheme("eqz-transfer"), tr("Transfers"));
+	tabs->addTab(transfers_page, LOAD_ICON("eqz-transfer"), tr("Transfers"));
 	securities_page = new QWidget(this);
-	tabs->addTab(securities_page, QIcon::fromTheme("eqz-security"), tr("Securities", "Financial security (e.g. stock, mutual fund)"));
+	tabs->addTab(securities_page, LOAD_ICON("eqz-security"), tr("Securities", "Financial security (e.g. stock, mutual fund)"));
 	schedule_page = new QWidget(this);
-	tabs->addTab(schedule_page, QIcon::fromTheme("eqz-schedule"), tr("Schedule"));
+	tabs->addTab(schedule_page, LOAD_ICON("eqz-schedule"), tr("Schedule"));
 
 	connect(tabs, SIGNAL(currentChanged(int)), this, SLOT(onPageChange(int)));
 
@@ -1869,13 +1869,13 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	setColumnMoneyWidth(accountsView, CHANGE_COLUMN, 999999999999.99);
 	setColumnMoneyWidth(accountsView, VALUE_COLUMN, 999999999999.99);
 	assetsItem = new TotalListViewItem(accountsView, tr("Assets"), QString::null, budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
-	assetsItem->setIcon(0, QIcon::fromTheme("eqz-account"));
+	assetsItem->setIcon(0, LOAD_ICON("eqz-account"));
 	liabilitiesItem = new TotalListViewItem(accountsView, assetsItem, tr("Liabilities"), QString::null, budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
-	liabilitiesItem->setIcon(0, QIcon::fromTheme("eqz-liabilities"));
+	liabilitiesItem->setIcon(0, LOAD_ICON("eqz-liabilities"));
 	incomesItem = new TotalListViewItem(accountsView, liabilitiesItem, tr("Incomes"), "-", budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
-	incomesItem->setIcon(0, QIcon::fromTheme("eqz-income"));
+	incomesItem->setIcon(0, LOAD_ICON("eqz-income"));
 	expensesItem = new TotalListViewItem(accountsView, incomesItem, tr("Expenses"), "-", budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
-	expensesItem->setIcon(0, QIcon::fromTheme("eqz-expense"));
+	expensesItem->setIcon(0, LOAD_ICON("eqz-expense"));
 	assetsItem->setFlags(assetsItem->flags() & ~Qt::ItemIsDragEnabled);
 	assetsItem->setFlags(assetsItem->flags() & ~Qt::ItemIsDropEnabled);
 	liabilitiesItem->setFlags(liabilitiesItem->flags() & ~Qt::ItemIsDragEnabled);
@@ -1924,13 +1924,13 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	accountsPeriodLayout2->addWidget(accountsPeriodToEdit);
 	QHBoxLayout *accountsPeriodLayout3 = new QHBoxLayout();
 	accountsPeriodLayout->addLayout(accountsPeriodLayout3);
-	QPushButton *prevYearButton = new QPushButton(QIcon::fromTheme("eqz-previous-year"), "", periodWidget);	
+	QPushButton *prevYearButton = new QPushButton(LOAD_ICON("eqz-previous-year"), "", periodWidget);	
 	accountsPeriodLayout2->addWidget(prevYearButton);
-	QPushButton *prevMonthButton = new QPushButton(QIcon::fromTheme("eqz-previous-month"), "", periodWidget);
+	QPushButton *prevMonthButton = new QPushButton(LOAD_ICON("eqz-previous-month"), "", periodWidget);
 	accountsPeriodLayout2->addWidget(prevMonthButton);
-	QPushButton *nextMonthButton = new QPushButton(QIcon::fromTheme("eqz-next-month"), "", periodWidget);
+	QPushButton *nextMonthButton = new QPushButton(LOAD_ICON("eqz-next-month"), "", periodWidget);
 	accountsPeriodLayout2->addWidget(nextMonthButton);
-	QPushButton *nextYearButton = new QPushButton(QIcon::fromTheme("eqz-next-year"), "", periodWidget);
+	QPushButton *nextYearButton = new QPushButton(LOAD_ICON("eqz-next-year"), "", periodWidget);
 	accountsPeriodLayout2->addWidget(nextYearButton);
 	QPushButton *accountsPeriodButton = new QPushButton(tr("Select Period"), periodWidget);
 	QMenu *accountsPeriodMenu = new QMenu(this);	
@@ -2100,13 +2100,13 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	securitiesLayout->addWidget(periodGroup);
 	QHBoxLayout *securitiesPeriodLayout3 = new QHBoxLayout();
 	securitiesPeriodLayout2->addLayout(securitiesPeriodLayout3);
-	QPushButton *securitiesPrevYearButton = new QPushButton(QIcon::fromTheme("eqz-previous-year"), "", periodGroup);
+	QPushButton *securitiesPrevYearButton = new QPushButton(LOAD_ICON("eqz-previous-year"), "", periodGroup);
 	securitiesPeriodLayout3->addWidget(securitiesPrevYearButton);
-	QPushButton *securitiesPrevMonthButton = new QPushButton(QIcon::fromTheme("eqz-previous-month"), "", periodGroup);
+	QPushButton *securitiesPrevMonthButton = new QPushButton(LOAD_ICON("eqz-previous-month"), "", periodGroup);
 	securitiesPeriodLayout3->addWidget(securitiesPrevMonthButton);
-	QPushButton *securitiesNextMonthButton = new QPushButton(QIcon::fromTheme("eqz-next-month"), "", periodGroup);
+	QPushButton *securitiesNextMonthButton = new QPushButton(LOAD_ICON("eqz-next-month"), "", periodGroup);
 	securitiesPeriodLayout3->addWidget(securitiesNextMonthButton);
-	QPushButton *securitiesNextYearButton = new QPushButton(QIcon::fromTheme("eqz-next-year"), "", periodGroup);
+	QPushButton *securitiesNextYearButton = new QPushButton(LOAD_ICON("eqz-next-year"), "", periodGroup);
 	securitiesPeriodLayout3->addWidget(securitiesNextYearButton);
 
 	securitiesPopupMenu = NULL;
@@ -5344,15 +5344,15 @@ void Eqonomize::saveView() {
 
 }
 
-#define NEW_ACTION(action, text, icon, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(QIcon::fromTheme(icon)); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
+#define NEW_ACTION(action, text, icon, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(LOAD_ICON(icon)); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
 
-#define NEW_ACTION_ALT(action, text, icon, icon_alt, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(QIcon::fromTheme(icon, QIcon::fromTheme(icon_alt))); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
+#define NEW_ACTION_ALT(action, text, icon, icon_alt, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(LOAD_ICON2(icon, LOAD_ICON(icon_alt))); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
 
-#define NEW_ACTION_3(action, text, icon, shortcuts, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(QIcon::fromTheme(icon)); action->setShortcuts(shortcuts); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
+#define NEW_ACTION_3(action, text, icon, shortcuts, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(LOAD_ICON(icon)); action->setShortcuts(shortcuts); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
 
-#define NEW_ACTION_NOMENU(action, text, icon, shortcut, receiver, slot, name) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(QIcon::fromTheme(icon)); action->setShortcut(shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
+#define NEW_ACTION_NOMENU(action, text, icon, shortcut, receiver, slot, name) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(LOAD_ICON(icon)); action->setShortcut(shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
 
-#define NEW_ACTION_NOMENU_ALT(action, text, icon, icon_alt, shortcut, receiver, slot, name) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(QIcon::fromTheme(icon, QIcon::fromTheme(icon_alt))); action->setShortcut(shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
+#define NEW_ACTION_NOMENU_ALT(action, text, icon, icon_alt, shortcut, receiver, slot, name) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(LOAD_ICON2(icon, LOAD_ICON(icon_alt))); action->setShortcut(shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
 
 #define NEW_ACTION_2(action, text, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
 
@@ -5396,7 +5396,7 @@ void Eqonomize::setupActions() {
 	fileToolbar->addAction(ActionFileNew);
 	NEW_ACTION_3(ActionFileOpen, tr("&Open…"), "document-open", QKeySequence::Open, this, SLOT(fileOpen()), "file_open", fileMenu);
 	fileToolbar->addAction(ActionFileOpen);
-	recentFilesMenu = fileMenu->addMenu(QIcon::fromTheme("document-open-recent"), tr("Open Recent"));
+	recentFilesMenu = fileMenu->addMenu(LOAD_ICON("document-open-recent"), tr("Open Recent"));
 	QAction* recentFileAction = 0;
 	for(int i = 0; i < MAX_RECENT_FILES; i++){
 		recentFileAction = new QAction(this);
@@ -5440,7 +5440,7 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionNewExpensesAccount, tr("New Expense Category…"), "eqz-expense", 0, this, SLOT(newExpensesAccount()), "new_expenses_account", accountsMenu);
 	NEW_ACTION_NOMENU(ActionAddAccountMenu, tr("Add Account…"), "eqz-account", 0, this, SLOT(addAccount()), "add_account");
 	QMenu *newAccountMenu = new QMenu(tr("Add Account"), this);
-	newAccountMenu->setIcon(QIcon::fromTheme("eqz-account"));
+	newAccountMenu->setIcon(LOAD_ICON("eqz-account"));
 	newAccountMenu->addAction(ActionNewAssetsAccount);
 	newAccountMenu->addAction(ActionNewLoan);
 	newAccountMenu->addAction(ActionNewIncomesAccount);

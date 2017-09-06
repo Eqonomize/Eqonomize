@@ -18,7 +18,6 @@
  *   along with Eqonomize!. If not, see <http://www.gnu.org/licenses/>.    *
  ***************************************************************************/
 
-
 #ifndef EQONOMIZE_H
 #define EQONOMIZE_H
 
@@ -38,6 +37,16 @@
 #include <QApplication>
 #include <QMainWindow>
 #include <QNetworkAccessManager>
+
+#ifdef LOAD_EQZICONS_FROM_FILE
+	#define LOAD_APP_ICON(x) QIcon(ICON_DIR "/hicolor/scalable/apps/" x ".svg")
+	#define LOAD_ICON(x) (QString(x).startsWith("eqz") ? QIcon(ICON_DIR "/hicolor/scalable/actions/" x ".svg") : QIcon::fromTheme(x))
+	#define LOAD_ICON2(x, y) (QString(x).startsWith("eqz") ? QIcon(ICON_DIR "/hicolor/scalable/actions/" x ".svg") : QIcon::fromTheme(x, y))
+#else
+	#define LOAD_APP_ICON(x) QIcon::fromTheme(x)
+	#define LOAD_ICON(x) QIcon::fromTheme(x)
+	#define LOAD_ICON2(x, y) QIcon::fromTheme(x, y)
+#endif
 
 class QAction;
 class QActionGroup;

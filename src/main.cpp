@@ -103,11 +103,13 @@ int main(int argc, char **argv) {
 			}
 		}
 	}
-	
+#ifndef LOAD_EQZICONS_FROM_FILE	
 	if(QIcon::themeName().isEmpty() || !QIcon::hasThemeIcon("eqz-account")) {
+		QIcon::setThemeSearchPaths(QStringList(ICON_DIR));
 		QIcon::setThemeName("EQZ");
 	}
-	app.setWindowIcon(QIcon::fromTheme("eqonomize"));
+#endif
+	app.setWindowIcon(LOAD_APP_ICON("eqonomize"));
 	
 	Eqonomize *win = new Eqonomize();
 	win->setCommandLineParser(parser);

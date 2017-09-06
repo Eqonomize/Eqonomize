@@ -1,8 +1,8 @@
 VERSION = 0.99.3
-unix:!android:!macx {
-	isEmpty(PREFIX) {
-		PREFIX = /usr/local
-	}
+isEmpty(PREFIX) {
+	PREFIX = /usr/local
+}
+unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 	isEmpty(DOCUMENTATION_DIR) {
 		DOCUMENTATION_DIR = $$PREFIX/share/doc/eqonomize/html
 	}
@@ -22,13 +22,19 @@ unix:!android:!macx {
 		DESKTOP_DIR = $$PREFIX/share/applications
 	}
 	isEmpty(ICON_DIR) {
-		ICON_DIR = $$PREFIX/share/icons
+		equals(INSTALL_THEME_ICONS,"no") {
+			ICON_DIR = $$PREFIX/share/eqonomize/icons
+			DEFINES += LOAD_EQZICONS_FROM_FILE=1
+		} else {
+			ICON_DIR = $$PREFIX/share/icons
+		}
 	}
 } else {
 	TRANSLATIONS_DIR = ":/translations"
-	ICON_DIR = ":/data"
+	ICON_DIR = ":/icons"
 	DATA_DIR = ":/data"
 	DOCUMENTATION_DIR = ":/doc/html"
+	DEFINES += RESOURCES_COMPILED=1
 }
 TEMPLATE = app
 TARGET = eqonomize
@@ -43,6 +49,7 @@ OBJECTS_DIR = build
 DEFINES += TRANSLATIONS_DIR=\\\"$$TRANSLATIONS_DIR\\\"
 DEFINES += DOCUMENTATION_DIR=\\\"$$DOCUMENTATION_DIR\\\"
 DEFINES += DATA_DIR=\\\"$$DATA_DIR\\\"
+DEFINES += ICON_DIR=\\\"$$ICON_DIR\\\"
 DEFINES += VERSION=\\\"$$VERSION\\\"
 
 HEADERS += src/account.h \
@@ -101,7 +108,7 @@ SOURCES += src/account.cpp \
            src/transactionfilterwidget.cpp \
            src/transactionlistwidget.cpp
 
-unix:!android:!macx {
+unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 	TRANSLATIONS = 	translations/eqonomize_bg.ts \
 			translations/eqonomize_cs.ts \
 			translations/eqonomize_de.ts \
@@ -333,5 +340,7 @@ unix:!android:!macx {
 			actionicons16 actionicons22 actionicons32 actionicons48 actionicons64 actioniconssvg
 } else {
 	RESOURCES = data.qrc doc.qrc icons.qrc translations.qrc
+	target.path = $$PREFIX/bin
+	INSTALLS += target
 }
 win32: RC_FILE = winicon.rc

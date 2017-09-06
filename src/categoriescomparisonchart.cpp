@@ -28,6 +28,7 @@
 #include "account.h"
 #include "transaction.h"
 #include "recurrence.h"
+#include "eqonomize.h"
 
 
 #ifdef QT_CHARTS_LIB
@@ -148,13 +149,13 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	toEdit->setCalendarPopup(true);	
 	choicesLayout->addWidget(toEdit);
 	choicesLayout->setStretchFactor(toEdit, 1);
-	prevYearButton = new QPushButton(QIcon::fromTheme("eqz-previous-year"), "", settingsWidget);
+	prevYearButton = new QPushButton(LOAD_ICON("eqz-previous-year"), "", settingsWidget);
 	choicesLayout->addWidget(prevYearButton);
-	prevMonthButton = new QPushButton(QIcon::fromTheme("eqz-previous-month"), "", settingsWidget);
+	prevMonthButton = new QPushButton(LOAD_ICON("eqz-previous-month"), "", settingsWidget);
 	choicesLayout->addWidget(prevMonthButton);
-	nextMonthButton = new QPushButton(QIcon::fromTheme("eqz-next-month"), "", settingsWidget);
+	nextMonthButton = new QPushButton(LOAD_ICON("eqz-next-month"), "", settingsWidget);
 	choicesLayout->addWidget(nextMonthButton);
-	nextYearButton = new QPushButton(QIcon::fromTheme("eqz-next-year"), "", settingsWidget);
+	nextYearButton = new QPushButton(LOAD_ICON("eqz-next-year"), "", settingsWidget);
 	choicesLayout->addWidget(nextYearButton);
 	settingsLayout->addSpacing(12);
 	settingsLayout->setStretchFactor(choicesLayout, 2);
