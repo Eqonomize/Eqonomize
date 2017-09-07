@@ -12,7 +12,7 @@ install:
     - source /opt/qt*/bin/qt*-env.sh
 
 script:
-  - qmake CONFIG+=release PREFIX=/usr
+  - qmake CONFIG+=release COMPILE_RESOURCES=yes INSTALL_THEME_ICONS=no PREFIX=/usr
   - lrelease Eqonomize.pro
   - make -j$(nproc)
   - make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
