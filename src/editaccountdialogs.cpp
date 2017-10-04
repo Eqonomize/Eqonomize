@@ -87,7 +87,7 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	grid->addWidget(maintainerEdit, row, 1); row++;
 	valueLabel = new QLabel(new_loan ? tr("Debt:") : tr("Opening balance:", "Account balance"), this);
 	grid->addWidget(valueLabel, row, 0);
-	valueEdit = new EqonomizeValueEdit(true, this, budget);	
+	valueEdit = new EqonomizeValueEdit(!new_loan, this, budget);
 	grid->addWidget(valueEdit, row, 1); row++;
 	if(new_loan) {
 		initialButton = new QRadioButton(tr("Opening balance", "Account balance"), this);
