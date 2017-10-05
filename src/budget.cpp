@@ -1113,7 +1113,7 @@ void Budget::removeAccount(Account *account, bool keep) {
 				--i;
 			}
 		}
-		for(int i = 0; i < transactions.size(); ++i) {
+		for(int i = 0; i < scheduledTransactions.size(); ++i) {
 			ScheduledTransaction *strans = scheduledTransactions.at(i);
 			if(strans->relatesToAccount(account, true, true)) {
 				removeScheduledTransaction(strans);

@@ -3178,7 +3178,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="5419"/>
         <source>Import %1 File…</source>
-        <translation>Importera %1-&gt;fil…</translation>
+        <translation>Importera %1-fil…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5427"/>
