@@ -4302,14 +4302,43 @@ void Eqonomize::reloadBudget() {
 	updateScheduledTransactions();
 	updateSecurities();
 	updateUsesMultipleCurrencies();
+	budgetEdit->setCurrency(budget->defaultCurrency());
 }
 void Eqonomize::openURL(const QUrl& url, bool merge) {
 
 	if(!merge && url != current_url && crashRecovery(QUrl(url))) return;
 
+	bool ignore_duplicate_transactions = false, rename_duplicate_accounts = false, rename_duplicate_categories = false, rename_duplicate_securities = false;
+	if(merge) {
+		QDialog *dialog = new QDialog(this, 0);
+		dialog->setWindowTitle(tr("Import Options"));
+		dialog->setModal(true);
+		QVBoxLayout *box1 = new QVBoxLayout(dialog);
+		QCheckBox *idtButton = new QCheckBox(tr("Ignore duplicate transactions"), dialog);
+		box1->addWidget(idtButton);
+		QCheckBox *rdaButton = new QCheckBox(tr("Rename duplicate accounts"), dialog);
+		box1->addWidget(rdaButton);
+		QCheckBox *rdcButton = new QCheckBox(tr("Rename duplicate categories"), dialog);
+		box1->addWidget(rdcButton);
+		QCheckBox *rdsButton = new QCheckBox(tr("Rename duplicate securities"), dialog);
+		box1->addWidget(rdsButton);
+		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+		buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+		buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+		connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
+		connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
+		box1->addWidget(buttonBox);
+		if(dialog->exec() != QDialog::Accepted) return;
+		ignore_duplicate_transactions = idtButton->isChecked();
+		rename_duplicate_accounts = rdaButton->isChecked();
+		rename_duplicate_categories = rdcButton->isChecked();
+		rename_duplicate_securities = rdsButton->isChecked();
+		dialog->deleteLater();
+	}
+
 	QString errors;
 	bool new_currency = false;
-	QString error = budget->loadFile(url.toLocalFile(), errors, &new_currency, merge);
+	QString error = budget->loadFile(url.toLocalFile(), errors, &new_currency, merge, rename_duplicate_accounts, rename_duplicate_categories, rename_duplicate_securities, ignore_duplicate_transactions);
 	if(!error.isNull()) {
 		QMessageBox::critical(this, tr("Couldn't open file"), tr("Error loading %1: %2.").arg(url.toString()).arg(error));
 		return;
@@ -4639,6 +4668,7 @@ void Eqonomize::setMainCurrency() {
 				}
 			}
 			budget->setDefaultCurrency(cur);
+			budgetEdit->setCurrency(cur);
 			currenciesModified();
 			setModified(true);
 		}

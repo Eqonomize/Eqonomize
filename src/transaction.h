@@ -89,6 +89,7 @@ class Transactions {
 		Transactions() {}
 		virtual ~Transactions() {}
 		virtual Transactions *copy() const = 0;
+		virtual bool equals(const Transactions *transaction, bool strict_comparison = true) const = 0;
 	
 		virtual double value(bool convert = false) const = 0;
 		virtual Currency *currency() const = 0;
@@ -150,7 +151,7 @@ class Transaction : public Transactions {
 		virtual ~Transaction();
 		virtual Transaction *copy() const = 0;
 
-		virtual bool equals(const Transaction *transaction, bool strict_comparison = true) const;
+		virtual bool equals(const Transactions *transaction, bool strict_comparison = true) const;
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
@@ -215,7 +216,7 @@ class Expense : public Transaction {
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 
-		bool equals(const Transaction *transaction, bool strict_comparison = true) const;
+		bool equals(const Transactions *transactions, bool strict_comparison = true) const;
 		
 		ExpensesAccount *category() const;
 		void setCategory(ExpensesAccount *new_category);
@@ -318,7 +319,7 @@ class Income : public Transaction {
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 	
-		bool equals(const Transaction *transaction, bool strict_comparison = true) const;
+		bool equals(const Transactions *transaction, bool strict_comparison = true) const;
 
 		IncomesAccount *category() const;
 		void setCategory(IncomesAccount *new_category);
@@ -455,7 +456,7 @@ class SecurityTransaction : public Transaction {
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 
-		bool equals(const Transaction *transaction, bool strict_comparison = true) const;
+		bool equals(const Transactions *transaction, bool strict_comparison = true) const;
 		virtual Account *fromAccount() const;
 		virtual Account *toAccount() const;
 		virtual Account *account() const = 0;
@@ -555,6 +556,7 @@ class ScheduledTransaction : public Transactions {
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		virtual void writeElements(QXmlStreamWriter *xml);
 
+		virtual bool equals(const Transactions *transaction, bool strict_comparison = true) const;
 		virtual Recurrence *recurrence() const;
 		virtual void setRecurrence(Recurrence *rec, bool delete_old = true);
 		Transactions *realize(QDate date);
@@ -620,6 +622,8 @@ class SplitTransaction : public Transactions {
 		virtual void save(QXmlStreamWriter *xml);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		virtual void writeElements(QXmlStreamWriter *xml);
+
+		virtual bool equals(const Transactions *transaction, bool strict_comparison = true) const;
 
 		virtual void addTransaction(Transaction *trans);
 		virtual void removeTransaction(Transaction *trans, bool keep = false);

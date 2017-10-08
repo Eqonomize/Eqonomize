@@ -138,7 +138,7 @@ class Budget {
 		TransactionConversionRateDate defaultTransactionConversionRateDate() const;
 		void setDefaultTransactionConversionRateDate(TransactionConversionRateDate tcrd);
 
-		QString loadFile(QString filename, QString &errors, bool *default_currency_created = NULL, bool merge = false);
+		QString loadFile(QString filename, QString &errors, bool *default_currency_created = NULL, bool merge = false, bool rename_duplicate_accounts = false, bool rename_duplicate_categories = false, bool rename_duplicate_securities = false, bool ignore_duplicate_transactions = false);
 		QString saveFile(QString filename, QFile::Permissions permissions = QFile::ReadUser | QFile::WriteUser);
 		
 		void clear();

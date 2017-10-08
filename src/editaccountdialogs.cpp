@@ -347,7 +347,7 @@ EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, IncomesAccount 
 	setWindowTitle(title);
 	setModal(true);
 	
-	if(default_parent && default_parent->parentCategory()) default_parent = NULL;
+	if(default_parent && default_parent->parentCategory()) default_parent = (IncomesAccount*) default_parent->parentCategory();
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	
@@ -454,7 +454,7 @@ EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, ExpensesAccou
 	setWindowTitle(title);
 	setModal(true);
 	
-	if(default_parent && default_parent->parentCategory()) default_parent = NULL;
+	if(default_parent && default_parent->parentCategory()) default_parent = (ExpensesAccount*) default_parent->parentCategory();
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	

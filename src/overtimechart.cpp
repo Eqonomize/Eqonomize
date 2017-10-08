@@ -1964,6 +1964,7 @@ void OverTimeChart::updateDisplay() {
 		if(first_date < budget->monthToBudgetMonth(start_date)) {
 			first_date = budget->monthToBudgetMonth(start_date);
 		}
+		budget->addBudgetMonthsSetFirst(first_date, -1);
 		for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 			AssetsAccount *ass = *it;
 			if(ass != budget->balancingAccount) {
@@ -1972,19 +1973,12 @@ void OverTimeChart::updateDisplay() {
 				double acc_total = ass->initialBalance(false);
 				chart_month_info initial_cmi;
 				initial_cmi.date = it->date;
-				initial_cmi.value = ass->currency()->convertTo(acc_total, budget->defaultCurrency(), it->date);
-				while(true) {
+				budget->addBudgetMonthsSetLast(initial_cmi.date, -1);
+				initial_cmi.value = ass->currency()->convertTo(acc_total, budget->defaultCurrency(), initial_cmi.date);
+				while(it != it_e) {
 					acc_total += it->value;
 					it->value = ass->currency()->convertTo(acc_total, budget->defaultCurrency(), it->date);
-					QVector<chart_month_info>::iterator it_next = it;
-					++it_next;
-					if(it_next == it_e) {
-						budget->addBudgetMonthsSetLast(it->date, 1);
-						last_date = it->date;
-						break;
-					}
-					it->date = it_next->date;
-					it = it_next;
+					++it;
 				}
 				monthly_cats[ass].push_front(initial_cmi);
 				it = monthly_cats[ass].begin();
@@ -2000,11 +1994,8 @@ void OverTimeChart::updateDisplay() {
 			AssetsAccount *ass = sec->account();
 			QVector<chart_month_info>::iterator it_b = monthly_cats[ass].begin();
 			QVector<chart_month_info>::iterator it_e = monthly_cats[ass].end();
-			QDate prevdate = it_b->date;
-			budget->addBudgetMonthsSetLast(prevdate, -1);
 			while(it_b != it_e) {
-				it_b->value += ass->currency()->convertTo(sec->value(prevdate), budget->defaultCurrency(), it_b->date);
-				prevdate = it_b->date;
+				it_b->value += ass->currency()->convertTo(sec->value(it_b->date), budget->defaultCurrency(), it_b->date);
 				it_b++;
 			}
 		}
@@ -2411,8 +2402,7 @@ void OverTimeChart::updateDisplay() {
 		if(single_month) c_axisX->setRange(QDateTime(first_date).toMSecsSinceEpoch() - 1296000000, QDateTime(last_date).toMSecsSinceEpoch() + 1296000000);
 		else c_axisX->setRange(QDateTime(first_date).toMSecsSinceEpoch(), QDateTime(last_date).toMSecsSinceEpoch());
 	
-		QDate axis_date = first_date;
-		if(current_source == -2) budget->addBudgetMonthsSetLast(last_date, 1);
+		QDate axis_date = first_date, displayed_date = first_date;
 		if(months > 72) {
 			int yearjump = years / 12 + 1;
 			if(budget->budgetMonth(axis_date) > 1) {
@@ -2424,8 +2414,10 @@ void OverTimeChart::updateDisplay() {
 			while(axis_date <= last_date) {
 				QDate next_axis_date = axis_date;
 				budget->addBudgetMonthsSetFirst(next_axis_date, 12 * yearjump);
-				if(includes_budget && next_axis_date >= imonth) c_axisX->append(budget->budgetDateToMonth(axis_date).toString("yyyy*"), QDateTime(axis_date).toMSecsSinceEpoch());
-				else c_axisX->append(budget->budgetDateToMonth(axis_date).toString("yyyy"), QDateTime(axis_date).toMSecsSinceEpoch());
+				displayed_date = axis_date;
+				if(current_source == -2) budget->addBudgetMonthsSetFirst(displayed_date, 1);
+				if(includes_budget && next_axis_date >= imonth) c_axisX->append(budget->budgetDateToMonth(displayed_date).toString("yyyy*"), QDateTime(axis_date).toMSecsSinceEpoch());
+				else c_axisX->append(budget->budgetDateToMonth(displayed_date).toString("yyyy"), QDateTime(axis_date).toMSecsSinceEpoch());
 				axis_date = next_axis_date;
 			}
 		} else {
@@ -2446,13 +2438,15 @@ void OverTimeChart::updateDisplay() {
 			while(axis_date <= last_date) {
 				QDate next_axis_date = axis_date;
 				budget->addBudgetMonthsSetFirst(next_axis_date, monthjump);
+				displayed_date = axis_date;
+				if(current_source == -2) budget->addBudgetMonthsSetFirst(displayed_date, 1);
 				if(budget->budgetMonth(axis_date) == 1) {
 					if(month_shown) unique_s += " ";
-					if(includes_budget && next_axis_date > imonth) c_axisX->append(budget->budgetDateToMonth(axis_date).toString("MMM*<br>yyyy"), QDateTime(axis_date).toMSecsSinceEpoch());
-					else c_axisX->append(budget->budgetDateToMonth(axis_date).toString("MMM<br>yyyy"), QDateTime(axis_date).toMSecsSinceEpoch());
+					if(includes_budget && next_axis_date > imonth) c_axisX->append(budget->budgetDateToMonth(displayed_date).toString("MMM*<br>yyyy"), QDateTime(axis_date).toMSecsSinceEpoch());
+					else c_axisX->append(budget->budgetDateToMonth(displayed_date).toString("MMM<br>yyyy"), QDateTime(axis_date).toMSecsSinceEpoch());
 				} else {
-					if(includes_budget && next_axis_date > imonth) c_axisX->append(budget->budgetDateToMonth(axis_date).toString("MMM*%1").arg(unique_s), QDateTime(axis_date).toMSecsSinceEpoch());
-					else c_axisX->append(budget->budgetDateToMonth(axis_date).toString("MMM%1").arg(unique_s), QDateTime(axis_date).toMSecsSinceEpoch());
+					if(includes_budget && next_axis_date > imonth) c_axisX->append(budget->budgetDateToMonth(displayed_date).toString("MMM*%1").arg(unique_s), QDateTime(axis_date).toMSecsSinceEpoch());
+					else c_axisX->append(budget->budgetDateToMonth(displayed_date).toString("MMM%1").arg(unique_s), QDateTime(axis_date).toMSecsSinceEpoch());
 				}
 				month_shown = true;
 				axis_date = next_axis_date;
@@ -3266,6 +3260,7 @@ class PointLabel : public QGraphicsItem {
 			}
 			painter->setBrush(QColor(255, 255, 255));
 			painter->drawPath(path);
+			painter->setPen(QColor(0, 0, 0));
 			painter->drawText(m_textRect, m_text);
 		}
 
@@ -3318,7 +3313,8 @@ void OverTimeChart::onSeriesHovered(bool state, int index, QBarSet *set) {
 			pos.setX(pos.x() + (bar_width / 2));
 		}
 		QDate date = start_date.addMonths(index);
-		item->setText(tr("%1\nValue: %2\nDate: %3").arg(set->label()).arg(budget->formatMoney(set->at(index))).arg(budget->budgetDateToMonth(date).toString(tr("MMMM yyyy", "Month and year"))));
+		if(current_source == -2) item->setText(tr("%1\nValue: %2\nDate: %3").arg(set->label()).arg(budget->formatMoney(set->at(index))).arg(QLocale().toString(budget->lastBudgetDay(date), QLocale::ShortFormat)));
+		else item->setText(tr("%1\nValue: %2\nDate: %3").arg(set->label()).arg(budget->formatMoney(set->at(index))).arg(budget->budgetDateToMonth(date).toString(tr("MMMM yyyy", "Month and year"))));
 		item->setAnchor(pos);
 		item->setPos(pos + QPoint(10, -50));
 		item->setZValue(11);
@@ -3360,7 +3356,8 @@ void OverTimeChart::onSeriesHovered(const QPointF &value, bool state) {
 			}
 		}
 		QPointF pos = chart->mapToPosition(QPointF(value_x, value_y), series);
-		item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(budget->formatMoney(value_y)).arg(budget->budgetDateToMonth(date).toString(tr("MMMM yyyy", "Month and year"))));
+		if(current_source == -2) item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(budget->formatMoney(value_y)).arg(QLocale().toString(budget->lastBudgetDay(date), QLocale::ShortFormat)));
+		else item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(budget->formatMoney(value_y)).arg(budget->budgetDateToMonth(date).toString(tr("MMMM yyyy", "Month and year"))));
 		item->setAnchor(pos);
 		item->setPos(pos + QPoint(10, -50));
 		item->setZValue(11);

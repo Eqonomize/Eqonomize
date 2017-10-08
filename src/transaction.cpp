@@ -96,7 +96,9 @@ void Transaction::writeAttributes(QXmlStreamAttributes *attr) {
 }
 void Transaction::writeElements(QXmlStreamWriter*) {}
 
-bool Transaction::equals(const Transaction *transaction, bool strict_comparison) const {
+bool Transaction::equals(const Transactions *trans, bool strict_comparison) const {
+	if(trans->generaltype() != GENERAL_TRANSACTION_TYPE_SINGLE) return false;
+	Transaction *transaction = (Transaction*) trans;
 	if(type() != transaction->type()) return false;
 	if(fromAccount() != transaction->fromAccount()) return false;
 	if(toAccount() != transaction->toAccount()) return false;
@@ -219,7 +221,7 @@ void Expense::writeAttributes(QXmlStreamAttributes *attr) {
 	if(!s_payee.isEmpty()) attr->append("payee", s_payee);
 }
 
-bool Expense::equals(const Transaction *transaction, bool strict_comparison) const {
+bool Expense::equals(const Transactions *transaction, bool strict_comparison) const {
 	if(!Transaction::equals(transaction, strict_comparison)) return false;
 	Expense *expense = (Expense*) transaction;
 	if(s_payee != expense->payee() && (strict_comparison || s_payee.isEmpty() == expense->payee().isEmpty())) return false;
@@ -371,7 +373,7 @@ void Income::writeAttributes(QXmlStreamAttributes *attr) {
 	else if(!s_payer.isEmpty()) attr->append("payer", s_payer);
 }
 
-bool Income::equals(const Transaction *transaction, bool strict_comparison) const {
+bool Income::equals(const Transactions *transaction, bool strict_comparison) const {
 	if(!Transaction::equals(transaction, strict_comparison)) return false;
 	Income *income = (Income*) transaction;
 	if(s_payer != income->payer() && (strict_comparison || s_payer.isEmpty() == income->payer().isEmpty())) return false;
@@ -622,7 +624,7 @@ void SecurityTransaction::writeAttributes(QXmlStreamAttributes *attr) {
 	attr->append("security", QString::number(o_security->id()));
 }
 
-bool SecurityTransaction::equals(const Transaction *transaction, bool strict_comparison) const {
+bool SecurityTransaction::equals(const Transactions *transaction, bool strict_comparison) const {
 	if(!Transaction::equals(transaction, strict_comparison)) return false;
 	SecurityTransaction *sectrans = (SecurityTransaction*) transaction;
 	if(d_shares != sectrans->shares()) return false;
@@ -944,6 +946,14 @@ void ScheduledTransaction::writeElements(QXmlStreamWriter *xml) {
 	}
 }
 
+bool ScheduledTransaction::equals(const Transactions *transaction, bool strict_comparison) const {
+	if(transaction->generaltype() != GENERAL_TRANSACTION_TYPE_SCHEDULE) return false;
+	ScheduledTransaction *strans = (ScheduledTransaction*) transaction;
+	if(!o_trans || strict_comparison || !strans->transaction() || !o_trans->equals(strans->transaction(), strict_comparison)) return false;
+	if(budget() != strans->budget()) return false;
+	return true;
+}
+
 Recurrence *ScheduledTransaction::recurrence() const {
 	return o_rec;
 }
@@ -1118,6 +1128,22 @@ void SplitTransaction::writeAttributes(QXmlStreamAttributes *attr) {
 }
 
 void SplitTransaction::writeElements(QXmlStreamWriter*) {}
+
+bool SplitTransaction::equals(const Transactions *transaction, bool strict_comparison) const {
+	if(transaction->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT) return false;
+	SplitTransaction *split = (SplitTransaction*) transaction;
+	if(split->type() != type()) return false;
+	if(count() != split->count()) return false;
+	for(int i = 0; i < count(); i++) {
+		if(!at(i)->equals(split->at(i), strict_comparison)) return false;
+	}	
+	if(date() != split->date()) return false;
+	if(description() != split->description()) return false;
+	if(comment() != split->comment() && (strict_comparison || comment().isEmpty() == split->comment().isEmpty())) return false;
+	if(associatedFile() != split->associatedFile() && (strict_comparison || associatedFile().isEmpty() == split->associatedFile().isEmpty())) return false;
+	if(budget() != split->budget()) return false;
+	return true;
+}
 
 double SplitTransaction::income() const {
 	return -cost();

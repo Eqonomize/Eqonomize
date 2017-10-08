@@ -1,3 +1,19 @@
+2017-10-08  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Eqonomize! file import alternatives for duplicates handling
+	* Fix assets and liabilities line chart months
+	* Set black text color for line chart hover box
+	* Set currency in budget edit field to main currency
+	* Use parent category of subcategory as default parent when creating new account from context menu
+
+2017-10-05  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix crash when account with associated transactions is remove
+
+2017-10-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Do not allow negative debt value in new loan dialog
+
 2017-09-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix new currency does not appear in the currency converter after application reopened (part of issue #27)

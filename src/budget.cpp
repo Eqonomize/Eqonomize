@@ -360,7 +360,7 @@ QString Budget::saveCurrencies() {
 TransactionConversionRateDate Budget::defaultTransactionConversionRateDate() const {return i_tcrd;}
 void Budget::setDefaultTransactionConversionRateDate(TransactionConversionRateDate tcrd) {i_tcrd = tcrd;}
 
-QString Budget::loadFile(QString filename, QString &errors, bool *default_currency_created, bool merge) {
+QString Budget::loadFile(QString filename, QString &errors, bool *default_currency_created, bool merge, bool rename_duplicate_accounts, bool rename_duplicate_categories, bool rename_duplicate_securities, bool ignore_duplicate_transactions) {
 
 	QFile file(filename);
 	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -418,7 +418,13 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 		} else if(xml.name() == "schedule") {
 			bool valid = true;
 			ScheduledTransaction *strans = new ScheduledTransaction(this, &xml, &valid);
-			if(valid) {
+			if(valid && merge && ignore_duplicate_transactions) {
+				for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = scheduledTransactions.constBegin(); it != scheduledTransactions.constEnd(); ++it) {
+					if((*it)->date() > strans->date()) break;
+					else if(strans->equals(*it, false)) {delete strans; strans = NULL; break;}
+				}
+			}
+			if(valid && strans) {
 				scheduledTransactions.append(strans);
 				if(strans->transaction()) {
 					if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
@@ -427,7 +433,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 						((Income*) strans->transaction())->security()->scheduledDividends.append(strans);
 					}
 				}
-			} else {
+			} else if(!valid) {
 				transaction_errors++;
 				delete strans;
 			}
@@ -437,29 +443,48 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			bool valid = true;
 			if(type == "expense" || type == "refund") {
 				Expense *expense = new Expense(this, &xml, &valid);
-				if(valid) {
+				if(valid && merge && ignore_duplicate_transactions) {
+					for(TransactionList<Expense*>::const_iterator it = expenses.constBegin(); it != expenses.constEnd(); ++it) {
+						if((*it)->date() > expense->date()) break;
+						else if(expense->equals(*it, false)) {delete expense; expense = NULL; break;}
+					}
+				}
+				if(valid && expense) {
 					expenses.append(expense);
 					transactions.append(expense);
-				} else {
+				} else if(!valid) {
 					transaction_errors++;
 					delete expense;
 				}
 			} else if(type == "income" || type == "repayment") {
 				Income *income = new Income(this, &xml, &valid);
-				if(valid) {
+				if(valid && merge && ignore_duplicate_transactions) {
+					for(TransactionList<Income*>::const_iterator it = incomes.constBegin(); it != incomes.constEnd(); ++it) {
+						if((*it)->date() > income->date()) break;
+						else if(income->equals(*it, false)) {delete income; income = NULL; break;}
+					}
+				}
+				if(valid && income) {
 					incomes.append(income);
 					transactions.append(income);
-				} else {
+				} else if(!valid) {
 					transaction_errors++;
 					delete income;
 				}
 			} else if(type == "dividend") {
 				Income *income = new Income(this, &xml, &valid);
-				if(valid && income->security()) {
+				if(!income->security()) valid = false;
+				if(valid && merge && ignore_duplicate_transactions) {
+					for(SecurityTransactionList<Income*>::const_iterator it = income->security()->dividends.constBegin(); it != income->security()->dividends.constEnd(); ++it) {
+						if((*it)->date() > income->date()) break;
+						else if(income->equals(*it, false)) {delete income; income = NULL; break;}
+					}
+				}
+				if(valid && income) {
 					incomes.append(income);
 					transactions.append(income);
 					income->security()->dividends.append(income);
-				} else {
+				} else if(!valid) {
 					transaction_errors++;
 					delete income;
 				}
@@ -475,7 +500,14 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					security = NULL;
 				}
 				if(date.isValid() && security) {
-					security->reinvestedDividends.append(new ReinvestedDividend(date, shares));
+					bool b_dup = false;
+					if(merge && ignore_duplicate_transactions) {
+						for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = security->reinvestedDividends.constBegin(); it != security->reinvestedDividends.constEnd(); ++it) {
+							if((*it)->date > date) break;
+							else if(date == (*it)->date && shares == (*it)->shares) {b_dup = true; break;}
+						}
+					}
+					if(!b_dup) security->reinvestedDividends.append(new ReinvestedDividend(date, shares));
 				} else {
 					transaction_errors++;
 				}
@@ -501,50 +533,83 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					to_security = NULL;
 				}
 				if(date.isValid() && from_security && to_security && from_security != to_security) {
-					SecurityTrade *ts = new SecurityTrade(date, from_shares, from_security, to_shares, to_security);
-					ts->timestamp = i_time;
-					securityTrades.append(ts);
-					from_security->tradedShares.append(ts);
-					to_security->tradedShares.append(ts);
+					bool b_dup = false;
+					if(merge && ignore_duplicate_transactions) {
+						for(SecurityTradeList<SecurityTrade*>::const_iterator it = securityTrades.constBegin(); it != securityTrades.constEnd(); ++it) {
+							if((*it)->date > date) break;
+							else if(date == (*it)->date && from_shares == (*it)->from_shares && to_shares == (*it)->to_shares && from_security == (*it)->from_security && to_security == (*it)->to_security) {b_dup = true; break;}
+						}
+					}
+					if(!b_dup) {
+						SecurityTrade *ts = new SecurityTrade(date, from_shares, from_security, to_shares, to_security);
+						ts->timestamp = i_time;
+						securityTrades.append(ts);
+						from_security->tradedShares.append(ts);
+						to_security->tradedShares.append(ts);
+					}
 				} else {
 					transaction_errors++;
 				}
 				xml.skipCurrentElement();
 			} else if(type == "transfer") {
 				Transfer *transfer = new Transfer(this, &xml, &valid);
-				if(valid) {
+				if(valid && merge && ignore_duplicate_transactions) {
+					for(TransactionList<Transfer*>::const_iterator it = transfers.constBegin(); it != transfers.constEnd(); ++it) {
+						if((*it)->date() > transfer->date()) break;
+						else if(transfer->equals(*it, false)) {delete transfer; transfer = NULL; break;}
+					}
+				}
+				if(valid && transfer) {
 					transfers.append(transfer);
 					transactions.append(transfer);
-				} else {
+				} else if(!valid) {
 					transaction_errors++;
 					delete transfer;
 				}
 			} else if(type == "balancing") {
 				Transfer *transfer = new Balancing(this, &xml, &valid);
-				if(valid) {
+				if(valid && merge && ignore_duplicate_transactions) {
+					for(TransactionList<Transfer*>::const_iterator it = transfers.constBegin(); it != transfers.constEnd(); ++it) {
+						if((*it)->date() > transfer->date()) break;
+						else if(transfer->equals(*it, false)) {delete transfer; transfer = NULL; break;}
+					}
+				}
+				if(valid && transfer) {
 					transfers.append(transfer);
 					transactions.append(transfer);
-				} else {
+				} else if(!valid) {
 					transaction_errors++;
 					delete transfer;
 				}
 			} else if(type == "security_buy") {
 				SecurityBuy *trans = new SecurityBuy(this, &xml, &valid);
-				if(valid) {
+				if(valid && merge && ignore_duplicate_transactions) {
+					for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = trans->security()->transactions.constBegin(); it != trans->security()->transactions.constEnd(); ++it) {
+						if((*it)->date() > trans->date()) break;
+						else if(trans->equals(*it, false)) {delete trans; trans = NULL; break;}
+					}
+				}
+				if(valid && trans) {
 					securityTransactions.append(trans);
 					trans->security()->transactions.append(trans);
 					transactions.append(trans);
-				} else {
+				} else if(!valid) {
 					transaction_errors++;
 					delete trans;
 				}
 			} else if(type == "security_sell") {
 				SecuritySell *trans = new SecuritySell(this, &xml, &valid);
-				if(valid) {
+				if(valid && merge && ignore_duplicate_transactions) {
+					for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = trans->security()->transactions.constBegin(); it != trans->security()->transactions.constEnd(); ++it) {
+						if((*it)->date() > trans->date()) break;
+						else if(trans->equals(*it, false)) {delete trans; trans = NULL; break;}
+					}
+				}
+				if(valid && trans) {
 					securityTransactions.append(trans);
 					trans->security()->transactions.append(trans);
 					transactions.append(trans);
-				} else {
+				} else if(!valid) {
 					transaction_errors++;
 					delete trans;
 				}
@@ -556,11 +621,17 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 				split = new DebtPayment(this, &xml, &valid);
 			}
 			if(split) {
+				if(valid && merge && ignore_duplicate_transactions) {
+					for(SplitTransactionList<SplitTransaction*>::const_iterator it = splitTransactions.constBegin(); it != splitTransactions.constEnd(); ++it) {
+						if((*it)->date() > split->date()) break;
+						else if(split->equals(*it, false)) {delete split; split = NULL; break;}
+					}
+				}
 				if(!valid) {
 					transaction_errors++;
 					delete split;
 					split = NULL;
-				} else {
+				} else if(split) {
 					splitTransactions.append(split);
 					int c = split->count();
 					for(int i = 0; i < c; i++) {
@@ -601,12 +672,28 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			if(type == "expenses") {
 				ExpensesAccount *account = new ExpensesAccount(this, &xml, &valid);
 				if(valid) {
-					expensesAccounts_id[account->id()] = account;
-					if(merge && findExpensesAccount(account->name())) {
-						account->setName(QString("%1 (%2)").arg(account->name()).arg(tr("imported")));
+					ExpensesAccount *old_account = NULL;
+					if(merge) old_account = findExpensesAccount(account->name(), NULL);
+					if(!rename_duplicate_categories && old_account) {
+						expensesAccounts_id[account->id()] = old_account;
+						for(AccountList<CategoryAccount*>::const_iterator it = account->subCategories.constBegin(); it != account->subCategories.constEnd();) {
+							CategoryAccount *ca = *it;
+							ExpensesAccount *old_sub = findExpensesAccount(ca->name(), old_account);
+							if(old_sub) {
+								expensesAccounts_id[ca->id()] = old_sub;
+								removeAccount(ca, true);
+								++it;
+							} else {
+								old_account->addSubCategory(ca);
+							}
+						}
+						delete account;
+					} else {
+						expensesAccounts_id[account->id()] = account;
+						if(old_account) account->setName(QString("%1 (%2)").arg(account->name()).arg(tr("imported")));
+						expensesAccounts.append(account);
+						accounts.append(account);
 					}
-					expensesAccounts.append(account);
-					accounts.append(account);
 				} else {
 					category_errors++;
 					delete account;
@@ -614,12 +701,28 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			} else if(type == "incomes") {
 				IncomesAccount *account = new IncomesAccount(this, &xml, &valid);
 				if(valid) {
-					incomesAccounts_id[account->id()] = account;
-					if(merge && findIncomesAccount(account->name())) {
-						account->setName(QString("%1 (%2)").arg(account->name()).arg(tr("imported")));
+					IncomesAccount *old_account = NULL;
+					if(merge) old_account = findIncomesAccount(account->name(), NULL);
+					if(!rename_duplicate_categories && old_account) {
+						incomesAccounts_id[account->id()] = old_account;
+						for(AccountList<CategoryAccount*>::const_iterator it = account->subCategories.constBegin(); it != account->subCategories.constEnd();) {
+							CategoryAccount *ca = *it;
+							ExpensesAccount *old_sub = findExpensesAccount(ca->name(), old_account);
+							if(old_sub) {
+								expensesAccounts_id[ca->id()] = old_sub;
+								removeAccount(ca, true);
+								++it;
+							} else {
+								old_account->addSubCategory(ca);
+							}
+						}
+						delete account;
+					} else {
+						incomesAccounts_id[account->id()] = account;
+						if(old_account) account->setName(QString("%1 (%2)").arg(account->name()).arg(tr("imported")));
+						incomesAccounts.append(account);
+						accounts.append(account);
 					}
-					incomesAccounts.append(account);
-					accounts.append(account);
 				} else {
 					category_errors++;
 					delete account;
@@ -638,12 +741,16 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			bool valid = true;
 			AssetsAccount *account = new AssetsAccount(this, &xml, &valid);
 			if(valid) {
-				assetsAccounts_id[account->id()] = account;
-				if(merge && findAssetsAccount(account->name())) {
-					account->setName(QString("%1 (%2)").arg(account->name()).arg(tr("imported")));
+				AssetsAccount *old_account = NULL;
+				if(merge) old_account = findAssetsAccount(account->name());
+				if(!rename_duplicate_accounts && old_account) {
+					assetsAccounts_id[account->id()] = old_account;
+				} else {
+					assetsAccounts_id[account->id()] = account;
+					if(old_account) account->setName(QString("%1 (%2)").arg(account->name()).arg(tr("imported")));
+					assetsAccounts.append(account);
+					accounts.append(account);
 				}
-				assetsAccounts.append(account);
-				accounts.append(account);
 			} else {
 				account_errors++;
 				delete account;
@@ -653,13 +760,17 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			bool valid = true;
 			Security *security = new Security(this, &xml, &valid);
 			if(valid) {
-				securities_id[security->id()] = security;
-				if(merge && findSecurity(security->name())) {
-					security->setName(QString("%1 (%2)").arg(security->name()).arg(tr("imported")));
+				Security *old_security = NULL;
+				if(merge) old_security = findSecurity(security->name());
+				if(!rename_duplicate_securities && old_security) {
+					securities_id[security->id()] = old_security;
+				} else {
+					securities_id[security->id()] = security;
+					if(old_security)security->setName(QString("%1 (%2)").arg(security->name()).arg(tr("imported")));
+					securities.append(security);
+					i_quotation_decimals = security->quotationDecimals();
+					i_share_decimals = security->decimals();
 				}
-				securities.append(security);
-				i_quotation_decimals = security->quotationDecimals();
-				i_share_decimals = security->decimals();
 			} else {
 				security_errors++;
 				delete security;
@@ -670,7 +781,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			xml.skipCurrentElement();
 		}
 	}
-	
+
 	if(!cur && !merge) {
 		bool b = resetDefaultCurrency();
 		cur = defaultCurrency();
@@ -706,12 +817,10 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	transactions.sort();
 	scheduledTransactions.sort();
 	splitTransactions.sort();
-
 	expensesAccounts.sort();
 	incomesAccounts.sort();
 	assetsAccounts.sort();
 	accounts.sort();
-
 	securities.sort();
 
 	if(account_errors > 0) {
