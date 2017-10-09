@@ -4522,10 +4522,11 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
 	updateExchangeRatesProgressDialog = new QProgressDialog(tr("Updating exchange rates…"), tr("Abort"), 0, 1, this);
 	updateExchangeRatesProgressDialog->setWindowModality(Qt::WindowModal);
 	updateExchangeRatesProgressDialog->setMinimumDuration(200);
+	updateExchangeRatesProgressDialog->setMaximum(2);
 	connect(updateExchangeRatesProgressDialog, SIGNAL(canceled()), this, SLOT(cancelUpdateExchangeRates()));
 	updateExchangeRatesProgressDialog->setValue(0);
-	updateExchangeRatesReply = nam.get(QNetworkRequest(QUrl("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml")));
 	QEventLoop loop;
+	updateExchangeRatesReply = nam.get(QNetworkRequest(QUrl("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml")));
 	connect(updateExchangeRatesReply, SIGNAL(finished()), &loop, SLOT(quit()));
 	loop.exec();
 	QSettings settings;
@@ -4543,6 +4544,25 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
 			QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml").arg(errors));
 		} else {
 			settings.setValue("lastExchangeRatesUpdate", QDate::currentDate().toString(Qt::ISODate));
+			updateExchangeRatesProgressDialog->setValue(1);
+			QEventLoop loop2;
+			updateExchangeRatesReply = nam.get(QNetworkRequest(QUrl("http://www.mycurrency.net/service/rates")));
+			connect(updateExchangeRatesReply, SIGNAL(finished()), &loop2, SLOT(quit()));
+			loop2.exec();
+			if(updateExchangeRatesReply->error() == QNetworkReply::OperationCanceledError) {
+				//canceled by user
+				updateExchangeRatesProgressDialog->reset();
+			} else if(updateExchangeRatesReply->error() != QNetworkReply::NoError) {
+				updateExchangeRatesProgressDialog->reset();
+				QMessageBox::critical(this, tr("Error"), tr("Failed to download exchange rates from %1: %2.").arg("http://www.mycurrency.net/service/rates").arg(updateExchangeRatesReply->errorString()));
+				updateExchangeRatesReply->abort();
+			} else {
+			
+				QString errors = budget->loadMyCurrencyNetData(updateExchangeRatesReply->readAll());
+				if(!errors.isEmpty()) {
+					QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("http://www.mycurrency.net/service/rates").arg(errors));
+				}
+			}
 			QString error = budget->saveCurrencies();
 			if(!error.isNull()) QMessageBox::critical(this, tr("Error"), tr("Error saving currencies: %1.").arg(error));
 			if(do_currencies_modified) {
@@ -4553,8 +4573,11 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
 					currencyConversionWindow->convertFrom();
 				}
 			}
-			updateExchangeRatesProgressDialog->setValue(1);
+			
+			updateExchangeRatesProgressDialog->setValue(2);
+			
 		}
+		
 	}
 	settings.setValue("lastExchangeRatesUpdateTry", QDate::currentDate().toString(Qt::ISODate));
 	settings.endGroup();

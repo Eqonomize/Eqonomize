@@ -38,6 +38,7 @@ class CurrencyConversionDialog : public QDialog {
 		EqonomizeValueEdit *fromEdit, *toEdit;
 		QComboBox *fromCombo, *toCombo;
 		Budget *budget;
+		bool convert_from;
 		
 	public:
 		
@@ -49,6 +50,7 @@ class CurrencyConversionDialog : public QDialog {
 
 		void convertFrom();
 		void convertTo();
+		void convert();
 
 };
 

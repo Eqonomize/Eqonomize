@@ -26,6 +26,9 @@
 
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QTextStream>
 #include <QMap>
 #include <QSaveFile>
@@ -266,7 +269,6 @@ QString Budget::loadECBData(QByteArray data) {
 	
 	bool had_data = false;
 	
-	
 	while(xml.readNextStartElement()) {
 		if(xml.name() == "Cube") {
 			while(xml.readNextStartElement()) {
@@ -289,6 +291,13 @@ QString Budget::loadECBData(QByteArray data) {
 								}
 								Currency *cur = findCurrency(code);
 								if(cur) {
+									bool keep_old = cur->rates.size() > 1;
+									if(!keep_old) {
+										for(AccountList<AssetsAccount*>::const_iterator it = assetsAccounts.constBegin(); it != assetsAccounts.constEnd(); ++it) {
+											if((*it)->currency() != cur) {keep_old = true; break;}
+										}
+									}
+									if(!keep_old) cur->rates.clear();
 									cur->setExchangeRate(exrate, date);
 								} else {
 									cur = new Currency(this, code, QString(), QString(), exrate, date);
@@ -307,10 +316,64 @@ QString Budget::loadECBData(QByteArray data) {
 		xml.skipCurrentElement();
 	}
 	
-	if(!had_data) return tr("No exchange rates found in the downloaded ECB data.");
+	if(!had_data) return tr("No exchange rates found.");
 	
 	return QString();
 }
+
+QString Budget::loadMyCurrencyNetData(QByteArray data) {
+	
+	Currency *cur_usd = findCurrency("USD");
+	if(!cur_usd) return tr("USD currency missing.");
+	double usd_rate = cur_usd->exchangeRate();
+	
+	QJsonDocument jdoc = QJsonDocument::fromJson(data);
+	if(!jdoc.isArray()) return tr("No exchange rates found.");
+	QJsonArray jarr = jdoc.array();
+	
+	bool had_data = false;
+	
+	for(int i = 0; i < jarr.count(); i++) {
+		if(jarr[i].isObject()) {
+			QJsonObject jobj = jarr[i].toObject();
+			QString code = jobj["currency_code"].toString().trimmed();
+			double exrate = jobj["rate"].toDouble();
+			QString name = jobj["name"].toString().trimmed();
+			if(!code.isEmpty() && exrate > 0.0) {
+				if(!had_data) {
+					for(CurrencyList<Currency*>::const_iterator it = currencies.constBegin(); it != currencies.constEnd(); ++it) {
+						Currency *cur = *it;
+						if(cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_MYCURRENCY_NET) {
+							cur->setExchangeRateSource(EXCHANGE_RATE_SOURCE_NONE);
+						}
+					}
+				}
+				Currency *cur = findCurrency(code);
+				if(cur && cur->exchangeRateSource() != EXCHANGE_RATE_SOURCE_ECB) {
+					bool keep_old = cur->rates.size() > 1;
+					if(!keep_old) {
+						for(AccountList<AssetsAccount*>::const_iterator it = assetsAccounts.constBegin(); it != assetsAccounts.constEnd(); ++it) {
+							if((*it)->currency() != cur) {keep_old = true; break;}
+						}
+					}
+					if(!keep_old) cur->rates.clear();
+					cur->setExchangeRate(exrate * usd_rate);
+					cur->setExchangeRateSource(EXCHANGE_RATE_SOURCE_MYCURRENCY_NET);
+				} else if(!cur) {
+					cur = new Currency(this, code, QString(), name, exrate * usd_rate);
+					cur->setExchangeRateSource(EXCHANGE_RATE_SOURCE_MYCURRENCY_NET);
+					addCurrency(cur);
+				}
+				had_data = true;
+			}
+		}
+	}
+	
+	if(!had_data) return tr("No exchange rates found.");
+	
+	return QString();
+}
+
 
 QString Budget::saveCurrencies() {
 	

@@ -133,6 +133,7 @@ class Budget {
 		void loadLocalCurrencies();
 		void loadCurrenciesFile(QString filename, bool is_local);
 		QString loadECBData(QByteArray data);
+		QString loadMyCurrencyNetData(QByteArray data);
 		QString saveCurrencies();
 		
 		TransactionConversionRateDate defaultTransactionConversionRateDate() const;

@@ -117,6 +117,7 @@ void Currency::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	s_symbol = attr->value("symbol").trimmed().toString();
 	QString s_source = attr->value("source").trimmed().toString();
 	if(s_source == "ECB") r_source = EXCHANGE_RATE_SOURCE_ECB;
+	else if(s_source == "mycurrency.net") r_source = EXCHANGE_RATE_SOURCE_MYCURRENCY_NET;
 	else r_source = EXCHANGE_RATE_SOURCE_NONE;
 	if(attr->hasAttribute("decimals")) i_decimals = attr->value("decimals").toInt();
 	if(attr->hasAttribute("precedes")) b_precedes = attr->value("precedes").toInt();
@@ -150,15 +151,23 @@ void Currency::writeAttributes(QXmlStreamAttributes *attr, bool local_save) {
 	if((!local_save || b_local_format) && i_decimals >= 0) attr->append("decimals", QString::number(i_decimals));
 	if((!local_save || b_local_format) && b_precedes >= 0) attr->append("precedes", QString::number(b_precedes));
 	if(!local_save && r_source == EXCHANGE_RATE_SOURCE_ECB) attr->append("source", "ECB");
+	if(!local_save && r_source == EXCHANGE_RATE_SOURCE_MYCURRENCY_NET) attr->append("source", "mycurrency.net");
 }
-void Currency::writeElements(QXmlStreamWriter *xml, bool) {
-	QMap<QDate, double>::const_iterator it = rates.constBegin();
-	while (it != rates.constEnd()) {
+void Currency::writeElements(QXmlStreamWriter *xml, bool local_save) {
+	if(local_save) {
+		QMap<QDate, double>::const_iterator it = rates.constBegin();
+		while(it != rates.constEnd()) {
+			xml->writeStartElement("rate");
+			xml->writeAttribute("value", QString::number(it.value(), 'f', 5));
+			xml->writeAttribute("date", it.key().toString(Qt::ISODate));
+			xml->writeEndElement();
+			++it;
+		}
+	} else {
 		xml->writeStartElement("rate");
-		xml->writeAttribute("value", QString::number(it.value(), 'f', 5));
-		xml->writeAttribute("date", it.key().toString(Qt::ISODate));
+		xml->writeAttribute("value", QString::number(rates.last(), 'f', 5));
+		xml->writeAttribute("date", rates.lastKey().toString(Qt::ISODate));
 		xml->writeEndElement();
-		++it;
 	}
 }
 

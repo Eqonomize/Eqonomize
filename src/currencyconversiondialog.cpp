@@ -65,10 +65,12 @@ CurrencyConversionDialog::CurrencyConversionDialog(Budget *budg, QWidget *parent
 	
 	updateCurrencies();
 	
+	convert_from = true;
+	
 	connect(fromEdit, SIGNAL(valueChanged(double)), this, SLOT(convertFrom()));
 	connect(toEdit, SIGNAL(valueChanged(double)), this, SLOT(convertTo()));
-	connect(fromCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(convertFrom()));
-	connect(toCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(convertTo()));
+	connect(fromCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(convert()));
+	connect(toCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(convert()));
 	
 }
 
@@ -131,6 +133,7 @@ void CurrencyConversionDialog::convertFrom() {
 	toEdit->blockSignals(true);
 	toEdit->setValue(fromCur->convertTo(fromEdit->value(), toCur));
 	toEdit->blockSignals(false);
+	convert_from = true;
 }
 void CurrencyConversionDialog::convertTo() {
 	if(!fromCombo->currentData().isValid() || !toCombo->currentData().isValid()) return;
@@ -140,5 +143,10 @@ void CurrencyConversionDialog::convertTo() {
 	fromEdit->blockSignals(true);
 	fromEdit->setValue(toCur->convertTo(toEdit->value(), fromCur));
 	fromEdit->blockSignals(false);
+	convert_from = false;
+}
+void CurrencyConversionDialog::convert() {
+	if(convert_from) convertFrom();
+	else convertTo();
 }
 
