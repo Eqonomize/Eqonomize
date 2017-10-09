@@ -81,7 +81,8 @@
 <chapter id="using-eqonomize">
 <title>Getting Started</title>
 	<para>
-	The main window consists of six different views. When &app; is started, the account view is shown. To change view click on the corresponding icon in the horizontal list above.
+	The main window consists of six different views. When &app; is started, the accounts view is shown. To change view click on the corresponding icon in the horizontal list above.
+	<mediaobject><imageobject><imagedata format="PNG" fileref="figures/eqonomize-accountsview.png" width="988"/></imageobject></mediaobject>
 	</para>
 	<sect1 id="using-accounts">
 		<title>Create Accounts</title>
@@ -100,7 +101,7 @@
 		<para>
 		Transactions can be entered in two ways, either with the new expense/income/transfer dialogs (where you have the option to create a recurring transaction), or from the transaction views. The latter option is usually preferred.
 		</para>
-		<mediaobject><imageobject><imagedata format="PNG" fileref="expenses-view.png"/></imageobject></mediaobject>
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/edittransaction.png" width="951"/></imageobject></mediaobject>
 		<para>
 			The first time you record an expense you should follow these steps:
 			<orderedlist>
@@ -137,7 +138,6 @@
 		</para>	
 		<para>
 		If when exiting &app; there are some changes that have been made after the last save, you will be asked if the file should be saved before closing. If you in the dialog toggle <guilabel>Do not ask again</guilabel> and click <guibutton>Yes</guibutton> the file will automatically be saved each time &app; is closed.
-		<mediaobject><imageobject><imagedata format="PNG" fileref="ask-save.png"/></imageobject></mediaobject>
 		</para>
 		<para>
 		Before the file is saved, a backup copy is made with the name prefixed by <quote>~</quote>. Also the current data is continuously (at most once per minute) saved to prevent data loss in case &app; exits unexpectedly.
@@ -155,12 +155,12 @@
 		</para>
 		<sect2 id="create-account">
 			<title>Account Creation and Editing</title>
-			<mediaobject><imageobject><imagedata format="PNG" fileref="new-account.png"/></imageobject></mediaobject>
 			<para>
 			To create an account use <guimenuitem>Add Account</guimenuitem> in the context menu, <menuchoice><guimenu>Accounts</guimenu><guimenuitem>New Account</guimenuitem></menuchoice>, or the corresponding button in the toolbar. You can also create a new account by selecting the top item in the accounts list when editing a transaction. 
 			</para>
 			<para>
 			A window will open where you can enter the details of the account. Select the type of account, associated currency, enter a name, and specify the opening balance. The account types debt and credit card are used for liabilities, the rest for assets. The securities type represents special accounts that are the only ones that can be associated with securities and only supports security transactions. The opening balance represents the amount of money present in the account before any recorded transactions. This value should be negative for liabilities. You may optionally also enter a bank (or lender for loan) name and description.
+			<mediaobject><imageobject><imagedata format="PNG" fileref="figures/newaccount.png" width="347"/></imageobject></mediaobject>
 			</para>
 			<para>
 			You can also create a liabilities account using <guimenuitem>Add Loan</guimenuitem>. Here you will have the option to create the associated loan transaction at the same time. Notice that a positive debt value here represents a negative opening balance.
@@ -172,7 +172,8 @@
 		<sect2 id="ledger">
 			<title>The Ledger</title>
 			<para>
-			 The ledger shows all transactions to and from an account in chronological order. The ledger is accessed by double-clicking the change or balance column of an account in the account view, <guimenuitem>Show Transactions</guimenuitem> in the context menu, <menuchoice><guimenu>Accounts</guimenu><guimenuitem>Show Ledger</guimenuitem></menuchoice>, or by clicking the corresponding button in the toolbar. 
+			 The ledger shows all transactions to and from an account in chronological order. The ledger is accessed by double-clicking the change or balance column of an account in the account view, <guimenuitem>Show Transactions</guimenuitem> in the context menu, <menuchoice><guimenu>Accounts</guimenu><guimenuitem>Show Ledger</guimenuitem></menuchoice>, or by clicking the corresponding button in the toolbar.
+			 <mediaobject><imageobject><imagedata format="PNG" fileref="figures/ledger.png" width="986"/></imageobject></mediaobject>
 			 </para>
 			<para>
 			All transactions are shown in falling date order. The balance column shows the accumulated account value - the amount of money in the account after the transaction occurred. This may not be the exact same value as on the corresponding bank statement if the transaction order does not match exactly. You can edit or create transactions using the buttons to the right or by double-clicking a transaction. 
@@ -203,6 +204,7 @@
 			<title>Category Creation and Editing</title>	
 			<para>
 			To create an account use <guimenuitem>Add Category</guimenuitem> in the context menu, <menuchoice><guimenu>Accounts</guimenu><guimenuitem>New Income/Expense Category</guimenuitem></menuchoice>, or the corresponding button in the toolbar. You can also create a new account by selecting the top item in the category list when editing an income or expense. Enter a name, and optionally a description, a parent category and/or monthly budget, in the window that appears and click <guibutton>OK</guibutton>.
+			<mediaobject><imageobject><imagedata format="PNG" fileref="figures/newcategory.png" width="278"/></imageobject></mediaobject>
 			</para>
 			<para>
 				&app; supports one level of subcategories (subcategories of subcategories are not supported). Subcategories can be created using <guimenuitem>Add Category</guimenuitem> in the context menu of a category or by selecting a parent category in the category edit window. Subcategories can also be moved to and from parent categories using drag and drop.
@@ -219,7 +221,7 @@
 		</para>		
 		<para>
 		A budget is initially asked for when creating a category. Later you can update it from the budget tab at the bottom of the accounts view, for the category selected in the list. If the budget has not been set for a month, the budget for the previous month is used.
-		<mediaobject><imageobject><imagedata format="PNG" fileref="edit-budget.png"/></imageobject></mediaobject>
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/editbudget.png" width="862"/></imageobject></mediaobject>
 		</para>
 		<para>
 		You can choose to set budgets for only some categories. In the accounts list, budget and remaining budget (budget minus past and planned expenses/incomes) is displayed in the second column. If not all categories have a budget, the total remaining budget only summarises the categories with budget and thus does not include actual expenses or incomes from other categories. 
@@ -231,6 +233,7 @@
 		<title>The Budget Month</title>	
 			<para>
 			The budget month by default starts on the first and ends on the last day of the calendar month. This can be changed using <menuchoice><guimenu>Settings</guimenu><guimenuitem>Set Budget Month</guimenuitem></menuchoice>. Only the first day of the budget month can be selected (the budget month will always be as long as the calendar month of the start date). This will also affect of statistics are calculated and displayed. Months (and years) in charts and tables refers to the budget month.
+			<mediaobject><imageobject><imagedata format="PNG" fileref="figures/setbudgetperiod.png" width="252"/></imageobject></mediaobject>
 			</para>
 		</sect2>
 	</sect1>
@@ -239,7 +242,7 @@
 		<para>
 		The account view displays a list of all accounts and categories, sorted alphabetically under assets, liabilities, incomes, and expenses. The rows for the main types displays the sum of all accounts/categories below.
 		</para>
-		<mediaobject><imageobject><imagedata format="PNG" fileref="accounts-view.png"/></imageobject></mediaobject>
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/accounts.png" width="775"/></imageobject></mediaobject>
 		<para>
 		The list has four columns. The first simply displays the name of the account or category. The second does for categories display the budget for the selected period and what is left of the budget. Unless the <guibutton>Show partial budget</guibutton> option is checked, the budget (and remaining budget) is displayed for whole months, thus you can in the default mode see whats left to spend of the current monthly budget. The third column displays the change in value, while the last column displays the total value.
 		</para>
@@ -379,6 +382,7 @@
 		<title>The Transactions Views</title>
 		<para>
 		The transactions views show a list of expenses, incomes or transfers. By default all transactions (include scheduled transactions, shown in italics) up till and including the current date are shown, sorted in falling date order. The sort order can be changed by clicking the appropriate column header. Transactions with the same date are shown in the order they were entered.
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/expenses.png" width="965"/></imageobject></mediaobject>
 		</para>
 		<para>
 		Statistics are shown immediately below the list. These numbers summarises all transactions currently in the list, unless two or more transactions are selected (in which case the numbers only refers to selected transactions).
@@ -387,6 +391,7 @@
 			<title>Filter Transactions</title>	
 			<para>
 			Below the list of transactions is a section for filtering transactions. By default the tab for editing transactions is shown instead. To show the filter tab, click on <guilabel>Filter</guilabel> above the input fields. This enables you to select which transactions are shown in the list above.
+			<mediaobject><imageobject><imagedata format="PNG" fileref="figures/filter.png" width="647"/></imageobject></mediaobject>
 			</para>
 			<para>
 			You can filter transactions based on date, value, account, category, description and/or payee/payer. Unless the exact match box is marked, text in the description and payee/payer fields will be matched against any part of the of the corresponding transaction properties, including comments in the case of the description field. You can opt to show all transactions that do not match (all) the filter criteria, by activating <guilabel>Exclude</guilabel> instead of <guilabel>Include</guilabel>.
@@ -400,6 +405,7 @@
 		</para>
 		<para>
 		Both the Enter key and the Tabulator key, on the keyboard, can be used to move to the next field. When in the last field of column (in the transaction edit window this is the last input field; in the transaction view this refers to both the date field and the comments field), the Enter key will however instead confirm the entered values (equivalent to pressing <guibutton>OK</guibutton> in the transaction edit window, or the <guibutton>Add</guibutton> button in the transaction view). 
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/edittransaction2.png" width="454"/></imageobject></mediaobject>
 		</para>
 		<para>
 		When entering a previously used description in the description field, all are other fields (except date) will be automatically filled with the values of the last transaction with the same description. This requires that the current value in the value/cost/income field is zero. If the description field is empty, the category and payee/payer fields exhibit a similar behaviour.
@@ -410,6 +416,7 @@
 			<title>The Value Input Field</title>
 			<para>
 			The input field for transaction values support basic arithmetic calculation. Addition, subtraction, multiplication, division and exponentiation are supported and uses standard order of operations (1+2*3 equals 7, not 9).
+			<mediaobject><imageobject><imagedata format="PNG" fileref="figures/inputfield.png" width="475"/></imageobject></mediaobject>
 			</para>
 			<para>
 			Currency conversion is also supported. Currencies will be converted to the currency of the currently selected account of the transaction. Note that the currency symbols used for conversion must be unambiguous. Symbols used for multiple currencies are not allowed (e.g. $ is used by many currencies, and you should therefor type USD instead for conversion from U.S. dollars), except for the main currency.
@@ -435,7 +442,7 @@
 		</para>		
 		<para>
 		The record a new refund use <menuchoice><guimenu>Transactions</guimenu><guimenuitem>New Refund/Repayment</guimenuitem></menuchoice> or the context menu with the refunded expense selected in the expense list. You will have to enter the amount of money refunded (initially set to full refund) and the date of the refund. In addition you should specify the product quantity returned by you. In the first case this is clearly 1, but in the second case this is less clear. It can either be 0.5 if you count it as a half product, or 0 if considered a whole gift (none returned). The use is more obvious if the quantity property is activated for all expenses and incomes. The refund is recorded as an expense with negative cost and quantity.
-		<mediaobject><imageobject><imagedata format="PNG" fileref="refund.png"/></imageobject></mediaobject>
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/refund.png" width="230"/></imageobject></mediaobject>
 		</para>
 		<para>
 		Repayments are used as refunds, but for incomes that you have been forced to repay.
@@ -451,7 +458,7 @@
 		</para>
 		<para>
 		You can create a split from scratch using <menuchoice><guimenu>Transactions</guimenu><guimenuitem>New Split Transaction...</guimenuitem></menuchoice> or from the context menu. It is however often more efficient to use the join action. This way you can enter transactions the usual way and later join them in a split transactions. Select the transactions to join and activate <guimenuitem>Join Transactions...</guimenuitem> from the <guimenu>Transactions</guimenu> menu or the context menu, and enter a description. All transactions in a split transaction have a common date and account.
-		<mediaobject><imageobject><imagedata format="PNG" fileref="split-transaction.png"/></imageobject></mediaobject>
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/splittransaction.png" width="644"/></imageobject></mediaobject>
 		</para>
 		<para>
 		To reverse the action and transform transactions in a split transaction to ordinary transactions, select a transaction and use <guimenuitem>Split Up</guimenuitem>.
@@ -477,9 +484,11 @@
 		<title>Loan Payments</title>
 		<para>
 		Loan payments are a third kind of combined transaction. These group together payments on loans (reductions), interest and fees. Ordinary transactions can also be used for these purposes. Interest and fee are expenses and loan reductions are transfers.
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/debtpayment.png" width="454"/></imageobject></mediaobject>
 		</para>
 		<para>
 		<menuchoice><guimenu>Loans</guimenu><guimenuitem>New Unpayed Interest...</guimenuitem></menuchoice> also creates loan payment transactions but provides a simplified dialog when the debt has increased because of added interest.
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/unpayedinterest.png" width="454"/></imageobject></mediaobject>
 		</para>
 		<para>
 		Transactions in a loan payment can not be edited separately.
@@ -495,15 +504,15 @@
 		</para>
 		<para>
 		Single occurrence scheduled transactions are create just like ordinary transactions, except with a future date. Recurring transactions can only be created from the transaction dialogs (opened from the schedule view, toolbar buttons or menu items, or when double clicking a transaction), with recurrences specified in the second tab.
-		<mediaobject><imageobject><imagedata format="PNG" fileref="recurrence.png"/></imageobject></mediaobject>
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/recurrence.png" width="454"/></imageobject></mediaobject>
 		</para>	
 		<para>
 		The next occurrence of each scheduled transaction is displayed in the schedule view. You can edit or delete either the single occurrence or all future recurrences. If a single occurrence is edited, it will be created as a separate transaction, and any changes made to all recurrences will not affect this occurrence. If the date is changed to the current or a past date, the scheduled transaction becomes an ordinary transaction.
-		<mediaobject><imageobject><imagedata format="PNG" fileref="schedule-view.png"/></imageobject></mediaobject>
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/schedule.png" width="775"/></imageobject></mediaobject>
 		</para>
 		<para>
 		When a scheduled transaction is due, when the current date has gone past the date of the occurrence (or same date after 6 pm), &app; will ask you to confirm that the transaction really has occurred. You are then given the option to accept the transaction as it is, make some changes (for example the cost of your telephone bill might vary slightly), or postpone it. If the scheduled transaction is not postponed, it will become an ordinary transaction.
-		<mediaobject><imageobject><imagedata format="PNG" fileref="confirm-schedule.png"/></imageobject></mediaobject>
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/confirmschedule.png" width="638"/></imageobject></mediaobject>
 		</para>
 	</sect1>
 </chapter>
@@ -514,19 +523,23 @@
 	Securities represents money invested in stock, bonds and mutual funds. &app; does not differentiate between different kinds of securities, even though the terminology used is better suited for some. Securities and associated statistics are displayed in the securities view (accessed using the icons on the left).
 	</para>	
 	<para>
-	The create a new security in &app; use <menuchoice><guimenu>Securities</guimenu><guimenuitem>New Security...</guimenuitem></menuchoice> or the <guibutton>New Security...</guibutton> button. First select account. Securities are associated with an account of securities type, which cannot be associated with ordinary transactions. Enter name of the security and select type. Specify initial shares if you do not want to back-track all transactions (it is always preferred to use transactions instead, for better statistics). Specify then also date and quotation.
-	<mediaobject><imageobject><imagedata format="PNG" fileref="new-security.png"/></imageobject></mediaobject>
+	The create a new security in &app; use <menuchoice><guimenu>Securities</guimenu><guimenuitem>New Security</guimenuitem></menuchoice> or the <guibutton>New Security...</guibutton> button. First select account. Securities are associated with an account of securities type, which cannot be associated with ordinary transactions. Enter name of the security and select type. Specify initial shares if you do not want to back-track all transactions (it is always preferred to use transactions instead, for better statistics). Specify then also date and quotation.
+	<mediaobject><imageobject><imagedata format="PNG" fileref="figures/editsecurity.png" width="281"/></imageobject></mediaobject>
+	</para>
+	<para>
+	Automatic updates of stock quotes are not supported. You will have to update the value per share manually (using <guimenuitem>Set Quote</guimenuitem> or <guimenuitem>Edit Quotes</guimenuitem> in <guimenu>Securities</guimenu> or context menu) for the security value to be up to date.
+	<mediaobject><imageobject><imagedata format="PNG" fileref="figures/setquote.png" width="245"/></imageobject></mediaobject>
 	</para>
 	<sect1 id="security_transactions">
 		<title>Security Transactions</title>
 		<para>
 			The following transactions are supported for securities:
 			<variablelist>
-				<varlistentry><term>Shares bought</term><listitem><para>When more shares of a security have been bought. Specify new shares, price per share (quotation given) and total cost, including fees/commission.<mediaobject><imageobject><imagedata format="PNG" fileref="security-buy.png"/></imageobject></mediaobject></para></listitem></varlistentry>
+				<varlistentry><term>Shares bought</term><listitem><para>When more shares of a security have been bought. Specify new shares, price per share (quotation given) and total cost, including fees/commission.<mediaobject><imageobject><imagedata format="PNG" fileref="figures/sharesbought.png" width="454"/></imageobject></mediaobject></para></listitem></varlistentry>
 				<varlistentry><term>Shares sold</term><listitem><para>When some shares of a security have been sold. Specify new shares, price per share and total cost, including fees/commission.</para></listitem></varlistentry>
 				<varlistentry><term>Shares traded</term><listitem><para>When shares of one security are sold and shares of another security are bought for the same amount of money, without transfer of sell income to an account in between.</para></listitem></varlistentry>
 				<varlistentry><term>Dividend</term><listitem><para>When money is received for each share of a security. Specify income and income category.</para></listitem></varlistentry>
-				<varlistentry><term>Reinvested dividend</term><listitem><para>When dividend is received as additional shares.</para></listitem></varlistentry>
+				<varlistentry><term>Reinvested dividend</term><listitem><para>When dividend is received as additional shares.<mediaobject><imageobject><imagedata format="PNG" fileref="figures/reinvesteddividend.png" width="236"/></imageobject></mediaobject></para></listitem></varlistentry>
 			</variablelist>
 		</para>
 		<para>
@@ -535,7 +548,7 @@
 	</sect1>
 	<sect1 id="securities_view">
 		<title>The Securities View</title>
-		<mediaobject><imageobject><imagedata format="PNG" fileref="securities-view.png"/></imageobject></mediaobject>
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/securities.png" width="939"/></imageobject></mediaobject>
 		<para>
 		Statistics displayed for each security:
 		<variablelist>
@@ -561,6 +574,7 @@
 	</para>
 	<para>
 	The main currency determines the default currency for new accounts and the currency used for statistics. By default the main currency is set to the system wide local currency. Use <menuchoice><guimenu>Settings</guimenu><guimenuitem>Set Main Currency...</guimenuitem></menuchoice> to change the main currency. A dialog is then shown, where you can select a new main currency, with the option to change the currency of all accounts using the previous main currency.
+	<mediaobject><imageobject><imagedata format="PNG" fileref="figures/setmaincurrency.png" width="344"/></imageobject></mediaobject>
 	</para>
 	<para>
 	The currency of an account is selected in the dialog for account creation/editing. It is generally not advisable to change the currency of an account with associated transactions. This will leave the numerical value of associated transactions unchanged, but the actual monetary value might radically change.
@@ -572,7 +586,7 @@
 	For transfers between accounts with different currencies both withdrawn and deposited amount must be specified. The same is true for loan payments (reductions) where the loan is in a different currency from the account used for the payment. Conversion losses are not treated as expenses and are thus not included in statistics for expenses and profits.
 	</para>
 	<para>
-	Included exchange rates support automatic exchange rate updates using data from the European Central Bank. If multiple currencies are in use, the exchange rates are automatically updated once every week, but they can also be updated using the <menuchoice><guimenu>File</guimenu><guimenuitem>Update Exchange Rates</guimenuitem></menuchoice>.
+	Included exchange rates support automatic exchange rate updates If multiple currencies are in use, the exchange rates are automatically updated once every week, but they can also be updated using the <menuchoice><guimenu>File</guimenu><guimenuitem>Update Exchange Rates</guimenuitem></menuchoice>.
 	</para>
 	<para>
 	If a currency you use is not available you can add it manually using the top item in currency menu when creating a new or editing a present account (it can also be done from main currency selection window). You must specify the three letter code of the currency and you should enter an exchange rate in European euros. The currently selected currency of the account can be edited using the button directly under the currency menu. The exchange rate will not be updated automatically.
@@ -590,6 +604,7 @@
 		<title>Currency Conversion</title>
 		<para>
 		You can quickly convert between different currencies by using the currency converter (<menuchoice><guimenu>File</guimenu><guimenuitem>Currency Converter</guimenuitem></menuchoice>). Select currencies for conversion in the drop-down menus on the right and enter a value in one of the fields to the left. The value is converted as you type.
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/currencyconverter.png" width="375"/></imageobject></mediaobject>
 		</para>
 		<para>
 		It is also possible to do currency conversion in every value field elsewhere in the application (see <xref linkend="value-input"/>).
@@ -606,6 +621,7 @@
 		<title>Categories Comparison</title>
 		<para>
 		The categories comparison report allows comparison between or within expense and/or income categories. The initial view shows all categories with subcategories hidden, with values for the past year. The display settings can be changed at the bottom of the window. 
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/categoriescomparisonreport.png" width="862"/></imageobject></mediaobject>
 		</para>
 		<para>
 		The source can changed to also display every separate subcategory, or only show a single category. If a specific category is selected, you will have the option to compare the values for subcategories, different transaction descriptions or payees/payers. You break it down even further by only comparing descriptions for a specific payee/payer, payees/payers for a specific description. 
@@ -624,6 +640,7 @@
 		</para>
 		<para>
 		As in the report you can select which the time period values are shown for (for accounts the from date is ignored). In the upper right there also here buttons for saving (to an image file), or printing the chart.
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/categoriescomparisonchart.png" width="823"/></imageobject></mediaobject>
 		</para>
 	</sect1>
 	<sect1 id="development over time">
@@ -633,6 +650,7 @@
 		</para>
 		<para>
 		At the bottom of the window displayed columns can be selected. The columns include total value, averages based different time periods (e.g. the daily average equals the total value divided by the number of days in the selected time period), total quantity, and average value of each item (total value divided by total quantity). The buttons in the upper right corner allows you to save the view as a HTML file or print it on paper.
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/overtimereport.png" width="713"/></imageobject></mediaobject>
 		</para>
 		<para>
 		The development over time chart shows how expenses and incomes changes over time, with values grouped by month, in line or bar chart. The chart type and style is selected in the upper right corner of the window. Initially incomes and expenses are shown from the month and year of the first transaction to the the end of the last month (unless the first and last month is the same). 
@@ -649,6 +667,7 @@
 		<para>
 		Click on a label in the chart legend to hide a data series from the chart. Move the mouse over a line or a bar to show details above single values. Click, hold and move the pointer (drag) to zoom in the chart. In the upper right there also here buttons for saving (to an image file), or printing the chart.
 		</para>
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/overtimechart.png" width="932"/></imageobject></mediaobject>
 	</sect1>
 </chapter>
 
@@ -661,12 +680,12 @@
 			<title>QIF Import</title>
 			<para>
 			Select <menuchoice><guimenu>File</guimenu><guisubmenu>Import</guisubmenu><guimenuitem>Import QIF File</guimenuitem></menuchoice> and follow the instructions. QIF is a file format that might differ much depending on the software that saved the file. How much details you will need to provide about the file depends on ambiguity of the date format, how localised the file is, and how well accounts are defined. Securities, investment transactions, memorised transactions, budgets, and classes are not imported.
-			<mediaobject><imageobject><imagedata format="PNG" fileref="qif-date-format.png"/></imageobject></mediaobject>
 			</para>
 		</sect2>
 		<sect2 id="qif_export">
 			<title>QIF Export</title>
 			<para>
+			<mediaobject><imageobject><imagedata format="PNG" fileref="figures/exportqif.png" width="279"/></imageobject></mediaobject>
 			Activate <menuchoice><guimenu>File</guimenu><guimenuitem>Export QIF File</guimenuitem></menuchoice> and select account to export, format for dates and numbers, and filename. It is possible to export transactions from all accounts, but multi-account QIF files are not always supported by other software. Not all transactions properties are exported.
 			</para>
 		</sect2>
@@ -675,7 +694,7 @@
 		<title>CSV Import</title>
 		<para>
 			This function imports data files with clear text values in columns separated by a character (comma, space, tab, etc.), with a new transaction on each row. Select <menuchoice><guimenu>File</guimenu><guisubmenu>Import</guisubmenu><guimenuitem>Import CSV File</guimenuitem></menuchoice> and enter details about the structure of the file you want to import. Transaction parameters can either be imported from a column in the file or a set to a specified value.
-			<mediaobject><imageobject><imagedata format="PNG" fileref="csv-columns.png"/></imageobject></mediaobject>
+			<mediaobject><imageobject><imagedata format="PNG" fileref="figures/csvcolumns.png" width="491"/></imageobject></mediaobject>
 		</para>
 	</sect1>
 	<sect1 id="csv_html_export">
@@ -688,6 +707,7 @@
 		<title>Merge &app; File</title>
 		<para>
 		Accounts and transactions from another &app; file can be imported to the current file using <menuchoice><guimenu>File</guimenu><guisubmenu>Import</guisubmenu><guimenuitem>Import &app; File</guimenuitem></menuchoice>. All accounts and transactions from the file will be copied. When the file has been selected you will be presented with alternatives for handling of duplicate transactions, accounts, categories and securities. If you select the rename options <quote>("imported")</quote> will be appended to the name, otherwise the transactions will be added to the already present accounts with the same name. This makes it easier to distinguish and manipulate imported transactions. (For information on how to modify/move mmultiple transactions at the same time see <xref linkend="edit-multiple"/>.)
+		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/importeqz.png" width="248"/></imageobject></mediaobject>
 		</para>
 	</sect1>
 </chapter>
