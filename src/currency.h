@@ -64,7 +64,7 @@ class Currency {
 		~Currency();
 		Currency *copy() const;
 		
-		bool merge(Currency *currency);
+		bool merge(Currency *currency, bool keep_rates = true);
 		
 		void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		bool readElement(QXmlStreamReader *xml, bool *valid);
@@ -101,7 +101,7 @@ class Currency {
 		void setFractionalDigits(int new_frac_digits);
 		
 		bool hasLocalChanges() const;
-		void setAsLocal();
+		void setAsLocal(bool is_local = true);
 		
 		bool exchangeRateIsUpdated() const;
 		void setExchangeRateIsUpdated(bool exchange_rate_is_updated = true);

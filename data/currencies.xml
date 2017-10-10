@@ -120,9 +120,6 @@
 	<currency code="ETB" name="Eritrea" source="mycurrency.net">
 		<rate value="27.39461" date="2017-10-09"/>
 	</currency>
-	<currency code="EUR" symbol="€" name="Europeisk euro" source="mycurrency.net">
-		<rate value="0.99779" date="2017-10-09"/>
-	</currency>
 	<currency code="FJD" name="Fiji" source="mycurrency.net">
 		<rate value="2.40233" date="2017-10-09"/>
 	</currency>

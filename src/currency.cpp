@@ -78,7 +78,7 @@ Currency *Currency::copy() const {
 	return this_copy;
 }
 
-bool Currency::merge(Currency *currency) {
+bool Currency::merge(Currency *currency, bool keep_rates) {
 	bool has_changed = false;
 	if(!currency->name().isEmpty() && currency->name() != s_name) {
 		has_changed = true;
@@ -90,10 +90,13 @@ bool Currency::merge(Currency *currency) {
 		b_local_symbol = true;
 		s_symbol = currency->symbol();
 	}
-	QMap<QDate, double>::const_iterator it = currency->rates.constBegin();
-	while (it != currency->rates.constEnd()) {
-		rates[it.key()] = it.value();
-		++it;
+	if(this != o_budget->currency_euro) {
+		if(!keep_rates) rates.clear();
+		QMap<QDate, double>::const_iterator it = currency->rates.constBegin();
+		while (it != currency->rates.constEnd()) {
+			rates[it.key()] = it.value();
+			++it;
+		}
 	}
 	b_local_rate = true;
 	has_changed = true;
@@ -289,7 +292,7 @@ void Currency::setFractionalDigits(int new_frac_digits) {
 	b_local_format = true;
 }
 bool Currency::hasLocalChanges() const {return b_local_format || b_local_rate || b_local_name || b_local_symbol;}
-void Currency::setAsLocal() {b_local_format = true; b_local_rate = true; b_local_name = true; b_local_symbol = true;}
+void Currency::setAsLocal(bool b_local) {b_local_format = b_local; b_local_rate = b_local; b_local_name = b_local; b_local_symbol = b_local;}
 bool Currency::exchangeRateIsUpdated() const {return b_local_rate;}
 void Currency::setExchangeRateIsUpdated(bool exchange_rate_is_updated) {b_local_rate = exchange_rate_is_updated;}
 bool Currency::formatHasChanged() const {return b_local_format;}

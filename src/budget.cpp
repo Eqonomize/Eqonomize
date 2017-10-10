@@ -121,6 +121,7 @@ Budget::Budget() {
 	securityTrades.setAutoDelete(true);
 	accounts.setAutoDelete(false);
 	currency_euro = new Currency(this, "EUR", "€", tr("European Euro"), 1.0);
+	currency_euro->setAsLocal(false);
 	addCurrency(currency_euro);
 	loadCurrencies();
 	default_currency = currency_euro;
@@ -220,7 +221,7 @@ void Budget::loadCurrenciesFile(QString filename, bool is_local) {
 				if(is_local) {
 					Currency *currency_old = findCurrency(currency->code());
 					if(currency_old) {
-						currency_old->merge(currency);
+						currency_old->merge(currency, false);
 						delete currency;
 					} else {
 						currency->setAsLocal();
@@ -280,7 +281,7 @@ QString Budget::loadECBData(QByteArray data) {
 							attr = xml.attributes();
 							QString code = attr.value("currency").trimmed().toString();
 							double exrate = attr.value("rate").toDouble();
-							if(!code.isEmpty() && exrate > 0.0 && date.isValid()) {
+							if(!code.isEmpty() && code != "EUR" && exrate > 0.0 && date.isValid()) {
 								if(!had_data) {
 									for(CurrencyList<Currency*>::const_iterator it = currencies.constBegin(); it != currencies.constEnd(); ++it) {
 										Currency *cur = *it;
@@ -294,7 +295,7 @@ QString Budget::loadECBData(QByteArray data) {
 									bool keep_old = cur->rates.size() > 1;
 									if(!keep_old) {
 										for(AccountList<AssetsAccount*>::const_iterator it = assetsAccounts.constBegin(); it != assetsAccounts.constEnd(); ++it) {
-											if((*it)->currency() != cur) {keep_old = true; break;}
+											if((*it)->currency() == cur) {keep_old = true; break;}
 										}
 									}
 									if(!keep_old) cur->rates.clear();
@@ -339,7 +340,7 @@ QString Budget::loadMyCurrencyNetData(QByteArray data) {
 			QString code = jobj["currency_code"].toString().trimmed();
 			double exrate = jobj["rate"].toDouble();
 			QString name = jobj["name"].toString().trimmed();
-			if(!code.isEmpty() && exrate > 0.0) {
+			if(!code.isEmpty() && code != "EUR"  && exrate > 0.0) {
 				if(!had_data) {
 					for(CurrencyList<Currency*>::const_iterator it = currencies.constBegin(); it != currencies.constEnd(); ++it) {
 						Currency *cur = *it;
@@ -353,7 +354,7 @@ QString Budget::loadMyCurrencyNetData(QByteArray data) {
 					bool keep_old = cur->rates.size() > 1;
 					if(!keep_old) {
 						for(AccountList<AssetsAccount*>::const_iterator it = assetsAccounts.constBegin(); it != assetsAccounts.constEnd(); ++it) {
-							if((*it)->currency() != cur) {keep_old = true; break;}
+							if((*it)->currency() == cur) {keep_old = true; break;}
 						}
 					}
 					if(!keep_old) cur->rates.clear();
