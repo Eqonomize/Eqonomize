@@ -4490,6 +4490,79 @@ void Eqonomize::exportQIF() {
 	exportQIFFile(budget, this, b_extra);
 }
 
+void Eqonomize::checkAvailableVersion_readdata() {
+	QString ssystem;
+	#if defined (Q_OS_WIN32)
+		ssystem = "Windows";
+	#elif defined(Q_OS_ANDROID)
+		return;
+	#elif defined(Q_OS_LINUX)
+		ssystem = "Linux";
+	#else
+		return;
+	#endif
+	if(checkVersionReply->error() != QNetworkReply::NoError) {
+		checkVersionReply->abort();
+		return;
+	}
+	QByteArray sbuffer = checkVersionReply->readAll();
+	int i = sbuffer.indexOf(ssystem);
+	if(i < 0) return;
+	i = sbuffer.indexOf(':', i);
+	if(i < 0) return;
+	int i2 = sbuffer.indexOf('\n', i);
+	if(i2 > 0) sbuffer = sbuffer.left(i2);
+	sbuffer = sbuffer.right(sbuffer.length() - (i + 1)).trimmed();
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	QByteArray old_version = settings.value("lastVersionFound").toByteArray();
+	if(old_version.isEmpty()) old_version = VERSION;
+	if(sbuffer != old_version) {
+		QList<QByteArray> version_parts_new = sbuffer.split('.');
+		if(version_parts_new.empty()) return;
+		QList<QByteArray> version_parts_old = old_version.split('.');
+		if(version_parts_old.empty()) return;
+		if(version_parts_new.last().size() > 0) {
+			char c = version_parts_new.last().at(version_parts_new.last().size() - 1);
+			if(c < '0' || c > '9') {
+				version_parts_new.last().chop(1);
+				version_parts_new.append(QByteArray(1, c));
+			}
+		}
+		if(version_parts_old.last().size() > 0) {
+			char c = version_parts_old.last().at(version_parts_old.last().size() - 1);
+			if(c < '0' || c > '9') {
+				version_parts_old.last().chop(1);
+				version_parts_old.append(QByteArray(1, c));
+			}
+		}
+		bool b = false;
+		for(i = 0; i < version_parts_new.size(); i++) {
+			if(i == version_parts_old.size() || version_parts_new[i].toInt() > version_parts_old[i].toInt()) {b = true; break;}
+			else if(version_parts_new[i].toInt() < version_parts_old[i].toInt()) break;
+		}
+		if(b) {
+			QMessageBox::information(this, tr("New version available"), tr("A new version of %1 is available.<br><br>You can get version %2 at %3.").arg("Eqonomize!").arg(QString(sbuffer)).arg("<a href=\"http://qalculate.github.io/downloads.html\">qalculate.github.io</a>"));
+			settings.setValue("lastVersionFound", sbuffer);
+		}
+	}
+}
+
+void Eqonomize::checkAvailableVersion() {
+#if defined (Q_OS_WIN32)
+#elif defined(Q_OS_ANDROID)
+	return;
+#elif defined(Q_OS_LINUX)
+#else
+	return;
+#endif
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	settings.setValue("lastVersionCheck", QDate::currentDate().toString(Qt::ISODate));
+	checkVersionReply = nam.get(QNetworkRequest(QUrl("https://eqonomize.github.io/CURRENT_VERSIONS")));
+	connect(checkVersionReply, SIGNAL(finished()), this, SLOT(checkAvailableVersion_readdata()));
+}
+
 void Eqonomize::checkExchangeRatesTimeOut() {
 	Currency *cur = budget->defaultCurrency();
 	if(cur != budget->currency_euro && cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_NONE) cur = NULL;

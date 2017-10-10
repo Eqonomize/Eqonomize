@@ -137,6 +137,11 @@ int main(int argc, char **argv) {
 			win->createDefaultBudget();
 		}
 	}
+#ifdef RESOURCES_COMPILED
+	settings.beginGroup("GeneralOptions");
+	if(!settings.value("lastVersionCheck").toDate().isValid() || settings.value("lastVersionCheck").toDate().addDays(10) <= QDate::currentDate()) win->checkAvailableVersion();
+#endif
+
 	args.clear();
 	
 	return app.exec();

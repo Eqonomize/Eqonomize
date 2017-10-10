@@ -265,7 +265,7 @@ class Eqonomize : public QMainWindow {
 		QCommandLineParser *parser;
 		QComboBox *setMainCurrencyCombo;
 		QProgressDialog *updateExchangeRatesProgressDialog;
-		QNetworkReply *updateExchangeRatesReply;
+		QNetworkReply *updateExchangeRatesReply, *checkVersionReply;
 		CurrencyConversionDialog *currencyConversionWindow;
 		
 		int prev_set_main_currency_index;
@@ -291,6 +291,10 @@ class Eqonomize : public QMainWindow {
 		QDialog *helpDialog, *cccDialog, *ccrDialog, *otcDialog, *otrDialog;
 		
 		QNetworkAccessManager nam;
+		
+	protected slots:
+	
+		void checkAvailableVersion_readdata();
 
 	public slots:
 
@@ -318,6 +322,8 @@ class Eqonomize : public QMainWindow {
 		void importQIF();
 		void importEQZ();
 		void exportQIF();
+		
+		void checkAvailableVersion();
 		
 		void checkExchangeRatesTimeOut();
 		void updateExchangeRates(bool do_currencies_modified = true);
