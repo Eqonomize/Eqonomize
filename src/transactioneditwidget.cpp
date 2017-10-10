@@ -62,8 +62,6 @@
 #define CURCOL(row, col)	(b_autoedit ? ((row / rows) * 2) + col : col)
 #define TEROWCOL(row, col)	CURROW(row, col), CURCOL(row, col)
 
-#define FILE_BUTTON_TEXT	tr("Select a file")
-
 EqonomizeDateEdit::EqonomizeDateEdit(QWidget *parent) : QDateEdit(QDate::currentDate(), parent) {}
 void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
 	QDateEdit::keyPressEvent(event);
