@@ -70,6 +70,8 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 	Account *current_account = currentAccount();
 	clear();
 	switch(i_type) {
+		case -1: {}
+		case -2: {}
 		case ACCOUNT_TYPE_ASSETS: {
 			if(new_account_action) addItem(tr("New account…"), qVariantFromValue(NULL));
 			if(new_loan_action) addItem(tr("Payed with loan / payment plan…"), qVariantFromValue(NULL));
@@ -83,6 +85,24 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 						add_secondary_list = true;
 					} else if(account->accountType() != ASSETS_TYPE_SECURITIES && account != budget->balancingAccount) {
 						addItem(account->name(), qVariantFromValue((void*) account));
+					}
+				}
+			}
+			if(i_type == -1) {
+				if(count() > firstAccountIndex()) insertSeparator(count());
+				for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+					IncomesAccount *account = *it;
+					if(account != exclude_account) {
+						addItem(account->nameWithParent(), qVariantFromValue((void*) account));
+					}
+				}
+			}
+			if(i_type == -2) {
+				if(count() > firstAccountIndex()) insertSeparator(count());
+				for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+					ExpensesAccount *account = *it;
+					if(account != exclude_account) {
+						addItem(account->nameWithParent(), qVariantFromValue((void*) account));
 					}
 				}
 			}
@@ -137,6 +157,8 @@ bool AccountComboBox::hasAccount() const {
 Account *AccountComboBox::createAccount() {
 	Account *account = NULL;
 	switch(i_type) {
+		case -1: {}
+		case -2: {}
 		case ACCOUNT_TYPE_ASSETS: {
 			EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, this, tr("New Account"));
 			if(dialog->exec() == QDialog::Accepted) {

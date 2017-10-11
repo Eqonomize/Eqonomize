@@ -73,7 +73,7 @@
 		Incomes is usually put in a bank account and withdrawn from an income account. This means that income accounts will have a negative value, but to avoid confusion, the value of income accounts are shown as positive values.
 		</para>
 		<para>
-		Different income and expense accounts are used for categorisation, and are therefor more naturally referred to as categories. Other accounts, which represents the money you actually have and often are real world bank accounts, are simply referred to as accounts.
+		Different income and expense accounts are used for categorisation, and are therefor more naturally referred to as categories. Other accounts, which represents the money you actually have and often represents real world bank accounts, are simply referred to as accounts.
 		</para>
 	</sect1>
 </chapter>
@@ -87,48 +87,48 @@
 	<sect1 id="using-accounts">
 		<title>Create Accounts</title>
 		<para>
-		The first time you start &app; the account view is displayed with a predefined set of accounts and categories. These can be considered as an example or a starting point for a setup matching your own conditions. You can either begin by modifying the suggested accounts and categories or start from scratch with <menuchoice><guimenu>File</guimenu><guimenuitem>New</guimenuitem></menuchoice> (<keycombo><keycap>Ctrl</keycap><keycap>N</keycap></keycombo>).
+		The first time you start &app; a predefined set of accounts and categories are already present. These can be considered an example or a starting point for a setup matching your own conditions. You can either begin by modifying the suggested accounts and categories or start from scratch with <menuchoice><guimenu>File</guimenu><guimenuitem>New</guimenuitem></menuchoice> (<keycombo><keycap>Ctrl</keycap><keycap>N</keycap></keycombo>).
 		</para>
 		<para>
-		Accounts should be created to match your real world bank accounts plus at least one account for your cash. Categories are used to keep incomes and expenses better organised. Each transaction must be connected to an account and a category, or two accounts for transfers between accounts. To create accounts and categories use <guimenu>Accounts</guimenu> menu or the context menu in the list. Accounts and categories can also be added as needed when entering new transactions. A monthly budget can be set for each separate category.
+		Accounts should be created to match your real world bank accounts plus at least one account for cash. Categories are used to keep incomes and expenses better organised. Each transaction must be connected to an account and a category, or two accounts for transfers between accounts. To create accounts and categories use the <guimenu>Accounts</guimenu> menu or the context menu of accounts view. Accounts and categories can also be added as needed when entering new transactions. A monthly budget can be set for each separate category.
 		</para>
 	</sect1>
 	<sect1 id="using-transactions">
 		<title>Enter Transactions</title>
 		<para>
-		After accounts and categories have been added, you can start recording transactions each time money have been deposited or withdrawn from one of you accounts. If you have kept book before, either on paper, or in another program, you can either import a file (see <xref linkend="import_export"/>) or enter each transaction manually by hand. Just remember to enter the correct opening balance for each account.
+		Now it is time to start recording transactions each time money have been deposited or withdrawn from one of you accounts. If you have kept book before, either on paper, or in another program, you can either import a file from another program (see <xref linkend="import_export"/>), enter each transaction manually by hand, or start from scratch (remember to enter the correct opening balance for each account).
 		</para>
 		<para>
-		Transactions can be entered in two ways, either with the new expense/income/transfer dialogs (where you have the option to create a recurring transaction), or from the transaction views. The latter option is usually preferred.
+		Transactions can be entered in two ways, either using the new expense/income/transfer dialogs (where you have the option to create a recurring transaction), or from the transaction views. The latter option is usually preferred.
 		</para>
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/edittransaction.png" width="951"/></imageobject></mediaobject>
 		<para>
-			The first time you record an expense you should follow these steps:
-			<orderedlist>
-				<listitem><para>Switch to the expenses view, using the top icons. The input focus is now in the description entry.</para></listitem>
-				<listitem><para>Type in a description for the expense. Your free to use the description property as you want, but I suggest you keep short and consistent without any inflections, as a subcategory for optimum efficiency and good statistics. For example, if you buy a delicious red Ingrid Marie apple and have an expense category for fruit, the description will be <quote>Apple</quote>, and if you want to record additional information put <quote>Delicious red Ingrid Marie apple</quote> as comment (others might find it more appropriate to use <quote>Groceries</quote> as category and <quote>Fruit</quote> as description). Press <keycap>Enter</keycap> or <keycap>Tab</keycap> and focus will move to the cost entry.</para></listitem>
-				<listitem><para>Enter what you paid. Note that the value should not be negative (except for refunds) and you do not need to type in currency. Press <keycap>Enter</keycap> or <keycap>Tab</keycap>.</para></listitem>
-				<listitem><para>Optionally enter a quantity (if you bought multiple apples). Note that the previously entered value is the total cost and independent of the quantity. This and the payee field can be hidden from the settings menu if not used. Press <keycap>Enter</keycap> or <keycap>Tab</keycap>.</para></listitem>
-				<listitem><para>Select the date when the transaction occurred. To change the date, either write a valid date, select one from the pop-up calendar, or increment/decrement the displayed date with up/down keys. If you now press <keycap>Enter</keycap>, the new expense record will be created, but we do not do that now since the current account and category probably are not correct.</para></listitem>
-				<listitem><para>Select the correct account (where the money for the expense is taken from) and expense category from the drop-down lists on the right.</para></listitem>
-				<listitem><para>Optionally enter a payee (the store where you bought the apple).</para></listitem>
-				<listitem><para>Optionally enter a comment (memo) for the expense.</para></listitem>
-				<listitem><para>Click <guibutton>Add</guibutton> or press <keycap>Enter</keycap>.</para></listitem>
-			</orderedlist>
-			<note><para><keycap>Enter</keycap> adds a transaction if pressed with input focus in the date or comment entry. Otherwise it moves input focus to the next entry.</para></note>
-			Repeat the process to record another expense. When you enter the next (and all subsequent expenses) expense you can however usually do it more efficiently. Date, account and category will not be reset each time, so often you need at least not change account. More importantly &app; remembers the last expense entered for each unique description. When you enter a description, all values, except date, will be filled in with the properties of the last expense with the same description. Even more so, as you type the description a list will pop up with all previous descriptions with matching opening letters. This means that you often will follow this much shorter process:
-			<orderedlist>
-				<listitem><para>Type the first letter of a description and select the correct one from the list.</para></listitem>
-				<listitem><para>Check if the cost is the same this time and press enter.</para></listitem>
-				<listitem><para>Press enter to move past the quantity field, if enabled.</para></listitem>
-				<listitem><para>Check the date and press enter.</para></listitem>
-			</orderedlist>
+		The first time you record an expense you should follow these steps:
+		<orderedlist>
+			<listitem><para>Switch to the expenses view, using the top icons. The input focus is now in the description entry.</para></listitem>
+			<listitem><para>Type in a description for the expense. You are free to use the description property as you want, but I suggest you keep short and consistent without any inflections, as a final level of categorisation, for optimum efficiency and good statistics. For example, if you buy a delicious red Ingrid Marie apple and have an expense category for fruit, the description will be <quote>Apple</quote>, and if you want to record additional information put <quote>Delicious red Ingrid Marie apple</quote> as comment (others might find it more appropriate to use <quote>Groceries</quote> as category and <quote>Fruit</quote> as description). Press <keycap>Enter</keycap> or <keycap>Tab</keycap> and focus will move to the cost entry.</para></listitem>
+			<listitem><para>Enter what you paid. Note that the value should not be negative (except for refunds) and you do not need to type any currency. Press <keycap>Enter</keycap> or <keycap>Tab</keycap>.</para></listitem>
+			<listitem><para>Optionally enter a quantity (if you bought multiple apples). Note that the previously entered value is the total cost and independent of the quantity. This and the payee field can be hidden from the settings menu, if not used. Press <keycap>Enter</keycap> or <keycap>Tab</keycap>.</para></listitem>
+			<listitem><para>Select the date when the transaction occurred. To change the date, either write a valid date, select one from the pop-up calendar, or increment/decrement the current value with up/down keys. If you now press <keycap>Enter</keycap>, the new expense record will be created, but we do not want do that this time since the current account and category probably are not correct.</para></listitem>
+			<listitem><para>Select the correct account (where the money for the expense is taken from) and expense category from the drop-down lists on the right. (If you have not yet added the category and/or account, select <guimenuitem>New expense category</guimenuitem> or <guimenuitem>New account</guimenuitem> from the top list.)</para></listitem>
+			<listitem><para>Optionally enter a payee (the store where you bought the apple).</para></listitem>
+			<listitem><para>Optionally enter a comment (memo) for the expense.</para></listitem>
+			<listitem><para>Click <guibutton>Add</guibutton> or press <keycap>Enter</keycap>.</para></listitem>
+		</orderedlist>
+		<note><para><keycap>Enter</keycap> adds a transaction if pressed with input focus in the date or comment entry. Otherwise it moves input focus to the next entry.</para></note>
+		Repeat the process to record another expense. When you enter the next (and all subsequent expenses) expense you can however usually do it more efficiently. Date, account and category will not be reset each time, so often you need at least not change account. More importantly &app; remembers the last expense entered for each unique description. When you enter a description, all values, except date, will be filled in with the properties of the last expense with the same description. Even more so, as you type the description a list will pop up with all previous descriptions with matching opening letters. This means that you often will follow this much shorter process:
+		<orderedlist>
+			<listitem><para>Type the first letter of a description and select the correct one from the list.</para></listitem>
+			<listitem><para>Check if the cost is the same this time and press enter.</para></listitem>
+			<listitem><para>Press enter to move past the quantity field, if enabled.</para></listitem>
+			<listitem><para>Check the date and press enter.</para></listitem>
+		</orderedlist>
 		</para>
 		<para>
-			The same process as for recording expenses is repeated for incomes, except that the quantity field is absent. Click the incomes icon on the left and enter an income instead of a cost (still positive, but instead means amount deposited, added, to the account).
+		The same process as for recording expenses is repeated for incomes, except that the quantity field is absent. Click the incomes icon on the left and enter an income instead of a cost (still positive, but instead means amount deposited, added, to the account).
 		</para>
 		<para>
-			The record a transfer from one account to another (for example an ATM withdrawal from a bank account to cash) follow the same process as for expenses and incomes. Click the transfer icon on the left. Enter the amount transferred (positive) and select the from account (withdrawn from) and the to account (deposited to).
+		To record a transfer from one account to another (for example an ATM withdrawal from a bank account to cash) follow the same process as for expenses and incomes. Click the transfer icon on the left. Enter the amount transferred (positive) and select the from account (withdrawn from) and the to account (deposited to).
 		</para>
 	</sect1>
 	<sect1 id="using-saving">
@@ -137,7 +137,8 @@
 		When you have made some changes you need to save your work. Save the file using <menuchoice><guimenu>File</guimenu><guimenuitem>Save</guimenuitem></menuchoice> (<keycombo><keycap>Ctrl</keycap><keycap>S</keycap></keycombo>) or the corresponding toolbar button. The first time your work is saved &app; will ask for a location and name for the file. &app; will then automatically open that file each time the program is started.
 		</para>	
 		<para>
-		If when exiting &app; there are some changes that have been made after the last save, you will be asked if the file should be saved before closing. If you in the dialog toggle <guilabel>Do not ask again</guilabel> and click <guibutton>Yes</guibutton> the file will automatically be saved each time &app; is closed.
+	  If when closing &app; there are some changes that have been made after the last save, you will be asked if the file should be saved before closing.
+	  <mediaobject><imageobject><imagedata format="PNG" fileref="figures/asksave.png" width="324"/></imageobject></mediaobject>
 		</para>
 		<para>
 		Before the file is saved, a backup copy is made with the name prefixed by <quote>~</quote>. Also the current data is continuously (at most once per minute) saved to prevent data loss in case &app; exits unexpectedly.
@@ -163,7 +164,7 @@
 			<mediaobject><imageobject><imagedata format="PNG" fileref="figures/newaccount.png" width="347"/></imageobject></mediaobject>
 			</para>
 			<para>
-			You can also create a liabilities account using <guimenuitem>Add Loan</guimenuitem>. Here you will have the option to create the associated loan transaction at the same time. Notice that a positive debt value here represents a negative opening balance.
+			You can also create a debt account using <guimenuitem>Add Loan</guimenuitem>. Here you will have the option to create the associated loan transaction at the same time. Notice that a positive debt value here represents a negative opening balance.
 			</para>
 			<para>
 			You may edit the properties of an account after it has been created by double-clicking the account name, or using <guimenuitem>Edit</guimenuitem> in the context menu or the <guimenu>Accounts</guimenu> menu.
@@ -176,7 +177,7 @@
 			 <mediaobject><imageobject><imagedata format="PNG" fileref="figures/ledger.png" width="986"/></imageobject></mediaobject>
 			 </para>
 			<para>
-			All transactions are shown in falling date order. The balance column shows the accumulated account value - the amount of money in the account after the transaction occurred. This may not be the exact same value as on the corresponding bank statement if the transaction order does not match exactly. You can edit or create transactions using the buttons to the right or by double-clicking a transaction. 
+			All transactions are shown in falling date order. The balance column shows the accumulated account value ⸺ the amount of money in the account after the transaction occurred. This may not be the exact same value as on the corresponding bank statement if the transaction order does not match exactly. You can edit or create transactions using the buttons to the right or by double-clicking a transaction. 
 			</para>
 			<para>
 			Multiple accounts can not be shown simultaneously in the ledger. Switch between accounts using the drop-down list in the upper left corner of the window. To the right of this menu are buttons for saving the transaction list to a HTML file or a CSV file (can be opened in spreadsheet programs), or print it on paper.
@@ -185,13 +186,13 @@
 		<sect2 id="adjust-balance">
 			<title>Adjust Balance</title>
 			<para>
-			If the account balance shown in &app; from the actual balance, and you are unable to find out what is wrong or missing (e.g. by comparing transactions with receipts or bank statements with the ledger), you have the possibility the adjust the account balance (using <guimenuitem>Adjust balance...</guimenuitem> in the <guimenu>Accounts</guimenu> menu or in the context menu of an account. When you enter the real value of the account in the dialog, an account balance adjustment transfer to a hidden balancing account is created to match the book value with the real value. This should be avoided, but may sometimes be necessary (usually for cash accounts).
+			If the account balance shown in &app; differs from the actual balance (in your wallet), and you are unable to find out what is wrong or missing (e.g. by comparing transactions with receipts or bank statements with the ledger), you will have the possibility the adjust the account balance (using <guimenuitem>Adjust balance</guimenuitem> in the <guimenu>Accounts</guimenu> menu or in the context menu of an account. When you enter the real value of the account in the dialog, an account balance adjustment transfer to a hidden balancing account is created to match the book value with the real value. This should be avoided, but may sometimes be necessary (usually for cash accounts).
 			</para>
 		</sect2>
 		<sect2 id="close-account">
 			<title>Marking an Account as Closed</title>
 			<para>
-			 An account can be mark as closed at the bottom of the dialog for account editing. The account will then be hidden from the account view when the change and balance values for the select period is zero. The closed account will be moved to the bottom section of the account list for transactions.
+			An account can be mark as closed at the bottom of the dialog for account editing. The account will then be hidden from the account view when the change and balance values for the select period is zero. The closed account will be moved to the bottom section of account lists for when editing transactions.
 			</para>
 		</sect2>
 	</sect1>
@@ -203,11 +204,11 @@
 		<sect2 id="create-category">
 			<title>Category Creation and Editing</title>	
 			<para>
-			To create an account use <guimenuitem>Add Category</guimenuitem> in the context menu, <menuchoice><guimenu>Accounts</guimenu><guimenuitem>New Income/Expense Category</guimenuitem></menuchoice>, or the corresponding button in the toolbar. You can also create a new account by selecting the top item in the category list when editing an income or expense. Enter a name, and optionally a description, a parent category and/or monthly budget, in the window that appears and click <guibutton>OK</guibutton>.
+			To create an account use <guimenuitem>Add Category</guimenuitem> in the context menu, <menuchoice><guimenu>Accounts</guimenu><guimenuitem>New Income/Expense Category</guimenuitem></menuchoice>, or the corresponding button in the toolbar. You can also create a new category by selecting the top item in the category list when editing an income or expense. Enter a name, and optionally a description, a parent category and/or monthly budget, in the window that appears and click <guibutton>OK</guibutton>.
 			<mediaobject><imageobject><imagedata format="PNG" fileref="figures/newcategory.png" width="278"/></imageobject></mediaobject>
 			</para>
 			<para>
-				&app; supports one level of subcategories (subcategories of subcategories are not supported). Subcategories can be created using <guimenuitem>Add Category</guimenuitem> in the context menu of a category or by selecting a parent category in the category edit window. Subcategories can also be moved to and from parent categories using drag and drop.
+				&app; supports one level of subcategories (subcategories of subcategories are not supported). Subcategories can be created using <guimenuitem>Add Category</guimenuitem> in the context menu of a category or by selecting a parent category in the category edit dialog. Subcategories can also be moved to and from parent categories using drag and drop.
 			</para>
 			<para>
 			You may edit the properties of a category after it has been created by double-clicking the category name, or using <guimenuitem>Edit</guimenuitem> in the context menu or the <guimenu>Accounts</guimenu> menu.
@@ -217,30 +218,31 @@
 	<sect1 id="budget">
 		<title>Budget</title>	
 		<para>
-		A monthly budget can be associated with each category. This way you can continuously compare actual and planned expenses. You can also check what your current budget will mean for your future wealth.
+		A monthly budget can be associated with each category. This way you can continuously compare actual and planned expenses, and see how your current budget will affect your future wealth.
 		</para>		
 		<para>
-		A budget is initially asked for when creating a category. Later you can update it from the budget tab at the bottom of the accounts view, for the category selected in the list. If the budget has not been set for a month, the budget for the previous month is used.
+		A budget is initially asked for when creating a category. Later you can update it from the budget tab at the bottom of the accounts view (affects the category currently selected in accounts list). If the budget has not been set for a month, the budget of the previous month is used.
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/editbudget.png" width="862"/></imageobject></mediaobject>
 		</para>
 		<para>
 		You can choose to set budgets for only some categories. In the accounts list, budget and remaining budget (budget minus past and planned expenses/incomes) is displayed in the second column. If not all categories have a budget, the total remaining budget only summarises the categories with budget and thus does not include actual expenses or incomes from other categories. 
 		</para>
 		<para>
-		A budget can also be set for each subcategory. If no budget is set for the parent category the sum of the value for subcategories with budgets will be displayed (the transactions of subcategories without a budget are excluded). It is possible to specify a budget for both each subcategory and the parent budget. This can be useful if you want to use a single budget for only some subcategories or if some transactions does not belong to a subcategory, but will be confusing if you set a lower budget for the parent category than the sum of the specified budgets of subcategories.
+		A budget can also be set for each subcategory. If no budget is set for the parent category the sum of the value for subcategories with budgets will be displayed (the transactions of subcategories without a budget are excluded). It is possible to specify a budget for both each subcategory and the parent budget. This can be useful if you want to use a single budget for only some subcategories or if some transactions does not belong to a subcategory, but will be confusing if you set the parent budget to a value that is lower than the sum of the specified budgets of subcategories.
 		</para>
 		<sect2 id="budget-month">
 		<title>The Budget Month</title>	
 			<para>
-			The budget month by default starts on the first and ends on the last day of the calendar month. This can be changed using <menuchoice><guimenu>Settings</guimenu><guimenuitem>Set Budget Month</guimenuitem></menuchoice>. Only the first day of the budget month can be selected (the budget month will always be as long as the calendar month of the start date). This will also affect of statistics are calculated and displayed. Months (and years) in charts and tables refers to the budget month.
+			The budget month by default starts on the first and ends on the last day of the calendar month. This can be changed using <menuchoice><guimenu>Settings</guimenu><guimenuitem>Set Budget Month</guimenuitem></menuchoice>. Only the first day of the budget month can be selected (the budget month will always be as long as the calendar month of the start date).
 			<mediaobject><imageobject><imagedata format="PNG" fileref="figures/setbudgetperiod.png" width="252"/></imageobject></mediaobject>
+			This will also affect how statistics are calculated and displayed. Months (and years) in charts and tables refers to the budget month. If the budget day is set to a value greater than 15, the budget month uses the name, and year, of the calendar month of the last the day of the budget month (if the first budget day is set to 25, the budget month that begins on December 25 2017, is referred to as January 2018), otherwise the calendar month of the start day is used. 
 			</para>
 		</sect2>
 	</sect1>
 	<sect1 id="account_view">
 		<title>The Accounts View</title>		
 		<para>
-		The account view displays a list of all accounts and categories, sorted alphabetically under assets, liabilities, incomes, and expenses. The rows for the main types displays the sum of all accounts/categories below.
+		The accounts view displays a list of all accounts and categories, sorted alphabetically under assets, liabilities, incomes, and expenses. The rows for the main account/category types displays the sum of all accounts/categories below.
 		</para>
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/accounts.png" width="775"/></imageobject></mediaobject>
 		<para>
@@ -253,7 +255,7 @@
 		By default, the period is set to run from the beginning of the current month to (including) current date. Thus, the current state of accounts and transactions so far during the month are shown. The four buttons to the right of the dates moves the entire period backwards or forwards a month or a year.
 		</para>
 		<para>
-		Values for future dates are based on budgets and scheduled transactions (whichever is greatest). An account can be designated as budget account (default for current accounts), meaning that budgeted change will be added to the statistics displayed for this account. Otherwise this will only be added to the summarising account item (thus it will not necessarily equal the sum of account statistics).
+		Values for future dates are based on budgets and scheduled transactions (whichever is greatest). An account can be designated as budget account (default for current accounts), meaning that budgeted incomes and expenses will be included in the statistics displayed for that account. Otherwise the budgeted amount will only be included in the values of the total assets item (thus it will not necessarily equal the sum of the values of each assets account).
 		</para>
 		<para>
 		Double-clicking an account or category in the list will result in a different action depending on type and column. The different actions are listed in the table below.
@@ -308,25 +310,19 @@
 		&app; has three different basic transactions types – expenses, incomes, and transfers.
 		</para>
 		<para>
-		Expenses represents a loss of money, a transaction where you give away money, mostly in return for something else. This can be a payment for products and services, or a gift (or you lend someone money).
+		Expenses represent a loss of money, a transaction where you give away money, mostly in return for something else. This can be a payment for products and services, or a gift.
 		</para>
 		<para>
-		Incomes represents a gain of money; when you are given money. This is when your at the other end of an expense, when you receive payment for products and services you provide (often as salary for your regular job), or when someone gives you money as a gift or loan.
+		Incomes represent a gain of money; when you are given money. This is when your at the other end of an expense, when you receive payment for products and services you provide (often as salary for your regular job), or when someone gives you money as a gift.
 		</para>
 		<para>
-		The third transaction type, the transfer, represents neither a loss nor gain, but a transfer of money from one account to another. This can for example be when you withdraw money from your bank account as cash, or you transfer money to a savings account.
+		The third transaction type, transfer, represents neither a loss nor gain, but a transfer of money from one account to another. This can for example be when you withdraw money from your bank account as cash, or when you transfer money to a savings account. Loans, and loan payments reducing the debt, are also transfers (from a liability account to an assets account, and vice versa), even though &app; provides alternative methods for recording these.
 		</para>
 		<para>
 		Each transaction has a number of mandatory or optional properties. All the basic transactions have four mandatory properties – value, date, and from and to accounts/categories. Value represents the amount of money that is affected by the transaction, date when the transaction occurred, from account where the money was taken from and to account where money was put. These are the generic property names, which shows that all transaction types basically are the same.
 		</para>
 		<para>
-		For expenses the value is a cost, a positive value representing a loss of money and the to account/category is called category and the from account/category is the account that the expense is payed from. The category is always an expense category and the from account/category an account.
-		</para>
-		<para>
-		For incomes the value is an income, a positive value representing a gain of money and the from account/category is called category and the the to account/category is the account that the income is deposited in. The category is always an income category and the to/from account an account.
-		</para>
-		<para>
-		For transfers the value is called amount, and the to and from accounts/categories are both accounts.
+		For expenses the value is a cost, a positive value representing a loss of money, from the account that the expense is payed from, to an expense category. For incomes the value is an income, a positive value representing a gain of money, from an income category, to the account that the income is deposited in. For transfers the value is referred to as amount, or withdrawal (from an account) and deposit (to an account).
 		</para>
 		<table id="qalculate-TBL-mandatory-properties" frame="topbot" colsep="1">
 			<title>Mandatory Properties</title>
@@ -348,7 +344,7 @@
 						<entry><para>Value</para></entry>
 						<entry><para>Cost</para></entry>
 						<entry><para>Income</para></entry>
-						<entry><para>Amount</para></entry>
+						<entry><para>Amount (withdrawal and deposit)</para></entry>
 					</row>
 					<row valign="top">
 						<entry><para>Date</para></entry>
@@ -372,16 +368,22 @@
 			</tgroup>
 		</table>
 		<para>
-		All transactions do in addition have three optional properties. The description property provides information about the nature of the transaction. For expenses and incomes this can be considered a flexible subcategory. The comment property is used for any additional information, not used for categorisation, about the transaction. If you for example buy a pair of shoes, you might create an expense in a clothing category, with the description <quote>Shoes</quote> and comments <quote>Shiny red Pradas</quote>. The third property, <quote>Associated File</quote>, allows you to specify a link to file on the computer which will be connected to the transaction. This will typically be receipt, invoice or payslip, but any file can be selected. The file will not be moved, copied or modified. If the file is moved or renamed outside of &app;, the file will not be accessible from within the program. 
+		All transactions do in addition have three optional properties. The <emphasis>description</emphasis> property provides information about the nature of the transaction. This can be considered a final level of categorisation (you get enhanced statistics and increased efficiency if you keep the description consise and without inflections, and reuse it for similar transactions). 
 		</para>
 		<para>
-		Expenses have two additional properties which can be shown or hidden using <menuchoice><guimenu>Settings</guimenu><guimenuitem>Use Additional Transaction Properties</guimenuitem></menuchoice> (deactivating this option will not permanently remove any properties from already entered transactions). The quantity property denotes how many entities was involved in the transaction. This can be a whole number, as in two CD's, or a fraction, as in 0.56 kg apples (units are not included). This property is by default set to 1 and does not affect the value (the value per entity equals the value divided by the quantity). Expenses also have a payee property for the person or entity, for example the store where goods where bought, which receives the money. Incomes also have the payer property for the one who gives you the money, for example your employer.
+		The <emphasis>comment</emphasis> property is used for any additional information, not used for categorisation, about the transaction. If you for example buy a pair of shoes, you might create an expense in a clothing category, with the description <quote>Shoes</quote> and comments <quote>Shiny red Pradas</quote>. 
+		</para>
+		<para>
+		The third property, <emphasis>associated file</emphasis>, allows you to specify a link to a file on the computer which will be connected to the transaction. This will typically be receipt, invoice or payslip, but any file can be selected. The file will not be moved, copied or modified. If the file is moved or renamed outside of &app;, the file will not be accessible from within the program. 
+		</para>
+		<para>
+		Expenses have two additional properties which can be shown or hidden using <menuchoice><guimenu>Settings</guimenu><guimenuitem>Use Additional Transaction Properties</guimenuitem></menuchoice> (deactivating this option will not permanently remove any data from already entered transactions). The <emphasis>quantity</emphasis> property denotes how many entities was involved in the transaction. This can be a whole number, as in two CD's, or a fraction, as in 0.56 kg apples (units are not included). This property is by default set to 1 and does not affect the value (the value per entity equals value divided by quantity). The <emphasis>payee</emphasis> property represents the person or entity, for example the store where goods where bought, which receives the money. Incomes have a similar <emphasis>payer</emphasis> property, representing the one who gave you the money, for example your employer.
 		</para>
 	</sect1>
 	<sect1 id="transaction-view">
 		<title>The Transactions Views</title>
 		<para>
-		The transactions views show a list of expenses, incomes or transfers. By default all transactions (include scheduled transactions, shown in italics) up till and including the current date are shown, sorted in falling date order. The sort order can be changed by clicking the appropriate column header. Transactions with the same date are shown in the order they were entered.
+		The transactions views show a list of expenses, incomes or transfers. By default all transactions (including scheduled transactions, shown in italics) up till and including the current date are shown, sorted in falling date order. The sort order can be changed by clicking the appropriate column header. Transactions with the same date are shown in the order they were entered.
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/expenses.png" width="965"/></imageobject></mediaobject>
 		</para>
 		<para>
@@ -401,10 +403,10 @@
 	<sect1 id="edit-transaction">
 		<title>Create/Edit Transactions</title>
 		<para>
-		New transactions can be entered in two ways, either with the new expense/income/transfer windows (accessed from context menus, the <guimenu>Transactions</guimenu> menu or the toolbar), or from the transaction views, below the transaction list. The edit a previous transaction either double-click the transaction (there are further options in different menus) or select (single-click) the transaction in the transactions view and change the values in the fields below the list. Notice that you have to press <guibutton>Apply</guibutton> or the changes are lost.
+		New transactions can be entered in two ways, either with the new expense/income/transfer dialogs (accessed from context menus, the <guimenu>Transactions</guimenu> menu or the toolbar), or from the transactions views, below the transaction list. The edit a previous transaction either double-click the transaction (there are further options in different menus) or select (single-click) the transaction in the transactions view and change the values in the fields below the list. Notice that you have to press <guibutton>Apply</guibutton> or the changes are lost.
 		</para>
 		<para>
-		Both the Enter key and the Tabulator key, on the keyboard, can be used to move to the next field. When in the last field of column (in the transaction edit window this is the last input field; in the transaction view this refers to both the date field and the comments field), the Enter key will however instead confirm the entered values (equivalent to pressing <guibutton>OK</guibutton> in the transaction edit window, or the <guibutton>Add</guibutton> button in the transaction view). 
+		Both the Enter key and the Tabulator key, on the keyboard, can be used to move to the next field. When in the last field of column (in the transaction edit dialog this is the last input field; in the transaction view this refers to both the date field and the comments field), the Enter key will however instead confirm the entered values (equivalent to pressing <guibutton>OK</guibutton> in the transaction edit dialog, or the <guibutton>Add</guibutton> button in the transaction view). 
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/edittransaction2.png" width="454"/></imageobject></mediaobject>
 		</para>
 		<para>
@@ -422,7 +424,7 @@
 			Currency conversion is also supported. Currencies will be converted to the currency of the currently selected account of the transaction. Note that the currency symbols used for conversion must be unambiguous. Symbols used for multiple currencies are not allowed (e.g. $ is used by many currencies, and you should therefor type USD instead for conversion from U.S. dollars), except for the main currency.
 			</para>
 			<para>
-			By default the value field uses the current currency as prefix or suffix. This can be omitted when entering a new value and are ignored when using currency conversion (expressions similar to <quote>£5 €</quote> are allowed).
+			By default the value field uses the current currency as prefix or suffix. This can be omitted when entering a new value and is ignored when using currency conversion (expressions similar to <quote>£5 €</quote> are allowed).
 			</para>
 			If arithmetic or conversion have been used, the calculated expression is copied to the comments field, if empty.
 			<para>
@@ -431,21 +433,21 @@
 		<sect2 id="edit-multiple">
 			<title>Edit Multiple Transaction Simultaneously</title>
 			<para>
-			It is possible to change the value of one or more properties of multiple transactions at the same time (e.g. if you want to move some transactions to a new subcategory). Select the transactions you want to edit in the transaction list and select <guimenuitem>Edit transactions (Occurrence)</guimenuitem> from the context menu or the <guimenu>Transactions</guimenu> menu. A window will open with a list of properties that can be changed. The fields are prefilled with the values of the first transaction. Next to each property is box which is used to mark each property that will be changed. Properties with equal value for all selected transaction are marked for change by default. Enter new values for appropriate properties and click <guibutton>OK</guibutton> to make the change.
+			It is possible to change the value of one or more properties of multiple transactions at the same time (e.g. if you want to move some transactions to a new subcategory). Select the transactions you want to edit in the transaction list and select <guimenuitem>Edit transactions (Occurrence)</guimenuitem> from the context menu or the <guimenu>Transactions</guimenu> menu. A window will open with a list of properties that can be changed. The fields are prefilled with the values of the first transaction. Next to each property is a box for marking each property that will be changed. Properties with equal value for all selected transaction are marked for change by default. Enter new values for appropriate properties and click <guibutton>OK</guibutton> to make the change.
 			</para>
 		</sect2>
 	</sect1>
 	<sect1 id="refunds_and_repayments">
-		<title>Refunds &amp; Repayments</title>
+		<title>Refunds and Repayments</title>
 		<para>
-		You should record a refund instead of an income when you receive money as a refund for a previous expense, to get the statistics right. This can for example be if you return a product and get your money back, or if you buy a present that you and your friend will give to a mutual friend, and you receive your friends share of the cost later.
-		</para>		
+		You should enter a refund instead of an income when you receive money as a refund for a previous expense. This can for example be if you return a product and get your money back, or if you buy a present that you and your friend will give to a mutual friend, and you receive your friends share of the cost later.
+		</para>
 		<para>
-		The record a new refund use <menuchoice><guimenu>Transactions</guimenu><guimenuitem>New Refund/Repayment</guimenuitem></menuchoice> or the context menu with the refunded expense selected in the expense list. You will have to enter the amount of money refunded (initially set to full refund) and the date of the refund. In addition you should specify the product quantity returned by you. In the first case this is clearly 1, but in the second case this is less clear. It can either be 0.5 if you count it as a half product, or 0 if considered a whole gift (none returned). The use is more obvious if the quantity property is activated for all expenses and incomes. The refund is recorded as an expense with negative cost and quantity.
+		The create a new refund use <menuchoice><guimenu>Transactions</guimenu><guimenuitem>New Refund/Repayment</guimenuitem></menuchoice> or the context menu with the refunded expense selected in the expense list. You will have to enter the amount of money refunded (initially set to full refund) and the date of the refund. In addition you should specify the product quantity returned by you. In the first expample above this is clearly 1, but in the second case this is less clear. It can either be 0.5 if you count it as a half product, or 0 if considered a whole gift (none returned). The use is more obvious if the quantity property is activated for all expenses and incomes. The refund is recorded as an expense with negative cost and quantity.
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/refund.png" width="230"/></imageobject></mediaobject>
 		</para>
 		<para>
-		Repayments are used as refunds, but for incomes that you have been forced to repay.
+		Repayments are similar tto refunds, but is used for incomes that you have been forced to repay.
 		</para>
 	</sect1>
 	<sect1 id="split_transactions">
@@ -454,60 +456,73 @@
 		Split transactions are used when a single transfer to/from an account is used for multiple transactions. This is not when money is withdrawn from a bank account through an ATM and you go shopping (that is first a transfer from a bank account to cash, then multiple regular expenses). A split transaction will for example be appropriate when you make a single payment for multiple products (especially if they are categorised differently), or when you pay with your credit card in a store and tell them to withdraw some extra money, which you get as cash in your hand.
 		</para>
 		<para>
-		It is up to you how and when you want to use split transactions, as multiple ordinary transactions can be used with the same end result, even though one way might represent what happened in reality better.
+		It is up to you how and when you want to use split transactions. Multiple ordinary transactions can be used with the same end result, even though one way might represent reality better.
 		</para>
 		<para>
-		You can create a split from scratch using <menuchoice><guimenu>Transactions</guimenu><guimenuitem>New Split Transaction...</guimenuitem></menuchoice> or from the context menu. It is however often more efficient to use the join action. This way you can enter transactions the usual way and later join them in a split transactions. Select the transactions to join and activate <guimenuitem>Join Transactions...</guimenuitem> from the <guimenu>Transactions</guimenu> menu or the context menu, and enter a description. All transactions in a split transaction have a common date and account.
+		A split transaction can be created from scratch using <menuchoice><guimenu>Transactions</guimenu><guimenuitem>New Split Transaction</guimenuitem></menuchoice> or from the context menu. It is however often more efficient to use the <emphasis>join</emphasis> action. This way you can enter transactions the usual way and later join them in a split transaction. Select the transactions to join and activate <guimenuitem>Join Transactions</guimenuitem> from the <guimenu>Transactions</guimenu> menu or the context menu, and enter a description. All transactions in a split transaction share a common date, account and payee/payer.
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/splittransaction.png" width="644"/></imageobject></mediaobject>
 		</para>
 		<para>
-		To reverse the action and transform transactions in a split transaction to ordinary transactions, select a transaction and use <guimenuitem>Split Up</guimenuitem>.
+		To reverse the action and transform transactions in a split transaction to ordinary transactions, select a split transaction and use <guimenuitem>Split Up</guimenuitem>.
 		</para>
 		<para>
-		In transaction list (ledger) for the account associated with the split, the split will be shown as only one transaction, but everywhere else the parts of the split will appear as ordinary transactions. You cannot edit a transaction that is part of a split transaction directly from the fields below the transaction lists. Instead you should press <guibutton>Edit...</guibutton> to edit the whole split transaction, or double click the transaction in the list to edit the separate transaction (excluding the common date, account and payee/payer properties of the split transaction).
+		In the transaction list (ledger) for the account associated with the split, the split will be shown as only one transaction, but everywhere else the parts of the split will appear as ordinary transactions. You cannot edit a transaction that is part of a split transaction directly from the fields below the transaction lists. Instead you should press <guibutton>Edit</guibutton> to edit the whole split transaction, or double click the transaction in the list to edit the separate transaction (excluding the common date, account and payee/payer properties of the split transaction).
 		</para>
 	</sect1>
 	<sect1 id="multiaccount_transactions">
 		<title>Expenses with Multiple Payments</title>
 		<para>
-		Expenses with multiple payments are similar to split transactions, but instead of using a common date and account, they share description, category, quantity and comments. The intended usage is for when multiple payments, primarily from different accounts, are made for a single product/service. They should not be used for payment plans/loans, although an expenses with multiple payments is created for expenses with a downpayment.
+		Expenses with multiple payments are similar to split transactions, but instead of using a common date and account, they share description, category, quantity and comments. The intended usage is for when multiple payments, primarily from different accounts, are made for a single product/service. They should not be used for payment plans/loans (although an expenses with multiple payments is created for expenses with downpayment).
 		</para>
-		Expenses with multiple payments can be created using the <menuchoice><guimenu>Transactions</guimenu><guimenuitem>New Expense with Multiple Payments...</guimenuitem></menuchoice> or by selecting <guimenuitem>Multiple accounts/payments...</guimenuitem> when selecting account for an expense.
+		Expenses with multiple payments can be created using the <menuchoice><guimenu>Transactions</guimenu><guimenuitem>New Expense with Multiple Payments</guimenuitem></menuchoice> or by selecting <guimenuitem>Multiple accounts/payments</guimenuitem> in the account menu for an expense.
 		<para>
-		Expenses with multiple payments will show up single transaction in the expenses, but as multiple transactions in the account ledgers. Similarly to split transactions they cannot be edited directly from the fields under the expenses list.
+		Expenses with multiple payments will show up as a single transaction in the expenses view, but as multiple transactions in the ledger. Similarly to split transactions they cannot be edited directly from the fields under the expenses list.
 		</para>
 		<para>
-		Note that even if you create a recurring expense with multiple payments where each payment has a different date, all recurrences after the first occurrence will use the same date for each separate payment. If future date is set for the first, or only, occurrence, the program will ask for confirmation of the expense on the first date.
+		Note that even if you create a recurring expense with multiple payments where each payment has a different date, all recurrences after the first occurrence will use the same date for each separate payment. If a future date is set for the first, or only, occurrence, the program will only ask for confirmation of the expense on the first date.
 		</para>
+		<sect2 id="expanse_payed_with_loan">
+		  <title>Expense Payed with Loan / Payment Plan</title>
+		  <para>
+		  An expenses payed with loan is not actually recorded as a specific kind of transaction, but is shortcut for creating a debt account and an expense with multiple payments (or a regular expense if downpayment is zero). Expenses with multiple payments can be created using the <menuchoice><guimenu>Loans</guimenu><guimenuitem>Expense Payed with Loan / Payment Plan</guimenuitem></menuchoice> or by selecting <guimenuitem>Payed with loan / payment plan</guimenuitem> in the account menu for an expense.
+		  <mediaobject><imageobject><imagedata format="PNG" fileref="figures/payedwithloan.png" width="454"/></imageobject></mediaobject>
+		  </para>
+		  <para>
+		  Enter the usual expense properties (account excluded), an optional lender and optional value and account for downpayment (represents the amount of money you pay immediately). 
+		  </para>
+	  </sect2>
 	</sect1>
 	<sect1 id="loan_payments">
-		<title>Loan Payments</title>
+		<title>Debt Payments</title>
 		<para>
-		Loan payments are a third kind of combined transaction. These group together payments on loans (reductions), interest and fees. Ordinary transactions can also be used for these purposes. Interest and fee are expenses and loan reductions are transfers.
+		Debt payments are a third kind of combined transaction. These group together repayment, interest and fees. Ordinary transactions can also be used for these purposes. Interest and fee are expenses and loan reductions are transfers.
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/debtpayment.png" width="454"/></imageobject></mediaobject>
 		</para>
 		<para>
-		<menuchoice><guimenu>Loans</guimenu><guimenuitem>New Unpayed Interest...</guimenuitem></menuchoice> also creates loan payment transactions but provides a simplified dialog when the debt has increased because of added interest.
+		</para>
+		Debt reduction represents the amount you (re)pay that actually reduces the value of the debt. Interest represents the amount the debt has increased (before debt reduction) and may or may not be payed directly. Fee usually represents an administration fee added to each bill. You only need the enter one of the three values (the other can be zero).
+		<para>
+		<menuchoice><guimenu>Loans</guimenu><guimenuitem>New Unpayed Interest</guimenuitem></menuchoice> also creates loan payment transactions but provides a simplified dialog when the debt has increased because of added interest.
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/unpayedinterest.png" width="454"/></imageobject></mediaobject>
 		</para>
 		<para>
-		Transactions in a loan payment can not be edited separately.
+		Transactions in a loan payment cannot be edited separately.
 		</para>
 	</sect1>
 	<sect1 id="schedule">
 		<title>Scheduled Transactions</title>		
 		<para>
-		A scheduled transaction is a transaction that is planned to occur, thus it has not occurred yet. It is basically just a transaction, of any type, that has a date set in the future. When a scheduled transaction has occurred, it becomes a regular transaction. Scheduled transactions makes it possible to keep track of and be reminded of future transactions. &app; will ask for a confirmation when the transaction is expected to have occurred.
+		A scheduled transaction is a transaction that is planned to occur, and thus it has not occurred yet. It is basically just a transaction, of any type, that has a date set in the future. When a scheduled transaction has occurred, it becomes a regular transaction. Scheduled transactions makes it possible to keep track of and be reminded of future transactions. &app; will ask for confirmation when the transaction is expected to have occurred.
 		</para>
 		<para>
-		A scheduled transaction can be recurring, thus it will regularly occur on a certain date or with a certain interval. This is useful mostly for bills and salaries, which then need not be entered manually each time and you can check &app; for upcoming payments. When a scheduled recurring transaction has occurred, a regular transaction is created, the occurrence date is removed from the recurrence, and the scheduled transaction date is moved forward to the next occurrence. If you modify the properties recurring transaction previous occurrences will not be affected and vice versa. A scheduled transaction with no occurrences left is removed.
+		A scheduled transaction can be recurring, thus it will regularly occur on a certain date or with a certain interval. This is useful mostly for bills and salaries, which then need not be entered manually each time, and you can check &app; for upcoming payments. When a recurring scheduled recurring transaction has occurred, a regular transaction is created, the occurrence date is removed from the recurrence, and the scheduled transaction date is moved forward to the next occurrence. If you modify the properties of a recurring transaction, the previous occurrences will not be affected and vice versa. A scheduled transaction with no occurrences left is removed.
 		</para>
 		<para>
 		Single occurrence scheduled transactions are create just like ordinary transactions, except with a future date. Recurring transactions can only be created from the transaction dialogs (opened from the schedule view, toolbar buttons or menu items, or when double clicking a transaction), with recurrences specified in the second tab.
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/recurrence.png" width="454"/></imageobject></mediaobject>
 		</para>	
 		<para>
-		The next occurrence of each scheduled transaction is displayed in the schedule view. You can edit or delete either the single occurrence or all future recurrences. If a single occurrence is edited, it will be created as a separate transaction, and any changes made to all recurrences will not affect this occurrence. If the date is changed to the current or a past date, the scheduled transaction becomes an ordinary transaction.
+		The next occurrence of each scheduled transaction is displayed in the schedule view. You can edit or delete either the single occurrence or all future recurrences. If a single occurrence is edited, it will be created as a separate transaction, and any changes made to recurring transaction will not affect this occurrence. If the date is changed to the current or a past date, the scheduled transaction becomes an ordinary transaction.
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/schedule.png" width="775"/></imageobject></mediaobject>
 		</para>
 		<para>
@@ -520,10 +535,10 @@
 <chapter id="securities">
 	<title>Securities</title>
 	<para>
-	Securities represents money invested in stock, bonds and mutual funds. &app; does not differentiate between different kinds of securities, even though the terminology used is better suited for some. Securities and associated statistics are displayed in the securities view (accessed using the icons on the left).
+	Securities represents money invested in stock, bonds and mutual funds. &app; does not differentiate between different kinds of securities, even though the terminology used is better suited for some. Securities and associated statistics are displayed in the securities view.
 	</para>	
 	<para>
-	The create a new security in &app; use <menuchoice><guimenu>Securities</guimenu><guimenuitem>New Security</guimenuitem></menuchoice> or the <guibutton>New Security...</guibutton> button. First select account. Securities are associated with an account of securities type, which cannot be associated with ordinary transactions. Enter name of the security and select type. Specify initial shares if you do not want to back-track all transactions (it is always preferred to use transactions instead, for better statistics). Specify then also date and quotation.
+	The create a new security in &app; use <menuchoice><guimenu>Securities</guimenu><guimenuitem>New Security</guimenuitem></menuchoice> or the <guibutton>New Security</guibutton> button. First select an account. Securities are associated with an account of securities type, which cannot be associated with ordinary transactions. Enter name of the security and select type. Specify initial shares if you do not want to back-track all transactions (it is always preferred to use transactions instead, for better statistics), and enter a quotation with associated date.
 	<mediaobject><imageobject><imagedata format="PNG" fileref="figures/editsecurity.png" width="281"/></imageobject></mediaobject>
 	</para>
 	<para>
@@ -535,15 +550,15 @@
 		<para>
 			The following transactions are supported for securities:
 			<variablelist>
-				<varlistentry><term>Shares bought</term><listitem><para>When more shares of a security have been bought. Specify new shares, price per share (quotation given) and total cost, including fees/commission.<mediaobject><imageobject><imagedata format="PNG" fileref="figures/sharesbought.png" width="454"/></imageobject></mediaobject></para></listitem></varlistentry>
-				<varlistentry><term>Shares sold</term><listitem><para>When some shares of a security have been sold. Specify new shares, price per share and total cost, including fees/commission.</para></listitem></varlistentry>
-				<varlistentry><term>Shares traded</term><listitem><para>When shares of one security are sold and shares of another security are bought for the same amount of money, without transfer of sell income to an account in between.</para></listitem></varlistentry>
+				<varlistentry><term>Shares bought</term><listitem><para>When additional shares of a security have been bought or received (as an income). Specify two of number of shares bought, price per share and total cost (including fees/commission), and select an account (if bought) or income category (if received).<mediaobject><imageobject><imagedata format="PNG" fileref="figures/sharesbought.png" width="454"/></imageobject></mediaobject></para></listitem></varlistentry>
+				<varlistentry><term>Shares sold</term><listitem><para>When some shares of a security have been sold or given away (or used as payment). Specify two of number of shares sold, price per share and total income, and select an account (if sold) or expense category (if given away).</para></listitem></varlistentry>
+				<varlistentry><term>Shares traded</term><listitem><para>When shares of one security are sold and shares of another security are bought for the same amount of money, without transfer of income to an account in between.</para></listitem></varlistentry>
 				<varlistentry><term>Dividend</term><listitem><para>When money is received for each share of a security. Specify income and income category.</para></listitem></varlistentry>
 				<varlistentry><term>Reinvested dividend</term><listitem><para>When dividend is received as additional shares.<mediaobject><imageobject><imagedata format="PNG" fileref="figures/reinvesteddividend.png" width="236"/></imageobject></mediaobject></para></listitem></varlistentry>
 			</variablelist>
 		</para>
 		<para>
-		All security transactions are listed listed as transfers (in the transfers view), except dividends, and shares bought if associated with an income category, which are displayed as incomes. You can list all transactions for a single security using <menuchoice><guimenu>Securities</guimenu><guimenuitem>Transactions...</guimenuitem></menuchoice> (or the context menu).
+		All shares bought and sold are listed as transfers (listed in the transfers view), unless recieved/given away (in which case the transaction are listed as an income or expense), and dividends as incomes (in the incomes view). You can list all transactions associated with a single security using <menuchoice><guimenu>Securities</guimenu><guimenuitem>Transactions</guimenuitem></menuchoice> (or the context menu).
 		</para>
 	</sect1>
 	<sect1 id="securities_view">
@@ -562,7 +577,7 @@
 		In the total statistics displayed below the security list, quotation and yearly rate are weighted based on the value of each security.
 		</para>
 		<para>
-		Predictions are simplistic and base on previous development, with respect to dividends and quotations, only. Future quotations are calculated using quotations during the nearest past time. The quotation one month from current date is assumed to have increased at the same rate as during the past month (or the date before with a specified quotation). Dividends are always predicted using full past years (they are assumed to occur on a yearly basis).
+		Predictions are simplistic and based on previous development, with respect to dividends and quotations, only. Future quotations are calculated using quotations during the nearest past time. The quotation one month from current date is assumed to have increased at the same rate as during the past month (or the date before with a specified quotation). Dividends are always predicted using full past years (they are assumed to occur on a yearly basis).
 		</para>
 	</sect1>
 </chapter>
@@ -573,23 +588,20 @@
 	&app; support per account currencies. A different currency can be selected for each account (for assets and liabilities). 
 	</para>
 	<para>
-	The main currency determines the default currency for new accounts and the currency used for statistics. By default the main currency is set to the system wide local currency. Use <menuchoice><guimenu>Settings</guimenu><guimenuitem>Set Main Currency...</guimenuitem></menuchoice> to change the main currency. A dialog is then shown, where you can select a new main currency, with the option to change the currency of all accounts using the previous main currency.
+	The main currency determines the default currency for new accounts and the currency used for statistics. The sum of values from accounts in different currencies and the total value and change of categories (for example in the accounts view, or in the statistical reports and diagrams) are be shown in the main currency. By default the main currency is set to the system wide local currency. Use <menuchoice><guimenu>Settings</guimenu><guimenuitem>Set Main Currency</guimenuitem></menuchoice> to change the main currency. A dialog is then shown, where you can select a new main currency, with the option to change the currency of all accounts using the previous main currency.
 	<mediaobject><imageobject><imagedata format="PNG" fileref="figures/setmaincurrency.png" width="344"/></imageobject></mediaobject>
 	</para>
 	<para>
-	The currency of an account is selected in the dialog for account creation/editing. It is generally not advisable to change the currency of an account with associated transactions. This will leave the numerical value of associated transactions unchanged, but the actual monetary value might radically change.
-	</para>
-	<para>
-	The sum of values from accounts in different currencies and the total value and change of categories (for example in the accounts view, or in the statistical reports and diagrams) will be shown in the main currency. By default the main currency is set to the currency of the system default location, but this can be changed from the settings menu, or in the edit dialog of each currency.
+	The currency of an account is selected in the dialog for account creation/editing. It is generally not advisable to change the currency of an account with associated transactions. This will leave the numerical value of associated transactions unchanged, but the actual monetary value might be radically different.
 	</para>
 	<para>
 	For transfers between accounts with different currencies both withdrawn and deposited amount must be specified. The same is true for loan payments (reductions) where the loan is in a different currency from the account used for the payment. Conversion losses are not treated as expenses and are thus not included in statistics for expenses and profits.
 	</para>
 	<para>
-	Included exchange rates support automatic exchange rate updates If multiple currencies are in use, the exchange rates are automatically updated once every week, but they can also be updated using the <menuchoice><guimenu>File</guimenu><guimenuitem>Update Exchange Rates</guimenuitem></menuchoice>.
+	Included currencies support automatic exchange rate updates If multiple currencies are in use, the exchange rates are automatically updated once every week, but they can also be updated using <menuchoice><guimenu>File</guimenu><guimenuitem>Update Exchange Rates</guimenuitem></menuchoice>.
 	</para>
 	<para>
-	If a currency you use is not available you can add it manually using the top item in currency menu when creating a new or editing a present account (it can also be done from main currency selection window). You must specify the three letter code of the currency and you should enter an exchange rate in European euros. The currently selected currency of the account can be edited using the button directly under the currency menu. The exchange rate will not be updated automatically.
+	If a currency is not available, you can add it manually using the top item in currency menu when creating a new or editing a present account (it can also be done from main currency selection dialog). You must specify the three letter code of the currency and you should enter an exchange rate in European euros. The currently selected currency of the account can be edited using the button directly under the currency menu. The exchange rate will not be updated automatically.
 	</para>
 	<sect1 id="which-exchange-rate">
 		<title>Which Exchange Rate is used When?</title>
@@ -597,7 +609,7 @@
 		&app; saves, but does not download, historical exchange rates. It is not obvious which exchange rate should and is used when converting the value of transaction to a different currency, for display. In the account view, the exchange rate nearest the current end date (of the displayed period) is always used for the sum of assets and liabilities. 
 		</para>
 		<para>
-		For expense and income categories, however, their are two options (selectable from the Settings menu) available. The first option is to use the appropriate exchange rate for the date of each separate transaction. The second default option is to simply use to current exchange rate, regardless of the transaction date (or the current end date). The same logic is used in the transaction lists for transactions using multiple currencies, as well as in different statistics (with the exception of historical account values). None of the options are optimal and which one is more appropriate depends on the typical flow between accounts in different currencies. This is however of minor importance for stable currencies.
+		For expense and income categories, however, their are two options (selectable from the <guimenu>Settings</guimenu> menu) available. The first option is to use the appropriate exchange rate for the date of each separate transaction. The second default option is to simply use to current exchange rate, regardless of the transaction date (or the current end date). The same logic is used in the transaction lists for transactions using multiple currencies, as well as in different statistics (with the exception of historical account values). None of the options are optimal and which one is more appropriate depends on the typical flow between accounts in different currencies. This is however of minor importance for stable currencies.
 		</para>
 	</sect1>
 	<sect1 id="currency-conversion">
@@ -607,7 +619,7 @@
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/currencyconverter.png" width="375"/></imageobject></mediaobject>
 		</para>
 		<para>
-		It is also possible to do currency conversion in every value field elsewhere in the application (see <xref linkend="value-input"/>).
+		It is also possible to do currency conversion in every value field elsewhere in &app; (see <xref linkend="value-input"/>).
 		</para>
 	</sect1>
 </chapter>
@@ -615,7 +627,7 @@
 <chapter id="statistics">
 	<title>Statistics</title>
 	<para>
-	You can get an overview of your economical situation by using the charts and reports accessible from the <guimenu>Statistics</guimenu> menu. These are divided in to variants — categories comparison and development over time. 
+	You can get an overview of your economical situation by using the charts and reports accessible from the <guimenu>Statistics</guimenu> menu.
 	</para>
 	<sect1 id="categories-comparison">
 		<title>Categories Comparison</title>
@@ -624,22 +636,28 @@
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/categoriescomparisonreport.png" width="862"/></imageobject></mediaobject>
 		</para>
 		<para>
-		The source can changed to also display every separate subcategory, or only show a single category. If a specific category is selected, you will have the option to compare the values for subcategories, different transaction descriptions or payees/payers. You break it down even further by only comparing descriptions for a specific payee/payer, payees/payers for a specific description. 
+		The source can changed to also display every separate subcategory, or only show a single category. If a specific category is selected, you will have the option to compare the values for subcategories, different transaction descriptions or payees/payers. The data can be broken even further down by only comparing descriptions for a specific payee/payer, payees/payers for a specific description. 
 		</para>
 		<para>
-		Below this the period shown can be selected. For dates extending in to the future, scheduled transactions are included in the value, but not budgeted incomes/expenses. 
+		Below, the period shown can be selected. For dates extending into the future, scheduled transactions are included in the value, but not budgeted incomes/expenses. 
 		</para>
 		<para>
-		Finally you can select which columns shall be displayed. The columns include total value, averages based different time periods (e.g. the daily average equals the total value divided by the number of days in the selected time period), total quantity, and average value of each item (total value divided by total quantity). The buttons in the upper right corner allows you to save the view as a HTML file or print it on paper.
+		Finally you can select which columns shall be displayed. Displayable columns include total value, averages based on different time periods (e.g. the daily average equals the total value divided by the number of days in the selected time period), total quantity, and average value of each item (total value divided by total quantity).
+		</para>
+		<para>
+		The buttons in the upper right corner allows you to save the view as a HTML file or print it on paper.
 		</para>
 		<para>
 		The categories comparison chart displays the same total values as the report, but in a pie or bar chart. The chart type and style is selected in the upper right corner of the window.
 		</para>
 		<para>
-		For the chart you can select (in the lower right corner) to display all expense or income categories (with subcategories shown or hidden), or a specific category. If a single category is selected, the data is divided into subcategories, or (if there are no subcategory) into different transaction descriptions. Here you also have the option to compare the value of different accounts (assets).
+		For the chart you can select (in the lower right corner) to display all expense or income categories (with subcategories shown or hidden), or a specific category. If a single category is selected, the data is divided into subcategories, or (if there are no subcategory) into different transaction descriptions. Here you will also have the option to compare the value of different accounts (assets).
 		</para>
 		<para>
-		As in the report you can select which the time period values are shown for (for accounts the from date is ignored). In the upper right there also here buttons for saving (to an image file), or printing the chart.
+		As in the report you can select the time period values are shown for (for accounts the from date is ignored). In the upper right there also here buttons for saving (to an image file), or printing the chart.
+		</para>
+		<para>
+		Click on a sector, or the corresponding title in the legend, to show it exploded (separated).
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/categoriescomparisonchart.png" width="823"/></imageobject></mediaobject>
 		</para>
 	</sect1>
@@ -649,20 +667,20 @@
 		The development over time report shows values for each separate month and year. Initially total profits (incomes minus expenses) are shown. Below the table you will have the option to show expenses or incomes separately instead. These can be further broken down into separate categories and transaction descriptions. Note that payments that reduces a debt are not counted as expenses.
 		</para>
 		<para>
-		At the bottom of the window displayed columns can be selected. The columns include total value, averages based different time periods (e.g. the daily average equals the total value divided by the number of days in the selected time period), total quantity, and average value of each item (total value divided by total quantity). The buttons in the upper right corner allows you to save the view as a HTML file or print it on paper.
+		At the bottom of the window displayed columns can be selected. The columns include total value, averages based on different time periods (e.g. the daily average equals the total value divided by the number of days in the selected time period), total quantity, and average value of each item (total value divided by total quantity). The buttons in the upper right corner allows you to save the view as a HTML file or print it on paper.
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/overtimereport.png" width="713"/></imageobject></mediaobject>
 		</para>
 		<para>
-		The development over time chart shows how expenses and incomes changes over time, with values grouped by month, in line or bar chart. The chart type and style is selected in the upper right corner of the window. Initially incomes and expenses are shown from the month and year of the first transaction to the the end of the last month (unless the first and last month is the same). 
+		The development over time chart shows how expenses and incomes change over time, with values grouped by month, in line or bar chart. The chart type and style is selected in the upper right corner of the window. Initially incomes and expenses are shown from the month and year of the first transaction to the the end of the last budget month (unless the first and last month are the same). 
 		</para>
 		<para>
 		The time span displayed can be changed below the chart. Bar chart can at most display one whole year at the same time. For future dates scheduled transactions are included, but budgeted incomes/expenses are only included when all categories are combined (including the profits source).
 		</para>
 		<para>
-		Below the table you will have the option to profits(expenses minus incomes) or specific categories. Categories can be shown combined or separately, all with separate lines/bars or only one. Categories can be further broken down into transaction descriptions and separate payees/payers. There is also an option to display total accumulated assets and liabilities (the <guilabel>Assets and Liabilities</guilabel> source).
+		Below the table you will have the option to show profits(expenses minus incomes) or specific categories. Categories can be shown combined or separately ⸺ all with separate lines/bars or only one. Categories can be further broken down into transaction descriptions and separate payees/payers. There is also an option to display total accumulated assets and liabilities (the <guilabel>Assets and Liabilities</guilabel> source).
 		</para>
 		<para>
-		You can select to show the total values for each month, the daily average (within each month), the total quantity or the average value (total value divided by total quantity each month). Daily averages compensates for the different number of days in month, but this is offset by the fact that large expenses and incomes often occur monthly.
+		The char can show the total values for each month, the daily average (within each month), the total quantity, or average value per quantity each month. Daily averages compensates for the different number of days in month, but this is offset by the fact that large expenses and incomes often occur monthly.
 		</para>
 		<para>
 		Click on a label in the chart legend to hide a data series from the chart. Move the mouse over a line or a bar to show details above single values. Click, hold and move the pointer (drag) to zoom in the chart. In the upper right there also here buttons for saving (to an image file), or printing the chart.
@@ -686,7 +704,7 @@
 			<title>QIF Export</title>
 			<para>
 			<mediaobject><imageobject><imagedata format="PNG" fileref="figures/exportqif.png" width="279"/></imageobject></mediaobject>
-			Activate <menuchoice><guimenu>File</guimenu><guimenuitem>Export QIF File</guimenuitem></menuchoice> and select account to export, format for dates and numbers, and filename. It is possible to export transactions from all accounts, but multi-account QIF files are not always supported by other software. Not all transactions properties are exported.
+			Activate <menuchoice><guimenu>File</guimenu><guimenuitem>Export QIF File</guimenuitem></menuchoice> and select account to export, format for dates and numbers, and filename. It is possible to export transactions from all accounts, but multi-account QIF files are not always supported by other software. Not all transaction properties are exported.
 			</para>
 		</sect2>
 	</sect1>
@@ -700,7 +718,7 @@
 	<sect1 id="csv_html_export">
 		<title>CSV or HTML Export</title>
 		<para>
-		Every account and transaction list in &app; can be saved to HTML or CSV file. HTML files are suitable for display in a web browser and CSV (comma separated values) files can be opened in most spreadsheet programs. Use <menuchoice><guimenu>File</guimenu><guimenuitem>Export View</guimenuitem></menuchoice> or the corresponding toolbar button to export save of list of accounts, expenses, incomes, transfers, securities or scheduled transactions. The displayed values will be exported (for accounts and securities the current time period is used and for transactions the current filter and sort order is adhered to). The ledger can be saved using the <guibutton>Export</guibutton> button in the upper left corner of the ledger window.
+		Every account and transaction list in &app; can be saved to a HTML or CSV file. HTML files are suitable for display in a web browser and CSV (comma separated values) files can be opened in most spreadsheet programs. Use <menuchoice><guimenu>File</guimenu><guimenuitem>Export View</guimenuitem></menuchoice> or the corresponding toolbar button to save a list of accounts, expenses, incomes, transfers, securities or scheduled transactions. The displayed values will be exported (for accounts and securities the current time period is used and for transactions the current filter and sort order is adhered to). The ledger can be exported using the <guibutton>Export</guibutton> button in the upper left corner of the ledger window.
 		</para>
 	</sect1>
 	<sect1 id="eqz-merge">

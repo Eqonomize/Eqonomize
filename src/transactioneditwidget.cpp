@@ -324,7 +324,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		case TRANSACTION_TYPE_SECURITY_BUY: {
 			if(!split) {
 				editLayout->addWidget(new QLabel(tr("From account:"), this), TEROWCOL(i, 0));
-				fromCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, b_create_accounts, false, false, true, true, this);
+				fromCombo = new AccountComboBox(-1, budget, b_create_accounts, false, false, true, true, this);
 				fromCombo->setEditable(false);
 				editLayout->addWidget(fromCombo, TEROWCOL(i, 1));
 				i++;
@@ -334,7 +334,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		case TRANSACTION_TYPE_SECURITY_SELL: {
 			if(!split) {
 				editLayout->addWidget(new QLabel(tr("To account:"), this), TEROWCOL(i, 0));
-				toCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, b_create_accounts, false, false, true, true, this);
+				toCombo = new AccountComboBox(-2, budget, b_create_accounts, false, false, true, true, this);
 				toCombo->setEditable(false);
 				editLayout->addWidget(toCombo, TEROWCOL(i, 1));
 				i++;
