@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Eqonomize version="0.99.3">
+<Eqonomize version="1.0.0">
 	<currency code="AED" symbol="د.إ" name="United Arab Emirates dirham" source="mycurrency.net">
 		<rate value="4.29940" date="2017-10-09"/>
 	</currency>

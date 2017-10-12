@@ -1,1 +1,7 @@
+#!/bin/sh
 xsltproc -o html/$1/ --stringparam chunker.output.encoding UTF-8 --stringparam  use.id.as.filename 1 --stringparam chunk.section.depth 0 "http://docbook.sourceforge.net/release/xsl/current/html/chunk.xsl" $1/index.docbook
+cd html/$1/
+for f in *.html; do
+	sed -i 's/<body/<body style=\"color:black\"/g' $f;
+done
+cd ../../
