@@ -3814,6 +3814,7 @@ void Eqonomize::onPageChange(int index) {
 		accountsSelectionChanged();
 	} else {
 		ActionDeleteAccount->setEnabled(false);
+		ActionCloseAccount->setEnabled(false);
 		ActionEditAccount->setEnabled(false);
 		ActionBalanceAccount->setEnabled(false);
 		ActionShowAccountTransactions->setEnabled(false);
@@ -3875,7 +3876,10 @@ void Eqonomize::popupAccountsMenu(const QPoint &p) {
 		accountPopupMenu = new QMenu(this);
 		accountPopupMenu->addAction(ActionAddAccount);
 		accountPopupMenu->addAction(ActionEditAccount);
-		accountPopupMenu->addAction(ActionBalanceAccount);
+		if(account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS)) {
+			accountPopupMenu->addAction(ActionBalanceAccount);
+			accountPopupMenu->addAction(ActionCloseAccount);
+		}
 		accountPopupMenu->addAction(ActionDeleteAccount);
 		accountPopupMenu->addSeparator();
 		accountPopupMenu->addAction(ActionShowAccountTransactions);
@@ -5578,6 +5582,7 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionBalanceAccount, tr("Adjust balance…", "Referring to account balance"), "eqz-balance", 0, this, SLOT(balanceAccount()), "balance_account", accountsMenu);
 	accountsMenu->addSeparator();
 	NEW_ACTION(ActionDeleteAccount, tr("Remove"), "edit-delete", 0, this, SLOT(deleteAccount()), "delete_account", accountsMenu);
+	NEW_ACTION(ActionCloseAccount, tr("Close"), "edit-delete", 0, this, SLOT(closeAccount()), "close_account", accountsMenu);
 	accountsMenu->addSeparator();
 	NEW_ACTION(ActionShowAccountTransactions, tr("Show Transactions"), "eqz-transactions", 0, this, SLOT(showAccountTransactions()), "show_account_transactions", accountsMenu);
 	NEW_ACTION(ActionShowLedger, tr("Show Ledger"), "eqz-ledger", 0, this, SLOT(showLedger()), "show_ledger", accountsMenu);
@@ -5688,6 +5693,7 @@ void Eqonomize::setupActions() {
 	ActionBalanceAccount->setEnabled(false);
 	ActionEditAccount->setEnabled(false);
 	ActionDeleteAccount->setEnabled(false);
+	ActionCloseAccount->setEnabled(false);
 	ActionShowAccountTransactions->setEnabled(false);
 	ActionEditTransaction->setEnabled(false);
 	ActionDeleteTransaction->setEnabled(false);
@@ -5810,7 +5816,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.0-beta3</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2017 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.0</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2017 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);
@@ -6723,13 +6729,15 @@ void Eqonomize::deleteAccount() {
 			dialog->setModal(true);
 			QVBoxLayout *box1 = new QVBoxLayout(dialog);
 			QGridLayout *grid = new QGridLayout();
+			grid->setSpacing(12);
+			grid->setMargin(6);
 			box1->addLayout(grid);
 			group = new QButtonGroup(dialog);
 			QLabel *label = NULL;
-			deleteButton = new QRadioButton(tr("Remove"), dialog);
-			group->addButton(deleteButton);
 			moveToButton = new QRadioButton(tr("Move to:"), dialog);
 			group->addButton(moveToButton);
+			deleteButton = new QRadioButton(tr("Remove irreversibly from all accounts\n(do not do this if account has been closed!)"), dialog);
+			group->addButton(deleteButton);
 			moveToButton->setChecked(true);
 			moveToCombo = new QComboBox(dialog);
 			moveToCombo->setEditable(false);
@@ -6770,9 +6778,9 @@ void Eqonomize::deleteAccount() {
 				default: {break;}
 			}
 			grid->addWidget(label, 0, 0, 1, 2);
-			grid->addWidget(deleteButton, 1, 0);
-			grid->addWidget(moveToButton, 2, 0);
-			grid->addWidget(moveToCombo, 2, 1);
+			grid->addWidget(moveToButton, 1, 0);
+			grid->addWidget(moveToCombo, 1, 1);
+			grid->addWidget(deleteButton, 2, 0, 1, 2);
 			QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 			buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
 			buttonBox->button(QDialogButtonBox::Cancel)->setDefault(true);
@@ -6827,6 +6835,30 @@ void Eqonomize::deleteAccount() {
 			updateUsesMultipleCurrencies();
 		}
 		if(dialog) dialog->deleteLater();
+	}
+}
+
+void Eqonomize::closeAccount() {
+	QTreeWidgetItem *i = selectedItem(accountsView);
+	if(!account_items.contains(i)) return;
+	Account *acc = account_items[i];
+	if(acc->type() == ACCOUNT_TYPE_ASSETS) {
+		AssetsAccount *account = (AssetsAccount*) acc;
+		bool b = !account->isClosed();
+		account->setClosed(b);
+		i->setHidden(account->isClosed() && is_zero(account_value[account]) && is_zero(account_change[account]));
+		emit accountsModified();
+		expensesWidget->updateFromAccounts();
+		incomesWidget->updateToAccounts();
+		transfersWidget->updateAccounts();
+		setModified(true);
+		if(b) {
+			ActionCloseAccount->setText(tr("Reopen"));
+			ActionCloseAccount->setIcon(LOAD_ICON("edit-undo"));
+		} else {
+			ActionCloseAccount->setText(tr("Close"));
+			ActionCloseAccount->setIcon(LOAD_ICON("edit-delete"));
+		}
 	}
 }
 
@@ -8007,6 +8039,14 @@ void Eqonomize::accountsSelectionChanged() {
 		ActionDeleteAccount->setEnabled(true);
 		ActionEditAccount->setEnabled(true);
 		ActionBalanceAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i])->accountType() != ASSETS_TYPE_SECURITIES);
+		ActionCloseAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS);
+		if(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i])->isClosed()) {
+			ActionCloseAccount->setText(tr("Reopen"));
+			ActionCloseAccount->setIcon(LOAD_ICON("edit-undo"));
+		} else {
+			ActionCloseAccount->setText(tr("Close"));
+			ActionCloseAccount->setIcon(LOAD_ICON("edit-delete"));
+		}
 	}
 	ActionShowAccountTransactions->setEnabled(i != NULL && i != assetsItem && i != liabilitiesItem);
 	updateBudgetEdit();

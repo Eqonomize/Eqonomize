@@ -195,7 +195,7 @@ class Eqonomize : public QMainWindow {
 
 		QAction *ActionAP_1, *ActionAP_2, *ActionAP_3, *ActionAP_4, *ActionAP_5, *ActionAP_6, *ActionAP_7, *ActionAP_8;
 		QAction *ActionEditSchedule, *ActionEditOccurrence, *ActionDeleteSchedule, *ActionDeleteOccurrence;
-		QAction *ActionAddAccount, *ActionNewAssetsAccount, *ActionNewLoan, *ActionNewIncomesAccount, *ActionNewExpensesAccount, *ActionEditAccount, *ActionDeleteAccount, *ActionBalanceAccount, *ActionAddAccountMenu;
+		QAction *ActionAddAccount, *ActionNewAssetsAccount, *ActionNewLoan, *ActionNewIncomesAccount, *ActionNewExpensesAccount, *ActionEditAccount, *ActionDeleteAccount, *ActionCloseAccount, *ActionBalanceAccount, *ActionAddAccountMenu;
 		QAction *ActionShowAccountTransactions, *ActionShowLedger;
 		QAction *ActionNewExpense, *ActionNewIncome, *ActionNewTransfer, *ActionNewMultiItemTransaction;
 		QAction *ActionNewMultiAccountExpense, *ActionNewExpenseWithLoan, *ActionNewDebtPayment, *ActionNewDebtInterest;
@@ -436,6 +436,7 @@ class Eqonomize : public QMainWindow {
 		void balanceAccount();
 		void editAccount();
 		void deleteAccount();
+		void closeAccount();
 		void accountsSelectionChanged();
 
 		void setPartialBudget(bool);
