@@ -6117,7 +6117,15 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <location filename="../src/eqonomize.cpp" line="5585"/>
         <location filename="../src/eqonomize.cpp" line="6859"/>
         <location filename="../src/eqonomize.cpp" line="8047"/>
-        <source>Close</source>
+        <source>Close Account</source>
+        <comment>Mark account as closed</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="6856"/>
+        <location filename="../src/eqonomize.cpp" line="8044"/>
+        <source>Reopen Account</source>
+        <comment>Mark account as not closed</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6149,12 +6157,6 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <location filename="../src/eqonomize.cpp" line="5836"/>
         <source>%1 exited unexpectedly before the file was saved and data was lost.
 Do you want to load the last auto-saved version of the file?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="6856"/>
-        <location filename="../src/eqonomize.cpp" line="8044"/>
-        <source>Reopen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

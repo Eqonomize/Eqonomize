@@ -166,7 +166,7 @@ class Eqonomize : public QMainWindow {
 		bool newMultiItemTransaction(QWidget *parent, AssetsAccount *account = NULL);
 		bool newDebtPayment(QWidget *parent, AssetsAccount *loan = NULL, bool only_interest = false);
 		bool editSplitTransaction(SplitTransaction *split);
-		bool editSplitTransaction(SplitTransaction *split, QWidget *parent);
+		bool editSplitTransaction(SplitTransaction *split, QWidget *parent, bool temporary_split = false);
 		bool splitUpTransaction(SplitTransaction *split);
 		bool removeSplitTransaction(SplitTransaction *split);
 		bool saveView(QTextStream &file, int fileformat);

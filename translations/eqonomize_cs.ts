@@ -5443,7 +5443,15 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
         <location filename="../src/eqonomize.cpp" line="5585"/>
         <location filename="../src/eqonomize.cpp" line="6859"/>
         <location filename="../src/eqonomize.cpp" line="8047"/>
-        <source>Close</source>
+        <source>Close Account</source>
+        <comment>Mark account as closed</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="6856"/>
+        <location filename="../src/eqonomize.cpp" line="8044"/>
+        <source>Reopen Account</source>
+        <comment>Mark account as not closed</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5459,12 +5467,6 @@ Potvrďte, že opravdu proběhly (nebo dnes proběhnou).</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="5624"/>
         <source>New Expense Payed with Loan / Payment Plan…</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="6856"/>
-        <location filename="../src/eqonomize.cpp" line="8044"/>
-        <source>Reopen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -972,10 +972,12 @@ void TransactionListWidget::joinTransactions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	MultiItemTransaction *split = NULL;
 	QString payee;
+	QList<Transaction*> sel_bak;
 	for(int index = 0; index < selection.size(); index++) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
 		Transaction *trans = i->transaction();
 		if(trans && !i->scheduledTransaction() && !i->splitTransaction() && !trans->parentSplit()) {
+			sel_bak << trans;
 			if(!split) {
 				if((trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) && ((SecurityTransaction*) trans)->account()->type() == ACCOUNT_TYPE_ASSETS) split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) ((SecurityTransaction*) trans)->account());
 				else if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->fromAccount());
@@ -988,15 +990,21 @@ void TransactionListWidget::joinTransactions() {
 				if(trans->type() == TRANSACTION_TYPE_EXPENSE) payee = ((Expense*) trans)->payee();
 				else if(trans->type() == TRANSACTION_TYPE_INCOME) payee = ((Income*) trans)->payer();
 			}
-			split->addTransaction(trans);
+			split->addTransaction(trans->copy());
 		}
 	}
 	if(!split) return;
 	if(!payee.isEmpty()) split->setPayee(payee);
-	if(mainWin->editSplitTransaction(split)) {
+	if(mainWin->editSplitTransaction(split, mainWin, true)) {
+		delete split;
+		for(int index = 0; index < sel_bak.size(); index++) {
+			Transaction *trans = sel_bak.at(index);
+			budget->removeTransaction(trans, true);
+			mainWin->transactionRemoved(trans);
+			delete trans;
+		}
 		editClear();
 	} else {
-		split->clear(true);
 		delete split;
 	}
 }

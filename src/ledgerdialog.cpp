@@ -466,11 +466,13 @@ void LedgerDialog::joinTransactions() {
 	MultiItemTransaction *split = NULL;
 	QString payee;
 	QString file;
+	QList<Transaction*> sel_bak;
 	for(int index = 0; index < selection.size(); index++) {
 		LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
 		if(!i->splitTransaction()) {
 			Transaction *trans = i->transaction();
 			if(trans && !trans->parentSplit()) {
+				sel_bak << trans;
 				if(!split) {
 					split = new MultiItemTransaction(budget, i->transaction()->date(), account);
 				}
@@ -481,14 +483,21 @@ void LedgerDialog::joinTransactions() {
 					if(trans->type() == TRANSACTION_TYPE_EXPENSE) payee = ((Expense*) trans)->payee();
 					else if(trans->type() == TRANSACTION_TYPE_INCOME) payee = ((Income*) trans)->payer();
 				}
-				split->addTransaction(trans);
+				split->addTransaction(trans->copy());
 			}
 		}
 	}
 	if(!split) return;
 	if(!payee.isEmpty()) split->setPayee(payee);
-	if(!mainWin->editSplitTransaction(split, this)) {
-		split->clear(true);
+	if(mainWin->editSplitTransaction(split, this, true)) {
+		delete split;
+		for(int index = 0; index < sel_bak.size(); index++) {
+			Transaction *trans = sel_bak.at(index);
+			budget->removeTransaction(trans, true);
+			mainWin->transactionRemoved(trans);
+			delete trans;
+		}
+	} else {
 		delete split;
 	}
 }

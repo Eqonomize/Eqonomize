@@ -2509,6 +2509,17 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>5:e sista</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="6856"/>
+        <location filename="../src/eqonomize.cpp" line="8044"/>
+        <source>Reopen Account</source>
+        <comment>Mark account as not closed</comment>
+        <translation>Återöppna kontot</translation>
+    </message>
+    <message>
+        <source>Reopen Account</source>
+        <translation type="vanished">Återöppna kontot</translation>
+    </message>
+    <message>
         <source>Updating exchange rates...</source>
         <translation type="vanished">Updatera valutakurser...</translation>
     </message>
@@ -3245,11 +3256,8 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Redigera…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5585"/>
-        <location filename="../src/eqonomize.cpp" line="6859"/>
-        <location filename="../src/eqonomize.cpp" line="8047"/>
         <source>Close</source>
-        <translation>Avsluta</translation>
+        <translation type="vanished">Avsluta</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5587"/>
@@ -3449,6 +3457,14 @@ Vill du öppna den senast automatiskt sparade versionen av filen?</translation>
         <translation>Dela upp transaktionen</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="5585"/>
+        <location filename="../src/eqonomize.cpp" line="6859"/>
+        <location filename="../src/eqonomize.cpp" line="8047"/>
+        <source>Close Account</source>
+        <comment>Mark account as closed</comment>
+        <translation>Avsluta kontot</translation>
+    </message>
+    <message>
         <location filename="../src/eqonomize.cpp" line="5615"/>
         <source>Remove Transaction(s) (Occurrence)</source>
         <translation>Ta bort transaktion(er) (tillfälle)</translation>
@@ -3589,6 +3605,10 @@ Vill du öppna den senast automatiskt sparade versionen av filen?</translation>
         <location filename="../src/eqonomize.cpp" line="6079"/>
         <source>Eqonomize! Accounting File</source>
         <translation>Eqonomize! bokföringsfil</translation>
+    </message>
+    <message>
+        <source>Close Account</source>
+        <translation type="vanished">Avsluta kontot</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="6134"/>
@@ -3754,10 +3774,8 @@ Vad vill du göra med dem?</translation>
         <translation>Ange kurs (%1)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6856"/>
-        <location filename="../src/eqonomize.cpp" line="8044"/>
         <source>Reopen</source>
-        <translation>Återöppna</translation>
+        <translation type="vanished">Återöppna</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8000"/>

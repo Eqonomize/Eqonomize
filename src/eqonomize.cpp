@@ -3204,7 +3204,7 @@ bool Eqonomize::newDebtPayment(QWidget *parent, AssetsAccount *loan, bool only_i
 bool Eqonomize::editSplitTransaction(SplitTransaction *split) {
 	return editSplitTransaction(split, this);
 }
-bool Eqonomize::editSplitTransaction(SplitTransaction *split, QWidget *parent)  {
+bool Eqonomize::editSplitTransaction(SplitTransaction *split, QWidget *parent, bool temporary_split)  {
 	Recurrence *rec = NULL;
 	budget->setRecordNewAccounts(true);
 	budget->resetDefaultCurrencyChanged();
@@ -3218,9 +3218,11 @@ bool Eqonomize::editSplitTransaction(SplitTransaction *split, QWidget *parent)  
 		new_split = EditScheduledDebtPaymentDialog::editTransaction((DebtPayment*) split, rec, parent, b_extra, true);
 	}
 	if(new_split) {
-		budget->removeSplitTransaction(split, true);
-		transactionRemoved(split);
-		delete split;
+		if(!temporary_split) {
+			budget->removeSplitTransaction(split, true);
+			transactionRemoved(split);
+			delete split;
+		}
 		split = new_split;
 		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 		budget->newAccounts.clear();
@@ -5582,7 +5584,7 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionBalanceAccount, tr("Adjust balance…", "Referring to account balance"), "eqz-balance", 0, this, SLOT(balanceAccount()), "balance_account", accountsMenu);
 	accountsMenu->addSeparator();
 	NEW_ACTION(ActionDeleteAccount, tr("Remove"), "edit-delete", 0, this, SLOT(deleteAccount()), "delete_account", accountsMenu);
-	NEW_ACTION(ActionCloseAccount, tr("Close"), "edit-delete", 0, this, SLOT(closeAccount()), "close_account", accountsMenu);
+	NEW_ACTION(ActionCloseAccount, tr("Close Account", "Mark account as closed"), "edit-delete", 0, this, SLOT(closeAccount()), "close_account", accountsMenu);
 	accountsMenu->addSeparator();
 	NEW_ACTION(ActionShowAccountTransactions, tr("Show Transactions"), "eqz-transactions", 0, this, SLOT(showAccountTransactions()), "show_account_transactions", accountsMenu);
 	NEW_ACTION(ActionShowLedger, tr("Show Ledger"), "eqz-ledger", 0, this, SLOT(showLedger()), "show_ledger", accountsMenu);
@@ -6853,10 +6855,10 @@ void Eqonomize::closeAccount() {
 		transfersWidget->updateAccounts();
 		setModified(true);
 		if(b) {
-			ActionCloseAccount->setText(tr("Reopen"));
+			ActionCloseAccount->setText(tr("Reopen Account", "Mark account as not closed"));
 			ActionCloseAccount->setIcon(LOAD_ICON("edit-undo"));
 		} else {
-			ActionCloseAccount->setText(tr("Close"));
+			ActionCloseAccount->setText(tr("Close Account", "Mark account as closed"));
 			ActionCloseAccount->setIcon(LOAD_ICON("edit-delete"));
 		}
 	}
@@ -8041,10 +8043,10 @@ void Eqonomize::accountsSelectionChanged() {
 		ActionBalanceAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i])->accountType() != ASSETS_TYPE_SECURITIES);
 		ActionCloseAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS);
 		if(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i])->isClosed()) {
-			ActionCloseAccount->setText(tr("Reopen"));
+			ActionCloseAccount->setText(tr("Reopen Account", "Mark account as not closed"));
 			ActionCloseAccount->setIcon(LOAD_ICON("edit-undo"));
 		} else {
-			ActionCloseAccount->setText(tr("Close"));
+			ActionCloseAccount->setText(tr("Close Account", "Mark account as closed"));
 			ActionCloseAccount->setIcon(LOAD_ICON("edit-delete"));
 		}
 	}

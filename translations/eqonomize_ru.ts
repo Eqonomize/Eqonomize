@@ -5958,7 +5958,8 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="5585"/>
         <location filename="../src/eqonomize.cpp" line="6859"/>
         <location filename="../src/eqonomize.cpp" line="8047"/>
-        <source>Close</source>
+        <source>Close Account</source>
+        <comment>Mark account as closed</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6006,7 +6007,8 @@ Do you want to load the last auto-saved version of the file?</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="6856"/>
         <location filename="../src/eqonomize.cpp" line="8044"/>
-        <source>Reopen</source>
+        <source>Reopen Account</source>
+        <comment>Mark account as not closed</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>

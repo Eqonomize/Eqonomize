@@ -5555,7 +5555,15 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="5585"/>
         <location filename="../src/eqonomize.cpp" line="6859"/>
         <location filename="../src/eqonomize.cpp" line="8047"/>
-        <source>Close</source>
+        <source>Close Account</source>
+        <comment>Mark account as closed</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/eqonomize.cpp" line="6856"/>
+        <location filename="../src/eqonomize.cpp" line="8044"/>
+        <source>Reopen Account</source>
+        <comment>Mark account as not closed</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5577,12 +5585,6 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <location filename="../src/eqonomize.cpp" line="6435"/>
         <source>Adjust Account Balance</source>
         <translation>Нагласяне на баланс на сметка</translation>
-    </message>
-    <message>
-        <location filename="../src/eqonomize.cpp" line="6856"/>
-        <location filename="../src/eqonomize.cpp" line="8044"/>
-        <source>Reopen</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>New Security</source>

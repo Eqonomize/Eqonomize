@@ -4277,7 +4277,8 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         <location filename="../src/eqonomize.cpp" line="5585"/>
         <location filename="../src/eqonomize.cpp" line="6859"/>
         <location filename="../src/eqonomize.cpp" line="8047"/>
-        <source>Close</source>
+        <source>Close Account</source>
+        <comment>Mark account as closed</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4474,7 +4475,8 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="6856"/>
         <location filename="../src/eqonomize.cpp" line="8044"/>
-        <source>Reopen</source>
+        <source>Reopen Account</source>
+        <comment>Mark account as not closed</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
