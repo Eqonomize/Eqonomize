@@ -338,6 +338,11 @@ void EditAssetsAccountDialog::accept() {
 		QMessageBox::critical(this, tr("Error"), tr("The entered name is used by another account."));
 		return;
 	}
+	if(transferButton && valueEdit->value() <= 0.0) {
+		valueEdit->setFocus();
+		QMessageBox::critical(this, tr("Error"), tr("Zero value not allowed."));
+		return;
+	}
 	QDialog::accept();
 }
 

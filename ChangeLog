@@ -1,3 +1,16 @@
+2017-10-23  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix crash when trying to create new debt payment without any debt (possible fix for issue #33)
+	* Do not allow zero value for new loan
+
+2017-10-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix account value when joining transactions with different accounts
+
+2017-10-16  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add close account menu item and add extra warning text in delete account dialog (related to issue #32)
+
 2017-10-11  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* List income/expense categories for shares bough/sold in addition to accounts

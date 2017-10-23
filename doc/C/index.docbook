@@ -192,7 +192,7 @@
 		<sect2 id="close-account">
 			<title>Marking an Account as Closed</title>
 			<para>
-			An account can be mark as closed using <guimenuitem>Close</guimenuitem> in the <guimenu>Accounts</guimenu> or context menu, or at the bottom of the dialog for account editing. The account will then be hidden from the account view when the change and balance values for the select period is zero. The closed account will be moved to the bottom section of account lists when editing transactions.
+			An account can be mark as closed using <guimenuitem>Close Account</guimenuitem> in the <guimenu>Accounts</guimenu> or context menu, or at the bottom of the dialog for account editing. The account will then be hidden from the account view when the change and balance values for the select period is zero. The closed account will be moved to the bottom section of account lists when editing transactions.
 			</para>
 		</sect2>
 	</sect1>

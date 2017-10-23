@@ -1101,7 +1101,7 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 		commentEdit = new QLineEdit();
 		grid->addWidget(commentEdit, row, 1); row++;
 	}
-	
+
 	int i = 0;
 	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *account = *it;
@@ -1232,7 +1232,7 @@ void EditDebtPaymentWidget::valueChanged() {
 	}
 	Account *acc = selectedAccount();
 	AssetsAccount *loan = selectedLoan();
-	if(!acc) return;
+	if(!acc || !loan) return;
 	if(feeEdit) feeEdit->setCurrency(acc->currency());
 	if(reductionEdit) reductionEdit->setCurrency(loan->currency());
 	if((!addedInterestButton || addedInterestButton->isChecked()) && interestEdit) interestEdit->setCurrency(loan->currency());
