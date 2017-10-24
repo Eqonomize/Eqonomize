@@ -4523,11 +4523,12 @@ void Eqonomize::checkAvailableVersion_readdata() {
 	settings.beginGroup("GeneralOptions");
 	QByteArray old_version = settings.value("lastVersionFound").toByteArray();
 	if(old_version.isEmpty()) old_version = VERSION;
-	if(sbuffer != old_version) {
+	bool b = false;
+	while(sbuffer != old_version) {
 		QList<QByteArray> version_parts_new = sbuffer.split('.');
-		if(version_parts_new.empty()) return;
+		if(version_parts_new.empty()) break;
 		QList<QByteArray> version_parts_old = old_version.split('.');
-		if(version_parts_old.empty()) return;
+		if(version_parts_old.empty()) break;
 		if(version_parts_new.last().size() > 0) {
 			char c = version_parts_new.last().at(version_parts_new.last().size() - 1);
 			if(c < '0' || c > '9') {
@@ -4542,15 +4543,21 @@ void Eqonomize::checkAvailableVersion_readdata() {
 				version_parts_old.append(QByteArray(1, c));
 			}
 		}
-		bool b = false;
 		for(i = 0; i < version_parts_new.size(); i++) {
 			if(i == version_parts_old.size() || version_parts_new[i].toInt() > version_parts_old[i].toInt()) {b = true; break;}
 			else if(version_parts_new[i].toInt() < version_parts_old[i].toInt()) break;
 		}
-		if(b) {
-			QMessageBox::information(this, tr("New version available"), tr("A new version of %1 is available.<br><br>You can get version %2 at %3.").arg("Eqonomize!").arg(QString(sbuffer)).arg("<a href=\"http://qalculate.github.io/downloads.html\">qalculate.github.io</a>"));
+		if(b && old_version != VERSION) {
+			b = false;
 			settings.setValue("lastVersionFound", sbuffer);
+			old_version = VERSION;
+		} else {
+			break;
 		}
+	}
+	if(b) {
+		QMessageBox::information(this, tr("New version available"), tr("A new version of %1 is available.<br><br>You can get version %2 at %3.").arg("Eqonomize!").arg(QString(sbuffer)).arg("<a href=\"http://qalculate.github.io/downloads.html\">qalculate.github.io</a>"));
+		settings.setValue("lastVersionFound", sbuffer);
 	}
 }
 
