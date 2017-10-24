@@ -242,8 +242,8 @@ void CategoriesComparisonChart::resetOptions() {
 }
 
 void CategoriesComparisonChart::sourceChanged(int index) {
-	fromButton->setEnabled(index != 2);
-	fromEdit->setEnabled(index != 2);
+	fromButton->setEnabled(index != 4);
+	fromEdit->setEnabled(index != 4);
 	updateDisplay();
 }
 void CategoriesComparisonChart::saveConfig() {
@@ -883,7 +883,7 @@ void CategoriesComparisonChart::updateDisplay() {
 				++account_index;
 				account = NULL;
 				if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
-				else if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
+				else if(type == ACCOUNT_TYPE_INCOMES && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
 			}
 			if(!account) break;
 		}
