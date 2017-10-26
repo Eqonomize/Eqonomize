@@ -676,31 +676,31 @@ void CategoriesComparisonReport::updateDisplay() {
 				Account *to_account = trans->toAccount();
 				if(!include_subs) to_account = to_account->topAccount();
 				while(true) {
+					bool b_top = (current_account || !include_subs) || (from_account == from_account->topAccount() && to_account == to_account->topAccount());
 					if(!current_account || to_account->topAccount() == current_account || from_account->topAccount() == current_account) {
 						if(from_account->type() == ACCOUNT_TYPE_EXPENSES) {
 							values[from_account] -= trans->value(true);
-							costs -= trans->value(true);
+							if(b_top) costs -= trans->value(true);
 							counts[from_account] += trans->quantity();
-							costs_count += trans->quantity();
+							if(b_top) costs_count += trans->quantity();
 						} else if(from_account->type() == ACCOUNT_TYPE_INCOMES) {
 							values[from_account] += trans->value(true);
-							incomes += trans->value(true);
+							if(b_top) incomes += trans->value(true);
 							counts[from_account] += trans->quantity();
-							incomes_count += trans->quantity();
+							if(b_top) incomes_count += trans->quantity();
 						} else if(to_account->type() == ACCOUNT_TYPE_EXPENSES) {
 							values[to_account] += trans->value(true);
-							costs += trans->value(true);
+							if(b_top) costs += trans->value(true);
 							counts[to_account] += trans->quantity();
-							costs_count += trans->quantity();
+							if(b_top) costs_count += trans->quantity();
 						} else if(to_account->type() == ACCOUNT_TYPE_INCOMES) {
 							values[to_account] -= trans->value(true);
-							incomes -= trans->value(true);
+							if(b_top) incomes -= trans->value(true);
 							counts[to_account] += trans->quantity();
-							incomes_count += trans->quantity();
+							if(b_top) incomes_count += trans->quantity();
 						}					
 					}
-					if(current_account || !include_subs) break;
-					if(from_account == from_account->topAccount() && to_account == to_account->topAccount()) break;
+					if(b_top) break;
 					from_account = from_account->topAccount();
 					to_account = to_account->topAccount();
 				}
@@ -765,35 +765,35 @@ void CategoriesComparisonReport::updateDisplay() {
 				Account *to_account = trans->toAccount();
 				if(!include_subs) to_account = to_account->topAccount();
 				while(true) {
+					bool b_top = (current_account || !include_subs) || (from_account == from_account->topAccount() && to_account == to_account->topAccount());
 					if(!current_account || to_account->topAccount() == current_account || from_account->topAccount() == current_account) {
 						if(from_account->type() == ACCOUNT_TYPE_EXPENSES) {
 							int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
 							counts[from_account] += count * trans->quantity();
 							values[from_account] -= trans->value(true) * count;
-							costs_count += count * trans->quantity();
-							costs -= trans->value(true) * count;
+							if(b_top) costs_count += count * trans->quantity();
+							if(b_top) costs -= trans->value(true) * count;
 						} else if(from_account->type() == ACCOUNT_TYPE_INCOMES) {
 							int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
 							counts[from_account] += count * trans->quantity();
 							values[from_account] += trans->value(true) * count;
-							incomes_count += count * trans->quantity();
-							incomes += trans->value(true) * count;
+							if(b_top) incomes_count += count * trans->quantity();
+							if(b_top) incomes += trans->value(true) * count;
 						} else if(to_account->type() == ACCOUNT_TYPE_EXPENSES) {
 							int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
 							counts[to_account] += count * trans->quantity();
 							values[to_account] += trans->value(true) * count;
-							costs_count += count * trans->quantity();
-							costs += trans->value(true) * count;
+							if(b_top) costs_count += count * trans->quantity();
+							if(b_top) costs += trans->value(true) * count;
 						} else if(to_account->type() == ACCOUNT_TYPE_INCOMES) {
 							int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
 							counts[to_account] += count * trans->quantity();
 							values[to_account] -= trans->value(true) * count;
-							incomes_count += count * trans->quantity();
-							incomes -= trans->value(true) * count;
+							if(b_top) incomes_count += count * trans->quantity();
+							if(b_top) incomes -= trans->value(true) * count;
 						}
 					}
-					if(current_account || !include_subs) break;
-					if(from_account == from_account->topAccount() && to_account == to_account->topAccount()) break;
+					if(b_top) break;
 					from_account = from_account->topAccount();
 					to_account = to_account->topAccount();
 				}

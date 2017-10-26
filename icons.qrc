@@ -182,6 +182,9 @@
 	<file alias="actions/64x64/document-save-as.png">data/standard/64/document-save-as.png</file>
 	<file alias="actions/64x64/document-save.png">data/standard/64/document-save.png</file>
 	<file alias="actions/64x64/edit-delete.png">data/standard/64/edit-delete.png</file>
+	<file alias="actions/64x64/help-about.png">data/standard/64/help-about.png</file>
+	<file alias="actions/64x64/help-contents.png">data/standard/64/help-contents.png</file>
+	<file alias="actions/64x64/system-run.png">data/standard/64/system-run.png</file>
 	<file alias="actions/64x64/view-refresh.png">data/standard/64/view-refresh.png</file>
 	<file alias="apps/22x22/eqonomize.png">data/22/eqonomize.png</file>
 	<file alias="actions/22x22/eqz-account.png">data/22/eqz-account.png</file>

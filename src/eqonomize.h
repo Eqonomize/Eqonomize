@@ -41,17 +41,19 @@
 #ifdef LOAD_EQZICONS_FROM_FILE
 	#ifdef RESOURCES_COMPILED
 		#define LOAD_APP_ICON(x) QIcon(ICON_DIR "/EQZ/apps/64x64/" x ".png")
-		#define LOAD_ICON(x) (QString(x).startsWith("eqz") ? QIcon(ICON_DIR "/EQZ/actions/64x64/" x ".png") : QIcon::fromTheme(x))
-		#define LOAD_ICON2(x, y) (QString(x).startsWith("eqz") ? QIcon(ICON_DIR "/EQZ/actions/64x64/" x ".png") : QIcon::fromTheme(x, y))
+		/*#define LOAD_ICON(x) (QString(x).startsWith("eqz") ? QIcon(ICON_DIR "/EQZ/actions/64x64/" x ".png") : QIcon::fromTheme(x))
+		#define LOAD_ICON2(x, y) (QString(x).startsWith("eqz") ? QIcon(ICON_DIR "/EQZ/actions/64x64/" x ".png") : QIcon::fromTheme(x, y))*/
+		#define LOAD_ICON(x) QIcon(ICON_DIR "/EQZ/actions/64x64/" x ".png")
+		#define LOAD_ICON2(x, y) QIcon(ICON_DIR "/EQZ/actions/64x64/" y ".png")
 	#else
 		#define LOAD_APP_ICON(x) QIcon(ICON_DIR "/hicolor/64x64/apps/" x ".png")
 		#define LOAD_ICON(x) (QString(x).startsWith("eqz") ? QIcon(ICON_DIR "/hicolor/64x64/actions/" x ".png") : QIcon::fromTheme(x))
-		#define LOAD_ICON2(x, y) (QString(x).startsWith("eqz") ? QIcon(ICON_DIR "/hicolor/64x64/actions/" x ".png") : QIcon::fromTheme(x, y))
+		#define LOAD_ICON2(x, y) (QString(x).startsWith("eqz") ? QIcon(ICON_DIR "/hicolor/64x64/actions/" x ".png") : QIcon::fromTheme(x, QIcon::fromTheme(y)))
 	#endif
 #else
 	#define LOAD_APP_ICON(x) QIcon::fromTheme(x)
 	#define LOAD_ICON(x) QIcon::fromTheme(x)
-	#define LOAD_ICON2(x, y) QIcon::fromTheme(x, y)
+	#define LOAD_ICON2(x, y) QIcon::fromTheme(x, QIcon::fromTheme(y))
 #endif
 
 class QAction;

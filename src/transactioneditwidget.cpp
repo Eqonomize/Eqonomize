@@ -54,6 +54,7 @@
 #include "editaccountdialogs.h"
 #include "eqonomizevalueedit.h"
 #include "recurrence.h"
+#include "eqonomize.h"
 #include "transactioneditwidget.h"
 
 #include <cmath>
@@ -383,11 +384,11 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		completer->setModel(new QDirModel(completer));
 		fileEdit->setCompleter(completer);
 		fileLayout->addWidget(fileEdit);
-		QPushButton *selectFileButton = new QPushButton(QIcon::fromTheme("document-open"), QString(), this);
+		QPushButton *selectFileButton = new QPushButton(LOAD_ICON("document-open"), QString(), this);
 		selectFileButton->setToolTip(tr("Select a file"));
 		selectFileButton->setAutoDefault(false);
 		fileLayout->addWidget(selectFileButton);
-		QPushButton *openFileButton = new QPushButton(QIcon::fromTheme("system-run"), QString(), this);
+		QPushButton *openFileButton = new QPushButton(LOAD_ICON("system-run"), QString(), this);
 		openFileButton->setToolTip(tr("Open the file"));
 		openFileButton->setAutoDefault(false);
 		fileLayout->addWidget(openFileButton);

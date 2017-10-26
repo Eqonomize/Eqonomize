@@ -5485,13 +5485,13 @@ void Eqonomize::saveView() {
 
 #define NEW_ACTION(action, text, icon, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(LOAD_ICON(icon)); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
 
-#define NEW_ACTION_ALT(action, text, icon, icon_alt, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(LOAD_ICON2(icon, LOAD_ICON(icon_alt))); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
+#define NEW_ACTION_ALT(action, text, icon, icon_alt, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(LOAD_ICON2(icon, icon_alt)); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
 
 #define NEW_ACTION_3(action, text, icon, shortcuts, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(LOAD_ICON(icon)); action->setShortcuts(shortcuts); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
 
 #define NEW_ACTION_NOMENU(action, text, icon, shortcut, receiver, slot, name) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(LOAD_ICON(icon)); action->setShortcut(shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
 
-#define NEW_ACTION_NOMENU_ALT(action, text, icon, icon_alt, shortcut, receiver, slot, name) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(LOAD_ICON2(icon, LOAD_ICON(icon_alt))); action->setShortcut(shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
+#define NEW_ACTION_NOMENU_ALT(action, text, icon, icon_alt, shortcut, receiver, slot, name) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(LOAD_ICON2(icon, icon_alt)); action->setShortcut(shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
 
 #define NEW_ACTION_2(action, text, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
 
@@ -5694,7 +5694,8 @@ void Eqonomize::setupActions() {
 	helpMenu->addSeparator();
 	NEW_ACTION_2(ActionReportBug, tr("Report Bug"), 0, this, SLOT(reportBug()), "report-bug", helpMenu);
 	helpMenu->addSeparator();
-	NEW_ACTION(ActionAbout, tr("About %1").arg(qApp->applicationDisplayName()), "eqonomize", 0, this, SLOT(showAbout()), "about", helpMenu);
+	NEW_ACTION(ActionAbout, tr("About %1").arg(qApp->applicationDisplayName()), "", 0, this, SLOT(showAbout()), "about", helpMenu);
+	ActionAbout->setIcon(LOAD_APP_ICON("eqonomize"));
 	NEW_ACTION(ActionAboutQt, tr("About Qt"), "help-about", 0, this, SLOT(showAboutQt()), "about-qt", helpMenu);
 
 	//ActionFileSave->setEnabled(false);

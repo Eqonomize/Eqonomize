@@ -77,7 +77,7 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	completer->setModel(new QDirModel(completer));
 	fileEdit->setCompleter(completer);
 	layout1h->addWidget(fileEdit);
-	fileButton = new QPushButton(QIcon::fromTheme("document-open"), QString(), page1);
+	fileButton = new QPushButton(LOAD_ICON("document-open"), QString(), page1);
 	layout1h->addWidget(fileButton);
 	layout1->addLayout(layout1h, 0, 1);
 
@@ -488,7 +488,7 @@ ExportQIFDialog::ExportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	completer->setModel(new QDirModel(completer));
 	fileEdit->setCompleter(completer);
 	layouth->addWidget(fileEdit);
-	fileButton = new QPushButton(QIcon::fromTheme("document-open"), QString(), this);
+	fileButton = new QPushButton(LOAD_ICON("document-open"), QString(), this);
 	layouth->addWidget(fileButton);
 	grid->addLayout(layouth, 3, 1);
 	

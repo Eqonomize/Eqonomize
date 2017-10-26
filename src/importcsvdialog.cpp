@@ -107,7 +107,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	completer->setModel(new QDirModel(completer));
 	fileEdit->setCompleter(completer);
 	layout2h->addWidget(fileEdit);
-	fileButton = new QPushButton(QIcon::fromTheme("document-open"), QString(), page2);
+	fileButton = new QPushButton(LOAD_ICON("document-open"), QString(), page2);
 	layout2h->addWidget(fileButton);
 	layout2->addLayout(layout2h, 0, 1);
 	layout2->addWidget(new QLabel(tr("First data row:"), page2), 1, 0);
