@@ -875,7 +875,7 @@ void CategoriesComparisonChart::updateDisplay() {
 				++account_index;
 				account = NULL;
 				if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
-				else if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
+				else if(type == ACCOUNT_TYPE_INCOMES && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
 			}
 			if(!account) break;
 		} else if(!current_account && type != ACCOUNT_TYPE_ASSETS) {
