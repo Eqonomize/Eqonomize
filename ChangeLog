@@ -1,3 +1,7 @@
+2017-12-08  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Ledger list header popup menu to show/hide type, account/category, payee/payer and comments columns
+
 2017-10-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix sum in categories comparison report with subcategories

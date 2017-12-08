@@ -1699,7 +1699,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     <message>
         <location filename="../src/eqonomize.cpp" line="676"/>
         <source>Reinvested Dividend</source>
-        <translation>Reinvesterad utdelning</translation>
+        <translation>Återinvesterad utdelning</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="685"/>
@@ -6298,7 +6298,7 @@ Datum: %3</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="1490"/>
         <source>Reinvested Dividend</source>
-        <translation>Reinvesterad utdelning</translation>
+        <translation>Återinvesterad utdelning</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1536"/>

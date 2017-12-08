@@ -33,6 +33,7 @@ class QTreeWidgetItem;
 class QComboBox;
 class QLabel;
 class QAction;
+class QMenu;
 
 class Eqonomize;
 class AssetsAccount;
@@ -55,6 +56,7 @@ class LedgerDialog : public QDialog {
 		QComboBox *accountCombo;
 		QLabel *statLabel;
 		QAction *ActionNewDebtInterest, *ActionNewDebtPayment;
+		QMenu *headerMenu;
 
 		bool exportList(QTextStream &outf, int fileformat, QDate first_date = QDate(), QDate last_date = QDate());
 		void accountChanged();
@@ -70,6 +72,8 @@ class LedgerDialog : public QDialog {
 
 	protected slots:
 		
+		void popupHeaderMenu(const QPoint&);
+		void hideColumn(bool);
 		void remove();
 		void edit();
 		void edit(QTreeWidgetItem*);
