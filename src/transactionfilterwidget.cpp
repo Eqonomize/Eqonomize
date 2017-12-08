@@ -406,6 +406,7 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 		case GENERAL_TRANSACTION_TYPE_SINGLE: {
 			trans = (Transaction*) transs; 
 			if(trans->parentSplit() && trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) return true;
+			if(trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND && trans->value() == 0.0) return true;
 			break;
 		}
 		case GENERAL_TRANSACTION_TYPE_SPLIT: {

@@ -228,6 +228,8 @@ class Budget {
 		SecurityTradeList<SecurityTrade*> securityTrades;
 		CurrencyList<Currency*> currencies;
 		
+		IncomesAccount *null_incomes_account;
+		
 		void setRecordNewAccounts(bool rna);
 		QVector<Account*> newAccounts;
 

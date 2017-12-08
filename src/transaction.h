@@ -51,15 +51,16 @@ typedef enum {
 } TransactionType;
 
 typedef enum {
-	TRANSACTION_SUBTYPE_EXPENSE,
-	TRANSACTION_SUBTYPE_INCOME,
-	TRANSACTION_SUBTYPE_TRANSFER,
-	TRANSACTION_SUBTYPE_SECURITY_BUY,
-	TRANSACTION_SUBTYPE_SECURITY_SELL,
-	TRANSACTION_SUBTYPE_DEBT_REDUCTION,
-	TRANSACTION_SUBTYPE_DEBT_INTEREST,
-	TRANSACTION_SUBTYPE_DEBT_FEE,
-	TRANSACTION_SUBTYPE_BALANCING
+	TRANSACTION_SUBTYPE_EXPENSE = 100,
+	TRANSACTION_SUBTYPE_INCOME = 101,
+	TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND = 102,
+	TRANSACTION_SUBTYPE_TRANSFER = 103,
+	TRANSACTION_SUBTYPE_SECURITY_BUY = 104,
+	TRANSACTION_SUBTYPE_SECURITY_SELL = 105,
+	TRANSACTION_SUBTYPE_DEBT_REDUCTION = 106,
+	TRANSACTION_SUBTYPE_DEBT_INTEREST = 107,
+	TRANSACTION_SUBTYPE_DEBT_FEE = 108,
+	TRANSACTION_SUBTYPE_BALANCING = 109
 } TransactionSubType;
 
 typedef enum {
@@ -337,6 +338,40 @@ class Income : public Transaction {
 		
 };
 
+class ReinvestedDividend : public Income {
+	
+	Q_DECLARE_TR_FUNCTIONS(Income)
+
+	protected:
+
+		double d_shares;
+
+	public:
+
+		ReinvestedDividend(Budget *parent_budget, double initial_value, double initial_shares, QDate initial_date, Security *initial_security, IncomesAccount *initial_category, QString initial_comment = QString());
+		ReinvestedDividend(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		ReinvestedDividend(Budget *parent_budget);
+		ReinvestedDividend();
+		ReinvestedDividend(const ReinvestedDividend *dividend_);
+		virtual ~ReinvestedDividend();
+		Transaction *copy() const;
+		
+		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
+		virtual void writeAttributes(QXmlStreamAttributes *attr);
+		
+		bool equals(const Transactions *transaction, bool strict_comparison = true) const;
+		
+		void setSecurity(Security *parent_security);
+		
+		double shareValue(bool convert = false) const;
+		double shares() const;
+		void setShares(double new_shares);
+		
+		virtual QString description() const;
+		virtual TransactionSubType subtype() const;
+		
+};
+
 class Transfer : public Transaction {
 
 	Q_DECLARE_TR_FUNCTIONS(Transfer)
@@ -579,6 +614,7 @@ class ScheduledTransaction : public Transactions {
 		virtual void setAssociatedFile(QString new_attachment);
 		virtual GeneralTransactionType generaltype() const;
 		virtual int transactiontype() const;
+		virtual int transactionsubtype() const;
 		
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);

@@ -39,7 +39,8 @@ void Security::init() {
 	scheduledTransactions.setAutoDelete(false);
 	scheduledDividends.setAutoDelete(false);
 	tradedShares.setAutoDelete(false);
-	reinvestedDividends.setAutoDelete(true);
+	reinvestedDividends.setAutoDelete(false);
+	scheduledReinvestedDividends.setAutoDelete(false);
 }
 Security::Security(Budget *parent_budget, AssetsAccount *parent_account, SecurityType initial_type, double initial_shares, int initial_decimals, int initial_quotation_decimals, QString initial_name, QString initial_description) : o_budget(parent_budget), i_id(-1), o_account(parent_account), st_type(initial_type), d_initial_shares(initial_shares), i_decimals(initial_decimals), i_quotation_decimals(initial_quotation_decimals), s_name(initial_name.trimmed()), s_description(initial_description) {
 	init();
@@ -195,9 +196,6 @@ double Security::getQuotation(const QDate &date, QDate *actual_date) const {
 bool Security::hasQuotation(const QDate &date) const {
 	return quotations.contains(date);
 }
-void Security::addReinvestedDividend(const QDate &date, double added_shares) {
-	reinvestedDividends.inSort(new ReinvestedDividend(date, added_shares));
-}
 int Security::decimals() const {
 	if(i_decimals < 0) return o_budget->defaultShareDecimals();
 	return i_decimals;
@@ -221,9 +219,9 @@ double Security::shares() {
 		if(ts->from_security == this) n -= ts->from_shares;
 		else n += ts->to_shares;
 	}
-	for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
+	for(SecurityTransactionList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
 		ReinvestedDividend *rediv = *it;
-		n += rediv->shares;
+		n += rediv->shares();
 	}
 	return n;
 }
@@ -252,12 +250,24 @@ double Security::shares(const QDate &date, bool estimate, bool no_scheduled_shar
 			}
 		}
 	}
-	for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
+	for(SecurityTransactionList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
 		ReinvestedDividend *rediv = *it;
-		if(rediv->date > date) break;
-		n += rediv->shares;
+		if(rediv->date() > date) break;
+		n += rediv->shares();
 	}
-	if(estimate && date > QDate::currentDate() && reinvestedDividends.count() > 0) {		
+	bool b;
+	if(!no_scheduled_shares) {
+		for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = scheduledReinvestedDividends.constBegin(); it != scheduledReinvestedDividends.constEnd(); ++it) {
+			ScheduledTransaction *strans = *it;
+			if(strans->date() > date) break;
+			int no = strans->recurrence()->countOccurrences(date);
+			if(no > 0) {
+				n += ((ReinvestedDividend*) strans->transaction())->shares() * no;
+				b = true;
+			}
+		}
+	}
+	if(!b && estimate && date > QDate::currentDate() && reinvestedDividends.count() > 0) {		
 		QDate date1 = QDate::currentDate();
 		int days = date1.daysTo(date);
 		int days2 = 0;
@@ -269,10 +279,10 @@ double Security::shares(const QDate &date, bool estimate, bool no_scheduled_shar
 		if(years == 0) years = 1;
 		QDate date2 = date1.addYears(-years);
 		double n2 = 0.0;
-		for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
+		for(SecurityTransactionList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
 			ReinvestedDividend *rediv = *it;
-			if(rediv->date > date2) {
-				n2 += rediv->shares;
+			if(rediv->date() > date2) {
+				n2 += rediv->shares();
 			}
 		}
 		if(n2 > 0.0) {
@@ -496,10 +506,10 @@ double Security::yearlyRate() {
 		if(s > 0.0) q2 += trans->income() / s;
 	}
 	double shares_change = 0.0;
-	for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
+	for(SecurityTransactionList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
 		ReinvestedDividend *rediv = *it;
-		double s = shares(rediv->date);
-		if(s > 0.0) shares_change += rediv->shares / (s - rediv->shares);
+		double s = shares(rediv->date());
+		if(s > 0.0) shares_change += rediv->shares() / (s - rediv->shares());
 	}
 	if(date1 == date2) return 0.0;
 	double change = q2 / q1 + shares_change;
@@ -533,11 +543,11 @@ double Security::yearlyRate(const QDate &date) {
 		if(s > 0.0) q2 += trans->income() / s;
 	}
 	double shares_change = 0.0;
-	for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
+	for(SecurityTransactionList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
 		ReinvestedDividend *rediv = *it;
-		if(rediv->date > date2) break;
-		double s = shares(rediv->date);
-		if(s > 0.0) shares_change += rediv->shares / (s - rediv->shares);
+		if(rediv->date() > date2) break;
+		double s = shares(rediv->date());
+		if(s > 0.0) shares_change += rediv->shares() / (s - rediv->shares());
 	}
 	double change = q2 / q1 + shares_change;
 	return pow(change, 1 / o_budget->yearsBetweenDates(date1, date2, false)) - 1;
@@ -590,12 +600,12 @@ double Security::yearlyRate(const QDate &date1, const QDate &date2) {
 		}
 	}
 	double shares_change = 0.0;
-	for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
+	for(SecurityTransactionList<ReinvestedDividend*>::const_iterator it = reinvestedDividends.constBegin(); it != reinvestedDividends.constEnd(); ++it) {
 		ReinvestedDividend *rediv = *it;
-		if(rediv->date > date2) break;
-		if(rediv->date >= date1) {
-			double s = shares(rediv->date);
-			if(s > 0.0) shares_change += rediv->shares / (s - rediv->shares);
+		if(rediv->date() > date2) break;
+		if(rediv->date() >= date1) {
+			double s = shares(rediv->date());
+			if(s > 0.0) shares_change += rediv->shares() / (s - rediv->shares());
 		}
 	}
 	double change = q2 / q1 + shares_change;

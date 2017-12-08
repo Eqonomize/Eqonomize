@@ -50,8 +50,14 @@ EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parame
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {			
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
-			tabs->addTab(transactionEditWidget, tr("Income")); 
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation);
+			if(security) tabs->addTab(transactionEditWidget, tr("Dividend")); 
+			else tabs->addTab(transactionEditWidget, tr("Income")); 
+			break;
+		}
+		case TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND: {			
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation);
+			tabs->addTab(transactionEditWidget, tr("Reinvested Dividend")); 
 			break;
 		}
 		case TRANSACTION_TYPE_TRANSFER: {			
@@ -142,6 +148,7 @@ ScheduledTransaction *EditScheduledTransactionDialog::newScheduledTransaction(QS
 		}
 		case TRANSACTION_TYPE_TRANSFER: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Transfer"), account, allow_account_creation); break;}
 		case TRANSACTION_TYPE_SECURITY_BUY: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Securities Purchase", "Financial security (e.g. stock, mutual fund)"), account, allow_account_creation); break;}
+		case TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Reinvested Dividend"), account, allow_account_creation); break;}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
 			dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Securities Sale", "Financial security (e.g. stock, mutual fund)"), account, allow_account_creation);
 			//dialog->transactionEditWidget->setMaxSharesDate(QDate::currentDate());
@@ -167,6 +174,7 @@ ScheduledTransaction *EditScheduledTransactionDialog::newScheduledTransaction(in
 		}
 		case TRANSACTION_TYPE_TRANSFER: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Transfer"), account, allow_account_creation); break;}
 		case TRANSACTION_TYPE_SECURITY_BUY: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Securities Purchase", "Financial security (e.g. stock, mutual fund)"), account, allow_account_creation); break;}
+		case TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Reinvested Dividend"), account, allow_account_creation); break;}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
 			dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Securities Sale", "Financial security (e.g. stock, mutual fund)"), account, allow_account_creation);
 			//dialog->transactionEditWidget->setMaxSharesDate(QDate::currentDate());
@@ -185,6 +193,7 @@ bool EditScheduledTransactionDialog::editScheduledTransaction(ScheduledTransacti
 	switch(strans->transactiontype()) {
 		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), NULL, false, strans->budget(), parent, tr("Edit Expense"), NULL, allow_account_creation); break;}
 		case TRANSACTION_TYPE_INCOME: {
+			if(((Income*) strans->transaction())->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) dialog = new EditScheduledTransactionDialog(extra_parameters, TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND, ((Income*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Reinvested Dividend"), NULL, allow_account_creation);
 			if(((Income*) strans->transaction())->security()) dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), ((Income*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Dividend"), NULL, allow_account_creation);
 			else dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), NULL, false, strans->budget(), parent, tr("Edit Income"), NULL, allow_account_creation);
 			break;
@@ -206,7 +215,8 @@ bool EditScheduledTransactionDialog::editTransaction(Transaction *trans, Recurre
 	switch(trans->type()) {
 		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), NULL, false, trans->budget(), parent, tr("Edit Expense"), NULL, allow_account_creation); break;}
 		case TRANSACTION_TYPE_INCOME: {
-			if(((Income*) trans)->security()) dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), ((Income*) trans)->security(), select_security, trans->budget(), parent, tr("Edit Dividend"), NULL, allow_account_creation);
+			if(trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) dialog = new EditScheduledTransactionDialog(extra_parameters, TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND, ((SecurityTransaction*) trans)->security(), select_security, trans->budget(), parent, tr("Edit Reinvested Dividend"), NULL, allow_account_creation);
+			else if(((Income*) trans)->security()) dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), ((Income*) trans)->security(), select_security, trans->budget(), parent, tr("Edit Dividend"), NULL, allow_account_creation);
 			else dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), NULL, false, trans->budget(), parent, tr("Edit Income"), NULL, allow_account_creation);
 			break;
 		}

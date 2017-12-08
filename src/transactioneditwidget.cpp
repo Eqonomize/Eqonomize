@@ -78,7 +78,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	bool split = (split_currency != NULL);
 	splitcurrency = split_currency;
 	value_set = false; shares_set = false; sharevalue_set = false;
-	b_sec = (transtype == TRANSACTION_TYPE_SECURITY_BUY || transtype == TRANSACTION_TYPE_SECURITY_SELL);
+	b_sec = (transtype == TRANSACTION_TYPE_SECURITY_BUY || transtype == TRANSACTION_TYPE_SECURITY_SELL || transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND);
 	QVBoxLayout *editVLayout = new QVBoxLayout(this);
 	int cols = 1;
 	if(auto_edit) cols = 2;
@@ -137,7 +137,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		}
 		if(security) decimals = security->decimals();
 		i++;
-		if(security_value_type != SECURITY_SHARES_AND_QUOTATION) {
+		if(security_value_type != SECURITY_SHARES_AND_QUOTATION && transtype != TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
 			if(transtype == TRANSACTION_TYPE_SECURITY_BUY) editLayout->addWidget(new QLabel(tr("Cost:"), this), TEROWCOL(i, 0));
 			else editLayout->addWidget(new QLabel(tr("Income:"), this), TEROWCOL(i, 0));
 			valueEdit = new EqonomizeValueEdit(false, this, budget);
@@ -145,7 +145,12 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			i++;
 		}
 		if(security_value_type != SECURITY_VALUE_AND_QUOTATION) {
-			if(transtype == TRANSACTION_TYPE_SECURITY_BUY) {
+			if(transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
+				editLayout->addWidget(new QLabel(tr("Shares added:", "Financial shares"), this), TEROWCOL(i, 0));
+				sharesEdit = new EqonomizeValueEdit(0.0, decimals, false, false, this, budget);
+				editLayout->addWidget(sharesEdit, TEROWCOL(i, 1));
+				i++;
+			} else if(transtype == TRANSACTION_TYPE_SECURITY_BUY) {
 				editLayout->addWidget(new QLabel(tr("Shares bought:", "Financial shares"), this), TEROWCOL(i, 0));
 				sharesEdit = new EqonomizeValueEdit(0.0, decimals, false, false, this, budget);
 				editLayout->addWidget(sharesEdit, TEROWCOL(i, 1));
@@ -164,14 +169,21 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			}
 		}
 		if(security_value_type != SECURITY_VALUE_AND_SHARES) {
-			editLayout->addWidget(new QLabel(tr("Price per share:", "Financial shares"), this), TEROWCOL(i, 0));
+			if(transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) editLayout->addWidget(new QLabel(tr("Value per share:", "Financial shares"), this), TEROWCOL(i, 0));
+			else editLayout->addWidget(new QLabel(tr("Price per share:", "Financial shares"), this), TEROWCOL(i, 0));
 			quotationEdit = new EqonomizeValueEdit(0.0, security ? security->quotationDecimals() : budget->defaultQuotationDecimals(), false, true, this, budget);
 			editLayout->addWidget(quotationEdit, TEROWCOL(i, 1));
 			i++;
 			setQuoteButton = new QCheckBox(tr("Set security share value"), this);
 			setQuoteButton->setChecked(true);
 			b_prev_update_quote = true;
-			editLayout->addWidget(setQuoteButton, TEROWCOL(i, 1));
+			editLayout->addWidget(setQuoteButton, TEROWCOL(i, 1), Qt::AlignRight);
+			i++;
+		}
+		if(security_value_type != SECURITY_SHARES_AND_QUOTATION && transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
+			editLayout->addWidget(new QLabel(tr("Total value:"), this), TEROWCOL(i, 0));
+			valueEdit = new EqonomizeValueEdit(false, this, budget);
+			editLayout->addWidget(valueEdit, TEROWCOL(i, 1));
 			i++;
 		}
 		if(!split) {
@@ -340,6 +352,14 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				editLayout->addWidget(toCombo, TEROWCOL(i, 1));
 				i++;
 			}
+			break;
+		}
+		case TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND: {
+			editLayout->addWidget(new QLabel(tr("Category:"), this), TEROWCOL(i, 0));
+			fromCombo = new AccountComboBox(ACCOUNT_TYPE_INCOMES, budget, b_create_accounts, false, false, false, false, this);
+			fromCombo->setEditable(false);
+			editLayout->addWidget(fromCombo, TEROWCOL(i, 1));
+			i++;
 			break;
 		}
 		default: {
@@ -999,6 +1019,13 @@ bool TransactionEditWidget::checkAccounts() {
 			}
 			break;
 		}
+		case TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND: {
+			if(fromCombo && !fromCombo->hasAccount()) {
+				QMessageBox::critical(this, tr("Error"), tr("No suitable category available."));
+				return false;
+			}
+			break;
+		}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
 			if(toCombo && !toCombo->hasAccount()) {
 				QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
@@ -1060,6 +1087,7 @@ bool TransactionEditWidget::validValues(bool) {
 			}
 			break;
 		}
+		case TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND: {}
 		case TRANSACTION_TYPE_SECURITY_BUY: {}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
 			if(sharesEdit && sharesEdit->value() == 0.0) {
@@ -1094,15 +1122,20 @@ bool TransactionEditWidget::validValues(bool) {
 }
 bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 	if(!validValues()) return false;
-	bool b_transsec = (trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL);
+	bool b_transsec = (trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL || trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND);
 	if(b_sec) {
-		if(trans->type() != transtype) return false;
-		if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) {
-			if(fromCombo) ((SecurityTransaction*) trans)->setAccount(fromCombo->currentAccount());
+		if((transtype != TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND || transtype != trans->subtype()) && trans->type() != transtype) return false;
+		if(trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
+			if(securityCombo) ((ReinvestedDividend*) trans)->setSecurity(selectedSecurity());
+			if(fromCombo) ((ReinvestedDividend*) trans)->setFromAccount(fromCombo->currentAccount());
 		} else {
-			if(toCombo) ((SecurityTransaction*) trans)->setAccount(toCombo->currentAccount());
+			if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY) {
+				if(fromCombo) ((SecurityTransaction*) trans)->setAccount(fromCombo->currentAccount());
+			} else {
+				if(toCombo) ((SecurityTransaction*) trans)->setAccount(toCombo->currentAccount());
+			}
+			if(securityCombo) ((SecurityTransaction*) trans)->setSecurity(selectedSecurity());
 		}
-		if(securityCombo) ((SecurityTransaction*) trans)->setSecurity(selectedSecurity());
 		if(dateEdit) trans->setDate(dateEdit->date());
 		double shares = 0.0, value = 0.0, share_value = 0.0;
 		if(valueEdit) value = valueEdit->value();
@@ -1111,9 +1144,15 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 		if(!quotationEdit) share_value = value / shares;
 		else if(!sharesEdit) shares = value / share_value;
 		else if(!valueEdit) value = shares * share_value;
-		((SecurityTransaction*) trans)->setValue(value);
-		((SecurityTransaction*) trans)->setShares(shares);
-		if(setQuoteButton && setQuoteButton->isChecked()) ((SecurityTransaction*) trans)->security()->setQuotation(trans->date(), share_value);
+		if(trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
+			((ReinvestedDividend*) trans)->setValue(value);
+			((ReinvestedDividend*) trans)->setShares(shares);
+			if(setQuoteButton && setQuoteButton->isChecked()) ((ReinvestedDividend*) trans)->security()->setQuotation(trans->date(), share_value);
+		} else {
+			((SecurityTransaction*) trans)->setValue(value);
+			((SecurityTransaction*) trans)->setShares(shares);
+			if(setQuoteButton && setQuoteButton->isChecked()) ((SecurityTransaction*) trans)->security()->setQuotation(trans->date(), share_value);
+		}
 		if(commentsEdit) trans->setComment(commentsEdit->text());
 		if(fileEdit) trans->setAssociatedFile(fileEdit->text());
 		return true;
@@ -1195,6 +1234,18 @@ Transaction *TransactionEditWidget::createTransaction() {
 		if(quantityEdit) income->setQuantity(quantityEdit->value());
 		if(payeeEdit) income->setPayer(payeeEdit->text());
 		trans = income;
+	} else if(transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
+		if(!selectedSecurity()) return NULL;
+		double shares = 0.0, value = 0.0, share_value = 0.0;
+		if(valueEdit) value = valueEdit->value();
+		if(sharesEdit) shares = sharesEdit->value();
+		if(quotationEdit) share_value = quotationEdit->value();
+		if(!quotationEdit) share_value = value / shares;
+		else if(!sharesEdit) shares = value / share_value;
+		else if(!valueEdit) value = shares * share_value;
+		ReinvestedDividend *rediv = new ReinvestedDividend(budget, value, shares, dateEdit ? dateEdit->date() : QDate(), selectedSecurity(), fromCombo ? (IncomesAccount*) fromCombo->currentAccount() : NULL, commentsEdit ? commentsEdit->text() : NULL);
+		if(setQuoteButton && setQuoteButton->isChecked()) selectedSecurity()->setQuotation(rediv->date(), share_value);
+		trans = rediv;
 	} else if(transtype == TRANSACTION_TYPE_SECURITY_BUY) {
 		if(!selectedSecurity()) return NULL;
 		double shares = 0.0, value = 0.0, share_value = 0.0;
@@ -1459,7 +1510,7 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 		if(toCombo && (!b_sec || transtype == TRANSACTION_TYPE_SECURITY_SELL)) {
 			toCombo->setCurrentAccount(trans->toAccount());
 		}
-		if(fromCombo && (!b_sec || transtype == TRANSACTION_TYPE_SECURITY_BUY)) {
+		if(fromCombo && (!b_sec || transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND || transtype == TRANSACTION_TYPE_SECURITY_BUY)) {
 			fromCombo->setCurrentAccount(trans->fromAccount());
 		}
 		if(depositEdit) {
@@ -1469,13 +1520,13 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 			valueEdit->setValue(trans->value());
 		}
 		if(b_sec) {
-			if(transtype != trans->type()) return;
+			if((transtype != TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND || transtype != trans->subtype()) && trans->type() != transtype) return;
 			//if(transtype == TRANSACTION_TYPE_SECURITY_SELL) setMaxShares(((SecurityTransaction*) trans)->security()->shares(QDate::currentDate()) + ((SecurityTransaction*) trans)->shares());
-			if(sharesEdit) sharesEdit->setValue(((SecurityTransaction*) trans)->shares());
+			if(sharesEdit) sharesEdit->setValue(trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND ? ((ReinvestedDividend*) trans)->shares() : ((SecurityTransaction*) trans)->shares());
 			if(quotationEdit) {
-				quotationEdit->setValue(((SecurityTransaction*) trans)->value() / ((SecurityTransaction*) trans)->shares());
+				quotationEdit->setValue(trans->value() / (trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND ? ((ReinvestedDividend*) trans)->shares() : ((SecurityTransaction*) trans)->shares()));
 				if(setQuoteButton) {
-					Security *sec = ((SecurityTransaction*) trans)->security();
+					Security *sec = (trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND ? ((ReinvestedDividend*) trans)->security() : ((SecurityTransaction*) trans)->security());
 					if(sec->currency() == quotationEdit->currency()) {
 						setQuoteButton->setChecked(sec->hasQuotation(trans->date()) && sec->getQuotation(trans->date()) == quotationEdit->value());
 						setQuoteButton->setEnabled(true);
@@ -1576,6 +1627,7 @@ TransactionEditDialog::TransactionEditDialog(bool extra_parameters, int transact
 		case TRANSACTION_TYPE_TRANSFER: {setWindowTitle(tr("Edit Transfer")); break;}
 		case TRANSACTION_TYPE_SECURITY_BUY: {setWindowTitle(tr("Edit Securities Purchase", "Financial security (e.g. stock, mutual fund)")); break;}
 		case TRANSACTION_TYPE_SECURITY_SELL: {setWindowTitle(tr("Edit Securities Sale", "Financial security (e.g. stock, mutual fund)")); break;}
+		case TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND: {setWindowTitle(tr("Edit Reinvested Dividend")); break;}
 	}
 	editWidget = new TransactionEditWidget(false, extra_parameters, transaction_type, split_currency, transfer_to, security, security_value_type, select_security, budg, this, allow_account_creation, multiaccount, withloan);
 	box1->addWidget(editWidget);

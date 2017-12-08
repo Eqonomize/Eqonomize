@@ -44,13 +44,6 @@ typedef enum {
 	SECURITY_TYPE_OTHER
 } SecurityType;
 
-class ReinvestedDividend {
-	public:
-		ReinvestedDividend(const QDate &date_, double shares_) : date(date_), shares(shares_) {}
-		QDate date;
-		double shares;
-};
-
 static bool security_transaction_list_less_than(Transaction *t1, Transaction *t2) {
 	return t1->date() < t2->date();
 }
@@ -76,19 +69,6 @@ template<class type> class ScheduledSecurityTransactionList : public EqonomizeLi
 		}
 		void inSort(type value) {
 			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, scheduled_security_list_less_than), value);
-		}
-};
-static bool reinvested_dividend_list_less_than(ReinvestedDividend *t1, ReinvestedDividend *t2) {
-	return t1->date < t2->date;
-}
-template<class type> class ReinvestedDividendList : public EqonomizeList<type> {
-	public:
-		ReinvestedDividendList() : EqonomizeList<type>() {};
-		void sort() {
-			qSort(QList<type>::begin(), QList<type>::end(), reinvested_dividend_list_less_than);
-		}
-		void inSort(type value) {
-			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, reinvested_dividend_list_less_than), value);
 		}
 };
 static bool traded_shares_list_less_than(SecurityTrade *t1, SecurityTrade *t2) {
@@ -160,7 +140,6 @@ class Security {
 		double getQuotation(const QDate &date, QDate *actual_date = NULL) const;
 		AssetsAccount *account() const;
 		Currency *currency() const;
-		void addReinvestedDividend(const QDate &date, double added_shares);
 		int decimals() const;
 		int quotationDecimals() const;
 		void setDecimals(int new_decimals);
@@ -184,11 +163,12 @@ class Security {
 		QMap<QDate, double> quotations;
 		QMap<QDate, bool> quotations_auto;
 		TradedSharesList<SecurityTrade*> tradedShares;
-		ReinvestedDividendList<ReinvestedDividend*> reinvestedDividends;
 		SecurityTransactionList<SecurityTransaction*> transactions;
 		SecurityTransactionList<Income*> dividends;
+		SecurityTransactionList<ReinvestedDividend*> reinvestedDividends;
 		ScheduledSecurityTransactionList<ScheduledTransaction*> scheduledTransactions;
 		ScheduledSecurityTransactionList<ScheduledTransaction*> scheduledDividends;
+		ScheduledSecurityTransactionList<ScheduledTransaction*> scheduledReinvestedDividends;
 
 };
 

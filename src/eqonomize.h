@@ -180,8 +180,6 @@ class Eqonomize : public QMainWindow {
 		void updateSecurity(Security *security);
 		void updateSecurity(QTreeWidgetItem *i);
 		void updateSecurityAccount(AssetsAccount *account, bool update_display = true);
-		bool editReinvestedDividend(ReinvestedDividend *rediv, Security *security, QWidget *parent);
-		void editReinvestedDividend(ReinvestedDividend *rediv, Security *security);
 		bool editSecurityTrade(SecurityTrade *ts, QWidget *parent);
 		void editSecurityTrade(SecurityTrade *ts);
 		void setModified(bool has_been_modified = true);
@@ -408,7 +406,7 @@ class Eqonomize : public QMainWindow {
 
 		void updateTransactionActions();
 		
-		void openURL(const QUrl&, bool merge = false);
+		bool openURL(const QUrl&, bool merge = false);
 		void fileNew();
 		void fileOpen();
 		void fileOpenRecent(const QUrl&);
@@ -656,38 +654,6 @@ class RefundDialog : public QDialog {
 		
 		void accept();
 		void accountActivated(int);
-
-};
-
-class EditReinvestedDividendDialog : public QDialog {
-
-	Q_OBJECT
-
-	protected:
-
-		Budget *budget;
-		QComboBox *securityCombo;
-		EqonomizeValueEdit *sharesEdit;
-		QLabel *sharesLabel;
-		QDateEdit *dateEdit;
-
-	public:
-
-		EditReinvestedDividendDialog(Budget *budg, Security *sec, bool select_security, QWidget *parent);
-
-		Security *selectedSecurity();		
-		void setDividend(ReinvestedDividend *rediv);
-		bool modifyDividend(ReinvestedDividend *rediv);
-		ReinvestedDividend *createDividend();
-		bool validValues();
-		
-	public slots:
-		
-		void securityChanged();
-
-	protected slots:
-		
-		void accept();
 
 };
 

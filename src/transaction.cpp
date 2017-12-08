@@ -334,7 +334,7 @@ Income::Income(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Tran
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-Income::Income(Budget *parent_budget) : Transaction(parent_budget) {}
+Income::Income(Budget *parent_budget) : Transaction(parent_budget), o_security(NULL) {}
 Income::Income() : Transaction(), o_security(NULL) {}
 Income::Income(const Income *income_) : Transaction(income_), o_security(income_->security()), s_payer(income_->payer()) {}
 Income::~Income() {}
@@ -405,6 +405,76 @@ void Income::setSecurity(Security *parent_security) {
 	}
 }
 Security *Income::security() const {return o_security;}
+
+ReinvestedDividend::ReinvestedDividend(Budget *parent_budget, double initial_value, double initial_shares, QDate initial_date, Security *initial_security, IncomesAccount *initial_category, QString initial_comment) : Income(parent_budget, initial_value, initial_date, initial_category, initial_security ? initial_security->account() : NULL, QString::null, initial_comment), d_shares(initial_shares) {
+	o_security = initial_security;
+}
+ReinvestedDividend::ReinvestedDividend(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Income(parent_budget) {
+	QXmlStreamAttributes attr = xml->attributes();
+	readAttributes(&attr, valid);
+	readElements(xml, valid);
+}
+ReinvestedDividend::ReinvestedDividend(Budget *parent_budget) : Income(parent_budget), d_shares(0.0) {}
+ReinvestedDividend::ReinvestedDividend() : Income(), d_shares(0.0) {}
+ReinvestedDividend::ReinvestedDividend(const ReinvestedDividend *reinv) : Income(reinv), d_shares(reinv->shares()) {}
+ReinvestedDividend::~ReinvestedDividend() {}
+Transaction *ReinvestedDividend::copy() const {return new ReinvestedDividend(this);}
+
+void ReinvestedDividend::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
+	Transaction::readAttributes(attr, valid);
+	int id_category = attr->value("category").toInt();
+	int id_sec = attr->value("security").toInt();
+	if(budget()->securities_id.contains(id_sec)) {
+		if(budget()->incomesAccounts_id.contains(id_category)) setCategory(budget()->incomesAccounts_id[id_category]);
+		else setCategory(budget()->null_incomes_account);
+		o_security = budget()->securities_id[id_sec];
+		setTo(o_security->account());
+		d_value = attr->value("value").toDouble();
+		d_shares = attr->value("shares").toDouble();
+		if(attr->hasAttribute("sharevalue")) {
+			double v = attr->value("sharevalue").toDouble();
+			if(d_shares <= 0.0 && v != 0.0) d_shares = d_value / v;
+			else if(d_value == 0.0) d_value = d_shares * v;
+		}
+	} else {
+		if(valid) *valid = false;
+	}
+}
+void ReinvestedDividend::writeAttributes(QXmlStreamAttributes *attr) {
+	Transaction::writeAttributes(attr);
+	attr->append("value", QString::number(income(), 'f', SAVE_MONETARY_DECIMAL_PLACES));
+	attr->append("shares", QString::number(d_shares, 'f', o_security->decimals()));
+	if(category() && category() != budget()->null_incomes_account) attr->append("category", QString::number(category()->id()));
+	attr->append("security", QString::number(o_security->id()));
+}
+
+bool ReinvestedDividend::equals(const Transactions *transaction, bool strict_comparison) const {
+	if(!Income::equals(transaction, strict_comparison) || ((Income*) transaction)->subtype() == subtype()) return false;
+	ReinvestedDividend *reinv = (ReinvestedDividend*) transaction;
+	if(d_shares != reinv->shares()) return false;
+	return true;
+}
+double ReinvestedDividend::shares() const {return d_shares;}
+double ReinvestedDividend::shareValue(bool convert) const {
+	double v = 0.0;
+	if(o_security) v = o_security->getQuotation(date());
+	if(convert && o_security && o_security->currency()) {
+		if(budget()->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) return o_security->currency()->convertTo(v, budget()->defaultCurrency(), date());
+		else return o_security->currency()->convertTo(v, budget()->defaultCurrency());
+	}
+	return v;
+}
+void ReinvestedDividend::setShares(double new_shares) {
+	d_shares = new_shares;
+}
+QString ReinvestedDividend::description() const {
+	return tr("Reinvested dividend: %1").arg(o_security->name());
+}
+TransactionSubType ReinvestedDividend::subtype() const {return TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND;}
+void ReinvestedDividend::setSecurity(Security *parent_security) {
+	o_security = parent_security;
+	setTo(o_security->account());
+}
 
 Transfer::Transfer(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description, QString initial_comment) : Transaction(parent_budget, initial_amount < 0.0 ? -initial_amount : initial_amount, initial_date, initial_amount < 0.0 ? initial_to : initial_from, initial_amount < 0.0 ? initial_from : initial_to, initial_description, initial_comment) {
 	d_deposit = amount();
@@ -608,7 +678,7 @@ void SecurityTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid
 	d_shares = attr->value("shares").toDouble();
 	if(attr->hasAttribute("sharevalue")) {
 		double v = attr->value("sharevalue").toDouble();
-		if(d_shares <= 0.0 && v != 0.0) d_shares = d_value < v;
+		if(d_shares <= 0.0 && v != 0.0) d_shares = d_value / v;
 		else if(d_value == 0.0) d_value = d_shares * v;
 	}
 	int id = attr->value("security").toInt();
@@ -1069,6 +1139,10 @@ void ScheduledTransaction::setAssociatedFile(QString new_attachment) {
 GeneralTransactionType ScheduledTransaction::generaltype() const {return GENERAL_TRANSACTION_TYPE_SCHEDULE;}
 int ScheduledTransaction::transactiontype() const {
 	if(o_trans && o_trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) return ((Transaction*) o_trans)->type();
+	return -1;
+}
+int ScheduledTransaction::transactionsubtype() const {
+	if(o_trans && o_trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) return ((Transaction*) o_trans)->subtype();
 	return -1;
 }
 bool ScheduledTransaction::relatesToAccount(Account *account, bool include_subs, bool include_non_value) const {return o_trans && o_trans->relatesToAccount(account, include_subs, include_non_value);}

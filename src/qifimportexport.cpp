@@ -1493,8 +1493,13 @@ void exportQIFTransaction(QTextStream &fstream, qif_info &qi, Transaction *trans
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
-			sectrans = true;
-			if(((Income*) trans)->security() && ((Income*) trans)->security()->account() == qi.current_account) {
+			if(trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
+				fstream << "N" << "ReinvDiv" << "\n";
+				fstream << "Y" << ((ReinvestedDividend*) trans)->security()->name() << "\n";
+				fstream << "I" << writeQIFValue(((ReinvestedDividend*) trans)->shareValue(), qi.value_format, SAVE_MONETARY_DECIMAL_PLACES) << "\n";
+				fstream << "Q" << writeQIFValue(((ReinvestedDividend*) trans)->shares(), qi.value_format, ((ReinvestedDividend*) trans)->security()->decimals()) << "\n";
+				secacc = true;
+			} else if(((Income*) trans)->security() && ((Income*) trans)->security()->account() == qi.current_account) {
 				fstream << "N" << "DivX" << "\n";
 				fstream << "Y" << ((Income*) trans)->security()->name() << "\n";
 				secacc = true;
@@ -1540,8 +1545,7 @@ void exportQIFTransaction(QTextStream &fstream, qif_info &qi, Transaction *trans
 	fstream << "T" << writeQIFValue(neg ? -trans->value() : trans->value(), qi.value_format, SAVE_MONETARY_DECIMAL_PLACES) << "\n";
 	fstream << "C" << "X" << "\n";
 	if(payee && !payee->isEmpty()) fstream << "P" << *payee << "\n";
-	if(!sectrans && !trans->description().isEmpty()) fstream << "M" << trans->description() << "\n";
-	else if(sectrans && !secacc) fstream << "M" << trans->description() << "\n";
+	if(!secacc && !trans->description().isEmpty()) fstream << "M" << trans->description() << "\n";
 	if(sectrans && secacc && d_com != 0.0) {
 		fstream << "O" << writeQIFValue(d_com, qi.value_format, SAVE_MONETARY_DECIMAL_PLACES) << "\n";
 	}
@@ -1745,14 +1749,9 @@ void exportQIF(QTextStream &fstream, qif_info &qi, Budget *budget, bool export_c
 					Income *inc = *it2;
 					exportQIFTransaction(fstream, qi, inc);
 				}
-				for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it2 = sec->reinvestedDividends.constBegin(); it2 != sec->reinvestedDividends.constEnd(); ++it2) {
-					ReinvestedDividend *rediv = *it2;
-					fstream << "D" << writeQIFDate(rediv->date, qi.date_format) << "\n";
-					fstream << "N" << "ReinvDiv" << "\n";
-					fstream << "Y" << sec->name() << "\n";
-					fstream << "Q" << writeQIFValue(rediv->shares, qi.value_format, sec->decimals()) << "\n";
-					fstream << "C" << "X" << "\n";
-					fstream << "^" << "\n";
+				for(SecurityTransactionList<ReinvestedDividend*>::const_iterator it2 = sec->reinvestedDividends.constBegin(); it2 != sec->reinvestedDividends.constEnd(); ++it2) {
+					Income *inc = *it2;
+					exportQIFTransaction(fstream, qi, inc);
 				}
 			}
 		}

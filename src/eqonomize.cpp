@@ -512,13 +512,13 @@ class SecurityTransactionListViewItem : public QTreeWidgetItem {
 		SecurityTransaction *trans;
 		Income *div;
 		ReinvestedDividend *rediv;
-		ScheduledTransaction *strans, *sdiv;
+		ScheduledTransaction *strans, *sdiv, *srediv;
 		SecurityTrade *ts;
 		QDate date;
 		double shares, value;
 };
 
-SecurityTransactionListViewItem::SecurityTransactionListViewItem(QString s1, QString s2, QString s3, QString s4) : QTreeWidgetItem(UserType), trans(NULL), div(NULL), rediv(NULL), strans(NULL), sdiv(NULL), ts(NULL), shares(-1.0), value(-1.0) {
+SecurityTransactionListViewItem::SecurityTransactionListViewItem(QString s1, QString s2, QString s3, QString s4) : QTreeWidgetItem(UserType), trans(NULL), div(NULL), rediv(NULL), strans(NULL), sdiv(NULL), srediv(NULL), ts(NULL), shares(-1.0), value(-1.0) {
 	setText(0, s1);
 	setText(1, s2);
 	setText(2, s3);
@@ -663,92 +663,6 @@ void RefundDialog::accept() {
 	}
 }
 bool RefundDialog::validValues() {
-	if(!dateEdit->date().isValid()) {
-		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
-		return false;
-	}
-	return true;
-}
-
-
-EditReinvestedDividendDialog::EditReinvestedDividendDialog(Budget *budg, Security *sec, bool select_security, QWidget *parent)  : QDialog(parent, 0), budget(budg) {
-
-	setWindowTitle(tr("Reinvested Dividend"));
-	setModal(true);
-
-	QVBoxLayout *box1 = new QVBoxLayout(this);
-	QGridLayout *layout = new QGridLayout();
-	box1->addLayout(layout);
-
-	securityCombo = NULL;
-
-	layout->addWidget(new QLabel(tr("Security:", "Financial security (e.g. stock, mutual fund)"), this), 0, 0);
-	if(select_security) {
-		securityCombo = new QComboBox(this);
-		securityCombo->setEditable(false);
-		int i2 = 0;
-		for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
-			Security *c_sec = *it;
-			securityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
-			if(c_sec == sec) securityCombo->setCurrentIndex(i2);
-			i2++;
-		}
-		layout->addWidget(securityCombo, 0, 1);
-	} else {
-		layout->addWidget(new QLabel(sec->name(), this), 0, 1);
-	}
-
-	layout->addWidget(new QLabel(tr("Shares added:", "Financial shares"), this), 1, 0);
-	sharesEdit = new EqonomizeValueEdit(0.0, selectedSecurity()->decimals(), false, false, this, budget);
-	layout->addWidget(sharesEdit, 1, 1);
-	sharesEdit->setFocus();
-
-	layout->addWidget(new QLabel(tr("Date:"), this), 2, 0);
-	dateEdit = new QDateEdit(QDate::currentDate(), this);
-	dateEdit->setCalendarPopup(true);
-	layout->addWidget(dateEdit, 2, 1);
-	
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
-	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
-	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
-	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
-	box1->addWidget(buttonBox);
-
-	if(securityCombo) connect(securityCombo, SIGNAL(activated(int)), this, SLOT(securityChanged()));
-
-}
-Security *EditReinvestedDividendDialog::selectedSecurity() {
-	if(securityCombo && securityCombo->currentData().isValid()) {
-		return (Security*) securityCombo->currentData().value<void*>();
-	}
-	return NULL;
-}
-void EditReinvestedDividendDialog::securityChanged() {
-	if(selectedSecurity()) {
-		if(sharesEdit) sharesEdit->setPrecision(selectedSecurity()->decimals());
-	}
-}
-void EditReinvestedDividendDialog::setDividend(ReinvestedDividend *rediv) {
-	dateEdit->setDate(rediv->date);
-	sharesEdit->setValue(rediv->shares);
-}
-bool EditReinvestedDividendDialog::modifyDividend(ReinvestedDividend *rediv) {
-	if(!validValues()) return false;
-	rediv->date = dateEdit->date();
-	rediv->shares = sharesEdit->value();
-	return true;
-}
-ReinvestedDividend *EditReinvestedDividendDialog::createDividend() {
-	if(!validValues()) return NULL;
-	return new ReinvestedDividend(dateEdit->date(), sharesEdit->value());
-}
-void EditReinvestedDividendDialog::accept() {
-	if(validValues()) {
-		QDialog::accept();
-	}
-}
-bool EditReinvestedDividendDialog::validValues() {
 	if(!dateEdit->date().isValid()) {
 		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
 		return false;
@@ -1420,10 +1334,9 @@ void SecurityTransactionsDialog::remove() {
 		delete div;
 	} else if(i->rediv) {
 		ReinvestedDividend *rediv = i->rediv;
-		security->reinvestedDividends.removeRef(rediv);
-		mainWin->updateSecurity(security);
-		mainWin->updateSecurityAccount(security->account());
-		mainWin->setModified(true);
+		security->budget()->removeTransaction(rediv, true);
+		mainWin->transactionRemoved(rediv);
+		delete rediv;
 	} else if(i->strans) {
 		ScheduledTransaction *strans = i->strans;
 		security->budget()->removeScheduledTransaction(strans, true);
@@ -1434,6 +1347,11 @@ void SecurityTransactionsDialog::remove() {
 		security->budget()->removeScheduledTransaction(sdiv, true);
 		mainWin->transactionRemoved(sdiv);
 		delete sdiv;
+	} else if(i->srediv) {
+		ScheduledTransaction *srediv = i->srediv;
+		security->budget()->removeScheduledTransaction(srediv, true);
+		mainWin->transactionRemoved(srediv);
+		delete srediv;
 	} else if(i->ts) {
 		SecurityTrade *ts = i->ts;
 		security->budget()->removeSecurityTrade(ts, true);
@@ -1457,9 +1375,10 @@ void SecurityTransactionsDialog::edit(QTreeWidgetItem *i_pre) {
 	bool b = false;
 	if(i->trans) b = mainWin->editTransaction(i->trans, this);
 	else if(i->div) b = mainWin->editTransaction(i->div, this);
-	else if(i->rediv) b = mainWin->editReinvestedDividend(i->rediv, security, this);
+	else if(i->rediv) b = mainWin->editTransaction(i->rediv, this);
 	else if(i->strans) b = mainWin->editScheduledTransaction(i->strans, this);
 	else if(i->sdiv) b = mainWin->editScheduledTransaction(i->sdiv, this);
+	else if(i->srediv) b = mainWin->editScheduledTransaction(i->srediv, this);
 	else if(i->ts) b = mainWin->editSecurityTrade(i->ts, this);
 	if(b) updateTransactions();
 }
@@ -1485,12 +1404,13 @@ void SecurityTransactionsDialog::updateTransactions() {
 		i->value = div->value();
 		items.append(i);
 	}
-	for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = security->reinvestedDividends.constBegin(); it != security->reinvestedDividends.constEnd(); ++it) {
+	for(SecurityTransactionList<ReinvestedDividend*>::const_iterator it = security->reinvestedDividends.constBegin(); it != security->reinvestedDividends.constEnd(); ++it) {
 		ReinvestedDividend *rediv = *it;
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(rediv->date, QLocale::ShortFormat), tr("Reinvested Dividend"), "-", QLocale().toString(rediv->shares, 'f', security->decimals()));
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(rediv->date(), QLocale::ShortFormat), tr("Reinvested Dividend"), rediv->valueString(), QLocale().toString(rediv->shares(), 'f', security->decimals()));
 		i->rediv = rediv;
-		i->date = rediv->date;
-		i->shares = rediv->shares;
+		i->date = rediv->date();
+		i->shares = rediv->shares();
+		i->value = rediv->value();
 		items.append(i);
 	}
 	for(TradedSharesList<SecurityTrade*>::const_iterator it = security->tradedShares.constBegin(); it != security->tradedShares.constEnd(); ++it) {
@@ -1529,13 +1449,27 @@ void SecurityTransactionsDialog::updateTransactions() {
 	for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = security->scheduledDividends.constBegin(); it != security->scheduledDividends.constEnd(); ++it) {
 		ScheduledTransaction *strans = *it;
 		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString::null, strans->transaction()->valueString(), "-");
-		i->sdiv = strans;
+		i->srediv = strans;
 		i->date = strans->date();
 		i->value = strans->transaction()->value();
 		if(strans->recurrence()) {
 			i->setText(1, tr("Recurring Dividend"));
 		} else {
 			i->setText(1, tr("Scheduled Dividend"));
+		}
+		items.append(i);
+	}
+	for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = security->scheduledReinvestedDividends.constBegin(); it != security->scheduledReinvestedDividends.constEnd(); ++it) {
+		ScheduledTransaction *strans = *it;
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString::null, strans->transaction()->valueString(), QLocale().toString(((ReinvestedDividend*) strans->transaction())->shares(), 'f', security->decimals()));
+		i->sdiv = strans;
+		i->date = strans->date();
+		i->value = strans->transaction()->value();
+		i->shares = ((ReinvestedDividend*) strans->transaction())->shares();
+		if(strans->recurrence()) {
+			i->setText(1, tr("Recurring Reinvested Dividend"));
+		} else {
+			i->setText(1, tr("Scheduled Reinvested Dividend"));
 		}
 		items.append(i);
 	}
@@ -2640,51 +2574,9 @@ void Eqonomize::newDividend() {
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
 	newScheduledTransaction(TRANSACTION_TYPE_INCOME, i == NULL ? NULL : i->security(), true);
 }
-void Eqonomize::editReinvestedDividend(ReinvestedDividend *rediv, Security *security) {
-	editReinvestedDividend(rediv, security, this);
-}
-bool Eqonomize::editReinvestedDividend(ReinvestedDividend *rediv, Security *security, QWidget *parent) {
-	EditReinvestedDividendDialog *dialog = new EditReinvestedDividendDialog(budget, security, true, parent);
-	dialog->setDividend(rediv);
-	if(dialog->exec() == QDialog::Accepted) {
-		if(dialog->modifyDividend(rediv)) {
-			security->reinvestedDividends.setAutoDelete(false);
-			security->reinvestedDividends.removeRef(rediv);
-			security->reinvestedDividends.setAutoDelete(true);
-			updateSecurity(security);
-			updateSecurityAccount(security->account());
-			security = dialog->selectedSecurity();
-			security->reinvestedDividends.inSort(rediv);
-			updateSecurity(security);
-			updateSecurityAccount(security->account());
-			setModified(true);
-			dialog->deleteLater();
-			return true;
-		}
-	}
-	dialog->deleteLater();
-	return false;
-}
 void Eqonomize::newReinvestedDividend() {
-	if(budget->securities.count() == 0) {
-		QMessageBox::critical(this, tr("Error"), tr("No security available.", "Financial security (e.g. stock, mutual fund)"));
-		return;
-	}
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
-	Security *security = NULL;
-	if(i) security = i->security();
-	EditReinvestedDividendDialog *dialog = new EditReinvestedDividendDialog(budget, security, true, this);
-	if(dialog->exec() == QDialog::Accepted) {
-		ReinvestedDividend *rediv = dialog->createDividend();
-		if(rediv) {
-			security = dialog->selectedSecurity();
-			security->reinvestedDividends.inSort(rediv);
-			updateSecurity(security);
-			updateSecurityAccount(security->account());
-			setModified(true);
-		}
-	}
-	dialog->deleteLater();
+	newScheduledTransaction(TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND, i == NULL ? NULL : i->security(), true);
 }
 void Eqonomize::editSecurityTrade(SecurityTrade *ts) {
 	editSecurityTrade(ts, this);
@@ -3394,7 +3286,7 @@ bool Eqonomize::editOccurrence(ScheduledTransaction *strans, const QDate &date, 
 		} else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
 			security = ((Income*) strans->transaction())->security();
 		}
-		TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, strans->transactiontype(), NULL, false, security, SECURITY_ALL_VALUES, security != NULL, budget, parent, true);
+		TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, strans->transactionsubtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND ? TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND : strans->transactiontype(), NULL, false, security, SECURITY_ALL_VALUES, security != NULL, budget, parent, true);
 		dialog->editWidget->updateAccounts();
 		dialog->editWidget->setTransaction((Transaction*) strans->transaction(), date);
 		if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
@@ -4310,9 +4202,9 @@ void Eqonomize::reloadBudget() {
 	updateUsesMultipleCurrencies();
 	budgetEdit->setCurrency(budget->defaultCurrency());
 }
-void Eqonomize::openURL(const QUrl& url, bool merge) {
+bool Eqonomize::openURL(const QUrl& url, bool merge) {
 
-	if(!merge && url != current_url && crashRecovery(QUrl(url))) return;
+	if(!merge && url != current_url && crashRecovery(QUrl(url))) return true;
 
 	bool ignore_duplicate_transactions = false, rename_duplicate_accounts = false, rename_duplicate_categories = false, rename_duplicate_securities = false;
 	if(merge) {
@@ -4334,7 +4226,7 @@ void Eqonomize::openURL(const QUrl& url, bool merge) {
 		connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 		connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
 		box1->addWidget(buttonBox);
-		if(dialog->exec() != QDialog::Accepted) return;
+		if(dialog->exec() != QDialog::Accepted) return false;
 		ignore_duplicate_transactions = idtButton->isChecked();
 		rename_duplicate_accounts = rdaButton->isChecked();
 		rename_duplicate_categories = rdcButton->isChecked();
@@ -4347,7 +4239,7 @@ void Eqonomize::openURL(const QUrl& url, bool merge) {
 	QString error = budget->loadFile(url.toLocalFile(), errors, &new_currency, merge, rename_duplicate_accounts, rename_duplicate_categories, rename_duplicate_securities, ignore_duplicate_transactions);
 	if(!error.isNull()) {
 		QMessageBox::critical(this, tr("Couldn't open file"), tr("Error loading %1: %2.").arg(url.toString()).arg(error));
-		return;
+		return false;
 	}
 	if(!errors.isEmpty()) {
 		QMessageBox::critical(this, tr("Error"), errors);
@@ -4395,6 +4287,8 @@ void Eqonomize::openURL(const QUrl& url, bool merge) {
 	ActionFileSave->setEnabled(false);
 	
 	checkSchedule(true);
+	
+	return true;
 
 }
 
@@ -4488,8 +4382,9 @@ void Eqonomize::importEQZ() {
 	if(mime.isValid()) filter_string = mime.filterString();
 	if(filter_string.isEmpty()) filter_string = tr("Eqonomize! Accounting File") + "(*.eqz)";
 	QString url = QFileDialog::getOpenFileName(this, QString(), current_url.isValid() ? current_url.adjusted(QUrl::RemoveFilename).toLocalFile() : QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + QString("/"), filter_string);
-	if(!url.isEmpty()) openURL(QUrl::fromLocalFile(url), true);
-	setModified(true);
+	if(!url.isEmpty()) {
+		if(openURL(QUrl::fromLocalFile(url), true)) setModified(true);
+	}
 }
 
 void Eqonomize::exportQIF() {

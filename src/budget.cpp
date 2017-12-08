@@ -136,6 +136,7 @@ Budget::Budget() {
 	i_budget_day = 1;
 	b_record_new_accounts = false;
 	i_tcrd = TRANSACTION_CONVERSION_RATE_AT_DATE;
+	null_incomes_account = new IncomesAccount(this, QString::null);
 }
 Budget::~Budget() {}
 
@@ -494,7 +495,8 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
 						((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.append(strans);
 					} else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
-						((Income*) strans->transaction())->security()->scheduledDividends.append(strans);
+						if(strans->transactionsubtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) ((Income*) strans->transaction())->security()->scheduledReinvestedDividends.append(strans);
+						else ((Income*) strans->transaction())->security()->scheduledDividends.append(strans);
 					}
 				}
 			} else if(!valid) {
@@ -553,29 +555,21 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					delete income;
 				}
 			} else if(type == "reinvested_dividend") {
-				QXmlStreamAttributes attr = xml.attributes();
-				QDate date = QDate::fromString(attr.value("date").toString(), Qt::ISODate);
-				double shares = attr.value("shares").toDouble();
-				int id = attr.value("security").toInt();
-				Security *security;
-				if(securities_id.contains(id)) {
-					security = securities_id[id];
-				} else {
-					security = NULL;
-				}
-				if(date.isValid() && security) {
-					bool b_dup = false;
-					if(merge && ignore_duplicate_transactions) {
-						for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it = security->reinvestedDividends.constBegin(); it != security->reinvestedDividends.constEnd(); ++it) {
-							if((*it)->date > date) break;
-							else if(date == (*it)->date && shares == (*it)->shares) {b_dup = true; break;}
-						}
+				ReinvestedDividend *rediv = new ReinvestedDividend(this, &xml, &valid);
+				if(valid && merge && ignore_duplicate_transactions) {
+					for(SecurityTransactionList<ReinvestedDividend*>::const_iterator it = rediv->security()->reinvestedDividends.constBegin(); it != rediv->security()->reinvestedDividends.constEnd(); ++it) {
+						if((*it)->date() > rediv->date()) break;
+						else if(rediv->equals(*it, false)) {delete rediv; rediv = NULL; break;}
 					}
-					if(!b_dup) security->reinvestedDividends.append(new ReinvestedDividend(date, shares));
-				} else {
-					transaction_errors++;
 				}
-				xml.skipCurrentElement();
+				if(valid && rediv) {
+					incomes.append(rediv);
+					transactions.append(rediv);
+					rediv->security()->reinvestedDividends.append(rediv);
+				} else if(!valid) {
+					transaction_errors++;
+					delete rediv;
+				}
 			} else if(type == "security_trade") {
 				QXmlStreamAttributes attr = xml.attributes();
 				QDate date = QDate::fromString(attr.value("date").toString(), Qt::ISODate);
@@ -875,6 +869,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 		security->transactions.sort();
 		security->scheduledTransactions.sort();
 		security->scheduledDividends.sort();
+		security->scheduledReinvestedDividends.sort();
 		security->reinvestedDividends.sort();
 		security->tradedShares.sort();
 	}
@@ -1014,19 +1009,6 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		}
 	}
 
-	for(SecurityList<Security*>::const_iterator it = securities.constBegin(); it != securities.constEnd(); ++it) {
-		Security *security = *it;
-		for(ReinvestedDividendList<ReinvestedDividend*>::const_iterator it2 = security->reinvestedDividends.constBegin(); it2 != security->reinvestedDividends.constEnd(); ++it2) {
-			ReinvestedDividend *rediv = *it2;
-			xml.writeStartElement("transaction");
-			xml.writeAttribute("type", "reinvested_dividend");
-			xml.writeAttribute("security", QString::number(security->id()));
-			xml.writeAttribute("date", rediv->date.toString(Qt::ISODate));
-			xml.writeAttribute("shares", QString::number(rediv->shares, 'f', security->decimals()));
-			xml.writeEndElement();
-		}
-	}
-
 	for(SecurityTradeList<SecurityTrade*>::const_iterator it = securityTrades.constBegin(); it != securityTrades.constEnd(); ++it) {
 		SecurityTrade *ts = *it;
 		xml.writeStartElement("transaction");
@@ -1051,7 +1033,8 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 					break;
 				}
 				case TRANSACTION_TYPE_INCOME: {
-					if(((Income*) trans)->security()) xml.writeAttribute("type", "dividend");
+					if(trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) xml.writeAttribute("type", "reinvested_dividend");
+					else if(((Income*) trans)->security()) xml.writeAttribute("type", "dividend");
 					else if(trans->value() < 0.0) xml.writeAttribute("type", "repayment");
 					else xml.writeAttribute("type", "income");
 					break;
@@ -1111,7 +1094,8 @@ void Budget::addTransaction(Transaction *trans) {
 		case TRANSACTION_TYPE_INCOME: {
 			incomes.inSort((Income*) trans);
 			if(((Income*) trans)->security()) {
-				((Income*) trans)->security()->dividends.inSort((Income*) trans);
+				if(trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) ((Income*) trans)->security()->reinvestedDividends.inSort((ReinvestedDividend*) trans);
+				else ((Income*) trans)->security()->dividends.inSort((Income*) trans);
 			}
 			break;
 		}
@@ -1144,7 +1128,8 @@ void Budget::removeTransaction(Transaction *trans, bool keep) {
 		case TRANSACTION_TYPE_INCOME: {
 			incomes.setAutoDelete(false);
 			if(((Income*) trans)->security()) {
-				((Income*) trans)->security()->dividends.removeRef((Income*) trans);
+				if(trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) ((Income*) trans)->security()->reinvestedDividends.removeRef((ReinvestedDividend*) trans);
+				else ((Income*) trans)->security()->dividends.removeRef((Income*) trans);
 			}
 			incomes.removeRef((Income*) trans);
 			incomes.setAutoDelete(true);
@@ -1193,7 +1178,8 @@ void Budget::removeSplitTransaction(SplitTransaction *split, bool keep) {
 			case TRANSACTION_TYPE_INCOME: {
 				incomes.setAutoDelete(false);
 				incomes.removeRef((Income*) trans);
-				if(((Income*) trans)->security()) ((Income*) trans)->security()->dividends.removeRef((Income*) trans);
+				if(trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) ((Income*) trans)->security()->reinvestedDividends.removeRef((ReinvestedDividend*) trans);
+				else if(((Income*) trans)->security()) ((Income*) trans)->security()->dividends.removeRef((Income*) trans);
 				incomes.setAutoDelete(true);
 				break;
 			}
@@ -1224,14 +1210,16 @@ void Budget::addScheduledTransaction(ScheduledTransaction *strans) {
 	if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
 		((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.inSort(strans);
 	} else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
-		((Income*) strans->transaction())->security()->scheduledDividends.inSort(strans);
+		if(strans->transactionsubtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) ((Income*) strans->transaction())->security()->scheduledReinvestedDividends.inSort(strans);
+		else ((Income*) strans->transaction())->security()->scheduledDividends.inSort(strans);
 	}
 }
 void Budget::removeScheduledTransaction(ScheduledTransaction *strans, bool keep) {
 	 if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
-			((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.removeRef(strans);
+		((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.removeRef(strans);
 	 } else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
-			((Income*) strans->transaction())->security()->scheduledDividends.removeRef(strans);
+	 	if(strans->transactionsubtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) ((Income*) strans->transaction())->security()->scheduledReinvestedDividends.removeRef(strans);
+		else ((Income*) strans->transaction())->security()->scheduledDividends.removeRef(strans);
 	}
 	if(keep) scheduledTransactions.setAutoDelete(false);
 	scheduledTransactions.removeRef(strans);
@@ -1380,7 +1368,8 @@ void Budget::transactionSortModified(Transaction *t) {
 		case TRANSACTION_TYPE_INCOME: {
 			Income *i = (Income*) t;
 			if(i->security()) {
-				if(i->security()->dividends.removeRef(i)) i->security()->dividends.inSort(i);
+				if(i->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND && i->security()->reinvestedDividends.removeRef((ReinvestedDividend*) i)) i->security()->reinvestedDividends.inSort((ReinvestedDividend*) i);
+				else if(i->security()->dividends.removeRef(i)) i->security()->dividends.inSort(i);
 			}
 			incomes.setAutoDelete(false);
 			if(incomes.removeRef(i)) incomes.inSort(i);
@@ -1427,6 +1416,7 @@ void Budget::scheduledTransactionSortModified(ScheduledTransaction *strans) {
 	if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
 		if(((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.removeRef(strans)) ((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.inSort(strans);
 	} else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
+		if(strans->transactionsubtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND && ((Income*) strans->transaction())->security()->scheduledReinvestedDividends.removeRef(strans)) ((Income*) strans->transaction())->security()->scheduledReinvestedDividends.inSort(strans);
 		if(((Income*) strans->transaction())->security()->scheduledDividends.removeRef(strans)) ((Income*) strans->transaction())->security()->scheduledDividends.inSort(strans);
 	}
 	scheduledTransactions.setAutoDelete(false);
@@ -1493,11 +1483,20 @@ void Budget::removeSecurity(Security *security, bool keep) {
 			transactions.removeRef(i);
 			incomes.removeRef(i);
 		}
+		for(SecurityTransactionList<ReinvestedDividend*>::const_iterator it = security->reinvestedDividends.constBegin(); it != security->reinvestedDividends.constEnd(); ++it) {
+			Income *i = *it;
+			transactions.removeRef(i);
+			incomes.removeRef(i);
+		}
 		for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = security->scheduledTransactions.constBegin(); it != security->scheduledTransactions.constEnd(); ++it) {
 			ScheduledTransaction *strans = *it;
 			scheduledTransactions.removeRef(strans);
 		}
 		for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = security->scheduledDividends.constBegin(); it != security->scheduledDividends.constEnd(); ++it) {
+			ScheduledTransaction *strans = *it;
+			scheduledTransactions.removeRef(strans);
+		}
+		for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = security->scheduledReinvestedDividends.constBegin(); it != security->scheduledReinvestedDividends.constEnd(); ++it) {
 			ScheduledTransaction *strans = *it;
 			scheduledTransactions.removeRef(strans);
 		}
@@ -1513,7 +1512,7 @@ void Budget::removeSecurity(Security *security, bool keep) {
 	if(keep) securities.setAutoDelete(true);
 }
 bool Budget::securityHasTransactions(Security *security) {
-	return security->reinvestedDividends.count() > 0 || security->tradedShares.count() > 0 || security->transactions.count() > 0 || security->dividends.count() > 0 || security->scheduledTransactions.count() > 0 || security->scheduledDividends.count() > 0;
+	return security->reinvestedDividends.count() > 0 || security->scheduledReinvestedDividends.count() > 0 || security->tradedShares.count() > 0 || security->transactions.count() > 0 || security->dividends.count() > 0 || security->scheduledTransactions.count() > 0 || security->scheduledDividends.count() > 0;
 }
 void Budget::securityNameModified(Security *security) {
 	securities.setAutoDelete(false);
