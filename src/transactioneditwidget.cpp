@@ -273,7 +273,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		}
 		if(b_extra && !multiaccount && !select_security && !security && transtype == TRANSACTION_TYPE_EXPENSE) {
 			editLayout->addWidget(new QLabel(tr("Quantity:"), this), TEROWCOL(i, 0));
-			quantityEdit = new EqonomizeValueEdit(1.0, QUANTITY_DECIMAL_PLACES, true, false, this);
+			quantityEdit = new EqonomizeValueEdit(1.0, QUANTITY_DECIMAL_PLACES, true, false, this, budget);
 			quantityEdit->setToolTip(tr("Number of items included in the transaction. Entered cost is total cost for all items."));
 			editLayout->addWidget(quantityEdit, TEROWCOL(i, 1));
 			i++;
@@ -1021,7 +1021,7 @@ bool TransactionEditWidget::checkAccounts() {
 		}
 		case TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND: {
 			if(fromCombo && !fromCombo->hasAccount()) {
-				QMessageBox::critical(this, tr("Error"), tr("No suitable category available."));
+				QMessageBox::critical(this, tr("Error"), tr("No income category available."));
 				return false;
 			}
 			break;

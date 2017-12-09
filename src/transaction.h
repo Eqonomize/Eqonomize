@@ -85,9 +85,13 @@ class Transactions {
 	
 	Q_DECLARE_TR_FUNCTIONS(Transactions)
 	
+	protected:
+	
+		bool b_reconciled;
+	
 	public:
 		
-		Transactions() {}
+		Transactions();
 		virtual ~Transactions() {}
 		virtual Transactions *copy() const = 0;
 		virtual bool equals(const Transactions *transaction, bool strict_comparison = true) const = 0;
@@ -111,6 +115,8 @@ class Transactions {
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const = 0;
 		virtual void replaceAccount(Account *old_account, Account *new_account) = 0;
 		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const = 0;
+		virtual bool isReconciled() const;
+		virtual void setReconciled(bool is_reconciled);
 	
 };
 
@@ -689,6 +695,9 @@ class SplitTransaction : public Transactions {
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
 		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
+		
+		virtual bool isReconciled() const;
+		virtual void setReconciled(bool is_reconciled);
 
 };
 

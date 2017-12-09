@@ -204,7 +204,7 @@ void AssetsAccount::setClosed(bool close_account) {
 const QString &AssetsAccount::maintainer() const {return s_maintainer;}
 void AssetsAccount::setMaintainer(QString maintainer_name) {s_maintainer = maintainer_name;}
 AssetsType AssetsAccount::accountType() const {return at_type;}
-Currency *AssetsAccount::currency() const {return o_currency;}
+Currency *AssetsAccount::currency() const {if(!o_currency) return o_budget->defaultCurrency(); return o_currency;}
 void AssetsAccount::setCurrency(Currency *new_currency) {o_currency = new_currency;}
 
 bool account_list_less_than(Account *t1, Account *t2) {

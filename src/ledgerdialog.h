@@ -34,6 +34,9 @@ class QComboBox;
 class QLabel;
 class QAction;
 class QMenu;
+class QFrame;
+class QDateEdit;
+class EqonomizeValueEdit;
 
 class Eqonomize;
 class AssetsAccount;
@@ -50,16 +53,24 @@ class LedgerDialog : public QDialog {
 		Budget *budget;
 		bool b_extra;
 		
+		int re1, re2;
+		
 		QTreeWidget *transactionsView;
-		QPushButton *editButton, *removeButton, *joinButton, *splitUpButton;
+		QPushButton *editButton, *removeButton, *joinButton, *splitUpButton, *reconcileButton;
+		QDateEdit *reconcileStartEdit, *reconcileEndEdit;
+		EqonomizeValueEdit *reconcileOpeningEdit, *reconcileClosingEdit, *reconcileChangeEdit;
+		QLabel *reconcileOpeningLabel, *reconcileClosingLabel, *reconcileChangeLabel, *reconcileReconciledLabel;
+		QFrame *reconcileWidget;
 		QPushButton *exportButton, *printButton;
 		QComboBox *accountCombo;
 		QLabel *statLabel;
 		QAction *ActionNewDebtInterest, *ActionNewDebtPayment;
-		QMenu *headerMenu;
+		QMenu *headerMenu, *listMenu;
 
 		bool exportList(QTextStream &outf, int fileformat, QDate first_date = QDate(), QDate last_date = QDate());
 		void accountChanged();
+		
+		void updateReconciliationStats(bool = false);
 		
 	public:
 		
@@ -73,12 +84,21 @@ class LedgerDialog : public QDialog {
 	protected slots:
 		
 		void popupHeaderMenu(const QPoint&);
+		void popupListMenu(const QPoint&);
+		void toggleReconciliation(bool);
+		void reconcileTransactions();
+		void reconcileStartDateChanged(const QDate&);
+		void reconcileEndDateChanged(const QDate&);
+		void reconcileOpeningChanged(double);
+		void reconcileClosingChanged(double);
+		void reconcileChangeChanged(double);
 		void hideColumn(bool);
 		void remove();
 		void edit();
-		void edit(QTreeWidgetItem*);
+		void edit(QTreeWidgetItem*, int);
+		void transactionActivated(QTreeWidgetItem*, int);
 		void transactionSelectionChanged();
-		void updateTransactions();
+		void updateTransactions(bool = false);
 		void updateAccounts();
 		void newExpense();
 		void newIncome();

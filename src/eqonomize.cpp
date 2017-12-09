@@ -1453,9 +1453,9 @@ void SecurityTransactionsDialog::updateTransactions() {
 		i->date = strans->date();
 		i->value = strans->transaction()->value();
 		if(strans->recurrence()) {
-			i->setText(1, tr("Recurring Dividend"));
+			i->setText(1, tr("Dividend (Recurring)"));
 		} else {
-			i->setText(1, tr("Scheduled Dividend"));
+			i->setText(1, tr("Dividend (Scheduled)"));
 		}
 		items.append(i);
 	}
@@ -1467,9 +1467,9 @@ void SecurityTransactionsDialog::updateTransactions() {
 		i->value = strans->transaction()->value();
 		i->shares = ((ReinvestedDividend*) strans->transaction())->shares();
 		if(strans->recurrence()) {
-			i->setText(1, tr("Recurring Reinvested Dividend"));
+			i->setText(1, tr("Reinvested Dividend (Recurring)"));
 		} else {
-			i->setText(1, tr("Scheduled Reinvested Dividend"));
+			i->setText(1, tr("Reinvested Dividend (Scheduled)"));
 		}
 		items.append(i);
 	}

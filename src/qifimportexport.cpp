@@ -1551,7 +1551,7 @@ void exportQIFTransaction(QTextStream &fstream, qif_info &qi, Transaction *trans
 	}
 	if(!cat) fstream << "L" << "[" << ((SecurityTransaction*) trans)->security()->account()->name() << ":" << ((SecurityTransaction*) trans)->security()->name() << "]" << "\n";
 	else if(cat->type() == ACCOUNT_TYPE_ASSETS) fstream << "L" << "[" << cat->name() << "]" << "\n";
-	else fstream << "L" << cat->nameWithParent(false) << "\n";
+	else if(cat != trans->budget()->null_incomes_account) fstream << "L" << cat->nameWithParent(false) << "\n";
 	if(sectrans && secacc) fstream << "$" << writeQIFValue((trans->type() == TRANSACTION_TYPE_SECURITY_SELL) ? -trans->value() : trans->value(), qi.value_format, SAVE_MONETARY_DECIMAL_PLACES) << "\n";
 	fstream << "^" << "\n";
 

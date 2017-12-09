@@ -85,7 +85,7 @@ class Currency {
 		double convertTo(double value, const Currency *to_currency, const QDate &date) const;
 		double convertFrom(double value, const Currency *from_currency, const QDate &date) const;
 		
-		QString formatValue(double value, int nr_of_decimals = -1, bool show_currency = true) const;
+		QString formatValue(double value, int nr_of_decimals = -1, bool show_currency = true, bool always_show_sign = false) const;
 
 		const QString &code() const;
 		const QString &symbol(bool return_code_if_empty = false) const;

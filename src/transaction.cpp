@@ -38,6 +38,7 @@ static const QString emptystr;
 static const QDate emptydate;
 static qint64 zero_timestamp;
 
+Transactions::Transactions() : b_reconciled(false) {}
 QString Transactions::valueString(int precision) const {
 	return valueString(value(), precision);
 }
@@ -49,6 +50,8 @@ QString Transactions::valueString(double value_, int precision) const {
 void Transactions::setTimestamp() {
 	setTimestamp(QDateTime::currentMSecsSinceEpoch() * 1000);
 }
+bool Transactions::isReconciled() const {return b_reconciled;}
+void Transactions::setReconciled(bool is_reconciled) {b_reconciled = is_reconciled;}
 
 Transaction::Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description, QString initial_comment) : o_budget(parent_budget), d_value(initial_value), d_date(initial_date), o_from(from), o_to(to), s_description(initial_description.trimmed()), s_comment(initial_comment.trimmed()), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentMSecsSinceEpoch() * 1000) {}
 Transaction::Transaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : o_budget(parent_budget) {
@@ -71,6 +74,7 @@ void Transaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	s_file = attr->value("file").trimmed().toString();
 	if(attr->hasAttribute("quantity")) d_quantity = attr->value("quantity").toDouble();
 	else d_quantity = 1.0;
+	b_reconciled = attr->value("reconciled").toInt();
 	if(valid && (*valid)) *valid = d_date.isValid();
 }
 bool Transaction::readElement(QXmlStreamReader*, bool*) {return false;}
@@ -93,6 +97,7 @@ void Transaction::writeAttributes(QXmlStreamAttributes *attr) {
 	if(!s_comment.isEmpty()) attr->append("comment", s_comment);
 	if(!s_file.isEmpty()) attr->append("file", s_file);
 	if(d_quantity != 1.0) attr->append("quantity", QString::number(d_quantity, 'f', QUANTITY_DECIMAL_PLACES));
+	if(b_reconciled) attr->append("reconciled", QString::number(b_reconciled));
 }
 void Transaction::writeElements(QXmlStreamWriter*) {}
 
@@ -1177,6 +1182,7 @@ void SplitTransaction::readAttributes(QXmlStreamAttributes *attr, bool*) {
 	s_description = attr->value("description").trimmed().toString();
 	s_comment = attr->value("comment").trimmed().toString();
 	s_file = attr->value("file").trimmed().toString();
+	b_reconciled = attr->value("reconciled").toInt();
 }
 bool SplitTransaction::readElement(QXmlStreamReader*, bool*) {
 	return false;
@@ -1199,6 +1205,7 @@ void SplitTransaction::writeAttributes(QXmlStreamAttributes *attr) {
 	if(!s_description.isEmpty()) attr->append("description", s_description);
 	if(!s_comment.isEmpty()) attr->append("comment", s_comment);
 	if(!s_file.isEmpty()) attr->append("file", s_file);
+	if(b_reconciled) attr->append("reconciled", QString::number(b_reconciled));
 }
 
 void SplitTransaction::writeElements(QXmlStreamWriter*) {}
@@ -1257,6 +1264,22 @@ void SplitTransaction::setDate(QDate new_date) {
 	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
 		splits[i]->setDate(d_date);
 	}
+}
+void SplitTransaction::setReconciled(bool is_reconciled) {
+	Transactions::setReconciled(is_reconciled);
+	QVector<Transaction*>::size_type c = splits.count();
+	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
+		splits[i]->setReconciled(is_reconciled);
+	}
+}
+bool SplitTransaction::isReconciled() const {
+	if(Transactions::isReconciled()) return true;
+	QVector<Transaction*>::size_type c = splits.count();
+	if(c == 0) return false;
+	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
+		if(!splits[i]->isReconciled()) return false;
+	}
+	return true;
 }
 const qint64 &SplitTransaction::timestamp() const {return i_time;}
 void SplitTransaction::setTimestamp(qint64 cr_time) {

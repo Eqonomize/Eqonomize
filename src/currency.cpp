@@ -235,18 +235,41 @@ double Currency::convertFrom(double value, const Currency *from_currency, const 
 	return from_currency->convertTo(value, this, date);
 }
 
-QString Currency::formatValue(double value, int nr_of_decimals, bool show_currency) const {
+QString Currency::formatValue(double value, int nr_of_decimals, bool show_currency, bool always_show_sign) const {
 	if(nr_of_decimals < 0) {
 		if(i_decimals < 0) nr_of_decimals = MONETARY_DECIMAL_PLACES;
 		else nr_of_decimals = i_decimals;
 	}
-	if(!show_currency) return QLocale().toString(value, 'f', nr_of_decimals);
+	if(!show_currency) {
+		if(always_show_sign && value == 0) {
+			return QString("±") + QLocale().toString(value, 'f', nr_of_decimals);
+		} else if(always_show_sign && value > 0) {
+			return QString("+") + QLocale().toString(value, 'f', nr_of_decimals);
+		}
+		return QLocale().toString(value, 'f', nr_of_decimals);
+		
+	}
 	if((this == o_budget->defaultCurrency()) && !s_symbol.isEmpty()) {
 		if((b_precedes < 0 && currency_symbol_precedes()) || b_precedes > 0) {
+			if(always_show_sign && value == 0) {
+				return s_symbol + QString("±") + QLocale().toString(value, 'f', nr_of_decimals);
+			} else if(always_show_sign && value > 0) {
+				return s_symbol + QString("+") + QLocale().toString(value, 'f', nr_of_decimals);
+			}
 			return s_symbol + QLocale().toString(value, 'f', nr_of_decimals);
 		}
+		if(always_show_sign && value == 0) {
+			return QString("±") + QLocale().toString(value, 'f', nr_of_decimals) + " " + s_symbol;
+		} else if(always_show_sign && value > 0) {
+			return QString("+") + QLocale().toString(value, 'f', nr_of_decimals) + " " + s_symbol;
+		}
 		return QLocale().toString(value, 'f', nr_of_decimals) + " " + s_symbol;
-	}	
+	}
+	if(always_show_sign && value == 0) {
+		return QString("±") + QLocale().toString(value, 'f', nr_of_decimals) + " " + ((this != o_budget->defaultCurrency() || s_symbol.isEmpty()) ? s_code : s_symbol);
+	} else if(always_show_sign && value > 0) {
+		return QString("+") + QLocale().toString(value, 'f', nr_of_decimals) + " " + ((this != o_budget->defaultCurrency() || s_symbol.isEmpty()) ? s_code : s_symbol);
+	}
 	return QLocale().toString(value, 'f', nr_of_decimals) + " " + ((this != o_budget->defaultCurrency() || s_symbol.isEmpty()) ? s_code : s_symbol);
 }
 
