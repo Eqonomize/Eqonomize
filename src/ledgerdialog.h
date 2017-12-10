@@ -53,13 +53,16 @@ class LedgerDialog : public QDialog {
 		Budget *budget;
 		bool b_extra;
 		
+		double d_rec_cl, d_rec_op;
+		double d_book_cl, d_book_op;
+		
 		int re1, re2;
 		
 		QTreeWidget *transactionsView;
 		QPushButton *editButton, *removeButton, *joinButton, *splitUpButton, *reconcileButton;
 		QDateEdit *reconcileStartEdit, *reconcileEndEdit;
 		EqonomizeValueEdit *reconcileOpeningEdit, *reconcileClosingEdit, *reconcileChangeEdit;
-		QLabel *reconcileOpeningLabel, *reconcileClosingLabel, *reconcileChangeLabel, *reconcileReconciledLabel;
+		QLabel *reconcileBOpeningLabel, *reconcileBClosingLabel, *reconcileBChangeLabel, *reconcileROpeningLabel, *reconcileRClosingLabel, *reconcileRChangeLabel;
 		QFrame *reconcileWidget;
 		QPushButton *exportButton, *printButton;
 		QComboBox *accountCombo;
@@ -71,6 +74,7 @@ class LedgerDialog : public QDialog {
 		void accountChanged();
 		
 		void updateReconciliationStats(bool = false, bool = false, bool = false);
+		void updateReconciliationStatLabels();
 		
 	public:
 		

@@ -182,6 +182,10 @@ QColor createExpenseColor(QTreeWidgetItem *i, int = 0) {return createExpenseColo
 QColor createIncomeColor(QTreeWidgetItem *i, int = 0) {return createIncomeColor(i->treeWidget()->viewport()->palette().color(i->treeWidget()->viewport()->foregroundRole()));}
 QColor createTransferColor(QTreeWidgetItem *i, int = 0) {return createTransferColor(i->treeWidget()->viewport()->palette().color(i->treeWidget()->viewport()->foregroundRole()));}
 
+QColor createExpenseColor(QWidget *w) {return createExpenseColor(w->palette().color(w->foregroundRole()));}
+QColor createIncomeColor(QWidget *w) {return createIncomeColor(w->palette().color(w->foregroundRole()));}
+QColor createTransferColor(QWidget *w) {return createTransferColor(w->palette().color(w->foregroundRole()));}
+
 void setAccountChangeColor(QTreeWidgetItem *i, double change, bool is_expense) {
 	//QColor fg = i->foreground(VALUE_COLUMN).color();
 	if((!is_expense && change < 0.0) || (is_expense && change > 0.0)) {
