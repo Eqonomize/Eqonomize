@@ -70,11 +70,11 @@ class LedgerDialog : public QDialog {
 		bool exportList(QTextStream &outf, int fileformat, QDate first_date = QDate(), QDate last_date = QDate());
 		void accountChanged();
 		
-		void updateReconciliationStats(bool = false);
+		void updateReconciliationStats(bool = false, bool = false, bool = false);
 		
 	public:
 		
-		LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title, bool extra_parameters);
+		LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title, bool extra_parameters, bool do_reconciliation = false);
 		~LedgerDialog();
 		
 	public slots:

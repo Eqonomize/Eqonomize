@@ -1270,7 +1270,7 @@ SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize 
 	QHBoxLayout *box2 = new QHBoxLayout();
 	box1->addLayout(box2);
 	transactionsView = new EqonomizeTreeWidget(this);
-	transactionsView->sortByColumn(0, Qt::AscendingOrder);
+	transactionsView->sortByColumn(0, Qt::DescendingOrder);
 	transactionsView->setAllColumnsShowFocus(true);
 	transactionsView->setColumnCount(4);	
 	QStringList headers;
@@ -1913,6 +1913,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	accountsLayout->addWidget(accountsTabs);
 
 	accountPopupMenu = NULL;
+	assetsPopupMenu = NULL;
 
 	connect(budgetMonthEdit, SIGNAL(dateChanged(const QDate&)), this, SLOT(budgetMonthChanged(const QDate&)));
 	connect(budgetEdit, SIGNAL(valueChanged(double)), this, SLOT(budgetChanged(double)));
@@ -3711,6 +3712,7 @@ void Eqonomize::onPageChange(int index) {
 		ActionCloseAccount->setEnabled(false);
 		ActionEditAccount->setEnabled(false);
 		ActionBalanceAccount->setEnabled(false);
+		ActionReconcileAccount->setEnabled(false);
 		ActionShowAccountTransactions->setEnabled(false);
 	}
 	if(index == SECURITIES_PAGE_INDEX) {
@@ -3766,19 +3768,30 @@ void Eqonomize::popupAccountsMenu(const QPoint &p) {
 		ActionAddAccount->setText(tr("Add Category"));
 		
 	}
-	if(!accountPopupMenu) {
-		accountPopupMenu = new QMenu(this);
-		accountPopupMenu->addAction(ActionAddAccount);
-		accountPopupMenu->addAction(ActionEditAccount);
-		if(account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS)) {
-			accountPopupMenu->addAction(ActionBalanceAccount);
-			accountPopupMenu->addAction(ActionCloseAccount);
+	if(i == liabilitiesItem || i == assetsItem || (account_items.contains(i) && account_items[i]->type() == ACCOUNT_TYPE_ASSETS)) {
+		if(!assetsPopupMenu) {
+			assetsPopupMenu = new QMenu(this);
+			assetsPopupMenu->addAction(ActionAddAccount);
+			assetsPopupMenu->addAction(ActionEditAccount);
+			assetsPopupMenu->addAction(ActionReconcileAccount);
+			assetsPopupMenu->addAction(ActionBalanceAccount);
+			assetsPopupMenu->addAction(ActionCloseAccount);
+			assetsPopupMenu->addAction(ActionDeleteAccount);
+			assetsPopupMenu->addSeparator();
+			assetsPopupMenu->addAction(ActionShowAccountTransactions);
 		}
-		accountPopupMenu->addAction(ActionDeleteAccount);
-		accountPopupMenu->addSeparator();
-		accountPopupMenu->addAction(ActionShowAccountTransactions);
+		assetsPopupMenu->popup(accountsView->viewport()->mapToGlobal(p));
+	} else {
+		if(!accountPopupMenu) {
+			accountPopupMenu = new QMenu(this);
+			accountPopupMenu->addAction(ActionAddAccount);
+			accountPopupMenu->addAction(ActionEditAccount);
+			accountPopupMenu->addAction(ActionDeleteAccount);
+			accountPopupMenu->addSeparator();
+			accountPopupMenu->addAction(ActionShowAccountTransactions);
+		}
+		accountPopupMenu->popup(accountsView->viewport()->mapToGlobal(p));
 	}
-	accountPopupMenu->popup(accountsView->viewport()->mapToGlobal(p));
 
 }
 
@@ -3795,6 +3808,22 @@ void Eqonomize::showLedger() {
 		if(account == budget->balancingAccount && budget->assetsAccounts.count() > 1) account = budget->assetsAccounts[1];
 	}
 	LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, this, tr("Ledger"), b_extra);
+	dialog->show();
+	connect(this, SIGNAL(timeToSaveConfig()), dialog, SLOT(saveConfig()));
+}
+void Eqonomize::reconcileAccount() {
+	if(budget->assetsAccounts.isEmpty()) return;
+	QTreeWidgetItem *i = selectedItem(accountsView);
+	Account *account = NULL;
+	if(i && i != assetsItem && i != liabilitiesItem && i != incomesItem && i != expensesItem) {
+		account = account_items[i];
+		if(account && account->type() != ACCOUNT_TYPE_ASSETS) account = NULL;
+	}
+	if(!account) {
+		account = budget->assetsAccounts[0];
+		if(account == budget->balancingAccount && budget->assetsAccounts.count() > 1) account = budget->assetsAccounts[1];
+	}
+	LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, this, tr("Ledger"), b_extra, true);
 	dialog->show();
 	connect(this, SIGNAL(timeToSaveConfig()), dialog, SLOT(saveConfig()));
 }
@@ -5483,6 +5512,7 @@ void Eqonomize::setupActions() {
 	accountsToolbar->addAction(ActionAddAccountMenu);
 	accountsMenu->addSeparator();
 	NEW_ACTION_ALT(ActionEditAccount, tr("Edit…"), "document-edit", "eqz-edit", 0, this, SLOT(editAccount()), "edit_account", accountsMenu);
+	NEW_ACTION(ActionReconcileAccount, tr("Reconcile Account…"), "eqz-ledger", 0, this, SLOT(reconcileAccount()), "reconcile_account", accountsMenu);
 	NEW_ACTION(ActionBalanceAccount, tr("Adjust balance…", "Referring to account balance"), "eqz-balance", 0, this, SLOT(balanceAccount()), "balance_account", accountsMenu);
 	accountsMenu->addSeparator();
 	NEW_ACTION(ActionCloseAccount, tr("Close Account", "Mark account as closed"), "edit-delete", 0, this, SLOT(closeAccount()), "close_account", accountsMenu);
@@ -5600,6 +5630,7 @@ void Eqonomize::setupActions() {
 	ActionDeleteAccount->setEnabled(false);
 	ActionCloseAccount->setEnabled(false);
 	ActionShowAccountTransactions->setEnabled(false);
+	ActionReconcileAccount->setEnabled(false);
 	ActionEditTransaction->setEnabled(false);
 	ActionDeleteTransaction->setEnabled(false);
 	ActionEditSplitTransaction->setEnabled(false);
@@ -7940,10 +7971,12 @@ void Eqonomize::accountsSelectionChanged() {
 		ActionEditAccount->setEnabled(false);
 		ActionBalanceAccount->setEnabled(false);
 		budgetEdit->setEnabled(false);
+		ActionReconcileAccount->setEnabled(false);
 	} else {
 		ActionDeleteAccount->setEnabled(true);
 		ActionEditAccount->setEnabled(true);
 		ActionBalanceAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i])->accountType() != ASSETS_TYPE_SECURITIES);
+		ActionReconcileAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i])->accountType() != ASSETS_TYPE_SECURITIES);
 		ActionCloseAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS);
 		if(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i])->isClosed()) {
 			ActionCloseAccount->setText(tr("Reopen Account", "Mark account as not closed"));

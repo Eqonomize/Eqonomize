@@ -75,19 +75,9 @@ typedef enum {
 	GENERAL_TRANSACTION_TYPE_SCHEDULE
 } GeneralTransactionType;
 
-/*typedef enum {
-	TRANSACTION_STATUS_NONE,
-	TRANSACTION_STATUS_CLEARED,
-	TRANSACTION_STATUS_RECONCILED
-} TransactionStatus;*/
-
 class Transactions {
 	
 	Q_DECLARE_TR_FUNCTIONS(Transactions)
-	
-	protected:
-	
-		bool b_reconciled;
 	
 	public:
 		
@@ -115,8 +105,8 @@ class Transactions {
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const = 0;
 		virtual void replaceAccount(Account *old_account, Account *new_account) = 0;
 		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const = 0;
-		virtual bool isReconciled() const;
-		virtual void setReconciled(bool is_reconciled);
+		virtual bool isReconciled(AssetsAccount *account) const = 0;
+		virtual void setReconciled(AssetsAccount *account, bool is_reconciled) = 0;
 	
 };
 
@@ -130,7 +120,7 @@ class Transaction : public Transactions {
 		
 		double d_value;
 
-		QDate d_date;		
+		QDate d_date;
 		
 		Account *o_from;
 		Account *o_to;
@@ -145,8 +135,6 @@ class Transaction : public Transactions {
 		SplitTransaction *o_split;
 		
 		qint64 i_time;
-
-		//TransactionStatus ts_status;
 
 	public:
 
@@ -200,6 +188,9 @@ class Transaction : public Transactions {
 		virtual void replaceAccount(Account *old_account, Account *new_account);
 		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
 		
+		virtual bool isReconciled(AssetsAccount *account) const = 0;
+		virtual void setReconciled(AssetsAccount *account, bool is_reconciled) = 0;
+		
 };
 
 class Expense : public Transaction {
@@ -209,6 +200,7 @@ class Expense : public Transaction {
 	protected:
 
 		QString s_payee;
+		bool b_reconciled;
 
 	public:
 
@@ -238,6 +230,9 @@ class Expense : public Transaction {
 		virtual TransactionSubType subtype() const;
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
+		
+		virtual bool isReconciled(AssetsAccount *account) const;
+		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
 		
 };
 
@@ -312,6 +307,7 @@ class Income : public Transaction {
 
 		Security *o_security;
 		QString s_payer;
+		bool b_reconciled;
 
 	public:
 
@@ -341,6 +337,9 @@ class Income : public Transaction {
 		Security *security() const;
 		virtual QString description() const;
 		virtual TransactionSubType subtype() const;
+		
+		virtual bool isReconciled(AssetsAccount *account) const;
+		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
 		
 };
 
@@ -385,6 +384,7 @@ class Transfer : public Transaction {
 	protected:
 	
 		double d_deposit;
+		bool b_from_reconciled, b_to_reconciled;
 
 	public:
 	
@@ -417,6 +417,9 @@ class Transfer : public Transaction {
 		virtual QString description() const;
 		TransactionType type() const;
 		virtual TransactionSubType subtype() const;
+		
+		virtual bool isReconciled(AssetsAccount *account) const;
+		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
 		
 };
 
@@ -483,6 +486,8 @@ class SecurityTransaction : public Transaction {
 		Security *o_security;
 		
 		double d_shares;
+		
+		bool b_reconciled;
 
 	public:
 
@@ -516,6 +521,9 @@ class SecurityTransaction : public Transaction {
 
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
+		
+		virtual bool isReconciled(AssetsAccount *account) const;
+		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
 		
 };
 
@@ -625,6 +633,9 @@ class ScheduledTransaction : public Transactions {
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
 		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
+		
+		virtual bool isReconciled(AssetsAccount *account) const;
+		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
 	
 };
 
@@ -641,6 +652,7 @@ class SplitTransaction : public Transactions {
 		QString s_file;
 		QVector<Transaction*> splits;
 		qint64 i_time;
+		bool b_reconciled;
 		
 	public:
 		
@@ -696,8 +708,8 @@ class SplitTransaction : public Transactions {
 		virtual void replaceAccount(Account *old_account, Account *new_account);
 		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
 		
-		virtual bool isReconciled() const;
-		virtual void setReconciled(bool is_reconciled);
+		virtual bool isReconciled(AssetsAccount *account) const;
+		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
 
 };
 
@@ -743,6 +755,9 @@ class MultiItemTransaction : public SplitTransaction {
 		
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
+		
+		virtual bool isReconciled(AssetsAccount *account) const;
+		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
 
 };
 
@@ -792,7 +807,7 @@ class MultiAccountTransaction : public SplitTransaction {
 		
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
-	
+
 };
 
 class DebtPayment : public SplitTransaction {
@@ -865,6 +880,9 @@ class DebtPayment : public SplitTransaction {
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
 		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
+		
+		virtual bool isReconciled(AssetsAccount *account) const;
+		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
 		
 };
 
