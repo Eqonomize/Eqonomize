@@ -737,6 +737,7 @@ class EqonomizeTreeWidget : public QTreeWidget {
 	signals:
 	
 		void returnPressed(QTreeWidgetItem*);
+		void spacePressed(QTreeWidgetItem*);
 		void itemMoved(QTreeWidgetItem*, QTreeWidgetItem*);
 
 };

@@ -59,7 +59,7 @@ class LedgerDialog : public QDialog {
 		int re1, re2;
 		
 		QTreeWidget *transactionsView;
-		QPushButton *editButton, *removeButton, *joinButton, *splitUpButton, *reconcileButton;
+		QPushButton *editButton, *removeButton, *joinButton, *splitUpButton, *reconcileButton, *markReconciledButton;
 		QDateEdit *reconcileStartEdit, *reconcileEndEdit;
 		EqonomizeValueEdit *reconcileOpeningEdit, *reconcileClosingEdit, *reconcileChangeEdit;
 		QLabel *reconcileBOpeningLabel, *reconcileBClosingLabel, *reconcileBChangeLabel, *reconcileROpeningLabel, *reconcileRClosingLabel, *reconcileRChangeLabel;
@@ -91,6 +91,7 @@ class LedgerDialog : public QDialog {
 		void popupListMenu(const QPoint&);
 		void toggleReconciliation(bool);
 		void reconcileTransactions();
+		void markAsReconciled();
 		void reconcileStartDateChanged(const QDate&);
 		void reconcileEndDateChanged(const QDate&);
 		void reconcileOpeningChanged(double);
@@ -100,6 +101,8 @@ class LedgerDialog : public QDialog {
 		void remove();
 		void edit();
 		void edit(QTreeWidgetItem*, int);
+		void onTransactionSpacePressed(QTreeWidgetItem*);
+		void onTransactionReturnPressed(QTreeWidgetItem*);
 		void transactionActivated(QTreeWidgetItem*, int);
 		void transactionSelectionChanged();
 		void updateTransactions(bool = false);

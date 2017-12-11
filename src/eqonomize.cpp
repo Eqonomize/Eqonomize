@@ -8206,6 +8206,11 @@ void EqonomizeTreeWidget::keyPressEvent(QKeyEvent *e) {
 		QTreeWidget::keyPressEvent(e);
 		e->accept();
 		return;
+	} else if(e->key() == Qt::Key_Space && currentItem()) {
+		emit spacePressed(currentItem());
+		QTreeWidget::keyPressEvent(e);
+		e->accept();
+		return;
 	}
 	QTreeWidget::keyPressEvent(e);
 }

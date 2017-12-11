@@ -240,6 +240,7 @@ QString Currency::formatValue(double value, int nr_of_decimals, bool show_curren
 		if(i_decimals < 0) nr_of_decimals = MONETARY_DECIMAL_PLACES;
 		else nr_of_decimals = i_decimals;
 	}
+	if(is_zero(value)) value = 0.0;
 	if(!show_currency) {
 		if(always_show_sign && value == 0) {
 			return QString("±") + QLocale().toString(value, 'f', nr_of_decimals);
