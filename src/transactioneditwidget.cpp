@@ -169,8 +169,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			}
 		}
 		if(security_value_type != SECURITY_VALUE_AND_SHARES) {
-			if(transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) editLayout->addWidget(new QLabel(tr("Value per share:", "Financial shares"), this), TEROWCOL(i, 0));
-			else editLayout->addWidget(new QLabel(tr("Price per share:", "Financial shares"), this), TEROWCOL(i, 0));
+			editLayout->addWidget(new QLabel(tr("Price per share:", "Financial shares"), this), TEROWCOL(i, 0));
 			quotationEdit = new EqonomizeValueEdit(0.0, security ? security->quotationDecimals() : budget->defaultQuotationDecimals(), false, true, this, budget);
 			editLayout->addWidget(quotationEdit, TEROWCOL(i, 1));
 			i++;
@@ -934,18 +933,57 @@ void TransactionEditWidget::setDefaultValueFromCategory() {
 		}
 	}
 }
-void TransactionEditWidget::updateFromAccounts(Account *exclude_account, Currency *force_currency) {
+void TransactionEditWidget::updateFromAccounts(Account *exclude_account, Currency *force_currency, bool set_default) {
 	if(!fromCombo) return;
 	fromCombo->updateAccounts(exclude_account, force_currency);
+	if(set_default) {
+		if((transtype == TRANSACTION_TYPE_INCOME && security) || transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
+			for(TransactionList<Income*>::const_iterator it = budget->incomes.constEnd(); it != budget->incomes.constBegin();) {
+				--it;
+				Income *income = *it;
+				if(income->security()) {
+					fromCombo->setCurrentAccount(income->category());
+					break;
+				}
+			}
+		} else if(transtype == TRANSACTION_TYPE_INCOME) {
+			Income *trans = budget->incomes.last();
+			if(trans) fromCombo->setCurrentAccount(trans->category());
+		} else if(transtype == TRANSACTION_TYPE_EXPENSE) {
+			Expense *trans = budget->expenses.last();
+			if(trans) fromCombo->setCurrentAccount(trans->from());
+		} else if(transtype == TRANSACTION_TYPE_TRANSFER) {
+			Transaction *trans = budget->transfers.last();
+			if(trans) fromCombo->setCurrentAccount(trans->fromAccount());
+		} else if(transtype == TRANSACTION_TYPE_SECURITY_BUY) {
+			SecurityTransaction *trans = budget->securityTransactions.last();
+			if(trans) fromCombo->setCurrentAccount(trans->account());
+		}
+	}
 }
-void TransactionEditWidget::updateToAccounts(Account *exclude_account, Currency *force_currency) {
+void TransactionEditWidget::updateToAccounts(Account *exclude_account, Currency *force_currency, bool set_default) {
 	if(!toCombo) return;
 	toCombo->updateAccounts(exclude_account, force_currency);
+	if(set_default) {
+		if(transtype == TRANSACTION_TYPE_INCOME) {
+			Income *trans = budget->incomes.last();
+			if(trans) toCombo->setCurrentAccount(trans->to());
+		} else if(transtype == TRANSACTION_TYPE_EXPENSE) {
+			Expense *trans = budget->expenses.last();
+			if(trans) toCombo->setCurrentAccount(trans->category());
+		} else if(transtype == TRANSACTION_TYPE_TRANSFER) {
+			Transaction *trans = budget->transfers.last();
+			if(trans) toCombo->setCurrentAccount(trans->toAccount());
+		} else if(transtype == TRANSACTION_TYPE_SECURITY_SELL) {
+			SecurityTransaction *trans = budget->securityTransactions.last();
+			if(trans) toCombo->setCurrentAccount(trans->account());
+		}
+	}
 }
-void TransactionEditWidget::updateAccounts(Account *exclude_account, Currency *force_currency) {
+void TransactionEditWidget::updateAccounts(Account *exclude_account, Currency *force_currency, bool set_default) {
 	if(fromCombo) fromCombo->clear();
-	updateToAccounts(exclude_account, force_currency);
-	updateFromAccounts(exclude_account, force_currency);
+	updateToAccounts(exclude_account, force_currency, set_default);
+	updateFromAccounts(exclude_account, force_currency, set_default);
 }
 void TransactionEditWidget::transactionAdded(Transaction *trans) {
 	if(descriptionEdit && trans->type() == transtype && (transtype != TRANSACTION_TYPE_INCOME || !((Income*) trans)->security()) && trans->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && trans->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST) {

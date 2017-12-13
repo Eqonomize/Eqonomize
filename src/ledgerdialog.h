@@ -68,6 +68,7 @@ class LedgerDialog : public QDialog {
 		QComboBox *accountCombo;
 		QLabel *statLabel;
 		QAction *ActionNewDebtInterest, *ActionNewDebtPayment;
+		QAction *ActionMarkReconciled, *ActionEdit, *ActionSplit, *ActionJoin, *ActionDelete, *ActionOpenFile;
 		QMenu *headerMenu, *listMenu;
 
 		bool exportList(QTextStream &outf, int fileformat, QDate first_date = QDate(), QDate last_date = QDate());
@@ -100,6 +101,7 @@ class LedgerDialog : public QDialog {
 		void hideColumn(bool);
 		void remove();
 		void edit();
+		void openAssociatedFile();
 		void edit(QTreeWidgetItem*, int);
 		void onTransactionSpacePressed(QTreeWidgetItem*);
 		void onTransactionReturnPressed(QTreeWidgetItem*);

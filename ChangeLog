@@ -1,3 +1,10 @@
+2017-12-13  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Set last used category/account for new transaction dialogs
+	* Fix segfault on edit multiple transactions from ledger
+	* Ledger popup menu
+	* Add warning message to adjust balance dialog
+
 2017-12-09  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Reconciliation

@@ -68,9 +68,9 @@ class TransactionEditWidget : public QWidget {
 		void setTransaction(Transaction *trans);
 		void setMultiAccountTransaction(MultiAccountTransaction *split);
 		void setTransaction(Transaction *strans, const QDate &date);
-		void updateFromAccounts(Account *exclude_account = NULL, Currency *force_currency = NULL);
-		void updateToAccounts(Account *exclude_account = NULL, Currency *force_currency = NULL);
-		void updateAccounts(Account *exclude_account = NULL, Currency *force_currency = NULL);
+		void updateFromAccounts(Account *exclude_account = NULL, Currency *force_currency = NULL, bool set_default = false);
+		void updateToAccounts(Account *exclude_account = NULL, Currency *force_currency = NULL, bool set_default = false);
+		void updateAccounts(Account *exclude_account = NULL, Currency *force_currency = NULL, bool set_default = false);
 		void transactionsReset();		
 		void setCurrentToItem(int index);
 		void setCurrentFromItem(int index);

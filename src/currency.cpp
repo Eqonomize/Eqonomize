@@ -166,7 +166,7 @@ void Currency::writeElements(QXmlStreamWriter *xml, bool local_save) {
 			xml->writeEndElement();
 			++it;
 		}
-	} else {
+	} else if(!rates.isEmpty()) {
 		xml->writeStartElement("rate");
 		xml->writeAttribute("value", QString::number(rates.last(), 'f', 5));
 		xml->writeAttribute("date", rates.lastKey().toString(Qt::ISODate));

@@ -76,7 +76,7 @@ EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parame
 			break;
 		}
 	}
-	transactionEditWidget->updateAccounts();
+	transactionEditWidget->updateAccounts(NULL, NULL, true);
 	transactionEditWidget->transactionsReset();
 	if(account) transactionEditWidget->setAccount(account);
 	recurrenceEditWidget = new RecurrenceEditWidget(transactionEditWidget->date(), budget);
@@ -297,6 +297,15 @@ MultiItemTransaction *EditScheduledMultiItemDialog::createTransaction(Recurrence
 	return split;
 }
 ScheduledTransaction *EditScheduledMultiItemDialog::newScheduledTransaction(Budget *budg, QWidget *parent, AssetsAccount *account, bool extra_parameters, bool allow_account_creation) {
+	if(!account) {
+		for(SplitTransactionList<SplitTransaction*>::const_iterator it = budg->splitTransactions.constEnd(); it != budg->splitTransactions.constBegin();) {
+			--it;
+			if((*it)->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
+				account = ((MultiItemTransaction*) (*it))->account();
+				break;
+			}
+		}
+	}
 	EditScheduledMultiItemDialog *dialog = new EditScheduledMultiItemDialog(extra_parameters, budg, parent, tr("New Split Transaction"), account, allow_account_creation);
 	ScheduledTransaction *strans = NULL;
 	if(dialog->checkAccounts() && dialog->exec() == QDialog::Accepted) {

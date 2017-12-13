@@ -52,6 +52,7 @@
 #include <QHeaderView>
 #include <QMenu>
 #include <QAction>
+#include <QDesktopServices>
 
 #include "budget.h"
 #include "eqonomize.h"
@@ -314,6 +315,16 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	connect(buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), this, SLOT(reject()));
 	box1->addWidget(buttonBox);
 
+#define NEW_ACTION(action, text, icon, receiver, slot) action = new QAction(this); action->setText(text); action->setIcon(LOAD_ICON(icon)); connect(action, SIGNAL(triggered()), receiver, slot);
+#define NEW_ACTION_ALT(action, text, icon, icon_alt, receiver, slot) action = new QAction(this); action->setText(text); action->setIcon(LOAD_ICON2(icon, icon_alt)); connect(action, SIGNAL(triggered()), receiver, slot);
+
+	NEW_ACTION_ALT(ActionEdit, tr("Edit Transaction(s)…"), "document-edit", "eqz-edit", this, SLOT(edit()));
+	NEW_ACTION(ActionJoin, tr("Join Transactions…"), "eqz-join-transactions", this, SLOT(joinTransactions()));
+	NEW_ACTION(ActionSplit, tr("Split Up Transaction"), "eqz-split-transaction", this, SLOT(splitUpTransaction()));
+	NEW_ACTION(ActionOpenFile, tr("Open Associated File"), "system-run", this, SLOT(openAssociatedFile()));
+	NEW_ACTION(ActionDelete, tr("Remove Transaction(s)"), "edit-delete", this, SLOT(remove()));
+	NEW_ACTION(ActionMarkReconciled, tr("Mark as reconciled"), "edit-delete", this, SLOT(reconcileTransactions()));
+
 	connect(transactionsView, SIGNAL(itemSelectionChanged()), this, SLOT(transactionSelectionChanged()));
 	connect(transactionsView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(edit(QTreeWidgetItem*, int)));
 	connect(transactionsView, SIGNAL(returnPressed(QTreeWidgetItem*)), this, SLOT(onTransactionReturnPressed(QTreeWidgetItem*)));
@@ -445,20 +456,30 @@ void LedgerDialog::updateReconciliationStatLabels() {
 }
 void LedgerDialog::popupListMenu(const QPoint &p) {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
-	if(!reconcileButton->isChecked() || selection.isEmpty()) return;
+	if(selection.isEmpty()) return;
 	bool b = false;
-	for(int index = 0; index < selection.size(); index++) {
-		LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
-		if(i->b_reconciled == 0) {
-			b = true;
+	if(reconcileButton->isChecked()) {
+		for(int index = 0; index < selection.size(); index++) {
+			LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
+			if(i->b_reconciled == 0) {
+				b = true;
+			}
 		}
 	}
-	if(!b) return;
 	if(!listMenu) {
 		listMenu = new QMenu(this);
-		QAction *a = listMenu->addAction(tr("Mark as reconciled", "Accounting context"));
-		connect(a, SIGNAL(triggered()), this, SLOT(reconcileTransactions()));
+		listMenu->addAction(ActionMarkReconciled);
+		listMenu->addSeparator();
+		listMenu->addAction(ActionEdit);
+		listMenu->addAction(ActionJoin);
+		listMenu->addAction(ActionSplit);
+		listMenu->addSeparator();
+		listMenu->addAction(ActionOpenFile);
+		listMenu->addSeparator();
+		listMenu->addAction(ActionDelete);
 	}
+	ActionMarkReconciled->setVisible(reconcileButton->isChecked());
+	ActionMarkReconciled->setEnabled(b);
 	listMenu->popup(transactionsView->viewport()->mapToGlobal(p));
 }
 void LedgerDialog::toggleReconciliation(bool b) {
@@ -468,6 +489,7 @@ void LedgerDialog::toggleReconciliation(bool b) {
 	markReconciledButton->setVisible(b);
 	if(b) {
 		updateReconciliationStats(true, true, true);
+		reconcileStartEdit->setFocus();
 	} else {
 		transactionsView->model()->blockSignals(true);
 		QTreeWidgetItemIterator it(transactionsView, QTreeWidgetItemIterator::All);
@@ -649,6 +671,11 @@ void LedgerDialog::popupHeaderMenu(const QPoint &p) {
 		a->setCheckable(true);
 		a->setChecked(!transactionsView->isColumnHidden(2));
 		connect(a, SIGNAL(toggled(bool)), this, SLOT(hideColumn(bool)));
+		a = headerMenu->addAction(header->text(3));
+		a->setProperty("column_index", QVariant::fromValue(3));
+		a->setCheckable(true);
+		a->setChecked(!transactionsView->isColumnHidden(3));
+		connect(a, SIGNAL(toggled(bool)), this, SLOT(hideColumn(bool)));
 		a = headerMenu->addAction(header->text(4));
 		a->setProperty("column_index", QVariant::fromValue(4));
 		a->setCheckable(true);
@@ -769,7 +796,7 @@ bool LedgerDialog::exportList(QTextStream &outf, int fileformat, QDate first_dat
 			QTreeWidgetItem *header = transactionsView->headerItem();
 			outf << "\t\t\t\t\t<th>" << htmlize_string(header->text(1)) << "</th>";
 			if(!transactionsView->isColumnHidden(2)) outf << "<th>" << htmlize_string(header->text(2)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(3)) << "</th>";
+			if(!transactionsView->isColumnHidden(3)) outf << "<th>" << htmlize_string(header->text(3)) << "</th>";
 			if(!transactionsView->isColumnHidden(4)) outf << "<th>" << htmlize_string(header->text(4)) << "</th>";
 			if(!transactionsView->isColumnHidden(5)) outf << "<th>" << htmlize_string(header->text(5)) << "</th>";
 			if(!transactionsView->isColumnHidden(6)) outf << "<th>" << htmlize_string(header->text(6)) << "</th>";
@@ -792,7 +819,7 @@ bool LedgerDialog::exportList(QTextStream &outf, int fileformat, QDate first_dat
 					outf << "\t\t\t\t<tr>" << '\n';
 					outf << "\t\t\t\t\t<td nowrap align=\"right\">" << htmlize_string(i->text(1)) << "</td>";
 					if(!transactionsView->isColumnHidden(2)) outf << "<td>" << htmlize_string(i->text(2)) << "</td>";
-					outf << "<td>" << htmlize_string(i->text(3)) << "</td>";
+					if(!transactionsView->isColumnHidden(3)) outf << "<td>" << htmlize_string(i->text(3)) << "</td>";
 					if(!transactionsView->isColumnHidden(4)) outf << "<td>" << htmlize_string(i->text(4)) << "</td>";
 					if(!transactionsView->isColumnHidden(5)) outf << "<td>" << htmlize_string(i->text(5)) << "</td>";
 					if(!transactionsView->isColumnHidden(6)) outf << "<td>" << htmlize_string(i->text(6)) << "</td>";
@@ -816,7 +843,7 @@ bool LedgerDialog::exportList(QTextStream &outf, int fileformat, QDate first_dat
 			QTreeWidgetItem *header = transactionsView->headerItem();
 			outf << "\"" << header->text(1);
 			if(!transactionsView->isColumnHidden(2)) outf << "\",\"" << header->text(2);
-			outf << "\",\"" << header->text(3);
+			if(!transactionsView->isColumnHidden(3)) outf << "\",\"" << header->text(3);
 			if(!transactionsView->isColumnHidden(4)) outf << "\",\"" << header->text(4);
 			if(!transactionsView->isColumnHidden(5)) outf << "\",\"" << header->text(5);
 			if(!transactionsView->isColumnHidden(6)) outf << "\",\"" << header->text(6);
@@ -833,7 +860,7 @@ bool LedgerDialog::exportList(QTextStream &outf, int fileformat, QDate first_dat
 				if(include) {
 					outf << "\"" << i->text(1);
 					if(!transactionsView->isColumnHidden(2)) outf << "\",\"" << i->text(2);
-					outf << "\",\"" << i->text(3);
+					if(!transactionsView->isColumnHidden(3)) outf << "\",\"" << i->text(3);
 					if(!transactionsView->isColumnHidden(4)) outf << "\",\"" << i->text(4);
 					if(!transactionsView->isColumnHidden(5)) outf << "\",\"" << i->text(5);
 					if(!transactionsView->isColumnHidden(6)) outf << "\",\"" << i->text(6);
@@ -970,6 +997,7 @@ void LedgerDialog::transactionSelectionChanged() {
 	bool b_split = selected;
 	bool b_edit = selected;
 	bool b_remove = selected;
+	bool b_file = selected;
 	SplitTransaction *split = NULL;
 	for(int index = 0; index < selection.size(); index++) {
 		LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
@@ -978,11 +1006,14 @@ void LedgerDialog::transactionSelectionChanged() {
 			if(b_edit && (index > 0 || selection.size() > 1)) b_edit = false;
 			b_join = false;
 			if(b_split) b_split = (selection.count() == 1) && (i->splitTransaction()->type() != SPLIT_TRANSACTION_TYPE_LOAN);
+			if(b_file) b_file = (selection.count() == 1) && !i->splitTransaction()->associatedFile().isEmpty();
+			
 		} else if(!trans) {
 			if(selection.size() > 1) b_edit = false;
 			b_remove = false;
 			b_join = false;
 			b_split = false;
+			b_file = false;
 			break;
 		} else {
 			if(b_edit && trans->parentSplit() && (index > 0 || selection.size() > 1)) b_edit = false;
@@ -991,13 +1022,19 @@ void LedgerDialog::transactionSelectionChanged() {
 				if(!trans->parentSplit() || trans->parentSplit() != split || trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) b_split = false;
 			}
 			if(b_join && trans->parentSplit()) b_join = false;
+			if(b_file) b_file = (selection.count() == 1) && !trans->associatedFile().isEmpty();
 		}
 	}
 	if(b_join && selection.size() == 1) b_join = false;
 	joinButton->setEnabled(b_join);
+	ActionJoin->setEnabled(b_join);
 	splitUpButton->setEnabled(b_split);
+	ActionSplit->setEnabled(b_split);
 	removeButton->setEnabled(b_remove);
+	ActionDelete->setEnabled(b_remove);
 	editButton->setEnabled(b_edit);
+	ActionEdit->setEnabled(b_edit);
+	ActionOpenFile->setEnabled(b_file);
 }
 void LedgerDialog::newExpense() {
 	mainWin->newScheduledTransaction(TRANSACTION_TYPE_EXPENSE, NULL, false, this, account);
@@ -1053,6 +1090,18 @@ void LedgerDialog::remove() {
 		}
 	}
 }
+void LedgerDialog::openAssociatedFile() {
+	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
+	if(selection.count() > 0) {
+		LedgerListViewItem *i = (LedgerListViewItem*) selection.first();
+		Transactions *transs = i->transaction();
+		if(i->splitTransaction()) transs = i->splitTransaction();
+		else if(i->transaction()->parentSplit() && transs->associatedFile().isEmpty()) transs = i->transaction()->parentSplit();
+		if(transs) {
+			QDesktopServices::openUrl(QUrl::fromLocalFile(transs->associatedFile()));
+		}
+	}
+}
 void LedgerDialog::edit() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() == 1) {
@@ -1089,7 +1138,7 @@ void LedgerDialog::edit() {
 						}
 					}
 				} else {
-					if(transtype >= 0 && comptrans->type() != transtype) {
+					if(transtype >= 0 && i->transaction()->type() != transtype) {
 						transtype = -1;
 					}
 					if(equal_date && (compdate != i->transaction()->date())) {
@@ -1124,8 +1173,8 @@ void LedgerDialog::edit() {
 		}
 		MultipleTransactionsEditDialog *dialog = new MultipleTransactionsEditDialog(b_extra, transtype, budget, this);
 		LedgerListViewItem *i = (LedgerListViewItem*) transactionsView->currentItem();
-		if(!i->isSelected()) i = (LedgerListViewItem*) selection.first();
-		if(i) {
+		if(!i || !i->isSelected()) i = (LedgerListViewItem*) selection.first();
+		if(i && i->transaction()) {
 			dialog->setTransaction(i->transaction());
 		}
 		if(equal_description) dialog->descriptionButton->setChecked(true);

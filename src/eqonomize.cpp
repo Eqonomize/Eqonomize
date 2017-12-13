@@ -5756,7 +5756,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.0</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2017 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.1</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2017 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);
@@ -6375,8 +6375,10 @@ void Eqonomize::balanceAccount(Account *i_account) {
 	dialog->setWindowTitle(tr("Adjust Account Balance"));
 	dialog->setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
+	box1->setSpacing(18);
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
+	grid->setSpacing(6);
 	grid->addWidget(new QLabel(tr("Book value:"), dialog), 0, 0);
 	QLabel *label = new QLabel(account->currency()->formatValue(book_value), dialog);
 	label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
@@ -6388,6 +6390,14 @@ void Eqonomize::balanceAccount(Account *i_account) {
 	EqonomizeValueEdit *realEdit = new EqonomizeValueEdit(book_value, true, true, dialog, budget);
 	realEdit->setCurrency(account->currency());
 	grid->addWidget(realEdit, 2, 1);
+	QFrame *frame = new QFrame(this);
+	QHBoxLayout *wbox = new QHBoxLayout(frame);
+	frame->setFrameShape(QFrame::Box);
+	label = new QLabel(tr("Only use this when unable to find the cause of the incorrect recorded account balance."), dialog);
+	label->setContentsMargins(6, 6, 6, 6);
+	label->setWordWrap(true);
+	wbox->addWidget(label);
+	box1->addWidget(frame);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
