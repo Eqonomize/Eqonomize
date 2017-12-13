@@ -455,6 +455,8 @@ void LedgerDialog::updateReconciliationStatLabels() {
 	reconcileBOpeningLabel->setText(tr("Book value: %1 (%2)", "Accounting context").arg(format_value(d_book_op, account->currency())).arg(format_diff_value(d_book_op - reconcileOpeningEdit->value(), account->currency())));
 }
 void LedgerDialog::popupListMenu(const QPoint &p) {
+	QTreeWidgetItem *qwi = transactionsView->itemAt(p);
+	if(!qwi || qwi->isDisabled()) return;
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.isEmpty()) return;
 	bool b = false;
@@ -1226,8 +1228,14 @@ void LedgerDialog::edit() {
 		dialog->deleteLater();
 	}
 }
-void LedgerDialog::edit(QTreeWidgetItem*, int c) {
-	if(c != 0) edit();
+void LedgerDialog::edit(QTreeWidgetItem *qwi, int c) {
+	if(c != 0 && qwi) {
+		LedgerListViewItem *i = (LedgerListViewItem*) qwi;
+		if(i->splitTransaction()) mainWin->editSplitTransaction(i->splitTransaction(), this);
+		else if(!i->transaction()) mainWin->editAccount(account, this);
+		else if(i->transaction()->parentSplit()) mainWin->editSplitTransaction(i->transaction()->parentSplit(), this);
+		else if(i->transaction()) mainWin->editTransaction(i->transaction(), this);
+	}
 }
 void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 	int scroll_h = transactionsView->horizontalScrollBar()->value();
