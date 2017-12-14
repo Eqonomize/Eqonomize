@@ -1561,7 +1561,7 @@ void EditSecurityDialog::accountActivated(int i) {
 }
 bool EditSecurityDialog::checkAccount() {
 	if(accountCombo->count() == 0) {
-		QMessageBox::critical(isVisible() ? this : parentWidget(), tr("Error"), tr("No suitable account or income category available."));
+		QMessageBox::critical(isVisible() ? this : parentWidget(), tr("Error"), tr("No suitable account available."));
 		return false;
 	}
 	return true;
@@ -2161,8 +2161,11 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	readOptions();
 
 	if(first_run) {
-		QDesktopWidget desktop;
-		resize(QSize(750, 650).boundedTo(desktop.availableGeometry(this).size()));
+		QFontMetrics fm(accountsView->font());
+		int w = fm.width(accountsView->headerItem()->text(0)) + fm.width(QString(15, 'h'));
+		accountsView->setMinimumWidth(w + accountsView->columnWidth(BUDGET_COLUMN) + accountsView->columnWidth(CHANGE_COLUMN) + accountsView->columnWidth(VALUE_COLUMN));
+		//QDesktopWidget desktop;
+		//resize(QSize(750, 650).boundedTo(desktop.availableGeometry(this).size()));
 	}
 	
 
@@ -4138,8 +4141,11 @@ void Eqonomize::setModified(bool has_been_modified) {
 void Eqonomize::createDefaultBudget() {
 	if(!askSave()) return;
 	budget->clear();
-	bool new_currency = false;
-	if(current_url.isEmpty()) new_currency = budget->resetDefaultCurrency();
+	bool new_currency = false, adjust_contents = false;
+	if(current_url.isEmpty()) {
+		new_currency = budget->resetDefaultCurrency();
+		if(first_run) adjust_contents = true;
+	}
 	current_url = "";
 	setWindowTitle(tr("Untitled") + "[*]");
 	ActionFileReload->setEnabled(false);
@@ -4168,11 +4174,15 @@ void Eqonomize::createDefaultBudget() {
 	if(new_currency) warnAndAskForExchangeRate();
 
 	reloadBudget();
+	if(adjust_contents) {
+		accountsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
+	}
 	setModified(false);
 	ActionFileSave->setEnabled(true);
 	emit accountsModified();
 	emit transactionsModified();
 	emit budgetUpdated();
+
 }
 void Eqonomize::reloadBudget() {
 	incomes_accounts_value = 0.0;
