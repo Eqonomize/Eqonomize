@@ -3055,42 +3055,42 @@ i18n: file ./eqonomizeui.rc line 56
 <context>
     <name>AccountComboBox</name>
     <message>
-        <location filename="../src/accountcombobox.cpp" line="76"/>
+        <location filename="../src/accountcombobox.cpp" line="77"/>
         <source>New account…</source>
         <translation>Új számla…</translation>
     </message>
     <message>
-        <location filename="../src/accountcombobox.cpp" line="77"/>
+        <location filename="../src/accountcombobox.cpp" line="78"/>
         <source>Payed with loan / payment plan…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/accountcombobox.cpp" line="78"/>
+        <location filename="../src/accountcombobox.cpp" line="79"/>
         <source>Multiple accounts/payments…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/accountcombobox.cpp" line="124"/>
+        <location filename="../src/accountcombobox.cpp" line="125"/>
         <source>New income category…</source>
         <translation>Új bevételi kategória…</translation>
     </message>
     <message>
-        <location filename="../src/accountcombobox.cpp" line="139"/>
+        <location filename="../src/accountcombobox.cpp" line="140"/>
         <source>New expense category…</source>
         <translation>Új kiadási kategória…</translation>
     </message>
     <message>
-        <location filename="../src/accountcombobox.cpp" line="163"/>
+        <location filename="../src/accountcombobox.cpp" line="164"/>
         <source>New Account</source>
         <translation>Új számla</translation>
     </message>
     <message>
-        <location filename="../src/accountcombobox.cpp" line="171"/>
+        <location filename="../src/accountcombobox.cpp" line="172"/>
         <source>New Income Category</source>
         <translation>Új bevételi kategória</translation>
     </message>
     <message>
-        <location filename="../src/accountcombobox.cpp" line="179"/>
+        <location filename="../src/accountcombobox.cpp" line="180"/>
         <source>New Expense Category</source>
         <translation>Új kiadási kategória</translation>
     </message>
@@ -5595,14 +5595,14 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
     <message>
         <location filename="../src/eqonomize.cpp" line="1767"/>
         <location filename="../src/eqonomize.cpp" line="1815"/>
-        <location filename="../src/eqonomize.cpp" line="5176"/>
+        <location filename="../src/eqonomize.cpp" line="5182"/>
         <source>Expenses</source>
         <translation>Kiadások</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1769"/>
         <location filename="../src/eqonomize.cpp" line="1813"/>
-        <location filename="../src/eqonomize.cpp" line="5128"/>
+        <location filename="../src/eqonomize.cpp" line="5134"/>
         <source>Incomes</source>
         <translation>Bevételek</translation>
     </message>
@@ -5643,13 +5643,13 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <translation type="obsolete">%2 maradt (terv: %1)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5447"/>
+        <location filename="../src/eqonomize.cpp" line="5453"/>
         <source>Accounts</source>
         <translation>Számlák</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1833"/>
-        <location filename="../src/eqonomize.cpp" line="5224"/>
+        <location filename="../src/eqonomize.cpp" line="5230"/>
         <source>Includes budgeted transactions</source>
         <translation>Költségvetési tranzakciókat tartalmaz</translation>
     </message>
@@ -5679,25 +5679,25 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1875"/>
-        <location filename="../src/eqonomize.cpp" line="5604"/>
+        <location filename="../src/eqonomize.cpp" line="5610"/>
         <source>Current Month</source>
         <translation>Aktuális hónap</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1876"/>
-        <location filename="../src/eqonomize.cpp" line="5605"/>
+        <location filename="../src/eqonomize.cpp" line="5611"/>
         <source>Current Year</source>
         <translation>Aktuális év</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1877"/>
-        <location filename="../src/eqonomize.cpp" line="5606"/>
+        <location filename="../src/eqonomize.cpp" line="5612"/>
         <source>Current Whole Month</source>
         <translation>Aktuális teljes hónap</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1878"/>
-        <location filename="../src/eqonomize.cpp" line="5607"/>
+        <location filename="../src/eqonomize.cpp" line="5613"/>
         <source>Current Whole Year</source>
         <translation>Aktuális teljes év</translation>
     </message>
@@ -5761,14 +5761,14 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1986"/>
-        <location filename="../src/eqonomize.cpp" line="5032"/>
-        <location filename="../src/eqonomize.cpp" line="5083"/>
+        <location filename="../src/eqonomize.cpp" line="5038"/>
+        <location filename="../src/eqonomize.cpp" line="5089"/>
         <source>Name</source>
         <translation>Név</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1987"/>
-        <location filename="../src/eqonomize.cpp" line="5234"/>
+        <location filename="../src/eqonomize.cpp" line="5240"/>
         <source>Value</source>
         <translation>Érték</translation>
     </message>
@@ -5798,8 +5798,8 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
     <message>
         <location filename="../src/eqonomize.cpp" line="1993"/>
         <location filename="../src/eqonomize.cpp" line="2093"/>
-        <location filename="../src/eqonomize.cpp" line="5033"/>
-        <location filename="../src/eqonomize.cpp" line="5084"/>
+        <location filename="../src/eqonomize.cpp" line="5039"/>
+        <location filename="../src/eqonomize.cpp" line="5090"/>
         <source>Type</source>
         <translation>Típus</translation>
     </message>
@@ -5825,7 +5825,7 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2082"/>
-        <location filename="../src/eqonomize.cpp" line="5523"/>
+        <location filename="../src/eqonomize.cpp" line="5529"/>
         <source>Remove</source>
         <translation type="unfinished">Törlés</translation>
     </message>
@@ -6054,132 +6054,132 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4487"/>
+        <location filename="../src/eqonomize.cpp" line="4493"/>
         <source>New version available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4487"/>
+        <location filename="../src/eqonomize.cpp" line="4493"/>
         <source>A new version of %1 is available.&lt;br&gt;&lt;br&gt;You can get version %2 at %3.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4536"/>
+        <location filename="../src/eqonomize.cpp" line="4542"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4553"/>
-        <location filename="../src/eqonomize.cpp" line="4571"/>
+        <location filename="../src/eqonomize.cpp" line="4559"/>
+        <location filename="../src/eqonomize.cpp" line="4577"/>
         <source>Failed to download exchange rates from %1: %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4558"/>
-        <location filename="../src/eqonomize.cpp" line="4577"/>
+        <location filename="../src/eqonomize.cpp" line="4564"/>
+        <location filename="../src/eqonomize.cpp" line="4583"/>
         <source>Error reading data from %1: %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4629"/>
+        <location filename="../src/eqonomize.cpp" line="4635"/>
         <source>Unrecognized Currency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4634"/>
+        <location filename="../src/eqonomize.cpp" line="4640"/>
         <source>No exchange rate is available for the default currency (%1). If you wish to use multiple currencies you should set the exchange rate manually.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4659"/>
+        <location filename="../src/eqonomize.cpp" line="4665"/>
         <source>Set Main Currency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4664"/>
+        <location filename="../src/eqonomize.cpp" line="4670"/>
         <source>Currency:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4684"/>
+        <location filename="../src/eqonomize.cpp" line="4690"/>
         <source>Replace all occurrences of the former main currency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5488"/>
+        <location filename="../src/eqonomize.cpp" line="5494"/>
         <source>Import %1 File…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5519"/>
+        <location filename="../src/eqonomize.cpp" line="5525"/>
         <source>Reconcile Account…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5520"/>
+        <location filename="../src/eqonomize.cpp" line="5526"/>
         <source>Adjust balance…</source>
         <comment>Referring to account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5522"/>
-        <location filename="../src/eqonomize.cpp" line="6809"/>
-        <location filename="../src/eqonomize.cpp" line="7999"/>
+        <location filename="../src/eqonomize.cpp" line="5528"/>
+        <location filename="../src/eqonomize.cpp" line="6799"/>
+        <location filename="../src/eqonomize.cpp" line="7989"/>
         <source>Close Account</source>
         <comment>Mark account as closed</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6396"/>
+        <location filename="../src/eqonomize.cpp" line="6386"/>
         <source>Only use this when unable to find the cause of the incorrect recorded account balance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6806"/>
-        <location filename="../src/eqonomize.cpp" line="7996"/>
+        <location filename="../src/eqonomize.cpp" line="6796"/>
+        <location filename="../src/eqonomize.cpp" line="7986"/>
         <source>Reopen Account</source>
         <comment>Mark account as not closed</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5560"/>
+        <location filename="../src/eqonomize.cpp" line="5566"/>
         <source>New Debt Payment…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5561"/>
+        <location filename="../src/eqonomize.cpp" line="5567"/>
         <source>New Unpayed Interest…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5562"/>
+        <location filename="../src/eqonomize.cpp" line="5568"/>
         <source>New Expense Payed with Loan / Payment Plan…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5595"/>
+        <location filename="../src/eqonomize.cpp" line="5601"/>
         <source>Use Exchange Rate for Transaction Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5597"/>
+        <location filename="../src/eqonomize.cpp" line="5603"/>
         <source>Use the exchange rate nearest the transaction date, instead of the latest available rate, when converting the value of transactions.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5776"/>
+        <location filename="../src/eqonomize.cpp" line="5782"/>
         <source>%1 exited unexpectedly before the file was saved and data was lost.
 Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4416"/>
-        <location filename="../src/eqonomize.cpp" line="6019"/>
+        <location filename="../src/eqonomize.cpp" line="4422"/>
+        <location filename="../src/eqonomize.cpp" line="6009"/>
         <source>Eqonomize! Accounting File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6375"/>
+        <location filename="../src/eqonomize.cpp" line="6365"/>
         <source>Adjust Account Balance</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6227,30 +6227,30 @@ Do you want to load the last auto-saved version of the file?</source>
         <location filename="../src/eqonomize.cpp" line="4014"/>
         <location filename="../src/eqonomize.cpp" line="4018"/>
         <location filename="../src/eqonomize.cpp" line="4278"/>
-        <location filename="../src/eqonomize.cpp" line="4553"/>
-        <location filename="../src/eqonomize.cpp" line="4558"/>
-        <location filename="../src/eqonomize.cpp" line="4571"/>
+        <location filename="../src/eqonomize.cpp" line="4559"/>
+        <location filename="../src/eqonomize.cpp" line="4564"/>
         <location filename="../src/eqonomize.cpp" line="4577"/>
-        <location filename="../src/eqonomize.cpp" line="4581"/>
-        <location filename="../src/eqonomize.cpp" line="4653"/>
-        <location filename="../src/eqonomize.cpp" line="5264"/>
-        <location filename="../src/eqonomize.cpp" line="5269"/>
-        <location filename="../src/eqonomize.cpp" line="5274"/>
-        <location filename="../src/eqonomize.cpp" line="5279"/>
-        <location filename="../src/eqonomize.cpp" line="5284"/>
-        <location filename="../src/eqonomize.cpp" line="5296"/>
-        <location filename="../src/eqonomize.cpp" line="5301"/>
-        <location filename="../src/eqonomize.cpp" line="5306"/>
-        <location filename="../src/eqonomize.cpp" line="5311"/>
-        <location filename="../src/eqonomize.cpp" line="5316"/>
-        <location filename="../src/eqonomize.cpp" line="5353"/>
-        <location filename="../src/eqonomize.cpp" line="5358"/>
-        <location filename="../src/eqonomize.cpp" line="5363"/>
-        <location filename="../src/eqonomize.cpp" line="5368"/>
-        <location filename="../src/eqonomize.cpp" line="5373"/>
-        <location filename="../src/eqonomize.cpp" line="5401"/>
-        <location filename="../src/eqonomize.cpp" line="5408"/>
-        <location filename="../src/eqonomize.cpp" line="5787"/>
+        <location filename="../src/eqonomize.cpp" line="4583"/>
+        <location filename="../src/eqonomize.cpp" line="4587"/>
+        <location filename="../src/eqonomize.cpp" line="4659"/>
+        <location filename="../src/eqonomize.cpp" line="5270"/>
+        <location filename="../src/eqonomize.cpp" line="5275"/>
+        <location filename="../src/eqonomize.cpp" line="5280"/>
+        <location filename="../src/eqonomize.cpp" line="5285"/>
+        <location filename="../src/eqonomize.cpp" line="5290"/>
+        <location filename="../src/eqonomize.cpp" line="5302"/>
+        <location filename="../src/eqonomize.cpp" line="5307"/>
+        <location filename="../src/eqonomize.cpp" line="5312"/>
+        <location filename="../src/eqonomize.cpp" line="5317"/>
+        <location filename="../src/eqonomize.cpp" line="5322"/>
+        <location filename="../src/eqonomize.cpp" line="5359"/>
+        <location filename="../src/eqonomize.cpp" line="5364"/>
+        <location filename="../src/eqonomize.cpp" line="5369"/>
+        <location filename="../src/eqonomize.cpp" line="5374"/>
+        <location filename="../src/eqonomize.cpp" line="5379"/>
+        <location filename="../src/eqonomize.cpp" line="5407"/>
+        <location filename="../src/eqonomize.cpp" line="5414"/>
+        <location filename="../src/eqonomize.cpp" line="5793"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6310,8 +6310,8 @@ Do you want to load the last auto-saved version of the file?</source>
         <location filename="../src/eqonomize.cpp" line="2879"/>
         <location filename="../src/eqonomize.cpp" line="4161"/>
         <location filename="../src/eqonomize.cpp" line="4166"/>
-        <location filename="../src/eqonomize.cpp" line="5058"/>
-        <location filename="../src/eqonomize.cpp" line="5107"/>
+        <location filename="../src/eqonomize.cpp" line="5064"/>
+        <location filename="../src/eqonomize.cpp" line="5113"/>
         <source>Other</source>
         <translation>Egyéb</translation>
     </message>
@@ -6346,8 +6346,8 @@ Do you want to load the last auto-saved version of the file?</source>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4157"/>
-        <location filename="../src/eqonomize.cpp" line="5052"/>
-        <location filename="../src/eqonomize.cpp" line="5101"/>
+        <location filename="../src/eqonomize.cpp" line="5058"/>
+        <location filename="../src/eqonomize.cpp" line="5107"/>
         <source>Cash</source>
         <translation>Készpénz</translation>
     </message>
@@ -6357,8 +6357,8 @@ Do you want to load the last auto-saved version of the file?</source>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4159"/>
-        <location filename="../src/eqonomize.cpp" line="5054"/>
-        <location filename="../src/eqonomize.cpp" line="5103"/>
+        <location filename="../src/eqonomize.cpp" line="5060"/>
+        <location filename="../src/eqonomize.cpp" line="5109"/>
         <source>Savings Account</source>
         <translation>Takarékbetét-számla</translation>
     </message>
@@ -6389,84 +6389,84 @@ Do you want to load the last auto-saved version of the file?</source>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4274"/>
-        <location filename="../src/eqonomize.cpp" line="5781"/>
+        <location filename="../src/eqonomize.cpp" line="5787"/>
         <source>Couldn&apos;t open file</source>
         <translation>Nem lehetett megnyitni a fájlt</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4274"/>
-        <location filename="../src/eqonomize.cpp" line="5781"/>
+        <location filename="../src/eqonomize.cpp" line="5787"/>
         <source>Error loading %1: %2.</source>
         <translation>Hiba %1 betöltése közben: %2.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4369"/>
+        <location filename="../src/eqonomize.cpp" line="4375"/>
         <source>Couldn&apos;t save file</source>
         <translation>Nem lehetett menteni a fájlt</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4369"/>
+        <location filename="../src/eqonomize.cpp" line="4375"/>
         <source>Error saving %1: %2.</source>
         <translation>Hiba %1 mentése közben: %2.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4536"/>
+        <location filename="../src/eqonomize.cpp" line="4542"/>
         <source>Updating exchange rates…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4581"/>
-        <location filename="../src/eqonomize.cpp" line="4653"/>
+        <location filename="../src/eqonomize.cpp" line="4587"/>
+        <location filename="../src/eqonomize.cpp" line="4659"/>
         <source>Error saving currencies: %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4668"/>
-        <location filename="../src/eqonomize.cpp" line="4722"/>
+        <location filename="../src/eqonomize.cpp" line="4674"/>
+        <location filename="../src/eqonomize.cpp" line="4728"/>
         <source>New currency…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4868"/>
         <location filename="../src/eqonomize.cpp" line="4874"/>
+        <location filename="../src/eqonomize.cpp" line="4880"/>
         <source>Transaction Schedule</source>
         <translation>Tranzakciós ütemterv</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1793"/>
-        <location filename="../src/eqonomize.cpp" line="4977"/>
-        <location filename="../src/eqonomize.cpp" line="5067"/>
-        <location filename="../src/eqonomize.cpp" line="5116"/>
-        <location filename="../src/eqonomize.cpp" line="5160"/>
-        <location filename="../src/eqonomize.cpp" line="5208"/>
+        <location filename="../src/eqonomize.cpp" line="4983"/>
+        <location filename="../src/eqonomize.cpp" line="5073"/>
+        <location filename="../src/eqonomize.cpp" line="5122"/>
+        <location filename="../src/eqonomize.cpp" line="5166"/>
+        <location filename="../src/eqonomize.cpp" line="5214"/>
         <source>Total</source>
         <translation>Összesen</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5021"/>
+        <location filename="../src/eqonomize.cpp" line="5027"/>
         <source>Accounts &amp;amp; Categories</source>
         <comment>html format</comment>
         <translation>Számlák &amp;amp; Kategóriák</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5026"/>
+        <location filename="../src/eqonomize.cpp" line="5032"/>
         <source>Accounts &amp;amp; Categories (%1&amp;ndash;%2)</source>
         <comment>html format</comment>
         <translation>Számlák &amp;amp; Kategóriák (%1&amp;ndash;%2)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5027"/>
+        <location filename="../src/eqonomize.cpp" line="5033"/>
         <source>Accounts &amp;amp; Categories (to %1)</source>
         <comment>html format</comment>
         <translation>Számlák &amp;amp; Kategóriák (%1-hoz/hez)</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1792"/>
-        <location filename="../src/eqonomize.cpp" line="5035"/>
-        <location filename="../src/eqonomize.cpp" line="5086"/>
-        <location filename="../src/eqonomize.cpp" line="5135"/>
-        <location filename="../src/eqonomize.cpp" line="5183"/>
-        <location filename="../src/eqonomize.cpp" line="5234"/>
+        <location filename="../src/eqonomize.cpp" line="5041"/>
+        <location filename="../src/eqonomize.cpp" line="5092"/>
+        <location filename="../src/eqonomize.cpp" line="5141"/>
+        <location filename="../src/eqonomize.cpp" line="5189"/>
+        <location filename="../src/eqonomize.cpp" line="5240"/>
         <source>Change</source>
         <extracomment>Noun, how much the account balance has changed</extracomment>
         <translation>Változás</translation>
@@ -6476,28 +6476,28 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="vanished">Egyenleg</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5053"/>
-        <location filename="../src/eqonomize.cpp" line="5102"/>
+        <location filename="../src/eqonomize.cpp" line="5059"/>
+        <location filename="../src/eqonomize.cpp" line="5108"/>
         <source>Current Account</source>
         <translation>Folyószámla</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5055"/>
-        <location filename="../src/eqonomize.cpp" line="5104"/>
+        <location filename="../src/eqonomize.cpp" line="5061"/>
+        <location filename="../src/eqonomize.cpp" line="5110"/>
         <source>Credit Card</source>
         <translation>Hitelkártya</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1811"/>
-        <location filename="../src/eqonomize.cpp" line="5056"/>
-        <location filename="../src/eqonomize.cpp" line="5080"/>
-        <location filename="../src/eqonomize.cpp" line="5105"/>
+        <location filename="../src/eqonomize.cpp" line="5062"/>
+        <location filename="../src/eqonomize.cpp" line="5086"/>
+        <location filename="../src/eqonomize.cpp" line="5111"/>
         <source>Liabilities</source>
         <translation>Tartozások</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1974"/>
-        <location filename="../src/eqonomize.cpp" line="5577"/>
+        <location filename="../src/eqonomize.cpp" line="5583"/>
         <source>Set Quote…</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Árfolyam beállítása…</translation>
@@ -6522,33 +6522,33 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">Részvény</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5038"/>
-        <location filename="../src/eqonomize.cpp" line="5088"/>
+        <location filename="../src/eqonomize.cpp" line="5044"/>
+        <location filename="../src/eqonomize.cpp" line="5094"/>
         <source>Balance</source>
         <comment>Noun. Balance of an account</comment>
         <translation type="unfinished">Egyenleg</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5131"/>
-        <location filename="../src/eqonomize.cpp" line="5179"/>
+        <location filename="../src/eqonomize.cpp" line="5137"/>
+        <location filename="../src/eqonomize.cpp" line="5185"/>
         <source>Category</source>
         <translation>Kategória</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5132"/>
-        <location filename="../src/eqonomize.cpp" line="5180"/>
+        <location filename="../src/eqonomize.cpp" line="5138"/>
+        <location filename="../src/eqonomize.cpp" line="5186"/>
         <source>Budget</source>
         <translation>Költségvetés</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1790"/>
-        <location filename="../src/eqonomize.cpp" line="5133"/>
-        <location filename="../src/eqonomize.cpp" line="5181"/>
+        <location filename="../src/eqonomize.cpp" line="5139"/>
+        <location filename="../src/eqonomize.cpp" line="5187"/>
         <source>Remaining Budget</source>
         <translation>Hátralevő költségvetés</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5136"/>
+        <location filename="../src/eqonomize.cpp" line="5142"/>
         <source>Total Incomes</source>
         <translation>Összes bevétel</translation>
     </message>
@@ -6557,34 +6557,34 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="vanished">Költségek</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5184"/>
+        <location filename="../src/eqonomize.cpp" line="5190"/>
         <source>Total Expenses</source>
         <translation>Összes kiadás</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5234"/>
+        <location filename="../src/eqonomize.cpp" line="5240"/>
         <source>Account/Category</source>
         <extracomment>Noun, how much the account balance has changed</extracomment>
         <translation>Számla/Kategória</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5264"/>
-        <location filename="../src/eqonomize.cpp" line="5296"/>
-        <location filename="../src/eqonomize.cpp" line="5353"/>
+        <location filename="../src/eqonomize.cpp" line="5270"/>
+        <location filename="../src/eqonomize.cpp" line="5302"/>
+        <location filename="../src/eqonomize.cpp" line="5359"/>
         <source>Empty expenses list.</source>
         <translation>Üres kiadási lista.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5269"/>
-        <location filename="../src/eqonomize.cpp" line="5301"/>
-        <location filename="../src/eqonomize.cpp" line="5358"/>
+        <location filename="../src/eqonomize.cpp" line="5275"/>
+        <location filename="../src/eqonomize.cpp" line="5307"/>
+        <location filename="../src/eqonomize.cpp" line="5364"/>
         <source>Empty incomes list.</source>
         <translation>Üres bevételi lista.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5274"/>
-        <location filename="../src/eqonomize.cpp" line="5306"/>
-        <location filename="../src/eqonomize.cpp" line="5363"/>
+        <location filename="../src/eqonomize.cpp" line="5280"/>
+        <location filename="../src/eqonomize.cpp" line="5312"/>
+        <location filename="../src/eqonomize.cpp" line="5369"/>
         <source>Empty transfers list.</source>
         <translation>Üres átutalási lista.</translation>
     </message>
@@ -6593,34 +6593,34 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="vanished">Üres értékpapírlista.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5284"/>
-        <location filename="../src/eqonomize.cpp" line="5316"/>
-        <location filename="../src/eqonomize.cpp" line="5373"/>
+        <location filename="../src/eqonomize.cpp" line="5290"/>
+        <location filename="../src/eqonomize.cpp" line="5322"/>
+        <location filename="../src/eqonomize.cpp" line="5379"/>
         <source>Empty schedule list.</source>
         <translation>Üres ütemterv lista.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5401"/>
+        <location filename="../src/eqonomize.cpp" line="5407"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation>Nem írható fájl.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5408"/>
+        <location filename="../src/eqonomize.cpp" line="5414"/>
         <source>Error while writing file; file was not saved.</source>
         <translation>Hiba írás közben; a fájl nincs elmentve.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5434"/>
+        <location filename="../src/eqonomize.cpp" line="5440"/>
         <source>&amp;File</source>
         <translation>&amp;Fájl</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5435"/>
+        <location filename="../src/eqonomize.cpp" line="5441"/>
         <source>&amp;Accounts</source>
         <translation>&amp;Számlák</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5436"/>
+        <location filename="../src/eqonomize.cpp" line="5442"/>
         <source>&amp;Transactions</source>
         <translation>&amp;Tranzakciók</translation>
     </message>
@@ -6629,157 +6629,157 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="vanished">&amp;Értékpapírok</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5439"/>
+        <location filename="../src/eqonomize.cpp" line="5445"/>
         <source>Stat&amp;istics</source>
         <translation>Stat&amp;isztikák</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5440"/>
+        <location filename="../src/eqonomize.cpp" line="5446"/>
         <source>S&amp;ettings</source>
         <translation type="unfinished">&amp;Beállítások</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5441"/>
+        <location filename="../src/eqonomize.cpp" line="5447"/>
         <source>&amp;Help</source>
         <translation type="unfinished">S&amp;úgó</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5443"/>
+        <location filename="../src/eqonomize.cpp" line="5449"/>
         <source>File</source>
         <translation>Fájl</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5451"/>
+        <location filename="../src/eqonomize.cpp" line="5457"/>
         <source>Transactions</source>
         <translation>Tranzakciók</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5455"/>
+        <location filename="../src/eqonomize.cpp" line="5461"/>
         <source>Statistics</source>
         <translation>Statisztikák</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5462"/>
+        <location filename="../src/eqonomize.cpp" line="5468"/>
         <source>&amp;New</source>
         <translation type="unfinished">&amp;Új</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5464"/>
+        <location filename="../src/eqonomize.cpp" line="5470"/>
         <source>&amp;Open…</source>
         <translation type="unfinished">&amp;Megnyitás…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5466"/>
+        <location filename="../src/eqonomize.cpp" line="5472"/>
         <source>Open Recent</source>
         <translation type="unfinished">Legutóbbi megnyitása</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5476"/>
+        <location filename="../src/eqonomize.cpp" line="5482"/>
         <source>Clear List</source>
         <translation type="unfinished">A lista törlése</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5478"/>
+        <location filename="../src/eqonomize.cpp" line="5484"/>
         <source>&amp;Save</source>
         <translation type="unfinished">M&amp;entés</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5480"/>
+        <location filename="../src/eqonomize.cpp" line="5486"/>
         <source>Save As…</source>
         <translation type="unfinished">Mentés másként…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5481"/>
+        <location filename="../src/eqonomize.cpp" line="5487"/>
         <source>&amp;Revert</source>
         <translation type="unfinished">&amp;Újratöltés</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5483"/>
+        <location filename="../src/eqonomize.cpp" line="5489"/>
         <source>&amp;Print…</source>
         <translation type="unfinished">&amp;Nyomtatás…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5484"/>
+        <location filename="../src/eqonomize.cpp" line="5490"/>
         <source>Print Preview…</source>
         <translation type="unfinished">Nyomtatási előnézet…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5487"/>
+        <location filename="../src/eqonomize.cpp" line="5493"/>
         <source>Import</source>
         <translation type="unfinished">Importálás</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5489"/>
+        <location filename="../src/eqonomize.cpp" line="5495"/>
         <source>Import CSV File…</source>
         <translation type="unfinished">CSV fájl importálása…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5490"/>
+        <location filename="../src/eqonomize.cpp" line="5496"/>
         <source>Import QIF File…</source>
         <translation type="unfinished">QIF fájl importálása…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5491"/>
+        <location filename="../src/eqonomize.cpp" line="5497"/>
         <source>Export View…</source>
         <translation type="unfinished">Exportálási nézet…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5493"/>
+        <location filename="../src/eqonomize.cpp" line="5499"/>
         <source>Export As QIF File…</source>
         <translation type="unfinished">Exportálás QIF fájlként…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5495"/>
+        <location filename="../src/eqonomize.cpp" line="5501"/>
         <source>Update Exchange Rates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5496"/>
+        <location filename="../src/eqonomize.cpp" line="5502"/>
         <source>Currency Converter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5501"/>
+        <location filename="../src/eqonomize.cpp" line="5507"/>
         <source>&amp;Quit</source>
         <translation type="unfinished">&amp;Kilépés</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5503"/>
-        <location filename="../src/eqonomize.cpp" line="5508"/>
+        <location filename="../src/eqonomize.cpp" line="5509"/>
+        <location filename="../src/eqonomize.cpp" line="5514"/>
         <source>Add Account…</source>
         <translation type="unfinished">Számla hozzáadása…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5504"/>
+        <location filename="../src/eqonomize.cpp" line="5510"/>
         <source>New Account…</source>
         <translation type="unfinished">Új számla…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5505"/>
+        <location filename="../src/eqonomize.cpp" line="5511"/>
         <source>New Loan…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5506"/>
+        <location filename="../src/eqonomize.cpp" line="5512"/>
         <source>New Income Category…</source>
         <translation type="unfinished">Új bevételi kategória…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5507"/>
+        <location filename="../src/eqonomize.cpp" line="5513"/>
         <source>New Expense Category…</source>
         <translation type="unfinished">Új kiadási kategória…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="3770"/>
-        <location filename="../src/eqonomize.cpp" line="5509"/>
+        <location filename="../src/eqonomize.cpp" line="5515"/>
         <source>Add Account</source>
         <translation type="unfinished">Számla hozzáadása</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1809"/>
-        <location filename="../src/eqonomize.cpp" line="5029"/>
-        <location filename="../src/eqonomize.cpp" line="8121"/>
-        <location filename="../src/eqonomize.cpp" line="8127"/>
+        <location filename="../src/eqonomize.cpp" line="5035"/>
+        <location filename="../src/eqonomize.cpp" line="8111"/>
+        <location filename="../src/eqonomize.cpp" line="8117"/>
         <source>Assets</source>
         <translation type="unfinished">Vagyon</translation>
     </message>
@@ -6795,12 +6795,12 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Értékpapír tranzakciók</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5437"/>
+        <location filename="../src/eqonomize.cpp" line="5443"/>
         <source>&amp;Loans</source>
         <translation type="unfinished">&amp;Hitel</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5518"/>
+        <location filename="../src/eqonomize.cpp" line="5524"/>
         <source>Edit…</source>
         <translation>Szerkesztés…</translation>
     </message>
@@ -6809,122 +6809,122 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="vanished">Egyenleg…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5525"/>
+        <location filename="../src/eqonomize.cpp" line="5531"/>
         <source>Show Transactions</source>
         <translation>Tranzakciók megmutatása</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5526"/>
+        <location filename="../src/eqonomize.cpp" line="5532"/>
         <source>Show Ledger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5529"/>
+        <location filename="../src/eqonomize.cpp" line="5535"/>
         <source>New Expense…</source>
         <translation>Új kiadás…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5531"/>
+        <location filename="../src/eqonomize.cpp" line="5537"/>
         <source>New Income…</source>
         <translation>Új bevétel…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5533"/>
+        <location filename="../src/eqonomize.cpp" line="5539"/>
         <source>New Transfer…</source>
         <translation>Új átutalás…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5535"/>
+        <location filename="../src/eqonomize.cpp" line="5541"/>
         <source>New Split Transaction…</source>
         <translation>Új osztott tranzakció…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5537"/>
+        <location filename="../src/eqonomize.cpp" line="5543"/>
         <source>New Expense with Multiple Payments…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5538"/>
+        <location filename="../src/eqonomize.cpp" line="5544"/>
         <source>Refund…</source>
         <translation>Visszatérítés…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5539"/>
+        <location filename="../src/eqonomize.cpp" line="5545"/>
         <source>Repayment…</source>
         <translation>Visszafizetés…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5540"/>
+        <location filename="../src/eqonomize.cpp" line="5546"/>
         <source>New Refund/Repayment…</source>
         <translation>Új visszatérítés/visszafizetés…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5542"/>
+        <location filename="../src/eqonomize.cpp" line="5548"/>
         <source>Edit Transaction(s) (Occurrence)…</source>
         <translation>Tranzakció(k) szerkesztése (Eseti)…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5543"/>
+        <location filename="../src/eqonomize.cpp" line="5549"/>
         <source>Edit Occurrence…</source>
         <translation>Esemény szerkesztése…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5544"/>
+        <location filename="../src/eqonomize.cpp" line="5550"/>
         <source>Edit Schedule (Recurrence)…</source>
         <translation>Ütemterv szerkesztése (ismétlődő)…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5545"/>
+        <location filename="../src/eqonomize.cpp" line="5551"/>
         <source>Edit Schedule…</source>
         <translation>Ütemterv szerkesztése…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5546"/>
+        <location filename="../src/eqonomize.cpp" line="5552"/>
         <source>Edit Split Transaction…</source>
         <translation>Osztott tranzakció szerkesztése…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5547"/>
+        <location filename="../src/eqonomize.cpp" line="5553"/>
         <source>Join Transactions…</source>
         <translation>Tranzakciók egyesítése…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5548"/>
+        <location filename="../src/eqonomize.cpp" line="5554"/>
         <source>Split Up Transaction</source>
         <translation>Tranzakciók felosztása</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5550"/>
+        <location filename="../src/eqonomize.cpp" line="5556"/>
         <source>Select Associated File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5551"/>
+        <location filename="../src/eqonomize.cpp" line="5557"/>
         <source>Open Associated File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5553"/>
+        <location filename="../src/eqonomize.cpp" line="5559"/>
         <source>Remove Transaction(s) (Occurrence)</source>
         <translation>Tranzakció(k) visszavonása (Eseti)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5554"/>
+        <location filename="../src/eqonomize.cpp" line="5560"/>
         <source>Remove Occurrence</source>
         <translation>Visszavont esemény</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5555"/>
+        <location filename="../src/eqonomize.cpp" line="5561"/>
         <source>Delete Schedule (Recurrence)</source>
         <translation>Ütemterv törlése (ismétlődő)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5556"/>
+        <location filename="../src/eqonomize.cpp" line="5562"/>
         <source>Delete Schedule</source>
         <translation>Törölt ütemterv</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5557"/>
+        <location filename="../src/eqonomize.cpp" line="5563"/>
         <source>Remove Split Transaction</source>
         <translation>Osztott tranzakció visszavonása</translation>
     </message>
@@ -6949,17 +6949,17 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="vanished">Részvények mozgatása…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5573"/>
+        <location filename="../src/eqonomize.cpp" line="5579"/>
         <source>Dividend…</source>
         <translation>Osztalék…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5574"/>
+        <location filename="../src/eqonomize.cpp" line="5580"/>
         <source>Reinvested Dividend…</source>
         <translation>Osztalék újrabefektetése…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5575"/>
+        <location filename="../src/eqonomize.cpp" line="5581"/>
         <source>Transactions…</source>
         <translation>Tranzakciók…</translation>
     </message>
@@ -6968,141 +6968,141 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="vanished">Árfolyamok szerkesztése…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5580"/>
+        <location filename="../src/eqonomize.cpp" line="5586"/>
         <source>Development Over Time Report…</source>
         <translation>Időbeli fejlődés jelentés…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5582"/>
+        <location filename="../src/eqonomize.cpp" line="5588"/>
         <source>Categories Comparison Report…</source>
         <translation>Kategória-összehasonlító jelentés…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5584"/>
+        <location filename="../src/eqonomize.cpp" line="5590"/>
         <source>Development Over Time Chart…</source>
         <translation>Időbeli fejlődés grafikon…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5586"/>
+        <location filename="../src/eqonomize.cpp" line="5592"/>
         <source>Categories Comparison Chart…</source>
         <translation>Kategória-összehasonlító grafikon…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5589"/>
+        <location filename="../src/eqonomize.cpp" line="5595"/>
         <source>Use Additional Transaction Properties</source>
         <translation>Kiegészítő tranzakció tulajdonságok használata</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5591"/>
+        <location filename="../src/eqonomize.cpp" line="5597"/>
         <source>Show quantity and payer/payee for incomes and expenses.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5593"/>
+        <location filename="../src/eqonomize.cpp" line="5599"/>
         <source>Set Main Currency…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5599"/>
+        <location filename="../src/eqonomize.cpp" line="5605"/>
         <source>Set Budget Period…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5601"/>
+        <location filename="../src/eqonomize.cpp" line="5607"/>
         <source>Initial Period</source>
         <translation>Kezdő periódus</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5608"/>
+        <location filename="../src/eqonomize.cpp" line="5614"/>
         <source>Remember Last Dates</source>
         <translation>Utolsó dátumok megjegyzése</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5611"/>
+        <location filename="../src/eqonomize.cpp" line="5617"/>
         <source>Backup Frequency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5614"/>
+        <location filename="../src/eqonomize.cpp" line="5620"/>
         <source>Daily</source>
         <translation type="unfinished">Naponta</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5615"/>
+        <location filename="../src/eqonomize.cpp" line="5621"/>
         <source>Weekly</source>
         <translation type="unfinished">Hetente</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5616"/>
+        <location filename="../src/eqonomize.cpp" line="5622"/>
         <source>Fortnightly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5617"/>
+        <location filename="../src/eqonomize.cpp" line="5623"/>
         <source>Monthly</source>
         <translation type="unfinished">Havonta</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5618"/>
+        <location filename="../src/eqonomize.cpp" line="5624"/>
         <source>Never</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5621"/>
-        <location filename="../src/eqonomize.cpp" line="5732"/>
+        <location filename="../src/eqonomize.cpp" line="5627"/>
+        <location filename="../src/eqonomize.cpp" line="5738"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5624"/>
+        <location filename="../src/eqonomize.cpp" line="5630"/>
         <source>Report Bug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5626"/>
-        <location filename="../src/eqonomize.cpp" line="5759"/>
+        <location filename="../src/eqonomize.cpp" line="5632"/>
+        <location filename="../src/eqonomize.cpp" line="5765"/>
         <source>About %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5628"/>
+        <location filename="../src/eqonomize.cpp" line="5634"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5759"/>
+        <location filename="../src/eqonomize.cpp" line="5765"/>
         <source>A personal accounting program</source>
         <translation>Személyi könyvelőprogram</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5759"/>
+        <location filename="../src/eqonomize.cpp" line="5765"/>
         <source>License: GNU General Public License Version 3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5776"/>
+        <location filename="../src/eqonomize.cpp" line="5782"/>
         <source>Crash Recovery</source>
         <translation>Helyreállítás</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="4144"/>
-        <location filename="../src/eqonomize.cpp" line="5989"/>
+        <location filename="../src/eqonomize.cpp" line="5979"/>
         <source>Untitled</source>
         <translation>Névtelen</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1773"/>
-        <location filename="../src/eqonomize.cpp" line="4936"/>
         <location filename="../src/eqonomize.cpp" line="4942"/>
-        <location filename="../src/eqonomize.cpp" line="5057"/>
-        <location filename="../src/eqonomize.cpp" line="5106"/>
+        <location filename="../src/eqonomize.cpp" line="4948"/>
+        <location filename="../src/eqonomize.cpp" line="5063"/>
+        <location filename="../src/eqonomize.cpp" line="5112"/>
         <source>Securities</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Értékpapírok</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1969"/>
-        <location filename="../src/eqonomize.cpp" line="5565"/>
+        <location filename="../src/eqonomize.cpp" line="5571"/>
         <source>New Security…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Új értékpapír…</translation>
@@ -7181,15 +7181,15 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Egyenleg</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5279"/>
-        <location filename="../src/eqonomize.cpp" line="5311"/>
-        <location filename="../src/eqonomize.cpp" line="5368"/>
+        <location filename="../src/eqonomize.cpp" line="5285"/>
+        <location filename="../src/eqonomize.cpp" line="5317"/>
+        <location filename="../src/eqonomize.cpp" line="5374"/>
         <source>Empty securities list.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Üres értékpapírlista.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5438"/>
+        <location filename="../src/eqonomize.cpp" line="5444"/>
         <source>&amp;Securities</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">&amp;Értékpapírok</translation>
@@ -7200,25 +7200,25 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Egyenleg…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5566"/>
+        <location filename="../src/eqonomize.cpp" line="5572"/>
         <source>Edit Security…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Értékpapír szerkesztése…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5567"/>
+        <location filename="../src/eqonomize.cpp" line="5573"/>
         <source>Remove Security</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Értékpapír visszavonása</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5569"/>
+        <location filename="../src/eqonomize.cpp" line="5575"/>
         <source>Shares Bought…</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Részvények vásárlása…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5570"/>
+        <location filename="../src/eqonomize.cpp" line="5576"/>
         <source>Shares Sold…</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Részvények eladása…</translation>
@@ -7229,37 +7229,37 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="obsolete">Árfolyamok szerkesztése…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6074"/>
+        <location filename="../src/eqonomize.cpp" line="6064"/>
         <source>The current file has been modified. Do you want to save it?</source>
         <translation>Az aktuális fájl módosult. Akarod menteni?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6074"/>
+        <location filename="../src/eqonomize.cpp" line="6064"/>
         <source>Save file?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6109"/>
+        <location filename="../src/eqonomize.cpp" line="6099"/>
         <source>Confirm Schedule</source>
         <translation>Ütemterv megerősítése</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6213"/>
+        <location filename="../src/eqonomize.cpp" line="6203"/>
         <source>New Account</source>
         <translation>Új számla</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6238"/>
+        <location filename="../src/eqonomize.cpp" line="6228"/>
         <source>New Loan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6274"/>
+        <location filename="../src/eqonomize.cpp" line="6264"/>
         <source>New Income Category</source>
         <translation>Új bevételi kategória</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6291"/>
+        <location filename="../src/eqonomize.cpp" line="6281"/>
         <source>New Expense Category</source>
         <translation>Új kiadási kategória</translation>
     </message>
@@ -7268,118 +7268,118 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation type="vanished">Mérlegszámla</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6382"/>
+        <location filename="../src/eqonomize.cpp" line="6372"/>
         <source>Book value:</source>
         <translation>Könyvérték:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6386"/>
+        <location filename="../src/eqonomize.cpp" line="6376"/>
         <source>of which %1 is balance adjustment</source>
         <comment>Referring to account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6389"/>
+        <location filename="../src/eqonomize.cpp" line="6379"/>
         <source>Real value:</source>
         <translation>Valódi érték:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6427"/>
+        <location filename="../src/eqonomize.cpp" line="6417"/>
         <source>Edit Account</source>
         <translation>Számla szerkesztése</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6499"/>
+        <location filename="../src/eqonomize.cpp" line="6489"/>
         <source>Edit Income Category</source>
         <translation>Bevétel kategória szerkesztése</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6538"/>
+        <location filename="../src/eqonomize.cpp" line="6528"/>
         <source>Edit Expense Category</source>
         <translation>Kiadás kategória szerkesztése</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6630"/>
+        <location filename="../src/eqonomize.cpp" line="6620"/>
         <source>Remove subcategories?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6630"/>
+        <location filename="../src/eqonomize.cpp" line="6620"/>
         <source>Do you wish to remove the category including all subcategories?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6678"/>
+        <location filename="../src/eqonomize.cpp" line="6668"/>
         <source>Move transactions?</source>
         <translation>Tranzakciók mozgatása?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6687"/>
+        <location filename="../src/eqonomize.cpp" line="6677"/>
         <source>Move to:</source>
         <translation>Mozgatás ide:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6689"/>
+        <location filename="../src/eqonomize.cpp" line="6679"/>
         <source>Remove irreversibly from all accounts
 (do not do this if account has been closed!)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6696"/>
+        <location filename="../src/eqonomize.cpp" line="6686"/>
         <source>The category contains some expenses.
 What do you want to do with them?</source>
         <translation>A kategória kiadásokat tartalmaz.
 Mit akarsz velük tenni?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6707"/>
+        <location filename="../src/eqonomize.cpp" line="6697"/>
         <source>The category contains some incomes.
 What do you want to do with them?</source>
         <translation>A kategória bevételeket tartalmaz.
 Mit akarsz velük tenni?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6718"/>
+        <location filename="../src/eqonomize.cpp" line="6708"/>
         <source>The account contains some transactions.
 What do you want to do with them?</source>
         <translation>A számla tranzakciókat tartalmaz.
 Mit akarsz velük tenni?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6746"/>
-        <location filename="../src/eqonomize.cpp" line="6747"/>
+        <location filename="../src/eqonomize.cpp" line="6736"/>
+        <location filename="../src/eqonomize.cpp" line="6737"/>
         <source>Remove Category?</source>
         <translation>Kategória eltávolítása?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6746"/>
+        <location filename="../src/eqonomize.cpp" line="6736"/>
         <source>The category contains some expenses that will be removed. Do you still want to remove the category?</source>
         <translation>A kategória kiadásokat tartalmaz, amik törlődni fognak.
 Biztosan el akarod távolítani a kategóriát?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6747"/>
+        <location filename="../src/eqonomize.cpp" line="6737"/>
         <source>The category contains some incomes that will be removed. Do you still want to remove the category?</source>
         <translation>A kategória bevételeket tartalmaz, amik törlődni fognak.
 Biztosan el akarod távolítani a kategóriát?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6748"/>
+        <location filename="../src/eqonomize.cpp" line="6738"/>
         <source>Remove Account?</source>
         <translation>Számla eltávolítása?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6748"/>
+        <location filename="../src/eqonomize.cpp" line="6738"/>
         <source>The account contains some transactions that will be removed. Do you still want to remove the account?</source>
         <translation>A számla tranzakciókat tartalmaz, amik törlődni fognak.
 Biztosan el akarod távolítani a számlát?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1806"/>
-        <location filename="../src/eqonomize.cpp" line="7503"/>
-        <location filename="../src/eqonomize.cpp" line="7528"/>
-        <location filename="../src/eqonomize.cpp" line="7858"/>
-        <location filename="../src/eqonomize.cpp" line="7859"/>
+        <location filename="../src/eqonomize.cpp" line="7493"/>
+        <location filename="../src/eqonomize.cpp" line="7518"/>
+        <location filename="../src/eqonomize.cpp" line="7848"/>
+        <location filename="../src/eqonomize.cpp" line="7849"/>
         <source>%2 of %1</source>
         <comment>%1: budget; %2: remaining budget</comment>
         <translation>%2 maradt (terv: %1)</translation>
@@ -7390,19 +7390,19 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="obsolete">Egyenleg…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5571"/>
+        <location filename="../src/eqonomize.cpp" line="5577"/>
         <source>Shares Exchanged…</source>
         <comment>Shares of one security directly exchanged for shares of another; Financial shares</comment>
         <translation type="unfinished">Részvények mozgatása…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5572"/>
+        <location filename="../src/eqonomize.cpp" line="5578"/>
         <source>Shares of one security directly exchanged for shares of another</source>
         <comment>Financial shares</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5578"/>
+        <location filename="../src/eqonomize.cpp" line="5584"/>
         <source>Edit Quotes…</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Árfolyamok szerkesztése…</translation>
@@ -7413,14 +7413,14 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="obsolete">Mérlegszámla</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7950"/>
-        <location filename="../src/eqonomize.cpp" line="7975"/>
+        <location filename="../src/eqonomize.cpp" line="7940"/>
+        <location filename="../src/eqonomize.cpp" line="7965"/>
         <source>%1 (with no budget)</source>
         <translation>%1 (költségvetés nélkül)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7951"/>
-        <location filename="../src/eqonomize.cpp" line="7976"/>
+        <location filename="../src/eqonomize.cpp" line="7941"/>
+        <location filename="../src/eqonomize.cpp" line="7966"/>
         <source>%1 (with budget %2)</source>
         <translation>%1 (%2 költségvetéssel)</translation>
     </message>
@@ -8349,51 +8349,51 @@ Biztosan el akarod távolítani a számlát?</translation>
 <context>
     <name>LedgerDialog</name>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="177"/>
+        <location filename="../src/ledgerdialog.cpp" line="178"/>
         <source>Account:</source>
         <translation>Számla:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="191"/>
+        <location filename="../src/ledgerdialog.cpp" line="192"/>
         <source>Export…</source>
         <translation>Exportálás…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="193"/>
+        <location filename="../src/ledgerdialog.cpp" line="194"/>
         <source>Print…</source>
         <translation>Nyomtatás…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="195"/>
+        <location filename="../src/ledgerdialog.cpp" line="196"/>
         <source>Reconcile</source>
         <comment>Accounting context</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="199"/>
+        <location filename="../src/ledgerdialog.cpp" line="200"/>
         <source>Mark all as reconciled</source>
         <comment>Accounting context</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="216"/>
+        <location filename="../src/ledgerdialog.cpp" line="217"/>
         <source>Change:</source>
         <comment>Accounting context</comment>
         <translation type="unfinished">Változás:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="251"/>
+        <location filename="../src/ledgerdialog.cpp" line="252"/>
         <source>R</source>
         <comment>Header for account reconciled checkbox column</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="252"/>
+        <location filename="../src/ledgerdialog.cpp" line="253"/>
         <source>Date</source>
         <translation>Dátum</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="253"/>
+        <location filename="../src/ledgerdialog.cpp" line="254"/>
         <source>Type</source>
         <translation>Típus</translation>
     </message>
@@ -8411,7 +8411,7 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="obsolete">Leírás</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="255"/>
+        <location filename="../src/ledgerdialog.cpp" line="256"/>
         <source>Account/Category</source>
         <translation>Számla/Kategória</translation>
     </message>
@@ -8433,229 +8433,237 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="obsolete">Egyenleg</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="256"/>
+        <location filename="../src/ledgerdialog.cpp" line="257"/>
         <source>Payee/Payer</source>
         <translation type="unfinished">Kedvezményezett/kifizető</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="257"/>
+        <location filename="../src/ledgerdialog.cpp" line="258"/>
         <source>Comments</source>
         <translation type="unfinished">Megjegyzések</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="259"/>
+        <location filename="../src/ledgerdialog.cpp" line="260"/>
         <source>Deposit</source>
         <comment>Money put into account</comment>
         <translation type="unfinished">Letét</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="260"/>
+        <location filename="../src/ledgerdialog.cpp" line="261"/>
         <source>Withdrawal</source>
         <comment>Money taken out from account</comment>
         <translation type="unfinished">Kivét</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="261"/>
+        <location filename="../src/ledgerdialog.cpp" line="262"/>
         <source>Balance</source>
         <comment>Noun. Balance of an account</comment>
         <translation type="unfinished">Egyenleg</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="283"/>
+        <location filename="../src/ledgerdialog.cpp" line="284"/>
         <source>New</source>
         <translation>Új</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="295"/>
+        <location filename="../src/ledgerdialog.cpp" line="296"/>
         <source>Edit…</source>
         <translation>Szerkesztés…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="298"/>
+        <location filename="../src/ledgerdialog.cpp" line="299"/>
         <source>Delete</source>
         <translation type="unfinished">Törlés</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="301"/>
+        <location filename="../src/ledgerdialog.cpp" line="302"/>
         <source>Join…</source>
         <translation>Belépés…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="304"/>
+        <location filename="../src/ledgerdialog.cpp" line="305"/>
         <source>Split Up</source>
         <translation>Felosztás</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="321"/>
+        <location filename="../src/ledgerdialog.cpp" line="322"/>
         <source>Edit Transaction(s)…</source>
         <translation type="unfinished">Tranzakció(k) szerkesztése…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="322"/>
+        <location filename="../src/ledgerdialog.cpp" line="323"/>
         <source>Join Transactions…</source>
         <translation type="unfinished">Tranzakciók egyesítése…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="323"/>
+        <location filename="../src/ledgerdialog.cpp" line="324"/>
         <source>Split Up Transaction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="324"/>
+        <location filename="../src/ledgerdialog.cpp" line="325"/>
         <source>Open Associated File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="325"/>
+        <location filename="../src/ledgerdialog.cpp" line="326"/>
         <source>Remove Transaction(s)</source>
         <translation type="unfinished">Tranzakció(k) visszavonása</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="326"/>
+        <location filename="../src/ledgerdialog.cpp" line="327"/>
         <source>Mark as reconciled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="450"/>
         <location filename="../src/ledgerdialog.cpp" line="451"/>
         <location filename="../src/ledgerdialog.cpp" line="452"/>
+        <location filename="../src/ledgerdialog.cpp" line="453"/>
         <source>Reconciled: %1 (%2)</source>
         <comment>Accounting context</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="453"/>
         <location filename="../src/ledgerdialog.cpp" line="454"/>
         <location filename="../src/ledgerdialog.cpp" line="455"/>
+        <location filename="../src/ledgerdialog.cpp" line="456"/>
         <source>Book value: %1 (%2)</source>
         <comment>Accounting context</comment>
         <translation type="unfinished">Könyvérték: %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="507"/>
-        <location filename="../src/ledgerdialog.cpp" line="514"/>
-        <location filename="../src/ledgerdialog.cpp" line="522"/>
-        <location filename="../src/ledgerdialog.cpp" line="529"/>
-        <location filename="../src/ledgerdialog.cpp" line="752"/>
-        <location filename="../src/ledgerdialog.cpp" line="768"/>
-        <location filename="../src/ledgerdialog.cpp" line="774"/>
-        <location filename="../src/ledgerdialog.cpp" line="882"/>
-        <location filename="../src/ledgerdialog.cpp" line="924"/>
-        <location filename="../src/ledgerdialog.cpp" line="1193"/>
-        <location filename="../src/ledgerdialog.cpp" line="1199"/>
-        <location filename="../src/ledgerdialog.cpp" line="1205"/>
+        <location filename="../src/ledgerdialog.cpp" line="510"/>
+        <location filename="../src/ledgerdialog.cpp" line="517"/>
+        <location filename="../src/ledgerdialog.cpp" line="525"/>
+        <location filename="../src/ledgerdialog.cpp" line="532"/>
+        <location filename="../src/ledgerdialog.cpp" line="755"/>
+        <location filename="../src/ledgerdialog.cpp" line="771"/>
+        <location filename="../src/ledgerdialog.cpp" line="777"/>
+        <location filename="../src/ledgerdialog.cpp" line="885"/>
+        <location filename="../src/ledgerdialog.cpp" line="927"/>
+        <location filename="../src/ledgerdialog.cpp" line="1239"/>
+        <location filename="../src/ledgerdialog.cpp" line="1245"/>
+        <location filename="../src/ledgerdialog.cpp" line="1251"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="507"/>
-        <location filename="../src/ledgerdialog.cpp" line="522"/>
+        <location filename="../src/ledgerdialog.cpp" line="510"/>
+        <location filename="../src/ledgerdialog.cpp" line="525"/>
         <source>Invalid date.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="514"/>
+        <location filename="../src/ledgerdialog.cpp" line="517"/>
         <source>Opening date is after closing date.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="529"/>
+        <location filename="../src/ledgerdialog.cpp" line="532"/>
         <source>Closing date is before opening date.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="752"/>
-        <location filename="../src/ledgerdialog.cpp" line="882"/>
+        <location filename="../src/ledgerdialog.cpp" line="755"/>
+        <location filename="../src/ledgerdialog.cpp" line="885"/>
         <source>Empty transaction list.</source>
         <translation>Üres tranzakciós lista.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="768"/>
+        <location filename="../src/ledgerdialog.cpp" line="771"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation>Nem írható fájl.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="774"/>
+        <location filename="../src/ledgerdialog.cpp" line="777"/>
         <source>Error while writing file; file was not saved.</source>
         <translation>Hiba írás közben; a fájl nincs elmentve.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="787"/>
+        <location filename="../src/ledgerdialog.cpp" line="790"/>
         <source>Ledger</source>
         <translation>Főkönyv</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="793"/>
+        <location filename="../src/ledgerdialog.cpp" line="796"/>
         <source>Transactions for %1</source>
         <translation>%1 tranzakciói</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="901"/>
+        <location filename="../src/ledgerdialog.cpp" line="904"/>
         <source>Select Time Period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="905"/>
+        <location filename="../src/ledgerdialog.cpp" line="908"/>
         <source>From:</source>
         <translation type="unfinished">Forrás:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="909"/>
+        <location filename="../src/ledgerdialog.cpp" line="912"/>
         <source>To:</source>
         <translation type="unfinished">Cél:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="924"/>
+        <location filename="../src/ledgerdialog.cpp" line="927"/>
         <source>To date is before from date.</source>
         <translation type="unfinished">A záródátum korábbi, mint a kezdődátum.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1060"/>
+        <location filename="../src/ledgerdialog.cpp" line="1075"/>
+        <location filename="../src/ledgerdialog.cpp" line="1076"/>
+        <source>Balance change:</source>
+        <comment>Account balance</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="1105"/>
         <source>Delete transactions?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1060"/>
+        <location filename="../src/ledgerdialog.cpp" line="1105"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation>Biztosan törölni akarsz minden (%1) kiválasztott tranzakciót?</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1193"/>
+        <location filename="../src/ledgerdialog.cpp" line="1239"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Az értékpapír-tranzakciók értékét  nem lehet beállítani a többszörös tranzakciók módosítása párbeszédablakban.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1199"/>
+        <location filename="../src/ledgerdialog.cpp" line="1245"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Az értékpapír-tranzakciók és az osztalékok fajtája nem változtatható meg.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1205"/>
+        <location filename="../src/ledgerdialog.cpp" line="1251"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Az osztalékok és értékpapír-tranzakciók kifizetője nem változtatható meg.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1253"/>
+        <location filename="../src/ledgerdialog.cpp" line="1309"/>
         <source>Opening balance</source>
         <comment>Account balance</comment>
         <translation type="unfinished">Nyitóegyenleg</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1407"/>
+        <location filename="../src/ledgerdialog.cpp" line="1479"/>
         <source>Account Balance Adjustment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1440"/>
+        <location filename="../src/ledgerdialog.cpp" line="1519"/>
         <source>Current balance:</source>
         <comment>Account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1440"/>
+        <location filename="../src/ledgerdialog.cpp" line="1075"/>
+        <location filename="../src/ledgerdialog.cpp" line="1519"/>
         <source>Average balance:</source>
         <comment>Account balance</comment>
         <translation type="unfinished"></translation>
@@ -8690,22 +8698,24 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="obsolete">Az értékpapír-tranzakciók és az osztalékok fajtája nem változtatható meg.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1438"/>
+        <location filename="../src/ledgerdialog.cpp" line="1517"/>
         <source>Current debt:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1438"/>
+        <location filename="../src/ledgerdialog.cpp" line="1517"/>
         <source>Total debt reduction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1438"/>
+        <location filename="../src/ledgerdialog.cpp" line="1517"/>
         <source>Total interest and fees:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1440"/>
+        <location filename="../src/ledgerdialog.cpp" line="1075"/>
+        <location filename="../src/ledgerdialog.cpp" line="1076"/>
+        <location filename="../src/ledgerdialog.cpp" line="1519"/>
         <source>Number of transactions:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8726,63 +8736,63 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="vanished">Nyitóegyenleg</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1274"/>
+        <location filename="../src/ledgerdialog.cpp" line="1335"/>
         <source>Split Transaction</source>
         <translation>Osztott tranzakció</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1298"/>
-        <location filename="../src/ledgerdialog.cpp" line="1325"/>
-        <location filename="../src/ledgerdialog.cpp" line="1351"/>
-        <location filename="../src/ledgerdialog.cpp" line="1371"/>
+        <location filename="../src/ledgerdialog.cpp" line="1360"/>
+        <location filename="../src/ledgerdialog.cpp" line="1387"/>
+        <location filename="../src/ledgerdialog.cpp" line="1414"/>
+        <location filename="../src/ledgerdialog.cpp" line="1440"/>
         <source>Debt Payment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1298"/>
+        <location filename="../src/ledgerdialog.cpp" line="1360"/>
         <source>Reduction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1325"/>
+        <location filename="../src/ledgerdialog.cpp" line="1387"/>
         <source>Fee</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1351"/>
+        <location filename="../src/ledgerdialog.cpp" line="1414"/>
         <source>Interest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1399"/>
+        <location filename="../src/ledgerdialog.cpp" line="1471"/>
         <source>Income</source>
         <translation>Bevétel</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1400"/>
+        <location filename="../src/ledgerdialog.cpp" line="1472"/>
         <source>Repayment</source>
         <translation>Visszafizetés</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="258"/>
-        <location filename="../src/ledgerdialog.cpp" line="1403"/>
+        <location filename="../src/ledgerdialog.cpp" line="259"/>
+        <location filename="../src/ledgerdialog.cpp" line="1475"/>
         <source>Expense</source>
         <translation>Kiadás</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="206"/>
+        <location filename="../src/ledgerdialog.cpp" line="207"/>
         <source>Opening balance:</source>
         <comment>Accounting context</comment>
         <translation type="unfinished">Nyitóegyenleg:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="223"/>
+        <location filename="../src/ledgerdialog.cpp" line="224"/>
         <source>Closing balance:</source>
         <comment>Accounting context</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="254"/>
+        <location filename="../src/ledgerdialog.cpp" line="255"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Leírás</translation>
@@ -8793,7 +8803,7 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="obsolete">Az értékpapír-tranzakciók és az osztalékok fajtája nem változtatható meg.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1404"/>
+        <location filename="../src/ledgerdialog.cpp" line="1476"/>
         <source>Refund</source>
         <translation>Visszatérítés</translation>
     </message>
@@ -8802,7 +8812,7 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="vanished">Kiegyenlítés</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1410"/>
+        <location filename="../src/ledgerdialog.cpp" line="1482"/>
         <source>Transfer</source>
         <translation>Átutalás</translation>
     </message>
@@ -8882,7 +8892,7 @@ Biztosan el akarod távolítani a számlát?</translation>
 <context>
     <name>MultipleTransactionsEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1689"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1705"/>
         <source>Modify Transactions</source>
         <translation>Módosított tranzakciók</translation>
     </message>
@@ -8895,43 +8905,43 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="obsolete">Név:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1702"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1718"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Leírás:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1712"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1728"/>
         <source>Amount:</source>
         <translation>Összeg:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1713"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1729"/>
         <source>Income:</source>
         <translation>Bevétel:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1714"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1730"/>
         <source>Cost:</source>
         <translation>Költség:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1722"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1738"/>
         <source>Date:</source>
         <translation>Dátum:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1733"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1749"/>
         <source>Category:</source>
         <translation>Kategória:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1747"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1763"/>
         <source>Payer:</source>
         <translation>Kifizető:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1748"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1764"/>
         <source>Payee:</source>
         <translation>Kedvezményezett:</translation>
     </message>
@@ -8952,24 +8962,24 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="obsolete">Új kiadási kategória…</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1910"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1918"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1929"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1926"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1934"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1945"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1910"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1926"/>
         <source>No income category available.</source>
         <translation>Nincs rendelkezésre álló bevételi kategória.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1918"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1934"/>
         <source>No expense category available.</source>
         <translation>Nincs rendelkezésre álló kiadási kategória.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1929"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1945"/>
         <source>Invalid date.</source>
         <translation>Érvénytelen dátum.</translation>
     </message>
@@ -10533,39 +10543,39 @@ Date: %3</source>
 <context>
     <name>TransactionEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1659"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1675"/>
         <source>Edit Expense</source>
         <translation>Kiadás szerkesztése</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1661"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1677"/>
         <source>Edit Dividend</source>
         <translation>Osztalék szerkesztése</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1662"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1678"/>
         <source>Edit Income</source>
         <translation>Bevétel szerkesztése</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1665"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1681"/>
         <source>Edit Transfer</source>
         <translation>Átutalás szerkesztése</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1666"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1682"/>
         <source>Edit Securities Purchase</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Értékpapír vétel szerkesztése</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1667"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1683"/>
         <source>Edit Securities Sale</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Értékpapír eladás szerkesztése</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1668"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1684"/>
         <source>Edit Reinvested Dividend</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10585,14 +10595,14 @@ Date: %3</source>
         <translation type="vanished">Értékpapír:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="141"/>
-        <location filename="../src/transactioneditwidget.cpp" line="234"/>
+        <location filename="../src/transactioneditwidget.cpp" line="142"/>
+        <location filename="../src/transactioneditwidget.cpp" line="237"/>
         <source>Cost:</source>
         <translation>Költség:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="142"/>
-        <location filename="../src/transactioneditwidget.cpp" line="232"/>
+        <location filename="../src/transactioneditwidget.cpp" line="143"/>
+        <location filename="../src/transactioneditwidget.cpp" line="235"/>
         <source>Income:</source>
         <translation>Bevétel:</translation>
     </message>
@@ -10605,7 +10615,7 @@ Date: %3</source>
         <translation type="vanished">Eladott részvények:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="164"/>
+        <location filename="../src/transactioneditwidget.cpp" line="165"/>
         <source>All</source>
         <translation>Összes</translation>
     </message>
@@ -10614,8 +10624,8 @@ Date: %3</source>
         <translation type="vanished">Részvényenkénti ár:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="189"/>
-        <location filename="../src/transactioneditwidget.cpp" line="281"/>
+        <location filename="../src/transactioneditwidget.cpp" line="192"/>
+        <location filename="../src/transactioneditwidget.cpp" line="284"/>
         <source>Date:</source>
         <translation>Dátum:</translation>
     </message>
@@ -10628,120 +10638,120 @@ Date: %3</source>
         <translation type="obsolete">Név:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="582"/>
+        <location filename="../src/transactioneditwidget.cpp" line="592"/>
         <source>Amount:</source>
         <translation>Összeg:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="229"/>
-        <location filename="../src/transactioneditwidget.cpp" line="580"/>
+        <location filename="../src/transactioneditwidget.cpp" line="232"/>
+        <location filename="../src/transactioneditwidget.cpp" line="590"/>
         <source>Withdrawal:</source>
         <comment>Money taken out from account</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="149"/>
+        <location filename="../src/transactioneditwidget.cpp" line="150"/>
         <source>Shares added:</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Hozzáadott részvények:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="176"/>
+        <location filename="../src/transactioneditwidget.cpp" line="177"/>
         <source>Set security share value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="183"/>
+        <location filename="../src/transactioneditwidget.cpp" line="186"/>
         <source>Total value:</source>
         <translation type="unfinished">Összes érték:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="258"/>
+        <location filename="../src/transactioneditwidget.cpp" line="261"/>
         <source>Deposit:</source>
         <comment>Money put into account</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="268"/>
+        <location filename="../src/transactioneditwidget.cpp" line="271"/>
         <source>Downpayment:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="274"/>
+        <location filename="../src/transactioneditwidget.cpp" line="277"/>
         <source>Quantity:</source>
         <translation>Mennyiség:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="299"/>
+        <location filename="../src/transactioneditwidget.cpp" line="302"/>
         <source>From:</source>
         <translation>Forrás:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="305"/>
+        <location filename="../src/transactioneditwidget.cpp" line="308"/>
         <source>To:</source>
         <translation>Cél:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="315"/>
-        <location filename="../src/transactioneditwidget.cpp" line="357"/>
-        <location filename="../src/transactioneditwidget.cpp" line="366"/>
+        <location filename="../src/transactioneditwidget.cpp" line="318"/>
+        <location filename="../src/transactioneditwidget.cpp" line="360"/>
+        <location filename="../src/transactioneditwidget.cpp" line="369"/>
         <source>Category:</source>
         <translation>Kategória:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="322"/>
-        <location filename="../src/transactioneditwidget.cpp" line="348"/>
+        <location filename="../src/transactioneditwidget.cpp" line="325"/>
+        <location filename="../src/transactioneditwidget.cpp" line="351"/>
         <source>To account:</source>
         <translation>Erre a számlára:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="329"/>
+        <location filename="../src/transactioneditwidget.cpp" line="332"/>
         <source>Payer:</source>
         <translation>Kifizető:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="338"/>
-        <location filename="../src/transactioneditwidget.cpp" line="377"/>
+        <location filename="../src/transactioneditwidget.cpp" line="341"/>
+        <location filename="../src/transactioneditwidget.cpp" line="380"/>
         <source>From account:</source>
         <translation>Erről a számláról:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="374"/>
+        <location filename="../src/transactioneditwidget.cpp" line="377"/>
         <source>Downpayment account:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="385"/>
+        <location filename="../src/transactioneditwidget.cpp" line="388"/>
         <source>Payee:</source>
         <translation>Kedvezményezett:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="393"/>
+        <location filename="../src/transactioneditwidget.cpp" line="396"/>
         <source>Lender:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="399"/>
+        <location filename="../src/transactioneditwidget.cpp" line="402"/>
         <source>Associated file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="407"/>
+        <location filename="../src/transactioneditwidget.cpp" line="410"/>
         <source>Select a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="411"/>
+        <location filename="../src/transactioneditwidget.cpp" line="414"/>
         <source>Open the file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="421"/>
+        <location filename="../src/transactioneditwidget.cpp" line="424"/>
         <source>Comments:</source>
         <translation>Megjegyzések:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1087"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1064"/>
         <source>No security available.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nincs lehetséges értékpapír.</translation>
@@ -10771,91 +10781,91 @@ Date: %3</source>
         <translation type="obsolete">Új kiadási kategória…</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="122"/>
-        <location filename="../src/transactioneditwidget.cpp" line="201"/>
+        <location filename="../src/transactioneditwidget.cpp" line="123"/>
+        <location filename="../src/transactioneditwidget.cpp" line="204"/>
         <source>Security:</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Értékpapír:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="154"/>
+        <location filename="../src/transactioneditwidget.cpp" line="155"/>
         <source>Shares bought:</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Vett részvények:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="159"/>
+        <location filename="../src/transactioneditwidget.cpp" line="160"/>
         <source>Shares sold:</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Eladott részvények:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="172"/>
+        <location filename="../src/transactioneditwidget.cpp" line="173"/>
         <source>Price per share:</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Részvényenkénti ár:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="219"/>
+        <location filename="../src/transactioneditwidget.cpp" line="222"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Leírás:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="224"/>
+        <location filename="../src/transactioneditwidget.cpp" line="227"/>
         <source>Transaction title/generic article name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="276"/>
+        <location filename="../src/transactioneditwidget.cpp" line="279"/>
         <source>Number of items included in the transaction. Entered cost is total cost for all items.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1033"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1037"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1044"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1048"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1055"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1062"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1069"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1076"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1080"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1087"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1095"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1105"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1010"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1014"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1021"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1025"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1032"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1039"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1046"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1053"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1057"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1064"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1072"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1082"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1086"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1093"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1100"/>
         <location filename="../src/transactioneditwidget.cpp" line="1109"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1116"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1123"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1132"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1136"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1140"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1152"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1113"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1117"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1129"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1033"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1037"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1048"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1069"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1080"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1010"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1014"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1025"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1046"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1057"/>
         <source>No suitable account available.</source>
         <translation>Nincs megfelelő számla.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1044"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1062"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1021"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1039"/>
         <source>No income category available.</source>
         <translation>Nincs rendelkezésre álló bevételi kategória.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1055"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1032"/>
         <source>No suitable account or income category available.</source>
         <translation>Nincs megfelelő számla vagy bevétel kategória.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1076"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1053"/>
         <source>No expense category available.</source>
         <translation>Nincs rendelkezésre álló kiadási kategória.</translation>
     </message>
@@ -10864,52 +10874,52 @@ Date: %3</source>
         <translation type="vanished">Nincs lehetséges értékpapír.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1095"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1072"/>
         <source>Invalid date.</source>
         <translation>Érvénytelen dátum.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1105"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1082"/>
         <source>Cannot transfer money to and from the same account.</source>
         <translation>Nem lehet átutalni ugyanarról ugyanarra a számlára.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1109"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1086"/>
         <source>Downpayment must be less than total cost.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1116"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1093"/>
         <source>Cannot create a regular transfer to/from a securities account.</source>
         <translation>Nem hozható létre állandó átutalás értékpapírszámlára/-ról.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1123"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1100"/>
         <source>Cannot create a regular income to a securities account.</source>
         <translation>Nem hozható létre állandó bevétel értékpapírszámlára.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1132"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1109"/>
         <source>Zero shares not allowed.</source>
         <translation>Nulla részvény nem megengedett.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1136"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1113"/>
         <source>Zero value not allowed.</source>
         <translation>Nulla érték nem megengedett.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1140"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1117"/>
         <source>Zero price per share not allowed.</source>
         <translation>Nulla részvényenkénti ár nem megengedett.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1152"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1129"/>
         <source>Cannot create a regular expense from a securities account.</source>
         <translation>Nem hozható létre állandó kiadás értékpapírszámláról.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1230"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1207"/>
         <source>Loan for %1</source>
         <translation type="unfinished"></translation>
     </message>

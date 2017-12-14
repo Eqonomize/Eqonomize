@@ -52,11 +52,14 @@ class LedgerDialog : public QDialog {
 		Eqonomize *mainWin;
 		Budget *budget;
 		bool b_extra;
+
+		QString stat_total_text;
 		
 		double d_rec_cl, d_rec_op;
 		double d_book_cl, d_book_op;
 		
 		int re1, re2;
+		int min_width_1, min_width_2;
 		
 		QTreeWidget *transactionsView;
 		QPushButton *editButton, *removeButton, *joinButton, *splitUpButton, *reconcileButton, *markReconciledButton;

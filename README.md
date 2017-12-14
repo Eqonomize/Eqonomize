@@ -21,8 +21,11 @@ In a terminal window in the top source code directory run
   * Split transactions.
   * Refunds and repayments.
   * Explicit support for loans/debts with interest and fee payments.
-  * Schedules transactions, with support for a wide range of recurrency schemes, and confirmation and occurrance.
-  * Parameters of the last entered transaction, with the same description, is automatically filled in when a description, category or payee is entered (with auto-completion)
+  * Schedules transactions, with support for a wide range of recurrency schemes, and confirmation of occurrences.
+  * Support for multiple currencies, with selectable currency for each account. Supported currencies are automatically updated.
+  * Reconciliation.
+  * Parameters of the last entered transaction, with the same description (or category or payee/payer), is automatically filled in when a description (or category/payer/payee) is entered (with auto-completion)
+  * Value input fields support arithmetics and currency conversion.
 * Budgeting
   * Monthly budget for incomes and expenses categories.
   * Ability to exclude categories from the budget.
@@ -44,5 +47,5 @@ In a terminal window in the top source code directory run
   * Flexible QIF import and export.
   * Displayed data can be saved to a html or csv file, for display online and editing in a spreadsheet.
   * Can import transactions from a csv file, for example a spreadsheet file, with a customizable number of variable transaction parameters.
-  * Tables can be saved as html files and charts in a number of different image formats, including png and jpeg. 
+  * Tables can be saved as html files and charts in a number of different image formats, including png and jpeg.
 

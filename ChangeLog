@@ -1,11 +1,13 @@
 2017-12-14  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Remember state of set quote checkbox
+	* Fix segfault on edit multiple transactions from ledger
+	* Show statistics for selection in ledger
+	* Calculate average balance correctly
 
 2017-12-13  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Set last used category/account for new transaction dialogs
-	* Fix segfault on edit multiple transactions from ledger
 	* Ledger popup menu
 	* Add warning message to adjust balance dialog
 
