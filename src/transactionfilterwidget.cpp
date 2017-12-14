@@ -176,8 +176,8 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	connect(fromCombo, SIGNAL(activated(int)), this, SIGNAL(filter()));
 	connect(toCombo, SIGNAL(activated(int)), this, SLOT(checkEnableClear()));
 	connect(fromCombo, SIGNAL(activated(int)), this, SLOT(checkEnableClear()));
-	connect(toCombo, SIGNAL(activated(int)), this, SIGNAL(toActivated(int)));
-	connect(fromCombo, SIGNAL(activated(int)), this, SIGNAL(fromActivated(int)));
+	connect(toCombo, SIGNAL(activated(int)), this, SLOT(onToActivated(int)));
+	connect(fromCombo, SIGNAL(activated(int)), this, SLOT(onFromActivated(int)));
 	connect(descriptionEdit, SIGNAL(textChanged(const QString&)), this, SIGNAL(filter()));
 	connect(descriptionEdit, SIGNAL(textChanged(const QString&)), this, SLOT(checkEnableClear()));
 	connect(minButton, SIGNAL(toggled(bool)), this, SIGNAL(filter()));
@@ -296,21 +296,21 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 		int i = fromCombo->findData(qVariantFromValue((void*) from_account));
 		if(i >= 0) {
 			fromCombo->setCurrentIndex(i);
-			emit fromActivated(i);
+			emit fromActivated(from_account);
 		}
 	} else {
 		fromCombo->setCurrentIndex(0);
-		emit fromActivated(0);
+		emit fromActivated(NULL);
 	}
 	if(to_account) {
 		int i = toCombo->findData(qVariantFromValue((void*) to_account));
 		if(i >= 0) {
 			toCombo->setCurrentIndex(i);
-			emit toActivated(i);
+			emit toActivated(to_account);
 		}
 	} else {
 		toCombo->setCurrentIndex(0);
-		emit toActivated(0);
+		emit toActivated(NULL);
 	}
 	descriptionEdit->setText(description);
 	if(payeeEdit) descriptionEdit->setText(payee);
@@ -889,5 +889,19 @@ QDate TransactionFilterWidget::firstDate() {
 		default: {break;}
 	}
 	return first_date;
+}
+void TransactionFilterWidget::onFromActivated(int index) {
+	if(index > 0) {
+		emit fromActivated((Account*) fromCombo->itemData(index).value<void*>());
+	} else {
+		emit fromActivated(NULL);
+	}
+}
+void TransactionFilterWidget::onToActivated(int index) {
+	if(index > 0) {
+		emit toActivated((Account*) toCombo->itemData(index).value<void*>());
+	} else {
+		emit toActivated(NULL);
+	}
 }
 

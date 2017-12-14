@@ -412,7 +412,7 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	connect(editButton, SIGNAL(clicked()), this, SLOT(edit()));
 	connect(dateEdit, SIGNAL(dateChanged(const QDate&)), this, SIGNAL(dateChanged(const QDate&)));
 	connect(accountCombo, SIGNAL(newAccountRequested()), this, SLOT(newAccount()));
-	connect(accountCombo, SIGNAL(currentAccountChanged()), this, SLOT(accountChanged()));
+	connect(accountCombo, SIGNAL(currentAccountChanged(Account*)), this, SLOT(accountChanged()));
 
 }
 EditMultiItemWidget::~EditMultiItemWidget() {}
@@ -1135,7 +1135,7 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 	if(loanCombo) connect(loanCombo, SIGNAL(activated(int)), this, SLOT(loanActivated(int)));
 	if(accountCombo) connect(accountCombo, SIGNAL(newAccountRequested()), this, SLOT(newAccount()));
 	if(categoryCombo) connect(categoryCombo, SIGNAL(newAccountRequested()), this, SLOT(newCategory()));
-	if(accountCombo) connect(accountCombo, SIGNAL(currentAccountChanged()), this, SLOT(accountChanged()));
+	if(accountCombo) connect(accountCombo, SIGNAL(currentAccountChanged(Account*)), this, SLOT(accountChanged()));
 
 }
 EditDebtPaymentWidget::~EditDebtPaymentWidget() {}

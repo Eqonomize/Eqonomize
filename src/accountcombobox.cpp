@@ -34,9 +34,10 @@ AccountComboBox::AccountComboBox(int account_type, Budget *budg, bool add_new_ac
 	added_account = NULL;
 	block_account_selected = false;
 	connect(this, SIGNAL(activated(int)), this, SLOT(accountActivated(int)));
-	connect(this, SIGNAL(currentIndexChanged(int)), this, SIGNAL(currentAccountChanged()));
+	connect(this, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
 }
 AccountComboBox::~AccountComboBox() {}
+
 
 int AccountComboBox::firstAccountIndex() const {
 	int index = 0;
@@ -188,7 +189,7 @@ Account *AccountComboBox::createAccount() {
 		budget->addAccount(account);
 		updateAccounts();
 		setCurrentAccount(account);
-		emit accountSelected();
+		emit accountSelected(account);
 		//emit currentAccountChanged();
 	}
 	return account;
@@ -206,10 +207,17 @@ void AccountComboBox::accountActivated(int index) {
 		emit multipleAccountsRequested();
 	} else {
 		if(!block_account_selected) {
-			emit accountSelected();
+			Account *account = NULL;
+			if(itemData(index).isValid()) account = (Account*) itemData(index).value<void*>();
+			emit accountSelected(account);
 		}
 		//emit currentAccountChanged();
 	}
+}
+void AccountComboBox::onCurrentIndexChanged(int index) {
+	Account *account = NULL;
+	if(itemData(index).isValid()) account = (Account*) itemData(index).value<void*>();
+	emit currentAccountChanged(account);
 }
 void AccountComboBox::keyPressEvent(QKeyEvent *e) {
 	block_account_selected = true;

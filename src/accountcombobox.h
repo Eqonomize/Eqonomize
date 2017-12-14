@@ -62,12 +62,13 @@ class AccountComboBox : public QComboBox {
 		void newLoanRequested();
 		void newAccountRequested();
 		void multipleAccountsRequested();
-		void accountSelected();
-		void currentAccountChanged();
+		void accountSelected(Account*);
+		void currentAccountChanged(Account*);
 		
 	protected slots:
 	
-		void accountActivated(int index);
+		void accountActivated(int);
+		void onCurrentIndexChanged(int);
 	
 };
 

@@ -131,7 +131,6 @@ int main(int argc, char **argv) {
 		win->openURL(QUrl::fromUserInput(args.at(0)));
 	} else if(!url.isEmpty()) {
 		win->openURL(QUrl(url));
-		win->readFileDependentOptions();
 	} else {
 		if(!win->crashRecovery(QUrl())) {
 			win->createDefaultBudget();

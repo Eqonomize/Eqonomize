@@ -90,12 +90,14 @@ class TransactionFilterWidget : public QWidget {
 		void fromChanged(const QDate&);
 		void clearFilter();
 		void checkEnableClear();
+		void onToActivated(int);
+		void onFromActivated(int);
 
 	signals:
 
 		void filter();
-		void toActivated(int);
-		void fromActivated(int);
+		void toActivated(Account*);
+		void fromActivated(Account*);
 
 };
 

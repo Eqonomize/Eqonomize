@@ -48,6 +48,7 @@
 #include <QDirModel>
 #include <QDesktopServices>
 #include <QDebug>
+#include <QSettings>
 
 #include "budget.h"
 #include "accountcombobox.h"
@@ -174,8 +175,10 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			editLayout->addWidget(quotationEdit, TEROWCOL(i, 1));
 			i++;
 			setQuoteButton = new QCheckBox(tr("Set security share value"), this);
-			setQuoteButton->setChecked(true);
-			b_prev_update_quote = true;
+			QSettings settings;
+			settings.beginGroup("GeneralOptions");
+			setQuoteButton->setChecked(settings.value("setShareValueFromPrice", true).toBool());
+			settings.endGroup();
 			editLayout->addWidget(setQuoteButton, TEROWCOL(i, 1), Qt::AlignRight);
 			i++;
 		}
@@ -524,23 +527,30 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	if(commentsEdit && b_autoedit) connect(commentsEdit, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
 	if(securityCombo) connect(securityCombo, SIGNAL(activated(int)), this, SLOT(securityChanged()));
 	if(currencyCombo) connect(currencyCombo, SIGNAL(activated(int)), this, SLOT(currencyChanged(int)));
+	if(setQuoteButton) connect(setQuoteButton, SIGNAL(toggled(bool)), this, SLOT(setQuoteToggled(bool)));
 	if(fromCombo) {
 		connect(fromCombo, SIGNAL(newAccountRequested()), this, SLOT(newFromAccount()));
 		connect(fromCombo, SIGNAL(newLoanRequested()), this, SIGNAL(newLoanRequested()));
 		connect(fromCombo, SIGNAL(multipleAccountsRequested()), this, SIGNAL(multipleAccountsRequested()));
-		connect(fromCombo, SIGNAL(accountSelected()), this, SLOT(fromActivated()));
-		connect(fromCombo, SIGNAL(currentAccountChanged()), this, SLOT(fromChanged()));
+		connect(fromCombo, SIGNAL(accountSelected(Account*)), this, SLOT(fromActivated()));
+		connect(fromCombo, SIGNAL(currentAccountChanged(Account*)), this, SLOT(fromChanged(Account*)));
 	}
 	if(toCombo) {
 		connect(toCombo, SIGNAL(newAccountRequested()), this, SLOT(newToAccount()));
 		connect(toCombo, SIGNAL(newLoanRequested()), this, SIGNAL(newLoanRequested()));
 		connect(toCombo, SIGNAL(multipleAccountsRequested()), this, SIGNAL(multipleAccountsRequested()));
-		connect(toCombo, SIGNAL(accountSelected()), this, SLOT(toActivated()));
-		connect(toCombo, SIGNAL(currentAccountChanged()), this, SLOT(toChanged()));
+		connect(toCombo, SIGNAL(accountSelected(Account*)), this, SLOT(toActivated()));
+		connect(toCombo, SIGNAL(currentAccountChanged(Account*)), this, SLOT(toChanged(Account*)));
 	}
 	b_multiple_currencies = true;
 	useMultipleCurrencies(budget->usesMultipleCurrencies());
 	if(security) securityChanged();
+}
+void TransactionEditWidget::setQuoteToggled(bool b) {
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	settings.setValue("setShareValueFromPrice", b);
+	settings.endGroup();
 }
 void TransactionEditWidget::selectFile() {
 	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_associated_file_directory : fileEdit->text());
@@ -633,8 +643,7 @@ void TransactionEditWidget::toActivated() {
 		setDefaultValueFromCategory();
 	}
 }
-void TransactionEditWidget::fromChanged() {
-	Account *acc = fromCombo->currentAccount();
+void TransactionEditWidget::fromChanged(Account *acc) {
 	if(!acc) return;
 	if(downPaymentEdit) {
 		downPaymentEdit->setCurrency(acc->currency());
@@ -646,12 +655,14 @@ void TransactionEditWidget::fromChanged() {
 			bool b = (security->currency() == quotationEdit->currency());
 			if(setQuoteButton->isEnabled() != b) {
 				setQuoteButton->setEnabled(b);
+				setQuoteButton->blockSignals(true);
 				if(b) {
 					setQuoteButton->setChecked(b_prev_update_quote);
 				} else {
 					b_prev_update_quote = setQuoteButton->isChecked();
 					setQuoteButton->setChecked(false);
 				}
+				setQuoteButton->blockSignals(false);
 			}
 		}
 	}
@@ -671,8 +682,7 @@ void TransactionEditWidget::fromChanged() {
 		}
 	}
 }
-void TransactionEditWidget::toChanged() {
-	Account *acc = toCombo->currentAccount();
+void TransactionEditWidget::toChanged(Account *acc) {
 	if(!acc) return;
 	if(transtype == TRANSACTION_TYPE_TRANSFER) {
 		if(depositEdit) {
@@ -698,12 +708,14 @@ void TransactionEditWidget::toChanged() {
 				bool b = (security->currency() == quotationEdit->currency());
 				if(setQuoteButton->isEnabled() != b) {
 					setQuoteButton->setEnabled(b);
+					setQuoteButton->blockSignals(true);
 					if(b) {
 						setQuoteButton->setChecked(b_prev_update_quote);
 					} else {
 						b_prev_update_quote = setQuoteButton->isChecked();
 						setQuoteButton->setChecked(false);
 					}
+					setQuoteButton->blockSignals(false);
 				}
 			}
 		}
@@ -733,12 +745,14 @@ void TransactionEditWidget::securityChanged() {
 			bool b = (security->currency() == quotationEdit->currency());
 			if(setQuoteButton->isEnabled() != b) {
 				setQuoteButton->setEnabled(b);
+				setQuoteButton->blockSignals(true);
 				if(b) {
 					setQuoteButton->setChecked(b_prev_update_quote);
 				} else {
 					b_prev_update_quote = setQuoteButton->isChecked();
 					setQuoteButton->setChecked(false);
 				}
+				setQuoteButton->blockSignals(false);
 			}
 		}
 		if(sharesEdit && security && shares_date.isValid()) sharesEdit->setMaximum(security->shares(shares_date));
@@ -936,49 +950,12 @@ void TransactionEditWidget::setDefaultValueFromCategory() {
 void TransactionEditWidget::updateFromAccounts(Account *exclude_account, Currency *force_currency, bool set_default) {
 	if(!fromCombo) return;
 	fromCombo->updateAccounts(exclude_account, force_currency);
-	if(set_default) {
-		if((transtype == TRANSACTION_TYPE_INCOME && security) || transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
-			for(TransactionList<Income*>::const_iterator it = budget->incomes.constEnd(); it != budget->incomes.constBegin();) {
-				--it;
-				Income *income = *it;
-				if(income->security()) {
-					fromCombo->setCurrentAccount(income->category());
-					break;
-				}
-			}
-		} else if(transtype == TRANSACTION_TYPE_INCOME) {
-			Income *trans = budget->incomes.last();
-			if(trans) fromCombo->setCurrentAccount(trans->category());
-		} else if(transtype == TRANSACTION_TYPE_EXPENSE) {
-			Expense *trans = budget->expenses.last();
-			if(trans) fromCombo->setCurrentAccount(trans->from());
-		} else if(transtype == TRANSACTION_TYPE_TRANSFER) {
-			Transaction *trans = budget->transfers.last();
-			if(trans) fromCombo->setCurrentAccount(trans->fromAccount());
-		} else if(transtype == TRANSACTION_TYPE_SECURITY_BUY) {
-			SecurityTransaction *trans = budget->securityTransactions.last();
-			if(trans) fromCombo->setCurrentAccount(trans->account());
-		}
-	}
+	if(set_default) setDefaultFromAccount();
 }
 void TransactionEditWidget::updateToAccounts(Account *exclude_account, Currency *force_currency, bool set_default) {
 	if(!toCombo) return;
 	toCombo->updateAccounts(exclude_account, force_currency);
-	if(set_default) {
-		if(transtype == TRANSACTION_TYPE_INCOME) {
-			Income *trans = budget->incomes.last();
-			if(trans) toCombo->setCurrentAccount(trans->to());
-		} else if(transtype == TRANSACTION_TYPE_EXPENSE) {
-			Expense *trans = budget->expenses.last();
-			if(trans) toCombo->setCurrentAccount(trans->category());
-		} else if(transtype == TRANSACTION_TYPE_TRANSFER) {
-			Transaction *trans = budget->transfers.last();
-			if(trans) toCombo->setCurrentAccount(trans->toAccount());
-		} else if(transtype == TRANSACTION_TYPE_SECURITY_SELL) {
-			SecurityTransaction *trans = budget->securityTransactions.last();
-			if(trans) toCombo->setCurrentAccount(trans->account());
-		}
-	}
+	if(set_default) setDefaultToAccount();
 }
 void TransactionEditWidget::updateAccounts(Account *exclude_account, Currency *force_currency, bool set_default) {
 	if(fromCombo) fromCombo->clear();
@@ -1488,11 +1465,51 @@ void TransactionEditWidget::transactionsReset() {
 	if(descriptionEdit) ((QStandardItemModel*) descriptionEdit->completer()->model())->sort(1);
 	if(payeeEdit) ((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
 }
-void TransactionEditWidget::setCurrentToItem(int index) {
-	if(toCombo) toCombo->setCurrentAccountIndex(index);
+void TransactionEditWidget::setDefaultFromAccount() {
+	if(!fromCombo) return;
+	if((transtype == TRANSACTION_TYPE_INCOME && security) || transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
+		for(TransactionList<Income*>::const_iterator it = budget->incomes.constEnd(); it != budget->incomes.constBegin();) {
+			--it;
+			Income *income = *it;
+			if(income->security()) {
+				fromCombo->setCurrentAccount(income->category());
+				break;
+			}
+		}
+	} else if(transtype == TRANSACTION_TYPE_INCOME) {
+		Income *trans = budget->incomes.last();
+		if(trans) fromCombo->setCurrentAccount(trans->category());
+	} else if(transtype == TRANSACTION_TYPE_EXPENSE) {
+		Expense *trans = budget->expenses.last();
+		if(trans) fromCombo->setCurrentAccount(trans->from());
+	} else if(transtype == TRANSACTION_TYPE_TRANSFER) {
+		Transaction *trans = budget->transfers.last();
+		if(trans) fromCombo->setCurrentAccount(trans->fromAccount());
+	} else if(transtype == TRANSACTION_TYPE_SECURITY_BUY) {
+		SecurityTransaction *trans = budget->securityTransactions.last();
+		if(trans) fromCombo->setCurrentAccount(trans->account());
+	}
 }
-void TransactionEditWidget::setCurrentFromItem(int index) {
-	if(fromCombo) fromCombo->setCurrentAccountIndex(index);
+
+void TransactionEditWidget::setDefaultToAccount() {
+	if(!toCombo) return;
+	if(transtype == TRANSACTION_TYPE_INCOME) {
+		Income *trans = budget->incomes.last();
+		if(trans) toCombo->setCurrentAccount(trans->to());
+	} else if(transtype == TRANSACTION_TYPE_EXPENSE) {
+		Expense *trans = budget->expenses.last();
+		if(trans) toCombo->setCurrentAccount(trans->category());
+	} else if(transtype == TRANSACTION_TYPE_TRANSFER) {
+		Transaction *trans = budget->transfers.last();
+		if(trans) toCombo->setCurrentAccount(trans->toAccount());
+	} else if(transtype == TRANSACTION_TYPE_SECURITY_SELL) {
+		SecurityTransaction *trans = budget->securityTransactions.last();
+		if(trans) toCombo->setCurrentAccount(trans->account());
+	}
+}
+void TransactionEditWidget::setDefaultAccounts() {
+	setDefaultToAccount();
+	setDefaultFromAccount();
 }
 void TransactionEditWidget::setAccount(Account *account) {
 	if(fromCombo && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_TRANSFER || transtype == TRANSACTION_TYPE_SECURITY_BUY)) {
@@ -1501,15 +1518,12 @@ void TransactionEditWidget::setAccount(Account *account) {
 		toCombo->setCurrentAccount(account);
 	}
 }
-int TransactionEditWidget::currentToItem() {
-	if(!toCombo) return -1;
-	return toCombo->currentAccountIndex();
+void TransactionEditWidget::setFromAccount(Account *account) {
+	if(fromCombo) fromCombo->setCurrentAccount(account);
 }
-int TransactionEditWidget::currentFromItem() {
-	if(!fromCombo) return -1;
-	return fromCombo->currentAccountIndex();
+void TransactionEditWidget::setToAccount(Account *account) {
+	if(toCombo) toCombo->setCurrentAccount(account);
 }
-
 void TransactionEditWidget::setTransaction(Transaction *trans) {
 	if(valueEdit) valueEdit->blockSignals(true);
 	if(sharesEdit) sharesEdit->blockSignals(true);
@@ -1565,6 +1579,7 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 				quotationEdit->setValue(trans->value() / (trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND ? ((ReinvestedDividend*) trans)->shares() : ((SecurityTransaction*) trans)->shares()));
 				if(setQuoteButton) {
 					Security *sec = (trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND ? ((ReinvestedDividend*) trans)->security() : ((SecurityTransaction*) trans)->security());
+					setQuoteButton->blockSignals(true);
 					if(sec->currency() == quotationEdit->currency()) {
 						setQuoteButton->setChecked(sec->hasQuotation(trans->date()) && sec->getQuotation(trans->date()) == quotationEdit->value());
 						setQuoteButton->setEnabled(true);
@@ -1573,6 +1588,7 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 						setQuoteButton->setChecked(false);
 						setQuoteButton->setEnabled(false);
 					}
+					setQuoteButton->blockSignals(false);
 				}
 			}
 			if(isVisible()) {

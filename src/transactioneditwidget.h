@@ -63,7 +63,7 @@ class TransactionEditWidget : public QWidget {
 	public:
 
 		TransactionEditWidget(bool auto_edit, bool extra_parameters, int transaction_type, Currency *split_currency, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent = 0, bool allow_account_creation = false, bool multiaccount = false, bool withloan = false);
-		
+
 		void useMultipleCurrencies(bool b);
 		void setTransaction(Transaction *trans);
 		void setMultiAccountTransaction(MultiAccountTransaction *split);
@@ -71,12 +71,13 @@ class TransactionEditWidget : public QWidget {
 		void updateFromAccounts(Account *exclude_account = NULL, Currency *force_currency = NULL, bool set_default = false);
 		void updateToAccounts(Account *exclude_account = NULL, Currency *force_currency = NULL, bool set_default = false);
 		void updateAccounts(Account *exclude_account = NULL, Currency *force_currency = NULL, bool set_default = false);
-		void transactionsReset();		
-		void setCurrentToItem(int index);
-		void setCurrentFromItem(int index);
+		void transactionsReset();
+		void setDefaultFromAccount();
+		void setDefaultToAccount();
+		void setDefaultAccounts();
 		void setAccount(Account *account);
-		int currentToItem();
-		int currentFromItem();
+		void setToAccount(Account *account);
+		void setFromAccount(Account *account);
 		void focusDescription();
 		QHBoxLayout *bottomLayout();
 		void transactionRemoved(Transaction *trans);
@@ -115,7 +116,7 @@ class TransactionEditWidget : public QWidget {
 		QDate shares_date;
 		bool b_create_accounts;
 		bool b_multiple_currencies;
-		bool b_prev_update_quote;
+		int b_prev_update_quote;
 		Currency *splitcurrency;
 		int dateRow, dateLabelCol, dateEditCol, depositRow, depositLabelCol, depositEditCol;
 
@@ -148,8 +149,8 @@ class TransactionEditWidget : public QWidget {
 		void valueNextField();
 		void fromActivated();
 		void toActivated();
-		void fromChanged();
-		void toChanged();
+		void fromChanged(Account*);
+		void toChanged(Account*);
 		void focusDate();
 		void valueEditingFinished();
 		void valueChanged(double);
@@ -163,6 +164,7 @@ class TransactionEditWidget : public QWidget {
 		void setDefaultValueFromPayee();
 		void setDefaultValueFromCategory();
 		void maxShares();
+		void setQuoteToggled(bool);
 
 };
 

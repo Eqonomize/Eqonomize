@@ -59,10 +59,7 @@ class TransactionListWidget : public QWidget {
 		void updateAccounts();
 		void onDisplay();
 		void appendFilterTransaction(Transactions*, bool, ScheduledTransaction* = NULL);
-		void setCurrentEditToItem(int index);
-		void setCurrentEditFromItem(int index);
-		int currentEditToItem();
-		int currentEditFromItem();
+		void setDefaultAccounts();
 		QSize minimumSizeHint() const;
 		QSize sizeHint() const;
 		void setFilter(QDate fromdate, QDate todate, double min = -1.0, double max = -1.0, Account *from_account = NULL, Account *to_account = NULL, QString description = QString::null, QString payee = QString::null, bool exclude = false, bool exact_match = false);
@@ -118,8 +115,8 @@ class TransactionListWidget : public QWidget {
 		void filterTransactions();
 		void currentTransactionChanged(QTreeWidgetItem*);
 		void transactionSelectionChanged();
-		void filterCategoryActivated(int);
-		void filterFromActivated(int);
+		void filterToActivated(Account*);
+		void filterFromActivated(Account*);
 		void addTransaction();
 		void modifyTransaction();
 		void removeTransaction();

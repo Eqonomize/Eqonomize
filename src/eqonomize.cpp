@@ -4311,6 +4311,12 @@ bool Eqonomize::openURL(const QUrl& url, bool merge) {
 	}
 
 	reloadBudget();
+	
+	if(!merge) {
+		expensesWidget->setDefaultAccounts();
+		incomesWidget->setDefaultAccounts();
+		transfersWidget->setDefaultAccounts();
+	}
 
 	emit accountsModified();
 	emit transactionsModified();
@@ -5890,12 +5896,6 @@ void Eqonomize::saveOptions() {
 	else if(ActionSelectBackupFrequency->checkedAction() == ABFWeekly) {settings.setValue("backupFrequency", BACKUP_WEEKLY);}
 	else if(ActionSelectBackupFrequency->checkedAction() == ABFFortnightly) {settings.setValue("backupFrequency", BACKUP_FORTNIGHTLY);}
 	else if(ActionSelectBackupFrequency->checkedAction() == ABFMonthly) {settings.setValue("backupFrequency", BACKUP_MONTHLY);}
-	settings.setValue("currentEditExpenseFromItem", expensesWidget->currentEditFromItem());
-	settings.setValue("currentEditExpenseToItem", expensesWidget->currentEditToItem());
-	settings.setValue("currentEditIncomeFromItem", incomesWidget->currentEditFromItem());
-	settings.setValue("currentEditIncomeToItem", incomesWidget->currentEditToItem());
-	settings.setValue("currentEditTransferFromItem", transfersWidget->currentEditFromItem());
-	settings.setValue("currentEditTransferToItem", transfersWidget->currentEditToItem());
 	settings.setValue("useExtraProperties", b_extra);
 	settings.setValue("useExchangeRateForTransactionDate", budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE);
 	settings.setValue("firstRun", false);
@@ -5923,17 +5923,7 @@ void Eqonomize::saveOptions() {
 }
 
 
-void Eqonomize::readFileDependentOptions() {
-	QSettings settings;
-	settings.beginGroup("GeneralOptions");
-	expensesWidget->setCurrentEditFromItem(settings.value("currentEditExpenseFromItem", int(0)).toInt());
-	expensesWidget->setCurrentEditToItem(settings.value("currentEditExpenseToItem", int(0)).toInt());
-	incomesWidget->setCurrentEditFromItem(settings.value("currentEditIncomeFromItem", int(0)).toInt());
-	incomesWidget->setCurrentEditToItem(settings.value("currentEditIncomeToItem", int(0)).toInt());
-	transfersWidget->setCurrentEditFromItem(settings.value("currentEditTransferFromItem", int(0)).toInt());
-	transfersWidget->setCurrentEditToItem(settings.value("currentEditTransferToItem", int(0)).toInt());
-	settings.endGroup();
-}
+void Eqonomize::readFileDependentOptions() {}
 void Eqonomize::readOptions() {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");

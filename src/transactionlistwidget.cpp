@@ -189,8 +189,8 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	connect(editWidget, SIGNAL(addmodify()), this, SLOT(addModifyTransaction()));
 	connect(removeButton, SIGNAL(clicked()), this, SLOT(removeTransaction()));
 	connect(filterWidget, SIGNAL(filter()), this, SLOT(filterTransactions()));
-	connect(filterWidget, SIGNAL(toActivated(int)), this, SLOT(filterCategoryActivated(int)));
-	connect(filterWidget, SIGNAL(fromActivated(int)), this, SLOT(filterFromActivated(int)));
+	connect(filterWidget, SIGNAL(toActivated(Account*)), this, SLOT(filterToActivated(Account*)));
+	connect(filterWidget, SIGNAL(fromActivated(Account*)), this, SLOT(filterFromActivated(Account*)));
 	connect(transactionsView, SIGNAL(itemSelectionChanged()), this, SLOT(transactionSelectionChanged()));
 	transactionsView->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(transactionsView, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupListMenu(const QPoint&)));
@@ -1688,11 +1688,11 @@ void TransactionListWidget::updateTransactionActions() {
 	mainWin->ActionJoinTransactions->setEnabled(b_join);
 	mainWin->ActionSplitUpTransaction->setEnabled(b_split);
 }
-void TransactionListWidget::filterCategoryActivated(int index) {
-	if(index > 0) editWidget->setCurrentToItem(index - 1);
+void TransactionListWidget::filterToActivated(Account *acc) {
+	if(acc && (acc->type() != ACCOUNT_TYPE_ASSETS || (acc != budget->balancingAccount && ((AssetsAccount*) acc)->accountType() != ASSETS_TYPE_SECURITIES && !((AssetsAccount*) acc)->isClosed()))) editWidget->setToAccount(acc);
 }
-void TransactionListWidget::filterFromActivated(int index) {
-	if(index > 0) editWidget->setCurrentFromItem(index - 1);
+void TransactionListWidget::filterFromActivated(Account *acc) {
+	if(acc && (acc->type() != ACCOUNT_TYPE_ASSETS || (acc != budget->balancingAccount && ((AssetsAccount*) acc)->accountType() != ASSETS_TYPE_SECURITIES && !((AssetsAccount*) acc)->isClosed()))) editWidget->setFromAccount(acc);
 }
 void TransactionListWidget::onDisplay() {
 	if(tabs->currentWidget() == editWidget) editWidget->focusDescription();
@@ -1709,17 +1709,8 @@ void TransactionListWidget::updateAccounts() {
 	editWidget->updateAccounts();
 	filterWidget->updateAccounts();
 }
-void TransactionListWidget::setCurrentEditToItem(int index) {
-	editWidget->setCurrentToItem(index);
-}
-void TransactionListWidget::setCurrentEditFromItem(int index) {
-	editWidget->setCurrentFromItem(index);
-}
-int TransactionListWidget::currentEditToItem() {
-	return editWidget->currentToItem();
-}
-int TransactionListWidget::currentEditFromItem() {
-	return editWidget->currentFromItem();
+void TransactionListWidget::setDefaultAccounts() {
+	editWidget->setDefaultAccounts();
 }
 void TransactionListWidget::showFilter(bool focus_description) {
 	tabs->setCurrentWidget(filterWidget);
