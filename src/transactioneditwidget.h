@@ -116,6 +116,7 @@ class TransactionEditWidget : public QWidget {
 		QDate shares_date;
 		bool b_create_accounts;
 		bool b_multiple_currencies;
+		bool b_select_security;
 		int b_prev_update_quote;
 		Currency *splitcurrency;
 		int dateRow, dateLabelCol, dateEditCol, depositRow, depositLabelCol, depositEditCol;

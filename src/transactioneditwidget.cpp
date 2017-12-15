@@ -75,7 +75,7 @@ void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
 
 extern QString last_associated_file_directory;
 
-TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_parameters, int transaction_type, Currency *split_currency, bool transfer_to, Security *sec, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent, bool allow_account_creation, bool multiaccount, bool withloan) : QWidget(parent), transtype(transaction_type), budget(budg), security(sec), b_autoedit(auto_edit), b_extra(extra_parameters), b_create_accounts(allow_account_creation) {
+TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_parameters, int transaction_type, Currency *split_currency, bool transfer_to, Security *sec, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent, bool allow_account_creation, bool multiaccount, bool withloan) : QWidget(parent), transtype(transaction_type), budget(budg), security(sec), b_autoedit(auto_edit), b_extra(extra_parameters), b_create_accounts(allow_account_creation), b_select_security(select_security && !security) {
 	bool split = (split_currency != NULL);
 	splitcurrency = split_currency;
 	value_set = false; shares_set = false; sharevalue_set = false;
@@ -776,7 +776,7 @@ void TransactionEditWidget::valueChanged(double value) {
 		calculatedText = "";
 	}
 	if(!quotationEdit || !sharesEdit || !valueEdit) return;
-	value_set = true;
+	value_set = value != 0.0;
 	if(!shares_set && quotationEdit->value() != 0.0) {
 		sharesEdit->blockSignals(true);
 		sharesEdit->setValue(value / quotationEdit->value());
@@ -789,8 +789,8 @@ void TransactionEditWidget::valueChanged(double value) {
 }
 void TransactionEditWidget::sharesChanged(double value) {
 	if(!quotationEdit || !sharesEdit || !valueEdit) return;
-	shares_set = true;
-	if(!value_set && quotationEdit->value() != 0.0) {
+	shares_set = value != 0.0;
+	if((!value_set && quotationEdit->value() != 0.0) || (transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND && sharevalue_set)) {
 		valueEdit->blockSignals(true);
 		valueEdit->setValue(value * quotationEdit->value());
 		valueEdit->blockSignals(false);
@@ -802,8 +802,8 @@ void TransactionEditWidget::sharesChanged(double value) {
 }
 void TransactionEditWidget::quotationChanged(double value) {
 	if(!quotationEdit || !sharesEdit || !valueEdit) return;
-	sharevalue_set = true;
-	if(!value_set) {
+	sharevalue_set = value != 0.0;
+	if(!value_set || (transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND && shares_set && sharesEdit->value() != 0.0)) {
 		valueEdit->blockSignals(true);
 		valueEdit->setValue(value * sharesEdit->value());
 		valueEdit->blockSignals(false);
@@ -830,8 +830,9 @@ QHBoxLayout *TransactionEditWidget::bottomLayout() {
 }
 void TransactionEditWidget::focusDescription() {
 	if(!descriptionEdit) {
-		if(valueEdit) valueEdit->setFocus();
-		else sharesEdit->setFocus();
+		if(b_select_security && securityCombo) securityCombo->setFocus();
+		else if(valueEdit && transtype != TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) valueEdit->setFocus();
+		else if(sharesEdit) sharesEdit->setFocus();
 	} else {
 		descriptionEdit->setFocus();
 	}
@@ -1102,7 +1103,13 @@ bool TransactionEditWidget::validValues(bool) {
 			}
 			break;
 		}
-		case TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND: {}
+		case TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND: {
+			if(sharesEdit && sharesEdit->value() == 0.0) {
+				QMessageBox::critical(this, tr("Error"), tr("Zero shares not allowed."));
+				return false;
+			}
+			break;
+		}
 		case TRANSACTION_TYPE_SECURITY_BUY: {}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
 			if(sharesEdit && sharesEdit->value() == 0.0) {
@@ -1528,6 +1535,7 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 	if(valueEdit) valueEdit->blockSignals(true);
 	if(sharesEdit) sharesEdit->blockSignals(true);
 	if(quotationEdit) quotationEdit->blockSignals(true);
+	b_select_security = false;
 	if(trans == NULL) {
 		value_set = false; shares_set = false; sharevalue_set = false;
 		description_changed = false;
@@ -1626,6 +1634,7 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 		setTransaction(NULL);
 		return;
 	}
+	b_select_security = false;
 	if(valueEdit) valueEdit->blockSignals(true);
 	if(dateEdit) dateEdit->setDate(split->date());
 	if(commentsEdit) commentsEdit->setText(split->comment());
