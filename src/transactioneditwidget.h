@@ -155,7 +155,7 @@ class TransactionEditWidget : public QWidget {
 		void focusDate();
 		void valueEditingFinished();
 		void valueChanged(double);
-		void securityChanged();
+		void securityChanged(int = -1);
 		void currencyChanged(int);
 		void sharesChanged(double);
 		void quotationChanged(double);

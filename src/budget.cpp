@@ -135,6 +135,7 @@ Budget::Budget() {
 	i_quotation_decimals = 4;
 	i_budget_day = 1;
 	b_record_new_accounts = false;
+	b_record_new_securities = false;
 	i_tcrd = TRANSACTION_CONVERSION_RATE_AT_DATE;
 	null_incomes_account = new IncomesAccount(this, QString::null);
 }
@@ -1470,7 +1471,9 @@ void Budget::addSecurity(Security *security) {
 	securities.inSort(security);
 	i_quotation_decimals = security->quotationDecimals();
 	i_share_decimals = security->decimals();
+	if(b_record_new_securities) newSecurities << security;
 }
+void Budget::setRecordNewSecurities(bool rns) {b_record_new_securities = rns;}
 void Budget::removeSecurity(Security *security, bool keep) {
 	if(securityHasTransactions(security)) {
 		for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = security->transactions.constBegin(); it != security->transactions.constEnd(); ++it) {

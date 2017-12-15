@@ -77,7 +77,7 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 			if(new_account_action) addItem(tr("New account…"), qVariantFromValue(NULL));
 			if(new_loan_action) addItem(tr("Payed with loan / payment plan…"), qVariantFromValue(NULL));
 			if(multiple_accounts_action) addItem(tr("Multiple accounts/payments…"), qVariantFromValue(NULL));
-			if(count() > 0) insertSeparator(count());
+			int c_actions = count();
 			bool add_secondary_list = false;
 			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 				AssetsAccount *account = *it;
@@ -107,6 +107,7 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 					}
 				}
 			}
+			if(c_actions > 0 && count() > c_actions) {insertSeparator(c_actions); c_actions = 0;}
 			if(add_secondary_list) {
 				if(count() > firstAccountIndex()) insertSeparator(count());
 				for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
@@ -116,6 +117,7 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 					}
 				}
 			}
+			if(c_actions > 0 && count() > c_actions) insertSeparator(c_actions);
 			if(current_account) setCurrentAccount(current_account);
 			if(currentIndex() < firstAccountIndex()) setCurrentIndex(firstAccountIndex());
 			break;
@@ -123,7 +125,6 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 		case ACCOUNT_TYPE_INCOMES: {
 			if(new_account_action) {
 				addItem(tr("New income category…"), qVariantFromValue(NULL));
-				insertSeparator(count());
 			}
 			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 				IncomesAccount *account = *it;
@@ -131,6 +132,7 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 					addItem(account->nameWithParent(), qVariantFromValue((void*) account));
 				}
 			}
+			if(new_account_action && count() > 1) insertSeparator(1);
 			if(current_account) setCurrentAccount(current_account);
 			if(currentIndex() < firstAccountIndex()) setCurrentIndex(firstAccountIndex());
 			break;
@@ -138,7 +140,6 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 		case ACCOUNT_TYPE_EXPENSES: {
 			if(new_account_action) {
 				addItem(tr("New expense category…"), qVariantFromValue(NULL));
-				insertSeparator(count());
 			}
 			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 				ExpensesAccount *account = *it;
@@ -146,6 +147,7 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 					addItem(account->nameWithParent(), qVariantFromValue((void*) account));
 				}
 			}
+			if(new_account_action && count() > 1) insertSeparator(1);
 			if(current_account) setCurrentAccount(current_account);
 			if(currentIndex() < firstAccountIndex()) setCurrentIndex(firstAccountIndex());
 			break;

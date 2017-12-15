@@ -4304,7 +4304,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1368"/>
         <source>Unknown category found.</source>
-        <translation>Okänd kategory funnen.</translation>
+        <translation>Okänd kategori funnen.</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="1368"/>
@@ -5180,12 +5180,12 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1926"/>
         <source>No income category available.</source>
-        <translation>Ingen inkomstkategory finns tillgänglig.</translation>
+        <translation>Ingen inkomstkategori finns tillgänglig.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1934"/>
         <source>No expense category available.</source>
-        <translation>Ingen utgiftskategory finns tillänglig.</translation>
+        <translation>Ingen utgiftskategori finns tillänglig.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1945"/>
@@ -6813,7 +6813,7 @@ Datum: %3</translation>
         <location filename="../src/transactioneditwidget.cpp" line="1021"/>
         <location filename="../src/transactioneditwidget.cpp" line="1039"/>
         <source>No income category available.</source>
-        <translation>Ingen inkomstkategory finns tillgänglig.</translation>
+        <translation>Ingen inkomstkategori finns tillgänglig.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1032"/>
@@ -6823,7 +6823,7 @@ Datum: %3</translation>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1053"/>
         <source>No expense category available.</source>
-        <translation>Ingen utgiftskategory finns tillänglig.</translation>
+        <translation>Ingen utgiftskategori finns tillänglig.</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1072"/>

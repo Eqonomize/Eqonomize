@@ -116,7 +116,7 @@ class Budget {
 	protected:
 	
 		int i_quotation_decimals, i_share_decimals, i_budget_day;
-		bool b_record_new_accounts, b_default_currency_changed, b_currency_modified;
+		bool b_record_new_accounts, b_record_new_securities, b_default_currency_changed, b_currency_modified;
 		TransactionConversionRateDate i_tcrd;
 		
 		Currency *default_currency;
@@ -232,6 +232,9 @@ class Budget {
 		
 		void setRecordNewAccounts(bool rna);
 		QVector<Account*> newAccounts;
+		
+		void setRecordNewSecurities(bool rns);
+		QVector<Security*> newSecurities;
 
 		QMap<int, IncomesAccount*> incomesAccounts_id;
 		QMap<int, ExpensesAccount*> expensesAccounts_id;

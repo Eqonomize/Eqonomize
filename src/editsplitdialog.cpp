@@ -818,7 +818,7 @@ void EditMultiAccountWidget::transactionSelectionChanged() {
 }
 void EditMultiAccountWidget::newTransaction() {
 	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, b_expense ? TRANSACTION_TYPE_EXPENSE : TRANSACTION_TYPE_INCOME, NULL, false, NULL, SECURITY_ALL_VALUES, false, budget, this, b_create_accounts, true);
-        dialog->editWidget->focusDescription();
+	dialog->editWidget->focusDescription();
 	dialog->editWidget->updateAccounts();
 	if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
 		Transaction *trans = dialog->editWidget->createTransaction();

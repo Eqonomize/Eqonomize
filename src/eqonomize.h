@@ -427,6 +427,7 @@ class Eqonomize : public QMainWindow {
 
 		void addAccount();
 		void accountAdded(Account *account);
+		void securityAdded(Security *security);
 		void newAssetsAccount();
 		void newLoan();
 		void newIncomesAccount(IncomesAccount *default_parent = NULL);

@@ -124,13 +124,16 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		if(select_security) {
 			securityCombo = new QComboBox(this);
 			securityCombo->setEditable(false);
-			int i2 = 0;
+			if(b_create_accounts) securityCombo->addItem("New security…", qVariantFromValue((void*) NULL));
+			int i2 = (b_create_accounts ? 1 : 0);
 			for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
 				Security *c_sec = *it;
 				securityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
 				if(c_sec == security) securityCombo->setCurrentIndex(i2);
 				i2++;
 			}
+			if(b_create_accounts && i2 == 1) securityCombo->setCurrentIndex(-1);
+			else if(b_create_accounts) securityCombo->insertSeparator(1);
 			editLayout->addWidget(securityCombo, TEROWCOL(i, 1));
 			if(!security) security = selectedSecurity();
 		} else {
@@ -205,13 +208,16 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			if(select_security) {
 				securityCombo = new QComboBox(this);
 				securityCombo->setEditable(false);
-				int i2 = 0;
+				if(b_create_accounts) securityCombo->addItem("New security…", qVariantFromValue((void*) NULL));
+				int i2 = (b_create_accounts ? 1 : 0);
 				for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
 					Security *c_sec = *it;
 					securityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
 					if(c_sec == security) securityCombo->setCurrentIndex(i2);
 					i2++;
 				}
+				if(b_create_accounts && i2 == 1) securityCombo->setCurrentIndex(-1);
+				else if(b_create_accounts) securityCombo->insertSeparator(1);
 				editLayout->addWidget(securityCombo, TEROWCOL(i, 1));
 				if(!security) security = selectedSecurity();
 			} else {
@@ -525,7 +531,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	else if(lenderEdit && commentsEdit) connect(lenderEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
 	if(fileEdit && commentsEdit) connect(fileEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
 	if(commentsEdit && b_autoedit) connect(commentsEdit, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
-	if(securityCombo) connect(securityCombo, SIGNAL(activated(int)), this, SLOT(securityChanged()));
+	if(securityCombo) connect(securityCombo, SIGNAL(activated(int)), this, SLOT(securityChanged(int)));
 	if(currencyCombo) connect(currencyCombo, SIGNAL(activated(int)), this, SLOT(currencyChanged(int)));
 	if(setQuoteButton) connect(setQuoteButton, SIGNAL(toggled(bool)), this, SLOT(setQuoteToggled(bool)));
 	if(fromCombo) {
@@ -731,7 +737,40 @@ void TransactionEditWidget::currentDateChanged(const QDate &olddate, const QDate
 		dateEdit->setDate(newdate);
 	}
 }
-void TransactionEditWidget::securityChanged() {
+void TransactionEditWidget::securityChanged(int index) {
+	if(b_create_accounts && index == 0) {
+		// New security
+		EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("New Security", "Financial security (e.g. stock, mutual fund)"));
+		if(dialog->checkAccount() && dialog->exec() == QDialog::Accepted) {
+			Security *sec = dialog->newSecurity();
+			if(sec) {
+				budget->addSecurity(sec);
+				securityCombo->blockSignals(true);
+				securityCombo->clear();
+				securityCombo->addItem("New security…", qVariantFromValue((void*) NULL));
+				securityCombo->insertSeparator(1);
+				int i2 = 2;
+				for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
+					Security *c_sec = *it;
+					securityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
+					if(c_sec == sec) securityCombo->setCurrentIndex(i2);
+					i2++;
+				}
+				security = sec;
+				securityCombo->blockSignals(false);
+				dialog->deleteLater();
+				securityChanged();
+				return;
+			}
+		}
+		if(security) {
+			securityCombo->setCurrentIndex(securityCombo->findData(qVariantFromValue((void*) security)));
+		} else {
+			securityCombo->setCurrentIndex(-1);
+		}
+		dialog->deleteLater();
+		return;
+	}
 	security = selectedSecurity();
 	if(security) {
 		if(sharesEdit) sharesEdit->setPrecision(security->decimals());
@@ -1061,7 +1100,7 @@ bool TransactionEditWidget::checkAccounts() {
 			break;
 		}
 	}
-	if(securityCombo && securityCombo->count() == 0) {
+	if(securityCombo && securityCombo->count() <= (b_create_accounts ? 2 : 0)) {
 		QMessageBox::critical(this, tr("Error"), tr("No security available.", "Financial security (e.g. stock, mutual fund)"));
 		return false;
 	}
