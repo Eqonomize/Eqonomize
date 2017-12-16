@@ -65,7 +65,7 @@ class EditAssetsAccountDialog : public QDialog {
 		
 	public:
 		
-		EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title, bool new_loan = false);
+		EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title, bool new_loan = false, int force_type = -1);
 
 		AssetsAccount *newAccount(Transaction **transfer = NULL);
 		void modifyAccount(AssetsAccount *account);

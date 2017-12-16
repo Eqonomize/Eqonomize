@@ -71,57 +71,6 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 	Account *current_account = currentAccount();
 	clear();
 	switch(i_type) {
-		case -1: {}
-		case -2: {}
-		case ACCOUNT_TYPE_ASSETS: {
-			if(new_account_action) addItem(tr("New account…"), qVariantFromValue(NULL));
-			if(new_loan_action) addItem(tr("Payed with loan / payment plan…"), qVariantFromValue(NULL));
-			if(multiple_accounts_action) addItem(tr("Multiple accounts/payments…"), qVariantFromValue(NULL));
-			int c_actions = count();
-			bool add_secondary_list = false;
-			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
-				AssetsAccount *account = *it;
-				if(account != exclude_account && (!force_currency || account->currency() == force_currency)) {
-					if((account->accountType() == ASSETS_TYPE_SECURITIES && !b_exclude_securities) || account->accountType() == ASSETS_TYPE_LIABILITIES || (account == budget->balancingAccount && !b_exclude_balancing) || account->isClosed()) {
-						add_secondary_list = true;
-					} else if(account->accountType() != ASSETS_TYPE_SECURITIES && account != budget->balancingAccount) {
-						addItem(account->name(), qVariantFromValue((void*) account));
-					}
-				}
-			}
-			if(i_type == -1) {
-				if(count() > firstAccountIndex()) insertSeparator(count());
-				for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
-					IncomesAccount *account = *it;
-					if(account != exclude_account) {
-						addItem(account->nameWithParent(), qVariantFromValue((void*) account));
-					}
-				}
-			}
-			if(i_type == -2) {
-				if(count() > firstAccountIndex()) insertSeparator(count());
-				for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
-					ExpensesAccount *account = *it;
-					if(account != exclude_account) {
-						addItem(account->nameWithParent(), qVariantFromValue((void*) account));
-					}
-				}
-			}
-			if(c_actions > 0 && count() > c_actions) {insertSeparator(c_actions); c_actions = 0;}
-			if(add_secondary_list) {
-				if(count() > firstAccountIndex()) insertSeparator(count());
-				for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
-					AssetsAccount *account = *it;
-					if((account->accountType() == ASSETS_TYPE_SECURITIES && !b_exclude_securities) || account->accountType() == ASSETS_TYPE_LIABILITIES || (account == budget->balancingAccount && !b_exclude_balancing) || account->isClosed()) {
-						addItem(account->name(), qVariantFromValue((void*) account));
-					}
-				}
-			}
-			if(c_actions > 0 && count() > c_actions) insertSeparator(c_actions);
-			if(current_account) setCurrentAccount(current_account);
-			if(currentIndex() < firstAccountIndex()) setCurrentIndex(firstAccountIndex());
-			break;
-		}
 		case ACCOUNT_TYPE_INCOMES: {
 			if(new_account_action) {
 				addItem(tr("New income category…"), qVariantFromValue(NULL));
@@ -152,6 +101,64 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 			if(currentIndex() < firstAccountIndex()) setCurrentIndex(firstAccountIndex());
 			break;
 		}
+		default: {
+			if(new_account_action) addItem(tr("New account…"), qVariantFromValue(NULL));
+			if(new_loan_action) addItem(tr("Payed with loan / payment plan…"), qVariantFromValue(NULL));
+			if(multiple_accounts_action) addItem(tr("Multiple accounts/payments…"), qVariantFromValue(NULL));
+			int c_actions = count();
+			bool add_secondary_list = false;
+			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+				AssetsAccount *account = *it;
+				if(account != exclude_account && (!force_currency || account->currency() == force_currency)) {
+					if(i_type >= 100) {
+						if(account->accountType() == i_type) {
+							if(account->isClosed()) add_secondary_list = true;
+							else addItem(account->name(), qVariantFromValue((void*) account));
+						}
+					} else if((account->accountType() == ASSETS_TYPE_SECURITIES && !b_exclude_securities) || account->accountType() == ASSETS_TYPE_LIABILITIES || (account == budget->balancingAccount && !b_exclude_balancing) || account->isClosed()) {
+						add_secondary_list = true;
+					} else if(account->accountType() != ASSETS_TYPE_SECURITIES && account != budget->balancingAccount) {
+						addItem(account->name(), qVariantFromValue((void*) account));
+					}
+				}
+			}
+			if(i_type == -1) {
+				if(count() > firstAccountIndex()) insertSeparator(count());
+				for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+					IncomesAccount *account = *it;
+					if(account != exclude_account) {
+						addItem(account->nameWithParent(), qVariantFromValue((void*) account));
+					}
+				}
+			}
+			if(i_type == -2) {
+				if(count() > firstAccountIndex()) insertSeparator(count());
+				for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+					ExpensesAccount *account = *it;
+					if(account != exclude_account) {
+						addItem(account->nameWithParent(), qVariantFromValue((void*) account));
+					}
+				}
+			}
+			if(c_actions > 0 && count() > c_actions) {insertSeparator(c_actions); c_actions = 0;}
+			if(add_secondary_list) {
+				if(count() > firstAccountIndex()) insertSeparator(count());
+				for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+					AssetsAccount *account = *it;
+					if(i_type >= 100) {
+						if(account->accountType() == i_type && account->isClosed()) {
+							addItem(account->name(), qVariantFromValue((void*) account));
+						}
+					} else if((account->accountType() == ASSETS_TYPE_SECURITIES && !b_exclude_securities) || account->accountType() == ASSETS_TYPE_LIABILITIES || (account == budget->balancingAccount && !b_exclude_balancing) || account->isClosed()) {
+						addItem(account->name(), qVariantFromValue((void*) account));
+					}
+				}
+			}
+			if(c_actions > 0 && count() > c_actions) insertSeparator(c_actions);
+			if(current_account) setCurrentAccount(current_account);
+			if(currentIndex() < firstAccountIndex()) setCurrentIndex(firstAccountIndex());
+			break;
+		}
 	}
 }
 bool AccountComboBox::hasAccount() const {
@@ -160,16 +167,6 @@ bool AccountComboBox::hasAccount() const {
 Account *AccountComboBox::createAccount() {
 	Account *account = NULL;
 	switch(i_type) {
-		case -1: {}
-		case -2: {}
-		case ACCOUNT_TYPE_ASSETS: {
-			EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, this, tr("New Account"));
-			if(dialog->exec() == QDialog::Accepted) {
-				account = dialog->newAccount();
-			}
-			dialog->deleteLater();
-			break;
-		}
 		case ACCOUNT_TYPE_INCOMES: {
 			EditIncomesAccountDialog *dialog = new EditIncomesAccountDialog(budget, NULL, this, tr("New Income Category"));
 			if(dialog->exec() == QDialog::Accepted) {
@@ -180,6 +177,14 @@ Account *AccountComboBox::createAccount() {
 		}
 		case ACCOUNT_TYPE_EXPENSES: {
 			EditExpensesAccountDialog *dialog = new EditExpensesAccountDialog(budget, NULL, this, tr("New Expense Category"));
+			if(dialog->exec() == QDialog::Accepted) {
+				account = dialog->newAccount();
+			}
+			dialog->deleteLater();
+			break;
+		}
+		default: {
+			EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, this, tr("New Account"), false, i_type >= 100 ? i_type : -1);
 			if(dialog->exec() == QDialog::Accepted) {
 				account = dialog->newAccount();
 			}

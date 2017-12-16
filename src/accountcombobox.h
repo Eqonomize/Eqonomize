@@ -55,6 +55,9 @@ class AccountComboBox : public QComboBox {
 		void setCurrentAccountIndex(int index);
 		void updateAccounts(Account *exclude_account = NULL, Currency *force_currency = NULL);
 		bool hasAccount() const;
+		
+	public slots:
+	
 		Account *createAccount();
 		
 	signals:

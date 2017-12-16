@@ -107,6 +107,7 @@ class Transaction;
 class Transactions;
 class TransactionListWidget;
 class Transfer;
+class AccountComboBox;
 
 class Eqonomize : public QMainWindow {
 	
@@ -582,14 +583,16 @@ class EditSecurityDialog : public QDialog {
 		QTextEdit *descriptionEdit;
 		EqonomizeValueEdit *sharesEdit, *quotationEdit;
 		QDateEdit *quotationDateEdit;
-		QComboBox *typeCombo, *accountCombo;
+		QComboBox *typeCombo;
+		AccountComboBox *accountCombo;
 		QSpinBox *decimalsEdit, *quotationDecimalsEdit;
 		QLabel *quotationLabel, *quotationDateLabel;
 		Budget *budget;
+		bool b_create_accounts;
 
 	public:
 		
-		EditSecurityDialog(Budget *budg, QWidget *parent, QString title);
+		EditSecurityDialog(Budget *budg, QWidget *parent, QString title, bool allow_account_creation = false);
 		Security *newSecurity();
 		bool modifySecurity(Security *security);
 		void setSecurity(Security *security);
@@ -599,7 +602,8 @@ class EditSecurityDialog : public QDialog {
 
 		void decimalsChanged(int);
 		void quotationDecimalsChanged(int);
-		void accountActivated(int);
+		void accountActivated(Account*);
+		void accept();
 
 };
  

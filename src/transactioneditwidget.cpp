@@ -313,7 +313,6 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			if(!split || !transfer_to) {
 				editLayout->addWidget(new QLabel(tr("To:"), this), TEROWCOL(i, 0));
 				toCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, b_create_accounts, false, false, !b_autoedit, false, this);
-				toCombo->setEditable(false);
 				editLayout->addWidget(toCombo, TEROWCOL(i, 1));
 				i++;
 			}
@@ -323,14 +322,12 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			if(!multiaccount) {
 				editLayout->addWidget(new QLabel(tr("Category:"), this), TEROWCOL(i, 0));
 				fromCombo = new AccountComboBox(ACCOUNT_TYPE_INCOMES, budget, b_create_accounts, false, false, false, false, this);
-				fromCombo->setEditable(false);
 				editLayout->addWidget(fromCombo, TEROWCOL(i, 1));
 				i++;
 			}
 			if(!split) {
 				editLayout->addWidget(new QLabel(tr("To account:"), this), TEROWCOL(i, 0));
 				toCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, b_create_accounts, b_create_accounts && b_autoedit, b_autoedit, !b_autoedit, true, this);
-				toCombo->setEditable(false);
 				editLayout->addWidget(toCombo, TEROWCOL(i, 1));
 				i++;
 			}
@@ -346,7 +343,6 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			if(!split) {
 				editLayout->addWidget(new QLabel(tr("From account:"), this), TEROWCOL(i, 0));
 				fromCombo = new AccountComboBox(-1, budget, b_create_accounts, false, false, true, true, this);
-				fromCombo->setEditable(false);
 				editLayout->addWidget(fromCombo, TEROWCOL(i, 1));
 				i++;
 			}
@@ -356,7 +352,6 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			if(!split) {
 				editLayout->addWidget(new QLabel(tr("To account:"), this), TEROWCOL(i, 0));
 				toCombo = new AccountComboBox(-2, budget, b_create_accounts, false, false, true, true, this);
-				toCombo->setEditable(false);
 				editLayout->addWidget(toCombo, TEROWCOL(i, 1));
 				i++;
 			}
@@ -365,7 +360,6 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		case TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND: {
 			editLayout->addWidget(new QLabel(tr("Category:"), this), TEROWCOL(i, 0));
 			fromCombo = new AccountComboBox(ACCOUNT_TYPE_INCOMES, budget, b_create_accounts, false, false, false, false, this);
-			fromCombo->setEditable(false);
 			editLayout->addWidget(fromCombo, TEROWCOL(i, 1));
 			i++;
 			break;
@@ -374,7 +368,6 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			if(!multiaccount) {
 				editLayout->addWidget(new QLabel(tr("Category:"), this), TEROWCOL(i, 0));
 				toCombo = new AccountComboBox(ACCOUNT_TYPE_EXPENSES, budget, b_create_accounts, false, false, false, false, this);
-				toCombo->setEditable(false);
 				editLayout->addWidget(toCombo, TEROWCOL(i, 1));
 				i++;
 			}
@@ -386,7 +379,6 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 					editLayout->addWidget(new QLabel(tr("From account:"), this), TEROWCOL(i, 0));
 					fromCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, b_create_accounts, b_create_accounts && b_autoedit, b_autoedit, true, true, this);
 				}
-				fromCombo->setEditable(false);
 				editLayout->addWidget(fromCombo, TEROWCOL(i, 1));
 				i++;
 			}
@@ -740,8 +732,8 @@ void TransactionEditWidget::currentDateChanged(const QDate &olddate, const QDate
 void TransactionEditWidget::securityChanged(int index) {
 	if(b_create_accounts && index == 0) {
 		// New security
-		EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("New Security", "Financial security (e.g. stock, mutual fund)"));
-		if(dialog->checkAccount() && dialog->exec() == QDialog::Accepted) {
+		EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("New Security", "Financial security (e.g. stock, mutual fund)"), b_create_accounts);
+		if((b_create_accounts || dialog->checkAccount()) && dialog->exec() == QDialog::Accepted) {
 			Security *sec = dialog->newSecurity();
 			if(sec) {
 				budget->addSecurity(sec);
@@ -1798,7 +1790,6 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 		categoryButton->setChecked(false);
 		editLayout->addWidget(categoryButton, 3, 0);
 		categoryCombo = new AccountComboBox(transtype == TRANSACTION_TYPE_EXPENSE ? ACCOUNT_TYPE_EXPENSES : ACCOUNT_TYPE_INCOMES, budget, b_create_accounts, false, false, true, true, this);
-		categoryCombo->setEditable(false);
 		categoryCombo->setEnabled(false);
 		updateAccounts();
 		editLayout->addWidget(categoryCombo, 3, 1);

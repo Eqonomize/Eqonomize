@@ -84,6 +84,7 @@
 
 #include <QDebug>
 
+#include "accountcombobox.h"
 #include "budget.h"
 #include "editaccountdialogs.h"
 #include "editcurrencydialog.h"
@@ -1481,7 +1482,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	transactionsView->setSortingEnabled(true);
 }
 
-EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString title) : QDialog(parent, 0), budget(budg) {
+EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString title, bool allow_account_creation) : QDialog(parent, 0), budget(budg), b_create_accounts(allow_account_creation) {
 
 	setWindowTitle(title);
 	setModal(true);
@@ -1502,8 +1503,8 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	nameEdit = new QLineEdit(this);
 	grid->addWidget(nameEdit, 1, 1);
 	grid->addWidget(new QLabel(tr("Account:"), this), 2, 0);
-	accountCombo = new QComboBox(this);
-	accountCombo->setEditable(false);
+	accountCombo = new AccountComboBox(ASSETS_TYPE_SECURITIES, budget, b_create_accounts, false, false, false, true, this);
+	accountCombo->updateAccounts();
 	grid->addWidget(accountCombo, 2, 1);
 	grid->addWidget(new QLabel(tr("Decimals in shares:", "Financial shares"), this), 3, 0);
 	decimalsEdit = new QSpinBox(this);
@@ -1525,13 +1526,6 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	quotationEdit = new EqonomizeValueEdit(false, this, budget);
 	quotationDecimalsChanged(budget->defaultQuotationDecimals());
 	grid->addWidget(quotationEdit, 6, 1);
-	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
-		AssetsAccount *account = *it;
-		if(account->accountType() == ASSETS_TYPE_SECURITIES) {
-			if(accountCombo->count() == 0) quotationEdit->setCurrency(account->currency(), true);
-			accountCombo->addItem(account->name(), qVariantFromValue((void*) account));
-		}
-	}
 	quotationDateLabel = new QLabel(tr("Date:"), this);
 	grid->addWidget(quotationDateLabel, 7, 0);
 	quotationDateEdit = new QDateEdit(QDate::currentDate(), this);
@@ -1548,19 +1542,29 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
+	
+	if(accountCombo->currentAccount()) accountActivated(accountCombo->currentAccount());
 
 	connect(decimalsEdit, SIGNAL(valueChanged(int)), this, SLOT(decimalsChanged(int)));
 	connect(quotationDecimalsEdit, SIGNAL(valueChanged(int)), this, SLOT(quotationDecimalsChanged(int)));
-	connect(accountCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(accountActivated(int)));
+	connect(accountCombo, SIGNAL(currentAccountChanged(Account*)), this, SLOT(accountActivated(Account*)));
+	connect(accountCombo, SIGNAL(newAccountRequested()), accountCombo, SLOT(createAccount()));
 
 }
-void EditSecurityDialog::accountActivated(int i) {	
-	AssetsAccount *account = NULL;
-	if(i >= 0) account = (AssetsAccount*) accountCombo->itemData(i).value<void*>();
-	quotationEdit->setCurrency(account ? account->currency() : budget->defaultCurrency(), true);
+void EditSecurityDialog::accept() {
+	if(!checkAccount()) return;
+	if(nameEdit->text().trimmed().isEmpty()) {
+		nameEdit->setFocus();
+		QMessageBox::critical(this, tr("Error"), tr("Empty name."));
+		return;
+	}
+	QDialog::accept();
+}
+void EditSecurityDialog::accountActivated(Account *account) {
+	quotationEdit->setCurrency(account ? ((AssetsAccount*) account)->currency() : budget->defaultCurrency(), true);
 }
 bool EditSecurityDialog::checkAccount() {
-	if(accountCombo->count() == 0) {
+	if(!accountCombo->hasAccount()) {
 		QMessageBox::critical(isVisible() ? this : parentWidget(), tr("Error"), tr("No suitable account available."));
 		return false;
 	}
@@ -1580,7 +1584,7 @@ Security *EditSecurityDialog::newSecurity() {
 		case 2: {type = SECURITY_TYPE_OTHER; break;}
 		default: {type = SECURITY_TYPE_MUTUAL_FUND; break;}
 	}
-	Security *security = new Security(budget, (AssetsAccount*) accountCombo->currentData().value<void*>(), type, sharesEdit->value(), decimalsEdit->value(), quotationDecimalsEdit->value(), nameEdit->text(), descriptionEdit->toPlainText());
+	Security *security = new Security(budget, (AssetsAccount*) accountCombo->currentAccount(), type, sharesEdit->value(), decimalsEdit->value(), quotationDecimalsEdit->value(), nameEdit->text(), descriptionEdit->toPlainText());
 	if(quotationEdit->value() > 0.0) {
 		security->setQuotation(quotationDateEdit->date(), quotationEdit->value());
 	}
@@ -1591,7 +1595,7 @@ bool EditSecurityDialog::modifySecurity(Security *security) {
 	security->setName(nameEdit->text());
 	security->setInitialShares(sharesEdit->value());
 	security->setDescription(descriptionEdit->toPlainText());
-	security->setAccount((AssetsAccount*) accountCombo->currentData().value<void*>());
+	security->setAccount((AssetsAccount*) accountCombo->currentAccount());
 	security->setDecimals(decimalsEdit->value());
 	security->setQuotationDecimals(quotationDecimalsEdit->value());
 	switch(typeCombo->currentIndex()) {
@@ -1613,8 +1617,7 @@ void EditSecurityDialog::setSecurity(Security *security) {
 	quotationDecimalsEdit->setValue(security->quotationDecimals());
 	quotationDecimalsChanged(security->quotationDecimals());
 	sharesEdit->setValue(security->initialShares());
-	int index = accountCombo->findData(qVariantFromValue((void*) security->account()));
-	if(index >= 0) accountCombo->setCurrentIndex(index);
+	accountCombo->setCurrentAccount(security->account());
 	switch(security->type()) {
 		case SECURITY_TYPE_BOND: {typeCombo->setCurrentIndex(2); break;}
 		case SECURITY_TYPE_STOCK: {typeCombo->setCurrentIndex(1); break;}
@@ -2502,8 +2505,13 @@ void Eqonomize::periodSelected(QAction *a) {
 }
 
 void Eqonomize::newSecurity() {
-	EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("New Security", "Financial security (e.g. stock, mutual fund)"));
-	if(dialog->checkAccount() && dialog->exec() == QDialog::Accepted) {
+	budget->setRecordNewAccounts(true);
+	budget->resetDefaultCurrencyChanged();
+	budget->resetCurrenciesModified();
+	EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("New Security", "Financial security (e.g. stock, mutual fund)"), true);
+	if(dialog->exec() == QDialog::Accepted) {
+		foreach(Account *acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
 		Security *security = dialog->newSecurity();
 		if(security) {
 			budget->addSecurity(security);
@@ -2511,8 +2519,13 @@ void Eqonomize::newSecurity() {
 			updateSecurityAccount(security->account());
 			setModified(true);
 		}
+	} else {
+		foreach(Account *acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
 	}
 	dialog->deleteLater();
+	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
+	budget->setRecordNewAccounts(false);
 }
 void Eqonomize::securityAdded(Security *security) {
 	appendSecurity(security);
@@ -2521,10 +2534,15 @@ void Eqonomize::securityAdded(Security *security) {
 }
 void Eqonomize::editSecurity(QTreeWidgetItem *i) {
 	if(!i) return;
+	budget->setRecordNewAccounts(true);
+	budget->resetDefaultCurrencyChanged();
+	budget->resetCurrenciesModified();
 	Security *security = ((SecurityListViewItem*) i)->security();
-	EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("Edit Security", "Financial security (e.g. stock, mutual fund)"));
+	EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("Edit Security", "Financial security (e.g. stock, mutual fund)"), true);
 	dialog->setSecurity(security);
-	if(dialog->checkAccount() && dialog->exec() == QDialog::Accepted) {
+	if(dialog->exec() == QDialog::Accepted) {
+		foreach(Account *acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
 		AssetsAccount *prev_acc = security->account();
 		if(dialog->modifySecurity(security)) {
 			updateSecurity(i);
@@ -2536,8 +2554,13 @@ void Eqonomize::editSecurity(QTreeWidgetItem *i) {
 			incomesWidget->filterTransactions();
 			transfersWidget->filterTransactions();
 		}
+	} else {
+		foreach(Account *acc, budget->newAccounts) accountAdded(acc);
+		budget->newAccounts.clear();
 	}
 	dialog->deleteLater();
+	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
+	budget->setRecordNewAccounts(false);
 }
 void Eqonomize::editSecurity() {
 	QTreeWidgetItem *i = selectedItem(securitiesView);
