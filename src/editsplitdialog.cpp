@@ -1009,8 +1009,8 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 	int row = 0;
 	
 	grid->addWidget(new QLabel(tr("Debt:")), row, 0);
-	loanCombo = new QComboBox();
-	loanCombo->setEditable(false);
+	loanCombo = new AccountComboBox(-3, budget, b_create_accounts);
+	loanCombo->updateAccounts();
 	grid->addWidget(loanCombo, row, 1); row++;
 
 	grid->addWidget(new QLabel(tr("Date:")), row, 0);
@@ -1102,20 +1102,10 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 		grid->addWidget(commentEdit, row, 1); row++;
 	}
 
-	int i = 0;
-	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
-		AssetsAccount *account = *it;
-		if(account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD) {
-			loanCombo->addItem(account->name(), qVariantFromValue((void*) account));
-			if(account == default_loan) {
-				loanCombo->setCurrentIndex(i);
-			}
-			i++;
-		}
-	}
+	if(default_loan) loanCombo->setCurrentAccount(default_loan);
 
 	b_search = true;
-	loanActivated(loanCombo->currentIndex());
+	loanActivated(loanCombo->currentAccount());
 	accountChanged();
 	valueChanged();
 	interestSourceChanged();
@@ -1132,8 +1122,9 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 	if(interestEdit) connect(interestEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
 	if(payedInterestButton) connect(payedInterestButton, SIGNAL(toggled(bool)), this, SLOT(interestSourceChanged()));
 	if(addedInterestButton) connect(addedInterestButton, SIGNAL(toggled(bool)), this, SLOT(interestSourceChanged()));
-	if(loanCombo) connect(loanCombo, SIGNAL(activated(int)), this, SLOT(loanActivated(int)));
+	if(loanCombo) connect(loanCombo, SIGNAL(accountSelected(Account*)), this, SLOT(loanActivated(Account*)));
 	if(accountCombo) connect(accountCombo, SIGNAL(newAccountRequested()), this, SLOT(newAccount()));
+	if(loanCombo) connect(loanCombo, SIGNAL(newAccountRequested()), this, SLOT(newLoan()));
 	if(categoryCombo) connect(categoryCombo, SIGNAL(newAccountRequested()), this, SLOT(newCategory()));
 	if(accountCombo) connect(accountCombo, SIGNAL(currentAccountChanged(Account*)), this, SLOT(accountChanged()));
 
@@ -1154,6 +1145,7 @@ void EditDebtPaymentWidget::openFile() {
 
 void EditDebtPaymentWidget::newAccount() {
 	accountCombo->createAccount();
+	loanCombo->updateAccounts();
 	bool b = budget->usesMultipleCurrencies();
 	paymentLabel->setVisible(b);
 	paymentEdit->setVisible(b);
@@ -1161,13 +1153,19 @@ void EditDebtPaymentWidget::newAccount() {
 void EditDebtPaymentWidget::newCategory() {
 	categoryCombo->createAccount();
 }
+void EditDebtPaymentWidget::newLoan() {
+	loanCombo->createAccount();
+	accountCombo->updateAccounts();
+	bool b = budget->usesMultipleCurrencies();
+	paymentLabel->setVisible(b);
+	paymentEdit->setVisible(b);
+}
 void EditDebtPaymentWidget::accountChanged() {
 	valueChanged();
 }
-void EditDebtPaymentWidget::loanActivated(int index) {
-	if(index < 0) return;
-	AssetsAccount *loan = (AssetsAccount*) loanCombo->itemData(index).value<void*>();
-	if(!loan) return;
+void EditDebtPaymentWidget::loanActivated(Account *account) {
+	if(!account) return;
+	AssetsAccount *loan = (AssetsAccount*) account;
 	if(b_search) {
 		DebtPayment *trans = NULL;		
 		SplitTransactionList<SplitTransaction*>::const_iterator it = budget->splitTransactions.constEnd();
@@ -1308,8 +1306,8 @@ void EditDebtPaymentWidget::updateTotalValue() {
 	totalLabel->setText(QString("<div align=\"right\"><b>%1</b> %2</div>").arg(tr("Total value:"), cur->formatValue(value)));
 }
 AssetsAccount *EditDebtPaymentWidget::selectedLoan() {
-	if(!loanCombo || !loanCombo->currentData().isValid()) return NULL;
-	return (AssetsAccount*) loanCombo->currentData().value<void*>();
+	if(!loanCombo) return NULL;
+	return (AssetsAccount*) loanCombo->currentAccount();
 }
 AssetsAccount *EditDebtPaymentWidget::selectedAccount() {
 	if(!accountCombo) return NULL;
@@ -1337,7 +1335,7 @@ void EditDebtPaymentWidget::setTransaction(DebtPayment *split) {
 	if(dateEdit) dateEdit->setDate(split->date());
 	if(commentEdit) commentEdit->setText(split->comment());
 	if(fileEdit) fileEdit->setText(split->associatedFile());
-	if(loanCombo) loanCombo->setCurrentIndex(loanCombo->findData(qVariantFromValue((void*) split->loan())));
+	if(loanCombo) loanCombo->setCurrentAccount(split->loan());
 	if(accountCombo) accountCombo->setCurrentAccount(split->account());
 	if(categoryCombo && split->expenseCategory()) categoryCombo->setCurrentAccount(split->expenseCategory());
 	if(paymentEdit) paymentEdit->setValue(split->payment());
@@ -1362,7 +1360,7 @@ void EditDebtPaymentWidget::hasBeenModified() {
 	b_search = false;
 }
 bool EditDebtPaymentWidget::checkAccounts() {
-	if((loanCombo && loanCombo->count() == 0) || (accountCombo && !accountCombo->hasAccount()) || (categoryCombo && !categoryCombo->hasAccount())) {
+	if((loanCombo && !loanCombo->hasAccount()) || (accountCombo && !accountCombo->hasAccount()) || (categoryCombo && !categoryCombo->hasAccount())) {
 		QMessageBox::critical(this, tr("Error"), tr("No suitable account available."));
 		return false;
 	}

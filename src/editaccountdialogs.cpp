@@ -43,7 +43,7 @@
 #include "editcurrencydialog.h"
 #include "eqonomizevalueedit.h"
 
-EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title, bool new_loan, int force_type) : QDialog(parent, 0), budget(budg) {
+EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title, bool new_loan, int default_type, bool force_type) : QDialog(parent, 0), budget(budg) {
 
 	setWindowTitle(title);
 	setModal(true);
@@ -70,8 +70,8 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 		typeCombo->addItem(tr("Other"));
 		grid->addWidget(typeCombo, row, 1); row++;
 	}
-	if(force_type >= 0) {
-		switch(force_type) {
+	if(default_type >= 0) {
+		switch(default_type) {
 			case ASSETS_TYPE_CASH: {typeCombo->setCurrentIndex(0); break;}
 			case ASSETS_TYPE_CURRENT: {typeCombo->setCurrentIndex(1); break;}
 			case ASSETS_TYPE_SAVINGS: {typeCombo->setCurrentIndex(2); break;}
@@ -80,7 +80,7 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 			case ASSETS_TYPE_SECURITIES: {typeCombo->setCurrentIndex(5); break;}
 			case ASSETS_TYPE_OTHER: {typeCombo->setCurrentIndex(6); break;}
 		}
-		typeCombo->setEnabled(false);
+		if(force_type) typeCombo->setEnabled(false);
 	}
 	
 	grid->addWidget(new QLabel(tr("Currency:"), this), row, 0);

@@ -193,6 +193,7 @@ class Eqonomize : public QMainWindow {
 		void readOptions();
 		void setCommandLineParser(QCommandLineParser*);
 		bool timeToUpdateExchangeRates();
+		void addNewSchedule(ScheduledTransaction *strans);
 
 		QAction *ActionAP_1, *ActionAP_2, *ActionAP_3, *ActionAP_4, *ActionAP_5, *ActionAP_6, *ActionAP_7, *ActionAP_8;
 		QAction *ActionEditSchedule, *ActionEditOccurrence, *ActionDeleteSchedule, *ActionDeleteOccurrence;
@@ -604,6 +605,7 @@ class EditSecurityDialog : public QDialog {
 		void quotationDecimalsChanged(int);
 		void accountActivated(Account*);
 		void accept();
+		void newAccount();
 
 };
  

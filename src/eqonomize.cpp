@@ -1548,17 +1548,21 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	connect(decimalsEdit, SIGNAL(valueChanged(int)), this, SLOT(decimalsChanged(int)));
 	connect(quotationDecimalsEdit, SIGNAL(valueChanged(int)), this, SLOT(quotationDecimalsChanged(int)));
 	connect(accountCombo, SIGNAL(currentAccountChanged(Account*)), this, SLOT(accountActivated(Account*)));
-	connect(accountCombo, SIGNAL(newAccountRequested()), accountCombo, SLOT(createAccount()));
+	connect(accountCombo, SIGNAL(newAccountRequested()), this, SLOT(newAccount()));
 
 }
 void EditSecurityDialog::accept() {
 	if(!checkAccount()) return;
+	if(!accountCombo->currentAccount()) return;
 	if(nameEdit->text().trimmed().isEmpty()) {
 		nameEdit->setFocus();
 		QMessageBox::critical(this, tr("Error"), tr("Empty name."));
 		return;
 	}
 	QDialog::accept();
+}
+void EditSecurityDialog::newAccount() {
+	accountCombo->createAccount();
 }
 void EditSecurityDialog::accountActivated(Account *account) {
 	quotationEdit->setCurrency(account ? ((AssetsAccount*) account)->currency() : budget->defaultCurrency(), true);
@@ -2938,6 +2942,24 @@ void Eqonomize::updateSecurities() {
 		appendSecurity(security);
 	}
 }
+void Eqonomize::addNewSchedule(ScheduledTransaction *strans) {
+	if(strans->isOneTimeTransaction() && strans->transaction()->date() <= QDate::currentDate()) {
+		Transactions *trans = strans->transaction()->copy();
+		delete strans;
+		budget->addTransactions(trans);
+		transactionAdded(trans);
+	} else if(strans->recurrence() && strans->date() <= QDate::currentDate() && ((QTime::currentTime().hour() >= 18 && strans->recurrence()->nextOccurrence(strans->date(), false) > QDate::currentDate()) || (QTime::currentTime().hour() < 18 && strans->recurrence()->nextOccurrence(strans->date(), false) >= QDate::currentDate()))) {
+		Transactions *trans = strans->realize(strans->date());
+		budget->addTransactions(trans);
+		transactionAdded(trans);
+		budget->addScheduledTransaction(strans);
+		transactionAdded(strans);
+	} else {
+		budget->addScheduledTransaction(strans);
+		transactionAdded(strans);
+		checkSchedule();
+	}
+}
 void Eqonomize::newExpenseWithLoan() {
 	newExpenseWithLoan(this);
 }
@@ -2952,16 +2974,7 @@ bool Eqonomize::newExpenseWithLoan(QString description_value, double value_value
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 		budget->newSecurities.clear();
-		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
-			Transactions *trans = strans->transaction()->copy();
-			delete strans;
-			budget->addTransactions(trans);
-			transactionAdded(trans);
-		} else {
-			budget->addScheduledTransaction(strans);
-			transactionAdded(strans);
-			checkSchedule();
-		}
+		addNewSchedule(strans);
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 		budget->setRecordNewAccounts(false);
 		budget->setRecordNewSecurities(false);
@@ -2987,17 +3000,7 @@ bool Eqonomize::newExpenseWithLoan(QWidget *parent) {
 		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
-		budget->newSecurities.clear();
-		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
-			Transactions *trans = strans->transaction()->copy();
-			delete strans;
-			budget->addTransactions(trans);
-			transactionAdded(trans);
-		} else {
-			budget->addScheduledTransaction(strans);
-			transactionAdded(strans);
-			checkSchedule();
-		}
+		addNewSchedule(strans);
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 		budget->setRecordNewAccounts(false);
 		budget->setRecordNewSecurities(false);
@@ -3030,16 +3033,7 @@ bool Eqonomize::newMultiAccountTransaction(bool create_expenses, QString descrip
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 		budget->newSecurities.clear();
-		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
-			MultiAccountTransaction *trans = (MultiAccountTransaction*) strans->transaction()->copy();
-			delete strans;
-			budget->addSplitTransaction(trans);
-			transactionAdded(trans);
-		} else {
-			budget->addScheduledTransaction(strans);
-			transactionAdded(strans);
-			checkSchedule();
-		}
+		addNewSchedule(strans);
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 		budget->setRecordNewAccounts(false);
 		budget->setRecordNewSecurities(false);
@@ -3066,16 +3060,7 @@ bool Eqonomize::newMultiAccountTransaction(QWidget *parent, bool create_expenses
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 		budget->newSecurities.clear();
-		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
-			MultiAccountTransaction *trans = (MultiAccountTransaction*) strans->transaction()->copy();
-			delete strans;
-			budget->addSplitTransaction(trans);
-			transactionAdded(trans);
-		} else {
-			budget->addScheduledTransaction(strans);
-			transactionAdded(strans);
-			checkSchedule();
-		}
+		addNewSchedule(strans);
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 		budget->setRecordNewAccounts(false);
 		budget->setRecordNewSecurities(false);
@@ -3105,16 +3090,7 @@ bool Eqonomize::newMultiItemTransaction(QWidget *parent, AssetsAccount *account)
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 		budget->newSecurities.clear();
-		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
-			MultiItemTransaction *trans = (MultiItemTransaction*) strans->transaction()->copy();
-			delete strans;
-			budget->addSplitTransaction(trans);
-			transactionAdded(trans);
-		} else {
-			budget->addScheduledTransaction(strans);
-			transactionAdded(strans);
-			checkSchedule();
-		}
+		addNewSchedule(strans);
 		budget->setRecordNewAccounts(false);
 		budget->setRecordNewSecurities(false);
 		return true;
@@ -3146,16 +3122,7 @@ bool Eqonomize::newDebtPayment(QWidget *parent, AssetsAccount *loan, bool only_i
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 		budget->newSecurities.clear();
-		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
-			DebtPayment *trans = (DebtPayment*) strans->transaction()->copy();
-			delete strans;
-			budget->addSplitTransaction(trans);
-			transactionAdded(trans);
-		} else {
-			budget->addScheduledTransaction(strans);
-			transactionAdded(strans);
-			checkSchedule();
-		}
+		addNewSchedule(strans);
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 		budget->setRecordNewAccounts(false);
 		budget->setRecordNewSecurities(false);
@@ -3199,14 +3166,22 @@ bool Eqonomize::editSplitTransaction(SplitTransaction *split, QWidget *parent, b
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 		budget->newSecurities.clear();
-		if(!rec && split->date() <= QDate::currentDate()) {
+		if((!rec || rec->firstOccurrence() == rec->lastOccurrence()) && split->date() <= QDate::currentDate()) {
 			budget->addSplitTransaction(split);
 			transactionAdded(split);
 		} else {
 			ScheduledTransaction *strans = new ScheduledTransaction(budget, split, rec);
-			budget->addScheduledTransaction(strans);
-			transactionAdded(strans);
-			checkSchedule();
+			if(strans->recurrence() && strans->date() <= QDate::currentDate() && ((QTime::currentTime().hour() >= 18 && strans->recurrence()->nextOccurrence(strans->date(), false) > QDate::currentDate()) || (QTime::currentTime().hour() < 18 && strans->recurrence()->nextOccurrence(strans->date(), false) >= QDate::currentDate()))) {
+				Transactions *new_trans = strans->realize(strans->date());
+				budget->addTransactions(new_trans);
+				transactionAdded(new_trans);
+				budget->addScheduledTransaction(strans);
+				transactionAdded(strans);
+			} else {
+				budget->addScheduledTransaction(strans);
+				transactionAdded(strans);
+				checkSchedule();
+			}
 		}
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 		budget->setRecordNewAccounts(false);
@@ -3259,16 +3234,7 @@ bool Eqonomize::newScheduledTransaction(int transaction_type, Security *security
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 		budget->newSecurities.clear();
-		if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
-			Transaction *trans = (Transaction*) strans->transaction()->copy();
-			delete strans;
-			budget->addTransaction(trans);
-			transactionAdded(trans);
-		} else {
-			budget->addScheduledTransaction(strans);
-			transactionAdded(strans);
-			checkSchedule();
-		}
+		addNewSchedule(strans);
 		return true;
 	} else {
 		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
@@ -3678,15 +3644,23 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent) {
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 		budget->newSecurities.clear();
-		if(!rec && trans->date() <= QDate::currentDate()) {
+		if((!rec || rec->firstOccurrence() == rec->lastOccurrence()) && trans->date() <= QDate::currentDate()) {
 			transactionModified(trans, oldtrans);
 		} else {
 			budget->removeTransaction(trans, true);
 			transactionRemoved(trans);
 			ScheduledTransaction *strans = new ScheduledTransaction(budget, trans, rec);
-			budget->addScheduledTransaction(strans);
-			transactionAdded(strans);
-			checkSchedule();
+			if(strans->recurrence() && strans->date() <= QDate::currentDate() && ((QTime::currentTime().hour() >= 18 && strans->recurrence()->nextOccurrence(strans->date(), false) > QDate::currentDate()) || (QTime::currentTime().hour() < 18 && strans->recurrence()->nextOccurrence(strans->date(), false) >= QDate::currentDate()))) {
+				Transactions *new_trans = strans->realize(strans->date());
+				budget->addTransactions(new_trans);
+				transactionAdded(new_trans);
+				budget->addScheduledTransaction(strans);
+				transactionAdded(strans);
+			} else {
+				budget->addScheduledTransaction(strans);
+				transactionAdded(strans);
+				checkSchedule();
+			}
 		}
 		delete oldtrans;
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
@@ -4591,9 +4565,9 @@ void Eqonomize::checkAvailableVersion_readdata() {
 	bool b = false;
 	while(sbuffer != old_version) {
 		QList<QByteArray> version_parts_new = sbuffer.split('.');
-		if(version_parts_new.empty()) break;
+		if(version_parts_new.isEmpty()) break;
 		QList<QByteArray> version_parts_old = old_version.split('.');
-		if(version_parts_old.empty()) break;
+		if(version_parts_old.isEmpty()) break;
 		if(version_parts_new.last().size() > 0) {
 			char c = version_parts_new.last().at(version_parts_new.last().size() - 1);
 			if(c < '0' || c > '9') {

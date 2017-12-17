@@ -112,8 +112,7 @@ class EditDebtPaymentWidget : public QWidget {
 		QDateEdit *dateEdit;
 		EqonomizeValueEdit *reductionEdit, *paymentEdit, *interestEdit, *feeEdit;
 		QRadioButton *payedInterestButton, *addedInterestButton;
-		QComboBox *loanCombo;
-		AccountComboBox *accountCombo, *categoryCombo;
+		AccountComboBox *accountCombo, *categoryCombo, *loanCombo;
 		QLineEdit *commentEdit, *fileEdit;
 		QLabel *paymentLabel, *totalLabel;
 
@@ -143,9 +142,10 @@ class EditDebtPaymentWidget : public QWidget {
 		void selectFile();
 		void openFile();
 		void accountChanged();
-		void loanActivated(int index);
+		void loanActivated(Account*);
 		void newAccount();
 		void newCategory();
+		void newLoan();
 		void valueChanged();
 		void reductionEditingFinished();
 		void interestSourceChanged();

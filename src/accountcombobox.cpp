@@ -83,7 +83,10 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 			}
 			if(new_account_action && count() > 1) insertSeparator(1);
 			if(current_account) setCurrentAccount(current_account);
-			if(currentIndex() < firstAccountIndex()) setCurrentIndex(firstAccountIndex());
+			if(currentIndex() < firstAccountIndex()) {
+				if(firstAccountIndex() < count()) setCurrentIndex(firstAccountIndex());
+				else setCurrentIndex(-1);
+			}
 			break;
 		}
 		case ACCOUNT_TYPE_EXPENSES: {
@@ -98,7 +101,10 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 			}
 			if(new_account_action && count() > 1) insertSeparator(1);
 			if(current_account) setCurrentAccount(current_account);
-			if(currentIndex() < firstAccountIndex()) setCurrentIndex(firstAccountIndex());
+			if(currentIndex() < firstAccountIndex()) {
+				if(firstAccountIndex() < count()) setCurrentIndex(firstAccountIndex());
+				else setCurrentIndex(-1);
+			}
 			break;
 		}
 		default: {
@@ -112,6 +118,11 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 				if(account != exclude_account && (!force_currency || account->currency() == force_currency)) {
 					if(i_type >= 100) {
 						if(account->accountType() == i_type) {
+							if(account->isClosed()) add_secondary_list = true;
+							else addItem(account->name(), qVariantFromValue((void*) account));
+						}
+					} else if(i_type == -3) {
+						if(account->accountType() == ASSETS_TYPE_CREDIT_CARD || account->accountType() == ASSETS_TYPE_LIABILITIES) {
 							if(account->isClosed()) add_secondary_list = true;
 							else addItem(account->name(), qVariantFromValue((void*) account));
 						}
@@ -149,6 +160,10 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 						if(account->accountType() == i_type && account->isClosed()) {
 							addItem(account->name(), qVariantFromValue((void*) account));
 						}
+					} else if(i_type == -3) {
+						if((account->accountType() == ASSETS_TYPE_CREDIT_CARD || account->accountType() == ASSETS_TYPE_LIABILITIES) && account->isClosed()) {
+							addItem(account->name(), qVariantFromValue((void*) account));
+						}
 					} else if((account->accountType() == ASSETS_TYPE_SECURITIES && !b_exclude_securities) || account->accountType() == ASSETS_TYPE_LIABILITIES || (account == budget->balancingAccount && !b_exclude_balancing) || account->isClosed()) {
 						addItem(account->name(), qVariantFromValue((void*) account));
 					}
@@ -156,7 +171,10 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 			}
 			if(c_actions > 0 && count() > c_actions) insertSeparator(c_actions);
 			if(current_account) setCurrentAccount(current_account);
-			if(currentIndex() < firstAccountIndex()) setCurrentIndex(firstAccountIndex());
+			if(currentIndex() < firstAccountIndex()) {
+				if(firstAccountIndex() < count()) setCurrentIndex(firstAccountIndex());
+				else setCurrentIndex(-1);
+			}
 			break;
 		}
 	}
@@ -184,7 +202,7 @@ Account *AccountComboBox::createAccount() {
 			break;
 		}
 		default: {
-			EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, this, tr("New Account"), false, i_type >= 100 ? i_type : -1);
+			EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, this, tr("New Account"), false, i_type == -3 ? ASSETS_TYPE_LIABILITIES : (i_type >= 100 ? i_type : -1), i_type >= 100);
 			if(dialog->exec() == QDialog::Accepted) {
 				account = dialog->newAccount();
 			}

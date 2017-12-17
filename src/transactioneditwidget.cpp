@@ -124,12 +124,12 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		if(select_security) {
 			securityCombo = new QComboBox(this);
 			securityCombo->setEditable(false);
-			if(b_create_accounts) securityCombo->addItem("New security…", qVariantFromValue((void*) NULL));
+			if(b_create_accounts) securityCombo->addItem(tr("New Security…", "Financial security (e.g. stock, mutual fund)"), qVariantFromValue((void*) NULL));
 			int i2 = (b_create_accounts ? 1 : 0);
 			for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
 				Security *c_sec = *it;
 				securityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
-				if(c_sec == security) securityCombo->setCurrentIndex(i2);
+				if(c_sec == security || it == budget->securities.constBegin()) securityCombo->setCurrentIndex(i2);
 				i2++;
 			}
 			if(b_create_accounts && i2 == 1) securityCombo->setCurrentIndex(-1);
@@ -208,12 +208,12 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			if(select_security) {
 				securityCombo = new QComboBox(this);
 				securityCombo->setEditable(false);
-				if(b_create_accounts) securityCombo->addItem("New security…", qVariantFromValue((void*) NULL));
+				if(b_create_accounts) securityCombo->addItem(tr("New Security…", "Financial security (e.g. stock, mutual fund)"), qVariantFromValue((void*) NULL));
 				int i2 = (b_create_accounts ? 1 : 0);
 				for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
 					Security *c_sec = *it;
 					securityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
-					if(c_sec == security) securityCombo->setCurrentIndex(i2);
+					if(c_sec == security || it == budget->securities.constBegin()) securityCombo->setCurrentIndex(i2);
 					i2++;
 				}
 				if(b_create_accounts && i2 == 1) securityCombo->setCurrentIndex(-1);
@@ -739,7 +739,7 @@ void TransactionEditWidget::securityChanged(int index) {
 				budget->addSecurity(sec);
 				securityCombo->blockSignals(true);
 				securityCombo->clear();
-				securityCombo->addItem("New security…", qVariantFromValue((void*) NULL));
+				securityCombo->addItem(tr("New Security…", "Financial security (e.g. stock, mutual fund)"), qVariantFromValue((void*) NULL));
 				securityCombo->insertSeparator(1);
 				int i2 = 2;
 				for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
@@ -990,9 +990,14 @@ void TransactionEditWidget::updateToAccounts(Account *exclude_account, Currency 
 	if(set_default) setDefaultToAccount();
 }
 void TransactionEditWidget::updateAccounts(Account *exclude_account, Currency *force_currency, bool set_default) {
-	if(fromCombo) fromCombo->clear();
+	Account *afrom = NULL;
+	if(fromCombo) {
+		afrom = fromCombo->currentAccount();
+		fromCombo->clear();
+	}
 	updateToAccounts(exclude_account, force_currency, set_default);
 	updateFromAccounts(exclude_account, force_currency, set_default);
+	if(fromCombo) fromCombo->setCurrentAccount(afrom);
 }
 void TransactionEditWidget::transactionAdded(Transaction *trans) {
 	if(descriptionEdit && trans->type() == transtype && (transtype != TRANSACTION_TYPE_INCOME || !((Income*) trans)->security()) && trans->subtype() != TRANSACTION_SUBTYPE_DEBT_FEE && trans->subtype() != TRANSACTION_SUBTYPE_DEBT_INTEREST) {
@@ -1515,15 +1520,19 @@ void TransactionEditWidget::setDefaultFromAccount() {
 			}
 		}
 	} else if(transtype == TRANSACTION_TYPE_INCOME) {
+		if(budget->incomes.isEmpty()) return;
 		Income *trans = budget->incomes.last();
 		if(trans) fromCombo->setCurrentAccount(trans->category());
 	} else if(transtype == TRANSACTION_TYPE_EXPENSE) {
+		if(budget->expenses.isEmpty()) return;
 		Expense *trans = budget->expenses.last();
 		if(trans) fromCombo->setCurrentAccount(trans->from());
 	} else if(transtype == TRANSACTION_TYPE_TRANSFER) {
+		if(budget->transfers.isEmpty()) return;
 		Transaction *trans = budget->transfers.last();
 		if(trans) fromCombo->setCurrentAccount(trans->fromAccount());
 	} else if(transtype == TRANSACTION_TYPE_SECURITY_BUY) {
+		if(budget->securityTransactions.isEmpty()) return;
 		SecurityTransaction *trans = budget->securityTransactions.last();
 		if(trans) fromCombo->setCurrentAccount(trans->account());
 	}
@@ -1532,15 +1541,19 @@ void TransactionEditWidget::setDefaultFromAccount() {
 void TransactionEditWidget::setDefaultToAccount() {
 	if(!toCombo) return;
 	if(transtype == TRANSACTION_TYPE_INCOME) {
+		if(budget->incomes.isEmpty()) return;
 		Income *trans = budget->incomes.last();
 		if(trans) toCombo->setCurrentAccount(trans->to());
 	} else if(transtype == TRANSACTION_TYPE_EXPENSE) {
+		if(budget->expenses.isEmpty()) return;
 		Expense *trans = budget->expenses.last();
 		if(trans) toCombo->setCurrentAccount(trans->category());
 	} else if(transtype == TRANSACTION_TYPE_TRANSFER) {
+		if(budget->transfers.isEmpty()) return;
 		Transaction *trans = budget->transfers.last();
 		if(trans) toCombo->setCurrentAccount(trans->toAccount());
 	} else if(transtype == TRANSACTION_TYPE_SECURITY_SELL) {
+		if(budget->securityTransactions.isEmpty()) return;
 		SecurityTransaction *trans = budget->securityTransactions.last();
 		if(trans) toCombo->setCurrentAccount(trans->account());
 	}
