@@ -149,7 +149,7 @@ class Eqonomize : public QMainWindow {
 		bool editAccount(Account*);
 		bool editAccount(Account*, QWidget *parent);
 		void balanceAccount(Account*);
-		bool checkSchedule(bool update_display);
+		bool checkSchedule(bool update_display, QWidget *parent);
 		void updateScheduledTransactions();
 		void appendScheduledTransaction(ScheduledTransaction *strans);
 		bool editScheduledTransaction(ScheduledTransaction *strans);
@@ -193,7 +193,7 @@ class Eqonomize : public QMainWindow {
 		void readOptions();
 		void setCommandLineParser(QCommandLineParser*);
 		bool timeToUpdateExchangeRates();
-		void addNewSchedule(ScheduledTransaction *strans);
+		void addNewSchedule(ScheduledTransaction *strans, QWidget *parent);
 
 		QAction *ActionAP_1, *ActionAP_2, *ActionAP_3, *ActionAP_4, *ActionAP_5, *ActionAP_6, *ActionAP_7, *ActionAP_8;
 		QAction *ActionEditSchedule, *ActionEditOccurrence, *ActionDeleteSchedule, *ActionDeleteOccurrence;
