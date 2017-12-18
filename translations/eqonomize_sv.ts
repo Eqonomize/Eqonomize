@@ -818,7 +818,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
 <context>
     <name>DebtPayment</name>
     <message>
-        <location filename="../src/transaction.cpp" line="2158"/>
+        <location filename="../src/transaction.cpp" line="2161"/>
         <source>Debt payment: %1</source>
         <translation>Skuldbetalning: %1</translation>
     </message>
@@ -4646,56 +4646,56 @@ Vad vill du göra med dem?</translation>
 <context>
     <name>LedgerDialog</name>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="178"/>
+        <location filename="../src/ledgerdialog.cpp" line="179"/>
         <source>Account:</source>
         <translation>Konto:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="192"/>
+        <location filename="../src/ledgerdialog.cpp" line="193"/>
         <source>Export…</source>
         <translation>Exportera…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="194"/>
+        <location filename="../src/ledgerdialog.cpp" line="195"/>
         <source>Print…</source>
         <translation>Skriv ut…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="200"/>
+        <location filename="../src/ledgerdialog.cpp" line="201"/>
         <source>Mark all as reconciled</source>
         <comment>Accounting context</comment>
         <translation>Markera alla som avstämda</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="207"/>
+        <location filename="../src/ledgerdialog.cpp" line="208"/>
         <source>Opening balance:</source>
         <comment>Accounting context</comment>
         <translation>Ingående saldo:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="224"/>
+        <location filename="../src/ledgerdialog.cpp" line="225"/>
         <source>Closing balance:</source>
         <comment>Accounting context</comment>
         <translation>Utgående saldo:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="252"/>
+        <location filename="../src/ledgerdialog.cpp" line="253"/>
         <source>R</source>
         <comment>Header for account reconciled checkbox column</comment>
         <translation>A</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="253"/>
+        <location filename="../src/ledgerdialog.cpp" line="254"/>
         <source>Date</source>
         <translation>Datum</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="254"/>
+        <location filename="../src/ledgerdialog.cpp" line="255"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="256"/>
+        <location filename="../src/ledgerdialog.cpp" line="257"/>
         <source>Account/Category</source>
         <translation>Konto/kategori</translation>
     </message>
@@ -4708,7 +4708,7 @@ Vad vill du göra med dem?</translation>
         <translation type="vanished">Uttag</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="262"/>
+        <location filename="../src/ledgerdialog.cpp" line="263"/>
         <source>Balance</source>
         <comment>Noun. Balance of an account</comment>
         <translation>Saldo</translation>
@@ -4722,27 +4722,27 @@ Vad vill du göra med dem?</translation>
         <translation type="vanished">Nej</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="288"/>
+        <location filename="../src/ledgerdialog.cpp" line="290"/>
         <source>New</source>
         <translation>Ny</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="300"/>
+        <location filename="../src/ledgerdialog.cpp" line="302"/>
         <source>Edit…</source>
         <translation>Redigera…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="303"/>
+        <location filename="../src/ledgerdialog.cpp" line="305"/>
         <source>Delete</source>
         <translation>Ta bort</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="306"/>
+        <location filename="../src/ledgerdialog.cpp" line="308"/>
         <source>Join…</source>
         <translation>Sammanslå…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="309"/>
+        <location filename="../src/ledgerdialog.cpp" line="311"/>
         <source>Split Up</source>
         <translation>Dela upp</translation>
     </message>
@@ -4762,215 +4762,215 @@ Vad vill du göra med dem?</translation>
         <translation type="vanished">Markera som avstämd</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="512"/>
-        <location filename="../src/ledgerdialog.cpp" line="519"/>
-        <location filename="../src/ledgerdialog.cpp" line="527"/>
-        <location filename="../src/ledgerdialog.cpp" line="534"/>
-        <location filename="../src/ledgerdialog.cpp" line="758"/>
-        <location filename="../src/ledgerdialog.cpp" line="774"/>
-        <location filename="../src/ledgerdialog.cpp" line="780"/>
-        <location filename="../src/ledgerdialog.cpp" line="888"/>
-        <location filename="../src/ledgerdialog.cpp" line="930"/>
-        <location filename="../src/ledgerdialog.cpp" line="1242"/>
-        <location filename="../src/ledgerdialog.cpp" line="1248"/>
-        <location filename="../src/ledgerdialog.cpp" line="1254"/>
+        <location filename="../src/ledgerdialog.cpp" line="514"/>
+        <location filename="../src/ledgerdialog.cpp" line="521"/>
+        <location filename="../src/ledgerdialog.cpp" line="529"/>
+        <location filename="../src/ledgerdialog.cpp" line="536"/>
+        <location filename="../src/ledgerdialog.cpp" line="761"/>
+        <location filename="../src/ledgerdialog.cpp" line="777"/>
+        <location filename="../src/ledgerdialog.cpp" line="783"/>
+        <location filename="../src/ledgerdialog.cpp" line="891"/>
+        <location filename="../src/ledgerdialog.cpp" line="933"/>
+        <location filename="../src/ledgerdialog.cpp" line="1245"/>
+        <location filename="../src/ledgerdialog.cpp" line="1251"/>
+        <location filename="../src/ledgerdialog.cpp" line="1257"/>
         <source>Error</source>
         <translation>Fel</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="512"/>
-        <location filename="../src/ledgerdialog.cpp" line="527"/>
+        <location filename="../src/ledgerdialog.cpp" line="514"/>
+        <location filename="../src/ledgerdialog.cpp" line="529"/>
         <source>Invalid date.</source>
         <translation>Felaktigt datum.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="519"/>
+        <location filename="../src/ledgerdialog.cpp" line="521"/>
         <source>Opening date is after closing date.</source>
         <translation>Startdatum är efter slutdatum.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="534"/>
+        <location filename="../src/ledgerdialog.cpp" line="536"/>
         <source>Closing date is before opening date.</source>
         <translation>Slutdatum är efter startdatum.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="758"/>
-        <location filename="../src/ledgerdialog.cpp" line="888"/>
+        <location filename="../src/ledgerdialog.cpp" line="761"/>
+        <location filename="../src/ledgerdialog.cpp" line="891"/>
         <source>Empty transaction list.</source>
         <translation>Tom transaktionslista.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="774"/>
+        <location filename="../src/ledgerdialog.cpp" line="777"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation>Kunde inte öppna och skriva till filen.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="780"/>
+        <location filename="../src/ledgerdialog.cpp" line="783"/>
         <source>Error while writing file; file was not saved.</source>
         <translation>Fel vid skrivande av fil; filen sparades inte.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="793"/>
+        <location filename="../src/ledgerdialog.cpp" line="796"/>
         <source>Ledger</source>
         <translation>Liggare</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="799"/>
+        <location filename="../src/ledgerdialog.cpp" line="802"/>
         <source>Transactions for %1</source>
         <translation>Transaktioner för %1</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="907"/>
+        <location filename="../src/ledgerdialog.cpp" line="910"/>
         <source>Select Time Period</source>
         <translation>Väld tidsperiod</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="911"/>
+        <location filename="../src/ledgerdialog.cpp" line="914"/>
         <source>From:</source>
         <translation>Från:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="915"/>
+        <location filename="../src/ledgerdialog.cpp" line="918"/>
         <source>To:</source>
         <translation>Till:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="930"/>
+        <location filename="../src/ledgerdialog.cpp" line="933"/>
         <source>To date is before from date.</source>
         <translation>Slutdatum är före startdatum.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1078"/>
-        <location filename="../src/ledgerdialog.cpp" line="1079"/>
+        <location filename="../src/ledgerdialog.cpp" line="1081"/>
+        <location filename="../src/ledgerdialog.cpp" line="1082"/>
         <source>Balance change:</source>
         <comment>Account balance</comment>
         <translation>Saldoförändring:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1108"/>
+        <location filename="../src/ledgerdialog.cpp" line="1111"/>
         <source>Delete transactions?</source>
         <translation>Ta bort transaktioner?</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1108"/>
+        <location filename="../src/ledgerdialog.cpp" line="1111"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation>Vill du verkligen ta bort alla (%1) valda transaktioner?</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1242"/>
+        <location filename="../src/ledgerdialog.cpp" line="1245"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Kan inte ange värde för värdepapperstransaktioner med dialogen för att modifier flera transaktioner.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1248"/>
+        <location filename="../src/ledgerdialog.cpp" line="1251"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
         <translation>Kan inte ändra beskrivning för utdelningar och värdepapperstransaktioner.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1254"/>
+        <location filename="../src/ledgerdialog.cpp" line="1257"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Kan inte ändra utbetalare för utdelningar och värdepapperstransaktioner.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1312"/>
+        <location filename="../src/ledgerdialog.cpp" line="1315"/>
         <source>Opening balance</source>
         <comment>Account balance</comment>
         <translation>Ingående saldo</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1482"/>
+        <location filename="../src/ledgerdialog.cpp" line="1485"/>
         <source>Account Balance Adjustment</source>
         <translation>Justering av kontosaldo</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1523"/>
+        <location filename="../src/ledgerdialog.cpp" line="1526"/>
         <source>Current balance:</source>
         <comment>Account balance</comment>
         <translation>Nuvarande saldo:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1078"/>
-        <location filename="../src/ledgerdialog.cpp" line="1523"/>
+        <location filename="../src/ledgerdialog.cpp" line="1081"/>
+        <location filename="../src/ledgerdialog.cpp" line="1526"/>
         <source>Average balance:</source>
         <comment>Account balance</comment>
         <translation>Genomsnittligt saldo:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1521"/>
+        <location filename="../src/ledgerdialog.cpp" line="1524"/>
         <source>Current debt:</source>
         <translation>Nuvarande skuld:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="326"/>
+        <location filename="../src/ledgerdialog.cpp" line="328"/>
         <source>Edit Transaction(s)…</source>
         <translation>Redigera transaktion(er)…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="327"/>
+        <location filename="../src/ledgerdialog.cpp" line="329"/>
         <source>Join Transactions…</source>
         <translation>Sammanslå transaktioner…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="328"/>
+        <location filename="../src/ledgerdialog.cpp" line="330"/>
         <source>Split Up Transaction</source>
         <translation>Dela upp transaktionen</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="329"/>
+        <location filename="../src/ledgerdialog.cpp" line="331"/>
         <source>Open Associated File</source>
         <translation>Öppna associerad fil</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="330"/>
+        <location filename="../src/ledgerdialog.cpp" line="332"/>
         <source>Remove Transaction(s)</source>
         <translation>Ta bort transaktion(er)</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="331"/>
+        <location filename="../src/ledgerdialog.cpp" line="333"/>
         <source>Mark as reconciled</source>
         <translation>Markera som avstämd</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="453"/>
-        <location filename="../src/ledgerdialog.cpp" line="454"/>
         <location filename="../src/ledgerdialog.cpp" line="455"/>
+        <location filename="../src/ledgerdialog.cpp" line="456"/>
+        <location filename="../src/ledgerdialog.cpp" line="457"/>
         <source>Reconciled: %1 (%2)</source>
         <comment>Accounting context</comment>
         <translation>Avstämt: %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1521"/>
+        <location filename="../src/ledgerdialog.cpp" line="1524"/>
         <source>Total debt reduction:</source>
         <translation>Total skuldminskning:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1521"/>
+        <location filename="../src/ledgerdialog.cpp" line="1524"/>
         <source>Total interest and fees:</source>
         <translation>Totala räntor och avgifter:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1078"/>
-        <location filename="../src/ledgerdialog.cpp" line="1079"/>
-        <location filename="../src/ledgerdialog.cpp" line="1523"/>
+        <location filename="../src/ledgerdialog.cpp" line="1081"/>
+        <location filename="../src/ledgerdialog.cpp" line="1082"/>
+        <location filename="../src/ledgerdialog.cpp" line="1526"/>
         <source>Number of transactions:</source>
         <translation>Antal transaktioner:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1338"/>
+        <location filename="../src/ledgerdialog.cpp" line="1341"/>
         <source>Split Transaction</source>
         <translation>Delad transaktion</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="196"/>
+        <location filename="../src/ledgerdialog.cpp" line="197"/>
         <source>Reconcile</source>
         <comment>Accounting context</comment>
         <translation>Kontoavstämning</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="217"/>
+        <location filename="../src/ledgerdialog.cpp" line="218"/>
         <source>Change:</source>
         <comment>Accounting context</comment>
         <translation>Förändring:</translation>
@@ -4981,23 +4981,23 @@ Vad vill du göra med dem?</translation>
         <translation type="vanished">Avstämd</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="257"/>
+        <location filename="../src/ledgerdialog.cpp" line="258"/>
         <source>Payee/Payer</source>
         <translation>Mottagare/utbetalare</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="258"/>
+        <location filename="../src/ledgerdialog.cpp" line="259"/>
         <source>Comments</source>
         <translation>Kommentarer</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="260"/>
+        <location filename="../src/ledgerdialog.cpp" line="261"/>
         <source>Deposit</source>
         <comment>Money put into account</comment>
         <translation>Insättning</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="261"/>
+        <location filename="../src/ledgerdialog.cpp" line="262"/>
         <source>Withdrawal</source>
         <comment>Money taken out from account</comment>
         <translation>Uttag</translation>
@@ -5008,65 +5008,66 @@ Vad vill du göra med dem?</translation>
         <translation type="vanished">Avstämt värde: %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="456"/>
-        <location filename="../src/ledgerdialog.cpp" line="457"/>
         <location filename="../src/ledgerdialog.cpp" line="458"/>
+        <location filename="../src/ledgerdialog.cpp" line="459"/>
+        <location filename="../src/ledgerdialog.cpp" line="460"/>
         <source>Book value: %1 (%2)</source>
         <comment>Accounting context</comment>
         <translation>Bokfört värde: %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1363"/>
-        <location filename="../src/ledgerdialog.cpp" line="1390"/>
-        <location filename="../src/ledgerdialog.cpp" line="1417"/>
-        <location filename="../src/ledgerdialog.cpp" line="1443"/>
+        <location filename="../src/ledgerdialog.cpp" line="269"/>
+        <location filename="../src/ledgerdialog.cpp" line="1366"/>
+        <location filename="../src/ledgerdialog.cpp" line="1393"/>
+        <location filename="../src/ledgerdialog.cpp" line="1420"/>
+        <location filename="../src/ledgerdialog.cpp" line="1446"/>
         <source>Debt Payment</source>
         <translation>Skuldbetalning</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1363"/>
+        <location filename="../src/ledgerdialog.cpp" line="1366"/>
         <source>Reduction</source>
         <translation>Minskning</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1390"/>
+        <location filename="../src/ledgerdialog.cpp" line="1393"/>
         <source>Fee</source>
         <translation>Avgift</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1417"/>
+        <location filename="../src/ledgerdialog.cpp" line="1420"/>
         <source>Interest</source>
         <translation>Ränta</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1474"/>
+        <location filename="../src/ledgerdialog.cpp" line="1477"/>
         <source>Income</source>
         <translation>Inkomst</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1475"/>
+        <location filename="../src/ledgerdialog.cpp" line="1478"/>
         <source>Repayment</source>
         <translation>Återbetalning</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="259"/>
-        <location filename="../src/ledgerdialog.cpp" line="1478"/>
+        <location filename="../src/ledgerdialog.cpp" line="260"/>
+        <location filename="../src/ledgerdialog.cpp" line="1481"/>
         <source>Expense</source>
         <translation>Utgift</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="255"/>
+        <location filename="../src/ledgerdialog.cpp" line="256"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation>Benämning</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1479"/>
+        <location filename="../src/ledgerdialog.cpp" line="1482"/>
         <source>Refund</source>
         <translation>Återbetalning</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1485"/>
+        <location filename="../src/ledgerdialog.cpp" line="1488"/>
         <source>Transfer</source>
         <translation>Överföring</translation>
     </message>
@@ -7107,7 +7108,7 @@ Datum: %3</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="168"/>
-        <location filename="../src/transactionlistwidget.cpp" line="1572"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1634"/>
         <source>Apply</source>
         <translation>Verkställ</translation>
     </message>
@@ -7258,43 +7259,43 @@ Datum: %3</translation>
         <translation type="vanished">Kan inte ändra datum eller mottagare/utbetalare på transaktioner som ingår i en delad transaktion.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="951"/>
-        <location filename="../src/transactionlistwidget.cpp" line="1014"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1000"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1076"/>
         <source>Delete transactions?</source>
         <translation>Ta bort transaktioner?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="951"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1000"/>
         <source>Are you sure you want to delete all (%1) transactions in the selected split transaction?</source>
         <translation>Vill du verkligen ta bort alla (%1) transaktioner i den valda delade transaktionen?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1014"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1076"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation>Vill du verkligen ta bort alla (%1) valda transaktioner?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1547"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1609"/>
         <source>* Part of split transaction</source>
         <translation>* Del av delad transaktion</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1548"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1610"/>
         <source>* Part of split (%1)</source>
         <translation>* Del av delad transaktion (%1)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1552"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1614"/>
         <source>** Recurring (editing occurrance)</source>
         <translation>** Återkommande (redigerar tillfälle)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1568"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1630"/>
         <source>Modify…</source>
         <translation>Ändra…</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1570"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1632"/>
         <source>Edit…</source>
         <translation>Redigera…</translation>
     </message>

@@ -53,6 +53,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QDesktopServices>
+#include <QDesktopWidget>
 
 #include "budget.h"
 #include "eqonomize.h"
@@ -265,18 +266,19 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	transactionsView->header()->setSectionsMovable(false);
 	transactionsView->resizeColumnToContents(0);
 	setColumnDateWidth(transactionsView, 1);
-	setColumnStrlenWidth(transactionsView, 2, 15);
-	setColumnStrlenWidth(transactionsView, 3, 25);
+	setColumnTextWidth(transactionsView, 2, tr("Debt Payment"));
+	setColumnStrlenWidth(transactionsView, 3, 20);
 	setColumnStrlenWidth(transactionsView, 4, 20);
 	setColumnStrlenWidth(transactionsView, 5, 20);
 	setColumnStrlenWidth(transactionsView, 6, 20);
 	setColumnMoneyWidth(transactionsView, 7);
 	setColumnMoneyWidth(transactionsView, 8);
 	setColumnMoneyWidth(transactionsView, 9);
-	setColumnMoneyWidth(transactionsView, 10, 9999999999.99);
+	setColumnMoneyWidth(transactionsView, 10, 999999999.99);
 	min_width_1 = transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) + transactionsView->columnWidth(3) + transactionsView->columnWidth(4) + transactionsView->columnWidth(8) + transactionsView->columnWidth(9) + transactionsView->columnWidth(10) + 30;
 	min_width_2 = min_width_1 + transactionsView->columnWidth(7);
-	transactionsView->setMinimumWidth(min_width_1);
+	QDesktopWidget desktop;
+	if(desktop.availableGeometry(this).width() > min_width_1 * 1.2) transactionsView->setMinimumWidth(min_width_1);
 	transactionsView->setColumnHidden(5, true);
 	transactionsView->setColumnHidden(6, true);
 	transactionsView->setSelectionMode(QTreeWidget::ExtendedSelection);
@@ -714,7 +716,8 @@ void LedgerDialog::accountChanged() {
 	if(!account) return;
 	bool b_loan = (account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD);
 	transactionsView->setColumnHidden(7, !b_loan);
-	transactionsView->setMinimumWidth(b_loan ? min_width_2 : min_width_1);
+	QDesktopWidget desktop;
+	if(desktop.availableGeometry(this).width() > min_width_2 * 1.2) transactionsView->setMinimumWidth(b_loan ? min_width_2 : min_width_1);
 	ActionNewDebtInterest->setVisible(b_loan);
 	ActionNewDebtPayment->setVisible(b_loan); 
 	updateTransactions(true);
