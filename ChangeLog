@@ -3,6 +3,7 @@
 	* Fix editing of transfer part of split transaction
 	* Fix split transaction account selection when joining transfers
 	* Set split values from input fields when clicking "Edit..." in a transactions view
+	* Fix segfault on export of transaction with multiple accounts/payments
 
 2017-12-17  Hanna Knutsson <hanna.knutsson@protonmail.com>
 

@@ -359,7 +359,9 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			QTreeWidgetItemIterator it(transactionsView);
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
 			while(i) {
-				Transaction *trans = i->transaction();
+				qDebug() << i->transaction();
+				Transactions *trans = i->transaction();
+				if(!trans) trans = i->splitTransaction();
 				outf << "\t\t\t\t<tr>" << '\n';
 				outf << "\t\t\t\t\t<td nowrap align=\"right\">" << htmlize_string(QLocale().toString(trans->date(), QLocale::ShortFormat)) << "</td>";
 				outf << "<td>" << htmlize_string(trans->description()) << "</td>";
@@ -376,6 +378,7 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 				outf << "\t\t\t\t</tr>" << '\n';
 				++it;
 				i = (TransactionListViewItem*) *it;
+				qDebug() << "B";
 			}
 			outf << "\t\t\t</tbody>" << '\n';
 			outf << "\t\t</table>" << '\n';
@@ -420,9 +423,15 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			QTreeWidgetItemIterator it(transactionsView);
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
 			while(i) {
-				Transaction *trans = i->transaction();
-				outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << trans->valueString().replace("−","-").remove(" ") << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->toAccount()->nameWithParent() : trans->fromAccount()->nameWithParent()) << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->fromAccount()->nameWithParent() : trans->toAccount()->nameWithParent());
-				if(comments_col == 6) outf << "\",\"" << QLocale().toString(trans->quantity(), 'f', 2).replace("−","-").remove(" ");
+				if(i->transaction()) {
+					Transaction *trans = i->transaction();
+					outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << trans->valueString().replace("−","-").remove(" ") << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->toAccount()->nameWithParent() : trans->fromAccount()->nameWithParent()) << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->fromAccount()->nameWithParent() : trans->toAccount()->nameWithParent());
+					if(comments_col == 6) outf << "\",\"" << QLocale().toString(trans->quantity(), 'f', 2).replace("−","-").remove(" ");
+				} else {
+					MultiAccountTransaction *trans = i->splitTransaction();
+					outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << trans->valueString().replace("−","-").remove(" ") << "\",\"" << trans->account()->nameWithParent() << "\",\"" << trans->accountsString();
+					if(comments_col == 6) outf << "\",\"" << QLocale().toString(trans->quantity(), 'f', 2).replace("−","-").remove(" ");
+				}
 				outf << "\",\"" << i->text(5);
 				if(comments_col == 6) outf << "\",\"" << i->text(6);
 				outf << "\"\n";
