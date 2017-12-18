@@ -1,3 +1,9 @@
+2017-12-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix editing of transfer part of split transaction
+	* Fix split transaction account selection when joining transfers
+	* Set split values from input fields when clicking "Edit..." in a transactions view
+
 2017-12-17  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Allow account creation from loan payment dialog

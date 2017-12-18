@@ -829,10 +829,59 @@ void TransactionListWidget::modifyTransaction() {
 		return;
 	}
 	if(((TransactionListViewItem*) i)->transaction()->parentSplit()) {
+		Transaction *trans = ((TransactionListViewItem*) i)->transaction();
+		if(trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS && trans->type() == transtype) {
+			MultiItemTransaction *split = (MultiItemTransaction*) trans->parentSplit();
+			int index = 0;
+			for(; index < split->count(); index++) {
+				if(split->at(index) == trans) break;
+			}
+			MultiItemTransaction *split_new = NULL;
+			if(transtype == TRANSACTION_TYPE_EXPENSE && trans->subtype() == TRANSACTION_SUBTYPE_EXPENSE) {
+				split_new = (MultiItemTransaction*) split->copy();
+				Expense *expense = (Expense*) split_new->at(index);
+				editWidget->modifyTransaction(expense);
+				split_new->setAccount(expense->from());
+				split_new->setPayee(expense->payee());
+				split_new->setDate(expense->date());
+			} else if(transtype == TRANSACTION_TYPE_INCOME && trans->subtype() == TRANSACTION_SUBTYPE_INCOME && !((Income*) trans)->security()) {
+				split_new = (MultiItemTransaction*) split->copy();
+				Income *income = (Income*) split_new->at(index);
+				editWidget->modifyTransaction(income);
+				split_new->setAccount(income->to());
+				split_new->setPayee(income->payer());
+				split_new->setDate(income->date());
+			} else if(transtype == TRANSACTION_TYPE_TRANSFER && trans->subtype() == TRANSACTION_SUBTYPE_TRANSFER) {
+				split_new = (MultiItemTransaction*) split->copy();
+				Transfer *transfer = (Transfer*) split_new->at(index);
+				bool b_from = (transfer->from() == split->account());
+				editWidget->modifyTransaction(transfer);
+				if(b_from) {
+					AssetsAccount *new_account = transfer->from();
+					transfer->setFrom(split->account());
+					split_new->setAccount(new_account);
+				} else {
+					AssetsAccount *new_account = transfer->to();
+					transfer->setTo(split->account());
+					split_new->setAccount(new_account);
+				}
+				split_new->setDate(transfer->date());
+			}
+			if(split_new) {
+				if(mainWin->editSplitTransaction(split_new, this, true)) {
+					budget->removeSplitTransaction(split, true);
+					mainWin->transactionRemoved(split);
+					delete split;
+					editClear();
+				}
+				delete split_new;
+				return;
+			}
+		}
 		editSplitTransaction();
 		return;
 	}
-	if(((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || ((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+	if(((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || ((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) ((TransactionListViewItem*) i)->transaction())->security())) {
 		editTransaction();
 		return;
 	}
@@ -980,7 +1029,20 @@ void TransactionListWidget::joinTransactions() {
 			sel_bak << trans;
 			if(!split) {
 				if((trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) && ((SecurityTransaction*) trans)->account()->type() == ACCOUNT_TYPE_ASSETS) split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) ((SecurityTransaction*) trans)->account());
-				else if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->fromAccount());
+				else if(trans->type() == TRANSACTION_TYPE_TRANSFER && selection.size() > index + 1) {
+					TransactionListViewItem *i_next = (TransactionListViewItem*) selection.at(index + 1);
+					Transaction *trans_next = i_next->transaction();
+					if(trans_next && !i_next->scheduledTransaction() && !i_next->splitTransaction() && !trans_next->parentSplit()) {
+						if((trans_next->type() == TRANSACTION_TYPE_SECURITY_BUY || trans_next->type() == TRANSACTION_TYPE_SECURITY_SELL) && ((SecurityTransaction*) trans_next)->account()->type() == ACCOUNT_TYPE_ASSETS) split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) ((SecurityTransaction*) trans_next)->account());
+						else if(trans->type() == TRANSACTION_TYPE_TRANSFER) {
+							if(trans->fromAccount() == trans_next->toAccount() || trans->fromAccount() == trans_next->fromAccount()) split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->fromAccount());
+							else if(trans->toAccount() == trans_next->toAccount() || trans->toAccount() == trans_next->fromAccount()) split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->toAccount());
+							else split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->fromAccount());
+						} else if(trans_next->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans_next->fromAccount());
+						else split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans_next->toAccount());
+					}
+					if(!split) split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->fromAccount());
+				} else if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->fromAccount());
 				else split = new MultiItemTransaction(budget, i->transaction()->date(), (AssetsAccount*) trans->toAccount());
 			}
 			if(split->associatedFile().isEmpty() && !trans->associatedFile().isEmpty()) {
@@ -1566,7 +1628,7 @@ void TransactionListWidget::transactionSelectionChanged() {
 		QTreeWidgetItem *i = selection.first();
 		if(selection.count() > 1) {
 			modifyButton->setText(tr("Modify…"));
-		} else if(((TransactionListViewItem*) i)->splitTransaction() || ((TransactionListViewItem*) i)->transaction()->parentSplit() || ((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || ((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL) {
+		} else if(((TransactionListViewItem*) i)->splitTransaction() || ((TransactionListViewItem*) i)->transaction()->parentSplit() || ((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_SECURITY_BUY || ((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_SECURITY_SELL || (((TransactionListViewItem*) i)->transaction()->type() == TRANSACTION_TYPE_INCOME && ((Income*) ((TransactionListViewItem*) i)->transaction())->security())) {
 			modifyButton->setText(tr("Edit…"));
 		} else {
 			modifyButton->setText(tr("Apply"));

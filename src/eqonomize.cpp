@@ -3615,7 +3615,7 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent) {
 			} else if(trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->security()) {
 				security = ((Income*) trans)->security();
 			}
-			TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), split->currency(), trans->fromAccount() == ((MultiItemTransaction*) split)->account(), security, SECURITY_ALL_VALUES, security != NULL, budget, parent, true);
+			TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), split->currency(), trans->fromAccount() != ((MultiItemTransaction*) split)->account(), security, SECURITY_ALL_VALUES, security != NULL, budget, parent, true);
 			dialog->editWidget->updateAccounts(((MultiItemTransaction*) split)->account());
 			dialog->editWidget->setTransaction(trans);
 			if(dialog->exec() == QDialog::Accepted) {

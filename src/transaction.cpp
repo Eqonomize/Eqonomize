@@ -1579,6 +1579,9 @@ void MultiItemTransaction::addTransaction(Transaction *trans) {
 			break;
 		}
 		case TRANSACTION_TYPE_TRANSFER: {
+			if(((Transfer*) trans)->from() && ((Transfer*) trans)->to()) {
+				if(((Transfer*) trans)->from() == o_account || ((Transfer*) trans)->to() == o_account) break;
+			}
 			if(!((Transfer*) trans)->from()) {
 				((Transfer*) trans)->setFrom(o_account);
 			} else {
