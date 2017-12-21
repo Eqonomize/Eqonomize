@@ -1213,6 +1213,7 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 		}
 		if(commentsEdit) trans->setComment(commentsEdit->text());
 		if(fileEdit) trans->setAssociatedFile(fileEdit->text());
+		trans->setModified();
 		return true;
 	} else if(b_transsec) {
 		return false;
@@ -1235,6 +1236,7 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 	if(quantityEdit) trans->setQuantity(quantityEdit->value());
 	if(payeeEdit && trans->type() == TRANSACTION_TYPE_EXPENSE) ((Expense*) trans)->setPayee(payeeEdit->text());
 	if(payeeEdit && trans->type() == TRANSACTION_TYPE_INCOME) ((Income*) trans)->setPayer(payeeEdit->text());
+	trans->setModified();
 	return true;
 }
 Security *TransactionEditWidget::selectedSecurity() {
@@ -1942,6 +1944,7 @@ bool MultipleTransactionsEditDialog::modifyTransaction(Transaction *trans, bool 
 	if(b_descr && descriptionButton->isChecked()) trans->setDescription(descriptionEdit->text());
 	if(valueEdit && b_value && valueButton->isChecked()) trans->setValue(valueEdit->value());
 	if(b_date && dateButton->isChecked()) trans->setDate(dateEdit->date());
+	trans->setModified();
 	return true;
 }
 bool MultipleTransactionsEditDialog::modifySplitTransaction(SplitTransaction *trans) {
@@ -1952,6 +1955,7 @@ bool MultipleTransactionsEditDialog::modifySplitTransaction(SplitTransaction *tr
 			MultiItemTransaction *split = (MultiItemTransaction*) trans;
 			if(dateButton->isChecked()) split->setDate(dateEdit->date());
 			if(payeeEdit && payeeButton->isChecked()) split->setPayee(payeeEdit->text());
+			trans->setModified();
 			return true;
 		}
 		case SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS: {
@@ -1961,6 +1965,7 @@ bool MultipleTransactionsEditDialog::modifySplitTransaction(SplitTransaction *tr
 			DebtPayment *split = (DebtPayment*) trans;
 			if(dateButton->isChecked()) {
 				split->setDate(dateEdit->date());
+				trans->setModified();
 				return true;
 			}
 			break;

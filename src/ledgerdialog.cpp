@@ -588,6 +588,7 @@ void LedgerDialog::transactionActivated(QTreeWidgetItem *i, int c) {
 			if(!trans) return;
 			bool b = !trans->isReconciled(account);
 			trans->setReconciled(account, b);
+			trans->setModified();
 			if(trans->isReconciled(account) == b) {
 				if(trans->date() <= reconcileEndEdit->date()) {
 					if(b) {
@@ -616,6 +617,7 @@ void LedgerDialog::reconcileTransactions() {
 			if(!trans) trans = i->transaction();
 			if(trans) {
 				trans->setReconciled(account, true);
+				trans->setModified();
 				if(trans->isReconciled(account)) {
 					if(trans->date() <= reconcileEndEdit->date()) {
 						if(trans->date() < reconcileStartEdit->date()) d_rec_op += trans->accountChange(account);
@@ -649,6 +651,7 @@ void LedgerDialog::markAsReconciled() {
 			if(trans && (b_started || trans->date() <= d_end)) {
 				b_started = true;
 				trans->setReconciled(account, true);
+				trans->setModified();
 				if(trans->isReconciled(account)) {
 					if(trans->date() <= reconcileEndEdit->date()) {
 						if(trans->date() < reconcileStartEdit->date()) d_rec_op += trans->accountChange(account);

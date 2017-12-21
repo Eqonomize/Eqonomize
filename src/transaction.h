@@ -79,8 +79,15 @@ class Transactions {
 	
 	Q_DECLARE_TR_FUNCTIONS(Transactions)
 	
+	protected:
+	
+		qlonglong i_id;
+		int i_revision;
+		Budget *o_budget;
+	
 	public:
 		
+		Transactions(Budget *parent_budget);
 		Transactions();
 		virtual ~Transactions() {}
 		virtual Transactions *copy() const = 0;
@@ -100,14 +107,20 @@ class Transactions {
 		virtual const QString &comment() const = 0;
 		virtual const QString &associatedFile() const = 0;
 		virtual void setAssociatedFile(QString new_attachment) = 0;
-		virtual Budget *budget() const = 0;
+		Budget *budget() const;
 		virtual GeneralTransactionType generaltype() const = 0;
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const = 0;
 		virtual void replaceAccount(Account *old_account, Account *new_account) = 0;
 		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const = 0;
 		virtual bool isReconciled(AssetsAccount *account) const = 0;
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled) = 0;
-	
+		qlonglong id() const;
+		virtual void setId(qlonglong new_id, bool update_sort = true);
+		int revision() const;
+		void setRevision(int new_rev);
+		bool isModified() const;
+		void setModified();
+
 };
 
 class Transaction : public Transactions {
@@ -116,8 +129,6 @@ class Transaction : public Transactions {
 
 	protected:
 
-		Budget *o_budget;
-		
 		double d_value;
 
 		QDate d_date;
@@ -180,7 +191,6 @@ class Transaction : public Transactions {
 		void setFromAccount(Account *new_from);
 		virtual Account *toAccount() const;
 		void setToAccount(Account *new_to);
-		Budget *budget() const;
 		virtual GeneralTransactionType generaltype() const;
 		virtual TransactionType type() const = 0;
 		virtual TransactionSubType subtype() const;
@@ -585,7 +595,6 @@ class ScheduledTransaction : public Transactions {
 
 	protected:
 
-		Budget *o_budget;
 		Recurrence *o_rec;
 		Transactions *o_trans;
 
@@ -611,7 +620,6 @@ class ScheduledTransaction : public Transactions {
 		Transactions *realize(QDate date);
 		Transactions *transaction() const;
 		void setTransaction(Transactions *trans, bool delete_old = true);
-		Budget *budget() const;
 		virtual const QDate &date() const;
 		const qint64 &timestamp() const;
 		void setTimestamp(qint64 cr_time);
@@ -645,8 +653,7 @@ class SplitTransaction : public Transactions {
 	
 	protected:
 
-		Budget *o_budget;
-		QDate d_date;		
+		QDate d_date;
 		QString s_description;
 		QString s_comment;
 		QString s_file;
@@ -698,7 +705,7 @@ class SplitTransaction : public Transactions {
 		virtual Transaction *operator[] (int index) const;
 		virtual Transaction *at(int index) const;
 		
-		Budget *budget() const;
+		virtual void setId(qlonglong new_id, bool update_sort = true) {Transactions::setId(new_id, update_sort);}
 		
 		virtual GeneralTransactionType generaltype() const;
 		virtual SplitTransactionType type() const = 0;
@@ -866,6 +873,8 @@ class DebtPayment : public SplitTransaction {
 		ExpensesAccount *expenseCategory() const;
 		void setExpenseCategory(ExpensesAccount *new_category);
 		
+		void setId(qlonglong new_id, bool update_sort = true);
+		
 		QString description() const;
 		virtual void setDate(QDate new_date);
 		
@@ -888,11 +897,13 @@ class DebtPayment : public SplitTransaction {
 
 class SecurityTrade {
 	public:
-		SecurityTrade(const QDate &date_, double from_shares_, Security *from_security_, double to_shares_, Security *to_security_) : date(date_), from_shares(from_shares_), to_shares(to_shares_), from_security(from_security_), to_security(to_security_), timestamp(QDateTime::currentMSecsSinceEpoch() * 1000) {}
-		QDate date;		
+		SecurityTrade(const QDate &date_, double from_shares_, Security *from_security_, double to_shares_, Security *to_security_) : date(date_), from_shares(from_shares_), to_shares(to_shares_), from_security(from_security_), to_security(to_security_), timestamp(QDateTime::currentMSecsSinceEpoch() * 1000), id(0), revision(0) {}
+		QDate date;
 		double from_shares, to_shares;
 		Security *from_security, *to_security;
 		qint64 timestamp;
+		qlonglong id;
+		int revision;
 };
 
 

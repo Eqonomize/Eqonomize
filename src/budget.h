@@ -115,9 +115,11 @@ class Budget {
 	
 	protected:
 	
-		int i_quotation_decimals, i_share_decimals, i_budget_day;
+		int i_quotation_decimals, i_share_decimals, i_budget_day, i_revision;
 		bool b_record_new_accounts, b_record_new_securities, b_default_currency_changed, b_currency_modified;
 		TransactionConversionRateDate i_tcrd;
+		
+		qlonglong last_new_id;
 		
 		Currency *default_currency;
 
@@ -181,6 +183,7 @@ class Budget {
 		void scheduledTransactionDateModified(ScheduledTransaction*);
 		void transactionDateModified(Transaction*, const QDate &olddate);
 		void splitTransactionDateModified(SplitTransaction*, const QDate &olddate);
+		void transactionsSortModified(Transactions*);
 		void scheduledTransactionSortModified(ScheduledTransaction*);
 		void transactionSortModified(Transaction*);
 		void splitTransactionSortModified(SplitTransaction*);
@@ -212,6 +215,8 @@ class Budget {
 		void resetCurrenciesModified();
 		void currencyModified(Currency*);
 		
+		qlonglong getNewId();
+		
 		AccountList<IncomesAccount*> incomesAccounts;
 		AccountList<ExpensesAccount*> expensesAccounts;
 		AccountList<AssetsAccount*> assetsAccounts;
@@ -236,10 +241,10 @@ class Budget {
 		void setRecordNewSecurities(bool rns);
 		QVector<Security*> newSecurities;
 
-		QMap<int, IncomesAccount*> incomesAccounts_id;
-		QMap<int, ExpensesAccount*> expensesAccounts_id;
-		QMap<int, AssetsAccount*> assetsAccounts_id;
-		QMap<int, Security*> securities_id;
+		QMap<qlonglong, IncomesAccount*> incomesAccounts_id;
+		QMap<qlonglong, ExpensesAccount*> expensesAccounts_id;
+		QMap<qlonglong, AssetsAccount*> assetsAccounts_id;
+		QMap<qlonglong, Security*> securities_id;
 		
 		void setBudgetDay(int day_of_month);
 		int budgetDay() const;

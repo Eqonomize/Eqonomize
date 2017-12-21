@@ -56,7 +56,8 @@ class Account {
 	protected:
 
 		Budget *o_budget;
-		int i_id;
+		qlonglong i_id;
+		int i_revision;
 		QString s_name, s_description;
 
 	public:
@@ -82,8 +83,10 @@ class Account {
 		void setDescription(QString new_description);
 		virtual bool isClosed() const;
 		Budget *budget() const;
-		int id() const;
-		void setId(int new_id);
+		qlonglong id() const;
+		void setId(qlonglong new_id);
+		int revision() const;
+		void setRevision(int new_rev);
 		virtual AccountType type() const = 0;
 		virtual Currency *currency() const;
 

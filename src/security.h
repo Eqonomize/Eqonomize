@@ -91,7 +91,8 @@ class Security {
 
 		Budget *o_budget;
 
-		int i_id;
+		qlonglong i_id;
+		int i_revision;
 
 		AssetsAccount *o_account;
 
@@ -131,8 +132,10 @@ class Security {
 		void setInitialShares(double initial_shares);
 		virtual SecurityType type() const;
 		void setType(SecurityType new_type);
-		int id() const;
-		void setId(int new_id);
+		qlonglong id() const;
+		void setId(qlonglong new_id);
+		int revision() const;
+		void setRevision(int new_rev);
 		bool hasQuotation(const QDate &date) const;
 		void setQuotation(const QDate &date, double value, bool auto_added = false);
 		void removeQuotation(const QDate &date, bool auto_added = false);

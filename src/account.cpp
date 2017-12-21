@@ -29,19 +29,21 @@
 #include "account.h"
 #include "budget.h"
 
-Account::Account(Budget *parent_budget, QString initial_name, QString initial_description) : o_budget(parent_budget), i_id(-1), s_name(initial_name.trimmed()), s_description(initial_description.trimmed()) {}
+Account::Account(Budget *parent_budget, QString initial_name, QString initial_description) : o_budget(parent_budget), i_id(0), i_revision(0), s_name(initial_name.trimmed()), s_description(initial_description.trimmed()) {}
 Account::Account(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : o_budget(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
 Account::Account(Budget *parent_budget) : o_budget(parent_budget) {}
-Account::Account() : o_budget(NULL), i_id(-1) {}
+Account::Account() : o_budget(NULL), i_id(0), i_revision(0) {}
 Account::Account(const Account *account) : o_budget(account->budget()), i_id(account->id()), s_name(account->name()), s_description(account->description()) {}
 Account::~Account() {}
 
 void Account::readAttributes(QXmlStreamAttributes *attr, bool*) {
-	i_id = attr->value("id").toInt();
+	i_id = attr->value("id").toLongLong();
+	i_revision = attr->value("rev").toInt();
+	if(i_revision <= 0) i_revision = 1;
 	s_name = attr->value("name").trimmed().toString();
 	s_description = attr->value("description").trimmed().toString();
 }
@@ -60,7 +62,8 @@ void Account::save(QXmlStreamWriter *xml) {
 }
 void Account::writeAttributes(QXmlStreamAttributes *attr) {
 	attr->append("name", s_name);
-	attr->append("id", QString::number(i_id));
+	if(i_id > 0) attr->append("id", QString::number(i_id));
+	if(i_revision > 0) attr->append("rev", QString::number(i_revision));
 	if(!s_description.isEmpty()) attr->append("description", s_description);
 }
 void Account::writeElements(QXmlStreamWriter*) {}
@@ -72,8 +75,10 @@ const QString &Account::description() const {return s_description;}
 void Account::setDescription(QString new_description) {s_description = new_description.trimmed();}
 bool Account::isClosed() const {return false;}
 Budget *Account::budget() const {return o_budget;}
-int Account::id() const {return i_id;}
-void Account::setId(int new_id) {i_id = new_id;}
+qlonglong Account::id() const {return i_id;}
+void Account::setId(qlonglong new_id) {i_id = new_id;}
+int Account::revision() const {return i_revision;}
+void Account::setRevision(int new_rev) {i_revision = new_rev;}
 Currency *Account::currency() const {return o_budget->defaultCurrency();}
 
 AssetsAccount::AssetsAccount(Budget *parent_budget, AssetsType initial_type, QString initial_name, double initial_balance, QString initial_description) : Account(parent_budget, initial_name, initial_description), at_type(initial_type), d_initbal(initial_type == ASSETS_TYPE_SECURITIES ? 0.0 : initial_balance), b_closed(false) {
