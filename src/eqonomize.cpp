@@ -802,7 +802,7 @@ void EditSecurityTradeDialog::setSecurityTrade(SecurityTrade *ts) {
 }
 SecurityTrade *EditSecurityTradeDialog::createSecurityTrade() {
 	if(!validValues()) return NULL;
-	return new SecurityTrade(dateEdit->date(), fromSharesEdit->value(), selectedFromSecurity(), toSharesEdit->value(), selectedToSecurity());
+	return new SecurityTrade(dateEdit->date(), fromSharesEdit->value(), selectedFromSecurity(), toSharesEdit->value(), selectedToSecurity(), budget->getNewId(), budget->revision(), budget->revision());
 }
 bool EditSecurityTradeDialog::checkSecurities() {
 	if(toSecurityCombo->count() == 0) {
@@ -2629,6 +2629,8 @@ bool Eqonomize::editSecurityTrade(SecurityTrade *ts, QWidget *parent) {
 		if(ts_new) {
 			ts_new->timestamp = ts->timestamp;
 			ts_new->id = ts->id;
+			ts_new->first_revision = ts->first_revision;
+			ts_new->last_revision = budget->revision();
 			budget->removeSecurityTrade(ts, true);
 			budget->addSecurityTrade(ts_new);
 			updateSecurity(ts_new->from_security);

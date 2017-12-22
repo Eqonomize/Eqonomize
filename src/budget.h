@@ -51,6 +51,9 @@ bool currency_symbol_precedes();
 bool is_zero(double);
 QString format_money(double v, int precision);
 
+void read_id(QXmlStreamAttributes *attr, qlonglong &id, int &rev1, int &rev2);
+void write_id(QXmlStreamAttributes *attr, qlonglong &id, int &rev1, int &rev2);
+
 bool transaction_list_less_than(Transaction *t1, Transaction *t2);
 bool split_list_less_than(SplitTransaction *t1, SplitTransaction *t2);
 bool schedule_list_less_than(ScheduledTransaction *t1, ScheduledTransaction *t2);
@@ -119,7 +122,7 @@ class Budget {
 		bool b_record_new_accounts, b_record_new_securities, b_default_currency_changed, b_currency_modified;
 		TransactionConversionRateDate i_tcrd;
 		
-		qlonglong last_new_id;
+		qlonglong last_id;
 		
 		Currency *default_currency;
 
@@ -216,6 +219,7 @@ class Budget {
 		void currencyModified(Currency*);
 		
 		qlonglong getNewId();
+		int revision();
 		
 		AccountList<IncomesAccount*> incomesAccounts;
 		AccountList<ExpensesAccount*> expensesAccounts;

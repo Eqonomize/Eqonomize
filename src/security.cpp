@@ -42,7 +42,7 @@ void Security::init() {
 	reinvestedDividends.setAutoDelete(false);
 	scheduledReinvestedDividends.setAutoDelete(false);
 }
-Security::Security(Budget *parent_budget, AssetsAccount *parent_account, SecurityType initial_type, double initial_shares, int initial_decimals, int initial_quotation_decimals, QString initial_name, QString initial_description) : o_budget(parent_budget), i_id(0), i_revision(0), o_account(parent_account), st_type(initial_type), d_initial_shares(initial_shares), i_decimals(initial_decimals), i_quotation_decimals(initial_quotation_decimals), s_name(initial_name.trimmed()), s_description(initial_description) {
+Security::Security(Budget *parent_budget, AssetsAccount *parent_account, SecurityType initial_type, double initial_shares, int initial_decimals, int initial_quotation_decimals, QString initial_name, QString initial_description) : o_budget(parent_budget), i_id(parent_budget->getNewId()), i_first_revision(parent_budget->revision()), i_last_revision(parent_budget->revision()), o_account(parent_account), st_type(initial_type), d_initial_shares(initial_shares), i_decimals(initial_decimals), i_quotation_decimals(initial_quotation_decimals), s_name(initial_name.trimmed()), s_description(initial_description) {
 	init();
 }
 Security::Security(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : o_budget(parent_budget) {
@@ -51,15 +51,13 @@ Security::Security(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : 
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-Security::Security(Budget *parent_budget) : o_budget(parent_budget) {}
-Security::Security() : o_budget(NULL), i_id(0), i_revision(0), o_account(NULL), st_type(SECURITY_TYPE_STOCK), d_initial_shares(0.0), i_decimals(-1), i_quotation_decimals(-1) {init();}
-Security::Security(const Security *security) : o_budget(security->budget()), i_id(security->id()), o_account(security->account()), st_type(security->type()), d_initial_shares(security->initialShares()), i_decimals(security->decimals()), i_quotation_decimals(security->quotationDecimals()), s_name(security->name()), s_description(security->description()) {init();}
+Security::Security(Budget *parent_budget) : o_budget(parent_budget), i_id(parent_budget->getNewId()), i_first_revision(parent_budget->revision()), i_last_revision(parent_budget->revision()) {}
+Security::Security() : o_budget(NULL), i_id(0), i_first_revision(1), i_last_revision(1), o_account(NULL), st_type(SECURITY_TYPE_STOCK), d_initial_shares(0.0), i_decimals(-1), i_quotation_decimals(-1) {init();}
+Security::Security(const Security *security) : o_budget(security->budget()), i_id(security->id()), i_first_revision(security->firstRevision()), i_last_revision(security->lastRevision()), o_account(security->account()), st_type(security->type()), d_initial_shares(security->initialShares()), i_decimals(security->decimals()), i_quotation_decimals(security->quotationDecimals()), s_name(security->name()), s_description(security->description()) {init();}
 Security::~Security() {}
 
 void Security::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
-	i_id = attr->value("id").toLongLong();
-	i_revision = attr->value("rev").toInt();
-	if(i_revision <= 0) i_revision = 1;
+	read_id(attr, i_id, i_first_revision, i_last_revision);
 	QStringRef type = attr->value("type");
 	if(type == "bond") {
 		st_type = SECURITY_TYPE_BOND;
@@ -108,8 +106,7 @@ void Security::save(QXmlStreamWriter *xml) {
 	writeElements(xml);
 }
 void Security::writeAttributes(QXmlStreamAttributes *attr) {
-	if(i_id > 0) attr->append("id", QString::number(i_id));
-	if(i_revision > 0) attr->append("rev", QString::number(i_revision));
+	write_id(attr, i_id, i_first_revision, i_last_revision);
 	attr->append("name", s_name);
 	switch(st_type) {
 		case SECURITY_TYPE_BOND: {attr->append("type", "bond"); break;}
@@ -157,8 +154,10 @@ Currency *Security::currency() const {
 void Security::setAccount(AssetsAccount *new_account) {o_account = new_account;}
 qlonglong Security::id() const {return i_id;}
 void Security::setId(qlonglong new_id) {i_id = new_id;}
-int Security::revision() const {return i_revision;}
-void Security::setRevision(int new_rev) {i_revision = new_rev;}
+int Security::firstRevision() const {return i_first_revision;}
+void Security::setFirstRevision(int new_rev) {i_first_revision = new_rev; if(i_first_revision > i_last_revision) i_last_revision = i_first_revision;}
+int Security::lastRevision() const {return i_last_revision;}
+void Security::setLastRevision(int new_rev) {i_last_revision = new_rev;}
 void Security::setQuotation(const QDate &date, double value, bool auto_added) {
 	if(!auto_added) {
 		quotations[date] = value;

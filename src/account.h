@@ -57,7 +57,7 @@ class Account {
 
 		Budget *o_budget;
 		qlonglong i_id;
-		int i_revision;
+		int i_first_revision, i_last_revision;
 		QString s_name, s_description;
 
 	public:
@@ -85,8 +85,10 @@ class Account {
 		Budget *budget() const;
 		qlonglong id() const;
 		void setId(qlonglong new_id);
-		int revision() const;
-		void setRevision(int new_rev);
+		int firstRevision() const;
+		void setFirstRevision(int new_rev);
+		int lastRevision() const;
+		void setLastRevision(int new_rev);
 		virtual AccountType type() const = 0;
 		virtual Currency *currency() const;
 

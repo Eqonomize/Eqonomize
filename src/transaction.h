@@ -82,7 +82,7 @@ class Transactions {
 	protected:
 	
 		qlonglong i_id;
-		int i_revision;
+		int i_first_revision, i_last_revision;
 		Budget *o_budget;
 	
 	public:
@@ -115,9 +115,11 @@ class Transactions {
 		virtual bool isReconciled(AssetsAccount *account) const = 0;
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled) = 0;
 		qlonglong id() const;
-		virtual void setId(qlonglong new_id, bool update_sort = true);
-		int revision() const;
-		void setRevision(int new_rev);
+		virtual void setId(qlonglong new_id);
+		int firstRevision() const;
+		void setFirstRevision(int new_rev);
+		int lastRevision() const;
+		void setLastRevision(int new_rev);
 		bool isModified() const;
 		void setModified();
 
@@ -705,7 +707,7 @@ class SplitTransaction : public Transactions {
 		virtual Transaction *operator[] (int index) const;
 		virtual Transaction *at(int index) const;
 		
-		virtual void setId(qlonglong new_id, bool update_sort = true) {Transactions::setId(new_id, update_sort);}
+		virtual void setId(qlonglong new_id) {Transactions::setId(new_id);}
 		
 		virtual GeneralTransactionType generaltype() const;
 		virtual SplitTransactionType type() const = 0;
@@ -873,7 +875,7 @@ class DebtPayment : public SplitTransaction {
 		ExpensesAccount *expenseCategory() const;
 		void setExpenseCategory(ExpensesAccount *new_category);
 		
-		void setId(qlonglong new_id, bool update_sort = true);
+		void setId(qlonglong new_id);
 		
 		QString description() const;
 		virtual void setDate(QDate new_date);
@@ -897,13 +899,13 @@ class DebtPayment : public SplitTransaction {
 
 class SecurityTrade {
 	public:
-		SecurityTrade(const QDate &date_, double from_shares_, Security *from_security_, double to_shares_, Security *to_security_) : date(date_), from_shares(from_shares_), to_shares(to_shares_), from_security(from_security_), to_security(to_security_), timestamp(QDateTime::currentMSecsSinceEpoch() * 1000), id(0), revision(0) {}
+		SecurityTrade(const QDate &date_, double from_shares_, Security *from_security_, double to_shares_, Security *to_security_, qlonglong id_ = 0, int rev1 = 1, int rev2 = 1) : date(date_), from_shares(from_shares_), to_shares(to_shares_), from_security(from_security_), to_security(to_security_), timestamp(QDateTime::currentMSecsSinceEpoch() * 1000), id(id_), first_revision(rev1), last_revision(rev2) {}
 		QDate date;
 		double from_shares, to_shares;
 		Security *from_security, *to_security;
 		qint64 timestamp;
 		qlonglong id;
-		int revision;
+		int first_revision, last_revision;
 };
 
 

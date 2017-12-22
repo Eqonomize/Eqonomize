@@ -126,9 +126,13 @@ ScheduledTransaction *EditScheduledTransactionDialog::createScheduledTransaction
 bool EditScheduledTransactionDialog::modifyScheduledTransaction(ScheduledTransaction *strans) {
 	Transaction *trans = transactionEditWidget->createTransaction();
 	if(!trans) {tabs->setCurrentIndex(0); return false;}
+	trans->setId(strans->transaction()->id());
+	trans->setFirstRevision(strans->transaction()->firstRevision());
+	trans->setModified();
 	recurrenceEditWidget->setStartDate(trans->date());
 	strans->setRecurrence(recurrenceEditWidget->createRecurrence());
 	strans->setTransaction(trans);
+	strans->setModified();
 	return true;
 }
 bool EditScheduledTransactionDialog::modifyTransaction(Transaction *trans, Recurrence *&rec) {
@@ -316,31 +320,35 @@ ScheduledTransaction *EditScheduledMultiItemDialog::newScheduledTransaction(Budg
 }
 ScheduledTransaction *EditScheduledMultiItemDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
 	EditScheduledMultiItemDialog *dialog = new EditScheduledMultiItemDialog(extra_parameters, strans->budget(), parent, tr("Edit Split Transaction"), NULL, allow_account_creation);
-	qint64 i_time = strans->timestamp();
-	qlonglong i_id = strans->id();
 	dialog->setScheduledTransaction(strans);
-	strans = NULL;
+	ScheduledTransaction *strans_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
-		strans = dialog->createScheduledTransaction();
-		strans->setTimestamp(i_time);
-		strans->setId(i_id, false);
+		strans_new = dialog->createScheduledTransaction();
+		strans_new->setTimestamp(strans->timestamp());
+		strans_new->setId(strans->id());
+		strans_new->setFirstRevision(strans->firstRevision());
+		strans_new->setModified();
+		strans_new->transaction()->setTimestamp(strans->transaction()->timestamp());
+		strans_new->transaction()->setId(strans->transaction()->id());
+		strans_new->transaction()->setFirstRevision(strans->transaction()->firstRevision());
+		strans_new->transaction()->setModified();
 	}
 	dialog->deleteLater();
-	return strans;
+	return strans_new;
 }
 MultiItemTransaction *EditScheduledMultiItemDialog::editTransaction(MultiItemTransaction *split, Recurrence *&rec, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
 	EditScheduledMultiItemDialog *dialog = new EditScheduledMultiItemDialog(extra_parameters, split->budget(), parent, tr("Edit Split Transaction"), NULL, allow_account_creation);
-	qint64 i_time = split->timestamp();
-	qlonglong i_id = split->id();
 	dialog->setTransaction(split);
-	split = NULL;
+	MultiItemTransaction *split_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
-		split = dialog->createTransaction(rec);
-		split->setTimestamp(i_time);
-		split->setId(i_id, false);
+		split_new = dialog->createTransaction(rec);
+		split_new->setTimestamp(split->timestamp());
+		split_new->setId(split->id());
+		split_new->setFirstRevision(split->firstRevision());
+		split_new->setModified();
 	}
 	dialog->deleteLater();
-	return split;
+	return split_new;
 }
 
 EditScheduledMultiAccountDialog::EditScheduledMultiAccountDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, bool create_expenses, bool allow_account_creation) : QDialog(parent), budget(budg), b_extra(extra_parameters) {
@@ -431,31 +439,35 @@ ScheduledTransaction *EditScheduledMultiAccountDialog::newScheduledTransaction(Q
 }
 ScheduledTransaction *EditScheduledMultiAccountDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
 	EditScheduledMultiAccountDialog *dialog = new EditScheduledMultiAccountDialog(extra_parameters, strans->budget(), parent, ((MultiAccountTransaction*) strans->transaction())->transactiontype() == TRANSACTION_TYPE_EXPENSE ? tr("Edit Expense with Multiple Payments") : tr("Edit Income with Multiple Payments"), ((MultiAccountTransaction*) strans->transaction())->transactiontype() == TRANSACTION_TYPE_EXPENSE, allow_account_creation);
-	qint64 i_time = strans->timestamp();
-	qlonglong i_id = strans->id();
 	dialog->setScheduledTransaction(strans);
-	strans = NULL;
+	ScheduledTransaction *strans_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
-		strans = dialog->createScheduledTransaction();
-		strans->setTimestamp(i_time);
-		strans->setId(i_id, false);
+		strans_new = dialog->createScheduledTransaction();
+		strans_new->setTimestamp(strans->timestamp());
+		strans_new->setId(strans->id());
+		strans_new->setFirstRevision(strans->firstRevision());
+		strans_new->setModified();
+		strans_new->transaction()->setTimestamp(strans->transaction()->timestamp());
+		strans_new->transaction()->setId(strans->transaction()->id());
+		strans_new->transaction()->setFirstRevision(strans->transaction()->firstRevision());
+		strans_new->transaction()->setModified();
 	}
 	dialog->deleteLater();
-	return strans;
+	return strans_new;
 }
 MultiAccountTransaction *EditScheduledMultiAccountDialog::editTransaction(MultiAccountTransaction *split, Recurrence *&rec, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
 	EditScheduledMultiAccountDialog *dialog = new EditScheduledMultiAccountDialog(extra_parameters, split->budget(), parent, split->transactiontype() == TRANSACTION_TYPE_EXPENSE ? tr("Edit Expense with Multiple Payments") : tr("Edit Income with Multiple Payments"), split->transactiontype() == TRANSACTION_TYPE_EXPENSE, allow_account_creation);
-	qint64 i_time = split->timestamp();
-	qlonglong i_id = split->id();
 	dialog->setTransaction(split);
-	split = NULL;
+	MultiAccountTransaction *split_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
-		split = dialog->createTransaction(rec);
-		split->setTimestamp(i_time);
-		split->setId(i_id, false);
+		split_new = dialog->createTransaction(rec);
+		split_new->setTimestamp(split->timestamp());
+		split_new->setId(split->id());
+		split_new->setFirstRevision(split->firstRevision());
+		split_new->setModified();
 	}
 	dialog->deleteLater();
-	return split;
+	return split_new;
 }
 
 
@@ -531,30 +543,34 @@ ScheduledTransaction *EditScheduledDebtPaymentDialog::newScheduledTransaction(Bu
 }
 ScheduledTransaction *EditScheduledDebtPaymentDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
 	EditScheduledDebtPaymentDialog *dialog = new EditScheduledDebtPaymentDialog(extra_parameters, strans->budget(), parent, tr("Edit Debt Payment"), NULL, allow_account_creation);
-	qint64 i_time = strans->timestamp();
-	qlonglong i_id = strans->id();
 	dialog->setScheduledTransaction(strans);
-	strans = NULL;
+	ScheduledTransaction *strans_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
-		strans = dialog->createScheduledTransaction();
-		strans->setTimestamp(i_time);
-		strans->setId(i_id, false);
+		strans_new = dialog->createScheduledTransaction();
+		strans_new->setTimestamp(strans->timestamp());
+		strans_new->setId(strans->id());
+		strans_new->setFirstRevision(strans->firstRevision());
+		strans_new->setModified();
+		strans_new->transaction()->setTimestamp(strans->transaction()->timestamp());
+		strans_new->transaction()->setId(strans->transaction()->id());
+		strans_new->transaction()->setFirstRevision(strans->transaction()->firstRevision());
+		strans_new->transaction()->setModified();
 	}
 	dialog->deleteLater();
-	return strans;
+	return strans_new;
 }
 DebtPayment *EditScheduledDebtPaymentDialog::editTransaction(DebtPayment *split, Recurrence *&rec, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
 	EditScheduledDebtPaymentDialog *dialog = new EditScheduledDebtPaymentDialog(extra_parameters, split->budget(), parent, tr("Edit Debt Payment"), NULL, allow_account_creation);
-	qint64 i_time = split->timestamp();
-	qlonglong i_id = split->id();
 	dialog->setTransaction(split);
-	split = NULL;
+	DebtPayment *split_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
-		split = dialog->createTransaction(rec);
-		split->setTimestamp(i_time);
-		split->setId(i_id, false);
+		split_new = dialog->createTransaction(rec);
+		split_new->setTimestamp(split->timestamp());
+		split_new->setId(split->id());
+		split_new->setFirstRevision(split->firstRevision());
+		split_new->setModified();
 	}
 	dialog->deleteLater();
-	return split;
+	return split_new;
 }
 

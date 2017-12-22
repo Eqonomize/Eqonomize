@@ -92,7 +92,7 @@ class Security {
 		Budget *o_budget;
 
 		qlonglong i_id;
-		int i_revision;
+		int i_first_revision, i_last_revision;
 
 		AssetsAccount *o_account;
 
@@ -134,8 +134,10 @@ class Security {
 		void setType(SecurityType new_type);
 		qlonglong id() const;
 		void setId(qlonglong new_id);
-		int revision() const;
-		void setRevision(int new_rev);
+		int firstRevision() const;
+		void setFirstRevision(int new_rev);
+		int lastRevision() const;
+		void setLastRevision(int new_rev);
 		bool hasQuotation(const QDate &date) const;
 		void setQuotation(const QDate &date, double value, bool auto_added = false);
 		void removeQuotation(const QDate &date, bool auto_added = false);
