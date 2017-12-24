@@ -40,6 +40,12 @@ static qint64 zero_timestamp;
 
 Transactions::Transactions(Budget *parent_budget) : i_id(0), i_first_revision(parent_budget->revision()), i_last_revision(parent_budget->revision()), o_budget(parent_budget) {}
 Transactions::Transactions() : i_id(0), i_first_revision(1), i_last_revision(1), o_budget(NULL) {}
+void Transactions::set(const Transactions *trans) {
+	i_id = trans->id();
+	i_first_revision = trans->firstRevision();
+	i_last_revision = trans->lastRevision();
+}
+
 QString Transactions::valueString(int precision) const {
 	return valueString(value(), precision);
 }
@@ -73,6 +79,20 @@ Transaction::Transaction(Budget *parent_budget) : Transactions(parent_budget), d
 Transaction::Transaction() : Transactions(), d_value(0.0), o_from(NULL), o_to(NULL), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentMSecsSinceEpoch() * 1000) {}
 Transaction::Transaction(const Transaction *transaction) : Transactions(transaction->budget()), d_value(transaction->value()), d_date(transaction->date()), o_from(transaction->fromAccount()), o_to(transaction->toAccount()), s_description(transaction->description()), s_comment(transaction->comment()), s_file(transaction->associatedFile()), d_quantity(transaction->quantity()), o_split(NULL), i_time(transaction->timestamp()) {i_id = transaction->id(); i_first_revision = transaction->firstRevision(); i_last_revision = transaction->lastRevision();}
 Transaction::~Transaction() {}
+
+void Transaction::set(const Transactions *trans) {
+	if(trans->generaltype() == generaltype()) {
+		d_value = ((Transaction*) trans)->value();
+		d_date = ((Transaction*) trans)->date();
+		o_from = ((Transaction*) trans)->fromAccount();
+		o_to = ((Transaction*) trans)->toAccount();
+		s_description = ((Transaction*) trans)->description();
+		s_comment = ((Transaction*) trans)->comment();
+		s_file = ((Transaction*) trans)->associatedFile();
+		d_quantity = ((Transaction*) trans)->quantity();
+		i_time = ((Transaction*) trans)->timestamp();
+	}
+}
 
 void Transaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	o_split = NULL;
@@ -212,6 +232,13 @@ Expense::Expense() : Transaction() {}
 Expense::Expense(const Expense *expense) : Transaction(expense), s_payee(expense->payee()), b_reconciled(expense->isReconciled(expense->from())) {}
 Expense::~Expense() {}
 Transaction *Expense::copy() const {return new Expense(this);}
+void Expense::set(const Transactions *trans) {
+	Transaction::set(trans);
+	if(trans->generaltype() == generaltype() && ((Transaction*) trans)->type() == type()) {
+		s_payee = ((Expense*) trans)->payee();
+		b_reconciled = ((Expense*) trans)->isReconciled(from());
+	}
+}
 
 void Expense::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Transaction::readAttributes(attr, valid);
@@ -281,6 +308,12 @@ DebtFee::DebtFee(const DebtFee *loanfee) : Expense(loanfee) {
 bool DebtFee::relatesToAccount(Account *account, bool include_subs, bool include_non_value) const {return (include_non_value && o_loan == account) || Expense::relatesToAccount(account, include_subs, include_non_value);}
 DebtFee::~DebtFee() {}
 Transaction *DebtFee::copy() const {return new DebtFee(this);}
+void DebtFee::set(const Transactions *trans) {
+	Expense::set(trans);
+	if(trans->generaltype() == generaltype() && ((Transaction*) trans)->type() == type() && ((Transaction*) trans)->subtype() == subtype()) {
+		o_loan = ((DebtFee*) trans)->loan();
+	}
+}
 
 void DebtFee::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Expense::readAttributes(attr, valid);
@@ -323,6 +356,12 @@ DebtInterest::DebtInterest(const DebtInterest *loaninterest) : Expense(loaninter
 }
 DebtInterest::~DebtInterest() {}
 Transaction *DebtInterest::copy() const {return new DebtInterest(this);}
+void DebtInterest::set(const Transactions *trans) {
+	Expense::set(trans);
+	if(trans->generaltype() == generaltype() && ((Transaction*) trans)->type() == type() && ((Transaction*) trans)->subtype() == subtype()) {
+		o_loan = ((DebtInterest*) trans)->loan();
+	}
+}
 
 void DebtInterest::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Expense::readAttributes(attr, valid);
@@ -363,6 +402,14 @@ Income::Income() : Transaction(), o_security(NULL), b_reconciled(false) {}
 Income::Income(const Income *income_) : Transaction(income_), o_security(income_->security()), s_payer(income_->payer()), b_reconciled(income_->isReconciled(income_->to())) {}
 Income::~Income() {}
 Transaction *Income::copy() const {return new Income(this);}
+void Income::set(const Transactions *trans) {
+	Transaction::set(trans);
+	if(trans->generaltype() == generaltype() && ((Transaction*) trans)->type() == type()) {
+		s_payer = ((Income*) trans)->payer();
+		b_reconciled = ((Income*) trans)->isReconciled(to());
+		o_security = ((Income*) trans)->security();
+	}
+}
 
 void Income::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Transaction::readAttributes(attr, valid);
@@ -452,6 +499,12 @@ ReinvestedDividend::ReinvestedDividend() : Income(), d_shares(0.0) {}
 ReinvestedDividend::ReinvestedDividend(const ReinvestedDividend *reinv) : Income(reinv), d_shares(reinv->shares()) {}
 ReinvestedDividend::~ReinvestedDividend() {}
 Transaction *ReinvestedDividend::copy() const {return new ReinvestedDividend(this);}
+void ReinvestedDividend::set(const Transactions *trans) {
+	Income::set(trans);
+	if(trans->generaltype() == generaltype() && ((Transaction*) trans)->type() == type() && ((Transaction*) trans)->subtype() == subtype()) {
+		d_shares = ((ReinvestedDividend*) trans)->shares();
+	}
+}
 
 void ReinvestedDividend::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Transaction::readAttributes(attr, valid);
@@ -531,6 +584,13 @@ Transfer::Transfer(const Transfer *transfer) : Transaction(transfer), b_from_rec
 }
 Transfer::~Transfer() {}
 Transaction *Transfer::copy() const {return new Transfer(this);}
+void Transfer::set(const Transactions *trans) {
+	Transaction::set(trans);
+	if(trans->generaltype() == generaltype() && ((Transaction*) trans)->type() == type()) {
+		b_from_reconciled = ((Transfer*) trans)->isReconciled(from());
+		b_to_reconciled = ((Transfer*) trans)->isReconciled(to());
+	}
+}
 
 void Transfer::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Transaction::readAttributes(attr, valid);
@@ -640,6 +700,9 @@ DebtReduction::DebtReduction() : Transfer() {}
 DebtReduction::DebtReduction(const DebtReduction *loanpayment) : Transfer(loanpayment) {}
 DebtReduction::~DebtReduction() {}
 Transaction *DebtReduction::copy() const {return new DebtReduction(this);}
+void DebtReduction::set(const Transactions *trans) {
+	Transfer::set(trans);
+}
 
 void DebtReduction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Transfer::readAttributes(attr, valid);
@@ -679,6 +742,13 @@ Balancing::Balancing() : Transfer() {}
 Balancing::Balancing(const Balancing *balancing) : Transfer(balancing) {}
 Balancing::~Balancing() {}
 Transaction *Balancing::copy() const {return new Balancing(this);}
+void Balancing::set(const Transactions *trans) {
+	Transfer::set(trans);
+	if(trans->generaltype() == generaltype() && ((Transaction*) trans)->subtype() != subtype()) {
+		setToAccount(budget()->balancingAccount);
+	}
+}
+
 QString Balancing::description() const {
 	if(s_description.isEmpty()) return tr("Account Balance Adjustment");
 	return s_description;
@@ -719,6 +789,15 @@ SecurityTransaction::SecurityTransaction(Budget *parent_budget) : Transaction(pa
 SecurityTransaction::SecurityTransaction() : Transaction(), o_security(NULL), d_shares(0.0), b_reconciled(false) {}
 SecurityTransaction::SecurityTransaction(const SecurityTransaction *transaction) : Transaction(transaction), o_security(transaction->security()), d_shares(transaction->shares()), b_reconciled(transaction->account() && transaction->account()->type() == ACCOUNT_TYPE_ASSETS ? transaction->isReconciled((AssetsAccount*) transaction->account()) : false) {}
 SecurityTransaction::~SecurityTransaction() {}
+
+void SecurityTransaction::set(const Transactions *trans) {
+	Transaction::set(trans);
+	if(trans->generaltype() == generaltype() && ((Transaction*) trans)->type() == type()) {
+		d_shares = ((SecurityTransaction*) trans)->shares();
+		o_security = ((SecurityTransaction*) trans)->security();
+		b_reconciled = (account() && account()->type() == ACCOUNT_TYPE_ASSETS ? ((SecurityTransaction*) trans)->isReconciled((AssetsAccount*) account()) : false);
+	}
+}
 
 void SecurityTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Transaction::readAttributes(attr, valid);
@@ -812,6 +891,9 @@ SecurityBuy::SecurityBuy(const SecurityBuy *transaction) : SecurityTransaction(t
 }
 SecurityBuy::~SecurityBuy() {}
 Transaction *SecurityBuy::copy() const {return new SecurityBuy(this);}
+void SecurityBuy::set(const Transactions *trans) {
+	SecurityTransaction::set(trans);
+}
 
 void SecurityBuy::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	d_value = attr->value("cost").toDouble();
@@ -856,6 +938,9 @@ SecuritySell::SecuritySell(const SecuritySell *transaction) : SecurityTransactio
 }
 SecuritySell::~SecuritySell() {}
 Transaction *SecuritySell::copy() const {return new SecuritySell(this);}
+void SecuritySell::set(const Transactions *trans) {
+	SecurityTransaction::set(trans);
+}
 
 void SecuritySell::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	d_value = attr->value("income").toDouble();
@@ -911,6 +996,12 @@ ScheduledTransaction::~ScheduledTransaction() {
 	if(o_trans) delete o_trans;
 }
 ScheduledTransaction *ScheduledTransaction::copy() const {return new ScheduledTransaction(this);}
+void ScheduledTransaction::set(const Transactions *trans) {
+	Transactions::set(trans);
+	if(trans->generaltype() == generaltype()) {
+		setTransaction(((ScheduledTransaction*) trans)->transaction(), true);
+	}
+}
 
 void ScheduledTransaction::readAttributes(QXmlStreamAttributes *attr, bool*) {
 	read_id(attr, i_id, i_first_revision, i_last_revision);
@@ -1243,6 +1334,19 @@ SplitTransaction::SplitTransaction() : Transactions(), i_time(QDateTime::current
 SplitTransaction::~SplitTransaction() {
 	clear();
 }
+void SplitTransaction::set(const Transactions *trans) {
+	Transactions::set(trans);
+	if(trans->generaltype() == generaltype()) {
+		SplitTransaction *split = (SplitTransaction*) trans;
+		i_time = split->timestamp();
+		clear();
+		for(int i = 0; i < split->count(); i++) {
+			Transaction *trans = split->at(i)->copy();
+			trans->setParentSplit(this);
+			splits.push_back(trans);
+		}
+	}
+}
 
 void SplitTransaction::readAttributes(QXmlStreamAttributes *attr, bool*) {
 	if(attr->hasAttribute("date")) d_date = QDate::fromString(attr->value("date").toString(), Qt::ISODate);
@@ -1406,6 +1510,14 @@ MultiItemTransaction::MultiItemTransaction(Budget *parent_budget) : SplitTransac
 MultiItemTransaction::MultiItemTransaction() : SplitTransaction(), o_account(NULL) {}
 MultiItemTransaction::~MultiItemTransaction() {}
 SplitTransaction *MultiItemTransaction::copy() const {return new MultiItemTransaction(this);}
+void MultiItemTransaction::set(const Transactions *trans) {
+	SplitTransaction::set(trans);
+	if(trans->generaltype() == generaltype() && ((SplitTransaction*) trans)->type() == type()) {
+		o_account = ((MultiItemTransaction*) trans)->account();
+		s_payee = ((MultiItemTransaction*) trans)->payee();
+		b_reconciled = ((MultiItemTransaction*) trans)->isReconciled(o_account);
+	}
+}
 
 void MultiItemTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	o_account = NULL;
@@ -1737,6 +1849,13 @@ MultiAccountTransaction::MultiAccountTransaction(const MultiAccountTransaction *
 MultiAccountTransaction::MultiAccountTransaction(Budget *parent_budget) : SplitTransaction(parent_budget), o_category(NULL), d_quantity(1.0) {}
 MultiAccountTransaction::~MultiAccountTransaction() {}
 SplitTransaction *MultiAccountTransaction::copy() const {return new MultiAccountTransaction(this);}
+void MultiAccountTransaction::set(const Transactions *trans) {
+	SplitTransaction::set(trans);
+	if(trans->generaltype() == generaltype() && ((SplitTransaction*) trans)->type() == type()) {
+		o_category = ((MultiAccountTransaction*) trans)->category();
+		d_quantity = ((MultiAccountTransaction*) trans)->quantity();
+	}
+}
 
 void MultiAccountTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	o_category = NULL;
@@ -1981,6 +2100,18 @@ DebtPayment::DebtPayment(Budget *parent_budget) : SplitTransaction(parent_budget
 DebtPayment::DebtPayment() : SplitTransaction(), o_loan(NULL), o_fee(NULL), o_interest(NULL), o_payment(NULL), o_account(NULL) {}
 DebtPayment::~DebtPayment() {}
 SplitTransaction *DebtPayment::copy() const {return new DebtPayment(this);}
+void DebtPayment::set(const Transactions *trans) {
+	SplitTransaction::set(trans);
+	if(trans->generaltype() == generaltype() && ((SplitTransaction*) trans)->type() == type()) {
+		DebtPayment *split = (DebtPayment*) trans;
+		o_account = split->account();
+		if(split->fee() != 0.0) setFee(split->fee());
+		if(split->interest() != 0.0) setInterest(split->interest(), split->interestPayed());
+		if(split->payment() != 0.0) setPayment(split->payment(), split->reduction());
+		setExpenseCategory(split->expenseCategory());
+		b_reconciled = split->isReconciled(split->account());
+	}
+}
 
 double DebtPayment::value(bool convert) const {return interest(convert) + fee(convert) + payment(convert);}
 Currency *DebtPayment::currency() const {

@@ -22,7 +22,7 @@
 #define BUDGET_H
 
 #include <QList>
-#include <QMap>
+#include <QHash>
 #include <QString>
 #include <QCoreApplication>
 #include <QFile>
@@ -245,10 +245,10 @@ class Budget {
 		void setRecordNewSecurities(bool rns);
 		QVector<Security*> newSecurities;
 
-		QMap<qlonglong, IncomesAccount*> incomesAccounts_id;
-		QMap<qlonglong, ExpensesAccount*> expensesAccounts_id;
-		QMap<qlonglong, AssetsAccount*> assetsAccounts_id;
-		QMap<qlonglong, Security*> securities_id;
+		QHash<qlonglong, IncomesAccount*> incomesAccounts_id;
+		QHash<qlonglong, ExpensesAccount*> expensesAccounts_id;
+		QHash<qlonglong, AssetsAccount*> assetsAccounts_id;
+		QHash<qlonglong, Security*> securities_id;
 		
 		void setBudgetDay(int day_of_month);
 		int budgetDay() const;

@@ -43,6 +43,23 @@
 #include "recurrence.h"
 
 void read_id(QXmlStreamAttributes *attr, qlonglong &id, int &rev1, int &rev2) {
+	id = attr->value("id").toLongLong();
+	QStringRef rev = attr->value("revisions");
+	if(rev.contains(':')) {
+		QVector<QStringRef> rev_strs = rev.split(':');
+		if(rev_strs.isEmpty()) {
+			rev1 = rev.toInt();
+		} else if(rev_strs.size() == 1) {
+			rev1 = rev_strs[0].toInt();
+		} else {
+			rev1 = rev_strs[0].toInt();
+			rev2 = rev_strs.last().toInt();
+		}
+	} else {
+		rev1 = rev.toInt();
+	}
+	if(rev1 <= 0) rev1 = 1;
+	if(rev1 <= rev2) rev2 = rev1;
 	QVector<QStringRef> id_strs = attr->value("id").split(':');
 	if(id_strs.size() > 0) id = id_strs[0].toLongLong();
 	else id = 0;
@@ -54,12 +71,14 @@ void read_id(QXmlStreamAttributes *attr, qlonglong &id, int &rev1, int &rev2) {
 }
 
 void write_id(QXmlStreamAttributes *attr, qlonglong &id, int &rev1, int &rev2) {
-	if(rev2 == rev1) attr->append("id", QString::number(id) + ':' + QString::number(rev1));
-	else attr->append("id", QString::number(id) + ':' + QString::number(rev1) + ':' + QString::number(rev2));
+	attr->append("id", QString::number(id));
+	if(rev2 == rev1) attr->append("revisions", QString::number(rev1));
+	else attr->append("revisions", QString::number(rev1) + ':' + QString::number(rev2));
 }
 void write_id(QXmlStreamWriter *writer, qlonglong &id, int &rev1, int &rev2) {
-	if(rev2 == rev1) writer->writeAttribute("id", QString::number(id) + ':' + QString::number(rev1));
-	else writer->writeAttribute("id", QString::number(id) + ':' + QString::number(rev1) + ':' + QString::number(rev2));
+	writer->writeAttribute("id", QString::number(id));
+	if(rev2 == rev1) writer->writeAttribute("revisions", QString::number(rev1));
+	else writer->writeAttribute("revisions", QString::number(rev1) + ':' + QString::number(rev2));
 }
 
 int compare_id(const int &id1, const int &id2) {
@@ -1131,12 +1150,111 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	return QString::null;
 }
 
+struct sync_struct {
+	qlonglong id;
+	int rev1, rev2, type;
+	Transactions *trans;
+	SecurityTrade *st;
+	Account *acc;
+	Security *sec;
+	sync_struct(Transactions *o) : id(o->id()), rev1(o->firstRevision()), rev2(o->lastRevision()), type(1), trans(o), st(NULL), acc(NULL), sec(NULL) {}
+	sync_struct(SecurityTrade *o) : id(o->id), rev1(o->first_revision), rev2(o->last_revision), type(2), trans(NULL), st(o), acc(NULL), sec(NULL) {}
+	sync_struct(Account *o) : id(o->id()), rev1(o->firstRevision()), rev2(o->lastRevision()), type(3), trans(NULL), st(NULL), acc(o), sec(NULL) {}
+	sync_struct(Security *o) : id(o->id()), rev1(o->firstRevision()), rev2(o->lastRevision()), type(4), trans(NULL), st(NULL), acc(NULL), sec(o) {}
+	sync_struct() {}
+};
+
 QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 
 	QFileInfo info(filename);
 	if(info.isDir()) {
 		return tr("File is a directory");
 	}
+	
+	/*if(info.exists()) {
+		QFile ifile(filename);
+		if(ifile.open(QIODevice::ReadWrite | QIODevice::Text) && ifile.size() != 0) {
+			QXmlStreamReader ixml(&ifile);
+			if(ixml.readNextStartElement() && ixml.name() == "EqonomizeDoc") {
+				int file_revision = ixml.attributes().value("revision").toInt();
+				if(file_revision >= i_revision) {
+					// file has been changes - merge!
+					ifile.close();
+					Budget budget2;
+					QString errors;
+					if(budget2.loadFile(filename, errors) == QString::null) {
+						qlonglong last_id2 = budget2.getNewId() - 1;
+						if(last_id2 > last_id) last_id = last_id2;
+						QHash<qlonglong, sync_struct> objects1;
+						for(AccountList<Account*>::const_iterator it = accounts.constBegin(); it != accounts.constEnd(); ++it) {
+							if((*it)->id() > 0) objects1[(*it)->id()] = sync_struct(*it);
+						}
+						for(SecurityList<Security*>::const_iterator it = securities.constBegin(); it != securities.constEnd(); ++it) {
+							if((*it)->id() > 0) objects1[(*it)->id()] = sync_struct(*it);
+						}
+						for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = scheduledTransactions.constBegin(); it != scheduledTransactions.constEnd(); ++it) {
+							if((*it)->id() > 0) objects1[(*it)->id()] = sync_struct(*it);
+							if((*it)->transaction()->id() > 0) objects1[(*it)->transaction()->id()] = sync_struct((*it)->transaction());
+						}
+						for(SplitTransactionList<SplitTransaction*>::const_iterator it = splitTransactions.constBegin(); it != splitTransactions.constEnd(); ++it) {
+							if((*it)->id() > 0) objects1[(*it)->id()] = sync_struct(*it);
+						}
+						for(SecurityTradeList<SecurityTrade*>::const_iterator it = securityTrades.constBegin(); it != securityTrades.constEnd(); ++it) {
+							if((*it)->id > 0) objects1[(*it)->id] = sync_struct(*it);
+						}
+						for(TransactionList<Transaction*>::const_iterator it = transactions.constBegin(); it != transactions.constEnd(); ++it) {
+							if((*it)->id() > 0) objects1[(*it)->id()] = sync_struct(*it);
+						}
+						QHash<qlonglong, sync_struct> objects2;
+						for(AccountList<Account*>::const_iterator it = budget2.accounts.constBegin(); it != budget2.accounts.constEnd(); ++it) {
+							if((*it)->id() > 0) objects2[(*it)->id()] = sync_struct(*it);
+						}
+						for(SecurityList<Security*>::const_iterator it = budget2.securities.constBegin(); it != budget2.securities.constEnd(); ++it) {
+							if((*it)->id() > 0) objects2[(*it)->id()] = sync_struct(*it);
+						}
+						for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget2.scheduledTransactions.constBegin(); it != budget2.scheduledTransactions.constEnd(); ++it) {
+							if((*it)->id() > 0) objects2[(*it)->id()] = sync_struct(*it);
+							if((*it)->transaction()->id() > 0) objects2[(*it)->transaction()->id()] = sync_struct((*it)->transaction());
+						}
+						for(SplitTransactionList<SplitTransaction*>::const_iterator it = budget2.splitTransactions.constBegin(); it != budget2.splitTransactions.constEnd(); ++it) {
+							if((*it)->id() > 0) objects2[(*it)->id()] = sync_struct(*it);
+						}
+						for(SecurityTradeList<SecurityTrade*>::const_iterator it = budget2.securityTrades.constBegin(); it != budget2.securityTrades.constEnd(); ++it) {
+							if((*it)->id > 0) objects2[(*it)->id] = sync_struct(*it);
+						}
+						for(TransactionList<Transaction*>::const_iterator it = budget2.transactions.constBegin(); it != budget2.transactions.constEnd(); ++it) {
+							if((*it)->id() > 0) objects2[(*it)->id()] = sync_struct(*it);
+						}
+						bool b = false;
+						for(QHash<qlonglong, sync_struct>::iterator it = objects1.begin(); it != objects1.end(); ++it) {
+							QHash<qlonglong, sync_struct>::iterator it2 = objects2.find(it.key());
+							if(it2 == objects2.end()) {
+								if(it->rev2 < i_revision) {
+									if(it->st) {
+										removeSecurityTrade(it->st, false);
+										b = true;
+									} else if(it->trans) {
+										removeTransactions(it->trans, false);
+										b = true;
+									}
+								}
+							} else {
+								if(it->type != it2->type) {
+								} else if(it->rev2 < i_revision && it2->rev2 >= i_revision) {
+									b = true;
+									if(it->trans) it->trans->set(it2->trans);
+								}
+							}
+						}
+					}
+				} else {
+					ifile.close();
+				}
+			} else {
+				ifile.close();
+			}
+		}
+	}*/
 
 	QSaveFile ofile(filename);
 	ofile.open(QIODevice::WriteOnly);
@@ -1145,6 +1263,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		ofile.cancelWriting();
 		return tr("Couldn't open file for writing");
 	}
+	
 	QXmlStreamWriter xml(&ofile);
 	xml.setCodec("UTF-8");
 	xml.setAutoFormatting(true);

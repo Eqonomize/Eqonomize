@@ -91,6 +91,7 @@ class Transactions {
 		Transactions();
 		virtual ~Transactions() {}
 		virtual Transactions *copy() const = 0;
+		virtual void set(const Transactions *trans);
 		virtual bool equals(const Transactions *transaction, bool strict_comparison = true) const = 0;
 	
 		virtual double value(bool convert = false) const = 0;
@@ -158,6 +159,7 @@ class Transaction : public Transactions {
 		Transaction(const Transaction *transaction);
 		virtual ~Transaction();
 		virtual Transaction *copy() const = 0;
+		virtual void set(const Transactions *trans);
 
 		virtual bool equals(const Transactions *transaction, bool strict_comparison = true) const;
 
@@ -223,6 +225,7 @@ class Expense : public Transaction {
 		Expense(const Expense *expense);
 		virtual ~Expense();
 		Transaction *copy() const;
+		virtual void set(const Transactions *trans);
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
@@ -265,6 +268,7 @@ class DebtFee : public Expense {
 		DebtFee(const DebtFee *loanfee);
 		virtual ~DebtFee();
 		Transaction *copy() const;
+		virtual void set(const Transactions *trans);
 		
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
@@ -296,6 +300,7 @@ class DebtInterest : public Expense {
 		DebtInterest(const DebtInterest *interest);
 		virtual ~DebtInterest();
 		Transaction *copy() const;
+		virtual void set(const Transactions *trans);
 		
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
@@ -330,6 +335,7 @@ class Income : public Transaction {
 		Income(const Income *income_);
 		virtual ~Income();
 		Transaction *copy() const;
+		virtual void set(const Transactions *trans);
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
@@ -372,6 +378,7 @@ class ReinvestedDividend : public Income {
 		ReinvestedDividend(const ReinvestedDividend *dividend_);
 		virtual ~ReinvestedDividend();
 		Transaction *copy() const;
+		virtual void set(const Transactions *trans);
 		
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
@@ -408,6 +415,7 @@ class Transfer : public Transaction {
 		Transfer(const Transfer *transfer);
 		virtual ~Transfer();
 		virtual Transaction *copy() const;
+		virtual void set(const Transactions *trans);
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
@@ -449,6 +457,7 @@ class DebtReduction : public Transfer {
 		DebtReduction(const DebtReduction *loanpayment);
 		virtual ~DebtReduction();
 		Transaction *copy() const;
+		virtual void set(const Transactions *trans);
 		
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
@@ -474,6 +483,7 @@ class Balancing : public Transfer {
 		Balancing(const Balancing *balancing);
 		virtual ~Balancing();
 		Transaction *copy() const;
+		virtual void set(const Transactions *trans);
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
@@ -510,6 +520,7 @@ class SecurityTransaction : public Transaction {
 		SecurityTransaction(const SecurityTransaction *transaction);
 		virtual ~SecurityTransaction();
 		virtual Transaction *copy() const = 0;
+		virtual void set(const Transactions *trans);
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
@@ -552,6 +563,7 @@ class SecurityBuy : public SecurityTransaction {
 		SecurityBuy(const SecurityBuy *transaction);
 		virtual ~SecurityBuy();
 		Transaction *copy() const;
+		virtual void set(const Transactions *trans);
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
@@ -578,6 +590,7 @@ class SecuritySell : public SecurityTransaction {
 		SecuritySell(const SecuritySell *transaction);
 		virtual ~SecuritySell();
 		Transaction *copy() const;
+		virtual void set(const Transactions *trans);
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
@@ -608,6 +621,7 @@ class ScheduledTransaction : public Transactions {
 		ScheduledTransaction(const ScheduledTransaction *strans);
 		virtual ~ScheduledTransaction();
 		virtual ScheduledTransaction *copy() const;
+		virtual void set(const Transactions *trans);
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
@@ -672,6 +686,7 @@ class SplitTransaction : public Transactions {
 		SplitTransaction();
 		virtual ~SplitTransaction();
 		virtual SplitTransaction *copy() const = 0;
+		virtual void set(const Transactions *trans);
 		
 		virtual double value(bool convert = false) const = 0;
 		virtual Currency *currency() const = 0;
@@ -740,6 +755,7 @@ class MultiItemTransaction : public SplitTransaction {
 		MultiItemTransaction();
 		virtual ~MultiItemTransaction();
 		virtual SplitTransaction *copy() const;
+		virtual void set(const Transactions *trans);
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
@@ -788,6 +804,7 @@ class MultiAccountTransaction : public SplitTransaction {
 		MultiAccountTransaction();
 		virtual ~MultiAccountTransaction();
 		virtual SplitTransaction *copy() const;
+		virtual void set(const Transactions *trans);
 	
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
@@ -840,6 +857,7 @@ class DebtPayment : public SplitTransaction {
 		DebtPayment();
 		virtual ~DebtPayment();
 		virtual SplitTransaction *copy() const;
+		virtual void set(const Transactions *trans);
 		
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
