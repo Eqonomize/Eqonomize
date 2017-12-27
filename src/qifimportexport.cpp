@@ -47,6 +47,7 @@
 #include <QCheckBox>
 #include <QCompleter>
 #include <QDirModel>
+#include <QHash>
 
 #include "eqonomize.h"
 #include "qifimportexport.h"
@@ -702,6 +703,8 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 	QVector<qif_split> splits;
 	qif_split *current_split = NULL;
 	int type = -1;
+	QHash<QString, IncomesAccount*> def_income_cats;
+	QHash<QString, ExpensesAccount*> def_expense_cats;
 	if(test) {
 		qi.current_account = NULL;
 		qi.unhandled = false;
@@ -1147,8 +1150,13 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 										if(!b_exp) parent_cat = budget->findIncomesAccount(current_split->category, NULL);
 										else parent_cat = budget->findExpensesAccount(current_split->category, NULL);
 										if(!empty && !parent_cat) {
-											if(b_exp) parent_cat = budget->findIncomesAccount(current_split->category, NULL);
-											else parent_cat = budget->findExpensesAccount(current_split->category, NULL);
+											if(!b_exp) {
+												QHash<QString, ExpensesAccount*>::const_iterator it = def_expense_cats.find(current_split->category);
+												if(it != def_expense_cats.constEnd()) parent_cat = *it;
+											} else {
+												QHash<QString, IncomesAccount*>::const_iterator it = def_income_cats.find(current_split->category);
+												if(it != def_income_cats.constEnd()) parent_cat = *it;
+											}
 											if(parent_cat) b_exp = !b_exp;
 										} 
 										if(!parent_cat) {
@@ -1274,8 +1282,13 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 							if(!b_exp) parent_cat = budget->findIncomesAccount(category, NULL);
 							else parent_cat = budget->findExpensesAccount(category, NULL);
 							if(!empty && !parent_cat) {
-								if(b_exp) parent_cat = budget->findIncomesAccount(category, NULL);
-								else parent_cat = budget->findExpensesAccount(category, NULL);
+								if(!b_exp) {
+									QHash<QString, ExpensesAccount*>::const_iterator it = def_expense_cats.find(category);
+									if(it != def_expense_cats.constEnd()) parent_cat = *it;
+								} else {
+									QHash<QString, IncomesAccount*>::const_iterator it = def_income_cats.find(category);
+									if(it != def_income_cats.constEnd()) parent_cat = *it;
+								}
 								if(parent_cat) b_exp = !b_exp;
 							} 
 							if(!parent_cat) {
@@ -1380,10 +1393,11 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 							if(incomecat) {
 								IncomesAccount *acc = budget->findIncomesAccount(name, NULL);
 								if(!acc) {
-									acc = new IncomesAccount(budget, name, subname.isEmpty() ? QString() : description);
+									acc = new IncomesAccount(budget, name, subname.isEmpty() ? description : QString());
 									budget->addAccount(acc);
 									qi.categories++;
 								}
+								def_income_cats[name] = acc;
 								if(!subname.isEmpty() && !budget->findIncomesAccount(subname, acc)) {
 									IncomesAccount *subacc = new IncomesAccount(budget, subname, description);
 									subacc->setParentCategory(acc);
@@ -1393,10 +1407,11 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 							} else {
 								ExpensesAccount *acc = budget->findExpensesAccount(name, NULL);
 								if(!acc) {
-									acc = new ExpensesAccount(budget, name, subname.isEmpty() ? QString() : description);
+									acc = new ExpensesAccount(budget, name, subname.isEmpty() ? description : QString());
 									budget->addAccount(acc);
 									qi.categories++;
 								}
+								def_expense_cats[name] = acc;
 								if(!subname.isEmpty() && !budget->findExpensesAccount(subname, acc)) {
 									ExpensesAccount *subacc = new ExpensesAccount(budget, subname, description);
 									subacc->setParentCategory(acc);
