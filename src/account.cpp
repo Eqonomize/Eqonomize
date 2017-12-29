@@ -35,11 +35,18 @@ Account::Account(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : o_
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-Account::Account(Budget *parent_budget) : o_budget(parent_budget), i_id(parent_budget->getNewId()), i_first_revision(parent_budget->revision()), i_last_revision(parent_budget->revision()) {}
+Account::Account(Budget *parent_budget) : o_budget(parent_budget), i_first_revision(parent_budget->revision()), i_last_revision(parent_budget->revision()) {}
 Account::Account() : o_budget(NULL), i_id(0), i_first_revision(1), i_last_revision(1) {}
 Account::Account(const Account *account) : o_budget(account->budget()), i_id(account->id()), i_first_revision(account->firstRevision()), i_last_revision(account->lastRevision()), s_name(account->name()), s_description(account->description()) {}
 Account::~Account() {}
 
+void Account::set(const Account *account) {
+	i_id = account->id();
+	i_first_revision = account->firstRevision();
+	i_last_revision = account->lastRevision();
+	s_name = account->name();
+	s_description = account->description();
+}
 void Account::readAttributes(QXmlStreamAttributes *attr, bool*) {
 	read_id(attr, i_id, i_first_revision, i_last_revision);
 	s_name = attr->value("name").trimmed().toString();
@@ -91,11 +98,19 @@ AssetsAccount::AssetsAccount(Budget *parent_budget, QXmlStreamReader *xml, bool 
 }
 AssetsAccount::AssetsAccount(Budget *parent_budget) : Account(parent_budget), at_type(ASSETS_TYPE_CASH), d_initbal(0.0), b_closed(false) {
 	o_currency = parent_budget->defaultCurrency();
+	i_id = parent_budget->getNewId();
 }
 AssetsAccount::AssetsAccount() : Account(), at_type(ASSETS_TYPE_CASH), d_initbal(0.0), b_closed(false), o_currency(NULL) {}
 AssetsAccount::AssetsAccount(const AssetsAccount *account) : Account(account), at_type(account->accountType()), d_initbal(account->initialBalance()), b_closed(account->isClosed()), o_currency(account->currency()) {}
 AssetsAccount::~AssetsAccount() {if(o_budget->budgetAccount == this) o_budget->budgetAccount = NULL;}
 
+void AssetsAccount::set(const AssetsAccount *account) {
+	Account::set(account);
+	at_type = account->accountType();
+	d_initbal = account->initialBalance();
+	b_closed = account->isClosed();
+	o_currency = account->currency();
+}
 void AssetsAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Account::readAttributes(attr, valid);
 	QString type = attr->value("type").trimmed().toString();
@@ -249,6 +264,24 @@ CategoryAccount::~CategoryAccount() {
 	subCategories.clear();
 }
 
+void CategoryAccount::set(const CategoryAccount *account) {
+	Account::set(account);
+	setParentCategory(account->parentCategory());
+	mbudgets = account->mbudgets;
+	subCategories = account->subCategories;
+}
+void CategoryAccount::setMergeBudgets(const CategoryAccount *account) {
+	Account::set(account);
+	setParentCategory(account->parentCategory());
+	mergeBudgets(account, false);
+	subCategories = account->subCategories;
+}
+void CategoryAccount::mergeBudgets(const CategoryAccount *account, bool keep) {
+	QMap<QDate, double>::const_iterator it_end = account->mbudgets.end();
+	for(QMap<QDate, double>::const_iterator it = account->mbudgets.begin(); it != it_end; ++it) {
+		if(!keep || !mbudgets.contains(it.key())) mbudgets[it.key()] = it.value();
+	}
+}
 void CategoryAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Account::readAttributes(attr, valid);
 	if(attr->hasAttribute("monthlybudget")) {
@@ -392,7 +425,9 @@ IncomesAccount::IncomesAccount(Budget *parent_budget, QXmlStreamReader *xml, boo
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-IncomesAccount::IncomesAccount(Budget *parent_budget) : CategoryAccount(parent_budget) {}
+IncomesAccount::IncomesAccount(Budget *parent_budget) : CategoryAccount(parent_budget) {
+	i_id = parent_budget->getNewId();
+}
 IncomesAccount::IncomesAccount() : CategoryAccount() {}
 IncomesAccount::IncomesAccount(const IncomesAccount *account) : CategoryAccount(account) {}
 IncomesAccount::~IncomesAccount() {}
@@ -405,7 +440,9 @@ ExpensesAccount::ExpensesAccount(Budget *parent_budget, QXmlStreamReader *xml, b
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-ExpensesAccount::ExpensesAccount(Budget *parent_budget) : CategoryAccount(parent_budget) {}
+ExpensesAccount::ExpensesAccount(Budget *parent_budget) : CategoryAccount(parent_budget) {
+	i_id = parent_budget->getNewId();
+}
 ExpensesAccount::ExpensesAccount() : CategoryAccount() {}
 ExpensesAccount::ExpensesAccount(const ExpensesAccount *account) : CategoryAccount(account) {}
 ExpensesAccount::~ExpensesAccount() {}

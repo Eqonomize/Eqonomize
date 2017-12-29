@@ -53,6 +53,7 @@ QString format_money(double v, int precision);
 
 void read_id(QXmlStreamAttributes *attr, qlonglong &id, int &rev1, int &rev2);
 void write_id(QXmlStreamAttributes *attr, qlonglong &id, int &rev1, int &rev2);
+void write_id(QXmlStreamWriter *writer, qlonglong &id, int &rev1, int &rev2);
 
 bool transaction_list_less_than(Transaction *t1, Transaction *t2);
 bool split_list_less_than(SplitTransaction *t1, SplitTransaction *t2);
@@ -146,6 +147,7 @@ class Budget {
 
 		QString loadFile(QString filename, QString &errors, bool *default_currency_created = NULL, bool merge = false, bool rename_duplicate_accounts = false, bool rename_duplicate_categories = false, bool rename_duplicate_securities = false, bool ignore_duplicate_transactions = false);
 		QString saveFile(QString filename, QFile::Permissions permissions = QFile::ReadUser | QFile::WriteUser);
+		QString syncFile(QString filename, QString &errors, int revision_synced = -1);
 		
 		void clear();
 		

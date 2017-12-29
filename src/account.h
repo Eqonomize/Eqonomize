@@ -68,6 +68,8 @@ class Account {
 		Account();
 		Account(const Account *account);
 		virtual ~Account();
+		
+		virtual void set(const Account *account);
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
@@ -113,6 +115,8 @@ class AssetsAccount : public Account {
 		AssetsAccount(const AssetsAccount *account);
 		virtual ~AssetsAccount();
 
+		virtual void set(const AssetsAccount *account);
+
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		bool isBudgetAccount() const;
@@ -153,6 +157,10 @@ class CategoryAccount : public Account {
 		CategoryAccount();
 		CategoryAccount(const CategoryAccount *account);
 		virtual ~CategoryAccount();
+		
+		virtual void set(const CategoryAccount *account);
+		void setMergeBudgets(const CategoryAccount *account);
+		void mergeBudgets(const CategoryAccount *account, bool keep = true);
 
 		QMap<QDate, double> mbudgets;
 

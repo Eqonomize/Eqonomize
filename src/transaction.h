@@ -152,7 +152,7 @@ class Transaction : public Transactions {
 
 	public:
 
-		Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description = QString(), QString initial_comment = QString());
+		Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description = QString(), QString initial_comment = QString(), qlonglong initial_id = -1);
 		Transaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		Transaction(Budget *parent_budget);
 		Transaction();
@@ -218,7 +218,7 @@ class Expense : public Transaction {
 
 	public:
 
-		Expense(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, QString initial_description = QString(), QString initial_comment = QString());
+		Expense(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, QString initial_description = QString(), QString initial_comment = QString(), qlonglong initial_id = -1);
 		Expense(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		Expense(Budget *parent_budget);
 		Expense();
@@ -261,7 +261,7 @@ class DebtFee : public Expense {
 
 	public:
 	
-		DebtFee(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString());
+		DebtFee(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString(), qlonglong initial_id = -1);
 		DebtFee(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		DebtFee(Budget *parent_budget);
 		DebtFee();
@@ -293,7 +293,7 @@ class DebtInterest : public Expense {
 
 	public:
 	
-		DebtInterest(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString());
+		DebtInterest(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString(), qlonglong initial_id = -1);
 		DebtInterest(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		DebtInterest(Budget *parent_budget);
 		DebtInterest();
@@ -328,7 +328,7 @@ class Income : public Transaction {
 
 	public:
 
-		Income(Budget *parent_budget, double initial_income, QDate initial_date, IncomesAccount *initial_category, AssetsAccount *initial_to, QString initial_description = QString(), QString initial_comment = QString());
+		Income(Budget *parent_budget, double initial_income, QDate initial_date, IncomesAccount *initial_category, AssetsAccount *initial_to, QString initial_description = QString(), QString initial_comment = QString(), qlonglong initial_id = -1);
 		Income(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		Income(Budget *parent_budget);
 		Income();
@@ -407,8 +407,8 @@ class Transfer : public Transaction {
 
 	public:
 	
-		Transfer(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description = QString(), QString initial_comment = QString());
-		Transfer(Budget *parent_budget, double initial_withdrawal, double initial_deposit, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description = QString(), QString initial_comment = QString());
+		Transfer(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description = QString(), QString initial_comment = QString(), qlonglong initial_id = -1);
+		Transfer(Budget *parent_budget, double initial_withdrawal, double initial_deposit, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description = QString(), QString initial_comment = QString(), qlonglong initial_id = -1);
 		Transfer(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		Transfer(Budget *parent_budget);
 		Transfer();
@@ -449,8 +449,8 @@ class DebtReduction : public Transfer {
 
 	public:
 	
-		DebtReduction(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString());
-		DebtReduction(Budget *parent_budget, double initial_payment, double initial_reduction, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString());
+		DebtReduction(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString(), qlonglong initial_id = -1);
+		DebtReduction(Budget *parent_budget, double initial_payment, double initial_reduction, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString(), qlonglong initial_id = -1);
 		DebtReduction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		DebtReduction(Budget *parent_budget);
 		DebtReduction();
@@ -918,6 +918,8 @@ class DebtPayment : public SplitTransaction {
 class SecurityTrade {
 	public:
 		SecurityTrade(const QDate &date_, double from_shares_, Security *from_security_, double to_shares_, Security *to_security_, qlonglong id_ = 0, int rev1 = 1, int rev2 = 1) : date(date_), from_shares(from_shares_), to_shares(to_shares_), from_security(from_security_), to_security(to_security_), timestamp(QDateTime::currentMSecsSinceEpoch() * 1000), id(id_), first_revision(rev1), last_revision(rev2) {}
+		SecurityTrade(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
+		void save(QXmlStreamWriter *xml);
 		QDate date;
 		double from_shares, to_shares;
 		Security *from_security, *to_security;

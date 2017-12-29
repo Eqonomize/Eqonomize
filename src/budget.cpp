@@ -220,6 +220,7 @@ Budget::Budget() {
 	addCurrency(currency_euro);
 	loadCurrencies();
 	default_currency = currency_euro;
+	last_id = 0;
 	balancingAccount = new AssetsAccount(this, ASSETS_TYPE_BALANCING, tr("Balancing", "Name of account for transactions that adjust account balances"), 0.0);
 	balancingAccount->setCurrency(NULL);
 	balancingAccount->setId(0);
@@ -551,8 +552,10 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 		clear();
 		i_revision = xml.attributes().value("revision").toInt();
 		if(i_revision <= 0) i_revision = 1;
+		last_id = xml.attributes().value("lastid").toLongLong();
+		if(last_id < 0) last_id = 0;
 	}
-	
+
 	errors = "";
 	int category_errors = 0, account_errors = 0, transaction_errors = 0, security_errors = 0;
 
@@ -562,7 +565,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	if(default_currency_created) *default_currency_created = false;
 	
 	bool set_ids = false;
-	last_id = 0;
 
 	while(xml.readNextStartElement()) {
 		if(xml.name() == "budget_period") {
@@ -613,9 +615,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					strans->transaction()->setLastRevision(i_revision);
 				} else {
 					if(!set_ids) set_ids = strans->id() == 0;
-					else if(strans->id() > last_id) last_id = strans->id();
 					if(!set_ids) set_ids = strans->transaction()->id() == 0;
-					else if(strans->transaction()->id() > last_id) last_id = strans->transaction()->id();
 				}
 				scheduledTransactions.append(strans);
 				if(strans->transaction()) {
@@ -628,7 +628,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 				}
 			} else if(!valid) {
 				transaction_errors++;
-				delete strans;
+				if(strans) delete strans;
 			}
 		} else if(xml.name() == "transaction") {
 			SplitTransaction *split = NULL;
@@ -648,7 +648,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					expenses.append(expense);
 				} else if(!valid) {
 					transaction_errors++;
-					delete expense;
+					if(expense) delete expense;
 				}
 			} else if(type == "income" || type == "repayment") {
 				Income *income = new Income(this, &xml, &valid);
@@ -663,7 +663,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					incomes.append(income);
 				} else if(!valid) {
 					transaction_errors++;
-					delete income;
+					if(income) delete income;
 				}
 			} else if(type == "dividend") {
 				Income *income = new Income(this, &xml, &valid);
@@ -680,7 +680,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					income->security()->dividends.append(income);
 				} else if(!valid) {
 					transaction_errors++;
-					delete income;
+					if(income) delete income;
 				}
 			} else if(type == "reinvested_dividend") {
 				ReinvestedDividend *rediv = new ReinvestedDividend(this, &xml, &valid);
@@ -696,59 +696,30 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					rediv->security()->reinvestedDividends.append(rediv);
 				} else if(!valid) {
 					transaction_errors++;
-					delete rediv;
+					if(rediv) delete rediv;
 				}
 			} else if(type == "security_trade") {
-				QXmlStreamAttributes attr = xml.attributes();
-				QDate date = QDate::fromString(attr.value("date").toString(), Qt::ISODate);
-				double from_shares = attr.value("from_shares").toDouble();
-				double to_shares = attr.value("to_shares").toDouble();
-				int from_id = attr.value("from_security").toInt();
-				int to_id = attr.value("to_security").toInt();
-				qint64 i_time = attr.value("timestamp").toLongLong();
-				qlonglong i_id;
-				int i_rev1, i_rev2;
-				read_id(&attr, i_id, i_rev1, i_rev2);
-				Security *from_security;
-				if(securities_id.contains(from_id)) {
-					from_security = securities_id[from_id];
-				} else {
-					from_security = NULL;
-				}
-				Security *to_security;
-				if(securities_id.contains(to_id)) {
-					to_security = securities_id[to_id];
-				} else {
-					to_security = NULL;
-				}
-				if(date.isValid() && from_security && to_security && from_security != to_security) {
-					bool b_dup = false;
-					if(merge && ignore_duplicate_transactions) {
-						for(SecurityTradeList<SecurityTrade*>::const_iterator it = securityTrades.constBegin(); it != securityTrades.constEnd(); ++it) {
-							if((*it)->date > date) break;
-							else if(date == (*it)->date && from_shares == (*it)->from_shares && to_shares == (*it)->to_shares && from_security == (*it)->from_security && to_security == (*it)->to_security) {b_dup = true; break;}
-						}
+				SecurityTrade *ts = new SecurityTrade(this, &xml, &valid);
+				if(valid && merge && ignore_duplicate_transactions) {
+					for(SecurityTradeList<SecurityTrade*>::const_iterator it = securityTrades.constBegin(); it != securityTrades.constEnd(); ++it) {
+						if((*it)->date > ts->date) break;
+						else if(ts->date == (*it)->date && ts->from_shares == (*it)->from_shares && ts->to_shares == (*it)->to_shares && ts->from_security == (*it)->from_security && ts->to_security == (*it)->to_security) {delete ts; ts = NULL; break;}
 					}
-					if(!b_dup) {
-						SecurityTrade *ts = new SecurityTrade(date, from_shares, from_security, to_shares, to_security);
-						ts->timestamp = i_time;
-						if(merge) {
-							trans->setId(getNewId());
-							trans->setFirstRevision(i_revision);
-							trans->setLastRevision(i_revision);
-						} else {
-							ts->id = i_id;
-							if(!set_ids) set_ids = ts->id == 0;
-							if(ts->id > last_id) last_id = ts->id;
-							ts->first_revision = i_rev1;
-							ts->last_revision = i_rev2;
-						}
-						securityTrades.append(ts);
-						from_security->tradedShares.append(ts);
-						to_security->tradedShares.append(ts);
+				}
+				if(valid && ts) {
+					if(merge) {
+						ts->id = getNewId();
+						ts->first_revision = i_revision;
+						ts->last_revision = i_revision;
+					} else {
+						if(!set_ids) set_ids = ts->id == 0;
 					}
-				} else {
+					securityTrades.append(ts);
+					ts->from_security->tradedShares.append(ts);
+					ts->to_security->tradedShares.append(ts);
+				} else if(!valid) {
 					transaction_errors++;
+					if(ts) delete ts;
 				}
 				xml.skipCurrentElement();
 			} else if(type == "transfer") {
@@ -764,7 +735,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					transfers.append(transfer);
 				} else if(!valid) {
 					transaction_errors++;
-					delete transfer;
+					if(transfer) delete transfer;
 				}
 			} else if(type == "balancing") {
 				Transfer *transfer = new Balancing(this, &xml, &valid);
@@ -779,7 +750,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					transfers.append(transfer);
 				} else if(!valid) {
 					transaction_errors++;
-					delete transfer;
+					if(transfer) delete transfer;
 				}
 			} else if(type == "security_buy") {
 				SecurityBuy *sectrans = new SecurityBuy(this, &xml, &valid);
@@ -795,7 +766,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					sectrans->security()->transactions.append(sectrans);
 				} else if(!valid) {
 					transaction_errors++;
-					delete sectrans;
+					if(sectrans) delete sectrans;
 				}
 			} else if(type == "security_sell") {
 				SecuritySell *sectrans = new SecuritySell(this, &xml, &valid);
@@ -811,7 +782,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					sectrans->security()->transactions.append(sectrans);
 				} else if(!valid) {
 					transaction_errors++;
-					delete sectrans;
+					if(sectrans) delete sectrans;
 				}
 			} else if(type == "multiitem" || type == "split") {
 				split = new MultiItemTransaction(this, &xml, &valid);
@@ -829,7 +800,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 				}
 				if(!valid) {
 					transaction_errors++;
-					delete split;
+					if(split) delete split;
 					split = NULL;
 				} else if(split) {
 					if(merge) {
@@ -838,7 +809,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 						split->setLastRevision(i_revision);
 					} else {
 						if(!set_ids) set_ids = split->id() == 0;
-						if(split->id() > last_id) last_id = split->id();
 					}
 					splitTransactions.append(split);
 					int c = split->count();
@@ -850,7 +820,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 							trans->setLastRevision(i_revision);
 						} else {
 							if(!set_ids && split->type() != SPLIT_TRANSACTION_TYPE_LOAN) set_ids = trans->id() == 0;
-							if(trans->id() > last_id) last_id = trans->id();
 						}
 						switch(trans->type()) {
 							case TRANSACTION_TYPE_TRANSFER: {
@@ -888,7 +857,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					trans->setLastRevision(i_revision);
 				} else {
 					if(!set_ids) set_ids = trans->id() == 0;
-					if(trans->id() > last_id) last_id = trans->id();
 				}
 				transactions.append(trans);
 			}
@@ -898,7 +866,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			if(type == "expenses") {
 				ExpensesAccount *account = new ExpensesAccount(this, &xml, &valid);
 				if(valid) {
-					if(account->id() > last_id) last_id = account->id();
 					ExpensesAccount *old_account = NULL;
 					if(merge) old_account = findExpensesAccount(account->name(), NULL);
 					if(!rename_duplicate_categories && old_account) {
@@ -922,8 +889,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 							account->setId(getNewId());
 							account->setFirstRevision(i_revision);
 							account->setLastRevision(i_revision);
-						} else {
-							if(account->id() > last_id) last_id = account->id();
 						}
 						expensesAccounts.append(account);
 						accounts.append(account);
@@ -935,16 +900,15 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			} else if(type == "incomes") {
 				IncomesAccount *account = new IncomesAccount(this, &xml, &valid);
 				if(valid) {
-					if(account->id() > last_id) last_id = account->id();
 					IncomesAccount *old_account = NULL;
 					if(merge) old_account = findIncomesAccount(account->name(), NULL);
 					if(!rename_duplicate_categories && old_account) {
 						incomesAccounts_id[account->id()] = old_account;
 						for(AccountList<CategoryAccount*>::const_iterator it = account->subCategories.constBegin(); it != account->subCategories.constEnd();) {
 							CategoryAccount *ca = *it;
-							ExpensesAccount *old_sub = findExpensesAccount(ca->name(), old_account);
+							IncomesAccount *old_sub = findIncomesAccount(ca->name(), old_account);
 							if(old_sub) {
-								expensesAccounts_id[ca->id()] = old_sub;
+								incomesAccounts_id[ca->id()] = old_sub;
 								removeAccount(ca, true);
 								++it;
 							} else {
@@ -959,8 +923,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 							account->setId(getNewId());
 							account->setFirstRevision(i_revision);
 							account->setLastRevision(i_revision);
-						} else {
-							if(account->id() > last_id) last_id = account->id();
 						}
 						incomesAccounts.append(account);
 						accounts.append(account);
@@ -983,7 +945,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			bool valid = true;
 			AssetsAccount *account = new AssetsAccount(this, &xml, &valid);
 			if(valid) {
-				if(account->id() > last_id) last_id = account->id();
 				AssetsAccount *old_account = NULL;
 				if(merge) old_account = findAssetsAccount(account->name());
 				if(!rename_duplicate_accounts && old_account) {
@@ -995,8 +956,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 						account->setId(getNewId());
 						account->setFirstRevision(i_revision);
 						account->setLastRevision(i_revision);
-					} else {
-						if(account->id() > last_id) last_id = account->id();
 					}
 					assetsAccounts.append(account);
 					accounts.append(account);
@@ -1010,7 +969,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			bool valid = true;
 			Security *security = new Security(this, &xml, &valid);
 			if(valid) {
-				if(security->id() > last_id) last_id = security->id();
 				Security *old_security = NULL;
 				if(merge) old_security = findSecurity(security->name());
 				if(!rename_duplicate_securities && old_security) {
@@ -1022,8 +980,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 						security->setId(getNewId());
 						security->setFirstRevision(i_revision);
 						security->setLastRevision(i_revision);
-					} else {
-						if(security->id() > last_id) last_id = security->id();
 					}
 					securities.append(security);
 					i_quotation_decimals = security->quotationDecimals();
@@ -1146,23 +1102,419 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 		errors += tr("Unable to load %n transaction(s).", "", transaction_errors);
 	}
 	file.close();
+
 	resetDefaultCurrencyChanged();
 	return QString::null;
 }
 
-struct sync_struct {
-	qlonglong id;
-	int rev1, rev2, type;
-	Transactions *trans;
-	SecurityTrade *st;
-	Account *acc;
-	Security *sec;
-	sync_struct(Transactions *o) : id(o->id()), rev1(o->firstRevision()), rev2(o->lastRevision()), type(1), trans(o), st(NULL), acc(NULL), sec(NULL) {}
-	sync_struct(SecurityTrade *o) : id(o->id), rev1(o->first_revision), rev2(o->last_revision), type(2), trans(NULL), st(o), acc(NULL), sec(NULL) {}
-	sync_struct(Account *o) : id(o->id()), rev1(o->firstRevision()), rev2(o->lastRevision()), type(3), trans(NULL), st(NULL), acc(o), sec(NULL) {}
-	sync_struct(Security *o) : id(o->id()), rev1(o->firstRevision()), rev2(o->lastRevision()), type(4), trans(NULL), st(NULL), acc(NULL), sec(o) {}
-	sync_struct() {}
-};
+QString Budget::syncFile(QString filename, QString &errors, int synced_revision) {
+
+	if(synced_revision < 0) synced_revision = i_revision - 1;
+
+	QFile file(filename);
+	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		return tr("Couldn't open %1 for reading").arg(filename);
+	} else if(!file.size()) {
+		return QString::null;
+	}
+
+	QXmlStreamReader xml(&file);
+	if(!xml.readNextStartElement()) return tr("Not a valid Eqonomize! file (XML parse error: \"%1\" at line %2, col %3)").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
+	if(xml.name() != "EqonomizeDoc") return tr("Invalid root element %1 in XML document").arg(xml.name().toString());
+
+	/*QString s_version = xml.attributes().value("version").toString();
+	float f_version = s_version.toFloat();*/
+
+	int file_revision = xml.attributes().value("revision").toInt();
+	if(file_revision <= 0) file_revision = 1;
+	qlonglong file_last_id = xml.attributes().value("lastid").toLongLong();
+	if(file_last_id < 0) file_last_id = 0;
+	
+	int revision_diff = file_revision - synced_revision;
+	if(revision_diff <= 0) {
+		file.close();
+		return QString::null;
+	}
+	
+	last_id = file_last_id;
+	
+	i_revision += revision_diff;
+	
+	errors = "";
+	int category_errors = 0, account_errors = 0, transaction_errors = 0, security_errors = 0;
+
+	assetsAccounts_id[balancingAccount->id()] = balancingAccount;
+	
+	QHash<qlonglong, IncomesAccount*> old_incomesAccounts_id;
+	QHash<qlonglong, ExpensesAccount*> old_expensesAccounts_id;
+	QHash<qlonglong, AssetsAccount*> old_assetsAccounts_id;
+	QHash<qlonglong, Security*> old_securities_id;
+	for(AccountList<AssetsAccount*>::const_iterator it = assetsAccounts.constBegin(); it != assetsAccounts.constEnd(); ++it) {
+		if((*it)->lastRevision() > synced_revision) (*it)->setLastRevision((*it)->lastRevision() + revision_diff);
+		if((*it)->firstRevision() > synced_revision) {
+			(*it)->setFirstRevision((*it)->firstRevision() + revision_diff);
+			last_id++; (*it)->setId(last_id);
+		}
+		old_assetsAccounts_id[(*it)->id()] = *it;
+	}
+	for(AccountList<IncomesAccount*>::const_iterator it = incomesAccounts.constBegin(); it != incomesAccounts.constEnd(); ++it) {
+		if((*it)->lastRevision() > synced_revision) (*it)->setLastRevision((*it)->lastRevision() + revision_diff);
+		if((*it)->firstRevision() > synced_revision) {
+			(*it)->setFirstRevision((*it)->firstRevision() + revision_diff);
+			last_id++; (*it)->setId(last_id);
+		}
+		old_incomesAccounts_id[(*it)->id()] = *it;
+	}
+	for(AccountList<ExpensesAccount*>::const_iterator it = expensesAccounts.constBegin(); it != expensesAccounts.constEnd(); ++it) {
+		if((*it)->lastRevision() > synced_revision) (*it)->setLastRevision((*it)->lastRevision() + revision_diff);
+		if((*it)->firstRevision() > synced_revision) {
+			(*it)->setFirstRevision((*it)->firstRevision() + revision_diff);
+			last_id++; (*it)->setId(last_id);
+		}
+		old_expensesAccounts_id[(*it)->id()] = *it;
+	}
+	for(SecurityList<Security*>::const_iterator it = securities.constBegin(); it != securities.constEnd(); ++it) {
+		if((*it)->lastRevision() > synced_revision) (*it)->setLastRevision((*it)->lastRevision() + revision_diff);
+		if((*it)->firstRevision() > synced_revision) {
+			(*it)->setFirstRevision((*it)->firstRevision() + revision_diff);
+			last_id++; (*it)->setId(last_id);
+		}
+		old_securities_id[(*it)->id()] = *it;
+	}
+	QHash<qlonglong, ScheduledTransaction*> scheduleds_id, file_scheduleds_id;
+	QHash<qlonglong, Transactions*> scheduleds_trans_id, file_scheduleds_trans_id;
+	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = scheduledTransactions.constBegin(); it != scheduledTransactions.constEnd(); ++it) {
+		if((*it)->lastRevision() > synced_revision) (*it)->setLastRevision((*it)->lastRevision() + revision_diff);
+		if((*it)->firstRevision() > synced_revision) {
+			(*it)->setFirstRevision((*it)->firstRevision() + revision_diff);
+			last_id++; (*it)->setId(last_id);
+		}
+		scheduleds_id[(*it)->id()] = *it;
+		if((*it)->transaction()->lastRevision() > synced_revision) (*it)->transaction()->setLastRevision((*it)->transaction()->lastRevision() + revision_diff);
+		if((*it)->transaction()->firstRevision() > synced_revision) {
+			(*it)->transaction()->setFirstRevision((*it)->firstRevision() + revision_diff);
+			last_id++; (*it)->transaction()->setId(last_id);
+		}
+		scheduleds_trans_id[(*it)->transaction()->id()] = (*it)->transaction();
+	}
+	QHash<qlonglong, SplitTransaction*> splits_id, file_splits_id;
+	for(SplitTransactionList<SplitTransaction*>::const_iterator it = splitTransactions.constBegin(); it != splitTransactions.constEnd(); ++it) {
+		if((*it)->lastRevision() > synced_revision) (*it)->setLastRevision((*it)->lastRevision() + revision_diff);
+		if((*it)->firstRevision() > synced_revision) {
+			(*it)->setFirstRevision((*it)->firstRevision() + revision_diff);
+			last_id++; (*it)->setId(last_id);
+		}
+		splits_id[(*it)->id()] = *it;
+	}
+	QHash<qlonglong, SecurityTrade*> securitytrades_id, file_securitytrades_id;
+	for(SecurityTradeList<SecurityTrade*>::const_iterator it = securityTrades.constBegin(); it != securityTrades.constEnd(); ++it) {
+		if((*it)->last_revision > synced_revision) (*it)->last_revision += revision_diff;
+		if((*it)->first_revision > synced_revision) {
+			(*it)->first_revision = (*it)->first_revision + revision_diff;
+			last_id++; (*it)->id = last_id;
+		}
+		securitytrades_id[(*it)->id] = *it;
+	}
+	QHash<qlonglong, Transaction*> transactions_id, file_transactions_id;
+	for(TransactionList<Transaction*>::const_iterator it = transactions.constBegin(); it != transactions.constEnd(); ++it) {
+		if((*it)->lastRevision() > synced_revision) (*it)->setLastRevision((*it)->lastRevision() + revision_diff);
+		if((*it)->firstRevision() > synced_revision) {
+			(*it)->setFirstRevision((*it)->firstRevision() + revision_diff);
+			if(!(*it)->parentSplit() || (*it)->parentSplit()->type() != SPLIT_TRANSACTION_TYPE_LOAN) {last_id++; (*it)->setId(last_id);}
+		}
+		if(!(*it)->parentSplit() || (*it)->parentSplit()->type() != SPLIT_TRANSACTION_TYPE_LOAN) transactions_id[(*it)->id()] = *it;
+	}
+	
+	while(xml.readNextStartElement()) {
+		if(xml.name() == "budget_period") {
+			xml.skipCurrentElement();
+		} else if(xml.name() == "currency") {
+			xml.skipCurrentElement();
+		} else if(xml.name() == "schedule") {
+			bool valid = true;
+			ScheduledTransaction *strans = new ScheduledTransaction(this, &xml, &valid);
+			if(valid && strans) {
+			} else if(!valid) {
+				transaction_errors++;
+				if(strans) delete strans;
+			}
+		} else if(xml.name() == "transaction") {
+			SplitTransaction *split = NULL;
+			Transaction *trans = NULL;
+			QStringRef type = xml.attributes().value("type");
+			bool valid = true;
+			if(type == "expense" || type == "refund") {
+				trans = new Expense(this, &xml, &valid);
+			} else if(type == "income" || type == "repayment") {
+				trans = new Income(this, &xml, &valid);
+			} else if(type == "dividend") {
+				trans = new Income(this, &xml, &valid);
+				if(!((Income*) trans)->security()) valid = false;
+			} else if(type == "reinvested_dividend") {
+				trans = new ReinvestedDividend(this, &xml, &valid);
+			} else if(type == "security_trade") {
+				SecurityTrade *ts = new SecurityTrade(this, &xml, &valid);
+				if(valid && ts) {
+				} else {
+					transaction_errors++;
+					if(ts) delete ts;
+				}
+				xml.skipCurrentElement();
+			} else if(type == "transfer") {
+				trans = new Transfer(this, &xml, &valid);
+			} else if(type == "balancing") {
+				trans = new Balancing(this, &xml, &valid);
+			} else if(type == "security_buy") {
+				trans = new SecurityBuy(this, &xml, &valid);
+			} else if(type == "security_sell") {
+				trans = new SecuritySell(this, &xml, &valid);
+			} else if(type == "multiitem" || type == "split") {
+				split = new MultiItemTransaction(this, &xml, &valid);
+			} else if(type == "multiaccount") {
+				split = new MultiAccountTransaction(this, &xml, &valid);
+			} else if(type == "debtpayment") {
+				split = new DebtPayment(this, &xml, &valid);
+			}
+			if(split) {
+				if(!valid || !split) {
+					transaction_errors++;
+					if(split) delete split;
+					split = NULL;
+				} else {
+					QHash<qlonglong, SplitTransaction*>::iterator it = splits_id.find(split->id());
+				 	if(it == splits_id.end()) {
+				 		if(split->lastRevision() > synced_revision) addSplitTransaction(split);
+				 		else delete split;
+				 	} else {
+				 		if((*it)->lastRevision() > split->lastRevision()) {
+				 			delete split;
+				 		} else if((*it)->lastRevision() == split->lastRevision()) {
+				 			delete split;
+				 			splits_id.remove(it.key());
+				 		} else {
+				 			removeSplitTransaction(*it);
+							addSplitTransaction(split);
+				 		}
+				 	}
+				}
+			} else if(trans) {
+				if(!valid) {
+					transaction_errors++;
+				} else {
+				 	QHash<qlonglong, Transaction*>::iterator it = transactions_id.find(trans->id());
+				 	if(it == transactions_id.end()) {
+				 		if(trans->lastRevision() > synced_revision) addTransaction(trans);
+				 		else delete trans;
+				 	} else {
+				 		if((*it)->lastRevision() > trans->lastRevision()) {
+				 			delete trans;
+				 		} else if((*it)->lastRevision() == trans->lastRevision()) {
+				 			delete trans;
+				 			transactions_id.remove(it.key());
+				 		} else {
+				 			removeTransaction(*it);
+							addTransaction(trans);
+				 		}
+				 	}
+				}
+			}
+		} else if(xml.name() == "category") {
+			QStringRef type = xml.attributes().value("type");
+			bool valid = true;
+			if(type == "expenses") {
+				ExpensesAccount *account = new ExpensesAccount(this, &xml, &valid);
+				if(valid) {
+					QHash<qlonglong, ExpensesAccount*>::iterator it = old_expensesAccounts_id.find(account->id());
+					if(it != old_expensesAccounts_id.end()) {
+						if(account->lastRevision() > (*it)->lastRevision()) {
+							if((*it)->lastRevision() > synced_revision) (*it)->setMergeBudgets(account);
+							else (*it)->set(account);
+						} else if(account->lastRevision() > synced_revision) {
+							(*it)->mergeBudgets(account, true);
+						}
+						expensesAccounts_id[account->id()] = *it;
+						for(AccountList<CategoryAccount*>::const_iterator it2 = account->subCategories.constBegin(); it2 != account->subCategories.constEnd(); ++it2) {
+							QHash<qlonglong, ExpensesAccount*>::iterator it3 = old_expensesAccounts_id.find((*it2)->id());
+							if(it3 != old_expensesAccounts_id.end()) {
+								if((*it2)->lastRevision() > (*it3)->lastRevision()) {
+									if((*it2)->lastRevision() > synced_revision) (*it3)->setMergeBudgets(*it2);
+									else (*it3)->set(*it2);
+								} else if((*it2)->lastRevision() > synced_revision) {
+									(*it3)->mergeBudgets(*it2, true);
+								}
+								if((*it)->subCategories.removeOne(*it2)) (*it)->subCategories.inSort(*it3);
+								removeAccount(*it2);
+							} else {
+								if(!(*it)->subCategories.contains(*it2)) (*it)->subCategories.inSort(*it2);
+							}
+						}
+						delete account;
+					} else {
+						expensesAccounts_id[account->id()] = account;
+						expensesAccounts.append(account);
+						accounts.append(account);
+						for(AccountList<CategoryAccount*>::const_iterator it2 = account->subCategories.constBegin(); it2 != account->subCategories.constEnd(); ++it2) {
+							QHash<qlonglong, ExpensesAccount*>::iterator it3 = old_expensesAccounts_id.find((*it2)->id());
+							if(it3 != old_expensesAccounts_id.end()) {
+								if((*it2)->lastRevision() > (*it3)->lastRevision()) {
+									if((*it2)->lastRevision() > synced_revision) (*it3)->setMergeBudgets(*it2);
+									else (*it3)->set(*it2);
+								} else if((*it2)->lastRevision() > synced_revision) {
+									(*it3)->mergeBudgets(*it2, true);
+								}
+								if((*it)->subCategories.removeOne(*it2)) (*it)->subCategories.inSort(*it3);
+								removeAccount(*it2);
+							}
+						}
+					}
+				} else if(!valid) {
+					category_errors++;
+					delete account;
+				}
+			} else if(type == "incomes") {
+				IncomesAccount *account = new IncomesAccount(this, &xml, &valid);
+				if(valid) {
+					QHash<qlonglong, IncomesAccount*>::iterator it = old_incomesAccounts_id.find(account->id());
+					if(it != old_incomesAccounts_id.end()) {
+						if(account->lastRevision() > (*it)->lastRevision()) {
+							if((*it)->lastRevision() > synced_revision) (*it)->setMergeBudgets(account);
+							else (*it)->set(account);
+						} else if(account->lastRevision() > synced_revision) {
+							(*it)->mergeBudgets(account, true);
+						}
+						incomesAccounts_id[account->id()] = *it;
+						for(AccountList<CategoryAccount*>::const_iterator it2 = account->subCategories.constBegin(); it2 != account->subCategories.constEnd(); ++it2) {
+							QHash<qlonglong, IncomesAccount*>::iterator it3 = old_incomesAccounts_id.find((*it2)->id());
+							if(it3 != old_incomesAccounts_id.end()) {
+								if((*it2)->lastRevision() > (*it3)->lastRevision()) {
+									if((*it2)->lastRevision() > synced_revision) (*it3)->setMergeBudgets(*it2);
+									else (*it3)->set(*it2);
+								} else if((*it2)->lastRevision() > synced_revision) {
+									(*it3)->mergeBudgets(*it2, true);
+								}
+								if((*it)->subCategories.removeOne(*it2)) (*it)->subCategories.inSort(*it3);
+								removeAccount(*it2);
+							} else {
+								if(!(*it)->subCategories.contains(*it2)) (*it)->subCategories.inSort(*it2);
+							}
+						}
+						delete account;
+					} else {
+						incomesAccounts_id[account->id()] = account;
+						incomesAccounts.append(account);
+						accounts.append(account);
+						for(AccountList<CategoryAccount*>::const_iterator it2 = account->subCategories.constBegin(); it2 != account->subCategories.constEnd(); ++it2) {
+							QHash<qlonglong, IncomesAccount*>::iterator it3 = old_incomesAccounts_id.find((*it2)->id());
+							if(it3 != old_incomesAccounts_id.end()) {
+								if((*it2)->lastRevision() > (*it3)->lastRevision()) {
+									if((*it2)->lastRevision() > synced_revision) (*it3)->setMergeBudgets(*it2);
+									else (*it3)->set(*it2);
+								} else if((*it2)->lastRevision() > synced_revision) {
+									(*it3)->mergeBudgets(*it2, true);
+								}
+								if((*it)->subCategories.removeOne(*it2)) (*it)->subCategories.inSort(*it3);
+								removeAccount(*it2);
+							}
+						}
+					}
+				} else if(!valid) {
+					category_errors++;
+					delete account;
+				}
+			}
+		} else if(xml.name() == "account") {
+			bool valid = true;
+			AssetsAccount *account = new AssetsAccount(this, &xml, &valid);
+			if(valid) {
+				QHash<qlonglong, AssetsAccount*>::iterator it = old_assetsAccounts_id.find(account->id());
+				if(it != old_assetsAccounts_id.end()) {
+					if(account->lastRevision() > (*it)->lastRevision()) {
+						(*it)->set(account);
+					}
+					assetsAccounts_id[account->id()] = *it;
+					delete account;
+				} else {
+					assetsAccounts_id[account->id()] = account;
+					assetsAccounts.append(account);
+					accounts.append(account);
+				}
+			} else if(!valid) {
+				category_errors++;
+				delete account;
+			}
+		} else if(xml.name() == "security") {
+			bool valid = true;
+			Security *security = new Security(this, &xml, &valid);
+			if(valid) {
+				securities_id[security->id()] = security;
+				securities.append(security);
+				i_quotation_decimals = security->quotationDecimals();
+				i_share_decimals = security->decimals();
+			} else {
+				security_errors++;
+				delete security;
+			}
+		} else {
+			if(!errors.isEmpty()) errors += '\n';
+			errors += tr("Unknown XML element: \"%1\" at line %2, col %3").arg(xml.name().toString()).arg(xml.lineNumber()).arg(xml.columnNumber());
+			xml.skipCurrentElement();
+		}
+	}
+
+	if (xml.hasError()) {
+		if(!errors.isEmpty()) errors += '\n';
+		errors += tr("XML parse error: \"%1\" at line %2, col %3").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
+	}
+	
+	incomesAccounts_id.clear();
+	expensesAccounts_id.clear();
+	assetsAccounts_id.clear();
+	securities_id.clear();
+	
+	expenses.sort();
+	incomes.sort();
+	transfers.sort();
+	securityTransactions.sort();
+	securityTrades.sort();
+	for(SecurityList<Security*>::const_iterator it = securities.constBegin(); it != securities.constEnd(); ++it) {
+		Security *security = *it;
+		security->dividends.sort();
+		security->transactions.sort();
+		security->scheduledTransactions.sort();
+		security->scheduledDividends.sort();
+		security->scheduledReinvestedDividends.sort();
+		security->reinvestedDividends.sort();
+		security->tradedShares.sort();
+	}
+	transactions.sort();
+	scheduledTransactions.sort();
+	splitTransactions.sort();
+	expensesAccounts.sort();
+	incomesAccounts.sort();
+	assetsAccounts.sort();
+	accounts.sort();
+	securities.sort();
+	
+	if(account_errors > 0) {
+		if(!errors.isEmpty()) errors += '\n';
+		errors += tr("Unable to load %n account(s).", "", account_errors);
+	}
+	if(category_errors > 0) {
+		if(!errors.isEmpty()) errors += '\n';
+		errors += tr("Unable to load %n category/categories.", "", category_errors);
+	}
+	if(security_errors > 0) {
+		if(!errors.isEmpty()) errors += '\n';
+		errors += tr("Unable to load %n security/securities.", "Financial security (e.g. stock, mutual fund)", security_errors);
+	}
+	if(transaction_errors > 0) {
+		if(!errors.isEmpty()) errors += '\n';
+		errors += tr("Unable to load %n transaction(s).", "", transaction_errors);
+	}
+	file.close();
+	return QString::null;
+}
+
 
 QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 
@@ -1274,6 +1626,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 	xml.writeStartElement("EqonomizeDoc");
 	xml.writeAttribute("version", VERSION);
 	xml.writeAttribute("revision", QString::number(i_revision));
+	xml.writeAttribute("lastid", QString::number(last_id));
 	
 	xml.writeStartElement("budget_period");
 	xml.writeTextElement("first_day_of_month", QString::number(i_budget_day));
@@ -1347,13 +1700,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		SecurityTrade *ts = *it;
 		xml.writeStartElement("transaction");
 		xml.writeAttribute("type", "security_trade");
-		xml.writeAttribute("from_security", QString::number(ts->from_security->id()));
-		xml.writeAttribute("to_security", QString::number(ts->to_security->id()));
-		xml.writeAttribute("date", ts->date.toString(Qt::ISODate));
-		write_id(&xml, ts->id, ts->first_revision, ts->last_revision);
-		xml.writeAttribute("timestamp", QString::number(ts->timestamp));
-		xml.writeAttribute("from_shares", QString::number(ts->from_shares, 'f', ts->from_security->decimals()));
-		xml.writeAttribute("to_shares", QString::number(ts->to_shares, 'f', ts->to_security->decimals()));
+		ts->save(&xml);
 		xml.writeEndElement();
 	}
 
