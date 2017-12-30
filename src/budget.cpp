@@ -1195,7 +1195,7 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 			(*it)->transaction()->setFirstRevision((*it)->firstRevision() + revision_diff);
 			last_id++; (*it)->transaction()->setId(last_id);
 		}
-		scheduleds_trans_id[(*it)->transaction()->id()] = (*it)->transaction();
+		if((*it)->lastRevision() > synced_revision && (*it)->transaction()->firstRevision() <= synced_revision) scheduleds_trans_id[(*it)->transaction()->id()] = (*it)->transaction();
 	}
 	QHash<qlonglong, SplitTransaction*> splits_id, file_splits_id;
 	for(SplitTransactionList<SplitTransaction*>::const_iterator it = splitTransactions.constBegin(); it != splitTransactions.constEnd(); ++it) {
@@ -1234,6 +1234,30 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 			bool valid = true;
 			ScheduledTransaction *strans = new ScheduledTransaction(this, &xml, &valid);
 			if(valid && strans) {
+				QHash<qlonglong, ScheduledTransaction*>::iterator it = scheduleds_id.find(strans->id());
+			 	if(it == scheduleds_id.end()) {
+			 		if(strans->lastRevision() > synced_revision) {
+			 			QHash<qlonglong, Transaction*>::iterator it2 = transactions_id.find(strans->transaction()->id());
+					 	if(it2 != transactions_id.end() && (*it2)->lastRevision() > strans->lastRevision()) {
+					 		delete strans;
+					 	} else {
+					 		QHash<qlonglong, SplitTransaction*>::iterator it3 = splits_id.find(strans->transaction()->id());
+						 	if(it3 != splits_id.end() && (*it3)->lastRevision() > strans->lastRevision()) {
+						 		delete strans;
+						 	} else {
+					 			addScheduledTransaction(strans);
+					 		}
+				 		}
+			 		} else delete strans;
+			 	} else {
+			 		if((*it)->lastRevision() >= strans->lastRevision()) {
+			 			delete strans;
+			 		} else {
+			 			removeScheduledTransaction(*it);
+						addScheduledTransaction(strans);
+			 		}
+			 		scheduleds_id.remove(it.key());
+			 	}
 			} else if(!valid) {
 				transaction_errors++;
 				if(strans) delete strans;
@@ -1255,6 +1279,19 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 			} else if(type == "security_trade") {
 				SecurityTrade *ts = new SecurityTrade(this, &xml, &valid);
 				if(valid && ts) {
+					QHash<qlonglong, SecurityTrade*>::iterator it = securitytrades_id.find(trans->id());
+				 	if(it == securitytrades_id.end()) {
+				 		if(ts->last_revision > synced_revision) addSecurityTrade(ts);
+				 		else delete ts;
+				 	} else {
+				 		if((*it)->last_revision >= ts->last_revision) {
+				 			delete ts;
+				 		} else {
+				 			removeSecurityTrade(*it);
+							addSecurityTrade(ts);
+				 		}
+				 		securitytrades_id.remove(it.key());
+				 	}
 				} else {
 					transaction_errors++;
 					if(ts) delete ts;
@@ -1283,18 +1320,16 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 				} else {
 					QHash<qlonglong, SplitTransaction*>::iterator it = splits_id.find(split->id());
 				 	if(it == splits_id.end()) {
-				 		if(split->lastRevision() > synced_revision) addSplitTransaction(split);
+				 		if(split->lastRevision() > synced_revision && !scheduleds_trans_id.contains(split->id())) addSplitTransaction(split);
 				 		else delete split;
 				 	} else {
-				 		if((*it)->lastRevision() > split->lastRevision()) {
+				 		if((*it)->lastRevision() >= split->lastRevision()) {
 				 			delete split;
-				 		} else if((*it)->lastRevision() == split->lastRevision()) {
-				 			delete split;
-				 			splits_id.remove(it.key());
 				 		} else {
 				 			removeSplitTransaction(*it);
 							addSplitTransaction(split);
 				 		}
+				 		splits_id.remove(it.key());
 				 	}
 				}
 			} else if(trans) {
@@ -1303,18 +1338,16 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 				} else {
 				 	QHash<qlonglong, Transaction*>::iterator it = transactions_id.find(trans->id());
 				 	if(it == transactions_id.end()) {
-				 		if(trans->lastRevision() > synced_revision) addTransaction(trans);
+				 		if(trans->lastRevision() > synced_revision && !scheduleds_trans_id.contains(trans->id())) addTransaction(trans);
 				 		else delete trans;
 				 	} else {
-				 		if((*it)->lastRevision() > trans->lastRevision()) {
+				 		if((*it)->lastRevision() >= trans->lastRevision()) {
 				 			delete trans;
-				 		} else if((*it)->lastRevision() == trans->lastRevision()) {
-				 			delete trans;
-				 			transactions_id.remove(it.key());
 				 		} else {
 				 			removeTransaction(*it);
 							addTransaction(trans);
 				 		}
+				 		transactions_id.remove(it.key());
 				 	}
 				}
 			}
