@@ -4442,6 +4442,34 @@ bool Eqonomize::openURL(const QUrl& url, bool merge) {
 bool Eqonomize::saveURL(const QUrl& url) {
 	bool exists = QFile::exists(url.toLocalFile());
 	if(exists) {
+		if(url == current_url) {
+			QString error;
+			if(budget->isUnsynced(url.toLocalFile(), error)) {
+				switch(QMessageBox::question(this, tr("Synchronize file?"), tr("The file has been modified by a different user or program. Do you wish to merge changes?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Yes)) {
+					case QMessageBox::Yes: {
+						QString errors;
+						error = budget->syncFile(url.toLocalFile(), errors);
+						if(!error.isNull()) {
+							QMessageBox::critical(this, tr("Couldn't open file"), tr("Error loading %1: %2.").arg(url.toString()).arg(error));
+							return false;
+						}
+						if(!errors.isEmpty()) {
+							QMessageBox::critical(this, tr("Error"), errors);
+							return false;
+						}
+						reloadBudget();
+						break;
+					}
+					case QMessageBox::No: {break;}
+					default: {
+						return false;
+					}
+				}
+			} else if(!error.isNull()) {
+				QMessageBox::critical(this, tr("Couldn't save file"), tr("Error saving %1: %2.").arg(url.toString()).arg(error));
+				return false;
+			}
+		}
 		if(!QFile::exists(url.toLocalFile() + "~") || QFile::remove(url.toLocalFile() + "~")) {
 			QFile::copy(url.toLocalFile(), url.toLocalFile() + "~");
 		}		

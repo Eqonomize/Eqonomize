@@ -56,6 +56,38 @@ Security::Security() : o_budget(NULL), i_id(0), i_first_revision(1), i_last_revi
 Security::Security(const Security *security) : o_budget(security->budget()), i_id(security->id()), i_first_revision(security->firstRevision()), i_last_revision(security->lastRevision()), o_account(security->account()), st_type(security->type()), d_initial_shares(security->initialShares()), i_decimals(security->decimals()), i_quotation_decimals(security->quotationDecimals()), s_name(security->name()), s_description(security->description()) {init();}
 Security::~Security() {}
 
+void Security::set(const Security *security) {
+	i_id = security->id();
+	i_first_revision = security->firstRevision();
+	i_last_revision = security->lastRevision();
+	s_name = security->name();
+	s_description = security->description();
+	st_type = security->type();
+	d_initial_shares = security->initialShares();
+	i_decimals = security->decimals();
+	quotations = security->quotations;
+	quotations_auto = security->quotations_auto;
+}
+void Security::setMergeQuotes(const Security *security) {
+	i_id = security->id();
+	i_first_revision = security->firstRevision();
+	i_last_revision = security->lastRevision();
+	s_name = security->name();
+	s_description = security->description();
+	st_type = security->type();
+	d_initial_shares = security->initialShares();
+	i_decimals = security->decimals();
+	mergeQuotes(security, false);
+}
+void Security::mergeQuotes(const Security *security, bool keep) {
+	for(QMap<QDate, double>::const_iterator it = security->quotations.begin(); it != security->quotations.end(); ++it) {
+		if(!keep || !quotations.contains(it.key())) quotations[it.key()] = it.value();
+	}
+	for(QMap<QDate, bool>::const_iterator it = security->quotations_auto.begin(); it != security->quotations_auto.end(); ++it) {
+		if(!keep || !quotations_auto.contains(it.key())) quotations_auto[it.key()] = it.value();
+	}
+}
+
 void Security::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	read_id(attr, i_id, i_first_revision, i_last_revision);
 	QStringRef type = attr->value("type");

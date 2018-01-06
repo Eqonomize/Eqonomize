@@ -277,8 +277,7 @@ void CategoryAccount::setMergeBudgets(const CategoryAccount *account) {
 	subCategories = account->subCategories;
 }
 void CategoryAccount::mergeBudgets(const CategoryAccount *account, bool keep) {
-	QMap<QDate, double>::const_iterator it_end = account->mbudgets.end();
-	for(QMap<QDate, double>::const_iterator it = account->mbudgets.begin(); it != it_end; ++it) {
+	for(QMap<QDate, double>::const_iterator it = account->mbudgets.begin(); it != account->mbudgets.end(); ++it) {
 		if(!keep || !mbudgets.contains(it.key())) mbudgets[it.key()] = it.value();
 	}
 }

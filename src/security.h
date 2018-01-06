@@ -115,6 +115,10 @@ class Security {
 		Security();
 		Security(const Security *security);
 		virtual ~Security();
+		
+		void set(const Security *security);
+		void setMergeQuotes(const Security *security);
+		void mergeQuotes(const Security *security, bool keep = true);
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
