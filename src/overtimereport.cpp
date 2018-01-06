@@ -430,12 +430,12 @@ void OverTimeReport::updateDisplay() {
 		int sign = 1;
 		if(!started && trans->date() >= first_date) started = true;
 		if(started) {
-			if((type == 1 && trans->fromAccount()->type() == at) || (type == 2 && trans->fromAccount() == account) || (type == 3 && trans->fromAccount() == account && trans->description() == current_description) || (type == 0 && trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
+			if((type == 1 && trans->fromAccount()->type() == at) || (type == 2 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account)) || (type == 3 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account) && trans->description() == current_description) || (type == 0 && trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
 				if(type == 0) sign = 1;
 				else if(at == ACCOUNT_TYPE_INCOMES) sign = 1;
 				else sign = -1;
 				include = true;
-			} else if((type == 1 && trans->toAccount()->type() == at) || (type == 2 && trans->toAccount() == account) || (type == 3 && trans->toAccount() == account && trans->description() == current_description) || (type == 0 && trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
+			} else if((type == 1 && trans->toAccount()->type() == at) || (type == 2 && (trans->toAccount() == account || trans->toAccount()->topAccount() == account)) || (type == 3 && (trans->toAccount() == account || trans->toAccount()->topAccount() == account) && trans->description() == current_description) || (type == 0 && trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
 				if(type == 0) sign = -1;
 				else if(at == ACCOUNT_TYPE_INCOMES) sign = -1;
 				else sign = 1;
@@ -514,12 +514,12 @@ void OverTimeReport::updateDisplay() {
 			}
 			bool include = false;
 			int sign = 1;
-			if((type == 1 && trans->fromAccount()->type() == at) || (type == 2 && trans->fromAccount() == account) || (type == 3 && trans->fromAccount() == account && trans->description() == current_description) || (type == 0 && trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
+			if((type == 1 && trans->fromAccount()->type() == at) || (type == 2 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account)) || (type == 3 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account) && trans->description() == current_description) || (type == 0 && trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
 				if(type == 0) sign = 1;
 				else if(at == ACCOUNT_TYPE_INCOMES) sign = 1;
 				else sign = -1;
 				include = true;
-			} else if((type == 1 && trans->toAccount()->type() == at) || (type == 2 && trans->toAccount() == account) || (type == 3 && trans->toAccount() == account && trans->description() == current_description) || (type == 0 && trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
+			} else if((type == 1 && trans->toAccount()->type() == at) || (type == 2 && (trans->toAccount() == account || trans->toAccount()->topAccount() == account)) || (type == 3 && (trans->toAccount() == account || trans->toAccount()->topAccount() == account) && trans->description() == current_description) || (type == 0 && trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
 				if(type == 0) sign = -1;
 				else if(at == ACCOUNT_TYPE_INCOMES) sign = -1;
 				else sign = 1;
