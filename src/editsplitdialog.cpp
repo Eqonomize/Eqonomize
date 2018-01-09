@@ -1231,23 +1231,23 @@ void EditDebtPaymentWidget::valueChanged() {
 	Account *acc = selectedAccount();
 	AssetsAccount *loan = selectedLoan();
 	if(!acc || !loan) return;
-	if(feeEdit) feeEdit->setCurrency(acc->currency());
-	if(reductionEdit) reductionEdit->setCurrency(loan->currency());
+	if(feeEdit && feeEdit->currency() != acc->currency()) feeEdit->setCurrency(acc->currency());
+	if(reductionEdit && reductionEdit->currency() != loan->currency()) reductionEdit->setCurrency(loan->currency());
 	if((!addedInterestButton || addedInterestButton->isChecked()) && interestEdit) interestEdit->setCurrency(loan->currency());
 	if(addedInterestButton && addedInterestButton->isChecked()) {
-		if(selectedLoan()) interestEdit->setCurrency(loan->currency());
+		if(selectedLoan() && interestEdit->currency() != loan->currency()) interestEdit->setCurrency(loan->currency());
 	} else if(interestEdit) {
-		if(selectedAccount()) interestEdit->setCurrency(acc->currency());
+		if(selectedAccount() && interestEdit->currency() != acc->currency()) interestEdit->setCurrency(acc->currency());
 	}
 	if(paymentEdit) {
-		paymentEdit->setCurrency(acc->currency());
+		if(paymentEdit->currency() != acc->currency()) paymentEdit->setCurrency(acc->currency());
 		if(loan && loan->currency() == acc->currency()) {
 			paymentEdit->setEnabled(false);
 		} else {
 			paymentEdit->setEnabled(true);
 		}
 	}
-	if(paymentEdit && !paymentEdit->isEnabled()) {
+	if(paymentEdit && !paymentEdit->isEnabled() && paymentEdit->value() != reductionEdit->value()) {
 		paymentEdit->setValue(reductionEdit->value());
 	}
 	updateTotalValue();
