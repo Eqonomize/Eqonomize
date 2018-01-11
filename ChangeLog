@@ -1,3 +1,22 @@
+2017-01-09  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix debt payment value edits behavior
+
+2017-01-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Include subcategories in over time report
+	* Option to merge changes when saving a file that has been modified after saving/loading
+	* Id, first revision and last revision transaction, account and security properties,
+	  and revision and last id file properties
+
+2017-12-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* "All payees/payers" in categories comparison report
+
+2017-12-27  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Only assume negative income/expense if the category is defined in the QIF file
+
 2017-12-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix editing of transfer part of split transaction

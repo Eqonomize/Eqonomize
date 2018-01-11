@@ -224,6 +224,7 @@ Budget::Budget() {
 	i_quotation_decimals = 4;
 	i_budget_day = 1;
 	i_revision = 1;
+	i_opened_revision = 0;
 	last_id = 0;
 	b_record_new_accounts = false;
 	b_record_new_securities = false;
@@ -240,6 +241,7 @@ int Budget::revision() {return i_revision;}
 
 void Budget::clear() {
 	i_revision = 1;
+	i_opened_revision = 0;
 	last_id = 0;
 	transactions.clear();
 	scheduledTransactions.clear();
@@ -543,8 +545,9 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 
 	if(!merge) {
 		clear();
-		i_revision = xml.attributes().value("revision").toInt();
-		if(i_revision <= 0) i_revision = 1;
+		i_opened_revision = xml.attributes().value("revision").toInt();
+		if(i_opened_revision <= 0) i_opened_revision = 1;
+		i_revision = i_opened_revision;
 		last_id = xml.attributes().value("lastid").toLongLong();
 		if(last_id < 0) last_id = 0;
 	}
@@ -1130,7 +1133,7 @@ int Budget::fileRevision(QString filename, QString &error) const {
 }
 bool Budget::isUnsynced(QString filename, QString &error, int synced_revision) const {
 
-	if(synced_revision < 0) synced_revision = i_revision - 1;
+	if(synced_revision < 0) synced_revision = i_opened_revision;
 
 	QFile file(filename);
 	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -1161,7 +1164,7 @@ bool Budget::isUnsynced(QString filename, QString &error, int synced_revision) c
 }
 QString Budget::syncFile(QString filename, QString &errors, int synced_revision) {
 
-	if(synced_revision < 0) synced_revision = i_revision - 1;
+	if(synced_revision < 0) synced_revision = i_opened_revision;
 
 	QFile file(filename);
 	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -1191,6 +1194,7 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 	last_id = file_last_id;
 	
 	i_revision += revision_diff;
+	i_opened_revision = i_revision;
 	
 	errors = "";
 	int category_errors = 0, account_errors = 0, transaction_errors = 0, security_errors = 0;
@@ -1722,6 +1726,8 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 	accounts.sort();
 	securities.sort();
 	
+	i_revision++;
+	
 	if(account_errors > 0) {
 		if(!errors.isEmpty()) errors += '\n';
 		errors += tr("Unable to load %n account(s).", "", account_errors);
@@ -1757,6 +1763,8 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		ofile.cancelWriting();
 		return tr("Couldn't open file for writing");
 	}
+	
+	i_opened_revision = i_revision;
 	
 	QXmlStreamWriter xml(&ofile);
 	xml.setCodec("UTF-8");

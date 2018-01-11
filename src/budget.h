@@ -119,7 +119,7 @@ class Budget {
 	
 	protected:
 	
-		int i_quotation_decimals, i_share_decimals, i_budget_day, i_revision;
+		int i_quotation_decimals, i_share_decimals, i_budget_day, i_opened_revision, i_revision;
 		bool b_record_new_accounts, b_record_new_securities, b_default_currency_changed, b_currency_modified;
 		TransactionConversionRateDate i_tcrd;
 		
