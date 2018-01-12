@@ -331,9 +331,10 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				editLayout->addWidget(toCombo, TEROWCOL(i, 1));
 				i++;
 			}
-			if(b_extra && !split && !select_security && !security) {
+			if(b_extra && !select_security && !security) {
 				editLayout->addWidget(new QLabel(tr("Payer:"), this), TEROWCOL(i, 0));
 				payeeEdit = new QLineEdit(this);
+				if(split) payeeEdit->setPlaceholderText(tr("Payer of parent split transaction"));
 				editLayout->addWidget(payeeEdit, TEROWCOL(i, 1));
 				i++;
 			}
@@ -382,9 +383,10 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				editLayout->addWidget(fromCombo, TEROWCOL(i, 1));
 				i++;
 			}
-			if(b_extra && !split) {
+			if(b_extra) {
 				editLayout->addWidget(new QLabel(tr("Payee:"), this), TEROWCOL(i, 0));
 				payeeEdit = new QLineEdit(this);
+				if(split) payeeEdit->setPlaceholderText(tr("Payee of parent split transaction"));
 				editLayout->addWidget(payeeEdit, TEROWCOL(i, 1));
 				i++;
 			}
@@ -877,6 +879,9 @@ void TransactionEditWidget::setValues(QString description_value, double value_va
 	if(toCombo && to_account_value) toCombo->setCurrentAccount(to_account_value);
 	if(payeeEdit) payeeEdit->setText(payee_value);
 	if(commentsEdit) commentsEdit->setText(comment_value);
+}
+void TransactionEditWidget::setPayee(QString payee) {
+	if(payeeEdit) payeeEdit->setText(payee);
 }
 QString TransactionEditWidget::description() const {
 	if(!descriptionEdit) return QString();

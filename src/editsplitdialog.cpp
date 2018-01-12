@@ -476,7 +476,7 @@ void EditMultiItemWidget::newTransaction(int transtype, bool select_security, bo
 	Currency *cur = budget->defaultCurrency();
 	if(selectedAccount()) cur = selectedAccount()->currency();
 	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, transtype, cur, transfer_to, NULL, SECURITY_ALL_VALUES, select_security, budget, this, b_create_accounts);
-        dialog->editWidget->focusDescription();
+	dialog->editWidget->focusDescription();
 	dialog->editWidget->updateAccounts(exclude_account);
 	if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
 		Transaction *trans = dialog->editWidget->createTransaction();
@@ -540,6 +540,7 @@ void EditMultiItemWidget::edit(QTreeWidgetItem *i_pre) {
 		TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, trans->type(), cur, trans->toAccount() == NULL, security, SECURITY_ALL_VALUES, security != NULL, budget, this, b_create_accounts);
 		dialog->editWidget->updateAccounts(account);
 		dialog->editWidget->setTransaction(trans);
+		if((trans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) trans)->payee() == payeeEdit->text().trimmed()) || (trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->payer() == payeeEdit->text().trimmed())) dialog->editWidget->setPayee("");
 		if(dialog->exec() == QDialog::Accepted) {
 			if(dialog->editWidget->modifyTransaction(trans)) {
 				i->setTransaction(trans, cur, trans->toAccount() == NULL);

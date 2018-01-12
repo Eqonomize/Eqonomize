@@ -1504,6 +1504,29 @@ MultiItemTransaction::MultiItemTransaction(Budget *parent_budget, QXmlStreamRead
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
+	if(s_payee.isEmpty()) {
+		QVector<Transaction*>::size_type c = splits.count();
+		for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
+			Transaction *trans = splits[i];
+			switch(trans->type()) {
+				case TRANSACTION_TYPE_EXPENSE: {
+					if(s_payee.isEmpty()) s_payee = ((Expense*) trans)->payee();
+					else if(s_payee != ((Expense*) trans)->payee()) s_payee = "";
+					break;
+				}
+				case TRANSACTION_TYPE_INCOME: {
+					if(s_payee.isEmpty()) s_payee = ((Income*) trans)->payer();
+					else if(s_payee != ((Income*) trans)->payer()) s_payee = "";
+					break;
+				}
+				default: {
+					s_payee = "";
+					break;
+				}
+			}
+			if(s_payee.isEmpty()) break;
+		}
+	}
 	if(valid && splits.count() == 0) *valid = false;
 }
 MultiItemTransaction::MultiItemTransaction(const MultiItemTransaction *split) : SplitTransaction(split), o_account(split->account()), s_payee(split->payee()) {
@@ -1545,11 +1568,11 @@ bool MultiItemTransaction::readElement(QXmlStreamReader *xml, bool*) {
 		Transaction *trans = NULL;
 		if(type == "expense") {
 			attr.append("from", id);
-			if(!s_payee.isEmpty()) attr.append("payee", s_payee);
+			if(!s_payee.isEmpty() && !attr.hasAttribute("payee")) attr.append("payee", s_payee);
 			trans = new Expense(budget());
 		} else if(type == "income") {
 			attr.append("to", id);
-			if(!s_payee.isEmpty()) attr.append("payer", s_payee);
+			if(!s_payee.isEmpty() && !attr.hasAttribute("payer")) attr.append("payer", s_payee);
 			trans = new Income(budget());
 		} else if(type == "dividend") {
 			attr.append("to", id);
@@ -1579,11 +1602,6 @@ bool MultiItemTransaction::readElement(QXmlStreamReader *xml, bool*) {
 			}
 			if(trans) {
 				trans->setParentSplit(this);
-				if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
-					if(s_payee.isEmpty() && !((Expense*) trans)->payee().isEmpty()) s_payee = ((Expense*) trans)->payee();
-				} else if(trans->type() == TRANSACTION_TYPE_INCOME) {
-					if(s_payee.isEmpty() && !((Income*) trans)->payer().isEmpty()) s_payee = ((Income*) trans)->payer();
-				}
 				splits.push_back(trans);
 			}
 			return true;
@@ -1714,12 +1732,12 @@ void MultiItemTransaction::addTransaction(Transaction *trans) {
 	switch(trans->type()) {
 		case TRANSACTION_TYPE_EXPENSE: {
 			((Expense*) trans)->setFrom(o_account);
-			((Expense*) trans)->setPayee(s_payee);
+			if(((Expense*) trans)->payee().isEmpty()) ((Expense*) trans)->setPayee(s_payee);
 			break;
 		}
 		case TRANSACTION_TYPE_INCOME: {
 			((Income*) trans)->setTo(o_account);
-			((Income*) trans)->setPayer(s_payee);
+			if(((Income*) trans)->payer().isEmpty()) ((Income*) trans)->setPayer(s_payee);
 			break;
 		}
 		case TRANSACTION_TYPE_TRANSFER: {
@@ -1780,11 +1798,11 @@ void MultiItemTransaction::setPayee(QString new_payee) {
 		Transaction *trans = splits[i];
 		switch(trans->type()) {
 			case TRANSACTION_TYPE_EXPENSE: {
-				((Expense*) trans)->setPayee(new_payee);
+				if(((Expense*) trans)->payee() == s_payee) ((Expense*) trans)->setPayee(new_payee.trimmed());
 				break;
 			}
 			case TRANSACTION_TYPE_INCOME: {
-				((Income*) trans)->setPayer(new_payee);
+				if(((Income*) trans)->payer() == s_payee) ((Income*) trans)->setPayer(new_payee.trimmed());
 				break;
 			}
 			default: {}

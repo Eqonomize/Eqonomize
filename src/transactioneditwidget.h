@@ -88,6 +88,7 @@ class TransactionEditWidget : public QWidget {
 		Transactions *createTransactionWithLoan();
 		bool validValues(bool ask_questions = false);
 		void setValues(QString description_value, double value_value, double quantity_value, QDate date_value, Account *from_account_value, Account *to_account_value, QString payee_value, QString comment_value);
+		void setPayee(QString payee);
 		QDate date();
 		QString description() const;
 		QString payee() const;
