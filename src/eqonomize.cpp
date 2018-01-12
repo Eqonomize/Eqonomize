@@ -656,6 +656,9 @@ Transaction *RefundDialog::createRefund() {
 	}
 	if(trans->type() == TRANSACTION_TYPE_EXPENSE) ((Expense*) trans)->setFrom(account);
 	else ((Income*) trans)->setTo(account);
+	trans->setId(trans->budget()->getNewId());
+	trans->setFirstRevision(trans->budget()->revision());
+	trans->setTimestamp(QDateTime::currentMSecsSinceEpoch() * 1000);
 	trans->setQuantity(-quantityEdit->value());
 	trans->setValue(-valueEdit->value());
 	trans->setDate(dateEdit->date());
@@ -5987,7 +5990,7 @@ void Eqonomize::saveCrashRecovery() {
 		if(current_url.isEmpty()) cr_tmp_file += "UNSAVED EQZ";
 		else cr_tmp_file += current_url.fileName();
 	}	
-	if(budget->saveFile(cr_tmp_file).isNull()) {
+	if(budget->saveFile(cr_tmp_file, QFile::ReadUser | QFile::WriteUser, true).isNull()) {
 		QSettings settings;
 		settings.beginGroup("GeneralOptions");
 		settings.setValue("lastURL", current_url.url());

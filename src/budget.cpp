@@ -1382,51 +1382,52 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 					if(split) delete split;
 					split = NULL;
 				} else {
-					if(split->type() != SPLIT_TRANSACTION_TYPE_LOAN) {
-						int c = split->count();
-						for(int i = 0; i < c; i++) {
-							trans = split->at(i);
-							QHash<qlonglong, Transaction*>::iterator it = transactions_id.find(trans->id());
-						 	if(it == transactions_id.end()) {
-						 		if(trans->lastRevision() > synced_revision && !scheduleds_trans_id.contains(trans->id())) addTransaction(trans);
-						 		else {split->removeTransaction(trans);  i--; c--;}
-						 	} else {
-						 		if((*it)->lastRevision() >= trans->lastRevision()) {
-						 			split->removeTransaction(trans); i--; c--;
-						 		} else {
-						 			removeTransaction(*it);
-									addTransaction(trans);
-						 		}
-						 		transactions_id.remove(it.key());
-						 	}
-						}
-						if(c <= 1) {
-							split->clear(true);
-							delete split;
-							split = NULL;
-						}
-					}
 					if(split) {
 						QHash<qlonglong, SplitTransaction*>::iterator it = splits_id.find(split->id());
-					 	if(it == splits_id.end()) {
-					 		if(split->lastRevision() > synced_revision && !scheduleds_trans_id.contains(split->id())) {
-					 			addSplitTransaction(split);
-					 		} else {
-					 			if(split->type() != SPLIT_TRANSACTION_TYPE_LOAN) split->clear(true);
-					 			delete split;
-					 		}
-					 	} else {
-					 		if((*it)->lastRevision() >= split->lastRevision()) {
-					 			if(split->type() != SPLIT_TRANSACTION_TYPE_LOAN) split->clear(true);
-					 			delete split;
-					 		} else {
-					 			if((*it)->type() != SPLIT_TRANSACTION_TYPE_LOAN) (*it)->clear(true);
-					 			removeSplitTransaction(*it);
+						if(it == splits_id.end()) {
+							if(split->lastRevision() > synced_revision && !scheduleds_trans_id.contains(split->id())) {
 								addSplitTransaction(split);
-					 		}
-					 		splits_id.remove(it.key());
-					 	}
-					 }
+							} else {
+								if(split->type() != SPLIT_TRANSACTION_TYPE_LOAN) split->clear(true);
+								delete split;
+							}
+						} else {
+							if((*it)->lastRevision() >= split->lastRevision()) {
+								if(split->type() != SPLIT_TRANSACTION_TYPE_LOAN) split->clear(true);
+								delete split;
+								transactions_id.remove(it.key());
+							} else {
+								if((*it)->type() != SPLIT_TRANSACTION_TYPE_LOAN) (*it)->clear(true);
+								removeSplitTransaction(*it);
+								if(split->type() != SPLIT_TRANSACTION_TYPE_LOAN) {
+									int c = split->count();
+									for(int i = 0; i < c; i++) {
+										trans = split->at(i);
+										QHash<qlonglong, Transaction*>::iterator it = transactions_id.find(trans->id());
+										if(it == transactions_id.end()) {
+											if(trans->lastRevision() > synced_revision && !scheduleds_trans_id.contains(trans->id())) addTransaction(trans);
+											else {split->removeTransaction(trans);  i--; c--;}
+										} else {
+											if((*it)->lastRevision() > synced_revision && (*it)->lastRevision() >= trans->lastRevision()) {
+												split->removeTransaction(trans); i--; c--;
+											} else {
+												removeTransaction(*it);
+												addTransaction(trans);
+											}
+											transactions_id.remove(it.key());
+										}
+									}
+									if(c <= 1) {
+										split->clear(true);
+										delete split;
+										split = NULL;
+									}
+								}
+								if(split) splitTransactions.inSort(split);
+							}
+							splits_id.remove(it.key());
+						}
+					}
 				}
 			} else if(trans) {
 				if(!valid) {
@@ -1660,7 +1661,7 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 		if((*it)->last_revision <= synced_revision) removeSecurityTrade(*it);
 	}
 	for(QHash<qlonglong, Transaction*>::iterator it = transactions_id.begin(); it != transactions_id.end(); ++it) {
-		if((*it)->lastRevision() <= synced_revision) removeTransaction(*it);
+		if(!(*it)->parentSplit() && (*it)->lastRevision() <= synced_revision) removeTransaction(*it);
 	}
 
 	for(QHash<qlonglong, Security*>::iterator it = old_securities_id.begin(); it != old_securities_id.end(); ++it) {
@@ -1726,8 +1727,6 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 	accounts.sort();
 	securities.sort();
 	
-	i_revision++;
-	
 	if(account_errors > 0) {
 		if(!errors.isEmpty()) errors += '\n';
 		errors += tr("Unable to load %n account(s).", "", account_errors);
@@ -1749,7 +1748,7 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 }
 
 
-QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
+QString Budget::saveFile(QString filename, QFile::Permissions permissions, bool is_backup) {
 
 	QFileInfo info(filename);
 	if(info.isDir()) {
@@ -1764,7 +1763,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions) {
 		return tr("Couldn't open file for writing");
 	}
 	
-	i_opened_revision = i_revision;
+	if(!is_backup) i_opened_revision = i_revision;
 	
 	QXmlStreamWriter xml(&ofile);
 	xml.setCodec("UTF-8");
