@@ -63,7 +63,7 @@ class OverTimeChart : public QWidget {
 		QComboBox *sourceCombo, *categoryCombo, *descriptionCombo, *payeeCombo;
 		EqonomizeMonthSelector *startDateEdit, *endDateEdit;
 		QPushButton *saveButton, *printButton;
-		QRadioButton *dailyButton, *valueButton, *countButton, *perButton;
+		QRadioButton *yearlyButton, *dailyButton, *valueButton, *countButton, *perButton;
 #ifdef QT_CHARTS_LIB
 		QChartView *view;
 		QChart *chart;
@@ -91,6 +91,7 @@ class OverTimeChart : public QWidget {
 	public slots:
 
 		void resetOptions();
+		void resetDate();
 		void sourceChanged(int);
 		void categoryChanged(int);
 		void descriptionChanged(int);
