@@ -4404,6 +4404,10 @@ bool Eqonomize::openURL(const QUrl& url, bool merge) {
 		settings.endGroup();
 		settings.sync();
 		updateRecentFiles(url.toLocalFile());
+		
+		if(budget->autosyncEnabled()) {
+			sync(true, true);
+		}
 	
 		if(new_currency) warnAndAskForExchangeRate();
 	}
@@ -4442,10 +4446,65 @@ bool Eqonomize::openURL(const QUrl& url, bool merge) {
 
 }
 
-bool Eqonomize::saveURL(const QUrl& url) {
+void Eqonomize::synchronizationSettings() {
+}
+void Eqonomize::fileSynchronize() {
+	sync(true, false);
+}
+void Eqonomize::uploadFile() {
+	bool b = false;
+	if(!current_url.isValid()) {
+		b = saveAs(true, false);
+	} else {
+		b = saveURL(current_url, true, false);
+	}	
+	if(b) {
+		QProgressDialog *syncProgressDialog = new QProgressDialog(tr("Uploading…"), tr("Abort"), 0, 1, this);
+		syncProgressDialog->setWindowModality(Qt::WindowModal);
+		syncProgressDialog->setMinimumDuration(200);
+		syncProgressDialog->setMaximum(1);
+		connect(syncProgressDialog, SIGNAL(canceled()), this, SLOT(cancelsync()));
+		syncProgressDialog->setValue(0);
+		QString error = budget->syncUpload(current_url.toLocalFile());
+		if(!error.isEmpty()) {
+			QMessageBox::critical(this, tr("Error uploading file"), tr("Error uploading %1: %2.").arg(current_url.toString()).arg(error));
+			syncProgressDialog->reset();
+		} else {
+			syncProgressDialog->setValue(1);
+		}
+		syncProgressDialog->deleteLater();
+	}
+}
+
+void Eqonomize::cancelSync() {
+	budget->cancelSync();
+}
+void Eqonomize::sync(bool do_save, bool on_load) {
+	QProgressDialog *syncProgressDialog = new QProgressDialog(tr("Synchronizing…"), tr("Abort"), 0, 1, this);
+	syncProgressDialog->setWindowModality(Qt::WindowModal);
+	syncProgressDialog->setMinimumDuration(200);
+	syncProgressDialog->setMaximum(1);
+	connect(syncProgressDialog, SIGNAL(canceled()), this, SLOT(cancelsync()));
+	syncProgressDialog->setValue(0);
+	QString error, errors;
+	if(budget->sync(error, errors, true, !on_load)) {
+		if(!error.isEmpty()) QMessageBox::critical(this, tr("Error synchronizing file"), tr("Error synchronizing %1: %2.").arg(current_url.toString()).arg(error));
+		else if(!errors.isEmpty()) QMessageBox::critical(this, tr("Synchronization error"), errors);
+		if(do_save) {
+			saveURL(current_url, false, false);
+		}
+		syncProgressDialog->setValue(1);
+	} else {
+		if(!error.isEmpty()) QMessageBox::critical(this, tr("Error synchronizing file"), tr("Error synchronizing %1: %2.").arg(current_url.toString()).arg(error));
+		syncProgressDialog->reset();
+	}
+	syncProgressDialog->deleteLater();
+}
+
+bool Eqonomize::saveURL(const QUrl& url, bool do_local_sync, bool do_cloud_sync) {
 	bool exists = QFile::exists(url.toLocalFile());
 	if(exists) {
-		if(url == current_url) {
+		if(do_local_sync && url == current_url) {
 			QString error;
 			if(budget->isUnsynced(url.toLocalFile(), error)) {
 				switch(QMessageBox::question(this, tr("Synchronize file?"), tr("The file has been modified by a different user or program. Do you wish to merge changes?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Yes)) {
@@ -4508,28 +4567,32 @@ bool Eqonomize::saveURL(const QUrl& url) {
 			}
 		}
 	}
+	
+	if(do_cloud_sync && budget->autosyncEnabled()) {
+		sync(false);
+	}
 
 	QString error = budget->saveFile(url.toLocalFile(), QFile::ReadUser | QFile::WriteUser);
 	if(!error.isNull()) {
 		QMessageBox::critical(this, tr("Couldn't save file"), tr("Error saving %1: %2.").arg(url.toString()).arg(error));
 		return false;
-	} else {
-		setWindowTitle(url.fileName() + "[*]");
-		current_url = url;
-		ActionFileReload->setEnabled(true);
-		QSettings settings;
-		settings.beginGroup("GeneralOptions");
-		settings.setValue("lastURL", current_url.url());
-		settings.endGroup();
-		if(!cr_tmp_file.isEmpty()) {
-			QFile autosaveFile(cr_tmp_file);
-			autosaveFile.remove();
-			cr_tmp_file = "";
-		}
-		settings.sync();
-		updateRecentFiles(url.toLocalFile());
-		setModified(false);
 	}
+	setWindowTitle(url.fileName() + "[*]");
+	current_url = url;
+	ActionFileReload->setEnabled(true);
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	settings.setValue("lastURL", current_url.url());
+	settings.endGroup();
+	if(!cr_tmp_file.isEmpty()) {
+		QFile autosaveFile(cr_tmp_file);
+		autosaveFile.remove();
+		cr_tmp_file = "";
+	}
+	settings.sync();
+	updateRecentFiles(url.toLocalFile());
+	setModified(false);
+
 	return true;
 }
 
@@ -4645,7 +4708,7 @@ void Eqonomize::checkAvailableVersion() {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 	settings.setValue("lastVersionCheck", QDate::currentDate().toString(Qt::ISODate));
-	checkVersionReply = nam.get(QNetworkRequest(QUrl("https://eqonomize.github.io/CURRENT_VERSIONS")));
+	checkVersionReply = budget->nam.get(QNetworkRequest(QUrl("https://eqonomize.github.io/CURRENT_VERSIONS")));
 	connect(checkVersionReply, SIGNAL(finished()), this, SLOT(checkAvailableVersion_readdata()));
 }
 
@@ -4678,14 +4741,14 @@ bool Eqonomize::timeToUpdateExchangeRates() {
 	return false;
 }
 void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
-	updateExchangeRatesProgressDialog = new QProgressDialog(tr("Updating exchange rates…"), tr("Abort"), 0, 1, this);
+	QProgressDialog *updateExchangeRatesProgressDialog = new QProgressDialog(tr("Updating exchange rates…"), tr("Abort"), 0, 1, this);
 	updateExchangeRatesProgressDialog->setWindowModality(Qt::WindowModal);
 	updateExchangeRatesProgressDialog->setMinimumDuration(200);
 	updateExchangeRatesProgressDialog->setMaximum(2);
 	connect(updateExchangeRatesProgressDialog, SIGNAL(canceled()), this, SLOT(cancelUpdateExchangeRates()));
 	updateExchangeRatesProgressDialog->setValue(0);
 	QEventLoop loop;
-	updateExchangeRatesReply = nam.get(QNetworkRequest(QUrl("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml")));
+	updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml")));
 	connect(updateExchangeRatesReply, SIGNAL(finished()), &loop, SLOT(quit()));
 	loop.exec();
 	QSettings settings;
@@ -4705,7 +4768,7 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
 			settings.setValue("lastExchangeRatesUpdate", QDate::currentDate().toString(Qt::ISODate));
 			updateExchangeRatesProgressDialog->setValue(1);
 			QEventLoop loop2;
-			updateExchangeRatesReply = nam.get(QNetworkRequest(QUrl("http://www.mycurrency.net/service/rates")));
+			updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("http://www.mycurrency.net/service/rates")));
 			connect(updateExchangeRatesReply, SIGNAL(finished()), &loop2, SLOT(quit()));
 			loop2.exec();
 			if(updateExchangeRatesReply->error() == QNetworkReply::OperationCanceledError) {
@@ -6167,6 +6230,9 @@ bool Eqonomize::fileSave() {
 }
 
 bool Eqonomize::fileSaveAs() {
+	return saveAs(true, true);
+}
+bool Eqonomize::saveAs(bool do_local_sync, bool do_cloud_sync) {
 	QMimeDatabase db;
 	QMimeType mime = db.mimeTypeForName("application/x-eqonomize");
 	QString filter_string;
@@ -6193,7 +6259,7 @@ bool Eqonomize::fileSaveAs() {
 	if(fileDialog.exec()) {
 		QList<QUrl> urls = fileDialog.selectedUrls();
 		if(urls.isEmpty()) return false;
-		return saveURL(urls[0]);
+		return saveURL(urls[0], do_local_sync, do_cloud_sync);
 	}
 	return false;
 }

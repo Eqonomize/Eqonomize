@@ -1,8 +1,16 @@
-2017-01-09  Hanna Knutsson <hanna.knutsson@protonmail.com>
+2018-01-14  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Annual total for over time chart
+
+2018-01-13  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Restore possibility to specify payee/payer for each separate transaction in a split transaction 
+
+2018-01-09  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix debt payment value edits behavior
 
-2017-01-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
+2018-01-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Include subcategories in over time report
 	* Option to merge changes when saving a file that has been modified after saving/loading

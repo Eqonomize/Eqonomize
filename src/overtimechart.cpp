@@ -264,24 +264,24 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	QHBoxLayout *enabledLayout = new QHBoxLayout();
 	settingsLayout->addLayout(enabledLayout, 1, 1);
 	valueGroup = new QButtonGroup(this);
-	yearlyButton = new QRadioButton(tr("Yearly total"), settingsWidget);
-	yearlyButton->setChecked(settings.value("yearlySelected", false).toBool());
+	yearlyButton = new QRadioButton(tr("Annual total"), settingsWidget);
+	yearlyButton->setChecked(settings.value("yearlyEnabled", false).toBool());
 	valueGroup->addButton(yearlyButton, 4);
 	enabledLayout->addWidget(yearlyButton);
 	valueButton = new QRadioButton(tr("Monthly total"), settingsWidget);
-	valueButton->setChecked(settings.value("valueSelected", true).toBool());
+	valueButton->setChecked(settings.value("valueEnabled", true).toBool());
 	valueGroup->addButton(valueButton, 0);
 	enabledLayout->addWidget(valueButton);
 	dailyButton = new QRadioButton(tr("Daily average"), settingsWidget);
-	dailyButton->setChecked(settings.value("dailyAverageSelected", false).toBool());
+	dailyButton->setChecked(settings.value("dailyAverageEnabled", false).toBool());
 	valueGroup->addButton(dailyButton, 1);
 	enabledLayout->addWidget(dailyButton);
 	countButton = new QRadioButton(tr("Quantity"), settingsWidget);
-	countButton->setChecked(settings.value("transactionCountSelected", false).toBool());
+	countButton->setChecked(settings.value("transactionCountEnabled", false).toBool());
 	valueGroup->addButton(countButton, 2);
 	enabledLayout->addWidget(countButton);
 	perButton = new QRadioButton(tr("Average value"), settingsWidget);
-	perButton->setChecked(settings.value("valuePerTransactionSelected", false).toBool());
+	perButton->setChecked(settings.value("valuePerTransactionEnabled", false).toBool());
 	valueGroup->addButton(perButton, 3);
 	enabledLayout->addWidget(perButton);
 	enabledLayout->addStretch(1);
@@ -2231,10 +2231,10 @@ void OverTimeChart::updateDisplay() {
 				break;
 			}
 			case 4: {
-				if(current_source == 0 && chart_type != 4) axis_string = tr("Yearly value") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
-				else if(current_source == -1) axis_string = tr("Yearly profit") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
-				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Yearly income") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
-				else axis_string = tr("Yearly cost") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				if(current_source == 0 && chart_type != 4) axis_string = tr("Annual value") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				else if(current_source == -1) axis_string = tr("Annual profit") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Annual income") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				else axis_string = tr("Annual cost") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
 				break;
 			}
 			default: {

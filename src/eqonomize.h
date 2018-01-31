@@ -36,7 +36,6 @@
 #include <QUrl>
 #include <QApplication>
 #include <QMainWindow>
-#include <QNetworkAccessManager>
 
 #ifdef LOAD_EQZICONS_FROM_FILE
 	#ifdef RESOURCES_COMPILED
@@ -76,7 +75,6 @@ class QTextEdit;
 class QLocalSocket;
 class QLocalServer;
 class QPrinter;
-class QProgressDialog;
 class QDialog;
 class QNetworkReply;
 
@@ -118,7 +116,9 @@ class Eqonomize : public QMainWindow {
 		Eqonomize();
 		virtual ~Eqonomize();
 		
-		bool saveURL(const QUrl& url);
+		void sync(bool do_save = true, bool on_load = false);
+		bool saveURL(const QUrl& url, bool do_local_sync = true, bool do_cloud_sync = true);
+		bool saveAs(bool do_local_sync = true, bool do_cloud_sync = true);
 		bool askSave(bool before_exit = false);
 		void createDefaultBudget();
 		void readFileDependentOptions();
@@ -266,7 +266,6 @@ class Eqonomize : public QMainWindow {
 		QLabel *footer1;
 		QCommandLineParser *parser;
 		QComboBox *setMainCurrencyCombo;
-		QProgressDialog *updateExchangeRatesProgressDialog;
 		QNetworkReply *updateExchangeRatesReply, *checkVersionReply;
 		CurrencyConversionDialog *currencyConversionWindow;
 		
@@ -291,8 +290,6 @@ class Eqonomize : public QMainWindow {
 		QMenu *assetsPopupMenu, *accountPopupMenu, *securitiesPopupMenu, *schedulePopupMenu;
 		
 		QDialog *helpDialog, *cccDialog, *ccrDialog, *otcDialog, *otrDialog;
-		
-		QNetworkAccessManager nam;
 		
 	protected slots:
 	
@@ -336,6 +333,11 @@ class Eqonomize : public QMainWindow {
 		void setMainCurrencyIndexChanged(int index);
 		void updateUsesMultipleCurrencies();
 		void openCurrencyConversion();
+		
+		void cancelSync();
+		void fileSynchronize();
+		void synchronizationSettings();
+		void uploadFile();
 		
 		void serverNewConnection();
 		void socketReadyRead();

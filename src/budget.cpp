@@ -35,6 +35,10 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QStandardPaths>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QProcess>
+#include <QTemporaryFile>
 
 #include <QDebug>
 
@@ -208,6 +212,8 @@ Budget::Budget() {
 	assetsAccounts.setAutoDelete(true);
 	securityTrades.setAutoDelete(true);
 	accounts.setAutoDelete(false);
+	o_sync = new BudgetSynchronization();
+	o_sync->clear();
 	currency_euro = new Currency(this, "EUR", "€", tr("European Euro"), 1.0);
 	currency_euro->setAsLocal(false);
 	addCurrency(currency_euro);
@@ -254,6 +260,7 @@ void Budget::clear() {
 	securities.clear();
 	accounts.clear();
 	securityTrades.clear();
+	o_sync->clear();
 	assetsAccounts.setAutoDelete(false);
 	assetsAccounts.removeRef(balancingAccount);
 	assetsAccounts.setAutoDelete(true);
@@ -561,6 +568,8 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	if(default_currency_created) *default_currency_created = false;
 	
 	bool set_ids = false;
+	
+	if(!merge) o_sync->clear();
 
 	while(xml.readNextStartElement()) {
 		if(xml.name() == "budget_period") {
@@ -573,6 +582,24 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 						bool ok = true;
 						int i_day = s_day.toInt(&ok);
 						if(ok) setBudgetDay(i_day);
+					} else {
+						xml.skipCurrentElement();
+					}
+				}
+			}
+		} else if(xml.name() == "synchronization") {
+			if(merge) {
+				xml.skipCurrentElement();
+			} else {
+				o_sync->clear();
+				o_sync->autosync = xml.attributes().value("autosync").toInt();
+				while(xml.readNextStartElement()) {
+					if(xml.name() == "url") {
+						o_sync->url = xml.readElementText().trimmed();
+					} else if(xml.name() == "download") {
+						o_sync->download = xml.readElementText().trimmed();
+					} else if(xml.name() == "upload") {
+						o_sync->upload = xml.readElementText().trimmed();
 					} else {
 						xml.skipCurrentElement();
 					}
@@ -1162,6 +1189,110 @@ bool Budget::isUnsynced(QString filename, QString &error, int synced_revision) c
 	return file_revision > synced_revision;
 
 }
+void Budget::cancelSync() {
+	if(syncReply) syncReply->abort();
+	if(syncProcess) syncProcess->terminate();
+}
+bool Budget::sync(QString &error, QString &errors, bool do_upload, bool on_load) {
+	if(!o_sync->isComplete()) {
+		return false;
+	}
+	syncProcess = NULL;
+	syncReply = NULL;
+	QTemporaryFile file;
+	file.open();
+	QString perror;
+	if(!o_sync->download.isEmpty()) {
+		file.close();
+		QString command = o_sync->download;
+		command.replace("%f", file.fileName());
+		command.replace("%u", o_sync->url);
+		QEventLoop loop;
+		syncProcess = new QProcess();
+		syncProcess->start(command);
+		QObject::connect(syncProcess, SIGNAL(finished()), &loop, SLOT(quit()));
+		loop.exec();
+		if(syncProcess->exitStatus() != QProcess::NormalExit || syncProcess->exitCode() != 0) {
+			error = tr("Download command (%1) failed: %2.").arg(command).arg(syncProcess->errorString());
+			delete syncProcess;
+			syncProcess = NULL;
+			return false;
+		}
+		perror = syncReply->errorString();
+		delete syncProcess;
+		syncProcess = NULL;
+	} else {
+		QEventLoop loop;
+		syncReply = nam.get(QNetworkRequest(QUrl(o_sync->url)));
+		QObject::connect(syncReply, SIGNAL(finished()), &loop, SLOT(quit()));
+		loop.exec();
+		if(syncReply->error() == QNetworkReply::OperationCanceledError) {
+			//canceled by user
+			return false;
+		} else if(syncReply->error() != QNetworkReply::NoError) {
+			syncReply->abort();
+			error = tr("Failed to download file from %1: %2.").arg(o_sync->url).arg(syncReply->errorString());
+			syncReply->deleteLater();
+			return false;
+		} else {
+			syncReply = NULL;
+			file.write(syncReply->readAll());
+			file.close();
+		}
+		syncReply->deleteLater();
+	}
+	int file_revision = fileRevision(file.fileName(), error);
+	if(!error.isNull() || file_revision <= o_sync->revision) {
+		if(error.isNull() && file_revision < (on_load ? i_revision : i_opened_revision)) {
+			int saved_revision = i_revision;
+			if(on_load) i_revision = i_opened_revision;
+			error = saveFile(file.fileName(), QFile::ReadUser | QFile::WriteUser, true);
+			if(!error.isNull()) {i_revision = saved_revision; return false;}
+			error = syncUpload(file.fileName());
+			i_revision = saved_revision;
+		}
+		if(error.isNull()) error = perror;
+		else if(!perror.isEmpty()) {error += "\n\n"; error += perror;}
+		return false;
+	}
+	error = syncFile(file.fileName(), errors, o_sync->revision);
+	if(!error.isNull()) {
+		if(!perror.isEmpty()) {error += "\n\n"; error += perror;}
+		return false;
+	}
+	o_sync->revision = file_revision;
+	
+	//upload
+	if(do_upload) {
+		error = saveFile(file.fileName(), QFile::ReadUser | QFile::WriteUser, true);
+		if(!error.isNull()) return false;
+		error = syncUpload(file.fileName());
+		if(!error.isNull()) return true;
+	}
+
+	return true;
+}
+QString Budget::syncUpload(QString filename) {
+	QString command = o_sync->upload;
+	command.replace("%f", filename);
+	command.replace("%u", o_sync->url);
+	QEventLoop loop;
+	syncProcess = new QProcess();
+	syncProcess->start(command);
+	QObject::connect(syncProcess, SIGNAL(finished()), &loop, SLOT(quit()));
+	loop.exec();
+	QString error;
+	if(syncProcess->exitStatus() != QProcess::NormalExit || syncProcess->exitCode() != 0) {
+		QString error = tr("Upload command (%1) failed: %2.").arg(command).arg(syncProcess->errorString());
+	} else {
+		o_sync->revision = i_revision;
+	}
+	delete syncProcess;
+	syncProcess = NULL;
+	return error;
+}
+bool Budget::autosyncEnabled() const {return o_sync->autosync && o_sync->isComplete();}
+
 QString Budget::syncFile(QString filename, QString &errors, int synced_revision) {
 
 	if(synced_revision < 0) synced_revision = i_opened_revision;
@@ -1777,6 +1908,22 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions, bool 
 	xml.writeAttribute("revision", QString::number(i_revision));
 	xml.writeAttribute("lastid", QString::number(last_id));
 	
+	if(o_sync->isComplete()) {
+		xml.writeStartElement("synchronization");
+		xml.writeAttribute("type", "url");
+		if(o_sync->autosync) xml.writeAttribute("autosave", QString::number(o_sync->autosync));
+		xml.writeAttribute("revision", QString::number(o_sync->revision));
+		if(!o_sync->url.isEmpty()) xml.writeTextElement("url", o_sync->url);
+		if(!o_sync->download.isEmpty()) xml.writeTextElement("download", o_sync->download);
+		if(!o_sync->upload.isEmpty()) xml.writeTextElement("upload", o_sync->upload);
+		xml.writeEndElement();
+	}
+	xml.writeStartElement("budget_period");
+	xml.writeTextElement("first_day_of_month", QString::number(i_budget_day));
+	xml.writeEndElement();
+	xml.writeStartElement("currency");
+	xml.writeAttribute("code", default_currency->code());
+	xml.writeEndElement();
 	xml.writeStartElement("budget_period");
 	xml.writeTextElement("first_day_of_month", QString::number(i_budget_day));
 	xml.writeEndElement();

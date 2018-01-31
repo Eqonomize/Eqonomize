@@ -28,6 +28,7 @@
 #include <QFile>
 #include <QVector>
 #include <QByteArray>
+#include <QNetworkAccessManager>
 
 #include "eqonomizelist.h"
 #include "account.h"
@@ -40,6 +41,9 @@
 #define QUANTITY_DECIMAL_PLACES 2
 #define CURRENCY_IS_PREFIX currency_symbol_precedes()
 #define IS_GREGORIAN_CALENDAR true
+
+class QProcess;
+class QNetworkReply;
 
 typedef enum {
 	TRANSACTION_CONVERSION_RATE_AT_DATE,
@@ -113,6 +117,22 @@ template<class type> class SecurityTradeList : public EqonomizeList<type> {
 		}
 };
 
+struct BudgetSynchronization {
+	QString url, download, upload;
+	bool autosync;
+	int revision;
+	void clear() {
+		autosync = false;
+		url = QString::null;
+		download = QString::null;
+		upload = QString::null;
+		revision = 0;
+	}
+	bool isComplete() {
+		return !upload.isEmpty() && (!download.isEmpty() || !url.isEmpty());
+	}
+};
+
 class Budget {
 
 	Q_DECLARE_TR_FUNCTIONS(Budget)
@@ -126,10 +146,15 @@ class Budget {
 		qlonglong last_id;
 		
 		Currency *default_currency;
+		
+		QNetworkReply *syncReply;
+		QProcess *syncProcess;
 
 	public:
 	
+		BudgetSynchronization *o_sync;
 		Currency *currency_euro;
+		QNetworkAccessManager nam;
 
 		Budget();
 		~Budget();
@@ -150,6 +175,10 @@ class Budget {
 		int fileRevision(QString filename, QString &error) const;
 		bool isUnsynced(QString filename, QString &error, int synced_revision = -1) const;
 		QString syncFile(QString filename, QString &errors, int revision_synced = -1);
+		void cancelSync();
+		bool sync(QString &error, QString &errors, bool do_upload = true, bool on_load = false);
+		QString syncUpload(QString filename);
+		bool autosyncEnabled() const;
 		
 		void clear();
 		
