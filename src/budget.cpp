@@ -593,6 +593,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			} else {
 				o_sync->clear();
 				o_sync->autosync = xml.attributes().value("autosync").toInt();
+				o_sync->revision = xml.attributes().value("revision").toInt();
 				while(xml.readNextStartElement()) {
 					if(xml.name() == "url") {
 						o_sync->url = xml.readElementText().trimmed();
@@ -1152,7 +1153,7 @@ int Budget::fileRevision(QString filename, QString &error) const {
 	int file_revision = xml.attributes().value("revision").toInt();
 	if(file_revision <= 0) file_revision = 1;
 	file.close();
-	
+
 	error = QString::null;
 	
 	return file_revision;
@@ -1210,16 +1211,16 @@ bool Budget::sync(QString &error, QString &errors, bool do_upload, bool on_load)
 		QEventLoop loop;
 		syncProcess = new QProcess();
 		syncProcess->start(command);
-		QObject::connect(syncProcess, SIGNAL(finished()), &loop, SLOT(quit()));
+		QObject::connect(syncProcess, SIGNAL(finished(int, QProcess::ExitStatus)), &loop, SLOT(quit()));
 		loop.exec();
 		if(syncProcess->exitStatus() != QProcess::NormalExit || syncProcess->exitCode() != 0) {
 			error = tr("Download command (%1) failed: %2.").arg(command).arg(syncProcess->errorString());
-			delete syncProcess;
+			syncProcess->deleteLater();
 			syncProcess = NULL;
 			return false;
 		}
-		perror = syncReply->errorString();
-		delete syncProcess;
+		perror = syncProcess->errorString();
+		syncProcess->deleteLater();
 		syncProcess = NULL;
 	} else {
 		QEventLoop loop;
@@ -1228,18 +1229,21 @@ bool Budget::sync(QString &error, QString &errors, bool do_upload, bool on_load)
 		loop.exec();
 		if(syncReply->error() == QNetworkReply::OperationCanceledError) {
 			//canceled by user
+			syncReply->deleteLater();
+			syncReply = NULL;
 			return false;
 		} else if(syncReply->error() != QNetworkReply::NoError) {
 			syncReply->abort();
 			error = tr("Failed to download file from %1: %2.").arg(o_sync->url).arg(syncReply->errorString());
 			syncReply->deleteLater();
+			syncReply = NULL;
 			return false;
 		} else {
-			syncReply = NULL;
 			file.write(syncReply->readAll());
 			file.close();
 		}
 		syncReply->deleteLater();
+		syncReply = NULL;
 	}
 	int file_revision = fileRevision(file.fileName(), error);
 	if(!error.isNull() || file_revision <= o_sync->revision) {
@@ -1251,8 +1255,7 @@ bool Budget::sync(QString &error, QString &errors, bool do_upload, bool on_load)
 			error = syncUpload(file.fileName());
 			i_revision = saved_revision;
 		}
-		if(error.isNull()) error = perror;
-		else if(!perror.isEmpty()) {error += "\n\n"; error += perror;}
+		if(!error.isNull() && !perror.isEmpty()) {error += "\n\n"; error += perror;}
 		return false;
 	}
 	error = syncFile(file.fileName(), errors, o_sync->revision);
@@ -1261,7 +1264,7 @@ bool Budget::sync(QString &error, QString &errors, bool do_upload, bool on_load)
 		return false;
 	}
 	o_sync->revision = file_revision;
-	
+
 	//upload
 	if(do_upload) {
 		error = saveFile(file.fileName(), QFile::ReadUser | QFile::WriteUser, true);
@@ -1279,7 +1282,7 @@ QString Budget::syncUpload(QString filename) {
 	QEventLoop loop;
 	syncProcess = new QProcess();
 	syncProcess->start(command);
-	QObject::connect(syncProcess, SIGNAL(finished()), &loop, SLOT(quit()));
+	QObject::connect(syncProcess, SIGNAL(finished(int, QProcess::ExitStatus)), &loop, SLOT(quit()));
 	loop.exec();
 	QString error;
 	if(syncProcess->exitStatus() != QProcess::NormalExit || syncProcess->exitCode() != 0) {
@@ -1287,7 +1290,7 @@ QString Budget::syncUpload(QString filename) {
 	} else {
 		o_sync->revision = i_revision;
 	}
-	delete syncProcess;
+	syncProcess->deleteLater();
 	syncProcess = NULL;
 	return error;
 }

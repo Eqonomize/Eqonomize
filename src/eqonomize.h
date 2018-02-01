@@ -116,9 +116,9 @@ class Eqonomize : public QMainWindow {
 		Eqonomize();
 		virtual ~Eqonomize();
 		
-		void sync(bool do_save = true, bool on_load = false);
-		bool saveURL(const QUrl& url, bool do_local_sync = true, bool do_cloud_sync = true);
-		bool saveAs(bool do_local_sync = true, bool do_cloud_sync = true);
+		void sync(bool do_save = true, bool on_load = false, QWidget *parent = NULL);
+		bool saveURL(const QUrl& url, bool do_local_sync = true, bool do_cloud_sync = true, QWidget *parent = NULL);
+		bool saveAs(bool do_local_sync = true, bool do_cloud_sync = true, QWidget *parent = NULL);
 		bool askSave(bool before_exit = false);
 		void createDefaultBudget();
 		void readFileDependentOptions();
@@ -207,7 +207,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
 		QAction *ActionNewSecurity, *ActionEditSecurity, *ActionBuyShares, *ActionSellShares, *ActionNewDividend, *ActionNewReinvestedDividend, *ActionNewSecurityTrade, *ActionSetQuotation, *ActionEditQuotations, *ActionEditSecurityTransactions, *ActionDeleteSecurity;
 		QAction *ActionNewRefund, *ActionNewRepayment, *ActionNewRefundRepayment;
-		QAction *ActionFileNew, *ActionFileOpen, *ActionFileSave, *ActionFileSaveAs, *ActionFileReload, *ActionSaveView, *ActionPrintView, *ActionPrintPreview, *ActionQuit;
+		QAction *ActionFileNew, *ActionFileOpen, *ActionFileSave, *ActionFileSaveAs, *ActionFileReload, *ActionFileSync, *ActionSaveView, *ActionPrintView, *ActionPrintPreview, *ActionQuit;
 		QMenu *recentFilesMenu;
 		QList<QAction*> recentFileActionList;
 		QAction *ActionClearRecentFiles;
@@ -215,7 +215,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionImportCSV, *ActionImportQIF, *ActionImportEQZ, *ActionExportQIF;
 		QAction *ActionConvertCurrencies, *ActionUpdateExchangeRates;
 		QAction *ActionExtraProperties, *ActionUseExchangeRateForTransactionDate, *ActionSetBudgetPeriod, *AIPCurrentMonth, *AIPCurrentYear, *AIPCurrentWholeMonth, *AIPCurrentWholeYear, *AIPRememberLastDates, *ABFDaily, *ABFWeekly, *ABFFortnightly, *ABFMonthly, *ABFNever;
-		QAction *ActionSetMainCurrency;
+		QAction *ActionSetMainCurrency, *ActionSyncSettings;
 		QActionGroup *ActionSelectInitialPeriod, *ActionSelectBackupFrequency;
 		QAction *ActionHelp, *ActionWhatsThis, *ActionReportBug, *ActionAbout, *ActionAboutQt;
 		
@@ -289,7 +289,10 @@ class Eqonomize : public QMainWindow {
 
 		QMenu *assetsPopupMenu, *accountPopupMenu, *securitiesPopupMenu, *schedulePopupMenu;
 		
-		QDialog *helpDialog, *cccDialog, *ccrDialog, *otcDialog, *otrDialog;
+		QDialog *helpDialog, *cccDialog, *ccrDialog, *otcDialog, *otrDialog, *syncDialog;
+		
+		QLineEdit *syncUploadEdit;
+		QPushButton *uploadButton;
 		
 	protected slots:
 	
@@ -336,8 +339,9 @@ class Eqonomize : public QMainWindow {
 		
 		void cancelSync();
 		void fileSynchronize();
-		void synchronizationSettings();
-		void uploadFile();
+		void openSynchronizationSettings();
+		void syncUploadChanged(const QString&);
+		void uploadClicked();
 		
 		void serverNewConnection();
 		void socketReadyRead();
