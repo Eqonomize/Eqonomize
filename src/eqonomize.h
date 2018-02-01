@@ -291,8 +291,9 @@ class Eqonomize : public QMainWindow {
 		
 		QDialog *helpDialog, *cccDialog, *ccrDialog, *otcDialog, *otrDialog, *syncDialog;
 		
-		QLineEdit *syncUploadEdit;
+		QLineEdit *syncUploadEdit, *syncUrlEdit, *syncDownloadEdit;
 		QPushButton *uploadButton;
+		QCheckBox *syncAutoBox;
 		
 	protected slots:
 	

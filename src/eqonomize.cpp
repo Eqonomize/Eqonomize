@@ -4452,10 +4452,10 @@ void Eqonomize::openSynchronizationSettings() {
 	QVBoxLayout *box1 = new QVBoxLayout(syncDialog);
 	QGridLayout *grid = new QGridLayout();
 	grid->addWidget(new QLabel(tr("Web address:"), syncDialog), 0, 0);
-	QLineEdit *syncUrlEdit = new QLineEdit(budget->o_sync->url, syncDialog);
+	syncUrlEdit = new QLineEdit(budget->o_sync->url, syncDialog);
 	grid->addWidget(syncUrlEdit, 0, 1);
 	grid->addWidget(new QLabel(tr("Download command:"), syncDialog), 1, 0);
-	QLineEdit *syncDownloadEdit = new QLineEdit(budget->o_sync->download, syncDialog);
+	syncDownloadEdit = new QLineEdit(budget->o_sync->download, syncDialog);
 	syncDownloadEdit->setPlaceholderText(tr("optional"));
 	grid->addWidget(syncDownloadEdit, 1, 1);
 	grid->addWidget(new QLabel(tr("Upload command:"), syncDialog), 2, 0);
@@ -4463,7 +4463,7 @@ void Eqonomize::openSynchronizationSettings() {
 	syncUploadEdit->setPlaceholderText(tr("mandatory"));
 	grid->addWidget(syncUploadEdit, 2, 1);
 	grid->addWidget(new QLabel(tr("%f = local file, %u = url"), syncDialog), 3, 1);
-	QCheckBox *syncAutoBox = new QCheckBox(tr("Automatic synchronization"), syncDialog);
+	syncAutoBox = new QCheckBox(tr("Automatic synchronization"), syncDialog);
 	syncAutoBox->setChecked(budget->o_sync->autosync);
 	grid->addWidget(syncAutoBox, 4, 0, 1, 2);
 	box1->addLayout(grid);
@@ -4490,32 +4490,44 @@ void Eqonomize::syncUploadChanged(const QString &text) {
 	uploadButton->setEnabled(!text.trimmed().isEmpty());
 }
 void Eqonomize::uploadClicked() {
-	QString upload_bak = budget->o_sync->upload;
-	budget->o_sync->upload = syncUploadEdit->text().trimmed();
-	bool b = false;
-	if(!current_url.isValid()) {
-		b = saveAs(true, false, syncDialog);
-	} else {
-		b = saveURL(current_url, true, false, syncDialog);
-	}
-	if(b) {
-		QProgressDialog *syncProgressDialog = new QProgressDialog(tr("Uploading…"), tr("Abort"), 0, 1, syncDialog);
-		syncProgressDialog->setWindowModality(Qt::WindowModal);
-		syncProgressDialog->setMinimumDuration(200);
-		syncProgressDialog->setMaximum(1);
-		connect(syncProgressDialog, SIGNAL(canceled()), this, SLOT(cancelSync()));
-		syncProgressDialog->setValue(0);
-		QString error = budget->syncUpload(current_url.toLocalFile());
-		if(!error.isEmpty()) {
-			syncProgressDialog->reset();
-			syncProgressDialog->deleteLater();
-			QMessageBox::critical(syncDialog, tr("Error uploading file"), tr("Error uploading %1: %2.").arg(current_url.toString()).arg(error));
+	if(modified) {
+		if(!current_url.isValid()) {
+			if(saveAs(true, false, syncDialog)) return;
 		} else {
-			syncProgressDialog->setValue(1);
-			syncProgressDialog->deleteLater();
+			if(!saveURL(current_url, true, false, syncDialog)) return;
 		}
 	}
+	QString upload_bak = budget->o_sync->upload;
+	QString download_bak = budget->o_sync->download;
+	QString url_bak = budget->o_sync->url;
+	bool autosync_bak = budget->o_sync->autosync;
+	budget->o_sync->url = syncUrlEdit->text().trimmed();
+	budget->o_sync->download = syncDownloadEdit->text().trimmed();
+	budget->o_sync->upload = syncUploadEdit->text().trimmed();
+	budget->o_sync->autosync = syncAutoBox->isChecked();
+	QTemporaryFile file;
+	file.open();
+	QProgressDialog *syncProgressDialog = new QProgressDialog(tr("Uploading…"), tr("Abort"), 0, 1, syncDialog);
+	syncProgressDialog->setWindowModality(Qt::WindowModal);
+	syncProgressDialog->setMinimumDuration(200);
+	syncProgressDialog->setMaximum(1);
+	connect(syncProgressDialog, SIGNAL(canceled()), this, SLOT(cancelSync()));
+	syncProgressDialog->setValue(0);
+	file.close();
+	QString error = budget->syncUpload(file.fileName());
+	if(!error.isEmpty()) {
+		syncProgressDialog->reset();
+		syncProgressDialog->deleteLater();
+		QMessageBox::critical(syncDialog, tr("Error uploading file"), tr("Error uploading %1: %2.").arg(current_url.toString()).arg(error));
+	} else {
+		syncProgressDialog->setValue(1);
+		syncProgressDialog->deleteLater();
+		setModified(true);
+	}
+	budget->o_sync->url = url_bak;
 	budget->o_sync->upload = upload_bak;
+	budget->o_sync->download = download_bak;
+	budget->o_sync->autosync = autosync_bak;
 }
 void Eqonomize::fileSynchronize() {
 	if(budget->o_sync->isComplete()) {
@@ -4545,7 +4557,8 @@ void Eqonomize::sync(bool do_save, bool on_load, QWidget *parent) {
 	connect(syncProgressDialog, SIGNAL(canceled()), this, SLOT(cancelSync()));
 	syncProgressDialog->setValue(0);
 	QString error, errors;
-	if(budget->sync(error, errors, true, !on_load)) {
+	int rev_bak = budget->o_sync->revision;
+	if(budget->sync(error, errors, true, on_load)) {
 		syncProgressDialog->setValue(1);
 		syncProgressDialog->deleteLater();
 		if(!error.isEmpty()) QMessageBox::critical(parent, tr("Error synchronizing file"), tr("Error synchronizing %1: %2.").arg(current_url.toString()).arg(error));
@@ -4553,10 +4566,21 @@ void Eqonomize::sync(bool do_save, bool on_load, QWidget *parent) {
 		if(do_save) {
 			saveURL(current_url, false, false, parent);
 		}
+		reloadBudget();
 	} else {
 		syncProgressDialog->reset();
 		syncProgressDialog->deleteLater();
 		if(!error.isEmpty()) QMessageBox::critical(parent, tr("Error synchronizing file"), tr("Error synchronizing %1: %2.").arg(current_url.toString()).arg(error));
+		if(rev_bak != budget->o_sync->revision) {
+			if(do_save) {
+				QString error = budget->saveFile(current_url.toLocalFile(), QFile::ReadUser | QFile::WriteUser, true);
+				if(!error.isNull()) {
+					QMessageBox::critical(parent, tr("Couldn't save file"), tr("Error saving %1: %2.").arg(current_url.toString()).arg(error));
+				}
+			} else {
+				setModified(true);
+			}
+		}
 	}
 }
 

@@ -1250,8 +1250,6 @@ bool Budget::sync(QString &error, QString &errors, bool do_upload, bool on_load)
 		if(error.isNull() && file_revision < (on_load ? i_revision : i_opened_revision)) {
 			int saved_revision = i_revision;
 			if(on_load) i_revision = i_opened_revision;
-			error = saveFile(file.fileName(), QFile::ReadUser | QFile::WriteUser, true);
-			if(!error.isNull()) {i_revision = saved_revision; return false;}
 			error = syncUpload(file.fileName());
 			i_revision = saved_revision;
 		}
@@ -1267,8 +1265,6 @@ bool Budget::sync(QString &error, QString &errors, bool do_upload, bool on_load)
 
 	//upload
 	if(do_upload) {
-		error = saveFile(file.fileName(), QFile::ReadUser | QFile::WriteUser, true);
-		if(!error.isNull()) return false;
 		error = syncUpload(file.fileName());
 		if(!error.isNull()) return true;
 	}
@@ -1276,6 +1272,13 @@ bool Budget::sync(QString &error, QString &errors, bool do_upload, bool on_load)
 	return true;
 }
 QString Budget::syncUpload(QString filename) {
+	int rev_bak = o_sync->revision;
+	o_sync->revision = i_revision;
+	QString error = saveFile(filename, QFile::ReadUser | QFile::WriteUser, true);
+	o_sync->revision = rev_bak;
+	if(!error.isNull()) {
+		return error;
+	}
 	QString command = o_sync->upload;
 	command.replace("%f", filename);
 	command.replace("%u", o_sync->url);
@@ -1284,12 +1287,12 @@ QString Budget::syncUpload(QString filename) {
 	syncProcess->start(command);
 	QObject::connect(syncProcess, SIGNAL(finished(int, QProcess::ExitStatus)), &loop, SLOT(quit()));
 	loop.exec();
-	QString error;
 	if(syncProcess->exitStatus() != QProcess::NormalExit || syncProcess->exitCode() != 0) {
-		QString error = tr("Upload command (%1) failed: %2.").arg(command).arg(syncProcess->errorString());
+		error = tr("Upload command (%1) failed: %2.").arg(command).arg(syncProcess->errorString());
 	} else {
 		o_sync->revision = i_revision;
 	}
+	
 	syncProcess->deleteLater();
 	syncProcess = NULL;
 	return error;
@@ -1427,6 +1430,8 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 		if(xml.name() == "budget_period") {
 			xml.skipCurrentElement();
 		} else if(xml.name() == "currency") {
+			xml.skipCurrentElement();
+		} else if(xml.name() == "synchronization") {
 			xml.skipCurrentElement();
 		} else if(xml.name() == "schedule") {
 			bool valid = true;
@@ -1914,7 +1919,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions, bool 
 	if(o_sync->isComplete()) {
 		xml.writeStartElement("synchronization");
 		xml.writeAttribute("type", "url");
-		if(o_sync->autosync) xml.writeAttribute("autosave", QString::number(o_sync->autosync));
+		if(o_sync->autosync) xml.writeAttribute("autosync", QString::number(o_sync->autosync));
 		xml.writeAttribute("revision", QString::number(o_sync->revision));
 		if(!o_sync->url.isEmpty()) xml.writeTextElement("url", o_sync->url);
 		if(!o_sync->download.isEmpty()) xml.writeTextElement("download", o_sync->download);
