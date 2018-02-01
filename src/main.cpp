@@ -64,6 +64,8 @@ int main(int argc, char **argv) {
 	parser->addOption(iOption);
 	QCommandLineOption tOption("transfers", QApplication::tr("Start with transfers list displayed"));
 	parser->addOption(tOption);
+	QCommandLineOption sOption(QStringList() << "s" << "sync", QApplication::tr("Synchronize file"));
+	parser->addOption(sOption);
 	parser->addPositionalArgument("url", QApplication::tr("Document to open"), "[url]");
 	parser->addHelpOption();
 	parser->process(app);
@@ -91,6 +93,8 @@ int main(int argc, char **argv) {
 						command = 'i';
 					} else if(parser->isSet(tOption)) {
 						command = 't';
+					} else if(parser->isSet(sOption)) {
+						command = 's';
 					} else {
 						command = '0';
 					}
@@ -103,6 +107,37 @@ int main(int argc, char **argv) {
 			}
 		}
 	}
+
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	QString url = settings.value("lastURL", QString()).toString();
+	settings.endGroup();
+
+	if(parser->isSet(sOption)) {
+		QStringList args = parser->positionalArguments();
+		QUrl u;
+		if(args.count() > 0) {
+			u = QUrl::fromUserInput(args.at(0));
+		} else {
+			u = QUrl(url);
+		}
+		Budget *budget = new Budget();
+		QString errors;
+		QString error = budget->loadFile(u.toLocalFile(), errors);
+		if(!error.isNull()) {qWarning() << error; return EXIT_FAILURE;}
+		if(!errors.isEmpty()) qWarning() << errors;
+		errors = QString::null;
+		if(budget->sync(error, errors, true, true)) {
+			if(!errors.isEmpty()) qWarning() << errors;
+			error = budget->saveFile(u.toLocalFile());
+			if(!error.isNull()) {qWarning() << error; return EXIT_FAILURE;}
+		} else {
+			if(!error.isNull()) {qWarning() << error; return EXIT_FAILURE;}
+			if(!errors.isEmpty()) qWarning() << errors;
+		}
+		return 0;
+	}
+	
 #ifndef LOAD_EQZICONS_FROM_FILE	
 	if(QIcon::themeName().isEmpty() || !QIcon::hasThemeIcon("eqz-account")) {
 		QIcon::setThemeSearchPaths(QStringList(ICON_DIR));
@@ -122,10 +157,7 @@ int main(int argc, char **argv) {
 	}	
 	win->show();
 	app.processEvents();
-	QSettings settings;
-	settings.beginGroup("GeneralOptions");
-	QString url = settings.value("lastURL", QString()).toString();
-	settings.endGroup();
+	
 	QStringList args = parser->positionalArguments();
 	if(args.count() > 0) {
 		win->openURL(QUrl::fromUserInput(args.at(0)));

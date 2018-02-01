@@ -2227,6 +2227,27 @@ void Eqonomize::socketReadyRead() {
 	else if(c == 't') showTransfers();
 	command.remove(0, 1);
 	command = command.trimmed();
+	if(c == 's') {
+		if(command.isEmpty() || QUrl::fromUserInput(command) == current_url) {
+			fileSynchronize();
+		} else {
+			QUrl url = QUrl::fromUserInput(command);
+			Budget *budget2 = new Budget();
+			QString errors;
+			QString error = budget2->loadFile(url.toLocalFile(), errors);
+			if(!error.isNull()) {qWarning() << error; return;}
+			if(!errors.isNull()) qWarning() << errors;
+			errors = QString::null;
+			if(budget2->sync(error, errors, true, true)) {
+				if(!errors.isNull()) qWarning() << errors;
+				error = budget2->saveFile(url.toLocalFile());
+				if(!error.isNull()) {qWarning() << error; return;}
+			} else {
+				if(!error.isNull()) {qWarning() << error; return;}
+				if(!errors.isNull()) qWarning() << errors;
+			}
+		}
+	}
 	if(!command.isEmpty()) openURL(QUrl::fromUserInput(command));
 }
 

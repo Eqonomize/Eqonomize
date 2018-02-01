@@ -559,7 +559,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 		if(last_id < 0) last_id = 0;
 	}
 
-	errors = "";
+	errors = QString::null;
 	int category_errors = 0, account_errors = 0, transaction_errors = 0, security_errors = 0;
 
 	assetsAccounts_id[balancingAccount->id()] = balancingAccount;
@@ -1333,7 +1333,7 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 	i_revision += revision_diff;
 	i_opened_revision = i_revision;
 	
-	errors = "";
+	errors = QString::null;
 	int category_errors = 0, account_errors = 0, transaction_errors = 0, security_errors = 0;
 
 	assetsAccounts_id[balancingAccount->id()] = balancingAccount;
