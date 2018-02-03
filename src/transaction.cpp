@@ -1667,13 +1667,15 @@ void MultiItemTransaction::writeElements(QXmlStreamWriter *xml) {
 					attr.append("type", "income");
 				}
 				trans->writeAttributes(&attr);
-				remove_attributes(&attr, "date", "to", "payer");
+				if(((Income*) trans)->payer() == s_payee) remove_attributes(&attr, "date", "from", "payer");
+				else remove_attributes(&attr, "date", "from");
 				break;
 			}
 			case TRANSACTION_TYPE_EXPENSE: {
 				attr.append("type", "expense");
 				trans->writeAttributes(&attr);
-				remove_attributes(&attr, "date", "from", "payee");
+				if(((Expense*) trans)->payee() == s_payee) remove_attributes(&attr, "date", "from", "payee");
+				else remove_attributes(&attr, "date", "from");
 				break;
 			}
 			case TRANSACTION_TYPE_SECURITY_BUY: {

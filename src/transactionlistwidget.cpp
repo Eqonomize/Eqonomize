@@ -635,7 +635,6 @@ void TransactionListWidget::editTransaction() {
 										if(b_match) {
 											if(!i->scheduledTransaction()) splits << split;
 										} else {
-											equal_payee = false;
 											equal_date = false;
 											incomplete_split = true;
 											break;
@@ -731,8 +730,8 @@ void TransactionListWidget::editTransaction() {
 								}
 							}
 						} else if(incomplete_split && !warned4) {
-							if(dialog->dateButton->isChecked() || (dialog->payeeButton && dialog->payeeButton->isChecked())) {
-								QMessageBox::critical(this, tr("Error"), tr("Cannot change date or payee/payer of transactions that are part of a split transaction or debt payment, unless all transactions are selected."));
+							if(dialog->dateButton->isChecked()) {
+								QMessageBox::critical(this, tr("Error"), tr("Cannot change date of transactions that are part of a split transaction or debt payment, unless all transactions are selected."));
 								warned4 = true;
 							}
 						}
@@ -849,14 +848,12 @@ void TransactionListWidget::modifyTransaction() {
 				Expense *expense = (Expense*) split_new->at(index);
 				editWidget->modifyTransaction(expense);
 				split_new->setAccount(expense->from());
-				split_new->setPayee(expense->payee());
 				split_new->setDate(expense->date());
 			} else if(transtype == TRANSACTION_TYPE_INCOME && trans->subtype() == TRANSACTION_SUBTYPE_INCOME && !((Income*) trans)->security()) {
 				split_new = (MultiItemTransaction*) split->copy();
 				Income *income = (Income*) split_new->at(index);
 				editWidget->modifyTransaction(income);
 				split_new->setAccount(income->to());
-				split_new->setPayee(income->payer());
 				split_new->setDate(income->date());
 			} else if(transtype == TRANSACTION_TYPE_TRANSFER && trans->subtype() == TRANSACTION_SUBTYPE_TRANSFER) {
 				split_new = (MultiItemTransaction*) split->copy();

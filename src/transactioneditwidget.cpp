@@ -1885,7 +1885,6 @@ bool MultipleTransactionsEditDialog::modifyTransaction(Transaction *trans, bool 
 		switch(trans->parentSplit()->type()) {
 			case SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS: {
 				b_date = false;
-				b_payee = false;
 				if(change_parent) {
 					MultiItemTransaction *split = (MultiItemTransaction*) trans->parentSplit();
 					if(dateButton->isChecked()) split->setDate(dateEdit->date());
