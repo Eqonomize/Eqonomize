@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016-2017 by Hanna Knutsson            *
+ *   Copyright (C) 2006-2008, 2014, 2016-2018 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -4474,6 +4474,7 @@ void Eqonomize::openSynchronizationSettings() {
 	QGridLayout *grid = new QGridLayout();
 	grid->addWidget(new QLabel(tr("Web address:"), syncDialog), 0, 0);
 	syncUrlEdit = new QLineEdit(budget->o_sync->url, syncDialog);
+	syncUrlEdit->setPlaceholderText(tr("optional"));
 	grid->addWidget(syncUrlEdit, 0, 1);
 	grid->addWidget(new QLabel(tr("Download command:"), syncDialog), 1, 0);
 	syncDownloadEdit = new QLineEdit(budget->o_sync->download, syncDialog);
@@ -6072,7 +6073,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.1</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2017 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.2</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2018 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);

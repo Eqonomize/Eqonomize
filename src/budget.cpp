@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016-2017 by Hanna Knutsson            *
+ *   Copyright (C) 2006-2008, 2014, 2016-2018 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -1653,7 +1653,7 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 						for(QList<Account*>::const_iterator it2 = delete_subs.constBegin(); it2 != delete_subs.constEnd(); ++it2) {
 							removeAccount(*it2);
 						}
-						(*it)->subCategories.sort();
+						account->subCategories.sort();
 					}
 				} else if(!valid) {
 					category_errors++;
@@ -1717,7 +1717,7 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 						for(QList<Account*>::const_iterator it2 = delete_subs.constBegin(); it2 != delete_subs.constEnd(); ++it2) {
 							removeAccount(*it2);
 						}
-						(*it)->subCategories.sort();
+						account->subCategories.sort();
 					}
 				} else if(!valid) {
 					category_errors++;
@@ -1781,7 +1781,7 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 		}
 	}
 
-	if (xml.hasError()) {
+	if(xml.hasError()) {
 		if(!errors.isEmpty()) errors += '\n';
 		errors += tr("XML parse error: \"%1\" at line %2, col %3").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
 	}
