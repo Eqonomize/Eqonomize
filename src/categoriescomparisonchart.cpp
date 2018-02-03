@@ -504,6 +504,7 @@ void CategoriesComparisonChart::updateDisplay() {
 
 	QMap<Account*, double> values;
 	QMap<Account*, double> counts;
+	QMap<QString, QString> desc_map;
 	QMap<QString, double> desc_values;
 	QMap<QString, double> desc_counts;
 	double value_count = 0.0;
@@ -583,11 +584,13 @@ void CategoriesComparisonChart::updateDisplay() {
 						counts[account] = 0.0;
 					}
 				} else {
-					for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+					for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
+						--it;
 						Transaction *trans = *it;
-						if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
-							desc_values[trans->description()] = 0.0;
-							desc_counts[trans->description()] = 0.0;
+						if((trans->fromAccount() == current_account || trans->toAccount() == current_account) && !desc_map.contains(trans->description().toLower())) {
+							desc_map[trans->description().toLower()] = trans->description();
+							desc_values[trans->description().toLower()] = 0.0;
+							desc_counts[trans->description().toLower()] = 0.0;
 						}
 					}
 				}
@@ -619,14 +622,14 @@ void CategoriesComparisonChart::updateDisplay() {
 		if(first_date_reached) {
 			if(current_account && !include_subs) {
 				if(trans->fromAccount() == current_account) {
-					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description()] -= trans->value(true); value -= trans->value(true);}
-					else {desc_values[trans->description()] += trans->value(true); value += trans->value(true);}
-					desc_counts[trans->description()] += trans->quantity();
+					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] -= trans->value(true); value -= trans->value(true);}
+					else {desc_values[trans->description().toLower()] += trans->value(true); value += trans->value(true);}
+					desc_counts[trans->description().toLower()] += trans->quantity();
 					value_count += trans->quantity();
 				} else if(trans->toAccount() == current_account) {
-					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description()] += trans->value(true); value += trans->value(true);}
-					else {desc_values[trans->description()] -= trans->value(true); value -= trans->value(true);}
-					desc_counts[trans->description()] += trans->quantity();
+					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] += trans->value(true); value += trans->value(true);}
+					else {desc_values[trans->description().toLower()] -= trans->value(true); value -= trans->value(true);}
+					desc_counts[trans->description().toLower()] += trans->quantity();
 					value_count += trans->quantity();
 				}
 			} else if(type == ACCOUNT_TYPE_ASSETS) {
@@ -703,15 +706,15 @@ void CategoriesComparisonChart::updateDisplay() {
 			if(current_account && !include_subs) {
 				if(trans->fromAccount() == current_account) {
 					int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
-					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description()] -= trans->value(true) * count; value -= trans->value(true) * count;}
-					else {desc_values[trans->description()] += trans->value(true) * count; value += trans->value(true) * count;}
-					desc_counts[trans->description()] += count *  trans->quantity();
+					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] -= trans->value(true) * count; value -= trans->value(true) * count;}
+					else {desc_values[trans->description().toLower()] += trans->value(true) * count; value += trans->value(true) * count;}
+					desc_counts[trans->description().toLower()] += count *  trans->quantity();
 					value_count += count *  trans->quantity();
 				} else if(trans->toAccount() == current_account) {
 					int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
-					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description()] += trans->value(true) * count; value += trans->value(true) * count;}
-					else {desc_values[trans->description()] -= trans->value(true) * count; value -= trans->value(true) * count;}
-					desc_counts[trans->description()] += count *  trans->quantity();
+					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] += trans->value(true) * count; value += trans->value(true) * count;}
+					else {desc_values[trans->description().toLower()] -= trans->value(true) * count; value -= trans->value(true) * count;}
+					desc_counts[trans->description().toLower()] += count *  trans->quantity();
 					value_count += count *  trans->quantity();
 				}
 			} else if(type == ACCOUNT_TYPE_ASSETS) {
@@ -895,7 +898,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			if(desc_order[index].isEmpty()) {
 				legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
 			} else {
-				legend_string = desc_order[index];
+				legend_string = desc_map[desc_order[index]];
 			}
 			current_value = desc_values[desc_order[index]];
 		} else {
@@ -1074,7 +1077,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			if(desc_order[index].isEmpty()) {
 				legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
 			} else {
-				legend_string = desc_order[index];
+				legend_string = desc_map[desc_order[index]];
 			}
 			legend_value = desc_values[desc_order[index]];
 		} else {

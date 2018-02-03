@@ -204,17 +204,18 @@ void OverTimeReport::categoryChanged(int index) {
 			current_source = 5;
 		}
 		has_empty_description = false;
-		QMap<QString, bool> descriptions;
-		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+		QMap<QString, QString> descriptions;
+		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
+			--it;
 			Transaction *trans = *it;
 			if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
 				if(trans->description().isEmpty()) has_empty_description = true;
-				else descriptions[trans->description()] = true;
+				else if(!descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
 			}
 		}
-		QMap<QString, bool>::iterator it_e = descriptions.end();
-		for(QMap<QString, bool>::iterator it = descriptions.begin(); it != it_e; ++it) {
-			descriptionCombo->addItem(it.key());
+		QMap<QString, QString>::iterator it_e = descriptions.end();
+		for(QMap<QString, QString>::iterator it = descriptions.begin(); it != it_e; ++it) {
+			descriptionCombo->addItem(it.value());
 		}
 		if(has_empty_description) descriptionCombo->addItem(tr("No description", "Referring to the transaction description property (transaction title/generic article name)"));
 		descriptionCombo->setEnabled(true);
@@ -430,12 +431,12 @@ void OverTimeReport::updateDisplay() {
 		int sign = 1;
 		if(!started && trans->date() >= first_date) started = true;
 		if(started) {
-			if((type == 1 && trans->fromAccount()->type() == at) || (type == 2 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account)) || (type == 3 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account) && trans->description() == current_description) || (type == 0 && trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
+			if((type == 1 && trans->fromAccount()->type() == at) || (type == 2 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account)) || (type == 3 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account) && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (type == 0 && trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
 				if(type == 0) sign = 1;
 				else if(at == ACCOUNT_TYPE_INCOMES) sign = 1;
 				else sign = -1;
 				include = true;
-			} else if((type == 1 && trans->toAccount()->type() == at) || (type == 2 && (trans->toAccount() == account || trans->toAccount()->topAccount() == account)) || (type == 3 && (trans->toAccount() == account || trans->toAccount()->topAccount() == account) && trans->description() == current_description) || (type == 0 && trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
+			} else if((type == 1 && trans->toAccount()->type() == at) || (type == 2 && (trans->toAccount() == account || trans->toAccount()->topAccount() == account)) || (type == 3 && (trans->toAccount() == account || trans->toAccount()->topAccount() == account) && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (type == 0 && trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
 				if(type == 0) sign = -1;
 				else if(at == ACCOUNT_TYPE_INCOMES) sign = -1;
 				else sign = 1;
@@ -514,12 +515,12 @@ void OverTimeReport::updateDisplay() {
 			}
 			bool include = false;
 			int sign = 1;
-			if((type == 1 && trans->fromAccount()->type() == at) || (type == 2 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account)) || (type == 3 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account) && trans->description() == current_description) || (type == 0 && trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
+			if((type == 1 && trans->fromAccount()->type() == at) || (type == 2 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account)) || (type == 3 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account) && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (type == 0 && trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
 				if(type == 0) sign = 1;
 				else if(at == ACCOUNT_TYPE_INCOMES) sign = 1;
 				else sign = -1;
 				include = true;
-			} else if((type == 1 && trans->toAccount()->type() == at) || (type == 2 && (trans->toAccount() == account || trans->toAccount()->topAccount() == account)) || (type == 3 && (trans->toAccount() == account || trans->toAccount()->topAccount() == account) && trans->description() == current_description) || (type == 0 && trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
+			} else if((type == 1 && trans->toAccount()->type() == at) || (type == 2 && (trans->toAccount() == account || trans->toAccount()->topAccount() == account)) || (type == 3 && (trans->toAccount() == account || trans->toAccount()->topAccount() == account) && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (type == 0 && trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
 				if(type == 0) sign = -1;
 				else if(at == ACCOUNT_TYPE_INCOMES) sign = -1;
 				else sign = 1;
@@ -740,29 +741,31 @@ void OverTimeReport::updateDisplay() {
 void OverTimeReport::updateTransactions() {
 	if(descriptionCombo->isEnabled() && current_account) {
 		int curindex = 0;
+		bool update_index = descriptionCombo->currentIndex() > 0;
 		descriptionCombo->blockSignals(true);
 		descriptionCombo->clear();
 		descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the transaction description property (transaction title/generic article name)"));
 		has_empty_description = false;
-		QMap<QString, bool> descriptions;
-		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+		QMap<QString, QString> descriptions;
+		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
+			--it;
 			Transaction *trans = *it;
 			if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
 				if(trans->description().isEmpty()) has_empty_description = true;
-				else descriptions[trans->description()] = true;
+				else if(!descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
 			}
 		}
-		QMap<QString, bool>::iterator it_e = descriptions.end();
+		QMap<QString, QString>::iterator it_e = descriptions.end();
 		int i = 1;
-		for(QMap<QString, bool>::iterator it = descriptions.begin(); it != it_e; ++it) {
-			if((current_source == 9 || current_source == 10) && it.key() == current_description) {
+		for(QMap<QString, QString>::iterator it = descriptions.begin(); it != it_e; ++it) {
+			if(update_index && (current_source == 9 || current_source == 10) && !it.key().compare(current_description, Qt::CaseInsensitive)) {
 				curindex = i;
 			}
-			descriptionCombo->addItem(it.key());
+			descriptionCombo->addItem(it.value());
 			i++;
 		}
 		if(has_empty_description) {
-			if((current_source == 9 || current_source == 10) && current_description.isEmpty()) curindex = i;
+			if(update_index && (current_source == 9 || current_source == 10) && current_description.isEmpty()) curindex = i;
 			descriptionCombo->addItem(tr("No description", "Referring to the transaction description property (transaction title/generic article name)"));
 		}
 		if(curindex < descriptionCombo->count()) {

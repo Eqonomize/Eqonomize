@@ -322,7 +322,7 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 					Transaction *trans = *it;
 					if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
 						if(trans->description().isEmpty()) has_empty_description = true;
-						else if(descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
+						else if(!descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
 						if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
 							if(((Expense*) trans)->payee().isEmpty()) has_empty_payee = true;
 							else if(!payees.contains(((Expense*) trans)->payee().toLower())) payees[((Expense*) trans)->payee().toLower()] = ((Expense*) trans)->payee();
@@ -1245,7 +1245,7 @@ void CategoriesComparisonReport::updateTransactions() {
 		int i = 1;
 		QMap<QString, QString>::iterator it_e = descriptions.end();
 		for(QMap<QString, QString>::iterator it = descriptions.begin(); it != it_e; ++it) {
-			if(restore_d && it.value() == current_description) {curindex_d = i;}
+			if(restore_d && !it.value().compare(current_description, Qt::CaseInsensitive)) {curindex_d = i;}
 			descriptionCombo->addItem(it.value());
 			i++;
 		}
@@ -1262,7 +1262,7 @@ void CategoriesComparisonReport::updateTransactions() {
 		i = 1;
 		QMap<QString, QString>::iterator it2_e = payees.end();
 		for(QMap<QString, QString>::iterator it2 = payees.begin(); it2 != it2_e; ++it2) {
-			if(restore_p && it2.value() == current_payee) {curindex_p = i;}
+			if(restore_p && !it2.value().compare(current_payee, Qt::CaseInsensitive)) {curindex_p = i;}
 			payeeCombo->addItem(it2.value());
 			i++;
 		}
