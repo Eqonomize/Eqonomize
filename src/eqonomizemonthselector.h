@@ -52,6 +52,7 @@ class EqonomizeMonthSelector : public QWidget {
 		void setDate(const QDate&);
 		void focusMonth();
 		void focusYear();
+		void setMonthEnabled(bool);
 
 	protected slots:
 		

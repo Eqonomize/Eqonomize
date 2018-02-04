@@ -78,6 +78,10 @@ void EqonomizeMonthSelector::setDate(const QDate &newdate) {
 	}
 }
 
+void EqonomizeMonthSelector::setMonthEnabled(bool b) {
+	monthCombo->setEnabled(b);
+}
+
 void EqonomizeMonthSelector::updateMonths() {	
 	int months = 12;
 	monthCombo->blockSignals(true);

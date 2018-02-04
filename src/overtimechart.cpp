@@ -286,6 +286,9 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	enabledLayout->addWidget(perButton);
 	enabledLayout->addStretch(1);
 	
+	startDateEdit->setMonthEnabled(!yearlyButton->isChecked());
+	endDateEdit->setMonthEnabled(!yearlyButton->isChecked());
+	
 	settings.endGroup();
 	
 	resetOptions();
@@ -374,6 +377,8 @@ void OverTimeChart::resetDate() {
 
 void OverTimeChart::valueTypeToggled(bool b) {
 	if(!b) return;
+	startDateEdit->setMonthEnabled(!yearlyButton->isChecked());
+	endDateEdit->setMonthEnabled(!yearlyButton->isChecked());
 	if(typeCombo->currentIndex() != 0) {
 		if(valueGroup->checkedId() == 4) {resetDate(); updateDisplay();}
 		else endMonthChanged(end_date);
