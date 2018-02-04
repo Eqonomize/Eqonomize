@@ -960,6 +960,7 @@ void LedgerDialog::joinTransactions() {
 	QString payee;
 	QString file;
 	QList<Transaction*> sel_bak;
+	bool use_payee = true;
 	for(int index = 0; index < selection.size(); index++) {
 		LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
 		if(!i->splitTransaction()) {
@@ -972,16 +973,21 @@ void LedgerDialog::joinTransactions() {
 				if(split->associatedFile().isEmpty() && !trans->associatedFile().isEmpty()) {
 					split->setAssociatedFile(trans->associatedFile());
 				}
-				if(payee.isEmpty()) {
-					if(trans->type() == TRANSACTION_TYPE_EXPENSE) payee = ((Expense*) trans)->payee();
-					else if(trans->type() == TRANSACTION_TYPE_INCOME) payee = ((Income*) trans)->payer();
+				if(use_payee) {
+					if(payee.isEmpty()) {
+						if(trans->type() == TRANSACTION_TYPE_EXPENSE) payee = ((Expense*) trans)->payee();
+						else if(trans->type() == TRANSACTION_TYPE_INCOME) payee = ((Income*) trans)->payer();
+					} else {
+						if(trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().isEmpty() && payee != ((Expense*) trans)->payee()) use_payee = false;
+						else if(trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().isEmpty() && payee != ((Income*) trans)->payer()) use_payee = false;
+					}
 				}
 				split->addTransaction(trans->copy());
 			}
 		}
 	}
 	if(!split) return;
-	if(!payee.isEmpty()) split->setPayee(payee);
+	if(use_payee && !payee.isEmpty()) split->setPayee(payee);
 	if(mainWin->editSplitTransaction(split, this, true)) {
 		delete split;
 		for(int index = 0; index < sel_bak.size(); index++) {
