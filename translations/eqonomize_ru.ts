@@ -3182,45 +3182,45 @@ i18n: file ./eqonomizeui.rc line 56
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="168"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1265"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1269"/>
         <source>All Expenses, without subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="169"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1266"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1270"/>
         <source>All Expenses, with subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="170"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1267"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1271"/>
         <source>All Incomes, without subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="171"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1268"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1272"/>
         <source>All Incomes, with subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="172"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1269"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1273"/>
         <source>All Accounts</source>
         <translation type="unfinished">Все счета</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="175"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="575"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1273"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="593"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1277"/>
         <source>Expenses: %1</source>
         <translation type="unfinished">Расходы: %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="179"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="576"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1279"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="594"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1283"/>
         <source>Incomes: %1</source>
         <translation type="unfinished">Доходы: %1</translation>
     </message>
@@ -3266,25 +3266,25 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished">Расходы</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="540"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="558"/>
         <source>Incomes</source>
         <translation type="unfinished">Доходы</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="552"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="570"/>
         <source>Accounts</source>
         <translation type="unfinished">Счета</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="823"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="824"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="827"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="828"/>
         <source>Other descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="899"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1078"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="903"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1082"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Без описания</translation>
@@ -3300,17 +3300,17 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="obsolete">Без описания</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="995"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="999"/>
         <source>Value</source>
         <translation type="unfinished">Значение</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="996"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1000"/>
         <source>Income</source>
         <translation type="unfinished">Доход</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="997"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1001"/>
         <source>Cost</source>
         <translation type="unfinished">Цена</translation>
     </message>
@@ -3358,21 +3358,19 @@ i18n: file ./eqonomizeui.rc line 56
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="98"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1289"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1295"/>
         <source>All Categories, excluding subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="99"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1290"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1296"/>
         <source>All Categories, including subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="100"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1291"/>
         <source>All Payees/Payers</source>
-        <translation type="unfinished">Все получатели/платильщики</translation>
+        <translation type="obsolete">Все получатели/платильщики</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="119"/>
@@ -3401,17 +3399,17 @@ i18n: file ./eqonomizeui.rc line 56
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="103"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="940"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="943"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1295"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="946"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="949"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1301"/>
         <source>Expenses: %1</source>
         <translation type="unfinished">Расходы: %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="107"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="945"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="948"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1301"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="951"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="954"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1307"/>
         <source>Incomes: %1</source>
         <translation type="unfinished">Доходы: %1</translation>
     </message>
@@ -3451,7 +3449,7 @@ i18n: file ./eqonomizeui.rc line 56
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="182"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="994"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1000"/>
         <source>Value</source>
         <translation type="unfinished">Значение</translation>
     </message>
@@ -3472,7 +3470,7 @@ i18n: file ./eqonomizeui.rc line 56
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="194"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="999"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1005"/>
         <source>Quantity</source>
         <translation type="unfinished">Количество</translation>
     </message>
@@ -3487,13 +3485,13 @@ i18n: file ./eqonomizeui.rc line 56
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="315"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1225"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1231"/>
         <source>All payees</source>
         <translation type="unfinished">Все получатели</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="316"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1226"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1232"/>
         <source>All payers</source>
         <translation type="unfinished">Все платильщики</translation>
     </message>
@@ -3522,6 +3520,12 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="obsolete">Без описания</translation>
     </message>
     <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="100"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1297"/>
+        <source>All Payees and Payers</source>
+        <translation type="unfinished">Все получатели и платильщики</translation>
+    </message>
+    <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="123"/>
         <source>Descriptions for</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
@@ -3535,37 +3539,37 @@ i18n: file ./eqonomizeui.rc line 56
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="314"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1224"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1230"/>
         <source>All descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Все описания</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="338"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="941"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="946"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1085"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1207"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1254"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="947"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="952"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1091"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1213"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1260"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Без описания</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="344"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="942"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1082"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1209"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1271"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="948"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1088"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1215"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1277"/>
         <source>No payee</source>
         <translation type="unfinished">Без получателя</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="345"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="947"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1083"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1210"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1272"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="953"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1089"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1216"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1278"/>
         <source>No payer</source>
         <translation type="unfinished">Без платильщика</translation>
     </message>
@@ -3606,125 +3610,125 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished">Ошибка чтения файла; Файл не сохранен.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="941"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="942"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="947"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="948"/>
         <source>Expenses: %2, %1</source>
         <translation type="unfinished">Расход: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="946"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="947"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="952"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="953"/>
         <source>Incomes: %2, %1</source>
         <translation type="unfinished">Доход: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="950"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="956"/>
         <source>Incomes &amp; Expenses</source>
         <translation type="unfinished">Расход и Доход</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="963"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="969"/>
         <source>%1 (%2&amp;ndash;%3)</source>
         <comment>html format; %1: title; %2: from date; %3: to date</comment>
         <translation type="unfinished">%1  с  %2  по %3</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="964"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="970"/>
         <source>%1 (to %2)</source>
         <comment>html format; %1: title; %2: to date</comment>
         <translation type="unfinished">%1 (to %2)</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="982"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="987"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="988"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="993"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="999"/>
         <source>Category</source>
         <translation type="unfinished">Категория</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="983"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="989"/>
         <source>Payee</source>
         <translation type="unfinished">Получатель</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="984"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="989"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="990"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="995"/>
         <source>Description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Описание</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="985"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="991"/>
         <source>Cost</source>
         <translation type="unfinished">Цена</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="988"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="994"/>
         <source>Payer</source>
         <translation type="unfinished">Платильщик</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="990"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="996"/>
         <source>Income</source>
         <translation type="unfinished">Доход</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="992"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="998"/>
         <source>Payee/Payer</source>
         <translation type="unfinished">Получатель/платильщик</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="996"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1002"/>
         <source>Daily Average</source>
         <translation type="unfinished">Средний ежедневный</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="997"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1003"/>
         <source>Monthly Average</source>
         <translation type="unfinished">Средний ежемесячный</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="998"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1004"/>
         <source>Yearly Average</source>
         <translation type="unfinished">Средний ежегодный</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1001"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1007"/>
         <source>Average Cost</source>
         <translation type="unfinished">Средняя цена</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1003"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1009"/>
         <source>Average Income</source>
         <translation type="unfinished">Средний доход</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1005"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1011"/>
         <source>Average Value</source>
         <translation type="unfinished">Среднее значение</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1084"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1090"/>
         <source>No payee/payer</source>
         <translation type="unfinished">Без получателя/платильщика</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1101"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1107"/>
         <source>Total</source>
         <translation type="unfinished">Итог</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1141"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1147"/>
         <source>Total incomes</source>
         <translation type="unfinished">Итого доходов</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1179"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1185"/>
         <source>Total expenses</source>
         <translation type="unfinished">Итого расходов</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1190"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1196"/>
         <source>Total (Profits)</source>
         <translation type="unfinished">Итог (Прибыль)</translation>
     </message>

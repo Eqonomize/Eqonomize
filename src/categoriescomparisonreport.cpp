@@ -97,7 +97,7 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	sourceCombo->setEditable(false);
 	sourceCombo->addItem(tr("All Categories, excluding subcategories"));
 	sourceCombo->addItem(tr("All Categories, including subcategories"));
-	sourceCombo->addItem(tr("All Payees/Payers"));
+	sourceCombo->addItem(tr("All Payees and Payers"));
 	for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 		Account *account = *it;
 		sourceCombo->addItem(tr("Expenses: %1").arg(account->nameWithParent()));
@@ -1294,7 +1294,7 @@ void CategoriesComparisonReport::updateAccounts() {
 	sourceCombo->clear();
 	sourceCombo->addItem(tr("All Categories, excluding subcategories"));
 	sourceCombo->addItem(tr("All Categories, including subcategories"));
-	sourceCombo->addItem(tr("All Payees/Payers"));
+	sourceCombo->addItem(tr("All Payees and Payers"));
 	int i = 1;
 	for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 		Account *account = *it;
