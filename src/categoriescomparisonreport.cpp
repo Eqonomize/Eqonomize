@@ -593,8 +593,8 @@ void CategoriesComparisonReport::updateDisplay() {
 			for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
 				--it;
 				Transaction *trans = *it;
-				if(trans->date() >= first_date) {
-					if(trans->date() > to_date) break;
+				if(trans->date() <= to_date) {
+					if(trans->date() < first_date) break;
 					if(trans->type() == TRANSACTION_TYPE_EXPENSE && !desc_map.contains(((Expense*) trans)->payee().toLower())) {
 						desc_map[((Expense*) trans)->payee().toLower()] = ((Expense*) trans)->payee();
 						desc_values[((Expense*) trans)->payee().toLower()] = 0.0;
@@ -669,21 +669,24 @@ void CategoriesComparisonReport::updateDisplay() {
 				for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
 					--it;
 					Transaction *trans = *it;
-					if((trans->fromAccount() == current_account || trans->toAccount() == current_account) && (i_source <= 2 || (i_source == 4 && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (i_source == 3 && ((trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)))))) {
-						if(i_source == 2 || i_source == 4) {
-							if(trans->type() == TRANSACTION_TYPE_EXPENSE && !desc_map.contains(((Expense*) trans)->payee().toLower())) {
-								desc_map[((Expense*) trans)->payee().toLower()] = ((Expense*) trans)->payee();
-								desc_values[((Expense*) trans)->payee().toLower()] = 0.0;
-								desc_counts[((Expense*) trans)->payee().toLower()] = 0.0;
-							} else if(trans->type() == TRANSACTION_TYPE_INCOME && !desc_map.contains(((Income*) trans)->payer().toLower())) {
-								desc_map[((Income*) trans)->payer().toLower()] = ((Income*) trans)->payer();
-								desc_values[((Income*) trans)->payer().toLower()] = 0.0;
-								desc_counts[((Income*) trans)->payer().toLower()] = 0.0;
+					if(trans->date() <= to_date) {
+						if(trans->date() < first_date) break;
+						if((trans->fromAccount() == current_account || trans->toAccount() == current_account) && (i_source <= 2 || (i_source == 4 && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (i_source == 3 && ((trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)))))) {
+							if(i_source == 2 || i_source == 4) {
+								if(trans->type() == TRANSACTION_TYPE_EXPENSE && !desc_map.contains(((Expense*) trans)->payee().toLower())) {
+									desc_map[((Expense*) trans)->payee().toLower()] = ((Expense*) trans)->payee();
+									desc_values[((Expense*) trans)->payee().toLower()] = 0.0;
+									desc_counts[((Expense*) trans)->payee().toLower()] = 0.0;
+								} else if(trans->type() == TRANSACTION_TYPE_INCOME && !desc_map.contains(((Income*) trans)->payer().toLower())) {
+									desc_map[((Income*) trans)->payer().toLower()] = ((Income*) trans)->payer();
+									desc_values[((Income*) trans)->payer().toLower()] = 0.0;
+									desc_counts[((Income*) trans)->payer().toLower()] = 0.0;
+								}
+							} else if(!desc_map.contains(trans->description().toLower())) {
+								desc_map[trans->description().toLower()] = trans->description();
+								desc_values[trans->description().toLower()] = 0.0;
+								desc_counts[trans->description().toLower()] = 0.0;
 							}
-						} else if(!desc_map.contains(trans->description().toLower())) {
-							desc_map[trans->description().toLower()] = trans->description();
-							desc_values[trans->description().toLower()] = 0.0;
-							desc_counts[trans->description().toLower()] = 0.0;
 						}
 					}
 				}
@@ -702,21 +705,24 @@ void CategoriesComparisonReport::updateDisplay() {
 					} else {
 						trans = (Transaction*) strans->transaction();
 					}
-					if((trans->fromAccount() == current_account || trans->toAccount() == current_account) && (i_source <= 2 || (i_source == 4 && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (i_source == 3 && ((trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)))))) {
-						if(i_source == 2 || i_source == 4) {
-							if(trans->type() == TRANSACTION_TYPE_EXPENSE && !desc_map.contains(((Expense*) trans)->payee().toLower())) {
-								desc_map[((Expense*) trans)->payee().toLower()] = ((Expense*) trans)->payee();
-								desc_values[((Expense*) trans)->payee().toLower()] = 0.0;
-								desc_counts[((Expense*) trans)->payee().toLower()] = 0.0;
-							} else if(trans->type() == TRANSACTION_TYPE_INCOME && !desc_map.contains(((Income*) trans)->payer().toLower())) {
-								desc_map[((Income*) trans)->payer().toLower()] = ((Income*) trans)->payer();
-								desc_values[((Income*) trans)->payer().toLower()] = 0.0;
-								desc_counts[((Income*) trans)->payer().toLower()] = 0.0;
+					if(trans->date() >= first_date) {
+						if(trans->date() > to_date) break;
+						if((trans->fromAccount() == current_account || trans->toAccount() == current_account) && (i_source <= 2 || (i_source == 4 && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (i_source == 3 && ((trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)))))) {
+							if(i_source == 2 || i_source == 4) {
+								if(trans->type() == TRANSACTION_TYPE_EXPENSE && !desc_map.contains(((Expense*) trans)->payee().toLower())) {
+									desc_map[((Expense*) trans)->payee().toLower()] = ((Expense*) trans)->payee();
+									desc_values[((Expense*) trans)->payee().toLower()] = 0.0;
+									desc_counts[((Expense*) trans)->payee().toLower()] = 0.0;
+								} else if(trans->type() == TRANSACTION_TYPE_INCOME && !desc_map.contains(((Income*) trans)->payer().toLower())) {
+									desc_map[((Income*) trans)->payer().toLower()] = ((Income*) trans)->payer();
+									desc_values[((Income*) trans)->payer().toLower()] = 0.0;
+									desc_counts[((Income*) trans)->payer().toLower()] = 0.0;
+								}
+							} else if(!desc_map.contains(trans->description().toLower())) {
+								desc_map[trans->description().toLower()] = trans->description();
+								desc_values[trans->description().toLower()] = 0.0;
+								desc_counts[trans->description().toLower()] = 0.0;
 							}
-						} else if(!desc_map.contains(trans->description().toLower())) {
-							desc_map[trans->description().toLower()] = trans->description();
-							desc_values[trans->description().toLower()] = 0.0;
-							desc_counts[trans->description().toLower()] = 0.0;
 						}
 					}
 					if(strans->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT || split_i >= ((SplitTransaction*) strans->transaction())->count()) {

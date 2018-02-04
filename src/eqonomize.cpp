@@ -4484,7 +4484,7 @@ void Eqonomize::openSynchronizationSettings() {
 	syncUploadEdit = new QLineEdit(budget->o_sync->upload, syncDialog);
 	syncUploadEdit->setPlaceholderText(tr("mandatory"));
 	grid->addWidget(syncUploadEdit, 2, 1);
-	grid->addWidget(new QLabel(tr("%f = local file, %u = url"), syncDialog), 3, 1);
+	grid->addWidget(new QLabel(tr("%f = local file (temporary), %u = url"), syncDialog), 3, 1);
 	syncAutoBox = new QCheckBox(tr("Automatic synchronization"), syncDialog);
 	syncAutoBox->setChecked(budget->o_sync->autosync);
 	grid->addWidget(syncAutoBox, 4, 0, 1, 2);

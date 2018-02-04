@@ -731,7 +731,7 @@ void TransactionListWidget::editTransaction() {
 							}
 						} else if(incomplete_split && !warned4) {
 							if(dialog->dateButton->isChecked()) {
-								QMessageBox::critical(this, tr("Error"), tr("Cannot change date of transactions that are part of a split transaction or debt payment, unless all transactions are selected."));
+								QMessageBox::critical(this, tr("Error"), tr("Cannot change date of transactions that are part of a split transaction, unless all individual transactions are selected."));
 								warned4 = true;
 							}
 						}

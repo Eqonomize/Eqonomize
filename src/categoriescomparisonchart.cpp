@@ -516,6 +516,24 @@ void CategoriesComparisonChart::updateDisplay() {
 	bool include_subs = false;
 	
 	QString title_string = tr("Expenses");
+	
+	QDate first_date;
+	bool first_date_reached = false;
+	if(sourceCombo->currentIndex() == 4) {
+		first_date_reached = true;
+	} else if(fromButton->isChecked()) {
+		first_date = from_date;
+	} else {
+		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+			Transaction *trans = *it;
+			if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
+				first_date = trans->date();
+				break;
+			}
+		}
+		if(first_date.isNull()) first_date = QDate::currentDate();
+		if(first_date > to_date) first_date = to_date;
+	}
 
 	AccountType type;
 	switch(sourceCombo->currentIndex()) {
@@ -587,10 +605,13 @@ void CategoriesComparisonChart::updateDisplay() {
 					for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
 						--it;
 						Transaction *trans = *it;
-						if((trans->fromAccount() == current_account || trans->toAccount() == current_account) && !desc_map.contains(trans->description().toLower())) {
-							desc_map[trans->description().toLower()] = trans->description();
-							desc_values[trans->description().toLower()] = 0.0;
-							desc_counts[trans->description().toLower()] = 0.0;
+						if(trans->date() <= to_date) {
+							if(trans->date() < first_date) break;
+							if((trans->fromAccount() == current_account || trans->toAccount() == current_account) && !desc_map.contains(trans->description().toLower())) {
+								desc_map[trans->description().toLower()] = trans->description();
+								desc_values[trans->description().toLower()] = 0.0;
+								desc_counts[trans->description().toLower()] = 0.0;
+							}
 						}
 					}
 				}
@@ -598,23 +619,6 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 	}
 
-	QDate first_date;
-	bool first_date_reached = false;
-	if(type == ACCOUNT_TYPE_ASSETS) {
-		first_date_reached = true;
-	} else if(fromButton->isChecked()) {
-		first_date = from_date;
-	} else {
-		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
-			Transaction *trans = *it;
-			if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
-				first_date = trans->date();
-				break;
-			}
-		}
-		if(first_date.isNull()) first_date = QDate::currentDate();
-		if(first_date > to_date) first_date = to_date;
-	}
 	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
 		Transaction *trans = *it;
 		if(!first_date_reached && trans->date() >= first_date) first_date_reached = true;
