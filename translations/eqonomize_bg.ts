@@ -8198,9 +8198,9 @@ What do you want to do with them?</source>
         <location filename="../src/ledgerdialog.cpp" line="786"/>
         <location filename="../src/ledgerdialog.cpp" line="894"/>
         <location filename="../src/ledgerdialog.cpp" line="936"/>
-        <location filename="../src/ledgerdialog.cpp" line="1248"/>
         <location filename="../src/ledgerdialog.cpp" line="1254"/>
         <location filename="../src/ledgerdialog.cpp" line="1260"/>
+        <location filename="../src/ledgerdialog.cpp" line="1266"/>
         <source>Error</source>
         <translation>Грешка</translation>
     </message>
@@ -8267,60 +8267,60 @@ What do you want to do with them?</source>
         <translation type="unfinished">Към настоящия момент е преди считано от датата.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1084"/>
-        <location filename="../src/ledgerdialog.cpp" line="1085"/>
+        <location filename="../src/ledgerdialog.cpp" line="1090"/>
+        <location filename="../src/ledgerdialog.cpp" line="1091"/>
         <source>Balance change:</source>
         <comment>Account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1114"/>
+        <location filename="../src/ledgerdialog.cpp" line="1120"/>
         <source>Delete transactions?</source>
         <translation>Изтриване на транзакциите?</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1114"/>
+        <location filename="../src/ledgerdialog.cpp" line="1120"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation>Сигурен ли сте, че искате да изтриете всички (%1), избрани транзакции?</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1248"/>
+        <location filename="../src/ledgerdialog.cpp" line="1254"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Не може да се зададе стойност на сделки с ценни книжа, използвайки диалогов прозорец за промяна на много транзакции.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1254"/>
+        <location filename="../src/ledgerdialog.cpp" line="1260"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
         <translation>Не може да се промени описанието на дивидентите и сделките с ценни книжа.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1260"/>
+        <location filename="../src/ledgerdialog.cpp" line="1266"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Не може да се промени платецът на дивидентите и сделки с ценни книжа.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1318"/>
+        <location filename="../src/ledgerdialog.cpp" line="1324"/>
         <source>Opening balance</source>
         <comment>Account balance</comment>
         <translation>Начално салдо</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1488"/>
+        <location filename="../src/ledgerdialog.cpp" line="1494"/>
         <source>Account Balance Adjustment</source>
         <translation>Нагласяне на салдо</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1529"/>
+        <location filename="../src/ledgerdialog.cpp" line="1535"/>
         <source>Current balance:</source>
         <comment>Account balance</comment>
         <translation>Салдо на сметка:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1084"/>
-        <location filename="../src/ledgerdialog.cpp" line="1529"/>
+        <location filename="../src/ledgerdialog.cpp" line="1090"/>
+        <location filename="../src/ledgerdialog.cpp" line="1535"/>
         <source>Average balance:</source>
         <comment>Account balance</comment>
         <translation>Средно салдо:</translation>
@@ -8355,24 +8355,24 @@ What do you want to do with them?</source>
         <translation type="obsolete">Не може да се промени описанието на дивидентите и сделките с ценни книжа.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1527"/>
+        <location filename="../src/ledgerdialog.cpp" line="1533"/>
         <source>Current debt:</source>
         <translation>Текущ дълг:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1527"/>
+        <location filename="../src/ledgerdialog.cpp" line="1533"/>
         <source>Total debt reduction:</source>
         <translation>Общо намаляване на дълга:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1527"/>
+        <location filename="../src/ledgerdialog.cpp" line="1533"/>
         <source>Total interest and fees:</source>
         <translation>Тотал лихва и такса:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1084"/>
-        <location filename="../src/ledgerdialog.cpp" line="1085"/>
-        <location filename="../src/ledgerdialog.cpp" line="1529"/>
+        <location filename="../src/ledgerdialog.cpp" line="1090"/>
+        <location filename="../src/ledgerdialog.cpp" line="1091"/>
+        <location filename="../src/ledgerdialog.cpp" line="1535"/>
         <source>Number of transactions:</source>
         <translation>Брой транзакции:</translation>
     </message>
@@ -8393,47 +8393,47 @@ What do you want to do with them?</source>
         <translation type="obsolete">Начален баланс</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1344"/>
+        <location filename="../src/ledgerdialog.cpp" line="1350"/>
         <source>Split Transaction</source>
         <translation>Разделяне на транзакциите</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="269"/>
-        <location filename="../src/ledgerdialog.cpp" line="1369"/>
-        <location filename="../src/ledgerdialog.cpp" line="1396"/>
-        <location filename="../src/ledgerdialog.cpp" line="1423"/>
-        <location filename="../src/ledgerdialog.cpp" line="1449"/>
+        <location filename="../src/ledgerdialog.cpp" line="1375"/>
+        <location filename="../src/ledgerdialog.cpp" line="1402"/>
+        <location filename="../src/ledgerdialog.cpp" line="1429"/>
+        <location filename="../src/ledgerdialog.cpp" line="1455"/>
         <source>Debt Payment</source>
         <translation>Плащане по дълг</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1369"/>
+        <location filename="../src/ledgerdialog.cpp" line="1375"/>
         <source>Reduction</source>
         <translation>Намаляване</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1396"/>
+        <location filename="../src/ledgerdialog.cpp" line="1402"/>
         <source>Fee</source>
         <translation>Такса</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1423"/>
+        <location filename="../src/ledgerdialog.cpp" line="1429"/>
         <source>Interest</source>
         <translation>Лихва</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1480"/>
+        <location filename="../src/ledgerdialog.cpp" line="1486"/>
         <source>Income</source>
         <translation>Приход</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1481"/>
+        <location filename="../src/ledgerdialog.cpp" line="1487"/>
         <source>Repayment</source>
         <translation>Върната сума</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="260"/>
-        <location filename="../src/ledgerdialog.cpp" line="1484"/>
+        <location filename="../src/ledgerdialog.cpp" line="1490"/>
         <source>Expense</source>
         <translation>Разход</translation>
     </message>
@@ -8461,7 +8461,7 @@ What do you want to do with them?</source>
         <translation type="obsolete">Не може да се промени описанието на дивидентите и сделките с ценни книжа.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1485"/>
+        <location filename="../src/ledgerdialog.cpp" line="1491"/>
         <source>Refund</source>
         <translation>Обезщетение</translation>
     </message>
@@ -8470,7 +8470,7 @@ What do you want to do with them?</source>
         <translation type="vanished">балансиране</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1491"/>
+        <location filename="../src/ledgerdialog.cpp" line="1497"/>
         <source>Transfer</source>
         <translation>Прехвърляне</translation>
     </message>
@@ -10831,7 +10831,7 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="168"/>
-        <location filename="../src/transactionlistwidget.cpp" line="1638"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1644"/>
         <source>Apply</source>
         <translation>Прилагане</translation>
     </message>
@@ -11035,7 +11035,7 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="1004"/>
-        <location filename="../src/transactionlistwidget.cpp" line="1080"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1086"/>
         <source>Delete transactions?</source>
         <translation type="unfinished">Изтриване на транзакциите?</translation>
     </message>
@@ -11045,32 +11045,32 @@ Date: %3</source>
         <translation>Сигурен ли сте, че искате да изтриете всички (%1) сделки в избраната разделена транзакция?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1080"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1086"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation>Сигурен ли сте, че искате да изтриете всички (%1), избрани транзакции?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1613"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1619"/>
         <source>* Part of split transaction</source>
         <translation>* Част от разделянето на транзакцията</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1614"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1620"/>
         <source>* Part of split (%1)</source>
         <translation>* Част от разделянето (%1)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1618"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1624"/>
         <source>** Recurring (editing occurrance)</source>
         <translation>** Повторение (редактирени на събитието)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1634"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1640"/>
         <source>Modify…</source>
         <translation>Променяне…</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1636"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1642"/>
         <source>Edit…</source>
         <translation>Редактиране…</translation>
     </message>
