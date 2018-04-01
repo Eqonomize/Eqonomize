@@ -1621,7 +1621,7 @@ void TransactionListWidget::currentTransactionChanged(QTreeWidgetItem *i) {
 	} else if(((TransactionListViewItem*) i)->scheduledTransaction()) {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction(), ((TransactionListViewItem*) i)->date());
 		if(((TransactionListViewItem*) i)->scheduledTransaction()->isOneTimeTransaction()) editInfoLabel->setText(QString::null);
-		else editInfoLabel->setText(tr("** Recurring (editing occurrance)"));
+		else editInfoLabel->setText(tr("** Recurring (editing occurrence)"));
 	} else {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction());
 		editInfoLabel->setText(QString::null);

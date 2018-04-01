@@ -2556,7 +2556,7 @@ i18n: file ./eqonomizeui.rc line 56
         <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
-        <source>Enable recurrance</source>
+        <source>Enable recurrence</source>
         <translation type="vanished">Herhaal deze transactie</translation>
         <extra-po-flags>kde-format</extra-po-flags>
     </message>
@@ -3051,7 +3051,7 @@ i18n: file ./eqonomizeui.rc line 56
         <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
-        <source>** Recurring (editing occurrance)</source>
+        <source>** Recurring (editing occurrence)</source>
         <translation type="vanished">** Herhalend (individuele gebeurtenis wordt bewerkt)</translation>
         <extra-po-flags>kde-format</extra-po-flags>
     </message>
@@ -10104,7 +10104,7 @@ Datum: %3</translation>
     <name>RecurrenceEditWidget</name>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="320"/>
-        <source>Enable recurrance</source>
+        <source>Enable recurrence</source>
         <translation type="unfinished">Herhaal deze transactie</translation>
     </message>
     <message>
@@ -11615,7 +11615,7 @@ Datum: %3</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="1624"/>
-        <source>** Recurring (editing occurrance)</source>
+        <source>** Recurring (editing occurrence)</source>
         <translation type="unfinished">** Herhalend (individuele gebeurtenis wordt bewerkt)</translation>
     </message>
     <message>

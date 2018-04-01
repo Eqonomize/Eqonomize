@@ -2409,7 +2409,7 @@ i18n: file ./eqonomizeui.rc line 56
         <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
-        <source>Enable recurrance</source>
+        <source>Enable recurrence</source>
         <translation type="vanished">Разрешить повторение</translation>
         <extra-po-flags>kde-format</extra-po-flags>
     </message>
@@ -2864,7 +2864,7 @@ i18n: file ./eqonomizeui.rc line 56
         <extra-po-flags>kde-format</extra-po-flags>
     </message>
     <message>
-        <source>** Recurring (editing occurrance)</source>
+        <source>** Recurring (editing occurrence)</source>
         <translation type="vanished">** Периодически (редактирование)</translation>
         <extra-po-flags>kde-format</extra-po-flags>
     </message>
@@ -9843,7 +9843,7 @@ Date: %3</source>
     <name>RecurrenceEditWidget</name>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="320"/>
-        <source>Enable recurrance</source>
+        <source>Enable recurrence</source>
         <translation type="unfinished">Разрешить повторение</translation>
     </message>
     <message>
@@ -11311,7 +11311,7 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="1624"/>
-        <source>** Recurring (editing occurrance)</source>
+        <source>** Recurring (editing occurrence)</source>
         <translation type="unfinished">** Периодически (редактирование)</translation>
     </message>
     <message>

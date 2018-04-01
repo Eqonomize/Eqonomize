@@ -317,7 +317,7 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 	QVBoxLayout *recurrenceLayout = new QVBoxLayout(this);
 	//recurrenceLayout->setContentsMargins(0, 0, 0, 0);
 
-	recurrenceButton = new QCheckBox(tr("Enable recurrance"), this);
+	recurrenceButton = new QCheckBox(tr("Enable recurrence"), this);
 	recurrenceLayout->addWidget(recurrenceButton);
 
 	ruleGroup = new QGroupBox(tr("Recurrence Rule"), this);

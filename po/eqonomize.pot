@@ -5602,7 +5602,7 @@ msgstr ""
 
 #: ../src/recurrenceeditwidget.cpp:320
 msgctxt "RecurrenceEditWidget|"
-msgid "Enable recurrance"
+msgid "Enable recurrence"
 msgstr ""
 
 #: ../src/recurrenceeditwidget.cpp:323
@@ -6826,7 +6826,7 @@ msgstr ""
 
 #: ../src/transactionlistwidget.cpp:1552
 msgctxt "TransactionListWidget|"
-msgid "** Recurring (editing occurrance)"
+msgid "** Recurring (editing occurrence)"
 msgstr ""
 
 #: ../src/transactionlistwidget.cpp:1568
