@@ -2013,7 +2013,7 @@ Was wollen Sie mit diesen tun?</translation>
         <translation type="vanished">Endzeitpunkt vor Startzeitpunkt.</translation>
     </message>
     <message>
-        <source>Enable recurrance</source>
+        <source>Enable recurrence</source>
         <translation type="vanished">Wiederholung aktivieren</translation>
     </message>
     <message>
@@ -2410,7 +2410,7 @@ Was wollen Sie mit diesen tun?</translation>
         <translation type="vanished">* Teil (%1)</translation>
     </message>
     <message>
-        <source>** Recurring (editing occurrance)</source>
+        <source>** Recurring (editing occurrence)</source>
         <translation type="vanished">** Wiederkehrend (bearbeite Vorkommen)</translation>
     </message>
     <message>
@@ -9571,7 +9571,7 @@ Datum: %3</translation>
     <name>RecurrenceEditWidget</name>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="320"/>
-        <source>Enable recurrance</source>
+        <source>Enable recurrence</source>
         <translation>Wiederholung aktivieren</translation>
     </message>
     <message>
@@ -11086,7 +11086,7 @@ Datum: %3</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="1624"/>
-        <source>** Recurring (editing occurrance)</source>
+        <source>** Recurring (editing occurrence)</source>
         <translation>** Wiederkehrend (bearbeite Vorkommen)</translation>
     </message>
     <message>

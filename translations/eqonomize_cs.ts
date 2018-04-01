@@ -1925,7 +1925,7 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="vanished">Datum ukončení předchází datumu zahájení.</translation>
     </message>
     <message>
-        <source>Enable recurrance</source>
+        <source>Enable recurrence</source>
         <translation type="vanished">Zapnout opakování</translation>
     </message>
     <message>
@@ -2317,7 +2317,7 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="vanished">Část rozdělení (%1)</translation>
     </message>
     <message>
-        <source>** Recurring (editing occurrance)</source>
+        <source>** Recurring (editing occurrence)</source>
         <translation type="vanished">**Opakování (upravující výskyt)</translation>
     </message>
     <message>
@@ -9481,7 +9481,7 @@ Date: %3</source>
     <name>RecurrenceEditWidget</name>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="320"/>
-        <source>Enable recurrance</source>
+        <source>Enable recurrence</source>
         <translation>Zapnout opakování</translation>
     </message>
     <message>
@@ -11014,7 +11014,7 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="1624"/>
-        <source>** Recurring (editing occurrance)</source>
+        <source>** Recurring (editing occurrence)</source>
         <translation>**Opakování (upravující výskyt)</translation>
     </message>
     <message>
