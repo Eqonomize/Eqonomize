@@ -2667,7 +2667,7 @@ Currency *Budget::findCurrencySymbol(QString symbol, bool require_unique)  {
 	for(CurrencyList<Currency*>::const_iterator it = currencies.constBegin(); it != currencies.constEnd(); ++it) {
 		Currency *cur = *it;
 		if(cur->symbol(false) == symbol) {
-			if(!require_unique) return cur;
+			if(!require_unique || cur == defaultCurrency() || (defaultCurrency()->symbol(false) != symbol && (cur->code() == QLocale().currencySymbol(QLocale::CurrencyIsoCode) || (symbol != QLocale().currencySymbol(QLocale::CurrencySymbol) && (cur->code() == "USD" || cur->code() == "GBP" || cur->code() == "EUR" || cur->code() == "JPY"))))) return cur;
 			else if(found_cur) return NULL;
 			else found_cur = cur;
 		}

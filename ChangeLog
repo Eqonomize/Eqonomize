@@ -1,3 +1,16 @@
+2018-04-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Allow value field conversion using $, £, €, ¥, and local currency symbol, even if not default currency
+
+2018-04-15  Fabian Wolff <fabi.wolff@arcor.de>
+
+	* Remove deprecated Encoding key from the .desktop file
+	* Bump DocBook version
+
+2018-04-01  Fabian Wolff <fabi.wolff@arcor.de>
+
+	* Fix spelling errors involving "recurrance" and "occurrance"
+
 2018-02-03  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Case insensitive descriptions and payees in charts report
