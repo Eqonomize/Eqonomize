@@ -110,8 +110,8 @@ void CurrencyConversionDialog::updateCurrencies() {
 	for(CurrencyList<Currency*>::const_iterator it = budget->currencies.constBegin(); it != budget->currencies.constEnd(); ++it) {
 		Currency *currency = *it;
 		if(!currency->name(false).isEmpty()) {
-			fromCombo->addItem(QString("%2 (%1)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
-			toCombo->addItem(QString("%2 (%1)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
+			fromCombo->addItem(QIcon(":/data/flags/" + currency->code() + ".png"), QString("%2 (%1)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
+			toCombo->addItem(QIcon(":/data/flags/" + currency->code() + ".png"), QString("%2 (%1)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
 		} else {
 			fromCombo->addItem(currency->code());
 			toCombo->addItem(currency->code());

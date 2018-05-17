@@ -4984,7 +4984,7 @@ void Eqonomize::setMainCurrency() {
 	for(CurrencyList<Currency*>::const_iterator it = budget->currencies.constBegin(); it != budget->currencies.constEnd(); ++it) {
 		Currency *currency = *it;
 		if(!currency->name(false).isEmpty()) {
-			setMainCurrencyCombo->addItem(QString("%2 (%1)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
+			setMainCurrencyCombo->addItem(QIcon(":/data/flags/" + currency->code() + ".png"), QString("%2 (%1)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
 		} else {
 			setMainCurrencyCombo->addItem(currency->code());
 		}
@@ -5037,7 +5037,7 @@ void Eqonomize::setMainCurrencyIndexChanged(int index) {
 			int i = 1;
 			for(CurrencyList<Currency*>::const_iterator it = budget->currencies.constBegin(); it != budget->currencies.constEnd(); ++it) {
 				Currency *currency = *it;
-				setMainCurrencyCombo->addItem(currency->code());
+				setMainCurrencyCombo->addItem(QIcon(":/data/flags/" + currency->code() + ".png"), currency->code());
 				setMainCurrencyCombo->setItemData(i, qVariantFromValue((void*) currency));
 				if(currency == cur) {
 					setMainCurrencyCombo->setCurrentIndex(i);

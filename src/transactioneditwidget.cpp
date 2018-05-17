@@ -252,7 +252,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			int i2 = 0;
 			for(CurrencyList<Currency*>::const_iterator it = budget->currencies.constBegin(); it != budget->currencies.constEnd(); ++it) {
 				Currency *currency = *it;
-				currencyCombo->addItem(currency->code());
+				currencyCombo->addItem(QIcon(":/data/flags/" + currency->code() + ".png"), currency->code());
 				currencyCombo->setItemData(i2, qVariantFromValue((void*) currency));
 				if(currency == budget->defaultCurrency()) currencyCombo->setCurrentIndex(i2);
 				i2++;

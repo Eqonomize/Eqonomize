@@ -170,7 +170,7 @@ void EditAssetsAccountDialog::updateCurrencyList(Currency *select_currency) {
 	for(CurrencyList<Currency*>::const_iterator it = budget->currencies.constBegin(); it != budget->currencies.constEnd(); ++it) {
 		Currency *currency = *it;
 		if(!currency->name(false).isEmpty()) {
-			currencyCombo->addItem(QString("%2 (%1)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
+			currencyCombo->addItem(QIcon(":/data/flags/" + currency->code() + ".png"), QString("%2 (%1)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
 		} else {
 			currencyCombo->addItem(currency->code());
 		}

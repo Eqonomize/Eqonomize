@@ -349,8 +349,9 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 		desktopappicon64.path = $$DESKTOP_ICON_DIR/hicolor/64x64/apps
 		INSTALLS += desktopappicon64
 	}
+	RESOURCES = flags.qrc
 } else {
-	RESOURCES = data.qrc doc.qrc icons.qrc translations.qrc
+	RESOURCES = data.qrc doc.qrc flags.qrc icons.qrc translations.qrc
 	target.path = $$PREFIX/bin
 	desktop.files = data/eqonomize.desktop
 	desktop.path = $$DESKTOP_DIR
@@ -359,3 +360,4 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 	INSTALLS += target desktop appicon64
 }
 win32: RC_FILE = winicon.rc
+

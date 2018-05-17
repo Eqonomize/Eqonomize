@@ -1,3 +1,7 @@
+2018-05-17  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add flags to currency lists
+
 2018-04-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Allow value field conversion using $, £, €, ¥, and local currency symbol, even if not default currency
