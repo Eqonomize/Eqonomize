@@ -244,6 +244,17 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 		payeeCombo->setEnabled(false);
 		choicesLayout_extra->addWidget(payeeCombo, 1, 0);
 	}
+	accountCombo = new QComboBox(settingsWidget);
+	accountCombo->setEditable(false);
+	accountCombo->addItem(tr("All Accounts"), qVariantFromValue(NULL));
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *account = *it;
+		if(account != budget->balancingAccount) {
+			accountCombo->addItem(account->name(), qVariantFromValue((void*) account));
+		}
+	}
+	if(b_extra) choicesLayout_extra->addWidget(accountCombo, 1, 1);
+	else choicesLayout->addWidget(accountCombo);
 
 	current_account = NULL;
 	current_source = 0;
@@ -309,6 +320,7 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	connect(countButton, SIGNAL(toggled(bool)), this, SLOT(valueTypeToggled(bool)));
 	connect(perButton, SIGNAL(toggled(bool)), this, SLOT(valueTypeToggled(bool)));
 	connect(sourceCombo, SIGNAL(activated(int)), this, SLOT(sourceChanged(int)));
+	connect(accountCombo, SIGNAL(activated(int)), this, SLOT(updateDisplay()));
 	connect(categoryCombo, SIGNAL(activated(int)), this, SLOT(categoryChanged(int)));
 	connect(descriptionCombo, SIGNAL(activated(int)), this, SLOT(descriptionChanged(int)));
 	if(b_extra) connect(payeeCombo, SIGNAL(activated(int)), this, SLOT(payeeChanged(int)));
@@ -331,7 +343,12 @@ void OverTimeChart::resetOptions() {
 	chart->setTheme(theme);
 	settings.endGroup();
 #endif
+	accountCombo->blockSignals(true);
+	accountCombo->setCurrentIndex(0);
+	accountCombo->blockSignals(false);
+	sourceCombo->blockSignals(true);
 	sourceCombo->setCurrentIndex(0);
+	sourceCombo->blockSignals(false);
 	sourceChanged(0);
 	resetDate();
 
@@ -960,7 +977,10 @@ void OverTimeChart::updateDisplay() {
 	QStringList desc_order;
 	bool exclude_subs = (current_source == 3 || current_source == 4);
 	bool is_parent = (current_account && !current_account->subCategories.isEmpty());
-	bool do_convert = (current_source != -2);
+	AssetsAccount *current_assets = selectedAccount();
+	bool do_convert = (current_source != -2) && !current_assets;
+	Currency *currency = budget->defaultCurrency();
+	if(current_assets) currency = current_assets->currency();
 	
 	if(current_source == 25) current_source = 3;
 	if(current_source == 26) current_source = 4;
@@ -985,7 +1005,7 @@ void OverTimeChart::updateDisplay() {
 	if(current_source == -2) {
 		for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 			Account *account = *it;
-			if(account != budget->balancingAccount) {
+			if(account != budget->balancingAccount && (!current_assets || account == current_assets)) {
 				monthly_cats[account] = QVector<chart_month_info>();
 				mi_c[account] = NULL;
 				isfirst_c[account] = true;
@@ -1073,7 +1093,7 @@ void OverTimeChart::updateDisplay() {
 			if(type == 4) first_date = budget->firstBudgetDayOfYear(trans->date());
 			else first_date = budget->firstBudgetDay(trans->date());
 		}
-		if(started) {
+		if(started && (!current_assets || trans->relatesToAccount(current_assets))) {
 			switch(current_source) {
 				case -2: {
 					if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->toAccount() != budget->balancingAccount) {
@@ -1459,7 +1479,10 @@ void OverTimeChart::updateDisplay() {
 			at_expenses = true;
 			if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
 		}
-	} else if(source_org == -2) {if(account_index < budget->assetsAccounts.size()) account = budget->assetsAccounts.at(account_index);}
+	} else if(source_org == -2) {
+		if(current_assets) account = current_assets;
+		else if(account_index < budget->assetsAccounts.size()) account = budget->assetsAccounts.at(account_index);
+	}
 	else if(source_org == 3) {if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);}
 	else if(source_org == 4)  {if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);}
 	else if(source_org == 21)  {if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);}
@@ -1528,7 +1551,7 @@ void OverTimeChart::updateDisplay() {
 			}
 		} else if(source_org == -2) {
 			account = NULL;
-			if(account_index < budget->assetsAccounts.size()) account = budget->assetsAccounts.at(account_index);
+			if(!current_assets && account_index < budget->assetsAccounts.size()) account = budget->assetsAccounts.at(account_index);
 		} else {
 			break;
 		}
@@ -1565,267 +1588,269 @@ void OverTimeChart::updateDisplay() {
 		int sign = 1;
 		bool use_to_value = false;
 		total_value = NULL;
-		switch(current_source) {
-			case -2: {
-				if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->toAccount() != budget->balancingAccount) {
-					monthly_values = &monthly_cats[trans->toAccount()];
-					mi = &mi_c[trans->toAccount()];
-					isfirst = &isfirst_c[trans->toAccount()];
-					use_to_value = true;
-					if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->fromAccount() != budget->balancingAccount) {
-						monthly_values2 = &monthly_cats[trans->fromAccount()];
-						mi2 = &mi_c[trans->fromAccount()];
-						isfirst2 = &isfirst_c[trans->fromAccount()];
+		if(!current_assets || trans->relatesToAccount(current_assets)) {
+			switch(current_source) {
+				case -2: {
+					if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->toAccount() != budget->balancingAccount) {
+						monthly_values = &monthly_cats[trans->toAccount()];
+						mi = &mi_c[trans->toAccount()];
+						isfirst = &isfirst_c[trans->toAccount()];
+						use_to_value = true;
+						if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->fromAccount() != budget->balancingAccount) {
+							monthly_values2 = &monthly_cats[trans->fromAccount()];
+							mi2 = &mi_c[trans->fromAccount()];
+							isfirst2 = &isfirst_c[trans->fromAccount()];
+						}
+						sign = 1;
+						include = true;
+					} else if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->fromAccount() != budget->balancingAccount) {
+						monthly_values = &monthly_cats[trans->fromAccount()];
+						mi = &mi_c[trans->fromAccount()];
+						isfirst = &isfirst_c[trans->fromAccount()];
+						sign = -1;
+						include = true;
 					}
-					sign = 1;
-					include = true;
-				} else if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->fromAccount() != budget->balancingAccount) {
-					monthly_values = &monthly_cats[trans->fromAccount()];
-					mi = &mi_c[trans->fromAccount()];
-					isfirst = &isfirst_c[trans->fromAccount()];
-					sign = -1;
-					include = true;
+					break;
 				}
-				break;
-			}
-			case -1: {}
-			case 0: {}
-			case 1: {}
-			case 2: {}
-			case 3: {}
-			case 4: {
-				if(current_source != 2 && current_source != 4 && trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES) {
-					monthly_values = &monthly_cats[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; mi = &mi_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()];
-					sign = 1;
-					include = true;
-				} else if(current_source != 1 && current_source != 3 && trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES) {
-					monthly_values = &monthly_cats[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; mi = &mi_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()];
-					sign = -1;
-					include = true;
-				} else if(current_source != 2 && current_source != 4 && trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES) {
-					monthly_values = &monthly_cats[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; mi = &mi_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()];
-					sign = -1;
-					include = true;
-				} else if(current_source != 1 && current_source != 3 && trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES) {
-					monthly_values = &monthly_cats[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; mi = &mi_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()];
-					sign = 1;
-					include = true;
+				case -1: {}
+				case 0: {}
+				case 1: {}
+				case 2: {}
+				case 3: {}
+				case 4: {
+					if(current_source != 2 && current_source != 4 && trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES) {
+						monthly_values = &monthly_cats[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; mi = &mi_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()];
+						sign = 1;
+						include = true;
+					} else if(current_source != 1 && current_source != 3 && trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES) {
+						monthly_values = &monthly_cats[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; mi = &mi_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()];
+						sign = -1;
+						include = true;
+					} else if(current_source != 2 && current_source != 4 && trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES) {
+						monthly_values = &monthly_cats[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; mi = &mi_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()];
+						sign = -1;
+						include = true;
+					} else if(current_source != 1 && current_source != 3 && trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES) {
+						monthly_values = &monthly_cats[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; mi = &mi_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()];
+						sign = 1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 23: {
-				if(trans->type() != TRANSACTION_TYPE_INCOME) break;
-				if(!((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) break;
-			}
-			case 21: {
-				if(trans->fromAccount()->topAccount() == current_account) {
-					monthly_values = &monthly_cats[trans->fromAccount()]; mi = &mi_c[trans->fromAccount()]; isfirst = &isfirst_c[trans->fromAccount()];
-					sign = 1;
-					include = true;
-				} else if(trans->toAccount()->topAccount() == current_account) {
-					monthly_values = &monthly_cats[trans->toAccount()]; mi = &mi_c[trans->toAccount()]; isfirst = &isfirst_c[trans->toAccount()];
-					sign = -1;
-					include = true;
+				case 23: {
+					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+					if(!((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) break;
 				}
-				break;
-			}
-			case 24: {
-				if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
-				if(!((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) break;
-			}
-			case 22: {
-				if(trans->fromAccount()->topAccount() == current_account) {
-					monthly_values = &monthly_cats[trans->fromAccount()]; mi = &mi_c[trans->fromAccount()]; isfirst = &isfirst_c[trans->fromAccount()];
-					sign = -1;
-					include = true;
-				} else if(trans->toAccount()->topAccount() == current_account) {
-					monthly_values = &monthly_cats[trans->toAccount()]; mi = &mi_c[trans->toAccount()]; isfirst = &isfirst_c[trans->toAccount()];
-					sign = 1;
-					include = true;
+				case 21: {
+					if(trans->fromAccount()->topAccount() == current_account) {
+						monthly_values = &monthly_cats[trans->fromAccount()]; mi = &mi_c[trans->fromAccount()]; isfirst = &isfirst_c[trans->fromAccount()];
+						sign = 1;
+						include = true;
+					} else if(trans->toAccount()->topAccount() == current_account) {
+						monthly_values = &monthly_cats[trans->toAccount()]; mi = &mi_c[trans->toAccount()]; isfirst = &isfirst_c[trans->toAccount()];
+						sign = -1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 5: {
-				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
-					monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-					sign = 1;
-					include = true;
-				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
-					monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-					sign = -1;
-					include = true;
+				case 24: {
+					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+					if(!((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) break;
 				}
-				break;
-			}
-			case 6: {
-				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
-					monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
-					sign = -1;
-					include = true;
-				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
-					monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
-					sign = 1;
-					include = true;
+				case 22: {
+					if(trans->fromAccount()->topAccount() == current_account) {
+						monthly_values = &monthly_cats[trans->fromAccount()]; mi = &mi_c[trans->fromAccount()]; isfirst = &isfirst_c[trans->fromAccount()];
+						sign = -1;
+						include = true;
+					} else if(trans->toAccount()->topAccount() == current_account) {
+						monthly_values = &monthly_cats[trans->toAccount()]; mi = &mi_c[trans->toAccount()]; isfirst = &isfirst_c[trans->toAccount()];
+						sign = 1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 7: {
-				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
-					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-					total_value = &desc_values[trans->description().toLower()];
-					sign = 1;
-					include = true;
-				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
-					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-					total_value = &desc_values[trans->description().toLower()];
-					sign = -1;
-					include = true;
+				case 5: {
+					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
+						sign = 1;
+						include = true;
+					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
+						sign = -1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 8: {
-				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
-					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-					total_value = &desc_values[trans->description().toLower()];
-					sign = -1;
-					include = true;
-				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
-					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-					total_value = &desc_values[trans->description().toLower()];
-					sign = 1;
-					include = true;
+				case 6: {
+					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
+						monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
+						sign = -1;
+						include = true;
+					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
+						monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
+						sign = 1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 9: {
-				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-					monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-					sign = 1;
-					include = true;
-				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-					monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-					sign = -1;
-					include = true;
+				case 7: {
+					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
+						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+						total_value = &desc_values[trans->description().toLower()];
+						sign = 1;
+						include = true;
+					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
+						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+						total_value = &desc_values[trans->description().toLower()];
+						sign = -1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 10: {
-				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-					monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
-					sign = -1;
-					include = true;
-				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-					monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
-					sign = 1;
-					include = true;
+				case 8: {
+					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
+						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+						total_value = &desc_values[trans->description().toLower()];
+						sign = -1;
+						include = true;
+					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
+						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+						total_value = &desc_values[trans->description().toLower()];
+						sign = 1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 11: {
-				if(trans->type() != TRANSACTION_TYPE_INCOME) break;
-				Income *income = (Income*) trans;
-				if((is_parent ? income->category()->topAccount() : income->category()) == current_account) {
-					monthly_values = &monthly_desc[income->payer().toLower()]; mi = &mi_d[income->payer().toLower()]; isfirst = &isfirst_d[income->payer().toLower()];
-					total_value = &desc_values[income->payer().toLower()];
-					sign = 1;
-					include = true;
+				case 9: {
+					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
+						sign = 1;
+						include = true;
+					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
+						sign = -1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 12: {
-				if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
-				Expense *expense = (Expense*) trans;
-				if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account) {
-					monthly_values = &monthly_desc[expense->payee().toLower()]; mi = &mi_d[expense->payee().toLower()]; isfirst = &isfirst_d[expense->payee().toLower()];
-					total_value = &desc_values[expense->payee().toLower()];
-					sign = 1;
-					include = true;
+				case 10: {
+					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+						monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
+						sign = -1;
+						include = true;
+					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+						monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
+						sign = 1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 13: {
-				if(trans->type() != TRANSACTION_TYPE_INCOME) break;
-				Income *income = (Income*) trans;
-				if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->description().compare(current_description, Qt::CaseInsensitive)) {
-					monthly_values = &monthly_desc[income->payer().toLower()]; mi = &mi_d[income->payer().toLower()]; isfirst = &isfirst_d[income->payer().toLower()];
-					total_value = &desc_values[income->payer().toLower()];
-					sign = 1;
-					include = true;
+				case 11: {
+					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+					Income *income = (Income*) trans;
+					if((is_parent ? income->category()->topAccount() : income->category()) == current_account) {
+						monthly_values = &monthly_desc[income->payer().toLower()]; mi = &mi_d[income->payer().toLower()]; isfirst = &isfirst_d[income->payer().toLower()];
+						total_value = &desc_values[income->payer().toLower()];
+						sign = 1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 14: {
-				if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
-				Expense *expense = (Expense*) trans;
-				if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->description().compare(current_description, Qt::CaseInsensitive)) {
-					monthly_values = &monthly_desc[expense->payee().toLower()]; mi = &mi_d[expense->payee().toLower()]; isfirst = &isfirst_d[expense->payee().toLower()];
-					total_value = &desc_values[expense->payee().toLower()];
-					sign = 1;
-					include = true;
+				case 12: {
+					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+					Expense *expense = (Expense*) trans;
+					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account) {
+						monthly_values = &monthly_desc[expense->payee().toLower()]; mi = &mi_d[expense->payee().toLower()]; isfirst = &isfirst_d[expense->payee().toLower()];
+						total_value = &desc_values[expense->payee().toLower()];
+						sign = 1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 15: {
-				if(trans->type() != TRANSACTION_TYPE_INCOME) break;
-				Income *income = (Income*) trans;
-				if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->payer().compare(current_payee, Qt::CaseInsensitive)) {
-					monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-					sign = 1;
-					include = true;
+				case 13: {
+					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+					Income *income = (Income*) trans;
+					if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->description().compare(current_description, Qt::CaseInsensitive)) {
+						monthly_values = &monthly_desc[income->payer().toLower()]; mi = &mi_d[income->payer().toLower()]; isfirst = &isfirst_d[income->payer().toLower()];
+						total_value = &desc_values[income->payer().toLower()];
+						sign = 1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 16: {
-				if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
-				Expense *expense = (Expense*) trans;
-				if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->payee().compare(current_payee, Qt::CaseInsensitive)) {
-					monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
-					sign = 1;
-					include = true;
+				case 14: {
+					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+					Expense *expense = (Expense*) trans;
+					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->description().compare(current_description, Qt::CaseInsensitive)) {
+						monthly_values = &monthly_desc[expense->payee().toLower()]; mi = &mi_d[expense->payee().toLower()]; isfirst = &isfirst_d[expense->payee().toLower()];
+						total_value = &desc_values[expense->payee().toLower()];
+						sign = 1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 17: {
-				if(trans->type() != TRANSACTION_TYPE_INCOME) break;
-				Income *income = (Income*) trans;
-				if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->payer().compare(current_payee, Qt::CaseInsensitive)) {
-					monthly_values = &monthly_desc[income->description().toLower()]; mi = &mi_d[income->description().toLower()]; isfirst = &isfirst_d[income->description().toLower()];
-					total_value = &desc_values[income->description().toLower()];
-					sign = 1;
-					include = true;
+				case 15: {
+					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+					Income *income = (Income*) trans;
+					if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->payer().compare(current_payee, Qt::CaseInsensitive)) {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
+						sign = 1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 18: {
-				if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
-				Expense *expense = (Expense*) trans;
-				if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->payee().compare(current_payee, Qt::CaseInsensitive)) {
-					monthly_values = &monthly_desc[expense->description().toLower()]; mi = &mi_d[expense->description().toLower()]; isfirst = &isfirst_d[expense->description().toLower()];
-					total_value = &desc_values[expense->description().toLower()];
-					sign = 1;
-					include = true;
+				case 16: {
+					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+					Expense *expense = (Expense*) trans;
+					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->payee().compare(current_payee, Qt::CaseInsensitive)) {
+						monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
+						sign = 1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 19: {
-				if(trans->type() != TRANSACTION_TYPE_INCOME) break;
-				Income *income = (Income*) trans;
-				if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->description().compare(current_description, Qt::CaseInsensitive) && !income->payer().compare(current_payee, Qt::CaseInsensitive)) {
-					monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-					sign = 1;
-					include = true;
+				case 17: {
+					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+					Income *income = (Income*) trans;
+					if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->payer().compare(current_payee, Qt::CaseInsensitive)) {
+						monthly_values = &monthly_desc[income->description().toLower()]; mi = &mi_d[income->description().toLower()]; isfirst = &isfirst_d[income->description().toLower()];
+						total_value = &desc_values[income->description().toLower()];
+						sign = 1;
+						include = true;
+					}
+					break;
 				}
-				break;
-			}
-			case 20: {
-				if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
-				Expense *expense = (Expense*) trans;
-				if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->description().compare(current_description, Qt::CaseInsensitive) && !expense->payee().compare(current_payee, Qt::CaseInsensitive)) {
-					monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
-					sign = 1;
-					include = true;
+				case 18: {
+					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+					Expense *expense = (Expense*) trans;
+					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->payee().compare(current_payee, Qt::CaseInsensitive)) {
+						monthly_values = &monthly_desc[expense->description().toLower()]; mi = &mi_d[expense->description().toLower()]; isfirst = &isfirst_d[expense->description().toLower()];
+						total_value = &desc_values[expense->description().toLower()];
+						sign = 1;
+						include = true;
+					}
+					break;
 				}
-				break;
+				case 19: {
+					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+					Income *income = (Income*) trans;
+					if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->description().compare(current_description, Qt::CaseInsensitive) && !income->payer().compare(current_payee, Qt::CaseInsensitive)) {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
+						sign = 1;
+						include = true;
+					}
+					break;
+				}
+				case 20: {
+					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+					Expense *expense = (Expense*) trans;
+					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->description().compare(current_description, Qt::CaseInsensitive) && !expense->payee().compare(current_payee, Qt::CaseInsensitive)) {
+						monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
+						sign = 1;
+						include = true;
+					}
+					break;
+				}
 			}
 		}
 		if(include) {
@@ -1901,14 +1926,16 @@ void OverTimeChart::updateDisplay() {
 			at_expenses = true;
 			if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
 		}
-	} else if(source_org == -2) {if(account_index < budget->assetsAccounts.size()) account = budget->assetsAccounts.at(account_index);}
-	else if(source_org == 3) {if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);}
+	} else if(source_org == -2) {
+		if(current_assets) account = current_assets;
+		else if(account_index < budget->assetsAccounts.size()) account = budget->assetsAccounts.at(account_index);
+	} else if(source_org == 3) {if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);}
 	else if(source_org == 4)  {if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);}
 	else if(source_org == 21)  {if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);}
 	else if(source_org == 2) {mi = &mi_e; monthly_values = &monthly_expenses; isfirst = &isfirst_e;}
 	else if(source_org == 1) {mi = &mi_i; monthly_values = &monthly_incomes; isfirst = &isfirst_i;}
 	while(source_org == 1 || source_org == 2 || account || ((source_org == 7 || source_org == 11) && desc_i < desc_nr)) {
-		if(source_org == -2 && account == budget->balancingAccount) {
+		if(source_org == -2 && (account == budget->balancingAccount)) {
 			++account_index;
 			account = NULL;
 			if(account_index < budget->assetsAccounts.size()) account = budget->assetsAccounts.at(account_index);
@@ -1987,7 +2014,7 @@ void OverTimeChart::updateDisplay() {
 			}
 		} else if(source_org == -2) {
 			account = NULL;
-			if(account_index < budget->assetsAccounts.size()) account = budget->assetsAccounts.at(account_index);
+			if(!current_assets && account_index < budget->assetsAccounts.size()) account = budget->assetsAccounts.at(account_index);
 		} else {
 			break;
 		}
@@ -2008,17 +2035,19 @@ void OverTimeChart::updateDisplay() {
 		budget->addBudgetMonthsSetFirst(first_date, type == 4 ? -12 : -1);
 		for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 			AssetsAccount *ass = *it;
-			if(ass != budget->balancingAccount) {
+			if(ass != budget->balancingAccount && (!current_assets || ass == current_assets)) {
 				QVector<chart_month_info>::iterator it = monthly_cats[ass].begin();
 				QVector<chart_month_info>::iterator it_e = monthly_cats[ass].end();
 				double acc_total = ass->initialBalance(false);
 				chart_month_info initial_cmi;
 				initial_cmi.date = it->date;
 				budget->addBudgetMonthsSetLast(initial_cmi.date, type == 4 ? -12 : -1);
-				initial_cmi.value = ass->currency()->convertTo(acc_total, budget->defaultCurrency(), initial_cmi.date);
+				if(current_assets) initial_cmi.value = acc_total;
+				else initial_cmi.value = ass->currency()->convertTo(acc_total, budget->defaultCurrency(), initial_cmi.date);
 				while(it != it_e) {
 					acc_total += it->value;
-					it->value = ass->currency()->convertTo(acc_total, budget->defaultCurrency(), it->date);
+					if(current_assets) it->value = acc_total;
+					else it->value = ass->currency()->convertTo(acc_total, budget->defaultCurrency(), it->date);
 					++it;
 				}
 				monthly_cats[ass].push_front(initial_cmi);
@@ -2033,15 +2062,18 @@ void OverTimeChart::updateDisplay() {
 		for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
 			Security *sec = *it;
 			AssetsAccount *ass = sec->account();
-			QVector<chart_month_info>::iterator it_b = monthly_cats[ass].begin();
-			QVector<chart_month_info>::iterator it_e = monthly_cats[ass].end();
-			while(it_b != it_e) {
-				it_b->value += ass->currency()->convertTo(sec->value(it_b->date), budget->defaultCurrency(), it_b->date);
-				it_b++;
+			if(!current_assets || ass == current_assets) {
+				QVector<chart_month_info>::iterator it_b = monthly_cats[ass].begin();
+				QVector<chart_month_info>::iterator it_e = monthly_cats[ass].end();
+				while(it_b != it_e) {
+					if(current_assets) it_b->value += sec->value(it_b->date);
+					else it_b->value += ass->currency()->convertTo(sec->value(it_b->date), budget->defaultCurrency(), it_b->date);
+					it_b++;
+				}
 			}
 		}
 	}
-
+	bool b_assets = false, b_liabilities = false;
 	while(current_source < 3) {
 		if(current_source == -1 || current_source == 1 || second_run) monthly_values = &monthly_incomes;
 		else monthly_values = &monthly_expenses;
@@ -2065,10 +2097,15 @@ void OverTimeChart::updateDisplay() {
 		while(true) {
 			account = NULL;
 			if(current_source == -2) {
-				if(account_index < budget->assetsAccounts.size()) account = budget->assetsAccounts.at(account_index);
-				if(account && account == budget->balancingAccount) {
-					++account_index;
+				if(current_assets) {
+					if(account_index > 0) break;
+					else account = current_assets;
+				} else {
 					if(account_index < budget->assetsAccounts.size()) account = budget->assetsAccounts.at(account_index);
+					if(account && account == budget->balancingAccount) {
+						++account_index;
+						if(account_index < budget->assetsAccounts.size()) account = budget->assetsAccounts.at(account_index);
+					}
 				}
 			} else if(current_source == 1 || second_run) {
 				if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
@@ -2085,6 +2122,10 @@ void OverTimeChart::updateDisplay() {
 					if((!second_run && current_source == -1) || (!second_run && current_source == -2)) (*mi)->value -= cmi_itc->value;
 					else (*mi)->value += cmi_itc->value;
 					(*mi)->count += cmi_itc->count;
+					if(current_source == -2) {
+						if(!second_run && !b_liabilities) b_liabilities = !is_zero((*mi)->value);
+						else if(second_run && !b_assets) b_assets = !is_zero((*mi)->value);
+					}
 				}
 				++cmi_it;
 				++cmi_itc;
@@ -2224,34 +2265,34 @@ void OverTimeChart::updateDisplay() {
 	
 	QString axis_string;
 	if(current_source == -2) {
-		axis_string = tr("Value") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+		axis_string = tr("Value") + QString(" (%1)").arg(currency->symbol(true));
 	} else {
 		switch(type) {
 			case 1: {
-				if(current_source == 0 && chart_type != 4) axis_string = tr("Daily average value") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
-				else if(current_source == -1) axis_string = tr("Daily average profit") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
-				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Daily average income") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
-				else axis_string = tr("Daily average cost") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				if(current_source == 0 && chart_type != 4) axis_string = tr("Daily average value") + QString(" (%1)").arg(currency->symbol(true));
+				else if(current_source == -1) axis_string = tr("Daily average profit") + QString(" (%1)").arg(currency->symbol(true));
+				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Daily average income") + QString(" (%1)").arg(currency->symbol(true));
+				else axis_string = tr("Daily average cost") + QString(" (%1)").arg(currency->symbol(true));
 				break;
 			}
 			case 3: {
-				if(current_source == 0 && chart_type != 4) axis_string = tr("Average value") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
-				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Average income") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
-				else axis_string = tr("Average cost") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				if(current_source == 0 && chart_type != 4) axis_string = tr("Average value") + QString(" (%1)").arg(currency->symbol(true));
+				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Average income") + QString(" (%1)").arg(currency->symbol(true));
+				else axis_string = tr("Average cost") + QString(" (%1)").arg(currency->symbol(true));
 				break;
 			}
 			case 4: {
-				if(current_source == 0 && chart_type != 4) axis_string = tr("Annual value") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
-				else if(current_source == -1) axis_string = tr("Annual profit") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
-				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Annual income") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
-				else axis_string = tr("Annual cost") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				if(current_source == 0 && chart_type != 4) axis_string = tr("Annual value") + QString(" (%1)").arg(currency->symbol(true));
+				else if(current_source == -1) axis_string = tr("Annual profit") + QString(" (%1)").arg(currency->symbol(true));
+				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Annual income") + QString(" (%1)").arg(currency->symbol(true));
+				else axis_string = tr("Annual cost") + QString(" (%1)").arg(currency->symbol(true));
 				break;
 			}
 			default: {
-				if(current_source == 0 && chart_type != 4) axis_string = tr("Monthly value") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
-				else if(current_source == -1) axis_string = tr("Monthly profit") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
-				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Monthly income") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
-				else axis_string = tr("Monthly cost") + QString(" (%1)").arg(budget->defaultCurrency()->symbol(true));
+				if(current_source == 0 && chart_type != 4) axis_string = tr("Monthly value") + QString(" (%1)").arg(currency->symbol(true));
+				else if(current_source == -1) axis_string = tr("Monthly profit") + QString(" (%1)").arg(currency->symbol(true));
+				else if(current_source % 2 == 1 || (current_source == 0 && chart_type == 4)) axis_string = tr("Monthly income") + QString(" (%1)").arg(currency->symbol(true));
+				else axis_string = tr("Monthly cost") + QString(" (%1)").arg(currency->symbol(true));
 				break;
 			}
 		}
@@ -2399,36 +2440,85 @@ void OverTimeChart::updateDisplay() {
 	}
 	
 	switch(current_source) {
-		case -2: {title_string = tr("Assets & Liabilities"); break;}
+		case -2: {
+			if(current_assets) title_string = tr("Value: %1").arg(current_assets->name());
+			else title_string = tr("Assets & Liabilities");
+			break;
+		}
 		case -1: {
-			title_string = tr("Profits"); 
-			if(!budget->securities.isEmpty()) note_string = tr("Excluding any profits or losses in trading of security shares", "Financial security (e.g. stock, mutual fund)");
+			if(current_assets) title_string = tr("Change: %1").arg(current_assets->name());
+			else title_string = tr("Profits"); 
+			if(!budget->securities.isEmpty() && (!current_assets || current_assets->accountType() == ASSETS_TYPE_SECURITIES)) note_string = tr("Excluding any profits or losses in trading of security shares", "Financial security (e.g. stock, mutual fund)");
 			break;}
-		case 0: {title_string = tr("Incomes & Expenses"); break;}
+		case 0: {
+			if(current_assets) title_string = tr("Incomes & Expenses, %1").arg(current_assets->name());
+			else title_string = tr("Incomes & Expenses");
+			break;
+		}
 		case 3:
-		case 1: {title_string = tr("Incomes"); break;}
+		case 1: {
+			if(current_assets) title_string = tr("Incomes, %1").arg(current_assets->name());
+			else title_string = tr("Incomes");
+			break;
+		}
 		case 4:
-		case 2: {title_string = tr("Expenses"); break;}
+		case 2: {
+			if(current_assets) title_string = tr("Expenses, %1").arg(current_assets->name());
+			else title_string = tr("Expenses");
+			break;
+		}
 		case 21:
 		case 11:
 		case 7:
-		case 5: {title_string = tr("Incomes: %1").arg(current_account->nameWithParent()); break;}
+		case 5: {
+			if(current_assets) title_string = tr("Incomes, %2: %1").arg(current_account->nameWithParent()).arg(current_assets->name());
+			else title_string = tr("Incomes: %1").arg(current_account->nameWithParent());
+			break;
+		}
 		case 22:
 		case 12:
 		case 8:
-		case 6: {title_string = tr("Expenses: %1").arg(current_account->nameWithParent()); break;}
+		case 6: {
+			if(current_assets) title_string = tr("Expenses, %2: %1").arg(current_account->nameWithParent()).arg(current_assets->name());
+			else title_string = tr("Expenses: %1").arg(current_account->nameWithParent());
+			break;
+		}
 		case 13:
-		case 9: {title_string = tr("Incomes: %2, %1").arg(current_account->nameWithParent()).arg(current_description); break;}
+		case 9: {
+			if(current_assets) title_string = tr("Incomes, %3: %2, %1").arg(current_account->nameWithParent()).arg(current_description).arg(current_assets->name());
+			else title_string = tr("Incomes: %2, %1").arg(current_account->nameWithParent()).arg(current_description);
+			break;
+		}
 		case 14:
-		case 10: {title_string = tr("Expenses: %2, %1").arg(current_account->nameWithParent()).arg(current_description); break;}
-		case 19: {title_string = tr("Incomes: %3, %2, %1").arg(current_account->nameWithParent()).arg(current_description).arg(current_payee); break;}
-		case 20: {title_string = tr("Expenses: %3, %2, %1").arg(current_account->nameWithParent()).arg(current_description).arg(current_payee); break;}
+		case 10: {
+			if(current_assets) title_string = tr("Expenses, %3: %2, %1").arg(current_account->nameWithParent()).arg(current_description).arg(current_assets->name());
+			else title_string = tr("Expenses: %2, %1").arg(current_account->nameWithParent()).arg(current_description);
+			break;
+		}
+		case 19: {
+			if(current_assets) title_string = tr("Incomes, %4: %3, %2, %1").arg(current_account->nameWithParent()).arg(current_description).arg(current_payee).arg(current_assets->name());
+			else title_string = tr("Incomes: %3, %2, %1").arg(current_account->nameWithParent()).arg(current_description).arg(current_payee);
+			break;
+		}
+		case 20: {
+			if(current_assets) title_string = tr("Expenses, %4: %3, %2, %1").arg(current_account->nameWithParent()).arg(current_description).arg(current_payee).arg(current_assets->name());
+			else title_string = tr("Expenses: %3, %2, %1").arg(current_account->nameWithParent()).arg(current_description).arg(current_payee);
+			break;
+		}
 		case 23:
 		case 17:
-		case 15: {title_string = tr("Incomes: %2, %1").arg(current_account->nameWithParent()).arg(current_payee); break;}
+		case 15: {
+			if(current_assets) title_string = tr("Incomes, %3: %2, %1").arg(current_account->nameWithParent()).arg(current_payee).arg(current_assets->name());
+			else title_string = tr("Incomes: %2, %1").arg(current_account->nameWithParent()).arg(current_payee);
+			break;
+		}
 		case 24:
 		case 18:
-		case 16: {title_string = tr("Expenses: %2, %1").arg(current_account->nameWithParent()).arg(current_payee); break;}
+		case 16: {
+			if(current_assets) title_string = tr("Expenses, %3: %2, %1").arg(current_account->nameWithParent()).arg(current_payee).arg(current_assets->name());
+			else title_string = tr("Expenses: %2, %1").arg(current_account->nameWithParent()).arg(current_payee);
+			break;
+		}
 	}
 	chart->removeAllSeries();
 
@@ -2538,7 +2628,7 @@ void OverTimeChart::updateDisplay() {
 	axisY->setTickCount(y_lines + 1);
 	axisY->setMinorTickCount(y_minor);
 	if(type == 2 || (maxvalue - minvalue) >= 50.0) axisY->setLabelFormat(QString("%.0f"));
-	else axisY->setLabelFormat(QString("%.%1f").arg(QString::number(budget->defaultCurrency()->fractionalDigits())));
+	else axisY->setLabelFormat(QString("%.%1f").arg(QString::number(currency->fractionalDigits())));
 
 	account_index = 0;
 	if(source_org == 3) {if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);}
@@ -2641,48 +2731,48 @@ void OverTimeChart::updateDisplay() {
 				break;
 			}
 		}
-		
-		if(chart_type == 1) {
-			QXYSeries *series;
-			if(monthly_values->count() == 1) series = new QScatterSeries();
-			else series = new QLineSeries();
-			
-			series->setName(series_name);
+		if(current_source != -2 || !current_assets || (index == 0 && b_assets) || (index == 1 && b_liabilities) || (!b_liabilities && !b_assets)) {
+			if(chart_type == 1) {
+				QXYSeries *series;
+				if(monthly_values->count() == 1) series = new QScatterSeries();
+				else series = new QLineSeries();
+				
+				series->setName(series_name);
 
-			QVector<chart_month_info>::iterator it_e = monthly_values->end();
-			for(QVector<chart_month_info>::iterator it = monthly_values->begin(); it != it_e; ++it) {
-				QDate date;
-				if(type == 4) date = budget->firstBudgetDayOfYear(it->date);
-				else date = budget->firstBudgetDay(it->date);
-				series->append(QDateTime(date).toMSecsSinceEpoch(), it->value);
-			}
-			
-			chart->addSeries(series);
-			series->attachAxis(axisY);
-			series->attachAxis(axisX);
-		
-			if(index >= 5) {
-				QPen pen = series->pen();
-				if(index >= 10) pen.setStyle(Qt::DashLine);
-				else pen.setStyle(Qt::DotLine);
-				series->setPen(pen);
-				QList<QLegendMarker*> markers = chart->legend()->markers(series);
-				if(markers.count() > 0) {
-					pen.setWidth(2);
-					markers[0]->setPen(pen);
-					markers[0]->setBrush(QColor(0, 0, 0, 0));
+				QVector<chart_month_info>::iterator it_e = monthly_values->end();
+				for(QVector<chart_month_info>::iterator it = monthly_values->begin(); it != it_e; ++it) {
+					QDate date;
+					if(type == 4) date = budget->firstBudgetDayOfYear(it->date);
+					else date = budget->firstBudgetDay(it->date);
+					series->append(QDateTime(date).toMSecsSinceEpoch(), it->value);
 				}
+				
+				chart->addSeries(series);
+				series->attachAxis(axisY);
+				series->attachAxis(axisX);
+			
+				if(index >= 5) {
+					QPen pen = series->pen();
+					if(index >= 10) pen.setStyle(Qt::DashLine);
+					else pen.setStyle(Qt::DotLine);
+					series->setPen(pen);
+					QList<QLegendMarker*> markers = chart->legend()->markers(series);
+					if(markers.count() > 0) {
+						pen.setWidth(2);
+						markers[0]->setPen(pen);
+						markers[0]->setBrush(QColor(0, 0, 0, 0));
+					}
+				}
+				connect(series, SIGNAL(hovered(const QPointF&, bool)), this, SLOT(onSeriesHovered(const QPointF&, bool)));
+			} else {
+				QBarSet *bar_set = new QBarSet(series_name);
+				QVector<chart_month_info>::iterator it_e = monthly_values->end();
+				for(QVector<chart_month_info>::iterator it = monthly_values->begin(); it != it_e; ++it) {
+					bar_set->append(it->value);
+				}
+				bar_series->append(bar_set);
 			}
-			connect(series, SIGNAL(hovered(const QPointF&, bool)), this, SLOT(onSeriesHovered(const QPointF&, bool)));
-		} else {
-			QBarSet *bar_set = new QBarSet(series_name);
-			QVector<chart_month_info>::iterator it_e = monthly_values->end();
-			for(QVector<chart_month_info>::iterator it = monthly_values->begin(); it != it_e; ++it) {
-				bar_set->append(it->value);
-			}
-			bar_series->append(bar_set);
 		}
-		
 		index++;
 		++account_index;
 		if(source_org == 7 || source_org == 11) {
@@ -3253,7 +3343,26 @@ void OverTimeChart::updateAccounts() {
 		descriptionCombo->blockSignals(false);
 		if(b_extra) payeeCombo->blockSignals(false);
 	}
+	accountCombo->blockSignals(true);
+	AssetsAccount *current_assets = selectedAccount();
+	accountCombo->clear();
+	accountCombo->addItem(tr("All Accounts"), qVariantFromValue(NULL));
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *account = *it;
+		if(account != budget->balancingAccount) {
+			accountCombo->addItem(account->name(), qVariantFromValue((void*) account));
+		}
+	}
+	int index = 0;
+	if(current_assets) index = accountCombo->findData(qVariantFromValue((void*) current_assets));
+	if(index >= 0) accountCombo->setCurrentIndex(index);
+	else accountCombo->setCurrentIndex(0);
+	accountCombo->blockSignals(false);
 	updateDisplay();
+}
+AssetsAccount *OverTimeChart::selectedAccount() {
+	if(!accountCombo->currentData().isValid()) return NULL;
+	return (AssetsAccount*) accountCombo->currentData().value<void*>();
 }
 #ifdef QT_CHARTS_LIB
 class PointLabel : public QGraphicsItem {

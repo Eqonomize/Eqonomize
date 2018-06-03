@@ -43,6 +43,7 @@ class QPushButton;
 class QRadioButton;
 
 class CategoryAccount;
+class AssetsAccount;
 class Budget;
 class EqonomizeMonthSelector;
 
@@ -60,7 +61,7 @@ class OverTimeChart : public QWidget {
 		Budget *budget;
 		bool b_extra;
 
-		QComboBox *sourceCombo, *categoryCombo, *descriptionCombo, *payeeCombo;
+		QComboBox *sourceCombo, *categoryCombo, *descriptionCombo, *payeeCombo, *accountCombo;
 		EqonomizeMonthSelector *startDateEdit, *endDateEdit;
 		QPushButton *saveButton, *printButton;
 		QRadioButton *yearlyButton, *dailyButton, *valueButton, *countButton, *perButton;
@@ -108,6 +109,7 @@ class OverTimeChart : public QWidget {
 		void endMonthChanged(const QDate&);
 		void endYearChanged(const QDate&);
 		void valueTypeToggled(bool);
+		AssetsAccount *selectedAccount();
 #ifdef QT_CHARTS_LIB
 		void themeChanged(int);
 		void typeChanged(int);

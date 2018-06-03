@@ -107,11 +107,22 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 		sourceCombo->addItem(tr("Incomes: %1").arg(account->nameWithParent()));
 	}	
 	sourceLayout->addWidget(sourceCombo);
-	sourceLayout->setStretchFactor(sourceCombo, 1);
+	sourceLayout->setStretchFactor(sourceCombo, 2);
+	
+	accountCombo = new QComboBox(settingsWidget);
+	accountCombo->setEditable(false);
+	accountCombo->addItem(tr("All Accounts"), qVariantFromValue(NULL));
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *account = *it;
+		if(account != budget->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
+			accountCombo->addItem(account->name(), qVariantFromValue((void*) account));
+		}
+	}
 
 	payeeDescriptionWidget = NULL;
 	if(b_extra) {
-		sourceLayout->addStretch(1);
+		sourceLayout->addWidget(accountCombo);
+		//sourceLayout->addStretch(1);
 		payeeDescriptionWidget = new QWidget(settingsWidget);
 		QHBoxLayout *payeeLayout = new QHBoxLayout(payeeDescriptionWidget);
 		//payeeLayout->addWidget(new QLabel(tr("Divide on:"), payeeDescriptionWidget));
@@ -145,7 +156,10 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 		descriptionButton = new QRadioButton(tr("Descriptions", "Referring to the transaction description property (transaction title/generic article name)"), settingsWidget);
 		group->addButton(descriptionButton);
 		sourceLayout->addWidget(descriptionButton);
-	}	
+		sourceLayout->addWidget(accountCombo);
+	}
+	
+	sourceLayout->setStretchFactor(accountCombo, 1);
 
 	current_account = NULL;
 	has_empty_description = false;
@@ -213,6 +227,7 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 		connect(descriptionCombo, SIGNAL(activated(int)), this, SLOT(descriptionChanged(int)));
 	}
 	connect(sourceCombo, SIGNAL(activated(int)), this, SLOT(sourceChanged(int)));
+	connect(accountCombo, SIGNAL(activated(int)), this, SLOT(updateDisplay()));
 	connect(valueButton, SIGNAL(toggled(bool)), this, SLOT(updateDisplay()));
 	connect(dailyButton, SIGNAL(toggled(bool)), this, SLOT(updateDisplay()));
 	connect(monthlyButton, SIGNAL(toggled(bool)), this, SLOT(updateDisplay()));
@@ -252,6 +267,7 @@ void CategoriesComparisonReport::resetOptions() {
 	fromEdit->setDate(from_date);
 	toEdit->setDate(to_date);
 	sourceCombo->setCurrentIndex(0);
+	accountCombo->setCurrentIndex(0);
 	sourceChanged(0);
 }
 void CategoriesComparisonReport::payeeToggled(bool b) {
@@ -528,6 +544,8 @@ void CategoriesComparisonReport::updateDisplay() {
 	current_description = "";
 	current_payee = "";
 	
+	AssetsAccount *current_assets = selectedAccount();
+	
 	bool include_subs = false;
 		
 	int i_source = sourceCombo->currentIndex();
@@ -593,7 +611,7 @@ void CategoriesComparisonReport::updateDisplay() {
 			for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
 				--it;
 				Transaction *trans = *it;
-				if(trans->date() <= to_date) {
+				if(trans->date() <= to_date && (!current_assets || trans->relatesToAccount(current_assets))) {
 					if(trans->date() < first_date) break;
 					if(trans->type() == TRANSACTION_TYPE_EXPENSE && !desc_map.contains(((Expense*) trans)->payee().toLower())) {
 						desc_map[((Expense*) trans)->payee().toLower()] = ((Expense*) trans)->payee();
@@ -621,7 +639,7 @@ void CategoriesComparisonReport::updateDisplay() {
 				} else {
 					trans = (Transaction*) strans->transaction();
 				}
-				if(trans->date() >= first_date) {
+				if(trans->date() >= first_date && (!current_assets || trans->relatesToAccount(current_assets))) {
 					if(trans->date() > to_date) break;
 					if(trans->type() == TRANSACTION_TYPE_EXPENSE && !desc_map.contains(((Expense*) trans)->payee().toLower())) {
 						desc_map[((Expense*) trans)->payee().toLower()] = ((Expense*) trans)->payee();
@@ -669,7 +687,7 @@ void CategoriesComparisonReport::updateDisplay() {
 				for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
 					--it;
 					Transaction *trans = *it;
-					if(trans->date() <= to_date) {
+					if(trans->date() <= to_date && (!current_assets || trans->relatesToAccount(current_assets))) {
 						if(trans->date() < first_date) break;
 						if((trans->fromAccount() == current_account || trans->toAccount() == current_account) && (i_source <= 2 || (i_source == 4 && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (i_source == 3 && ((trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)))))) {
 							if(i_source == 2 || i_source == 4) {
@@ -705,7 +723,7 @@ void CategoriesComparisonReport::updateDisplay() {
 					} else {
 						trans = (Transaction*) strans->transaction();
 					}
-					if(trans->date() >= first_date) {
+					if(trans->date() >= first_date && (!current_assets || trans->relatesToAccount(current_assets))) {
 						if(trans->date() > to_date) break;
 						if((trans->fromAccount() == current_account || trans->toAccount() == current_account) && (i_source <= 2 || (i_source == 4 && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (i_source == 3 && ((trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)))))) {
 							if(i_source == 2 || i_source == 4) {
@@ -739,7 +757,7 @@ void CategoriesComparisonReport::updateDisplay() {
 		Transaction *trans = *it;
 		if(!first_date_reached && trans->date() >= first_date) first_date_reached = true;
 		else if(first_date_reached && trans->date() > to_date) break;
-		if(first_date_reached) {
+		if(first_date_reached && (!current_assets || trans->relatesToAccount(current_assets))) {
 			if(current_account && !include_subs) {
 				int sign = 1;
 				bool include = false;
@@ -839,7 +857,7 @@ void CategoriesComparisonReport::updateDisplay() {
 		}
 		if(!first_date_reached && trans->date() >= first_date) first_date_reached = true;
 		else if(first_date_reached && trans->date() > to_date) break;
-		if(first_date_reached) {
+		if(first_date_reached && (!current_assets || trans->relatesToAccount(current_assets))) {
 			if(current_account && !include_subs) {
 				int sign = 1;
 				bool include = false;
@@ -942,18 +960,34 @@ void CategoriesComparisonReport::updateDisplay() {
 	}
 	source = "";
 	QString title;
-	if(current_account && type == ACCOUNT_TYPE_EXPENSES) {
-		if(include_subs) title = tr("Expenses: %1").arg(current_account->name());
-		else if(i_source == 4) title = tr("Expenses: %2, %1").arg(current_account->nameWithParent()).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description);
-		else if(i_source == 3) title = tr("Expenses: %2, %1").arg(current_account->nameWithParent()).arg(current_payee.isEmpty() ? tr("No payee") : current_payee);
-		else title = tr("Expenses: %1").arg(current_account->nameWithParent());
-	} else if(current_account && type == ACCOUNT_TYPE_INCOMES) {
-		if(include_subs) title = tr("Incomes: %1").arg(current_account->name());
-		else if(i_source == 4) title = tr("Incomes: %2, %1").arg(current_account->nameWithParent()).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description);
-		else if(i_source == 3) title = tr("Incomes: %2, %1").arg(current_account->nameWithParent()).arg(current_payee.isEmpty() ? tr("No payer") : current_payee);
-		else title = tr("Incomes: %1").arg(current_account->nameWithParent());
+	if(current_assets) {
+		if(current_account && type == ACCOUNT_TYPE_EXPENSES) {
+			if(include_subs) title = tr("Expenses, %2: %1").arg(current_account->name()).arg(current_assets->name());
+			else if(i_source == 4) title = tr("Expenses, %3: %2, %1").arg(current_account->nameWithParent()).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description).arg(current_assets->name());
+			else if(i_source == 3) title = tr("Expenses, %3: %2, %1").arg(current_account->nameWithParent()).arg(current_payee.isEmpty() ? tr("No payee") : current_payee).arg(current_assets->name());
+			else title = tr("Expenses, %2: %1").arg(current_account->nameWithParent()).arg(current_assets->name());
+		} else if(current_account && type == ACCOUNT_TYPE_INCOMES) {
+			if(include_subs) title = tr("Incomes, %2: %1").arg(current_account->name()).arg(current_assets->name());
+			else if(i_source == 4) title = tr("Incomes, %3: %2, %1").arg(current_account->nameWithParent()).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description).arg(current_assets->name());
+			else if(i_source == 3) title = tr("Incomes, %3: %2, %1").arg(current_account->nameWithParent()).arg(current_payee.isEmpty() ? tr("No payer") : current_payee).arg(current_assets->name());
+			else title = tr("Incomes, %2: %1").arg(current_account->nameWithParent()).arg(current_assets->name());
+		} else {
+			title = tr("Incomes & Expenses, %1").arg(current_assets->name());
+		}
 	} else {
-		title = tr("Incomes & Expenses");
+		if(current_account && type == ACCOUNT_TYPE_EXPENSES) {
+			if(include_subs) title = tr("Expenses: %1").arg(current_account->name());
+			else if(i_source == 4) title = tr("Expenses: %2, %1").arg(current_account->nameWithParent()).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description);
+			else if(i_source == 3) title = tr("Expenses: %2, %1").arg(current_account->nameWithParent()).arg(current_payee.isEmpty() ? tr("No payee") : current_payee);
+			else title = tr("Expenses: %1").arg(current_account->nameWithParent());
+		} else if(current_account && type == ACCOUNT_TYPE_INCOMES) {
+			if(include_subs) title = tr("Incomes: %1").arg(current_account->name());
+			else if(i_source == 4) title = tr("Incomes: %2, %1").arg(current_account->nameWithParent()).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description);
+			else if(i_source == 3) title = tr("Incomes: %2, %1").arg(current_account->nameWithParent()).arg(current_payee.isEmpty() ? tr("No payer") : current_payee);
+			else title = tr("Incomes: %1").arg(current_account->nameWithParent());
+		} else {
+			title = tr("Incomes & Expenses");
+		}
 	}
 	QTextStream outf(&source, QIODevice::WriteOnly);
 	outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
@@ -1288,9 +1322,14 @@ void CategoriesComparisonReport::updateTransactions() {
 	}
 	updateDisplay();
 }
+AssetsAccount *CategoriesComparisonReport::selectedAccount() {
+	if(!accountCombo->currentData().isValid()) return NULL;
+	return (AssetsAccount*) accountCombo->currentData().value<void*>();
+}
 void CategoriesComparisonReport::updateAccounts() {
 	int curindex = 0;
 	sourceCombo->blockSignals(true);
+	accountCombo->blockSignals(true);
 	sourceCombo->clear();
 	sourceCombo->addItem(tr("All Categories, excluding subcategories"));
 	sourceCombo->addItem(tr("All Categories, including subcategories"));
@@ -1309,7 +1348,21 @@ void CategoriesComparisonReport::updateAccounts() {
 		i++;
 	}
 	if(curindex < sourceCombo->count()) sourceCombo->setCurrentIndex(curindex);
+	AssetsAccount *current_assets = selectedAccount();
+	accountCombo->clear();
+	accountCombo->addItem(tr("All Accounts"), qVariantFromValue(NULL));
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *account = *it;
+		if(account != budget->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
+			accountCombo->addItem(account->name(), qVariantFromValue((void*) account));
+		}
+	}
+	int index = 0;
+	if(current_assets) index = accountCombo->findData(qVariantFromValue((void*) current_assets));
+	if(index >= 0) accountCombo->setCurrentIndex(index);
+	else accountCombo->setCurrentIndex(0);
 	sourceCombo->blockSignals(false);
+	accountCombo->blockSignals(false);
 	if(curindex == 0 && b_extra) {
 		sourceChanged(curindex);
 	} else {

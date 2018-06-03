@@ -179,7 +179,18 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 		sourceCombo->addItem(tr("Incomes: %1").arg(account->nameWithParent()));
 	}
 	typeLayout->addWidget(sourceCombo);
-	typeLayout->setStretchFactor(sourceCombo, 1);
+	typeLayout->setStretchFactor(sourceCombo, 2);
+	accountCombo = new QComboBox(settingsWidget);
+	accountCombo->setEditable(false);
+	accountCombo->addItem(tr("All Accounts"), qVariantFromValue(NULL));
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *account = *it;
+		if(account != budget->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
+			accountCombo->addItem(account->name(), qVariantFromValue((void*) account));
+		}
+	}
+	typeLayout->addWidget(accountCombo);
+	typeLayout->setStretchFactor(accountCombo, 1);
 	settingsLayout->setStretchFactor(typeLayout, 1);
 
 	current_account = NULL;
@@ -193,6 +204,7 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	connect(typeCombo, SIGNAL(activated(int)), this, SLOT(typeChanged(int)));
 #endif
 	connect(sourceCombo, SIGNAL(activated(int)), this, SLOT(sourceChanged(int)));
+	connect(accountCombo, SIGNAL(activated(int)), this, SLOT(updateDisplay()));
 	connect(prevMonthButton, SIGNAL(clicked()), this, SLOT(prevMonth()));
 	connect(nextMonthButton, SIGNAL(clicked()), this, SLOT(nextMonth()));
 	connect(prevYearButton, SIGNAL(clicked()), this, SLOT(prevYear()));
@@ -237,6 +249,7 @@ void CategoriesComparisonChart::resetOptions() {
 	}
 	fromEdit->setDate(from_date);
 	toEdit->setDate(to_date);
+	accountCombo->setCurrentIndex(0);
 	sourceCombo->setCurrentIndex(0);
 	sourceChanged(0);
 }
@@ -244,6 +257,7 @@ void CategoriesComparisonChart::resetOptions() {
 void CategoriesComparisonChart::sourceChanged(int index) {
 	fromButton->setEnabled(index != 4);
 	fromEdit->setEnabled(index != 4);
+	accountCombo->setEnabled(index != 4);
 	updateDisplay();
 }
 void CategoriesComparisonChart::saveConfig() {
@@ -512,6 +526,7 @@ void CategoriesComparisonChart::updateDisplay() {
 	QStringList desc_order; 
 
 	current_account = NULL;
+	AssetsAccount *current_assets = selectedAccount();
 	
 	bool include_subs = false;
 	
@@ -542,6 +557,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 		case 0: {
 			type = ACCOUNT_TYPE_EXPENSES;
+			if(current_assets) title_string = tr("Expenses, %1").arg(current_assets->name());
 			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 				CategoryAccount *account = *it;
 				if(include_subs || !account->parentCategory()) {
@@ -555,7 +571,8 @@ void CategoriesComparisonChart::updateDisplay() {
 			include_subs = true;
 		}
 		case 2: {
-			title_string = tr("Incomes");
+			if(current_assets) title_string = tr("Incomes, %1").arg(current_assets->name());
+			else title_string = tr("Incomes");
 			type = ACCOUNT_TYPE_INCOMES;
 			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 				CategoryAccount *account = *it;
@@ -568,6 +585,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 		case 4: {
 			title_string = tr("Accounts");
+			current_assets = NULL;
 			type = ACCOUNT_TYPE_ASSETS;
 			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 				AssetsAccount *account = *it;
@@ -590,8 +608,13 @@ void CategoriesComparisonChart::updateDisplay() {
 			else current_account = budget->incomesAccounts.at(i - budget->expensesAccounts.count());
 			if(current_account) {
 				type = current_account->type();
-				if(type == ACCOUNT_TYPE_EXPENSES) title_string = tr("Expenses: %1").arg(current_account->nameWithParent());
-				else title_string = tr("Incomes: %1").arg(current_account->nameWithParent());
+				if(current_assets) {
+					if(type == ACCOUNT_TYPE_EXPENSES) title_string = tr("Expenses, %2: %1").arg(current_account->nameWithParent()).arg(current_assets->name());
+					else title_string = tr("Incomes, %2: %1").arg(current_account->nameWithParent()).arg(current_assets->name());
+				} else {
+					if(type == ACCOUNT_TYPE_EXPENSES) title_string = tr("Expenses: %1").arg(current_account->nameWithParent());
+					else title_string = tr("Incomes: %1").arg(current_account->nameWithParent());
+				}
 				include_subs = !current_account->subCategories.isEmpty();
 				if(include_subs) {
 					values[current_account] = 0.0;
@@ -605,7 +628,7 @@ void CategoriesComparisonChart::updateDisplay() {
 					for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
 						--it;
 						Transaction *trans = *it;
-						if(trans->date() <= to_date) {
+						if(trans->date() <= to_date && (!current_assets || trans->relatesToAccount(current_assets))) {
 							if(trans->date() < first_date) break;
 							if((trans->fromAccount() == current_account || trans->toAccount() == current_account) && !desc_map.contains(trans->description().toLower())) {
 								desc_map[trans->description().toLower()] = trans->description();
@@ -623,7 +646,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		Transaction *trans = *it;
 		if(!first_date_reached && trans->date() >= first_date) first_date_reached = true;
 		else if(first_date_reached && trans->date() > to_date) break;
-		if(first_date_reached) {
+		if(first_date_reached && (!current_assets || trans->relatesToAccount(current_assets))) {
 			if(current_account && !include_subs) {
 				if(trans->fromAccount() == current_account) {
 					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] -= trans->value(true); value -= trans->value(true);}
@@ -706,7 +729,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 		if(!first_date_reached && trans->date() >= first_date) first_date_reached = true;
 		else if(first_date_reached && trans->date() > to_date) break;
-		if(first_date_reached) {
+		if(first_date_reached && (!current_assets || trans->relatesToAccount(current_assets))) {
 			if(current_account && !include_subs) {
 				if(trans->fromAccount() == current_account) {
 					int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
@@ -1286,7 +1309,26 @@ void CategoriesComparisonChart::updateAccounts() {
 	}
 	if(curindex < sourceCombo->count()) sourceCombo->setCurrentIndex(curindex);
 	sourceCombo->blockSignals(false);
+	accountCombo->blockSignals(true);
+	AssetsAccount *current_assets = selectedAccount();
+	accountCombo->clear();
+	accountCombo->addItem(tr("All Accounts"), qVariantFromValue(NULL));
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *account = *it;
+		if(account != budget->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
+			accountCombo->addItem(account->name(), qVariantFromValue((void*) account));
+		}
+	}
+	int index = 0;
+	if(current_assets) index = accountCombo->findData(qVariantFromValue((void*) current_assets));
+	if(index >= 0) accountCombo->setCurrentIndex(index);
+	else accountCombo->setCurrentIndex(0);
+	accountCombo->blockSignals(false);
 	updateDisplay();
+}
+AssetsAccount *CategoriesComparisonChart::selectedAccount() {
+	if(!accountCombo->currentData().isValid()) return NULL;
+	return (AssetsAccount*) accountCombo->currentData().value<void*>();
 }
 
 #ifdef QT_CHARTS_LIB
