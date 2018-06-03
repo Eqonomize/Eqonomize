@@ -9489,6 +9489,11 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation>Költségvetési tranzakciókat tartalmaz</translation>
     </message>
     <message>
+        <location filename="../src/overtimechart.cpp" line="2449"/>
+        <source>Profits, %1</source>
+        <translation type="unfinished">Nyereségek, %1</translation>
+    </message>
+    <message>
         <location filename="../src/overtimechart.cpp" line="2455"/>
         <source>Incomes &amp; Expenses</source>
         <translation>Bevételek és kiadások</translation>
@@ -9763,9 +9768,8 @@ Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2449"/>
         <source>Change: %1</source>
-        <translation type="unfinished">Változás: %1</translation>
+        <translation type="obsolete">Változás: %1</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2451"/>

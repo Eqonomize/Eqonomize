@@ -7411,6 +7411,11 @@ What do you want to do with them?</source>
         <translation type="unfinished">Obsahuje prevody rozpočtu</translation>
     </message>
     <message>
+        <location filename="../src/overtimechart.cpp" line="2449"/>
+        <source>Profits, %1</source>
+        <translation type="unfinished">Zisky, %1</translation>
+    </message>
+    <message>
         <location filename="../src/overtimechart.cpp" line="2455"/>
         <source>Incomes &amp; Expenses</source>
         <translation type="unfinished">Prijmy a výdavky</translation>
@@ -7633,9 +7638,8 @@ Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2449"/>
         <source>Change: %1</source>
-        <translation type="unfinished">Obrat: %1</translation>
+        <translation type="obsolete">Obrat: %1</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2451"/>

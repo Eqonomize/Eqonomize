@@ -9364,6 +9364,11 @@ O que lhes deseja fazer?</translation>
         <translation type="unfinished">Outras descrições</translation>
     </message>
     <message>
+        <location filename="../src/overtimechart.cpp" line="2449"/>
+        <source>Profits, %1</source>
+        <translation type="unfinished">Lucros, %1</translation>
+    </message>
+    <message>
         <location filename="../src/overtimechart.cpp" line="2653"/>
         <location filename="../src/overtimechart.cpp" line="3040"/>
         <source>Assets</source>
@@ -9750,9 +9755,8 @@ Data: %3</translation>
         <translation type="unfinished">Ativos e passivos</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2449"/>
         <source>Change: %1</source>
-        <translation type="unfinished">Mudança: %1</translation>
+        <translation type="obsolete">Mudança: %1</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2451"/>

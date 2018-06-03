@@ -5592,6 +5592,11 @@ Vad vill du göra med dem?</translation>
         <translation>Andra benämningar</translation>
     </message>
     <message>
+        <location filename="../src/overtimechart.cpp" line="2449"/>
+        <source>Profits, %1</source>
+        <translation>Förtjänst, %1</translation>
+    </message>
+    <message>
         <location filename="../src/overtimechart.cpp" line="2653"/>
         <location filename="../src/overtimechart.cpp" line="3040"/>
         <source>Assets</source>
@@ -5712,9 +5717,8 @@ Vad vill du göra med dem?</translation>
         <translation>Tillgångar och skulder</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2449"/>
         <source>Change: %1</source>
-        <translation>Förändring: %1</translation>
+        <translation type="vanished">Förändring: %1</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2454"/>

@@ -1947,7 +1947,7 @@ void OverTimeChart::updateDisplay() {
 			else if(source_org != 3 && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
 		}
 		if((exclude_subs || source_org == -2) && !account) break;
-		if(source_org == -2 || source_org == 4 || source_org == 0 || source_org == 21) {mi = &mi_c[account]; monthly_values = &monthly_cats[account]; isfirst = &isfirst_c[account];}
+		if(source_org == -2 || source_org == 4 || source_org == 3 || source_org == 0 || source_org == 21) {mi = &mi_c[account]; monthly_values = &monthly_cats[account]; isfirst = &isfirst_c[account];}
 		else if(source_org == 7) {mi = &mi_d[descriptionCombo->itemText(desc_i).toLower()]; monthly_values = &monthly_desc[descriptionCombo->itemText(desc_i).toLower()]; isfirst = &isfirst_d[descriptionCombo->itemText(desc_i).toLower()];}
 		else if(source_org == 11) {mi = &mi_d[payeeCombo->itemText(desc_i).toLower()]; monthly_values = &monthly_desc[payeeCombo->itemText(desc_i).toLower()]; isfirst = &isfirst_d[payeeCombo->itemText(desc_i).toLower()];}
 		(*mi) = &monthly_values->front();
@@ -2446,7 +2446,7 @@ void OverTimeChart::updateDisplay() {
 			break;
 		}
 		case -1: {
-			if(current_assets) title_string = tr("Change: %1").arg(current_assets->name());
+			if(current_assets) title_string = tr("Profits, %1").arg(current_assets->name());
 			else title_string = tr("Profits"); 
 			if(!budget->securities.isEmpty() && (!current_assets || current_assets->accountType() == ASSETS_TYPE_SECURITIES)) note_string = tr("Excluding any profits or losses in trading of security shares", "Financial security (e.g. stock, mutual fund)");
 			break;}

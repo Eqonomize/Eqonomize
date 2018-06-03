@@ -8834,6 +8834,11 @@ What do you want to do with them?</source>
         <translation>Дриги описания</translation>
     </message>
     <message>
+        <location filename="../src/overtimechart.cpp" line="2449"/>
+        <source>Profits, %1</source>
+        <translation type="unfinished">Печалби, %1</translation>
+    </message>
+    <message>
         <location filename="../src/overtimechart.cpp" line="2653"/>
         <location filename="../src/overtimechart.cpp" line="3040"/>
         <source>Assets</source>
@@ -9220,9 +9225,8 @@ Date: %3</source>
         <translation>Активи &amp; Пасиви</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2449"/>
         <source>Change: %1</source>
-        <translation type="unfinished">Смени: %1</translation>
+        <translation type="obsolete">Смени: %1</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2451"/>

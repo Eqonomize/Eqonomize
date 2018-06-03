@@ -9344,6 +9344,11 @@ O que você gostaria de fazer com elas?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/overtimechart.cpp" line="2449"/>
+        <source>Profits, %1</source>
+        <translation type="unfinished">Rendas, %1</translation>
+    </message>
+    <message>
         <location filename="../src/overtimechart.cpp" line="2653"/>
         <location filename="../src/overtimechart.cpp" line="3040"/>
         <source>Assets</source>
@@ -9728,9 +9733,8 @@ Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2449"/>
         <source>Change: %1</source>
-        <translation type="unfinished">Change: %1</translation>
+        <translation type="obsolete">Change: %1</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2451"/>

@@ -9390,6 +9390,11 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/overtimechart.cpp" line="2449"/>
+        <source>Profits, %1</source>
+        <translation type="unfinished">Profituri, %1</translation>
+    </message>
+    <message>
         <location filename="../src/overtimechart.cpp" line="2653"/>
         <location filename="../src/overtimechart.cpp" line="3040"/>
         <source>Assets</source>
@@ -9774,9 +9779,8 @@ Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2449"/>
         <source>Change: %1</source>
-        <translation type="unfinished">Schimbare: %1</translation>
+        <translation type="obsolete">Schimbare: %1</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2451"/>

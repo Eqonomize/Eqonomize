@@ -8859,6 +8859,11 @@ Was wollen Sie mit diesen tun?</translation>
         <translation type="unfinished">Andere Beschreibungen</translation>
     </message>
     <message>
+        <location filename="../src/overtimechart.cpp" line="2449"/>
+        <source>Profits, %1</source>
+        <translation type="unfinished">Einkünfte, %1</translation>
+    </message>
+    <message>
         <location filename="../src/overtimechart.cpp" line="2653"/>
         <location filename="../src/overtimechart.cpp" line="3040"/>
         <source>Assets</source>
@@ -9245,9 +9250,8 @@ Datum: %3</translation>
         <translation type="unfinished">Aktiva &amp; Verpflichtungen</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2449"/>
         <source>Change: %1</source>
-        <translation type="unfinished">Änderung: %1</translation>
+        <translation type="obsolete">Änderung: %1</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2451"/>
