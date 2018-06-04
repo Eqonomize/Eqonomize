@@ -94,6 +94,7 @@ class OverTimeChart : public QWidget {
 		void resetOptions();
 		void resetDate();
 		void sourceChanged(int);
+		void accountChanged(int);
 		void categoryChanged(int);
 		void descriptionChanged(int);
 		void payeeChanged(int);
