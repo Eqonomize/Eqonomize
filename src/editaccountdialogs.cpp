@@ -300,8 +300,13 @@ void EditAssetsAccountDialog::modifyAccount(AssetsAccount *account) {
 }
 void EditAssetsAccountDialog::setAccount(AssetsAccount *account) {
 	current_account = account;
-	closedButton->show();
-	closedButton->setChecked(account->isClosed());
+	if(account->isClosed() || budget->accountHasTransactions(account)) {
+		closedButton->show();
+		closedButton->setChecked(account->isClosed());
+	} else {
+		closedButton->hide();
+		closedButton->setChecked(false);
+	}
 	nameEdit->setText(account->name());
 	maintainerEdit->setText(account->maintainer());
 	valueEdit->setValue(account->initialBalance());

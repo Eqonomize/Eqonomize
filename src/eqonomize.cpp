@@ -8300,11 +8300,12 @@ void Eqonomize::accountsSelectionChanged() {
 		ActionEditAccount->setEnabled(true);
 		ActionBalanceAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i])->accountType() != ASSETS_TYPE_SECURITIES);
 		ActionReconcileAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i])->accountType() != ASSETS_TYPE_SECURITIES);
-		ActionCloseAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS);
 		if(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i])->isClosed()) {
+			ActionCloseAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS);
 			ActionCloseAccount->setText(tr("Reopen Account", "Mark account as not closed"));
 			ActionCloseAccount->setIcon(LOAD_ICON("edit-undo"));
 		} else {
+			ActionCloseAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && budget->accountHasTransactions(account_items[i]));
 			ActionCloseAccount->setText(tr("Close Account", "Mark account as closed"));
 			ActionCloseAccount->setIcon(LOAD_ICON("edit-delete"));
 		}

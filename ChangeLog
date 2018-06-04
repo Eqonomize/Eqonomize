@@ -1,6 +1,7 @@
 2018-06-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Alternative to show all accounts separately in the same over time chart
+	* Disable "Close Account" for accounts with no associated transactions
 
 2018-06-03  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
