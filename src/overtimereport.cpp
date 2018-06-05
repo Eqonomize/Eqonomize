@@ -353,7 +353,6 @@ void OverTimeReport::updateDisplay() {
 	}
 	
 	AssetsAccount *current_assets = selectedAccount();
-	if(current_source == 0 && current_assets) current_source = 11;
 
 	QVector<month_info> monthly_values;
 	month_info *mi = NULL;
@@ -364,10 +363,17 @@ void OverTimeReport::updateDisplay() {
 	QString title, valuetitle, pertitle;
 	switch(current_source) {
 		case 0: {
-			type = 0;
-			title = tr("Profits");
-			pertitle = tr("Average Profit");
-			valuetitle = title;
+			if(current_assets) {
+				type = 4;
+				title = tr("Change: %1").arg(current_assets->name());
+				pertitle = tr("Average Change");
+				valuetitle = tr("Change");
+			} else {
+				type = 0;
+				title = tr("Profits");
+				pertitle = tr("Average Profit");
+				valuetitle = title;
+			}
 			break;
 		}
 		case 1: {
@@ -426,13 +432,6 @@ void OverTimeReport::updateDisplay() {
 			valuetitle = tr("Expenses");
 			type = 3;
 			at = ACCOUNT_TYPE_EXPENSES;
-			break;
-		}
-		case 11: {
-			type = 4;
-			title = tr("Change: %1").arg(current_assets->name());
-			pertitle = tr("Average Change");
-			valuetitle = tr("Change");
 			break;
 		}
 		case 12: {
@@ -830,6 +829,8 @@ void OverTimeReport::updateDisplay() {
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
 				outf << "\t\t\t\t<tr>" << '\n';
+			} else if(!first_month && multiple_years && current_source == 12) {
+				outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
 			} else {
 				outf << "\t\t\t\t<tr>" << '\n';
 			}

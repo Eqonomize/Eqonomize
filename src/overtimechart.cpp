@@ -418,7 +418,8 @@ void OverTimeChart::accountChanged(int index) {
 			sourceCombo->blockSignals(true);
 			sourceCombo->setCurrentIndex(1);
 			sourceCombo->blockSignals(false);
-			current_source = -1;
+			sourceChanged(1);
+			return;
 		}
 		if(d_index == 1 || (b_subs && d_index == 2)) {
 			descriptionCombo->blockSignals(true);
@@ -562,6 +563,11 @@ void OverTimeChart::categoryChanged(int index) {
 			payeeCombo->setCurrentIndex(0);
 		}
 	} else if(index == 1) {
+		if(accountCombo->currentIndex() == 1) {
+			accountCombo->blockSignals(true);
+			accountCombo->setCurrentIndex(0);
+			accountCombo->blockSignals(false);
+		}
 		if(b_income) {
 			current_source = (index == 2 ? 25 : 3);
 		} else {
