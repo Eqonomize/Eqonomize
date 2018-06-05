@@ -1049,8 +1049,8 @@ void CategoriesComparisonChart::updateDisplay() {
 	QFont legend_font = font();
 	QFontMetrics fm(legend_font);
 	int fh = fm.height();
-	int diameter = 430;
 	int margin = 35;
+	int diameter = view->height() - margin * 2;
 	int legend_x = diameter + margin * 2;
 
 	

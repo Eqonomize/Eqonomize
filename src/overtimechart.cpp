@@ -397,12 +397,16 @@ void OverTimeChart::valueTypeToggled(bool b) {
 	if(!b) return;
 	startDateEdit->setMonthEnabled(!yearlyButton->isChecked());
 	endDateEdit->setMonthEnabled(!yearlyButton->isChecked());
+#ifdef QT_CHARTS_LIB
 	if(typeCombo->currentIndex() != 0) {
 		if(valueGroup->checkedId() == 4) {resetDate(); updateDisplay();}
 		else endMonthChanged(end_date);
 	} else {
 		updateDisplay();
 	}
+#else
+	updateDisplay();
+#endif
 }
 
 void OverTimeChart::accountChanged(int index) {
@@ -3261,11 +3265,11 @@ void OverTimeChart::updateDisplay() {
 	QFontMetrics fm(legend_font);
 	int fh = fm.height();
 
-	int linelength = (int) ceil(600.0 / n);
-	int chart_height = 400;
 	int margin = 30 + fh;
 	int chart_y = margin + 15;
+	int chart_height = view->height() - chart_y - margin;
 	int axis_width = 11;
+	int linelength = (int) ceil((view->width() - margin * 2 - axis_width - 50 - fh * 6) / n);
 	//int axis_height = 11 + fh;
 	int chart_width = linelength * n;
 
@@ -3292,17 +3296,17 @@ void OverTimeChart::updateDisplay() {
 	axis_pen.setWidth(1);
 	axis_pen.setStyle(Qt::SolidLine);
 	QGraphicsLineItem *y_axis = new QGraphicsLineItem();
-	y_axis->setLine(margin + axis_width, margin + 3, margin + axis_width, chart_height + chart_y);
+	y_axis->setLine(margin + axis_width, chart_y, margin + axis_width, chart_height + chart_y);
 	y_axis->setPen(axis_pen);
 	scene->addItem(y_axis);
 
 	QGraphicsLineItem *y_axis_dir1 = new QGraphicsLineItem();
-	y_axis_dir1->setLine(margin + axis_width, margin + 3, margin + axis_width - 3, margin + 9);
+	y_axis_dir1->setLine(margin + axis_width, chart_y, margin + axis_width - 3, chart_y + 6);
 	y_axis_dir1->setPen(axis_pen);
 	scene->addItem(y_axis_dir1);
 
 	QGraphicsLineItem *y_axis_dir2 = new QGraphicsLineItem();
-	y_axis_dir2->setLine(margin + axis_width, margin + 3, margin + axis_width + 3, margin + 9);
+	y_axis_dir2->setLine(margin + axis_width, chart_y, margin + axis_width + 3, chart_y + 6);
 	y_axis_dir2->setPen(axis_pen);
 	scene->addItem(y_axis_dir2);
 
@@ -3333,7 +3337,7 @@ void OverTimeChart::updateDisplay() {
 	div_pen.setColor(Qt::black);
 	div_pen.setWidth(1);
 	div_pen.setStyle(Qt::DotLine);
-	int div_height = chart_height / y_lines;
+	double div_height = (double) chart_height / (double) y_lines;
 	for(int i = 0; i < y_lines; i++) {
 		QGraphicsLineItem *y_div = new QGraphicsLineItem();
 		y_div->setLine(margin + axis_width, chart_y + i * div_height, margin + chart_width + axis_width, chart_y + i * div_height);
@@ -3478,7 +3482,7 @@ void OverTimeChart::updateDisplay() {
 		legend_line->setPen(getPen(index));
 		scene->addItem(legend_line);
 		QGraphicsSimpleTextItem *legend_text = new QGraphicsSimpleTextItem();
-		switch(current_source2) {
+		switch(current_source) {
 			case -2: {
 				legend_text->setText(tr("Assets"));
 				break;
@@ -3559,6 +3563,10 @@ void OverTimeChart::updateDisplay() {
 				legend_text->setText(tr("%1/%2", "%1: Description; %2: Payee/Payer").arg(str1).arg(str2));
 				break;
 			}
+		}
+		if(current_source > 50) {
+			if(!cat_order[cat_i]) legend_text->setText(tr("Other accounts"));
+			else legend_text->setText(cat_order[cat_i]->name());
 		}
 		if(legend_text->boundingRect().width() > text_width) text_width = legend_text->boundingRect().width();
 		legend_text->setFont(legend_font);
