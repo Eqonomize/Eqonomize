@@ -5901,9 +5901,9 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionCategoriesComparisonChart, tr("Categories Comparison Chart…"), "eqz-categories-chart", 0, this, SLOT(showCategoriesComparisonChart()), "categories_comparison_chart", statisticsMenu);
 	statisticsToolbar->addAction(ActionCategoriesComparisonChart);
 
-	NEW_TOGGLE_ACTION(ActionExtraProperties, tr("Use Additional Transaction Properties"), 0, this, SLOT(useExtraProperties(bool)), "extra_properties", settingsMenu);
+	NEW_TOGGLE_ACTION(ActionExtraProperties, tr("Show payee and quantity"), 0, this, SLOT(useExtraProperties(bool)), "extra_properties", settingsMenu);
 	ActionExtraProperties->setChecked(b_extra);
-	ActionExtraProperties->setToolTip(tr("Show quantity and payer/payee for incomes and expenses."));
+	ActionExtraProperties->setToolTip(tr("Show quantity and payer/payee properties for incomes and expenses."));
 	
 	NEW_ACTION_2(ActionSetMainCurrency, tr("Set Main Currency…"), 0, this, SLOT(setMainCurrency()), "set_main_currency", settingsMenu);
 	
