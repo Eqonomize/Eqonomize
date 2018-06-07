@@ -7,6 +7,8 @@
 	* Allow user to set last month for yearly value in over time chart
 	* Sort categories and accounts using total value and hide categories with zero value in charts
 	* Yearly "Assets and Liabilies" bars
+	* Add "Edit Account" button to ledger
+	* Show incomes and expenses in profit report
 
 2018-06-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
 

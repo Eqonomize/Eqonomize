@@ -65,6 +65,7 @@ extern QString last_document_directory;
 
 struct month_info {
 	double value;
+	double expense;
 	double count;
 	QDate date;
 };
@@ -152,6 +153,14 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	perButton->setChecked(settings.value("valuePerTransactionEnabled", false).toBool());
 	enabledLayout->addWidget(perButton);
 	enabledLayout->addStretch(1);
+	
+	valueButton->setEnabled(current_source != 12 && current_source != 0);
+	dailyButton->setEnabled(current_source != 12 && current_source != 0);
+	monthlyButton->setEnabled(current_source != 12 && current_source != 0);
+	yearlyButton->setEnabled(current_source != 12 && current_source != 0);
+	countButton->setEnabled(current_source != 12 && current_source != 0);
+	perButton->setEnabled(current_source != 12 && current_source != 0);
+	columnsLabel->setEnabled(current_source != 12 && current_source != 0);
 	
 	settings.endGroup();
 	
@@ -270,13 +279,13 @@ void OverTimeReport::sourceChanged(int index) {
 		if(index == 3) current_source = 12;
 		else current_source = 0;
 	}
-	valueButton->setEnabled(current_source != 12);
-	dailyButton->setEnabled(current_source != 12);
-	monthlyButton->setEnabled(current_source != 12);
-	yearlyButton->setEnabled(current_source != 12);
-	countButton->setEnabled(current_source != 12);
-	perButton->setEnabled(current_source != 12);
-	columnsLabel->setEnabled(current_source != 12);
+	valueButton->setEnabled(current_source != 12 && current_source != 0);
+	dailyButton->setEnabled(current_source != 12 && current_source != 0);
+	monthlyButton->setEnabled(current_source != 12 && current_source != 0);
+	yearlyButton->setEnabled(current_source != 12 && current_source != 0);
+	countButton->setEnabled(current_source != 12 && current_source != 0);
+	perButton->setEnabled(current_source != 12 && current_source != 0);
+	columnsLabel->setEnabled(current_source != 12 && current_source != 0);
 	categoryCombo->blockSignals(false);
 	descriptionCombo->blockSignals(false);
 	updateDisplay();
@@ -341,16 +350,15 @@ void OverTimeReport::updateDisplay() {
 	if(!isVisible()) return;
 
 	int columns = 2;
-	bool enabled[6];
+	bool enabled[8];
 	enabled[0] = valueButton->isChecked();
 	enabled[1] = dailyButton->isChecked();
 	enabled[2] = monthlyButton->isChecked();
 	enabled[3] = yearlyButton->isChecked();
 	enabled[4] = countButton->isChecked();
 	enabled[5] = perButton->isChecked();
-	for(size_t i = 0; i < 6; i++) {
-		if(enabled[i]) columns++;
-	}
+	enabled[6] = false;
+	enabled[7] = false;
 	
 	AssetsAccount *current_assets = selectedAccount();
 
@@ -360,20 +368,29 @@ void OverTimeReport::updateDisplay() {
 	AccountType at = ACCOUNT_TYPE_EXPENSES;
 	Account *account = NULL;
 	int type = 0;
-	QString title, valuetitle, pertitle;
+	QString title, valuetitle, pertitle, expensetitle, sumtitle;
 	switch(current_source) {
 		case 0: {
 			if(current_assets) {
 				type = 4;
 				title = tr("Change: %1").arg(current_assets->name());
-				pertitle = tr("Average Change");
-				valuetitle = tr("Change");
+				valuetitle = tr("Deposit");
+				expensetitle = tr("Withdrawal");
+				sumtitle = tr("Change");
 			} else {
 				type = 0;
 				title = tr("Profits");
-				pertitle = tr("Average Profit");
-				valuetitle = title;
+				valuetitle = tr("Incomes");
+				expensetitle = tr("Expenses");
+				sumtitle = title;
 			}
+			enabled[1] = false;
+			enabled[2] = false;
+			enabled[3] = false;
+			enabled[4] = false;
+			enabled[5] = false;
+			enabled[6] = true;
+			enabled[7] = true;
 			break;
 		}
 		case 1: {
@@ -437,29 +454,42 @@ void OverTimeReport::updateDisplay() {
 		case 12: {
 			if(current_assets) {
 				title = tr("Value: %1").arg(current_assets->name());
-				type = 4;
+				type = 6;
+				valuetitle = tr("Value");
 			} else {
 				title = tr("Assets & Liabilities");
 				type = 5;
+				valuetitle = tr("Assets");
+				expensetitle = tr("Liabilities");
+				sumtitle = tr("Total");
+				enabled[6] = true;
+				enabled[7] = true;
 			}
 			enabled[1] = false;
 			enabled[2] = false;
 			enabled[3] = false;
 			enabled[4] = false;
 			enabled[5] = false;
-			valuetitle = tr("Value");
 			break;
 		}
 	}
-	QDate start_date;
+	
+	for(size_t i = 0; i < 8; i++) {
+		if(enabled[i]) columns++;
+	}
+	
+	QDate start_date, first_trans_date;
 	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
 		Transaction *trans = *it;
-		if((current_source == 12 || trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) && (!current_assets || trans->relatesToAccount(current_assets))) {
+		if(!first_trans_date.isValid()) {
+			first_trans_date = budget->firstBudgetDay(trans->date());
+		}
+		if(((current_source == 12 || trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) && (!current_assets || trans->relatesToAccount(current_assets))) || (current_source == 0 && current_assets && trans->relatesToAccount(current_assets))) {
 			start_date = trans->date();
 			if(!budget->isFirstBudgetDay(start_date)) {
 				start_date = budget->firstBudgetDay(start_date);
-				if(current_source != 12) budget->addBudgetMonthsSetFirst(start_date, 1);
-				else budget->addBudgetMonthsSetFirst(start_date, -1);
+				if(current_source == 12) budget->addBudgetMonthsSetFirst(start_date, -1);
+				else if(start_date == first_trans_date) budget->addBudgetMonthsSetFirst(start_date, 1);
 			}
 			break;
 		}
@@ -489,7 +519,7 @@ void OverTimeReport::updateDisplay() {
 		int sign = 1;
 		if(!started && trans->date() >= first_date) started = true;
 		if(started && (!current_assets || trans->relatesToAccount(current_assets))) {
-			if(type == 4 || type == 5) {
+			if(type >= 4) {
 				include = true;
 			} else if((type == 1 && trans->fromAccount()->type() == at) || (type == 2 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account)) || (type == 3 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account) && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (type == 0 && trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
 				if(type == 0) sign = 1;
@@ -523,18 +553,26 @@ void OverTimeReport::updateDisplay() {
 				}
 				monthly_values.append(month_info());
 				mi = &monthly_values.back();
-				if(type == 4) {
+				if(type == 0) {
+					if(sign == 1) mi->value = trans->value(!current_assets);
+					else mi->expense = trans->value(!current_assets);
+					mi->count = trans->quantity();
+				} else if(type == 4) {
+					if(trans->accountChange(current_assets) >= 0.0) mi->value = trans->accountChange(current_assets);
+					else mi->expense = -trans->accountChange(current_assets);
+					mi->count = 1.0;
+				} else if(type == 6) {
 					mi->value = trans->accountChange(current_assets);
 					mi->count = 1.0;
 				} else if(type == 5) {
-					mi->count = 0.0;
+					mi->expense = 0.0;
 					mi->value = 0.0;
 					if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) {
-						if(((AssetsAccount*) trans->fromAccount())->accountType() == ASSETS_TYPE_LIABILITIES || ((AssetsAccount*) trans->fromAccount())->accountType() == ASSETS_TYPE_CREDIT_CARD) mi->count -= trans->value(true);
+						if(((AssetsAccount*) trans->fromAccount())->accountType() == ASSETS_TYPE_LIABILITIES || ((AssetsAccount*) trans->fromAccount())->accountType() == ASSETS_TYPE_CREDIT_CARD) mi->expense -= trans->value(true);
 						else if(((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->fromAccount() != budget->balancingAccount) mi->value -= trans->value(true);
 					}
 					if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS) {
-						if(((AssetsAccount*) trans->toAccount())->accountType() == ASSETS_TYPE_LIABILITIES || ((AssetsAccount*) trans->toAccount())->accountType() == ASSETS_TYPE_CREDIT_CARD) mi->count += trans->value(true);
+						if(((AssetsAccount*) trans->toAccount())->accountType() == ASSETS_TYPE_LIABILITIES || ((AssetsAccount*) trans->toAccount())->accountType() == ASSETS_TYPE_CREDIT_CARD) mi->expense += trans->value(true);
 						else if(((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->toAccount() != budget->balancingAccount) mi->value += trans->value(true);
 					}
 				} else {
@@ -543,16 +581,24 @@ void OverTimeReport::updateDisplay() {
 				}
 				mi->date = newdate;
 			} else {
-				if(type == 4) {
+				if(type == 0) {
+					if(sign == 1) mi->value += trans->value(!current_assets);
+					else mi->expense += trans->value(!current_assets);
+					mi->count += trans->quantity();
+				} else if(type == 4) {
+					if(trans->accountChange(current_assets) >= 0.0) mi->value += trans->accountChange(current_assets);
+					else mi->expense -= trans->accountChange(current_assets);
+					mi->count++;
+				} else if(type == 6) {
 					mi->value += trans->accountChange(current_assets);
 					mi->count++;
 				} else if(type == 5) {
 					if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) {
-						if(((AssetsAccount*) trans->fromAccount())->accountType() == ASSETS_TYPE_LIABILITIES || ((AssetsAccount*) trans->fromAccount())->accountType() == ASSETS_TYPE_CREDIT_CARD) mi->count -= trans->value(true);
+						if(((AssetsAccount*) trans->fromAccount())->accountType() == ASSETS_TYPE_LIABILITIES || ((AssetsAccount*) trans->fromAccount())->accountType() == ASSETS_TYPE_CREDIT_CARD) mi->expense -= trans->value(true);
 						else if(((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->fromAccount() != budget->balancingAccount) mi->value -= trans->value(true);
 					}
 					if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS) {
-						if(((AssetsAccount*) trans->toAccount())->accountType() == ASSETS_TYPE_LIABILITIES || ((AssetsAccount*) trans->toAccount())->accountType() == ASSETS_TYPE_CREDIT_CARD) mi->count += trans->value(true);
+						if(((AssetsAccount*) trans->toAccount())->accountType() == ASSETS_TYPE_LIABILITIES || ((AssetsAccount*) trans->toAccount())->accountType() == ASSETS_TYPE_CREDIT_CARD) mi->expense += trans->value(true);
 						else if(((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->toAccount() != budget->balancingAccount) mi->value += trans->value(true);
 					}
 				} else {
@@ -569,11 +615,13 @@ void OverTimeReport::updateDisplay() {
 			monthly_values.append(month_info());
 			mi = &monthly_values.back();
 			mi->value = 0.0;
+			mi->expense = 0.0;
 			mi->count = 0.0;
 			mi->date = newdate;
 		}
 	}
 	double scheduled_value = 0.0;
+	double scheduled_expense = 0.0;
 	double scheduled_count = 0.0;
 	if(mi) {
 		int split_i = 0;
@@ -606,7 +654,7 @@ void OverTimeReport::updateDisplay() {
 			bool include = false;
 			int sign = 1;
 			if(!current_assets || trans->relatesToAccount(current_assets)) {
-				if(type == 4 || type == 5) {
+				if(type >= 4) {
 					include = true;
 				} else if((type == 1 && trans->fromAccount()->type() == at) || (type == 2 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account)) || (type == 3 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account) && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (type == 0 && trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
 					if(type == 0) sign = 1;
@@ -624,16 +672,24 @@ void OverTimeReport::updateDisplay() {
 				int count = (strans->recurrence() ? strans->recurrence()->countOccurrences(mi->date) : 1);
 				if(count != 0) {
 					includes_planned = true;
-					if(type == 4) {
+					if(type == 0) {
+						if(sign == 1) scheduled_value += (trans->value(!current_assets) * count);
+						else scheduled_expense += (trans->value(!current_assets) * count);
+						scheduled_count += count * trans->quantity();
+					} else if(type == 4) {
+						if(trans->accountChange(current_assets) >= 0.0) scheduled_value += trans->accountChange(current_assets) * count;
+						else scheduled_expense -= trans->accountChange(current_assets) * count;
+						scheduled_count += count;
+					} else if(type == 6) {
 						scheduled_value += trans->accountChange(current_assets) * count;
 						scheduled_count += count;
 					} else if(type == 5) {
 						if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) {
-							if(((AssetsAccount*) trans->fromAccount())->accountType() == ASSETS_TYPE_LIABILITIES || ((AssetsAccount*) trans->fromAccount())->accountType() == ASSETS_TYPE_CREDIT_CARD) scheduled_count -= trans->value(true) * count;
+							if(((AssetsAccount*) trans->fromAccount())->accountType() == ASSETS_TYPE_LIABILITIES || ((AssetsAccount*) trans->fromAccount())->accountType() == ASSETS_TYPE_CREDIT_CARD) scheduled_expense -= trans->value(true) * count;
 							else if(((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->fromAccount() != budget->balancingAccount) scheduled_value -= trans->value(true) * count;
 						}
 						if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS) {
-							if(((AssetsAccount*) trans->toAccount())->accountType() == ASSETS_TYPE_LIABILITIES || ((AssetsAccount*) trans->toAccount())->accountType() == ASSETS_TYPE_CREDIT_CARD) scheduled_count += trans->value(true) * count;
+							if(((AssetsAccount*) trans->toAccount())->accountType() == ASSETS_TYPE_LIABILITIES || ((AssetsAccount*) trans->toAccount())->accountType() == ASSETS_TYPE_CREDIT_CARD) scheduled_expense += trans->value(true) * count;
 							else if(((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->toAccount() != budget->balancingAccount) scheduled_value += trans->value(true) * count;
 						}
 					} else {
@@ -652,6 +708,7 @@ void OverTimeReport::updateDisplay() {
 		monthly_values.append(month_info());
 		mi = &monthly_values.back();
 		mi->value = 0.0;
+		mi->expense = 0.0;
 		mi->count = 0.0;
 		mi->date = budget->lastBudgetDay(first_date);
 		while(mi->date < curdate) {
@@ -660,12 +717,13 @@ void OverTimeReport::updateDisplay() {
 			monthly_values.append(month_info());
 			mi = &monthly_values.back();
 			mi->value = 0.0;
+			mi->expense = 0.0;
 			mi->count = 0.0;
 			mi->date = newdate;
 		}
 	}
 	if(current_source == 12) {
-		if(type == 4) {
+		if(type == 6) {
 			if(current_assets->accountType() != ASSETS_TYPE_SECURITIES) {
 				double total_value = current_assets->initialBalance(false);
 				QVector<month_info>::iterator it_b = monthly_values.begin();
@@ -696,10 +754,10 @@ void OverTimeReport::updateDisplay() {
 				}
 			}
 		} else if(type == 5) {
-			double total_value = 0.0, total_count = 0.0;
+			double total_value = 0.0, total_expense = 0.0;
 			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 				AssetsAccount *account = *it;
-				if(account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD) total_count += account->currency()->convertTo(account->initialBalance(false), budget->defaultCurrency(), start_date);
+				if(account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD) total_expense += account->currency()->convertTo(account->initialBalance(false), budget->defaultCurrency(), start_date);
 				else total_value += account->currency()->convertTo(account->initialBalance(false), budget->defaultCurrency(), start_date);
 			}
 			QVector<month_info>::iterator it_b = monthly_values.begin();
@@ -707,8 +765,8 @@ void OverTimeReport::updateDisplay() {
 			while(it_b != it_e) {
 				total_value += it_b->value;
 				it_b->value = total_value;
-				total_count += it_b->count;
-				it_b->count = total_count;
+				total_expense += it_b->expense;
+				it_b->expense = total_expense;
 				it_b++;
 			}
 			for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
@@ -743,17 +801,7 @@ void OverTimeReport::updateDisplay() {
 	outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tr("Year")) << "</th>";
 	outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tr("Month")) << "</th>";
 	bool use_footer1 = false;
-	if(type == 5) {
-		outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tr("Assets"));
-		if(includes_planned) {outf << "*"; use_footer1 = true;}
-		outf<< "</th>";
-		outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tr("Liabilities"));
-		if(includes_planned) {outf << "*"; use_footer1 = true;}
-		outf<< "</th>";
-		outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tr("Total"));
-		if(includes_planned) {outf << "*"; use_footer1 = true;}
-		outf<< "</th>";
-	} else if(enabled[0]) {
+	if(enabled[0]) {
 		outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(valuetitle);
 		if(includes_planned) {outf << "*"; use_footer1 = true;}
 		outf<< "</th>";
@@ -771,6 +819,16 @@ void OverTimeReport::updateDisplay() {
 		if(includes_planned) {outf << "*"; use_footer1 = true;}
 		outf<< "</th>";
 	}
+	if(enabled[6]) {
+		outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(expensetitle);
+		if(includes_planned) {outf << "*"; use_footer1 = true;}
+		outf<< "</th>";
+	}
+	if(enabled[7]) {
+		outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(sumtitle);
+		if(includes_planned) {outf << "*"; use_footer1 = true;}
+		outf<< "</th>";
+	}
 	outf << "\t\t\t\t</tr>" << '\n';
 	outf << "\t\t\t</thead>" << '\n';
 	outf << "\t\t\t<tbody>" << '\n';
@@ -780,6 +838,7 @@ void OverTimeReport::updateDisplay() {
 	QVector<month_info>::iterator it = monthly_values.end();
 	int year = 0;
 	double yearly_value = 0.0, total_value = 0.0;
+	double yearly_expense = 0.0, total_expense = 0.0;
 	double yearly_count = 0.0, total_count = 0.0;
 	QDate year_date;
 	bool first_year = true, first_month = true;
@@ -825,6 +884,8 @@ void OverTimeReport::updateDisplay() {
 					pervalue = (yearly_count == 0.0 ? 0.0 : (yearly_value / yearly_count));
 				}
 				if(enabled[5]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(pervalue)) << "</b></td>";
+				if(enabled[6]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(first_year ? (yearly_expense + scheduled_expense) : yearly_expense)) << "</b></td>";
+				if(enabled[7]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(first_year ? (yearly_value + scheduled_value - yearly_expense - scheduled_expense) : yearly_value - yearly_expense)) << "</b></td>";
 				first_year = false;
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
@@ -836,23 +897,22 @@ void OverTimeReport::updateDisplay() {
 			}
 			year = budget->budgetYear(it->date);
 			yearly_value = it->value;
+			yearly_expense = it->expense;
 			yearly_count = it->count;
 			year_date = it->date;
 			outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(QString::number(budget->budgetYear(it->date))) << "</td>";
 		} else {
 			outf << "\t\t\t\t<tr>" << '\n';
 			yearly_value += it->value;
+			yearly_expense += it->expense;
 			yearly_count += it->count;
 			outf << "\t\t\t\t\t<td></td>";
 		}
 		total_value += it->value;
+		total_expense += it->expense;
 		total_count += it->count;
 		outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(QDate::longMonthName(budget->budgetMonth(it->date), QDate::StandaloneFormat)) << "</td>";
 		if(enabled[0]) outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(first_month ? (it->value + scheduled_value) : it->value)) << "</td>";
-		if(type == 5) {
-			outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(first_month ? -(it->count + scheduled_count) : -it->count)) << "</td>";
-			outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(first_month ? (it->value + scheduled_value + it->count + scheduled_count) : it->value + it->count)) << "</td>";
-		}
 		int days = 0;
 		if(first_month) {
 			days = budget->dayOfBudgetMonth(curdate);
@@ -875,6 +935,8 @@ void OverTimeReport::updateDisplay() {
 			}
 			outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(pervalue)) << "</td>";
 		}
+		if(enabled[6]) outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(first_month ? (it->expense + scheduled_expense) : it->expense)) << "</td>";
+		if(enabled[7]) outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(first_month ? (it->value - it->expense + scheduled_value - scheduled_expense) : it->value - it->expense)) << "</td>";
 		first_month = false;
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
@@ -891,6 +953,8 @@ void OverTimeReport::updateDisplay() {
 		if(enabled[3]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue((yearly_value * average_year) / days)) << "</b></td>";
 		if(enabled[4]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toString(yearly_count, 'f', i_count_frac)) << "</b></td>";
 		if(enabled[5]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(yearly_count == 0.0 ? 0.0 : (yearly_value / yearly_count))) << "</b></td>";
+		if(enabled[6]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(yearly_expense)) << "</b></td>";
+		if(enabled[7]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(yearly_value - yearly_expense)) << "</b></td>";
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
 	}
@@ -905,6 +969,8 @@ void OverTimeReport::updateDisplay() {
 		if(enabled[3]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue((total_value * average_year) / days)) << "</b></td>";
 		if(enabled[4]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(QLocale().toString(total_count + scheduled_count, 'f', i_count_frac)) << "</b></td>";
 		if(enabled[5]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue((total_count + scheduled_count) == 0.0 ? 0.0 : ((total_value + scheduled_value) / (total_count + scheduled_count)))) << "</b></td>";
+		if(enabled[6]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(total_expense + scheduled_expense)) << "</b></td>";
+		if(enabled[7]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(total_value - total_expense + scheduled_value - scheduled_expense)) << "</b></td>";
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
 	}

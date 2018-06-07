@@ -2728,7 +2728,7 @@ int Budget::dayOfBudgetYear(const QDate &date) const {
 		if(date.month() == 1 && date.day() < ibd) {
 			return date.addYears(-1).daysInYear() + date.day() - ibd + 1;
 		}
-		return date.daysInYear() - ibd + 1;
+		return date.dayOfYear() - ibd + 1;
 	}
 }
 int Budget::dayOfBudgetMonth(const QDate &date) const {

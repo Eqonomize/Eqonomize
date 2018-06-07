@@ -59,6 +59,7 @@
 #include "eqonomize.h"
 #include "transactioneditwidget.h"
 #include "eqonomizevalueedit.h"
+#include "editaccountdialogs.h"
 
 extern QString htmlize_string(QString str);
 extern QColor createExpenseColor(QTreeWidgetItem *i, int = 0);
@@ -190,6 +191,8 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	}
 	topbox->addWidget(accountCombo);
 	QDialogButtonBox *topbuttons = new QDialogButtonBox(this);
+	editAccountButton = topbuttons->addButton(tr("Edit Account…"), QDialogButtonBox::ActionRole);
+	editAccountButton->setAutoDefault(false);
 	exportButton = topbuttons->addButton(tr("Export…"), QDialogButtonBox::ActionRole);
 	exportButton->setAutoDefault(false);
 	printButton = topbuttons->addButton(tr("Print…"), QDialogButtonBox::ActionRole);
@@ -343,6 +346,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	connect(splitUpButton, SIGNAL(clicked()), this, SLOT(splitUpTransaction()));
 	connect(exportButton, SIGNAL(clicked()), this, SLOT(saveView()));
 	connect(printButton, SIGNAL(clicked()), this, SLOT(printView()));
+	connect(editAccountButton, SIGNAL(clicked()), this, SLOT(editAccount()));
 	connect(accountCombo, SIGNAL(activated(int)), this, SLOT(accountActivated(int)));
 	connect(mainWin, SIGNAL(transactionsModified()), this, SLOT(updateTransactions()));
 	connect(mainWin, SIGNAL(accountsModified()), this, SLOT(updateAccounts()));
@@ -1556,4 +1560,21 @@ void LedgerDialog::reject() {
 	saveConfig();
 	QDialog::reject();
 }
+void LedgerDialog::editAccount() {
+	if(!account) return;
+	/*EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, this, tr("Edit Account"));
+	dialog->setAccount(account);
+	budget->resetDefaultCurrencyChanged();
+	budget->resetCurrenciesModified();
+	if(dialog->exec() == QDialog::Accepted) {
+		dialog->modifyAccount(account);
+		budget->accountModified(account);
+		mainWin->reloadBudget();
+	} else if(budget->currenciesModified() || budget->defaultCurrencyChanged()) {
+		mainWin->currenciesModified();
+	}
+	dialog->deleteLater();*/
+	mainWin->editAccount(account, this);
+}
+
 

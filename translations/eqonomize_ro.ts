@@ -3373,47 +3373,47 @@ i18n: file ./eqonomizeui.rc line 56
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="168"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1369"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1300"/>
         <source>All Expenses, without subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="169"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1370"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1301"/>
         <source>All Expenses, with subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="170"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1371"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1302"/>
         <source>All Incomes, without subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="171"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1372"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1303"/>
         <source>All Incomes, with subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="172"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="185"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1373"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1392"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1304"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1323"/>
         <source>All Accounts</source>
         <translation type="unfinished">Toate conturile</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="175"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="728"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1377"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="669"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1308"/>
         <source>Expenses: %1</source>
         <translation type="unfinished">Cheltuieli: %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="179"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="729"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1383"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="670"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1314"/>
         <source>Incomes: %1</source>
         <translation type="unfinished">Venituri: %1</translation>
     </message>
@@ -3454,50 +3454,50 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished">Eroare la scrierea fișierului; acesta nu a fost salvat.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="646"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="587"/>
         <source>Expenses</source>
         <translation type="unfinished">Cheltuieli</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="673"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="614"/>
         <source>Expenses, %1</source>
         <translation type="unfinished">Cheltuieli, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="687"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="628"/>
         <source>Incomes, %1</source>
         <translation type="unfinished">Venituri, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="688"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="629"/>
         <source>Incomes</source>
         <translation type="unfinished">Venituri</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="700"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="641"/>
         <source>Accounts</source>
         <translation type="unfinished">Conturi</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="725"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="666"/>
         <source>Expenses, %2: %1</source>
         <translation type="unfinished">Cheltuieli, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="726"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="667"/>
         <source>Incomes, %2: %1</source>
         <translation type="unfinished">Venituri, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="966"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="967"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="907"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="908"/>
         <source>Other descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1109"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1254"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1050"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1185"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Fără descriere</translation>
@@ -3513,17 +3513,17 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="obsolete">Fără descriere</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1194"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1125"/>
         <source>Value</source>
         <translation type="unfinished">Valoare</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1195"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1126"/>
         <source>Income</source>
         <translation type="unfinished">Venit</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1196"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1127"/>
         <source>Cost</source>
         <translation type="unfinished">Cost</translation>
     </message>
@@ -8627,51 +8627,56 @@ Ce doriți să le faceți cu ele?</translation>
 <context>
     <name>LedgerDialog</name>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="179"/>
+        <location filename="../src/ledgerdialog.cpp" line="180"/>
         <source>Account:</source>
         <translation type="unfinished">Cont:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="193"/>
+        <location filename="../src/ledgerdialog.cpp" line="194"/>
+        <source>Edit Account…</source>
+        <translation type="unfinished">Modifică contul…</translation>
+    </message>
+    <message>
+        <location filename="../src/ledgerdialog.cpp" line="196"/>
         <source>Export…</source>
         <translation type="unfinished">Export…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="195"/>
+        <location filename="../src/ledgerdialog.cpp" line="198"/>
         <source>Print…</source>
         <translation type="unfinished">Tipărire…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="197"/>
+        <location filename="../src/ledgerdialog.cpp" line="200"/>
         <source>Reconcile</source>
         <comment>Accounting context</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="201"/>
+        <location filename="../src/ledgerdialog.cpp" line="204"/>
         <source>Mark all as reconciled</source>
         <comment>Accounting context</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="218"/>
+        <location filename="../src/ledgerdialog.cpp" line="221"/>
         <source>Change:</source>
         <comment>Accounting context</comment>
         <translation type="unfinished">Schimbare:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="253"/>
+        <location filename="../src/ledgerdialog.cpp" line="256"/>
         <source>R</source>
         <comment>Header for account reconciled checkbox column</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="254"/>
+        <location filename="../src/ledgerdialog.cpp" line="257"/>
         <source>Date</source>
         <translation type="unfinished">Dată</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="255"/>
+        <location filename="../src/ledgerdialog.cpp" line="258"/>
         <source>Type</source>
         <translation type="unfinished">Tip</translation>
     </message>
@@ -8689,7 +8694,7 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Descriere</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="257"/>
+        <location filename="../src/ledgerdialog.cpp" line="260"/>
         <source>Account/Category</source>
         <translation type="unfinished">Cont/Categorie</translation>
     </message>
@@ -8711,237 +8716,237 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Balanță</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="258"/>
+        <location filename="../src/ledgerdialog.cpp" line="261"/>
         <source>Payee/Payer</source>
         <translation type="unfinished">Beneficiar/plătitor</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="259"/>
+        <location filename="../src/ledgerdialog.cpp" line="262"/>
         <source>Comments</source>
         <translation type="unfinished">Comentarii</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="261"/>
+        <location filename="../src/ledgerdialog.cpp" line="264"/>
         <source>Deposit</source>
         <comment>Money put into account</comment>
         <translation type="unfinished">Depozit</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="262"/>
+        <location filename="../src/ledgerdialog.cpp" line="265"/>
         <source>Withdrawal</source>
         <comment>Money taken out from account</comment>
         <translation type="unfinished">Retragere</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="263"/>
+        <location filename="../src/ledgerdialog.cpp" line="266"/>
         <source>Balance</source>
         <comment>Noun. Balance of an account</comment>
         <translation type="unfinished">Balanță</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="290"/>
+        <location filename="../src/ledgerdialog.cpp" line="293"/>
         <source>New</source>
         <translation type="unfinished">Nou</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="302"/>
+        <location filename="../src/ledgerdialog.cpp" line="305"/>
         <source>Edit…</source>
         <translation type="unfinished">Editează…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="305"/>
+        <location filename="../src/ledgerdialog.cpp" line="308"/>
         <source>Delete</source>
         <translation type="unfinished">Șterge</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="308"/>
+        <location filename="../src/ledgerdialog.cpp" line="311"/>
         <source>Join…</source>
         <translation type="unfinished">Alipire…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="311"/>
+        <location filename="../src/ledgerdialog.cpp" line="314"/>
         <source>Split Up</source>
         <translation type="unfinished">Împărțire</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="328"/>
+        <location filename="../src/ledgerdialog.cpp" line="331"/>
         <source>Edit Transaction(s)…</source>
         <translation type="unfinished">Editare tranzacții…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="329"/>
+        <location filename="../src/ledgerdialog.cpp" line="332"/>
         <source>Join Transactions…</source>
         <translation type="unfinished">Alăturare tranzacții…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="330"/>
+        <location filename="../src/ledgerdialog.cpp" line="333"/>
         <source>Split Up Transaction</source>
         <translation type="unfinished">Împărțește tranzacția</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="331"/>
+        <location filename="../src/ledgerdialog.cpp" line="334"/>
         <source>Open Associated File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="332"/>
+        <location filename="../src/ledgerdialog.cpp" line="335"/>
         <source>Remove Transaction(s)</source>
         <translation type="unfinished">Elimină tranzacții</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="333"/>
+        <location filename="../src/ledgerdialog.cpp" line="336"/>
         <source>Mark as reconciled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="455"/>
-        <location filename="../src/ledgerdialog.cpp" line="456"/>
-        <location filename="../src/ledgerdialog.cpp" line="457"/>
+        <location filename="../src/ledgerdialog.cpp" line="459"/>
+        <location filename="../src/ledgerdialog.cpp" line="460"/>
+        <location filename="../src/ledgerdialog.cpp" line="461"/>
         <source>Reconciled: %1 (%2)</source>
         <comment>Accounting context</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="458"/>
-        <location filename="../src/ledgerdialog.cpp" line="459"/>
-        <location filename="../src/ledgerdialog.cpp" line="460"/>
+        <location filename="../src/ledgerdialog.cpp" line="462"/>
+        <location filename="../src/ledgerdialog.cpp" line="463"/>
+        <location filename="../src/ledgerdialog.cpp" line="464"/>
         <source>Book value: %1 (%2)</source>
         <comment>Accounting context</comment>
         <translation type="unfinished">Valoare registru: %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="514"/>
-        <location filename="../src/ledgerdialog.cpp" line="521"/>
-        <location filename="../src/ledgerdialog.cpp" line="529"/>
-        <location filename="../src/ledgerdialog.cpp" line="536"/>
-        <location filename="../src/ledgerdialog.cpp" line="764"/>
-        <location filename="../src/ledgerdialog.cpp" line="780"/>
-        <location filename="../src/ledgerdialog.cpp" line="786"/>
-        <location filename="../src/ledgerdialog.cpp" line="894"/>
-        <location filename="../src/ledgerdialog.cpp" line="936"/>
-        <location filename="../src/ledgerdialog.cpp" line="1254"/>
-        <location filename="../src/ledgerdialog.cpp" line="1260"/>
-        <location filename="../src/ledgerdialog.cpp" line="1266"/>
+        <location filename="../src/ledgerdialog.cpp" line="518"/>
+        <location filename="../src/ledgerdialog.cpp" line="525"/>
+        <location filename="../src/ledgerdialog.cpp" line="533"/>
+        <location filename="../src/ledgerdialog.cpp" line="540"/>
+        <location filename="../src/ledgerdialog.cpp" line="768"/>
+        <location filename="../src/ledgerdialog.cpp" line="784"/>
+        <location filename="../src/ledgerdialog.cpp" line="790"/>
+        <location filename="../src/ledgerdialog.cpp" line="898"/>
+        <location filename="../src/ledgerdialog.cpp" line="940"/>
+        <location filename="../src/ledgerdialog.cpp" line="1258"/>
+        <location filename="../src/ledgerdialog.cpp" line="1264"/>
+        <location filename="../src/ledgerdialog.cpp" line="1270"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="514"/>
-        <location filename="../src/ledgerdialog.cpp" line="529"/>
+        <location filename="../src/ledgerdialog.cpp" line="518"/>
+        <location filename="../src/ledgerdialog.cpp" line="533"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Dată nevalidă.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="521"/>
+        <location filename="../src/ledgerdialog.cpp" line="525"/>
         <source>Opening date is after closing date.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="536"/>
+        <location filename="../src/ledgerdialog.cpp" line="540"/>
         <source>Closing date is before opening date.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="764"/>
-        <location filename="../src/ledgerdialog.cpp" line="894"/>
+        <location filename="../src/ledgerdialog.cpp" line="768"/>
+        <location filename="../src/ledgerdialog.cpp" line="898"/>
         <source>Empty transaction list.</source>
         <translation type="unfinished">Listă de tranzacții goală.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="780"/>
+        <location filename="../src/ledgerdialog.cpp" line="784"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation type="unfinished">Nu s-a putut deschide fișierul pentru scriere.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="786"/>
+        <location filename="../src/ledgerdialog.cpp" line="790"/>
         <source>Error while writing file; file was not saved.</source>
         <translation type="unfinished">Eroare la scrierea fișierului; acesta nu a fost salvat.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="799"/>
+        <location filename="../src/ledgerdialog.cpp" line="803"/>
         <source>Ledger</source>
         <translation type="unfinished">Registru</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="805"/>
+        <location filename="../src/ledgerdialog.cpp" line="809"/>
         <source>Transactions for %1</source>
         <translation type="unfinished">Tranzacții pentru %1</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="913"/>
+        <location filename="../src/ledgerdialog.cpp" line="917"/>
         <source>Select Time Period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="917"/>
+        <location filename="../src/ledgerdialog.cpp" line="921"/>
         <source>From:</source>
         <translation type="unfinished">Din:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="921"/>
+        <location filename="../src/ledgerdialog.cpp" line="925"/>
         <source>To:</source>
         <translation type="unfinished">Către:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="936"/>
+        <location filename="../src/ledgerdialog.cpp" line="940"/>
         <source>To date is before from date.</source>
         <translation type="unfinished">Data „la” este înaintea datei „de la”.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1090"/>
-        <location filename="../src/ledgerdialog.cpp" line="1091"/>
+        <location filename="../src/ledgerdialog.cpp" line="1094"/>
+        <location filename="../src/ledgerdialog.cpp" line="1095"/>
         <source>Balance change:</source>
         <comment>Account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1120"/>
+        <location filename="../src/ledgerdialog.cpp" line="1124"/>
         <source>Delete transactions?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1120"/>
+        <location filename="../src/ledgerdialog.cpp" line="1124"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation type="unfinished">Sigur doriți ștergerea tuturor (%1) tranzacții selectate?</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1254"/>
+        <location filename="../src/ledgerdialog.cpp" line="1258"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nu se poate modifica valoarea tranzacțiilor cu titluri de valoare prin fereastra de modificare tranzacții multiple.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1260"/>
+        <location filename="../src/ledgerdialog.cpp" line="1264"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nu se poate schimba descrierea dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1266"/>
+        <location filename="../src/ledgerdialog.cpp" line="1270"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nu se poate schimba plătitorul dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1324"/>
+        <location filename="../src/ledgerdialog.cpp" line="1328"/>
         <source>Opening balance</source>
         <comment>Account balance</comment>
         <translation type="unfinished">Soldul de deschidere</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1494"/>
+        <location filename="../src/ledgerdialog.cpp" line="1498"/>
         <source>Account Balance Adjustment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1535"/>
+        <location filename="../src/ledgerdialog.cpp" line="1539"/>
         <source>Current balance:</source>
         <comment>Account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1090"/>
-        <location filename="../src/ledgerdialog.cpp" line="1535"/>
+        <location filename="../src/ledgerdialog.cpp" line="1094"/>
+        <location filename="../src/ledgerdialog.cpp" line="1539"/>
         <source>Average balance:</source>
         <comment>Account balance</comment>
         <translation type="unfinished"></translation>
@@ -8976,24 +8981,24 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Nu se poate schimba descrierea dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1533"/>
+        <location filename="../src/ledgerdialog.cpp" line="1537"/>
         <source>Current debt:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1533"/>
+        <location filename="../src/ledgerdialog.cpp" line="1537"/>
         <source>Total debt reduction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1533"/>
+        <location filename="../src/ledgerdialog.cpp" line="1537"/>
         <source>Total interest and fees:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1090"/>
-        <location filename="../src/ledgerdialog.cpp" line="1091"/>
-        <location filename="../src/ledgerdialog.cpp" line="1535"/>
+        <location filename="../src/ledgerdialog.cpp" line="1094"/>
+        <location filename="../src/ledgerdialog.cpp" line="1095"/>
+        <location filename="../src/ledgerdialog.cpp" line="1539"/>
         <source>Number of transactions:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9014,64 +9019,64 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Balanță inițială</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1350"/>
+        <location filename="../src/ledgerdialog.cpp" line="1354"/>
         <source>Split Transaction</source>
         <translation type="unfinished">Împarte tranzacția</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="269"/>
-        <location filename="../src/ledgerdialog.cpp" line="1375"/>
-        <location filename="../src/ledgerdialog.cpp" line="1402"/>
-        <location filename="../src/ledgerdialog.cpp" line="1429"/>
-        <location filename="../src/ledgerdialog.cpp" line="1455"/>
+        <location filename="../src/ledgerdialog.cpp" line="272"/>
+        <location filename="../src/ledgerdialog.cpp" line="1379"/>
+        <location filename="../src/ledgerdialog.cpp" line="1406"/>
+        <location filename="../src/ledgerdialog.cpp" line="1433"/>
+        <location filename="../src/ledgerdialog.cpp" line="1459"/>
         <source>Debt Payment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1375"/>
+        <location filename="../src/ledgerdialog.cpp" line="1379"/>
         <source>Reduction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1402"/>
+        <location filename="../src/ledgerdialog.cpp" line="1406"/>
         <source>Fee</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1429"/>
+        <location filename="../src/ledgerdialog.cpp" line="1433"/>
         <source>Interest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1486"/>
+        <location filename="../src/ledgerdialog.cpp" line="1490"/>
         <source>Income</source>
         <translation type="unfinished">Venit</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1487"/>
+        <location filename="../src/ledgerdialog.cpp" line="1491"/>
         <source>Repayment</source>
         <translation type="unfinished">Restituire</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="260"/>
-        <location filename="../src/ledgerdialog.cpp" line="1490"/>
+        <location filename="../src/ledgerdialog.cpp" line="263"/>
+        <location filename="../src/ledgerdialog.cpp" line="1494"/>
         <source>Expense</source>
         <translation type="unfinished">Cheltuială</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="208"/>
+        <location filename="../src/ledgerdialog.cpp" line="211"/>
         <source>Opening balance:</source>
         <comment>Accounting context</comment>
         <translation type="unfinished">Soldul de deschidere:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="225"/>
+        <location filename="../src/ledgerdialog.cpp" line="228"/>
         <source>Closing balance:</source>
         <comment>Accounting context</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="256"/>
+        <location filename="../src/ledgerdialog.cpp" line="259"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Descriere</translation>
@@ -9082,7 +9087,7 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Nu se poate schimba descrierea dividendelor și tranzacțiilor cu titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1491"/>
+        <location filename="../src/ledgerdialog.cpp" line="1495"/>
         <source>Refund</source>
         <translation type="unfinished">Rambursare</translation>
     </message>
@@ -9091,7 +9096,7 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Echilibrare</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1497"/>
+        <location filename="../src/ledgerdialog.cpp" line="1501"/>
         <source>Transfer</source>
         <translation type="unfinished">Transfer</translation>
     </message>
@@ -9287,36 +9292,36 @@ Ce doriți să le faceți cu ele?</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="222"/>
-        <location filename="../src/overtimechart.cpp" line="2975"/>
-        <location filename="../src/overtimechart.cpp" line="3197"/>
-        <location filename="../src/overtimechart.cpp" line="3632"/>
+        <location filename="../src/overtimechart.cpp" line="2954"/>
+        <location filename="../src/overtimechart.cpp" line="3176"/>
+        <location filename="../src/overtimechart.cpp" line="3609"/>
         <source>Profits</source>
         <translation type="unfinished">Profituri</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="223"/>
-        <location filename="../src/overtimechart.cpp" line="2992"/>
-        <location filename="../src/overtimechart.cpp" line="3202"/>
-        <location filename="../src/overtimechart.cpp" line="3206"/>
-        <location filename="../src/overtimechart.cpp" line="3637"/>
-        <location filename="../src/overtimechart.cpp" line="3641"/>
+        <location filename="../src/overtimechart.cpp" line="2971"/>
+        <location filename="../src/overtimechart.cpp" line="3181"/>
+        <location filename="../src/overtimechart.cpp" line="3185"/>
+        <location filename="../src/overtimechart.cpp" line="3614"/>
+        <location filename="../src/overtimechart.cpp" line="3618"/>
         <source>Expenses</source>
         <translation type="unfinished">Cheltuieli</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="224"/>
-        <location filename="../src/overtimechart.cpp" line="2986"/>
-        <location filename="../src/overtimechart.cpp" line="3201"/>
-        <location filename="../src/overtimechart.cpp" line="3205"/>
-        <location filename="../src/overtimechart.cpp" line="3636"/>
-        <location filename="../src/overtimechart.cpp" line="3640"/>
+        <location filename="../src/overtimechart.cpp" line="2965"/>
+        <location filename="../src/overtimechart.cpp" line="3180"/>
+        <location filename="../src/overtimechart.cpp" line="3184"/>
+        <location filename="../src/overtimechart.cpp" line="3613"/>
+        <location filename="../src/overtimechart.cpp" line="3617"/>
         <source>Incomes</source>
         <translation type="unfinished">Venituri</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="230"/>
-        <location filename="../src/overtimechart.cpp" line="688"/>
-        <location filename="../src/overtimechart.cpp" line="3881"/>
+        <location filename="../src/overtimechart.cpp" line="687"/>
+        <location filename="../src/overtimechart.cpp" line="3858"/>
         <source>All Categories Combined</source>
         <translation type="unfinished">Toate categoriile combinate</translation>
     </message>
@@ -9361,51 +9366,51 @@ Ce doriți să le faceți cu ele?</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="250"/>
-        <location filename="../src/overtimechart.cpp" line="3933"/>
+        <location filename="../src/overtimechart.cpp" line="3910"/>
         <source>All Accounts Combined</source>
         <translation type="unfinished">Toate conturile combinate</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="251"/>
-        <location filename="../src/overtimechart.cpp" line="3934"/>
+        <location filename="../src/overtimechart.cpp" line="3911"/>
         <source>All Accounts Split</source>
         <translation type="unfinished">Toate conturile împărțiți</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="598"/>
+        <location filename="../src/overtimechart.cpp" line="597"/>
         <source>All Subcategories and Descriptions Combined</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="600"/>
-        <location filename="../src/overtimechart.cpp" line="3782"/>
+        <location filename="../src/overtimechart.cpp" line="599"/>
+        <location filename="../src/overtimechart.cpp" line="3759"/>
         <source>All Descriptions Split</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Toate descrierile împărțite</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="649"/>
-        <location filename="../src/overtimechart.cpp" line="3222"/>
-        <location filename="../src/overtimechart.cpp" line="3228"/>
-        <location filename="../src/overtimechart.cpp" line="3256"/>
-        <location filename="../src/overtimechart.cpp" line="3258"/>
-        <location filename="../src/overtimechart.cpp" line="3265"/>
-        <location filename="../src/overtimechart.cpp" line="3267"/>
-        <location filename="../src/overtimechart.cpp" line="3657"/>
-        <location filename="../src/overtimechart.cpp" line="3663"/>
-        <location filename="../src/overtimechart.cpp" line="3691"/>
-        <location filename="../src/overtimechart.cpp" line="3693"/>
-        <location filename="../src/overtimechart.cpp" line="3700"/>
-        <location filename="../src/overtimechart.cpp" line="3702"/>
-        <location filename="../src/overtimechart.cpp" line="3750"/>
-        <location filename="../src/overtimechart.cpp" line="3821"/>
+        <location filename="../src/overtimechart.cpp" line="648"/>
+        <location filename="../src/overtimechart.cpp" line="3201"/>
+        <location filename="../src/overtimechart.cpp" line="3207"/>
+        <location filename="../src/overtimechart.cpp" line="3235"/>
+        <location filename="../src/overtimechart.cpp" line="3237"/>
+        <location filename="../src/overtimechart.cpp" line="3244"/>
+        <location filename="../src/overtimechart.cpp" line="3246"/>
+        <location filename="../src/overtimechart.cpp" line="3634"/>
+        <location filename="../src/overtimechart.cpp" line="3640"/>
+        <location filename="../src/overtimechart.cpp" line="3668"/>
+        <location filename="../src/overtimechart.cpp" line="3670"/>
+        <location filename="../src/overtimechart.cpp" line="3677"/>
+        <location filename="../src/overtimechart.cpp" line="3679"/>
+        <location filename="../src/overtimechart.cpp" line="3727"/>
+        <location filename="../src/overtimechart.cpp" line="3798"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Fără descriere</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2598"/>
+        <location filename="../src/overtimechart.cpp" line="2588"/>
         <source>Other descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished"></translation>
@@ -9415,8 +9420,8 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Profituri, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3191"/>
-        <location filename="../src/overtimechart.cpp" line="3626"/>
+        <location filename="../src/overtimechart.cpp" line="3170"/>
+        <location filename="../src/overtimechart.cpp" line="3603"/>
         <source>Assets</source>
         <translation type="unfinished">Resurse</translation>
     </message>
@@ -9432,17 +9437,17 @@ Ce doriți să le faceți cu ele?</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="236"/>
-        <location filename="../src/overtimechart.cpp" line="548"/>
-        <location filename="../src/overtimechart.cpp" line="677"/>
-        <location filename="../src/overtimechart.cpp" line="3781"/>
-        <location filename="../src/overtimechart.cpp" line="3903"/>
+        <location filename="../src/overtimechart.cpp" line="547"/>
+        <location filename="../src/overtimechart.cpp" line="676"/>
+        <location filename="../src/overtimechart.cpp" line="3758"/>
+        <location filename="../src/overtimechart.cpp" line="3880"/>
         <source>All Descriptions Combined</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Toate descrierile combinate</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="244"/>
-        <location filename="../src/overtimechart.cpp" line="683"/>
+        <location filename="../src/overtimechart.cpp" line="682"/>
         <source>All Payees/Payers Combined</source>
         <translation type="unfinished">Toți beneficiarii/plătitorii combinați</translation>
     </message>
@@ -9487,28 +9492,28 @@ Ce doriți să le faceți cu ele?</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="296"/>
-        <location filename="../src/overtimechart.cpp" line="2855"/>
+        <location filename="../src/overtimechart.cpp" line="2856"/>
         <source>Average value</source>
         <translation type="unfinished">Valoare medie</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="556"/>
-        <location filename="../src/overtimechart.cpp" line="681"/>
-        <location filename="../src/overtimechart.cpp" line="3785"/>
-        <location filename="../src/overtimechart.cpp" line="3908"/>
+        <location filename="../src/overtimechart.cpp" line="555"/>
+        <location filename="../src/overtimechart.cpp" line="680"/>
+        <location filename="../src/overtimechart.cpp" line="3762"/>
+        <location filename="../src/overtimechart.cpp" line="3885"/>
         <source>All Payers Combined</source>
         <translation type="unfinished">Toți plătitorii combinați</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="557"/>
-        <location filename="../src/overtimechart.cpp" line="682"/>
-        <location filename="../src/overtimechart.cpp" line="3786"/>
-        <location filename="../src/overtimechart.cpp" line="3907"/>
+        <location filename="../src/overtimechart.cpp" line="556"/>
+        <location filename="../src/overtimechart.cpp" line="681"/>
+        <location filename="../src/overtimechart.cpp" line="3763"/>
+        <location filename="../src/overtimechart.cpp" line="3884"/>
         <source>All Payees Combined</source>
         <translation type="unfinished">Toți beneficiarii combinați</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="597"/>
+        <location filename="../src/overtimechart.cpp" line="596"/>
         <source>All Subcategories Split</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9523,84 +9528,84 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Fără descriere</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2844"/>
+        <location filename="../src/overtimechart.cpp" line="2845"/>
         <source>Value</source>
         <translation type="unfinished">Valoare</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2878"/>
-        <location filename="../src/overtimechart.cpp" line="3416"/>
+        <location filename="../src/overtimechart.cpp" line="2879"/>
+        <location filename="../src/overtimechart.cpp" line="3393"/>
         <source>Includes budgeted transactions</source>
         <translation type="unfinished">Include tranzacții cu buget</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2973"/>
+        <location filename="../src/overtimechart.cpp" line="2952"/>
         <source>Incomes − Expenses, %1</source>
         <translation type="unfinished">Venituri − cheltuieli, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2974"/>
-        <location filename="../src/overtimechart.cpp" line="3196"/>
-        <location filename="../src/overtimechart.cpp" line="3631"/>
+        <location filename="../src/overtimechart.cpp" line="2953"/>
+        <location filename="../src/overtimechart.cpp" line="3175"/>
+        <location filename="../src/overtimechart.cpp" line="3608"/>
         <source>Incomes − Expenses</source>
         <translation type="unfinished">Venituri − cheltuieli</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2980"/>
+        <location filename="../src/overtimechart.cpp" line="2959"/>
         <source>Incomes &amp; Expenses</source>
         <translation type="unfinished">Venituri și cheltuieli</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3000"/>
+        <location filename="../src/overtimechart.cpp" line="2979"/>
         <source>Incomes: %1</source>
         <translation type="unfinished">Venituri: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3008"/>
+        <location filename="../src/overtimechart.cpp" line="2987"/>
         <source>Expenses: %1</source>
         <translation type="unfinished">Cheltuieli: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3014"/>
-        <location filename="../src/overtimechart.cpp" line="3037"/>
+        <location filename="../src/overtimechart.cpp" line="2993"/>
+        <location filename="../src/overtimechart.cpp" line="3016"/>
         <source>Incomes: %2, %1</source>
         <translation type="unfinished">Venituri: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3020"/>
-        <location filename="../src/overtimechart.cpp" line="3044"/>
+        <location filename="../src/overtimechart.cpp" line="2999"/>
+        <location filename="../src/overtimechart.cpp" line="3023"/>
         <source>Expenses: %2, %1</source>
         <translation type="unfinished">Cheltuieli: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3025"/>
+        <location filename="../src/overtimechart.cpp" line="3004"/>
         <source>Incomes: %3, %2, %1</source>
         <translation type="unfinished">Venituri: %3, %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3030"/>
+        <location filename="../src/overtimechart.cpp" line="3009"/>
         <source>Expenses: %3, %2, %1</source>
         <translation type="unfinished">Cheltuieli: %3, %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3274"/>
-        <location filename="../src/overtimechart.cpp" line="3709"/>
+        <location filename="../src/overtimechart.cpp" line="3253"/>
+        <location filename="../src/overtimechart.cpp" line="3686"/>
         <source>Other accounts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="4077"/>
-        <location filename="../src/overtimechart.cpp" line="4078"/>
-        <location filename="../src/overtimechart.cpp" line="4122"/>
-        <location filename="../src/overtimechart.cpp" line="4123"/>
+        <location filename="../src/overtimechart.cpp" line="4056"/>
+        <location filename="../src/overtimechart.cpp" line="4057"/>
+        <location filename="../src/overtimechart.cpp" line="4101"/>
+        <location filename="../src/overtimechart.cpp" line="4102"/>
         <source>%1
 Value: %2
 Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="4078"/>
-        <location filename="../src/overtimechart.cpp" line="4123"/>
+        <location filename="../src/overtimechart.cpp" line="4057"/>
+        <location filename="../src/overtimechart.cpp" line="4102"/>
         <source>MMMM yyyy</source>
         <comment>Month and year</comment>
         <translation type="unfinished"></translation>
@@ -9610,14 +9615,14 @@ Date: %3</source>
         <translation type="obsolete">Toate descrierile împărțite</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="602"/>
-        <location filename="../src/overtimechart.cpp" line="3787"/>
+        <location filename="../src/overtimechart.cpp" line="601"/>
+        <location filename="../src/overtimechart.cpp" line="3764"/>
         <source>All Payers Split</source>
         <translation type="unfinished">Toți plătitorii împărțiți</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="603"/>
-        <location filename="../src/overtimechart.cpp" line="3788"/>
+        <location filename="../src/overtimechart.cpp" line="602"/>
+        <location filename="../src/overtimechart.cpp" line="3765"/>
         <source>All Payees Split</source>
         <translation type="unfinished">Toți beneficiarii împărțiți</translation>
     </message>
@@ -9626,69 +9631,69 @@ Date: %3</source>
         <translation type="obsolete">Fără descriere</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="657"/>
-        <location filename="../src/overtimechart.cpp" line="3234"/>
-        <location filename="../src/overtimechart.cpp" line="3245"/>
-        <location filename="../src/overtimechart.cpp" line="3669"/>
-        <location filename="../src/overtimechart.cpp" line="3680"/>
-        <location filename="../src/overtimechart.cpp" line="3754"/>
-        <location filename="../src/overtimechart.cpp" line="3837"/>
+        <location filename="../src/overtimechart.cpp" line="656"/>
+        <location filename="../src/overtimechart.cpp" line="3213"/>
+        <location filename="../src/overtimechart.cpp" line="3224"/>
+        <location filename="../src/overtimechart.cpp" line="3646"/>
+        <location filename="../src/overtimechart.cpp" line="3657"/>
+        <location filename="../src/overtimechart.cpp" line="3731"/>
+        <location filename="../src/overtimechart.cpp" line="3814"/>
         <source>No payer</source>
         <translation type="unfinished">Nici un plătitor</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="658"/>
-        <location filename="../src/overtimechart.cpp" line="3240"/>
-        <location filename="../src/overtimechart.cpp" line="3250"/>
-        <location filename="../src/overtimechart.cpp" line="3675"/>
-        <location filename="../src/overtimechart.cpp" line="3685"/>
-        <location filename="../src/overtimechart.cpp" line="3752"/>
-        <location filename="../src/overtimechart.cpp" line="3838"/>
+        <location filename="../src/overtimechart.cpp" line="657"/>
+        <location filename="../src/overtimechart.cpp" line="3219"/>
+        <location filename="../src/overtimechart.cpp" line="3229"/>
+        <location filename="../src/overtimechart.cpp" line="3652"/>
+        <location filename="../src/overtimechart.cpp" line="3662"/>
+        <location filename="../src/overtimechart.cpp" line="3729"/>
+        <location filename="../src/overtimechart.cpp" line="3815"/>
         <source>No payee</source>
         <translation type="unfinished">Nici un beneficiar</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="690"/>
-        <location filename="../src/overtimechart.cpp" line="702"/>
-        <location filename="../src/overtimechart.cpp" line="3882"/>
+        <location filename="../src/overtimechart.cpp" line="689"/>
+        <location filename="../src/overtimechart.cpp" line="701"/>
+        <location filename="../src/overtimechart.cpp" line="3859"/>
         <source>All Categories Split</source>
         <translation type="unfinished">Toate categoriile împărțite</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="758"/>
-        <location filename="../src/overtimechart.cpp" line="788"/>
-        <location filename="../src/overtimechart.cpp" line="818"/>
-        <location filename="../src/overtimechart.cpp" line="848"/>
-        <location filename="../src/overtimechart.cpp" line="961"/>
-        <location filename="../src/overtimechart.cpp" line="994"/>
+        <location filename="../src/overtimechart.cpp" line="759"/>
+        <location filename="../src/overtimechart.cpp" line="789"/>
+        <location filename="../src/overtimechart.cpp" line="819"/>
+        <location filename="../src/overtimechart.cpp" line="856"/>
+        <location filename="../src/overtimechart.cpp" line="969"/>
+        <location filename="../src/overtimechart.cpp" line="1002"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="758"/>
-        <location filename="../src/overtimechart.cpp" line="788"/>
-        <location filename="../src/overtimechart.cpp" line="818"/>
-        <location filename="../src/overtimechart.cpp" line="848"/>
+        <location filename="../src/overtimechart.cpp" line="759"/>
+        <location filename="../src/overtimechart.cpp" line="789"/>
+        <location filename="../src/overtimechart.cpp" line="819"/>
+        <location filename="../src/overtimechart.cpp" line="856"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Dată nevalidă.</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="961"/>
+        <location filename="../src/overtimechart.cpp" line="969"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation type="unfinished">Nu s-a putut deschide fișierul pentru scriere.</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="994"/>
+        <location filename="../src/overtimechart.cpp" line="1002"/>
         <source>Error while writing file; file was not saved.</source>
         <translation type="unfinished">Eroare la scrierea fișierului; acesta nu a fost salvat.</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2594"/>
+        <location filename="../src/overtimechart.cpp" line="2584"/>
         <source>Other payees</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2596"/>
+        <location filename="../src/overtimechart.cpp" line="2586"/>
         <source>Other payers</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9709,13 +9714,13 @@ Date: %3</source>
         <translation type="obsolete">Cost (%1)</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3469"/>
+        <location filename="../src/overtimechart.cpp" line="3446"/>
         <source>Time</source>
         <translation type="unfinished">Timp</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3213"/>
-        <location filename="../src/overtimechart.cpp" line="3648"/>
+        <location filename="../src/overtimechart.cpp" line="3192"/>
+        <location filename="../src/overtimechart.cpp" line="3625"/>
         <source>%1/%2</source>
         <comment>%1: Category; %2: Payee/Payer</comment>
         <translation type="unfinished"></translation>
@@ -9736,94 +9741,94 @@ Date: %3</source>
         <translation type="obsolete">Fără descriere</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2848"/>
+        <location filename="../src/overtimechart.cpp" line="2849"/>
         <source>Daily average value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2849"/>
+        <location filename="../src/overtimechart.cpp" line="2850"/>
         <source>Daily average profit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2850"/>
+        <location filename="../src/overtimechart.cpp" line="2851"/>
         <source>Daily average income</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2851"/>
+        <location filename="../src/overtimechart.cpp" line="2852"/>
         <source>Daily average cost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2856"/>
+        <location filename="../src/overtimechart.cpp" line="2857"/>
         <source>Average income</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2857"/>
+        <location filename="../src/overtimechart.cpp" line="2858"/>
         <source>Average cost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2861"/>
+        <location filename="../src/overtimechart.cpp" line="2862"/>
         <source>Annual value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2862"/>
+        <location filename="../src/overtimechart.cpp" line="2863"/>
         <source>Annual profit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2863"/>
+        <location filename="../src/overtimechart.cpp" line="2864"/>
         <source>Annual income</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2864"/>
+        <location filename="../src/overtimechart.cpp" line="2865"/>
         <source>Annual cost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2868"/>
+        <location filename="../src/overtimechart.cpp" line="2869"/>
         <source>Monthly value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2869"/>
+        <location filename="../src/overtimechart.cpp" line="2870"/>
         <source>Monthly profit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2870"/>
+        <location filename="../src/overtimechart.cpp" line="2871"/>
         <source>Monthly income</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2871"/>
+        <location filename="../src/overtimechart.cpp" line="2872"/>
         <source>Monthly cost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2877"/>
-        <location filename="../src/overtimechart.cpp" line="3415"/>
+        <location filename="../src/overtimechart.cpp" line="2878"/>
+        <location filename="../src/overtimechart.cpp" line="3392"/>
         <source>Includes scheduled and budgeted transactions</source>
         <translation type="unfinished">Include tranzacții planificate și bugetate</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2879"/>
-        <location filename="../src/overtimechart.cpp" line="3417"/>
+        <location filename="../src/overtimechart.cpp" line="2880"/>
+        <location filename="../src/overtimechart.cpp" line="3394"/>
         <source>Includes scheduled transactions</source>
         <translation type="unfinished">Include tranzacțiile planificate</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2968"/>
+        <location filename="../src/overtimechart.cpp" line="2947"/>
         <source>Value: %1</source>
         <translation type="unfinished">Valoare: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2969"/>
+        <location filename="../src/overtimechart.cpp" line="2948"/>
         <source>Assets &amp; Liabilities</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9832,82 +9837,82 @@ Date: %3</source>
         <translation type="obsolete">Schimbare: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2976"/>
+        <location filename="../src/overtimechart.cpp" line="2955"/>
         <source>Excluding any profits or losses in trading of security shares</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2979"/>
+        <location filename="../src/overtimechart.cpp" line="2958"/>
         <source>Incomes &amp; Expenses, %1</source>
         <translation type="unfinished">Venituri și cheltuieli, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2985"/>
+        <location filename="../src/overtimechart.cpp" line="2964"/>
         <source>Incomes, %1</source>
         <translation type="unfinished">Venituri, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2991"/>
+        <location filename="../src/overtimechart.cpp" line="2970"/>
         <source>Expenses, %1</source>
         <translation type="unfinished">Cheltuieli, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2999"/>
+        <location filename="../src/overtimechart.cpp" line="2978"/>
         <source>Incomes, %2: %1</source>
         <translation type="unfinished">Venituri, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3007"/>
+        <location filename="../src/overtimechart.cpp" line="2986"/>
         <source>Expenses, %2: %1</source>
         <translation type="unfinished">Cheltuieli, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3013"/>
-        <location filename="../src/overtimechart.cpp" line="3036"/>
+        <location filename="../src/overtimechart.cpp" line="2992"/>
+        <location filename="../src/overtimechart.cpp" line="3015"/>
         <source>Incomes, %3: %2, %1</source>
         <translation type="unfinished">Venituri, %3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3019"/>
-        <location filename="../src/overtimechart.cpp" line="3043"/>
+        <location filename="../src/overtimechart.cpp" line="2998"/>
+        <location filename="../src/overtimechart.cpp" line="3022"/>
         <source>Expenses, %3: %2, %1</source>
         <translation type="unfinished">Cheltuieli, %3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3024"/>
+        <location filename="../src/overtimechart.cpp" line="3003"/>
         <source>Incomes, %4: %3, %2, %1</source>
         <translation type="unfinished">Venituri, %4: %3, %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3029"/>
+        <location filename="../src/overtimechart.cpp" line="3008"/>
         <source>Expenses, %4: %3, %2, %1</source>
         <translation type="unfinished">Cheltuieli, %4: %3, %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3192"/>
-        <location filename="../src/overtimechart.cpp" line="3627"/>
+        <location filename="../src/overtimechart.cpp" line="3171"/>
+        <location filename="../src/overtimechart.cpp" line="3604"/>
         <source>Liabilities</source>
         <translation type="unfinished">Pasive</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3256"/>
-        <location filename="../src/overtimechart.cpp" line="3257"/>
-        <location filename="../src/overtimechart.cpp" line="3691"/>
-        <location filename="../src/overtimechart.cpp" line="3692"/>
+        <location filename="../src/overtimechart.cpp" line="3235"/>
+        <location filename="../src/overtimechart.cpp" line="3236"/>
+        <location filename="../src/overtimechart.cpp" line="3668"/>
+        <location filename="../src/overtimechart.cpp" line="3669"/>
         <source>no payer</source>
         <translation type="unfinished">nici un plătitor</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3260"/>
-        <location filename="../src/overtimechart.cpp" line="3695"/>
+        <location filename="../src/overtimechart.cpp" line="3239"/>
+        <location filename="../src/overtimechart.cpp" line="3672"/>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payer/Payer</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3269"/>
-        <location filename="../src/overtimechart.cpp" line="3704"/>
+        <location filename="../src/overtimechart.cpp" line="3248"/>
+        <location filename="../src/overtimechart.cpp" line="3681"/>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payee/Payer</comment>
         <translation type="unfinished"></translation>
@@ -9922,10 +9927,10 @@ Date: %3</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3265"/>
-        <location filename="../src/overtimechart.cpp" line="3266"/>
-        <location filename="../src/overtimechart.cpp" line="3700"/>
-        <location filename="../src/overtimechart.cpp" line="3701"/>
+        <location filename="../src/overtimechart.cpp" line="3244"/>
+        <location filename="../src/overtimechart.cpp" line="3245"/>
+        <location filename="../src/overtimechart.cpp" line="3677"/>
+        <location filename="../src/overtimechart.cpp" line="3678"/>
         <source>no payee</source>
         <translation type="unfinished">nici un beneficiar</translation>
     </message>
@@ -9950,52 +9955,54 @@ Date: %3</source>
 <context>
     <name>OverTimeReport</name>
     <message>
-        <location filename="../src/overtimereport.cpp" line="78"/>
+        <location filename="../src/overtimereport.cpp" line="79"/>
         <source>Save As…</source>
         <translation type="unfinished">Salvează ca…</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="80"/>
+        <location filename="../src/overtimereport.cpp" line="81"/>
         <source>Print…</source>
         <translation type="unfinished">Tipărire…</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="94"/>
+        <location filename="../src/overtimereport.cpp" line="95"/>
         <source>Source:</source>
         <translation type="unfinished">Sursă:</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="99"/>
-        <location filename="../src/overtimereport.cpp" line="373"/>
+        <location filename="../src/overtimereport.cpp" line="100"/>
+        <location filename="../src/overtimereport.cpp" line="382"/>
         <source>Profits</source>
         <translation type="unfinished">Profituri</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="100"/>
-        <location filename="../src/overtimereport.cpp" line="390"/>
-        <location filename="../src/overtimereport.cpp" line="412"/>
-        <location filename="../src/overtimereport.cpp" line="432"/>
+        <location filename="../src/overtimereport.cpp" line="101"/>
+        <location filename="../src/overtimereport.cpp" line="384"/>
+        <location filename="../src/overtimereport.cpp" line="407"/>
+        <location filename="../src/overtimereport.cpp" line="429"/>
+        <location filename="../src/overtimereport.cpp" line="449"/>
         <source>Expenses</source>
         <translation type="unfinished">Cheltuieli</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="101"/>
-        <location filename="../src/overtimereport.cpp" line="381"/>
-        <location filename="../src/overtimereport.cpp" line="402"/>
-        <location filename="../src/overtimereport.cpp" line="422"/>
+        <location filename="../src/overtimereport.cpp" line="102"/>
+        <location filename="../src/overtimereport.cpp" line="383"/>
+        <location filename="../src/overtimereport.cpp" line="398"/>
+        <location filename="../src/overtimereport.cpp" line="419"/>
+        <location filename="../src/overtimereport.cpp" line="439"/>
         <source>Incomes</source>
         <translation type="unfinished">Venituri</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="102"/>
-        <location filename="../src/overtimereport.cpp" line="442"/>
+        <location filename="../src/overtimereport.cpp" line="103"/>
+        <location filename="../src/overtimereport.cpp" line="460"/>
         <source>Assets &amp; Liabilities</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="107"/>
-        <location filename="../src/overtimereport.cpp" line="253"/>
-        <location filename="../src/overtimereport.cpp" line="976"/>
+        <location filename="../src/overtimereport.cpp" line="108"/>
+        <location filename="../src/overtimereport.cpp" line="262"/>
+        <location filename="../src/overtimereport.cpp" line="1042"/>
         <source>All Categories Combined</source>
         <translation type="unfinished">Toate categoriile combinate</translation>
     </message>
@@ -10004,39 +10011,39 @@ Date: %3</source>
         <translation type="obsolete">Toate descrierile combinate</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="132"/>
+        <location filename="../src/overtimereport.cpp" line="133"/>
         <source>Columns:</source>
         <translation>Coloane:</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="136"/>
-        <location filename="../src/overtimereport.cpp" line="450"/>
+        <location filename="../src/overtimereport.cpp" line="137"/>
+        <location filename="../src/overtimereport.cpp" line="458"/>
         <source>Value</source>
         <translation type="unfinished">Valoare</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="139"/>
+        <location filename="../src/overtimereport.cpp" line="140"/>
         <source>Daily</source>
         <translation type="unfinished">Zilnic</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="142"/>
+        <location filename="../src/overtimereport.cpp" line="143"/>
         <source>Monthly</source>
         <translation type="unfinished">Lunar</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="145"/>
+        <location filename="../src/overtimereport.cpp" line="146"/>
         <source>Yearly</source>
         <translation type="unfinished">Anual</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="148"/>
-        <location filename="../src/overtimereport.cpp" line="765"/>
+        <location filename="../src/overtimereport.cpp" line="149"/>
+        <location filename="../src/overtimereport.cpp" line="813"/>
         <source>Quantity</source>
         <translation type="unfinished">Cantitate</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="151"/>
+        <location filename="../src/overtimereport.cpp" line="152"/>
         <source>Average value</source>
         <translation type="unfinished">Valoare medie</translation>
     </message>
@@ -10055,191 +10062,199 @@ Date: %3</source>
         <translation type="obsolete">Fără descriere</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="113"/>
-        <location filename="../src/overtimereport.cpp" line="201"/>
-        <location filename="../src/overtimereport.cpp" line="250"/>
-        <location filename="../src/overtimereport.cpp" line="933"/>
-        <location filename="../src/overtimereport.cpp" line="997"/>
+        <location filename="../src/overtimereport.cpp" line="114"/>
+        <location filename="../src/overtimereport.cpp" line="210"/>
+        <location filename="../src/overtimereport.cpp" line="259"/>
+        <location filename="../src/overtimereport.cpp" line="999"/>
+        <location filename="../src/overtimereport.cpp" line="1063"/>
         <source>All Descriptions Combined</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Toate descrierile combinate</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="119"/>
-        <location filename="../src/overtimereport.cpp" line="1011"/>
+        <location filename="../src/overtimereport.cpp" line="120"/>
+        <location filename="../src/overtimereport.cpp" line="1077"/>
         <source>All Accounts</source>
         <translation type="unfinished">Toate conturile</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="238"/>
-        <location filename="../src/overtimereport.cpp" line="419"/>
-        <location filename="../src/overtimereport.cpp" line="420"/>
-        <location filename="../src/overtimereport.cpp" line="429"/>
-        <location filename="../src/overtimereport.cpp" line="430"/>
-        <location filename="../src/overtimereport.cpp" line="955"/>
+        <location filename="../src/overtimereport.cpp" line="247"/>
+        <location filename="../src/overtimereport.cpp" line="436"/>
+        <location filename="../src/overtimereport.cpp" line="437"/>
+        <location filename="../src/overtimereport.cpp" line="446"/>
+        <location filename="../src/overtimereport.cpp" line="447"/>
+        <location filename="../src/overtimereport.cpp" line="1021"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Fără descriere</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="318"/>
-        <location filename="../src/overtimereport.cpp" line="326"/>
+        <location filename="../src/overtimereport.cpp" line="327"/>
+        <location filename="../src/overtimereport.cpp" line="335"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="318"/>
+        <location filename="../src/overtimereport.cpp" line="327"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation type="unfinished">Nu s-a putut deschide fișierul pentru scriere.</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="326"/>
+        <location filename="../src/overtimereport.cpp" line="335"/>
         <source>Error while writing file; file was not saved.</source>
         <translation type="unfinished">Eroare la scrierea fișierului; acesta nu a fost salvat.</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="374"/>
         <source>Average Profit</source>
-        <translation type="unfinished">Profit mediu</translation>
+        <translation type="obsolete">Profit mediu</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="380"/>
+        <location filename="../src/overtimereport.cpp" line="397"/>
         <source>Incomes, %1</source>
         <translation type="unfinished">Venituri, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="382"/>
-        <location filename="../src/overtimereport.cpp" line="401"/>
-        <location filename="../src/overtimereport.cpp" line="421"/>
+        <location filename="../src/overtimereport.cpp" line="399"/>
+        <location filename="../src/overtimereport.cpp" line="418"/>
+        <location filename="../src/overtimereport.cpp" line="438"/>
         <source>Average Income</source>
         <translation type="unfinished">Venit mediu</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="389"/>
+        <location filename="../src/overtimereport.cpp" line="406"/>
         <source>Expenses, %1</source>
         <translation type="unfinished">Cheltuieli, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="391"/>
-        <location filename="../src/overtimereport.cpp" line="411"/>
-        <location filename="../src/overtimereport.cpp" line="431"/>
+        <location filename="../src/overtimereport.cpp" line="408"/>
+        <location filename="../src/overtimereport.cpp" line="428"/>
+        <location filename="../src/overtimereport.cpp" line="448"/>
         <source>Average Cost</source>
         <translation type="unfinished">Cost mediu</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="399"/>
+        <location filename="../src/overtimereport.cpp" line="416"/>
         <source>Incomes, %2: %1</source>
         <translation type="unfinished">Venituri, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="400"/>
+        <location filename="../src/overtimereport.cpp" line="417"/>
         <source>Incomes: %1</source>
         <translation type="unfinished">Venituri: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="409"/>
+        <location filename="../src/overtimereport.cpp" line="426"/>
         <source>Expenses, %2: %1</source>
         <translation type="unfinished">Cheltuieli, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="410"/>
+        <location filename="../src/overtimereport.cpp" line="427"/>
         <source>Expenses: %1</source>
         <translation type="unfinished">Cheltuieli: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="419"/>
+        <location filename="../src/overtimereport.cpp" line="436"/>
         <source>Incomes, %3: %2, %1</source>
         <translation type="unfinished">Venituri, %3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="420"/>
+        <location filename="../src/overtimereport.cpp" line="437"/>
         <source>Incomes: %2, %1</source>
         <translation type="unfinished">Venituri: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="429"/>
+        <location filename="../src/overtimereport.cpp" line="446"/>
         <source>Expenses, %3: %2, %1</source>
         <translation type="unfinished">Cheltuieli, %3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="430"/>
+        <location filename="../src/overtimereport.cpp" line="447"/>
         <source>Expenses: %2, %1</source>
         <translation type="unfinished">Cheltuieli: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="368"/>
+        <location filename="../src/overtimereport.cpp" line="376"/>
         <source>Change: %1</source>
         <translation type="unfinished">Schimbare: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="369"/>
         <source>Average Change</source>
-        <translation type="unfinished">Schimbare mediu</translation>
+        <translation type="obsolete">Schimbare mediu</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="370"/>
+        <location filename="../src/overtimereport.cpp" line="379"/>
         <source>Change</source>
         <translation type="unfinished">Schimbare</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="439"/>
+        <location filename="../src/overtimereport.cpp" line="456"/>
         <source>Value: %1</source>
         <translation type="unfinished">Valoare: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="743"/>
+        <location filename="../src/overtimereport.cpp" line="801"/>
         <source>Year</source>
         <translation type="unfinished">An</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="744"/>
+        <location filename="../src/overtimereport.cpp" line="802"/>
         <source>Month</source>
         <translation type="unfinished">Lună</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="747"/>
+        <location filename="../src/overtimereport.cpp" line="462"/>
         <source>Assets</source>
         <translation type="unfinished">Resurse</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="750"/>
+        <location filename="../src/overtimereport.cpp" line="377"/>
+        <source>Deposit</source>
+        <translation type="unfinished">Depozit</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimereport.cpp" line="378"/>
+        <source>Withdrawal</source>
+        <translation type="unfinished">Retragere</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimereport.cpp" line="463"/>
         <source>Liabilities</source>
         <translation type="unfinished">Pasive</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="761"/>
+        <location filename="../src/overtimereport.cpp" line="809"/>
         <source>Daily Average</source>
         <translation type="unfinished">Medie zilnică</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="762"/>
+        <location filename="../src/overtimereport.cpp" line="810"/>
         <source>Monthly Average</source>
         <translation type="unfinished">Media lunară</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="763"/>
+        <location filename="../src/overtimereport.cpp" line="811"/>
         <source>Yearly Average</source>
         <translation type="unfinished">Medie anuală</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="806"/>
-        <location filename="../src/overtimereport.cpp" line="885"/>
+        <location filename="../src/overtimereport.cpp" line="865"/>
+        <location filename="../src/overtimereport.cpp" line="947"/>
         <source>Subtotal</source>
         <translation type="unfinished">Subtotal</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="753"/>
-        <location filename="../src/overtimereport.cpp" line="900"/>
+        <location filename="../src/overtimereport.cpp" line="464"/>
+        <location filename="../src/overtimereport.cpp" line="964"/>
         <source>Total</source>
         <translation type="unfinished">Total</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="916"/>
+        <location filename="../src/overtimereport.cpp" line="982"/>
         <source>Includes scheduled transactions</source>
         <translation type="unfinished">Include tranzacțiile planificate</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="920"/>
+        <location filename="../src/overtimereport.cpp" line="986"/>
         <source>Adjusted for the average month / year (%1 / %2 days)</source>
         <translation type="unfinished">Ajustat pentru luna / anul mediu (%1 / %2 zile)</translation>
     </message>

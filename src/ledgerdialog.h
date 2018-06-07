@@ -67,7 +67,7 @@ class LedgerDialog : public QDialog {
 		EqonomizeValueEdit *reconcileOpeningEdit, *reconcileClosingEdit, *reconcileChangeEdit;
 		QLabel *reconcileBOpeningLabel, *reconcileBClosingLabel, *reconcileBChangeLabel, *reconcileROpeningLabel, *reconcileRClosingLabel, *reconcileRChangeLabel;
 		QFrame *reconcileWidget;
-		QPushButton *exportButton, *printButton;
+		QPushButton *exportButton, *printButton, *editAccountButton;
 		QComboBox *accountCombo;
 		QLabel *statLabel;
 		QAction *ActionNewDebtInterest, *ActionNewDebtPayment;
@@ -124,6 +124,7 @@ class LedgerDialog : public QDialog {
 		void printView();
 		void accountActivated(int);
 		void reject();
+		void editAccount();
 		
 };
 

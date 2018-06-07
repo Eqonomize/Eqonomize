@@ -199,8 +199,6 @@ class IncomesAccount : public CategoryAccount {
 		virtual ~IncomesAccount();
 
 		virtual AccountType type() const;
-		IncomesAccount *parentAccount() const;
-		void setParentAccount(IncomesAccount *account);
 
 };
 
