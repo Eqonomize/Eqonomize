@@ -1,3 +1,13 @@
+2018-06-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add new default chart theme
+	* Use the same color for all bars in categories comparison bar chart, show x-axis labels,
+	  and remove vertical bar chart
+	* Use budgeted values for more over time chart data
+	* Allow user to set last month for yearly value in over time chart
+	* Sort categories and accounts using total value and hide categories with zero value in charts
+	* Yearly "Assets and Liabilies" bars
+
 2018-06-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Alternative to show all accounts separately in the same over time chart

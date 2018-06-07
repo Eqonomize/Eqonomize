@@ -99,11 +99,11 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	buttons->addWidget(new QLabel(tr("Chart type:"), this));
 	typeCombo = new QComboBox(this);
 	typeCombo->addItem(tr("Pie Chart"));
-	typeCombo->addItem(tr("Vertical Bar Chart"));
-	typeCombo->addItem(tr("Horizontal Bar Chart"));
+	typeCombo->addItem(tr("Bar Chart"));
 	buttons->addWidget(typeCombo);
 	buttons->addWidget(new QLabel(tr("Theme:"), this));
 	themeCombo = new QComboBox(this);
+	themeCombo->addItem(tr("Default"), -1);
 	themeCombo->addItem("Light", QChart::ChartThemeLight);
 	themeCombo->addItem("Blue Cerulean", QChart::ChartThemeBlueCerulean);
 	themeCombo->addItem("Dark", QChart::ChartThemeDark);
@@ -224,12 +224,13 @@ CategoriesComparisonChart::~CategoriesComparisonChart() {
 void CategoriesComparisonChart::resetOptions() {
 #ifdef QT_CHARTS_LIB
 	QSettings settings;
-	settings.beginGroup("GeneralOptions");
-	settings.value("chartTheme", chart->theme()).toInt();
-	QChart::ChartTheme theme = (QChart::ChartTheme) settings.value("chartTheme", chart->theme()).toInt();
-	themeCombo->setCurrentIndex(theme);
+	settings.beginGroup("CategoriesComparisonChart");
+	int theme = settings.value("theme", -1).toInt();
+	int index = themeCombo->findData(qVariantFromValue(theme));
+	if(index < 0) index = 0;
+	themeCombo->setCurrentIndex(index);
 	typeCombo->setCurrentIndex(0);
-	chart->setTheme(theme);
+	chart->setTheme(theme >= 0 ? (QChart::ChartTheme) theme : QChart::ChartThemeBlueNcs);
 	settings.endGroup();
 #endif
 	QDate first_date;
@@ -482,66 +483,89 @@ void CategoriesComparisonChart::print() {
 		p.end();
 	}
 }
-QColor getColor(int index) {
-#ifdef QT_CHARTS_LIB
-	switch(index % 10) {
-		case 7: {return Qt::red;}
-		case 8: {return Qt::blue;}
-		case 9: {return Qt::green;}
-		case 0: {return Qt::darkRed;}
-		case 1: {return Qt::darkGreen;}
-		case 2: {return Qt::darkBlue;}
-		case 3: {return Qt::darkCyan;}
-		case 4: {return Qt::darkMagenta;}
-		case 5: {return Qt::darkYellow;}
-		case 6: {return Qt::gray;}
+QColor getPieColor(int index, int total) {
+	if(total > 8) {
+		switch(index % 9) {
+			case 0: return QRgb(0x4d004b);
+			case 1: return QRgb(0x810f7c);
+			case 2: return QRgb(0x88419d);
+			case 3: return QRgb(0x8c6bb1);
+			case 4: return QRgb(0x8c96c6);
+			case 5: return QRgb(0x9ebcda);
+			case 6: return QRgb(0xbfd3e6);
+			case 7: return QRgb(0xe0ecf4);
+			case 8: return QRgb(0xf7fcfd);
+		}
+	} else if(total == 8) {
+		switch(index % 8) {
+			case 0: return QRgb(0x6e016b);
+			case 1: return QRgb(0x88419d);
+			case 2: return QRgb(0x8c6bb1);
+			case 3: return QRgb(0x8c96c6);
+			case 4: return QRgb(0x9ebcda);
+			case 5: return QRgb(0xbfd3e6);
+			case 6: return QRgb(0xe0ecf4);
+			case 7: return QRgb(0xf7fcfd);
+		}
+	} else if(total == 7) {
+		switch(index % 7) {
+			case 0: return QRgb(0x6e016b);
+			case 1: return QRgb(0x88419d);
+			case 2: return QRgb(0x8c6bb1);
+			case 3: return QRgb(0x8c96c6);
+			case 4: return QRgb(0x9ebcda);
+			case 5: return QRgb(0xbfd3e6);
+			case 6: return QRgb(0xedf8fb);
+		}
+	} else if(total == 6) {
+		switch(index % 6) {
+			case 0: return QRgb(0x810f7c);
+			case 1: return QRgb(0x8856a7);
+			case 2: return QRgb(0x8c96c6);
+			case 3: return QRgb(0x9ebcda);
+			case 4: return QRgb(0xbfd3e6);
+			case 5: return QRgb(0xedf8fb);
+		}
+	} else if(total == 5) {
+		switch(index % 5) {
+			case 0: return QRgb(0x810f7c);
+			case 1: return QRgb(0x8856a7);
+			case 2: return QRgb(0x8c96c6);
+			case 3: return QRgb(0xb3cde3);
+			case 4: return QRgb(0xedf8fb);
+		}
+	} else if(total == 4) {
+		switch(index % 4) {
+			case 0: return QRgb(0x88419d);
+			case 1: return QRgb(0x8c96c6);
+			case 2: return QRgb(0xb3cde3);
+			case 3: return QRgb(0xedf8fb);
+		}
+	} else {
+		switch(index % 3) {
+			case 0: return QRgb(0x8856a7);
+			case 1: return QRgb(0x9ebcda);
+			case 2: return QRgb(0xe0ecf4);
+		}
 	}
 	return Qt::black;
-#else
-	switch(index % 13) {
-		case 5: return QRgb(0x1db0da);
-		case 6: return QRgb(0x88d41e);
-		case 7: return QRgb(0xff8e1a);
-		case 8: return QRgb(0x398ca3);
-		case 0: {return Qt::darkRed;}
-		case 1: {return Qt::darkBlue;}
-		case 2: {return Qt::darkGreen;}
-		case 3: {return Qt::darkCyan;}
-		case 4: {return Qt::darkMagenta;}
-		case 9: {return Qt::gray;}
-		case 10: {return Qt::red;}
-		case 11: {return Qt::blue;}
-		case 12: {return Qt::green;}		
-	}
-	return Qt::black;
-#endif
 }
-QBrush getBrush(int index) {
+extern QBrush getBarBrush(int index, int total);
+QBrush getPieBrush(int index, int total) {
 	QBrush brush;
-#ifdef QT_CHARTS_LIB
-	switch(index / 7) {
+	if(total > 9) total = 9;
+	switch(index / total) {
 		case 0: {brush.setStyle(Qt::SolidPattern); break;}
 		case 1: {brush.setStyle(Qt::Dense3Pattern); break;}
-		case 2: {brush.setStyle(Qt::Dense5Pattern); break;}
-		case 3: {brush.setStyle(Qt::DiagCrossPattern); break;}
-		case 4: {brush.setStyle(Qt::CrossPattern); break;}
+		case 2: {brush.setStyle(Qt::DiagCrossPattern); break;}
+		case 3: {brush.setStyle(Qt::HorPattern); break;}
+		case 4: {brush.setStyle(Qt::VerPattern); break;}
 		default: {}
 	}
-	brush.setColor(getColor(index % 7));
-#else
-	switch(index / 13) {
-		case 0: {brush.setStyle(Qt::SolidPattern); break;}
-		case 1: {brush.setStyle(Qt::Dense2Pattern); break;}
-		case 2: {brush.setStyle(Qt::Dense4Pattern); break;}
-		case 3: {brush.setStyle(Qt::DiagCrossPattern); break;}
-		case 4: {brush.setStyle(Qt::HorPattern); break;}
-		case 5: {brush.setStyle(Qt::VerPattern); break;}
-		default: {}
-	}
-	brush.setColor(getColor(index % 13));
-#endif
+	brush.setColor(getPieColor(index, total));
 	return brush;
 }
+
 void CategoriesComparisonChart::updateDisplay() {
 
 	if(!isVisible()) return;
@@ -882,6 +906,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		if(desc_values.size() > desc_order.size()) {
 			desc_order.push_back(tr("Other descriptions", "Referring to the transaction description property (transaction title/generic article name)"));
 			desc_values[tr("Other descriptions", "Referring to the transaction description property (transaction title/generic article name)")] = remaining_value;
+			desc_map[desc_order.last()] = desc_order.last();
 		}
 	}	
 
@@ -894,20 +919,15 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 		}
 	}
-
-#ifdef QT_CHARTS_LIB
-	QPieSeries *pie_series = NULL;
-	QAbstractBarSeries *bar_series = NULL;
-	int chart_type = typeCombo->currentIndex() + 1;
-	double maxvalue = 0.0, minvalue = 0.0;
 	
-	if(chart_type == 1) {
-		pie_series = new QPieSeries();
-	} else if(chart_type == 3) {
-		bar_series = new QHorizontalBarSeries();
-	} else {
-		bar_series = new QBarSeries();
-	}
+	
+#ifdef QT_CHARTS_LIB
+	int chart_type = typeCombo->currentIndex() + 1;
+#else
+	int chart_type = 1;
+#endif
+	
+	QList<Account*> account_order;
 	int account_index = 0;
 	account = NULL;
 	if(current_account) {
@@ -928,10 +948,8 @@ void CategoriesComparisonChart::updateDisplay() {
 		if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
 	} else {
 		if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
-	}
-	int index = 0;
-	bool show_legend = false;
-	while(account || (current_account && index < desc_order.size())) {
+	}	
+	while(account) {
 		if(!current_account && include_subs) {
 			while(account && ((CategoryAccount*) account)->subCategories.size() > 0) {
 				if(values[account] != 0.0) break;
@@ -950,11 +968,84 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 			if(!account) break;
 		}
+		if(values[account] >= 0.01 || (chart_type != 1 && values[account] <= -0.01)) {
+			bool b = false;
+			for(int i = 0; i < account_order.count(); i++) {
+				if(values[account] > values[account_order.at(i)]) {
+					account_order.insert(i, account);
+					b = true;
+					break;
+				}
+			}
+			if(!b) account_order.push_back(account);
+		}
+		++account_index;
+		if(current_account) {
+			if(include_subs && account != current_account) {
+				if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);
+				else if(values[current_account] >= 0.01 || values[current_account] <= -0.01) account = current_account;
+				else account = NULL;
+			} else {
+				account = NULL;
+			}
+		} else if(type == ACCOUNT_TYPE_ASSETS) {
+			account = NULL;
+			if(account_index < budget->assetsAccounts.size()) {
+				account = budget->assetsAccounts.at(account_index);
+				if(account == budget->balancingAccount) {
+					++account_index;
+					if(account_index < budget->assetsAccounts.size()) {
+						account = budget->assetsAccounts.at(account_index);
+					}
+				}
+			}
+		} else if(type == ACCOUNT_TYPE_EXPENSES) {
+			account = NULL;
+			if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
+		} else {
+			account = NULL;
+			if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
+		}
+	}
+	
 
+#ifdef QT_CHARTS_LIB
+
+	int theme = themeCombo->currentData().toInt();
+
+	QPieSeries *pie_series = NULL;
+	QAbstractBarSeries *bar_series = NULL;
+	double maxvalue = 0.0, minvalue = 0.0;
+	
+	if(chart_type == 1) {
+		pie_series = new QPieSeries();
+	} else if(chart_type == 3) {
+		bar_series = new QBarSeries();
+	} else {
+		bar_series = new QHorizontalBarSeries();
+	}
+	account_index = 0;
+	account = NULL;
+	if(!current_account || include_subs) {
+		if(account_index < account_order.count()) account = account_order.at(account_index);
+	}
+	
+	QBarSet *bar_set = NULL;
+	QBarCategoryAxis *b_axis = NULL;
+	if(chart_type != 1) {
+		bar_set = new QBarSet("");
+		if(theme < 0) bar_set->setBrush(getBarBrush(0, 1));
+		b_axis = new QBarCategoryAxis();
+	}
+	
+	int index = 0;
+	int lcount = 0;
+	bool show_legend = false;
+	while(account || (current_account && index < desc_order.size())) {
 		QString legend_string;
 		double legend_value = 0.0;
 		double current_value = 0.0;
-		if(current_account && !include_subs) {
+		if(!account) {
 			if(desc_order[index].isEmpty()) {
 				legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
 			} else {
@@ -978,58 +1069,31 @@ void CategoriesComparisonChart::updateDisplay() {
 		if(chart_type == 1) {
 			if(current_value >= 0.01) {
 				QPieSlice *slice = pie_series->append(QString("%1 (%2%)").arg(legend_string).arg(currency->formatValue(legend_value, deci, false)), current_value);
+				if(theme < 0) slice->setBrush(getPieBrush(lcount, account ? account_order.count() : desc_order.count()));
 				if(legend_value >= 8.0) {
 					slice->setLabelVisible(true);
 				} else {
 					show_legend = true;
 				}
+				lcount++;
 			}
 		} else {
 			if(current_value >= 0.01 || current_value <= -0.01 || (value < 0.01 && value > -0.01)) {
-				QBarSet *set = new QBarSet(QString("%1 (%2%)").arg(legend_string).arg(currency->formatValue(legend_value, deci, false)));
-				set->append(current_value);
+				b_axis->append(legend_string);
+				bar_set->append(current_value);
 				if(current_value > maxvalue) maxvalue = current_value;
 				if(current_value < minvalue) minvalue = current_value;
-				bar_series->append(set);
 				show_legend = true;
+				lcount++;
 			}
 		}
 		
 		++account_index;
-		if(current_account) {
-			if(include_subs && account != current_account) {
-				if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);
-				else if(values[current_account] != 0.0) account = current_account;
-				else account = NULL;
-			} else {
-				account = NULL;
-			}
-		} else if(type == ACCOUNT_TYPE_ASSETS) {
-			account = NULL;
-			if(account_index < budget->assetsAccounts.size()) {
-				account = budget->assetsAccounts.at(account_index);
-				if(account == budget->balancingAccount) {
-					++account_index;
-					if(account_index < budget->assetsAccounts.size()) {
-						account = budget->assetsAccounts.at(account_index);
-					}
-				}
-			}
-		} else if(type == ACCOUNT_TYPE_EXPENSES) {
-			account = NULL;
-			if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
-		} else {
-			account = NULL;
-			if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
+		if(account) {
+			if(account_index < account_order.count()) account = account_order.at(account_index);
+			else break;
 		}
 		index++;
-	}
-	
-	if(bar_series && bar_series->count() >= 5) {
-		QList<QBarSet*> bar_sets = bar_series->barSets();
-		for(int i = 5; i < bar_sets.count(); i++) {
-			bar_sets.at(i)->setBrush(getBrush(i - 5));
-		}
 	}
 	
 	chart->removeAllSeries();
@@ -1045,10 +1109,9 @@ void CategoriesComparisonChart::updateDisplay() {
 		chart->addSeries(series);
 	} else {
 		series = bar_series;
+		bar_series->append(bar_set);
 		bar_series->setBarWidth(1.0);
 		chart->addSeries(series);
-		QBarCategoryAxis *b_axis = new QBarCategoryAxis();
-		b_axis->append("");
 
 		int y_lines = 5, y_minor = 0;
 		calculate_minmax_lines(maxvalue, minvalue, y_lines, y_minor);
@@ -1056,7 +1119,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		v_axis->setRange(minvalue, maxvalue);
 		v_axis->setTickCount(y_lines + 1);
 		v_axis->setMinorTickCount(y_minor);
-		if(type == 2 || (maxvalue - minvalue) >= 50.0) v_axis->setLabelFormat(QString("%.0f"));
+		if(type == 3 || (maxvalue - minvalue) >= 50.0) v_axis->setLabelFormat(QString("%.0f"));
 		else v_axis->setLabelFormat(QString("%.%1f").arg(QString::number(currency->fractionalDigits())));
 		
 		if(type == ACCOUNT_TYPE_ASSETS) v_axis->setTitleText(tr("Value") + QString(" (%1)").arg(currency->symbol(true)));
@@ -1064,12 +1127,14 @@ void CategoriesComparisonChart::updateDisplay() {
 		else v_axis->setTitleText(tr("Cost") + QString(" (%1)").arg(currency->symbol(true)));
 
 		if(chart_type == 3) {
-			chart->setAxisY(b_axis, series);
-			chart->setAxisX(v_axis, series);
-		} else {
 			chart->setAxisX(b_axis, series);
 			chart->setAxisY(v_axis, series);
+		} else {
+			chart->setAxisY(b_axis, series);
+			chart->setAxisX(v_axis, series);
 		}
+		
+		show_legend = false;
 	}
 	
 	chart->setTitle(QString("<div align=\"center\"><font size=\"+2\"><b>%1</b></font></div>").arg(title_string));
@@ -1103,52 +1168,19 @@ void CategoriesComparisonChart::updateDisplay() {
 	int chart_y = margin * 2 + title_text->boundingRect().height();
 	int legend_y = chart_y;
 	
-	int account_index = 0;
+	account_index = 0;
 	account = NULL;
-	if(current_account) {
-		if(include_subs) {
-			if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);
-		}
-	} else if(type == ACCOUNT_TYPE_ASSETS) {
-		if(account_index < budget->assetsAccounts.size()) {
-			account = budget->assetsAccounts.at(account_index);
-			if(account == budget->balancingAccount) {
-				++account_index;
-				if(account_index < budget->assetsAccounts.size()) {
-					account = budget->assetsAccounts.at(account_index);
-				}
-			}
-		}
-	} else if(type == ACCOUNT_TYPE_EXPENSES) {
-		if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
-	} else {
-		if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
+
+	if(!current_account || include_subs) {
+		if(account_index < account_order.count()) account = account_order.at(account_index);
 	}
 	
 	int index = 0, lcount = 0;
 	int text_width = 0;
 	while(account || (current_account && index < desc_order.size())) {
-		if(!current_account && include_subs) {
-			while(account && ((CategoryAccount*) account)->subCategories.size() > 0) {
-				if(values[account] != 0.0) break;
-				++account_index;
-				account = NULL;
-				if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
-				else if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
-			}
-			if(!account) break;
-		} else if(!current_account && type != ACCOUNT_TYPE_ASSETS) {
-			while(account && account->topAccount() != account) {
-				++account_index;
-				account = NULL;
-				if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
-				else if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
-			}
-			if(!account) break;
-		}
 		QString legend_string;
 		double legend_value = 0.0;
-		if(current_account && !include_subs) {
+		if(!account) {
 			if(desc_order[index].isEmpty()) {
 				legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
 			} else {
@@ -1160,7 +1192,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			else legend_string = account->nameWithParent();
 			legend_value = values[account];
 		}
-		if(!is_zero(legend_value) && legend_value > 0.0) {
+		if(legend_value > 0.01) {
 			legend_value = (legend_value * 100) / value;
 			int deci = 0;
 			if(legend_value < 10.0 && legend_value > -10.0) {
@@ -1179,31 +1211,9 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 		
 		++account_index;
-		if(current_account) {
-			if(include_subs && account != current_account) {
-				if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);
-				else if(values[current_account] != 0.0) account = current_account;
-				else account = NULL;
-			} else {
-				account = NULL;
-			}
-		} else if(type == ACCOUNT_TYPE_ASSETS) {
-			account = NULL;
-			if(account_index < budget->assetsAccounts.size()) {
-				account = budget->assetsAccounts.at(account_index);
-				if(account == budget->balancingAccount) {
-					++account_index;
-					if(account_index < budget->assetsAccounts.size()) {
-						account = budget->assetsAccounts.at(account_index);
-					}
-				}
-			}
-		} else if(type == ACCOUNT_TYPE_EXPENSES) {
-			account = NULL;
-			if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
-		} else {
-			account = NULL;
-			if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
+		if(account) {
+			if(account_index < account_order.count()) account = account_order.at(account_index);
+			else break;
 		}
 		index++;
 	}
@@ -1211,49 +1221,15 @@ void CategoriesComparisonChart::updateDisplay() {
 
 	account_index = 0;
 	account = NULL;
-	if(current_account) {
-		if(include_subs) {
-			if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);
-		}
-	} else if(type == ACCOUNT_TYPE_ASSETS) {
-		if(account_index < budget->assetsAccounts.size()) {
-			account = budget->assetsAccounts.at(account_index);
-			if(account == budget->balancingAccount) {
-				++account_index;
-				if(account_index < budget->assetsAccounts.size()) {
-					account = budget->assetsAccounts.at(account_index);
-				}
-			}
-		}
-	} else if(type == ACCOUNT_TYPE_EXPENSES) {
-		if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
-	} else {
-		if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
+	if(!current_account || include_subs) {
+		if(account_index < account_order.count()) account = account_order.at(account_index);
 	}
 	index = 0;
 	lcount = 0;
 	double current_value = 0.0, current_value_1 = 0.0;
 	int prev_end = 0;
 	while(account || (current_account && index < desc_order.size())) {
-		if(!current_account && include_subs) {
-			while(account && ((CategoryAccount*) account)->subCategories.size() > 0) {
-				if(values[account] != 0.0) break;
-				++account_index;
-				account = NULL;
-				if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
-				else if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
-			}
-			if(!account) break;
-		} else if(!current_account && type != ACCOUNT_TYPE_ASSETS) {
-			while(account && account->topAccount() != account) {
-				++account_index;
-				account = NULL;
-				if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
-				else if(type == ACCOUNT_TYPE_EXPENSES && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
-			}
-			if(!account) break;
-		}
-		if(current_account && !include_subs) current_value_1 = desc_values[desc_order[index]];
+		if(!account) current_value_1 = desc_values[desc_order[index]];
 		else current_value_1 = values[account];
 		if(!is_zero(current_value_1) && current_value_1 > 0.0) {
 			current_value += current_value_1;
@@ -1264,41 +1240,19 @@ void CategoriesComparisonChart::updateDisplay() {
 			ellipse->setSpanAngle(length);
 			prev_end = next_end;
 			ellipse->setPen(Qt::NoPen);
-			ellipse->setBrush(getBrush(index));
+			ellipse->setBrush(getPieBrush(index, account ? account_order.size() : desc_order.size()));
 			ellipse->setPos(diameter / 2 + margin, diameter / 2 + chart_y);
 			scene->addItem(ellipse);
 			QGraphicsRectItem *legend_box = new QGraphicsRectItem(legend_x + 10, chart_y + 10 + (fh + 5) * lcount, fh, fh);
 			legend_box->setPen(QPen(Qt::black));
-			legend_box->setBrush(getBrush(index));
+			legend_box->setBrush(getPieBrush(index, account ? account_order.size() : desc_order.size()));
 			scene->addItem(legend_box);
 			lcount++;
 		}
-		++account_index;
-		if(current_account) {
-			if(include_subs && account != current_account) {
-				if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);
-				else if(values[current_account] != 0.0) account = current_account;
-				else account = NULL;
-			} else {
-				account = NULL;
-			}
-		} else if(type == ACCOUNT_TYPE_ASSETS) {
-			account = NULL;
-			if(account_index < budget->assetsAccounts.size()) {
-				account = budget->assetsAccounts.at(account_index);
-				if(account == budget->balancingAccount) {
-					++account_index;
-					if(account_index < budget->assetsAccounts.size()) {
-						account = budget->assetsAccounts.at(account_index);
-					}
-				}
-			}
-		} else if(type == ACCOUNT_TYPE_EXPENSES) {
-			account = NULL;
-			if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
-		} else {
-			account = NULL;
-			if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
+				++account_index;
+		if(account) {
+			if(account_index < account_order.count()) account = account_order.at(account_index);
+			else break;
 		}
 		index++;
 	}
@@ -1387,13 +1341,13 @@ AssetsAccount *CategoriesComparisonChart::selectedAccount() {
 
 #ifdef QT_CHARTS_LIB
 void CategoriesComparisonChart::themeChanged(int index) {
-	QChart::ChartTheme theme = (QChart::ChartTheme) themeCombo->itemData(index).toInt();
-	chart->setTheme(theme);
+	int theme = themeCombo->itemData(index).toInt();
+	chart->setTheme(theme >= 0 ? (QChart::ChartTheme) theme : QChart::ChartThemeBlueNcs);
 	QSettings settings;
-	settings.beginGroup("GeneralOptions");
-	settings.setValue("chartTheme", theme);
+	settings.beginGroup("CategoriesComparisonChart");
+	settings.setValue("theme", theme);
 	settings.endGroup();
-	if(typeCombo->currentIndex() > 0) updateDisplay();
+	updateDisplay();
 }
 void CategoriesComparisonChart::typeChanged(int) {
 	updateDisplay();
