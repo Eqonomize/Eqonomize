@@ -1,3 +1,8 @@
+2018-06-08  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Never show more than nine slices in pie chart and combine very small category posts
+	* Many minor chart fixes/improvements
+
 2018-06-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Add new default chart theme

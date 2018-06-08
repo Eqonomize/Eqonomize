@@ -3348,47 +3348,47 @@ i18n: file ./eqonomizeui.rc line 56
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="168"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1300"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1301"/>
         <source>All Expenses, without subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="169"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1301"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1302"/>
         <source>All Expenses, with subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="170"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1302"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1303"/>
         <source>All Incomes, without subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="171"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1303"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1304"/>
         <source>All Incomes, with subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="172"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="185"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1304"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1323"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1305"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1324"/>
         <source>All Accounts</source>
         <translation>Összes számla</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="175"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="669"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1308"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="667"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1309"/>
         <source>Expenses: %1</source>
         <translation>Kiadások: %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="179"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="670"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1314"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="668"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1315"/>
         <source>Incomes: %1</source>
         <translation>Bevételek: %1</translation>
     </message>
@@ -3429,53 +3429,71 @@ i18n: file ./eqonomizeui.rc line 56
         <translation>Hiba írás közben; a fájl nincs elmentve.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="587"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="586"/>
         <source>Expenses</source>
         <translation>Kiadások</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="614"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="613"/>
         <source>Expenses, %1</source>
         <translation type="unfinished">Kiadások, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="628"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="627"/>
         <source>Incomes, %1</source>
         <translation type="unfinished">Bevételek, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="629"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="628"/>
         <source>Incomes</source>
         <translation>Bevételek</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="641"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="640"/>
         <source>Accounts</source>
         <translation>Számlák</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="666"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="664"/>
         <source>Expenses, %2: %1</source>
         <translation type="unfinished">Kiadások, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="667"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="665"/>
         <source>Incomes, %2: %1</source>
         <translation type="unfinished">Bevételek, %2: %1</translation>
     </message>
     <message>
+        <location filename="../src/categoriescomparisonchart.cpp" line="906"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="907"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="908"/>
         <source>Other descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1050"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1185"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1060"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1193"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Nincs leírás</translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1068"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1201"/>
+        <source>Other accounts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1069"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1202"/>
+        <source>Other categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1490"/>
+        <source>%1
+Value: %2</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No description</source>
@@ -3488,17 +3506,17 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="obsolete">Nincs leírás</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1125"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1135"/>
         <source>Value</source>
         <translation>Érték</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1126"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1136"/>
         <source>Income</source>
         <translation>Bevétel</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1127"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1137"/>
         <source>Cost</source>
         <translation>Költség</translation>
     </message>
@@ -9271,36 +9289,36 @@ Biztosan el akarod távolítani a számlát?</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="222"/>
-        <location filename="../src/overtimechart.cpp" line="2954"/>
-        <location filename="../src/overtimechart.cpp" line="3176"/>
-        <location filename="../src/overtimechart.cpp" line="3609"/>
+        <location filename="../src/overtimechart.cpp" line="2955"/>
+        <location filename="../src/overtimechart.cpp" line="3177"/>
+        <location filename="../src/overtimechart.cpp" line="3610"/>
         <source>Profits</source>
         <translation>Nyereségek</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="223"/>
-        <location filename="../src/overtimechart.cpp" line="2971"/>
-        <location filename="../src/overtimechart.cpp" line="3181"/>
-        <location filename="../src/overtimechart.cpp" line="3185"/>
-        <location filename="../src/overtimechart.cpp" line="3614"/>
-        <location filename="../src/overtimechart.cpp" line="3618"/>
+        <location filename="../src/overtimechart.cpp" line="2972"/>
+        <location filename="../src/overtimechart.cpp" line="3182"/>
+        <location filename="../src/overtimechart.cpp" line="3186"/>
+        <location filename="../src/overtimechart.cpp" line="3615"/>
+        <location filename="../src/overtimechart.cpp" line="3619"/>
         <source>Expenses</source>
         <translation>Kiadások</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="224"/>
-        <location filename="../src/overtimechart.cpp" line="2965"/>
-        <location filename="../src/overtimechart.cpp" line="3180"/>
-        <location filename="../src/overtimechart.cpp" line="3184"/>
-        <location filename="../src/overtimechart.cpp" line="3613"/>
-        <location filename="../src/overtimechart.cpp" line="3617"/>
+        <location filename="../src/overtimechart.cpp" line="2966"/>
+        <location filename="../src/overtimechart.cpp" line="3181"/>
+        <location filename="../src/overtimechart.cpp" line="3185"/>
+        <location filename="../src/overtimechart.cpp" line="3614"/>
+        <location filename="../src/overtimechart.cpp" line="3618"/>
         <source>Incomes</source>
         <translation>Bevételek</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="230"/>
         <location filename="../src/overtimechart.cpp" line="687"/>
-        <location filename="../src/overtimechart.cpp" line="3858"/>
+        <location filename="../src/overtimechart.cpp" line="3859"/>
         <source>All Categories Combined</source>
         <translation>Összes kategória együtt</translation>
     </message>
@@ -9345,13 +9363,13 @@ Biztosan el akarod távolítani a számlát?</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="250"/>
-        <location filename="../src/overtimechart.cpp" line="3910"/>
+        <location filename="../src/overtimechart.cpp" line="3911"/>
         <source>All Accounts Combined</source>
         <translation type="unfinished">Összes számla együtt</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="251"/>
-        <location filename="../src/overtimechart.cpp" line="3911"/>
+        <location filename="../src/overtimechart.cpp" line="3912"/>
         <source>All Accounts Split</source>
         <translation type="unfinished">Összes számla külön</translation>
     </message>
@@ -9363,45 +9381,45 @@ Biztosan el akarod távolítani a számlát?</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="599"/>
-        <location filename="../src/overtimechart.cpp" line="3759"/>
+        <location filename="../src/overtimechart.cpp" line="3760"/>
         <source>All Descriptions Split</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Összes típus külön</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="648"/>
-        <location filename="../src/overtimechart.cpp" line="3201"/>
-        <location filename="../src/overtimechart.cpp" line="3207"/>
-        <location filename="../src/overtimechart.cpp" line="3235"/>
-        <location filename="../src/overtimechart.cpp" line="3237"/>
-        <location filename="../src/overtimechart.cpp" line="3244"/>
-        <location filename="../src/overtimechart.cpp" line="3246"/>
-        <location filename="../src/overtimechart.cpp" line="3634"/>
-        <location filename="../src/overtimechart.cpp" line="3640"/>
-        <location filename="../src/overtimechart.cpp" line="3668"/>
-        <location filename="../src/overtimechart.cpp" line="3670"/>
-        <location filename="../src/overtimechart.cpp" line="3677"/>
-        <location filename="../src/overtimechart.cpp" line="3679"/>
-        <location filename="../src/overtimechart.cpp" line="3727"/>
-        <location filename="../src/overtimechart.cpp" line="3798"/>
+        <location filename="../src/overtimechart.cpp" line="3202"/>
+        <location filename="../src/overtimechart.cpp" line="3208"/>
+        <location filename="../src/overtimechart.cpp" line="3236"/>
+        <location filename="../src/overtimechart.cpp" line="3238"/>
+        <location filename="../src/overtimechart.cpp" line="3245"/>
+        <location filename="../src/overtimechart.cpp" line="3247"/>
+        <location filename="../src/overtimechart.cpp" line="3635"/>
+        <location filename="../src/overtimechart.cpp" line="3641"/>
+        <location filename="../src/overtimechart.cpp" line="3669"/>
+        <location filename="../src/overtimechart.cpp" line="3671"/>
+        <location filename="../src/overtimechart.cpp" line="3678"/>
+        <location filename="../src/overtimechart.cpp" line="3680"/>
+        <location filename="../src/overtimechart.cpp" line="3728"/>
+        <location filename="../src/overtimechart.cpp" line="3799"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Nincs leírás</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2588"/>
+        <location filename="../src/overtimechart.cpp" line="2589"/>
         <source>Other descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2952"/>
+        <location filename="../src/overtimechart.cpp" line="2953"/>
         <source>Incomes − Expenses, %1</source>
         <translation type="unfinished">Bevételek − kiadások, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3170"/>
-        <location filename="../src/overtimechart.cpp" line="3603"/>
+        <location filename="../src/overtimechart.cpp" line="3171"/>
+        <location filename="../src/overtimechart.cpp" line="3604"/>
         <source>Assets</source>
         <translation type="unfinished">Vagyon</translation>
     </message>
@@ -9419,8 +9437,8 @@ Biztosan el akarod távolítani a számlát?</translation>
         <location filename="../src/overtimechart.cpp" line="236"/>
         <location filename="../src/overtimechart.cpp" line="547"/>
         <location filename="../src/overtimechart.cpp" line="676"/>
-        <location filename="../src/overtimechart.cpp" line="3758"/>
-        <location filename="../src/overtimechart.cpp" line="3880"/>
+        <location filename="../src/overtimechart.cpp" line="3759"/>
+        <location filename="../src/overtimechart.cpp" line="3881"/>
         <source>All Descriptions Combined</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Összes típus együtt</translation>
@@ -9468,23 +9486,23 @@ Biztosan el akarod távolítani a számlát?</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="296"/>
-        <location filename="../src/overtimechart.cpp" line="2856"/>
+        <location filename="../src/overtimechart.cpp" line="2857"/>
         <source>Average value</source>
         <translation>Átlagérték</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="555"/>
         <location filename="../src/overtimechart.cpp" line="680"/>
-        <location filename="../src/overtimechart.cpp" line="3762"/>
-        <location filename="../src/overtimechart.cpp" line="3885"/>
+        <location filename="../src/overtimechart.cpp" line="3763"/>
+        <location filename="../src/overtimechart.cpp" line="3886"/>
         <source>All Payers Combined</source>
         <translation>Összes kifizető együtt</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="556"/>
         <location filename="../src/overtimechart.cpp" line="681"/>
-        <location filename="../src/overtimechart.cpp" line="3763"/>
-        <location filename="../src/overtimechart.cpp" line="3884"/>
+        <location filename="../src/overtimechart.cpp" line="3764"/>
+        <location filename="../src/overtimechart.cpp" line="3885"/>
         <source>All Payees Combined</source>
         <translation>Összes kedvezményezett együtt</translation>
     </message>
@@ -9504,13 +9522,13 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="obsolete">Nincs leírás</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2845"/>
+        <location filename="../src/overtimechart.cpp" line="2846"/>
         <source>Value</source>
         <translation>Érték</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2879"/>
-        <location filename="../src/overtimechart.cpp" line="3393"/>
+        <location filename="../src/overtimechart.cpp" line="2880"/>
+        <location filename="../src/overtimechart.cpp" line="3394"/>
         <source>Includes budgeted transactions</source>
         <translation>Költségvetési tranzakciókat tartalmaz</translation>
     </message>
@@ -9519,39 +9537,39 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="obsolete">Nyereségek, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2959"/>
+        <location filename="../src/overtimechart.cpp" line="2960"/>
         <source>Incomes &amp; Expenses</source>
         <translation>Bevételek és kiadások</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2979"/>
+        <location filename="../src/overtimechart.cpp" line="2980"/>
         <source>Incomes: %1</source>
         <translation>Bevételek: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2987"/>
+        <location filename="../src/overtimechart.cpp" line="2988"/>
         <source>Expenses: %1</source>
         <translation>Kiadások: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2993"/>
-        <location filename="../src/overtimechart.cpp" line="3016"/>
+        <location filename="../src/overtimechart.cpp" line="2994"/>
+        <location filename="../src/overtimechart.cpp" line="3017"/>
         <source>Incomes: %2, %1</source>
         <translation>Bevételek: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2999"/>
-        <location filename="../src/overtimechart.cpp" line="3023"/>
+        <location filename="../src/overtimechart.cpp" line="3000"/>
+        <location filename="../src/overtimechart.cpp" line="3024"/>
         <source>Expenses: %2, %1</source>
         <translation>Kiadások: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3004"/>
+        <location filename="../src/overtimechart.cpp" line="3005"/>
         <source>Incomes: %3, %2, %1</source>
         <translation>Bevételek: %3, %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3009"/>
+        <location filename="../src/overtimechart.cpp" line="3010"/>
         <source>Expenses: %3, %2, %1</source>
         <translation>Kiadások: %3, %2, %1</translation>
     </message>
@@ -9566,18 +9584,18 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="obsolete">%1/%2</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="4056"/>
-        <location filename="../src/overtimechart.cpp" line="4057"/>
-        <location filename="../src/overtimechart.cpp" line="4101"/>
-        <location filename="../src/overtimechart.cpp" line="4102"/>
+        <location filename="../src/overtimechart.cpp" line="4062"/>
+        <location filename="../src/overtimechart.cpp" line="4063"/>
+        <location filename="../src/overtimechart.cpp" line="4107"/>
+        <location filename="../src/overtimechart.cpp" line="4108"/>
         <source>%1
 Value: %2
 Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="4057"/>
-        <location filename="../src/overtimechart.cpp" line="4102"/>
+        <location filename="../src/overtimechart.cpp" line="4063"/>
+        <location filename="../src/overtimechart.cpp" line="4108"/>
         <source>MMMM yyyy</source>
         <comment>Month and year</comment>
         <translation type="unfinished"></translation>
@@ -9588,13 +9606,13 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="601"/>
-        <location filename="../src/overtimechart.cpp" line="3764"/>
+        <location filename="../src/overtimechart.cpp" line="3765"/>
         <source>All Payers Split</source>
         <translation>Összes kifizető külön</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="602"/>
-        <location filename="../src/overtimechart.cpp" line="3765"/>
+        <location filename="../src/overtimechart.cpp" line="3766"/>
         <source>All Payees Split</source>
         <translation>Összes kedvezményezett külön</translation>
     </message>
@@ -9604,30 +9622,30 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="656"/>
-        <location filename="../src/overtimechart.cpp" line="3213"/>
-        <location filename="../src/overtimechart.cpp" line="3224"/>
-        <location filename="../src/overtimechart.cpp" line="3646"/>
-        <location filename="../src/overtimechart.cpp" line="3657"/>
-        <location filename="../src/overtimechart.cpp" line="3731"/>
-        <location filename="../src/overtimechart.cpp" line="3814"/>
+        <location filename="../src/overtimechart.cpp" line="3214"/>
+        <location filename="../src/overtimechart.cpp" line="3225"/>
+        <location filename="../src/overtimechart.cpp" line="3647"/>
+        <location filename="../src/overtimechart.cpp" line="3658"/>
+        <location filename="../src/overtimechart.cpp" line="3732"/>
+        <location filename="../src/overtimechart.cpp" line="3815"/>
         <source>No payer</source>
         <translation>Nincs kifizető</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="657"/>
-        <location filename="../src/overtimechart.cpp" line="3219"/>
-        <location filename="../src/overtimechart.cpp" line="3229"/>
-        <location filename="../src/overtimechart.cpp" line="3652"/>
-        <location filename="../src/overtimechart.cpp" line="3662"/>
-        <location filename="../src/overtimechart.cpp" line="3729"/>
-        <location filename="../src/overtimechart.cpp" line="3815"/>
+        <location filename="../src/overtimechart.cpp" line="3220"/>
+        <location filename="../src/overtimechart.cpp" line="3230"/>
+        <location filename="../src/overtimechart.cpp" line="3653"/>
+        <location filename="../src/overtimechart.cpp" line="3663"/>
+        <location filename="../src/overtimechart.cpp" line="3730"/>
+        <location filename="../src/overtimechart.cpp" line="3816"/>
         <source>No payee</source>
         <translation>Nincs kedvezményezett</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="689"/>
         <location filename="../src/overtimechart.cpp" line="701"/>
-        <location filename="../src/overtimechart.cpp" line="3859"/>
+        <location filename="../src/overtimechart.cpp" line="3860"/>
         <source>All Categories Split</source>
         <translation>Összes kategória külön</translation>
     </message>
@@ -9660,12 +9678,12 @@ Date: %3</source>
         <translation>Hiba írás közben; a fájl nincs elmentve.</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2584"/>
+        <location filename="../src/overtimechart.cpp" line="2585"/>
         <source>Other payees</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2586"/>
+        <location filename="../src/overtimechart.cpp" line="2587"/>
         <source>Other payers</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9686,13 +9704,13 @@ Date: %3</source>
         <translation type="obsolete">Költség (%1)</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3446"/>
+        <location filename="../src/overtimechart.cpp" line="3447"/>
         <source>Time</source>
         <translation>Idő</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3192"/>
-        <location filename="../src/overtimechart.cpp" line="3625"/>
+        <location filename="../src/overtimechart.cpp" line="3193"/>
+        <location filename="../src/overtimechart.cpp" line="3626"/>
         <source>%1/%2</source>
         <comment>%1: Category; %2: Payee/Payer</comment>
         <translation>%1/%2</translation>
@@ -9713,107 +9731,107 @@ Date: %3</source>
         <translation type="obsolete">Nincs leírás</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2849"/>
+        <location filename="../src/overtimechart.cpp" line="2850"/>
         <source>Daily average value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2850"/>
+        <location filename="../src/overtimechart.cpp" line="2851"/>
         <source>Daily average profit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2851"/>
+        <location filename="../src/overtimechart.cpp" line="2852"/>
         <source>Daily average income</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2852"/>
+        <location filename="../src/overtimechart.cpp" line="2853"/>
         <source>Daily average cost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2857"/>
+        <location filename="../src/overtimechart.cpp" line="2858"/>
         <source>Average income</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2858"/>
+        <location filename="../src/overtimechart.cpp" line="2859"/>
         <source>Average cost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2862"/>
+        <location filename="../src/overtimechart.cpp" line="2863"/>
         <source>Annual value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2863"/>
+        <location filename="../src/overtimechart.cpp" line="2864"/>
         <source>Annual profit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2864"/>
+        <location filename="../src/overtimechart.cpp" line="2865"/>
         <source>Annual income</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2865"/>
+        <location filename="../src/overtimechart.cpp" line="2866"/>
         <source>Annual cost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2869"/>
+        <location filename="../src/overtimechart.cpp" line="2870"/>
         <source>Monthly value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2870"/>
+        <location filename="../src/overtimechart.cpp" line="2871"/>
         <source>Monthly profit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2871"/>
+        <location filename="../src/overtimechart.cpp" line="2872"/>
         <source>Monthly income</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2872"/>
+        <location filename="../src/overtimechart.cpp" line="2873"/>
         <source>Monthly cost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2878"/>
-        <location filename="../src/overtimechart.cpp" line="3392"/>
+        <location filename="../src/overtimechart.cpp" line="2879"/>
+        <location filename="../src/overtimechart.cpp" line="3393"/>
         <source>Includes scheduled and budgeted transactions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2880"/>
-        <location filename="../src/overtimechart.cpp" line="3394"/>
+        <location filename="../src/overtimechart.cpp" line="2881"/>
+        <location filename="../src/overtimechart.cpp" line="3395"/>
         <source>Includes scheduled transactions</source>
         <translation type="unfinished">Ütemezett tranzakciókat tartalmaz</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2947"/>
+        <location filename="../src/overtimechart.cpp" line="2948"/>
         <source>Value: %1</source>
         <translation type="unfinished">Érték: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2948"/>
+        <location filename="../src/overtimechart.cpp" line="2949"/>
         <source>Assets &amp; Liabilities</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2953"/>
-        <location filename="../src/overtimechart.cpp" line="3175"/>
-        <location filename="../src/overtimechart.cpp" line="3608"/>
+        <location filename="../src/overtimechart.cpp" line="2954"/>
+        <location filename="../src/overtimechart.cpp" line="3176"/>
+        <location filename="../src/overtimechart.cpp" line="3609"/>
         <source>Incomes − Expenses</source>
         <translation type="unfinished">Bevételek − kiadások</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3253"/>
-        <location filename="../src/overtimechart.cpp" line="3686"/>
+        <location filename="../src/overtimechart.cpp" line="3254"/>
+        <location filename="../src/overtimechart.cpp" line="3687"/>
         <source>Other accounts</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9822,82 +9840,82 @@ Date: %3</source>
         <translation type="obsolete">Változás: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2955"/>
+        <location filename="../src/overtimechart.cpp" line="2956"/>
         <source>Excluding any profits or losses in trading of security shares</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2958"/>
+        <location filename="../src/overtimechart.cpp" line="2959"/>
         <source>Incomes &amp; Expenses, %1</source>
         <translation type="unfinished">Bevételek és kiadások, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2964"/>
+        <location filename="../src/overtimechart.cpp" line="2965"/>
         <source>Incomes, %1</source>
         <translation type="unfinished">Bevételek, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2970"/>
+        <location filename="../src/overtimechart.cpp" line="2971"/>
         <source>Expenses, %1</source>
         <translation type="unfinished">Kiadások, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2978"/>
+        <location filename="../src/overtimechart.cpp" line="2979"/>
         <source>Incomes, %2: %1</source>
         <translation type="unfinished">Bevételek, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2986"/>
+        <location filename="../src/overtimechart.cpp" line="2987"/>
         <source>Expenses, %2: %1</source>
         <translation type="unfinished">Kiadások, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2992"/>
-        <location filename="../src/overtimechart.cpp" line="3015"/>
+        <location filename="../src/overtimechart.cpp" line="2993"/>
+        <location filename="../src/overtimechart.cpp" line="3016"/>
         <source>Incomes, %3: %2, %1</source>
         <translation type="unfinished">Bevételek, %3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="2998"/>
-        <location filename="../src/overtimechart.cpp" line="3022"/>
+        <location filename="../src/overtimechart.cpp" line="2999"/>
+        <location filename="../src/overtimechart.cpp" line="3023"/>
         <source>Expenses, %3: %2, %1</source>
         <translation type="unfinished">Kiadások, %3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3003"/>
+        <location filename="../src/overtimechart.cpp" line="3004"/>
         <source>Incomes, %4: %3, %2, %1</source>
         <translation type="unfinished">Bevételek, %4: %3, %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3008"/>
+        <location filename="../src/overtimechart.cpp" line="3009"/>
         <source>Expenses, %4: %3, %2, %1</source>
         <translation type="unfinished">Kiadások, %4: %3, %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3171"/>
-        <location filename="../src/overtimechart.cpp" line="3604"/>
+        <location filename="../src/overtimechart.cpp" line="3172"/>
+        <location filename="../src/overtimechart.cpp" line="3605"/>
         <source>Liabilities</source>
         <translation type="unfinished">Tartozások</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3235"/>
         <location filename="../src/overtimechart.cpp" line="3236"/>
-        <location filename="../src/overtimechart.cpp" line="3668"/>
+        <location filename="../src/overtimechart.cpp" line="3237"/>
         <location filename="../src/overtimechart.cpp" line="3669"/>
+        <location filename="../src/overtimechart.cpp" line="3670"/>
         <source>no payer</source>
         <translation>nincs kifizető</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3239"/>
-        <location filename="../src/overtimechart.cpp" line="3672"/>
+        <location filename="../src/overtimechart.cpp" line="3240"/>
+        <location filename="../src/overtimechart.cpp" line="3673"/>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payer/Payer</comment>
         <translation>%1/%2</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3248"/>
-        <location filename="../src/overtimechart.cpp" line="3681"/>
+        <location filename="../src/overtimechart.cpp" line="3249"/>
+        <location filename="../src/overtimechart.cpp" line="3682"/>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payee/Payer</comment>
         <translation>%1/%2</translation>
@@ -9920,10 +9938,10 @@ Date: %3</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3244"/>
         <location filename="../src/overtimechart.cpp" line="3245"/>
-        <location filename="../src/overtimechart.cpp" line="3677"/>
+        <location filename="../src/overtimechart.cpp" line="3246"/>
         <location filename="../src/overtimechart.cpp" line="3678"/>
+        <location filename="../src/overtimechart.cpp" line="3679"/>
         <source>no payee</source>
         <translation>nincs kedvezményezett</translation>
     </message>
@@ -9962,38 +9980,38 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="100"/>
-        <location filename="../src/overtimereport.cpp" line="382"/>
+        <location filename="../src/overtimereport.cpp" line="384"/>
         <source>Profits</source>
         <translation>Nyereségek</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="101"/>
-        <location filename="../src/overtimereport.cpp" line="384"/>
-        <location filename="../src/overtimereport.cpp" line="407"/>
-        <location filename="../src/overtimereport.cpp" line="429"/>
-        <location filename="../src/overtimereport.cpp" line="449"/>
+        <location filename="../src/overtimereport.cpp" line="386"/>
+        <location filename="../src/overtimereport.cpp" line="409"/>
+        <location filename="../src/overtimereport.cpp" line="431"/>
+        <location filename="../src/overtimereport.cpp" line="451"/>
         <source>Expenses</source>
         <translation>Kiadások</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="102"/>
-        <location filename="../src/overtimereport.cpp" line="383"/>
-        <location filename="../src/overtimereport.cpp" line="398"/>
-        <location filename="../src/overtimereport.cpp" line="419"/>
-        <location filename="../src/overtimereport.cpp" line="439"/>
+        <location filename="../src/overtimereport.cpp" line="385"/>
+        <location filename="../src/overtimereport.cpp" line="400"/>
+        <location filename="../src/overtimereport.cpp" line="421"/>
+        <location filename="../src/overtimereport.cpp" line="441"/>
         <source>Incomes</source>
         <translation>Bevételek</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="103"/>
-        <location filename="../src/overtimereport.cpp" line="460"/>
+        <location filename="../src/overtimereport.cpp" line="462"/>
         <source>Assets &amp; Liabilities</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="108"/>
         <location filename="../src/overtimereport.cpp" line="262"/>
-        <location filename="../src/overtimereport.cpp" line="1042"/>
+        <location filename="../src/overtimereport.cpp" line="1044"/>
         <source>All Categories Combined</source>
         <translation>Összes kategória együtt</translation>
     </message>
@@ -10008,7 +10026,7 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="137"/>
-        <location filename="../src/overtimereport.cpp" line="458"/>
+        <location filename="../src/overtimereport.cpp" line="460"/>
         <source>Value</source>
         <translation>Érték</translation>
     </message>
@@ -10029,7 +10047,7 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="149"/>
-        <location filename="../src/overtimereport.cpp" line="813"/>
+        <location filename="../src/overtimereport.cpp" line="815"/>
         <source>Quantity</source>
         <translation>Mennyiség</translation>
     </message>
@@ -10056,25 +10074,25 @@ Date: %3</source>
         <location filename="../src/overtimereport.cpp" line="114"/>
         <location filename="../src/overtimereport.cpp" line="210"/>
         <location filename="../src/overtimereport.cpp" line="259"/>
-        <location filename="../src/overtimereport.cpp" line="999"/>
-        <location filename="../src/overtimereport.cpp" line="1063"/>
+        <location filename="../src/overtimereport.cpp" line="1001"/>
+        <location filename="../src/overtimereport.cpp" line="1065"/>
         <source>All Descriptions Combined</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Összes típus együtt</translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="120"/>
-        <location filename="../src/overtimereport.cpp" line="1077"/>
+        <location filename="../src/overtimereport.cpp" line="1079"/>
         <source>All Accounts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="247"/>
-        <location filename="../src/overtimereport.cpp" line="436"/>
-        <location filename="../src/overtimereport.cpp" line="437"/>
-        <location filename="../src/overtimereport.cpp" line="446"/>
-        <location filename="../src/overtimereport.cpp" line="447"/>
-        <location filename="../src/overtimereport.cpp" line="1021"/>
+        <location filename="../src/overtimereport.cpp" line="438"/>
+        <location filename="../src/overtimereport.cpp" line="439"/>
+        <location filename="../src/overtimereport.cpp" line="448"/>
+        <location filename="../src/overtimereport.cpp" line="449"/>
+        <location filename="../src/overtimereport.cpp" line="1023"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Nincs leírás</translation>
@@ -10100,148 +10118,160 @@ Date: %3</source>
         <translation type="vanished">Átlagnyereség</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="397"/>
+        <location filename="../src/overtimereport.cpp" line="399"/>
         <source>Incomes, %1</source>
         <translation type="unfinished">Bevételek, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="399"/>
-        <location filename="../src/overtimereport.cpp" line="418"/>
-        <location filename="../src/overtimereport.cpp" line="438"/>
+        <location filename="../src/overtimereport.cpp" line="401"/>
+        <location filename="../src/overtimereport.cpp" line="420"/>
+        <location filename="../src/overtimereport.cpp" line="440"/>
         <source>Average Income</source>
         <translation>Átlagos bevétel</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="406"/>
+        <location filename="../src/overtimereport.cpp" line="408"/>
         <source>Expenses, %1</source>
         <translation type="unfinished">Kiadások, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="408"/>
-        <location filename="../src/overtimereport.cpp" line="428"/>
-        <location filename="../src/overtimereport.cpp" line="448"/>
+        <location filename="../src/overtimereport.cpp" line="410"/>
+        <location filename="../src/overtimereport.cpp" line="430"/>
+        <location filename="../src/overtimereport.cpp" line="450"/>
         <source>Average Cost</source>
         <translation>Átlagos költség</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="416"/>
+        <location filename="../src/overtimereport.cpp" line="418"/>
         <source>Incomes, %2: %1</source>
         <translation type="unfinished">Bevételek, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="417"/>
+        <location filename="../src/overtimereport.cpp" line="419"/>
         <source>Incomes: %1</source>
         <translation>Bevételek: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="426"/>
+        <location filename="../src/overtimereport.cpp" line="428"/>
         <source>Expenses, %2: %1</source>
         <translation type="unfinished">Kiadások, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="427"/>
+        <location filename="../src/overtimereport.cpp" line="429"/>
         <source>Expenses: %1</source>
         <translation>Kiadások: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="436"/>
+        <location filename="../src/overtimereport.cpp" line="438"/>
         <source>Incomes, %3: %2, %1</source>
         <translation type="unfinished">Bevételek, %3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="437"/>
+        <location filename="../src/overtimereport.cpp" line="439"/>
         <source>Incomes: %2, %1</source>
         <translation>Bevételek: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="446"/>
+        <location filename="../src/overtimereport.cpp" line="448"/>
         <source>Expenses, %3: %2, %1</source>
         <translation type="unfinished">Kiadások, %3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="447"/>
+        <location filename="../src/overtimereport.cpp" line="449"/>
         <source>Expenses: %2, %1</source>
         <translation>Kiadások: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="376"/>
+        <location filename="../src/overtimereport.cpp" line="377"/>
         <source>Change: %1</source>
+        <extracomment>Noun, how much the account balance has changed</extracomment>
         <translation type="unfinished">Változás: %1</translation>
     </message>
     <message>
+        <location filename="../src/overtimereport.cpp" line="378"/>
+        <source>Deposit</source>
+        <comment>Money put into account</comment>
+        <translation type="unfinished">Letét</translation>
+    </message>
+    <message>
         <location filename="../src/overtimereport.cpp" line="379"/>
+        <source>Withdrawal</source>
+        <comment>Money taken out from account</comment>
+        <translation type="unfinished">Kivét</translation>
+    </message>
+    <message>
+        <location filename="../src/overtimereport.cpp" line="381"/>
         <source>Change</source>
+        <extracomment>Noun, how much the account balance has changed</extracomment>
         <translation type="unfinished">Változás</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="456"/>
+        <location filename="../src/overtimereport.cpp" line="458"/>
         <source>Value: %1</source>
         <translation type="unfinished">Érték: %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="801"/>
+        <location filename="../src/overtimereport.cpp" line="803"/>
         <source>Year</source>
         <translation>Év</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="802"/>
+        <location filename="../src/overtimereport.cpp" line="804"/>
         <source>Month</source>
         <translation>Hónap</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="462"/>
+        <location filename="../src/overtimereport.cpp" line="464"/>
         <source>Assets</source>
         <translation type="unfinished">Vagyon</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="377"/>
         <source>Deposit</source>
-        <translation type="unfinished">Letét</translation>
+        <translation type="obsolete">Letét</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="378"/>
         <source>Withdrawal</source>
-        <translation type="unfinished">Kivét</translation>
+        <translation type="obsolete">Kivét</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="463"/>
+        <location filename="../src/overtimereport.cpp" line="465"/>
         <source>Liabilities</source>
         <translation type="unfinished">Tartozások</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="809"/>
+        <location filename="../src/overtimereport.cpp" line="811"/>
         <source>Daily Average</source>
         <translation>Napi átlag</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="810"/>
+        <location filename="../src/overtimereport.cpp" line="812"/>
         <source>Monthly Average</source>
         <translation>Havi átlag</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="811"/>
+        <location filename="../src/overtimereport.cpp" line="813"/>
         <source>Yearly Average</source>
         <translation>Éves átlag</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="865"/>
-        <location filename="../src/overtimereport.cpp" line="947"/>
+        <location filename="../src/overtimereport.cpp" line="867"/>
+        <location filename="../src/overtimereport.cpp" line="949"/>
         <source>Subtotal</source>
         <translation>Részösszeg</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="464"/>
-        <location filename="../src/overtimereport.cpp" line="964"/>
+        <location filename="../src/overtimereport.cpp" line="466"/>
+        <location filename="../src/overtimereport.cpp" line="966"/>
         <source>Total</source>
         <translation>Összesen</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="982"/>
+        <location filename="../src/overtimereport.cpp" line="984"/>
         <source>Includes scheduled transactions</source>
         <translation>Ütemezett tranzakciókat tartalmaz</translation>
     </message>
     <message>
-        <location filename="../src/overtimereport.cpp" line="986"/>
+        <location filename="../src/overtimereport.cpp" line="988"/>
         <source>Adjusted for the average month / year (%1 / %2 days)</source>
         <translation>Beállítva átlag hónapra / évre (%1 / %2 nap)</translation>
     </message>

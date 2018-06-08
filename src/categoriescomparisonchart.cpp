@@ -39,7 +39,6 @@
 #include <QtCharts/QValueAxis>
 #include <QtCharts/QBarSeries>
 #include <QtCharts/QHorizontalBarSeries>
-#include <QtCharts/QBarSet>
 #include <QtCharts/QPieSeries>
 #else
 #include <QGraphicsView>
@@ -96,6 +95,7 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 
 	QHBoxLayout *buttons = new QHBoxLayout();
 #ifdef QT_CHARTS_LIB
+	point_label = NULL;
 	buttons->addWidget(new QLabel(tr("Chart type:"), this));
 	typeCombo = new QComboBox(this);
 	typeCombo->addItem(tr("Pie Chart"));
@@ -554,6 +554,7 @@ extern QBrush getBarBrush(int index, int total);
 QBrush getPieBrush(int index, int total) {
 	QBrush brush;
 	if(total > 9) total = 9;
+	else if(total <= 0) total = 1;
 	switch(index / total) {
 		case 0: {brush.setStyle(Qt::SolidPattern); break;}
 		case 1: {brush.setStyle(Qt::Dense3Pattern); break;}
@@ -575,8 +576,6 @@ void CategoriesComparisonChart::updateDisplay() {
 	QMap<QString, QString> desc_map;
 	QMap<QString, double> desc_values;
 	QMap<QString, double> desc_counts;
-	double value_count = 0.0;
-	double value = 0.0;
 	QStringList desc_order; 
 
 	current_account = NULL;
@@ -648,7 +647,6 @@ void CategoriesComparisonChart::updateDisplay() {
 						values[account] = 0.0;
 					} else {
 						values[account] = account->initialBalance();
-						value += account->initialBalance();
 					}
 					counts[account] = 0.0;
 				}
@@ -706,35 +704,29 @@ void CategoriesComparisonChart::updateDisplay() {
 		if(first_date_reached && (!current_assets || trans->relatesToAccount(current_assets))) {
 			if(current_account && !include_subs) {
 				if(trans->fromAccount() == current_account) {
-					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] -= trans->value(!current_assets); value -= trans->value(!current_assets);}
-					else {desc_values[trans->description().toLower()] += trans->value(!current_assets); value += trans->value(!current_assets);}
+					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] -= trans->value(!current_assets);}
+					else {desc_values[trans->description().toLower()] += trans->value(!current_assets);}
 					desc_counts[trans->description().toLower()] += trans->quantity();
-					value_count += trans->quantity();
 				} else if(trans->toAccount() == current_account) {
-					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] += trans->value(!current_assets); value += trans->value(!current_assets);}
-					else {desc_values[trans->description().toLower()] -= trans->value(!current_assets); value -= trans->value(!current_assets);}
+					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] += trans->value(!current_assets);}
+					else {desc_values[trans->description().toLower()] -= trans->value(!current_assets);}
 					desc_counts[trans->description().toLower()] += trans->quantity();
-					value_count += trans->quantity();
 				}
 			} else if(type == ACCOUNT_TYPE_ASSETS) {
 				if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && trans->fromAccount() != budget->balancingAccount) {
 					if(((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES) {
 						values[trans->fromAccount()] -= trans->fromValue(!current_assets);
-						value -= trans->fromValue(!current_assets);
 					}
 					if(trans->toAccount() != budget->balancingAccount) {
 						counts[trans->fromAccount()] += trans->quantity();
-						value_count += trans->quantity();
 					}
 				}
 				if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS && trans->toAccount() != budget->balancingAccount) {
 					if(((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES) {
 						values[trans->toAccount()] += trans->toValue(!current_assets);
-						value += trans->toValue(!current_assets);
 					}
 					if(trans->fromAccount() != budget->balancingAccount) {
 						counts[trans->toAccount()] += trans->quantity();
-						value_count += trans->quantity();
 					}
 				}
 			} else {
@@ -745,24 +737,16 @@ void CategoriesComparisonChart::updateDisplay() {
 				if((!current_account || to_account->topAccount() == current_account || from_account->topAccount() == current_account) && (to_account->type() == type || from_account->type() == type)) {
 					if(from_account->type() == ACCOUNT_TYPE_EXPENSES) {
 						values[from_account] -= trans->value(!current_assets);
-						value -= trans->value(!current_assets);
 						counts[from_account] += trans->quantity();
-						value_count += trans->quantity();
 					} else if(from_account->type() == ACCOUNT_TYPE_INCOMES) {
 						values[from_account] += trans->value(!current_assets);
-						value += trans->value(!current_assets);
 						counts[from_account] += trans->quantity();
-						value_count += trans->quantity();
 					} else if(to_account->type() == ACCOUNT_TYPE_EXPENSES) {
 						values[to_account] += trans->value(!current_assets);
-						value += trans->value(!current_assets);
 						counts[to_account] += trans->quantity();
-						value_count += trans->quantity();
 					} else if(to_account->type() == ACCOUNT_TYPE_INCOMES) {
 						values[to_account] -= trans->value(!current_assets);
-						value -= trans->value(!current_assets);
 						counts[to_account] += trans->quantity();
-						value_count += trans->quantity();
 					}
 				}
 			}
@@ -790,38 +774,32 @@ void CategoriesComparisonChart::updateDisplay() {
 			if(current_account && !include_subs) {
 				if(trans->fromAccount() == current_account) {
 					int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
-					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] -= trans->value(!current_assets) * count; value -= trans->value(!current_assets) * count;}
-					else {desc_values[trans->description().toLower()] += trans->value(!current_assets) * count; value += trans->value(!current_assets) * count;}
+					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] -= trans->value(!current_assets) * count;}
+					else {desc_values[trans->description().toLower()] += trans->value(!current_assets) * count;}
 					desc_counts[trans->description().toLower()] += count *  trans->quantity();
-					value_count += count *  trans->quantity();
 				} else if(trans->toAccount() == current_account) {
 					int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
-					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] += trans->value(!current_assets) * count; value += trans->value(!current_assets) * count;}
-					else {desc_values[trans->description().toLower()] -= trans->value(!current_assets) * count; value -= trans->value(!current_assets) * count;}
+					if(type == ACCOUNT_TYPE_EXPENSES) {desc_values[trans->description().toLower()] += trans->value(!current_assets) * count;}
+					else {desc_values[trans->description().toLower()] -= trans->value(!current_assets) * count;}
 					desc_counts[trans->description().toLower()] += count *  trans->quantity();
-					value_count += count *  trans->quantity();
 				}
 			} else if(type == ACCOUNT_TYPE_ASSETS) {
 				if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && trans->fromAccount() != budget->balancingAccount) {
 					int count = strans->recurrence() ? strans->recurrence()->countOccurrences(to_date) : 1;
 					if(trans->toAccount() != budget->balancingAccount) {
 						counts[trans->fromAccount()] += count *  trans->quantity();
-						value_count += count *  trans->quantity();
 					}
 					if(((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES) {
 						values[trans->fromAccount()] -= trans->fromValue(!current_assets) * count;
-						value -= trans->fromValue(!current_assets) * count;
 					}
 				}
 				if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS && trans->toAccount() != budget->balancingAccount) {
 					int count = strans->recurrence() ? strans->recurrence()->countOccurrences(to_date) : 1;
 					if(trans->fromAccount() != budget->balancingAccount) {
 						counts[trans->toAccount()] += count *  trans->quantity();
-						value_count += count *  trans->quantity();
 					}
 					if(((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES) {
 						values[trans->toAccount()] += trans->toValue(!current_assets) * count;
-						value += trans->toValue(!current_assets) * count;
 					}
 				}
 			} else {
@@ -834,26 +812,18 @@ void CategoriesComparisonChart::updateDisplay() {
 						int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
 						counts[trans->fromAccount()] += count *  trans->quantity();
 						values[trans->fromAccount()] -= trans->value(!current_assets) * count;
-						value_count += count *  trans->quantity();
-						value -= trans->value(!current_assets) * count;
 					} else if(from_account->type() == ACCOUNT_TYPE_INCOMES) {
 						int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
 						counts[trans->fromAccount()] += count;
 						values[trans->fromAccount()] += trans->value(!current_assets) * count;
-						value_count += count;
-						value += trans->value(!current_assets) * count;
 					} else if(to_account->type() == ACCOUNT_TYPE_EXPENSES) {
 						int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
 						counts[trans->toAccount()] += count *  trans->quantity();
 						values[trans->toAccount()] += trans->value(!current_assets) * count;
-						value_count += count *  trans->quantity();
-						value += trans->value(!current_assets) * count;
 					} else if(to_account->type() == ACCOUNT_TYPE_INCOMES) {
 						int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_date, to_date) : 1;
 						counts[trans->toAccount()] += count;
 						values[trans->toAccount()] -= trans->value(!current_assets) * count;
-						value_count += count;
-						value -= trans->value(!current_assets) * count;
 					}
 				}
 			}
@@ -869,64 +839,75 @@ void CategoriesComparisonChart::updateDisplay() {
 			Security *security = *it;
 			double val = security->value(to_date, true);
 			values[security->account()] += val;
-			value += val;
 		}
 	}
 
 	/*int days = first_date.daysTo(to_date) + 1;
 	double months = budget->monthsBetweenDates(first_date, to_date, true), years = budget->yearsBetweenDates(first_date, to_date, true);*/
-	
-	Account *account = NULL;
-	QMap<QString, double>::iterator it_desc = desc_values.begin();
-	QMap<QString, double>::iterator it_desc_end = desc_values.end();
-	
-	double remaining_value = 0.0;
-	if(current_account && !include_subs) {
-		while(it_desc != it_desc_end) {
-			int i = desc_order.size() - 1;
-			while(i >= 0) {
-				if(it_desc.value() < desc_values[desc_order[i]]) {
-					if(i == desc_order.size() - 1) {
-						if(i < 10) desc_order.push_back(it_desc.key());
-						else remaining_value += it_desc.value();
-					} else {
-						desc_order.insert(i + 1, it_desc.key());
-					}
-					break;
-				}
-				i--;
-			}
-			if(i < 0) desc_order.push_front(it_desc.key());
-			if(desc_order.size() > 10) {
-				remaining_value += desc_values[desc_order.last()];
-				desc_order.pop_back();
-			}
-			++it_desc;
-		}
-		if(desc_values.size() > desc_order.size()) {
-			desc_order.push_back(tr("Other descriptions", "Referring to the transaction description property (transaction title/generic article name)"));
-			desc_values[tr("Other descriptions", "Referring to the transaction description property (transaction title/generic article name)")] = remaining_value;
-			desc_map[desc_order.last()] = desc_order.last();
-		}
-	}	
 
-	if(!current_account && type == ACCOUNT_TYPE_ASSETS) {
-		value = 0.0;
-		for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
-			account = *it;
-			if(account != budget->balancingAccount) {
-				if(values[account] > 0.0) value += values[account];
-			}
-		}
-	}
-	
-	
 #ifdef QT_CHARTS_LIB
 	int chart_type = typeCombo->currentIndex() + 1;
 #else
 	int chart_type = 1;
 #endif
 	
+	Account *account = NULL;
+	QMap<QString, double>::iterator it_desc = desc_values.begin();
+	QMap<QString, double>::iterator it_desc_end = desc_values.end();
+	
+	double value = 0.0;
+	double vmax = 0.0;
+	double remaining_value = 0.0;
+	if(current_account && !include_subs) {
+		while(it_desc != it_desc_end) {
+			if(it_desc.value() >= 0.0) value += it_desc.value();
+			if(it_desc.value() >= 0.01 || (chart_type != 1 && it_desc.value() <= -0.01)) {
+				bool b = false;
+				if(abs(it_desc.value()) > vmax) vmax = abs(it_desc.value());
+				for(int i = 0; i < desc_order.count(); i++) {
+					if(it_desc.value() > desc_values[desc_order.at(i)]) {
+						desc_order.insert(i, it_desc.key());
+						
+						b = true;
+						break;
+					}
+				}
+				if(!b) desc_order.push_back(it_desc.key());
+			}
+			++it_desc;
+		}
+	}
+	
+	if((chart_type == 1 && desc_order.size() > 9) || (chart_type == 2 && desc_order.size() > 12)) {
+		while((chart_type == 1 && desc_order.size() > 8) || (chart_type == 2 && desc_order.size() > 11)) {
+			remaining_value += desc_values[desc_order.back()];
+			desc_order.pop_back();
+		}
+	} else if(desc_order.size() > 5 && chart_type == 1) {
+		int n = 0;
+		for(int i = desc_order.size() - 1; i > 0; i--) {
+			double v = abs(desc_values[desc_order[i]]);
+			if((v / value) < 0.01 && v < (vmax / 10)) {
+				n++;
+			}
+		}
+		if(n > 1) {
+			for(int i = desc_order.size() - 1; i > 0; i--) {
+				double v = abs(desc_values[desc_order[i]]);
+				if((v / value) < 0.01 && v < (vmax / 10)) {
+					remaining_value += desc_values[desc_order[i]];
+					desc_order.removeAt(i);
+				}
+			}
+		}
+	}
+
+	if(desc_order.count() > 0 && remaining_value != 0.0) {
+		desc_order.push_back(tr("Other descriptions", "Referring to the transaction description property (transaction title/generic article name)"));
+		desc_values[tr("Other descriptions", "Referring to the transaction description property (transaction title/generic article name)")] = remaining_value;
+		desc_map[desc_order.last()] = desc_order.last();
+	}
+
 	QList<Account*> account_order;
 	int account_index = 0;
 	account = NULL;
@@ -948,7 +929,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
 	} else {
 		if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
-	}	
+	}
 	while(account) {
 		if(!current_account && include_subs) {
 			while(account && ((CategoryAccount*) account)->subCategories.size() > 0) {
@@ -968,11 +949,14 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 			if(!account) break;
 		}
+		if(values[account] > 0.0) value += values[account];
 		if(values[account] >= 0.01 || (chart_type != 1 && values[account] <= -0.01)) {
 			bool b = false;
+			if(abs(values[account]) > vmax) vmax = abs(values[account]);
 			for(int i = 0; i < account_order.count(); i++) {
 				if(values[account] > values[account_order.at(i)]) {
 					account_order.insert(i, account);
+					
 					b = true;
 					break;
 				}
@@ -1007,7 +991,36 @@ void CategoriesComparisonChart::updateDisplay() {
 			if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
 		}
 	}
-	
+
+	if(account_order.size() > 5 && chart_type == 1) {
+		if(account_order.size() > 9) {
+			values[NULL] = 0.0;
+			while(account_order.size() > 8) {
+				values[NULL] += values[account_order.back()];
+				account_order.pop_back();
+			}
+			account_order.push_back(NULL);
+		} else {
+			int n = 0;
+			for(int i = account_order.size() - 1; i > 0; i--) {
+				double v = abs(values[account_order[i]]);
+				if((v / value) < 0.01 && v < (vmax / 10)) {
+					n++;
+				}
+			}
+			if(n > 1) {
+				values[NULL] = 0.0;
+				for(int i = account_order.size() - 1; i > 0; i--) {
+					double v = abs(values[account_order[i]]);
+					if((v / value) < 0.01 && v < (vmax / 10)) {
+						values[NULL] += values[account_order[i]];
+						account_order.removeAt(i);
+					}
+				}
+				account_order.push_back(NULL);
+			}
+		}
+	}
 
 #ifdef QT_CHARTS_LIB
 
@@ -1026,10 +1039,7 @@ void CategoriesComparisonChart::updateDisplay() {
 	}
 	account_index = 0;
 	account = NULL;
-	if(!current_account || include_subs) {
-		if(account_index < account_order.count()) account = account_order.at(account_index);
-	}
-	
+
 	QBarSet *bar_set = NULL;
 	QBarCategoryAxis *b_axis = NULL;
 	if(chart_type != 1) {
@@ -1041,11 +1051,11 @@ void CategoriesComparisonChart::updateDisplay() {
 	int index = 0;
 	int lcount = 0;
 	bool show_legend = false;
-	while(account || (current_account && index < desc_order.size())) {
+	while((account_index < account_order.count()) || (current_account && index < desc_order.size())) {
 		QString legend_string;
 		double legend_value = 0.0;
 		double current_value = 0.0;
-		if(!account) {
+		if(account_order.isEmpty()) {
 			if(desc_order[index].isEmpty()) {
 				legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
 			} else {
@@ -1053,7 +1063,11 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 			current_value = desc_values[desc_order[index]];
 		} else {
-			if(current_account) legend_string = account->name();
+			account = account_order.at(account_index);
+			if(!account) {
+				if(type == ACCOUNT_TYPE_ASSETS) legend_string = tr("Other accounts");
+				else legend_string = tr("Other categories");
+			} else if(current_account) legend_string = account->name();
 			else legend_string = account->nameWithParent();
 			current_value = values[account];
 		}
@@ -1069,7 +1083,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		if(chart_type == 1) {
 			if(current_value >= 0.01) {
 				QPieSlice *slice = pie_series->append(QString("%1 (%2%)").arg(legend_string).arg(currency->formatValue(legend_value, deci, false)), current_value);
-				if(theme < 0) slice->setBrush(getPieBrush(lcount, account ? account_order.count() : desc_order.count()));
+				if(theme < 0) slice->setBrush(getPieBrush(lcount, account_order.count() > 0 ? account_order.count() : desc_order.count()));
 				if(legend_value >= 8.0) {
 					slice->setLabelVisible(true);
 				} else {
@@ -1088,11 +1102,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 		}
 		
-		++account_index;
-		if(account) {
-			if(account_index < account_order.count()) account = account_order.at(account_index);
-			else break;
-		}
+		account_index++;
 		index++;
 	}
 	
@@ -1134,6 +1144,8 @@ void CategoriesComparisonChart::updateDisplay() {
 			chart->setAxisX(v_axis, series);
 		}
 		
+		connect(bar_series, SIGNAL(hovered(bool, int, QBarSet*)), this, SLOT(onSeriesHovered(bool, int, QBarSet*)));
+		
 		show_legend = false;
 	}
 	
@@ -1171,16 +1183,12 @@ void CategoriesComparisonChart::updateDisplay() {
 	account_index = 0;
 	account = NULL;
 
-	if(!current_account || include_subs) {
-		if(account_index < account_order.count()) account = account_order.at(account_index);
-	}
-	
 	int index = 0, lcount = 0;
 	int text_width = 0;
-	while(account || (current_account && index < desc_order.size())) {
+	while((account_index < account_order.count()) || (current_account && index < desc_order.size())) {
 		QString legend_string;
 		double legend_value = 0.0;
-		if(!account) {
+		if(account_order.isEmpty()) {
 			if(desc_order[index].isEmpty()) {
 				legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
 			} else {
@@ -1188,7 +1196,11 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 			legend_value = desc_values[desc_order[index]];
 		} else {
-			if(current_account) legend_string = account->name();
+			account = account_order.at(account_index);
+			if(!account) {
+				if(type == ACCOUNT_TYPE_ASSETS) legend_string = tr("Other accounts");
+				else legend_string = tr("Other categories");
+			} else if(current_account) legend_string = account->name();
 			else legend_string = account->nameWithParent();
 			legend_value = values[account];
 		}
@@ -1210,27 +1222,20 @@ void CategoriesComparisonChart::updateDisplay() {
 			lcount++;
 		}
 		
-		++account_index;
-		if(account) {
-			if(account_index < account_order.count()) account = account_order.at(account_index);
-			else break;
-		}
+		account_index++;
 		index++;
 	}
 
 
 	account_index = 0;
 	account = NULL;
-	if(!current_account || include_subs) {
-		if(account_index < account_order.count()) account = account_order.at(account_index);
-	}
 	index = 0;
 	lcount = 0;
 	double current_value = 0.0, current_value_1 = 0.0;
 	int prev_end = 0;
-	while(account || (current_account && index < desc_order.size())) {
-		if(!account) current_value_1 = desc_values[desc_order[index]];
-		else current_value_1 = values[account];
+	while((account_index < account_order.count()) || (current_account && index < desc_order.size())) {
+		if(account_order.isEmpty()) current_value_1 = desc_values[desc_order[index]];
+		else current_value_1 = values[account_order[account_index]];
 		if(!is_zero(current_value_1) && current_value_1 > 0.0) {
 			current_value += current_value_1;
 			int next_end = (int) lround((current_value * 360 * 16) / value);
@@ -1240,20 +1245,16 @@ void CategoriesComparisonChart::updateDisplay() {
 			ellipse->setSpanAngle(length);
 			prev_end = next_end;
 			ellipse->setPen(Qt::NoPen);
-			ellipse->setBrush(getPieBrush(index, account ? account_order.size() : desc_order.size()));
+			ellipse->setBrush(getPieBrush(index, account_order.size() > 0 ? account_order.size() : desc_order.size()));
 			ellipse->setPos(diameter / 2 + margin, diameter / 2 + chart_y);
 			scene->addItem(ellipse);
 			QGraphicsRectItem *legend_box = new QGraphicsRectItem(legend_x + 10, chart_y + 10 + (fh + 5) * lcount, fh, fh);
 			legend_box->setPen(QPen(Qt::black));
-			legend_box->setBrush(getPieBrush(index, account ? account_order.size() : desc_order.size()));
+			legend_box->setBrush(getPieBrush(index, account_order.size() > 0 ? account_order.size() : desc_order.size()));
 			scene->addItem(legend_box);
 			lcount++;
 		}
-				++account_index;
-		if(account) {
-			if(account_index < account_order.count()) account = account_order.at(account_index);
-			else break;
-		}
+		account_index++;
 		index++;
 	}
 
@@ -1376,4 +1377,127 @@ void CategoriesComparisonChart::legendClicked() {
 		else marker->series()->remove(marker->barset());
 	}
 }
+
+class PointLabel2 : public QGraphicsItem {
+
+	public:
+
+		PointLabel2(QChart *c) : QGraphicsItem(c), chart(c) {}
+
+		void setText(const QString &text) {
+			m_text = text;
+			QFontMetrics metrics(chart->font());
+			m_textRect = metrics.boundingRect(QRect(0, 0, 150, 150), Qt::AlignLeft, m_text);
+			m_textRect.translate(5, 5);
+			prepareGeometryChange();
+			m_rect = m_textRect.adjusted(-5, -5, 5, 5);
+		}
+		void setAnchor(QPointF point) {
+			m_anchor = point;
+		}
+
+		QRectF boundingRect() const {
+			QPointF anchor = mapFromParent(m_anchor);
+			QRectF rect;
+			rect.setLeft(qMin(m_rect.left(), anchor.x()));
+			rect.setRight(qMax(m_rect.right(), anchor.x()));
+			rect.setTop(qMin(m_rect.top(), anchor.y()));
+			rect.setBottom(qMax(m_rect.bottom(), anchor.y()));
+			return rect;
+		}
+		void paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*){
+			QPainterPath path;
+			path.addRoundedRect(m_rect, 5, 5);
+
+			QPointF anchor = mapFromParent(m_anchor);
+			if (!m_rect.contains(anchor)) {
+				QPointF point1, point2;
+
+				// establish the position of the anchor point in relation to m_rect
+				bool above = anchor.y() <= m_rect.top();
+				bool aboveCenter = anchor.y() > m_rect.top() && anchor.y() <= m_rect.center().y();
+				bool belowCenter = anchor.y() > m_rect.center().y() && anchor.y() <= m_rect.bottom();
+				bool below = anchor.y() > m_rect.bottom();
+
+				bool onLeft = anchor.x() <= m_rect.left();
+				bool leftOfCenter = anchor.x() > m_rect.left() && anchor.x() <= m_rect.center().x();
+				bool rightOfCenter = anchor.x() > m_rect.center().x() && anchor.x() <= m_rect.right();
+				bool onRight = anchor.x() > m_rect.right();
+
+				// get the nearest m_rect corner.
+				qreal x = (onRight + rightOfCenter) * m_rect.width();
+				qreal y = (below + belowCenter) * m_rect.height();
+				bool cornerCase = (above && onLeft) || (above && onRight) || (below && onLeft) || (below && onRight);
+				bool vertical = qAbs(anchor.x() - x) > qAbs(anchor.y() - y);
+
+				qreal x1 = x + leftOfCenter * 10 - rightOfCenter * 20 + cornerCase * !vertical * (onLeft * 10 - onRight * 20);
+				qreal y1 = y + aboveCenter * 10 - belowCenter * 20 + cornerCase * vertical * (above * 10 - below * 20);;
+				point1.setX(x1);
+				point1.setY(y1);
+
+				qreal x2 = x + leftOfCenter * 20 - rightOfCenter * 10 + cornerCase * !vertical * (onLeft * 20 - onRight * 10);;
+				qreal y2 = y + aboveCenter * 20 - belowCenter * 10 + cornerCase * vertical * (above * 20 - below * 10);;
+				point2.setX(x2);
+				point2.setY(y2);
+
+				path.moveTo(point1);
+				path.lineTo(mapFromParent(m_anchor));
+				path.lineTo(point2);
+				path = path.simplified();
+			}
+			painter->setBrush(chart->backgroundBrush());
+			QPen pen = chart->axisX()->linePen();
+			pen.setWidth(1);
+			painter->setPen(pen);
+			painter->drawPath(path);
+			painter->setPen(QPen(chart->axisX()->labelsBrush().color()));
+			painter->setBrush(chart->axisX()->labelsBrush());
+			painter->drawText(m_textRect, m_text);
+		}
+
+	private:
+	
+		QString m_text;
+		QRectF m_textRect;
+		QRectF m_rect;
+		QPointF m_anchor;
+		QChart *chart;
+
+};
+
+void CategoriesComparisonChart::onSeriesHovered(bool state, int index, QBarSet *set) {
+	if(state) {
+		QAbstractBarSeries *series = qobject_cast<QAbstractBarSeries*>(sender());
+		PointLabel2 *item;
+		if(!point_label) {
+			item = new PointLabel2(chart);
+			point_label = item;
+		} else {
+			item = (PointLabel2*) point_label;
+		}
+		QList<QBarSet*> barsets = series->barSets();
+		int set_index = barsets.indexOf(set);
+		QPointF pos;
+		qreal bar_width = 0.0;
+		pos = chart->mapToPosition(QPointF(set->at(index), index), series);
+		QPointF pos_next = chart->mapToPosition(QPointF(set->at(index), index + 1), series);
+		bar_width = (pos_next.y() - pos.y()) * series->barWidth();
+		qreal pos_y = pos.y() - (bar_width / 2);
+		pos_y += (set_index + 0.5) * (bar_width / barsets.count());
+		pos.setY(pos_y);
+		Currency *currency = budget->defaultCurrency();
+		if(selectedAccount()) currency = selectedAccount()->currency();
+		item->setText(tr("%1\nValue: %2").arg(((QBarCategoryAxis*) chart->axisY())->at(index)).arg(currency->formatValue(set->at(index))));
+		item->setAnchor(pos);
+		item->setPos(pos + QPoint(10, -50));
+		item->setZValue(11);
+		if(pos.x() + item->boundingRect().width() + 10 > chart->size().width()) {
+			item->setPos(pos + QPoint(-10 - item->boundingRect().width(), -50));
+		}
+		item->show();
+	} else if(point_label) {
+		point_label->hide();
+	}
+}
+
 #endif

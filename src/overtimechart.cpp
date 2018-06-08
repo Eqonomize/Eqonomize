@@ -1035,6 +1035,7 @@ QColor getBarColor(int index, int) {
 QBrush getBarBrush(int index, int total) {
 	QBrush brush;
 	if(total > 9) total = 9;
+	else if(total <= 0) total = 1;
 	switch(index / total) {
 		case 0: {brush.setStyle(Qt::SolidPattern); break;}
 		case 1: {brush.setStyle(Qt::Dense3Pattern); break;}
@@ -2782,49 +2783,49 @@ void OverTimeChart::updateDisplay() {
 			}
 		}
 	}
-	
-	account_index = 0;
-	if(source_org == 3) {if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);}
-	else if(source_org == 4)  {if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);}
-	else if(source_org == 21)  {if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);}
-	while(account) {
-		while(exclude_subs && account && account->topAccount() != account) {
-			++account_index;
-			account = NULL;
-			if(source_org == 3 && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
-			else if(source_org != 3 && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
-		}
-		if(exclude_subs && !account) break;
 
-		cat_values[account] = 0.0;
-		for(QVector<chart_month_info>::iterator cmi_it = monthly_cats[account].begin(); cmi_it != monthly_cats[account].end(); ++cmi_it) {
-			cat_values[account] += abs(cmi_it->value);
-		}
-		bool b = false;
-		for(int i = 0; i < cat_order.count(); i++) {
-			if(cat_values[account] > cat_values[cat_order.at(i)]) {
-				cat_order.insert(i, account);
-				b = true;
-				break;
+	if(source_org == 3 || source_org == 4 || source_org == 21) {
+		account_index = 0;
+		if(source_org == 3) {if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);}
+		else if(source_org == 4)  {if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);}
+		else if(source_org == 21)  {if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);}
+		while(account) {
+			while(exclude_subs && account && account->topAccount() != account) {
+				++account_index;
+				account = NULL;
+				if(source_org == 3 && account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
+				else if(source_org != 3 && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
+			}
+			if(exclude_subs && !account) break;
+
+			cat_values[account] = 0.0;
+			for(QVector<chart_month_info>::iterator cmi_it = monthly_cats[account].begin(); cmi_it != monthly_cats[account].end(); ++cmi_it) {
+				cat_values[account] += abs(cmi_it->value);
+			}
+			bool b = false;
+			for(int i = 0; i < cat_order.count(); i++) {
+				if(cat_values[account] > cat_values[cat_order.at(i)]) {
+					cat_order.insert(i, account);
+					b = true;
+					break;
+				}
+			}
+			if(!b) cat_order.push_back(account);
+
+			++account_index;
+			if(source_org == 3) {
+				account = NULL;
+				if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
+			} else if(source_org == 4) {
+				account = NULL;
+				if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
+			}  else if(source_org == 21) {
+				if(account == current_account) break;
+				account = NULL;
+				if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);
+				if(!account) account = current_account;
 			}
 		}
-		if(!b) cat_order.push_back(account);
-
-		++account_index;
-		if(source_org == 3) {
-			account = NULL;
-			if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);
-		} else if(source_org == 4) {
-			account = NULL;
-			if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
-		}  else if(source_org == 21) {
-			if(account == current_account) break;
-			account = NULL;
-			if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);
-			if(!account) account = current_account;
-		}
-	}
-	if(source_org == 3 || source_org == 4 || source_org == 21) {
 		for(int i = 0; i < cat_order.count(); i++) {
 			if(cat_values[cat_order.at(i)] >= 0.01 || cat_values[cat_order.at(i)] <= -0.01) {
 				for(int i2 = 0; i2 < cat_order.count(); ) {
@@ -3931,11 +3932,11 @@ class PointLabel : public QGraphicsItem {
 
 	public:
 
-		PointLabel(QGraphicsItem * parent = 0) : QGraphicsItem(parent) {}
+		PointLabel(QChart *c) : QGraphicsItem(c), chart(c) {}
 
 		void setText(const QString &text) {
 			m_text = text;
-			QFontMetrics metrics(m_font);
+			QFontMetrics metrics(chart->font());
 			m_textRect = metrics.boundingRect(QRect(0, 0, 150, 150), Qt::AlignLeft, m_text);
 			m_textRect.translate(5, 5);
 			prepareGeometryChange();
@@ -3994,9 +3995,13 @@ class PointLabel : public QGraphicsItem {
 				path.lineTo(point2);
 				path = path.simplified();
 			}
-			painter->setBrush(QColor(255, 255, 255));
+			painter->setBrush(chart->backgroundBrush());
+			QPen pen = chart->axisX()->linePen();
+			pen.setWidth(1);
+			painter->setPen(pen);
 			painter->drawPath(path);
-			painter->setPen(QColor(0, 0, 0));
+			painter->setPen(QPen(chart->axisX()->labelsBrush().color()));
+			painter->setBrush(chart->axisX()->labelsBrush());
 			painter->drawText(m_textRect, m_text);
 		}
 
@@ -4006,9 +4011,10 @@ class PointLabel : public QGraphicsItem {
 		QRectF m_textRect;
 		QRectF m_rect;
 		QPointF m_anchor;
-		QFont m_font;
+		QChart *chart;
 
 };
+
 void OverTimeChart::onSeriesHovered(bool state, int index, QBarSet *set) {
 	if(state) {
 		QAbstractBarSeries *series = qobject_cast<QAbstractBarSeries*>(sender());
@@ -4041,7 +4047,7 @@ void OverTimeChart::onSeriesHovered(bool state, int index, QBarSet *set) {
 		} else if(chart_type == 4) {
 			qreal acc_value = set->at(index) * 0.75;
 			for(int i = 0; i < set_index && i < barsets.count(); i++) {
-				acc_value += barsets[i]->at(index);
+				if((barsets[set_index]->at(index) < 0.0) == (barsets[i]->at(index) < 0.0)) acc_value += barsets[i]->at(index);
 			}
 			pos = chart->mapToPosition(QPointF(index, acc_value), series);
 			QPointF pos_next = chart->mapToPosition(QPointF(index + 1, acc_value), series);

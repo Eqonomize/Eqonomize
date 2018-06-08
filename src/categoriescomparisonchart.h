@@ -30,7 +30,9 @@
 #include <QtCharts/QChart>
 #include <QtCharts/QAbstractSeries>
 #include <QtCharts/QPieSlice>
+#include <QtCharts/QBarSet>
 QT_CHARTS_USE_NAMESPACE
+class QGraphicsItem;
 #else
 class QGraphicsScene;
 class QGraphicsView;
@@ -71,6 +73,7 @@ class CategoriesComparisonChart : public QWidget {
 		QAbstractSeries *series;
 		QComboBox *themeCombo;
 		QComboBox *typeCombo;
+		QGraphicsItem *point_label;
 #else
 		QGraphicsScene *scene;
 		QGraphicsView *view;
@@ -102,6 +105,7 @@ class CategoriesComparisonChart : public QWidget {
 #ifdef QT_CHARTS_LIB
 		void themeChanged(int);
 		void typeChanged(int);
+		void onSeriesHovered(bool, int, QBarSet*);
 		void sliceHovered(QPieSlice*, bool);
 		void sliceClicked(QPieSlice*);
 		void legendClicked();

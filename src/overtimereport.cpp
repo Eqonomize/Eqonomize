@@ -373,9 +373,11 @@ void OverTimeReport::updateDisplay() {
 		case 0: {
 			if(current_assets) {
 				type = 4;
+				//: Noun, how much the account balance has changed
 				title = tr("Change: %1").arg(current_assets->name());
-				valuetitle = tr("Deposit");
-				expensetitle = tr("Withdrawal");
+				valuetitle = tr("Deposit", "Money put into account");
+				expensetitle = tr("Withdrawal", "Money taken out from account");
+				//: Noun, how much the account balance has changed
 				sumtitle = tr("Change");
 			} else {
 				type = 0;
