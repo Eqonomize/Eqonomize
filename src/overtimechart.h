@@ -79,7 +79,7 @@ class OverTimeChart : public QWidget {
 #endif		
 		QButtonGroup *valueGroup;
 		
-		QDate start_date, end_date;
+		QDate start_date, end_date, first_date, last_date;
 
 		CategoryAccount *current_account;
 		QString current_description, current_payee;

@@ -248,8 +248,12 @@ void CategoriesComparisonChart::resetOptions() {
 	} else if(from_date < first_date) {
 		from_date = first_date;
 	}
+	fromEdit->blockSignals(true);
+	toEdit->blockSignals(true);
 	fromEdit->setDate(from_date);
 	toEdit->setDate(to_date);
+	fromEdit->blockSignals(false);
+	toEdit->blockSignals(false);
 	accountCombo->setCurrentIndex(0);
 	sourceCombo->setCurrentIndex(0);
 	sourceChanged(0);
@@ -1037,8 +1041,6 @@ void CategoriesComparisonChart::updateDisplay() {
 	} else {
 		bar_series = new QHorizontalBarSeries();
 	}
-	account_index = 0;
-	account = NULL;
 
 	QBarSet *bar_set = NULL;
 	QBarCategoryAxis *b_axis = NULL;
@@ -1047,11 +1049,15 @@ void CategoriesComparisonChart::updateDisplay() {
 		if(theme < 0) bar_set->setBrush(getBarBrush(0, 1));
 		b_axis = new QBarCategoryAxis();
 	}
-	
+
+	account = NULL;
 	int index = 0;
-	int lcount = 0;
 	bool show_legend = false;
-	while((account_index < account_order.count()) || (current_account && index < desc_order.size())) {
+	if(chart_type == 2) {
+		index = account_order.size() - 1;
+		if(index < 0) index = desc_order.size() - 1;
+	}
+	while((chart_type == 2 && index >= 0) || (chart_type != 2 && (index < account_order.count() || (current_account && index < desc_order.size())))) {
 		QString legend_string;
 		double legend_value = 0.0;
 		double current_value = 0.0;
@@ -1063,7 +1069,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 			current_value = desc_values[desc_order[index]];
 		} else {
-			account = account_order.at(account_index);
+			account = account_order.at(index);
 			if(!account) {
 				if(type == ACCOUNT_TYPE_ASSETS) legend_string = tr("Other accounts");
 				else legend_string = tr("Other categories");
@@ -1081,29 +1087,30 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 
 		if(chart_type == 1) {
-			if(current_value >= 0.01) {
-				QPieSlice *slice = pie_series->append(QString("%1 (%2%)").arg(legend_string).arg(currency->formatValue(legend_value, deci, false)), current_value);
-				if(theme < 0) slice->setBrush(getPieBrush(lcount, account_order.count() > 0 ? account_order.count() : desc_order.count()));
-				if(legend_value >= 8.0) {
-					slice->setLabelVisible(true);
-				} else {
-					show_legend = true;
-				}
-				lcount++;
+			QPieSlice *slice = pie_series->append(QString("%1 (%2%)").arg(legend_string).arg(currency->formatValue(legend_value, deci, false)), current_value);
+			if(theme < 0) {
+				slice->setBrush(getPieBrush(index, account_order.size() > 0 ? account_order.size() : desc_order.size()));
+				slice->setLabelColor(Qt::black);
+				slice->setBorderColor(Qt::white);
+				slice->setBorderWidth(1);
+			}
+			slice->setLabelArmLengthFactor(0.1);
+			slice->setExplodeDistanceFactor(0.1);
+			if(legend_value >= 8.0) {
+				slice->setLabelVisible(true);
+			} else {
+				show_legend = true;
 			}
 		} else {
-			if(current_value >= 0.01 || current_value <= -0.01 || (value < 0.01 && value > -0.01)) {
-				b_axis->append(legend_string);
-				bar_set->append(current_value);
-				if(current_value > maxvalue) maxvalue = current_value;
-				if(current_value < minvalue) minvalue = current_value;
-				show_legend = true;
-				lcount++;
-			}
+			b_axis->append(legend_string);
+			bar_set->append(current_value);
+			if(current_value > maxvalue) maxvalue = current_value;
+			if(current_value < minvalue) minvalue = current_value;
+			show_legend = true;
 		}
 		
-		account_index++;
-		index++;
+		if(chart_type == 2) index--;
+		else index++;
 	}
 	
 	chart->removeAllSeries();
@@ -1112,29 +1119,54 @@ void CategoriesComparisonChart::updateDisplay() {
 		chart->removeAxis(axis);
 	}
 	
+	if(theme < 0) {
+		chart->setBackgroundBrush(Qt::white);
+		chart->setTitleBrush(Qt::black);
+		chart->setPlotAreaBackgroundVisible(false);
+		chart->legend()->setBackgroundVisible(false);
+		chart->legend()->setColor(Qt::white);
+		chart->legend()->setLabelColor(Qt::black);
+	}
+	
 	if(chart_type == 1) {
 		series = pie_series;
+		pie_series->setPieSize(0.78);
+		pie_series->setVerticalPosition(0.52);
 		connect(pie_series, SIGNAL(hovered(QPieSlice*, bool)), this, SLOT(sliceHovered(QPieSlice*, bool)));
 		connect(pie_series, SIGNAL(clicked(QPieSlice*)), this, SLOT(sliceClicked(QPieSlice*)));
 		chart->addSeries(series);
 	} else {
 		series = bar_series;
 		bar_series->append(bar_set);
-		bar_series->setBarWidth(1.0);
+		bar_series->setBarWidth(2.0 / 3.0);
 		chart->addSeries(series);
 
 		int y_lines = 5, y_minor = 0;
 		calculate_minmax_lines(maxvalue, minvalue, y_lines, y_minor);
 		QValueAxis *v_axis = new QValueAxis();
+		//v_axis->setAlignment(Qt::AlignTop | Qt::AlignBottom);
 		v_axis->setRange(minvalue, maxvalue);
 		v_axis->setTickCount(y_lines + 1);
-		v_axis->setMinorTickCount(y_minor);
+		v_axis->setMinorTickCount(chart_type == 2 ? 0 : y_minor);
 		if(type == 3 || (maxvalue - minvalue) >= 50.0) v_axis->setLabelFormat(QString("%.0f"));
 		else v_axis->setLabelFormat(QString("%.%1f").arg(QString::number(currency->fractionalDigits())));
 		
 		if(type == ACCOUNT_TYPE_ASSETS) v_axis->setTitleText(tr("Value") + QString(" (%1)").arg(currency->symbol(true)));
 		else if(type == ACCOUNT_TYPE_INCOMES) v_axis->setTitleText(tr("Income") + QString(" (%1)").arg(currency->symbol(true)));
 		else v_axis->setTitleText(tr("Cost") + QString(" (%1)").arg(currency->symbol(true)));
+		
+		if(theme < 0) {
+			v_axis->setLinePen(QPen(Qt::black, 1));
+			v_axis->setLabelsColor(Qt::black);
+			b_axis->setLinePen(QPen(Qt::black, 1));
+			b_axis->setLabelsColor(Qt::black);
+			v_axis->setTitleBrush(Qt::black);
+			b_axis->setTitleBrush(Qt::black);
+			b_axis->setGridLineVisible(false);
+			v_axis->setGridLinePen(QPen(Qt::black, 1, Qt::DotLine));
+			v_axis->setShadesVisible(false);
+			b_axis->setShadesVisible(false);
+		}
 
 		if(chart_type == 3) {
 			chart->setAxisX(b_axis, series);
@@ -1151,6 +1183,7 @@ void CategoriesComparisonChart::updateDisplay() {
 	
 	chart->setTitle(QString("<div align=\"center\"><font size=\"+2\"><b>%1</b></font></div>").arg(title_string));
 	if(show_legend) {
+		chart->legend()->setShowToolTips(true);
 		chart->legend()->setAlignment(Qt::AlignRight);
 		chart->legend()->show();
 		foreach(QLegendMarker* marker, chart->legend()->markers()) {
@@ -1180,12 +1213,11 @@ void CategoriesComparisonChart::updateDisplay() {
 	int chart_y = margin * 2 + title_text->boundingRect().height();
 	int legend_y = chart_y;
 	
-	account_index = 0;
 	account = NULL;
 
-	int index = 0, lcount = 0;
+	int index = 0;
 	int text_width = 0;
-	while((account_index < account_order.count()) || (current_account && index < desc_order.size())) {
+	while((index < account_order.count()) || (current_account && index < desc_order.size())) {
 		QString legend_string;
 		double legend_value = 0.0;
 		if(account_order.isEmpty()) {
@@ -1196,7 +1228,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 			legend_value = desc_values[desc_order[index]];
 		} else {
-			account = account_order.at(account_index);
+			account = account_order.at(index);
 			if(!account) {
 				if(type == ACCOUNT_TYPE_ASSETS) legend_string = tr("Other accounts");
 				else legend_string = tr("Other categories");
@@ -1204,62 +1236,54 @@ void CategoriesComparisonChart::updateDisplay() {
 			else legend_string = account->nameWithParent();
 			legend_value = values[account];
 		}
-		if(legend_value > 0.01) {
-			legend_value = (legend_value * 100) / value;
-			int deci = 0;
-			if(legend_value < 10.0 && legend_value > -10.0) {
-				legend_value = round(legend_value * 10.0) / 10.0;
-				deci = 1;
-			} else {
-				legend_value = round(legend_value);
-			}
-			QGraphicsSimpleTextItem *legend_text = new QGraphicsSimpleTextItem(QString("%1 (%2%)").arg(legend_string).arg(currency->formatValue(legend_value, deci, false)));
-			if(legend_text->boundingRect().width() > text_width) text_width = legend_text->boundingRect().width();
-			legend_text->setFont(legend_font);
-			legend_text->setBrush(Qt::black);
-			legend_text->setPos(legend_x + 10 + fh + 5, legend_y + 10 + (fh + 5) * lcount);
-			scene->addItem(legend_text);
-			lcount++;
+		legend_value = (legend_value * 100) / value;
+		int deci = 0;
+		if(legend_value < 10.0 && legend_value > -10.0) {
+			legend_value = round(legend_value * 10.0) / 10.0;
+			deci = 1;
+		} else {
+			legend_value = round(legend_value);
 		}
-		
-		account_index++;
+		QGraphicsSimpleTextItem *legend_text = new QGraphicsSimpleTextItem(QString("%1 (%2%)").arg(legend_string).arg(currency->formatValue(legend_value, deci, false)));
+		if(legend_text->boundingRect().width() > text_width) text_width = legend_text->boundingRect().width();
+		legend_text->setFont(legend_font);
+		legend_text->setBrush(Qt::black);
+		legend_text->setPos(legend_x + 10 + fh + 5, legend_y + 10 + (fh + 5) * index);
+		scene->addItem(legend_text);
 		index++;
 	}
 
 
-	account_index = 0;
 	account = NULL;
-	index = 0;
-	lcount = 0;
 	double current_value = 0.0, current_value_1 = 0.0;
-	int prev_end = 0;
-	while((account_index < account_order.count()) || (current_account && index < desc_order.size())) {
+	int prev_end = 90 * 16;
+	index = account_order.size() - 1;
+	if(index < 0) index = desc_order.size() - 1;
+	while(index >= 0) {
 		if(account_order.isEmpty()) current_value_1 = desc_values[desc_order[index]];
-		else current_value_1 = values[account_order[account_index]];
-		if(!is_zero(current_value_1) && current_value_1 > 0.0) {
-			current_value += current_value_1;
-			int next_end = (int) lround((current_value * 360 * 16) / value);
-			int length = (next_end - prev_end);
-			QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(-diameter/ 2.0, -diameter/ 2.0, diameter, diameter);
-			ellipse->setStartAngle(prev_end);
-			ellipse->setSpanAngle(length);
-			prev_end = next_end;
-			ellipse->setPen(Qt::NoPen);
-			ellipse->setBrush(getPieBrush(index, account_order.size() > 0 ? account_order.size() : desc_order.size()));
-			ellipse->setPos(diameter / 2 + margin, diameter / 2 + chart_y);
-			scene->addItem(ellipse);
-			QGraphicsRectItem *legend_box = new QGraphicsRectItem(legend_x + 10, chart_y + 10 + (fh + 5) * lcount, fh, fh);
-			legend_box->setPen(QPen(Qt::black));
-			legend_box->setBrush(getPieBrush(index, account_order.size() > 0 ? account_order.size() : desc_order.size()));
-			scene->addItem(legend_box);
-			lcount++;
-		}
-		account_index++;
-		index++;
+		else current_value_1 = values[account_order[index]];
+		current_value += current_value_1;
+		int next_end = (int) lround((current_value * 360 * 16) / value) + 90 * 16;
+		if(next_end > 360 * 16 && next_end - 360 * 16 > prev_end) next_end -= 360 * 16;
+		int length = (next_end - prev_end);
+		QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(-diameter/ 2.0, -diameter/ 2.0, diameter, diameter);
+		ellipse->setStartAngle(prev_end);
+		ellipse->setSpanAngle(length);
+		prev_end = next_end;
+		if(prev_end > 360 * 16) prev_end -= 360 * 16;
+		ellipse->setPen(QPen(Qt::white, 1));
+		ellipse->setBrush(getPieBrush(index, account_order.size() > 0 ? account_order.size() : desc_order.size()));
+		ellipse->setPos(diameter / 2 + margin, diameter / 2 + chart_y);
+		scene->addItem(ellipse);
+		QGraphicsRectItem *legend_box = new QGraphicsRectItem(legend_x + 10, chart_y + 10 + (fh + 5) * index, fh, fh);
+		legend_box->setPen(QPen(Qt::black));
+		legend_box->setBrush(getPieBrush(index, account_order.size() > 0 ? account_order.size() : desc_order.size()));
+		scene->addItem(legend_box);
+		index--;
 	}
 
-	if(lcount > 0) {
-		QGraphicsRectItem *legend_outline = new QGraphicsRectItem(legend_x, legend_y, 10 + fh + 5 + text_width + 10, 10 + ((fh + 5) * lcount) + 5);
+	if(index > 0) {
+		QGraphicsRectItem *legend_outline = new QGraphicsRectItem(legend_x, legend_y, 10 + fh + 5 + text_width + 10, 10 + ((fh + 5) * index) + 5);
 		legend_outline->setPen(QPen(Qt::black));
 		scene->addItem(legend_outline);
 	}
