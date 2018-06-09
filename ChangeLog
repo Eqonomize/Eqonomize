@@ -1,7 +1,13 @@
+2018-06-09  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Use mycurrency.net html instead of the json data, which has not been for a month
+
 2018-06-08  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Never show more than nine slices in pie chart and combine very small category posts
-	* Many minor chart fixes/improvements
+	* Set spacing between bars to half the bar width (unless many bars in groups)
+	* Reverse order of horizontal bar chart
+	* Many minor chart fixes/improvements (especially without Qt Charts)
 
 2018-06-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
