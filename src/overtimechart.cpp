@@ -1076,8 +1076,8 @@ QPen getLinePen(int index) {
 	switch(index / 8) {
 		case 0: {pen.setStyle(Qt::SolidLine); break;}
 		case 1: {pen.setStyle(Qt::DotLine); break;}
-		case 3: {pen.setStyle(Qt::DashLine); break;}
-		case 4: {pen.setStyle(Qt::DashDotLine); break;}
+		case 2: {pen.setStyle(Qt::DashLine); break;}
+		case 3: {pen.setStyle(Qt::DashDotLine); break;}
 		default: {}
 	}
 	pen.setColor(getLineColor(index % 8));
@@ -3077,11 +3077,7 @@ void OverTimeChart::updateDisplay() {
 	if(chart_type == 1) {
 		QCategoryAxis *c_axisX = new QCategoryAxis();
 		axisX = c_axisX;
-	
 		bool single_month = (first_date == last_date);
-		if(single_month) c_axisX->setRange(QDateTime(first_date).toMSecsSinceEpoch() - 1296000000, QDateTime(last_date).toMSecsSinceEpoch() + 1296000000);
-		else c_axisX->setRange(QDateTime(first_date).toMSecsSinceEpoch(), QDateTime(last_date).toMSecsSinceEpoch());
-	
 		QDate axis_date = first_date, displayed_date = first_date;
 		if(type == 4 || months > 72) {
 			int yearjump = years / 12 + 1;
@@ -3089,6 +3085,8 @@ void OverTimeChart::updateDisplay() {
 				axis_date = budget->firstBudgetDayOfYear(axis_date);
 				budget->addBudgetMonthsSetFirst(axis_date, 12);
 			}
+			last_date = last_date.addMonths(yearjump);
+			if(budget->budgetMonth(last_date) <= yearjump + 1 && years % yearjump == 0) last_date = last_date.addMonths(yearjump + 2 - budget->budgetMonth(last_date));
 			c_axisX->setStartValue(QDateTime(axis_date).toMSecsSinceEpoch());
 			c_axisX->setLabelsPosition(QCategoryAxis::AxisLabelsPositionOnValue);
 			while(axis_date <= last_date) {
@@ -3106,6 +3104,7 @@ void OverTimeChart::updateDisplay() {
 			else if(months >= 36) monthjump = 4;
 			else if(months >= 24) monthjump = 3;
 			else if(months >= 12) monthjump = 2;
+			last_date = last_date.addDays(monthjump * 3);
 			if(monthjump > 1) {
 				int mod_m = (budget->budgetMonth(axis_date) % monthjump);
 				if(mod_m == 0) budget->addBudgetMonthsSetFirst(axis_date, 1);
@@ -3132,6 +3131,8 @@ void OverTimeChart::updateDisplay() {
 				axis_date = next_axis_date;
 			}
 		}
+		if(single_month) c_axisX->setRange(QDateTime(first_date.addDays(-15)).toMSecsSinceEpoch(), QDateTime(last_date.addDays(12)).toMSecsSinceEpoch());
+		else c_axisX->setRange(QDateTime(first_date).toMSecsSinceEpoch(), QDateTime(last_date).toMSecsSinceEpoch());
 	} else {
 		QBarCategoryAxis *bc_axisX = new QBarCategoryAxis();
 		axisX = bc_axisX;
@@ -3295,6 +3296,7 @@ void OverTimeChart::updateDisplay() {
 				if(theme < 0) {
 					QPen pen = getLinePen(index);
 					series->setPen(pen);
+					series->setBrush(pen.brush());
 					if(index >= 8) {
 						QList<QLegendMarker*> markers = chart->legend()->markers(series);
 						if(markers.count() > 0) {
@@ -3323,9 +3325,8 @@ void OverTimeChart::updateDisplay() {
 					bar_set->setBrush(getBarBrush(index, n));
 				}
 				if(chart_type == 3) {
-					QVector<chart_month_info>::reverse_iterator it_e = monthly_values->rend();
-					for(QVector<chart_month_info>::reverse_iterator it = monthly_values->rbegin(); it != it_e; ++it) {
-						bar_set->append(it->value);
+					for(int i = monthly_values->size() - 1; i >= 0; i--) {
+						bar_set->append(monthly_values->at(i).value);
 					}
 				} else {
 					QVector<chart_month_info>::iterator it_e = monthly_values->end();
@@ -3350,9 +3351,9 @@ void OverTimeChart::updateDisplay() {
 	
 
 	if(theme < 0) {
-		axisX->setLinePen(QPen(Qt::black, 1));
+		axisX->setLinePen(QPen(Qt::darkGray, 1));
 		axisX->setLabelsColor(Qt::black);
-		axisY->setLinePen(QPen(Qt::black, 1));
+		axisY->setLinePen(QPen(Qt::darkGray, 1));
 		axisY->setLabelsColor(Qt::black);
 		chart->setBackgroundBrush(Qt::white);
 		chart->setTitleBrush(Qt::black);
@@ -3360,13 +3361,16 @@ void OverTimeChart::updateDisplay() {
 		axisX->setTitleBrush(Qt::black);
 		axisY->setTitleBrush(Qt::black);
 		axisX->setGridLineVisible(false);
-		axisY->setGridLinePen(QPen(Qt::black, 1, Qt::DotLine));
+		axisY->setGridLinePen(QPen(Qt::darkGray, 1, Qt::DotLine));
 		axisY->setMinorGridLineVisible(false);
+		axisX->setMinorGridLineVisible(false);
 		axisX->setShadesVisible(false);
 		axisY->setShadesVisible(false);
 		chart->legend()->setBackgroundVisible(false);
 		chart->legend()->setColor(Qt::white);
 		chart->legend()->setLabelColor(Qt::black);
+	} else if(chart_type == 1) {
+		axisX->setGridLineVisible(false);
 	}
 
 	if(chart_type != 1) {
@@ -3384,7 +3388,9 @@ void OverTimeChart::updateDisplay() {
 	if(note_string.isEmpty()) chart->setTitle(QString("<div align=\"center\"><font size=\"+2\"><b>%1</b></font></div>").arg(title_string));
 	else chart->setTitle(QString("<div align=\"center\"><font size=\"+2\"><b>%1</b></font><br><small>(%2)</small></div>").arg(title_string).arg(note_string));
 	if(show_legend) {
+#if (QT_CHARTS_VERSION >= QT_CHARTS_VERSION_CHECK(5, 7, 0))
 		chart->legend()->setShowToolTips(true);
+#endif
 		chart->legend()->setAlignment(Qt::AlignBottom);
 		chart->legend()->show();
 	} else {
@@ -3408,195 +3414,16 @@ void OverTimeChart::updateDisplay() {
 	title_text->setPos(view->width() / 2 - title_text->boundingRect().width() / 2, margin);
 	scene->addItem(title_text);
 	
-	int chart_y = margin * 2 + 15 + title_text->boundingRect().height();
-	int chart_height = view->height() - chart_y - margin;
-	int axis_width = 11;
-	int linelength = (int) ceil((view->width() - margin * 2 - axis_width - 50 - fh * 8) / n);
-	int chart_width = linelength * n;
-
-	int max_axis_value_width = 0;
-	for(int i = 0; i <= y_lines; i++) {
-		int w;
-		if(type == 2 || maxvalue - minvalue >= 50.0) w = fm.width(QLocale().toString((int) round(maxvalue - (((maxvalue - minvalue) * i) / y_lines))));
-		else w = fm.width(QLocale().toString((maxvalue - (((maxvalue - minvalue) * i) / y_lines))));
-		if(w > max_axis_value_width) max_axis_value_width = w;
-	}
-	axis_width += max_axis_value_width;
-
-	QGraphicsSimpleTextItem *axis_text = new QGraphicsSimpleTextItem();
-
-	QString axis_string2;
-	if(includes_budget && includes_scheduled) axis_string2 += QString(" *") + tr("Includes scheduled and budgeted transactions");
-	else if(includes_budget) axis_string2 += QString(" *") + tr("Includes budgeted transactions");
-	else if(includes_scheduled) axis_string2 += QString(" *") + tr("Includes scheduled transactions");
+	QVector<QGraphicsItem*> legend_texts;
 	
-	axis_text->setText(axis_string);
-	axis_text->setFont(legend_font);
-	axis_text->setBrush(Qt::black);
-	if(axis_text->boundingRect().width() / 2 > max_axis_value_width) max_axis_value_width = axis_text->boundingRect().width() / 2;
-	axis_text->setPos(margin + axis_width - axis_text->boundingRect().width() / 2, chart_y - 15 - fh);
-	scene->addItem(axis_text);
-	
-	if(!axis_string2.isEmpty()) {
-		QGraphicsSimpleTextItem *axis_text2 = new QGraphicsSimpleTextItem(axis_string2);
-		axis_text->setFont(legend_font);
-		axis_text2->setBrush(Qt::black);
-		axis_text2->setScale(0.8);
-		axis_text2->setPos(margin + axis_width + axis_text->boundingRect().width() / 2, chart_y - 15 - fh);
-		scene->addItem(axis_text2);
-	}
-
-	QPen axis_pen;
-	axis_pen.setColor(Qt::black);
-	axis_pen.setWidth(1);
-	axis_pen.setStyle(Qt::SolidLine);
-	QGraphicsLineItem *y_axis = new QGraphicsLineItem();
-	y_axis->setLine(margin + axis_width, chart_y - 12, margin + axis_width, chart_height + chart_y);
-	y_axis->setPen(axis_pen);
-	scene->addItem(y_axis);
-
-	QGraphicsLineItem *y_axis_dir1 = new QGraphicsLineItem();
-	y_axis_dir1->setLine(margin + axis_width, chart_y - 12, margin + axis_width - 3, chart_y - 6);
-	y_axis_dir1->setPen(axis_pen);
-	scene->addItem(y_axis_dir1);
-
-	QGraphicsLineItem *y_axis_dir2 = new QGraphicsLineItem();
-	y_axis_dir2->setLine(margin + axis_width, chart_y - 12, margin + axis_width + 3, chart_y - 6);
-	y_axis_dir2->setPen(axis_pen);
-	scene->addItem(y_axis_dir2);
-
-	QGraphicsLineItem *x_axis = new QGraphicsLineItem();
-	x_axis->setLine(margin + axis_width, chart_height + chart_y, margin + chart_width + axis_width + 12, chart_height + chart_y);
-	x_axis->setPen(axis_pen);
-	scene->addItem(x_axis);
-
-	QGraphicsLineItem *x_axis_dir1 = new QGraphicsLineItem();
-	x_axis_dir1->setLine(margin + chart_width + axis_width + 6, chart_height + chart_y - 3, margin + chart_width + axis_width + 12, chart_height + chart_y);
-	x_axis_dir1->setPen(axis_pen);
-	scene->addItem(x_axis_dir1);
-
-	QGraphicsLineItem *x_axis_dir2 = new QGraphicsLineItem();
-	x_axis_dir2->setLine(margin + chart_width + axis_width + 6, chart_height + chart_y + 3, margin + chart_width + axis_width + 12, chart_height + chart_y);
-	x_axis_dir2->setPen(axis_pen);
-	scene->addItem(x_axis_dir2);
-
-	axis_text = new QGraphicsSimpleTextItem(tr("Time"));
-	axis_text->setFont(legend_font);
-	axis_text->setBrush(Qt::black);
-	axis_text->setPos(margin + chart_width + axis_width + 15, chart_y + chart_height - fh / 2);
-	scene->addItem(axis_text);
-
-	int x_axis_extra_width = 15 + axis_text->boundingRect().width();
-
-	QPen div_pen;
-	div_pen.setColor(Qt::black);
-	div_pen.setWidth(1);
-	div_pen.setStyle(Qt::DotLine);
-	double div_height = (double) chart_height / (double) y_lines;
-	for(int i = 0; i < y_lines; i++) {
-		QGraphicsLineItem *y_div = new QGraphicsLineItem();
-		y_div->setLine(margin + axis_width, chart_y + i * div_height, margin + chart_width + axis_width, chart_y + i * div_height);
-		y_div->setPen(div_pen);
-		scene->addItem(y_div);
-		QGraphicsLineItem *y_mark = new QGraphicsLineItem();
-		y_mark->setLine(margin + axis_width - 10, chart_y + i * div_height, margin + axis_width, chart_y + i * div_height);
-		y_mark->setPen(axis_pen);
-		scene->addItem(y_mark);
-		axis_text = new QGraphicsSimpleTextItem();
-		if(type == 2 || (maxvalue - minvalue) >= 50.0) axis_text->setText(QLocale().toString((int) round(maxvalue - (((maxvalue - minvalue) * i) / y_lines))));
-		else axis_text->setText(QLocale().toString((maxvalue - (((maxvalue - minvalue) * i) / y_lines))));
-		axis_text->setFont(legend_font);
-		axis_text->setBrush(Qt::black);
-		axis_text->setPos(margin + axis_width - axis_text->boundingRect().width() - 11, chart_y + i * div_height - fh / 2);
-		scene->addItem(axis_text);
-	}
-
-	axis_text = new QGraphicsSimpleTextItem();
-	if(minvalue != 0.0) {
-		if(type == 2 || (maxvalue - minvalue) >= 50.0) axis_text->setText(QLocale().toString((int) round(minvalue)));
-		else axis_text->setText(QLocale().toString(minvalue));
-	} else {
-		axis_text->setText(QLocale().toString(0));
-	}
-	axis_text->setFont(legend_font);
-	axis_text->setBrush(Qt::black);
-	axis_text->setPos(margin + axis_width - axis_text->boundingRect().width() - 11, chart_y + chart_height - fh / 2);
-	scene->addItem(axis_text);
-
-	int index = 0;
-	int year = first_date.year() - 1;
-	bool b_month_names = months <= 12 && type != 4, b_long_month_names = true;
-	if(b_month_names) {
-		monthdate = first_date;
-		while(monthdate <= curmonth) {
-			if(b_long_month_names) {
-				if(fm.width(QDate::longMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat)) > linelength - 8) {
-					b_long_month_names = false;
-				}
-			}
-			if(!b_long_month_names) {
-				if(fm.width(QDate::shortMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat)) > linelength) {
-					b_month_names = false;
-					break;
-				}
-			}
-			budget->addBudgetMonthsSetFirst(monthdate, 1);
-		}
-	}
-	monthdate = first_date;
-	QDate next_date = monthdate;
-	while(monthdate <= curmonth) {
-		if(years < 5 || year != budget->budgetYear(monthdate)) {
-			QGraphicsLineItem *x_mark = new QGraphicsLineItem();
-			x_mark->setLine(margin + axis_width + index * linelength, chart_height + chart_y, margin + axis_width + index * linelength, chart_height + chart_y + 10);
-			x_mark->setPen(axis_pen);
-			scene->addItem(x_mark);
-		}
-		if(next_date == monthdate) {
-			budget->addBudgetMonthsSetFirst(next_date, type == 4 ? 12 : 1);
-			if(type != 4 && !b_month_names) {
-				while(budget->budgetYear(monthdate) == budget->budgetYear(next_date)) budget->addBudgetMonthsSetFirst(next_date, 1);
-			}
-		}
-		if(b_month_names) {
-			QGraphicsSimpleTextItem *axis_text = new QGraphicsSimpleTextItem();
-			if((includes_budget || includes_scheduled) && next_date > imonth) axis_text->setText((b_long_month_names ? QDate::longMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat) : QDate::shortMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat)) + "*");
-			else axis_text->setText(b_long_month_names ? QDate::longMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat) : QDate::shortMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat));
-			axis_text->setFont(legend_font);
-			axis_text->setBrush(Qt::black);
-			axis_text->setPos(margin + axis_width + index * linelength + (linelength - axis_text->boundingRect().width()) / 2, chart_height + chart_y + 11);
-			scene->addItem(axis_text);
-		} else if(year != budget->budgetYear(monthdate) || type == 4) {
-			year = budget->budgetYear(monthdate);
-			QGraphicsSimpleTextItem *axis_text = new QGraphicsSimpleTextItem();
-			if((includes_budget || includes_scheduled) && next_date > imonth) axis_text->setText(QString::number(budget->budgetYear(monthdate)) + "*");
-			else axis_text->setText(QString::number(budget->budgetYear(monthdate)));
-			axis_text->setFont(legend_font);
-			axis_text->setBrush(Qt::black);
-			axis_text->setPos(margin + axis_width + index * linelength, chart_height + chart_y + 11);
-			scene->addItem(axis_text);
-		}
-		budget->addBudgetMonthsSetFirst(monthdate, type == 4 ? 12 : 1);
-		index++;
-	}
-	QGraphicsLineItem *x_mark = new QGraphicsLineItem();
-	x_mark->setLine(margin + axis_width + index * linelength, chart_height + chart_y, margin + axis_width + index * linelength, chart_height + chart_y + 10);
-	x_mark->setPen(axis_pen);
-	scene->addItem(x_mark);
-
-	int line_y = chart_height + chart_y;
-	int line_x = margin + axis_width;
 	int text_width = 0;
-	int legend_x = chart_width + axis_width + margin + x_axis_extra_width + 10;
-	int legend_y = chart_y;
-	index = 0;
+	int index = 0;
 	int lcount = 0;
 	account = NULL;
 	desc_i = 0;
 	desc_nr = desc_order.size();
 	int cat_i = 0;
 	int cat_nr = cat_order.size();
-	
 	if(source_org == 2) {monthly_values = &monthly_expenses;}
 	else if(source_org == 1 || source_org == 0) {monthly_values = &monthly_incomes;}
 	while((source_org < 3 && source_org != -2) || ((source_org == 7 || source_org == 11) && desc_i < desc_nr) || (source_org == -2 && cat_i < cat_nr)) {
@@ -3605,35 +3432,6 @@ void OverTimeChart::updateDisplay() {
 		else if(source_org == -2) {monthly_values = &monthly_cats[cat_order[cat_i]];}
 
 		if(current_source2 != -2 || !current_assets || (index == 0 && b_assets) || (index == 1 && b_liabilities) || (!b_liabilities && !b_assets)) {
-			int prev_y = 0;
-			int index2 = 0;
-			QVector<chart_month_info>::iterator it_e = monthly_values->end();
-			for(QVector<chart_month_info>::iterator it = monthly_values->begin(); it != it_e; ++it) {
-				if(index2 == 0) {
-					prev_y = (int) floor((chart_height * (it->value - minvalue)) / (maxvalue - minvalue)) + 1;
-					if(n == 1) {
-						QGraphicsEllipseItem *dot = new QGraphicsEllipseItem(-2.5, -2.5, 5, 5);
-						dot->setPos(line_x + linelength / 2, line_y - prev_y);
-						QBrush brush(getLineColor(lcount));
-						dot->setBrush(brush);
-						dot->setZValue(10);
-						scene->addItem(dot);
-					}
-				} else {
-					int next_y = (int) floor((chart_height * (it->value - minvalue)) / (maxvalue - minvalue)) + 1;
-					QGraphicsLineItem *line = new QGraphicsLineItem();
-					line->setPen(getLinePen(lcount));
-					line->setLine(line_x + ((index2 - 1) * linelength) + linelength / 2, line_y - prev_y, line_x + (index2 * linelength) + linelength / 2, line_y - next_y);
-					line->setZValue(10);
-					prev_y = next_y;
-					scene->addItem(line);
-				}
-				index2++;
-			}
-			QGraphicsLineItem *legend_line = new QGraphicsLineItem();
-			legend_line->setLine(legend_x + 10, legend_y + 10 + (fh + 5) * lcount + fh / 2, legend_x + 10 + fh, legend_y + 10 + (fh + 5) * lcount + fh / 2);
-			legend_line->setPen(getLinePen(lcount));
-			scene->addItem(legend_line);
 			QGraphicsSimpleTextItem *legend_text = new QGraphicsSimpleTextItem();
 			switch(current_source) {
 				case -2: {
@@ -3723,11 +3521,10 @@ void OverTimeChart::updateDisplay() {
 				if(!cat_order[cat_i]) legend_text->setText(tr("Other accounts"));
 				else legend_text->setText(cat_order[cat_i]->name());
 			}
-			if(legend_text->boundingRect().width() > text_width) text_width = legend_text->boundingRect().width();
 			legend_text->setFont(legend_font);
 			legend_text->setBrush(Qt::black);
-			legend_text->setPos(legend_x + 10 + fh + 5, legend_y + 10 + (fh + 5) * lcount);
-			scene->addItem(legend_text);
+			if(legend_text->boundingRect().width() > text_width) text_width = legend_text->boundingRect().width();
+			legend_texts << legend_text;
 			lcount++;
 		}
 		index++;
@@ -3742,9 +3539,248 @@ void OverTimeChart::updateDisplay() {
 		}
 	}
 
-	QGraphicsRectItem *legend_outline = new QGraphicsRectItem(legend_x, legend_y, 10 + fh + 5 + text_width + 10, 10 + ((fh + 5) * lcount) + 5);
-	legend_outline->setPen(QPen(Qt::black));
-	scene->addItem(legend_outline);
+	int chart_y = margin * 2 + 15 + title_text->boundingRect().height();
+	int chart_height = view->height() - chart_y - margin;
+	int axis_width = 11;
+	int linelength = (int) ceil((view->width() - margin * 3 - axis_width - 50 - fh - text_width) / n);
+	int chart_width = linelength * n;
+
+	int max_axis_value_width = 0;
+	for(int i = 0; i <= y_lines; i++) {
+		int w;
+		if(type == 2 || maxvalue - minvalue >= 50.0) w = fm.width(QLocale().toString((int) round(maxvalue - (((maxvalue - minvalue) * i) / y_lines))));
+		else w = fm.width(QLocale().toString((maxvalue - (((maxvalue - minvalue) * i) / y_lines))));
+		if(w > max_axis_value_width) max_axis_value_width = w;
+	}
+	axis_width += max_axis_value_width;
+
+	QGraphicsSimpleTextItem *axis_text = new QGraphicsSimpleTextItem();
+
+	QString axis_string2;
+	if(includes_budget && includes_scheduled) axis_string2 += QString(" *") + tr("Includes scheduled and budgeted transactions");
+	else if(includes_budget) axis_string2 += QString(" *") + tr("Includes budgeted transactions");
+	else if(includes_scheduled) axis_string2 += QString(" *") + tr("Includes scheduled transactions");
+	
+	axis_text->setText(axis_string);
+	axis_text->setFont(legend_font);
+	axis_text->setBrush(Qt::black);
+	if(axis_text->boundingRect().width() / 2 > max_axis_value_width) max_axis_value_width = axis_text->boundingRect().width() / 2;
+	axis_text->setPos(margin + axis_width - axis_text->boundingRect().width() / 2, chart_y - 15 - fh);
+	scene->addItem(axis_text);
+	
+	if(!axis_string2.isEmpty()) {
+		QGraphicsSimpleTextItem *axis_text2 = new QGraphicsSimpleTextItem(axis_string2);
+		axis_text->setFont(legend_font);
+		axis_text2->setBrush(Qt::black);
+		axis_text2->setScale(0.8);
+		axis_text2->setPos(margin + axis_width + axis_text->boundingRect().width() / 2, chart_y - 15 - fh);
+		scene->addItem(axis_text2);
+	}
+
+	QPen axis_pen;
+	axis_pen.setColor(Qt::black);
+	axis_pen.setWidth(1);
+	axis_pen.setStyle(Qt::SolidLine);
+	QGraphicsLineItem *y_axis = new QGraphicsLineItem();
+	y_axis->setLine(margin + axis_width, chart_y - 12, margin + axis_width, chart_height + chart_y);
+	y_axis->setPen(axis_pen);
+	scene->addItem(y_axis);
+
+	QGraphicsLineItem *y_axis_dir1 = new QGraphicsLineItem();
+	y_axis_dir1->setLine(margin + axis_width, chart_y - 12, margin + axis_width - 3, chart_y - 6);
+	y_axis_dir1->setPen(axis_pen);
+	scene->addItem(y_axis_dir1);
+
+	QGraphicsLineItem *y_axis_dir2 = new QGraphicsLineItem();
+	y_axis_dir2->setLine(margin + axis_width, chart_y - 12, margin + axis_width + 3, chart_y - 6);
+	y_axis_dir2->setPen(axis_pen);
+	scene->addItem(y_axis_dir2);
+
+	QGraphicsLineItem *x_axis = new QGraphicsLineItem();
+	x_axis->setLine(margin + axis_width, chart_height + chart_y, margin + chart_width + axis_width + 12, chart_height + chart_y);
+	x_axis->setPen(axis_pen);
+	scene->addItem(x_axis);
+
+	QGraphicsLineItem *x_axis_dir1 = new QGraphicsLineItem();
+	x_axis_dir1->setLine(margin + chart_width + axis_width + 6, chart_height + chart_y - 3, margin + chart_width + axis_width + 12, chart_height + chart_y);
+	x_axis_dir1->setPen(axis_pen);
+	scene->addItem(x_axis_dir1);
+
+	QGraphicsLineItem *x_axis_dir2 = new QGraphicsLineItem();
+	x_axis_dir2->setLine(margin + chart_width + axis_width + 6, chart_height + chart_y + 3, margin + chart_width + axis_width + 12, chart_height + chart_y);
+	x_axis_dir2->setPen(axis_pen);
+	scene->addItem(x_axis_dir2);
+
+	axis_text = new QGraphicsSimpleTextItem(tr("Time"));
+	axis_text->setFont(legend_font);
+	axis_text->setBrush(Qt::black);
+	axis_text->setPos(margin + chart_width + axis_width + 15, chart_y + chart_height - fh / 2);
+	scene->addItem(axis_text);
+
+	int x_axis_extra_width = 15 + axis_text->boundingRect().width();
+
+	QPen div_pen;
+	div_pen.setColor(Qt::darkGray);
+	div_pen.setWidth(1);
+	div_pen.setStyle(Qt::DotLine);
+	double div_height = (double) chart_height / (double) y_lines;
+	for(int i = 0; i < y_lines; i++) {
+		QGraphicsLineItem *y_div = new QGraphicsLineItem();
+		y_div->setLine(margin + axis_width, chart_y + i * div_height, margin + chart_width + axis_width, chart_y + i * div_height);
+		y_div->setPen(div_pen);
+		scene->addItem(y_div);
+		QGraphicsLineItem *y_mark = new QGraphicsLineItem();
+		y_mark->setLine(margin + axis_width - 10, chart_y + i * div_height, margin + axis_width, chart_y + i * div_height);
+		y_mark->setPen(axis_pen);
+		scene->addItem(y_mark);
+		axis_text = new QGraphicsSimpleTextItem();
+		if(type == 2 || (maxvalue - minvalue) >= 50.0) axis_text->setText(QLocale().toString((int) round(maxvalue - (((maxvalue - minvalue) * i) / y_lines))));
+		else axis_text->setText(QLocale().toString((maxvalue - (((maxvalue - minvalue) * i) / y_lines))));
+		axis_text->setFont(legend_font);
+		axis_text->setBrush(Qt::black);
+		axis_text->setPos(margin + axis_width - axis_text->boundingRect().width() - 11, chart_y + i * div_height - fh / 2);
+		scene->addItem(axis_text);
+	}
+
+	axis_text = new QGraphicsSimpleTextItem();
+	if(minvalue != 0.0) {
+		if(type == 2 || (maxvalue - minvalue) >= 50.0) axis_text->setText(QLocale().toString((int) round(minvalue)));
+		else axis_text->setText(QLocale().toString(minvalue));
+	} else {
+		axis_text->setText(QLocale().toString(0));
+	}
+	axis_text->setFont(legend_font);
+	axis_text->setBrush(Qt::black);
+	axis_text->setPos(margin + axis_width - axis_text->boundingRect().width() - 11, chart_y + chart_height - fh / 2);
+	scene->addItem(axis_text);
+
+	index = 0;
+	int year = first_date.year() - 1;
+	bool b_month_names = months <= 12 && type != 4, b_long_month_names = true;
+	if(b_month_names) {
+		monthdate = first_date;
+		while(monthdate <= curmonth) {
+			if(b_long_month_names) {
+				if(fm.width(QDate::longMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat)) > linelength - 8) {
+					b_long_month_names = false;
+				}
+			}
+			if(!b_long_month_names) {
+				if(fm.width(QDate::shortMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat)) > linelength) {
+					b_month_names = false;
+					break;
+				}
+			}
+			budget->addBudgetMonthsSetFirst(monthdate, 1);
+		}
+	}
+	monthdate = first_date;
+	QDate next_date = monthdate;
+	while(monthdate <= curmonth) {
+		if(years < 5 || year != budget->budgetYear(monthdate)) {
+			QGraphicsLineItem *x_mark = new QGraphicsLineItem();
+			x_mark->setLine(margin + axis_width + index * linelength, chart_height + chart_y, margin + axis_width + index * linelength, chart_height + chart_y + 10);
+			x_mark->setPen(axis_pen);
+			scene->addItem(x_mark);
+		}
+		if(next_date == monthdate) {
+			budget->addBudgetMonthsSetFirst(next_date, type == 4 ? 12 : 1);
+			if(type != 4 && !b_month_names) {
+				while(budget->budgetYear(monthdate) == budget->budgetYear(next_date)) budget->addBudgetMonthsSetFirst(next_date, 1);
+			}
+		}
+		if(b_month_names) {
+			QGraphicsSimpleTextItem *axis_text = new QGraphicsSimpleTextItem();
+			if((includes_budget || includes_scheduled) && next_date > imonth) axis_text->setText((b_long_month_names ? QDate::longMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat) : QDate::shortMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat)) + "*");
+			else axis_text->setText(b_long_month_names ? QDate::longMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat) : QDate::shortMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat));
+			axis_text->setFont(legend_font);
+			axis_text->setBrush(Qt::black);
+			axis_text->setPos(margin + axis_width + index * linelength + (linelength - axis_text->boundingRect().width()) / 2, chart_height + chart_y + 11);
+			scene->addItem(axis_text);
+		} else if(year != budget->budgetYear(monthdate) || type == 4) {
+			year = budget->budgetYear(monthdate);
+			QGraphicsSimpleTextItem *axis_text = new QGraphicsSimpleTextItem();
+			if((includes_budget || includes_scheduled) && next_date > imonth) axis_text->setText(QString::number(budget->budgetYear(monthdate)) + "*");
+			else axis_text->setText(QString::number(budget->budgetYear(monthdate)));
+			axis_text->setFont(legend_font);
+			axis_text->setBrush(Qt::black);
+			axis_text->setPos(margin + axis_width + index * linelength, chart_height + chart_y + 11);
+			scene->addItem(axis_text);
+		}
+		budget->addBudgetMonthsSetFirst(monthdate, type == 4 ? 12 : 1);
+		index++;
+	}
+	QGraphicsLineItem *x_mark = new QGraphicsLineItem();
+	x_mark->setLine(margin + axis_width + index * linelength, chart_height + chart_y, margin + axis_width + index * linelength, chart_height + chart_y + 10);
+	x_mark->setPen(axis_pen);
+	scene->addItem(x_mark);
+
+	int line_y = chart_height + chart_y;
+	int line_x = margin + axis_width;
+	int legend_x = chart_width + axis_width + margin + x_axis_extra_width + 10;
+	int legend_y = chart_y;
+	index = 0;
+	lcount = 0;
+	account = NULL;
+	desc_i = 0;
+	desc_nr = desc_order.size();
+	cat_i = 0;
+	cat_nr = cat_order.size();
+	
+	if(source_org == 2) {monthly_values = &monthly_expenses;}
+	else if(source_org == 1 || source_org == 0) {monthly_values = &monthly_incomes;}
+	while((source_org < 3 && source_org != -2) || ((source_org == 7 || source_org == 11) && desc_i < desc_nr) || (source_org == -2 && cat_i < cat_nr)) {
+		
+		if(source_org == 7 || source_org == 11) {monthly_values = &monthly_desc[desc_order[desc_i]];}
+		else if(source_org == -2) {monthly_values = &monthly_cats[cat_order[cat_i]];}
+
+		if(current_source2 != -2 || !current_assets || (index == 0 && b_assets) || (index == 1 && b_liabilities) || (!b_liabilities && !b_assets)) {
+			int prev_y = 0;
+			int index2 = 0;
+			QVector<chart_month_info>::iterator it_e = monthly_values->end();
+			for(QVector<chart_month_info>::iterator it = monthly_values->begin(); it != it_e; ++it) {
+				if(index2 == 0) {
+					prev_y = (int) floor((chart_height * (it->value - minvalue)) / (maxvalue - minvalue)) + 1;
+					if(n == 1) {
+						QGraphicsEllipseItem *dot = new QGraphicsEllipseItem(-2.5, -2.5, 5, 5);
+						dot->setPos(line_x + linelength / 2, line_y - prev_y);
+						QBrush brush(getLineColor(lcount));
+						dot->setBrush(brush);
+						dot->setZValue(10);
+						scene->addItem(dot);
+					}
+				} else {
+					int next_y = (int) floor((chart_height * (it->value - minvalue)) / (maxvalue - minvalue)) + 1;
+					QGraphicsLineItem *line = new QGraphicsLineItem();
+					line->setPen(getLinePen(lcount));
+					line->setLine(line_x + ((index2 - 1) * linelength) + linelength / 2, line_y - prev_y, line_x + (index2 * linelength) + linelength / 2, line_y - next_y);
+					line->setZValue(10);
+					prev_y = next_y;
+					scene->addItem(line);
+				}
+				index2++;
+			}
+			QGraphicsLineItem *legend_line = new QGraphicsLineItem();
+			legend_line->setLine(legend_x, legend_y + (fh + 5) * lcount + fh / 2, legend_x + fh, legend_y + (fh + 5) * lcount + fh / 2);
+			legend_line->setPen(getLinePen(lcount));
+			scene->addItem(legend_line);
+
+			legend_texts[lcount]->setPos(legend_x + fh + 5, legend_y + (fh + 5) * lcount);
+			scene->addItem(legend_texts[lcount]);
+			
+			lcount++;
+		}
+		index++;
+		if(source_org == 7 || source_org == 11) {
+			desc_i++;
+		} else if(source_org == 0 && monthly_values != &monthly_expenses) {
+			monthly_values = &monthly_expenses;
+		} else if(source_org == -2) {
+			cat_i++;
+		} else {
+			break;
+		}
+	}
 
 	QRectF rect = scene->sceneRect();
 	rect.setX(0);

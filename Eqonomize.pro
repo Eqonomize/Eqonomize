@@ -47,7 +47,15 @@ INCLUDEPATH += src
 CONFIG += qt
 QT += widgets network printsupport
 !equals(DISABLE_QTCHARTS,"yes"):!equals(ENABLE_QTCHARTS,"no") {
-	QT += charts
+	qtHaveModule(charts) {
+		QT += charts
+	} else {
+		warning("Qt Charts module is missing")
+	}
+} else {
+	equals(DISABLE_QTCHARTS,"no"):!equals(ENABLE_QTCHARTS,"yes") {
+		QT += charts
+	}
 }
 MOC_DIR = build
 OBJECTS_DIR = build

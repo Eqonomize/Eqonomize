@@ -1156,14 +1156,14 @@ void CategoriesComparisonChart::updateDisplay() {
 		else v_axis->setTitleText(tr("Cost") + QString(" (%1)").arg(currency->symbol(true)));
 		
 		if(theme < 0) {
-			v_axis->setLinePen(QPen(Qt::black, 1));
+			v_axis->setLinePen(QPen(Qt::darkGray, 1));
 			v_axis->setLabelsColor(Qt::black);
-			b_axis->setLinePen(QPen(Qt::black, 1));
+			b_axis->setLinePen(QPen(Qt::darkGray, 1));
 			b_axis->setLabelsColor(Qt::black);
 			v_axis->setTitleBrush(Qt::black);
 			b_axis->setTitleBrush(Qt::black);
 			b_axis->setGridLineVisible(false);
-			v_axis->setGridLinePen(QPen(Qt::black, 1, Qt::DotLine));
+			v_axis->setGridLinePen(QPen(Qt::darkGray, 1, Qt::DotLine));
 			v_axis->setShadesVisible(false);
 			b_axis->setShadesVisible(false);
 		}
@@ -1183,7 +1183,9 @@ void CategoriesComparisonChart::updateDisplay() {
 	
 	chart->setTitle(QString("<div align=\"center\"><font size=\"+2\"><b>%1</b></font></div>").arg(title_string));
 	if(show_legend) {
+#if (QT_CHARTS_VERSION >= QT_CHARTS_VERSION_CHECK(5, 7, 0))
 		chart->legend()->setShowToolTips(true);
+#endif
 		chart->legend()->setAlignment(Qt::AlignRight);
 		chart->legend()->show();
 		foreach(QLegendMarker* marker, chart->legend()->markers()) {
@@ -1201,20 +1203,9 @@ void CategoriesComparisonChart::updateDisplay() {
 	int fh = fm.height();
 	int margin = 15 + fh;
 	
-	QGraphicsTextItem *title_text = new QGraphicsTextItem();
-	title_text->setHtml(QString("<div align=\"center\"><font size=\"+2\"><b>%1</b></font></div>").arg(title_string));
-	title_text->setDefaultTextColor(Qt::black);
-	title_text->setFont(legend_font);
-	title_text->setPos(view->height() / 2 - title_text->boundingRect().width() / 2, margin);
-	scene->addItem(title_text);
-	
-	int diameter = view->height() - margin * 3 - title_text->boundingRect().height();
-	int legend_x = diameter + margin * 2;
-	int chart_y = margin * 2 + title_text->boundingRect().height();
-	int legend_y = chart_y;
+	QVector<QGraphicsItem*> legend_texts;
 	
 	account = NULL;
-
 	int index = 0;
 	int text_width = 0;
 	while((index < account_order.count()) || (current_account && index < desc_order.size())) {
@@ -1245,11 +1236,54 @@ void CategoriesComparisonChart::updateDisplay() {
 			legend_value = round(legend_value);
 		}
 		QGraphicsSimpleTextItem *legend_text = new QGraphicsSimpleTextItem(QString("%1 (%2%)").arg(legend_string).arg(currency->formatValue(legend_value, deci, false)));
-		if(legend_text->boundingRect().width() > text_width) text_width = legend_text->boundingRect().width();
 		legend_text->setFont(legend_font);
 		legend_text->setBrush(Qt::black);
-		legend_text->setPos(legend_x + 10 + fh + 5, legend_y + 10 + (fh + 5) * index);
-		scene->addItem(legend_text);
+		if(legend_text->boundingRect().width() > text_width) text_width = legend_text->boundingRect().width();
+		legend_texts << legend_text;
+		index++;
+	}
+	
+	QGraphicsTextItem *title_text = new QGraphicsTextItem();
+	title_text->setHtml(QString("<div align=\"center\"><font size=\"+2\"><b>%1</b></font></div>").arg(title_string));
+	title_text->setDefaultTextColor(Qt::black);
+	title_text->setFont(legend_font);
+	title_text->setPos(view->height() / 2 - title_text->boundingRect().width() / 2, margin);
+	scene->addItem(title_text);
+	
+	int diameter = view->height() - margin * 3 - title_text->boundingRect().height();
+	if(diameter + margin * 2 + fh * 1.3 + text_width + margin > view->width()) diameter = view->width() - (margin * 2 + fh * 1.3 + text_width + margin);
+	int legend_x = diameter + margin * 2;
+	int chart_y = margin * 2 + title_text->boundingRect().height();
+	int legend_y = chart_y;
+
+	index = 0;
+	while((index < account_order.count()) || (current_account && index < desc_order.size())) {
+		QString legend_string;
+		double legend_value = 0.0;
+		if(account_order.isEmpty()) {
+			if(desc_order[index].isEmpty()) {
+				legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
+			} else {
+				legend_string = desc_map[desc_order[index]];
+			}
+			legend_value = desc_values[desc_order[index]];
+		} else {
+			account = account_order.at(index);
+			if(!account) {
+				if(type == ACCOUNT_TYPE_ASSETS) legend_string = tr("Other accounts");
+				else legend_string = tr("Other categories");
+			} else if(current_account) legend_string = account->name();
+			else legend_string = account->nameWithParent();
+			legend_value = values[account];
+		}
+		legend_value = (legend_value * 100) / value;
+		if(legend_value < 10.0 && legend_value > -10.0) {
+			legend_value = round(legend_value * 10.0) / 10.0;
+		} else {
+			legend_value = round(legend_value);
+		}
+		legend_texts[index]->setPos(legend_x + fh * 1.3, legend_y + (fh * 1.5) * index);
+		scene->addItem(legend_texts[index]);
 		index++;
 	}
 
@@ -1259,6 +1293,7 @@ void CategoriesComparisonChart::updateDisplay() {
 	int prev_end = 90 * 16;
 	index = account_order.size() - 1;
 	if(index < 0) index = desc_order.size() - 1;
+
 	while(index >= 0) {
 		if(account_order.isEmpty()) current_value_1 = desc_values[desc_order[index]];
 		else current_value_1 = values[account_order[index]];
@@ -1275,17 +1310,11 @@ void CategoriesComparisonChart::updateDisplay() {
 		ellipse->setBrush(getPieBrush(index, account_order.size() > 0 ? account_order.size() : desc_order.size()));
 		ellipse->setPos(diameter / 2 + margin, diameter / 2 + chart_y);
 		scene->addItem(ellipse);
-		QGraphicsRectItem *legend_box = new QGraphicsRectItem(legend_x + 10, chart_y + 10 + (fh + 5) * index, fh, fh);
+		QGraphicsRectItem *legend_box = new QGraphicsRectItem(legend_x, legend_y + (fh * 1.5) * index, fh, fh);
 		legend_box->setPen(QPen(Qt::black));
 		legend_box->setBrush(getPieBrush(index, account_order.size() > 0 ? account_order.size() : desc_order.size()));
 		scene->addItem(legend_box);
 		index--;
-	}
-
-	if(index > 0) {
-		QGraphicsRectItem *legend_outline = new QGraphicsRectItem(legend_x, legend_y, 10 + fh + 5 + text_width + 10, 10 + ((fh + 5) * index) + 5);
-		legend_outline->setPen(QPen(Qt::black));
-		scene->addItem(legend_outline);
 	}
 
 	QRectF rect = scene->sceneRect();
