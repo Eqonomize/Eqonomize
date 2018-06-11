@@ -350,6 +350,7 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 				}
 				QMap<QString, QString>::iterator it_e = descriptions.end();
 				for(QMap<QString, QString>::iterator it = descriptions.begin(); it != it_e; ++it) {
+					descriptionCombo->addItem(*it);
 				}
 				if(has_empty_description) descriptionCombo->addItem(tr("No description", "Referring to the transaction description property (transaction title/generic article name)"));
 				QMap<QString, QString>::iterator it2_e = payees.end();
