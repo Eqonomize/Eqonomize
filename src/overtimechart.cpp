@@ -401,7 +401,6 @@ void OverTimeChart::resetDate() {
 void OverTimeChart::valueTypeToggled(bool b) {
 	if(!b) return;
 	startDateEdit->setMonthEnabled(!yearlyButton->isEnabled() || !yearlyButton->isChecked());
-	endDateEdit->setMonthEnabled(!yearlyButton->isEnabled() || !yearlyButton->isChecked() || budget->budgetYear(end_date) == budget->budgetYear(QDate::currentDate()));
 #ifdef QT_CHARTS_LIB
 	if(typeCombo->currentIndex() != 0) {
 		if(valueGroup->checkedId() == 4) {resetDate(); updateDisplay();}
@@ -410,6 +409,7 @@ void OverTimeChart::valueTypeToggled(bool b) {
 		updateDisplay();
 	}
 #else
+	endDateEdit->setMonthEnabled(!yearlyButton->isEnabled() || !yearlyButton->isChecked() || budget->budgetYear(end_date) == budget->budgetYear(QDate::currentDate()));
 	updateDisplay();
 #endif
 }
@@ -1211,8 +1211,8 @@ void OverTimeChart::updateDisplay() {
 		}
 	}
 
-	first_date = budget->monthToBudgetMonth(start_date);
-	last_date = budget->lastBudgetDay(budget->monthToBudgetMonth(end_date));
+	QDate first_date = budget->monthToBudgetMonth(start_date);
+	QDate last_date = budget->lastBudgetDay(budget->monthToBudgetMonth(end_date));
 	if(type == 4) first_date = budget->firstBudgetDayOfYear(first_date);
 	
 	double maxvalue = 1.0;
@@ -3065,6 +3065,8 @@ void OverTimeChart::updateDisplay() {
 	int cat_nr = cat_order.size();
 	
 	if(axisX) chart->removeAxis(axisX);
+	saved_last_date = last_date;
+	saved_first_date = first_date;
 	if(type == 4) last_date = budget->firstBudgetDayOfYear(last_date);
 	else last_date = budget->firstBudgetDay(last_date);
 	
@@ -4127,17 +4129,35 @@ void OverTimeChart::onSeriesHovered(bool state, int index, QBarSet *set) {
 			pos.setX(pos.x() + (bar_width / 2));
 		}
 		QDate date;
-		if(chart_type == 3) {
-			if(valueGroup->checkedId() == 4 && yearlyButton->isEnabled()) date = last_date.addYears(-index);
-			else date = last_date.addMonths(-index);
-		} else {
-			if(valueGroup->checkedId() == 4 && yearlyButton->isEnabled()) date = first_date.addYears(index);
-			else date = first_date.addMonths(index);
-		}
 		Currency *currency = budget->defaultCurrency();
 		if(selectedAccount()) currency = selectedAccount()->currency();
-		if(current_source == -2 || current_source == 98) item->setText(tr("%1\nValue: %2\nDate: %3").arg(set->label()).arg(currency->formatValue(set->at(index))).arg(QLocale().toString(valueGroup->checkedId() == 4 && yearlyButton->isEnabled() ? budget->lastBudgetDayOfYear(date) : budget->lastBudgetDay(date), QLocale::ShortFormat)));
-		else item->setText(tr("%1\nValue: %2\nDate: %3").arg(set->label()).arg(currency->formatValue(set->at(index))).arg(budget->budgetDateToMonth(date).toString(valueGroup->checkedId() == 4 ? "yyyy" : tr("MMMM yyyy", "Month and year"))));
+		if(current_source == -2 || current_source == 98) {
+			if(chart_type == 3) {
+				if(valueGroup->checkedId() == 4 && yearlyButton->isEnabled()) {
+					if(index == 0) date = budget->lastBudgetDay(saved_last_date);
+					else date = budget->lastBudgetDayOfYear(saved_last_date.addYears(-index));
+				} else {
+					date = budget->lastBudgetDay(saved_last_date.addMonths(-index));
+				}
+			} else {
+				if(valueGroup->checkedId() == 4 && yearlyButton->isEnabled()) {
+					if(index == set->count() - 1) date = budget->lastBudgetDay(saved_last_date);
+					else date = budget->lastBudgetDayOfYear(saved_first_date.addYears(index));
+				} else {
+					date = budget->lastBudgetDay(saved_first_date.addMonths(index));
+				}
+			}
+			item->setText(tr("%1\nValue: %2\nDate: %3").arg(set->label()).arg(currency->formatValue(set->at(index))).arg(QLocale().toString(date, QLocale::ShortFormat)));
+		} else {
+			if(chart_type == 3) {
+				if(valueGroup->checkedId() == 4 && yearlyButton->isEnabled()) date = saved_last_date.addYears(-index);
+				else date = saved_last_date.addMonths(-index);
+			} else {
+				if(valueGroup->checkedId() == 4 && yearlyButton->isEnabled()) date = saved_first_date.addYears(index);
+				else date = saved_first_date.addMonths(index);
+			}
+			item->setText(tr("%1\nValue: %2\nDate: %3").arg(set->label()).arg(currency->formatValue(set->at(index))).arg(budget->budgetDateToMonth(date).toString(valueGroup->checkedId() == 4 ? "yyyy" : tr("MMMM yyyy", "Month and year"))));
+		}
 		item->setAnchor(pos);
 		item->setPos(pos + QPoint(10, -50));
 		item->setZValue(11);
