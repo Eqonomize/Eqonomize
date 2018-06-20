@@ -2731,14 +2731,16 @@ Currency *Budget::findCurrency(QString code) {
 }
 Currency *Budget::findCurrencySymbol(QString symbol, bool require_unique)  {
 	Currency *found_cur = NULL;
+	bool found_multiple = false;
 	for(CurrencyList<Currency*>::const_iterator it = currencies.constBegin(); it != currencies.constEnd(); ++it) {
 		Currency *cur = *it;
 		if(cur->symbol(false) == symbol) {
 			if(!require_unique || cur == defaultCurrency() || (defaultCurrency()->symbol(false) != symbol && (cur->code() == QLocale().currencySymbol(QLocale::CurrencyIsoCode) || (symbol != QLocale().currencySymbol(QLocale::CurrencySymbol) && (cur->code() == "USD" || cur->code() == "GBP" || cur->code() == "EUR" || cur->code() == "JPY"))))) return cur;
-			else if(found_cur) return NULL;
+			else if(found_cur) found_multiple = true;
 			else found_cur = cur;
 		}
 	}
+	if(found_multiple) return NULL;
 	return found_cur;
 }
 bool Budget::usesMultipleCurrencies() {
