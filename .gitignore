@@ -3,3 +3,4 @@ Makefile
 *.qm
 changes
 eqonomize
+.qmake.stash
