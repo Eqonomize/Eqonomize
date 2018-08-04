@@ -1,6 +1,23 @@
+2018-08-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add comments field to split transaction dialog
+
+2018-07-22  Nils VAN ZUIJLEN <nils.van-zuijlen@mailo.com>
+
+	* Added translations for French
+
+2018-06-20  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix value field conversion with dollar sign
+
+2018-06-12  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix last date in yearly assets and liabilities bar chart hover info
+
 2018-06-10  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix categories comparison report description selection list
+	* Fix Qt Charts < 5.7.0 compability
 
 2018-06-09  Hanna Knutsson <hanna.knutsson@protonmail.com>
 

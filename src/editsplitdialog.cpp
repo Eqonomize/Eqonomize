@@ -361,6 +361,10 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	fileLayout->addWidget(openFileButton);
 	openFileButton->setFocusPolicy(Qt::ClickFocus);
 	grid->addLayout(fileLayout, b_extra ? 4 : 3, 1);
+	
+	grid->addWidget(new QLabel(tr("Comments:")), b_extra ? 5 : 4, 0);
+	commentEdit = new QLineEdit();
+	grid->addWidget(commentEdit, b_extra ? 5 : 4, 1);
 
 	box1->addWidget(new QLabel(tr("Transactions:")));
 	QHBoxLayout *box2 = new QHBoxLayout();
@@ -556,6 +560,7 @@ MultiItemTransaction *EditMultiItemWidget::createTransaction() {
 	MultiItemTransaction *split = new MultiItemTransaction(budget, dateEdit->date(), account, descriptionEdit->text());
 	if(payeeEdit) split->setPayee(payeeEdit->text());
 	if(fileEdit) split->setAssociatedFile(fileEdit->text());
+	split->setComment(commentEdit->text());
 	QTreeWidgetItemIterator it(transactionsView);
 	QTreeWidgetItem *i = *it;
 	while(i) {
@@ -572,6 +577,7 @@ void EditMultiItemWidget::setTransaction(MultiItemTransaction *split) {
 	accountCombo->setCurrentAccount(split->account());
 	if(payeeEdit) payeeEdit->setText(split->payee());
 	if(fileEdit) fileEdit->setText(split->associatedFile());
+	commentEdit->setText(split->comment());
 	transactionsView->clear();
 	QList<QTreeWidgetItem *> items;
 	int c = split->count();

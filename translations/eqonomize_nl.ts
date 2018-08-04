@@ -4434,105 +4434,105 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
 <context>
     <name>EditDebtPaymentWidget</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1012"/>
+        <location filename="../src/editsplitdialog.cpp" line="1018"/>
         <source>Debt:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1017"/>
+        <location filename="../src/editsplitdialog.cpp" line="1023"/>
         <source>Date:</source>
         <translation type="unfinished">Datum:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1026"/>
+        <location filename="../src/editsplitdialog.cpp" line="1032"/>
         <source>Debt reduction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1029"/>
+        <location filename="../src/editsplitdialog.cpp" line="1035"/>
         <source>Reduction payment:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1039"/>
+        <location filename="../src/editsplitdialog.cpp" line="1045"/>
         <source>Interest:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1052"/>
+        <location filename="../src/editsplitdialog.cpp" line="1058"/>
         <source>Payed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1054"/>
+        <location filename="../src/editsplitdialog.cpp" line="1060"/>
         <source>Added to debt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1059"/>
+        <location filename="../src/editsplitdialog.cpp" line="1065"/>
         <source>Fee:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1066"/>
+        <location filename="../src/editsplitdialog.cpp" line="1072"/>
         <source>Account:</source>
         <translation type="unfinished">Rekening:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1072"/>
+        <location filename="../src/editsplitdialog.cpp" line="1078"/>
         <source>Expense category:</source>
         <translation type="unfinished">Uitgaven categorie:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1081"/>
+        <location filename="../src/editsplitdialog.cpp" line="1087"/>
         <source>Associated file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1089"/>
+        <location filename="../src/editsplitdialog.cpp" line="1095"/>
         <source>Select a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1093"/>
+        <location filename="../src/editsplitdialog.cpp" line="1099"/>
         <source>Open the file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1101"/>
+        <location filename="../src/editsplitdialog.cpp" line="1107"/>
         <source>Comments:</source>
         <translation type="unfinished">Opmerkingen:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1307"/>
+        <location filename="../src/editsplitdialog.cpp" line="1313"/>
         <source>Total value:</source>
         <translation type="unfinished">Totale waarde:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1365"/>
-        <location filename="../src/editsplitdialog.cpp" line="1373"/>
-        <location filename="../src/editsplitdialog.cpp" line="1378"/>
-        <location filename="../src/editsplitdialog.cpp" line="1381"/>
+        <location filename="../src/editsplitdialog.cpp" line="1371"/>
+        <location filename="../src/editsplitdialog.cpp" line="1379"/>
+        <location filename="../src/editsplitdialog.cpp" line="1384"/>
+        <location filename="../src/editsplitdialog.cpp" line="1387"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1365"/>
+        <location filename="../src/editsplitdialog.cpp" line="1371"/>
         <source>No suitable account available.</source>
         <translation type="unfinished">Geen geschikte rekening beschikbaar.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1373"/>
+        <location filename="../src/editsplitdialog.cpp" line="1379"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Ongeldige datum.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1378"/>
+        <location filename="../src/editsplitdialog.cpp" line="1384"/>
         <source>Interest must not be zero.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1381"/>
+        <location filename="../src/editsplitdialog.cpp" line="1387"/>
         <source>At least one value must non-zero.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4714,68 +4714,68 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="obsolete">Omschrijving:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="682"/>
+        <location filename="../src/editsplitdialog.cpp" line="688"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Omschrijving:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="688"/>
+        <location filename="../src/editsplitdialog.cpp" line="694"/>
         <source>Quantity:</source>
         <translation type="unfinished">Hoeveelheid:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="695"/>
+        <location filename="../src/editsplitdialog.cpp" line="701"/>
         <source>Category:</source>
         <translation type="unfinished">Categorie:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="700"/>
+        <location filename="../src/editsplitdialog.cpp" line="706"/>
         <source>Associated file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="708"/>
+        <location filename="../src/editsplitdialog.cpp" line="714"/>
         <source>Select a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="712"/>
+        <location filename="../src/editsplitdialog.cpp" line="718"/>
         <source>Open the file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="718"/>
+        <location filename="../src/editsplitdialog.cpp" line="724"/>
         <source>Comments:</source>
         <translation type="unfinished">Opmerkingen:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="722"/>
+        <location filename="../src/editsplitdialog.cpp" line="728"/>
         <source>Transactions:</source>
         <translation>Transacties:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="731"/>
+        <location filename="../src/editsplitdialog.cpp" line="737"/>
         <source>Date</source>
         <translation type="unfinished">Datum</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="732"/>
+        <location filename="../src/editsplitdialog.cpp" line="738"/>
         <source>Account</source>
         <translation type="unfinished">Rekening</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="733"/>
+        <location filename="../src/editsplitdialog.cpp" line="739"/>
         <source>Cost</source>
         <translation type="unfinished">Kosten</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="734"/>
+        <location filename="../src/editsplitdialog.cpp" line="740"/>
         <source>Income</source>
         <translation type="unfinished">Inkomsten</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="808"/>
+        <location filename="../src/editsplitdialog.cpp" line="814"/>
         <source>Total cost:</source>
         <translation type="unfinished">Totaal uitgaven:</translation>
     </message>
@@ -4784,17 +4784,17 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="obsolete">Waarde</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="743"/>
+        <location filename="../src/editsplitdialog.cpp" line="749"/>
         <source>New</source>
         <translation type="unfinished">Nieuw</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="744"/>
+        <location filename="../src/editsplitdialog.cpp" line="750"/>
         <source>Edit…</source>
         <translation type="unfinished">Bewerk…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="746"/>
+        <location filename="../src/editsplitdialog.cpp" line="752"/>
         <source>Delete</source>
         <translation type="unfinished">Verwijderen</translation>
     </message>
@@ -4803,18 +4803,18 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="obsolete">Totale waarde:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="985"/>
-        <location filename="../src/editsplitdialog.cpp" line="993"/>
+        <location filename="../src/editsplitdialog.cpp" line="991"/>
+        <location filename="../src/editsplitdialog.cpp" line="999"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="985"/>
+        <location filename="../src/editsplitdialog.cpp" line="991"/>
         <source>No suitable expense categories available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="993"/>
+        <location filename="../src/editsplitdialog.cpp" line="999"/>
         <source>A split must contain at least two transactions.</source>
         <translation type="unfinished">Een splitsing moet minstens twee transacties bevatten.</translation>
     </message>
@@ -4854,12 +4854,12 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="unfinished">Crediteur/debiteur:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="365"/>
+        <location filename="../src/editsplitdialog.cpp" line="369"/>
         <source>Transactions:</source>
         <translation type="unfinished">Transacties:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="374"/>
+        <location filename="../src/editsplitdialog.cpp" line="378"/>
         <source>Type</source>
         <translation type="unfinished">Type</translation>
     </message>
@@ -4890,54 +4890,59 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="375"/>
+        <location filename="../src/editsplitdialog.cpp" line="365"/>
+        <source>Comments:</source>
+        <translation type="unfinished">Opmerkingen:</translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="379"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Omschrijving</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="377"/>
+        <location filename="../src/editsplitdialog.cpp" line="381"/>
         <source>Payment</source>
         <translation type="unfinished">Betaling</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="378"/>
+        <location filename="../src/editsplitdialog.cpp" line="382"/>
         <source>Deposit</source>
         <translation type="unfinished">Storting</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="388"/>
+        <location filename="../src/editsplitdialog.cpp" line="392"/>
         <source>New</source>
         <translation type="unfinished">Nieuw</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="391"/>
+        <location filename="../src/editsplitdialog.cpp" line="395"/>
         <source>New Expense…</source>
         <translation type="unfinished">Nieuwe kosten…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="392"/>
+        <location filename="../src/editsplitdialog.cpp" line="396"/>
         <source>New Income…</source>
         <translation type="unfinished">Nieuwe inkomsten…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="393"/>
+        <location filename="../src/editsplitdialog.cpp" line="397"/>
         <source>New Deposit…</source>
         <translation type="unfinished">Nieuwe storting…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="394"/>
+        <location filename="../src/editsplitdialog.cpp" line="398"/>
         <source>New Withdrawal…</source>
         <translation type="unfinished">Nieuwe opname…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="395"/>
+        <location filename="../src/editsplitdialog.cpp" line="399"/>
         <source>New Securities Purchase…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nieuwe effectenaankoop…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="396"/>
+        <location filename="../src/editsplitdialog.cpp" line="400"/>
         <source>New Securities Sale…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nieuwe effectenverkoop…</translation>
@@ -4951,50 +4956,50 @@ Bevestig dat ze plaats hebben gevonden (of vandaag nog plaats zullen vinden).</t
         <translation type="obsolete">Aandelen verkocht…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="397"/>
+        <location filename="../src/editsplitdialog.cpp" line="401"/>
         <source>New Dividend…</source>
         <translation type="unfinished">Nieuw dividend…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="398"/>
+        <location filename="../src/editsplitdialog.cpp" line="402"/>
         <source>Edit…</source>
         <translation type="unfinished">Bewerk…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="400"/>
+        <location filename="../src/editsplitdialog.cpp" line="404"/>
         <source>Delete</source>
         <translation type="unfinished">Verwijderen</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="463"/>
+        <location filename="../src/editsplitdialog.cpp" line="467"/>
         <source>Total value:</source>
         <translation type="unfinished">Totale waarde:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="643"/>
-        <location filename="../src/editsplitdialog.cpp" line="651"/>
-        <location filename="../src/editsplitdialog.cpp" line="655"/>
-        <location filename="../src/editsplitdialog.cpp" line="665"/>
+        <location filename="../src/editsplitdialog.cpp" line="649"/>
+        <location filename="../src/editsplitdialog.cpp" line="657"/>
+        <location filename="../src/editsplitdialog.cpp" line="661"/>
+        <location filename="../src/editsplitdialog.cpp" line="671"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="643"/>
+        <location filename="../src/editsplitdialog.cpp" line="649"/>
         <source>No suitable account available.</source>
         <translation type="unfinished">Geen geschikte rekening beschikbaar.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="651"/>
+        <location filename="../src/editsplitdialog.cpp" line="657"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Ongeldige datum.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="655"/>
+        <location filename="../src/editsplitdialog.cpp" line="661"/>
         <source>A split must contain at least two transactions.</source>
         <translation type="unfinished">Een splitsing moet minstens twee transacties bevatten.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="665"/>
+        <location filename="../src/editsplitdialog.cpp" line="671"/>
         <source>Cannot transfer money to and from the same account.</source>
         <translation type="unfinished">Kan geen geld overmaken naar en van dezelde rekening.</translation>
     </message>

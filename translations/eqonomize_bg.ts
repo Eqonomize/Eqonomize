@@ -3843,105 +3843,105 @@ Confirm that they have indeed occurred (or will occur today).</source>
 <context>
     <name>EditDebtPaymentWidget</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1012"/>
+        <location filename="../src/editsplitdialog.cpp" line="1018"/>
         <source>Debt:</source>
         <translation>Дълг:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1017"/>
+        <location filename="../src/editsplitdialog.cpp" line="1023"/>
         <source>Date:</source>
         <translation>Дата:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1026"/>
+        <location filename="../src/editsplitdialog.cpp" line="1032"/>
         <source>Debt reduction:</source>
         <translation>Намаляване на дълга:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1029"/>
+        <location filename="../src/editsplitdialog.cpp" line="1035"/>
         <source>Reduction payment:</source>
         <translation>Плащане:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1039"/>
+        <location filename="../src/editsplitdialog.cpp" line="1045"/>
         <source>Interest:</source>
         <translation>Лихва:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1052"/>
+        <location filename="../src/editsplitdialog.cpp" line="1058"/>
         <source>Payed</source>
         <translation>Платен</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1054"/>
+        <location filename="../src/editsplitdialog.cpp" line="1060"/>
         <source>Added to debt</source>
         <translation>Добавено към дълга</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1059"/>
+        <location filename="../src/editsplitdialog.cpp" line="1065"/>
         <source>Fee:</source>
         <translation>Такса:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1066"/>
+        <location filename="../src/editsplitdialog.cpp" line="1072"/>
         <source>Account:</source>
         <translation>Сметка:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1072"/>
+        <location filename="../src/editsplitdialog.cpp" line="1078"/>
         <source>Expense category:</source>
         <translation>Категория разход:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1081"/>
+        <location filename="../src/editsplitdialog.cpp" line="1087"/>
         <source>Associated file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1089"/>
+        <location filename="../src/editsplitdialog.cpp" line="1095"/>
         <source>Select a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1093"/>
+        <location filename="../src/editsplitdialog.cpp" line="1099"/>
         <source>Open the file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1101"/>
+        <location filename="../src/editsplitdialog.cpp" line="1107"/>
         <source>Comments:</source>
         <translation>Коментари:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1307"/>
+        <location filename="../src/editsplitdialog.cpp" line="1313"/>
         <source>Total value:</source>
         <translation>Обща стойност:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1365"/>
-        <location filename="../src/editsplitdialog.cpp" line="1373"/>
-        <location filename="../src/editsplitdialog.cpp" line="1378"/>
-        <location filename="../src/editsplitdialog.cpp" line="1381"/>
+        <location filename="../src/editsplitdialog.cpp" line="1371"/>
+        <location filename="../src/editsplitdialog.cpp" line="1379"/>
+        <location filename="../src/editsplitdialog.cpp" line="1384"/>
+        <location filename="../src/editsplitdialog.cpp" line="1387"/>
         <source>Error</source>
         <translation>Грешка</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1365"/>
+        <location filename="../src/editsplitdialog.cpp" line="1371"/>
         <source>No suitable account available.</source>
         <translation>Няма подходяща сметка на разположение.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1373"/>
+        <location filename="../src/editsplitdialog.cpp" line="1379"/>
         <source>Invalid date.</source>
         <translation>Грешна дата.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1378"/>
+        <location filename="../src/editsplitdialog.cpp" line="1384"/>
         <source>Interest must not be zero.</source>
         <translation>Лихвате не може да е нула.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1381"/>
+        <location filename="../src/editsplitdialog.cpp" line="1387"/>
         <source>At least one value must non-zero.</source>
         <translation>Поне една стойност трябва да е различна от нула.</translation>
     </message>
@@ -4143,68 +4143,68 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation type="obsolete">Описание:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="682"/>
+        <location filename="../src/editsplitdialog.cpp" line="688"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation>Описание:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="688"/>
+        <location filename="../src/editsplitdialog.cpp" line="694"/>
         <source>Quantity:</source>
         <translation>Количество:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="695"/>
+        <location filename="../src/editsplitdialog.cpp" line="701"/>
         <source>Category:</source>
         <translation>Категория:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="700"/>
+        <location filename="../src/editsplitdialog.cpp" line="706"/>
         <source>Associated file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="708"/>
+        <location filename="../src/editsplitdialog.cpp" line="714"/>
         <source>Select a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="712"/>
+        <location filename="../src/editsplitdialog.cpp" line="718"/>
         <source>Open the file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="718"/>
+        <location filename="../src/editsplitdialog.cpp" line="724"/>
         <source>Comments:</source>
         <translation>Коментари:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="722"/>
+        <location filename="../src/editsplitdialog.cpp" line="728"/>
         <source>Transactions:</source>
         <translation>Транзакции:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="731"/>
+        <location filename="../src/editsplitdialog.cpp" line="737"/>
         <source>Date</source>
         <translation>Дата</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="732"/>
+        <location filename="../src/editsplitdialog.cpp" line="738"/>
         <source>Account</source>
         <translation>Сметка</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="733"/>
+        <location filename="../src/editsplitdialog.cpp" line="739"/>
         <source>Cost</source>
         <translation>Цена</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="734"/>
+        <location filename="../src/editsplitdialog.cpp" line="740"/>
         <source>Income</source>
         <translation>Приход</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="808"/>
+        <location filename="../src/editsplitdialog.cpp" line="814"/>
         <source>Total cost:</source>
         <translation type="unfinished">Обща цена:</translation>
     </message>
@@ -4213,17 +4213,17 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation type="obsolete">Стойност</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="743"/>
+        <location filename="../src/editsplitdialog.cpp" line="749"/>
         <source>New</source>
         <translation>Нов</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="744"/>
+        <location filename="../src/editsplitdialog.cpp" line="750"/>
         <source>Edit…</source>
         <translation>Редактиране…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="746"/>
+        <location filename="../src/editsplitdialog.cpp" line="752"/>
         <source>Delete</source>
         <translation>Изтриване</translation>
     </message>
@@ -4232,18 +4232,18 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation type="vanished">Обща стойност:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="985"/>
-        <location filename="../src/editsplitdialog.cpp" line="993"/>
+        <location filename="../src/editsplitdialog.cpp" line="991"/>
+        <location filename="../src/editsplitdialog.cpp" line="999"/>
         <source>Error</source>
         <translation>Грешка</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="985"/>
+        <location filename="../src/editsplitdialog.cpp" line="991"/>
         <source>No suitable expense categories available.</source>
         <translation>Няма налична подходяща категория за разход.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="993"/>
+        <location filename="../src/editsplitdialog.cpp" line="999"/>
         <source>A split must contain at least two transactions.</source>
         <translation>Разделянето трябва да съдържа най-малко две транзакции.</translation>
     </message>
@@ -4283,12 +4283,12 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation>Получатели/платци:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="365"/>
+        <location filename="../src/editsplitdialog.cpp" line="369"/>
         <source>Transactions:</source>
         <translation>Транзакции:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="374"/>
+        <location filename="../src/editsplitdialog.cpp" line="378"/>
         <source>Type</source>
         <translation>Вид</translation>
     </message>
@@ -4319,54 +4319,59 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="375"/>
+        <location filename="../src/editsplitdialog.cpp" line="365"/>
+        <source>Comments:</source>
+        <translation type="unfinished">Коментари:</translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="379"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation>Описание</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="377"/>
+        <location filename="../src/editsplitdialog.cpp" line="381"/>
         <source>Payment</source>
         <translation>Плащане</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="378"/>
+        <location filename="../src/editsplitdialog.cpp" line="382"/>
         <source>Deposit</source>
         <translation>Депозит/внос</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="388"/>
+        <location filename="../src/editsplitdialog.cpp" line="392"/>
         <source>New</source>
         <translation>Нов</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="391"/>
+        <location filename="../src/editsplitdialog.cpp" line="395"/>
         <source>New Expense…</source>
         <translation>Нов разход …</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="392"/>
+        <location filename="../src/editsplitdialog.cpp" line="396"/>
         <source>New Income…</source>
         <translation>Нов приход…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="393"/>
+        <location filename="../src/editsplitdialog.cpp" line="397"/>
         <source>New Deposit…</source>
         <translation>Нова вноска…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="394"/>
+        <location filename="../src/editsplitdialog.cpp" line="398"/>
         <source>New Withdrawal…</source>
         <translation>Ново теглене …</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="395"/>
+        <location filename="../src/editsplitdialog.cpp" line="399"/>
         <source>New Securities Purchase…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Нова покупка на ценни книжа…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="396"/>
+        <location filename="../src/editsplitdialog.cpp" line="400"/>
         <source>New Securities Sale…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Нова продажба на ценни книжа…</translation>
@@ -4380,50 +4385,50 @@ Confirm that they have indeed occurred (or will occur today).</source>
         <translation type="vanished">Продадени акции …</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="397"/>
+        <location filename="../src/editsplitdialog.cpp" line="401"/>
         <source>New Dividend…</source>
         <translation>Нов дивидент…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="398"/>
+        <location filename="../src/editsplitdialog.cpp" line="402"/>
         <source>Edit…</source>
         <translation>Редактиране…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="400"/>
+        <location filename="../src/editsplitdialog.cpp" line="404"/>
         <source>Delete</source>
         <translation>Изтриване</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="463"/>
+        <location filename="../src/editsplitdialog.cpp" line="467"/>
         <source>Total value:</source>
         <translation>Обща стойност:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="643"/>
-        <location filename="../src/editsplitdialog.cpp" line="651"/>
-        <location filename="../src/editsplitdialog.cpp" line="655"/>
-        <location filename="../src/editsplitdialog.cpp" line="665"/>
+        <location filename="../src/editsplitdialog.cpp" line="649"/>
+        <location filename="../src/editsplitdialog.cpp" line="657"/>
+        <location filename="../src/editsplitdialog.cpp" line="661"/>
+        <location filename="../src/editsplitdialog.cpp" line="671"/>
         <source>Error</source>
         <translation>Грешка</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="643"/>
+        <location filename="../src/editsplitdialog.cpp" line="649"/>
         <source>No suitable account available.</source>
         <translation>Няма подходяща сметка на разположение.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="651"/>
+        <location filename="../src/editsplitdialog.cpp" line="657"/>
         <source>Invalid date.</source>
         <translation>Грешна дата.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="655"/>
+        <location filename="../src/editsplitdialog.cpp" line="661"/>
         <source>A split must contain at least two transactions.</source>
         <translation>Разделянето трябва да съдържа най-малко две транзакции.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="665"/>
+        <location filename="../src/editsplitdialog.cpp" line="671"/>
         <source>Cannot transfer money to and from the same account.</source>
         <translation>Не можете да прехвърляте пари от една и съща сметка.</translation>
     </message>

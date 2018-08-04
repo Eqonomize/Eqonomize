@@ -164,7 +164,7 @@ class EditMultiItemWidget : public QWidget {
 		
 		QDateEdit *dateEdit;
 		AccountComboBox *accountCombo;
-		QLineEdit *descriptionEdit, *payeeEdit, *fileEdit;
+		QLineEdit *descriptionEdit, *payeeEdit, *fileEdit, *commentEdit;
 		QTreeWidget *transactionsView;
 		QPushButton *editButton, *removeButton;
 		QLabel *totalLabel;
