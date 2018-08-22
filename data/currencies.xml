@@ -1,459 +1,459 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Eqonomize version="1.3.0">
 	<currency code="AED" symbol="د.إ" name="United Arab Emirates dirham" source="mycurrency.net">
-		<rate value="4.31689" date="2018-06-09"/>
+		<rate value="4.22480" date="2018-08-22"/>
 	</currency>
 	<currency code="AFN" symbol="Afs" name="Afghan afghani" source="mycurrency.net">
-		<rate value="83.84128" date="2018-06-09"/>
+		<rate value="83.75641" date="2018-08-22"/>
 	</currency>
 	<currency code="ALL" symbol="L" name="Albanian lek" source="mycurrency.net">
-		<rate value="126.88443" date="2018-06-09"/>
+		<rate value="124.75069" date="2018-08-22"/>
 	</currency>
 	<currency code="AMD" symbol="֏" name="Armenian dram" source="mycurrency.net">
-		<rate value="567.38909" date="2018-06-09"/>
+		<rate value="551.84871" date="2018-08-22"/>
 	</currency>
 	<currency code="ANG" symbol="ƒ" name="Netherlands Antillean guilder" source="mycurrency.net">
-		<rate value="2.10444" date="2018-06-09"/>
+		<rate value="2.11246" date="2018-08-22"/>
 	</currency>
 	<currency code="AOA" symbol="Kz" name="Angolan kwanza" source="mycurrency.net">
-		<rate value="279.36437" date="2018-06-09"/>
+		<rate value="313.55257" date="2018-08-22"/>
 	</currency>
 	<currency code="ARS" symbol="$" name="Argentine peso" source="mycurrency.net">
-		<rate value="29.72587" date="2018-06-09"/>
+		<rate value="34.48760" date="2018-08-22"/>
 	</currency>
 	<currency code="AUD" symbol="$" name="Australian Dollar" source="ECB">
-		<rate value="1.54960" date="2018-06-08"/>
+		<rate value="1.56570" date="2018-08-21"/>
 	</currency>
 	<currency code="AZN" symbol="₼" name="Azerbaijani manat" source="mycurrency.net">
-		<rate value="1.99759" date="2018-06-09"/>
+		<rate value="1.95822" date="2018-08-22"/>
 	</currency>
 	<currency code="BAM" symbol="KM" name="Bosnia and Herzegovina convertible mark" source="mycurrency.net">
-		<rate value="1.95622" date="2018-06-09"/>
+		<rate value="1.94344" date="2018-08-22"/>
 	</currency>
 	<currency code="BBD" symbol="$" name="Barbadian dollar" source="mycurrency.net">
-		<rate value="2.35080" date="2018-06-09"/>
+		<rate value="2.29166" date="2018-08-22"/>
 	</currency>
 	<currency code="BDT" symbol="৳" name="Bangladeshi taka" source="mycurrency.net">
-		<rate value="98.33396" date="2018-06-09"/>
+		<rate value="95.95198" date="2018-08-22"/>
 	</currency>
 	<currency code="BGN" symbol="лв." name="Bulgarian lev" source="ECB">
-		<rate value="1.95580" date="2018-06-08"/>
+		<rate value="1.95580" date="2018-08-21"/>
 	</currency>
 	<currency code="BHD" symbol="BD" name="Bahraini dinar" source="mycurrency.net">
-		<rate value="0.44372" date="2018-06-09"/>
+		<rate value="0.43388" date="2018-08-22"/>
 	</currency>
 	<currency code="BIF" symbol="FBu" name="Burundian franc" source="mycurrency.net">
-		<rate value="2058.10189" date="2018-06-09"/>
+		<rate value="2025.15714" date="2018-08-22"/>
 	</currency>
 	<currency code="BMD" symbol="$" name="Bermudian dollar" source="mycurrency.net">
-		<rate value="1.17540" date="2018-06-09"/>
+		<rate value="1.15020" date="2018-08-22"/>
 	</currency>
 	<currency code="BND" symbol="$" name="Brunei dollar" source="mycurrency.net">
-		<rate value="1.55306" date="2018-06-09"/>
+		<rate value="1.56519" date="2018-08-22"/>
 	</currency>
 	<currency code="BOB" symbol="Bs." name="Bolivian boliviano" source="mycurrency.net">
-		<rate value="8.06371" date="2018-06-09"/>
+		<rate value="7.91159" date="2018-08-22"/>
 	</currency>
 	<currency code="BRL" symbol="R$" name="Brazilian real" source="ECB">
-		<rate value="4.51490" date="2018-06-08"/>
+		<rate value="4.56230" date="2018-08-21"/>
 	</currency>
 	<currency code="BSD" symbol="$" name="Bahamian dollar" source="mycurrency.net">
-		<rate value="1.17540" date="2018-06-09"/>
+		<rate value="1.14488" date="2018-08-22"/>
 	</currency>
 	<currency code="BWP" symbol="P" name="Botswana pula" source="mycurrency.net">
-		<rate value="11.90292" date="2018-06-09"/>
+		<rate value="12.23238" date="2018-08-22"/>
 	</currency>
 	<currency code="BYR" symbol="Br" name="Belarusian ruble" source="mycurrency.net">
-		<rate value="23037.84000" date="2018-06-09"/>
+		<rate value="22543.92000" date="2018-08-22"/>
 	</currency>
 	<currency code="BZD" symbol="$" name="Belize dollar" source="mycurrency.net">
-		<rate value="2.34821" date="2018-06-09"/>
+		<rate value="2.30132" date="2018-08-22"/>
 	</currency>
 	<currency code="CAD" symbol="$" name="Canadian dollar" source="ECB">
-		<rate value="1.52740" date="2018-06-08"/>
+		<rate value="1.49780" date="2018-08-21"/>
 	</currency>
 	<currency code="CDF" symbol="FC" name="Congolese franc" source="mycurrency.net">
-		<rate value="1840.08870" date="2018-06-09"/>
+		<rate value="1858.72320" date="2018-08-22"/>
 	</currency>
 	<currency code="CHF" symbol="Fr" name="Swiss franc" source="ECB">
-		<rate value="1.15720" date="2018-06-08"/>
+		<rate value="1.13720" date="2018-08-21"/>
 	</currency>
 	<currency code="CLP" symbol="$" name="Chilean peso" source="mycurrency.net">
-		<rate value="740.36095" date="2018-06-09"/>
+		<rate value="763.73280" date="2018-08-22"/>
 	</currency>
 	<currency code="CNY" symbol="¥" name="Chinese yuan renminbi" source="ECB">
-		<rate value="7.53330" date="2018-06-08"/>
+		<rate value="7.87480" date="2018-08-21"/>
 	</currency>
 	<currency code="COP" symbol="$" name="Colombian peso" source="mycurrency.net">
-		<rate value="3356.47224" date="2018-06-09"/>
+		<rate value="3426.44580" date="2018-08-22"/>
 	</currency>
 	<currency code="CRC" symbol="₡" name="Costa Rican colón" source="mycurrency.net">
-		<rate value="664.11275" date="2018-06-09"/>
+		<rate value="649.81124" date="2018-08-22"/>
 	</currency>
 	<currency code="CUP" symbol="$" name="Cuban peso" source="mycurrency.net">
-		<rate value="31.14810" date="2018-06-09"/>
+		<rate value="1.14468" date="2018-08-22"/>
 	</currency>
 	<currency code="CVE" symbol="$" name="Cape Verdean escudo" source="mycurrency.net">
-		<rate value="110.14673" date="2018-06-09"/>
+		<rate value="109.57150" date="2018-08-22"/>
 	</currency>
 	<currency code="CZK" symbol="Kč" name="Czech Koruna" source="ECB">
-		<rate value="25.79500" date="2018-06-08"/>
+		<rate value="25.73700" date="2018-08-21"/>
 	</currency>
 	<currency code="DJF" symbol="Fdj" name="Djiboutian franc" source="mycurrency.net">
-		<rate value="208.63820" date="2018-06-09"/>
+		<rate value="204.41354" date="2018-08-22"/>
 	</currency>
 	<currency code="DKK" symbol="kr." name="Danish Krone" source="ECB">
-		<rate value="7.44760" date="2018-06-08"/>
+		<rate value="7.45840" date="2018-08-21"/>
 	</currency>
 	<currency code="DOP" symbol="$" name="Dominican peso" source="mycurrency.net">
-		<rate value="57.95897" date="2018-06-09"/>
+		<rate value="57.10973" date="2018-08-22"/>
 	</currency>
 	<currency code="DZD" symbol="DA" name="Algerian dinar" source="mycurrency.net">
-		<rate value="136.82126" date="2018-06-09"/>
+		<rate value="135.99965" date="2018-08-22"/>
 	</currency>
 	<currency code="EEK" symbol="kr" name="Estonian kroon" source="mycurrency.net">
-		<rate value="16.39330" date="2018-06-09"/>
+		<rate value="16.04184" date="2018-08-22"/>
 	</currency>
 	<currency code="EGP" symbol="E£" name="Egyptian pound" source="mycurrency.net">
-		<rate value="20.94610" date="2018-06-09"/>
+		<rate value="20.55177" date="2018-08-22"/>
 	</currency>
 	<currency code="ETB" symbol="Br" name="Ethiopian birr" source="mycurrency.net">
-		<rate value="31.97088" date="2018-06-09"/>
+		<rate value="31.59024" date="2018-08-22"/>
 	</currency>
 	<currency code="FJD" symbol="$" name="Fijian dollar" source="mycurrency.net">
-		<rate value="2.41432" date="2018-06-09"/>
+		<rate value="2.41341" date="2018-08-22"/>
 	</currency>
 	<currency code="FKP" symbol="£" name="Falkland Islands pound" source="mycurrency.net">
-		<rate value="0.87627" date="2018-06-09"/>
+		<rate value="0.89720" date="2018-08-22"/>
 	</currency>
 	<currency code="GBP" symbol="£" name="British pound" source="ECB">
-		<rate value="0.87733" date="2018-06-08"/>
+		<rate value="0.89740" date="2018-08-21"/>
 	</currency>
 	<currency code="GEL" symbol="₾" name="Georgian lari" source="mycurrency.net">
-		<rate value="2.86868" date="2018-06-09"/>
+		<rate value="2.96748" date="2018-08-22"/>
 	</currency>
 	<currency code="GGP" symbol="£" name="Guernsey pound" source="mycurrency.net">
-		<rate value="0.87713" date="2018-06-09"/>
+		<rate value="0.89158" date="2018-08-22"/>
 	</currency>
 	<currency code="GHS" symbol="GH₵" name="Ghanaian cedi" source="mycurrency.net">
-		<rate value="5.52038" date="2018-06-09"/>
+		<rate value="5.42687" date="2018-08-22"/>
 	</currency>
 	<currency code="GIP" symbol="£" name="Gibraltar pund" source="mycurrency.net">
-		<rate value="0.87650" date="2018-06-09"/>
+		<rate value="0.89720" date="2018-08-22"/>
 	</currency>
 	<currency code="GMD" symbol="D" name="Gambian dalasi" source="mycurrency.net">
-		<rate value="55.09100" date="2018-06-09"/>
+		<rate value="55.33037" date="2018-08-22"/>
 	</currency>
 	<currency code="GNF" symbol="FG" name="Guinean franc" source="mycurrency.net">
-		<rate value="10575.07380" date="2018-06-09"/>
+		<rate value="10355.99823" date="2018-08-22"/>
 	</currency>
 	<currency code="GTQ" symbol="Q" name="Guatemalan quetzal" source="mycurrency.net">
-		<rate value="8.62278" date="2018-06-09"/>
+		<rate value="8.59090" date="2018-08-22"/>
 	</currency>
 	<currency code="GYD" symbol="$" name="Guyanese dollar" source="mycurrency.net">
-		<rate value="240.56912" date="2018-06-09"/>
+		<rate value="238.33294" date="2018-08-22"/>
 	</currency>
 	<currency code="HKD" symbol="$" name="Hong Kong dollar" source="ECB">
-		<rate value="9.22220" date="2018-06-08"/>
+		<rate value="9.02900" date="2018-08-21"/>
 	</currency>
 	<currency code="HNL" symbol="L" name="Honduran lempira" source="mycurrency.net">
-		<rate value="28.06385" date="2018-06-09"/>
+		<rate value="27.41502" date="2018-08-22"/>
 	</currency>
 	<currency code="HRK" symbol="kn" name="Croatian kuna" source="ECB">
-		<rate value="7.38300" date="2018-06-08"/>
+		<rate value="7.41950" date="2018-08-21"/>
 	</currency>
 	<currency code="HTG" symbol="G" name="Haitian gourde" source="mycurrency.net">
-		<rate value="77.55289" date="2018-06-09"/>
+		<rate value="79.32239" date="2018-08-22"/>
 	</currency>
 	<currency code="HUF" symbol="Ft" name="Hungarian forint" source="ECB">
-		<rate value="319.70000" date="2018-06-08"/>
+		<rate value="323.43000" date="2018-08-21"/>
 	</currency>
 	<currency code="IDR" symbol="Rp" name="Indonesian rupiah" source="ECB">
-		<rate value="16373.32000" date="2018-06-08"/>
+		<rate value="16787.17000" date="2018-08-21"/>
 	</currency>
 	<currency code="ILS" symbol="₪" name="Israeli new shekel" source="ECB">
-		<rate value="4.20090" date="2018-06-08"/>
+		<rate value="4.20540" date="2018-08-21"/>
 	</currency>
 	<currency code="INR" symbol="₹" name="Indian rupee" source="ECB">
-		<rate value="79.34200" date="2018-06-08"/>
+		<rate value="80.30150" date="2018-08-21"/>
 	</currency>
 	<currency code="IQD" symbol="د.ع" name="Iraqi dinar" source="mycurrency.net">
-		<rate value="1391.67360" date="2018-06-09"/>
+		<rate value="1369.88820" date="2018-08-22"/>
 	</currency>
 	<currency code="IRR" symbol="﷼" name="Iranian rial" source="mycurrency.net">
-		<rate value="49590.12600" date="2018-06-09"/>
+		<rate value="48429.17100" date="2018-08-22"/>
 	</currency>
 	<currency code="ISK" symbol="kr" name="Icelandic króna" source="ECB">
-		<rate value="124.70000" date="2018-06-08"/>
+		<rate value="124.20000" date="2018-08-21"/>
 	</currency>
 	<currency code="JMD" symbol="$" name="Jamaican dollar" source="mycurrency.net">
-		<rate value="149.19352" date="2018-06-09"/>
+		<rate value="156.26042" date="2018-08-22"/>
 	</currency>
 	<currency code="JOD" symbol="JD" name="Jordanian dinar" source="mycurrency.net">
-		<rate value="0.83278" date="2018-06-09"/>
+		<rate value="0.81641" date="2018-08-22"/>
 	</currency>
 	<currency code="JPY" symbol="¥" name="Japansese yen" source="ECB">
-		<rate value="128.64000" date="2018-06-08"/>
+		<rate value="127.01000" date="2018-08-21"/>
 	</currency>
 	<currency code="KES" symbol="KSh" name="Kenyan shilling" source="mycurrency.net">
-		<rate value="118.24524" date="2018-06-09"/>
+		<rate value="115.99767" date="2018-08-22"/>
 	</currency>
 	<currency code="KGS" symbol="лв" name="Kyrgyzstani som" source="mycurrency.net">
-		<rate value="80.30274" date="2018-06-09"/>
+		<rate value="79.88795" date="2018-08-22"/>
 	</currency>
 	<currency code="KHR" symbol="៛" name="Cambodian riel" source="mycurrency.net">
-		<rate value="4766.24700" date="2018-06-09"/>
+		<rate value="4682.46420" date="2018-08-22"/>
 	</currency>
 	<currency code="KMF" symbol="CF" name="Comoro franc" source="mycurrency.net">
-		<rate value="491.22317" date="2018-06-09"/>
+		<rate value="490.99162" date="2018-08-22"/>
 	</currency>
 	<currency code="KPW" symbol="₩" name="North Korean won" source="mycurrency.net">
-		<rate value="1057.86000" date="2018-06-09"/>
+		<rate value="1035.21796" date="2018-08-22"/>
 	</currency>
 	<currency code="KRW" symbol="₩" name="South Korean won" source="ECB">
-		<rate value="1263.46000" date="2018-06-08"/>
+		<rate value="1287.79000" date="2018-08-21"/>
 	</currency>
 	<currency code="KWD" symbol="د.ك" name="Kuwaiti dinar" source="mycurrency.net">
-		<rate value="0.35462" date="2018-06-09"/>
+		<rate value="0.34843" date="2018-08-22"/>
 	</currency>
 	<currency code="KYD" symbol="$" name="Cayman Islands dollar" source="mycurrency.net">
-		<rate value="0.96428" date="2018-06-09"/>
+		<rate value="0.95422" date="2018-08-22"/>
 	</currency>
 	<currency code="KZT" symbol="₸" name="Kazakhstani tenge" source="mycurrency.net">
-		<rate value="392.93622" date="2018-06-09"/>
+		<rate value="413.58892" date="2018-08-22"/>
 	</currency>
 	<currency code="LAK" symbol="₭" name="Lao kip" source="mycurrency.net">
-		<rate value="9799.30980" date="2018-06-09"/>
+		<rate value="9795.10320" date="2018-08-22"/>
 	</currency>
 	<currency code="LBP" symbol="ل.ل" name="Lebanese pound" source="mycurrency.net">
-		<rate value="1769.79978" date="2018-06-09"/>
+		<rate value="1732.25871" date="2018-08-22"/>
 	</currency>
 	<currency code="LKR" symbol="රු" name="Sri Lankan rupee" source="mycurrency.net">
-		<rate value="186.79457" date="2018-06-09"/>
+		<rate value="183.87672" date="2018-08-22"/>
 	</currency>
 	<currency code="LRD" symbol="$" name="Liberian dollar" source="mycurrency.net">
-		<rate value="162.65185" date="2018-06-09"/>
+		<rate value="177.81747" date="2018-08-22"/>
 	</currency>
 	<currency code="LSL" symbol="L" name="Lesotho loti" source="mycurrency.net">
-		<rate value="15.38646" date="2018-06-09"/>
+		<rate value="16.53412" date="2018-08-22"/>
 	</currency>
 	<currency code="LTL" symbol="Lt" name="Lithuanian litas" source="mycurrency.net">
-		<rate value="3.58344" date="2018-06-09"/>
+		<rate value="3.50661" date="2018-08-22"/>
 	</currency>
 	<currency code="LVL" symbol="Ls" name="Latvian lats" source="mycurrency.net">
-		<rate value="0.72939" date="2018-06-09"/>
+		<rate value="0.71376" date="2018-08-22"/>
 	</currency>
 	<currency code="LYD" symbol="LD" name="Libyan dinar" source="mycurrency.net">
-		<rate value="1.56998" date="2018-06-09"/>
+		<rate value="1.59515" date="2018-08-22"/>
 	</currency>
 	<currency code="MAD" name="Moroccan dirham" source="mycurrency.net">
-		<rate value="11.09817" date="2018-06-09"/>
+		<rate value="10.89262" date="2018-08-22"/>
 	</currency>
 	<currency code="MDL" symbol="lei" name="Moldovan leu" source="mycurrency.net">
-		<rate value="19.62918" date="2018-06-09"/>
+		<rate value="19.14910" date="2018-08-22"/>
 	</currency>
 	<currency code="MGA" symbol="Ar" name="Malagasy ariary" source="mycurrency.net">
-		<rate value="3843.55800" date="2018-06-09"/>
+		<rate value="3786.91848" date="2018-08-22"/>
 	</currency>
 	<currency code="MKD" symbol="ден" name="Macedonian denar" source="mycurrency.net">
-		<rate value="61.15606" date="2018-06-09"/>
+		<rate value="61.25390" date="2018-08-22"/>
 	</currency>
 	<currency code="MMK" symbol="K" name="Myanmar kyat" source="mycurrency.net">
-		<rate value="1578.56220" date="2018-06-09"/>
+		<rate value="1731.17752" date="2018-08-22"/>
 	</currency>
 	<currency code="MNT" symbol="₮" name="Mongolian tögrög" source="mycurrency.net">
-		<rate value="2826.83700" date="2018-06-09"/>
+		<rate value="2833.64422" date="2018-08-22"/>
 	</currency>
 	<currency code="MOP" symbol="MOP$" name="Macanese pataca" source="mycurrency.net">
-		<rate value="9.49688" date="2018-06-09"/>
+		<rate value="9.25721" date="2018-08-22"/>
 	</currency>
 	<currency code="MRO" symbol="UM" name="Mauritanian ouguiya" source="mycurrency.net">
-		<rate value="416.09160" date="2018-06-09"/>
+		<rate value="411.19765" date="2018-08-22"/>
 	</currency>
 	<currency code="MUR" symbol="₨" name="Mauritian rupee" source="mycurrency.net">
-		<rate value="39.72852" date="2018-06-09"/>
+		<rate value="39.27910" date="2018-08-22"/>
 	</currency>
 	<currency code="MVR" symbol="Rf" name="Maldivian rufiyaa" source="mycurrency.net">
-		<rate value="18.30145" date="2018-06-09"/>
+		<rate value="17.78209" date="2018-08-22"/>
 	</currency>
 	<currency code="MWK" symbol="MK" name="Malawian kwacha" source="mycurrency.net">
-		<rate value="838.57738" date="2018-06-09"/>
+		<rate value="831.41632" date="2018-08-22"/>
 	</currency>
 	<currency code="MXN" symbol="$" name="Mexican peso" source="ECB">
-		<rate value="24.07740" date="2018-06-08"/>
+		<rate value="21.78050" date="2018-08-21"/>
 	</currency>
 	<currency code="MYR" symbol="RM" name="Malaysian ringgit" source="ECB">
-		<rate value="4.68670" date="2018-06-08"/>
+		<rate value="4.71640" date="2018-08-21"/>
 	</currency>
 	<currency code="MZN" symbol="MT" name="Mozambican metical" source="mycurrency.net">
-		<rate value="69.20755" date="2018-06-09"/>
+		<rate value="68.05756" date="2018-08-22"/>
 	</currency>
 	<currency code="NAD" symbol="$" name="Namibian dollar" source="mycurrency.net">
-		<rate value="15.33944" date="2018-06-09"/>
+		<rate value="16.63764" date="2018-08-22"/>
 	</currency>
 	<currency code="NGN" symbol="₦" name="Nigerian naira" source="mycurrency.net">
-		<rate value="421.96860" date="2018-06-09"/>
+		<rate value="415.21070" date="2018-08-22"/>
 	</currency>
 	<currency code="NIO" symbol="C$" name="Nicaraguan córdoba" source="mycurrency.net">
-		<rate value="36.68423" date="2018-06-09"/>
+		<rate value="36.52345" date="2018-08-22"/>
 	</currency>
 	<currency code="NOK" symbol="kr" name="Norwegian krone" source="ECB">
-		<rate value="9.50850" date="2018-06-08"/>
+		<rate value="9.70500" date="2018-08-21"/>
 	</currency>
 	<currency code="NPR" symbol="Rs." name="Nepalese rupee" source="mycurrency.net">
-		<rate value="126.53181" date="2018-06-09"/>
+		<rate value="127.92524" date="2018-08-22"/>
 	</currency>
 	<currency code="NZD" symbol="$" name="New Zeeland dollar" source="ECB">
-		<rate value="1.67340" date="2018-06-08"/>
+		<rate value="1.72810" date="2018-08-21"/>
 	</currency>
 	<currency code="OMR" symbol="﷼" name="Omani rial" source="mycurrency.net">
-		<rate value="0.45230" date="2018-06-09"/>
+		<rate value="0.44286" date="2018-08-22"/>
 	</currency>
 	<currency code="PAB" symbol="B/." name="Panamanian balboa" source="mycurrency.net">
-		<rate value="1.17540" date="2018-06-09"/>
+		<rate value="1.14502" date="2018-08-22"/>
 	</currency>
 	<currency code="PEN" symbol="S/" name="Peruvian Sol" source="mycurrency.net">
-		<rate value="3.82910" date="2018-06-09"/>
+		<rate value="3.78899" date="2018-08-22"/>
 	</currency>
 	<currency code="PGK" symbol="K" name="Papua New Guinean kina" source="mycurrency.net">
-		<rate value="3.68963" date="2018-06-09"/>
+		<rate value="3.79359" date="2018-08-22"/>
 	</currency>
 	<currency code="PHP" symbol="₱" name="Philippine peso" source="ECB">
-		<rate value="62.06800" date="2018-06-08"/>
+		<rate value="61.47100" date="2018-08-21"/>
 	</currency>
 	<currency code="PKR" symbol="₨" name="Pakistani rupee" source="mycurrency.net">
-		<rate value="135.77045" date="2018-06-09"/>
+		<rate value="140.20938" date="2018-08-22"/>
 	</currency>
 	<currency code="PLN" symbol="zł" name="Polish złoty" source="ECB">
-		<rate value="4.27930" date="2018-06-08"/>
+		<rate value="4.30810" date="2018-08-21"/>
 	</currency>
 	<currency code="PYG" symbol="₲" name="Paraguayan guaraní" source="mycurrency.net">
-		<rate value="6612.80040" date="2018-06-09"/>
+		<rate value="6615.95040" date="2018-08-22"/>
 	</currency>
 	<currency code="QAR" symbol="ر.ق" name="Qatari riyal" source="mycurrency.net">
-		<rate value="4.27822" date="2018-06-09"/>
+		<rate value="4.18799" date="2018-08-22"/>
 	</currency>
 	<currency code="RON" symbol="lei" name="Romanian leu" source="ECB">
-		<rate value="4.65930" date="2018-06-08"/>
+		<rate value="4.64150" date="2018-08-21"/>
 	</currency>
 	<currency code="RSD" symbol="дин" name="Serbian dinar" source="mycurrency.net">
-		<rate value="117.20971" date="2018-06-09"/>
+		<rate value="117.33190" date="2018-08-22"/>
 	</currency>
 	<currency code="RUB" symbol="₽" name="Russian ruble" source="ECB">
-		<rate value="73.47730" date="2018-06-08"/>
+		<rate value="77.69210" date="2018-08-21"/>
 	</currency>
 	<currency code="RWF" symbol="FRw" name="Rwandan franc" source="mycurrency.net">
-		<rate value="998.42002" date="2018-06-09"/>
+		<rate value="1007.29340" date="2018-08-22"/>
 	</currency>
 	<currency code="SAR" symbol="ر.س" name="Saudi riyal" source="mycurrency.net">
-		<rate value="4.40740" date="2018-06-09"/>
+		<rate value="4.31388" date="2018-08-22"/>
 	</currency>
 	<currency code="SBD" symbol="$" name="Solomon Islands dollar" source="mycurrency.net">
-		<rate value="9.28872" date="2018-06-09"/>
+		<rate value="9.22840" date="2018-08-22"/>
 	</currency>
 	<currency code="SCR" symbol="SR" name="Seychelles rupee" source="mycurrency.net">
-		<rate value="15.97134" date="2018-06-09"/>
+		<rate value="15.63099" date="2018-08-22"/>
 	</currency>
 	<currency code="SDG" symbol="ج.س" name="Sudanese pound" source="mycurrency.net">
-		<rate value="21.10454" date="2018-06-09"/>
+		<rate value="20.68405" date="2018-08-22"/>
 	</currency>
 	<currency code="SEK" symbol="kr" name="Swedish krona" source="ECB">
-		<rate value="10.28700" date="2018-06-08"/>
+		<rate value="10.51180" date="2018-08-21"/>
 	</currency>
 	<currency code="SGD" symbol="$" name="Singapore dollar" source="ECB">
-		<rate value="1.57020" date="2018-06-08"/>
+		<rate value="1.57360" date="2018-08-21"/>
 	</currency>
 	<currency code="SLL" symbol="Le" name="Sierra Leonean leone" source="mycurrency.net">
-		<rate value="9226.89000" date="2018-06-09"/>
+		<rate value="9862.96500" date="2018-08-22"/>
 	</currency>
 	<currency code="SOS" symbol="Sh.So." name="Somali shilling" source="mycurrency.net">
-		<rate value="661.75020" date="2018-06-09"/>
+		<rate value="665.96580" date="2018-08-22"/>
 	</currency>
 	<currency code="SRD" symbol="$" name="Surinamese dollar" source="mycurrency.net">
-		<rate value="8.70226" date="2018-06-09"/>
+		<rate value="8.57820" date="2018-08-22"/>
 	</currency>
 	<currency code="STD" symbol="Db" name="São Tomé and Príncipe dobra" source="mycurrency.net">
-		<rate value="24475.00158" date="2018-06-09"/>
+		<rate value="24304.30110" date="2018-08-22"/>
 	</currency>
 	<currency code="SVC" symbol="₡" name="Salvadoran colón" source="mycurrency.net">
-		<rate value="10.28518" date="2018-06-09"/>
+		<rate value="10.01928" date="2018-08-22"/>
 	</currency>
 	<currency code="SYP" symbol="£" name="Syrian pound" source="mycurrency.net">
-		<rate value="605.30749" date="2018-06-09"/>
+		<rate value="592.35300" date="2018-08-22"/>
 	</currency>
 	<currency code="SZL" symbol="E" name="Swazi lilangeni" source="mycurrency.net">
-		<rate value="15.34837" date="2018-06-09"/>
+		<rate value="16.49502" date="2018-08-22"/>
 	</currency>
 	<currency code="THB" symbol="฿" name="Thai baht" source="ECB">
-		<rate value="37.68300" date="2018-06-08"/>
+		<rate value="37.64600" date="2018-08-21"/>
 	</currency>
 	<currency code="TJS" name="Tajikistani somoni" source="mycurrency.net">
-		<rate value="10.64407" date="2018-06-09"/>
+		<rate value="10.78939" date="2018-08-22"/>
 	</currency>
 	<currency code="TMT" symbol="T" name="Turkmenistan manat" source="mycurrency.net">
-		<rate value="3.99636" date="2018-06-09"/>
+		<rate value="4.03720" date="2018-08-22"/>
 	</currency>
 	<currency code="TND" symbol="DT" name="Tunisian dinar" source="mycurrency.net">
-		<rate value="3.05898" date="2018-06-09"/>
+		<rate value="3.14867" date="2018-08-22"/>
 	</currency>
 	<currency code="TOP" symbol="T$" name="Tongan paʻanga" source="mycurrency.net">
-		<rate value="2.68497" date="2018-06-09"/>
+		<rate value="2.62579" date="2018-08-22"/>
 	</currency>
 	<currency code="TRY" symbol="₺" name="Turkish lira" source="ECB">
-		<rate value="5.27980" date="2018-06-08"/>
+		<rate value="7.06570" date="2018-08-21"/>
 	</currency>
 	<currency code="TTD" symbol="$" name="Trinidad and Tobago dollar" source="mycurrency.net">
-		<rate value="7.94041" date="2018-06-09"/>
+		<rate value="7.71686" date="2018-08-22"/>
 	</currency>
 	<currency code="TWD" symbol="$" name="New Taiwan dollar" source="mycurrency.net">
-		<rate value="35.06571" date="2018-06-09"/>
+		<rate value="35.32724" date="2018-08-22"/>
 	</currency>
 	<currency code="TZS" symbol="TSh" name="Tanzanian shilling" source="mycurrency.net">
-		<rate value="2669.33340" date="2018-06-09"/>
+		<rate value="2626.25166" date="2018-08-22"/>
 	</currency>
 	<currency code="UAH" symbol="₴" name="Ukrainian hryvnia" source="mycurrency.net">
-		<rate value="30.70733" date="2018-06-09"/>
+		<rate value="31.70296" date="2018-08-22"/>
 	</currency>
 	<currency code="UGX" symbol="USh" name="Ugandan shilling" source="mycurrency.net">
-		<rate value="4480.62480" date="2018-06-09"/>
+		<rate value="4307.72904" date="2018-08-22"/>
 	</currency>
 	<currency code="USD" symbol="$" name="United States dollar" source="ECB">
-		<rate value="1.17540" date="2018-06-08"/>
+		<rate value="1.15020" date="2018-08-21"/>
 	</currency>
 	<currency code="UYU" symbol="$" name="Uruguayan peso" source="mycurrency.net">
-		<rate value="36.80177" date="2018-06-09"/>
+		<rate value="36.17391" date="2018-08-22"/>
 	</currency>
 	<currency code="UZS" symbol="лв" name="Uzbekistan som" source="mycurrency.net">
-		<rate value="9302.11560" date="2018-06-09"/>
+		<rate value="8934.86862" date="2018-08-22"/>
 	</currency>
 	<currency code="VEF" symbol="Bs." name="Venezuelan bolívar" source="mycurrency.net">
-		<rate value="93796.92000" date="2018-06-09"/>
+		<rate value="11.48762" date="2018-08-22"/>
 	</currency>
 	<currency code="VND" symbol="₫" name="Vietnamese đồng" source="mycurrency.net">
-		<rate value="26786.19060" date="2018-06-09"/>
+		<rate value="26641.39248" date="2018-08-22"/>
 	</currency>
 	<currency code="VUV" symbol="VT" name="Vanuatu vatu" source="mycurrency.net">
-		<rate value="125.13308" date="2018-06-09"/>
+		<rate value="129.05129" date="2018-08-22"/>
 	</currency>
 	<currency code="XAF" symbol="FCFA" name="Central African CFA franc" source="mycurrency.net">
-		<rate value="654.59201" date="2018-06-09"/>
+		<rate value="651.80684" date="2018-08-22"/>
 	</currency>
 	<currency code="XCD" symbol="$" name="East Caribbean dollar" source="mycurrency.net">
-		<rate value="3.17782" date="2018-06-09"/>
+		<rate value="3.10847" date="2018-08-22"/>
 	</currency>
 	<currency code="XOF" symbol="CFA" name="West African CFA franc" source="mycurrency.net">
-		<rate value="654.59201" date="2018-06-09"/>
+		<rate value="651.80684" date="2018-08-22"/>
 	</currency>
 	<currency code="XPF" symbol="CFP" name="CFP franc" source="mycurrency.net">
-		<rate value="119.15382" date="2018-06-09"/>
+		<rate value="118.50511" date="2018-08-22"/>
 	</currency>
 	<currency code="YER" symbol="﷼" name="Yemen rial" source="mycurrency.net">
-		<rate value="293.67369" date="2018-06-09"/>
+		<rate value="287.89736" date="2018-08-22"/>
 	</currency>
 	<currency code="ZAR" symbol="R" name="South African rand" source="ECB">
-		<rate value="15.38210" date="2018-06-08"/>
+		<rate value="16.61460" date="2018-08-21"/>
 	</currency>
 	<currency code="ZMK" symbol="ZK" name="Zambian kwacha" source="mycurrency.net">
-		<rate value="10580.01048" date="2018-06-09"/>
+		<rate value="10353.16874" date="2018-08-22"/>
 	</currency>
 </Eqonomize>
