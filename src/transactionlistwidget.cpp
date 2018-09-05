@@ -462,6 +462,16 @@ void TransactionListWidget::addTransaction() {
 	}
 	if(strans) mainWin->transactionAdded(strans);
 	else mainWin->transactionAdded(trans);
+	QTreeWidgetItemIterator it(transactionsView);
+	TransactionListViewItem *i = (TransactionListViewItem*) *it;
+	while(i) {
+		if(i->transaction() == trans) {
+			transactionsView->scrollToItem(i);
+			break;
+		}
+		++it;
+		i = (TransactionListViewItem*) *it;
+	}
 }
 void TransactionListWidget::editScheduledTransaction() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
@@ -962,6 +972,7 @@ void TransactionListWidget::modifyTransaction() {
 			mainWin->transactionModified(i->transaction(), oldtrans);
 		}
 		delete oldtrans;
+		transactionsView->scrollToItem(i);
 	}
 }
 void TransactionListWidget::removeScheduledTransaction() {
