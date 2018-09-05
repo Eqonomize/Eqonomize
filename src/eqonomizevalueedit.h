@@ -63,6 +63,8 @@ class EqonomizeValueEdit : public QDoubleSpinBox {
 		double fixup_sub(QString &input, QStringList &errors, bool &calculated) const;
 		virtual void focusInEvent(QFocusEvent*);
 		
+		bool eventFilter(QObject*, QEvent*);
+		
 	public slots:
 	
 		void enterFocus();

@@ -81,6 +81,19 @@ void EqonomizeValueEdit::init(double lower, double upper, double step, double va
 	connect(this, SIGNAL(editingFinished()), this, SLOT(onEditingFinished()));
 	QLineEdit *w = findChild<QLineEdit*>();
 	if(w) connect(w, SIGNAL(textChanged(const QString&)), this, SLOT(onTextChanged(const QString&)));
+	w->installEventFilter(this);
+}
+bool EqonomizeValueEdit::eventFilter(QObject *, QEvent *e) {
+	if(e->type() == QMouseEvent::MouseButtonDblClick) {
+		QLineEdit *w = findChild<QLineEdit*>();
+		QString text = w->text();
+		int pos = w->cursorPosition();
+		if(pos >= text.length()) pos = text.length() - 1;
+		if(!text[pos].isNumber() && !text[pos].isSpace() && !text[pos].isPunct()) return false;
+		selectNumber();
+		return true;
+	}
+	return false;
 }
 void EqonomizeValueEdit::onTextChanged(const QString &text) {
 	if(text == s_suffix) {
