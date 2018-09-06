@@ -80,13 +80,14 @@ class TransactionListWidget : public QWidget {
 		QTreeWidget *transactionsView;
 		QLabel *statLabel;
 		QPushButton *addButton, *modifyButton, *removeButton;
-		QMenu *listPopupMenu;
+		QMenu *listPopupMenu, *headerPopupMenu;
 		TransactionFilterWidget *filterWidget;
 		TransactionEditWidget *editWidget;
 		QLabel *editInfoLabel;
 		double current_value, current_quantity;
 		Transactions *selected_trans;
 		QColor expenseColor, incomeColor, transferColor;
+		QAction *ActionSortByCreationTime;
 		
 	signals:
 		
@@ -123,7 +124,9 @@ class TransactionListWidget : public QWidget {
 		void removeSplitTransaction();
 		void removeScheduledTransaction();
 		void addModifyTransaction();
+		void popupHeaderMenu(const QPoint&);
 		void popupListMenu(const QPoint&);
+		void sortByCreationTime(bool = true);
 		void showFilter(bool focus_description = false);
 		void showEdit();
 		void transactionExecuted(QTreeWidgetItem*);

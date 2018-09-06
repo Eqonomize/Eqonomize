@@ -92,6 +92,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	selected_trans = NULL;
 
 	listPopupMenu = NULL;
+	headerPopupMenu = NULL;
 
 	QVBoxLayout *transactionsLayout = new QVBoxLayout(this);
 	transactionsLayout->setContentsMargins(0, 0, 0, 0);
@@ -139,8 +140,10 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 		}
 	}
 	headers << tr("Comments");
-	transactionsView->setColumnCount(comments_col + 1);
+	headers << "t";
+	transactionsView->setColumnCount(comments_col + 2);
 	transactionsView->setHeaderLabels(headers);
+	transactionsView->setColumnHidden(transactionsView->columnCount() - 1, true);
 	setColumnDateWidth(transactionsView, 0);
 	setColumnStrlenWidth(transactionsView, 1, 25);
 	setColumnMoneyWidth(transactionsView, 2);
@@ -192,9 +195,10 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	connect(filterWidget, SIGNAL(toActivated(Account*)), this, SLOT(filterToActivated(Account*)));
 	connect(filterWidget, SIGNAL(fromActivated(Account*)), this, SLOT(filterFromActivated(Account*)));
 	connect(transactionsView, SIGNAL(itemSelectionChanged()), this, SLOT(transactionSelectionChanged()));
+	transactionsView->header()->setContextMenuPolicy(Qt::CustomContextMenu);
+	connect(transactionsView->header(), SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupHeaderMenu(const QPoint&)));
 	transactionsView->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(transactionsView, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupListMenu(const QPoint&)));
-
 	connect(transactionsView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(transactionExecuted(QTreeWidgetItem*)));
 	connect(transactionsView, SIGNAL(returnPressed(QTreeWidgetItem*)), this, SLOT(transactionExecuted(QTreeWidgetItem*)));
 	
@@ -216,6 +220,7 @@ QByteArray TransactionListWidget::saveState() {
 void TransactionListWidget::restoreState(const QByteArray &state) {
 	transactionsView->header()->restoreState(state);
 	transactionsView->sortByColumn(0, Qt::DescendingOrder);
+	transactionsView->setColumnHidden(transactionsView->columnCount() - 1, true);
 }
 
 void TransactionListWidget::selectAssociatedFile() {
@@ -306,6 +311,22 @@ void TransactionListWidget::popupListMenu(const QPoint &p) {
 		listPopupMenu->addAction(mainWin->ActionDeleteSplitTransaction);
 	}
 	listPopupMenu->popup(transactionsView->viewport()->mapToGlobal(p));
+}
+void TransactionListWidget::popupHeaderMenu(const QPoint &p) {
+	if(!headerPopupMenu) {
+		headerPopupMenu = new QMenu(this);
+		ActionSortByCreationTime = headerPopupMenu->addAction(tr("Sort by creation time"));
+		ActionSortByCreationTime->setCheckable(true);
+		connect(ActionSortByCreationTime, SIGNAL(toggled(bool)), this, SLOT(sortByCreationTime(bool)));
+	}
+	ActionSortByCreationTime->blockSignals(true);
+	ActionSortByCreationTime->setChecked(transactionsView->sortColumn() == transactionsView->columnCount() - 1);
+	ActionSortByCreationTime->blockSignals(false);
+	headerPopupMenu->popup(transactionsView->header()->viewport()->mapToGlobal(p));
+}
+void TransactionListWidget::sortByCreationTime(bool b) {
+	if(b) transactionsView->sortByColumn(transactionsView->columnCount() - 1, Qt::DescendingOrder);
+	else transactionsView->sortByColumn(0, Qt::DescendingOrder);
 }
 
 extern QString htmlize_string(QString str);
@@ -1826,6 +1847,11 @@ bool TransactionListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	if(!t1) t1 = o_trans;
 	Transactions *t2 = i->splitTransaction();
 	if(!t2) t2 = i->transaction();
+	if(treeWidget() && col == treeWidget()->columnCount() - 1) {
+		if(t1->timestamp() < t2->timestamp()) return true;
+		if(t1->timestamp() > t2->timestamp()) return false;
+		col = 0;
+	}
 	if(col == 0) {
 		if(d_date < i->date()) return true;
 		if(d_date > i->date()) return false;

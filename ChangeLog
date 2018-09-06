@@ -1,3 +1,7 @@
+2018-09-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Option to sort transactions by timestamp (in header context menu)
+
 2018-09-05  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Select whole number on double click in value field
