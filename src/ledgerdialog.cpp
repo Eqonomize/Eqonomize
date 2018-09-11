@@ -928,7 +928,6 @@ void LedgerDialog::printView() {
 		grid->addWidget(dateToEdit, 1, 1);
 		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 		buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
-		buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 		connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 		connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
 		box1->addWidget(buttonBox);

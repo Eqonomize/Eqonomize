@@ -241,7 +241,7 @@ void TransactionFilterWidget::clearFilter() {
 void TransactionFilterWidget::checkEnableClear() {
 	clearButton->setEnabled(dateFromButton->isChecked() || minButton->isChecked() || maxButton->isChecked() || fromCombo->currentIndex() || toCombo->currentIndex() || !descriptionEdit->text().isEmpty() || (payeeEdit && !payeeEdit->text().isEmpty()) || to_date != QDate::currentDate());
 }
-void TransactionFilterWidget::focusDescription() {
+void TransactionFilterWidget::focusFirst() {
 	descriptionEdit->setFocus();
 	descriptionEdit->selectAll();
 }

@@ -24,6 +24,7 @@
 
 #include <QWidget>
 #include <QDialog>
+#include <QRadioButton>
 
 class QLabel;
 class QPushButton;
@@ -32,7 +33,6 @@ class QTreeWidgetItem;
 class QLineEdit;
 class QComboBox;
 class QDateEdit;
-class QRadioButton;
 
 class EqonomizeValueEdit;
 
@@ -79,7 +79,7 @@ class EditMultiAccountWidget : public QWidget {
 		void setTransaction(MultiAccountTransaction *split, const QDate &date);
 		bool validValues();
 		bool checkAccounts();
-		void focusDescription();
+		void focusFirst();
 		void reject();
 		QDate date();
 		
@@ -132,10 +132,12 @@ class EditDebtPaymentWidget : public QWidget {
 		bool validValues();
 		bool checkAccounts();
 		QDate date();
+		void focusFirst();
 	
 	signals:
 	
 		void dateChanged(const QDate &d);
+		void addmodify();
 
 	protected slots:
 		
@@ -150,6 +152,10 @@ class EditDebtPaymentWidget : public QWidget {
 		void reductionEditingFinished();
 		void interestSourceChanged();
 		void hasBeenModified();
+		void focusDate();
+		void reductionFocusNext();
+		void accountFocusNext();
+		void feeFocusNext();
 
 };
 
@@ -185,7 +191,7 @@ class EditMultiItemWidget : public QWidget {
 		bool validValues();
 		bool checkAccounts();
 		void reject();
-		void focusDescription();
+		void focusFirst();
 		QDate date();
 		
 	signals:
@@ -209,6 +215,7 @@ class EditMultiItemWidget : public QWidget {
 		void newTransferFrom();
 		void newTransferTo();
 		void newAccount();
+		void focusDate();
 
 };
 
@@ -222,6 +229,10 @@ class EditMultiItemDialog : public QDialog {
 		~EditMultiItemDialog();
 		
 		EditMultiItemWidget *editWidget;
+		
+	protected:
+	
+		void keyPressEvent(QKeyEvent*);
 
 	protected slots:
 		
@@ -241,6 +252,10 @@ class EditMultiAccountDialog : public QDialog {
 		
 		EditMultiAccountWidget *editWidget;
 
+	protected:
+	
+		void keyPressEvent(QKeyEvent*);
+
 	protected slots:
 		
 		void accept();
@@ -259,12 +274,33 @@ class EditDebtPaymentDialog : public QDialog {
 		
 		EditDebtPaymentWidget *editWidget;
 
+	protected:
+	
+		void keyPressEvent(QKeyEvent*);
+
 	protected slots:
 		
 		void accept();
 
 };
 
+class EqonomizeRadioButton : public QRadioButton {
+
+	Q_OBJECT
+
+	public:
+	
+		EqonomizeRadioButton(const QString &text, QWidget *parent);
+	
+	protected slots:
+	
+		void keyPressEvent(QKeyEvent *event);
+		
+	signals:
+	
+		void returnPressed();
+
+};
 
 #endif
 

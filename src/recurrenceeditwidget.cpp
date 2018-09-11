@@ -83,8 +83,7 @@ EditExceptionsDialog::EditExceptionsDialog(QWidget *parent)  : QDialog(parent, 0
 	layout->addWidget(infoLabel, 2, 0, 1, -1);
 
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-	buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
-	buttonBox->button(QDialogButtonBox::Cancel)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
@@ -217,8 +216,7 @@ EditRangeDialog::EditRangeDialog(const QDate &startdate, QWidget *parent) : QDia
 	setRecurrence(NULL);
 	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-	buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
-	buttonBox->button(QDialogButtonBox::Cancel)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);

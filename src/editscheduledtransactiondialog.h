@@ -52,6 +52,7 @@ class EditScheduledTransactionDialog : public QDialog {
 		RecurrenceEditWidget *recurrenceEditWidget;
 		TransactionEditWidget *transactionEditWidget;
 		QTabWidget *tabs;
+		void keyPressEvent(QKeyEvent*);
 		
 	public:
 		
@@ -87,6 +88,8 @@ class EditScheduledMultiItemDialog : public QDialog {
 		EditMultiItemWidget *transactionEditWidget;
 		QTabWidget *tabs;
 		
+		void keyPressEvent(QKeyEvent*);
+		
 	public:
 		
 		EditScheduledMultiItemDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, AssetsAccount *account = NULL, bool allow_account_creation = false);
@@ -118,6 +121,8 @@ class EditScheduledMultiAccountDialog : public QDialog {
 		RecurrenceEditWidget *recurrenceEditWidget;
 		EditMultiAccountWidget *transactionEditWidget;
 		QTabWidget *tabs;
+		
+		void keyPressEvent(QKeyEvent*);
 		
 	public:
 		
@@ -152,6 +157,8 @@ class EditScheduledDebtPaymentDialog : public QDialog {
 		RecurrenceEditWidget *recurrenceEditWidget;
 		EditDebtPaymentWidget *transactionEditWidget;
 		QTabWidget *tabs;
+		
+		void keyPressEvent(QKeyEvent*);
 		
 	public:
 		

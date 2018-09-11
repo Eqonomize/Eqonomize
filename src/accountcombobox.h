@@ -64,6 +64,7 @@ class AccountComboBox : public QComboBox {
 		void multipleAccountsRequested();
 		void accountSelected(Account*);
 		void currentAccountChanged(Account*);
+		void returnPressed();
 		
 	protected slots:
 	

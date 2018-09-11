@@ -1451,8 +1451,7 @@ void ImportCSVDialog::accept() {
 			grid->addWidget(valueFormatCombo, ps > 1 ? 2 : 1, 1);
 		}
 		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-		buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
-		buttonBox->button(QDialogButtonBox::Cancel)->setDefault(true);
+		buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 		connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 		connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
 		box1->addWidget(buttonBox);

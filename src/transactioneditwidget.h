@@ -78,7 +78,7 @@ class TransactionEditWidget : public QWidget {
 		void setAccount(Account *account);
 		void setToAccount(Account *account);
 		void setFromAccount(Account *account);
-		void focusDescription();
+		void focusFirst();
 		QHBoxLayout *bottomLayout();
 		void transactionRemoved(Transaction *trans);
 		void transactionAdded(Transaction *trans);
@@ -178,6 +178,10 @@ class TransactionEditDialog : public QDialog {
 
 		TransactionEditDialog(bool extra_parameters, int transaction_type, Currency *split_currency, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent, bool allow_account_creation = false, bool multiaccount = false, bool withloan = false);
 		TransactionEditWidget *editWidget;
+		
+	protected:
+	
+		void keyPressEvent(QKeyEvent*);
 
 	protected slots:
 

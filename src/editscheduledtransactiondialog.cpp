@@ -86,15 +86,18 @@ EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parame
 	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
-	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
 	
 	connect(transactionEditWidget, SIGNAL(dateChanged(const QDate&)), recurrenceEditWidget, SLOT(setStartDate(const QDate&)));
-	transactionEditWidget->focusDescription();
+	connect(transactionEditWidget, SIGNAL(addmodify()), this, SLOT(accept()));
+	transactionEditWidget->focusFirst();
 }
-
+void EditScheduledTransactionDialog::keyPressEvent(QKeyEvent *e) {
+	if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) return;
+	QDialog::keyPressEvent(e);
+}
 bool EditScheduledTransactionDialog::checkAccounts() {
 	return transactionEditWidget->checkAccounts();
 }
@@ -257,13 +260,17 @@ EditScheduledMultiItemDialog::EditScheduledMultiItemDialog(bool extra_parameters
 	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
-	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
 	
 	connect(transactionEditWidget, SIGNAL(dateChanged(const QDate&)), recurrenceEditWidget, SLOT(setStartDate(const QDate&)));
-	transactionEditWidget->focusDescription();
+	transactionEditWidget->focusFirst();
+}
+
+void EditScheduledMultiItemDialog::keyPressEvent(QKeyEvent *e) {
+	if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) return;
+	QDialog::keyPressEvent(e);
 }
 
 bool EditScheduledMultiItemDialog::checkAccounts() {
@@ -370,16 +377,19 @@ EditScheduledMultiAccountDialog::EditScheduledMultiAccountDialog(bool extra_para
 	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
-	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
 	
 	connect(transactionEditWidget, SIGNAL(dateChanged(const QDate&)), recurrenceEditWidget, SLOT(setStartDate(const QDate&)));
-	transactionEditWidget->focusDescription();
+	transactionEditWidget->focusFirst();
 
 }
 
+void EditScheduledMultiAccountDialog::keyPressEvent(QKeyEvent *e) {
+	if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) return;
+	QDialog::keyPressEvent(e);
+}
 bool EditScheduledMultiAccountDialog::checkAccounts() {
 	return transactionEditWidget->checkAccounts();
 }
@@ -490,15 +500,21 @@ EditScheduledDebtPaymentDialog::EditScheduledDebtPaymentDialog(bool extra_parame
 	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
-	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
 	
 	connect(transactionEditWidget, SIGNAL(dateChanged(const QDate&)), recurrenceEditWidget, SLOT(setStartDate(const QDate&)));
+	connect(transactionEditWidget, SIGNAL(addmodify()), this, SLOT(accept()));
+	
+	transactionEditWidget->focusFirst();
 
 }
 
+void EditScheduledDebtPaymentDialog::keyPressEvent(QKeyEvent *e) {
+	if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) return;
+	QDialog::keyPressEvent(e);
+}
 bool EditScheduledDebtPaymentDialog::checkAccounts() {
 	return transactionEditWidget->checkAccounts();
 }

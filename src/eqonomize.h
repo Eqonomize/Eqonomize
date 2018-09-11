@@ -21,6 +21,7 @@
 #ifndef EQONOMIZE_H
 #define EQONOMIZE_H
 
+#include <QComboBox>
 #include <QDateTime>
 #include <QDialog>
 #include <QDragEnterEvent>
@@ -65,7 +66,6 @@ class QRadioButton;
 class QSpinBox;
 class QTabWidget;
 class QVBoxLayout;
-class QComboBox;
 class QLineEdit;
 class QCommandLineParser;
 class QToolBar;
@@ -655,8 +655,10 @@ class RefundDialog : public QDialog {
 		Transactions *transaction;
 		EqonomizeValueEdit *valueEdit, *quantityEdit;
 		QDateEdit *dateEdit;
-		QComboBox *accountCombo;
+		AccountComboBox *accountCombo;
 		QLineEdit *commentsEdit;
+		
+		void keyPressEvent(QKeyEvent*);
 
 	public:
 
@@ -668,7 +670,7 @@ class RefundDialog : public QDialog {
 	protected slots:
 		
 		void accept();
-		void accountActivated(int);
+		void accountActivated(Account*);
 
 };
 
@@ -684,6 +686,8 @@ class EditSecurityTradeDialog : public QDialog {
 		EqonomizeValueEdit *fromSharesEdit, *toSharesEdit;
 		QDateEdit *dateEdit;
 		int prev_from_index;
+		
+		void keyPressEvent(QKeyEvent *e);
 
 	public:
 
@@ -702,6 +706,7 @@ class EditSecurityTradeDialog : public QDialog {
 		Security *selectedToSecurity();
 		void fromSecurityChanged(bool = false);
 		void toSecurityChanged();
+		void focusDate();
 
 };
 
@@ -763,6 +768,30 @@ class QIFWizardPage : public QWizardPage {
 		QIFWizardPage();
 		bool isComplete() const;
 		void setComplete(bool b);
+};
+
+class EqonomizeComboBox : public QComboBox {
+
+	Q_OBJECT
+	
+	protected:
+	
+		bool block_selected;
+
+	public:
+	
+		EqonomizeComboBox(QWidget *parent);
+	
+	protected slots:
+	
+		void keyPressEvent(QKeyEvent *event);
+		void itemActivated(int);
+		
+	signals:
+	
+		void returnPressed();
+		void itemSelected(int);
+
 };
 
 #endif

@@ -63,7 +63,7 @@ class TransactionFilterWidget : public QWidget {
 		QDate startDate();
 		QDate endDate();
 		void currentDateChanged(const QDate &olddate, const QDate &newdate);
-		void focusDescription();
+		void focusFirst();
 
 		void setFilter(QDate fromdate, QDate todate, double min = -1.0, double max = -1.0, Account *from_account = NULL, Account *to_account = NULL, QString description = QString::null, QString payee = QString::null, bool exclude = false, bool exact_match = false, bool exclude_subs = false);
 

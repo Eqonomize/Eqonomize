@@ -1799,7 +1799,7 @@ void TransactionListWidget::filterFromActivated(Account *acc) {
 	if(acc && (acc->type() != ACCOUNT_TYPE_ASSETS || (acc != budget->balancingAccount && ((AssetsAccount*) acc)->accountType() != ASSETS_TYPE_SECURITIES && !((AssetsAccount*) acc)->isClosed()))) editWidget->setFromAccount(acc);
 }
 void TransactionListWidget::onDisplay() {
-	if(tabs->currentWidget() == editWidget) editWidget->focusDescription();
+	if(tabs->currentWidget() == editWidget) editWidget->focusFirst();
 }
 void TransactionListWidget::updateFromAccounts() {
 	editWidget->updateFromAccounts();
@@ -1818,15 +1818,15 @@ void TransactionListWidget::setDefaultAccounts() {
 }
 void TransactionListWidget::showFilter(bool focus_description) {
 	tabs->setCurrentWidget(filterWidget);
-	if(focus_description) filterWidget->focusDescription();
+	if(focus_description) filterWidget->focusFirst();
 }
 void TransactionListWidget::showEdit() {tabs->setCurrentWidget(editWidget);}
 void TransactionListWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString payee, bool exclude, bool exact_match) {
 	filterWidget->setFilter(fromdate, todate, min, max, from_account, to_account, description, payee, exclude, exact_match);
 }
 void TransactionListWidget::currentTabChanged(int index) {
-	if(index == 0) editWidget->focusDescription();
-	else if(index == 1) filterWidget->focusDescription();
+	if(index == 0) editWidget->focusFirst();
+	else if(index == 1) filterWidget->focusFirst();
 }
 
 TransactionListViewItem::TransactionListViewItem(const QDate &trans_date, Transaction *trans, ScheduledTransaction *strans, MultiAccountTransaction *split, QString s1, QString s2, QString s3, QString s4, QString s5, QString s6, QString s7, QString s8) : QTreeWidgetItem(), o_trans(trans), o_strans(strans), o_split(split), d_date(trans_date) {

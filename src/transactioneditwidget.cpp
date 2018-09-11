@@ -122,7 +122,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		int decimals = budget->defaultShareDecimals();
 		editLayout->addWidget(new QLabel(tr("Security:", "Financial security (e.g. stock, mutual fund)"), this), TEROWCOL(i, 0));
 		if(select_security) {
-			securityCombo = new QComboBox(this);
+			securityCombo = new EqonomizeComboBox(this);
 			securityCombo->setEditable(false);
 			if(b_create_accounts) securityCombo->addItem(tr("New Security…", "Financial security (e.g. stock, mutual fund)"), qVariantFromValue((void*) NULL));
 			int i2 = (b_create_accounts ? 1 : 0);
@@ -206,7 +206,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		if(transtype == TRANSACTION_TYPE_INCOME && (security || select_security)) {
 			editLayout->addWidget(new QLabel(tr("Security:", "Financial security (e.g. stock, mutual fund)"), this), TEROWCOL(i, 0));
 			if(select_security) {
-				securityCombo = new QComboBox(this);
+				securityCombo = new EqonomizeComboBox(this);
 				securityCombo->setEditable(false);
 				if(b_create_accounts) securityCombo->addItem(tr("New Security…", "Financial security (e.g. stock, mutual fund)"), qVariantFromValue((void*) NULL));
 				int i2 = (b_create_accounts ? 1 : 0);
@@ -456,17 +456,18 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	if(b_sec) {
 		switch(security_value_type) {
 			case SECURITY_ALL_VALUES: {
-				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(setFocus()));
-				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(selectNumber()));
-				if(dateEdit) {
+				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(enterFocus()));
+				if(transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
+					connect(quotationEdit, SIGNAL(returnPressed()), valueEdit, SLOT(enterFocus()));
+					if(dateEdit) connect(valueEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
+				} else if(dateEdit) {
 					connect(quotationEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 				}
 				if(transtype == TRANSACTION_TYPE_SECURITY_SELL) connect(maxSharesButton, SIGNAL(clicked()), this, SLOT(maxShares()));
 				break;
 			}
 			case SECURITY_SHARES_AND_QUOTATION: {
-				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(setFocus()));
-				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(selectNumber()));
+				connect(sharesEdit, SIGNAL(returnPressed()), quotationEdit, SLOT(enterFocus()));
 				if(dateEdit) {
 					connect(quotationEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 				}
@@ -474,7 +475,10 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				break;
 			}
 			case SECURITY_VALUE_AND_SHARES: {
-				if(dateEdit) {
+				if(transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
+					connect(sharesEdit, SIGNAL(returnPressed()), valueEdit, SLOT(enterFocus()));
+					if(dateEdit) connect(valueEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
+				} else if(dateEdit) {
 					connect(sharesEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 				}
 				if(transtype == TRANSACTION_TYPE_SECURITY_SELL) connect(maxSharesButton, SIGNAL(clicked()), this, SLOT(maxShares()));
@@ -505,6 +509,10 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			connect(quantityEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 		} else if(depositEdit && dateEdit) {
 			connect(depositEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
+		} else if(quantityEdit && fromCombo) {
+			connect(quantityEdit, SIGNAL(returnPressed()), fromCombo, SLOT(setFocus()));
+		} else if(quantityEdit && toCombo) {
+			connect(quantityEdit, SIGNAL(returnPressed()), toCombo, SLOT(setFocus()));
 		}
 		if(descriptionEdit) {
 			connect(descriptionEdit, SIGNAL(returnPressed()), valueEdit, SLOT(enterFocus()));
@@ -512,20 +520,29 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			connect(descriptionEdit, SIGNAL(textChanged(const QString&)), this, SLOT(descriptionChanged(const QString&)));
 		}
 	}
-	if(valueEdit) connect(valueEdit, SIGNAL(returnPressed()), this, SLOT(valueNextField()));
+	if(valueEdit && transtype != TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) connect(valueEdit, SIGNAL(returnPressed()), this, SLOT(valueNextField()));
 	if(payeeEdit) {
 		connect(payeeEdit, SIGNAL(editingFinished()), this, SLOT(setDefaultValueFromPayee()));
 		connect(payeeEdit, SIGNAL(textChanged(const QString&)), this, SLOT(payeeChanged(const QString&)));
 	}
 	if(b_autoedit && dateEdit) connect(dateEdit, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
+	else if(fromCombo && transtype != TRANSACTION_TYPE_EXPENSE) connect(dateEdit, SIGNAL(returnPressed()), fromCombo, SLOT(setFocus()));
+	else if(toCombo) connect(dateEdit, SIGNAL(returnPressed()), toCombo, SLOT(setFocus()));
 	if(payeeEdit && lenderEdit) connect(payeeEdit, SIGNAL(returnPressed()), lenderEdit, SLOT(setFocus()));
 	else if(payeeEdit && fileEdit) connect(payeeEdit, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
 	else if(payeeEdit && commentsEdit) connect(payeeEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
 	if(lenderEdit && fileEdit) connect(lenderEdit, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
 	else if(lenderEdit && commentsEdit) connect(lenderEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
 	if(fileEdit && commentsEdit) connect(fileEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
-	if(commentsEdit && b_autoedit) connect(commentsEdit, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
+	if(commentsEdit) connect(commentsEdit, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
 	if(securityCombo) connect(securityCombo, SIGNAL(activated(int)), this, SLOT(securityChanged(int)));
+	if(transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND && securityCombo && sharesEdit) {
+		connect(securityCombo, SIGNAL(returnPressed()), sharesEdit, SLOT(enterFocus()));
+		connect(securityCombo, SIGNAL(itemSelected(int)), sharesEdit, SLOT(enterFocus()));
+	} else if(securityCombo && valueEdit) {
+		connect(securityCombo, SIGNAL(returnPressed()), valueEdit, SLOT(enterFocus()));
+		connect(securityCombo, SIGNAL(itemSelected(int)), valueEdit, SLOT(enterFocus()));
+	}
 	if(currencyCombo) connect(currencyCombo, SIGNAL(activated(int)), this, SLOT(currencyChanged(int)));
 	if(setQuoteButton) connect(setQuoteButton, SIGNAL(toggled(bool)), this, SLOT(setQuoteToggled(bool)));
 	if(fromCombo) {
@@ -534,6 +551,10 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		connect(fromCombo, SIGNAL(multipleAccountsRequested()), this, SIGNAL(multipleAccountsRequested()));
 		connect(fromCombo, SIGNAL(accountSelected(Account*)), this, SLOT(fromActivated()));
 		connect(fromCombo, SIGNAL(currentAccountChanged(Account*)), this, SLOT(fromChanged(Account*)));
+		if(toCombo && transtype != TRANSACTION_TYPE_EXPENSE) connect(fromCombo, SIGNAL(returnPressed()), toCombo, SLOT(setFocus()));
+		else if(payeeEdit) connect(fromCombo, SIGNAL(returnPressed()), payeeEdit, SLOT(setFocus()));
+		else if(fileEdit) connect(fromCombo, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
+		else if(commentsEdit) connect(fromCombo, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
 	}
 	if(toCombo) {
 		connect(toCombo, SIGNAL(newAccountRequested()), this, SLOT(newToAccount()));
@@ -541,6 +562,10 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		connect(toCombo, SIGNAL(multipleAccountsRequested()), this, SIGNAL(multipleAccountsRequested()));
 		connect(toCombo, SIGNAL(accountSelected(Account*)), this, SLOT(toActivated()));
 		connect(toCombo, SIGNAL(currentAccountChanged(Account*)), this, SLOT(toChanged(Account*)));
+		if(fromCombo && transtype == TRANSACTION_TYPE_EXPENSE) connect(toCombo, SIGNAL(returnPressed()), fromCombo, SLOT(setFocus()));
+		else if(payeeEdit) connect(toCombo, SIGNAL(returnPressed()), payeeEdit, SLOT(setFocus()));
+		else if(fileEdit) connect(toCombo, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
+		else if(commentsEdit) connect(toCombo, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
 	}
 	b_multiple_currencies = true;
 	useMultipleCurrencies(budget->usesMultipleCurrencies());
@@ -596,13 +621,11 @@ void TransactionEditWidget::valueNextField() {
 	if(depositEdit && depositEdit->isEnabled()) {
 		depositEdit->enterFocus();
 	} else if(sharesEdit) {
-		sharesEdit->setFocus();
-		sharesEdit->selectAll();
+		sharesEdit->enterFocus();
 	} else if(downPaymentEdit) {
 		downPaymentEdit->enterFocus();
 	} else if(quantityEdit) {
-		quantityEdit->setFocus();
-		quantityEdit->selectAll();
+		quantityEdit->enterFocus();
 	} else if(dateEdit) {
 		focusDate();
 	}
@@ -861,7 +884,7 @@ void TransactionEditWidget::maxShares() {
 QHBoxLayout *TransactionEditWidget::bottomLayout() {
 	return bottom_layout;
 }
-void TransactionEditWidget::focusDescription() {
+void TransactionEditWidget::focusFirst() {
 	if(!descriptionEdit) {
 		if(b_select_security && securityCombo) securityCombo->setFocus();
 		else if(valueEdit && transtype != TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) valueEdit->setFocus();
@@ -954,8 +977,7 @@ void TransactionEditWidget::setDefaultValueFromPayee() {
 			}
 			if(descriptionEdit) descriptionEdit->setText(trans->description());
 			if(valueEdit) {
-				valueEdit->setFocus();
-				valueEdit->selectNumber();
+				valueEdit->enterFocus();
 			}
 		}
 	}
@@ -978,8 +1000,7 @@ void TransactionEditWidget::setDefaultValueFromCategory() {
 			if(payeeEdit && trans->type() == TRANSACTION_TYPE_EXPENSE) payeeEdit->setText(((Expense*) trans)->payee());
 			if(payeeEdit && trans->type() == TRANSACTION_TYPE_INCOME) payeeEdit->setText(((Income*) trans)->payer());
 			if(valueEdit) {
-				valueEdit->setFocus();
-				valueEdit->selectNumber();
+				valueEdit->enterFocus();
 			}
 		}
 	}
@@ -1720,7 +1741,7 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 			descriptionEdit->selectAll();
 		}
 	} else {
-		if(isVisible()) valueEdit->setFocus();
+		if(isVisible()) valueEdit->enterFocus();
 	}
 	valueEdit->setValue(split->value());
 	if(quantityEdit) quantityEdit->setValue(split->quantity());
@@ -1749,7 +1770,6 @@ TransactionEditDialog::TransactionEditDialog(bool extra_parameters, int transact
 	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
-	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
@@ -1758,6 +1778,10 @@ void TransactionEditDialog::accept() {
 	if(editWidget->validValues(true)) {
 		QDialog::accept();
 	}
+}
+void TransactionEditDialog::keyPressEvent(QKeyEvent *e) {
+	if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) return;
+	QDialog::keyPressEvent(e);
 }
 
 MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parameters, int transaction_type, Budget *budg, QWidget *parent, bool allow_account_creation)  : QDialog(parent), transtype(transaction_type), budget(budg), b_extra(extra_parameters), b_create_accounts(allow_account_creation) {
@@ -1830,8 +1854,7 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 	}
 	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-	buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
-	buttonBox->button(QDialogButtonBox::Cancel)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);

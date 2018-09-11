@@ -248,4 +248,6 @@ void AccountComboBox::keyPressEvent(QKeyEvent *e) {
 	block_account_selected = true;
 	QComboBox::keyPressEvent(e);
 	block_account_selected = false;
+	if(!e->isAccepted() && (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)) emit returnPressed();
 }
+

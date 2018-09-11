@@ -1,3 +1,7 @@
+2018-09-11  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Improved Enter/Return key actions and input focus
+
 2018-09-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Option to sort transactions by timestamp (in header context menu)
