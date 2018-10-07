@@ -13,7 +13,7 @@ msgstr ""
 
 #: ../src/accountcombobox.cpp:112
 msgctxt "AccountComboBox|"
-msgid "Payed with loan / payment plan…"
+msgid "Paid with loan / payment plan…"
 msgstr ""
 
 #: ../src/accountcombobox.cpp:113
@@ -1194,7 +1194,7 @@ msgstr ""
 
 #: ../src/editsplitdialog.cpp:1052
 msgctxt "EditDebtPaymentWidget|"
-msgid "Payed"
+msgid "Paid"
 msgstr ""
 
 #: ../src/editsplitdialog.cpp:1054
@@ -1854,7 +1854,7 @@ msgstr ""
 #: ../src/editscheduledtransactiondialog.cpp:147
 #: ../src/editscheduledtransactiondialog.cpp:173
 msgctxt "EditScheduledTransactionDialog|"
-msgid "New Expense Payed with Loan"
+msgid "New Expense Paid with Loan"
 msgstr ""
 
 #: ../src/editscheduledtransactiondialog.cpp:149
@@ -3341,12 +3341,12 @@ msgstr ""
 
 #: ../src/eqonomize.cpp:5876
 msgctxt "Eqonomize|"
-msgid "New Unpayed Interest…"
+msgid "New Unpaid Interest…"
 msgstr ""
 
 #: ../src/eqonomize.cpp:5877
 msgctxt "Eqonomize|"
-msgid "New Expense Payed with Loan / Payment Plan…"
+msgid "New Expense Paid with Loan / Payment Plan…"
 msgstr ""
 
 #: ../src/eqonomize.cpp:5881

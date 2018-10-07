@@ -2119,7 +2119,7 @@ DebtPayment::DebtPayment(Budget *parent_budget, QXmlStreamReader *xml, bool *val
 }
 DebtPayment::DebtPayment(const DebtPayment *split) : SplitTransaction(split), o_loan(split->loan()), o_fee(NULL), o_interest(NULL), o_payment(NULL), o_account(split->account()) {
 	if(split->fee() != 0.0) setFee(split->fee());
-	if(split->interest() != 0.0) setInterest(split->interest(), split->interestPayed());
+	if(split->interest() != 0.0) setInterest(split->interest(), split->interestPaid());
 	if(split->payment() != 0.0) setPayment(split->payment(), split->reduction());
 	setExpenseCategory(split->expenseCategory());
 	b_reconciled = split->isReconciled(split->account());
@@ -2134,7 +2134,7 @@ void DebtPayment::set(const Transactions *trans) {
 		DebtPayment *split = (DebtPayment*) trans;
 		o_account = split->account();
 		if(split->fee() != 0.0) setFee(split->fee());
-		if(split->interest() != 0.0) setInterest(split->interest(), split->interestPayed());
+		if(split->interest() != 0.0) setInterest(split->interest(), split->interestPaid());
 		if(split->payment() != 0.0) setPayment(split->payment(), split->reduction());
 		setExpenseCategory(split->expenseCategory());
 		b_reconciled = split->isReconciled(split->account());
@@ -2150,19 +2150,19 @@ double DebtPayment::quantity() const {
 	return 1.0;
 }
 double DebtPayment::cost(bool convert) const {return interest(convert) + fee(convert);}
-void DebtPayment::setInterest(double new_value, bool payed_from_account) {
+void DebtPayment::setInterest(double new_value, bool paid_from_account) {
 	if(!o_interest) {
 		if(new_value != 0.0) {
-			o_interest = new DebtInterest(o_budget, new_value, d_date, o_fee ? o_fee->category() : NULL, payed_from_account ? o_account : o_loan, o_loan, QString::null, id());
+			o_interest = new DebtInterest(o_budget, new_value, d_date, o_fee ? o_fee->category() : NULL, paid_from_account ? o_account : o_loan, o_loan, QString::null, id());
 			o_interest->setParentSplit(this);
 		}
 	} else {
 		o_interest->setValue(new_value);
 	}
 }
-void DebtPayment::setInterestPayed(bool payed_from_account) {
+void DebtPayment::setInterestPaid(bool paid_from_account) {
 	if(o_interest) {
-		if(payed_from_account) o_interest->setFrom(o_account);
+		if(paid_from_account) o_interest->setFrom(o_account);
 		else o_interest->setFrom(o_loan);
 	}
 }
@@ -2200,7 +2200,7 @@ double DebtPayment::interest(bool convert) const {
 	if(o_interest) return o_interest->value(convert);
 	return 0.0;
 }
-bool DebtPayment::interestPayed() const {
+bool DebtPayment::interestPaid() const {
 	return !o_interest || o_interest->from() != o_loan;
 }
 double DebtPayment::fee(bool convert) const {
@@ -2275,9 +2275,10 @@ void DebtPayment::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		o_payment->setParentSplit(this);
 	}
 	if(attr->hasAttribute("interest")) {
-		bool interest_payed = true;
-		if(attr->hasAttribute("interestpayed")) interest_payed = attr->value("interestpayed").toInt();
-		o_interest = new DebtInterest(o_budget, attr->value("interest").toDouble(), d_date, cat, interest_payed ? o_account : o_loan, o_loan, QString::null, id());
+		bool interest_paid = true;
+		if(attr->hasAttribute("interestpaid")) interest_paid = attr->value("interestpaid").toInt();
+		else if(attr->hasAttribute("interestpayed")) interest_paid = attr->value("interestpayed").toInt();
+		o_interest = new DebtInterest(o_budget, attr->value("interest").toDouble(), d_date, cat, interest_paid ? o_account : o_loan, o_loan, QString::null, id());
 		o_interest->setParentSplit(this);
 		if(valid && !cat) *valid = false;
 	}
@@ -2297,7 +2298,7 @@ void DebtPayment::writeAttributes(QXmlStreamAttributes *attr) {
 	if(o_account && o_account != o_loan && (o_payment || o_fee || (o_interest && o_interest->from() != o_loan))) {
 		attr->append("from", QString::number(o_account->id()));
 		if(o_interest && o_interest->from() == o_loan) {
-			attr->append("interestpayed", QString::number(false));
+			attr->append("interestpaid", QString::number(false));
 		}
 	}
 	if(expenseCategory()) attr->append("expensecategory", QString::number(expenseCategory()->id()));

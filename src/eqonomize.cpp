@@ -3026,26 +3026,39 @@ bool Eqonomize::newExpenseWithLoan(QString description_value, double value_value
 	budget->setRecordNewSecurities(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	ScheduledTransaction *strans = EditScheduledTransactionDialog::newScheduledTransaction(description_value, value_value, quantity_value, date_value, NULL, category_value, payee_value, comment_value, TRANSACTION_TYPE_EXPENSE, budget, this, NULL, false, NULL, b_extra, true, true);
-	if(strans) {
-		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
-		budget->newAccounts.clear();
-		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
-		budget->newSecurities.clear();
-		addNewSchedule(strans, this);
-		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
-		budget->setRecordNewAccounts(false);
-		budget->setRecordNewSecurities(false);
-		return true;
-	} else {
-		foreach(Account *acc, budget->newAccounts) accountAdded(acc);
-		budget->newAccounts.clear();
-		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
-		budget->newSecurities.clear();
+	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, TRANSACTION_TYPE_EXPENSE, NULL, false, NULL, SECURITY_ALL_VALUES, false, budget, this, true, false, true); 
+	dialog->editWidget->updateAccounts();
+	dialog->editWidget->setValues(description_value, value_value, quantity_value, date_value, NULL, category_value, payee_value, comment_value);
+	if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		Transactions *trans = dialog->editWidget->createTransactionWithLoan();
+		if(trans) {
+			foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+			budget->newAccounts.clear();
+			foreach(Security *sec, budget->newSecurities) securityAdded(sec);
+			budget->newSecurities.clear();
+			if(trans->date() > QDate::currentDate()) {
+				ScheduledTransaction *strans_new = new ScheduledTransaction(budget, trans, NULL);
+				budget->addScheduledTransaction(strans_new);
+				transactionAdded(strans_new);
+			} else {
+				budget->addTransactions(trans);
+				transactionAdded(trans);
+			}
+			if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
+			budget->setRecordNewAccounts(false);
+			budget->setRecordNewSecurities(false);
+			dialog->deleteLater();
+			return true;
+		}
 	}
+	foreach(Account *acc, budget->newAccounts) accountAdded(acc);
+	budget->newAccounts.clear();
+	foreach(Security *sec, budget->newSecurities) securityAdded(sec);
+	budget->newSecurities.clear();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
 	budget->setRecordNewSecurities(false);
+	dialog->deleteLater();
 	return false;
 }
 bool Eqonomize::newExpenseWithLoan(QWidget *parent) {
@@ -3053,25 +3066,38 @@ bool Eqonomize::newExpenseWithLoan(QWidget *parent) {
 	budget->setRecordNewSecurities(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	ScheduledTransaction *strans = EditScheduledTransactionDialog::newScheduledTransaction(TRANSACTION_TYPE_EXPENSE, budget, parent, NULL, false, NULL, b_extra, true, true);
-	if(strans) {
-		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
-		budget->newAccounts.clear();
-		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
-		addNewSchedule(strans, parent);
-		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
-		budget->setRecordNewAccounts(false);
-		budget->setRecordNewSecurities(false);
-		return true;
-	} else {
-		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
-		budget->newAccounts.clear();
-		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
-		budget->newSecurities.clear();
+	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, TRANSACTION_TYPE_EXPENSE, NULL, false, NULL, SECURITY_ALL_VALUES, false, budget, parent, true, false, true); 
+	dialog->editWidget->updateAccounts();
+	if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		Transactions *trans = dialog->editWidget->createTransactionWithLoan();
+		if(trans) {
+			foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+			budget->newAccounts.clear();
+			foreach(Security *sec, budget->newSecurities) securityAdded(sec);
+			budget->newSecurities.clear();
+			if(trans->date() > QDate::currentDate()) {
+				ScheduledTransaction *strans_new = new ScheduledTransaction(budget, trans, NULL);
+				budget->addScheduledTransaction(strans_new);
+				transactionAdded(strans_new);
+			} else {
+				budget->addTransactions(trans);
+				transactionAdded(trans);
+			}
+			if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
+			budget->setRecordNewAccounts(false);
+			budget->setRecordNewSecurities(false);
+			dialog->deleteLater();
+			return true;
+		}
 	}
+	foreach(Account *acc, budget->newAccounts) accountAdded(acc);
+	budget->newAccounts.clear();
+	foreach(Security *sec, budget->newSecurities) securityAdded(sec);
+	budget->newSecurities.clear();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
 	budget->setRecordNewSecurities(false);
+	dialog->deleteLater();
 	return false;
 }
 void Eqonomize::newMultiAccountExpense() {
@@ -5903,8 +5929,8 @@ void Eqonomize::setupActions() {
 	
 	loansMenu->addSeparator();
 	NEW_ACTION(ActionNewDebtPayment, tr("New Debt Payment…"), "eqz-debt-payment", 0, this, SLOT(newDebtPayment()), "new_loan_transaction", loansMenu);
-	NEW_ACTION(ActionNewDebtInterest, tr("New Unpayed Interest…"), "eqz-debt-interest", 0, this, SLOT(newDebtInterest()), "new_debt_interest", loansMenu);
-	NEW_ACTION(ActionNewExpenseWithLoan, tr("New Expense Payed with Loan / Payment Plan…"), "eqz-expense", 0, this, SLOT(newExpenseWithLoan()), "new_expense_with_loan", loansMenu);
+	NEW_ACTION(ActionNewDebtInterest, tr("New Unpaid Interest…"), "eqz-debt-interest", 0, this, SLOT(newDebtInterest()), "new_debt_interest", loansMenu);
+	NEW_ACTION(ActionNewExpenseWithLoan, tr("New Expense Paid with Loan…"), "eqz-expense", 0, this, SLOT(newExpenseWithLoan()), "new_expense_with_loan", loansMenu);
 	transactionsToolbar->addAction(ActionNewDebtPayment);
 
 	NEW_ACTION(ActionNewSecurity, tr("New Security…", "Financial security (e.g. stock, mutual fund)"), "document-new", 0, this, SLOT(newSecurity()), "new_security", securitiesMenu);

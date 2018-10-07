@@ -147,7 +147,7 @@ bool EditScheduledTransactionDialog::modifyTransaction(Transaction *trans, Recur
 ScheduledTransaction *EditScheduledTransactionDialog::newScheduledTransaction(QString description_value, double value_value, double quantity_value, QDate date_value, Account *from_account_value, Account *to_account_value, QString payee_value, QString comment_value, int transaction_type, Budget *budg, QWidget *parent, Security *security, bool select_security, Account *account, bool extra_parameters, bool allow_account_creation, bool withloan) {
 	EditScheduledTransactionDialog *dialog = NULL;
 	switch(transaction_type) {
-		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, withloan ? tr("New Expense Payed with Loan") : tr("New Expense"), account, allow_account_creation, withloan); break;}
+		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, withloan ? tr("New Expense Paid with Loan") : tr("New Expense"), account, allow_account_creation, withloan); break;}
 		case TRANSACTION_TYPE_INCOME: {
 			if(security || select_security) dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Dividend"), account, allow_account_creation);
 			else dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Income"), account, allow_account_creation);
@@ -173,7 +173,7 @@ ScheduledTransaction *EditScheduledTransactionDialog::newScheduledTransaction(QS
 ScheduledTransaction *EditScheduledTransactionDialog::newScheduledTransaction(int transaction_type, Budget *budg, QWidget *parent, Security *security, bool select_security, Account *account, bool extra_parameters, bool allow_account_creation, bool withloan) {
 	EditScheduledTransactionDialog *dialog = NULL;
 	switch(transaction_type) {
-		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, withloan ? tr("New Expense Payed with Loan") : tr("New Expense"), account, allow_account_creation, withloan); break;}
+		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, withloan ? tr("New Expense Paid with Loan") : tr("New Expense"), account, allow_account_creation, withloan); break;}
 		case TRANSACTION_TYPE_INCOME: {
 			if(security || select_security) dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Dividend"), account, allow_account_creation);
 			else dialog = new EditScheduledTransactionDialog(extra_parameters, transaction_type, security, select_security, budg, parent, tr("New Income"), account, allow_account_creation);

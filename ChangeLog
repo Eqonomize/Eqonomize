@@ -1,3 +1,9 @@
+2018-10-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix saving of recurring expense with multiple payments
+	* Remove recurrence tab from expense paid with loan dialog
+	* "Payed" => "Paid"
+
 2018-09-11  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Improved Enter/Return key actions and input focus

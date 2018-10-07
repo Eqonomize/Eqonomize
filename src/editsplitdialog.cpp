@@ -1110,16 +1110,16 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 		totalLabel = NULL;
 		accountCombo = NULL;
 		addedInterestButton = NULL;
-		payedInterestButton = NULL;
+		paidInterestButton = NULL;
 	} else {
-		QHBoxLayout *payedAddedLayout = new QHBoxLayout();
-		payedAddedLayout->addStretch(1);
-		payedInterestButton = new EqonomizeRadioButton(tr("Payed"), this);
-		payedAddedLayout->addWidget(payedInterestButton);
+		QHBoxLayout *paidAddedLayout = new QHBoxLayout();
+		paidAddedLayout->addStretch(1);
+		paidInterestButton = new EqonomizeRadioButton(tr("Paid"), this);
+		paidAddedLayout->addWidget(paidInterestButton);
 		addedInterestButton = new EqonomizeRadioButton(tr("Added to debt"), this);
-		payedAddedLayout->addWidget(addedInterestButton);
-		payedInterestButton->setChecked(true);
-		grid->addLayout(payedAddedLayout, row, 0, 1, 2); row++;
+		paidAddedLayout->addWidget(addedInterestButton);
+		paidInterestButton->setChecked(true);
+		grid->addLayout(paidAddedLayout, row, 0, 1, 2); row++;
 		
 		grid->addWidget(new QLabel(tr("Fee:")), row, 0);
 		feeEdit = new EqonomizeValueEdit(false, this, budget);
@@ -1189,8 +1189,8 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 		connect(dateEdit, SIGNAL(returnPressed()), reductionEdit, SLOT(enterFocus()));
 		connect(reductionEdit, SIGNAL(returnPressed()), this, SLOT(reductionFocusNext()));
 		connect(paymentEdit, SIGNAL(returnPressed()), interestEdit, SLOT(enterFocus()));
-		connect(interestEdit, SIGNAL(returnPressed()), payedInterestButton, SLOT(setFocus()));
-		connect(payedInterestButton, SIGNAL(returnPressed()), feeEdit, SLOT(enterFocus()));
+		connect(interestEdit, SIGNAL(returnPressed()), paidInterestButton, SLOT(setFocus()));
+		connect(paidInterestButton, SIGNAL(returnPressed()), feeEdit, SLOT(enterFocus()));
 		connect(addedInterestButton, SIGNAL(returnPressed()), feeEdit, SLOT(enterFocus()));
 		connect(feeEdit, SIGNAL(returnPressed()), this, SLOT(feeFocusNext()));
 		connect(accountCombo, SIGNAL(accountSelected(Account*)), this, SLOT(accountFocusNext()));
@@ -1210,7 +1210,7 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 	if(reductionEdit && paymentEdit) connect(reductionEdit, SIGNAL(editingFinished()), this, SLOT(reductionEditingFinished()));
 	if(reductionEdit) connect(reductionEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
 	if(interestEdit) connect(interestEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
-	if(payedInterestButton) connect(payedInterestButton, SIGNAL(toggled(bool)), this, SLOT(interestSourceChanged()));
+	if(paidInterestButton) connect(paidInterestButton, SIGNAL(toggled(bool)), this, SLOT(interestSourceChanged()));
 	if(addedInterestButton) connect(addedInterestButton, SIGNAL(toggled(bool)), this, SLOT(interestSourceChanged()));
 	if(loanCombo) connect(loanCombo, SIGNAL(accountSelected(Account*)), this, SLOT(loanActivated(Account*)));
 	if(accountCombo) connect(accountCombo, SIGNAL(newAccountRequested()), this, SLOT(newAccount()));
@@ -1337,8 +1337,8 @@ void EditDebtPaymentWidget::reductionEditingFinished() {
 }
 void EditDebtPaymentWidget::valueChanged() {
 	if(categoryCombo) categoryCombo->setEnabled((!paymentEdit && !reductionEdit) || (interestEdit && interestEdit->value() > 0.0) || (feeEdit && feeEdit->value() > 0.0));
-	if(accountCombo && interestEdit && payedInterestButton) {
-		accountCombo->setEnabled(interestEdit->value() == 0.0 || (feeEdit && feeEdit->value() > 0.0) || (paymentEdit && paymentEdit->value() > 0.0) || (reductionEdit && reductionEdit->value() > 0.0) || payedInterestButton->isChecked());
+	if(accountCombo && interestEdit && paidInterestButton) {
+		accountCombo->setEnabled(interestEdit->value() == 0.0 || (feeEdit && feeEdit->value() > 0.0) || (paymentEdit && paymentEdit->value() > 0.0) || (reductionEdit && reductionEdit->value() > 0.0) || paidInterestButton->isChecked());
 	}
 	Account *acc = selectedAccount();
 	AssetsAccount *loan = selectedLoan();
@@ -1453,7 +1453,7 @@ void EditDebtPaymentWidget::setTransaction(DebtPayment *split) {
 	if(paymentEdit) paymentEdit->setValue(split->payment());
 	if(reductionEdit) reductionEdit->setValue(split->reduction());
 	if(interestEdit) interestEdit->setValue(split->interest());
-	if(payedInterestButton && split->interestPayed()) payedInterestButton->setChecked(true);
+	if(paidInterestButton && split->interestPaid()) paidInterestButton->setChecked(true);
 	else if(addedInterestButton) addedInterestButton->setChecked(true);
 	if(feeEdit) feeEdit->setValue(split->fee());
 	valueChanged();

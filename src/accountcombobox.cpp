@@ -109,7 +109,7 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 		}
 		default: {
 			if(new_account_action) addItem(tr("New account…"), qVariantFromValue(NULL));
-			if(new_loan_action) addItem(tr("Payed with loan / payment plan…"), qVariantFromValue(NULL));
+			if(new_loan_action) addItem(tr("Paid with loan…"), qVariantFromValue(NULL));
 			if(multiple_accounts_action) addItem(tr("Multiple accounts/payments…"), qVariantFromValue(NULL));
 			int c_actions = count();
 			bool add_secondary_list = false;
