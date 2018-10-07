@@ -1138,7 +1138,7 @@ void ScheduledTransaction::writeElements(QXmlStreamWriter *xml) {
 				break;
 			}
 			case SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS: {
-				xml->writeAttribute("type", "mulltiaccount");
+				xml->writeAttribute("type", "multiaccount");
 				break;
 			}
 			case SPLIT_TRANSACTION_TYPE_LOAN: {
