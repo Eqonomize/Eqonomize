@@ -4853,7 +4853,7 @@ void Eqonomize::checkAvailableVersion_readdata() {
 		}
 	}
 	if(b) {
-		QMessageBox::information(this, tr("New version available"), tr("A new version of %1 is available.<br><br>You can get version %2 at %3.").arg("Eqonomize!").arg(QString(sbuffer)).arg("<a href=\"http://qalculate.github.io/downloads.html\">qalculate.github.io</a>"));
+		QMessageBox::information(this, tr("New version available"), tr("A new version of %1 is available.<br><br>You can get version %2 at %3.").arg("Eqonomize!").arg(QString(sbuffer)).arg("<a href=\"http://eqonomize.github.io/downloads.html\">eqonomize.github.io</a>"));
 		settings.setValue("lastVersionFound", sbuffer);
 	}
 }
