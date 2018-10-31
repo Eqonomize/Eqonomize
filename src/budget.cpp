@@ -229,6 +229,7 @@ Budget::Budget() {
 	i_share_decimals = 4;
 	i_quotation_decimals = 4;
 	i_budget_day = 1;
+	i_budget_month = 1;
 	i_revision = 1;
 	i_opened_revision = 0;
 	last_id = 0;
@@ -637,6 +638,8 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	bool set_ids = false;
 	
 	if(!merge) o_sync->clear();
+	
+	i_budget_month = 1;
 
 	while(xml.readNextStartElement()) {
 		if(xml.name() == "budget_period") {
@@ -649,6 +652,11 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 						bool ok = true;
 						int i_day = s_day.toInt(&ok);
 						if(ok) setBudgetDay(i_day);
+					} else if(xml.name() == "first_month_of_year") {
+						QString s_month = xml.readElementText();
+						bool ok = true;
+						int i_month = s_month.toInt(&ok);
+						if(ok) setBudgetMonth(i_month);
 					} else {
 						xml.skipCurrentElement();
 					}
@@ -1995,12 +2003,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions, bool 
 	}
 	xml.writeStartElement("budget_period");
 	xml.writeTextElement("first_day_of_month", QString::number(i_budget_day));
-	xml.writeEndElement();
-	xml.writeStartElement("currency");
-	xml.writeAttribute("code", default_currency->code());
-	xml.writeEndElement();
-	xml.writeStartElement("budget_period");
-	xml.writeTextElement("first_day_of_month", QString::number(i_budget_day));
+	xml.writeTextElement("first_month_of_year", QString::number(i_budget_month));
 	xml.writeEndElement();
 	xml.writeStartElement("currency");
 	xml.writeAttribute("code", default_currency->code());
@@ -2755,6 +2758,8 @@ bool Budget::usesMultipleCurrencies() {
 
 void Budget::setBudgetDay(int day_of_month) {if(day_of_month <= 28 && day_of_month >= -26) i_budget_day = day_of_month;}
 int Budget::budgetDay() const {return i_budget_day;}
+void Budget::setBudgetMonth(int month_of_year) {if(month_of_year <= 12 && month_of_year >= 1) i_budget_month = month_of_year;}
+int Budget::budgetMonth() const {return i_budget_month;}
 
 bool Budget::isSameBudgetMonth(const QDate &date1, const QDate &date2) const {
 	return budgetYear(date1) == budgetYear(date2) && budgetMonth(date1) == budgetMonth(date2);
@@ -2770,66 +2775,124 @@ int Budget::daysInBudgetMonth(const QDate &date) const {
 	}
 }
 int Budget::daysInBudgetYear(const QDate &date) const {
-	if(i_budget_day == 1) return date.daysInYear();
-	int ibd = i_budget_day;
-	if(i_budget_day < 0) ibd = 31 + i_budget_day;
-	if(i_budget_day > 15 || (i_budget_day < 1 && i_budget_day >= -15)) {
-		if(date.month() == 12 && date.day() >= ibd) {
-			return date.addYears(1).daysInYear();
+	if(i_budget_day == 1 && i_budget_month == 1) return date.daysInYear();
+	if(i_budget_month == 1) {
+		int ibd = i_budget_day;
+		if(i_budget_day < 0) ibd = 31 + i_budget_day;
+		if(i_budget_day > 15 || (i_budget_day < 1 && i_budget_day >= -15)) {
+			if(date.month() == 12 && date.day() >= ibd) {
+				return date.addYears(1).daysInYear();
+			}
+		} else {
+			if(date.month() == 1 && date.day() < ibd) {
+				return date.addYears(-1).daysInYear();
+			}
 		}
+		return date.daysInYear();
 	} else {
-		if(date.month() == 1 && date.day() < ibd) {
-			return date.addYears(-1).daysInYear();
-		}
+		int i_year = budgetYear(date);
+		if(i_budget_month > 2) i_year++;
+		return QDate(i_year, 1, 1).daysInYear();
 	}
-	return date.daysInYear();
 }
-int Budget::dayOfBudgetYear(const QDate &date) const {
-	if(i_budget_day == 1) return date.dayOfYear();
-	int ibd = i_budget_day;
-	if(i_budget_day < 0) ibd = 31 + i_budget_day;
-	if(i_budget_day > 15 || (i_budget_day < 1 && i_budget_day >= -15)) {
-		if(date.month() == 12 && date.day() >= ibd) {
-			return date.day() - ibd + 1;
+
+bool isLeapYear(long int year) {
+	return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+}
+int daysPerYear(long int year, int basis = 1) {
+	switch(basis) {
+		case 0: {
+			return 360;
 		}
-		return date.dayOfYear() + 31 - ibd + 1;
-	} else {
-		if(date.month() == 1 && date.day() < ibd) {
-			return date.addYears(-1).daysInYear() + date.day() - ibd + 1;
+		case 1: {
+			if(isLeapYear(year)) {
+				return 366;
+			} else {
+				return 365;
+			}
 		}
-		return date.dayOfYear() - ibd + 1;
+		case 2: {
+			return 360;
+		}		
+		case 3: {
+			return 365;
+		} 
+		case 4: {
+			return 360;
+		}
 	}
+	return -1;
+}
+int daysPerMonth(int month, long int year) {
+	switch(month) {
+		case 1: {} case 3: {} case 5: {} case 7: {} case 8: {} case 10: {} case 12: {
+			return 31;
+		}
+		case 2:	{
+			if(isLeapYear(year)) return 29;
+			else return 28;
+		}
+		default: {
+			return 30;
+		}
+	}
+}
+
+int Budget::dayOfBudgetYear(const QDate &date) const {
+	if(i_budget_day == 1 && i_budget_month == 1) return date.dayOfYear();
+	return firstBudgetDayOfYear(date).daysTo(date) + 1;
 }
 int Budget::dayOfBudgetMonth(const QDate &date) const {
 	if(i_budget_day == 1) return date.day();
 	return firstBudgetDay(date).daysTo(date) + 1;
 }
 int Budget::budgetMonth(const QDate &date) const {
-	if(i_budget_day == 1) return date.month();
-	int ibd = i_budget_day;
-	if(i_budget_day < 0) ibd = 31 + i_budget_day;
-	if(i_budget_day > 15 || (i_budget_day < 1 && i_budget_day >= -15)) {
-		if(date.day() < ibd) return date.month();
-		if(date.month() == 12) return 1;
-		return date.month() + 1;
+	int i_month = 1;
+	if(i_budget_day == 1) {
+		i_month = date.month();
+	} else {
+		int ibd = i_budget_day;
+		if(i_budget_day < 0) ibd = date.daysInMonth() + i_budget_day;
+		if(i_budget_day > 15 || (i_budget_day < 1 && i_budget_day >= -15)) {
+			if(date.day() < ibd) i_month = date.month();
+			else if(date.month() == 12) i_month = 1;
+			else i_month = date.month() + 1;
+		} else {
+			if(date.day() >= ibd) i_month = date.month();
+			else if(date.month() == 1) i_month = 12;
+			else i_month = date.month() - 1;
+		}
 	}
-	if(date.day() >= ibd) return date.month();
-	if(date.month() == 1) return 12;
-	return date.month() - 1;
+	return i_month;
 }
 int Budget::budgetYear(const QDate &date) const {
-	if(i_budget_day == 1) return date.year();
+	if(i_budget_day == 1 && i_budget_month == 1) return date.year();
 	int ibd = i_budget_day;
-	if(i_budget_day < 0) ibd = 31 + i_budget_day;
+	if(i_budget_day < 0) ibd = date.daysInMonth() + i_budget_day;
+	int year = date.year();
+	if(i_budget_month > 1 && date.month() < i_budget_month) year--;
 	if(i_budget_day > 15 || (i_budget_day < 1 && i_budget_day >= -15)) {
-		if(date.month() == 12 && date.day() >= ibd) return date.year() + 1;
+		if(date.month() == i_budget_month && date.day() >= ibd) return year + 1;
 	} else {
-		if(date.month() == 1 && date.day() < ibd) return date.year() - 1;
+		if(date.month() == i_budget_month && date.day() < ibd) return year - 1;
 	}
-	return date.year();
+	return year;
 }
+QString Budget::budgetYearString(const QDate &date) const {
+	return budgetYearString(budgetYear(date));
+}
+QString Budget::budgetYearString(int year) const {
+	if(i_budget_month == 1) return QString::number(year);
+	if(year % 100 == 99) return QString::number(year) + "-" + QString::number(year + 1);
+	if(year % 100 < 9) return QString::number(year) + "-0" + QString::number((year + 1) % 100);
+	return QString::number(year) + "-" + QString::number((year + 1) % 100);
+}
+
 QDate Budget::firstBudgetDayOfYear(QDate date) const {
-	return date.addDays(-(dayOfBudgetYear(date) - 1));
+	int i_year = budgetYear(date);
+	int ibd = i_budget_day;
+	if(i_budget_day < 0) ibd = daysPerMonth(i_budget_month == 1 ? 12 : i_budget_month - 1, i_year) + i_budget_day;
+	return QDate(i_year, ibd > 15 ? (i_budget_month == 1 ? 12 : i_budget_month - 1) : i_budget_month, ibd);
 }
 QDate Budget::lastBudgetDayOfYear(QDate date) const {
 	return firstBudgetDayOfYear(date).addDays(daysInBudgetYear(date) - 1);

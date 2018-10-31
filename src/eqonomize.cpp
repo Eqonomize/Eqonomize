@@ -1762,7 +1762,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 			break;
 		}
 		case 1: {
-			from_date.setDate(curdate.year(), 1, 1);
+			from_date.setDate(curdate.month() >= budget->budgetMonth() ? curdate.year() : curdate.year() - 1, budget->budgetMonth(), 1);
 			from_date = budget->firstBudgetDay(from_date);
 			to_date = curdate;
 			break;
@@ -1773,7 +1773,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 			break;
 		}
 		case 3: {
-			from_date.setDate(curdate.year(), 1, 1);
+			from_date.setDate(curdate.month() >= budget->budgetMonth() ? curdate.year() : curdate.year() - 1, budget->budgetMonth(), 1);
 			from_date = budget->firstBudgetDay(from_date);
 			to_date = from_date.addDays(curdate.daysInYear() - 1);
 			break;
@@ -2359,8 +2359,8 @@ void Eqonomize::setBudgetPeriod() {
 	QDialog *dialog = new QDialog(this, 0);
 	dialog->setWindowTitle(tr("Set Budget Period"));
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
-	QBoxLayout *monthlyDayLayout = new QHBoxLayout();
-	monthlyDayLayout->addWidget(new QLabel(tr("First day in budget month:"), dialog));
+	QGridLayout *layout = new QGridLayout();
+	layout->addWidget(new QLabel(tr("First day in budget month:"), dialog), 0, 0);
 	QComboBox *monthlyDayCombo = new QComboBox(dialog);
 	monthlyDayCombo->addItem(tr("1st"));
 	monthlyDayCombo->addItem(tr("2nd"));
@@ -2397,8 +2397,15 @@ void Eqonomize::setBudgetPeriod() {
 	monthlyDayCombo->addItem(tr("5th Last"));
 	if(budget->budgetDay() > 0) monthlyDayCombo->setCurrentIndex(budget->budgetDay() - 1);
 	else if(budget->budgetDay() > -5) monthlyDayCombo->setCurrentIndex(28 - budget->budgetDay());
-	monthlyDayLayout->addWidget(monthlyDayCombo);
-	box1->addLayout(monthlyDayLayout);
+	layout->addWidget(monthlyDayCombo, 0, 1);
+	layout->addWidget(new QLabel(tr("First month in budget year:"), dialog), 1, 0);
+	QComboBox *yearlyMonthCombo = new QComboBox(dialog);
+	for(int i = 1; i <= 12; i++) {
+		yearlyMonthCombo->addItem(QDate::longMonthName(i, QDate::StandaloneFormat));
+	}
+	yearlyMonthCombo->setCurrentIndex(budget->budgetMonth() - 1);
+	layout->addWidget(yearlyMonthCombo, 1, 1);
+	box1->addLayout(layout);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
@@ -2406,6 +2413,7 @@ void Eqonomize::setBudgetPeriod() {
 	box1->addWidget(buttonBox);
 	if(dialog->exec() == QDialog::Accepted) {
 		budget->setBudgetDay(monthlyDayCombo->currentIndex() >= 28 ? -(monthlyDayCombo->currentIndex() - 28) : monthlyDayCombo->currentIndex() + 1);
+		budget->setBudgetMonth(yearlyMonthCombo->currentIndex() + 1);
 		updateBudgetDay();
 		setModified(true);
 	}
@@ -4154,7 +4162,7 @@ void Eqonomize::currentYear() {
 	accountsPeriodFromEdit->blockSignals(true);
 	accountsPeriodToEdit->blockSignals(true);
 	QDate curdate = QDate::currentDate();
-	from_date.setDate(curdate.year(), 1, 1);
+	from_date.setDate(curdate.month() >= budget->budgetMonth() ? curdate.year() : curdate.year() - 1, budget->budgetMonth(), 1);
 	from_date = budget->firstBudgetDay(from_date);
 	accountsPeriodFromEdit->setDate(from_date);
 	to_date = curdate;

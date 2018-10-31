@@ -4202,7 +4202,7 @@ void OverTimeChart::onSeriesHovered(const QPointF &value, bool state) {
 		Currency *currency = budget->defaultCurrency();
 		if(selectedAccount()) currency = selectedAccount()->currency();
 		if(current_source == -2 || current_source == 98) item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(currency->formatValue(value_y)).arg(QLocale().toString(valueGroup->checkedId() == 4 && yearlyButton->isEnabled() ? budget->lastBudgetDayOfYear(date) : budget->lastBudgetDay(date), QLocale::ShortFormat)));
-		else item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(currency->formatValue(value_y)).arg(budget->budgetDateToMonth(date).toString(valueGroup->checkedId() == 4 ? "yyyy" : tr("MMMM yyyy", "Month and year"))));
+		else item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(currency->formatValue(value_y)).arg(valueGroup->checkedId() == 4 ? budget->budgetYearString(date) : budget->budgetDateToMonth(date).toString(tr("MMMM yyyy", "Month and year"))));
 		item->setAnchor(pos);
 		item->setPos(pos + QPoint(10, -50));
 		item->setZValue(11);

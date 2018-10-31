@@ -902,7 +902,7 @@ void OverTimeReport::updateDisplay() {
 			yearly_expense = it->expense;
 			yearly_count = it->count;
 			year_date = it->date;
-			outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(QString::number(budget->budgetYear(it->date))) << "</td>";
+			outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(budget->budgetYearString(it->date)) << "</td>";
 		} else {
 			outf << "\t\t\t\t<tr>" << '\n';
 			yearly_value += it->value;
