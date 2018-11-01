@@ -296,8 +296,8 @@ class Budget {
 		int dayOfBudgetMonth(const QDate &date) const;
 		int budgetMonth(const QDate &date) const;
 		int budgetYear(const QDate &date) const;
-		QString budgetYearString(const QDate &date) const;
-		QString budgetYearString(int year) const;
+		QString budgetYearString(const QDate &date, bool short_format = false) const;
+		QString budgetYearString(int year, bool short_format = false) const;
 		bool isFirstBudgetDay(const QDate &date) const;
 		bool isLastBudgetDay(const QDate &date) const;
 		void addBudgetMonthsSetLast(QDate &date, int months) const;

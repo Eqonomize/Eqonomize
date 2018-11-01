@@ -1762,8 +1762,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 			break;
 		}
 		case 1: {
-			from_date.setDate(curdate.month() >= budget->budgetMonth() ? curdate.year() : curdate.year() - 1, budget->budgetMonth(), 1);
-			from_date = budget->firstBudgetDay(from_date);
+			from_date = budget->firstBudgetDayOfYear(curdate);
 			to_date = curdate;
 			break;
 		}
@@ -1773,8 +1772,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 			break;
 		}
 		case 3: {
-			from_date.setDate(curdate.month() >= budget->budgetMonth() ? curdate.year() : curdate.year() - 1, budget->budgetMonth(), 1);
-			from_date = budget->firstBudgetDay(from_date);
+			from_date = budget->firstBudgetDayOfYear(curdate);
 			to_date = from_date.addDays(curdate.daysInYear() - 1);
 			break;
 		}
@@ -2469,7 +2467,7 @@ void Eqonomize::budgetMonthChanged(const QDate &date) {
 	accountsPeriodFromEdit->blockSignals(true);
 	accountsPeriodFromButton->blockSignals(true);
 	accountsPeriodToEdit->blockSignals(true);
-	from_date = budget->firstBudgetDay(date);
+	from_date = budget->monthToBudgetMonth(date);
 	to_date = budget->lastBudgetDay(from_date);
 	accountsPeriodFromButton->setChecked(true);
 	accountsPeriodFromEdit->setDate(from_date);
@@ -4162,8 +4160,7 @@ void Eqonomize::currentYear() {
 	accountsPeriodFromEdit->blockSignals(true);
 	accountsPeriodToEdit->blockSignals(true);
 	QDate curdate = QDate::currentDate();
-	from_date.setDate(curdate.month() >= budget->budgetMonth() ? curdate.year() : curdate.year() - 1, budget->budgetMonth(), 1);
-	from_date = budget->firstBudgetDay(from_date);
+	from_date = budget->firstBudgetDayOfYear(curdate);
 	accountsPeriodFromEdit->setDate(from_date);
 	to_date = curdate;
 	accountsPeriodToEdit->setDate(to_date);
@@ -4225,14 +4222,8 @@ void Eqonomize::securitiesPeriodFromChanged(const QDate &date) {
 void Eqonomize::securitiesPrevMonth() {
 	securitiesPeriodFromEdit->blockSignals(true);
 	securitiesPeriodToEdit->blockSignals(true);
-	securities_from_date = securities_from_date.addMonths(-1);
+	budget->goForwardBudgetMonths(securities_from_date, securities_to_date, -1);
 	securitiesPeriodFromEdit->setDate(securities_from_date);
-	if((securities_to_date == QDate::currentDate() && securities_from_date.day() == 1) || securities_to_date.day() == securities_to_date.daysInMonth()) {
-		securities_to_date = securities_to_date.addMonths(-1);
-		securities_to_date.setDate(securities_to_date.year(), securities_to_date.month(), securities_to_date.daysInMonth());
-	} else {
-		securities_to_date = securities_to_date.addMonths(-1);
-	}
 	securitiesPeriodToEdit->setDate(securities_to_date);
 	securitiesPeriodFromEdit->blockSignals(false);
 	securitiesPeriodToEdit->blockSignals(false);
@@ -4241,15 +4232,8 @@ void Eqonomize::securitiesPrevMonth() {
 void Eqonomize::securitiesNextMonth() {	
 	securitiesPeriodFromEdit->blockSignals(true);
 	securitiesPeriodToEdit->blockSignals(true);
-	securities_from_date = securities_from_date.addMonths(1);
+	budget->goForwardBudgetMonths(securities_from_date, securities_to_date, 1);
 	securitiesPeriodFromEdit->setDate(securities_from_date);
-	securities_to_date = securitiesPeriodToEdit->date();
-	if((securities_to_date == QDate::currentDate() && securities_from_date.day() == 1) || securities_to_date.day() == securities_to_date.daysInMonth()) {
-		securities_to_date = securities_to_date.addMonths(1);
-		securities_to_date.setDate(securities_to_date.year(), securities_to_date.month(), securities_to_date.daysInMonth());
-	} else {
-		securities_to_date = securities_to_date.addMonths(1);
-	}
 	securitiesPeriodToEdit->setDate(securities_to_date);
 	securitiesPeriodFromEdit->blockSignals(false);
 	securitiesPeriodToEdit->blockSignals(false);
@@ -4259,7 +4243,7 @@ void Eqonomize::securitiesCurrentMonth() {
 	securitiesPeriodFromEdit->blockSignals(true);
 	securitiesPeriodToEdit->blockSignals(true);
 	QDate curdate = QDate::currentDate();
-	securities_from_date.setDate(curdate.year(), curdate.month(), 1);
+	securities_from_date == budget->firstBudgetDay(curdate);
 	securitiesPeriodFromEdit->setDate(securities_from_date);
 	securities_to_date = curdate;
 	securitiesPeriodToEdit->setDate(securities_to_date);
@@ -4270,14 +4254,8 @@ void Eqonomize::securitiesCurrentMonth() {
 void Eqonomize::securitiesPrevYear() {
 	securitiesPeriodFromEdit->blockSignals(true);
 	securitiesPeriodToEdit->blockSignals(true);
-	securities_from_date = securities_from_date.addYears(-1);
+	budget->goForwardBudgetMonths(securities_from_date, securities_to_date, -12);
 	securitiesPeriodFromEdit->setDate(securities_from_date);
-	if((securities_to_date == QDate::currentDate() && securities_from_date.day() == 1) || securities_to_date.day() == securities_to_date.daysInMonth()) {
-		securities_to_date = securities_to_date.addYears(-1);
-		securities_to_date.setDate(securities_to_date.year(), securities_to_date.month(), securities_to_date.daysInMonth());
-	} else {
-		securities_to_date = securities_to_date.addYears(-1);
-	}
 	securitiesPeriodToEdit->setDate(securities_to_date);
 	securitiesPeriodFromEdit->blockSignals(false);
 	securitiesPeriodToEdit->blockSignals(false);
@@ -4286,14 +4264,8 @@ void Eqonomize::securitiesPrevYear() {
 void Eqonomize::securitiesNextYear() {	
 	securitiesPeriodFromEdit->blockSignals(true);
 	securitiesPeriodToEdit->blockSignals(true);
-	securities_from_date = securities_from_date.addYears(1);
+	budget->goForwardBudgetMonths(securities_from_date, securities_to_date, 12);
 	securitiesPeriodFromEdit->setDate(securities_from_date);
-	if((securities_to_date == QDate::currentDate() && securities_from_date.day() == 1) || securities_to_date.day() == securities_to_date.daysInMonth()) {
-		securities_to_date = securities_to_date.addYears(1);
-		securities_to_date.setDate(securities_to_date.year(), securities_to_date.month(), securities_to_date.daysInMonth());
-	} else {
-		securities_to_date = securities_to_date.addYears(1);
-	}
 	securitiesPeriodToEdit->setDate(securities_to_date);
 	securitiesPeriodFromEdit->blockSignals(false);
 	securitiesPeriodToEdit->blockSignals(false);
@@ -4303,7 +4275,7 @@ void Eqonomize::securitiesCurrentYear() {
 	securitiesPeriodFromEdit->blockSignals(true);
 	securitiesPeriodToEdit->blockSignals(true);
 	QDate curdate = QDate::currentDate();
-	securities_from_date.setDate(curdate.year(), 1, 1);
+	securities_from_date = budget->firstBudgetDayOfYear(curdate);
 	securitiesPeriodFromEdit->setDate(securities_from_date);
 	securities_to_date = curdate;
 	securitiesPeriodToEdit->setDate(securities_to_date);
@@ -8277,9 +8249,10 @@ void Eqonomize::updateBudgetEdit() {
 		budgetEdit->setEnabled(false);
 		budgetButton->setEnabled(false);
 		if(i == incomesItem || i == expensesItem) {
-			QDate tomonth, prevmonth_end;
-			tomonth.setDate(to_date.year(), to_date.month(), 1);
-			prevmonth_end = prevmonth_begin.addDays(prevmonth_begin.daysInMonth() - 1);
+			QDate tomonth, prevmonth, prevmonth_end;
+			tomonth = budget->budgetDateToMonth(to_date);
+			prevmonth = budget->budgetDateToMonth(prevmonth_begin);
+			prevmonth_end = prevmonth_begin.addDays(budget->daysInBudgetMonth(prevmonth_begin) - 1);
 			double d_to = 0.0, d_prev = 0.0, v_prev = 0.0;
 			CategoryAccount *ca = NULL;
 			bool b_budget = false, b_budget_prev = false;
@@ -8298,7 +8271,7 @@ void Eqonomize::updateBudgetEdit() {
 					d_to += d;
 					b_budget = true;
 				}
-				d = ca->monthlyBudget(prevmonth_begin);
+				d = ca->monthlyBudget(prevmonth);
 				if(d >= 0.0) {
 					d_prev += d;
 					b_budget_prev = true;
@@ -8330,8 +8303,7 @@ void Eqonomize::updateBudgetEdit() {
 		}
 	} else {
 		CategoryAccount *ca = (CategoryAccount*) account_items[i];
-		QDate tomonth;
-		tomonth.setDate(to_date.year(), to_date.month(), 1);
+		QDate tomonth = budget->budgetDateToMonth(to_date);
 		double d = ca->monthlyBudget(tomonth);
 		if(d < 0.0) {
 			if(budgetEdit->value() != 0.0) budgetEdit->setValue(0.0);
@@ -8343,9 +8315,9 @@ void Eqonomize::updateBudgetEdit() {
 			budgetEdit->setEnabled(true);
 		}
 		budgetButton->setEnabled(true);
-		d = ca->monthlyBudget(prevmonth_begin);
-		if(d < 0.0) prevMonthBudgetLabel->setText(tr("%1 (with no budget)").arg(budget->formatMoney(account_month[ca][prevmonth_begin.addDays(prevmonth_begin.daysInMonth() - 1)])));
-		else prevMonthBudgetLabel->setText(tr("%1 (with budget %2)").arg(budget->formatMoney(account_month[ca][prevmonth_begin.addDays(prevmonth_begin.daysInMonth() - 1)])).arg(budget->formatMoney(d)));
+		d = ca->monthlyBudget(budget->budgetDateToMonth(prevmonth_begin));
+		if(d < 0.0) prevMonthBudgetLabel->setText(tr("%1 (with no budget)").arg(budget->formatMoney(account_month[ca][prevmonth_begin.addDays(budget->daysInBudgetMonth(prevmonth_begin) - 1)])));
+		else prevMonthBudgetLabel->setText(tr("%1 (with budget %2)").arg(budget->formatMoney(account_month[ca][prevmonth_begin.addDays(budget->daysInBudgetMonth(prevmonth_begin) - 1)])).arg(budget->formatMoney(d)));
  	}
 	budgetEdit->blockSignals(false);
 	budgetButton->blockSignals(false);

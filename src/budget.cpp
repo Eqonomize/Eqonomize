@@ -2862,10 +2862,10 @@ int Budget::budgetYear(const QDate &date) const {
 	}
 	return year;
 }
-QString Budget::budgetYearString(const QDate &date) const {
-	return budgetYearString(budgetYear(date));
+QString Budget::budgetYearString(const QDate &date, bool short_format) const {
+	return budgetYearString(budgetYear(date), short_format);
 }
-QString Budget::budgetYearString(int year) const {
+QString Budget::budgetYearString(int year, bool short_format) const {
 	if(i_budget_month == 1) return QString::number(year);
 	//: Financial year when first month is not January (e.g. 2018-19).
 	QString str = tr("yyyy-yy");
@@ -2878,14 +2878,14 @@ QString Budget::budgetYearString(int year) const {
 		str.replace(y3, 2, year % 100 <= 9 ? QString("0") + QString::number(year % 100) : QString::number(year % 100));
 		str.replace("yy", year % 100 < 9 ? QString("0") + QString::number((year + 1) % 100) : QString::number((year + 1) % 100));
 	} else if(y3 < 0) {
-		str.replace(y1, 4, QString::number(year));
-		str.replace("yyyy", QString::number(year + 1));
+		str.replace(y1, 4, short_format ? (year % 100 <= 9 ? QString("0") + QString::number((year) % 100) : QString::number((year) % 100)) : QString::number(year));
+		str.replace("yyyy", short_format ? (year % 100 < 9 ? QString("0") + QString::number((year + 1) % 100) : QString::number((year + 1) % 100)) : QString::number(year + 1));
 	} else if(y3 < y1) {
 		str.replace(y3, 2, year % 100 <= 9 ? QString("0") + QString::number(year % 100) : QString::number(year % 100));
-		str.replace("yyyy", QString::number(year + 1));
+		str.replace("yyyy", short_format ? (year % 100 < 9 ? QString("0") + QString::number((year + 1) % 100) : QString::number((year + 1) % 100)) : QString::number(year + 1));
 	} else {
-		str.replace(y1, 4, QString::number(year));
-		str.replace("yy", year % 100 == 99 ? QString::number(year + 1) : (year % 100 < 9 ? QString("0") + QString::number((year + 1) % 100) : QString::number((year + 1) % 100)));
+		str.replace(y1, 4, short_format ? (year % 100 <= 9 ? QString("0") + QString::number((year) % 100) : QString::number((year) % 100)) : QString::number(year));
+		str.replace("yy", (short_format && year % 100 == 99) ? QString::number(year + 1) : (year % 100 < 9 ? QString("0") + QString::number((year + 1) % 100) : QString::number((year + 1) % 100)));
 	}
 	return str;
 }
