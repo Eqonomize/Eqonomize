@@ -217,6 +217,12 @@
         <translation>Uppladdningskommando (%1) misslyckades: %2.</translation>
     </message>
     <message>
+        <location filename="../src/budget.cpp" line="2887"/>
+        <source>yyyy-yy</source>
+        <extracomment>Financial year when first month is not January (e.g. 2018-19).</extracomment>
+        <translation>yyyy/yyyy</translation>
+    </message>
+    <message>
         <location filename="../src/qifimportexport.cpp" line="1114"/>
         <location filename="../src/qifimportexport.cpp" line="1222"/>
         <location filename="../src/qifimportexport.cpp" line="1356"/>

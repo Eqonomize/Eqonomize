@@ -3279,6 +3279,12 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/budget.cpp" line="2887"/>
+        <source>yyyy-yy</source>
+        <extracomment>Financial year when first month is not January (e.g. 2018-19).</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/budget.cpp" line="563"/>
         <location filename="../src/budget.cpp" line="1969"/>
         <source>File is a directory</source>

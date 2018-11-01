@@ -2630,6 +2630,12 @@ Was wollen Sie mit diesen tun?</translation>
         <source>Upload command (%1) failed: %2.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/budget.cpp" line="2887"/>
+        <source>yyyy-yy</source>
+        <extracomment>Financial year when first month is not January (e.g. 2018-19).</extracomment>
+        <translation type="unfinished">yyyy/yy</translation>
+    </message>
     <message numerus="yes">
         <source>Unable to load %n security/securities.</source>
         <translation type="vanished">
