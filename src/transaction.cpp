@@ -1025,6 +1025,8 @@ bool ScheduledTransaction::readElement(QXmlStreamReader *xml, bool*) {
 		} else if(type == "yearly") {
 			if(o_rec) delete o_rec;
 			o_rec = new YearlyRecurrence(budget(), xml, &valid2);
+		} else {
+			xml->skipCurrentElement();
 		}
 		if(!valid2) {
 			delete o_rec;
@@ -1065,6 +1067,8 @@ bool ScheduledTransaction::readElement(QXmlStreamReader *xml, bool*) {
 		} else if(type == "debtpayment") {
 			if(o_trans) delete o_trans;
 			o_trans = new DebtPayment(budget(), xml, &valid2);
+		} else {
+			xml->skipCurrentElement();
 		}
 		if(!valid2) {
 			delete o_trans;

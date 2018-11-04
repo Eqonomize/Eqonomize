@@ -889,6 +889,9 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 				split = new MultiAccountTransaction(this, &xml, &valid);
 			} else if(type == "debtpayment") {
 				split = new DebtPayment(this, &xml, &valid);
+			} else {
+				xml.skipCurrentElement();
+				transaction_errors++;
 			}
 			if(split) {
 				if(valid && merge && ignore_duplicate_transactions) {
@@ -1030,6 +1033,9 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					category_errors++;
 					delete account;
 				}
+			} else {
+				category_errors++;
+				xml.skipCurrentElement();
 			}
 		} else if(xml.name() == "account") {
 			if(!cur) {

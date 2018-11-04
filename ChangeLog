@@ -1,3 +1,15 @@
+2018-11-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Better handling of unknown transaction or category type encountered in file
+
+2018-11-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Budget day fixes
+
+2018-10-31  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Option to specify first budget month of year (financial year)
+
 2018-10-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix saving of recurring expense with multiple payments

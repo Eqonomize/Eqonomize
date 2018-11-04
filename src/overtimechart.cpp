@@ -3702,8 +3702,8 @@ void OverTimeChart::updateDisplay() {
 		} else if(year != budget->budgetYear(monthdate) || type == 4) {
 			year = budget->budgetYear(monthdate);
 			QGraphicsSimpleTextItem *axis_text = new QGraphicsSimpleTextItem();
-			if((includes_budget || includes_scheduled) && next_date > imonth) axis_text->setText(type == 4 ? budget->budgetYearString(monthdate) + "*" : QString::number(budget->budgetYear(monthdate)) + "*");
-			else axis_text->setText(QString::number(type == 4 ? budget->budgetYearString(monthdate) : budget->budgetYear(monthdate)));
+			if((includes_budget || includes_scheduled) && next_date > imonth) axis_text->setText(type == 4 ? budget->budgetYearString(monthdate, true) + "*" : QString::number(budget->budgetYear(monthdate)) + "*");
+			else axis_text->setText(type == 4 ? budget->budgetYearString(monthdate, true) : QString::number(budget->budgetYear(monthdate)));
 			axis_text->setFont(legend_font);
 			axis_text->setBrush(Qt::black);
 			axis_text->setPos(margin + axis_width + index * linelength, chart_height + chart_y + 11);
