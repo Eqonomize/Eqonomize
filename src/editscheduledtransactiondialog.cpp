@@ -26,6 +26,7 @@
 #include <QTabWidget>
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
+#include <QKeyEvent>
 
 #include "budget.h"
 #include "editscheduledtransactiondialog.h"

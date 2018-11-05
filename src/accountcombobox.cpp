@@ -23,6 +23,7 @@
 #endif
 
 #include <QDebug>
+#include <QKeyEvent>
 
 #include "accountcombobox.h"
 #include "account.h"

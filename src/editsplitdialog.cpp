@@ -37,6 +37,7 @@
 #include <QDateEdit>
 #include <QMessageBox>
 #include <QHeaderView>
+#include <QKeyEvent>
 #include <QRadioButton>
 #include <QCompleter>
 #include <QStandardItemModel>
