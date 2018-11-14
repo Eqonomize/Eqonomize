@@ -681,7 +681,7 @@ Transaction *RefundDialog::createRefund() {
 	else ((Income*) trans)->setTo(account);
 	trans->setId(trans->budget()->getNewId());
 	trans->setFirstRevision(trans->budget()->revision());
-	trans->setTimestamp(QDateTime::currentMSecsSinceEpoch() * 1000);
+	trans->setTimestamp(QDateTime::currentMSecsSinceEpoch() / 1000);
 	trans->setQuantity(-quantityEdit->value());
 	trans->setValue(-valueEdit->value());
 	trans->setDate(dateEdit->date());

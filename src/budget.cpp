@@ -615,8 +615,13 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	if(!xml.readNextStartElement()) return tr("Not a valid Eqonomize! file (XML parse error: \"%1\" at line %2, col %3)").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
 	if(xml.name() != "EqonomizeDoc") return tr("Invalid root element %1 in XML document").arg(xml.name().toString());
 
-	/*QString s_version = xml.attributes().value("version").toString();
-	float f_version = s_version.toFloat();*/
+	QStringList s_versions = xml.attributes().value("version").toString().split('.');
+	int i_version[] = {0, 0, 0};
+	if(s_versions.size() > 0) i_version[0] = s_versions[0].toInt();
+	if(s_versions.size() > 1) i_version[1] = s_versions[1].toInt();
+	if(s_versions.size() > 2) i_version[2] = s_versions[2].toInt();
+	
+	qint64 curtime = QDateTime::currentMSecsSinceEpoch() / 1000;
 
 	if(!merge) {
 		clear();
@@ -716,6 +721,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					if(!set_ids) set_ids = strans->id() == 0;
 					if(!set_ids) set_ids = strans->transaction()->id() == 0;
 				}
+				if((i_version[0] < 1 || (i_version[0] == 1 && (i_version[1] < 3 || (i_version[1] == 3 && i_version[2] <= 2)))) && strans->timestamp() > curtime) strans->setTimestamp(strans->timestamp() / 1000000L);
 				scheduledTransactions.append(strans);
 				if(strans->transaction()) {
 					if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
@@ -734,6 +740,28 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			Transaction *trans = NULL;
 			QStringRef type = xml.attributes().value("type");
 			bool valid = true;
+			if(type.isEmpty()) {
+				QXmlStreamAttributes attr = xml.attributes();
+				if(attr.hasAttribute("shares") && attr.hasAttribute("security")) {
+					if(attr.hasAttribute("cost")) attr.append("type", "security_buy");
+					else if(attr.hasAttribute("income")) attr.append("type", "security_sell");
+					else if(attr.hasAttribute("from")) attr.append("type", "security_buy");
+					else if(attr.hasAttribute("to")) attr.append("type", "security_sell");
+				} else if(attr.hasAttribute("cost") || (attr.hasAttribute("category") && attr.hasAttribute("from"))) {
+					attr.append("type", "expense");
+				} else if(attr.hasAttribute("income") || (attr.hasAttribute("category") && attr.hasAttribute("to"))) {
+					attr.append("type", "income");
+				} else if(attr.hasAttribute("amount") || attr.hasAttribute("withdrawal")) {
+					attr.append("type", "transfer");
+				} else if(attr.hasAttribute("from") && attr.hasAttribute("to")) {
+					qlonglong id_from = attr.value("from").toLongLong();
+					qlonglong id_to = attr.value("to").toLongLong();
+					if(expensesAccounts_id.contains(id_to) || expensesAccounts_id.contains(id_from)) attr.append("type", "expense");
+					else if(incomesAccounts_id.contains(id_from) || incomesAccounts_id.contains(id_to)) attr.append("type", "income");
+					else if(assetsAccounts_id.contains(id_from) && assetsAccounts_id.contains(id_to)) attr.append("type", "transfer");
+				}
+				type = attr.value("type");
+			}
 			if(type == "expense" || type == "refund") {
 				Expense *expense = new Expense(this, &xml, &valid);
 				if(valid && merge && ignore_duplicate_transactions) {
@@ -752,14 +780,22 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			} else if(type == "income" || type == "repayment") {
 				Income *income = new Income(this, &xml, &valid);
 				if(valid && merge && ignore_duplicate_transactions) {
-					for(TransactionList<Income*>::const_iterator it = incomes.constBegin(); it != incomes.constEnd(); ++it) {
-						if((*it)->date() > income->date()) break;
-						else if(income->equals(*it, false)) {delete income; income = NULL; break;}
+					if(income->security()) {
+						for(SecurityTransactionList<Income*>::const_iterator it = income->security()->dividends.constBegin(); it != income->security()->dividends.constEnd(); ++it) {
+							if((*it)->date() > income->date()) break;
+							else if(income->equals(*it, false)) {delete income; income = NULL; break;}
+						}
+					} else {
+						for(TransactionList<Income*>::const_iterator it = incomes.constBegin(); it != incomes.constEnd(); ++it) {
+							if((*it)->date() > income->date()) break;
+							else if(income->equals(*it, false)) {delete income; income = NULL; break;}
+						}
 					}
 				}
 				if(valid && income) {
 					trans = income;
 					incomes.append(income);
+					if(income->security()) income->security()->dividends.append(income);
 				} else if(!valid) {
 					transaction_errors++;
 					if(income) delete income;
@@ -813,6 +849,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					} else {
 						if(!set_ids) set_ids = ts->id == 0;
 					}
+					if((i_version[0] < 1 || (i_version[0] == 1 && (i_version[1] < 3 || (i_version[1] == 3 && i_version[2] <= 2)))) && ts->timestamp > curtime) ts->timestamp = ts->timestamp / 1000000L;
 					securityTrades.append(ts);
 					ts->from_security->tradedShares.append(ts);
 					ts->to_security->tradedShares.append(ts);
@@ -912,6 +949,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					} else {
 						if(!set_ids) set_ids = split->id() == 0;
 					}
+					if((i_version[0] < 1 || (i_version[0] == 1 && (i_version[1] < 3 || (i_version[1] == 3 && i_version[2] <= 2)))) && split->timestamp() > curtime) {qDebug() << curtime << split->timestamp(); split->setTimestamp(split->timestamp() / 1000000L);}
 					splitTransactions.append(split);
 					int c = split->count();
 					for(int i = 0; i < c; i++) {
@@ -960,6 +998,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 				} else {
 					if(!set_ids) set_ids = trans->id() == 0;
 				}
+				if((i_version[0] < 1 || (i_version[0] == 1 && (i_version[1] < 3 || (i_version[1] == 3 && i_version[2] <= 2)))) && trans->timestamp() > curtime) trans->setTimestamp(trans->timestamp() / 1000000L);
 				transactions.append(trans);
 			}
 		} else if(xml.name() == "category") {
