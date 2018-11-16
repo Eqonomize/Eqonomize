@@ -2491,7 +2491,7 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <location filename="../src/transaction.cpp" line="756"/>
         <source>Account Balance Adjustment</source>
-        <translation type="unfinished">Einstellung der Kontostand</translation>
+        <translation>Kontostand einstellen</translation>
     </message>
 </context>
 <context>
@@ -2542,7 +2542,7 @@ Was wollen Sie mit diesen tun?</translation>
         <location filename="../src/budget.cpp" line="1085"/>
         <location filename="../src/budget.cpp" line="1846"/>
         <source>Unknown XML element: &quot;%1&quot; at line %2, col %3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Unbekanntes XML Element: &quot;%1&quot; in der Zeile %2, Zeichen %3</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="314"/>
@@ -2561,9 +2561,9 @@ Was wollen Sie mit diesen tun?</translation>
     <message numerus="yes">
         <location filename="../src/budget.cpp" line="355"/>
         <source>Unable to load %n currency/currencies.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Konnte %n Währung nicht laden.</numerusform>
+            <numerusform>Konnte %n Währungen nicht laden.</numerusform>
         </translation>
     </message>
     <message>
@@ -2572,12 +2572,12 @@ Was wollen Sie mit diesen tun?</translation>
         <location filename="../src/budget.cpp" line="479"/>
         <location filename="../src/budget.cpp" line="551"/>
         <source>No exchange rates found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Wechselkurse gefunden.</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="487"/>
         <source>USD currency missing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Währung USD fehlt.</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="978"/>
@@ -2610,7 +2610,7 @@ Was wollen Sie mit diesen tun?</translation>
         <location filename="../src/budget.cpp" line="1946"/>
         <source>Unable to load %n security/securities.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
-        <translation type="unfinished">
+        <translation>
             <numerusform>Konnte %n Wertpapier nicht laden.</numerusform>
             <numerusform>Konnte %n Wertpapiere nicht laden.</numerusform>
         </translation>
@@ -2618,17 +2618,17 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <location filename="../src/budget.cpp" line="1284"/>
         <source>Download command (%1) failed: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kommando zum Herunterladen (%1) schlug fehl: %2.</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="1304"/>
         <source>Failed to download file from %1: %2.</source>
-        <translation type="unfinished">Fehler beim Herunterladen der Datei von %1: %2.</translation>
+        <translation>Fehler beim Herunterladen der Datei von %1: %2.</translation>
     </message>
     <message>
         <location filename="../src/budget.cpp" line="1358"/>
         <source>Upload command (%1) failed: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kommando zum Hochladen (%1) schlug fehl: %2.</translation>
     </message>
     <message numerus="yes">
         <source>Unable to load %n security/securities.</source>
@@ -3723,7 +3723,7 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <location filename="../src/editcurrencydialog.cpp" line="48"/>
         <source>Edit Currency</source>
-        <translation type="unfinished">Währung bearbeiten</translation>
+        <translation>Währung bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/editcurrencydialog.cpp" line="49"/>
@@ -3733,7 +3733,7 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <location filename="../src/editcurrencydialog.cpp" line="59"/>
         <source>Code:</source>
-        <translation type="unfinished">Code:</translation>
+        <translation>Code:</translation>
     </message>
     <message>
         <location filename="../src/editcurrencydialog.cpp" line="68"/>
@@ -3754,7 +3754,7 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <location filename="../src/editcurrencydialog.cpp" line="76"/>
         <location filename="../src/editcurrencydialog.cpp" line="96"/>
         <source>Default</source>
-        <translation type="unfinished">Standard</translation>
+        <translation>Standard</translation>
     </message>
     <message>
         <location filename="../src/editcurrencydialog.cpp" line="87"/>
@@ -3764,17 +3764,17 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <location filename="../src/editcurrencydialog.cpp" line="91"/>
         <source>Decimals:</source>
-        <translation type="unfinished">Dezimalstellen:</translation>
+        <translation>Dezimalstellen:</translation>
     </message>
     <message>
         <location filename="../src/editcurrencydialog.cpp" line="105"/>
         <source>Date:</source>
-        <translation type="unfinished">Datum:</translation>
+        <translation>Datum:</translation>
     </message>
     <message>
         <location filename="../src/editcurrencydialog.cpp" line="116"/>
         <source>Main currency</source>
-        <translation type="unfinished">Hauptwährung</translation>
+        <translation>Hauptwährung</translation>
     </message>
     <message>
         <location filename="../src/editcurrencydialog.cpp" line="153"/>
@@ -3782,23 +3782,23 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <location filename="../src/editcurrencydialog.cpp" line="181"/>
         <location filename="../src/editcurrencydialog.cpp" line="186"/>
         <source>Error</source>
-        <translation type="unfinished">Fehler</translation>
+        <translation>Fehler</translation>
     </message>
     <message>
         <location filename="../src/editcurrencydialog.cpp" line="153"/>
         <location filename="../src/editcurrencydialog.cpp" line="173"/>
         <source>Error saving currencies: %1.</source>
-        <translation type="unfinished">Fehler beim Speichern der Währungen: %1.</translation>
+        <translation>Fehler beim Speichern der Währungen: %1.</translation>
     </message>
     <message>
         <location filename="../src/editcurrencydialog.cpp" line="181"/>
         <source>Empty code.</source>
-        <translation type="unfinished">Leerer Code.</translation>
+        <translation>Leerer Code.</translation>
     </message>
     <message>
         <location filename="../src/editcurrencydialog.cpp" line="186"/>
         <source>Code already exists.</source>
-        <translation type="unfinished">Code schon vergeben.</translation>
+        <translation>Code schon vergeben.</translation>
     </message>
 </context>
 <context>
@@ -3859,17 +3859,17 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <location filename="../src/editsplitdialog.cpp" line="1137"/>
         <source>Expense category:</source>
-        <translation type="unfinished">Ausgabenkategorie:</translation>
+        <translation>Ausgabenkategorie:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="1146"/>
         <source>Associated file:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zugehörige Datei:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="1154"/>
         <source>Select a file</source>
-        <translation type="unfinished">Datei auswählen</translation>
+        <translation>Datei auswählen</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="1158"/>
@@ -3897,7 +3897,7 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <location filename="../src/editsplitdialog.cpp" line="1476"/>
         <source>No suitable account available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kein geeignetes Konto verfügbar.</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="1484"/>
@@ -3912,7 +3912,7 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <location filename="../src/editsplitdialog.cpp" line="1492"/>
         <source>At least one value must non-zero.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mindestens ein Wert muss ungleich Null sein.</translation>
     </message>
 </context>
 <context>
@@ -4111,7 +4111,7 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <location filename="../src/editsplitdialog.cpp" line="732"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished">Beschreibung:</translation>
+        <translation>Beschreibung:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="738"/>
@@ -4126,7 +4126,7 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <location filename="../src/editsplitdialog.cpp" line="750"/>
         <source>Associated file:</source>
-        <translation type="unfinished">Zugehörige Datei:</translation>
+        <translation>Zugehörige Datei:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="758"/>
@@ -4205,7 +4205,7 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <location filename="../src/editsplitdialog.cpp" line="1050"/>
         <source>No suitable expense categories available.</source>
-        <translation type="unfinished">Keine passende Ausgabenkategorie verfügbar.</translation>
+        <translation>Keine passende Ausgabenkategorie verfügbar.</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="1058"/>
@@ -4608,25 +4608,25 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <location filename="../src/editscheduledtransactiondialog.cpp" line="432"/>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="441"/>
         <source>New Expense with Multiple Payments</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neue Ausgabe mit mehreren Zahlungen</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="432"/>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="441"/>
         <source>New Income with Multiple Payments</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neue Einnahme mit mehreren Zahlungen</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="451"/>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="469"/>
         <source>Edit Expense with Multiple Payments</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ausgabe mit mehreren Zahlungen bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="451"/>
         <location filename="../src/editscheduledtransactiondialog.cpp" line="469"/>
         <source>Edit Income with Multiple Payments</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Einnahme mit mehreren Zahlungen bearbeiten</translation>
     </message>
 </context>
 <context>
@@ -4861,19 +4861,19 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
         <location filename="../src/eqonomize.cpp" line="1546"/>
         <source>Decimals in shares:</source>
         <comment>Financial shares</comment>
-        <translation type="unfinished">Dezimal in Anteilen:</translation>
+        <translation type="unfinished">Dezimalstellen der Anteile:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1552"/>
         <source>Initial shares:</source>
         <comment>Financial shares</comment>
-        <translation type="unfinished">Anteile zu Beginn:</translation>
+        <translation>Anteile zu Beginn:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1555"/>
         <source>Decimals in quotes:</source>
         <comment>Financial quote</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dezimalstellen des Kurses:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1561"/>
@@ -4884,7 +4884,7 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <location filename="../src/eqonomize.cpp" line="1595"/>
         <source>Empty name.</source>
-        <translation type="unfinished">Leerer Name.</translation>
+        <translation>Leerer Name.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1608"/>
@@ -6623,12 +6623,12 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     <message>
         <location filename="../src/eqonomize.cpp" line="5870"/>
         <source>Show Transactions</source>
-        <translation>Transaktionen Zeigen</translation>
+        <translation>Transaktionen Anzeigen</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5871"/>
         <source>Show Ledger</source>
-        <translation type="unfinished">Kontenblatt Zeige</translation>
+        <translation>Kontenblatt Anzeigen</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="5874"/>
@@ -7422,7 +7422,7 @@ Was wollen Sie mit diesen tun?</translation>
         <location filename="../src/importcsvdialog.cpp" line="159"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished">Beschreibung:</translation>
+        <translation>Beschreibung:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="142"/>
@@ -7558,7 +7558,7 @@ Was wollen Sie mit diesen tun?</translation>
         <location filename="../src/importcsvdialog.cpp" line="508"/>
         <location filename="../src/importcsvdialog.cpp" line="524"/>
         <source>Payee/payer:</source>
-        <translation type="unfinished">Empfänger/zahler:</translation>
+        <translation>Empfänger/zahler:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="500"/>
@@ -8130,7 +8130,7 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="194"/>
         <source>Edit Account…</source>
-        <translation type="unfinished">Konto bearbeiten…</translation>
+        <translation>Konto bearbeiten…</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="196"/>
@@ -8437,7 +8437,7 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="1497"/>
         <source>Account Balance Adjustment</source>
-        <translation type="unfinished">Einstellung der Kontostand</translation>
+        <translation>Kontostand einstellen</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="1538"/>
@@ -8633,18 +8633,18 @@ Was wollen Sie mit diesen tun?</translation>
         <location filename="../src/editsplitdialog.cpp" line="150"/>
         <source>Securities Purchase</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
-        <translation type="unfinished">Wertpapierkauf</translation>
+        <translation>Wertpapierkauf</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="152"/>
         <source>Securities Sale</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
-        <translation type="unfinished">Wertpapierverkauf</translation>
+        <translation>Wertpapierverkauf</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="154"/>
         <source>Account Balance Adjustment</source>
-        <translation type="unfinished">Einstellung der Kontostand</translation>
+        <translation type="unfinished">Kontostand einstellen</translation>
     </message>
     <message>
         <source>Account Balancing</source>
@@ -8829,49 +8829,49 @@ Was wollen Sie mit diesen tun?</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="167"/>
         <source>Theme:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Thema:</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="160"/>
         <source>Chart type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Diagramm Typ:</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="162"/>
         <source>Line Chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Liniendiagramm</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="163"/>
         <source>Vertical Bar Chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Vertikales Balkendiagramm</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="164"/>
         <source>Horizontal Bar Chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Horizontales Balkendiagramm</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="165"/>
         <source>Stacked Bar Chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestapeltes Balkendiagramm</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="169"/>
         <source>Default</source>
-        <translation type="unfinished">Standard</translation>
+        <translation>Standard</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="250"/>
         <location filename="../src/overtimechart.cpp" line="3985"/>
         <source>All Accounts Combined</source>
-        <translation type="unfinished">Alle Konten zusammengefasst</translation>
+        <translation>Alle Konten zusammengefasst</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="251"/>
         <location filename="../src/overtimechart.cpp" line="3986"/>
         <source>All Accounts Split</source>
-        <translation type="unfinished">Alle Konten geteilt</translation>
+        <translation>Alle Konten getrennt</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="601"/>
@@ -8904,7 +8904,7 @@ Was wollen Sie mit diesen tun?</translation>
         <location filename="../src/overtimechart.cpp" line="3873"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
-        <translation type="unfinished">Keine Beschreibung</translation>
+        <translation>Keine Beschreibung</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2598"/>
@@ -9107,7 +9107,7 @@ Datum: %3</translation>
         <location filename="../src/overtimechart.cpp" line="4205"/>
         <source>MMMM yyyy</source>
         <comment>Month and year</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MMMM yyyy</translation>
     </message>
     <message>
         <source>All Descriptions Split</source>
@@ -9222,7 +9222,7 @@ Datum: %3</translation>
         <location filename="../src/overtimechart.cpp" line="3462"/>
         <source>%1/%2</source>
         <comment>%1: Category; %2: Payee/Payer</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1/%2</translation>
     </message>
     <message>
         <source>All Descriptions Combined</source>
@@ -9262,7 +9262,7 @@ Datum: %3</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="2867"/>
         <source>Average income</source>
-        <translation>Durchschnittliche Einnahmen</translation>
+        <translation type="unfinished">Durchschnittliche Einnahmen</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2868"/>
@@ -9272,22 +9272,22 @@ Datum: %3</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="2872"/>
         <source>Annual value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jährlicher Wert</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2873"/>
         <source>Annual profit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jährliche Einkünfte</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2874"/>
         <source>Annual income</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jährliche Einnahme</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2875"/>
         <source>Annual cost</source>
-        <translation type="unfinished"></translation>
+        <translation>Jährliche Kosten</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2879"/>
@@ -9307,7 +9307,7 @@ Datum: %3</translation>
     <message>
         <location filename="../src/overtimechart.cpp" line="2882"/>
         <source>Monthly cost</source>
-        <translation type="unfinished">Monatlichen Kosten</translation>
+        <translation>Monatlichen Kosten</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2888"/>
@@ -9407,14 +9407,14 @@ Datum: %3</translation>
         <location filename="../src/overtimechart.cpp" line="3509"/>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payer/Payer</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1/%2</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="3262"/>
         <location filename="../src/overtimechart.cpp" line="3518"/>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payee/Payer</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1/%2</translation>
     </message>
     <message numerus="yes">
         <source>%1/%2</source>
@@ -9867,7 +9867,7 @@ Datum: %3</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="398"/>
         <source>Debt Payment</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schuldenzahlung</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="427"/>
