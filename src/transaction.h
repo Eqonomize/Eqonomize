@@ -873,13 +873,13 @@ class DebtPayment : public SplitTransaction {
 		DebtInterest *interestTransaction() const;
 		DebtReduction *paymentTransaction() const;
 		
-		void setInterest(double new_value, bool payed_from_account = true);
-		void setInterestPayed(bool payed_from_account);
+		void setInterest(double new_value, bool paid_from_account = true);
+		void setInterestPaid(bool paid_from_account);
 		void setFee(double new_value);
 		void setPayment(double new_value);
 		void setPayment(double new_payment, double new_reduction);
 		double interest(bool convert = false) const;
-		bool interestPayed() const;
+		bool interestPaid() const;
 		double fee(bool convert = false) const;
 		double payment(bool convert = false) const;
 		double reduction(bool convert = false) const;

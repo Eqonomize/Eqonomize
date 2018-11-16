@@ -131,8 +131,8 @@ void AssetsAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	} else {
 		at_type = ASSETS_TYPE_OTHER;
 	}
-	if(at_type == ASSETS_TYPE_LIABILITIES) s_maintainer = attr->value("lender").trimmed().toString();
-	else if(at_type == ASSETS_TYPE_CREDIT_CARD) s_maintainer = attr->value("issuer").trimmed().toString();
+	if(attr->hasAttribute("lender")) s_maintainer = attr->value("lender").trimmed().toString();
+	else if(attr->hasAttribute("issuer"))  s_maintainer = attr->value("issuer").trimmed().toString();
 	else s_maintainer = attr->value("bank").trimmed().toString();
 	QString s_cur = attr->value("currency").trimmed().toString();
 	if(!s_cur.isEmpty()) {

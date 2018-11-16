@@ -322,7 +322,7 @@
 		Each transaction has a number of mandatory or optional properties. All the basic transactions have four mandatory properties – value, date, and from and to accounts/categories. Value represents the amount of money that is affected by the transaction, date when the transaction occurred, from account where the money was taken from and to account where money was put. These are the generic property names, which shows that all transaction types basically are the same.
 		</para>
 		<para>
-		For expenses the value is a cost, a positive value representing a loss of money, from the account that the expense is payed from, to an expense category. For incomes the value is an income, a positive value representing a gain of money, from an income category, to the account that the income is deposited in. For transfers the value is referred to as amount, or withdrawal (from an account) and deposit (to an account).
+		For expenses the value is a cost, a positive value representing a loss of money, from the account that the expense is paid from, to an expense category. For incomes the value is an income, a positive value representing a gain of money, from an income category, to the account that the income is deposited in. For transfers the value is referred to as amount, or withdrawal (from an account) and deposit (to an account).
 		</para>
 		<table id="qalculate-TBL-mandatory-properties" frame="topbot" colsep="1">
 			<title>Mandatory Properties</title>
@@ -481,10 +481,10 @@
 		<para>
 		Note that even if you create a recurring expense with multiple payments where each payment has a different date, all recurrences after the first occurrence will use the same date for each separate payment. If a future date is set for the first, or only, occurrence, the program will only ask for confirmation of the expense on the first date.
 		</para>
-		<sect2 id="expanse_payed_with_loan">
-		  <title>Expense Payed with Loan / Payment Plan</title>
+		<sect2 id="expanse_paid_with_loan">
+		  <title>Expense Paid with Loan / Payment Plan</title>
 		  <para>
-		  An expenses payed with loan is not actually recorded as a specific kind of transaction, but is shortcut for creating a debt account and an expense with multiple payments (or a regular expense if downpayment is zero). Expenses with multiple payments can be created using the <menuchoice><guimenu>Loans</guimenu><guimenuitem>Expense Payed with Loan / Payment Plan</guimenuitem></menuchoice> or by selecting <guimenuitem>Payed with loan / payment plan</guimenuitem> in the account menu for an expense.
+		  An expenses paid with loan is not actually recorded as a specific kind of transaction, but is shortcut for creating a debt account and an expense with multiple payments (or a regular expense if downpayment is zero). Expenses with multiple payments can be created using the <menuchoice><guimenu>Loans</guimenu><guimenuitem>Expense Paid with Loan / Payment Plan</guimenuitem></menuchoice> or by selecting <guimenuitem>Paid with loan / payment plan</guimenuitem> in the account menu for an expense.
 		  <mediaobject><imageobject><imagedata format="PNG" fileref="figures/payedwithloan.png"/></imageobject></mediaobject>
 		  </para>
 		  <para>
@@ -500,9 +500,9 @@
 		</para>
 		<para>
 		</para>
-		Debt reduction represents the amount you (re)pay that actually reduces the value of the debt. Interest represents the amount the debt has increased (before debt reduction) and may or may not be payed directly. Fee usually represents an administration fee added to each bill. You only need the enter one of the three values (the other can be zero).
+		Debt reduction represents the amount you (re)pay that actually reduces the value of the debt. Interest represents the amount the debt has increased (before debt reduction) and may or may not be paid directly. Fee usually represents an administration fee added to each bill. You only need the enter one of the three values (the other can be zero).
 		<para>
-		<menuchoice><guimenu>Loans</guimenu><guimenuitem>New Unpayed Interest</guimenuitem></menuchoice> also creates loan payment transactions but provides a simplified dialog when the debt has increased because of added interest.
+		<menuchoice><guimenu>Loans</guimenu><guimenuitem>New Unpaid Interest</guimenuitem></menuchoice> also creates loan payment transactions but provides a simplified dialog when the debt has increased because of added interest.
 		<mediaobject><imageobject><imagedata format="PNG" fileref="figures/unpayedinterest.png"/></imageobject></mediaobject>
 		</para>
 		<para>

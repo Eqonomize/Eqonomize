@@ -55,7 +55,7 @@ QString Transactions::valueString(double value_, int precision) const {
 	return cur->formatValue(value_, precision);
 }
 void Transactions::setTimestamp() {
-	setTimestamp(QDateTime::currentMSecsSinceEpoch() * 1000);
+	setTimestamp(QDateTime::currentMSecsSinceEpoch() / 1000);
 }
 Budget *Transactions::budget() const {return o_budget;}
 qlonglong Transactions::id() const {return i_id;}
@@ -69,7 +69,7 @@ void Transactions::setLastRevision(int new_rev) {i_last_revision = new_rev;}
 bool Transactions::isModified() const {return i_last_revision == o_budget->revision();}
 void Transactions::setModified() {i_last_revision = o_budget->revision();}
 
-Transaction::Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description, QString initial_comment, qlonglong initial_id) : Transactions(parent_budget), d_value(initial_value), d_date(initial_date), o_from(from), o_to(to), s_description(initial_description.trimmed()), s_comment(initial_comment.trimmed()), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentMSecsSinceEpoch() * 1000) {
+Transaction::Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description, QString initial_comment, qlonglong initial_id) : Transactions(parent_budget), d_value(initial_value), d_date(initial_date), o_from(from), o_to(to), s_description(initial_description.trimmed()), s_comment(initial_comment.trimmed()), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentMSecsSinceEpoch() / 1000) {
 	if(initial_id < 0) i_id = o_budget->getNewId();
 	else i_id = initial_id;
 }
@@ -78,8 +78,8 @@ Transaction::Transaction(Budget *parent_budget, QXmlStreamReader *xml, bool *val
 	readAttributes(&attr, valid);
 	readElements(xml, valid);
 }
-Transaction::Transaction(Budget *parent_budget) : Transactions(parent_budget), d_value(0.0), o_from(NULL), o_to(NULL), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentMSecsSinceEpoch() * 1000) {}
-Transaction::Transaction() : Transactions(), d_value(0.0), o_from(NULL), o_to(NULL), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentMSecsSinceEpoch() * 1000) {}
+Transaction::Transaction(Budget *parent_budget) : Transactions(parent_budget), d_value(0.0), o_from(NULL), o_to(NULL), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentMSecsSinceEpoch() / 1000) {}
+Transaction::Transaction() : Transactions(), d_value(0.0), o_from(NULL), o_to(NULL), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentMSecsSinceEpoch() / 1000) {}
 Transaction::Transaction(const Transaction *transaction) : Transactions(transaction->budget()), d_value(transaction->value()), d_date(transaction->date()), o_from(transaction->fromAccount()), o_to(transaction->toAccount()), s_description(transaction->description()), s_comment(transaction->comment()), s_file(transaction->associatedFile()), d_quantity(transaction->quantity()), o_split(NULL), i_time(transaction->timestamp()) {i_id = transaction->id(); i_first_revision = transaction->firstRevision(); i_last_revision = transaction->lastRevision();}
 Transaction::~Transaction() {}
 
@@ -245,13 +245,27 @@ void Expense::set(const Transactions *trans) {
 
 void Expense::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Transaction::readAttributes(attr, valid);
-	int id_category = attr->value("category").toLongLong();
-	qlonglong id_from = attr->value("from").toLongLong();
+	qlonglong id_category, id_from;
+	bool b_neg = false;
+	if(attr->hasAttribute("category")) {
+		id_category = attr->value("category").toLongLong();
+		id_from = attr->value("from").toLongLong();
+	} else {
+		id_category = attr->value("to").toLongLong();
+		if(budget()->expensesAccounts_id.contains(id_category)) {
+			id_from = attr->value("from").toLongLong();
+		} else {
+			id_from = id_category;
+			id_category = attr->value("from").toLongLong();
+			b_neg = true;
+		}
+	}
 	if(budget()->expensesAccounts_id.contains(id_category) && budget()->assetsAccounts_id.contains(id_from)) {
 		setCategory(budget()->expensesAccounts_id[id_category]);
 		setFrom(budget()->assetsAccounts_id[id_from]);
-		if(attr->hasAttribute("income")) setCost(-attr->value("income").toDouble());
-		else setCost(attr->value("cost").toDouble());
+		if(attr->hasAttribute("income")) setCost(b_neg ? attr->value("income").toDouble() : -attr->value("income").toDouble());
+		else if(attr->hasAttribute("value")) setCost(b_neg ? attr->value("value").toDouble() : -attr->value("value").toDouble());
+		else setCost(b_neg ? -attr->value("cost").toDouble() : attr->value("cost").toDouble());
 		s_payee = attr->value("payee").trimmed().toString();
 		b_reconciled = attr->value("reconciled").toInt();
 	} else {
@@ -416,13 +430,27 @@ void Income::set(const Transactions *trans) {
 
 void Income::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Transaction::readAttributes(attr, valid);
-	qlonglong id_category = attr->value("category").toLongLong();
-	qlonglong id_to = attr->value("to").toLongLong();
+	qlonglong id_category, id_to;
+	bool b_neg = false;
+	if(attr->hasAttribute("category")) {
+		id_category = attr->value("category").toLongLong();
+		id_to = attr->value("to").toLongLong();
+	} else {
+		id_category = attr->value("from").toLongLong();
+		if(budget()->incomesAccounts_id.contains(id_category)) {
+			id_to = attr->value("to").toLongLong();
+		} else {
+			id_to = id_category;
+			id_category = attr->value("to").toLongLong();
+			b_neg = true;
+		}
+	}
 	if(budget()->incomesAccounts_id.contains(id_category) && budget()->assetsAccounts_id.contains(id_to)) {
 		setCategory(budget()->incomesAccounts_id[id_category]);
 		setTo(budget()->assetsAccounts_id[id_to]);
-		if(attr->hasAttribute("cost")) setIncome(-attr->value("cost").toDouble());
-		else setIncome(attr->value("income").toDouble());
+		if(attr->hasAttribute("cost")) setIncome(b_neg ? attr->value("cost").toDouble() : -attr->value("cost").toDouble());
+		else if(attr->hasAttribute("value")) setIncome(b_neg ? -attr->value("value").toDouble() : attr->value("value").toDouble());
+		else setIncome(b_neg ? -attr->value("income").toDouble() : attr->value("income").toDouble());
 		b_reconciled = attr->value("reconciled").toInt();
 	} else {
 		if(valid) *valid = false;
@@ -604,6 +632,8 @@ void Transfer::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		setTo(budget()->assetsAccounts_id[id_to]);
 		if(attr->hasAttribute("amount")) {
 			setAmount(attr->value("amount").toDouble());
+		} else if(attr->hasAttribute("value")) {
+			setAmount(attr->value("value").toDouble());
 		} else {
 			setAmount(attr->value("withdrawal").toDouble(), attr->value("deposit").toDouble());
 		}
@@ -899,9 +929,12 @@ void SecurityBuy::set(const Transactions *trans) {
 }
 
 void SecurityBuy::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
-	d_value = attr->value("cost").toDouble();
+	if(attr->hasAttribute("value")) d_value = attr->value("value").toDouble();
+	else d_value = attr->value("cost").toDouble();
 	SecurityTransaction::readAttributes(attr, valid);
-	qlonglong id_account = attr->value("account").toLongLong();
+	qlonglong id_account;
+	if(attr->hasAttribute("from")) id_account = attr->value("from").toLongLong();
+	else id_account = attr->value("account").toLongLong();
 	if(budget()->assetsAccounts_id.contains(id_account)) {
 		setAccount(budget()->assetsAccounts_id[id_account]);
 	} else if(budget()->incomesAccounts_id.contains(id_account)) {
@@ -946,9 +979,12 @@ void SecuritySell::set(const Transactions *trans) {
 }
 
 void SecuritySell::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
-	d_value = attr->value("income").toDouble();
+	if(attr->hasAttribute("value")) d_value = attr->value("value").toDouble();
+	else d_value = attr->value("income").toDouble();
 	SecurityTransaction::readAttributes(attr, valid);
-	qlonglong id_account = attr->value("account").toLongLong();
+	qlonglong id_account;
+	if(attr->hasAttribute("to")) id_account = attr->value("to").toLongLong();
+	else id_account = attr->value("account").toLongLong();
 	if(budget()->assetsAccounts_id.contains(id_account)) {
 		setAccount(budget()->assetsAccounts_id[id_account]);
 	} else if(budget()->expensesAccounts_id.contains(id_account)) {
@@ -1025,6 +1061,8 @@ bool ScheduledTransaction::readElement(QXmlStreamReader *xml, bool*) {
 		} else if(type == "yearly") {
 			if(o_rec) delete o_rec;
 			o_rec = new YearlyRecurrence(budget(), xml, &valid2);
+		} else {
+			xml->skipCurrentElement();
 		}
 		if(!valid2) {
 			delete o_rec;
@@ -1033,6 +1071,28 @@ bool ScheduledTransaction::readElement(QXmlStreamReader *xml, bool*) {
 		return true;
 	} else if(xml->name() == "transaction") {
 		QStringRef type = xml->attributes().value("type");
+		if(type.isEmpty()) {
+			QXmlStreamAttributes attr = xml->attributes();
+			if(attr.hasAttribute("shares") && attr.hasAttribute("security")) {
+				if(attr.hasAttribute("cost")) attr.append("type", "security_buy");
+				else if(attr.hasAttribute("income")) attr.append("type", "security_sell");
+				else if(attr.hasAttribute("from")) attr.append("type", "security_buy");
+				else if(attr.hasAttribute("to")) attr.append("type", "security_sell");
+			} else if(attr.hasAttribute("cost") || (attr.hasAttribute("category") && attr.hasAttribute("from"))) {
+				attr.append("type", "expense");
+			} else if(attr.hasAttribute("income") || (attr.hasAttribute("category") && attr.hasAttribute("to"))) {
+				attr.append("type", "income");
+			} else if(attr.hasAttribute("amount") || attr.hasAttribute("withdrawal")) {
+				attr.append("type", "transfer");
+			} else if(attr.hasAttribute("from") && attr.hasAttribute("to")) {
+				qlonglong id_from = attr.value("from").toLongLong();
+				qlonglong id_to = attr.value("to").toLongLong();
+				if(budget()->expensesAccounts_id.contains(id_to) || budget()->expensesAccounts_id.contains(id_from)) attr.append("type", "expense");
+				else if(budget()->incomesAccounts_id.contains(id_from) || budget()->incomesAccounts_id.contains(id_to)) attr.append("type", "income");
+				else if(budget()->assetsAccounts_id.contains(id_from) && budget()->assetsAccounts_id.contains(id_to)) attr.append("type", "transfer");
+			}
+			type = attr.value("type");
+		}
 		bool valid2 = true;
 		if(type == "expense") {
 			if(o_trans) delete o_trans;
@@ -1065,6 +1125,8 @@ bool ScheduledTransaction::readElement(QXmlStreamReader *xml, bool*) {
 		} else if(type == "debtpayment") {
 			if(o_trans) delete o_trans;
 			o_trans = new DebtPayment(budget(), xml, &valid2);
+		} else {
+			xml->skipCurrentElement();
 		}
 		if(!valid2) {
 			delete o_trans;
@@ -1138,7 +1200,7 @@ void ScheduledTransaction::writeElements(QXmlStreamWriter *xml) {
 				break;
 			}
 			case SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS: {
-				xml->writeAttribute("type", "mulltiaccount");
+				xml->writeAttribute("type", "multiaccount");
 				break;
 			}
 			case SPLIT_TRANSACTION_TYPE_LOAN: {
@@ -1318,7 +1380,7 @@ bool ScheduledTransaction::isReconciled(AssetsAccount*) const {return false;}
 void ScheduledTransaction::setReconciled(AssetsAccount*, bool) {return;}
 
 
-SplitTransaction::SplitTransaction(Budget *parent_budget, QDate initial_date, QString initial_description) : Transactions(parent_budget), d_date(initial_date), s_description(initial_description.trimmed()), i_time(QDateTime::currentMSecsSinceEpoch() * 1000), b_reconciled(false) {i_id = o_budget->getNewId();}
+SplitTransaction::SplitTransaction(Budget *parent_budget, QDate initial_date, QString initial_description) : Transactions(parent_budget), d_date(initial_date), s_description(initial_description.trimmed()), i_time(QDateTime::currentMSecsSinceEpoch() / 1000), b_reconciled(false) {i_id = o_budget->getNewId();}
 SplitTransaction::SplitTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transactions(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
 	readAttributes(&attr, valid);
@@ -1332,8 +1394,8 @@ SplitTransaction::SplitTransaction(const SplitTransaction *split) : Transactions
 		splits.push_back(trans);
 	}
 }
-SplitTransaction::SplitTransaction(Budget *parent_budget) : Transactions(parent_budget), i_time(QDateTime::currentMSecsSinceEpoch() * 1000), b_reconciled(false) {}
-SplitTransaction::SplitTransaction() : Transactions(), i_time(QDateTime::currentMSecsSinceEpoch() * 1000), b_reconciled(false) {}
+SplitTransaction::SplitTransaction(Budget *parent_budget) : Transactions(parent_budget), i_time(QDateTime::currentMSecsSinceEpoch() / 1000), b_reconciled(false) {}
+SplitTransaction::SplitTransaction() : Transactions(), i_time(QDateTime::currentMSecsSinceEpoch() / 1000), b_reconciled(false) {}
 SplitTransaction::~SplitTransaction() {
 	clear();
 }
@@ -1562,6 +1624,28 @@ bool MultiItemTransaction::readElement(QXmlStreamReader *xml, bool*) {
 		QString id = QString::number(o_account->id());
 		QXmlStreamAttributes attr = xml->attributes();
 		QStringRef type = attr.value("type");
+		if(type.isEmpty()) {
+			QXmlStreamAttributes attr = xml->attributes();
+			if(attr.hasAttribute("shares") && attr.hasAttribute("security")) {
+				if(attr.hasAttribute("cost")) attr.append("type", "security_buy");
+				else if(attr.hasAttribute("income")) attr.append("type", "security_sell");
+			} else if(attr.hasAttribute("cost") || (attr.hasAttribute("category") && budget()->expensesAccounts_id.contains(attr.value("category").toLongLong()))) {
+				attr.append("type", "expense");
+			} else if(attr.hasAttribute("income") || attr.hasAttribute("category")) {
+				attr.append("type", "income");
+			} else if(attr.hasAttribute("amount") || attr.hasAttribute("withdrawal")) {
+				attr.append("type", "transfer");
+			} else if(attr.hasAttribute("from")) {
+				qlonglong id_from = attr.value("from").toLongLong();
+				if(budget()->incomesAccounts_id.contains(id_from)) attr.append("type", "income");
+				else if(budget()->assetsAccounts_id.contains(id_from)) attr.append("type", "transfer");
+			} else if(attr.hasAttribute("to")) {
+				qlonglong id_to = attr.value("to").toLongLong();
+				if(budget()->expensesAccounts_id.contains(id_to)) attr.append("type", "expense");
+				else if(budget()->assetsAccounts_id.contains(id_to)) attr.append("type", "transfer");
+			}
+			type = attr.value("type");
+		}
 		attr.append("date", d_date.toString(Qt::ISODate));
 		bool valid2 = true;
 		bool is_dividend = false;
@@ -2119,7 +2203,7 @@ DebtPayment::DebtPayment(Budget *parent_budget, QXmlStreamReader *xml, bool *val
 }
 DebtPayment::DebtPayment(const DebtPayment *split) : SplitTransaction(split), o_loan(split->loan()), o_fee(NULL), o_interest(NULL), o_payment(NULL), o_account(split->account()) {
 	if(split->fee() != 0.0) setFee(split->fee());
-	if(split->interest() != 0.0) setInterest(split->interest(), split->interestPayed());
+	if(split->interest() != 0.0) setInterest(split->interest(), split->interestPaid());
 	if(split->payment() != 0.0) setPayment(split->payment(), split->reduction());
 	setExpenseCategory(split->expenseCategory());
 	b_reconciled = split->isReconciled(split->account());
@@ -2134,7 +2218,7 @@ void DebtPayment::set(const Transactions *trans) {
 		DebtPayment *split = (DebtPayment*) trans;
 		o_account = split->account();
 		if(split->fee() != 0.0) setFee(split->fee());
-		if(split->interest() != 0.0) setInterest(split->interest(), split->interestPayed());
+		if(split->interest() != 0.0) setInterest(split->interest(), split->interestPaid());
 		if(split->payment() != 0.0) setPayment(split->payment(), split->reduction());
 		setExpenseCategory(split->expenseCategory());
 		b_reconciled = split->isReconciled(split->account());
@@ -2150,19 +2234,19 @@ double DebtPayment::quantity() const {
 	return 1.0;
 }
 double DebtPayment::cost(bool convert) const {return interest(convert) + fee(convert);}
-void DebtPayment::setInterest(double new_value, bool payed_from_account) {
+void DebtPayment::setInterest(double new_value, bool paid_from_account) {
 	if(!o_interest) {
 		if(new_value != 0.0) {
-			o_interest = new DebtInterest(o_budget, new_value, d_date, o_fee ? o_fee->category() : NULL, payed_from_account ? o_account : o_loan, o_loan, QString::null, id());
+			o_interest = new DebtInterest(o_budget, new_value, d_date, o_fee ? o_fee->category() : NULL, paid_from_account ? o_account : o_loan, o_loan, QString::null, id());
 			o_interest->setParentSplit(this);
 		}
 	} else {
 		o_interest->setValue(new_value);
 	}
 }
-void DebtPayment::setInterestPayed(bool payed_from_account) {
+void DebtPayment::setInterestPaid(bool paid_from_account) {
 	if(o_interest) {
-		if(payed_from_account) o_interest->setFrom(o_account);
+		if(paid_from_account) o_interest->setFrom(o_account);
 		else o_interest->setFrom(o_loan);
 	}
 }
@@ -2200,7 +2284,7 @@ double DebtPayment::interest(bool convert) const {
 	if(o_interest) return o_interest->value(convert);
 	return 0.0;
 }
-bool DebtPayment::interestPayed() const {
+bool DebtPayment::interestPaid() const {
 	return !o_interest || o_interest->from() != o_loan;
 }
 double DebtPayment::fee(bool convert) const {
@@ -2275,9 +2359,10 @@ void DebtPayment::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		o_payment->setParentSplit(this);
 	}
 	if(attr->hasAttribute("interest")) {
-		bool interest_payed = true;
-		if(attr->hasAttribute("interestpayed")) interest_payed = attr->value("interestpayed").toInt();
-		o_interest = new DebtInterest(o_budget, attr->value("interest").toDouble(), d_date, cat, interest_payed ? o_account : o_loan, o_loan, QString::null, id());
+		bool interest_paid = true;
+		if(attr->hasAttribute("interestpaid")) interest_paid = attr->value("interestpaid").toInt();
+		else if(attr->hasAttribute("interestpayed")) interest_paid = attr->value("interestpayed").toInt();
+		o_interest = new DebtInterest(o_budget, attr->value("interest").toDouble(), d_date, cat, interest_paid ? o_account : o_loan, o_loan, QString::null, id());
 		o_interest->setParentSplit(this);
 		if(valid && !cat) *valid = false;
 	}
@@ -2297,7 +2382,7 @@ void DebtPayment::writeAttributes(QXmlStreamAttributes *attr) {
 	if(o_account && o_account != o_loan && (o_payment || o_fee || (o_interest && o_interest->from() != o_loan))) {
 		attr->append("from", QString::number(o_account->id()));
 		if(o_interest && o_interest->from() == o_loan) {
-			attr->append("interestpayed", QString::number(false));
+			attr->append("interestpaid", QString::number(false));
 		}
 	}
 	if(expenseCategory()) attr->append("expensecategory", QString::number(expenseCategory()->id()));

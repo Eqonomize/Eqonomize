@@ -3096,8 +3096,8 @@ void OverTimeChart::updateDisplay() {
 				budget->addBudgetMonthsSetFirst(next_axis_date, 12 * yearjump);
 				displayed_date = axis_date;
 				if(current_source2 == -2) budget->addBudgetMonthsSetFirst(displayed_date, 1);
-				if((includes_budget || includes_scheduled) && next_axis_date >= imonth) c_axisX->append(budget->budgetDateToMonth(displayed_date).toString("yyyy*"), QDateTime(axis_date).toMSecsSinceEpoch());
-				else c_axisX->append(budget->budgetDateToMonth(displayed_date).toString("yyyy"), QDateTime(axis_date).toMSecsSinceEpoch());
+				if((includes_budget || includes_scheduled) && next_axis_date >= imonth) c_axisX->append(type != 4 ? budget->budgetDateToMonth(displayed_date).toString("yyyy*") : budget->budgetYearString(displayed_date, true) + "*", QDateTime(axis_date).toMSecsSinceEpoch());
+				else c_axisX->append(type != 4 ? budget->budgetDateToMonth(displayed_date).toString("yyyy") : budget->budgetYearString(displayed_date, true), QDateTime(axis_date).toMSecsSinceEpoch());
 				axis_date = next_axis_date;
 			}
 		} else {
@@ -3144,8 +3144,8 @@ void OverTimeChart::updateDisplay() {
 			QDate next_axis_date = axis_date;
 			if(type == 4) {
 				budget->addBudgetMonthsSetFirst(next_axis_date, chart_type == 3 ? -12 : 12);
-				if((includes_budget || includes_scheduled) && next_axis_date > imonth) bc_axisX->append(budget->budgetDateToMonth(axis_date).toString("yyyy*"));
-				else bc_axisX->append(budget->budgetDateToMonth(axis_date).toString("yyyy"));
+				if((includes_budget || includes_scheduled) && next_axis_date > imonth) bc_axisX->append(type != 4 ? budget->budgetDateToMonth(axis_date).toString("yyyy*") : budget->budgetYearString(axis_date, true) + "*");
+				else bc_axisX->append(type != 4 ? budget->budgetDateToMonth(axis_date).toString("yyyy") : budget->budgetYearString(axis_date, true));
 			} else {
 				budget->addBudgetMonthsSetFirst(next_axis_date, chart_type == 3 ? -1 : 1);
 				if((includes_budget || includes_scheduled) && next_axis_date > imonth) bc_axisX->append(budget->budgetDateToMonth(axis_date).toString("MMMM*"));
@@ -3702,8 +3702,8 @@ void OverTimeChart::updateDisplay() {
 		} else if(year != budget->budgetYear(monthdate) || type == 4) {
 			year = budget->budgetYear(monthdate);
 			QGraphicsSimpleTextItem *axis_text = new QGraphicsSimpleTextItem();
-			if((includes_budget || includes_scheduled) && next_date > imonth) axis_text->setText(QString::number(budget->budgetYear(monthdate)) + "*");
-			else axis_text->setText(QString::number(budget->budgetYear(monthdate)));
+			if((includes_budget || includes_scheduled) && next_date > imonth) axis_text->setText(type == 4 ? budget->budgetYearString(monthdate, true) + "*" : QString::number(budget->budgetYear(monthdate)) + "*");
+			else axis_text->setText(type == 4 ? budget->budgetYearString(monthdate, true) : QString::number(budget->budgetYear(monthdate)));
 			axis_text->setFont(legend_font);
 			axis_text->setBrush(Qt::black);
 			axis_text->setPos(margin + axis_width + index * linelength, chart_height + chart_y + 11);
@@ -4156,7 +4156,7 @@ void OverTimeChart::onSeriesHovered(bool state, int index, QBarSet *set) {
 				if(valueGroup->checkedId() == 4 && yearlyButton->isEnabled()) date = saved_first_date.addYears(index);
 				else date = saved_first_date.addMonths(index);
 			}
-			item->setText(tr("%1\nValue: %2\nDate: %3").arg(set->label()).arg(currency->formatValue(set->at(index))).arg(budget->budgetDateToMonth(date).toString(valueGroup->checkedId() == 4 ? "yyyy" : tr("MMMM yyyy", "Month and year"))));
+			item->setText(tr("%1\nValue: %2\nDate: %3").arg(set->label()).arg(currency->formatValue(set->at(index))).arg(valueGroup->checkedId() == 4 ? budget->budgetYearString(date) : budget->budgetDateToMonth(date).toString(tr("MMMM yyyy", "Month and year"))));
 		}
 		item->setAnchor(pos);
 		item->setPos(pos + QPoint(10, -50));
@@ -4202,7 +4202,7 @@ void OverTimeChart::onSeriesHovered(const QPointF &value, bool state) {
 		Currency *currency = budget->defaultCurrency();
 		if(selectedAccount()) currency = selectedAccount()->currency();
 		if(current_source == -2 || current_source == 98) item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(currency->formatValue(value_y)).arg(QLocale().toString(valueGroup->checkedId() == 4 && yearlyButton->isEnabled() ? budget->lastBudgetDayOfYear(date) : budget->lastBudgetDay(date), QLocale::ShortFormat)));
-		else item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(currency->formatValue(value_y)).arg(budget->budgetDateToMonth(date).toString(valueGroup->checkedId() == 4 ? "yyyy" : tr("MMMM yyyy", "Month and year"))));
+		else item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(currency->formatValue(value_y)).arg(valueGroup->checkedId() == 4 ? budget->budgetYearString(date) : budget->budgetDateToMonth(date).toString(tr("MMMM yyyy", "Month and year"))));
 		item->setAnchor(pos);
 		item->setPos(pos + QPoint(10, -50));
 		item->setZValue(11);

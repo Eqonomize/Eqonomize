@@ -31,6 +31,7 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QHeaderView>
+#include <QKeyEvent>
 #include <QLabel>
 #include <QLineEdit>
 #include <QLayout>
@@ -680,7 +681,7 @@ Transaction *RefundDialog::createRefund() {
 	else ((Income*) trans)->setTo(account);
 	trans->setId(trans->budget()->getNewId());
 	trans->setFirstRevision(trans->budget()->revision());
-	trans->setTimestamp(QDateTime::currentMSecsSinceEpoch() * 1000);
+	trans->setTimestamp(QDateTime::currentMSecsSinceEpoch() / 1000);
 	trans->setQuantity(-quantityEdit->value());
 	trans->setValue(-valueEdit->value());
 	trans->setDate(dateEdit->date());
@@ -1762,8 +1763,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 			break;
 		}
 		case 1: {
-			from_date.setDate(curdate.year(), 1, 1);
-			from_date = budget->firstBudgetDay(from_date);
+			from_date = budget->firstBudgetDayOfYear(curdate);
 			to_date = curdate;
 			break;
 		}
@@ -1773,8 +1773,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 			break;
 		}
 		case 3: {
-			from_date.setDate(curdate.year(), 1, 1);
-			from_date = budget->firstBudgetDay(from_date);
+			from_date = budget->firstBudgetDayOfYear(curdate);
 			to_date = from_date.addDays(curdate.daysInYear() - 1);
 			break;
 		}
@@ -2359,8 +2358,8 @@ void Eqonomize::setBudgetPeriod() {
 	QDialog *dialog = new QDialog(this, 0);
 	dialog->setWindowTitle(tr("Set Budget Period"));
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
-	QBoxLayout *monthlyDayLayout = new QHBoxLayout();
-	monthlyDayLayout->addWidget(new QLabel(tr("First day in budget month:"), dialog));
+	QGridLayout *layout = new QGridLayout();
+	layout->addWidget(new QLabel(tr("First day in budget month:"), dialog), 0, 0);
 	QComboBox *monthlyDayCombo = new QComboBox(dialog);
 	monthlyDayCombo->addItem(tr("1st"));
 	monthlyDayCombo->addItem(tr("2nd"));
@@ -2397,8 +2396,15 @@ void Eqonomize::setBudgetPeriod() {
 	monthlyDayCombo->addItem(tr("5th Last"));
 	if(budget->budgetDay() > 0) monthlyDayCombo->setCurrentIndex(budget->budgetDay() - 1);
 	else if(budget->budgetDay() > -5) monthlyDayCombo->setCurrentIndex(28 - budget->budgetDay());
-	monthlyDayLayout->addWidget(monthlyDayCombo);
-	box1->addLayout(monthlyDayLayout);
+	layout->addWidget(monthlyDayCombo, 0, 1);
+	layout->addWidget(new QLabel(tr("First month in budget year:"), dialog), 1, 0);
+	QComboBox *yearlyMonthCombo = new QComboBox(dialog);
+	for(int i = 1; i <= 12; i++) {
+		yearlyMonthCombo->addItem(QDate::longMonthName(i, QDate::StandaloneFormat));
+	}
+	yearlyMonthCombo->setCurrentIndex(budget->budgetMonth() - 1);
+	layout->addWidget(yearlyMonthCombo, 1, 1);
+	box1->addLayout(layout);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
@@ -2406,6 +2412,7 @@ void Eqonomize::setBudgetPeriod() {
 	box1->addWidget(buttonBox);
 	if(dialog->exec() == QDialog::Accepted) {
 		budget->setBudgetDay(monthlyDayCombo->currentIndex() >= 28 ? -(monthlyDayCombo->currentIndex() - 28) : monthlyDayCombo->currentIndex() + 1);
+		budget->setBudgetMonth(yearlyMonthCombo->currentIndex() + 1);
 		updateBudgetDay();
 		setModified(true);
 	}
@@ -2461,7 +2468,7 @@ void Eqonomize::budgetMonthChanged(const QDate &date) {
 	accountsPeriodFromEdit->blockSignals(true);
 	accountsPeriodFromButton->blockSignals(true);
 	accountsPeriodToEdit->blockSignals(true);
-	from_date = budget->firstBudgetDay(date);
+	from_date = budget->monthToBudgetMonth(date);
 	to_date = budget->lastBudgetDay(from_date);
 	accountsPeriodFromButton->setChecked(true);
 	accountsPeriodFromEdit->setDate(from_date);
@@ -3026,26 +3033,39 @@ bool Eqonomize::newExpenseWithLoan(QString description_value, double value_value
 	budget->setRecordNewSecurities(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	ScheduledTransaction *strans = EditScheduledTransactionDialog::newScheduledTransaction(description_value, value_value, quantity_value, date_value, NULL, category_value, payee_value, comment_value, TRANSACTION_TYPE_EXPENSE, budget, this, NULL, false, NULL, b_extra, true, true);
-	if(strans) {
-		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
-		budget->newAccounts.clear();
-		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
-		budget->newSecurities.clear();
-		addNewSchedule(strans, this);
-		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
-		budget->setRecordNewAccounts(false);
-		budget->setRecordNewSecurities(false);
-		return true;
-	} else {
-		foreach(Account *acc, budget->newAccounts) accountAdded(acc);
-		budget->newAccounts.clear();
-		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
-		budget->newSecurities.clear();
+	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, TRANSACTION_TYPE_EXPENSE, NULL, false, NULL, SECURITY_ALL_VALUES, false, budget, this, true, false, true); 
+	dialog->editWidget->updateAccounts();
+	dialog->editWidget->setValues(description_value, value_value, quantity_value, date_value, NULL, category_value, payee_value, comment_value);
+	if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		Transactions *trans = dialog->editWidget->createTransactionWithLoan();
+		if(trans) {
+			foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+			budget->newAccounts.clear();
+			foreach(Security *sec, budget->newSecurities) securityAdded(sec);
+			budget->newSecurities.clear();
+			if(trans->date() > QDate::currentDate()) {
+				ScheduledTransaction *strans_new = new ScheduledTransaction(budget, trans, NULL);
+				budget->addScheduledTransaction(strans_new);
+				transactionAdded(strans_new);
+			} else {
+				budget->addTransactions(trans);
+				transactionAdded(trans);
+			}
+			if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
+			budget->setRecordNewAccounts(false);
+			budget->setRecordNewSecurities(false);
+			dialog->deleteLater();
+			return true;
+		}
 	}
+	foreach(Account *acc, budget->newAccounts) accountAdded(acc);
+	budget->newAccounts.clear();
+	foreach(Security *sec, budget->newSecurities) securityAdded(sec);
+	budget->newSecurities.clear();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
 	budget->setRecordNewSecurities(false);
+	dialog->deleteLater();
 	return false;
 }
 bool Eqonomize::newExpenseWithLoan(QWidget *parent) {
@@ -3053,25 +3073,38 @@ bool Eqonomize::newExpenseWithLoan(QWidget *parent) {
 	budget->setRecordNewSecurities(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	ScheduledTransaction *strans = EditScheduledTransactionDialog::newScheduledTransaction(TRANSACTION_TYPE_EXPENSE, budget, parent, NULL, false, NULL, b_extra, true, true);
-	if(strans) {
-		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
-		budget->newAccounts.clear();
-		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
-		addNewSchedule(strans, parent);
-		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
-		budget->setRecordNewAccounts(false);
-		budget->setRecordNewSecurities(false);
-		return true;
-	} else {
-		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
-		budget->newAccounts.clear();
-		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
-		budget->newSecurities.clear();
+	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, TRANSACTION_TYPE_EXPENSE, NULL, false, NULL, SECURITY_ALL_VALUES, false, budget, parent, true, false, true); 
+	dialog->editWidget->updateAccounts();
+	if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
+		Transactions *trans = dialog->editWidget->createTransactionWithLoan();
+		if(trans) {
+			foreach(Account* acc, budget->newAccounts) accountAdded(acc);
+			budget->newAccounts.clear();
+			foreach(Security *sec, budget->newSecurities) securityAdded(sec);
+			budget->newSecurities.clear();
+			if(trans->date() > QDate::currentDate()) {
+				ScheduledTransaction *strans_new = new ScheduledTransaction(budget, trans, NULL);
+				budget->addScheduledTransaction(strans_new);
+				transactionAdded(strans_new);
+			} else {
+				budget->addTransactions(trans);
+				transactionAdded(trans);
+			}
+			if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
+			budget->setRecordNewAccounts(false);
+			budget->setRecordNewSecurities(false);
+			dialog->deleteLater();
+			return true;
+		}
 	}
+	foreach(Account *acc, budget->newAccounts) accountAdded(acc);
+	budget->newAccounts.clear();
+	foreach(Security *sec, budget->newSecurities) securityAdded(sec);
+	budget->newSecurities.clear();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
 	budget->setRecordNewSecurities(false);
+	dialog->deleteLater();
 	return false;
 }
 void Eqonomize::newMultiAccountExpense() {
@@ -4128,8 +4161,7 @@ void Eqonomize::currentYear() {
 	accountsPeriodFromEdit->blockSignals(true);
 	accountsPeriodToEdit->blockSignals(true);
 	QDate curdate = QDate::currentDate();
-	from_date.setDate(curdate.year(), 1, 1);
-	from_date = budget->firstBudgetDay(from_date);
+	from_date = budget->firstBudgetDayOfYear(curdate);
 	accountsPeriodFromEdit->setDate(from_date);
 	to_date = curdate;
 	accountsPeriodToEdit->setDate(to_date);
@@ -4191,14 +4223,8 @@ void Eqonomize::securitiesPeriodFromChanged(const QDate &date) {
 void Eqonomize::securitiesPrevMonth() {
 	securitiesPeriodFromEdit->blockSignals(true);
 	securitiesPeriodToEdit->blockSignals(true);
-	securities_from_date = securities_from_date.addMonths(-1);
+	budget->goForwardBudgetMonths(securities_from_date, securities_to_date, -1);
 	securitiesPeriodFromEdit->setDate(securities_from_date);
-	if((securities_to_date == QDate::currentDate() && securities_from_date.day() == 1) || securities_to_date.day() == securities_to_date.daysInMonth()) {
-		securities_to_date = securities_to_date.addMonths(-1);
-		securities_to_date.setDate(securities_to_date.year(), securities_to_date.month(), securities_to_date.daysInMonth());
-	} else {
-		securities_to_date = securities_to_date.addMonths(-1);
-	}
 	securitiesPeriodToEdit->setDate(securities_to_date);
 	securitiesPeriodFromEdit->blockSignals(false);
 	securitiesPeriodToEdit->blockSignals(false);
@@ -4207,15 +4233,8 @@ void Eqonomize::securitiesPrevMonth() {
 void Eqonomize::securitiesNextMonth() {	
 	securitiesPeriodFromEdit->blockSignals(true);
 	securitiesPeriodToEdit->blockSignals(true);
-	securities_from_date = securities_from_date.addMonths(1);
+	budget->goForwardBudgetMonths(securities_from_date, securities_to_date, 1);
 	securitiesPeriodFromEdit->setDate(securities_from_date);
-	securities_to_date = securitiesPeriodToEdit->date();
-	if((securities_to_date == QDate::currentDate() && securities_from_date.day() == 1) || securities_to_date.day() == securities_to_date.daysInMonth()) {
-		securities_to_date = securities_to_date.addMonths(1);
-		securities_to_date.setDate(securities_to_date.year(), securities_to_date.month(), securities_to_date.daysInMonth());
-	} else {
-		securities_to_date = securities_to_date.addMonths(1);
-	}
 	securitiesPeriodToEdit->setDate(securities_to_date);
 	securitiesPeriodFromEdit->blockSignals(false);
 	securitiesPeriodToEdit->blockSignals(false);
@@ -4225,7 +4244,7 @@ void Eqonomize::securitiesCurrentMonth() {
 	securitiesPeriodFromEdit->blockSignals(true);
 	securitiesPeriodToEdit->blockSignals(true);
 	QDate curdate = QDate::currentDate();
-	securities_from_date.setDate(curdate.year(), curdate.month(), 1);
+	securities_from_date == budget->firstBudgetDay(curdate);
 	securitiesPeriodFromEdit->setDate(securities_from_date);
 	securities_to_date = curdate;
 	securitiesPeriodToEdit->setDate(securities_to_date);
@@ -4236,14 +4255,8 @@ void Eqonomize::securitiesCurrentMonth() {
 void Eqonomize::securitiesPrevYear() {
 	securitiesPeriodFromEdit->blockSignals(true);
 	securitiesPeriodToEdit->blockSignals(true);
-	securities_from_date = securities_from_date.addYears(-1);
+	budget->goForwardBudgetMonths(securities_from_date, securities_to_date, -12);
 	securitiesPeriodFromEdit->setDate(securities_from_date);
-	if((securities_to_date == QDate::currentDate() && securities_from_date.day() == 1) || securities_to_date.day() == securities_to_date.daysInMonth()) {
-		securities_to_date = securities_to_date.addYears(-1);
-		securities_to_date.setDate(securities_to_date.year(), securities_to_date.month(), securities_to_date.daysInMonth());
-	} else {
-		securities_to_date = securities_to_date.addYears(-1);
-	}
 	securitiesPeriodToEdit->setDate(securities_to_date);
 	securitiesPeriodFromEdit->blockSignals(false);
 	securitiesPeriodToEdit->blockSignals(false);
@@ -4252,14 +4265,8 @@ void Eqonomize::securitiesPrevYear() {
 void Eqonomize::securitiesNextYear() {	
 	securitiesPeriodFromEdit->blockSignals(true);
 	securitiesPeriodToEdit->blockSignals(true);
-	securities_from_date = securities_from_date.addYears(1);
+	budget->goForwardBudgetMonths(securities_from_date, securities_to_date, 12);
 	securitiesPeriodFromEdit->setDate(securities_from_date);
-	if((securities_to_date == QDate::currentDate() && securities_from_date.day() == 1) || securities_to_date.day() == securities_to_date.daysInMonth()) {
-		securities_to_date = securities_to_date.addYears(1);
-		securities_to_date.setDate(securities_to_date.year(), securities_to_date.month(), securities_to_date.daysInMonth());
-	} else {
-		securities_to_date = securities_to_date.addYears(1);
-	}
 	securitiesPeriodToEdit->setDate(securities_to_date);
 	securitiesPeriodFromEdit->blockSignals(false);
 	securitiesPeriodToEdit->blockSignals(false);
@@ -4269,7 +4276,7 @@ void Eqonomize::securitiesCurrentYear() {
 	securitiesPeriodFromEdit->blockSignals(true);
 	securitiesPeriodToEdit->blockSignals(true);
 	QDate curdate = QDate::currentDate();
-	securities_from_date.setDate(curdate.year(), 1, 1);
+	securities_from_date = budget->firstBudgetDayOfYear(curdate);
 	securitiesPeriodFromEdit->setDate(securities_from_date);
 	securities_to_date = curdate;
 	securitiesPeriodToEdit->setDate(securities_to_date);
@@ -4827,7 +4834,7 @@ void Eqonomize::checkAvailableVersion_readdata() {
 		}
 	}
 	if(b) {
-		QMessageBox::information(this, tr("New version available"), tr("A new version of %1 is available.<br><br>You can get version %2 at %3.").arg("Eqonomize!").arg(QString(sbuffer)).arg("<a href=\"http://qalculate.github.io/downloads.html\">qalculate.github.io</a>"));
+		QMessageBox::information(this, tr("New version available"), tr("A new version of %1 is available.<br><br>You can get version %2 at %3.").arg("Eqonomize!").arg(QString(sbuffer)).arg("<a href=\"http://eqonomize.github.io/downloads.html\">eqonomize.github.io</a>"));
 		settings.setValue("lastVersionFound", sbuffer);
 	}
 }
@@ -5903,8 +5910,8 @@ void Eqonomize::setupActions() {
 	
 	loansMenu->addSeparator();
 	NEW_ACTION(ActionNewDebtPayment, tr("New Debt Payment…"), "eqz-debt-payment", 0, this, SLOT(newDebtPayment()), "new_loan_transaction", loansMenu);
-	NEW_ACTION(ActionNewDebtInterest, tr("New Unpayed Interest…"), "eqz-debt-interest", 0, this, SLOT(newDebtInterest()), "new_debt_interest", loansMenu);
-	NEW_ACTION(ActionNewExpenseWithLoan, tr("New Expense Payed with Loan / Payment Plan…"), "eqz-expense", 0, this, SLOT(newExpenseWithLoan()), "new_expense_with_loan", loansMenu);
+	NEW_ACTION(ActionNewDebtInterest, tr("New Unpaid Interest…"), "eqz-debt-interest", 0, this, SLOT(newDebtInterest()), "new_debt_interest", loansMenu);
+	NEW_ACTION(ActionNewExpenseWithLoan, tr("New Expense Paid with Loan…"), "eqz-expense", 0, this, SLOT(newExpenseWithLoan()), "new_expense_with_loan", loansMenu);
 	transactionsToolbar->addAction(ActionNewDebtPayment);
 
 	NEW_ACTION(ActionNewSecurity, tr("New Security…", "Financial security (e.g. stock, mutual fund)"), "document-new", 0, this, SLOT(newSecurity()), "new_security", securitiesMenu);
@@ -6103,7 +6110,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.3.1</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2018 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.3.2</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2018 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);
@@ -8243,9 +8250,10 @@ void Eqonomize::updateBudgetEdit() {
 		budgetEdit->setEnabled(false);
 		budgetButton->setEnabled(false);
 		if(i == incomesItem || i == expensesItem) {
-			QDate tomonth, prevmonth_end;
-			tomonth.setDate(to_date.year(), to_date.month(), 1);
-			prevmonth_end = prevmonth_begin.addDays(prevmonth_begin.daysInMonth() - 1);
+			QDate tomonth, prevmonth, prevmonth_end;
+			tomonth = budget->budgetDateToMonth(to_date);
+			prevmonth = budget->budgetDateToMonth(prevmonth_begin);
+			prevmonth_end = prevmonth_begin.addDays(budget->daysInBudgetMonth(prevmonth_begin) - 1);
 			double d_to = 0.0, d_prev = 0.0, v_prev = 0.0;
 			CategoryAccount *ca = NULL;
 			bool b_budget = false, b_budget_prev = false;
@@ -8264,7 +8272,7 @@ void Eqonomize::updateBudgetEdit() {
 					d_to += d;
 					b_budget = true;
 				}
-				d = ca->monthlyBudget(prevmonth_begin);
+				d = ca->monthlyBudget(prevmonth);
 				if(d >= 0.0) {
 					d_prev += d;
 					b_budget_prev = true;
@@ -8296,8 +8304,7 @@ void Eqonomize::updateBudgetEdit() {
 		}
 	} else {
 		CategoryAccount *ca = (CategoryAccount*) account_items[i];
-		QDate tomonth;
-		tomonth.setDate(to_date.year(), to_date.month(), 1);
+		QDate tomonth = budget->budgetDateToMonth(to_date);
 		double d = ca->monthlyBudget(tomonth);
 		if(d < 0.0) {
 			if(budgetEdit->value() != 0.0) budgetEdit->setValue(0.0);
@@ -8309,9 +8316,9 @@ void Eqonomize::updateBudgetEdit() {
 			budgetEdit->setEnabled(true);
 		}
 		budgetButton->setEnabled(true);
-		d = ca->monthlyBudget(prevmonth_begin);
-		if(d < 0.0) prevMonthBudgetLabel->setText(tr("%1 (with no budget)").arg(budget->formatMoney(account_month[ca][prevmonth_begin.addDays(prevmonth_begin.daysInMonth() - 1)])));
-		else prevMonthBudgetLabel->setText(tr("%1 (with budget %2)").arg(budget->formatMoney(account_month[ca][prevmonth_begin.addDays(prevmonth_begin.daysInMonth() - 1)])).arg(budget->formatMoney(d)));
+		d = ca->monthlyBudget(budget->budgetDateToMonth(prevmonth_begin));
+		if(d < 0.0) prevMonthBudgetLabel->setText(tr("%1 (with no budget)").arg(budget->formatMoney(account_month[ca][prevmonth_begin.addDays(budget->daysInBudgetMonth(prevmonth_begin) - 1)])));
+		else prevMonthBudgetLabel->setText(tr("%1 (with budget %2)").arg(budget->formatMoney(account_month[ca][prevmonth_begin.addDays(budget->daysInBudgetMonth(prevmonth_begin) - 1)])).arg(budget->formatMoney(d)));
  	}
 	budgetEdit->blockSignals(false);
 	budgetButton->blockSignals(false);

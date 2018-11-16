@@ -139,7 +139,7 @@ class Budget {
 	
 	protected:
 	
-		int i_quotation_decimals, i_share_decimals, i_budget_day, i_opened_revision, i_revision;
+		int i_quotation_decimals, i_share_decimals, i_budget_day, i_budget_month, i_opened_revision, i_revision;
 		bool b_record_new_accounts, b_record_new_securities, b_default_currency_changed, b_currency_modified;
 		TransactionConversionRateDate i_tcrd;
 		
@@ -286,6 +286,8 @@ class Budget {
 		
 		void setBudgetDay(int day_of_month);
 		int budgetDay() const;
+		void setBudgetMonth(int month_of_year);
+		int budgetMonth() const;
 		
 		bool isSameBudgetMonth(const QDate &date1, const QDate &date2) const;
 		int daysInBudgetMonth(const QDate &date) const;
@@ -294,6 +296,8 @@ class Budget {
 		int dayOfBudgetMonth(const QDate &date) const;
 		int budgetMonth(const QDate &date) const;
 		int budgetYear(const QDate &date) const;
+		QString budgetYearString(const QDate &date, bool short_format = false) const;
+		QString budgetYearString(int year, bool short_format = false) const;
 		bool isFirstBudgetDay(const QDate &date) const;
 		bool isLastBudgetDay(const QDate &date) const;
 		void addBudgetMonthsSetLast(QDate &date, int months) const;

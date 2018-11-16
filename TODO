@@ -16,8 +16,6 @@ testing)
 - Load quotations from external sources
 - A beautiful summary view (with summary of assets, pending payments,
 recent transactions, etc.)
-- Reconciliation: "We all make mistakes at times and it would be nice to
-be able to reconcile one's entries with a Bank Statement"
 - Undo
 - Enhance manual
 
