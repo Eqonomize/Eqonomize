@@ -264,7 +264,7 @@ void Expense::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		setCategory(budget()->expensesAccounts_id[id_category]);
 		setFrom(budget()->assetsAccounts_id[id_from]);
 		if(attr->hasAttribute("income")) setCost(b_neg ? attr->value("income").toDouble() : -attr->value("income").toDouble());
-		else if(attr->hasAttribute("value")) setCost(b_neg ? attr->value("value").toDouble() : -attr->value("value").toDouble());
+		else if(attr->hasAttribute("value")) setCost(b_neg ? -attr->value("value").toDouble() : attr->value("value").toDouble());
 		else setCost(b_neg ? -attr->value("cost").toDouble() : attr->value("cost").toDouble());
 		s_payee = attr->value("payee").trimmed().toString();
 		b_reconciled = attr->value("reconciled").toInt();
