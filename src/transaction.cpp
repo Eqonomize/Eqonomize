@@ -790,7 +790,11 @@ TransactionSubType Balancing::subtype() const {return TRANSACTION_SUBTYPE_BALANC
 
 void Balancing::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Transaction::readAttributes(attr, valid);
-	d_value = -attr->value("amount").toDouble();
+	if(attr->hasAttribute("value")) {
+		d_value = -attr->value("value").toDouble();
+	} else {
+		d_value = -attr->value("amount").toDouble();
+	}
 	setToAccount(budget()->balancingAccount);
 	setFromAccount(NULL);
 	qlonglong id_account = attr->value("account").toLongLong();
@@ -1094,10 +1098,10 @@ bool ScheduledTransaction::readElement(QXmlStreamReader *xml, bool*) {
 			type = attr.value("type");
 		}
 		bool valid2 = true;
-		if(type == "expense") {
+		if(type == "expense" || type == "refund") {
 			if(o_trans) delete o_trans;
 			o_trans = new Expense(budget(), xml, &valid2);
-		} else if(type == "income") {
+		} else if(type == "income" || type == "repayment") {
 			if(o_trans) delete o_trans;
 			o_trans = new Income(budget(), xml, &valid2);
 		} else if(type == "dividend") {
@@ -1116,7 +1120,7 @@ bool ScheduledTransaction::readElement(QXmlStreamReader *xml, bool*) {
 		} else if(type == "security_sell") {
 			if(o_trans) delete o_trans;
 			o_trans = new SecuritySell(budget(), xml, &valid2);
-		} else if(type == "multiitem") {
+		} else if(type == "multiitem" || type == "split") {
 			if(o_trans) delete o_trans;
 			o_trans = new MultiItemTransaction(budget(), xml, &valid2);
 		} else if(type == "multiaccount") {
@@ -1650,11 +1654,11 @@ bool MultiItemTransaction::readElement(QXmlStreamReader *xml, bool*) {
 		bool valid2 = true;
 		bool is_dividend = false;
 		Transaction *trans = NULL;
-		if(type == "expense") {
+		if(type == "expense" || type == "refund") {
 			attr.append("from", id);
 			if(!s_payee.isEmpty() && !attr.hasAttribute("payee")) attr.append("payee", s_payee);
 			trans = new Expense(budget());
-		} else if(type == "income") {
+		} else if(type == "income" || type == "repayment") {
 			attr.append("to", id);
 			if(!s_payee.isEmpty() && !attr.hasAttribute("payer")) attr.append("payer", s_payee);
 			trans = new Income(budget());

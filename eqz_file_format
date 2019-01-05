@@ -1,0 +1,109 @@
+The Eqonomize! accounting file format (EQZ)
+
+The file is an xml file encoded in UTF-8 with doctype EqonomizeDoc.
+The should begin with
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE EqonomizeDoc>
+
+The top element is EqonomizeDoc with attributes version (Eqonomize! version), revision (integer, last revision of file), and lastid (64-bit unsigned integer, the highest id in the file).
+Subelements: synchronization, budget_period, currency, category, account, security, schedule, transaction
+Schedules and transactions should be listed last.
+
+Common properties
+-----------------------------------
+
+revisions:
+The revisions attribute specifies the file revision when the transaction was created (before ':') and last modified (after ':', if differs). The revisions attributes is optional.
+
+id:
+The id of each new transaction must be unique and higher than the 'lastid' specified by the loaded file.
+
+timestamp:
+Unix time when the transaction was created. The time stamp is specified in microseconds in Eqonomize! <= 1.3.2, but changes to seconds in later versions.
+
+Synchronization
+-----------------------------------
+attributes: type (text string, ignored), autosync (boolean integer), revision (integer, synchronized revision)
+elements: url, download (command), upload (command)
+
+Budget period
+-----------------------------------
+elements: first_day_of_month (default: 1), first_month_of_year (default: 1)
+
+Currency
+-----------------------------------
+Specifies the default currency for the file. Defaults to local currency.
+
+attributes: code (three letter ISO 4217 currency code)
+
+Category
+-----------------------------------
+attributes: type (text string), name (text string), description (text string, optional), id, revisions (optional)
+types: expenses, incomes
+
+elements: budget, category (only one level of subcategories is supported in Eqonomize!)
+
+budget attributes: value (floating point), date (a full date in ISO 8601 format)
+Budget values are specified monthly using the first day of the month. Months without a specified budget uses the budget value of the previous month. A negative value (-1.0) unsets the budget.
+
+Account
+-----------------------------------
+attributes: type (text string, optional), name (text string), description (text string, optional), lender/issuer/bank (text string, optional), currency (three letter ISO 4217 currency code, otional), initialbalance (floating point, optional), budgetaccount (boolean integer, optional), closed (boolean integer, optional), id, revisions (optional)
+types: current, savings, credit card, liabilities, securities, cash, other (default)
+
+If type is not set, then type is 'other'. If type is 'securities', initialbalance and budgetaccount is not allowed. budgetaccount can only be set to true for one account.
+
+Security
+-----------------------------------
+attributes: type (optional), initialshares (floating point, optional), decimals (integer, optional), quotationdecimals (integer, optional), name (text string), desciption (text string, optional), account (account id of a securities account)
+types: bond, stock, mutual fund, other (default)
+
+elements: quotation
+quotation attributes: date (a full date in ISO 8601 format), value (floating point), auto (boolean integer, optional)
+
+Transaction
+-----------------------------------
+common attributes: type (text string), id (64-bit unsigned integer, optional), revisions (integer, optional), timestamp (integer, optional), date (a full date in ISO 8601 format), comment (text string, optional), file (a file location, optional)
+types: expense/refund, income/repayment/dividend, transfer, balancing, reinvested_dividend, security_buy, security_sell, security_trade, multiitem (or deprecated 'split'), multiaccount, debtpayment
+
+attributes for expense: description (text string, optional), cost (floating point), income (negated alternative to cost), quantity (floating point, optional, default 1.0), category (expense category id), from (account id), payee (text string, optional), reconciled (boolean integer, optional)
+
+attributes for income: description (text string, optional), income (floating point), cost (negated alternative to income), quantity (floating point, optional, default 1.0), category (income category id), to (account id), payer (text string, optional), security (security id, optional, used for dividends), reconciled (boolean integer, optional)
+
+attributes for transfer: description (text string, optional), amount (floating point), withdrawal (used instead of amount if accounts uses different currencies), deposit (used instead of amount if accounts uses different currencies), from (account id), to (account id), reconciled (boolean integer, optional)
+
+attributes for balancing: description (text string, optional), amount (floating point), account (account id)
+
+attributes for reinvested_dividend: category (income category id), security (security id), value (floating point), shares (floating point), sharevalue (floating point); two of value, shares and sharevalue are required
+
+attributes for security_buy: account (account id), security (security id), cost (floating point), shares (floating point), reconciled (boolean integer, optional)
+
+attributes for security_sell: account (account id), security (security id), income (floating point), shares (floating point), reconciled (boolean integer, optional)
+
+attributes for security_trade (common attributes does not apply): date (a full date in ISO 8601 format), from_security (security id), to_security (security id), from_shares (floating point), to_shares (floating point), timestamp (integer, optional)
+
+attributes for multiitem: description (text string, optional), account (account id), payee (text string, optional)
+elements for multiitem: transaction (date, from/to, payee/payer is set from multiitem attributes)
+
+attributes for multiaccount: description (text string, optional), quantity (floating point, optional, default 1.0), category (category id)
+elements for multiaccount: transaction (only incomes and expenses allowed; category and description is set from multiaccount attributes)
+
+attributes for debtpayment: debt (account id), from (account id), expensecategory (expense category id, optional), reduction (floating point, optional), payment (floating point, used when currencies of accounts differ), interest (floating point, optional), interestpaid (boolean integer, optional, default true, 'interestpayed' occurs in Eqonomize! < 1.3.2), fee (floating point, optional)
+
+In Eqonomize! > 1.3.2 type is not strictly required for expenses, incomes and transfers, value can be used instead of income/cost/amount, and to/from can be used instead of category.
+
+Schedule
+-----------------------------------
+attributes: id (optional), revisions (optional)
+elements: transaction (mandatory), recurrence (optional)
+
+recurrence attributes: type (daily, weekly, monthly, or yearly), startdate (a full date in ISO 8601 format), enddate (a full date in ISO 8601 format), frequency (integer, optional)
+attributes for weekly recurrence: days (a list of days of week numbers beginning at 1 with no whitespace or other characters inbetween)
+attributes for monthly reccurence: either week (week of month, can be negative to count from end) and dayofweek, or day (day of month, can be negative to count from end) and weekendhandling (0=none, 1=before, 2=after, 3=nearest, optional)
+attributes for yearly reccurence: dayofyear and weekendhandling (optional); month, dayofweek and week (can be negative); or month, dayofmonth and weekendhandling (optional)
+
+recurrence elements: exception
+
+exception attributes: date (a full date in ISO 8601 format)
+
+
