@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE EqonomizeDoc>
+<EqonomizeDoc version="1.3.2" revision="10" lastid="136">
+	<synchronization type="url" revision="0">
+		<url>web</url>
+		<download>download</download>
+		<upload>upload</upload>
+	</synchronization>
+	<budget_period>
+		<first_day_of_month>1</first_day_of_month>
+		<first_month_of_year>1</first_month_of_year>
+	</budget_period>
+	<currency code="EUR"/>
+	<account name="Cash" id="1" revisions="1" description="Description" currency="EUR" initialbalance="5.0000" type="cash"/>
+	<account name="Credit Card" id="4" revisions="2" description="Description" currency="EUR" initialbalance="100.0000" type="credit card" issuer="Emittent"/>
+	<account name="Current" id="2" revisions="2" description="Description" currency="EUR" initialbalance="10.0000" budgetaccount="1" type="current" bank="Bank"/>
+	<account name="Current 2" id="67" revisions="8" currency="EUR" initialbalance="0.0000" type="current"/>
+	<account name="Current Closed" id="22" revisions="3" description="Description" currency="EUR" initialbalance="0.0000" type="current" closed="1"/>
+	<category type="expenses" name="Expenses 1" id="16" revisions="3"/>
+	<category type="expenses" name="Expenses 2" id="17" revisions="3" description="Description">
+		<budget value="100.0000" date="2019-01-01"/>
+	</category>
+	<category type="expenses" name="Expenses 3" id="18" revisions="3" description="Description">
+		<category type="expenses" name="SubExpenses 1" id="19" revisions="3" description="Description">
+			<budget value="50.0000" date="2019-01-01"/>
+		</category>
+		<category type="expenses" name="SubExpenses 2" id="20" revisions="3"/>
+		<category type="expenses" name="SubExpenses 3" id="21" revisions="3" description="Description"/>
+	</category>
+	<category type="incomes" name="Incomes 1" id="10" revisions="3" description="Description">
+		<budget value="100.0000" date="2019-01-01"/>
+		<category type="incomes" name="SubIncome 1" id="135" revisions="10">
+			<budget value="20.0000" date="2019-01-01"/>
+		</category>
+	</category>
+	<category type="incomes" name="Incomes 2" id="11" revisions="3"/>
+	<category type="incomes" name="Incomes 3" id="12" revisions="3">
+		<category type="incomes" name="SubIncomes 1" id="13" revisions="3" description="Description">
+			<budget value="50.0000" date="2019-01-01"/>
+		</category>
+		<category type="incomes" name="SubIncomes 2" id="14" revisions="3"/>
+		<category type="incomes" name="SubIncomes 3" id="15" revisions="3" description="Description"/>
+	</category>
+	<account name="Liabilities" id="5" revisions="2" currency="EUR" initialbalance="500.0000" type="liabilities" lender="Lender"/>
+	<account name="Loan for Expense Loan" id="114" revisions="8" currency="EUR" initialbalance="0.0000" type="liabilities" lender="Payer"/>
+	<account name="Other" id="7" revisions="2" currency="EUR" initialbalance="200.0000" type="other" bank="Bank"/>
+	<account name="Savings" id="3" revisions="2" description="Description" currency="EUR" initialbalance="0.0000" type="savings" bank="Bank"/>
+	<account name="Securities" id="6" revisions="2" currency="EUR" type="securities" bank="Bank"/>
+	<account name="Stock" id="91" revisions="8" currency="EUR" type="securities"/>
+	<security id="136" revisions="10" name="Other" type="other" decimals="4" quotationdecimals="4" initialshares="40.0000" account="91">
+		<quotation value="40.0000" date="2019-01-13"/>
+	</security>
+	<security id="90" revisions="8" name="Security 1" type="mutual fund" decimals="4" quotationdecimals="4" initialshares="1.2000" description="Description&#10;Description" account="6">
+		<quotation value="15.0000" date="2019-01-13"/>
+	</security>
+	<security id="97" revisions="8" name="Security 2" type="mutual fund" decimals="4" quotationdecimals="4" initialshares="123.0000" account="6">
+		<quotation value="1.0000" date="2019-01-13"/>
+	</security>
+	<security id="92" revisions="8" name="Stock" type="stock" decimals="4" quotationdecimals="4" initialshares="4.2500" account="91">
+		<quotation value="155.0000" date="2019-01-13"/>
+		<quotation value="1.0000" date="2019-01-16"/>
+	</security>
+	<security id="98" revisions="8" name="Stock 2" type="mutual fund" decimals="4" quotationdecimals="4" initialshares="124.0000" account="6">
+		<quotation value="2.0000" date="2019-01-13"/>
+	</security>
+	<schedule id="28" revisions="4">
+		<transaction type="income" date="2019-01-13" id="27" revisions="4" timestamp="1547322284277000" description="Income - Full - Schedule - Daily 2 - Exceptions" income="0.0000" category="10" to="1"/>
+		<recurrence type="daily" startdate="2019-01-13" enddate="2019-01-31" frequency="1">
+			<exception date="2019-01-16"/>
+		</recurrence>
+	</schedule>
+	<schedule id="35" revisions="5">
+		<transaction type="income" date="2019-01-14" id="34" revisions="5" timestamp="1547323657242000" description="Income - Full - Schedule - Weekly" comment="Comment" file="file" income="5.0000" category="10" to="1" payer="Payer"/>
+		<recurrence type="weekly" startdate="2019-01-14" enddate="2019-03-31" frequency="1" days="123">
+			<exception date="2019-02-18"/>
+		</recurrence>
+	</schedule>
+	<schedule id="65" revisions="7">
+		<transaction type="expense" date="2019-01-14" id="64" revisions="7" timestamp="1547325904553000" description="Expense - Schedule - Daily" cost="0.0000" category="16" from="1"/>
+		<recurrence type="daily" startdate="2019-01-14" frequency="1">
+			<exception date="2019-01-19"/>
+		</recurrence>
+	</schedule>
+	<schedule id="25" revisions="4">
+		<transaction type="income" date="2019-01-16" id="24" revisions="4" timestamp="1547322159843000" description="Income - Full - Schedule - Daily 1" comment="Comment" file="file" income="5.0000" category="10" to="1" payer="Payer"/>
+		<recurrence type="daily" startdate="2019-01-16" frequency="4"/>
+	</schedule>
+	<schedule id="40" revisions="5">
+		<transaction type="income" date="2019-02-01" id="38" revisions="5" timestamp="1547323859698000" description="Income - Full - Schedule - Monthly 1" comment="Comment" file="file" income="5.0000" category="10" to="1" payer="Payer"/>
+		<recurrence type="monthly" startdate="2019-02-01" enddate="2019-05-02" frequency="1" day="2" weekendhandling="2">
+			<exception date="2019-04-02"/>
+		</recurrence>
+	</schedule>
+	<schedule id="47" revisions="6">
+		<transaction type="income" date="2019-02-04" id="46" revisions="6" timestamp="1547324414569000" description="Income - Full - Schedule - Monthly 2" income="5.0000" category="10" to="1"/>
+		<recurrence type="monthly" startdate="2019-02-04" frequency="1" dayofweek="4" week="3">
+			<exception date="2020-10-05"/>
+		</recurrence>
+	</schedule>
+	<schedule id="52" revisions="6">
+		<transaction type="income" date="2020-01-01" id="51" revisions="6" timestamp="1547324534609000" description="Income - Full - Schedule - Yearly 1" comment="Comment" file="file" income="5.0000" category="10" to="1" payer="Payer"/>
+		<recurrence type="yearly" startdate="2020-01-01" frequency="1" month="1" dayofmonth="1" weekendhandling="0">
+			<exception date="2026-01-01"/>
+			<exception date="2027-01-01"/>
+		</recurrence>
+	</schedule>
+	<schedule id="58" revisions="6">
+		<transaction type="income" date="2020-01-02" id="57" revisions="6" timestamp="1547324686890000" description="Income - Full - Schedule - Yearly 3" income="5.0000" category="10" to="1"/>
+		<recurrence type="yearly" startdate="2020-01-02" frequency="1" month="1" dayofmonth="1" weekendhandling="3"/>
+	</schedule>
+	<schedule id="55" revisions="6">
+		<transaction type="income" date="2020-12-09" id="54" revisions="6" timestamp="1547324628026000" description="Income - Full - Schedule - Yearly 2" income="6.0000" category="10" to="1"/>
+		<recurrence type="yearly" startdate="2020-12-09" frequency="1" month="12" dayofweek="3" week="2"/>
+	</schedule>
+	<transaction type="multiitem" date="2019-01-12" id="122" revisions="9" timestamp="1547390154347000" description="Splitted Transaction 2" account="1" payee="Payee">
+		<transaction type="transfer" id="121" revisions="9" timestamp="1547390154347000" description="Outcome" amount="45.0000" to="7"/>
+		<transaction type="transfer" id="120" revisions="9" timestamp="1547390154347000" description="Income" comment="Comment" amount="5.0000" from="4"/>
+	</transaction>
+	<transaction type="multiitem" date="2019-01-13" id="82" revisions="8" timestamp="1547382973336000" description="Splitted Transaction 1" comment="Comment" file="file" account="1" payee="Receiver">
+		<transaction type="expense" id="80" revisions="8" timestamp="1547382973336000" description="Description" comment="Comment" cost="50.0000" category="16" payee="Payee"/>
+		<transaction type="income" id="81" revisions="8" timestamp="1547382973336000" description="Income" comment="Comment" income="45.0000" category="13" to="1" payer="Payer"/>
+	</transaction>
+	<transaction type="debtpayment" date="2019-01-13" id="84" revisions="8" timestamp="1547383068543000" description="Debt payment: Liabilities" comment="Comment" file="file" debt="5" from="1" expensecategory="16" reduction="50.0000" interest="50.0000" fee="50.0000"/>
+	<transaction type="debtpayment" date="2019-01-13" id="86" revisions="8" timestamp="1547383093855000" description="Debt payment: Credit Card" debt="4" from="1" interestpaid="0" expensecategory="19" reduction="50.0000" interest="50.0000" fee="50.0000"/>
+	<transaction type="debtpayment" date="2019-01-13" id="88" revisions="8" timestamp="1547383142207000" description="Debt payment: Liabilities" debt="5" from="1" interestpaid="0" expensecategory="16" reduction="50.0000" interest="25.0000" fee="35.0000"/>
+	<transaction type="debtpayment" date="2019-01-13" id="110" revisions="8" timestamp="1547383652350000" description="Debt payment: Liabilities" debt="5" from="1" expensecategory="16" reduction="50.0000" interest="25.0000" fee="35.0000"/>
+	<transaction type="debtpayment" date="2019-01-13" id="112" revisions="8" timestamp="1547383662759000" description="Debt payment: Liabilities" debt="5" expensecategory="18" interest="25.0000"/>
+	<transaction type="multiaccount" date="2019-01-13" id="115" revisions="8" description="Expense Loan" comment="Comment" category="19" timestamp="1547383709542000" file="file">
+		<transaction type="expense" date="2019-01-13" id="116" revisions="8" timestamp="1547383709542000" cost="5.0000" from="114"/>
+		<transaction type="expense" date="2019-01-13" id="117" revisions="8" timestamp="1547383709542000" cost="45.0000" from="1" payee="Payer"/>
+	</transaction>
+	<transaction type="multiitem" date="2019-01-13" id="131" revisions="9" timestamp="1547390542936000" description="Splitted Transaction 3" account="1">
+		<transaction type="income" id="127" revisions="9" timestamp="1547390542936000" description="Transfer 11" income="14.0000" category="11" to="1"/>
+		<transaction type="income" id="129" revisions="9" timestamp="1547390542936000" description="Transfer 12" income="4.0000" category="11" to="1"/>
+	</transaction>
+	<transaction type="security_trade" from_security="97" to_security="90" date="2019-01-13" id="99" revisions="8" timestamp="1547383439615000" from_shares="2.0000" to_shares="1.0000"/>
+	<transaction type="income" date="2019-01-12" id="26" revisions="4" timestamp="1547322159844000" description="Income - Full - Schedule - Daily 1" comment="Comment" file="file" income="5.0000" category="10" to="1" payer="Payer"/>
+	<transaction type="income" date="2019-01-12" id="29" revisions="4" timestamp="1547322247004000" description="Income - Full - Schedule - Daily 2 - Exceptions - Enddate" income="0.0000" category="10" to="1"/>
+	<transaction type="income" date="2019-01-12" id="33" revisions="4" timestamp="1547322543588000" description="Income - Full - Schedule - Daily 3 - Exceptions - Events" income="0.0000" category="10" to="1"/>
+	<transaction type="income" date="2019-01-12" id="36" revisions="5" timestamp="1547323516674000" description="Income - Full - Schedule - Weekly - Full" comment="Comment" file="file" income="5.0000" category="10" to="1" payer="Payer"/>
+	<transaction type="income" date="2019-01-12" id="41" revisions="5" timestamp="1547323776148000" description="Income - Full - Schedule - Monthly 1" comment="Comment" file="file" income="5.0000" category="10" to="1" payer="Payer"/>
+	<transaction type="income" date="2019-01-12" id="48" revisions="6" timestamp="1547324217498000" description="Income - Full - Schedule - Monthly 2" income="5.0000" category="10" to="1"/>
+	<transaction type="income" date="2019-01-12" id="53" revisions="6" timestamp="1547324534609000" description="Income - Full - Schedule - Yearly 1" comment="Comment" file="file" income="5.0000" category="10" to="1" payer="Payer"/>
+	<transaction type="income" date="2019-01-12" id="56" revisions="6" timestamp="1547324628026000" description="Income - Full - Schedule - Yearly 2" income="6.0000" category="10" to="1"/>
+	<transaction type="income" date="2019-01-12" id="59" revisions="6" timestamp="1547324686890000" description="Income - Full - Schedule - Yearly 3" income="5.0000" category="10" to="1"/>
+	<transaction type="income" date="2019-01-12" id="60" revisions="6" timestamp="1547325764496000" description="Income" comment="Comment" file="file" income="5.0000" category="10" to="1" payer="Payer"/>
+	<transaction type="expense" date="2019-01-12" id="62" revisions="6" timestamp="1547325797264000" description="Expense" comment="Comment" file="file" quantity="2.00" cost="5.0000" category="16" from="1" payee="Payee"/>
+	<transaction type="expense" date="2019-01-12" id="66" revisions="7" timestamp="1547325904553000" description="Expense - Schedule - Daily" cost="0.0000" category="16" from="1"/>
+	<transaction type="income" date="2019-01-13" id="68" revisions="8" timestamp="1547382729199000" description="Income 2" income="58.0000" category="13" to="67"/>
+	<transaction type="income" date="2019-01-13" id="70" revisions="8" timestamp="1547382747176000" description="Income 3" income="223.0000" category="11" to="3"/>
+	<transaction type="expense" date="2019-01-13" id="72" revisions="8" timestamp="1547382789471000" description="Expense 2" cost="0.0000" category="20" from="2"/>
+	<transaction type="expense" date="2019-01-13" id="74" revisions="8" timestamp="1547382802111000" description="Expense 3" cost="56.0000" category="21" from="1"/>
+	<transaction type="transfer" date="2019-01-13" id="76" revisions="8" timestamp="1547382814911000" description="Transfer" amount="50.0000" from="1" to="2"/>
+	<transaction type="transfer" date="2019-01-13" id="78" revisions="8" timestamp="1547382828656000" description="Transfer 2" amount="123.0000" from="67" to="1"/>
+	<transaction type="security_buy" date="2019-01-13" id="93" revisions="8" timestamp="1547383339271000" description="Wertpapier: Security 1 (gekauft)" comment="Comment" file="file" shares="28.6667" security="90" cost="344.0000" account="1"/>
+	<transaction type="security_sell" date="2019-01-13" id="95" revisions="8" timestamp="1547383358374000" description="Wertpapier: Stock (verkauft)" comment="Comment" file="file" shares="19.5000" security="92" income="234.0000" account="67"/>
+	<transaction type="dividend" date="2019-01-13" id="100" revisions="8" timestamp="1547383544295000" description="Dividende: Security 1" comment="Comment" file="file" income="34.0000" category="10" to="1" security="90"/>
+	<transaction type="reinvested_dividend" date="2019-01-13" id="102" revisions="8" timestamp="1547383572031000" description="Reinvestierte Dividende: Security 1" comment="Comment" file="file" value="75.0000" shares="5.0000" category="14" security="90"/>
+	<transaction type="dividend" date="2019-01-13" id="104" revisions="8" timestamp="1547383582487000" description="Dividende: Security 2" income="34.0000" category="14" to="3" security="97"/>
+	<transaction type="dividend" date="2019-01-13" id="106" revisions="8" timestamp="1547383592407000" description="Dividende: Stock" income="56457.0000" category="14" to="2" security="92"/>
+	<transaction type="reinvested_dividend" date="2019-01-13" id="108" revisions="8" timestamp="1547383605991000" description="Reinvestierte Dividende: Stock" value="7750.0000" shares="50.0000" category="10" security="92"/>
+	<transaction type="income" date="2019-01-13" id="118" revisions="8" timestamp="1547384164773000" description="Income 2" income="58.0000" category="11" to="22"/>
+	<transaction type="balancing" date="2019-01-13" id="126" revisions="9" timestamp="1547390354858000" amount="37.0000" account="1"/>
+	<transaction type="refund" date="2019-01-13" id="133" revisions="9" timestamp="1547390718178000" description="Expense 3" comment="Refund" quantity="-1.00" income="56.0000" category="21" from="1"/>
+	<transaction type="repayment" date="2019-01-13" id="134" revisions="9" timestamp="1547390760282000" description="Income 3" comment="Repayment" quantity="-1.00" cost="223.0000" category="11" to="3"/>
+</EqonomizeDoc>
