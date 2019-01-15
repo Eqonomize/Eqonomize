@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE EqonomizeDoc>
-<EqonomizeDoc version="1.3.2" revision="10" lastid="136">
+<EqonomizeDoc version="1.3.2" revision="10" lastid="144">
 	<synchronization type="url" revision="0">
 		<url>web</url>
 		<download>download</download>
 		<upload>upload</upload>
 	</synchronization>
 	<budget_period>
-		<first_day_of_month>1</first_day_of_month>
-		<first_month_of_year>1</first_month_of_year>
+		<first_day_of_month>-1</first_day_of_month>
+		<first_month_of_year>3</first_month_of_year>
 	</budget_period>
 	<currency code="EUR"/>
 	<account name="Cash" id="1" revisions="1" description="Description" currency="EUR" initialbalance="5.0000" type="cash"/>
@@ -16,6 +16,7 @@
 	<account name="Current" id="2" revisions="2" description="Description" currency="EUR" initialbalance="10.0000" budgetaccount="1" type="current" bank="Bank"/>
 	<account name="Current 2" id="67" revisions="8" currency="EUR" initialbalance="0.0000" type="current"/>
 	<account name="Current Closed" id="22" revisions="3" description="Description" currency="EUR" initialbalance="0.0000" type="current" closed="1"/>
+	<account name="Dollar" id="141" revisions="10" currency="USD" initialbalance="1000.0000" type="other"/>
 	<category type="expenses" name="Expenses 1" id="16" revisions="3"/>
 	<category type="expenses" name="Expenses 2" id="17" revisions="3" description="Description">
 		<budget value="100.0000" date="2019-01-01"/>
@@ -133,6 +134,7 @@
 		<transaction type="income" id="127" revisions="9" timestamp="1547390542936000" description="Transfer 11" income="14.0000" category="11" to="1"/>
 		<transaction type="income" id="129" revisions="9" timestamp="1547390542936000" description="Transfer 12" income="4.0000" category="11" to="1"/>
 	</transaction>
+	<transaction type="debtpayment" date="2019-01-13" id="144" revisions="10" timestamp="1547541688000000" debt="4" from="141" expensecategory="19" reduction="100.0000" payment="88.0000" interest="10.0000" fee="10.0000"/>
 	<transaction type="security_trade" from_security="97" to_security="90" date="2019-01-13" id="99" revisions="8" timestamp="1547383439615000" from_shares="2.0000" to_shares="1.0000"/>
 	<transaction type="income" date="2019-01-12" id="26" revisions="4" timestamp="1547322159844000" description="Income - Full - Schedule - Daily 1" comment="Comment" file="file" income="5.0000" category="10" to="1" payer="Payer"/>
 	<transaction type="income" date="2019-01-12" id="29" revisions="4" timestamp="1547322247004000" description="Income - Full - Schedule - Daily 2 - Exceptions - Enddate" income="0.0000" category="10" to="1"/>
@@ -146,6 +148,7 @@
 	<transaction type="income" date="2019-01-12" id="60" revisions="6" timestamp="1547325764496000" description="Income" comment="Comment" file="file" income="5.0000" category="10" to="1" payer="Payer"/>
 	<transaction type="expense" date="2019-01-12" id="62" revisions="6" timestamp="1547325797264000" description="Expense" comment="Comment" file="file" quantity="2.00" cost="5.0000" category="16" from="1" payee="Payee"/>
 	<transaction type="expense" date="2019-01-12" id="66" revisions="7" timestamp="1547325904553000" description="Expense - Schedule - Daily" cost="0.0000" category="16" from="1"/>
+	<transaction type="transfer" date="2019-01-12" id="142" revisions="10" timestamp="1547541469000000" description="Dollar withdrawal" withdrawal="50.0000" deposit="42.0000" from="141" to="2"/>
 	<transaction type="income" date="2019-01-13" id="68" revisions="8" timestamp="1547382729199000" description="Income 2" income="58.0000" category="13" to="67"/>
 	<transaction type="income" date="2019-01-13" id="70" revisions="8" timestamp="1547382747176000" description="Income 3" income="223.0000" category="11" to="3"/>
 	<transaction type="expense" date="2019-01-13" id="72" revisions="8" timestamp="1547382789471000" description="Expense 2" cost="0.0000" category="20" from="2"/>
@@ -160,6 +163,7 @@
 	<transaction type="dividend" date="2019-01-13" id="106" revisions="8" timestamp="1547383592407000" description="Dividende: Stock" income="56457.0000" category="14" to="2" security="92"/>
 	<transaction type="reinvested_dividend" date="2019-01-13" id="108" revisions="8" timestamp="1547383605991000" description="Reinvestierte Dividende: Stock" value="7750.0000" shares="50.0000" category="10" security="92"/>
 	<transaction type="income" date="2019-01-13" id="118" revisions="8" timestamp="1547384164773000" description="Income 2" income="58.0000" category="11" to="22"/>
+	<transaction type="transfer" date="2019-01-13" id="143" revisions="10" timestamp="1547541515000000" description="Dollar deposit" withdrawal="44.0000" deposit="50.0000" from="2" to="141"/>
 	<transaction type="balancing" date="2019-01-13" id="126" revisions="9" timestamp="1547390354858000" amount="37.0000" account="1"/>
 	<transaction type="refund" date="2019-01-13" id="133" revisions="9" timestamp="1547390718178000" description="Expense 3" comment="Refund" quantity="-1.00" income="56.0000" category="21" from="1"/>
 	<transaction type="repayment" date="2019-01-13" id="134" revisions="9" timestamp="1547390760282000" description="Income 3" comment="Repayment" quantity="-1.00" cost="223.0000" category="11" to="3"/>

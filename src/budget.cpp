@@ -949,7 +949,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					} else {
 						if(!set_ids) set_ids = split->id() == 0;
 					}
-					if((i_version[0] < 1 || (i_version[0] == 1 && (i_version[1] < 3 || (i_version[1] == 3 && i_version[2] <= 2)))) && split->timestamp() > curtime) {qDebug() << curtime << split->timestamp(); split->setTimestamp(split->timestamp() / 1000000L);}
+					if((i_version[0] < 1 || (i_version[0] == 1 && (i_version[1] < 3 || (i_version[1] == 3 && i_version[2] <= 2)))) && split->timestamp() > curtime) split->setTimestamp(split->timestamp() / 1000000L);
 					splitTransactions.append(split);
 					int c = split->count();
 					for(int i = 0; i < c; i++) {

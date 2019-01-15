@@ -1281,6 +1281,7 @@ void ConfirmScheduleDialog::updateTransactions() {
 				new ConfirmScheduleListViewItem(transactionsView, trans);
 			}
 			if(b) budget->removeScheduledTransaction(strans);
+			else strans->setModified();
 			it = budget->scheduledTransactions.begin();
 		} else {
 			++it;

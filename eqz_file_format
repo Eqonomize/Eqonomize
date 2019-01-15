@@ -1,7 +1,7 @@
 The Eqonomize! accounting file format (EQZ)
 
 The file is an xml file encoded in UTF-8 with doctype EqonomizeDoc.
-The should begin with
+It should begin with
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE EqonomizeDoc>
 
@@ -266,7 +266,7 @@ recurrence (optional)
 recurrence attributes: 
 type (daily, weekly, monthly, or yearly)
 startdate (a full date in ISO 8601 format)
-enddate (a full date in ISO 8601 format)
+enddate (a full date in ISO 8601 format, optional)
 frequency (integer, optional)
 
 attributes for weekly recurrence: 
