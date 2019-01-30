@@ -941,14 +941,16 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 								(*it2).truncate(i);
 								*it += delimiter;
 								*it += *it2;
-								columns.erase(it2);
+								it2 = columns.erase(it2);
+								it = it2;
+								it--;
 								break;
 							}
 							*it += delimiter;
 							*it += *it2;
-							columns.erase(it2);
-							it2 = it;
-							++it2;
+							it2 = columns.erase(it2);
+							it = it2;
+							it--;
 						}
 					}
 				}

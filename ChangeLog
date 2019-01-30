@@ -1,6 +1,7 @@
 2019-01-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix filter min and max currency
+	* Fix crash on CSV import of quoted value containing delimiter
 
 2019-01-15  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
