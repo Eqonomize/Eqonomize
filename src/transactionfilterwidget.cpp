@@ -398,6 +398,8 @@ void TransactionFilterWidget::updateToAccounts() {
 void TransactionFilterWidget::updateAccounts() {
 	updateFromAccounts();
 	updateToAccounts();
+	maxEdit->setCurrency(budget->defaultCurrency());
+	minEdit->setCurrency(budget->defaultCurrency());
 }
 bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool checkdate) {
 	Transaction *trans = NULL;

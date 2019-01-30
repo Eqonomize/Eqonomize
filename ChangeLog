@@ -1,3 +1,22 @@
+2019-01-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix filter min and max currency
+
+2019-01-15  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Update revision of schedule on confirmed occurrence
+
+2019-01-05  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Description of eqz file format
+
+2018-11-14  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Make eqz-file parsing more flexible (do not require transaction type,
+	  accept value property for expenses and incomes, allow to/from instead of
+	  category propery, etc.)
+	* Timestamp in seconds instead of microseconds
+
 2018-11-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Better handling of unknown transaction or category type encountered in file
