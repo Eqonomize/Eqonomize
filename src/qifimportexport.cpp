@@ -511,7 +511,7 @@ void ExportQIFDialog::onFileChanged(const QString &str) {
 }
 void ExportQIFDialog::selectFile() {
 	QFileDialog fileDialog(this);
-	fileDialog.setNameFilter("*.qif");
+	fileDialog.setNameFilter("Qicken (*.qif, *.QIF)");
 	fileDialog.setDefaultSuffix("qif");
 	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
