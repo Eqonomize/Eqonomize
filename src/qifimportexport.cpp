@@ -48,6 +48,7 @@
 #include <QCompleter>
 #include <QDirModel>
 #include <QHash>
+#include <QMimeDatabase>
 
 #include "eqonomize.h"
 #include "qifimportexport.h"
@@ -225,7 +226,8 @@ void ImportQIFDialog::onFileChanged(const QString &str) {
 	((QIFWizardPage*) page(0))->setComplete(!str.isEmpty());
 }
 void ImportQIFDialog::selectFile() {
-	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_document_directory + "/" : fileEdit->text().trimmed(), "*.qif");
+	QMimeDatabase db;
+	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_document_directory + "/" : fileEdit->text().trimmed(), db.mimeTypeForName("application/x-qw").filterString());
 	if(!url.isEmpty()) fileEdit->setText(url);
 }
 void ImportQIFDialog::nextClicked() {
@@ -511,8 +513,9 @@ void ExportQIFDialog::onFileChanged(const QString &str) {
 }
 void ExportQIFDialog::selectFile() {
 	QFileDialog fileDialog(this);
-	fileDialog.setNameFilter("*.qif");
-	fileDialog.setDefaultSuffix("qif");
+	QMimeDatabase db;
+	fileDialog.setNameFilter(db.mimeTypeForName("application/x-qw").filterString());
+	fileDialog.setDefaultSuffix(db.mimeTypeForName("application/x-qw").preferredSuffix());
 	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
 	fileDialog.setSupportedSchemes(QStringList("file"));
