@@ -1272,9 +1272,13 @@ void ConfirmScheduleDialog::edit() {
 	if(transactionsView->topLevelItemCount() == 0) reject();
 }
 void ConfirmScheduleDialog::updateTransactions() {
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	QTime confirm_time = settings.value("scheduleConfirmationTime", QTime(18, 0)).toTime();
+	settings.endGroup();
 	for(ScheduledTransactionList<ScheduledTransaction*>::iterator it = budget->scheduledTransactions.begin(); it != budget->scheduledTransactions.end();) {
 		ScheduledTransaction *strans = *it;
-		if(strans->firstOccurrence() < QDate::currentDate() || (QTime::currentTime().hour() >= 18 && strans->firstOccurrence() == QDate::currentDate())) {
+		if(strans->firstOccurrence() < QDate::currentDate() || (QTime::currentTime() >= confirm_time && strans->firstOccurrence() == QDate::currentDate())) {
 			bool b = strans->isOneTimeTransaction();
 			Transactions *trans = strans->realize(strans->firstOccurrence());
 			if(trans) {
@@ -2355,6 +2359,30 @@ void Eqonomize::updateBudgetDay() {
 	if(cccDialog) ((CategoriesComparisonChartDialog*) cccDialog)->chart->resetOptions();
 	if(ccrDialog) ((CategoriesComparisonReportDialog*) ccrDialog)->report->resetOptions();
 }
+void Eqonomize::setScheduleConfirmationTime() {
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	QDialog *dialog = new QDialog(this, 0);
+	dialog->setWindowTitle(tr("Set Schedule Confirmation Time"));
+	QVBoxLayout *box1 = new QVBoxLayout(dialog);
+	QGridLayout *layout = new QGridLayout();
+	layout->addWidget(new QLabel(tr("Schedule confirmation time:"), dialog), 0, 0);
+	QTimeEdit *timeEdit = new QTimeEdit();
+	timeEdit->setTime(settings.value("scheduleConfirmationTime", QTime(18, 0)).toTime());
+	layout->addWidget(timeEdit, 0, 1);
+	box1->addLayout(layout);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
+	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
+	box1->addWidget(buttonBox);
+	if(dialog->exec() == QDialog::Accepted) {
+		settings.setValue("scheduleConfirmationTime", timeEdit->time());
+		checkSchedule();
+	}
+	settings.endGroup();
+	dialog->deleteLater();
+}
 void Eqonomize::setBudgetPeriod() {
 	QDialog *dialog = new QDialog(this, 0);
 	dialog->setWindowTitle(tr("Set Budget Period"));
@@ -3009,12 +3037,16 @@ void Eqonomize::updateSecurities() {
 	}
 }
 void Eqonomize::addNewSchedule(ScheduledTransaction *strans, QWidget *parent) {
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	QTime confirm_time = settings.value("scheduleConfirmationTime", QTime(18, 0)).toTime();
+	settings.endGroup();
 	if(strans->isOneTimeTransaction() && strans->transaction()->date() <= QDate::currentDate()) {
 		Transactions *trans = strans->transaction()->copy();
 		delete strans;
 		budget->addTransactions(trans);
 		transactionAdded(trans);
-	} else if(strans->recurrence() && strans->date() <= QDate::currentDate() && ((QTime::currentTime().hour() >= 18 && strans->recurrence()->nextOccurrence(strans->date(), false) > QDate::currentDate()) || (QTime::currentTime().hour() < 18 && strans->recurrence()->nextOccurrence(strans->date(), false) >= QDate::currentDate()))) {
+	} else if(strans->recurrence() && strans->date() <= QDate::currentDate() && ((QTime::currentTime() >= confirm_time && strans->recurrence()->nextOccurrence(strans->date(), false) > QDate::currentDate()) || (QTime::currentTime() < confirm_time && strans->recurrence()->nextOccurrence(strans->date(), false) >= QDate::currentDate()))) {
 		Transactions *trans = strans->realize(strans->date());
 		budget->addTransactions(trans);
 		transactionAdded(trans);
@@ -3262,8 +3294,12 @@ bool Eqonomize::editSplitTransaction(SplitTransaction *split, QWidget *parent, b
 			budget->addSplitTransaction(split);
 			transactionAdded(split);
 		} else {
+			QSettings settings;
+			settings.beginGroup("GeneralOptions");
+			QTime confirm_time = settings.value("scheduleConfirmationTime", QTime(18, 0)).toTime();
+			settings.endGroup();
 			ScheduledTransaction *strans = new ScheduledTransaction(budget, split, rec);
-			if(strans->recurrence() && strans->date() <= QDate::currentDate() && ((QTime::currentTime().hour() >= 18 && strans->recurrence()->nextOccurrence(strans->date(), false) > QDate::currentDate()) || (QTime::currentTime().hour() < 18 && strans->recurrence()->nextOccurrence(strans->date(), false) >= QDate::currentDate()))) {
+			if(strans->recurrence() && strans->date() <= QDate::currentDate() && ((QTime::currentTime() >= confirm_time && strans->recurrence()->nextOccurrence(strans->date(), false) > QDate::currentDate()) || (QTime::currentTime() < confirm_time && strans->recurrence()->nextOccurrence(strans->date(), false) >= QDate::currentDate()))) {
 				Transactions *new_trans = strans->realize(strans->date());
 				budget->addTransactions(new_trans);
 				transactionAdded(new_trans);
@@ -3742,7 +3778,11 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent) {
 			budget->removeTransaction(trans, true);
 			transactionRemoved(trans);
 			ScheduledTransaction *strans = new ScheduledTransaction(budget, trans, rec);
-			if(strans->recurrence() && strans->date() <= QDate::currentDate() && ((QTime::currentTime().hour() >= 18 && strans->recurrence()->nextOccurrence(strans->date(), false) > QDate::currentDate()) || (QTime::currentTime().hour() < 18 && strans->recurrence()->nextOccurrence(strans->date(), false) >= QDate::currentDate()))) {
+			QSettings settings;
+			settings.beginGroup("GeneralOptions");
+			QTime confirm_time = settings.value("scheduleConfirmationTime", QTime(18, 0)).toTime();
+			settings.endGroup();
+			if(strans->recurrence() && strans->date() <= QDate::currentDate() && ((QTime::currentTime() >= confirm_time && strans->recurrence()->nextOccurrence(strans->date(), false) > QDate::currentDate()) || (QTime::currentTime() < confirm_time && strans->recurrence()->nextOccurrence(strans->date(), false) >= QDate::currentDate()))) {
 				Transactions *new_trans = strans->realize(strans->date());
 				budget->addTransactions(new_trans);
 				transactionAdded(new_trans);
@@ -5961,6 +6001,9 @@ void Eqonomize::setupActions() {
 	NEW_RADIO_ACTION(AIPRememberLastDates, tr("Remember Last Dates"), ActionSelectInitialPeriod);
 	periodMenu->addActions(ActionSelectInitialPeriod->actions());
 	
+	NEW_ACTION(ActionSetScheduleConfirmationTime, tr("Set Schedule Confirmation Time…"), "view-calendar-day", 0, this, SLOT(setScheduleConfirmationTime()), "set_schedule_confirmation_time", settingsMenu);
+	
+	
 	QMenu *backupMenu = settingsMenu->addMenu(tr("Backup Frequency"));
 	ActionSelectBackupFrequency = new QActionGroup(this);
 	ActionSelectBackupFrequency->setObjectName("select_backup_frequency");
@@ -6437,9 +6480,13 @@ void Eqonomize::checkSchedule() {
 }
 bool Eqonomize::checkSchedule(bool update_display, QWidget *parent) {
 	bool b = false;
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	QTime confirm_time = settings.value("scheduleConfirmationTime", QTime(18, 0)).toTime();
+	settings.endGroup();
 	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd(); ++it) {
 		ScheduledTransaction *strans = *it;
-		if(strans->firstOccurrence() < QDate::currentDate() || (QTime::currentTime().hour() >= 18 && strans->firstOccurrence() == QDate::currentDate())) {
+		if(strans->firstOccurrence() < QDate::currentDate() || (QTime::currentTime() >= confirm_time && strans->firstOccurrence() == QDate::currentDate())) {
 			b = true;
 			break;
 		}
