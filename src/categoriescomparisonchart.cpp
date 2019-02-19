@@ -126,6 +126,8 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	chart = new QChart();
 	view = new QChartView(chart, this);
 	series = NULL;
+	axis_x = NULL;
+	axis_y = NULL;
 #else
 	scene = NULL;
 	view = new QGraphicsView(this);
@@ -1118,6 +1120,8 @@ void CategoriesComparisonChart::updateDisplay() {
 	foreach(QAbstractAxis* axis, chart->axes()) {
 		chart->removeAxis(axis);
 	}
+	axis_x = NULL;
+	axis_y = NULL;
 	
 	if(theme < 0) {
 		chart->setBackgroundBrush(Qt::white);
@@ -1169,12 +1173,14 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 
 		if(chart_type == 3) {
-			chart->setAxisX(b_axis, series);
-			chart->setAxisY(v_axis, series);
+			axis_x = b_axis;
+			axis_y = v_axis;
 		} else {
-			chart->setAxisY(b_axis, series);
-			chart->setAxisX(v_axis, series);
+			axis_x = v_axis;
+			axis_y = b_axis;
 		}
+		chart->addAxis(axis_x, Qt::AlignBottom);
+		chart->addAxis(axis_y, Qt::AlignLeft);
 		
 		connect(bar_series, SIGNAL(hovered(bool, int, QBarSet*)), this, SLOT(onSeriesHovered(bool, int, QBarSet*)));
 		
@@ -1435,7 +1441,9 @@ class PointLabel2 : public QGraphicsItem {
 
 	public:
 
-		PointLabel2(QChart *c) : QGraphicsItem(c), chart(c) {}
+		PointLabel2(QChart *c, QAbstractAxis *axis_x) : QGraphicsItem(c), chart(c), axis(axis_x) {}
+
+		void setAxis(QAbstractAxis *axis_x) {axis = axis_x;}
 
 		void setText(const QString &text) {
 			m_text = text;
@@ -1499,12 +1507,12 @@ class PointLabel2 : public QGraphicsItem {
 				path = path.simplified();
 			}
 			painter->setBrush(chart->backgroundBrush());
-			QPen pen = chart->axisX()->linePen();
+			QPen pen = axis->linePen();
 			pen.setWidth(1);
 			painter->setPen(pen);
 			painter->drawPath(path);
-			painter->setPen(QPen(chart->axisX()->labelsBrush().color()));
-			painter->setBrush(chart->axisX()->labelsBrush());
+			painter->setPen(QPen(axis->labelsBrush().color()));
+			painter->setBrush(axis->labelsBrush());
 			painter->drawText(m_textRect, m_text);
 		}
 
@@ -1515,6 +1523,7 @@ class PointLabel2 : public QGraphicsItem {
 		QRectF m_rect;
 		QPointF m_anchor;
 		QChart *chart;
+		QAbstractAxis *axis;
 
 };
 
@@ -1523,10 +1532,11 @@ void CategoriesComparisonChart::onSeriesHovered(bool state, int index, QBarSet *
 		QAbstractBarSeries *series = qobject_cast<QAbstractBarSeries*>(sender());
 		PointLabel2 *item;
 		if(!point_label) {
-			item = new PointLabel2(chart);
+			item = new PointLabel2(chart, axis_x);
 			point_label = item;
 		} else {
 			item = (PointLabel2*) point_label;
+			item->setAxis(axis_x);
 		}
 		QList<QBarSet*> barsets = series->barSets();
 		int set_index = barsets.indexOf(set);
@@ -1540,7 +1550,7 @@ void CategoriesComparisonChart::onSeriesHovered(bool state, int index, QBarSet *
 		pos.setY(pos_y);
 		Currency *currency = budget->defaultCurrency();
 		if(selectedAccount()) currency = selectedAccount()->currency();
-		item->setText(tr("%1\nValue: %2").arg(((QBarCategoryAxis*) chart->axisY())->at(index)).arg(currency->formatValue(set->at(index))));
+		item->setText(tr("%1\nValue: %2").arg(((QBarCategoryAxis*) axis_y)->at(index)).arg(currency->formatValue(set->at(index))));
 		item->setAnchor(pos);
 		item->setPos(pos + QPoint(10, -50));
 		item->setZValue(11);

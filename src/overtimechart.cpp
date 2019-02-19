@@ -4006,7 +4006,9 @@ class PointLabel : public QGraphicsItem {
 
 	public:
 
-		PointLabel(QChart *c) : QGraphicsItem(c), chart(c) {}
+		PointLabel(QChart *c, QAbstractAxis *axis_x) : QGraphicsItem(c), chart(c), axis(axis_x) {}
+
+		void setAxis(QAbstractAxis *axis_x) {axis = axis_x;}
 
 		void setText(const QString &text) {
 			m_text = text;
@@ -4070,12 +4072,12 @@ class PointLabel : public QGraphicsItem {
 				path = path.simplified();
 			}
 			painter->setBrush(chart->backgroundBrush());
-			QPen pen = chart->axisX()->linePen();
+			QPen pen = axis->linePen();
 			pen.setWidth(1);
 			painter->setPen(pen);
 			painter->drawPath(path);
-			painter->setPen(QPen(chart->axisX()->labelsBrush().color()));
-			painter->setBrush(chart->axisX()->labelsBrush());
+			painter->setPen(QPen(axis->labelsBrush().color()));
+			painter->setBrush(axis->labelsBrush());
 			painter->drawText(m_textRect, m_text);
 		}
 
@@ -4086,6 +4088,7 @@ class PointLabel : public QGraphicsItem {
 		QRectF m_rect;
 		QPointF m_anchor;
 		QChart *chart;
+		QAbstractAxis *axis;
 
 };
 
@@ -4095,10 +4098,11 @@ void OverTimeChart::onSeriesHovered(bool state, int index, QBarSet *set) {
 		int chart_type = typeCombo->currentIndex() + 1;
 		PointLabel *item;
 		if(!point_label) {
-			item = new PointLabel(chart);
+			item = new PointLabel(chart, axisX);
 			point_label = item;
 		} else {
 			item = (PointLabel*) point_label;
+			item->setAxis(axisX);
 		}
 		QList<QBarSet*> barsets = series->barSets();
 		int set_index = barsets.indexOf(set);
@@ -4179,10 +4183,11 @@ void OverTimeChart::onSeriesHovered(const QPointF &value, bool state) {
 		QXYSeries *series = qobject_cast<QXYSeries*>(sender());
 		PointLabel *item;
 		if(!point_label) {
-			item = new PointLabel(chart);
+			item = new PointLabel(chart, axisX);
 			point_label = item;
 		} else {
 			item = (PointLabel*) point_label;
+			item->setAxis(axisX);
 		}
 		QDate date = QDateTime::fromMSecsSinceEpoch(value.x()).date();
 		if(budget->dayOfBudgetMonth(date) >= budget->daysInBudgetMonth(date) / 2) {

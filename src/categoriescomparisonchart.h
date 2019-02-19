@@ -71,6 +71,7 @@ class CategoriesComparisonChart : public QWidget {
 		QChartView *view;
 		QChart *chart;
 		QAbstractSeries *series;
+		QAbstractAxis *axis_x, *axis_y;
 		QComboBox *themeCombo;
 		QComboBox *typeCombo;
 		QGraphicsItem *point_label;
