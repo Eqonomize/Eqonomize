@@ -1,3 +1,11 @@
+2019-03-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Language selection from within the application
+
+2019-02-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Do not use deprecated QtCharts axis functions
+
 2019-02-02  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Schedule confirmation time setting
@@ -11,9 +19,17 @@
 
 	* Update revision of schedule on confirmed occurrence
 
+2019-01-14  svedie <svedie@gmail.com>
+
+	* Improved German translation
+
 2019-01-05  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Description of eqz file format
+
+2019-01-16  Michael F. Schönitzer <michael@schoenitzer.de>
+
+	* Some German translation improvements
 
 2018-11-14  Hanna Knutsson <hanna.knutsson@protonmail.com>
 

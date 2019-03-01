@@ -216,7 +216,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionConvertCurrencies, *ActionUpdateExchangeRates;
 		QAction *ActionExtraProperties, *ActionUseExchangeRateForTransactionDate, *ActionSetBudgetPeriod, *ActionSetScheduleConfirmationTime, *AIPCurrentMonth, *AIPCurrentYear, *AIPCurrentWholeMonth, *AIPCurrentWholeYear, *AIPRememberLastDates, *ABFDaily, *ABFWeekly, *ABFFortnightly, *ABFMonthly, *ABFNever, *ACSTime[11];
 		QAction *ActionSetMainCurrency, *ActionSyncSettings;
-		QActionGroup *ActionSelectInitialPeriod, *ActionSelectBackupFrequency;
+		QActionGroup *ActionSelectInitialPeriod, *ActionSelectBackupFrequency, *ActionSelectLang;
 		QAction *ActionHelp, *ActionWhatsThis, *ActionReportBug, *ActionAbout, *ActionAboutQt;
 		
 	protected:
@@ -298,6 +298,7 @@ class Eqonomize : public QMainWindow {
 	protected slots:
 	
 		void checkAvailableVersion_readdata();
+		void languageSelected();
 
 	public slots:
 

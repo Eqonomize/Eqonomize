@@ -2186,6 +2186,15 @@ Eqonomize::Eqonomize() : QMainWindow() {
 		case BACKUP_MONTHLY: {ABFMonthly->setChecked(true); break;}
 		default: {ABFWeekly->setChecked(true); break;}
 	}
+	
+	QString slang = settings.value("language", QString()).toString();
+	QList<QAction*> alangs = ActionSelectLang->actions();
+	for(int i = 0; i < alangs.size(); i++) {
+		if(alangs[i]->data().toString() == slang) {
+			alangs[i]->setChecked(true);
+			break;
+		}
+	}
 
 	newScheduleMenu->addAction(ActionNewExpense);
 	newScheduleMenu->addAction(ActionNewIncome);
@@ -6016,6 +6025,58 @@ void Eqonomize::setupActions() {
 	
 	NEW_ACTION_2(ActionSyncSettings, tr("Cloud Synchronization (experimental)…"), 0, this, SLOT(openSynchronizationSettings()), "open_synchronization_settings", settingsMenu);
 	
+	QMenu *langMenu = settingsMenu->addMenu(tr("Language"));
+	ActionSelectLang = new QActionGroup(this);
+	ActionSelectLang->setObjectName("select_language");
+	QAction *action_lang;
+	NEW_RADIO_ACTION(action_lang, tr("Default"), ActionSelectLang);
+	action_lang->setData(QString(""));
+	connect(action_lang, SIGNAL(triggered()), this, SLOT(languageSelected()));
+	NEW_RADIO_ACTION(action_lang, "English", ActionSelectLang);
+	action_lang->setData(QString("en"));
+	connect(action_lang, SIGNAL(triggered()), this, SLOT(languageSelected()));
+	QDir langdir(TRANSLATIONS_DIR);
+	QStringList langfiles = langdir.entryList(QDir::Files, QDir::Name);
+	for(int i = 0; i < langfiles.size(); i++) {
+		if(langfiles[i].endsWith(".qm") && langfiles[i].startsWith("eqonomize_")) {
+			QString slang = langfiles[i].mid(10, langfiles[i].length() - 13);
+			if(slang == "bg") {
+				NEW_RADIO_ACTION(action_lang, "Български", ActionSelectLang);
+			} else if(slang == "cs") {
+				NEW_RADIO_ACTION(action_lang, "Čeština", ActionSelectLang);
+			} else if(slang == "de") {
+				NEW_RADIO_ACTION(action_lang, "Deutch", ActionSelectLang);
+			} else if(slang == "es") {
+				NEW_RADIO_ACTION(action_lang, "Español", ActionSelectLang);
+			} else if(slang == "fr") {
+				NEW_RADIO_ACTION(action_lang, "Français", ActionSelectLang);
+			} else if(slang == "hu") {
+				NEW_RADIO_ACTION(action_lang, "Magyar nyelv", ActionSelectLang);
+			} else if(slang == "it") {
+				NEW_RADIO_ACTION(action_lang, "Italiano", ActionSelectLang);
+			} else if(slang == "nl") {
+				NEW_RADIO_ACTION(action_lang, "Nederlands", ActionSelectLang);
+			} else if(slang == "pt") {
+				NEW_RADIO_ACTION(action_lang, "Português", ActionSelectLang);
+			} else if(slang == "pt_BR") {
+				NEW_RADIO_ACTION(action_lang, "Português do Brasil", ActionSelectLang);
+			} else if(slang == "ro") {
+				NEW_RADIO_ACTION(action_lang, "Românește", ActionSelectLang);
+			} else if(slang == "ru") {
+				NEW_RADIO_ACTION(action_lang, "Русский", ActionSelectLang);
+			} else if(slang == "sk") {
+				NEW_RADIO_ACTION(action_lang, "Slovenčina", ActionSelectLang);
+			} else if(slang == "sv") {
+				NEW_RADIO_ACTION(action_lang, "Svenska", ActionSelectLang);
+			} else {
+				NEW_RADIO_ACTION(action_lang, slang, ActionSelectLang);
+			}
+			action_lang->setData(slang);
+			connect(action_lang, SIGNAL(triggered()), this, SLOT(languageSelected()));
+		}
+	}
+	langMenu->addActions(ActionSelectLang->actions());
+	
 	NEW_ACTION_3(ActionHelp, tr("Help"), "help-contents", QKeySequence::HelpContents, this, SLOT(showHelp()), "help", helpMenu);
 	//ActionWhatsThis = QWhatsThis::createAction(this); helpMenu->addAction(ActionWhatsThis);
 	helpMenu->addSeparator();
@@ -6094,6 +6155,15 @@ void Eqonomize::updateRecentFiles(QString filePath){
 		recentFileActionList.at(i)->setVisible(false);
 	}
 	recentFilesMenu->setEnabled(recentFilePaths.size() > 0);
+}
+
+void Eqonomize::languageSelected() {
+	QAction *lang_action = qobject_cast<QAction*>(sender());
+	QString slang = lang_action->data().toString();
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	settings.setValue("language", slang);
+	QMessageBox::information(this, tr("Restart required"), tr("Please restart the application for the language change to have effect."));
 }
 
 void Eqonomize::showFilter() {

@@ -52,9 +52,19 @@ int main(int argc, char **argv) {
 	
 	setlocale(LC_MONETARY, "");
 	
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	QString slang = settings.value("language", QString()).toString();
+	
 	QTranslator translator;
-	if(translator.load(QLocale(), QLatin1String("eqonomize"), QLatin1String("_"), QLatin1String(TRANSLATIONS_DIR))) {
-		app.installTranslator(&translator);
+	if(!slang.isEmpty()) {
+		if(translator.load(QLatin1String("eqonomize") + QLatin1String("_") + slang, QLatin1String(TRANSLATIONS_DIR))) {
+			app.installTranslator(&translator);
+		}
+	} else {
+		if(translator.load(QLocale(), QLatin1String("eqonomize"), QLatin1String("_"), QLatin1String(TRANSLATIONS_DIR))) {
+			app.installTranslator(&translator);
+		}
 	}
 	
 	QCommandLineParser *parser = new QCommandLineParser();
@@ -108,8 +118,6 @@ int main(int argc, char **argv) {
 		}
 	}
 
-	QSettings settings;
-	settings.beginGroup("GeneralOptions");
 	QString url = settings.value("lastURL", QString()).toString();
 	settings.endGroup();
 
