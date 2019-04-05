@@ -406,6 +406,10 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 		reg_exp_str += QLocale().decimalPoint();
 		reg_exp_str += '\\';
 		reg_exp_str += QLocale().groupSeparator();
+		if(QLocale().decimalPoint() != '.' && QLocale().groupSeparator() != '.') {
+			reg_exp_str += '\\';
+			reg_exp_str += '.';
+		}
 		reg_exp_str += "]";
 		int i = input.indexOf(QRegExp(reg_exp_str));
 		if(i >= 1) {
@@ -482,6 +486,10 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 		reg_exp_str += QLocale().decimalPoint();
 		reg_exp_str += '\\';
 		reg_exp_str += QLocale().groupSeparator();
+		if(QLocale().decimalPoint() != '.' && QLocale().groupSeparator() != '.') {
+			reg_exp_str += '\\';
+			reg_exp_str += '.';
+		}
 		reg_exp_str += "]";
 		i = input.indexOf(QRegExp(reg_exp_str));
 		if(i >= 0) {
@@ -490,6 +498,16 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 	}
 	input.replace('-', QLocale().negativeSign());
 	input.replace('+', QLocale().positiveSign());
-	return QLocale().toDouble(input);
+	double v = QLocale().toDouble(input);
+	if(v == 0.0 && QLocale().decimalPoint() != '.' && QLocale().groupSeparator() != '.') {
+		bool b1 = false, b2 = false;
+		for(int i = 0; i < input.size(); i++) {
+			if(!b1 && input[i] >= '1' && input[i] <= '9') b1 = true;
+			else if(!b2 && input[i] == '.') b2 = true;
+			if(b1 && b2) break;
+		}
+		if(b1 && b2) v = input.toDouble();
+	}
+	return v;
 }
 
