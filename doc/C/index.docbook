@@ -482,9 +482,9 @@
 		Note that even if you create a recurring expense with multiple payments where each payment has a different date, all recurrences after the first occurrence will use the same date for each separate payment. If a future date is set for the first, or only, occurrence, the program will only ask for confirmation of the expense on the first date.
 		</para>
 		<sect2 id="expanse_paid_with_loan">
-		  <title>Expense Paid with Loan / Payment Plan</title>
+		  <title>Expense Paid with Loan</title>
 		  <para>
-		  An expenses paid with loan is not actually recorded as a specific kind of transaction, but is shortcut for creating a debt account and an expense with multiple payments (or a regular expense if downpayment is zero). Expenses with multiple payments can be created using the <menuchoice><guimenu>Loans</guimenu><guimenuitem>Expense Paid with Loan / Payment Plan</guimenuitem></menuchoice> or by selecting <guimenuitem>Paid with loan / payment plan</guimenuitem> in the account menu for an expense.
+		  An expense paid with loan is not actually recorded as a specific kind of transaction, but is a shortcut for creating a debt account and an expense with multiple payments (or a regular expense if downpayment is zero). Expenses with multiple payments can be created using the <menuchoice><guimenu>Loans</guimenu><guimenuitem>Expense Paid with Loan</guimenuitem></menuchoice> or by selecting <guimenuitem>Paid with loan</guimenuitem> in the account menu for an expense.
 		  <mediaobject><imageobject><imagedata format="PNG" fileref="figures/payedwithloan.png"/></imageobject></mediaobject>
 		  </para>
 		  <para>

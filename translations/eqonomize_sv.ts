@@ -3814,7 +3814,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="6177"/>
-        <source>Please restart the application for the language change to have effect.</source>
+        <source>Please restart the application for the language change to take effect.</source>
         <translation>Vängligen starta om programmet för att språkändringen skall ha effekt.</translation>
     </message>
     <message>

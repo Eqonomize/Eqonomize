@@ -6163,7 +6163,7 @@ void Eqonomize::languageSelected() {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 	settings.setValue("language", slang);
-	QMessageBox::information(this, tr("Restart required"), tr("Please restart the application for the language change to have effect."));
+	QMessageBox::information(this, tr("Restart required"), tr("Please restart the application for the language change to take effect."));
 }
 
 void Eqonomize::showFilter() {
