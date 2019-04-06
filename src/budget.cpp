@@ -167,34 +167,8 @@ bool security_list_less_than(Security *t1, Security *t2) {
 	return QString::localeAwareCompare(t1->name(), t2->name()) < 0;
 }
 
-int currency_frac_digits() {
-#ifdef Q_OS_ANDROID
-	return 2;
-#else
-	char fd = localeconv()->frac_digits;
-	if(fd == CHAR_MAX) return 2;
-	return fd;
-#endif
-}
-
-bool currency_symbol_precedes() {
-#ifdef Q_OS_ANDROID
-	return true;
-#else
-	return localeconv()->p_cs_precedes;
-#endif
-}
-
 bool is_zero(double value) {
 	return value < 0.0000001 && value > -0.0000001;
-}
-
-QString format_money(double v, int precision) {
-	if(precision == MONETARY_DECIMAL_PLACES) return QLocale().toCurrencyString(v);
-	if(currency_symbol_precedes()) {
-		return QLocale().currencySymbol() + " " + QLocale().toString(v, 'f', precision);
-	}
-	return QLocale().toString(v, 'f', precision) + " " + QLocale().currencySymbol();
 }
 
 Budget::Budget() {	
@@ -237,6 +211,46 @@ Budget::Budget() {
 	b_record_new_securities = false;
 	i_tcrd = TRANSACTION_CONVERSION_RATE_AT_DATE;
 	null_incomes_account = new IncomesAccount(this, QString::null);
+	setlocale(LC_MONETARY,"");
+	struct lconv *lc = localeconv();
+	monetary_decimal_separator = QString::fromLocal8Bit(lc->mon_decimal_point);
+	monetary_group_separator = QString::fromLocal8Bit(lc->mon_thousands_sep);
+	monetary_negative_sign = QString::fromLocal8Bit(lc->negative_sign);
+	monetary_positive_sign = QString::fromLocal8Bit(lc->positive_sign);
+	monetary_group_format = lc->mon_grouping;
+	monetary_decimal_places = 2;
+#ifdef Q_OS_ANDROID
+	currency_symbol_precedes = true;
+	currency_code_precedes = true;
+	currency_symbol_space = false;
+	currency_code_space = true;
+	currency_symbol_space_neg = false;
+	currency_code_space_neg = true;
+	monetary_sign_p_symbol_neg = 1;
+	monetary_sign_p_symbol_pos = 1;
+	monetary_sign_p_code_neg = 1;
+	monetary_sign_p_code_pos = 1;
+#else
+	currency_symbol_precedes = lc->p_cs_precedes;
+	currency_code_precedes = lc->int_p_cs_precedes;
+	currency_symbol_space = (lc->p_sep_by_space == 1);
+	currency_code_space = (lc->int_p_sep_by_space == 1);
+	currency_symbol_space_neg = (lc->n_sep_by_space == 1);
+	currency_code_space_neg = (lc->int_n_sep_by_space == 1);
+	monetary_sign_p_symbol_neg = (int) lc->n_sign_posn;
+	monetary_sign_p_symbol_pos = (int) lc->p_sign_posn;
+	monetary_sign_p_code_neg = (int) lc->int_n_sign_posn;
+	monetary_sign_p_code_pos = (int) lc->int_p_sign_posn;
+	if(monetary_sign_p_symbol_neg > 4) monetary_sign_p_symbol_neg = 1;
+	if(monetary_sign_p_symbol_pos > 4) monetary_sign_p_symbol_pos = 1;
+	if(monetary_sign_p_code_neg > 4) monetary_sign_p_code_neg = 1;
+	if(monetary_sign_p_code_pos > 4) monetary_sign_p_code_pos = 1;
+	/*monetary_decimal_places = (int) lc->frac_digits;
+	if(monetary_decimal_places < 0 || monetary_decimal_places > 20) monetary_decimal_places = 2;*/
+#endif
+	monetary_group_format = monetary_group_format.trimmed();
+	if(monetary_decimal_separator.isEmpty()) monetary_decimal_separator = QLocale().decimalPoint();
+	if(monetary_group_separator.isEmpty()) monetary_group_separator = QLocale().groupSeparator();
 }
 Budget::~Budget() {}
 

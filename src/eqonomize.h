@@ -632,13 +632,14 @@ class EditQuotationsDialog : public QDialog {
 		QPushButton *changeButton, *addButton, *deleteButton;
 		int i_quotation_decimals;
 		Budget *budget;
+		Security *security;
 
 	public:
 
-		EditQuotationsDialog(Budget *budg, QWidget *parent);
+		EditQuotationsDialog(Security *sec, QWidget *parent);
 
-		void setSecurity(Security *security);
-		void modifyQuotations(Security *security);
+		void setSecurity(Security *sec);
+		void modifyQuotations();
 
 	protected slots:
 		

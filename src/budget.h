@@ -39,7 +39,6 @@
 #define MONETARY_DECIMAL_PLACES 2
 #define SAVE_MONETARY_DECIMAL_PLACES 4
 #define QUANTITY_DECIMAL_PLACES 2
-#define CURRENCY_IS_PREFIX currency_symbol_precedes()
 #define IS_GREGORIAN_CALENDAR true
 
 class QProcess;
@@ -50,10 +49,7 @@ typedef enum {
 	TRANSACTION_CONVERSION_LATEST_RATE
 } TransactionConversionRateDate;
 
-int currency_frac_digits();
-bool currency_symbol_precedes();
 bool is_zero(double);
-QString format_money(double v, int precision);
 
 void read_id(QXmlStreamAttributes *attr, qlonglong &id, int &rev1, int &rev2);
 void write_id(QXmlStreamAttributes *attr, qlonglong &id, int &rev1, int &rev2);
@@ -155,6 +151,11 @@ class Budget {
 		BudgetSynchronization *o_sync;
 		Currency *currency_euro;
 		QNetworkAccessManager nam;
+		
+		QString monetary_decimal_separator, monetary_group_separator, monetary_positive_sign, monetary_negative_sign;
+		QByteArray monetary_group_format;
+		bool currency_symbol_precedes, currency_code_precedes, currency_symbol_space, currency_code_space, currency_symbol_space_neg, currency_code_space_neg;
+		int monetary_sign_p_symbol_neg, monetary_sign_p_symbol_pos, monetary_sign_p_code_neg, monetary_sign_p_code_pos, monetary_decimal_places;
 
 		Budget();
 		~Budget();

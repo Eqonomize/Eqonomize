@@ -27,6 +27,7 @@
 #include <QXmlStreamAttribute>
 #include <QLocale>
 #include <QDebug>
+#include <math.h>
 
 #include "budget.h"
 #include "currency.h"
@@ -235,43 +236,118 @@ double Currency::convertFrom(double value, const Currency *from_currency, const 
 	return from_currency->convertTo(value, this, date);
 }
 
-QString Currency::formatValue(double value, int nr_of_decimals, bool show_currency, bool always_show_sign) const {
+QString Currency::formatValue(double value, int nr_of_decimals, bool show_currency, bool always_show_sign, bool conventional_sign_placement) const {
 	if(nr_of_decimals < 0) {
 		if(i_decimals < 0) nr_of_decimals = MONETARY_DECIMAL_PLACES;
 		else nr_of_decimals = i_decimals;
 	}
 	if(is_zero(value)) value = 0.0;
-	if(!show_currency) {
-		if(always_show_sign && value == 0) {
-			return QString("±") + QLocale().toString(value, 'f', nr_of_decimals);
-		} else if(always_show_sign && value > 0) {
-			return QString("+") + QLocale().toString(value, 'f', nr_of_decimals);
+	QString s;
+	bool neg = false;
+	if(value == 0.0) {
+		s = "0";
+		s += o_budget->monetary_decimal_separator;
+		while(nr_of_decimals > 0) {
+			s += '0';
+			nr_of_decimals--;
 		}
-		return QLocale().toString(value, 'f', nr_of_decimals);
-		
-	}
-	if((this == o_budget->defaultCurrency()) && !s_symbol.isEmpty()) {
-		if((b_precedes < 0 && currency_symbol_precedes()) || b_precedes > 0) {
-			if(always_show_sign && value == 0) {
-				return s_symbol + QString("±") + QLocale().toString(value, 'f', nr_of_decimals);
-			} else if(always_show_sign && value > 0) {
-				return s_symbol + QString("+") + QLocale().toString(value, 'f', nr_of_decimals);
+	} else {
+		if(value < 0) {
+			neg = true;
+			value = -value;
+		}
+		double p = pow(10, nr_of_decimals);
+		value *= p;
+		value = round(value);
+		s = QString::number(value, 'f', 0);
+		if(!o_budget->monetary_group_separator.isEmpty() && !o_budget->monetary_group_format.isEmpty()) {
+			int group_size = 3, i_format = 0;
+			if(o_budget->monetary_group_format.length() > i_format) {
+				group_size = o_budget->monetary_group_format[i_format];
 			}
-			return s_symbol + QLocale().toString(value, 'f', nr_of_decimals);
+			int i = s.length() - nr_of_decimals;
+			while(i > group_size) {
+				i -= group_size;
+				s.insert(i, o_budget->monetary_group_separator);
+				if(o_budget->monetary_group_format.length() > i_format) {
+					i_format++;
+					if(o_budget->monetary_group_format[i_format] == (char) CHAR_MAX) break;
+					if(o_budget->monetary_group_format[i_format] > (char) 0) group_size = o_budget->monetary_group_format[i_format];
+				}
+			}
 		}
-		if(always_show_sign && value == 0) {
-			return QString("±") + QLocale().toString(value, 'f', nr_of_decimals) + " " + s_symbol;
-		} else if(always_show_sign && value > 0) {
-			return QString("+") + QLocale().toString(value, 'f', nr_of_decimals) + " " + s_symbol;
+		if(s.length() > nr_of_decimals) s.insert(s.length() - nr_of_decimals, o_budget->monetary_decimal_separator);
+	}
+	bool use_symbol = show_currency && (this == o_budget->defaultCurrency()) && !s_symbol.isEmpty();
+	bool prefix = (use_symbol && ((b_precedes < 0 && o_budget->currency_symbol_precedes) || b_precedes > 0)) || (show_currency && !use_symbol && o_budget->currency_code_precedes);
+	bool use_space = show_currency && ((use_symbol && useSymbolSpace(neg)) || (!use_symbol && useCodeSpace(neg)));
+	int sign_place = 1;
+	if(conventional_sign_placement || !show_currency) {
+		sign_place = -1;
+	} else if(use_symbol && neg) {
+		sign_place = o_budget->monetary_sign_p_symbol_neg;
+	} else if(use_symbol && !neg) {
+		sign_place = o_budget->monetary_sign_p_symbol_pos;
+	} else if(!use_symbol && neg) {
+		sign_place = o_budget->monetary_sign_p_code_neg;
+	} else if(!use_symbol && !neg) {
+		sign_place = o_budget->monetary_sign_p_code_pos;
+	}
+	if(sign_place == 0 && always_show_sign) sign_place = -1;
+
+	QString sgn;
+	if(always_show_sign && value == 0.0) {
+		sgn = "±";
+	} else if(neg) {
+		if(!o_budget->monetary_negative_sign.isEmpty()) sgn = o_budget->monetary_negative_sign;
+		else sgn = QLocale().negativeSign();
+	} else {
+		if(!o_budget->monetary_positive_sign.isEmpty()) sgn = o_budget->monetary_positive_sign;
+		else if(always_show_sign) sgn = QLocale().positiveSign();
+	}
+	
+	if(!sgn.isEmpty()) {
+		if(sign_place < 0 || (!prefix && sign_place == 1) || (prefix && sign_place == 4)) {
+			s.insert(0, sgn);
+			sgn.clear();
+		} else if((!prefix && sign_place == 3) || (prefix && sign_place == 2)) {
+			s += sgn;
+			sgn.clear();
 		}
-		return QLocale().toString(value, 'f', nr_of_decimals) + " " + s_symbol;
 	}
-	if(always_show_sign && value == 0) {
-		return QString("±") + QLocale().toString(value, 'f', nr_of_decimals) + " " + ((this != o_budget->defaultCurrency() || s_symbol.isEmpty()) ? s_code : s_symbol);
-	} else if(always_show_sign && value > 0) {
-		return QString("+") + QLocale().toString(value, 'f', nr_of_decimals) + " " + ((this != o_budget->defaultCurrency() || s_symbol.isEmpty()) ? s_code : s_symbol);
+
+	if(show_currency) {
+		if(use_symbol) {
+			if(prefix) {
+				if(use_space) s = s_symbol + " " + s;
+				else s = s_symbol + s;
+			} else {
+				if(use_space) s = s + " " + s_symbol;
+				else s = s + s_symbol;
+			}
+		} else {
+			if(prefix) {
+				if(use_space) s = s_code + " " + s;
+				else s = s_code + s;
+			} else {
+				if(use_space) s = s + " " + s_code;
+				else s = s + s_code;
+			}
+		}
 	}
-	return QLocale().toString(value, 'f', nr_of_decimals) + " " + ((this != o_budget->defaultCurrency() || s_symbol.isEmpty()) ? s_code : s_symbol);
+
+	if(!sgn.isEmpty()) {
+		if((prefix && sign_place == 1) || (prefix && sign_place == 3)) {
+			s.insert(0, sgn);
+		} else if((!prefix && sign_place == 2) || (!prefix && sign_place == 4)) {
+			s += sgn;
+		} else if(sign_place == 0 && neg) {
+			s.insert(0, '(');
+			s += ')';
+		}
+	}
+
+	return s;
 }
 
 const QString &Currency::code() const {
@@ -298,16 +374,30 @@ void Currency::setName(QString new_name) {
 }
 
 int Currency::symbolPrecedes(bool return_default_if_unset) const {
-	if(return_default_if_unset && b_precedes < 0) return currency_symbol_precedes();
+	if(return_default_if_unset && b_precedes < 0) return o_budget->currency_symbol_precedes;
 	return b_precedes;
 }
 void Currency::setSymbolPrecedes(int new_precedes) {
 	b_precedes = new_precedes;
 	b_local_format = true;
 }
+bool Currency::codePrecedes() const {
+	return o_budget->currency_code_precedes;
+}
+bool Currency::useSymbolSpace(bool neg) const {
+	if(b_precedes < 0 || b_precedes == o_budget->currency_symbol_precedes) {
+		if(neg) return o_budget->currency_symbol_space_neg;
+		else return o_budget->currency_symbol_space;
+	}
+	return !b_precedes;
+}
+bool Currency::useCodeSpace(bool neg) const {
+	if(neg) return o_budget->currency_code_space_neg;
+	else return o_budget->currency_code_space;
+}
 
 int Currency::fractionalDigits(bool return_default_if_unset) const {
-	if(return_default_if_unset && i_decimals < 0) return MONETARY_DECIMAL_PLACES;
+	if(return_default_if_unset && i_decimals < 0) return o_budget->monetary_decimal_places;
 	return i_decimals;
 }
 void Currency::setFractionalDigits(int new_frac_digits) {
