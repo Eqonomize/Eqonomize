@@ -70,8 +70,7 @@ extern QColor createIncomeColor(QWidget *w);
 extern QColor createTransferColor(QWidget *w);
 extern void setColumnTextWidth(QTreeWidget *w, int i, QString str);
 extern void setColumnDateWidth(QTreeWidget *w, int i);
-extern void setColumnMoneyWidth(QTreeWidget *w, int i, double v = 9999999.99);
-extern void setColumnValueWidth(QTreeWidget *w, int i, double v, int d = -1);
+extern void setColumnMoneyWidth(QTreeWidget *w, int i, Budget *budget, double v = 9999999.99, int d = -1);
 extern void setColumnStrlenWidth(QTreeWidget *w, int i, int l);
 
 
@@ -274,10 +273,10 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	setColumnStrlenWidth(transactionsView, 4, 20);
 	setColumnStrlenWidth(transactionsView, 5, 20);
 	setColumnStrlenWidth(transactionsView, 6, 20);
-	setColumnMoneyWidth(transactionsView, 7);
-	setColumnMoneyWidth(transactionsView, 8);
-	setColumnMoneyWidth(transactionsView, 9);
-	setColumnMoneyWidth(transactionsView, 10, 999999999.99);
+	setColumnMoneyWidth(transactionsView, 7, budget);
+	setColumnMoneyWidth(transactionsView, 8, budget);
+	setColumnMoneyWidth(transactionsView, 9, budget);
+	setColumnMoneyWidth(transactionsView, 10, budget, 999999999.99);
 	min_width_1 = transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) + transactionsView->columnWidth(3) + transactionsView->columnWidth(4) + transactionsView->columnWidth(8) + transactionsView->columnWidth(9) + transactionsView->columnWidth(10) + 30;
 	min_width_2 = min_width_1 + transactionsView->columnWidth(7);
 	QDesktopWidget desktop;
@@ -1090,8 +1089,8 @@ void LedgerDialog::transactionSelectionChanged() {
 			if(first_date.isValid() && first_date != last_date) total_balance /= first_date.daysTo(last_date) + 1;
 		}
 		if(quantity + b_initial > 1) {
-			if(b_continuous) statLabel->setText(QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg(tr("Balance change:", "Account balance")).arg(tr("Average balance:", "Account balance")).arg(tr("Number of transactions:")).arg(account->currency()->formatValue(v)).arg(account->currency()->formatValue(total_balance)).arg(QLocale().toString(quantity)));
-			else statLabel->setText(QString("<div align=\"right\"><b>%1</b> %3 &nbsp; <b>%2</b> %4").arg(tr("Balance change:", "Account balance")).arg(tr("Number of transactions:")).arg(account->currency()->formatValue(v)).arg(QLocale().toString(quantity)));
+			if(b_continuous) statLabel->setText(QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg(tr("Balance change:", "Account balance")).arg(tr("Average balance:", "Account balance")).arg(tr("Number of transactions:")).arg(account->currency()->formatValue(v)).arg(account->currency()->formatValue(total_balance)).arg(budget->formatValue(quantity, 0)));
+			else statLabel->setText(QString("<div align=\"right\"><b>%1</b> %3 &nbsp; <b>%2</b> %4").arg(tr("Balance change:", "Account balance")).arg(tr("Number of transactions:")).arg(account->currency()->formatValue(v)).arg(budget->formatValue(quantity, 0)));
 		} else {
 			statLabel->setText(stat_total_text);
 		}
@@ -1535,7 +1534,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 	if(account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD) {
 		stat_total_text = QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg(tr("Current debt:")).arg(tr("Total debt reduction:")).arg(tr("Total interest and fees:")).arg(account->currency()->formatValue(-balance)).arg(account->currency()->formatValue(reductions)).arg(account->currency()->formatValue(expenses));
 	} else {
-		stat_total_text = QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg(tr("Current balance:", "Account balance")).arg(tr("Average balance:", "Account balance")).arg(tr("Number of transactions:")).arg(account->currency()->formatValue(balance)).arg(account->currency()->formatValue(total_balance)).arg(QLocale().toString(quantity));
+		stat_total_text = QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg(tr("Current balance:", "Account balance")).arg(tr("Average balance:", "Account balance")).arg(tr("Number of transactions:")).arg(account->currency()->formatValue(balance)).arg(account->currency()->formatValue(total_balance)).arg(budget->formatValue(quantity, 0));
 	}
 	statLabel->setText(stat_total_text);
 	transactionsView->horizontalScrollBar()->setValue(scroll_h);

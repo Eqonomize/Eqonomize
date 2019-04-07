@@ -1,7 +1,7 @@
 2019-04-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Use localeconv() for monetary format
-	  (improves sign and symbol placement, and fixes locales
+	* Use localeconv() for number format
+	  (improves sign and currency symbol placement, and fixes locales
 	  where number format differs between general and monetary numbers)
 
 2019-04-05  Hanna Knutsson <hanna.knutsson@protonmail.com>

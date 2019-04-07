@@ -33,7 +33,7 @@ class EqonomizeValueEdit : public QDoubleSpinBox {
 
 	public:
 
-		EqonomizeValueEdit(bool allow_negative = true, QWidget *parent = 0, Budget *budg = NULL);
+		EqonomizeValueEdit(bool allow_negative, QWidget *parent, Budget *budg);
 		EqonomizeValueEdit(double value, bool allow_negative, bool show_currency, QWidget *parent, Budget *budg);
 		EqonomizeValueEdit(double value, int precision, bool allow_negative, bool show_currency, QWidget *parent, Budget *budg);
 		EqonomizeValueEdit(double lower, double step, double value, int precision, bool show_currency, QWidget *parent, Budget *budg);

@@ -187,7 +187,6 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	layout->addLayout(buttons);
 #ifdef QT_CHARTS_LIB
 	chart = new QChart();
-	chart->setLocalizeNumbers(true);
 	view = new QChartView(chart, this);
 	view->setRubberBand(QChartView::RectangleRubberBand);
 	axisX = NULL;
@@ -2852,7 +2851,8 @@ void OverTimeChart::updateDisplay() {
 
 	QString axis_string;
 	if(current_source2 == -2) {
-		axis_string = tr("Value") + QString(" (%1)").arg(currency->symbol(true));
+		if(type == 2) axis_string = tr("Quantity");
+		else axis_string = tr("Value") + QString(" (%1)").arg(currency->symbol(true));
 	} else {
 		switch(type) {
 			case 1: {
@@ -2860,6 +2860,10 @@ void OverTimeChart::updateDisplay() {
 				else if(current_source2 == -1) axis_string = tr("Daily average profit") + QString(" (%1)").arg(currency->symbol(true));
 				else if(current_source2 % 2 == 1 || (current_source2 == 0 && chart_type == 4)) axis_string = tr("Daily average income") + QString(" (%1)").arg(currency->symbol(true));
 				else axis_string = tr("Daily average cost") + QString(" (%1)").arg(currency->symbol(true));
+				break;
+			}
+			case 2: {
+				axis_string = tr("Quantity");
 				break;
 			}
 			case 3: {
@@ -3164,6 +3168,8 @@ void OverTimeChart::updateDisplay() {
 		chart->addAxis(axisY, Qt::AlignLeft);
 		chart->addAxis(axisX, Qt::AlignBottom);
 	}
+	
+	chart->setLocalizeNumbers(type == 2 || budget->monetary_decimal_separator != "." || budget->monetary_decimal_separator == QLocale().decimalPoint() || ((maxvalue - minvalue) >= 50.0 && (budget->monetary_group_separator == QLocale().groupSeparator() || QLocale().groupSeparator() == ' ' || QLocale().groupSeparator() == 0x202F || QLocale().groupSeparator() == 0x2009)));
 
 	axisY->setRange(minvalue, maxvalue);
 	axisY->setTickCount(y_lines + 1);
@@ -3550,8 +3556,9 @@ void OverTimeChart::updateDisplay() {
 	int max_axis_value_width = 0;
 	for(int i = 0; i <= y_lines; i++) {
 		int w;
-		if(type == 2 || maxvalue - minvalue >= 50.0) w = fm.width(QLocale().toString((int) round(maxvalue - (((maxvalue - minvalue) * i) / y_lines))));
-		else w = fm.width(QLocale().toString((maxvalue - (((maxvalue - minvalue) * i) / y_lines))));
+		if(type == 2) w = fm.width(budget->formatValue((int) round(maxvalue - (((maxvalue - minvalue) * i) / y_lines)), 0));
+		else if (maxvalue - minvalue >= 50.0) w = fm.width(currency->formatValue(round(maxvalue - (((maxvalue - minvalue) * i) / y_lines)), 0, false));
+		else w = fm.width(currency->formatValue((maxvalue - (((maxvalue - minvalue) * i) / y_lines)), -1, false));
 		if(w > max_axis_value_width) max_axis_value_width = w;
 	}
 	axis_width += max_axis_value_width;
@@ -3636,8 +3643,9 @@ void OverTimeChart::updateDisplay() {
 		y_mark->setPen(axis_pen);
 		scene->addItem(y_mark);
 		axis_text = new QGraphicsSimpleTextItem();
-		if(type == 2 || (maxvalue - minvalue) >= 50.0) axis_text->setText(QLocale().toString((int) round(maxvalue - (((maxvalue - minvalue) * i) / y_lines))));
-		else axis_text->setText(QLocale().toString((maxvalue - (((maxvalue - minvalue) * i) / y_lines))));
+		if(type == 2) axis_text->setText(budget->formatValue((int) round(maxvalue - (((maxvalue - minvalue) * i) / y_lines)), 0));
+		else if((maxvalue - minvalue) >= 50.0) axis_text->setText(currency->formatValue(round(maxvalue - (((maxvalue - minvalue) * i) / y_lines)), 0, false));
+		else axis_text->setText(currency->formatValue((maxvalue - (((maxvalue - minvalue) * i) / y_lines)), -1, false));
 		axis_text->setFont(legend_font);
 		axis_text->setBrush(Qt::black);
 		axis_text->setPos(margin + axis_width - axis_text->boundingRect().width() - 11, chart_y + i * div_height - fh / 2);
@@ -3646,10 +3654,12 @@ void OverTimeChart::updateDisplay() {
 
 	axis_text = new QGraphicsSimpleTextItem();
 	if(minvalue != 0.0) {
-		if(type == 2 || (maxvalue - minvalue) >= 50.0) axis_text->setText(QLocale().toString((int) round(minvalue)));
-		else axis_text->setText(QLocale().toString(minvalue));
+		if(type == 2) axis_text->setText(budget->formatValue((int) round(minvalue), 0));
+		else if((maxvalue - minvalue) >= 50.0) axis_text->setText(currency->formatValue(round(minvalue), 0, false));
+		else axis_text->setText(currency->formatValue(minvalue, -1, false));
 	} else {
-		axis_text->setText(QLocale().toString(0));
+		if(type == 2) axis_text->setText(budget->formatValue(0, 0));
+		else axis_text->setText(currency->formatValue(0.0, 0, false));
 	}
 	axis_text->setFont(legend_font);
 	axis_text->setBrush(Qt::black);
@@ -4151,7 +4161,7 @@ void OverTimeChart::onSeriesHovered(bool state, int index, QBarSet *set) {
 					date = budget->lastBudgetDay(saved_first_date.addMonths(index));
 				}
 			}
-			item->setText(tr("%1\nValue: %2\nDate: %3").arg(set->label()).arg(currency->formatValue(set->at(index))).arg(QLocale().toString(date, QLocale::ShortFormat)));
+			item->setText(tr("%1\nValue: %2\nDate: %3").arg(set->label()).arg(valueGroup->checkedId() == 2 ? budget->formatValue(set->at(index), 0) : currency->formatValue(set->at(index))).arg(QLocale().toString(date, QLocale::ShortFormat)));
 		} else {
 			if(chart_type == 3) {
 				if(valueGroup->checkedId() == 4 && yearlyButton->isEnabled()) date = saved_last_date.addYears(-index);
@@ -4160,7 +4170,7 @@ void OverTimeChart::onSeriesHovered(bool state, int index, QBarSet *set) {
 				if(valueGroup->checkedId() == 4 && yearlyButton->isEnabled()) date = saved_first_date.addYears(index);
 				else date = saved_first_date.addMonths(index);
 			}
-			item->setText(tr("%1\nValue: %2\nDate: %3").arg(set->label()).arg(currency->formatValue(set->at(index))).arg(valueGroup->checkedId() == 4 ? budget->budgetYearString(date) : budget->budgetDateToMonth(date).toString(tr("MMMM yyyy", "Month and year"))));
+			item->setText(tr("%1\nValue: %2\nDate: %3").arg(set->label()).arg(valueGroup->checkedId() == 2 ? budget->formatValue(set->at(index), 0) : currency->formatValue(set->at(index))).arg(valueGroup->checkedId() == 4 ? budget->budgetYearString(date) : budget->budgetDateToMonth(date).toString(tr("MMMM yyyy", "Month and year"))));
 		}
 		item->setAnchor(pos);
 		item->setPos(pos + QPoint(10, -50));
@@ -4206,8 +4216,8 @@ void OverTimeChart::onSeriesHovered(const QPointF &value, bool state) {
 		QPointF pos = chart->mapToPosition(QPointF(value_x, value_y), series);
 		Currency *currency = budget->defaultCurrency();
 		if(selectedAccount()) currency = selectedAccount()->currency();
-		if(current_source == -2 || current_source == 98) item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(currency->formatValue(value_y)).arg(QLocale().toString(valueGroup->checkedId() == 4 && yearlyButton->isEnabled() ? budget->lastBudgetDayOfYear(date) : budget->lastBudgetDay(date), QLocale::ShortFormat)));
-		else item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(currency->formatValue(value_y)).arg(valueGroup->checkedId() == 4 ? budget->budgetYearString(date) : budget->budgetDateToMonth(date).toString(tr("MMMM yyyy", "Month and year"))));
+		if(current_source == -2 || current_source == 98) item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(valueGroup->checkedId() == 2 ? budget->formatValue(value_y, 0) : currency->formatValue(value_y)).arg(QLocale().toString(valueGroup->checkedId() == 4 && yearlyButton->isEnabled() ? budget->lastBudgetDayOfYear(date) : budget->lastBudgetDay(date), QLocale::ShortFormat)));
+		else item->setText(tr("%1\nValue: %2\nDate: %3").arg(series->name()).arg(valueGroup->checkedId() == 2 ? budget->formatValue(value_y, 0) : currency->formatValue(value_y)).arg(valueGroup->checkedId() == 4 ? budget->budgetYearString(date) : budget->budgetDateToMonth(date).toString(tr("MMMM yyyy", "Month and year"))));
 		item->setAnchor(pos);
 		item->setPos(pos + QPoint(10, -50));
 		item->setZValue(11);

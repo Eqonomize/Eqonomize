@@ -1079,17 +1079,17 @@ void CategoriesComparisonChart::updateDisplay() {
 			else legend_string = account->nameWithParent();
 			current_value = values[account];
 		}
-		legend_value = (current_value * 100) / value;
-		int deci = 0;
-		if(legend_value < 10.0 && legend_value > -10.0) {
-			legend_value = round(legend_value * 10.0) / 10.0;
-			deci = 1;
-		} else {
-			legend_value = round(legend_value);
-		}
 
 		if(chart_type == 1) {
-			QPieSlice *slice = pie_series->append(QString("%1 (%2%)").arg(legend_string).arg(currency->formatValue(legend_value, deci, false)), current_value);
+			legend_value = (current_value * 100) / value;
+			int deci = 0;
+			if(legend_value < 10.0 && legend_value > -10.0) {
+				legend_value = round(legend_value * 10.0) / 10.0;
+				deci = 1;
+			} else {
+				legend_value = round(legend_value);
+			}
+			QPieSlice *slice = pie_series->append(QString("%1 (%2%)").arg(legend_string).arg(budget->formatValue(legend_value, deci)), current_value);
 			if(theme < 0) {
 				slice->setBrush(getPieBrush(index, account_order.size() > 0 ? account_order.size() : desc_order.size()));
 				slice->setLabelColor(Qt::black);
@@ -1132,6 +1132,8 @@ void CategoriesComparisonChart::updateDisplay() {
 		chart->legend()->setLabelColor(Qt::black);
 	}
 	
+	chart->setLocalizeNumbers((chart_type == 1 && (budget->decimal_separator != "." || budget->decimal_separator == QLocale().decimalPoint())) || (chart_type != 1 && (budget->monetary_decimal_separator != "." || budget->monetary_decimal_separator == QLocale().decimalPoint() || ((maxvalue - minvalue) >= 50.0 && (budget->monetary_group_separator == QLocale().groupSeparator() || QLocale().groupSeparator() == ' ' || QLocale().groupSeparator() == 0x202F || QLocale().groupSeparator() == 0x2009)))));
+	
 	if(chart_type == 1) {
 		series = pie_series;
 		pie_series->setPieSize(0.78);
@@ -1152,7 +1154,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		v_axis->setRange(minvalue, maxvalue);
 		v_axis->setTickCount(y_lines + 1);
 		v_axis->setMinorTickCount(chart_type == 2 ? 0 : y_minor);
-		if(type == 3 || (maxvalue - minvalue) >= 50.0) v_axis->setLabelFormat(QString("%.0f"));
+		if((maxvalue - minvalue) >= 50.0) v_axis->setLabelFormat(QString("%.0f"));
 		else v_axis->setLabelFormat(QString("%.%1f").arg(QString::number(currency->fractionalDigits())));
 		
 		if(type == ACCOUNT_TYPE_ASSETS) v_axis->setTitleText(tr("Value") + QString(" (%1)").arg(currency->symbol(true)));

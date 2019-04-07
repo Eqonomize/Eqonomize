@@ -156,6 +156,8 @@ class Budget {
 		QByteArray monetary_group_format;
 		bool currency_symbol_precedes, currency_code_precedes, currency_symbol_space, currency_code_space, currency_symbol_space_neg, currency_code_space_neg;
 		int monetary_sign_p_symbol_neg, monetary_sign_p_symbol_pos, monetary_sign_p_code_neg, monetary_sign_p_code_pos, monetary_decimal_places;
+		QString decimal_separator, group_separator, positive_sign, negative_sign;
+		QByteArray group_format;
 
 		Budget();
 		~Budget();
@@ -185,6 +187,8 @@ class Budget {
 		void clear();
 		
 		QString formatMoney(double v, int precision = -1, bool show_currency = true);
+		QString formatValue(double v, int precision = 2, bool always_show_sign = false);
+		QString formatValue(int v, int precision = 0, bool always_show_sign = false);
 
 		void addTransaction(Transaction*);
 		void removeTransactions(Transactions*, bool keep = false);

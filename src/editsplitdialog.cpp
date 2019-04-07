@@ -60,8 +60,7 @@ extern QString last_associated_file_directory;
 
 extern void setColumnTextWidth(QTreeWidget *w, int i, QString str);
 extern void setColumnDateWidth(QTreeWidget *w, int i);
-extern void setColumnMoneyWidth(QTreeWidget *w, int i, double v = 9999999.99);
-extern void setColumnValueWidth(QTreeWidget *w, int i, double v, int d = -1);
+extern void setColumnMoneyWidth(QTreeWidget *w, int i, Budget *budget, double v = 9999999.99, int d = -1);
 extern void setColumnStrlenWidth(QTreeWidget *w, int i, int l);
 
 EqonomizeRadioButton::EqonomizeRadioButton(const QString &text, QWidget *parent) : QRadioButton(text, parent) {}
@@ -407,8 +406,8 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	transactionsView->setRootIsDecorated(false);
 	setColumnStrlenWidth(transactionsView, 0, 15);
 	setColumnStrlenWidth(transactionsView, 1, 25);
-	setColumnMoneyWidth(transactionsView, 2);
-	setColumnMoneyWidth(transactionsView, 3);
+	setColumnMoneyWidth(transactionsView, 2, budget);
+	setColumnMoneyWidth(transactionsView, 3, budget);
 	transactionsView->setMinimumWidth(transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) +  transactionsView->columnWidth(3) + 10);
 	box2->addWidget(transactionsView);
 	QVBoxLayout *buttons = new QVBoxLayout();
@@ -787,7 +786,7 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	transactionsView->setRootIsDecorated(false);
 	setColumnDateWidth(transactionsView, 0);
 	setColumnStrlenWidth(transactionsView, 1, 25);
-	setColumnMoneyWidth(transactionsView, 2);
+	setColumnMoneyWidth(transactionsView, 2, budget);
 	transactionsView->setMinimumWidth(transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) + 10);
 	box2->addWidget(transactionsView);
 	QVBoxLayout *buttons = new QVBoxLayout();

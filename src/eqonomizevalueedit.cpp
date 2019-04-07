@@ -64,20 +64,8 @@ void EqonomizeValueEdit::init(double lower, double upper, double step, double va
 	setSingleStep(step);
 	setAlignment(Qt::AlignRight);
 	if(show_currency) {
-		if(budget) {
-			if(i_precision < 0) i_precision = budget->defaultCurrency()->fractionalDigits(true);
-			setCurrency(budget->defaultCurrency(), true);
-		} else {
-#ifdef Q_OS_ANDROID
-			s_prefix = QLocale().currencySymbol();
-#else
-			if(localeconv()->p_cs_precedes) {
-				s_prefix = QLocale().currencySymbol();
-			} else {
-				s_suffix = QLocale().currencySymbol();
-			}
-#endif
-		}
+		if(i_precision < 0) i_precision = budget->defaultCurrency()->fractionalDigits(true);
+		setCurrency(budget->defaultCurrency(), true);
 	}
 	if(i_precision < 0) i_precision = MONETARY_DECIMAL_PLACES;
 	setDecimals(i_precision);
@@ -194,9 +182,12 @@ Currency *EqonomizeValueEdit::currency() {return o_currency;}
 
 QValidator::State EqonomizeValueEdit::validate(QString &input, int &pos) const {
 	QString input2 = input;
-	if(o_currency && budget) {
+	if(o_currency) {
 		input2.remove(budget->monetary_group_separator);
 		input2.replace(budget->monetary_decimal_separator, QLocale().decimalPoint());
+	} else {
+		input2.remove(budget->group_separator);
+		input2.replace(budget->decimal_separator, QLocale().decimalPoint());
 	}
 	int pos2 = pos;
 	QValidator::State s = QDoubleSpinBox::validate(input2, pos2);
@@ -221,8 +212,8 @@ QValidator::State EqonomizeValueEdit::validate(QString &input, int &pos) const {
 
 QString EqonomizeValueEdit::textFromValue(double value) const {
 	if(o_currency) return o_currency->formatValue(value, decimals(), true, false, true);
-	if(!s_suffix.isEmpty()) return s_prefix + QLocale().toString(value, 'f', decimals()) + QString(" ") + s_suffix;
-	return s_prefix + QLocale().toString(value, 'f', decimals());
+	if(!s_suffix.isEmpty()) return s_prefix + budget->formatValue(value, decimals()) + QString(" ") + s_suffix;
+	return s_prefix + budget->formatValue(value, decimals());
 }
 double EqonomizeValueEdit::valueFromText(const QString &t) const {
 	QString str = t.simplified();
@@ -233,9 +224,12 @@ double EqonomizeValueEdit::valueFromText(const QString &t) const {
 		str.remove(s_prefix);
 	}
 	str.remove(' ');
-	if(o_currency && budget) {
+	if(o_currency) {
 		str.remove(budget->monetary_group_separator);
 		str.replace(budget->monetary_decimal_separator, QLocale().decimalPoint());
+	} else {
+		str.remove(budget->group_separator);
+		str.replace(budget->decimal_separator, QLocale().decimalPoint());
 	}
 	return QDoubleSpinBox::valueFromText(str);
 }
@@ -243,16 +237,24 @@ double EqonomizeValueEdit::valueFromText(const QString &t) const {
 void EqonomizeValueEdit::fixup(QString &input) const {
 	if(!s_prefix.isEmpty() && input.startsWith(s_prefix)) {
 		input = input.right(input.length() - s_prefix.length());
-		if(input.isEmpty()) input = QLocale().toString(1);
+		if(input.isEmpty()) input = QString::number(1);
 	}
 	if(!s_suffix.isEmpty() && input.endsWith(s_suffix)) {
 		input = input.left(input.length() - s_suffix.length());
-		if(input.isEmpty()) input = QLocale().toString(1);
+		if(input.isEmpty()) input = QString::number(1);
 	}
 	QString calculatedText_pre = input.trimmed();
+	input.replace("√", QString('^') + (o_currency ? o_currency->formatValue(0.5, -1, false, false, true) : budget->formatValue(0.5, 1)));
 	input.remove(QRegExp("\\s"));
-	if(budget && o_currency) input.remove(budget->monetary_group_separator);
-	else input.remove(QLocale().groupSeparator());
+	if(o_currency) {
+		input.remove(budget->monetary_group_separator);
+		if(!budget->monetary_negative_sign.isEmpty()) input.replace(budget->monetary_negative_sign, "-");
+		if(!budget->monetary_positive_sign.isEmpty()) input.replace(budget->monetary_positive_sign, "+");
+	} else {
+		input.remove(budget->group_separator);
+		if(!budget->negative_sign.isEmpty()) input.replace(budget->negative_sign, "-");
+		if(!budget->positive_sign.isEmpty()) input.replace(budget->positive_sign, "+");
+	}
 	input.replace("⋅", "*");
 	input.replace("×", "*");
 	input.replace("−", "-");
@@ -262,14 +264,13 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 	input.replace("³", "^3");
 	input.replace(']', ')');
 	input.replace('[', '(');
-	input.replace("√", QString('^') + (o_currency ? o_currency->formatValue(0.5, -1, false, false, true) : QLocale().toString(0.5)));
 	QStringList errors;
 	bool calculated = false;
 	double v = fixup_sub(input, errors, calculated);
 	if(o_currency) {
 		input = o_currency->formatValue(v, decimals(), false, false, true);
 	} else {
-		input = QLocale().toString(v, 'f', decimals());
+		input = budget->formatValue(v, decimals());
 	}
 	if(calculated && errors.isEmpty()) {
 		calculatedText = calculatedText_pre;
@@ -297,9 +298,14 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 	if(input.isEmpty()) {
 		return 0.0;
 	}
-	if(budget && o_currency) {
+	if(o_currency) {
+		input.remove(budget->monetary_group_separator);
 		if(!budget->monetary_negative_sign.isEmpty()) input.replace(budget->monetary_negative_sign, "-");
 		if(!budget->monetary_positive_sign.isEmpty()) input.replace(budget->monetary_positive_sign, "+");
+	} else {
+		input.remove(budget->group_separator);
+		if(!budget->negative_sign.isEmpty()) input.replace(budget->negative_sign, "-");
+		if(!budget->positive_sign.isEmpty()) input.replace(budget->positive_sign, "+");
 	}
 	input.replace(QLocale().negativeSign(), '-');
 	input.replace(QLocale().positiveSign(), '+');
@@ -335,7 +341,7 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 		if(i < input.length() - 1 && (input[i + 1].isNumber() || input[i + 1] == '(')) input.insert(i + 1, '*');
 		QString str = input.mid(i2 + 1, i - i2 - 1);
 		double v = fixup_sub(str, errors, calculated);
-		input.replace(i2, i - i2 + 1, o_currency ? o_currency->formatValue(0.5, decimals() + 2, false, false, true) : QLocale().toString(v, 'f', decimals() + 2));
+		input.replace(i2, i - i2 + 1, o_currency ? o_currency->formatValue(0.5, decimals() + 2, false, false, true) : budget->formatValue(v, decimals() + 2));
 		if(i2 > 0 && (input[i2 - 1].isNumber() || input[i2 - 1] == ')')) input.insert(i2, '*');
 		calculated = true;
 		return fixup_sub(input, errors, calculated);
@@ -430,7 +436,7 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 		calculated = true;
 		return v;
 	}	
-	if(budget && o_currency) {
+	if(o_currency) {
 		QString reg_exp_str = "[\\d\\+\\-\\^";
 		reg_exp_str += '\\';
 		reg_exp_str += budget->monetary_decimal_separator;
@@ -510,13 +516,13 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 		}
 	}
 	
-	if(!budget || !o_currency) {
+	if(!o_currency) {
 		QString reg_exp_str = "[^\\d\\+\\-";
 		reg_exp_str += '\\';
-		reg_exp_str += QLocale().decimalPoint();
+		reg_exp_str += budget->decimal_separator;
 		reg_exp_str += '\\';
-		reg_exp_str += QLocale().groupSeparator();
-		if(QLocale().decimalPoint() != '.' && QLocale().groupSeparator() != '.') {
+		reg_exp_str += budget->group_separator;
+		if(budget->decimal_separator != "." && budget->group_separator != ".") {
 			reg_exp_str += '\\';
 			reg_exp_str += '.';
 		}
@@ -525,22 +531,10 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 		if(i >= 0) {
 			errors << tr("Unrecognized characters in expression.");
 		}
-		input.replace('-', QLocale().negativeSign());
-		input.replace('+', QLocale().positiveSign());
-		double v = QLocale().toDouble(input);
-		if(v == 0.0 && QLocale().decimalPoint() != '.' && QLocale().groupSeparator() != '.') {
-			bool b1 = false, b2 = false;
-			for(int i = 0; i < input.size(); i++) {
-				if(!b1 && input[i] >= '1' && input[i] <= '9') b1 = true;
-				else if(!b2 && input[i] == '.') b2 = true;
-				if(b1 && b2) break;
-			}
-			if(b1 && b2) v = input.toDouble();
-		}
-		return v;
+		input.remove(budget->group_separator);
+		input.replace(budget->decimal_separator, ".");
+		return input.toDouble();
 	}
-	input.replace('-', QLocale().negativeSign());
-	input.replace('+', QLocale().positiveSign());
 	input.remove(budget->monetary_group_separator);
 	input.replace(budget->monetary_decimal_separator, ".");
 	return input.toDouble();

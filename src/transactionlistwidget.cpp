@@ -60,8 +60,7 @@ extern QString last_associated_file_directory;
 
 extern void setColumnTextWidth(QTreeWidget *w, int i, QString str);
 extern void setColumnDateWidth(QTreeWidget *w, int i);
-extern void setColumnMoneyWidth(QTreeWidget *w, int i, double v = 9999999.99);
-extern void setColumnValueWidth(QTreeWidget *w, int i, double v, int d = -1);
+void setColumnMoneyWidth(QTreeWidget *w, int i, Budget *budget, double v = 9999999.99, int d = -1);
 extern void setColumnStrlenWidth(QTreeWidget *w, int i, int l);
 
 extern QColor createExpenseColor(QTreeWidgetItem *i, int = 0);
@@ -146,7 +145,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	transactionsView->setColumnHidden(transactionsView->columnCount() - 1, true);
 	setColumnDateWidth(transactionsView, 0);
 	setColumnStrlenWidth(transactionsView, 1, 25);
-	setColumnMoneyWidth(transactionsView, 2);
+	setColumnMoneyWidth(transactionsView, 2, budget);
 	setColumnStrlenWidth(transactionsView, 3, 20);
 	setColumnStrlenWidth(transactionsView, 4, 20);
 	if(comments_col > 5) setColumnStrlenWidth(transactionsView, 5, 15);
@@ -278,12 +277,12 @@ void TransactionListWidget::updateStatistics() {
 		int i_count_frac = 0;
 		double intpart = 0.0;
 		if(modf(quantity, &intpart) != 0.0) i_count_frac = 2;
-		statLabel->setText(QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg(tr("Quantity:")).arg(transtype == TRANSACTION_TYPE_INCOME ? tr("Income") : tr("Cost:")).arg(tr("Average:")).arg(QLocale().toString(quantity, 'f', i_count_frac)).arg(budget->formatMoney(value)).arg(budget->formatMoney(quantity == 0.0 ? 0.0 : value / quantity)));
+		statLabel->setText(QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg(tr("Quantity:")).arg(transtype == TRANSACTION_TYPE_INCOME ? tr("Income") : tr("Cost:")).arg(tr("Average:")).arg(budget->formatValue(quantity, i_count_frac)).arg(budget->formatMoney(value)).arg(budget->formatMoney(quantity == 0.0 ? 0.0 : value / quantity)));
 	} else {
 		int i_count_frac = 0;
 		double intpart = 0.0;
 		if(modf(current_quantity, &intpart) != 0.0) i_count_frac = 2;
-		statLabel->setText(QString("<div align=\"right\"><b>%1</b> %5 &nbsp; <b>%2</b> %6 &nbsp; <b>%3</b> %7 &nbsp; <b>%4</b> %8</div>").arg(tr("Quantity:")).arg(tr("Total:")).arg(tr("Average:")).arg(tr("Monthly:")).arg(QLocale().toString(current_quantity, 'f', i_count_frac)).arg(budget->formatMoney(current_value)).arg(budget->formatMoney(current_quantity == 0.0 ? 0.0 : current_value / current_quantity)).arg(budget->formatMoney(current_value == 0.0 ? current_value : current_value / filterWidget->countMonths())));
+		statLabel->setText(QString("<div align=\"right\"><b>%1</b> %5 &nbsp; <b>%2</b> %6 &nbsp; <b>%3</b> %7 &nbsp; <b>%4</b> %8</div>").arg(tr("Quantity:")).arg(tr("Total:")).arg(tr("Average:")).arg(tr("Monthly:")).arg(budget->formatValue(current_quantity, i_count_frac)).arg(budget->formatMoney(current_value)).arg(budget->formatMoney(current_quantity == 0.0 ? 0.0 : current_value / current_quantity)).arg(budget->formatMoney(current_value == 0.0 ? current_value : current_value / filterWidget->countMonths())));
 	}
 }
 
@@ -391,7 +390,7 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 				int i_count_frac = 0;
 				double intpart = 0.0;
 				if(modf(trans->quantity(), &intpart) != 0.0) i_count_frac = 2;
-				if(comments_col == 6) outf << "<td>" << htmlize_string(QLocale().toString(trans->quantity(), 'f', i_count_frac)) << "</td>";
+				if(comments_col == 6) outf << "<td>" << htmlize_string(budget->formatValue(trans->quantity(), i_count_frac)) << "</td>";
 				outf << "<td>" << htmlize_string(i->text(5)) << "</td>";
 				if(comments_col == 6) outf << "<td>" << htmlize_string(i->text(6)) << "</td>";
 				outf << "\n";
@@ -405,7 +404,7 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			int i_count_frac = 0;
 			double intpart = 0.0;
 			if(modf(current_quantity, &intpart) != 0.0) i_count_frac = 2;
-			outf << htmlize_string(tr("Quantity:")) << " " << htmlize_string(QLocale().toString(current_quantity, 'f', i_count_frac));
+			outf << htmlize_string(tr("Quantity:")) << " " << htmlize_string(budget->formatValue(current_quantity, i_count_frac));
 			outf << ", ";
 			switch(transtype) {
 				case TRANSACTION_TYPE_EXPENSE: {
@@ -445,11 +444,11 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 				if(i->transaction()) {
 					Transaction *trans = i->transaction();
 					outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << trans->valueString().replace("−","-").remove(" ") << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->toAccount()->nameWithParent() : trans->fromAccount()->nameWithParent()) << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->fromAccount()->nameWithParent() : trans->toAccount()->nameWithParent());
-					if(comments_col == 6) outf << "\",\"" << QLocale().toString(trans->quantity(), 'f', 2).replace("−","-").remove(" ");
+					if(comments_col == 6) outf << "\",\"" << budget->formatValue(trans->quantity(), 2).replace("−","-").remove(" ");
 				} else {
 					MultiAccountTransaction *trans = i->splitTransaction();
 					outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << trans->valueString().replace("−","-").remove(" ") << "\",\"" << trans->account()->nameWithParent() << "\",\"" << trans->accountsString();
-					if(comments_col == 6) outf << "\",\"" << QLocale().toString(trans->quantity(), 'f', 2).replace("−","-").remove(" ");
+					if(comments_col == 6) outf << "\",\"" << budget->formatValue(trans->quantity(), 2).replace("−","-").remove(" ");
 				}
 				outf << "\",\"" << i->text(5);
 				if(comments_col == 6) outf << "\",\"" << i->text(6);

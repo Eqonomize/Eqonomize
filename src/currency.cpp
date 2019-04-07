@@ -246,10 +246,12 @@ QString Currency::formatValue(double value, int nr_of_decimals, bool show_curren
 	bool neg = false;
 	if(value == 0.0) {
 		s = "0";
-		s += o_budget->monetary_decimal_separator;
-		while(nr_of_decimals > 0) {
-			s += '0';
-			nr_of_decimals--;
+		if(nr_of_decimals > 0) {
+			s += o_budget->monetary_decimal_separator;
+			while(nr_of_decimals > 0) {
+				s += '0';
+				nr_of_decimals--;
+			}
 		}
 	} else {
 		if(value < 0) {
@@ -276,7 +278,10 @@ QString Currency::formatValue(double value, int nr_of_decimals, bool show_curren
 				}
 			}
 		}
-		if(s.length() > nr_of_decimals) s.insert(s.length() - nr_of_decimals, o_budget->monetary_decimal_separator);
+		if(nr_of_decimals > 0) {
+			while(s.length() <= nr_of_decimals) s.insert(0, '0');
+			s.insert(s.length() - nr_of_decimals, o_budget->monetary_decimal_separator);
+		}
 	}
 	bool use_symbol = show_currency && (this == o_budget->defaultCurrency()) && !s_symbol.isEmpty();
 	bool prefix = (use_symbol && ((b_precedes < 0 && o_budget->currency_symbol_precedes) || b_precedes > 0)) || (show_currency && !use_symbol && o_budget->currency_code_precedes);
@@ -284,6 +289,8 @@ QString Currency::formatValue(double value, int nr_of_decimals, bool show_curren
 	int sign_place = 1;
 	if(conventional_sign_placement || !show_currency) {
 		sign_place = -1;
+	} else if(always_show_sign) {
+		sign_place = 1;
 	} else if(use_symbol && neg) {
 		sign_place = o_budget->monetary_sign_p_symbol_neg;
 	} else if(use_symbol && !neg) {
@@ -299,10 +306,10 @@ QString Currency::formatValue(double value, int nr_of_decimals, bool show_curren
 	if(always_show_sign && value == 0.0) {
 		sgn = "±";
 	} else if(neg) {
-		if(!o_budget->monetary_negative_sign.isEmpty()) sgn = o_budget->monetary_negative_sign;
+		if(!always_show_sign && !o_budget->monetary_negative_sign.isEmpty()) sgn = o_budget->monetary_negative_sign;
 		else sgn = QLocale().negativeSign();
 	} else {
-		if(!o_budget->monetary_positive_sign.isEmpty()) sgn = o_budget->monetary_positive_sign;
+		if(!always_show_sign && !o_budget->monetary_positive_sign.isEmpty()) sgn = o_budget->monetary_positive_sign;
 		else if(always_show_sign) sgn = QLocale().positiveSign();
 	}
 	
