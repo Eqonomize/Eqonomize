@@ -232,6 +232,8 @@ Budget::Budget() {
 #ifdef Q_OS_ANDROID
 	currency_symbol_precedes = true;
 	currency_code_precedes = true;
+	currency_symbol_precedes_neg = true;
+	currency_code_precedes_neg = true;
 	currency_symbol_space = false;
 	currency_code_space = true;
 	currency_symbol_space_neg = false;
@@ -242,18 +244,21 @@ Budget::Budget() {
 	monetary_sign_p_code_pos = 1;
 #else
 	currency_symbol_precedes = lc->p_cs_precedes;
+	currency_symbol_precedes_neg = lc->n_cs_precedes;
 	currency_symbol_space = (lc->p_sep_by_space == 1);
 	currency_symbol_space_neg = (lc->n_sep_by_space == 1);
 	monetary_sign_p_symbol_neg = (int) lc->n_sign_posn;
 	monetary_sign_p_symbol_pos = (int) lc->p_sign_posn;
 #	ifdef _WIN32
 	currency_code_precedes = currency_symbol_precedes;
+	currency_code_precedes_neg = currency_symbol_precedes;
 	currency_code_space = true;
 	currency_code_space_neg = true;
 	monetary_sign_p_code_neg = monetary_sign_p_symbol_neg;
 	monetary_sign_p_code_pos = monetary_sign_p_symbol_pos;
 #	else
 	currency_code_precedes = lc->int_p_cs_precedes;
+	currency_code_precedes_neg = lc->int_n_cs_precedes;
 	currency_code_space = (lc->int_p_sep_by_space == 1);
 	currency_code_space_neg = (lc->int_n_sep_by_space == 1);
 	monetary_sign_p_code_neg = (int) lc->int_n_sign_posn;
@@ -330,20 +335,15 @@ QString Budget::formatValue(double value, int nr_of_decimals, bool always_show_s
 			nr_of_decimals--;
 		}
 	} else {
-		if(value < 0) {
-			neg = true;
-			value = -value;
-		}
-		double p = pow(10, nr_of_decimals);
-		value *= p;
-		value = round(value);
-		s = QString::number(value, 'f', 0);
+		neg = value < 0;
+		s = QString::number(neg ? -value : value, 'f', nr_of_decimals);
+		int i = s.indexOf('.');
+		if(decimal_separator != ".") s.replace(i, 1, decimal_separator);
 		if(!group_separator.isEmpty() && !group_format.isEmpty()) {
 			int group_size = 3, i_format = 0;
 			if(group_format.length() > i_format) {
 				group_size = group_format[i_format];
 			}
-			int i = s.length() - nr_of_decimals;
 			while(i > group_size) {
 				i -= group_size;
 				s.insert(i, group_separator);
@@ -354,22 +354,16 @@ QString Budget::formatValue(double value, int nr_of_decimals, bool always_show_s
 				}
 			}
 		}
-		if(nr_of_decimals > 0) {
-			while(s.length() <= nr_of_decimals) s.insert(0, '0');
-			s.insert(s.length() - nr_of_decimals, decimal_separator);
-		}
 	}
-	QString sgn;
 	if(always_show_sign && value == 0.0) {
-		sgn = "±";
+		s.insert(0, "±");
 	} else if(neg) {
-		if(!negative_sign.isEmpty()) sgn = negative_sign;
-		else sgn = QLocale().negativeSign();
+		if(!negative_sign.isEmpty()) s.insert(0, negative_sign);
+		else s.insert(0, QLocale().negativeSign());
 	} else {
-		if(!positive_sign.isEmpty()) sgn = positive_sign;
-		else if(always_show_sign) sgn = QLocale().positiveSign();
+		if(!positive_sign.isEmpty()) s.insert(0, positive_sign);
+		else if(always_show_sign) s.insert(0, QLocale().positiveSign());
 	}
-	s.insert(0, sgn);
 	return s;
 }
 QString Budget::formatValue(int value, int nr_of_decimals, bool always_show_sign) {
@@ -385,11 +379,8 @@ QString Budget::formatValue(int value, int nr_of_decimals, bool always_show_sign
 			}
 		}
 	} else {
-		if(value < 0) {
-			neg = true;
-			value = -value;
-		}
-		s = QString::number(value);
+		neg = value < 0;
+		s = QString::number(neg ? -value : value);
 		if(!group_separator.isEmpty() && !group_format.isEmpty()) {
 			int group_size = 3, i_format = 0;
 			if(group_format.length() > i_format) {

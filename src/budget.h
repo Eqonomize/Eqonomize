@@ -154,7 +154,7 @@ class Budget {
 		
 		QString monetary_decimal_separator, monetary_group_separator, monetary_positive_sign, monetary_negative_sign;
 		QByteArray monetary_group_format;
-		bool currency_symbol_precedes, currency_code_precedes, currency_symbol_space, currency_code_space, currency_symbol_space_neg, currency_code_space_neg;
+		bool currency_symbol_precedes, currency_symbol_precedes_neg, currency_code_precedes, currency_code_precedes_neg, currency_symbol_space, currency_code_space, currency_symbol_space_neg, currency_code_space_neg;
 		int monetary_sign_p_symbol_neg, monetary_sign_p_symbol_pos, monetary_sign_p_code_neg, monetary_sign_p_code_pos, monetary_decimal_places;
 		QString decimal_separator, group_separator, positive_sign, negative_sign;
 		QByteArray group_format;

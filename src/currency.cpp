@@ -254,20 +254,13 @@ QString Currency::formatValue(double value, int nr_of_decimals, bool show_curren
 			}
 		}
 	} else {
-		if(value < 0) {
-			neg = true;
-			value = -value;
-		}
-		double p = pow(10, nr_of_decimals);
-		value *= p;
-		value = round(value);
-		s = QString::number(value, 'f', 0);
+		neg = value < 0;
+		s = QString::number(neg ? -value : value, 'f', nr_of_decimals);
+		int i = s.indexOf('.');
+		if(o_budget->monetary_decimal_separator != ".") s.replace(i, 1, o_budget->monetary_decimal_separator);
 		if(!o_budget->monetary_group_separator.isEmpty() && !o_budget->monetary_group_format.isEmpty()) {
 			int group_size = 3, i_format = 0;
-			if(o_budget->monetary_group_format.length() > i_format) {
-				group_size = o_budget->monetary_group_format[i_format];
-			}
-			int i = s.length() - nr_of_decimals;
+			group_size = o_budget->monetary_group_format[i_format];
 			while(i > group_size) {
 				i -= group_size;
 				s.insert(i, o_budget->monetary_group_separator);
@@ -278,13 +271,9 @@ QString Currency::formatValue(double value, int nr_of_decimals, bool show_curren
 				}
 			}
 		}
-		if(nr_of_decimals > 0) {
-			while(s.length() <= nr_of_decimals) s.insert(0, '0');
-			s.insert(s.length() - nr_of_decimals, o_budget->monetary_decimal_separator);
-		}
 	}
 	bool use_symbol = show_currency && (this == o_budget->defaultCurrency()) && !s_symbol.isEmpty();
-	bool prefix = (use_symbol && ((b_precedes < 0 && o_budget->currency_symbol_precedes) || b_precedes > 0)) || (show_currency && !use_symbol && o_budget->currency_code_precedes);
+	bool prefix = (use_symbol && ((b_precedes < 0 && ((neg && !conventional_sign_placement && o_budget->currency_symbol_precedes_neg) || ((!neg || conventional_sign_placement) && o_budget->currency_symbol_precedes))) || b_precedes > 0)) || (show_currency && !use_symbol && ((neg && !conventional_sign_placement && o_budget->currency_code_precedes_neg) || ((!neg || conventional_sign_placement) && o_budget->currency_code_precedes)));
 	bool use_space = show_currency && ((use_symbol && useSymbolSpace(neg)) || (!use_symbol && useCodeSpace(neg)));
 	int sign_place = 1;
 	if(conventional_sign_placement || !show_currency) {
@@ -392,7 +381,7 @@ bool Currency::codePrecedes() const {
 	return o_budget->currency_code_precedes;
 }
 bool Currency::useSymbolSpace(bool neg) const {
-	if(b_precedes < 0 || b_precedes == o_budget->currency_symbol_precedes) {
+	if(b_precedes < 0 || ((b_precedes > 0) == o_budget->currency_symbol_precedes)) {
 		if(neg) return o_budget->currency_symbol_space_neg;
 		else return o_budget->currency_symbol_space;
 	}
