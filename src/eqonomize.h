@@ -141,6 +141,8 @@ class Eqonomize : public QMainWindow {
 		void addTransactionValue(Transaction *trans, const QDate &transdate, bool update_value_display, bool subtract = false, int n = -1, int b_future = -1, const QDate *monthdate = NULL);
 		void appendIncomesAccount(IncomesAccount *account, QTreeWidgetItem *parent_item);
 		void appendExpensesAccount(ExpensesAccount *account, QTreeWidgetItem *parent_item);
+		void assetsAccountItemHiddenOrRemoved(AssetsAccount *account);
+		void assetsAccountItemShownOrAdded(AssetsAccount *account);
 		void appendAssetsAccount(AssetsAccount *account);
 		void appendLoanAccount(LoanAccount *account);
 		void updateMonthlyBudget(Account *account);
@@ -276,6 +278,8 @@ class Eqonomize : public QMainWindow {
 		double expenses_budget, expenses_budget_diff, incomes_budget, incomes_budget_diff;
 		QMap<Account*, double> account_value;
 		QMap<Account*, double> account_change;
+		QMap<int, double> account_type_value;
+		QMap<int, double> account_type_change;
 		QMap<Account*, QMap<QDate, double> > account_month;
 		QMap<Account*, double> account_month_begincur;
 		QMap<Account*, double> account_month_beginfirst;
@@ -285,7 +289,9 @@ class Eqonomize : public QMainWindow {
 		QMap<Account*, double> account_future_diff;
 		QMap<Account*, double> account_future_diff_change;
 		QMap<QTreeWidgetItem*, Account*> account_items;
+		QMap<QTreeWidgetItem*, int> account_type_items;
 		QMap<Account*, QTreeWidgetItem*> item_accounts;
+		QMap<int, QTreeWidgetItem*> item_account_types;
 
 		QMenu *assetsPopupMenu, *accountPopupMenu, *securitiesPopupMenu, *schedulePopupMenu;
 		
