@@ -62,7 +62,7 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 		typeCombo = new QComboBox(this);
 		typeCombo->setEditable(false);
 		typeCombo->addItem(tr("Cash"));
-		typeCombo->addItem(tr("Transactional Account"));
+		typeCombo->addItem(tr("Transaction Account"));
 		typeCombo->addItem(tr("Savings Account"));
 		typeCombo->addItem(tr("Credit Card"));
 		typeCombo->addItem(tr("Debt"));
@@ -188,7 +188,8 @@ void EditAssetsAccountDialog::transferToggled(bool b) {
 }
 void EditAssetsAccountDialog::closedToggled(bool b) {
 	if(b) budgetButton->setChecked(false);
-	budgetButton->setEnabled(!b);
+	int index = typeCombo->currentIndex();
+	budgetButton->setEnabled(!b && index != 5 && index != 4 && index != 3);
 }
 void EditAssetsAccountDialog::currencyActivated(int index) {
 	Currency *cur = NULL;

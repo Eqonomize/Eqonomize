@@ -148,6 +148,7 @@ class Eqonomize : public QMainWindow {
 		void updateMonthlyBudget(Account *account);
 		void updateTotalMonthlyExpensesBudget();
 		void updateTotalMonthlyIncomesBudget();
+		void updateBudgetAccountTitle(AssetsAccount *account = NULL);
 		bool editAccount(Account*);
 		bool editAccount(Account*, QWidget *parent);
 		void balanceAccount(Account*);
@@ -292,6 +293,7 @@ class Eqonomize : public QMainWindow {
 		QMap<QTreeWidgetItem*, int> account_type_items;
 		QMap<Account*, QTreeWidgetItem*> item_accounts;
 		QMap<int, QTreeWidgetItem*> item_account_types;
+		QList<QVariant> account_type_expanded;
 
 		QMenu *assetsPopupMenu, *accountPopupMenu, *securitiesPopupMenu, *schedulePopupMenu;
 		
@@ -452,6 +454,8 @@ class Eqonomize : public QMainWindow {
 		void newExpensesAccount(ExpensesAccount *default_parent = NULL);
 		void accountExecuted(QTreeWidgetItem*, int);
 		void accountExecuted(QTreeWidgetItem*);
+		void accountExpanded(QTreeWidgetItem*);
+		void accountCollapsed(QTreeWidgetItem*);
 		void accountMoved(QTreeWidgetItem*, QTreeWidgetItem*);
 		void balanceAccount();
 		void editAccount();

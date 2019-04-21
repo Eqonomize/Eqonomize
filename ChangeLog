@@ -1,3 +1,7 @@
+2019-04-21  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Group assets and liabilities with the same type in accounts view
+
 2019-04-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Use localeconv() for number format
