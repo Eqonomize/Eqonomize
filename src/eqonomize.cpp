@@ -3791,8 +3791,8 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent) {
 		if((!rec || rec->firstOccurrence() == rec->lastOccurrence()) && trans->date() <= QDate::currentDate()) {
 			transactionModified(trans, oldtrans);
 		} else {
+			transactionRemoved(trans, oldtrans);
 			budget->removeTransaction(trans, true);
-			transactionRemoved(trans);
 			ScheduledTransaction *strans = new ScheduledTransaction(budget, trans, rec);
 			QSettings settings;
 			settings.beginGroup("GeneralOptions");
@@ -7479,11 +7479,12 @@ void Eqonomize::transactionModified(Transactions *transs, Transactions *oldtrans
 	incomesWidget->onTransactionModified(transs, oldtranss);
 	transfersWidget->onTransactionModified(transs, oldtranss);
 }
-void Eqonomize::transactionRemoved(Transactions *transs) {
+void Eqonomize::transactionRemoved(Transactions *transs, Transactions *oldvalue) {
+	if(!oldvalue) oldvalue = transs;
 	setModified(true);
-	switch(transs->generaltype()) {
+	switch(oldvalue->generaltype()) {
 		case GENERAL_TRANSACTION_TYPE_SINGLE: {
-			Transaction *trans = (Transaction*) transs;
+			Transaction *trans = (Transaction*) oldvalue;
 			subtractTransactionValue(trans, true);
 			if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) {
 				updateSecurity(((SecurityTransaction*) trans)->security());
@@ -7493,7 +7494,7 @@ void Eqonomize::transactionRemoved(Transactions *transs) {
 			break;
 		}
 		case GENERAL_TRANSACTION_TYPE_SPLIT: {
-			SplitTransaction *split = (SplitTransaction*) transs;
+			SplitTransaction *split = (SplitTransaction*) oldvalue;
 			int c = split->count();
 			for(int i = 0; i < c; i++) {
 				Transaction *trans = split->at(i);
@@ -7510,7 +7511,7 @@ void Eqonomize::transactionRemoved(Transactions *transs) {
 			break;
 		}
 		case GENERAL_TRANSACTION_TYPE_SCHEDULE: {
-			ScheduledTransaction *strans = (ScheduledTransaction*) transs;
+			ScheduledTransaction *strans = (ScheduledTransaction*) oldvalue;
 			QTreeWidgetItemIterator it(scheduleView);
 			ScheduleListViewItem *i = (ScheduleListViewItem*) *it;
 			while(i) {

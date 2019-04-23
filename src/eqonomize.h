@@ -492,7 +492,7 @@ class Eqonomize : public QMainWindow {
 		
 		void transactionAdded(Transactions*);
 		void transactionModified(Transactions*, Transactions*);
-		void transactionRemoved(Transactions*);
+		void transactionRemoved(Transactions*, Transactions* = NULL);
 
 		void filterAccounts();
 

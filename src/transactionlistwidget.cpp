@@ -1342,7 +1342,7 @@ void TransactionListWidget::onTransactionSplitUp(SplitTransaction *split) {
 		QTreeWidgetItemIterator it(transactionsView);
 		TransactionListViewItem *i = (TransactionListViewItem*) *it;
 		while(i) {
-			if(i->transaction()->parentSplit() == split) {
+			if(i->transaction() && i->transaction()->parentSplit() == split) {
 				i->setText(1, i->transaction()->description());
 			}
 			++it;
