@@ -6249,7 +6249,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.3.3</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2019 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.3.4</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2019 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);
@@ -6951,6 +6951,7 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 			dialog->setAccount(account);
 			double prev_ib = account->initialBalance();
 			bool prev_debt = (i->parent() == liabilitiesItem);
+			AssetsType prev_type = account->accountType();
 			Account *previous_budget_account = budget->budgetAccount;
 			Currency *cur = account->currency();
 			budget->resetDefaultCurrencyChanged();
@@ -6977,22 +6978,30 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 						liabilitiesItem->removeChild(i);
 						assetsItem->addChild(i);
 					}
-					if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
-					else filterAccounts();
-				} else if(budget->currenciesModified() || budget->defaultCurrencyChanged()) {
+				}
+				if(prev_type != account->accountType()) {
+					AssetsType type_copy = account->accountType();
+					account->setAccountType(prev_type);
+					assetsAccountItemHiddenOrRemoved(account);
+					account->setAccountType(type_copy);
+					assetsAccountItemShownOrAdded(account);
+				}
+				if(budget->currenciesModified() || budget->defaultCurrencyChanged()) {
 					currenciesModified();
-				} else if(previous_budget_account != budget->budgetAccount || currency_changed) {
+				} else if(previous_budget_account != budget->budgetAccount || currency_changed || prev_type != account->accountType() || is_debt != prev_debt) {
 					filterAccounts();
 				} else if(is_debt) {
 					account_type_value[account->accountType()] += account->currency()->convertTo(account->initialBalance() - prev_ib, budget->defaultCurrency(), to_date);
 					liabilities_accounts_value += account->currency()->convertTo(account->initialBalance() - prev_ib, budget->defaultCurrency(), to_date);
 					i->setText(VALUE_COLUMN, account->currency()->formatValue(-account_value[account]) + " ");
 					liabilitiesItem->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_accounts_value) + " ");
+					if(item_account_types.contains(account->accountType())) item_account_types[account->accountType()]->setText(VALUE_COLUMN, budget->formatMoney(-account_type_value[account->accountType()]) + " ");
 				} else {
 					account_type_value[account->accountType()] += account->currency()->convertTo(account->initialBalance() - prev_ib, budget->defaultCurrency(), to_date);
 					assets_accounts_value += account->currency()->convertTo(account->initialBalance() - prev_ib, budget->defaultCurrency(), to_date);
 					i->setText(VALUE_COLUMN, account->currency()->formatValue(account_value[account]) + " ");
 					assetsItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
+					if(item_account_types.contains(account->accountType())) item_account_types[account->accountType()]->setText(VALUE_COLUMN, budget->formatMoney(account_type_value[account->accountType()]) + " ");
 				}
 				bool b_hide = account->isClosed() && is_zero(account_value[account]) && is_zero(account_change[account]); 
 				if(b_hide != i->isHidden()) {
@@ -7955,7 +7964,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					
 					if(from_is_debt) liabilitiesItem->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_accounts_value) + " ");
 					else assetsItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
-					if(item_account_types.contains(i_type)) item_account_types[i_type]->setText(VALUE_COLUMN, budget->formatMoney(from_is_debt ? -account_type_value[i_type] : -account_type_value[i_type]));
+					if(item_account_types.contains(i_type)) item_account_types[i_type]->setText(VALUE_COLUMN, budget->formatMoney(from_is_debt ? -account_type_value[i_type] : account_type_value[i_type]));
 				}
 			}
 			break;
@@ -8132,7 +8141,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 				if(update_value_display) {
 					if(to_is_debt) liabilitiesItem->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_accounts_value) + " ");
 					else assetsItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
-					if(item_account_types.contains(i_type)) item_account_types[i_type]->setText(VALUE_COLUMN, budget->formatMoney(from_is_debt ? -account_type_value[i_type] : -account_type_value[i_type]));
+					if(item_account_types.contains(i_type)) item_account_types[i_type]->setText(VALUE_COLUMN, budget->formatMoney(from_is_debt ? -account_type_value[i_type] : account_type_value[i_type]));
 				}
 			}
 			break;
