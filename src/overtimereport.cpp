@@ -749,7 +749,7 @@ void OverTimeReport::updateDisplay() {
 						QVector<month_info>::iterator it_b = monthly_values.begin();
 						QVector<month_info>::iterator it_e = monthly_values.end();
 						while(it_b != it_e) {
-							it_b->value += sec->value(it_b->date);
+							it_b->value += sec->value(it_b->date, -1);
 							it_b++;
 						}
 					}
@@ -776,7 +776,7 @@ void OverTimeReport::updateDisplay() {
 				it_b = monthly_values.begin();
 				it_e = monthly_values.end();
 				while(it_b != it_e) {
-					it_b->value += sec->currency()->convertTo(sec->value(it_b->date), budget->defaultCurrency(), it_b->date);
+					it_b->value += sec->currency()->convertTo(sec->value(it_b->date, -1), budget->defaultCurrency(), it_b->date);
 					it_b++;
 				}
 			}

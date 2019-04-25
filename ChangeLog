@@ -1,3 +1,9 @@
+2019-04-25  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Do not show guesstimate for future security values in accounts view
+	  (but use estimate for values between quotes)
+	* Fix calculation of quote between recorded security quotes
+
 2019-04-23  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix updating of account values when a transaction has been edited

@@ -843,7 +843,7 @@ void CategoriesComparisonChart::updateDisplay() {
 	if(type == ACCOUNT_TYPE_ASSETS) {
 		for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
 			Security *security = *it;
-			double val = security->value(to_date, true);
+			double val = security->value(to_date, -1);
 			values[security->account()] += val;
 		}
 	}

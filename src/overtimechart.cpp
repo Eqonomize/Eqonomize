@@ -2469,8 +2469,8 @@ void OverTimeChart::updateDisplay() {
 				QVector<chart_month_info>::iterator it_b = monthly_cats[ass].begin();
 				QVector<chart_month_info>::iterator it_e = monthly_cats[ass].end();
 				while(it_b != it_e) {
-					if(current_assets) it_b->value += sec->value(it_b->date);
-					else it_b->value += ass->currency()->convertTo(sec->value(it_b->date), budget->defaultCurrency(), it_b->date);
+					if(current_assets) it_b->value += sec->value(it_b->date, -1);
+					else it_b->value += ass->currency()->convertTo(sec->value(it_b->date, -1), budget->defaultCurrency(), it_b->date);
 					it_b++;
 				}
 			}

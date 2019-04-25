@@ -158,7 +158,8 @@ class Security {
 		double shares();
 		double shares(const QDate &date, bool estimate = false, bool no_scheduled_shares = false);
 		double value();
-		double value(const QDate &date, bool estimate = false, bool no_scheduled_shares = false);
+		// estime > 0: estimate future value; estimate < 0: estimate value between quotations
+		double value(const QDate &date, int estimate = 0, bool no_scheduled_shares = false);
 		double cost(Currency *cur = NULL);
 		double cost(const QDate &date, bool no_scheduled_shares = false, Currency *cur = NULL);
 		double profit(Currency *cur = NULL);

@@ -330,9 +330,10 @@ double Security::shares(const QDate &date, bool estimate, bool no_scheduled_shar
 double Security::value() {
 	return shares() * getQuotation(QDate::currentDate());
 }
-double Security::value(const QDate &date, bool estimate, bool no_scheduled_shares) {
-	if(estimate && date > QDate::currentDate()) return shares(date, estimate, no_scheduled_shares) * expectedQuotation(date);
-	return shares(date, estimate, no_scheduled_shares) * getQuotation(date);
+double Security::value(const QDate &date, int estimate, bool no_scheduled_shares) {
+	if(estimate > 0 && date > QDate::currentDate()) return shares(date, true, no_scheduled_shares) * expectedQuotation(date);
+	else if(estimate < 0 && quotations.count() >= 2 && quotations.firstKey() < date && quotations.lastKey() > date) return shares(date, false, no_scheduled_shares) * expectedQuotation(date);
+	return shares(date, false, no_scheduled_shares) * getQuotation(date);
 }
 double Security::cost(const QDate &date, bool no_scheduled_shares, Currency *cur) {
 	if(!cur) cur = currency();
@@ -671,7 +672,7 @@ double Security::expectedQuotation(const QDate &date) {
 		if(it.key() < date) {
 			it_begin = it;
 			++it;
-			int days = it_begin.key().daysTo(date), days2 = it_begin.key().daysTo(it.key());
+			double days = it_begin.key().daysTo(date), days2 = it_begin.key().daysTo(it.key());
 			if(it.value() == it_begin.value()) return it.value();
 			double rate = it.value() / it_begin.value();
 			return it_begin.value() * pow(rate, days / days2);

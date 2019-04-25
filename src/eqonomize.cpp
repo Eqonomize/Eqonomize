@@ -2901,7 +2901,7 @@ void Eqonomize::popupSecuritiesMenu(const QPoint &p) {
 }
 void Eqonomize::appendSecurity(Security *security) {
 	double value = 0.0, cost = 0.0, rate = 0.0, profit = 0.0, quotation = 0.0, shares = 0.0;
-	value = security->value(securities_to_date, true);
+	value = security->value(securities_to_date, 1);
 	cost = security->cost(securities_to_date);
 	if(securities_to_date > QDate::currentDate()) quotation = security->expectedQuotation(securities_to_date);
 	else quotation = security->getQuotation(securities_to_date);
@@ -2981,7 +2981,7 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i_pre) {
 	if(total_cost != 0.0) total_rate /= total_value;
 	total_profit -= ((SecurityListViewItem*) i)->sprofit;
 	double value = 0.0, cost = 0.0, rate = 0.0, profit = 0.0, quotation = 0.0, shares = 0.0;
-	value = security->value(securities_to_date, true);
+	value = security->value(securities_to_date, 1);
 	cost = security->cost(securities_to_date);
 	if(securities_to_date > QDate::currentDate()) quotation = security->expectedQuotation(securities_to_date);
 	else quotation = security->getQuotation(securities_to_date);
@@ -6706,7 +6706,7 @@ void Eqonomize::newAssetsAccount() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
 	int i_type = -1;
 	if(i && account_type_items.contains(i)) i_type = account_type_items[i];
-	else if(i && account_items.contains(i) && account_items[i]->type() == ACCOUNT_TYPE_ASSETS) i_type = ((AssetsAccount*) account_items[i])->accountType();
+	else if(i && account_items.contains(i) && account_items[i]->type() == ACCOUNT_TYPE_ASSETS && item_account_types.contains(((AssetsAccount*) account_items[i])->accountType())) i_type = ((AssetsAccount*) account_items[i])->accountType();
 	EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, this, tr("New Account"), false, i_type, false);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
@@ -7907,8 +7907,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					assetsItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
 					assetsItem->setText(CHANGE_COLUMN, budget->formatMoney(assets_accounts_change));
 					int i_type = ((AssetsAccount*) trans->fromAccount())->accountType();
-					bool b_type = item_account_types.contains(i_type);
-					if(b_type) {
+					if(item_account_types.contains(i_type)) {
 						item_account_types[i_type]->setText(VALUE_COLUMN, budget->formatMoney(account_type_value[i_type]));
 						item_account_types[i_type]->setText(CHANGE_COLUMN, budget->formatMoney(account_type_change[i_type]));
 						setAccountChangeColor(item_account_types[i_type], account_type_change[i_type], true);
@@ -7936,19 +7935,11 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 						if(from_is_debt) {
 							liabilitiesItem->setText(CHANGE_COLUMN, budget->formatMoney(-liabilities_accounts_change));
 							setAccountChangeColor(liabilitiesItem, -liabilities_accounts_change, true);
-							if(item_account_types.contains(i_type)) {
-								item_account_types[i_type]->setText(CHANGE_COLUMN, budget->formatMoney(-account_type_change[i_type]));
-								setAccountChangeColor(item_account_types[i_type], -account_type_change[i_type], true);
-							}
 							item_accounts[trans->fromAccount()]->setText(CHANGE_COLUMN, trans->fromAccount()->currency()->formatValue(-account_change[trans->fromAccount()]));
 							setAccountChangeColor(item_accounts[trans->fromAccount()], -account_change[trans->fromAccount()], true);
 						} else {
 							assetsItem->setText(CHANGE_COLUMN, budget->formatMoney(assets_accounts_change));
 							setAccountChangeColor(assetsItem, assets_accounts_change, false);
-							if(item_account_types.contains(i_type)) {
-								item_account_types[i_type]->setText(CHANGE_COLUMN, budget->formatMoney(account_type_change[i_type]));
-								setAccountChangeColor(item_account_types[i_type], account_type_change[i_type], true);
-							}
 							item_accounts[trans->fromAccount()]->setText(CHANGE_COLUMN, trans->fromAccount()->currency()->formatValue(account_change[trans->fromAccount()]));
 							setAccountChangeColor(item_accounts[trans->fromAccount()], account_change[trans->fromAccount()], false);
 						}
@@ -7957,6 +7948,10 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 							item_accounts[trans->fromAccount()]->setHidden(b_hide);
 							if(b_hide) assetsAccountItemHiddenOrRemoved((AssetsAccount*) trans->fromAccount());
 							else assetsAccountItemShownOrAdded((AssetsAccount*) trans->fromAccount());
+						}
+						if(item_account_types.contains(i_type)) {
+							item_account_types[i_type]->setText(CHANGE_COLUMN, budget->formatMoney(from_is_debt ? -account_type_change[i_type] : account_type_change[i_type]));
+							setAccountChangeColor(item_account_types[i_type], from_is_debt ? -account_type_change[i_type] : account_type_change[i_type], true);
 						}
 					}
 				}
@@ -8086,8 +8081,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					assetsItem->setText(CHANGE_COLUMN, budget->formatMoney(assets_accounts_change));
 					setAccountChangeColor(assetsItem, assets_accounts_change, false);
 					int i_type = ((AssetsAccount*) trans->toAccount())->accountType();
-					bool b_type = item_account_types.contains(i_type);
-					if(b_type) {
+					if(item_account_types.contains(i_type)) {
 						item_account_types[i_type]->setText(VALUE_COLUMN, budget->formatMoney(account_type_value[i_type]));
 						item_account_types[i_type]->setText(CHANGE_COLUMN, budget->formatMoney(account_type_change[i_type]));
 						setAccountChangeColor(item_account_types[i_type], account_type_change[i_type], true);
@@ -8114,19 +8108,11 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 						if(to_is_debt) {
 							liabilitiesItem->setText(CHANGE_COLUMN, budget->formatMoney(-liabilities_accounts_change));
 							setAccountChangeColor(liabilitiesItem, -liabilities_accounts_change, true);
-							if(item_account_types.contains(i_type)) {
-								item_account_types[i_type]->setText(CHANGE_COLUMN, budget->formatMoney(-account_type_change[i_type]));
-								setAccountChangeColor(item_account_types[i_type], -account_type_change[i_type], true);
-							}
 							item_accounts[trans->toAccount()]->setText(CHANGE_COLUMN, trans->toAccount()->currency()->formatValue(-account_change[trans->toAccount()]));
 							setAccountChangeColor(item_accounts[trans->toAccount()], -account_change[trans->toAccount()], true);
 						} else {
 							assetsItem->setText(CHANGE_COLUMN, budget->formatMoney(assets_accounts_change));
 							setAccountChangeColor(assetsItem, assets_accounts_change, false);
-							if(item_account_types.contains(i_type)) {
-								item_account_types[i_type]->setText(CHANGE_COLUMN, budget->formatMoney(account_type_change[i_type]));
-								setAccountChangeColor(item_account_types[i_type], account_type_change[i_type], true);
-							}
 							item_accounts[trans->toAccount()]->setText(CHANGE_COLUMN, trans->toAccount()->currency()->formatValue(account_change[trans->toAccount()]));
 							setAccountChangeColor(item_accounts[trans->toAccount()], account_change[trans->toAccount()], false);
 						}
@@ -8135,6 +8121,10 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 							item_accounts[trans->toAccount()]->setHidden(b_hide);
 							if(b_hide) assetsAccountItemHiddenOrRemoved((AssetsAccount*) trans->toAccount());
 							else assetsAccountItemShownOrAdded((AssetsAccount*) trans->toAccount());
+						}
+						if(item_account_types.contains(i_type)) {
+							item_account_types[i_type]->setText(CHANGE_COLUMN, budget->formatMoney(to_is_debt ? -account_type_change[i_type] : account_type_change[i_type]));
+							setAccountChangeColor(item_account_types[i_type], to_is_debt ? -account_type_change[i_type] : account_type_change[i_type], true);
 						}
 					}
 				}
@@ -8725,8 +8715,8 @@ void Eqonomize::updateSecurityAccount(AssetsAccount *account, bool update_displa
 	for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
 		Security *security = *it;
 		if(security->account() == account) {
-			value += security->value(to_date, true);
-			if(b_from) value_from += security->value(from_date, true);
+			value += security->value(to_date, -1);
+			if(b_from) value_from += security->value(from_date, -1);
 		}
 	}
 	if(!b_from) {
@@ -8736,10 +8726,10 @@ void Eqonomize::updateSecurityAccount(AssetsAccount *account, bool update_displa
 	assets_accounts_value += account->currency()->convertTo(value, budget->defaultCurrency(), to_date);
 	assets_accounts_change -= account->currency()->convertTo(account_change[account], budget->defaultCurrency(), to_date);
 	assets_accounts_change += account->currency()->convertTo((value - value_from), budget->defaultCurrency(), to_date);
-	account_type_value[account->type()] -= account->currency()->convertTo(account_value[account], budget->defaultCurrency(), to_date);
-	account_type_value[account->type()] += account->currency()->convertTo(value, budget->defaultCurrency(), to_date);
-	account_type_change[account->type()] -= account->currency()->convertTo(account_change[account], budget->defaultCurrency(), to_date);
-	account_type_change[account->type()] += account->currency()->convertTo((value - value_from), budget->defaultCurrency(), to_date);
+	account_type_value[account->accountType()] -= account->currency()->convertTo(account_value[account], budget->defaultCurrency(), to_date);
+	account_type_value[account->accountType()] += account->currency()->convertTo(value, budget->defaultCurrency(), to_date);
+	account_type_change[account->accountType()] -= account->currency()->convertTo(account_change[account], budget->defaultCurrency(), to_date);
+	account_type_change[account->accountType()] += account->currency()->convertTo((value - value_from), budget->defaultCurrency(), to_date);
 	account_value[account] = value;
 	account_change[account] = value - value_from;
 	if(update_display) {
@@ -8755,10 +8745,10 @@ void Eqonomize::updateSecurityAccount(AssetsAccount *account, bool update_displa
 			if(b_hide) assetsAccountItemHiddenOrRemoved(account);
 			else assetsAccountItemShownOrAdded(account);
 		}
-		if(item_account_types.contains(account->type())) {
-			item_account_types[account->type()]->setText(VALUE_COLUMN, budget->formatMoney(account_type_value[account->type()]) + " ");
-			item_account_types[account->type()]->setText(CHANGE_COLUMN, budget->formatMoney(account_type_change[account->type()]));
-			setAccountChangeColor(item_account_types[account->type()], account_type_change[account->type()], false);
+		if(item_account_types.contains(account->accountType())) {
+			item_account_types[account->accountType()]->setText(VALUE_COLUMN, budget->formatMoney(account_type_value[account->accountType()]) + " ");
+			item_account_types[account->accountType()]->setText(CHANGE_COLUMN, budget->formatMoney(account_type_change[account->accountType()]));
+			setAccountChangeColor(item_account_types[account->accountType()], account_type_change[account->accountType()], false);
 		}
 	}
 }
