@@ -3,6 +3,7 @@
 	* Do not show guesstimate for future security values in accounts view
 	  (but use estimate for values between quotes)
 	* Fix calculation of quote between recorded security quotes
+	* Button for clearing values in new/edit transaction
 
 2019-04-23  Hanna Knutsson <hanna.knutsson@protonmail.com>
 

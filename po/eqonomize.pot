@@ -3,191 +3,199 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Language: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Language: sv\n"
 "X-Qt-Contexts: true\n"
 
-#: ../src/accountcombobox.cpp:111
+#: ../src/accountcombobox.cpp:112
 msgctxt "AccountComboBox|"
 msgid "New account…"
 msgstr ""
 
-#: ../src/accountcombobox.cpp:112
+#: ../src/accountcombobox.cpp:113
 msgctxt "AccountComboBox|"
-msgid "Paid with loan / payment plan…"
+msgid "Paid with loan…"
 msgstr ""
 
-#: ../src/accountcombobox.cpp:113
+#: ../src/accountcombobox.cpp:114
 msgctxt "AccountComboBox|"
 msgid "Multiple accounts/payments…"
 msgstr ""
 
-#: ../src/accountcombobox.cpp:76
+#: ../src/accountcombobox.cpp:77
 msgctxt "AccountComboBox|"
 msgid "New income category…"
 msgstr ""
 
-#: ../src/accountcombobox.cpp:94
+#: ../src/accountcombobox.cpp:95
 msgctxt "AccountComboBox|"
 msgid "New expense category…"
 msgstr ""
 
-#: ../src/accountcombobox.cpp:205
+#: ../src/accountcombobox.cpp:206
 msgctxt "AccountComboBox|"
 msgid "New Account"
 msgstr ""
 
-#: ../src/accountcombobox.cpp:189
+#: ../src/accountcombobox.cpp:190
 msgctxt "AccountComboBox|"
 msgid "New Income Category"
 msgstr ""
 
-#: ../src/accountcombobox.cpp:197
+#: ../src/accountcombobox.cpp:198
 msgctxt "AccountComboBox|"
 msgid "New Expense Category"
 msgstr ""
 
-#: ../src/transaction.cpp:756
+#: ../src/transaction.cpp:786
 msgctxt "Balancing|"
 msgid "Account Balance Adjustment"
 msgstr ""
 
-#: ../src/budget.cpp:223
+#: ../src/budget.cpp:198
 msgctxt "Budget|Name of account for transactions that adjust account balances"
 msgid "Balancing"
 msgstr ""
 
-#: ../src/budget.cpp:307 ../src/budget.cpp:541 ../src/budget.cpp:1137
-#: ../src/budget.cpp:1168 ../src/budget.cpp:1308
+#: ../src/budget.cpp:440 ../src/budget.cpp:741 ../src/budget.cpp:1389
+#: ../src/budget.cpp:1420 ../src/budget.cpp:1560
 #, qt-format
 msgctxt "Budget|"
 msgid "Couldn't open %1 for reading"
 msgstr ""
 
-#: ../src/budget.cpp:547 ../src/budget.cpp:1145 ../src/budget.cpp:1176
-#: ../src/budget.cpp:1314
+#: ../src/budget.cpp:747 ../src/budget.cpp:1397 ../src/budget.cpp:1428
+#: ../src/budget.cpp:1566
 #, qt-format
 msgctxt "Budget|"
 msgid ""
 "Not a valid Eqonomize! file (XML parse error: \"%1\" at line %2, col %3)"
 msgstr ""
 
-#: ../src/budget.cpp:911 ../src/budget.cpp:945 ../src/budget.cpp:978
-#: ../src/budget.cpp:1002
+#: ../src/budget.cpp:1160 ../src/budget.cpp:1194 ../src/budget.cpp:1230
+#: ../src/budget.cpp:1254
 msgctxt "Budget|"
 msgid "imported"
 msgstr ""
 
-#: ../src/budget.cpp:318 ../src/budget.cpp:548 ../src/budget.cpp:1149
-#: ../src/budget.cpp:1180 ../src/budget.cpp:1315
+#: ../src/budget.cpp:451 ../src/budget.cpp:748 ../src/budget.cpp:1401
+#: ../src/budget.cpp:1432 ../src/budget.cpp:1567
 #, qt-format
 msgctxt "Budget|"
 msgid "Invalid root element %1 in XML document"
 msgstr ""
 
-#: ../src/budget.cpp:349 ../src/budget.cpp:1018 ../src/budget.cpp:1779
+#: ../src/budget.cpp:482 ../src/budget.cpp:1270 ../src/budget.cpp:2031
 #, qt-format
 msgctxt "Budget|"
 msgid "Unknown XML element: \"%1\" at line %2, col %3"
 msgstr ""
 
-#: ../src/budget.cpp:314 ../src/budget.cpp:361 ../src/budget.cpp:378
-#: ../src/budget.cpp:1033 ../src/budget.cpp:1786
+#: ../src/budget.cpp:447 ../src/budget.cpp:494 ../src/budget.cpp:511
+#: ../src/budget.cpp:1285 ../src/budget.cpp:2038
 #, qt-format
 msgctxt "Budget|"
 msgid "XML parse error: \"%1\" at line %2, col %3"
 msgstr ""
 
-#: ../src/budget.cpp:355
+#: ../src/budget.cpp:488
 #, qt-format
 msgctxt "Budget|"
 msgid "Unable to load %n currency/currencies."
 msgid_plural "Unable to load %n currency/currencies."
 msgstr[0] ""
 
-#: ../src/budget.cpp:1114 ../src/budget.cpp:1871
+#: ../src/budget.cpp:1366 ../src/budget.cpp:2123
 #, qt-format
 msgctxt "Budget|"
 msgid "Unable to load %n account(s)."
 msgid_plural "Unable to load %n account(s)."
 msgstr[0] ""
 
-#: ../src/budget.cpp:1118 ../src/budget.cpp:1875
+#: ../src/budget.cpp:1370 ../src/budget.cpp:2127
 #, qt-format
 msgctxt "Budget|"
 msgid "Unable to load %n category/categories."
 msgid_plural "Unable to load %n category/categories."
 msgstr[0] ""
 
-#: ../src/budget.cpp:1122 ../src/budget.cpp:1879
+#: ../src/budget.cpp:1374 ../src/budget.cpp:2131
 #, qt-format
 msgctxt "Budget|Financial security (e.g. stock, mutual fund)"
 msgid "Unable to load %n security/securities."
 msgid_plural "Unable to load %n security/securities."
 msgstr[0] ""
 
-#: ../src/budget.cpp:1126 ../src/budget.cpp:1883
+#: ../src/budget.cpp:1378 ../src/budget.cpp:2135
 #, qt-format
 msgctxt "Budget|"
 msgid "Unable to load %n transaction(s)."
 msgid_plural "Unable to load %n transaction(s)."
 msgstr[0] ""
 
-#: ../src/budget.cpp:495 ../src/budget.cpp:1894
+#: ../src/budget.cpp:695 ../src/budget.cpp:2146
 msgctxt "Budget|"
 msgid "File is a directory"
 msgstr ""
 
-#: ../src/budget.cpp:217
+#: ../src/budget.cpp:192
 msgctxt "Budget|"
 msgid "European Euro"
 msgstr ""
 
-#: ../src/budget.cpp:430 ../src/budget.cpp:442 ../src/budget.cpp:483
+#: ../src/budget.cpp:563 ../src/budget.cpp:571 ../src/budget.cpp:612
+#: ../src/budget.cpp:684
 msgctxt "Budget|"
 msgid "No exchange rates found."
 msgstr ""
 
-#: ../src/budget.cpp:438
+#: ../src/budget.cpp:620
 msgctxt "Budget|"
 msgid "USD currency missing."
 msgstr ""
 
-#: ../src/budget.cpp:503 ../src/budget.cpp:1902
+#: ../src/budget.cpp:703 ../src/budget.cpp:2154
 msgctxt "Budget|"
 msgid "Couldn't open file for writing"
 msgstr ""
 
-#: ../src/budget.cpp:524 ../src/budget.cpp:528 ../src/budget.cpp:2051
-#: ../src/budget.cpp:2055
+#: ../src/budget.cpp:724 ../src/budget.cpp:728 ../src/budget.cpp:2298
+#: ../src/budget.cpp:2302
 msgctxt "Budget|"
 msgid "Error while writing file; file was not saved"
 msgstr ""
 
-#: ../src/budget.cpp:1217
+#: ../src/budget.cpp:1469
 #, qt-format
 msgctxt "Budget|"
 msgid "Download command (%1) failed: %2."
 msgstr ""
 
-#: ../src/budget.cpp:1237
+#: ../src/budget.cpp:1489
 #, qt-format
 msgctxt "Budget|"
 msgid "Failed to download file from %1: %2."
 msgstr ""
 
-#: ../src/budget.cpp:1291
+#: ../src/budget.cpp:1543
 #, qt-format
 msgctxt "Budget|"
 msgid "Upload command (%1) failed: %2."
 msgstr ""
 
-#: ../src/qifimportexport.cpp:1115 ../src/qifimportexport.cpp:1223
-#: ../src/qifimportexport.cpp:1357
+#. Financial year when first month is not January (e.g. 2018-19).
+#: ../src/budget.cpp:3048
+msgctxt "Budget|"
+msgid "yyyy-yy"
+msgstr ""
+
+#: ../src/qifimportexport.cpp:1117 ../src/qifimportexport.cpp:1225
+#: ../src/qifimportexport.cpp:1359
 msgctxt "Budget|"
 msgid "Unnamed"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:1147 ../src/qifimportexport.cpp:1279
+#: ../src/qifimportexport.cpp:1149 ../src/qifimportexport.cpp:1281
 msgctxt "Budget|"
 msgid "Uncategorized"
 msgstr ""
@@ -202,17 +210,17 @@ msgctxt "CategoriesComparisonChart|"
 msgid "Print…"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:140
+#: ../src/categoriescomparisonchart.cpp:142
 msgctxt "CategoriesComparisonChart|"
 msgid "From"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:147
+#: ../src/categoriescomparisonchart.cpp:149
 msgctxt "CategoriesComparisonChart|"
 msgid "To"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:165
+#: ../src/categoriescomparisonchart.cpp:167
 msgctxt "CategoriesComparisonChart|"
 msgid "Source:"
 msgstr ""
@@ -242,173 +250,176 @@ msgctxt "CategoriesComparisonChart|"
 msgid "Default"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:168
-#: ../src/categoriescomparisonchart.cpp:1301
+#: ../src/categoriescomparisonchart.cpp:170
+#: ../src/categoriescomparisonchart.cpp:1362
 msgctxt "CategoriesComparisonChart|"
 msgid "All Expenses, without subcategories"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:169
-#: ../src/categoriescomparisonchart.cpp:1302
+#: ../src/categoriescomparisonchart.cpp:171
+#: ../src/categoriescomparisonchart.cpp:1363
 msgctxt "CategoriesComparisonChart|"
 msgid "All Expenses, with subcategories"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:170
-#: ../src/categoriescomparisonchart.cpp:1303
+#: ../src/categoriescomparisonchart.cpp:172
+#: ../src/categoriescomparisonchart.cpp:1364
 msgctxt "CategoriesComparisonChart|"
 msgid "All Incomes, without subcategories"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:171
-#: ../src/categoriescomparisonchart.cpp:1304
+#: ../src/categoriescomparisonchart.cpp:173
+#: ../src/categoriescomparisonchart.cpp:1365
 msgctxt "CategoriesComparisonChart|"
 msgid "All Incomes, with subcategories"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:172
-#: ../src/categoriescomparisonchart.cpp:185
-#: ../src/categoriescomparisonchart.cpp:1305
-#: ../src/categoriescomparisonchart.cpp:1324
+#: ../src/categoriescomparisonchart.cpp:174
+#: ../src/categoriescomparisonchart.cpp:187
+#: ../src/categoriescomparisonchart.cpp:1366
+#: ../src/categoriescomparisonchart.cpp:1385
 msgctxt "CategoriesComparisonChart|"
 msgid "All Accounts"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:175
-#: ../src/categoriescomparisonchart.cpp:667
-#: ../src/categoriescomparisonchart.cpp:1309
+#: ../src/categoriescomparisonchart.cpp:177
+#: ../src/categoriescomparisonchart.cpp:673
+#: ../src/categoriescomparisonchart.cpp:1370
 #, qt-format
 msgctxt "CategoriesComparisonChart|"
 msgid "Expenses: %1"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:179
-#: ../src/categoriescomparisonchart.cpp:668
-#: ../src/categoriescomparisonchart.cpp:1315
+#: ../src/categoriescomparisonchart.cpp:181
+#: ../src/categoriescomparisonchart.cpp:674
+#: ../src/categoriescomparisonchart.cpp:1376
 #, qt-format
 msgctxt "CategoriesComparisonChart|"
 msgid "Incomes: %1"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:273
-#: ../src/categoriescomparisonchart.cpp:278
-#: ../src/categoriescomparisonchart.cpp:299
-#: ../src/categoriescomparisonchart.cpp:303
-#: ../src/categoriescomparisonchart.cpp:435
-#: ../src/categoriescomparisonchart.cpp:467
+#: ../src/categoriescomparisonchart.cpp:279
+#: ../src/categoriescomparisonchart.cpp:284
+#: ../src/categoriescomparisonchart.cpp:305
+#: ../src/categoriescomparisonchart.cpp:309
+#: ../src/categoriescomparisonchart.cpp:441
+#: ../src/categoriescomparisonchart.cpp:473
 msgctxt "CategoriesComparisonChart|"
 msgid "Error"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:273
-#: ../src/categoriescomparisonchart.cpp:299
+#: ../src/categoriescomparisonchart.cpp:279
+#: ../src/categoriescomparisonchart.cpp:305
 msgctxt "CategoriesComparisonChart|"
 msgid "Invalid date."
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:278
+#: ../src/categoriescomparisonchart.cpp:284
 msgctxt "CategoriesComparisonChart|"
 msgid "To date is before from date."
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:303
+#: ../src/categoriescomparisonchart.cpp:309
 msgctxt "CategoriesComparisonChart|"
 msgid "From date is after to date."
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:435
+#: ../src/categoriescomparisonchart.cpp:441
 msgctxt "CategoriesComparisonChart|"
 msgid "Couldn't open file for writing."
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:467
+#: ../src/categoriescomparisonchart.cpp:473
 msgctxt "CategoriesComparisonChart|"
 msgid "Error while writing file; file was not saved."
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:586
+#: ../src/categoriescomparisonchart.cpp:592
 msgctxt "CategoriesComparisonChart|"
 msgid "Expenses"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:613
+#: ../src/categoriescomparisonchart.cpp:619
 #, qt-format
 msgctxt "CategoriesComparisonChart|"
 msgid "Expenses, %1"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:627
+#: ../src/categoriescomparisonchart.cpp:633
 #, qt-format
 msgctxt "CategoriesComparisonChart|"
 msgid "Incomes, %1"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:628
+#: ../src/categoriescomparisonchart.cpp:634
 msgctxt "CategoriesComparisonChart|"
 msgid "Incomes"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:640
+#: ../src/categoriescomparisonchart.cpp:646
 msgctxt "CategoriesComparisonChart|"
 msgid "Accounts"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:664
+#: ../src/categoriescomparisonchart.cpp:670
 #, qt-format
 msgctxt "CategoriesComparisonChart|"
 msgid "Expenses, %2: %1"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:665
+#: ../src/categoriescomparisonchart.cpp:671
 #, qt-format
 msgctxt "CategoriesComparisonChart|"
 msgid "Incomes, %2: %1"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:906
-#: ../src/categoriescomparisonchart.cpp:907
+#: ../src/categoriescomparisonchart.cpp:912
+#: ../src/categoriescomparisonchart.cpp:913
 msgctxt ""
 "CategoriesComparisonChart|Referring to the transaction description property "
 "(transaction title/generic article name)"
 msgid "Other descriptions"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:1060
-#: ../src/categoriescomparisonchart.cpp:1193
+#: ../src/categoriescomparisonchart.cpp:1068
+#: ../src/categoriescomparisonchart.cpp:1224
+#: ../src/categoriescomparisonchart.cpp:1273
 msgctxt ""
 "CategoriesComparisonChart|Referring to the transaction description property "
 "(transaction title/generic article name)"
 msgid "No description"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:1068
-#: ../src/categoriescomparisonchart.cpp:1201
+#: ../src/categoriescomparisonchart.cpp:1076
+#: ../src/categoriescomparisonchart.cpp:1232
+#: ../src/categoriescomparisonchart.cpp:1281
 msgctxt "CategoriesComparisonChart|"
 msgid "Other accounts"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:1069
-#: ../src/categoriescomparisonchart.cpp:1202
+#: ../src/categoriescomparisonchart.cpp:1077
+#: ../src/categoriescomparisonchart.cpp:1233
+#: ../src/categoriescomparisonchart.cpp:1282
 msgctxt "CategoriesComparisonChart|"
 msgid "Other categories"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:1135
+#: ../src/categoriescomparisonchart.cpp:1160
 msgctxt "CategoriesComparisonChart|"
 msgid "Value"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:1136
+#: ../src/categoriescomparisonchart.cpp:1161
 msgctxt "CategoriesComparisonChart|"
 msgid "Income"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:1137
+#: ../src/categoriescomparisonchart.cpp:1162
 msgctxt "CategoriesComparisonChart|"
 msgid "Cost"
 msgstr ""
 
-#: ../src/categoriescomparisonchart.cpp:1490
+#: ../src/categoriescomparisonchart.cpp:1555
 #, qt-format
 msgctxt "CategoriesComparisonChart|"
 msgid ""
@@ -416,7 +427,7 @@ msgid ""
 "Value: %2"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1038
+#: ../src/eqonomize.cpp:1079
 msgctxt "CategoriesComparisonChartDialog|"
 msgid "Chart"
 msgstr ""
@@ -437,19 +448,19 @@ msgid "Source:"
 msgstr ""
 
 #: ../src/categoriescomparisonreport.cpp:98
-#: ../src/categoriescomparisonreport.cpp:1334
+#: ../src/categoriescomparisonreport.cpp:1335
 msgctxt "CategoriesComparisonReport|"
 msgid "All Categories, excluding subcategories"
 msgstr ""
 
 #: ../src/categoriescomparisonreport.cpp:99
-#: ../src/categoriescomparisonreport.cpp:1335
+#: ../src/categoriescomparisonreport.cpp:1336
 msgctxt "CategoriesComparisonReport|"
 msgid "All Categories, including subcategories"
 msgstr ""
 
 #: ../src/categoriescomparisonreport.cpp:100
-#: ../src/categoriescomparisonreport.cpp:1336
+#: ../src/categoriescomparisonreport.cpp:1337
 msgctxt "CategoriesComparisonReport|"
 msgid "All Payees and Payers"
 msgstr ""
@@ -461,25 +472,25 @@ msgid "Subcategories"
 msgstr ""
 
 #: ../src/categoriescomparisonreport.cpp:103
-#: ../src/categoriescomparisonreport.cpp:979
-#: ../src/categoriescomparisonreport.cpp:982
-#: ../src/categoriescomparisonreport.cpp:1340
+#: ../src/categoriescomparisonreport.cpp:980
+#: ../src/categoriescomparisonreport.cpp:983
+#: ../src/categoriescomparisonreport.cpp:1341
 #, qt-format
 msgctxt "CategoriesComparisonReport|"
 msgid "Expenses: %1"
 msgstr ""
 
 #: ../src/categoriescomparisonreport.cpp:107
-#: ../src/categoriescomparisonreport.cpp:984
-#: ../src/categoriescomparisonreport.cpp:987
-#: ../src/categoriescomparisonreport.cpp:1346
+#: ../src/categoriescomparisonreport.cpp:985
+#: ../src/categoriescomparisonreport.cpp:988
+#: ../src/categoriescomparisonreport.cpp:1347
 #, qt-format
 msgctxt "CategoriesComparisonReport|"
 msgid "Incomes: %1"
 msgstr ""
 
 #: ../src/categoriescomparisonreport.cpp:114
-#: ../src/categoriescomparisonreport.cpp:1353
+#: ../src/categoriescomparisonreport.cpp:1354
 msgctxt "CategoriesComparisonReport|"
 msgid "All Accounts"
 msgstr ""
@@ -510,7 +521,7 @@ msgid "Columns:"
 msgstr ""
 
 #: ../src/categoriescomparisonreport.cpp:196
-#: ../src/categoriescomparisonreport.cpp:1034
+#: ../src/categoriescomparisonreport.cpp:1035
 msgctxt "CategoriesComparisonReport|"
 msgid "Value"
 msgstr ""
@@ -531,7 +542,7 @@ msgid "Yearly"
 msgstr ""
 
 #: ../src/categoriescomparisonreport.cpp:208
-#: ../src/categoriescomparisonreport.cpp:1039
+#: ../src/categoriescomparisonreport.cpp:1040
 msgctxt "CategoriesComparisonReport|"
 msgid "Quantity"
 msgstr ""
@@ -542,13 +553,13 @@ msgid "Average value"
 msgstr ""
 
 #: ../src/categoriescomparisonreport.cpp:331
-#: ../src/categoriescomparisonreport.cpp:1265
+#: ../src/categoriescomparisonreport.cpp:1266
 msgctxt "CategoriesComparisonReport|"
 msgid "All payees"
 msgstr ""
 
 #: ../src/categoriescomparisonreport.cpp:332
-#: ../src/categoriescomparisonreport.cpp:1266
+#: ../src/categoriescomparisonreport.cpp:1267
 msgctxt "CategoriesComparisonReport|"
 msgid "All payers"
 msgstr ""
@@ -568,336 +579,336 @@ msgid "Descriptions"
 msgstr ""
 
 #: ../src/categoriescomparisonreport.cpp:330
-#: ../src/categoriescomparisonreport.cpp:1264
+#: ../src/categoriescomparisonreport.cpp:1265
 msgctxt ""
 "CategoriesComparisonReport|Referring to the transaction description property "
 "(transaction title/generic article name)"
 msgid "All descriptions"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:354
-#: ../src/categoriescomparisonreport.cpp:966
-#: ../src/categoriescomparisonreport.cpp:971
-#: ../src/categoriescomparisonreport.cpp:980
-#: ../src/categoriescomparisonreport.cpp:985
-#: ../src/categoriescomparisonreport.cpp:1125
-#: ../src/categoriescomparisonreport.cpp:1247
-#: ../src/categoriescomparisonreport.cpp:1294
+#: ../src/categoriescomparisonreport.cpp:355
+#: ../src/categoriescomparisonreport.cpp:967
+#: ../src/categoriescomparisonreport.cpp:972
+#: ../src/categoriescomparisonreport.cpp:981
+#: ../src/categoriescomparisonreport.cpp:986
+#: ../src/categoriescomparisonreport.cpp:1126
+#: ../src/categoriescomparisonreport.cpp:1248
+#: ../src/categoriescomparisonreport.cpp:1295
 msgctxt ""
 "CategoriesComparisonReport|Referring to the transaction description property "
 "(transaction title/generic article name)"
 msgid "No description"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:360
-#: ../src/categoriescomparisonreport.cpp:967
-#: ../src/categoriescomparisonreport.cpp:981
-#: ../src/categoriescomparisonreport.cpp:1122
-#: ../src/categoriescomparisonreport.cpp:1249
-#: ../src/categoriescomparisonreport.cpp:1311
-msgctxt "CategoriesComparisonReport|"
-msgid "No payee"
-msgstr ""
-
 #: ../src/categoriescomparisonreport.cpp:361
-#: ../src/categoriescomparisonreport.cpp:972
-#: ../src/categoriescomparisonreport.cpp:986
+#: ../src/categoriescomparisonreport.cpp:968
+#: ../src/categoriescomparisonreport.cpp:982
 #: ../src/categoriescomparisonreport.cpp:1123
 #: ../src/categoriescomparisonreport.cpp:1250
 #: ../src/categoriescomparisonreport.cpp:1312
 msgctxt "CategoriesComparisonReport|"
+msgid "No payee"
+msgstr ""
+
+#: ../src/categoriescomparisonreport.cpp:362
+#: ../src/categoriescomparisonreport.cpp:973
+#: ../src/categoriescomparisonreport.cpp:987
+#: ../src/categoriescomparisonreport.cpp:1124
+#: ../src/categoriescomparisonreport.cpp:1251
+#: ../src/categoriescomparisonreport.cpp:1313
+msgctxt "CategoriesComparisonReport|"
 msgid "No payer"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:387
-#: ../src/categoriescomparisonreport.cpp:392
-#: ../src/categoriescomparisonreport.cpp:413
-#: ../src/categoriescomparisonreport.cpp:417
-#: ../src/categoriescomparisonreport.cpp:495
-#: ../src/categoriescomparisonreport.cpp:503
+#: ../src/categoriescomparisonreport.cpp:388
+#: ../src/categoriescomparisonreport.cpp:393
+#: ../src/categoriescomparisonreport.cpp:414
+#: ../src/categoriescomparisonreport.cpp:418
+#: ../src/categoriescomparisonreport.cpp:496
+#: ../src/categoriescomparisonreport.cpp:504
 msgctxt "CategoriesComparisonReport|"
 msgid "Error"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:387
-#: ../src/categoriescomparisonreport.cpp:413
+#: ../src/categoriescomparisonreport.cpp:388
+#: ../src/categoriescomparisonreport.cpp:414
 msgctxt "CategoriesComparisonReport|"
 msgid "Invalid date."
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:392
+#: ../src/categoriescomparisonreport.cpp:393
 msgctxt "CategoriesComparisonReport|"
 msgid "To date is before from date."
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:417
+#: ../src/categoriescomparisonreport.cpp:418
 msgctxt "CategoriesComparisonReport|"
 msgid "From date is after to date."
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:495
+#: ../src/categoriescomparisonreport.cpp:496
 msgctxt "CategoriesComparisonReport|"
 msgid "Couldn't open file for writing."
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:503
+#: ../src/categoriescomparisonreport.cpp:504
 msgctxt "CategoriesComparisonReport|"
 msgid "Error while writing file; file was not saved."
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:965
-#: ../src/categoriescomparisonreport.cpp:968
+#: ../src/categoriescomparisonreport.cpp:966
+#: ../src/categoriescomparisonreport.cpp:969
 #, qt-format
 msgctxt "CategoriesComparisonReport|"
 msgid "Expenses, %2: %1"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:966
 #: ../src/categoriescomparisonreport.cpp:967
+#: ../src/categoriescomparisonreport.cpp:968
 #, qt-format
 msgctxt "CategoriesComparisonReport|"
 msgid "Expenses, %3: %2, %1"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:970
-#: ../src/categoriescomparisonreport.cpp:973
+#: ../src/categoriescomparisonreport.cpp:971
+#: ../src/categoriescomparisonreport.cpp:974
 #, qt-format
 msgctxt "CategoriesComparisonReport|"
 msgid "Incomes, %2: %1"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:971
 #: ../src/categoriescomparisonreport.cpp:972
+#: ../src/categoriescomparisonreport.cpp:973
 #, qt-format
 msgctxt "CategoriesComparisonReport|"
 msgid "Incomes, %3: %2, %1"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:975
+#: ../src/categoriescomparisonreport.cpp:976
 #, qt-format
 msgctxt "CategoriesComparisonReport|"
 msgid "Incomes & Expenses, %1"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:980
 #: ../src/categoriescomparisonreport.cpp:981
+#: ../src/categoriescomparisonreport.cpp:982
 #, qt-format
 msgctxt "CategoriesComparisonReport|"
 msgid "Expenses: %2, %1"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:985
 #: ../src/categoriescomparisonreport.cpp:986
+#: ../src/categoriescomparisonreport.cpp:987
 #, qt-format
 msgctxt "CategoriesComparisonReport|"
 msgid "Incomes: %2, %1"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:989
+#: ../src/categoriescomparisonreport.cpp:990
 msgctxt "CategoriesComparisonReport|"
 msgid "Incomes & Expenses"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1003
+#: ../src/categoriescomparisonreport.cpp:1004
 #, qt-format
 msgctxt ""
 "CategoriesComparisonReport|html format; %1: title; %2: from date; %3: to date"
 msgid "%1 (%2&ndash;%3)"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1004
+#: ../src/categoriescomparisonreport.cpp:1005
 #, qt-format
 msgctxt "CategoriesComparisonReport|html format; %1: title; %2: to date"
 msgid "%1 (to %2)"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1022
-#: ../src/categoriescomparisonreport.cpp:1027
-#: ../src/categoriescomparisonreport.cpp:1033
+#: ../src/categoriescomparisonreport.cpp:1023
+#: ../src/categoriescomparisonreport.cpp:1028
+#: ../src/categoriescomparisonreport.cpp:1034
 msgctxt "CategoriesComparisonReport|"
 msgid "Category"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1023
+#: ../src/categoriescomparisonreport.cpp:1024
 msgctxt "CategoriesComparisonReport|"
 msgid "Payee"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1024
-#: ../src/categoriescomparisonreport.cpp:1029
+#: ../src/categoriescomparisonreport.cpp:1025
+#: ../src/categoriescomparisonreport.cpp:1030
 msgctxt ""
 "CategoriesComparisonReport|Referring to the transaction description property "
 "(transaction title/generic article name)"
 msgid "Description"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1025
+#: ../src/categoriescomparisonreport.cpp:1026
 msgctxt "CategoriesComparisonReport|"
 msgid "Cost"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1028
+#: ../src/categoriescomparisonreport.cpp:1029
 msgctxt "CategoriesComparisonReport|"
 msgid "Payer"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1030
+#: ../src/categoriescomparisonreport.cpp:1031
 msgctxt "CategoriesComparisonReport|"
 msgid "Income"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1032
+#: ../src/categoriescomparisonreport.cpp:1033
 msgctxt "CategoriesComparisonReport|"
 msgid "Payee/Payer"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1036
+#: ../src/categoriescomparisonreport.cpp:1037
 msgctxt "CategoriesComparisonReport|"
 msgid "Daily Average"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1037
+#: ../src/categoriescomparisonreport.cpp:1038
 msgctxt "CategoriesComparisonReport|"
 msgid "Monthly Average"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1038
+#: ../src/categoriescomparisonreport.cpp:1039
 msgctxt "CategoriesComparisonReport|"
 msgid "Yearly Average"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1041
+#: ../src/categoriescomparisonreport.cpp:1042
 msgctxt "CategoriesComparisonReport|"
 msgid "Average Cost"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1043
+#: ../src/categoriescomparisonreport.cpp:1044
 msgctxt "CategoriesComparisonReport|"
 msgid "Average Income"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1045
+#: ../src/categoriescomparisonreport.cpp:1046
 msgctxt "CategoriesComparisonReport|"
 msgid "Average Value"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1124
+#: ../src/categoriescomparisonreport.cpp:1125
 msgctxt "CategoriesComparisonReport|"
 msgid "No payee/payer"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1141
+#: ../src/categoriescomparisonreport.cpp:1142
 msgctxt "CategoriesComparisonReport|"
 msgid "Total"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1181
+#: ../src/categoriescomparisonreport.cpp:1182
 msgctxt "CategoriesComparisonReport|"
 msgid "Total incomes"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1219
+#: ../src/categoriescomparisonreport.cpp:1220
 msgctxt "CategoriesComparisonReport|"
 msgid "Total expenses"
 msgstr ""
 
-#: ../src/categoriescomparisonreport.cpp:1230
+#: ../src/categoriescomparisonreport.cpp:1231
 msgctxt "CategoriesComparisonReport|"
 msgid "Total (Profits)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1008
+#: ../src/eqonomize.cpp:1049
 msgctxt "CategoriesComparisonReportDialog|"
 msgid "Report"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1060
+#: ../src/eqonomize.cpp:1101
 msgctxt "ConfirmScheduleDialog|"
 msgid ""
 "The following transactions was scheduled to occur today or before today.\n"
 "Confirm that they have indeed occurred (or will occur today)."
 msgstr ""
 
-#: ../src/eqonomize.cpp:1070 ../src/eqonomize.cpp:1131
+#: ../src/eqonomize.cpp:1111 ../src/eqonomize.cpp:1171
 msgctxt "ConfirmScheduleDialog|"
 msgid "Date"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1071
+#: ../src/eqonomize.cpp:1112
 msgctxt "ConfirmScheduleDialog|"
 msgid "Type"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1072
+#: ../src/eqonomize.cpp:1113
 msgctxt ""
 "ConfirmScheduleDialog|Transaction description property (transaction "
 "title/generic article name)"
 msgid "Description"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1073
+#: ../src/eqonomize.cpp:1114
 msgctxt "ConfirmScheduleDialog|"
 msgid "Amount"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1086
+#: ../src/eqonomize.cpp:1127
 msgctxt "ConfirmScheduleDialog|"
 msgid "Edit…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1088
+#: ../src/eqonomize.cpp:1129
 msgctxt "ConfirmScheduleDialog|"
 msgid "Postpone…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1090
+#: ../src/eqonomize.cpp:1131
 msgctxt "ConfirmScheduleDialog|"
 msgid "Delete"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1149
+#: ../src/eqonomize.cpp:1188
 msgctxt "ConfirmScheduleDialog|"
 msgid "Error"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1149
+#: ../src/eqonomize.cpp:1188
 msgctxt "ConfirmScheduleDialog|"
 msgid "Can only postpone to future dates."
 msgstr ""
 
-#: ../src/eqonomize.cpp:455
+#: ../src/eqonomize.cpp:476
 msgctxt "ConfirmScheduleListViewItem|"
 msgid "Transfer"
 msgstr ""
 
-#: ../src/eqonomize.cpp:457
+#: ../src/eqonomize.cpp:478
 msgctxt "ConfirmScheduleListViewItem|"
 msgid "Dividend"
 msgstr ""
 
-#: ../src/eqonomize.cpp:458
+#: ../src/eqonomize.cpp:479
 msgctxt "ConfirmScheduleListViewItem|"
 msgid "Income"
 msgstr ""
 
-#: ../src/eqonomize.cpp:461
+#: ../src/eqonomize.cpp:482
 msgctxt "ConfirmScheduleListViewItem|"
 msgid "Expense"
 msgstr ""
 
-#: ../src/eqonomize.cpp:462
+#: ../src/eqonomize.cpp:483
 msgctxt ""
 "ConfirmScheduleListViewItem|Financial security (e.g. stock, mutual fund)"
 msgid "Securities Purchase"
 msgstr ""
 
-#: ../src/eqonomize.cpp:463
+#: ../src/eqonomize.cpp:484
 msgctxt ""
 "ConfirmScheduleListViewItem|Financial security (e.g. stock, mutual fund)"
 msgid "Securities Sale"
 msgstr ""
 
-#: ../src/eqonomize.cpp:482
+#: ../src/eqonomize.cpp:503
 msgctxt "ConfirmScheduleListViewItem|"
 msgid "Debt Payment"
 msgstr ""
@@ -907,25 +918,25 @@ msgctxt "CurrencyConversionDialog|"
 msgid "Currency Converter"
 msgstr ""
 
-#: ../src/transaction.cpp:341
+#: ../src/transaction.cpp:355
 #, qt-format
 msgctxt "DebtFee|"
 msgid "Debt payment: %1 (fee)"
 msgstr ""
 
-#: ../src/transaction.cpp:389
+#: ../src/transaction.cpp:403
 #, qt-format
 msgctxt "DebtInterest|"
 msgid "Debt payment: %1 (interest)"
 msgstr ""
 
-#: ../src/transaction.cpp:2353
+#: ../src/transaction.cpp:2442
 #, qt-format
 msgctxt "DebtPayment|"
 msgid "Debt payment: %1"
 msgstr ""
 
-#: ../src/transaction.cpp:726
+#: ../src/transaction.cpp:756
 #, qt-format
 msgctxt "DebtReduction|"
 msgid "Debt payment: %1 (reduction)"
@@ -949,11 +960,6 @@ msgstr ""
 #: ../src/editaccountdialogs.cpp:67
 msgctxt "EditAssetsAccountDialog|"
 msgid "Credit Card"
-msgstr ""
-
-#: ../src/editaccountdialogs.cpp:65
-msgctxt "EditAssetsAccountDialog|"
-msgid "Transactional Account"
 msgstr ""
 
 #: ../src/editaccountdialogs.cpp:68
@@ -1052,6 +1058,11 @@ msgctxt "EditAssetsAccountDialog|"
 msgid "Error"
 msgstr ""
 
+#: ../src/editaccountdialogs.cpp:65
+msgctxt "EditAssetsAccountDialog|"
+msgid "Transaction Account"
+msgstr ""
+
 #: ../src/editaccountdialogs.cpp:100
 msgctxt "EditAssetsAccountDialog|Account balance"
 msgid "Opening balance:"
@@ -1062,7 +1073,7 @@ msgctxt "EditAssetsAccountDialog|Account balance"
 msgid "Opening balance"
 msgstr ""
 
-#: ../src/editaccountdialogs.cpp:168
+#: ../src/editaccountdialogs.cpp:167
 msgctxt "EditAssetsAccountDialog|"
 msgid "New currency…"
 msgstr ""
@@ -1140,130 +1151,130 @@ msgctxt "EditCurrencyDialog|"
 msgid "Main currency"
 msgstr ""
 
-#: ../src/editcurrencydialog.cpp:154 ../src/editcurrencydialog.cpp:174
-#: ../src/editcurrencydialog.cpp:182 ../src/editcurrencydialog.cpp:187
+#: ../src/editcurrencydialog.cpp:153 ../src/editcurrencydialog.cpp:173
+#: ../src/editcurrencydialog.cpp:181 ../src/editcurrencydialog.cpp:186
 msgctxt "EditCurrencyDialog|"
 msgid "Error"
 msgstr ""
 
-#: ../src/editcurrencydialog.cpp:154 ../src/editcurrencydialog.cpp:174
+#: ../src/editcurrencydialog.cpp:153 ../src/editcurrencydialog.cpp:173
 #, qt-format
 msgctxt "EditCurrencyDialog|"
 msgid "Error saving currencies: %1."
 msgstr ""
 
-#: ../src/editcurrencydialog.cpp:182
+#: ../src/editcurrencydialog.cpp:181
 msgctxt "EditCurrencyDialog|"
 msgid "Empty code."
 msgstr ""
 
-#: ../src/editcurrencydialog.cpp:187
+#: ../src/editcurrencydialog.cpp:186
 msgctxt "EditCurrencyDialog|"
 msgid "Code already exists."
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:190
+#: ../src/editsplitdialog.cpp:198
 msgctxt "EditDebtPaymentDialog|"
 msgid "Debt Payment"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1012
+#: ../src/editsplitdialog.cpp:1077
 msgctxt "EditDebtPaymentWidget|"
 msgid "Debt:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1017
+#: ../src/editsplitdialog.cpp:1082
 msgctxt "EditDebtPaymentWidget|"
 msgid "Date:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1026
+#: ../src/editsplitdialog.cpp:1091
 msgctxt "EditDebtPaymentWidget|"
 msgid "Debt reduction:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1029
+#: ../src/editsplitdialog.cpp:1094
 msgctxt "EditDebtPaymentWidget|"
 msgid "Reduction payment:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1039
+#: ../src/editsplitdialog.cpp:1104
 msgctxt "EditDebtPaymentWidget|"
 msgid "Interest:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1052
+#: ../src/editsplitdialog.cpp:1117
 msgctxt "EditDebtPaymentWidget|"
 msgid "Paid"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1054
+#: ../src/editsplitdialog.cpp:1119
 msgctxt "EditDebtPaymentWidget|"
 msgid "Added to debt"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1059
+#: ../src/editsplitdialog.cpp:1124
 msgctxt "EditDebtPaymentWidget|"
 msgid "Fee:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1066
+#: ../src/editsplitdialog.cpp:1131
 msgctxt "EditDebtPaymentWidget|"
 msgid "Account:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1072
+#: ../src/editsplitdialog.cpp:1137
 msgctxt "EditDebtPaymentWidget|"
 msgid "Expense category:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1081
+#: ../src/editsplitdialog.cpp:1146
 msgctxt "EditDebtPaymentWidget|"
 msgid "Associated file:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1089
+#: ../src/editsplitdialog.cpp:1154
 msgctxt "EditDebtPaymentWidget|"
 msgid "Select a file"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1093
+#: ../src/editsplitdialog.cpp:1158
 msgctxt "EditDebtPaymentWidget|"
 msgid "Open the file"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1101
+#: ../src/editsplitdialog.cpp:1166
 msgctxt "EditDebtPaymentWidget|"
 msgid "Comments:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1307
+#: ../src/editsplitdialog.cpp:1418
 msgctxt "EditDebtPaymentWidget|"
 msgid "Total value:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1365 ../src/editsplitdialog.cpp:1373
-#: ../src/editsplitdialog.cpp:1378 ../src/editsplitdialog.cpp:1381
+#: ../src/editsplitdialog.cpp:1476 ../src/editsplitdialog.cpp:1484
+#: ../src/editsplitdialog.cpp:1489 ../src/editsplitdialog.cpp:1492
 msgctxt "EditDebtPaymentWidget|"
 msgid "Error"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1365
+#: ../src/editsplitdialog.cpp:1476
 msgctxt "EditDebtPaymentWidget|"
 msgid "No suitable account available."
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1373
+#: ../src/editsplitdialog.cpp:1484
 msgctxt "EditDebtPaymentWidget|"
 msgid "Invalid date."
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1378
+#: ../src/editsplitdialog.cpp:1489
 msgctxt "EditDebtPaymentWidget|"
 msgid "Interest must not be zero."
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:1381
+#: ../src/editsplitdialog.cpp:1492
 msgctxt "EditDebtPaymentWidget|"
 msgid "At least one value must non-zero."
 msgstr ""
@@ -1298,42 +1309,42 @@ msgctxt "EditExceptionsDialog|"
 msgid "Only the first fifty occurrences are shown."
 msgstr ""
 
-#: ../src/editaccountdialogs.cpp:485
+#: ../src/editaccountdialogs.cpp:484
 msgctxt "EditExpensesAccountDialog|"
 msgid "Name:"
 msgstr ""
 
-#: ../src/editaccountdialogs.cpp:488
+#: ../src/editaccountdialogs.cpp:487
 msgctxt "EditExpensesAccountDialog|"
 msgid "Parent category:"
 msgstr ""
 
-#: ../src/editaccountdialogs.cpp:492
+#: ../src/editaccountdialogs.cpp:491
 msgctxt "EditExpensesAccountDialog|"
 msgid "None"
 msgstr ""
 
-#: ../src/editaccountdialogs.cpp:504
+#: ../src/editaccountdialogs.cpp:503
 msgctxt "EditExpensesAccountDialog|"
 msgid "Monthly budget:"
 msgstr ""
 
-#: ../src/editaccountdialogs.cpp:510
+#: ../src/editaccountdialogs.cpp:509
 msgctxt "EditExpensesAccountDialog|"
 msgid "Description:"
 msgstr ""
 
-#: ../src/editaccountdialogs.cpp:568 ../src/editaccountdialogs.cpp:574
+#: ../src/editaccountdialogs.cpp:566 ../src/editaccountdialogs.cpp:572
 msgctxt "EditExpensesAccountDialog|"
 msgid "Error"
 msgstr ""
 
-#: ../src/editaccountdialogs.cpp:568
+#: ../src/editaccountdialogs.cpp:566
 msgctxt "EditExpensesAccountDialog|"
 msgid "Empty name."
 msgstr ""
 
-#: ../src/editaccountdialogs.cpp:574
+#: ../src/editaccountdialogs.cpp:572
 msgctxt "EditExpensesAccountDialog|"
 msgid "The entered name is used by another expense category."
 msgstr ""
@@ -1363,1244 +1374,1288 @@ msgctxt "EditIncomesAccountDialog|"
 msgid "Description:"
 msgstr ""
 
-#: ../src/editaccountdialogs.cpp:462 ../src/editaccountdialogs.cpp:468
+#: ../src/editaccountdialogs.cpp:461 ../src/editaccountdialogs.cpp:467
 msgctxt "EditIncomesAccountDialog|"
 msgid "Error"
 msgstr ""
 
-#: ../src/editaccountdialogs.cpp:462
+#: ../src/editaccountdialogs.cpp:461
 msgctxt "EditIncomesAccountDialog|"
 msgid "Empty name."
 msgstr ""
 
-#: ../src/editaccountdialogs.cpp:468
+#: ../src/editaccountdialogs.cpp:467
 msgctxt "EditIncomesAccountDialog|"
 msgid "The entered name is used by another income category."
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:212
+#: ../src/editsplitdialog.cpp:226
 msgctxt "EditMultiAccountDialog|"
 msgid "Expense with Multiple Payments"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:213
+#: ../src/editsplitdialog.cpp:227
 msgctxt "EditMultiAccountDialog|"
 msgid "Income with Multiple Payments"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:688
+#: ../src/editsplitdialog.cpp:738
 msgctxt "EditMultiAccountWidget|"
 msgid "Quantity:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:695
+#: ../src/editsplitdialog.cpp:745
 msgctxt "EditMultiAccountWidget|"
 msgid "Category:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:718
+#: ../src/editsplitdialog.cpp:768
 msgctxt "EditMultiAccountWidget|"
 msgid "Comments:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:722
+#: ../src/editsplitdialog.cpp:772
 msgctxt "EditMultiAccountWidget|"
 msgid "Transactions:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:731
+#: ../src/editsplitdialog.cpp:781
 msgctxt "EditMultiAccountWidget|"
 msgid "Date"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:732
+#: ../src/editsplitdialog.cpp:782
 msgctxt "EditMultiAccountWidget|"
 msgid "Account"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:682
+#: ../src/editsplitdialog.cpp:732
 msgctxt ""
 "EditMultiAccountWidget|Transaction description property (transaction "
 "title/generic article name)"
 msgid "Description:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:700
+#: ../src/editsplitdialog.cpp:750
 msgctxt "EditMultiAccountWidget|"
 msgid "Associated file:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:708
+#: ../src/editsplitdialog.cpp:758
 msgctxt "EditMultiAccountWidget|"
 msgid "Select a file"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:712
+#: ../src/editsplitdialog.cpp:762
 msgctxt "EditMultiAccountWidget|"
 msgid "Open the file"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:733
+#: ../src/editsplitdialog.cpp:783
 msgctxt "EditMultiAccountWidget|"
 msgid "Cost"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:734
+#: ../src/editsplitdialog.cpp:784
 msgctxt "EditMultiAccountWidget|"
 msgid "Income"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:743
+#: ../src/editsplitdialog.cpp:793
 msgctxt "EditMultiAccountWidget|"
 msgid "New"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:744
+#: ../src/editsplitdialog.cpp:795
 msgctxt "EditMultiAccountWidget|"
 msgid "Edit…"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:746
+#: ../src/editsplitdialog.cpp:798
 msgctxt "EditMultiAccountWidget|"
 msgid "Delete"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:808
+#: ../src/editsplitdialog.cpp:873
 msgctxt "EditMultiAccountWidget|"
 msgid "Total cost:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:985 ../src/editsplitdialog.cpp:993
+#: ../src/editsplitdialog.cpp:1050 ../src/editsplitdialog.cpp:1058
 msgctxt "EditMultiAccountWidget|"
 msgid "Error"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:985
+#: ../src/editsplitdialog.cpp:1050
 msgctxt "EditMultiAccountWidget|"
 msgid "No suitable expense categories available."
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:993
+#: ../src/editsplitdialog.cpp:1058
 msgctxt "EditMultiAccountWidget|"
 msgid "A split must contain at least two transactions."
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:240
+#: ../src/editsplitdialog.cpp:257
 msgctxt "EditMultiItemDialog|"
 msgid "Split Transaction"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:296
+#: ../src/editsplitdialog.cpp:318
 msgctxt "EditMultiItemWidget|"
 msgid "Date:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:301
+#: ../src/editsplitdialog.cpp:323
 msgctxt "EditMultiItemWidget|"
 msgid "Account:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:308
+#: ../src/editsplitdialog.cpp:330
 msgctxt "EditMultiItemWidget|"
 msgid "Payee/Payer:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:365
+#: ../src/editsplitdialog.cpp:391
 msgctxt "EditMultiItemWidget|"
 msgid "Transactions:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:374
+#: ../src/editsplitdialog.cpp:400
 msgctxt "EditMultiItemWidget|"
 msgid "Type"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:271
+#: ../src/editsplitdialog.cpp:293
 msgctxt ""
 "EditMultiItemWidget|Transaction description property (transaction "
 "title/generic article name)"
 msgid "Description:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:347
+#: ../src/editsplitdialog.cpp:369
 msgctxt "EditMultiItemWidget|"
 msgid "Associated file:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:355
+#: ../src/editsplitdialog.cpp:377
 msgctxt "EditMultiItemWidget|"
 msgid "Select a file"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:359
+#: ../src/editsplitdialog.cpp:381
 msgctxt "EditMultiItemWidget|"
 msgid "Open the file"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:375
+#: ../src/editsplitdialog.cpp:387
+msgctxt "EditMultiItemWidget|"
+msgid "Comments:"
+msgstr ""
+
+#: ../src/editsplitdialog.cpp:401
 msgctxt ""
 "EditMultiItemWidget|Transaction description property (transaction "
 "title/generic article name)"
 msgid "Description"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:377
+#: ../src/editsplitdialog.cpp:403
 msgctxt "EditMultiItemWidget|"
 msgid "Payment"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:378
+#: ../src/editsplitdialog.cpp:404
 msgctxt "EditMultiItemWidget|"
 msgid "Deposit"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:388
+#: ../src/editsplitdialog.cpp:414
 msgctxt "EditMultiItemWidget|"
 msgid "New"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:391
+#: ../src/editsplitdialog.cpp:418
 msgctxt "EditMultiItemWidget|"
 msgid "New Expense…"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:392
+#: ../src/editsplitdialog.cpp:419
 msgctxt "EditMultiItemWidget|"
 msgid "New Income…"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:393
+#: ../src/editsplitdialog.cpp:420
 msgctxt "EditMultiItemWidget|"
 msgid "New Deposit…"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:394
+#: ../src/editsplitdialog.cpp:421
 msgctxt "EditMultiItemWidget|"
 msgid "New Withdrawal…"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:395
+#: ../src/editsplitdialog.cpp:422
 msgctxt "EditMultiItemWidget|Financial security (e.g. stock, mutual fund)"
 msgid "New Securities Purchase…"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:396
+#: ../src/editsplitdialog.cpp:423
 msgctxt "EditMultiItemWidget|Financial security (e.g. stock, mutual fund)"
 msgid "New Securities Sale…"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:397
+#: ../src/editsplitdialog.cpp:424
 msgctxt "EditMultiItemWidget|"
 msgid "New Dividend…"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:398
+#: ../src/editsplitdialog.cpp:425
 msgctxt "EditMultiItemWidget|"
 msgid "Edit…"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:400
+#: ../src/editsplitdialog.cpp:428
 msgctxt "EditMultiItemWidget|"
 msgid "Delete"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:463
+#: ../src/editsplitdialog.cpp:511
 msgctxt "EditMultiItemWidget|"
 msgid "Total value:"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:643 ../src/editsplitdialog.cpp:651
-#: ../src/editsplitdialog.cpp:655 ../src/editsplitdialog.cpp:665
+#: ../src/editsplitdialog.cpp:693 ../src/editsplitdialog.cpp:701
+#: ../src/editsplitdialog.cpp:705 ../src/editsplitdialog.cpp:715
 msgctxt "EditMultiItemWidget|"
 msgid "Error"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:643
+#: ../src/editsplitdialog.cpp:693
 msgctxt "EditMultiItemWidget|"
 msgid "No suitable account available."
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:651
+#: ../src/editsplitdialog.cpp:701
 msgctxt "EditMultiItemWidget|"
 msgid "Invalid date."
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:655
+#: ../src/editsplitdialog.cpp:705
 msgctxt "EditMultiItemWidget|"
 msgid "A split must contain at least two transactions."
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:665
+#: ../src/editsplitdialog.cpp:715
 msgctxt "EditMultiItemWidget|"
 msgid "Cannot transfer money to and from the same account."
 msgstr ""
 
-#: ../src/eqonomize.cpp:859
+#: ../src/eqonomize.cpp:898
 msgctxt "EditQuotationsDialog|"
 msgid "Date"
 msgstr ""
 
-#: ../src/eqonomize.cpp:840 ../src/eqonomize.cpp:847
+#: ../src/eqonomize.cpp:879 ../src/eqonomize.cpp:886
 msgctxt "EditQuotationsDialog|Financial quote"
 msgid "Quotes"
 msgstr ""
 
-#: ../src/eqonomize.cpp:860
+#: ../src/eqonomize.cpp:899
 msgctxt "EditQuotationsDialog|Financial Shares"
 msgid "Price per Share"
 msgstr ""
 
-#: ../src/eqonomize.cpp:880
+#: ../src/eqonomize.cpp:919
 msgctxt "EditQuotationsDialog|"
 msgid "Add"
 msgstr ""
 
-#: ../src/eqonomize.cpp:882
+#: ../src/eqonomize.cpp:921
 msgctxt "EditQuotationsDialog|"
 msgid "Modify"
 msgstr ""
 
-#: ../src/eqonomize.cpp:885
+#: ../src/eqonomize.cpp:924
 msgctxt "EditQuotationsDialog|"
 msgid "Delete"
 msgstr ""
 
-#: ../src/eqonomize.cpp:913
+#: ../src/eqonomize.cpp:954
 #, qt-format
 msgctxt "EditQuotationsDialog|Financial quote"
 msgid "Quotes for %1"
 msgstr ""
 
-#: ../src/eqonomize.cpp:944 ../src/eqonomize.cpp:966
+#: ../src/eqonomize.cpp:985 ../src/eqonomize.cpp:1007
 msgctxt "EditQuotationsDialog|"
 msgid "Error"
 msgstr ""
 
-#: ../src/eqonomize.cpp:944 ../src/eqonomize.cpp:966
+#: ../src/eqonomize.cpp:985 ../src/eqonomize.cpp:1007
 msgctxt "EditQuotationsDialog|"
 msgid "Invalid date."
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:185
+#: ../src/recurrenceeditwidget.cpp:184
 msgctxt "EditRangeDialog|"
 msgid "Edit Recurrence Range"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:193 ../src/recurrenceeditwidget.cpp:235
+#: ../src/recurrenceeditwidget.cpp:192 ../src/recurrenceeditwidget.cpp:233
 #, qt-format
 msgctxt "EditRangeDialog|"
 msgid "Begins on: %1"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:198
+#: ../src/recurrenceeditwidget.cpp:197
 msgctxt "EditRangeDialog|"
 msgid "No ending date"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:202
+#: ../src/recurrenceeditwidget.cpp:201
 msgctxt "EditRangeDialog|"
 msgid "End after"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:208
+#: ../src/recurrenceeditwidget.cpp:207
 msgctxt "EditRangeDialog|"
 msgid "occurrence(s)"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:210
+#: ../src/recurrenceeditwidget.cpp:209
 msgctxt "EditRangeDialog|"
 msgid "End on"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:299 ../src/recurrenceeditwidget.cpp:305
+#: ../src/recurrenceeditwidget.cpp:297 ../src/recurrenceeditwidget.cpp:303
 msgctxt "EditRangeDialog|"
 msgid "Error"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:299
+#: ../src/recurrenceeditwidget.cpp:297
 msgctxt "EditRangeDialog|"
 msgid "Invalid date."
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:305
+#: ../src/recurrenceeditwidget.cpp:303
 msgctxt "EditRangeDialog|"
 msgid "End date before start date."
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:484
+#: ../src/editscheduledtransactiondialog.cpp:495
 msgctxt "EditScheduledDebtPaymentDialog|"
 msgid "Transaction"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:487
+#: ../src/editscheduledtransactiondialog.cpp:498
 msgctxt "EditScheduledDebtPaymentDialog|"
 msgid "Recurrence"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:545
-#: ../src/editscheduledtransactiondialog.cpp:563
+#: ../src/editscheduledtransactiondialog.cpp:562
+#: ../src/editscheduledtransactiondialog.cpp:580
 msgctxt "EditScheduledDebtPaymentDialog|"
 msgid "Edit Debt Payment"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:536
+#: ../src/editscheduledtransactiondialog.cpp:553
 msgctxt "EditScheduledDebtPaymentDialog|"
 msgid "New Debt Payment"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:364
+#: ../src/editscheduledtransactiondialog.cpp:372
 msgctxt "EditScheduledMultiAccountDialog|"
 msgid "Transactions"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:367
+#: ../src/editscheduledtransactiondialog.cpp:375
 msgctxt "EditScheduledMultiAccountDialog|"
 msgid "Recurrence"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:422
-#: ../src/editscheduledtransactiondialog.cpp:431
+#: ../src/editscheduledtransactiondialog.cpp:433
+#: ../src/editscheduledtransactiondialog.cpp:442
 msgctxt "EditScheduledMultiAccountDialog|"
 msgid "New Expense with Multiple Payments"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:422
-#: ../src/editscheduledtransactiondialog.cpp:431
+#: ../src/editscheduledtransactiondialog.cpp:433
+#: ../src/editscheduledtransactiondialog.cpp:442
 msgctxt "EditScheduledMultiAccountDialog|"
 msgid "New Income with Multiple Payments"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:441
-#: ../src/editscheduledtransactiondialog.cpp:459
+#: ../src/editscheduledtransactiondialog.cpp:452
+#: ../src/editscheduledtransactiondialog.cpp:470
 msgctxt "EditScheduledMultiAccountDialog|"
 msgid "Edit Expense with Multiple Payments"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:441
-#: ../src/editscheduledtransactiondialog.cpp:459
+#: ../src/editscheduledtransactiondialog.cpp:452
+#: ../src/editscheduledtransactiondialog.cpp:470
 msgctxt "EditScheduledMultiAccountDialog|"
 msgid "Edit Income with Multiple Payments"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:251
+#: ../src/editscheduledtransactiondialog.cpp:255
 msgctxt "EditScheduledMultiItemDialog|"
 msgid "Transactions"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:254
+#: ../src/editscheduledtransactiondialog.cpp:258
 msgctxt "EditScheduledMultiItemDialog|"
 msgid "Recurrence"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:313
+#: ../src/editscheduledtransactiondialog.cpp:321
 msgctxt "EditScheduledMultiItemDialog|"
 msgid "New Split Transaction"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:322
-#: ../src/editscheduledtransactiondialog.cpp:340
+#: ../src/editscheduledtransactiondialog.cpp:330
+#: ../src/editscheduledtransactiondialog.cpp:348
 msgctxt "EditScheduledMultiItemDialog|"
 msgid "Edit Split Transaction"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:49
+#: ../src/editscheduledtransactiondialog.cpp:50
 msgctxt "EditScheduledTransactionDialog|"
 msgid "Expense"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:54
+#: ../src/editscheduledtransactiondialog.cpp:55
 msgctxt "EditScheduledTransactionDialog|"
 msgid "Dividend"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:55
+#: ../src/editscheduledtransactiondialog.cpp:56
 msgctxt "EditScheduledTransactionDialog|"
 msgid "Income"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:60
+#: ../src/editscheduledtransactiondialog.cpp:61
 msgctxt "EditScheduledTransactionDialog|"
 msgid "Reinvested Dividend"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:65
+#: ../src/editscheduledtransactiondialog.cpp:66
 msgctxt "EditScheduledTransactionDialog|"
 msgid "Transfer"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:70
+#: ../src/editscheduledtransactiondialog.cpp:71
 msgctxt ""
 "EditScheduledTransactionDialog|Financial security (e.g. stock, mutual fund)"
 msgid "Securities Purchase"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:75
+#: ../src/editscheduledtransactiondialog.cpp:76
 msgctxt ""
 "EditScheduledTransactionDialog|Financial security (e.g. stock, mutual fund)"
 msgid "Securities Sale"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:83
+#: ../src/editscheduledtransactiondialog.cpp:84
 msgctxt "EditScheduledTransactionDialog|"
 msgid "Recurrence"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:147
-#: ../src/editscheduledtransactiondialog.cpp:173
+#: ../src/editscheduledtransactiondialog.cpp:151
+#: ../src/editscheduledtransactiondialog.cpp:177
 msgctxt "EditScheduledTransactionDialog|"
 msgid "New Expense"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:147
-#: ../src/editscheduledtransactiondialog.cpp:173
+#: ../src/editscheduledtransactiondialog.cpp:151
+#: ../src/editscheduledtransactiondialog.cpp:177
 msgctxt "EditScheduledTransactionDialog|"
 msgid "New Expense Paid with Loan"
-msgstr ""
-
-#: ../src/editscheduledtransactiondialog.cpp:149
-#: ../src/editscheduledtransactiondialog.cpp:175
-msgctxt "EditScheduledTransactionDialog|"
-msgid "New Dividend"
-msgstr ""
-
-#: ../src/editscheduledtransactiondialog.cpp:150
-#: ../src/editscheduledtransactiondialog.cpp:176
-msgctxt "EditScheduledTransactionDialog|"
-msgid "New Income"
 msgstr ""
 
 #: ../src/editscheduledtransactiondialog.cpp:153
 #: ../src/editscheduledtransactiondialog.cpp:179
 msgctxt "EditScheduledTransactionDialog|"
-msgid "New Transfer"
+msgid "New Dividend"
 msgstr ""
 
 #: ../src/editscheduledtransactiondialog.cpp:154
 #: ../src/editscheduledtransactiondialog.cpp:180
+msgctxt "EditScheduledTransactionDialog|"
+msgid "New Income"
+msgstr ""
+
+#: ../src/editscheduledtransactiondialog.cpp:157
+#: ../src/editscheduledtransactiondialog.cpp:183
+msgctxt "EditScheduledTransactionDialog|"
+msgid "New Transfer"
+msgstr ""
+
+#: ../src/editscheduledtransactiondialog.cpp:158
+#: ../src/editscheduledtransactiondialog.cpp:184
 msgctxt ""
 "EditScheduledTransactionDialog|Financial security (e.g. stock, mutual fund)"
 msgid "New Securities Purchase"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:155
-#: ../src/editscheduledtransactiondialog.cpp:181
+#: ../src/editscheduledtransactiondialog.cpp:159
+#: ../src/editscheduledtransactiondialog.cpp:185
 msgctxt "EditScheduledTransactionDialog|"
 msgid "New Reinvested Dividend"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:157
-#: ../src/editscheduledtransactiondialog.cpp:183
+#: ../src/editscheduledtransactiondialog.cpp:161
+#: ../src/editscheduledtransactiondialog.cpp:187
 msgctxt ""
 "EditScheduledTransactionDialog|Financial security (e.g. stock, mutual fund)"
 msgid "New Securities Sale"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:200
-#: ../src/editscheduledtransactiondialog.cpp:222
+#: ../src/editscheduledtransactiondialog.cpp:204
+#: ../src/editscheduledtransactiondialog.cpp:226
 msgctxt "EditScheduledTransactionDialog|"
 msgid "Edit Reinvested Dividend"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:206
-#: ../src/editscheduledtransactiondialog.cpp:228
+#: ../src/editscheduledtransactiondialog.cpp:210
+#: ../src/editscheduledtransactiondialog.cpp:232
 msgctxt ""
 "EditScheduledTransactionDialog|Financial security (e.g. stock, mutual fund)"
 msgid "Edit Securities Purchase"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:207
-#: ../src/editscheduledtransactiondialog.cpp:229
+#: ../src/editscheduledtransactiondialog.cpp:211
+#: ../src/editscheduledtransactiondialog.cpp:233
 msgctxt ""
 "EditScheduledTransactionDialog|Financial security (e.g. stock, mutual fund)"
 msgid "Edit Securities Sale"
 msgstr ""
 
-#: ../src/editscheduledtransactiondialog.cpp:198
-#: ../src/editscheduledtransactiondialog.cpp:220
-msgctxt "EditScheduledTransactionDialog|"
-msgid "Edit Expense"
-msgstr ""
-
-#: ../src/editscheduledtransactiondialog.cpp:201
-#: ../src/editscheduledtransactiondialog.cpp:223
-msgctxt "EditScheduledTransactionDialog|"
-msgid "Edit Dividend"
-msgstr ""
-
 #: ../src/editscheduledtransactiondialog.cpp:202
 #: ../src/editscheduledtransactiondialog.cpp:224
 msgctxt "EditScheduledTransactionDialog|"
-msgid "Edit Income"
+msgid "Edit Expense"
 msgstr ""
 
 #: ../src/editscheduledtransactiondialog.cpp:205
 #: ../src/editscheduledtransactiondialog.cpp:227
 msgctxt "EditScheduledTransactionDialog|"
+msgid "Edit Dividend"
+msgstr ""
+
+#: ../src/editscheduledtransactiondialog.cpp:206
+#: ../src/editscheduledtransactiondialog.cpp:228
+msgctxt "EditScheduledTransactionDialog|"
+msgid "Edit Income"
+msgstr ""
+
+#: ../src/editscheduledtransactiondialog.cpp:209
+#: ../src/editscheduledtransactiondialog.cpp:231
+msgctxt "EditScheduledTransactionDialog|"
 msgid "Edit Transfer"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1497
+#: ../src/eqonomize.cpp:1541
 msgctxt "EditSecurityDialog|"
 msgid "Type:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1500
+#: ../src/eqonomize.cpp:1544
 msgctxt "EditSecurityDialog|"
 msgid "Mutual Fund"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1501
+#: ../src/eqonomize.cpp:1545
 msgctxt "EditSecurityDialog|Financial stock"
 msgid "Stock"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1502
+#: ../src/eqonomize.cpp:1546
 msgctxt "EditSecurityDialog|"
 msgid "Other"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1505
+#: ../src/eqonomize.cpp:1549
 msgctxt "EditSecurityDialog|"
 msgid "Name:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1508
+#: ../src/eqonomize.cpp:1552
 msgctxt "EditSecurityDialog|"
 msgid "Account:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1512
+#: ../src/eqonomize.cpp:1556
 msgctxt "EditSecurityDialog|Financial shares"
 msgid "Decimals in shares:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1518
+#: ../src/eqonomize.cpp:1562
 msgctxt "EditSecurityDialog|Financial shares"
 msgid "Initial shares:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1521
+#: ../src/eqonomize.cpp:1565
 msgctxt "EditSecurityDialog|Financial quote"
 msgid "Decimals in quotes:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1527
+#: ../src/eqonomize.cpp:1571
 msgctxt "EditSecurityDialog|Financial quote"
 msgid "Initial quote:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1532
+#: ../src/eqonomize.cpp:1576
 msgctxt "EditSecurityDialog|"
 msgid "Date:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1537
+#: ../src/eqonomize.cpp:1581
 msgctxt "EditSecurityDialog|"
 msgid "Description:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1562 ../src/eqonomize.cpp:1575
+#: ../src/eqonomize.cpp:1605 ../src/eqonomize.cpp:1618
 msgctxt "EditSecurityDialog|"
 msgid "Error"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1562
+#: ../src/eqonomize.cpp:1605
 msgctxt "EditSecurityDialog|"
 msgid "Empty name."
 msgstr ""
 
-#: ../src/eqonomize.cpp:1575
+#: ../src/eqonomize.cpp:1618
 msgctxt "EditSecurityDialog|"
 msgid "No suitable account available."
 msgstr ""
 
-#: ../src/eqonomize.cpp:719
+#: ../src/eqonomize.cpp:742
 msgctxt "EditSecurityTradeDialog|"
 msgid "All"
 msgstr ""
 
-#: ../src/eqonomize.cpp:683
+#: ../src/eqonomize.cpp:706
 msgctxt ""
 "EditSecurityTradeDialog|Shares of one security directly exchanged for shares "
 "of another; Financial security (e.g. stock, mutual fund)"
 msgid "Securities Exchange"
 msgstr ""
 
-#: ../src/eqonomize.cpp:690
+#: ../src/eqonomize.cpp:713
 msgctxt "EditSecurityTradeDialog|Financial security (e.g. stock, mutual fund)"
 msgid "From security:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:714
+#: ../src/eqonomize.cpp:737
 msgctxt "EditSecurityTradeDialog|Financial shares"
 msgid "Shares moved:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:725
+#: ../src/eqonomize.cpp:748
 msgctxt "EditSecurityTradeDialog|Financial security (e.g. stock, mutual fund)"
 msgid "To security:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:730
+#: ../src/eqonomize.cpp:753
 msgctxt "EditSecurityTradeDialog|Financial shares"
 msgid "Shares received:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:734
+#: ../src/eqonomize.cpp:757
 msgctxt "EditSecurityTradeDialog|"
 msgid "Date:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:812 ../src/eqonomize.cpp:824 ../src/eqonomize.cpp:828
-#: ../src/eqonomize.cpp:832
+#: ../src/eqonomize.cpp:851 ../src/eqonomize.cpp:863 ../src/eqonomize.cpp:867
+#: ../src/eqonomize.cpp:871
 msgctxt "EditSecurityTradeDialog|"
 msgid "Error"
 msgstr ""
 
-#: ../src/eqonomize.cpp:812
+#: ../src/eqonomize.cpp:851
 msgctxt ""
 "EditSecurityTradeDialog|Shares of one security directly exchanged for shares "
 "of another; Financial security (e.g. stock, mutual fund)"
 msgid "No other security available for exchange in the account."
 msgstr ""
 
-#: ../src/eqonomize.cpp:824
+#: ../src/eqonomize.cpp:863
 msgctxt "EditSecurityTradeDialog|Financial security (e.g. stock, mutual fund)"
 msgid "Selected to and from securities are the same."
 msgstr ""
 
-#: ../src/eqonomize.cpp:832
+#: ../src/eqonomize.cpp:871
 msgctxt "EditSecurityTradeDialog|Financial shares"
 msgid "Zero shares not allowed."
 msgstr ""
 
-#: ../src/eqonomize.cpp:828
+#: ../src/eqonomize.cpp:867
 msgctxt "EditSecurityTradeDialog|"
 msgid "Invalid date."
 msgstr ""
 
-#: ../src/eqonomize.cpp:1775
+#: ../src/eqonomize.cpp:1818
 msgctxt "Eqonomize|"
 msgid "Accounts && Categories"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1777 ../src/eqonomize.cpp:1825
-#: ../src/eqonomize.cpp:5490
+#: ../src/eqonomize.cpp:1820 ../src/eqonomize.cpp:1868
+#: ../src/eqonomize.cpp:5602
 msgctxt "Eqonomize|"
 msgid "Expenses"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1779 ../src/eqonomize.cpp:1823
-#: ../src/eqonomize.cpp:5442
+#: ../src/eqonomize.cpp:1822 ../src/eqonomize.cpp:1866
+#: ../src/eqonomize.cpp:5554
 msgctxt "Eqonomize|"
 msgid "Incomes"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1781
+#: ../src/eqonomize.cpp:1824
 msgctxt "Eqonomize|"
 msgid "Transfers"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1785
+#: ../src/eqonomize.cpp:1828
 msgctxt "Eqonomize|"
 msgid "Schedule"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1799
+#: ../src/eqonomize.cpp:1842
 msgctxt "Eqonomize|"
 msgid "Account / Category"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5761
+#: ../src/eqonomize.cpp:5873
 msgctxt "Eqonomize|"
 msgid "Accounts"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1843 ../src/eqonomize.cpp:5538
+#: ../src/eqonomize.cpp:1886 ../src/eqonomize.cpp:5650
 msgctxt "Eqonomize|"
 msgid "Includes budgeted transactions"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1819 ../src/eqonomize.cpp:5343
-#: ../src/eqonomize.cpp:8431 ../src/eqonomize.cpp:8437
+#: ../src/eqonomize.cpp:1862 ../src/eqonomize.cpp:5455
 msgctxt "Eqonomize|"
 msgid "Assets"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1851
+#: ../src/eqonomize.cpp:1894
 msgctxt "Eqonomize|"
 msgid "Period"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1855 ../src/eqonomize.cpp:2029
-#: ../src/eqonomize.cpp:2106
+#: ../src/eqonomize.cpp:1898 ../src/eqonomize.cpp:2074
+#: ../src/eqonomize.cpp:2151
 msgctxt "Eqonomize|"
 msgid "From"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1866 ../src/eqonomize.cpp:2041
-#: ../src/eqonomize.cpp:2107
+#: ../src/eqonomize.cpp:1909 ../src/eqonomize.cpp:2086
+#: ../src/eqonomize.cpp:2152
 msgctxt "Eqonomize|"
 msgid "To"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1883
+#: ../src/eqonomize.cpp:1926
 msgctxt "Eqonomize|"
 msgid "Select Period"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1885 ../src/eqonomize.cpp:5919
+#: ../src/eqonomize.cpp:1928 ../src/eqonomize.cpp:6031
 msgctxt "Eqonomize|"
 msgid "Current Month"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1886 ../src/eqonomize.cpp:5920
+#: ../src/eqonomize.cpp:1929 ../src/eqonomize.cpp:6032
 msgctxt "Eqonomize|"
 msgid "Current Year"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1887 ../src/eqonomize.cpp:5921
+#: ../src/eqonomize.cpp:1930 ../src/eqonomize.cpp:6033
 msgctxt "Eqonomize|"
 msgid "Current Whole Month"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1888 ../src/eqonomize.cpp:5922
+#: ../src/eqonomize.cpp:1931 ../src/eqonomize.cpp:6034
 msgctxt "Eqonomize|"
 msgid "Current Whole Year"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1889
+#: ../src/eqonomize.cpp:1932
 msgctxt "Eqonomize|"
 msgid "Whole Past Month"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1890
+#: ../src/eqonomize.cpp:1933
 msgctxt "Eqonomize|"
 msgid "Whole Past Year"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1891
+#: ../src/eqonomize.cpp:1934
 msgctxt "Eqonomize|"
 msgid "Previous Month"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1892
+#: ../src/eqonomize.cpp:1935
 msgctxt "Eqonomize|"
 msgid "Previous Year"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1895
+#: ../src/eqonomize.cpp:1938
 msgctxt "Eqonomize|"
 msgid "Show partial budget"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1900
+#: ../src/eqonomize.cpp:1943
 msgctxt "Eqonomize|"
 msgid "Edit Budget"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1904
+#: ../src/eqonomize.cpp:1947
 msgctxt "Eqonomize|"
 msgid "Budget:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1914
+#: ../src/eqonomize.cpp:1957
 msgctxt "Eqonomize|"
 msgid "Month:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1922
+#: ../src/eqonomize.cpp:1965
 msgctxt "Eqonomize|"
 msgid "Result previous month:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1981
+#: ../src/eqonomize.cpp:2026
 msgctxt "Eqonomize|"
 msgid "New Transaction"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1996 ../src/eqonomize.cpp:5346
-#: ../src/eqonomize.cpp:5397
+#: ../src/eqonomize.cpp:2041 ../src/eqonomize.cpp:5458
+#: ../src/eqonomize.cpp:5509
 msgctxt "Eqonomize|"
 msgid "Name"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1997 ../src/eqonomize.cpp:5548
+#: ../src/eqonomize.cpp:2042 ../src/eqonomize.cpp:5660
 msgctxt "Eqonomize|"
 msgid "Value"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2000
+#: ../src/eqonomize.cpp:2045
 msgctxt "Eqonomize|"
 msgid "Cost"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2001
+#: ../src/eqonomize.cpp:2046
 msgctxt "Eqonomize|"
 msgid "Profit"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2002
+#: ../src/eqonomize.cpp:2047
 msgctxt "Eqonomize|"
 msgid "Yearly Rate"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2003 ../src/eqonomize.cpp:2103
-#: ../src/eqonomize.cpp:5347 ../src/eqonomize.cpp:5398
+#: ../src/eqonomize.cpp:2048 ../src/eqonomize.cpp:2148
+#: ../src/eqonomize.cpp:5459 ../src/eqonomize.cpp:5510
 msgctxt "Eqonomize|"
 msgid "Type"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2004
+#: ../src/eqonomize.cpp:2049
 msgctxt "Eqonomize|"
 msgid "Account"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2025
+#: ../src/eqonomize.cpp:2070
 msgctxt "Eqonomize|"
 msgid "Statistics Period"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2085
+#: ../src/eqonomize.cpp:2130
 msgctxt "Eqonomize|"
 msgid "New Schedule"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2088
+#: ../src/eqonomize.cpp:2133
 msgctxt "Eqonomize|"
 msgid "Edit"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2092 ../src/eqonomize.cpp:5838
+#: ../src/eqonomize.cpp:2137 ../src/eqonomize.cpp:5950
 msgctxt "Eqonomize|"
 msgid "Remove"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2102
+#: ../src/eqonomize.cpp:2147
 msgctxt "Eqonomize|"
 msgid "Next Occurrence"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2105
+#: ../src/eqonomize.cpp:2150
 msgctxt "Eqonomize|"
 msgid "Amount"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2108
+#: ../src/eqonomize.cpp:2153
 msgctxt "Eqonomize|"
 msgid "Comments"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2327
+#: ../src/eqonomize.cpp:2383
+msgctxt "Eqonomize|"
+msgid "Set Schedule Confirmation Time"
+msgstr ""
+
+#: ../src/eqonomize.cpp:2386
+msgctxt "Eqonomize|"
+msgid "Schedule confirmation time:"
+msgstr ""
+
+#: ../src/eqonomize.cpp:2405
 msgctxt "Eqonomize|"
 msgid "Set Budget Period"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2330
+#: ../src/eqonomize.cpp:2408
 msgctxt "Eqonomize|"
 msgid "First day in budget month:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2332
+#: ../src/eqonomize.cpp:2410
 msgctxt "Eqonomize|"
 msgid "1st"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2333
+#: ../src/eqonomize.cpp:2411
 msgctxt "Eqonomize|"
 msgid "2nd"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2334
+#: ../src/eqonomize.cpp:2412
 msgctxt "Eqonomize|"
 msgid "3rd"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2335
+#: ../src/eqonomize.cpp:2413
 msgctxt "Eqonomize|"
 msgid "4th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2336
+#: ../src/eqonomize.cpp:2414
 msgctxt "Eqonomize|"
 msgid "5th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2337
+#: ../src/eqonomize.cpp:2415
 msgctxt "Eqonomize|"
 msgid "6th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2338
+#: ../src/eqonomize.cpp:2416
 msgctxt "Eqonomize|"
 msgid "7th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2339
+#: ../src/eqonomize.cpp:2417
 msgctxt "Eqonomize|"
 msgid "8th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2340
+#: ../src/eqonomize.cpp:2418
 msgctxt "Eqonomize|"
 msgid "9th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2341
+#: ../src/eqonomize.cpp:2419
 msgctxt "Eqonomize|"
 msgid "10th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2342
+#: ../src/eqonomize.cpp:2420
 msgctxt "Eqonomize|"
 msgid "11th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2343
+#: ../src/eqonomize.cpp:2421
 msgctxt "Eqonomize|"
 msgid "12th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2344
+#: ../src/eqonomize.cpp:2422
 msgctxt "Eqonomize|"
 msgid "13th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2345
+#: ../src/eqonomize.cpp:2423
 msgctxt "Eqonomize|"
 msgid "14th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2346
+#: ../src/eqonomize.cpp:2424
 msgctxt "Eqonomize|"
 msgid "15th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2347
+#: ../src/eqonomize.cpp:2425
 msgctxt "Eqonomize|"
 msgid "16th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2348
+#: ../src/eqonomize.cpp:2426
 msgctxt "Eqonomize|"
 msgid "17th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2349
+#: ../src/eqonomize.cpp:2427
 msgctxt "Eqonomize|"
 msgid "18th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2350
+#: ../src/eqonomize.cpp:2428
 msgctxt "Eqonomize|"
 msgid "19th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2351
+#: ../src/eqonomize.cpp:2429
 msgctxt "Eqonomize|"
 msgid "20th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2352
+#: ../src/eqonomize.cpp:2430
 msgctxt "Eqonomize|"
 msgid "21st"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2353
+#: ../src/eqonomize.cpp:2431
 msgctxt "Eqonomize|"
 msgid "22nd"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2354
+#: ../src/eqonomize.cpp:2432
 msgctxt "Eqonomize|"
 msgid "23rd"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2355
+#: ../src/eqonomize.cpp:2433
 msgctxt "Eqonomize|"
 msgid "24th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2356
+#: ../src/eqonomize.cpp:2434
 msgctxt "Eqonomize|"
 msgid "25th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2357
+#: ../src/eqonomize.cpp:2435
 msgctxt "Eqonomize|"
 msgid "26th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2358
+#: ../src/eqonomize.cpp:2436
 msgctxt "Eqonomize|"
 msgid "27th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2359
+#: ../src/eqonomize.cpp:2437
 msgctxt "Eqonomize|"
 msgid "28th"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2360
+#: ../src/eqonomize.cpp:2438
 msgctxt "Eqonomize|"
 msgid "Last"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2361
+#: ../src/eqonomize.cpp:2439
 msgctxt "Eqonomize|"
 msgid "2nd Last"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2362
+#: ../src/eqonomize.cpp:2440
 msgctxt "Eqonomize|"
 msgid "3rd Last"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2363
+#: ../src/eqonomize.cpp:2441
 msgctxt "Eqonomize|"
 msgid "4th Last"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2364
+#: ../src/eqonomize.cpp:2442
 msgctxt "Eqonomize|"
 msgid "5th Last"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4472
+#: ../src/eqonomize.cpp:4584
 msgctxt "Eqonomize|"
 msgid "Synchronization Settings"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4475
+#: ../src/eqonomize.cpp:4587
 msgctxt "Eqonomize|"
 msgid "Web address:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4479
+#: ../src/eqonomize.cpp:4591
 msgctxt "Eqonomize|"
 msgid "Download command:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4477 ../src/eqonomize.cpp:4481
+#: ../src/eqonomize.cpp:5479
+msgctxt "Eqonomize|"
+msgid "Transaction Account"
+msgstr ""
+
+#: ../src/eqonomize.cpp:7633
+msgctxt "Eqonomize|"
+msgid "Transaction Accounts"
+msgstr ""
+
+#: ../src/eqonomize.cpp:7634
+msgctxt "Eqonomize|"
+msgid "Savings Accounts"
+msgstr ""
+
+#: ../src/eqonomize.cpp:7635
+msgctxt "Eqonomize|"
+msgid "Credit Cards"
+msgstr ""
+
+#: ../src/eqonomize.cpp:7636
+msgctxt "Eqonomize|"
+msgid "Debts"
+msgstr ""
+
+#: ../src/eqonomize.cpp:7637
+msgctxt "Eqonomize|"
+msgid "Securities"
+msgstr ""
+
+#: ../src/eqonomize.cpp:4589 ../src/eqonomize.cpp:4593
 msgctxt "Eqonomize|"
 msgid "optional"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4483
+#: ../src/eqonomize.cpp:4595
 msgctxt "Eqonomize|"
 msgid "Upload command:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4485
+#: ../src/eqonomize.cpp:4597
 msgctxt "Eqonomize|"
 msgid "mandatory"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4488
+#: ../src/eqonomize.cpp:4600
 msgctxt "Eqonomize|"
 msgid "Automatic synchronization"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4495
+#: ../src/eqonomize.cpp:4606
 msgctxt "Eqonomize|"
 msgid "Upload"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4532
+#: ../src/eqonomize.cpp:4643
 msgctxt "Eqonomize|"
 msgid "Uploading…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4543
+#: ../src/eqonomize.cpp:4654
 msgctxt "Eqonomize|"
 msgid "Error uploading file"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4543
+#: ../src/eqonomize.cpp:4654
 #, qt-format
 msgctxt "Eqonomize|"
 msgid "Error uploading %1: %2."
 msgstr ""
 
-#: ../src/eqonomize.cpp:4575
+#: ../src/eqonomize.cpp:4686
 msgctxt "Eqonomize|"
 msgid "Synchronizing…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4586 ../src/eqonomize.cpp:4595
+#: ../src/eqonomize.cpp:4697 ../src/eqonomize.cpp:4706
 msgctxt "Eqonomize|"
 msgid "Error synchronizing file"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4586 ../src/eqonomize.cpp:4595
+#: ../src/eqonomize.cpp:4697 ../src/eqonomize.cpp:4706
 #, qt-format
 msgctxt "Eqonomize|"
 msgid "Error synchronizing %1: %2."
 msgstr ""
 
-#: ../src/eqonomize.cpp:4587
+#: ../src/eqonomize.cpp:4698
 msgctxt "Eqonomize|"
 msgid "Synchronization error"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4616
+#: ../src/eqonomize.cpp:4727
 msgctxt "Eqonomize|"
 msgid "Synchronize file?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4616
+#: ../src/eqonomize.cpp:4727
 msgctxt "Eqonomize|"
 msgid ""
 "The file has been modified by a different user or program. Do you wish to "
 "merge changes?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5834
+#: ../src/eqonomize.cpp:5946
 msgctxt "Eqonomize|"
 msgid "Reconcile Account…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5936
+#: ../src/eqonomize.cpp:6051
 msgctxt "Eqonomize|"
 msgid "Cloud Synchronization (experimental)…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6705
+#: ../src/eqonomize.cpp:6895
 msgctxt "Eqonomize|"
 msgid ""
 "Only use this when unable to find the cause of the incorrect recorded "
 "account balance."
 msgstr ""
 
-#: ../src/eqonomize.cpp:7115 ../src/eqonomize.cpp:8305
+#: ../src/eqonomize.cpp:7356 ../src/eqonomize.cpp:8701
 msgctxt "Eqonomize|Mark account as not closed"
 msgid "Reopen Account"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4532 ../src/eqonomize.cpp:4575
-#: ../src/eqonomize.cpp:4850
+#: ../src/eqonomize.cpp:4643 ../src/eqonomize.cpp:4686
+#: ../src/eqonomize.cpp:4961
 msgctxt "Eqonomize|"
 msgid "Abort"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4867 ../src/eqonomize.cpp:4885
+#: ../src/eqonomize.cpp:4978 ../src/eqonomize.cpp:4998
 #, qt-format
 msgctxt "Eqonomize|"
 msgid "Failed to download exchange rates from %1: %2."
 msgstr ""
 
-#: ../src/eqonomize.cpp:4872 ../src/eqonomize.cpp:4891
+#: ../src/eqonomize.cpp:4983 ../src/eqonomize.cpp:5005
 #, qt-format
 msgctxt "Eqonomize|"
 msgid "Error reading data from %1: %2."
 msgstr ""
 
-#: ../src/eqonomize.cpp:4943
+#: ../src/eqonomize.cpp:5057
 msgctxt "Eqonomize|"
 msgid "Unrecognized Currency"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4948
+#: ../src/eqonomize.cpp:5062
 #, qt-format
 msgctxt "Eqonomize|"
 msgid ""
@@ -2608,583 +2663,588 @@ msgid ""
 "use multiple currencies you should set the exchange rate manually."
 msgstr ""
 
-#: ../src/eqonomize.cpp:4973
+#: ../src/eqonomize.cpp:5086
 msgctxt "Eqonomize|"
 msgid "Set Main Currency"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4978
+#: ../src/eqonomize.cpp:5091
 msgctxt "Eqonomize|"
 msgid "Currency:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4998
+#: ../src/eqonomize.cpp:5111
 msgctxt "Eqonomize|"
 msgid "Replace all occurrences of the former main currency"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5810
+#: ../src/eqonomize.cpp:5922
 msgctxt "Eqonomize|"
 msgid "Update Exchange Rates"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5835
+#: ../src/eqonomize.cpp:5947
 msgctxt "Eqonomize|Referring to account balance"
 msgid "Adjust balance…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5904
+#: ../src/eqonomize.cpp:6016
 msgctxt "Eqonomize|"
 msgid "Show payee and quantity"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5906
+#: ../src/eqonomize.cpp:6018
 msgctxt "Eqonomize|"
 msgid "Show quantity and payer/payee properties for incomes and expenses."
 msgstr ""
 
-#: ../src/eqonomize.cpp:5908
+#: ../src/eqonomize.cpp:6020
 msgctxt "Eqonomize|"
 msgid "Set Main Currency…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6684
+#: ../src/eqonomize.cpp:6874
 msgctxt "Eqonomize|"
 msgid "Adjust Account Balance"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6695
+#: ../src/eqonomize.cpp:6885
 #, qt-format
 msgctxt "Eqonomize|Referring to account balance"
 msgid "of which %1 is balance adjustment"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2599
+#: ../src/eqonomize.cpp:2684
 msgctxt "Eqonomize|"
 msgid "Total value:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2599
+#: ../src/eqonomize.cpp:2684
 msgctxt "Eqonomize|"
 msgid "Cost:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2599
+#: ../src/eqonomize.cpp:2684
 msgctxt "Eqonomize|"
 msgid "Profit:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2599
+#: ../src/eqonomize.cpp:2684
 msgctxt "Eqonomize|"
 msgid "Rate:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2725 ../src/eqonomize.cpp:2727
-#: ../src/eqonomize.cpp:3997 ../src/eqonomize.cpp:4002
-#: ../src/eqonomize.cpp:4023 ../src/eqonomize.cpp:4027
-#: ../src/eqonomize.cpp:4113 ../src/eqonomize.cpp:4118
-#: ../src/eqonomize.cpp:4139 ../src/eqonomize.cpp:4143
-#: ../src/eqonomize.cpp:4410 ../src/eqonomize.cpp:4625
-#: ../src/eqonomize.cpp:4867 ../src/eqonomize.cpp:4872
-#: ../src/eqonomize.cpp:4885 ../src/eqonomize.cpp:4891
-#: ../src/eqonomize.cpp:4895 ../src/eqonomize.cpp:4967
-#: ../src/eqonomize.cpp:5578 ../src/eqonomize.cpp:5583
-#: ../src/eqonomize.cpp:5588 ../src/eqonomize.cpp:5593
-#: ../src/eqonomize.cpp:5598 ../src/eqonomize.cpp:5610
-#: ../src/eqonomize.cpp:5615 ../src/eqonomize.cpp:5620
-#: ../src/eqonomize.cpp:5625 ../src/eqonomize.cpp:5630
-#: ../src/eqonomize.cpp:5667 ../src/eqonomize.cpp:5672
-#: ../src/eqonomize.cpp:5677 ../src/eqonomize.cpp:5682
-#: ../src/eqonomize.cpp:5687 ../src/eqonomize.cpp:5715
-#: ../src/eqonomize.cpp:5722 ../src/eqonomize.cpp:6104
+#: ../src/eqonomize.cpp:2809 ../src/eqonomize.cpp:2811
+#: ../src/eqonomize.cpp:4118 ../src/eqonomize.cpp:4123
+#: ../src/eqonomize.cpp:4144 ../src/eqonomize.cpp:4148
+#: ../src/eqonomize.cpp:4233 ../src/eqonomize.cpp:4238
+#: ../src/eqonomize.cpp:4259 ../src/eqonomize.cpp:4263
+#: ../src/eqonomize.cpp:4522 ../src/eqonomize.cpp:4736
+#: ../src/eqonomize.cpp:4978 ../src/eqonomize.cpp:4983
+#: ../src/eqonomize.cpp:4998 ../src/eqonomize.cpp:5005
+#: ../src/eqonomize.cpp:5009 ../src/eqonomize.cpp:5080
+#: ../src/eqonomize.cpp:5690 ../src/eqonomize.cpp:5695
+#: ../src/eqonomize.cpp:5700 ../src/eqonomize.cpp:5705
+#: ../src/eqonomize.cpp:5710 ../src/eqonomize.cpp:5722
+#: ../src/eqonomize.cpp:5727 ../src/eqonomize.cpp:5732
+#: ../src/eqonomize.cpp:5737 ../src/eqonomize.cpp:5742
+#: ../src/eqonomize.cpp:5779 ../src/eqonomize.cpp:5784
+#: ../src/eqonomize.cpp:5789 ../src/eqonomize.cpp:5794
+#: ../src/eqonomize.cpp:5799 ../src/eqonomize.cpp:5827
+#: ../src/eqonomize.cpp:5834 ../src/eqonomize.cpp:6280
 msgctxt "Eqonomize|"
 msgid "Error"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2712
+#: ../src/eqonomize.cpp:2797
 msgctxt "Eqonomize|"
 msgid "Date:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2725 ../src/eqonomize.cpp:3997
-#: ../src/eqonomize.cpp:4023 ../src/eqonomize.cpp:4113
-#: ../src/eqonomize.cpp:4139
+#: ../src/eqonomize.cpp:2446
+msgctxt "Eqonomize|"
+msgid "First month in budget year:"
+msgstr ""
+
+#: ../src/eqonomize.cpp:2809 ../src/eqonomize.cpp:4118
+#: ../src/eqonomize.cpp:4144 ../src/eqonomize.cpp:4233
+#: ../src/eqonomize.cpp:4259
 msgctxt "Eqonomize|"
 msgid "Invalid date."
 msgstr ""
 
-#: ../src/eqonomize.cpp:2727
+#: ../src/eqonomize.cpp:2811
 msgctxt "Eqonomize|"
 msgid "Future dates are not allowed."
 msgstr ""
 
-#: ../src/eqonomize.cpp:2854 ../src/eqonomize.cpp:2938
+#: ../src/eqonomize.cpp:2937 ../src/eqonomize.cpp:3021
 msgctxt "Eqonomize|"
 msgid "Bond"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2856 ../src/eqonomize.cpp:2940
+#: ../src/eqonomize.cpp:2939 ../src/eqonomize.cpp:3023
 msgctxt "Eqonomize|"
 msgid "Mutual Fund"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2857 ../src/eqonomize.cpp:2941
-#: ../src/eqonomize.cpp:4289 ../src/eqonomize.cpp:4294
-#: ../src/eqonomize.cpp:5372 ../src/eqonomize.cpp:5421
+#: ../src/eqonomize.cpp:2940 ../src/eqonomize.cpp:3024
+#: ../src/eqonomize.cpp:4384 ../src/eqonomize.cpp:4389
+#: ../src/eqonomize.cpp:5484 ../src/eqonomize.cpp:5533
 msgctxt "Eqonomize|"
 msgid "Other"
 msgstr ""
 
-#: ../src/eqonomize.cpp:3893
+#: ../src/eqonomize.cpp:4014
 msgctxt "Eqonomize|"
 msgid "Add Loan"
 msgstr ""
 
-#: ../src/eqonomize.cpp:3897
+#: ../src/eqonomize.cpp:4018
 msgctxt "Eqonomize|"
 msgid "Add Category"
 msgstr ""
 
-#: ../src/eqonomize.cpp:3939 ../src/eqonomize.cpp:3955
-#: ../src/eqonomize.cpp:3988
+#: ../src/eqonomize.cpp:4060 ../src/eqonomize.cpp:4076
+#: ../src/eqonomize.cpp:4109
 msgctxt "Eqonomize|"
 msgid "Ledger"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4002 ../src/eqonomize.cpp:4118
+#: ../src/eqonomize.cpp:4123 ../src/eqonomize.cpp:4238
 msgctxt "Eqonomize|"
 msgid "To date is before from date."
 msgstr ""
 
-#: ../src/eqonomize.cpp:4027 ../src/eqonomize.cpp:4143
+#: ../src/eqonomize.cpp:4148 ../src/eqonomize.cpp:4263
 msgctxt "Eqonomize|"
 msgid "From date is after to date."
 msgstr ""
 
-#: ../src/eqonomize.cpp:4285 ../src/eqonomize.cpp:5366
-#: ../src/eqonomize.cpp:5415
+#: ../src/eqonomize.cpp:4380 ../src/eqonomize.cpp:5478
+#: ../src/eqonomize.cpp:5527 ../src/eqonomize.cpp:7632
 msgctxt "Eqonomize|"
 msgid "Cash"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4287 ../src/eqonomize.cpp:5368
-#: ../src/eqonomize.cpp:5417
+#: ../src/eqonomize.cpp:4382 ../src/eqonomize.cpp:5480
+#: ../src/eqonomize.cpp:5529
 msgctxt "Eqonomize|"
 msgid "Savings Account"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4288
+#: ../src/eqonomize.cpp:4383
 msgctxt "Eqonomize|"
 msgid "Salary"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4290
+#: ../src/eqonomize.cpp:4385
 msgctxt "Eqonomize|"
 msgid "Bills"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4291
+#: ../src/eqonomize.cpp:4386
 msgctxt "Eqonomize|"
 msgid "Clothing"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4292
+#: ../src/eqonomize.cpp:4387
 msgctxt "Eqonomize|"
 msgid "Groceries"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4293
+#: ../src/eqonomize.cpp:4388
 msgctxt "Eqonomize|"
 msgid "Leisure"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4377
+#: ../src/eqonomize.cpp:4490
 msgctxt "Eqonomize|"
 msgid "Import Options"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4380
+#: ../src/eqonomize.cpp:4493
 msgctxt "Eqonomize|"
 msgid "Ignore duplicate transactions"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4382
+#: ../src/eqonomize.cpp:4495
 msgctxt "Eqonomize|"
 msgid "Rename duplicate accounts"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4384
+#: ../src/eqonomize.cpp:4497
 msgctxt "Eqonomize|"
 msgid "Rename duplicate categories"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4386
+#: ../src/eqonomize.cpp:4499
 msgctxt "Eqonomize|"
 msgid "Rename duplicate securities"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4406 ../src/eqonomize.cpp:4621
-#: ../src/eqonomize.cpp:6098
+#: ../src/eqonomize.cpp:4518 ../src/eqonomize.cpp:4732
+#: ../src/eqonomize.cpp:6274
 msgctxt "Eqonomize|"
 msgid "Couldn't open file"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4406 ../src/eqonomize.cpp:4621
-#: ../src/eqonomize.cpp:6098
+#: ../src/eqonomize.cpp:4518 ../src/eqonomize.cpp:4732
+#: ../src/eqonomize.cpp:6274
 #, qt-format
 msgctxt "Eqonomize|"
 msgid "Error loading %1: %2."
 msgstr ""
 
-#: ../src/eqonomize.cpp:4487
+#: ../src/eqonomize.cpp:4599
 msgctxt "Eqonomize|"
 msgid "%f = local file (temporary), %u = url"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4600 ../src/eqonomize.cpp:4637
-#: ../src/eqonomize.cpp:4683
+#: ../src/eqonomize.cpp:4711 ../src/eqonomize.cpp:4748
+#: ../src/eqonomize.cpp:4794
 msgctxt "Eqonomize|"
 msgid "Couldn't save file"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4600 ../src/eqonomize.cpp:4637
-#: ../src/eqonomize.cpp:4683
+#: ../src/eqonomize.cpp:4711 ../src/eqonomize.cpp:4748
+#: ../src/eqonomize.cpp:4794
 #, qt-format
 msgctxt "Eqonomize|"
 msgid "Error saving %1: %2."
 msgstr ""
 
-#: ../src/eqonomize.cpp:4801
+#: ../src/eqonomize.cpp:4912
 msgctxt "Eqonomize|"
 msgid "New version available"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4801
+#: ../src/eqonomize.cpp:4912
 #, qt-format
 msgctxt "Eqonomize|"
 msgid "A new version of %1 is available.<br><br>You can get version %2 at %3."
 msgstr ""
 
-#: ../src/eqonomize.cpp:5182 ../src/eqonomize.cpp:5188
+#: ../src/eqonomize.cpp:5294 ../src/eqonomize.cpp:5300
 msgctxt "Eqonomize|"
 msgid "Transaction Schedule"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1803 ../src/eqonomize.cpp:5291
-#: ../src/eqonomize.cpp:5381 ../src/eqonomize.cpp:5430
-#: ../src/eqonomize.cpp:5474 ../src/eqonomize.cpp:5522
+#: ../src/eqonomize.cpp:1846 ../src/eqonomize.cpp:5403
+#: ../src/eqonomize.cpp:5493 ../src/eqonomize.cpp:5542
+#: ../src/eqonomize.cpp:5586 ../src/eqonomize.cpp:5634
 msgctxt "Eqonomize|"
 msgid "Total"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5335
+#: ../src/eqonomize.cpp:5447
 msgctxt "Eqonomize|html format"
 msgid "Accounts &amp; Categories"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5340
+#: ../src/eqonomize.cpp:5452
 #, qt-format
 msgctxt "Eqonomize|html format"
 msgid "Accounts &amp; Categories (%1&ndash;%2)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5341
+#: ../src/eqonomize.cpp:5453
 #, qt-format
 msgctxt "Eqonomize|html format"
 msgid "Accounts &amp; Categories (to %1)"
 msgstr ""
 
 #. Noun, how much the account balance has changed
-#: ../src/eqonomize.cpp:1802 ../src/eqonomize.cpp:5349
-#: ../src/eqonomize.cpp:5400 ../src/eqonomize.cpp:5449
-#: ../src/eqonomize.cpp:5497 ../src/eqonomize.cpp:5548
+#: ../src/eqonomize.cpp:1845 ../src/eqonomize.cpp:5461
+#: ../src/eqonomize.cpp:5512 ../src/eqonomize.cpp:5561
+#: ../src/eqonomize.cpp:5609 ../src/eqonomize.cpp:5660
 msgctxt "Eqonomize|"
 msgid "Change"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5367 ../src/eqonomize.cpp:5416
+#: ../src/eqonomize.cpp:5528
 msgctxt "Eqonomize|"
 msgid "Current Account"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5369 ../src/eqonomize.cpp:5418
+#: ../src/eqonomize.cpp:5481 ../src/eqonomize.cpp:5530
 msgctxt "Eqonomize|"
 msgid "Credit Card"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1821 ../src/eqonomize.cpp:5370
-#: ../src/eqonomize.cpp:5394 ../src/eqonomize.cpp:5419
+#: ../src/eqonomize.cpp:1864 ../src/eqonomize.cpp:5482
+#: ../src/eqonomize.cpp:5506 ../src/eqonomize.cpp:5531
 msgctxt "Eqonomize|"
 msgid "Liabilities"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2104
+#: ../src/eqonomize.cpp:2149
 msgctxt ""
 "Eqonomize|Transaction description property (transaction title/generic "
 "article name)"
 msgid "Description"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5445 ../src/eqonomize.cpp:5493
+#: ../src/eqonomize.cpp:5557 ../src/eqonomize.cpp:5605
 msgctxt "Eqonomize|"
 msgid "Category"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5446 ../src/eqonomize.cpp:5494
+#: ../src/eqonomize.cpp:5558 ../src/eqonomize.cpp:5606
 msgctxt "Eqonomize|"
 msgid "Budget"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1800 ../src/eqonomize.cpp:5447
-#: ../src/eqonomize.cpp:5495
+#: ../src/eqonomize.cpp:1843 ../src/eqonomize.cpp:5559
+#: ../src/eqonomize.cpp:5607
 msgctxt "Eqonomize|"
 msgid "Remaining Budget"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4895 ../src/eqonomize.cpp:4967
+#: ../src/eqonomize.cpp:5009 ../src/eqonomize.cpp:5080
 #, qt-format
 msgctxt "Eqonomize|"
 msgid "Error saving currencies: %1."
 msgstr ""
 
-#: ../src/eqonomize.cpp:5450
+#: ../src/eqonomize.cpp:5562
 msgctxt "Eqonomize|"
 msgid "Total Incomes"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5498
+#: ../src/eqonomize.cpp:5610
 msgctxt "Eqonomize|"
 msgid "Total Expenses"
 msgstr ""
 
 #. Noun, how much the account balance has changed
-#: ../src/eqonomize.cpp:5548
+#: ../src/eqonomize.cpp:5660
 msgctxt "Eqonomize|"
 msgid "Account/Category"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5578 ../src/eqonomize.cpp:5610
-#: ../src/eqonomize.cpp:5667
+#: ../src/eqonomize.cpp:5690 ../src/eqonomize.cpp:5722
+#: ../src/eqonomize.cpp:5779
 msgctxt "Eqonomize|"
 msgid "Empty expenses list."
 msgstr ""
 
-#: ../src/eqonomize.cpp:5583 ../src/eqonomize.cpp:5615
-#: ../src/eqonomize.cpp:5672
+#: ../src/eqonomize.cpp:5695 ../src/eqonomize.cpp:5727
+#: ../src/eqonomize.cpp:5784
 msgctxt "Eqonomize|"
 msgid "Empty incomes list."
 msgstr ""
 
-#: ../src/eqonomize.cpp:5588 ../src/eqonomize.cpp:5620
-#: ../src/eqonomize.cpp:5677
+#: ../src/eqonomize.cpp:5700 ../src/eqonomize.cpp:5732
+#: ../src/eqonomize.cpp:5789
 msgctxt "Eqonomize|"
 msgid "Empty transfers list."
 msgstr ""
 
-#: ../src/eqonomize.cpp:5598 ../src/eqonomize.cpp:5630
-#: ../src/eqonomize.cpp:5687
+#: ../src/eqonomize.cpp:5710 ../src/eqonomize.cpp:5742
+#: ../src/eqonomize.cpp:5799
 msgctxt "Eqonomize|"
 msgid "Empty schedule list."
 msgstr ""
 
-#: ../src/eqonomize.cpp:5715
+#: ../src/eqonomize.cpp:5827
 msgctxt "Eqonomize|"
 msgid "Couldn't open file for writing."
 msgstr ""
 
-#: ../src/eqonomize.cpp:5722
+#: ../src/eqonomize.cpp:5834
 msgctxt "Eqonomize|"
 msgid "Error while writing file; file was not saved."
 msgstr ""
 
-#: ../src/eqonomize.cpp:5748
+#: ../src/eqonomize.cpp:5860
 msgctxt "Eqonomize|"
 msgid "&File"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5749
+#: ../src/eqonomize.cpp:5861
 msgctxt "Eqonomize|"
 msgid "&Accounts"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5750
+#: ../src/eqonomize.cpp:5862
 msgctxt "Eqonomize|"
 msgid "&Transactions"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5751
+#: ../src/eqonomize.cpp:5863
 msgctxt "Eqonomize|"
 msgid "&Loans"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5753
+#: ../src/eqonomize.cpp:5865
 msgctxt "Eqonomize|"
 msgid "Stat&istics"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5754
+#: ../src/eqonomize.cpp:5866
 msgctxt "Eqonomize|"
 msgid "S&ettings"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5755
+#: ../src/eqonomize.cpp:5867
 msgctxt "Eqonomize|"
 msgid "&Help"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5757
+#: ../src/eqonomize.cpp:5869
 msgctxt "Eqonomize|"
 msgid "File"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5765
+#: ../src/eqonomize.cpp:5877
 msgctxt "Eqonomize|"
 msgid "Transactions"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5769
+#: ../src/eqonomize.cpp:5881
 msgctxt "Eqonomize|"
 msgid "Statistics"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5776
+#: ../src/eqonomize.cpp:5888
 msgctxt "Eqonomize|"
 msgid "&New"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5778
+#: ../src/eqonomize.cpp:5890
 msgctxt "Eqonomize|"
 msgid "&Open…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5780
+#: ../src/eqonomize.cpp:5892
 msgctxt "Eqonomize|"
 msgid "Open Recent"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5790
+#: ../src/eqonomize.cpp:5902
 msgctxt "Eqonomize|"
 msgid "Clear List"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5792
+#: ../src/eqonomize.cpp:5904
 msgctxt "Eqonomize|"
 msgid "&Save"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5794
+#: ../src/eqonomize.cpp:5906
 msgctxt "Eqonomize|"
 msgid "Save As…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5795
+#: ../src/eqonomize.cpp:5907
 msgctxt "Eqonomize|"
 msgid "&Revert"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5796
+#: ../src/eqonomize.cpp:5908
 msgctxt "Eqonomize|"
 msgid "S&ynchronize"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5798
+#: ../src/eqonomize.cpp:5910
 msgctxt "Eqonomize|"
 msgid "&Print…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5799
+#: ../src/eqonomize.cpp:5911
 msgctxt "Eqonomize|"
 msgid "Print Preview…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5802
+#: ../src/eqonomize.cpp:5914
 msgctxt "Eqonomize|"
 msgid "Import"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5804
+#: ../src/eqonomize.cpp:5916
 msgctxt "Eqonomize|"
 msgid "Import CSV File…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5805
+#: ../src/eqonomize.cpp:5917
 msgctxt "Eqonomize|"
 msgid "Import QIF File…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5806
+#: ../src/eqonomize.cpp:5918
 msgctxt "Eqonomize|"
 msgid "Export View…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5808
+#: ../src/eqonomize.cpp:5920
 msgctxt "Eqonomize|"
 msgid "Export As QIF File…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5816
+#: ../src/eqonomize.cpp:5928
 msgctxt "Eqonomize|"
 msgid "&Quit"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5818 ../src/eqonomize.cpp:5823
+#: ../src/eqonomize.cpp:5930 ../src/eqonomize.cpp:5935
 msgctxt "Eqonomize|"
 msgid "Add Account…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5819
+#: ../src/eqonomize.cpp:5931
 msgctxt "Eqonomize|"
 msgid "New Account…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5821
+#: ../src/eqonomize.cpp:5933
 msgctxt "Eqonomize|"
 msgid "New Income Category…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5822
+#: ../src/eqonomize.cpp:5934
 msgctxt "Eqonomize|"
 msgid "New Expense Category…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:3895 ../src/eqonomize.cpp:5824
+#: ../src/eqonomize.cpp:4016 ../src/eqonomize.cpp:5936
 msgctxt "Eqonomize|"
 msgid "Add Account"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1783 ../src/eqonomize.cpp:5250
-#: ../src/eqonomize.cpp:5256 ../src/eqonomize.cpp:5371
-#: ../src/eqonomize.cpp:5420
+#: ../src/eqonomize.cpp:1826 ../src/eqonomize.cpp:5362
+#: ../src/eqonomize.cpp:5368 ../src/eqonomize.cpp:5483
+#: ../src/eqonomize.cpp:5532
 msgctxt "Eqonomize|Financial security (e.g. stock, mutual fund)"
 msgid "Securities"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1979 ../src/eqonomize.cpp:5880
+#: ../src/eqonomize.cpp:2024 ../src/eqonomize.cpp:5992
 msgctxt "Eqonomize|Financial security (e.g. stock, mutual fund)"
 msgid "New Security…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1998
+#: ../src/eqonomize.cpp:2043
 msgctxt "Eqonomize|Financial shares"
 msgid "Shares"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2539
+#: ../src/eqonomize.cpp:2624
 msgctxt "Eqonomize|Financial security (e.g. stock, mutual fund)"
 msgid "New Security"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2569
+#: ../src/eqonomize.cpp:2654
 msgctxt "Eqonomize|Financial security (e.g. stock, mutual fund)"
 msgid "Edit Security"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2606
+#: ../src/eqonomize.cpp:2691
 msgctxt "Eqonomize|Financial security (e.g. stock, mutual fund)"
 msgid "Delete security?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2606
+#: ../src/eqonomize.cpp:2691
 #, qt-format
 msgctxt "Eqonomize|Financial security (e.g. stock, mutual fund)"
 msgid ""
@@ -3192,247 +3252,272 @@ msgid ""
 "transactions?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2707
+#: ../src/eqonomize.cpp:2792
 msgctxt "Eqonomize|Financial shares"
 msgid "Price per share:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2755
+#: ../src/eqonomize.cpp:2838
 msgctxt "Eqonomize|Financial security (e.g. stock, mutual fund)"
 msgid "Security Transactions"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2855 ../src/eqonomize.cpp:2939
+#: ../src/eqonomize.cpp:2938 ../src/eqonomize.cpp:3022
 msgctxt "Eqonomize|Financial stock"
 msgid "Stock"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4850
+#: ../src/eqonomize.cpp:4961
 msgctxt "Eqonomize|"
 msgid "Updating exchange rates…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4982 ../src/eqonomize.cpp:5036
+#: ../src/eqonomize.cpp:5095 ../src/eqonomize.cpp:5148
 msgctxt "Eqonomize|"
 msgid "New currency…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5352 ../src/eqonomize.cpp:5402
+#: ../src/eqonomize.cpp:5464 ../src/eqonomize.cpp:5514
 msgctxt "Eqonomize|Noun. Balance of an account"
 msgid "Balance"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5593 ../src/eqonomize.cpp:5625
-#: ../src/eqonomize.cpp:5682
+#: ../src/eqonomize.cpp:5705 ../src/eqonomize.cpp:5737
+#: ../src/eqonomize.cpp:5794
 msgctxt "Eqonomize|Financial security (e.g. stock, mutual fund)"
 msgid "Empty securities list."
 msgstr ""
 
-#: ../src/eqonomize.cpp:5752
+#: ../src/eqonomize.cpp:5864
 msgctxt "Eqonomize|Financial security (e.g. stock, mutual fund)"
 msgid "&Securities"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5803
+#: ../src/eqonomize.cpp:5915
 #, qt-format
 msgctxt "Eqonomize|"
 msgid "Import %1 File…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5811
+#: ../src/eqonomize.cpp:5923
 msgctxt "Eqonomize|"
 msgid "Currency Converter"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5820
+#: ../src/eqonomize.cpp:5932
 msgctxt "Eqonomize|"
 msgid "New Loan…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5833
+#: ../src/eqonomize.cpp:5945
 msgctxt "Eqonomize|"
 msgid "Edit…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5840
+#: ../src/eqonomize.cpp:5952
 msgctxt "Eqonomize|"
 msgid "Show Transactions"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5841
+#: ../src/eqonomize.cpp:5953
 msgctxt "Eqonomize|"
 msgid "Show Ledger"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5844
+#: ../src/eqonomize.cpp:5956
 msgctxt "Eqonomize|"
 msgid "New Expense…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5846
+#: ../src/eqonomize.cpp:5958
 msgctxt "Eqonomize|"
 msgid "New Income…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5848
+#: ../src/eqonomize.cpp:5960
 msgctxt "Eqonomize|"
 msgid "New Transfer…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5850
+#: ../src/eqonomize.cpp:5962
 msgctxt "Eqonomize|"
 msgid "New Split Transaction…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5852
+#: ../src/eqonomize.cpp:5964
 msgctxt "Eqonomize|"
 msgid "New Expense with Multiple Payments…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5853
+#: ../src/eqonomize.cpp:5965
 msgctxt "Eqonomize|"
 msgid "Refund…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5854
+#: ../src/eqonomize.cpp:5966
 msgctxt "Eqonomize|"
 msgid "Repayment…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5855
+#: ../src/eqonomize.cpp:5967
 msgctxt "Eqonomize|"
 msgid "New Refund/Repayment…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5857
+#: ../src/eqonomize.cpp:5969
 msgctxt "Eqonomize|"
 msgid "Edit Transaction(s) (Occurrence)…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5858
+#: ../src/eqonomize.cpp:5970
 msgctxt "Eqonomize|"
 msgid "Edit Occurrence…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5859
+#: ../src/eqonomize.cpp:5971
 msgctxt "Eqonomize|"
 msgid "Edit Schedule (Recurrence)…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5860
+#: ../src/eqonomize.cpp:5972
 msgctxt "Eqonomize|"
 msgid "Edit Schedule…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5861
+#: ../src/eqonomize.cpp:5973
 msgctxt "Eqonomize|"
 msgid "Edit Split Transaction…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5862
+#: ../src/eqonomize.cpp:5974
 msgctxt "Eqonomize|"
 msgid "Join Transactions…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5875
+#: ../src/eqonomize.cpp:5987
 msgctxt "Eqonomize|"
 msgid "New Debt Payment…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5876
+#: ../src/eqonomize.cpp:5988
 msgctxt "Eqonomize|"
 msgid "New Unpaid Interest…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5877
+#: ../src/eqonomize.cpp:5989
 msgctxt "Eqonomize|"
-msgid "New Expense Paid with Loan / Payment Plan…"
+msgid "New Expense Paid with Loan…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5881
+#: ../src/eqonomize.cpp:5993
 msgctxt "Eqonomize|Financial security (e.g. stock, mutual fund)"
 msgid "Edit Security…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5882
+#: ../src/eqonomize.cpp:5994
 msgctxt "Eqonomize|Financial security (e.g. stock, mutual fund)"
 msgid "Remove Security"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5884
+#: ../src/eqonomize.cpp:5996
 msgctxt "Eqonomize|Financial shares"
 msgid "Shares Bought…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5885
+#: ../src/eqonomize.cpp:5997
 msgctxt "Eqonomize|Financial shares"
 msgid "Shares Sold…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5910
+#: ../src/eqonomize.cpp:6022
 msgctxt "Eqonomize|"
 msgid "Use Exchange Rate for Transaction Date"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5912
+#: ../src/eqonomize.cpp:6024
 msgctxt "Eqonomize|"
 msgid ""
 "Use the exchange rate nearest the transaction date, instead of the latest "
 "available rate, when converting the value of transactions."
 msgstr ""
 
-#: ../src/eqonomize.cpp:5914
+#: ../src/eqonomize.cpp:6026
 msgctxt "Eqonomize|"
 msgid "Set Budget Period…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5926
+#: ../src/eqonomize.cpp:6038
+msgctxt "Eqonomize|"
+msgid "Set Schedule Confirmation Time…"
+msgstr ""
+
+#: ../src/eqonomize.cpp:6041
 msgctxt "Eqonomize|"
 msgid "Backup Frequency"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5929
+#: ../src/eqonomize.cpp:6044
 msgctxt "Eqonomize|"
 msgid "Daily"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5930
+#: ../src/eqonomize.cpp:6045
 msgctxt "Eqonomize|"
 msgid "Weekly"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5931
+#: ../src/eqonomize.cpp:6046
 msgctxt "Eqonomize|"
 msgid "Fortnightly"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5932
+#: ../src/eqonomize.cpp:6047
 msgctxt "Eqonomize|"
 msgid "Monthly"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5933
+#: ../src/eqonomize.cpp:6048
 msgctxt "Eqonomize|"
 msgid "Never"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5943 ../src/eqonomize.cpp:6076
+#: ../src/eqonomize.cpp:6053
+msgctxt "Eqonomize|"
+msgid "Language"
+msgstr ""
+
+#: ../src/eqonomize.cpp:6057
+msgctxt "Eqonomize|"
+msgid "Default"
+msgstr ""
+
+#: ../src/eqonomize.cpp:6110 ../src/eqonomize.cpp:6252
 #, qt-format
 msgctxt "Eqonomize|"
 msgid "About %1"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6076
+#: ../src/eqonomize.cpp:6191
+msgctxt "Eqonomize|"
+msgid "Restart required"
+msgstr ""
+
+#: ../src/eqonomize.cpp:6191
+msgctxt "Eqonomize|"
+msgid "Please restart the application for the language change to take effect."
+msgstr ""
+
+#: ../src/eqonomize.cpp:6252
 msgctxt "Eqonomize|"
 msgid "A personal accounting program"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6076
+#: ../src/eqonomize.cpp:6252
 msgctxt "Eqonomize|"
 msgid "License: GNU General Public License Version 3"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6093
+#: ../src/eqonomize.cpp:6269
 #, qt-format
 msgctxt "Eqonomize|"
 msgid ""
@@ -3440,425 +3525,425 @@ msgid ""
 "Do you want to load the last auto-saved version of the file?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5863
+#: ../src/eqonomize.cpp:5975
 msgctxt "Eqonomize|"
 msgid "Split Up Transaction"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5837 ../src/eqonomize.cpp:7118
-#: ../src/eqonomize.cpp:8309
+#: ../src/eqonomize.cpp:5949 ../src/eqonomize.cpp:7359
+#: ../src/eqonomize.cpp:8705
 msgctxt "Eqonomize|Mark account as closed"
 msgid "Close Account"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5868
+#: ../src/eqonomize.cpp:5980
 msgctxt "Eqonomize|"
 msgid "Remove Transaction(s) (Occurrence)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5869
+#: ../src/eqonomize.cpp:5981
 msgctxt "Eqonomize|"
 msgid "Remove Occurrence"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5870
+#: ../src/eqonomize.cpp:5982
 msgctxt "Eqonomize|"
 msgid "Delete Schedule (Recurrence)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5871
+#: ../src/eqonomize.cpp:5983
 msgctxt "Eqonomize|"
 msgid "Delete Schedule"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5872
+#: ../src/eqonomize.cpp:5984
 msgctxt "Eqonomize|"
 msgid "Remove Split Transaction"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5888
+#: ../src/eqonomize.cpp:6000
 msgctxt "Eqonomize|"
 msgid "Dividend…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5889
+#: ../src/eqonomize.cpp:6001
 msgctxt "Eqonomize|"
 msgid "Reinvested Dividend…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5890
+#: ../src/eqonomize.cpp:6002
 msgctxt "Eqonomize|"
 msgid "Transactions…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5895
+#: ../src/eqonomize.cpp:6007
 msgctxt "Eqonomize|"
 msgid "Development Over Time Report…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5897
+#: ../src/eqonomize.cpp:6009
 msgctxt "Eqonomize|"
 msgid "Categories Comparison Report…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5899
+#: ../src/eqonomize.cpp:6011
 msgctxt "Eqonomize|"
 msgid "Development Over Time Chart…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5901
+#: ../src/eqonomize.cpp:6013
 msgctxt "Eqonomize|"
 msgid "Categories Comparison Chart…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5916
+#: ../src/eqonomize.cpp:6028
 msgctxt "Eqonomize|"
 msgid "Initial Period"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5923
+#: ../src/eqonomize.cpp:6035
 msgctxt "Eqonomize|"
 msgid "Remember Last Dates"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5938 ../src/eqonomize.cpp:6049
+#: ../src/eqonomize.cpp:6105 ../src/eqonomize.cpp:6225
 msgctxt "Eqonomize|"
 msgid "Help"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5941
+#: ../src/eqonomize.cpp:6108
 msgctxt "Eqonomize|"
 msgid "Report Bug"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5945
+#: ../src/eqonomize.cpp:6112
 msgctxt "Eqonomize|"
 msgid "About Qt"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6093
+#: ../src/eqonomize.cpp:6269
 msgctxt "Eqonomize|"
 msgid "Crash Recovery"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4272 ../src/eqonomize.cpp:6290
+#: ../src/eqonomize.cpp:4367 ../src/eqonomize.cpp:6470
 msgctxt "Eqonomize|"
 msgid "Untitled"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4286
+#: ../src/eqonomize.cpp:4381
 msgctxt "Eqonomize|Transactional account"
 msgid "Checking Account"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5865
+#: ../src/eqonomize.cpp:5977
 msgctxt "Eqonomize|"
 msgid "Select Associated File"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5866
+#: ../src/eqonomize.cpp:5978
 msgctxt "Eqonomize|"
 msgid "Open Associated File"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5886
+#: ../src/eqonomize.cpp:5998
 msgctxt ""
 "Eqonomize|Shares of one security directly exchanged for shares of another; "
 "Financial shares"
 msgid "Shares Exchanged…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5887
+#: ../src/eqonomize.cpp:5999
 msgctxt "Eqonomize|Financial shares"
 msgid "Shares of one security directly exchanged for shares of another"
 msgstr ""
 
-#: ../src/eqonomize.cpp:5893
+#: ../src/eqonomize.cpp:6005
 msgctxt "Eqonomize|Financial quote"
 msgid "Edit Quotes…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:4730 ../src/eqonomize.cpp:6320
+#: ../src/eqonomize.cpp:4841 ../src/eqonomize.cpp:6500
 msgctxt "Eqonomize|"
 msgid "Eqonomize! Accounting File"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6379
+#: ../src/eqonomize.cpp:6559
 msgctxt "Eqonomize|"
 msgid "Save file?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6379
+#: ../src/eqonomize.cpp:6559
 msgctxt "Eqonomize|"
 msgid "The current file has been modified. Do you want to save it?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6415
+#: ../src/eqonomize.cpp:6599
 msgctxt "Eqonomize|"
 msgid "Confirm Schedule"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6522
+#: ../src/eqonomize.cpp:6710
 msgctxt "Eqonomize|"
 msgid "New Account"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6547
+#: ../src/eqonomize.cpp:6736
 msgctxt "Eqonomize|"
 msgid "New Loan"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6583
+#: ../src/eqonomize.cpp:6773
 msgctxt "Eqonomize|"
 msgid "New Income Category"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6600
+#: ../src/eqonomize.cpp:6790
 msgctxt "Eqonomize|"
 msgid "New Expense Category"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6691
+#: ../src/eqonomize.cpp:6881
 msgctxt "Eqonomize|"
 msgid "Book value:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6698
+#: ../src/eqonomize.cpp:6888
 msgctxt "Eqonomize|"
 msgid "Real value:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6736
+#: ../src/eqonomize.cpp:6949
 msgctxt "Eqonomize|"
 msgid "Edit Account"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6808
+#: ../src/eqonomize.cpp:7036
 msgctxt "Eqonomize|"
 msgid "Edit Income Category"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6847
+#: ../src/eqonomize.cpp:7075
 msgctxt "Eqonomize|"
 msgid "Edit Expense Category"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6939
+#: ../src/eqonomize.cpp:7173
 msgctxt "Eqonomize|"
 msgid "Remove subcategories?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6939
+#: ../src/eqonomize.cpp:7173
 msgctxt "Eqonomize|"
 msgid "Do you wish to remove the category including all subcategories?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6987
+#: ../src/eqonomize.cpp:7222
 msgctxt "Eqonomize|"
 msgid "Move transactions?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6996
+#: ../src/eqonomize.cpp:7231
 msgctxt "Eqonomize|"
 msgid "Move to:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:6998
+#: ../src/eqonomize.cpp:7233
 msgctxt "Eqonomize|"
 msgid ""
 "Remove irreversibly from all accounts\n"
 "(do not do this if account has been closed!)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:7005
+#: ../src/eqonomize.cpp:7240
 msgctxt "Eqonomize|"
 msgid ""
 "The category contains some expenses.\n"
 "What do you want to do with them?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:7016
+#: ../src/eqonomize.cpp:7251
 msgctxt "Eqonomize|"
 msgid ""
 "The category contains some incomes.\n"
 "What do you want to do with them?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:7027
+#: ../src/eqonomize.cpp:7262
 msgctxt "Eqonomize|"
 msgid ""
 "The account contains some transactions.\n"
 "What do you want to do with them?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:7055 ../src/eqonomize.cpp:7056
+#: ../src/eqonomize.cpp:7290 ../src/eqonomize.cpp:7291
 msgctxt "Eqonomize|"
 msgid "Remove Category?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:7055
+#: ../src/eqonomize.cpp:7290
 msgctxt "Eqonomize|"
 msgid ""
 "The category contains some expenses that will be removed. Do you still want "
 "to remove the category?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:7056
+#: ../src/eqonomize.cpp:7291
 msgctxt "Eqonomize|"
 msgid ""
 "The category contains some incomes that will be removed. Do you still want "
 "to remove the category?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:7057
+#: ../src/eqonomize.cpp:7292
 msgctxt "Eqonomize|"
 msgid "Remove Account?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:7057
+#: ../src/eqonomize.cpp:7292
 msgctxt "Eqonomize|"
 msgid ""
 "The account contains some transactions that will be removed. Do you still "
 "want to remove the account?"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1816 ../src/eqonomize.cpp:7812
-#: ../src/eqonomize.cpp:7837 ../src/eqonomize.cpp:8167
-#: ../src/eqonomize.cpp:8168
+#: ../src/eqonomize.cpp:1859 ../src/eqonomize.cpp:8192
+#: ../src/eqonomize.cpp:8217 ../src/eqonomize.cpp:8547
+#: ../src/eqonomize.cpp:8548
 #, qt-format
 msgctxt "Eqonomize|%1: budget; %2: remaining budget"
 msgid "%2 of %1"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1984 ../src/eqonomize.cpp:5892
+#: ../src/eqonomize.cpp:2029 ../src/eqonomize.cpp:6004
 msgctxt "Eqonomize|Financial quote"
 msgid "Set Quote…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1999
+#: ../src/eqonomize.cpp:2044
 msgctxt "Eqonomize|Financial quote"
 msgid "Quote"
 msgstr ""
 
-#: ../src/eqonomize.cpp:2702
+#: ../src/eqonomize.cpp:2787
 #, qt-format
 msgctxt "Eqonomize|Financial quote"
 msgid "Set Quote (%1)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:8259 ../src/eqonomize.cpp:8284
+#: ../src/eqonomize.cpp:8653 ../src/eqonomize.cpp:8677
 #, qt-format
 msgctxt "Eqonomize|"
 msgid "%1 (with no budget)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:8260 ../src/eqonomize.cpp:8285
+#: ../src/eqonomize.cpp:8654 ../src/eqonomize.cpp:8678
 #, qt-format
 msgctxt "Eqonomize|"
 msgid "%1 (with budget %2)"
 msgstr ""
 
-#: ../src/eqonomizevalueedit.cpp:252 ../src/eqonomizevalueedit.cpp:456
+#: ../src/eqonomizevalueedit.cpp:292 ../src/eqonomizevalueedit.cpp:509
 msgctxt "EqonomizeValueEdit|"
 msgid "Error"
 msgstr ""
 
-#: ../src/eqonomizevalueedit.cpp:348
+#: ../src/eqonomizevalueedit.cpp:397
 msgctxt "EqonomizeValueEdit|"
 msgid "Empty denominator."
 msgstr ""
 
-#: ../src/eqonomizevalueedit.cpp:350
+#: ../src/eqonomizevalueedit.cpp:399
 msgctxt "EqonomizeValueEdit|"
 msgid "Empty factor."
 msgstr ""
 
-#: ../src/eqonomizevalueedit.cpp:357
+#: ../src/eqonomizevalueedit.cpp:406
 msgctxt "EqonomizeValueEdit|"
 msgid "Division by zero."
 msgstr ""
 
-#: ../src/eqonomizevalueedit.cpp:412 ../src/eqonomizevalueedit.cpp:430
-#: ../src/eqonomizevalueedit.cpp:444
+#: ../src/eqonomizevalueedit.cpp:465 ../src/eqonomizevalueedit.cpp:483
+#: ../src/eqonomizevalueedit.cpp:497
 #, qt-format
 msgctxt "EqonomizeValueEdit|"
 msgid ""
 "Unknown or ambiguous currency, or unrecognized characters, in expression: %1."
 msgstr ""
 
-#: ../src/eqonomizevalueedit.cpp:451
+#: ../src/eqonomizevalueedit.cpp:504
 msgctxt "EqonomizeValueEdit|"
 msgid "Empty base."
 msgstr ""
 
-#: ../src/eqonomizevalueedit.cpp:456
+#: ../src/eqonomizevalueedit.cpp:509
 msgctxt "EqonomizeValueEdit|"
 msgid "Empty exponent."
 msgstr ""
 
-#: ../src/eqonomizevalueedit.cpp:475
+#: ../src/eqonomizevalueedit.cpp:532
 msgctxt "EqonomizeValueEdit|"
 msgid "Unrecognized characters in expression."
 msgstr ""
 
-#: ../src/qifimportexport.cpp:449
+#: ../src/qifimportexport.cpp:451
 msgctxt "ExportQIFDialog|"
 msgid "Export QIF File"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:457
+#: ../src/qifimportexport.cpp:459
 msgctxt "ExportQIFDialog|"
 msgid "Account:"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:466
+#: ../src/qifimportexport.cpp:468
 msgctxt "ExportQIFDialog|All accounts"
 msgid "All"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:470
+#: ../src/qifimportexport.cpp:472
 msgctxt "ExportQIFDialog|"
 msgid "Date format:"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:478
+#: ../src/qifimportexport.cpp:480
 msgctxt "ExportQIFDialog|"
 msgid "Value format:"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:485
+#: ../src/qifimportexport.cpp:487
 msgctxt "ExportQIFDialog|"
 msgid "File:"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:541 ../src/qifimportexport.cpp:555
-#: ../src/qifimportexport.cpp:565
+#: ../src/qifimportexport.cpp:543 ../src/qifimportexport.cpp:557
+#: ../src/qifimportexport.cpp:567
 msgctxt "ExportQIFDialog|"
 msgid "Error"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:541
+#: ../src/qifimportexport.cpp:543
 msgctxt "ExportQIFDialog|"
 msgid "Selected file is a directory."
 msgstr ""
 
-#: ../src/qifimportexport.cpp:548
+#: ../src/qifimportexport.cpp:550
 msgctxt "ExportQIFDialog|"
 msgid "Overwrite"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:548
+#: ../src/qifimportexport.cpp:550
 msgctxt "ExportQIFDialog|"
 msgid ""
 "The selected file already exists. Would you like to overwrite the old copy?"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:555
+#: ../src/qifimportexport.cpp:557
 msgctxt "ExportQIFDialog|"
 msgid "Couldn't open file for writing."
 msgstr ""
 
-#: ../src/qifimportexport.cpp:565
+#: ../src/qifimportexport.cpp:567
 msgctxt "ExportQIFDialog|"
 msgid "Error while writing file; file was not saved."
 msgstr ""
@@ -4116,8 +4201,8 @@ msgstr ""
 #: ../src/importcsvdialog.cpp:560 ../src/importcsvdialog.cpp:566
 #: ../src/importcsvdialog.cpp:835 ../src/importcsvdialog.cpp:868
 #: ../src/importcsvdialog.cpp:876 ../src/importcsvdialog.cpp:891
-#: ../src/importcsvdialog.cpp:894 ../src/importcsvdialog.cpp:1377
-#: ../src/importcsvdialog.cpp:1388
+#: ../src/importcsvdialog.cpp:894 ../src/importcsvdialog.cpp:1379
+#: ../src/importcsvdialog.cpp:1390
 msgctxt "ImportCSVDialog|"
 msgid "Error"
 msgstr ""
@@ -4152,7 +4237,7 @@ msgctxt "ImportCSVDialog|"
 msgid "Selected from account is the same as the to account."
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:876 ../src/importcsvdialog.cpp:1365
+#: ../src/importcsvdialog.cpp:876 ../src/importcsvdialog.cpp:1367
 msgctxt "ImportCSVDialog|"
 msgid "Invalid date."
 msgstr ""
@@ -4169,137 +4254,137 @@ msgctxt "ImportCSVDialog|"
 msgid "Error reading %1."
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1356
+#: ../src/importcsvdialog.cpp:1358
 #, qt-format
 msgctxt "ImportCSVDialog|"
 msgid "Successfully imported %n transaction(s)."
 msgid_plural "Successfully imported %n transaction(s)."
 msgstr[0] ""
 
-#: ../src/importcsvdialog.cpp:1358
+#: ../src/importcsvdialog.cpp:1360
 msgctxt "ImportCSVDialog|"
 msgid "Unable to import any transactions."
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1362
+#: ../src/importcsvdialog.cpp:1364
 #, qt-format
 msgctxt "ImportCSVDialog|"
 msgid "Failed to import %n data row(s)."
 msgid_plural "Failed to import %n data row(s)."
 msgstr[0] ""
 
-#: ../src/importcsvdialog.cpp:1371
+#: ../src/importcsvdialog.cpp:1373
 msgctxt ""
 "ImportCSVDialog|Referring to the account used for adjustments of account "
 "balances."
 msgid "Balancing account wrongly used."
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1363
+#: ../src/importcsvdialog.cpp:1365
 msgctxt "ImportCSVDialog|"
 msgid "Required columns missing."
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1364
+#: ../src/importcsvdialog.cpp:1366
 msgctxt "ImportCSVDialog|"
 msgid "Invalid value."
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1366
+#: ../src/importcsvdialog.cpp:1368
 msgctxt "ImportCSVDialog|"
 msgid "Empty category name."
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1366 ../src/importcsvdialog.cpp:1367
+#: ../src/importcsvdialog.cpp:1368 ../src/importcsvdialog.cpp:1369
 msgctxt "ImportCSVDialog|"
 msgid "Empty account name."
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1368
+#: ../src/importcsvdialog.cpp:1370
 msgctxt "ImportCSVDialog|"
 msgid "Unknown category found."
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1368 ../src/importcsvdialog.cpp:1369
+#: ../src/importcsvdialog.cpp:1370 ../src/importcsvdialog.cpp:1371
 msgctxt "ImportCSVDialog|"
 msgid "Unknown account found."
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1370
+#: ../src/importcsvdialog.cpp:1372
 msgctxt "ImportCSVDialog|"
 msgid "Cannot import security transactions (to/from security accounts)."
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1372
+#: ../src/importcsvdialog.cpp:1374
 msgctxt "ImportCSVDialog|"
 msgid "Same to and from account/category."
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1374
+#: ../src/importcsvdialog.cpp:1376
 msgctxt "ImportCSVDialog|"
 msgid "No data found."
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1379
+#: ../src/importcsvdialog.cpp:1381
 msgctxt "ImportCSVDialog|"
 msgid "Information"
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1388
+#: ../src/importcsvdialog.cpp:1390
 msgctxt "ImportCSVDialog|"
 msgid "Unrecognized date format."
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1393
+#: ../src/importcsvdialog.cpp:1395
 msgctxt "ImportCSVDialog|"
 msgid "Specify Format"
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1398
+#: ../src/importcsvdialog.cpp:1400
 msgctxt "ImportCSVDialog|"
 msgid ""
 "The format of dates and/or numbers in the CSV file is ambiguous. Please "
 "select the correct format."
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1403
+#: ../src/importcsvdialog.cpp:1405
 msgctxt "ImportCSVDialog|"
 msgid "Date format:"
 msgstr ""
 
-#: ../src/importcsvdialog.cpp:1446
+#: ../src/importcsvdialog.cpp:1448
 msgctxt "ImportCSVDialog|"
 msgid "Value format:"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:64
+#: ../src/qifimportexport.cpp:65
 msgctxt "ImportQIFDialog|"
 msgid "Import QIF file"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:70
+#: ../src/qifimportexport.cpp:71
 msgctxt "ImportQIFDialog|"
 msgid "File Selection"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:71
+#: ../src/qifimportexport.cpp:72
 msgctxt "ImportQIFDialog|"
 msgid ""
 "Select a QIF file to import. When you click next, the file be analysed and "
 "you might need to answer some questions about the format of the file."
 msgstr ""
 
-#: ../src/qifimportexport.cpp:74
+#: ../src/qifimportexport.cpp:75
 msgctxt "ImportQIFDialog|"
 msgid "File:"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:86
+#: ../src/qifimportexport.cpp:87
 msgctxt "ImportQIFDialog|"
 msgid "Local Definitions"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:87
+#: ../src/qifimportexport.cpp:88
 msgctxt "ImportQIFDialog|"
 msgid ""
 "Unknown elements where found in the QIF file. It is possible that this is "
@@ -4307,44 +4392,44 @@ msgid ""
 "names."
 msgstr ""
 
-#: ../src/qifimportexport.cpp:93
+#: ../src/qifimportexport.cpp:94
 msgctxt "ImportQIFDialog|"
 msgid "Local Text"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:94
+#: ../src/qifimportexport.cpp:95
 msgctxt "ImportQIFDialog|"
 msgid "Standard Text"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:97
+#: ../src/qifimportexport.cpp:98
 msgctxt "ImportQIFDialog|"
 msgid "Select standard text:"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:103
+#: ../src/qifimportexport.cpp:104
 msgctxt "ImportQIFDialog|"
 msgid "Date Format"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:104
+#: ../src/qifimportexport.cpp:105
 msgctxt "ImportQIFDialog|"
 msgid ""
 "The date format in the QIF file is ambiguous. Please select the correct "
 "format."
 msgstr ""
 
-#: ../src/qifimportexport.cpp:107
+#: ../src/qifimportexport.cpp:108
 msgctxt "ImportQIFDialog|"
 msgid "Date format:"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:113
+#: ../src/qifimportexport.cpp:114
 msgctxt "ImportQIFDialog|"
 msgid "Default Account"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:114
+#: ../src/qifimportexport.cpp:115
 msgctxt "ImportQIFDialog|"
 msgid ""
 "Could not find any account definitions in the QIF file. Please select a "
@@ -4352,668 +4437,668 @@ msgid ""
 "opening balance text."
 msgstr ""
 
-#: ../src/qifimportexport.cpp:117
+#: ../src/qifimportexport.cpp:118
 msgctxt "ImportQIFDialog|"
 msgid "Default account:"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:127
+#: ../src/qifimportexport.cpp:128
 msgctxt "ImportQIFDialog|"
 msgid "Opening balance text:"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:133
+#: ../src/qifimportexport.cpp:134
 msgctxt "ImportQIFDialog|"
 msgid "Import File"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:134
+#: ../src/qifimportexport.cpp:135
 msgctxt "ImportQIFDialog|"
 msgid ""
 "No (further) issues were found. Press finish to import the selected QIF file."
 msgstr ""
 
-#: ../src/qifimportexport.cpp:137
+#: ../src/qifimportexport.cpp:138
 msgctxt "ImportQIFDialog|"
 msgid "Ignore duplicate transactions"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:237 ../src/qifimportexport.cpp:243
-#: ../src/qifimportexport.cpp:247 ../src/qifimportexport.cpp:257
-#: ../src/qifimportexport.cpp:260 ../src/qifimportexport.cpp:314
-#: ../src/qifimportexport.cpp:402 ../src/qifimportexport.cpp:405
+#: ../src/qifimportexport.cpp:239 ../src/qifimportexport.cpp:245
+#: ../src/qifimportexport.cpp:249 ../src/qifimportexport.cpp:259
+#: ../src/qifimportexport.cpp:262 ../src/qifimportexport.cpp:316
+#: ../src/qifimportexport.cpp:404 ../src/qifimportexport.cpp:407
 msgctxt "ImportQIFDialog|"
 msgid "Error"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:237
+#: ../src/qifimportexport.cpp:239
 msgctxt "ImportQIFDialog|"
 msgid "A file must be selected."
 msgstr ""
 
-#: ../src/qifimportexport.cpp:243
+#: ../src/qifimportexport.cpp:245
 msgctxt "ImportQIFDialog|"
 msgid "Selected file is a directory."
 msgstr ""
 
-#: ../src/qifimportexport.cpp:247
+#: ../src/qifimportexport.cpp:249
 msgctxt "ImportQIFDialog|"
 msgid "Selected file does not exist."
 msgstr ""
 
-#: ../src/qifimportexport.cpp:257 ../src/qifimportexport.cpp:402
+#: ../src/qifimportexport.cpp:259 ../src/qifimportexport.cpp:404
 #, qt-format
 msgctxt "ImportQIFDialog|"
 msgid "Couldn't open %1 for reading."
 msgstr ""
 
-#: ../src/qifimportexport.cpp:260 ../src/qifimportexport.cpp:405
+#: ../src/qifimportexport.cpp:262 ../src/qifimportexport.cpp:407
 #, qt-format
 msgctxt "ImportQIFDialog|"
 msgid "Error reading %1."
 msgstr ""
 
-#: ../src/qifimportexport.cpp:283 ../src/qifimportexport.cpp:291
-#: ../src/qifimportexport.cpp:307
+#: ../src/qifimportexport.cpp:285 ../src/qifimportexport.cpp:293
+#: ../src/qifimportexport.cpp:309
 msgctxt "ImportQIFDialog|"
 msgid "Unknown"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:292
+#: ../src/qifimportexport.cpp:294
 msgctxt "ImportQIFDialog|"
 msgid "Account"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:293
+#: ../src/qifimportexport.cpp:295
 msgctxt "ImportQIFDialog|"
 msgid "Bank"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:294
+#: ../src/qifimportexport.cpp:296
 msgctxt "ImportQIFDialog|"
 msgid "Cash"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:295
+#: ../src/qifimportexport.cpp:297
 msgctxt "ImportQIFDialog|"
 msgid "Cat (Category)"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:296
+#: ../src/qifimportexport.cpp:298
 msgctxt "ImportQIFDialog|"
 msgid "CCard (Credit Card)"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:297
+#: ../src/qifimportexport.cpp:299
 msgctxt "ImportQIFDialog|"
 msgid "Invst (Investment)"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:298
+#: ../src/qifimportexport.cpp:300
 msgctxt "ImportQIFDialog|"
 msgid "Oth A (Other Assets)"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:299
+#: ../src/qifimportexport.cpp:301
 msgctxt "ImportQIFDialog|"
 msgid "Oth L (Other Liabilities)"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:300
+#: ../src/qifimportexport.cpp:302
 msgctxt "ImportQIFDialog|"
 msgid "Security"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:301
+#: ../src/qifimportexport.cpp:303
 msgctxt "ImportQIFDialog|"
 msgid "Other"
 msgstr ""
 
-#: ../src/qifimportexport.cpp:314
+#: ../src/qifimportexport.cpp:316
 msgctxt "ImportQIFDialog|"
 msgid "Unrecognized date format."
 msgstr ""
 
-#: ../src/qifimportexport.cpp:417
+#: ../src/qifimportexport.cpp:419
 #, qt-format
 msgctxt "ImportQIFDialog|"
 msgid "Successfully imported %n transaction(s)."
 msgid_plural "Successfully imported %n transaction(s)."
 msgstr[0] ""
 
-#: ../src/qifimportexport.cpp:420
+#: ../src/qifimportexport.cpp:422
 #, qt-format
 msgctxt "ImportQIFDialog|"
 msgid "Successfully imported %n account(s)."
 msgid_plural "Successfully imported %n account(s)."
 msgstr[0] ""
 
-#: ../src/qifimportexport.cpp:424
+#: ../src/qifimportexport.cpp:426
 #, qt-format
 msgctxt "ImportQIFDialog|"
 msgid "Successfully imported %n category/categories."
 msgid_plural "Successfully imported %n category/categories."
 msgstr[0] ""
 
-#: ../src/qifimportexport.cpp:428
+#: ../src/qifimportexport.cpp:430
 #, qt-format
 msgctxt "ImportQIFDialog|"
 msgid "%n duplicate transaction(s) was ignored."
 msgid_plural "%n duplicate transaction(s) was ignored."
 msgstr[0] ""
 
-#: ../src/qifimportexport.cpp:432
+#: ../src/qifimportexport.cpp:434
 #, qt-format
 msgctxt "ImportQIFDialog|"
 msgid "Failed to import %n transaction(s)."
 msgid_plural "Failed to import %n transaction(s)."
 msgstr[0] ""
 
-#: ../src/qifimportexport.cpp:436
+#: ../src/qifimportexport.cpp:438
 #, qt-format
 msgctxt "ImportQIFDialog|Financial security (e.g. stock, mutual fund)"
 msgid "%n security/securities were not imported."
 msgid_plural "%n security/securities were not imported."
 msgstr[0] ""
 
-#: ../src/qifimportexport.cpp:440
+#: ../src/qifimportexport.cpp:442
 #, qt-format
 msgctxt "ImportQIFDialog|Financial security (e.g. stock, mutual fund)"
 msgid "%n security transaction(s) were not imported."
 msgid_plural "%n security transaction(s) were not imported."
 msgstr[0] ""
 
-#: ../src/qifimportexport.cpp:442
+#: ../src/qifimportexport.cpp:444
 msgctxt "ImportQIFDialog|"
 msgid "Information"
 msgstr ""
 
-#: ../src/transaction.cpp:472
+#: ../src/transaction.cpp:500
 #, qt-format
 msgctxt "Income|"
 msgid "Dividend: %1"
 msgstr ""
 
-#: ../src/transaction.cpp:560
+#: ../src/transaction.cpp:588
 #, qt-format
 msgctxt "Income|"
 msgid "Reinvested dividend: %1"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:180
+#: ../src/ledgerdialog.cpp:179
 msgctxt "LedgerDialog|"
 msgid "Account:"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:194
+#: ../src/ledgerdialog.cpp:193
 msgctxt "LedgerDialog|"
 msgid "Edit Account…"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:196
+#: ../src/ledgerdialog.cpp:195
 msgctxt "LedgerDialog|"
 msgid "Export…"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:198
+#: ../src/ledgerdialog.cpp:197
 msgctxt "LedgerDialog|"
 msgid "Print…"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:204
+#: ../src/ledgerdialog.cpp:203
 msgctxt "LedgerDialog|Accounting context"
 msgid "Mark all as reconciled"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:211
+#: ../src/ledgerdialog.cpp:210
 msgctxt "LedgerDialog|Accounting context"
 msgid "Opening balance:"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:228
+#: ../src/ledgerdialog.cpp:227
 msgctxt "LedgerDialog|Accounting context"
 msgid "Closing balance:"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:256
+#: ../src/ledgerdialog.cpp:255
 msgctxt "LedgerDialog|Header for account reconciled checkbox column"
 msgid "R"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:257
+#: ../src/ledgerdialog.cpp:256
 msgctxt "LedgerDialog|"
 msgid "Date"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:258
+#: ../src/ledgerdialog.cpp:257
 msgctxt "LedgerDialog|"
 msgid "Type"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:260
+#: ../src/ledgerdialog.cpp:259
 msgctxt "LedgerDialog|"
 msgid "Account/Category"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:266
+#: ../src/ledgerdialog.cpp:265
 msgctxt "LedgerDialog|Noun. Balance of an account"
 msgid "Balance"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:293
+#: ../src/ledgerdialog.cpp:292
 msgctxt "LedgerDialog|"
 msgid "New"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:305
+#: ../src/ledgerdialog.cpp:304
 msgctxt "LedgerDialog|"
 msgid "Edit…"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:308
+#: ../src/ledgerdialog.cpp:307
 msgctxt "LedgerDialog|"
 msgid "Delete"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:311
+#: ../src/ledgerdialog.cpp:310
 msgctxt "LedgerDialog|"
 msgid "Join…"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:314
+#: ../src/ledgerdialog.cpp:313
 msgctxt "LedgerDialog|"
 msgid "Split Up"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:518 ../src/ledgerdialog.cpp:525
-#: ../src/ledgerdialog.cpp:533 ../src/ledgerdialog.cpp:540
-#: ../src/ledgerdialog.cpp:768 ../src/ledgerdialog.cpp:784
-#: ../src/ledgerdialog.cpp:790 ../src/ledgerdialog.cpp:898
-#: ../src/ledgerdialog.cpp:940 ../src/ledgerdialog.cpp:1258
-#: ../src/ledgerdialog.cpp:1264 ../src/ledgerdialog.cpp:1270
+#: ../src/ledgerdialog.cpp:517 ../src/ledgerdialog.cpp:524
+#: ../src/ledgerdialog.cpp:532 ../src/ledgerdialog.cpp:539
+#: ../src/ledgerdialog.cpp:767 ../src/ledgerdialog.cpp:783
+#: ../src/ledgerdialog.cpp:789 ../src/ledgerdialog.cpp:897
+#: ../src/ledgerdialog.cpp:938 ../src/ledgerdialog.cpp:1256
+#: ../src/ledgerdialog.cpp:1262 ../src/ledgerdialog.cpp:1268
 msgctxt "LedgerDialog|"
 msgid "Error"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:518 ../src/ledgerdialog.cpp:533
+#: ../src/ledgerdialog.cpp:517 ../src/ledgerdialog.cpp:532
 msgctxt "LedgerDialog|"
 msgid "Invalid date."
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:525
+#: ../src/ledgerdialog.cpp:524
 msgctxt "LedgerDialog|"
 msgid "Opening date is after closing date."
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:540
+#: ../src/ledgerdialog.cpp:539
 msgctxt "LedgerDialog|"
 msgid "Closing date is before opening date."
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:768 ../src/ledgerdialog.cpp:898
+#: ../src/ledgerdialog.cpp:767 ../src/ledgerdialog.cpp:897
 msgctxt "LedgerDialog|"
 msgid "Empty transaction list."
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:784
+#: ../src/ledgerdialog.cpp:783
 msgctxt "LedgerDialog|"
 msgid "Couldn't open file for writing."
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:790
+#: ../src/ledgerdialog.cpp:789
 msgctxt "LedgerDialog|"
 msgid "Error while writing file; file was not saved."
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:803
+#: ../src/ledgerdialog.cpp:802
 msgctxt "LedgerDialog|"
 msgid "Ledger"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:809
+#: ../src/ledgerdialog.cpp:808
 #, qt-format
 msgctxt "LedgerDialog|"
 msgid "Transactions for %1"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:917
+#: ../src/ledgerdialog.cpp:916
 msgctxt "LedgerDialog|"
 msgid "Select Time Period"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:921
+#: ../src/ledgerdialog.cpp:920
 msgctxt "LedgerDialog|"
 msgid "From:"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:925
+#: ../src/ledgerdialog.cpp:924
 msgctxt "LedgerDialog|"
 msgid "To:"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:940
+#: ../src/ledgerdialog.cpp:938
 msgctxt "LedgerDialog|"
 msgid "To date is before from date."
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1094 ../src/ledgerdialog.cpp:1095
+#: ../src/ledgerdialog.cpp:1092 ../src/ledgerdialog.cpp:1093
 msgctxt "LedgerDialog|Account balance"
 msgid "Balance change:"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1124
+#: ../src/ledgerdialog.cpp:1122
 msgctxt "LedgerDialog|"
 msgid "Delete transactions?"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1124
+#: ../src/ledgerdialog.cpp:1122
 #, qt-format
 msgctxt "LedgerDialog|"
 msgid "Are you sure you want to delete all (%1) selected transactions?"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1258
+#: ../src/ledgerdialog.cpp:1256
 msgctxt "LedgerDialog|Financial security (e.g. stock, mutual fund)"
 msgid ""
 "Cannot set the value of security transactions using the dialog for modifying "
 "multiple transactions."
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1264
+#: ../src/ledgerdialog.cpp:1262
 msgctxt ""
 "LedgerDialog|Referring to the transaction description property (transaction "
 "title/generic article name); Financial security (e.g. stock, mutual fund)"
 msgid "Cannot change description of dividends and security transactions."
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1270
+#: ../src/ledgerdialog.cpp:1268
 msgctxt "LedgerDialog|Financial security (e.g. stock, mutual fund)"
 msgid "Cannot change payer of dividends and security transactions."
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1328
+#: ../src/ledgerdialog.cpp:1326
 msgctxt "LedgerDialog|Account balance"
 msgid "Opening balance"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1498
+#: ../src/ledgerdialog.cpp:1496
 msgctxt "LedgerDialog|"
 msgid "Account Balance Adjustment"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1539
+#: ../src/ledgerdialog.cpp:1537
 msgctxt "LedgerDialog|Account balance"
 msgid "Current balance:"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1094 ../src/ledgerdialog.cpp:1539
+#: ../src/ledgerdialog.cpp:1092 ../src/ledgerdialog.cpp:1537
 msgctxt "LedgerDialog|Account balance"
 msgid "Average balance:"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1537
+#: ../src/ledgerdialog.cpp:1535
 msgctxt "LedgerDialog|"
 msgid "Current debt:"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:331
+#: ../src/ledgerdialog.cpp:330
 msgctxt "LedgerDialog|"
 msgid "Edit Transaction(s)…"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:332
+#: ../src/ledgerdialog.cpp:331
 msgctxt "LedgerDialog|"
 msgid "Join Transactions…"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:333
+#: ../src/ledgerdialog.cpp:332
 msgctxt "LedgerDialog|"
 msgid "Split Up Transaction"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:334
+#: ../src/ledgerdialog.cpp:333
 msgctxt "LedgerDialog|"
 msgid "Open Associated File"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:335
+#: ../src/ledgerdialog.cpp:334
 msgctxt "LedgerDialog|"
 msgid "Remove Transaction(s)"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:336
+#: ../src/ledgerdialog.cpp:335
 msgctxt "LedgerDialog|"
 msgid "Mark as reconciled"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:459 ../src/ledgerdialog.cpp:460
-#: ../src/ledgerdialog.cpp:461
+#: ../src/ledgerdialog.cpp:458 ../src/ledgerdialog.cpp:459
+#: ../src/ledgerdialog.cpp:460
 #, qt-format
 msgctxt "LedgerDialog|Accounting context"
 msgid "Reconciled: %1 (%2)"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1537
+#: ../src/ledgerdialog.cpp:1535
 msgctxt "LedgerDialog|"
 msgid "Total debt reduction:"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1537
+#: ../src/ledgerdialog.cpp:1535
 msgctxt "LedgerDialog|"
 msgid "Total interest and fees:"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1094 ../src/ledgerdialog.cpp:1095
-#: ../src/ledgerdialog.cpp:1539
+#: ../src/ledgerdialog.cpp:1092 ../src/ledgerdialog.cpp:1093
+#: ../src/ledgerdialog.cpp:1537
 msgctxt "LedgerDialog|"
 msgid "Number of transactions:"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1354
+#: ../src/ledgerdialog.cpp:1352
 msgctxt "LedgerDialog|"
 msgid "Split Transaction"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:200
+#: ../src/ledgerdialog.cpp:199
 msgctxt "LedgerDialog|Accounting context"
 msgid "Reconcile"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:221
+#: ../src/ledgerdialog.cpp:220
 msgctxt "LedgerDialog|Accounting context"
 msgid "Change:"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:261
+#: ../src/ledgerdialog.cpp:260
 msgctxt "LedgerDialog|"
 msgid "Payee/Payer"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:262
+#: ../src/ledgerdialog.cpp:261
 msgctxt "LedgerDialog|"
 msgid "Comments"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:264
+#: ../src/ledgerdialog.cpp:263
 msgctxt "LedgerDialog|Money put into account"
 msgid "Deposit"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:265
+#: ../src/ledgerdialog.cpp:264
 msgctxt "LedgerDialog|Money taken out from account"
 msgid "Withdrawal"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:462 ../src/ledgerdialog.cpp:463
-#: ../src/ledgerdialog.cpp:464
+#: ../src/ledgerdialog.cpp:461 ../src/ledgerdialog.cpp:462
+#: ../src/ledgerdialog.cpp:463
 #, qt-format
 msgctxt "LedgerDialog|Accounting context"
 msgid "Book value: %1 (%2)"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:272 ../src/ledgerdialog.cpp:1379
-#: ../src/ledgerdialog.cpp:1406 ../src/ledgerdialog.cpp:1433
-#: ../src/ledgerdialog.cpp:1459
+#: ../src/ledgerdialog.cpp:271 ../src/ledgerdialog.cpp:1377
+#: ../src/ledgerdialog.cpp:1404 ../src/ledgerdialog.cpp:1431
+#: ../src/ledgerdialog.cpp:1457
 msgctxt "LedgerDialog|"
 msgid "Debt Payment"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1379
+#: ../src/ledgerdialog.cpp:1377
 msgctxt "LedgerDialog|"
 msgid "Reduction"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1406
+#: ../src/ledgerdialog.cpp:1404
 msgctxt "LedgerDialog|"
 msgid "Fee"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1433
+#: ../src/ledgerdialog.cpp:1431
 msgctxt "LedgerDialog|"
 msgid "Interest"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1490
+#: ../src/ledgerdialog.cpp:1488
 msgctxt "LedgerDialog|"
 msgid "Income"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1491
+#: ../src/ledgerdialog.cpp:1489
 msgctxt "LedgerDialog|"
 msgid "Repayment"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:263 ../src/ledgerdialog.cpp:1494
+#: ../src/ledgerdialog.cpp:262 ../src/ledgerdialog.cpp:1492
 msgctxt "LedgerDialog|"
 msgid "Expense"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:259
+#: ../src/ledgerdialog.cpp:258
 msgctxt ""
 "LedgerDialog|Transaction description property (transaction title/generic "
 "article name)"
 msgid "Description"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1495
+#: ../src/ledgerdialog.cpp:1493
 msgctxt "LedgerDialog|"
 msgid "Refund"
 msgstr ""
 
-#: ../src/ledgerdialog.cpp:1501
+#: ../src/ledgerdialog.cpp:1499
 msgctxt "LedgerDialog|"
 msgid "Transfer"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:135
+#: ../src/editsplitdialog.cpp:143
 msgctxt "MultiItemListViewItem|"
 msgid "Dividend"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:136
+#: ../src/editsplitdialog.cpp:144
 msgctxt "MultiItemListViewItem|"
 msgid "Income"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:137
+#: ../src/editsplitdialog.cpp:145
 msgctxt "MultiItemListViewItem|"
 msgid "Repayment"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:139
+#: ../src/editsplitdialog.cpp:147
 msgctxt "MultiItemListViewItem|"
 msgid "Expense"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:140
+#: ../src/editsplitdialog.cpp:148
 msgctxt "MultiItemListViewItem|"
 msgid "Refund"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:142
+#: ../src/editsplitdialog.cpp:150
 msgctxt "MultiItemListViewItem|Financial security (e.g. stock, mutual fund)"
 msgid "Securities Purchase"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:144
+#: ../src/editsplitdialog.cpp:152
 msgctxt "MultiItemListViewItem|Financial security (e.g. stock, mutual fund)"
 msgid "Securities Sale"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:146
+#: ../src/editsplitdialog.cpp:154
 msgctxt "MultiItemListViewItem|"
 msgid "Account Balance Adjustment"
 msgstr ""
 
-#: ../src/editsplitdialog.cpp:148
+#: ../src/editsplitdialog.cpp:156
 msgctxt "MultiItemListViewItem|"
 msgid "Transfer"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1765
+#: ../src/transactioneditwidget.cpp:1812
 msgctxt "MultipleTransactionsEditDialog|"
 msgid "Modify Transactions"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1778
+#: ../src/transactioneditwidget.cpp:1825
 msgctxt ""
 "MultipleTransactionsEditDialog|Transaction description property (transaction "
 "title/generic article name)"
 msgid "Description:"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1788
+#: ../src/transactioneditwidget.cpp:1835
 msgctxt "MultipleTransactionsEditDialog|"
 msgid "Amount:"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1789
+#: ../src/transactioneditwidget.cpp:1836
 msgctxt "MultipleTransactionsEditDialog|"
 msgid "Income:"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1790
+#: ../src/transactioneditwidget.cpp:1837
 msgctxt "MultipleTransactionsEditDialog|"
 msgid "Cost:"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1798
+#: ../src/transactioneditwidget.cpp:1845
 msgctxt "MultipleTransactionsEditDialog|"
 msgid "Date:"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1809
+#: ../src/transactioneditwidget.cpp:1856
 msgctxt "MultipleTransactionsEditDialog|"
 msgid "Category:"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1822
+#: ../src/transactioneditwidget.cpp:1869
 msgctxt "MultipleTransactionsEditDialog|"
 msgid "Payer:"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1823
+#: ../src/transactioneditwidget.cpp:1870
 msgctxt "MultipleTransactionsEditDialog|"
 msgid "Payee:"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1987 ../src/transactioneditwidget.cpp:1995
-#: ../src/transactioneditwidget.cpp:2006
+#: ../src/transactioneditwidget.cpp:2033 ../src/transactioneditwidget.cpp:2041
+#: ../src/transactioneditwidget.cpp:2052
 msgctxt "MultipleTransactionsEditDialog|"
 msgid "Error"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1987
+#: ../src/transactioneditwidget.cpp:2033
 msgctxt "MultipleTransactionsEditDialog|"
 msgid "No income category available."
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1995
+#: ../src/transactioneditwidget.cpp:2041
 msgctxt "MultipleTransactionsEditDialog|"
 msgid "No expense category available."
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:2006
+#: ../src/transactioneditwidget.cpp:2052
 msgctxt "MultipleTransactionsEditDialog|"
 msgid "Invalid date."
 msgstr ""
@@ -5028,38 +5113,38 @@ msgctxt "OverTimeChart|"
 msgid "Print…"
 msgstr ""
 
-#: ../src/overtimechart.cpp:209
+#: ../src/overtimechart.cpp:208
 msgctxt "OverTimeChart|"
 msgid "Source:"
 msgstr ""
 
-#: ../src/overtimechart.cpp:221
+#: ../src/overtimechart.cpp:220
 msgctxt "OverTimeChart|"
 msgid "Incomes and Expenses"
 msgstr ""
 
-#: ../src/overtimechart.cpp:222 ../src/overtimechart.cpp:2955
-#: ../src/overtimechart.cpp:3177 ../src/overtimechart.cpp:3610
+#: ../src/overtimechart.cpp:221 ../src/overtimechart.cpp:2968
+#: ../src/overtimechart.cpp:3196 ../src/overtimechart.cpp:3452
 msgctxt "OverTimeChart|"
 msgid "Profits"
 msgstr ""
 
-#: ../src/overtimechart.cpp:223 ../src/overtimechart.cpp:2972
-#: ../src/overtimechart.cpp:3182 ../src/overtimechart.cpp:3186
-#: ../src/overtimechart.cpp:3615 ../src/overtimechart.cpp:3619
+#: ../src/overtimechart.cpp:222 ../src/overtimechart.cpp:2985
+#: ../src/overtimechart.cpp:3201 ../src/overtimechart.cpp:3205
+#: ../src/overtimechart.cpp:3457 ../src/overtimechart.cpp:3461
 msgctxt "OverTimeChart|"
 msgid "Expenses"
 msgstr ""
 
-#: ../src/overtimechart.cpp:224 ../src/overtimechart.cpp:2966
-#: ../src/overtimechart.cpp:3181 ../src/overtimechart.cpp:3185
-#: ../src/overtimechart.cpp:3614 ../src/overtimechart.cpp:3618
+#: ../src/overtimechart.cpp:223 ../src/overtimechart.cpp:2979
+#: ../src/overtimechart.cpp:3200 ../src/overtimechart.cpp:3204
+#: ../src/overtimechart.cpp:3456 ../src/overtimechart.cpp:3460
 msgctxt "OverTimeChart|"
 msgid "Incomes"
 msgstr ""
 
-#: ../src/overtimechart.cpp:230 ../src/overtimechart.cpp:687
-#: ../src/overtimechart.cpp:3859
+#: ../src/overtimechart.cpp:229 ../src/overtimechart.cpp:690
+#: ../src/overtimechart.cpp:3943
 msgctxt "OverTimeChart|"
 msgid "All Categories Combined"
 msgstr ""
@@ -5094,265 +5179,266 @@ msgctxt "OverTimeChart|"
 msgid "Stacked Bar Chart"
 msgstr ""
 
-#: ../src/overtimechart.cpp:236 ../src/overtimechart.cpp:547
-#: ../src/overtimechart.cpp:676 ../src/overtimechart.cpp:3759
-#: ../src/overtimechart.cpp:3881
+#: ../src/overtimechart.cpp:235 ../src/overtimechart.cpp:550
+#: ../src/overtimechart.cpp:679 ../src/overtimechart.cpp:3843
+#: ../src/overtimechart.cpp:3965
 msgctxt ""
 "OverTimeChart|Referring to the transaction description property (transaction "
 "title/generic article name)"
 msgid "All Descriptions Combined"
 msgstr ""
 
-#: ../src/overtimechart.cpp:597
+#: ../src/overtimechart.cpp:600
 msgctxt ""
 "OverTimeChart|Referring to the transaction description property (transaction "
 "title/generic article name)"
 msgid "All Subcategories and Descriptions Combined"
 msgstr ""
 
-#: ../src/overtimechart.cpp:599 ../src/overtimechart.cpp:3760
+#: ../src/overtimechart.cpp:602 ../src/overtimechart.cpp:3844
 msgctxt ""
 "OverTimeChart|Referring to the transaction description property (transaction "
 "title/generic article name)"
 msgid "All Descriptions Split"
 msgstr ""
 
-#: ../src/overtimechart.cpp:648 ../src/overtimechart.cpp:3202
-#: ../src/overtimechart.cpp:3208 ../src/overtimechart.cpp:3236
-#: ../src/overtimechart.cpp:3238 ../src/overtimechart.cpp:3245
-#: ../src/overtimechart.cpp:3247 ../src/overtimechart.cpp:3635
-#: ../src/overtimechart.cpp:3641 ../src/overtimechart.cpp:3669
-#: ../src/overtimechart.cpp:3671 ../src/overtimechart.cpp:3678
-#: ../src/overtimechart.cpp:3680 ../src/overtimechart.cpp:3728
-#: ../src/overtimechart.cpp:3799
+#: ../src/overtimechart.cpp:651 ../src/overtimechart.cpp:3221
+#: ../src/overtimechart.cpp:3227 ../src/overtimechart.cpp:3255
+#: ../src/overtimechart.cpp:3257 ../src/overtimechart.cpp:3264
+#: ../src/overtimechart.cpp:3266 ../src/overtimechart.cpp:3477
+#: ../src/overtimechart.cpp:3483 ../src/overtimechart.cpp:3511
+#: ../src/overtimechart.cpp:3513 ../src/overtimechart.cpp:3520
+#: ../src/overtimechart.cpp:3522 ../src/overtimechart.cpp:3812
+#: ../src/overtimechart.cpp:3883
 msgctxt ""
 "OverTimeChart|Referring to the transaction description property (transaction "
 "title/generic article name)"
 msgid "No description"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2589
+#: ../src/overtimechart.cpp:2597
 msgctxt ""
 "OverTimeChart|Referring to the transaction description property (transaction "
 "title/generic article name)"
 msgid "Other descriptions"
 msgstr ""
 
-#: ../src/overtimechart.cpp:3171 ../src/overtimechart.cpp:3604
+#: ../src/overtimechart.cpp:3190 ../src/overtimechart.cpp:3446
 msgctxt "OverTimeChart|"
 msgid "Assets"
 msgstr ""
 
-#: ../src/overtimechart.cpp:225
+#: ../src/overtimechart.cpp:224
 msgctxt "OverTimeChart|"
 msgid "Assets and Liabilities"
 msgstr ""
 
-#: ../src/overtimechart.cpp:244 ../src/overtimechart.cpp:682
+#: ../src/overtimechart.cpp:243 ../src/overtimechart.cpp:685
 msgctxt "OverTimeChart|"
 msgid "All Payees/Payers Combined"
 msgstr ""
 
-#: ../src/overtimechart.cpp:264
+#: ../src/overtimechart.cpp:263
 msgctxt "OverTimeChart|"
 msgid "Start date:"
 msgstr ""
 
-#: ../src/overtimechart.cpp:270
+#: ../src/overtimechart.cpp:269
 msgctxt "OverTimeChart|"
 msgid "End date:"
 msgstr ""
 
-#: ../src/overtimechart.cpp:276
+#: ../src/overtimechart.cpp:275
 msgctxt "OverTimeChart|"
 msgid "Value:"
 msgstr ""
 
-#: ../src/overtimechart.cpp:280
+#: ../src/overtimechart.cpp:279
 msgctxt "OverTimeChart|"
 msgid "Annual total"
 msgstr ""
 
-#: ../src/overtimechart.cpp:284
+#: ../src/overtimechart.cpp:283
 msgctxt "OverTimeChart|"
 msgid "Monthly total"
 msgstr ""
 
-#: ../src/overtimechart.cpp:288
+#: ../src/overtimechart.cpp:287
 msgctxt "OverTimeChart|"
 msgid "Daily average"
 msgstr ""
 
-#: ../src/overtimechart.cpp:292
+#: ../src/overtimechart.cpp:291 ../src/overtimechart.cpp:2854
+#: ../src/overtimechart.cpp:2866
 msgctxt "OverTimeChart|"
 msgid "Quantity"
 msgstr ""
 
-#: ../src/overtimechart.cpp:296 ../src/overtimechart.cpp:2857
+#: ../src/overtimechart.cpp:295 ../src/overtimechart.cpp:2870
 msgctxt "OverTimeChart|"
 msgid "Average value"
 msgstr ""
 
-#: ../src/overtimechart.cpp:555 ../src/overtimechart.cpp:680
-#: ../src/overtimechart.cpp:3763 ../src/overtimechart.cpp:3886
+#: ../src/overtimechart.cpp:558 ../src/overtimechart.cpp:683
+#: ../src/overtimechart.cpp:3847 ../src/overtimechart.cpp:3970
 msgctxt "OverTimeChart|"
 msgid "All Payers Combined"
 msgstr ""
 
-#: ../src/overtimechart.cpp:556 ../src/overtimechart.cpp:681
-#: ../src/overtimechart.cpp:3764 ../src/overtimechart.cpp:3885
+#: ../src/overtimechart.cpp:559 ../src/overtimechart.cpp:684
+#: ../src/overtimechart.cpp:3848 ../src/overtimechart.cpp:3969
 msgctxt "OverTimeChart|"
 msgid "All Payees Combined"
 msgstr ""
 
-#: ../src/overtimechart.cpp:596
+#: ../src/overtimechart.cpp:599
 msgctxt "OverTimeChart|"
 msgid "All Subcategories Split"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2863
+#: ../src/overtimechart.cpp:2876
 msgctxt "OverTimeChart|"
 msgid "Annual value"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2864
+#: ../src/overtimechart.cpp:2877
 msgctxt "OverTimeChart|"
 msgid "Annual profit"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2865
+#: ../src/overtimechart.cpp:2878
 msgctxt "OverTimeChart|"
 msgid "Annual income"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2866
+#: ../src/overtimechart.cpp:2879
 msgctxt "OverTimeChart|"
 msgid "Annual cost"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2880 ../src/overtimechart.cpp:3394
+#: ../src/overtimechart.cpp:2893 ../src/overtimechart.cpp:3570
 msgctxt "OverTimeChart|"
 msgid "Includes budgeted transactions"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2948
+#: ../src/overtimechart.cpp:2961
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Value: %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2949
+#: ../src/overtimechart.cpp:2962
 msgctxt "OverTimeChart|"
 msgid "Assets & Liabilities"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2959
+#: ../src/overtimechart.cpp:2972
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Incomes & Expenses, %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2960
+#: ../src/overtimechart.cpp:2973
 msgctxt "OverTimeChart|"
 msgid "Incomes & Expenses"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2965
+#: ../src/overtimechart.cpp:2978
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Incomes, %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2971
+#: ../src/overtimechart.cpp:2984
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Expenses, %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2979
+#: ../src/overtimechart.cpp:2992
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Incomes, %2: %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2980
+#: ../src/overtimechart.cpp:2993
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Incomes: %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2987
+#: ../src/overtimechart.cpp:3000
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Expenses, %2: %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2988
+#: ../src/overtimechart.cpp:3001
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Expenses: %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2993 ../src/overtimechart.cpp:3016
+#: ../src/overtimechart.cpp:3006 ../src/overtimechart.cpp:3029
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Incomes, %3: %2, %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2994 ../src/overtimechart.cpp:3017
+#: ../src/overtimechart.cpp:3007 ../src/overtimechart.cpp:3030
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Incomes: %2, %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2999 ../src/overtimechart.cpp:3023
+#: ../src/overtimechart.cpp:3012 ../src/overtimechart.cpp:3036
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Expenses, %3: %2, %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:3000 ../src/overtimechart.cpp:3024
+#: ../src/overtimechart.cpp:3013 ../src/overtimechart.cpp:3037
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Expenses: %2, %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:3004
+#: ../src/overtimechart.cpp:3017
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Incomes, %4: %3, %2, %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:3005
+#: ../src/overtimechart.cpp:3018
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Incomes: %3, %2, %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:3009
+#: ../src/overtimechart.cpp:3022
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Expenses, %4: %3, %2, %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:3010
+#: ../src/overtimechart.cpp:3023
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Expenses: %3, %2, %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:3172 ../src/overtimechart.cpp:3605
+#: ../src/overtimechart.cpp:3191 ../src/overtimechart.cpp:3447
 msgctxt "OverTimeChart|"
 msgid "Liabilities"
 msgstr ""
 
-#: ../src/overtimechart.cpp:3254 ../src/overtimechart.cpp:3687
+#: ../src/overtimechart.cpp:3273 ../src/overtimechart.cpp:3529
 msgctxt "OverTimeChart|"
 msgid "Other accounts"
 msgstr ""
 
-#: ../src/overtimechart.cpp:4062 ../src/overtimechart.cpp:4063
-#: ../src/overtimechart.cpp:4107 ../src/overtimechart.cpp:4108
+#: ../src/overtimechart.cpp:4164 ../src/overtimechart.cpp:4173
+#: ../src/overtimechart.cpp:4219 ../src/overtimechart.cpp:4220
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid ""
@@ -5361,82 +5447,82 @@ msgid ""
 "Date: %3"
 msgstr ""
 
-#: ../src/overtimechart.cpp:4063 ../src/overtimechart.cpp:4108
+#: ../src/overtimechart.cpp:4173 ../src/overtimechart.cpp:4220
 msgctxt "OverTimeChart|Month and year"
 msgid "MMMM yyyy"
 msgstr ""
 
-#: ../src/overtimechart.cpp:601 ../src/overtimechart.cpp:3765
+#: ../src/overtimechart.cpp:604 ../src/overtimechart.cpp:3849
 msgctxt "OverTimeChart|"
 msgid "All Payers Split"
 msgstr ""
 
-#: ../src/overtimechart.cpp:602 ../src/overtimechart.cpp:3766
+#: ../src/overtimechart.cpp:605 ../src/overtimechart.cpp:3850
 msgctxt "OverTimeChart|"
 msgid "All Payees Split"
 msgstr ""
 
-#: ../src/overtimechart.cpp:656 ../src/overtimechart.cpp:3214
-#: ../src/overtimechart.cpp:3225 ../src/overtimechart.cpp:3647
-#: ../src/overtimechart.cpp:3658 ../src/overtimechart.cpp:3732
-#: ../src/overtimechart.cpp:3815
+#: ../src/overtimechart.cpp:659 ../src/overtimechart.cpp:3233
+#: ../src/overtimechart.cpp:3244 ../src/overtimechart.cpp:3489
+#: ../src/overtimechart.cpp:3500 ../src/overtimechart.cpp:3816
+#: ../src/overtimechart.cpp:3899
 msgctxt "OverTimeChart|"
 msgid "No payer"
 msgstr ""
 
-#: ../src/overtimechart.cpp:657 ../src/overtimechart.cpp:3220
-#: ../src/overtimechart.cpp:3230 ../src/overtimechart.cpp:3653
-#: ../src/overtimechart.cpp:3663 ../src/overtimechart.cpp:3730
-#: ../src/overtimechart.cpp:3816
+#: ../src/overtimechart.cpp:660 ../src/overtimechart.cpp:3239
+#: ../src/overtimechart.cpp:3249 ../src/overtimechart.cpp:3495
+#: ../src/overtimechart.cpp:3505 ../src/overtimechart.cpp:3814
+#: ../src/overtimechart.cpp:3900
 msgctxt "OverTimeChart|"
 msgid "No payee"
 msgstr ""
 
-#: ../src/overtimechart.cpp:689 ../src/overtimechart.cpp:701
-#: ../src/overtimechart.cpp:3860
+#: ../src/overtimechart.cpp:692 ../src/overtimechart.cpp:704
+#: ../src/overtimechart.cpp:3944
 msgctxt "OverTimeChart|"
 msgid "All Categories Split"
 msgstr ""
 
-#: ../src/overtimechart.cpp:759 ../src/overtimechart.cpp:789
-#: ../src/overtimechart.cpp:819 ../src/overtimechart.cpp:856
-#: ../src/overtimechart.cpp:969 ../src/overtimechart.cpp:1002
+#: ../src/overtimechart.cpp:767 ../src/overtimechart.cpp:797
+#: ../src/overtimechart.cpp:827 ../src/overtimechart.cpp:864
+#: ../src/overtimechart.cpp:977 ../src/overtimechart.cpp:1010
 msgctxt "OverTimeChart|"
 msgid "Error"
 msgstr ""
 
-#: ../src/overtimechart.cpp:759 ../src/overtimechart.cpp:789
-#: ../src/overtimechart.cpp:819 ../src/overtimechart.cpp:856
+#: ../src/overtimechart.cpp:767 ../src/overtimechart.cpp:797
+#: ../src/overtimechart.cpp:827 ../src/overtimechart.cpp:864
 msgctxt "OverTimeChart|"
 msgid "Invalid date."
 msgstr ""
 
-#: ../src/overtimechart.cpp:969
+#: ../src/overtimechart.cpp:977
 msgctxt "OverTimeChart|"
 msgid "Couldn't open file for writing."
 msgstr ""
 
-#: ../src/overtimechart.cpp:1002
+#: ../src/overtimechart.cpp:1010
 msgctxt "OverTimeChart|"
 msgid "Error while writing file; file was not saved."
 msgstr ""
 
-#: ../src/overtimechart.cpp:2585
+#: ../src/overtimechart.cpp:2593
 msgctxt "OverTimeChart|"
 msgid "Other payees"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2587
+#: ../src/overtimechart.cpp:2595
 msgctxt "OverTimeChart|"
 msgid "Other payers"
 msgstr ""
 
-#: ../src/overtimechart.cpp:3447
+#: ../src/overtimechart.cpp:3623
 msgctxt "OverTimeChart|"
 msgid "Time"
 msgstr ""
 
-#: ../src/overtimechart.cpp:3193 ../src/overtimechart.cpp:3626
+#: ../src/overtimechart.cpp:3212 ../src/overtimechart.cpp:3468
 #, qt-format
 msgctxt "OverTimeChart|%1: Category; %2: Payee/Payer"
 msgid "%1/%2"
@@ -5447,123 +5533,123 @@ msgctxt "OverTimeChart|"
 msgid "Default"
 msgstr ""
 
-#: ../src/overtimechart.cpp:250 ../src/overtimechart.cpp:3911
+#: ../src/overtimechart.cpp:249 ../src/overtimechart.cpp:3995
 msgctxt "OverTimeChart|"
 msgid "All Accounts Combined"
 msgstr ""
 
-#: ../src/overtimechart.cpp:251 ../src/overtimechart.cpp:3912
+#: ../src/overtimechart.cpp:250 ../src/overtimechart.cpp:3996
 msgctxt "OverTimeChart|"
 msgid "All Accounts Split"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2846
+#: ../src/overtimechart.cpp:2855
 msgctxt "OverTimeChart|"
 msgid "Value"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2850
+#: ../src/overtimechart.cpp:2859
 msgctxt "OverTimeChart|"
 msgid "Daily average value"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2851
+#: ../src/overtimechart.cpp:2860
 msgctxt "OverTimeChart|"
 msgid "Daily average profit"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2852
+#: ../src/overtimechart.cpp:2861
 msgctxt "OverTimeChart|"
 msgid "Daily average income"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2853
+#: ../src/overtimechart.cpp:2862
 msgctxt "OverTimeChart|"
 msgid "Daily average cost"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2858
+#: ../src/overtimechart.cpp:2871
 msgctxt "OverTimeChart|"
 msgid "Average income"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2859
+#: ../src/overtimechart.cpp:2872
 msgctxt "OverTimeChart|"
 msgid "Average cost"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2870
+#: ../src/overtimechart.cpp:2883
 msgctxt "OverTimeChart|"
 msgid "Monthly value"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2871
+#: ../src/overtimechart.cpp:2884
 msgctxt "OverTimeChart|"
 msgid "Monthly profit"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2872
+#: ../src/overtimechart.cpp:2885
 msgctxt "OverTimeChart|"
 msgid "Monthly income"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2873
+#: ../src/overtimechart.cpp:2886
 msgctxt "OverTimeChart|"
 msgid "Monthly cost"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2879 ../src/overtimechart.cpp:3393
+#: ../src/overtimechart.cpp:2892 ../src/overtimechart.cpp:3569
 msgctxt "OverTimeChart|"
 msgid "Includes scheduled and budgeted transactions"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2881 ../src/overtimechart.cpp:3395
+#: ../src/overtimechart.cpp:2894 ../src/overtimechart.cpp:3571
 msgctxt "OverTimeChart|"
 msgid "Includes scheduled transactions"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2953
+#: ../src/overtimechart.cpp:2966
 #, qt-format
 msgctxt "OverTimeChart|"
 msgid "Incomes − Expenses, %1"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2954 ../src/overtimechart.cpp:3176
-#: ../src/overtimechart.cpp:3609
+#: ../src/overtimechart.cpp:2967 ../src/overtimechart.cpp:3195
+#: ../src/overtimechart.cpp:3451
 msgctxt "OverTimeChart|"
 msgid "Incomes − Expenses"
 msgstr ""
 
-#: ../src/overtimechart.cpp:2956
+#: ../src/overtimechart.cpp:2969
 msgctxt "OverTimeChart|Financial security (e.g. stock, mutual fund)"
 msgid "Excluding any profits or losses in trading of security shares"
 msgstr ""
 
-#: ../src/overtimechart.cpp:3240 ../src/overtimechart.cpp:3673
+#: ../src/overtimechart.cpp:3259 ../src/overtimechart.cpp:3515
 #, qt-format
 msgctxt "OverTimeChart|%1: Description; %2: Payer/Payer"
 msgid "%1/%2"
 msgstr ""
 
-#: ../src/overtimechart.cpp:3249 ../src/overtimechart.cpp:3682
+#: ../src/overtimechart.cpp:3268 ../src/overtimechart.cpp:3524
 #, qt-format
 msgctxt "OverTimeChart|%1: Description; %2: Payee/Payer"
 msgid "%1/%2"
 msgstr ""
 
-#: ../src/overtimechart.cpp:3236 ../src/overtimechart.cpp:3237
-#: ../src/overtimechart.cpp:3669 ../src/overtimechart.cpp:3670
+#: ../src/overtimechart.cpp:3255 ../src/overtimechart.cpp:3256
+#: ../src/overtimechart.cpp:3511 ../src/overtimechart.cpp:3512
 msgctxt "OverTimeChart|"
 msgid "no payer"
 msgstr ""
 
-#: ../src/overtimechart.cpp:3245 ../src/overtimechart.cpp:3246
-#: ../src/overtimechart.cpp:3678 ../src/overtimechart.cpp:3679
+#: ../src/overtimechart.cpp:3264 ../src/overtimechart.cpp:3265
+#: ../src/overtimechart.cpp:3520 ../src/overtimechart.cpp:3521
 msgctxt "OverTimeChart|"
 msgid "no payee"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1023
+#: ../src/eqonomize.cpp:1064
 msgctxt "OverTimeChartDialog|"
 msgid "Chart"
 msgstr ""
@@ -5843,641 +5929,641 @@ msgctxt "OverTimeReport|"
 msgid "Adjusted for the average month / year (%1 / %2 days)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:993
+#: ../src/eqonomize.cpp:1034
 msgctxt "OverTimeReportDialog|"
 msgid "Report"
 msgstr ""
 
-#: ../src/main.cpp:61
+#: ../src/main.cpp:71
 msgctxt "QApplication|"
 msgid "Start with expenses list displayed"
 msgstr ""
 
-#: ../src/main.cpp:63
+#: ../src/main.cpp:73
 msgctxt "QApplication|"
 msgid "Start with incomes list displayed"
 msgstr ""
 
-#: ../src/main.cpp:65
+#: ../src/main.cpp:75
 msgctxt "QApplication|"
 msgid "Start with transfers list displayed"
 msgstr ""
 
-#: ../src/main.cpp:67
+#: ../src/main.cpp:77
 msgctxt "QApplication|"
 msgid "Synchronize file"
 msgstr ""
 
-#: ../src/main.cpp:69
+#: ../src/main.cpp:79
 msgctxt "QApplication|"
 msgid "Document to open"
 msgstr ""
 
-#: ../src/main.cpp:84
+#: ../src/main.cpp:94
 #, qt-format
 msgctxt "QApplication|"
 msgid "%1 is already running."
 msgstr ""
 
-#: ../src/eqonomize.cpp:365
+#: ../src/eqonomize.cpp:386
 msgctxt "QObject|"
 msgid "Transfer"
 msgstr ""
 
-#: ../src/eqonomize.cpp:367
+#: ../src/eqonomize.cpp:388
 msgctxt "QObject|"
 msgid "Dividend"
 msgstr ""
 
-#: ../src/eqonomize.cpp:368 ../src/eqonomize.cpp:405 ../src/eqonomize.cpp:411
-#: ../src/eqonomize.cpp:500 ../src/eqonomize.cpp:504
+#: ../src/eqonomize.cpp:389 ../src/eqonomize.cpp:426 ../src/eqonomize.cpp:432
+#: ../src/eqonomize.cpp:521 ../src/eqonomize.cpp:525
 msgctxt "QObject|"
 msgid "Income"
 msgstr ""
 
-#: ../src/eqonomize.cpp:371 ../src/eqonomize.cpp:406 ../src/eqonomize.cpp:412
-#: ../src/eqonomize.cpp:501 ../src/eqonomize.cpp:505
+#: ../src/eqonomize.cpp:392 ../src/eqonomize.cpp:427 ../src/eqonomize.cpp:433
+#: ../src/eqonomize.cpp:522 ../src/eqonomize.cpp:526
 msgctxt "QObject|"
 msgid "Expense"
 msgstr ""
 
-#: ../src/eqonomize.cpp:372
+#: ../src/eqonomize.cpp:393
 msgctxt "QObject|Financial security (e.g. stock, mutual fund)"
 msgid "Securities Purchase"
 msgstr ""
 
-#: ../src/eqonomize.cpp:373
+#: ../src/eqonomize.cpp:394
 msgctxt "QObject|Financial security (e.g. stock, mutual fund)"
 msgid "Securities Sale"
 msgstr ""
 
-#: ../src/eqonomize.cpp:378
+#: ../src/eqonomize.cpp:399
 msgctxt "QObject|"
 msgid "Debt Payment"
 msgstr ""
 
-#: ../src/eqonomize.cpp:407 ../src/eqonomize.cpp:502
+#: ../src/eqonomize.cpp:428 ../src/eqonomize.cpp:523
 msgctxt "QObject|"
 msgid "Split Transaction"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:320
+#: ../src/recurrenceeditwidget.cpp:318
 msgctxt "RecurrenceEditWidget|"
 msgid "Enable recurrence"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:323
+#: ../src/recurrenceeditwidget.cpp:321
 msgctxt "RecurrenceEditWidget|"
 msgid "Recurrence Rule"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:328
+#: ../src/recurrenceeditwidget.cpp:326
 msgctxt "RecurrenceEditWidget|"
 msgid "Daily"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:329
+#: ../src/recurrenceeditwidget.cpp:327
 msgctxt "RecurrenceEditWidget|"
 msgid "Weekly"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:330
+#: ../src/recurrenceeditwidget.cpp:328
 msgctxt "RecurrenceEditWidget|"
 msgid "Monthly"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:331
+#: ../src/recurrenceeditwidget.cpp:329
 msgctxt "RecurrenceEditWidget|"
 msgid "Yearly"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:349 ../src/recurrenceeditwidget.cpp:360
-#: ../src/recurrenceeditwidget.cpp:383 ../src/recurrenceeditwidget.cpp:469
+#: ../src/recurrenceeditwidget.cpp:347 ../src/recurrenceeditwidget.cpp:358
+#: ../src/recurrenceeditwidget.cpp:381 ../src/recurrenceeditwidget.cpp:467
 msgctxt "RecurrenceEditWidget|"
 msgid "Recur every"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:353
+#: ../src/recurrenceeditwidget.cpp:351
 msgctxt "RecurrenceEditWidget|"
 msgid "day(s)"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:364
+#: ../src/recurrenceeditwidget.cpp:362
 msgctxt "RecurrenceEditWidget|"
 msgid "week(s) on:"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:387
+#: ../src/recurrenceeditwidget.cpp:385
 msgctxt "RecurrenceEditWidget|"
 msgid "month(s), after the start month"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:392 ../src/recurrenceeditwidget.cpp:444
+#: ../src/recurrenceeditwidget.cpp:390 ../src/recurrenceeditwidget.cpp:442
 msgctxt "RecurrenceEditWidget|"
 msgid "Recur on the"
+msgstr ""
+
+#: ../src/recurrenceeditwidget.cpp:396 ../src/recurrenceeditwidget.cpp:447
+#: ../src/recurrenceeditwidget.cpp:500
+msgctxt "RecurrenceEditWidget|"
+msgid "1st"
+msgstr ""
+
+#: ../src/recurrenceeditwidget.cpp:397 ../src/recurrenceeditwidget.cpp:448
+#: ../src/recurrenceeditwidget.cpp:501
+msgctxt "RecurrenceEditWidget|"
+msgid "2nd"
 msgstr ""
 
 #: ../src/recurrenceeditwidget.cpp:398 ../src/recurrenceeditwidget.cpp:449
 #: ../src/recurrenceeditwidget.cpp:502
 msgctxt "RecurrenceEditWidget|"
-msgid "1st"
+msgid "3rd"
 msgstr ""
 
 #: ../src/recurrenceeditwidget.cpp:399 ../src/recurrenceeditwidget.cpp:450
 #: ../src/recurrenceeditwidget.cpp:503
 msgctxt "RecurrenceEditWidget|"
-msgid "2nd"
+msgid "4th"
 msgstr ""
 
 #: ../src/recurrenceeditwidget.cpp:400 ../src/recurrenceeditwidget.cpp:451
 #: ../src/recurrenceeditwidget.cpp:504
 msgctxt "RecurrenceEditWidget|"
-msgid "3rd"
-msgstr ""
-
-#: ../src/recurrenceeditwidget.cpp:401 ../src/recurrenceeditwidget.cpp:452
-#: ../src/recurrenceeditwidget.cpp:505
-msgctxt "RecurrenceEditWidget|"
-msgid "4th"
-msgstr ""
-
-#: ../src/recurrenceeditwidget.cpp:402 ../src/recurrenceeditwidget.cpp:453
-#: ../src/recurrenceeditwidget.cpp:506
-msgctxt "RecurrenceEditWidget|"
 msgid "5th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:403
+#: ../src/recurrenceeditwidget.cpp:401
 msgctxt "RecurrenceEditWidget|"
 msgid "6th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:404
+#: ../src/recurrenceeditwidget.cpp:402
 msgctxt "RecurrenceEditWidget|"
 msgid "7th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:405
+#: ../src/recurrenceeditwidget.cpp:403
 msgctxt "RecurrenceEditWidget|"
 msgid "8th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:406
+#: ../src/recurrenceeditwidget.cpp:404
 msgctxt "RecurrenceEditWidget|"
 msgid "9th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:407
+#: ../src/recurrenceeditwidget.cpp:405
 msgctxt "RecurrenceEditWidget|"
 msgid "10th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:408
+#: ../src/recurrenceeditwidget.cpp:406
 msgctxt "RecurrenceEditWidget|"
 msgid "11th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:409
+#: ../src/recurrenceeditwidget.cpp:407
 msgctxt "RecurrenceEditWidget|"
 msgid "12th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:410
+#: ../src/recurrenceeditwidget.cpp:408
 msgctxt "RecurrenceEditWidget|"
 msgid "13th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:411
+#: ../src/recurrenceeditwidget.cpp:409
 msgctxt "RecurrenceEditWidget|"
 msgid "14th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:412
+#: ../src/recurrenceeditwidget.cpp:410
 msgctxt "RecurrenceEditWidget|"
 msgid "15th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:413
+#: ../src/recurrenceeditwidget.cpp:411
 msgctxt "RecurrenceEditWidget|"
 msgid "16th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:414
+#: ../src/recurrenceeditwidget.cpp:412
 msgctxt "RecurrenceEditWidget|"
 msgid "17th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:415
+#: ../src/recurrenceeditwidget.cpp:413
 msgctxt "RecurrenceEditWidget|"
 msgid "18th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:416
+#: ../src/recurrenceeditwidget.cpp:414
 msgctxt "RecurrenceEditWidget|"
 msgid "19th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:417
+#: ../src/recurrenceeditwidget.cpp:415
 msgctxt "RecurrenceEditWidget|"
 msgid "20th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:418
+#: ../src/recurrenceeditwidget.cpp:416
 msgctxt "RecurrenceEditWidget|"
 msgid "21st"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:419
+#: ../src/recurrenceeditwidget.cpp:417
 msgctxt "RecurrenceEditWidget|"
 msgid "22nd"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:420
+#: ../src/recurrenceeditwidget.cpp:418
 msgctxt "RecurrenceEditWidget|"
 msgid "23rd"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:421
+#: ../src/recurrenceeditwidget.cpp:419
 msgctxt "RecurrenceEditWidget|"
 msgid "24th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:422
+#: ../src/recurrenceeditwidget.cpp:420
 msgctxt "RecurrenceEditWidget|"
 msgid "25th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:423
+#: ../src/recurrenceeditwidget.cpp:421
 msgctxt "RecurrenceEditWidget|"
 msgid "26th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:424
+#: ../src/recurrenceeditwidget.cpp:422
 msgctxt "RecurrenceEditWidget|"
 msgid "27th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:425
+#: ../src/recurrenceeditwidget.cpp:423
 msgctxt "RecurrenceEditWidget|"
 msgid "28th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:426
+#: ../src/recurrenceeditwidget.cpp:424
 msgctxt "RecurrenceEditWidget|"
 msgid "29th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:427
+#: ../src/recurrenceeditwidget.cpp:425
 msgctxt "RecurrenceEditWidget|"
 msgid "30th"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:428
+#: ../src/recurrenceeditwidget.cpp:426
 msgctxt "RecurrenceEditWidget|"
 msgid "31st"
+msgstr ""
+
+#: ../src/recurrenceeditwidget.cpp:427 ../src/recurrenceeditwidget.cpp:452
+#: ../src/recurrenceeditwidget.cpp:505
+msgctxt "RecurrenceEditWidget|"
+msgid "Last"
+msgstr ""
+
+#: ../src/recurrenceeditwidget.cpp:428 ../src/recurrenceeditwidget.cpp:453
+#: ../src/recurrenceeditwidget.cpp:506
+msgctxt "RecurrenceEditWidget|"
+msgid "2nd Last"
 msgstr ""
 
 #: ../src/recurrenceeditwidget.cpp:429 ../src/recurrenceeditwidget.cpp:454
 #: ../src/recurrenceeditwidget.cpp:507
 msgctxt "RecurrenceEditWidget|"
-msgid "Last"
+msgid "3rd Last"
 msgstr ""
 
 #: ../src/recurrenceeditwidget.cpp:430 ../src/recurrenceeditwidget.cpp:455
 #: ../src/recurrenceeditwidget.cpp:508
 msgctxt "RecurrenceEditWidget|"
-msgid "2nd Last"
+msgid "4th Last"
 msgstr ""
 
 #: ../src/recurrenceeditwidget.cpp:431 ../src/recurrenceeditwidget.cpp:456
 #: ../src/recurrenceeditwidget.cpp:509
 msgctxt "RecurrenceEditWidget|"
-msgid "3rd Last"
-msgstr ""
-
-#: ../src/recurrenceeditwidget.cpp:432 ../src/recurrenceeditwidget.cpp:457
-#: ../src/recurrenceeditwidget.cpp:510
-msgctxt "RecurrenceEditWidget|"
-msgid "4th Last"
-msgstr ""
-
-#: ../src/recurrenceeditwidget.cpp:433 ../src/recurrenceeditwidget.cpp:458
-#: ../src/recurrenceeditwidget.cpp:511
-msgctxt "RecurrenceEditWidget|"
 msgid "5th Last"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:435
+#: ../src/recurrenceeditwidget.cpp:433
 msgctxt "RecurrenceEditWidget|"
 msgid "day"
+msgstr ""
+
+#: ../src/recurrenceeditwidget.cpp:435 ../src/recurrenceeditwidget.cpp:488
+#: ../src/recurrenceeditwidget.cpp:527
+msgctxt "RecurrenceEditWidget|"
+msgid "possibly on weekend"
+msgstr ""
+
+#: ../src/recurrenceeditwidget.cpp:436 ../src/recurrenceeditwidget.cpp:489
+#: ../src/recurrenceeditwidget.cpp:528
+msgctxt "RecurrenceEditWidget|"
+msgid "but before weekend"
 msgstr ""
 
 #: ../src/recurrenceeditwidget.cpp:437 ../src/recurrenceeditwidget.cpp:490
 #: ../src/recurrenceeditwidget.cpp:529
 msgctxt "RecurrenceEditWidget|"
-msgid "possibly on weekend"
-msgstr ""
-
-#: ../src/recurrenceeditwidget.cpp:438 ../src/recurrenceeditwidget.cpp:491
-#: ../src/recurrenceeditwidget.cpp:530
-msgctxt "RecurrenceEditWidget|"
-msgid "but before weekend"
-msgstr ""
-
-#: ../src/recurrenceeditwidget.cpp:439 ../src/recurrenceeditwidget.cpp:492
-#: ../src/recurrenceeditwidget.cpp:531
-msgctxt "RecurrenceEditWidget|"
 msgid "but after weekend"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:493 ../src/recurrenceeditwidget.cpp:532
+#: ../src/recurrenceeditwidget.cpp:491 ../src/recurrenceeditwidget.cpp:530
 msgctxt "RecurrenceEditWidget|"
 msgid "nearest weekend day"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:473
+#: ../src/recurrenceeditwidget.cpp:471
 msgctxt "RecurrenceEditWidget|"
 msgid "year(s), after the start year"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:440
+#: ../src/recurrenceeditwidget.cpp:438
 msgctxt "RecurrenceEditWidget|"
 msgid "on nearest weekday"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:478
+#: ../src/recurrenceeditwidget.cpp:476
 msgctxt ""
 "RecurrenceEditWidget|part before XXX of 'Recur on day XXX of month YYY'"
 msgid "Recur on day"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:486
+#: ../src/recurrenceeditwidget.cpp:484
 msgctxt ""
 "RecurrenceEditWidget|part between XXX and YYY of 'Recur on day XXX of month "
 "YYY'"
 msgid "of"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:497
+#: ../src/recurrenceeditwidget.cpp:495
 msgctxt ""
 "RecurrenceEditWidget|Part before NNN in 'Recur on the NNN. WEEKDAY of MONTH'"
 msgid "On the"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:515
+#: ../src/recurrenceeditwidget.cpp:513
 msgctxt ""
 "RecurrenceEditWidget|part between WEEKDAY and MONTH in 'Recur on NNN. "
 "WEEKDAY of MONTH'"
 msgid "of"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:520
+#: ../src/recurrenceeditwidget.cpp:518
 msgctxt "RecurrenceEditWidget|"
 msgid "Recur on day #"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:527
+#: ../src/recurrenceeditwidget.cpp:525
 msgctxt ""
 "RecurrenceEditWidget|part after NNN of 'Recur on day #NNN of the year'"
 msgid " of the year"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:542
+#: ../src/recurrenceeditwidget.cpp:540
 msgctxt "RecurrenceEditWidget|"
 msgid "Range…"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:544
+#: ../src/recurrenceeditwidget.cpp:542
 msgctxt "RecurrenceEditWidget|"
 msgid "Occurrences/Exceptions…"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:742 ../src/recurrenceeditwidget.cpp:754
-#: ../src/recurrenceeditwidget.cpp:768 ../src/recurrenceeditwidget.cpp:781
-#: ../src/recurrenceeditwidget.cpp:798
+#: ../src/recurrenceeditwidget.cpp:740 ../src/recurrenceeditwidget.cpp:752
+#: ../src/recurrenceeditwidget.cpp:766 ../src/recurrenceeditwidget.cpp:779
+#: ../src/recurrenceeditwidget.cpp:796
 msgctxt "RecurrenceEditWidget|"
 msgid "Error"
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:742
+#: ../src/recurrenceeditwidget.cpp:740
 msgctxt "RecurrenceEditWidget|"
 msgid "No day of week selected for weekly recurrence."
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:754 ../src/recurrenceeditwidget.cpp:781
-#: ../src/recurrenceeditwidget.cpp:798
+#: ../src/recurrenceeditwidget.cpp:752 ../src/recurrenceeditwidget.cpp:779
+#: ../src/recurrenceeditwidget.cpp:796
 msgctxt "RecurrenceEditWidget|"
 msgid "Selected day will never occur with selected frequency and start date."
 msgstr ""
 
-#: ../src/recurrenceeditwidget.cpp:768
+#: ../src/recurrenceeditwidget.cpp:766
 msgctxt "RecurrenceEditWidget|"
 msgid "Selected day does not exist in selected month."
 msgstr ""
 
-#: ../src/eqonomize.cpp:600 ../src/eqonomize.cpp:629
+#: ../src/eqonomize.cpp:619 ../src/eqonomize.cpp:641
 msgctxt "RefundDialog|"
 msgid "Repayment"
 msgstr ""
 
-#: ../src/eqonomize.cpp:601 ../src/eqonomize.cpp:630
+#: ../src/eqonomize.cpp:620 ../src/eqonomize.cpp:642
 msgctxt "RefundDialog|"
 msgid "Refund"
 msgstr ""
 
-#: ../src/eqonomize.cpp:583
+#: ../src/eqonomize.cpp:604
 msgctxt "RefundDialog|"
 msgid "Date:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:603
+#: ../src/eqonomize.cpp:622
 msgctxt "RefundDialog|"
 msgid "Cost:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:604
+#: ../src/eqonomize.cpp:623
 msgctxt "RefundDialog|"
 msgid "Income:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:609
+#: ../src/eqonomize.cpp:632
 msgctxt "RefundDialog|"
 msgid "Account:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:623
+#: ../src/eqonomize.cpp:628
 msgctxt "RefundDialog|"
 msgid "Quantity:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:627
+#: ../src/eqonomize.cpp:639
 msgctxt "RefundDialog|"
 msgid "Comments:"
 msgstr ""
 
-#: ../src/eqonomize.cpp:675
+#: ../src/eqonomize.cpp:698
 msgctxt "RefundDialog|"
 msgid "Error"
 msgstr ""
 
-#: ../src/eqonomize.cpp:675
+#: ../src/eqonomize.cpp:698
 msgctxt "RefundDialog|"
 msgid "Invalid date."
 msgstr ""
 
-#: ../src/transaction.cpp:923
+#: ../src/transaction.cpp:960
 #, qt-format
 msgctxt "SecurityBuy|Financial security (e.g. stock, mutual fund)"
 msgid "Security: %1 (bought)"
 msgstr ""
 
-#: ../src/transaction.cpp:970
+#: ../src/transaction.cpp:1010
 #, qt-format
 msgctxt "SecuritySell|Financial security (e.g. stock, mutual fund)"
 msgid "Security: %1 (sold)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1277
+#: ../src/eqonomize.cpp:1321
 #, qt-format
 msgctxt "SecurityTransactionsDialog|"
 msgid "Transactions for %1"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1285
+#: ../src/eqonomize.cpp:1329
 msgctxt "SecurityTransactionsDialog|"
 msgid "Date"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1286
+#: ../src/eqonomize.cpp:1330
 msgctxt "SecurityTransactionsDialog|"
 msgid "Type"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1287
+#: ../src/eqonomize.cpp:1331
 msgctxt "SecurityTransactionsDialog|"
 msgid "Value"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1288
+#: ../src/eqonomize.cpp:1332
 msgctxt "SecurityTransactionsDialog|Financial shares"
 msgid "Shares"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1403
+#: ../src/eqonomize.cpp:1447
 msgctxt "SecurityTransactionsDialog|Financial shares"
 msgid "Shares Bought"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1449
+#: ../src/eqonomize.cpp:1493
 msgctxt "SecurityTransactionsDialog|Financial shares"
 msgid "Shares Bought (Recurring)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1464
+#: ../src/eqonomize.cpp:1508
 msgctxt "SecurityTransactionsDialog|"
 msgid "Dividend (Recurring)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1466
+#: ../src/eqonomize.cpp:1510
 msgctxt "SecurityTransactionsDialog|"
 msgid "Dividend (Scheduled)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1478
+#: ../src/eqonomize.cpp:1522
 msgctxt "SecurityTransactionsDialog|"
 msgid "Reinvested Dividend (Recurring)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1480
+#: ../src/eqonomize.cpp:1524
 msgctxt "SecurityTransactionsDialog|"
 msgid "Reinvested Dividend (Scheduled)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1404
+#: ../src/eqonomize.cpp:1448
 msgctxt "SecurityTransactionsDialog|Financial shares"
 msgid "Shares Sold"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1434
+#: ../src/eqonomize.cpp:1478
 msgctxt ""
 "SecurityTransactionsDialog|Shares of one security directly exchanged for "
 "shares of another; Financial shares"
 msgid "Shares Sold (Exchanged)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1434
+#: ../src/eqonomize.cpp:1478
 msgctxt ""
 "SecurityTransactionsDialog|Shares of one security directly exchanged for "
 "shares of another; Financial shares"
 msgid "Shares Bought (Exchanged)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1450
+#: ../src/eqonomize.cpp:1494
 msgctxt "SecurityTransactionsDialog|Financial shares"
 msgid "Shares Sold (Recurring)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1452
+#: ../src/eqonomize.cpp:1496
 msgctxt "SecurityTransactionsDialog|Financial shares"
 msgid "Shares Bought (Scheduled)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1453
+#: ../src/eqonomize.cpp:1497
 msgctxt "SecurityTransactionsDialog|Financial shares"
 msgid "Shares Sold (Scheduled)"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1302
+#: ../src/eqonomize.cpp:1346
 msgctxt "SecurityTransactionsDialog|"
 msgid "Edit…"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1304
+#: ../src/eqonomize.cpp:1348
 msgctxt "SecurityTransactionsDialog|"
 msgid "Delete"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1409
+#: ../src/eqonomize.cpp:1453
 msgctxt "SecurityTransactionsDialog|"
 msgid "Dividend"
 msgstr ""
 
-#: ../src/eqonomize.cpp:1417
+#: ../src/eqonomize.cpp:1461
 msgctxt "SecurityTransactionsDialog|"
 msgid "Reinvested Dividend"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1735
+#: ../src/transactioneditwidget.cpp:1779
 msgctxt "TransactionEditDialog|"
 msgid "Edit Expense"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1737
+#: ../src/transactioneditwidget.cpp:1781
 msgctxt "TransactionEditDialog|"
 msgid "Edit Dividend"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1738
+#: ../src/transactioneditwidget.cpp:1782
 msgctxt "TransactionEditDialog|"
 msgid "Edit Income"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1741
+#: ../src/transactioneditwidget.cpp:1785
 msgctxt "TransactionEditDialog|"
 msgid "Edit Transfer"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1742
+#: ../src/transactioneditwidget.cpp:1786
 msgctxt "TransactionEditDialog|Financial security (e.g. stock, mutual fund)"
 msgid "Edit Securities Purchase"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1743
+#: ../src/transactioneditwidget.cpp:1787
 msgctxt "TransactionEditDialog|Financial security (e.g. stock, mutual fund)"
 msgid "Edit Securities Sale"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1744
+#: ../src/transactioneditwidget.cpp:1788
 msgctxt "TransactionEditDialog|"
 msgid "Edit Reinvested Dividend"
 msgstr ""
@@ -6502,7 +6588,7 @@ msgctxt "TransactionEditWidget|"
 msgid "Date:"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:592
+#: ../src/transactioneditwidget.cpp:626
 msgctxt "TransactionEditWidget|"
 msgid "Amount:"
 msgstr ""
@@ -6583,7 +6669,7 @@ msgctxt "TransactionEditWidget|"
 msgid "Comments:"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1106
+#: ../src/transactioneditwidget.cpp:1136
 msgctxt "TransactionEditWidget|Financial security (e.g. stock, mutual fund)"
 msgid "No security available."
 msgstr ""
@@ -6594,7 +6680,7 @@ msgid "Security:"
 msgstr ""
 
 #: ../src/transactioneditwidget.cpp:127 ../src/transactioneditwidget.cpp:211
-#: ../src/transactioneditwidget.cpp:744
+#: ../src/transactioneditwidget.cpp:776
 msgctxt "TransactionEditWidget|Financial security (e.g. stock, mutual fund)"
 msgid "New Security…"
 msgstr ""
@@ -6626,7 +6712,7 @@ msgctxt "TransactionEditWidget|"
 msgid "Transaction title/generic article name"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:238 ../src/transactioneditwidget.cpp:590
+#: ../src/transactioneditwidget.cpp:238 ../src/transactioneditwidget.cpp:624
 msgctxt "TransactionEditWidget|Money taken out from account"
 msgid "Withdrawal:"
 msgstr ""
@@ -6668,93 +6754,93 @@ msgctxt "TransactionEditWidget|"
 msgid "Open the file"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:737
+#: ../src/transactioneditwidget.cpp:769
 msgctxt "TransactionEditWidget|Financial security (e.g. stock, mutual fund)"
 msgid "New Security"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1052 ../src/transactioneditwidget.cpp:1056
-#: ../src/transactioneditwidget.cpp:1063 ../src/transactioneditwidget.cpp:1067
-#: ../src/transactioneditwidget.cpp:1074 ../src/transactioneditwidget.cpp:1081
-#: ../src/transactioneditwidget.cpp:1088 ../src/transactioneditwidget.cpp:1095
-#: ../src/transactioneditwidget.cpp:1099 ../src/transactioneditwidget.cpp:1106
-#: ../src/transactioneditwidget.cpp:1114 ../src/transactioneditwidget.cpp:1124
-#: ../src/transactioneditwidget.cpp:1128 ../src/transactioneditwidget.cpp:1135
-#: ../src/transactioneditwidget.cpp:1142 ../src/transactioneditwidget.cpp:1149
-#: ../src/transactioneditwidget.cpp:1157 ../src/transactioneditwidget.cpp:1161
-#: ../src/transactioneditwidget.cpp:1165 ../src/transactioneditwidget.cpp:1177
+#: ../src/transactioneditwidget.cpp:1082 ../src/transactioneditwidget.cpp:1086
+#: ../src/transactioneditwidget.cpp:1093 ../src/transactioneditwidget.cpp:1097
+#: ../src/transactioneditwidget.cpp:1104 ../src/transactioneditwidget.cpp:1111
+#: ../src/transactioneditwidget.cpp:1118 ../src/transactioneditwidget.cpp:1125
+#: ../src/transactioneditwidget.cpp:1129 ../src/transactioneditwidget.cpp:1136
+#: ../src/transactioneditwidget.cpp:1147 ../src/transactioneditwidget.cpp:1157
+#: ../src/transactioneditwidget.cpp:1161 ../src/transactioneditwidget.cpp:1168
+#: ../src/transactioneditwidget.cpp:1175 ../src/transactioneditwidget.cpp:1182
+#: ../src/transactioneditwidget.cpp:1190 ../src/transactioneditwidget.cpp:1194
+#: ../src/transactioneditwidget.cpp:1198 ../src/transactioneditwidget.cpp:1210
 msgctxt "TransactionEditWidget|"
 msgid "Error"
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1052 ../src/transactioneditwidget.cpp:1056
-#: ../src/transactioneditwidget.cpp:1067 ../src/transactioneditwidget.cpp:1088
-#: ../src/transactioneditwidget.cpp:1099
+#: ../src/transactioneditwidget.cpp:1082 ../src/transactioneditwidget.cpp:1086
+#: ../src/transactioneditwidget.cpp:1097 ../src/transactioneditwidget.cpp:1118
+#: ../src/transactioneditwidget.cpp:1129
 msgctxt "TransactionEditWidget|"
 msgid "No suitable account available."
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1063 ../src/transactioneditwidget.cpp:1081
+#: ../src/transactioneditwidget.cpp:1093 ../src/transactioneditwidget.cpp:1111
 msgctxt "TransactionEditWidget|"
 msgid "No income category available."
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1074
+#: ../src/transactioneditwidget.cpp:1104
 msgctxt "TransactionEditWidget|"
 msgid "No suitable account or income category available."
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1095
+#: ../src/transactioneditwidget.cpp:1125
 msgctxt "TransactionEditWidget|"
 msgid "No expense category available."
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1114
+#: ../src/transactioneditwidget.cpp:1147
 msgctxt "TransactionEditWidget|"
 msgid "Invalid date."
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1124
+#: ../src/transactioneditwidget.cpp:1157
 msgctxt "TransactionEditWidget|"
 msgid "Cannot transfer money to and from the same account."
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1128
+#: ../src/transactioneditwidget.cpp:1161
 msgctxt "TransactionEditWidget|"
 msgid "Downpayment must be less than total cost."
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1135
+#: ../src/transactioneditwidget.cpp:1168
 msgctxt "TransactionEditWidget|"
 msgid "Cannot create a regular transfer to/from a securities account."
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1142
+#: ../src/transactioneditwidget.cpp:1175
 msgctxt "TransactionEditWidget|"
 msgid "Cannot create a regular income to a securities account."
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1149 ../src/transactioneditwidget.cpp:1157
+#: ../src/transactioneditwidget.cpp:1182 ../src/transactioneditwidget.cpp:1190
 msgctxt "TransactionEditWidget|"
 msgid "Zero shares not allowed."
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1161
+#: ../src/transactioneditwidget.cpp:1194
 msgctxt "TransactionEditWidget|"
 msgid "Zero value not allowed."
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1165
+#: ../src/transactioneditwidget.cpp:1198
 msgctxt "TransactionEditWidget|"
 msgid "Zero price per share not allowed."
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1177
+#: ../src/transactioneditwidget.cpp:1210
 msgctxt "TransactionEditWidget|"
 msgid "Cannot create a regular expense from a securities account."
 msgstr ""
 
-#: ../src/transactioneditwidget.cpp:1257
+#: ../src/transactioneditwidget.cpp:1290
 #, qt-format
 msgctxt "TransactionEditWidget|"
 msgid "Loan for %1"
@@ -6865,26 +6951,26 @@ msgctxt "TransactionFilterWidget|"
 msgid "All"
 msgstr ""
 
-#: ../src/transactionfilterwidget.cpp:730
-#: ../src/transactionfilterwidget.cpp:735
-#: ../src/transactionfilterwidget.cpp:756
-#: ../src/transactionfilterwidget.cpp:760
+#: ../src/transactionfilterwidget.cpp:732
+#: ../src/transactionfilterwidget.cpp:737
+#: ../src/transactionfilterwidget.cpp:758
+#: ../src/transactionfilterwidget.cpp:762
 msgctxt "TransactionFilterWidget|"
 msgid "Error"
 msgstr ""
 
-#: ../src/transactionfilterwidget.cpp:730
-#: ../src/transactionfilterwidget.cpp:756
+#: ../src/transactionfilterwidget.cpp:732
+#: ../src/transactionfilterwidget.cpp:758
 msgctxt "TransactionFilterWidget|"
 msgid "Invalid date."
 msgstr ""
 
-#: ../src/transactionfilterwidget.cpp:735
+#: ../src/transactionfilterwidget.cpp:737
 msgctxt "TransactionFilterWidget|"
 msgid "To date is before from date."
 msgstr ""
 
-#: ../src/transactionfilterwidget.cpp:760
+#: ../src/transactionfilterwidget.cpp:762
 msgctxt "TransactionFilterWidget|"
 msgid "From date is after to date."
 msgstr ""
@@ -6914,7 +7000,7 @@ msgctxt "TransactionListWidget|"
 msgid "Payee"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:123 ../src/transactionlistwidget.cpp:276
+#: ../src/transactionlistwidget.cpp:123 ../src/transactionlistwidget.cpp:288
 msgctxt "TransactionListWidget|"
 msgid "Income"
 msgstr ""
@@ -6949,17 +7035,17 @@ msgctxt "TransactionListWidget|"
 msgid "Comments"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:167
+#: ../src/transactionlistwidget.cpp:169
 msgctxt "TransactionListWidget|"
 msgid "Add"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:168 ../src/transactionlistwidget.cpp:1644
+#: ../src/transactionlistwidget.cpp:170 ../src/transactionlistwidget.cpp:1686
 msgctxt "TransactionListWidget|"
 msgid "Apply"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:169
+#: ../src/transactionlistwidget.cpp:172
 msgctxt "TransactionListWidget|"
 msgid "Delete"
 msgstr ""
@@ -6971,108 +7057,118 @@ msgctxt ""
 msgid "Description"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:176
+#: ../src/transactionlistwidget.cpp:180
 msgctxt "TransactionListWidget|"
 msgid "New/Edit Expense"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:177
+#: ../src/transactionlistwidget.cpp:181
 msgctxt "TransactionListWidget|"
 msgid "New/Edit Income"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:178
+#: ../src/transactionlistwidget.cpp:182
 msgctxt "TransactionListWidget|"
 msgid "New/Edit Transfer"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:181
+#: ../src/transactionlistwidget.cpp:185
 msgctxt "TransactionListWidget|"
 msgid "Filter"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:276 ../src/transactionlistwidget.cpp:281
-#: ../src/transactionlistwidget.cpp:387
+#: ../src/transactionlistwidget.cpp:288 ../src/transactionlistwidget.cpp:293
+#: ../src/transactionlistwidget.cpp:415
 msgctxt "TransactionListWidget|"
 msgid "Quantity:"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:281
+#: ../src/transactionlistwidget.cpp:293
 msgctxt "TransactionListWidget|"
 msgid "Total:"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:276 ../src/transactionlistwidget.cpp:281
-#: ../src/transactionlistwidget.cpp:405
+#: ../src/transactionlistwidget.cpp:288 ../src/transactionlistwidget.cpp:293
+#: ../src/transactionlistwidget.cpp:433
 msgctxt "TransactionListWidget|"
 msgid "Average:"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:276
+#: ../src/transactionlistwidget.cpp:171
+msgctxt "TransactionListWidget|"
+msgid "Clear"
+msgstr ""
+
+#: ../src/transactionlistwidget.cpp:288
 msgctxt "TransactionListWidget|"
 msgid "Cost:"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:281
+#: ../src/transactionlistwidget.cpp:293
 msgctxt "TransactionListWidget|"
 msgid "Monthly:"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:327 ../src/transactionlistwidget.cpp:339
+#: ../src/transactionlistwidget.cpp:325
+msgctxt "TransactionListWidget|"
+msgid "Sort by creation time"
+msgstr ""
+
+#: ../src/transactionlistwidget.cpp:355 ../src/transactionlistwidget.cpp:367
 msgctxt "TransactionListWidget|"
 msgid "Expenses"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:328 ../src/transactionlistwidget.cpp:340
+#: ../src/transactionlistwidget.cpp:356 ../src/transactionlistwidget.cpp:368
 msgctxt "TransactionListWidget|"
 msgid "Incomes"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:329 ../src/transactionlistwidget.cpp:341
+#: ../src/transactionlistwidget.cpp:357 ../src/transactionlistwidget.cpp:369
 msgctxt "TransactionListWidget|"
 msgid "Transfers"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:352 ../src/transactionlistwidget.cpp:417
+#: ../src/transactionlistwidget.cpp:380 ../src/transactionlistwidget.cpp:445
 msgctxt "TransactionListWidget|"
 msgid "Quantity"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:391
+#: ../src/transactionlistwidget.cpp:419
 msgctxt "TransactionListWidget|"
 msgid "Total cost:"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:395
+#: ../src/transactionlistwidget.cpp:423
 msgctxt "TransactionListWidget|"
 msgid "Total income:"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:399
+#: ../src/transactionlistwidget.cpp:427
 msgctxt "TransactionListWidget|"
 msgid "Total amount:"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:407
+#: ../src/transactionlistwidget.cpp:435
 msgctxt "TransactionListWidget|"
 msgid "Monthly average:"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:708 ../src/transactionlistwidget.cpp:714
-#: ../src/transactionlistwidget.cpp:720 ../src/transactionlistwidget.cpp:728
-#: ../src/transactionlistwidget.cpp:734
+#: ../src/transactionlistwidget.cpp:746 ../src/transactionlistwidget.cpp:752
+#: ../src/transactionlistwidget.cpp:758 ../src/transactionlistwidget.cpp:766
+#: ../src/transactionlistwidget.cpp:772
 msgctxt "TransactionListWidget|"
 msgid "Error"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:708
+#: ../src/transactionlistwidget.cpp:746
 msgctxt "TransactionListWidget|Financial security (e.g. stock, mutual fund)"
 msgid ""
 "Cannot set the value of security transactions using the dialog for modifying "
 "multiple transactions."
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:714
+#: ../src/transactionlistwidget.cpp:752
 msgctxt ""
 "TransactionListWidget|Referring to the transaction description property "
 "(transaction title/generic article name); Financial security (e.g. stock, "
@@ -7080,12 +7176,12 @@ msgctxt ""
 msgid "Cannot change description of dividends and security transactions."
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:720
+#: ../src/transactionlistwidget.cpp:758
 msgctxt "TransactionListWidget|Financial security (e.g. stock, mutual fund)"
 msgid "Cannot change payer of dividends and security transactions."
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:728
+#: ../src/transactionlistwidget.cpp:766
 msgctxt ""
 "TransactionListWidget|Referring to the transaction description property "
 "(transaction title/generic article name)"
@@ -7095,19 +7191,19 @@ msgid ""
 "transactions."
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:734
+#: ../src/transactionlistwidget.cpp:772
 msgctxt "TransactionListWidget|"
 msgid ""
 "Cannot change date of transactions that are part of a split transaction, "
 "unless all individual transactions are selected."
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:1004 ../src/transactionlistwidget.cpp:1086
+#: ../src/transactionlistwidget.cpp:1043 ../src/transactionlistwidget.cpp:1125
 msgctxt "TransactionListWidget|"
 msgid "Delete transactions?"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:1004
+#: ../src/transactionlistwidget.cpp:1043
 #, qt-format
 msgctxt "TransactionListWidget|"
 msgid ""
@@ -7115,34 +7211,34 @@ msgid ""
 "transaction?"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:1086
+#: ../src/transactionlistwidget.cpp:1125
 #, qt-format
 msgctxt "TransactionListWidget|"
 msgid "Are you sure you want to delete all (%1) selected transactions?"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:1619
+#: ../src/transactionlistwidget.cpp:1661
 msgctxt "TransactionListWidget|"
 msgid "* Part of split transaction"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:1620
+#: ../src/transactionlistwidget.cpp:1662
 #, qt-format
 msgctxt "TransactionListWidget|"
 msgid "* Part of split (%1)"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:1624
+#: ../src/transactionlistwidget.cpp:1666
 msgctxt "TransactionListWidget|"
 msgid "** Recurring (editing occurrence)"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:1640
+#: ../src/transactionlistwidget.cpp:1682
 msgctxt "TransactionListWidget|"
 msgid "Modify…"
 msgstr ""
 
-#: ../src/transactionlistwidget.cpp:1642
+#: ../src/transactionlistwidget.cpp:1684
 msgctxt "TransactionListWidget|"
 msgid "Edit…"
 msgstr ""

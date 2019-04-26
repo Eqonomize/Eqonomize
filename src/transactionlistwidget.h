@@ -79,7 +79,7 @@ class TransactionListWidget : public QWidget {
 		QTabWidget *tabs;
 		QTreeWidget *transactionsView;
 		QLabel *statLabel;
-		QPushButton *addButton, *modifyButton, *removeButton;
+		QPushButton *addButton, *modifyButton, *removeButton, *clearButton;
 		QMenu *listPopupMenu, *headerPopupMenu;
 		TransactionFilterWidget *filterWidget;
 		TransactionEditWidget *editWidget;
@@ -121,6 +121,7 @@ class TransactionListWidget : public QWidget {
 		void addTransaction();
 		void modifyTransaction();
 		void removeTransaction();
+		void clearTransaction();
 		void removeSplitTransaction();
 		void removeScheduledTransaction();
 		void addModifyTransaction();
@@ -131,6 +132,7 @@ class TransactionListWidget : public QWidget {
 		void showEdit();
 		void transactionExecuted(QTreeWidgetItem*);
 		void currentTabChanged(int);
+		void updateClearButton();
 
 };
 

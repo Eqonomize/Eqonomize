@@ -567,6 +567,15 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		else if(fileEdit) connect(toCombo, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
 		else if(commentsEdit) connect(toCombo, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
 	}
+	if(auto_edit) {
+		if(valueEdit) connect(valueEdit, SIGNAL(valueChanged(double)), this, SIGNAL(propertyChanged()));
+		if(depositEdit) connect(depositEdit, SIGNAL(valueChanged(double)), this, SIGNAL(propertyChanged()));
+		if(quantityEdit) connect(quantityEdit, SIGNAL(valueChanged(double)), this, SIGNAL(propertyChanged()));
+		if(dateEdit) connect(dateEdit, SIGNAL(dateChanged(const QDate&)), this, SIGNAL(propertyChanged()));
+		if(commentsEdit) connect(commentsEdit, SIGNAL(textChanged(const QString&)), this, SIGNAL(propertyChanged()));
+		if(descriptionEdit) connect(descriptionEdit, SIGNAL(textChanged(const QString&)), this, SIGNAL(propertyChanged()));
+		if(payeeEdit) connect(payeeEdit, SIGNAL(textChanged(const QString&)), this, SIGNAL(propertyChanged()));
+	}
 	b_multiple_currencies = true;
 	useMultipleCurrencies(budget->usesMultipleCurrencies());
 	if(security) securityChanged();
@@ -1129,6 +1138,9 @@ bool TransactionEditWidget::checkAccounts() {
 	}
 	return true;
 }
+bool TransactionEditWidget::isCleared() {
+	return (!valueEdit || valueEdit->value() == 0.0) && (!dateEdit || dateEdit->date() == QDate::currentDate()) && (!quantityEdit || quantityEdit->value() == 1.0) && (!depositEdit || depositEdit->value() == 0.0) && (!commentsEdit || commentsEdit->text().isEmpty()) && (!descriptionEdit || descriptionEdit->text().isEmpty()) && (!payeeEdit || payeeEdit->text().isEmpty());
+}
 bool TransactionEditWidget::validValues(bool) {
 
 	if(dateEdit && !dateEdit->date().isValid()) {
@@ -1607,6 +1619,7 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 	if(valueEdit) valueEdit->blockSignals(true);
 	if(sharesEdit) sharesEdit->blockSignals(true);
 	if(quotationEdit) quotationEdit->blockSignals(true);
+	blockSignals(true);
 	b_select_security = false;
 	if(trans == NULL) {
 		value_set = false; shares_set = false; sharevalue_set = false;
@@ -1693,22 +1706,31 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 		}
 		if(dateEdit) emit dateChanged(trans->date());
 	}
+	blockSignals(false);
 	if(valueEdit) valueEdit->blockSignals(false);
 	if(sharesEdit) sharesEdit->blockSignals(false);
 	if(quotationEdit) quotationEdit->blockSignals(false);
+	emit propertyChanged();
 }
 void TransactionEditWidget::setTransaction(Transaction *trans, const QDate &date) {
+	if(dateEdit) dateEdit->blockSignals(true);
 	setTransaction(trans);
-	if(dateEdit) dateEdit->setDate(date);
+	if(dateEdit) {
+		dateEdit->setDate(date);
+		dateEdit->blockSignals(false);
+		emit dateChanged(date);
+	}
 }
 void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *split) {
 	if(!split) {
 		setTransaction(NULL);
 		return;
 	}
+	blockSignals(true);
 	b_select_security = false;
 	if(valueEdit) valueEdit->blockSignals(true);
 	if(dateEdit) dateEdit->setDate(split->date());
+	if(dateEdit) emit dateChanged(split->date());
 	if(commentsEdit) commentsEdit->setText(split->comment());
 	if(fileEdit) fileEdit->setText(split->associatedFile());
 	if(split->transactiontype() == TRANSACTION_TYPE_EXPENSE) {
@@ -1746,7 +1768,8 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 	valueEdit->setValue(split->value());
 	if(quantityEdit) quantityEdit->setValue(split->quantity());
 	if(payeeEdit) payeeEdit->setText(split->payees());
-	
+	blockSignals(false);
+	emit propertyChanged();
 }
 
 TransactionEditDialog::TransactionEditDialog(bool extra_parameters, int transaction_type, Currency *split_currency, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent, bool allow_account_creation, bool multiaccount, bool withloan) : QDialog(parent, 0){

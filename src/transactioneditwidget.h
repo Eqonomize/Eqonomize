@@ -102,6 +102,7 @@ class TransactionEditWidget : public QWidget {
 		void setMaxSharesDate(QDate quotation_date);
 		bool checkAccounts();
 		void currentDateChanged(const QDate &olddate, const QDate &newdate);
+		bool isCleared();
 
 	protected:
 
@@ -141,6 +142,7 @@ class TransactionEditWidget : public QWidget {
 		void currenciesModified();
 		void multipleAccountsRequested();
 		void newLoanRequested();
+		void propertyChanged();
 
 	public slots:
 

@@ -168,9 +168,11 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	editWidget->bottomLayout()->addWidget(buttons);
 	addButton = buttons->addButton(tr("Add"), QDialogButtonBox::ActionRole);
 	modifyButton = buttons->addButton(tr("Apply"), QDialogButtonBox::ActionRole);
+	clearButton = buttons->addButton(tr("Clear"), QDialogButtonBox::ActionRole);
 	removeButton = buttons->addButton(tr("Delete"), QDialogButtonBox::ActionRole);
 	modifyButton->setEnabled(false);
 	removeButton->setEnabled(false);
+	clearButton->setEnabled(false);
 
 	filterWidget = new TransactionFilterWidget(b_extra, transtype, budget, this);
 	QString editTabTitle;
@@ -190,6 +192,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	connect(modifyButton, SIGNAL(clicked()), this, SLOT(modifyTransaction()));
 	connect(editWidget, SIGNAL(addmodify()), this, SLOT(addModifyTransaction()));
 	connect(removeButton, SIGNAL(clicked()), this, SLOT(removeTransaction()));
+	connect(clearButton, SIGNAL(clicked()), this, SLOT(editClear()));
 	connect(filterWidget, SIGNAL(filter()), this, SLOT(filterTransactions()));
 	connect(filterWidget, SIGNAL(toActivated(Account*)), this, SLOT(filterToActivated(Account*)));
 	connect(filterWidget, SIGNAL(fromActivated(Account*)), this, SLOT(filterFromActivated(Account*)));
@@ -205,6 +208,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	connect(editWidget, SIGNAL(currenciesModified()), this, SIGNAL(currenciesModified()));
 	connect(editWidget, SIGNAL(newLoanRequested()), this, SLOT(newTransactionWithLoan()));
 	connect(editWidget, SIGNAL(multipleAccountsRequested()), this, SLOT(newMultiAccountTransaction()));
+	connect(editWidget, SIGNAL(propertyChanged()), this, SLOT(updateClearButton()));
 
 }
 
@@ -220,6 +224,10 @@ void TransactionListWidget::restoreState(const QByteArray &state) {
 	transactionsView->header()->restoreState(state);
 	transactionsView->sortByColumn(0, Qt::DescendingOrder);
 	transactionsView->setColumnHidden(transactionsView->columnCount() - 1, true);
+}
+
+void TransactionListWidget::updateClearButton() {
+	clearButton->setEnabled(!editWidget->isCleared());
 }
 
 void TransactionListWidget::selectAssociatedFile() {
@@ -466,13 +474,13 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 void TransactionListWidget::transactionsReset() {
 	filterWidget->transactionsReset();
 	editWidget->transactionsReset();
-	editClear();
+	clearTransaction();
 	filterTransactions();
 }
 void TransactionListWidget::addTransaction() {
 	Transaction *trans = editWidget->createTransaction();
 	if(!trans) return;
-	editClear();
+	clearTransaction();
 	ScheduledTransaction *strans = NULL;
 	if(trans->date() > QDate::currentDate()) {
 		strans = new ScheduledTransaction(budget, trans, NULL);
@@ -507,7 +515,7 @@ void TransactionListWidget::editSplitTransaction() {
 	if(selection.count() >= 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
 		if(i->transaction()->parentSplit()) {
-			if(mainWin->editSplitTransaction(i->transaction()->parentSplit())) editClear();
+			if(mainWin->editSplitTransaction(i->transaction()->parentSplit())) clearTransaction();
 		}
 	}
 }
@@ -517,7 +525,7 @@ void TransactionListWidget::editTransaction() {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
 		if(i->scheduledTransaction()) {
 			if(i->scheduledTransaction()->isOneTimeTransaction()) {
-				if(mainWin->editScheduledTransaction(i->scheduledTransaction())) editClear();
+				if(mainWin->editScheduledTransaction(i->scheduledTransaction())) clearTransaction();
 			} else {
 				if(mainWin->editOccurrence(i->scheduledTransaction(), i->date())) transactionSelectionChanged();
 			}
@@ -906,7 +914,7 @@ void TransactionListWidget::modifyTransaction() {
 					budget->removeSplitTransaction(split, true);
 					mainWin->transactionRemoved(split);
 					delete split;
-					editClear();
+					clearTransaction();
 				}
 				delete split_new;
 				return;
@@ -1021,7 +1029,7 @@ void TransactionListWidget::removeScheduledTransaction() {
 			}
 		} else {
 			mainWin->removeScheduledTransaction(i->scheduledTransaction());
-			editClear();
+			clearTransaction();
 		}
 	}
 }
@@ -1038,7 +1046,7 @@ void TransactionListWidget::removeSplitTransaction() {
 			budget->removeSplitTransaction(split, true);
 			mainWin->transactionRemoved(split);
 			delete split;
-			editClear();
+			clearTransaction();
 		}
 	}
 }
@@ -1106,7 +1114,7 @@ void TransactionListWidget::joinTransactions() {
 			mainWin->transactionRemoved(trans);
 			delete trans;
 		}
-		editClear();
+		clearTransaction();
 	} else {
 		delete split;
 	}
@@ -1211,6 +1219,9 @@ void TransactionListWidget::removeTransaction() {
 		}
 	}
 	mainWin->endBatchEdit();
+}
+void TransactionListWidget::editClear() {
+	editWidget->setTransaction(NULL);
 }
 void TransactionListWidget::addModifyTransaction() {
 	addTransaction();
@@ -1562,7 +1573,7 @@ void TransactionListWidget::onTransactionRemoved(Transactions *transs) {
 		}
 	}
 }
-void TransactionListWidget::editClear() {
+void TransactionListWidget::clearTransaction() {
 	transactionsView->clearSelection();
 	editInfoLabel->setText(QString::null);
 	editWidget->setTransaction(NULL);
@@ -1701,12 +1712,12 @@ void TransactionListWidget::transactionSelectionChanged() {
 }
 void TransactionListWidget::newMultiAccountTransaction() {
 	if(mainWin->newMultiAccountTransaction(transtype == TRANSACTION_TYPE_EXPENSE, editWidget->description(), transtype == TRANSACTION_TYPE_EXPENSE ? (CategoryAccount*) editWidget->toAccount() : (CategoryAccount*) editWidget->fromAccount(), editWidget->quantity(), editWidget->comments())) {
-		editClear();
+		clearTransaction();
 	}
 }
 void TransactionListWidget::newTransactionWithLoan() {
 	if(mainWin->newExpenseWithLoan(editWidget->description(), editWidget->value(), editWidget->quantity(), editWidget->date(), (ExpensesAccount*) editWidget->toAccount(), editWidget->payee(), editWidget->comments())) {
-		editClear();
+		clearTransaction();
 	}
 	
 }

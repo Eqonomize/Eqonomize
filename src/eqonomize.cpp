@@ -7602,14 +7602,26 @@ void Eqonomize::assetsAccountItemHiddenOrRemoved(AssetsAccount *account) {
 			}
 		}
 		if(n <= 1) {
+			QTreeWidgetItem *i_sel = selectedItem(accountsView);
+			QTreeWidgetItem *i_cur = accountsView->currentItem();
 			QTreeWidgetItem *i = item_account_types[account->accountType()];
 			QList<QTreeWidgetItem*> il = i->takeChildren();
 			if(IS_DEBT(account)) {
 				liabilitiesItem->addChildren(il);
 				liabilitiesItem->sortChildren(0, Qt::AscendingOrder);
+				accountsView->setCurrentItem(i_cur);
+				if(i_sel && liabilitiesItem->indexOfChild(i_sel) >= 0) {
+					accountsView->clearSelection();
+					i_sel->setSelected(true);
+				}
 			} else {
 				assetsItem->addChildren(il);
 				assetsItem->sortChildren(0, Qt::AscendingOrder);
+				accountsView->setCurrentItem(i_cur);
+				if(i_sel && assetsItem->indexOfChild(i_sel) >= 0) {
+					accountsView->clearSelection();
+					i_sel->setSelected(true);
+				}
 			}
 			account_type_items.remove(i);
 			item_account_types.remove(account->accountType());
@@ -7638,6 +7650,8 @@ void Eqonomize::assetsAccountItemShownOrAdded(AssetsAccount *account) {
 				default: {break;}
 			}
 			if(s.isEmpty()) return;
+			QTreeWidgetItem *i_sel = selectedItem(accountsView);
+			QTreeWidgetItem *i_cur = accountsView->currentItem();
 			NEW_ACCOUNT_TREE_WIDGET_ITEM(i, IS_DEBT(account) ? liabilitiesItem : assetsItem, s, QString::null, budget->formatMoney(IS_DEBT(account) ? -account_type_change[account->accountType()] : account_type_change[account->accountType()]), budget->formatMoney(IS_DEBT(account) ? -account_type_change[account->accountType()] : account_type_change[account->accountType()]) + " ");
 			i->setFlags(i->flags() & ~Qt::ItemIsDragEnabled);
 			i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
@@ -7661,6 +7675,11 @@ void Eqonomize::assetsAccountItemShownOrAdded(AssetsAccount *account) {
 				}
 			}
 			i->addChildren(il);
+			accountsView->setCurrentItem(i_cur);
+			if(i_sel && i->indexOfChild(i_sel) >= 0) {
+				accountsView->clearSelection();
+				i_sel->setSelected(true);
+			}
 			account_type_items[i] = account->accountType();
 			item_account_types[account->accountType()] = i;
 			if(IS_DEBT(account)) {
