@@ -157,7 +157,7 @@ SplitTransaction *LedgerListViewItem::splitTransaction() const {
 	return o_split;
 }
 
-LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title, bool extra_parameters, bool do_reconciliation) : QDialog(NULL, 0), account(acc), mainWin(parent), b_extra(extra_parameters) {
+LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, QString title, bool extra_parameters, bool do_reconciliation) : QDialog(NULL, 0), account(acc), mainWin(parent), budget(budg), b_extra(extra_parameters) {
 
 	setWindowTitle(title);
 	setModal(true);
@@ -170,7 +170,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 
 	setAttribute(Qt::WA_DeleteOnClose, true);
 
-	budget = account->budget();
+	if(!budget) budget = account->budget();
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 
@@ -192,6 +192,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title,
 	QDialogButtonBox *topbuttons = new QDialogButtonBox(this);
 	editAccountButton = topbuttons->addButton(tr("Edit Account…"), QDialogButtonBox::ActionRole);
 	editAccountButton->setAutoDefault(false);
+	editAccountButton->setEnabled(accountCombo->count() > 0);
 	exportButton = topbuttons->addButton(tr("Export…"), QDialogButtonBox::ActionRole);
 	exportButton->setAutoDefault(false);
 	printButton = topbuttons->addButton(tr("Print…"), QDialogButtonBox::ActionRole);
@@ -719,6 +720,7 @@ void LedgerDialog::saveConfig() {
 }
 
 void LedgerDialog::accountChanged() {
+	editAccountButton->setEnabled(account != NULL);
 	if(!account) return;
 	bool b_loan = (account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD);
 	transactionsView->setColumnHidden(7, !b_loan);

@@ -1,3 +1,9 @@
+2019-04-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix segfault in over time chart with no accounts
+	* Fix segfault in ledger with no accounts
+	* Fix Ctrl+Q shortcut
+
 2019-04-25  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Do not show guesstimate for future security values in accounts view

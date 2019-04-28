@@ -219,7 +219,7 @@ Budget::Budget() {
 	monetary_group_separator = QString::fromLocal8Bit(lc->mon_thousands_sep);
 	monetary_negative_sign = QString::fromLocal8Bit(lc->negative_sign);
 	monetary_positive_sign = QString::fromLocal8Bit(lc->positive_sign);
-	if(monetary_negative_sign == '-' && QLocale().negativeSign() == 0x2212) monetary_negative_sign = QLocale().negativeSign();
+	if(monetary_negative_sign == "-" && QLocale().negativeSign() == 0x2212) monetary_negative_sign = QLocale().negativeSign();
 	monetary_group_format = lc->mon_grouping;
 	monetary_decimal_places = 2;
 	decimal_separator = QString::fromLocal8Bit(lc->decimal_point);
@@ -227,7 +227,7 @@ Budget::Budget() {
 	group_separator = QString::fromLocal8Bit(lc->thousands_sep);
 	negative_sign = QString::fromLocal8Bit(lc->negative_sign);
 	positive_sign = QString::fromLocal8Bit(lc->positive_sign);
-	if(negative_sign == '-' && QLocale().negativeSign() == 0x2212) negative_sign = QLocale().negativeSign();
+	if(negative_sign == "-" && QLocale().negativeSign() == 0x2212) negative_sign = QLocale().negativeSign();
 	group_format = lc->grouping;
 #ifdef Q_OS_ANDROID
 	currency_symbol_precedes = true;

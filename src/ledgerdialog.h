@@ -82,7 +82,7 @@ class LedgerDialog : public QDialog {
 		
 	public:
 		
-		LedgerDialog(AssetsAccount *acc, Eqonomize *parent, QString title, bool extra_parameters, bool do_reconciliation = false);
+		LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, QString title, bool extra_parameters, bool do_reconciliation = false);
 		~LedgerDialog();
 		
 	public slots:

@@ -4046,34 +4046,38 @@ void Eqonomize::popupAccountsMenu(const QPoint &p) {
 }
 
 void Eqonomize::showLedger() {
-	if(budget->assetsAccounts.isEmpty()) return;
 	QTreeWidgetItem *i = selectedItem(accountsView);
 	Account *account = NULL;
 	if(i && i != assetsItem && i != liabilitiesItem && i != incomesItem && i != expensesItem && !account_type_items.contains(i)) {
 		account = account_items[i];
 		if(account && account->type() != ACCOUNT_TYPE_ASSETS) account = NULL;
 	}
-	if(!account) {
+	if(!account && !budget->assetsAccounts.isEmpty()) {
 		account = budget->assetsAccounts[0];
-		if(account == budget->balancingAccount && budget->assetsAccounts.count() > 1) account = budget->assetsAccounts[1];
+		if(account == budget->balancingAccount) {
+			if(budget->assetsAccounts.count() > 1) account = budget->assetsAccounts[1];
+			else account = NULL;
+		}
 	}
-	LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, this, tr("Ledger"), b_extra);
+	LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, budget, this, tr("Ledger"), b_extra);
 	dialog->show();
 	connect(this, SIGNAL(timeToSaveConfig()), dialog, SLOT(saveConfig()));
 }
 void Eqonomize::reconcileAccount() {
-	if(budget->assetsAccounts.isEmpty()) return;
 	QTreeWidgetItem *i = selectedItem(accountsView);
 	Account *account = NULL;
 	if(i && i != assetsItem && i != liabilitiesItem && i != incomesItem && i != expensesItem && !account_type_items.contains(i)) {
 		account = account_items[i];
 		if(account && account->type() != ACCOUNT_TYPE_ASSETS) account = NULL;
 	}
-	if(!account) {
+	if(!account && !budget->assetsAccounts.isEmpty()) {
 		account = budget->assetsAccounts[0];
-		if(account == budget->balancingAccount && budget->assetsAccounts.count() > 1) account = budget->assetsAccounts[1];
+		if(account == budget->balancingAccount) {
+			if(budget->assetsAccounts.count() > 1) account = budget->assetsAccounts[1];
+			else account = NULL;
+		}
 	}
-	LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, this, tr("Ledger"), b_extra, true);
+	LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, budget, this, tr("Ledger"), b_extra, true);
 	dialog->show();
 	connect(this, SIGNAL(timeToSaveConfig()), dialog, SLOT(saveConfig()));
 }
@@ -4106,7 +4110,7 @@ void Eqonomize::showAccountTransactions(bool b) {
 		} else if(((AssetsAccount*) account)->accountType() == ASSETS_TYPE_SECURITIES) {
 			tabs->setCurrentIndex(SECURITIES_PAGE_INDEX);
 		} else {
-			LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, this, tr("Ledger"), b_extra);
+			LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, budget, this, tr("Ledger"), b_extra);
 			dialog->show();
 			connect(this, SIGNAL(timeToSaveConfig()), dialog, SLOT(saveConfig()));
 		}
@@ -5922,9 +5926,9 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionUpdateExchangeRates, tr("Update Exchange Rates"), "view-refresh", 0, this, SLOT(updateExchangeRates()), "update_exchange_rates", fileMenu);
 	NEW_ACTION_2(ActionConvertCurrencies, tr("Currency Converter"), 0, this, SLOT(openCurrencyConversion()), "convert_currencies", fileMenu);
 	fileMenu->addSeparator();
-	QList<QKeySequence> keySequences;	
-	keySequences << QKeySequence(Qt::CTRL+Qt::Key_Q);
+	QList<QKeySequence> keySequences;
 	keySequences << QKeySequence(QKeySequence::Quit);
+	if(keySequences.last() != QKeySequence(Qt::CTRL+Qt::Key_Q)) keySequences << QKeySequence(Qt::CTRL+Qt::Key_Q);
 	NEW_ACTION_3(ActionQuit, tr("&Quit"), "application-exit", keySequences, this, SLOT(close()), "application_quit", fileMenu);
 	
 	NEW_ACTION_NOMENU(ActionAddAccount, tr("Add Account…"), "document-new", 0, this, SLOT(addAccount()), "add_account");
@@ -6928,16 +6932,16 @@ void Eqonomize::updateBudgetAccountTitle(AssetsAccount *account) {
 		else i->setText(0, account->name());
 	}
 	if(b_time) {
-		if(assetsItem->text(0).back() != '*') assetsItem->setText(0, assetsItem->text(0) + '*');
+		if(!assetsItem->text(0).endsWith('*')) assetsItem->setText(0, assetsItem->text(0) + '*');
 	} else {
-		if(assetsItem->text(0).back() == '*') assetsItem->setText(0, assetsItem->text(0).left(assetsItem->text(0).length() - 1));
+		if(assetsItem->text(0).endsWith('*')) assetsItem->setText(0, assetsItem->text(0).left(assetsItem->text(0).length() - 1));
 	}
 	for(QMap<QTreeWidgetItem*, int>::iterator it = account_type_items.begin(); it != account_type_items.end(); ++it) {
 		if(b_time && budget->budgetAccount && it.value() == budget->budgetAccount->accountType()) {
-			if(it.key()->text(0).back() != '*') it.key()->setText(0, it.key()->text(0) + '*');
+			if(!it.key()->text(0).endsWith('*')) it.key()->setText(0, it.key()->text(0) + '*');
 			else break;
 		} else {
-			if(it.key()->text(0).back() == '*') it.key()->setText(0, it.key()->text(0).left(it.key()->text(0).length() - 1));
+			if(it.key()->text(0).endsWith('*')) it.key()->setText(0, it.key()->text(0).left(it.key()->text(0).length() - 1));
 		}
 	}
 	footer1->setVisible(b_time);

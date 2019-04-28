@@ -1085,7 +1085,7 @@ QPen getLinePen(int index) {
 
 void OverTimeChart::updateDisplay() {
 
-	if(!isVisible()) return;
+	if(!isVisible() || budget->accounts.count() <= 1) return;
 	
 	int current_source2 = (current_source > 50 ? current_source - 100 : current_source);
 	QVector<chart_month_info> monthly_incomes, monthly_expenses;
