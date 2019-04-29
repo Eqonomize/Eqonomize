@@ -1,3 +1,8 @@
+2019-04-29  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix updating of account values when a scheduled transaction has been 
+	  edited in dialog and changed to a non-scheduled transaction
+
 2019-04-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix segfault in over time chart with no accounts

@@ -3458,8 +3458,6 @@ bool Eqonomize::editScheduledTransaction(ScheduledTransaction *strans, QWidget *
 			strans = strans_new;
 			if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
 				Transactions *trans = strans->transaction()->copy();
-				budget->removeScheduledTransaction(strans, true);
-				transactionRemoved(strans);
 				delete strans;
 				budget->addTransactions(trans);
 				transactionAdded(trans);
