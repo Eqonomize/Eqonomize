@@ -82,6 +82,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QProgressDialog>
+#include <QFontDialog>
 
 #include <QDebug>
 
@@ -1756,6 +1757,19 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 	
+	QString sfont = settings.value("font").toString();
+	if(!sfont.isEmpty()) {
+		QFont font;
+		font.fromString(sfont);
+		qApp->processEvents();
+		qDebug() << font.weight() << qApp->font().weight();
+		if(font.family() == qApp->font().family() && font.pointSize() == qApp->font().pointSize() && font.pixelSize() == qApp->font().pixelSize() && font.overline() == qApp->font().overline() && font.stretch() == qApp->font().stretch() && font.letterSpacing() == qApp->font().letterSpacing() && font.underline() == qApp->font().underline() && font.style() == qApp->font().style() && font.weight() == qApp->font().weight()) {
+			settings.remove("font");
+		} else {
+			qApp->setFont(font);
+		}
+	}
+	
 	b_extra = settings.value("useExtraProperties", true).toBool();
 	int initial_period = settings.value("initialPeriod", int(0)).toInt();
 	if(initial_period < 0 || initial_period > 4) initial_period = 0;
@@ -2463,6 +2477,18 @@ void Eqonomize::setBudgetPeriod() {
 		setModified(true);
 	}
 	dialog->deleteLater();
+}
+
+void Eqonomize::selectFont() {
+	bool b = false;
+	QFont font = QFontDialog::getFont(&b, qApp->font(), this);
+	if(b && font != qApp->font()) {
+		qApp->setFont(font);
+		QSettings settings;
+		settings.beginGroup("GeneralOptions");
+		settings.setValue("font", font.toString());
+		settings.endGroup();
+	}
 }
 
 void Eqonomize::checkDate() {
@@ -6051,6 +6077,8 @@ void Eqonomize::setupActions() {
 	backupMenu->addActions(ActionSelectBackupFrequency->actions());
 	
 	NEW_ACTION_2(ActionSyncSettings, tr("Cloud Synchronization (experimental)…"), 0, this, SLOT(openSynchronizationSettings()), "open_synchronization_settings", settingsMenu);
+	
+	NEW_ACTION(ActionSelectFont, tr("Select Font…"), "", 0, this, SLOT(selectFont()), "select_font", settingsMenu);
 	
 	QMenu *langMenu = settingsMenu->addMenu(tr("Language"));
 	ActionSelectLang = new QActionGroup(this);

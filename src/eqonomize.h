@@ -218,7 +218,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionImportCSV, *ActionImportQIF, *ActionImportEQZ, *ActionExportQIF;
 		QAction *ActionConvertCurrencies, *ActionUpdateExchangeRates;
 		QAction *ActionExtraProperties, *ActionUseExchangeRateForTransactionDate, *ActionSetBudgetPeriod, *ActionSetScheduleConfirmationTime, *AIPCurrentMonth, *AIPCurrentYear, *AIPCurrentWholeMonth, *AIPCurrentWholeYear, *AIPRememberLastDates, *ABFDaily, *ABFWeekly, *ABFFortnightly, *ABFMonthly, *ABFNever, *ACSTime[11];
-		QAction *ActionSetMainCurrency, *ActionSyncSettings;
+		QAction *ActionSetMainCurrency, *ActionSyncSettings, *ActionSelectFont;
 		QActionGroup *ActionSelectInitialPeriod, *ActionSelectBackupFrequency, *ActionSelectLang;
 		QAction *ActionHelp, *ActionWhatsThis, *ActionReportBug, *ActionAbout, *ActionAboutQt;
 		
@@ -324,6 +324,8 @@ class Eqonomize : public QMainWindow {
 		void setBudgetPeriod();
 		
 		void setScheduleConfirmationTime();
+		
+		void selectFont();
 		
 		void showFilter();
 		
