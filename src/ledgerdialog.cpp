@@ -1044,7 +1044,7 @@ void LedgerDialog::transactionSelectionChanged() {
 				if(!trans->parentSplit() || trans->parentSplit() != split || trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) b_split = false;
 			}
 			if(b_join && trans->parentSplit()) b_join = false;
-			if(b_file) b_file = (selection.count() == 1) && !trans->associatedFile().isEmpty();
+			if(b_file) b_file = (selection.count() == 1) && (!trans->associatedFile().isEmpty() || (trans->parentSplit() && !trans->parentSplit()->associatedFile().isEmpty()));
 		}
 	}
 	if(b_join && selection.size() == 1) b_join = false;
@@ -1366,6 +1366,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 				if(split == selected_split) {
 					i->setSelected(true);
 				}
+				if(!split->associatedFile().isEmpty()) i->setIcon(value >= 0 ? 8 : 9, LOAD_ICON("mail-attachment"));
 			} else if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
 				if(((DebtPayment*) split)->loan() == account) {
 					DebtPayment *lsplit = (DebtPayment*) split;
@@ -1391,6 +1392,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 							i->setSelected(true);
 						}
 						quantity++;
+						if(!split->associatedFile().isEmpty()) i->setIcon(value >= 0 ? 8 : 9, LOAD_ICON("mail-attachment"));
 					}
 					ltrans = lsplit->feeTransaction();
 					if(ltrans) {
@@ -1418,6 +1420,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 						if(ltrans == selected_transaction) {
 							i->setSelected(true);
 						}
+						if(!split->associatedFile().isEmpty()) i->setIcon(to_balance ? (value >= 0.0 ? 9 : 7) : 8, LOAD_ICON("mail-attachment"));
 					}
 					ltrans = lsplit->interestTransaction();
 					if(ltrans) {
@@ -1445,6 +1448,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 						if(ltrans == selected_transaction) {
 							i->setSelected(true);
 						}
+						if(!split->associatedFile().isEmpty()) i->setIcon((to_balance && value >= 0.0) ? 8 : 9, LOAD_ICON("mail-attachment"));
 					}
 					if(b_tb) {
 						if(previous_date.isValid() && lsplit->date() != previous_date) total_balance += previous_balance * previous_date.daysTo(lsplit->date());
@@ -1471,6 +1475,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 						if(split == selected_split) {
 							i->setSelected(true);
 						}
+						if(!split->associatedFile().isEmpty()) i->setIcon(value >= 0 ? 8 : 9, LOAD_ICON("mail-attachment"));
 					}
 					if(previous_date.isValid() && split->date() != previous_date) total_balance += previous_balance * previous_date.daysTo(split->date());
 					previous_balance = balance;
@@ -1514,6 +1519,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 			previous_balance = balance;
 			previous_date = trans->date();
 			if(!first_date.isValid()) first_date = previous_date;
+			if(!trans->associatedFile().isEmpty() || (trans->parentSplit() && !trans->parentSplit()->associatedFile().isEmpty())) i->setIcon(value >= 0 ? 8 : 9, LOAD_ICON("mail-attachment"));
 		}
 		if(transs == trans) {
 			++trans_index;

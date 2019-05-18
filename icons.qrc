@@ -36,6 +36,7 @@
 	<file alias="actions/scalable/document-save.svg">data/standard/document-save.svg</file>
 	<file alias="actions/scalable/edit-delete.svg">data/standard/edit-delete.svg</file>
 	<file alias="actions/scalable/view-refresh.svg">data/standard/view-refresh.svg</file>
+	<file alias="status/scalable/mail-attachment.png">data/standard/mail-attachment.png</file>
 	<file alias="apps/16x16/eqonomize.png">data/16/eqonomize.png</file>
 	<file alias="actions/16x16/eqz-account.png">data/16/eqz-account.png</file>
 	<file alias="actions/16x16/eqz-balance.png">data/16/eqz-balance.png</file>
@@ -74,6 +75,7 @@
 	<file alias="actions/16x16/help-contents.png">data/standard/16/help-contents.png</file>
 	<file alias="actions/16x16/system-run.png">data/standard/16/system-run.png</file>
 	<file alias="actions/16x16/view-refresh.png">data/standard/16/view-refresh.png</file>
+	<file alias="status/16x16/mail-attachment.png">data/standard/16/mail-attachment.png</file>
 	<file alias="apps/32x32/eqonomize.png">data/32/eqonomize.png</file>
 	<file alias="actions/32x32/eqz-account.png">data/32/eqz-account.png</file>
 	<file alias="actions/32x32/eqz-balance.png">data/32/eqz-balance.png</file>
@@ -112,6 +114,7 @@
 	<file alias="actions/32x32/help-contents.png">data/standard/32/help-contents.png</file>
 	<file alias="actions/32x32/system-run.png">data/standard/32/system-run.png</file>
 	<file alias="actions/32x32/view-refresh.png">data/standard/32/view-refresh.png</file>
+	<file alias="status/32x32/mail-attachment.png">data/standard/32/mail-attachment.png</file>
 	<file alias="actions/48x48/eqz-account.png">data/48/eqz-account.png</file>
 	<file alias="actions/48x48/eqz-balance.png">data/48/eqz-balance.png</file>
 	<file alias="actions/48x48/eqz-categories-chart.png">data/48/eqz-categories-chart.png</file>
@@ -149,6 +152,7 @@
 	<file alias="actions/48x48/help-contents.png">data/standard/48/help-contents.png</file>
 	<file alias="actions/48x48/system-run.png">data/standard/48/system-run.png</file>
 	<file alias="actions/48x48/view-refresh.png">data/standard/48/view-refresh.png</file>
+	<file alias="status/48x48/mail-attachment.png">data/standard/48/mail-attachment.png</file>
 	<file alias="apps/64x64/eqonomize.png">data/64/eqonomize.png</file>
 	<file alias="actions/64x64/eqz-account.png">data/64/eqz-account.png</file>
 	<file alias="actions/64x64/eqz-balance.png">data/64/eqz-balance.png</file>
@@ -186,6 +190,7 @@
 	<file alias="actions/64x64/help-contents.png">data/standard/64/help-contents.png</file>
 	<file alias="actions/64x64/system-run.png">data/standard/64/system-run.png</file>
 	<file alias="actions/64x64/view-refresh.png">data/standard/64/view-refresh.png</file>
+	<file alias="status/64x64/mail-attachment.png">data/standard/64/mail-attachment.png</file>
 	<file alias="apps/22x22/eqonomize.png">data/22/eqonomize.png</file>
 	<file alias="actions/22x22/eqz-account.png">data/22/eqz-account.png</file>
 	<file alias="actions/22x22/eqz-balance.png">data/22/eqz-balance.png</file>
@@ -224,5 +229,6 @@
 	<file alias="actions/22x22/help-contents.png">data/standard/22/help-contents.png</file>
 	<file alias="actions/22x22/system-run.png">data/standard/22/system-run.png</file>
 	<file alias="actions/22x22/view-refresh.png">data/standard/22/view-refresh.png</file>
+	<file alias="status/22x22/mail-attachment.png">data/standard/22/mail-attachment.png</file>
 </qresource>
 </RCC>

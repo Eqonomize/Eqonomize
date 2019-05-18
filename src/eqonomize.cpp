@@ -7478,6 +7478,8 @@ void Eqonomize::transactionModified(Transactions *transs, Transactions *oldtrans
 			break;
 		}
 		case GENERAL_TRANSACTION_TYPE_SPLIT: {
+			transactionRemoved(transs);
+			transactionAdded(transs);
 			return;
 		}
 		case GENERAL_TRANSACTION_TYPE_SCHEDULE: {

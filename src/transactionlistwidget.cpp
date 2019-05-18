@@ -244,6 +244,12 @@ void TransactionListWidget::selectAssociatedFile() {
 				last_associated_file_directory = fileInfo.absoluteDir().absolutePath();
 				transs->setAssociatedFile(url);
 				mainWin->ActionOpenAssociatedFile->setEnabled(true);
+				if(transs->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+					mainWin->transactionRemoved(transs);
+					mainWin->transactionAdded(transs);
+				} else {
+					mainWin->transactionModified(transs, transs);
+				}
 			}
 		}
 	}
@@ -1323,11 +1329,13 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 			else if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_INCOME) i->setText(5, ((Income*) trans)->payer());
 			if(trans->parentSplit() && trans->comment().isEmpty()) i->setText(comments_col, trans->parentSplit()->comment());
 			else i->setText(comments_col, trans->comment());
+			if(!trans->associatedFile().isEmpty() || (trans->parentSplit() && !trans->parentSplit()->associatedFile().isEmpty())) i->setIcon(2, LOAD_ICON("mail-attachment"));
 		} else if(split) {
 			i->setText(3, split->category()->name());
 			i->setText(4, split->accountsString());
 			if(comments_col == 6) i->setText(5, split->payees());
 			i->setText(comments_col, transs->comment());
+			if(!split->associatedFile().isEmpty()) i->setIcon(2, LOAD_ICON("mail-attachment"));
 		}		
 		current_value += transs->value(true);
 		current_quantity += transs->quantity();
@@ -1355,6 +1363,7 @@ void TransactionListWidget::onTransactionSplitUp(SplitTransaction *split) {
 		while(i) {
 			if(i->transaction() && i->transaction()->parentSplit() == split) {
 				i->setText(1, i->transaction()->description());
+				if(!split->associatedFile().isEmpty() && i->transaction()->associatedFile().isEmpty()) i->setIcon(2, QIcon());
 			}
 			++it;
 			i = (TransactionListViewItem*) *it;
@@ -1425,6 +1434,8 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 					else if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_INCOME) i->setText(5, ((Income*) trans)->payer());
 					if(trans->parentSplit() && trans->comment().isEmpty()) i->setText(comments_col, trans->parentSplit()->comment());
 					else i->setText(comments_col, trans->comment());
+					if(!trans->associatedFile().isEmpty() || (trans->parentSplit() && !trans->parentSplit()->associatedFile().isEmpty())) i->setIcon(2, LOAD_ICON("mail-attachment"));
+					else i->setIcon(2, QIcon());
 				}
 				updateStatistics();
 			}
@@ -1497,6 +1508,8 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 					i->setText(4, split->accountsString());
 					if(comments_col == 6) i->setText(5, split->payees());
 					i->setText(comments_col, split->comment());
+					if(!split->associatedFile().isEmpty()) i->setIcon(2, LOAD_ICON("mail-attachment"));
+					else i->setIcon(2, QIcon()); 
 				}
 				updateStatistics();
 			}
