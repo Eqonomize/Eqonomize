@@ -36,7 +36,7 @@
 	<file alias="actions/scalable/document-save.svg">data/standard/document-save.svg</file>
 	<file alias="actions/scalable/edit-delete.svg">data/standard/edit-delete.svg</file>
 	<file alias="actions/scalable/view-refresh.svg">data/standard/view-refresh.svg</file>
-	<file alias="status/scalable/mail-attachment.png">data/standard/mail-attachment.png</file>
+	<file alias="status/scalable/mail-attachment.svg">data/standard/mail-attachment.svg</file>
 	<file alias="apps/16x16/eqonomize.png">data/16/eqonomize.png</file>
 	<file alias="actions/16x16/eqz-account.png">data/16/eqz-account.png</file>
 	<file alias="actions/16x16/eqz-balance.png">data/16/eqz-balance.png</file>
