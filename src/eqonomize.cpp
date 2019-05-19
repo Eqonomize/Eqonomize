@@ -1762,7 +1762,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 		QFont font;
 		font.fromString(sfont);
 		qApp->processEvents();
-		qDebug() << font.weight() << qApp->font().weight();
 		if(font.family() == qApp->font().family() && font.pointSize() == qApp->font().pointSize() && font.pixelSize() == qApp->font().pixelSize() && font.overline() == qApp->font().overline() && font.stretch() == qApp->font().stretch() && font.letterSpacing() == qApp->font().letterSpacing() && font.underline() == qApp->font().underline() && font.style() == qApp->font().style() && font.weight() == qApp->font().weight()) {
 			settings.remove("font");
 		} else {
@@ -2460,7 +2459,7 @@ void Eqonomize::setBudgetPeriod() {
 	layout->addWidget(new QLabel(tr("First month in budget year:"), dialog), 1, 0);
 	QComboBox *yearlyMonthCombo = new QComboBox(dialog);
 	for(int i = 1; i <= 12; i++) {
-		yearlyMonthCombo->addItem(QDate::longMonthName(i, QDate::StandaloneFormat));
+		yearlyMonthCombo->addItem(QLocale().monthName(i, QLocale::LongFormat));
 	}
 	yearlyMonthCombo->setCurrentIndex(budget->budgetMonth() - 1);
 	layout->addWidget(yearlyMonthCombo, 1, 1);
@@ -7900,6 +7899,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			break;
 		}
 		case ACCOUNT_TYPE_INCOMES: {
+			balfrom = (trans->fromAccount() == budget->null_incomes_account);
 			if(b_lastmonth) {
 				account_month_endlast[trans->fromAccount()] += cvalue_then;
 				if(from_sub) account_month_endlast[trans->fromAccount()->topAccount()] += cvalue_then;
@@ -8074,6 +8074,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			break;
 		}
 		case ACCOUNT_TYPE_INCOMES: {
+			balto = (trans->toAccount() == budget->null_incomes_account);
 			if(b_lastmonth) {
 				account_month_endlast[trans->toAccount()] -= cvalue_then;
 				if(to_sub) account_month_endlast[trans->toAccount()->topAccount()] -= cvalue_then;

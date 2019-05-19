@@ -3673,12 +3673,12 @@ void OverTimeChart::updateDisplay() {
 		monthdate = first_date;
 		while(monthdate <= curmonth) {
 			if(b_long_month_names) {
-				if(fm.width(QDate::longMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat)) > linelength - 8) {
+				if(fm.width(QLocale().monthName(budget->budgetMonth(monthdate), QLocale::LongFormat)) > linelength - 8) {
 					b_long_month_names = false;
 				}
 			}
 			if(!b_long_month_names) {
-				if(fm.width(QDate::shortMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat)) > linelength) {
+				if(fm.width(QLocale().monthName(budget->budgetMonth(monthdate), QLocale::ShortFormat)) > linelength) {
 					b_month_names = false;
 					break;
 				}
@@ -3703,8 +3703,8 @@ void OverTimeChart::updateDisplay() {
 		}
 		if(b_month_names) {
 			QGraphicsSimpleTextItem *axis_text = new QGraphicsSimpleTextItem();
-			if((includes_budget || includes_scheduled) && next_date > imonth) axis_text->setText((b_long_month_names ? QDate::longMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat) : QDate::shortMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat)) + "*");
-			else axis_text->setText(b_long_month_names ? QDate::longMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat) : QDate::shortMonthName(budget->budgetMonth(monthdate), QDate::StandaloneFormat));
+			if((includes_budget || includes_scheduled) && next_date > imonth) axis_text->setText(QLocale().monthName(budget->budgetMonth(monthdate), b_long_month_names ? QLocale::LongFormat : QLocale::ShortFormat) + "*");
+			else axis_text->setText(QLocale().monthName(budget->budgetMonth(monthdate), b_long_month_names ? QLocale::LongFormat : QLocale::ShortFormat));
 			axis_text->setFont(legend_font);
 			axis_text->setBrush(Qt::black);
 			axis_text->setPos(margin + axis_width + index * linelength + (linelength - axis_text->boundingRect().width()) / 2, chart_height + chart_y + 11);

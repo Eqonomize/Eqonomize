@@ -913,7 +913,7 @@ void OverTimeReport::updateDisplay() {
 		total_value += it->value;
 		total_expense += it->expense;
 		total_count += it->count;
-		outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(QDate::longMonthName(budget->budgetMonth(it->date), QDate::StandaloneFormat)) << "</td>";
+		outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(QLocale().monthName(budget->budgetMonth(it->date), QLocale::LongFormat)) << "</td>";
 		if(enabled[0]) outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(first_month ? (it->value + scheduled_value) : it->value)) << "</td>";
 		int days = 0;
 		if(first_month) {

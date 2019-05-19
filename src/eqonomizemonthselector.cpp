@@ -88,7 +88,7 @@ void EqonomizeMonthSelector::updateMonths() {
 	if(monthCombo->count() != 12 || !IS_GREGORIAN_CALENDAR) {
 		monthCombo->clear();
 		for(int i = 1; i <= months; i++) {
-			monthCombo->addItem(QDate::longMonthName(i, QDate::StandaloneFormat));
+			monthCombo->addItem(QLocale().monthName(i, QLocale::LongFormat));
 		}
 		monthCombo->setCurrentIndex(d_date.month() - 1);
 	}

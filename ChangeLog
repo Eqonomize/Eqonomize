@@ -1,3 +1,14 @@
+2019-05-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix assets and liabilities total in over time report
+	* Option to show separate months in categories comparison report (issue #79)
+	* Fix segfault when editing reinvested dividend without income category
+
+2019-05-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Show icon when transaction has associated file
+	* Update save state when associated file selected
+
 2019-05-02  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Font selection

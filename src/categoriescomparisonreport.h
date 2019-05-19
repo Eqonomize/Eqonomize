@@ -58,7 +58,7 @@ class CategoriesComparisonReport : public QWidget {
 		QDateEdit *fromEdit, *toEdit;
 		QPushButton *nextYearButton, *prevYearButton, *nextMonthButton, *prevMonthButton;
 		QPushButton *saveButton, *printButton;
-		QCheckBox *valueButton, *dailyButton, *monthlyButton, *yearlyButton, *countButton, *perButton;
+		QCheckBox *valueButton, *dailyButton, *monthlyButton, *yearlyButton, *countButton, *perButton, *monthsButton;
 		QComboBox *sourceCombo, *descriptionCombo, *payeeCombo, *accountCombo;
 		QRadioButton *descriptionButton, *payeeButton, *subsButton;
 		QWidget *payeeDescriptionWidget;
@@ -84,6 +84,7 @@ class CategoriesComparisonReport : public QWidget {
 		void descriptionToggled(bool);
 		void payeeToggled(bool);
 		void subsToggled(bool);
+		void monthsToggled(bool);
 		AssetsAccount *selectedAccount();
 
 };

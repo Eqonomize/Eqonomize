@@ -774,8 +774,8 @@ void CategoriesComparisonChart::updateDisplay() {
 		} else {
 			trans = (Transaction*) strans->transaction();
 		}
-		if(!first_date_reached && trans->date() >= first_date) first_date_reached = true;
-		else if(first_date_reached && trans->date() > to_date) break;
+		if(!first_date_reached && trans->date() >= first_date) first_date_reached = true; 
+		if(first_date_reached && trans->date() > to_date) break;
 		if(first_date_reached && (!current_assets || trans->relatesToAccount(current_assets))) {
 			if(current_account && !include_subs) {
 				if(trans->fromAccount() == current_account) {
