@@ -938,7 +938,7 @@ void OverTimeReport::updateDisplay() {
 			outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(pervalue)) << "</td>";
 		}
 		if(enabled[6]) outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(first_month ? (it->expense + scheduled_expense) : it->expense)) << "</td>";
-		if(enabled[7]) outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(first_month ? (it->value - it->expense + scheduled_value - scheduled_expense) : it->value - it->expense)) << "</td>";
+		if(enabled[7]) outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(current_source == 12 ? (first_month ? (it->value + it->expense + scheduled_value + scheduled_expense) : it->value + it->expense) : (first_month ? (it->value - it->expense + scheduled_value - scheduled_expense) : it->value - it->expense))) << "</td>";
 		first_month = false;
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
