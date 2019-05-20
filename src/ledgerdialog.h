@@ -32,6 +32,7 @@ class QTreeWidget;
 class QTreeWidgetItem;
 class QComboBox;
 class QLabel;
+class QLineEdit;
 class QAction;
 class QMenu;
 class QFrame;
@@ -73,6 +74,9 @@ class LedgerDialog : public QDialog {
 		QAction *ActionNewDebtInterest, *ActionNewDebtPayment;
 		QAction *ActionMarkReconciled, *ActionEdit, *ActionSplit, *ActionJoin, *ActionDelete, *ActionOpenFile;
 		QMenu *headerMenu, *listMenu;
+		QLineEdit *searchEdit;
+		QPushButton *searchPreviousButton, *searchNextButton;
+		QAction *ActionSearch;
 
 		bool exportList(QTextStream &outf, int fileformat, QDate first_date = QDate(), QDate last_date = QDate());
 		void accountChanged();
@@ -125,6 +129,9 @@ class LedgerDialog : public QDialog {
 		void accountActivated(int);
 		void reject();
 		void editAccount();
+		void search();
+		void searchPrevious();
+		void searchChanged(const QString&);
 		
 };
 

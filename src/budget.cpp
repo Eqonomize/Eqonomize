@@ -854,6 +854,9 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					if(!set_ids) set_ids = strans->transaction()->id() == 0;
 				}
 				if((i_version[0] < 1 || (i_version[0] == 1 && (i_version[1] < 3 || (i_version[1] == 3 && i_version[2] <= 2)))) && strans->timestamp() > curtime) strans->setTimestamp(strans->timestamp() / 1000000L);
+				if((i_version[0] < 1 || (i_version[0] == 1 && (i_version[1] < 3 || (i_version[1] == 3 && i_version[2] <= 4)))) && strans->associatedFile().contains(",")) {
+					strans->setAssociatedFile(QString("\"") + strans->associatedFile() + "\"");
+				}
 				scheduledTransactions.append(strans);
 				if(strans->transaction()) {
 					if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
@@ -1082,6 +1085,9 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 						if(!set_ids) set_ids = split->id() == 0;
 					}
 					if((i_version[0] < 1 || (i_version[0] == 1 && (i_version[1] < 3 || (i_version[1] == 3 && i_version[2] <= 2)))) && split->timestamp() > curtime) split->setTimestamp(split->timestamp() / 1000000L);
+					if((i_version[0] < 1 || (i_version[0] == 1 && (i_version[1] < 3 || (i_version[1] == 3 && i_version[2] <= 4)))) && split->associatedFile().contains(",")) {
+						split->setAssociatedFile(QString("\"") + split->associatedFile() + "\"");
+					}
 					splitTransactions.append(split);
 					int c = split->count();
 					for(int i = 0; i < c; i++) {
@@ -1119,6 +1125,9 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 							}
 							default: {}
 						}
+						if((i_version[0] < 1 || (i_version[0] == 1 && (i_version[1] < 3 || (i_version[1] == 3 && i_version[2] <= 4)))) && trans->associatedFile().contains(",")) {
+							trans->setAssociatedFile(QString("\"") + trans->associatedFile() + "\"");
+						}
 						transactions.append(trans);
 					}
 				}
@@ -1131,6 +1140,9 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					if(!set_ids) set_ids = trans->id() == 0;
 				}
 				if((i_version[0] < 1 || (i_version[0] == 1 && (i_version[1] < 3 || (i_version[1] == 3 && i_version[2] <= 2)))) && trans->timestamp() > curtime) trans->setTimestamp(trans->timestamp() / 1000000L);
+				if((i_version[0] < 1 || (i_version[0] == 1 && (i_version[1] < 3 || (i_version[1] == 3 && i_version[2] <= 4)))) && trans->associatedFile().contains(",")) {
+					trans->setAssociatedFile(QString("\"") + trans->associatedFile() + "\"");
+				}
 				transactions.append(trans);
 			}
 		} else if(xml.name() == "category") {

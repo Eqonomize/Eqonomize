@@ -39,6 +39,7 @@
 #include <QDialogButtonBox>
 #include <QComboBox>
 #include <QAction>
+#include <QLineEdit>
 #include <QUrl>
 #include <QFileDialog>
 #include <QSaveFile>
@@ -52,8 +53,8 @@
 #include <QHeaderView>
 #include <QMenu>
 #include <QAction>
-#include <QDesktopServices>
 #include <QDesktopWidget>
+#include <QShortcut>
 
 #include "budget.h"
 #include "eqonomize.h"
@@ -88,6 +89,7 @@ class LedgerListViewItem : public QTreeWidgetItem, public QObject {
 		void setColors();
 		Transaction *transaction() const;
 		SplitTransaction *splitTransaction() const;
+		bool matches(const QString&) const;
 		double d_balance;
 		bool b_other_account;
 		int b_reconciled;
@@ -156,11 +158,17 @@ Transaction *LedgerListViewItem::transaction() const {
 SplitTransaction *LedgerListViewItem::splitTransaction() const {
 	return o_split;
 }
+bool LedgerListViewItem::matches(const QString &str) const {
+	for(int i = 3; i <= 6; i++) {
+		if(text(i).contains(str, Qt::CaseInsensitive)) return true;
+	}
+	return false;
+}
 
-LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, QString title, bool extra_parameters, bool do_reconciliation) : QDialog(NULL, 0), account(acc), mainWin(parent), budget(budg), b_extra(extra_parameters) {
+LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, QString title, bool extra_parameters, bool do_reconciliation) : QDialog(NULL, Qt::Window), account(acc), mainWin(parent), budget(budg), b_extra(extra_parameters) {
 
 	setWindowTitle(title);
-	setModal(true);
+	setModal(false);
 	
 	headerMenu = NULL;
 	listMenu = NULL;
@@ -204,6 +212,18 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	markReconciledButton = topbuttons->addButton(tr("Mark all as reconciled", "Accounting context"), QDialogButtonBox::ActionRole);
 	markReconciledButton->setAutoDefault(false);
 	topbox->addWidget(topbuttons);
+	QHBoxLayout *findbox = new QHBoxLayout();
+	findbox->setSpacing(0);
+	searchEdit = new QLineEdit(this);
+	ActionSearch = searchEdit->addAction(LOAD_ICON("edit-find"), QLineEdit::LeadingPosition);
+	findbox->addWidget(searchEdit);
+	searchNextButton = new QPushButton(LOAD_ICON("go-down"), "", this);
+	searchNextButton->setEnabled(false);
+	findbox->addWidget(searchNextButton);
+	searchPreviousButton = new QPushButton(LOAD_ICON("go-up"), "", this);
+	searchPreviousButton->setEnabled(false);
+	findbox->addWidget(searchPreviousButton);
+	topbox->addLayout(findbox);
 	topbox->addStretch(1);
 	
 	reconcileWidget = new QFrame(this);
@@ -324,7 +344,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	buttonBox->button(QDialogButtonBox::Close)->setAutoDefault(false);
 	connect(buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), this, SLOT(reject()));
 	box1->addWidget(buttonBox);
-
+	
 #define NEW_ACTION(action, text, icon, receiver, slot) action = new QAction(this); action->setText(text); action->setIcon(LOAD_ICON(icon)); connect(action, SIGNAL(triggered()), receiver, slot);
 #define NEW_ACTION_ALT(action, text, icon, icon_alt, receiver, slot) action = new QAction(this); action->setText(text); action->setIcon(LOAD_ICON2(icon, icon_alt)); connect(action, SIGNAL(triggered()), receiver, slot);
 
@@ -334,6 +354,8 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	NEW_ACTION(ActionOpenFile, tr("Open Associated File"), "system-run", this, SLOT(openAssociatedFile()));
 	NEW_ACTION(ActionDelete, tr("Remove Transaction(s)"), "edit-delete", this, SLOT(remove()));
 	NEW_ACTION(ActionMarkReconciled, tr("Mark as reconciled"), "edit-delete", this, SLOT(reconcileTransactions()));
+	
+	new QShortcut(QKeySequence::Find, searchEdit, SLOT(setFocus()));
 
 	connect(transactionsView, SIGNAL(itemSelectionChanged()), this, SLOT(transactionSelectionChanged()));
 	connect(transactionsView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(edit(QTreeWidgetItem*, int)));
@@ -361,6 +383,11 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	connect(transactionsView->header(), SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupHeaderMenu(const QPoint&)));
 	transactionsView->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(transactionsView, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupListMenu(const QPoint&)));
+	connect(searchEdit, SIGNAL(returnPressed()), this, SLOT(search()));
+	connect(ActionSearch, SIGNAL(triggered(bool)), this, SLOT(search()));
+	connect(searchEdit, SIGNAL(textChanged(const QString&)), this, SLOT(searchChanged(const QString&)));
+	connect(searchNextButton, SIGNAL(clicked()), this, SLOT(search()));
+	connect(searchPreviousButton, SIGNAL(clicked()), this, SLOT(searchPrevious()));
 	
 	QSettings settings;
 	QSize dialog_size = settings.value("Ledger/size", QSize()).toSize();
@@ -1162,7 +1189,7 @@ void LedgerDialog::openAssociatedFile() {
 		if(i->splitTransaction()) transs = i->splitTransaction();
 		else if(i->transaction()->parentSplit() && transs->associatedFile().isEmpty()) transs = i->transaction()->parentSplit();
 		if(transs) {
-			QDesktopServices::openUrl(QUrl::fromLocalFile(transs->associatedFile()));
+			open_file_list(transs->associatedFile());
 		}
 	}
 }
@@ -1568,19 +1595,77 @@ void LedgerDialog::reject() {
 }
 void LedgerDialog::editAccount() {
 	if(!account) return;
-	/*EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, this, tr("Edit Account"));
-	dialog->setAccount(account);
-	budget->resetDefaultCurrencyChanged();
-	budget->resetCurrenciesModified();
-	if(dialog->exec() == QDialog::Accepted) {
-		dialog->modifyAccount(account);
-		budget->accountModified(account);
-		mainWin->reloadBudget();
-	} else if(budget->currenciesModified() || budget->defaultCurrencyChanged()) {
-		mainWin->currenciesModified();
-	}
-	dialog->deleteLater();*/
 	mainWin->editAccount(account, this);
 }
-
+void LedgerDialog::search() {
+	QString str = searchEdit->text().trimmed();
+	if(str.isEmpty()) return;
+	QTreeWidgetItem *i_first = transactionsView->currentItem();
+	QTreeWidgetItemIterator it(transactionsView, QTreeWidgetItemIterator::All);
+	if(i_first) {
+		it = QTreeWidgetItemIterator(i_first, QTreeWidgetItemIterator::All);
+		++it;
+		if(!(*it)) {
+			i_first = NULL;
+			it = QTreeWidgetItemIterator(transactionsView, QTreeWidgetItemIterator::All);
+		}
+	}
+	transactionsView->clearSelection();
+	transactionsView->setCurrentItem(NULL);
+	bool wrapped_around = false;
+	while(*it) {
+		if(((LedgerListViewItem*) *it)->matches(str)) {
+			(*it)->setSelected(true);
+			transactionsView->setCurrentItem(*it);
+			transactionsView->scrollToItem(*it);
+			break;
+		}
+		if(wrapped_around && *it == i_first) break;
+		++it;
+		if(!wrapped_around && i_first && !(*it)) {
+			it = QTreeWidgetItemIterator(transactionsView, QTreeWidgetItemIterator::All);
+			wrapped_around = true;
+		}
+	}
+}
+void LedgerDialog::searchPrevious() {
+	QString str = searchEdit->text().trimmed();
+	if(str.isEmpty()) return;
+	QTreeWidgetItem *i_first = transactionsView->currentItem();
+	int i = transactionsView->topLevelItemCount();
+	QTreeWidgetItemIterator it(transactionsView, QTreeWidgetItemIterator::All);
+	if(i_first) {
+		it = QTreeWidgetItemIterator(i_first, QTreeWidgetItemIterator::All);
+		--it;
+		if(!(*it)) {
+			i_first = NULL;
+			it = QTreeWidgetItemIterator(transactionsView, QTreeWidgetItemIterator::All);
+			it += i - 1;
+		}
+	} else {
+		it += i - 1;
+	}
+	transactionsView->clearSelection();
+	transactionsView->setCurrentItem(NULL);
+	bool wrapped_around = false;
+	while(*it) {
+		if(((LedgerListViewItem*) *it)->matches(str)) {
+			(*it)->setSelected(true);
+			transactionsView->setCurrentItem(*it);
+			transactionsView->scrollToItem(*it);
+			break;
+		}
+		if(wrapped_around && *it == i_first) break;
+		--it;
+		if(!wrapped_around && i_first && !(*it)) {
+			it = QTreeWidgetItemIterator(transactionsView, QTreeWidgetItemIterator::All);
+			it += i - 1;
+			wrapped_around = true;
+		}
+	}
+}
+void LedgerDialog::searchChanged(const QString &str) {
+	searchNextButton->setEnabled(!str.trimmed().isEmpty());
+	searchPreviousButton->setEnabled(!str.trimmed().isEmpty());
+}
 

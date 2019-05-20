@@ -42,7 +42,6 @@
 #include <QUrl>
 #include <QTabWidget>
 #include <QMessageBox>
-#include <QDesktopServices>
 
 #include "budget.h"
 #include "editscheduledtransactiondialog.h"
@@ -238,11 +237,21 @@ void TransactionListWidget::selectAssociatedFile() {
 		if(i->splitTransaction()) transs = i->splitTransaction();
 		else if(i->transaction()->parentSplit()) transs = i->transaction()->parentSplit();
 		if(transs) {
-			QString url = QFileDialog::getOpenFileName(this, QString(), transs->associatedFile().isEmpty() ? last_associated_file_directory : transs->associatedFile());
-			if(!url.isEmpty()) {
-				QFileInfo fileInfo(url);
+			QStringList urls = QFileDialog::getOpenFileNames(this, QString(), (transs->associatedFile().isEmpty() || transs->associatedFile().contains(",")) ? last_associated_file_directory : transs->associatedFile());
+			if(!urls.isEmpty()) {
+				QFileInfo fileInfo(urls[0]);
 				last_associated_file_directory = fileInfo.absoluteDir().absolutePath();
-				transs->setAssociatedFile(url);
+				if(urls.size() == 1) {
+					transs->setAssociatedFile(urls[0]);
+				} else {
+					QString url;
+					for(int i = 0; i < urls.size(); i++) {
+						if(i > 0) url += ", ";
+						if(urls[i].contains("\"")) {url += "\'"; url += urls[i]; url += "\'";}
+						else {url += "\""; url += urls[i]; url += "\"";}
+					}
+					transs->setAssociatedFile(url);
+				}
 				mainWin->ActionOpenAssociatedFile->setEnabled(true);
 				if(transs->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
 					mainWin->transactionRemoved(transs);
@@ -262,7 +271,7 @@ void TransactionListWidget::openAssociatedFile() {
 		if(i->splitTransaction()) transs = i->splitTransaction();
 		else if(i->transaction()->parentSplit() && transs->associatedFile().isEmpty()) transs = i->transaction()->parentSplit();
 		if(transs) {
-			QDesktopServices::openUrl(QUrl::fromLocalFile(transs->associatedFile()));
+			open_file_list(transs->associatedFile());
 		}
 	}
 }

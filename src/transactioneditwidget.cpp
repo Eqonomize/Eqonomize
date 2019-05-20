@@ -46,7 +46,6 @@
 #include <QMessageBox>
 #include <QStandardPaths>
 #include <QDirModel>
-#include <QDesktopServices>
 #include <QDebug>
 #include <QSettings>
 
@@ -587,15 +586,25 @@ void TransactionEditWidget::setQuoteToggled(bool b) {
 	settings.endGroup();
 }
 void TransactionEditWidget::selectFile() {
-	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_associated_file_directory : fileEdit->text());
-	if(!url.isEmpty()) {
-		QFileInfo fileInfo(url);
+	QStringList urls = QFileDialog::getOpenFileNames(this, QString(), (fileEdit->text().isEmpty() || fileEdit->text().contains(",")) ? last_associated_file_directory : fileEdit->text());
+	if(!urls.isEmpty()) {
+		QFileInfo fileInfo(urls[0]);
 		last_associated_file_directory = fileInfo.absoluteDir().absolutePath();
-		fileEdit->setText(url);
+		if(urls.size() == 1) {
+			fileEdit->setText(urls[0]);
+		} else {
+			QString url;
+			for(int i = 0; i < urls.size(); i++) {
+				if(i > 0) url += ", ";
+				if(urls[i].contains("\"")) {url += "\'"; url += urls[i]; url += "\'";}
+				else {url += "\""; url += urls[i]; url += "\"";}
+			}
+			fileEdit->setText(url);
+		}
 	}
 }
 void TransactionEditWidget::openFile() {
-	QDesktopServices::openUrl(QUrl::fromLocalFile(fileEdit->text()));
+	open_file_list(fileEdit->text().trimmed());
 }
 void TransactionEditWidget::useMultipleCurrencies(bool b) {
 	if(b == b_multiple_currencies) return;

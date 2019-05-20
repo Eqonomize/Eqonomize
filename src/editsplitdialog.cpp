@@ -43,7 +43,6 @@
 #include <QStandardItemModel>
 #include <QStandardPaths>
 #include <QDirModel>
-#include <QDesktopServices>
 #include <QFileDialog>
 
 #include "accountcombobox.h"
@@ -461,15 +460,25 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 EditMultiItemWidget::~EditMultiItemWidget() {}
 
 void EditMultiItemWidget::selectFile() {
-	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_associated_file_directory : fileEdit->text());
-	if(!url.isEmpty()) {
-		QFileInfo fileInfo(url);
+	QStringList urls = QFileDialog::getOpenFileNames(this, QString(), (fileEdit->text().isEmpty() || fileEdit->text().contains(",")) ? last_associated_file_directory : fileEdit->text());
+	if(!urls.isEmpty()) {
+		QFileInfo fileInfo(urls[0]);
 		last_associated_file_directory = fileInfo.absoluteDir().absolutePath();
-		fileEdit->setText(url);
+		if(urls.size() == 1) {
+			fileEdit->setText(urls[0]);
+		} else {
+			QString url;
+			for(int i = 0; i < urls.size(); i++) {
+				if(i > 0) url += ", ";
+				if(urls[i].contains("\"")) {url += "\'"; url += urls[i]; url += "\'";}
+				else {url += "\""; url += urls[i]; url += "\"";}
+			}
+			fileEdit->setText(url);
+		}
 	}
 }
 void EditMultiItemWidget::openFile() {
-	QDesktopServices::openUrl(QUrl::fromLocalFile(fileEdit->text()));
+	open_file_list(fileEdit->text());
 }
 void EditMultiItemWidget::newAccount() {
 	accountCombo->createAccount();
@@ -828,15 +837,25 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 EditMultiAccountWidget::~EditMultiAccountWidget() {}
 
 void EditMultiAccountWidget::selectFile() {
-	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_associated_file_directory : fileEdit->text());
-	if(!url.isEmpty()) {
-		QFileInfo fileInfo(url);
+	QStringList urls = QFileDialog::getOpenFileNames(this, QString(), (fileEdit->text().isEmpty() || fileEdit->text().contains(",")) ? last_associated_file_directory : fileEdit->text());
+	if(!urls.isEmpty()) {
+		QFileInfo fileInfo(urls[0]);
 		last_associated_file_directory = fileInfo.absoluteDir().absolutePath();
-		fileEdit->setText(url);
+		if(urls.size() == 1) {
+			fileEdit->setText(urls[0]);
+		} else {
+			QString url;
+			for(int i = 0; i < urls.size(); i++) {
+				if(i > 0) url += ", ";
+				if(urls[i].contains("\"")) {url += "\'"; url += urls[i]; url += "\'";}
+				else {url += "\""; url += urls[i]; url += "\"";}
+			}
+			fileEdit->setText(url);
+		}
 	}
 }
 void EditMultiAccountWidget::openFile() {
-	QDesktopServices::openUrl(QUrl::fromLocalFile(fileEdit->text()));
+	open_file_list(fileEdit->text());
 }
 
 void EditMultiAccountWidget::newCategory() {
@@ -1244,15 +1263,25 @@ void EditDebtPaymentWidget::feeFocusNext() {
 }
 
 void EditDebtPaymentWidget::selectFile() {
-	QString url = QFileDialog::getOpenFileName(this, QString(), fileEdit->text().isEmpty() ? last_associated_file_directory : fileEdit->text());
-	if(!url.isEmpty()) {
-		QFileInfo fileInfo(url);
+	QStringList urls = QFileDialog::getOpenFileNames(this, QString(), (fileEdit->text().isEmpty() || fileEdit->text().contains(",")) ? last_associated_file_directory : fileEdit->text());
+	if(!urls.isEmpty()) {
+		QFileInfo fileInfo(urls[0]);
 		last_associated_file_directory = fileInfo.absoluteDir().absolutePath();
-		fileEdit->setText(url);
+		if(urls.size() == 1) {
+			fileEdit->setText(urls[0]);
+		} else {
+			QString url;
+			for(int i = 0; i < urls.size(); i++) {
+				if(i > 0) url += ", ";
+				if(urls[i].contains("\"")) {url += "\'"; url += urls[i]; url += "\'";}
+				else {url += "\""; url += urls[i]; url += "\"";}
+			}
+			fileEdit->setText(url);
+		}
 	}
 }
 void EditDebtPaymentWidget::openFile() {
-	QDesktopServices::openUrl(QUrl::fromLocalFile(fileEdit->text()));
+	open_file_list(fileEdit->text());
 }
 
 void EditDebtPaymentWidget::newAccount() {

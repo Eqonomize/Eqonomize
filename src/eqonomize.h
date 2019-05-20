@@ -810,5 +810,7 @@ class EqonomizeComboBox : public QComboBox {
 
 };
 
+void open_file_list(QString);
+
 #endif
 

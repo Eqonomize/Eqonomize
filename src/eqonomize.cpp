@@ -226,6 +226,57 @@ void setColumnStrlenWidth(QTreeWidget *w, int i, int l) {
 	setColumnTextWidth(w, i, QString(l, 'h'));
 }
 
+void open_file_list(QString url) {
+	if(url.isEmpty()) return;
+	if(!url.contains(",")) {
+		QDesktopServices::openUrl(QUrl::fromLocalFile(url));
+		return;
+	}
+	QStringList urls;
+	while(!url.isEmpty()) {
+		while(url[0] == "\"" || url[0] == "\'") {
+			int i = url.indexOf(url[0], 1);
+			if(i == url.length() - 1) {
+				urls << url.mid(1, i - 1);
+				url = "";
+				break;
+			} else if(i > 0) {
+				int i2 = url.indexOf(",", i + 1);
+				if(i2 < 0) {
+					break;
+				} else if(i2 == i + 1) {
+					urls << url.mid(1, i - 1);
+					url.remove(0, i2 + 1);
+					url = url.trimmed();
+				} else {
+					QString str = url.mid(i + 1, i2 - (i + 1)).trimmed();
+					if(url.isEmpty()) {
+						urls << url.mid(1, i - 1);
+						url.remove(0, i2 + 1);
+						url = url.trimmed();
+					} else {
+						break;
+					}
+				}
+			} else {
+				break;
+			}
+		}
+		if(url.isEmpty()) break;
+		int i = url.indexOf(",", 1);
+		if(i < 0) {
+			urls << url;
+			break;
+		} else {
+			urls << url.left(i).trimmed();
+			url.remove(0, i + 1);
+			url = url.trimmed();
+		}
+	}
+	for(int i = 0; i < urls.size(); i++) {
+		if(!urls[i].isEmpty()) QDesktopServices::openUrl(QUrl::fromLocalFile(urls[i]));
+	}
+}
 
 QTreeWidgetItem *selectedItem(QTreeWidget *w) {
 	QList<QTreeWidgetItem*> list = w->selectedItems();
@@ -3904,12 +3955,29 @@ void Eqonomize::selectAssociatedFile() {
 	else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
 		ScheduleListViewItem *i = (ScheduleListViewItem*) selectedItem(scheduleView);
 		if(i == NULL) return;
-		QString url = QFileDialog::getOpenFileName(this, QString(), i->scheduledTransaction()->associatedFile().isEmpty() ? last_associated_file_directory : i->scheduledTransaction()->associatedFile());
-		if(!url.isEmpty()) {
-			QFileInfo fileInfo(url);
+		ScheduledTransaction *strans = i->scheduledTransaction();
+		QStringList urls = QFileDialog::getOpenFileNames(this, QString(), (strans->associatedFile().isEmpty() || strans->associatedFile().contains(",")) ? last_associated_file_directory : strans->associatedFile());
+		if(!urls.isEmpty()) {
+			QFileInfo fileInfo(urls[0]);
 			last_associated_file_directory = fileInfo.absoluteDir().absolutePath();
-			i->scheduledTransaction()->setAssociatedFile(url);
+			if(urls.size() == 1) {
+				strans->setAssociatedFile(urls[0]);
+			} else {
+				QString url;
+				for(int i = 0; i < urls.size(); i++) {
+					if(i > 0) url += ", ";
+					if(urls[i].contains("\"")) {url += "\'"; url += urls[i]; url += "\'";}
+					else {url += "\""; url += urls[i]; url += "\"";}
+				}
+				strans->setAssociatedFile(url);
+			}
 			ActionOpenAssociatedFile->setEnabled(true);
+			if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+				transactionRemoved(strans);
+				transactionAdded(strans);
+			} else {
+				transactionModified(strans, strans);
+			}
 		}
 		return;
 	}
@@ -3926,7 +3994,7 @@ void Eqonomize::openAssociatedFile() {
 	else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
 		ScheduleListViewItem *i = (ScheduleListViewItem*) selectedItem(scheduleView);
 		if(i == NULL) return;
-		QDesktopServices::openUrl(QUrl::fromLocalFile(i->scheduledTransaction()->associatedFile()));
+		open_file_list(i->scheduledTransaction()->associatedFile());
 		return;
 	}
 	if(!w) return;
@@ -6278,7 +6346,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.3.4</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2019 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.3.5</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2019 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);

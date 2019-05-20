@@ -35,6 +35,9 @@
 	<file alias="actions/scalable/document-save-as.svg">data/standard/document-save-as.svg</file>
 	<file alias="actions/scalable/document-save.svg">data/standard/document-save.svg</file>
 	<file alias="actions/scalable/edit-delete.svg">data/standard/edit-delete.svg</file>
+	<file alias="actions/scalable/edit-find.svg">data/standard/edit-find.svg</file>
+	<file alias="actions/scalable/go-down.svg">data/scalable/go-down.svg</file>
+	<file alias="actions/scalable/go-up.svg">data/scalable/go-up.svg</file>
 	<file alias="actions/scalable/view-refresh.svg">data/standard/view-refresh.svg</file>
 	<file alias="status/scalable/mail-attachment.svg">data/standard/mail-attachment.svg</file>
 	<file alias="apps/16x16/eqonomize.png">data/16/eqonomize.png</file>
@@ -71,6 +74,9 @@
 	<file alias="actions/16x16/document-save-as.png">data/standard/16/document-save-as.png</file>
 	<file alias="actions/16x16/document-save.png">data/standard/16/document-save.png</file>
 	<file alias="actions/16x16/edit-delete.png">data/standard/16/edit-delete.png</file>
+	<file alias="actions/16x16/edit-find.png">data/16/edit-find.png</file>
+	<file alias="actions/16x16/go-down.png">data/16/go-down.png</file>
+	<file alias="actions/16x16/go-up.png">data/16/go-up.png</file>
 	<file alias="actions/16x16/help-about.png">data/standard/16/help-about.png</file>
 	<file alias="actions/16x16/help-contents.png">data/standard/16/help-contents.png</file>
 	<file alias="actions/16x16/system-run.png">data/standard/16/system-run.png</file>
@@ -110,6 +116,9 @@
 	<file alias="actions/32x32/document-save-as.png">data/standard/32/document-save-as.png</file>
 	<file alias="actions/32x32/document-save.png">data/standard/32/document-save.png</file>
 	<file alias="actions/32x32/edit-delete.png">data/standard/32/edit-delete.png</file>
+	<file alias="actions/32x32/edit-find.png">data/32/edit-find.png</file>
+	<file alias="actions/32x32/go-down.png">data/32/go-down.png</file>
+	<file alias="actions/32x32/go-up.png">data/32/go-up.png</file>
 	<file alias="actions/32x32/help-about.png">data/standard/32/help-about.png</file>
 	<file alias="actions/32x32/help-contents.png">data/standard/32/help-contents.png</file>
 	<file alias="actions/32x32/system-run.png">data/standard/32/system-run.png</file>
@@ -148,6 +157,9 @@
 	<file alias="actions/48x48/document-save-as.png">data/standard/48/document-save-as.png</file>
 	<file alias="actions/48x48/document-save.png">data/standard/48/document-save.png</file>
 	<file alias="actions/48x48/edit-delete.png">data/standard/48/edit-delete.png</file>
+	<file alias="actions/48x48/edit-find.png">data/48/edit-find.png</file>
+	<file alias="actions/48x48/go-down.png">data/48/go-down.png</file>
+	<file alias="actions/48x48/go-up.png">data/48/go-up.png</file>
 	<file alias="actions/48x48/help-about.png">data/standard/48/help-about.png</file>
 	<file alias="actions/48x48/help-contents.png">data/standard/48/help-contents.png</file>
 	<file alias="actions/48x48/system-run.png">data/standard/48/system-run.png</file>
@@ -186,6 +198,9 @@
 	<file alias="actions/64x64/document-save-as.png">data/standard/64/document-save-as.png</file>
 	<file alias="actions/64x64/document-save.png">data/standard/64/document-save.png</file>
 	<file alias="actions/64x64/edit-delete.png">data/standard/64/edit-delete.png</file>
+	<file alias="actions/64x64/edit-find.png">data/64/edit-find.png</file>
+	<file alias="actions/64x64/go-down.png">data/64/go-down.png</file>
+	<file alias="actions/64x64/go-up.png">data/64/go-up.png</file>
 	<file alias="actions/64x64/help-about.png">data/standard/64/help-about.png</file>
 	<file alias="actions/64x64/help-contents.png">data/standard/64/help-contents.png</file>
 	<file alias="actions/64x64/system-run.png">data/standard/64/system-run.png</file>
@@ -225,6 +240,9 @@
 	<file alias="actions/22x22/document-save-as.png">data/standard/22/document-save-as.png</file>
 	<file alias="actions/22x22/document-save.png">data/standard/22/document-save.png</file>
 	<file alias="actions/22x22/edit-delete.png">data/standard/22/edit-delete.png</file>
+	<file alias="actions/22x22/edit-find.png">data/22/edit-find.png</file>
+	<file alias="actions/22x22/go-down.png">data/22/go-down.png</file>
+	<file alias="actions/22x22/go-up.png">data/22/go-up.png</file>
 	<file alias="actions/22x22/help-about.png">data/standard/22/help-about.png</file>
 	<file alias="actions/22x22/help-contents.png">data/standard/22/help-contents.png</file>
 	<file alias="actions/22x22/system-run.png">data/standard/22/system-run.png</file>

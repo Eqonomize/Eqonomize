@@ -122,10 +122,8 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	payeeDescriptionWidget = NULL;
 	if(b_extra) {
 		sourceLayout->addWidget(accountCombo);
-		//sourceLayout->addStretch(1);
 		payeeDescriptionWidget = new QWidget(settingsWidget);
 		QHBoxLayout *payeeLayout = new QHBoxLayout(payeeDescriptionWidget);
-		//payeeLayout->addWidget(new QLabel(tr("Divide on:"), payeeDescriptionWidget));
 		QButtonGroup *group = new QButtonGroup(this);
 		subsButton = new QRadioButton(tr("Subcategories"), payeeDescriptionWidget);
 		subsButton->setChecked(true);
@@ -188,13 +186,25 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	choicesLayout->addWidget(nextMonthButton);
 	nextYearButton = new QPushButton(LOAD_ICON("eqz-next-year"), "", settingsWidget);
 	choicesLayout->addWidget(nextYearButton);
-	monthsButton = new QCheckBox(tr("Separate months"), settingsWidget);
-	monthsButton->setChecked(settings.value("monthsEnabled", false).toBool());
-	choicesLayout->addWidget(monthsButton);
 	choicesLayout->addStretch(1);
 
 	settingsLayout->addWidget(new QLabel(tr("Columns:"), settingsWidget), b_extra ? 3 : 2, 0);
 	QHBoxLayout *enabledLayout = new QHBoxLayout();
+	QButtonGroup *group = new QButtonGroup(this);
+	monthsButton = new QRadioButton(tr("Months"), settingsWidget);
+	group->addButton(monthsButton, 1);
+	enabledLayout->addWidget(monthsButton);
+	yearsButton = new QRadioButton(tr("Years"), settingsWidget);
+	group->addButton(yearsButton, 2);
+	enabledLayout->addWidget(yearsButton);
+	totalButton = new QRadioButton(tr("Total:"), settingsWidget);
+	group->addButton(totalButton, 0);
+	enabledLayout->addWidget(totalButton);
+	switch(settings.value("timeDivision", 0).toInt()) {
+		case 1: {monthsButton->setChecked(true); break;}
+		case 2: {yearsButton->setChecked(true); break;}
+		default: {totalButton->setChecked(true); break;}
+	}
 	settingsLayout->addLayout(enabledLayout, b_extra ? 3 : 2, 1);
 	valueButton = new QCheckBox(tr("Value"), settingsWidget);
 	valueButton->setChecked(settings.value("valueEnabled", true).toBool());
@@ -215,12 +225,12 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	perButton->setChecked(settings.value("valuePerTransactionEnabled", false).toBool());
 	enabledLayout->addWidget(perButton);
 	enabledLayout->addStretch(1);
-	valueButton->setEnabled(!monthsButton->isChecked());
-	dailyButton->setEnabled(!monthsButton->isChecked());
-	monthlyButton->setEnabled(!monthsButton->isChecked());
-	yearlyButton->setEnabled(!monthsButton->isChecked());
-	countButton->setEnabled(!monthsButton->isChecked());
-	perButton->setEnabled(!monthsButton->isChecked());
+	valueButton->setEnabled(totalButton->isChecked());
+	dailyButton->setEnabled(totalButton->isChecked());
+	monthlyButton->setEnabled(totalButton->isChecked());
+	yearlyButton->setEnabled(totalButton->isChecked());
+	countButton->setEnabled(totalButton->isChecked());
+	perButton->setEnabled(totalButton->isChecked());
 	
 	settings.endGroup();
 
@@ -228,7 +238,7 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	
 	resetOptions();
 
-	connect(monthsButton, SIGNAL(toggled(bool)), this, SLOT(monthsToggled(bool)));
+	connect(group, SIGNAL(buttonToggled(int, bool)), this, SLOT(timeDivisionToggled(int, bool)));
 	connect(subsButton, SIGNAL(toggled(bool)), this, SLOT(subsToggled(bool)));
 	connect(descriptionButton, SIGNAL(toggled(bool)), this, SLOT(descriptionToggled(bool)));
 	if(b_extra) {
@@ -258,6 +268,7 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 }
 
 void CategoriesComparisonReport::resetOptions() {
+	block_display_update = true;
 	QDate first_date;
 	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
 		Transaction *trans = *it;
@@ -276,8 +287,11 @@ void CategoriesComparisonReport::resetOptions() {
 	subsButton->setChecked(false);
 	fromEdit->setDate(from_date);
 	toEdit->setDate(to_date);
+	fromButton->setChecked(true);
+	timeDivisionToggled((yearsButton->isChecked() ? 2 : (monthsButton->isChecked() ? 1 : 0)), true);
 	sourceCombo->setCurrentIndex(0);
 	accountCombo->setCurrentIndex(0);
+	block_display_update = false;
 	sourceChanged(0);
 }
 void CategoriesComparisonReport::payeeToggled(bool b) {
@@ -289,13 +303,72 @@ void CategoriesComparisonReport::descriptionToggled(bool b) {
 void CategoriesComparisonReport::subsToggled(bool b) {
 	if(b) updateDisplay();
 }
-void CategoriesComparisonReport::monthsToggled(bool b) {
-	valueButton->setEnabled(!b);
-	dailyButton->setEnabled(!b);
-	monthlyButton->setEnabled(!b);
-	yearlyButton->setEnabled(!b);
-	countButton->setEnabled(!b);
-	perButton->setEnabled(!b);
+void CategoriesComparisonReport::timeDivisionToggled(int id, bool b) {
+	if(!b) return;
+	valueButton->setEnabled(id == 0);
+	dailyButton->setEnabled(id == 0);
+	monthlyButton->setEnabled(id == 0);
+	yearlyButton->setEnabled(id == 0);
+	countButton->setEnabled(id == 0);
+	perButton->setEnabled(id == 0);
+	if(id == 1) {
+		QDate first_date = budget->firstBudgetDay(from_date);
+		if(!budget->isLastBudgetDay(to_date)) budget->addBudgetMonthsSetLast(to_date, -1);
+		from_date = budget->firstBudgetDay(to_date);
+		if(to_date < first_date) {
+			budget->addBudgetMonthsSetLast(to_date, 1);
+			from_date = first_date;
+		} else {
+			for(int i = 1; i < 12 && from_date > first_date; i++) {
+				budget->addBudgetMonthsSetFirst(from_date, -1);
+			}
+		}
+		fromButton->blockSignals(true);
+		fromButton->setChecked(true);
+		fromButton->blockSignals(false);
+		toEdit->blockSignals(true);
+		toEdit->setDate(to_date);
+		toEdit->blockSignals(false);
+		fromEdit->blockSignals(true);
+		fromEdit->setDate(from_date);
+		fromEdit->blockSignals(false);
+	} else if(id == 2) {
+		if(to_date != budget->lastBudgetDayOfYear(to_date)) {
+			budget->addBudgetMonthsSetLast(to_date, -12);
+			to_date = budget->lastBudgetDayOfYear(to_date);
+		}
+		QDate first_date;
+		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+			Transaction *trans = *it;
+			if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
+				first_date = trans->date();
+				break;
+			}
+		}
+		if(first_date.isNull()) {
+			first_date = QDate::currentDate();
+			to_date = QDate::currentDate();
+		} else {
+			if(budget->dayOfBudgetYear(first_date) > 15) {
+				budget->addBudgetMonthsSetFirst(first_date, 12);
+				first_date = budget->firstBudgetDayOfYear(first_date);
+			}
+			int year1 = budget->budgetYear(first_date);
+			int year2 = budget->budgetYear(to_date);
+			if(year2 - year1 < 1) to_date = QDate::currentDate();
+		}
+		fromButton->blockSignals(true);
+		fromButton->setChecked(false);
+		fromButton->blockSignals(false);
+		toEdit->blockSignals(true);
+		toEdit->setDate(to_date);
+		toEdit->blockSignals(false);
+	} else {
+		fromButton->blockSignals(true);
+		fromButton->setChecked(true);
+		fromButton->blockSignals(false);
+	}
+	fromEdit->setEnabled(fromButton->isChecked());
 	updateDisplay();
 }
 void CategoriesComparisonReport::payeeChanged(int) {
@@ -393,7 +466,7 @@ void CategoriesComparisonReport::saveConfig() {
 	QSettings settings;
 	settings.beginGroup("CategoriesComparisonReport");
 	settings.setValue("size", ((QDialog*) parent())->size());
-	settings.setValue("monthsEnabled", monthsButton->isChecked());
+	settings.setValue("timeDivision", (yearsButton->isChecked() ? 2 : (monthsButton->isChecked() ? 1 : 0)));
 	settings.setValue("valueEnabled", valueButton->isChecked());
 	settings.setValue("dailyAverageEnabled", dailyButton->isChecked());
 	settings.setValue("monthlyAverageEnabled", monthlyButton->isChecked());
@@ -537,7 +610,7 @@ void CategoriesComparisonReport::print() {
 
 void CategoriesComparisonReport::updateDisplay() {
 
-	if(!isVisible()) return;
+	if(!isVisible() || block_display_update) return;
 
 	int columns = 1;
 	bool enabled[6];
@@ -630,21 +703,34 @@ void CategoriesComparisonReport::updateDisplay() {
 	}
 	last_date = to_date;
 	
-	int i_months = monthsButton->isChecked() ? 1 : 0;
+	int i_months =  0;
+	bool b_years = false;
 	
-	if(i_months > 0) {
-		first_date = budget->firstBudgetDay(first_date);
-		if(!budget->isLastBudgetDay(last_date) && budget->firstBudgetDay(last_date) != first_date) budget->addBudgetMonthsSetLast(last_date, -1);
-		else last_date = budget->lastBudgetDay(last_date);
-	}
-	
-	if(i_months > 0) {
+	if(monthsButton->isChecked()) {
 		curmonth = budget->lastBudgetDay(first_date);
 		i_months = 1;
 		while(curmonth < last_date) {
 			budget->addBudgetMonthsSetLast(curmonth, 1);
 			i_months++;
 		}
+	} else if(yearsButton->isChecked()) {
+		if(!fromButton->isChecked()) {
+			int year1 = budget->budgetYear(first_date);
+			int year2 = budget->budgetYear(last_date);
+			if(year2 - year1 > 1 && budget->dayOfBudgetYear(first_date) > 15) {
+				budget->addBudgetMonthsSetFirst(first_date, 12);
+				first_date = budget->firstBudgetDayOfYear(first_date);
+			}
+		}
+		b_years = true;
+		curmonth = budget->lastBudgetDayOfYear(first_date);
+		i_months = 1;
+		while(curmonth < last_date) {
+			budget->addBudgetMonthsSetLast(curmonth, 12);
+			i_months++;
+		}
+	}
+	if(i_months > 0) {
 		columns = i_months + 2;
 		for(size_t i = 0; i < 6; i++) {
 			enabled[i] = false;
@@ -827,9 +913,9 @@ void CategoriesComparisonReport::updateDisplay() {
 			first_date_reached = true;
 			if(trans->date() > last_date) break;
 			if(i_months > 0) {
-				curmonth = budget->lastBudgetDay(first_date);
+				curmonth = (b_years ? budget->lastBudgetDayOfYear(first_date) : budget->lastBudgetDay(first_date));
 				while(curmonth < trans->date()) {
-					budget->addBudgetMonthsSetLast(curmonth, 1);
+					budget->addBudgetMonthsSetLast(curmonth, b_years ? 12 : 1);
 					month_index++;
 				}
 			}
@@ -837,7 +923,7 @@ void CategoriesComparisonReport::updateDisplay() {
 			break;
 		} else if(first_date_reached && i_months > 0 && trans->date() > curmonth) {
 			while(curmonth < trans->date()) {
-				budget->addBudgetMonthsSetLast(curmonth, 1);
+				budget->addBudgetMonthsSetLast(curmonth, b_years ? 12 : 1);
 				month_index++;
 			}
 		}
@@ -945,10 +1031,7 @@ void CategoriesComparisonReport::updateDisplay() {
 		}
 	}
 	first_date_reached = false;
-	if(i_months > 0) {
-		curmonth = budget->lastBudgetDay(first_date);
-		month_index = 0;
-	}
+	if(i_months > 0) month_index = 0;
 	Transaction *trans = NULL;
 	int split_i = 0;
 	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd();) {
@@ -968,9 +1051,9 @@ void CategoriesComparisonReport::updateDisplay() {
 			first_date_reached = true;
 			if(trans->date() > last_date) break;
 			if(i_months > 0) {
-				curmonth = budget->lastBudgetDay(first_date);
+				curmonth = (b_years ? budget->lastBudgetDayOfYear(first_date) : budget->lastBudgetDay(first_date));
 				while(curmonth < trans->date()) {
-					budget->addBudgetMonthsSetLast(curmonth, 1);
+					budget->addBudgetMonthsSetLast(curmonth, b_years ? 12 : 1);
 					month_index++;
 				}
 			}
@@ -978,7 +1061,7 @@ void CategoriesComparisonReport::updateDisplay() {
 			break;
 		} else if(first_date_reached && i_months > 0 && trans->date() > curmonth) {
 			while(curmonth < trans->date()) {
-				budget->addBudgetMonthsSetLast(curmonth, 1);
+				budget->addBudgetMonthsSetLast(curmonth, b_years ? 12 : 1);
 				month_index++;
 			}
 		}
@@ -986,7 +1069,7 @@ void CategoriesComparisonReport::updateDisplay() {
 			QDate last_month_date, first_month_date;
 			int month_index2 = month_index;
 			if(i_months > 0) {
-				first_month_date = budget->firstBudgetDay(curmonth);
+				first_month_date = (b_years ? budget->firstBudgetDayOfYear(curmonth) : budget->firstBudgetDay(curmonth));
 				last_month_date = curmonth;
 			} else {
 				first_month_date = first_date;
@@ -1027,7 +1110,7 @@ void CategoriesComparisonReport::updateDisplay() {
 						} else {
 							desc_values[trans->description().toLower()] += v * count;
 							value += v * count;
-							if(month_index >= 0) desc_month_values[((Income*) trans)->payer().toLower()][month_index2] += v * count;
+							if(month_index >= 0) desc_month_values[trans->description().toLower()][month_index2] += v * count;
 							if(month_index >= 0) month_value[month_index2] += v * count;
 							desc_counts[trans->description().toLower()] += count * trans->quantity();
 							value_count += count * trans->quantity();
@@ -1080,7 +1163,7 @@ void CategoriesComparisonReport::updateDisplay() {
 								int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_month_date, last_month_date) : 1;
 								counts[to_account] += count * trans->quantity();
 								values[to_account] += v * count;
-								if(month_index2 >= 0) month_values[from_account][month_index2] += v * count;
+								if(month_index2 >= 0) month_values[to_account][month_index2] += v * count;
 								if(b_top && month_index2 >= 0) month_costs[month_index2] += v * count;
 								if(b_top) costs_count += count * trans->quantity();
 								if(b_top) costs += v * count;
@@ -1088,7 +1171,7 @@ void CategoriesComparisonReport::updateDisplay() {
 								int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_month_date, last_month_date) : 1;
 								counts[to_account] += count * trans->quantity();
 								values[to_account] -= v * count;
-								if(month_index2 >= 0) month_values[from_account][month_index2] -= v * count;
+								if(month_index2 >= 0) month_values[to_account][month_index2] -= v * count;
 								if(b_top && month_index2 >= 0) month_incomes[month_index2] -= v * count;
 								if(b_top) incomes_count += count * trans->quantity();
 								if(b_top) incomes -= v * count;
@@ -1101,10 +1184,10 @@ void CategoriesComparisonReport::updateDisplay() {
 				}
 				if(i_months > 0) {
 					month_index2++;
-					budget->addBudgetMonthsSetFirst(first_month_date, 1);
-					budget->addBudgetMonthsSetLast(first_month_date, 1);
+					budget->addBudgetMonthsSetFirst(first_month_date, b_years ? 12 : 1);
+					budget->addBudgetMonthsSetLast(last_month_date, b_years ? 12 : 1);
 				}
-			} while(i_months > 0 && month_index2 < i_months);
+			} while(i_months > 0 && month_index2 < i_months && strans->recurrence());
 		}
 		if(strans->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT || split_i >= ((SplitTransaction*) strans->transaction())->count()) {
 			++it;
@@ -1207,10 +1290,10 @@ void CategoriesComparisonReport::updateDisplay() {
 		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Average Value")) << "</th>";
 	}
 	if(i_months > 0) {
-		curmonth = budget->budgetDateToMonth(first_date);
-		for(int i = 0; i < i_months; i++) {
-			outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string((i_months > 12 && curmonth.month() == 1) ? QLocale().toString(curmonth, "MMM yyyy") : QLocale().toString(curmonth, "MMM")) << "</th>"; col++;
-			curmonth = curmonth.addMonths(1);
+		curmonth = last_date;
+		for(int i = i_months - 1; i >= 0; i--) {
+			outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(b_years ? budget->budgetYearString(curmonth, false) : ((i_months > 12 && curmonth.month() == 12) ? QLocale().toString(curmonth, "MMM yyyy") : QLocale().toString(curmonth, "MMM"))) << "</th>"; col++;
+			budget->addBudgetMonthsSetFirst(curmonth, b_years ? -12 : -1);
 		}
 		outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Total")) << "</th>"; col++;
 	}
@@ -1280,10 +1363,8 @@ void CategoriesComparisonReport::updateDisplay() {
 				if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatValue(counts[account], i_count_frac)) << "</td>"; col++;}
 				if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(counts[account] == 0.0 ? 0.0 : (values[account] / counts[account]))) << "</td>";
 				if(i_months > 0) {
-					curmonth = budget->budgetDateToMonth(first_date);
-					for(int i = 0; i < i_months; i++) {
+					for(int i = i_months - 1; i >= 0; i--) {
 						outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(month_values[account][i])) << "</td>"; col++;
-						curmonth = curmonth.addMonths(1);
 					}
 					outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(values[account])) << "</td>"; col++;
 				}
@@ -1313,10 +1394,8 @@ void CategoriesComparisonReport::updateDisplay() {
 				if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatValue(itc.value(), i_count_frac)) << "</td>"; col++;}
 				if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(itc.value() == 0.0 ? 0.0 : (it.value() / itc.value()))) << "</td>";
 				if(i_months > 0) {
-					curmonth = budget->budgetDateToMonth(first_date);
-					for(int i = 0; i < i_months; i++) {
+					for(int i = i_months - 1; i >= 0; i--) {
 						outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(mit.value()[i])) << "</td>"; col++;
-						curmonth = curmonth.addMonths(1);
 					}
 					outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(it.value())) << "</td>"; col++;
 				}
@@ -1334,10 +1413,8 @@ void CategoriesComparisonReport::updateDisplay() {
 		if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatValue(value_count, i_count_frac)) << "</b></td>"; col++;}
 		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(value_count == 0.0 ? 0.0 : (value / value_count))) << "</b></td>";
 		if(i_months > 0) {
-			curmonth = budget->budgetDateToMonth(first_date);
-			for(int i = 0; i < i_months; i++) {
+			for(int i = i_months - 1; i >= 0; i--) {
 				outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(month_value[i])) << "</b></td>"; col++;
-				curmonth = curmonth.addMonths(1);
 			}
 			outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(value)) << "</b></td>"; col++;
 		}
@@ -1358,10 +1435,8 @@ void CategoriesComparisonReport::updateDisplay() {
 					if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatValue(counts[account], i_count_frac)) << "</i></td>"; col++;}
 					if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(counts[account] == 0.0 ? 0.0 : (values[account] / counts[account]))) << "</i></td>";
 					if(i_months > 0) {
-						curmonth = budget->budgetDateToMonth(first_date);
-						for(int i = 0; i < i_months; i++) {
+						for(int i = i_months - 1; i >= 0; i--) {
 							outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(month_values[account][i])) << "</i></td>"; col++;
-							curmonth = curmonth.addMonths(1);
 						}
 						outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(values[account])) << "</i></td>"; col++;
 					}
@@ -1375,10 +1450,8 @@ void CategoriesComparisonReport::updateDisplay() {
 					if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatValue(counts[account], i_count_frac)) << "</td>"; col++;}
 					if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(counts[account] == 0.0 ? 0.0 : (values[account] / counts[account]))) << "</td>";
 					if(i_months > 0) {
-						curmonth = budget->budgetDateToMonth(first_date);
-						for(int i = 0; i < i_months; i++) {
+						for(int i = i_months - 1; i >= 0; i--) {
 							outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(month_values[account][i])) << "</td>"; col++;
-							curmonth = curmonth.addMonths(1);
 						}
 						outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(values[account])) << "</td>"; col++;
 					}
@@ -1398,10 +1471,8 @@ void CategoriesComparisonReport::updateDisplay() {
 		if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(budget->formatValue(incomes_count, i_count_frac)) << "</b></td>"; col++;}
 		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(budget->formatMoney(incomes_count == 0.0 ? 0.0 : (incomes / incomes_count))) << "</b></td>";
 		if(i_months > 0) {
-			curmonth = budget->budgetDateToMonth(first_date);
-			for(int i = 0; i < i_months; i++) {
+			for(int i = i_months - 1; i >= 0; i--) {
 				outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(budget->formatMoney(month_incomes[i])) << "</b></td>"; col++;
-				curmonth = curmonth.addMonths(1);
 			}
 			outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(budget->formatMoney(incomes)) << "</b></td>"; col++;
 		}
@@ -1421,10 +1492,8 @@ void CategoriesComparisonReport::updateDisplay() {
 					if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatValue(counts[account], i_count_frac)) << "</i></td>"; col++;}
 					if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(counts[account] == 0.0 ? 0.0 : (-values[account] / counts[account]))) << "</i></td>";
 					if(i_months > 0) {
-						curmonth = budget->budgetDateToMonth(first_date);
-						for(int i = 0; i < i_months; i++) {
+						for(int i = i_months - 1; i >= 0; i--) {
 							outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(-month_values[account][i])) << "</i></td>"; col++;
-							curmonth = curmonth.addMonths(1);
 						}
 						outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(-values[account])) << "</i></td>"; col++;
 					}
@@ -1438,10 +1507,8 @@ void CategoriesComparisonReport::updateDisplay() {
 					if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatValue(counts[account], i_count_frac)) << "</td>"; col++;}
 					if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(counts[account] == 0.0 ? 0.0 : (-values[account] / counts[account]))) << "</td>";
 					if(i_months > 0) {
-						curmonth = budget->budgetDateToMonth(first_date);
-						for(int i = 0; i < i_months; i++) {
+						for(int i = i_months - 1; i >= 0; i--) {
 							outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(-month_values[account][i])) << "</td>"; col++;
-							curmonth = curmonth.addMonths(1);
 						}
 						outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(-values[account])) << "</td>"; col++;
 					}
@@ -1460,10 +1527,8 @@ void CategoriesComparisonReport::updateDisplay() {
 		if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatValue(costs_count, i_count_frac)) << "</b></td>"; col++;}
 		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(costs_count == 0.0 ? 0.0 : (-costs / costs_count))) << "</b></td>";
 		if(i_months > 0) {
-			curmonth = budget->budgetDateToMonth(first_date);
-			for(int i = 0; i < i_months; i++) {
+			for(int i = i_months - 1; i >= 0; i--) {
 				outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(-month_costs[i])) << "</b></td>"; col++;
-				curmonth = curmonth.addMonths(1);
 			}
 			outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(-costs)) << "</b></td>"; col++;
 		}
@@ -1479,10 +1544,8 @@ void CategoriesComparisonReport::updateDisplay() {
 		if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatValue(incomes_count + costs_count, i_count_frac)) << "</b></td>"; col++;}
 		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney((incomes_count + costs_count) == 0.0 ? 0.0 : ((incomes - costs) / (incomes_count + costs_count)))) << "</b></td>";
 		if(i_months > 0) {
-			curmonth = budget->budgetDateToMonth(first_date);
-			for(int i = 0; i < i_months; i++) {
+			for(int i = i_months - 1; i >= 0; i--) {
 				outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(month_incomes[i] - month_costs[i])) << "</b></td>"; col++;
-				curmonth = curmonth.addMonths(1);
 			}
 			outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(incomes - costs)) << "</b></td>"; col++;
 		}

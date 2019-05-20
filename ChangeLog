@@ -1,7 +1,13 @@
+2019-05-20  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Option to show separate months or years in categories comparison report
+	* Make ledger behave as a non-modal window instead of modal dialog
+	* Search in ledger
+	* Make it possible to select multiple associated files
+
 2019-05-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix assets and liabilities total in over time report
-	* Option to show separate months in categories comparison report (issue #79)
 	* Fix segfault when editing reinvested dividend without income category
 
 2019-05-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
