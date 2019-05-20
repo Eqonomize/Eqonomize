@@ -52,7 +52,7 @@ class LedgerDialog : public QDialog {
 		AssetsAccount *account;
 		Eqonomize *mainWin;
 		Budget *budget;
-		bool b_extra;
+		bool b_extra, b_ascending;
 
 		QString stat_total_text;
 		
@@ -132,6 +132,7 @@ class LedgerDialog : public QDialog {
 		void search();
 		void searchPrevious();
 		void searchChanged(const QString&);
+		void ascendingToggled(bool);
 		
 };
 

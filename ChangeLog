@@ -4,6 +4,7 @@
 	* Make ledger behave as a non-modal window instead of modal dialog
 	* Search in ledger
 	* Make it possible to select multiple associated files
+	* Add option to sort ledger ascending
 
 2019-05-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
