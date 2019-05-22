@@ -24,22 +24,126 @@
 
 #include <QDebug>
 #include <QKeyEvent>
+#include <QCompleter>
+#include <QStandardItemModel>
+#include <QSortFilterProxyModel>
+#include <QPainter>
 
 #include "accountcombobox.h"
 #include "account.h"
 #include "budget.h"
 #include "editaccountdialogs.h"
 
+QComboBoxListViewEq::QComboBoxListViewEq(AccountComboBox *cmb) : combo(cmb) {}
+void QComboBoxListViewEq::keyPressEvent(QKeyEvent *e) {
+	QString str = e->text().trimmed();
+	if((!str.isEmpty() && str.front().isPrint()) || (!filter_str.isEmpty() && (e->key() == Qt::Key_Backspace || e->key() == Qt::Key_Delete))) {
+		QSortFilterProxyModel *filterModel = (QSortFilterProxyModel*) model();
+		if(e->key() == Qt::Key_Backspace || e->key() == Qt::Key_Delete) {
+			filter_str.chop(1);
+			QRegExp reg(filter_str.isEmpty() ? "" : QString("\\b")+filter_str, Qt::CaseInsensitive);
+			qDebug() << filter_str;
+			filterModel->setFilterRegExp(reg);
+			return;
+		}
+		QRegExp reg(QString("\\b")+filter_str+str, Qt::CaseInsensitive);
+		filterModel->setFilterRegExp(reg);
+		if(filterModel->rowCount() == 0) {
+			filterModel->setFilterRegExp(filter_str.isEmpty() ? "" : QString("\\b")+filter_str);
+		} else if(filterModel->rowCount() == 1 && filterModel->data(filterModel->index(0, 0), Qt::UserRole).value<void*>() != NULL) {
+			combo->hidePopup();
+		} else {
+			filter_str += str;
+		}
+		return;
+	}
+	QListView::keyPressEvent(e);
+}
+void QComboBoxListViewEq::resizeEvent(QResizeEvent *event) {
+	resizeContents(viewport()->width(), contentsSize().height());
+	QListView::resizeEvent(event);
+}
+QStyleOptionViewItem QComboBoxListViewEq::viewOptions() const {
+	QStyleOptionViewItem option = QListView::viewOptions();
+	option.showDecorationSelected = true;
+	if (combo)
+		option.font = combo->font();
+	return option;
+}
+void QComboBoxListViewEq::paintEvent(QPaintEvent *e) {
+	if (combo) {
+		QStyleOptionComboBox opt;
+		opt.initFrom(combo);
+		opt.editable = combo->isEditable();
+		if (combo->style()->styleHint(QStyle::SH_ComboBox_Popup, &opt, combo)) {
+			//we paint the empty menu area to avoid having blank space that can happen when scrolling
+			QStyleOptionMenuItem menuOpt;
+			menuOpt.initFrom(this);
+			menuOpt.palette = palette();
+			menuOpt.state = QStyle::State_None;
+			menuOpt.checkType = QStyleOptionMenuItem::NotCheckable;
+			menuOpt.menuRect = e->rect();
+			menuOpt.maxIconWidth = 0;
+			menuOpt.tabWidth = 0;
+			QPainter p(viewport());
+			combo->style()->drawControl(QStyle::CE_MenuEmptyArea, &menuOpt, &p, this);
+		}
+	}
+	QListView::paintEvent(e);
+}
+QComboBoxDelegateEq::QComboBoxDelegateEq(QObject *parent, QComboBox *cmb) : QStyledItemDelegate(parent), mCombo(cmb) {}
+bool QComboBoxDelegateEq::isSeparator(const QModelIndex &index) {
+	return index.data(Qt::AccessibleDescriptionRole).toString() == QLatin1String("separator");
+}
+void QComboBoxDelegateEq::setSeparator(QAbstractItemModel *model, const QModelIndex &index) {
+	model->setData(index, QString::fromLatin1("separator"), Qt::AccessibleDescriptionRole);
+	if (QStandardItemModel *m = qobject_cast<QStandardItemModel*>(model))
+		if (QStandardItem *item = m->itemFromIndex(index))
+			item->setFlags(item->flags() & ~(Qt::ItemIsSelectable|Qt::ItemIsEnabled));
+}
+void QComboBoxDelegateEq::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+	if (isSeparator(index)) {
+		QRect rect = option.rect;
+		if (const QAbstractItemView *view = qobject_cast<const QAbstractItemView*>(option.widget))
+			rect.setWidth(view->viewport()->width());
+		QStyleOption opt;
+		opt.rect = rect;
+		mCombo->style()->drawPrimitive(QStyle::PE_IndicatorToolBarSeparator, &opt, painter, mCombo);
+	} else {
+		QStyledItemDelegate::paint(painter, option, index);
+	}
+}
+QSize QComboBoxDelegateEq::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+	if (isSeparator(index)) {
+		int pm = mCombo->style()->pixelMetric(QStyle::PM_DefaultFrameWidth, nullptr, mCombo);
+		return QSize(pm, pm);
+	}
+	return QStyledItemDelegate::sizeHint(option, index);
+}
+
 AccountComboBox::AccountComboBox(int account_type, Budget *budg, bool add_new_account_action, bool add_new_loan_action, bool add_multiple_accounts_action, bool exclude_securities_accounts, bool exclude_balancing_account, QWidget *parent) : QComboBox(parent), i_type(account_type), budget(budg), new_account_action(add_new_account_action), new_loan_action(add_new_loan_action && i_type == ACCOUNT_TYPE_ASSETS), multiple_accounts_action(add_multiple_accounts_action && i_type == ACCOUNT_TYPE_ASSETS), b_exclude_securities(exclude_securities_accounts), b_exclude_balancing(exclude_balancing_account) {
 	setEditable(false);
 	added_account = NULL;
 	block_account_selected = false;
+	sourceModel = new QStandardItemModel(this);
+	filterModel = new QSortFilterProxyModel(this);
+	filterModel->setSourceModel(sourceModel);
+	QListView *listView = new QComboBoxListViewEq(this);
+	listView->setTextElideMode(Qt::ElideMiddle);
+	setView(listView);
+	setItemDelegate(new QComboBoxDelegateEq(listView, this));
+	setModel(filterModel);
 	connect(this, SIGNAL(activated(int)), this, SLOT(accountActivated(int)));
 	connect(this, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
 }
 AccountComboBox::~AccountComboBox() {}
 
-
+void AccountComboBox::hidePopup() {
+	QComboBox::hidePopup();
+	filterModel->setFilterRegExp("");
+	((QComboBoxListViewEq*) view())->filter_str = "";
+	if(!currentAccount()) setCurrentIndex(firstAccountIndex() < count() ? firstAccountIndex() : -1);
+}
 int AccountComboBox::firstAccountIndex() const {
 	int index = 0;
 	if(new_account_action) index++;
@@ -56,7 +160,6 @@ void AccountComboBox::setCurrentAccount(Account *account) {
 	if(account) {
 		int index = findData(qVariantFromValue((void*) account));
 		if(index >= 0) setCurrentIndex(index);
-		//emit currentAccountChanged();
 	}
 }
 int AccountComboBox::currentAccountIndex() const {
@@ -68,21 +171,35 @@ void AccountComboBox::setCurrentAccountIndex(int index) {
 	index += firstAccountIndex();
 	if(index < count()) setCurrentIndex(index);
 }
+
+#define APPEND_ACTION_ROW(s)	{QStandardItem *row = new QStandardItem(s);\
+				row->setData(qVariantFromValue(qVariantFromValue(NULL)), Qt::UserRole);\
+				sourceModel->appendRow(row);}
+#define APPEND_ROW 		{QStandardItem *row = new QStandardItem(account->nameWithParent());\
+				row->setData(qVariantFromValue(qVariantFromValue((void*) account)), Qt::UserRole);\
+				sourceModel->appendRow(row);}
+
+#define APPEND_SEPARATOR	{QStandardItem *row = new QStandardItem();\
+				row->setData(qVariantFromValue(qVariantFromValue(NULL)), Qt::UserRole);\
+				row->setData(QString::fromLatin1("separator"), Qt::AccessibleDescriptionRole);\
+				row->setFlags(Qt::NoItemFlags);\
+				sourceModel->appendRow(row);}
+			
 void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_currency) {
 	Account *current_account = currentAccount();
-	clear();
+	sourceModel->clear();
 	switch(i_type) {
 		case ACCOUNT_TYPE_INCOMES: {
 			if(new_account_action) {
-				addItem(tr("New income category…"), qVariantFromValue(NULL));
+				APPEND_ACTION_ROW(tr("New income category…"));
 			}
 			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 				IncomesAccount *account = *it;
 				if(account != exclude_account) {
-					addItem(account->nameWithParent(), qVariantFromValue((void*) account));
+					if(new_account_action && count() == 1) APPEND_SEPARATOR
+					APPEND_ROW
 				}
 			}
-			if(new_account_action && count() > 1) insertSeparator(1);
 			if(current_account) setCurrentAccount(current_account);
 			if(currentIndex() < firstAccountIndex()) {
 				if(firstAccountIndex() < count()) setCurrentIndex(firstAccountIndex());
@@ -92,15 +209,15 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 		}
 		case ACCOUNT_TYPE_EXPENSES: {
 			if(new_account_action) {
-				addItem(tr("New expense category…"), qVariantFromValue(NULL));
+				APPEND_ACTION_ROW(tr("New expense category…"))
 			}
 			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 				ExpensesAccount *account = *it;
 				if(account != exclude_account) {
-					addItem(account->nameWithParent(), qVariantFromValue((void*) account));
+					if(new_account_action && count() == 1) APPEND_SEPARATOR
+					APPEND_ROW
 				}
 			}
-			if(new_account_action && count() > 1) insertSeparator(1);
 			if(current_account) setCurrentAccount(current_account);
 			if(currentIndex() < firstAccountIndex()) {
 				if(firstAccountIndex() < count()) setCurrentIndex(firstAccountIndex());
@@ -109,68 +226,75 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 			break;
 		}
 		default: {
-			if(new_account_action) addItem(tr("New account…"), qVariantFromValue(NULL));
-			if(new_loan_action) addItem(tr("Paid with loan…"), qVariantFromValue(NULL));
-			if(multiple_accounts_action) addItem(tr("Multiple accounts/payments…"), qVariantFromValue(NULL));
-			int c_actions = count();
+			if(new_account_action) APPEND_ACTION_ROW(tr("New account…"));
+			if(new_loan_action) APPEND_ACTION_ROW(tr("Paid with loan…"));
+			if(multiple_accounts_action) APPEND_ACTION_ROW(tr("Multiple accounts/payments…"));
+			int cactions = count();
 			bool add_secondary_list = false;
 			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 				AssetsAccount *account = *it;
 				if(account != exclude_account && (!force_currency || account->currency() == force_currency)) {
+					bool b_add = false;
 					if(i_type >= 100) {
 						if(account->accountType() == i_type) {
 							if(account->isClosed()) add_secondary_list = true;
-							else addItem(account->name(), qVariantFromValue((void*) account));
+							else b_add = true;
 						}
 					} else if(i_type == -3) {
 						if(account->accountType() == ASSETS_TYPE_CREDIT_CARD || account->accountType() == ASSETS_TYPE_LIABILITIES) {
 							if(account->isClosed()) add_secondary_list = true;
-							else addItem(account->name(), qVariantFromValue((void*) account));
+							else b_add = true;
 						}
 					} else if((account->accountType() == ASSETS_TYPE_SECURITIES && !b_exclude_securities) || account->accountType() == ASSETS_TYPE_LIABILITIES || (account == budget->balancingAccount && !b_exclude_balancing) || account->isClosed()) {
 						add_secondary_list = true;
 					} else if(account->accountType() != ASSETS_TYPE_SECURITIES && account != budget->balancingAccount) {
-						addItem(account->name(), qVariantFromValue((void*) account));
+						b_add = true;
+					}
+					if(b_add) {
+						if(cactions > 0 && count() == cactions) APPEND_SEPARATOR
+						APPEND_ROW
 					}
 				}
 			}
 			if(i_type == -1) {
-				if(count() > firstAccountIndex()) insertSeparator(count());
+				if(count() > 0 && count() >= cactions) APPEND_SEPARATOR
 				for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 					IncomesAccount *account = *it;
 					if(account != exclude_account) {
-						addItem(account->nameWithParent(), qVariantFromValue((void*) account));
+						APPEND_ROW
 					}
 				}
 			}
 			if(i_type == -2) {
-				if(count() > firstAccountIndex()) insertSeparator(count());
+				if(count() > 0 && count() >= cactions) APPEND_SEPARATOR
 				for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 					ExpensesAccount *account = *it;
 					if(account != exclude_account) {
-						addItem(account->nameWithParent(), qVariantFromValue((void*) account));
+						APPEND_ROW
 					}
 				}
 			}
-			if(c_actions > 0 && count() > c_actions) {insertSeparator(c_actions); c_actions = 0;}
 			if(add_secondary_list) {
-				if(count() > firstAccountIndex()) insertSeparator(count());
+				if(count() > 0 && count() >= cactions) APPEND_SEPARATOR
 				for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+					bool b_add = false;
 					AssetsAccount *account = *it;
 					if(i_type >= 100) {
 						if(account->accountType() == i_type && account->isClosed()) {
-							addItem(account->name(), qVariantFromValue((void*) account));
+							b_add = true;
 						}
 					} else if(i_type == -3) {
 						if((account->accountType() == ASSETS_TYPE_CREDIT_CARD || account->accountType() == ASSETS_TYPE_LIABILITIES) && account->isClosed()) {
-							addItem(account->name(), qVariantFromValue((void*) account));
+							b_add = true;
 						}
 					} else if((account->accountType() == ASSETS_TYPE_SECURITIES && !b_exclude_securities) || account->accountType() == ASSETS_TYPE_LIABILITIES || (account == budget->balancingAccount && !b_exclude_balancing) || account->isClosed()) {
-						addItem(account->name(), qVariantFromValue((void*) account));
+						b_add = true;
+					}
+					if(b_add) {
+						APPEND_ROW
 					}
 				}
 			}
-			if(c_actions > 0 && count() > c_actions) insertSeparator(c_actions);
 			if(current_account) setCurrentAccount(current_account);
 			if(currentIndex() < firstAccountIndex()) {
 				if(firstAccountIndex() < count()) setCurrentIndex(firstAccountIndex());
@@ -216,28 +340,30 @@ Account *AccountComboBox::createAccount() {
 		updateAccounts();
 		setCurrentAccount(account);
 		emit accountSelected(account);
-		//emit currentAccountChanged();
 	}
 	return account;
 }
-		
+
 void AccountComboBox::accountActivated(int index) {
-	if(new_account_action && index == 0) {
-		setCurrentIndex(firstAccountIndex());
-		emit newAccountRequested();
-	} else if(new_loan_action && ((index == 1 && new_account_action) || (index == 0 && !new_account_action))) {
-		setCurrentIndex(firstAccountIndex());
-		emit newLoanRequested();
-	} else if(multiple_accounts_action && ((index == 2 && new_account_action && new_loan_action) || (index == 1 && !(new_account_action) != !(new_loan_action)) || (index == 0 && !new_account_action && !new_loan_action))) {
-		setCurrentIndex(firstAccountIndex());
-		emit multipleAccountsRequested();
-	} else {
-		if(!block_account_selected) {
-			Account *account = NULL;
-			if(itemData(index).isValid()) account = (Account*) itemData(index).value<void*>();
-			emit accountSelected(account);
+	if(!itemData(index).isValid() || itemData(index).value<void*>() == NULL) {
+		if(new_account_action && index == 0) {
+			setCurrentIndex(firstAccountIndex());
+			emit newAccountRequested();
+			return;
+		} else if(new_loan_action && ((index == 1 && new_account_action) || (index == 0 && !new_account_action))) {
+			setCurrentIndex(firstAccountIndex());
+			emit newLoanRequested();
+			return;
+		} else if(multiple_accounts_action && ((index == 2 && new_account_action && new_loan_action) || (index == 1 && !(new_account_action) != !(new_loan_action)) || (index == 0 && !new_account_action && !new_loan_action))) {
+			setCurrentIndex(firstAccountIndex());
+			emit multipleAccountsRequested();
+			return;
 		}
-		//emit currentAccountChanged();
+	}
+	if(!block_account_selected) {
+		Account *account = NULL;
+		if(itemData(index).isValid()) account = (Account*) itemData(index).value<void*>();
+		emit accountSelected(account);
 	}
 }
 void AccountComboBox::onCurrentIndexChanged(int index) {
@@ -247,8 +373,29 @@ void AccountComboBox::onCurrentIndexChanged(int index) {
 }
 void AccountComboBox::keyPressEvent(QKeyEvent *e) {
 	block_account_selected = true;
+	QString str = e->text().trimmed();
+	if(!str.isEmpty()) {
+		QRegExp reg(QString("\\b")+str, Qt::CaseInsensitive);
+		Account *account = currentAccount();
+		filterModel->setFilterRegExp(reg);
+		if(filterModel->rowCount() == 0) {
+			filterModel->setFilterRegExp("");
+			setCurrentAccount(account);
+		} else if(filterModel->rowCount() == 1 && filterModel->data(filterModel->index(0, 0), Qt::UserRole).value<void*>() != NULL) {
+			account = (Account*) filterModel->data(filterModel->index(0, 0), Qt::UserRole).value<void*>();
+			filterModel->setFilterRegExp("");
+			setCurrentAccount(account);
+		} else {
+			((QComboBoxListViewEq*) view())->filter_str = str;
+			showPopup();
+		}
+		return;
+	}
 	QComboBox::keyPressEvent(e);
 	block_account_selected = false;
 	if(!e->isAccepted() && (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)) emit returnPressed();
+}
+void AccountComboBox::focusAndSelectAll() {
+	setFocus();
 }
 

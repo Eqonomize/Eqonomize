@@ -22,10 +22,14 @@
 #define ACCOUNT_COMBO_BOX_H
 
 #include <QComboBox>
+#include <QListView>
+#include <QStyledItemDelegate>
 
 class Account;
 class Budget;
 class Currency;
+class QSortFilterProxyModel;
+class QStandardItemModel;
 
 class AccountComboBox : public QComboBox {
 
@@ -41,6 +45,8 @@ class AccountComboBox : public QComboBox {
 		bool b_exclude_securities, b_exclude_balancing;
 		bool block_account_selected;
 		Account *added_account, *exclude_account;
+		QSortFilterProxyModel *filterModel;
+		QStandardItemModel *sourceModel;
 		
 		void keyPressEvent(QKeyEvent *e);
 	
@@ -56,6 +62,7 @@ class AccountComboBox : public QComboBox {
 		void updateAccounts(Account *exclude_account = NULL, Currency *force_currency = NULL);
 		bool hasAccount() const;
 		Account *createAccount();
+		void hidePopup();
 		
 	signals:
 	
@@ -66,11 +73,46 @@ class AccountComboBox : public QComboBox {
 		void currentAccountChanged(Account*);
 		void returnPressed();
 		
+	public slots:
+	
+		void focusAndSelectAll();
+		
 	protected slots:
 	
 		void accountActivated(int);
 		void onCurrentIndexChanged(int);
 	
+};
+
+class QComboBoxListViewEq : public QListView {
+
+	Q_OBJECT
+
+	public:
+		QComboBoxListViewEq(AccountComboBox *cmb = nullptr);
+		QString filter_str;
+	protected:
+		void resizeEvent(QResizeEvent *event);
+		QStyleOptionViewItem viewOptions() const;
+		void paintEvent(QPaintEvent *e);
+		void keyPressEvent(QKeyEvent *e);
+	private:
+		AccountComboBox *combo;
+};
+
+class QComboBoxDelegateEq : public QStyledItemDelegate {
+
+	Q_OBJECT
+
+	public:
+		QComboBoxDelegateEq(QObject *parent, QComboBox *cmb);
+		static void setSeparator(QAbstractItemModel *model, const QModelIndex &index);
+		static bool isSeparator(const QModelIndex &index);
+	protected:
+		void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+		QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	private:
+		QComboBox *mCombo;
 };
 
 #endif
