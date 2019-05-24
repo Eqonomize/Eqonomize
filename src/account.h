@@ -100,15 +100,15 @@ class AssetsAccount : public Account {
 	
 	protected:
 
-		AssetsType at_type;
+		int at_type;
 		double d_initbal;
 		bool b_closed;
-		QString s_maintainer;
+		QString s_maintainer, s_group;
 		Currency *o_currency;
 		
 	public:
 
-		AssetsAccount(Budget *parent_budget, AssetsType initial_type, QString initial_name, double initial_balance = 0.0, QString initial_description = QString::null);
+		AssetsAccount(Budget *parent_budget, int initial_type, QString initial_name, double initial_balance = 0.0, QString initial_description = QString::null);
 		AssetsAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		AssetsAccount(Budget *parent_budget);
 		AssetsAccount();
@@ -127,9 +127,18 @@ class AssetsAccount : public Account {
 		void setClosed(bool close_account = true);
 		const QString &maintainer() const;
 		void setMaintainer(QString maintainer_name);
-		virtual AccountType type() const;
-		void setAccountType(AssetsType new_type);
-		virtual AssetsType accountType() const;
+		AccountType type() const;
+		void setAccountType(int new_type);
+		int accountType() const;
+		void setAccountTypeName(const QString &new_type, bool localized = false);
+		QString accountTypeName(bool localized = false, bool plural = false) const;
+		QString group() const;
+		void setGroup(QString group_name);
+		bool isCreditCard() const;
+		bool isDebt() const;
+		bool isLiabilities() const;
+		bool isSecurities() const;
+		bool isTypeOther() const;
 		Currency *currency() const;
 		void setCurrency(Currency *new_currency);
 

@@ -279,8 +279,10 @@ class Eqonomize : public QMainWindow {
 		double expenses_budget, expenses_budget_diff, incomes_budget, incomes_budget_diff;
 		QMap<Account*, double> account_value;
 		QMap<Account*, double> account_change;
-		QMap<int, double> account_type_value;
-		QMap<int, double> account_type_change;
+		QMap<QString, double> assets_group_value;
+		QMap<QString, double> assets_group_change;
+		QMap<QString, double> liabilities_group_value;
+		QMap<QString, double> liabilities_group_change;
 		QMap<Account*, QMap<QDate, double> > account_month;
 		QMap<Account*, double> account_month_begincur;
 		QMap<Account*, double> account_month_beginfirst;
@@ -290,10 +292,10 @@ class Eqonomize : public QMainWindow {
 		QMap<Account*, double> account_future_diff;
 		QMap<Account*, double> account_future_diff_change;
 		QMap<QTreeWidgetItem*, Account*> account_items;
-		QMap<QTreeWidgetItem*, int> account_type_items;
+		QMap<QTreeWidgetItem*, QString> assets_group_items, liabilities_group_items;
 		QMap<Account*, QTreeWidgetItem*> item_accounts;
-		QMap<int, QTreeWidgetItem*> item_account_types;
-		QList<QVariant> account_type_expanded;
+		QMap<QString, QTreeWidgetItem*> item_assets_groups, item_liabilities_groups;
+		QMap<QString, QVariant> assets_expanded, liabilities_expanded, expenses_expanded, incomes_expanded;
 
 		QMenu *assetsPopupMenu, *accountPopupMenu, *securitiesPopupMenu, *schedulePopupMenu;
 		
@@ -302,6 +304,7 @@ class Eqonomize : public QMainWindow {
 		QLineEdit *syncUploadEdit, *syncUrlEdit, *syncDownloadEdit;
 		QPushButton *uploadButton;
 		QCheckBox *syncAutoBox;
+		QTreeWidgetItem *clicked_item;
 		
 	protected slots:
 	
@@ -455,6 +458,8 @@ class Eqonomize : public QMainWindow {
 		void newIncomesAccount(IncomesAccount *default_parent = NULL);
 		void newExpensesAccount(ExpensesAccount *default_parent = NULL);
 		void accountExecuted(QTreeWidgetItem*, int);
+		void accountClicked(QTreeWidgetItem*, int);
+		void accountClickedTimeout();
 		void accountExecuted(QTreeWidgetItem*);
 		void accountExpanded(QTreeWidgetItem*);
 		void accountCollapsed(QTreeWidgetItem*);

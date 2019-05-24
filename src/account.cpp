@@ -87,7 +87,7 @@ int Account::lastRevision() const {return i_last_revision;}
 void Account::setLastRevision(int new_rev) {i_last_revision = new_rev;}
 Currency *Account::currency() const {return o_budget->defaultCurrency();}
 
-AssetsAccount::AssetsAccount(Budget *parent_budget, AssetsType initial_type, QString initial_name, double initial_balance, QString initial_description) : Account(parent_budget, initial_name, initial_description), at_type(initial_type), d_initbal(initial_type == ASSETS_TYPE_SECURITIES ? 0.0 : initial_balance), b_closed(false) {
+AssetsAccount::AssetsAccount(Budget *parent_budget, int initial_type, QString initial_name, double initial_balance, QString initial_description) : Account(parent_budget, initial_name, initial_description), at_type(initial_type), d_initbal(initial_type == ASSETS_TYPE_SECURITIES ? 0.0 : initial_balance), b_closed(false) {
 	o_currency = parent_budget->defaultCurrency();
 }
 AssetsAccount::AssetsAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Account(parent_budget) {
@@ -114,68 +114,61 @@ void AssetsAccount::set(const AssetsAccount *account) {
 void AssetsAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Account::readAttributes(attr, valid);
 	QString type = attr->value("type").trimmed().toString();
-	if(type == "current") {
-		at_type = ASSETS_TYPE_CURRENT;
-	} else if(type == "savings") {
-		at_type = ASSETS_TYPE_SAVINGS;
-	} else if(type == "credit card") {
-		at_type = ASSETS_TYPE_CREDIT_CARD;
-	} else if(type == "liabilities") {
-		at_type = ASSETS_TYPE_LIABILITIES;
-	} else if(type == "securities") {
-		at_type = ASSETS_TYPE_SECURITIES;
-	} else if(type == "balancing") {
-		at_type = ASSETS_TYPE_BALANCING;
-	} else if(type == "cash") {
-		at_type = ASSETS_TYPE_CASH;
-	} else {
-		at_type = ASSETS_TYPE_OTHER;
-	}
+	at_type = o_budget->getAccountType(type);
 	if(attr->hasAttribute("lender")) s_maintainer = attr->value("lender").trimmed().toString();
 	else if(attr->hasAttribute("issuer"))  s_maintainer = attr->value("issuer").trimmed().toString();
 	else s_maintainer = attr->value("bank").trimmed().toString();
+	s_group = attr->value("group").trimmed().toString();
+	if(s_group == o_budget->getAccountTypeName(at_type, true, true)) s_group = "";
 	QString s_cur = attr->value("currency").trimmed().toString();
 	if(!s_cur.isEmpty()) {
 		o_currency = o_budget->findCurrency(s_cur);
 	}
 	if(!o_currency) o_currency = o_budget->defaultCurrency();
-	if(at_type != ASSETS_TYPE_SECURITIES) {
+	if(!isSecurities()) {
 		d_initbal = attr->value("initialbalance").toDouble();
-		if(attr->hasAttribute("budgetaccount") && at_type != ASSETS_TYPE_LIABILITIES && at_type != ASSETS_TYPE_CREDIT_CARD) {
+		if(attr->hasAttribute("budgetaccount") && !isLiabilities()) {
 			bool b_budget = attr->value("budgetaccount").toInt();
 			if(b_budget) {
 				o_budget->budgetAccount = this;
 			}
 		}
 	}
-	if(at_type != ASSETS_TYPE_LIABILITIES && attr->hasAttribute("closed")) {
+	if(!isDebt() && attr->hasAttribute("closed")) {
 		b_closed = attr->value("closed").toInt();
 	} else {
 		b_closed = false;
 	}
 }
+bool AssetsAccount::isDebt() const {
+	return o_budget->accountTypeIsDebt(at_type);
+}
+bool AssetsAccount::isCreditCard() const {
+	return o_budget->accountTypeIsCreditCard(at_type);
+}
+bool AssetsAccount::isSecurities() const {
+	return o_budget->accountTypeIsSecurities(at_type);
+}
+bool AssetsAccount::isLiabilities() const {
+	return o_budget->accountTypeIsLiabilities(at_type);
+}
+bool AssetsAccount::isTypeOther() const {
+	return o_budget->accountTypeIsOther(at_type);
+}
 void AssetsAccount::writeAttributes(QXmlStreamAttributes *attr) {
 	Account::writeAttributes(attr);
 	if(o_currency) attr->append("currency", o_currency->code());
-	if(at_type != ASSETS_TYPE_SECURITIES) {
+	if(!isSecurities()) {
 		attr->append("initialbalance", QString::number(d_initbal, 'f', SAVE_MONETARY_DECIMAL_PLACES));
 		if(o_budget->budgetAccount == this) {
 			attr->append("budgetaccount", QString::number(o_budget->budgetAccount == this));
 		}
 	}
-	switch(at_type) {
-		case ASSETS_TYPE_CURRENT: {attr->append("type", "current"); break;}
-		case ASSETS_TYPE_SAVINGS: {attr->append("type", "savings"); break;}
-		case ASSETS_TYPE_CREDIT_CARD: {attr->append("type", "credit card"); break;}
-		case ASSETS_TYPE_LIABILITIES: {attr->append("type", "liabilities"); break;}
-		case ASSETS_TYPE_SECURITIES: {attr->append("type", "securities"); break;}
-		case ASSETS_TYPE_BALANCING: {attr->append("type", "balancing"); break;}
-		case ASSETS_TYPE_CASH: {attr->append("type", "cash"); break;}
-		default: {attr->append("type", "other"); break;}
-	}
+	attr->append("type", o_budget->getAccountTypeName(at_type));
+	if(!s_group.isEmpty()) attr->append("group", s_group);
 	if(!s_maintainer.isEmpty()) {
-		if(at_type == ASSETS_TYPE_LIABILITIES) attr->append("lender", s_maintainer);
-		else if(at_type == ASSETS_TYPE_CREDIT_CARD) attr->append("issuer", s_maintainer);
+		if(isDebt()) attr->append("lender", s_maintainer);
+		else if(isCreditCard()) attr->append("issuer", s_maintainer);
 		else attr->append("bank", s_maintainer);
 	}
 	if(b_closed) attr->append("closed", QString::number(b_closed));
@@ -192,7 +185,7 @@ void AssetsAccount::setAsBudgetAccount(bool will_be) {
 	}
 }
 double AssetsAccount::initialBalance(bool calculate_for_securities) const {
-	if(at_type == ASSETS_TYPE_SECURITIES) {
+	if(isSecurities()) {
 		if(!calculate_for_securities) return 0.0;
 		double d = 0.0;
 		for(SecurityList<Security*>::const_iterator it = o_budget->securities.constBegin(); it != o_budget->securities.constEnd(); ++it) {
@@ -205,15 +198,31 @@ double AssetsAccount::initialBalance(bool calculate_for_securities) const {
 	}
 	return d_initbal;
 }
-void AssetsAccount::setInitialBalance(double new_initial_balance) {if(at_type != ASSETS_TYPE_SECURITIES) d_initbal = new_initial_balance;}
+void AssetsAccount::setInitialBalance(double new_initial_balance) {if(!isSecurities()) d_initbal = new_initial_balance;}
 AccountType AssetsAccount::type() const {return ACCOUNT_TYPE_ASSETS;}
-void AssetsAccount::setAccountType(AssetsType new_type) {
+void AssetsAccount::setAccountType(int new_type) {
 	at_type = new_type;
-	if(at_type == ASSETS_TYPE_LIABILITIES) setAsBudgetAccount(false);
-	if(at_type == ASSETS_TYPE_SECURITIES) d_initbal = 0.0;
+	if(isDebt()) setAsBudgetAccount(false);
+	if(isSecurities()) d_initbal = 0.0;
+}
+void AssetsAccount::setAccountTypeName(const QString &new_type, bool localized) {
+	setAccountType(o_budget->getAccountType(new_type, localized));
+}
+QString AssetsAccount::accountTypeName(bool localized, bool plural) const {
+	return o_budget->getAccountTypeName(at_type, localized, plural);
+}
+QString AssetsAccount::group() const {
+	if(s_group.isEmpty()) return o_budget->getAccountTypeName(at_type, true, true);
+	if(s_group == "-") return "";
+	return s_group;
+}
+void AssetsAccount::setGroup(QString group_name) {
+	s_group = group_name.trimmed();
+	if(s_group.isEmpty()) s_group = "-";
+	else if(s_group == o_budget->getAccountTypeName(at_type, true, true)) s_group = "";
 }
 bool AssetsAccount::isClosed() const {
-	if(at_type == ASSETS_TYPE_LIABILITIES) return true;
+	if(isDebt()) return true;
 	return b_closed;
 }
 void AssetsAccount::setClosed(bool close_account) {
@@ -221,8 +230,8 @@ void AssetsAccount::setClosed(bool close_account) {
 	if(b_closed) setAsBudgetAccount(false);
 }
 const QString &AssetsAccount::maintainer() const {return s_maintainer;}
-void AssetsAccount::setMaintainer(QString maintainer_name) {s_maintainer = maintainer_name;}
-AssetsType AssetsAccount::accountType() const {return at_type;}
+void AssetsAccount::setMaintainer(QString maintainer_name) {s_maintainer = maintainer_name.trimmed();}
+int AssetsAccount::accountType() const {return at_type;}
 Currency *AssetsAccount::currency() const {if(!o_currency) return o_budget->defaultCurrency(); return o_currency;}
 void AssetsAccount::setCurrency(Currency *new_currency) {o_currency = new_currency;}
 

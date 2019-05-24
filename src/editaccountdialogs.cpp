@@ -43,7 +43,7 @@
 #include "editcurrencydialog.h"
 #include "eqonomizevalueedit.h"
 
-EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title, bool new_loan, int default_type, bool force_type) : QDialog(parent, 0), budget(budg) {
+EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title, bool new_loan, int default_type, bool force_type, QString default_group) : QDialog(parent, 0), budget(budg) {
 
 	setWindowTitle(title);
 	setModal(true);
@@ -61,15 +61,42 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 		grid->addWidget(new QLabel(tr("Type:"), this), row, 0);
 		typeCombo = new QComboBox(this);
 		typeCombo->setEditable(false);
-		typeCombo->addItem(tr("Cash"));
-		typeCombo->addItem(tr("Transaction Account"));
-		typeCombo->addItem(tr("Savings Account"));
-		typeCombo->addItem(tr("Credit Card"));
-		typeCombo->addItem(tr("Debt"));
-		typeCombo->addItem(tr("Securities"));
-		typeCombo->addItem(tr("Other"));
+		typeCombo->addItem(budget->getAccountTypeName(ASSETS_TYPE_CASH, true));
+		typeCombo->addItem(budget->getAccountTypeName(ASSETS_TYPE_CURRENT, true));
+		typeCombo->addItem(budget->getAccountTypeName(ASSETS_TYPE_SAVINGS, true));
+		typeCombo->addItem(budget->getAccountTypeName(ASSETS_TYPE_CREDIT_CARD, true));
+		typeCombo->addItem(budget->getAccountTypeName(ASSETS_TYPE_LIABILITIES, true));
+		typeCombo->addItem(budget->getAccountTypeName(ASSETS_TYPE_SECURITIES, true));
+		typeCombo->addItem(budget->getAccountTypeName(ASSETS_TYPE_OTHER, true));
 		grid->addWidget(typeCombo, row, 1); row++;
 	}
+	
+	grid->addWidget(new QLabel(tr("Group:"), this), row, 0);
+	groupCombo = new QComboBox(this);
+	groupCombo->setEditable(true);
+	QStringList groups;
+	if(!new_loan) {
+		groups << budget->getAccountTypeName(ASSETS_TYPE_CASH, true, true);
+		groups << budget->getAccountTypeName(ASSETS_TYPE_CURRENT, true, true);
+		groups << budget->getAccountTypeName(ASSETS_TYPE_SAVINGS, true, true);
+		groups << budget->getAccountTypeName(ASSETS_TYPE_SECURITIES, true, true);
+	}
+	groups << budget->getAccountTypeName(ASSETS_TYPE_CREDIT_CARD, true, true);
+	groups << budget->getAccountTypeName(ASSETS_TYPE_LIABILITIES, true, true);
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *aaccount = *it;
+		if(!new_loan || aaccount->isLiabilities()) {
+			if(!aaccount->group().isEmpty()) groups << aaccount->group();
+		}
+	}
+	groups.removeDuplicates();
+	groups.sort(Qt::CaseInsensitive);
+	groupCombo->addItems(groups);
+	groupCombo->lineEdit()->setPlaceholderText(tr("no group"));
+	grid->addWidget(groupCombo, row, 1); row++;
+	if(!default_group.isEmpty()) groupCombo->setCurrentText(default_group);
+	else if(default_type >= 0 && !budget->getAccountTypeName(default_type, true, true).isEmpty()) groupCombo->setCurrentText(budget->getAccountTypeName(default_type, true, true));
+	
 	if(default_type >= 0) {
 		switch(default_type) {
 			case ASSETS_TYPE_CASH: {typeCombo->setCurrentIndex(0); break;}
@@ -235,6 +262,17 @@ void EditAssetsAccountDialog::typeActivated(int index) {
 		}
 		return;
 	}
+	int i_type = -1;
+	switch(typeCombo->currentIndex()) {
+		case 0: {i_type = ASSETS_TYPE_CASH; break;}
+		case 1: {i_type = ASSETS_TYPE_CURRENT; break;}
+		case 2: {i_type = ASSETS_TYPE_SAVINGS; break;}
+		case 3: {i_type = ASSETS_TYPE_CREDIT_CARD; break;}
+		case 4: {i_type = ASSETS_TYPE_LIABILITIES; break;}
+		case 5: {i_type = ASSETS_TYPE_SECURITIES;  break;}
+		default: {i_type = ASSETS_TYPE_OTHER; break;}
+	}
+	groupCombo->setCurrentText(budget->getAccountTypeName(i_type, true, true));
 	valueEdit->setEnabled(index != 5);
 	budgetButton->setEnabled(index != 5 && index != 4 && index != 3);
 	closedButton->setEnabled(index != 4);
@@ -267,6 +305,7 @@ AssetsAccount *EditAssetsAccountDialog::newAccount(Transaction **transfer) {
 	account->setCurrency((Currency*) currencyCombo->itemData(i).value<void*>());
 	if(maintainerEdit->isEnabled()) account->setMaintainer(maintainerEdit->text());
 	else account->setMaintainer("");
+	account->setGroup(groupCombo->currentText());
 	if(transfer && transferButton && transferButton->isChecked()) {
 		Transaction *trans = new Transfer(budget, valueEdit->value(), dateEdit->date(), account, (AssetsAccount*) accountCombo->currentAccount(), nameEdit->text());
 		*transfer = trans;
@@ -286,6 +325,7 @@ void EditAssetsAccountDialog::modifyAccount(AssetsAccount *account) {
 	account->setDescription(descriptionEdit->toPlainText());
 	account->setAsBudgetAccount(budgetButton->isChecked());
 	account->setClosed(closedButton->isChecked());
+	account->setGroup(groupCombo->currentText());
 	switch(typeCombo->currentIndex()) {
 		case 0: {account->setAccountType(ASSETS_TYPE_CASH); break;}
 		case 1: {account->setAccountType(ASSETS_TYPE_CURRENT); break;}
@@ -341,6 +381,7 @@ void EditAssetsAccountDialog::setAccount(AssetsAccount *account) {
 		}
 	}
 	typeActivated(typeCombo->currentIndex());
+	groupCombo->setCurrentText(account->group());
 }
 void EditAssetsAccountDialog::accept() {
 	QString sname = nameEdit->text().trimmed();

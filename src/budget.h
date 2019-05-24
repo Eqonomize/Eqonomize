@@ -319,6 +319,14 @@ class Budget {
 		double yearsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months = true);
 		double monthsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months = true);
 		int calendarMonthsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months = true);
+		
+		int getAccountType(const QString &type, bool localized = false, bool plural = false);
+		QString getAccountTypeName(int at_type, bool localized = false, bool plural = false);
+		bool accountTypeIsDebt(int at_type);
+		bool accountTypeIsCreditCard(int at_type);
+		bool accountTypeIsSecurities(int at_type);
+		bool accountTypeIsLiabilities(int at_type);
+		bool accountTypeIsOther(int at_type);
 
 };
 

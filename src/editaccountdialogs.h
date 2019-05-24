@@ -55,7 +55,7 @@ class EditAssetsAccountDialog : public QDialog {
 		QRadioButton *initialButton, *transferButton;
 		EqonomizeValueEdit *valueEdit;
 		QTextEdit *descriptionEdit;
-		QComboBox *typeCombo, *currencyCombo;
+		QComboBox *typeCombo, *groupCombo, *currencyCombo;
 		QPushButton *editCurrencyButton;
 		AccountComboBox *accountCombo;
 		QCheckBox *budgetButton, *closedButton;
@@ -65,7 +65,7 @@ class EditAssetsAccountDialog : public QDialog {
 		
 	public:
 		
-		EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title, bool new_loan = false, int default_type = -1, bool force_type = false);
+		EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title, bool new_loan = false, int default_type = -1, bool force_type = false, QString default_group = "");
 
 		AssetsAccount *newAccount(Transaction **transfer = NULL);
 		void modifyAccount(AssetsAccount *account);

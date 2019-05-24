@@ -134,7 +134,7 @@ enum {
 #define BUDGET_COLUMN				1
 #define VALUE_COLUMN				3
 
-#define IS_DEBT(account) (account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD)
+#define IS_DEBT(account) (account)->isLiabilities()
 
 QString last_document_directory, last_associated_file_directory, last_picture_directory;
 
@@ -696,7 +696,7 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(paren
 	
 	connect(dateEdit, SIGNAL(returnPressed()), valueEdit, SLOT(enterFocus()));
 	connect(valueEdit, SIGNAL(returnPressed()), quantityEdit, SLOT(enterFocus()));
-	connect(quantityEdit, SIGNAL(returnPressed()), accountCombo, SLOT(setFocus()));
+	connect(quantityEdit, SIGNAL(returnPressed()), accountCombo, SLOT(focusAndSelectAll()));
 	connect(accountCombo, SIGNAL(accountSelected(Account*)), commentsEdit, SLOT(setFocus()));
 	connect(accountCombo, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
 	connect(commentsEdit, SIGNAL(returnPressed()), this, SLOT(accept()));
@@ -1768,6 +1768,8 @@ class AccountsListView : public EqonomizeTreeWidget {
 Eqonomize::Eqonomize() : QMainWindow() {
 
 	in_batch_edit = false;
+	
+	clicked_item = NULL;
 
 	expenses_budget = 0.0;
 	expenses_budget_diff = 0.0;
@@ -1796,8 +1798,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	last_document_directory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
 	last_associated_file_directory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
 	
-	for(int i = ASSETS_TYPE_CASH; i <= ASSETS_TYPE_OTHER; i++) account_type_expanded << false;
-
 	partial_budget = false;
 
 	modified = false;
@@ -2052,6 +2052,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	connect(accountsPeriodFromEdit, SIGNAL(dateChanged(const QDate&)), this, SLOT(accountsPeriodFromChanged(const QDate&)));
 	connect(accountsPeriodToEdit, SIGNAL(dateChanged(const QDate&)), this, SLOT(accountsPeriodToChanged(const QDate&)));
 	connect(accountsView, SIGNAL(itemSelectionChanged()), this, SLOT(accountsSelectionChanged()));
+	connect(accountsView, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(accountClicked(QTreeWidgetItem*, int)));
 	connect(accountsView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(accountExecuted(QTreeWidgetItem*, int)));
 	connect(accountsView, SIGNAL(returnPressed(QTreeWidgetItem*)), this, SLOT(accountExecuted(QTreeWidgetItem*)));
 	connect(accountsView, SIGNAL(itemMoved(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(accountMoved(QTreeWidgetItem*, QTreeWidgetItem*)));
@@ -4101,15 +4102,15 @@ void Eqonomize::updateTransactionActions() {
 void Eqonomize::popupAccountsMenu(const QPoint &p) {
 	QTreeWidgetItem *i = accountsView->itemAt(p);
 	if(i == NULL) return;
-	if(i == liabilitiesItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS) && (((AssetsAccount*) account_items[i])->accountType() == ASSETS_TYPE_LIABILITIES)) || (account_type_items.contains(i) && account_type_items[i] == ASSETS_TYPE_LIABILITIES)) {
+	if(i == liabilitiesItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS) && (((AssetsAccount*) account_items[i])->isDebt())) || (liabilities_group_items.contains(i) && liabilities_group_items[i] == budget->getAccountTypeName(ASSETS_TYPE_LIABILITIES, true, true))) {
 		ActionAddAccount->setText(tr("Add Loan"));
-	} else if(i == assetsItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS)) || account_type_items.contains(i)) {
+	} else if(i == assetsItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS)) || assets_group_items.contains(i) || liabilities_group_items.contains(i)) {
 		ActionAddAccount->setText(tr("Add Account"));
 	} else {
 		ActionAddAccount->setText(tr("Add Category"));
 		
 	}
-	if(i == liabilitiesItem || i == assetsItem || (account_items.contains(i) && account_items[i]->type() == ACCOUNT_TYPE_ASSETS) || account_type_items.contains(i)) {
+	if(i == liabilitiesItem || i == assetsItem || (account_items.contains(i) && account_items[i]->type() == ACCOUNT_TYPE_ASSETS) || assets_group_items.contains(i) || liabilities_group_items.contains(i)) {
 		if(!assetsPopupMenu) {
 			assetsPopupMenu = new QMenu(this);
 			assetsPopupMenu->addAction(ActionAddAccount);
@@ -4139,7 +4140,7 @@ void Eqonomize::popupAccountsMenu(const QPoint &p) {
 void Eqonomize::showLedger() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
 	Account *account = NULL;
-	if(i && i != assetsItem && i != liabilitiesItem && i != incomesItem && i != expensesItem && !account_type_items.contains(i)) {
+	if(i && account_items.contains(i)) {
 		account = account_items[i];
 		if(account && account->type() != ACCOUNT_TYPE_ASSETS) account = NULL;
 	}
@@ -4157,7 +4158,7 @@ void Eqonomize::showLedger() {
 void Eqonomize::reconcileAccount() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
 	Account *account = NULL;
-	if(i && i != assetsItem && i != liabilitiesItem && i != incomesItem && i != expensesItem && !account_type_items.contains(i)) {
+	if(i && account_items.contains(i)) {
 		account = account_items[i];
 		if(account && account->type() != ACCOUNT_TYPE_ASSETS) account = NULL;
 	}
@@ -4174,7 +4175,7 @@ void Eqonomize::reconcileAccount() {
 }
 void Eqonomize::showAccountTransactions(bool b) {
 	QTreeWidgetItem *i = selectedItem(accountsView);
-	if(i == NULL || i == assetsItem || i == liabilitiesItem || account_type_items.contains(i)) return;
+	if(i == NULL) return;
 	if(i == incomesItem) {
 		if(b) incomesWidget->setFilter(QDate(), to_date, -1.0, -1.0, NULL, NULL);
 		else incomesWidget->setFilter(accountsPeriodFromButton->isChecked() ? from_date : QDate(), to_date, -1.0, -1.0, NULL, NULL);
@@ -4186,6 +4187,7 @@ void Eqonomize::showAccountTransactions(bool b) {
 		expensesWidget->showFilter();
 		tabs->setCurrentIndex(EXPENSES_PAGE_INDEX);
 	} else {
+		if(!account_items.contains(i)) return;
 		Account *account = account_items[i];
 		AccountType type = account->type();
 		if(type == ACCOUNT_TYPE_INCOMES) {
@@ -4198,7 +4200,7 @@ void Eqonomize::showAccountTransactions(bool b) {
 			else expensesWidget->setFilter(accountsPeriodFromButton->isChecked() ? from_date : QDate(), to_date, -1.0, -1.0, NULL, account);
 			expensesWidget->showFilter();
 			tabs->setCurrentIndex(EXPENSES_PAGE_INDEX);
-		} else if(((AssetsAccount*) account)->accountType() == ASSETS_TYPE_SECURITIES) {
+		} else if(((AssetsAccount*) account)->isSecurities()) {
 			tabs->setCurrentIndex(SECURITIES_PAGE_INDEX);
 		} else {
 			LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, budget, this, tr("Ledger"), b_extra);
@@ -4511,22 +4513,14 @@ void Eqonomize::reloadBudget() {
 	incomes_budget_diff = 0.0;
 	account_value.clear();
 	account_change.clear();
-	account_type_value[ASSETS_TYPE_CASH] = 0.0;
-	account_type_change[ASSETS_TYPE_CASH] = 0.0;
-	account_type_value[ASSETS_TYPE_CURRENT] = 0.0;
-	account_type_change[ASSETS_TYPE_CURRENT] = 0.0;
-	account_type_value[ASSETS_TYPE_SAVINGS] = 0.0;
-	account_type_change[ASSETS_TYPE_SAVINGS] = 0.0;
-	account_type_value[ASSETS_TYPE_LIABILITIES] = 0.0;
-	account_type_change[ASSETS_TYPE_LIABILITIES] = 0.0;
-	account_type_value[ASSETS_TYPE_CREDIT_CARD] = 0.0;
-	account_type_change[ASSETS_TYPE_CREDIT_CARD] = 0.0;
-	account_type_value[ASSETS_TYPE_SECURITIES] = 0.0;
-	account_type_change[ASSETS_TYPE_SECURITIES] = 0.0;
-	account_type_value[ASSETS_TYPE_BALANCING] = 0.0;
-	account_type_change[ASSETS_TYPE_BALANCING] = 0.0;
-	account_type_value[ASSETS_TYPE_OTHER] = 0.0;
-	account_type_change[ASSETS_TYPE_OTHER] = 0.0;
+	assets_group_value.clear();
+	assets_group_change.clear();
+	assets_group_value[""] = 0.0;
+	assets_group_change[""] = 0.0;
+	liabilities_group_value.clear();
+	liabilities_group_change.clear();
+	liabilities_group_value[""] = 0.0;
+	liabilities_group_change[""] = 0.0;
 	while(assetsItem->childCount() > 0) {
 		delete assetsItem->child(0);
 	}
@@ -4540,9 +4534,11 @@ void Eqonomize::reloadBudget() {
 		delete expensesItem->child(0);
 	}
 	account_items.clear();
-	account_type_items.clear();
+	assets_group_items.clear();
+	liabilities_group_items.clear();
 	item_accounts.clear();
-	item_account_types.clear();
+	item_assets_groups.clear();
+	item_liabilities_groups.clear();
 	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *aaccount = *it;
 		if(aaccount != budget->balancingAccount) {
@@ -5569,15 +5565,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 					if(includes_budget && ((AssetsAccount*) account)->isBudgetAccount()) outf << "*";
 					outf << "</td>";
 					outf << "<td>";
-					switch(((AssetsAccount*) account)->accountType()) {
-						case ASSETS_TYPE_CASH: {outf << htmlize_string(tr("Cash")); break;}
-						case ASSETS_TYPE_CURRENT: {outf << htmlize_string(tr("Transaction Account")); break;}
-						case ASSETS_TYPE_SAVINGS: {outf << htmlize_string(tr("Savings Account")); break;}
-						case ASSETS_TYPE_CREDIT_CARD: {outf << htmlize_string(tr("Credit Card")); break;}
-						case ASSETS_TYPE_LIABILITIES: {outf << htmlize_string(tr("Liabilities")); break;}
-						case ASSETS_TYPE_SECURITIES: {outf << htmlize_string(tr("Securities", "Financial security (e.g. stock, mutual fund)"));  break;}
-						default: {outf << htmlize_string(tr("Other")); break;}
-					}
+					outf << htmlize_string(((AssetsAccount*) account)->accountTypeName(true));
 					outf << "</td>";
 					outf << "<td nowrap align=\"right\">" << htmlize_string(((AssetsAccount*) account)->currency()->formatValue(account_change[account])) << "</td>";
 					outf << "<td nowrap align=\"right\">" << htmlize_string(((AssetsAccount*) account)->currency()->formatValue(account_value[account])) << "</td>" << "\n";
@@ -5618,15 +5606,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 					outf << "\t\t\t\t\t<td>" << htmlize_string(account->name());
 					outf << "</td>";
 					outf << "<td>";
-					switch(((AssetsAccount*) account)->accountType()) {
-						case ASSETS_TYPE_CASH: {outf << htmlize_string(tr("Cash")); break;}
-						case ASSETS_TYPE_CURRENT: {outf << htmlize_string(tr("Current Account")); break;}
-						case ASSETS_TYPE_SAVINGS: {outf << htmlize_string(tr("Savings Account")); break;}
-						case ASSETS_TYPE_CREDIT_CARD: {outf << htmlize_string(tr("Credit Card")); break;}
-						case ASSETS_TYPE_LIABILITIES: {outf << htmlize_string(tr("Liabilities")); break;}
-						case ASSETS_TYPE_SECURITIES: {outf << htmlize_string(tr("Securities", "Financial security (e.g. stock, mutual fund)"));  break;}
-						default: {outf << htmlize_string(tr("Other")); break;}
-					}
+					outf << ((AssetsAccount*) account)->accountTypeName(true);
 					outf << "</td>";
 					outf << "<td nowrap align=\"right\">" << htmlize_string(budget->formatMoney(-account_change[account])) << "</td>";
 					outf << "<td nowrap align=\"right\">" << htmlize_string(budget->formatMoney(-account_value[account])) << "</td>" << "\n";
@@ -6490,7 +6470,10 @@ void Eqonomize::saveOptions() {
 	settings.setValue("transfersListState", transfersWidget->saveState());
 	settings.setValue("securitiesListState", securitiesView->header()->saveState());
 	settings.setValue("scheduleListState", scheduleView->header()->saveState());
-	settings.setValue("accountTypeExpanded", account_type_expanded);
+	settings.setValue("assetsGroupExpanded", assets_expanded);
+	settings.setValue("liabilitiesGroupExpanded", liabilities_expanded);
+	settings.setValue("incomesCategoryExpanded", incomes_expanded);
+	settings.setValue("expensesCategoryExpanded", expenses_expanded);
 
 	if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentMonth) {settings.setValue("initialPeriod", 0);}
 	else if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentYear) {settings.setValue("initialPeriod", 1);}
@@ -6522,9 +6505,10 @@ void Eqonomize::readOptions() {
 	transfersWidget->restoreState(settings.value("transfersListState").toByteArray());
 	securitiesView->header()->restoreState(settings.value("securitiesListState").toByteArray());
 	scheduleView->header()->restoreState(settings.value("scheduleListState").toByteArray());
-	account_type_expanded = settings.value("accountTypeExpanded").toList();
-	for(int i = ASSETS_TYPE_CASH + account_type_expanded.size(); i <= ASSETS_TYPE_OTHER; i++) account_type_expanded << false;
-	while(account_type_expanded.size() > ASSETS_TYPE_OTHER - ASSETS_TYPE_CASH + 1) account_type_expanded.removeLast();
+	assets_expanded = settings.value("assetsGroupExpanded").toMap();
+	liabilities_expanded = settings.value("liabilitiesGroupExpanded").toMap();
+	incomes_expanded = settings.value("incomesCategoryExpanded").toMap();
+	expenses_expanded = settings.value("expensesCategoryExpanded").toMap();
 	scheduleView->sortByColumn(0, Qt::AscendingOrder);
 	settings.endGroup();
 	updateRecentFiles();
@@ -6751,9 +6735,9 @@ void Eqonomize::addAccount() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
 	if(i == NULL) {
 		newAssetsAccount();
-	} else if(i == liabilitiesItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS) && (((AssetsAccount*) account_items[i])->accountType() == ASSETS_TYPE_LIABILITIES)) || (account_type_items.contains(i) && (account_type_items[i] == ASSETS_TYPE_LIABILITIES))) {
+	} else if(i == liabilitiesItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS) && (((AssetsAccount*) account_items[i])->isDebt())) || (liabilities_group_items.contains(i) && liabilities_group_items[i] == budget->getAccountTypeName(ASSETS_TYPE_LIABILITIES, true, true))) {
 		newLoan();
-	} else if(i == assetsItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS)) || account_type_items.contains(i)) {
+	} else if(i == assetsItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_ASSETS)) || assets_group_items.contains(i) || liabilities_group_items.contains(i)) {
 		newAssetsAccount();
 	} else if(i == incomesItem || (account_items.contains(i) && (account_items[i]->type() == ACCOUNT_TYPE_INCOMES))) {
 		newIncomesAccount(account_items.contains(i) ? (IncomesAccount*) account_items[i] : NULL);
@@ -6801,17 +6785,26 @@ void Eqonomize::accountAdded(Account *acc) {
 }
 void Eqonomize::newAssetsAccount() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
+	QString s_group;
 	int i_type = -1;
-	if(i && account_type_items.contains(i)) i_type = account_type_items[i];
-	else if(i && account_items.contains(i) && account_items[i]->type() == ACCOUNT_TYPE_ASSETS && item_account_types.contains(((AssetsAccount*) account_items[i])->accountType())) i_type = ((AssetsAccount*) account_items[i])->accountType();
-	EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, this, tr("New Account"), false, i_type, false);
+	if(i && assets_group_items.contains(i)) {
+		s_group = assets_group_items[i];
+	} else if(i && liabilities_group_items.contains(i)) {
+		s_group = liabilities_group_items[i];
+	} else if(i && account_items.contains(i) && account_items[i]->type() == ACCOUNT_TYPE_ASSETS && (((!IS_DEBT((AssetsAccount*) account_items[i]) && item_assets_groups.contains(((AssetsAccount*) account_items[i])->group())) || (IS_DEBT((AssetsAccount*) account_items[i]) && item_liabilities_groups.contains(((AssetsAccount*) account_items[i])->group()))))) {
+		s_group = ((AssetsAccount*) account_items[i])->group();
+	}
+	if(!s_group.isEmpty()) i_type = budget->getAccountType(s_group, true, true);
+	if(i_type == ASSETS_TYPE_OTHER) i_type = -1;
+	EditAssetsAccountDialog *dialog = new EditAssetsAccountDialog(budget, this, tr("New Account"), false, i_type, false, s_group);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
 	if(dialog->exec() == QDialog::Accepted) {
 		AssetsAccount *account = dialog->newAccount();
 		budget->addAccount(account);
 		appendAssetsAccount(account);
-		if(item_account_types.contains(account->accountType())) item_account_types[account->accountType()]->setExpanded(true);
+		if(!IS_DEBT(account) && item_assets_groups.contains(account->group())) item_assets_groups[account->group()]->setExpanded(true);
+		else if(IS_DEBT(account) && item_liabilities_groups.contains(account->group())) item_liabilities_groups[account->group()]->setExpanded(true);
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) {
 			currenciesModified();
 		} else {
@@ -6838,7 +6831,7 @@ void Eqonomize::newLoan() {
 		AssetsAccount *account = dialog->newAccount(&trans);
 		budget->addAccount(account);
 		appendAssetsAccount(account);
-		if(item_account_types.contains(account->accountType())) item_account_types[account->accountType()]->setExpanded(true);
+		if(item_liabilities_groups.contains(account->group())) item_liabilities_groups[account->group()]->setExpanded(true);
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) {
 			currenciesModified();
 		} else {
@@ -6911,11 +6904,7 @@ void Eqonomize::accountExecuted(QTreeWidgetItem *i, int c) {
 	if(i == NULL) return;
 	switch(c) {
 		case 0: {
-			if(i->childCount() > 0) {
-				i->setExpanded(!i->isExpanded());
-			} else if(account_items.contains(i)) {
-				editAccount(account_items[i]);
-			}
+			if(i->childCount() == 0 && account_items.contains(i)) editAccount(account_items[i]);
 			break;
 		}
 		case 1: {
@@ -6944,6 +6933,22 @@ void Eqonomize::accountExecuted(QTreeWidgetItem *i, int c) {
 		}
 	}
 }
+void Eqonomize::accountClickedTimeout() {
+	clicked_item = NULL;
+}
+void Eqonomize::accountClicked(QTreeWidgetItem *i, int c) {
+	if(clicked_item == i) {
+		clicked_item = NULL;
+		return;
+	}
+	if(i != NULL && c == 0 && i->childCount() > 0) {
+		i->setExpanded(!i->isExpanded());
+		clicked_item = i;
+		QTimer::singleShot(QApplication::doubleClickInterval(), this, SLOT(accountClickedTimeout()));
+	} else {
+		clicked_item = NULL;
+	}
+}
 void Eqonomize::balanceAccount() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
 	if(!account_items.contains(i)) return;
@@ -6952,7 +6957,7 @@ void Eqonomize::balanceAccount() {
 }
 void Eqonomize::balanceAccount(Account *i_account) {
 	if(!i_account) return;
-	if(i_account->type() != ACCOUNT_TYPE_ASSETS || ((AssetsAccount*) i_account)->accountType() == ASSETS_TYPE_SECURITIES) return;
+	if(i_account->type() != ACCOUNT_TYPE_ASSETS || ((AssetsAccount*) i_account)->isSecurities()) return;
 	AssetsAccount *account = (AssetsAccount*) i_account;
 	double book_value = account->initialBalance();
 	double current_balancing = 0.0;
@@ -7029,8 +7034,8 @@ void Eqonomize::updateBudgetAccountTitle(AssetsAccount *account) {
 	} else {
 		if(assetsItem->text(0).endsWith('*')) assetsItem->setText(0, assetsItem->text(0).left(assetsItem->text(0).length() - 1));
 	}
-	for(QMap<QTreeWidgetItem*, int>::iterator it = account_type_items.begin(); it != account_type_items.end(); ++it) {
-		if(b_time && budget->budgetAccount && it.value() == budget->budgetAccount->accountType()) {
+	for(QMap<QTreeWidgetItem*, QString>::iterator it = assets_group_items.begin(); it != assets_group_items.end(); ++it) {
+		if(b_time && budget->budgetAccount && it.value() == budget->budgetAccount->group()) {
 			if(!it.key()->text(0).endsWith('*')) it.key()->setText(0, it.key()->text(0) + '*');
 			else break;
 		} else {
@@ -7047,8 +7052,9 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 			AssetsAccount *account = (AssetsAccount*) i_account;
 			dialog->setAccount(account);
 			double prev_ib = account->initialBalance();
-			bool prev_debt = (i->parent() == liabilitiesItem);
-			AssetsType prev_type = account->accountType();
+			bool prev_debt = IS_DEBT(account);
+			QString prev_group = account->group();
+			int prev_type = account->accountType();
 			Account *previous_budget_account = budget->budgetAccount;
 			Currency *cur = account->currency();
 			budget->resetDefaultCurrencyChanged();
@@ -7067,38 +7073,43 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 				account_value[account] += (account->initialBalance() - prev_ib);
 				bool is_debt = IS_DEBT(account);
 				updateBudgetAccountTitle(account);
-				if(is_debt != prev_debt) {
-					if(is_debt) {
-						assetsItem->removeChild(i);
-						liabilitiesItem->addChild(i);
-					} else {
-						liabilitiesItem->removeChild(i);
-						assetsItem->addChild(i);
-					}
-				}
-				if(prev_type != account->accountType()) {
-					AssetsType type_copy = account->accountType();
+				QString s_group = account->group();
+				if(prev_group != s_group || is_debt != prev_debt) {
+					int type_copy = account->accountType();
 					account->setAccountType(prev_type);
+					account->setGroup(prev_group);
 					assetsAccountItemHiddenOrRemoved(account);
 					account->setAccountType(type_copy);
+					account->setGroup(s_group);
+					if(!is_debt && item_assets_groups.contains(s_group)) {
+						i->parent()->removeChild(i);
+						item_assets_groups[s_group]->addChild(i);
+					} else if(is_debt && item_liabilities_groups.contains(s_group)) {
+						i->parent()->removeChild(i);
+						item_liabilities_groups[s_group]->addChild(i);
+					} else if(is_debt != prev_debt || (i->parent() != assetsItem && i->parent() != liabilitiesItem)) {
+						i->parent()->removeChild(i);
+						if(is_debt) liabilitiesItem->addChild(i);
+						else assetsItem->addChild(i);
+					}
 					assetsAccountItemShownOrAdded(account);
 				}
 				if(budget->currenciesModified() || budget->defaultCurrencyChanged()) {
 					currenciesModified();
-				} else if(previous_budget_account != budget->budgetAccount || currency_changed || prev_type != account->accountType() || is_debt != prev_debt) {
+				} else if(previous_budget_account != budget->budgetAccount || currency_changed || prev_group != s_group || is_debt != prev_debt) {
 					filterAccounts();
 				} else if(is_debt) {
-					account_type_value[account->accountType()] += account->currency()->convertTo(account->initialBalance() - prev_ib, budget->defaultCurrency(), to_date);
+					liabilities_group_value[s_group] += account->currency()->convertTo(account->initialBalance() - prev_ib, budget->defaultCurrency(), to_date);
 					liabilities_accounts_value += account->currency()->convertTo(account->initialBalance() - prev_ib, budget->defaultCurrency(), to_date);
 					i->setText(VALUE_COLUMN, account->currency()->formatValue(-account_value[account]) + " ");
 					liabilitiesItem->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_accounts_value) + " ");
-					if(item_account_types.contains(account->accountType())) item_account_types[account->accountType()]->setText(VALUE_COLUMN, budget->formatMoney(-account_type_value[account->accountType()]) + " ");
+					if(item_liabilities_groups.contains(s_group)) item_liabilities_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_group_value[s_group]) + " ");
 				} else {
-					account_type_value[account->accountType()] += account->currency()->convertTo(account->initialBalance() - prev_ib, budget->defaultCurrency(), to_date);
+					assets_group_value[s_group] += account->currency()->convertTo(account->initialBalance() - prev_ib, budget->defaultCurrency(), to_date);
 					assets_accounts_value += account->currency()->convertTo(account->initialBalance() - prev_ib, budget->defaultCurrency(), to_date);
 					i->setText(VALUE_COLUMN, account->currency()->formatValue(account_value[account]) + " ");
 					assetsItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
-					if(item_account_types.contains(account->accountType())) item_account_types[account->accountType()]->setText(VALUE_COLUMN, budget->formatMoney(account_type_value[account->accountType()]) + " ");
+					if(item_assets_groups.contains(s_group)) item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]) + " ");
 				}
 				bool b_hide = account->isClosed() && is_zero(account_value[account]) && is_zero(account_change[account]); 
 				if(b_hide != i->isHidden()) {
@@ -7211,10 +7222,24 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 	return false;
 }
 void Eqonomize::accountExpanded(QTreeWidgetItem *i) {
-	if(account_type_items.contains(i)) account_type_expanded[account_type_items[i] - ASSETS_TYPE_CASH] = true;
+	if(assets_group_items.contains(i)) {
+		assets_expanded[assets_group_items[i]] = true;
+	} else if(liabilities_group_items.contains(i)) {
+		liabilities_expanded[liabilities_group_items[i]] = true;
+	} else if(account_items.contains(i)) {
+		if(account_items[i]->type() == ACCOUNT_TYPE_INCOMES) incomes_expanded[account_items[i]->name()] = true;
+		else expenses_expanded[account_items[i]->name()] = true;
+	}
 }
 void Eqonomize::accountCollapsed(QTreeWidgetItem *i) {
-	if(account_type_items.contains(i)) account_type_expanded[account_type_items[i] - ASSETS_TYPE_CASH] = false;
+	if(assets_group_items.contains(i)) {
+		assets_expanded[assets_group_items[i]] = false;
+	} else if(liabilities_group_items.contains(i)) {
+		liabilities_expanded[liabilities_group_items[i]] = false;
+	} else if(account_items.contains(i)) {
+		if(account_items[i]->type() == ACCOUNT_TYPE_INCOMES) incomes_expanded[account_items[i]->name()] = false;
+		else expenses_expanded[account_items[i]->name()] = false;
+	}
 }
 void Eqonomize::accountMoved(QTreeWidgetItem *i, QTreeWidgetItem *target) {
 	QMap<QTreeWidgetItem*, Account*>::const_iterator it_i = account_items.find(i);
@@ -7305,7 +7330,7 @@ void Eqonomize::deleteAccount() {
 			case ACCOUNT_TYPE_ASSETS: {
 				for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 					AssetsAccount *aaccount = *it;
-					if(aaccount != budget->balancingAccount && aaccount != account && ((((AssetsAccount*) account)->accountType() == ASSETS_TYPE_SECURITIES) == (aaccount->accountType() == ASSETS_TYPE_SECURITIES))) {
+					if(aaccount != budget->balancingAccount && aaccount != account && (((AssetsAccount*) account)->isSecurities() == aaccount->isSecurities())) {
 						accounts_left = true;
 						break;
 					}
@@ -7359,7 +7384,7 @@ void Eqonomize::deleteAccount() {
 					label = new QLabel(tr("The account contains some transactions.\nWhat do you want to do with them?"), dialog);
 					for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 						AssetsAccount *aaccount = *it;
-						if(aaccount != budget->balancingAccount && aaccount != account && ((((AssetsAccount*) account)->accountType() == ASSETS_TYPE_SECURITIES) == (aaccount->accountType() == ASSETS_TYPE_SECURITIES))) {
+						if(aaccount != budget->balancingAccount && aaccount != account && ((AssetsAccount*) account)->isSecurities() == aaccount->isSecurities()) {
 							moveToCombo->addItem(aaccount->name());
 							moveto_accounts.push_back(aaccount);
 						}
@@ -7659,7 +7684,10 @@ void Eqonomize::transactionRemoved(Transactions *transs, Transactions *oldvalue)
 
 void Eqonomize::appendExpensesAccount(ExpensesAccount *account, QTreeWidgetItem *parent_item) {
 	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, account->name(), "-", budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
-	if(!account->subCategories.isEmpty()) i->setFlags(i->flags() & ~Qt::ItemIsDragEnabled);
+	if(!account->subCategories.isEmpty()) {
+		i->setFlags(i->flags() & ~Qt::ItemIsDragEnabled);
+		i->setExpanded(expenses_expanded[account->name()].toBool());
+	}
 	if(account->parentCategory()) {
 		i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
 		parent_item->setFlags(parent_item->flags() & ~Qt::ItemIsDragEnabled);
@@ -7676,7 +7704,10 @@ void Eqonomize::appendExpensesAccount(ExpensesAccount *account, QTreeWidgetItem 
 }
 void Eqonomize::appendIncomesAccount(IncomesAccount *account, QTreeWidgetItem *parent_item) {
 	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, parent_item, account->name(), "-", budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
-	if(!account->subCategories.isEmpty()) i->setFlags(i->flags() & ~Qt::ItemIsDragEnabled);
+	if(!account->subCategories.isEmpty()) {
+		i->setFlags(i->flags() & ~Qt::ItemIsDragEnabled);
+		i->setExpanded(incomes_expanded[account->name()].toBool());
+	}
 	if(account->parentCategory()) {
 		i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
 		parent_item->setFlags(parent_item->flags() & ~Qt::ItemIsDragEnabled);
@@ -7692,10 +7723,12 @@ void Eqonomize::appendIncomesAccount(IncomesAccount *account, QTreeWidgetItem *p
 	}
 }
 void Eqonomize::assetsAccountItemHiddenOrRemoved(AssetsAccount *account) {
-	if(item_account_types.contains(account->accountType())) {
+	bool is_debt = IS_DEBT(account);
+	if((!is_debt && item_assets_groups.contains(account->group())) || (is_debt && item_liabilities_groups.contains(account->group()))) {
+		QString g = account->group();
 		int n = 0;
 		for(QMap<QTreeWidgetItem*, Account*>::const_iterator it = account_items.constBegin(); it != account_items.constEnd(); ++it) {
-			if(it.value() != account && !it.key()->isHidden() && it.value()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) it.value())->accountType() == account->accountType()) {
+			if(it.value() != account && !it.key()->isHidden() && it.value()->type() == ACCOUNT_TYPE_ASSETS && is_debt == IS_DEBT((AssetsAccount*) it.value()) && ((AssetsAccount*) it.value())->group() == g) {
 				n++;
 				if(n == 2) break;
 			}
@@ -7703,9 +7736,9 @@ void Eqonomize::assetsAccountItemHiddenOrRemoved(AssetsAccount *account) {
 		if(n <= 1) {
 			QTreeWidgetItem *i_sel = selectedItem(accountsView);
 			QTreeWidgetItem *i_cur = accountsView->currentItem();
-			QTreeWidgetItem *i = item_account_types[account->accountType()];
+			QTreeWidgetItem *i = (is_debt ? item_liabilities_groups[g] : item_assets_groups[g]);
 			QList<QTreeWidgetItem*> il = i->takeChildren();
-			if(IS_DEBT(account)) {
+			if(is_debt) {
 				liabilitiesItem->addChildren(il);
 				liabilitiesItem->sortChildren(0, Qt::AscendingOrder);
 				accountsView->setCurrentItem(i_cur);
@@ -7713,6 +7746,8 @@ void Eqonomize::assetsAccountItemHiddenOrRemoved(AssetsAccount *account) {
 					accountsView->clearSelection();
 					i_sel->setSelected(true);
 				}
+				liabilities_group_items.remove(i);
+				item_liabilities_groups.remove(g);
 			} else {
 				assetsItem->addChildren(il);
 				assetsItem->sortChildren(0, Qt::AscendingOrder);
@@ -7721,53 +7756,77 @@ void Eqonomize::assetsAccountItemHiddenOrRemoved(AssetsAccount *account) {
 					accountsView->clearSelection();
 					i_sel->setSelected(true);
 				}
+				assets_group_items.remove(i);
+				item_assets_groups.remove(g);
 			}
-			account_type_items.remove(i);
-			item_account_types.remove(account->accountType());
 			delete i;
+		}
+	}
+	if(is_debt && liabilities_group_items.count() == 1 && liabilitiesItem->childCount() == 1) {
+		QTreeWidgetItem *i_sel = selectedItem(accountsView);
+		QTreeWidgetItem *i_cur = accountsView->currentItem();
+		QTreeWidgetItem *i = liabilities_group_items.firstKey();
+		QList<QTreeWidgetItem*> il = i->takeChildren();
+		liabilities_group_items.clear();
+		item_liabilities_groups.clear();
+		delete i;
+		liabilitiesItem->addChildren(il);
+		liabilitiesItem->sortChildren(0, Qt::AscendingOrder);
+		accountsView->setCurrentItem(i_cur);
+		if(i_sel && liabilitiesItem->indexOfChild(i_sel) >= 0) {
+			accountsView->clearSelection();
+			i_sel->setSelected(true);
+		}
+	} else if(!is_debt && assets_group_items.count() == 1 && assetsItem->childCount() == 1) {
+		QTreeWidgetItem *i_sel = selectedItem(accountsView);
+		QTreeWidgetItem *i_cur = accountsView->currentItem();
+		QTreeWidgetItem *i = assets_group_items.firstKey();
+		QList<QTreeWidgetItem*> il = i->takeChildren();
+		assets_group_items.clear();
+		item_assets_groups.clear();
+		delete i;
+		assetsItem->addChildren(il);
+		assetsItem->sortChildren(0, Qt::AscendingOrder);
+		accountsView->setCurrentItem(i_cur);
+		if(i_sel && assetsItem->indexOfChild(i_sel) >= 0) {
+			accountsView->clearSelection();
+			i_sel->setSelected(true);
 		}
 	}
 }
 void Eqonomize::assetsAccountItemShownOrAdded(AssetsAccount *account) {
-	if(account->accountType() != ASSETS_TYPE_OTHER && !item_account_types.contains(account->accountType())) {
-		bool b = false;
+	bool is_debt = IS_DEBT(account);
+	QString g = account->group();
+	if(!g.isEmpty() && ((!is_debt && !item_assets_groups.contains(g)) || (is_debt && !item_liabilities_groups.contains(g)))) {
+		int n = 1;
 		for(QMap<QTreeWidgetItem*, Account*>::const_iterator it = account_items.constBegin(); it != account_items.constEnd(); ++it) {
-			if(it.value() != account && !it.key()->isHidden() && it.value()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) it.value())->accountType() == account->accountType()) {
-				b = true;
-				break;
+			if(it.value() != account && !it.key()->isHidden() && it.value()->type() == ACCOUNT_TYPE_ASSETS && is_debt == IS_DEBT((AssetsAccount*) it.value()) && ((AssetsAccount*) it.value())->group() == g) {
+				n++;
 			}
 		}
-		if(b) {
-			QString s;
-			switch(account->accountType()) {
-				case ASSETS_TYPE_CASH: {s = tr("Cash"); break;}
-				case ASSETS_TYPE_CURRENT: {s = tr("Transaction Accounts"); break;}
-				case ASSETS_TYPE_SAVINGS: {s = tr("Savings Accounts"); break;}
-				case ASSETS_TYPE_CREDIT_CARD: {s = tr("Credit Cards"); break;}
-				case ASSETS_TYPE_LIABILITIES: {s = tr("Debts"); break;}
-				case ASSETS_TYPE_SECURITIES: {s = tr("Securities"); break;}
-				default: {break;}
-			}
-			if(s.isEmpty()) return;
+		if(n > 1 && n < (is_debt ? liabilitiesItem->childCount() : assetsItem->childCount())) {
 			QTreeWidgetItem *i_sel = selectedItem(accountsView);
 			QTreeWidgetItem *i_cur = accountsView->currentItem();
-			NEW_ACCOUNT_TREE_WIDGET_ITEM(i, IS_DEBT(account) ? liabilitiesItem : assetsItem, s, QString::null, budget->formatMoney(IS_DEBT(account) ? -account_type_change[account->accountType()] : account_type_change[account->accountType()]), budget->formatMoney(IS_DEBT(account) ? -account_type_change[account->accountType()] : account_type_change[account->accountType()]) + " ");
+			NEW_ACCOUNT_TREE_WIDGET_ITEM(i, is_debt ? liabilitiesItem : assetsItem, g, QString::null, budget->formatMoney(is_debt ? -liabilities_group_change[g] : assets_group_change[g]), budget->formatMoney(is_debt ? -liabilities_group_change[g] : assets_group_change[g]) + " ");
+			if(is_debt) setAccountChangeColor(i, -liabilities_group_change[g], true);
+			else setAccountChangeColor(i, assets_group_change[g], false);
 			i->setFlags(i->flags() & ~Qt::ItemIsDragEnabled);
 			i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
-			i->setExpanded(account_type_expanded[account->accountType() - ASSETS_TYPE_CASH].toBool());
+			if(IS_DEBT(account)) i->setExpanded(liabilities_expanded[g].toBool());
+			else i->setExpanded(assets_expanded[g].toBool());
 			QList<QTreeWidgetItem*> il;
 			for(int index = 0; ; index++) {
-				if(IS_DEBT(account)) {
+				if(is_debt) {
 					QTreeWidgetItem *i2 = liabilitiesItem->child(index);
 					if(!i2) break;
-					if(account_items.contains(i2) && ((AssetsAccount*) account_items[i2])->accountType() == account->accountType()) {
+					if(account_items.contains(i2) && ((AssetsAccount*) account_items[i2])->group() == g) {
 						il << liabilitiesItem->takeChild(index);
 						index--;
 					}
 				} else {
 					QTreeWidgetItem *i2 = assetsItem->child(index);
 					if(!i2) break;
-					if(account_items.contains(i2) && ((AssetsAccount*) account_items[i2])->accountType() == account->accountType()) {
+					if(account_items.contains(i2) && ((AssetsAccount*) account_items[i2])->group() == g) {
 						il << assetsItem->takeChild(index);
 						index--;
 					}
@@ -7779,22 +7838,42 @@ void Eqonomize::assetsAccountItemShownOrAdded(AssetsAccount *account) {
 				accountsView->clearSelection();
 				i_sel->setSelected(true);
 			}
-			account_type_items[i] = account->accountType();
-			item_account_types[account->accountType()] = i;
-			if(IS_DEBT(account)) {
+			if(is_debt) {
+				liabilities_group_items[i] = g;
+				item_liabilities_groups[g] = i;
 				liabilitiesItem->sortChildren(0, Qt::AscendingOrder);
 			} else {
+				assets_group_items[i] = g;
+				item_assets_groups[g] = i;
 				assetsItem->sortChildren(0, Qt::AscendingOrder);
 			}
 		}
+		if(n > 1) return;
+	}
+	if((is_debt && item_liabilities_groups.isEmpty()) || (!is_debt && item_assets_groups.isEmpty())) {
+		int n = 0;
+		QString s_group;
+		AssetsAccount *account2 = NULL;
+		for(QMap<QTreeWidgetItem*, Account*>::const_iterator it = account_items.constBegin(); it != account_items.constEnd(); ++it) {
+			if(it.value() != account && !it.key()->isHidden() && it.value()->type() == ACCOUNT_TYPE_ASSETS && is_debt == IS_DEBT((AssetsAccount*) it.value())) {
+				account2 = (AssetsAccount*) it.value();
+				if(s_group.isEmpty()) {s_group = account2->group(); if(s_group.isEmpty()) return;}
+				else if(account2->group() != s_group) return;
+				n++;
+			}
+		}
+		if(n > 1) assetsAccountItemShownOrAdded(account2);
 	}
 }
 void Eqonomize::appendAssetsAccount(AssetsAccount *account) {
 	bool is_debt = IS_DEBT(account);
 	double initial_balance = account->initialBalance();
 	QTreeWidgetItem *i_parent = (is_debt ? liabilitiesItem : assetsItem);
-	if(item_account_types.contains(account->accountType())) {
-		i_parent = item_account_types[account->accountType()];
+	QString s_group = account->group();
+	if(is_debt && item_liabilities_groups.contains(s_group)) {
+		i_parent = item_liabilities_groups[s_group];
+	} else if(!is_debt && item_assets_groups.contains(s_group)) {
+		i_parent = item_assets_groups[s_group];
 	}
 	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, i_parent, account->name(), QString::null, account->currency()->formatValue(0.0), account->currency()->formatValue((is_debt ? -initial_balance : initial_balance)) + " ");
 	i->setFlags(i->flags() & ~Qt::ItemIsDragEnabled);
@@ -7806,15 +7885,30 @@ void Eqonomize::appendAssetsAccount(AssetsAccount *account) {
 		liabilities_accounts_value += account->currency()->convertTo(initial_balance, budget->defaultCurrency(), to_date);
 		liabilitiesItem->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_accounts_value) + " ");
 		liabilitiesItem->sortChildren(0, Qt::AscendingOrder);
+		if(liabilities_group_value.contains(s_group)) {
+			liabilities_group_value[s_group] += account->currency()->convertTo(initial_balance, budget->defaultCurrency(), to_date);
+		} else {
+			liabilities_group_value[s_group] = account->currency()->convertTo(initial_balance, budget->defaultCurrency(), to_date);
+			liabilities_group_change[s_group] = 0.0;
+		}
+		if(item_liabilities_groups.contains(s_group)) {
+			item_liabilities_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_group_value[s_group]) + " ");
+			item_liabilities_groups[s_group]->sortChildren(0, Qt::AscendingOrder);
+		}
 	} else {
 		assets_accounts_value += account->currency()->convertTo(initial_balance, budget->defaultCurrency(), to_date);
 		assetsItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
 		assetsItem->sortChildren(0, Qt::AscendingOrder);
-	}
-	account_type_value[account->accountType()] += account->currency()->convertTo(initial_balance, budget->defaultCurrency(), to_date);
-	if(item_account_types.contains(account->accountType())) {
-		item_account_types[account->accountType()]->setText(VALUE_COLUMN, budget->formatMoney(is_debt ? -account_type_value[account->accountType()] : account_type_value[account->accountType()]) + " ");
-		item_account_types[account->accountType()]->sortChildren(0, Qt::AscendingOrder);
+		if(assets_group_value.contains(s_group)) {
+			assets_group_value[s_group] += account->currency()->convertTo(initial_balance, budget->defaultCurrency(), to_date);
+		} else {
+			assets_group_value[s_group] = account->currency()->convertTo(initial_balance, budget->defaultCurrency(), to_date);
+			assets_group_change[s_group] = 0.0;
+		}
+		if(item_assets_groups.contains(s_group)) {
+			item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]) + " ");
+			item_assets_groups[s_group]->sortChildren(0, Qt::AscendingOrder);
+		}
 	}
 	account_change[account] = 0.0;
 	if(account->isClosed() && is_zero(initial_balance)) i->setHidden(true);
@@ -8025,11 +8119,11 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					updateSecurityAccount((AssetsAccount*) trans->fromAccount(), false);
 					assetsItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
 					assetsItem->setText(CHANGE_COLUMN, budget->formatMoney(assets_accounts_change));
-					int i_type = ((AssetsAccount*) trans->fromAccount())->accountType();
-					if(item_account_types.contains(i_type)) {
-						item_account_types[i_type]->setText(VALUE_COLUMN, budget->formatMoney(account_type_value[i_type]));
-						item_account_types[i_type]->setText(CHANGE_COLUMN, budget->formatMoney(account_type_change[i_type]));
-						setAccountChangeColor(item_account_types[i_type], account_type_change[i_type], true);
+					QString s_group = ((AssetsAccount*) trans->fromAccount())->group();
+					if(item_assets_groups.contains(s_group)) {
+						item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]));
+						item_assets_groups[s_group]->setText(CHANGE_COLUMN, budget->formatMoney(assets_group_change[s_group]));
+						setAccountChangeColor(item_assets_groups[s_group], assets_group_change[s_group], false);
 					}
 					setAccountChangeColor(assetsItem, assets_accounts_change, false);
 					item_accounts[trans->fromAccount()]->setText(CHANGE_COLUMN, trans->fromAccount()->currency()->formatValue(account_change[trans->fromAccount()]));
@@ -8043,13 +8137,15 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 				account_value[trans->fromAccount()] -= value;
 				if(from_is_debt) liabilities_accounts_value -= cvalue;
 				else assets_accounts_value -= cvalue;
-				int i_type = ((AssetsAccount*) trans->fromAccount())->accountType();
-				account_type_value[i_type] -= cvalue;
+				QString s_group = ((AssetsAccount*) trans->fromAccount())->group();
+				if(from_is_debt) liabilities_group_value[s_group] -= cvalue;
+				else assets_group_value[s_group] -= cvalue;
 				if(!b_filter) {
 					account_change[trans->fromAccount()] -= value;
 					if(from_is_debt) liabilities_accounts_change -= cvalue;
 					else assets_accounts_change -= cvalue;
-					account_type_change[i_type] -= cvalue;
+					if(from_is_debt) liabilities_group_change[s_group] -= cvalue;
+					else assets_group_change[s_group] -= cvalue;
 					if(update_value_display) {
 						if(from_is_debt) {
 							liabilitiesItem->setText(CHANGE_COLUMN, budget->formatMoney(-liabilities_accounts_change));
@@ -8068,9 +8164,12 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 							if(b_hide) assetsAccountItemHiddenOrRemoved((AssetsAccount*) trans->fromAccount());
 							else assetsAccountItemShownOrAdded((AssetsAccount*) trans->fromAccount());
 						}
-						if(item_account_types.contains(i_type)) {
-							item_account_types[i_type]->setText(CHANGE_COLUMN, budget->formatMoney(from_is_debt ? -account_type_change[i_type] : account_type_change[i_type]));
-							setAccountChangeColor(item_account_types[i_type], from_is_debt ? -account_type_change[i_type] : account_type_change[i_type], true);
+						if(!from_is_debt && item_assets_groups.contains(s_group)) {
+							item_assets_groups[s_group]->setText(CHANGE_COLUMN, budget->formatMoney(assets_group_change[s_group]));
+							setAccountChangeColor(item_assets_groups[s_group], assets_group_change[s_group], false);
+						} else if(from_is_debt && item_liabilities_groups.contains(s_group)) {
+							item_liabilities_groups[s_group]->setText(CHANGE_COLUMN, budget->formatMoney(-liabilities_group_change[s_group]));
+							setAccountChangeColor(item_liabilities_groups[s_group], -liabilities_group_change[s_group], true);
 						}
 					}
 				}
@@ -8078,7 +8177,8 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					
 					if(from_is_debt) liabilitiesItem->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_accounts_value) + " ");
 					else assetsItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
-					if(item_account_types.contains(i_type)) item_account_types[i_type]->setText(VALUE_COLUMN, budget->formatMoney(from_is_debt ? -account_type_value[i_type] : account_type_value[i_type]));
+					if(!from_is_debt && item_assets_groups.contains(s_group)) item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]));
+					else if(from_is_debt && item_liabilities_groups.contains(s_group)) item_liabilities_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_group_value[s_group]));
 				}
 			}
 			break;
@@ -8200,11 +8300,11 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					assetsItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
 					assetsItem->setText(CHANGE_COLUMN, budget->formatMoney(assets_accounts_change));
 					setAccountChangeColor(assetsItem, assets_accounts_change, false);
-					int i_type = ((AssetsAccount*) trans->toAccount())->accountType();
-					if(item_account_types.contains(i_type)) {
-						item_account_types[i_type]->setText(VALUE_COLUMN, budget->formatMoney(account_type_value[i_type]));
-						item_account_types[i_type]->setText(CHANGE_COLUMN, budget->formatMoney(account_type_change[i_type]));
-						setAccountChangeColor(item_account_types[i_type], account_type_change[i_type], true);
+					QString s_group = ((AssetsAccount*) trans->toAccount())->group();
+					if(item_assets_groups.contains(s_group)) {
+						item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]));
+						item_assets_groups[s_group]->setText(CHANGE_COLUMN, budget->formatMoney(assets_group_change[s_group]));
+						setAccountChangeColor(item_assets_groups[s_group], assets_group_change[s_group], false);
 					}
 					item_accounts[trans->toAccount()]->setText(CHANGE_COLUMN, trans->toAccount()->currency()->formatValue(account_change[trans->toAccount()]));
 					setAccountChangeColor(item_accounts[trans->toAccount()], account_change[trans->toAccount()], false);
@@ -8217,13 +8317,15 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 				account_value[trans->toAccount()] += value;
 				if(to_is_debt) liabilities_accounts_value += cvalue;
 				else assets_accounts_value += cvalue;
-				int i_type = ((AssetsAccount*) trans->toAccount())->accountType();
-				account_type_value[i_type] += cvalue;
+				QString s_group = ((AssetsAccount*) trans->toAccount())->group();
+				if(to_is_debt) liabilities_group_value[s_group] += cvalue;
+				else assets_group_value[s_group] += cvalue;
 				if(!b_filter) {
 					account_change[trans->toAccount()] += value;
 					if(to_is_debt) liabilities_accounts_change += cvalue;
 					else assets_accounts_change += cvalue;
-					account_type_change[i_type] += cvalue;
+					if(to_is_debt) liabilities_group_change[s_group] += cvalue;
+					else assets_group_change[s_group] += cvalue;
 					if(update_value_display) {
 						if(to_is_debt) {
 							liabilitiesItem->setText(CHANGE_COLUMN, budget->formatMoney(-liabilities_accounts_change));
@@ -8242,16 +8344,20 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 							if(b_hide) assetsAccountItemHiddenOrRemoved((AssetsAccount*) trans->toAccount());
 							else assetsAccountItemShownOrAdded((AssetsAccount*) trans->toAccount());
 						}
-						if(item_account_types.contains(i_type)) {
-							item_account_types[i_type]->setText(CHANGE_COLUMN, budget->formatMoney(to_is_debt ? -account_type_change[i_type] : account_type_change[i_type]));
-							setAccountChangeColor(item_account_types[i_type], to_is_debt ? -account_type_change[i_type] : account_type_change[i_type], true);
+						if(!to_is_debt && item_assets_groups.contains(s_group)) {
+							item_assets_groups[s_group]->setText(CHANGE_COLUMN, budget->formatMoney(assets_group_change[s_group]));
+							setAccountChangeColor(item_assets_groups[s_group], assets_group_change[s_group], false);
+						} else if(to_is_debt && item_liabilities_groups.contains(s_group)) {
+							item_liabilities_groups[s_group]->setText(CHANGE_COLUMN, budget->formatMoney(-liabilities_group_change[s_group]));
+							setAccountChangeColor(item_liabilities_groups[s_group], -liabilities_group_change[s_group], true);
 						}
 					}
 				}
 				if(update_value_display) {
 					if(to_is_debt) liabilitiesItem->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_accounts_value) + " ");
 					else assetsItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
-					if(item_account_types.contains(i_type)) item_account_types[i_type]->setText(VALUE_COLUMN, budget->formatMoney(from_is_debt ? -account_type_value[i_type] : account_type_value[i_type]));
+					if(!to_is_debt && item_assets_groups.contains(s_group)) item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]));
+					else if(to_is_debt && item_liabilities_groups.contains(s_group)) item_liabilities_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_group_value[s_group]));
 				}
 			}
 			break;
@@ -8690,18 +8796,18 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 			item_accounts[budget->budgetAccount]->setText(CHANGE_COLUMN, budget->budgetAccount->currency()->formatValue(account_change[budget->budgetAccount]));
 			item_accounts[budget->budgetAccount]->setText(VALUE_COLUMN, budget->budgetAccount->currency()->formatValue(account_value[budget->budgetAccount]) + " ");
 			setAccountChangeColor(item_accounts[budget->budgetAccount], account_value[budget->budgetAccount], false);
-			int i_type = budget->budgetAccount->accountType();
+			QString s_group = budget->budgetAccount->group();
 			if(account->type() == ACCOUNT_TYPE_EXPENSES) {
-				account_type_value[i_type] -= future_diff;
-				account_type_change[i_type] -= future_change_diff;
+				assets_group_value[s_group] -= future_diff;
+				assets_group_change[s_group] -= future_change_diff;
 			} else {
-				account_type_value[i_type] += future_diff;
-				account_type_change[i_type] += future_change_diff;
+				assets_group_value[s_group] += future_diff;
+				assets_group_change[s_group] += future_change_diff;
 			}
-			if(item_account_types.contains(i_type)) {
-				item_account_types[i_type]->setText(VALUE_COLUMN, budget->formatMoney(account_type_value[i_type]));
-				item_account_types[i_type]->setText(CHANGE_COLUMN, budget->formatMoney(account_type_change[i_type]));
-				setAccountChangeColor(item_account_types[i_type], account_type_change[i_type], true);
+			if(item_assets_groups.contains(s_group)) {
+				item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]));
+				item_assets_groups[s_group]->setText(CHANGE_COLUMN, budget->formatMoney(assets_group_change[s_group]));
+				setAccountChangeColor(item_assets_groups[s_group], assets_group_change[s_group], false);
 			}
 		}
 		if(account->type() == ACCOUNT_TYPE_EXPENSES) {
@@ -8723,7 +8829,7 @@ void Eqonomize::updateBudgetEdit() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
 	budgetEdit->blockSignals(true);
 	budgetButton->blockSignals(true);
-	if(i == NULL || i == liabilitiesItem || i == assetsItem || i == incomesItem || i == expensesItem || account_type_items.contains(i) || account_items[i]->type() == ACCOUNT_TYPE_ASSETS) {		
+	if(i == NULL || i == liabilitiesItem || i == assetsItem || i == incomesItem || i == expensesItem || !account_items.contains(i) || account_items[i]->type() == ACCOUNT_TYPE_ASSETS) {
 		budgetEdit->setEnabled(false);
 		budgetButton->setEnabled(false);
 		if(i == incomesItem || i == expensesItem) {
@@ -8802,20 +8908,19 @@ void Eqonomize::updateBudgetEdit() {
 }
 void Eqonomize::accountsSelectionChanged() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
-	if(i == NULL || i == liabilitiesItem || i == assetsItem || i == incomesItem || i == expensesItem || account_type_items.contains(i)) {
+	if(i == NULL || i == liabilitiesItem || i == assetsItem || i == incomesItem || i == expensesItem || !account_items.contains(i)) {
 		ActionDeleteAccount->setEnabled(false);
 		ActionCloseAccount->setEnabled(false);
 		ActionEditAccount->setEnabled(false);
 		ActionBalanceAccount->setEnabled(false);
 		budgetEdit->setEnabled(false);
 		ActionReconcileAccount->setEnabled(false);
-		if(account_type_items.contains(i)) i->setExpanded(true);
 	} else {
 		ActionDeleteAccount->setEnabled(true);
 		ActionEditAccount->setEnabled(true);
 		ActionCloseAccount->setEnabled(true);
-		ActionBalanceAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i])->accountType() != ASSETS_TYPE_SECURITIES);
-		ActionReconcileAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i])->accountType() != ASSETS_TYPE_SECURITIES);
+		ActionBalanceAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && !((AssetsAccount*) account_items[i])->isSecurities());
+		ActionReconcileAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && !((AssetsAccount*) account_items[i])->isSecurities());
 		if(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i])->isClosed()) {
 			ActionCloseAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS);
 			ActionCloseAccount->setText(tr("Reopen Account", "Mark account as not closed"));
@@ -8826,7 +8931,7 @@ void Eqonomize::accountsSelectionChanged() {
 			ActionCloseAccount->setIcon(LOAD_ICON("edit-delete"));
 		}
 	}
-	ActionShowAccountTransactions->setEnabled(i != NULL && i != assetsItem && i != liabilitiesItem && !account_type_items.contains(i));
+	ActionShowAccountTransactions->setEnabled(i != NULL && i != assetsItem && i != liabilitiesItem && !assets_group_items.contains(i) && !liabilities_group_items.contains(i));
 	updateBudgetEdit();
 }
 void Eqonomize::updateSecurityAccount(AssetsAccount *account, bool update_display) {
@@ -8846,10 +8951,11 @@ void Eqonomize::updateSecurityAccount(AssetsAccount *account, bool update_displa
 	assets_accounts_value += account->currency()->convertTo(value, budget->defaultCurrency(), to_date);
 	assets_accounts_change -= account->currency()->convertTo(account_change[account], budget->defaultCurrency(), to_date);
 	assets_accounts_change += account->currency()->convertTo((value - value_from), budget->defaultCurrency(), to_date);
-	account_type_value[account->accountType()] -= account->currency()->convertTo(account_value[account], budget->defaultCurrency(), to_date);
-	account_type_value[account->accountType()] += account->currency()->convertTo(value, budget->defaultCurrency(), to_date);
-	account_type_change[account->accountType()] -= account->currency()->convertTo(account_change[account], budget->defaultCurrency(), to_date);
-	account_type_change[account->accountType()] += account->currency()->convertTo((value - value_from), budget->defaultCurrency(), to_date);
+	QString s_group = account->group();
+	assets_group_value[s_group] -= account->currency()->convertTo(account_value[account], budget->defaultCurrency(), to_date);
+	assets_group_value[s_group] += account->currency()->convertTo(value, budget->defaultCurrency(), to_date);
+	assets_group_change[s_group] -= account->currency()->convertTo(account_change[account], budget->defaultCurrency(), to_date);
+	assets_group_change[s_group] += account->currency()->convertTo((value - value_from), budget->defaultCurrency(), to_date);
 	account_value[account] = value;
 	account_change[account] = value - value_from;
 	if(update_display) {
@@ -8865,10 +8971,10 @@ void Eqonomize::updateSecurityAccount(AssetsAccount *account, bool update_displa
 			if(b_hide) assetsAccountItemHiddenOrRemoved(account);
 			else assetsAccountItemShownOrAdded(account);
 		}
-		if(item_account_types.contains(account->accountType())) {
-			item_account_types[account->accountType()]->setText(VALUE_COLUMN, budget->formatMoney(account_type_value[account->accountType()]) + " ");
-			item_account_types[account->accountType()]->setText(CHANGE_COLUMN, budget->formatMoney(account_type_change[account->accountType()]));
-			setAccountChangeColor(item_account_types[account->accountType()], account_type_change[account->accountType()], false);
+		if(item_assets_groups.contains(s_group)) {
+			item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]) + " ");
+			item_assets_groups[s_group]->setText(CHANGE_COLUMN, budget->formatMoney(assets_group_change[s_group]));
+			setAccountChangeColor(item_assets_groups[s_group], assets_group_change[s_group], false);
 		}
 	}
 }
@@ -8885,34 +8991,36 @@ void Eqonomize::filterAccounts() {
 	incomes_budget_diff = 0.0;
 	expenses_budget = 0.0;
 	expenses_budget_diff = 0.0;
-	account_type_value[ASSETS_TYPE_CASH] = 0.0;
-	account_type_change[ASSETS_TYPE_CASH] = 0.0;
-	account_type_value[ASSETS_TYPE_CURRENT] = 0.0;
-	account_type_change[ASSETS_TYPE_CURRENT] = 0.0;
-	account_type_value[ASSETS_TYPE_SAVINGS] = 0.0;
-	account_type_change[ASSETS_TYPE_SAVINGS] = 0.0;
-	account_type_value[ASSETS_TYPE_LIABILITIES] = 0.0;
-	account_type_change[ASSETS_TYPE_LIABILITIES] = 0.0;
-	account_type_value[ASSETS_TYPE_CREDIT_CARD] = 0.0;
-	account_type_change[ASSETS_TYPE_CREDIT_CARD] = 0.0;
-	account_type_value[ASSETS_TYPE_SECURITIES] = 0.0;
-	account_type_change[ASSETS_TYPE_SECURITIES] = 0.0;
-	account_type_value[ASSETS_TYPE_BALANCING] = 0.0;
-	account_type_change[ASSETS_TYPE_BALANCING] = 0.0;
-	account_type_value[ASSETS_TYPE_OTHER] = 0.0;
-	account_type_change[ASSETS_TYPE_OTHER] = 0.0;
+	assets_group_value.clear();
+	assets_group_change.clear();
+	assets_group_value[""] = 0.0;
+	assets_group_change[""] = 0.0;
+	liabilities_group_value.clear();
+	liabilities_group_change.clear();
+	liabilities_group_value[""] = 0.0;
+	liabilities_group_change[""] = 0.0;
 	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *aaccount = *it;
-		if(aaccount->accountType() == ASSETS_TYPE_SECURITIES) {
+		QString s_group = aaccount->group();
+		bool is_debt = IS_DEBT(aaccount);
+		if(is_debt && !liabilities_group_value.contains(s_group)) {
+			liabilities_group_value[s_group] = 0.0;
+			liabilities_group_change[s_group] = 0.0;
+		} else if(!is_debt && !assets_group_value.contains(s_group)) {
+			assets_group_value[s_group] = 0.0;
+			assets_group_change[s_group] = 0.0;
+		}
+		if(aaccount->isSecurities()) {
 			account_value[aaccount] = 0.0;
 			account_change[aaccount] = 0.0;
 			updateSecurityAccount(aaccount, false);
 		} else {
 			account_value[aaccount] = aaccount->initialBalance();
 			account_change[aaccount] = 0.0;
-			if(IS_DEBT(aaccount)) liabilities_accounts_value += aaccount->currency()->convertTo(account_value[aaccount], budget->defaultCurrency(), to_date);
+			if(is_debt) liabilities_accounts_value += aaccount->currency()->convertTo(account_value[aaccount], budget->defaultCurrency(), to_date);
 			else assets_accounts_value += aaccount->currency()->convertTo(account_value[aaccount], budget->defaultCurrency(), to_date);
-			account_type_value[aaccount->accountType()] += aaccount->currency()->convertTo(account_value[aaccount], budget->defaultCurrency(), to_date);
+			if(is_debt) liabilities_group_value[s_group] += aaccount->currency()->convertTo(account_value[aaccount], budget->defaultCurrency(), to_date);
+			else assets_group_value[s_group] += aaccount->currency()->convertTo(account_value[aaccount], budget->defaultCurrency(), to_date);
 		}
 	}
 	QDate monthdate, monthdate_begin;
@@ -9024,7 +9132,7 @@ void Eqonomize::filterAccounts() {
 	updateTotalMonthlyIncomesBudget();
 	updateTotalMonthlyExpensesBudget();
 	for(QMap<QTreeWidgetItem*, Account*>::iterator it = account_items.begin(); it != account_items.end(); ++it) {
-		bool is_debt = (it.key()->parent() == liabilitiesItem || it.key()->parent()->parent() == liabilitiesItem);
+		bool is_debt = (it.value()->type() == ACCOUNT_TYPE_ASSETS && IS_DEBT((AssetsAccount*) it.value()));
 		it.key()->setText(CHANGE_COLUMN, it.value()->currency()->formatValue(is_debt ? -account_change[it.value()] : account_change[it.value()]));
 		it.key()->setText(VALUE_COLUMN, it.value()->currency()->formatValue(is_debt ? -account_value[it.value()] : account_value[it.value()]) + " ");
 		setAccountChangeColor(it.key(), is_debt ? -account_change[it.value()] : account_change[it.value()], is_debt || it.value()->type() == ACCOUNT_TYPE_EXPENSES);
@@ -9035,11 +9143,15 @@ void Eqonomize::filterAccounts() {
 			else assetsAccountItemShownOrAdded((AssetsAccount*) it.value());
 		}
 	}
-	for(QMap<QTreeWidgetItem*, int>::iterator it = account_type_items.begin(); it != account_type_items.end(); ++it) {
-		bool is_debt = (it.key()->parent() == liabilitiesItem);
-		it.key()->setText(CHANGE_COLUMN, budget->formatMoney(is_debt ? -account_type_change[it.value()] : account_type_change[it.value()]));
-		it.key()->setText(VALUE_COLUMN, budget->formatMoney(is_debt ? -account_type_value[it.value()] : account_type_value[it.value()]) + " ");
-		setAccountChangeColor(it.key(), is_debt ? -account_type_change[it.value()] : account_type_change[it.value()], is_debt);
+	for(QMap<QTreeWidgetItem*, QString>::iterator it = assets_group_items.begin(); it != assets_group_items.end(); ++it) {
+		it.key()->setText(CHANGE_COLUMN, budget->formatMoney(assets_group_change[it.value()]));
+		it.key()->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[it.value()]) + " ");
+		setAccountChangeColor(it.key(), assets_group_change[it.value()], false);
+	}
+	for(QMap<QTreeWidgetItem*, QString>::iterator it = liabilities_group_items.begin(); it != liabilities_group_items.end(); ++it) {
+		it.key()->setText(CHANGE_COLUMN, budget->formatMoney(-liabilities_group_change[it.value()]));
+		it.key()->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_group_value[it.value()]) + " ");
+		setAccountChangeColor(it.key(), -liabilities_group_change[it.value()], true);
 	}
 	incomesItem->setText(VALUE_COLUMN, budget->formatMoney(incomes_accounts_value) + " ");
 	incomesItem->setText(CHANGE_COLUMN, budget->formatMoney(incomes_accounts_change));

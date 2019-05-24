@@ -3256,5 +3256,102 @@ int Budget::calendarMonthsBetweenDates(const QDate &date1, const QDate &date2, b
 	return months;
 }
 
-
+int Budget::getAccountType(const QString &type, bool localized, bool plural) {
+	if(plural && localized) {
+		if(type == tr("Transaction Accounts")) {
+			return ASSETS_TYPE_CURRENT;
+		} else if(type == tr("Savings Accounts")) {
+			return  ASSETS_TYPE_SAVINGS;
+		} else if(type == tr("Credit Cards")) {
+			return  ASSETS_TYPE_CREDIT_CARD;
+		} else if(type == tr("Debts")) {
+			return  ASSETS_TYPE_LIABILITIES;
+		} else if(type == tr("Securities", "Financial security (e.g. stock, mutual fund)")) {
+			return  ASSETS_TYPE_SECURITIES;
+		} else if(type == tr("Cash")) {
+			return ASSETS_TYPE_CASH;
+		}
+	} else if(localized) {
+		if(type == tr("Transaction Account")) {
+			return ASSETS_TYPE_CURRENT;
+		} else if(type == tr("Savings Account")) {
+			return  ASSETS_TYPE_SAVINGS;
+		} else if(type == tr("Credit Card")) {
+			return  ASSETS_TYPE_CREDIT_CARD;
+		} else if(type == tr("Debt")) {
+			return  ASSETS_TYPE_LIABILITIES;
+		} else if(type == tr("Securities", "Financial security (e.g. stock, mutual fund)")) {
+			return  ASSETS_TYPE_SECURITIES;
+		} else if(type == tr("Cash")) {
+			return  ASSETS_TYPE_CASH;
+		}
+	} else {
+		if(type == "current") {
+			return ASSETS_TYPE_CURRENT;
+		} else if(type == "savings") {
+			return  ASSETS_TYPE_SAVINGS;
+		} else if(type == "credit card") {
+			return  ASSETS_TYPE_CREDIT_CARD;
+		} else if(type == "liabilities") {
+			return  ASSETS_TYPE_LIABILITIES;
+		} else if(type == "securities") {
+			return  ASSETS_TYPE_SECURITIES;
+		} else if(type == "balancing") {
+			return  ASSETS_TYPE_BALANCING;
+		} else if(type == "cash") {
+			return  ASSETS_TYPE_CASH;
+		}
+	}
+	return ASSETS_TYPE_OTHER;
+}
+QString Budget::getAccountTypeName(int at_type, bool localized, bool plural) {
+	if(plural && localized) {
+		switch(at_type) {
+			case ASSETS_TYPE_CASH: return tr("Cash");
+			case ASSETS_TYPE_CURRENT: return tr("Transaction Accounts");
+			case ASSETS_TYPE_SAVINGS: return tr("Savings Accounts");
+			case ASSETS_TYPE_CREDIT_CARD: return tr("Credit Cards");
+			case ASSETS_TYPE_LIABILITIES: return tr("Debts");
+			case ASSETS_TYPE_SECURITIES: return tr("Securities", "Financial security (e.g. stock, mutual fund)");
+			default: return "";
+		}
+	} else if(localized) {
+		switch(at_type) {
+			case ASSETS_TYPE_CASH: return tr("Cash");
+			case ASSETS_TYPE_CURRENT: return tr("Transaction Account");
+			case ASSETS_TYPE_SAVINGS: return tr("Savings Account");
+			case ASSETS_TYPE_CREDIT_CARD: return tr("Credit Card");
+			case ASSETS_TYPE_LIABILITIES: return tr("Debt");
+			case ASSETS_TYPE_SECURITIES: return tr("Securities", "Financial security (e.g. stock, mutual fund)");
+			default: return tr("Other");
+		}
+	} else {
+		switch(at_type) {
+			case ASSETS_TYPE_CURRENT: return "current";
+			case ASSETS_TYPE_SAVINGS: return "savings";
+			case ASSETS_TYPE_CREDIT_CARD: return "credit card";
+			case ASSETS_TYPE_LIABILITIES: return "liabilities";
+			case ASSETS_TYPE_SECURITIES: return "securities";
+			case ASSETS_TYPE_BALANCING: return "balancing";
+			case ASSETS_TYPE_CASH: return "cash";
+			default: return "other";
+		}
+	}
+	return "other";
+}
+bool Budget::accountTypeIsDebt(int at_type) {
+	return at_type == ASSETS_TYPE_LIABILITIES;
+}
+bool Budget::accountTypeIsSecurities(int at_type) {
+	return at_type == ASSETS_TYPE_SECURITIES;
+}
+bool Budget::accountTypeIsLiabilities(int at_type) {
+	return at_type == ASSETS_TYPE_LIABILITIES || at_type == ASSETS_TYPE_CREDIT_CARD;
+}
+bool Budget::accountTypeIsCreditCard(int at_type) {
+	return at_type == ASSETS_TYPE_CREDIT_CARD;
+}
+bool Budget::accountTypeIsOther(int at_type) {
+	return at_type == ASSETS_TYPE_OTHER;
+}
 

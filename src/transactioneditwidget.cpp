@@ -509,9 +509,9 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		} else if(depositEdit && dateEdit) {
 			connect(depositEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
 		} else if(quantityEdit && fromCombo) {
-			connect(quantityEdit, SIGNAL(returnPressed()), fromCombo, SLOT(setFocus()));
+			connect(quantityEdit, SIGNAL(returnPressed()), fromCombo, SLOT(focusAndSelectAll()));
 		} else if(quantityEdit && toCombo) {
-			connect(quantityEdit, SIGNAL(returnPressed()), toCombo, SLOT(setFocus()));
+			connect(quantityEdit, SIGNAL(returnPressed()), toCombo, SLOT(focusAndSelectAll()));
 		}
 		if(descriptionEdit) {
 			connect(descriptionEdit, SIGNAL(returnPressed()), valueEdit, SLOT(enterFocus()));
@@ -525,8 +525,8 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		connect(payeeEdit, SIGNAL(textChanged(const QString&)), this, SLOT(payeeChanged(const QString&)));
 	}
 	if(b_autoedit && dateEdit) connect(dateEdit, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
-	else if(fromCombo && transtype != TRANSACTION_TYPE_EXPENSE) connect(dateEdit, SIGNAL(returnPressed()), fromCombo, SLOT(setFocus()));
-	else if(toCombo) connect(dateEdit, SIGNAL(returnPressed()), toCombo, SLOT(setFocus()));
+	else if(fromCombo && transtype != TRANSACTION_TYPE_EXPENSE) connect(dateEdit, SIGNAL(returnPressed()), fromCombo, SLOT(focusAndSelectAll()));
+	else if(toCombo) connect(dateEdit, SIGNAL(returnPressed()), toCombo, SLOT(focusAndSelectAll()));
 	if(payeeEdit && lenderEdit) connect(payeeEdit, SIGNAL(returnPressed()), lenderEdit, SLOT(setFocus()));
 	else if(payeeEdit && fileEdit) connect(payeeEdit, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
 	else if(payeeEdit && commentsEdit) connect(payeeEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
@@ -550,7 +550,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		connect(fromCombo, SIGNAL(multipleAccountsRequested()), this, SIGNAL(multipleAccountsRequested()));
 		connect(fromCombo, SIGNAL(accountSelected(Account*)), this, SLOT(fromActivated()));
 		connect(fromCombo, SIGNAL(currentAccountChanged(Account*)), this, SLOT(fromChanged(Account*)));
-		if(toCombo && transtype != TRANSACTION_TYPE_EXPENSE) connect(fromCombo, SIGNAL(returnPressed()), toCombo, SLOT(setFocus()));
+		if(toCombo && transtype != TRANSACTION_TYPE_EXPENSE) connect(fromCombo, SIGNAL(returnPressed()), toCombo, SLOT(focusAndSelectAll()));
 		else if(payeeEdit) connect(fromCombo, SIGNAL(returnPressed()), payeeEdit, SLOT(setFocus()));
 		else if(fileEdit) connect(fromCombo, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
 		else if(commentsEdit) connect(fromCombo, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
@@ -561,7 +561,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		connect(toCombo, SIGNAL(multipleAccountsRequested()), this, SIGNAL(multipleAccountsRequested()));
 		connect(toCombo, SIGNAL(accountSelected(Account*)), this, SLOT(toActivated()));
 		connect(toCombo, SIGNAL(currentAccountChanged(Account*)), this, SLOT(toChanged(Account*)));
-		if(fromCombo && transtype == TRANSACTION_TYPE_EXPENSE) connect(toCombo, SIGNAL(returnPressed()), fromCombo, SLOT(setFocus()));
+		if(fromCombo && transtype == TRANSACTION_TYPE_EXPENSE) connect(toCombo, SIGNAL(returnPressed()), fromCombo, SLOT(focusAndSelectAll()));
 		else if(payeeEdit) connect(toCombo, SIGNAL(returnPressed()), payeeEdit, SLOT(setFocus()));
 		else if(fileEdit) connect(toCombo, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
 		else if(commentsEdit) connect(toCombo, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
@@ -669,7 +669,7 @@ void TransactionEditWidget::newToAccount() {
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) emit currenciesModified();
 }
 void TransactionEditWidget::fromActivated() {
-	if(toCombo && transtype != TRANSACTION_TYPE_EXPENSE) toCombo->setFocus();
+	if(toCombo && transtype != TRANSACTION_TYPE_EXPENSE) toCombo->focusAndSelectAll();
 	else if(payeeEdit) payeeEdit->setFocus();
 	else if(commentsEdit) commentsEdit->setFocus();
 	if(transtype == TRANSACTION_TYPE_INCOME) {
@@ -677,7 +677,7 @@ void TransactionEditWidget::fromActivated() {
 	}
 }
 void TransactionEditWidget::toActivated() {
-	if(fromCombo && transtype == TRANSACTION_TYPE_EXPENSE) fromCombo->setFocus();
+	if(fromCombo && transtype == TRANSACTION_TYPE_EXPENSE) fromCombo->focusAndSelectAll();
 	else if(payeeEdit) payeeEdit->setFocus();
 	else if(commentsEdit) commentsEdit->setFocus();
 	if(transtype == TRANSACTION_TYPE_EXPENSE) {

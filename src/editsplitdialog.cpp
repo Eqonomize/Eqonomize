@@ -434,7 +434,7 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	box1->addWidget(totalLabel);
 	
 	connect(descriptionEdit, SIGNAL(returnPressed()), this, SLOT(focusDate()));
-	connect(dateEdit, SIGNAL(returnPressed()), accountCombo, SLOT(setFocus()));
+	connect(dateEdit, SIGNAL(returnPressed()), accountCombo, SLOT(focusAndSelectAll()));
 	if(payeeEdit) {
 		connect(accountCombo, SIGNAL(accountSelected(Account*)), payeeEdit, SLOT(setFocus()));
 		connect(accountCombo, SIGNAL(returnPressed()), payeeEdit, SLOT(setFocus()));
@@ -815,9 +815,9 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	
 	if(quantityEdit) {
 		connect(descriptionEdit, SIGNAL(returnPressed()), quantityEdit, SLOT(enterFocus()));
-		connect(quantityEdit, SIGNAL(returnPressed()), categoryCombo, SLOT(setFocus()));
+		connect(quantityEdit, SIGNAL(returnPressed()), categoryCombo, SLOT(focusAndSelectAll()));
 	} else {
-		connect(descriptionEdit, SIGNAL(returnPressed()), categoryCombo, SLOT(setFocus()));
+		connect(descriptionEdit, SIGNAL(returnPressed()), categoryCombo, SLOT(focusAndSelectAll()));
 	}
 	connect(categoryCombo, SIGNAL(accountSelected(Account*)), fileEdit, SLOT(setFocus()));
 	connect(categoryCombo, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
@@ -1187,7 +1187,7 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 		grid->addWidget(commentEdit, row, 1); row++;
 	}
 	
-	loanCombo->setFocus();
+	loanCombo->focusAndSelectAll();
 
 	if(default_loan) loanCombo->setCurrentAccount(default_loan);
 
@@ -1202,7 +1202,7 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 	connect(loanCombo, SIGNAL(accountSelected(Account*)), this, SLOT(focusDate()));
 	if(only_interest) {
 		connect(dateEdit, SIGNAL(returnPressed()), interestEdit, SLOT(enterFocus()));
-		connect(interestEdit, SIGNAL(returnPressed()), categoryCombo, SLOT(setFocus()));
+		connect(interestEdit, SIGNAL(returnPressed()), categoryCombo, SLOT(focusAndSelectAll()));
 		connect(categoryCombo, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
 	} else {
 		connect(dateEdit, SIGNAL(returnPressed()), reductionEdit, SLOT(enterFocus()));
@@ -1241,7 +1241,7 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 EditDebtPaymentWidget::~EditDebtPaymentWidget() {}
 
 void EditDebtPaymentWidget::focusFirst() {
-	loanCombo->setFocus();
+	loanCombo->focusAndSelectAll();
 }
 void EditDebtPaymentWidget::focusDate() {
 	if(!dateEdit) return;
@@ -1253,12 +1253,12 @@ void EditDebtPaymentWidget::reductionFocusNext() {
 	else interestEdit->enterFocus();
 }
 void EditDebtPaymentWidget::accountFocusNext() {
-	if(categoryCombo->isEnabled()) categoryCombo->setFocus();
+	if(categoryCombo->isEnabled()) categoryCombo->focusAndSelectAll();
 	else fileEdit->setFocus();
 }
 void EditDebtPaymentWidget::feeFocusNext() {
-	if(accountCombo->isEnabled()) accountCombo->setFocus();
-	else if(categoryCombo->isEnabled()) categoryCombo->setFocus();
+	if(accountCombo->isEnabled()) accountCombo->focusAndSelectAll();
+	else if(categoryCombo->isEnabled()) categoryCombo->focusAndSelectAll();
 	else fileEdit->setFocus();
 }
 
