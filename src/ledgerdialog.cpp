@@ -55,6 +55,7 @@
 #include <QAction>
 #include <QDesktopWidget>
 #include <QShortcut>
+#include <QDateTimeEdit>
 
 #include "budget.h"
 #include "eqonomize.h"
@@ -349,11 +350,12 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 #define NEW_ACTION_ALT(action, text, icon, icon_alt, receiver, slot) action = new QAction(this); action->setText(text); action->setIcon(LOAD_ICON2(icon, icon_alt)); connect(action, SIGNAL(triggered()), receiver, slot);
 
 	NEW_ACTION_ALT(ActionEdit, tr("Edit Transaction(s)…"), "document-edit", "eqz-edit", this, SLOT(edit()));
-	NEW_ACTION(ActionJoin, tr("Join Transactions…"), "eqz-join-transactions", this, SLOT(joinTransactions()));
-	NEW_ACTION(ActionSplit, tr("Split Up Transaction"), "eqz-split-transaction", this, SLOT(splitUpTransaction()));
-	NEW_ACTION(ActionOpenFile, tr("Open Associated File"), "system-run", this, SLOT(openAssociatedFile()));
+	NEW_ACTION(ActionJoin, mainWin->ActionJoinTransactions->text(), "eqz-join-transactions", this, SLOT(joinTransactions()));
+	NEW_ACTION(ActionSplit, mainWin->ActionSplitUpTransaction->text(), "eqz-split-transaction", this, SLOT(splitUpTransaction()));
+	NEW_ACTION(ActionOpenFile, mainWin->ActionOpenAssociatedFile->text(), "system-run", this, SLOT(openAssociatedFile()));
 	NEW_ACTION(ActionDelete, tr("Remove Transaction(s)"), "edit-delete", this, SLOT(remove()));
 	NEW_ACTION(ActionMarkReconciled, tr("Mark as reconciled"), "edit-delete", this, SLOT(reconcileTransactions()));
+	NEW_ACTION(ActionEditTimestamp, mainWin->ActionEditTimestamp->text(), "eqz-schedule", this, SLOT(editTimestamp()));
 	
 	new QShortcut(QKeySequence::Find, searchEdit, SLOT(setFocus()));
 
@@ -512,6 +514,7 @@ void LedgerDialog::popupListMenu(const QPoint &p) {
 		listMenu->addAction(ActionEdit);
 		listMenu->addAction(ActionJoin);
 		listMenu->addAction(ActionSplit);
+		listMenu->addAction(ActionEditTimestamp);
 		listMenu->addSeparator();
 		listMenu->addAction(ActionOpenFile);
 		listMenu->addSeparator();
@@ -1097,6 +1100,7 @@ void LedgerDialog::transactionSelectionChanged() {
 	editButton->setEnabled(b_edit);
 	ActionEdit->setEnabled(b_edit);
 	ActionOpenFile->setEnabled(b_file);
+	ActionEditTimestamp->setEnabled(b_edit);
 	if(selection.size() > 1) {
 		double v = 0.0, total_balance = 0.0, previous_balance = 0.0;
 		int quantity = 0;
@@ -1205,6 +1209,16 @@ void LedgerDialog::openAssociatedFile() {
 			open_file_list(transs->associatedFile());
 		}
 	}
+}
+void LedgerDialog::editTimestamp() {
+	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
+	QList<Transactions*> trans;
+	for(int index = 0; index < selection.size(); index++) {
+		LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
+		if(i->splitTransaction()) trans << i->splitTransaction();
+		else if(i->transaction()) trans << i->transaction();
+	}
+	mainWin->editTimestamp(trans);
 }
 void LedgerDialog::edit() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();

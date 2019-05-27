@@ -72,7 +72,7 @@ class LedgerDialog : public QDialog {
 		QComboBox *accountCombo;
 		QLabel *statLabel;
 		QAction *ActionNewDebtInterest, *ActionNewDebtPayment;
-		QAction *ActionMarkReconciled, *ActionEdit, *ActionSplit, *ActionJoin, *ActionDelete, *ActionOpenFile;
+		QAction *ActionMarkReconciled, *ActionEdit, *ActionSplit, *ActionJoin, *ActionDelete, *ActionOpenFile, *ActionEditTimestamp;
 		QMenu *headerMenu, *listMenu;
 		QLineEdit *searchEdit;
 		QPushButton *searchPreviousButton, *searchNextButton;
@@ -108,6 +108,7 @@ class LedgerDialog : public QDialog {
 		void hideColumn(bool);
 		void remove();
 		void edit();
+		void editTimestamp();
 		void openAssociatedFile();
 		void edit(QTreeWidgetItem*, int);
 		void onTransactionSpacePressed(QTreeWidgetItem*);

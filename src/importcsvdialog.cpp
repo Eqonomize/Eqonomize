@@ -912,6 +912,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	QString line = fstream.readLine();
 	QString new_ac1 = "", new_ac2 = "";
 	QDate curdate = QDate::currentDate();
+	QMap<QDate, qint64> datestamps;
 	while(!line.isNull()) {
 		row++;
 		if((first_row == 0 && !line.isEmpty() && line[0] != '#') || (first_row > 0 && row >= first_row && !line.isEmpty())) {
@@ -1334,10 +1335,14 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 					if(trans) {
 						trans->setQuantity(quantity);
 						if(trans->date() > curdate) {
+							trans->setTimestamp(datestamps.contains(QDate::currentDate()) ? datestamps[QDate::currentDate()] + 1 : QDateTime(QDate::currentDate()).toMSecsSinceEpoch() / 1000);
+							datestamps[QDate::currentDate()] = trans->timestamp();
 							budget->addScheduledTransaction(new ScheduledTransaction(budget, trans, NULL));
 						} else {
+							trans->setTimestamp(datestamps.contains(trans->date()) ? datestamps[trans->date()] + 1 : QDateTime(trans->date()).toMSecsSinceEpoch() / 1000);
+							datestamps[trans->date()] = trans->timestamp();
 							budget->addTransaction(trans);
-						}						
+						}
 					}
 				} else {
 					failed++;

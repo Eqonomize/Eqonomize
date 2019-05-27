@@ -324,6 +324,7 @@ void TransactionListWidget::popupListMenu(const QPoint &p) {
 		listPopupMenu->addAction(mainWin->ActionEditSplitTransaction);
 		listPopupMenu->addAction(mainWin->ActionJoinTransactions);
 		listPopupMenu->addAction(mainWin->ActionSplitUpTransaction);
+		listPopupMenu->addAction(mainWin->ActionEditTimestamp);
 		listPopupMenu->addSeparator();
 		listPopupMenu->addAction(mainWin->ActionSelectAssociatedFile);
 		listPopupMenu->addAction(mainWin->ActionOpenAssociatedFile);
@@ -531,6 +532,27 @@ void TransactionListWidget::editSplitTransaction() {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
 		if(i->transaction()->parentSplit()) {
 			if(mainWin->editSplitTransaction(i->transaction()->parentSplit())) clearTransaction();
+		}
+	}
+}
+void TransactionListWidget::editTimestamp() {
+	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
+	if(selection.count() >= 1) {
+		QList<Transactions*> trans;
+		for(int index = 0; index < selection.size(); index++) {
+			TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
+			if(i->scheduledTransaction()) {
+				trans << i->scheduledTransaction();
+			} else if(i->splitTransaction()) {
+				trans << i->splitTransaction();
+			} else {
+				trans << i->transaction();
+			}
+		}
+		if(mainWin->editTimestamp(trans)) {
+			transactionSelectionChanged();
+			transactionsView->setSortingEnabled(false);
+			transactionsView->setSortingEnabled(true);
 		}
 	}
 }
@@ -1756,13 +1778,14 @@ void TransactionListWidget::newRefundRepayment() {
 }
 void TransactionListWidget::updateTransactionActions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
-	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_join = false, b_delete = false, b_attachment = false, b_select = false;
+	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_join = false, b_delete = false, b_attachment = false, b_select = false, b_time = false;
 	bool refundable = false, repayable = false;
 	if(selection.count() == 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
 		b_split = (i->transaction() && i->transaction()->parentSplit());
 		b_scheduledtransaction = i->scheduledTransaction() && i->scheduledTransaction()->recurrence();
 		b_transaction = !b_scheduledtransaction || !i->scheduledTransaction()->isOneTimeTransaction();
+		b_time = !i->scheduledTransaction();
 		b_delete = b_transaction;
 		refundable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_EXPENSE && i->transaction()->value() > 0.0));
 		repayable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && i->transaction()->value() > 0.0 && !((Income*) i->transaction())->security()));
@@ -1782,12 +1805,16 @@ void TransactionListWidget::updateTransactionActions() {
 		b_delete = true;
 		b_join = true;
 		b_split = true;
+		b_time = true;
 		SplitTransaction *split = NULL;
 		if(b_join) {
 			for(int index = 0; index < selection.size(); index++) {
 				TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
 				if(b_join && (i->splitTransaction() || i->scheduledTransaction() || i->transaction()->parentSplit())) {
 					b_join = false;
+				}
+				if(i->scheduledTransaction()) {
+					b_time = false;
 				}
 				if(b_transaction && i->scheduledTransaction() && (i->splitTransaction() || (i->transaction() && i->transaction()->parentSplit()))) {
 					b_transaction = false;
@@ -1800,7 +1827,7 @@ void TransactionListWidget::updateTransactionActions() {
 					} else {
 						if(!split) split = trans->parentSplit();
 						if(!trans->parentSplit() || trans->parentSplit() != split) {
-							b_split = false;							
+							b_split = false;
 						}
 					}
 				}
@@ -1814,6 +1841,7 @@ void TransactionListWidget::updateTransactionActions() {
 	mainWin->ActionNewRepayment->setEnabled(repayable);
 	mainWin->ActionNewRefundRepayment->setEnabled(refundable || repayable);
 	mainWin->ActionEditTransaction->setEnabled(b_transaction);
+	mainWin->ActionEditTimestamp->setEnabled(b_time);
 	mainWin->ActionDeleteTransaction->setEnabled(b_transaction);
 	mainWin->ActionSelectAssociatedFile->setEnabled(b_select);
 	mainWin->ActionOpenAssociatedFile->setEnabled(b_attachment);

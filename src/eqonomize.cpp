@@ -3418,6 +3418,68 @@ bool Eqonomize::editSplitTransaction(SplitTransaction *split, QWidget *parent, b
 	budget->setRecordNewSecurities(false);
 	return false;
 }
+void Eqonomize::editSelectedTimestamp() {
+	TransactionListWidget *w = NULL;
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
+	else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
+		ScheduleListViewItem *i = (ScheduleListViewItem*) selectedItem(scheduleView);
+		if(i) {
+			QList<Transactions*> trans;
+			trans << i->scheduledTransaction();
+			editTimestamp(trans);
+		}
+	}
+	if(!w) return;
+	w->editTimestamp();
+}
+bool Eqonomize::editTimestamp(QList<Transactions*> trans) {
+	if(trans.count() == 0) return false;
+	for(int i = 0; i < trans.count(); i++) {
+		if(trans[i]->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE && ((Transaction*) trans[i])->parentSplit() && ((Transaction*) trans[i])->parentSplit()->type() != SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) trans[i] = ((Transaction*) trans[i])->parentSplit();
+		for(int i2 = 0; i2 < i; i2++) {
+			if(trans[i2] == trans[i]) {
+				trans.removeAt(i2);
+				i--;
+				break;
+			}
+		}
+	}
+	QDialog *dialog = new QDialog(this, 0);
+	dialog->setWindowTitle(tr("Timestamp"));
+	QVBoxLayout *box1 = new QVBoxLayout(dialog);
+	QGridLayout *grid = new QGridLayout();
+	QList<QDateTimeEdit*> timeEdit;
+	int row = 0;
+	for(int i = 0; i < trans.count(); i++) {
+		if(i > 0 || trans.count() > 1) {
+			grid->addWidget(new QLabel(trans[i]->description() + ":", dialog), row, 0);
+		}
+		timeEdit << new QDateTimeEdit(QDateTime::fromMSecsSinceEpoch(trans[i]->timestamp() * 1000), dialog);
+		if(timeEdit.last()->displayFormat().endsWith(":mm")) timeEdit.last()->setDisplayFormat(timeEdit.last()->displayFormat() + ":ss");
+		grid->addWidget(timeEdit.last(), row, (i > 0 || trans.count() > 1) ? 1 : 0);
+		row++;
+	}
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
+	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
+	box1->addLayout(grid);
+	box1->addWidget(buttonBox);
+	if(dialog->exec() == QDialog::Accepted) {
+		if(trans.count() > 1) startBatchEdit();
+		for(int i = 0; i < trans.count(); i++) {
+			trans[i]->setTimestamp(timeEdit[i]->dateTime().toMSecsSinceEpoch() / 1000);
+			transactionModified(trans[i], trans[i]);
+		}
+		if(trans.count() > 1) endBatchEdit();
+		dialog->deleteLater();
+		return true;
+	}
+	dialog->deleteLater();
+	return false;
+}
 bool Eqonomize::splitUpTransaction(SplitTransaction *split) {
 	expensesWidget->onTransactionSplitUp(split);
 	incomesWidget->onTransactionSplitUp(split);
@@ -3793,7 +3855,7 @@ void Eqonomize::editSelectedSplitTransaction() {
 	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
 	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
 	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
-	else 	return;
+	else return;
 	if(!w) return;
 	w->editSplitTransaction();
 }
@@ -4085,6 +4147,7 @@ void Eqonomize::updateTransactionActions() {
 	} else {
 		ActionJoinTransactions->setEnabled(false);
 		ActionSplitUpTransaction->setEnabled(false);
+		ActionEditTimestamp->setEnabled(b_scheduledtransaction);
 		ActionEditSplitTransaction->setEnabled(false);
 		ActionDeleteSplitTransaction->setEnabled(false);
 		ActionEditTransaction->setEnabled(b_transaction);
@@ -6048,6 +6111,7 @@ void Eqonomize::setupActions() {
 	NEW_ACTION_ALT(ActionEditSplitTransaction, tr("Edit Split Transaction…"), "document-edit", "eqz-edit", 0, this, SLOT(editSelectedSplitTransaction()), "edit_split_transaction", transactionsMenu);
 	NEW_ACTION(ActionJoinTransactions, tr("Join Transactions…"), "eqz-join-transactions", 0, this, SLOT(joinSelectedTransactions()), "join_transactions", transactionsMenu);
 	NEW_ACTION(ActionSplitUpTransaction, tr("Split Up Transaction"), "eqz-split-transaction", 0, this, SLOT(splitUpSelectedTransaction()), "split_up_transaction", transactionsMenu);
+	NEW_ACTION(ActionEditTimestamp, tr("Edit Timestamp…"), "eqz-schedule", 0, this, SLOT(editSelectedTimestamp()), "edit_timestamp", transactionsMenu);
 	transactionsMenu->addSeparator();
 	NEW_ACTION(ActionSelectAssociatedFile, tr("Select Associated File"), "document-open", 0, this, SLOT(selectAssociatedFile()), "select_attachment", transactionsMenu);
 	NEW_ACTION(ActionOpenAssociatedFile, tr("Open Associated File"), "system-run", 0, this, SLOT(openAssociatedFile()), "open_attachment", transactionsMenu);
@@ -6204,6 +6268,7 @@ void Eqonomize::setupActions() {
 	ActionOpenAssociatedFile->setEnabled(false);
 	ActionJoinTransactions->setEnabled(false);
 	ActionSplitUpTransaction->setEnabled(false);
+	ActionEditTimestamp->setEnabled(false);
 	ActionEditScheduledTransaction->setEnabled(false);
 	ActionDeleteScheduledTransaction->setEnabled(false);
 	ActionNewRefund->setEnabled(false);
@@ -7578,6 +7643,8 @@ void Eqonomize::transactionModified(Transactions *transs, Transactions *oldtrans
 			ScheduledTransaction *strans = (ScheduledTransaction*) transs;
 			ScheduledTransaction *oldstrans = (ScheduledTransaction*) oldtranss;
 			if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+				transactionRemoved(oldtranss);
+				transactionAdded(transs);
 				return;
 			}
 			QTreeWidgetItemIterator it(scheduleView);

@@ -1,3 +1,18 @@
+2019-05-27  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Preserve order of imported transactions (with equal date)
+	* Timestamp edit dialog
+
+2019-05-24  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Custom account groups
+	* Hide group if all accounts are in the same group
+	* Fix account group change color
+
+2019-05-22  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Improved account/category combo box searching
+
 2019-05-20  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Option to show separate months or years in categories comparison report

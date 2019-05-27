@@ -171,6 +171,7 @@ class Eqonomize : public QMainWindow {
 		bool newMultiAccountTransaction(QWidget *parent, bool create_expenses);
 		bool newMultiItemTransaction(QWidget *parent, AssetsAccount *account = NULL);
 		bool newDebtPayment(QWidget *parent, AssetsAccount *loan = NULL, bool only_interest = false);
+		bool editTimestamp(QList<Transactions*> trans);
 		bool editSplitTransaction(SplitTransaction *split);
 		bool editSplitTransaction(SplitTransaction *split, QWidget *parent, bool temporary_split = false);
 		bool splitUpTransaction(SplitTransaction *split);
@@ -206,6 +207,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionNewMultiAccountExpense, *ActionNewExpenseWithLoan, *ActionNewDebtPayment, *ActionNewDebtInterest;
 		QAction *ActionEditTransaction, *ActionEditScheduledTransaction, *ActionEditSplitTransaction;
 		QAction *ActionJoinTransactions, *ActionSplitUpTransaction;
+		QAction *ActionEditTimestamp;
 		QAction *ActionSelectAssociatedFile, *ActionOpenAssociatedFile;
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
 		QAction *ActionNewSecurity, *ActionEditSecurity, *ActionBuyShares, *ActionSellShares, *ActionNewDividend, *ActionNewReinvestedDividend, *ActionNewSecurityTrade, *ActionSetQuotation, *ActionEditQuotations, *ActionEditSecurityTransactions, *ActionDeleteSecurity;
@@ -408,6 +410,7 @@ class Eqonomize : public QMainWindow {
 		void scheduleExecuted(QTreeWidgetItem*);
 		void popupScheduleMenu(const QPoint&);
 
+		void editSelectedTimestamp();
 		void editSelectedScheduledTransaction();
 		void editSelectedTransaction();
 		void editSelectedSplitTransaction();

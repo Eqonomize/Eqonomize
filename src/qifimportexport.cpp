@@ -781,6 +781,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 			date_format += qi.lz == 0 ? "M" : "MM";
 		}
 	}
+	QMap<QDate, qint64> datestamps;
 	while(!line.isNull()) {
 		if(!line.isEmpty()) {
 			char field = line[0].toLatin1();
@@ -1205,6 +1206,8 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 									}
 								}
 								if(!payee.isEmpty()) split->setPayee(payee);
+								split->setTimestamp(datestamps.contains(split->date()) ? datestamps[split->date()] + 1 : QDateTime(split->date()).toMSecsSinceEpoch() / 1000);
+								datestamps[split->date()] = split->timestamp();
 								if(split->count() >= 2) {
 									budget->addSplitTransaction(split);
 									qi.transactions++;
@@ -1268,6 +1271,8 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 										qi.duplicates++;
 										delete tra;
 									} else {
+										tra->setTimestamp(datestamps.contains(tra->date()) ? datestamps[tra->date()] + 1 : QDateTime(tra->date()).toMSecsSinceEpoch() / 1000);
+										datestamps[tra->date()] = tra->timestamp();
 										budget->addTransaction(tra);
 										transfers.append(tra);
 										qi.transactions++;
@@ -1325,6 +1330,8 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 										qi.duplicates++;
 										delete exp;
 									} else {
+										exp->setTimestamp(datestamps.contains(exp->date()) ? datestamps[exp->date()] + 1 : QDateTime(exp->date()).toMSecsSinceEpoch() / 1000);
+										datestamps[exp->date()] = exp->timestamp();
 										budget->addTransaction(exp);
 										qInfo() << exp->description();
 										qi.transactions++;
@@ -1341,7 +1348,9 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 									if(ignore_duplicates && budget->findDuplicateTransaction(inc)) {
 										qi.duplicates++;
 										delete inc;
-									} else {	
+									} else {
+										inc->setTimestamp(datestamps.contains(inc->date()) ? datestamps[inc->date()] + 1 : QDateTime(inc->date()).toMSecsSinceEpoch() / 1000);
+										datestamps[inc->date()] = inc->timestamp();
 										budget->addTransaction(inc);
 										qInfo() << inc->description();
 										qi.transactions++;

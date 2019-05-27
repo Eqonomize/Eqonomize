@@ -101,6 +101,7 @@ class TransactionListWidget : public QWidget {
 		void editClear();
 		void updateStatistics();
 		void updateTransactionActions();
+		void editTimestamp();
 		void editTransaction();
 		void newMultiAccountTransaction();
 		void newTransactionWithLoan();
