@@ -42,6 +42,7 @@
 #include <QUrl>
 #include <QTabWidget>
 #include <QMessageBox>
+#include <QSettings>
 
 #include "budget.h"
 #include "editscheduledtransactiondialog.h"
@@ -61,6 +62,7 @@ extern void setColumnTextWidth(QTreeWidget *w, int i, QString str);
 extern void setColumnDateWidth(QTreeWidget *w, int i);
 void setColumnMoneyWidth(QTreeWidget *w, int i, Budget *budget, double v = 9999999.99, int d = -1);
 extern void setColumnStrlenWidth(QTreeWidget *w, int i, int l);
+extern void setColumnValueWidth(QTreeWidget *w, int i, double v, int d, Budget *budget);
 
 extern QColor createExpenseColor(QTreeWidgetItem *i, int = 0);
 extern QColor createIncomeColor(QTreeWidgetItem *i, int = 0);
@@ -106,6 +108,9 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	headers << tr("Date");
 	headers << tr("Description", "Transaction description property (transaction title/generic article name)");
 	comments_col = 5;
+	tags_col = -1;
+	payee_col = -1;
+	quantity_col = -1;
 	switch(transtype) {
 		case TRANSACTION_TYPE_EXPENSE: {
 			headers << tr("Cost");
@@ -113,8 +118,16 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 			headers << tr("From Account");
 			if(b_extra) {
 				headers << tr("Payee");
+				headers << tr("Quantity");
+				quantity_col = 6;
+				payee_col = 5;
+				comments_col = 8;
+				tags_col = 7;
+			} else {
 				comments_col = 6;
+				tags_col = 5;
 			}
+			headers << tr("Tags");
 			from_col = 4; to_col = 3;
 			break;
 		}
@@ -124,8 +137,14 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 			headers << tr("To Account");
 			if(b_extra) {
 				headers << tr("Payer");
+				payee_col = 5;
+				comments_col = 7;
+				tags_col = 6;
+			} else {
 				comments_col = 6;
+				tags_col = 5;
 			}
+			headers << tr("Tags");
 			from_col = 3; to_col = 4;
 			break;
 		}
@@ -145,9 +164,13 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	setColumnDateWidth(transactionsView, 0);
 	setColumnStrlenWidth(transactionsView, 1, 25);
 	setColumnMoneyWidth(transactionsView, 2, budget);
-	setColumnStrlenWidth(transactionsView, 3, 20);
-	setColumnStrlenWidth(transactionsView, 4, 20);
-	if(comments_col > 5) setColumnStrlenWidth(transactionsView, 5, 15);
+	setColumnStrlenWidth(transactionsView, from_col, 20);
+	setColumnStrlenWidth(transactionsView, to_col, 20);
+	if(payee_col >= 0) setColumnStrlenWidth(transactionsView, payee_col, 15);
+	if(tags_col >= 0) {
+		setColumnStrlenWidth(transactionsView, tags_col, 15);
+		transactionsView->setColumnHidden(tags_col, true);
+	}
 	transactionsView->setRootIsDecorated(false);
 	transactionsView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	transactionsViewLayout->addWidget(transactionsView);
@@ -208,6 +231,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	connect(editWidget, SIGNAL(newLoanRequested()), this, SLOT(newTransactionWithLoan()));
 	connect(editWidget, SIGNAL(multipleAccountsRequested()), this, SLOT(newMultiAccountTransaction()));
 	connect(editWidget, SIGNAL(propertyChanged()), this, SLOT(updateClearButton()));
+	connect(editWidget, SIGNAL(tagAdded(QString)), this, SIGNAL(tagAdded(QString)));
 
 }
 
@@ -223,6 +247,18 @@ void TransactionListWidget::restoreState(const QByteArray &state) {
 	transactionsView->header()->restoreState(state);
 	transactionsView->sortByColumn(0, Qt::DescendingOrder);
 	transactionsView->setColumnHidden(transactionsView->columnCount() - 1, true);
+	QSettings settings;
+	int version = settings.value("GeneralOptions/version", 0).toInt();
+	if(version < 140) {
+		if(tags_col >= 0) {
+			transactionsView->setColumnHidden(tags_col, true);
+			setColumnStrlenWidth(transactionsView, tags_col, 15);
+		}
+		if(quantity_col >= 0) {
+			transactionsView->setColumnHidden(quantity_col, true);
+		}
+		transactionsView->setColumnHidden(comments_col, false);
+	}
 }
 
 void TransactionListWidget::updateClearButton() {
@@ -309,6 +345,9 @@ void TransactionListWidget::updateStatistics() {
 	}
 }
 
+void TransactionListWidget::tagsModified() {
+	editWidget->tagsModified();
+}
 void TransactionListWidget::popupListMenu(const QPoint &p) {
 	if(!listPopupMenu) {
 		listPopupMenu = new QMenu(this);
@@ -325,6 +364,7 @@ void TransactionListWidget::popupListMenu(const QPoint &p) {
 		listPopupMenu->addAction(mainWin->ActionJoinTransactions);
 		listPopupMenu->addAction(mainWin->ActionSplitUpTransaction);
 		listPopupMenu->addAction(mainWin->ActionEditTimestamp);
+		listPopupMenu->addAction(mainWin->ActionTags);
 		listPopupMenu->addSeparator();
 		listPopupMenu->addAction(mainWin->ActionSelectAssociatedFile);
 		listPopupMenu->addAction(mainWin->ActionOpenAssociatedFile);
@@ -335,9 +375,43 @@ void TransactionListWidget::popupListMenu(const QPoint &p) {
 	}
 	listPopupMenu->popup(transactionsView->viewport()->mapToGlobal(p));
 }
+void TransactionListWidget::hideColumn(bool do_show) {
+	transactionsView->setColumnHidden(sender()->property("column_index").toInt(), !do_show);
+}
 void TransactionListWidget::popupHeaderMenu(const QPoint &p) {
 	if(!headerPopupMenu) {
 		headerPopupMenu = new QMenu(this);
+		QTreeWidgetItem *header = transactionsView->headerItem();
+		QAction *a = NULL;
+		if(quantity_col >= 0) {
+			a = headerPopupMenu->addAction(header->text(quantity_col));
+			a->setProperty("column_index", QVariant::fromValue(quantity_col));
+			a->setCheckable(true);
+			a->setChecked(!transactionsView->isColumnHidden(quantity_col));
+			connect(a, SIGNAL(toggled(bool)), this, SLOT(hideColumn(bool)));
+		}
+		if(payee_col >= 0) {
+			a = headerPopupMenu->addAction(header->text(payee_col));
+			a->setProperty("column_index", QVariant::fromValue(payee_col));
+			a->setCheckable(true);
+			a->setChecked(!transactionsView->isColumnHidden(payee_col));
+			connect(a, SIGNAL(toggled(bool)), this, SLOT(hideColumn(bool)));
+		}
+		if(tags_col >= 0) {
+			a = headerPopupMenu->addAction(header->text(tags_col));
+			a->setProperty("column_index", QVariant::fromValue(tags_col));
+			a->setCheckable(true);
+			a->setChecked(!transactionsView->isColumnHidden(tags_col));
+			connect(a, SIGNAL(toggled(bool)), this, SLOT(hideColumn(bool)));
+		}
+		if(comments_col >= 0) {
+			a = headerPopupMenu->addAction(header->text(comments_col));
+			a->setProperty("column_index", QVariant::fromValue(comments_col));
+			a->setCheckable(true);
+			a->setChecked(!transactionsView->isColumnHidden(comments_col));
+			connect(a, SIGNAL(toggled(bool)), this, SLOT(hideColumn(bool)));
+		}
+		headerPopupMenu->addSeparator();
 		ActionSortByCreationTime = headerPopupMenu->addAction(tr("Sort by creation time"));
 		ActionSortByCreationTime->setCheckable(true);
 		connect(ActionSortByCreationTime, SIGNAL(toggled(bool)), this, SLOT(sortByCreationTime(bool)));
@@ -393,9 +467,10 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			outf << "<th>" << htmlize_string(header->text(2)) << "</th>";
 			outf << "<th>" << htmlize_string(header->text(3)) << "</th>";
 			outf << "<th>" << htmlize_string(header->text(4)) << "</th>";
-			if(comments_col == 6) outf << "<th>" << htmlize_string(tr("Quantity")) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(5)) << "</th>";
-			if(comments_col == 6) outf << "<th>" << htmlize_string(header->text(6)) << "</th>";
+			if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE) outf << "<th>" << htmlize_string(tr("Quantity")) << "</th>";
+			if(payee_col >= 0) outf << "<th>" << htmlize_string(header->text(payee_col)) << "</th>";
+			if(tags_col >= 0) outf << "<th>" << htmlize_string(header->text(tags_col)) << "</th>";
+			outf << "<th>" << htmlize_string(header->text(comments_col)) << "</th>";
 			outf << "\n";
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';
@@ -411,12 +486,11 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 				outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(2)) << "</td>";
 				outf << "<td align=\"center\">" << htmlize_string(i->text(3)) << "</td>";
 				outf << "<td align=\"center\">" << htmlize_string(i->text(4)) << "</td>";
-				int i_count_frac = 0;
 				double intpart = 0.0;
-				if(modf(trans->quantity(), &intpart) != 0.0) i_count_frac = 2;
-				if(comments_col == 6) outf << "<td>" << htmlize_string(budget->formatValue(trans->quantity(), i_count_frac)) << "</td>";
-				outf << "<td>" << htmlize_string(i->text(5)) << "</td>";
-				if(comments_col == 6) outf << "<td>" << htmlize_string(i->text(6)) << "</td>";
+				if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE) outf << "<td>" << htmlize_string(budget->formatValue(trans->quantity(), modf(trans->quantity(), &intpart) != 0.0 ? 2 : 0)) << "</td>";
+				if(payee_col >= 0) outf << "<td>" << htmlize_string(i->text(payee_col)) << "</td>";
+				if(tags_col >= 0) outf << "<td>" << htmlize_string(i->text(tags_col)) << "</td>";
+				outf << "<td>" << htmlize_string(i->text(comments_col)) << "</td>";
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
 				++it;
@@ -425,10 +499,8 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t</tbody>" << '\n';
 			outf << "\t\t</table>" << '\n';
 			outf << "\t\t<div>";
-			int i_count_frac = 0;
 			double intpart = 0.0;
-			if(modf(current_quantity, &intpart) != 0.0) i_count_frac = 2;
-			outf << htmlize_string(tr("Quantity:")) << " " << htmlize_string(budget->formatValue(current_quantity, i_count_frac));
+			outf << htmlize_string(tr("Quantity:")) << " " << htmlize_string(budget->formatValue(current_quantity, modf(current_quantity, &intpart) != 0.0 ? 2 : 0));
 			outf << ", ";
 			switch(transtype) {
 				case TRANSACTION_TYPE_EXPENSE: {
@@ -458,9 +530,10 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			//outf.setEncoding(Q3TextStream::Locale);
 			QTreeWidgetItem *header = transactionsView->headerItem();
 			outf << "\"" << header->text(0) << "\",\"" << header->text(1) << "\",\"" << header->text(2) << "\",\"" << header->text(3) << "\",\"" << header->text(4);
-			if(comments_col == 6) outf << "\",\"" << tr("Quantity");
-			outf << "\",\"" << header->text(5);
-			if(comments_col == 6) outf << "\",\"" << header->text(6);
+			if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE) outf << "\",\"" << tr("Quantity");
+			if(payee_col >= 0) outf << "\",\"" << header->text(payee_col);
+			if(tags_col >= 0) outf << "\",\"" << header->text(tags_col);
+			outf << "\",\"" << header->text(comments_col);
 			outf << "\"\n";
 			QTreeWidgetItemIterator it(transactionsView);
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
@@ -468,14 +541,15 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 				if(i->transaction()) {
 					Transaction *trans = i->transaction();
 					outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << trans->valueString().replace("−","-").remove(" ") << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->toAccount()->nameWithParent() : trans->fromAccount()->nameWithParent()) << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->fromAccount()->nameWithParent() : trans->toAccount()->nameWithParent());
-					if(comments_col == 6) outf << "\",\"" << budget->formatValue(trans->quantity(), 2).replace("−","-").remove(" ");
+					if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE) outf << "\",\"" << budget->formatValue(trans->quantity(), 2).replace("−","-").remove(" ");
 				} else {
 					MultiAccountTransaction *trans = i->splitTransaction();
 					outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << trans->valueString().replace("−","-").remove(" ") << "\",\"" << trans->account()->nameWithParent() << "\",\"" << trans->accountsString();
-					if(comments_col == 6) outf << "\",\"" << budget->formatValue(trans->quantity(), 2).replace("−","-").remove(" ");
+					if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE) outf << "\",\"" << budget->formatValue(trans->quantity(), 2).replace("−","-").remove(" ");
 				}
-				outf << "\",\"" << i->text(5);
-				if(comments_col == 6) outf << "\",\"" << i->text(6);
+				if(payee_col >= 0) outf << "\",\"" << i->text(payee_col);
+				if(tags_col >= 0) outf << "\",\"" << i->text(tags_col).replace("\"", "\'");
+				outf << "\",\"" << i->text(comments_col);
 				outf << "\"\n";
 				++it;
 				i = (TransactionListViewItem*) *it;
@@ -1343,6 +1417,7 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 			i->setFont(4, font);
 			i->setFont(5, font);
 			i->setFont(6, font);
+			i->setFont(7, font);
 		}
 		//i->setTextAlignment(3, Qt::AlignCenter);
 		//i->setTextAlignment(4, Qt::AlignCenter);
@@ -1356,16 +1431,22 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 		if(trans) {
 			i->setText(from_col, trans->fromAccount()->name());
 			i->setText(to_col, trans->toAccount()->name());
-			if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_EXPENSE) i->setText(5, ((Expense*) trans)->payee());
-			else if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_INCOME) i->setText(5, ((Income*) trans)->payer());
+			if(payee_col >= 0) {
+				if(trans->type() == TRANSACTION_TYPE_EXPENSE) i->setText(payee_col, ((Expense*) trans)->payee());
+				else if(trans->type() == TRANSACTION_TYPE_INCOME) i->setText(payee_col, ((Income*) trans)->payer());
+			}
 			if(trans->parentSplit() && trans->comment().isEmpty()) i->setText(comments_col, trans->parentSplit()->comment());
 			else i->setText(comments_col, trans->comment());
+			if(quantity_col >= 0) i->setText(quantity_col, budget->formatValue(trans->quantity()));
+			if(tags_col >= 0) i->setText(tags_col, trans->tagsText(true));
 			if(!trans->associatedFile().isEmpty() || (trans->parentSplit() && !trans->parentSplit()->associatedFile().isEmpty())) i->setIcon(2, LOAD_ICON("mail-attachment"));
 		} else if(split) {
 			i->setText(3, split->category()->name());
 			i->setText(4, split->accountsString());
-			if(comments_col == 6) i->setText(5, split->payees());
+			if(payee_col >= 0) i->setText(payee_col, split->payees());
+			if(quantity_col >= 0) i->setText(quantity_col, budget->formatValue(split->quantity()));
 			i->setText(comments_col, transs->comment());
+			if(tags_col >= 0) i->setText(tags_col, transs->tagsText());
 			if(!split->associatedFile().isEmpty()) i->setIcon(2, LOAD_ICON("mail-attachment"));
 		}		
 		current_value += transs->value(true);
@@ -1461,10 +1542,14 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 					i->setText(2, trans->valueString());
 					i->setText(from_col, trans->fromAccount()->name());
 					i->setText(to_col, trans->toAccount()->name());
-					if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_EXPENSE) i->setText(5, ((Expense*) trans)->payee());
-					else if(comments_col == 6 && trans->type() == TRANSACTION_TYPE_INCOME) i->setText(5, ((Income*) trans)->payer());
+					if(payee_col >= 0) {
+						if(trans->type() == TRANSACTION_TYPE_EXPENSE) i->setText(payee_col, ((Expense*) trans)->payee());
+						else if(trans->type() == TRANSACTION_TYPE_INCOME) i->setText(payee_col, ((Income*) trans)->payer());
+					}
 					if(trans->parentSplit() && trans->comment().isEmpty()) i->setText(comments_col, trans->parentSplit()->comment());
 					else i->setText(comments_col, trans->comment());
+					if(tags_col >= 0) i->setText(tags_col, transs->tagsText(true));
+					if(quantity_col >= 0) i->setText(quantity_col, budget->formatValue(transs->quantity()));
 					if(!trans->associatedFile().isEmpty() || (trans->parentSplit() && !trans->parentSplit()->associatedFile().isEmpty())) i->setIcon(2, LOAD_ICON("mail-attachment"));
 					else i->setIcon(2, QIcon());
 				}
@@ -1537,8 +1622,10 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 					i->setText(2, split->valueString());
 					i->setText(3, split->category()->name());
 					i->setText(4, split->accountsString());
-					if(comments_col == 6) i->setText(5, split->payees());
+					if(payee_col >= 0) i->setText(payee_col, split->payees());
 					i->setText(comments_col, split->comment());
+					if(tags_col >= 0) i->setText(tags_col, split->tagsText());
+					if(quantity_col >= 0) i->setText(quantity_col, budget->formatValue(split->quantity()));
 					if(!split->associatedFile().isEmpty()) i->setIcon(2, LOAD_ICON("mail-attachment"));
 					else i->setIcon(2, QIcon()); 
 				}
@@ -1778,7 +1865,7 @@ void TransactionListWidget::newRefundRepayment() {
 }
 void TransactionListWidget::updateTransactionActions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
-	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_join = false, b_delete = false, b_attachment = false, b_select = false, b_time = false;
+	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_join = false, b_delete = false, b_attachment = false, b_select = false, b_time = false, b_tags = false;
 	bool refundable = false, repayable = false;
 	if(selection.count() == 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
@@ -1798,6 +1885,17 @@ void TransactionListWidget::updateTransactionActions() {
 			if(!b_attachment && i->transaction()) {
 				b_attachment = !i->transaction()->associatedFile().isEmpty();
 			}
+		}
+		if(!i->scheduledTransaction() || i->scheduledTransaction()->recurrence()) {
+			Transactions *trans = i->splitTransaction();
+			if(!trans) trans = i->transaction();
+			b_tags = true;
+			int n = 0;
+			for(QHash<QString, QAction*>::const_iterator it = mainWin->tag_actions.constBegin(); it != mainWin->tag_actions.constEnd(); ++it) {
+				if(trans->hasTag(it.key(), false)) {it.value()->setChecked(true); n++;}
+				else it.value()->setChecked(false);
+			}
+			mainWin->ActionTags->setText(tr("Tags") + QString(" (") + QString::number(n) + ")");
 		}
 		b_select = true;
 	} else if(selection.count() > 1) {
@@ -1851,6 +1949,12 @@ void TransactionListWidget::updateTransactionActions() {
 	mainWin->ActionDeleteSplitTransaction->setEnabled(b_split);
 	mainWin->ActionJoinTransactions->setEnabled(b_join);
 	mainWin->ActionSplitUpTransaction->setEnabled(b_split);
+	if(b_tags) {
+		mainWin->ActionTags->setEnabled(true);
+	} else {
+		mainWin->ActionTags->setText(tr("Tags"));
+		mainWin->ActionTags->setEnabled(false);
+	}
 }
 void TransactionListWidget::filterToActivated(Account *acc) {
 	if(acc && (acc->type() != ACCOUNT_TYPE_ASSETS || (acc != budget->balancingAccount && ((AssetsAccount*) acc)->accountType() != ASSETS_TYPE_SECURITIES && !((AssetsAccount*) acc)->isClosed()))) editWidget->setToAccount(acc);
@@ -1940,5 +2044,4 @@ const QDate &TransactionListViewItem::date() const {
 void TransactionListViewItem::setDate(const QDate &newdate) {
 	d_date = newdate;
 }
-
 

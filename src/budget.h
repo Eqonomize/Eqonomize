@@ -24,6 +24,7 @@
 #include <QList>
 #include <QHash>
 #include <QString>
+#include <QStringList>
 #include <QCoreApplication>
 #include <QFile>
 #include <QVector>
@@ -145,6 +146,8 @@ class Budget {
 		
 		QNetworkReply *syncReply;
 		QProcess *syncProcess;
+		
+		QHash<QString, int> tags_ref;
 
 	public:
 	
@@ -327,6 +330,11 @@ class Budget {
 		bool accountTypeIsSecurities(int at_type);
 		bool accountTypeIsLiabilities(int at_type);
 		bool accountTypeIsOther(int at_type);
+		
+		void tagAdded(const QString &tag);
+		void tagRemoved(const QString &tag);
+		
+		QStringList tags;
 
 };
 

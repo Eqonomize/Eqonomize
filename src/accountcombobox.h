@@ -89,7 +89,7 @@ class QComboBoxListViewEq : public QListView {
 	Q_OBJECT
 
 	public:
-		QComboBoxListViewEq(AccountComboBox *cmb = nullptr);
+		QComboBoxListViewEq(AccountComboBox *cmb = NULL);
 		QString filter_str;
 	protected:
 		void resizeEvent(QResizeEvent *event);

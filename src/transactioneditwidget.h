@@ -27,6 +27,7 @@
 #include <QWidget>
 #include <QDialog>
 #include <QDateEdit>
+#include <QMenu>
 
 class QCheckBox;
 class QLabel;
@@ -83,6 +84,7 @@ class TransactionEditWidget : public QWidget {
 		void transactionRemoved(Transaction *trans);
 		void transactionAdded(Transaction *trans);
 		void transactionModified(Transaction *trans);
+		void tagsModified();
 		bool modifyTransaction(Transaction *trans);
 		Transaction *createTransaction();
 		Transactions *createTransactionWithLoan();
@@ -109,6 +111,7 @@ class TransactionEditWidget : public QWidget {
 		QHash<QString, Transaction*> default_values;
 		QHash<QString, Transaction*> default_payee_values;
 		QHash<Account*, Transaction*> default_category_values;
+		QHash<QString, QAction*> tag_actions;
 		int transtype;
 		bool description_changed, payee_changed;
 		Budget *budget;
@@ -119,6 +122,7 @@ class TransactionEditWidget : public QWidget {
 		bool b_create_accounts;
 		bool b_multiple_currencies;
 		bool b_select_security;
+		bool block_tags;
 		int b_prev_update_quote;
 		Currency *splitcurrency;
 		int dateRow, dateLabelCol, dateEditCol, depositRow, depositLabelCol, depositEditCol;
@@ -129,7 +133,8 @@ class TransactionEditWidget : public QWidget {
 		QCheckBox *setQuoteButton;
 		QLabel *withdrawalLabel, *depositLabel, *dateLabel;
 		EqonomizeValueEdit *valueEdit, *depositEdit, *downPaymentEdit, *sharesEdit, *quotationEdit, *quantityEdit;
-		QPushButton *maxSharesButton;
+		QPushButton *maxSharesButton, *tagButton;
+		QMenu *tagMenu;
 		EqonomizeDateEdit *dateEdit;
 		QHBoxLayout *bottom_layout;
 		QGridLayout *editLayout;
@@ -143,6 +148,7 @@ class TransactionEditWidget : public QWidget {
 		void multipleAccountsRequested();
 		void newLoanRequested();
 		void propertyChanged();
+		void tagAdded(QString);
 
 	public slots:
 
@@ -169,6 +175,8 @@ class TransactionEditWidget : public QWidget {
 		void setDefaultValueFromCategory();
 		void maxShares();
 		void setQuoteToggled(bool);
+		void newTag();
+		void tagToggled();
 
 };
 
@@ -247,6 +255,20 @@ class EqonomizeDateEdit : public QDateEdit {
 
 };
 
+class TagMenu : public QMenu {
+
+	Q_OBJECT
+	
+	public:
+	
+		TagMenu(QWidget *parent = NULL);
+		
+	protected:
+	
+		void keyPressEvent(QKeyEvent *e) override;
+		void mouseReleaseEvent(QMouseEvent *e) override;
+
+};
 
 #endif
 

@@ -48,6 +48,8 @@
 #include <QDirModel>
 #include <QDebug>
 #include <QSettings>
+#include <QMenu>
+#include <QInputDialog>
 
 #include "budget.h"
 #include "accountcombobox.h"
@@ -71,6 +73,21 @@ void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
 	}
 }
 
+TagMenu::TagMenu(QWidget *parent) : QMenu(parent) {}
+void TagMenu::keyPressEvent(QKeyEvent *e) {
+	if(e->key() == Qt::Key_Space) {
+		QAction *action = activeAction();
+		if(action) action->trigger();
+		e->setAccepted(true);
+	}
+}
+void TagMenu::mouseReleaseEvent(QMouseEvent *e) {
+	if(e->button() == Qt::LeftButton) {
+		QAction *action = actionAt(e->pos());
+		if(action) action->trigger();
+		e->setAccepted(true);
+	}
+}
 
 extern QString last_associated_file_directory;
 
@@ -78,8 +95,10 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	bool split = (split_currency != NULL);
 	splitcurrency = split_currency;
 	value_set = false; shares_set = false; sharevalue_set = false;
+	block_tags = false;
 	b_sec = (transtype == TRANSACTION_TYPE_SECURITY_BUY || transtype == TRANSACTION_TYPE_SECURITY_SELL || transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND);
 	QVBoxLayout *editVLayout = new QVBoxLayout(this);
+	editVLayout->setSpacing(editVLayout->spacing() * 2);
 	int cols = 1;
 	if(auto_edit) cols = 2;
 	int rows = 6;
@@ -92,7 +111,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	if(multiaccount) rows -= 4;
 	if(split && !b_sec) rows -= 2;
 	if(rows % cols > 0) rows = rows / cols + 1;
-	else rows = rows / cols;	
+	else rows = rows / cols;
 	editLayout = new QGridLayout();
 	editVLayout->addLayout(editLayout);
 	editVLayout->addStretch(1);
@@ -116,6 +135,8 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	depositLabel = NULL;
 	withdrawalLabel = NULL;
 	fileEdit = NULL;
+	tagButton = NULL;
+	tagMenu = NULL;
 	int i = 0;
 	if(b_sec) {
 		int decimals = budget->defaultShareDecimals();
@@ -422,7 +443,17 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	if(!multiaccount) {
 		editLayout->addWidget(new QLabel(tr("Comments:"), this), TEROWCOL(i, 0));
 		commentsEdit = new QLineEdit(this);
-		editLayout->addWidget(commentsEdit, TEROWCOL(i, 1));
+		if((transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE) && !withloan && !sec) {
+			QHBoxLayout *box = new QHBoxLayout();
+			editLayout->addLayout(box, TEROWCOL(i, 1));
+			box->addWidget(commentsEdit, 1);
+			tagButton = new QPushButton(LOAD_ICON("tag"), "(0)", this);
+			tagMenu = new TagMenu(this);
+			tagButton->setMenu(tagMenu);
+			box->addWidget(tagButton, 0);
+		} else {
+			editLayout->addWidget(commentsEdit, TEROWCOL(i, 1));
+		}
 		i++;
 	}
 	bottom_layout = new QHBoxLayout();
@@ -1081,6 +1112,28 @@ void TransactionEditWidget::transactionAdded(Transaction *trans) {
 		}
 	}
 }
+void TransactionEditWidget::tagToggled() {
+	int n = 0;
+	for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+		if(it.value()->isChecked()) n++;
+	}
+	tagButton->setText(QString("(") + QString::number(n) + ")");
+}
+void TransactionEditWidget::tagsModified() {
+	if(block_tags) return;
+	if(tagMenu) {
+		tagMenu->clear();
+		tag_actions.clear();
+		tagMenu->addAction(tr("New tag…"), this, SLOT(newTag()));
+		if(!budget->tags.isEmpty()) tagMenu->addSeparator();
+		for(int i = 0; i < budget->tags.count(); i++) {
+			QAction *action = tagMenu->addAction(budget->tags[i], this, SLOT(tagToggled()));
+			action->setCheckable(true);
+			tag_actions[budget->tags[i].toLower()] = action;
+		}
+		tagButton->setText("(0)");
+	}
+}
 void TransactionEditWidget::transactionModified(Transaction *trans) {
 	transactionAdded(trans);
 }
@@ -1283,6 +1336,12 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 	if(quantityEdit) trans->setQuantity(quantityEdit->value());
 	if(payeeEdit && trans->type() == TRANSACTION_TYPE_EXPENSE) ((Expense*) trans)->setPayee(payeeEdit->text());
 	if(payeeEdit && trans->type() == TRANSACTION_TYPE_INCOME) ((Income*) trans)->setPayer(payeeEdit->text());
+	if(tagButton) {
+		trans->clearTags();
+		for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+			if(it.value()->isChecked()) trans->addTag(it.value()->text());
+		}
+	}
 	trans->setModified();
 	return true;
 }
@@ -1320,7 +1379,11 @@ Transactions *TransactionEditWidget::createTransactionWithLoan() {
 	Expense *down_payment = new Expense(budget, downPaymentEdit->value(), dateEdit->date(), (ExpensesAccount*) toCombo->currentAccount(), (AssetsAccount*) fromCombo->currentAccount());
 	down_payment->setPayee(loan->maintainer());
 	split->addTransaction(down_payment);
-	
+	if(tagButton) {
+		for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+			if(it.value()->isChecked()) split->addTag(it.value()->text());
+		}
+	}
 	return split;
 }
 Transaction *TransactionEditWidget::createTransaction() {
@@ -1384,6 +1447,11 @@ Transaction *TransactionEditWidget::createTransaction() {
 		trans = expense;
 	}
 	if(fileEdit) trans->setAssociatedFile(fileEdit->text());
+	if(tagButton) {
+		for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+			if(it.value()->isChecked()) trans->addTag(it.value()->text());
+		}
+	}
 	return trans;
 }
 void TransactionEditWidget::transactionRemoved(Transaction *trans) {
@@ -1557,6 +1625,45 @@ void TransactionEditWidget::transactionsReset() {
 	if(descriptionEdit) ((QStandardItemModel*) descriptionEdit->completer()->model())->sort(1);
 	if(payeeEdit) ((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
 }
+void TransactionEditWidget::newTag() {
+	QString new_tag = QInputDialog::getText(this, tr("New Tag"), tr("Tag:")).trimmed(); 
+	if(!new_tag.isEmpty()) {
+		QString str = new_tag.toLower();
+		bool b = false;
+		block_tags = true;
+		for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+			if(it.key() == str) {
+				it.value()->setChecked(true);
+				b = true;
+				break;
+			} else if(it.key() > str) {
+				QAction *action = new QAction(new_tag);
+				connect(action, SIGNAL(triggered()), this, SLOT(tagToggled()));
+				tagMenu->insertAction(it.value(), action);
+				action->setCheckable(true);
+				action->setChecked(true);
+				tag_actions[new_tag.toLower()] = action;
+				emit tagAdded(new_tag);
+				b = true;
+				break;
+			}
+		}
+		if(!b) {
+			QAction *action = tagMenu->addAction(new_tag, this, SLOT(tagToggled()));
+			action->setCheckable(true);
+			action->setChecked(true);
+			tag_actions[new_tag.toLower()] = action;
+			emit tagAdded(new_tag);
+		}
+		block_tags = false;
+		int n = 0;
+		for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+			if(it.value()->isChecked()) n++;
+		}
+		tagButton->setText(QString("(") + QString::number(n) + ")");
+		tagButton->click();
+	}
+}
 void TransactionEditWidget::setDefaultFromAccount() {
 	if(!fromCombo) return;
 	if((transtype == TRANSACTION_TYPE_INCOME && security) || transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
@@ -1714,6 +1821,14 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 			if(payeeEdit && trans->type() == TRANSACTION_TYPE_INCOME) payeeEdit->setText(((Income*) trans)->payer());
 		}
 		if(dateEdit) emit dateChanged(trans->date());
+	}
+	if(tagButton) {
+		int n = 0;
+		for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+			if(trans && trans->hasTag(it.key(), false)) {it.value()->setChecked(true); n++;}
+			else it.value()->setChecked(false);
+		}
+		tagButton->setText(QString("(") + QString::number(n) + ")");
 	}
 	blockSignals(false);
 	if(valueEdit) valueEdit->blockSignals(false);

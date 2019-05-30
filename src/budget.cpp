@@ -756,6 +756,8 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	qint64 curtime = QDateTime::currentMSecsSinceEpoch() / 1000;
 
 	if(!merge) {
+		tags.clear();
+		tags_ref.clear();
 		clear();
 		i_opened_revision = xml.attributes().value("revision").toInt();
 		if(i_opened_revision <= 0) i_opened_revision = 1;
@@ -864,6 +866,28 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					} else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
 						if(strans->transactionsubtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) ((Income*) strans->transaction())->security()->scheduledReinvestedDividends.append(strans);
 						else ((Income*) strans->transaction())->security()->scheduledDividends.append(strans);
+					}
+					Transactions *trans = strans->transaction();
+					for(int i = 0; ; i++) {
+						if(trans->getTag(i).isEmpty()) break;
+						if(!tags_ref.contains(trans->getTag(i).toLower())) {
+							tags_ref[trans->getTag(i).toLower()] = 1;
+							tags << trans->getTag(i);
+						}
+					}
+					if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+						SplitTransaction *split = (SplitTransaction*) trans;
+						int c = split->count();
+						for(int i = 0; i < c; i++) {
+							trans = split->at(i);
+							for(int i2 = 0; ; i2++) {
+								if(trans->getTag(i2).isEmpty()) break;
+								if(!tags_ref.contains(trans->getTag(i2).toLower())) {
+									tags_ref[trans->getTag(i2).toLower()] = 1;
+									tags << trans->getTag(i2);
+								}
+							}
+						}
 					}
 				}
 			} else if(!valid) {
@@ -1089,6 +1113,13 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 						split->setAssociatedFile(QString("\"") + split->associatedFile() + "\"");
 					}
 					splitTransactions.append(split);
+					for(int i = 0; ; i++) {
+						if(split->getTag(i).isEmpty()) break;
+						if(!tags_ref.contains(split->getTag(i).toLower())) {
+							tags_ref[split->getTag(i).toLower()] = 1;
+							tags << split->getTag(i);
+						}
+					}
 					int c = split->count();
 					for(int i = 0; i < c; i++) {
 						trans = split->at(i);
@@ -1129,6 +1160,13 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 							trans->setAssociatedFile(QString("\"") + trans->associatedFile() + "\"");
 						}
 						transactions.append(trans);
+						for(int i2 = 0; ; i2++) {
+							if(trans->getTag(i2).isEmpty()) break;
+							if(!tags_ref.contains(trans->getTag(i2).toLower())) {
+								tags_ref[trans->getTag(i2).toLower()] = 1;
+								tags << trans->getTag(i2);
+							}
+						}
 					}
 				}
 			} else if(trans) {
@@ -1144,6 +1182,13 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					trans->setAssociatedFile(QString("\"") + trans->associatedFile() + "\"");
 				}
 				transactions.append(trans);
+				for(int i = 0; ; i++) {
+					if(trans->getTag(i).isEmpty()) break;
+					if(!tags_ref.contains(trans->getTag(i).toLower())) {
+						tags_ref[trans->getTag(i).toLower()] = 1;
+						tags << trans->getTag(i);
+					}
+				}
 			}
 		} else if(xml.name() == "category") {
 			QStringRef type = xml.attributes().value("type");
@@ -1372,6 +1417,8 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	assetsAccounts.sort();
 	accounts.sort();
 	securities.sort();
+
+	tags.sort(Qt::CaseInsensitive);
 	
 	if(account_errors > 0) {
 		if(!errors.isEmpty()) errors += '\n';
@@ -3353,5 +3400,22 @@ bool Budget::accountTypeIsCreditCard(int at_type) {
 }
 bool Budget::accountTypeIsOther(int at_type) {
 	return at_type == ASSETS_TYPE_OTHER;
+}
+
+void Budget::tagAdded(const QString &tag) {
+	if(!tags_ref.contains(tag.toLower())) {
+		tags_ref[tag.toLower()] = 1;
+		tags << tag;
+		tags.sort(Qt::CaseInsensitive);
+	}
+}
+void Budget::tagRemoved(const QString&) {
+	/*if(tags_ref.contains(tag.toLower())) {
+		tags_ref[tag.toLower()]--;
+		if(tags_ref[tag.toLower()] <= 0) {
+			tags.removeAll(tag);
+			tags_ref.remove(tag.toLower());
+		}
+	}*/
 }
 

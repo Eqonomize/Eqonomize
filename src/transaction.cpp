@@ -68,6 +68,44 @@ int Transactions::lastRevision() const {return i_last_revision;}
 void Transactions::setLastRevision(int new_rev) {i_last_revision = new_rev;}
 bool Transactions::isModified() const {return i_last_revision == o_budget->revision();}
 void Transactions::setModified() {i_last_revision = o_budget->revision();}
+void Transactions::addTag(QString tag) {
+	if(!tag.isEmpty() && !tags.contains(tag, Qt::CaseInsensitive)) {
+		tags << tag;
+		o_budget->tagAdded(tag);
+	}
+}
+void Transactions::removeTag(QString tag) {
+	tags.removeAll(tag);
+	o_budget->tagRemoved(tag);
+}
+bool Transactions::hasTag(const QString &tag, bool) const {return tags.contains(tag, Qt::CaseInsensitive);}
+const QString &Transactions::getTag(int index) const {
+	if(index >= 0 && index < tags.count()) return tags[index];
+	return emptystr;
+}
+QString Transactions::tagsText(bool) const {
+	if(tags.isEmpty()) return QString::null;
+	if(tags.count() == 1) {
+		if(tags[0].contains(",")) return QString("\"") + tags[0] + "\"";
+		else return tags[0];
+	}
+	QString tagstr;
+	for(int i = 0; i < tags.count(); i++) {
+		if(i > 0) tagstr += ", ";
+		if(tags[i].contains(",")) {
+			tagstr += "\"";
+			tagstr += tags[i];
+			tagstr += "\"";
+		} else {
+			tagstr += tags[i];
+		}
+	}
+	return tagstr;
+}
+void Transactions::clearTags() {
+	for(int i = 0; i < tags.count(); i++) o_budget->tagRemoved(tags[i]);
+	tags.clear();
+}
 
 Transaction::Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description, QString initial_comment, qlonglong initial_id) : Transactions(parent_budget), d_value(initial_value), d_date(initial_date), o_from(from), o_to(to), s_description(initial_description.trimmed()), s_comment(initial_comment.trimmed()), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentMSecsSinceEpoch() / 1000) {
 	if(initial_id < 0) i_id = o_budget->getNewId();
@@ -105,6 +143,30 @@ void Transaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	s_description = attr->value("description").trimmed().toString();
 	s_comment = attr->value("comment").trimmed().toString();
 	s_file = attr->value("file").trimmed().toString();
+	if(attr->hasAttribute("tags")) {
+		QStringRef tagstr = attr->value("tags").trimmed();
+		while(true) {
+			int i = 0;
+			if(tagstr[0] == '\"') {
+				i = tagstr.indexOf('\"', 1);
+				if(i < 0) {
+					tags << tagstr.toString();
+					break;
+				}
+				i++;
+			}
+			i = tagstr.indexOf(',', i);
+			if(i < 0) {
+				tags << tagstr.toString();
+				break;
+			}	
+			QStringRef tagi = tagstr.left(i).trimmed();
+			if(tagi.length() >= 2 && tagi[0] == '\"' && tagi.back() == '\"') tagi = tagi.mid(1, tagi.length() - 2).trimmed();
+			if(!tagi.isEmpty()) tags << tagi.toString();
+			tagstr = tagstr.right(tagstr.length() - i - 1).trimmed();
+			if(tagstr.isEmpty()) break;
+		}
+	}
 	read_id(attr, i_id, i_first_revision, i_last_revision);
 	if(attr->hasAttribute("quantity")) d_quantity = attr->value("quantity").toDouble();
 	else d_quantity = 1.0;
@@ -128,6 +190,25 @@ void Transaction::writeAttributes(QXmlStreamAttributes *attr) {
 	write_id(attr, i_id, i_first_revision, i_last_revision);
 	if(i_time != 0) attr->append("timestamp", QString::number(i_time));
 	if(!s_description.isEmpty()) attr->append("description", s_description);
+	if(!tags.isEmpty()) {
+		if(tags.count() == 1) {
+			if(tags[0].contains(",")) attr->append("tags", QString("\"") + tags[0] + "\"");
+			else attr->append("tags", tags[0]);
+		} else {
+			QString tagstr;
+			for(int i = 0; i < tags.count(); i++) {
+				if(i > 0) tagstr += ",";
+				if(tags[i].contains(",")) {
+					tagstr += "\"";
+					tagstr += tags[i];
+					tagstr += "\"";
+				} else {
+					tagstr += tags[i];
+				}
+			}
+			attr->append("tags", tagstr);
+		}
+	}
 	if(!s_comment.isEmpty()) attr->append("comment", s_comment);
 	if(!s_file.isEmpty()) attr->append("file", s_file);
 	if(d_quantity != 1.0) attr->append("quantity", QString::number(d_quantity, 'f', QUANTITY_DECIMAL_PLACES));
@@ -148,6 +229,17 @@ bool Transaction::equals(const Transactions *trans, bool strict_comparison) cons
 	if(associatedFile() != transaction->associatedFile() && (strict_comparison || associatedFile().isEmpty() == transaction->associatedFile().isEmpty())) return false;
 	if(budget() != transaction->budget()) return false;
 	return true;
+}
+bool Transaction::hasTag(const QString &tag, bool include_parent) const {
+	if(Transactions::hasTag(tag)) return true;
+	return include_parent && o_split && o_split->hasTag(tag);
+}
+QString Transaction::tagsText(bool include_parent) const {
+	if(!include_parent || !o_split) return Transactions::tagsText();
+	QString tagstr = Transactions::tagsText();
+	if(!tagstr.isEmpty()) tagstr += ", ";
+	tagstr += o_split->tagsText();
+	return tagstr;
 }
 
 SplitTransaction *Transaction::parentSplit() const {return o_split;}

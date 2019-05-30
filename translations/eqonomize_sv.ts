@@ -7688,7 +7688,7 @@ Datum: %3</translation>
         <location filename="../src/transactionfilterwidget.cpp" line="116"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
-        <translation>Benämning:</translation>
+        <translation>Beskrivning:</translation>
     </message>
     <message>
         <location filename="../src/transactionfilterwidget.cpp" line="124"/>

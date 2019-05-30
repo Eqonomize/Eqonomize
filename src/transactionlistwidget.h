@@ -72,7 +72,7 @@ class TransactionListWidget : public QWidget {
 	protected:
 
 		int transtype;
-		int from_col, to_col, comments_col;
+		int from_col, to_col, comments_col, tags_col, payee_col, quantity_col;
 		Budget *budget;
 		Eqonomize *mainWin;
 		bool b_extra;
@@ -93,6 +93,7 @@ class TransactionListWidget : public QWidget {
 		
 		void accountAdded(Account*);
 		void currenciesModified();
+		void tagAdded(QString);
 
 	public slots:
 
@@ -134,6 +135,8 @@ class TransactionListWidget : public QWidget {
 		void transactionExecuted(QTreeWidgetItem*);
 		void currentTabChanged(int);
 		void updateClearButton();
+		void tagsModified();
+		void hideColumn(bool);
 
 };
 

@@ -27,6 +27,7 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QLabel>
+#include <QHash>
 #include <QMap>
 #include <QModelIndex>
 #include <QTextStream>
@@ -37,6 +38,7 @@
 #include <QUrl>
 #include <QApplication>
 #include <QMainWindow>
+#include <QStyledItemDelegate>
 
 #ifdef LOAD_EQZICONS_FROM_FILE
 	#ifdef RESOURCES_COMPILED
@@ -208,6 +210,8 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionEditTransaction, *ActionEditScheduledTransaction, *ActionEditSplitTransaction;
 		QAction *ActionJoinTransactions, *ActionSplitUpTransaction;
 		QAction *ActionEditTimestamp;
+		QAction *ActionTags;
+		QHash<QString, QAction*> tag_actions;
 		QAction *ActionSelectAssociatedFile, *ActionOpenAssociatedFile;
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
 		QAction *ActionNewSecurity, *ActionEditSecurity, *ActionBuyShares, *ActionSellShares, *ActionNewDividend, *ActionNewReinvestedDividend, *ActionNewSecurityTrade, *ActionSetQuotation, *ActionEditQuotations, *ActionEditSecurityTransactions, *ActionDeleteSecurity;
@@ -245,6 +249,7 @@ class Eqonomize : public QMainWindow {
 		QLocalSocket *socket;
 		QLocalServer *server;
 		QString cr_tmp_file;
+		bool block_tags;
 
 		QToolBar *fileToolbar, *accountsToolbar, *transactionsToolbar, *statisticsToolbar;
 		QTabWidget *tabs;
@@ -299,7 +304,7 @@ class Eqonomize : public QMainWindow {
 		QMap<QString, QTreeWidgetItem*> item_assets_groups, item_liabilities_groups;
 		QMap<QString, QVariant> assets_expanded, liabilities_expanded, expenses_expanded, incomes_expanded;
 
-		QMenu *assetsPopupMenu, *accountPopupMenu, *securitiesPopupMenu, *schedulePopupMenu;
+		QMenu *assetsPopupMenu, *accountPopupMenu, *securitiesPopupMenu, *schedulePopupMenu, *tagMenu;
 		
 		QDialog *helpDialog, *cccDialog, *ccrDialog, *otcDialog, *otrDialog, *syncDialog;
 		
@@ -472,6 +477,11 @@ class Eqonomize : public QMainWindow {
 		void deleteAccount();
 		void closeAccount();
 		void accountsSelectionChanged();
+		
+		void tagAdded(QString);
+		void tagsModified();
+		void newTag();
+		void tagToggled();
 
 		void setPartialBudget(bool);
 
@@ -815,6 +825,19 @@ class EqonomizeComboBox : public QComboBox {
 	
 		void returnPressed();
 		void itemSelected(int);
+
+};
+
+class AutoToolTipDelegate : public QStyledItemDelegate {
+
+	Q_OBJECT
+
+	public:
+		AutoToolTipDelegate(QObject* parent = NULL);
+
+	public slots:
+	
+	bool helpEvent(QHelpEvent* e, QAbstractItemView* view, const QStyleOptionViewItem& option, const QModelIndex& index);
 
 };
 

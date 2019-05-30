@@ -25,6 +25,7 @@
 #include <QString>
 #include <QVector>
 #include <QCoreApplication>
+#include <QStringList>
 
 class QXmlStreamReader;
 class QXmlStreamWriter;
@@ -84,6 +85,7 @@ class Transactions {
 		qlonglong i_id;
 		int i_first_revision, i_last_revision;
 		Budget *o_budget;
+		QStringList tags;
 	
 	public:
 		
@@ -123,6 +125,12 @@ class Transactions {
 		void setLastRevision(int new_rev);
 		bool isModified() const;
 		void setModified();
+		virtual void addTag(QString tag);
+		virtual void removeTag(QString tag);
+		virtual bool hasTag(const QString &tag, bool include_parent = true) const;
+		virtual const QString &getTag(int index) const;
+		virtual QString tagsText(bool include_parent = true) const;
+		virtual void clearTags();
 
 };
 
@@ -204,6 +212,9 @@ class Transaction : public Transactions {
 		
 		virtual bool isReconciled(AssetsAccount *account) const = 0;
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled) = 0;
+		
+		virtual bool hasTag(const QString &tag, bool include_parent = true) const;
+		virtual QString tagsText(bool include_parent = true) const;
 		
 };
 

@@ -149,9 +149,8 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	clearButton = new QPushButton(tr("Clear"), this);
 	clearButton->setEnabled(false);
 	filterExcludeLayout->addWidget(clearButton);
-	if(payeeEdit) {
+	if(b_extra) {
 		filterLayout->addLayout(filterExcludeLayout, 4, 0, 1, 4);
-		filterLayout->addItem(new QSpacerItem(1, 1, QSizePolicy::Minimum, QSizePolicy::Expanding), 5, 0, 1, 4);
 	} else {
 		filterLayout->addLayout(filterExcludeLayout, 3, 2, 1, 2);
 		filterLayout->addItem(new QSpacerItem(1, 1, QSizePolicy::Minimum, QSizePolicy::Expanding), 4, 0, 1, 4);
@@ -465,7 +464,7 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 			}
 		}
 		if(b_exact) {
-			if(!descriptionEdit->text().isEmpty() && transs->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) != 0) {
+			if(!descriptionEdit->text().isEmpty() && transs->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) != 0 && !transs->hasTag(descriptionEdit->text())) {
 				return true;
 			}
 			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !payeeEdit->text().isEmpty() && ((Expense*) trans)->payee().compare(payeeEdit->text(), Qt::CaseInsensitive) != 0) {
@@ -497,7 +496,7 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 				}
 			}
 		} else {
-			if(!descriptionEdit->text().isEmpty() && !transs->description().contains(descriptionEdit->text(), Qt::CaseInsensitive) && !transs->comment().contains(descriptionEdit->text(), Qt::CaseInsensitive)) {
+			if(!descriptionEdit->text().isEmpty() && !transs->description().contains(descriptionEdit->text(), Qt::CaseInsensitive) && !transs->comment().contains(descriptionEdit->text(), Qt::CaseInsensitive) && !transs->hasTag(descriptionEdit->text())) {
 				return true;
 			}
 			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !payeeEdit->text().isEmpty() && !((Expense*) trans)->payee().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
@@ -539,7 +538,7 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 			if(!split || transtype != TRANSACTION_TYPE_EXPENSE || !split->account()) return true;
 		}
 		if(b_exact) {
-			if(!descriptionEdit->text().isEmpty() && transs->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) == 0) {
+			if(!descriptionEdit->text().isEmpty() && (transs->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) == 0 || transs->hasTag(descriptionEdit->text()))) {
 				return true;
 			}
 			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE  && !payeeEdit->text().isEmpty() && ((Expense*) trans)->payee().compare(payeeEdit->text(), Qt::CaseInsensitive) == 0) {
@@ -571,7 +570,7 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 				}
 			}
 		} else {
-			if(!descriptionEdit->text().isEmpty() && transs->description().contains(descriptionEdit->text(), Qt::CaseInsensitive)) {
+			if(!descriptionEdit->text().isEmpty() && (transs->description().contains(descriptionEdit->text(), Qt::CaseInsensitive) || transs->hasTag(descriptionEdit->text()))) {
 				return true;
 			}
 			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE  && !payeeEdit->text().isEmpty() && ((Expense*) trans)->payee().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
@@ -689,6 +688,14 @@ void TransactionFilterWidget::transactionsReset() {
 			break;
 		}
 		default: {}
+	}
+	if(transtype != TRANSACTION_TYPE_TRANSFER) {
+		for(int i = 0; i < budget->tags.count(); i++) {
+			QList<QStandardItem*> row;
+			row << new QStandardItem(budget->tags[i]);
+			row << new QStandardItem(budget->tags[i].toLower());
+			((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+		}
 	}
 	((QStandardItemModel*) descriptionEdit->completer()->model())->sort(1);
 	if(payeeEdit) ((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
