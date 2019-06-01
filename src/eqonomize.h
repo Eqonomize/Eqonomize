@@ -79,6 +79,7 @@ class QLocalServer;
 class QPrinter;
 class QDialog;
 class QNetworkReply;
+class TagMenu;
 
 class CategoriesComparisonChart;
 class CategoriesComparisonReport;
@@ -158,10 +159,10 @@ class Eqonomize : public QMainWindow {
 		void updateScheduledTransactions();
 		void appendScheduledTransaction(ScheduledTransaction *strans);
 		bool editScheduledTransaction(ScheduledTransaction *strans);
-		bool editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent);
+		bool editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool clone_trans = false);
 		bool editOccurrence(ScheduledTransaction *strans, const QDate &date);
 		bool editOccurrence(ScheduledTransaction *strans, const QDate &date, QWidget *parent);
-		bool editTransaction(Transaction *trans, QWidget *parent);
+		bool editTransaction(Transaction *trans, QWidget *parent, bool clone_trans = false);
 		bool editTransaction(Transaction *trans);
 		bool removeScheduledTransaction(ScheduledTransaction *strans);
 		bool removeOccurrence(ScheduledTransaction *strans, const QDate &date);
@@ -175,7 +176,7 @@ class Eqonomize : public QMainWindow {
 		bool newDebtPayment(QWidget *parent, AssetsAccount *loan = NULL, bool only_interest = false);
 		bool editTimestamp(QList<Transactions*> trans);
 		bool editSplitTransaction(SplitTransaction *split);
-		bool editSplitTransaction(SplitTransaction *split, QWidget *parent, bool temporary_split = false);
+		bool editSplitTransaction(SplitTransaction *split, QWidget *parent, bool temporary_split = false, bool clone_trans = false);
 		bool splitUpTransaction(SplitTransaction *split);
 		bool removeSplitTransaction(SplitTransaction *split);
 		bool saveView(QTextStream &file, int fileformat);
@@ -209,9 +210,9 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionNewMultiAccountExpense, *ActionNewExpenseWithLoan, *ActionNewDebtPayment, *ActionNewDebtInterest;
 		QAction *ActionEditTransaction, *ActionEditScheduledTransaction, *ActionEditSplitTransaction;
 		QAction *ActionJoinTransactions, *ActionSplitUpTransaction;
+		QAction *ActionCloneTransaction;
 		QAction *ActionEditTimestamp;
 		QAction *ActionTags;
-		QHash<QString, QAction*> tag_actions;
 		QAction *ActionSelectAssociatedFile, *ActionOpenAssociatedFile;
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
 		QAction *ActionNewSecurity, *ActionEditSecurity, *ActionBuyShares, *ActionSellShares, *ActionNewDividend, *ActionNewReinvestedDividend, *ActionNewSecurityTrade, *ActionSetQuotation, *ActionEditQuotations, *ActionEditSecurityTransactions, *ActionDeleteSecurity;
@@ -227,6 +228,8 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionSetMainCurrency, *ActionSyncSettings, *ActionSelectFont;
 		QActionGroup *ActionSelectInitialPeriod, *ActionSelectBackupFrequency, *ActionSelectLang;
 		QAction *ActionHelp, *ActionWhatsThis, *ActionReportBug, *ActionAbout, *ActionAboutQt;
+		
+		TagMenu *tagMenu;
 		
 	protected:
 
@@ -249,7 +252,6 @@ class Eqonomize : public QMainWindow {
 		QLocalSocket *socket;
 		QLocalServer *server;
 		QString cr_tmp_file;
-		bool block_tags;
 
 		QToolBar *fileToolbar, *accountsToolbar, *transactionsToolbar, *statisticsToolbar;
 		QTabWidget *tabs;
@@ -304,7 +306,7 @@ class Eqonomize : public QMainWindow {
 		QMap<QString, QTreeWidgetItem*> item_assets_groups, item_liabilities_groups;
 		QMap<QString, QVariant> assets_expanded, liabilities_expanded, expenses_expanded, incomes_expanded;
 
-		QMenu *assetsPopupMenu, *accountPopupMenu, *securitiesPopupMenu, *schedulePopupMenu, *tagMenu;
+		QMenu *assetsPopupMenu, *accountPopupMenu, *securitiesPopupMenu, *schedulePopupMenu;
 		
 		QDialog *helpDialog, *cccDialog, *ccrDialog, *otcDialog, *otrDialog, *syncDialog;
 		
@@ -408,6 +410,7 @@ class Eqonomize : public QMainWindow {
 		void newScheduledIncome();
 		void newScheduledTransfer();
 		void editScheduledTransaction();
+		void cloneScheduledTransaction();
 		void editOccurrence();
 		void removeScheduledTransaction();
 		void removeOccurrence();
@@ -418,6 +421,7 @@ class Eqonomize : public QMainWindow {
 		void editSelectedTimestamp();
 		void editSelectedScheduledTransaction();
 		void editSelectedTransaction();
+		void cloneSelectedTransaction();
 		void editSelectedSplitTransaction();
 		void deleteSelectedScheduledTransaction();
 		void deleteSelectedTransaction();
@@ -481,7 +485,9 @@ class Eqonomize : public QMainWindow {
 		void tagAdded(QString);
 		void tagsModified();
 		void newTag();
-		void tagToggled();
+		void deleteTag(const QString&);
+		void renameTag(const QString&);
+		void tagsChanged();
 
 		void setPartialBudget(bool);
 
@@ -828,16 +834,17 @@ class EqonomizeComboBox : public QComboBox {
 
 };
 
-class AutoToolTipDelegate : public QStyledItemDelegate {
+class EqonomizeItemDelegate : public QStyledItemDelegate {
 
 	Q_OBJECT
 
 	public:
-		AutoToolTipDelegate(QObject* parent = NULL);
+		EqonomizeItemDelegate(QObject *parent = NULL);
 
 	public slots:
 	
-	bool helpEvent(QHelpEvent* e, QAbstractItemView* view, const QStyleOptionViewItem& option, const QModelIndex& index);
+		bool helpEvent(QHelpEvent *e, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index);
+		void paint(QPainter *painter, const QStyleOptionViewItem& option, const QModelIndex &index) const;
 
 };
 

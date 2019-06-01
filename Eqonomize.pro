@@ -204,6 +204,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/scalable/eqz-join-transactions.svg \
 				data/scalable/eqz-export.svg \
 				data/scalable/eqz-edit.svg \
+				data/scalable/eqz-tag.svg \
 				data/scalable/eqz-balance.svg \
 				data/scalable/eqz-ledger.svg \
 				data/scalable/eqz-transactions.svg \
@@ -230,6 +231,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/16/eqz-join-transactions.png \
 				data/16/eqz-export.png \
 				data/16/eqz-edit.png \
+				data/16/eqz-tag.png \
 				data/16/eqz-balance.png \
 				data/16/eqz-ledger.png \
 				data/16/eqz-transactions.png \
@@ -256,6 +258,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/22/eqz-join-transactions.png \
 				data/22/eqz-export.png \
 				data/22/eqz-edit.png \
+				data/22/eqz-tag.png \
 				data/22/eqz-balance.png \
 				data/22/eqz-ledger.png \
 				data/22/eqz-transactions.png \
@@ -282,6 +285,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/32/eqz-join-transactions.png \
 				data/32/eqz-export.png \
 				data/32/eqz-edit.png \
+				data/32/eqz-tag.png \
 				data/32/eqz-balance.png \
 				data/32/eqz-ledger.png \
 				data/32/eqz-transactions.png \
@@ -308,6 +312,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/48/eqz-join-transactions.png \
 				data/48/eqz-export.png \
 				data/48/eqz-edit.png \
+				data/48/eqz-tag.png \
 				data/48/eqz-balance.png \
 				data/48/eqz-ledger.png \
 				data/48/eqz-transactions.png \
@@ -334,6 +339,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/64/eqz-join-transactions.png \
 				data/64/eqz-export.png \
 				data/64/eqz-edit.png \
+				data/64/eqz-tag.png \
 				data/64/eqz-balance.png \
 				data/64/eqz-ledger.png \
 				data/64/eqz-transactions.png \

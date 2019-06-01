@@ -73,12 +73,128 @@ void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
 	}
 }
 
-TagMenu::TagMenu(QWidget *parent) : QMenu(parent) {}
+TagMenu::TagMenu(Budget *budg, QWidget *parent, bool allow_new_tag) : QMenu(parent), budget(budg), allow_new(allow_new_tag) {
+	contextMenu = NULL;
+	if(allow_new) {
+		setContextMenuPolicy(Qt::CustomContextMenu);
+		connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupContextMenu(const QPoint&)));
+	}
+}
+void TagMenu::updateTags() {
+	clear();
+	tag_actions.clear();
+	if(allow_new) {
+		addAction(tr("New tag…"), this, SIGNAL(newTagRequested()));
+		if(!budget->tags.isEmpty()) addSeparator();
+	}
+	for(int i = 0; i < budget->tags.count(); i++) {
+		QAction *action = addAction(budget->tags[i], this, SLOT(tagToggled()));
+		action->setData(false);
+		action->setCheckable(true);
+		tag_actions[budget->tags[i].toLower()] = action;
+	}
+}
+void TagMenu::setTagSelected(QString tag, bool b, bool inconsistent) {
+	QHash<QString, QAction*>::iterator it = tag_actions.find(tag.toLower());
+	if(it != tag_actions.end()) {
+		if(it.value()->data().toBool() != inconsistent) {
+			if(inconsistent) it.value()->setText(it.value()->text() + "*");
+			else it.value()->setText(it.value()->text().left(it.value()->text().length() - 1));
+		}
+		it.value()->setChecked(b);
+		it.value()->setData(inconsistent);
+	}
+}
+void TagMenu::setTransaction(Transactions *trans) {
+	for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+		if(it.value()->data().toBool()) it.value()->setText(it.value()->text().left(it.value()->text().length() - 1));
+	}
+	for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+		it.value()->setData(false);
+		if(trans && trans->hasTag(it.key(), false)) it.value()->setChecked(true);
+		else it.value()->setChecked(false);
+	}
+}
+void TagMenu::setTransactions(QList<Transactions*> list) {
+	if(list.count() == 0) {
+		setTransaction(NULL);
+	} else if(list.count() == 1) {
+		setTransaction(list[0]);
+	} else {
+		QHash<QString, bool> tagb;
+		QHash<QString, bool> tagi;
+		Transactions *trans = list[0];
+		for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+			tagb[it.key()] = trans->hasTag(it.key(), false);
+			tagi[it.key()] = false;
+		}
+		for(int i = 1; i < list.count(); i++) {
+			trans = list[i];
+			for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+				if(tagb[it.key()] != trans->hasTag(it.key(), false)) {
+					tagb[it.key()] = false;
+					tagi[it.key()] = true;
+				}
+			}
+		}
+		for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+			if(it.value()->data() != tagi[it.key()]) {
+				if(tagi[it.key()]) it.value()->setText(it.value()->text() + "*");
+				else it.value()->setText(it.value()->text().left(it.value()->text().length() - 1));
+				it.value()->setData(tagi[it.key()]);
+			}
+			it.value()->setChecked(tagb[it.key()]);
+		}
+	}
+}
+void TagMenu::modifyTransaction(Transactions *trans) {
+	QStringList tags;
+	for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+		if(it.value()->data().toBool()) {
+			if(trans->hasTag(it.key(), false)) {
+				tags << it.value()->text().left(it.value()->text().length() - 1);
+			}
+		} else if(it.value()->isChecked()) {
+			tags << it.value()->text();
+		}
+	}
+	trans->clearTags();
+	for(int i = 0; i < tags.count(); i++) {
+		trans->addTag(tags[i]);
+	}
+}
+int TagMenu::selectedTagsCount() {
+	int n = 0;
+	for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+		if(it.value()->isChecked()) n++;
+	}
+	return n;
+}
+QString TagMenu::selectedTagsText() {
+	QString str;
+	for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+		if(it.value()->isChecked()) {
+			if(!str.isEmpty()) str += ", ";
+			str += it.value()->text();
+		}
+	}
+	return str;
+}
+void TagMenu::tagToggled() {
+	QAction *action = qobject_cast<QAction*>(sender());
+	if(action->data().toBool()) {
+		action->setData(false);
+		action->setText(action->text().left(action->text().length() - 1));
+	}
+	emit selectedTagsChanged();
+}
 void TagMenu::keyPressEvent(QKeyEvent *e) {
 	if(e->key() == Qt::Key_Space) {
 		QAction *action = activeAction();
 		if(action) action->trigger();
 		e->setAccepted(true);
+	} else {
+		QMenu::keyPressEvent(e);
 	}
 }
 void TagMenu::mouseReleaseEvent(QMouseEvent *e) {
@@ -86,7 +202,39 @@ void TagMenu::mouseReleaseEvent(QMouseEvent *e) {
 		QAction *action = actionAt(e->pos());
 		if(action) action->trigger();
 		e->setAccepted(true);
+	} else {
+		QMenu::mouseReleaseEvent(e);
 	}
+}
+void TagMenu::renameTag() {
+	if(currentAction->data().toBool()) {
+		emit renameTagRequested(currentAction->text().left(currentAction->text().length() - 1));
+	} else {
+		emit renameTagRequested(currentAction->text());
+	}
+}
+void TagMenu::deleteTag() {
+	if(currentAction->data().toBool()) {
+		emit deleteTagRequested(currentAction->text().left(currentAction->text().length() - 1));
+	} else {
+		emit deleteTagRequested(currentAction->text());
+	}
+}
+void TagMenu::popupContextMenu(const QPoint &p) {
+	QAction *action = actionAt(p);
+	if(!action) return;
+	bool b = false;
+	for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+		if(it.value() == action) {b = true; break;}
+	}
+	if(!b) return;
+	if(!contextMenu) {
+		contextMenu = new QMenu(this);
+		renameAction = contextMenu->addAction(LOAD_ICON2("document-edit", "eqz-edit"), tr("Rename"), this, SLOT(renameTag()));
+		deleteAction = contextMenu->addAction(LOAD_ICON("edit-delete"), tr("Remove"), this, SLOT(deleteTag()));
+	}
+	currentAction = action;
+	contextMenu->popup(mapToGlobal(p));
 }
 
 extern QString last_associated_file_directory;
@@ -95,10 +243,8 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	bool split = (split_currency != NULL);
 	splitcurrency = split_currency;
 	value_set = false; shares_set = false; sharevalue_set = false;
-	block_tags = false;
 	b_sec = (transtype == TRANSACTION_TYPE_SECURITY_BUY || transtype == TRANSACTION_TYPE_SECURITY_SELL || transtype == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND);
 	QVBoxLayout *editVLayout = new QVBoxLayout(this);
-	editVLayout->setSpacing(editVLayout->spacing() * 2);
 	int cols = 1;
 	if(auto_edit) cols = 2;
 	int rows = 6;
@@ -418,6 +564,18 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		editLayout->addWidget(lenderEdit, TEROWCOL(i, 1));
 		i++;
 	}
+	if(!b_autoedit && (transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE) && !withloan && !sec) {
+		editLayout->addWidget(new QLabel(tr("Tags:"), this), TEROWCOL(i, 0));
+		tagButton = new QPushButton(tr("no tags"), this);
+		tagMenu = new TagMenu(budget, this, allow_account_creation);
+		tagButton->setMenu(tagMenu);
+		editLayout->addWidget(tagButton, TEROWCOL(i, 1));
+		tagsModified();
+		i++;
+		connect(tagMenu, SIGNAL(aboutToShow()), this, SLOT(resizeTagMenu()));
+		connect(tagMenu, SIGNAL(selectedTagsChanged()), this, SLOT(tagsChanged()));
+		connect(tagMenu, SIGNAL(newTagRequested()), this, SLOT(newTag()));
+	}
 	if(!b_autoedit && !split && !multiaccount) {
 		editLayout->addWidget(new QLabel(tr("Associated file:"), this), TEROWCOL(i, 0));
 		QHBoxLayout *fileLayout = new QHBoxLayout();
@@ -443,14 +601,17 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	if(!multiaccount) {
 		editLayout->addWidget(new QLabel(tr("Comments:"), this), TEROWCOL(i, 0));
 		commentsEdit = new QLineEdit(this);
-		if((transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE) && !withloan && !sec) {
+		if(b_autoedit && (transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE) && !withloan && !sec) {
 			QHBoxLayout *box = new QHBoxLayout();
 			editLayout->addLayout(box, TEROWCOL(i, 1));
 			box->addWidget(commentsEdit, 1);
-			tagButton = new QPushButton(LOAD_ICON("tag"), "(0)", this);
-			tagMenu = new TagMenu(this);
+			tagButton = new QPushButton(LOAD_ICON2("tag", "eqz-tag"), "(0)", this);
+			tagMenu = new TagMenu(budget, this, allow_account_creation);
 			tagButton->setMenu(tagMenu);
 			box->addWidget(tagButton, 0);
+			tagsModified();
+			connect(tagMenu, SIGNAL(selectedTagsChanged()), this, SLOT(tagsChanged()));
+			connect(tagMenu, SIGNAL(newTagRequested()), this, SLOT(newTag()));
 		} else {
 			editLayout->addWidget(commentsEdit, TEROWCOL(i, 1));
 		}
@@ -555,9 +716,11 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		connect(payeeEdit, SIGNAL(editingFinished()), this, SLOT(setDefaultValueFromPayee()));
 		connect(payeeEdit, SIGNAL(textChanged(const QString&)), this, SLOT(payeeChanged(const QString&)));
 	}
-	if(b_autoedit && dateEdit) connect(dateEdit, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
-	else if(fromCombo && transtype != TRANSACTION_TYPE_EXPENSE) connect(dateEdit, SIGNAL(returnPressed()), fromCombo, SLOT(focusAndSelectAll()));
-	else if(toCombo) connect(dateEdit, SIGNAL(returnPressed()), toCombo, SLOT(focusAndSelectAll()));
+	if(dateEdit) {
+		if(b_autoedit) connect(dateEdit, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
+		else if(fromCombo && transtype != TRANSACTION_TYPE_EXPENSE) connect(dateEdit, SIGNAL(returnPressed()), fromCombo, SLOT(focusAndSelectAll()));
+		else if(toCombo) connect(dateEdit, SIGNAL(returnPressed()), toCombo, SLOT(focusAndSelectAll()));
+	}
 	if(payeeEdit && lenderEdit) connect(payeeEdit, SIGNAL(returnPressed()), lenderEdit, SLOT(setFocus()));
 	else if(payeeEdit && fileEdit) connect(payeeEdit, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
 	else if(payeeEdit && commentsEdit) connect(payeeEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
@@ -609,6 +772,9 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	b_multiple_currencies = true;
 	useMultipleCurrencies(budget->usesMultipleCurrencies());
 	if(security) securityChanged();
+}
+void TransactionEditWidget::resizeTagMenu() {
+	tagMenu->setMinimumWidth(tagButton->width());
 }
 void TransactionEditWidget::setQuoteToggled(bool b) {
 	QSettings settings;
@@ -942,6 +1108,14 @@ void TransactionEditWidget::focusFirst() {
 		descriptionEdit->setFocus();
 	}
 }
+bool TransactionEditWidget::firstHasFocus() const {
+	if(!descriptionEdit) {
+		if(b_select_security && securityCombo) return securityCombo->hasFocus();
+		else if(valueEdit && transtype != TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) return valueEdit->hasFocus();
+		else if(sharesEdit) return sharesEdit->hasFocus();
+	}
+	return descriptionEdit->hasFocus();
+}
 void TransactionEditWidget::setValues(QString description_value, double value_value, double quantity_value, QDate date_value, Account *from_account_value, Account *to_account_value, QString payee_value, QString comment_value) {
 	if(descriptionEdit) descriptionEdit->setText(description_value);
 	if(valueEdit) valueEdit->setValue(value_value);
@@ -1112,26 +1286,17 @@ void TransactionEditWidget::transactionAdded(Transaction *trans) {
 		}
 	}
 }
-void TransactionEditWidget::tagToggled() {
-	int n = 0;
-	for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
-		if(it.value()->isChecked()) n++;
-	}
-	tagButton->setText(QString("(") + QString::number(n) + ")");
+void TransactionEditWidget::tagsChanged() {
+	QString str;
+	if(b_autoedit) {str = "("; str += QString::number(tagMenu->selectedTagsCount()); str += ")";}
+	else str = tagMenu->selectedTagsText();
+	if(str.isEmpty()) str = tr("no tags");
+	tagButton->setText(str);
 }
 void TransactionEditWidget::tagsModified() {
-	if(block_tags) return;
 	if(tagMenu) {
-		tagMenu->clear();
-		tag_actions.clear();
-		tagMenu->addAction(tr("New tag…"), this, SLOT(newTag()));
-		if(!budget->tags.isEmpty()) tagMenu->addSeparator();
-		for(int i = 0; i < budget->tags.count(); i++) {
-			QAction *action = tagMenu->addAction(budget->tags[i], this, SLOT(tagToggled()));
-			action->setCheckable(true);
-			tag_actions[budget->tags[i].toLower()] = action;
-		}
-		tagButton->setText("(0)");
+		tagMenu->updateTags();
+		tagsChanged();
 	}
 }
 void TransactionEditWidget::transactionModified(Transaction *trans) {
@@ -1336,11 +1501,8 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 	if(quantityEdit) trans->setQuantity(quantityEdit->value());
 	if(payeeEdit && trans->type() == TRANSACTION_TYPE_EXPENSE) ((Expense*) trans)->setPayee(payeeEdit->text());
 	if(payeeEdit && trans->type() == TRANSACTION_TYPE_INCOME) ((Income*) trans)->setPayer(payeeEdit->text());
-	if(tagButton) {
-		trans->clearTags();
-		for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
-			if(it.value()->isChecked()) trans->addTag(it.value()->text());
-		}
+	if(tagMenu) {
+		tagMenu->modifyTransaction(trans);
 	}
 	trans->setModified();
 	return true;
@@ -1379,10 +1541,8 @@ Transactions *TransactionEditWidget::createTransactionWithLoan() {
 	Expense *down_payment = new Expense(budget, downPaymentEdit->value(), dateEdit->date(), (ExpensesAccount*) toCombo->currentAccount(), (AssetsAccount*) fromCombo->currentAccount());
 	down_payment->setPayee(loan->maintainer());
 	split->addTransaction(down_payment);
-	if(tagButton) {
-		for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
-			if(it.value()->isChecked()) split->addTag(it.value()->text());
-		}
+	if(tagMenu) {
+		tagMenu->modifyTransaction(split);
 	}
 	return split;
 }
@@ -1447,10 +1607,8 @@ Transaction *TransactionEditWidget::createTransaction() {
 		trans = expense;
 	}
 	if(fileEdit) trans->setAssociatedFile(fileEdit->text());
-	if(tagButton) {
-		for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
-			if(it.value()->isChecked()) trans->addTag(it.value()->text());
-		}
+	if(tagMenu) {
+		tagMenu->modifyTransaction(trans);
 	}
 	return trans;
 }
@@ -1628,39 +1786,9 @@ void TransactionEditWidget::transactionsReset() {
 void TransactionEditWidget::newTag() {
 	QString new_tag = QInputDialog::getText(this, tr("New Tag"), tr("Tag:")).trimmed(); 
 	if(!new_tag.isEmpty()) {
-		QString str = new_tag.toLower();
-		bool b = false;
-		block_tags = true;
-		for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
-			if(it.key() == str) {
-				it.value()->setChecked(true);
-				b = true;
-				break;
-			} else if(it.key() > str) {
-				QAction *action = new QAction(new_tag);
-				connect(action, SIGNAL(triggered()), this, SLOT(tagToggled()));
-				tagMenu->insertAction(it.value(), action);
-				action->setCheckable(true);
-				action->setChecked(true);
-				tag_actions[new_tag.toLower()] = action;
-				emit tagAdded(new_tag);
-				b = true;
-				break;
-			}
-		}
-		if(!b) {
-			QAction *action = tagMenu->addAction(new_tag, this, SLOT(tagToggled()));
-			action->setCheckable(true);
-			action->setChecked(true);
-			tag_actions[new_tag.toLower()] = action;
-			emit tagAdded(new_tag);
-		}
-		block_tags = false;
-		int n = 0;
-		for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
-			if(it.value()->isChecked()) n++;
-		}
-		tagButton->setText(QString("(") + QString::number(n) + ")");
+		emit tagAdded(new_tag);
+		tagMenu->setTagSelected(new_tag, true);
+		tagsChanged();
 		tagButton->click();
 	}
 }
@@ -1823,12 +1951,8 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 		if(dateEdit) emit dateChanged(trans->date());
 	}
 	if(tagButton) {
-		int n = 0;
-		for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
-			if(trans && trans->hasTag(it.key(), false)) {it.value()->setChecked(true); n++;}
-			else it.value()->setChecked(false);
-		}
-		tagButton->setText(QString("(") + QString::number(n) + ")");
+		tagMenu->setTransaction(trans);
+		tagsChanged();
 	}
 	blockSignals(false);
 	if(valueEdit) valueEdit->blockSignals(false);

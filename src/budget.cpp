@@ -3409,13 +3409,8 @@ void Budget::tagAdded(const QString &tag) {
 		tags.sort(Qt::CaseInsensitive);
 	}
 }
-void Budget::tagRemoved(const QString&) {
-	/*if(tags_ref.contains(tag.toLower())) {
-		tags_ref[tag.toLower()]--;
-		if(tags_ref[tag.toLower()] <= 0) {
-			tags.removeAll(tag);
-			tags_ref.remove(tag.toLower());
-		}
-	}*/
+void Budget::tagRemoved(const QString &tag) {
+	tags.removeAll(tag);
+	tags_ref.remove(tag.toLower());
 }
 

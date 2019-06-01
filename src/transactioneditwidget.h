@@ -38,6 +38,7 @@ class QHBoxLayout;
 class QGridLayout;
 
 class EqonomizeDateEdit;
+class TagMenu;
 
 class Budget;
 class Account;
@@ -80,6 +81,7 @@ class TransactionEditWidget : public QWidget {
 		void setToAccount(Account *account);
 		void setFromAccount(Account *account);
 		void focusFirst();
+		bool firstHasFocus() const;
 		QHBoxLayout *bottomLayout();
 		void transactionRemoved(Transaction *trans);
 		void transactionAdded(Transaction *trans);
@@ -111,7 +113,6 @@ class TransactionEditWidget : public QWidget {
 		QHash<QString, Transaction*> default_values;
 		QHash<QString, Transaction*> default_payee_values;
 		QHash<Account*, Transaction*> default_category_values;
-		QHash<QString, QAction*> tag_actions;
 		int transtype;
 		bool description_changed, payee_changed;
 		Budget *budget;
@@ -122,7 +123,6 @@ class TransactionEditWidget : public QWidget {
 		bool b_create_accounts;
 		bool b_multiple_currencies;
 		bool b_select_security;
-		bool block_tags;
 		int b_prev_update_quote;
 		Currency *splitcurrency;
 		int dateRow, dateLabelCol, dateEditCol, depositRow, depositLabelCol, depositEditCol;
@@ -134,7 +134,7 @@ class TransactionEditWidget : public QWidget {
 		QLabel *withdrawalLabel, *depositLabel, *dateLabel;
 		EqonomizeValueEdit *valueEdit, *depositEdit, *downPaymentEdit, *sharesEdit, *quotationEdit, *quantityEdit;
 		QPushButton *maxSharesButton, *tagButton;
-		QMenu *tagMenu;
+		TagMenu *tagMenu;
 		EqonomizeDateEdit *dateEdit;
 		QHBoxLayout *bottom_layout;
 		QGridLayout *editLayout;
@@ -176,7 +176,8 @@ class TransactionEditWidget : public QWidget {
 		void maxShares();
 		void setQuoteToggled(bool);
 		void newTag();
-		void tagToggled();
+		void tagsChanged();
+		void resizeTagMenu();
 
 };
 
@@ -261,12 +262,44 @@ class TagMenu : public QMenu {
 	
 	public:
 	
-		TagMenu(QWidget *parent = NULL);
+		TagMenu(Budget*, QWidget *parent = NULL, bool allow_new = false);
+		
+		void setTransaction(Transactions *trans);
+		void setTransactions(QList<Transactions*> list);
+		void modifyTransaction(Transactions *trans);
+		int selectedTagsCount();
+		QString selectedTagsText();
+		void setTagSelected(QString, bool b = true, bool inconsistent = false);
 		
 	protected:
 	
+		QHash<QString, QAction*> tag_actions;
+		QMenu *contextMenu;
+		QAction *renameAction, *deleteAction, *currentAction;
+	
 		void keyPressEvent(QKeyEvent *e) override;
 		void mouseReleaseEvent(QMouseEvent *e) override;
+		
+		Budget *budget;
+		bool allow_new;
+	
+	protected slots:
+	
+		void tagToggled();
+		void deleteTag();
+		void renameTag();
+		
+	public slots:
+	
+		void updateTags();
+		void popupContextMenu(const QPoint&);
+	
+	signals:
+	
+		void selectedTagsChanged();
+		void newTagRequested();
+		void deleteTagRequested(const QString&);
+		void renameTagRequested(const QString&);
 
 };
 

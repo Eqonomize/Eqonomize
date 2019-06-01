@@ -126,7 +126,7 @@ class Transactions {
 		bool isModified() const;
 		void setModified();
 		virtual void addTag(QString tag);
-		virtual void removeTag(QString tag);
+		virtual bool removeTag(QString tag);
 		virtual bool hasTag(const QString &tag, bool include_parent = true) const;
 		virtual const QString &getTag(int index) const;
 		virtual QString tagsText(bool include_parent = true) const;

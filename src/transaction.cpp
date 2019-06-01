@@ -71,12 +71,10 @@ void Transactions::setModified() {i_last_revision = o_budget->revision();}
 void Transactions::addTag(QString tag) {
 	if(!tag.isEmpty() && !tags.contains(tag, Qt::CaseInsensitive)) {
 		tags << tag;
-		o_budget->tagAdded(tag);
 	}
 }
-void Transactions::removeTag(QString tag) {
-	tags.removeAll(tag);
-	o_budget->tagRemoved(tag);
+bool Transactions::removeTag(QString tag) {
+	return tags.removeAll(tag) > 0;
 }
 bool Transactions::hasTag(const QString &tag, bool) const {return tags.contains(tag, Qt::CaseInsensitive);}
 const QString &Transactions::getTag(int index) const {
@@ -103,7 +101,6 @@ QString Transactions::tagsText(bool) const {
 	return tagstr;
 }
 void Transactions::clearTags() {
-	for(int i = 0; i < tags.count(); i++) o_budget->tagRemoved(tags[i]);
 	tags.clear();
 }
 

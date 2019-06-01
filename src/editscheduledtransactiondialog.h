@@ -67,8 +67,8 @@ class EditScheduledTransactionDialog : public QDialog {
 		bool modifyTransaction(Transaction *trans, Recurrence *&rec);
 		static ScheduledTransaction *newScheduledTransaction(QString description_value, double value_value, double quantity_value, QDate date_value, Account *from_account_value, Account *to_account_value, QString payee_value, QString comment_value, int transaction_type, Budget *budg, QWidget *parent, Security *security = NULL, bool select_security = false, Account *account = NULL, bool extra_parameters = false, bool allow_account_creation = false, bool withloan = false);
 		static ScheduledTransaction *newScheduledTransaction(int transaction_type, Budget *budg, QWidget *parent, Security *security = NULL, bool select_security = false, Account *account = NULL, bool extra_parameters = false, bool allow_account_creation = false, bool withloan = false);
-		static bool editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool select_security = true, bool extra_parameters = false, bool allow_account_creation = false);
-		static bool editTransaction(Transaction *trans, Recurrence *&rec,  QWidget *parent, bool select_security = true, bool extra_parameters = false, bool allow_account_creation = false);
+		static bool editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool select_security = true, bool extra_parameters = false, bool allow_account_creation = false, bool clone_trans = false);
+		static bool editTransaction(Transaction *trans, Recurrence *&rec,  QWidget *parent, bool select_security = true, bool extra_parameters = false, bool allow_account_creation = false, bool clone_trans = false);
 
 	protected slots:
 
@@ -100,8 +100,8 @@ class EditScheduledMultiItemDialog : public QDialog {
 		ScheduledTransaction *createScheduledTransaction();
 		MultiItemTransaction *createTransaction(Recurrence *&rec);
 		static ScheduledTransaction *newScheduledTransaction(Budget *budg, QWidget *parent, AssetsAccount *account = NULL, bool extra_parameters = false, bool allow_account_creation = false);
-		static ScheduledTransaction *editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false);
-		static MultiItemTransaction *editTransaction(MultiItemTransaction *trans, Recurrence *&rec,  QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false);
+		static ScheduledTransaction *editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false, bool clone_trans = false);
+		static MultiItemTransaction *editTransaction(MultiItemTransaction *trans, Recurrence *&rec,  QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false, bool clone_trans = false);
 
 	protected slots:
 
@@ -136,8 +136,8 @@ class EditScheduledMultiAccountDialog : public QDialog {
 		MultiAccountTransaction *createTransaction(Recurrence *&rec);
 		static ScheduledTransaction *newScheduledTransaction(Budget *budg, QWidget *parent, bool create_expenses = true, bool extra_parameters = false, bool allow_account_creation = false);
 		static ScheduledTransaction *newScheduledTransaction(QString description_string, CategoryAccount *category_account, double quantity_value, QString comment_string, Budget *budg, QWidget *parent, bool create_expenses = true, bool extra_parameters = false, bool allow_account_creation = false);
-		static ScheduledTransaction *editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false);
-		static MultiAccountTransaction *editTransaction(MultiAccountTransaction *trans, Recurrence *&rec,  QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false);
+		static ScheduledTransaction *editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false, bool clone_trans = false);
+		static MultiAccountTransaction *editTransaction(MultiAccountTransaction *trans, Recurrence *&rec,  QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false, bool clone_trans = false);
 
 	protected slots:
 
@@ -170,8 +170,8 @@ class EditScheduledDebtPaymentDialog : public QDialog {
 		ScheduledTransaction *createScheduledTransaction();
 		DebtPayment *createTransaction(Recurrence *&rec);
 		static ScheduledTransaction *newScheduledTransaction(Budget *budg, QWidget *parent, AssetsAccount *loan = NULL, bool extra_parameters = false, bool allow_account_creation = false, bool only_interest = false);
-		static ScheduledTransaction *editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false);
-		static DebtPayment *editTransaction(DebtPayment *trans, Recurrence *&rec,  QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false);
+		static ScheduledTransaction *editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false, bool clone_trans = false);
+		static DebtPayment *editTransaction(DebtPayment *trans, Recurrence *&rec,  QWidget *parent, bool extra_parameters = false, bool allow_account_creation = false, bool clone_trans = false);
 
 	protected slots:
 

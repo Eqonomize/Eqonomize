@@ -89,6 +89,8 @@ class TransactionListWidget : public QWidget {
 		QColor expenseColor, incomeColor, transferColor;
 		QAction *ActionSortByCreationTime;
 		
+		void keyPressEvent(QKeyEvent*);
+		
 	signals:
 		
 		void accountAdded(Account*);
@@ -107,10 +109,12 @@ class TransactionListWidget : public QWidget {
 		void newMultiAccountTransaction();
 		void newTransactionWithLoan();
 		void newRefundRepayment();
+		void cloneTransaction();
 		void editScheduledTransaction();
 		void editSplitTransaction();
 		void splitUpTransaction();
 		void joinTransactions();
+		void modifyTags();
 		void onTransactionSplitUp(SplitTransaction*);
 		void onTransactionAdded(Transactions*);
 		void onTransactionModified(Transactions*, Transactions*);

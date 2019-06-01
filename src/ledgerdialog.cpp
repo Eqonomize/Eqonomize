@@ -113,9 +113,9 @@ LedgerListViewItem::LedgerListViewItem(Transaction *trans, SplitTransaction *spl
 	setTextAlignment(11, Qt::AlignRight | Qt::AlignVCenter);
 	setTextAlignment(0, Qt::AlignCenter | Qt::AlignVCenter);
 	if(parent) {
-		if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 6);
+		if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 8);
 		setForeground(8, expenseColor);
-		if(!incomeColor.isValid()) incomeColor = createIncomeColor(this, 7);
+		if(!incomeColor.isValid()) incomeColor = createIncomeColor(this, 9);
 		setForeground(9, incomeColor);
 		setForeground(10, expenseColor);
 	}
@@ -147,9 +147,9 @@ void LedgerListViewItem::updateMark(int mark) {
 	if(isDisabled() != (mark >= 0 && b_reconciled < 0)) setDisabled(mark >= 0 && b_reconciled < 0);
 }
 void LedgerListViewItem::setColors() { 
-	if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 7);
+	if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 8);
 	setForeground(8, expenseColor);
-	if(!incomeColor.isValid()) incomeColor = createIncomeColor(this, 8);
+	if(!incomeColor.isValid()) incomeColor = createIncomeColor(this, 9);
 	setForeground(9, incomeColor);
 	setForeground(10, expenseColor);
 }
@@ -353,6 +353,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 #define NEW_ACTION_ALT(action, text, icon, icon_alt, receiver, slot) action = new QAction(this); action->setText(text); action->setIcon(LOAD_ICON2(icon, icon_alt)); connect(action, SIGNAL(triggered()), receiver, slot);
 
 	NEW_ACTION_ALT(ActionEdit, tr("Edit Transaction(s)…"), "document-edit", "eqz-edit", this, SLOT(edit()));
+	NEW_ACTION(ActionClone, mainWin->ActionCloneTransaction->text(), "edit-copy", this, SLOT(cloneTransaction()));
 	NEW_ACTION(ActionJoin, mainWin->ActionJoinTransactions->text(), "eqz-join-transactions", this, SLOT(joinTransactions()));
 	NEW_ACTION(ActionSplit, mainWin->ActionSplitUpTransaction->text(), "eqz-split-transaction", this, SLOT(splitUpTransaction()));
 	NEW_ACTION(ActionOpenFile, mainWin->ActionOpenAssociatedFile->text(), "system-run", this, SLOT(openAssociatedFile()));
@@ -388,7 +389,6 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	connect(transactionsView->header(), SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupHeaderMenu(const QPoint&)));
 	transactionsView->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(transactionsView, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupListMenu(const QPoint&)));
-	connect(searchEdit, SIGNAL(returnPressed()), this, SLOT(search()));
 	connect(ActionSearch, SIGNAL(triggered(bool)), this, SLOT(search()));
 	connect(searchEdit, SIGNAL(textChanged(const QString&)), this, SLOT(searchChanged(const QString&)));
 	connect(searchNextButton, SIGNAL(clicked()), this, SLOT(search()));
@@ -396,12 +396,14 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	
 	QSettings settings;
 	QSize dialog_size = settings.value("Ledger/size", QSize()).toSize();
-	transactionsView->header()->restoreState(settings.value("Ledger/listState", QByteArray()).toByteArray());
+	if(settings.value("GeneralOptions/version", 0).toInt() >= 140) {
+		transactionsView->header()->restoreState(settings.value("Ledger/listState", QByteArray()).toByteArray());
+	}
 	b_ascending = settings.value("Ledger/ascending", false).toBool(); 
 	if(dialog_size.isValid()) {
 		resize(dialog_size);
 	}
-	
+
 	accountChanged();
 	toggleReconciliation(reconcileButton->isChecked());
 	
@@ -410,6 +412,13 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 }
 LedgerDialog::~LedgerDialog() {}
 
+void LedgerDialog::keyPressEvent(QKeyEvent *e) {
+	QDialog::keyPressEvent(e);
+	if(!transactionsView->hasFocus() && !e->isAccepted()) {
+		transactionsView->setFocus();
+		QApplication::sendEvent(transactionsView, e);
+	}
+}
 void LedgerDialog::updateReconciliationStats(bool b_toggled, bool scroll_to, bool update_markers) {
 	if(!account) return;
 	QDate d_start = reconcileStartEdit->date();
@@ -515,6 +524,7 @@ void LedgerDialog::popupListMenu(const QPoint &p) {
 		listMenu->addAction(ActionMarkReconciled);
 		listMenu->addSeparator();
 		listMenu->addAction(ActionEdit);
+		listMenu->addAction(ActionClone);
 		listMenu->addAction(ActionJoin);
 		listMenu->addAction(ActionSplit);
 		listMenu->addAction(ActionEditTimestamp);
@@ -1075,6 +1085,7 @@ void LedgerDialog::transactionSelectionChanged() {
 	bool b_edit = selected;
 	bool b_remove = selected;
 	bool b_file = selected;
+	bool b_clone = selection.size() == 1;
 	SplitTransaction *split = NULL;
 	for(int index = 0; index < selection.size(); index++) {
 		LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
@@ -1091,6 +1102,7 @@ void LedgerDialog::transactionSelectionChanged() {
 			b_join = false;
 			b_split = false;
 			b_file = false;
+			b_clone = false;
 			break;
 		} else {
 			if(b_edit && trans->parentSplit() && (index > 0 || selection.size() > 1)) b_edit = false;
@@ -1111,6 +1123,7 @@ void LedgerDialog::transactionSelectionChanged() {
 	ActionDelete->setEnabled(b_remove);
 	editButton->setEnabled(b_edit);
 	ActionEdit->setEnabled(b_edit);
+	ActionClone->setEnabled(b_clone);
 	ActionOpenFile->setEnabled(b_file);
 	ActionEditTimestamp->setEnabled(b_edit);
 	if(selection.size() > 1) {
@@ -1231,6 +1244,15 @@ void LedgerDialog::editTimestamp() {
 		else if(i->transaction()) trans << i->transaction();
 	}
 	mainWin->editTimestamp(trans);
+}
+void LedgerDialog::cloneTransaction() {
+	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
+	if(selection.count() == 1) {
+		LedgerListViewItem *i = (LedgerListViewItem*) selection.first();
+		if(i->splitTransaction()) mainWin->editSplitTransaction(i->splitTransaction(), this, true);
+		else if(i->transaction()->parentSplit()) mainWin->editSplitTransaction(i->transaction()->parentSplit(), this, false, true);
+		else if(i->transaction()) mainWin->editTransaction(i->transaction(), this, true);
+	}
 }
 void LedgerDialog::edit() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
@@ -1433,7 +1455,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 				if(split == selected_split) {
 					i->setSelected(true);
 				}
-				if(!split->associatedFile().isEmpty()) i->setIcon(value >= 0 ? 8 : 9, LOAD_ICON("mail-attachment"));
+				if(!split->associatedFile().isEmpty()) i->setIcon(value >= 0 ? 9 : 10, LOAD_ICON("mail-attachment"));
 			} else if(split->type() == SPLIT_TRANSACTION_TYPE_LOAN) {
 				if(((DebtPayment*) split)->loan() == account) {
 					DebtPayment *lsplit = (DebtPayment*) split;
@@ -1460,7 +1482,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 							i->setSelected(true);
 						}
 						quantity++;
-						if(!split->associatedFile().isEmpty()) i->setIcon(value >= 0 ? 8 : 9, LOAD_ICON("mail-attachment"));
+						if(!split->associatedFile().isEmpty()) i->setIcon(value >= 0 ? 9 : 10, LOAD_ICON("mail-attachment"));
 					}
 					ltrans = lsplit->feeTransaction();
 					if(ltrans) {
@@ -1489,7 +1511,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 						if(ltrans == selected_transaction) {
 							i->setSelected(true);
 						}
-						if(!split->associatedFile().isEmpty()) i->setIcon(to_balance ? (value >= 0.0 ? 9 : 7) : 8, LOAD_ICON("mail-attachment"));
+						if(!split->associatedFile().isEmpty()) i->setIcon(to_balance ? (value >= 0.0 ? 10 : 9) : 8, LOAD_ICON("mail-attachment"));
 					}
 					ltrans = lsplit->interestTransaction();
 					if(ltrans) {
@@ -1518,7 +1540,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 						if(ltrans == selected_transaction) {
 							i->setSelected(true);
 						}
-						if(!split->associatedFile().isEmpty()) i->setIcon((to_balance && value >= 0.0) ? 8 : 9, LOAD_ICON("mail-attachment"));
+						if(!split->associatedFile().isEmpty()) i->setIcon(to_balance ? (value >= 0.0 ? 10 : 9) : 8, LOAD_ICON("mail-attachment"));
 					}
 					if(b_tb) {
 						if(previous_date.isValid() && lsplit->date() != previous_date) total_balance += previous_balance * previous_date.daysTo(lsplit->date());
@@ -1546,7 +1568,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 						if(split == selected_split) {
 							i->setSelected(true);
 						}
-						if(!split->associatedFile().isEmpty()) i->setIcon(value >= 0 ? 8 : 9, LOAD_ICON("mail-attachment"));
+						if(!split->associatedFile().isEmpty()) i->setIcon(value >= 0 ? 9 : 10, LOAD_ICON("mail-attachment"));
 					}
 					if(previous_date.isValid() && split->date() != previous_date) total_balance += previous_balance * previous_date.daysTo(split->date());
 					previous_balance = balance;
@@ -1591,7 +1613,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 			previous_balance = balance;
 			previous_date = trans->date();
 			if(!first_date.isValid()) first_date = previous_date;
-			if(!trans->associatedFile().isEmpty() || (trans->parentSplit() && !trans->parentSplit()->associatedFile().isEmpty())) i->setIcon(value >= 0 ? 8 : 9, LOAD_ICON("mail-attachment"));
+			if(!trans->associatedFile().isEmpty() || (trans->parentSplit() && !trans->parentSplit()->associatedFile().isEmpty())) i->setIcon(value >= 0 ? 9 : 10, LOAD_ICON("mail-attachment"));
 		}
 		if(transs == trans) {
 			++trans_index;
@@ -1663,6 +1685,7 @@ void LedgerDialog::search() {
 			(*it)->setSelected(true);
 			transactionsView->setCurrentItem(*it);
 			transactionsView->scrollToItem(*it);
+			//transactionsView->setFocus();
 			break;
 		}
 		if(wrapped_around && *it == i_first) break;

@@ -196,19 +196,19 @@ ScheduledTransaction *EditScheduledTransactionDialog::newScheduledTransaction(in
 	dialog->deleteLater();
 	return strans;
 }
-bool EditScheduledTransactionDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool select_security, bool extra_parameters, bool allow_account_creation) {
+bool EditScheduledTransactionDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool select_security, bool extra_parameters, bool allow_account_creation, bool clone_trans) {
 	EditScheduledTransactionDialog *dialog = NULL;
 	switch(strans->transactiontype()) {
-		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), NULL, false, strans->budget(), parent, tr("Edit Expense"), NULL, allow_account_creation); break;}
+		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), NULL, false, strans->budget(), parent, clone_trans ? tr("New Expense") : tr("Edit Expense"), NULL, allow_account_creation); break;}
 		case TRANSACTION_TYPE_INCOME: {
-			if(((Income*) strans->transaction())->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) dialog = new EditScheduledTransactionDialog(extra_parameters, TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND, ((Income*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Reinvested Dividend"), NULL, allow_account_creation);
-			if(((Income*) strans->transaction())->security()) dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), ((Income*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Dividend"), NULL, allow_account_creation);
-			else dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), NULL, false, strans->budget(), parent, tr("Edit Income"), NULL, allow_account_creation);
+			if(((Income*) strans->transaction())->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) dialog = new EditScheduledTransactionDialog(extra_parameters, TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND, ((Income*) strans->transaction())->security(), select_security, strans->budget(), parent, clone_trans ? tr("New Reinvested Dividend") : tr("Edit Reinvested Dividend"), NULL, allow_account_creation);
+			if(((Income*) strans->transaction())->security()) dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), ((Income*) strans->transaction())->security(), select_security, strans->budget(), parent, clone_trans ? tr("New Dividend") : tr("Edit Dividend"), NULL, allow_account_creation);
+			else dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), NULL, false, strans->budget(), parent, clone_trans ? tr("New Income") : tr("Edit Income"), NULL, allow_account_creation);
 			break;
 		}
-		case TRANSACTION_TYPE_TRANSFER: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), NULL, false, strans->budget(), parent, tr("Edit Transfer"), NULL, allow_account_creation); break;}
-		case TRANSACTION_TYPE_SECURITY_BUY: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), ((SecurityTransaction*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Securities Purchase", "Financial security (e.g. stock, mutual fund)"), NULL, allow_account_creation); break;}
-		case TRANSACTION_TYPE_SECURITY_SELL: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), ((SecurityTransaction*) strans->transaction())->security(), select_security, strans->budget(), parent, tr("Edit Securities Sale", "Financial security (e.g. stock, mutual fund)"), NULL, allow_account_creation); break;}
+		case TRANSACTION_TYPE_TRANSFER: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), NULL, false, strans->budget(), parent, clone_trans ? tr("New Transfer") : tr("Edit Transfer"), NULL, allow_account_creation); break;}
+		case TRANSACTION_TYPE_SECURITY_BUY: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), ((SecurityTransaction*) strans->transaction())->security(), select_security, strans->budget(), parent, clone_trans ? tr("New Securities Purchase", "Financial security (e.g. stock, mutual fund)") : tr("Edit Securities Purchase", "Financial security (e.g. stock, mutual fund)"), NULL, allow_account_creation); break;}
+		case TRANSACTION_TYPE_SECURITY_SELL: {dialog = new EditScheduledTransactionDialog(extra_parameters, strans->transactiontype(), ((SecurityTransaction*) strans->transaction())->security(), select_security, strans->budget(), parent, clone_trans ? tr("New Securities Sale", "Financial security (e.g. stock, mutual fund)") : tr("Edit Securities Sale", "Financial security (e.g. stock, mutual fund)"), NULL, allow_account_creation); break;}
 	}
 	dialog->setScheduledTransaction(strans);
 	bool b = false;
@@ -218,19 +218,19 @@ bool EditScheduledTransactionDialog::editScheduledTransaction(ScheduledTransacti
 	dialog->deleteLater();
 	return b;
 }
-bool EditScheduledTransactionDialog::editTransaction(Transaction *trans, Recurrence *&rec, QWidget *parent, bool select_security, bool extra_parameters, bool allow_account_creation) {
+bool EditScheduledTransactionDialog::editTransaction(Transaction *trans, Recurrence *&rec, QWidget *parent, bool select_security, bool extra_parameters, bool allow_account_creation, bool clone_trans) {
 	EditScheduledTransactionDialog *dialog = NULL;
 	switch(trans->type()) {
-		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), NULL, false, trans->budget(), parent, tr("Edit Expense"), NULL, allow_account_creation); break;}
+		case TRANSACTION_TYPE_EXPENSE: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), NULL, false, trans->budget(), parent, clone_trans ? tr("New Expense") : tr("Edit Expense"), NULL, allow_account_creation); break;}
 		case TRANSACTION_TYPE_INCOME: {
-			if(trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) dialog = new EditScheduledTransactionDialog(extra_parameters, TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND, ((SecurityTransaction*) trans)->security(), select_security, trans->budget(), parent, tr("Edit Reinvested Dividend"), NULL, allow_account_creation);
+			if(trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) dialog = new EditScheduledTransactionDialog(extra_parameters, TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND, ((SecurityTransaction*) trans)->security(), select_security, trans->budget(), parent, clone_trans ? tr("New Dividend") : clone_trans ? tr("New Reinvested Dividend") : tr("Edit Reinvested Dividend"), NULL, allow_account_creation);
 			else if(((Income*) trans)->security()) dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), ((Income*) trans)->security(), select_security, trans->budget(), parent, tr("Edit Dividend"), NULL, allow_account_creation);
-			else dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), NULL, false, trans->budget(), parent, tr("Edit Income"), NULL, allow_account_creation);
+			else dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), NULL, false, trans->budget(), parent, clone_trans ? tr("New Income") : tr("Edit Income"), NULL, allow_account_creation);
 			break;
 		}
-		case TRANSACTION_TYPE_TRANSFER: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), NULL, false, trans->budget(), parent, tr("Edit Transfer"), NULL, allow_account_creation); break;}
-		case TRANSACTION_TYPE_SECURITY_BUY: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), ((SecurityTransaction*) trans)->security(), select_security, trans->budget(), parent, tr("Edit Securities Purchase", "Financial security (e.g. stock, mutual fund)"), NULL, allow_account_creation); break;}
-		case TRANSACTION_TYPE_SECURITY_SELL: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), ((SecurityTransaction*) trans)->security(), select_security, trans->budget(), parent, tr("Edit Securities Sale", "Financial security (e.g. stock, mutual fund)"), NULL, allow_account_creation); break;}
+		case TRANSACTION_TYPE_TRANSFER: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), NULL, false, trans->budget(), parent, clone_trans ? tr("New Transfer") : tr("Edit Transfer"), NULL, allow_account_creation); break;}
+		case TRANSACTION_TYPE_SECURITY_BUY: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), ((SecurityTransaction*) trans)->security(), select_security, trans->budget(), parent, clone_trans ? tr("New Securities Purchase", "Financial security (e.g. stock, mutual fund)") : tr("Edit Securities Purchase", "Financial security (e.g. stock, mutual fund)"), NULL, allow_account_creation); break;}
+		case TRANSACTION_TYPE_SECURITY_SELL: {dialog = new EditScheduledTransactionDialog(extra_parameters, trans->type(), ((SecurityTransaction*) trans)->security(), select_security, trans->budget(), parent, clone_trans ? tr("New Securities Sale", "Financial security (e.g. stock, mutual fund)") : tr("Edit Securities Sale", "Financial security (e.g. stock, mutual fund)"), NULL, allow_account_creation); break;}
 	}
 	dialog->setTransaction(trans);
 	bool b = false;
@@ -326,8 +326,8 @@ ScheduledTransaction *EditScheduledMultiItemDialog::newScheduledTransaction(Budg
 	dialog->deleteLater();
 	return strans;
 }
-ScheduledTransaction *EditScheduledMultiItemDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
-	EditScheduledMultiItemDialog *dialog = new EditScheduledMultiItemDialog(extra_parameters, strans->budget(), parent, tr("Edit Split Transaction"), NULL, allow_account_creation);
+ScheduledTransaction *EditScheduledMultiItemDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters, bool allow_account_creation, bool clone_trans) {
+	EditScheduledMultiItemDialog *dialog = new EditScheduledMultiItemDialog(extra_parameters, strans->budget(), parent, clone_trans ? tr("New Split Transaction") : tr("Edit Split Transaction"), NULL, allow_account_creation);
 	dialog->setScheduledTransaction(strans);
 	ScheduledTransaction *strans_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
@@ -344,8 +344,8 @@ ScheduledTransaction *EditScheduledMultiItemDialog::editScheduledTransaction(Sch
 	dialog->deleteLater();
 	return strans_new;
 }
-MultiItemTransaction *EditScheduledMultiItemDialog::editTransaction(MultiItemTransaction *split, Recurrence *&rec, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
-	EditScheduledMultiItemDialog *dialog = new EditScheduledMultiItemDialog(extra_parameters, split->budget(), parent, tr("Edit Split Transaction"), NULL, allow_account_creation);
+MultiItemTransaction *EditScheduledMultiItemDialog::editTransaction(MultiItemTransaction *split, Recurrence *&rec, QWidget *parent, bool extra_parameters, bool allow_account_creation, bool clone_trans) {
+	EditScheduledMultiItemDialog *dialog = new EditScheduledMultiItemDialog(extra_parameters, split->budget(), parent, clone_trans ? tr("New Split Transaction") : tr("Edit Split Transaction"), NULL, allow_account_creation);
 	dialog->setTransaction(split);
 	MultiItemTransaction *split_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
@@ -448,8 +448,8 @@ ScheduledTransaction *EditScheduledMultiAccountDialog::newScheduledTransaction(Q
 	dialog->deleteLater();
 	return strans;
 }
-ScheduledTransaction *EditScheduledMultiAccountDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
-	EditScheduledMultiAccountDialog *dialog = new EditScheduledMultiAccountDialog(extra_parameters, strans->budget(), parent, ((MultiAccountTransaction*) strans->transaction())->transactiontype() == TRANSACTION_TYPE_EXPENSE ? tr("Edit Expense with Multiple Payments") : tr("Edit Income with Multiple Payments"), ((MultiAccountTransaction*) strans->transaction())->transactiontype() == TRANSACTION_TYPE_EXPENSE, allow_account_creation);
+ScheduledTransaction *EditScheduledMultiAccountDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters, bool allow_account_creation, bool clone_trans) {
+	EditScheduledMultiAccountDialog *dialog = new EditScheduledMultiAccountDialog(extra_parameters, strans->budget(), parent, ((MultiAccountTransaction*) strans->transaction())->transactiontype() == TRANSACTION_TYPE_EXPENSE ? (clone_trans ? tr("New Expense with Multiple Payments") : tr("Edit Expense with Multiple Payments")) : (clone_trans ? tr("New Income with Multiple Payments") : tr("Edit Income with Multiple Payments")), ((MultiAccountTransaction*) strans->transaction())->transactiontype() == TRANSACTION_TYPE_EXPENSE, allow_account_creation);
 	dialog->setScheduledTransaction(strans);
 	ScheduledTransaction *strans_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
@@ -466,8 +466,8 @@ ScheduledTransaction *EditScheduledMultiAccountDialog::editScheduledTransaction(
 	dialog->deleteLater();
 	return strans_new;
 }
-MultiAccountTransaction *EditScheduledMultiAccountDialog::editTransaction(MultiAccountTransaction *split, Recurrence *&rec, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
-	EditScheduledMultiAccountDialog *dialog = new EditScheduledMultiAccountDialog(extra_parameters, split->budget(), parent, split->transactiontype() == TRANSACTION_TYPE_EXPENSE ? tr("Edit Expense with Multiple Payments") : tr("Edit Income with Multiple Payments"), split->transactiontype() == TRANSACTION_TYPE_EXPENSE, allow_account_creation);
+MultiAccountTransaction *EditScheduledMultiAccountDialog::editTransaction(MultiAccountTransaction *split, Recurrence *&rec, QWidget *parent, bool extra_parameters, bool allow_account_creation, bool clone_trans) {
+	EditScheduledMultiAccountDialog *dialog = new EditScheduledMultiAccountDialog(extra_parameters, split->budget(), parent, split->transactiontype() == TRANSACTION_TYPE_EXPENSE ? (clone_trans ? tr("New Expense with Multiple Payments") : tr("Edit Expense with Multiple Payments")) : (clone_trans ? tr("New Income with Multiple Payments") : tr("Edit Income with Multiple Payments")), split->transactiontype() == TRANSACTION_TYPE_EXPENSE, allow_account_creation);
 	dialog->setTransaction(split);
 	MultiAccountTransaction *split_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
@@ -558,8 +558,8 @@ ScheduledTransaction *EditScheduledDebtPaymentDialog::newScheduledTransaction(Bu
 	dialog->deleteLater();
 	return strans;
 }
-ScheduledTransaction *EditScheduledDebtPaymentDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
-	EditScheduledDebtPaymentDialog *dialog = new EditScheduledDebtPaymentDialog(extra_parameters, strans->budget(), parent, tr("Edit Debt Payment"), NULL, allow_account_creation);
+ScheduledTransaction *EditScheduledDebtPaymentDialog::editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool extra_parameters, bool allow_account_creation, bool clone_trans) {
+	EditScheduledDebtPaymentDialog *dialog = new EditScheduledDebtPaymentDialog(extra_parameters, strans->budget(), parent, clone_trans ? tr("New Debt Payment") : tr("Edit Debt Payment"), NULL, allow_account_creation);
 	dialog->setScheduledTransaction(strans);
 	ScheduledTransaction *strans_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
@@ -576,8 +576,8 @@ ScheduledTransaction *EditScheduledDebtPaymentDialog::editScheduledTransaction(S
 	dialog->deleteLater();
 	return strans_new;
 }
-DebtPayment *EditScheduledDebtPaymentDialog::editTransaction(DebtPayment *split, Recurrence *&rec, QWidget *parent, bool extra_parameters, bool allow_account_creation) {
-	EditScheduledDebtPaymentDialog *dialog = new EditScheduledDebtPaymentDialog(extra_parameters, split->budget(), parent, tr("Edit Debt Payment"), NULL, allow_account_creation);
+DebtPayment *EditScheduledDebtPaymentDialog::editTransaction(DebtPayment *split, Recurrence *&rec, QWidget *parent, bool extra_parameters, bool allow_account_creation, bool clone_trans) {
+	EditScheduledDebtPaymentDialog *dialog = new EditScheduledDebtPaymentDialog(extra_parameters, split->budget(), parent, clone_trans ? tr("New Debt Payment") : tr("Edit Debt Payment"), NULL, allow_account_creation);
 	dialog->setTransaction(split);
 	DebtPayment *split_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {

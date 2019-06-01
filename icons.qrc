@@ -25,6 +25,7 @@
 	<file alias="actions/scalable/eqz-schedule.svg">data/scalable/eqz-schedule.svg</file>
 	<file alias="actions/scalable/eqz-security.svg">data/scalable/eqz-security.svg</file>
 	<file alias="actions/scalable/eqz-split-transaction.svg">data/scalable/eqz-split-transaction.svg</file>
+	<file alias="actions/scalable/eqz-tag.svg">data/scalable/eqz-tag.svg</file>
 	<file alias="actions/scalable/eqz-transactions.svg">data/scalable/eqz-transactions.svg</file>
 	<file alias="actions/scalable/eqz-transfer.svg">data/scalable/eqz-transfer.svg</file>
 	<file alias="actions/scalable/application-exit.svg">data/standard/application-exit.svg</file>
@@ -64,6 +65,7 @@
 	<file alias="actions/16x16/eqz-schedule.png">data/16/eqz-schedule.png</file>
 	<file alias="actions/16x16/eqz-security.png">data/16/eqz-security.png</file>
 	<file alias="actions/16x16/eqz-split-transaction.png">data/16/eqz-split-transaction.png</file>
+	<file alias="actions/16x16/eqz-tag.png">data/16/eqz-tag.png</file>
 	<file alias="actions/16x16/eqz-transactions.png">data/16/eqz-transactions.png</file>
 	<file alias="actions/16x16/eqz-transfer.png">data/16/eqz-transfer.png</file>
 	<file alias="actions/16x16/application-exit.png">data/standard/16/application-exit.png</file>
@@ -106,6 +108,7 @@
 	<file alias="actions/32x32/eqz-schedule.png">data/32/eqz-schedule.png</file>
 	<file alias="actions/32x32/eqz-security.png">data/32/eqz-security.png</file>
 	<file alias="actions/32x32/eqz-split-transaction.png">data/32/eqz-split-transaction.png</file>
+	<file alias="actions/32x32/eqz-tag.png">data/32/eqz-tag.png</file>
 	<file alias="actions/32x32/eqz-transactions.png">data/32/eqz-transactions.png</file>
 	<file alias="actions/32x32/eqz-transfer.png">data/32/eqz-transfer.png</file>
 	<file alias="actions/32x32/application-exit.png">data/standard/32/application-exit.png</file>
@@ -147,6 +150,7 @@
 	<file alias="actions/48x48/eqz-schedule.png">data/48/eqz-schedule.png</file>
 	<file alias="actions/48x48/eqz-security.png">data/48/eqz-security.png</file>
 	<file alias="actions/48x48/eqz-split-transaction.png">data/48/eqz-split-transaction.png</file>
+	<file alias="actions/48x48/eqz-tag.png">data/48/eqz-tag.png</file>
 	<file alias="actions/48x48/eqz-transactions.png">data/48/eqz-transactions.png</file>
 	<file alias="actions/48x48/eqz-transfer.png">data/48/eqz-transfer.png</file>
 	<file alias="actions/48x48/application-exit.png">data/standard/48/application-exit.png</file>
@@ -189,6 +193,7 @@
 	<file alias="actions/64x64/eqz-schedule.png">data/64/eqz-schedule.png</file>
 	<file alias="actions/64x64/eqz-security.png">data/64/eqz-security.png</file>
 	<file alias="actions/64x64/eqz-split-transaction.png">data/64/eqz-split-transaction.png</file>
+	<file alias="actions/64x64/eqz-tag.png">data/64/eqz-tag.png</file>
 	<file alias="actions/64x64/eqz-transactions.png">data/64/eqz-transactions.png</file>
 	<file alias="actions/64x64/eqz-transfer.png">data/64/eqz-transfer.png</file>
 	<file alias="actions/64x64/document-new.png">data/standard/64/document-new.png</file>
@@ -230,6 +235,7 @@
 	<file alias="actions/22x22/eqz-schedule.png">data/22/eqz-schedule.png</file>
 	<file alias="actions/22x22/eqz-security.png">data/22/eqz-security.png</file>
 	<file alias="actions/22x22/eqz-split-transaction.png">data/22/eqz-split-transaction.png</file>
+	<file alias="actions/22x22/eqz-tag.png">data/22/eqz-tag.png</file>
 	<file alias="actions/22x22/eqz-transactions.png">data/22/eqz-transactions.png</file>
 	<file alias="actions/22x22/eqz-transfer.png">data/22/eqz-transfer.png</file>
 	<file alias="actions/22x22/application-exit.png">data/standard/22/application-exit.png</file>

@@ -72,7 +72,7 @@ class LedgerDialog : public QDialog {
 		QComboBox *accountCombo;
 		QLabel *statLabel;
 		QAction *ActionNewDebtInterest, *ActionNewDebtPayment;
-		QAction *ActionMarkReconciled, *ActionEdit, *ActionSplit, *ActionJoin, *ActionDelete, *ActionOpenFile, *ActionEditTimestamp;
+		QAction *ActionMarkReconciled, *ActionEdit, *ActionClone, *ActionSplit, *ActionJoin, *ActionDelete, *ActionOpenFile, *ActionEditTimestamp;
 		QMenu *headerMenu, *listMenu;
 		QLineEdit *searchEdit;
 		QPushButton *searchPreviousButton, *searchNextButton;
@@ -83,6 +83,8 @@ class LedgerDialog : public QDialog {
 		
 		void updateReconciliationStats(bool = false, bool = false, bool = false);
 		void updateReconciliationStatLabels();
+		
+		void keyPressEvent(QKeyEvent*);
 		
 	public:
 		
@@ -107,6 +109,7 @@ class LedgerDialog : public QDialog {
 		void reconcileChangeChanged(double);
 		void hideColumn(bool);
 		void remove();
+		void cloneTransaction();
 		void edit();
 		void editTimestamp();
 		void openAssociatedFile();
