@@ -88,6 +88,8 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 
 	current_value = 0.0;
 	current_quantity = 0.0;
+	
+	key_event = NULL;
 
 	selected_trans = NULL;
 
@@ -338,14 +340,17 @@ void TransactionListWidget::updateStatistics() {
 }
 
 void TransactionListWidget::keyPressEvent(QKeyEvent *e) {
-	QWidget::keyPressEvent(e);
+	if(e == key_event) return;
+	QWidget::keyReleaseEvent(e);
 	if(!e->isAccepted() && editWidget->firstHasFocus()) {
-		transactionsView->setFocus();
-		QApplication::sendEvent(transactionsView, e);
+		key_event = new QKeyEvent(*e);
+		QApplication::sendEvent(transactionsView, key_event);
+		delete key_event;
 	}
 }
 void TransactionListWidget::tagsModified() {
 	editWidget->tagsModified();
+	filterWidget->updateTags();
 }
 void TransactionListWidget::popupListMenu(const QPoint &p) {
 	if(!listPopupMenu) {
@@ -654,8 +659,9 @@ void TransactionListWidget::modifyTags() {
 			Transactions *trans = i->scheduledTransaction();
 			if(!trans) trans = i->splitTransaction();
 			if(!trans) trans = i->transaction();
+			Transactions *oldtrans = trans->copy();
 			mainWin->tagMenu->modifyTransaction(trans);
-			mainWin->transactionModified(trans, trans);
+			mainWin->transactionModified(trans, oldtrans);
 		}
 		if(selection.count() > 1) mainWin->endBatchEdit();
 	}
@@ -2014,8 +2020,8 @@ void TransactionListWidget::showFilter(bool focus_description) {
 	if(focus_description) filterWidget->focusFirst();
 }
 void TransactionListWidget::showEdit() {tabs->setCurrentWidget(editWidget);}
-void TransactionListWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString payee, bool exclude, bool exact_match) {
-	filterWidget->setFilter(fromdate, todate, min, max, from_account, to_account, description, payee, exclude, exact_match);
+void TransactionListWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString tag, bool exclude, bool exact_match) {
+	filterWidget->setFilter(fromdate, todate, min, max, from_account, to_account, description, tag, exclude, exact_match);
 }
 void TransactionListWidget::currentTabChanged(int index) {
 	if(index == 0) editWidget->focusFirst();

@@ -35,6 +35,7 @@ class QComboBox;
 class QDateEdit;
 
 class EqonomizeValueEdit;
+class TagMenu;
 
 class Account;
 class AccountComboBox;
@@ -63,6 +64,8 @@ class EditMultiAccountWidget : public QWidget {
 		QTreeWidget *transactionsView;
 		QPushButton *editButton, *removeButton;
 		QLabel *totalLabel;
+		QPushButton *tagButton;
+		TagMenu *tagMenu;
 
 		void appendTransaction(Transaction *trans);
 		void updateTotalValue();
@@ -97,6 +100,9 @@ class EditMultiAccountWidget : public QWidget {
 		void transactionSelectionChanged();
 		void newTransaction();
 		void newCategory();
+		void newTag();
+		void tagsChanged();
+		void resizeTagMenu();
 
 };
 

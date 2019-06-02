@@ -264,7 +264,7 @@ class Eqonomize : public QMainWindow {
 		QVBoxLayout *expensesLayout, *incomesLayout, *transfersLayout;
 		TransactionListWidget *expensesWidget, *incomesWidget, *transfersWidget;
 		QTreeWidget *accountsView, *securitiesView, *scheduleView;
-		QTreeWidgetItem *assetsItem, *liabilitiesItem, *incomesItem, *expensesItem;
+		QTreeWidgetItem *assetsItem, *liabilitiesItem, *incomesItem, *expensesItem, *tagsItem;
 		QCheckBox *accountsPeriodFromButton;
 		QDateEdit *accountsPeriodFromEdit, *accountsPeriodToEdit;
 		QCheckBox *partialBudgetButton;
@@ -292,6 +292,8 @@ class Eqonomize : public QMainWindow {
 		QMap<QString, double> assets_group_change;
 		QMap<QString, double> liabilities_group_value;
 		QMap<QString, double> liabilities_group_change;
+		QMap<QString, double> tag_value;
+		QMap<QString, double> tag_change;
 		QMap<Account*, QMap<QDate, double> > account_month;
 		QMap<Account*, double> account_month_begincur;
 		QMap<Account*, double> account_month_beginfirst;
@@ -301,9 +303,9 @@ class Eqonomize : public QMainWindow {
 		QMap<Account*, double> account_future_diff;
 		QMap<Account*, double> account_future_diff_change;
 		QMap<QTreeWidgetItem*, Account*> account_items;
-		QMap<QTreeWidgetItem*, QString> assets_group_items, liabilities_group_items;
+		QMap<QTreeWidgetItem*, QString> assets_group_items, liabilities_group_items, tag_items;
 		QMap<Account*, QTreeWidgetItem*> item_accounts;
-		QMap<QString, QTreeWidgetItem*> item_assets_groups, item_liabilities_groups;
+		QMap<QString, QTreeWidgetItem*> item_assets_groups, item_liabilities_groups, item_tags;
 		QMap<QString, QVariant> assets_expanded, liabilities_expanded, expenses_expanded, incomes_expanded;
 
 		QMenu *assetsPopupMenu, *accountPopupMenu, *securitiesPopupMenu, *schedulePopupMenu;

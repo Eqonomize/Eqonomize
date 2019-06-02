@@ -84,6 +84,8 @@ class LedgerDialog : public QDialog {
 		void updateReconciliationStats(bool = false, bool = false, bool = false);
 		void updateReconciliationStatLabels();
 		
+		QKeyEvent *key_event;
+		
 		void keyPressEvent(QKeyEvent*);
 		
 	public:

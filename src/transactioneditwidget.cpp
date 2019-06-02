@@ -230,7 +230,7 @@ void TagMenu::popupContextMenu(const QPoint &p) {
 	if(!b) return;
 	if(!contextMenu) {
 		contextMenu = new QMenu(this);
-		renameAction = contextMenu->addAction(LOAD_ICON2("document-edit", "eqz-edit"), tr("Rename"), this, SLOT(renameTag()));
+		renameAction = contextMenu->addAction(LOAD_ICON2("document-edit", "eqz-edit"), tr("Rename…"), this, SLOT(renameTag()));
 		deleteAction = contextMenu->addAction(LOAD_ICON("edit-delete"), tr("Remove"), this, SLOT(deleteTag()));
 	}
 	currentAction = action;
@@ -564,7 +564,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		editLayout->addWidget(lenderEdit, TEROWCOL(i, 1));
 		i++;
 	}
-	if(!b_autoedit && (transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE) && !withloan && !sec) {
+	if(!b_autoedit && (transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE) && !multiaccount && !sec) {
 		editLayout->addWidget(new QLabel(tr("Tags:"), this), TEROWCOL(i, 0));
 		tagButton = new QPushButton(tr("no tags"), this);
 		tagMenu = new TagMenu(budget, this, allow_account_creation);
@@ -601,7 +601,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	if(!multiaccount) {
 		editLayout->addWidget(new QLabel(tr("Comments:"), this), TEROWCOL(i, 0));
 		commentsEdit = new QLineEdit(this);
-		if(b_autoedit && (transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE) && !withloan && !sec) {
+		if(b_autoedit && (transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE) && !sec) {
 			QHBoxLayout *box = new QHBoxLayout();
 			editLayout->addLayout(box, TEROWCOL(i, 1));
 			box->addWidget(commentsEdit, 1);
@@ -1527,6 +1527,7 @@ Transactions *TransactionEditWidget::createTransactionWithLoan() {
 		Expense *expense = new Expense(budget, valueEdit->value(), dateEdit->date(), (ExpensesAccount*) toCombo->currentAccount(), loan, descriptionEdit->text(), commentsEdit->text());
 		if(quantityEdit) expense->setQuantity(quantityEdit->value());
 		if(payeeEdit) expense->setPayee(payeeEdit->text());
+		if(tagMenu) tagMenu->modifyTransaction(expense);
 		return expense;
 	}
 	
@@ -1541,9 +1542,7 @@ Transactions *TransactionEditWidget::createTransactionWithLoan() {
 	Expense *down_payment = new Expense(budget, downPaymentEdit->value(), dateEdit->date(), (ExpensesAccount*) toCombo->currentAccount(), (AssetsAccount*) fromCombo->currentAccount());
 	down_payment->setPayee(loan->maintainer());
 	split->addTransaction(down_payment);
-	if(tagMenu) {
-		tagMenu->modifyTransaction(split);
-	}
+	if(tagMenu) tagMenu->modifyTransaction(split);
 	return split;
 }
 Transaction *TransactionEditWidget::createTransaction() {

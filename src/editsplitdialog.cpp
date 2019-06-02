@@ -44,6 +44,7 @@
 #include <QStandardPaths>
 #include <QDirModel>
 #include <QFileDialog>
+#include <QInputDialog>
 
 #include "accountcombobox.h"
 #include "budget.h"
@@ -756,7 +757,18 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	categoryCombo->updateAccounts();
 	grid->addWidget(categoryCombo, b_extra ? 2 : 1, 1);
 	
-	grid->addWidget(new QLabel(tr("Associated file:"), this), b_extra ? 3 : 2, 0);
+	grid->addWidget(new QLabel(tr("Tags:")), b_extra ? 3 : 2, 0);
+	tagButton = new QPushButton(tr("no tags"));
+	tagMenu = new TagMenu(budget, this, allow_account_creation);
+	tagButton->setMenu(tagMenu);
+	grid->addWidget(tagButton, b_extra ? 3 : 2, 1);
+	tagMenu->updateTags();
+	tagsChanged();
+	connect(tagMenu, SIGNAL(aboutToShow()), this, SLOT(resizeTagMenu()));
+	connect(tagMenu, SIGNAL(selectedTagsChanged()), this, SLOT(tagsChanged()));
+	connect(tagMenu, SIGNAL(newTagRequested()), this, SLOT(newTag()));
+	
+	grid->addWidget(new QLabel(tr("Associated file:"), this), b_extra ? 4 : 3, 0);
 	QHBoxLayout *fileLayout = new QHBoxLayout();
 	fileEdit = new QLineEdit(this);
 	QCompleter *completer = new QCompleter(this);
@@ -772,11 +784,11 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	openFileButton->setAutoDefault(false);
 	fileLayout->addWidget(openFileButton);
 	openFileButton->setFocusPolicy(Qt::ClickFocus);
-	grid->addLayout(fileLayout, b_extra ? 3 : 2, 1);
+	grid->addLayout(fileLayout, b_extra ? 4 : 3, 1);
 	
-	grid->addWidget(new QLabel(tr("Comments:")), b_extra ? 4 : 3, 0);
+	grid->addWidget(new QLabel(tr("Comments:")), b_extra ? 5 : 4, 0);
 	commentEdit = new QLineEdit();
-	grid->addWidget(commentEdit, b_extra ? 4 : 3, 1);
+	grid->addWidget(commentEdit, b_extra ? 5 : 4, 1);
 
 	box1->addWidget(new QLabel(tr("Transactions:")));
 	QHBoxLayout *box2 = new QHBoxLayout();
@@ -836,6 +848,14 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 }
 EditMultiAccountWidget::~EditMultiAccountWidget() {}
 
+void EditMultiAccountWidget::resizeTagMenu() {
+	tagMenu->setMinimumWidth(tagButton->width());
+}
+void EditMultiAccountWidget::tagsChanged() {
+	QString str = tagMenu->selectedTagsText();
+	if(str.isEmpty()) str = tr("no tags");
+	tagButton->setText(str);
+}
 void EditMultiAccountWidget::selectFile() {
 	QStringList urls = QFileDialog::getOpenFileNames(this, QString(), (fileEdit->text().isEmpty() || fileEdit->text().contains(",")) ? last_associated_file_directory : fileEdit->text());
 	if(!urls.isEmpty()) {
@@ -952,12 +972,23 @@ void EditMultiAccountWidget::edit(QTreeWidgetItem *i_pre) {
 		dialog->deleteLater();
 	}
 }
+void EditMultiAccountWidget::newTag() {
+	QString new_tag = QInputDialog::getText(this, tr("New Tag"), tr("Tag:")).trimmed(); 
+	if(!new_tag.isEmpty()) {
+		budget->tagAdded(new_tag);
+		tagMenu->updateTags();
+		tagMenu->setTagSelected(new_tag, true);
+		tagsChanged();
+		tagButton->click();
+	}
+}
 MultiAccountTransaction *EditMultiAccountWidget::createTransaction() {
 	if(!validValues()) return NULL;
 	CategoryAccount *account = selectedCategory();
 	MultiAccountTransaction *split = new MultiAccountTransaction(budget, account, descriptionEdit->text());
 	split->setComment(commentEdit->text());
 	split->setAssociatedFile(fileEdit->text());
+	tagMenu->modifyTransaction(split);
 	QTreeWidgetItemIterator it(transactionsView);
 	QTreeWidgetItem *i = *it;
 	while(i) {
@@ -1004,6 +1035,8 @@ void EditMultiAccountWidget::setTransaction(Transactions *transs) {
 			categoryCombo->setCurrentAccount(((Income*) trans)->category());
 		}
 	}
+	tagMenu->setTransaction(transs);
+	tagsChanged();
 	updateTotalValue();
 	transactionsView->setSortingEnabled(true);
 	emit dateChanged(transs->date());
@@ -1024,6 +1057,8 @@ void EditMultiAccountWidget::setTransaction(MultiAccountTransaction *split, cons
 		trans->setDate(date);
 		items.append(new MultiAccountListViewItem(trans));
 	}
+	tagMenu->setTransaction(split);
+	tagsChanged();
 	transactionsView->addTopLevelItems(items);
 	updateTotalValue();
 	transactionsView->setSortingEnabled(true);

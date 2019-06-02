@@ -174,6 +174,8 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	headerMenu = NULL;
 	listMenu = NULL;
 	
+	key_event = NULL;
+	
 	re1 = 0;
 	re2 = 0;
 
@@ -413,10 +415,12 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 LedgerDialog::~LedgerDialog() {}
 
 void LedgerDialog::keyPressEvent(QKeyEvent *e) {
-	QDialog::keyPressEvent(e);
-	if(!transactionsView->hasFocus() && !e->isAccepted()) {
-		transactionsView->setFocus();
-		QApplication::sendEvent(transactionsView, e);
+	if(e == key_event) return;
+	QWidget::keyReleaseEvent(e);
+	if(!e->isAccepted() && !transactionsView->hasFocus()) {
+		key_event = new QKeyEvent(*e);
+		QApplication::sendEvent(transactionsView, key_event);
+		delete key_event;
 	}
 }
 void LedgerDialog::updateReconciliationStats(bool b_toggled, bool scroll_to, bool update_markers) {

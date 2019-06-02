@@ -90,6 +90,7 @@ class Transactions {
 	public:
 		
 		Transactions(Budget *parent_budget);
+		Transactions(const Transactions *trans);
 		Transactions();
 		virtual ~Transactions() {}
 		virtual Transactions *copy() const = 0;
@@ -128,9 +129,10 @@ class Transactions {
 		virtual void addTag(QString tag);
 		virtual bool removeTag(QString tag);
 		virtual bool hasTag(const QString &tag, bool include_parent = true) const;
-		virtual const QString &getTag(int index) const;
-		virtual QString tagsText(bool include_parent = true) const;
+		virtual const QString &getTag(int index, bool include_parent = false) const;
+		virtual QString tagsText(bool include_parent_child = true) const;
 		virtual void clearTags();
+		virtual int tagsCount(bool include_parent = false) const;
 
 };
 
@@ -215,6 +217,8 @@ class Transaction : public Transactions {
 		
 		virtual bool hasTag(const QString &tag, bool include_parent = true) const;
 		virtual QString tagsText(bool include_parent = true) const;
+		virtual const QString &getTag(int index, bool include_parent = false) const;
+		virtual int tagsCount(bool include_parent = false) const;
 		
 };
 
@@ -671,6 +675,14 @@ class ScheduledTransaction : public Transactions {
 		
 		virtual bool isReconciled(AssetsAccount *account) const;
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
+		
+		virtual int tagsCount(bool include_parent = false) const;
+		virtual void addTag(QString tag);
+		virtual bool removeTag(QString tag);
+		virtual bool hasTag(const QString &tag, bool include_parent = true) const;
+		virtual const QString &getTag(int index, bool include_parent = false) const;
+		virtual QString tagsText(bool include_parent_child = true) const;
+		virtual void clearTags();
 	
 };
 
@@ -745,6 +757,8 @@ class SplitTransaction : public Transactions {
 		
 		virtual bool isReconciled(AssetsAccount *account) const;
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
+		
+		virtual QString tagsText(bool include_parent_child = true) const;
 
 };
 

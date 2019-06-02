@@ -332,14 +332,16 @@ ScheduledTransaction *EditScheduledMultiItemDialog::editScheduledTransaction(Sch
 	ScheduledTransaction *strans_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
 		strans_new = dialog->createScheduledTransaction();
-		strans_new->setTimestamp(strans->timestamp());
-		strans_new->setId(strans->id());
-		strans_new->setFirstRevision(strans->firstRevision());
-		strans_new->setModified();
-		strans_new->transaction()->setTimestamp(strans->transaction()->timestamp());
-		strans_new->transaction()->setId(strans->transaction()->id());
-		strans_new->transaction()->setFirstRevision(strans->transaction()->firstRevision());
-		strans_new->transaction()->setModified();
+		if(!clone_trans) {
+			strans_new->setTimestamp(strans->timestamp());
+			strans_new->setId(strans->id());
+			strans_new->setFirstRevision(strans->firstRevision());
+			strans_new->setModified();
+			strans_new->transaction()->setTimestamp(strans->transaction()->timestamp());
+			strans_new->transaction()->setId(strans->transaction()->id());
+			strans_new->transaction()->setFirstRevision(strans->transaction()->firstRevision());
+			strans_new->transaction()->setModified();
+		}
 	}
 	dialog->deleteLater();
 	return strans_new;
@@ -350,10 +352,12 @@ MultiItemTransaction *EditScheduledMultiItemDialog::editTransaction(MultiItemTra
 	MultiItemTransaction *split_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
 		split_new = dialog->createTransaction(rec);
-		split_new->setTimestamp(split->timestamp());
-		split_new->setId(split->id());
-		split_new->setFirstRevision(split->firstRevision());
-		split_new->setModified();
+		if(!clone_trans) {
+			split_new->setTimestamp(split->timestamp());
+			split_new->setId(split->id());
+			split_new->setFirstRevision(split->firstRevision());
+			split_new->setModified();
+		}
 	}
 	dialog->deleteLater();
 	return split_new;
@@ -454,14 +458,16 @@ ScheduledTransaction *EditScheduledMultiAccountDialog::editScheduledTransaction(
 	ScheduledTransaction *strans_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
 		strans_new = dialog->createScheduledTransaction();
-		strans_new->setTimestamp(strans->timestamp());
-		strans_new->setId(strans->id());
-		strans_new->setFirstRevision(strans->firstRevision());
-		strans_new->setModified();
-		strans_new->transaction()->setTimestamp(strans->transaction()->timestamp());
-		strans_new->transaction()->setId(strans->transaction()->id());
-		strans_new->transaction()->setFirstRevision(strans->transaction()->firstRevision());
-		strans_new->transaction()->setModified();
+		if(!clone_trans) {
+			strans_new->setTimestamp(strans->timestamp());
+			strans_new->setId(strans->id());
+			strans_new->setFirstRevision(strans->firstRevision());
+			strans_new->setModified();
+			strans_new->transaction()->setTimestamp(strans->transaction()->timestamp());
+			strans_new->transaction()->setId(strans->transaction()->id());
+			strans_new->transaction()->setFirstRevision(strans->transaction()->firstRevision());
+			strans_new->transaction()->setModified();
+		}
 	}
 	dialog->deleteLater();
 	return strans_new;
@@ -472,10 +478,12 @@ MultiAccountTransaction *EditScheduledMultiAccountDialog::editTransaction(MultiA
 	MultiAccountTransaction *split_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
 		split_new = dialog->createTransaction(rec);
-		split_new->setTimestamp(split->timestamp());
-		split_new->setId(split->id());
-		split_new->setFirstRevision(split->firstRevision());
-		split_new->setModified();
+		if(!clone_trans) {
+			split_new->setTimestamp(split->timestamp());
+			split_new->setId(split->id());
+			split_new->setFirstRevision(split->firstRevision());
+			split_new->setModified();
+		}
 	}
 	dialog->deleteLater();
 	return split_new;
@@ -564,14 +572,16 @@ ScheduledTransaction *EditScheduledDebtPaymentDialog::editScheduledTransaction(S
 	ScheduledTransaction *strans_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
 		strans_new = dialog->createScheduledTransaction();
-		strans_new->setTimestamp(strans->timestamp());
-		strans_new->setId(strans->id());
-		strans_new->setFirstRevision(strans->firstRevision());
-		strans_new->setModified();
-		strans_new->transaction()->setTimestamp(strans->transaction()->timestamp());
-		strans_new->transaction()->setId(strans->transaction()->id());
-		strans_new->transaction()->setFirstRevision(strans->transaction()->firstRevision());
-		strans_new->transaction()->setModified();
+		if(!clone_trans) {
+			strans_new->setTimestamp(strans->timestamp());
+			strans_new->setId(strans->id());
+			strans_new->setFirstRevision(strans->firstRevision());
+			strans_new->setModified();
+			strans_new->transaction()->setTimestamp(strans->transaction()->timestamp());
+			strans_new->transaction()->setId(strans->transaction()->id());
+			strans_new->transaction()->setFirstRevision(strans->transaction()->firstRevision());
+			strans_new->transaction()->setModified();
+		}
 	}
 	dialog->deleteLater();
 	return strans_new;
@@ -582,10 +592,12 @@ DebtPayment *EditScheduledDebtPaymentDialog::editTransaction(DebtPayment *split,
 	DebtPayment *split_new = NULL;
 	if((allow_account_creation || dialog->checkAccounts()) && dialog->exec() == QDialog::Accepted) {
 		split_new = dialog->createTransaction(rec);
-		split_new->setTimestamp(split->timestamp());
-		split_new->setId(split->id());
-		split_new->setFirstRevision(split->firstRevision());
-		split_new->setModified();
+		if(!clone_trans) {
+			split_new->setTimestamp(split->timestamp());
+			split_new->setId(split->id());
+			split_new->setFirstRevision(split->firstRevision());
+			split_new->setModified();
+		}
 	}
 	dialog->deleteLater();
 	return split_new;

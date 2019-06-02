@@ -64,6 +64,7 @@ class TransactionFilterWidget : public QWidget {
 		QDate endDate();
 		void currentDateChanged(const QDate &olddate, const QDate &newdate);
 		void focusFirst();
+		void updateTags();
 
 		void setFilter(QDate fromdate, QDate todate, double min = -1.0, double max = -1.0, Account *from_account = NULL, Account *to_account = NULL, QString description = QString::null, QString payee = QString::null, bool exclude = false, bool exact_match = false, bool exclude_subs = false);
 
@@ -73,11 +74,11 @@ class TransactionFilterWidget : public QWidget {
 		int transtype;
 		Budget *budget;
 		bool b_extra;
-		QComboBox *fromCombo, *toCombo;
+		QComboBox *fromCombo, *toCombo, *tagCombo;
 		QCheckBox *minButton, *maxButton, *dateFromButton;
 		EqonomizeValueEdit *minEdit, *maxEdit;
 		QDateEdit *dateFromEdit, *dateToEdit;
-		QLineEdit *descriptionEdit, *payeeEdit;
+		QLineEdit *descriptionEdit;
 		QDate from_date, to_date;
 		QRadioButton *includeButton, *excludeButton;
 		QCheckBox *exactMatchButton, *excludeSubsButton;

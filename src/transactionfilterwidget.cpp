@@ -49,7 +49,7 @@
 #include <cmath>
 
 TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int transaction_type, Budget *budg, QWidget *parent) : QWidget(parent), transtype(transaction_type), budget(budg), b_extra(extra_parameters) {
-	payeeEdit = NULL;
+	tagCombo = NULL;
 	excludeSubsButton = NULL;
 	QGridLayout *filterLayout = new QGridLayout(this);
 	dateFromButton = new QCheckBox(tr("From:"), this);
@@ -121,14 +121,10 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	descriptionEdit->completer()->setCaseSensitivity(Qt::CaseInsensitive);
 	filterLayout->addWidget(descriptionEdit, 3, 1);
 	if(b_extra && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME)) {
-		if(transtype == TRANSACTION_TYPE_INCOME) filterLayout->addWidget(new QLabel(tr("Payer:"), this), 3, 2);
-		else filterLayout->addWidget(new QLabel(tr("Payee:"), this), 3, 2);
-		payeeEdit = new QLineEdit(this);
-		payeeEdit->setCompleter(new QCompleter(this));
-		payeeEdit->completer()->setModel(new QStandardItemModel(this));
-		payeeEdit->completer()->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
-		payeeEdit->completer()->setCaseSensitivity(Qt::CaseInsensitive);
-		filterLayout->addWidget(payeeEdit, 3, 3);
+		filterLayout->addWidget(new QLabel(tr("Tag:"), this), 3, 2);
+		tagCombo = new QComboBox(this);
+		tagCombo->setEditable(false);
+		filterLayout->addWidget(tagCombo, 3, 3);
 	}
 	QHBoxLayout *filterExcludeLayout = new QHBoxLayout();
 	group = new QButtonGroup(this);
@@ -159,9 +155,10 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	fromCombo->addItem(tr("All"), qVariantFromValue((void*) NULL));
 	toCombo->addItem(tr("All"), qVariantFromValue((void*) NULL));
 
-	if(payeeEdit) {
-		connect(payeeEdit, SIGNAL(textChanged(const QString&)), this, SIGNAL(filter()));
-		connect(payeeEdit, SIGNAL(textChanged(const QString&)), this, SLOT(checkEnableClear()));
+	if(tagCombo) {
+		tagCombo->addItem(tr("All"));
+		connect(tagCombo, SIGNAL(activated(int)), this, SIGNAL(filter()));
+		connect(tagCombo, SIGNAL(activated(int)), this, SLOT(checkEnableClear()));
 	}
 	connect(clearButton, SIGNAL(clicked()), this, SLOT(clearFilter()));
 	connect(group, SIGNAL(buttonClicked(int)), this, SIGNAL(filter()));
@@ -213,7 +210,7 @@ void TransactionFilterWidget::clearFilter() {
 	fromCombo->blockSignals(true);
 	toCombo->blockSignals(true);
 	descriptionEdit->blockSignals(true);
-	if(payeeEdit) payeeEdit->blockSignals(true);
+	if(tagCombo) tagCombo->blockSignals(true);
 	dateFromButton->setChecked(false);
 	dateFromEdit->setEnabled(false);
 	to_date = QDate::currentDate();
@@ -225,7 +222,7 @@ void TransactionFilterWidget::clearFilter() {
 	fromCombo->setCurrentIndex(0);
 	toCombo->setCurrentIndex(0);
 	descriptionEdit->setText(QString::null);
-	if(payeeEdit) payeeEdit->setText(QString::null);
+	if(tagCombo) tagCombo->setCurrentIndex(0);
 	dateFromButton->blockSignals(false);
 	dateToEdit->blockSignals(false);
 	minButton->blockSignals(false);
@@ -233,18 +230,18 @@ void TransactionFilterWidget::clearFilter() {
 	fromCombo->blockSignals(false);
 	toCombo->blockSignals(false);
 	descriptionEdit->blockSignals(false);
-	if(payeeEdit) payeeEdit->blockSignals(false);
+	if(tagCombo) tagCombo->blockSignals(false);
 	clearButton->setEnabled(false);
 	emit filter();
 }
 void TransactionFilterWidget::checkEnableClear() {
-	clearButton->setEnabled(dateFromButton->isChecked() || minButton->isChecked() || maxButton->isChecked() || fromCombo->currentIndex() || toCombo->currentIndex() || !descriptionEdit->text().isEmpty() || (payeeEdit && !payeeEdit->text().isEmpty()) || to_date != QDate::currentDate());
+	clearButton->setEnabled(dateFromButton->isChecked() || minButton->isChecked() || maxButton->isChecked() || fromCombo->currentIndex() || toCombo->currentIndex() || !descriptionEdit->text().isEmpty() || (tagCombo && tagCombo->currentIndex()) || to_date != QDate::currentDate());
 }
 void TransactionFilterWidget::focusFirst() {
 	descriptionEdit->setFocus();
 	descriptionEdit->selectAll();
 }
-void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString payee, bool exclude, bool exact_match, bool exclude_subs) {
+void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString tag, bool exclude, bool exact_match, bool exclude_subs) {
 	dateFromButton->blockSignals(true);
 	dateFromEdit->blockSignals(true);
 	dateToEdit->blockSignals(true);
@@ -255,7 +252,7 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 	fromCombo->blockSignals(true);
 	toCombo->blockSignals(true);
 	descriptionEdit->blockSignals(true);
-	if(payeeEdit) payeeEdit->blockSignals(true);
+	if(tagCombo) tagCombo->blockSignals(true);
 	excludeButton->blockSignals(true);
 	includeButton->blockSignals(true);
 	exactMatchButton->blockSignals(true);
@@ -312,7 +309,12 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 		emit toActivated(NULL);
 	}
 	descriptionEdit->setText(description);
-	if(payeeEdit) descriptionEdit->setText(payee);
+	if(tagCombo) {
+		int i = 0;
+		if(!tag.isEmpty()) i = tagCombo->findText(tag, Qt::MatchExactly);
+		if(i < 0) i = 0;
+		tagCombo->setCurrentIndex(i);
+	}
 	excludeButton->setChecked(exclude);
 	exactMatchButton->setChecked(exact_match);
 	if(excludeSubsButton) excludeSubsButton->setChecked(exclude_subs);
@@ -327,12 +329,20 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 	fromCombo->blockSignals(false);
 	toCombo->blockSignals(false);
 	descriptionEdit->blockSignals(false);
-	if(payeeEdit) payeeEdit->blockSignals(false);
+	if(tagCombo) tagCombo->blockSignals(false);
 	excludeButton->blockSignals(false);
 	includeButton->blockSignals(false);
 	exactMatchButton->blockSignals(false);
 	if(excludeSubsButton) excludeSubsButton->blockSignals(false);
 	emit filter();
+}
+void TransactionFilterWidget::updateTags() {
+	if(tagCombo) {
+		tagCombo->clear();
+		tagCombo->addItem(tr("All"));
+		tagCombo->addItems(budget->tags);
+		tagCombo->setCurrentIndex(0);
+	}
 }
 void TransactionFilterWidget::updateFromAccounts() {
 	fromCombo->clear();
@@ -463,16 +473,26 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 				return true;
 			}
 		}
-		if(b_exact) {
-			if(!descriptionEdit->text().isEmpty() && transs->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) != 0 && !transs->hasTag(descriptionEdit->text())) {
-				return true;
-			}
-			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !payeeEdit->text().isEmpty() && ((Expense*) trans)->payee().compare(payeeEdit->text(), Qt::CaseInsensitive) != 0) {
-				if(split) {
-					bool b = false;
+		if(tagCombo && tagCombo->currentIndex() > 0 && !transs->hasTag(tagCombo->currentText(), true)) return true;
+		if(b_exact && !descriptionEdit->text().isEmpty()) {
+			bool b = transs->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) != 0 && (tagCombo || !transs->hasTag(descriptionEdit->text(), true));
+			if(b_extra && b && transtype == TRANSACTION_TYPE_EXPENSE) {
+				b = ((Expense*) trans)->payee().compare(descriptionEdit->text(), Qt::CaseInsensitive) != 0;
+				if(b && split) {
 					for(int split_i = 1; split_i < split->count(); split_i++) {
-						if(((Expense*) split->at(split_i))->payee().compare(payeeEdit->text(), Qt::CaseInsensitive) == 0) {
-							b = true;
+						if(((Expense*) split->at(split_i))->payee().compare(descriptionEdit->text(), Qt::CaseInsensitive) == 0) {
+							b = false;
+							break;
+						}
+					}
+				}
+			}
+			if(b_extra && b && transtype == TRANSACTION_TYPE_INCOME) {
+				b = ((Income*) trans)->payer().compare(descriptionEdit->text(), Qt::CaseInsensitive) != 0;
+				if(b && split) {
+					for(int split_i = 1; split_i < split->count(); split_i++) {
+						if(((Income*) split->at(split_i))->payer().compare(descriptionEdit->text(), Qt::CaseInsensitive) == 0) {
+							b = false;
 							break;
 						}
 					}
@@ -481,52 +501,32 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 					return true;
 				}
 			}
-			if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !payeeEdit->text().isEmpty() && ((Income*) trans)->payer().compare(payeeEdit->text(), Qt::CaseInsensitive) != 0) {
-				if(split) {
-					bool b = false;
+			if(b) return true;
+		} else if(!descriptionEdit->text().isEmpty()) {
+			bool b = !transs->description().contains(descriptionEdit->text(), Qt::CaseInsensitive) && !transs->comment().contains(descriptionEdit->text(), Qt::CaseInsensitive) && (tagCombo || !transs->hasTag(descriptionEdit->text(), true));
+			if(b_extra && b && transtype == TRANSACTION_TYPE_EXPENSE) {
+				b = !((Expense*) trans)->payee().contains(descriptionEdit->text(), Qt::CaseInsensitive);
+				if(b && split) {
 					for(int split_i = 1; split_i < split->count(); split_i++) {
-						if(((Income*) split->at(split_i))->payer().compare(payeeEdit->text(), Qt::CaseInsensitive) == 0) {
-							b = true;
+						if(((Expense*) split->at(split_i))->payee().contains(descriptionEdit->text(), Qt::CaseInsensitive)) {
+							b = false;
 							break;
 						}
 					}
-					if(!b) return true;
-				} else {
-					return true;
 				}
 			}
-		} else {
-			if(!descriptionEdit->text().isEmpty() && !transs->description().contains(descriptionEdit->text(), Qt::CaseInsensitive) && !transs->comment().contains(descriptionEdit->text(), Qt::CaseInsensitive) && !transs->hasTag(descriptionEdit->text())) {
-				return true;
-			}
-			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !payeeEdit->text().isEmpty() && !((Expense*) trans)->payee().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
-				if(split) {
-					bool b = false;
+			if(b_extra && b && transtype == TRANSACTION_TYPE_INCOME) {
+				b = !((Income*) trans)->payer().contains(descriptionEdit->text(), Qt::CaseInsensitive);
+				if(b && split) {
 					for(int split_i = 1; split_i < split->count(); split_i++) {
-						if(((Expense*) split->at(split_i))->payee().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
-							b = true;
+						if(((Income*) split->at(split_i))->payer().contains(descriptionEdit->text(), Qt::CaseInsensitive)) {
+							b = false;
 							break;
 						}
 					}
-					if(!b) return true;
-				} else {
-					return true;
 				}
 			}
-			if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !payeeEdit->text().isEmpty() && !((Income*) trans)->payer().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
-				if(split) {
-					bool b = false;
-					for(int split_i = 1; split_i < split->count(); split_i++) {
-						if(((Income*) split->at(split_i))->payer().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
-							b = true;
-							break;
-						}
-					}
-					if(!b) return true;
-				} else {
-					return true;
-				}
-			}
+			if(b) return true;
 		}
 	} else {
 		Account *account = (Account*) toCombo->currentData().value<void*>();
@@ -537,15 +537,16 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 		if(fromCombo->currentIndex() > 0 && (account == trans->fromAccount() || (!b_exclude_subs && account == trans->fromAccount()->topAccount()))) {
 			if(!split || transtype != TRANSACTION_TYPE_EXPENSE || !split->account()) return true;
 		}
-		if(b_exact) {
-			if(!descriptionEdit->text().isEmpty() && (transs->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) == 0 || transs->hasTag(descriptionEdit->text()))) {
+		if(tagCombo && tagCombo->currentIndex() > 0 && transs->hasTag(tagCombo->currentText(), true)) return true;
+		if(b_exact && !descriptionEdit->text().isEmpty()) {
+			if((transs->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) == 0 || (!tagCombo && transs->hasTag(descriptionEdit->text(), true)))) {
 				return true;
 			}
-			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE  && !payeeEdit->text().isEmpty() && ((Expense*) trans)->payee().compare(payeeEdit->text(), Qt::CaseInsensitive) == 0) {
+			if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE && ((Expense*) trans)->payee().compare(descriptionEdit->text(), Qt::CaseInsensitive) == 0) {
 				if(split) {
 					bool b = false;
 					for(int split_i = 1; split_i < split->count(); split_i++) {
-						if(((Expense*) split->at(split_i))->payee().compare(payeeEdit->text(), Qt::CaseInsensitive) != 0) {
+						if(((Expense*) split->at(split_i))->payee().compare(descriptionEdit->text(), Qt::CaseInsensitive) != 0) {
 							b = true;
 							break;
 						}
@@ -555,11 +556,11 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 					return true;
 				}
 			}
-			if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME  && !payeeEdit->text().isEmpty() && ((Income*) trans)->payer().compare(payeeEdit->text(), Qt::CaseInsensitive) == 0) {
+			if(b_extra && transtype == TRANSACTION_TYPE_INCOME && ((Income*) trans)->payer().compare(descriptionEdit->text(), Qt::CaseInsensitive) == 0) {
 				if(split) {
 					bool b = false;
 					for(int split_i = 1; split_i < split->count(); split_i++) {
-						if(((Income*) split->at(split_i))->payer().compare(payeeEdit->text(), Qt::CaseInsensitive) != 0) {
+						if(((Income*) split->at(split_i))->payer().compare(descriptionEdit->text(), Qt::CaseInsensitive) != 0) {
 							b = true;
 							break;
 						}
@@ -569,15 +570,15 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 					return true;
 				}
 			}
-		} else {
-			if(!descriptionEdit->text().isEmpty() && (transs->description().contains(descriptionEdit->text(), Qt::CaseInsensitive) || transs->hasTag(descriptionEdit->text()))) {
+		} else if(!descriptionEdit->text().isEmpty()) {
+			if(!descriptionEdit->text().isEmpty() && (transs->description().contains(descriptionEdit->text(), Qt::CaseInsensitive) || (!tagCombo && transs->hasTag(descriptionEdit->text())))) {
 				return true;
 			}
-			if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE  && !payeeEdit->text().isEmpty() && ((Expense*) trans)->payee().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
+			if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE && ((Expense*) trans)->payee().contains(descriptionEdit->text(), Qt::CaseInsensitive)) {
 				if(split) {
 					bool b = false;
 					for(int split_i = 1; split_i < split->count(); split_i++) {
-						if(!((Expense*) split->at(split_i))->payee().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
+						if(!((Expense*) split->at(split_i))->payee().contains(descriptionEdit->text(), Qt::CaseInsensitive)) {
 							b = true;
 							break;
 						}
@@ -588,11 +589,11 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 				}
 				return true;
 			}
-			if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME  && !payeeEdit->text().isEmpty() && ((Income*) trans)->payer().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
+			if(b_extra && transtype == TRANSACTION_TYPE_INCOME  && ((Income*) trans)->payer().contains(descriptionEdit->text(), Qt::CaseInsensitive)) {
 				if(split) {
 					bool b = false;
 					for(int split_i = 1; split_i < split->count(); split_i++) {
-						if(!((Income*) split->at(split_i))->payer().contains(payeeEdit->text(), Qt::CaseInsensitive)) {
+						if(!((Income*) split->at(split_i))->payer().contains(descriptionEdit->text(), Qt::CaseInsensitive)) {
 							b = true;
 							break;
 						}
@@ -627,8 +628,6 @@ QDate TransactionFilterWidget::endDate() {
 }
 void TransactionFilterWidget::transactionsReset() {
 	((QStandardItemModel*) descriptionEdit->completer()->model())->clear();
-	if(payeeEdit) ((QStandardItemModel*) payeeEdit->completer()->model())->clear();
-	QStringList payee_list;
 	QStringList descr_list;
 	switch(transtype) {
 		case TRANSACTION_TYPE_EXPENSE: {
@@ -642,12 +641,12 @@ void TransactionFilterWidget::transactionsReset() {
 					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
 					descr_list << expense->description().toLower();
 				}
-				if(payeeEdit && !expense->payee().isEmpty() && !payee_list.contains(expense->payee(), Qt::CaseInsensitive)) {
+				if(b_extra && !expense->payee().isEmpty() && !descr_list.contains(expense->payee(), Qt::CaseInsensitive)) {
 					QList<QStandardItem*> row;
 					row << new QStandardItem(expense->payee());
 					row << new QStandardItem(expense->payee().toLower());
-					((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
-					payee_list << expense->payee().toLower();
+					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+					descr_list << expense->payee().toLower();
 				}
 			}
 			break;
@@ -663,12 +662,12 @@ void TransactionFilterWidget::transactionsReset() {
 					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
 					descr_list << income->description().toLower();
 				}
-				if(payeeEdit && !income->security() && !income->payer().isEmpty() && !payee_list.contains(income->payer(), Qt::CaseInsensitive)) {
+				if(b_extra && !income->security() && !income->payer().isEmpty() && !descr_list.contains(income->payer(), Qt::CaseInsensitive)) {
 					QList<QStandardItem*> row;
 					row << new QStandardItem(income->payer());
 					row << new QStandardItem(income->payer().toLower());
-					((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
-					payee_list << income->payer().toLower();
+					((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+					descr_list << income->payer().toLower();
 				}
 			}
 			break;
@@ -698,7 +697,6 @@ void TransactionFilterWidget::transactionsReset() {
 		}
 	}
 	((QStandardItemModel*) descriptionEdit->completer()->model())->sort(1);
-	if(payeeEdit) ((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
 }
 void TransactionFilterWidget::transactionAdded(Transaction *trans) {
 	if(descriptionEdit && trans->type() == transtype && (transtype != TRANSACTION_TYPE_INCOME || !((Income*) trans)->security())) {
@@ -711,21 +709,21 @@ void TransactionFilterWidget::transactionAdded(Transaction *trans) {
 				((QStandardItemModel*) descriptionEdit->completer()->model())->sort(1);
 			}
 		}
-		if(payeeEdit && transtype == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().isEmpty()) {
-			if(((QStandardItemModel*) payeeEdit->completer()->model())->findItems(((Expense*) trans)->payee().toLower(), Qt::MatchExactly, 1).isEmpty()) {
+		if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().isEmpty()) {
+			if(((QStandardItemModel*) descriptionEdit->completer()->model())->findItems(((Expense*) trans)->payee().toLower(), Qt::MatchExactly, 1).isEmpty()) {
 				QList<QStandardItem*> row;
 				row << new QStandardItem(((Expense*) trans)->payee());
 				row << new QStandardItem(((Expense*) trans)->payee().toLower());
-				((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
-				((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
+				((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+				((QStandardItemModel*) descriptionEdit->completer()->model())->sort(1);
 			}
-		} else if(payeeEdit && transtype == TRANSACTION_TYPE_INCOME && !((Income*) trans)->security() && !((Income*) trans)->payer().isEmpty()) {
-			if(((QStandardItemModel*) payeeEdit->completer()->model())->findItems(((Income*) trans)->payer().toLower(), Qt::MatchExactly, 1).isEmpty()) {
+		} else if(b_extra && transtype == TRANSACTION_TYPE_INCOME && !((Income*) trans)->security() && !((Income*) trans)->payer().isEmpty()) {
+			if(((QStandardItemModel*) descriptionEdit->completer()->model())->findItems(((Income*) trans)->payer().toLower(), Qt::MatchExactly, 1).isEmpty()) {
 				QList<QStandardItem*> row;
 				row << new QStandardItem(((Income*) trans)->payer());
 				row << new QStandardItem(((Income*) trans)->payer().toLower());
-				((QStandardItemModel*) payeeEdit->completer()->model())->appendRow(row);
-				((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
+				((QStandardItemModel*) descriptionEdit->completer()->model())->appendRow(row);
+				((QStandardItemModel*) descriptionEdit->completer()->model())->sort(1);
 			}
 		}
 	}
