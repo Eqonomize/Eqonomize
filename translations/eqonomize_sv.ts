@@ -922,7 +922,7 @@ Värde: %2</translation>
         <location filename="../src/categoriescomparisonreport.cpp" line="1298"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1407"/>
         <source>Total</source>
-        <translation>Summa</translation>
+        <translation type="unfinished">Totalt</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="1465"/>

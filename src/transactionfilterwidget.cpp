@@ -475,7 +475,7 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 		}
 		if(tagCombo && tagCombo->currentIndex() > 0 && !transs->hasTag(tagCombo->currentText(), true)) return true;
 		if(b_exact && !descriptionEdit->text().isEmpty()) {
-			bool b = transs->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) != 0 && (tagCombo || !transs->hasTag(descriptionEdit->text(), true));
+			bool b = transs->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) != 0 && (tagCombo || !transs->hasTag(descriptionEdit->text(), true, true));
 			if(b_extra && b && transtype == TRANSACTION_TYPE_EXPENSE) {
 				b = ((Expense*) trans)->payee().compare(descriptionEdit->text(), Qt::CaseInsensitive) != 0;
 				if(b && split) {
@@ -503,7 +503,7 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 			}
 			if(b) return true;
 		} else if(!descriptionEdit->text().isEmpty()) {
-			bool b = !transs->description().contains(descriptionEdit->text(), Qt::CaseInsensitive) && !transs->comment().contains(descriptionEdit->text(), Qt::CaseInsensitive) && (tagCombo || !transs->hasTag(descriptionEdit->text(), true));
+			bool b = !transs->description().contains(descriptionEdit->text(), Qt::CaseInsensitive) && !transs->comment().contains(descriptionEdit->text(), Qt::CaseInsensitive) && (tagCombo || !transs->hasTag(descriptionEdit->text(), true, true));
 			if(b_extra && b && transtype == TRANSACTION_TYPE_EXPENSE) {
 				b = !((Expense*) trans)->payee().contains(descriptionEdit->text(), Qt::CaseInsensitive);
 				if(b && split) {
@@ -539,7 +539,7 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 		}
 		if(tagCombo && tagCombo->currentIndex() > 0 && transs->hasTag(tagCombo->currentText(), true)) return true;
 		if(b_exact && !descriptionEdit->text().isEmpty()) {
-			if((transs->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) == 0 || (!tagCombo && transs->hasTag(descriptionEdit->text(), true)))) {
+			if((transs->description().compare(descriptionEdit->text(), Qt::CaseInsensitive) == 0 || (!tagCombo && transs->hasTag(descriptionEdit->text(), true, true)))) {
 				return true;
 			}
 			if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE && ((Expense*) trans)->payee().compare(descriptionEdit->text(), Qt::CaseInsensitive) == 0) {
@@ -571,7 +571,7 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 				}
 			}
 		} else if(!descriptionEdit->text().isEmpty()) {
-			if(!descriptionEdit->text().isEmpty() && (transs->description().contains(descriptionEdit->text(), Qt::CaseInsensitive) || (!tagCombo && transs->hasTag(descriptionEdit->text())))) {
+			if(!descriptionEdit->text().isEmpty() && (transs->description().contains(descriptionEdit->text(), Qt::CaseInsensitive) || (!tagCombo && transs->hasTag(descriptionEdit->text(), true, true)))) {
 				return true;
 			}
 			if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE && ((Expense*) trans)->payee().contains(descriptionEdit->text(), Qt::CaseInsensitive)) {

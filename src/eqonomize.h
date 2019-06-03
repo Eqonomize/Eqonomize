@@ -228,6 +228,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionSetMainCurrency, *ActionSyncSettings, *ActionSelectFont;
 		QActionGroup *ActionSelectInitialPeriod, *ActionSelectBackupFrequency, *ActionSelectLang;
 		QAction *ActionHelp, *ActionWhatsThis, *ActionReportBug, *ActionAbout, *ActionAboutQt;
+		QAction *ActionNewTag, *ActionRenameTag, *ActionRemoveTag;
 		
 		TagMenu *tagMenu;
 		
@@ -308,7 +309,7 @@ class Eqonomize : public QMainWindow {
 		QMap<QString, QTreeWidgetItem*> item_assets_groups, item_liabilities_groups, item_tags;
 		QMap<QString, QVariant> assets_expanded, liabilities_expanded, expenses_expanded, incomes_expanded;
 
-		QMenu *assetsPopupMenu, *accountPopupMenu, *securitiesPopupMenu, *schedulePopupMenu;
+		QMenu *assetsPopupMenu, *accountPopupMenu, *tagPopupMenu, *securitiesPopupMenu, *schedulePopupMenu;
 		
 		QDialog *helpDialog, *cccDialog, *ccrDialog, *otcDialog, *otrDialog, *syncDialog;
 		
@@ -485,10 +486,9 @@ class Eqonomize : public QMainWindow {
 		void accountsSelectionChanged();
 		
 		void tagAdded(QString);
-		void tagsModified();
 		void newTag();
-		void deleteTag(const QString&);
-		void renameTag(const QString&);
+		void deleteTag();
+		void renameTag();
 		void tagsChanged();
 
 		void setPartialBudget(bool);
@@ -530,6 +530,7 @@ class Eqonomize : public QMainWindow {
 		void transactionsModified();
 		void budgetUpdated();
 		void timeToSaveConfig();
+		void tagsModified();
 
 };
 

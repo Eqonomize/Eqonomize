@@ -208,6 +208,7 @@ Budget::Budget() {
 	i_revision = 1;
 	i_opened_revision = 0;
 	last_id = 0;
+	b_record_new_tags = false;
 	b_record_new_accounts = false;
 	b_record_new_securities = false;
 	i_tcrd = TRANSACTION_CONVERSION_RATE_AT_DATE;
@@ -329,10 +330,12 @@ QString Budget::formatValue(double value, int nr_of_decimals, bool always_show_s
 	bool neg = false;
 	if(value == 0.0) {
 		s = "0";
-		s += decimal_separator;
-		while(nr_of_decimals > 0) {
-			s += '0';
-			nr_of_decimals--;
+		if(nr_of_decimals > 0) {
+			s += decimal_separator;
+			while(nr_of_decimals > 0) {
+				s += '0';
+				nr_of_decimals--;
+			}
 		}
 	} else {
 		neg = value < 0;
@@ -757,7 +760,6 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 
 	if(!merge) {
 		tags.clear();
-		tags_ref.clear();
 		clear();
 		i_opened_revision = xml.attributes().value("revision").toInt();
 		if(i_opened_revision <= 0) i_opened_revision = 1;
@@ -868,24 +870,16 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 						else ((Income*) strans->transaction())->security()->scheduledDividends.append(strans);
 					}
 					Transactions *trans = strans->transaction();
-					for(int i = 0; ; i++) {
-						if(trans->getTag(i).isEmpty()) break;
-						if(!tags_ref.contains(trans->getTag(i).toLower())) {
-							tags_ref[trans->getTag(i).toLower()] = 1;
-							tags << trans->getTag(i);
-						}
+					for(int i = 0; i < trans->tagsCount(false); i++) {
+						if(!tags.contains(trans->getTag(i))) tags << trans->getTag(i);
 					}
 					if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
 						SplitTransaction *split = (SplitTransaction*) trans;
 						int c = split->count();
 						for(int i = 0; i < c; i++) {
 							trans = split->at(i);
-							for(int i2 = 0; ; i2++) {
-								if(trans->getTag(i2).isEmpty()) break;
-								if(!tags_ref.contains(trans->getTag(i2).toLower())) {
-									tags_ref[trans->getTag(i2).toLower()] = 1;
-									tags << trans->getTag(i2);
-								}
+							for(int i2 = 0; i2 < trans->tagsCount(false); i2++) {
+								if(!tags.contains(trans->getTag(i2))) tags << trans->getTag(i2);
 							}
 						}
 					}
@@ -1113,12 +1107,8 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 						split->setAssociatedFile(QString("\"") + split->associatedFile() + "\"");
 					}
 					splitTransactions.append(split);
-					for(int i = 0; ; i++) {
-						if(split->getTag(i).isEmpty()) break;
-						if(!tags_ref.contains(split->getTag(i).toLower())) {
-							tags_ref[split->getTag(i).toLower()] = 1;
-							tags << split->getTag(i);
-						}
+					for(int i = 0; i < split->tagsCount(false); i++) {
+						if(!tags.contains(split->getTag(i))) tags << split->getTag(i);
 					}
 					int c = split->count();
 					for(int i = 0; i < c; i++) {
@@ -1160,12 +1150,8 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 							trans->setAssociatedFile(QString("\"") + trans->associatedFile() + "\"");
 						}
 						transactions.append(trans);
-						for(int i2 = 0; ; i2++) {
-							if(trans->getTag(i2).isEmpty()) break;
-							if(!tags_ref.contains(trans->getTag(i2).toLower())) {
-								tags_ref[trans->getTag(i2).toLower()] = 1;
-								tags << trans->getTag(i2);
-							}
+						for(int i2 = 0; i2 < trans->tagsCount(false); i2++) {
+							if(!tags.contains(trans->getTag(i2))) tags << trans->getTag(i2);
 						}
 					}
 				}
@@ -1182,12 +1168,8 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					trans->setAssociatedFile(QString("\"") + trans->associatedFile() + "\"");
 				}
 				transactions.append(trans);
-				for(int i = 0; ; i++) {
-					if(trans->getTag(i).isEmpty()) break;
-					if(!tags_ref.contains(trans->getTag(i).toLower())) {
-						tags_ref[trans->getTag(i).toLower()] = 1;
-						tags << trans->getTag(i);
-					}
+				for(int i2 = 0; i2 < trans->tagsCount(false); i2++) {
+					if(!tags.contains(trans->getTag(i2))) tags << trans->getTag(i2);
 				}
 			}
 		} else if(xml.name() == "category") {
@@ -3403,14 +3385,20 @@ bool Budget::accountTypeIsOther(int at_type) {
 }
 
 void Budget::tagAdded(const QString &tag) {
-	if(!tags_ref.contains(tag.toLower())) {
-		tags_ref[tag.toLower()] = 1;
-		tags << tag;
-		tags.sort(Qt::CaseInsensitive);
-	}
+	tags << tag;
+	tags.sort(Qt::CaseInsensitive);
+	if(b_record_new_tags) newTags << tag;
 }
 void Budget::tagRemoved(const QString &tag) {
 	tags.removeAll(tag);
-	tags_ref.remove(tag.toLower());
 }
+QString Budget::findTag(const QString &tag) {
+	for(int i = 0; i < tags.count(); i++) {
+		int c = tags[i].compare(tag, Qt::CaseInsensitive);
+		if(c > 0) break;
+		if(c == 0) return tags[i];
+	}
+	return QString::null;
+}
+void Budget::setRecordNewTags(bool rnt) {b_record_new_tags = rnt;}
 

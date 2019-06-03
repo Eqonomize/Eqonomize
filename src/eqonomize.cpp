@@ -2068,6 +2068,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 
 	accountPopupMenu = NULL;
 	assetsPopupMenu = NULL;
+	tagPopupMenu = NULL;
 
 	connect(budgetMonthEdit, SIGNAL(dateChanged(const QDate&)), this, SLOT(budgetMonthChanged(const QDate&)));
 	connect(budgetEdit, SIGNAL(valueChanged(double)), this, SLOT(budgetChanged(double)));
@@ -2734,12 +2735,13 @@ void Eqonomize::newSecurity() {
 	budget->setRecordNewAccounts(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	QStringList tagbak = budget->tags;
+	budget->setRecordNewTags(true);
 	EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("New Security", "Financial security (e.g. stock, mutual fund)"), true);
 	if(dialog->exec() == QDialog::Accepted) {
 		foreach(Account *acc, budget->newAccounts) accountAdded(acc);
 		budget->newAccounts.clear();
-		if(budget->tags != tagbak) tagsModified();
+		foreach(QString str, budget->newTags) tagAdded(str);
+		budget->newTags.clear();
 		Security *security = dialog->newSecurity();
 		if(security) {
 			budget->addSecurity(security);
@@ -2750,11 +2752,13 @@ void Eqonomize::newSecurity() {
 	} else {
 		foreach(Account *acc, budget->newAccounts) accountAdded(acc);
 		budget->newAccounts.clear();
-		if(budget->tags != tagbak) tagsModified();
+		foreach(QString str, budget->newTags) tagAdded(str);
+		budget->newTags.clear();
 	}
 	dialog->deleteLater();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
+	budget->setRecordNewTags(false);
 }
 void Eqonomize::securityAdded(Security *security) {
 	appendSecurity(security);
@@ -2766,14 +2770,15 @@ void Eqonomize::editSecurity(QTreeWidgetItem *i) {
 	budget->setRecordNewAccounts(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	QStringList tagbak = budget->tags;
+	budget->setRecordNewTags(true);
 	Security *security = ((SecurityListViewItem*) i)->security();
 	EditSecurityDialog *dialog = new EditSecurityDialog(budget, this, tr("Edit Security", "Financial security (e.g. stock, mutual fund)"), true);
 	dialog->setSecurity(security);
 	if(dialog->exec() == QDialog::Accepted) {
 		foreach(Account *acc, budget->newAccounts) accountAdded(acc);
 		budget->newAccounts.clear();
-		if(budget->tags != tagbak) tagsModified();
+		foreach(QString str, budget->newTags) tagAdded(str);
+		budget->newTags.clear();
 		AssetsAccount *prev_acc = security->account();
 		if(dialog->modifySecurity(security)) {
 			updateSecurity(i);
@@ -2788,11 +2793,13 @@ void Eqonomize::editSecurity(QTreeWidgetItem *i) {
 	} else {
 		foreach(Account *acc, budget->newAccounts) accountAdded(acc);
 		budget->newAccounts.clear();
-		if(budget->tags != tagbak) tagsModified();
+		foreach(QString str, budget->newTags) tagAdded(str);
+		budget->newTags.clear();
 	}
 	dialog->deleteLater();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
+	budget->setRecordNewTags(false);
 }
 void Eqonomize::editSecurity() {
 	QTreeWidgetItem *i = selectedItem(securitiesView);
@@ -3201,7 +3208,7 @@ bool Eqonomize::newExpenseWithLoan(QString description_value, double value_value
 	budget->setRecordNewSecurities(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	QStringList tagbak = budget->tags;
+	budget->setRecordNewTags(true);
 	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, TRANSACTION_TYPE_EXPENSE, NULL, false, NULL, SECURITY_ALL_VALUES, false, budget, this, true, false, true); 
 	dialog->editWidget->updateAccounts();
 	dialog->editWidget->setValues(description_value, value_value, quantity_value, date_value, NULL, category_value, payee_value, comment_value);
@@ -3210,7 +3217,8 @@ bool Eqonomize::newExpenseWithLoan(QString description_value, double value_value
 		if(trans) {
 			foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 			budget->newAccounts.clear();
-			if(budget->tags != tagbak) tagsModified();
+			foreach(QString str, budget->newTags) tagAdded(str);
+			budget->newTags.clear();
 			foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 			budget->newSecurities.clear();
 			if(trans->date() > QDate::currentDate()) {
@@ -3224,18 +3232,21 @@ bool Eqonomize::newExpenseWithLoan(QString description_value, double value_value
 			if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 			budget->setRecordNewAccounts(false);
 			budget->setRecordNewSecurities(false);
+			budget->setRecordNewTags(false);
 			dialog->deleteLater();
 			return true;
 		}
 	}
 	foreach(Account *acc, budget->newAccounts) accountAdded(acc);
 	budget->newAccounts.clear();
-	if(budget->tags != tagbak) tagsModified();
+	foreach(QString str, budget->newTags) tagAdded(str);
+	budget->newTags.clear();
 	foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 	budget->newSecurities.clear();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
 	budget->setRecordNewSecurities(false);
+	budget->setRecordNewTags(false);
 	dialog->deleteLater();
 	return false;
 }
@@ -3244,7 +3255,7 @@ bool Eqonomize::newExpenseWithLoan(QWidget *parent) {
 	budget->setRecordNewSecurities(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	QStringList tagbak = budget->tags;
+	budget->setRecordNewTags(true);
 	TransactionEditDialog *dialog = new TransactionEditDialog(b_extra, TRANSACTION_TYPE_EXPENSE, NULL, false, NULL, SECURITY_ALL_VALUES, false, budget, parent, true, false, true); 
 	dialog->editWidget->updateAccounts();
 	if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
@@ -3254,7 +3265,8 @@ bool Eqonomize::newExpenseWithLoan(QWidget *parent) {
 			budget->newAccounts.clear();
 			foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 			budget->newSecurities.clear();
-			if(budget->tags != tagbak) tagsModified();
+			foreach(QString str, budget->newTags) tagAdded(str);
+			budget->newTags.clear();
 			if(trans->date() > QDate::currentDate()) {
 				ScheduledTransaction *strans_new = new ScheduledTransaction(budget, trans, NULL);
 				budget->addScheduledTransaction(strans_new);
@@ -3266,6 +3278,7 @@ bool Eqonomize::newExpenseWithLoan(QWidget *parent) {
 			if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 			budget->setRecordNewAccounts(false);
 			budget->setRecordNewSecurities(false);
+			budget->setRecordNewTags(false);
 			dialog->deleteLater();
 			return true;
 		}
@@ -3274,10 +3287,12 @@ bool Eqonomize::newExpenseWithLoan(QWidget *parent) {
 	budget->newAccounts.clear();
 	foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 	budget->newSecurities.clear();
-	if(budget->tags != tagbak) tagsModified();
+	foreach(QString str, budget->newTags) tagAdded(str);
+	budget->newTags.clear();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
 	budget->setRecordNewSecurities(false);
+	budget->setRecordNewTags(false);
 	dialog->deleteLater();
 	return false;
 }
@@ -3292,28 +3307,32 @@ bool Eqonomize::newMultiAccountTransaction(bool create_expenses, QString descrip
 	budget->setRecordNewSecurities(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	QStringList tagbak = budget->tags;
+	budget->setRecordNewTags(true);
 	ScheduledTransaction *strans = EditScheduledMultiAccountDialog::newScheduledTransaction(description_string, category_account, quantity_value, comment_string, budget, this, create_expenses, b_extra, true);
 	if(strans) {
 		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 		budget->newSecurities.clear();
-		if(budget->tags != tagbak) tagsModified();
+		foreach(QString str, budget->newTags) tagAdded(str);
+		budget->newTags.clear();
 		addNewSchedule(strans, this);
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 		budget->setRecordNewAccounts(false);
 		budget->setRecordNewSecurities(false);
+		budget->setRecordNewTags(false);
 		return true;
 	}
 	foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 	budget->newAccounts.clear();
 	foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 	budget->newSecurities.clear();
-	if(budget->tags != tagbak) tagsModified();
+	foreach(QString str, budget->newTags) tagAdded(str);
+	budget->newTags.clear();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
 	budget->setRecordNewSecurities(false);
+	budget->setRecordNewTags(false);
 	return false;
 }
 bool Eqonomize::newMultiAccountTransaction(QWidget *parent, bool create_expenses) {
@@ -3321,28 +3340,32 @@ bool Eqonomize::newMultiAccountTransaction(QWidget *parent, bool create_expenses
 	budget->setRecordNewSecurities(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	QStringList tagbak = budget->tags;
+	budget->setRecordNewTags(true);
 	ScheduledTransaction *strans = EditScheduledMultiAccountDialog::newScheduledTransaction(budget, parent, create_expenses, b_extra, true);
 	if(strans) {
 		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 		budget->newSecurities.clear();
-		if(budget->tags != tagbak) tagsModified();
+		foreach(QString str, budget->newTags) tagAdded(str);
+		budget->newTags.clear();
 		addNewSchedule(strans, parent);
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 		budget->setRecordNewAccounts(false);
 		budget->setRecordNewSecurities(false);
+		budget->setRecordNewTags(false);
 		return true;
 	}
 	foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 	budget->newAccounts.clear();
 	foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 	budget->newSecurities.clear();
-	if(budget->tags != tagbak) tagsModified();
+	foreach(QString str, budget->newTags) tagAdded(str);
+	budget->newTags.clear();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
 	budget->setRecordNewSecurities(false);
+	budget->setRecordNewTags(false);
 	return false;
 }
 void  Eqonomize::newMultiItemTransaction() {
@@ -3353,28 +3376,32 @@ bool Eqonomize::newMultiItemTransaction(QWidget *parent, AssetsAccount *account)
 	budget->setRecordNewSecurities(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	QStringList tagbak = budget->tags;
+	budget->setRecordNewTags(true);
 	ScheduledTransaction *strans = EditScheduledMultiItemDialog::newScheduledTransaction(budget, parent, account, b_extra, true);
 	if(strans) {
 		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 		budget->newSecurities.clear();
-		if(budget->tags != tagbak) tagsModified();
+		foreach(QString str, budget->newTags) tagAdded(str);
+		budget->newTags.clear();
 		addNewSchedule(strans, parent);
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 		budget->setRecordNewAccounts(false);
 		budget->setRecordNewSecurities(false);
+		budget->setRecordNewTags(false);
 		return true;
 	}
 	foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 	budget->newAccounts.clear();
 	foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 	budget->newSecurities.clear();
-	if(budget->tags != tagbak) tagsModified();
+	foreach(QString str, budget->newTags) tagAdded(str);
+	budget->newTags.clear();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
 	budget->setRecordNewSecurities(false);
+	budget->setRecordNewTags(false);
 	return false;
 }
 void  Eqonomize::newDebtPayment() {
@@ -3388,28 +3415,32 @@ bool Eqonomize::newDebtPayment(QWidget *parent, AssetsAccount *loan, bool only_i
 	budget->setRecordNewSecurities(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	QStringList tagbak = budget->tags;
+	budget->setRecordNewTags(true);
 	ScheduledTransaction *strans = EditScheduledDebtPaymentDialog::newScheduledTransaction(budget, parent, loan, b_extra, true, only_interest);
 	if(strans) {
 		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 		budget->newSecurities.clear();
-		if(budget->tags != tagbak) tagsModified();
+		foreach(QString str, budget->newTags) tagAdded(str);
+		budget->newTags.clear();
 		addNewSchedule(strans, parent);
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 		budget->setRecordNewAccounts(false);
 		budget->setRecordNewSecurities(false);
+		budget->setRecordNewTags(false);
 		return true;
 	}
 	foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 	budget->newAccounts.clear();
 	foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 	budget->newSecurities.clear();
-	if(budget->tags != tagbak) tagsModified();
+	foreach(QString str, budget->newTags) tagAdded(str);
+	budget->newTags.clear();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
 	budget->setRecordNewSecurities(false);
+	budget->setRecordNewTags(false);
 	return false;
 }
 bool Eqonomize::editSplitTransaction(SplitTransaction *split) {
@@ -3421,7 +3452,7 @@ bool Eqonomize::editSplitTransaction(SplitTransaction *split, QWidget *parent, b
 	budget->setRecordNewSecurities(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	QStringList tagbak = budget->tags;
+	budget->setRecordNewTags(true);
 	SplitTransaction *new_split = NULL;
 	if(split->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
 		new_split = EditScheduledMultiItemDialog::editTransaction((MultiItemTransaction*) split, rec, parent, b_extra, true, clone_trans);
@@ -3441,7 +3472,8 @@ bool Eqonomize::editSplitTransaction(SplitTransaction *split, QWidget *parent, b
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 		budget->newSecurities.clear();
-		if(budget->tags != tagbak) tagsModified();
+		foreach(QString str, budget->newTags) tagAdded(str);
+		budget->newTags.clear();
 		if((!rec || rec->firstOccurrence() == rec->lastOccurrence()) && split->date() <= QDate::currentDate()) {
 			budget->addSplitTransaction(split);
 			transactionAdded(split);
@@ -3466,16 +3498,19 @@ bool Eqonomize::editSplitTransaction(SplitTransaction *split, QWidget *parent, b
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 		budget->setRecordNewAccounts(false);
 		budget->setRecordNewSecurities(false);
+		budget->setRecordNewTags(false);
 		return true;
 	}
 	foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 	budget->newAccounts.clear();
 	foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 	budget->newSecurities.clear();
-	if(budget->tags != tagbak) tagsModified();
+	foreach(QString str, budget->newTags) tagAdded(str);
+	budget->newTags.clear();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
 	budget->setRecordNewSecurities(false);
+	budget->setRecordNewTags(false);
 	return false;
 }
 void Eqonomize::editSelectedTimestamp() {
@@ -3571,28 +3606,32 @@ bool Eqonomize::newScheduledTransaction(int transaction_type, Security *security
 	budget->setRecordNewSecurities(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	QStringList tagbak = budget->tags;
+	budget->setRecordNewTags(true);
 	ScheduledTransaction *strans = EditScheduledTransactionDialog::newScheduledTransaction(transaction_type, budget, parent, security, select_security, account, b_extra, true);
 	if(strans) {
 		foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 		budget->newSecurities.clear();
-		if(budget->tags != tagbak) tagsModified();
+		foreach(QString str, budget->newTags) tagAdded(str);
+		budget->newTags.clear();
 		addNewSchedule(strans, parent);
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 		budget->setRecordNewAccounts(false);
 		budget->setRecordNewSecurities(false);
+		budget->setRecordNewTags(false);
 		return true;
 	}
 	foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 	budget->newAccounts.clear();
 	foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 	budget->newSecurities.clear();
-	if(budget->tags != tagbak) tagsModified();
+	foreach(QString str, budget->newTags) tagAdded(str);
+	budget->newTags.clear();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
 	budget->setRecordNewSecurities(false);
+	budget->setRecordNewTags(false);
 	return false;
 }
 void Eqonomize::newScheduledExpense() {
@@ -3614,7 +3653,8 @@ bool Eqonomize::editScheduledTransaction(ScheduledTransaction *strans, QWidget *
 	budget->resetCurrenciesModified();
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	QStringList tagbak = budget->tags;
+	budget->setRecordNewTags(true);
+	bool b = false;
 	if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
 		ScheduledTransaction *old_strans = strans->copy();
 		if(EditScheduledTransactionDialog::editScheduledTransaction(clone_trans ? old_strans : strans, parent, true, b_extra, true, clone_trans)) {
@@ -3622,7 +3662,8 @@ bool Eqonomize::editScheduledTransaction(ScheduledTransaction *strans, QWidget *
 			budget->newAccounts.clear();
 			foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 			budget->newSecurities.clear();
-			if(budget->tags != tagbak) tagsModified();
+			foreach(QString str, budget->newTags) tagAdded(str);
+			budget->newTags.clear();
 			if(clone_trans) {
 				old_strans->setId(0);
 				old_strans->setFirstRevision(budget->revision());
@@ -3644,6 +3685,7 @@ bool Eqonomize::editScheduledTransaction(ScheduledTransaction *strans, QWidget *
 				}
 				delete old_strans;
 			}
+			b = true;
 		} else {
 			foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 			budget->newAccounts.clear();
@@ -3666,7 +3708,8 @@ bool Eqonomize::editScheduledTransaction(ScheduledTransaction *strans, QWidget *
 			foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 			budget->newSecurities.clear();
 			budget->removeScheduledTransaction(strans, true);
-			if(budget->tags != tagbak) tagsModified();
+			foreach(QString str, budget->newTags) tagAdded(str);
+			budget->newTags.clear();
 			if(clone_trans) {
 				addNewSchedule(strans_new, parent);
 			} else {
@@ -3684,18 +3727,21 @@ bool Eqonomize::editScheduledTransaction(ScheduledTransaction *strans, QWidget *
 					checkSchedule(true, parent);
 				}
 			}
+			b = true;
 		} else {
 			foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 			budget->newAccounts.clear();
 			foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 			budget->newSecurities.clear();
-			if(budget->tags != tagbak) tagsModified();
+			foreach(QString str, budget->newTags) tagAdded(str);
+			budget->newTags.clear();
 		}
 	}
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
 	budget->setRecordNewSecurities(false);
-	return false;
+	budget->setRecordNewTags(false);
+	return b;
 }
 bool Eqonomize::editOccurrence(ScheduledTransaction *strans, const QDate &date) {
 	return editOccurrence(strans, date, this);
@@ -3705,7 +3751,7 @@ bool Eqonomize::editOccurrence(ScheduledTransaction *strans, const QDate &date, 
 	budget->setRecordNewSecurities(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	QStringList tagbak = budget->tags;
+	budget->setRecordNewTags(true);
 	if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
 		Security *security = NULL;
 		if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
@@ -3721,7 +3767,8 @@ bool Eqonomize::editOccurrence(ScheduledTransaction *strans, const QDate &date, 
 			budget->newAccounts.clear();
 			foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 			budget->newSecurities.clear();
-			if(budget->tags != tagbak) tagsModified();
+			foreach(QString str, budget->newTags) tagAdded(str);
+			budget->newTags.clear();
 			Transaction *trans = dialog->editWidget->createTransaction();
 			if(trans) {
 				if(trans->date() > QDate::currentDate()) {
@@ -3740,6 +3787,7 @@ bool Eqonomize::editOccurrence(ScheduledTransaction *strans, const QDate &date, 
 				if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 				budget->setRecordNewAccounts(false);
 				budget->setRecordNewSecurities(false);
+				budget->setRecordNewTags(false);
 				return true;
 			}
 		}
@@ -3753,7 +3801,8 @@ bool Eqonomize::editOccurrence(ScheduledTransaction *strans, const QDate &date, 
 				budget->newAccounts.clear();
 				foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 				budget->newSecurities.clear();
-				if(budget->tags != tagbak) tagsModified();
+				foreach(QString str, budget->newTags) tagAdded(str);
+				budget->newTags.clear();
 				MultiItemTransaction *split = dialog->editWidget->createTransaction();
 				if(split) {
 					if(split->date() > QDate::currentDate()) {
@@ -3771,6 +3820,7 @@ bool Eqonomize::editOccurrence(ScheduledTransaction *strans, const QDate &date, 
 					if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 					budget->setRecordNewAccounts(false);
 					budget->setRecordNewSecurities(false);
+					budget->setRecordNewTags(false);
 					return true;
 				}
 			}			
@@ -3783,7 +3833,8 @@ bool Eqonomize::editOccurrence(ScheduledTransaction *strans, const QDate &date, 
 				budget->newAccounts.clear();
 				foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 				budget->newSecurities.clear();
-				if(budget->tags != tagbak) tagsModified();
+				foreach(QString str, budget->newTags) tagAdded(str);
+				budget->newTags.clear();
 				MultiAccountTransaction *split = dialog->editWidget->createTransaction();
 				if(split) {
 					if(split->date() > QDate::currentDate()) {
@@ -3801,6 +3852,7 @@ bool Eqonomize::editOccurrence(ScheduledTransaction *strans, const QDate &date, 
 					if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 					budget->setRecordNewAccounts(false);
 					budget->setRecordNewSecurities(false);
+					budget->setRecordNewTags(false);
 					return true;
 				}
 			}			
@@ -3813,7 +3865,8 @@ bool Eqonomize::editOccurrence(ScheduledTransaction *strans, const QDate &date, 
 				budget->newAccounts.clear();
 				foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 				budget->newSecurities.clear();
-				if(budget->tags != tagbak) tagsModified();
+				foreach(QString str, budget->newTags) tagAdded(str);
+				budget->newTags.clear();
 				DebtPayment *split = dialog->editWidget->createTransaction();
 				if(split) {
 					if(split->date() > QDate::currentDate()) {
@@ -3831,6 +3884,7 @@ bool Eqonomize::editOccurrence(ScheduledTransaction *strans, const QDate &date, 
 					if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 					budget->setRecordNewAccounts(false);
 					budget->setRecordNewSecurities(false);
+					budget->setRecordNewTags(false);
 					return true;
 				}
 			}			
@@ -3841,10 +3895,12 @@ bool Eqonomize::editOccurrence(ScheduledTransaction *strans, const QDate &date, 
 	budget->newAccounts.clear();
 	foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 	budget->newSecurities.clear();
-	if(budget->tags != tagbak) tagsModified();
+	foreach(QString str, budget->newTags) tagAdded(str);
+	budget->newTags.clear();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
 	budget->setRecordNewSecurities(false);
+	budget->setRecordNewTags(false);
 	return false;
 }
 void Eqonomize::editScheduledTransaction() {
@@ -3974,7 +4030,7 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent, bool clone_
 	budget->setRecordNewSecurities(true);
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
-	QStringList tagbak = budget->tags;
+	budget->setRecordNewTags(true);
 	if(trans->parentSplit() && !clone_trans) {
 		SplitTransaction *split = trans->parentSplit();
 		if(split->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS) {
@@ -3991,7 +4047,8 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent, bool clone_
 				foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 				budget->newAccounts.clear();
 				foreach(Security *sec, budget->newSecurities) securityAdded(sec);
-				if(budget->tags != tagbak) tagsModified();
+				foreach(QString str, budget->newTags) tagAdded(str);
+				budget->newTags.clear();
 				budget->newSecurities.clear();
 				if(dialog->editWidget->modifyTransaction(trans)) {
 					transactionModified(trans, oldtrans);
@@ -3999,6 +4056,7 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent, bool clone_
 					if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 					budget->setRecordNewAccounts(false);
 					budget->setRecordNewSecurities(false);
+					budget->setRecordNewTags(false);
 					return true;
 				}
 			}
@@ -4007,6 +4065,7 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent, bool clone_
 			if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 			budget->setRecordNewAccounts(false);
 			budget->setRecordNewSecurities(false);
+			budget->setRecordNewTags(false);
 			return editSplitTransaction(split, parent);
 		}
 	} else if(EditScheduledTransactionDialog::editTransaction(clone_trans ? oldtrans : trans, rec, parent, true, b_extra, true, clone_trans)) {
@@ -4014,7 +4073,8 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent, bool clone_
 		budget->newAccounts.clear();
 		foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 		budget->newSecurities.clear();
-		if(budget->tags != tagbak) tagsModified();
+		foreach(QString str, budget->newTags) tagAdded(str);
+		budget->newTags.clear();
 		if(clone_trans) {
 			oldtrans->setId(0);
 			oldtrans->setFirstRevision(budget->revision());
@@ -4048,18 +4108,20 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent, bool clone_
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 		budget->setRecordNewAccounts(false);
 		budget->setRecordNewSecurities(false);
+		budget->setRecordNewTags(false);
 		return true;
 	}
 	foreach(Account* acc, budget->newAccounts) accountAdded(acc);
 	budget->newAccounts.clear();
 	foreach(Security *sec, budget->newSecurities) securityAdded(sec);
 	budget->newSecurities.clear();
-	if(budget->tags != tagbak) tagsModified();
+	foreach(QString str, budget->newTags) tagAdded(str);
+	budget->newTags.clear();
 	if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 	budget->setRecordNewAccounts(false);
 	budget->setRecordNewSecurities(false);
+	budget->setRecordNewTags(false);
 	delete oldtrans;
-	if(budget->tags != tagbak) tagsModified();
 	return false;
 }
 void Eqonomize::newRefund() {
@@ -4231,6 +4293,8 @@ void Eqonomize::onPageChange(int index) {
 		ActionBalanceAccount->setEnabled(false);
 		ActionReconcileAccount->setEnabled(false);
 		ActionShowAccountTransactions->setEnabled(false);
+		ActionRenameTag->setEnabled(false);
+		ActionRemoveTag->setEnabled(false);
 	}
 	if(index == SECURITIES_PAGE_INDEX) {
 		securitiesSelectionChanged();
@@ -4310,7 +4374,17 @@ void Eqonomize::popupAccountsMenu(const QPoint &p) {
 			assetsPopupMenu->addAction(ActionShowAccountTransactions);
 		}
 		assetsPopupMenu->popup(accountsView->viewport()->mapToGlobal(p));
-	} else if(i != tagsItem && !tag_items.contains(i)) {
+	} else if(i == tagsItem || tag_items.contains(i)) {
+		if(!tagPopupMenu) {
+			tagPopupMenu = new QMenu(this);
+			tagPopupMenu->addAction(ActionNewTag);
+			tagPopupMenu->addAction(ActionRenameTag);
+			tagPopupMenu->addAction(ActionRemoveTag);
+			tagPopupMenu->addSeparator();
+			tagPopupMenu->addAction(ActionShowAccountTransactions);
+		}
+		tagPopupMenu->popup(accountsView->viewport()->mapToGlobal(p));
+	} else {
 		if(!accountPopupMenu) {
 			accountPopupMenu = new QMenu(this);
 			accountPopupMenu->addAction(ActionAddAccount);
@@ -4752,11 +4826,10 @@ void Eqonomize::reloadBudget() {
 	}
 	for(QStringList::const_iterator it = budget->tags.constBegin(); it != budget->tags.constEnd(); ++it) {
 		NEW_ACCOUNT_TREE_WIDGET_ITEM(i, tagsItem, *it, "", budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
-		QString tag = it->toLower();
-		tag_items[i] = tag;
-		item_tags[tag] = i;
-		tag_value[tag] = 0.0;
-		tag_change[tag] = 0.0;
+		tag_items[i] = *it;
+		item_tags[*it] = i;
+		tag_value[*it] = 0.0;
+		tag_change[*it] = 0.0;
 	}
 	tagsItem->setHidden(tag_items.isEmpty());
 	tagsItem->sortChildren(0, Qt::AscendingOrder);
@@ -4773,7 +4846,6 @@ void Eqonomize::reloadBudget() {
 	liabilitiesItem->setExpanded(true);
 	incomesItem->setExpanded(true);
 	expensesItem->setExpanded(true);
-	tagsItem->setExpanded(false);
 	expensesWidget->transactionsReset();
 	incomesWidget->transactionsReset();
 	transfersWidget->transactionsReset();
@@ -5520,6 +5592,7 @@ void Eqonomize::showCategoriesComparisonReport() {
 			dialog_size = QSize(750, 670).boundedTo(desktop.availableGeometry(this).size());
 		}
 		ccrDialog->resize(dialog_size);
+		connect(this, SIGNAL(tagsModified()), ((CategoriesComparisonReportDialog*) ccrDialog)->report, SLOT(updateTags()));
 		connect(this, SIGNAL(accountsModified()), ((CategoriesComparisonReportDialog*) ccrDialog)->report, SLOT(updateAccounts()));
 		connect(this, SIGNAL(transactionsModified()), ((CategoriesComparisonReportDialog*) ccrDialog)->report, SLOT(updateTransactions()));
 		connect(this, SIGNAL(timeToSaveConfig()), ((CategoriesComparisonReportDialog*) ccrDialog)->report, SLOT(saveConfig()));
@@ -6268,8 +6341,6 @@ void Eqonomize::setupActions() {
 	tagMenu = new TagMenu(budget, this, true);
 	connect(tagMenu, SIGNAL(selectedTagsChanged()), this, SLOT(tagsChanged()));
 	connect(tagMenu, SIGNAL(newTagRequested()), this, SLOT(newTag()));
-	connect(tagMenu, SIGNAL(deleteTagRequested(const QString&)), this, SLOT(deleteTag(const QString&)));
-	connect(tagMenu, SIGNAL(renameTagRequested(const QString&)), this, SLOT(renameTag(const QString&)));
 	ActionTags = transactionsMenu->addMenu(tagMenu);
 	ActionTags->setIcon(LOAD_ICON2("tag", "eqz-tag"));
 	ActionTags->setText(tr("Tags"));
@@ -6409,6 +6480,10 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionAbout, tr("About %1").arg(qApp->applicationDisplayName()), "", 0, this, SLOT(showAbout()), "about", helpMenu);
 	ActionAbout->setIcon(LOAD_APP_ICON("eqonomize"));
 	NEW_ACTION(ActionAboutQt, tr("About Qt"), "help-about", 0, this, SLOT(showAboutQt()), "about-qt", helpMenu);
+	
+	NEW_ACTION_NOMENU(ActionNewTag, tr("New tag…"), "document-new", 0, this, SLOT(newTag()), "new-tag");
+	NEW_ACTION_NOMENU_ALT(ActionRenameTag, tr("Rename tag…"), "document-edit", "eqz-edit", 0, this, SLOT(renameTag()), "rename-tag");
+	NEW_ACTION_NOMENU(ActionRemoveTag, tr("Remove tag"), "edit-delete", 0, this, SLOT(deleteTag()), "remove-tag");
 
 	//ActionFileSave->setEnabled(false);
 	ActionFileReload->setEnabled(false);
@@ -6444,6 +6519,8 @@ void Eqonomize::setupActions() {
 	ActionSetQuotation->setEnabled(false);
 	ActionEditQuotations->setEnabled(false);
 	ActionEditSecurityTransactions->setEnabled(false);
+	ActionRenameTag->setEnabled(false);
+	ActionRemoveTag->setEnabled(false);
 
 }
 
@@ -6596,6 +6673,7 @@ bool Eqonomize::crashRecovery(QUrl url) {
 
 			reloadBudget();
 
+			emit tagsModified();
 			emit accountsModified();
 			emit transactionsModified();
 			emit budgetUpdated();
@@ -6700,6 +6778,7 @@ void Eqonomize::saveOptions() {
 	settings.setValue("liabilitiesGroupExpanded", liabilities_expanded);
 	settings.setValue("incomesCategoryExpanded", incomes_expanded);
 	settings.setValue("expensesCategoryExpanded", expenses_expanded);
+	settings.setValue("tagsExpanded", tagsItem->isExpanded());
 
 	if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentMonth) {settings.setValue("initialPeriod", 0);}
 	else if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentYear) {settings.setValue("initialPeriod", 1);}
@@ -6735,6 +6814,7 @@ void Eqonomize::readOptions() {
 	liabilities_expanded = settings.value("liabilitiesGroupExpanded").toMap();
 	incomes_expanded = settings.value("incomesCategoryExpanded").toMap();
 	expenses_expanded = settings.value("expensesCategoryExpanded").toMap();
+	tagsItem->setExpanded(settings.value("tagsExpanded", true).toBool());
 	scheduleView->sortByColumn(0, Qt::AscendingOrder);
 	settings.endGroup();
 	updateRecentFiles();
@@ -6792,6 +6872,7 @@ void Eqonomize::fileNew() {
 	reloadBudget();
 	setModified(false);
 	ActionFileSave->setEnabled(true);
+	emit tagsModified();
 	emit accountsModified();
 	emit transactionsModified();
 	emit budgetUpdated();
@@ -6902,7 +6983,7 @@ bool Eqonomize::checkSchedule(bool update_display, QWidget *parent) {
 		budget->setRecordNewSecurities(true);
 		budget->resetDefaultCurrencyChanged();
 		budget->resetCurrenciesModified();
-		QStringList tagbak = budget->tags;
+		budget->setRecordNewTags(true);
 		qApp->processEvents();
 		ConfirmScheduleDialog *dialog = new ConfirmScheduleDialog(b_extra, budget, parent ? parent : this, tr("Confirm Schedule"));
 		dialog->exec();
@@ -6913,7 +6994,9 @@ bool Eqonomize::checkSchedule(bool update_display, QWidget *parent) {
 		if(budget->currenciesModified() || budget->defaultCurrencyChanged()) currenciesModified();
 		budget->setRecordNewAccounts(false);
 		budget->setRecordNewSecurities(false);
-		if(budget->tags != tagbak) tagsModified();
+		budget->setRecordNewTags(false);
+		foreach(QString str, budget->newTags) tagAdded(str);
+		budget->newTags.clear();
 		Transactions *trans = dialog->firstTransaction();
 		while(trans) {
 			budget->addTransactions(trans);
@@ -7713,43 +7796,19 @@ void Eqonomize::closeAccount() {
 }
 
 void Eqonomize::tagAdded(QString tag) {
-	budget->tagAdded(tag);
 	expensesWidget->tagsModified();
 	incomesWidget->tagsModified();
 	transfersWidget->tagsModified();
 	tagMenu->updateTags();
 	updateTransactionActions();
 	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, tagsItem, tag, "", budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
-	tag = tag.toLower();
 	tag_items[i] = tag;
 	item_tags[tag] = i;
 	tag_value[tag] = 0.0;
 	tag_change[tag] = 0.0;
 	tagsItem->setHidden(false);
 	tagsItem->sortChildren(0, Qt::AscendingOrder);
-}
-void Eqonomize::tagsModified() {
-	expensesWidget->tagsModified();
-	incomesWidget->tagsModified();
-	transfersWidget->tagsModified();
-	tagMenu->updateTags();
-	updateTransactionActions();
-	while(tagsItem->childCount() > 0) {
-		delete tagsItem->child(0);
-	}
-	tag_items.clear();
-	item_tags.clear();
-	for(QStringList::const_iterator it = budget->tags.constBegin(); it != budget->tags.constEnd(); ++it) {
-		NEW_ACCOUNT_TREE_WIDGET_ITEM(i, tagsItem, *it, "", budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
-		QString tag = it->toLower();
-		tag_items[i] = tag;
-		item_tags[tag] = i;
-		tag_value[tag] = 0.0;
-		tag_change[tag] = 0.0;
-	}
-	tagsItem->setHidden(tag_items.isEmpty());
-	tagsItem->sortChildren(0, Qt::AscendingOrder);
-	filterAccounts();
+	emit tagsModified();
 }
 void Eqonomize::tagsChanged() {
 	ActionTags->setText(tr("Tags") + QString(" (") + QString::number(tagMenu->selectedTagsCount()) + ")");
@@ -7772,12 +7831,21 @@ void Eqonomize::tagsChanged() {
 void Eqonomize::newTag() {
 	QString new_tag = QInputDialog::getText(this, tr("New Tag"), tr("Tag name:")).trimmed(); 
 	if(!new_tag.isEmpty()) {
-		tagAdded(new_tag);
+		QString str = budget->findTag(new_tag);
+		if(str.isEmpty()) {
+			budget->tagAdded(new_tag);
+			tagAdded(new_tag);
+		} else {
+			new_tag = str;
+		}
 		tagMenu->setTagSelected(new_tag, true);
 		tagsChanged();
 	}
 }
-void Eqonomize::deleteTag(const QString &tag) {
+void Eqonomize::deleteTag() {
+	QTreeWidgetItem *i = selectedItem(accountsView);
+	if(!tag_items.contains(i)) return;
+	QString tag = tag_items[i];
 	int n = 0;
 	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
 		if((*it)->hasTag(tag, false)) n++;
@@ -7790,12 +7858,10 @@ void Eqonomize::deleteTag(const QString &tag) {
 	}
 	if(n == 0) {
 		budget->tagRemoved(tag);
-		tagsModified();
 	} else {
 		if(QMessageBox::question(this, tr("Remove tag?"), tr("Do you wish to remove the tag \"%1\" from %2 transaction(s)?").arg(tag).arg(n), QMessageBox::Yes | QMessageBox::Cancel) != QMessageBox::Yes) return;
 		startBatchEdit();
 		budget->tagRemoved(tag);
-		tagsModified();
 		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
 			if((*it)->removeTag(tag)) transactionModified(*it, *it);
 		}
@@ -7807,8 +7873,17 @@ void Eqonomize::deleteTag(const QString &tag) {
 		}
 		endBatchEdit();
 	}
+	item_tags.remove(tag);
+	tag_items.remove(i);
+	delete i;
+	tag_change.remove(tag);
+	tag_value.remove(tag);
+	emit tagsModified();
 }
-void Eqonomize::renameTag(const QString &tag) {
+void Eqonomize::renameTag() {
+	QTreeWidgetItem *i = selectedItem(accountsView);
+	if(!tag_items.contains(i)) return;
+	QString tag = tag_items[i];
 	QString new_tag = QInputDialog::getText(this, tr("Rename Tag"), tr("Tag name:"), QLineEdit::Normal, tag).trimmed();
 	if(!new_tag.isEmpty() && new_tag != tag) {
 		startBatchEdit();
@@ -7826,7 +7901,8 @@ void Eqonomize::renameTag(const QString &tag) {
 		}
 		if(b) endBatchEdit();
 		else in_batch_edit = false;
-		tagsModified();
+		i->setText(0, new_tag);
+		emit tagsModified();
 	}
 }
 
@@ -8534,7 +8610,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 	}
 	if(trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES || trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES) {
 		for(int i = 0; ; i++) {
-			QString tag = trans->getTag(i, true).toLower();
+			const QString &tag = trans->getTag(i, true);
 			if(tag.isEmpty()) break;
 			tag_value[tag] += cvalue_then;
 			if(!b_filter) tag_change[tag] += cvalue_then;
@@ -8728,7 +8804,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 	}
 	if(trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES || trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES) {
 		for(int i = 0; ; i++) {
-			QString tag = trans->getTag(i, true).toLower();
+			const QString &tag = trans->getTag(i, true);
 			if(tag.isEmpty()) break;
 			tag_value[tag] -= cvalue_then;
 			if(!b_filter) tag_change[tag] -= cvalue_then;
@@ -9286,14 +9362,7 @@ void Eqonomize::updateBudgetEdit() {
 }
 void Eqonomize::accountsSelectionChanged() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
-	if(i == NULL || i == liabilitiesItem || i == assetsItem || i == incomesItem || i == tagsItem || i == expensesItem || !account_items.contains(i)) {
-		ActionDeleteAccount->setEnabled(false);
-		ActionCloseAccount->setEnabled(false);
-		ActionEditAccount->setEnabled(false);
-		ActionBalanceAccount->setEnabled(false);
-		budgetEdit->setEnabled(false);
-		ActionReconcileAccount->setEnabled(false);
-	} else {
+	if(account_items.contains(i)) {
 		ActionDeleteAccount->setEnabled(true);
 		ActionEditAccount->setEnabled(true);
 		ActionCloseAccount->setEnabled(true);
@@ -9308,8 +9377,22 @@ void Eqonomize::accountsSelectionChanged() {
 			ActionCloseAccount->setText(tr("Close Account", "Mark account as closed"));
 			ActionCloseAccount->setIcon(LOAD_ICON("edit-delete"));
 		}
+	} else {
+		ActionDeleteAccount->setEnabled(false);
+		ActionCloseAccount->setEnabled(false);
+		ActionEditAccount->setEnabled(false);
+		ActionBalanceAccount->setEnabled(false);
+		budgetEdit->setEnabled(false);
+		ActionReconcileAccount->setEnabled(false);
 	}
-	ActionShowAccountTransactions->setEnabled(i != NULL && i != assetsItem && i != liabilitiesItem && !assets_group_items.contains(i) && !liabilities_group_items.contains(i));
+	if(tag_items.contains(i)) {
+		ActionRenameTag->setEnabled(true);
+		ActionRemoveTag->setEnabled(true);
+	} else {
+		ActionRenameTag->setEnabled(false);
+		ActionRemoveTag->setEnabled(false);
+	}
+	ActionShowAccountTransactions->setEnabled(i != NULL && i != tagsItem && i != assetsItem && i != liabilitiesItem && !assets_group_items.contains(i) && !liabilities_group_items.contains(i));
 	updateBudgetEdit();
 }
 void Eqonomize::updateSecurityAccount(AssetsAccount *account, bool update_display) {
@@ -9447,9 +9530,8 @@ void Eqonomize::filterAccounts() {
 		}
 	}
 	for(QStringList::const_iterator it = budget->tags.constBegin(); it != budget->tags.constEnd(); ++it) {
-		QString tag = it->toLower();
-		tag_value[tag] = 0.0;
-		tag_change[tag] = 0.0;
+		tag_value[*it] = 0.0;
+		tag_change[*it] = 0.0;
 	}
 	if(frommonth_begin.isNull() || (b_from && frommonth_begin < from_date)) {
 		if(b_from) frommonth_begin = budget->firstBudgetDay(from_date);

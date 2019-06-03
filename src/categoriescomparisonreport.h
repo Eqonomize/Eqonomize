@@ -49,7 +49,7 @@ class CategoriesComparisonReport : public QWidget {
 		QString source;
 		QDate from_date, to_date;
 		CategoryAccount *current_account;
-		QString current_description, current_payee;
+		QString current_description, current_payee, current_tag;
 		bool has_empty_description, has_empty_payee;
 		bool b_extra;
 		bool block_display_update;
@@ -62,7 +62,7 @@ class CategoriesComparisonReport : public QWidget {
 		QCheckBox *valueButton, *dailyButton, *monthlyButton, *yearlyButton, *countButton, *perButton;
 		QComboBox *sourceCombo, *descriptionCombo, *payeeCombo, *accountCombo;
 		QRadioButton *descriptionButton, *payeeButton, *subsButton;
-		QRadioButton *monthsButton, *yearsButton, *totalButton;
+		QRadioButton *monthsButton, *yearsButton, *tagsButton, *totalButton;
 		QWidget *payeeDescriptionWidget;
 
 	public slots:
@@ -70,6 +70,7 @@ class CategoriesComparisonReport : public QWidget {
 		void resetOptions();
 		void updateTransactions();
 		void updateAccounts();
+		void updateTags();
 		void updateDisplay();
 		void save();
 		void print();
@@ -86,7 +87,7 @@ class CategoriesComparisonReport : public QWidget {
 		void descriptionToggled(bool);
 		void payeeToggled(bool);
 		void subsToggled(bool);
-		void timeDivisionToggled(int, bool);
+		void columnsToggled(int, bool);
 		AssetsAccount *selectedAccount();
 
 };

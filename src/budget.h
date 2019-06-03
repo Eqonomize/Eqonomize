@@ -137,7 +137,7 @@ class Budget {
 	protected:
 	
 		int i_quotation_decimals, i_share_decimals, i_budget_day, i_budget_month, i_opened_revision, i_revision;
-		bool b_record_new_accounts, b_record_new_securities, b_default_currency_changed, b_currency_modified;
+		bool b_record_new_tags, b_record_new_accounts, b_record_new_securities, b_default_currency_changed, b_currency_modified;
 		TransactionConversionRateDate i_tcrd;
 		
 		qlonglong last_id;
@@ -146,8 +146,6 @@ class Budget {
 		
 		QNetworkReply *syncReply;
 		QProcess *syncProcess;
-		
-		QHash<QString, int> tags_ref;
 
 	public:
 	
@@ -333,6 +331,10 @@ class Budget {
 		
 		void tagAdded(const QString &tag);
 		void tagRemoved(const QString &tag);
+		QString findTag(const QString &tag);
+		
+		void setRecordNewTags(bool rnt);
+		QVector<QString> newTags;
 		
 		QStringList tags;
 

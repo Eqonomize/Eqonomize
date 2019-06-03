@@ -28,10 +28,10 @@
 #include <QDialog>
 #include <QDateEdit>
 #include <QMenu>
+#include <QPushButton>
 
 class QCheckBox;
 class QLabel;
-class QPushButton;
 class QLineEdit;
 class QComboBox;
 class QHBoxLayout;
@@ -39,6 +39,7 @@ class QGridLayout;
 
 class EqonomizeDateEdit;
 class TagMenu;
+class TagButton;
 
 class Budget;
 class Account;
@@ -133,8 +134,8 @@ class TransactionEditWidget : public QWidget {
 		QCheckBox *setQuoteButton;
 		QLabel *withdrawalLabel, *depositLabel, *dateLabel;
 		EqonomizeValueEdit *valueEdit, *depositEdit, *downPaymentEdit, *sharesEdit, *quotationEdit, *quantityEdit;
-		QPushButton *maxSharesButton, *tagButton;
-		TagMenu *tagMenu;
+		QPushButton *maxSharesButton;
+		TagButton *tagButton;
 		EqonomizeDateEdit *dateEdit;
 		QHBoxLayout *bottom_layout;
 		QGridLayout *editLayout;
@@ -176,8 +177,6 @@ class TransactionEditWidget : public QWidget {
 		void maxShares();
 		void setQuoteToggled(bool);
 		void newTag();
-		void tagsChanged();
-		void resizeTagMenu();
 
 };
 
@@ -274,8 +273,6 @@ class TagMenu : public QMenu {
 	protected:
 	
 		QHash<QString, QAction*> tag_actions;
-		QMenu *contextMenu;
-		QAction *renameAction, *deleteAction, *currentAction;
 	
 		void keyPressEvent(QKeyEvent *e) override;
 		void mouseReleaseEvent(QMouseEvent *e) override;
@@ -286,21 +283,48 @@ class TagMenu : public QMenu {
 	protected slots:
 	
 		void tagToggled();
-		void deleteTag();
-		void renameTag();
 		
 	public slots:
 	
 		void updateTags();
-		void popupContextMenu(const QPoint&);
 	
 	signals:
 	
 		void selectedTagsChanged();
 		void newTagRequested();
-		void deleteTagRequested(const QString&);
-		void renameTagRequested(const QString&);
 
+};
+
+class TagButton : public QPushButton {
+	
+	Q_OBJECT
+	
+	public:
+
+		TagButton(bool small_button, bool allow_new_tag, Budget *budg, QWidget *parent = NULL);
+		void setTagSelected(QString tag, bool b = true, bool inconsistent = false);
+		void setTransaction(Transactions *trans);
+		void setTransactions(QList<Transactions*> list);
+		void modifyTransaction(Transactions *trans);
+
+	public slots:
+
+		void resizeTagMenu();
+		void updateText();
+		void updateTags();
+		
+	protected:
+	
+		TagMenu *tagMenu;
+		bool b_small;
+	
+		void keyPressEvent(QKeyEvent *e) override;
+		
+	signals:
+	
+		void returnPressed();
+		void newTagRequested();
+	
 };
 
 #endif

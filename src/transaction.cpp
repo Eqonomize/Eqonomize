@@ -78,7 +78,7 @@ void Transactions::setLastRevision(int new_rev) {i_last_revision = new_rev;}
 bool Transactions::isModified() const {return i_last_revision == o_budget->revision();}
 void Transactions::setModified() {i_last_revision = o_budget->revision();}
 void Transactions::addTag(QString tag) {
-	if(!tag.isEmpty() && !tags.contains(tag, Qt::CaseInsensitive)) {
+	if(!tag.isEmpty() && !tags.contains(tag)) {
 		tags << tag;
 		tags.sort(Qt::CaseInsensitive);
 	}
@@ -87,7 +87,7 @@ bool Transactions::removeTag(QString tag) {
 	return tags.removeAll(tag) > 0;
 }
 int Transactions::tagsCount(bool) const {return tags.count();}
-bool Transactions::hasTag(const QString &tag, bool) const {return tags.contains(tag, Qt::CaseInsensitive);}
+bool Transactions::hasTag(const QString &tag, bool, bool case_insensitive) const {return tags.contains(tag, case_insensitive ? Qt::CaseInsensitive : Qt::CaseSensitive);}
 const QString &Transactions::getTag(int index, bool) const {
 	if(index >= 0 && index < tags.count()) return tags[index];
 	return emptystr;
@@ -246,9 +246,9 @@ bool Transaction::equals(const Transactions *trans, bool strict_comparison) cons
 	if(budget() != transaction->budget()) return false;
 	return true;
 }
-bool Transaction::hasTag(const QString &tag, bool include_parent) const {
-	if(Transactions::hasTag(tag)) return true;
-	return include_parent && o_split && o_split->hasTag(tag);
+bool Transaction::hasTag(const QString &tag, bool include_parent, bool case_insensitive) const {
+	if(Transactions::hasTag(tag, false, case_insensitive)) return true;
+	return include_parent && o_split && o_split->hasTag(tag, false, case_insensitive);
 }
 QString Transaction::tagsText(bool include_parent) const {
 	if(!include_parent || !o_split) return Transactions::tagsText();
@@ -1504,7 +1504,7 @@ void ScheduledTransaction::setReconciled(AssetsAccount*, bool) {return;}
 void ScheduledTransaction::addTag(QString tag) {if(o_trans) o_trans->addTag(tag);}
 bool ScheduledTransaction::removeTag(QString tag) {if(o_trans) {return o_trans->removeTag(tag);} return false;}
 int ScheduledTransaction::tagsCount(bool include_parent) const {if(o_trans) {return o_trans->tagsCount(include_parent);} return 0;}
-bool ScheduledTransaction::hasTag(const QString &tag, bool include_parent) const {if(o_trans) {o_trans->hasTag(tag, include_parent);} return false;}
+bool ScheduledTransaction::hasTag(const QString &tag, bool include_parent, bool case_insensitive) const {if(o_trans) {o_trans->hasTag(tag, include_parent, case_insensitive);} return false;}
 const QString &ScheduledTransaction::getTag(int index, bool include_parent) const {if(o_trans) {o_trans->getTag(index, include_parent);} return emptystr;}
 QString ScheduledTransaction::tagsText(bool include_parent_child) const {if(o_trans) {o_trans->tagsText(include_parent_child);} return QString::null;}
 void ScheduledTransaction::clearTags() {if(o_trans) o_trans->clearTags();}

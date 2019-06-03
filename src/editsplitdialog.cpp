@@ -758,15 +758,10 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	grid->addWidget(categoryCombo, b_extra ? 2 : 1, 1);
 	
 	grid->addWidget(new QLabel(tr("Tags:")), b_extra ? 3 : 2, 0);
-	tagButton = new QPushButton(tr("no tags"));
-	tagMenu = new TagMenu(budget, this, allow_account_creation);
-	tagButton->setMenu(tagMenu);
+	tagButton = new TagButton(false, allow_account_creation, budget, this);
 	grid->addWidget(tagButton, b_extra ? 3 : 2, 1);
-	tagMenu->updateTags();
-	tagsChanged();
-	connect(tagMenu, SIGNAL(aboutToShow()), this, SLOT(resizeTagMenu()));
-	connect(tagMenu, SIGNAL(selectedTagsChanged()), this, SLOT(tagsChanged()));
-	connect(tagMenu, SIGNAL(newTagRequested()), this, SLOT(newTag()));
+	tagButton->updateTags();
+	connect(tagButton, SIGNAL(newTagRequested()), this, SLOT(newTag()));
 	
 	grid->addWidget(new QLabel(tr("Associated file:"), this), b_extra ? 4 : 3, 0);
 	QHBoxLayout *fileLayout = new QHBoxLayout();
@@ -832,7 +827,8 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 		connect(descriptionEdit, SIGNAL(returnPressed()), categoryCombo, SLOT(focusAndSelectAll()));
 	}
 	connect(categoryCombo, SIGNAL(accountSelected(Account*)), fileEdit, SLOT(setFocus()));
-	connect(categoryCombo, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
+	connect(categoryCombo, SIGNAL(returnPressed()), tagButton, SLOT(setFocus()));
+	connect(tagButton, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
 	connect(fileEdit, SIGNAL(returnPressed()), commentEdit, SLOT(setFocus()));
 	connect(commentEdit, SIGNAL(returnPressed()), newButton, SLOT(setFocus()));
 
@@ -848,14 +844,6 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 }
 EditMultiAccountWidget::~EditMultiAccountWidget() {}
 
-void EditMultiAccountWidget::resizeTagMenu() {
-	tagMenu->setMinimumWidth(tagButton->width());
-}
-void EditMultiAccountWidget::tagsChanged() {
-	QString str = tagMenu->selectedTagsText();
-	if(str.isEmpty()) str = tr("no tags");
-	tagButton->setText(str);
-}
 void EditMultiAccountWidget::selectFile() {
 	QStringList urls = QFileDialog::getOpenFileNames(this, QString(), (fileEdit->text().isEmpty() || fileEdit->text().contains(",")) ? last_associated_file_directory : fileEdit->text());
 	if(!urls.isEmpty()) {
@@ -975,10 +963,14 @@ void EditMultiAccountWidget::edit(QTreeWidgetItem *i_pre) {
 void EditMultiAccountWidget::newTag() {
 	QString new_tag = QInputDialog::getText(this, tr("New Tag"), tr("Tag:")).trimmed(); 
 	if(!new_tag.isEmpty()) {
-		budget->tagAdded(new_tag);
-		tagMenu->updateTags();
-		tagMenu->setTagSelected(new_tag, true);
-		tagsChanged();
+		QString str = budget->findTag(new_tag);
+		if(str.isEmpty()) {
+			budget->tagAdded(new_tag);
+			tagButton->updateTags();
+		} else {
+			new_tag = str;
+		}
+		tagButton->setTagSelected(new_tag, true);
 		tagButton->click();
 	}
 }
@@ -988,7 +980,7 @@ MultiAccountTransaction *EditMultiAccountWidget::createTransaction() {
 	MultiAccountTransaction *split = new MultiAccountTransaction(budget, account, descriptionEdit->text());
 	split->setComment(commentEdit->text());
 	split->setAssociatedFile(fileEdit->text());
-	tagMenu->modifyTransaction(split);
+	tagButton->modifyTransaction(split);
 	QTreeWidgetItemIterator it(transactionsView);
 	QTreeWidgetItem *i = *it;
 	while(i) {
@@ -1035,8 +1027,7 @@ void EditMultiAccountWidget::setTransaction(Transactions *transs) {
 			categoryCombo->setCurrentAccount(((Income*) trans)->category());
 		}
 	}
-	tagMenu->setTransaction(transs);
-	tagsChanged();
+	tagButton->setTransaction(transs);
 	updateTotalValue();
 	transactionsView->setSortingEnabled(true);
 	emit dateChanged(transs->date());
@@ -1057,8 +1048,7 @@ void EditMultiAccountWidget::setTransaction(MultiAccountTransaction *split, cons
 		trans->setDate(date);
 		items.append(new MultiAccountListViewItem(trans));
 	}
-	tagMenu->setTransaction(split);
-	tagsChanged();
+	tagButton->setTransaction(split);
 	transactionsView->addTopLevelItems(items);
 	updateTotalValue();
 	transactionsView->setSortingEnabled(true);
