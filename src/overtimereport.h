@@ -28,6 +28,7 @@ class QComboBox;
 class QPushButton;
 class QTextEdit;
 class QLabel;
+class QRadioButton;
 
 class Account;
 class AssetsAccount;
@@ -47,7 +48,7 @@ class OverTimeReport : public QWidget {
 		QString source;
 
 		Account *current_account;
-		QString current_description;
+		QString current_description, current_tag;
 		int current_source;
 		bool has_empty_description;
 		
@@ -55,7 +56,10 @@ class OverTimeReport : public QWidget {
 		QComboBox *sourceCombo, *categoryCombo, *descriptionCombo, *accountCombo;
 		QPushButton *saveButton, *printButton;
 		QCheckBox *valueButton, *dailyButton, *monthlyButton, *yearlyButton, *countButton, *perButton;
+		QRadioButton *catsButton, *tagsButton, *totalButton;
 		QLabel *columnsLabel;
+		
+		bool block_display_update;
 
 	public slots:
 
@@ -65,7 +69,9 @@ class OverTimeReport : public QWidget {
 		void descriptionChanged(int);
 		void updateTransactions();
 		void updateAccounts();
+		void updateTags();
 		void updateDisplay();
+		void columnsToggled(int, bool);
 		void save();
 		void print();
 		void saveConfig();

@@ -440,7 +440,7 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 				for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
 					--it;
 					Transaction *trans = *it;
-					if((!current_account && trans->hasTag(current_tag, true)) || (current_account && (trans->fromAccount() == current_account || trans->toAccount() == current_account))) {
+					if((!current_account && trans->hasTag(current_tag, true) && ((trans->type() == TRANSACTION_TYPE_EXPENSE || trans->type() == TRANSACTION_TYPE_INCOME))) || (current_account && (trans->fromAccount() == current_account || trans->toAccount() == current_account))) {
 						if(trans->description().isEmpty()) has_empty_description = true;
 						else if(!descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
 						if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
@@ -904,7 +904,7 @@ void CategoriesComparisonReport::updateDisplay() {
 					Transaction *trans = *it;
 					if(trans->date() <= last_date && (!current_assets || trans->relatesToAccount(current_assets))) {
 						if(trans->date() < first_date) break;
-						if(((current_account && (trans->fromAccount() == current_account || trans->toAccount() == current_account)) || (!current_account && trans->hasTag(current_tag, true))) && (i_source <= 2 || (i_source == 4 && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (i_source == 3 && ((trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)))))) {
+						if(((current_account && (trans->fromAccount() == current_account || trans->toAccount() == current_account)) || (!current_account && trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_EXPENSE || trans->type() == TRANSACTION_TYPE_INCOME))) && (i_source <= 2 || (i_source == 4 && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (i_source == 3 && ((trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)))))) {
 							if(i_source == 2 || i_source == 4) {
 								if(trans->type() == TRANSACTION_TYPE_EXPENSE && !desc_map.contains(((Expense*) trans)->payee().toLower())) {
 									QString desc = ((Expense*) trans)->payee().toLower();
@@ -955,7 +955,7 @@ void CategoriesComparisonReport::updateDisplay() {
 					}
 					if(trans->date() >= first_date && (!current_assets || trans->relatesToAccount(current_assets))) {
 						if(trans->date() > last_date) break;
-						if(((current_account && (trans->fromAccount() == current_account || trans->toAccount() == current_account)) || (!current_account && trans->hasTag(current_tag, true))) && (i_source <= 2 || (i_source == 4 && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (i_source == 3 && ((trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)))))) {
+						if(((current_account && (trans->fromAccount() == current_account || trans->toAccount() == current_account)) || (!current_account && trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_EXPENSE || trans->type() == TRANSACTION_TYPE_INCOME))) && (i_source <= 2 || (i_source == 4 && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (i_source == 3 && ((trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)))))) {
 							if(i_source == 2 || i_source == 4) {
 								if(trans->type() == TRANSACTION_TYPE_EXPENSE && !desc_map.contains(((Expense*) trans)->payee().toLower())) {
 									QString desc = ((Expense*) trans)->payee().toLower();
@@ -1625,7 +1625,6 @@ void CategoriesComparisonReport::updateDisplay() {
 		for(int i = 0; i < tags.count(); i++) {
 			outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tags[i]) << "</th>"; col++;
 		}
-		if(i_source != -2 && current_tag.isEmpty()) {outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Total")) << "</th>"; col++;}
 	}
 	outf << "\t\t\t\t</tr>" << '\n';
 	outf << "\t\t\t</thead>" << '\n';
@@ -1701,7 +1700,6 @@ void CategoriesComparisonReport::updateDisplay() {
 					for(int i = 0; i < tags.count(); i++) {
 						outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(tag_values[account][tags[i]])) << "</td>"; col++;
 					}
-					outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(values[account])) << "</td>"; col++;
 				}
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
@@ -1738,7 +1736,6 @@ void CategoriesComparisonReport::updateDisplay() {
 					for(int i = 0; i < tags.count(); i++) {
 						outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(tit.value()[tags[i]])) << "</td>"; col++;
 					}
-					if(i_source != -2 && current_tag.isEmpty()) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(it.value())) << "</td>"; col++;}
 				}
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
@@ -1766,7 +1763,6 @@ void CategoriesComparisonReport::updateDisplay() {
 				for(int i = 0; i < tags.count(); i++) {
 					outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(tag_value[tags[i]])) << "</b></td>"; col++;
 				}
-				if(i_source != -2 && current_tag.isEmpty()) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(value)) << "</b></td>"; col++;}
 			}
 			outf << "\n";
 			outf << "\t\t\t\t</tr>" << '\n';
@@ -1795,7 +1791,6 @@ void CategoriesComparisonReport::updateDisplay() {
 							for(int i = 0; i < tags.count(); i++) {
 								outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(tag_values[account][tags[i]])) << "</i></td>"; col++;
 							}
-							outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(values[account])) << "</i></td>"; col++; col++;
 						}
 					} else {
 						outf << FIRST_COL << htmlize_string(account->nameWithParent()) << "</td>";
@@ -1815,7 +1810,6 @@ void CategoriesComparisonReport::updateDisplay() {
 							for(int i = 0; i < tags.count(); i++) {
 								outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(tag_values[account][tags[i]])) << "</td>"; col++;
 							}
-							outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(values[account])) << "</td>"; col++; col++;
 						}
 					}
 					outf << "\n";
@@ -1841,7 +1835,6 @@ void CategoriesComparisonReport::updateDisplay() {
 				for(int i = 0; i < tags.count(); i++) {
 					outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(budget->formatMoney(tag_incomes[tags[i]])) << "</b></td>"; col++;
 				}
-				outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(budget->formatMoney(incomes)) << "</b></td>"; col++;
 			}
 			outf << "\n";
 			outf << "\t\t\t\t</tr>" << '\n';
@@ -1869,7 +1862,6 @@ void CategoriesComparisonReport::updateDisplay() {
 							for(int i = 0; i < tags.count(); i++) {
 								outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(-tag_values[account][tags[i]])) << "</i></td>"; col++;
 							}
-							outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << "<i>" << htmlize_string(budget->formatMoney(-values[account])) << "</i></td>"; col++;
 						}
 					} else {
 						outf << FIRST_COL << htmlize_string(account->nameWithParent()) << "</td>";
@@ -1889,7 +1881,6 @@ void CategoriesComparisonReport::updateDisplay() {
 							for(int i = 0; i < tags.count(); i++) {
 								outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(-tag_values[account][tags[i]])) << "</td>"; col++;
 							}
-							outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(-values[account])) << "</td>"; col++;
 						}
 					}
 					outf << "\n";
@@ -1914,7 +1905,6 @@ void CategoriesComparisonReport::updateDisplay() {
 				for(int i = 0; i < tags.count(); i++) {
 					outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(budget->formatMoney(-tag_costs[tags[i]])) << "</b></td>"; col++;
 				}
-				outf << (col % 2 == 1 ? ODD_COL_DIV : EVEN_COL_DIV) << htmlize_string(budget->formatMoney(-costs)) << "</b></td>"; col++;
 			}
 			outf << "\n";
 			outf << "\t\t\t\t</tr>" << '\n';
@@ -1938,7 +1928,6 @@ void CategoriesComparisonReport::updateDisplay() {
 				for(int i = 0; i < tags.count(); i++) {
 					outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(tag_incomes[tags[i]] - tag_costs[tags[i]])) << "</b></td>"; col++;
 				}
-				outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(incomes - costs)) << "</b></td>"; col++;
 			}
 			outf << "\n";
 			outf << "\t\t\t\t</tr>" << '\n';
@@ -1948,7 +1937,7 @@ void CategoriesComparisonReport::updateDisplay() {
 	outf << "\t\t</table>" << '\n';
 	outf << "\t</body>" << '\n';
 	outf << "</html>" << '\n';
-	htmlview->setLineWrapMode(i_months > 0 ? QTextEdit::NoWrap : QTextEdit::WidgetWidth);
+	htmlview->setLineWrapMode((i_months > 3 || tags.count() > 4) ? QTextEdit::NoWrap : QTextEdit::WidgetWidth);
 	htmlview->setHtml(source);
 	if(current_account && b_extra) {
 		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, tr("No description", "Referring to the transaction description property (transaction title/generic article name)"));

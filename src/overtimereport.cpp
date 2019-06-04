@@ -52,6 +52,8 @@
 #include <QPrintDialog>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QRadioButton>
+#include <QButtonGroup>
 
 #include "account.h"
 #include "budget.h"
@@ -68,9 +70,13 @@ struct month_info {
 	double expense;
 	double count;
 	QDate date;
+	QMap<QString, double> tags;
+	QMap<Account*, double> cats;
 };
 
 OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent), budget(budg) {
+
+	block_display_update = false;
 
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->setContentsMargins(0, 0, 0, 0);
@@ -101,6 +107,7 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	sourceCombo->addItem(tr("Expenses"));
 	sourceCombo->addItem(tr("Incomes"));
 	sourceCombo->addItem(tr("Assets & Liabilities"));
+	sourceCombo->addItem(tr("Tags"));
 	choicesLayout->addWidget(sourceCombo);
 	choicesLayout->setStretchFactor(sourceCombo, 1);
 	categoryCombo = new QComboBox(settingsWidget);
@@ -133,6 +140,21 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	columnsLabel = new QLabel(tr("Columns:"), settingsWidget);
 	settingsLayout->addWidget(columnsLabel, 1, 0);
 	QHBoxLayout *enabledLayout = new QHBoxLayout();
+	QButtonGroup *group = new QButtonGroup(this);
+	catsButton = new QRadioButton(tr("Categories"), settingsWidget);
+	group->addButton(catsButton, 1);
+	enabledLayout->addWidget(catsButton);
+	tagsButton = new QRadioButton(tr("Tags"), settingsWidget);
+	group->addButton(tagsButton, 2);
+	enabledLayout->addWidget(tagsButton);
+	totalButton = new QRadioButton(tr("Total:"), settingsWidget);
+	group->addButton(totalButton, 0);
+	enabledLayout->addWidget(totalButton);
+	switch(settings.value("columns", 0).toInt()) {
+		case 1: {catsButton->setChecked(true); break;}
+		case 2: {tagsButton->setChecked(true); break;}
+		default: {totalButton->setChecked(true); break;}
+	}
 	settingsLayout->addLayout(enabledLayout, 1, 1);
 	valueButton = new QCheckBox(tr("Value"), settingsWidget);
 	valueButton->setChecked(settings.value("valueEnabled", true).toBool());
@@ -154,18 +176,22 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	enabledLayout->addWidget(perButton);
 	enabledLayout->addStretch(1);
 	
-	valueButton->setEnabled(current_source != 12 && current_source != 0);
-	dailyButton->setEnabled(current_source != 12 && current_source != 0);
-	monthlyButton->setEnabled(current_source != 12 && current_source != 0);
-	yearlyButton->setEnabled(current_source != 12 && current_source != 0);
-	countButton->setEnabled(current_source != 12 && current_source != 0);
-	perButton->setEnabled(current_source != 12 && current_source != 0);
+	valueButton->setEnabled(current_source != 12 && current_source != 0 && totalButton->isChecked());
+	dailyButton->setEnabled(current_source != 12 && current_source != 0 && totalButton->isChecked());
+	monthlyButton->setEnabled(current_source != 12 && current_source != 0 && totalButton->isChecked());
+	yearlyButton->setEnabled(current_source != 12 && current_source != 0 && totalButton->isChecked());
+	countButton->setEnabled(current_source != 12 && current_source != 0 && totalButton->isChecked());
+	perButton->setEnabled(current_source != 12 && current_source != 0 && totalButton->isChecked());
 	columnsLabel->setEnabled(current_source != 12 && current_source != 0);
+	tagsButton->setEnabled(current_source != 12 && current_source != 0);
+	catsButton->setEnabled(current_source != 12 && current_source != 0);
+	totalButton->setEnabled(current_source != 12 && current_source != 0);
 	
 	settings.endGroup();
 	
 	layout->addWidget(settingsWidget);
 
+	connect(group, SIGNAL(buttonToggled(int, bool)), this, SLOT(columnsToggled(int, bool)));
 	connect(valueButton, SIGNAL(toggled(bool)), this, SLOT(updateDisplay()));
 	connect(dailyButton, SIGNAL(toggled(bool)), this, SLOT(updateDisplay()));
 	connect(monthlyButton, SIGNAL(toggled(bool)), this, SLOT(updateDisplay()));
@@ -182,24 +208,40 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 }
 
 void OverTimeReport::resetOptions() {
+	block_display_update = true;
 	accountCombo->blockSignals(true);
 	accountCombo->setCurrentIndex(0);
 	accountCombo->blockSignals(false);
 	sourceCombo->blockSignals(true);
 	sourceCombo->setCurrentIndex(0);
 	sourceCombo->blockSignals(false);
+	columnsToggled(tagsButton->isChecked() ? 2 : (catsButton->isChecked() ? 1 : 0), true);
 	sourceChanged(0);
+	block_display_update = false;
+	updateDisplay();
 }
 
+void OverTimeReport::columnsToggled(int id, bool b) {
+	if(!b) return;
+	valueButton->setEnabled(id == 0);
+	dailyButton->setEnabled(id == 0);
+	monthlyButton->setEnabled(id == 0);
+	yearlyButton->setEnabled(id == 0);
+	countButton->setEnabled(id == 0);
+	perButton->setEnabled(id == 0);
+	updateDisplay();
+}
 void OverTimeReport::descriptionChanged(int index) {
 	current_description = "";
 	bool b_income = (current_account && current_account->type() == ACCOUNT_TYPE_INCOMES);
 	if(index == 0) {
-		if(b_income) current_source = 5;
+		if(sourceCombo->currentIndex() == 4) current_source = 13;
+		else if(b_income) current_source = 5;
 		else current_source = 6;
 	} else {
 		if(!has_empty_description || index < descriptionCombo->count() - 1) current_description = descriptionCombo->itemText(index);
-		if(b_income) current_source = 9;
+		if(sourceCombo->currentIndex() == 4) current_source = 14;
+		else if(b_income) current_source = 9;
 		else current_source = 10;
 	}
 	updateDisplay();
@@ -209,7 +251,27 @@ void OverTimeReport::categoryChanged(int index) {
 	descriptionCombo->clear();
 	descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the transaction description property (transaction title/generic article name)"));
 	current_account = NULL;
-	if(index == 0) {
+	current_tag = "";
+	if(sourceCombo->currentIndex() == 4) {
+		if(categoryCombo->currentIndex() >= 0 && categoryCombo->currentIndex() < budget->tags.count()) current_tag = budget->tags[categoryCombo->currentIndex()];
+		current_source = 13;
+		has_empty_description = false;
+		QMap<QString, QString> descriptions;
+		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
+			--it;
+			Transaction *trans = *it;
+			if((trans->type() == TRANSACTION_TYPE_EXPENSE || trans->type() == TRANSACTION_TYPE_INCOME) && trans->hasTag(current_tag, true)) {
+				if(trans->description().isEmpty()) has_empty_description = true;
+				else if(!descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
+			}
+		}
+		QMap<QString, QString>::iterator it_e = descriptions.end();
+		for(QMap<QString, QString>::iterator it = descriptions.begin(); it != it_e; ++it) {
+			descriptionCombo->addItem(it.value());
+		}
+		if(has_empty_description) descriptionCombo->addItem(tr("No description", "Referring to the transaction description property (transaction title/generic article name)"));
+		descriptionCombo->setEnabled(true);
+	} else if(index == 0) {
 		if(sourceCombo->currentIndex() == 2) {
 			current_source = 1;
 		} else {
@@ -259,7 +321,7 @@ void OverTimeReport::sourceChanged(int index) {
 	descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the transaction description property (transaction title/generic article name)"));
 	current_description = "";
 	current_account = NULL;
-	categoryCombo->addItem(tr("All Categories Combined"));
+	if(index != 4) categoryCombo->addItem(tr("All Categories Combined"));
 	if(index == 2) {
 		for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 			Account *account = *it;
@@ -274,21 +336,31 @@ void OverTimeReport::sourceChanged(int index) {
 		}
 		categoryCombo->setEnabled(true);
 		current_source = 2;
+	} else if(index == 4) {
+		for(int i = 0; i < budget->tags.count(); i++) {
+			categoryCombo->addItem(budget->tags[i]);
+		}
+		categoryCombo->setEnabled(true);
+		current_source = 13;
 	} else {
 		categoryCombo->setEnabled(false);
 		if(index == 3) current_source = 12;
 		else current_source = 0;
 	}
-	valueButton->setEnabled(current_source != 12 && current_source != 0);
-	dailyButton->setEnabled(current_source != 12 && current_source != 0);
-	monthlyButton->setEnabled(current_source != 12 && current_source != 0);
-	yearlyButton->setEnabled(current_source != 12 && current_source != 0);
-	countButton->setEnabled(current_source != 12 && current_source != 0);
-	perButton->setEnabled(current_source != 12 && current_source != 0);
+	valueButton->setEnabled(current_source != 12 && current_source != 0 && totalButton->isChecked());
+	dailyButton->setEnabled(current_source != 12 && current_source != 0 && totalButton->isChecked());
+	monthlyButton->setEnabled(current_source != 12 && current_source != 0 && totalButton->isChecked());
+	yearlyButton->setEnabled(current_source != 12 && current_source != 0 && totalButton->isChecked());
+	countButton->setEnabled(current_source != 12 && current_source != 0 && totalButton->isChecked());
+	perButton->setEnabled(current_source != 12 && current_source != 0 && totalButton->isChecked());
 	columnsLabel->setEnabled(current_source != 12 && current_source != 0);
+	tagsButton->setEnabled(current_source != 12 && current_source != 0);
+	catsButton->setEnabled(current_source != 12 && current_source != 0);
+	totalButton->setEnabled(current_source != 12 && current_source != 0);
 	categoryCombo->blockSignals(false);
 	descriptionCombo->blockSignals(false);
-	updateDisplay();
+	if(index == 4) categoryChanged(categoryCombo->currentIndex());
+	else updateDisplay();
 }
 
 
@@ -296,6 +368,7 @@ void OverTimeReport::saveConfig() {
 	QSettings settings;
 	settings.beginGroup("OverTimeReport");
 	settings.setValue("size", ((QDialog*) parent())->size());
+	settings.setValue("columns", tagsButton->isChecked() ? 2 : (catsButton->isChecked() ? 1 : 0));
 	settings.setValue("valueEnabled", valueButton->isChecked());
 	settings.setValue("dailyAverageEnabled", dailyButton->isChecked());
 	settings.setValue("monthlyAverageEnabled", monthlyButton->isChecked());
@@ -347,16 +420,16 @@ void OverTimeReport::print() {
 
 void OverTimeReport::updateDisplay() {
 
-	if(!isVisible()) return;
+	if(!isVisible() || block_display_update) return;
 
-	int columns = 2;
+	bool b_tags = tagsButton->isChecked(), b_cats = catsButton->isChecked();
 	bool enabled[8];
-	enabled[0] = valueButton->isChecked();
-	enabled[1] = dailyButton->isChecked();
-	enabled[2] = monthlyButton->isChecked();
-	enabled[3] = yearlyButton->isChecked();
-	enabled[4] = countButton->isChecked();
-	enabled[5] = perButton->isChecked();
+	enabled[0] = !b_tags && !b_cats && valueButton->isChecked();
+	enabled[1] = !b_tags && !b_cats && dailyButton->isChecked();
+	enabled[2] = !b_tags && !b_cats && monthlyButton->isChecked();
+	enabled[3] = !b_tags && !b_cats && yearlyButton->isChecked();
+	enabled[4] = !b_tags && !b_cats && countButton->isChecked();
+	enabled[5] = !b_tags && !b_cats && perButton->isChecked();
 	enabled[6] = false;
 	enabled[7] = false;
 	
@@ -367,8 +440,9 @@ void OverTimeReport::updateDisplay() {
 	QDate first_date;
 	AccountType at = ACCOUNT_TYPE_EXPENSES;
 	Account *account = NULL;
+	CategoryAccount *cat = NULL;
 	int type = 0;
-	QString title, valuetitle, pertitle, expensetitle, sumtitle;
+	QString title, valuetitle, pertitle, expensetitle, sumtitle, tag;
 	switch(current_source) {
 		case 0: {
 			if(current_assets) {
@@ -393,6 +467,7 @@ void OverTimeReport::updateDisplay() {
 			enabled[5] = false;
 			enabled[6] = true;
 			enabled[7] = true;
+			b_tags = false; b_cats = false;
 			break;
 		}
 		case 1: {
@@ -472,12 +547,36 @@ void OverTimeReport::updateDisplay() {
 			enabled[3] = false;
 			enabled[4] = false;
 			enabled[5] = false;
+			b_tags = false; b_cats = false;
 			break;
 		}
+		case 13: {
+			if(current_tag.isEmpty()) {htmlview->setHtml(""); return;}
+			tag = current_tag;
+			if(current_assets) title = tr("%2: %1").arg(current_tag).arg(current_assets->name());
+			else title = tr("%1").arg(current_tag);
+			pertitle = tr("Average Value");
+			valuetitle = tr("Value");
+			type = 7;
+			break;
+		}
+		case 14: {
+			if(current_tag.isEmpty()) {htmlview->setHtml(""); return;}
+			tag = current_tag;
+			if(current_assets) title = tr("%3: %2, %1").arg(current_tag).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description).arg(current_assets->name());
+			else title = tr("%2, %1").arg(current_tag).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description);
+			pertitle = tr("Average Income");
+			valuetitle = tr("Incomes");
+			type = 8;
+			break;
+		}
+		default: {
+			htmlview->setHtml(""); return;
+		}
 	}
-	
-	for(size_t i = 0; i < 8; i++) {
-		if(enabled[i]) columns++;
+
+	if(account && (account->type() == ACCOUNT_TYPE_EXPENSES || account->type() == ACCOUNT_TYPE_INCOMES)) {
+		cat = (CategoryAccount*) account;
 	}
 	
 	QDate start_date, first_trans_date;
@@ -486,7 +585,7 @@ void OverTimeReport::updateDisplay() {
 		if(!first_trans_date.isValid()) {
 			first_trans_date = budget->firstBudgetDay(trans->date());
 		}
-		if(((current_source == 12 || trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) && (!current_assets || trans->relatesToAccount(current_assets))) || (current_source == 0 && current_assets && trans->relatesToAccount(current_assets))) {
+		if(((!account || trans->relatesToAccount(account)) && (current_tag.isEmpty() || (trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_EXPENSE || trans->type() == TRANSACTION_TYPE_INCOME))) && (!b_tags || trans->tagsCount(true) > 0) && (current_source == 12 || trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) && (!current_assets || trans->relatesToAccount(current_assets))) || (current_source == 0 && current_assets && trans->relatesToAccount(current_assets))) {
 			start_date = trans->date();
 			if(!budget->isFirstBudgetDay(start_date)) {
 				start_date = budget->firstBudgetDay(start_date);
@@ -498,6 +597,10 @@ void OverTimeReport::updateDisplay() {
 	}
 	QDate curmonth = budget->firstBudgetDay(QDate::currentDate());
 	if(start_date.isNull() || start_date > curmonth) start_date = curmonth;
+	if(start_date != first_trans_date) {
+		if(budget->budgetYear(start_date) == budget->budgetYear(first_trans_date)) start_date = first_trans_date;
+		else start_date = budget->firstBudgetDayOfYear(start_date);
+	}
 	if(start_date == curmonth) {
 		budget->addBudgetMonthsSetFirst(start_date, -1);
 	}
@@ -514,14 +617,31 @@ void OverTimeReport::updateDisplay() {
 
 	bool started = false;
 	bool includes_planned = false;
+	QMap<QString, bool> tag_includes_planned;
+	QMap<Account*, bool> cat_includes_planned;
+	if(b_tags) {for(int i = 0; i < budget->tags.count(); i++) tag_includes_planned[budget->tags[i]] = false;}
+	if(b_cats) {
+		if(cat) {
+			for(AccountList<CategoryAccount*>::const_iterator it = cat->subCategories.constBegin(); it != cat->subCategories.constEnd(); ++it) cat_includes_planned[*it] = false;
+			cat_includes_planned[cat] = false;
+		} else {
+			if(at != ACCOUNT_TYPE_EXPENSES) {for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) cat_includes_planned[*it] = false;}
+			if(at != ACCOUNT_TYPE_INCOMES) {for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) cat_includes_planned[*it] = false;}
+		}
+	}
 	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
 		Transaction *trans = *it;
 		if(trans->date() > curdate) break;
 		bool include = false;
 		int sign = 1;
 		if(!started && trans->date() >= first_date) started = true;
-		if(started && (!current_assets || trans->relatesToAccount(current_assets))) {
-			if(type >= 4) {
+		if(started && (!current_assets || trans->relatesToAccount(current_assets)) && (tag.isEmpty() || trans->hasTag(tag, true))) {
+			if(type == 7 || (type == 8 && !trans->description().compare(current_description, Qt::CaseInsensitive))) {
+				include = true;
+				if(trans->type() == TRANSACTION_TYPE_EXPENSE) sign = -1;
+				else if(trans->type() == TRANSACTION_TYPE_INCOME) sign = 1;
+				else include = false;
+			} else if(type >= 4) {
 				include = true;
 			} else if((type == 1 && trans->fromAccount()->type() == at) || (type == 2 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account)) || (type == 3 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account) && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (type == 0 && trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
 				if(type == 0) sign = 1;
@@ -551,10 +671,30 @@ void OverTimeReport::updateDisplay() {
 					mi->value = 0.0;
 					mi->count = 0.0;
 					mi->date = olddate;
+					if(b_tags) {for(int i = 0; i < budget->tags.count(); i++) mi->tags[budget->tags[i]] = 0.0;}
+					if(b_cats) {
+						if(cat) {
+							for(AccountList<CategoryAccount*>::const_iterator it = cat->subCategories.constBegin(); it != cat->subCategories.constEnd(); ++it) mi->cats[*it] = 0.0;
+							mi->cats[cat] = 0.0;
+						} else {
+							if(at != ACCOUNT_TYPE_EXPENSES) {for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) mi->cats[*it] = 0.0;}
+							if(at != ACCOUNT_TYPE_INCOMES) {for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) mi->cats[*it] = 0.0;}
+						}
+					}
 					budget->addBudgetMonthsSetLast(olddate, 1);
 				}
 				monthly_values.append(month_info());
 				mi = &monthly_values.back();
+				if(b_tags) {for(int i = 0; i < budget->tags.count(); i++) mi->tags[budget->tags[i]] = 0.0;}
+				if(b_cats) {
+					if(cat) {
+						for(AccountList<CategoryAccount*>::const_iterator it = cat->subCategories.constBegin(); it != cat->subCategories.constEnd(); ++it) mi->cats[*it] = 0.0;
+						mi->cats[cat] = 0.0;
+					} else {
+						if(at != ACCOUNT_TYPE_EXPENSES) {for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) mi->cats[*it] = 0.0;}
+						if(at != ACCOUNT_TYPE_INCOMES) {for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) mi->cats[*it] = 0.0;}
+					}
+				}
 				if(type == 0) {
 					if(sign == 1) mi->value = trans->value(!current_assets);
 					else mi->expense = trans->value(!current_assets);
@@ -581,6 +721,11 @@ void OverTimeReport::updateDisplay() {
 					mi->value = trans->value(!current_assets) * sign;
 					mi->count = trans->quantity();
 				}
+				if(b_tags) {for(int i = 0; i < trans->tagsCount(true); i++) mi->tags[trans->getTag(i, true)] = mi->value;}
+				if(b_cats) {
+					if((at == 0 && (trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != 0 && trans->fromAccount()->type() == at)) mi->cats[cat ? trans->fromAccount() : trans->fromAccount()->topAccount()] = mi->value;
+					else if((at == 0 && (trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != 0 && trans->toAccount()->type() == at)) mi->cats[cat ? trans->toAccount() : trans->toAccount()->topAccount()] = mi->value;
+				}
 				mi->date = newdate;
 			} else {
 				if(type == 0) {
@@ -604,8 +749,14 @@ void OverTimeReport::updateDisplay() {
 						else if(((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->toAccount() != budget->balancingAccount) mi->value += trans->value(true);
 					}
 				} else {
-					mi->value += trans->value(!current_assets) * sign;
+					double v = trans->value(!current_assets) * sign;
+					mi->value += v;
 					mi->count += trans->quantity();
+					if(b_tags) {for(int i = 0; i < trans->tagsCount(true); i++) mi->tags[trans->getTag(i, true)] += v;}
+					if(b_cats) {
+						if((at == 0 && (trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != 0 && trans->fromAccount()->type() == at)) mi->cats[trans->fromAccount()] += v;
+						else if((at == 0 && (trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != 0 && trans->toAccount()->type() == at)) mi->cats[trans->toAccount()] += v;
+					}
 				}
 			}
 		}
@@ -620,11 +771,33 @@ void OverTimeReport::updateDisplay() {
 			mi->expense = 0.0;
 			mi->count = 0.0;
 			mi->date = newdate;
+			if(b_tags) {for(int i = 0; i < budget->tags.count(); i++) mi->tags[budget->tags[i]] = 0.0;}
+			if(b_cats) {
+				if(cat) {
+					for(AccountList<CategoryAccount*>::const_iterator it = cat->subCategories.constBegin(); it != cat->subCategories.constEnd(); ++it) mi->cats[*it] = 0.0;
+					mi->cats[cat] = 0.0;
+				} else {
+					if(at != ACCOUNT_TYPE_EXPENSES) {for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) mi->cats[*it] = 0.0;}
+					if(at != ACCOUNT_TYPE_INCOMES) {for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) mi->cats[*it] = 0.0;}
+				}
+			}
 		}
 	}
 	double scheduled_value = 0.0;
 	double scheduled_expense = 0.0;
 	double scheduled_count = 0.0;
+	QMap<QString, double> tag_scheduled_value;
+	QMap<Account*, double> cat_scheduled_value;
+	if(b_tags) {for(int i = 0; i < budget->tags.count(); i++) tag_scheduled_value[budget->tags[i]] = 0.0;}
+	if(b_cats) {
+		if(cat) {
+			for(AccountList<CategoryAccount*>::const_iterator it = cat->subCategories.constBegin(); it != cat->subCategories.constEnd(); ++it) cat_scheduled_value[*it] = 0.0;
+			cat_scheduled_value[cat] = 0.0;
+		} else {
+			if(at != ACCOUNT_TYPE_EXPENSES) {for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) cat_scheduled_value[*it] = 0.0;}
+			if(at != ACCOUNT_TYPE_INCOMES) {for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) cat_scheduled_value[*it] = 0.0;}
+		}
+	}
 	if(mi) {
 		int split_i = 0;
 		for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd();) {
@@ -655,8 +828,13 @@ void OverTimeReport::updateDisplay() {
 			}
 			bool include = false;
 			int sign = 1;
-			if(!current_assets || trans->relatesToAccount(current_assets)) {
-				if(type >= 4) {
+			if((!current_assets || trans->relatesToAccount(current_assets)) && (tag.isEmpty() || trans->hasTag(tag, true))) {
+				if(type == 7 || (type == 8 && !trans->description().compare(current_description, Qt::CaseInsensitive))) {
+					include = true;
+					if(trans->type() == TRANSACTION_TYPE_EXPENSE) sign = -1;
+					else if(trans->type() == TRANSACTION_TYPE_INCOME) sign = 1;
+					else include = false;
+				} else if(type >= 4) {
 					include = true;
 				} else if((type == 1 && trans->fromAccount()->type() == at) || (type == 2 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account)) || (type == 3 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account) && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (type == 0 && trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
 					if(type == 0) sign = 1;
@@ -695,8 +873,16 @@ void OverTimeReport::updateDisplay() {
 							else if(((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->toAccount() != budget->balancingAccount) scheduled_value += trans->value(true) * count;
 						}
 					} else {
-						scheduled_value += (trans->value(!current_assets) * sign * count);
+						double v = (trans->value(!current_assets) * sign * count);
+						scheduled_value += v;
 						scheduled_count += count * trans->quantity();
+						if(b_tags) {
+							for(int i = 0; i < trans->tagsCount(true); i++) {tag_scheduled_value[trans->getTag(i, true)] += v; tag_includes_planned[trans->getTag(i, true)] = true;}
+						}
+						if(b_cats) {
+							if((at == 0 && (trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != 0 && trans->fromAccount()->type() == at)) {cat_scheduled_value[trans->fromAccount()] += v; cat_includes_planned[trans->fromAccount()] = true;}
+							else if((at == 0 && (trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != 0 && trans->toAccount()->type() == at)) {cat_scheduled_value[trans->toAccount()] += v; cat_includes_planned[trans->toAccount()] = true;}
+						}
 					}
 				}
 			}
@@ -722,6 +908,16 @@ void OverTimeReport::updateDisplay() {
 			mi->expense = 0.0;
 			mi->count = 0.0;
 			mi->date = newdate;
+			if(b_tags) {for(int i = 0; i < budget->tags.count(); i++) mi->tags[budget->tags[i]] = 0.0;}
+			if(b_cats) {
+				if(cat) {
+					for(AccountList<CategoryAccount*>::const_iterator it = cat->subCategories.constBegin(); it != cat->subCategories.constEnd(); ++it) mi->cats[*it] = 0.0;
+					mi->cats[cat] = 0.0;
+				} else {
+					if(at != ACCOUNT_TYPE_EXPENSES) {for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) mi->cats[*it] = 0.0;}
+					if(at != ACCOUNT_TYPE_INCOMES) {for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) mi->cats[*it] = 0.0;}
+				}
+			}
 		}
 	}
 	if(current_source == 12) {
@@ -782,6 +978,119 @@ void OverTimeReport::updateDisplay() {
 			}
 		}
 	}
+	QStringList tags;
+	if(b_tags) {
+		for(int i = 0; i < budget->tags.count(); i++) {
+			if(tag_includes_planned[budget->tags[i]]) {
+				tags << budget->tags[i];
+			} else {
+				for(QVector<month_info>::iterator mit = monthly_values.begin(); mit != monthly_values.end(); ++mit) {
+					if(mit->tags[budget->tags[i]] != 0.0) {
+						tags << budget->tags[i];
+						break;
+					}
+				}
+			}
+		}
+		if(tags.isEmpty()) tags = budget->tags;
+	}
+	QVector<Account*> cats;
+	if(b_cats) {
+		if(cat) {
+			if(cat->subCategories.isEmpty()) {
+				cats << cat;
+			} else {
+				for(AccountList<CategoryAccount*>::const_iterator it = cat->subCategories.constBegin(); it != cat->subCategories.constEnd(); ++it) {
+					cats << *it;
+				}
+				if(cat_includes_planned[cat]) {
+					cats << cat;
+				} else {
+					for(QVector<month_info>::iterator mit = monthly_values.begin(); mit != monthly_values.end(); ++mit) {
+						if(mit->cats[cat] != 0.0) {
+							cats << cat;
+							break;
+						}
+					}
+				}
+			}
+		} else {
+			Account *acc = NULL;
+			bool b_subs = true;
+			if(at != ACCOUNT_TYPE_EXPENSES) {
+				for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+					bool b = false;
+					if(cat_includes_planned[*it]) {
+						b = true;
+					} else {
+						for(QVector<month_info>::iterator mit = monthly_values.begin(); mit != monthly_values.end(); ++mit) {
+							if(mit->cats[*it] != 0.0) {
+								b = true;
+								break;
+							}
+						}
+					}
+					if(b) {
+						if(!acc) acc = (*it)->topAccount();
+						else if(acc != (*it)->topAccount()) b_subs = false;
+						cats << *it;
+					}
+				}
+			}
+			if(at != ACCOUNT_TYPE_INCOMES) {
+				for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+					bool b = false;
+					if(cat_includes_planned[*it]) {
+						b = true;
+					} else {
+						for(QVector<month_info>::iterator mit = monthly_values.begin(); mit != monthly_values.end(); ++mit) {
+							if(mit->cats[*it] != 0.0) {
+								b = true;
+								break;
+							}
+						}
+					}
+					if(b) {
+						if(!acc) acc = (*it)->topAccount();
+						else if(acc != (*it)->topAccount()) b_subs = false;
+						cats << *it;
+					}
+				}
+			}
+			if(!b_subs) {
+				for(int i = 0; i < cats.count();) {
+					Account *acc = cats[i]->topAccount();
+					if(acc != cats[i]) {
+						if(!cat_includes_planned[acc]) cat_includes_planned[acc] = cat_includes_planned[cats[i]];
+						cat_scheduled_value[acc] += cat_scheduled_value[cats[i]];
+						for(QVector<month_info>::iterator mit = monthly_values.begin(); mit != monthly_values.end(); ++mit) {
+							mit->cats[acc] += mit->cats[cats[i]];
+						}
+						cats.removeAt(i);
+						if(!cats.contains(acc)) cats << acc;
+					} else {
+						i++;
+					}
+				}
+			} else if(cats.isEmpty()) {
+				b_subs = false;
+				if(at != ACCOUNT_TYPE_EXPENSES) {
+					for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+						if(*it == (*it)->topAccount()) {
+							cats << *it;
+						}
+					}
+				}
+				if(at != ACCOUNT_TYPE_INCOMES) {
+					for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+						if(*it == (*it)->topAccount()) {
+							cats << *it;
+						}
+					}
+				}
+			}
+		}
+	}
 	double average_month = budget->averageMonth(first_date, curdate, true);
 	double average_year = budget->averageYear(first_date, curdate, true);
 	source = "";
@@ -831,6 +1140,26 @@ void OverTimeReport::updateDisplay() {
 		if(includes_planned) {outf << "*"; use_footer1 = true;}
 		outf<< "</th>";
 	}
+	if(b_tags) {
+		for(int i = 0; i < tags.count(); i++) {
+			outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tags[i]);
+			if(tag_includes_planned[tags[i]]) {outf << "*"; use_footer1 = true;}
+			outf<< "</th>";
+		}
+	}
+	if(b_cats) {
+		for(int i = 0; i < cats.count(); i++) {
+			outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(cats[i]->name());
+			if(cat_includes_planned[cats[i]]) {outf << "*"; use_footer1 = true;}
+			outf<< "</th>";
+		}
+		if(cats.count() > 1) {
+			outf << "\t\t\t\t\t<th align=\"left\">" << htmlize_string(tr("Total"));
+			if(includes_planned) {outf << "*"; use_footer1 = true;}
+			outf<< "</th>";
+		}
+	}
+	
 	outf << "\t\t\t\t</tr>" << '\n';
 	outf << "\t\t\t</thead>" << '\n';
 	outf << "\t\t\t<tbody>" << '\n';
@@ -842,6 +1171,10 @@ void OverTimeReport::updateDisplay() {
 	double yearly_value = 0.0, total_value = 0.0;
 	double yearly_expense = 0.0, total_expense = 0.0;
 	double yearly_count = 0.0, total_count = 0.0;
+	QMap<QString, double> tag_total_value, tag_yearly_value;
+	QMap<Account*, double> cat_total_value, cat_yearly_value;
+	if(b_tags) {for(int i = 0; i < tags.count(); i++) {tag_yearly_value[tags[i]] = 0.0; tag_total_value[tags[i]] = 0.0;}}
+	if(b_cats) {for(int i = 0; i < cats.count(); i++) {cat_yearly_value[cats[i]] = 0.0; cat_total_value[cats[i]] = 0.0;}}
 	QDate year_date;
 	bool first_year = true, first_month = true;
 	bool multiple_months = monthly_values.size() > 1;
@@ -888,6 +1221,17 @@ void OverTimeReport::updateDisplay() {
 				if(enabled[5]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(pervalue)) << "</b></td>";
 				if(enabled[6]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(first_year ? (yearly_expense + scheduled_expense) : yearly_expense)) << "</b></td>";
 				if(enabled[7]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(first_year ? (yearly_value + scheduled_value - yearly_expense - scheduled_expense) : yearly_value - yearly_expense)) << "</b></td>";
+				if(b_tags) {
+					for(int i = 0; i < tags.count(); i++) {
+						outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(first_year ? (tag_yearly_value[tags[i]] + tag_scheduled_value[tags[i]]) : tag_yearly_value[tags[i]])) << "</b></td>";
+					}
+				}
+				if(b_cats) {
+					for(int i = 0; i < cats.count(); i++) {
+						outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(first_year ? (cat_yearly_value[cats[i]] + cat_scheduled_value[cats[i]]) : cat_yearly_value[cats[i]])) << "</b></td>";
+					}
+					if(cats.count() > 1) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(first_year ? (yearly_value + scheduled_value) : yearly_value)) << "</b></td>";
+				}
 				first_year = false;
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
@@ -902,12 +1246,16 @@ void OverTimeReport::updateDisplay() {
 			yearly_expense = it->expense;
 			yearly_count = it->count;
 			year_date = it->date;
+			if(b_tags) {for(int i = 0; i < tags.count(); i++) tag_yearly_value[tags[i]] = it->tags[tags[i]];}
+			if(b_cats) {for(int i = 0; i < cats.count(); i++) cat_yearly_value[cats[i]] = it->cats[cats[i]];}
 			outf << "\t\t\t\t\t<td align=\"left\">" << htmlize_string(budget->budgetYearString(it->date)) << "</td>";
 		} else {
 			outf << "\t\t\t\t<tr>" << '\n';
 			yearly_value += it->value;
 			yearly_expense += it->expense;
 			yearly_count += it->count;
+			if(b_tags) {for(int i = 0; i < tags.count(); i++) tag_yearly_value[tags[i]] += it->tags[tags[i]];}
+			if(b_cats) {for(int i = 0; i < cats.count(); i++) cat_yearly_value[cats[i]] += it->cats[cats[i]];}
 			outf << "\t\t\t\t\t<td></td>";
 		}
 		total_value += it->value;
@@ -939,6 +1287,19 @@ void OverTimeReport::updateDisplay() {
 		}
 		if(enabled[6]) outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(first_month ? (it->expense + scheduled_expense) : it->expense)) << "</td>";
 		if(enabled[7]) outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(current_source == 12 ? (first_month ? (it->value + it->expense + scheduled_value + scheduled_expense) : it->value + it->expense) : (first_month ? (it->value - it->expense + scheduled_value - scheduled_expense) : it->value - it->expense))) << "</td>";
+		if(b_tags) {
+			for(int i = 0; i < tags.count(); i++) {
+				tag_total_value[tags[i]] += it->tags[tags[i]];
+				outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(first_month ? (it->tags[tags[i]] + tag_scheduled_value[tags[i]]) : it->tags[tags[i]])) << "</td>";
+			}
+		}
+		if(b_cats) {
+			for(int i = 0; i < cats.count(); i++) {
+				cat_total_value[cats[i]] += it->cats[cats[i]];
+				outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(first_month ? (it->cats[cats[i]] + cat_scheduled_value[cats[i]]) : it->cats[cats[i]])) << "</td>";
+			}
+			if(cats.count() > 1) outf << "<td nowrap align=\"right\">" << htmlize_string(currency->formatValue(first_month ? (it->value + scheduled_value) : it->value)) << "</td>";
+		}
 		first_month = false;
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
@@ -957,6 +1318,17 @@ void OverTimeReport::updateDisplay() {
 		if(enabled[5]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(yearly_count == 0.0 ? 0.0 : (yearly_value / yearly_count))) << "</b></td>";
 		if(enabled[6]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(yearly_expense)) << "</b></td>";
 		if(enabled[7]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(yearly_value - yearly_expense)) << "</b></td>";
+		if(b_tags) {
+			for(int i = 0; i < tags.count(); i++) {
+				outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(tag_yearly_value[tags[i]])) << "</b></td>";
+			}
+		}
+		if(b_cats) {
+			for(int i = 0; i < cats.count(); i++) {
+				outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(cat_yearly_value[cats[i]])) << "</b></td>";
+			}
+			if(cats.count() > 1) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(yearly_value)) << "</b></td>";
+		}
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
 	}
@@ -973,6 +1345,17 @@ void OverTimeReport::updateDisplay() {
 		if(enabled[5]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue((total_count + scheduled_count) == 0.0 ? 0.0 : ((total_value + scheduled_value) / (total_count + scheduled_count)))) << "</b></td>";
 		if(enabled[6]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(total_expense + scheduled_expense)) << "</b></td>";
 		if(enabled[7]) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(total_value - total_expense + scheduled_value - scheduled_expense)) << "</b></td>";
+		if(b_tags) {
+			for(int i = 0; i < tags.count(); i++) {
+				outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(tag_total_value[tags[i]] + tag_scheduled_value[tags[i]])) << "</b></td>";
+			}
+		}
+		if(b_cats) {
+			for(int i = 0; i < cats.count(); i++) {
+				outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(cat_total_value[cats[i]] + cat_scheduled_value[cats[i]])) << "</b></td>";
+			}
+			if(cats.count() > 1) outf << "<td nowrap align=\"right\"><b>" << htmlize_string(currency->formatValue(total_value + scheduled_value)) << "</b></td>";
+		}
 		outf << "\n";
 		outf << "\t\t\t\t</tr>" << '\n';
 	}
@@ -990,53 +1373,34 @@ void OverTimeReport::updateDisplay() {
 	outf << "\t\t</small></div>" << '\n';
 	outf << "\t</body>" << '\n';
 	outf << "</html>" << '\n';
+	htmlview->setLineWrapMode((cats.count() > 3 || tags.count() > 4) ? QTextEdit::NoWrap : QTextEdit::WidgetWidth);
 	htmlview->setHtml(source);
 }
 void OverTimeReport::updateTransactions() {
-	if(descriptionCombo->isEnabled() && current_account) {
+	categoryChanged(categoryCombo->currentIndex());
+}
+void OverTimeReport::updateTags() {
+	if(categoryCombo->isEnabled() && sourceCombo->currentIndex() == 4) {
+		block_display_update = true;
 		int curindex = 0;
-		bool update_index = descriptionCombo->currentIndex() > 0;
+		categoryCombo->blockSignals(true);
 		descriptionCombo->blockSignals(true);
-		descriptionCombo->clear();
-		descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the transaction description property (transaction title/generic article name)"));
-		has_empty_description = false;
-		QMap<QString, QString> descriptions;
-		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
-			--it;
-			Transaction *trans = *it;
-			if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
-				if(trans->description().isEmpty()) has_empty_description = true;
-				else if(!descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
-			}
+		categoryCombo->clear();
+		for(int i = 0; i < budget->tags.count(); i++) {
+			categoryCombo->addItem(budget->tags[i]);
+			if(current_tag == budget->tags[i]) curindex = i;
 		}
-		QMap<QString, QString>::iterator it_e = descriptions.end();
-		int i = 1;
-		for(QMap<QString, QString>::iterator it = descriptions.begin(); it != it_e; ++it) {
-			if(update_index && (current_source == 9 || current_source == 10) && !it.key().compare(current_description, Qt::CaseInsensitive)) {
-				curindex = i;
-			}
-			descriptionCombo->addItem(it.value());
-			i++;
-		}
-		if(has_empty_description) {
-			if(update_index && (current_source == 9 || current_source == 10) && current_description.isEmpty()) curindex = i;
-			descriptionCombo->addItem(tr("No description", "Referring to the transaction description property (transaction title/generic article name)"));
-		}
-		if(curindex < descriptionCombo->count()) {
-			descriptionCombo->setCurrentIndex(curindex);
-		}
-		bool b_income = (current_account && current_account->type() == ACCOUNT_TYPE_INCOMES);
-		if(descriptionCombo->currentIndex() == 0) {
-			if(b_income) current_source = 5;
-			else current_source = 6;
-			current_description = "";
-		}
+		if(curindex < categoryCombo->count()) categoryCombo->setCurrentIndex(curindex);
+		categoryCombo->blockSignals(false);
 		descriptionCombo->blockSignals(false);
+		categoryChanged(curindex);
+		block_display_update = false;
+		updateDisplay();
 	}
-	updateDisplay();
 }
 void OverTimeReport::updateAccounts() {
-	if(categoryCombo->isEnabled()) {
+	block_display_update = true;
+	if(categoryCombo->isEnabled() && sourceCombo->currentIndex() != 4) {
 		int curindex = 0;
 		categoryCombo->blockSignals(true);
 		descriptionCombo->blockSignals(true);
@@ -1069,6 +1433,8 @@ void OverTimeReport::updateAccounts() {
 				current_source = 2;
 			}
 			descriptionCombo->setEnabled(false);
+		} else {
+			categoryChanged(curindex);
 		}
 		categoryCombo->blockSignals(false);
 		descriptionCombo->blockSignals(false);
@@ -1088,6 +1454,7 @@ void OverTimeReport::updateAccounts() {
 	if(index >= 0) accountCombo->setCurrentIndex(index);
 	else accountCombo->setCurrentIndex(0);
 	accountCombo->blockSignals(false);
+	block_display_update = false;
 	updateDisplay();
 }
 AssetsAccount *OverTimeReport::selectedAccount() {
