@@ -5570,6 +5570,7 @@ void Eqonomize::showOverTimeReport() {
 			dialog_size = QSize(750, 650).boundedTo(desktop.availableGeometry(this).size());
 		}
 		otrDialog->resize(dialog_size);
+		connect(this, SIGNAL(tagsModified()), ((OverTimeReportDialog*) otrDialog)->report, SLOT(updateTags()));
 		connect(this, SIGNAL(accountsModified()), ((OverTimeReportDialog*) otrDialog)->report, SLOT(updateAccounts()));
 		connect(this, SIGNAL(transactionsModified()), ((OverTimeReportDialog*) otrDialog)->report, SLOT(updateTransactions()));
 		connect(this, SIGNAL(timeToSaveConfig()), ((OverTimeReportDialog*) otrDialog)->report, SLOT(saveConfig()));
@@ -5614,7 +5615,8 @@ void Eqonomize::showOverTimeChart() {
 			QDesktopWidget desktop;
 			dialog_size = QSize(850, b_extra ? 750 : 730).boundedTo(desktop.availableGeometry(this).size());
 		}
-		otcDialog->resize(dialog_size);		
+		otcDialog->resize(dialog_size);	
+		connect(this, SIGNAL(tagsModified()), ((OverTimeChartDialog*) otcDialog)->chart, SLOT(updateTags()));
 		connect(this, SIGNAL(accountsModified()), ((OverTimeChartDialog*) otcDialog)->chart, SLOT(updateAccounts()));
 		connect(this, SIGNAL(transactionsModified()), ((OverTimeChartDialog*) otcDialog)->chart, SLOT(updateTransactions()));
 		connect(this, SIGNAL(timeToSaveConfig()), ((OverTimeChartDialog*) otcDialog)->chart, SLOT(saveConfig()));
@@ -6331,7 +6333,7 @@ void Eqonomize::setupActions() {
 	NEW_ACTION_ALT(ActionEditScheduledTransaction, tr("Edit Schedule (Recurrence)…"), "document-edit", "eqz-edit", 0, this, SLOT(editSelectedScheduledTransaction()), "edit_scheduled_transaction", transactionsMenu);
 	NEW_ACTION_NOMENU_ALT(ActionEditSchedule, tr("Edit Schedule…"), "document-edit", "eqz-edit", 0, this, SLOT(editScheduledTransaction()), "edit_schedule");
 	NEW_ACTION_ALT(ActionEditSplitTransaction, tr("Edit Split Transaction…"), "document-edit", "eqz-edit", 0, this, SLOT(editSelectedSplitTransaction()), "edit_split_transaction", transactionsMenu);
-	NEW_ACTION(ActionCloneTransaction, tr("Duplicate Transaction…"), "edit-copy", 0, this, SLOT(cloneSelectedTransaction()), "clone_transaction", transactionsMenu);
+	NEW_ACTION(ActionCloneTransaction, tr("Duplicate Transaction…", "duplicate as verb"), "edit-copy", 0, this, SLOT(cloneSelectedTransaction()), "clone_transaction", transactionsMenu);
 	NEW_ACTION(ActionJoinTransactions, tr("Join Transactions…"), "eqz-join-transactions", 0, this, SLOT(joinSelectedTransactions()), "join_transactions", transactionsMenu);
 	NEW_ACTION(ActionSplitUpTransaction, tr("Split Up Transaction"), "eqz-split-transaction", 0, this, SLOT(splitUpSelectedTransaction()), "split_up_transaction", transactionsMenu);
 	NEW_ACTION(ActionEditTimestamp, tr("Edit Timestamp…"), "eqz-schedule", 0, this, SLOT(editSelectedTimestamp()), "edit_timestamp", transactionsMenu);
@@ -6481,9 +6483,9 @@ void Eqonomize::setupActions() {
 	ActionAbout->setIcon(LOAD_APP_ICON("eqonomize"));
 	NEW_ACTION(ActionAboutQt, tr("About Qt"), "help-about", 0, this, SLOT(showAboutQt()), "about-qt", helpMenu);
 	
-	NEW_ACTION_NOMENU(ActionNewTag, tr("New tag…"), "document-new", 0, this, SLOT(newTag()), "new-tag");
-	NEW_ACTION_NOMENU_ALT(ActionRenameTag, tr("Rename tag…"), "document-edit", "eqz-edit", 0, this, SLOT(renameTag()), "rename-tag");
-	NEW_ACTION_NOMENU(ActionRemoveTag, tr("Remove tag"), "edit-delete", 0, this, SLOT(deleteTag()), "remove-tag");
+	NEW_ACTION_NOMENU(ActionNewTag, tr("New Tag…"), "document-new", 0, this, SLOT(newTag()), "new-tag");
+	NEW_ACTION_NOMENU_ALT(ActionRenameTag, tr("Rename Tag…"), "document-edit", "eqz-edit", 0, this, SLOT(renameTag()), "rename-tag");
+	NEW_ACTION_NOMENU(ActionRemoveTag, tr("Remove Tag"), "edit-delete", 0, this, SLOT(deleteTag()), "remove-tag");
 
 	//ActionFileSave->setEnabled(false);
 	ActionFileReload->setEnabled(false);
@@ -7859,7 +7861,7 @@ void Eqonomize::deleteTag() {
 	if(n == 0) {
 		budget->tagRemoved(tag);
 	} else {
-		if(QMessageBox::question(this, tr("Remove tag?"), tr("Do you wish to remove the tag \"%1\" from %2 transaction(s)?").arg(tag).arg(n), QMessageBox::Yes | QMessageBox::Cancel) != QMessageBox::Yes) return;
+		if(QMessageBox::question(this, tr("Remove tag?"), tr("Do you wish to remove the tag \"%1\" from %n transaction(s)?", "", n).arg(tag), QMessageBox::Yes | QMessageBox::Cancel) != QMessageBox::Yes) return;
 		startBatchEdit();
 		budget->tagRemoved(tag);
 		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {

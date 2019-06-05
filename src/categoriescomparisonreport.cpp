@@ -659,6 +659,8 @@ void CategoriesComparisonReport::updateDisplay() {
 	current_payee = "";
 	current_tag = "";
 	
+	bool b_expense = false, b_income = false;
+	
 	AssetsAccount *current_assets = selectedAccount();
 	
 	bool include_subs = false;
@@ -1038,8 +1040,8 @@ void CategoriesComparisonReport::updateDisplay() {
 				} else if(trans->hasTag(current_tag, true)) {
 					if(i_source <= 2 || (i_source == 4 && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (i_source == 3 && ((trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive))))) {
 						include = true;
-						if(trans->type() == TRANSACTION_TYPE_EXPENSE) sign = -1;
-						else if(trans->type() == TRANSACTION_TYPE_INCOME) sign = 1;
+						if(trans->type() == TRANSACTION_TYPE_EXPENSE) {b_expense = true; sign = -1;}
+						else if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
 						else include = false;
 					}
 				}
@@ -1123,34 +1125,38 @@ void CategoriesComparisonReport::updateDisplay() {
 					}
 				}
 			} else if(i_source == -2) {
-				double v = trans->value(true);
-				if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
-					value -= v;
-					value_count += trans->quantity();
-					for(int i2 = 0; i2 < trans->tagsCount(true); i2++) {
-						QString desc = trans->getTag(i2, true);
-						desc_values[desc] -= v;
-						if(month_index >= 0) desc_month_values[desc][month_index] -= v;
-						if(month_index >= 0) month_value[month_index] -= v;
-						desc_counts[desc] += trans->quantity();
-						if(b_tags) {
-							for(int i = 0; i < trans->tagsCount(true); i++) {
-								desc_tag_values[desc][trans->getTag(i, true)] -= v;
+				if(trans->tagsCount(true) > 0) {
+					double v = trans->value(true);
+					if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
+						b_expense = true;
+						value -= v;
+						value_count += trans->quantity();
+						for(int i2 = 0; i2 < trans->tagsCount(true); i2++) {
+							QString desc = trans->getTag(i2, true);
+							desc_values[desc] -= v;
+							if(month_index >= 0) desc_month_values[desc][month_index] -= v;
+							if(month_index >= 0) month_value[month_index] -= v;
+							desc_counts[desc] += trans->quantity();
+							if(b_tags) {
+								for(int i = 0; i < trans->tagsCount(true); i++) {
+									desc_tag_values[desc][trans->getTag(i, true)] -= v;
+								}
 							}
 						}
-					}
-				} else if(trans->type() == TRANSACTION_TYPE_INCOME) {
-					value += v;
-					value_count += trans->quantity();
-					for(int i2 = 0; i2 < trans->tagsCount(true); i2++) {
-						QString desc = trans->getTag(i2, true);
-						tag_value[desc] += v;
-						if(month_index >= 0) tag_month_values[desc][month_index] += v;
-						if(month_index >= 0) month_value[month_index] += v;
-						tag_counts[desc] += trans->quantity();
-						if(b_tags) {
-							for(int i = 0; i < trans->tagsCount(true); i++) {
-								desc_tag_values[desc][trans->getTag(i, true)] += v;
+					} else if(trans->type() == TRANSACTION_TYPE_INCOME) {
+						b_income = true;
+						value += v;
+						value_count += trans->quantity();
+						for(int i2 = 0; i2 < trans->tagsCount(true); i2++) {
+							QString desc = trans->getTag(i2, true);
+							tag_value[desc] += v;
+							if(month_index >= 0) tag_month_values[desc][month_index] += v;
+							if(month_index >= 0) month_value[month_index] += v;
+							tag_counts[desc] += trans->quantity();
+							if(b_tags) {
+								for(int i = 0; i < trans->tagsCount(true); i++) {
+									desc_tag_values[desc][trans->getTag(i, true)] += v;
+								}
 							}
 						}
 					}
@@ -1287,8 +1293,8 @@ void CategoriesComparisonReport::updateDisplay() {
 					} else if(trans->hasTag(current_tag, true)) {
 						if(i_source <= 2 || (i_source == 4 && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (i_source == 3 && ((trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive))))) {
 							include = true;
-							if(trans->type() == TRANSACTION_TYPE_EXPENSE) sign = -1;
-							else if(trans->type() == TRANSACTION_TYPE_INCOME) sign = 1;
+							if(trans->type() == TRANSACTION_TYPE_EXPENSE) {b_expense = true; sign = -1;}
+							else if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
 							else include = false;
 						}
 					}
@@ -1374,35 +1380,39 @@ void CategoriesComparisonReport::updateDisplay() {
 						}
 					}
 				}  else if(i_source == -2) {
-					int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_month_date, last_month_date) : 1;
-					double v = trans->value(true);
-					if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
-						value -= v;
-						value_count += trans->quantity();
-						for(int i2 = 0; i2 < trans->tagsCount(true); i2++) {
-							QString desc = trans->getTag(i2, true);
-							tag_value[desc] -= v * count;
-							if(month_index >= 0) tag_month_values[desc][month_index] -= v * count;
-							if(month_index >= 0) month_value[month_index] -= v * count;
-							tag_counts[desc] += trans->quantity() * count;
-							if(b_tags) {
-								for(int i = 0; i < trans->tagsCount(true); i++) {
-									desc_tag_values[desc][trans->getTag(i, true)] -= v * count;
+					if(trans->tagsCount(true) > 0) {
+						int count = strans->recurrence() ? strans->recurrence()->countOccurrences(first_month_date, last_month_date) : 1;
+						double v = trans->value(true);
+						if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
+							b_expense = true;
+							value -= v;
+							value_count += trans->quantity();
+							for(int i2 = 0; i2 < trans->tagsCount(true); i2++) {
+								QString desc = trans->getTag(i2, true);
+								tag_value[desc] -= v * count;
+								if(month_index >= 0) tag_month_values[desc][month_index] -= v * count;
+								if(month_index >= 0) month_value[month_index] -= v * count;
+								tag_counts[desc] += trans->quantity() * count;
+								if(b_tags) {
+									for(int i = 0; i < trans->tagsCount(true); i++) {
+										desc_tag_values[desc][trans->getTag(i, true)] -= v * count;
+									}
 								}
 							}
-						}
-					} else if(trans->type() == TRANSACTION_TYPE_INCOME) {
-						value += v;
-						value_count += trans->quantity();
-						for(int i2 = 0; i2 < trans->tagsCount(true); i2++) {
-							QString desc = trans->getTag(i2, true);
-							desc_values[desc] += v * count;
-							if(month_index >= 0) desc_month_values[desc][month_index] += v * count;
-							if(month_index >= 0) month_value[month_index] += v * count;
-							desc_counts[desc] += trans->quantity() * count;
-							if(b_tags) {
-								for(int i = 0; i < trans->tagsCount(true); i++) {
-									desc_tag_values[desc][trans->getTag(i, true)] += v * count;
+						} else if(trans->type() == TRANSACTION_TYPE_INCOME) {
+							b_income = true;
+							value += v;
+							value_count += trans->quantity();
+							for(int i2 = 0; i2 < trans->tagsCount(true); i2++) {
+								QString desc = trans->getTag(i2, true);
+								desc_values[desc] += v * count;
+								if(month_index >= 0) desc_month_values[desc][month_index] += v * count;
+								if(month_index >= 0) month_value[month_index] += v * count;
+								desc_counts[desc] += trans->quantity() * count;
+								if(b_tags) {
+									for(int i = 0; i < trans->tagsCount(true); i++) {
+										desc_tag_values[desc][trans->getTag(i, true)] += v * count;
+									}
 								}
 							}
 						}
@@ -1515,7 +1525,7 @@ void CategoriesComparisonReport::updateDisplay() {
 			else title = tr("Incomes, %2: %1").arg(current_account->nameWithParent()).arg(current_assets->name());
 		} else if(!current_tag.isEmpty()) {
 			if(i_source == 4) title = tr("%3: %2, %1").arg(current_tag).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description).arg(current_assets->name());
-			else if(i_source == 3) title = tr("%3: %2, %1").arg(current_tag).arg(current_payee.isEmpty() ? tr("No payer") : current_payee).arg(current_assets->name());
+			else if(i_source == 3) title = tr("%3: %2, %1").arg(current_tag).arg(current_payee.isEmpty() ? ((b_income && !b_expense) ? tr("No payer") : tr("No payee")) : current_payee).arg(current_assets->name());
 			else title = tr("%2: %1").arg(current_tag).arg(current_assets->name());
 		} else if(i_source == -2) {
 			title = tr("Tags, %1").arg(current_assets->name());
@@ -1535,8 +1545,8 @@ void CategoriesComparisonReport::updateDisplay() {
 			else title = tr("Incomes: %1").arg(current_account->nameWithParent());
 		} else if(!current_tag.isEmpty()) {
 			if(i_source == 4) title = tr("%2, %1").arg(current_tag).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description);
-			else if(i_source == 3) title = tr("%2, %1").arg(current_tag).arg(current_payee.isEmpty() ? tr("No payer") : current_payee);
-			else title = tr("%1").arg(current_tag);
+			else if(i_source == 3) title = tr("%2, %1").arg(current_tag).arg(current_payee.isEmpty() ? ((b_income && !b_expense) ? tr("No payer") : tr("No payee")) : current_payee);
+			else title = current_tag;
 		} else if(i_source == -2) {
 			title = tr("Tags");
 		} else {
@@ -1587,16 +1597,25 @@ void CategoriesComparisonReport::updateDisplay() {
 #define EVEN_COL_BOTTOM "\t\t\t\t\t<td nowrap align=\"right\"><b>"
 #define ODD_COL_BOTTOM "\t\t\t\t\t<td nowrap align=\"right\"><b>"
 	int col = 1;
-	if(current_account && type == ACCOUNT_TYPE_EXPENSES) {
-		if(include_subs) outf << FIRST_COL_TOP << htmlize_string(tr("Category")) << "</th>";
+	bool b_negate = false;
+	if(!b_income && b_expense) {type = ACCOUNT_TYPE_EXPENSES; b_negate = true;}
+	else if(b_income && !b_expense) type = ACCOUNT_TYPE_INCOMES;
+	if((current_account || !current_tag.isEmpty() || i_source == -2) && type == ACCOUNT_TYPE_EXPENSES) {
+		if(i_source == -2) outf << FIRST_COL_TOP << htmlize_string(tr("Tag")) << "</th>";
+		else if(include_subs) outf << FIRST_COL_TOP << htmlize_string(tr("Category")) << "</th>";
 		else if(i_source == 2 || i_source == 4) outf << FIRST_COL_TOP << htmlize_string(tr("Payee")) << "</th>";
 		else outf << FIRST_COL_TOP << htmlize_string(tr("Description", "Referring to the transaction description property (transaction title/generic article name)")) << "</th>";
 		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Cost")) << "</th>"; col++;}
-	} else if(current_account && type == ACCOUNT_TYPE_INCOMES) {
-		if(include_subs) outf << FIRST_COL_TOP << htmlize_string(tr("Category")) << "</th>";
+	} else if((current_account || !current_tag.isEmpty() || i_source == -2) && type == ACCOUNT_TYPE_INCOMES) {
+		if(i_source == -2) outf << FIRST_COL_TOP << htmlize_string(tr("Tag")) << "</th>";
+		else if(include_subs) outf << FIRST_COL_TOP << htmlize_string(tr("Category")) << "</th>";
 		else if(i_source == 2 || i_source == 4) outf << FIRST_COL_TOP << htmlize_string(tr("Payer")) << "</th>";
 		else outf << FIRST_COL_TOP << htmlize_string(tr("Description", "Referring to the transaction description property (transaction title/generic article name)")) << "</th>";
 		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Income")) << "</th>"; col++;}
+	} else if(!current_tag.isEmpty()) {
+		if(i_source == 2 || i_source == 4) outf << FIRST_COL_TOP << htmlize_string(tr("Payee")) << "</th>";
+		else outf << FIRST_COL_TOP << htmlize_string(tr("Description", "Referring to the transaction description property (transaction title/generic article name)")) << "</th>";
+		if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Value")) << "</th>"; col++;}
 	} else {
 		if(i_source == -1) outf << FIRST_COL_TOP << htmlize_string(tr("Payee/Payer")) << "</th>";
 		else if(i_source == -2) outf << FIRST_COL_TOP << htmlize_string(tr("Tag")) << "</th>";
@@ -1607,9 +1626,9 @@ void CategoriesComparisonReport::updateDisplay() {
 	if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Monthly Average")) << "</th>"; col++;}
 	if(enabled[3]) {outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Yearly Average")) << "</th>"; col++;}
 	if(enabled[4]) {outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Quantity")) << "</th>"; col++;}
-	if(current_account && type == ACCOUNT_TYPE_EXPENSES) {
+	if((current_account || !current_tag.isEmpty() || i_source == -2) && type == ACCOUNT_TYPE_EXPENSES) {
 		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Average Cost")) << "</th>";
-	} else if(current_account && type == ACCOUNT_TYPE_INCOMES) {
+	} else if((current_account || !current_tag.isEmpty() || i_source == -2) && type == ACCOUNT_TYPE_INCOMES) {
 		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Average Income")) << "</th>";
 	} else {
 		if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_TOP : EVEN_COL_TOP) << htmlize_string(tr("Average Value")) << "</th>";
@@ -1721,6 +1740,7 @@ void CategoriesComparisonReport::updateDisplay() {
 					outf << FIRST_COL << htmlize_string(desc_map[it.key()]) << "</td>";
 				}
 				col = 1;
+				if(b_negate) it.value() = -it.value();
 				if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(it.value())) << "</td>"; col++;}
 				if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(it.value() / days)) << "</td>"; col++;}
 				if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(it.value() / months)) << "</td>"; col++;}
@@ -1729,12 +1749,12 @@ void CategoriesComparisonReport::updateDisplay() {
 				if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(itc.value() == 0.0 ? 0.0 : (it.value() / itc.value()))) << "</td>";
 				if(i_months > 0) {
 					for(int i = i_months - 1; i >= 0; i--) {
-						outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(mit.value()[i])) << "</td>"; col++;
+						outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(b_negate ? -mit.value()[i] : mit.value()[i])) << "</td>"; col++;
 					}
 					outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(it.value())) << "</td>"; col++;
 				} else if(b_tags) {
 					for(int i = 0; i < tags.count(); i++) {
-						outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(tit.value()[tags[i]])) << "</td>"; col++;
+						outf << (col % 2 == 1 ? ODD_COL : EVEN_COL) << htmlize_string(budget->formatMoney(b_negate ? -tit.value()[tags[i]] : tit.value()[tags[i]])) << "</td>"; col++;
 					}
 				}
 				outf << "\n";
@@ -1748,6 +1768,7 @@ void CategoriesComparisonReport::updateDisplay() {
 			outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';
 			outf << FIRST_COL_BOTTOM << htmlize_string(tr("Total")) << "</b></td>";
 			col = 1;
+			if(b_negate) value = -value;
 			if(enabled[0]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(value)) << "</b></td>"; col++;}
 			if(enabled[1]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(value / days)) << "</b></td>"; col++;}
 			if(enabled[2]) {outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(value / months)) << "</b></td>"; col++;}
@@ -1756,12 +1777,12 @@ void CategoriesComparisonReport::updateDisplay() {
 			if(enabled[5]) outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(value_count == 0.0 ? 0.0 : (value / value_count))) << "</b></td>";
 			if(i_months > 0) {
 				for(int i = i_months - 1; i >= 0; i--) {
-					outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(month_value[i])) << "</b></td>"; col++;
+					outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(b_negate ? -month_value[i] : month_value[i])) << "</b></td>"; col++;
 				}
 				outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(value)) << "</b></td>"; col++;
 			} else if(b_tags) {
 				for(int i = 0; i < tags.count(); i++) {
-					outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(tag_value[tags[i]])) << "</b></td>"; col++;
+					outf << (col % 2 == 1 ? ODD_COL_BOTTOM : EVEN_COL_BOTTOM) << htmlize_string(budget->formatMoney(b_negate ? -tag_value[tags[i]] : tag_value[tags[i]])) << "</b></td>"; col++;
 				}
 			}
 			outf << "\n";

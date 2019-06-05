@@ -460,6 +460,7 @@ void OverTimeReport::updateDisplay() {
 				expensetitle = tr("Expenses");
 				sumtitle = title;
 			}
+			enabled[0] = true;
 			enabled[1] = false;
 			enabled[2] = false;
 			enabled[3] = false;
@@ -554,7 +555,7 @@ void OverTimeReport::updateDisplay() {
 			if(current_tag.isEmpty()) {htmlview->setHtml(""); return;}
 			tag = current_tag;
 			if(current_assets) title = tr("%2: %1").arg(current_tag).arg(current_assets->name());
-			else title = tr("%1").arg(current_tag);
+			else title = current_tag;
 			pertitle = tr("Average Value");
 			valuetitle = tr("Value");
 			type = 7;
@@ -565,8 +566,8 @@ void OverTimeReport::updateDisplay() {
 			tag = current_tag;
 			if(current_assets) title = tr("%3: %2, %1").arg(current_tag).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description).arg(current_assets->name());
 			else title = tr("%2, %1").arg(current_tag).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description);
-			pertitle = tr("Average Income");
-			valuetitle = tr("Incomes");
+			pertitle = tr("Average Value");
+			valuetitle = tr("Value");
 			type = 8;
 			break;
 		}
@@ -616,6 +617,7 @@ void OverTimeReport::updateDisplay() {
 	}
 
 	bool started = false;
+	bool b_income = false, b_expense = false;
 	bool includes_planned = false;
 	QMap<QString, bool> tag_includes_planned;
 	QMap<Account*, bool> cat_includes_planned;
@@ -638,8 +640,8 @@ void OverTimeReport::updateDisplay() {
 		if(started && (!current_assets || trans->relatesToAccount(current_assets)) && (tag.isEmpty() || trans->hasTag(tag, true))) {
 			if(type == 7 || (type == 8 && !trans->description().compare(current_description, Qt::CaseInsensitive))) {
 				include = true;
-				if(trans->type() == TRANSACTION_TYPE_EXPENSE) sign = -1;
-				else if(trans->type() == TRANSACTION_TYPE_INCOME) sign = 1;
+				if(trans->type() == TRANSACTION_TYPE_EXPENSE) {b_expense = true; sign = -1;}
+				else if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
 				else include = false;
 			} else if(type >= 4) {
 				include = true;
@@ -831,8 +833,8 @@ void OverTimeReport::updateDisplay() {
 			if((!current_assets || trans->relatesToAccount(current_assets)) && (tag.isEmpty() || trans->hasTag(tag, true))) {
 				if(type == 7 || (type == 8 && !trans->description().compare(current_description, Qt::CaseInsensitive))) {
 					include = true;
-					if(trans->type() == TRANSACTION_TYPE_EXPENSE) sign = -1;
-					else if(trans->type() == TRANSACTION_TYPE_INCOME) sign = 1;
+					if(trans->type() == TRANSACTION_TYPE_EXPENSE) {b_expense = true; sign = -1;}
+					else if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
 					else include = false;
 				} else if(type >= 4) {
 					include = true;
@@ -1089,6 +1091,41 @@ void OverTimeReport::updateDisplay() {
 					}
 				}
 			}
+		}
+	}
+	if(current_source == 13 || current_source == 14) {
+		if(b_expense && !b_income) {
+			pertitle = tr("Average Cost");
+			valuetitle = tr("Expenses");
+			for(QVector<month_info>::iterator mit = monthly_values.begin(); mit != monthly_values.end(); ++mit) {
+				mit->value = -mit->value;
+				mit->expense = -mit->expense;
+				if(b_tags) {
+					for(int i = 0; i < tags.count(); i++) {
+						mit->tags[tags[i]] = -mit->tags[tags[i]];
+					}
+				}
+				if(b_cats) {
+					for(int i = 0; i < cats.count(); i++) {
+						mit->cats[cats[i]] = -mit->cats[cats[i]];
+					}
+				}
+			}
+			scheduled_value = -scheduled_value;
+			scheduled_expense = -scheduled_expense;
+			if(b_tags) {
+				for(int i = 0; i < tags.count(); i++) {
+					tag_scheduled_value[tags[i]] = -tag_scheduled_value[tags[i]];
+				}
+			}
+			if(b_cats) {
+				for(int i = 0; i < cats.count(); i++) {
+					cat_scheduled_value[cats[i]] = -cat_scheduled_value[cats[i]];
+				}
+			}
+		} else if(b_income && !b_expense) {
+			pertitle = tr("Average Income");
+			valuetitle = tr("Incomes");
 		}
 	}
 	double average_month = budget->averageMonth(first_date, curdate, true);
@@ -1433,6 +1470,7 @@ void OverTimeReport::updateAccounts() {
 				current_source = 2;
 			}
 			descriptionCombo->setEnabled(false);
+			current_account = NULL;
 		} else {
 			categoryChanged(curindex);
 		}

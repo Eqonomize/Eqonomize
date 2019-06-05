@@ -82,7 +82,7 @@ class OverTimeChart : public QWidget {
 		QDate start_date, end_date, saved_first_date, saved_last_date;
 
 		CategoryAccount *current_account;
-		QString current_description, current_payee;
+		QString current_description, current_payee, current_tag;
 		int current_source;
 		bool has_empty_description, has_empty_payee;
 #ifndef QT_CHARTS_LIB
@@ -100,6 +100,7 @@ class OverTimeChart : public QWidget {
 		void payeeChanged(int);
 		void updateTransactions();
 		void updateAccounts();
+		void updateTags();
 		void updateDisplay();
 		void onFilterSelected(QString);
 		void save();

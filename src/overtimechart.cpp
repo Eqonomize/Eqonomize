@@ -155,7 +155,7 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->setContentsMargins(0, 0, 0, 0);
 
-		QHBoxLayout *buttons = new QHBoxLayout();
+	QHBoxLayout *buttons = new QHBoxLayout();
 #ifdef QT_CHARTS_LIB
 	buttons->addWidget(new QLabel(tr("Chart type:"), this));
 	typeCombo = new QComboBox(this);
@@ -222,6 +222,7 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	sourceCombo->addItem(tr("Expenses"));
 	sourceCombo->addItem(tr("Incomes"));
 	sourceCombo->addItem(tr("Assets and Liabilities"));
+	sourceCombo->addItem(tr("Tags"));
 	if(b_extra) choicesLayout_extra->addWidget(sourceCombo, 0, 0);
 	else choicesLayout->addWidget(sourceCombo);
 	categoryCombo = new QComboBox(settingsWidget);
@@ -422,7 +423,7 @@ void OverTimeChart::accountChanged(int index) {
 	if(index == 0) {
 		if(current_source > 50) current_source -= 100;
 	} else if(index == 1) {
-		if(current_source == 0) {
+		if(current_source == 0 || (c_index == 0 && sourceCombo->currentIndex() == 5)) {
 			sourceCombo->blockSignals(true);
 			sourceCombo->setCurrentIndex(1);
 			sourceCombo->blockSignals(false);
@@ -439,15 +440,17 @@ void OverTimeChart::accountChanged(int index) {
 			payeeCombo->setCurrentIndex(0);
 			payeeCombo->blockSignals(false);
 		}
-		if(c_index == 1) {
+		if(c_index == 1 && sourceCombo->currentIndex() != 5) {
 			categoryCombo->blockSignals(true);
 			categoryCombo->setCurrentIndex(0);
 			categoryCombo->blockSignals(false);
 		}
 		if(current_source == 3) current_source = 1;
 		else if(current_source == 4) current_source = 2;
+		else if(current_source == 33 || current_source == 39) current_source = 27;
 		else if(current_source == 11 || current_source == 7 || current_source == 21) current_source = 5;
 		else if(current_source == 12 || current_source == 8 || current_source == 22) current_source = 6;
+		else if(current_source == 35) current_source = 31;
 		else if(current_source == 13) current_source = 9;
 		else if(current_source == 14) current_source = 10;
 		else if(current_source == 23 || current_source == 17) current_source = 15;
@@ -461,7 +464,8 @@ void OverTimeChart::accountChanged(int index) {
 
 void OverTimeChart::payeeChanged(int index) {
 	current_payee = "";
-	bool b_income = (current_account && current_account->type() == ACCOUNT_TYPE_INCOMES);
+	bool b_tag = (!current_account && !current_tag.isEmpty());
+	bool b_income = b_tag || (current_account && current_account->type() == ACCOUNT_TYPE_INCOMES);
 	bool b_subs = (current_account && !current_account->subCategories.isEmpty());
 	int d_index = descriptionCombo->currentIndex();
 	if(index == 0) {
@@ -469,6 +473,7 @@ void OverTimeChart::payeeChanged(int index) {
 		else if(b_subs && d_index == 2) current_source = b_income ? 21 : 22;
 		else if(d_index == 0) current_source = b_income ? 5 : 6;
 		else current_source = b_income ? 9 : 10;
+		if(b_tag) current_source += 22;
 		if(accountCombo->currentIndex() == 1) current_source += 100;
 	} else if(index == 1) {
 		if(d_index == 1 || (b_subs && d_index == 2)) {
@@ -484,19 +489,22 @@ void OverTimeChart::payeeChanged(int index) {
 		}
 		if(d_index == 0) current_source = b_income ? 11 : 12;
 		else current_source = b_income ? 13 : 14;
+		if(b_tag) current_source += 22;
 	} else {
 		if(!has_empty_payee || index < payeeCombo->count() - 1) current_payee = payeeCombo->itemText(index);
 		if(b_subs && d_index == 1) current_source = b_income ? 23 : 24;
 		else if(d_index == 1 || (b_subs && d_index == 2)) current_source = b_income ? 17 : 18;
 		else if(d_index == 0) current_source = b_income ? 15 : 16;
 		else current_source = b_income ? 19 : 20;
+		if(b_tag) current_source += 22;
 		if(accountCombo->currentIndex() == 1) current_source += 100;
 	}
 	updateDisplay();
 }
 void OverTimeChart::descriptionChanged(int index) {
 	current_description = "";
-	bool b_income = (current_account && current_account->type() == ACCOUNT_TYPE_INCOMES);
+	bool b_tag = (!current_account && !current_tag.isEmpty());
+	bool b_income = b_tag || (current_account && current_account->type() == ACCOUNT_TYPE_INCOMES);
 	bool b_subs = (current_account && !current_account->subCategories.isEmpty());
 	int p_index = 0;
 	if(b_extra) p_index = payeeCombo->currentIndex();
@@ -504,6 +512,7 @@ void OverTimeChart::descriptionChanged(int index) {
 		if(p_index == 1) current_source = b_income ? 11 : 12;
 		else if(p_index == 0) current_source = b_income ? 5 : 6;
 		else current_source = b_income ? 15 : 16;
+		if(b_tag) current_source += 22;
 		if(accountCombo->currentIndex() == 1) current_source += 100;
 	} else if(b_subs && index == 1) {
 		if(p_index == 1) {
@@ -519,6 +528,7 @@ void OverTimeChart::descriptionChanged(int index) {
 		}
 		if(p_index == 0) current_source = b_income ? 21 : 22;
 		else current_source = b_income ? 23 : 24;
+		if(b_tag) current_source += 22;
 	} else if(index == 1 || (b_subs && index == 2)) {
 		if(p_index == 1) {
 			payeeCombo->blockSignals(true);
@@ -533,17 +543,20 @@ void OverTimeChart::descriptionChanged(int index) {
 		}
 		if(p_index == 0) current_source = b_income ? 7 : 8;
 		else current_source = b_income ? 17 : 18;
+		if(b_tag) current_source += 22;
 	} else {
 		if(!has_empty_description || index < descriptionCombo->count() - 1) current_description = descriptionCombo->itemText(index);
 		if(p_index == 1) current_source = b_income ? 13 : 14;
 		else if(p_index == 0) current_source = b_income ? 9 : 10;
 		else current_source = b_income ? 19 : 20;
+		if(b_tag) current_source += 22;
 		if(accountCombo->currentIndex() == 1) current_source += 100;
 	}
 	updateDisplay();
 }
 void OverTimeChart::categoryChanged(int index) {
 	bool b_income = (sourceCombo->currentIndex() == 3);
+	bool b_tags = (sourceCombo->currentIndex() == 5);
 	descriptionCombo->blockSignals(true);
 	int d_index = descriptionCombo->currentIndex();
 	descriptionCombo->clear();
@@ -559,6 +572,8 @@ void OverTimeChart::categoryChanged(int index) {
 		else payeeCombo->addItem(tr("All Payees Combined"));
 	}
 	current_account = NULL;
+	current_tag = "";
+	if(b_tags) index++;
 	if(index == 0) {
 		if(b_income) {
 			current_source = 1;
@@ -576,7 +591,9 @@ void OverTimeChart::categoryChanged(int index) {
 			accountCombo->setCurrentIndex(0);
 			accountCombo->blockSignals(false);
 		}
-		if(b_income) {
+		if(b_tags) {
+			current_source = -3;
+		} else if(b_income) {
 			current_source = (index == 2 ? 25 : 3);
 		} else {
 			current_source = (index == 2 ? 26 : 4);
@@ -587,14 +604,17 @@ void OverTimeChart::categoryChanged(int index) {
 			payeeCombo->setCurrentIndex(0);
 		}
 	} else {
-		if(!b_income) {
+		if(b_tags) {
+			int i = categoryCombo->currentIndex() - 1;
+			if(i < (int) budget->tags.count()) current_tag = budget->tags.at(i);
+		} else if(!b_income) {
 			int i = categoryCombo->currentIndex() - 2;
 			if(i < (int) budget->expensesAccounts.count()) current_account = budget->expensesAccounts.at(i);
 		} else {
 			int i = categoryCombo->currentIndex() - 2;
 			if(i < (int) budget->incomesAccounts.count()) current_account = budget->incomesAccounts.at(i);
 		}
-		bool b_subs = !current_account->subCategories.isEmpty();
+		bool b_subs = current_account && !current_account->subCategories.isEmpty();
 		if(b_subs) {
 			descriptionCombo->addItem(tr("All Subcategories Split"));
 			descriptionCombo->setItemText(0, tr("All Subcategories and Descriptions Combined", "Referring to the transaction description property (transaction title/generic article name)"));
@@ -604,12 +624,15 @@ void OverTimeChart::categoryChanged(int index) {
 			if(b_income) payeeCombo->addItem(tr("All Payers Split"));
 			else payeeCombo->addItem(tr("All Payees Split"));
 		}
-		if(!current_account) return categoryChanged(0);
+		if(!current_account && current_tag.isEmpty()) return categoryChanged(0);
 		switch(current_source) {
+			case 29: {}
 			case 7: {}
 			case 8: {}
+			case 39: {}
 			case 17: {}
 			case 18: {d_index = b_subs ? 2 : 1; p_index = 0; break;}
+			case 33: {}
 			case 11: {}
 			case 12: {d_index = 0; p_index = 1; break;}
 			case 21: {}
@@ -624,13 +647,14 @@ void OverTimeChart::categoryChanged(int index) {
 		else if(d_index == 1 || (b_subs && d_index == 2)) current_source = b_income ? 7 : 8;
 		else if(p_index == 1) current_source = b_income ? 11 : 12;
 		else current_source = b_income ? 5 : 6;
+		if(b_tags) current_source += 21;
 		has_empty_description = false;
 		has_empty_payee = false;
 		QMap<QString, QString> descriptions, payees;
 		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
 			--it;
 			Transaction *trans = *it;
-			if((trans->fromAccount() == current_account || trans->toAccount() == current_account || trans->fromAccount()->topAccount() == current_account || trans->toAccount()->topAccount() == current_account)) {
+			if((b_tags && trans->hasTag(current_tag, true)) || (!b_tags && (trans->fromAccount() == current_account || trans->toAccount() == current_account || trans->fromAccount()->topAccount() == current_account || trans->toAccount()->topAccount() == current_account))) {
 				if(trans->description().isEmpty()) has_empty_description = true;
 				else if(!descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
 				if(b_extra) {
@@ -672,7 +696,7 @@ void OverTimeChart::sourceChanged(int index) {
 	descriptionCombo->blockSignals(true);
 	if(b_extra) payeeCombo->blockSignals(true);
 	int c_index = 1;
-	if(accountCombo->currentIndex() == 1 || (categoryCombo->count() > 1 && categoryCombo->currentIndex() == 0)) c_index = 0;
+	if(accountCombo->currentIndex() == 1 || index == 5 || (categoryCombo->count() > 1 && categoryCombo->currentIndex() == 0)) c_index = 0;
 	categoryCombo->clear();
 	descriptionCombo->clear();
 	descriptionCombo->setEnabled(false);
@@ -687,7 +711,7 @@ void OverTimeChart::sourceChanged(int index) {
 	current_description = "";
 	current_payee = "";
 	current_account = NULL;
-	categoryCombo->addItem(tr("All Categories Combined"));
+	if(index != 5) categoryCombo->addItem(tr("All Categories Combined"));
 	if(index == 3) {
 		categoryCombo->addItem(tr("All Categories Split"));
 		//categoryCombo->addItem(tr("All Categories and Subcategories Split"));
@@ -711,6 +735,20 @@ void OverTimeChart::sourceChanged(int index) {
 		categoryCombo->setEnabled(true);
 		current_source = 4;
 		if(accountCombo->currentIndex() == 1 && current_source <= 50) current_source += 100;
+		categoryChanged(c_index);
+	} else if(index == 5) {
+		categoryCombo->addItem(tr("All Tags Split"));
+		if(accountCombo->currentIndex() == 1) {
+			accountCombo->blockSignals(true);
+			accountCombo->setCurrentIndex(0);
+			accountCombo->blockSignals(false);
+		}
+		categoryCombo->setCurrentIndex(c_index);
+		for(int i = 0; i < budget->tags.count(); i++) {
+			categoryCombo->addItem(budget->tags[i]);
+		}
+		categoryCombo->setEnabled(true);
+		current_source = -3;
 		categoryChanged(c_index);
 	} else if(index == 1) {
 		categoryCombo->setEnabled(false);
@@ -1116,6 +1154,8 @@ void OverTimeChart::updateDisplay() {
 	Currency *currency = budget->defaultCurrency();
 	if(current_assets) currency = current_assets->currency();
 	
+	bool b_income = false, b_expense = false;
+	
 	if(current_source == 25) current_source = 3;
 	if(current_source == 26) current_source = 4;
 
@@ -1141,7 +1181,6 @@ void OverTimeChart::updateDisplay() {
 			}
 		}
 	}
-	
 	if(current_source == -2 || current_source > 50) {
 		for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 			Account *account = *it;
@@ -1153,6 +1192,16 @@ void OverTimeChart::updateDisplay() {
 				scheduled_cat_counts[account] = 0.0;
 				cat_values[account] = 0.0;
 			}
+		}
+	} else if(current_source == -3) {
+		for(int i = 0; i < budget->tags.count(); i++) {
+			desc_map[budget->tags[i]] = budget->tags[i];
+			monthly_desc[budget->tags[i]] = QVector<chart_month_info>();
+			desc_values[budget->tags[i]] = 0.0;
+			mi_d[budget->tags[i]] = NULL;
+			isfirst_d[budget->tags[i]] = true;
+			scheduled_desc[budget->tags[i]] = 0.0;
+			scheduled_desc_counts[budget->tags[i]] = 0.0;
 		}
 	} else if(current_source == 4 || current_source < 3) {
 		for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
@@ -1184,7 +1233,7 @@ void OverTimeChart::updateDisplay() {
 			scheduled_cat_counts[account] = 0.0;
 			cat_values[account] = 0.0;
 		}
-	} else if(current_source == 7 || current_source == 8 || current_source == 17 || current_source == 18) {
+	} else if(current_source == 29 || current_source == 39 || current_source == 7 || current_source == 8 || current_source == 17 || current_source == 18) {
 		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, "");
 		for(int i = 2; i < descriptionCombo->count(); i++) {
 			QString str = descriptionCombo->itemText(i).toLower();
@@ -1196,7 +1245,7 @@ void OverTimeChart::updateDisplay() {
 			scheduled_desc[str] = 0.0;
 			scheduled_desc_counts[str] = 0.0;
 		}
-	} else if(current_source == 11 || current_source == 12 || current_source == 13 || current_source == 14) {
+	} else if(current_source == 33 || current_source == 35 || current_source == 11 || current_source == 12 || current_source == 13 || current_source == 14) {
 		if(has_empty_payee) payeeCombo->setItemText(payeeCombo->count() - 1, "");
 		for(int i = 2; i < payeeCombo->count(); i++) {
 			QString str = payeeCombo->itemText(i).toLower();
@@ -1218,7 +1267,8 @@ void OverTimeChart::updateDisplay() {
 	double minvalue = 0.0;
 	double maxcount = 1.0;
 	bool started = false;
-	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
+	int tag_index = 0;
+	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd();) {
 		Transaction *trans = *it;
 		if(trans->date() > last_date) break;
 		bool include = false;
@@ -1232,6 +1282,18 @@ void OverTimeChart::updateDisplay() {
 		}
 		if(started && (!current_assets || trans->relatesToAccount(current_assets))) {
 			switch(current_source2) {
+				case -3: {
+					if((trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && trans->tagsCount(true) > 0) {
+						QString str = trans->getTag(tag_index, true);
+						monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
+						include = true;
+						if(tag_index + 1 < trans->tagsCount(true)) tag_index++;
+						else tag_index = 0;
+					}
+					break;
+				}
 				case -2: {
 					if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->toAccount() != budget->balancingAccount) {
 						monthly_values = &monthly_cats[trans->toAccount()];
@@ -1337,6 +1399,23 @@ void OverTimeChart::updateDisplay() {
 					}
 					break;
 				}
+				case 27: {
+					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
+						if(current_source > 50) {
+							Account *acc = trans->toAccount();
+							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+							monthly_values = &monthly_cats[acc];
+							mi = &mi_c[acc];
+							isfirst = &isfirst_c[acc];
+						} else {
+							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
+						}
+						include = true;
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
+					}
+					break;
+				}
 				case 5: {
 					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
 						if(current_source > 50) {
@@ -1385,6 +1464,15 @@ void OverTimeChart::updateDisplay() {
 					}
 					break;
 				}
+				case 29: {
+					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
+						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
+						include = true;
+					}
+					break;
+				}
 				case 7: {
 					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
 						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
@@ -1405,6 +1493,23 @@ void OverTimeChart::updateDisplay() {
 					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
 						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
 						sign = 1;
+						include = true;
+					}
+					break;
+				}
+				case 31: {
+					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+						if(current_source > 50) {
+							Account *acc = trans->toAccount();
+							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+							monthly_values = &monthly_cats[acc];
+							mi = &mi_c[acc];
+							isfirst = &isfirst_c[acc];
+						} else {
+							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
+						}
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
 						include = true;
 					}
 					break;
@@ -1457,6 +1562,18 @@ void OverTimeChart::updateDisplay() {
 					}
 					break;
 				}
+				case 33: {
+					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
+						QString str;
+						if(trans->type() == TRANSACTION_TYPE_INCOME) str = ((Income*) trans)->payer().toLower();
+						else str = ((Expense*) trans)->payee().toLower();
+						monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
+						include = true;
+					}
+					break;
+				}
 				case 11: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
 					Income *income = (Income*) trans;
@@ -1472,6 +1589,19 @@ void OverTimeChart::updateDisplay() {
 					Expense *expense = (Expense*) trans;
 					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account) {
 						monthly_values = &monthly_desc[expense->payee().toLower()]; mi = &mi_d[expense->payee().toLower()]; isfirst = &isfirst_d[expense->payee().toLower()];
+						sign = 1;
+						include = true;
+					}
+					break;
+				}
+				case 35: {
+					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+						QString str;
+						if(trans->type() == TRANSACTION_TYPE_INCOME) str = ((Income*) trans)->payer().toLower();
+						else str = ((Expense*) trans)->payee().toLower();
+						monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
 						sign = 1;
 						include = true;
 					}
@@ -1496,6 +1626,22 @@ void OverTimeChart::updateDisplay() {
 						include = true;
 					}
 					break;
+				}
+				case 37: {
+					if(trans->hasTag(current_tag, true) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
+						if(current_source > 50) {
+							Account *acc = trans->toAccount();
+							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+							monthly_values = &monthly_cats[acc];
+							mi = &mi_c[acc];
+							isfirst = &isfirst_c[acc];
+						} else {
+							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
+						}
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
+						include = true;
+					}
 				}
 				case 15: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
@@ -1529,6 +1675,14 @@ void OverTimeChart::updateDisplay() {
 					}
 					break;
 				}
+				case 39: {
+					if(trans->hasTag(current_tag, true) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
+						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
+						include = true;
+					}
+				}
 				case 17: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
 					Income *income = (Income*) trans;
@@ -1548,6 +1702,22 @@ void OverTimeChart::updateDisplay() {
 						include = true;
 					}
 					break;
+				}
+				case 41: {
+					if(trans->hasTag(current_tag, true) && !trans->description().compare(current_description, Qt::CaseInsensitive) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
+						if(current_source > 50) {
+							Account *acc = trans->toAccount();
+							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+							monthly_values = &monthly_cats[acc];
+							mi = &mi_c[acc];
+							isfirst = &isfirst_c[acc];
+						} else {
+							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
+						}
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
+						include = true;
+					}
 				}
 				case 19: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
@@ -1645,10 +1815,12 @@ void OverTimeChart::updateDisplay() {
 				}
 			}
 		}
+		if(tag_index == 0) ++it;
 	}
 
 	int source_org = 0;
 	switch(current_source) {
+		case -3: {source_org = -3; break;}
 		case -2: {source_org = -2; break;}
 		case -1: {}
 		case 0: {source_org = 0; break;}
@@ -1656,20 +1828,28 @@ void OverTimeChart::updateDisplay() {
 		case 2: {source_org = 4; break;}
 		case 3: {source_org = 3; break;}
 		case 4: {source_org = 4; break;}
+		case 27: {}
 		case 5: {source_org = 1; break;}
 		case 6: {source_org = 2; break;}
+		case 29: {}
 		case 7: {}
 		case 8: {source_org = 7; break;}
+		case 31: {}
 		case 9: {source_org = 1; break;}
 		case 10: {source_org = 2; break;}
+		case 33: {}
 		case 11: {}
 		case 12: {}
+		case 35: {}
 		case 13: {}
 		case 14: {source_org = 11; break;}
+		case 37: {}
 		case 15: {source_org = 1; break;}
 		case 16: {source_org = 2; break;}
+		case 39: {}
 		case 17: {}
 		case 18: {source_org = 7; break;}
+		case 41: {}
 		case 19: {source_org = 1; break;}
 		case 20: {source_org = 2; break;}
 		case 21: {}
@@ -1681,8 +1861,10 @@ void OverTimeChart::updateDisplay() {
 	
 	int first_desc_i = 2;
 	if(source_org == 7 && is_parent) first_desc_i = 3;
+	else if(source_org == -3) first_desc_i = 0;
 
 	Account *account = NULL;
+	QString tag;
 	int desc_i = first_desc_i;
 	int desc_nr = 0;
 	bool at_expenses = false;
@@ -1700,13 +1882,13 @@ void OverTimeChart::updateDisplay() {
 	} else if(source_org == -2) {
 		if(current_assets) account = current_assets;
 		else if(account_index < budget->assetsAccounts.size()) account = budget->assetsAccounts.at(account_index);
-	}
+	} else if(source_org == -3) desc_nr = budget->tags.count();
 	else if(source_org == 3) {if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);}
 	else if(source_org == 4)  {if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);}
 	else if(source_org == 21)  {if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);}
 	else if(source_org == 2) {mi = &mi_e; monthly_values = &monthly_expenses; isfirst = &isfirst_e;}
 	else if(source_org == 1) {mi = &mi_i; monthly_values = &monthly_incomes; isfirst = &isfirst_i;}		
-	while(source_org == 1 || source_org == 2 || account || ((source_org == 7 || source_org == 11) && desc_i < desc_nr)) {
+	while(source_org == 1 || source_org == 2 || account || ((source_org == 7 || source_org == 11 || source_org == -3) && desc_i < desc_nr)) {
 		if(source_org == -2 && account == budget->balancingAccount) {
 			++account_index;
 			account = NULL;
@@ -1719,7 +1901,8 @@ void OverTimeChart::updateDisplay() {
 			else if(source_org != 3 && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
 		}
 		if((exclude_subs || source_org == -2) && !account) break;
-		if(source_org == -2 || source_org == 3 || source_org == 4 || source_org == 0 || source_org == 21) {mi = &mi_c[account]; monthly_values = &monthly_cats[account]; isfirst = &isfirst_c[account];}
+		if(source_org == -3) {mi = &mi_d[budget->tags[desc_i]]; monthly_values = &monthly_desc[budget->tags[desc_i]]; isfirst = &isfirst_d[budget->tags[desc_i]];}
+		else if(source_org == -2 || source_org == 3 || source_org == 4 || source_org == 0 || source_org == 21) {mi = &mi_c[account]; monthly_values = &monthly_cats[account]; isfirst = &isfirst_c[account];}
 		else if(source_org == 7) {mi = &mi_d[descriptionCombo->itemText(desc_i).toLower()]; monthly_values = &monthly_desc[descriptionCombo->itemText(desc_i).toLower()]; isfirst = &isfirst_d[descriptionCombo->itemText(desc_i).toLower()];}
 		else if(source_org == 11) {mi = &mi_d[payeeCombo->itemText(desc_i).toLower()]; monthly_values = &monthly_desc[payeeCombo->itemText(desc_i).toLower()]; isfirst = &isfirst_d[payeeCombo->itemText(desc_i).toLower()];}
 		if(!(*mi)) {
@@ -1741,7 +1924,7 @@ void OverTimeChart::updateDisplay() {
 			(*isfirst) = false;
 		}
 		++account_index;
-		if(source_org == 7 || source_org == 11) {
+		if(source_org == 7 || source_org == 11 || source_org == -3) {
 			desc_i++;
 		} else if(source_org == 3) {
 			account = NULL;
@@ -1774,6 +1957,7 @@ void OverTimeChart::updateDisplay() {
 		}
 	}
 
+	tag_index = 0;
 	int split_i = 0;
 	Transaction *trans = NULL;
 	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd();) {
@@ -1796,7 +1980,6 @@ void OverTimeChart::updateDisplay() {
 		}		
 		if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
 			trans = ((SplitTransaction*) strans->transaction())->at(split_i);
-			split_i++;
 		} else {
 			trans = (Transaction*) strans->transaction();
 		}
@@ -1806,6 +1989,18 @@ void OverTimeChart::updateDisplay() {
 		bool use_to_value = false;
 		if(!current_assets || trans->relatesToAccount(current_assets)) {
 			switch(current_source2) {
+				case -3: {
+					if((trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && trans->tagsCount(true) > 0) {
+						QString str = trans->getTag(tag_index, true);
+						monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
+						include = true;
+						if(tag_index + 1 < trans->tagsCount(true)) tag_index++;
+						else tag_index = 0;
+					}
+					break;
+				}
 				case -2: {
 					if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->toAccount() != budget->balancingAccount) {
 						monthly_values = &monthly_cats[trans->toAccount()];
@@ -1911,6 +2106,23 @@ void OverTimeChart::updateDisplay() {
 					}
 					break;
 				}
+				case 27: {
+					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
+						if(current_source > 50) {
+							Account *acc = trans->toAccount();
+							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+							monthly_values = &monthly_cats[acc];
+							mi = &mi_c[acc];
+							isfirst = &isfirst_c[acc];
+						} else {
+							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
+						}
+						include = true;
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
+					}
+					break;
+				}
 				case 5: {
 					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
 						if(current_source > 50) {
@@ -1959,6 +2171,15 @@ void OverTimeChart::updateDisplay() {
 					}
 					break;
 				}
+				case 29: {
+					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
+						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
+						include = true;
+					}
+					break;
+				}
 				case 7: {
 					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
 						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
@@ -1979,6 +2200,23 @@ void OverTimeChart::updateDisplay() {
 					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
 						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
 						sign = 1;
+						include = true;
+					}
+					break;
+				}
+				case 31: {
+					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+						if(current_source > 50) {
+							Account *acc = trans->toAccount();
+							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+							monthly_values = &monthly_cats[acc];
+							mi = &mi_c[acc];
+							isfirst = &isfirst_c[acc];
+						} else {
+							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
+						}
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
 						include = true;
 					}
 					break;
@@ -2031,6 +2269,18 @@ void OverTimeChart::updateDisplay() {
 					}
 					break;
 				}
+				case 33: {
+					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
+						QString str;
+						if(trans->type() == TRANSACTION_TYPE_INCOME) str = ((Income*) trans)->payer().toLower();
+						else str = ((Expense*) trans)->payee().toLower();
+						monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
+						include = true;
+					}
+					break;
+				}
 				case 11: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
 					Income *income = (Income*) trans;
@@ -2046,6 +2296,19 @@ void OverTimeChart::updateDisplay() {
 					Expense *expense = (Expense*) trans;
 					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account) {
 						monthly_values = &monthly_desc[expense->payee().toLower()]; mi = &mi_d[expense->payee().toLower()]; isfirst = &isfirst_d[expense->payee().toLower()];
+						sign = 1;
+						include = true;
+					}
+					break;
+				}
+				case 35: {
+					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+						QString str;
+						if(trans->type() == TRANSACTION_TYPE_INCOME) str = ((Income*) trans)->payer().toLower();
+						else str = ((Expense*) trans)->payee().toLower();
+						monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
 						sign = 1;
 						include = true;
 					}
@@ -2070,6 +2333,22 @@ void OverTimeChart::updateDisplay() {
 						include = true;
 					}
 					break;
+				}
+				case 37: {
+					if(trans->hasTag(current_tag, true) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
+						if(current_source > 50) {
+							Account *acc = trans->toAccount();
+							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+							monthly_values = &monthly_cats[acc];
+							mi = &mi_c[acc];
+							isfirst = &isfirst_c[acc];
+						} else {
+							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
+						}
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
+						include = true;
+					}
 				}
 				case 15: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
@@ -2103,6 +2382,14 @@ void OverTimeChart::updateDisplay() {
 					}
 					break;
 				}
+				case 39: {
+					if(trans->hasTag(current_tag, true) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
+						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
+						include = true;
+					}
+				}
 				case 17: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
 					Income *income = (Income*) trans;
@@ -2122,6 +2409,22 @@ void OverTimeChart::updateDisplay() {
 						include = true;
 					}
 					break;
+				}
+				case 41: {
+					if(trans->hasTag(current_tag, true) && !trans->description().compare(current_description, Qt::CaseInsensitive) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
+						if(current_source > 50) {
+							Account *acc = trans->toAccount();
+							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+							monthly_values = &monthly_cats[acc];
+							mi = &mi_c[acc];
+							isfirst = &isfirst_c[acc];
+						} else {
+							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
+						}
+						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+						else {b_expense = true; sign = -1;}
+						include = true;
+					}
 				}
 				case 19: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
@@ -2197,9 +2500,12 @@ void OverTimeChart::updateDisplay() {
 				} while(transdate <= last_date);
 			}
 		}
-		if(strans->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT || split_i >= ((SplitTransaction*) strans->transaction())->count()) {
-			++it;
-			split_i = 0;
+		if(tag_index == 0) {
+			split_i++;
+			if(strans->transaction()->generaltype() != GENERAL_TRANSACTION_TYPE_SPLIT || split_i >= ((SplitTransaction*) strans->transaction())->count()) {
+				++it;
+				split_i = 0;
+			}
 		}
 	}
 
@@ -2260,12 +2566,13 @@ void OverTimeChart::updateDisplay() {
 	} else if(source_org == -2) {
 		if(current_assets) account = current_assets;
 		else if(account_index < budget->assetsAccounts.size()) account = budget->assetsAccounts.at(account_index);
-	} else if(source_org == 3) {if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);}
+	} else if(source_org == -3) desc_nr = budget->tags.count();
+	else if(source_org == 3) {if(account_index < budget->incomesAccounts.size()) account = budget->incomesAccounts.at(account_index);}
 	else if(source_org == 4)  {if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);}
 	else if(source_org == 21)  {if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);}
 	else if(source_org == 2) {mi = &mi_e; monthly_values = &monthly_expenses; isfirst = &isfirst_e;}
 	else if(source_org == 1) {mi = &mi_i; monthly_values = &monthly_incomes; isfirst = &isfirst_i;}
-	while(source_org == 1 || source_org == 2 || account || ((source_org == 7 || source_org == 11) && desc_i < desc_nr)) {
+	while(source_org == 1 || source_org == 2 || account || ((source_org == -3 || source_org == 7 || source_org == 11) && desc_i < desc_nr)) {
 		if(source_org == -2 && (account == budget->balancingAccount)) {
 			++account_index;
 			account = NULL;
@@ -2278,7 +2585,8 @@ void OverTimeChart::updateDisplay() {
 			else if(source_org != 3 && account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);
 		}
 		if((exclude_subs || source_org == -2) && !account) break;
-		if(source_org == -2 || source_org == 4 || source_org == 3 || source_org == 0 || source_org == 21) {mi = &mi_c[account]; monthly_values = &monthly_cats[account]; isfirst = &isfirst_c[account];}
+		if(source_org == -3) {mi = &mi_d[budget->tags[desc_i]]; monthly_values = &monthly_desc[budget->tags[desc_i]]; isfirst = &isfirst_d[budget->tags[desc_i]];}
+		else if(source_org == -2 || source_org == 4 || source_org == 3 || source_org == 0 || source_org == 21) {mi = &mi_c[account]; monthly_values = &monthly_cats[account]; isfirst = &isfirst_c[account];}
 		else if(source_org == 7) {mi = &mi_d[descriptionCombo->itemText(desc_i).toLower()]; monthly_values = &monthly_desc[descriptionCombo->itemText(desc_i).toLower()]; isfirst = &isfirst_d[descriptionCombo->itemText(desc_i).toLower()];}
 		else if(source_org == 11) {mi = &mi_d[payeeCombo->itemText(desc_i).toLower()]; monthly_values = &monthly_desc[payeeCombo->itemText(desc_i).toLower()]; isfirst = &isfirst_d[payeeCombo->itemText(desc_i).toLower()];}
 		(*mi) = &monthly_values->front();
@@ -2310,6 +2618,9 @@ void OverTimeChart::updateDisplay() {
 						includes_budget = true;
 					}
 				}
+			}
+			if(!b_income && b_expense) {
+				(*mi)->value = -(*mi)->value;
 			}
 			switch(type) {
 				case 1: {
@@ -2354,7 +2665,7 @@ void OverTimeChart::updateDisplay() {
 			++cmi_it;
 		}
 		++account_index;
-		if(source_org == 7 || source_org == 11) {
+		if(source_org == 7 || source_org == 11 || source_org == -3) {
 			desc_i++;
 		} else if(source_org == 3) {
 			account = NULL;
@@ -2586,12 +2897,12 @@ void OverTimeChart::updateDisplay() {
 		default: {}
 	}
 
-	if(source_org == 7 || source_org == 11) {
+	if(source_org == 7 || source_org == 11 || source_org == -3) {
 		int max_series = 7;
 		QString r_desc_str;
-		if(current_source == 12 || current_source == 14) {
+		if(current_source == 12 || current_source == 14 || ((b_expense || !b_income) && (current_source == 33 || current_source == 35))) {
 			r_desc_str = tr("Other payees");
-		} else if(current_source == 11 || current_source == 13) {
+		} else if(current_source == 11 || current_source == 13 || current_source == 33 || current_source == 35) {
 			r_desc_str = tr("Other payers");
 		} else {
 			r_desc_str = tr("Other descriptions", "Referring to the transaction description property (transaction title/generic article name)");
@@ -2618,6 +2929,7 @@ void OverTimeChart::updateDisplay() {
 		QString desc_str;
 		while(desc_i < desc_nr) {
 			if(source_org == 7) desc_str = descriptionCombo->itemText(desc_i).toLower();
+			else if(source_org == -3) desc_str = budget->tags[desc_i];
 			else desc_str = payeeCombo->itemText(desc_i).toLower();
 			desc_values[desc_str] = 0.0;
 			for(QVector<chart_month_info>::iterator cmi_it = monthly_desc[desc_str].begin(); cmi_it != monthly_desc[desc_str].end(); ++cmi_it) {
@@ -2673,6 +2985,7 @@ void OverTimeChart::updateDisplay() {
 			desc_i = first_desc_i;
 			while(desc_i < desc_nr && desc_i - first_desc_i < max_series - 1) {
 				if(source_org == 7) desc_str = descriptionCombo->itemText(desc_i).toLower();
+				else if(source_org == -3) desc_str = budget->tags[desc_i];
 				else desc_str = payeeCombo->itemText(desc_i).toLower();
 				desc_order.push_back(desc_str);
 				desc_i++;
@@ -2694,6 +3007,7 @@ void OverTimeChart::updateDisplay() {
 			}
 		}
 	}
+	if(source_org == -3) source_org = 11;
 
 	if(source_org == -2) {
 		int max_series = 7;
@@ -2854,9 +3168,21 @@ void OverTimeChart::updateDisplay() {
 		if(type == 2) axis_string = tr("Quantity");
 		else axis_string = tr("Value") + QString(" (%1)").arg(currency->symbol(true));
 	} else {
+		int v_type = 3;
+		if((current_source2 == -3 || current_source2 >= 27) && (!b_expense || b_income)) {
+			if(b_expense && !b_income) v_type = 3;
+			else if(b_income && !b_expense) v_type = 2;
+			else v_type = 0;
+		} else if(current_source2 == 0 && chart_type != 4) {
+			v_type = 0;
+		} else if(current_source == -1) {
+			v_type = 1;
+		} else if(current_source2 % 2 == 1 || (current_source2 == 0 && chart_type == 4)) {
+			v_type = 3;
+		}
 		switch(type) {
 			case 1: {
-				if(current_source2 == 0 && chart_type != 4) axis_string = tr("Daily average value") + QString(" (%1)").arg(currency->symbol(true));
+				if(current_source2 == -3 || current_source2 >= 27 || (current_source2 == 0 && chart_type != 4)) axis_string = tr("Daily average value") + QString(" (%1)").arg(currency->symbol(true));
 				else if(current_source2 == -1) axis_string = tr("Daily average profit") + QString(" (%1)").arg(currency->symbol(true));
 				else if(current_source2 % 2 == 1 || (current_source2 == 0 && chart_type == 4)) axis_string = tr("Daily average income") + QString(" (%1)").arg(currency->symbol(true));
 				else axis_string = tr("Daily average cost") + QString(" (%1)").arg(currency->symbol(true));
@@ -2867,22 +3193,22 @@ void OverTimeChart::updateDisplay() {
 				break;
 			}
 			case 3: {
-				if(current_source2 == 0 && chart_type != 4) axis_string = tr("Average value") + QString(" (%1)").arg(currency->symbol(true));
-				else if(current_source2 % 2 == 1 || (current_source2 == 0 && chart_type == 4)) axis_string = tr("Average income") + QString(" (%1)").arg(currency->symbol(true));
+				if(v_type == 0) axis_string = tr("Average value") + QString(" (%1)").arg(currency->symbol(true));
+				else if(v_type < 3) axis_string = tr("Average income") + QString(" (%1)").arg(currency->symbol(true));
 				else axis_string = tr("Average cost") + QString(" (%1)").arg(currency->symbol(true));
 				break;
 			}
 			case 4: {
-				if(current_source2 == 0 && chart_type != 4) axis_string = tr("Annual value") + QString(" (%1)").arg(currency->symbol(true));
-				else if(current_source2 == -1) axis_string = tr("Annual profit") + QString(" (%1)").arg(currency->symbol(true));
-				else if(current_source2 % 2 == 1 || (current_source2 == 0 && chart_type == 4)) axis_string = tr("Annual income") + QString(" (%1)").arg(currency->symbol(true));
+				if(v_type == 0) axis_string = tr("Annual value") + QString(" (%1)").arg(currency->symbol(true));
+				else if(v_type == 1) axis_string = tr("Annual profit") + QString(" (%1)").arg(currency->symbol(true));
+				else if(v_type == 2) axis_string = tr("Annual income") + QString(" (%1)").arg(currency->symbol(true));
 				else axis_string = tr("Annual cost") + QString(" (%1)").arg(currency->symbol(true));
 				break;
 			}
 			default: {
-				if(current_source2 == 0 && chart_type != 4) axis_string = tr("Monthly value") + QString(" (%1)").arg(currency->symbol(true));
-				else if(current_source2 == -1) axis_string = tr("Monthly profit") + QString(" (%1)").arg(currency->symbol(true));
-				else if(current_source2 % 2 == 1 || (current_source2 == 0 && chart_type == 4)) axis_string = tr("Monthly income") + QString(" (%1)").arg(currency->symbol(true));
+				if(v_type == 0) axis_string = tr("Monthly value") + QString(" (%1)").arg(currency->symbol(true));
+				else if(v_type == 1) axis_string = tr("Monthly profit") + QString(" (%1)").arg(currency->symbol(true));
+				else if(v_type == 2) axis_string = tr("Monthly income") + QString(" (%1)").arg(currency->symbol(true));
 				else axis_string = tr("Monthly cost") + QString(" (%1)").arg(currency->symbol(true));
 				break;
 			}
@@ -2957,6 +3283,11 @@ void OverTimeChart::updateDisplay() {
 	calculate_minmax_lines(maxvalue, minvalue, y_lines, y_minor, current_source2 == -1 || (current_source2 == 0 && chart_type == 4 && type != 2), type != 2);
 	
 	switch(current_source2) {
+		case -3: {
+			if(current_assets) title_string = tr("Tags, %1").arg(current_assets->name());
+			else title_string = tr("Tags");
+			break;
+		}
 		case -2: {
 			if(current_assets) title_string = tr("Value: %1").arg(current_assets->name());
 			else title_string = tr("Assets & Liabilities");
@@ -3001,6 +3332,13 @@ void OverTimeChart::updateDisplay() {
 			else title_string = tr("Expenses: %1").arg(current_account->nameWithParent());
 			break;
 		}
+		case 33:
+		case 29:
+		case 27: {
+			if(current_assets) title_string = tr("%2: %1").arg(current_tag).arg(current_assets->name());
+			else title_string = current_tag;
+			break;
+		}
 		case 13:
 		case 9: {
 			if(current_assets) title_string = tr("Incomes, %3: %2, %1").arg(current_account->nameWithParent()).arg(current_description).arg(current_assets->name());
@@ -3013,6 +3351,12 @@ void OverTimeChart::updateDisplay() {
 			else title_string = tr("Expenses: %2, %1").arg(current_account->nameWithParent()).arg(current_description);
 			break;
 		}
+		case 35:
+		case 31: {
+			if(current_assets) title_string = tr("%3: %2, %1").arg(current_tag).arg(current_description).arg(current_assets->name());
+			else title_string = tr("%2, %1").arg(current_tag).arg(current_description);
+			break;
+		}
 		case 19: {
 			if(current_assets) title_string = tr("Incomes, %4: %3, %2, %1").arg(current_account->nameWithParent()).arg(current_description).arg(current_payee).arg(current_assets->name());
 			else title_string = tr("Incomes: %3, %2, %1").arg(current_account->nameWithParent()).arg(current_description).arg(current_payee);
@@ -3021,6 +3365,11 @@ void OverTimeChart::updateDisplay() {
 		case 20: {
 			if(current_assets) title_string = tr("Expenses, %4: %3, %2, %1").arg(current_account->nameWithParent()).arg(current_description).arg(current_payee).arg(current_assets->name());
 			else title_string = tr("Expenses: %3, %2, %1").arg(current_account->nameWithParent()).arg(current_description).arg(current_payee);
+			break;
+		}
+		case 41: {
+			if(current_assets) title_string = tr("%4: %3, %2, %1").arg(current_tag).arg(current_description).arg(current_payee).arg(current_assets->name());
+			else title_string = tr("%3, %2, %1").arg(current_tag).arg(current_description).arg(current_payee);
 			break;
 		}
 		case 23:
@@ -3037,6 +3386,12 @@ void OverTimeChart::updateDisplay() {
 			else title_string = tr("Expenses: %2, %1").arg(current_account->nameWithParent()).arg(current_payee);
 			break;
 		}
+		case 37:
+		case 39: {
+			if(current_assets) title_string = tr("%3: %2, %1").arg(current_tag).arg(current_payee).arg(current_assets->name());
+			else title_string = tr("%2, %1").arg(current_tag).arg(current_payee);
+			break;
+		}
 	}
 	
 #ifdef QT_CHARTS_LIB
@@ -3048,12 +3403,16 @@ void OverTimeChart::updateDisplay() {
 		case -1:
 		case 1:
 		case 2:
+		case 27:
 		case 5:
 		case 6:
+		case 31:
 		case 9:
 		case 10:
+		case 37:
 		case 15:
 		case 16:
+		case 41:
 		case 19:
 		case 20: {show_legend = false; break;}
 		default: show_legend = true;
@@ -3212,16 +3571,21 @@ void OverTimeChart::updateDisplay() {
 				series_name = tr("%1/%2", "%1: Category; %2: Payee/Payer").arg(cat_order[cat_i]->name()).arg(current_payee);
 				break;
 			}
+			case 27: {series_name = current_tag; break;}
 			case 5: {}
 			case 6: {series_name = current_account->nameWithParent(); break;}
+			case -3: {}
+			case 39: {}
 			case 17: {}
 			case 18: {}
+			case 29: {}
 			case 7: {}
 			case 8: {
 				if(desc_order[desc_i].isEmpty()) series_name = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
 				else series_name = desc_map[desc_order[desc_i]];
 				break;
 			}
+			case 31: {}
 			case 9: {}
 			case 10: {
 				if(current_description.isEmpty()) series_name = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");
@@ -3234,6 +3598,8 @@ void OverTimeChart::updateDisplay() {
 				else series_name = desc_map[desc_order[desc_i]];
 				break;
 			}
+			case 35: {}
+			case 33: {}
 			case 14: {}
 			case 12: {
 				if(desc_order[desc_i].isEmpty()) series_name = tr("No payee");
@@ -3245,11 +3611,13 @@ void OverTimeChart::updateDisplay() {
 				else series_name = current_payee;
 				break;
 			}
+			case 37: {}
 			case 16: {
 				if(current_payee.isEmpty()) series_name = tr("No payee");
 				else series_name = current_payee;
 				break;
 			}
+			case 41: {}
 			case 19: {
 				QString str1, str2;
 				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = tr("no payer");}
@@ -3438,7 +3806,7 @@ void OverTimeChart::updateDisplay() {
 		
 		if(source_org == 7 || source_org == 11) {monthly_values = &monthly_desc[desc_order[desc_i]];}
 		else if(source_org == -2) {monthly_values = &monthly_cats[cat_order[cat_i]];}
-
+switch(current_source) {
 		if(current_source2 != -2 || !current_assets || (index == 0 && b_assets) || (index == 1 && b_liabilities) || (!b_liabilities && !b_assets)) {
 			QGraphicsSimpleTextItem *legend_text = new QGraphicsSimpleTextItem();
 			switch(current_source) {
@@ -3468,8 +3836,12 @@ void OverTimeChart::updateDisplay() {
 					legend_text->setText(tr("%1/%2", "%1: Category; %2: Payee/Payer").arg(cat_order[cat_i]->name()).arg(current_payee));
 					break;
 				}
+				case 27: {legend_text->setText(current_tag); break;}
 				case 5: {}
 				case 6: {legend_text->setText(current_account->nameWithParent()); break;}
+				case -3: {}
+				case 39: {}
+				case 29: {}
 				case 17: {}
 				case 18: {}
 				case 7: {}
@@ -3478,6 +3850,7 @@ void OverTimeChart::updateDisplay() {
 					else legend_text->setText(desc_order[desc_i]);
 					break;
 				}
+				case 31: {}
 				case 9: {}
 				case 10: {
 					if(current_description.isEmpty()) legend_text->setText(tr("No description", "Referring to the transaction description property (transaction title/generic article name)"));
@@ -3490,12 +3863,15 @@ void OverTimeChart::updateDisplay() {
 					else legend_text->setText(desc_map[desc_order[desc_i]]);
 					break;
 				}
+				case 35: {}
+				case 33: {}
 				case 14: {}
 				case 12: {
 					if(desc_order[desc_i].isEmpty()) legend_text->setText(tr("No payee"));
 					else legend_text->setText(desc_map[desc_order[desc_i]]);
 					break;
 				}
+				case 37: {}
 				case 15: {
 					if(current_payee.isEmpty()) legend_text->setText(tr("No payer"));
 					else legend_text->setText(current_payee);
@@ -3506,6 +3882,7 @@ void OverTimeChart::updateDisplay() {
 					else legend_text->setText(current_payee);
 					break;
 				}
+				case 41: {}
 				case 19: {
 					QString str1, str2;
 					if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = tr("no payer");}
@@ -3808,11 +4185,11 @@ void OverTimeChart::updateDisplay() {
 	}
 #endif
 	
-	if(current_source == 7 || current_source == 8 || current_source == 17 || current_source == 18) {
+	if(current_source == 7 || current_source == 8 || current_source == 17 || current_source == 18 || current_source == 29 || current_source == 39) {
 		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, tr("No description", "Referring to the transaction description property (transaction title/generic article name)"));
-	} else if(current_source == 12 || current_source == 14) {
+	} else if(current_source == 12 || current_source == 14 || ((b_expense || !b_income) && (current_source == 33 || current_source == 35))) {
 		if(has_empty_payee) payeeCombo->setItemText(payeeCombo->count() - 1, tr("No payee"));
-	} else if(current_source == 11 || current_source == 13) {
+	} else if(current_source == 11 || current_source == 13 || current_source == 33 || current_source == 35) {
 		if(has_empty_payee) payeeCombo->setItemText(payeeCombo->count() - 1, tr("No payer"));
 	}
 }
@@ -3825,8 +4202,9 @@ void OverTimeChart::resizeEvent(QResizeEvent *e) {
 }
 #endif
 void OverTimeChart::updateTransactions() {
-	if(descriptionCombo->isEnabled() && current_account) {
-		bool b_income = (current_account->type() == ACCOUNT_TYPE_INCOMES);
+	if(descriptionCombo->isEnabled() && (current_account || !current_tag.isEmpty())) {
+		bool b_tags = !current_account;
+		bool b_income = current_account && (current_account->type() == ACCOUNT_TYPE_INCOMES);
 		int curindex = descriptionCombo->currentIndex();
 		if(curindex > 1) {
 			curindex = -1;
@@ -3855,7 +4233,7 @@ void OverTimeChart::updateTransactions() {
 		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
 			--it;
 			Transaction *trans = *it;
-			if((trans->fromAccount() == current_account || trans->toAccount() == current_account)) {
+			if((b_tags && trans->hasTag(current_tag, true)) || (!b_tags && (trans->fromAccount() == current_account || trans->toAccount() == current_account || trans->fromAccount()->topAccount() == current_account || trans->toAccount()->topAccount() == current_account))) {
 				if(trans->description().isEmpty()) has_empty_description = true;
 				else if(!descriptions.contains(trans->description().toLower())) descriptions[trans->description().toLower()] = trans->description();
 				if(b_extra) {
@@ -3872,14 +4250,14 @@ void OverTimeChart::updateTransactions() {
 		QMap<QString, QString>::iterator it_e = descriptions.end();
 		int i = 2;
 		for(QMap<QString, QString>::iterator it = descriptions.begin(); it != it_e; ++it) {
-			if(curindex < 0 && (current_source == 9 || current_source == 10 || current_source == 13 || current_source == 14 || current_source == 19 || current_source == 20) && !it.value().compare(current_description, Qt::CaseInsensitive)) {
+			if(curindex < 0 && (current_source == 31 || current_source == 9 || current_source == 10 || current_source == 35 || current_source == 13 || current_source == 14 || current_source == 41 || current_source == 19 || current_source == 20) && !it.value().compare(current_description, Qt::CaseInsensitive)) {
 				curindex = i;
 			}
 			descriptionCombo->addItem(it.value());
 			i++;
 		}
 		if(has_empty_description) {
-			if(curindex < 0 && (current_source == 9 || current_source == 10 || current_source == 13 || current_source == 14 || current_source == 19 || current_source == 20) && current_description.isEmpty()) curindex = i;
+			if(curindex < 0 && (current_source == 31 || current_source == 9 || current_source == 10 || current_source == 35 || current_source == 13 || current_source == 14 || current_source == 41 || current_source == 19 || current_source == 20) && current_description.isEmpty()) curindex = i;
 			descriptionCombo->addItem(tr("No description", "Referring to the transaction description property (transaction title/generic article name)"));
 		}
 		if(b_extra) {
@@ -3925,13 +4303,48 @@ void OverTimeChart::updateTransactions() {
 			else if(p_index == 1) current_source = b_income ? 13 : 14;
 			else current_source = b_income ? 19 : 20;
 		}
+		if(b_tags) current_source += 22;
+		descriptionCombo->blockSignals(false);
+		if(b_extra) payeeCombo->blockSignals(false);
+	}
+	updateDisplay();
+}
+void OverTimeChart::updateTags() {
+	if(sourceCombo->currentIndex() != 5) return;
+	if(categoryCombo->isEnabled()) {
+		int curindex = 0;
+		categoryCombo->blockSignals(true);
+		descriptionCombo->blockSignals(true);
+		if(b_extra) payeeCombo->blockSignals(true);
+		categoryCombo->clear();
+		categoryCombo->addItem(tr("All Tags Split"));
+		for(int i = 0; i < budget->tags.count(); i++) {
+			categoryCombo->addItem(budget->tags[i]);
+			if(budget->tags[i] == current_tag) curindex = i + 1;
+		}
+		if(curindex < categoryCombo->count()) categoryCombo->setCurrentIndex(curindex);
+		if(curindex == 0) {
+			descriptionCombo->clear();
+			descriptionCombo->setEnabled(false);
+			descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the transaction description property (transaction title/generic article name)"));
+			if(b_extra) {
+				payeeCombo->clear();
+				payeeCombo->setEnabled(false);
+				payeeCombo->addItem(tr("All Payees Combined"));
+			}
+			descriptionCombo->setEnabled(false);
+			if(b_extra) payeeCombo->setEnabled(false);
+			current_tag = "";
+			current_source = -3;
+		}
+		categoryCombo->blockSignals(false);
 		descriptionCombo->blockSignals(false);
 		if(b_extra) payeeCombo->blockSignals(false);
 	}
 	updateDisplay();
 }
 void OverTimeChart::updateAccounts() {
-	if(categoryCombo->isEnabled()) {
+	if(categoryCombo->isEnabled() && sourceCombo->currentIndex() != 5) {
 		int curindex = categoryCombo->currentIndex();
 		if(curindex > 1) {
 			curindex = 1;
@@ -3971,6 +4384,7 @@ void OverTimeChart::updateAccounts() {
 			}
 			descriptionCombo->setEnabled(false);
 			if(b_extra) payeeCombo->setEnabled(false);
+			current_account = NULL;
 		}
 		if(curindex == 0) {
 			if(sourceCombo->currentIndex() == 3) {

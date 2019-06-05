@@ -1,3 +1,20 @@
+2019-06-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Option to show categories as columns in over time report
+	* Tags
+
+2019-06-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Duplicate transaction option
+	* Show lists as focused when not focused (fixes color of selected transaction) 
+	  and allow moving in lists with keyboard in some cases when not focused
+
+2019-05-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Show tooltips for cut off text in lists
+	* Configurable visible columns for expenses, incomes and transfers views
+	* Fix row colors for reconciled items ledger when not reconciling
+
 2019-05-27  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Preserve order of imported transactions (with equal date)

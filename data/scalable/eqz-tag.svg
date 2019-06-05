@@ -5,15 +5,16 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    viewBox="0 0 24 24"
    version="1.1"
    id="svg6"
    sodipodi:docname="eqz-tag.svg"
-   inkscape:export-filename="/home/hanna/Utveckling/Eqonomize/data/16/tag.png"
-   inkscape:export-xdpi="96"
-   inkscape:export-ydpi="96"
+   inkscape:export-filename="/home/hanna/Utveckling/Eqonomize/data/16/eqz-tag.png"
+   inkscape:export-xdpi="94.230003"
+   inkscape:export-ydpi="94.230003"
    inkscape:version="0.92.4 5da689c313, 2019-01-14">
   <metadata
      id="metadata10">
@@ -23,7 +24,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -41,11 +42,23 @@
      id="namedview8"
      showgrid="false"
      inkscape:zoom="67.666667"
-     inkscape:cx="7.0862069"
-     inkscape:cy="11.940887"
+     inkscape:cx="10.937743"
+     inkscape:cy="11.881774"
      inkscape:current-layer="svg6" />
   <defs
      id="defs3051">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient820">
+      <stop
+         style="stop-color:#d6c350;stop-opacity:1"
+         offset="0"
+         id="stop816" />
+      <stop
+         style="stop-color:#fdff00;stop-opacity:0.19961241"
+         offset="1"
+         id="stop818" />
+    </linearGradient>
     <style
        type="text/css"
        id="current-color-scheme">
@@ -53,10 +66,22 @@
         color:#232629;
       }
       </style>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient820"
+       id="linearGradient822"
+       x1="10.019705"
+       y1="9.5467987"
+       x2="23.453201"
+       y2="10.507388"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <path
-     style="fill:currentColor;fill-opacity:1;stroke:none"
+     style="fill:url(#linearGradient822);fill-opacity:1;stroke:#3b3b3b;stroke-opacity:1;stroke-width:0.3;stroke-miterlimit:4;stroke-dasharray:none;stroke-linejoin:round"
      d="M 10 4 L 4 6 L 6 12 L 16 17 L 20 9 L 10 4 z M 4 6 L 4 12 L 12 20 L 14.705078 17.294922 L 5 12 L 4 6 z M 7.5 6 C 8.331 6 9 6.669 9 7.5 C 9 8.331 8.331 9 7.5 9 C 6.669 9 6 8.331 6 7.5 C 6 6.669 6.669 6 7.5 6 z "
      class="ColorScheme-Text"
-     id="path4" />
+     id="path4"
+     inkscape:export-filename="/home/hanna/Utveckling/Eqonomize/data/22/eqz-tag.png"
+     inkscape:export-xdpi="129"
+     inkscape:export-ydpi="129" />
 </svg>
