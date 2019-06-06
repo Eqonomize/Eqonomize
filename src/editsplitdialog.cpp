@@ -963,6 +963,10 @@ void EditMultiAccountWidget::edit(QTreeWidgetItem *i_pre) {
 void EditMultiAccountWidget::newTag() {
 	QString new_tag = QInputDialog::getText(this, tr("New Tag"), tr("Tag:")).trimmed(); 
 	if(!new_tag.isEmpty()) {
+		if((new_tag.contains(",") && new_tag.contains("\"") && new_tag.contains("\'")) || (new_tag[0] == '\'' && new_tag.contains("\"")) || (new_tag[0] == '\"' && new_tag.contains("\'"))) {
+			if(new_tag[0] == '\'') new_tag.remove("\'");
+			else new_tag.remove("\"");
+		}
 		QString str = budget->findTag(new_tag);
 		if(str.isEmpty()) {
 			budget->tagAdded(new_tag);

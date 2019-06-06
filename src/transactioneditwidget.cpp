@@ -77,6 +77,7 @@ TagButton::TagButton(bool small_button, bool allow_new_tag, Budget *budg, QWidge
 	if(b_small) {
 		setIcon(LOAD_ICON2("tag", "eqz-tag"));
 		setText("(0)");
+		setToolTip(tr("no tags"));
 	} else {
 		setText(tr("no tags"));
 	}
@@ -90,11 +91,14 @@ void TagButton::resizeTagMenu() {
 	tagMenu->setMinimumWidth(width());
 }
 void TagButton::updateText() {
-	QString str;
-	if(b_small) {str = "("; str += QString::number(tagMenu->selectedTagsCount()); str += ")";}
-	else str = tagMenu->selectedTagsText();
+	QString str = tagMenu->selectedTagsText();
 	if(str.isEmpty()) str = tr("no tags");
-	setText(str);
+	if(b_small) {
+		setText(QString("(") + QString::number(tagMenu->selectedTagsCount()) + ")");
+		setToolTip(str);
+	} else {		
+		setText(str);
+	}
 }
 void TagButton::keyPressEvent(QKeyEvent *e) {
 	if(e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) {
@@ -1793,6 +1797,10 @@ void TransactionEditWidget::transactionsReset() {
 void TransactionEditWidget::newTag() {
 	QString new_tag = QInputDialog::getText(this, tr("New Tag"), tr("Tag:")).trimmed(); 
 	if(!new_tag.isEmpty()) {
+		if((new_tag.contains(",") && new_tag.contains("\"") && new_tag.contains("\'")) || (new_tag[0] == '\'' && new_tag.contains("\"")) || (new_tag[0] == '\"' && new_tag.contains("\'"))) {
+			if(new_tag[0] == '\'') new_tag.remove("\'");
+			else new_tag.remove("\"");
+		}
 		QString str = budget->findTag(new_tag);
 		if(str.isEmpty()) {
 			budget->tagAdded(new_tag);

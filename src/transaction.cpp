@@ -156,8 +156,8 @@ void Transaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		QStringRef tagstr = attr->value("tags").trimmed();
 		while(true) {
 			int i = 0;
-			if(tagstr[0] == '\"') {
-				i = tagstr.indexOf('\"', 1);
+			if(tagstr[0] == '\"' || tagstr[0] == '\'') {
+				i = tagstr.indexOf(tagstr[0], 1);
 				if(i < 0) {
 					tags << tagstr.toString();
 					break;
@@ -166,11 +166,12 @@ void Transaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 			}
 			i = tagstr.indexOf(',', i);
 			if(i < 0) {
+				if(tagstr.length() >= 2 && ((tagstr[0] == '\"' && tagstr.back() == '\"') || (tagstr[0] == '\'' && tagstr.back() == '\''))) tagstr = tagstr.mid(1, tagstr.length() - 2).trimmed();
 				tags << tagstr.toString();
 				break;
 			}	
 			QStringRef tagi = tagstr.left(i).trimmed();
-			if(tagi.length() >= 2 && tagi[0] == '\"' && tagi.back() == '\"') tagi = tagi.mid(1, tagi.length() - 2).trimmed();
+			if(tagi.length() >= 2 && ((tagi[0] == '\"' && tagi.back() == '\"') || (tagi[0] == '\'' && tagi.back() == '\''))) tagi = tagi.mid(1, tagi.length() - 2).trimmed();
 			if(!tagi.isEmpty()) tags << tagi.toString();
 			tagstr = tagstr.right(tagstr.length() - i - 1).trimmed();
 			if(tagstr.isEmpty()) break;
@@ -202,16 +203,27 @@ void Transaction::writeAttributes(QXmlStreamAttributes *attr) {
 	if(!s_description.isEmpty()) attr->append("description", s_description);
 	if(!tags.isEmpty()) {
 		if(tags.count() == 1) {
-			if(tags[0].contains(",")) attr->append("tags", QString("\"") + tags[0] + "\"");
-			else attr->append("tags", tags[0]);
+			if(tags[0][0] == '"') {
+				attr->append("tags", QString("\'") + tags[0] + "\'");
+			} else if(tags[0][0] == '\'') {
+				attr->append("tags", QString("\"") + tags[0] + "\"");
+			} else if(tags[0].contains(",")) {
+				if(tags[0].contains("\"")) attr->append("tags", QString("\'") + tags[0] + "\'");
+				else attr->append("tags", QString("\"") + tags[0] + "\"");
+			} else {
+				attr->append("tags", tags[0]);
+			}
 		} else {
 			QString tagstr;
 			for(int i = 0; i < tags.count(); i++) {
 				if(i > 0) tagstr += ",";
-				if(tags[i].contains(",")) {
-					tagstr += "\"";
-					tagstr += tags[i];
-					tagstr += "\"";
+				if(tags[i][0] == '"') {
+					tagstr += "\'"; tagstr += tags[i]; tagstr += "\'";
+				} else if(tags[i][0] == '\'') {
+					tagstr += "\""; tagstr += tags[i]; tagstr += "\"";
+				} else if(tags[i].contains(",")) {
+					if(tags[i].contains("\"")) {tagstr += "\'"; tagstr += tags[i]; tagstr += "\'";}
+					else {tagstr += "\""; tagstr += tags[i]; tagstr += "\"";}
 				} else {
 					tagstr += tags[i];
 				}
@@ -1551,8 +1563,8 @@ void SplitTransaction::readAttributes(QXmlStreamAttributes *attr, bool*) {
 		QStringRef tagstr = attr->value("tags").trimmed();
 		while(true) {
 			int i = 0;
-			if(tagstr[0] == '\"') {
-				i = tagstr.indexOf('\"', 1);
+			if(tagstr[0] == '\"' || tagstr[0] == '\'') {
+				i = tagstr.indexOf(tagstr[0], 1);
 				if(i < 0) {
 					tags << tagstr.toString();
 					break;
@@ -1561,11 +1573,12 @@ void SplitTransaction::readAttributes(QXmlStreamAttributes *attr, bool*) {
 			}
 			i = tagstr.indexOf(',', i);
 			if(i < 0) {
+				if(tagstr.length() >= 2 && ((tagstr[0] == '\"' && tagstr.back() == '\"') || (tagstr[0] == '\'' && tagstr.back() == '\''))) tagstr = tagstr.mid(1, tagstr.length() - 2).trimmed();
 				tags << tagstr.toString();
 				break;
 			}	
 			QStringRef tagi = tagstr.left(i).trimmed();
-			if(tagi.length() >= 2 && tagi[0] == '\"' && tagi.back() == '\"') tagi = tagi.mid(1, tagi.length() - 2).trimmed();
+			if(tagi.length() >= 2 && ((tagi[0] == '\"' && tagi.back() == '\"') || (tagi[0] == '\'' && tagi.back() == '\''))) tagi = tagi.mid(1, tagi.length() - 2).trimmed();
 			if(!tagi.isEmpty()) tags << tagi.toString();
 			tagstr = tagstr.right(tagstr.length() - i - 1).trimmed();
 			if(tagstr.isEmpty()) break;
@@ -1598,16 +1611,27 @@ void SplitTransaction::writeAttributes(QXmlStreamAttributes *attr) {
 	if(!s_description.isEmpty()) attr->append("description", s_description);
 	if(!tags.isEmpty()) {
 		if(tags.count() == 1) {
-			if(tags[0].contains(",")) attr->append("tags", QString("\"") + tags[0] + "\"");
-			else attr->append("tags", tags[0]);
+			if(tags[0][0] == '"') {
+				attr->append("tags", QString("\'") + tags[0] + "\'");
+			} else if(tags[0][0] == '\'') {
+				attr->append("tags", QString("\"") + tags[0] + "\"");
+			} else if(tags[0].contains(",")) {
+				if(tags[0].contains("\"")) attr->append("tags", QString("\'") + tags[0] + "\'");
+				else attr->append("tags", QString("\"") + tags[0] + "\"");
+			} else {
+				attr->append("tags", tags[0]);
+			}
 		} else {
 			QString tagstr;
 			for(int i = 0; i < tags.count(); i++) {
 				if(i > 0) tagstr += ",";
-				if(tags[i].contains(",")) {
-					tagstr += "\"";
-					tagstr += tags[i];
-					tagstr += "\"";
+				if(tags[i][0] == '"') {
+					tagstr += "\'"; tagstr += tags[i]; tagstr += "\'";
+				} else if(tags[i][0] == '\'') {
+					tagstr += "\""; tagstr += tags[i]; tagstr += "\"";
+				} else if(tags[i].contains(",")) {
+					if(tags[i].contains("\"")) {tagstr += "\'"; tagstr += tags[i]; tagstr += "\'";}
+					else {tagstr += "\""; tagstr += tags[i]; tagstr += "\"";}
 				} else {
 					tagstr += tags[i];
 				}

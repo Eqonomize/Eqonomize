@@ -7218,6 +7218,7 @@ void Eqonomize::accountExecuted(QTreeWidgetItem *i, int c) {
 	switch(c) {
 		case 0: {
 			if(i->childCount() == 0 && account_items.contains(i)) editAccount(account_items[i]);
+			if(tag_items.contains(i)) showAccountTransactions(true);
 			break;
 		}
 		case 1: {
@@ -7233,6 +7234,8 @@ void Eqonomize::accountExecuted(QTreeWidgetItem *i, int c) {
 						budgetButton->setFocus();
 					}
 				}
+			} else if(tag_items.contains(i)) {
+				showAccountTransactions(true);
 			}
 			break;
 		}
@@ -7833,6 +7836,10 @@ void Eqonomize::tagsChanged() {
 void Eqonomize::newTag() {
 	QString new_tag = QInputDialog::getText(this, tr("New Tag"), tr("Tag name:")).trimmed(); 
 	if(!new_tag.isEmpty()) {
+		if((new_tag.contains(",") && new_tag.contains("\"") && new_tag.contains("\'")) || (new_tag[0] == '\'' && new_tag.contains("\"")) || (new_tag[0] == '\"' && new_tag.contains("\'"))) {
+			if(new_tag[0] == '\'') new_tag.remove("\'");
+			else new_tag.remove("\"");
+		}
 		QString str = budget->findTag(new_tag);
 		if(str.isEmpty()) {
 			budget->tagAdded(new_tag);
