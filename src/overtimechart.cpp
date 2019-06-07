@@ -1124,7 +1124,7 @@ QPen getLinePen(int index) {
 void OverTimeChart::updateDisplay() {
 
 	if(!isVisible() || budget->accounts.count() <= 1) return;
-	
+
 	int current_source2 = (current_source > 50 ? current_source - 100 : current_source);
 	QVector<chart_month_info> monthly_incomes, monthly_expenses;
 	QMap<Account*, QVector<chart_month_info> > monthly_cats;
@@ -2728,6 +2728,9 @@ void OverTimeChart::updateDisplay() {
 			}
 		}
 	}
+
+	chart_month_info *mi0 = NULL;
+	mi = &mi0;
 	
 	if(type == 4) {
 		imonth = budget->lastBudgetDayOfYear(QDate::currentDate());
@@ -2816,7 +2819,7 @@ void OverTimeChart::updateDisplay() {
 	}
 
 	bool b_assets = false, b_liabilities = false;
-	while(current_source < 3) {
+	while(current_source < 3 && current_source != -3) {
 		if(current_source == -1 || current_source == 1 || second_run) monthly_values = &monthly_incomes;
 		else monthly_values = &monthly_expenses;
 		if(!second_run || current_source != -1) {
@@ -2900,7 +2903,9 @@ void OverTimeChart::updateDisplay() {
 	if(source_org == 7 || source_org == 11 || source_org == -3) {
 		int max_series = 7;
 		QString r_desc_str;
-		if(current_source == 12 || current_source == 14 || ((b_expense || !b_income) && (current_source == 33 || current_source == 35))) {
+		if(current_source == -3) {
+			r_desc_str = tr("Other tags");
+		} if(current_source == 12 || current_source == 14 || ((b_expense || !b_income) && (current_source == 33 || current_source == 35))) {
 			r_desc_str = tr("Other payees");
 		} else if(current_source == 11 || current_source == 13 || current_source == 33 || current_source == 35) {
 			r_desc_str = tr("Other payers");
