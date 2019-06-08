@@ -294,6 +294,25 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 		
 	}
 	
+	tagsLabel = new QLabel(tr("Tags:"), page3);
+	layout3->addWidget(tagsLabel, row, 0);
+	tagsGroup = new QButtonGroup(this);
+	columnTagsButton = new QRadioButton(tr("Column"), page3);
+	tagsGroup->addButton(columnTagsButton);
+	layout3->addWidget(columnTagsButton, row, 1);
+	columnTagsEdit = new QSpinBox(page3);
+	columnTagsEdit->setRange(1, 100);
+	columnTagsEdit->setValue(b_extra ? 8 : 6);
+	columnTagsEdit->setEnabled(false);
+	layout3->addWidget(columnTagsEdit, row, 2);
+	valueTagsButton = new QRadioButton(tr("Value"), page3);
+	tagsGroup->addButton(valueTagsButton);
+	valueTagsButton->setChecked(true);
+	layout3->addWidget(valueTagsButton, row, 3);
+	valueTagsEdit = new QLineEdit(page3);
+	layout3->addWidget(valueTagsEdit, row, 4);
+	row++;
+	
 	layout3->addWidget(new QLabel(tr("Comments:"), page3), row, 0);
 	commentsGroup = new QButtonGroup(this);
 	columnCommentsButton = new QRadioButton(tr("Column"), page3);
@@ -348,6 +367,8 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	connect(valueAC1Button, SIGNAL(toggled(bool)), valueAC1Edit, SLOT(setEnabled(bool)));
 	connect(columnAC2Button, SIGNAL(toggled(bool)), columnAC2Edit, SLOT(setEnabled(bool)));
 	connect(valueAC2Button, SIGNAL(toggled(bool)), valueAC2Edit, SLOT(setEnabled(bool)));
+	connect(columnTagsButton, SIGNAL(toggled(bool)), columnTagsEdit, SLOT(setEnabled(bool)));
+	connect(valueTagsButton, SIGNAL(toggled(bool)), valueTagsEdit, SLOT(setEnabled(bool)));
 	connect(columnCommentsButton, SIGNAL(toggled(bool)), columnCommentsEdit, SLOT(setEnabled(bool)));
 	connect(valueCommentsButton, SIGNAL(toggled(bool)), valueCommentsEdit, SLOT(setEnabled(bool)));
 	connect(typeGroup, SIGNAL(buttonClicked(int)), this, SLOT(typeChanged(int)));
@@ -406,6 +427,26 @@ void ImportCSVDialog::typeChanged(int id) {
 			if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC2Edit->addItem(aa->name(), qVariantFromValue((void*) aa));
 		}
 	}
+	if(b_extra) {
+		quantityLabel->setVisible(id != 2);
+		valueQuantityEdit->setVisible(id != 2);
+		columnQuantityEdit->setVisible(id != 2);
+		columnQuantityButton->setVisible(id != 2);
+		valueQuantityButton->setVisible(id != 2);
+		payeeLabel->setVisible(id != 2);
+		valuePayeeEdit->setVisible(id != 2);
+		columnPayeeEdit->setVisible(id != 2);
+		columnPayeeButton->setVisible(id != 2);
+		valuePayeeButton->setVisible(id != 2);
+		valueQuantityButton->setChecked(id == 2);
+		valuePayeeButton->setChecked(id == 2);
+	}
+	valueTagsButton->setChecked(id == 2);
+	tagsLabel->setVisible(id != 2);
+	valueTagsEdit->setVisible(id != 2);
+	columnTagsEdit->setVisible(id != 2);
+	columnTagsButton->setVisible(id != 2);
+	valueTagsButton->setVisible(id != 2);
 	if(id == 4) {
 		costLabel->show();
 		valueCostEdit->show();
@@ -418,7 +459,15 @@ void ImportCSVDialog::typeChanged(int id) {
 		columnValueEdit->setValue(4);
 		columnAC1Edit->setValue(5);
 		columnAC2Edit->setValue(6);
-		columnCommentsEdit->setValue(7);
+		if(b_extra) {
+			columnQuantityEdit->setValue(7);
+			columnPayeeEdit->setValue(8);
+			columnTagsEdit->setValue(9);
+			columnCommentsEdit->setValue(10);
+		} else {
+			columnTagsEdit->setValue(7);
+			columnCommentsEdit->setValue(8);
+		}
 	} else {
 		costLabel->hide();
 		valueCostEdit->hide();
@@ -428,23 +477,16 @@ void ImportCSVDialog::typeChanged(int id) {
 		columnValueEdit->setValue(3);
 		columnAC1Edit->setValue(4);
 		columnAC2Edit->setValue(5);
-		columnCommentsEdit->setValue(6);
-	}
-	if(b_extra) {
-		quantityLabel->setVisible(id != 2);
-		valueQuantityEdit->setVisible(id != 2);
-		columnQuantityEdit->setVisible(id != 2);
-		columnQuantityButton->setVisible(id != 2);
-		valueQuantityButton->setVisible(id != 2);
-		payeeLabel->setVisible(id != 2);
-		valuePayeeEdit->setVisible(id != 2);
-		columnPayeeEdit->setVisible(id != 2);
-		columnPayeeButton->setVisible(id != 2);
-		valuePayeeButton->setVisible(id != 2);
-		columnCommentsEdit->setValue((id == 2) ? 6 : 8);
 		if(id == 2) {
-			valueQuantityButton->setChecked(true);
-			valuePayeeButton->setChecked(true);
+			columnCommentsEdit->setValue(6);
+		} else if(b_extra) {
+			columnQuantityEdit->setValue(6);
+			columnPayeeEdit->setValue(7);
+			columnTagsEdit->setValue(8);
+			columnCommentsEdit->setValue(9);
+		} else {
+			columnTagsEdit->setValue(6);
+			columnCommentsEdit->setValue(7);
 		}
 	}
 	
@@ -808,6 +850,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	int AC1_c = columnAC1Button->isChecked() ? columnAC1Edit->value() : -1;
 	int AC2_c = columnAC2Button->isChecked() ? columnAC2Edit->value() : -1;
 	int comments_c = columnCommentsButton->isChecked() ? columnCommentsEdit->value() : -1;
+	int tags_c = columnTagsButton->isChecked() ? columnTagsEdit->value() : -1;
 	int payee_c = -1;
 	if(b_extra && columnPayeeButton->isChecked()) payee_c = columnPayeeEdit->value();
 	int quantity_c = -1;
@@ -821,26 +864,29 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	min_columns = ncolumns;
 	if(description_c > ncolumns) ncolumns = description_c;
 	if(comments_c > ncolumns) ncolumns = comments_c;
+	if(tags_c > ncolumns) ncolumns = tags_c;
 	if(payee_c > ncolumns) ncolumns = payee_c;
 	if(quantity_c > ncolumns) ncolumns = quantity_c;
-	if((description_c > 0 && (description_c == value_c || description_c == cost_c || description_c == date_c || description_c == AC1_c || description_c == AC2_c || description_c == comments_c || description_c == payee_c || description_c == quantity_c))
-		   || (value_c > 0 && (value_c == date_c || value_c == cost_c || value_c == AC1_c || value_c == AC2_c || value_c == comments_c || value_c == payee_c || value_c == quantity_c))
-		   || (cost_c > 0 && (cost_c == date_c || cost_c == AC1_c || cost_c == AC2_c || cost_c == comments_c || cost_c == payee_c || cost_c == quantity_c))
-		   || (date_c > 0 && (date_c == AC1_c || date_c == AC2_c || date_c == comments_c || date_c == payee_c || date_c == quantity_c))
-		   || (AC1_c > 0 && (AC1_c == AC2_c || AC1_c == comments_c || AC1_c == payee_c || AC1_c == quantity_c))
-		   || (AC2_c > 0 && (AC2_c == comments_c || AC2_c == payee_c || AC2_c == quantity_c))
-		   || (comments_c > 0 && (comments_c == payee_c || comments_c == quantity_c))
-		   || (payee_c > 0 && (payee_c == quantity_c))
+	if((description_c > 0 && (description_c == value_c || description_c == cost_c || description_c == date_c || description_c == AC1_c || description_c == AC2_c || description_c == comments_c || description_c == payee_c || description_c == quantity_c || description_c == tags_c))
+		   || (value_c > 0 && (value_c == date_c || value_c == cost_c || value_c == AC1_c || value_c == AC2_c || value_c == comments_c || value_c == payee_c || value_c == quantity_c || value_c == tags_c))
+		   || (cost_c > 0 && (cost_c == date_c || cost_c == AC1_c || cost_c == AC2_c || cost_c == comments_c || cost_c == payee_c || cost_c == quantity_c || cost_c == tags_c))
+		   || (date_c > 0 && (date_c == AC1_c || date_c == AC2_c || date_c == comments_c || date_c == payee_c || date_c == quantity_c || date_c == tags_c))
+		   || (AC1_c > 0 && (AC1_c == AC2_c || AC1_c == comments_c || AC1_c == payee_c || AC1_c == quantity_c || AC1_c == tags_c))
+		   || (AC2_c > 0 && (AC2_c == comments_c || AC2_c == payee_c || AC2_c == quantity_c || AC2_c == tags_c))
+		   || (comments_c > 0 && (comments_c == payee_c || comments_c == quantity_c || comments_c == tags_c))
+		   || (payee_c > 0 && (payee_c == quantity_c || payee_c == tags_c))
+		   || (tags_c > 0 && (tags_c == quantity_c))
 	  ) {
 		QMessageBox::critical(this, tr("Error"), tr("The same column number is selected multiple times."));
 		return false;
 	}
 	bool create_missing = createMissingButton->isChecked() && type != ALL_TYPES_ID;
-	QString description, comments, payee;
+	QString description, comments, payee, tags;
 	double quantity = 1.0;
 	if(!test && description_c < 0) description = valueDescriptionEdit->text();
 	if(!test && comments_c < 0) comments = valueCommentsEdit->text();
 	if(!test && b_extra && quantity_c < 0) quantity = valueQuantityEdit->value();
+	if(!test && tags_c < 0) tags = valueTagsEdit->text();
 	QMap<QString, Account*> eaccounts, iaccounts, aaccounts;
 	Account *ac1 = NULL, *ac2 = NULL;
 	if(!test && (AC1_c >= 0 || AC2_c >= 0)) {
@@ -1192,6 +1238,9 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 				if(success && comments_c > 0) {
 					comments = columns[comments_c - 1];
 				}
+				if(success && tags_c > 0) {
+					tags = columns[tags_c - 1];
+				}
 				if(success && payee_c > 0) {
 					payee = columns[payee_c - 1];
 				}
@@ -1333,6 +1382,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 						}
 					}
 					if(trans) {
+						trans->readTags(tags);
 						trans->setQuantity(quantity);
 						if(trans->date() > curdate) {
 							trans->setTimestamp(datestamps.contains(QDate::currentDate()) ? datestamps[QDate::currentDate()] + 1 : QDateTime(QDate::currentDate()).toMSecsSinceEpoch() / 1000);

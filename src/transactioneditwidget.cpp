@@ -2033,6 +2033,7 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 	valueEdit->setValue(split->value());
 	if(quantityEdit) quantityEdit->setValue(split->quantity());
 	if(payeeEdit) payeeEdit->setText(split->payees());
+	if(tagButton) tagButton->setTransaction(split);
 	blockSignals(false);
 	emit propertyChanged();
 }

@@ -316,6 +316,7 @@ void Budget::clear() {
 	incomesAccounts.clear();
 	expensesAccounts.clear();
 	assetsAccounts.clear();
+	tags.clear();
 	assetsAccounts.append(balancingAccount);
 	accounts.append(balancingAccount);
 	budgetAccount = NULL;
@@ -1151,7 +1152,11 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 						}
 						transactions.append(trans);
 						for(int i2 = 0; i2 < trans->tagsCount(false); i2++) {
-							if(!tags.contains(trans->getTag(i2))) tags << trans->getTag(i2);
+							if(!tags.contains(trans->getTag(i2))) {
+								tags << trans->getTag(i2);
+							} else if(split->hasTag(trans->getTag(i2), false)) {
+								trans->removeTag(trans->getTag(i2));
+							}
 						}
 					}
 				}

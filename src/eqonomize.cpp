@@ -5834,7 +5834,6 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
 			outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Name")) << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Type")) << "</th>";
 			//: Noun, how much the account balance has changed
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change"));
 			bool includes_budget = (to_date > QDate::currentDate() && (expenses_budget >= 0.0 || incomes_budget >= 0.0));
@@ -5842,74 +5841,103 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Balance", "Noun. Balance of an account"));
 			outf << "</th>" << '\n';
 			outf << "\t\t\t\t</tr>" << '\n';
-			outf << "\t\t\t</thead>" << '\n';			
+			outf << "\t\t\t</thead>" << '\n';
 			outf << "\t\t\t<tbody>" << '\n';
-			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
-				Account *account = *it;
-				if(!IS_DEBT(((AssetsAccount*) account)) && account != budget->balancingAccount) {
+			QTreeWidgetItemIterator it(assetsItem);
+			QTreeWidgetItem *group_item = NULL;
+			it++;
+			while(*it && *it != liabilitiesItem) {
+				if((*it)->childCount() > 0) {
 					outf << "\t\t\t\t<tr>" << '\n';
-					outf << "\t\t\t\t\t<td>" << htmlize_string(account->name());
-					if(includes_budget && ((AssetsAccount*) account)->isBudgetAccount()) outf << "*";
+					outf << "\t\t\t\t\t<td style=\"border-top: thin solid; border-bottom: thin solid\"><i>" << htmlize_string((*it)->text(0));
+					outf << ":</i></td>";
+					outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><i>" << htmlize_string((*it)->text(CHANGE_COLUMN)) << "</i></td>";
+					outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><i>" << htmlize_string((*it)->text(VALUE_COLUMN)) << "</i></td>" << "\n";
+					outf << "\t\t\t\t</tr>" << '\n';
+					group_item = *it;
+				} else if(group_item && (*it)->parent() != group_item) {
+					outf << "\t\t\t\t<tr>" << '\n';
+					outf << "\t\t\t\t\t<td style=\"border-top: thin solid\">" << htmlize_string((*it)->text(0));
 					outf << "</td>";
-					outf << "<td>";
-					outf << htmlize_string(((AssetsAccount*) account)->accountTypeName(true));
+					outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\">" << htmlize_string((*it)->text(CHANGE_COLUMN)) << "</td>";
+					outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\">" << htmlize_string((*it)->text(VALUE_COLUMN)) << "</td>" << "\n";
+					outf << "\t\t\t\t</tr>" << '\n';
+					group_item = NULL;
+				} else {
+					outf << "\t\t\t\t<tr>" << '\n';
+					outf << "\t\t\t\t\t<td>" << htmlize_string((*it)->text(0));
 					outf << "</td>";
-					outf << "<td nowrap align=\"right\">" << htmlize_string(((AssetsAccount*) account)->currency()->formatValue(account_change[account])) << "</td>";
-					outf << "<td nowrap align=\"right\">" << htmlize_string(((AssetsAccount*) account)->currency()->formatValue(account_value[account])) << "</td>" << "\n";
+					outf << "<td nowrap align=\"right\">" << htmlize_string((*it)->text(CHANGE_COLUMN)) << "</td>";
+					outf << "<td nowrap align=\"right\">" << htmlize_string((*it)->text(VALUE_COLUMN)) << "</td>" << "\n";
 					outf << "\t\t\t\t</tr>" << '\n';
 				}
+				++it;
 			}
 			outf << "\t\t\t\t<tr>" << '\n';
 			outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total"));
 			if(includes_budget) outf << "*";
 			outf << "</b></td>";
-			outf << "<td style=\"border-top: thin solid\">";
-			outf << "</td>";
 			outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(assets_accounts_change)) << "</b></td>";
 			outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(assets_accounts_value)) << "</b></td>" << "\n";
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</tbody>" << '\n';
 			outf << "\t\t</table>" << '\n';
-			outf << "\t\t<br>" << '\n';
-			outf << "\t\t<br>" << '\n';
-			outf << "\t\t<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
-			outf << "\t\t\t<caption>"; outf << htmlize_string(tr("Liabilities")); outf << "</caption>" << '\n';
-			outf << "\t\t\t<thead>" << '\n';
-			outf << "\t\t\t\t<tr>" << '\n';
-			outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Name")) << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Type")) << "</th>";
-			//: Noun, how much the account balance has changed
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change"));
-			outf << "</th>";
-			outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Balance", "Noun. Balance of an account"));
-			outf << "</th>" << '\n';
-			outf << "\t\t\t\t</tr>" << '\n';
-			outf << "\t\t\t</thead>" << '\n';
-			outf << "\t\t\t<tbody>" << '\n';
-			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
-				Account *account = *it;
-				if(IS_DEBT(((AssetsAccount*) account))) {
-					outf << "\t\t\t\t<tr>" << '\n';
-					outf << "\t\t\t\t\t<td>" << htmlize_string(account->name());
-					outf << "</td>";
-					outf << "<td>";
-					outf << ((AssetsAccount*) account)->accountTypeName(true);
-					outf << "</td>";
-					outf << "<td nowrap align=\"right\">" << htmlize_string(budget->formatMoney(-account_change[account])) << "</td>";
-					outf << "<td nowrap align=\"right\">" << htmlize_string(budget->formatMoney(-account_value[account])) << "</td>" << "\n";
-					outf << "\t\t\t\t</tr>" << '\n';
+			
+			it++;
+			if(liabilitiesItem->childCount() > 0) {
+				outf << "\t\t<br>" << '\n';
+				outf << "\t\t<br>" << '\n';
+				outf << "\t\t<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
+				outf << "\t\t\t<caption>"; outf << htmlize_string(tr("Liabilities")); outf << "</caption>" << '\n';
+				outf << "\t\t\t<thead>" << '\n';
+				outf << "\t\t\t\t<tr>" << '\n';
+				outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Name")) << "</th>";
+				//: Noun, how much the account balance has changed
+				outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change"));
+				outf << "</th>";
+				outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Balance", "Noun. Balance of an account"));
+				outf << "</th>" << '\n';
+				outf << "\t\t\t\t</tr>" << '\n';
+				outf << "\t\t\t</thead>" << '\n';
+				outf << "\t\t\t<tbody>" << '\n';
+				group_item = NULL;
+				while(*it && *it != incomesItem) {
+					if((*it)->childCount() > 0) {
+						outf << "\t\t\t\t<tr>" << '\n';
+						outf << "\t\t\t\t\t<td style=\"border-top: thin solid; border-bottom: thin solid\"><i>" << htmlize_string((*it)->text(0));
+						outf << ":</i></td>";
+						outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><i>" << htmlize_string((*it)->text(CHANGE_COLUMN)) << "</i></td>";
+						outf << "<td nowrap align=\"right\" style=\"border-top: thin solid; border-bottom: thin solid\"><i>" << htmlize_string((*it)->text(VALUE_COLUMN)) << "</i></td>" << "\n";
+						outf << "\t\t\t\t</tr>" << '\n';
+						group_item = *it;
+					} else if(group_item && (*it)->parent() != group_item) {
+						outf << "\t\t\t\t<tr>" << '\n';
+						outf << "\t\t\t\t\t<td style=\"border-top: thin solid\">" << htmlize_string((*it)->text(0));
+						outf << "</td>";
+						outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\">" << htmlize_string((*it)->text(CHANGE_COLUMN)) << "</td>";
+						outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\">" << htmlize_string((*it)->text(VALUE_COLUMN)) << "</td>" << "\n";
+						outf << "\t\t\t\t</tr>" << '\n';
+						group_item = NULL;
+					} else {
+						outf << "\t\t\t\t<tr>" << '\n';
+						outf << "\t\t\t\t\t<td>" << htmlize_string((*it)->text(0));
+						outf << "</td>";
+						outf << "<td nowrap align=\"right\">" << htmlize_string((*it)->text(CHANGE_COLUMN)) << "</td>";
+						outf << "<td nowrap align=\"right\">" << htmlize_string((*it)->text(VALUE_COLUMN)) << "</td>" << "\n";
+						outf << "\t\t\t\t</tr>" << '\n';
+					}
+					++it;
 				}
+				outf << "\t\t\t\t<tr>" << '\n';
+				outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total"));
+				outf << "</b></td>";
+				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(-liabilities_accounts_change)) << "</b></td>";
+				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(-liabilities_accounts_value)) << "</b></td>" << "\n";
+				outf << "\t\t\t\t</tr>" << '\n';
+				outf << "\t\t\t</tbody>" << '\n';
+				outf << "\t\t</table>" << '\n';
 			}
-			outf << "\t\t\t\t<tr>" << '\n';
-			outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total"));
-			outf << "</b></td>";
-			outf << "<td style=\"border-top: thin solid\">";
-			outf << "</td>";
-			outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(-liabilities_accounts_change)) << "</b></td>";
-			outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(-liabilities_accounts_value)) << "</b></td>" << "\n";
-			outf << "\t\t\t\t</tr>" << '\n';
-			outf << "\t\t\t</tbody>" << '\n';
-			outf << "\t\t</table>" << '\n';
+			
 			outf << "\t\t<br>" << '\n';
 			outf << "\t\t<br>" << '\n';
 			outf << "\t\t<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
@@ -5925,24 +5953,49 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';
 			outf << "\t\t\t<tbody>" << '\n';
-			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
-				Account *account = *it;
+			it++;
+			group_item = NULL;
+			while(*it && *it != expensesItem) {
+				Account *account = account_items[*it];
+				bool b_sub = ((*it)->parent() != incomesItem);
 				outf << "\t\t\t\t<tr>" << '\n';
-				outf << "\t\t\t\t\t<td>" << htmlize_string(account->name()) << "</td>";
+				outf << "\t\t\t\t\t<td>";
+				if(b_sub) outf << "<i>";
+				outf << htmlize_string(account->name());
+				if(b_sub) outf << "</i>";
+				outf << "</td>";
 				if(account_budget[account] < 0.0) {
-					outf << "<td align=\"right\">-</td>";
-					outf << "<td align=\"right\">-</td>";
+					if(b_sub) {
+						outf << "<td align=\"right\"><i>-</i></td>";
+						outf << "<td align=\"right\"><i>-</i></td>";
+					} else {
+						outf << "<td align=\"right\">-</td>";
+						outf << "<td align=\"right\">-</td>";
+					}
 				} else {
 					outf << "<td nowrap align=\"right\">";
+					if(b_sub) outf << "<i>";
 					outf << htmlize_string(budget->formatMoney(account_budget[account]));
+					if(b_sub) outf << "</i>";
 					outf << "</td>";
 					outf << "<td nowrap align=\"right\">";
+					if(b_sub) outf << "<i>";
 					outf << htmlize_string(budget->formatMoney(account_budget_diff[account]));
+					if(b_sub) outf << "</i>";
 					outf << "</td>";
 				}
-				outf << "<td nowrap align=\"right\">" << htmlize_string(budget->formatMoney(account_change[account])) << "</td>";
-				outf << "<td nowrap align=\"right\">" << htmlize_string(budget->formatMoney(account_value[account])) << "</td>" << "\n";
+				outf << "<td nowrap align=\"right\">";
+				if(b_sub) outf << "<i>";
+				outf << htmlize_string(budget->formatMoney(account_change[account]));
+				if(b_sub) outf << "</i>";
+				outf << "</td>";
+				outf << "<td nowrap align=\"right\">";
+				if(b_sub) outf << "<i>";
+				outf << htmlize_string(budget->formatMoney(account_value[account]));
+				if(b_sub) outf << "</i>";
+				outf << "</td>" << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
+				++it;
 			}
 			outf << "\t\t\t\t<tr>" << '\n';
 			outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
@@ -5973,24 +6026,49 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';
 			outf << "\t\t\t<tbody>" << '\n';
-			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
-				Account *account = *it;
+			it++;
+			group_item = NULL;
+			while(*it && *it != tagsItem) {
+				Account *account = account_items[*it];
+				bool b_sub = ((*it)->parent() != expensesItem);
 				outf << "\t\t\t\t<tr>" << '\n';
-				outf << "\t\t\t\t\t<td>" << htmlize_string(account->name()) << "</td>";
+				outf << "\t\t\t\t\t<td>";
+				if(b_sub) outf << "<i>";
+				outf << htmlize_string(account->name());
+				if(b_sub) outf << "</i>";
+				outf << "</td>";
 				if(account_budget[account] < 0.0) {
-					outf << "<td align=\"right\">-</td>";
-					outf << "<td align=\"right\">-</td>";
+					if(b_sub) {
+						outf << "<td align=\"right\"><i>-</i></td>";
+						outf << "<td align=\"right\"><i>-</i></td>";
+					} else {
+						outf << "<td align=\"right\">-</td>";
+						outf << "<td align=\"right\">-</td>";
+					}
 				} else {
 					outf << "<td nowrap align=\"right\">";
+					if(b_sub) outf << "<i>";
 					outf << htmlize_string(budget->formatMoney(account_budget[account]));
+					if(b_sub) outf << "</i>";
 					outf << "</td>";
 					outf << "<td nowrap align=\"right\">";
+					if(b_sub) outf << "<i>";
 					outf << htmlize_string(budget->formatMoney(account_budget_diff[account]));
+					if(b_sub) outf << "</i>";
 					outf << "</td>";
 				}
-				outf << "<td nowrap align=\"right\">" << htmlize_string(budget->formatMoney(account_change[account])) << "</td>";
-				outf << "<td nowrap align=\"right\">" << htmlize_string(budget->formatMoney(account_value[account])) << "</td>" << "\n";
+				outf << "<td nowrap align=\"right\">";
+				if(b_sub) outf << "<i>";
+				outf << htmlize_string(budget->formatMoney(account_change[account]));
+				if(b_sub) outf << "</i>";
+				outf << "</td>";
+				outf << "<td nowrap align=\"right\">";
+				if(b_sub) outf << "<i>";
+				outf << htmlize_string(budget->formatMoney(account_value[account]));
+				if(b_sub) outf << "</i>";
+				outf << "</td>" << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
+				++it;
 			}
 			outf << "\t\t\t\t<tr>" << '\n';
 			outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
@@ -6006,8 +6084,40 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</tbody>" << '\n';
 			outf << "\t\t</table>" << '\n';
+
+			it++;
+			if(tagsItem->childCount() > 0 && tagsItem->isExpanded()) {
+				outf << "\t\t<br>" << '\n';
+				outf << "\t\t<br>" << '\n';
+				outf << "\t\t<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
+				outf << "\t\t\t<caption>"; outf << htmlize_string(tr("Tags")); outf << "</caption>" << '\n';
+				outf << "\t\t\t<thead>" << '\n';
+				outf << "\t\t\t\t<tr>" << '\n';
+				outf << "\t\t\t\t\t<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Name")) << "</th>";
+				//: Noun, how much the account balance has changed
+				outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Change"));
+				outf << "</th>";
+				outf << "<th style=\"border-bottom: thin solid\">" << htmlize_string(tr("Balance", "Noun. Balance of an account"));
+				outf << "</th>" << '\n';
+				outf << "\t\t\t\t</tr>" << '\n';
+				outf << "\t\t\t</thead>" << '\n';
+				outf << "\t\t\t<tbody>" << '\n';
+				group_item = NULL;
+				while(*it) {
+					outf << "\t\t\t\t<tr>" << '\n';
+					outf << "\t\t\t\t\t<td>" << htmlize_string((*it)->text(0));
+					outf << "</td>";
+					outf << "<td nowrap align=\"right\">" << htmlize_string((*it)->text(CHANGE_COLUMN)) << "</td>";
+					outf << "<td nowrap align=\"right\">" << htmlize_string((*it)->text(VALUE_COLUMN)) << "</td>" << "\n";
+					outf << "\t\t\t\t</tr>" << '\n';
+					++it;
+				}
+				outf << "\t\t\t</tbody>" << '\n';
+				outf << "\t\t</table>" << '\n';
+			}
+
 			if(includes_budget) {
-				outf << "\t\t</br>" << '\n';
+				outf << "\t\t<br><br>" << '\n';
 				outf << "\t\t<div align=\"left\" style=\"font-weight: normal\">" << "<small>";
 				outf << "*" << htmlize_string(tr("Includes budgeted transactions"));
 				outf << "</small></div>" << '\n';
@@ -6032,6 +6142,9 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 				Account *account = *it;
 				outf << "\"" << account->name() << "\",\"" << budget->formatMoney(account_change[account]) << "\",\"" << budget->formatMoney(account_value[account]) << "\"\n";
 			}
+			/*for(int i = 0; i < budget->tags.count(); i++) {
+				outf << "\"" << budget->tags[i] << "\",\"" << budget->formatMoney(tag_change[budget->tags[i]]) << "\",\"" << budget->formatMoney(tag_value[budget->tags[i]]) << "\"\n";
+			}*/
 			break;
 		}
 	}

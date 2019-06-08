@@ -48,7 +48,7 @@ class ImportCSVDialog : public QWizard {
 		Budget *budget;
 
 		QLabel *typeDescriptionLabel;
-		QButtonGroup *typeGroup, *dateGroup, *valueGroup, *costGroup, *descriptionGroup, *AC1Group, *AC2Group, *commentsGroup, *payeeGroup, *quantityGroup;
+		QButtonGroup *typeGroup, *dateGroup, *valueGroup, *costGroup, *descriptionGroup, *AC1Group, *AC2Group, *commentsGroup, *payeeGroup, *quantityGroup, *tagsGroup;
 
 		QLineEdit *fileEdit;
 		QPushButton *fileButton;
@@ -87,6 +87,11 @@ class ImportCSVDialog : public QWizard {
 		QRadioButton *columnCommentsButton, *valueCommentsButton;
 		QSpinBox *columnCommentsEdit;
 		QLineEdit *valueCommentsEdit;
+		
+		QLabel *tagsLabel;
+		QRadioButton *columnTagsButton, *valueTagsButton;
+		QSpinBox *columnTagsEdit;
+		QLineEdit *valueTagsEdit;
 		
 		QLabel *payeeLabel;
 		QRadioButton *columnPayeeButton, *valuePayeeButton;

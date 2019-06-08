@@ -118,17 +118,12 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 			headers << tr("Cost");
 			headers << tr("Category");
 			headers << tr("From Account");
-			if(b_extra) {
-				headers << tr("Payee");
-				headers << tr("Quantity");
-				quantity_col = 6;
-				payee_col = 5;
-				comments_col = 8;
-				tags_col = 7;
-			} else {
-				comments_col = 6;
-				tags_col = 5;
-			}
+			headers << tr("Payee");
+			headers << tr("Quantity");
+			quantity_col = 6;
+			payee_col = 5;
+			comments_col = 8;
+			tags_col = 7;
 			headers << tr("Tags");
 			from_col = 4; to_col = 3;
 			break;
@@ -137,15 +132,10 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 			headers << tr("Income");
 			headers << tr("Category");
 			headers << tr("To Account");
-			if(b_extra) {
-				headers << tr("Payer");
-				payee_col = 5;
-				comments_col = 7;
-				tags_col = 6;
-			} else {
-				comments_col = 6;
-				tags_col = 5;
-			}
+			headers << tr("Payer");
+			payee_col = 5;
+			comments_col = 7;
+			tags_col = 6;
 			headers << tr("Tags");
 			from_col = 3; to_col = 4;
 			break;
@@ -168,7 +158,10 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	setColumnMoneyWidth(transactionsView, 2, budget);
 	setColumnStrlenWidth(transactionsView, from_col, 20);
 	setColumnStrlenWidth(transactionsView, to_col, 20);
-	if(payee_col >= 0) setColumnStrlenWidth(transactionsView, payee_col, 15);
+	if(payee_col >= 0) {
+		setColumnStrlenWidth(transactionsView, payee_col, 15);
+		transactionsView->setColumnHidden(payee_col, !b_extra);
+	}
 	if(tags_col >= 0) {
 		setColumnStrlenWidth(transactionsView, tags_col, 15);
 		transactionsView->setColumnHidden(tags_col, true);
@@ -467,15 +460,12 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
 			QTreeWidgetItem *header = transactionsView->headerItem();
-			outf << "\t\t\t\t\t<th>" << htmlize_string(header->text(0)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(1)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(2)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(3)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(4)) << "</th>";
-			if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE) outf << "<th>" << htmlize_string(tr("Quantity")) << "</th>";
-			if(payee_col >= 0) outf << "<th>" << htmlize_string(header->text(payee_col)) << "</th>";
-			if(tags_col >= 0) outf << "<th>" << htmlize_string(header->text(tags_col)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(comments_col)) << "</th>";
+			outf << "\t\t\t\t\t";
+			for(int index = 0; index <= comments_col; index++) {
+				if(!transactionsView->isColumnHidden(index)) {
+					outf << "<th>" << htmlize_string(header->text(index)) << "</th>";
+				}
+			}
 			outf << "\n";
 			outf << "\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';
@@ -486,16 +476,20 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 				Transactions *trans = i->transaction();
 				if(!trans) trans = i->splitTransaction();
 				outf << "\t\t\t\t<tr>" << '\n';
-				outf << "\t\t\t\t\t<td nowrap align=\"right\">" << htmlize_string(QLocale().toString(trans->date(), QLocale::ShortFormat)) << "</td>";
-				outf << "<td>" << htmlize_string(trans->description()) << "</td>";
-				outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(2)) << "</td>";
-				outf << "<td align=\"center\">" << htmlize_string(i->text(3)) << "</td>";
-				outf << "<td align=\"center\">" << htmlize_string(i->text(4)) << "</td>";
-				double intpart = 0.0;
-				if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE) outf << "<td>" << htmlize_string(budget->formatValue(trans->quantity(), modf(trans->quantity(), &intpart) != 0.0 ? 2 : 0)) << "</td>";
-				if(payee_col >= 0) outf << "<td>" << htmlize_string(i->text(payee_col)) << "</td>";
-				if(tags_col >= 0) outf << "<td>" << htmlize_string(i->text(tags_col)) << "</td>";
-				outf << "<td>" << htmlize_string(i->text(comments_col)) << "</td>";
+				outf << "\t\t\t\t\t";
+				for(int index = 0; index <= comments_col; index++) {
+					if(!transactionsView->isColumnHidden(index)) {
+						if(index == 0) {
+							outf << "<td>" << htmlize_string(QLocale().toString(trans->date(), QLocale::ShortFormat)) << "</td>";
+						} else if(index == 1) {
+							outf << "<td>" << htmlize_string(trans->description()) << "</td>";
+						} else if(index == 2) {
+							outf << "<td nowrap align=\"right\">" << trans->valueString() << "</td>";
+						} else {
+							outf << "<td>" << htmlize_string(i->text(index)) << "</td>";
+						}
+					}
+				}
 				outf << "\n";
 				outf << "\t\t\t\t</tr>" << '\n';
 				++it;
@@ -535,8 +529,8 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			//outf.setEncoding(Q3TextStream::Locale);
 			QTreeWidgetItem *header = transactionsView->headerItem();
 			outf << "\"" << header->text(0) << "\",\"" << header->text(1) << "\",\"" << header->text(2) << "\",\"" << header->text(3) << "\",\"" << header->text(4);
-			if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE) outf << "\",\"" << tr("Quantity");
-			if(payee_col >= 0) outf << "\",\"" << header->text(payee_col);
+			if(quantity_col >= 0 && b_extra) outf << "\",\"" << header->text(quantity_col);
+			if(payee_col >= 0 && b_extra) outf << "\",\"" << header->text(payee_col);
 			if(tags_col >= 0) outf << "\",\"" << header->text(tags_col);
 			outf << "\",\"" << header->text(comments_col);
 			outf << "\"\n";
@@ -549,10 +543,10 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 					if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE) outf << "\",\"" << budget->formatValue(trans->quantity(), 2).replace("−","-").remove(" ");
 				} else {
 					MultiAccountTransaction *trans = i->splitTransaction();
-					outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << trans->valueString().replace("−","-").remove(" ") << "\",\"" << trans->account()->nameWithParent() << "\",\"" << trans->accountsString();
+					outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << trans->valueString().replace("−","-").remove(" ") << "\",\"" << trans->category()->nameWithParent() << "\",\"" << trans->accountsString();
 					if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE) outf << "\",\"" << budget->formatValue(trans->quantity(), 2).replace("−","-").remove(" ");
 				}
-				if(payee_col >= 0) outf << "\",\"" << i->text(payee_col);
+				if(payee_col >= 0 && b_extra) outf << "\",\"" << i->text(payee_col);
 				if(tags_col >= 0) outf << "\",\"" << i->text(tags_col).replace("\"", "\'");
 				outf << "\",\"" << i->text(comments_col);
 				outf << "\"\n";

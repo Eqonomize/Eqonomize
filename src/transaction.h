@@ -133,6 +133,8 @@ class Transactions {
 		virtual QString tagsText(bool include_parent_child = true) const;
 		virtual void clearTags();
 		virtual int tagsCount(bool include_parent = false) const;
+		virtual void readTags(const QString &text);
+		virtual QString writeTags(bool include_parent = false) const;
 
 };
 
@@ -219,6 +221,7 @@ class Transaction : public Transactions {
 		virtual QString tagsText(bool include_parent = true) const;
 		virtual const QString &getTag(int index, bool include_parent = false) const;
 		virtual int tagsCount(bool include_parent = false) const;
+		virtual QString writeTags(bool include_parent = false) const;
 		
 };
 
@@ -683,6 +686,8 @@ class ScheduledTransaction : public Transactions {
 		virtual const QString &getTag(int index, bool include_parent = false) const;
 		virtual QString tagsText(bool include_parent_child = true) const;
 		virtual void clearTags();
+		virtual void readTags(const QString &text);
+		virtual QString writeTags(bool include_parent = false) const;
 	
 };
 
