@@ -265,10 +265,11 @@ class TagMenu : public QMenu {
 		
 		void setTransaction(Transactions *trans);
 		void setTransactions(QList<Transactions*> list);
-		void modifyTransaction(Transactions *trans);
+		void modifyTransaction(Transactions *trans, bool append = false);
 		int selectedTagsCount();
 		QString selectedTagsText();
 		void setTagSelected(QString, bool b = true, bool inconsistent = false);
+		QString createTag();
 		
 	protected:
 	
@@ -305,7 +306,8 @@ class TagButton : public QPushButton {
 		void setTagSelected(QString tag, bool b = true, bool inconsistent = false);
 		void setTransaction(Transactions *trans);
 		void setTransactions(QList<Transactions*> list);
-		void modifyTransaction(Transactions *trans);
+		void modifyTransaction(Transactions *trans, bool append = false);
+		QString createTag();
 
 	public slots:
 

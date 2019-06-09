@@ -177,6 +177,7 @@ class EditMultiItemWidget : public QWidget {
 		QTreeWidget *transactionsView;
 		QPushButton *editButton, *removeButton;
 		QLabel *totalLabel;
+		TagButton *tagButton;
 
 		void appendTransaction(Transaction *trans, bool deposit);
 		void newTransaction(int transtype, bool select_security = false, bool transfer_to = false, Account *exclude_account = NULL);
@@ -219,6 +220,7 @@ class EditMultiItemWidget : public QWidget {
 		void newTransferTo();
 		void newAccount();
 		void focusDate();
+		void newTag();
 
 };
 

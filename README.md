@@ -17,7 +17,7 @@ In a terminal window in the top source code directory run
 * Bookkeeping
   * Bookkeeping by double entry.
   * Transactions: expenses, incomes, transfers, and security transactions.
-  * Transaction properties: description, value, quantity, date, payee/payer, comments, from/to account/category, and additional for securities.
+  * Transaction properties: description, value, quantity, date, payee/payer, tags, comments, from/to account/category, and additional for securities.
   * Split transactions.
   * Refunds and repayments.
   * Explicit support for loans/debts with interest and fee payments.

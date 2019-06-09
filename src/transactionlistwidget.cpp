@@ -658,6 +658,7 @@ void TransactionListWidget::modifyTags() {
 			mainWin->transactionModified(trans, oldtrans);
 		}
 		if(selection.count() > 1) mainWin->endBatchEdit();
+		transactionSelectionChanged();
 	}
 }
 void TransactionListWidget::editTransaction() {

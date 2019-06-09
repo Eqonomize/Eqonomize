@@ -366,7 +366,13 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 		payeeEdit = NULL;
 	}
 	
-	grid->addWidget(new QLabel(tr("Associated file:"), this), b_extra ? 4 : 3, 0);
+	grid->addWidget(new QLabel(tr("Tags:")), b_extra ? 4 : 3, 0);
+	tagButton = new TagButton(false, allow_account_creation, budget, this);
+	grid->addWidget(tagButton, b_extra ? 4 : 3, 1);
+	tagButton->updateTags();
+	connect(tagButton, SIGNAL(newTagRequested()), this, SLOT(newTag()));
+	
+	grid->addWidget(new QLabel(tr("Associated file:"), this), b_extra ? 5 : 4, 0);
 	QHBoxLayout *fileLayout = new QHBoxLayout();
 	fileEdit = new QLineEdit(this);
 	QCompleter *completer = new QCompleter(this);
@@ -382,11 +388,11 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	openFileButton->setAutoDefault(false);
 	fileLayout->addWidget(openFileButton);
 	openFileButton->setFocusPolicy(Qt::ClickFocus);
-	grid->addLayout(fileLayout, b_extra ? 4 : 3, 1);
+	grid->addLayout(fileLayout, b_extra ? 5 : 4, 1);
 	
-	grid->addWidget(new QLabel(tr("Comments:")), b_extra ? 5 : 4, 0);
+	grid->addWidget(new QLabel(tr("Comments:")), b_extra ? 6 : 5, 0);
 	commentEdit = new QLineEdit();
-	grid->addWidget(commentEdit, b_extra ? 5 : 4, 1);
+	grid->addWidget(commentEdit, b_extra ? 6 : 5, 1);
 
 	box1->addWidget(new QLabel(tr("Transactions:")));
 	QHBoxLayout *box2 = new QHBoxLayout();
@@ -439,11 +445,12 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	if(payeeEdit) {
 		connect(accountCombo, SIGNAL(accountSelected(Account*)), payeeEdit, SLOT(setFocus()));
 		connect(accountCombo, SIGNAL(returnPressed()), payeeEdit, SLOT(setFocus()));
-		connect(payeeEdit, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
+		connect(payeeEdit, SIGNAL(returnPressed()), tagButton, SLOT(setFocus()));
 	} else {
-		connect(accountCombo, SIGNAL(accountSelected(Account*)), fileEdit, SLOT(setFocus()));
-		connect(accountCombo, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
+		connect(accountCombo, SIGNAL(accountSelected(Account*)), tagButton, SLOT(setFocus()));
+		connect(accountCombo, SIGNAL(returnPressed()), tagButton, SLOT(setFocus()));
 	}
+	connect(tagButton, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
 	connect(fileEdit, SIGNAL(returnPressed()), commentEdit, SLOT(setFocus()));
 	connect(commentEdit, SIGNAL(returnPressed()), newButton, SLOT(setFocus()));
 
@@ -483,6 +490,9 @@ void EditMultiItemWidget::openFile() {
 }
 void EditMultiItemWidget::newAccount() {
 	accountCombo->createAccount();
+}
+void EditMultiItemWidget::newTag() {
+	tagButton->createTag();
 }
 void EditMultiItemWidget::accountChanged() {
 	Account *account = selectedAccount();
@@ -619,6 +629,9 @@ MultiItemTransaction *EditMultiItemWidget::createTransaction() {
 	QTreeWidgetItem *i = *it;
 	while(i) {
 		Transaction *trans = ((MultiItemListViewItem*) i)->transaction();
+		if(tagButton && trans->type() != TRANSACTION_TYPE_TRANSFER) {
+			tagButton->modifyTransaction(trans, true);
+		}
 		if(trans) split->addTransaction(trans);
 		++it;
 		i = *it;
@@ -634,9 +647,33 @@ void EditMultiItemWidget::setTransaction(MultiItemTransaction *split) {
 	commentEdit->setText(split->comment());
 	transactionsView->clear();
 	QList<QTreeWidgetItem *> items;
+	tagButton->setTransaction(split);
 	int c = split->count();
+	QStringList tags;
+	for(int i = 0; i < c; i++) {
+		Transaction *trans = split->at(i);
+		if(i == 0) {
+			for(int i2 = 0; i2 < trans->tagsCount(false); i2++) {
+				tags << trans->getTag(i2, false);
+			}
+		} else {
+			for(int i2 = 0; i2 < tags.count();) {
+				if(!trans->hasTag(tags[i2], false)) {
+					tags.removeAt(i2);
+				} else {
+					i2++;
+				}
+			}
+		}
+	}
+	for(int i = 0; i < tags.count(); i++) {
+		tagButton->setTagSelected(tags[i], true);
+	}
 	for(int i = 0; i < c; i++) {
 		Transaction *trans = split->at(i)->copy();
+		for(int i2 = 0; i2 < tags.count(); i2++) {
+			trans->removeTag(tags[i2]);
+		}
 		trans->setAssociatedFile(QString());
 		trans->setDate(QDate());
 		items.append(new MultiItemListViewItem(trans, split->currency(), (trans->toAccount() == split->account())));
@@ -961,22 +998,7 @@ void EditMultiAccountWidget::edit(QTreeWidgetItem *i_pre) {
 	}
 }
 void EditMultiAccountWidget::newTag() {
-	QString new_tag = QInputDialog::getText(this, tr("New Tag"), tr("Tag:")).trimmed(); 
-	if(!new_tag.isEmpty()) {
-		if((new_tag.contains(",") && new_tag.contains("\"") && new_tag.contains("\'")) || (new_tag[0] == '\'' && new_tag.contains("\"")) || (new_tag[0] == '\"' && new_tag.contains("\'"))) {
-			if(new_tag[0] == '\'') new_tag.remove("\'");
-			else new_tag.remove("\"");
-		}
-		QString str = budget->findTag(new_tag);
-		if(str.isEmpty()) {
-			budget->tagAdded(new_tag);
-			tagButton->updateTags();
-		} else {
-			new_tag = str;
-		}
-		tagButton->setTagSelected(new_tag, true);
-		tagButton->click();
-	}
+	tagButton->createTag();
 }
 MultiAccountTransaction *EditMultiAccountWidget::createTransaction() {
 	if(!validValues()) return NULL;

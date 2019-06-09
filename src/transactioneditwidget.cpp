@@ -124,11 +124,15 @@ void TagButton::setTransactions(QList<Transactions*> list) {
 	tagMenu->setTransactions(list);
 	updateText();
 }
-void TagButton::modifyTransaction(Transactions *trans) {
-	tagMenu->modifyTransaction(trans);
+void TagButton::modifyTransaction(Transactions *trans, bool append) {
+	tagMenu->modifyTransaction(trans, append);
 	updateText();
 }
-
+QString TagButton::createTag() {
+	QString new_tag = tagMenu->createTag();
+	click();
+	return new_tag;
+}
 
 
 TagMenu::TagMenu(Budget *budg, QWidget *parent, bool allow_new_tag) : QMenu(parent), budget(budg), allow_new(allow_new_tag) {}
@@ -199,7 +203,7 @@ void TagMenu::setTransactions(QList<Transactions*> list) {
 		}
 	}
 }
-void TagMenu::modifyTransaction(Transactions *trans) {
+void TagMenu::modifyTransaction(Transactions *trans, bool append) {
 	QStringList tags;
 	for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
 		if(it.value()->data().toBool()) {
@@ -208,7 +212,7 @@ void TagMenu::modifyTransaction(Transactions *trans) {
 			tags << it.key();
 		}
 	}
-	trans->clearTags();
+	if(!append) trans->clearTags();
 	for(int i = 0; i < tags.count(); i++) {
 		trans->addTag(tags[i]);
 	}
@@ -260,6 +264,25 @@ void TagMenu::mouseReleaseEvent(QMouseEvent *e) {
 	} else {
 		QMenu::mouseReleaseEvent(e);
 	}
+}
+QString TagMenu::createTag() {
+	QString new_tag = QInputDialog::getText(this, tr("New Tag"), tr("Tag:")).trimmed(); 
+	if(new_tag.isEmpty()) {
+		if((new_tag.contains(",") && new_tag.contains("\"") && new_tag.contains("\'")) || (new_tag[0] == '\'' && new_tag.contains("\"")) || (new_tag[0] == '\"' && new_tag.contains("\'"))) {
+			if(new_tag[0] == '\'') new_tag.remove("\'");
+			else new_tag.remove("\"");
+		}
+		QString str = budget->findTag(new_tag);
+		if(str.isEmpty()) {
+			budget->tagAdded(new_tag);
+			updateTags();
+			setTagSelected(new_tag, true);
+			return new_tag;
+		} else {
+			setTagSelected(str, true);
+		}
+	}
+	return QString::null;
 }
 
 extern QString last_associated_file_directory;
@@ -1795,22 +1818,8 @@ void TransactionEditWidget::transactionsReset() {
 	if(payeeEdit) ((QStandardItemModel*) payeeEdit->completer()->model())->sort(1);
 }
 void TransactionEditWidget::newTag() {
-	QString new_tag = QInputDialog::getText(this, tr("New Tag"), tr("Tag:")).trimmed(); 
-	if(!new_tag.isEmpty()) {
-		if((new_tag.contains(",") && new_tag.contains("\"") && new_tag.contains("\'")) || (new_tag[0] == '\'' && new_tag.contains("\"")) || (new_tag[0] == '\"' && new_tag.contains("\'"))) {
-			if(new_tag[0] == '\'') new_tag.remove("\'");
-			else new_tag.remove("\"");
-		}
-		QString str = budget->findTag(new_tag);
-		if(str.isEmpty()) {
-			budget->tagAdded(new_tag);
-			emit tagAdded(new_tag);
-		} else {
-			new_tag = str;
-		}
-		tagButton->setTagSelected(new_tag, true);
-		tagButton->click();
-	}
+	QString new_tag = tagButton->createTag();
+	if(!new_tag.isEmpty()) emit tagAdded(new_tag);
 }
 void TransactionEditWidget::setDefaultFromAccount() {
 	if(!fromCombo) return;

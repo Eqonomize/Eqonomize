@@ -47,7 +47,7 @@
 <context>
     <name>Balancing</name>
     <message>
-        <location filename="../src/transaction.cpp" line="937"/>
+        <location filename="../src/transaction.cpp" line="933"/>
         <source>Account Balance Adjustment</source>
         <translation>Justering av kontosaldo</translation>
     </message>
@@ -1118,7 +1118,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
 <context>
     <name>DebtFee</name>
     <message>
-        <location filename="../src/transaction.cpp" line="506"/>
+        <location filename="../src/transaction.cpp" line="502"/>
         <source>Debt payment: %1 (fee)</source>
         <translation>Skuldbetalning: %1 (avgift)</translation>
     </message>
@@ -1126,7 +1126,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
 <context>
     <name>DebtInterest</name>
     <message>
-        <location filename="../src/transaction.cpp" line="554"/>
+        <location filename="../src/transaction.cpp" line="550"/>
         <source>Debt payment: %1 (interest)</source>
         <translation>Skuldbetalning: %1 (ränta)</translation>
     </message>
@@ -1134,7 +1134,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
 <context>
     <name>DebtPayment</name>
     <message>
-        <location filename="../src/transaction.cpp" line="2622"/>
+        <location filename="../src/transaction.cpp" line="2618"/>
         <source>Debt payment: %1</source>
         <translation>Skuldbetalning: %1</translation>
     </message>
@@ -1142,7 +1142,7 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
 <context>
     <name>DebtReduction</name>
     <message>
-        <location filename="../src/transaction.cpp" line="907"/>
+        <location filename="../src/transaction.cpp" line="903"/>
         <source>Debt payment: %1 (reduction)</source>
         <translation>Skuldbetalning: %1 (skuldminskning)</translation>
     </message>
@@ -1420,105 +1420,105 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
 <context>
     <name>EditDebtPaymentWidget</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1125"/>
+        <location filename="../src/editsplitdialog.cpp" line="1147"/>
         <source>Debt:</source>
         <translation>Skuld:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1130"/>
+        <location filename="../src/editsplitdialog.cpp" line="1152"/>
         <source>Date:</source>
         <translation>Datum:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1139"/>
+        <location filename="../src/editsplitdialog.cpp" line="1161"/>
         <source>Debt reduction:</source>
         <translation>Skuldminskning:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1142"/>
+        <location filename="../src/editsplitdialog.cpp" line="1164"/>
         <source>Reduction payment:</source>
         <translation>Skuldminskningsbetalning:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1152"/>
+        <location filename="../src/editsplitdialog.cpp" line="1174"/>
         <source>Interest:</source>
         <translation>Ränta:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1165"/>
+        <location filename="../src/editsplitdialog.cpp" line="1187"/>
         <source>Paid</source>
         <translation>Betald</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1167"/>
+        <location filename="../src/editsplitdialog.cpp" line="1189"/>
         <source>Added to debt</source>
         <translation>Lagd på skulden</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1172"/>
+        <location filename="../src/editsplitdialog.cpp" line="1194"/>
         <source>Fee:</source>
         <translation>Avgift:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1179"/>
+        <location filename="../src/editsplitdialog.cpp" line="1201"/>
         <source>Account:</source>
         <translation>Konto:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1185"/>
+        <location filename="../src/editsplitdialog.cpp" line="1207"/>
         <source>Expense category:</source>
         <translation>Utgiftskategori:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1194"/>
+        <location filename="../src/editsplitdialog.cpp" line="1216"/>
         <source>Associated file:</source>
         <translation>Associerad fil:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1202"/>
+        <location filename="../src/editsplitdialog.cpp" line="1224"/>
         <source>Select a file</source>
         <translation>Välj en fil</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1206"/>
+        <location filename="../src/editsplitdialog.cpp" line="1228"/>
         <source>Open the file</source>
         <translation>Öppna filen</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1214"/>
+        <location filename="../src/editsplitdialog.cpp" line="1236"/>
         <source>Comments:</source>
         <translation>Kommentarer:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1476"/>
+        <location filename="../src/editsplitdialog.cpp" line="1498"/>
         <source>Total value:</source>
         <translation>Totalt värde:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1534"/>
-        <location filename="../src/editsplitdialog.cpp" line="1542"/>
-        <location filename="../src/editsplitdialog.cpp" line="1547"/>
-        <location filename="../src/editsplitdialog.cpp" line="1550"/>
+        <location filename="../src/editsplitdialog.cpp" line="1556"/>
+        <location filename="../src/editsplitdialog.cpp" line="1564"/>
+        <location filename="../src/editsplitdialog.cpp" line="1569"/>
+        <location filename="../src/editsplitdialog.cpp" line="1572"/>
         <source>Error</source>
         <translation>Fel</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1534"/>
+        <location filename="../src/editsplitdialog.cpp" line="1556"/>
         <source>No suitable account available.</source>
         <translation>Inget lämpligt konto finns tillgängligt.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1542"/>
+        <location filename="../src/editsplitdialog.cpp" line="1564"/>
         <source>Invalid date.</source>
         <translation>Felaktigt datum.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1547"/>
+        <location filename="../src/editsplitdialog.cpp" line="1569"/>
         <source>Interest must not be zero.</source>
         <translation>Ränta får inte vara noll.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1550"/>
+        <location filename="../src/editsplitdialog.cpp" line="1572"/>
         <source>At least one value must non-zero.</source>
         <translation>Åtminstone ett värde måste vara annat än noll.</translation>
     </message>
@@ -1660,118 +1660,116 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
 <context>
     <name>EditMultiAccountWidget</name>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="748"/>
+        <location filename="../src/editsplitdialog.cpp" line="785"/>
         <source>Quantity:</source>
         <translation>Kvantitet:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="755"/>
+        <location filename="../src/editsplitdialog.cpp" line="792"/>
         <source>Category:</source>
         <translation>Kategori:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="784"/>
+        <location filename="../src/editsplitdialog.cpp" line="821"/>
         <source>Comments:</source>
         <translation>Kommentarer:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="788"/>
+        <location filename="../src/editsplitdialog.cpp" line="825"/>
         <source>Transactions:</source>
         <translation>Transaktioner:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="797"/>
+        <location filename="../src/editsplitdialog.cpp" line="834"/>
         <source>Date</source>
         <translation>Datum</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="798"/>
+        <location filename="../src/editsplitdialog.cpp" line="835"/>
         <source>Account</source>
         <translation>Konto</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="742"/>
+        <location filename="../src/editsplitdialog.cpp" line="779"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation>Benämning:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="760"/>
+        <location filename="../src/editsplitdialog.cpp" line="797"/>
         <source>Tags:</source>
         <translation>Etiketter:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="766"/>
+        <location filename="../src/editsplitdialog.cpp" line="803"/>
         <source>Associated file:</source>
         <translation>Associerad fil:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="774"/>
+        <location filename="../src/editsplitdialog.cpp" line="811"/>
         <source>Select a file</source>
         <translation>Välj en fil</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="778"/>
+        <location filename="../src/editsplitdialog.cpp" line="815"/>
         <source>Open the file</source>
         <translation>Öppna filen</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="799"/>
+        <location filename="../src/editsplitdialog.cpp" line="836"/>
         <source>Cost</source>
         <translation>Kostnad</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="800"/>
+        <location filename="../src/editsplitdialog.cpp" line="837"/>
         <source>Income</source>
         <translation>Inkomst</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="809"/>
+        <location filename="../src/editsplitdialog.cpp" line="846"/>
         <source>New</source>
         <translation>Ny</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="811"/>
+        <location filename="../src/editsplitdialog.cpp" line="848"/>
         <source>Edit…</source>
         <translation>Redigera…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="814"/>
+        <location filename="../src/editsplitdialog.cpp" line="851"/>
         <source>Delete</source>
         <translation>Ta bort</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="900"/>
+        <location filename="../src/editsplitdialog.cpp" line="937"/>
         <source>Total cost:</source>
         <translation>Total kostnad:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="964"/>
         <source>New Tag</source>
-        <translation>Ny etikett</translation>
+        <translation type="vanished">Ny etikett</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="964"/>
         <source>Tag:</source>
-        <translation>Etikett:</translation>
+        <translation type="vanished">Etikett:</translation>
     </message>
     <message>
         <source>Total value:</source>
         <translation type="vanished">Totalt värde:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1098"/>
-        <location filename="../src/editsplitdialog.cpp" line="1106"/>
+        <location filename="../src/editsplitdialog.cpp" line="1120"/>
+        <location filename="../src/editsplitdialog.cpp" line="1128"/>
         <source>Error</source>
         <translation>Fel</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1098"/>
+        <location filename="../src/editsplitdialog.cpp" line="1120"/>
         <source>No suitable expense categories available.</source>
         <translation>Ingen lämplig utgiftskategori finns tillgänglig.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="1106"/>
+        <location filename="../src/editsplitdialog.cpp" line="1128"/>
         <source>A split must contain at least two transactions.</source>
         <translation>En delad transaktion måste innehålla minst två transaktioner.</translation>
     </message>
@@ -1802,12 +1800,12 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
         <translation>Mottagare/utbetalare:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="391"/>
+        <location filename="../src/editsplitdialog.cpp" line="397"/>
         <source>Transactions:</source>
         <translation>Transaktioner:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="400"/>
+        <location filename="../src/editsplitdialog.cpp" line="406"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
@@ -1819,122 +1817,127 @@ Bekräfta att de faktiskt genomfördes (eller kommer att genomföras idag).</tra
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="369"/>
+        <source>Tags:</source>
+        <translation>Etiketter:</translation>
+    </message>
+    <message>
+        <location filename="../src/editsplitdialog.cpp" line="375"/>
         <source>Associated file:</source>
         <translation>Associerad fil:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="377"/>
+        <location filename="../src/editsplitdialog.cpp" line="383"/>
         <source>Select a file</source>
         <translation>Välj en fil</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="381"/>
+        <location filename="../src/editsplitdialog.cpp" line="387"/>
         <source>Open the file</source>
         <translation>Öppna filen</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="387"/>
+        <location filename="../src/editsplitdialog.cpp" line="393"/>
         <source>Comments:</source>
         <translation>Kommentarer:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="401"/>
+        <location filename="../src/editsplitdialog.cpp" line="407"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation>Benämning</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="403"/>
+        <location filename="../src/editsplitdialog.cpp" line="409"/>
         <source>Payment</source>
         <translation>Betalning</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="404"/>
+        <location filename="../src/editsplitdialog.cpp" line="410"/>
         <source>Deposit</source>
         <translation>Insättning</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="414"/>
+        <location filename="../src/editsplitdialog.cpp" line="420"/>
         <source>New</source>
         <translation>Ny</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="418"/>
+        <location filename="../src/editsplitdialog.cpp" line="424"/>
         <source>New Expense…</source>
         <translation>Ny utgift…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="419"/>
+        <location filename="../src/editsplitdialog.cpp" line="425"/>
         <source>New Income…</source>
         <translation>Ny inkomst…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="420"/>
+        <location filename="../src/editsplitdialog.cpp" line="426"/>
         <source>New Deposit…</source>
         <translation>Ny insättning…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="421"/>
+        <location filename="../src/editsplitdialog.cpp" line="427"/>
         <source>New Withdrawal…</source>
         <translation>Nytt uttag…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="422"/>
+        <location filename="../src/editsplitdialog.cpp" line="428"/>
         <source>New Securities Purchase…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Nytt värdepappersköp…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="423"/>
+        <location filename="../src/editsplitdialog.cpp" line="429"/>
         <source>New Securities Sale…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Ny värdepappersförsäljning…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="424"/>
+        <location filename="../src/editsplitdialog.cpp" line="430"/>
         <source>New Dividend…</source>
         <translation>Ny utdelning…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="425"/>
+        <location filename="../src/editsplitdialog.cpp" line="431"/>
         <source>Edit…</source>
         <translation>Redigera…</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="428"/>
+        <location filename="../src/editsplitdialog.cpp" line="434"/>
         <source>Delete</source>
         <translation>Ta bort</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="521"/>
+        <location filename="../src/editsplitdialog.cpp" line="531"/>
         <source>Total value:</source>
         <translation>Totalt värde:</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="703"/>
-        <location filename="../src/editsplitdialog.cpp" line="711"/>
-        <location filename="../src/editsplitdialog.cpp" line="715"/>
-        <location filename="../src/editsplitdialog.cpp" line="725"/>
+        <location filename="../src/editsplitdialog.cpp" line="740"/>
+        <location filename="../src/editsplitdialog.cpp" line="748"/>
+        <location filename="../src/editsplitdialog.cpp" line="752"/>
+        <location filename="../src/editsplitdialog.cpp" line="762"/>
         <source>Error</source>
         <translation>Fel</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="703"/>
+        <location filename="../src/editsplitdialog.cpp" line="740"/>
         <source>No suitable account available.</source>
         <translation>Inget lämpligt konto finns tillgängligt.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="711"/>
+        <location filename="../src/editsplitdialog.cpp" line="748"/>
         <source>Invalid date.</source>
         <translation>Felaktigt datum.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="715"/>
+        <location filename="../src/editsplitdialog.cpp" line="752"/>
         <source>A split must contain at least two transactions.</source>
         <translation>En delad transaktion måste innehålla minst två transaktioner.</translation>
     </message>
     <message>
-        <location filename="../src/editsplitdialog.cpp" line="725"/>
+        <location filename="../src/editsplitdialog.cpp" line="762"/>
         <source>Cannot transfer money to and from the same account.</source>
         <translation>Kan inte överföra pengar till och från samma konto.</translation>
     </message>
@@ -5277,12 +5280,12 @@ Vad vill du göra med dem?</translation>
 <context>
     <name>Income</name>
     <message>
-        <location filename="../src/transaction.cpp" line="651"/>
+        <location filename="../src/transaction.cpp" line="647"/>
         <source>Dividend: %1</source>
         <translation>Utdelning: %1</translation>
     </message>
     <message>
-        <location filename="../src/transaction.cpp" line="739"/>
+        <location filename="../src/transaction.cpp" line="735"/>
         <source>Reinvested dividend: %1</source>
         <translation>Återinvesterad utdelning: %1</translation>
     </message>
@@ -5796,70 +5799,70 @@ Vad vill du göra med dem?</translation>
 <context>
     <name>MultipleTransactionsEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2077"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2087"/>
         <source>Modify Transactions</source>
         <translation>Ändra transaktioner</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2090"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2100"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation>Benämning:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2100"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2110"/>
         <source>Amount:</source>
         <translation>Värde:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2101"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2111"/>
         <source>Income:</source>
         <translation>Inkomst:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2102"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2112"/>
         <source>Cost:</source>
         <translation>Kostnad:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2110"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2120"/>
         <source>Date:</source>
         <translation>Datum:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2121"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2131"/>
         <source>Category:</source>
         <translation>Kategori:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2134"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2144"/>
         <source>Payer:</source>
         <translation>Utbetalare:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2135"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2145"/>
         <source>Payee:</source>
         <translation>Mottagare:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2298"/>
-        <location filename="../src/transactioneditwidget.cpp" line="2306"/>
-        <location filename="../src/transactioneditwidget.cpp" line="2317"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2308"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2316"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2327"/>
         <source>Error</source>
         <translation>Fel</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2298"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2308"/>
         <source>No income category available.</source>
         <translation>Ingen inkomstkategori finns tillgänglig.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2306"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2316"/>
         <source>No expense category available.</source>
         <translation>Ingen utgiftskategori finns tillänglig.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2317"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2327"/>
         <source>Invalid date.</source>
         <translation>Felaktigt datum.</translation>
     </message>
@@ -7405,7 +7408,7 @@ Datum: %3</translation>
 <context>
     <name>SecurityBuy</name>
     <message>
-        <location filename="../src/transaction.cpp" line="1111"/>
+        <location filename="../src/transaction.cpp" line="1107"/>
         <source>Security: %1 (bought)</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Värdepapper: %1 (köpt)</translation>
@@ -7414,7 +7417,7 @@ Datum: %3</translation>
 <context>
     <name>SecuritySell</name>
     <message>
-        <location filename="../src/transaction.cpp" line="1161"/>
+        <location filename="../src/transaction.cpp" line="1157"/>
         <source>Security: %1 (sold)</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Värdepapper: %1 (sålt)</translation>
@@ -7566,47 +7569,57 @@ Datum: %3</translation>
 <context>
     <name>TagMenu</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="139"/>
+        <location filename="../src/transactioneditwidget.cpp" line="143"/>
         <source>New tag…</source>
         <translation>Ny etikett…</translation>
+    </message>
+    <message>
+        <location filename="../src/transactioneditwidget.cpp" line="269"/>
+        <source>New Tag</source>
+        <translation>Ny etikett</translation>
+    </message>
+    <message>
+        <location filename="../src/transactioneditwidget.cpp" line="269"/>
+        <source>Tag:</source>
+        <translation>Etikett:</translation>
     </message>
 </context>
 <context>
     <name>TransactionEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2044"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2054"/>
         <source>Edit Expense</source>
         <translation>Redigera utgift</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2046"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2056"/>
         <source>Edit Dividend</source>
         <translation>Redigera utdelning</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2047"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2057"/>
         <source>Edit Income</source>
         <translation>Redigera inkomst</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2050"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2060"/>
         <source>Edit Transfer</source>
         <translation>Redigera överföring</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2051"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2061"/>
         <source>Edit Securities Purchase</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Redigera värdepappersköp</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2052"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2062"/>
         <source>Edit Securities Sale</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Redigera värdepappersförsäljning</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2053"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2063"/>
         <source>Edit Reinvested Dividend</source>
         <translation>Redigera återinvesterad utdelning</translation>
     </message>
@@ -7614,40 +7627,40 @@ Datum: %3</translation>
 <context>
     <name>TransactionEditWidget</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="335"/>
-        <location filename="../src/transactioneditwidget.cpp" line="433"/>
+        <location filename="../src/transactioneditwidget.cpp" line="358"/>
+        <location filename="../src/transactioneditwidget.cpp" line="456"/>
         <source>Cost:</source>
         <translation>Kostnad:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="336"/>
-        <location filename="../src/transactioneditwidget.cpp" line="431"/>
+        <location filename="../src/transactioneditwidget.cpp" line="359"/>
+        <location filename="../src/transactioneditwidget.cpp" line="454"/>
         <source>Income:</source>
         <translation>Inkomst:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="358"/>
+        <location filename="../src/transactioneditwidget.cpp" line="381"/>
         <source>All</source>
         <translation>Alla</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="385"/>
-        <location filename="../src/transactioneditwidget.cpp" line="480"/>
+        <location filename="../src/transactioneditwidget.cpp" line="408"/>
+        <location filename="../src/transactioneditwidget.cpp" line="503"/>
         <source>Date:</source>
         <translation>Datum:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="858"/>
+        <location filename="../src/transactioneditwidget.cpp" line="881"/>
         <source>Amount:</source>
         <translation>Värde:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="467"/>
+        <location filename="../src/transactioneditwidget.cpp" line="490"/>
         <source>Downpayment:</source>
         <translation>Handpenning:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="343"/>
+        <location filename="../src/transactioneditwidget.cpp" line="366"/>
         <source>Shares added:</source>
         <comment>Financial shares</comment>
         <translation>Andelar tillkomna:</translation>
@@ -7658,121 +7671,121 @@ Datum: %3</translation>
         <translation type="vanished">Värde per andel:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="370"/>
+        <location filename="../src/transactioneditwidget.cpp" line="393"/>
         <source>Set security share value</source>
         <translation>Uppdatera kurs för värdepapper</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="379"/>
+        <location filename="../src/transactioneditwidget.cpp" line="402"/>
         <source>Total value:</source>
         <translation>Totalt värde:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="473"/>
+        <location filename="../src/transactioneditwidget.cpp" line="496"/>
         <source>Quantity:</source>
         <translation>Kvantitet:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="498"/>
+        <location filename="../src/transactioneditwidget.cpp" line="521"/>
         <source>From:</source>
         <translation>Från:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="504"/>
+        <location filename="../src/transactioneditwidget.cpp" line="527"/>
         <source>To:</source>
         <translation>Till:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="513"/>
-        <location filename="../src/transactioneditwidget.cpp" line="552"/>
-        <location filename="../src/transactioneditwidget.cpp" line="560"/>
+        <location filename="../src/transactioneditwidget.cpp" line="536"/>
+        <location filename="../src/transactioneditwidget.cpp" line="575"/>
+        <location filename="../src/transactioneditwidget.cpp" line="583"/>
         <source>Category:</source>
         <translation>Kategori:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="519"/>
-        <location filename="../src/transactioneditwidget.cpp" line="544"/>
+        <location filename="../src/transactioneditwidget.cpp" line="542"/>
+        <location filename="../src/transactioneditwidget.cpp" line="567"/>
         <source>To account:</source>
         <translation>Till konto:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="525"/>
+        <location filename="../src/transactioneditwidget.cpp" line="548"/>
         <source>Payer:</source>
         <translation>Utbetalare:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="535"/>
-        <location filename="../src/transactioneditwidget.cpp" line="570"/>
+        <location filename="../src/transactioneditwidget.cpp" line="558"/>
+        <location filename="../src/transactioneditwidget.cpp" line="593"/>
         <source>From account:</source>
         <translation>Från konto:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="567"/>
+        <location filename="../src/transactioneditwidget.cpp" line="590"/>
         <source>Downpayment account:</source>
         <translation>Konto för handpenning:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="577"/>
+        <location filename="../src/transactioneditwidget.cpp" line="600"/>
         <source>Payee:</source>
         <translation>Mottagare:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="586"/>
+        <location filename="../src/transactioneditwidget.cpp" line="609"/>
         <source>Lender:</source>
         <translation>Långivare:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="622"/>
+        <location filename="../src/transactioneditwidget.cpp" line="645"/>
         <source>Comments:</source>
         <translation>Kommentarer:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1379"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1402"/>
         <source>No security available.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Inget värdepapper finns tillgängligt.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="313"/>
-        <location filename="../src/transactioneditwidget.cpp" line="397"/>
+        <location filename="../src/transactioneditwidget.cpp" line="336"/>
+        <location filename="../src/transactioneditwidget.cpp" line="420"/>
         <source>Security:</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Värdepapper:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="317"/>
-        <location filename="../src/transactioneditwidget.cpp" line="401"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1008"/>
+        <location filename="../src/transactioneditwidget.cpp" line="340"/>
+        <location filename="../src/transactioneditwidget.cpp" line="424"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1031"/>
         <source>New Security…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Nytt värdepapper…</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="348"/>
+        <location filename="../src/transactioneditwidget.cpp" line="371"/>
         <source>Shares bought:</source>
         <comment>Financial shares</comment>
         <translation>Köpta andelar:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="353"/>
+        <location filename="../src/transactioneditwidget.cpp" line="376"/>
         <source>Shares sold:</source>
         <comment>Financial shares</comment>
         <translation>Sålda andelar:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="366"/>
+        <location filename="../src/transactioneditwidget.cpp" line="389"/>
         <source>Price per share:</source>
         <comment>Financial shares</comment>
         <translation>Pris per andel:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="418"/>
+        <location filename="../src/transactioneditwidget.cpp" line="441"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation>Benämning:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="423"/>
+        <location filename="../src/transactioneditwidget.cpp" line="446"/>
         <source>Transaction title/generic article name</source>
         <translation>Transaktionstitel/allmänt artikelnamn</translation>
     </message>
@@ -7785,168 +7798,166 @@ Datum: %3</translation>
         <translation type="vanished">Insättning:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="428"/>
-        <location filename="../src/transactioneditwidget.cpp" line="856"/>
+        <location filename="../src/transactioneditwidget.cpp" line="451"/>
+        <location filename="../src/transactioneditwidget.cpp" line="879"/>
         <source>Withdrawal:</source>
         <comment>Money taken out from account</comment>
         <translation>Uttag:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="457"/>
+        <location filename="../src/transactioneditwidget.cpp" line="480"/>
         <source>Deposit:</source>
         <comment>Money put into account</comment>
         <translation>Insättning:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="475"/>
+        <location filename="../src/transactioneditwidget.cpp" line="498"/>
         <source>Number of items included in the transaction. Entered cost is total cost for all items.</source>
         <translation>Antal enheter inkluderade i transaktionen. Angiven kostnad är total kostnad för alla enheter.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="527"/>
+        <location filename="../src/transactioneditwidget.cpp" line="550"/>
         <source>Payer of parent split transaction</source>
         <translation>Utbetalare för överordnad delad transaktion</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="579"/>
+        <location filename="../src/transactioneditwidget.cpp" line="602"/>
         <source>Payee of parent split transaction</source>
         <translation>Mottagare för överordnad delad transaktion</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="592"/>
+        <location filename="../src/transactioneditwidget.cpp" line="615"/>
         <source>Tags:</source>
         <translation>Etiketter:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="600"/>
+        <location filename="../src/transactioneditwidget.cpp" line="623"/>
         <source>Associated file:</source>
         <translation>Associerad fil:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="608"/>
+        <location filename="../src/transactioneditwidget.cpp" line="631"/>
         <source>Select a file</source>
         <translation>Välj en fil</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="612"/>
+        <location filename="../src/transactioneditwidget.cpp" line="635"/>
         <source>Open the file</source>
         <translation>Öppna filen</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1001"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1024"/>
         <source>New Security</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Nytt värdepapper</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1325"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1329"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1336"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1340"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1347"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1354"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1361"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1368"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1372"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1379"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1390"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1400"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1404"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1411"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1418"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1425"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1433"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1437"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1348"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1352"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1359"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1363"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1370"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1377"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1384"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1391"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1395"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1402"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1413"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1423"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1427"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1434"/>
         <location filename="../src/transactioneditwidget.cpp" line="1441"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1453"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1448"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1456"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1460"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1464"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1476"/>
         <source>Error</source>
         <translation>Fel</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1325"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1329"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1340"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1361"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1372"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1348"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1352"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1363"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1384"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1395"/>
         <source>No suitable account available.</source>
         <translation>Inget lämpligt konto finns tillgängligt.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1336"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1354"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1359"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1377"/>
         <source>No income category available.</source>
         <translation>Ingen inkomstkategori finns tillgänglig.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1347"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1370"/>
         <source>No suitable account or income category available.</source>
         <translation>Inga lämpliga konton eller inkomstkategorier finns tillgängliga.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1368"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1391"/>
         <source>No expense category available.</source>
         <translation>Ingen utgiftskategori finns tillänglig.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1390"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1413"/>
         <source>Invalid date.</source>
         <translation>Felaktigt datum.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1400"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1423"/>
         <source>Cannot transfer money to and from the same account.</source>
         <translation>Kan inte överföra pengar till och från samma konto.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1404"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1427"/>
         <source>Downpayment must be less than total cost.</source>
         <translation>Handpenningen måste vara lägre än den totala kostnaden.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1411"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1434"/>
         <source>Cannot create a regular transfer to/from a securities account.</source>
         <translation>Kan inte skapa en vanlig överföring till/från ett konto för värdepapper.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1418"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1441"/>
         <source>Cannot create a regular income to a securities account.</source>
         <translation>Kan inte skapa en vanlig inkomst till ett konto för värdepapper.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1425"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1433"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1448"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1456"/>
         <source>Zero shares not allowed.</source>
         <translation>Noll andelar är inte tillåtet.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1437"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1460"/>
         <source>Zero value not allowed.</source>
         <translation>Noll värde är inte tillåtet.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1441"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1464"/>
         <source>Zero price per share not allowed.</source>
         <translation>Noll pris per andel är inte tillåtet.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1453"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1476"/>
         <source>Cannot create a regular expense from a securities account.</source>
         <translation>Kan inte skapa en normal utgift från ett konto för värdepapper.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1534"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1557"/>
         <source>Loan for %1</source>
         <translation>Lån för %1</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1798"/>
         <source>New Tag</source>
-        <translation>Ny etikett</translation>
+        <translation type="vanished">Ny etikett</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1798"/>
         <source>Tag:</source>
-        <translation>Etikett:</translation>
+        <translation type="vanished">Etikett:</translation>
     </message>
 </context>
 <context>
@@ -8119,8 +8130,8 @@ Datum: %3</translation>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="127"/>
         <location filename="../src/transactionlistwidget.cpp" line="139"/>
-        <location filename="../src/transactionlistwidget.cpp" line="1964"/>
-        <location filename="../src/transactionlistwidget.cpp" line="1984"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1965"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1985"/>
         <source>Tags</source>
         <translation>Etiketter</translation>
     </message>
@@ -8167,7 +8178,7 @@ Datum: %3</translation>
     </message>
     <message>
         <location filename="../src/transactionlistwidget.cpp" line="188"/>
-        <location filename="../src/transactionlistwidget.cpp" line="1847"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1848"/>
         <source>Apply</source>
         <translation>Verkställ</translation>
     </message>
@@ -8285,40 +8296,40 @@ Datum: %3</translation>
         <translation>Månatligt genomsnitt:</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="887"/>
-        <location filename="../src/transactionlistwidget.cpp" line="893"/>
-        <location filename="../src/transactionlistwidget.cpp" line="899"/>
-        <location filename="../src/transactionlistwidget.cpp" line="907"/>
-        <location filename="../src/transactionlistwidget.cpp" line="913"/>
+        <location filename="../src/transactionlistwidget.cpp" line="888"/>
+        <location filename="../src/transactionlistwidget.cpp" line="894"/>
+        <location filename="../src/transactionlistwidget.cpp" line="900"/>
+        <location filename="../src/transactionlistwidget.cpp" line="908"/>
+        <location filename="../src/transactionlistwidget.cpp" line="914"/>
         <source>Error</source>
         <translation>Fel</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="887"/>
+        <location filename="../src/transactionlistwidget.cpp" line="888"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Kan inte ange värde för värdepapperstransaktioner med dialogen för att modifier flera transaktioner.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="893"/>
+        <location filename="../src/transactionlistwidget.cpp" line="894"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
         <translation>Kan inte ändra beskrivning för utdelningar och värdepapperstransaktioner.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="899"/>
+        <location filename="../src/transactionlistwidget.cpp" line="900"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>Kan inte ändra utbetalare för utdelningar och värdepapperstransaktioner.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="907"/>
+        <location filename="../src/transactionlistwidget.cpp" line="908"/>
         <source>Cannot change date, description, expense category or payee of transactions that are part of a debt payment using the dialog for modifying multiple transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation>Datum, benämning, utgiftskategori och mottagare kan inte ändras för skuldbetalningar i dialogen för att ändra flera transaktioner.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="913"/>
+        <location filename="../src/transactionlistwidget.cpp" line="914"/>
         <source>Cannot change date of transactions that are part of a split transaction, unless all individual transactions are selected.</source>
         <translation>Kan inte ändra datum på transaktioner som ingår i en delad transaktion, såvida inte alla enskilda transaktioner är valda.</translation>
     </message>
@@ -8335,43 +8346,43 @@ Datum: %3</translation>
         <translation type="vanished">Kan inte ändra datum eller mottagare/utbetalare på transaktioner som ingår i en delad transaktion.</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1184"/>
-        <location filename="../src/transactionlistwidget.cpp" line="1266"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1185"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1267"/>
         <source>Delete transactions?</source>
         <translation>Ta bort transaktioner?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1184"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1185"/>
         <source>Are you sure you want to delete all (%1) transactions in the selected split transaction?</source>
         <translation>Vill du verkligen ta bort alla (%1) transaktioner i den valda delade transaktionen?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1266"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1267"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation>Vill du verkligen ta bort alla (%1) valda transaktioner?</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1822"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1823"/>
         <source>* Part of split transaction</source>
         <translation>* Del av delad transaktion</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1823"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1824"/>
         <source>* Part of split (%1)</source>
         <translation>* Del av delad transaktion (%1)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1827"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1828"/>
         <source>** Recurring (editing occurrence)</source>
         <translation>** Återkommande (redigerar tillfälle)</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1843"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1844"/>
         <source>Modify…</source>
         <translation>Ändra…</translation>
     </message>
     <message>
-        <location filename="../src/transactionlistwidget.cpp" line="1845"/>
+        <location filename="../src/transactionlistwidget.cpp" line="1846"/>
         <source>Edit…</source>
         <translation>Redigera…</translation>
     </message>
