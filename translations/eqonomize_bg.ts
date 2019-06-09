@@ -4481,7 +4481,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="369"/>
         <source>Tags:</source>
-        <translation type="unfinished">Етикети:</translation>
+        <translation>Етикети:</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="375"/>
@@ -6920,7 +6920,7 @@ Confirm that they have indeed occurred (or will occur today).</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="6450"/>
         <source>Join Transactions…</source>
-        <translation type="unfinished">Съберете транзакциите…</translation>
+        <translation>Събери транзакциите…</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="6451"/>
@@ -7814,7 +7814,7 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="297"/>
         <source>Tags:</source>
-        <translation type="unfinished">Етикети:</translation>
+        <translation>Етикети:</translation>
     </message>
     <message>
         <location filename="../src/importcsvdialog.cpp" line="316"/>
@@ -9250,7 +9250,7 @@ What do you want to do with them?</source>
     <message>
         <location filename="../src/overtimechart.cpp" line="2907"/>
         <source>Other tags</source>
-        <translation type="unfinished">Други етикети</translation>
+        <translation>Други етикети</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="2913"/>
