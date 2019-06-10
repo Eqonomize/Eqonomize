@@ -309,7 +309,7 @@ class Eqonomize : public QMainWindow {
 		QMap<QString, QTreeWidgetItem*> item_assets_groups, item_liabilities_groups, item_tags;
 		QMap<QString, QVariant> assets_expanded, liabilities_expanded, expenses_expanded, incomes_expanded;
 
-		QMenu *assetsPopupMenu, *accountPopupMenu, *tagPopupMenu, *securitiesPopupMenu, *schedulePopupMenu;
+		QMenu *assetsPopupMenu, *accountPopupMenu, *tagPopupMenu, *securitiesPopupMenu, *schedulePopupMenu, *scheduleHeaderPopupMenu;
 		
 		QDialog *helpDialog, *cccDialog, *ccrDialog, *otcDialog, *otrDialog, *syncDialog;
 		
@@ -419,6 +419,8 @@ class Eqonomize : public QMainWindow {
 		void removeOccurrence();
 		void scheduleSelectionChanged();
 		void scheduleExecuted(QTreeWidgetItem*);
+		void hideScheduleColumn(bool);
+		void popupScheduleHeaderMenu(const QPoint&);
 		void popupScheduleMenu(const QPoint&);
 
 		void editSelectedTimestamp();

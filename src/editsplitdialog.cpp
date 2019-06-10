@@ -93,22 +93,13 @@ class MultiItemListViewItem : public QTreeWidgetItem {
 
 MultiItemListViewItem::MultiItemListViewItem(Transaction *trans, Currency *cur, bool deposit) : QTreeWidgetItem() {
 	setTransaction(trans, cur, deposit);
-	setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
 	setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
 }
 bool MultiItemListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	int col = 0;
 	if(treeWidget()) col = treeWidget()->sortColumn();
 	MultiItemListViewItem *i = (MultiItemListViewItem*) &i_pre;
-	if(col == 2) {
-		double value1 = 0.0;
-		double value2 = 0.0;
-		if(b_deposit && o_trans->value() < 0.0) value1 = -o_trans->value();
-		else if(!b_deposit && o_trans->value() >= 0.0) value1 = o_trans->value();
-		if(i->isDeposit() && i->transaction()->value() < 0.0) value2 = -i->transaction()->value();
-		else if(!i->isDeposit() && i->transaction()->value() >= 0.0) value2 = i->transaction()->value();
-		return value1 < value2;
-	} else if(col == 3) {
+	if(col == 3) {
 		double value1 = 0.0;
 		double value2 = 0.0;
 		if(!b_deposit && o_trans->value() < 0.0) value1 = -o_trans->value();
@@ -134,11 +125,8 @@ void MultiItemListViewItem::setTransaction(Transaction *trans, Currency *cur, bo
 	if(deposit) value = trans->toValue();
 	else value = trans->fromValue();
 	setText(1, trans->description());
-	//setText(2, deposit ? trans->fromAccount()->nameWithParent() : trans->toAccount()->nameWithParent());
-	if(deposit) setText(2, value >= 0.0 ? QString::null : cur->formatValue(-value));
-	else setText(2, value < 0.0 ? QString::null : cur->formatValue(value));
-	if(!deposit) setText(3, value >= 0.0 ? QString::null : cur->formatValue(-value));
-	else setText(3, value < 0.0 ? QString::null : cur->formatValue(value));
+	setText(2, deposit ? trans->fromAccount()->nameWithParent() : trans->toAccount()->nameWithParent());
+	setText(3, cur->formatValue(deposit ? value : -value));
 	if(trans->type() == TRANSACTION_TYPE_INCOME) {
 		if(((Income*) trans)->security()) setText(0, tr("Dividend"));
 		else if(value >= 0) setText(0, tr("Income"));
@@ -397,7 +385,7 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	box1->addWidget(new QLabel(tr("Transactions:")));
 	QHBoxLayout *box2 = new QHBoxLayout();
 	box1->addLayout(box2);
-	transactionsView = new EqonomizeTreeWidget();
+	transactionsView = new EqonomizeTreeWidget(this);
 	transactionsView->setSortingEnabled(true);
 	transactionsView->sortByColumn(0, Qt::AscendingOrder);
 	transactionsView->setAllColumnsShowFocus(true);
@@ -405,14 +393,20 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	QStringList headers;
 	headers << tr("Type");
 	headers << tr("Description", "Transaction description property (transaction title/generic article name)");
-	//headers << tr("Account/Category");
-	headers << tr("Payment");
-	headers << tr("Deposit");
+	headers << tr("Account/Category");
+	headers << tr("Value");
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
-	setColumnStrlenWidth(transactionsView, 0, 15);
-	setColumnStrlenWidth(transactionsView, 1, 25);
-	setColumnMoneyWidth(transactionsView, 2, budget);
+	QFontMetrics fm(transactionsView->font());
+	int w1 = fm.width(tr("Type")) + 26;
+	int w2 = fm.width(tr("Income")) + 10;
+	int w3 = fm.width(tr("Expense")) + 10;
+	if(w2 > w1) w1 = w2;
+	if(w3 > w1) w1 = w3;
+	transactionsView->setColumnWidth(0, w1);
+	setColumnStrlenWidth(transactionsView, 1, 15);
+	w1 = fm.width(tr("Account/Category")) + 26;
+	transactionsView->setColumnWidth(2, w1);
 	setColumnMoneyWidth(transactionsView, 3, budget);
 	transactionsView->setMinimumWidth(transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) +  transactionsView->columnWidth(3) + 10);
 	box2->addWidget(transactionsView);
@@ -825,7 +819,7 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	box1->addWidget(new QLabel(tr("Transactions:")));
 	QHBoxLayout *box2 = new QHBoxLayout();
 	box1->addLayout(box2);
-	transactionsView = new EqonomizeTreeWidget();
+	transactionsView = new EqonomizeTreeWidget(this);
 	transactionsView->setSortingEnabled(true);
 	transactionsView->sortByColumn(0, Qt::DescendingOrder);
 	transactionsView->setAllColumnsShowFocus(true);

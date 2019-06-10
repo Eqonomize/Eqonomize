@@ -381,6 +381,16 @@ void TransactionListWidget::popupHeaderMenu(const QPoint &p) {
 		headerPopupMenu = new QMenu(this);
 		QTreeWidgetItem *header = transactionsView->headerItem();
 		QAction *a = NULL;
+		a = headerPopupMenu->addAction(header->text(3));
+		a->setProperty("column_index", QVariant::fromValue(3));
+		a->setCheckable(true);
+		a->setChecked(!transactionsView->isColumnHidden(3));
+		connect(a, SIGNAL(toggled(bool)), this, SLOT(hideColumn(bool)));
+		a = headerPopupMenu->addAction(header->text(4));
+		a->setProperty("column_index", QVariant::fromValue(4));
+		a->setCheckable(true);
+		a->setChecked(!transactionsView->isColumnHidden(4));
+		connect(a, SIGNAL(toggled(bool)), this, SLOT(hideColumn(bool)));
 		if(quantity_col >= 0) {
 			a = headerPopupMenu->addAction(header->text(quantity_col));
 			a->setProperty("column_index", QVariant::fromValue(quantity_col));

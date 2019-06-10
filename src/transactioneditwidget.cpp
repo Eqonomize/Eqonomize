@@ -762,7 +762,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		else if(toCombo) connect(dateEdit, SIGNAL(returnPressed()), toCombo, SLOT(focusAndSelectAll()));
 	}
 	if(payeeEdit && lenderEdit) connect(payeeEdit, SIGNAL(returnPressed()), lenderEdit, SLOT(setFocus()));
-	else if(payeeEdit && tagButton) connect(payeeEdit, SIGNAL(returnPressed()), tagButton, SLOT(setFocus()));
+	else if(payeeEdit && tagButton && (!b_autoedit || !commentsEdit)) connect(payeeEdit, SIGNAL(returnPressed()), tagButton, SLOT(setFocus()));
 	else if(payeeEdit && fileEdit) connect(payeeEdit, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
 	else if(payeeEdit && commentsEdit) connect(payeeEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
 	if(lenderEdit && tagButton) connect(lenderEdit, SIGNAL(returnPressed()), tagButton, SLOT(setFocus()));

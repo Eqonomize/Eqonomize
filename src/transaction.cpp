@@ -271,8 +271,11 @@ bool Transaction::hasTag(const QString &tag, bool include_parent, bool case_inse
 QString Transaction::tagsText(bool include_parent) const {
 	if(!include_parent || !o_split) return Transactions::tagsText();
 	QString tagstr = Transactions::tagsText();
-	if(!tagstr.isEmpty()) tagstr += ", ";
-	tagstr += o_split->tagsText(false);
+	QString tagstr2 = o_split->tagsText(false);
+	if(!tagstr2.isEmpty()) {
+		if(!tagstr.isEmpty()) tagstr += ", ";
+		tagstr += tagstr2;
+	}
 	return tagstr;
 }
 int Transaction::tagsCount(bool include_parent) const {

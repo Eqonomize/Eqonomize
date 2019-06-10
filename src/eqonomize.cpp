@@ -455,6 +455,7 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 		setText(3, trans->valueString());
 		setText(4, trans->fromAccount()->name());
 		setText(5, trans->toAccount()->name());
+		setText(6, QString::null);
 		if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
 			if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 3);
 			setForeground(3, expenseColor);
@@ -470,9 +471,14 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 			case TRANSACTION_TYPE_INCOME: {
 				if(((Income*) trans)->security()) setText(1, QObject::tr("Dividend"));
 				else setText(1, QObject::tr("Income"));
+				setText(6, ((Income*) trans)->payer());
 				break;
 			}
-			case TRANSACTION_TYPE_EXPENSE: {setText(1, QObject::tr("Expense")); break;}
+			case TRANSACTION_TYPE_EXPENSE: {
+				setText(1, QObject::tr("Expense")); 
+				setText(6, ((Expense*) trans)->payee());
+				break;
+			}
 			case TRANSACTION_TYPE_SECURITY_BUY: {setText(1, QObject::tr("Securities Purchase", "Financial security (e.g. stock, mutual fund)")); break;}
 			case TRANSACTION_TYPE_SECURITY_SELL: {setText(1, QObject::tr("Securities Sale", "Financial security (e.g. stock, mutual fund)")); break;}
 		}
@@ -485,6 +491,7 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 			setForeground(3, expenseColor);
 			setText(4, ((DebtPayment*) split)->account()->name());
 			setText(5, ((DebtPayment*) split)->loan()->name());
+			setText(6, ((DebtPayment*) split)->loan()->maintainer());
 		} else {
 			bool b_reverse = false;
 			if(split->isIncomesAndExpenses()) {
@@ -509,15 +516,18 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 				if(((MultiItemTransaction*) split)->transactiontype() == TRANSACTION_TYPE_INCOME) setText(1, QObject::tr("Income"));
 				else if(((MultiItemTransaction*) split)->transactiontype() == TRANSACTION_TYPE_EXPENSE) setText(1, QObject::tr("Expense"));
 				else setText(1, QObject::tr("Split Transaction"));
+				setText(6, QString::null);
 			} else {
 				setText(b_reverse ? 4 : 5, ((MultiAccountTransaction*) split)->category()->name());
 				setText(b_reverse ? 5 : 4, ((MultiAccountTransaction*) split)->accountsString());
+				setText(6, ((MultiAccountTransaction*) split)->payees());
 				if(((MultiAccountTransaction*) split)->transactiontype() == TRANSACTION_TYPE_INCOME) setText(1, QObject::tr("Income"));
 				else setText(1, QObject::tr("Expense"));
 			}
 		}
 	}
-	setText(6, strans->comment());
+	setText(7, strans->tagsText(true));
+	setText(8, strans->comment());
 }
 
 class ConfirmScheduleListViewItem : public QTreeWidgetItem {
@@ -2244,7 +2254,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 
 	scheduleView = new EqonomizeTreeWidget(schedule_page);
 	scheduleView->setAllColumnsShowFocus(true);
-	scheduleView->setColumnCount(7);
+	scheduleView->setColumnCount(9);
 	QStringList scheduleViewHeaders;
 	scheduleViewHeaders << tr("Next Occurrence");
 	scheduleViewHeaders << tr("Type");
@@ -2252,14 +2262,20 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	scheduleViewHeaders << tr("Amount");
 	scheduleViewHeaders << tr("From");
 	scheduleViewHeaders << tr("To");
-	scheduleViewHeaders << tr("Comments");	
+	scheduleViewHeaders << tr("Payee/Payer");
+	scheduleViewHeaders << tr("Tags");
+	scheduleViewHeaders << tr("Comments");
 	scheduleView->setHeaderLabels(scheduleViewHeaders);
+	scheduleView->setColumnHidden(6, true);
+	scheduleView->setColumnHidden(7, true);
 	setColumnDateWidth(scheduleView, 0);
 	setColumnStrlenWidth(scheduleView, 1, 15);
 	setColumnStrlenWidth(scheduleView, 2, 25);
 	setColumnMoneyWidth(scheduleView, 3, budget);
 	setColumnStrlenWidth(scheduleView, 4, 15);
 	setColumnStrlenWidth(scheduleView, 5, 15);
+	setColumnStrlenWidth(scheduleView, 6, 15);
+	setColumnStrlenWidth(scheduleView, 7, 15);
 	scheduleView->setRootIsDecorated(false);
 	sp = scheduleView->sizePolicy();
 	sp.setVerticalPolicy(QSizePolicy::MinimumExpanding);
@@ -2268,11 +2284,14 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	scheduleView->sortByColumn(0, Qt::AscendingOrder);
 	scheduleView->setSortingEnabled(true);
 
+	scheduleHeaderPopupMenu = NULL;
 	schedulePopupMenu = NULL;
 
 	connect(scheduleView, SIGNAL(itemSelectionChanged()), this, SLOT(scheduleSelectionChanged()));
 	connect(scheduleView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(scheduleExecuted(QTreeWidgetItem*)));
 	connect(scheduleView, SIGNAL(returnPressed(QTreeWidgetItem*)), this, SLOT(scheduleExecuted(QTreeWidgetItem*)));
+	scheduleView->header()->setContextMenuPolicy(Qt::CustomContextMenu);
+	connect(scheduleView->header(), SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupScheduleHeaderMenu(const QPoint&)));
 	scheduleView->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(scheduleView, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupScheduleMenu(const QPoint&)));
 	connect(scheduleView, SIGNAL(itemSelectionChanged()), this, SLOT(updateTransactionActions()));
@@ -3544,7 +3563,21 @@ bool Eqonomize::editTimestamp(QList<Transactions*> trans) {
 	QDialog *dialog = new QDialog(this, 0);
 	dialog->setWindowTitle(tr("Timestamp"));
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
-	QGridLayout *grid = new QGridLayout();
+	QScrollArea *scroll = NULL;
+	QGridLayout *grid = NULL;
+	if(trans.count() > 5) {
+		scroll = new QScrollArea(dialog);
+		scroll->setFrameShape(QFrame::NoFrame);
+		QWidget *widget = new QWidget(dialog);
+		scroll->setWidget(widget);
+		grid = new QGridLayout(widget);
+		scroll->setWidgetResizable(true);
+		box1->addWidget(scroll);
+		widget->show();
+	} else {
+		grid = new QGridLayout();
+		box1->addLayout(grid);
+	}
 	QList<QDateTimeEdit*> timeEdit;
 	int row = 0;
 	for(int i = 0; i < trans.count(); i++) {
@@ -3560,7 +3593,6 @@ bool Eqonomize::editTimestamp(QList<Transactions*> trans) {
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
-	box1->addLayout(grid);
 	box1->addWidget(buttonBox);
 	if(dialog->exec() == QDialog::Accepted) {
 		if(trans.count() > 1) startBatchEdit();
@@ -3966,6 +3998,26 @@ void Eqonomize::scheduleSelectionChanged() {
 void Eqonomize::scheduleExecuted(QTreeWidgetItem *i) {
 	if(i == NULL) return;
 	editScheduledTransaction(((ScheduleListViewItem*) i)->scheduledTransaction());
+}
+void Eqonomize::hideScheduleColumn(bool do_show) {
+	scheduleView->setColumnHidden(sender()->property("column_index").toInt(), !do_show);
+}
+void Eqonomize::popupScheduleHeaderMenu(const QPoint &p) {
+	if(!scheduleHeaderPopupMenu) {
+		scheduleHeaderPopupMenu = new QMenu(this);
+		QTreeWidgetItem *header = scheduleView->headerItem();
+		QAction *a = NULL;
+		for(int index = 1; index <= 8; index++) {
+			if(index != 2 && index != 3) {
+				a = scheduleHeaderPopupMenu->addAction(header->text(index));
+				a->setProperty("column_index", QVariant::fromValue(index));
+				a->setCheckable(true);
+				a->setChecked(!scheduleView->isColumnHidden(index));
+				connect(a, SIGNAL(toggled(bool)), this, SLOT(hideScheduleColumn(bool)));
+			}
+		}
+	}
+	scheduleHeaderPopupMenu->popup(scheduleView->header()->viewport()->mapToGlobal(p));
 }
 void Eqonomize::popupScheduleMenu(const QPoint &p) {
 	if(!schedulePopupMenu) {
@@ -5679,28 +5731,26 @@ bool Eqonomize::exportScheduleList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t<thead>" << '\n';
 			outf << "\t\t\t\t<tr>" << '\n';
 			QTreeWidgetItem *header = scheduleView->headerItem();
-			outf << "\t\t\t\t\t<th>" << htmlize_string(header->text(0)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(1)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(2)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(3)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(4)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(5)) << "</th>";
-			outf << "<th>" << htmlize_string(header->text(6)) << "</th>" << "\n";
-			outf << "\t\t\t\t</tr>" << '\n';
+			outf << "\t\t\t\t\t";
+			for(int index = 0; index <= 8; index++) {
+				if(!scheduleView->isColumnHidden(index)) outf << "<th>" << htmlize_string(header->text(index)) << "</th>";
+			}
+			outf << "\n\t\t\t\t</tr>" << '\n';
 			outf << "\t\t\t</thead>" << '\n';
 			outf << "\t\t\t<tbody>" << '\n';
 			QTreeWidgetItemIterator it(scheduleView);
 			ScheduleListViewItem *i = (ScheduleListViewItem*) *it;
 			while(i) {
 				outf << "\t\t\t\t<tr>" << '\n';
-				outf << "\t\t\t\t\t<td nowrap align=\"right\">" << htmlize_string(QLocale().toString(i->date(), QLocale::ShortFormat)) << "</td>";
-				outf << "<td>" << htmlize_string(i->text(1)) << "</td>";
-				outf << "<td>" << htmlize_string(i->text(2)) << "</td>";
-				outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(3)) << "</td>";
-				outf << "<td align=\"center\">" << htmlize_string(i->text(4)) << "</td>";
-				outf << "<td align=\"center\">" << htmlize_string(i->text(5)) << "</td>";
-				outf << "<td>" << htmlize_string(i->text(6)) << "</td>" << "\n";
-				outf << "\t\t\t\t</tr>" << '\n';
+				outf << "\t\t\t\t\t";
+				for(int index = 0; index <= 8; index++) {
+					if(!scheduleView->isColumnHidden(index)) {
+						if(index == 0) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toString(i->date(), QLocale::ShortFormat)) << "</td>";
+						else if(index == 3) outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(index)) << "</td>";
+						else outf << "<td>" << htmlize_string(i->text(index)) << "</td>";
+					}
+				}
+				outf << "\n\t\t\t\t</tr>" << '\n';
 				++it;
 				i = (ScheduleListViewItem*) *it;
 			}
@@ -6924,7 +6974,9 @@ void Eqonomize::readOptions() {
 	incomesWidget->restoreState(settings.value("incomesListState").toByteArray());
 	transfersWidget->restoreState(settings.value("transfersListState").toByteArray());
 	securitiesView->header()->restoreState(settings.value("securitiesListState").toByteArray());
-	scheduleView->header()->restoreState(settings.value("scheduleListState").toByteArray());
+	if(settings.value("version", 0).toInt() > 140) {
+		scheduleView->header()->restoreState(settings.value("scheduleListState").toByteArray());
+	}
 	assets_expanded = settings.value("assetsGroupExpanded").toMap();
 	liabilities_expanded = settings.value("liabilitiesGroupExpanded").toMap();
 	incomes_expanded = settings.value("incomesCategoryExpanded").toMap();
