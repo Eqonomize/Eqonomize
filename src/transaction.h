@@ -135,6 +135,8 @@ class Transactions {
 		virtual int tagsCount(bool include_parent = false) const;
 		virtual void readTags(const QString &text);
 		virtual QString writeTags(bool include_parent = false) const;
+		virtual QString payeeText() const = 0;
+		virtual const QString &payee() const = 0;
 
 };
 
@@ -222,6 +224,9 @@ class Transaction : public Transactions {
 		virtual const QString &getTag(int index, bool include_parent = false) const;
 		virtual int tagsCount(bool include_parent = false) const;
 		virtual QString writeTags(bool include_parent = false) const;
+		
+		virtual QString payeeText() const;
+		virtual const QString &payee() const;
 		
 };
 
@@ -367,6 +372,7 @@ class Income : public Transaction {
 		double income(bool convert = false) const;
 		void setIncome(double new_income);
 		const QString &payer() const;
+		const QString &payee() const;
 		void setPayer(QString new_payer);
 		TransactionType type() const;
 		void setSecurity(Security *parent_security);
@@ -455,6 +461,7 @@ class Transfer : public Transaction {
 		virtual QString description() const;
 		TransactionType type() const;
 		virtual TransactionSubType subtype() const;
+		virtual QString payeeText() const;
 		
 		virtual bool isReconciled(AssetsAccount *account) const;
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
@@ -484,6 +491,7 @@ class DebtReduction : public Transfer {
 		void setLoan(AssetsAccount *new_loan);
 		virtual QString description() const;
 		TransactionSubType subtype() const;
+		QString payeeText() const;
 	
 };
 
@@ -688,6 +696,9 @@ class ScheduledTransaction : public Transactions {
 		virtual void clearTags();
 		virtual void readTags(const QString &text);
 		virtual QString writeTags(bool include_parent = false) const;
+		
+		virtual QString payeeText() const;
+		virtual const QString &payee() const;
 	
 };
 
@@ -764,6 +775,9 @@ class SplitTransaction : public Transactions {
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
 		
 		virtual QString tagsText(bool include_parent_child = true) const;
+		
+		virtual QString payeeText() const;
+		virtual const QString &payee() const;
 
 };
 
@@ -853,7 +867,6 @@ class MultiAccountTransaction : public SplitTransaction {
 		
 		AssetsAccount *account() const;
 		QString accountsString() const;
-		QString payees() const;
 		
 		void addTransaction(Transaction *trans);
 		

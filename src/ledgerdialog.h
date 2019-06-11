@@ -139,6 +139,7 @@ class LedgerDialog : public QDialog {
 		void searchPrevious();
 		void searchChanged(const QString&);
 		void ascendingToggled(bool);
+		void onFilterSelected(QString);
 		
 };
 

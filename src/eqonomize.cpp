@@ -417,8 +417,6 @@ class ScheduleListViewItem : public QTreeWidgetItem {
 
 ScheduleListViewItem::ScheduleListViewItem(QTreeWidget *parent, ScheduledTransaction *strans, const QDate &trans_date) : QTreeWidgetItem(parent, UserType) {
 	setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
-	//setTextAlignment(4, Qt::AlignCenter);
-	//setTextAlignment(5, Qt::AlignCenter);
 	setScheduledTransaction(strans);
 	setDate(trans_date);
 }
@@ -455,7 +453,6 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 		setText(3, trans->valueString());
 		setText(4, trans->fromAccount()->name());
 		setText(5, trans->toAccount()->name());
-		setText(6, QString::null);
 		if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
 			if(!expenseColor.isValid()) expenseColor = createExpenseColor(this, 3);
 			setForeground(3, expenseColor);
@@ -471,12 +468,10 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 			case TRANSACTION_TYPE_INCOME: {
 				if(((Income*) trans)->security()) setText(1, QObject::tr("Dividend"));
 				else setText(1, QObject::tr("Income"));
-				setText(6, ((Income*) trans)->payer());
 				break;
 			}
 			case TRANSACTION_TYPE_EXPENSE: {
 				setText(1, QObject::tr("Expense")); 
-				setText(6, ((Expense*) trans)->payee());
 				break;
 			}
 			case TRANSACTION_TYPE_SECURITY_BUY: {setText(1, QObject::tr("Securities Purchase", "Financial security (e.g. stock, mutual fund)")); break;}
@@ -491,7 +486,6 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 			setForeground(3, expenseColor);
 			setText(4, ((DebtPayment*) split)->account()->name());
 			setText(5, ((DebtPayment*) split)->loan()->name());
-			setText(6, ((DebtPayment*) split)->loan()->maintainer());
 		} else {
 			bool b_reverse = false;
 			if(split->isIncomesAndExpenses()) {
@@ -516,16 +510,17 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 				if(((MultiItemTransaction*) split)->transactiontype() == TRANSACTION_TYPE_INCOME) setText(1, QObject::tr("Income"));
 				else if(((MultiItemTransaction*) split)->transactiontype() == TRANSACTION_TYPE_EXPENSE) setText(1, QObject::tr("Expense"));
 				else setText(1, QObject::tr("Split Transaction"));
-				setText(6, QString::null);
 			} else {
 				setText(b_reverse ? 4 : 5, ((MultiAccountTransaction*) split)->category()->name());
 				setText(b_reverse ? 5 : 4, ((MultiAccountTransaction*) split)->accountsString());
-				setText(6, ((MultiAccountTransaction*) split)->payees());
 				if(((MultiAccountTransaction*) split)->transactiontype() == TRANSACTION_TYPE_INCOME) setText(1, QObject::tr("Income"));
 				else setText(1, QObject::tr("Expense"));
 			}
 		}
 	}
+	if(!strans->associatedFile().isEmpty()) setIcon(3, LOAD_ICON("mail-attachment"));
+	else setIcon(3, QIcon());
+	setText(6, strans->payeeText());
 	setText(7, strans->tagsText(true));
 	setText(8, strans->comment());
 }
@@ -4457,13 +4452,6 @@ void Eqonomize::showLedger() {
 		account = account_items[i];
 		if(account && account->type() != ACCOUNT_TYPE_ASSETS) account = NULL;
 	}
-	if(!account && !budget->assetsAccounts.isEmpty()) {
-		account = budget->assetsAccounts[0];
-		if(account == budget->balancingAccount) {
-			if(budget->assetsAccounts.count() > 1) account = budget->assetsAccounts[1];
-			else account = NULL;
-		}
-	}
 	LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, budget, this, tr("Ledger"), b_extra);
 	dialog->show();
 	connect(this, SIGNAL(timeToSaveConfig()), dialog, SLOT(saveConfig()));
@@ -4474,13 +4462,6 @@ void Eqonomize::reconcileAccount() {
 	if(i && account_items.contains(i)) {
 		account = account_items[i];
 		if(account && account->type() != ACCOUNT_TYPE_ASSETS) account = NULL;
-	}
-	if(!account && !budget->assetsAccounts.isEmpty()) {
-		account = budget->assetsAccounts[0];
-		if(account == budget->balancingAccount) {
-			if(budget->assetsAccounts.count() > 1) account = budget->assetsAccounts[1];
-			else account = NULL;
-		}
 	}
 	LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, budget, this, tr("Ledger"), b_extra, true);
 	dialog->show();
@@ -5745,8 +5726,8 @@ bool Eqonomize::exportScheduleList(QTextStream &outf, int fileformat) {
 				outf << "\t\t\t\t\t";
 				for(int index = 0; index <= 8; index++) {
 					if(!scheduleView->isColumnHidden(index)) {
-						if(index == 0) outf << "<td nowrap align=\"right\">" << htmlize_string(QLocale().toString(i->date(), QLocale::ShortFormat)) << "</td>";
-						else if(index == 3) outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(index)) << "</td>";
+						if(index == 0)  outf << "<td nowrap>" << htmlize_string(i->text(index)) << "</td>";
+						else if(index == 3)  outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(index)) << "</td>";
 						else outf << "<td>" << htmlize_string(i->text(index)) << "</td>";
 					}
 				}
@@ -5763,11 +5744,27 @@ bool Eqonomize::exportScheduleList(QTextStream &outf, int fileformat) {
 		case 'c': {
 			//outf.setEncoding(Q3TextStream::Locale);
 			QTreeWidgetItem *header = scheduleView->headerItem();
-			outf << "\"" << header->text(0) << "\",\"" << header->text(1) << "\",\"" << header->text(2) << "\",\"" << header->text(3) << "\",\"" << header->text(4) << "\",\""<< header->text(5) << "\",\"" << header->text(6) << "\"\n";
+			for(int index = 0; index <= 8; index++) {
+				if(!scheduleView->isColumnHidden(index)) {
+					if(index > 0) outf << ",";
+					outf << "\"" << header->text(index) << "\"";
+				}
+			}
+			outf << "\n";
 			QTreeWidgetItemIterator it(scheduleView);
 			ScheduleListViewItem *i = (ScheduleListViewItem*) *it;
 			while(i) {
-				outf << "\"" << QLocale().toString(i->date(), QLocale::ShortFormat) << "\",\"" << i->text(1) << "\",\"" << i->text(2) << "\",\"" << i->text(3) << "\",\"" << i->text(4) << "\",\"" << i->text(5) << "\",\"" << i->text(6) << "\"\n";
+				for(int index = 0; index <= 8; index++) {
+					if(!scheduleView->isColumnHidden(index)) {
+						if(index > 0) outf << ",";
+						if(index == 3) {
+							outf << "\"" << htmlize_string(i->text(index).replace("−", "-").remove(" ")) << "\"";
+						} else {
+							outf << "\"" << i->text(index) << "\"";
+						}
+					}
+				}
+				outf << "\n";
 				++it;
 				i = (ScheduleListViewItem*) *it;
 			}
@@ -6974,7 +6971,7 @@ void Eqonomize::readOptions() {
 	incomesWidget->restoreState(settings.value("incomesListState").toByteArray());
 	transfersWidget->restoreState(settings.value("transfersListState").toByteArray());
 	securitiesView->header()->restoreState(settings.value("securitiesListState").toByteArray());
-	if(settings.value("version", 0).toInt() > 140) {
+	if(settings.value("version", 0).toInt() >= 140) {
 		scheduleView->header()->restoreState(settings.value("scheduleListState").toByteArray());
 	}
 	assets_expanded = settings.value("assetsGroupExpanded").toMap();
@@ -8184,6 +8181,10 @@ void Eqonomize::transactionModified(Transactions *transs, Transactions *oldtrans
 				if(i->scheduledTransaction() == strans) {
 					i->setScheduledTransaction(strans);
 					i->setDate(strans->firstOccurrence());
+					if(i->isSelected()) {
+						scheduleSelectionChanged();
+						if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) updateTransactionActions();
+					}
 					break;
 				}
 				++it;

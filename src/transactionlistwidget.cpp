@@ -334,8 +334,8 @@ void TransactionListWidget::updateStatistics() {
 
 void TransactionListWidget::keyPressEvent(QKeyEvent *e) {
 	if(e == key_event) return;
-	QWidget::keyReleaseEvent(e);
-	if(!e->isAccepted() && editWidget->firstHasFocus()) {
+	QWidget::keyPressEvent(e);
+	if(!e->isAccepted() && editWidget->firstHasFocus() && e->key() != Qt::Key_Enter && e->key() != Qt::Key_Return) {
 		key_event = new QKeyEvent(*e);
 		QApplication::sendEvent(transactionsView, key_event);
 		delete key_event;
@@ -490,11 +490,11 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 				for(int index = 0; index <= comments_col; index++) {
 					if(!transactionsView->isColumnHidden(index)) {
 						if(index == 0) {
-							outf << "<td>" << htmlize_string(QLocale().toString(trans->date(), QLocale::ShortFormat)) << "</td>";
+							outf << "<td nowrap>" << htmlize_string(QLocale().toString(trans->date(), QLocale::ShortFormat)) << "</td>";
 						} else if(index == 1) {
 							outf << "<td>" << htmlize_string(trans->description()) << "</td>";
 						} else if(index == 2) {
-							outf << "<td nowrap align=\"right\">" << trans->valueString() << "</td>";
+							outf << "<td nowrap align=\"right\">" << htmlize_string(trans->valueString()) << "</td>";
 						} else {
 							outf << "<td>" << htmlize_string(i->text(index)) << "</td>";
 						}
@@ -549,12 +549,12 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 			while(i) {
 				if(i->transaction()) {
 					Transaction *trans = i->transaction();
-					outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << trans->valueString().replace("−","-").remove(" ") << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->toAccount()->nameWithParent() : trans->fromAccount()->nameWithParent()) << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->fromAccount()->nameWithParent() : trans->toAccount()->nameWithParent());
-					if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE) outf << "\",\"" << budget->formatValue(trans->quantity(), 2).replace("−","-").remove(" ");
+					outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << trans->valueString().replace("−", "-").remove(" ") << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->toAccount()->nameWithParent() : trans->fromAccount()->nameWithParent()) << "\",\"" << ((trans->type() == TRANSACTION_TYPE_EXPENSE) ? trans->fromAccount()->nameWithParent() : trans->toAccount()->nameWithParent());
+					if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE) outf << "\",\"" << budget->formatValue(trans->quantity(), 2).replace("−", "-").remove(" ");
 				} else {
 					MultiAccountTransaction *trans = i->splitTransaction();
-					outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << trans->valueString().replace("−","-").remove(" ") << "\",\"" << trans->category()->nameWithParent() << "\",\"" << trans->accountsString();
-					if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE) outf << "\",\"" << budget->formatValue(trans->quantity(), 2).replace("−","-").remove(" ");
+					outf << "\"" << QLocale().toString(trans->date(), QLocale::ShortFormat) << "\",\"" << trans->description() << "\",\"" << trans->valueString().replace("−", "-").remove(" ") << "\",\"" << trans->category()->nameWithParent() << "\",\"" << trans->accountsString();
+					if(b_extra && transtype == TRANSACTION_TYPE_EXPENSE) outf << "\",\"" << budget->formatValue(trans->quantity(), 2).replace("−", "-").remove(" ");
 				}
 				if(payee_col >= 0 && b_extra) outf << "\",\"" << i->text(payee_col);
 				if(tags_col >= 0) outf << "\",\"" << i->text(tags_col).replace("\"", "\'");
@@ -1484,7 +1484,7 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 		} else if(split) {
 			i->setText(3, split->category()->name());
 			i->setText(4, split->accountsString());
-			if(payee_col >= 0) i->setText(payee_col, split->payees());
+			if(payee_col >= 0) i->setText(payee_col, split->payeeText());
 			if(quantity_col >= 0) i->setText(quantity_col, budget->formatValue(split->quantity()));
 			i->setText(comments_col, transs->comment());
 			if(tags_col >= 0) i->setText(tags_col, transs->tagsText());
@@ -1663,7 +1663,7 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 					i->setText(2, split->valueString());
 					i->setText(3, split->category()->name());
 					i->setText(4, split->accountsString());
-					if(payee_col >= 0) i->setText(payee_col, split->payees());
+					if(payee_col >= 0) i->setText(payee_col, split->payeeText());
 					i->setText(comments_col, split->comment());
 					if(tags_col >= 0) i->setText(tags_col, split->tagsText());
 					if(quantity_col >= 0) i->setText(quantity_col, budget->formatValue(split->quantity()));

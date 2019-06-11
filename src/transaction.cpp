@@ -373,6 +373,8 @@ double Transaction::accountChange(Account *account, bool include_subs, bool conv
 	if(o_to == account || (include_subs && o_to->topAccount() == account)) return toValue(convert);
 	return 0.0;
 }
+QString Transaction::payeeText() const {return payee();}
+const QString &Transaction::payee() const {return emptystr;}
 
 Expense::Expense(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, QString initial_description, QString initial_comment, qlonglong initial_id) : Transaction(parent_budget, initial_cost, initial_date, initial_from, initial_category, initial_description, initial_comment, initial_id), b_reconciled(false) {}
 Expense::Expense(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transaction(parent_budget) {
@@ -645,6 +647,10 @@ const QString &Income::payer() const {
 	if(o_security) return o_security->name(); 
 	return s_payer;
 }
+const QString &Income::payee() const {
+	if(o_security) return o_security->name(); 
+	return s_payer;
+}
 void Income::setPayer(QString new_payer) {s_payer = new_payer.trimmed();}
 QString Income::description() const {
 	if(o_security) return tr("Dividend: %1").arg(o_security->name());
@@ -869,7 +875,7 @@ void Transfer::setReconciled(AssetsAccount *account, bool is_reconciled) {
 	if(account == from()) b_from_reconciled = is_reconciled;
 	if(account == to()) b_to_reconciled = is_reconciled;
 }
-
+QString Transfer::payeeText() const {return QString::null;}
 
 DebtReduction::DebtReduction(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment, qlonglong initial_id) : Transfer(parent_budget, initial_amount, initial_date, initial_from, initial_loan, QString(), initial_comment, initial_id) {}
 DebtReduction::DebtReduction(Budget *parent_budget, double initial_payment, double initial_reduction, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment, qlonglong initial_id) : Transfer(parent_budget, initial_payment, initial_reduction, initial_date, initial_from, initial_loan, QString(), initial_comment, initial_id) {}
@@ -905,6 +911,8 @@ AssetsAccount *DebtReduction::loan() const {return (AssetsAccount*) to();}
 void DebtReduction::setLoan(AssetsAccount *new_loan) {setTo(new_loan);}
 QString DebtReduction::description() const {return tr("Debt payment: %1 (reduction)").arg(loan()->name());}
 TransactionSubType DebtReduction::subtype() const {return TRANSACTION_SUBTYPE_DEBT_REDUCTION;}
+
+QString DebtReduction::payeeText() const {return loan()->maintainer();}
 
 Balancing::Balancing(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_account, QString initial_comment) : Transfer(parent_budget) {
 	d_value = -initial_amount;
@@ -1540,7 +1548,14 @@ QString ScheduledTransaction::tagsText(bool include_parent_child) const {if(o_tr
 void ScheduledTransaction::clearTags() {if(o_trans) o_trans->clearTags();}
 void ScheduledTransaction::readTags(const QString &text) {if(o_trans) o_trans->readTags(text);}
 QString ScheduledTransaction::writeTags(bool include_parent) const {if(o_trans) {o_trans->writeTags(include_parent);} return QString::null;}
-
+const QString &ScheduledTransaction::payee() const {
+	if(o_trans) return o_trans->payee();
+	return emptystr;
+}
+QString ScheduledTransaction::payeeText() const {
+	if(o_trans) return o_trans->payeeText();
+	return QString::null;
+}
 
 SplitTransaction::SplitTransaction(Budget *parent_budget, QDate initial_date, QString initial_description) : Transactions(parent_budget), d_date(initial_date), s_description(initial_description.trimmed()), i_time(QDateTime::currentMSecsSinceEpoch() / 1000), b_reconciled(false) {i_id = o_budget->getNewId();}
 SplitTransaction::SplitTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transactions(parent_budget) {
@@ -1741,7 +1756,24 @@ QString SplitTransaction::tagsText(bool include_child) const {
 	}
 	return tagstr;
 }
-
+const QString &SplitTransaction::payee() const {return emptystr;}
+QString SplitTransaction::payeeText() const {
+	QVector<Transaction*>::size_type c = splits.count();
+	if(c == 0) return payee();
+	QStringList payee_list;
+	if(!payee().isEmpty()) payee_list << payee();
+	for(int i = 0; i < c; i++) {
+		if(!splits[i]->payee().isEmpty() && !payee_list.contains(splits[i]->payee(), Qt::CaseInsensitive)) payee_list << splits[i]->payee();
+	}
+	if(payee_list.isEmpty()) return QString::null;
+	if(payee_list.count() == 1) return payee_list.first();
+	QString payee_string = payee_list.first();
+	for(int i = 1; i < payee_list.count(); i++) {
+		payee_string += " / ";
+		payee_string += payee_list[i];
+	}
+	return payee_string;
+}
 
 MultiItemTransaction::MultiItemTransaction(Budget *parent_budget, QDate initial_date, AssetsAccount *initial_account, QString initial_description) : SplitTransaction(parent_budget, initial_date, initial_description), o_account(initial_account) {}
 MultiItemTransaction::MultiItemTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : SplitTransaction(parent_budget) {
@@ -2330,29 +2362,6 @@ QString MultiAccountTransaction::accountsString() const {
 	}
 	return account_string;
 }
-QString MultiAccountTransaction::payees() const {
-	QVector<Transaction*>::size_type c = splits.count();
-	if(c == 0) return "";
-	QStringList payee_list;
-	if(splits[0]->type() == TRANSACTION_TYPE_EXPENSE) {
-		for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
-			if(!((Expense*) splits[i])->payee().isEmpty() && !payee_list.contains(((Expense*) splits[i])->payee())) payee_list << ((Expense*) splits[i])->payee();
-		}
-	} else {
-		for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
-			if(!((Income*) splits[i])->payer().isEmpty() && !payee_list.contains(((Income*) splits[i])->payer())) payee_list << ((Income*) splits[i])->payer();
-		}
-	}
-	if(payee_list.isEmpty()) return "";
-	if(payee_list.count() == 1) return payee_list.first();
-	QString payee_string = payee_list.first();
-	for(int i = 1; i < payee_list.count(); i++) {
-		payee_string += " / ";
-		payee_string += payee_list[i];
-	}
-	return payee_string;
-}
-
 void MultiAccountTransaction::setDescription(QString new_description) {
 	QVector<Transaction*>::size_type c = splits.count();
 	for(QVector<Transaction*>::size_type i = 0; i < c; i++) {
