@@ -321,6 +321,7 @@ void OverTimeReport::sourceChanged(int index) {
 	descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the transaction description property (transaction title/generic article name)"));
 	current_description = "";
 	current_account = NULL;
+	current_tag = "";
 	if(index != 4) categoryCombo->addItem(tr("All Categories Combined"));
 	if(index == 2) {
 		for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
@@ -543,6 +544,7 @@ void OverTimeReport::updateDisplay() {
 				enabled[6] = true;
 				enabled[7] = true;
 			}
+			enabled[0] = true;
 			enabled[1] = false;
 			enabled[2] = false;
 			enabled[3] = false;
@@ -558,6 +560,7 @@ void OverTimeReport::updateDisplay() {
 			else title = current_tag;
 			pertitle = tr("Average Value");
 			valuetitle = tr("Value");
+			at = ACCOUNT_TYPE_ASSETS;
 			type = 7;
 			break;
 		}
@@ -568,6 +571,7 @@ void OverTimeReport::updateDisplay() {
 			else title = tr("%2, %1").arg(current_tag).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description);
 			pertitle = tr("Average Value");
 			valuetitle = tr("Value");
+			at = ACCOUNT_TYPE_ASSETS;
 			type = 8;
 			break;
 		}
@@ -725,8 +729,8 @@ void OverTimeReport::updateDisplay() {
 				}
 				if(b_tags) {for(int i = 0; i < trans->tagsCount(true); i++) mi->tags[trans->getTag(i, true)] = mi->value;}
 				if(b_cats) {
-					if((at == 0 && (trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != 0 && trans->fromAccount()->type() == at)) mi->cats[cat ? trans->fromAccount() : trans->fromAccount()->topAccount()] = mi->value;
-					else if((at == 0 && (trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != 0 && trans->toAccount()->type() == at)) mi->cats[cat ? trans->toAccount() : trans->toAccount()->topAccount()] = mi->value;
+					if((at == ACCOUNT_TYPE_ASSETS && (trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != ACCOUNT_TYPE_ASSETS && trans->fromAccount()->type() == at)) mi->cats[cat ? trans->fromAccount() : trans->fromAccount()->topAccount()] = mi->value;
+					else if((at == ACCOUNT_TYPE_ASSETS && (trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != ACCOUNT_TYPE_ASSETS && trans->toAccount()->type() == at)) mi->cats[cat ? trans->toAccount() : trans->toAccount()->topAccount()] = mi->value;
 				}
 				mi->date = newdate;
 			} else {
@@ -756,8 +760,8 @@ void OverTimeReport::updateDisplay() {
 					mi->count += trans->quantity();
 					if(b_tags) {for(int i = 0; i < trans->tagsCount(true); i++) mi->tags[trans->getTag(i, true)] += v;}
 					if(b_cats) {
-						if((at == 0 && (trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != 0 && trans->fromAccount()->type() == at)) mi->cats[trans->fromAccount()] += v;
-						else if((at == 0 && (trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != 0 && trans->toAccount()->type() == at)) mi->cats[trans->toAccount()] += v;
+						if((at == ACCOUNT_TYPE_ASSETS && (trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != ACCOUNT_TYPE_ASSETS && trans->fromAccount()->type() == at)) mi->cats[trans->fromAccount()] += v;
+						else if((at == ACCOUNT_TYPE_ASSETS && (trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != ACCOUNT_TYPE_ASSETS && trans->toAccount()->type() == at)) mi->cats[trans->toAccount()] += v;
 					}
 				}
 			}
@@ -882,8 +886,8 @@ void OverTimeReport::updateDisplay() {
 							for(int i = 0; i < trans->tagsCount(true); i++) {tag_scheduled_value[trans->getTag(i, true)] += v; tag_includes_planned[trans->getTag(i, true)] = true;}
 						}
 						if(b_cats) {
-							if((at == 0 && (trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != 0 && trans->fromAccount()->type() == at)) {cat_scheduled_value[trans->fromAccount()] += v; cat_includes_planned[trans->fromAccount()] = true;}
-							else if((at == 0 && (trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != 0 && trans->toAccount()->type() == at)) {cat_scheduled_value[trans->toAccount()] += v; cat_includes_planned[trans->toAccount()] = true;}
+							if((at == ACCOUNT_TYPE_ASSETS && (trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != ACCOUNT_TYPE_ASSETS && trans->fromAccount()->type() == at)) {cat_scheduled_value[trans->fromAccount()] += v; cat_includes_planned[trans->fromAccount()] = true;}
+							else if((at == ACCOUNT_TYPE_ASSETS && (trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES || trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES)) || (at != ACCOUNT_TYPE_ASSETS && trans->toAccount()->type() == at)) {cat_scheduled_value[trans->toAccount()] += v; cat_includes_planned[trans->toAccount()] = true;}
 						}
 					}
 				}
@@ -1093,6 +1097,7 @@ void OverTimeReport::updateDisplay() {
 			}
 		}
 	}
+
 	if(current_source == 13 || current_source == 14) {
 		if(b_expense && !b_income) {
 			pertitle = tr("Average Cost");
@@ -1123,9 +1128,23 @@ void OverTimeReport::updateDisplay() {
 					cat_scheduled_value[cats[i]] = -cat_scheduled_value[cats[i]];
 				}
 			}
+			if(current_source == 13) {
+				if(current_assets) title = tr("Expenses, %2: %1").arg(current_tag).arg(current_assets->name());
+				else title = tr("Expenses: %1").arg(current_tag);
+			} else {
+				if(current_assets) title = tr("Expenses, %3: %2, %1").arg(current_tag).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description).arg(current_assets->name());
+				else title = tr("Expenses: %2, %1").arg(current_tag).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description);
+			}
 		} else if(b_income && !b_expense) {
 			pertitle = tr("Average Income");
 			valuetitle = tr("Incomes");
+			if(current_source == 13) {
+				if(current_assets) title = tr("Incomes, %2: %1").arg(current_tag).arg(current_assets->name());
+				else title = tr("Incomes: %1").arg(current_tag);
+			} else {
+				if(current_assets) title = tr("Incomes, %3: %2, %1").arg(current_tag).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description).arg(current_assets->name());
+				else title = tr("Incomes: %2, %1").arg(current_tag).arg(current_description.isEmpty() ? tr("No description", "Referring to the transaction description property (transaction title/generic article name)") : current_description);
+			}
 		}
 	}
 	double average_month = budget->averageMonth(first_date, curdate, true);
