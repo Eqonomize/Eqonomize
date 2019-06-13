@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016-2018 by Hanna Knutsson            *
+ *   Copyright (C) 2006-2008, 2014, 2016-2019 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -84,6 +84,7 @@
 #include <QProgressDialog>
 #include <QFontDialog>
 #include <QInputDialog>
+#include <QScrollArea>
 #include <QToolTip>
 
 #include <QDebug>
@@ -1000,7 +1001,7 @@ EditQuotationsDialog::EditQuotationsDialog(Security *sec, QWidget *parent) : QDi
 	quotationsLayout->addLayout(buttonsLayout);
 	quotationEdit = new EqonomizeValueEdit(0.0, pow(10, -i_quotation_decimals), 0.0, i_quotation_decimals, true, this, budget);
 	buttonsLayout->addWidget(quotationEdit);
-	dateEdit = new QDateEdit(this);
+	dateEdit = new EqonomizeDateEdit(this);
 	dateEdit->setCalendarPopup(true);
 	dateEdit->setDate(QDate::currentDate());
 	buttonsLayout->addWidget(dateEdit);
@@ -1662,7 +1663,7 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	grid->addWidget(quotationEdit, 6, 1);
 	quotationDateLabel = new QLabel(tr("Date:"), this);
 	grid->addWidget(quotationDateLabel, 7, 0);
-	quotationDateEdit = new QDateEdit(QDate::currentDate(), this);
+	quotationDateEdit = new EqonomizeDateEdit(QDate::currentDate(), this);
 	quotationDateEdit->setCalendarPopup(true);
 	grid->addWidget(quotationDateEdit, 7, 1);
 	grid->addWidget(new QLabel(tr("Description:"), this), 8, 0);
@@ -2000,7 +2001,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	accountsPeriodFromButton = new QCheckBox(tr("From"), periodWidget);
 	accountsPeriodFromButton->setChecked(from_enabled);
 	accountsPeriodLayout2->addWidget(accountsPeriodFromButton);
-	accountsPeriodFromEdit = new QDateEdit(periodWidget);
+	accountsPeriodFromEdit = new EqonomizeDateEdit(periodWidget);
 	accountsPeriodFromEdit->setCalendarPopup(true);
 	accountsPeriodFromEdit->setDate(from_date);
 	accountsPeriodFromEdit->setEnabled(true);
@@ -2009,7 +2010,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	accountsPeriodFromEdit->setSizePolicy(sp);
 	accountsPeriodLayout2->addWidget(accountsPeriodFromEdit);
 	accountsPeriodLayout2->addWidget(new QLabel(tr("To"), periodWidget));
-	accountsPeriodToEdit = new QDateEdit(periodWidget);
+	accountsPeriodToEdit = new EqonomizeDateEdit(periodWidget);
 	accountsPeriodToEdit->setCalendarPopup(true);
 	accountsPeriodToEdit->setDate(to_date);
 	accountsPeriodToEdit->setEnabled(true);
@@ -2181,7 +2182,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	securitiesPeriodFromButton = new QCheckBox(tr("From"), periodGroup);
 	securitiesPeriodFromButton->setChecked(false);
 	securitiesPeriodLayout2->addWidget(securitiesPeriodFromButton);
-	securitiesPeriodFromEdit = new QDateEdit(periodGroup);
+	securitiesPeriodFromEdit = new EqonomizeDateEdit(periodGroup);
 	securitiesPeriodFromEdit->setCalendarPopup(true);
 	securities_from_date.setDate(curdate.year(), 1, 1);
 	securitiesPeriodFromEdit->setDate(securities_from_date);
@@ -2191,7 +2192,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	securitiesPeriodFromEdit->setSizePolicy(sp);
 	securitiesPeriodLayout2->addWidget(securitiesPeriodFromEdit);
 	securitiesPeriodLayout2->addWidget(new QLabel(tr("To"), periodGroup));
-	securitiesPeriodToEdit = new QDateEdit(periodGroup);
+	securitiesPeriodToEdit = new EqonomizeDateEdit(periodGroup);
 	securitiesPeriodToEdit->setCalendarPopup(true);
 	securities_to_date = curdate;
 	securitiesPeriodToEdit->setDate(securities_to_date);
@@ -2935,7 +2936,7 @@ void Eqonomize::setQuotation() {
 	quotationEdit->setCurrency(i->security()->currency(), true);
 	grid->addWidget(quotationEdit, 0, 1);
 	grid->addWidget(new QLabel(tr("Date:"), dialog), 1, 0);
-	QDateEdit *dateEdit = new QDateEdit(QDate::currentDate(), dialog);
+	EqonomizeDateEdit *dateEdit = new EqonomizeDateEdit(QDate::currentDate(), dialog);
 	dateEdit->setCalendarPopup(true);
 	grid->addWidget(dateEdit, 1, 1);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -8027,12 +8028,9 @@ void Eqonomize::deleteTag() {
 	for(TransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd(); ++it) {
 		if((*it)->hasTag(tag, false)) n++;
 	}
-	if(n == 0) {
-		budget->tagRemoved(tag);
-	} else {
+	if(n > 0) {
 		if(QMessageBox::question(this, tr("Remove tag?"), tr("Do you wish to remove the tag \"%1\" from %n transaction(s)?", "", n).arg(tag), QMessageBox::Yes | QMessageBox::Cancel) != QMessageBox::Yes) return;
 		startBatchEdit();
-		budget->tagRemoved(tag);
 		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
 			if((*it)->removeTag(tag)) transactionModified(*it, *it);
 		}
@@ -8044,11 +8042,16 @@ void Eqonomize::deleteTag() {
 		}
 		endBatchEdit();
 	}
+	budget->tagRemoved(tag);
 	item_tags.remove(tag);
 	tag_items.remove(i);
 	delete i;
 	tag_change.remove(tag);
 	tag_value.remove(tag);
+	tagMenu->updateTags();
+	expensesWidget->tagsModified();
+	incomesWidget->tagsModified();
+	transfersWidget->tagsModified();
 	emit tagsModified();
 }
 void Eqonomize::renameTag() {
@@ -8060,6 +8063,14 @@ void Eqonomize::renameTag() {
 		startBatchEdit();
 		budget->tagRemoved(tag);
 		budget->tagAdded(new_tag);
+		tagMenu->updateTags();
+		expensesWidget->tagsModified();
+		incomesWidget->tagsModified();
+		transfersWidget->tagsModified();
+		item_tags[new_tag] = item_tags[tag];
+		tag_items[i] = new_tag;
+		tag_change[new_tag] = tag_change[tag];
+		tag_value[new_tag] = tag_value[tag];
 		bool b = false;
 		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
 			if((*it)->removeTag(tag)) {(*it)->addTag(new_tag); transactionModified(*it, *it); b = true;}
@@ -8073,6 +8084,9 @@ void Eqonomize::renameTag() {
 		if(b) endBatchEdit();
 		else in_batch_edit = false;
 		i->setText(0, new_tag);
+		item_tags.remove(tag);
+		tag_change.remove(tag);
+		tag_value.remove(tag);
 		emit tagsModified();
 	}
 }
@@ -8720,7 +8734,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					assetsItem->setText(CHANGE_COLUMN, budget->formatMoney(assets_accounts_change));
 					QString s_group = ((AssetsAccount*) trans->fromAccount())->group();
 					if(item_assets_groups.contains(s_group)) {
-						item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]));
+						item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]) + " ");
 						item_assets_groups[s_group]->setText(CHANGE_COLUMN, budget->formatMoney(assets_group_change[s_group]));
 						setAccountChangeColor(item_assets_groups[s_group], assets_group_change[s_group], false);
 					}
@@ -8776,8 +8790,8 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					
 					if(from_is_debt) liabilitiesItem->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_accounts_value) + " ");
 					else assetsItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
-					if(!from_is_debt && item_assets_groups.contains(s_group)) item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]));
-					else if(from_is_debt && item_liabilities_groups.contains(s_group)) item_liabilities_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_group_value[s_group]));
+					if(!from_is_debt && item_assets_groups.contains(s_group)) item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]) + " ");
+					else if(from_is_debt && item_liabilities_groups.contains(s_group)) item_liabilities_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_group_value[s_group]) + " ");
 				}
 			}
 			break;
@@ -8790,7 +8804,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			tag_value[tag] += cvalue_then;
 			if(!b_filter) tag_change[tag] += cvalue_then;
 			if(update_value_display) {
-				item_tags[tag]->setText(VALUE_COLUMN, budget->formatMoney(tag_value[tag]));
+				item_tags[tag]->setText(VALUE_COLUMN, budget->formatMoney(tag_value[tag]) + " ");
 				if(!b_filter) {
 					item_tags[tag]->setText(CHANGE_COLUMN, budget->formatMoney(tag_change[tag]));
 					setAccountChangeColor(item_tags[tag], tag_change[tag], false);
@@ -8916,7 +8930,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 					setAccountChangeColor(assetsItem, assets_accounts_change, false);
 					QString s_group = ((AssetsAccount*) trans->toAccount())->group();
 					if(item_assets_groups.contains(s_group)) {
-						item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]));
+						item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]) + " ");
 						item_assets_groups[s_group]->setText(CHANGE_COLUMN, budget->formatMoney(assets_group_change[s_group]));
 						setAccountChangeColor(item_assets_groups[s_group], assets_group_change[s_group], false);
 					}
@@ -8970,8 +8984,8 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 				if(update_value_display) {
 					if(to_is_debt) liabilitiesItem->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_accounts_value) + " ");
 					else assetsItem->setText(VALUE_COLUMN, budget->formatMoney(assets_accounts_value) + " ");
-					if(!to_is_debt && item_assets_groups.contains(s_group)) item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]));
-					else if(to_is_debt && item_liabilities_groups.contains(s_group)) item_liabilities_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_group_value[s_group]));
+					if(!to_is_debt && item_assets_groups.contains(s_group)) item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]) + " ");
+					else if(to_is_debt && item_liabilities_groups.contains(s_group)) item_liabilities_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(-liabilities_group_value[s_group]) + " ");
 				}
 			}
 			break;
@@ -8984,7 +8998,7 @@ void Eqonomize::addTransactionValue(Transaction *trans, const QDate &transdate, 
 			tag_value[tag] -= cvalue_then;
 			if(!b_filter) tag_change[tag] -= cvalue_then;
 			if(update_value_display) {
-				item_tags[tag]->setText(VALUE_COLUMN, budget->formatMoney(tag_value[tag]));
+				item_tags[tag]->setText(VALUE_COLUMN, budget->formatMoney(tag_value[tag]) + " ");
 				if(!b_filter) {
 					item_tags[tag]->setText(CHANGE_COLUMN, budget->formatMoney(tag_change[tag]));
 					setAccountChangeColor(item_tags[tag], tag_change[tag], false);
@@ -9434,7 +9448,7 @@ void Eqonomize::updateMonthlyBudget(Account *account) {
 				assets_group_change[s_group] += future_change_diff;
 			}
 			if(item_assets_groups.contains(s_group)) {
-				item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]));
+				item_assets_groups[s_group]->setText(VALUE_COLUMN, budget->formatMoney(assets_group_value[s_group]) + " ");
 				item_assets_groups[s_group]->setText(CHANGE_COLUMN, budget->formatMoney(assets_group_change[s_group]));
 				setAccountChangeColor(item_assets_groups[s_group], assets_group_change[s_group], false);
 			}

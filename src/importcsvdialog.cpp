@@ -150,7 +150,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	valueDateButton = new QRadioButton(tr("Value"), page3);
 	dateGroup->addButton(valueDateButton);
 	layout3->addWidget(valueDateButton, row, 3);
-	valueDateEdit = new QDateEdit(QDate::currentDate(), page3);
+	valueDateEdit = new EqonomizeDateEdit(QDate::currentDate(), page3);
 	valueDateEdit->setCalendarPopup(true);
 	valueDateEdit->setEnabled(false);
 	layout3->addWidget(valueDateEdit, row, 4);

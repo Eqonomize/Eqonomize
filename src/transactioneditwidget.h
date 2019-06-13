@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2019 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -21,12 +21,12 @@
 #ifndef TRANSACTION_EDIT_WIDGET_H
 #define TRANSACTION_EDIT_WIDGET_H
 
+#include <QDate>
 #include <QHash>
 #include <QString>
 #include <QVector>
 #include <QWidget>
 #include <QDialog>
-#include <QDateEdit>
 #include <QMenu>
 #include <QPushButton>
 
@@ -38,6 +38,7 @@ class QHBoxLayout;
 class QGridLayout;
 
 class EqonomizeDateEdit;
+class QDateEdit;
 class TagMenu;
 class TagButton;
 
@@ -234,24 +235,6 @@ class MultipleTransactionsEditDialog : public QDialog {
 
 		void newCategory();
 		void accept();
-
-};
-
-class EqonomizeDateEdit : public QDateEdit {
-
-	Q_OBJECT
-
-	public:
-	
-		EqonomizeDateEdit(QWidget *parent);
-	
-	protected slots:
-	
-		void keyPressEvent(QKeyEvent *event);
-		
-	signals:
-	
-		void returnPressed();
 
 };
 

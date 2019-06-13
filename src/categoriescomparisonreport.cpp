@@ -24,6 +24,7 @@
 
 #include "categoriescomparisonreport.h"
 #include "eqonomize.h"
+#include "eqonomizevalueedit.h"
 
 #include <QButtonGroup>
 #include <QCheckBox>
@@ -173,12 +174,12 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	fromButton = new QCheckBox(tr("From"), settingsWidget);
 	fromButton->setChecked(true);
 	choicesLayout->addWidget(fromButton);
-	fromEdit = new QDateEdit(settingsWidget);
+	fromEdit = new EqonomizeDateEdit(settingsWidget);
 	fromEdit->setCalendarPopup(true);
 	choicesLayout->addWidget(fromEdit);
 	choicesLayout->setStretchFactor(fromEdit, 1);
 	choicesLayout->addWidget(new QLabel(tr("To"), settingsWidget));
-	toEdit = new QDateEdit(settingsWidget);
+	toEdit = new EqonomizeDateEdit(settingsWidget);
 	toEdit->setCalendarPopup(true);
 	choicesLayout->addWidget(toEdit);
 	choicesLayout->setStretchFactor(toEdit, 1);
@@ -400,12 +401,13 @@ void CategoriesComparisonReport::descriptionChanged(int) {
 void CategoriesComparisonReport::sourceChanged(int i) {
 	i -= 3;
 	current_account = NULL;
-	current_tag ="";
+	current_tag = "";
 	if(i > 0) {
 		if(i - 1 < budget->expensesAccounts.count()) current_account = budget->expensesAccounts.at(i - 1);
 		else if(i - 1 - budget->expensesAccounts.count() < budget->incomesAccounts.count()) current_account = budget->incomesAccounts.at(i - 1 - budget->expensesAccounts.count());
 		else if(i - 1 - budget->expensesAccounts.count() - budget->incomesAccounts.count() < budget->tags.count()) current_tag = budget->tags.at(i - 1 - budget->expensesAccounts.count() - budget->incomesAccounts.count());
 		i++;
+		qDebug() << "A" << current_tag;
 	}
 	if((current_account && current_account->subCategories.isEmpty()) || !current_tag.isEmpty()) {
 		subsButton->setEnabled(false);
@@ -424,7 +426,7 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 		descriptionCombo->clear();
 		if(i <= 0) {
 			current_account = NULL;
-			current_tag ="";
+			current_tag = "";
 			has_empty_description = false;
 			has_empty_payee = false;
 			payeeDescriptionWidget->setEnabled(false);
@@ -685,6 +687,7 @@ void CategoriesComparisonReport::updateDisplay() {
 		if(i_source - 1 < budget->expensesAccounts.count()) current_account = budget->expensesAccounts.at(i_source - 1);
 		else if(i_source - 1 - budget->expensesAccounts.count() < budget->incomesAccounts.count()) current_account = budget->incomesAccounts.at(i_source - 1 - budget->expensesAccounts.count());
 		else if(i_source - 1 - budget->expensesAccounts.count() - budget->incomesAccounts.count() < budget->tags.count()) current_tag = budget->tags.at(i_source - 1 - budget->expensesAccounts.count() - budget->incomesAccounts.count());
+		qDebug() << "B" << current_tag;
 		if(!current_account && current_tag.isEmpty()) return;
 		if(b_extra) {
 			if(has_empty_description) {
@@ -1986,8 +1989,9 @@ void CategoriesComparisonReport::updateDisplay() {
 	outf << "\t\t</table>" << '\n';
 	outf << "\t</body>" << '\n';
 	outf << "</html>" << '\n';
-	htmlview->setLineWrapMode((i_months > 3 || tags.count() > 4) ? QTextEdit::NoWrap : QTextEdit::WidgetWidth);
+	htmlview->setLineWrapMode(QTextEdit::NoWrap);
 	htmlview->setHtml(source);
+	if(htmlview->document()->size().width() < htmlview->width()) htmlview->setLineWrapMode(QTextEdit::WidgetWidth);
 	if(!no_desc_text.isEmpty()) descriptionCombo->setItemText(descriptionCombo->count() - 1, no_desc_text);
 	if(!no_payee_text.isEmpty()) payeeCombo->setItemText(payeeCombo->count() - 1, no_payee_text);
 }
@@ -2076,6 +2080,7 @@ void CategoriesComparisonReport::updateTags() {
 }
 void CategoriesComparisonReport::updateAccounts() {
 	int curindex = 0;
+	qDebug() << current_tag << sourceCombo->count();
 	sourceCombo->blockSignals(true);
 	accountCombo->blockSignals(true);
 	sourceCombo->clear();
@@ -2083,24 +2088,22 @@ void CategoriesComparisonReport::updateAccounts() {
 	sourceCombo->addItem(tr("All Categories, including subcategories"));
 	sourceCombo->addItem(tr("All Tags"));
 	sourceCombo->addItem(tr("All Payees and Payers"));
-	int i = 4;
 	for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 		Account *account = *it;
 		sourceCombo->addItem(tr("Expenses: %1").arg(account->nameWithParent()));
-		if(account == current_account) curindex = i;
-		i++;
+		if(account == current_account) curindex = sourceCombo->count() - 1;
 	}
 	for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 		Account *account = *it;
 		sourceCombo->addItem(tr("Incomes: %1").arg(account->nameWithParent()));
-		if(account == current_account) curindex = i;
-		i++;
+		if(account == current_account) curindex = sourceCombo->count() - 1;
 	}
 	for(int i2 = 0; i2 < budget->tags.count(); i2++) {
 		sourceCombo->addItem(tr("Tag: %1").arg(budget->tags[i2]));
-		if(!current_account && current_tag == budget->tags[i2]) curindex = i;
-		i++;
+		qDebug() << budget->tags[i2] << sourceCombo->count();
+		if(!current_account && current_tag == budget->tags[i2]) curindex = sourceCombo->count() - 1;
 	}
+	qDebug() << curindex << sourceCombo->count();
 	if(curindex < sourceCombo->count()) sourceCombo->setCurrentIndex(curindex);
 	AssetsAccount *current_assets = selectedAccount();
 	accountCombo->clear();

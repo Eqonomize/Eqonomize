@@ -55,12 +55,12 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 	dateFromButton = new QCheckBox(tr("From:"), this);
 	dateFromButton->setChecked(false);
 	filterLayout->addWidget(dateFromButton, 0, 0);
-	dateFromEdit = new QDateEdit(QDate::currentDate(), this);
+	dateFromEdit = new EqonomizeDateEdit(QDate::currentDate(), this);
 	dateFromEdit->setCalendarPopup(true);
 	dateFromEdit->setEnabled(false);
 	filterLayout->addWidget(dateFromEdit, 0, 1);
 	filterLayout->addWidget(new QLabel(tr("To:"), this), 0, 2);
-	dateToEdit = new QDateEdit(QDate::currentDate(), this);
+	dateToEdit = new EqonomizeDateEdit(QDate::currentDate(), this);
 	dateToEdit->setCalendarPopup(true);
 	filterLayout->addWidget(dateToEdit, 0, 3);
 	QDate curdate = QDate::currentDate();

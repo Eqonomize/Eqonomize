@@ -1,3 +1,15 @@
+2019-06-13  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Wrap around (with month/year change) support for days and months
+	  in date fields
+	* Change month or year on page up/down in day or month section of
+	  date field
+	* Fixes month conversion when first month of budget year is not 1
+
+2019-06-11  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Focus transaction list when opening ledger with selected account
+
 2019-06-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Tags
@@ -9,8 +21,9 @@
 2019-06-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Duplicate transaction option
-	* Show lists as focused when not focused (fixes color of selected transaction) 
-	  and allow moving in lists with keyboard in some cases when not focused
+	* Show lists as focused when not focused (fixes color of selected
+	  transaction) and allow moving in lists with keyboard in some cases
+	  when not focused
 
 2019-05-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
@@ -136,7 +149,8 @@
 
 2018-11-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Better handling of unknown transaction or category type encountered in file
+	* Better handling of unknown transaction or category type encountered
+	  in file
 
 2018-11-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
@@ -188,23 +202,28 @@
 
 2018-06-09  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Use mycurrency.net html instead of the json data, which has not been for a month
+	* Use mycurrency.net html instead of the json data, which has not
+	  been for a month
 
 2018-06-08  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Never show more than nine slices in pie chart and combine very small category posts
-	* Set spacing between bars to half the bar width (unless many bars in groups)
+	* Never show more than nine slices in pie chart and combine very small
+	  category posts
+	* Set spacing between bars to half the bar width
+	  (unless many bars in groups)
 	* Reverse order of horizontal bar chart
 	* Many minor chart fixes/improvements (especially without Qt Charts)
 
 2018-06-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Add new default chart theme
-	* Use the same color for all bars in categories comparison bar chart, show x-axis labels,
+	* Use the same color for all bars in categories comparison bar chart,
+	  show x-axis labels,
 	  and remove vertical bar chart
 	* Use budgeted values for more over time chart data
 	* Allow user to set last month for yearly value in over time chart
-	* Sort categories and accounts using total value and hide categories with zero value in charts
+	* Sort categories and accounts using total value and hide categories
+	  with zero value in charts
 	* Yearly "Assets and Liabilies" bars
 	* Add "Edit Account" button to ledger
 	* Show incomes and expenses in profit report
@@ -225,7 +244,8 @@
 
 2018-04-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Allow value field conversion using $, £, €, ¥, and local currency symbol, even if not default currency
+	* Allow value field conversion using $, £, €, ¥, and local currency
+	  symbol,  even if not default currency
 
 2018-04-15  Fabian Wolff <fabi.wolff@arcor.de>
 
@@ -250,7 +270,8 @@
 
 2018-01-13  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Restore possibility to specify payee/payer for each separate transaction in a split transaction 
+	* Restore possibility to specify payee/payer for each separate
+	  transaction in a split transaction 
 
 2018-01-09  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
@@ -259,9 +280,10 @@
 2018-01-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Include subcategories in over time report
-	* Option to merge changes when saving a file that has been modified after saving/loading
-	* Id, first revision and last revision transaction, account and security properties,
-	  and revision and last id file properties
+	* Option to merge changes when saving a file that has been modified
+	  after saving/loading
+	* Id, first revision and last revision transaction, account and
+	  security properties, and revision and last id file properties
 
 2017-12-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
@@ -269,20 +291,22 @@
 
 2017-12-27  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Only assume negative income/expense if the category is defined in the QIF file
+	* Only assume negative income/expense if the category is defined
+	  in the QIF file
 
 2017-12-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix editing of transfer part of split transaction
 	* Fix split transaction account selection when joining transfers
-	* Set split values from input fields when clicking "Edit..." in a transactions view
+	* Set split values from input fields when clicking "Edit..."
+	  in a transactions view
 	* Fix segfault on export of transaction with multiple accounts/payments
 
 2017-12-17  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Allow account creation from loan payment dialog
-	* Update logic for when confirm schedule dialog is shown or transaction is automatically 
-	  added when scheduled transaction is added/edited
+	* Update logic for when confirm schedule dialog is shown or transaction
+	  is automatically added when scheduled transaction is added/edited
 
 2017-12-15  Hanna Knutsson <hanna.knutsson@protonmail.com>
 

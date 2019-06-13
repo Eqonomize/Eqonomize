@@ -1429,8 +1429,9 @@ void OverTimeReport::updateDisplay() {
 	outf << "\t\t</small></div>" << '\n';
 	outf << "\t</body>" << '\n';
 	outf << "</html>" << '\n';
-	htmlview->setLineWrapMode((cats.count() > 3 || tags.count() > 4) ? QTextEdit::NoWrap : QTextEdit::WidgetWidth);
+	htmlview->setLineWrapMode(QTextEdit::NoWrap);
 	htmlview->setHtml(source);
+	if(htmlview->document()->size().width() < htmlview->width()) htmlview->setLineWrapMode(QTextEdit::WidgetWidth);
 }
 void OverTimeReport::updateTransactions() {
 	categoryChanged(categoryCombo->currentIndex());

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2019 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -23,6 +23,7 @@
 
 #include <QDoubleSpinBox>
 #include <QStringList>
+#include <QDateEdit>
 
 class Currency;
 class Budget;
@@ -77,6 +78,25 @@ class EqonomizeValueEdit : public QDoubleSpinBox {
 
 	signals:
 
+		void returnPressed();
+
+};
+
+class EqonomizeDateEdit : public QDateEdit {
+
+	Q_OBJECT
+
+	public:
+	
+		EqonomizeDateEdit(QWidget *parent = NULL);
+		EqonomizeDateEdit(const QDate &date, QWidget *parent = NULL);
+	
+	protected slots:
+	
+		void keyPressEvent(QKeyEvent *event);
+		
+	signals:
+	
 		void returnPressed();
 
 };

@@ -353,7 +353,7 @@ void OverTimeChart::resetOptions() {
 	sourceCombo->blockSignals(false);
 	sourceChanged(0);
 	resetDate();
-
+	
 }
 void OverTimeChart::resetDate() {
 
@@ -377,18 +377,22 @@ void OverTimeChart::resetDate() {
 	start_date = budget->budgetDateToMonth(start_date);
 
 	end_date = QDate::currentDate().addDays(-1);
+
 	if(!budget->isLastBudgetDay(end_date)) {
 		end_date = budget->lastBudgetDay(end_date);
 		budget->addBudgetMonthsSetLast(end_date, -1);
 	}
+
 	if(end_date < start_date || budget->isSameBudgetMonth(start_date, end_date)) {
 		end_date = budget->lastBudgetDay(QDate::currentDate());
 	}
 	end_date = budget->firstBudgetDay(end_date);
-	
+
 	start_date = budget->budgetDateToMonth(start_date);
 	end_date = budget->budgetDateToMonth(end_date);
 	
+	endDateEdit->setMonthEnabled(!yearlyButton->isEnabled() || !yearlyButton->isChecked() || budget->budgetYear(end_date) == budget->budgetYear(QDate::currentDate()));
+
 	startDateEdit->blockSignals(true);
 	endDateEdit->blockSignals(true);
 	startDateEdit->setDate(start_date);
@@ -401,6 +405,7 @@ void OverTimeChart::resetDate() {
 void OverTimeChart::valueTypeToggled(bool b) {
 	if(!b) return;
 	startDateEdit->setMonthEnabled(!yearlyButton->isEnabled() || !yearlyButton->isChecked());
+	endDateEdit->setMonthEnabled(!yearlyButton->isEnabled() || !yearlyButton->isChecked() || budget->budgetYear(end_date) == budget->budgetYear(QDate::currentDate()));
 #ifdef QT_CHARTS_LIB
 	if(typeCombo->currentIndex() != 0) {
 		if(valueGroup->checkedId() == 4) {resetDate(); updateDisplay();}
@@ -409,7 +414,6 @@ void OverTimeChart::valueTypeToggled(bool b) {
 		updateDisplay();
 	}
 #else
-	endDateEdit->setMonthEnabled(!yearlyButton->isEnabled() || !yearlyButton->isChecked() || budget->budgetYear(end_date) == budget->budgetYear(QDate::currentDate()));
 	updateDisplay();
 #endif
 }
@@ -3295,7 +3299,7 @@ void OverTimeChart::updateDisplay() {
 
 	calculate_minmax_lines(maxvalue, minvalue, y_lines, y_minor, current_source2 == -1 || (current_source2 == 0 && chart_type == 4 && type != 2), type != 2);
 	
-	switch((current_source2 >= 27 && b_income != b_expense) ? (b_income ? current_source2 - 22 : current_source - 21) : current_source2) {
+	switch((current_source2 >= 27 && b_income != b_expense) ? (b_income ? current_source2 - 22 : current_source2 - 21) : current_source2) {
 		case -3: {
 			if(b_income && !b_expense) {
 				if(current_assets) title_string = tr("Incomes, %2: %1").arg(tr("Tags")).arg(current_assets->name());
@@ -3379,38 +3383,38 @@ void OverTimeChart::updateDisplay() {
 			break;
 		}
 		case 19: {
-			if(current_assets) title_string = tr("Incomes, %4: %3, %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_description).arg(current_payee).arg(current_assets->name());
-			else title_string = tr("Incomes: %3, %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_description).arg(current_payee);
+			if(current_assets) title_string = tr("Incomes, %4: %3, %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_description).arg(current_payee.isEmpty() ? tr("No payer") : current_payee).arg(current_assets->name());
+			else title_string = tr("Incomes: %3, %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_description).arg(current_payee.isEmpty() ? tr("No payer") : current_payee);
 			break;
 		}
 		case 20: {
-			if(current_assets) title_string = tr("Expenses, %4: %3, %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_description).arg(current_payee).arg(current_assets->name());
-			else title_string = tr("Expenses: %3, %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_description).arg(current_payee);
+			if(current_assets) title_string = tr("Expenses, %4: %3, %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_description).arg(current_payee.isEmpty() ? tr("No payee") : current_payee).arg(current_assets->name());
+			else title_string = tr("Expenses: %3, %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_description).arg(current_payee.isEmpty() ? tr("No payee") : current_payee);
 			break;
 		}
 		case 41: {
-			if(current_assets) title_string = tr("%4: %3, %2, %1").arg(current_tag).arg(current_description).arg(current_payee).arg(current_assets->name());
-			else title_string = tr("%3, %2, %1").arg(current_tag).arg(current_description).arg(current_payee);
+			if(current_assets) title_string = tr("%4: %3, %2, %1").arg(current_tag).arg(current_description).arg(current_payee.isEmpty() ? tr("No payee/payer") : current_payee).arg(current_assets->name());
+			else title_string = tr("%3, %2, %1").arg(current_tag).arg(current_description).arg(current_payee.isEmpty() ? tr("No payee/payer") : current_payee);
 			break;
 		}
 		case 23:
 		case 17:
 		case 15: {
-			if(current_assets) title_string = tr("Incomes, %3: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_payee).arg(current_assets->name());
-			else title_string = tr("Incomes: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_payee);
+			if(current_assets) title_string = tr("Incomes, %3: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_payee.isEmpty() ? tr("No payer") : current_payee).arg(current_assets->name());
+			else title_string = tr("Incomes: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_payee.isEmpty() ? tr("No payer") : current_payee);
 			break;
 		}
 		case 24:
 		case 18:
 		case 16: {
-			if(current_assets) title_string = tr("Expenses, %3: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_payee).arg(current_assets->name());
-			else title_string = tr("Expenses: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_payee);
+			if(current_assets) title_string = tr("Expenses, %3: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_payee.isEmpty() ? tr("No payee") : current_payee).arg(current_assets->name());
+			else title_string = tr("Expenses: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(current_payee.isEmpty() ? tr("No payee") : current_payee);
 			break;
 		}
 		case 37:
 		case 39: {
-			if(current_assets) title_string = tr("%3: %2, %1").arg(current_tag).arg(current_payee).arg(current_assets->name());
-			else title_string = tr("%2, %1").arg(current_tag).arg(current_payee);
+			if(current_assets) title_string = tr("%3: %2, %1").arg(current_tag).arg(current_payee.isEmpty() ? tr("No payee/payer") : current_payee).arg(current_assets->name());
+			else title_string = tr("%2, %1").arg(current_tag).arg(current_payee.isEmpty() ? tr("No payee/payer") : current_payee);
 			break;
 		}
 	}
@@ -3565,7 +3569,7 @@ void OverTimeChart::updateDisplay() {
 		else if(source_org == -2) {monthly_values = &monthly_cats[cat_order[cat_i]];}
 
 		QString series_name;
-		switch(current_source) {
+		switch((current_source > 27 && current_source < 50 && b_income != b_expense) ? (b_income ? current_source - 22 : current_source - 21) : current_source) {
 			case -2: {
 				if(index == 0) series_name = tr("Assets");
 				else series_name = tr("Liabilities");
@@ -3587,9 +3591,12 @@ void OverTimeChart::updateDisplay() {
 			case 4: {series_name = cat_order[cat_i]->nameWithParent(); break;}
 			case 21: {}
 			case 22: {series_name = cat_order[cat_i]->name(); break;}
-			case 23: {}
+			case 23: {
+				series_name = tr("%1/%2", "%1: Category; %2: Payee/Payer").arg(cat_order[cat_i]->name()).arg(current_payee.isEmpty() ? tr("No payer") : current_payee);
+				break;
+			}
 			case 24: {
-				series_name = tr("%1/%2", "%1: Category; %2: Payee/Payer").arg(cat_order[cat_i]->name()).arg(current_payee);
+				series_name = tr("%1/%2", "%1: Category; %2: Payee/Payer").arg(cat_order[cat_i]->name()).arg(current_payee.isEmpty() ? tr("No payee") : current_payee);
 				break;
 			}
 			case 27: {series_name = current_tag; break;}
@@ -3620,7 +3627,11 @@ void OverTimeChart::updateDisplay() {
 				break;
 			}
 			case 35: {}
-			case 33: {}
+			case 33: {
+				if(desc_order[desc_i].isEmpty()) series_name = tr("No payee/payer");
+				else series_name = desc_map[desc_order[desc_i]];
+				break;
+			}
 			case 14: {}
 			case 12: {
 				if(desc_order[desc_i].isEmpty()) series_name = tr("No payee");
@@ -3632,26 +3643,38 @@ void OverTimeChart::updateDisplay() {
 				else series_name = current_payee;
 				break;
 			}
-			case 37: {}
+			case 37: {
+				if(current_payee.isEmpty()) series_name = tr("No payee/payer");
+				else series_name = current_payee;
+				break;
+			}
 			case 16: {
 				if(current_payee.isEmpty()) series_name = tr("No payee");
 				else series_name = current_payee;
 				break;
 			}
-			case 41: {}
-			case 19: {
+			case 41: {
 				QString str1, str2;
-				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = tr("no payer");}
-				else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("no payer");}
+				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = tr("No payee/payer");}
+				else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("No payee/payer");}
 				else if(current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = current_payee;}
 				else {str1 = current_description; str2 = current_payee;}
-				series_name = tr("%1/%2", "%1: Description; %2: Payer/Payer").arg(str1).arg(str2);
+				series_name = tr("%1/%2", "%1: Description; %2: Payee/Payer").arg(str1).arg(str2);
+				break;
+			}
+			case 19: {
+				QString str1, str2;
+				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = tr("No payer");}
+				else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("No payer");}
+				else if(current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = current_payee;}
+				else {str1 = current_description; str2 = current_payee;}
+				series_name = tr("%1/%2", "%1: Description; %2: Payee/Payer").arg(str1).arg(str2);
 				break;
 			}
 			case 20: {
 				QString str1, str2;
-				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = tr("no payee");}
-				else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("no payee");}
+				if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = tr("No payee");}
+				else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("No payee");}
 				else if(current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = current_payee;}
 				else {str1 = current_description; str2 = current_payee;}
 				series_name = tr("%1/%2", "%1: Description; %2: Payee/Payer").arg(str1).arg(str2);
@@ -3827,10 +3850,10 @@ void OverTimeChart::updateDisplay() {
 		
 		if(source_org == 7 || source_org == 11) {monthly_values = &monthly_desc[desc_order[desc_i]];}
 		else if(source_org == -2) {monthly_values = &monthly_cats[cat_order[cat_i]];}
-switch(current_source) {
+
 		if(current_source2 != -2 || !current_assets || (index == 0 && b_assets) || (index == 1 && b_liabilities) || (!b_liabilities && !b_assets)) {
 			QGraphicsSimpleTextItem *legend_text = new QGraphicsSimpleTextItem();
-			switch(current_source) {
+			switch((current_source > 27 && current_source < 50 && b_income != b_expense) ? (b_income ? current_source - 22 : current_source - 21) : current_source) {
 				case -2: {
 					if(index == 0) legend_text->setText(tr("Assets"));
 					else legend_text->setText(tr("Liabilities"));
@@ -3852,9 +3875,12 @@ switch(current_source) {
 				case 4: {legend_text->setText(cat_order[cat_i]->nameWithParent()); break;}
 				case 21: {}
 				case 22: {legend_text->setText(cat_order[cat_i]->name()); break;}
-				case 23: {}
+				case 23: {
+					legend_text->setText(tr("%1/%2", "%1: Category; %2: Payee/Payer").arg(cat_order[cat_i]->name()).arg(current_payee.isEmpty() ? tr("No payer") : current_payee));
+					break;
+				}
 				case 24: {
-					legend_text->setText(tr("%1/%2", "%1: Category; %2: Payee/Payer").arg(cat_order[cat_i]->name()).arg(current_payee));
+					legend_text->setText(tr("%1/%2", "%1: Category; %2: Payee/Payer").arg(cat_order[cat_i]->name()).arg(current_payee.isEmpty() ? tr("No payee") : current_payee));
 					break;
 				}
 				case 27: {legend_text->setText(current_tag); break;}
@@ -3885,14 +3911,22 @@ switch(current_source) {
 					break;
 				}
 				case 35: {}
-				case 33: {}
+				case 33: {
+					if(desc_order[desc_i].isEmpty()) legend_text->setText(tr("No payee/payer"));
+					else legend_text->setText(desc_map[desc_order[desc_i]]);
+					break;
+				}
 				case 14: {}
 				case 12: {
 					if(desc_order[desc_i].isEmpty()) legend_text->setText(tr("No payee"));
 					else legend_text->setText(desc_map[desc_order[desc_i]]);
 					break;
 				}
-				case 37: {}
+				case 37: {
+					if(current_payee.isEmpty()) legend_text->setText(tr("No payee/payer"));
+					else legend_text->setText(current_payee);
+					break;
+				}
 				case 15: {
 					if(current_payee.isEmpty()) legend_text->setText(tr("No payer"));
 					else legend_text->setText(current_payee);
@@ -3903,20 +3937,28 @@ switch(current_source) {
 					else legend_text->setText(current_payee);
 					break;
 				}
-				case 41: {}
-				case 19: {
+				case 41: {
 					QString str1, str2;
-					if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = tr("no payer");}
-					else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("no payer");}
+					if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = tr("No payee/payer");}
+					else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("No payee/payer");}
 					else if(current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = current_payee;}
 					else {str1 = current_description; str2 = current_payee;}
-					legend_text->setText(tr("%1/%2", "%1: Description; %2: Payer/Payer").arg(str1).arg(str2));
+					legend_text->setText(tr("%1/%2", "%1: Description; %2: Payee/Payer").arg(str1).arg(str2));
+					break;
+				}
+				case 19: {
+					QString str1, str2;
+					if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = tr("No payer");}
+					else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("No payer");}
+					else if(current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = current_payee;}
+					else {str1 = current_description; str2 = current_payee;}
+					legend_text->setText(tr("%1/%2", "%1: Description; %2: Payee/Payer").arg(str1).arg(str2));
 					break;
 				}
 				case 20: {
 					QString str1, str2;
-					if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = tr("no payee");}
-					else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("no payee");}
+					if(current_payee.isEmpty() && current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = tr("No payee");}
+					else if(current_payee.isEmpty()) {str1 = current_description; str2 = tr("No payee");}
 					else if(current_description.isEmpty()) {str1 = tr("No description", "Referring to the transaction description property (transaction title/generic article name)"); str2 = current_payee;}
 					else {str1 = current_description; str2 = current_payee;}
 					legend_text->setText(tr("%1/%2", "%1: Description; %2: Payee/Payer").arg(str1).arg(str2));

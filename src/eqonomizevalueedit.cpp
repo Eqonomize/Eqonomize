@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2019 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -538,5 +538,50 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 	input.remove(budget->monetary_group_separator);
 	input.replace(budget->monetary_decimal_separator, ".");
 	return input.toDouble();
+}
+
+EqonomizeDateEdit::EqonomizeDateEdit(QWidget *parent) : QDateEdit(QDate::currentDate(), parent) {}
+EqonomizeDateEdit::EqonomizeDateEdit(const QDate &date, QWidget *parent) : QDateEdit(date, parent) {}
+void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
+	if(event->key() == Qt::Key_Down || event->key() == Qt::Key_Up) {
+		if(currentSection() == QDateTimeEdit::DaySection) {
+			QDate d = date();
+			if(event->key() == Qt::Key_Up && d.day() == d.daysInMonth()) {
+				setDate(d.addDays(1));
+				event->accept();
+				return;
+			} else if(event->key() == Qt::Key_Down && d.day() == 1) {
+				setDate(d.addDays(-1));
+				event->accept();
+				return;
+			}
+		} else if(currentSection() == QDateTimeEdit::MonthSection) {
+			QDate d = date();
+			if(event->key() == Qt::Key_Up && d.month() == 12) {
+				setDate(d.addMonths(1));
+				event->accept();
+				return;
+			} else if(event->key() == Qt::Key_Down && d.month() == 1) {
+				setDate(d.addMonths(-1));
+				event->accept();
+				return;
+			}
+		}
+	} else if((event->key() == Qt::Key_PageUp || event->key() == Qt::Key_PageDown)) {
+		if(currentSection() == QDateTimeEdit::DaySection) {
+			setDate(date().addMonths(event->key() == Qt::Key_PageUp ? 1 : -1));
+			event->accept();
+			return;
+		} else if(currentSection() == QDateTimeEdit::MonthSection) {
+			setDate(date().addYears(event->key() == Qt::Key_PageUp ? 1 : -1));
+			event->accept();
+			return;
+		}
+	}
+	QDateEdit::keyPressEvent(event);
+	if(event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
+		event->accept();
+		emit returnPressed();
+	}
 }
 

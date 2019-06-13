@@ -139,7 +139,7 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 		accountCombo->updateAccounts();
 		grid->addWidget(accountCombo, row, 1); row++;
 		grid->addWidget(new QLabel(tr("Date:")), row, 0);
-		dateEdit = new QDateEdit(QDate::currentDate());
+		dateEdit = new EqonomizeDateEdit(QDate::currentDate());
 		dateEdit->setCalendarPopup(true);
 		grid->addWidget(dateEdit, row, 1);
 		row++;

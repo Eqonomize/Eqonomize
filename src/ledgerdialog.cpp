@@ -59,6 +59,7 @@
 
 #include "budget.h"
 #include "eqonomize.h"
+#include "eqonomizevalueedit.h"
 #include "transactioneditwidget.h"
 #include "eqonomizevalueedit.h"
 #include "editaccountdialogs.h"
@@ -244,7 +245,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	reconcileWidget = new QFrame(this);
 	QGridLayout *reconcileLayout = new QGridLayout;
 	reconcileLayout->addWidget(new QLabel(tr("Opening balance:", "Accounting context")), 0, 0);
-	reconcileStartEdit = new QDateEdit(QDate::currentDate(), this);
+	reconcileStartEdit = new EqonomizeDateEdit(QDate::currentDate(), this);
 	reconcileStartEdit->setCalendarPopup(true);
 	reconcileLayout->addWidget(reconcileStartEdit, 0, 1);
 	reconcileOpeningEdit = new EqonomizeValueEdit(0.0, true, true, this, budget);
@@ -261,7 +262,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	reconcileRChangeLabel = new QLabel(this);
 	reconcileLayout->addWidget(reconcileRChangeLabel, 1, 4);
 	reconcileLayout->addWidget(new QLabel(tr("Closing balance:", "Accounting context")), 2, 0);
-	reconcileEndEdit = new QDateEdit(QDate::currentDate(), this);
+	reconcileEndEdit = new EqonomizeDateEdit(QDate::currentDate(), this);
 	reconcileEndEdit->setCalendarPopup(true);
 	reconcileLayout->addWidget(reconcileEndEdit, 2, 1);
 	reconcileClosingEdit = new EqonomizeValueEdit(0.0, true, true, this, budget);
@@ -1017,11 +1018,11 @@ void LedgerDialog::printView() {
 		QGridLayout *grid = new QGridLayout();
 		box1->addLayout(grid);
 		grid->addWidget(new QLabel(tr("From:"), dialog), 0, 0);
-		QDateEdit *dateFromEdit = new QDateEdit(first_date, dialog);
+		QDateEdit *dateFromEdit = new EqonomizeDateEdit(first_date, dialog);
 		dateFromEdit->setCalendarPopup(true);
 		grid->addWidget(dateFromEdit, 0, 1);
 		grid->addWidget(new QLabel(tr("To:"), dialog), 1, 0);
-		QDateEdit *dateToEdit = new QDateEdit(QDate::currentDate(), dialog);
+		QDateEdit *dateToEdit = new EqonomizeDateEdit(QDate::currentDate(), dialog);
 		dateToEdit->setCalendarPopup(true);
 		grid->addWidget(dateToEdit, 1, 1);
 		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);

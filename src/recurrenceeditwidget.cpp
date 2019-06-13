@@ -44,6 +44,7 @@
 #include <QMessageBox>
 
 #include "budget.h"
+#include "eqonomizevalueedit.h"
 #include "recurrence.h"
 #include "recurrenceeditwidget.h"
 
@@ -209,7 +210,7 @@ EditRangeDialog::EditRangeDialog(const QDate &startdate, QWidget *parent) : QDia
 	endDateButton = new QRadioButton(tr("End on"), this);
 	rangeButtonGroup->addButton(endDateButton);
 	rangeLayout->addWidget(endDateButton, 3, 0);
-	endDateEdit = new QDateEdit(startdate, this);
+	endDateEdit = new EqonomizeDateEdit(startdate, this);
 	endDateEdit->setCalendarPopup(true);
 	rangeLayout->addWidget(endDateEdit, 3, 1, 1, 2);
 

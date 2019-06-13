@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2019 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -63,15 +63,6 @@
 #define CURROW(row, col)	(b_autoedit ? row % rows : row)
 #define CURCOL(row, col)	(b_autoedit ? ((row / rows) * 2) + col : col)
 #define TEROWCOL(row, col)	CURROW(row, col), CURCOL(row, col)
-
-
-EqonomizeDateEdit::EqonomizeDateEdit(QWidget *parent) : QDateEdit(QDate::currentDate(), parent) {}
-void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
-	QDateEdit::keyPressEvent(event);
-	if(event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
-		emit returnPressed();
-	}
-}
 
 TagButton::TagButton(bool small_button, bool allow_new_tag, Budget *budg, QWidget *parent) : QPushButton(parent), b_small(small_button) {
 	if(b_small) {
@@ -2120,7 +2111,7 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 	dateButton = new QCheckBox(tr("Date:"), this);
 	dateButton->setChecked(false);
 	editLayout->addWidget(dateButton, 2, 0);
-	dateEdit = new QDateEdit(QDate::currentDate(), this);
+	dateEdit = new EqonomizeDateEdit(QDate::currentDate(), this);
 	dateEdit->setCalendarPopup(true);
 	dateEdit->setEnabled(false);
 	editLayout->addWidget(dateEdit, 2, 1);

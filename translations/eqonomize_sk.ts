@@ -1884,29 +1884,29 @@ Value: %2</source>
 <context>
     <name>CategoriesComparisonReport</name>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="77"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="78"/>
         <source>Save As…</source>
         <translation type="unfinished">Uložiť ako…</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="79"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="80"/>
         <source>Print…</source>
         <translation type="unfinished">Tlačiť…</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="93"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="94"/>
         <source>Source:</source>
         <translation type="unfinished">Zdroj:</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="98"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2082"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="99"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2087"/>
         <source>All Categories, excluding subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="99"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2083"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="100"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2088"/>
         <source>All Categories, including subcategories</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1915,8 +1915,8 @@ Value: %2</source>
         <translation type="obsolete">Všetci príjemcovia/platitelia</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="132"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="154"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="133"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="155"/>
         <source>Subcategories</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1940,20 +1940,20 @@ Value: %2</source>
         <translation type="obsolete">Všetky kategórie</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="104"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1562"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="105"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1565"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1576"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2089"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1568"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1579"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2093"/>
         <source>Expenses: %1</source>
         <translation type="unfinished">Výdavky: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="108"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1567"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="109"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1570"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1577"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2095"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1573"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1580"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2098"/>
         <source>Incomes: %1</source>
         <translation type="unfinished">Prijmy: %1</translation>
     </message>
@@ -1962,60 +1962,60 @@ Value: %2</source>
         <translation type="obsolete">Popis pre</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="143"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="144"/>
         <source>Payees/payers for</source>
         <translation type="unfinished">Príjemca/platca pre</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="170"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="171"/>
         <source>Period:</source>
         <translation type="unfinished">Doba:</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="173"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="174"/>
         <source>From</source>
         <translation type="unfinished">Od</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="180"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="181"/>
         <source>To</source>
         <translation type="unfinished">Do</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="195"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="196"/>
         <source>Columns:</source>
         <translation type="unfinished">Stĺpce:</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="217"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1645"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1650"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="218"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1648"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1653"/>
         <source>Value</source>
         <translation type="unfinished">Hodnota</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="220"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="221"/>
         <source>Daily</source>
         <translation type="unfinished">Denne</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="223"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="224"/>
         <source>Monthly</source>
         <translation type="unfinished">Mesačne</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="226"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="227"/>
         <source>Yearly</source>
         <translation type="unfinished">Ročne</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="229"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1655"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="230"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1658"/>
         <source>Quantity</source>
         <translation type="unfinished">Množstvo</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="232"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="233"/>
         <source>Average value</source>
         <translation type="unfinished">Priemerná hodnota</translation>
     </message>
@@ -2024,14 +2024,14 @@ Value: %2</source>
         <translation type="obsolete">Všetky popisy</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="456"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2026"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="458"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2030"/>
         <source>All payees</source>
         <translation type="unfinished">Všetci príjemcovia</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="457"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2027"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="459"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2031"/>
         <source>All payers</source>
         <translation type="unfinished">Všetci platitelia</translation>
     </message>
@@ -2055,340 +2055,340 @@ Value: %2</source>
         <translation type="obsolete">Bez popisu</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="101"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2085"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="102"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2090"/>
         <source>All Payees and Payers</source>
         <translation type="unfinished">Všetci príjemcovia a platitelia</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="111"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2100"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="112"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2102"/>
         <source>Tag: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="118"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2107"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="119"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2110"/>
         <source>All Accounts</source>
         <translation>Všetky účty</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="136"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="137"/>
         <source>Descriptions for</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Popis pre</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="158"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="159"/>
         <source>Descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Popis</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="198"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="199"/>
         <source>Months</source>
         <translation type="unfinished">Mesiaca</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="201"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="202"/>
         <source>Years</source>
         <translation type="unfinished">Roky</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="204"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1554"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1555"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1576"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1577"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1578"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="205"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1557"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1558"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1579"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1580"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1581"/>
         <source>Tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="207"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="208"/>
         <source>Total:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="434"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2004"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="436"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2008"/>
         <source>All descriptions</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Všetky popisy</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="458"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2028"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="460"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2032"/>
         <source>All payees/payers</source>
         <translation type="unfinished">Všetci príjemcovia/platitelia</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="463"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1541"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1546"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1550"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1563"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1568"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1572"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1766"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2038"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="465"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1544"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1549"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1553"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1566"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1571"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1575"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1769"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2042"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Bez popisu</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="469"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1542"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1551"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1564"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1573"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1763"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2055"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="471"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1545"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1554"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1567"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1576"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1766"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2059"/>
         <source>No payee</source>
         <translation type="unfinished">Bez príjemcu</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="470"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1547"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1551"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1569"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1573"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1764"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2056"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="472"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1550"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1554"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1572"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1576"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1767"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2060"/>
         <source>No payer</source>
         <translation type="unfinished">Bez platcu</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="498"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="503"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="524"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="528"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="606"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="614"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="500"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="505"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="526"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="530"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="608"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="616"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="498"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="524"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="500"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="526"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Nesprávny dátum.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="503"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="505"/>
         <source>To date is before from date.</source>
         <translation type="unfinished">Dátum do je pred dátumom od.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="528"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="530"/>
         <source>From date is after to date.</source>
         <translation type="unfinished">Dátum od je po dátume do.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="606"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="608"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation type="unfinished">Do súboru sa nedá zapisovať.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="614"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="616"/>
         <source>Error while writing file; file was not saved.</source>
         <translation type="unfinished">Chyba počas zápisu do súboru; súbor nebol uložený.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1540"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1543"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1554"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1546"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1557"/>
         <source>Expenses, %2: %1</source>
         <translation type="unfinished">Výdavky, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1541"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1542"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1544"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1545"/>
         <source>Expenses, %3: %2, %1</source>
         <translation type="unfinished">Výdavky, %3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1545"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1548"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1555"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1551"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1558"/>
         <source>Incomes, %2: %1</source>
         <translation type="unfinished">Prijmy, %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1546"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1547"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1549"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1550"/>
         <source>Incomes, %3: %2, %1</source>
         <translation type="unfinished">Prijmy, %3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1550"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1551"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1553"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1554"/>
         <source>%3: %2, %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1552"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1555"/>
         <source>%2: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1556"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1559"/>
         <source>Tags, %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1558"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1561"/>
         <source>Incomes &amp; Expenses, %1</source>
         <translation type="unfinished">Prijmy a výdavky, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1563"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1564"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1566"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1567"/>
         <source>Expenses: %2, %1</source>
         <translation type="unfinished">Výdavky: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1568"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1569"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1571"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1572"/>
         <source>Incomes: %2, %1</source>
         <translation type="unfinished">Prijmy: %2. %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1572"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1573"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1575"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1576"/>
         <source>%2, %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1580"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1583"/>
         <source>Incomes &amp; Expenses</source>
         <translation type="unfinished">Prijmy a výdavky</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1609"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1612"/>
         <source>%1 (%2&amp;ndash;%3)</source>
         <comment>html format; %1: title; %2: from date; %3: to date</comment>
         <translation type="unfinished">%1 (%2&amp;ndash;%3)</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1610"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1613"/>
         <source>%1 (to %2)</source>
         <comment>html format; %1: title; %2: to date</comment>
         <translation type="unfinished">%1 (do %2)</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1629"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1635"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1649"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1632"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1638"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1652"/>
         <source>Category</source>
         <translation type="unfinished">Kategória</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1630"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1641"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1633"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1644"/>
         <source>Payee</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1631"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1637"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1644"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1634"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1640"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1647"/>
         <source>Description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Popis</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1632"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1635"/>
         <source>Cost</source>
         <translation type="unfinished">Cena</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1636"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1642"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1639"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1645"/>
         <source>Payer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1638"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1641"/>
         <source>Income</source>
         <translation type="unfinished">Príjem</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1643"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1647"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1646"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1650"/>
         <source>Payee/Payer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1628"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1634"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1648"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1631"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1637"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1651"/>
         <source>Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1652"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1655"/>
         <source>Daily Average</source>
         <translation type="unfinished">Denný priemer</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1653"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1656"/>
         <source>Monthly Average</source>
         <translation type="unfinished">Mesačný priemer</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1654"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1657"/>
         <source>Yearly Average</source>
         <translation type="unfinished">Ročný priemer</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1657"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1660"/>
         <source>Average Cost</source>
         <translation type="unfinished">Priemerná cena</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1659"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1662"/>
         <source>Average Income</source>
         <translation type="unfinished">Priemerný príjem</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1661"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1664"/>
         <source>Average Value</source>
         <translation type="unfinished">Priemerná hodnota</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="471"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1765"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2057"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="473"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1768"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2061"/>
         <source>No payee/payer</source>
         <translation type="unfinished">Bez príjemcu/platcu</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1669"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1797"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1870"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1940"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1672"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1800"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1873"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1943"/>
         <source>Total</source>
         <translation type="unfinished">Spolu</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="100"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2084"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="101"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2089"/>
         <source>All Tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1870"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1873"/>
         <source>Total incomes</source>
         <translation type="unfinished">Celkové prijmy</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1940"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1943"/>
         <source>Total expenses</source>
         <translation type="unfinished">Celkové výdavky</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1963"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1966"/>
         <source>Total (Profits)</source>
         <translation type="unfinished">Spolu (Zisky)</translation>
     </message>
@@ -2942,32 +2942,32 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
 <context>
     <name>EditExceptionsDialog</name>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="52"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="53"/>
         <source>Edit Exceptions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="60"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="61"/>
         <source>Occurrences:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="68"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="69"/>
         <source>Add Exception</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="71"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="72"/>
         <source>Remove Exception</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="76"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="77"/>
         <source>Exceptions:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="81"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="82"/>
         <source>Only the first fifty occurrences are shown.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3507,49 +3507,49 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
 <context>
     <name>EditRangeDialog</name>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="184"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="185"/>
         <source>Edit Recurrence Range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="192"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="233"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="193"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="234"/>
         <source>Begins on: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="197"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="198"/>
         <source>No ending date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="201"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="202"/>
         <source>End after</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="207"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="208"/>
         <source>occurrence(s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="209"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="210"/>
         <source>End on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="297"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="303"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="298"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="304"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="297"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="298"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Nesprávny dátum.</translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="303"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="304"/>
         <source>End date before start date.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4716,17 +4716,17 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7999"/>
-        <location filename="../src/eqonomize.cpp" line="8058"/>
+        <location filename="../src/eqonomize.cpp" line="8060"/>
         <source>Tag name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8033"/>
+        <location filename="../src/eqonomize.cpp" line="8031"/>
         <source>Remove tag?</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/eqonomize.cpp" line="8033"/>
+        <location filename="../src/eqonomize.cpp" line="8031"/>
         <source>Do you wish to remove the tag &quot;%1&quot; from %n transaction(s)?</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -4735,7 +4735,7 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8058"/>
+        <location filename="../src/eqonomize.cpp" line="8060"/>
         <source>Rename Tag</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4857,7 +4857,7 @@ Podtvrďte tie, ktoré sa vykonali.</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="6471"/>
         <location filename="../src/eqonomize.cpp" line="7959"/>
-        <location filename="../src/eqonomize.cpp" line="9552"/>
+        <location filename="../src/eqonomize.cpp" line="9565"/>
         <source>Close Account</source>
         <comment>Mark account as closed</comment>
         <translation type="unfinished"></translation>
@@ -5114,7 +5114,7 @@ What do you want to do with them?</source>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7956"/>
-        <location filename="../src/eqonomize.cpp" line="9548"/>
+        <location filename="../src/eqonomize.cpp" line="9561"/>
         <source>Reopen Account</source>
         <comment>Mark account as not closed</comment>
         <translation type="unfinished"></translation>
@@ -5128,14 +5128,14 @@ What do you want to do with them?</source>
         <translation type="obsolete">Dlhy</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9508"/>
-        <location filename="../src/eqonomize.cpp" line="9532"/>
+        <location filename="../src/eqonomize.cpp" line="9521"/>
+        <location filename="../src/eqonomize.cpp" line="9545"/>
         <source>%1 (with no budget)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9509"/>
-        <location filename="../src/eqonomize.cpp" line="9533"/>
+        <location filename="../src/eqonomize.cpp" line="9522"/>
+        <location filename="../src/eqonomize.cpp" line="9546"/>
         <source>%1 (with budget %2)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6118,10 +6118,10 @@ What do you want to do with them?</source>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1958"/>
-        <location filename="../src/eqonomize.cpp" line="9047"/>
-        <location filename="../src/eqonomize.cpp" line="9072"/>
-        <location filename="../src/eqonomize.cpp" line="9402"/>
-        <location filename="../src/eqonomize.cpp" line="9403"/>
+        <location filename="../src/eqonomize.cpp" line="9060"/>
+        <location filename="../src/eqonomize.cpp" line="9085"/>
+        <location filename="../src/eqonomize.cpp" line="9415"/>
+        <location filename="../src/eqonomize.cpp" line="9416"/>
         <source>%2 of %1</source>
         <comment>%1: budget; %2: remaining budget</comment>
         <translation type="unfinished">%2 z %1</translation>
@@ -7036,39 +7036,39 @@ What do you want to do with them?</source>
 <context>
     <name>LedgerDialog</name>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="202"/>
+        <location filename="../src/ledgerdialog.cpp" line="203"/>
         <source>Account:</source>
         <translation type="unfinished">Účet:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="219"/>
+        <location filename="../src/ledgerdialog.cpp" line="220"/>
         <source>Export…</source>
         <translation type="unfinished">Exportovat&apos;…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="221"/>
+        <location filename="../src/ledgerdialog.cpp" line="222"/>
         <source>Print…</source>
         <translation type="unfinished">Tlačiť…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="223"/>
+        <location filename="../src/ledgerdialog.cpp" line="224"/>
         <source>Reconcile</source>
         <comment>Accounting context</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="256"/>
+        <location filename="../src/ledgerdialog.cpp" line="257"/>
         <source>Change:</source>
         <comment>Accounting context</comment>
         <translation type="unfinished">Obrat:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="292"/>
+        <location filename="../src/ledgerdialog.cpp" line="293"/>
         <source>Date</source>
         <translation type="unfinished">Dátum</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="293"/>
+        <location filename="../src/ledgerdialog.cpp" line="294"/>
         <source>Type</source>
         <translation type="unfinished">Typ</translation>
     </message>
@@ -7082,7 +7082,7 @@ What do you want to do with them?</source>
         <translation type="obsolete">Popis</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="295"/>
+        <location filename="../src/ledgerdialog.cpp" line="296"/>
         <source>Account/Category</source>
         <translation type="unfinished">Účet/Kategória</translation>
     </message>
@@ -7099,153 +7099,153 @@ What do you want to do with them?</source>
         <translation type="obsolete">Vyváženosť</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="331"/>
+        <location filename="../src/ledgerdialog.cpp" line="332"/>
         <source>New</source>
         <translation type="unfinished">Nový</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="343"/>
+        <location filename="../src/ledgerdialog.cpp" line="344"/>
         <source>Edit…</source>
         <translation type="unfinished">Upraviť…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="346"/>
+        <location filename="../src/ledgerdialog.cpp" line="347"/>
         <source>Delete</source>
         <translation type="unfinished">Odstrániť</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="349"/>
+        <location filename="../src/ledgerdialog.cpp" line="350"/>
         <source>Join…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="352"/>
+        <location filename="../src/ledgerdialog.cpp" line="353"/>
         <source>Split Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="520"/>
         <location filename="../src/ledgerdialog.cpp" line="521"/>
         <location filename="../src/ledgerdialog.cpp" line="522"/>
+        <location filename="../src/ledgerdialog.cpp" line="523"/>
         <source>Reconciled: %1 (%2)</source>
         <comment>Accounting context</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="581"/>
-        <location filename="../src/ledgerdialog.cpp" line="588"/>
-        <location filename="../src/ledgerdialog.cpp" line="596"/>
-        <location filename="../src/ledgerdialog.cpp" line="603"/>
-        <location filename="../src/ledgerdialog.cpp" line="852"/>
-        <location filename="../src/ledgerdialog.cpp" line="879"/>
-        <location filename="../src/ledgerdialog.cpp" line="886"/>
-        <location filename="../src/ledgerdialog.cpp" line="996"/>
-        <location filename="../src/ledgerdialog.cpp" line="1037"/>
-        <location filename="../src/ledgerdialog.cpp" line="1378"/>
-        <location filename="../src/ledgerdialog.cpp" line="1384"/>
-        <location filename="../src/ledgerdialog.cpp" line="1390"/>
+        <location filename="../src/ledgerdialog.cpp" line="582"/>
+        <location filename="../src/ledgerdialog.cpp" line="589"/>
+        <location filename="../src/ledgerdialog.cpp" line="597"/>
+        <location filename="../src/ledgerdialog.cpp" line="604"/>
+        <location filename="../src/ledgerdialog.cpp" line="853"/>
+        <location filename="../src/ledgerdialog.cpp" line="880"/>
+        <location filename="../src/ledgerdialog.cpp" line="887"/>
+        <location filename="../src/ledgerdialog.cpp" line="997"/>
+        <location filename="../src/ledgerdialog.cpp" line="1038"/>
+        <location filename="../src/ledgerdialog.cpp" line="1379"/>
+        <location filename="../src/ledgerdialog.cpp" line="1385"/>
+        <location filename="../src/ledgerdialog.cpp" line="1391"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="581"/>
-        <location filename="../src/ledgerdialog.cpp" line="596"/>
+        <location filename="../src/ledgerdialog.cpp" line="582"/>
+        <location filename="../src/ledgerdialog.cpp" line="597"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Nesprávny dátum.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="588"/>
+        <location filename="../src/ledgerdialog.cpp" line="589"/>
         <source>Opening date is after closing date.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="603"/>
+        <location filename="../src/ledgerdialog.cpp" line="604"/>
         <source>Closing date is before opening date.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="852"/>
-        <location filename="../src/ledgerdialog.cpp" line="996"/>
+        <location filename="../src/ledgerdialog.cpp" line="853"/>
+        <location filename="../src/ledgerdialog.cpp" line="997"/>
         <source>Empty transaction list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="879"/>
+        <location filename="../src/ledgerdialog.cpp" line="880"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation type="unfinished">Do súboru sa nedá zapisovať.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="886"/>
+        <location filename="../src/ledgerdialog.cpp" line="887"/>
         <source>Error while writing file; file was not saved.</source>
         <translation type="unfinished">Chyba počas zápisu do súboru; súbor nebol uložený.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="907"/>
+        <location filename="../src/ledgerdialog.cpp" line="908"/>
         <source>Ledger</source>
         <translation type="unfinished">Hlavná kniha</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="913"/>
+        <location filename="../src/ledgerdialog.cpp" line="914"/>
         <source>Transactions for %1</source>
         <translation type="unfinished">Prevody pre %1</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1015"/>
+        <location filename="../src/ledgerdialog.cpp" line="1016"/>
         <source>Select Time Period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1019"/>
+        <location filename="../src/ledgerdialog.cpp" line="1020"/>
         <source>From:</source>
         <translation type="unfinished">Od:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1023"/>
+        <location filename="../src/ledgerdialog.cpp" line="1024"/>
         <source>To:</source>
         <translation type="unfinished">Do:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1037"/>
+        <location filename="../src/ledgerdialog.cpp" line="1038"/>
         <source>To date is before from date.</source>
         <translation type="unfinished">Dátum do je pred dátumom od.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1195"/>
         <location filename="../src/ledgerdialog.cpp" line="1196"/>
+        <location filename="../src/ledgerdialog.cpp" line="1197"/>
         <source>Balance change:</source>
         <comment>Account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1225"/>
+        <location filename="../src/ledgerdialog.cpp" line="1226"/>
         <source>Delete transactions?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1225"/>
+        <location filename="../src/ledgerdialog.cpp" line="1226"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1448"/>
+        <location filename="../src/ledgerdialog.cpp" line="1449"/>
         <source>Opening balance</source>
         <comment>Account balance</comment>
         <translation type="unfinished">Počiatočný zostatok</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1627"/>
+        <location filename="../src/ledgerdialog.cpp" line="1628"/>
         <source>Account Balance Adjustment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1669"/>
+        <location filename="../src/ledgerdialog.cpp" line="1670"/>
         <source>Current balance:</source>
         <comment>Account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1195"/>
-        <location filename="../src/ledgerdialog.cpp" line="1669"/>
+        <location filename="../src/ledgerdialog.cpp" line="1196"/>
+        <location filename="../src/ledgerdialog.cpp" line="1670"/>
         <source>Average balance:</source>
         <comment>Account balance</comment>
         <translation type="unfinished"></translation>
@@ -7261,24 +7261,24 @@ What do you want to do with them?</source>
         <translation type="obsolete">Vyrovnanie</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1667"/>
+        <location filename="../src/ledgerdialog.cpp" line="1668"/>
         <source>Current debt:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1667"/>
+        <location filename="../src/ledgerdialog.cpp" line="1668"/>
         <source>Total debt reduction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1667"/>
+        <location filename="../src/ledgerdialog.cpp" line="1668"/>
         <source>Total interest and fees:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1195"/>
         <location filename="../src/ledgerdialog.cpp" line="1196"/>
-        <location filename="../src/ledgerdialog.cpp" line="1669"/>
+        <location filename="../src/ledgerdialog.cpp" line="1197"/>
+        <location filename="../src/ledgerdialog.cpp" line="1670"/>
         <source>Number of transactions:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7287,7 +7287,7 @@ What do you want to do with them?</source>
         <translation type="obsolete">Počiatočné vyrovnanie</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="294"/>
+        <location filename="../src/ledgerdialog.cpp" line="295"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Popis</translation>
@@ -7298,132 +7298,132 @@ What do you want to do with them?</source>
         <translation type="obsolete">Zostatok</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1378"/>
+        <location filename="../src/ledgerdialog.cpp" line="1379"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1384"/>
+        <location filename="../src/ledgerdialog.cpp" line="1385"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1390"/>
+        <location filename="../src/ledgerdialog.cpp" line="1391"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1474"/>
+        <location filename="../src/ledgerdialog.cpp" line="1475"/>
         <source>Split Transaction</source>
         <translation type="unfinished">Rozdeliť prevod</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="308"/>
-        <location filename="../src/ledgerdialog.cpp" line="1501"/>
-        <location filename="../src/ledgerdialog.cpp" line="1530"/>
-        <location filename="../src/ledgerdialog.cpp" line="1559"/>
-        <location filename="../src/ledgerdialog.cpp" line="1587"/>
+        <location filename="../src/ledgerdialog.cpp" line="309"/>
+        <location filename="../src/ledgerdialog.cpp" line="1502"/>
+        <location filename="../src/ledgerdialog.cpp" line="1531"/>
+        <location filename="../src/ledgerdialog.cpp" line="1560"/>
+        <location filename="../src/ledgerdialog.cpp" line="1588"/>
         <source>Debt Payment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1501"/>
+        <location filename="../src/ledgerdialog.cpp" line="1502"/>
         <source>Reduction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1530"/>
+        <location filename="../src/ledgerdialog.cpp" line="1531"/>
         <source>Fee</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1559"/>
+        <location filename="../src/ledgerdialog.cpp" line="1560"/>
         <source>Interest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1621"/>
+        <location filename="../src/ledgerdialog.cpp" line="1622"/>
         <source>Income</source>
         <translation type="unfinished">Príjem</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1622"/>
+        <location filename="../src/ledgerdialog.cpp" line="1623"/>
         <source>Repayment</source>
         <translation type="unfinished">Splatenie</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="299"/>
-        <location filename="../src/ledgerdialog.cpp" line="1624"/>
+        <location filename="../src/ledgerdialog.cpp" line="300"/>
+        <location filename="../src/ledgerdialog.cpp" line="1625"/>
         <source>Expense</source>
         <translation type="unfinished">Výdaj</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="216"/>
+        <location filename="../src/ledgerdialog.cpp" line="217"/>
         <source>Edit Account…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="227"/>
+        <location filename="../src/ledgerdialog.cpp" line="228"/>
         <source>Mark all as reconciled</source>
         <comment>Accounting context</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="246"/>
+        <location filename="../src/ledgerdialog.cpp" line="247"/>
         <source>Opening balance:</source>
         <comment>Accounting context</comment>
         <translation type="unfinished">Počiatočný zostatok:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="263"/>
+        <location filename="../src/ledgerdialog.cpp" line="264"/>
         <source>Closing balance:</source>
         <comment>Accounting context</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="291"/>
+        <location filename="../src/ledgerdialog.cpp" line="292"/>
         <source>R</source>
         <comment>Header for account reconciled checkbox column</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="296"/>
+        <location filename="../src/ledgerdialog.cpp" line="297"/>
         <source>Payee/Payer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="297"/>
+        <location filename="../src/ledgerdialog.cpp" line="298"/>
         <source>Tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="298"/>
+        <location filename="../src/ledgerdialog.cpp" line="299"/>
         <source>Comments</source>
         <translation type="unfinished">Poznámka</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="300"/>
+        <location filename="../src/ledgerdialog.cpp" line="301"/>
         <source>Deposit</source>
         <comment>Money put into account</comment>
         <translation type="unfinished">Vklad</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="301"/>
+        <location filename="../src/ledgerdialog.cpp" line="302"/>
         <source>Withdrawal</source>
         <comment>Money taken out from account</comment>
         <translation type="unfinished">Výber</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="302"/>
+        <location filename="../src/ledgerdialog.cpp" line="303"/>
         <source>Balance</source>
         <comment>Noun. Balance of an account</comment>
         <translation type="unfinished">Zostatok</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="369"/>
+        <location filename="../src/ledgerdialog.cpp" line="370"/>
         <source>Edit Transaction(s)…</source>
         <translation type="unfinished">Uprav prevod(-y)…</translation>
     </message>
@@ -7432,30 +7432,30 @@ What do you want to do with them?</source>
         <translation type="obsolete">Pripoj prevod…</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="374"/>
+        <location filename="../src/ledgerdialog.cpp" line="375"/>
         <source>Remove Transaction(s)</source>
         <translation type="unfinished">Odstrániť prevod(-y)</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="375"/>
+        <location filename="../src/ledgerdialog.cpp" line="376"/>
         <source>Mark as reconciled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="523"/>
         <location filename="../src/ledgerdialog.cpp" line="524"/>
         <location filename="../src/ledgerdialog.cpp" line="525"/>
+        <location filename="../src/ledgerdialog.cpp" line="526"/>
         <source>Book value: %1 (%2)</source>
         <comment>Accounting context</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="779"/>
+        <location filename="../src/ledgerdialog.cpp" line="780"/>
         <source>Ascending order</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1625"/>
+        <location filename="../src/ledgerdialog.cpp" line="1626"/>
         <source>Refund</source>
         <translation type="unfinished">Vrátenie</translation>
     </message>
@@ -7464,7 +7464,7 @@ What do you want to do with them?</source>
         <translation type="obsolete">Vyrovnanie</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1630"/>
+        <location filename="../src/ledgerdialog.cpp" line="1631"/>
         <source>Transfer</source>
         <translation type="unfinished">Prevod</translation>
     </message>
@@ -7539,7 +7539,7 @@ What do you want to do with them?</source>
 <context>
     <name>MultipleTransactionsEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2087"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2078"/>
         <source>Modify Transactions</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7548,43 +7548,43 @@ What do you want to do with them?</source>
         <translation type="obsolete">Názov:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2100"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2091"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Popis:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2110"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2101"/>
         <source>Amount:</source>
         <translation type="unfinished">Množstvo:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2111"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2102"/>
         <source>Income:</source>
         <translation type="unfinished">Príjem:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2112"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2103"/>
         <source>Cost:</source>
         <translation type="unfinished">Cena:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2120"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2111"/>
         <source>Date:</source>
         <translation type="unfinished">Dátum:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2131"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2122"/>
         <source>Category:</source>
         <translation type="unfinished">Kategória:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2144"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2135"/>
         <source>Payer:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2145"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2136"/>
         <source>Payee:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7597,24 +7597,24 @@ What do you want to do with them?</source>
         <translation type="obsolete">Nová kategória vydavkov…</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2308"/>
-        <location filename="../src/transactioneditwidget.cpp" line="2316"/>
-        <location filename="../src/transactioneditwidget.cpp" line="2327"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2299"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2307"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2318"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2308"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2299"/>
         <source>No income category available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2316"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2307"/>
         <source>No expense category available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2327"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2318"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Nesprávny dátum.</translation>
     </message>
@@ -7645,7 +7645,7 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="221"/>
         <location filename="../src/overtimechart.cpp" line="3320"/>
         <location filename="../src/overtimechart.cpp" line="3576"/>
-        <location filename="../src/overtimechart.cpp" line="3841"/>
+        <location filename="../src/overtimechart.cpp" line="3860"/>
         <source>Profits</source>
         <translation type="unfinished">Zisky</translation>
     </message>
@@ -7654,8 +7654,8 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="3337"/>
         <location filename="../src/overtimechart.cpp" line="3581"/>
         <location filename="../src/overtimechart.cpp" line="3585"/>
-        <location filename="../src/overtimechart.cpp" line="3846"/>
-        <location filename="../src/overtimechart.cpp" line="3850"/>
+        <location filename="../src/overtimechart.cpp" line="3865"/>
+        <location filename="../src/overtimechart.cpp" line="3869"/>
         <source>Expenses</source>
         <translation type="unfinished">Výdavky</translation>
     </message>
@@ -7664,8 +7664,8 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="3331"/>
         <location filename="../src/overtimechart.cpp" line="3580"/>
         <location filename="../src/overtimechart.cpp" line="3584"/>
-        <location filename="../src/overtimechart.cpp" line="3845"/>
-        <location filename="../src/overtimechart.cpp" line="3849"/>
+        <location filename="../src/overtimechart.cpp" line="3864"/>
+        <location filename="../src/overtimechart.cpp" line="3868"/>
         <source>Incomes</source>
         <translation type="unfinished">Prijmy</translation>
     </message>
@@ -7676,14 +7676,14 @@ What do you want to do with them?</source>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="3570"/>
-        <location filename="../src/overtimechart.cpp" line="3835"/>
+        <location filename="../src/overtimechart.cpp" line="3854"/>
         <source>Assets</source>
         <translation type="unfinished">Aktíva</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="230"/>
         <location filename="../src/overtimechart.cpp" line="720"/>
-        <location filename="../src/overtimechart.cpp" line="4380"/>
+        <location filename="../src/overtimechart.cpp" line="4418"/>
         <source>All Categories Combined</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7696,9 +7696,9 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="236"/>
         <location filename="../src/overtimechart.cpp" line="563"/>
         <location filename="../src/overtimechart.cpp" line="709"/>
-        <location filename="../src/overtimechart.cpp" line="4242"/>
-        <location filename="../src/overtimechart.cpp" line="4353"/>
-        <location filename="../src/overtimechart.cpp" line="4402"/>
+        <location filename="../src/overtimechart.cpp" line="4280"/>
+        <location filename="../src/overtimechart.cpp" line="4391"/>
+        <location filename="../src/overtimechart.cpp" line="4440"/>
         <source>All Descriptions Combined</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished"></translation>
@@ -7708,9 +7708,9 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="577"/>
         <location filename="../src/overtimechart.cpp" line="675"/>
         <location filename="../src/overtimechart.cpp" line="715"/>
-        <location filename="../src/overtimechart.cpp" line="4271"/>
-        <location filename="../src/overtimechart.cpp" line="4357"/>
-        <location filename="../src/overtimechart.cpp" line="4408"/>
+        <location filename="../src/overtimechart.cpp" line="4309"/>
+        <location filename="../src/overtimechart.cpp" line="4395"/>
+        <location filename="../src/overtimechart.cpp" line="4446"/>
         <source>All Payees/Payers Combined</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7765,8 +7765,8 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="575"/>
         <location filename="../src/overtimechart.cpp" line="673"/>
         <location filename="../src/overtimechart.cpp" line="713"/>
-        <location filename="../src/overtimechart.cpp" line="4269"/>
-        <location filename="../src/overtimechart.cpp" line="4407"/>
+        <location filename="../src/overtimechart.cpp" line="4307"/>
+        <location filename="../src/overtimechart.cpp" line="4445"/>
         <source>All Payers Combined</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7774,8 +7774,8 @@ What do you want to do with them?</source>
         <location filename="../src/overtimechart.cpp" line="576"/>
         <location filename="../src/overtimechart.cpp" line="674"/>
         <location filename="../src/overtimechart.cpp" line="714"/>
-        <location filename="../src/overtimechart.cpp" line="4270"/>
-        <location filename="../src/overtimechart.cpp" line="4406"/>
+        <location filename="../src/overtimechart.cpp" line="4308"/>
+        <location filename="../src/overtimechart.cpp" line="4444"/>
         <source>All Payees Combined</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7796,7 +7796,7 @@ What do you want to do with them?</source>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="3232"/>
-        <location filename="../src/overtimechart.cpp" line="3968"/>
+        <location filename="../src/overtimechart.cpp" line="4006"/>
         <source>Includes budgeted transactions</source>
         <translation type="unfinished">Obsahuje prevody rozpočtu</translation>
     </message>
@@ -7844,25 +7844,25 @@ What do you want to do with them?</source>
         <translation type="unfinished">Výdavky: %3, %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="4603"/>
-        <location filename="../src/overtimechart.cpp" line="4612"/>
-        <location filename="../src/overtimechart.cpp" line="4658"/>
-        <location filename="../src/overtimechart.cpp" line="4659"/>
+        <location filename="../src/overtimechart.cpp" line="4641"/>
+        <location filename="../src/overtimechart.cpp" line="4650"/>
+        <location filename="../src/overtimechart.cpp" line="4696"/>
+        <location filename="../src/overtimechart.cpp" line="4697"/>
         <source>%1
 Value: %2
 Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="4612"/>
-        <location filename="../src/overtimechart.cpp" line="4659"/>
+        <location filename="../src/overtimechart.cpp" line="4650"/>
+        <location filename="../src/overtimechart.cpp" line="4697"/>
         <source>MMMM yyyy</source>
         <comment>Month and year</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="673"/>
-        <location filename="../src/overtimechart.cpp" line="4269"/>
+        <location filename="../src/overtimechart.cpp" line="4307"/>
         <source>All Payers Split</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7873,7 +7873,7 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="674"/>
-        <location filename="../src/overtimechart.cpp" line="4270"/>
+        <location filename="../src/overtimechart.cpp" line="4308"/>
         <source>All Payees Split</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7883,42 +7883,74 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="681"/>
-        <location filename="../src/overtimechart.cpp" line="3618"/>
-        <location filename="../src/overtimechart.cpp" line="3631"/>
-        <location filename="../src/overtimechart.cpp" line="3883"/>
-        <location filename="../src/overtimechart.cpp" line="3897"/>
-        <location filename="../src/overtimechart.cpp" line="4214"/>
-        <location filename="../src/overtimechart.cpp" line="4300"/>
+        <location filename="../src/overtimechart.cpp" line="3382"/>
+        <location filename="../src/overtimechart.cpp" line="3383"/>
+        <location filename="../src/overtimechart.cpp" line="3399"/>
+        <location filename="../src/overtimechart.cpp" line="3400"/>
+        <location filename="../src/overtimechart.cpp" line="3591"/>
+        <location filename="../src/overtimechart.cpp" line="3621"/>
+        <location filename="../src/overtimechart.cpp" line="3638"/>
+        <location filename="../src/overtimechart.cpp" line="3663"/>
+        <location filename="../src/overtimechart.cpp" line="3664"/>
+        <location filename="../src/overtimechart.cpp" line="3875"/>
+        <location filename="../src/overtimechart.cpp" line="3905"/>
+        <location filename="../src/overtimechart.cpp" line="3927"/>
+        <location filename="../src/overtimechart.cpp" line="3947"/>
+        <location filename="../src/overtimechart.cpp" line="3948"/>
+        <location filename="../src/overtimechart.cpp" line="4252"/>
+        <location filename="../src/overtimechart.cpp" line="4338"/>
         <source>No payer</source>
         <translation type="unfinished">Bez platcu</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="682"/>
-        <location filename="../src/overtimechart.cpp" line="3626"/>
-        <location filename="../src/overtimechart.cpp" line="3637"/>
-        <location filename="../src/overtimechart.cpp" line="3891"/>
-        <location filename="../src/overtimechart.cpp" line="3902"/>
-        <location filename="../src/overtimechart.cpp" line="4212"/>
-        <location filename="../src/overtimechart.cpp" line="4301"/>
+        <location filename="../src/overtimechart.cpp" line="3387"/>
+        <location filename="../src/overtimechart.cpp" line="3388"/>
+        <location filename="../src/overtimechart.cpp" line="3406"/>
+        <location filename="../src/overtimechart.cpp" line="3407"/>
+        <location filename="../src/overtimechart.cpp" line="3595"/>
+        <location filename="../src/overtimechart.cpp" line="3633"/>
+        <location filename="../src/overtimechart.cpp" line="3648"/>
+        <location filename="../src/overtimechart.cpp" line="3672"/>
+        <location filename="../src/overtimechart.cpp" line="3673"/>
+        <location filename="../src/overtimechart.cpp" line="3879"/>
+        <location filename="../src/overtimechart.cpp" line="3917"/>
+        <location filename="../src/overtimechart.cpp" line="3932"/>
+        <location filename="../src/overtimechart.cpp" line="3956"/>
+        <location filename="../src/overtimechart.cpp" line="3957"/>
+        <location filename="../src/overtimechart.cpp" line="4250"/>
+        <location filename="../src/overtimechart.cpp" line="4339"/>
         <source>No payee</source>
         <translation type="unfinished">Bez príjemcu</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="683"/>
-        <location filename="../src/overtimechart.cpp" line="4302"/>
+        <location filename="../src/overtimechart.cpp" line="3392"/>
+        <location filename="../src/overtimechart.cpp" line="3393"/>
+        <location filename="../src/overtimechart.cpp" line="3412"/>
+        <location filename="../src/overtimechart.cpp" line="3413"/>
+        <location filename="../src/overtimechart.cpp" line="3627"/>
+        <location filename="../src/overtimechart.cpp" line="3643"/>
+        <location filename="../src/overtimechart.cpp" line="3654"/>
+        <location filename="../src/overtimechart.cpp" line="3655"/>
+        <location filename="../src/overtimechart.cpp" line="3911"/>
+        <location filename="../src/overtimechart.cpp" line="3922"/>
+        <location filename="../src/overtimechart.cpp" line="3938"/>
+        <location filename="../src/overtimechart.cpp" line="3939"/>
+        <location filename="../src/overtimechart.cpp" line="4340"/>
         <source>No payee/payer</source>
         <translation type="unfinished">Bez príjemcu/platcu</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="722"/>
         <location filename="../src/overtimechart.cpp" line="734"/>
-        <location filename="../src/overtimechart.cpp" line="4381"/>
+        <location filename="../src/overtimechart.cpp" line="4419"/>
         <source>All Categories Split</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="746"/>
-        <location filename="../src/overtimechart.cpp" line="4344"/>
+        <location filename="../src/overtimechart.cpp" line="4382"/>
         <source>All Tags Split</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8042,13 +8074,13 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="3231"/>
-        <location filename="../src/overtimechart.cpp" line="3967"/>
+        <location filename="../src/overtimechart.cpp" line="4005"/>
         <source>Includes scheduled and budgeted transactions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="3233"/>
-        <location filename="../src/overtimechart.cpp" line="3969"/>
+        <location filename="../src/overtimechart.cpp" line="4007"/>
         <source>Includes scheduled transactions</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8128,38 +8160,37 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="3571"/>
-        <location filename="../src/overtimechart.cpp" line="3836"/>
+        <location filename="../src/overtimechart.cpp" line="3855"/>
         <source>Liabilities</source>
         <translation type="unfinished">Dlhy</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3648"/>
-        <location filename="../src/overtimechart.cpp" line="3913"/>
-        <source>%1/%2</source>
-        <comment>%1: Description; %2: Payer/Payer</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/overtimechart.cpp" line="3657"/>
-        <location filename="../src/overtimechart.cpp" line="3922"/>
+        <location filename="../src/overtimechart.cpp" line="3658"/>
+        <location filename="../src/overtimechart.cpp" line="3667"/>
+        <location filename="../src/overtimechart.cpp" line="3676"/>
+        <location filename="../src/overtimechart.cpp" line="3942"/>
+        <location filename="../src/overtimechart.cpp" line="3951"/>
+        <location filename="../src/overtimechart.cpp" line="3960"/>
         <source>%1/%2</source>
         <comment>%1: Description; %2: Payee/Payer</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3662"/>
-        <location filename="../src/overtimechart.cpp" line="3927"/>
+        <location filename="../src/overtimechart.cpp" line="3681"/>
+        <location filename="../src/overtimechart.cpp" line="3965"/>
         <source>Other accounts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="4021"/>
+        <location filename="../src/overtimechart.cpp" line="4059"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3592"/>
-        <location filename="../src/overtimechart.cpp" line="3857"/>
+        <location filename="../src/overtimechart.cpp" line="3591"/>
+        <location filename="../src/overtimechart.cpp" line="3595"/>
+        <location filename="../src/overtimechart.cpp" line="3875"/>
+        <location filename="../src/overtimechart.cpp" line="3879"/>
         <source>%1/%2</source>
         <comment>%1: Category; %2: Payee/Payer</comment>
         <translation type="unfinished"></translation>
@@ -8206,13 +8237,13 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="250"/>
-        <location filename="../src/overtimechart.cpp" line="4434"/>
+        <location filename="../src/overtimechart.cpp" line="4472"/>
         <source>All Accounts Combined</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="251"/>
-        <location filename="../src/overtimechart.cpp" line="4435"/>
+        <location filename="../src/overtimechart.cpp" line="4473"/>
         <source>All Accounts Split</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8224,34 +8255,38 @@ Date: %3</source>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="625"/>
-        <location filename="../src/overtimechart.cpp" line="4243"/>
+        <location filename="../src/overtimechart.cpp" line="4281"/>
         <source>All Descriptions Split</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="670"/>
-        <location filename="../src/overtimechart.cpp" line="3605"/>
-        <location filename="../src/overtimechart.cpp" line="3612"/>
-        <location filename="../src/overtimechart.cpp" line="3644"/>
-        <location filename="../src/overtimechart.cpp" line="3646"/>
-        <location filename="../src/overtimechart.cpp" line="3653"/>
-        <location filename="../src/overtimechart.cpp" line="3655"/>
-        <location filename="../src/overtimechart.cpp" line="3870"/>
-        <location filename="../src/overtimechart.cpp" line="3877"/>
-        <location filename="../src/overtimechart.cpp" line="3909"/>
-        <location filename="../src/overtimechart.cpp" line="3911"/>
-        <location filename="../src/overtimechart.cpp" line="3918"/>
-        <location filename="../src/overtimechart.cpp" line="3920"/>
-        <location filename="../src/overtimechart.cpp" line="4210"/>
-        <location filename="../src/overtimechart.cpp" line="4284"/>
+        <location filename="../src/overtimechart.cpp" line="3608"/>
+        <location filename="../src/overtimechart.cpp" line="3615"/>
+        <location filename="../src/overtimechart.cpp" line="3654"/>
+        <location filename="../src/overtimechart.cpp" line="3656"/>
+        <location filename="../src/overtimechart.cpp" line="3663"/>
+        <location filename="../src/overtimechart.cpp" line="3665"/>
+        <location filename="../src/overtimechart.cpp" line="3672"/>
+        <location filename="../src/overtimechart.cpp" line="3674"/>
+        <location filename="../src/overtimechart.cpp" line="3892"/>
+        <location filename="../src/overtimechart.cpp" line="3899"/>
+        <location filename="../src/overtimechart.cpp" line="3938"/>
+        <location filename="../src/overtimechart.cpp" line="3940"/>
+        <location filename="../src/overtimechart.cpp" line="3947"/>
+        <location filename="../src/overtimechart.cpp" line="3949"/>
+        <location filename="../src/overtimechart.cpp" line="3956"/>
+        <location filename="../src/overtimechart.cpp" line="3958"/>
+        <location filename="../src/overtimechart.cpp" line="4248"/>
+        <location filename="../src/overtimechart.cpp" line="4322"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Bez popisu</translation>
     </message>
     <message>
         <location filename="../src/overtimechart.cpp" line="675"/>
-        <location filename="../src/overtimechart.cpp" line="4271"/>
+        <location filename="../src/overtimechart.cpp" line="4309"/>
         <source>All Payees/Payers Split</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8269,7 +8304,7 @@ Date: %3</source>
     <message>
         <location filename="../src/overtimechart.cpp" line="3319"/>
         <location filename="../src/overtimechart.cpp" line="3575"/>
-        <location filename="../src/overtimechart.cpp" line="3840"/>
+        <location filename="../src/overtimechart.cpp" line="3859"/>
         <source>Incomes − Expenses</source>
         <translation type="unfinished">Prijmy − výdavky</translation>
     </message>
@@ -8296,25 +8331,21 @@ Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>no payee/payer</source>
+        <translation type="obsolete">bez príjemcu/platcu</translation>
+    </message>
+    <message>
         <location filename="../src/overtimechart.cpp" line="3393"/>
         <source>%3, %2, %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3644"/>
-        <location filename="../src/overtimechart.cpp" line="3645"/>
-        <location filename="../src/overtimechart.cpp" line="3909"/>
-        <location filename="../src/overtimechart.cpp" line="3910"/>
         <source>no payer</source>
-        <translation type="unfinished">bez platcu</translation>
+        <translation type="obsolete">bez platcu</translation>
     </message>
     <message>
-        <location filename="../src/overtimechart.cpp" line="3653"/>
-        <location filename="../src/overtimechart.cpp" line="3654"/>
-        <location filename="../src/overtimechart.cpp" line="3918"/>
-        <location filename="../src/overtimechart.cpp" line="3919"/>
         <source>no payee</source>
-        <translation type="unfinished">bez príjemcu</translation>
+        <translation type="obsolete">bez príjemcu</translation>
     </message>
 </context>
 <context>
@@ -8383,7 +8414,7 @@ Date: %3</source>
     <message>
         <location filename="../src/overtimereport.cpp" line="115"/>
         <location filename="../src/overtimereport.cpp" line="325"/>
-        <location filename="../src/overtimereport.cpp" line="1464"/>
+        <location filename="../src/overtimereport.cpp" line="1465"/>
         <source>All Categories Combined</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8391,14 +8422,14 @@ Date: %3</source>
         <location filename="../src/overtimereport.cpp" line="121"/>
         <location filename="../src/overtimereport.cpp" line="252"/>
         <location filename="../src/overtimereport.cpp" line="321"/>
-        <location filename="../src/overtimereport.cpp" line="1485"/>
+        <location filename="../src/overtimereport.cpp" line="1486"/>
         <source>All Descriptions Combined</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/overtimereport.cpp" line="127"/>
-        <location filename="../src/overtimereport.cpp" line="1502"/>
+        <location filename="../src/overtimereport.cpp" line="1503"/>
         <source>All Accounts</source>
         <translation type="unfinished">Všetky účty</translation>
     </message>
@@ -8790,374 +8821,374 @@ Date: %3</source>
 <context>
     <name>RecurrenceEditWidget</name>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="318"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="319"/>
         <source>Enable recurrence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="321"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="322"/>
         <source>Recurrence Rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="326"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="327"/>
         <source>Daily</source>
         <translation type="unfinished">Denne</translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="327"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="328"/>
         <source>Weekly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="328"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="329"/>
         <source>Monthly</source>
         <translation type="unfinished">Mesačne</translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="329"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="330"/>
         <source>Yearly</source>
         <translation type="unfinished">Ročne</translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="347"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="358"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="381"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="467"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="348"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="359"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="382"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="468"/>
         <source>Recur every</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="351"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="352"/>
         <source>day(s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="362"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="363"/>
         <source>week(s) on:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="385"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="386"/>
         <source>month(s), after the start month</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="390"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="442"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="391"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="443"/>
         <source>Recur on the</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="396"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="447"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="500"/>
-        <source>1st</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="397"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="448"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="501"/>
-        <source>2nd</source>
+        <source>1st</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="398"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="449"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="502"/>
-        <source>3rd</source>
+        <source>2nd</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="399"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="450"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="503"/>
-        <source>4th</source>
+        <source>3rd</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="400"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="451"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="504"/>
-        <source>5th</source>
+        <source>4th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="401"/>
-        <source>6th</source>
+        <location filename="../src/recurrenceeditwidget.cpp" line="452"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="505"/>
+        <source>5th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="402"/>
-        <source>7th</source>
+        <source>6th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="403"/>
-        <source>8th</source>
+        <source>7th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="404"/>
-        <source>9th</source>
+        <source>8th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="405"/>
-        <source>10th</source>
+        <source>9th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="406"/>
-        <source>11th</source>
+        <source>10th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="407"/>
-        <source>12th</source>
+        <source>11th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="408"/>
-        <source>13th</source>
+        <source>12th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="409"/>
-        <source>14th</source>
+        <source>13th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="410"/>
-        <source>15th</source>
+        <source>14th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="411"/>
-        <source>16th</source>
+        <source>15th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="412"/>
-        <source>17th</source>
+        <source>16th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="413"/>
-        <source>18th</source>
+        <source>17th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="414"/>
-        <source>19th</source>
+        <source>18th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="415"/>
-        <source>20th</source>
+        <source>19th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="416"/>
-        <source>21st</source>
+        <source>20th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="417"/>
-        <source>22nd</source>
+        <source>21st</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="418"/>
-        <source>23rd</source>
+        <source>22nd</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="419"/>
-        <source>24th</source>
+        <source>23rd</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="420"/>
-        <source>25th</source>
+        <source>24th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="421"/>
-        <source>26th</source>
+        <source>25th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="422"/>
-        <source>27th</source>
+        <source>26th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="423"/>
-        <source>28th</source>
+        <source>27th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="424"/>
-        <source>29th</source>
+        <source>28th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="425"/>
-        <source>30th</source>
+        <source>29th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="426"/>
-        <source>31st</source>
+        <source>30th</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="427"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="452"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="505"/>
-        <source>Last</source>
+        <source>31st</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="428"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="453"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="506"/>
-        <source>2nd Last</source>
+        <source>Last</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="429"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="454"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="507"/>
-        <source>3rd Last</source>
+        <source>2nd Last</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="430"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="455"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="508"/>
-        <source>4th Last</source>
+        <source>3rd Last</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="431"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="456"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="509"/>
+        <source>4th Last</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/recurrenceeditwidget.cpp" line="432"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="457"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="510"/>
         <source>5th Last</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="433"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="434"/>
         <source>day</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="435"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="488"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="527"/>
-        <source>possibly on weekend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="436"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="489"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="528"/>
-        <source>but before weekend</source>
+        <source>possibly on weekend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="437"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="490"/>
         <location filename="../src/recurrenceeditwidget.cpp" line="529"/>
-        <source>but after weekend</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="491"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="530"/>
-        <source>nearest weekend day</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="471"/>
-        <source>year(s), after the start year</source>
+        <source>but before weekend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/recurrenceeditwidget.cpp" line="438"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="491"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="530"/>
+        <source>but after weekend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/recurrenceeditwidget.cpp" line="492"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="531"/>
+        <source>nearest weekend day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/recurrenceeditwidget.cpp" line="472"/>
+        <source>year(s), after the start year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/recurrenceeditwidget.cpp" line="439"/>
         <source>on nearest weekday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="476"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="477"/>
         <source>Recur on day</source>
         <comment>part before XXX of &apos;Recur on day XXX of month YYY&apos;</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="484"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="485"/>
         <source>of</source>
         <comment>part between XXX and YYY of &apos;Recur on day XXX of month YYY&apos;</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="495"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="496"/>
         <source>On the</source>
         <comment>Part before NNN in &apos;Recur on the NNN. WEEKDAY of MONTH&apos;</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="513"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="514"/>
         <source>of</source>
         <comment>part between WEEKDAY and MONTH in &apos;Recur on NNN. WEEKDAY of MONTH&apos;</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="518"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="519"/>
         <source>Recur on day #</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="525"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="526"/>
         <source> of the year</source>
         <comment>part after NNN of &apos;Recur on day #NNN of the year&apos;</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="540"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="541"/>
         <source>Range…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="542"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="543"/>
         <source>Occurrences/Exceptions…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="740"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="752"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="766"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="779"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="796"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="741"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="753"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="767"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="780"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="797"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="740"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="741"/>
         <source>No day of week selected for weekly recurrence.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="752"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="779"/>
-        <location filename="../src/recurrenceeditwidget.cpp" line="796"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="753"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="780"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="797"/>
         <source>Selected day will never occur with selected frequency and start date.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/recurrenceeditwidget.cpp" line="766"/>
+        <location filename="../src/recurrenceeditwidget.cpp" line="767"/>
         <source>Selected day does not exist in selected month.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9448,9 +9479,9 @@ Date: %3</source>
 <context>
     <name>TagButton</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="80"/>
-        <location filename="../src/transactioneditwidget.cpp" line="82"/>
-        <location filename="../src/transactioneditwidget.cpp" line="95"/>
+        <location filename="../src/transactioneditwidget.cpp" line="71"/>
+        <location filename="../src/transactioneditwidget.cpp" line="73"/>
+        <location filename="../src/transactioneditwidget.cpp" line="86"/>
         <source>no tags</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9458,17 +9489,17 @@ Date: %3</source>
 <context>
     <name>TagMenu</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="143"/>
+        <location filename="../src/transactioneditwidget.cpp" line="134"/>
         <source>New tag…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="269"/>
+        <location filename="../src/transactioneditwidget.cpp" line="260"/>
         <source>New Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="269"/>
+        <location filename="../src/transactioneditwidget.cpp" line="260"/>
         <source>Tag:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9476,39 +9507,39 @@ Date: %3</source>
 <context>
     <name>TransactionEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2054"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2045"/>
         <source>Edit Expense</source>
         <translation type="unfinished">Uprav vydavok</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2056"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2047"/>
         <source>Edit Dividend</source>
         <translation type="unfinished">Uprav dividend</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2057"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2048"/>
         <source>Edit Income</source>
         <translation type="unfinished">Uprav prijem</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2060"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2051"/>
         <source>Edit Transfer</source>
         <translation type="unfinished">Uprav tranzakciu</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2061"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2052"/>
         <source>Edit Securities Purchase</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Uprav nákup akcií</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2062"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2053"/>
         <source>Edit Securities Sale</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Uprav predaj akcií</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2063"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2054"/>
         <source>Edit Reinvested Dividend</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9528,19 +9559,19 @@ Date: %3</source>
         <translation type="obsolete">Akcii:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="358"/>
-        <location filename="../src/transactioneditwidget.cpp" line="456"/>
+        <location filename="../src/transactioneditwidget.cpp" line="349"/>
+        <location filename="../src/transactioneditwidget.cpp" line="447"/>
         <source>Cost:</source>
         <translation type="unfinished">Cena:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="359"/>
-        <location filename="../src/transactioneditwidget.cpp" line="454"/>
+        <location filename="../src/transactioneditwidget.cpp" line="350"/>
+        <location filename="../src/transactioneditwidget.cpp" line="445"/>
         <source>Income:</source>
         <translation type="unfinished">Príjem:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="381"/>
+        <location filename="../src/transactioneditwidget.cpp" line="372"/>
         <source>All</source>
         <translation type="unfinished">Všetky</translation>
     </message>
@@ -9549,8 +9580,8 @@ Date: %3</source>
         <translation type="obsolete">Cena na prevod:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="408"/>
-        <location filename="../src/transactioneditwidget.cpp" line="503"/>
+        <location filename="../src/transactioneditwidget.cpp" line="399"/>
+        <location filename="../src/transactioneditwidget.cpp" line="494"/>
         <source>Date:</source>
         <translation type="unfinished">Dátum:</translation>
     </message>
@@ -9563,76 +9594,76 @@ Date: %3</source>
         <translation type="obsolete">Popis:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="881"/>
+        <location filename="../src/transactioneditwidget.cpp" line="872"/>
         <source>Amount:</source>
         <translation type="unfinished">Množstvo:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="490"/>
+        <location filename="../src/transactioneditwidget.cpp" line="481"/>
         <source>Downpayment:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="496"/>
+        <location filename="../src/transactioneditwidget.cpp" line="487"/>
         <source>Quantity:</source>
         <translation type="unfinished">Množstvo:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="521"/>
+        <location filename="../src/transactioneditwidget.cpp" line="512"/>
         <source>From:</source>
         <translation type="unfinished">Od:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="527"/>
+        <location filename="../src/transactioneditwidget.cpp" line="518"/>
         <source>To:</source>
         <translation type="unfinished">Do:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="536"/>
-        <location filename="../src/transactioneditwidget.cpp" line="575"/>
-        <location filename="../src/transactioneditwidget.cpp" line="583"/>
+        <location filename="../src/transactioneditwidget.cpp" line="527"/>
+        <location filename="../src/transactioneditwidget.cpp" line="566"/>
+        <location filename="../src/transactioneditwidget.cpp" line="574"/>
         <source>Category:</source>
         <translation type="unfinished">Kategória:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="542"/>
-        <location filename="../src/transactioneditwidget.cpp" line="567"/>
+        <location filename="../src/transactioneditwidget.cpp" line="533"/>
+        <location filename="../src/transactioneditwidget.cpp" line="558"/>
         <source>To account:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="548"/>
+        <location filename="../src/transactioneditwidget.cpp" line="539"/>
         <source>Payer:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="558"/>
-        <location filename="../src/transactioneditwidget.cpp" line="593"/>
+        <location filename="../src/transactioneditwidget.cpp" line="549"/>
+        <location filename="../src/transactioneditwidget.cpp" line="584"/>
         <source>From account:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="590"/>
+        <location filename="../src/transactioneditwidget.cpp" line="581"/>
         <source>Downpayment account:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="600"/>
+        <location filename="../src/transactioneditwidget.cpp" line="591"/>
         <source>Payee:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="609"/>
+        <location filename="../src/transactioneditwidget.cpp" line="600"/>
         <source>Lender:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="645"/>
+        <location filename="../src/transactioneditwidget.cpp" line="636"/>
         <source>Comments:</source>
         <translation type="unfinished">Poznámky:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1402"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1393"/>
         <source>No security available.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished"></translation>
@@ -9650,216 +9681,216 @@ Date: %3</source>
         <translation type="obsolete">Nová kategória vydavkov…</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="336"/>
-        <location filename="../src/transactioneditwidget.cpp" line="420"/>
+        <location filename="../src/transactioneditwidget.cpp" line="327"/>
+        <location filename="../src/transactioneditwidget.cpp" line="411"/>
         <source>Security:</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Akcii:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="340"/>
-        <location filename="../src/transactioneditwidget.cpp" line="424"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1031"/>
+        <location filename="../src/transactioneditwidget.cpp" line="331"/>
+        <location filename="../src/transactioneditwidget.cpp" line="415"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1022"/>
         <source>New Security…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nová akcia…</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="366"/>
+        <location filename="../src/transactioneditwidget.cpp" line="357"/>
         <source>Shares added:</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Podiel pridaný:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="371"/>
+        <location filename="../src/transactioneditwidget.cpp" line="362"/>
         <source>Shares bought:</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Nákup podielov:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="376"/>
+        <location filename="../src/transactioneditwidget.cpp" line="367"/>
         <source>Shares sold:</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Predaj podielov:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="389"/>
+        <location filename="../src/transactioneditwidget.cpp" line="380"/>
         <source>Price per share:</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Cena na prevod:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="393"/>
+        <location filename="../src/transactioneditwidget.cpp" line="384"/>
         <source>Set security share value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="402"/>
+        <location filename="../src/transactioneditwidget.cpp" line="393"/>
         <source>Total value:</source>
         <translation type="unfinished">Celková hodnota:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="441"/>
+        <location filename="../src/transactioneditwidget.cpp" line="432"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Popis:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="446"/>
+        <location filename="../src/transactioneditwidget.cpp" line="437"/>
         <source>Transaction title/generic article name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="451"/>
-        <location filename="../src/transactioneditwidget.cpp" line="879"/>
+        <location filename="../src/transactioneditwidget.cpp" line="442"/>
+        <location filename="../src/transactioneditwidget.cpp" line="870"/>
         <source>Withdrawal:</source>
         <comment>Money taken out from account</comment>
         <translation type="unfinished">Výber:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="480"/>
+        <location filename="../src/transactioneditwidget.cpp" line="471"/>
         <source>Deposit:</source>
         <comment>Money put into account</comment>
         <translation type="unfinished">Vklad:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="498"/>
+        <location filename="../src/transactioneditwidget.cpp" line="489"/>
         <source>Number of items included in the transaction. Entered cost is total cost for all items.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="550"/>
+        <location filename="../src/transactioneditwidget.cpp" line="541"/>
         <source>Payer of parent split transaction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="602"/>
+        <location filename="../src/transactioneditwidget.cpp" line="593"/>
         <source>Payee of parent split transaction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="615"/>
+        <location filename="../src/transactioneditwidget.cpp" line="606"/>
         <source>Tags:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="623"/>
+        <location filename="../src/transactioneditwidget.cpp" line="614"/>
         <source>Associated file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="631"/>
+        <location filename="../src/transactioneditwidget.cpp" line="622"/>
         <source>Select a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="635"/>
+        <location filename="../src/transactioneditwidget.cpp" line="626"/>
         <source>Open the file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1024"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1015"/>
         <source>New Security</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nová akcia</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1348"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1352"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1359"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1363"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1370"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1377"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1384"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1391"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1395"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1402"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1413"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1423"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1427"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1434"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1441"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1448"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1456"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1460"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1464"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1476"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1339"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1343"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1350"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1354"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1361"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1368"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1375"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1382"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1386"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1393"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1404"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1414"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1418"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1425"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1432"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1439"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1447"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1451"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1455"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1467"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1348"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1352"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1363"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1384"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1395"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1339"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1343"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1354"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1375"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1386"/>
         <source>No suitable account available.</source>
         <translation type="unfinished">Nevhodný účet.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1359"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1377"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1350"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1368"/>
         <source>No income category available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1370"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1361"/>
         <source>No suitable account or income category available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1391"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1382"/>
         <source>No expense category available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1413"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1404"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Nesprávny dátum.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1423"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1414"/>
         <source>Cannot transfer money to and from the same account.</source>
         <translation type="unfinished">Nemôžem preniesť peniaze na a z rovnakého účtu.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1427"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1418"/>
         <source>Downpayment must be less than total cost.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1434"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1425"/>
         <source>Cannot create a regular transfer to/from a securities account.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1441"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1432"/>
         <source>Cannot create a regular income to a securities account.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1448"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1456"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1439"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1447"/>
         <source>Zero shares not allowed.</source>
         <translation type="unfinished">Nulový prevod nie je povolený.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1460"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1451"/>
         <source>Zero value not allowed.</source>
         <translation type="unfinished">Nie je povolená nulová hodnota.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1464"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1455"/>
         <source>Zero price per share not allowed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1476"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1467"/>
         <source>Cannot create a regular expense from a securities account.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1557"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1548"/>
         <source>Loan for %1</source>
         <translation type="unfinished"></translation>
     </message>

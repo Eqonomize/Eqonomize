@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016-2018 by Hanna Knutsson            *
+ *   Copyright (C) 2006-2008, 2014, 2016-2019 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -3156,7 +3156,21 @@ void Budget::addBudgetMonthsSetFirst(QDate &date, int months) const {
 	date = firstBudgetDay(date);
 }
 QDate Budget::budgetDateToMonth(QDate date) const {
-	date.setDate(budgetYear(date), budgetMonth(date), 1);
+	if(i_budget_day == 1 && i_budget_month == 1) return date;
+	int ibd = i_budget_day;
+	int year = date.year();
+	int month = date.month();
+	if(i_budget_day <= 0) ibd = daysPerMonth(12, year) + i_budget_day;
+	if(i_budget_day > 15 || (i_budget_day < 1 && i_budget_day >= -15)) {
+		if(date.day() >= ibd) {
+			if(date.month() == 12) {year++; month = 1;}
+			else month++;
+		}
+	} else if(date.day() < ibd) {
+		if(date.month() == 1) {year--; month = 12;}
+		else month--;
+	}
+	date.setDate(year, month, 1);
 	return date;
 }
 QDate Budget::firstBudgetDay(QDate date) const {

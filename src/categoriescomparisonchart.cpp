@@ -29,7 +29,7 @@
 #include "transaction.h"
 #include "recurrence.h"
 #include "eqonomize.h"
-
+#include "eqonomizevalueedit.h"
 
 #ifdef QT_CHARTS_LIB
 #include <QtCharts/QLegendMarker>
@@ -142,12 +142,12 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	fromButton = new QCheckBox(tr("From"), settingsWidget);
 	fromButton->setChecked(true);
 	choicesLayout->addWidget(fromButton);
-	fromEdit = new QDateEdit(settingsWidget);
+	fromEdit = new EqonomizeDateEdit(settingsWidget);
 	fromEdit->setCalendarPopup(true);
 	choicesLayout->addWidget(fromEdit);
 	choicesLayout->setStretchFactor(fromEdit, 1);
 	choicesLayout->addWidget(new QLabel(tr("To"), settingsWidget));
-	toEdit = new QDateEdit(settingsWidget);
+	toEdit = new EqonomizeDateEdit(settingsWidget);
 	toEdit->setCalendarPopup(true);	
 	choicesLayout->addWidget(toEdit);
 	choicesLayout->setStretchFactor(toEdit, 1);
