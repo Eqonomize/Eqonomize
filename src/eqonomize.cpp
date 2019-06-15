@@ -237,7 +237,7 @@ void open_file_list(QString url) {
 	}
 	QStringList urls;
 	while(!url.isEmpty()) {
-		while(url[0] == "\"" || url[0] == "\'") {
+		while(url[0] == '\"' || url[0] == '\'') {
 			int i = url.indexOf(url[0], 1);
 			if(i == url.length() - 1) {
 				urls << url.mid(1, i - 1);
@@ -3544,7 +3544,7 @@ void Eqonomize::editSelectedTimestamp() {
 	if(!w) return;
 	w->editTimestamp();
 }
-bool Eqonomize::editTimestamp(QList<Transactions*> trans) {
+bool Eqonomize::editTimestamp(QList<Transactions*> trans, QWidget *parent) {
 	if(trans.count() == 0) return false;
 	for(int i = 0; i < trans.count(); i++) {
 		if(trans[i]->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE && ((Transaction*) trans[i])->parentSplit() && ((Transaction*) trans[i])->parentSplit()->type() != SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) trans[i] = ((Transaction*) trans[i])->parentSplit();
@@ -3556,7 +3556,7 @@ bool Eqonomize::editTimestamp(QList<Transactions*> trans) {
 			}
 		}
 	}
-	QDialog *dialog = new QDialog(this, 0);
+	QDialog *dialog = new QDialog(parent == NULL ? this : parent, 0);
 	dialog->setWindowTitle(tr("Timestamp"));
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
 	QScrollArea *scroll = NULL;
@@ -4516,10 +4516,14 @@ void Eqonomize::accountsPeriodToChanged(const QDate &date) {
 		error = true;
 	}
 	if(!error && accountsPeriodFromEdit->date() > date) {
-		if(accountsPeriodFromButton->isChecked()) {
+		/*if(accountsPeriodFromButton->isChecked()) {
 			QMessageBox::critical(this, tr("Error"), tr("To date is before from date."));
+		}*/
+		if(budget->isFirstBudgetDay(to_date)) {
+			from_date = budget->firstBudgetDay(date);
+		} else {
+			from_date = date.addDays(-from_date.daysTo(to_date));
 		}
-		from_date = date;
 		accountsPeriodFromEdit->blockSignals(true);
 		accountsPeriodFromEdit->setDate(from_date);
 		accountsPeriodFromEdit->blockSignals(false);
@@ -4542,8 +4546,12 @@ void Eqonomize::accountsPeriodFromChanged(const QDate &date) {
 		error = true;
 	}
 	if(!error && date > accountsPeriodToEdit->date()) {
-		QMessageBox::critical(this, tr("Error"), tr("From date is after to date."));
-		to_date = date;
+		//QMessageBox::critical(this, tr("Error"), tr("From date is after to date."));
+		if(budget->isLastBudgetDay(to_date)) {
+			to_date = budget->lastBudgetDay(date);
+		} else {
+			to_date = date.addDays(from_date.daysTo(to_date));
+		}
 		accountsPeriodToEdit->blockSignals(true);
 		accountsPeriodToEdit->setDate(to_date);
 		accountsPeriodToEdit->blockSignals(false);
@@ -4631,8 +4639,13 @@ void Eqonomize::securitiesPeriodToChanged(const QDate &date) {
 		error = true;
 	}
 	if(!error && securitiesPeriodFromEdit->date() > date) {
-		if(securitiesPeriodFromButton->isChecked()) {
+		/*if(securitiesPeriodFromButton->isChecked()) {
 			QMessageBox::critical(this, tr("Error"), tr("To date is before from date."));
+		}*/
+		if(budget->isFirstBudgetDay(to_date)) {
+			securities_from_date = budget->firstBudgetDay(date);
+		} else {
+			securities_from_date = date.addDays(-securities_from_date.daysTo(securities_to_date));
 		}
 		securities_from_date = date;
 		securitiesPeriodFromEdit->blockSignals(true);
@@ -4657,8 +4670,13 @@ void Eqonomize::securitiesPeriodFromChanged(const QDate &date) {
 		error = true;
 	}
 	if(!error && date > securitiesPeriodToEdit->date()) {
-		QMessageBox::critical(this, tr("Error"), tr("From date is after to date."));
-		securities_to_date = date;
+		//QMessageBox::critical(this, tr("Error"), tr("From date is after to date."));
+		if(budget->isLastBudgetDay(to_date)) {
+			securities_to_date = budget->lastBudgetDay(date);
+		} else {
+			securities_to_date = date.addDays(securities_from_date.daysTo(to_date));
+		}
+		if(securities_to_date > QDate::currentDate() && securities_from_date <= QDate::currentDate()) securities_to_date = QDate::currentDate();
 		securitiesPeriodToEdit->blockSignals(true);
 		securitiesPeriodToEdit->setDate(securities_to_date);
 		securitiesPeriodToEdit->blockSignals(false);
@@ -6434,16 +6452,16 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionPrintPreview, tr("Print Preview…"), "document-print-preview", 0, this, SLOT(showPrintPreview()), "print_preview", fileMenu);
 	fileToolbar->addAction(ActionPrintPreview);
 	fileMenu->addSeparator();
-	QMenu *importMenu = fileMenu->addMenu(tr("Import"));
-	NEW_ACTION(ActionImportEQZ, tr("Import %1 File…").arg(qApp->applicationDisplayName()), "document-import", 0, this, SLOT(importEQZ()), "import_eqz", importMenu);
-	NEW_ACTION(ActionImportCSV, tr("Import CSV File…"), "document-import", 0, this, SLOT(importCSV()), "import_csv", importMenu);
-	NEW_ACTION(ActionImportQIF, tr("Import QIF File…"), "document-import", 0, this, SLOT(importQIF()), "import_qif", importMenu);
+	QMenu *importMenu = fileMenu->addMenu(LOAD_ICON2("document-import", "eqz-import"), tr("Import"));
+	NEW_ACTION_ALT(ActionImportEQZ, tr("Import %1 File…").arg(qApp->applicationDisplayName()), "document-import", "eqz-import", 0, this, SLOT(importEQZ()), "import_eqz", importMenu);
+	NEW_ACTION_ALT(ActionImportCSV, tr("Import CSV File…"), "document-import", "eqz-import", 0, this, SLOT(importCSV()), "import_csv", importMenu);
+	NEW_ACTION_ALT(ActionImportQIF, tr("Import QIF File…"), "document-import", "eqz-import", 0, this, SLOT(importQIF()), "import_qif", importMenu);
 	NEW_ACTION_ALT(ActionSaveView, tr("Export View…"), "document-export", "eqz-export", 0, this, SLOT(saveView()), "save_view", fileMenu);
 	fileToolbar->addAction(ActionSaveView);
-	NEW_ACTION(ActionExportQIF, tr("Export As QIF File…"), "document-export", 0, this, SLOT(exportQIF()), "export_qif", fileMenu);
+	NEW_ACTION_ALT(ActionExportQIF, tr("Export As QIF File…"), "document-export", "eqz-export", 0, this, SLOT(exportQIF()), "export_qif", fileMenu);
 	fileMenu->addSeparator();
 	NEW_ACTION(ActionUpdateExchangeRates, tr("Update Exchange Rates"), "view-refresh", 0, this, SLOT(updateExchangeRates()), "update_exchange_rates", fileMenu);
-	NEW_ACTION_2(ActionConvertCurrencies, tr("Currency Converter"), 0, this, SLOT(openCurrencyConversion()), "convert_currencies", fileMenu);
+	NEW_ACTION(ActionConvertCurrencies, tr("Currency Converter"), "eqz-currency", 0, this, SLOT(openCurrencyConversion()), "convert_currencies", fileMenu);
 	fileMenu->addSeparator();
 	QList<QKeySequence> keySequences;
 	keySequences << QKeySequence(QKeySequence::Quit);
@@ -6533,7 +6551,7 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionEditSecurityTransactions, tr("Transactions…"), "eqz-transactions", 0, this, SLOT(editSecurityTransactions()), "edit_security_transactions", securitiesMenu);
 	securitiesMenu->addSeparator();
 	NEW_ACTION(ActionSetQuotation, tr("Set Quote…", "Financial quote"), "view-calendar-day", 0, this, SLOT(setQuotation()), "set_quotation", securitiesMenu);
-	NEW_ACTION(ActionEditQuotations, tr("Edit Quotes…", "Financial quote"), "view-calendar-list", 0, this, SLOT(editQuotations()), "edit_quotations", securitiesMenu);
+	NEW_ACTION_ALT(ActionEditQuotations, tr("Edit Quotes…", "Financial quote"), "view-calendar-list", "eqz-edit", 0, this, SLOT(editQuotations()), "edit_quotations", securitiesMenu);
 
 	NEW_ACTION(ActionOverTimeReport, tr("Development Over Time Report…"), "eqz-overtime-report", 0, this, SLOT(showOverTimeReport()), "over_time_report", statisticsMenu);
 	statisticsToolbar->addAction(ActionOverTimeReport);
@@ -6543,20 +6561,19 @@ void Eqonomize::setupActions() {
 	statisticsToolbar->addAction(ActionOverTimeChart);
 	NEW_ACTION(ActionCategoriesComparisonChart, tr("Categories Comparison Chart…"), "eqz-categories-chart", 0, this, SLOT(showCategoriesComparisonChart()), "categories_comparison_chart", statisticsMenu);
 	statisticsToolbar->addAction(ActionCategoriesComparisonChart);
-
-	NEW_TOGGLE_ACTION(ActionExtraProperties, tr("Show payee and quantity"), 0, this, SLOT(useExtraProperties(bool)), "extra_properties", settingsMenu);
-	ActionExtraProperties->setChecked(b_extra);
-	ActionExtraProperties->setToolTip(tr("Show quantity and payer/payee properties for incomes and expenses."));
 	
-	NEW_ACTION_2(ActionSetMainCurrency, tr("Set Main Currency…"), 0, this, SLOT(setMainCurrency()), "set_main_currency", settingsMenu);
+	NEW_ACTION(ActionSetMainCurrency, tr("Set Main Currency…"), "eqz-currency", 0, this, SLOT(setMainCurrency()), "set_main_currency", settingsMenu);
 	
 	NEW_TOGGLE_ACTION(ActionUseExchangeRateForTransactionDate, tr("Use Exchange Rate for Transaction Date"), 0, this, SLOT(useExchangeRateForTransactionDate(bool)), "use_exchange_rate_for_transaction_date", settingsMenu);
+	ActionUseExchangeRateForTransactionDate->setIcon(LOAD_ICON("eqz-currency"));
 	ActionUseExchangeRateForTransactionDate->setChecked(budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE);
 	ActionUseExchangeRateForTransactionDate->setToolTip(tr("Use the exchange rate nearest the transaction date, instead of the latest available rate, when converting the value of transactions."));
 	
 	NEW_ACTION(ActionSetBudgetPeriod, tr("Set Budget Period…"), "view-calendar-day", 0, this, SLOT(setBudgetPeriod()), "set_budget_period", settingsMenu);
 	
-	QMenu *periodMenu = settingsMenu->addMenu(tr("Initial Period"));
+	NEW_ACTION(ActionSetScheduleConfirmationTime, tr("Set Schedule Confirmation Time…"), "eqz-schedule", 0, this, SLOT(setScheduleConfirmationTime()), "set_schedule_confirmation_time", settingsMenu);
+	
+	QMenu *periodMenu = settingsMenu->addMenu(LOAD_ICON("view-calendar-day"), tr("Initial Period"));
 	ActionSelectInitialPeriod = new QActionGroup(this);
 	ActionSelectInitialPeriod->setObjectName("select_initial_period");
 	NEW_RADIO_ACTION(AIPCurrentMonth, tr("Current Month"), ActionSelectInitialPeriod);
@@ -6566,10 +6583,7 @@ void Eqonomize::setupActions() {
 	NEW_RADIO_ACTION(AIPRememberLastDates, tr("Remember Last Dates"), ActionSelectInitialPeriod);
 	periodMenu->addActions(ActionSelectInitialPeriod->actions());
 	
-	NEW_ACTION(ActionSetScheduleConfirmationTime, tr("Set Schedule Confirmation Time…"), "view-calendar-day", 0, this, SLOT(setScheduleConfirmationTime()), "set_schedule_confirmation_time", settingsMenu);
-	
-	
-	QMenu *backupMenu = settingsMenu->addMenu(tr("Backup Frequency"));
+	QMenu *backupMenu = settingsMenu->addMenu(LOAD_ICON("document-save"), tr("Backup Frequency"));
 	ActionSelectBackupFrequency = new QActionGroup(this);
 	ActionSelectBackupFrequency->setObjectName("select_backup_frequency");
 	NEW_RADIO_ACTION(ABFDaily, tr("Daily"), ActionSelectBackupFrequency);
@@ -6579,11 +6593,16 @@ void Eqonomize::setupActions() {
 	NEW_RADIO_ACTION(ABFNever, tr("Never"), ActionSelectBackupFrequency);
 	backupMenu->addActions(ActionSelectBackupFrequency->actions());
 	
-	NEW_ACTION_2(ActionSyncSettings, tr("Cloud Synchronization (experimental)…"), 0, this, SLOT(openSynchronizationSettings()), "open_synchronization_settings", settingsMenu);
+	NEW_ACTION(ActionSyncSettings, tr("Cloud Synchronization (experimental)…"), "view-refresh", 0, this, SLOT(openSynchronizationSettings()), "open_synchronization_settings", settingsMenu);
 	
-	NEW_ACTION(ActionSelectFont, tr("Select Font…"), "", 0, this, SLOT(selectFont()), "select_font", settingsMenu);
+	NEW_TOGGLE_ACTION(ActionExtraProperties, tr("Show payee and quantity"), 0, this, SLOT(useExtraProperties(bool)), "extra_properties", settingsMenu);
+	ActionExtraProperties->setIcon(LOAD_ICON("eqz-expense"));
+	ActionExtraProperties->setChecked(b_extra);
+	ActionExtraProperties->setToolTip(tr("Show quantity and payer/payee properties for incomes and expenses."));
 	
-	QMenu *langMenu = settingsMenu->addMenu(tr("Language"));
+	NEW_ACTION(ActionSelectFont, tr("Select Font…"), "preferences-desktop-font", 0, this, SLOT(selectFont()), "select_font", settingsMenu);
+	
+	QMenu *langMenu = settingsMenu->addMenu(LOAD_ICON("preferences-desktop-locale"), tr("Language"));
 	ActionSelectLang = new QActionGroup(this);
 	ActionSelectLang->setObjectName("select_language");
 	QAction *action_lang;
@@ -6638,7 +6657,7 @@ void Eqonomize::setupActions() {
 	NEW_ACTION_3(ActionHelp, tr("Help"), "help-contents", QKeySequence::HelpContents, this, SLOT(showHelp()), "help", helpMenu);
 	//ActionWhatsThis = QWhatsThis::createAction(this); helpMenu->addAction(ActionWhatsThis);
 	helpMenu->addSeparator();
-	NEW_ACTION_2(ActionReportBug, tr("Report Bug"), 0, this, SLOT(reportBug()), "report-bug", helpMenu);
+	NEW_ACTION(ActionReportBug, tr("Report Bug"), "tools-report-bug", 0, this, SLOT(reportBug()), "report-bug", helpMenu);
 	helpMenu->addSeparator();
 	NEW_ACTION(ActionAbout, tr("About %1").arg(qApp->applicationDisplayName()), "", 0, this, SLOT(showAbout()), "about", helpMenu);
 	ActionAbout->setIcon(LOAD_APP_ICON("eqonomize"));
@@ -6791,7 +6810,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.4.0</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2019 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.4.1</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2019 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);
@@ -6920,7 +6939,7 @@ void Eqonomize::onActivateRequested(const QStringList &arguments, const QString 
 void Eqonomize::saveOptions() {	
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
-	settings.setValue("version", 140);
+	settings.setValue("version", 141);
 	settings.setValue("lastURL", current_url.url());
 	if(ActionSelectBackupFrequency->checkedAction() == ABFNever) {settings.setValue("backupFrequency", BACKUP_NEVER);}
 	else if(ActionSelectBackupFrequency->checkedAction() == ABFDaily) {settings.setValue("backupFrequency", BACKUP_DAILY);}
@@ -7991,6 +8010,7 @@ void Eqonomize::tagsChanged() {
 			Transactions *oldtrans = trans->copy();
 			tagMenu->modifyTransaction(trans);
 			transactionModified(trans, oldtrans);
+			delete oldtrans;
 		}
 	}
 	if(!w) return;
@@ -8177,18 +8197,23 @@ void Eqonomize::transactionModified(Transactions *transs, Transactions *oldtrans
 			break;
 		}
 		case GENERAL_TRANSACTION_TYPE_SPLIT: {
-			transactionRemoved(transs);
-			transactionAdded(transs);
-			return;
+			SplitTransaction *split = (SplitTransaction*) oldtranss;
+			int c = split->count();
+			for(int i = 0; i < c; i++) {
+				Transaction *trans = split->at(i);
+				subtractTransactionValue(trans, true);
+			}
+			split = (SplitTransaction*) transs;
+			c = split->count();
+			for(int i = 0; i < c; i++) {
+				Transaction *trans = split->at(i);
+				addTransactionValue(trans, trans->date(), true);
+			}
+			break;
 		}
 		case GENERAL_TRANSACTION_TYPE_SCHEDULE: {
 			ScheduledTransaction *strans = (ScheduledTransaction*) transs;
 			ScheduledTransaction *oldstrans = (ScheduledTransaction*) oldtranss;
-			if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
-				transactionRemoved(oldtranss);
-				transactionAdded(transs);
-				return;
-			}
 			QTreeWidgetItemIterator it(scheduleView);
 			ScheduleListViewItem *i = (ScheduleListViewItem*) *it;
 			while(i) {

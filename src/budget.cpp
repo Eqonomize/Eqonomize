@@ -3133,7 +3133,7 @@ bool Budget::isFirstBudgetDay(const QDate &date) const {
 	return ((i_budget_day > 0 && date.day() == i_budget_day) || (i_budget_day <= 0 && date.day() == date.daysInMonth() + i_budget_day));
 }
 bool Budget::isLastBudgetDay(const QDate &date) const {
-	return ((i_budget_day == 1 && date.day() == date.daysInMonth()) || (i_budget_day > 1 && date.day() == i_budget_day) || (i_budget_day <= 0 && date.day() == date.daysInMonth() + i_budget_day - 1));
+	return ((i_budget_day == 1 && date.day() == date.daysInMonth()) || (i_budget_day > 1 && date.day() == i_budget_day - 1) || (i_budget_day <= 0 && date.day() == date.daysInMonth() + i_budget_day - 1));
 }
 void Budget::addBudgetMonthsSetLast(QDate &date, int months) const {
 	if(i_budget_day <= 0) {

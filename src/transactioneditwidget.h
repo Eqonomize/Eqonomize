@@ -258,8 +258,8 @@ class TagMenu : public QMenu {
 	
 		QHash<QString, QAction*> tag_actions;
 	
-		void keyPressEvent(QKeyEvent *e) override;
-		void mouseReleaseEvent(QMouseEvent *e) override;
+		void keyPressEvent(QKeyEvent *e);
+		void mouseReleaseEvent(QMouseEvent *e);
 		
 		Budget *budget;
 		bool allow_new;
@@ -303,7 +303,7 @@ class TagButton : public QPushButton {
 		TagMenu *tagMenu;
 		bool b_small;
 	
-		void keyPressEvent(QKeyEvent *e) override;
+		void keyPressEvent(QKeyEvent *e);
 		
 	signals:
 	

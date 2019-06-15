@@ -158,7 +158,7 @@ void TagMenu::setTransaction(Transactions *trans) {
 	}
 	for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
 		it.value()->setData(false);
-		if(trans && trans->hasTag(it.key(), false)) it.value()->setChecked(true);
+		if(trans && trans->hasTag(it.key(), true)) it.value()->setChecked(true);
 		else it.value()->setChecked(false);
 	}
 }
@@ -172,13 +172,13 @@ void TagMenu::setTransactions(QList<Transactions*> list) {
 		QHash<QString, bool> tagi;
 		Transactions *trans = list[0];
 		for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
-			tagb[it.key()] = trans->hasTag(it.key(), false);
+			tagb[it.key()] = trans->hasTag(it.key(), true);
 			tagi[it.key()] = false;
 		}
 		for(int i = 1; i < list.count(); i++) {
 			trans = list[i];
 			for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
-				if(tagb[it.key()] != trans->hasTag(it.key(), false)) {
+				if(tagb[it.key()] != trans->hasTag(it.key(), true)) {
 					tagb[it.key()] = false;
 					tagi[it.key()] = true;
 				}
@@ -198,15 +198,17 @@ void TagMenu::modifyTransaction(Transactions *trans, bool append) {
 	QStringList tags;
 	for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
 		if(it.value()->data().toBool()) {
-			if(trans->hasTag(it.key(), false)) tags << it.key();
+			if(trans->hasTag(it.key(), true)) tags << it.key();
 		} else if(it.value()->isChecked()) {
 			tags << it.key();
 		}
 	}
+	if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE && ((Transaction*) trans)->parentSplit() && ((Transaction*) trans)->parentSplit()->count() > 1) ((Transaction*) trans)->parentSplit()->splitTags();
 	if(!append) trans->clearTags();
 	for(int i = 0; i < tags.count(); i++) {
 		trans->addTag(tags[i]);
 	}
+	if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE && ((Transaction*) trans)->parentSplit() && ((Transaction*) trans)->parentSplit()->count() > 1) ((Transaction*) trans)->parentSplit()->joinTags();
 }
 int TagMenu::selectedTagsCount() {
 	int n = 0;
@@ -258,7 +260,7 @@ void TagMenu::mouseReleaseEvent(QMouseEvent *e) {
 }
 QString TagMenu::createTag() {
 	QString new_tag = QInputDialog::getText(this, tr("New Tag"), tr("Tag:")).trimmed(); 
-	if(new_tag.isEmpty()) {
+	if(!new_tag.isEmpty()) {
 		if((new_tag.contains(",") && new_tag.contains("\"") && new_tag.contains("\'")) || (new_tag[0] == '\'' && new_tag.contains("\"")) || (new_tag[0] == '\"' && new_tag.contains("\'"))) {
 			if(new_tag[0] == '\'') new_tag.remove("\'");
 			else new_tag.remove("\"");

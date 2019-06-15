@@ -1276,7 +1276,7 @@ void LedgerDialog::editTimestamp() {
 		if(i->splitTransaction()) trans << i->splitTransaction();
 		else if(i->transaction()) trans << i->transaction();
 	}
-	mainWin->editTimestamp(trans);
+	mainWin->editTimestamp(trans, this);
 }
 void LedgerDialog::cloneTransaction() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();

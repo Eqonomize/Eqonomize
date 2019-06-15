@@ -128,6 +128,7 @@ class Transactions {
 		void setModified();
 		virtual void addTag(QString tag);
 		virtual bool removeTag(QString tag);
+		virtual void removeTag(int index);
 		virtual bool hasTag(const QString &tag, bool include_parent = true, bool case_insensitive = false) const;
 		virtual const QString &getTag(int index, bool include_parent = false) const;
 		virtual QString tagsText(bool include_parent_child = true) const;
@@ -690,6 +691,7 @@ class ScheduledTransaction : public Transactions {
 		virtual int tagsCount(bool include_parent = false) const;
 		virtual void addTag(QString tag);
 		virtual bool removeTag(QString tag);
+		virtual void removeTag(int index);
 		virtual bool hasTag(const QString &tag, bool include_parent = true, bool case_insensitive = false) const;
 		virtual const QString &getTag(int index, bool include_parent = false) const;
 		virtual QString tagsText(bool include_parent_child = true) const;
@@ -775,6 +777,8 @@ class SplitTransaction : public Transactions {
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
 		
 		virtual QString tagsText(bool include_parent_child = true) const;
+		virtual void splitTags();
+		virtual void joinTags();
 		
 		virtual QString payeeText() const;
 		virtual const QString &payee() const;

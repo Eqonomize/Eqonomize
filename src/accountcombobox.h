@@ -52,7 +52,7 @@ class AccountComboBox : public QComboBox {
 	
 	public:
 	
-		AccountComboBox(int account_type, Budget *budg, bool add_new_account_action = false, bool add_new_loan_action = false, bool add_multiple_accounts_action = false, bool exclude_securities_accounts = true, bool exclude_balancing_account = true, QWidget *parent = Q_NULLPTR);
+		AccountComboBox(int account_type, Budget *budg, bool add_new_account_action = false, bool add_new_loan_action = false, bool add_multiple_accounts_action = false, bool exclude_securities_accounts = true, bool exclude_balancing_account = true, QWidget *parent = NULL);
 		~AccountComboBox();
 		
 		Account *currentAccount() const;

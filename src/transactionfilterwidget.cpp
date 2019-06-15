@@ -738,8 +738,13 @@ void TransactionFilterWidget::toChanged(const QDate &date) {
 		error = true;
 	}
 	if(!error && dateFromEdit->date() > date) {
-		if(dateFromButton->isChecked()) {
+		/*if(dateFromButton->isChecked()) {
 			QMessageBox::critical(this, tr("Error"), tr("To date is before from date."));
+		}*/
+		if(budget->isFirstBudgetDay(to_date)) {
+			from_date = budget->firstBudgetDay(date);
+		} else {
+			from_date = date.addDays(-from_date.daysTo(to_date));
 		}
 		from_date = date;
 		dateFromEdit->blockSignals(true);
@@ -764,8 +769,13 @@ void TransactionFilterWidget::fromChanged(const QDate &date) {
 		error = true;
 	}
 	if(!error && date > dateToEdit->date()) {
-		QMessageBox::critical(this, tr("Error"), tr("From date is after to date."));
-		to_date = date;
+		//QMessageBox::critical(this, tr("Error"), tr("From date is after to date."));
+		if(budget->isLastBudgetDay(to_date)) {
+			to_date = budget->lastBudgetDay(date);
+		} else {
+			to_date = date.addDays(from_date.daysTo(to_date));
+		}
+		if(to_date > QDate::currentDate() && from_date <= QDate::currentDate()) to_date = QDate::currentDate();
 		dateToEdit->blockSignals(true);
 		dateToEdit->setDate(to_date);
 		dateToEdit->blockSignals(false);

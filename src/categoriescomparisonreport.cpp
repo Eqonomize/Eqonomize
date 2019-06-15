@@ -501,8 +501,13 @@ void CategoriesComparisonReport::toChanged(const QDate &date) {
 		error = true;
 	}
 	if(!error && fromEdit->date() > date) {
-		if(fromButton->isChecked()) {
+		/*if(fromButton->isChecked()) {
 			QMessageBox::critical(this, tr("Error"), tr("To date is before from date."));
+		}*/
+		if(budget->isFirstBudgetDay(to_date)) {
+			from_date = budget->firstBudgetDay(date);
+		} else {
+			from_date = date.addDays(-from_date.daysTo(to_date));
 		}
 		from_date = date;
 		fromEdit->blockSignals(true);
@@ -527,8 +532,13 @@ void CategoriesComparisonReport::fromChanged(const QDate &date) {
 		error = true;
 	}
 	if(!error && date > toEdit->date()) {
-		QMessageBox::critical(this, tr("Error"), tr("From date is after to date."));
-		to_date = date;
+		//QMessageBox::critical(this, tr("Error"), tr("From date is after to date."));
+		if(budget->isLastBudgetDay(to_date)) {
+			to_date = budget->lastBudgetDay(date);
+		} else {
+			to_date = date.addDays(from_date.daysTo(to_date));
+		}
+		if(to_date > QDate::currentDate() && from_date <= QDate::currentDate()) to_date = QDate::currentDate();
 		toEdit->blockSignals(true);
 		toEdit->setDate(to_date);
 		toEdit->blockSignals(false);

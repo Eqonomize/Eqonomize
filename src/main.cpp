@@ -56,16 +56,15 @@ int main(int argc, char **argv) {
 	settings.beginGroup("GeneralOptions");
 	QString slang = settings.value("language", QString()).toString();
 	
-	QTranslator translator;
+	QTranslator translator, translator_qt, translator_qtbase;
 	if(!slang.isEmpty()) {
-		if(translator.load(QLatin1String("eqonomize") + QLatin1String("_") + slang, QLatin1String(TRANSLATIONS_DIR))) {
-			app.installTranslator(&translator);
-		}
+		if(translator.load(QLatin1String("eqonomize") + QLatin1String("_") + slang, QLatin1String(TRANSLATIONS_DIR))) app.installTranslator(&translator);
+		if(translator_qt.load("qt_" + slang, QLibraryInfo::location(QLibraryInfo::TranslationsPath))) app.installTranslator(&translator_qt);
+		if(translator_qtbase.load("qtbase_" + slang, QLibraryInfo::location(QLibraryInfo::TranslationsPath))) app.installTranslator(&translator_qtbase);
 	} else {
-		if(translator.load(QLocale(), QLatin1String("eqonomize"), QLatin1String("_"), QLatin1String(TRANSLATIONS_DIR))) {
-			app.installTranslator(&translator);
-		}
+		if(translator.load(QLocale(), QLatin1String("eqonomize"), QLatin1String("_"), QLatin1String(TRANSLATIONS_DIR))) app.installTranslator(&translator);
 	}
+
 	
 	QCommandLineParser *parser = new QCommandLineParser();
 	QCommandLineOption eOption(QStringList() << "e" << "expenses", QApplication::tr("Start with expenses list displayed"));

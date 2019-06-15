@@ -86,6 +86,9 @@ void Transactions::addTag(QString tag) {
 bool Transactions::removeTag(QString tag) {
 	return tags.removeAll(tag) > 0;
 }
+void Transactions::removeTag(int index) {
+	if(index >= 0 && index < tags.count()) tags.removeAt(index);
+}
 int Transactions::tagsCount(bool) const {return tags.count();}
 bool Transactions::hasTag(const QString &tag, bool, bool case_insensitive) const {return tags.contains(tag, case_insensitive ? Qt::CaseInsensitive : Qt::CaseSensitive);}
 const QString &Transactions::getTag(int index, bool) const {
@@ -121,8 +124,8 @@ void Transactions::readTags(const QString &text) {
 	if(tagstr.isEmpty()) return;
 	while(true) {
 		int i = 0;
-		if(tagstr[0] == '\"' || tagstr[0] == '\'') {
-			i = tagstr.indexOf(tagstr[0], 1);
+		if(tagstr.at(0) == '\"' || tagstr.at(0) == '\'') {
+			i = tagstr.indexOf(tagstr.at(0), 1);
 			if(i < 0) {
 				tags << tagstr.toString();
 				break;
@@ -131,12 +134,12 @@ void Transactions::readTags(const QString &text) {
 		}
 		i = tagstr.indexOf(',', i);
 		if(i < 0) {
-			if(tagstr.length() >= 2 && ((tagstr[0] == '\"' && tagstr.back() == '\"') || (tagstr[0] == '\'' && tagstr.back() == '\''))) tagstr = tagstr.mid(1, tagstr.length() - 2).trimmed();
+			if(tagstr.length() >= 2 && ((tagstr.at(0) == '\"' && tagstr.at(tagstr.size() - 1) == '\"') || (tagstr.at(0) == '\'' && tagstr.at(tagstr.size() - 1) == '\''))) tagstr = tagstr.mid(1, tagstr.length() - 2).trimmed();
 			tags << tagstr.toString();
 			break;
 		}	
 		QStringRef tagi = tagstr.left(i).trimmed();
-		if(tagi.length() >= 2 && ((tagi[0] == '\"' && tagi.back() == '\"') || (tagi[0] == '\'' && tagi.back() == '\''))) tagi = tagi.mid(1, tagi.length() - 2).trimmed();
+		if(tagi.length() >= 2 && ((tagi.at(0) == '\"' && tagi.at(tagstr.size() - 1) == '\"') || (tagi.at(0) == '\'' && tagi.at(tagstr.size() - 1) == '\''))) tagi = tagi.mid(1, tagi.length() - 2).trimmed();
 		if(!tagi.isEmpty()) tags << tagi.toString();
 		tagstr = tagstr.right(tagstr.length() - i - 1).trimmed();
 		if(tagstr.isEmpty()) break;
@@ -1541,13 +1544,14 @@ bool ScheduledTransaction::isReconciled(AssetsAccount*) const {return false;}
 void ScheduledTransaction::setReconciled(AssetsAccount*, bool) {return;}
 void ScheduledTransaction::addTag(QString tag) {if(o_trans) o_trans->addTag(tag);}
 bool ScheduledTransaction::removeTag(QString tag) {if(o_trans) {return o_trans->removeTag(tag);} return false;}
+void ScheduledTransaction::removeTag(int index) {if(o_trans) o_trans->removeTag(index);}
 int ScheduledTransaction::tagsCount(bool include_parent) const {if(o_trans) {return o_trans->tagsCount(include_parent);} return 0;}
-bool ScheduledTransaction::hasTag(const QString &tag, bool include_parent, bool case_insensitive) const {if(o_trans) {o_trans->hasTag(tag, include_parent, case_insensitive);} return false;}
+bool ScheduledTransaction::hasTag(const QString &tag, bool include_parent, bool case_insensitive) const {if(o_trans) {return o_trans->hasTag(tag, include_parent, case_insensitive);} return false;}
 const QString &ScheduledTransaction::getTag(int index, bool include_parent) const {if(o_trans) {o_trans->getTag(index, include_parent);} return emptystr;}
 QString ScheduledTransaction::tagsText(bool include_parent_child) const {if(o_trans) {o_trans->tagsText(include_parent_child);} return QString::null;}
 void ScheduledTransaction::clearTags() {if(o_trans) o_trans->clearTags();}
 void ScheduledTransaction::readTags(const QString &text) {if(o_trans) o_trans->readTags(text);}
-QString ScheduledTransaction::writeTags(bool include_parent) const {if(o_trans) {o_trans->writeTags(include_parent);} return QString::null;}
+QString ScheduledTransaction::writeTags(bool include_parent) const {if(o_trans) {return o_trans->writeTags(include_parent);} return QString::null;}
 const QString &ScheduledTransaction::payee() const {
 	if(o_trans) return o_trans->payee();
 	return emptystr;
@@ -1746,9 +1750,9 @@ void SplitTransaction::setReconciled(AssetsAccount*, bool is_reconciled) {
 QString SplitTransaction::tagsText(bool include_child) const {
 	if(!include_child) return Transactions::tagsText();
 	QString tagstr = Transactions::tagsText();
-	int c = splits.count();
+	int c = count();
 	for(int i = 0; i < c; i++) {
-		QString str = splits[i]->tagsText(false);
+		QString str = at(i)->tagsText(false);
 		if(!str.isEmpty()) {
 			if(!tagstr.isEmpty()) tagstr += ", ";
 			tagstr += str;
@@ -1773,6 +1777,37 @@ QString SplitTransaction::payeeText() const {
 		payee_string += payee_list[i];
 	}
 	return payee_string;
+}
+void SplitTransaction::splitTags() {
+	int c = count();
+	for(int i2 = 0; i2 < tags.count(); i2++) {
+		for(int i = 0; i < c; i++) {
+			at(i)->addTag(tags[i2]);
+		}
+	}
+	clearTags();
+}
+void SplitTransaction::joinTags() {
+	int c = count();
+	if(c == 0) return;
+	for(int i2 = 0; i2 < at(0)->tagsCount(false);) {
+		bool b = true;
+		for(int i = 1; i < c; i++) {
+			if(!at(i)->hasTag(at(0)->getTag(i2, false), false)) {
+				b = false;
+				break;
+			}
+		}
+		if(b) {
+			QString tag = at(0)->getTag(i2, false);
+			addTag(tag);
+			for(int i = 0; i < c; i++) {
+				at(i)->removeTag(tag);
+			}
+		} else {
+			i2++;
+		}
+	}
 }
 
 MultiItemTransaction::MultiItemTransaction(Budget *parent_budget, QDate initial_date, AssetsAccount *initial_account, QString initial_description) : SplitTransaction(parent_budget, initial_date, initial_description), o_account(initial_account) {}
@@ -2055,6 +2090,13 @@ void MultiItemTransaction::addTransaction(Transaction *trans) {
 		case TRANSACTION_TYPE_SECURITY_SELL: {
 			((SecurityTransaction*) trans)->setAccount(o_account);
 			break;
+		}
+	}
+	for(int i = 0; i < trans->tagsCount(false);) {
+		if(hasTag(trans->getTag(i, false), false)) {
+			trans->removeTag(i);
+		} else {
+			i++;
 		}
 	}
 	splits.push_back(trans);

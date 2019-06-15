@@ -1,3 +1,8 @@
+2019-06-15  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Do not show "from date is after to date" and similar messages
+	  (pick an appropriate to date instead)
+
 2019-06-13  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Wrap around (with month/year change) support for days and months

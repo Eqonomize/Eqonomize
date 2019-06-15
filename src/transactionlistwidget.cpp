@@ -627,7 +627,7 @@ void TransactionListWidget::editSplitTransaction() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() >= 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
-		if(i->transaction()->parentSplit()) {
+		if(!i->scheduledTransaction() && i->transaction()->parentSplit()) {
 			if(mainWin->editSplitTransaction(i->transaction()->parentSplit())) clearTransaction();
 		}
 	}
@@ -660,12 +660,22 @@ void TransactionListWidget::modifyTags() {
 		if(selection.count() > 1) mainWin->startBatchEdit();
 		for(int index = 0; index < selection.size(); index++) {
 			TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
-			Transactions *trans = i->scheduledTransaction();
-			if(!trans) trans = i->splitTransaction();
-			if(!trans) trans = i->transaction();
-			Transactions *oldtrans = trans->copy();
-			mainWin->tagMenu->modifyTransaction(trans);
-			mainWin->transactionModified(trans, oldtrans);
+			Transactions *trans = i->splitTransaction();
+			if(!trans) {
+				if(i->transaction()->parentSplit() && i->transaction()->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) trans = i->transaction()->parentSplit();
+				else trans = i->transaction();
+			}
+			if(i->scheduledTransaction()) {
+				Transactions *oldtrans = i->scheduledTransaction()->copy();
+				mainWin->tagMenu->modifyTransaction(trans);
+				mainWin->transactionModified(i->scheduledTransaction(), oldtrans);
+				delete oldtrans;
+			} else {
+				Transactions *oldtrans = trans->copy();
+				mainWin->tagMenu->modifyTransaction(trans);
+				mainWin->transactionModified(trans, oldtrans);
+				delete oldtrans;
+			}
 		}
 		if(selection.count() > 1) mainWin->endBatchEdit();
 		transactionSelectionChanged();
@@ -1607,8 +1617,13 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
 			while(i) {
 				if(i->scheduledTransaction() == strans) {
-					current_value -= oldstrans->transaction()->value(true);
-					current_quantity -= oldstrans->transaction()->quantity();
+					if(i->transaction()) {
+						current_value -= i->transaction()->value(true);
+						current_quantity -= i->transaction()->quantity();
+					} else if(i->splitTransaction()) {
+						current_value -= i->splitTransaction()->value(true);
+						current_quantity -= i->splitTransaction()->quantity();
+					}
 					QTreeWidgetItem *i_del = i;
 					++it;
 					i = (TransactionListViewItem*) *it;
@@ -1635,7 +1650,19 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 			break;
 		}
 		case GENERAL_TRANSACTION_TYPE_SPLIT: {
-			if(((SplitTransaction*) transs)->type() != SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) break;
+			if(((SplitTransaction*) transs)->type() != SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) {
+				if(((SplitTransaction*) transs)->count() == ((SplitTransaction*) oldtranss)->count()) {
+					for(int i = 0; i < ((SplitTransaction*) transs)->count(); i++) {
+						onTransactionModified(((SplitTransaction*) transs)->at(i), ((SplitTransaction*) oldtranss)->at(i));
+					}
+				} else {
+					for(int i = 0; i < ((SplitTransaction*) transs)->count(); i++) {
+						onTransactionRemoved(((SplitTransaction*) oldtranss)->at(i));
+						appendFilterTransaction(((SplitTransaction*) transs)->at(i), true);
+					}
+				}
+				break;
+			}
 			MultiAccountTransaction *split = (MultiAccountTransaction*) transs;
 			MultiAccountTransaction *oldsplit = (MultiAccountTransaction*) oldtranss;
 			QTreeWidgetItemIterator it(transactionsView);
@@ -1702,8 +1729,13 @@ void TransactionListWidget::onTransactionRemoved(Transactions *transs) {
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
 			while(i) {
 				if(i->scheduledTransaction() == strans) {
-					current_value -= strans->transaction()->value(true);
-					current_quantity -= strans->transaction()->quantity();
+					if(i->transaction()) {
+						current_value -= i->transaction()->value(true);
+						current_quantity -= i->transaction()->quantity();
+					} else if(i->splitTransaction()) {
+						current_value -= i->splitTransaction()->value(true);
+						current_quantity -= i->splitTransaction()->quantity();
+					}
 					QTreeWidgetItem *i_del = i;
 					++it;
 					i = (TransactionListViewItem*) *it;
@@ -1827,15 +1859,15 @@ void TransactionListWidget::currentTransactionChanged(QTreeWidgetItem *i) {
 		editInfoLabel->setText(QString::null);
 	} else if(((TransactionListViewItem*) i)->splitTransaction()) {
 		editWidget->setMultiAccountTransaction(((TransactionListViewItem*) i)->splitTransaction());
+	} else if(((TransactionListViewItem*) i)->scheduledTransaction()) {
+		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction(), ((TransactionListViewItem*) i)->date());
+		if(((TransactionListViewItem*) i)->scheduledTransaction()->isOneTimeTransaction()) editInfoLabel->setText(QString::null);
+		else editInfoLabel->setText(tr("** Recurring (editing occurrence)"));
 	} else if(((TransactionListViewItem*) i)->transaction()->parentSplit()) {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction());
 		SplitTransaction *split = ((TransactionListViewItem*) i)->transaction()->parentSplit();
 		if(split->description().isEmpty() || split->description().length() > 10) editInfoLabel->setText(tr("* Part of split transaction"));
 		else editInfoLabel->setText(tr("* Part of split (%1)").arg(split->description()));
-	} else if(((TransactionListViewItem*) i)->scheduledTransaction()) {
-		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction(), ((TransactionListViewItem*) i)->date());
-		if(((TransactionListViewItem*) i)->scheduledTransaction()->isOneTimeTransaction()) editInfoLabel->setText(QString::null);
-		else editInfoLabel->setText(tr("** Recurring (editing occurrence)"));
 	} else {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction());
 		editInfoLabel->setText(QString::null);
@@ -1911,8 +1943,8 @@ void TransactionListWidget::updateTransactionActions() {
 	QList<Transactions*> list;
 	if(selection.count() == 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
-		b_split = (i->transaction() && i->transaction()->parentSplit());
 		b_scheduledtransaction = i->scheduledTransaction() && i->scheduledTransaction()->recurrence();
+		b_split = !b_scheduledtransaction && (i->transaction() && i->transaction()->parentSplit());
 		b_transaction = !b_scheduledtransaction || !i->scheduledTransaction()->isOneTimeTransaction();
 		b_time = !i->scheduledTransaction();
 		b_delete = b_transaction;

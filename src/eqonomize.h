@@ -174,7 +174,7 @@ class Eqonomize : public QMainWindow {
 		bool newMultiAccountTransaction(QWidget *parent, bool create_expenses);
 		bool newMultiItemTransaction(QWidget *parent, AssetsAccount *account = NULL);
 		bool newDebtPayment(QWidget *parent, AssetsAccount *loan = NULL, bool only_interest = false);
-		bool editTimestamp(QList<Transactions*> trans);
+		bool editTimestamp(QList<Transactions*> trans, QWidget *parent = NULL);
 		bool editSplitTransaction(SplitTransaction *split);
 		bool editSplitTransaction(SplitTransaction *split, QWidget *parent, bool temporary_split = false, bool clone_trans = false);
 		bool splitUpTransaction(SplitTransaction *split);

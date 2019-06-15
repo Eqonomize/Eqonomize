@@ -621,15 +621,14 @@ MultiItemTransaction *EditMultiItemWidget::createTransaction() {
 	split->setComment(commentEdit->text());
 	QTreeWidgetItemIterator it(transactionsView);
 	QTreeWidgetItem *i = *it;
+	if(tagButton) tagButton->modifyTransaction(split);
 	while(i) {
 		Transaction *trans = ((MultiItemListViewItem*) i)->transaction();
-		if(tagButton && trans->type() != TRANSACTION_TYPE_TRANSFER) {
-			tagButton->modifyTransaction(trans, true);
-		}
 		if(trans) split->addTransaction(trans);
 		++it;
 		i = *it;
 	}
+	split->joinTags();
 	return split;
 }
 void EditMultiItemWidget::setTransaction(MultiItemTransaction *split) {

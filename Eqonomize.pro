@@ -1,4 +1,4 @@
-VERSION = 1.4.0
+VERSION = 1.4.1
 isEmpty(PREFIX) {
 	PREFIX = /usr/local
 }
@@ -203,6 +203,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/scalable/eqz-split-transaction.svg \
 				data/scalable/eqz-join-transactions.svg \
 				data/scalable/eqz-export.svg \
+				data/scalable/eqz-import.svg \
 				data/scalable/eqz-edit.svg \
 				data/scalable/eqz-tag.svg \
 				data/scalable/eqz-balance.svg \
@@ -215,6 +216,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/scalable/eqz-categories-chart.svg \
 				data/scalable/eqz-overtime-chart.svg \
 				data/scalable/eqz-categories-report.svg \
+				data/scalable/eqz-currency.svg \
 				data/scalable/eqz-overtime-report.svg
 	actioniconssvg.path = $$ICON_DIR/hicolor/scalable/actions
 	actionicons16.files = 	data/16/eqz-account.png \
@@ -230,6 +232,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/16/eqz-split-transaction.png \
 				data/16/eqz-join-transactions.png \
 				data/16/eqz-export.png \
+				data/16/eqz-import.png \
 				data/16/eqz-edit.png \
 				data/16/eqz-tag.png \
 				data/16/eqz-balance.png \
@@ -242,6 +245,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/16/eqz-categories-chart.png \
 				data/16/eqz-overtime-chart.png \
 				data/16/eqz-categories-report.png \
+				data/16/eqz-currency.png \
 				data/16/eqz-overtime-report.png
 	actionicons16.path = $$ICON_DIR/hicolor/16x16/actions
 	actionicons22.files = 	data/22/eqz-account.png \
@@ -257,6 +261,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/22/eqz-split-transaction.png \
 				data/22/eqz-join-transactions.png \
 				data/22/eqz-export.png \
+				data/22/eqz-import.png \
 				data/22/eqz-edit.png \
 				data/22/eqz-tag.png \
 				data/22/eqz-balance.png \
@@ -269,6 +274,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/22/eqz-categories-chart.png \
 				data/22/eqz-overtime-chart.png \
 				data/22/eqz-categories-report.png \
+				data/22/eqz-currency.png \
 				data/22/eqz-overtime-report.png
 	actionicons22.path = $$ICON_DIR/hicolor/22x22/actions
 	actionicons32.files = 	data/32/eqz-account.png \
@@ -284,6 +290,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/32/eqz-split-transaction.png \
 				data/32/eqz-join-transactions.png \
 				data/32/eqz-export.png \
+				data/32/eqz-import.png \
 				data/32/eqz-edit.png \
 				data/32/eqz-tag.png \
 				data/32/eqz-balance.png \
@@ -296,6 +303,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/32/eqz-categories-chart.png \
 				data/32/eqz-overtime-chart.png \
 				data/32/eqz-categories-report.png \
+				data/32/eqz-currency.png \
 				data/32/eqz-overtime-report.png
 	actionicons32.path = $$ICON_DIR/hicolor/32x32/actions
 	actionicons48.files = 	data/48/eqz-account.png \
@@ -311,6 +319,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/48/eqz-split-transaction.png \
 				data/48/eqz-join-transactions.png \
 				data/48/eqz-export.png \
+				data/48/eqz-import.png \
 				data/48/eqz-edit.png \
 				data/48/eqz-tag.png \
 				data/48/eqz-balance.png \
@@ -323,6 +332,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/48/eqz-categories-chart.png \
 				data/48/eqz-overtime-chart.png \
 				data/48/eqz-categories-report.png \
+				data/48/eqz-currency.png \
 				data/48/eqz-overtime-report.png
 	actionicons48.path = $$ICON_DIR/hicolor/48x48/actions
 	actionicons64.files = 	data/64/eqz-account.png \
@@ -338,6 +348,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/64/eqz-split-transaction.png \
 				data/64/eqz-join-transactions.png \
 				data/64/eqz-export.png \
+				data/64/eqz-import.png \
 				data/64/eqz-edit.png \
 				data/64/eqz-tag.png \
 				data/64/eqz-balance.png \
@@ -350,6 +361,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 				data/64/eqz-categories-chart.png \
 				data/64/eqz-overtime-chart.png \
 				data/64/eqz-categories-report.png \
+				data/64/eqz-currency.png \
 				data/64/eqz-overtime-report.png
 	actionicons64.path = $$ICON_DIR/hicolor/64x64/actions
 

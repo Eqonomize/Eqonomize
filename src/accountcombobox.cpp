@@ -37,7 +37,7 @@
 QComboBoxListViewEq::QComboBoxListViewEq(AccountComboBox *cmb) : combo(cmb) {}
 void QComboBoxListViewEq::keyPressEvent(QKeyEvent *e) {
 	QString str = e->text().trimmed();
-	if((!str.isEmpty() && str.front().isPrint()) || (!filter_str.isEmpty() && (e->key() == Qt::Key_Backspace || e->key() == Qt::Key_Delete))) {
+	if((!str.isEmpty() && str[0].isPrint()) || (!filter_str.isEmpty() && (e->key() == Qt::Key_Backspace || e->key() == Qt::Key_Delete))) {
 		QSortFilterProxyModel *filterModel = (QSortFilterProxyModel*) model();
 		if(e->key() == Qt::Key_Backspace || e->key() == Qt::Key_Delete) {
 			filter_str.chop(1);
@@ -115,7 +115,7 @@ void QComboBoxDelegateEq::paint(QPainter *painter, const QStyleOptionViewItem &o
 }
 QSize QComboBoxDelegateEq::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
 	if (isSeparator(index)) {
-		int pm = mCombo->style()->pixelMetric(QStyle::PM_DefaultFrameWidth, nullptr, mCombo);
+		int pm = mCombo->style()->pixelMetric(QStyle::PM_DefaultFrameWidth, NULL, mCombo);
 		return QSize(pm, pm);
 	}
 	return QStyledItemDelegate::sizeHint(option, index);
