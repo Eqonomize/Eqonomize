@@ -519,7 +519,7 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 			}
 		}
 	}
-	if(!strans->associatedFile().isEmpty()) setIcon(3, LOAD_ICON("mail-attachment"));
+	if(!strans->associatedFile().isEmpty()) setIcon(3, LOAD_ICON_STATUS("mail-attachment"));
 	else setIcon(3, QIcon());
 	setText(6, strans->payeeText());
 	setText(7, strans->tagsText(true));
@@ -4482,10 +4482,55 @@ void Eqonomize::showAccountTransactions(bool b) {
 		expensesWidget->showFilter();
 		tabs->setCurrentIndex(EXPENSES_PAGE_INDEX);
 	} else if(tag_items.contains(i)) {
-		if(b) expensesWidget->setFilter(QDate(), to_date, -1.0, -1.0, NULL, NULL, QString::null, tag_items[i]);
-		else expensesWidget->setFilter(accountsPeriodFromButton->isChecked() ? from_date : QDate(), to_date, -1.0, -1.0, NULL, NULL, QString::null, tag_items[i]);
-		expensesWidget->showFilter();
-		tabs->setCurrentIndex(EXPENSES_PAGE_INDEX);
+		TransactionListWidget *w = expensesWidget;
+		QString tag = tag_items[i];
+		bool b_from = !b && accountsPeriodFromButton->isChecked();
+		if((b && tag_value[tag] > 0.0) || (!b && (tag_change[tag] > 0.0 || (tag_change[tag] == 0.0 && tag_value[tag] > 0.0)))) {
+			w = incomesWidget;
+			bool b = false;
+			for(TransactionList<Income*>::const_iterator it = budget->incomes.constEnd(); it != budget->incomes.constBegin();) {
+				--it;
+				if(b_from && (*it)->date() < from_date) break;
+				if((b || (*it)->date() <= to_date) && (*it)->hasTag(tag, true)) {
+					b = true;
+					break;
+				}
+			}
+			if(!b) {
+				for(TransactionList<Expense*>::const_iterator it = budget->expenses.constEnd(); it != budget->expenses.constBegin();) {
+					--it;
+					if(b_from && (*it)->date() < from_date) break;
+					if((b || (*it)->date() <= to_date) && (*it)->hasTag(tag, true)) {
+						w = expensesWidget;
+						break;
+					}
+				}
+			}
+		} else {
+			bool b = false;
+			for(TransactionList<Expense*>::const_iterator it = budget->expenses.constEnd(); it != budget->expenses.constBegin();) {
+				--it;
+				if(b_from && (*it)->date() < from_date) break;
+				if((b || (*it)->date() <= to_date) && (*it)->hasTag(tag, true)) {
+					b = true;
+					break;
+				}
+			}
+			if(!b) {
+				for(TransactionList<Income*>::const_iterator it = budget->incomes.constEnd(); it != budget->incomes.constBegin();) {
+					--it;
+					if(b_from && (*it)->date() < from_date) break;
+					if((b || (*it)->date() <= to_date) && (*it)->hasTag(tag, true)) {
+						w = incomesWidget;
+						break;
+					}
+				}
+			}
+		}
+		if(b) w->setFilter(QDate(), to_date, -1.0, -1.0, NULL, NULL, QString::null, tag);
+		else w->setFilter(accountsPeriodFromButton->isChecked() ? from_date : QDate(), to_date, -1.0, -1.0, NULL, NULL, QString::null, tag);
+		w->showFilter();
+		tabs->setCurrentIndex(w == incomesWidget ? INCOMES_PAGE_INDEX : EXPENSES_PAGE_INDEX);
 	} else {
 		if(!account_items.contains(i)) return;
 		Account *account = account_items[i];
@@ -6600,9 +6645,10 @@ void Eqonomize::setupActions() {
 	ActionExtraProperties->setChecked(b_extra);
 	ActionExtraProperties->setToolTip(tr("Show quantity and payer/payee properties for incomes and expenses."));
 	
-	NEW_ACTION(ActionSelectFont, tr("Select Font…"), "preferences-desktop-font", 0, this, SLOT(selectFont()), "select_font", settingsMenu);
+	NEW_ACTION_2(ActionSelectFont, tr("Select Font…"), 0, this, SLOT(selectFont()), "select_font", settingsMenu);
+	ActionSelectFont->setIcon(LOAD_ICON_APP("preferences-desktop-font"));
 	
-	QMenu *langMenu = settingsMenu->addMenu(LOAD_ICON("preferences-desktop-locale"), tr("Language"));
+	QMenu *langMenu = settingsMenu->addMenu(LOAD_ICON_APP("preferences-desktop-locale"), tr("Language"));
 	ActionSelectLang = new QActionGroup(this);
 	ActionSelectLang->setObjectName("select_language");
 	QAction *action_lang;
@@ -9894,4 +9940,33 @@ QIFWizardPage::QIFWizardPage() : QWizardPage() {
 }
 bool QIFWizardPage::isComplete() const {return is_complete;}
 void QIFWizardPage::setComplete(bool b) {is_complete = b; emit completeChanged();}
+
+extern QTranslator translator_qt, translator_qtbase;
+
+EqonomizeTranslator::EqonomizeTranslator() : QTranslator() {}
+QString	EqonomizeTranslator::translate(const char *context, const char *sourceText, const char *disambiguation, int n) const {
+	if(!translator_qt.translate(context, sourceText, disambiguation, n).isEmpty() || !translator_qtbase.translate(context, sourceText, disambiguation, n).isEmpty()) return QString::null;
+	if(strcmp(context, "EqonomizeTranslator") == 0) return QString::null;
+	//: Only used when Qt translation is missing
+	if(strcmp(sourceText, "OK") == 0) return tr("OK");
+	//: Only used when Qt translation is missing
+	if(strcmp(sourceText, "Cancel") == 0) return tr("Cancel");
+	//: Only used when Qt translation is missing
+	if(strcmp(sourceText, "Close") == 0) return tr("Close");
+	//: Only used when Qt translation is missing
+	if(strcmp(sourceText, "&Yes") == 0) return tr("&Yes");
+	//: Only used when Qt translation is missing
+	if(strcmp(sourceText, "&No") == 0) return tr("&No");
+	//: Only used when Qt translation is missing
+	if(strcmp(sourceText, "&Open") == 0) return tr("&Open");
+	//: Only used when Qt translation is missing
+	if(strcmp(sourceText, "&Save") == 0) return tr("&Save");
+	//: Only used when Qt translation is missing
+	if(strcmp(sourceText, "Look in:") == 0) return tr("Look in:");
+	//: Only used when Qt translation is missing
+	if(strcmp(sourceText, "File &name:") == 0) return tr("File &name:");
+	//: Only used when Qt translation is missing
+	if(strcmp(sourceText, "Files of type:") == 0) return tr("Files of type:");
+	return  QString::null;
+}
 

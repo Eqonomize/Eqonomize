@@ -89,6 +89,7 @@ EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parame
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
+	
 	box1->addWidget(buttonBox);
 	
 	connect(transactionEditWidget, SIGNAL(dateChanged(const QDate&)), recurrenceEditWidget, SLOT(setStartDate(const QDate&)));

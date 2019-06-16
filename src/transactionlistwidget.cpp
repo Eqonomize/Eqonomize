@@ -1490,7 +1490,7 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 			else i->setText(comments_col, trans->comment());
 			if(quantity_col >= 0) i->setText(quantity_col, budget->formatValue(trans->quantity()));
 			if(tags_col >= 0) i->setText(tags_col, trans->tagsText(true));
-			if(!trans->associatedFile().isEmpty() || (trans->parentSplit() && !trans->parentSplit()->associatedFile().isEmpty())) i->setIcon(2, LOAD_ICON("mail-attachment"));
+			if(!trans->associatedFile().isEmpty() || (trans->parentSplit() && !trans->parentSplit()->associatedFile().isEmpty())) i->setIcon(2, LOAD_ICON_STATUS("mail-attachment"));
 		} else if(split) {
 			i->setText(3, split->category()->name());
 			i->setText(4, split->accountsString());
@@ -1498,7 +1498,7 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 			if(quantity_col >= 0) i->setText(quantity_col, budget->formatValue(split->quantity()));
 			i->setText(comments_col, transs->comment());
 			if(tags_col >= 0) i->setText(tags_col, transs->tagsText());
-			if(!split->associatedFile().isEmpty()) i->setIcon(2, LOAD_ICON("mail-attachment"));
+			if(!split->associatedFile().isEmpty()) i->setIcon(2, LOAD_ICON_STATUS("mail-attachment"));
 		}		
 		current_value += transs->value(true);
 		current_quantity += transs->quantity();
@@ -1601,7 +1601,7 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 					else i->setText(comments_col, trans->comment());
 					if(tags_col >= 0) i->setText(tags_col, transs->tagsText(true));
 					if(quantity_col >= 0) i->setText(quantity_col, budget->formatValue(transs->quantity()));
-					if(!trans->associatedFile().isEmpty() || (trans->parentSplit() && !trans->parentSplit()->associatedFile().isEmpty())) i->setIcon(2, LOAD_ICON("mail-attachment"));
+					if(!trans->associatedFile().isEmpty() || (trans->parentSplit() && !trans->parentSplit()->associatedFile().isEmpty())) i->setIcon(2, LOAD_ICON_STATUS("mail-attachment"));
 					else i->setIcon(2, QIcon());
 				}
 				updateStatistics();
@@ -1694,7 +1694,7 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 					i->setText(comments_col, split->comment());
 					if(tags_col >= 0) i->setText(tags_col, split->tagsText());
 					if(quantity_col >= 0) i->setText(quantity_col, budget->formatValue(split->quantity()));
-					if(!split->associatedFile().isEmpty()) i->setIcon(2, LOAD_ICON("mail-attachment"));
+					if(!split->associatedFile().isEmpty()) i->setIcon(2, LOAD_ICON_STATUS("mail-attachment"));
 					else i->setIcon(2, QIcon()); 
 				}
 				updateStatistics();

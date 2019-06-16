@@ -1,7 +1,14 @@
+2019-06-16  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Allow translation of key Qt strings (OK, Cancel, etc.),
+	  when Qt translation is not available for a language
+
 2019-06-15  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Do not show "from date is after to date" and similar messages
 	  (pick an appropriate to date instead)
+	* Icons for all menu items
+	* Load Qt translations when selecting a specific language
 
 2019-06-13  Hanna Knutsson <hanna.knutsson@protonmail.com>
 

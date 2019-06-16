@@ -291,6 +291,8 @@ class TagButton : public QPushButton {
 		void setTransactions(QList<Transactions*> list);
 		void modifyTransaction(Transactions *trans, bool append = false);
 		QString createTag();
+		
+		bool icon_shown;
 
 	public slots:
 

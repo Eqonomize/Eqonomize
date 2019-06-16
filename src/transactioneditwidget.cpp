@@ -65,15 +65,21 @@
 #define TEROWCOL(row, col)	CURROW(row, col), CURCOL(row, col)
 
 TagButton::TagButton(bool small_button, bool allow_new_tag, Budget *budg, QWidget *parent) : QPushButton(parent), b_small(small_button) {
+	tagMenu = new TagMenu(budg, this, allow_new_tag);
+	setMenu(tagMenu);
+	icon_shown = true;
 	if(b_small) {
-		setIcon(LOAD_ICON2("tag", "eqz-tag"));
 		setText("(0)");
 		setToolTip(tr("no tags"));
+#ifndef Q_OS_WIN32
+		int w1 = sizeHint().width();
+		setIcon(LOAD_ICON2("tag", "eqz-tag"));
+		int w2 = sizeHint().width();
+		if(w1 == w2) icon_shown = false;
+#endif
 	} else {
 		setText(tr("no tags"));
 	}
-	tagMenu = new TagMenu(budg, this, allow_new_tag);
-	setMenu(tagMenu);
 	connect(tagMenu, SIGNAL(newTagRequested()), this, SIGNAL(newTagRequested()));
 	if(!b_small) connect(tagMenu, SIGNAL(aboutToShow()), this, SLOT(resizeTagMenu()));
 	connect(tagMenu, SIGNAL(selectedTagsChanged()), this, SLOT(updateText()));
@@ -121,6 +127,7 @@ void TagButton::modifyTransaction(Transactions *trans, bool append) {
 }
 QString TagButton::createTag() {
 	QString new_tag = tagMenu->createTag();
+	updateText();
 	click();
 	return new_tag;
 }
@@ -128,6 +135,12 @@ QString TagButton::createTag() {
 
 TagMenu::TagMenu(Budget *budg, QWidget *parent, bool allow_new_tag) : QMenu(parent), budget(budg), allow_new(allow_new_tag) {}
 void TagMenu::updateTags() {
+	QHash<QString, bool> tagb;
+	QHash<QString, bool> tagi;
+	for(QHash<QString, QAction*>::const_iterator it = tag_actions.constBegin(); it != tag_actions.constEnd(); ++it) {
+		tagb[it.key()] = it.value()->isChecked();
+		tagi[it.key()] = it.value()->data().toBool();
+	}
 	clear();
 	tag_actions.clear();
 	if(allow_new) {
@@ -138,6 +151,13 @@ void TagMenu::updateTags() {
 		QAction *action = addAction(budget->tags[i], this, SLOT(tagToggled()));
 		action->setData(false);
 		action->setCheckable(true);
+		if(tagb.contains(budget->tags[i])) {
+			action->setChecked(tagb[budget->tags[i]]);
+			if(tagi[budget->tags[i]]) {
+				action->setData(true);
+				action->setText(budget->tags[i] + "*");
+			}
+		}
 		tag_actions[budget->tags[i]] = action;
 	}
 }
@@ -642,6 +662,11 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			editLayout->addLayout(box, TEROWCOL(i, 1));
 			box->addWidget(commentsEdit, 1);
 			tagButton = new TagButton(true, allow_account_creation, budget, this);
+			if(!tagButton->icon_shown) {
+				QLabel *tagIcon = new QLabel(this);
+				tagIcon->setPixmap(LOAD_ICON2("tag", "eqz-tag").pixmap(tagButton->style()->pixelMetric(QStyle::PM_ButtonIconSize)));
+				box->addWidget(tagIcon, 0);
+			}
 			box->addWidget(tagButton, 0);
 			tagsModified();
 			connect(tagButton, SIGNAL(newTagRequested()), this, SLOT(newTag()));

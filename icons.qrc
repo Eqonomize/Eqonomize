@@ -228,10 +228,12 @@
 	<file alias="actions/64x64/eqz-tag.png">data/64/eqz-tag.png</file>
 	<file alias="actions/64x64/eqz-transactions.png">data/64/eqz-transactions.png</file>
 	<file alias="actions/64x64/eqz-transfer.png">data/64/eqz-transfer.png</file>
+	<file alias="actions/64x64/application-exit.png">data/standard/64/application-exit.png</file>
 	<file alias="actions/64x64/document-new.png">data/standard/64/document-new.png</file>
 	<file alias="actions/64x64/document-open.png">data/standard/64/document-open.png</file>
 	<file alias="actions/64x64/document-print.png">data/standard/64/document-print.png</file>
 	<file alias="actions/64x64/document-print-preview.png">data/standard/64/document-print-preview.png</file>
+	<file alias="actions/64x64/document-revert.png">data/standard/64/document-revert.png</file>
 	<file alias="actions/64x64/document-save-as.png">data/standard/64/document-save-as.png</file>
 	<file alias="actions/64x64/document-save.png">data/standard/64/document-save.png</file>
 	<file alias="actions/64x64/edit-copy.png">data/standard/64/edit-copy.png</file>
