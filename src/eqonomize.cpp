@@ -5323,15 +5323,15 @@ void Eqonomize::exportQIF() {
 
 void Eqonomize::checkAvailableVersion_readdata() {
 	QString ssystem;
-	#if defined (Q_OS_WIN32)
-		ssystem = "Windows";
-	#elif defined(Q_OS_ANDROID)
-		return;
-	#elif defined(Q_OS_LINUX)
-		ssystem = "Linux";
-	#else
-		return;
-	#endif
+#if defined (Q_OS_WIN32)
+	ssystem = "Windows";
+#elif defined(Q_OS_ANDROID)
+	return;
+#elif defined(Q_OS_LINUX)
+	ssystem = "Linux";
+#else
+	return;
+#endif
 	if(checkVersionReply->error() != QNetworkReply::NoError) {
 		checkVersionReply->abort();
 		return;
@@ -6505,8 +6505,8 @@ void Eqonomize::setupActions() {
 	fileToolbar->addAction(ActionSaveView);
 	NEW_ACTION_ALT(ActionExportQIF, tr("Export As QIF File…"), "document-export", "eqz-export", 0, this, SLOT(exportQIF()), "export_qif", fileMenu);
 	fileMenu->addSeparator();
-	NEW_ACTION(ActionUpdateExchangeRates, tr("Update Exchange Rates"), "view-refresh", 0, this, SLOT(updateExchangeRates()), "update_exchange_rates", fileMenu);
 	NEW_ACTION(ActionConvertCurrencies, tr("Currency Converter"), "eqz-currency", 0, this, SLOT(openCurrencyConversion()), "convert_currencies", fileMenu);
+	NEW_ACTION(ActionUpdateExchangeRates, tr("Update Exchange Rates"), "view-refresh", 0, this, SLOT(updateExchangeRates()), "update_exchange_rates", fileMenu);
 	fileMenu->addSeparator();
 	QList<QKeySequence> keySequences;
 	keySequences << QKeySequence(QKeySequence::Quit);
@@ -6608,9 +6608,11 @@ void Eqonomize::setupActions() {
 	statisticsToolbar->addAction(ActionCategoriesComparisonChart);
 	
 	NEW_ACTION(ActionSetMainCurrency, tr("Set Main Currency…"), "eqz-currency", 0, this, SLOT(setMainCurrency()), "set_main_currency", settingsMenu);
-	
+
 	NEW_TOGGLE_ACTION(ActionUseExchangeRateForTransactionDate, tr("Use Exchange Rate for Transaction Date"), 0, this, SLOT(useExchangeRateForTransactionDate(bool)), "use_exchange_rate_for_transaction_date", settingsMenu);
+#ifndef RESOURCES_COMPILED
 	ActionUseExchangeRateForTransactionDate->setIcon(LOAD_ICON("eqz-currency"));
+#endif
 	ActionUseExchangeRateForTransactionDate->setChecked(budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE);
 	ActionUseExchangeRateForTransactionDate->setToolTip(tr("Use the exchange rate nearest the transaction date, instead of the latest available rate, when converting the value of transactions."));
 	
@@ -6641,7 +6643,9 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionSyncSettings, tr("Cloud Synchronization (experimental)…"), "view-refresh", 0, this, SLOT(openSynchronizationSettings()), "open_synchronization_settings", settingsMenu);
 	
 	NEW_TOGGLE_ACTION(ActionExtraProperties, tr("Show payee and quantity"), 0, this, SLOT(useExtraProperties(bool)), "extra_properties", settingsMenu);
+#ifndef RESOURCES_COMPILED
 	ActionExtraProperties->setIcon(LOAD_ICON("eqz-expense"));
+#endif
 	ActionExtraProperties->setChecked(b_extra);
 	ActionExtraProperties->setToolTip(tr("Show quantity and payer/payee properties for incomes and expenses."));
 	
@@ -8421,9 +8425,16 @@ void Eqonomize::assetsAccountItemHiddenOrRemoved(AssetsAccount *account) {
 			QTreeWidgetItem *i_sel = selectedItem(accountsView);
 			QTreeWidgetItem *i_cur = accountsView->currentItem();
 			QTreeWidgetItem *i = (is_debt ? item_liabilities_groups[g] : item_assets_groups[g]);
+			QHash<QTreeWidgetItem*, bool> i_hide;
+			for(int index = 0; index < i->childCount(); index++) {
+				i_hide[i->child(index)] = i->child(index)->isHidden();
+			}
 			QList<QTreeWidgetItem*> il = i->takeChildren();
 			if(is_debt) {
 				liabilitiesItem->addChildren(il);
+				for(int index = 0; index < il.count(); index++) {
+					il[index]->setHidden(i_hide[il[index]]);
+				}
 				liabilitiesItem->sortChildren(0, Qt::AscendingOrder);
 				accountsView->setCurrentItem(i_cur);
 				if(i_sel && liabilitiesItem->indexOfChild(i_sel) >= 0) {
@@ -8434,6 +8445,9 @@ void Eqonomize::assetsAccountItemHiddenOrRemoved(AssetsAccount *account) {
 				item_liabilities_groups.remove(g);
 			} else {
 				assetsItem->addChildren(il);
+				for(int index = 0; index < il.count(); index++) {
+					il[index]->setHidden(i_hide[il[index]]);
+				}
 				assetsItem->sortChildren(0, Qt::AscendingOrder);
 				accountsView->setCurrentItem(i_cur);
 				if(i_sel && assetsItem->indexOfChild(i_sel) >= 0) {
@@ -8450,11 +8464,18 @@ void Eqonomize::assetsAccountItemHiddenOrRemoved(AssetsAccount *account) {
 		QTreeWidgetItem *i_sel = selectedItem(accountsView);
 		QTreeWidgetItem *i_cur = accountsView->currentItem();
 		QTreeWidgetItem *i = liabilities_group_items.firstKey();
+		QHash<QTreeWidgetItem*, bool> i_hide;
+		for(int index = 0; index < i->childCount(); index++) {
+			i_hide[i->child(index)] = i->child(index)->isHidden();
+		}
 		QList<QTreeWidgetItem*> il = i->takeChildren();
 		liabilities_group_items.clear();
 		item_liabilities_groups.clear();
 		delete i;
 		liabilitiesItem->addChildren(il);
+		for(int index = 0; index < il.count(); index++) {
+			il[index]->setHidden(i_hide[il[index]]);
+		}
 		liabilitiesItem->sortChildren(0, Qt::AscendingOrder);
 		accountsView->setCurrentItem(i_cur);
 		if(i_sel && liabilitiesItem->indexOfChild(i_sel) >= 0) {
@@ -8465,11 +8486,18 @@ void Eqonomize::assetsAccountItemHiddenOrRemoved(AssetsAccount *account) {
 		QTreeWidgetItem *i_sel = selectedItem(accountsView);
 		QTreeWidgetItem *i_cur = accountsView->currentItem();
 		QTreeWidgetItem *i = assets_group_items.firstKey();
+		QHash<QTreeWidgetItem*, bool> i_hide;
+		for(int index = 0; index < i->childCount(); index++) {
+			i_hide[i->child(index)] = i->child(index)->isHidden();
+		}
 		QList<QTreeWidgetItem*> il = i->takeChildren();
 		assets_group_items.clear();
 		item_assets_groups.clear();
 		delete i;
 		assetsItem->addChildren(il);
+		for(int index = 0; index < il.count(); index++) {
+			il[index]->setHidden(i_hide[il[index]]);
+		}
 		assetsItem->sortChildren(0, Qt::AscendingOrder);
 		accountsView->setCurrentItem(i_cur);
 		if(i_sel && assetsItem->indexOfChild(i_sel) >= 0) {
@@ -8504,14 +8532,18 @@ void Eqonomize::assetsAccountItemShownOrAdded(AssetsAccount *account) {
 					QTreeWidgetItem *i2 = liabilitiesItem->child(index);
 					if(!i2) break;
 					if(account_items.contains(i2) && ((AssetsAccount*) account_items[i2])->group() == g) {
+						bool b_hide = i2->isHidden();
 						il << liabilitiesItem->takeChild(index);
+						if(b_hide) i2->setHidden(true);
 						index--;
 					}
 				} else {
 					QTreeWidgetItem *i2 = assetsItem->child(index);
 					if(!i2) break;
 					if(account_items.contains(i2) && ((AssetsAccount*) account_items[i2])->group() == g) {
+						bool b_hide = i2->isHidden();
 						il << assetsItem->takeChild(index);
+						if(b_hide) i2->setHidden(true);
 						index--;
 					}
 				}

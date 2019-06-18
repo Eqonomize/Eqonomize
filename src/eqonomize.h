@@ -867,7 +867,7 @@ class EqonomizeTranslator : public QTranslator {
 
 		EqonomizeTranslator();
 		
-		QString	translate(const char *context, const char *sourceText, const char *disambiguation = nullptr, int n = -1) const;
+		QString	translate(const char *context, const char *sourceText, const char *disambiguation = NULL, int n = -1) const;
 
 };
 

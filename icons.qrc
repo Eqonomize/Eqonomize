@@ -79,6 +79,7 @@
 	<file alias="actions/16x16/application-exit.png">data/standard/16/application-exit.png</file>
 	<file alias="actions/16x16/document-new.png">data/standard/16/document-new.png</file>
 	<file alias="actions/16x16/document-open.png">data/standard/16/document-open.png</file>
+	<file alias="actions/16x16/document-open-recent.png">data/standard/16/document-open-recent.png</file>
 	<file alias="actions/16x16/document-print.png">data/standard/16/document-print.png</file>
 	<file alias="actions/16x16/document-print-preview.png">data/standard/16/document-print-preview.png</file>
 	<file alias="actions/16x16/document-revert.png">data/standard/16/document-revert.png</file>
@@ -130,6 +131,7 @@
 	<file alias="actions/32x32/application-exit.png">data/standard/32/application-exit.png</file>
 	<file alias="actions/32x32/document-new.png">data/standard/32/document-new.png</file>
 	<file alias="actions/32x32/document-open.png">data/standard/32/document-open.png</file>
+	<file alias="actions/32x32/document-open-recent.png">data/standard/32/document-open-recent.png</file>
 	<file alias="actions/32x32/document-print.png">data/standard/32/document-print.png</file>
 	<file alias="actions/32x32/document-print-preview.png">data/standard/32/document-print-preview.png</file>
 	<file alias="actions/32x32/document-revert.png">data/standard/32/document-revert.png</file>
@@ -180,6 +182,7 @@
 	<file alias="actions/48x48/application-exit.png">data/standard/48/application-exit.png</file>
 	<file alias="actions/48x48/document-new.png">data/standard/48/document-new.png</file>
 	<file alias="actions/48x48/document-open.png">data/standard/48/document-open.png</file>
+	<file alias="actions/48x48/document-open-recent.png">data/standard/48/document-open-recent.png</file>
 	<file alias="actions/48x48/document-print.png">data/standard/48/document-print.png</file>
 	<file alias="actions/48x48/document-print-preview.png">data/standard/48/document-print-preview.png</file>
 	<file alias="actions/48x48/document-revert.png">data/standard/48/document-revert.png</file>
@@ -231,6 +234,7 @@
 	<file alias="actions/64x64/application-exit.png">data/standard/64/application-exit.png</file>
 	<file alias="actions/64x64/document-new.png">data/standard/64/document-new.png</file>
 	<file alias="actions/64x64/document-open.png">data/standard/64/document-open.png</file>
+	<file alias="actions/64x64/document-open-recent.png">data/standard/64/document-open-recent.png</file>
 	<file alias="actions/64x64/document-print.png">data/standard/64/document-print.png</file>
 	<file alias="actions/64x64/document-print-preview.png">data/standard/64/document-print-preview.png</file>
 	<file alias="actions/64x64/document-revert.png">data/standard/64/document-revert.png</file>
@@ -282,6 +286,7 @@
 	<file alias="actions/22x22/application-exit.png">data/standard/22/application-exit.png</file>
 	<file alias="actions/22x22/document-new.png">data/standard/22/document-new.png</file>
 	<file alias="actions/22x22/document-open.png">data/standard/22/document-open.png</file>
+	<file alias="actions/22x22/document-open-recent.png">data/standard/22/document-open-recent.png</file>
 	<file alias="actions/22x22/document-print.png">data/standard/22/document-print.png</file>
 	<file alias="actions/22x22/document-print-preview.png">data/standard/22/document-print-preview.png</file>
 	<file alias="actions/22x22/document-revert.png">data/standard/22/document-revert.png</file>

@@ -89,6 +89,7 @@ attributes:
 id
 name (text string)
 type (text string, optional)
+group (text string, optional)
 lender/issuer/bank (text string, optional)
 currency (three letter ISO 4217 currency code, otional)
 initialbalance (floating point, optional)
@@ -108,6 +109,8 @@ other (default)
 
 If type is not set, then type is 'other'. 
 If type is 'securities', initialbalance and budgetaccount is not allowed. budgetaccount can only be set to true for one account.
+
+If group is empty automatic grouping based on type is assumed. Use "-" to specify no group.
 
 Security
 -----------------------------------

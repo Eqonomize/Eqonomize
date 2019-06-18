@@ -69,14 +69,20 @@ TagButton::TagButton(bool small_button, bool allow_new_tag, Budget *budg, QWidge
 	setMenu(tagMenu);
 	icon_shown = true;
 	if(b_small) {
-		setText("(0)");
-		setToolTip(tr("no tags"));
-#ifndef Q_OS_WIN32
+#if defined (Q_OS_WIN32)
+		setIcon(LOAD_ICON2("tag", "eqz-tag"));
+#else
+		setText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 		int w1 = sizeHint().width();
 		setIcon(LOAD_ICON2("tag", "eqz-tag"));
 		int w2 = sizeHint().width();
-		if(w1 == w2) icon_shown = false;
+		if(w1 == w2) {
+			setIcon(QIcon());
+			icon_shown = false;
+		}
 #endif
+		setText("(0)");
+		setToolTip(tr("no tags"));
 	} else {
 		setText(tr("no tags"));
 	}
