@@ -635,6 +635,7 @@ void OverTimeReport::updateDisplay() {
 			if(at != ACCOUNT_TYPE_INCOMES) {for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) cat_includes_planned[*it] = false;}
 		}
 	}
+
 	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
 		Transaction *trans = *it;
 		if(trans->date() > curdate) break;
@@ -647,7 +648,7 @@ void OverTimeReport::updateDisplay() {
 				if(trans->type() == TRANSACTION_TYPE_EXPENSE) {b_expense = true; sign = -1;}
 				else if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
 				else include = false;
-			} else if(type >= 4) {
+			} else if(type >= 4 && type != 8) {
 				include = true;
 			} else if((type == 1 && trans->fromAccount()->type() == at) || (type == 2 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account)) || (type == 3 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account) && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (type == 0 && trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
 				if(type == 0) sign = 1;
@@ -840,7 +841,7 @@ void OverTimeReport::updateDisplay() {
 					if(trans->type() == TRANSACTION_TYPE_EXPENSE) {b_expense = true; sign = -1;}
 					else if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
 					else include = false;
-				} else if(type >= 4) {
+				} else if(type >= 4 && type != 8) {
 					include = true;
 				} else if((type == 1 && trans->fromAccount()->type() == at) || (type == 2 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account)) || (type == 3 && (trans->fromAccount() == account || trans->fromAccount()->topAccount() == account) && !trans->description().compare(current_description, Qt::CaseInsensitive)) || (type == 0 && trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS)) {
 					if(type == 0) sign = 1;

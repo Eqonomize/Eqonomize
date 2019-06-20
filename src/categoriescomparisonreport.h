@@ -53,6 +53,7 @@ class CategoriesComparisonReport : public QWidget {
 		bool has_empty_description, has_empty_payee;
 		bool b_extra;
 		bool block_display_update;
+		int first_source_account_index;
 		
 		QTextEdit *htmlview;
 		QCheckBox *fromButton;

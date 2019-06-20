@@ -42,7 +42,6 @@ void QComboBoxListViewEq::keyPressEvent(QKeyEvent *e) {
 		if(e->key() == Qt::Key_Backspace || e->key() == Qt::Key_Delete) {
 			filter_str.chop(1);
 			QRegExp reg(filter_str.isEmpty() ? "" : QString("\\b")+filter_str, Qt::CaseInsensitive);
-			qDebug() << filter_str;
 			filterModel->setFilterRegExp(reg);
 			return;
 		}

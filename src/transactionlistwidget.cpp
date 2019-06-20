@@ -355,17 +355,18 @@ void TransactionListWidget::popupListMenu(const QPoint &p) {
 		}
 		listPopupMenu->addAction(mainWin->ActionNewMultiItemTransaction);
 		listPopupMenu->addSeparator();
+		listPopupMenu->addAction(mainWin->ActionCloneTransaction);
+		listPopupMenu->addSeparator();
 		listPopupMenu->addAction(mainWin->ActionEditTransaction);
 		listPopupMenu->addAction(mainWin->ActionEditScheduledTransaction);
 		listPopupMenu->addAction(mainWin->ActionEditSplitTransaction);
-		listPopupMenu->addAction(mainWin->ActionCloneTransaction);
 		listPopupMenu->addAction(mainWin->ActionJoinTransactions);
 		listPopupMenu->addAction(mainWin->ActionSplitUpTransaction);
-		listPopupMenu->addAction(mainWin->ActionEditTimestamp);
-		listPopupMenu->addAction(mainWin->ActionTags);
 		listPopupMenu->addSeparator();
+		listPopupMenu->addAction(mainWin->ActionTags);
 		listPopupMenu->addAction(mainWin->ActionSelectAssociatedFile);
 		listPopupMenu->addAction(mainWin->ActionOpenAssociatedFile);
+		listPopupMenu->addAction(mainWin->ActionEditTimestamp);
 		listPopupMenu->addSeparator();
 		listPopupMenu->addAction(mainWin->ActionDeleteTransaction);
 		listPopupMenu->addAction(mainWin->ActionDeleteScheduledTransaction);

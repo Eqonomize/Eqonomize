@@ -99,7 +99,12 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	sourceCombo->addItem(tr("All Categories, excluding subcategories"));
 	sourceCombo->addItem(tr("All Categories, including subcategories"));
 	sourceCombo->addItem(tr("All Tags"));
-	sourceCombo->addItem(tr("All Payees and Payers"));
+	if(b_extra) {
+		sourceCombo->addItem(tr("All Payees and Payers"));
+		first_source_account_index = 4;
+	} else {
+		first_source_account_index = 3;
+	}
 	for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 		Account *account = *it;
 		sourceCombo->addItem(tr("Expenses: %1").arg(account->nameWithParent()));
@@ -124,19 +129,18 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 		}
 	}
 
-	payeeDescriptionWidget = NULL;
+	payeeDescriptionWidget = new QWidget(settingsWidget);
+	QHBoxLayout *payeeLayout = new QHBoxLayout(payeeDescriptionWidget);
+	QButtonGroup *group = new QButtonGroup(this);
+	subsButton = new QRadioButton(tr("Subcategories"), payeeDescriptionWidget);
+	subsButton->setChecked(true);
+	group->addButton(subsButton);
+	payeeLayout->addWidget(subsButton);
+	descriptionButton = new QRadioButton(b_extra ? tr("Descriptions for", "Referring to the transaction description property (transaction title/generic article name)") : tr("Descriptions", "Referring to the transaction description property (transaction title/generic article name)"), payeeDescriptionWidget);
+	group->addButton(descriptionButton);
+	payeeLayout->addWidget(descriptionButton);
 	if(b_extra) {
 		sourceLayout->addWidget(accountCombo);
-		payeeDescriptionWidget = new QWidget(settingsWidget);
-		QHBoxLayout *payeeLayout = new QHBoxLayout(payeeDescriptionWidget);
-		QButtonGroup *group = new QButtonGroup(this);
-		subsButton = new QRadioButton(tr("Subcategories"), payeeDescriptionWidget);
-		subsButton->setChecked(true);
-		group->addButton(subsButton);
-		payeeLayout->addWidget(subsButton);
-		descriptionButton = new QRadioButton(tr("Descriptions for", "Referring to the transaction description property (transaction title/generic article name)"), payeeDescriptionWidget);
-		group->addButton(descriptionButton);
-		payeeLayout->addWidget(descriptionButton);
 		payeeCombo = new QComboBox(payeeDescriptionWidget);
 		payeeCombo->setEditable(false);
 		payeeLayout->addWidget(payeeCombo);
@@ -151,14 +155,7 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 		settingsLayout->addWidget(payeeDescriptionWidget, 1, 1);
 		payeeDescriptionWidget->setEnabled(false);
 	} else {
-		QButtonGroup *group = new QButtonGroup(this);
-		subsButton = new QRadioButton(tr("Subcategories"), settingsWidget);
-		subsButton->setChecked(true);
-		group->addButton(subsButton);
-		sourceLayout->addWidget(subsButton);
-		descriptionButton = new QRadioButton(tr("Descriptions", "Referring to the transaction description property (transaction title/generic article name)"), settingsWidget);
-		group->addButton(descriptionButton);
-		sourceLayout->addWidget(descriptionButton);
+		sourceLayout->addWidget(payeeDescriptionWidget);
 		sourceLayout->addWidget(accountCombo);
 	}
 	
@@ -195,7 +192,7 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 
 	settingsLayout->addWidget(new QLabel(tr("Columns:"), settingsWidget), b_extra ? 3 : 2, 0);
 	QHBoxLayout *enabledLayout = new QHBoxLayout();
-	QButtonGroup *group = new QButtonGroup(this);
+	group = new QButtonGroup(this);
 	monthsButton = new QRadioButton(tr("Months"), settingsWidget);
 	group->addButton(monthsButton, 1);
 	enabledLayout->addWidget(monthsButton);
@@ -399,6 +396,7 @@ void CategoriesComparisonReport::descriptionChanged(int) {
 	updateDisplay();
 }
 void CategoriesComparisonReport::sourceChanged(int i) {
+	if(first_source_account_index == 3 && i >= 3) i++;
 	i -= 3;
 	current_account = NULL;
 	current_tag = "";
@@ -407,7 +405,6 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 		else if(i - 1 - budget->expensesAccounts.count() < budget->incomesAccounts.count()) current_account = budget->incomesAccounts.at(i - 1 - budget->expensesAccounts.count());
 		else if(i - 1 - budget->expensesAccounts.count() - budget->incomesAccounts.count() < budget->tags.count()) current_tag = budget->tags.at(i - 1 - budget->expensesAccounts.count() - budget->incomesAccounts.count());
 		i++;
-		qDebug() << "A" << current_tag;
 	}
 	if((current_account && current_account->subCategories.isEmpty()) || !current_tag.isEmpty()) {
 		subsButton->setEnabled(false);
@@ -419,6 +416,7 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 	} else {
 		subsButton->setEnabled(true);
 	}
+	payeeDescriptionWidget->setEnabled(i > 0 && (current_account || !current_tag.isEmpty()));
 	if(b_extra) {
 		payeeCombo->blockSignals(true);
 		descriptionCombo->blockSignals(true);
@@ -429,9 +427,7 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 			current_tag = "";
 			has_empty_description = false;
 			has_empty_payee = false;
-			payeeDescriptionWidget->setEnabled(false);
 		} else {
-			payeeDescriptionWidget->setEnabled(true);
 			if(current_account || !current_tag.isEmpty()) {
 				descriptionCombo->addItem(tr("All descriptions", "Referring to the transaction description property (transaction title/generic article name)"));
 				has_empty_description = false;
@@ -472,8 +468,6 @@ void CategoriesComparisonReport::sourceChanged(int i) {
 					else if(current_account || (!b_expense && b_income)) payeeCombo->addItem(tr("No payer"));
 					else payeeCombo->addItem(tr("No payee/payer"));
 				}
-			} else {
-				payeeDescriptionWidget->setEnabled(false);
 			}
 		}
 		payeeCombo->blockSignals(false);
@@ -685,6 +679,7 @@ void CategoriesComparisonReport::updateDisplay() {
 	QString no_payee_text, no_desc_text;
 		
 	int i_source = sourceCombo->currentIndex();
+	if(first_source_account_index == 3 && i_source >= 3) i_source++; 
 	if(i_source == 1) {
 		i_source = 0;
 		include_subs = true;
@@ -697,7 +692,6 @@ void CategoriesComparisonReport::updateDisplay() {
 		if(i_source - 1 < budget->expensesAccounts.count()) current_account = budget->expensesAccounts.at(i_source - 1);
 		else if(i_source - 1 - budget->expensesAccounts.count() < budget->incomesAccounts.count()) current_account = budget->incomesAccounts.at(i_source - 1 - budget->expensesAccounts.count());
 		else if(i_source - 1 - budget->expensesAccounts.count() - budget->incomesAccounts.count() < budget->tags.count()) current_tag = budget->tags.at(i_source - 1 - budget->expensesAccounts.count() - budget->incomesAccounts.count());
-		qDebug() << "B" << current_tag;
 		if(!current_account && current_tag.isEmpty()) return;
 		if(b_extra) {
 			if(has_empty_description) {
@@ -2090,14 +2084,18 @@ void CategoriesComparisonReport::updateTags() {
 }
 void CategoriesComparisonReport::updateAccounts() {
 	int curindex = 0;
-	qDebug() << current_tag << sourceCombo->count();
 	sourceCombo->blockSignals(true);
 	accountCombo->blockSignals(true);
 	sourceCombo->clear();
 	sourceCombo->addItem(tr("All Categories, excluding subcategories"));
 	sourceCombo->addItem(tr("All Categories, including subcategories"));
 	sourceCombo->addItem(tr("All Tags"));
-	sourceCombo->addItem(tr("All Payees and Payers"));
+	if(b_extra) {
+		sourceCombo->addItem(tr("All Payees and Payers"));
+		first_source_account_index = 4;
+	} else {
+		first_source_account_index = 3;
+	}
 	for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 		Account *account = *it;
 		sourceCombo->addItem(tr("Expenses: %1").arg(account->nameWithParent()));
@@ -2110,10 +2108,8 @@ void CategoriesComparisonReport::updateAccounts() {
 	}
 	for(int i2 = 0; i2 < budget->tags.count(); i2++) {
 		sourceCombo->addItem(tr("Tag: %1").arg(budget->tags[i2]));
-		qDebug() << budget->tags[i2] << sourceCombo->count();
 		if(!current_account && current_tag == budget->tags[i2]) curindex = sourceCombo->count() - 1;
 	}
-	qDebug() << curindex << sourceCombo->count();
 	if(curindex < sourceCombo->count()) sourceCombo->setCurrentIndex(curindex);
 	AssetsAccount *current_assets = selectedAccount();
 	accountCombo->clear();

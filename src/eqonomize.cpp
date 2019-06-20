@@ -3033,6 +3033,7 @@ void Eqonomize::popupSecuritiesMenu(const QPoint &p) {
 		securitiesPopupMenu->addAction(ActionNewSecurityTrade);
 		securitiesPopupMenu->addAction(ActionNewDividend);
 		securitiesPopupMenu->addAction(ActionNewReinvestedDividend);
+		securitiesPopupMenu->addSeparator();
 		securitiesPopupMenu->addAction(ActionEditSecurityTransactions);
 		securitiesPopupMenu->addSeparator();
 		securitiesPopupMenu->addAction(ActionSetQuotation);
@@ -6552,24 +6553,25 @@ void Eqonomize::setupActions() {
 	NEW_ACTION_NOMENU(ActionNewRepayment, tr("Repayment…"), "eqz-expense", 0, this, SLOT(newRepayment()), "new_repayment");
 	NEW_ACTION(ActionNewRefundRepayment, tr("New Refund/Repayment…"), "eqz-refund-repayment", 0, this, SLOT(newRefundRepayment()), "new_refund_repayment", transactionsMenu);
 	transactionsMenu->addSeparator();
+	NEW_ACTION(ActionCloneTransaction, tr("Duplicate Transaction…", "duplicate as verb"), "edit-copy", 0, this, SLOT(cloneSelectedTransaction()), "clone_transaction", transactionsMenu);
+	transactionsMenu->addSeparator();
 	NEW_ACTION_ALT(ActionEditTransaction, tr("Edit Transaction(s) (Occurrence)…"), "document-edit", "eqz-edit", 0, this, SLOT(editSelectedTransaction()), "edit_transaction", transactionsMenu);
 	NEW_ACTION_NOMENU_ALT(ActionEditOccurrence, tr("Edit Occurrence…"), "document-edit", "eqz-edit", 0, this, SLOT(editOccurrence()), "edit_occurrence");
 	NEW_ACTION_ALT(ActionEditScheduledTransaction, tr("Edit Schedule (Recurrence)…"), "document-edit", "eqz-edit", 0, this, SLOT(editSelectedScheduledTransaction()), "edit_scheduled_transaction", transactionsMenu);
 	NEW_ACTION_NOMENU_ALT(ActionEditSchedule, tr("Edit Schedule…"), "document-edit", "eqz-edit", 0, this, SLOT(editScheduledTransaction()), "edit_schedule");
 	NEW_ACTION_ALT(ActionEditSplitTransaction, tr("Edit Split Transaction…"), "document-edit", "eqz-edit", 0, this, SLOT(editSelectedSplitTransaction()), "edit_split_transaction", transactionsMenu);
-	NEW_ACTION(ActionCloneTransaction, tr("Duplicate Transaction…", "duplicate as verb"), "edit-copy", 0, this, SLOT(cloneSelectedTransaction()), "clone_transaction", transactionsMenu);
 	NEW_ACTION(ActionJoinTransactions, tr("Join Transactions…"), "eqz-join-transactions", 0, this, SLOT(joinSelectedTransactions()), "join_transactions", transactionsMenu);
 	NEW_ACTION(ActionSplitUpTransaction, tr("Split Up Transaction"), "eqz-split-transaction", 0, this, SLOT(splitUpSelectedTransaction()), "split_up_transaction", transactionsMenu);
-	NEW_ACTION(ActionEditTimestamp, tr("Edit Timestamp…"), "eqz-schedule", 0, this, SLOT(editSelectedTimestamp()), "edit_timestamp", transactionsMenu);
 	transactionsMenu->addSeparator();
-	NEW_ACTION(ActionSelectAssociatedFile, tr("Select Associated File"), "document-open", 0, this, SLOT(selectAssociatedFile()), "select_attachment", transactionsMenu);
-	NEW_ACTION(ActionOpenAssociatedFile, tr("Open Associated File"), "system-run", 0, this, SLOT(openAssociatedFile()), "open_attachment", transactionsMenu);
 	tagMenu = new TagMenu(budget, this, true);
 	connect(tagMenu, SIGNAL(selectedTagsChanged()), this, SLOT(tagsChanged()));
 	connect(tagMenu, SIGNAL(newTagRequested()), this, SLOT(newTag()));
 	ActionTags = transactionsMenu->addMenu(tagMenu);
 	ActionTags->setIcon(LOAD_ICON2("tag", "eqz-tag"));
 	ActionTags->setText(tr("Tags"));
+	NEW_ACTION(ActionSelectAssociatedFile, tr("Select Associated File"), "document-open", 0, this, SLOT(selectAssociatedFile()), "select_attachment", transactionsMenu);
+	NEW_ACTION(ActionOpenAssociatedFile, tr("Open Associated File"), "system-run", 0, this, SLOT(openAssociatedFile()), "open_attachment", transactionsMenu);
+	NEW_ACTION(ActionEditTimestamp, tr("Edit Timestamp…"), "eqz-schedule", 0, this, SLOT(editSelectedTimestamp()), "edit_timestamp", transactionsMenu);
 	transactionsMenu->addSeparator();
 	NEW_ACTION(ActionDeleteTransaction, tr("Remove Transaction(s) (Occurrence)"), "edit-delete", 0, this, SLOT(deleteSelectedTransaction()), "delete_transaction", transactionsMenu);
 	NEW_ACTION_NOMENU(ActionDeleteOccurrence, tr("Remove Occurrence"), "edit-delete", 0, this, SLOT(removeOccurrence()), "delete_occurrence");
@@ -6593,6 +6595,7 @@ void Eqonomize::setupActions() {
 	ActionNewSecurityTrade->setToolTip(tr("Shares of one security directly exchanged for shares of another", "Financial shares"));
 	NEW_ACTION(ActionNewDividend, tr("Dividend…"), "eqz-income", 0, this, SLOT(newDividend()), "new_dividend", securitiesMenu);
 	NEW_ACTION(ActionNewReinvestedDividend, tr("Reinvested Dividend…"), "eqz-income", 0, this, SLOT(newReinvestedDividend()), "new_reinvested_dividend", securitiesMenu);
+	securitiesMenu->addSeparator();
 	NEW_ACTION(ActionEditSecurityTransactions, tr("Transactions…"), "eqz-transactions", 0, this, SLOT(editSecurityTransactions()), "edit_security_transactions", securitiesMenu);
 	securitiesMenu->addSeparator();
 	NEW_ACTION(ActionSetQuotation, tr("Set Quote…", "Financial quote"), "view-calendar-day", 0, this, SLOT(setQuotation()), "set_quotation", securitiesMenu);
@@ -6602,6 +6605,7 @@ void Eqonomize::setupActions() {
 	statisticsToolbar->addAction(ActionOverTimeReport);
 	NEW_ACTION(ActionCategoriesComparisonReport, tr("Categories Comparison Report…"), "eqz-categories-report", 0, this, SLOT(showCategoriesComparisonReport()), "categories_comparison_report", statisticsMenu);
 	statisticsToolbar->addAction(ActionCategoriesComparisonReport);
+	statisticsMenu->addSeparator();
 	NEW_ACTION(ActionOverTimeChart, tr("Development Over Time Chart…"), "eqz-overtime-chart", 0, this, SLOT(showOverTimeChart()), "over_time_chart", statisticsMenu);
 	statisticsToolbar->addAction(ActionOverTimeChart);
 	NEW_ACTION(ActionCategoriesComparisonChart, tr("Categories Comparison Chart…"), "eqz-categories-chart", 0, this, SLOT(showCategoriesComparisonChart()), "categories_comparison_chart", statisticsMenu);
@@ -6615,10 +6619,18 @@ void Eqonomize::setupActions() {
 #endif
 	ActionUseExchangeRateForTransactionDate->setChecked(budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE);
 	ActionUseExchangeRateForTransactionDate->setToolTip(tr("Use the exchange rate nearest the transaction date, instead of the latest available rate, when converting the value of transactions."));
+	NEW_TOGGLE_ACTION(ActionExtraProperties, tr("Show payee and quantity"), 0, this, SLOT(useExtraProperties(bool)), "extra_properties", settingsMenu);
+#ifndef RESOURCES_COMPILED
+	ActionExtraProperties->setIcon(LOAD_ICON("eqz-expense"));
+#endif
+	ActionExtraProperties->setChecked(b_extra);
+	ActionExtraProperties->setToolTip(tr("Show quantity and payer/payee properties for incomes and expenses."));
 	
-	NEW_ACTION(ActionSetBudgetPeriod, tr("Set Budget Period…"), "view-calendar-day", 0, this, SLOT(setBudgetPeriod()), "set_budget_period", settingsMenu);
+	settingsMenu->addSeparator();
 	
 	NEW_ACTION(ActionSetScheduleConfirmationTime, tr("Set Schedule Confirmation Time…"), "eqz-schedule", 0, this, SLOT(setScheduleConfirmationTime()), "set_schedule_confirmation_time", settingsMenu);
+
+	NEW_ACTION(ActionSetBudgetPeriod, tr("Set Budget Period…"), "view-calendar-day", 0, this, SLOT(setBudgetPeriod()), "set_budget_period", settingsMenu);
 	
 	QMenu *periodMenu = settingsMenu->addMenu(LOAD_ICON("view-calendar-day"), tr("Initial Period"));
 	ActionSelectInitialPeriod = new QActionGroup(this);
@@ -6629,6 +6641,8 @@ void Eqonomize::setupActions() {
 	NEW_RADIO_ACTION(AIPCurrentWholeYear, tr("Current Whole Year"), ActionSelectInitialPeriod);
 	NEW_RADIO_ACTION(AIPRememberLastDates, tr("Remember Last Dates"), ActionSelectInitialPeriod);
 	periodMenu->addActions(ActionSelectInitialPeriod->actions());
+	
+	settingsMenu->addSeparator();
 	
 	QMenu *backupMenu = settingsMenu->addMenu(LOAD_ICON("document-save"), tr("Backup Frequency"));
 	ActionSelectBackupFrequency = new QActionGroup(this);
@@ -6641,13 +6655,8 @@ void Eqonomize::setupActions() {
 	backupMenu->addActions(ActionSelectBackupFrequency->actions());
 	
 	NEW_ACTION(ActionSyncSettings, tr("Cloud Synchronization (experimental)…"), "view-refresh", 0, this, SLOT(openSynchronizationSettings()), "open_synchronization_settings", settingsMenu);
-	
-	NEW_TOGGLE_ACTION(ActionExtraProperties, tr("Show payee and quantity"), 0, this, SLOT(useExtraProperties(bool)), "extra_properties", settingsMenu);
-#ifndef RESOURCES_COMPILED
-	ActionExtraProperties->setIcon(LOAD_ICON("eqz-expense"));
-#endif
-	ActionExtraProperties->setChecked(b_extra);
-	ActionExtraProperties->setToolTip(tr("Show quantity and payer/payee properties for incomes and expenses."));
+		
+	settingsMenu->addSeparator();
 	
 	NEW_ACTION_2(ActionSelectFont, tr("Select Font…"), 0, this, SLOT(selectFont()), "select_font", settingsMenu);
 	ActionSelectFont->setIcon(LOAD_ICON_APP("preferences-desktop-font"));
