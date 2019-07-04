@@ -114,7 +114,7 @@ bool Recurrence::readElements(QXmlStreamReader *xml, bool *valid) {
 	while(xml->readNextStartElement()) {
 		if(!readElement(xml, valid)) xml->skipCurrentElement();
 	}
-	qSort(exceptions);
+	std::sort(exceptions.begin(), exceptions.end());
 	return true;
 }
 
@@ -293,7 +293,7 @@ void Recurrence::addException(const QDate &date) {
 		return;
 	}
 	exceptions.append(date);
-	qSort(exceptions);
+	std::sort(exceptions.begin(), exceptions.end());
 }
 int Recurrence::findException(const QDate &date) const {
 	for(QVector<QDate>::size_type i = 0; i < exceptions.count(); i++) {

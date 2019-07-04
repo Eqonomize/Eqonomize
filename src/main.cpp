@@ -138,7 +138,7 @@ int main(int argc, char **argv) {
 		QString error = budget->loadFile(u.toLocalFile(), errors);
 		if(!error.isNull()) {qWarning() << error; return EXIT_FAILURE;}
 		if(!errors.isEmpty()) qWarning() << errors;
-		errors = QString::null;
+		errors = QString();
 		if(budget->sync(error, errors, true, true)) {
 			if(!errors.isEmpty()) qWarning() << errors;
 			error = budget->saveFile(u.toLocalFile());

@@ -96,7 +96,7 @@ const QString &Transactions::getTag(int index, bool) const {
 	return emptystr;
 }
 QString Transactions::tagsText(bool) const {
-	if(tags.isEmpty()) return QString::null;
+	if(tags.isEmpty()) return QString();
 	if(tags.count() == 1) {
 		if(tags[0].contains(",")) return QString("\"") + tags[0] + "\"";
 		else return tags[0];
@@ -175,7 +175,7 @@ QString Transactions::writeTags(bool) const {
 		}
 		return tagstr;
 	}
-	return QString::null;
+	return QString();
 }
 
 Transaction::Transaction(Budget *parent_budget, double initial_value, QDate initial_date, Account *from, Account *to, QString initial_description, QString initial_comment, qlonglong initial_id) : Transactions(parent_budget), d_value(initial_value), d_date(initial_date), o_from(from), o_to(to), s_description(initial_description.trimmed()), s_comment(initial_comment.trimmed()), d_quantity(1.0), o_split(NULL), i_time(QDateTime::currentMSecsSinceEpoch() / 1000) {
@@ -676,7 +676,7 @@ void Income::setReconciled(AssetsAccount *account, bool is_reconciled) {
 	if(account == to()) b_reconciled = is_reconciled;
 }
 
-ReinvestedDividend::ReinvestedDividend(Budget *parent_budget, double initial_value, double initial_shares, QDate initial_date, Security *initial_security, IncomesAccount *initial_category, QString initial_comment) : Income(parent_budget, initial_value, initial_date, initial_category, initial_security ? initial_security->account() : NULL, QString::null, initial_comment), d_shares(initial_shares) {
+ReinvestedDividend::ReinvestedDividend(Budget *parent_budget, double initial_value, double initial_shares, QDate initial_date, Security *initial_security, IncomesAccount *initial_category, QString initial_comment) : Income(parent_budget, initial_value, initial_date, initial_category, initial_security ? initial_security->account() : NULL, QString(), initial_comment), d_shares(initial_shares) {
 	o_security = initial_security;
 }
 ReinvestedDividend::ReinvestedDividend(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Income(parent_budget) {
@@ -878,7 +878,7 @@ void Transfer::setReconciled(AssetsAccount *account, bool is_reconciled) {
 	if(account == from()) b_from_reconciled = is_reconciled;
 	if(account == to()) b_to_reconciled = is_reconciled;
 }
-QString Transfer::payeeText() const {return QString::null;}
+QString Transfer::payeeText() const {return QString();}
 
 DebtReduction::DebtReduction(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment, qlonglong initial_id) : Transfer(parent_budget, initial_amount, initial_date, initial_from, initial_loan, QString(), initial_comment, initial_id) {}
 DebtReduction::DebtReduction(Budget *parent_budget, double initial_payment, double initial_reduction, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment, qlonglong initial_id) : Transfer(parent_budget, initial_payment, initial_reduction, initial_date, initial_from, initial_loan, QString(), initial_comment, initial_id) {}
@@ -980,7 +980,7 @@ void Balancing::setAmount(double withdrawal_amount, double) {
 AssetsAccount *Balancing::account() const {return toAccount() == o_budget->balancingAccount ? (AssetsAccount*) fromAccount() : (AssetsAccount*) toAccount();}
 void Balancing::setAccount(AssetsAccount *new_account) {toAccount() == o_budget->balancingAccount ? setFromAccount(new_account) : setToAccount(new_account);}
 
-SecurityTransaction::SecurityTransaction(Security *parent_security, double initial_value, double initial_shares, QDate initial_date, QString initial_comment) : Transaction(parent_security->budget(), initial_value, initial_date, NULL, NULL, QString::null, initial_comment), o_security(parent_security), d_shares(initial_shares), b_reconciled(false) {
+SecurityTransaction::SecurityTransaction(Security *parent_security, double initial_value, double initial_shares, QDate initial_date, QString initial_comment) : Transaction(parent_security->budget(), initial_value, initial_date, NULL, NULL, QString(), initial_comment), o_security(parent_security), d_shares(initial_shares), b_reconciled(false) {
 }
 SecurityTransaction::SecurityTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transaction(parent_budget, xml, valid) {}
 SecurityTransaction::SecurityTransaction(Budget *parent_budget) : Transaction(parent_budget), b_reconciled(false) {}
@@ -1548,17 +1548,17 @@ void ScheduledTransaction::removeTag(int index) {if(o_trans) o_trans->removeTag(
 int ScheduledTransaction::tagsCount(bool include_parent) const {if(o_trans) {return o_trans->tagsCount(include_parent);} return 0;}
 bool ScheduledTransaction::hasTag(const QString &tag, bool include_parent, bool case_insensitive) const {if(o_trans) {return o_trans->hasTag(tag, include_parent, case_insensitive);} return false;}
 const QString &ScheduledTransaction::getTag(int index, bool include_parent) const {if(o_trans) {o_trans->getTag(index, include_parent);} return emptystr;}
-QString ScheduledTransaction::tagsText(bool include_parent_child) const {if(o_trans) {o_trans->tagsText(include_parent_child);} return QString::null;}
+QString ScheduledTransaction::tagsText(bool include_parent_child) const {if(o_trans) {o_trans->tagsText(include_parent_child);} return QString();}
 void ScheduledTransaction::clearTags() {if(o_trans) o_trans->clearTags();}
 void ScheduledTransaction::readTags(const QString &text) {if(o_trans) o_trans->readTags(text);}
-QString ScheduledTransaction::writeTags(bool include_parent) const {if(o_trans) {return o_trans->writeTags(include_parent);} return QString::null;}
+QString ScheduledTransaction::writeTags(bool include_parent) const {if(o_trans) {return o_trans->writeTags(include_parent);} return QString();}
 const QString &ScheduledTransaction::payee() const {
 	if(o_trans) return o_trans->payee();
 	return emptystr;
 }
 QString ScheduledTransaction::payeeText() const {
 	if(o_trans) return o_trans->payeeText();
-	return QString::null;
+	return QString();
 }
 
 SplitTransaction::SplitTransaction(Budget *parent_budget, QDate initial_date, QString initial_description) : Transactions(parent_budget), d_date(initial_date), s_description(initial_description.trimmed()), i_time(QDateTime::currentMSecsSinceEpoch() / 1000), b_reconciled(false) {i_id = o_budget->getNewId();}
@@ -1769,7 +1769,7 @@ QString SplitTransaction::payeeText() const {
 	for(int i = 0; i < c; i++) {
 		if(!splits[i]->payee().isEmpty() && !payee_list.contains(splits[i]->payee(), Qt::CaseInsensitive)) payee_list << splits[i]->payee();
 	}
-	if(payee_list.isEmpty()) return QString::null;
+	if(payee_list.isEmpty()) return QString();
 	if(payee_list.count() == 1) return payee_list.first();
 	QString payee_string = payee_list.first();
 	for(int i = 1; i < payee_list.count(); i++) {
@@ -2471,7 +2471,7 @@ double DebtPayment::cost(bool convert) const {return interest(convert) + fee(con
 void DebtPayment::setInterest(double new_value, bool paid_from_account) {
 	if(!o_interest) {
 		if(new_value != 0.0) {
-			o_interest = new DebtInterest(o_budget, new_value, d_date, o_fee ? o_fee->category() : NULL, paid_from_account ? o_account : o_loan, o_loan, QString::null, id());
+			o_interest = new DebtInterest(o_budget, new_value, d_date, o_fee ? o_fee->category() : NULL, paid_from_account ? o_account : o_loan, o_loan, QString(), id());
 			o_interest->setParentSplit(this);
 		}
 	} else {
@@ -2487,7 +2487,7 @@ void DebtPayment::setInterestPaid(bool paid_from_account) {
 void DebtPayment::setFee(double new_value) {
 	if(!o_fee) {
 		if(new_value != 0.0) {
-			o_fee = new DebtFee(o_budget, new_value, d_date, o_interest ? o_interest->category() : NULL, o_account, o_loan, QString::null, id());
+			o_fee = new DebtFee(o_budget, new_value, d_date, o_interest ? o_interest->category() : NULL, o_account, o_loan, QString(), id());
 			o_fee->setParentSplit(this);
 		}
 	} else {
@@ -2497,7 +2497,7 @@ void DebtPayment::setFee(double new_value) {
 void DebtPayment::setPayment(double new_value) {
 	if(!o_payment) {
 		if(new_value != 0.0) {
-			o_payment = new DebtReduction(o_budget, new_value, d_date, o_account, o_loan, QString::null, id());
+			o_payment = new DebtReduction(o_budget, new_value, d_date, o_account, o_loan, QString(), id());
 			o_payment->setParentSplit(this);
 		}
 	} else {
@@ -2507,7 +2507,7 @@ void DebtPayment::setPayment(double new_value) {
 void DebtPayment::setPayment(double new_payment, double new_reduction) {
 	if(!o_payment) {
 		if(new_payment != 0.0 || new_reduction != 0.0) {
-			o_payment = new DebtReduction(o_budget, new_payment, new_reduction, d_date, o_account, o_loan, QString::null, id());
+			o_payment = new DebtReduction(o_budget, new_payment, new_reduction, d_date, o_account, o_loan, QString(), id());
 			o_payment->setParentSplit(this);
 		}
 	} else {
@@ -2586,9 +2586,9 @@ void DebtPayment::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	}
 	if(attr->hasAttribute("reduction")) {
 		if(attr->hasAttribute("payment")) {
-			o_payment = new DebtReduction(o_budget, attr->value("payment").toDouble(), attr->value("reduction").toDouble(), d_date, o_account, o_loan, QString::null, id());
+			o_payment = new DebtReduction(o_budget, attr->value("payment").toDouble(), attr->value("reduction").toDouble(), d_date, o_account, o_loan, QString(), id());
 		} else {
-			o_payment = new DebtReduction(o_budget, attr->value("reduction").toDouble(), d_date, o_account, o_loan, QString::null, id());
+			o_payment = new DebtReduction(o_budget, attr->value("reduction").toDouble(), d_date, o_account, o_loan, QString(), id());
 		}
 		o_payment->setParentSplit(this);
 	}
@@ -2596,12 +2596,12 @@ void DebtPayment::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 		bool interest_paid = true;
 		if(attr->hasAttribute("interestpaid")) interest_paid = attr->value("interestpaid").toInt();
 		else if(attr->hasAttribute("interestpayed")) interest_paid = attr->value("interestpayed").toInt();
-		o_interest = new DebtInterest(o_budget, attr->value("interest").toDouble(), d_date, cat, interest_paid ? o_account : o_loan, o_loan, QString::null, id());
+		o_interest = new DebtInterest(o_budget, attr->value("interest").toDouble(), d_date, cat, interest_paid ? o_account : o_loan, o_loan, QString(), id());
 		o_interest->setParentSplit(this);
 		if(valid && !cat) *valid = false;
 	}
 	if(attr->hasAttribute("fee")) {
-		o_fee = new DebtFee(o_budget, attr->value("fee").toDouble(), d_date, cat, o_account, o_loan, QString::null, id());
+		o_fee = new DebtFee(o_budget, attr->value("fee").toDouble(), d_date, cat, o_account, o_loan, QString(), id());
 		o_fee->setParentSplit(this);
 		if(valid && !cat) *valid = false;
 	}

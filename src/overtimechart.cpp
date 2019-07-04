@@ -3996,9 +3996,15 @@ void OverTimeChart::updateDisplay() {
 	int max_axis_value_width = 0;
 	for(int i = 0; i <= y_lines; i++) {
 		int w;
+#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
+		if(type == 2) w = fm.horizontalAdvance(budget->formatValue((int) round(maxvalue - (((maxvalue - minvalue) * i) / y_lines)), 0));
+		else if (maxvalue - minvalue >= 50.0) w = fm.horizontalAdvance(currency->formatValue(round(maxvalue - (((maxvalue - minvalue) * i) / y_lines)), 0, false));
+		else w = fm.horizontalAdvance(currency->formatValue((maxvalue - (((maxvalue - minvalue) * i) / y_lines)), -1, false));
+#else
 		if(type == 2) w = fm.width(budget->formatValue((int) round(maxvalue - (((maxvalue - minvalue) * i) / y_lines)), 0));
 		else if (maxvalue - minvalue >= 50.0) w = fm.width(currency->formatValue(round(maxvalue - (((maxvalue - minvalue) * i) / y_lines)), 0, false));
 		else w = fm.width(currency->formatValue((maxvalue - (((maxvalue - minvalue) * i) / y_lines)), -1, false));
+#endif
 		if(w > max_axis_value_width) max_axis_value_width = w;
 	}
 	axis_width += max_axis_value_width;
@@ -4113,12 +4119,12 @@ void OverTimeChart::updateDisplay() {
 		monthdate = first_date;
 		while(monthdate <= curmonth) {
 			if(b_long_month_names) {
-				if(fm.width(QLocale().monthName(budget->budgetMonth(monthdate), QLocale::LongFormat)) > linelength - 8) {
+				if(fm.horizontalAdvance(QLocale().monthName(budget->budgetMonth(monthdate), QLocale::LongFormat)) > linelength - 8) {
 					b_long_month_names = false;
 				}
 			}
 			if(!b_long_month_names) {
-				if(fm.width(QLocale().monthName(budget->budgetMonth(monthdate), QLocale::ShortFormat)) > linelength) {
+				if(fm.horizontalAdvance(QLocale().monthName(budget->budgetMonth(monthdate), QLocale::ShortFormat)) > linelength) {
 					b_month_names = false;
 					break;
 				}

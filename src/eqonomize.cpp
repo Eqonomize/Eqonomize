@@ -211,8 +211,13 @@ void setAccountBudgetColor(QTreeWidgetItem *i, double budget_rem, bool is_expens
 
 void setColumnTextWidth(QTreeWidget *w, int i, QString str) {
 	QFontMetrics fm(w->font());
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
+	int tw = fm.horizontalAdvance(str) + 10;
+	int hw = fm.horizontalAdvance(w->headerItem()->text(i)) + 10;
+#else
 	int tw = fm.width(str) + 10;
 	int hw = fm.width(w->headerItem()->text(i)) + 10;
+#endif
 	if(w->columnWidth(i) < tw) w->setColumnWidth(i, tw);
 	if(w->columnWidth(i) < hw) w->setColumnWidth(i, hw);
 }
@@ -339,7 +344,7 @@ class SecurityListViewItem : public QTreeWidgetItem {
 	protected:
 		Security *o_security;
 	public:
-		SecurityListViewItem(Security *sec, QString s1, QString s2 = QString::null, QString s3 = QString::null, QString s4 = QString::null, QString s5 = QString::null, QString s6 = QString::null, QString s7 = QString::null, QString s8 = QString::null, QString s9 = QString::null) : QTreeWidgetItem(UserType), o_security(sec) {
+		SecurityListViewItem(Security *sec, QString s1, QString s2 = QString(), QString s3 = QString(), QString s4 = QString(), QString s5 = QString(), QString s6 = QString(), QString s7 = QString(), QString s8 = QString(), QString s9 = QString()) : QTreeWidgetItem(UserType), o_security(sec) {
 			setText(0, s1);
 			setText(1, s2);
 			setText(2, s3);
@@ -622,7 +627,7 @@ void ConfirmScheduleListViewItem::setTransaction(Transactions *transs) {
 
 class SecurityTransactionListViewItem : public QTreeWidgetItem {
 	public:
-		SecurityTransactionListViewItem(QString, QString=QString::null, QString=QString::null, QString=QString::null);
+		SecurityTransactionListViewItem(QString, QString=QString(), QString=QString(), QString=QString());
 		bool operator<(const QTreeWidgetItem &i_pre) const;
 		SecurityTransaction *trans;
 		Income *div;
@@ -1527,7 +1532,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	Budget *budget = security->budget();
 	for(SecurityTransactionList<SecurityTransaction*>::const_iterator it = security->transactions.constBegin(); it != security->transactions.constEnd(); ++it) {
 		SecurityTransaction *trans = *it;
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(trans->date(), QLocale::ShortFormat), QString::null, trans->valueString(), budget->formatValue(trans->shares(), security->decimals()));
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(trans->date(), QLocale::ShortFormat), QString(), trans->valueString(), budget->formatValue(trans->shares(), security->decimals()));
 		i->trans = trans;
 		i->date = trans->date();
 		i->value = trans->value();
@@ -1572,7 +1577,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	}
 	for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = security->scheduledTransactions.constBegin(); it != security->scheduledTransactions.constEnd(); ++it) {
 		ScheduledTransaction *strans = *it;
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString::null, strans->transaction()->valueString(), budget->formatValue(((SecurityTransaction*) strans->transaction())->shares(), security->decimals()));
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString(), strans->transaction()->valueString(), budget->formatValue(((SecurityTransaction*) strans->transaction())->shares(), security->decimals()));
 		i->strans = strans;
 		i->date = strans->date();
 		i->value = strans->transaction()->value();
@@ -1588,7 +1593,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	}
 	for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = security->scheduledDividends.constBegin(); it != security->scheduledDividends.constEnd(); ++it) {
 		ScheduledTransaction *strans = *it;
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString::null, strans->transaction()->valueString(), "-");
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString(), strans->transaction()->valueString(), "-");
 		i->srediv = strans;
 		i->date = strans->date();
 		i->value = strans->transaction()->value();
@@ -1601,7 +1606,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	}
 	for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = security->scheduledReinvestedDividends.constBegin(); it != security->scheduledReinvestedDividends.constEnd(); ++it) {
 		ScheduledTransaction *strans = *it;
-		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString::null, strans->transaction()->valueString(), budget->formatValue(((ReinvestedDividend*) strans->transaction())->shares(), security->decimals()));
+		SecurityTransactionListViewItem *i = new SecurityTransactionListViewItem(QLocale().toString(strans->date(), QLocale::ShortFormat), QString(), strans->transaction()->valueString(), budget->formatValue(((ReinvestedDividend*) strans->transaction())->shares(), security->decimals()));
 		i->sdiv = strans;
 		i->date = strans->date();
 		i->value = strans->transaction()->value();
@@ -1766,7 +1771,7 @@ void EditSecurityDialog::setSecurity(Security *security) {
 
 class TotalListViewItem : public QTreeWidgetItem {
 	public:
-		TotalListViewItem(QTreeWidget *parent, QString label1, QString label2 = QString::null, QString label3 = QString::null, QString label4 = QString::null) : QTreeWidgetItem(parent, UserType) {
+		TotalListViewItem(QTreeWidget *parent, QString label1, QString label2 = QString(), QString label3 = QString(), QString label4 = QString()) : QTreeWidgetItem(parent, UserType) {
 			setText(0, label1);
 			setText(1, label2);
 			setText(2, label3);
@@ -1779,7 +1784,7 @@ class TotalListViewItem : public QTreeWidgetItem {
 			setBackground(2, parent->viewport()->palette().alternateBase());
 			setBackground(3, parent->viewport()->palette().alternateBase());*/
 		}
-		TotalListViewItem(QTreeWidget *parent, QTreeWidgetItem *after, QString label1, QString label2 = QString::null, QString label3 = QString::null, QString label4 = QString::null) : QTreeWidgetItem(parent, after, UserType) {
+		TotalListViewItem(QTreeWidget *parent, QTreeWidgetItem *after, QString label1, QString label2 = QString(), QString label3 = QString(), QString label4 = QString()) : QTreeWidgetItem(parent, after, UserType) {
 			setText(0, label1);
 			setText(1, label2);
 			setText(2, label3);
@@ -1959,9 +1964,9 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	setColumnTextWidth(accountsView, BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(budget->formatMoney(99999999.99)).arg(budget->formatMoney(99999999.99)));
 	setColumnMoneyWidth(accountsView, CHANGE_COLUMN, budget, 999999999999.99);
 	setColumnMoneyWidth(accountsView, VALUE_COLUMN, budget, 999999999999.99);
-	assetsItem = new TotalListViewItem(accountsView, tr("Assets"), QString::null, budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
+	assetsItem = new TotalListViewItem(accountsView, tr("Assets"), QString(), budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
 	assetsItem->setIcon(0, LOAD_ICON("eqz-account"));
-	liabilitiesItem = new TotalListViewItem(accountsView, assetsItem, tr("Liabilities"), QString::null, budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
+	liabilitiesItem = new TotalListViewItem(accountsView, assetsItem, tr("Liabilities"), QString(), budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
 	liabilitiesItem->setIcon(0, LOAD_ICON("eqz-liabilities"));
 	incomesItem = new TotalListViewItem(accountsView, liabilitiesItem, tr("Incomes"), "-", budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
 	incomesItem->setIcon(0, LOAD_ICON("eqz-income"));
@@ -2343,7 +2348,11 @@ Eqonomize::Eqonomize() : QMainWindow() {
 
 	if(first_run) {
 		QFontMetrics fm(accountsView->font());
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
+		int w = fm.horizontalAdvance(accountsView->headerItem()->text(0)) + fm.horizontalAdvance(QString(15, 'h'));
+#else
 		int w = fm.width(accountsView->headerItem()->text(0)) + fm.width(QString(15, 'h'));
+#endif
 		accountsView->setMinimumWidth(w + accountsView->columnWidth(BUDGET_COLUMN) + accountsView->columnWidth(CHANGE_COLUMN) + accountsView->columnWidth(VALUE_COLUMN));
 		//QDesktopWidget desktop;
 		//resize(QSize(750, 650).boundedTo(desktop.availableGeometry(this).size()));
@@ -2408,7 +2417,7 @@ void Eqonomize::socketReadyRead() {
 			QString error = budget2->loadFile(url.toLocalFile(), errors);
 			if(!error.isNull()) {qWarning() << error; return;}
 			if(!errors.isNull()) qWarning() << errors;
-			errors = QString::null;
+			errors = QString();
 			if(budget2->sync(error, errors, true, true)) {
 				if(!errors.isNull()) qWarning() << errors;
 				error = budget2->saveFile(url.toLocalFile());
@@ -3057,7 +3066,7 @@ void Eqonomize::appendSecurity(Security *security) {
 	}
 	Currency *cur = security->currency();
 	if(!cur) cur = budget->defaultCurrency();
-	SecurityListViewItem *i = new SecurityListViewItem(security, security->name(), cur->formatValue(value), budget->formatValue(shares, security->decimals()), cur->formatValue(quotation, security->quotationDecimals()), cur->formatValue(cost), cur->formatValue(profit), budget->formatValue(rate * 100, 2) + "%", QString::null, security->account()->name());
+	SecurityListViewItem *i = new SecurityListViewItem(security, security->name(), cur->formatValue(value), budget->formatValue(shares, security->decimals()), cur->formatValue(quotation, security->quotationDecimals()), cur->formatValue(cost), cur->formatValue(profit), budget->formatValue(rate * 100, 2) + "%", QString(), security->account()->name());
 	i->rate = rate;
 	i->shares = shares;
 	if(cur != budget->defaultCurrency()) {
@@ -4528,8 +4537,8 @@ void Eqonomize::showAccountTransactions(bool b) {
 				}
 			}
 		}
-		if(b) w->setFilter(QDate(), to_date, -1.0, -1.0, NULL, NULL, QString::null, tag);
-		else w->setFilter(accountsPeriodFromButton->isChecked() ? from_date : QDate(), to_date, -1.0, -1.0, NULL, NULL, QString::null, tag);
+		if(b) w->setFilter(QDate(), to_date, -1.0, -1.0, NULL, NULL, QString(), tag);
+		else w->setFilter(accountsPeriodFromButton->isChecked() ? from_date : QDate(), to_date, -1.0, -1.0, NULL, NULL, QString(), tag);
 		w->showFilter();
 		tabs->setCurrentIndex(w == incomesWidget ? INCOMES_PAGE_INDEX : EXPENSES_PAGE_INDEX);
 	} else {
@@ -8528,7 +8537,7 @@ void Eqonomize::assetsAccountItemShownOrAdded(AssetsAccount *account) {
 		if(n > 1 && n < (is_debt ? liabilitiesItem->childCount() : assetsItem->childCount())) {
 			QTreeWidgetItem *i_sel = selectedItem(accountsView);
 			QTreeWidgetItem *i_cur = accountsView->currentItem();
-			NEW_ACCOUNT_TREE_WIDGET_ITEM(i, is_debt ? liabilitiesItem : assetsItem, g, QString::null, budget->formatMoney(is_debt ? -liabilities_group_change[g] : assets_group_change[g]), budget->formatMoney(is_debt ? -liabilities_group_change[g] : assets_group_change[g]) + " ");
+			NEW_ACCOUNT_TREE_WIDGET_ITEM(i, is_debt ? liabilitiesItem : assetsItem, g, QString(), budget->formatMoney(is_debt ? -liabilities_group_change[g] : assets_group_change[g]), budget->formatMoney(is_debt ? -liabilities_group_change[g] : assets_group_change[g]) + " ");
 			if(is_debt) setAccountChangeColor(i, -liabilities_group_change[g], true);
 			else setAccountChangeColor(i, assets_group_change[g], false);
 			i->setFlags(i->flags() & ~Qt::ItemIsDragEnabled);
@@ -8600,7 +8609,7 @@ void Eqonomize::appendAssetsAccount(AssetsAccount *account) {
 	} else if(!is_debt && item_assets_groups.contains(s_group)) {
 		i_parent = item_assets_groups[s_group];
 	}
-	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, i_parent, account->name(), QString::null, account->currency()->formatValue(0.0), account->currency()->formatValue((is_debt ? -initial_balance : initial_balance)) + " ");
+	NEW_ACCOUNT_TREE_WIDGET_ITEM(i, i_parent, account->name(), QString(), account->currency()->formatValue(0.0), account->currency()->formatValue((is_debt ? -initial_balance : initial_balance)) + " ");
 	i->setFlags(i->flags() & ~Qt::ItemIsDragEnabled);
 	i->setFlags(i->flags() & ~Qt::ItemIsDropEnabled);
 	account_items[i] = account;
@@ -9986,8 +9995,8 @@ extern QTranslator translator_qt, translator_qtbase;
 
 EqonomizeTranslator::EqonomizeTranslator() : QTranslator() {}
 QString	EqonomizeTranslator::translate(const char *context, const char *sourceText, const char *disambiguation, int n) const {
-	if(!translator_qt.translate(context, sourceText, disambiguation, n).isEmpty() || !translator_qtbase.translate(context, sourceText, disambiguation, n).isEmpty()) return QString::null;
-	if(strcmp(context, "EqonomizeTranslator") == 0) return QString::null;
+	if(!translator_qt.translate(context, sourceText, disambiguation, n).isEmpty() || !translator_qtbase.translate(context, sourceText, disambiguation, n).isEmpty()) return QString();
+	if(strcmp(context, "EqonomizeTranslator") == 0) return QString();
 	//: Only used when Qt translation is missing
 	if(strcmp(sourceText, "OK") == 0) return tr("OK");
 	//: Only used when Qt translation is missing
@@ -10008,6 +10017,6 @@ QString	EqonomizeTranslator::translate(const char *context, const char *sourceTe
 	if(strcmp(sourceText, "File &name:") == 0) return tr("File &name:");
 	//: Only used when Qt translation is missing
 	if(strcmp(sourceText, "Files of type:") == 0) return tr("Files of type:");
-	return  QString::null;
+	return  QString();
 }
 

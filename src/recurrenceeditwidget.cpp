@@ -366,7 +366,7 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 	weeklyRuleLayout->addLayout(weeklyDaysLayout);
 	int weekStart = QLocale().firstDayOfWeek();	
 	for(int i = 0; i < 7; ++i ) {
-		weeklyButtons[i] = new QCheckBox(QDate::shortDayName(i + 1, QDate::StandaloneFormat), weeklyRuleWidget);
+		weeklyButtons[i] = new QCheckBox(QLocale().standaloneDayName(i + 1, QLocale::ShortFormat), weeklyRuleWidget);
 	}
 	for(int i = weekStart - 1; i < 7; ++i ) {
 		weeklyDaysLayout->addWidget(weeklyButtons[i]);
@@ -571,8 +571,8 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 		date = date.addYears(1);
 	}
 	for(int i = 1; i <= 7; i++) {
-		yearlyDayOfWeekCombo->addItem(QDate::longDayName(i, QDate::StandaloneFormat));
-		monthlyDayOfWeekCombo->addItem(QDate::longDayName(i, QDate::StandaloneFormat));
+		yearlyDayOfWeekCombo->addItem(QLocale().standaloneDayName(i));
+		monthlyDayOfWeekCombo->addItem(QLocale().standaloneDayName(i));
 	}
 
 	connect(typeCombo, SIGNAL(activated(int)), ruleStack, SLOT(setCurrentIndex(int)));

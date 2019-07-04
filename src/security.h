@@ -51,10 +51,10 @@ template<class type> class SecurityTransactionList : public EqonomizeList<type> 
 	public:
 		SecurityTransactionList() : EqonomizeList<type>() {};
 		void sort() {
-			qSort(QList<type>::begin(), QList<type>::end(), security_transaction_list_less_than);
+			std::sort(QList<type>::begin(), QList<type>::end(), security_transaction_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, security_transaction_list_less_than), value);
+			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, security_transaction_list_less_than), value);
 		}
 };
 static bool scheduled_security_list_less_than(ScheduledTransaction *t1, ScheduledTransaction *t2) {
@@ -65,10 +65,10 @@ template<class type> class ScheduledSecurityTransactionList : public EqonomizeLi
 	public:
 		ScheduledSecurityTransactionList() : EqonomizeList<type>() {};
 		void sort() {
-			qSort(QList<type>::begin(), QList<type>::end(), scheduled_security_list_less_than);
+			std::sort(QList<type>::begin(), QList<type>::end(), scheduled_security_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, scheduled_security_list_less_than), value);
+			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, scheduled_security_list_less_than), value);
 		}
 };
 static bool traded_shares_list_less_than(SecurityTrade *t1, SecurityTrade *t2) {
@@ -78,10 +78,10 @@ template<class type> class TradedSharesList : public EqonomizeList<type> {
 	public:
 		TradedSharesList() : EqonomizeList<type>() {};
 		void sort() {
-			qSort(QList<type>::begin(), QList<type>::end(), traded_shares_list_less_than);
+			std::sort(QList<type>::begin(), QList<type>::end(), traded_shares_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, traded_shares_list_less_than), value);
+			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, traded_shares_list_less_than), value);
 		}
 };
 
@@ -109,7 +109,7 @@ class Security {
 
 	public:
 
-		Security(Budget *parent_budget, AssetsAccount *parent_account, SecurityType initial_type, double initial_shares = 0.0, int initial_decimals = -1, int initial_quotation_decimals = -1, QString initial_name = QString::null, QString initial_description = QString::null);
+		Security(Budget *parent_budget, AssetsAccount *parent_account, SecurityType initial_type, double initial_shares = 0.0, int initial_decimals = -1, int initial_quotation_decimals = -1, QString initial_name = QString(), QString initial_description = QString());
 		Security(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		Security(Budget *parent_budget);
 		Security();

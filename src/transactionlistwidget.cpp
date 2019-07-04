@@ -75,7 +75,7 @@ class TransactionListViewItem : public QTreeWidgetItem {
 		MultiAccountTransaction *o_split;
 		QDate d_date;
 	public:
-		TransactionListViewItem(const QDate &trans_date, Transaction *trans, ScheduledTransaction *strans, MultiAccountTransaction *split, QString, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null);
+		TransactionListViewItem(const QDate &trans_date, Transaction *trans, ScheduledTransaction *strans, MultiAccountTransaction *split, QString, QString = QString(), QString = QString(), QString = QString(), QString = QString(), QString = QString(), QString = QString(), QString = QString());
 		bool operator<(const QTreeWidgetItem &i_pre) const;
 		Transaction *transaction() const;
 		ScheduledTransaction *scheduledTransaction() const;
@@ -180,7 +180,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	tabs->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
 	editWidget = new TransactionEditWidget(true, b_extra, transtype, NULL, false, NULL, SECURITY_SHARES_AND_QUOTATION, false, budget, this, true);	
-	editInfoLabel = new QLabel(QString::null);
+	editInfoLabel = new QLabel(QString());
 	editWidget->bottomLayout()->addWidget(editInfoLabel);
 	QDialogButtonBox *buttons = new QDialogButtonBox();
 	editWidget->bottomLayout()->addWidget(buttons);
@@ -1442,7 +1442,7 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 	}
 	while(!strans || (!date.isNull() && date <= enddate)) {
 
-		QTreeWidgetItem *i = new TransactionListViewItem(date, trans, strans, split, QString::null, QString::null, transs->valueString());
+		QTreeWidgetItem *i = new TransactionListViewItem(date, trans, strans, split, QString(), QString(), transs->valueString());
 		
 		if(strans && strans->recurrence()) i->setText(0, QLocale().toString(date, QLocale::ShortFormat) + "**");
 		else i->setText(0, QLocale().toString(date, QLocale::ShortFormat));
@@ -1780,7 +1780,7 @@ void TransactionListWidget::onTransactionRemoved(Transactions *transs) {
 }
 void TransactionListWidget::clearTransaction() {
 	transactionsView->clearSelection();
-	editInfoLabel->setText(QString::null);
+	editInfoLabel->setText(QString());
 	editWidget->setTransaction(NULL);
 }
 void TransactionListWidget::filterTransactions() {
@@ -1857,12 +1857,12 @@ void TransactionListWidget::filterTransactions() {
 void TransactionListWidget::currentTransactionChanged(QTreeWidgetItem *i) {
 	if(i == NULL) {
 		editWidget->setTransaction(NULL);
-		editInfoLabel->setText(QString::null);
+		editInfoLabel->setText(QString());
 	} else if(((TransactionListViewItem*) i)->splitTransaction()) {
 		editWidget->setMultiAccountTransaction(((TransactionListViewItem*) i)->splitTransaction());
 	} else if(((TransactionListViewItem*) i)->scheduledTransaction()) {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction(), ((TransactionListViewItem*) i)->date());
-		if(((TransactionListViewItem*) i)->scheduledTransaction()->isOneTimeTransaction()) editInfoLabel->setText(QString::null);
+		if(((TransactionListViewItem*) i)->scheduledTransaction()->isOneTimeTransaction()) editInfoLabel->setText(QString());
 		else editInfoLabel->setText(tr("** Recurring (editing occurrence)"));
 	} else if(((TransactionListViewItem*) i)->transaction()->parentSplit()) {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction());
@@ -1871,13 +1871,13 @@ void TransactionListWidget::currentTransactionChanged(QTreeWidgetItem *i) {
 		else editInfoLabel->setText(tr("* Part of split (%1)").arg(split->description()));
 	} else {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction());
-		editInfoLabel->setText(QString::null);
+		editInfoLabel->setText(QString());
 	}
 }
 void TransactionListWidget::transactionSelectionChanged() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() == 0) {
-		editInfoLabel->setText(QString::null);
+		editInfoLabel->setText(QString());
 		modifyButton->setEnabled(false);
 		removeButton->setEnabled(false);
 		currentTransactionChanged(NULL);

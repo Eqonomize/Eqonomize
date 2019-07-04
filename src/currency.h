@@ -126,10 +126,10 @@ template<class type> class CurrencyList : public EqonomizeList<type> {
 	public:
 		CurrencyList() : EqonomizeList<type>() {};
 		void sort() {
-			qSort(QList<type>::begin(), QList<type>::end(), currency_list_less_than);
+			std::sort(QList<type>::begin(), QList<type>::end(), currency_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, currency_list_less_than), value);
+			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, currency_list_less_than), value);
 		}
 };
 

@@ -108,7 +108,7 @@ class AssetsAccount : public Account {
 		
 	public:
 
-		AssetsAccount(Budget *parent_budget, int initial_type, QString initial_name, double initial_balance = 0.0, QString initial_description = QString::null);
+		AssetsAccount(Budget *parent_budget, int initial_type, QString initial_name, double initial_balance = 0.0, QString initial_description = QString());
 		AssetsAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		AssetsAccount(Budget *parent_budget);
 		AssetsAccount();
@@ -149,10 +149,10 @@ template<class type> class AccountList : public EqonomizeList<type> {
 	public:
 		AccountList() : EqonomizeList<type>() {};
 		void sort() {
-			qSort(QList<type>::begin(), QList<type>::end(), account_list_less_than);
+			std::sort(QList<type>::begin(), QList<type>::end(), account_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, account_list_less_than), value);
+			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, account_list_less_than), value);
 		}
 };
 
@@ -160,7 +160,7 @@ class CategoryAccount : public Account {
 
 	public:
 
-		CategoryAccount(Budget *parent_budget, QString initial_name, QString initial_description = QString::null);
+		CategoryAccount(Budget *parent_budget, QString initial_name, QString initial_description = QString());
 		CategoryAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		CategoryAccount(Budget *parent_budget);
 		CategoryAccount();
@@ -200,7 +200,7 @@ class IncomesAccount : public CategoryAccount {
 	
 	public:
 
-		IncomesAccount(Budget *parent_budget, QString initial_name, QString initial_description = QString::null);
+		IncomesAccount(Budget *parent_budget, QString initial_name, QString initial_description = QString());
 		IncomesAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		IncomesAccount(Budget *parent_budget);
 		IncomesAccount();
@@ -215,7 +215,7 @@ class ExpensesAccount : public CategoryAccount {
 	
 	public:
 
-		ExpensesAccount(Budget *parent_budget, QString initial_name, QString initial_description = QString::null);
+		ExpensesAccount(Budget *parent_budget, QString initial_name, QString initial_description = QString());
 		ExpensesAccount(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		ExpensesAccount(Budget *parent_budget);
 		ExpensesAccount();

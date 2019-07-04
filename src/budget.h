@@ -66,30 +66,30 @@ template<class type> class TransactionList : public EqonomizeList<type> {
 	public:
 		TransactionList() : EqonomizeList<type>() {};
 		void sort() {
-			qSort(QList<type>::begin(), QList<type>::end(), transaction_list_less_than);
+			std::sort(QList<type>::begin(), QList<type>::end(), transaction_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, transaction_list_less_than), value);
+			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, transaction_list_less_than), value);
 		}
 };
 template<class type> class SplitTransactionList : public EqonomizeList<type> {
 	public:
 		SplitTransactionList() : EqonomizeList<type>() {};
 		void sort() {
-			qSort(QList<type>::begin(), QList<type>::end(), split_list_less_than);
+			std::sort(QList<type>::begin(), QList<type>::end(), split_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, split_list_less_than), value);
+			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, split_list_less_than), value);
 		}
 };
 template<class type> class ScheduledTransactionList : public EqonomizeList<type> {
 	public:
 		ScheduledTransactionList() : EqonomizeList<type>() {};
 		void sort() {
-			qSort(QList<type>::begin(), QList<type>::end(), schedule_list_less_than);
+			std::sort(QList<type>::begin(), QList<type>::end(), schedule_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, schedule_list_less_than), value);
+			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, schedule_list_less_than), value);
 		}
 
 };
@@ -97,20 +97,20 @@ template<class type> class SecurityList : public EqonomizeList<type> {
 	public:
 		SecurityList() : EqonomizeList<type>() {};
 		void sort() {
-			qSort(QList<type>::begin(), QList<type>::end(), security_list_less_than);
+			std::sort(QList<type>::begin(), QList<type>::end(), security_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, security_list_less_than), value);
+			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, security_list_less_than), value);
 		}
 };
 template<class type> class SecurityTradeList : public EqonomizeList<type> {
 	public:
 		SecurityTradeList() : EqonomizeList<type>() {};
 		void sort() {
-			qSort(QList<type>::begin(), QList<type>::end(), trade_list_less_than);
+			std::sort(QList<type>::begin(), QList<type>::end(), trade_list_less_than);
 		}
 		void inSort(type value) {
-			QList<type>::insert(qLowerBound(QList<type>::begin(), QList<type>::end(), value, trade_list_less_than), value);
+			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, trade_list_less_than), value);
 		}
 };
 
@@ -120,9 +120,9 @@ struct BudgetSynchronization {
 	int revision;
 	void clear() {
 		autosync = false;
-		url = QString::null;
-		download = QString::null;
-		upload = QString::null;
+		url = QString();
+		download = QString();
+		upload = QString();
 		revision = 0;
 	}
 	bool isComplete() {

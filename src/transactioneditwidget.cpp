@@ -301,7 +301,7 @@ QString TagMenu::createTag() {
 			setTagSelected(str, true);
 		}
 	}
-	return QString::null;
+	return QString();
 }
 
 extern QString last_associated_file_directory;
@@ -1615,11 +1615,11 @@ Transaction *TransactionEditWidget::createTransaction() {
 		} else if(fromCombo && fromCombo->currentAccount() == budget->balancingAccount) {
 			trans = new Balancing(budget, valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL);
 		} else {
-			Transfer *transfer = new Transfer(budget, valueEdit->value(), depositEdit->value(), dateEdit ? dateEdit->date() : QDate(), fromCombo ? (AssetsAccount*) fromCombo->currentAccount() : NULL, toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString::null, commentsEdit ? commentsEdit->text() : NULL);
+			Transfer *transfer = new Transfer(budget, valueEdit->value(), depositEdit->value(), dateEdit ? dateEdit->date() : QDate(), fromCombo ? (AssetsAccount*) fromCombo->currentAccount() : NULL, toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString(), commentsEdit ? commentsEdit->text() : NULL);
 			trans = transfer;
 		}
 	} else if(transtype == TRANSACTION_TYPE_INCOME) {
-		Income *income = new Income(budget, valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), fromCombo ? (IncomesAccount*) fromCombo->currentAccount() : NULL, toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString::null, commentsEdit ? commentsEdit->text() : NULL);
+		Income *income = new Income(budget, valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), fromCombo ? (IncomesAccount*) fromCombo->currentAccount() : NULL, toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString(), commentsEdit ? commentsEdit->text() : NULL);
 		if(selectedSecurity()) income->setSecurity(selectedSecurity());
 		if(quantityEdit) income->setQuantity(quantityEdit->value());
 		if(payeeEdit) income->setPayer(payeeEdit->text());
@@ -1661,7 +1661,7 @@ Transaction *TransactionEditWidget::createTransaction() {
 		if(setQuoteButton && setQuoteButton->isChecked()) selectedSecurity()->setQuotation(secsell->date(), share_value);
 		trans = secsell;
 	} else {
-		Expense *expense = new Expense(budget, valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), toCombo ? (ExpensesAccount*) toCombo->currentAccount() : NULL, fromCombo ? (AssetsAccount*) fromCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString::null, commentsEdit ? commentsEdit->text() : NULL);
+		Expense *expense = new Expense(budget, valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), toCombo ? (ExpensesAccount*) toCombo->currentAccount() : NULL, fromCombo ? (AssetsAccount*) fromCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString(), commentsEdit ? commentsEdit->text() : NULL);
 		if(quantityEdit) expense->setQuantity(quantityEdit->value());
 		if(payeeEdit) expense->setPayee(payeeEdit->text());
 		trans = expense;

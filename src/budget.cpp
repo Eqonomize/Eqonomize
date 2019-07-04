@@ -212,7 +212,7 @@ Budget::Budget() {
 	b_record_new_accounts = false;
 	b_record_new_securities = false;
 	i_tcrd = TRANSACTION_CONVERSION_RATE_AT_DATE;
-	null_incomes_account = new IncomesAccount(this, QString::null);
+	null_incomes_account = new IncomesAccount(this, QString());
 	setlocale(LC_MONETARY, "");
 	struct lconv *lc = localeconv();
 	monetary_decimal_separator = QString::fromLocal8Bit(lc->mon_decimal_point);
@@ -732,7 +732,7 @@ QString Budget::saveCurrencies() {
 		return tr("Error while writing file; file was not saved");
 	}
 	
-	return QString::null;
+	return QString();
 }
 
 TransactionConversionRateDate Budget::defaultTransactionConversionRateDate() const {return i_tcrd;}
@@ -744,7 +744,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		return tr("Couldn't open %1 for reading").arg(filename);
 	} else if(!file.size()) {
-		return QString::null;
+		return QString();
 	}
 
 	QXmlStreamReader xml(&file);
@@ -769,7 +769,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 		if(last_id < 0) last_id = 0;
 	}
 
-	errors = QString::null;
+	errors = QString();
 	int category_errors = 0, account_errors = 0, transaction_errors = 0, security_errors = 0;
 
 	assetsAccounts_id[balancingAccount->id()] = balancingAccount;
@@ -1335,10 +1335,10 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	securities_id.clear();
 	
 	if(set_ids) {
-		qSort(transactions.begin(), transactions.end(), transaction_list_less_than_stamp);
-		qSort(scheduledTransactions.begin(), scheduledTransactions.end(), schedule_list_less_than_stamp);
-		qSort(splitTransactions.begin(), splitTransactions.end(), split_list_less_than_stamp);
-		qSort(securityTrades.begin(), securityTrades.end(), trade_list_less_than_stamp);
+		std::sort(transactions.begin(), transactions.end(), transaction_list_less_than_stamp);
+		std::sort(scheduledTransactions.begin(), scheduledTransactions.end(), schedule_list_less_than_stamp);
+		std::sort(splitTransactions.begin(), splitTransactions.end(), split_list_less_than_stamp);
+		std::sort(securityTrades.begin(), securityTrades.end(), trade_list_less_than_stamp);
 		TransactionList<Transaction*>::const_iterator it1 = transactions.constBegin();
 		ScheduledTransactionList<ScheduledTransaction*>::const_iterator it2 = scheduledTransactions.constBegin();
 		SplitTransactionList<SplitTransaction*>::const_iterator it3 = splitTransactions.constBegin();
@@ -1426,7 +1426,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	file.close();
 
 	resetDefaultCurrencyChanged();
-	return QString::null;
+	return QString();
 }
 int Budget::fileRevision(QString filename, QString &error) const {
 
@@ -1452,7 +1452,7 @@ int Budget::fileRevision(QString filename, QString &error) const {
 	if(file_revision <= 0) file_revision = 1;
 	file.close();
 
-	error = QString::null;
+	error = QString();
 	
 	return file_revision;
 
@@ -1483,7 +1483,7 @@ bool Budget::isUnsynced(QString filename, QString &error, int synced_revision) c
 	if(file_revision <= 0) file_revision = 1;
 	file.close();
 	
-	error = QString::null;
+	error = QString();
 	
 	return file_revision > synced_revision;
 
@@ -1605,7 +1605,7 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		return tr("Couldn't open %1 for reading").arg(filename);
 	} else if(!file.size()) {
-		return QString::null;
+		return QString();
 	}
 
 	QXmlStreamReader xml(&file);
@@ -1623,7 +1623,7 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 	int revision_diff = file_revision - synced_revision;
 	if(revision_diff <= 0) {
 		file.close();
-		return QString::null;
+		return QString();
 	}
 	
 	last_id = file_last_id;
@@ -1631,7 +1631,7 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 	i_revision += revision_diff;
 	i_opened_revision = i_revision;
 	
-	errors = QString::null;
+	errors = QString();
 	int category_errors = 0, account_errors = 0, transaction_errors = 0, security_errors = 0;
 
 	assetsAccounts_id[balancingAccount->id()] = balancingAccount;
@@ -2181,7 +2181,7 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 		errors += tr("Unable to load %n transaction(s).", "", transaction_errors);
 	}
 	file.close();
-	return QString::null;
+	return QString();
 }
 
 
@@ -2348,7 +2348,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions, bool 
 		return tr("Error while writing file; file was not saved");
 	}
 
-	return QString::null;
+	return QString();
 
 }
 
@@ -2729,7 +2729,7 @@ void Budget::splitTransactionSortModified(SplitTransaction *split) {
 void Budget::splitTransactionDateModified(SplitTransaction*, const QDate&) {}
 
 Transaction *Budget::findDuplicateTransaction(Transaction *trans) {
-	TransactionList<Transaction*>::const_iterator it = qLowerBound(transactions.constBegin(), transactions.constEnd(), trans, transaction_list_less_than);
+	TransactionList<Transaction*>::const_iterator it = std::lower_bound(transactions.constBegin(), transactions.constEnd(), trans, transaction_list_less_than);
 	while(it != transactions.constEnd()) {
 		if((*it)->date() > trans->date()) return NULL;
 		if(trans->equals(*it, false)) return *it;
@@ -3417,7 +3417,7 @@ QString Budget::findTag(const QString &tag) {
 		if(c > 0) break;
 		if(c == 0) return tags[i];
 	}
-	return QString::null;
+	return QString();
 }
 void Budget::setRecordNewTags(bool rnt) {b_record_new_tags = rnt;}
 

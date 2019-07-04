@@ -221,7 +221,7 @@ void TransactionFilterWidget::clearFilter() {
 	maxEdit->setEnabled(false);
 	fromCombo->setCurrentIndex(0);
 	toCombo->setCurrentIndex(0);
-	descriptionEdit->setText(QString::null);
+	descriptionEdit->setText(QString());
 	if(tagCombo) tagCombo->setCurrentIndex(0);
 	dateFromButton->blockSignals(false);
 	dateToEdit->blockSignals(false);

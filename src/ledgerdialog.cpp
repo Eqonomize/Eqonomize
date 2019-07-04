@@ -84,7 +84,7 @@ class LedgerListViewItem : public QTreeWidgetItem, public QObject {
 		Transaction *o_trans;
 		SplitTransaction *o_split;
 	public:
-		LedgerListViewItem(Transaction *trans, SplitTransaction *split, QTreeWidget *parent, QString, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null, QString=QString::null);
+		LedgerListViewItem(Transaction *trans, SplitTransaction *split, QTreeWidget *parent, QString, QString = QString(), QString = QString(), QString = QString(), QString = QString(), QString = QString(), QString = QString(), QString = QString(), QString = QString(), QString = QString(), QString = QString());
 		void setReconciled(int, int);
 		void updateMark(int);
 		void setColors();
@@ -1446,7 +1446,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 	bool b_reconciling = reconcileButton->isChecked();
 	
 	if(balance != 0.0) {
-		LedgerListViewItem *i = new LedgerListViewItem(NULL, NULL, transactionsView, "-", "-", tr("Opening balance", "Account balance"), "-", "-", QString::null, QString::null, QString::null, QString::null, account->currency()->formatValue(balance));
+		LedgerListViewItem *i = new LedgerListViewItem(NULL, NULL, transactionsView, "-", "-", tr("Opening balance", "Account balance"), "-", "-", QString(), QString(), QString(), QString(), account->currency()->formatValue(balance));
 		i->d_balance = balance;
 		previous_balance = balance;
 		i->setReconciled(-1, b_reconciling ? 2 : -2);
@@ -1472,7 +1472,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 				previous_balance = balance;
 				previous_date = split->date();
 				if(!first_date.isValid()) first_date = previous_date;
-				LedgerListViewItem *i = new LedgerListViewItem(NULL, split, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Split Transaction"), split->description(), ((MultiItemTransaction*) split)->fromAccountsString(), split->payeeText(), split->tagsText(), split->comment(), (value >= 0.0) ? account->currency()->formatValue(value) : QString::null, (value < 0.0) ? account->currency()->formatValue(-value) : QString::null, account->currency()->formatValue(balance));
+				LedgerListViewItem *i = new LedgerListViewItem(NULL, split, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Split Transaction"), split->description(), ((MultiItemTransaction*) split)->fromAccountsString(), split->payeeText(), split->tagsText(), split->comment(), (value >= 0.0) ? account->currency()->formatValue(value) : QString(), (value < 0.0) ? account->currency()->formatValue(-value) : QString(), account->currency()->formatValue(balance));
 				if(b_ascending) transactionsView->addTopLevelItem(i);
 				else transactionsView->insertTopLevelItem(0, i);
 				i->setColors();
@@ -1499,7 +1499,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 						double value = ltrans->toValue();
 						balance += value;
 						reductions += value;
-						LedgerListViewItem *i = new LedgerListViewItem(ltrans, NULL, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), tr("Reduction"), ltrans->fromAccount()->name(), lsplit->loan()->maintainer(), ltrans->tagsText(true), lsplit->comment(), (value >= 0.0) ? account->currency()->formatValue(value) : QString::null, value >= 0.0 ? QString::null : account->currency()->formatValue(-value), account->currency()->formatValue(balance));
+						LedgerListViewItem *i = new LedgerListViewItem(ltrans, NULL, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), tr("Reduction"), ltrans->fromAccount()->name(), lsplit->loan()->maintainer(), ltrans->tagsText(true), lsplit->comment(), (value >= 0.0) ? account->currency()->formatValue(value) : QString(), value >= 0.0 ? QString() : account->currency()->formatValue(-value), account->currency()->formatValue(balance));
 						if(b_ascending) transactionsView->addTopLevelItem(i);
 						else transactionsView->insertTopLevelItem(0, i);
 						i->setColors();
@@ -1528,7 +1528,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 							reductions -= value;
 							quantity++;
 						}
-						LedgerListViewItem *i = new LedgerListViewItem(ltrans, NULL, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), tr("Fee"), ltrans->fromAccount()->name(), ((DebtFee*) ltrans)->payee(), ltrans->tagsText(true), lsplit->comment(), (to_balance || value >= 0.0) ? QString::null : account->currency()->formatValue(-value), (to_balance && value >= 0.0) ? account->currency()->formatValue(value) : QString::null, account->currency()->formatValue(balance), to_balance ? QString::null : account->currency()->formatValue(value));
+						LedgerListViewItem *i = new LedgerListViewItem(ltrans, NULL, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), tr("Fee"), ltrans->fromAccount()->name(), ((DebtFee*) ltrans)->payee(), ltrans->tagsText(true), lsplit->comment(), (to_balance || value >= 0.0) ? QString() : account->currency()->formatValue(-value), (to_balance && value >= 0.0) ? account->currency()->formatValue(value) : QString(), account->currency()->formatValue(balance), to_balance ? QString() : account->currency()->formatValue(value));
 						if(b_ascending) transactionsView->addTopLevelItem(i);
 						else transactionsView->insertTopLevelItem(0, i);
 						i->setColors();
@@ -1557,7 +1557,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 							reductions -= value;
 							quantity++;
 						}
-						LedgerListViewItem *i = new LedgerListViewItem(ltrans, NULL, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), tr("Interest"), ltrans->fromAccount()->name(), ((DebtInterest*) ltrans)->payee(), ltrans->tagsText(true), lsplit->comment(), (to_balance || value >= 0.0) ? QString::null : account->currency()->formatValue(-value), (to_balance && value >= 0.0) ? account->currency()->formatValue(value) : QString::null, account->currency()->formatValue(balance), to_balance ? QString::null : account->currency()->formatValue(value));
+						LedgerListViewItem *i = new LedgerListViewItem(ltrans, NULL, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), tr("Interest"), ltrans->fromAccount()->name(), ((DebtInterest*) ltrans)->payee(), ltrans->tagsText(true), lsplit->comment(), (to_balance || value >= 0.0) ? QString() : account->currency()->formatValue(-value), (to_balance && value >= 0.0) ? account->currency()->formatValue(value) : QString(), account->currency()->formatValue(balance), to_balance ? QString() : account->currency()->formatValue(value));
 						if(b_ascending) transactionsView->addTopLevelItem(i);
 						else transactionsView->insertTopLevelItem(0, i);
 						i->setColors();
@@ -1585,7 +1585,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 					double value = split->accountChange(account);
 					if(value != 0.0) {
 						balance += value;
-						LedgerListViewItem *i = new LedgerListViewItem(NULL, split, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), split->description(), ((DebtPayment*) split)->loan()->name(), ((DebtPayment*) split)->loan()->maintainer(), split->tagsText(), split->comment(), (value >= 0.0) ? account->currency()->formatValue(value) : QString::null, (value < 0.0) ? account->currency()->formatValue(-value) : QString::null, account->currency()->formatValue(balance));
+						LedgerListViewItem *i = new LedgerListViewItem(NULL, split, NULL, QLocale().toString(split->date(), QLocale::ShortFormat), tr("Debt Payment"), split->description(), ((DebtPayment*) split)->loan()->name(), ((DebtPayment*) split)->loan()->maintainer(), split->tagsText(), split->comment(), (value >= 0.0) ? account->currency()->formatValue(value) : QString(), (value < 0.0) ? account->currency()->formatValue(-value) : QString(), account->currency()->formatValue(balance));
 						if(b_ascending) transactionsView->addTopLevelItem(i);
 						else transactionsView->insertTopLevelItem(0, i);
 						i->setColors();
@@ -1612,7 +1612,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 		} else if(transs->relatesToAccount(account) && (!trans->parentSplit() || trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS || (trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ITEMS && ((MultiItemTransaction*) trans->parentSplit())->account() != account))) {
 			double value = trans->accountChange(account);
 			balance += value;
-			LedgerListViewItem *i = new LedgerListViewItem(trans, NULL, NULL, QLocale().toString(trans->date(), QLocale::ShortFormat), QString::null, trans->description(), account == trans->fromAccount() ? trans->toAccount()->name() : trans->fromAccount()->name(), trans->payeeText(), trans->tagsText(true), trans->comment(), (value >= 0.0) ? account->currency()->formatValue(value) : QString::null, value >= 0.0 ? QString::null : account->currency()->formatValue(-value), account->currency()->formatValue(balance));
+			LedgerListViewItem *i = new LedgerListViewItem(trans, NULL, NULL, QLocale().toString(trans->date(), QLocale::ShortFormat), QString(), trans->description(), account == trans->fromAccount() ? trans->toAccount()->name() : trans->fromAccount()->name(), trans->payeeText(), trans->tagsText(true), trans->comment(), (value >= 0.0) ? account->currency()->formatValue(value) : QString(), value >= 0.0 ? QString() : account->currency()->formatValue(-value), account->currency()->formatValue(balance));
 			quantity++;
 			if(b_ascending) transactionsView->addTopLevelItem(i);
 			else transactionsView->insertTopLevelItem(0, i);
