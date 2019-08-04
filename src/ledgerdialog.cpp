@@ -1223,15 +1223,17 @@ void LedgerDialog::newDebtInterest() {
 void LedgerDialog::remove() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() > 1) {
-		if(QMessageBox::warning(this, tr("Delete transactions?"), tr("Are you sure you want to delete all (%1) selected transactions?").arg(selection.count()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Ok) {
+		if(QMessageBox::warning(this, tr("Delete transactions?"), tr("Are you sure you want to delete all (%1) selected transactions?").arg(selection.count()), QMessageBox::Ok | QMessageBox::Cancel) != QMessageBox::Ok) {
 			return;
 		}
+		mainWin->startBatchEdit();
 	}
 	transactionsView->clearSelection();
 	for(int index = 0; index < selection.size(); index++) {
 		LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
 		if(i->splitTransaction()) {
 			SplitTransaction *split = i->splitTransaction();
+			qDebug() << split->description();
 			budget->removeSplitTransaction(split, true);
 			mainWin->transactionRemoved(split);
 			delete split;
@@ -1255,6 +1257,7 @@ void LedgerDialog::remove() {
 			}
 		}
 	}
+	if(selection.count() > 1) mainWin->endBatchEdit();
 }
 void LedgerDialog::openAssociatedFile() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
