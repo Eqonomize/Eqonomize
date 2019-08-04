@@ -877,8 +877,9 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 		   || (payee_c > 0 && (payee_c == quantity_c || payee_c == tags_c))
 		   || (tags_c > 0 && (tags_c == quantity_c))
 	  ) {
-		QMessageBox::critical(this, tr("Error"), tr("The same column number is selected multiple times."));
-		return false;
+		if(QMessageBox::warning(this, tr("Warning"), tr("The same column number is selected multiple times. Proceed?"), QMessageBox::Ok | QMessageBox::Cancel) != QMessageBox::Ok) {
+			return false;
+		}
 	}
 	bool create_missing = createMissingButton->isChecked() && type != ALL_TYPES_ID;
 	QString description, comments, payee, tags;
