@@ -231,6 +231,10 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	valueAC1Edit->setEditable(false);
 	layout3->addWidget(valueAC1Edit, row, 4);
 	row++;
+	valueAC1IncomeEdit = new QComboBox(page3);
+	valueAC1IncomeEdit->setEditable(false);
+	layout3->addWidget(valueAC1IncomeEdit, row, 4);
+	row++;
 
 	AC2Label = new QLabel(tr("From account:"), page3);
 	layout3->addWidget(AC2Label, row, 0);
@@ -365,6 +369,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	connect(valueDateButton, SIGNAL(toggled(bool)), valueDateEdit, SLOT(setEnabled(bool)));
 	connect(columnAC1Button, SIGNAL(toggled(bool)), columnAC1Edit, SLOT(setEnabled(bool)));
 	connect(valueAC1Button, SIGNAL(toggled(bool)), valueAC1Edit, SLOT(setEnabled(bool)));
+	connect(valueAC1Button, SIGNAL(toggled(bool)), valueAC1IncomeEdit, SLOT(setEnabled(bool)));
 	connect(columnAC2Button, SIGNAL(toggled(bool)), columnAC2Edit, SLOT(setEnabled(bool)));
 	connect(valueAC2Button, SIGNAL(toggled(bool)), valueAC2Edit, SLOT(setEnabled(bool)));
 	connect(columnTagsButton, SIGNAL(toggled(bool)), columnTagsEdit, SLOT(setEnabled(bool)));
@@ -420,6 +425,7 @@ void ImportCSVDialog::typeChanged(int id) {
 	createMissingButton->setChecked(id != ALL_TYPES_ID);
 
 	valueAC1Edit->clear();
+	valueAC1IncomeEdit->clear();
 	valueAC2Edit->clear();
 	if(id < 5) {
 		for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
@@ -447,6 +453,7 @@ void ImportCSVDialog::typeChanged(int id) {
 	columnTagsEdit->setVisible(id != 2);
 	columnTagsButton->setVisible(id != 2);
 	valueTagsButton->setVisible(id != 2);
+	valueAC1IncomeEdit->setVisible(id == 3 || id == 4);
 	if(id == 4) {
 		costLabel->show();
 		valueCostEdit->show();
@@ -527,26 +534,34 @@ void ImportCSVDialog::typeChanged(int id) {
 			break;
 		}
 		case 3: {
-			typeDescriptionLabel->setText(tr("Imports data as expenses and incomes. Costs have negative value. Value and category are both required columns."));
-			columnAC1Button->setChecked(true);
-			columnAC1Edit->setEnabled(true);
-			valueAC1Edit->setEnabled(false);
-			valueAC1Button->setEnabled(false);
+			typeDescriptionLabel->setText(tr("Imports data as expenses and incomes. Costs have negative value. Value is the only required column."));
 			valueLabel->setText(tr("Value:"));
 			AC1Label->setText(tr("Category:"));
 			AC2Label->setText(tr("Account:"));
+			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+				ExpensesAccount *ea = *it;
+				valueAC1Edit->addItem(ea->name(), qVariantFromValue((void*) ea));
+			}
+			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+				IncomesAccount *ia = *it;
+				valueAC1IncomeEdit->addItem(ia->name(), qVariantFromValue((void*) ia));
+			}
 			if(b_extra) payeeLabel->setText(tr("Payee/payer:"));
 			break;
 		}
 		case 4: {
-			typeDescriptionLabel->setText(tr("Imports data as expenses and incomes. Costs and incomes have separate columns. Income, cost, and category are all required columns."));
-			columnAC1Button->setChecked(true);
-			columnAC1Edit->setEnabled(true);
-			valueAC1Edit->setEnabled(false);
-			valueAC1Button->setEnabled(false);
+			typeDescriptionLabel->setText(tr("Imports data as expenses and incomes. Costs and incomes have separate columns. Income and cost both all required columns."));
 			valueLabel->setText(tr("Income:"));
 			AC1Label->setText(tr("Category:"));
 			AC2Label->setText(tr("Account:"));
+			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+				ExpensesAccount *ea = *it;
+				valueAC1Edit->addItem(ea->name(), qVariantFromValue((void*) ea));
+			}
+			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+				IncomesAccount *ia = *it;
+				valueAC1IncomeEdit->addItem(ia->name(), qVariantFromValue((void*) ia));
+			}
 			if(b_extra) payeeLabel->setText(tr("Payee/payer:"));
 			break;
 		}
@@ -570,6 +585,12 @@ void ImportCSVDialog::typeChanged(int id) {
 	columnValueButton->setChecked(true);
 	valueValueButton->setEnabled(false);
 	if(valueAC1Edit->count() == 0) {
+		columnAC1Button->setChecked(true);
+		columnAC1Edit->setEnabled(true);
+		valueAC1Edit->setEnabled(false);
+		valueAC1Button->setEnabled(false);
+	}
+	if((id == 3 || id == 4) && valueAC1IncomeEdit->count() == 0) {
 		columnAC1Button->setChecked(true);
 		columnAC1Edit->setEnabled(true);
 		valueAC1Edit->setEnabled(false);
@@ -889,7 +910,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	if(!test && b_extra && quantity_c < 0) quantity = valueQuantityEdit->value();
 	if(!test && tags_c < 0) tags = valueTagsEdit->text();
 	QMap<QString, Account*> eaccounts, iaccounts, aaccounts;
-	Account *ac1 = NULL, *ac2 = NULL;
+	Account *ac1 = NULL, *ac1i = NULL, *ac2 = NULL;
 	if(!test && (AC1_c >= 0 || AC2_c >= 0)) {
 		for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 			ExpensesAccount *ea = *it;
@@ -908,6 +929,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	}
 	if(AC1_c < 0) {
 		if(valueAC1Edit->currentData().isValid()) ac1 = (Account*) valueAC1Edit->currentData().value<void*>();
+		if(valueAC1IncomeEdit->currentData().isValid()) ac1i = (Account*) valueAC1IncomeEdit->currentData().value<void*>();
 	}
 	if(AC2_c < 0) {
 		if(valueAC2Edit->currentData().isValid()) ac2 = (Account*) valueAC2Edit->currentData().value<void*>();
@@ -1360,7 +1382,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 								trans = new Expense(budget, -value, date, (ExpensesAccount*) ac1, (AssetsAccount*) ac2, description, comments);
 								((Expense*) trans)->setPayee(payee);
 							} else {
-								trans = new Income(budget, value, date, (IncomesAccount*) ac1, (AssetsAccount*) ac2, description, comments);
+								trans = new Income(budget, value, date, AC1_c < 0 ? (IncomesAccount*) ac1i : (IncomesAccount*) ac1, (AssetsAccount*) ac2, description, comments);
 								((Income*) trans)->setPayer(payee);
 							}
 							successes++;

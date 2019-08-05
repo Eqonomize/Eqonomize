@@ -78,6 +78,7 @@ class ImportCSVDialog : public QWizard {
 		QRadioButton *columnAC1Button, *valueAC1Button;
 		QSpinBox *columnAC1Edit;
 		QComboBox *valueAC1Edit;
+		QComboBox *valueAC1IncomeEdit;
 
 		QLabel *AC2Label;
 		QRadioButton *columnAC2Button, *valueAC2Button;
