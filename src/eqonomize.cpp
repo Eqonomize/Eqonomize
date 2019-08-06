@@ -211,13 +211,8 @@ void setAccountBudgetColor(QTreeWidgetItem *i, double budget_rem, bool is_expens
 
 void setColumnTextWidth(QTreeWidget *w, int i, QString str) {
 	QFontMetrics fm(w->font());
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
-	int tw = fm.horizontalAdvance(str) + 10;
-	int hw = fm.horizontalAdvance(w->headerItem()->text(i)) + 10;
-#else
-	int tw = fm.width(str) + 10;
-	int hw = fm.width(w->headerItem()->text(i)) + 10;
-#endif
+	int tw = fm.boundingRect(str).width() + 10;
+	int hw = fm.boundingRect(w->headerItem()->text(i)).width() + 10;
 	if(w->columnWidth(i) < tw) w->setColumnWidth(i, tw);
 	if(w->columnWidth(i) < hw) w->setColumnWidth(i, hw);
 }
@@ -2348,11 +2343,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 
 	if(first_run) {
 		QFontMetrics fm(accountsView->font());
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
-		int w = fm.horizontalAdvance(accountsView->headerItem()->text(0)) + fm.horizontalAdvance(QString(15, 'h'));
-#else
-		int w = fm.width(accountsView->headerItem()->text(0)) + fm.width(QString(15, 'h'));
-#endif
+		int w = fm.boundingRect(accountsView->headerItem()->text(0)).width() + fm.boundingRect(QString(15, 'h')).width();
 		accountsView->setMinimumWidth(w + accountsView->columnWidth(BUDGET_COLUMN) + accountsView->columnWidth(CHANGE_COLUMN) + accountsView->columnWidth(VALUE_COLUMN));
 		//QDesktopWidget desktop;
 		//resize(QSize(750, 650).boundedTo(desktop.availableGeometry(this).size()));

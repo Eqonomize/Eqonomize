@@ -22,6 +22,7 @@
 #define IMPORT_CSV_DIALOG_H
 
 #include <QWizard>
+#include <QMap>
 
 class QButtonGroup;
 class QCheckBox;
@@ -46,6 +47,9 @@ class ImportCSVDialog : public QWizard {
 
 		bool b_extra;
 		Budget *budget;
+		
+		QMap<QString, QVariant> presets;
+		QString s_preset;
 
 		QLabel *typeDescriptionLabel;
 		QButtonGroup *typeGroup, *dateGroup, *valueGroup, *costGroup, *descriptionGroup, *AC1Group, *AC2Group, *commentsGroup, *payeeGroup, *quantityGroup, *tagsGroup;
@@ -103,6 +107,10 @@ class ImportCSVDialog : public QWizard {
 		QRadioButton *columnQuantityButton, *valueQuantityButton;
 		QSpinBox *columnQuantityEdit;
 		EqonomizeValueEdit *valueQuantityEdit;
+		
+		QComboBox *presetCombo;
+		QPushButton *savePresetButton;
+		QLabel *presetLabel;
 
 		QCheckBox *createMissingButton;
 
@@ -115,6 +123,8 @@ class ImportCSVDialog : public QWizard {
 
 	protected slots:
 
+		void loadPreset(int);
+		void savePreset();
 		void onFileChanged(const QString&);
 		void selectFile();
 		void nextClicked();

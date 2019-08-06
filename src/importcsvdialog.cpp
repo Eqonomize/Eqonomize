@@ -45,6 +45,7 @@
 #include <QMimeDatabase>
 #include <QCompleter>
 #include <QDirModel>
+#include <QSettings>
 
 #include "budget.h"
 #include "eqonomizevalueedit.h"
@@ -93,12 +94,29 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	typeDescriptionLabel = new QLabel(page1);
 	typeDescriptionLabel->setWordWrap(true);
 	layout1->addWidget(typeDescriptionLabel);
+	QHBoxLayout *layoutPreset = new QHBoxLayout();
+	presetLabel = new QLabel(tr("Presets:"));
+	layoutPreset->addStretch(1);
+	layoutPreset->addWidget(presetLabel);
+	presetCombo = new QComboBox();
+	presetCombo->setEditable(false);
+	layoutPreset->addWidget(presetCombo);
+	layout1->addLayout(layoutPreset);
 	layout1->addItem(new QSpacerItem(1, 1, QSizePolicy::Minimum, QSizePolicy::Expanding));
 
 	QIFWizardPage *page2 = new QIFWizardPage();
 	page2->setTitle(tr("File Selection"));
 	setPage(1, page2);
 	QGridLayout *layout2 = new QGridLayout(page2);
+	
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	presets = settings.value("CSVPresets").toMap();
+	for(QMap<QString, QVariant>::const_iterator it = presets.constBegin(); it != presets.constEnd(); ++it) {
+		presetCombo->addItem(it.key());
+	}
+	if(presetCombo->count() == 0) presetCombo->setEnabled(false);
+	else presetCombo->setCurrentIndex(-1);
 
 	layout2->addWidget(new QLabel(tr("File:"), page2), 0, 0);
 	QHBoxLayout *layout2h = new QHBoxLayout();
@@ -342,6 +360,13 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	layout3_cm->addWidget(createMissingButton);
 	layout3->addLayout(layout3_cm, row, 0, 1, 5);
 	row++;
+	
+	QHBoxLayout *layoutPreset2 = new QHBoxLayout();
+	layoutPreset2->addStretch(1);
+	savePresetButton = new QPushButton(QString("Save as preset"), page3);
+	layoutPreset2->addWidget(savePresetButton);
+	layout3->addLayout(layoutPreset2, row, 0, 1, 5);
+	row++;
 
 	layout3->addItem(new QSpacerItem(1, 1, QSizePolicy::Minimum, QSizePolicy::Expanding), row, 0, 1, 5);
 
@@ -383,6 +408,8 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 		connect(columnPayeeButton, SIGNAL(toggled(bool)), columnPayeeEdit, SLOT(setEnabled(bool)));
 		connect(valuePayeeButton, SIGNAL(toggled(bool)), valuePayeeEdit, SLOT(setEnabled(bool)));
 	}
+	connect(presetCombo, SIGNAL(activated(int)), this, SLOT(loadPreset(int)));
+	connect(savePresetButton, SIGNAL(clicked()), this, SLOT(savePreset()));
 	
 	page3->adjustSize();
 	page2->setMinimumWidth(page3->minimumSizeHint().width() + 100);
@@ -400,6 +427,273 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 ImportCSVDialog::~ImportCSVDialog() {
 }
 
+void ImportCSVDialog::loadPreset(int index) {
+	s_preset = presetCombo->itemText(index);
+	if(!presets.contains(s_preset)) return;
+	QList<QVariant> preset = presets[s_preset].toList();
+	if(preset.count() < 26) return;
+	typeGroup->button(preset.at(0).toInt())->setChecked(true);
+	typeChanged(preset.at(0).toInt());
+	fileEdit->setText(preset.at(1).toString());
+	rowEdit->setValue(preset.at(2).toInt());
+	QString delimiter = preset.at(3).toString();
+	if(delimiter == ",") delimiterCombo->setCurrentIndex(0);
+	else if(delimiter == "\t") delimiterCombo->setCurrentIndex(1);
+	else if(delimiter == ";") delimiterCombo->setCurrentIndex(2);
+	else if(delimiter == " ") delimiterCombo->setCurrentIndex(3);
+	else {
+		delimiterCombo->setCurrentIndex(4);
+		delimiterEdit->setText(delimiter);
+	}
+	int i = 4;
+	if(preset.at(i).toBool()) {
+		valueDateButton->setChecked(true);
+		valueDateEdit->setDate(preset.at(i + 1).toDate());
+	} else {
+		columnDateButton->setChecked(true);
+		columnDateEdit->setValue(preset.at(i + 1).toInt());
+	}
+	i += 2;
+	if(preset.at(i).toBool()) {
+		valueDescriptionButton->setChecked(true);
+		valueDescriptionEdit->setText(preset.at(i + 1).toString());
+	} else {
+		columnDescriptionButton->setChecked(true);
+		columnDescriptionEdit->setValue(preset.at(i + 1).toInt());
+	}
+	i += 2;
+	if(preset.at(i).toBool()) {
+		valueCostButton->setChecked(true);
+		valueCostEdit->setValue(preset.at(i + 1).toDouble());
+	} else {
+		columnCostButton->setChecked(true);
+		columnCostEdit->setValue(preset.at(i + 1).toInt());
+	}
+	i += 2;
+	if(preset.at(i).toBool()) {
+		valueValueButton->setChecked(true);
+		valueValueEdit->setValue(preset.at(i + 1).toDouble());
+	} else {
+		columnValueButton->setChecked(true);
+		columnValueEdit->setValue(preset.at(i + 1).toInt());
+	}
+	i += 2;
+	if(preset.at(i).toBool()) {
+		valueAC1Button->setChecked(true);
+		qlonglong id = preset.at(i + 1).toLongLong();
+		bool b = false;
+		for(int acc_i = 0; acc_i < valueAC1Edit->count(); acc_i++) {
+			if(((Account*)  valueAC1Edit->itemData(acc_i).value<void*>())->id() == id) {
+				valueAC1Edit->setCurrentIndex(acc_i);
+				b = true;
+				break;
+			}
+		}
+		if(!b) valueAC1Edit->setCurrentIndex(0);
+		id = preset.at(i + 2).toLongLong();
+		b = false;
+		for(int acc_i = 0; acc_i < valueAC1IncomeEdit->count(); acc_i++) {
+			if(((Account*)  valueAC1IncomeEdit->itemData(acc_i).value<void*>())->id() == id) {
+				valueAC1IncomeEdit->setCurrentIndex(acc_i);
+				b = true;
+				break;
+			}
+		}
+		if(!b) valueAC1IncomeEdit->setCurrentIndex(0);
+	} else {
+		columnAC1Button->setChecked(true);
+		columnAC1Edit->setValue(preset.at(i + 1).toInt());
+	}
+	i += 3;
+	if(preset.at(i).toBool()) {
+		valueAC2Button->setChecked(true);
+		qlonglong id = preset.at(i + 1).toLongLong();
+		bool b = false;
+		for(int acc_i = 0; acc_i < valueAC2Edit->count(); acc_i++) {
+			if(((Account*)  valueAC2Edit->itemData(acc_i).value<void*>())->id() == id) {
+				valueAC2Edit->setCurrentIndex(acc_i);
+				b = true;
+				break;
+			}
+		}
+		if(!b) valueAC2Edit->setCurrentIndex(0);
+	} else {
+		columnAC2Button->setChecked(true);
+		columnAC2Edit->setValue(preset.at(i + 1).toInt());
+	}
+	i += 2;
+	if(b_extra) {
+		if(preset.at(i).toBool()) {
+			valueQuantityButton->setChecked(true);
+			valueQuantityEdit->setValue(preset.at(i + 1).toDouble());
+		} else {
+			columnQuantityButton->setChecked(true);
+			columnQuantityEdit->setValue(preset.at(i + 1).toInt());
+		}
+		i += 2;
+		if(preset.at(i).toBool()) {
+			valuePayeeButton->setChecked(true);
+			valuePayeeEdit->setText(preset.at(i + 1).toString());
+		} else {
+			columnPayeeButton->setChecked(true);
+			columnPayeeEdit->setValue(preset.at(i + 1).toInt());
+		}
+		i += 2;
+	} else {
+		i += 4;
+	}
+	if(preset.at(i).toBool()) {
+		valueTagsButton->setChecked(true);
+		valueTagsEdit->setText(preset.at(i + 1).toString());
+	} else {
+		columnTagsButton->setChecked(true);
+		columnTagsEdit->setValue(preset.at(i + 1).toInt());
+	}
+	i += 2;
+	if(preset.at(i).toBool()) {
+		valueCommentsButton->setChecked(true);
+		valueCommentsEdit->setText(preset.at(i + 1).toString());
+	} else {
+		columnCommentsButton->setChecked(true);
+		columnCommentsEdit->setValue(preset.at(i + 1).toInt());
+	}
+	i += 2;
+	createMissingButton->setChecked(preset.at(i).toBool());
+}
+void ImportCSVDialog::savePreset() {
+	QDialog *dialog = new QDialog(this, 0);
+	dialog->setWindowTitle(tr("Save Preset"));
+	QVBoxLayout *box1 = new QVBoxLayout(dialog);
+	QComboBox *presetEdit = new QComboBox(dialog);
+	presetEdit->setEditable(true);
+	for(QMap<QString, QVariant>::const_iterator it = presets.constBegin(); it != presets.constEnd(); ++it) {
+		presetEdit->addItem(it.key());
+	}
+	presetEdit->setCurrentText(s_preset);
+	box1->addWidget(presetEdit);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
+	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
+	box1->addWidget(buttonBox);
+	if(dialog->exec() == QDialog::Accepted) {
+		QList<QVariant> preset;
+		s_preset = presetEdit->currentText();
+		preset << typeGroup->checkedId();
+		preset << fileEdit->text();
+		preset << rowEdit->value();
+		switch(delimiterCombo->currentIndex()) {
+			case 0: {preset << ","; break;}
+			case 1: {preset << "\t"; break;}
+			case 2: {preset << ";"; break;}
+			case 3: {preset << " "; break;}
+			default: {preset << delimiterEdit->text();}
+		}
+		if(valueDateButton->isChecked()) {
+			preset << true;
+			preset << valueDateEdit->date();
+		} else {
+			preset << false;
+			preset << columnDateEdit->value();
+		}
+		if(valueDescriptionButton->isChecked()) {
+			preset << true;
+			preset << valueDescriptionEdit->text();
+		} else {
+			preset << false;
+			preset << columnDescriptionEdit->value();
+		}
+		if(valueCostButton->isChecked()) {
+			preset << true;
+			preset << valueCostEdit->value();
+		} else {
+			preset << false;
+			preset << columnCostEdit->value();
+		}
+		if(valueValueButton->isChecked()) {
+			preset << true;
+			preset << valueValueEdit->value();
+		} else {
+			preset << false;
+			preset << columnValueEdit->value();
+		}
+		if(valueAC1Button->isChecked()) {
+			preset << true;
+			if(valueAC1Edit->currentIndex() >= 0) {
+				preset << ((Account*)  valueAC1Edit->currentData().value<void*>())->id();
+			} else {
+				preset << (qlonglong) 0;
+			}
+			if(valueAC1IncomeEdit->currentIndex() >= 0) {
+				preset << ((Account*)  valueAC1IncomeEdit->currentData().value<void*>())->id();
+			} else {
+				preset << (qlonglong) 0;
+			}
+		} else {
+			preset << false;
+			preset << columnAC1Edit->value();
+			preset << 0;
+		}
+		if(valueAC2Button->isChecked()) {
+			preset << true;
+			if(valueAC2Edit->currentIndex() >= 0) {
+				preset << ((Account*)  valueAC2Edit->currentData().value<void*>())->id();
+			} else {
+				preset << (qlonglong) 0;
+			}
+		} else {
+			preset << false;
+			preset << columnAC2Edit->value();
+		}
+		if(b_extra) {
+			if(valueQuantityButton->isChecked()) {
+				preset << true;
+				preset << valueQuantityEdit->value();
+			} else {
+				preset << false;
+				preset << columnQuantityEdit->value();
+			}
+			if(valuePayeeButton->isChecked()) {
+				preset << true;
+				preset << valuePayeeEdit->text();
+			} else {
+				preset << false;
+				preset << columnPayeeEdit->value();
+			}
+		} else {
+			preset << false;
+			preset << 1;
+			preset << false;
+			preset << 1;
+		}
+		if(valueTagsButton->isChecked()) {
+			preset << true;
+			preset << valueTagsEdit->text();
+		} else {
+			preset << false;
+			preset << columnTagsEdit->value();
+		}
+		if(valueCommentsButton->isChecked()) {
+			preset << true;
+			preset << valueCommentsEdit->text();
+		} else {
+			preset << false;
+			preset << columnCommentsEdit->value();
+		}
+		preset << createMissingButton->isChecked();
+		presets[s_preset] = preset;
+		if(presetEdit->currentIndex() >= 0) {
+			presetCombo->setCurrentIndex(presetEdit->currentIndex());
+		} else {
+			presetCombo->addItem(s_preset);
+			presetCombo->setCurrentIndex(presetCombo->count() - 1);
+		}
+		QSettings settings;
+		settings.beginGroup("GeneralOptions");
+		settings.setValue("CSVPresets", presets);
+	}
+	dialog->deleteLater();
+}
 void ImportCSVDialog::onFileChanged(const QString &str) {
 	((QIFWizardPage*) page(1))->setComplete(!str.isEmpty());
 }
@@ -430,7 +724,7 @@ void ImportCSVDialog::typeChanged(int id) {
 	if(id < 5) {
 		for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 			AssetsAccount *aa = *it;
-			if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC2Edit->addItem(aa->name(), qVariantFromValue((void*) aa));
+			if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC2Edit->addItem(aa->nameWithParent(), qVariantFromValue((void*) aa));
 		}
 	}
 	if(b_extra) {
@@ -506,7 +800,7 @@ void ImportCSVDialog::typeChanged(int id) {
 			if(b_extra) payeeLabel->setText(tr("Payee:"));
 			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 				ExpensesAccount *ea = *it;
-				valueAC1Edit->addItem(ea->name(), qVariantFromValue((void*) ea));
+				valueAC1Edit->addItem(ea->nameWithParent(), qVariantFromValue((void*) ea));
 			}
 			break;
 		}
@@ -518,7 +812,7 @@ void ImportCSVDialog::typeChanged(int id) {
 			if(b_extra) payeeLabel->setText(tr("Payer:"));
 			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 				IncomesAccount *ia = *it;
-				valueAC1Edit->addItem(ia->name(), qVariantFromValue((void*) ia));
+				valueAC1Edit->addItem(ia->nameWithParent(), qVariantFromValue((void*) ia));
 			}
 			break;
 		}
@@ -529,7 +823,7 @@ void ImportCSVDialog::typeChanged(int id) {
 			AC2Label->setText(tr("To account:"));
 			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 				AssetsAccount *aa = *it;
-				if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC1Edit->addItem(aa->name(), qVariantFromValue((void*) *it));
+				if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC1Edit->addItem(aa->nameWithParent(), qVariantFromValue((void*) *it));
 			}
 			break;
 		}
@@ -540,11 +834,11 @@ void ImportCSVDialog::typeChanged(int id) {
 			AC2Label->setText(tr("Account:"));
 			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 				ExpensesAccount *ea = *it;
-				valueAC1Edit->addItem(ea->name(), qVariantFromValue((void*) ea));
+				valueAC1Edit->addItem(ea->nameWithParent(), qVariantFromValue((void*) ea));
 			}
 			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 				IncomesAccount *ia = *it;
-				valueAC1IncomeEdit->addItem(ia->name(), qVariantFromValue((void*) ia));
+				valueAC1IncomeEdit->addItem(ia->nameWithParent(), qVariantFromValue((void*) ia));
 			}
 			if(b_extra) payeeLabel->setText(tr("Payee/payer:"));
 			break;
@@ -556,11 +850,11 @@ void ImportCSVDialog::typeChanged(int id) {
 			AC2Label->setText(tr("Account:"));
 			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 				ExpensesAccount *ea = *it;
-				valueAC1Edit->addItem(ea->name(), qVariantFromValue((void*) ea));
+				valueAC1Edit->addItem(ea->nameWithParent(), qVariantFromValue((void*) ea));
 			}
 			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 				IncomesAccount *ia = *it;
-				valueAC1IncomeEdit->addItem(ia->name(), qVariantFromValue((void*) ia));
+				valueAC1IncomeEdit->addItem(ia->nameWithParent(), qVariantFromValue((void*) ia));
 			}
 			if(b_extra) payeeLabel->setText(tr("Payee/payer:"));
 			break;

@@ -398,24 +398,14 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
 	QFontMetrics fm(transactionsView->font());
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
-	int w1 = fm.horizontalAdvance(tr("Type")) + 26;
-	int w2 = fm.horizontalAdvance(tr("Income")) + 10;
-	int w3 = fm.horizontalAdvance(tr("Expense")) + 10;
-#else
-	int w1 = fm.width(tr("Type")) + 26;
-	int w2 = fm.width(tr("Income")) + 10;
-	int w3 = fm.width(tr("Expense")) + 10;
-#endif
+	int w1 = fm.boundingRect(tr("Type")).width() + 26;
+	int w2 = fm.boundingRect(tr("Income")).width() + 10;
+	int w3 = fm.boundingRect(tr("Expense")).width() + 10;
 	if(w2 > w1) w1 = w2;
 	if(w3 > w1) w1 = w3;
 	transactionsView->setColumnWidth(0, w1);
 	setColumnStrlenWidth(transactionsView, 1, 15);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
-	w1 = fm.horizontalAdvance(tr("Account/Category")) + 26;
-#else
-	w1 = fm.width(tr("Account/Category")) + 26;
-#endif
+	w1 = fm.boundingRect(tr("Account/Category")).width() + 26;
 	transactionsView->setColumnWidth(2, w1);
 	setColumnMoneyWidth(transactionsView, 3, budget);
 	transactionsView->setMinimumWidth(transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) +  transactionsView->columnWidth(3) + 10);
