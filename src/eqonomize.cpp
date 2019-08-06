@@ -7533,7 +7533,7 @@ void Eqonomize::balanceAccount(Account *i_account) {
 	dialog->setWindowTitle(tr("Adjust Account Balance"));
 	dialog->setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
-	box1->setSpacing(18);
+	box1->setSpacing(12);
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 	grid->setSpacing(6);
@@ -7901,9 +7901,8 @@ void Eqonomize::deleteAccount() {
 			dialog->setWindowTitle(tr("Move transactions?"));
 			dialog->setModal(true);
 			QVBoxLayout *box1 = new QVBoxLayout(dialog);
+			box1->setSpacing(12);
 			QGridLayout *grid = new QGridLayout();
-			grid->setSpacing(12);
-			grid->setMargin(6);
 			box1->addLayout(grid);
 			group = new QButtonGroup(dialog);
 			QLabel *label = NULL;

@@ -94,21 +94,14 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	typeDescriptionLabel = new QLabel(page1);
 	typeDescriptionLabel->setWordWrap(true);
 	layout1->addWidget(typeDescriptionLabel);
+	layout1->addItem(new QSpacerItem(1, 1, QSizePolicy::Minimum, QSizePolicy::Expanding));
+	
 	QHBoxLayout *layoutPreset = new QHBoxLayout();
 	presetLabel = new QLabel(tr("Presets:"));
-	layoutPreset->addStretch(1);
 	layoutPreset->addWidget(presetLabel);
 	presetCombo = new QComboBox();
+	presetCombo->setMinimumContentsLength(20);
 	presetCombo->setEditable(false);
-	layoutPreset->addWidget(presetCombo);
-	layout1->addLayout(layoutPreset);
-	layout1->addItem(new QSpacerItem(1, 1, QSizePolicy::Minimum, QSizePolicy::Expanding));
-
-	QIFWizardPage *page2 = new QIFWizardPage();
-	page2->setTitle(tr("File Selection"));
-	setPage(1, page2);
-	QGridLayout *layout2 = new QGridLayout(page2);
-	
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 	presets = settings.value("CSVPresets").toMap();
@@ -117,6 +110,14 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	}
 	if(presetCombo->count() == 0) presetCombo->setEnabled(false);
 	else presetCombo->setCurrentIndex(-1);
+	layoutPreset->addWidget(presetCombo);
+	layoutPreset->addStretch(1);
+	layout1->addLayout(layoutPreset);
+
+	QIFWizardPage *page2 = new QIFWizardPage();
+	page2->setTitle(tr("File Selection"));
+	setPage(1, page2);
+	QGridLayout *layout2 = new QGridLayout(page2);
 
 	layout2->addWidget(new QLabel(tr("File:"), page2), 0, 0);
 	QHBoxLayout *layout2h = new QHBoxLayout();
@@ -363,7 +364,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	
 	QHBoxLayout *layoutPreset2 = new QHBoxLayout();
 	layoutPreset2->addStretch(1);
-	savePresetButton = new QPushButton(QString("Save as preset"), page3);
+	savePresetButton = new QPushButton(QString("Save as preset…"), page3);
 	layoutPreset2->addWidget(savePresetButton);
 	layout3->addLayout(layoutPreset2, row, 0, 1, 5);
 	row++;
@@ -565,6 +566,7 @@ void ImportCSVDialog::savePreset() {
 	dialog->setWindowTitle(tr("Save Preset"));
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
 	QComboBox *presetEdit = new QComboBox(dialog);
+	presetEdit->setMinimumContentsLength(20);
 	presetEdit->setEditable(true);
 	for(QMap<QString, QVariant>::const_iterator it = presets.constBegin(); it != presets.constEnd(); ++it) {
 		presetEdit->addItem(it.key());
