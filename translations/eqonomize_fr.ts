@@ -6059,7 +6059,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <location filename="../src/eqonomize.cpp" line="4386"/>
         <location filename="../src/eqonomize.cpp" line="6205"/>
         <location filename="../src/eqonomize.cpp" line="6571"/>
-        <location filename="../src/eqonomize.cpp" line="8060"/>
+        <location filename="../src/eqonomize.cpp" line="8059"/>
         <source>Tags</source>
         <translation type="unfinished">Étiquettes</translation>
     </message>
@@ -6539,23 +6539,23 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <translation type="unfinished">Enlever l&apos;étiquette</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8079"/>
+        <location filename="../src/eqonomize.cpp" line="8078"/>
         <source>New Tag</source>
         <translation type="unfinished">Nouvelle étiquette</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8079"/>
-        <location filename="../src/eqonomize.cpp" line="8140"/>
+        <location filename="../src/eqonomize.cpp" line="8078"/>
+        <location filename="../src/eqonomize.cpp" line="8139"/>
         <source>Tag name:</source>
         <translation type="unfinished">Nom de l&apos;étiquette:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8111"/>
+        <location filename="../src/eqonomize.cpp" line="8110"/>
         <source>Remove tag?</source>
         <translation type="unfinished">Enlever l&apos;étiquette?</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/eqonomize.cpp" line="8111"/>
+        <location filename="../src/eqonomize.cpp" line="8110"/>
         <source>Do you wish to remove the tag &quot;%1&quot; from %n transaction(s)?</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -6563,7 +6563,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         </translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8140"/>
+        <location filename="../src/eqonomize.cpp" line="8139"/>
         <source>Rename Tag</source>
         <translation type="unfinished">Eenommer l&apos;étiquette</translation>
     </message>
@@ -6726,8 +6726,8 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="6536"/>
-        <location filename="../src/eqonomize.cpp" line="8038"/>
-        <location filename="../src/eqonomize.cpp" line="9678"/>
+        <location filename="../src/eqonomize.cpp" line="8037"/>
+        <location filename="../src/eqonomize.cpp" line="9677"/>
         <source>Close Account</source>
         <comment>Mark account as closed</comment>
         <translation>Fermer le compte</translation>
@@ -6778,8 +6778,8 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8035"/>
-        <location filename="../src/eqonomize.cpp" line="9674"/>
+        <location filename="../src/eqonomize.cpp" line="8034"/>
+        <location filename="../src/eqonomize.cpp" line="9673"/>
         <source>Reopen Account</source>
         <comment>Mark account as not closed</comment>
         <translation>Réouvrir le compte</translation>
@@ -7909,69 +7909,69 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation>Bouger les transactions?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7910"/>
+        <location filename="../src/eqonomize.cpp" line="7909"/>
         <source>Move to:</source>
         <translation>Bouger vers:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7912"/>
+        <location filename="../src/eqonomize.cpp" line="7911"/>
         <source>Remove irreversibly from all accounts
 (do not do this if account has been closed!)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7919"/>
+        <location filename="../src/eqonomize.cpp" line="7918"/>
         <source>The category contains some expenses.
 What do you want to do with them?</source>
         <translation>La catégorie contient quelques dépenses.
 Que voulez-vous faire d&apos;elles?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7930"/>
+        <location filename="../src/eqonomize.cpp" line="7929"/>
         <source>The category contains some incomes.
 What do you want to do with them?</source>
         <translation>La catégorie contient quelques revenus.
 Que voulez-vous faire d&apos;eux?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7941"/>
+        <location filename="../src/eqonomize.cpp" line="7940"/>
         <source>The account contains some transactions.
 What do you want to do with them?</source>
         <translation>Ce compte contient plusieurs transactions.
 Que voulez vous en faire ?</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="7968"/>
         <location filename="../src/eqonomize.cpp" line="7969"/>
-        <location filename="../src/eqonomize.cpp" line="7970"/>
         <source>Remove Category?</source>
         <translation>Enlever la catégorie?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7969"/>
+        <location filename="../src/eqonomize.cpp" line="7968"/>
         <source>The category contains some expenses that will be removed. Do you still want to remove the category?</source>
         <translation>La catégorie contient quelques dépenses qui seront enlevées. Voulez-vous toujours enlever cette catégorie?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7970"/>
+        <location filename="../src/eqonomize.cpp" line="7969"/>
         <source>The category contains some incomes that will be removed. Do you still want to remove the category?</source>
         <translation>La catégorie contient quelques revenus qui seront supprimés. Voulez-vous toujours enlever cette catégorie?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7971"/>
+        <location filename="../src/eqonomize.cpp" line="7970"/>
         <source>Remove Account?</source>
         <translation>Enlever le compte?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7971"/>
+        <location filename="../src/eqonomize.cpp" line="7970"/>
         <source>The account contains some transactions that will be removed. Do you still want to remove the account?</source>
         <translation>Ce compte contient plusieurs transactions qui seront enlevées. Voulez vous toujours enlever ce compte ?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1959"/>
-        <location filename="../src/eqonomize.cpp" line="9173"/>
-        <location filename="../src/eqonomize.cpp" line="9198"/>
+        <location filename="../src/eqonomize.cpp" line="9172"/>
+        <location filename="../src/eqonomize.cpp" line="9197"/>
+        <location filename="../src/eqonomize.cpp" line="9527"/>
         <location filename="../src/eqonomize.cpp" line="9528"/>
-        <location filename="../src/eqonomize.cpp" line="9529"/>
         <source>%2 of %1</source>
         <comment>%1: budget; %2: remaining budget</comment>
         <translation>%2 de %1</translation>
@@ -8037,14 +8037,14 @@ Que voulez vous en faire ?</translation>
         <translation type="obsolete">Éditer les quotations…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9634"/>
-        <location filename="../src/eqonomize.cpp" line="9658"/>
+        <location filename="../src/eqonomize.cpp" line="9633"/>
+        <location filename="../src/eqonomize.cpp" line="9657"/>
         <source>%1 (with no budget)</source>
         <translation>%1 (sans budget)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9635"/>
-        <location filename="../src/eqonomize.cpp" line="9659"/>
+        <location filename="../src/eqonomize.cpp" line="9634"/>
+        <location filename="../src/eqonomize.cpp" line="9658"/>
         <source>%1 (with budget %2)</source>
         <translation>%1 (avec le budget %2)</translation>
     </message>
@@ -8052,61 +8052,61 @@ Que voulez vous en faire ?</translation>
 <context>
     <name>EqonomizeTranslator</name>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9992"/>
+        <location filename="../src/eqonomize.cpp" line="9991"/>
         <source>OK</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9994"/>
+        <location filename="../src/eqonomize.cpp" line="9993"/>
         <source>Cancel</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9996"/>
+        <location filename="../src/eqonomize.cpp" line="9995"/>
         <source>Close</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9998"/>
+        <location filename="../src/eqonomize.cpp" line="9997"/>
         <source>&amp;Yes</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10000"/>
+        <location filename="../src/eqonomize.cpp" line="9999"/>
         <source>&amp;No</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10002"/>
+        <location filename="../src/eqonomize.cpp" line="10001"/>
         <source>&amp;Open</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10004"/>
+        <location filename="../src/eqonomize.cpp" line="10003"/>
         <source>&amp;Save</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10006"/>
+        <location filename="../src/eqonomize.cpp" line="10005"/>
         <source>Look in:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10008"/>
+        <location filename="../src/eqonomize.cpp" line="10007"/>
         <source>File &amp;name:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10010"/>
+        <location filename="../src/eqonomize.cpp" line="10009"/>
         <source>Files of type:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
@@ -8252,99 +8252,129 @@ Que voulez vous en faire ?</translation>
 <context>
     <name>ImportCSVDialog</name>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="63"/>
+        <location filename="../src/importcsvdialog.cpp" line="64"/>
         <source>Import CSV file</source>
         <translation>Importer le fichier CSV</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="67"/>
+        <location filename="../src/importcsvdialog.cpp" line="68"/>
         <source>Transaction Type Selection</source>
         <translation>Choix du type de transaction</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="73"/>
+        <location filename="../src/importcsvdialog.cpp" line="74"/>
         <source>Expenses</source>
         <translation>Dépenses</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="78"/>
+        <location filename="../src/importcsvdialog.cpp" line="79"/>
         <source>Incomes</source>
         <translation>Revenus</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="81"/>
+        <location filename="../src/importcsvdialog.cpp" line="82"/>
         <source>Transfers</source>
         <translation>Transferts</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="84"/>
+        <location filename="../src/importcsvdialog.cpp" line="85"/>
         <source>Expenses and incomes (negative cost)</source>
         <translation>Dépenses et revenus (coût négatif)</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="87"/>
+        <location filename="../src/importcsvdialog.cpp" line="88"/>
         <source>Expenses and incomes (separate columns)</source>
         <translation>Dépenses et revenus (colonnes séparées)</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="90"/>
+        <location filename="../src/importcsvdialog.cpp" line="91"/>
         <source>All types</source>
         <translation>Tous types</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="99"/>
+        <location filename="../src/importcsvdialog.cpp" line="100"/>
+        <source>Presets:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="118"/>
         <source>File Selection</source>
         <translation>Sélection de fichier</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="103"/>
+        <location filename="../src/importcsvdialog.cpp" line="122"/>
         <source>File:</source>
         <translation>Fichier:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="113"/>
+        <location filename="../src/importcsvdialog.cpp" line="132"/>
         <source>First data row:</source>
         <translation>Première colonne de données:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="116"/>
+        <location filename="../src/importcsvdialog.cpp" line="135"/>
         <source>Auto</source>
         <translation>Voiture</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="119"/>
+        <location filename="../src/importcsvdialog.cpp" line="138"/>
         <source>Column delimiter:</source>
         <translation>Délimiteur de colonne:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="122"/>
+        <location filename="../src/importcsvdialog.cpp" line="141"/>
         <source>Comma</source>
         <translation>Virgule</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="123"/>
+        <location filename="../src/importcsvdialog.cpp" line="142"/>
         <source>Tabulator</source>
         <translation>Tabulation</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="124"/>
+        <location filename="../src/importcsvdialog.cpp" line="143"/>
         <source>Semicolon</source>
         <translation>Point virgule</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="125"/>
+        <location filename="../src/importcsvdialog.cpp" line="144"/>
         <source>Space</source>
         <translation>Espace</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="126"/>
+        <location filename="../src/importcsvdialog.cpp" line="145"/>
         <source>Other</source>
         <translation>Autre</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="134"/>
+        <location filename="../src/importcsvdialog.cpp" line="153"/>
         <source>Columns Specification</source>
         <translation>Spécification de la colonne</translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="367"/>
+        <source>Save as preset…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="834"/>
+        <source>Imports data as expenses and incomes. Costs have negative value. Value is the only required column.</source>
+        <translation type="unfinished">Importe les données comme des dépenses et des revenus. Les coûts ont une valeur négative. Value est la seule colonne requise.</translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="850"/>
+        <source>Imports data as expenses and incomes. Costs and incomes have separate columns. Income and cost both all required columns.</source>
+        <translation type="unfinished">Importe les données comme des dépenses et des revenus. Les coûts ont des colonnes séparées.Les revenus et les coût sont les seules colonnes requises.</translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="1198"/>
+        <source>Warning</source>
+        <translation type="unfinished">Attention</translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="1198"/>
+        <source>The same column number is selected multiple times. Do you wish to proceed anyway?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Description:</source>
@@ -8355,237 +8385,238 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Nom générique:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="159"/>
+        <location filename="../src/importcsvdialog.cpp" line="178"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation>Description :</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="142"/>
         <location filename="../src/importcsvdialog.cpp" line="161"/>
         <location filename="../src/importcsvdialog.cpp" line="180"/>
         <location filename="../src/importcsvdialog.cpp" line="199"/>
         <location filename="../src/importcsvdialog.cpp" line="218"/>
-        <location filename="../src/importcsvdialog.cpp" line="238"/>
-        <location filename="../src/importcsvdialog.cpp" line="260"/>
-        <location filename="../src/importcsvdialog.cpp" line="279"/>
-        <location filename="../src/importcsvdialog.cpp" line="300"/>
-        <location filename="../src/importcsvdialog.cpp" line="318"/>
+        <location filename="../src/importcsvdialog.cpp" line="237"/>
+        <location filename="../src/importcsvdialog.cpp" line="261"/>
+        <location filename="../src/importcsvdialog.cpp" line="283"/>
+        <location filename="../src/importcsvdialog.cpp" line="302"/>
+        <location filename="../src/importcsvdialog.cpp" line="323"/>
+        <location filename="../src/importcsvdialog.cpp" line="341"/>
         <source>Column</source>
         <translation>Colonne</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="150"/>
         <location filename="../src/importcsvdialog.cpp" line="169"/>
         <location filename="../src/importcsvdialog.cpp" line="188"/>
         <location filename="../src/importcsvdialog.cpp" line="207"/>
         <location filename="../src/importcsvdialog.cpp" line="226"/>
-        <location filename="../src/importcsvdialog.cpp" line="246"/>
-        <location filename="../src/importcsvdialog.cpp" line="268"/>
-        <location filename="../src/importcsvdialog.cpp" line="287"/>
-        <location filename="../src/importcsvdialog.cpp" line="308"/>
-        <location filename="../src/importcsvdialog.cpp" line="326"/>
+        <location filename="../src/importcsvdialog.cpp" line="245"/>
+        <location filename="../src/importcsvdialog.cpp" line="269"/>
+        <location filename="../src/importcsvdialog.cpp" line="291"/>
+        <location filename="../src/importcsvdialog.cpp" line="310"/>
+        <location filename="../src/importcsvdialog.cpp" line="331"/>
+        <location filename="../src/importcsvdialog.cpp" line="349"/>
         <source>Value</source>
         <translation>Valeur</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="177"/>
         <location filename="../src/importcsvdialog.cpp" line="196"/>
-        <location filename="../src/importcsvdialog.cpp" line="496"/>
+        <location filename="../src/importcsvdialog.cpp" line="215"/>
+        <location filename="../src/importcsvdialog.cpp" line="800"/>
         <source>Cost:</source>
         <translation>Coût:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="140"/>
+        <location filename="../src/importcsvdialog.cpp" line="159"/>
         <source>Date:</source>
         <translation>Date:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="215"/>
-        <location filename="../src/importcsvdialog.cpp" line="497"/>
-        <location filename="../src/importcsvdialog.cpp" line="509"/>
-        <location filename="../src/importcsvdialog.cpp" line="536"/>
-        <location filename="../src/importcsvdialog.cpp" line="548"/>
+        <location filename="../src/importcsvdialog.cpp" line="234"/>
+        <location filename="../src/importcsvdialog.cpp" line="801"/>
+        <location filename="../src/importcsvdialog.cpp" line="813"/>
+        <location filename="../src/importcsvdialog.cpp" line="836"/>
+        <location filename="../src/importcsvdialog.cpp" line="852"/>
         <source>Category:</source>
         <translation>Catégorie:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="235"/>
-        <location filename="../src/importcsvdialog.cpp" line="498"/>
-        <location filename="../src/importcsvdialog.cpp" line="521"/>
+        <location filename="../src/importcsvdialog.cpp" line="258"/>
+        <location filename="../src/importcsvdialog.cpp" line="802"/>
+        <location filename="../src/importcsvdialog.cpp" line="825"/>
         <source>From account:</source>
         <translation>Compte de:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="257"/>
+        <location filename="../src/importcsvdialog.cpp" line="280"/>
         <source>Quantity:</source>
         <translation>Quantité:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="276"/>
-        <location filename="../src/importcsvdialog.cpp" line="499"/>
+        <location filename="../src/importcsvdialog.cpp" line="299"/>
+        <location filename="../src/importcsvdialog.cpp" line="803"/>
         <source>Payee:</source>
         <translation>Bénéficiaire:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="297"/>
+        <location filename="../src/importcsvdialog.cpp" line="320"/>
         <source>Tags:</source>
         <translation type="unfinished">Étiquettes:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="316"/>
+        <location filename="../src/importcsvdialog.cpp" line="339"/>
         <source>Comments:</source>
         <translation>Commentaires:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="336"/>
+        <location filename="../src/importcsvdialog.cpp" line="359"/>
         <source>Create missing categories and accounts</source>
         <translation>Crée les comptes et catégories manquante</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="495"/>
+        <location filename="../src/importcsvdialog.cpp" line="566"/>
+        <source>Save Preset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="799"/>
         <source>Imports data as expenses. Costs have positive value. Value is the only required column.</source>
         <translation>Importe les données comme des dépenses. Les coûts ont une valeur positive. Le valeur est la seule colonne requise.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="507"/>
+        <location filename="../src/importcsvdialog.cpp" line="811"/>
         <source>Imports data as incomes. Value is the only required column.</source>
         <translation>Importe les données comme des revenus. Value est la seule colonne requise.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="508"/>
-        <location filename="../src/importcsvdialog.cpp" line="547"/>
+        <location filename="../src/importcsvdialog.cpp" line="812"/>
+        <location filename="../src/importcsvdialog.cpp" line="851"/>
         <source>Income:</source>
         <translation>Revenu:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="510"/>
-        <location filename="../src/importcsvdialog.cpp" line="522"/>
+        <location filename="../src/importcsvdialog.cpp" line="814"/>
+        <location filename="../src/importcsvdialog.cpp" line="826"/>
         <source>To account:</source>
         <translation>Vers le compte:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="511"/>
+        <location filename="../src/importcsvdialog.cpp" line="815"/>
         <source>Payer:</source>
         <translation>Débiteur:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="519"/>
+        <location filename="../src/importcsvdialog.cpp" line="823"/>
         <source>Imports data as transfers. Value is the only required column.</source>
         <translation>Importer les données comme des transferts. Value est la seule colonne requise.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="520"/>
+        <location filename="../src/importcsvdialog.cpp" line="824"/>
         <source>Amount:</source>
         <translation>Quantité:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="530"/>
         <source>Imports data as expenses and incomes. Costs have negative value. Value and category are both required columns.</source>
-        <translation>Importe les données comme des dépenses et des revenus. Les coûts ont une valeur négative. La valeur et la catégorie sont les seules colonnes requises.</translation>
+        <translation type="vanished">Importe les données comme des dépenses et des revenus. Les coûts ont une valeur négative. La valeur et la catégorie sont les seules colonnes requises.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="535"/>
-        <location filename="../src/importcsvdialog.cpp" line="563"/>
+        <location filename="../src/importcsvdialog.cpp" line="835"/>
+        <location filename="../src/importcsvdialog.cpp" line="875"/>
         <source>Value:</source>
         <translation>Valeur:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="537"/>
-        <location filename="../src/importcsvdialog.cpp" line="549"/>
+        <location filename="../src/importcsvdialog.cpp" line="837"/>
+        <location filename="../src/importcsvdialog.cpp" line="853"/>
         <source>Account:</source>
         <translation>Compte:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="538"/>
-        <location filename="../src/importcsvdialog.cpp" line="550"/>
-        <location filename="../src/importcsvdialog.cpp" line="566"/>
+        <location filename="../src/importcsvdialog.cpp" line="846"/>
+        <location filename="../src/importcsvdialog.cpp" line="862"/>
+        <location filename="../src/importcsvdialog.cpp" line="878"/>
         <source>Payee/payer:</source>
         <translation>Bénéficiaire/créditeur :</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="542"/>
         <source>Imports data as expenses and incomes. Costs and incomes have separate columns. Income, cost, and category are all required columns.</source>
-        <translation>Importe les données comme des dépenses et des revenus. Les coûts ont des colonnes séparées. Revenus, coût, et la catégorie sont les seules colonnes requises.</translation>
+        <translation type="vanished">Importe les données comme des dépenses et des revenus. Les coûts ont des colonnes séparées. Revenus, coût, et la catégorie sont les seules colonnes requises.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="554"/>
+        <location filename="../src/importcsvdialog.cpp" line="866"/>
         <source>Imports data as expenses, incomes, and transfers. Costs have negative or positive value. Value, to, and from are all required columns. Accounts and categories must be existing.</source>
         <translation>Importe les données comme dépenses, revenus et transferts. Les coûts ont une valeur négative ou positive. Toutes les valeurs sont requises. Comptes et catégories doivent exister.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="564"/>
+        <location filename="../src/importcsvdialog.cpp" line="876"/>
         <source>From:</source>
         <translation>De:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="565"/>
+        <location filename="../src/importcsvdialog.cpp" line="877"/>
         <source>To:</source>
         <translation>A:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="592"/>
-        <location filename="../src/importcsvdialog.cpp" line="598"/>
-        <location filename="../src/importcsvdialog.cpp" line="602"/>
-        <location filename="../src/importcsvdialog.cpp" line="608"/>
-        <location filename="../src/importcsvdialog.cpp" line="880"/>
-        <location filename="../src/importcsvdialog.cpp" line="914"/>
-        <location filename="../src/importcsvdialog.cpp" line="922"/>
-        <location filename="../src/importcsvdialog.cpp" line="937"/>
-        <location filename="../src/importcsvdialog.cpp" line="940"/>
-        <location filename="../src/importcsvdialog.cpp" line="1434"/>
-        <location filename="../src/importcsvdialog.cpp" line="1445"/>
+        <location filename="../src/importcsvdialog.cpp" line="910"/>
+        <location filename="../src/importcsvdialog.cpp" line="916"/>
+        <location filename="../src/importcsvdialog.cpp" line="920"/>
+        <location filename="../src/importcsvdialog.cpp" line="926"/>
+        <location filename="../src/importcsvdialog.cpp" line="1234"/>
+        <location filename="../src/importcsvdialog.cpp" line="1242"/>
+        <location filename="../src/importcsvdialog.cpp" line="1257"/>
+        <location filename="../src/importcsvdialog.cpp" line="1260"/>
+        <location filename="../src/importcsvdialog.cpp" line="1754"/>
+        <location filename="../src/importcsvdialog.cpp" line="1765"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="592"/>
+        <location filename="../src/importcsvdialog.cpp" line="910"/>
         <source>A file must be selected.</source>
         <translation>Vous devez sélectionner un fichier.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="598"/>
+        <location filename="../src/importcsvdialog.cpp" line="916"/>
         <source>Selected file is a directory.</source>
         <translation>Le fichier sélectionné est un dossier.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="602"/>
+        <location filename="../src/importcsvdialog.cpp" line="920"/>
         <source>Selected file does not exist.</source>
         <translation>Le fichier sélectionné n&apos;existe pas.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="608"/>
+        <location filename="../src/importcsvdialog.cpp" line="926"/>
         <source>Empty delimiter.</source>
         <translation>Délimiteur vide.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="880"/>
         <source>The same column number is selected multiple times.</source>
-        <translation>Le même numéro de colonne est sélectionné plusieurs fois.</translation>
+        <translation type="vanished">Le même numéro de colonne est sélectionné plusieurs fois.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="914"/>
+        <location filename="../src/importcsvdialog.cpp" line="1234"/>
         <source>Selected from account is the same as the to account.</source>
         <translation>Le compte de destination est le même que le compte source.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="922"/>
-        <location filename="../src/importcsvdialog.cpp" line="1422"/>
+        <location filename="../src/importcsvdialog.cpp" line="1242"/>
+        <location filename="../src/importcsvdialog.cpp" line="1742"/>
         <source>Invalid date.</source>
         <translation>Date invalide.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="937"/>
+        <location filename="../src/importcsvdialog.cpp" line="1257"/>
         <source>Couldn&apos;t open %1 for reading.</source>
         <translation>Impossible d&apos; ouvrir le fichier %1 en lecture.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="940"/>
+        <location filename="../src/importcsvdialog.cpp" line="1260"/>
         <source>Error reading %1.</source>
         <translation>Erreur lors de la lecture de %1.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1413"/>
+        <location filename="../src/importcsvdialog.cpp" line="1733"/>
         <source>Successfully imported %n transaction(s).</source>
         <translation>
             <numerusform>%n transaction importée avec succès.</numerusform>
@@ -8593,12 +8624,12 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1415"/>
+        <location filename="../src/importcsvdialog.cpp" line="1735"/>
         <source>Unable to import any transactions.</source>
         <translation>Impossible d&apos;enregistrer les transactions importées.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1419"/>
+        <location filename="../src/importcsvdialog.cpp" line="1739"/>
         <source>Failed to import %n data row(s).</source>
         <translation>
             <numerusform>Echec à l&apos;importation de %n donnée.</numerusform>
@@ -8606,44 +8637,44 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1420"/>
+        <location filename="../src/importcsvdialog.cpp" line="1740"/>
         <source>Required columns missing.</source>
         <translation>Les colonnes nécessaires sont manquantes.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1421"/>
+        <location filename="../src/importcsvdialog.cpp" line="1741"/>
         <source>Invalid value.</source>
         <translation>Valeur invalide.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1423"/>
+        <location filename="../src/importcsvdialog.cpp" line="1743"/>
         <source>Empty category name.</source>
         <translation>Nom de catégorie vide.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1423"/>
-        <location filename="../src/importcsvdialog.cpp" line="1424"/>
+        <location filename="../src/importcsvdialog.cpp" line="1743"/>
+        <location filename="../src/importcsvdialog.cpp" line="1744"/>
         <source>Empty account name.</source>
         <translation>Nom de compte vide.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1425"/>
+        <location filename="../src/importcsvdialog.cpp" line="1745"/>
         <source>Unknown category found.</source>
         <translation>Catégorie inconnue trouvée.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1425"/>
-        <location filename="../src/importcsvdialog.cpp" line="1426"/>
+        <location filename="../src/importcsvdialog.cpp" line="1745"/>
+        <location filename="../src/importcsvdialog.cpp" line="1746"/>
         <source>Unknown account found.</source>
         <translation>Compte inconnu trouvé.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1427"/>
+        <location filename="../src/importcsvdialog.cpp" line="1747"/>
         <source>Cannot import security transactions (to/from security accounts).</source>
         <translation>Impossible d&apos;importer les transaction de titre (comptes A/De).</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1428"/>
+        <location filename="../src/importcsvdialog.cpp" line="1748"/>
         <source>Balancing account wrongly used.</source>
         <comment>Referring to the account used for adjustments of account balances.</comment>
         <translation type="unfinished">Equilibrage des comptes mal utilisé.</translation>
@@ -8653,42 +8684,42 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Equilibrage des comptes mal utilisé.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1429"/>
+        <location filename="../src/importcsvdialog.cpp" line="1749"/>
         <source>Same to and from account/category.</source>
         <translation>Même De et A compte/catégorie.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1431"/>
+        <location filename="../src/importcsvdialog.cpp" line="1751"/>
         <source>No data found.</source>
         <translation>Pas de donnée trouvée.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1436"/>
+        <location filename="../src/importcsvdialog.cpp" line="1756"/>
         <source>Information</source>
         <translation>information</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1445"/>
+        <location filename="../src/importcsvdialog.cpp" line="1765"/>
         <source>Unrecognized date format.</source>
         <translation>Format de date non reconnu.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1450"/>
+        <location filename="../src/importcsvdialog.cpp" line="1770"/>
         <source>Specify Format</source>
         <translation>Format spécifié</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1455"/>
+        <location filename="../src/importcsvdialog.cpp" line="1775"/>
         <source>The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format.</source>
         <translation>Le format des dates et/ou nombres dans le fichier CSV est ambigu. S&apos;il vous plaît sélectionner le format correct.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1460"/>
+        <location filename="../src/importcsvdialog.cpp" line="1780"/>
         <source>Date format:</source>
         <translation>Format de date:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1503"/>
+        <location filename="../src/importcsvdialog.cpp" line="1823"/>
         <source>Value format:</source>
         <translation>Format de valeur:</translation>
     </message>
@@ -9269,9 +9300,9 @@ Que voulez vous en faire ?</translation>
         <location filename="../src/ledgerdialog.cpp" line="887"/>
         <location filename="../src/ledgerdialog.cpp" line="997"/>
         <location filename="../src/ledgerdialog.cpp" line="1038"/>
-        <location filename="../src/ledgerdialog.cpp" line="1379"/>
-        <location filename="../src/ledgerdialog.cpp" line="1385"/>
-        <location filename="../src/ledgerdialog.cpp" line="1391"/>
+        <location filename="../src/ledgerdialog.cpp" line="1382"/>
+        <location filename="../src/ledgerdialog.cpp" line="1388"/>
+        <location filename="../src/ledgerdialog.cpp" line="1394"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
@@ -9355,19 +9386,19 @@ Que voulez vous en faire ?</translation>
         <translation>Êtes-vous certain de vouloir supprimer toutes (%1) les transactions sélectionnées?</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1628"/>
+        <location filename="../src/ledgerdialog.cpp" line="1631"/>
         <source>Account Balance Adjustment</source>
         <translation type="unfinished">Ajustement du solde du compte</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1670"/>
+        <location filename="../src/ledgerdialog.cpp" line="1673"/>
         <source>Current balance:</source>
         <comment>Account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="1196"/>
-        <location filename="../src/ledgerdialog.cpp" line="1670"/>
+        <location filename="../src/ledgerdialog.cpp" line="1673"/>
         <source>Average balance:</source>
         <comment>Account balance</comment>
         <translation type="unfinished"></translation>
@@ -9392,24 +9423,24 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Impossible de changer le nom des dividendes et transactions de titre.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1668"/>
+        <location filename="../src/ledgerdialog.cpp" line="1671"/>
         <source>Current debt:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1668"/>
+        <location filename="../src/ledgerdialog.cpp" line="1671"/>
         <source>Total debt reduction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1668"/>
+        <location filename="../src/ledgerdialog.cpp" line="1671"/>
         <source>Total interest and fees:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="1196"/>
         <location filename="../src/ledgerdialog.cpp" line="1197"/>
-        <location filename="../src/ledgerdialog.cpp" line="1670"/>
+        <location filename="../src/ledgerdialog.cpp" line="1673"/>
         <source>Number of transactions:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9430,16 +9461,16 @@ Que voulez vous en faire ?</translation>
         <translation type="obsolete">Équilibre initial</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1475"/>
+        <location filename="../src/ledgerdialog.cpp" line="1478"/>
         <source>Split Transaction</source>
         <translation>Transaction séparée</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="309"/>
-        <location filename="../src/ledgerdialog.cpp" line="1502"/>
-        <location filename="../src/ledgerdialog.cpp" line="1531"/>
-        <location filename="../src/ledgerdialog.cpp" line="1560"/>
-        <location filename="../src/ledgerdialog.cpp" line="1588"/>
+        <location filename="../src/ledgerdialog.cpp" line="1505"/>
+        <location filename="../src/ledgerdialog.cpp" line="1534"/>
+        <location filename="../src/ledgerdialog.cpp" line="1563"/>
+        <location filename="../src/ledgerdialog.cpp" line="1591"/>
         <source>Debt Payment</source>
         <translation type="unfinished">Payement de dette</translation>
     </message>
@@ -9449,33 +9480,33 @@ Que voulez vous en faire ?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1502"/>
+        <location filename="../src/ledgerdialog.cpp" line="1505"/>
         <source>Reduction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1531"/>
+        <location filename="../src/ledgerdialog.cpp" line="1534"/>
         <source>Fee</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1560"/>
+        <location filename="../src/ledgerdialog.cpp" line="1563"/>
         <source>Interest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1622"/>
+        <location filename="../src/ledgerdialog.cpp" line="1625"/>
         <source>Income</source>
         <translation>Revenu</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1623"/>
+        <location filename="../src/ledgerdialog.cpp" line="1626"/>
         <source>Repayment</source>
         <translation>Remboursement</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="300"/>
-        <location filename="../src/ledgerdialog.cpp" line="1625"/>
+        <location filename="../src/ledgerdialog.cpp" line="1628"/>
         <source>Expense</source>
         <translation>Dépense</translation>
     </message>
@@ -9503,31 +9534,31 @@ Que voulez vous en faire ?</translation>
         <translation type="obsolete">Solde</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1379"/>
+        <location filename="../src/ledgerdialog.cpp" line="1382"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Impossible de fixer la valeur des transactions de titre en utilisant la fenêtre de modification multiple des transactions.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1385"/>
+        <location filename="../src/ledgerdialog.cpp" line="1388"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Impossible de changer la description des dividendes et transactions de titre.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1391"/>
+        <location filename="../src/ledgerdialog.cpp" line="1394"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Impossible de changer le débiteur des dividendes et transactions de titres.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1449"/>
+        <location filename="../src/ledgerdialog.cpp" line="1452"/>
         <source>Opening balance</source>
         <comment>Account balance</comment>
         <translation>Solde d&apos;ouverture</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1626"/>
+        <location filename="../src/ledgerdialog.cpp" line="1629"/>
         <source>Refund</source>
         <translation>Rembourser</translation>
     </message>
@@ -9536,7 +9567,7 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">solde</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1631"/>
+        <location filename="../src/ledgerdialog.cpp" line="1634"/>
         <source>Transfer</source>
         <translation>Transfère</translation>
     </message>

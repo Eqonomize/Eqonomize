@@ -2031,24 +2031,34 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 	if(dateEdit) emit dateChanged(split->date());
 	if(commentsEdit) commentsEdit->setText(split->comment());
 	if(fileEdit) fileEdit->setText(split->associatedFile());
+	double v = 0.0;
+	int split_i = -1;
+	for(int i = 0; i < split->count(); i++) {
+		if(i == 0 || split->at(i)->value(true) > v) {split_i = i; v = split->at(i)->value(true);}
+	}
+	v = split->value();
 	if(split->transactiontype() == TRANSACTION_TYPE_EXPENSE) {
 		if(toCombo) {
 			toCombo->setCurrentAccount(split->category());
 		}
-		if(fromCombo) {
-			Account *acc = split->at(0)->fromAccount();
+		if(fromCombo && split_i >= 0) {
+			Account *acc = split->at(split_i)->fromAccount();
 			if(acc) {
 				fromCombo->setCurrentAccount(acc);
+				if(budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) v = budget->defaultCurrency()->convertTo(v, acc->currency(), split->at(split_i)->date());
+				else v = budget->defaultCurrency()->convertTo(v, acc->currency());
 			}
 		}
 	} else {
 		if(fromCombo) {
 			fromCombo->setCurrentAccount(split->category());
 		}
-		if(toCombo) {
-			Account *acc = split->at(0)->toAccount();
+		if(toCombo && split_i >= 0) {
+			Account *acc = split->at(split_i)->toAccount();
 			if(acc) {
 				toCombo->setCurrentAccount(acc);
+				if(budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) v = budget->defaultCurrency()->convertTo(v, acc->currency(), split->at(split_i)->date());
+				else v = budget->defaultCurrency()->convertTo(v, acc->currency());
 			}
 		}
 	}
@@ -2063,7 +2073,7 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 	} else {
 		if(isVisible()) valueEdit->enterFocus();
 	}
-	valueEdit->setValue(split->value());
+	valueEdit->setValue(v);
 	if(quantityEdit) quantityEdit->setValue(split->quantity());
 	if(payeeEdit) payeeEdit->setText(split->payeeText());
 	if(tagButton) tagButton->setTransaction(split);

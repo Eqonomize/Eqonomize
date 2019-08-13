@@ -364,7 +364,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	
 	QHBoxLayout *layoutPreset2 = new QHBoxLayout();
 	layoutPreset2->addStretch(1);
-	savePresetButton = new QPushButton(QString("Save as preset…"), page3);
+	savePresetButton = new QPushButton(tr("Save as preset…"), page3);
 	layoutPreset2->addWidget(savePresetButton);
 	layout3->addLayout(layoutPreset2, row, 0, 1, 5);
 	row++;
@@ -663,10 +663,10 @@ void ImportCSVDialog::savePreset() {
 				preset << columnPayeeEdit->value();
 			}
 		} else {
-			preset << false;
-			preset << 1;
-			preset << false;
-			preset << 1;
+			preset << true;
+			preset << 1.0;
+			preset << true;
+			preset << QString();
 		}
 		if(valueTagsButton->isChecked()) {
 			preset << true;
@@ -689,6 +689,7 @@ void ImportCSVDialog::savePreset() {
 		} else {
 			presetCombo->addItem(s_preset);
 			presetCombo->setCurrentIndex(presetCombo->count() - 1);
+			presetCombo->setEnabled(true);
 		}
 		QSettings settings;
 		settings.beginGroup("GeneralOptions");
@@ -1194,7 +1195,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 		   || (payee_c > 0 && (payee_c == quantity_c || payee_c == tags_c))
 		   || (tags_c > 0 && (tags_c == quantity_c))
 	  ) {
-		if(QMessageBox::warning(this, tr("Warning"), tr("The same column number is selected multiple times. Proceed?"), QMessageBox::Ok | QMessageBox::Cancel) != QMessageBox::Ok) {
+		if(QMessageBox::warning(this, tr("Warning"), tr("The same column number is selected multiple times. Do you wish to proceed anyway?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) {
 			return false;
 		}
 	}

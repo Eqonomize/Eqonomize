@@ -6063,7 +6063,7 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <location filename="../src/eqonomize.cpp" line="4386"/>
         <location filename="../src/eqonomize.cpp" line="6205"/>
         <location filename="../src/eqonomize.cpp" line="6571"/>
-        <location filename="../src/eqonomize.cpp" line="8060"/>
+        <location filename="../src/eqonomize.cpp" line="8059"/>
         <source>Tags</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6523,30 +6523,30 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8079"/>
+        <location filename="../src/eqonomize.cpp" line="8078"/>
         <source>New Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8079"/>
-        <location filename="../src/eqonomize.cpp" line="8140"/>
+        <location filename="../src/eqonomize.cpp" line="8078"/>
+        <location filename="../src/eqonomize.cpp" line="8139"/>
         <source>Tag name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8111"/>
+        <location filename="../src/eqonomize.cpp" line="8110"/>
         <source>Remove tag?</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/eqonomize.cpp" line="8111"/>
+        <location filename="../src/eqonomize.cpp" line="8110"/>
         <source>Do you wish to remove the tag &quot;%1&quot; from %n transaction(s)?</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8140"/>
+        <location filename="../src/eqonomize.cpp" line="8139"/>
         <source>Rename Tag</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6714,8 +6714,8 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="6536"/>
-        <location filename="../src/eqonomize.cpp" line="8038"/>
-        <location filename="../src/eqonomize.cpp" line="9678"/>
+        <location filename="../src/eqonomize.cpp" line="8037"/>
+        <location filename="../src/eqonomize.cpp" line="9677"/>
         <source>Close Account</source>
         <comment>Mark account as closed</comment>
         <translation type="unfinished"></translation>
@@ -6766,8 +6766,8 @@ Erősítsd meg, hogy ezek valóban teljesültek (vagy teljesülnek a mai napon).
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8035"/>
-        <location filename="../src/eqonomize.cpp" line="9674"/>
+        <location filename="../src/eqonomize.cpp" line="8034"/>
+        <location filename="../src/eqonomize.cpp" line="9673"/>
         <source>Reopen Account</source>
         <comment>Mark account as not closed</comment>
         <translation type="unfinished"></translation>
@@ -7934,72 +7934,72 @@ Do you want to load the last auto-saved version of the file?</source>
         <translation>Tranzakciók mozgatása?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7910"/>
+        <location filename="../src/eqonomize.cpp" line="7909"/>
         <source>Move to:</source>
         <translation>Mozgatás ide:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7912"/>
+        <location filename="../src/eqonomize.cpp" line="7911"/>
         <source>Remove irreversibly from all accounts
 (do not do this if account has been closed!)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7919"/>
+        <location filename="../src/eqonomize.cpp" line="7918"/>
         <source>The category contains some expenses.
 What do you want to do with them?</source>
         <translation>A kategória kiadásokat tartalmaz.
 Mit akarsz velük tenni?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7930"/>
+        <location filename="../src/eqonomize.cpp" line="7929"/>
         <source>The category contains some incomes.
 What do you want to do with them?</source>
         <translation>A kategória bevételeket tartalmaz.
 Mit akarsz velük tenni?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7941"/>
+        <location filename="../src/eqonomize.cpp" line="7940"/>
         <source>The account contains some transactions.
 What do you want to do with them?</source>
         <translation>A számla tranzakciókat tartalmaz.
 Mit akarsz velük tenni?</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="7968"/>
         <location filename="../src/eqonomize.cpp" line="7969"/>
-        <location filename="../src/eqonomize.cpp" line="7970"/>
         <source>Remove Category?</source>
         <translation>Kategória eltávolítása?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7969"/>
+        <location filename="../src/eqonomize.cpp" line="7968"/>
         <source>The category contains some expenses that will be removed. Do you still want to remove the category?</source>
         <translation>A kategória kiadásokat tartalmaz, amik törlődni fognak.
 Biztosan el akarod távolítani a kategóriát?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7970"/>
+        <location filename="../src/eqonomize.cpp" line="7969"/>
         <source>The category contains some incomes that will be removed. Do you still want to remove the category?</source>
         <translation>A kategória bevételeket tartalmaz, amik törlődni fognak.
 Biztosan el akarod távolítani a kategóriát?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7971"/>
+        <location filename="../src/eqonomize.cpp" line="7970"/>
         <source>Remove Account?</source>
         <translation>Számla eltávolítása?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7971"/>
+        <location filename="../src/eqonomize.cpp" line="7970"/>
         <source>The account contains some transactions that will be removed. Do you still want to remove the account?</source>
         <translation>A számla tranzakciókat tartalmaz, amik törlődni fognak.
 Biztosan el akarod távolítani a számlát?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="1959"/>
-        <location filename="../src/eqonomize.cpp" line="9173"/>
-        <location filename="../src/eqonomize.cpp" line="9198"/>
+        <location filename="../src/eqonomize.cpp" line="9172"/>
+        <location filename="../src/eqonomize.cpp" line="9197"/>
+        <location filename="../src/eqonomize.cpp" line="9527"/>
         <location filename="../src/eqonomize.cpp" line="9528"/>
-        <location filename="../src/eqonomize.cpp" line="9529"/>
         <source>%2 of %1</source>
         <comment>%1: budget; %2: remaining budget</comment>
         <translation>%2 maradt (terv: %1)</translation>
@@ -8033,14 +8033,14 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="obsolete">Mérlegszámla</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9634"/>
-        <location filename="../src/eqonomize.cpp" line="9658"/>
+        <location filename="../src/eqonomize.cpp" line="9633"/>
+        <location filename="../src/eqonomize.cpp" line="9657"/>
         <source>%1 (with no budget)</source>
         <translation>%1 (költségvetés nélkül)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9635"/>
-        <location filename="../src/eqonomize.cpp" line="9659"/>
+        <location filename="../src/eqonomize.cpp" line="9634"/>
+        <location filename="../src/eqonomize.cpp" line="9658"/>
         <source>%1 (with budget %2)</source>
         <translation>%1 (%2 költségvetéssel)</translation>
     </message>
@@ -8048,61 +8048,61 @@ Biztosan el akarod távolítani a számlát?</translation>
 <context>
     <name>EqonomizeTranslator</name>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9992"/>
+        <location filename="../src/eqonomize.cpp" line="9991"/>
         <source>OK</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9994"/>
+        <location filename="../src/eqonomize.cpp" line="9993"/>
         <source>Cancel</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9996"/>
+        <location filename="../src/eqonomize.cpp" line="9995"/>
         <source>Close</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9998"/>
+        <location filename="../src/eqonomize.cpp" line="9997"/>
         <source>&amp;Yes</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10000"/>
+        <location filename="../src/eqonomize.cpp" line="9999"/>
         <source>&amp;No</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10002"/>
+        <location filename="../src/eqonomize.cpp" line="10001"/>
         <source>&amp;Open</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10004"/>
+        <location filename="../src/eqonomize.cpp" line="10003"/>
         <source>&amp;Save</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10006"/>
+        <location filename="../src/eqonomize.cpp" line="10005"/>
         <source>Look in:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10008"/>
+        <location filename="../src/eqonomize.cpp" line="10007"/>
         <source>File &amp;name:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10010"/>
+        <location filename="../src/eqonomize.cpp" line="10009"/>
         <source>Files of type:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
@@ -8248,392 +8248,423 @@ Biztosan el akarod távolítani a számlát?</translation>
 <context>
     <name>ImportCSVDialog</name>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="63"/>
+        <location filename="../src/importcsvdialog.cpp" line="64"/>
         <source>Import CSV file</source>
         <translation>CSV fájl importálása</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="67"/>
+        <location filename="../src/importcsvdialog.cpp" line="68"/>
         <source>Transaction Type Selection</source>
         <translation>Tranzakciótípus kiválasztása</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="73"/>
+        <location filename="../src/importcsvdialog.cpp" line="74"/>
         <source>Expenses</source>
         <translation>Kiadások</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="78"/>
+        <location filename="../src/importcsvdialog.cpp" line="79"/>
         <source>Incomes</source>
         <translation>Bevételek</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="81"/>
+        <location filename="../src/importcsvdialog.cpp" line="82"/>
         <source>Transfers</source>
         <translation>Átutalások</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="84"/>
+        <location filename="../src/importcsvdialog.cpp" line="85"/>
         <source>Expenses and incomes (negative cost)</source>
         <translation>Kiadások és bevételek (negatív költség)</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="87"/>
+        <location filename="../src/importcsvdialog.cpp" line="88"/>
         <source>Expenses and incomes (separate columns)</source>
         <translation>Kiadások és bevételek (külön oszlopok)</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="90"/>
+        <location filename="../src/importcsvdialog.cpp" line="91"/>
         <source>All types</source>
         <translation>Összes típus</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="99"/>
+        <location filename="../src/importcsvdialog.cpp" line="100"/>
+        <source>Presets:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="118"/>
         <source>File Selection</source>
         <translation>Fájl kiválasztása</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="103"/>
+        <location filename="../src/importcsvdialog.cpp" line="122"/>
         <source>File:</source>
         <translation>Fájl:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="113"/>
+        <location filename="../src/importcsvdialog.cpp" line="132"/>
         <source>First data row:</source>
         <translation>Első adatsor:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="116"/>
+        <location filename="../src/importcsvdialog.cpp" line="135"/>
         <source>Auto</source>
         <translation>Automatikus</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="119"/>
+        <location filename="../src/importcsvdialog.cpp" line="138"/>
         <source>Column delimiter:</source>
         <translation>oszlop elválasztó:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="122"/>
+        <location filename="../src/importcsvdialog.cpp" line="141"/>
         <source>Comma</source>
         <translation>Vessző</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="123"/>
+        <location filename="../src/importcsvdialog.cpp" line="142"/>
         <source>Tabulator</source>
         <translation>Tabulátor</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="124"/>
+        <location filename="../src/importcsvdialog.cpp" line="143"/>
         <source>Semicolon</source>
         <translation>Pontosvessző</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="125"/>
+        <location filename="../src/importcsvdialog.cpp" line="144"/>
         <source>Space</source>
         <translation>Space</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="126"/>
+        <location filename="../src/importcsvdialog.cpp" line="145"/>
         <source>Other</source>
         <translation>Egyéb</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="134"/>
+        <location filename="../src/importcsvdialog.cpp" line="153"/>
         <source>Columns Specification</source>
         <translation>Oszlopok leírása</translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="367"/>
+        <source>Save as preset…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="834"/>
+        <source>Imports data as expenses and incomes. Costs have negative value. Value is the only required column.</source>
+        <translation type="unfinished">Adatok importálása kiadásként és bevételként. A költségek negatív értékek. Az érték az egyetlen szükséges oszlop.</translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="850"/>
+        <source>Imports data as expenses and incomes. Costs and incomes have separate columns. Income and cost both all required columns.</source>
+        <translation type="unfinished">Adatok importálása kiadásként és bevételként. A költségek és bevételek külön oszlopok. A bevétel és a költség és egyaránt szükséges oszlop.</translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="1198"/>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="1198"/>
+        <source>The same column number is selected multiple times. Do you wish to proceed anyway?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Description:</source>
         <translation type="obsolete">Leírás:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="159"/>
+        <location filename="../src/importcsvdialog.cpp" line="178"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Leírás:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="142"/>
         <location filename="../src/importcsvdialog.cpp" line="161"/>
         <location filename="../src/importcsvdialog.cpp" line="180"/>
         <location filename="../src/importcsvdialog.cpp" line="199"/>
         <location filename="../src/importcsvdialog.cpp" line="218"/>
-        <location filename="../src/importcsvdialog.cpp" line="238"/>
-        <location filename="../src/importcsvdialog.cpp" line="260"/>
-        <location filename="../src/importcsvdialog.cpp" line="279"/>
-        <location filename="../src/importcsvdialog.cpp" line="300"/>
-        <location filename="../src/importcsvdialog.cpp" line="318"/>
+        <location filename="../src/importcsvdialog.cpp" line="237"/>
+        <location filename="../src/importcsvdialog.cpp" line="261"/>
+        <location filename="../src/importcsvdialog.cpp" line="283"/>
+        <location filename="../src/importcsvdialog.cpp" line="302"/>
+        <location filename="../src/importcsvdialog.cpp" line="323"/>
+        <location filename="../src/importcsvdialog.cpp" line="341"/>
         <source>Column</source>
         <translation>Oszlop</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="150"/>
         <location filename="../src/importcsvdialog.cpp" line="169"/>
         <location filename="../src/importcsvdialog.cpp" line="188"/>
         <location filename="../src/importcsvdialog.cpp" line="207"/>
         <location filename="../src/importcsvdialog.cpp" line="226"/>
-        <location filename="../src/importcsvdialog.cpp" line="246"/>
-        <location filename="../src/importcsvdialog.cpp" line="268"/>
-        <location filename="../src/importcsvdialog.cpp" line="287"/>
-        <location filename="../src/importcsvdialog.cpp" line="308"/>
-        <location filename="../src/importcsvdialog.cpp" line="326"/>
+        <location filename="../src/importcsvdialog.cpp" line="245"/>
+        <location filename="../src/importcsvdialog.cpp" line="269"/>
+        <location filename="../src/importcsvdialog.cpp" line="291"/>
+        <location filename="../src/importcsvdialog.cpp" line="310"/>
+        <location filename="../src/importcsvdialog.cpp" line="331"/>
+        <location filename="../src/importcsvdialog.cpp" line="349"/>
         <source>Value</source>
         <translation>Érték</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="177"/>
         <location filename="../src/importcsvdialog.cpp" line="196"/>
-        <location filename="../src/importcsvdialog.cpp" line="496"/>
+        <location filename="../src/importcsvdialog.cpp" line="215"/>
+        <location filename="../src/importcsvdialog.cpp" line="800"/>
         <source>Cost:</source>
         <translation>Költség:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="140"/>
+        <location filename="../src/importcsvdialog.cpp" line="159"/>
         <source>Date:</source>
         <translation>Dátum:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="215"/>
-        <location filename="../src/importcsvdialog.cpp" line="497"/>
-        <location filename="../src/importcsvdialog.cpp" line="509"/>
-        <location filename="../src/importcsvdialog.cpp" line="536"/>
-        <location filename="../src/importcsvdialog.cpp" line="548"/>
+        <location filename="../src/importcsvdialog.cpp" line="234"/>
+        <location filename="../src/importcsvdialog.cpp" line="801"/>
+        <location filename="../src/importcsvdialog.cpp" line="813"/>
+        <location filename="../src/importcsvdialog.cpp" line="836"/>
+        <location filename="../src/importcsvdialog.cpp" line="852"/>
         <source>Category:</source>
         <translation>Kategória:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="235"/>
-        <location filename="../src/importcsvdialog.cpp" line="498"/>
-        <location filename="../src/importcsvdialog.cpp" line="521"/>
+        <location filename="../src/importcsvdialog.cpp" line="258"/>
+        <location filename="../src/importcsvdialog.cpp" line="802"/>
+        <location filename="../src/importcsvdialog.cpp" line="825"/>
         <source>From account:</source>
         <translation>Erről a számláról:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="257"/>
+        <location filename="../src/importcsvdialog.cpp" line="280"/>
         <source>Quantity:</source>
         <translation>Mennyiség:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="276"/>
-        <location filename="../src/importcsvdialog.cpp" line="499"/>
+        <location filename="../src/importcsvdialog.cpp" line="299"/>
+        <location filename="../src/importcsvdialog.cpp" line="803"/>
         <source>Payee:</source>
         <translation>Kedvezményezett:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="297"/>
+        <location filename="../src/importcsvdialog.cpp" line="320"/>
         <source>Tags:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="316"/>
+        <location filename="../src/importcsvdialog.cpp" line="339"/>
         <source>Comments:</source>
         <translation>Megjegyzések:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="336"/>
+        <location filename="../src/importcsvdialog.cpp" line="359"/>
         <source>Create missing categories and accounts</source>
         <translation>Hiányzó kategóriák és számlák készítése</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="495"/>
+        <location filename="../src/importcsvdialog.cpp" line="566"/>
+        <source>Save Preset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/importcsvdialog.cpp" line="799"/>
         <source>Imports data as expenses. Costs have positive value. Value is the only required column.</source>
         <translation>Adatok importálása kiadásként. A költségek pozitív értékek. Az érték az egyetlen szükséges oszlop.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="507"/>
+        <location filename="../src/importcsvdialog.cpp" line="811"/>
         <source>Imports data as incomes. Value is the only required column.</source>
         <translation>Adatok importálása bevételként. Az érték az egyetlen szükséges oszlop.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="508"/>
-        <location filename="../src/importcsvdialog.cpp" line="547"/>
+        <location filename="../src/importcsvdialog.cpp" line="812"/>
+        <location filename="../src/importcsvdialog.cpp" line="851"/>
         <source>Income:</source>
         <translation>Bevétel:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="510"/>
-        <location filename="../src/importcsvdialog.cpp" line="522"/>
+        <location filename="../src/importcsvdialog.cpp" line="814"/>
+        <location filename="../src/importcsvdialog.cpp" line="826"/>
         <source>To account:</source>
         <translation>Erre a számlára:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="511"/>
+        <location filename="../src/importcsvdialog.cpp" line="815"/>
         <source>Payer:</source>
         <translation>Kifizető:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="519"/>
+        <location filename="../src/importcsvdialog.cpp" line="823"/>
         <source>Imports data as transfers. Value is the only required column.</source>
         <translation>Adatok importálása átutalásként. Az érték az egyetlen szükséges oszlop.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="520"/>
+        <location filename="../src/importcsvdialog.cpp" line="824"/>
         <source>Amount:</source>
         <translation>Összeg:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="530"/>
         <source>Imports data as expenses and incomes. Costs have negative value. Value and category are both required columns.</source>
-        <translation>Adatok importálása kiadásként és bevételként. A költségek negatív értékek. Az érték és a kategória egyaránt szükséges oszlop.</translation>
+        <translation type="vanished">Adatok importálása kiadásként és bevételként. A költségek negatív értékek. Az érték és a kategória egyaránt szükséges oszlop.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="535"/>
-        <location filename="../src/importcsvdialog.cpp" line="563"/>
+        <location filename="../src/importcsvdialog.cpp" line="835"/>
+        <location filename="../src/importcsvdialog.cpp" line="875"/>
         <source>Value:</source>
         <translation>Érték:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="537"/>
-        <location filename="../src/importcsvdialog.cpp" line="549"/>
+        <location filename="../src/importcsvdialog.cpp" line="837"/>
+        <location filename="../src/importcsvdialog.cpp" line="853"/>
         <source>Account:</source>
         <translation>Számla:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="538"/>
-        <location filename="../src/importcsvdialog.cpp" line="550"/>
-        <location filename="../src/importcsvdialog.cpp" line="566"/>
+        <location filename="../src/importcsvdialog.cpp" line="846"/>
+        <location filename="../src/importcsvdialog.cpp" line="862"/>
+        <location filename="../src/importcsvdialog.cpp" line="878"/>
         <source>Payee/payer:</source>
         <translation type="unfinished">Kedvezményezett/kifizető:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="542"/>
         <source>Imports data as expenses and incomes. Costs and incomes have separate columns. Income, cost, and category are all required columns.</source>
-        <translation>Adatok importálása kiadásként és bevételként. A költségek és bevételek külön oszlopok. A bevétel, a költség és a kategória mind szükséges oszlopok.</translation>
+        <translation type="vanished">Adatok importálása kiadásként és bevételként. A költségek és bevételek külön oszlopok. A bevétel, a költség és a kategória mind szükséges oszlopok.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="554"/>
+        <location filename="../src/importcsvdialog.cpp" line="866"/>
         <source>Imports data as expenses, incomes, and transfers. Costs have negative or positive value. Value, to, and from are all required columns. Accounts and categories must be existing.</source>
         <translation>Adatok importálása kiadásként, bevételként és átutalásként. A költségek negatív vagy pozitív értékek. Az érték, a forrás és a cél mind szükséges oszlopok.  A számláknak és kategóriáknak létezniük kell.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="564"/>
+        <location filename="../src/importcsvdialog.cpp" line="876"/>
         <source>From:</source>
         <translation>Forrás:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="565"/>
+        <location filename="../src/importcsvdialog.cpp" line="877"/>
         <source>To:</source>
         <translation>Cél:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="592"/>
-        <location filename="../src/importcsvdialog.cpp" line="598"/>
-        <location filename="../src/importcsvdialog.cpp" line="602"/>
-        <location filename="../src/importcsvdialog.cpp" line="608"/>
-        <location filename="../src/importcsvdialog.cpp" line="880"/>
-        <location filename="../src/importcsvdialog.cpp" line="914"/>
-        <location filename="../src/importcsvdialog.cpp" line="922"/>
-        <location filename="../src/importcsvdialog.cpp" line="937"/>
-        <location filename="../src/importcsvdialog.cpp" line="940"/>
-        <location filename="../src/importcsvdialog.cpp" line="1434"/>
-        <location filename="../src/importcsvdialog.cpp" line="1445"/>
+        <location filename="../src/importcsvdialog.cpp" line="910"/>
+        <location filename="../src/importcsvdialog.cpp" line="916"/>
+        <location filename="../src/importcsvdialog.cpp" line="920"/>
+        <location filename="../src/importcsvdialog.cpp" line="926"/>
+        <location filename="../src/importcsvdialog.cpp" line="1234"/>
+        <location filename="../src/importcsvdialog.cpp" line="1242"/>
+        <location filename="../src/importcsvdialog.cpp" line="1257"/>
+        <location filename="../src/importcsvdialog.cpp" line="1260"/>
+        <location filename="../src/importcsvdialog.cpp" line="1754"/>
+        <location filename="../src/importcsvdialog.cpp" line="1765"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="592"/>
+        <location filename="../src/importcsvdialog.cpp" line="910"/>
         <source>A file must be selected.</source>
         <translation>Ki kell választani egy fájlt.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="598"/>
+        <location filename="../src/importcsvdialog.cpp" line="916"/>
         <source>Selected file is a directory.</source>
         <translation>Könyvtárt választottál.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="602"/>
+        <location filename="../src/importcsvdialog.cpp" line="920"/>
         <source>Selected file does not exist.</source>
         <translation>A kiválasztott fájl nem létezik.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="608"/>
+        <location filename="../src/importcsvdialog.cpp" line="926"/>
         <source>Empty delimiter.</source>
         <translation>Üres elválasztó.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="880"/>
         <source>The same column number is selected multiple times.</source>
-        <translation>Ugyanaz az oszlopszám többször kiválasztva.</translation>
+        <translation type="vanished">Ugyanaz az oszlopszám többször kiválasztva.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="914"/>
+        <location filename="../src/importcsvdialog.cpp" line="1234"/>
         <source>Selected from account is the same as the to account.</source>
         <translation>A kiválasztott forrásszámla megegyezik a célszámlával.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="922"/>
-        <location filename="../src/importcsvdialog.cpp" line="1422"/>
+        <location filename="../src/importcsvdialog.cpp" line="1242"/>
+        <location filename="../src/importcsvdialog.cpp" line="1742"/>
         <source>Invalid date.</source>
         <translation>Érvénytelen dátum.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="937"/>
+        <location filename="../src/importcsvdialog.cpp" line="1257"/>
         <source>Couldn&apos;t open %1 for reading.</source>
         <translation>%1 nem nyitható meg olvasásra.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="940"/>
+        <location filename="../src/importcsvdialog.cpp" line="1260"/>
         <source>Error reading %1.</source>
         <translation>Hiba %1 olvasása közben.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1413"/>
+        <location filename="../src/importcsvdialog.cpp" line="1733"/>
         <source>Successfully imported %n transaction(s).</source>
         <translation type="unfinished">
             <numerusform>%n tranzakciót sikerült importálni.</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1415"/>
+        <location filename="../src/importcsvdialog.cpp" line="1735"/>
         <source>Unable to import any transactions.</source>
         <translation type="unfinished">Nem lehet importálni importált tranzakciókat.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1419"/>
+        <location filename="../src/importcsvdialog.cpp" line="1739"/>
         <source>Failed to import %n data row(s).</source>
         <translation type="unfinished">
             <numerusform>Nem lehetett importálni %n adatsort.</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1420"/>
+        <location filename="../src/importcsvdialog.cpp" line="1740"/>
         <source>Required columns missing.</source>
         <translation>A szükséges oszlopok hiányoznak.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1421"/>
+        <location filename="../src/importcsvdialog.cpp" line="1741"/>
         <source>Invalid value.</source>
         <translation>Érvénytelen érték.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1423"/>
+        <location filename="../src/importcsvdialog.cpp" line="1743"/>
         <source>Empty category name.</source>
         <translation>Üres kategórianév.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1423"/>
-        <location filename="../src/importcsvdialog.cpp" line="1424"/>
+        <location filename="../src/importcsvdialog.cpp" line="1743"/>
+        <location filename="../src/importcsvdialog.cpp" line="1744"/>
         <source>Empty account name.</source>
         <translation>Üres számlanév.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1425"/>
+        <location filename="../src/importcsvdialog.cpp" line="1745"/>
         <source>Unknown category found.</source>
         <translation>Ismeretlen kategóriát találtam.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1425"/>
-        <location filename="../src/importcsvdialog.cpp" line="1426"/>
+        <location filename="../src/importcsvdialog.cpp" line="1745"/>
+        <location filename="../src/importcsvdialog.cpp" line="1746"/>
         <source>Unknown account found.</source>
         <translation>Ismeretlen számlát találtam.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1427"/>
+        <location filename="../src/importcsvdialog.cpp" line="1747"/>
         <source>Cannot import security transactions (to/from security accounts).</source>
         <translation>Nem lehet importálni értékpapír-tranzakciókat (cél/forrás értékpapírszámlákat).</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1428"/>
+        <location filename="../src/importcsvdialog.cpp" line="1748"/>
         <source>Balancing account wrongly used.</source>
         <comment>Referring to the account used for adjustments of account balances.</comment>
         <translation type="unfinished">Rosszult használt mérlegszámla.</translation>
@@ -8643,42 +8674,42 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="vanished">Rosszult használt mérlegszámla.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1429"/>
+        <location filename="../src/importcsvdialog.cpp" line="1749"/>
         <source>Same to and from account/category.</source>
         <translation>Megegyezik a cél- és a forrásszámla/kategória.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1431"/>
+        <location filename="../src/importcsvdialog.cpp" line="1751"/>
         <source>No data found.</source>
         <translation>Nem találtam adatot.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1436"/>
+        <location filename="../src/importcsvdialog.cpp" line="1756"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1445"/>
+        <location filename="../src/importcsvdialog.cpp" line="1765"/>
         <source>Unrecognized date format.</source>
         <translation>Ismeretlen dátumformátum.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1450"/>
+        <location filename="../src/importcsvdialog.cpp" line="1770"/>
         <source>Specify Format</source>
         <translation>Formátum meghatározása</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1455"/>
+        <location filename="../src/importcsvdialog.cpp" line="1775"/>
         <source>The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format.</source>
         <translation>A dátumok és/vagy a számok formátuma a CSV fájlban félreérthető. Kérlek, válaszd ki a helyes formátumot.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1460"/>
+        <location filename="../src/importcsvdialog.cpp" line="1780"/>
         <source>Date format:</source>
         <translation>Dátumformátum:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1503"/>
+        <location filename="../src/importcsvdialog.cpp" line="1823"/>
         <source>Value format:</source>
         <translation>Értékformátum:</translation>
     </message>
@@ -9234,9 +9265,9 @@ Biztosan el akarod távolítani a számlát?</translation>
         <location filename="../src/ledgerdialog.cpp" line="887"/>
         <location filename="../src/ledgerdialog.cpp" line="997"/>
         <location filename="../src/ledgerdialog.cpp" line="1038"/>
-        <location filename="../src/ledgerdialog.cpp" line="1379"/>
-        <location filename="../src/ledgerdialog.cpp" line="1385"/>
-        <location filename="../src/ledgerdialog.cpp" line="1391"/>
+        <location filename="../src/ledgerdialog.cpp" line="1382"/>
+        <location filename="../src/ledgerdialog.cpp" line="1388"/>
+        <location filename="../src/ledgerdialog.cpp" line="1394"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9320,43 +9351,43 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation>Biztosan törölni akarsz minden (%1) kiválasztott tranzakciót?</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1379"/>
+        <location filename="../src/ledgerdialog.cpp" line="1382"/>
         <source>Cannot set the value of security transactions using the dialog for modifying multiple transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Az értékpapír-tranzakciók értékét  nem lehet beállítani a többszörös tranzakciók módosítása párbeszédablakban.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1385"/>
+        <location filename="../src/ledgerdialog.cpp" line="1388"/>
         <source>Cannot change description of dividends and security transactions.</source>
         <comment>Referring to the transaction description property (transaction title/generic article name); Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Az értékpapír-tranzakciók és az osztalékok fajtája nem változtatható meg.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1391"/>
+        <location filename="../src/ledgerdialog.cpp" line="1394"/>
         <source>Cannot change payer of dividends and security transactions.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Az osztalékok és értékpapír-tranzakciók kifizetője nem változtatható meg.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1449"/>
+        <location filename="../src/ledgerdialog.cpp" line="1452"/>
         <source>Opening balance</source>
         <comment>Account balance</comment>
         <translation type="unfinished">Nyitóegyenleg</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1628"/>
+        <location filename="../src/ledgerdialog.cpp" line="1631"/>
         <source>Account Balance Adjustment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1670"/>
+        <location filename="../src/ledgerdialog.cpp" line="1673"/>
         <source>Current balance:</source>
         <comment>Account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="1196"/>
-        <location filename="../src/ledgerdialog.cpp" line="1670"/>
+        <location filename="../src/ledgerdialog.cpp" line="1673"/>
         <source>Average balance:</source>
         <comment>Account balance</comment>
         <translation type="unfinished"></translation>
@@ -9391,24 +9422,24 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="obsolete">Az értékpapír-tranzakciók és az osztalékok fajtája nem változtatható meg.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1668"/>
+        <location filename="../src/ledgerdialog.cpp" line="1671"/>
         <source>Current debt:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1668"/>
+        <location filename="../src/ledgerdialog.cpp" line="1671"/>
         <source>Total debt reduction:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1668"/>
+        <location filename="../src/ledgerdialog.cpp" line="1671"/>
         <source>Total interest and fees:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="1196"/>
         <location filename="../src/ledgerdialog.cpp" line="1197"/>
-        <location filename="../src/ledgerdialog.cpp" line="1670"/>
+        <location filename="../src/ledgerdialog.cpp" line="1673"/>
         <source>Number of transactions:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9429,16 +9460,16 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="vanished">Nyitóegyenleg</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1475"/>
+        <location filename="../src/ledgerdialog.cpp" line="1478"/>
         <source>Split Transaction</source>
         <translation>Osztott tranzakció</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="309"/>
-        <location filename="../src/ledgerdialog.cpp" line="1502"/>
-        <location filename="../src/ledgerdialog.cpp" line="1531"/>
-        <location filename="../src/ledgerdialog.cpp" line="1560"/>
-        <location filename="../src/ledgerdialog.cpp" line="1588"/>
+        <location filename="../src/ledgerdialog.cpp" line="1505"/>
+        <location filename="../src/ledgerdialog.cpp" line="1534"/>
+        <location filename="../src/ledgerdialog.cpp" line="1563"/>
+        <location filename="../src/ledgerdialog.cpp" line="1591"/>
         <source>Debt Payment</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9448,33 +9479,33 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1502"/>
+        <location filename="../src/ledgerdialog.cpp" line="1505"/>
         <source>Reduction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1531"/>
+        <location filename="../src/ledgerdialog.cpp" line="1534"/>
         <source>Fee</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1560"/>
+        <location filename="../src/ledgerdialog.cpp" line="1563"/>
         <source>Interest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1622"/>
+        <location filename="../src/ledgerdialog.cpp" line="1625"/>
         <source>Income</source>
         <translation>Bevétel</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1623"/>
+        <location filename="../src/ledgerdialog.cpp" line="1626"/>
         <source>Repayment</source>
         <translation>Visszafizetés</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="300"/>
-        <location filename="../src/ledgerdialog.cpp" line="1625"/>
+        <location filename="../src/ledgerdialog.cpp" line="1628"/>
         <source>Expense</source>
         <translation>Kiadás</translation>
     </message>
@@ -9502,7 +9533,7 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="obsolete">Az értékpapír-tranzakciók és az osztalékok fajtája nem változtatható meg.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1626"/>
+        <location filename="../src/ledgerdialog.cpp" line="1629"/>
         <source>Refund</source>
         <translation>Visszatérítés</translation>
     </message>
@@ -9511,7 +9542,7 @@ Biztosan el akarod távolítani a számlát?</translation>
         <translation type="vanished">Kiegyenlítés</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1631"/>
+        <location filename="../src/ledgerdialog.cpp" line="1634"/>
         <source>Transfer</source>
         <translation>Átutalás</translation>
     </message>

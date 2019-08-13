@@ -1,3 +1,18 @@
+2019-08-13  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix set single transaction in edit widget for transaction with
+	  multiple accounts/payments and multiple currencies
+
+2019-08-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Save import CSV settings as presets
+	* Show name with parent name for categories in CSV import dialog
+
+2019-08-05  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Allow fixed category (add income category selection) when importing
+	  both expenses and incomes from CSV file
+
 2019-06-16  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Allow translation of key Qt strings (OK, Cancel, etc.),
