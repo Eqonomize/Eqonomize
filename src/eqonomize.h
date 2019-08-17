@@ -664,7 +664,9 @@ class EditSecurityDialog : public QDialog {
 		void newAccount();
 
 };
- 
+
+struct q_csv_info;
+
 class EditQuotationsDialog : public QDialog {
 
 	Q_OBJECT
@@ -679,6 +681,8 @@ class EditQuotationsDialog : public QDialog {
 		int i_quotation_decimals;
 		Budget *budget;
 		Security *security;
+		
+		bool import(QString url, bool test, q_csv_info *ci);
 
 	public:
 
@@ -693,6 +697,9 @@ class EditQuotationsDialog : public QDialog {
 		void addQuotation();
 		void changeQuotation();
 		void deleteQuotation();
+		void importQuotations();
+		void exportQuotations();
+		void onFilterSelected(QString filter);
 
 };
 

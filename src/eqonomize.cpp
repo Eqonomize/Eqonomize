@@ -1013,7 +1013,14 @@ EditQuotationsDialog::EditQuotationsDialog(Security *sec, QWidget *parent) : QDi
 	deleteButton = new QPushButton(tr("Delete"), this);
 	deleteButton->setEnabled(false);
 	buttonsLayout->addWidget(deleteButton);
+	buttonsLayout->addSpacing(6);
+	QPushButton *importButton = new QPushButton(tr("Import…"), this);
+	buttonsLayout->addWidget(importButton);
+	QPushButton *exportButton = new QPushButton(tr("Export…"), this);
+	buttonsLayout->addWidget(exportButton);
+	buttonsLayout->addSpacing(12);
 	buttonsLayout->addStretch(1);
+	
 	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
@@ -1025,6 +1032,8 @@ EditQuotationsDialog::EditQuotationsDialog(Security *sec, QWidget *parent) : QDi
 	connect(addButton, SIGNAL(clicked()), this, SLOT(addQuotation()));
 	connect(changeButton, SIGNAL(clicked()), this, SLOT(changeQuotation()));
 	connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteQuotation()));
+	connect(importButton, SIGNAL(clicked()), this, SLOT(importQuotations()));
+	connect(exportButton, SIGNAL(clicked()), this, SLOT(exportQuotations()));
 	
 	setSecurity(security);
 
@@ -1054,6 +1063,478 @@ void EditQuotationsDialog::modifyQuotations() {
 		security->quotations_auto[i->date] = false;
 		++it;
 		i = (QuotationListViewItem*) *it;
+	}
+}
+extern QString htmlize_string(QString str);
+
+struct q_csv_info {
+	int value_format;
+	char separator;
+	bool p1, p2, p3, p4, ly;
+	int lz;
+};
+
+extern QDate readCSVDate(const QString &str, const QString &date_format, const QString &alt_date_format);
+extern double readCSVValue(const QString &str, int value_format, bool *ok);
+extern void testCSVDate(const QString &str, bool &p1, bool &p2, bool &p3, bool &p4, bool &ly, char &separator, int &lz);
+extern void testCSVValue(const QString &str, int &value_format);
+
+bool EditQuotationsDialog::import(QString url, bool test, q_csv_info *ci) {
+
+	QString date_format, alt_date_format;
+	if(test) {
+		ci->p1 = true;
+		ci->p2 = true;
+		ci->p3 = true;
+		ci->p4 = true;
+		ci->ly = true;
+		ci->lz = -1;
+		ci->value_format = 0;
+		ci->separator = -1;
+	} else {
+		if(ci->p1) {
+			date_format += ci->lz == 0 ? "M" : "MM";
+			if(ci->separator > 0) date_format += ci->separator;
+			date_format += ci->lz == 0 ? "d" : "dd";
+			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->ly) {
+				date_format += "yyyy";
+			} else {
+				if(ci->separator > 0) {
+					alt_date_format = date_format;
+					alt_date_format += '\'';
+					alt_date_format += "yy";
+				}
+				date_format += "yy";
+			}
+		} else if(ci->p2) {
+			date_format += ci->lz == 0 ? "d" : "dd";
+			if(ci->separator > 0) date_format += ci->separator;
+			date_format += ci->lz == 0 ? "M" : "MM";
+			if(ci->separator > 0) date_format += ci->separator;
+			if(ci->ly) {
+				date_format += "yyyy";
+			} else {
+				if(ci->separator > 0) {
+					alt_date_format = date_format;
+					alt_date_format += '\'';
+					alt_date_format += "yy";
+				}
+				date_format += "yy";
+			}
+		} else if(ci->p3) {
+			if(ci->ly) date_format += "yyyy";
+			else date_format += "yy";
+			if(ci->separator > 0) date_format += ci->separator;
+			date_format += ci->lz == 0 ? "M" : "MM";
+			if(ci->separator > 0) date_format += ci->separator;
+			date_format += ci->lz == 0 ? "d" : "dd";
+		} else if(ci->p4) {
+			if(ci->ly) date_format += "yyyy";
+			else date_format += "yy";
+			if(ci->separator > 0) date_format += ci->separator;
+			date_format += ci->lz == 0 ? "d" : "dd";
+			if(ci->separator > 0) date_format += ci->separator;
+			date_format += ci->lz == 0 ? "M" : "MM";
+		}
+	}
+	int first_row = 0;
+	QString delimiter = ",";
+	int date_c = 1;
+	int value_c = 2;
+	int min_columns = 2;
+	double value = 0.0;
+	QDate date;
+
+	QFile file(url);
+	if(!file.open(QIODevice::ReadOnly) ) {
+		QMessageBox::critical(this, tr("Error"), tr("Couldn't open %1 for reading.").arg(url));
+		return false;
+	} else if(!file.size()) {
+		QMessageBox::critical(this, tr("Error"), tr("Error reading %1.").arg(url));
+		return false;
+	}
+	
+	QFileInfo fileInfo(url);
+	last_document_directory = fileInfo.absoluteDir().absolutePath();
+	
+	QTextStream fstream(&file);
+	fstream.setCodec("UTF-8");
+	
+	int row = 0;
+	QString line = fstream.readLine();
+
+	int successes = 0;
+	int failed = 0;
+	bool missing_columns = false, value_error = false, date_error = false;
+	while(!line.isNull()) {
+		row++;
+		if((first_row == 0 && !line.isEmpty() && line[0] != '#') || (first_row > 0 && row >= first_row && !line.isEmpty())) {
+			QStringList columns = line.split(delimiter, QString::KeepEmptyParts);
+			for(QStringList::Iterator it = columns.begin(); it != columns.end(); ++it) {
+				int i = 0;
+				while(i < (int) (*it).length() && ((*it)[i] == ' ' || (*it)[i] == '\t')) {
+					i++;
+				}
+				if(!(*it).isEmpty() && (*it)[i] == '\"') {
+					(*it).remove(0, i + 1);
+					i = (*it).length() - 1;
+					while(i > 0 && ((*it)[i] == ' ' || (*it)[i] == '\t')) {
+						i--;
+					}
+					if(i >= 0 && (*it)[i] == '\"') {
+						(*it).truncate(i);
+					} else {
+						QStringList::Iterator it2 = it;
+						++it2;
+						while(it2 != columns.end()) {
+							i = (*it2).length() - 1;
+							while(i > 0 && ((*it2)[i] == ' ' || (*it2)[i] == '\t')) {
+								i--;
+							}
+							if(i >= 0 && (*it2)[i] == '\"') {
+								(*it2).truncate(i);
+								*it += delimiter;
+								*it += *it2;
+								it2 = columns.erase(it2);
+								it = it2;
+								it--;
+								break;
+							}
+							*it += delimiter;
+							*it += *it2;
+							it2 = columns.erase(it2);
+							it = it2;
+							it--;
+						}
+					}
+				}
+				*it = (*it).trimmed();
+			}
+			if((int) columns.count() < min_columns) {
+				if(first_row != 0) {
+					missing_columns = true;
+					failed++;
+				}
+			} else {
+				bool success = true;
+				if(success) {
+					bool ok = true;
+					if(first_row == 0) {
+						ok = false;
+						QString &str = columns[value_c - 1];
+						int l = (int) str.length();
+						for(int i = 0; i < l; i++) {
+							if(str[i].isDigit()) {
+								ok = true;
+								break;
+							}
+						}
+					}
+					if(!ok) {
+						failed--;
+						success = false;
+					} else if(test) {
+						if(ci->value_format <= 0) testCSVValue(columns[value_c - 1], ci->value_format);
+					} else {
+						value = readCSVValue(columns[value_c - 1], ci->value_format, &ok);
+						if(!ok) {
+							if(first_row == 0) failed--;
+							else value_error = true;
+							success = false;
+						}
+					}
+				}
+				if(success) {
+					bool ok = true;
+					if(first_row == 0) {
+						ok = false;
+						QString &str = columns[date_c - 1];
+						for(int i = 0; i < (int) str.length(); i++) {
+							if(str[i].isDigit()) {
+								ok = true;
+								break;
+							}
+						}
+					}
+					if(!ok) {
+						failed--;
+						success = false;
+					} else if(test) {
+						if(ci->p1 + ci->p2 + ci->p3 + ci->p4 > 1 || ci->lz < 0) testCSVDate(columns[date_c - 1], ci->p1, ci->p2, ci->p3, ci->p4, ci->ly, ci->separator, ci->lz);
+					} else {
+						date = readCSVDate(columns[date_c - 1], date_format, alt_date_format);
+						if(!date.isValid()) {
+							if(first_row == 0) failed--;
+							else date_error = true;
+							success = false;
+						}
+					}
+				}
+				if(success && first_row == 0) first_row = row;
+				if(test && ci->p1 + ci->p2 + ci->p3 + ci->p4 < 2 && ci->lz >= 0 && ci->value_format > 0) break;
+				if(test) success = false;
+				if(success) {
+					QTreeWidgetItemIterator it(quotationsView);
+					QuotationListViewItem *i = (QuotationListViewItem*) *it;
+					bool found = false;
+					while(i) {
+						if(i->date == date) {
+							i->value = value;
+							i->setText(1, security->currency()->formatValue(i->value, i->decimals));
+							found = true;
+							break;
+						}
+						++it;
+						i = (QuotationListViewItem*) *it;
+					}
+					if(!found) quotationsView->insertTopLevelItem(0, new QuotationListViewItem(date, value, i_quotation_decimals, security->currency()));
+					successes++;
+				} else {
+					failed++;
+				}
+			}
+		}
+		line = fstream.readLine();
+	}
+
+	file.close();
+
+	if(test) {
+		return true;
+	}
+
+	QString info = "", details = "";
+	if(successes > 0) {
+		info = tr("Successfully imported %n quote(s).", "", successes);
+	} else {
+		info = tr("Unable to import any quotes.");
+	}
+	if(failed > 0) {
+		info += '\n';
+		info += tr("Failed to import %n data row(s).", "", failed);
+		if(missing_columns) {details += "\n-"; details += tr("Required columns missing.");}
+		if(value_error) {details += "\n-"; details += tr("Invalid value.");}
+		if(date_error) {details += "\n-"; details += tr("Invalid date.");}
+	} else if(successes == 0) {
+		info = tr("No data found.");
+	}
+	if(failed > 0 || successes == 0) {
+		QMessageBox::critical(this, tr("Error"), info + details);
+	} else {
+		QMessageBox::information(this, tr("Information"), info);
+	}
+	quotationsView->setSortingEnabled(true);
+	return successes > 0;
+}
+
+void EditQuotationsDialog::importQuotations() {
+	QMimeDatabase db;
+	QString url = QFileDialog::getOpenFileName(this, QString(), last_document_directory + "/", db.mimeTypeForName("text/csv").filterString());
+	if(url.isEmpty()) return;
+	QFileInfo fileInfo(url);
+	last_document_directory = fileInfo.absoluteDir().absolutePath();
+	q_csv_info ci;
+	if(!import(url, true, &ci)) return;
+	int ps = ci.p1 + ci.p2 + ci.p3 + ci.p4;
+	if(ps == 0) {
+		QMessageBox::critical(this, tr("Error"), tr("Unrecognized date format."));
+		return;
+	}
+	if(ci.value_format < 0 || ps > 1) {
+		QDialog *dialog = new QDialog(this, 0);
+		dialog->setWindowTitle(tr("Specify Format"));
+		dialog->setModal(true);
+		QVBoxLayout *box1 = new QVBoxLayout(dialog);
+		QGridLayout *grid = new QGridLayout();
+		box1->addLayout(grid);
+		QLabel *label = new QLabel(tr("The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format."), dialog);
+		label->setWordWrap(true);
+		grid->addWidget(label, 0, 0, 1, 2);
+		QComboBox *dateFormatCombo = NULL;
+		if(ps > 1) {
+			grid->addWidget(new QLabel(tr("Date format:"), dialog), 1, 0);
+			dateFormatCombo = new QComboBox(dialog);
+			dateFormatCombo->setEditable(false);
+			if(ci.p1) {
+				QString date_format = ci.lz == 0 ? "M" : "MM";;
+				if(ci.separator > 0) date_format += ci.separator;
+				date_format += ci.lz == 0 ? "D" : "DD";
+				if(ci.separator > 0) date_format += ci.separator;
+				date_format += "YY";
+				if(ci.ly) date_format += "YY";
+				dateFormatCombo->addItem(date_format);
+			}
+			if(ci.p2) {
+				QString date_format = ci.lz == 0 ? "D" : "DD";
+				if(ci.separator > 0) date_format += ci.separator;
+				date_format += ci.lz == 0 ? "M" : "MM";
+				if(ci.separator > 0) date_format += ci.separator;
+				date_format += "YY";
+				if(ci.ly) date_format += "YY";
+				dateFormatCombo->addItem(date_format);
+			}
+			if(ci.p3) {
+				QString date_format = "YY";
+				if(ci.ly) date_format += "YY";
+				if(ci.separator > 0) date_format += ci.separator;
+				date_format += ci.lz == 0 ? "M" : "MM";
+				if(ci.separator > 0) date_format += ci.separator;
+				date_format += ci.lz == 0 ? "D" : "DD";
+				dateFormatCombo->addItem(date_format);
+			}
+			if(ci.p4) {
+				QString date_format = "YY";
+				if(ci.ly) date_format += "YY";
+				if(ci.separator > 0) date_format += ci.separator;
+				date_format += ci.lz == 0 ? "D" : "DD";
+				if(ci.separator > 0) date_format += ci.separator;
+				date_format += ci.lz == 0 ? "M" : "MM";
+				dateFormatCombo->addItem(date_format);
+			}
+			grid->addWidget(dateFormatCombo, 1, 1);
+		}
+		QComboBox *valueFormatCombo = NULL;
+		if(ci.value_format < 0) {
+			grid->addWidget(new QLabel(tr("Value format:"), dialog), ps > 1 ? 2 : 1, 0);
+			valueFormatCombo = new QComboBox(dialog);
+			valueFormatCombo->setEditable(false);
+			valueFormatCombo->addItem("1,000,000.00");
+			valueFormatCombo->addItem("1.000.000,00");
+			grid->addWidget(valueFormatCombo, ps > 1 ? 2 : 1, 1);
+		}
+		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+		buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+		connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
+		connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
+		box1->addWidget(buttonBox);
+		if(dialog->exec() != QDialog::Accepted) {
+			return;
+		}
+		if(ps > 1) {
+			bool p1 = false, p2 = false, p3 = false, p4 = false;
+			int p[4];
+			int i = 0;
+			if(ci.p1) {p[i] = 1; i++;}
+			if(ci.p2) {p[i] = 2; i++;}
+			if(ci.p3) {p[i] = 3; i++;}
+			if(ci.p4) {p[i] = 4; i++;}
+			switch(p[dateFormatCombo->currentIndex()]) {
+				case 1: {p1 = true; break;}
+				case 2: {p2 = true; break;}
+				case 3: {p3 = true; break;}
+				case 4: {p4 = true; break;}
+			}
+			ci.p1 = p1; ci.p2 = p2; ci.p3 = p3; ci.p4 = p4;
+			if(ci.lz < 0) ci.lz = 1;
+		}
+		if(ci.value_format < 0) ci.value_format = valueFormatCombo->currentIndex() + 1;
+		dialog->deleteLater();
+	}
+	import(url, false, &ci);
+}
+void EditQuotationsDialog::onFilterSelected(QString filter) {
+	QMimeDatabase db;
+	QFileDialog *fileDialog = qobject_cast<QFileDialog*>(sender());
+	if(filter == db.mimeTypeForName("text/csv").filterString()) {
+		fileDialog->setDefaultSuffix(db.mimeTypeForName("text/csv").preferredSuffix());
+	} else {
+		fileDialog->setDefaultSuffix(db.mimeTypeForName("text/html").preferredSuffix());
+	}
+}
+void EditQuotationsDialog::exportQuotations() {
+	char filetype = 'h';
+	QMimeDatabase db;
+	QString html_filter = db.mimeTypeForName("text/html").filterString();
+	QString csv_filter = db.mimeTypeForName("text/csv").filterString();
+	QFileDialog fileDialog(this);
+	fileDialog.setNameFilters(QStringList(csv_filter) << html_filter);
+	fileDialog.selectNameFilter(html_filter);
+	fileDialog.setDefaultSuffix(db.mimeTypeForName("text/csv").preferredSuffix());
+	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
+	fileDialog.setSupportedSchemes(QStringList("file"));
+#endif
+	fileDialog.setDirectory(last_document_directory);
+	connect(&fileDialog, SIGNAL(filterSelected(QString)), this, SLOT(onFilterSelected(QString)));
+	QString url;
+	if(!fileDialog.exec()) return;
+	QStringList urls = fileDialog.selectedFiles();
+	if(urls.isEmpty()) return;
+	url = urls[0];
+	if((fileDialog.selectedNameFilter() == csv_filter || db.mimeTypeForFile(url, QMimeDatabase::MatchExtension) == db.mimeTypeForName("text/csv")) && db.mimeTypeForFile(url, QMimeDatabase::MatchExtension) != db.mimeTypeForName("text/html")) filetype = 'c';
+	QSaveFile ofile(url);
+	ofile.open(QIODevice::WriteOnly);
+	if(!ofile.isOpen()) {
+		ofile.cancelWriting();
+		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
+		return;
+	}
+	last_document_directory = fileDialog.directory().absolutePath();
+	QTextStream outf(&ofile);
+	switch(filetype) {
+		case 'h': {
+			outf.setCodec("UTF-8");
+			outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
+			outf << "<html>" << '\n';
+			outf << "\t<head>" << '\n';
+			outf << "\t\t<title>";
+			outf << htmlize_string(tr("Quotes: %1").arg(security->name()));
+			outf << "</title>" << '\n';
+			outf << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << '\n';
+			outf << "\t\t<meta name=\"GENERATOR\" content=\"" << qApp->applicationDisplayName() << "\">" << '\n';
+			outf << "\t</head>" << '\n';
+			outf << "\t<body>" << '\n';
+			outf << "\t\t<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
+			outf << "\t\t\t<caption>";
+			outf << htmlize_string(tr("Quotes: %1").arg(security->name()));
+			outf << "</caption>" << '\n';
+			outf << "\t\t\t<thead>" << '\n';
+			outf << "\t\t\t\t<tr>" << '\n';
+			QTreeWidgetItem *header = quotationsView->headerItem();
+			outf << "\t\t\t\t\t";
+			outf << "<th>" << htmlize_string(header->text(0)) << "</th>";
+			outf << "<th>" << htmlize_string(header->text(1)) << "</th>";
+			outf << "\n";
+			outf << "\t\t\t\t</tr>" << '\n';
+			outf << "\t\t\t</thead>" << '\n';
+			outf << "\t\t\t<tbody>" << '\n';
+			QTreeWidgetItemIterator it(quotationsView);
+			QuotationListViewItem *i = (QuotationListViewItem*) *it;
+			while(i) {
+				outf << "\t\t\t\t<tr>" << '\n';
+				outf << "\t\t\t\t\t";
+				outf << "<td nowrap>" << htmlize_string(QLocale().toString(i->date, QLocale::ShortFormat)) << "</td>";
+				outf << "<td nowrap align=\"right\">" << htmlize_string(security->currency()->formatValue(i->value, security->quotationDecimals())) << "</td>";
+				outf << "\n";
+				outf << "\t\t\t\t</tr>" << '\n';
+				++it;
+				i = (QuotationListViewItem*) *it;
+			}
+			outf << "\t\t\t</tbody>" << '\n';
+			outf << "\t\t</table>" << '\n';
+			outf << "\t</body>" << '\n';
+			outf << "</html>" << '\n';
+			break;
+		}
+		case 'c': {
+			//outf.setEncoding(Q3TextStream::Locale);
+			QTreeWidgetItem *header = quotationsView->headerItem();
+			outf << "\"" << header->text(0) << "\",\"" << header->text(1);
+			outf << "\"\n";
+			QTreeWidgetItemIterator it(quotationsView);
+			QuotationListViewItem *i = (QuotationListViewItem*) *it;
+			while(i) {
+				outf << "\"" << QLocale().toString(i->date, QLocale::ShortFormat) << "\",\"" << budget->formatValue(i->value, security->quotationDecimals()) << "\"\n";
+				++it;
+				i = (QuotationListViewItem*) *it;
+			}
+			break;
+		}
+	}
+	if(!ofile.commit()) {
+		QMessageBox::critical(this, tr("Error"), tr("Error while writing file; file was not saved."));
+		return;
 	}
 }
 void EditQuotationsDialog::onSelectionChanged() {
