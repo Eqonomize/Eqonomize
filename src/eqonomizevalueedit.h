@@ -24,9 +24,11 @@
 #include <QDoubleSpinBox>
 #include <QStringList>
 #include <QDateEdit>
+#include <QCalendarWidget>
 
 class Currency;
 class Budget;
+class QMenu;
 
 class EqonomizeValueEdit : public QDoubleSpinBox {
 
@@ -98,6 +100,26 @@ class EqonomizeDateEdit : public QDateEdit {
 	signals:
 	
 		void returnPressed();
+
+};
+
+class EqonomizeCalendarWidget : public QCalendarWidget {
+
+	Q_OBJECT
+	
+	protected:
+	
+		QMenu *popupMenu;
+
+	public:
+	
+		EqonomizeCalendarWidget(QWidget *parent = NULL);
+	
+	protected slots:
+	
+		void keyPressEvent(QKeyEvent *event);
+		void popupContextMenu(const QPoint &pos);
+		void selectToday();
 
 };
 

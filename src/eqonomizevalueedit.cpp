@@ -33,6 +33,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QFocusEvent>
+#include <QMenu>
 
 #define MAX_VALUE 1000000000000.0
 
@@ -540,8 +541,37 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 	return input.toDouble();
 }
 
-EqonomizeDateEdit::EqonomizeDateEdit(QWidget *parent) : QDateEdit(QDate::currentDate(), parent) {}
-EqonomizeDateEdit::EqonomizeDateEdit(const QDate &date, QWidget *parent) : QDateEdit(date, parent) {}
+EqonomizeCalendarWidget::EqonomizeCalendarWidget(QWidget *parent) : QCalendarWidget(parent) {
+	setContextMenuPolicy(Qt::CustomContextMenu);
+	connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupContextMenu(const QPoint&)));
+	popupMenu = NULL;
+}
+void EqonomizeCalendarWidget::keyPressEvent(QKeyEvent *event) {
+	if(event->key() == Qt::Key_Home) {
+		setSelectedDate(QDate::currentDate());
+		event->accept();
+		return;
+	}
+}
+void EqonomizeCalendarWidget::popupContextMenu(const QPoint &pos) {
+	if(!popupMenu) {
+		popupMenu = new QMenu(this);
+		popupMenu->addAction(tr("Today"), this, SLOT(selectToday()));
+	}
+	popupMenu->popup(mapToGlobal(pos));
+}
+void EqonomizeCalendarWidget::selectToday() {
+	setSelectedDate(QDate::currentDate());
+}
+
+EqonomizeDateEdit::EqonomizeDateEdit(QWidget *parent) : QDateEdit(QDate::currentDate(), parent) {
+	setCalendarPopup(true);
+	setCalendarWidget(new EqonomizeCalendarWidget(this));
+}
+EqonomizeDateEdit::EqonomizeDateEdit(const QDate &date, QWidget *parent) : QDateEdit(date, parent) {
+	setCalendarPopup(true);
+	setCalendarWidget(new EqonomizeCalendarWidget(this));
+}
 void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
 	if(event->key() == Qt::Key_Down || event->key() == Qt::Key_Up) {
 		if(currentSection() == QDateTimeEdit::DaySection) {
@@ -577,6 +607,10 @@ void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
 			event->accept();
 			return;
 		}
+	} else if(event->key() == Qt::Key_Home && event->modifiers() == Qt::ControlModifier) {
+		setDate(QDate::currentDate());
+		event->accept();
+		return;
 	}
 	QDateEdit::keyPressEvent(event);
 	if(event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
