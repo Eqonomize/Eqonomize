@@ -65,6 +65,7 @@
 #include <QPrintDialog>
 #include <QPixmap>
 #include <QRadioButton>
+#include <QButtonGroup>
 #include <QResizeEvent>
 #include <QString>
 #include <QVBoxLayout>
@@ -114,6 +115,14 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	themeCombo->addItem("Qt", QChart::ChartThemeQt);
 	buttons->addWidget(themeCombo);
 #endif
+	QButtonGroup *group = new QButtonGroup(this);
+	percentButton = new QRadioButton("%", this);
+	percentButton->setChecked(true);
+	group->addButton(percentButton, 1);
+	buttons->addWidget(percentButton);
+	valueButton = new QRadioButton(budget->defaultCurrency()->symbol(true), this);
+	group->addButton(valueButton, 2);
+	buttons->addWidget(valueButton);
 	buttons->addStretch();
 	saveButton = new QPushButton(tr("Save As…"), this);
 	saveButton->setAutoDefault(false);
@@ -217,6 +226,7 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	connect(toEdit, SIGNAL(dateChanged(const QDate&)), this, SLOT(toChanged(const QDate&)));
 	connect(saveButton, SIGNAL(clicked()), this, SLOT(save()));
 	connect(printButton, SIGNAL(clicked()), this, SLOT(print()));
+	connect(group, SIGNAL(buttonToggled(int, bool)), this, SLOT(valueTypeToggled(int, bool)));
 
 }
 
@@ -224,17 +234,24 @@ CategoriesComparisonChart::~CategoriesComparisonChart() {
 }
 
 void CategoriesComparisonChart::resetOptions() {
-#ifdef QT_CHARTS_LIB
 	QSettings settings;
 	settings.beginGroup("CategoriesComparisonChart");
+#ifdef QT_CHARTS_LIB
 	int theme = settings.value("theme", -1).toInt();
 	int index = themeCombo->findData(qVariantFromValue(theme));
 	if(index < 0) index = 0;
 	themeCombo->setCurrentIndex(index);
 	typeCombo->setCurrentIndex(0);
 	chart->setTheme(theme >= 0 ? (QChart::ChartTheme) theme : QChart::ChartThemeBlueNcs);
-	settings.endGroup();
 #endif
+	int value_type = settings.value("valueType", 2).toInt();
+	settings.endGroup();
+	valueButton->blockSignals(true);
+	percentButton->blockSignals(true);
+	if(value_type == 2) valueButton->setChecked(true);
+	else percentButton->setChecked(true);
+	valueButton->blockSignals(false);
+	percentButton->blockSignals(false);
 	QDate first_date;
 	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
 		Transaction *trans = *it;
@@ -1091,15 +1108,18 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 
 		if(chart_type == 1) {
-			legend_value = (current_value * 100) / value;
 			int deci = 0;
-			if(legend_value < 10.0 && legend_value > -10.0) {
-				legend_value = round(legend_value * 10.0) / 10.0;
-				deci = 1;
+			if(valueButton->isChecked()) {
+				legend_value = current_value;
+				if(legend_value < 100.0) deci = currency->fractionalDigits();
 			} else {
-				legend_value = round(legend_value);
+				legend_value = (current_value * 100) / value;
+				if(legend_value < 10.0 && legend_value > -10.0) {
+					legend_value = round(legend_value * 10.0) / 10.0;
+					deci = 1;
+				}
 			}
-			QPieSlice *slice = pie_series->append(QString("%1 (%2%)").arg(legend_string).arg(budget->formatValue(legend_value, deci)), current_value);
+			QPieSlice *slice = pie_series->append(QString("%1 (%2)").arg(legend_string).arg(valueButton->isChecked() ? currency->formatValue(legend_value, deci) : budget->formatValue(legend_value, deci) + "%"), current_value);
 			if(theme < 0) {
 				slice->setBrush(getPieBrush(index, account_order.size() > 0 ? account_order.size() : desc_order.size()));
 				slice->setLabelColor(Qt::black);
@@ -1108,7 +1128,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 			slice->setLabelArmLengthFactor(0.1);
 			slice->setExplodeDistanceFactor(0.1);
-			if(legend_value >= 8.0) {
+			if((current_value * 100) / value >= 8.0) {
 				slice->setLabelVisible(true);
 			} else {
 				show_legend = true;
@@ -1245,15 +1265,18 @@ void CategoriesComparisonChart::updateDisplay() {
 			else legend_string = account->nameWithParent();
 			legend_value = values[account];
 		}
-		legend_value = (legend_value * 100) / value;
 		int deci = 0;
-		if(legend_value < 10.0 && legend_value > -10.0) {
-			legend_value = round(legend_value * 10.0) / 10.0;
-			deci = 1;
+		if(valueButton->isChecked()) {
+			legend_value = current_value;
+			if(legend_value < 100.0) deci = currency->fractionalDigits();
 		} else {
-			legend_value = round(legend_value);
+			legend_value = (current_value * 100) / value;
+			if(legend_value < 10.0 && legend_value > -10.0) {
+				legend_value = round(legend_value * 10.0) / 10.0;
+				deci = 1;
+			}
 		}
-		QGraphicsSimpleTextItem *legend_text = new QGraphicsSimpleTextItem(QString("%1 (%2%)").arg(legend_string).arg(currency->formatValue(legend_value, deci, false)));
+		QGraphicsSimpleTextItem *legend_text = new QGraphicsSimpleTextItem(QString("%1 (%2%)").arg(legend_string).arg(valueButton->isChecked() ? currency->formatValue(legend_value, deci) : budget->formatValue(legend_value, deci) + "%"));
 		legend_text->setFont(legend_font);
 		legend_text->setBrush(Qt::black);
 		if(legend_text->boundingRect().width() > text_width) text_width = legend_text->boundingRect().width();
@@ -1411,6 +1434,14 @@ AssetsAccount *CategoriesComparisonChart::selectedAccount() {
 	return (AssetsAccount*) accountCombo->currentData().value<void*>();
 }
 
+void CategoriesComparisonChart::valueTypeToggled(int i, bool b) {
+	if(!b) return;
+	QSettings settings;
+	settings.beginGroup("CategoriesComparisonChart");
+	settings.setValue("valueType", i);
+	settings.endGroup();
+	updateDisplay();
+}
 #ifdef QT_CHARTS_LIB
 void CategoriesComparisonChart::themeChanged(int index) {
 	int theme = themeCombo->itemData(index).toInt();
@@ -1421,7 +1452,9 @@ void CategoriesComparisonChart::themeChanged(int index) {
 	settings.endGroup();
 	updateDisplay();
 }
-void CategoriesComparisonChart::typeChanged(int) {
+void CategoriesComparisonChart::typeChanged(int type) {
+	percentButton->setEnabled(type == 0);
+	valueButton->setEnabled(type == 0);
 	updateDisplay();
 }
 void CategoriesComparisonChart::sliceHovered(QPieSlice *slice, bool state) {

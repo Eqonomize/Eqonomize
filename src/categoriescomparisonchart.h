@@ -41,7 +41,7 @@ class QButtonGroup;
 class QCheckBox;
 class QComboBox;
 class QPushButton;
-
+class QRadioButton;
 class QDateEdit;
 
 class CategoryAccount;
@@ -67,6 +67,7 @@ class CategoriesComparisonChart : public QWidget {
 		QDateEdit *fromEdit, *toEdit;
 		QPushButton *nextYearButton, *prevYearButton, *nextMonthButton, *prevMonthButton;
 		QPushButton *saveButton, *printButton;
+		QRadioButton *percentButton, *valueButton;
 #ifdef QT_CHARTS_LIB
 		QChartView *view;
 		QChart *chart;
@@ -103,6 +104,7 @@ class CategoriesComparisonChart : public QWidget {
 		void nextYear();
 		void sourceChanged(int);
 		AssetsAccount *selectedAccount();
+		void valueTypeToggled(int, bool);
 #ifdef QT_CHARTS_LIB
 		void themeChanged(int);
 		void typeChanged(int);
