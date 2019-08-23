@@ -26,6 +26,7 @@
 #include <QMenu>
 #include <QHash>
 #include <QList>
+#include <QStringList>
 
 class QCheckBox;
 class QComboBox;
@@ -38,7 +39,7 @@ class QKeyEvent;
 class Account;
 class AssetsAccount;
 class Budget;
-
+class Transactions;
 
 class AccountsMenu : public QMenu {
 
@@ -84,13 +85,13 @@ class AccountsMenu : public QMenu {
 
 };
 
-class AccountsButton : public QPushButton {
+class AccountsCombo : public QPushButton {
 	
 	Q_OBJECT
 	
 	public:
 
-		AccountsButton(Budget *budg, QWidget *parent = NULL, bool shows_assets = false);
+		AccountsCombo(Budget *budg, QWidget *parent = NULL, bool shows_assets = false);
 		
 		bool accountSelected(Account *account);
 		bool allAccountsSelected();
@@ -98,6 +99,8 @@ class AccountsButton : public QPushButton {
 		void updateAccounts(int type);
 		QString selectedAccountsText(int type = 1);
 		QList<Account*> &selectedAccounts();
+		bool testTransactionRelation(Transactions *trans, bool exclude_securities = false);
+		double transactionChange(Transactions *trans, bool exclude_securities = false);
 
 	public slots:
 
@@ -117,6 +120,89 @@ class AccountsButton : public QPushButton {
 		
 };
 
+class DescriptionsMenu : public QMenu {
+
+	Q_OBJECT
+	
+	public:
+	
+		DescriptionsMenu(int type, Budget*, QWidget *parent = NULL, bool show_all = true);
+		
+		bool itemSelected(const QString &str);
+		bool allItemsSelected();
+		void setItemSelected(const QString &str, bool selected);
+		int selectedItemsCount();
+		QString selectedItemsText(int type);
+		void addItem(QString str);
+		void updateItems(const QStringList &list);
+		void clearItems();
+		bool testTransaction(Transactions *trans);
+		
+		QStringList selected_items;
+		
+	protected:
+	
+		QHash<QString, QAction*> item_actions;
+	
+		void keyPressEvent(QKeyEvent *e);
+		void mouseReleaseEvent(QMouseEvent *e);
+		
+		Budget *budget;
+		
+		bool b_all;
+		int i_type;
+	
+	protected slots:
+	
+		void itemToggled();
+		
+	public slots:
+	
+		void selectAll();
+		void deselectAll();
+		void toggleAll();
+	
+	signals:
+	
+		void selectedItemsChanged();
+
+};
+
+class DescriptionsCombo : public QPushButton {
+	
+	Q_OBJECT
+	
+	public:
+
+		DescriptionsCombo(int type, Budget *budg, QWidget *parent = NULL, bool show_all = true);
+		
+		bool itemSelected(const QString &str);
+		bool allItemsSelected();
+		void setItemSelected(const QString &str, bool selected);
+		void addItem(QString str);
+		void updateItems(const QStringList &list);
+		QString selectedItemsText(int type = 1);
+		QStringList &selectedItems();
+		bool testTransaction(Transactions *trans);
+
+	public slots:
+
+		void resizeDescriptionsMenu();
+		void updateText();
+		void selectAll();
+		void deselectAll();
+		void clear();
+		
+	signals:
+	
+		void selectedItemsChanged();
+		
+	protected:
+	
+		DescriptionsMenu *itemsMenu;
+		
+};
+
 class OverTimeReport : public QWidget {
 
 	Q_OBJECT
@@ -130,13 +216,12 @@ class OverTimeReport : public QWidget {
 		Budget *budget;
 		QString source;
 
-		QString current_description, current_tag;
 		int current_source;
-		bool has_empty_description;
 		
 		QTextEdit *htmlview;
-		QComboBox *sourceCombo, *tagCombo, *descriptionCombo, *accountCombo;
-		AccountsButton *categoryCombo;
+		QComboBox *sourceCombo;
+		DescriptionsCombo *tagCombo, *descriptionCombo;
+		AccountsCombo *categoryCombo, *accountCombo;
 		QPushButton *saveButton, *printButton;
 		QCheckBox *valueButton, *dailyButton, *monthlyButton, *yearlyButton, *countButton, *perButton;
 		QRadioButton *catsButton, *tagsButton, *totalButton;
@@ -149,8 +234,8 @@ class OverTimeReport : public QWidget {
 		void resetOptions();
 		void sourceChanged(int);
 		void categoryChanged();
-		void tagChanged(int);
-		void descriptionChanged(int);
+		void tagChanged();
+		void descriptionChanged();
 		void updateTransactions();
 		void updateAccounts();
 		void updateTags();
@@ -159,7 +244,6 @@ class OverTimeReport : public QWidget {
 		void save();
 		void print();
 		void saveConfig();
-		AssetsAccount *selectedAccount();
 
 };
 

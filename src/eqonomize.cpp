@@ -1013,12 +1013,12 @@ EditQuotationsDialog::EditQuotationsDialog(Security *sec, QWidget *parent) : QDi
 	deleteButton = new QPushButton(tr("Delete"), this);
 	deleteButton->setEnabled(false);
 	buttonsLayout->addWidget(deleteButton);
-	buttonsLayout->addSpacing(6);
+	buttonsLayout->addSpacing(12);
 	QPushButton *importButton = new QPushButton(tr("Import…"), this);
 	buttonsLayout->addWidget(importButton);
 	QPushButton *exportButton = new QPushButton(tr("Export…"), this);
 	buttonsLayout->addWidget(exportButton);
-	buttonsLayout->addSpacing(12);
+	buttonsLayout->addSpacing(18);
 	buttonsLayout->addStretch(1);
 	
 	
@@ -1065,7 +1065,14 @@ void EditQuotationsDialog::modifyQuotations() {
 		i = (QuotationListViewItem*) *it;
 	}
 }
-extern QString htmlize_string(QString str);
+
+QString htmlize_string(QString str) {
+	str.replace('<', "&lt;");
+	str.replace('>', "&gt;");
+	str.replace('&', "&amp;");
+	str.replace('\"', "&quot;");
+	return str;
+}
 
 struct q_csv_info {
 	int value_format;
@@ -6230,14 +6237,6 @@ void Eqonomize::showCategoriesComparisonChart() {
 	if(!b) ((CategoriesComparisonChartDialog*) cccDialog)->chart->updateDisplay();
 	cccDialog->raise();
 	cccDialog->activateWindow();
-}
-
-QString htmlize_string(QString str) {
-	str.replace('<', "&lt;");
-	str.replace('>', "&gt;");
-	str.replace('&', "&amp;");
-	str.replace('\"', "&quot;");
-	return str;
 }
 
 bool Eqonomize::exportScheduleList(QTextStream &outf, int fileformat) {

@@ -100,7 +100,7 @@ void TagButton::updateText() {
 		setText(QString("(") + QString::number(tagMenu->selectedTagsCount()) + ")");
 		setToolTip(str);
 	} else {		
-		setText(str);
+		setText(str.replace("&", "&&"));
 	}
 }
 void TagButton::keyPressEvent(QKeyEvent *e) {
@@ -154,7 +154,7 @@ void TagMenu::updateTags() {
 		if(!budget->tags.isEmpty()) addSeparator();
 	}
 	for(int i = 0; i < budget->tags.count(); i++) {
-		QAction *action = addAction(budget->tags[i], this, SLOT(tagToggled()));
+		QAction *action = addAction(budget->tags[i].replace("&", "&&"), this, SLOT(tagToggled()));
 		action->setData(false);
 		action->setCheckable(true);
 		if(tagb.contains(budget->tags[i])) {
