@@ -31,6 +31,8 @@ class QRadioButton;
 class QDateEdit;
 class QTextEdit;
 
+class AccountsCombo;
+class DescriptionsCombo;
 class CategoryAccount;
 class AssetsAccount;
 class Budget;
@@ -49,8 +51,7 @@ class CategoriesComparisonReport : public QWidget {
 		QString source;
 		QDate from_date, to_date;
 		CategoryAccount *current_account;
-		QString current_description, current_payee, current_tag;
-		bool has_empty_description, has_empty_payee;
+		QString current_tag;
 		bool b_extra;
 		bool block_display_update;
 		int first_source_account_index;
@@ -61,7 +62,9 @@ class CategoriesComparisonReport : public QWidget {
 		QPushButton *nextYearButton, *prevYearButton, *nextMonthButton, *prevMonthButton;
 		QPushButton *saveButton, *printButton;
 		QCheckBox *valueButton, *dailyButton, *monthlyButton, *yearlyButton, *countButton, *perButton;
-		QComboBox *sourceCombo, *descriptionCombo, *payeeCombo, *accountCombo;
+		QComboBox *sourceCombo;
+		DescriptionsCombo *descriptionCombo, *payeeCombo;
+		AccountsCombo *accountCombo;
 		QRadioButton *descriptionButton, *payeeButton, *subsButton;
 		QRadioButton *monthsButton, *yearsButton, *tagsButton, *totalButton;
 		QWidget *payeeDescriptionWidget;
@@ -83,13 +86,12 @@ class CategoriesComparisonReport : public QWidget {
 		void prevYear();
 		void nextYear();
 		void sourceChanged(int);
-		void descriptionChanged(int);
-		void payeeChanged(int);
+		void descriptionChanged();
+		void payeeChanged();
 		void descriptionToggled(bool);
 		void payeeToggled(bool);
 		void subsToggled(bool);
 		void columnsToggled(int, bool);
-		AssetsAccount *selectedAccount();
 
 };
 

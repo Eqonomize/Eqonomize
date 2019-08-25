@@ -1,3 +1,18 @@
+2019-08-24  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Make it possible to select multiple categories, tags, accounts,
+	  descriptions, and payees/payers in categories and report
+
+2019-08-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Option to display absolute values instead of percent in pie chart
+
+2019-08-17  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Security quotes import and export, in quotes dialog
+	* Ctrl + Home shortcut in date fields, and Home shortcut and context
+	  menu item in calendar popup, for current date selection
+
 2019-08-13  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix set single transaction in edit widget for transaction with

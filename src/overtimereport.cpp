@@ -81,7 +81,7 @@ DescriptionsCombo::DescriptionsCombo(int type, Budget *budg, QWidget *parent, bo
 	setMenu(itemsMenu);
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
 	clear();
-	//setFixedWidth(sizeHint().width() + 20);
+	setMinimumWidth(sizeHint().width());
 	connect(itemsMenu, SIGNAL(aboutToShow()), this, SLOT(resizeDescriptionsMenu()));
 	connect(itemsMenu, SIGNAL(selectedItemsChanged()), this, SLOT(updateText()));
 	connect(itemsMenu, SIGNAL(selectedItemsChanged()), this, SIGNAL(selectedItemsChanged()));
@@ -98,6 +98,12 @@ void DescriptionsCombo::addItem(QString str) {
 }
 void DescriptionsCombo::updateItems(const QStringList &list) {
 	itemsMenu->updateItems(list);
+}
+void DescriptionsCombo::setItemType(int type) {
+	itemsMenu->setItemType(type);
+}
+int DescriptionsCombo::itemType() {
+	return itemsMenu->itemType();
 }
 void DescriptionsCombo::setItemSelected(const QString &str, bool b) {
 	itemsMenu->setItemSelected(str, b);
@@ -182,6 +188,12 @@ void DescriptionsMenu::updateItems(const QStringList &list) {
 		}
 		item_actions[QString()] = action;
 	}
+}
+void DescriptionsMenu::setItemType(int type) {
+	i_type = type;
+}
+int DescriptionsMenu::itemType() {
+	return i_type;
 }
 void DescriptionsMenu::clearItems() {
 	clear();
@@ -290,20 +302,18 @@ void DescriptionsMenu::keyPressEvent(QKeyEvent *e) {
 	QMenu::keyPressEvent(e);
 }
 void DescriptionsMenu::mouseReleaseEvent(QMouseEvent *e) {
-	if(e->button() == Qt::LeftButton) {
-		QAction *action = actionAt(e->pos());
-		if(action) {
-			if(e->pos().x() <= actionGeometry(action).height()) {
-				action->trigger();
-				e->setAccepted(true);
-			} else {
-				deselectAll();
-				action->trigger();
-				e->setAccepted(true);
-				hide();
-			}
-			return;
+	QAction *action = actionAt(e->pos());
+	if(action) {
+		if(e->button() != Qt::LeftButton || e->pos().x() <= actionGeometry(action).height()) {
+			action->trigger();
+			e->setAccepted(true);
+		} else {
+			deselectAll();
+			action->trigger();
+			e->setAccepted(true);
+			hide();
 		}
+		return;
 	}
 	QMenu::mouseReleaseEvent(e);
 }
@@ -329,34 +339,9 @@ void DescriptionsMenu::toggleAll() {
 AccountsCombo::AccountsCombo(Budget *budg, QWidget *parent, bool shows_assets) : QPushButton(parent) {
 	accountsMenu = new AccountsMenu(budg, this, shows_assets);
 	setMenu(accountsMenu);
-	/*QFontMetrics fm(font());
-	int w = 0;
-	Account *acc = NULL;
-	if(shows_assets) {
-		for(AccountList<AssetsAccount*>::const_iterator it = budg->assetsAccounts.constBegin(); it != budg->assetsAccounts.constEnd(); ++it) {
-			int w2 = fm.boundingRect((*it)->nameWithParent()).width();
-			if(w2 > w) {w = w2; acc = *it;}
-		}
-	} else {
-		for(AccountList<IncomesAccount*>::const_iterator it = budg->incomesAccounts.constBegin(); it != budg->incomesAccounts.constEnd(); ++it) {
-			int w2 = fm.boundingRect((*it)->nameWithParent()).width();
-			if(w2 > w) {w = w2; acc = *it;}
-		}
-		for(AccountList<ExpensesAccount*>::const_iterator it = budg->expensesAccounts.constBegin(); it != budg->expensesAccounts.constEnd(); ++it) {
-			int w2 = fm.boundingRect((*it)->nameWithParent()).width();
-			if(w2 > w) {w = w2; acc = *it;}
-		}
-	}
-	if(acc) {
-		setText(acc->nameWithParent().replace("&", "&&"));
-		w = sizeHint().width();
-	} else {
-		w = 0;
-	}*/
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
 	clear();
-	//if(w < sizeHint().width()) w = sizeHint().width();
-	//setFixedWidth(w);
+	setMinimumWidth(sizeHint().width());
 	connect(accountsMenu, SIGNAL(aboutToShow()), this, SLOT(resizeAccountsMenu()));
 	connect(accountsMenu, SIGNAL(selectedAccountsChanged()), this, SLOT(updateText()));
 	connect(accountsMenu, SIGNAL(selectedAccountsChanged()), this, SIGNAL(selectedAccountsChanged()));
@@ -542,20 +527,18 @@ void AccountsMenu::keyPressEvent(QKeyEvent *e) {
 	QMenu::keyPressEvent(e);
 }
 void AccountsMenu::mouseReleaseEvent(QMouseEvent *e) {
-	if(e->button() == Qt::LeftButton) {
-		QAction *action = actionAt(e->pos());
-		if(action) {
-			if(e->pos().x() <= actionGeometry(action).height()) {
-				action->trigger();
-				e->setAccepted(true);
-			} else {
-				deselectAll();
-				action->trigger();
-				e->setAccepted(true);
-				hide();
-			}
-			return;
+	QAction *action = actionAt(e->pos());
+	if(action) {
+		if(e->button() != Qt::LeftButton || e->pos().x() <= actionGeometry(action).height()) {
+			action->trigger();
+			e->setAccepted(true);
+		} else {
+			deselectAll();
+			action->trigger();
+			e->setAccepted(true);
+			hide();
 		}
+		return;
 	}
 	QMenu::mouseReleaseEvent(e);
 }
@@ -1426,9 +1409,8 @@ void OverTimeReport::updateDisplay() {
 		}
 	}
 	Currency *currency = budget->defaultCurrency();
-	if(single_assets) {
-		currency = ((AssetsAccount*) accountCombo->selectedAccounts()[0])->currency();
-	}
+	if(single_assets) currency = ((AssetsAccount*) accountCombo->selectedAccounts()[0])->currency();
+
 	if(current_source == 12) {
 		if(type == 6) {
 			QList<Account*> account_list = accountCombo->selectedAccounts();

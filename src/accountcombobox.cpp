@@ -74,7 +74,7 @@ void QComboBoxListViewEq::paintEvent(QPaintEvent *e) {
 		QStyleOptionComboBox opt;
 		opt.initFrom(combo);
 		opt.editable = combo->isEditable();
-		if (combo->style()->styleHint(QStyle::SH_ComboBox_Popup, &opt, combo)) {
+		if(combo->style()->styleHint(QStyle::SH_ComboBox_Popup, &opt, combo)) {
 			//we paint the empty menu area to avoid having blank space that can happen when scrolling
 			QStyleOptionMenuItem menuOpt;
 			menuOpt.initFrom(this);

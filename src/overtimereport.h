@@ -137,6 +137,8 @@ class DescriptionsMenu : public QMenu {
 		void updateItems(const QStringList &list);
 		void clearItems();
 		bool testTransaction(Transactions *trans);
+		void setItemType(int type);
+		int itemType();
 		
 		QStringList selected_items;
 		
@@ -184,6 +186,8 @@ class DescriptionsCombo : public QPushButton {
 		QString selectedItemsText(int type = 1);
 		QStringList &selectedItems();
 		bool testTransaction(Transactions *trans);
+		void setItemType(int type);
+		int itemType();
 
 	public slots:
 
