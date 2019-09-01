@@ -4190,9 +4190,8 @@ bool Eqonomize::editScheduledTransaction(ScheduledTransaction *strans, QWidget *
 			} else {
 				if(!strans->recurrence() && strans->transaction()->date() <= QDate::currentDate()) {
 					Transactions *trans = strans->transaction()->copy();
+					transactionRemoved(strans, old_strans);
 					budget->removeScheduledTransaction(strans, true);
-					transactionModified(strans, old_strans);
-					transactionRemoved(strans);
 					delete strans;
 					budget->addTransactions(trans);
 					transactionAdded(trans);
@@ -8824,7 +8823,7 @@ void Eqonomize::transactionRemoved(Transactions *transs, Transactions *oldvalue)
 			QTreeWidgetItemIterator it(scheduleView);
 			ScheduleListViewItem *i = (ScheduleListViewItem*) *it;
 			while(i) {
-				if(i->scheduledTransaction() == strans) {
+				if(i->scheduledTransaction() == transs) {
 					delete i;
 					break;
 				}

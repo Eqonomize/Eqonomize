@@ -1618,13 +1618,8 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
 			while(i) {
 				if(i->scheduledTransaction() == strans) {
-					if(i->transaction()) {
-						current_value -= i->transaction()->value(true);
-						current_quantity -= i->transaction()->quantity();
-					} else if(i->splitTransaction()) {
-						current_value -= i->splitTransaction()->value(true);
-						current_quantity -= i->splitTransaction()->quantity();
-					}
+					current_value -= oldstrans->transaction()->value(true);
+					current_quantity -= oldstrans->transaction()->quantity();
 					QTreeWidgetItem *i_del = i;
 					++it;
 					i = (TransactionListViewItem*) *it;
@@ -1730,13 +1725,8 @@ void TransactionListWidget::onTransactionRemoved(Transactions *transs) {
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
 			while(i) {
 				if(i->scheduledTransaction() == strans) {
-					if(i->transaction()) {
-						current_value -= i->transaction()->value(true);
-						current_quantity -= i->transaction()->quantity();
-					} else if(i->splitTransaction()) {
-						current_value -= i->splitTransaction()->value(true);
-						current_quantity -= i->splitTransaction()->quantity();
-					}
+					current_value -= strans->transaction()->value(true);
+					current_quantity -= strans->transaction()->quantity();
 					QTreeWidgetItem *i_del = i;
 					++it;
 					i = (TransactionListViewItem*) *it;
