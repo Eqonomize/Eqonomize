@@ -286,24 +286,25 @@ void DescriptionsMenu::itemToggled() {
 	emit selectedItemsChanged();
 }
 void DescriptionsMenu::keyPressEvent(QKeyEvent *e) {
-	if(e->key() == Qt::Key_Space) {
-		QAction *action = activeAction();
-		if(action) action->trigger();
-		e->setAccepted(true);
-		return;
-	} else if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
-		deselectAll();
-		QAction *action = activeAction();
-		if(action) action->trigger();
-		e->setAccepted(true);
-		hide();
-		return;
+	QAction *action = activeAction();
+	if(action && item_actions.values().contains(action)) {
+		if(e->key() == Qt::Key_Space) {
+			action->trigger();
+			e->setAccepted(true);
+			return;
+		} else if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
+			deselectAll();
+			action->trigger();
+			e->setAccepted(true);
+			hide();
+			return;
+		}
 	}
 	QMenu::keyPressEvent(e);
 }
 void DescriptionsMenu::mouseReleaseEvent(QMouseEvent *e) {
 	QAction *action = actionAt(e->pos());
-	if(action) {
+	if(action && item_actions.values().contains(action)) {
 		if(e->button() != Qt::LeftButton || e->pos().x() <= actionGeometry(action).height()) {
 			action->trigger();
 			e->setAccepted(true);
@@ -331,7 +332,7 @@ void DescriptionsMenu::deselectAll() {
 	}
 }
 void DescriptionsMenu::toggleAll() {
-	if(selectedItemsCount() == item_actions.count()) deselectAll();
+	if(selected_items.count() == item_actions.count()) deselectAll();
 	else selectAll();
 	emit selectedItemsChanged();
 }
@@ -511,24 +512,25 @@ void AccountsMenu::accountToggled() {
 	emit selectedAccountsChanged();
 }
 void AccountsMenu::keyPressEvent(QKeyEvent *e) {
-	if(e->key() == Qt::Key_Space) {
-		QAction *action = activeAction();
-		if(action) action->trigger();
-		e->setAccepted(true);
-		return;
-	} else if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
-		deselectAll();
-		QAction *action = activeAction();
-		if(action) action->trigger();
-		e->setAccepted(true);
-		hide();
-		return;
+	QAction *action = activeAction();
+	if(action && account_actions.values().contains(action)) {
+		if(e->key() == Qt::Key_Space) {
+			action->trigger();
+			e->setAccepted(true);
+			return;
+		} else if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
+			deselectAll();
+			action->trigger();
+			e->setAccepted(true);
+			hide();
+			return;
+		}
 	}
 	QMenu::keyPressEvent(e);
 }
 void AccountsMenu::mouseReleaseEvent(QMouseEvent *e) {
 	QAction *action = actionAt(e->pos());
-	if(action) {
+	if(action && account_actions.values().contains(action)) {
 		if(e->button() != Qt::LeftButton || e->pos().x() <= actionGeometry(action).height()) {
 			action->trigger();
 			e->setAccepted(true);
@@ -556,7 +558,7 @@ void AccountsMenu::deselectAll() {
 	}
 }
 void AccountsMenu::toggleAll() {
-	if(selectedAccountsCount() == account_actions.count()) deselectAll();
+	if(selected_accounts.count() == account_actions.count()) deselectAll();
 	else selectAll();
 	emit selectedAccountsChanged();
 }
@@ -693,7 +695,7 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 void OverTimeReport::resetOptions() {
 	block_display_update = true;
 	accountCombo->blockSignals(true);
-	accountCombo->selectAll();
+	accountCombo->deselectAll();
 	accountCombo->blockSignals(false);
 	sourceCombo->blockSignals(true);
 	sourceCombo->setCurrentIndex(0);

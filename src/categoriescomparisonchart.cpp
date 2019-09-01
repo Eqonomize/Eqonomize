@@ -268,7 +268,7 @@ void CategoriesComparisonChart::resetOptions() {
 	fromEdit->blockSignals(false);
 	toEdit->blockSignals(false);
 	accountCombo->blockSignals(true);
-	accountCombo->selectAll();
+	accountCombo->deselectAll();
 	accountCombo->blockSignals(false);
 	sourceCombo->setCurrentIndex(0);
 	sourceChanged(0);

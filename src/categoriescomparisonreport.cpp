@@ -288,7 +288,7 @@ void CategoriesComparisonReport::resetOptions() {
 	columnsToggled(tagsButton->isChecked() ? 3 : (yearsButton->isChecked() ? 2 : (monthsButton->isChecked() ? 1 : 0)), true);
 	sourceCombo->setCurrentIndex(0);
 	accountCombo->blockSignals(true);
-	accountCombo->selectAll();
+	accountCombo->deselectAll();
 	accountCombo->blockSignals(false);
 	block_display_update = false;
 	sourceChanged(0);
