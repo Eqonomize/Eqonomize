@@ -567,10 +567,12 @@ void EqonomizeCalendarWidget::selectToday() {
 EqonomizeDateEdit::EqonomizeDateEdit(QWidget *parent) : QDateEdit(QDate::currentDate(), parent) {
 	setCalendarPopup(true);
 	setCalendarWidget(new EqonomizeCalendarWidget(this));
+	popupMenu = NULL;
 }
 EqonomizeDateEdit::EqonomizeDateEdit(const QDate &date, QWidget *parent) : QDateEdit(date, parent) {
 	setCalendarPopup(true);
 	setCalendarWidget(new EqonomizeCalendarWidget(this));
+	popupMenu = NULL;
 }
 void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
 	if(event->key() == Qt::Key_Down || event->key() == Qt::Key_Up) {
@@ -617,5 +619,17 @@ void EqonomizeDateEdit::keyPressEvent(QKeyEvent *event) {
 		event->accept();
 		emit returnPressed();
 	}
+}
+void EqonomizeDateEdit::setToday() {
+	setDate(QDate::currentDate());
+}
+void EqonomizeDateEdit::contextMenuEvent(QContextMenuEvent *event) {
+	if(!popupMenu) {
+		popupMenu = lineEdit()->createStandardContextMenu();
+		popupMenu->addSeparator();
+		todayAction = popupMenu->addAction(tr("Today"), this, SLOT(setToday()), Qt::CTRL | Qt::Key_Home);
+	}
+	todayAction->setEnabled(date() != QDate::currentDate());
+	popupMenu->exec(event->globalPos());
 }
 

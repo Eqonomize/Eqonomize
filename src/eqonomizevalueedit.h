@@ -88,6 +88,11 @@ class EqonomizeDateEdit : public QDateEdit {
 
 	Q_OBJECT
 
+	protected:
+	
+		QMenu *popupMenu;
+		QAction *todayAction;
+
 	public:
 	
 		EqonomizeDateEdit(QWidget *parent = NULL);
@@ -96,6 +101,8 @@ class EqonomizeDateEdit : public QDateEdit {
 	protected slots:
 	
 		void keyPressEvent(QKeyEvent *event);
+		void setToday();
+		void contextMenuEvent(QContextMenuEvent *event);
 		
 	signals:
 	

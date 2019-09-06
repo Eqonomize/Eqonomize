@@ -258,7 +258,7 @@ QString DescriptionsMenu::selectedItemsText(int type) {
 		n++;
 	}
 	if(n == 0 || (type == 0 && n > 1)) {
-		if(n == 0 || n == item_actions.count()) {
+		if(b_all && (n == 0 || n == item_actions.count())) {
 			if(i_type == 0) str = tr("All Descriptions Combined", "Referring to the transaction description property (transaction title/generic article name)");
 			else if(i_type == 1) str = tr("All Tags Combined");
 			else if(i_type == 2) str = tr("All Payees Combined");

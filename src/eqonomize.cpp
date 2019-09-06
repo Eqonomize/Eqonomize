@@ -7348,7 +7348,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.4.1</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2019 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.4.2</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2019 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);
@@ -10481,11 +10481,13 @@ QString	EqonomizeTranslator::translate(const char *context, const char *sourceTe
 	//: Only used when Qt translation is missing
 	if(strcmp(sourceText, "&Save") == 0) return tr("&Save");
 	//: Only used when Qt translation is missing
+	if(strcmp(sourceText, "&Select All") == 0) return tr("&Select All");
+	//: Only used when Qt translation is missing
 	if(strcmp(sourceText, "Look in:") == 0) return tr("Look in:");
 	//: Only used when Qt translation is missing
 	if(strcmp(sourceText, "File &name:") == 0) return tr("File &name:");
 	//: Only used when Qt translation is missing
 	if(strcmp(sourceText, "Files of type:") == 0) return tr("Files of type:");
-	return  QString();
+	return QString();
 }
 

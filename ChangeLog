@@ -1,3 +1,8 @@
+2019-09-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix segfault when editing a scheduled transaction (primarily with
+	  current date) present in the expenses, incomes and/or transfers view
+
 2019-08-24  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Make it possible to select multiple categories, tags, accounts,
