@@ -207,7 +207,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *aaccount = *it;
 		if(aaccount != budget->balancingAccount && aaccount->accountType() != ASSETS_TYPE_SECURITIES) {
-			accountCombo->addItem(aaccount->name(), qVariantFromValue((void*) aaccount));
+			accountCombo->addItem(aaccount->name(), QVariant::fromValue((void*) aaccount));
 			if(aaccount == account) accountCombo->setCurrentIndex(i);
 			i++;
 		}
@@ -828,7 +828,7 @@ void LedgerDialog::updateAccounts() {
 	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *aaccount = *it;
 		if(aaccount != budget->balancingAccount && aaccount->accountType() != ASSETS_TYPE_SECURITIES) {
-			accountCombo->addItem(aaccount->name(), qVariantFromValue((void*) aaccount));
+			accountCombo->addItem(aaccount->name(), QVariant::fromValue((void*) aaccount));
 			if(aaccount == account) {
 				accountCombo->setCurrentIndex(i);
 				account_found = true;

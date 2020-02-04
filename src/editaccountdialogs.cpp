@@ -200,7 +200,7 @@ void EditAssetsAccountDialog::updateCurrencyList(Currency *select_currency) {
 		} else {
 			currencyCombo->addItem(currency->code());
 		}
-		currencyCombo->setItemData(i, qVariantFromValue((void*) currency));
+		currencyCombo->setItemData(i, QVariant::fromValue((void*) currency));
 		if(currency == select_currency) {
 			prev_currency_index = i;
 			currencyCombo->setCurrentIndex(i);
@@ -272,7 +272,7 @@ void EditAssetsAccountDialog::typeActivated(int index) {
 		case 5: {i_type = ASSETS_TYPE_SECURITIES;  break;}
 		default: {i_type = ASSETS_TYPE_OTHER; break;}
 	}
-	groupCombo->setCurrentText(budget->getAccountTypeName(i_type, true, true));
+	if(budget->getAccountType(groupCombo->currentText(), true, true) != ASSETS_TYPE_OTHER) groupCombo->setCurrentText(budget->getAccountTypeName(i_type, true, true));
 	valueEdit->setEnabled(index != 5);
 	budgetButton->setEnabled(index != 5 && index != 4 && index != 3);
 	closedButton->setEnabled(index != 4);
@@ -430,7 +430,7 @@ EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, IncomesAccount 
 		IncomesAccount *account = *it;
 		if(!account->parentCategory()) {
 			parentCombo->addItem(account->name());
-			parentCombo->setItemData(i, qVariantFromValue((void*) account));
+			parentCombo->setItemData(i, QVariant::fromValue((void*) account));
 			if(account == default_parent) parentCombo->setCurrentIndex(i);
 			i++;
 		}
@@ -536,7 +536,7 @@ EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, ExpensesAccou
 		ExpensesAccount *account = *it;
 		if(!account->parentCategory()) {
 			parentCombo->addItem(account->name());
-			parentCombo->setItemData(i, qVariantFromValue((void*) account));
+			parentCombo->setItemData(i, QVariant::fromValue((void*) account));
 			if(account == default_parent) parentCombo->setCurrentIndex(i);
 			i++;
 		}

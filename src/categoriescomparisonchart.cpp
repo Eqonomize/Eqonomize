@@ -232,7 +232,7 @@ void CategoriesComparisonChart::resetOptions() {
 	settings.beginGroup("CategoriesComparisonChart");
 #ifdef QT_CHARTS_LIB
 	int theme = settings.value("theme", -1).toInt();
-	int index = themeCombo->findData(qVariantFromValue(theme));
+	int index = themeCombo->findData(QVariant::fromValue(theme));
 	if(index < 0) index = 0;
 	themeCombo->setCurrentIndex(index);
 	typeCombo->setCurrentIndex(0);

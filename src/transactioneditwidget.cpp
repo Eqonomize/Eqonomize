@@ -356,11 +356,11 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		if(select_security) {
 			securityCombo = new EqonomizeComboBox(this);
 			securityCombo->setEditable(false);
-			if(b_create_accounts) securityCombo->addItem(tr("New Security…", "Financial security (e.g. stock, mutual fund)"), qVariantFromValue((void*) NULL));
+			if(b_create_accounts) securityCombo->addItem(tr("New Security…", "Financial security (e.g. stock, mutual fund)"), QVariant::fromValue((void*) NULL));
 			int i2 = (b_create_accounts ? 1 : 0);
 			for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
 				Security *c_sec = *it;
-				securityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
+				securityCombo->addItem(c_sec->name(), QVariant::fromValue((void*) c_sec));
 				if(c_sec == security || it == budget->securities.constBegin()) securityCombo->setCurrentIndex(i2);
 				i2++;
 			}
@@ -440,11 +440,11 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			if(select_security) {
 				securityCombo = new EqonomizeComboBox(this);
 				securityCombo->setEditable(false);
-				if(b_create_accounts) securityCombo->addItem(tr("New Security…", "Financial security (e.g. stock, mutual fund)"), qVariantFromValue((void*) NULL));
+				if(b_create_accounts) securityCombo->addItem(tr("New Security…", "Financial security (e.g. stock, mutual fund)"), QVariant::fromValue((void*) NULL));
 				int i2 = (b_create_accounts ? 1 : 0);
 				for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
 					Security *c_sec = *it;
-					securityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
+					securityCombo->addItem(c_sec->name(), QVariant::fromValue((void*) c_sec));
 					if(c_sec == security || it == budget->securities.constBegin()) securityCombo->setCurrentIndex(i2);
 					i2++;
 				}
@@ -485,7 +485,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			for(CurrencyList<Currency*>::const_iterator it = budget->currencies.constBegin(); it != budget->currencies.constEnd(); ++it) {
 				Currency *currency = *it;
 				currencyCombo->addItem(QIcon(":/data/flags/" + currency->code() + ".png"), currency->code());
-				currencyCombo->setItemData(i2, qVariantFromValue((void*) currency));
+				currencyCombo->setItemData(i2, QVariant::fromValue((void*) currency));
 				if(currency == budget->defaultCurrency()) currencyCombo->setCurrentIndex(i2);
 				i2++;
 			}
@@ -1052,12 +1052,12 @@ void TransactionEditWidget::securityChanged(int index) {
 				budget->addSecurity(sec);
 				securityCombo->blockSignals(true);
 				securityCombo->clear();
-				securityCombo->addItem(tr("New Security…", "Financial security (e.g. stock, mutual fund)"), qVariantFromValue((void*) NULL));
+				securityCombo->addItem(tr("New Security…", "Financial security (e.g. stock, mutual fund)"), QVariant::fromValue((void*) NULL));
 				securityCombo->insertSeparator(1);
 				int i2 = 2;
 				for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
 					Security *c_sec = *it;
-					securityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
+					securityCombo->addItem(c_sec->name(), QVariant::fromValue((void*) c_sec));
 					if(c_sec == sec) securityCombo->setCurrentIndex(i2);
 					i2++;
 				}
@@ -1069,7 +1069,7 @@ void TransactionEditWidget::securityChanged(int index) {
 			}
 		}
 		if(security) {
-			securityCombo->setCurrentIndex(securityCombo->findData(qVariantFromValue((void*) security)));
+			securityCombo->setCurrentIndex(securityCombo->findData(QVariant::fromValue((void*) security)));
 		} else {
 			securityCombo->setCurrentIndex(-1);
 		}

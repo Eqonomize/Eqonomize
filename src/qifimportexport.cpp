@@ -121,7 +121,7 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *account = *it;
 		if(account != budget->balancingAccount && account->accountType() != ASSETS_TYPE_SECURITIES) {
-			accountCombo->addItem(account->name(), qVariantFromValue((void*) account));
+			accountCombo->addItem(account->name(), QVariant::fromValue((void*) account));
 		}
 	}
 	layout3->addWidget(accountCombo, 0, 1);
@@ -462,10 +462,10 @@ ExportQIFDialog::ExportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *account = *it;
 		if(account != budget->balancingAccount) {
-			accountCombo->addItem(account->name(), qVariantFromValue((void*) account));
+			accountCombo->addItem(account->name(), QVariant::fromValue((void*) account));
 		}
 	}
-	accountCombo->addItem(tr("All", "All accounts"), qVariantFromValue((void*) NULL));
+	accountCombo->addItem(tr("All", "All accounts"), QVariant::fromValue((void*) NULL));
 	grid->addWidget(accountCombo, 0, 1);
 	accountCombo->setFocus();
 

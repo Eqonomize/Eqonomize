@@ -152,8 +152,8 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 		filterLayout->addItem(new QSpacerItem(1, 1, QSizePolicy::Minimum, QSizePolicy::Expanding), 4, 0, 1, 4);
 	}
 
-	fromCombo->addItem(tr("All"), qVariantFromValue((void*) NULL));
-	toCombo->addItem(tr("All"), qVariantFromValue((void*) NULL));
+	fromCombo->addItem(tr("All"), QVariant::fromValue((void*) NULL));
+	toCombo->addItem(tr("All"), QVariant::fromValue((void*) NULL));
 
 	if(tagCombo) {
 		tagCombo->addItem(tr("All"));
@@ -289,7 +289,7 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 		maxEdit->setValue(max);
 	}
 	if(from_account) {
-		int i = fromCombo->findData(qVariantFromValue((void*) from_account));
+		int i = fromCombo->findData(QVariant::fromValue((void*) from_account));
 		if(i >= 0) {
 			fromCombo->setCurrentIndex(i);
 			emit fromActivated(from_account);
@@ -299,7 +299,7 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 		emit fromActivated(NULL);
 	}
 	if(to_account) {
-		int i = toCombo->findData(qVariantFromValue((void*) to_account));
+		int i = toCombo->findData(QVariant::fromValue((void*) to_account));
 		if(i >= 0) {
 			toCombo->setCurrentIndex(i);
 			emit toActivated(to_account);
@@ -346,12 +346,12 @@ void TransactionFilterWidget::updateTags() {
 }
 void TransactionFilterWidget::updateFromAccounts() {
 	fromCombo->clear();
-	fromCombo->addItem(tr("All"), qVariantFromValue((void*) NULL));
+	fromCombo->addItem(tr("All"), QVariant::fromValue((void*) NULL));
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
 			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 				Account *account = *it;
-				fromCombo->addItem(account->name(), qVariantFromValue((void*) account));
+				fromCombo->addItem(account->name(), QVariant::fromValue((void*) account));
 			}
 			break;
 		}
@@ -359,7 +359,7 @@ void TransactionFilterWidget::updateFromAccounts() {
 			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 				Account *account = *it;
 				if(account != budget->balancingAccount && ((AssetsAccount*) account)->accountType() != ASSETS_TYPE_SECURITIES) {
-					fromCombo->addItem(account->name(), qVariantFromValue((void*) account));
+					fromCombo->addItem(account->name(), QVariant::fromValue((void*) account));
 				}
 			}
 			break;
@@ -367,7 +367,7 @@ void TransactionFilterWidget::updateFromAccounts() {
 		case TRANSACTION_TYPE_INCOME: {
 			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 				Account *account = *it;
-				fromCombo->addItem(account->name(), qVariantFromValue((void*) account));
+				fromCombo->addItem(account->name(), QVariant::fromValue((void*) account));
 			}
 			break;
 		}
@@ -376,12 +376,12 @@ void TransactionFilterWidget::updateFromAccounts() {
 }
 void TransactionFilterWidget::updateToAccounts() {
 	toCombo->clear();
-	toCombo->addItem(tr("All"), qVariantFromValue((void*) NULL));
+	toCombo->addItem(tr("All"), QVariant::fromValue((void*) NULL));
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
 			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 				Account *account = *it;
-				toCombo->addItem(account->name(), qVariantFromValue((void*) account));
+				toCombo->addItem(account->name(), QVariant::fromValue((void*) account));
 			}
 			break;
 		}
@@ -389,7 +389,7 @@ void TransactionFilterWidget::updateToAccounts() {
 			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 				Account *account = *it;
 				if(account != budget->balancingAccount) {
-					toCombo->addItem(account->name(), qVariantFromValue((void*) account));
+					toCombo->addItem(account->name(), QVariant::fromValue((void*) account));
 				}
 			}
 			break;
@@ -397,7 +397,7 @@ void TransactionFilterWidget::updateToAccounts() {
 		case TRANSACTION_TYPE_EXPENSE: {
 			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 				Account *account = *it;
-				toCombo->addItem(account->nameWithParent(), qVariantFromValue((void*) account));
+				toCombo->addItem(account->nameWithParent(), QVariant::fromValue((void*) account));
 			}
 			break;
 		}

@@ -1,3 +1,8 @@
+2020-02-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Do not change account group when type is selected if custom group is
+	  set
+
 2019-09-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix segfault when editing a scheduled transaction (primarily with

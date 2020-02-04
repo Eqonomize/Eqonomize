@@ -806,7 +806,7 @@ EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QW
 	int i = 0;
 	for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
 		Security *c_sec = *it;
-		fromSecurityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
+		fromSecurityCombo->addItem(c_sec->name(), QVariant::fromValue((void*) c_sec));
 		if(c_sec == sec) {
 			fromSecurityCombo->setCurrentIndex(i);
 		} else if(!sel && !sec) {
@@ -901,7 +901,7 @@ void EditSecurityTradeDialog::fromSecurityChanged(bool in_init) {
 		for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
 			Security *c_sec = *it;
 			if(c_sec != sec && c_sec->account() == sec->account()) {
-				toSecurityCombo->addItem(c_sec->name(), qVariantFromValue((void*) c_sec));
+				toSecurityCombo->addItem(c_sec->name(), QVariant::fromValue((void*) c_sec));
 				if(c_sec == to_sec) {
 					toSecurityCombo->setCurrentIndex(i);
 				}
@@ -923,12 +923,12 @@ void EditSecurityTradeDialog::toSecurityChanged() {
 }
 void EditSecurityTradeDialog::setSecurityTrade(SecurityTrade *ts) {
 	dateEdit->setDate(ts->date);
-	int index = fromSecurityCombo->findData(qVariantFromValue((void*) ts->from_security));
+	int index = fromSecurityCombo->findData(QVariant::fromValue((void*) ts->from_security));
 	if(index >= 0) fromSecurityCombo->setCurrentIndex(index);
 	fromSharesEdit->setMaximum(ts->from_security->shares() + ts->from_shares);
 	fromSharesEdit->setValue(ts->from_shares);
 	toSharesEdit->setValue(ts->to_shares);
-	index = fromSecurityCombo->findData(qVariantFromValue((void*) ts->to_security));
+	index = fromSecurityCombo->findData(QVariant::fromValue((void*) ts->to_security));
 	if(index >= 0) toSecurityCombo->setCurrentIndex(index);
 }
 SecurityTrade *EditSecurityTradeDialog::createSecurityTrade() {
@@ -6061,7 +6061,7 @@ void Eqonomize::setMainCurrency() {
 		} else {
 			setMainCurrencyCombo->addItem(currency->code());
 		}
-		setMainCurrencyCombo->setItemData(i, qVariantFromValue((void*) currency));
+		setMainCurrencyCombo->setItemData(i, QVariant::fromValue((void*) currency));
 		if(currency == budget->defaultCurrency()) {
 			setMainCurrencyCombo->setCurrentIndex(i);
 			prev_set_main_currency_index = i;
@@ -6110,7 +6110,7 @@ void Eqonomize::setMainCurrencyIndexChanged(int index) {
 			for(CurrencyList<Currency*>::const_iterator it = budget->currencies.constBegin(); it != budget->currencies.constEnd(); ++it) {
 				Currency *currency = *it;
 				setMainCurrencyCombo->addItem(QIcon(":/data/flags/" + currency->code() + ".png"), currency->code());
-				setMainCurrencyCombo->setItemData(i, qVariantFromValue((void*) currency));
+				setMainCurrencyCombo->setItemData(i, QVariant::fromValue((void*) currency));
 				if(currency == cur) {
 					setMainCurrencyCombo->setCurrentIndex(i);
 					prev_set_main_currency_index = i;

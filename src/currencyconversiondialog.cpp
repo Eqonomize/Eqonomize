@@ -116,8 +116,8 @@ void CurrencyConversionDialog::updateCurrencies() {
 			fromCombo->addItem(currency->code());
 			toCombo->addItem(currency->code());
 		}
-		fromCombo->setItemData(i, qVariantFromValue((void*) currency));
-		toCombo->setItemData(i, qVariantFromValue((void*) currency));
+		fromCombo->setItemData(i, QVariant::fromValue((void*) currency));
+		toCombo->setItemData(i, QVariant::fromValue((void*) currency));
 		if(currency == fromCur) fromCombo->setCurrentIndex(i);
 		if(currency == toCur) toCombo->setCurrentIndex(i);
 		i++;

@@ -247,12 +247,12 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	}
 	accountCombo = new QComboBox(settingsWidget);
 	accountCombo->setEditable(false);
-	accountCombo->addItem(tr("All Accounts Combined"), qVariantFromValue(NULL));
-	accountCombo->addItem(tr("All Accounts Split"), qVariantFromValue(NULL));
+	accountCombo->addItem(tr("All Accounts Combined"), QVariant::fromValue(NULL));
+	accountCombo->addItem(tr("All Accounts Split"), QVariant::fromValue(NULL));
 	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *account = *it;
 		if(account != budget->balancingAccount) {
-			accountCombo->addItem(account->name(), qVariantFromValue((void*) account));
+			accountCombo->addItem(account->name(), QVariant::fromValue((void*) account));
 		}
 	}
 	if(b_extra) choicesLayout_extra->addWidget(accountCombo, 1, 1);
@@ -338,7 +338,7 @@ void OverTimeChart::resetOptions() {
 	QSettings settings;
 	settings.beginGroup("OverTimeChart");
 	int theme = settings.value("theme", -1).toInt();
-	int index = themeCombo->findData(qVariantFromValue(theme));
+	int index = themeCombo->findData(QVariant::fromValue(theme));
 	if(index < 0) index = 0;
 	themeCombo->setCurrentIndex(index);
 	typeCombo->setCurrentIndex(0);
@@ -4473,16 +4473,16 @@ void OverTimeChart::updateAccounts() {
 	accountCombo->blockSignals(true);
 	AssetsAccount *current_assets = selectedAccount();
 	accountCombo->clear();
-	accountCombo->addItem(tr("All Accounts Combined"), qVariantFromValue(NULL));
-	accountCombo->addItem(tr("All Accounts Split"), qVariantFromValue(NULL));
+	accountCombo->addItem(tr("All Accounts Combined"), QVariant::fromValue(NULL));
+	accountCombo->addItem(tr("All Accounts Split"), QVariant::fromValue(NULL));
 	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *account = *it;
 		if(account != budget->balancingAccount) {
-			accountCombo->addItem(account->name(), qVariantFromValue((void*) account));
+			accountCombo->addItem(account->name(), QVariant::fromValue((void*) account));
 		}
 	}
 	int index = 0;
-	if(current_assets) index = accountCombo->findData(qVariantFromValue((void*) current_assets));
+	if(current_assets) index = accountCombo->findData(QVariant::fromValue((void*) current_assets));
 	if(index >= 0) accountCombo->setCurrentIndex(index);
 	else accountCombo->setCurrentIndex(0);
 	accountCombo->blockSignals(false);

@@ -727,7 +727,7 @@ void ImportCSVDialog::typeChanged(int id) {
 	if(id < 5) {
 		for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 			AssetsAccount *aa = *it;
-			if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC2Edit->addItem(aa->nameWithParent(), qVariantFromValue((void*) aa));
+			if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC2Edit->addItem(aa->nameWithParent(), QVariant::fromValue((void*) aa));
 		}
 	}
 	if(b_extra) {
@@ -803,7 +803,7 @@ void ImportCSVDialog::typeChanged(int id) {
 			if(b_extra) payeeLabel->setText(tr("Payee:"));
 			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 				ExpensesAccount *ea = *it;
-				valueAC1Edit->addItem(ea->nameWithParent(), qVariantFromValue((void*) ea));
+				valueAC1Edit->addItem(ea->nameWithParent(), QVariant::fromValue((void*) ea));
 			}
 			break;
 		}
@@ -815,7 +815,7 @@ void ImportCSVDialog::typeChanged(int id) {
 			if(b_extra) payeeLabel->setText(tr("Payer:"));
 			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 				IncomesAccount *ia = *it;
-				valueAC1Edit->addItem(ia->nameWithParent(), qVariantFromValue((void*) ia));
+				valueAC1Edit->addItem(ia->nameWithParent(), QVariant::fromValue((void*) ia));
 			}
 			break;
 		}
@@ -826,7 +826,7 @@ void ImportCSVDialog::typeChanged(int id) {
 			AC2Label->setText(tr("To account:"));
 			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 				AssetsAccount *aa = *it;
-				if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC1Edit->addItem(aa->nameWithParent(), qVariantFromValue((void*) *it));
+				if(aa != budget->balancingAccount && aa->accountType() != ASSETS_TYPE_SECURITIES) valueAC1Edit->addItem(aa->nameWithParent(), QVariant::fromValue((void*) *it));
 			}
 			break;
 		}
@@ -837,11 +837,11 @@ void ImportCSVDialog::typeChanged(int id) {
 			AC2Label->setText(tr("Account:"));
 			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 				ExpensesAccount *ea = *it;
-				valueAC1Edit->addItem(ea->nameWithParent(), qVariantFromValue((void*) ea));
+				valueAC1Edit->addItem(ea->nameWithParent(), QVariant::fromValue((void*) ea));
 			}
 			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 				IncomesAccount *ia = *it;
-				valueAC1IncomeEdit->addItem(ia->nameWithParent(), qVariantFromValue((void*) ia));
+				valueAC1IncomeEdit->addItem(ia->nameWithParent(), QVariant::fromValue((void*) ia));
 			}
 			if(b_extra) payeeLabel->setText(tr("Payee/payer:"));
 			break;
@@ -853,11 +853,11 @@ void ImportCSVDialog::typeChanged(int id) {
 			AC2Label->setText(tr("Account:"));
 			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 				ExpensesAccount *ea = *it;
-				valueAC1Edit->addItem(ea->nameWithParent(), qVariantFromValue((void*) ea));
+				valueAC1Edit->addItem(ea->nameWithParent(), QVariant::fromValue((void*) ea));
 			}
 			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 				IncomesAccount *ia = *it;
-				valueAC1IncomeEdit->addItem(ia->nameWithParent(), qVariantFromValue((void*) ia));
+				valueAC1IncomeEdit->addItem(ia->nameWithParent(), QVariant::fromValue((void*) ia));
 			}
 			if(b_extra) payeeLabel->setText(tr("Payee/payer:"));
 			break;
