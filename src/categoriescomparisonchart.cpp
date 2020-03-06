@@ -1246,6 +1246,7 @@ void CategoriesComparisonChart::updateDisplay() {
 	while((index < account_order.count()) || (current_account && index < desc_order.size())) {
 		QString legend_string;
 		double legend_value = 0.0;
+		double current_value = 0.0;
 		if(account_order.isEmpty()) {
 			if(desc_order[index].isEmpty()) {
 				legend_string = tr("No description", "Referring to the transaction description property (transaction title/generic article name)");

@@ -3997,7 +3997,7 @@ void OverTimeChart::updateDisplay() {
 	for(int i = 0; i <= y_lines; i++) {
 		int w;
 		if(type == 2) w = fm.boundingRect(budget->formatValue((int) round(maxvalue - (((maxvalue - minvalue) * i) / y_lines)), 0)).width();
-		else if (maxvalue - minvalue >= 50.0) w = fm..boundingRect(currency->formatValue(round(maxvalue - (((maxvalue - minvalue) * i) / y_lines)), 0, false)).width();
+		else if (maxvalue - minvalue >= 50.0) w = fm.boundingRect(currency->formatValue(round(maxvalue - (((maxvalue - minvalue) * i) / y_lines)), 0, false)).width();
 		else w = fm.boundingRect(currency->formatValue((maxvalue - (((maxvalue - minvalue) * i) / y_lines)), -1, false)).width();
 		if(w > max_axis_value_width) max_axis_value_width = w;
 	}
