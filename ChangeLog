@@ -1,3 +1,8 @@
+2020-03-20  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix order of transactions in ledger when split transaction has same
+	  date as single transaction
+
 2020-02-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Do not change account group when type is selected if custom group is

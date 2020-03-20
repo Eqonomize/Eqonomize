@@ -1661,7 +1661,7 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 			if(split && split->date() > curdate) split = NULL;
 		}
 		transs = trans;
-		if(!transs || (split && split->date() < trans->date())) transs = split;
+		if(!transs || (split && (split->date() < trans->date() || (split->date() == trans->date() && split->timestamp() < trans->timestamp())))) transs = split;
 	}
 	
 	if(previous_date.isValid() && previous_date < QDate::currentDate()) previous_balance *= previous_date.daysTo(QDate::currentDate());
