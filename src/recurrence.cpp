@@ -687,7 +687,7 @@ QDate MonthlyRecurrence::nextOccurrence(const QDate &date, bool include_equals) 
 			if(i_frequency > 1) prevday = 1;
 			else prevday = nextdate.day();
 			nextdate = nextdate.addMonths(i_frequency);
-			if(!endDate().isNull() && nextdate.month() > endDate().month()) return QDate();
+			if(!endDate().isNull() && (nextdate.year() > endDate().year() || (nextdate.year() == endDate().year() && nextdate.month() > endDate().month()))) return QDate();
 			day = i_day;
 			if(i_dayofweek > 0) day = get_day_in_month(nextdate, i_week, i_dayofweek);
 			else if(i_day < 1) day = nextdate.daysInMonth() + i_day;

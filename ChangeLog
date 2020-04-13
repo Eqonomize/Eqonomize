@@ -1,3 +1,8 @@
+2020-04-13  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix monthly recurrence with end date,
+	  when year of end date and start date differs
+
 2020-03-20  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix order of transactions in ledger when split transaction has same
