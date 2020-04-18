@@ -630,7 +630,7 @@ void CategoriesComparisonReport::updateDisplay() {
 	for(size_t i = 0; i < 6; i++) {
 		if(enabled[i]) columns++;
 	}
-	
+
 	QMap<Account*, QVector<double> > month_values;
 	QMap<QString, QVector<double> > desc_month_values;
 	QMap<QString, QVector<double> > tag_month_values;
@@ -655,8 +655,8 @@ void CategoriesComparisonReport::updateDisplay() {
 	bool b_expense = false, b_income = false;
 	
 	bool assets_selected = accountCombo->isEnabled() && !accountCombo->allAccountsSelected();
-	bool description_selected = payeeButton->isChecked() && descriptionCombo->isEnabled() && !descriptionCombo->allItemsSelected();
-	bool payee_selected = descriptionButton->isChecked() && payeeCombo->isEnabled() && !payeeCombo->allItemsSelected();
+	bool description_selected = b_extra && payeeButton->isChecked() && descriptionCombo->isEnabled() && !descriptionCombo->allItemsSelected();
+	bool payee_selected = b_extra && descriptionButton->isChecked() && payeeCombo->isEnabled() && !payeeCombo->allItemsSelected();
 	
 	bool include_subs = false;
 	
@@ -717,7 +717,6 @@ void CategoriesComparisonReport::updateDisplay() {
 	
 	int i_months =  0;
 	bool b_years = false;
-	
 	if(monthsButton->isChecked()) {
 		curmonth = budget->lastBudgetDay(first_date);
 		i_months = 1;
@@ -1512,22 +1511,22 @@ void CategoriesComparisonReport::updateDisplay() {
 
 	source = "";
 	QString title;
-	int ptype = payeeCombo->itemType();
+	int ptype = b_extra ? payeeCombo->itemType() : 0;
 	if(assets_selected) {
 		if((current_account || !current_tag.isEmpty()) && type == ACCOUNT_TYPE_EXPENSES) {
-			payeeCombo->setItemType(2);
+			if(b_extra) payeeCombo->setItemType(2);
 			if(include_subs) title = tr("Expenses, %2: %1").arg(current_account ? current_account->name() : current_tag).arg(accountCombo->selectedAccountsText(2));
 			else if(i_source == 4) title = tr("Expenses, %3: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(descriptionCombo->selectedItemsText(2)).arg(accountCombo->selectedAccountsText(2));
 			else if(i_source == 3) title = tr("Expenses, %3: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(payeeCombo->selectedItemsText(2)).arg(accountCombo->selectedAccountsText(2));
 			else title = tr("Expenses, %2: %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(accountCombo->selectedAccountsText(2));
 		} else if((current_account || !current_tag.isEmpty()) && type == ACCOUNT_TYPE_INCOMES) {
-			payeeCombo->setItemType(3);
+			if(b_extra) payeeCombo->setItemType(3);
 			if(include_subs) title = tr("Incomes, %2: %1").arg(current_account ? current_account->name() : current_tag).arg(accountCombo->selectedAccountsText(2));
 			else if(i_source == 4) title = tr("Incomes, %3: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(descriptionCombo->selectedItemsText(2)).arg(accountCombo->selectedAccountsText(2));
 			else if(i_source == 3) title = tr("Incomes, %3: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(payeeCombo->selectedItemsText(2)).arg(accountCombo->selectedAccountsText(2));
 			else title = tr("Incomes, %2: %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(accountCombo->selectedAccountsText(2));
 		} else if(!current_tag.isEmpty()) {
-			payeeCombo->setItemType((b_income && !b_expense) ? 3 : 2);
+			if(b_extra) payeeCombo->setItemType((b_income && !b_expense) ? 3 : 2);
 			if(i_source == 4) title = tr("%3: %2, %1").arg(current_tag).arg(descriptionCombo->selectedItemsText(2)).arg(accountCombo->selectedAccountsText(2));
 			else if(i_source == 3) title = tr("%3: %2, %1").arg(current_tag).arg(payeeCombo->selectedItemsText(2)).arg(accountCombo->selectedAccountsText(2));
 			else title = tr("%2: %1").arg(current_tag).arg(accountCombo->selectedAccountsText(2));
@@ -1540,19 +1539,19 @@ void CategoriesComparisonReport::updateDisplay() {
 		}
 	} else {
 		if((current_account || !current_tag.isEmpty()) && type == ACCOUNT_TYPE_EXPENSES) {
-			payeeCombo->setItemType(2);
+			if(b_extra) payeeCombo->setItemType(2);
 			if(include_subs) title = tr("Expenses: %1").arg(current_account ? current_account->name() : current_tag);
 			else if(i_source == 4) title = tr("Expenses: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(descriptionCombo->selectedItemsText(2));
 			else if(i_source == 3) title = tr("Expenses: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(payeeCombo->selectedItemsText(2));
 			else title = tr("Expenses: %1").arg(current_account ? current_account->nameWithParent() : current_tag);
 		} else if((current_account || !current_tag.isEmpty()) && type == ACCOUNT_TYPE_INCOMES) {
-			payeeCombo->setItemType(3);
+			if(b_extra) payeeCombo->setItemType(3);
 			if(include_subs) title = tr("Incomes: %1").arg(current_account ? current_account->name() : current_tag);
 			else if(i_source == 4) title = tr("Incomes: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(descriptionCombo->selectedItemsText(2));
 			else if(i_source == 3) title = tr("Incomes: %2, %1").arg(current_account ? current_account->nameWithParent() : current_tag).arg(payeeCombo->selectedItemsText(2));
 			else title = tr("Incomes: %1").arg(current_account ? current_account->nameWithParent() : current_tag);
 		} else if(!current_tag.isEmpty()) {
-			payeeCombo->setItemType((b_income && !b_expense) ? 3 : 2);
+			if(b_extra) payeeCombo->setItemType((b_income && !b_expense) ? 3 : 2);
 			if(i_source == 4) title = tr("%2, %1").arg(current_tag).arg(descriptionCombo->selectedItemsText(2));
 			else if(i_source == 3) title = tr("%2, %1").arg(current_tag).arg(payeeCombo->selectedItemsText(2));
 			else title = current_tag;
@@ -1564,7 +1563,7 @@ void CategoriesComparisonReport::updateDisplay() {
 			title = tr("Incomes & Expenses");
 		}
 	}
-	payeeCombo->setItemType(ptype);
+	if(b_extra) payeeCombo->setItemType(ptype);
 
 	QStringList tags;
 	bool b_incomes = !b_tags, b_expenses = !b_tags;
