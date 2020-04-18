@@ -5372,6 +5372,14 @@ void Eqonomize::reloadBudget() {
 	liabilities_group_change.clear();
 	liabilities_group_value[""] = 0.0;
 	liabilities_group_change[""] = 0.0;
+	account_items.clear();
+	assets_group_items.clear();
+	liabilities_group_items.clear();
+	tag_items.clear();
+	item_accounts.clear();
+	item_assets_groups.clear();
+	item_liabilities_groups.clear();
+	item_tags.clear();
 	while(assetsItem->childCount() > 0) {
 		delete assetsItem->child(0);
 	}
@@ -5387,14 +5395,6 @@ void Eqonomize::reloadBudget() {
 	while(tagsItem->childCount() > 0) {
 		delete tagsItem->child(0);
 	}
-	account_items.clear();
-	assets_group_items.clear();
-	liabilities_group_items.clear();
-	tag_items.clear();
-	item_accounts.clear();
-	item_assets_groups.clear();
-	item_liabilities_groups.clear();
-	item_tags.clear();
 	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *aaccount = *it;
 		if(aaccount != budget->balancingAccount) {
@@ -7348,7 +7348,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.4.2</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2019 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.4.3</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2020 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);
@@ -7899,6 +7899,7 @@ void Eqonomize::newIncomesAccount(IncomesAccount *default_parent) {
 		budget->addAccount(account);
 		if(account->parentCategory()) {
 			appendIncomesAccount(account, item_accounts[account->parentCategory()]);
+			item_accounts[account->parentCategory()]->setExpanded(true);
 		} else {
 			appendIncomesAccount(account, incomesItem);
 		}
@@ -7916,6 +7917,7 @@ void Eqonomize::newExpensesAccount(ExpensesAccount *default_parent) {
 		budget->addAccount(account);
 		if(account->parentCategory()) {
 			appendExpensesAccount(account, item_accounts[account->parentCategory()]);
+			item_accounts[account->parentCategory()]->setExpanded(true);
 		} else {
 			appendExpensesAccount(account, expensesItem);
 		}

@@ -3483,45 +3483,45 @@ i18n: file ./eqonomizeui.rc line 56
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="180"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1392"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1393"/>
         <source>All Expenses, without subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="181"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1393"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1394"/>
         <source>All Expenses, with subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="182"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1394"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1395"/>
         <source>All Incomes, without subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="183"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1395"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1396"/>
         <source>All Incomes, with subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="184"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1396"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1397"/>
         <source>All Accounts</source>
         <translation type="unfinished">Toate conturile</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="187"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="697"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1400"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1401"/>
         <source>Expenses: %1</source>
         <translation type="unfinished">Cheltuieli: %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="191"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="698"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1406"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1407"/>
         <source>Incomes: %1</source>
         <translation type="unfinished">Venituri: %1</translation>
     </message>
@@ -3601,28 +3601,28 @@ i18n: file ./eqonomizeui.rc line 56
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="1092"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1251"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1303"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1252"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1304"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Fără descriere</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="1100"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1259"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1311"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1260"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1312"/>
         <source>Other accounts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="1101"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1260"/>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1312"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1261"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1313"/>
         <source>Other categories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonchart.cpp" line="1579"/>
+        <location filename="../src/categoriescomparisonchart.cpp" line="1580"/>
         <source>%1
 Value: %2</source>
         <translation type="unfinished"></translation>
@@ -3696,13 +3696,13 @@ Value: %2</source>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="101"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2027"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2026"/>
         <source>All Categories, excluding subcategories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="102"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2028"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2027"/>
         <source>All Categories, including subcategories</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3736,19 +3736,19 @@ Value: %2</source>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="112"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1544"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1547"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1560"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2038"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1543"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1546"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1559"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2037"/>
         <source>Expenses: %1</source>
         <translation type="unfinished">Cheltuieli: %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="116"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1550"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1553"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1561"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2043"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1549"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1552"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1560"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2042"/>
         <source>Incomes: %1</source>
         <translation type="unfinished">Venituri: %1</translation>
     </message>
@@ -3788,8 +3788,8 @@ Value: %2</source>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="206"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1630"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1635"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1629"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1634"/>
         <source>Value</source>
         <translation type="unfinished">Valoare</translation>
     </message>
@@ -3810,7 +3810,7 @@ Value: %2</source>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="218"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1640"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1639"/>
         <source>Quantity</source>
         <translation type="unfinished">Cantitate</translation>
     </message>
@@ -3857,13 +3857,13 @@ Value: %2</source>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="105"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2031"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2030"/>
         <source>All Payees and Payers</source>
         <translation type="unfinished">Toți beneficiarii și plătitorii</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="119"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2047"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2046"/>
         <source>Tag: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3895,11 +3895,11 @@ Value: %2</source>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="193"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1534"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1535"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1536"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1559"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1560"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1561"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1562"/>
         <source>Tags</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3919,18 +3919,18 @@ Value: %2</source>
         <translation type="obsolete">Toți beneficiarii/plătitorii</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1751"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1750"/>
         <source>No description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Fără descriere</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1748"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1747"/>
         <source>No payee</source>
         <translation type="unfinished">Nici un beneficiar</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1749"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1748"/>
         <source>No payer</source>
         <translation type="unfinished">Nici un plătitor</translation>
     </message>
@@ -3967,67 +3967,67 @@ Value: %2</source>
         <translation type="unfinished">Eroare la scrierea fișierului; acesta nu a fost salvat.</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1519"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1522"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1535"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1518"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1521"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1534"/>
         <source>Expenses, %2: %1</source>
         <translation type="unfinished">Cheltuieli, %2: %1</translation>
     </message>
     <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1519"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1520"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1521"/>
         <source>Expenses, %3: %2, %1</source>
         <translation type="unfinished">Cheltuieli, %3: %2, %1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1525"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1528"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1536"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1524"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1527"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1535"/>
         <source>Incomes, %2: %1</source>
         <translation type="unfinished">Venituri, %2: %1</translation>
     </message>
     <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1525"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1526"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1527"/>
         <source>Incomes, %3: %2, %1</source>
         <translation type="unfinished">Venituri, %3: %2, %1</translation>
     </message>
     <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1530"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1531"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1532"/>
         <source>%3: %2, %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1533"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1532"/>
         <source>%2: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1537"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1536"/>
         <source>Tags, %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1539"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1538"/>
         <source>Incomes &amp; Expenses, %1</source>
         <translation type="unfinished">Venituri și cheltuieli, %1</translation>
     </message>
     <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1544"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1545"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1546"/>
         <source>Expenses: %2, %1</source>
         <translation type="unfinished">Cheltuieli: %2, %1</translation>
     </message>
     <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1550"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1551"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1552"/>
         <source>Incomes: %2, %1</source>
         <translation type="unfinished">Venituri: %2, %1</translation>
     </message>
     <message>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1555"/>
         <location filename="../src/categoriescomparisonreport.cpp" line="1556"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1557"/>
         <source>%2, %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4036,133 +4036,133 @@ Value: %2</source>
         <translation type="obsolete">%1</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1564"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1563"/>
         <source>Incomes &amp; Expenses</source>
         <translation type="unfinished">Venituri și cheltuieli</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1594"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1593"/>
         <source>%1 (%2&amp;ndash;%3)</source>
         <comment>html format; %1: title; %2: from date; %3: to date</comment>
         <translation type="unfinished">%1 (%2&amp;ndash;%3)</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1595"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1594"/>
         <source>%1 (to %2)</source>
         <comment>html format; %1: title; %2: to date</comment>
         <translation type="unfinished">%1 (la %2)</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1614"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1620"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1634"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1613"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1619"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1633"/>
         <source>Category</source>
         <translation type="unfinished">Categorie</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1615"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1626"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1614"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1625"/>
         <source>Payee</source>
         <translation type="unfinished">Beneficiar</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1616"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1622"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1629"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1615"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1621"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1628"/>
         <source>Description</source>
         <comment>Referring to the transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Descriere</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1617"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1616"/>
         <source>Cost</source>
         <translation type="unfinished">Cost</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1621"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1627"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1620"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1626"/>
         <source>Payer</source>
         <translation type="unfinished">Plătitor</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1623"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1622"/>
         <source>Income</source>
         <translation type="unfinished">Venit</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1628"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1632"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1627"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1631"/>
         <source>Payee/Payer</source>
         <translation type="unfinished">Beneficiar/plătitor</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1613"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1619"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1633"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1612"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1618"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1632"/>
         <source>Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1637"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1636"/>
         <source>Daily Average</source>
         <translation type="unfinished">Medie zilnică</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1638"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1637"/>
         <source>Monthly Average</source>
         <translation type="unfinished">Media lunară</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1639"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1638"/>
         <source>Yearly Average</source>
         <translation type="unfinished">Medie anuală</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1642"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1641"/>
         <source>Average Cost</source>
         <translation type="unfinished">Cost mediu</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1644"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1643"/>
         <source>Average Income</source>
         <translation type="unfinished">Venit mediu</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1646"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1645"/>
         <source>Average Value</source>
         <translation type="unfinished">Valoare medie</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1750"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1749"/>
         <source>No payee/payer</source>
         <translation type="unfinished">Nici un beneficiar/plătitor</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1654"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1782"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1855"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1925"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1653"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1781"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1854"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1924"/>
         <source>Total</source>
         <translation type="unfinished">Total</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonreport.cpp" line="103"/>
-        <location filename="../src/categoriescomparisonreport.cpp" line="2029"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="2028"/>
         <source>All Tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1855"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1854"/>
         <source>Total incomes</source>
         <translation type="unfinished">Venituri totale</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1925"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1924"/>
         <source>Total expenses</source>
         <translation type="unfinished">Cheltuieli totale</translation>
     </message>
     <message>
-        <location filename="../src/categoriescomparisonreport.cpp" line="1948"/>
+        <location filename="../src/categoriescomparisonreport.cpp" line="1947"/>
         <source>Total (Profits)</source>
         <translation type="unfinished">Total (profituri)</translation>
     </message>
@@ -6301,7 +6301,7 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <location filename="../src/eqonomize.cpp" line="4873"/>
         <location filename="../src/eqonomize.cpp" line="6684"/>
         <location filename="../src/eqonomize.cpp" line="7050"/>
-        <location filename="../src/eqonomize.cpp" line="8538"/>
+        <location filename="../src/eqonomize.cpp" line="8540"/>
         <source>Tags</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6761,23 +6761,23 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8557"/>
+        <location filename="../src/eqonomize.cpp" line="8559"/>
         <source>New Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8557"/>
-        <location filename="../src/eqonomize.cpp" line="8618"/>
+        <location filename="../src/eqonomize.cpp" line="8559"/>
+        <location filename="../src/eqonomize.cpp" line="8620"/>
         <source>Tag name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8589"/>
+        <location filename="../src/eqonomize.cpp" line="8591"/>
         <source>Remove tag?</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/eqonomize.cpp" line="8589"/>
+        <location filename="../src/eqonomize.cpp" line="8591"/>
         <source>Do you wish to remove the tag &quot;%1&quot; from %n transaction(s)?</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -6786,7 +6786,7 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8618"/>
+        <location filename="../src/eqonomize.cpp" line="8620"/>
         <source>Rename Tag</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6954,8 +6954,8 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7015"/>
-        <location filename="../src/eqonomize.cpp" line="8516"/>
-        <location filename="../src/eqonomize.cpp" line="10156"/>
+        <location filename="../src/eqonomize.cpp" line="8518"/>
+        <location filename="../src/eqonomize.cpp" line="10158"/>
         <source>Close Account</source>
         <comment>Mark account as closed</comment>
         <translation type="unfinished"></translation>
@@ -6986,13 +6986,13 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8033"/>
+        <location filename="../src/eqonomize.cpp" line="8035"/>
         <source>Only use this when unable to find the cause of the incorrect recorded account balance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8513"/>
-        <location filename="../src/eqonomize.cpp" line="10152"/>
+        <location filename="../src/eqonomize.cpp" line="8515"/>
+        <location filename="../src/eqonomize.cpp" line="10154"/>
         <source>Reopen Account</source>
         <comment>Mark account as not closed</comment>
         <translation type="unfinished"></translation>
@@ -7014,7 +7014,7 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8012"/>
+        <location filename="../src/eqonomize.cpp" line="8014"/>
         <source>Adjust Account Balance</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8120,7 +8120,7 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="unfinished">Categorie de venit nouă</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7913"/>
+        <location filename="../src/eqonomize.cpp" line="7914"/>
         <source>New Expense Category</source>
         <translation type="unfinished">Categorie de cheltuieli nouă</translation>
     </message>
@@ -8129,115 +8129,115 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="obsolete">Echilibrare cont</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8019"/>
+        <location filename="../src/eqonomize.cpp" line="8021"/>
         <source>Book value:</source>
         <translation type="unfinished">Valoare registru:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8023"/>
+        <location filename="../src/eqonomize.cpp" line="8025"/>
         <source>of which %1 is balance adjustment</source>
         <comment>Referring to account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8026"/>
+        <location filename="../src/eqonomize.cpp" line="8028"/>
         <source>Real value:</source>
         <translation type="unfinished">Valoare reală:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8087"/>
+        <location filename="../src/eqonomize.cpp" line="8089"/>
         <source>Edit Account</source>
         <translation type="unfinished">Modifică contul</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8180"/>
+        <location filename="../src/eqonomize.cpp" line="8182"/>
         <source>Edit Income Category</source>
         <translation type="unfinished">Editează categoria de venit</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8219"/>
+        <location filename="../src/eqonomize.cpp" line="8221"/>
         <source>Edit Expense Category</source>
         <translation type="unfinished">Editează categoria de cheltuieli</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8331"/>
+        <location filename="../src/eqonomize.cpp" line="8333"/>
         <source>Remove subcategories?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8331"/>
+        <location filename="../src/eqonomize.cpp" line="8333"/>
         <source>Do you wish to remove the category including all subcategories?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8380"/>
+        <location filename="../src/eqonomize.cpp" line="8382"/>
         <source>Move transactions?</source>
         <translation type="unfinished">Mutare tranzacții?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8388"/>
+        <location filename="../src/eqonomize.cpp" line="8390"/>
         <source>Move to:</source>
         <translation type="unfinished">Mută în:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8390"/>
+        <location filename="../src/eqonomize.cpp" line="8392"/>
         <source>Remove irreversibly from all accounts
 (do not do this if account has been closed!)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8397"/>
+        <location filename="../src/eqonomize.cpp" line="8399"/>
         <source>The category contains some expenses.
 What do you want to do with them?</source>
         <translation type="unfinished">Categoria conține cheltuieli.
 Ce doriți să faceți cu ele?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8408"/>
+        <location filename="../src/eqonomize.cpp" line="8410"/>
         <source>The category contains some incomes.
 What do you want to do with them?</source>
         <translation type="unfinished">Categoria conține venituri.
 Ce doriți să faceți cu ele?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8419"/>
+        <location filename="../src/eqonomize.cpp" line="8421"/>
         <source>The account contains some transactions.
 What do you want to do with them?</source>
         <translation type="unfinished">Contul conține tranzacții.
 Ce doriți să le faceți cu ele?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8447"/>
-        <location filename="../src/eqonomize.cpp" line="8448"/>
+        <location filename="../src/eqonomize.cpp" line="8449"/>
+        <location filename="../src/eqonomize.cpp" line="8450"/>
         <source>Remove Category?</source>
         <translation type="unfinished">Eliminare categorie?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8447"/>
+        <location filename="../src/eqonomize.cpp" line="8449"/>
         <source>The category contains some expenses that will be removed. Do you still want to remove the category?</source>
         <translation type="unfinished">Categoria conține cheltuieli care vor fi eliminate. Încă doriți eliminarea categoriei?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8448"/>
+        <location filename="../src/eqonomize.cpp" line="8450"/>
         <source>The category contains some incomes that will be removed. Do you still want to remove the category?</source>
         <translation type="unfinished">Categoria conține venituri care vor fi eliminate. Sigur doriți să eliminați categoria?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8449"/>
+        <location filename="../src/eqonomize.cpp" line="8451"/>
         <source>Remove Account?</source>
         <translation type="unfinished">Eliminare cont?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8449"/>
+        <location filename="../src/eqonomize.cpp" line="8451"/>
         <source>The account contains some transactions that will be removed. Do you still want to remove the account?</source>
         <translation type="unfinished">Contul conține tranzacții care vor fi eliminate. Sigur doriți să eliminați contul?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="2447"/>
-        <location filename="../src/eqonomize.cpp" line="9651"/>
-        <location filename="../src/eqonomize.cpp" line="9676"/>
-        <location filename="../src/eqonomize.cpp" line="10006"/>
-        <location filename="../src/eqonomize.cpp" line="10007"/>
+        <location filename="../src/eqonomize.cpp" line="9653"/>
+        <location filename="../src/eqonomize.cpp" line="9678"/>
+        <location filename="../src/eqonomize.cpp" line="10008"/>
+        <location filename="../src/eqonomize.cpp" line="10009"/>
         <source>%2 of %1</source>
         <comment>%1: budget; %2: remaining budget</comment>
         <translation type="unfinished">%2 din %1</translation>
@@ -8271,14 +8271,14 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Echilibrare cont</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10112"/>
-        <location filename="../src/eqonomize.cpp" line="10136"/>
+        <location filename="../src/eqonomize.cpp" line="10114"/>
+        <location filename="../src/eqonomize.cpp" line="10138"/>
         <source>%1 (with no budget)</source>
         <translation type="unfinished">%1 (fără buget)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10113"/>
-        <location filename="../src/eqonomize.cpp" line="10137"/>
+        <location filename="../src/eqonomize.cpp" line="10115"/>
+        <location filename="../src/eqonomize.cpp" line="10139"/>
         <source>%1 (with budget %2)</source>
         <translation type="unfinished">%1 (cu buget %2)</translation>
     </message>
@@ -8302,19 +8302,19 @@ Ce doriți să le faceți cu ele?</translation>
 <context>
     <name>EqonomizeTranslator</name>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10470"/>
+        <location filename="../src/eqonomize.cpp" line="10472"/>
         <source>OK</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10472"/>
+        <location filename="../src/eqonomize.cpp" line="10474"/>
         <source>Cancel</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">Anulează</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10474"/>
+        <location filename="../src/eqonomize.cpp" line="10476"/>
         <source>Close</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">Închide</translation>
@@ -8330,49 +8330,49 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Nu</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10476"/>
+        <location filename="../src/eqonomize.cpp" line="10478"/>
         <source>&amp;Yes</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">&amp;Da</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10478"/>
+        <location filename="../src/eqonomize.cpp" line="10480"/>
         <source>&amp;No</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">&amp;Nu</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10480"/>
+        <location filename="../src/eqonomize.cpp" line="10482"/>
         <source>&amp;Open</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">&amp;Deschide</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10482"/>
+        <location filename="../src/eqonomize.cpp" line="10484"/>
         <source>&amp;Save</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">&amp;Salvează</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10484"/>
+        <location filename="../src/eqonomize.cpp" line="10486"/>
         <source>&amp;Select All</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10486"/>
+        <location filename="../src/eqonomize.cpp" line="10488"/>
         <source>Look in:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10488"/>
+        <location filename="../src/eqonomize.cpp" line="10490"/>
         <source>File &amp;name:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">&amp;Nume de fișier:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10490"/>
+        <location filename="../src/eqonomize.cpp" line="10492"/>
         <source>Files of type:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">Fișiere de tip:</translation>

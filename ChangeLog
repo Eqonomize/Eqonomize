@@ -1,7 +1,14 @@
+2020-04-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix segfault in categories comparison report with payee and
+	  quantity properties are hidden
+
 2020-04-13  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Fix monthly recurrence with end date,
+	* Fix monthly recurrence with end date (or occurrence count),
 	  when year of end date and start date differs
+	* Expand parent category after creation of new sub category
+	* Fix segfault when opening file after creating a new sub category
 
 2020-03-20  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
