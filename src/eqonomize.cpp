@@ -681,7 +681,7 @@ bool QuotationListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	return QTreeWidgetItem::operator<(i_pre);
 }
 
-RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(parent, 0), transaction(trans) {
+RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(parent), transaction(trans) {
 
 	setModal(true);
 
@@ -790,7 +790,7 @@ bool RefundDialog::validValues() {
 	return true;
 }
 
-EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QWidget *parent)  : QDialog(parent, 0), budget(budg) {
+EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QWidget *parent)  : QDialog(parent), budget(budg) {
 
 	setWindowTitle(tr("Securities Exchange", "Shares of one security directly exchanged for shares of another; Financial security (e.g. stock, mutual fund)"));
 	setModal(true);
@@ -963,7 +963,7 @@ bool EditSecurityTradeDialog::validValues() {
 	return true;
 }
 
-EditQuotationsDialog::EditQuotationsDialog(Security *sec, QWidget *parent) : QDialog(parent, 0), budget(sec->budget()), security(sec) {
+EditQuotationsDialog::EditQuotationsDialog(Security *sec, QWidget *parent) : QDialog(parent), budget(sec->budget()), security(sec) {
 
 	setWindowTitle(tr("Quotes", "Financial quote"));
 	setModal(true);
@@ -1177,7 +1177,11 @@ bool EditQuotationsDialog::import(QString url, bool test, q_csv_info *ci) {
 	while(!line.isNull()) {
 		row++;
 		if((first_row == 0 && !line.isEmpty() && line[0] != '#') || (first_row > 0 && row >= first_row && !line.isEmpty())) {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+			QStringList columns = line.split(delimiter, Qt::KeepEmptyParts);
+#else
 			QStringList columns = line.split(delimiter, QString::KeepEmptyParts);
+#endif
 			for(QStringList::Iterator it = columns.begin(); it != columns.end(); ++it) {
 				int i = 0;
 				while(i < (int) (*it).length() && ((*it)[i] == ' ' || (*it)[i] == '\t')) {
@@ -1349,7 +1353,7 @@ void EditQuotationsDialog::importQuotations() {
 		return;
 	}
 	if(ci.value_format < 0 || ps > 1) {
-		QDialog *dialog = new QDialog(this, 0);
+		QDialog *dialog = new QDialog(this);
 		dialog->setWindowTitle(tr("Specify Format"));
 		dialog->setModal(true);
 		QVBoxLayout *box1 = new QVBoxLayout(dialog);
@@ -1668,7 +1672,7 @@ void CategoriesComparisonChartDialog::reject() {
 	QDialog::reject();
 }
 
-ConfirmScheduleDialog::ConfirmScheduleDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title) : QDialog(parent, 0), budget(budg), b_extra(extra_parameters) {
+ConfirmScheduleDialog::ConfirmScheduleDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title) : QDialog(parent), budget(budg), b_extra(extra_parameters) {
 
 	setWindowTitle(title);
 	setModal(true);
@@ -1743,7 +1747,7 @@ void ConfirmScheduleDialog::remove() {
 void ConfirmScheduleDialog::postpone() {
 	QTreeWidgetItem *i = selectedItem(transactionsView);
 	if(i == NULL) return;
-	QDialog *dialog = new QDialog(this, 0);
+	QDialog *dialog = new QDialog(this);
 	dialog->setWindowTitle(tr("Date"));
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
 	QCalendarWidget *datePicker = new QCalendarWidget(dialog);
@@ -1888,7 +1892,7 @@ Transactions *ConfirmScheduleDialog::nextTransaction() {
 	return NULL;
 }
 
-SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize *parent, QString title) : QDialog(parent, 0), security(sec), mainWin(parent) {
+SecurityTransactionsDialog::SecurityTransactionsDialog(Security *sec, Eqonomize *parent, QString title) : QDialog(parent), security(sec), mainWin(parent) {
 
 	setWindowTitle(title);
 	setModal(true);
@@ -2105,7 +2109,7 @@ void SecurityTransactionsDialog::updateTransactions() {
 	transactionsView->setSortingEnabled(true);
 }
 
-EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString title, bool allow_account_creation) : QDialog(parent, 0), budget(budg), b_create_accounts(allow_account_creation) {
+EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString title, bool allow_account_creation) : QDialog(parent), budget(budg), b_create_accounts(allow_account_creation) {
 
 	setWindowTitle(title);
 	setModal(true);
@@ -2984,7 +2988,7 @@ void Eqonomize::updateBudgetDay() {
 void Eqonomize::setScheduleConfirmationTime() {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
-	QDialog *dialog = new QDialog(this, 0);
+	QDialog *dialog = new QDialog(this);
 	dialog->setWindowTitle(tr("Set Schedule Confirmation Time"));
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
 	QGridLayout *layout = new QGridLayout();
@@ -3006,7 +3010,7 @@ void Eqonomize::setScheduleConfirmationTime() {
 	dialog->deleteLater();
 }
 void Eqonomize::setBudgetPeriod() {
-	QDialog *dialog = new QDialog(this, 0);
+	QDialog *dialog = new QDialog(this);
 	dialog->setWindowTitle(tr("Set Budget Period"));
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
 	QGridLayout *layout = new QGridLayout();
@@ -3412,7 +3416,7 @@ void Eqonomize::newSecurityTrade() {
 void Eqonomize::setQuotation() {
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
 	if(i == NULL) return;
-	QDialog *dialog = new QDialog(this, 0);
+	QDialog *dialog = new QDialog(this);
 	dialog->setWindowTitle(tr("Set Quote (%1)", "Financial quote").arg(i->security()->name()));
 	dialog->setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
@@ -4045,7 +4049,7 @@ bool Eqonomize::editTimestamp(QList<Transactions*> trans, QWidget *parent) {
 			}
 		}
 	}
-	QDialog *dialog = new QDialog(parent == NULL ? this : parent, 0);
+	QDialog *dialog = new QDialog(parent == NULL ? this : parent);
 	dialog->setWindowTitle(tr("Timestamp"));
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
 	QScrollArea *scroll = NULL;
@@ -5446,7 +5450,7 @@ bool Eqonomize::openURL(const QUrl& url, bool merge) {
 
 	bool ignore_duplicate_transactions = false, rename_duplicate_accounts = false, rename_duplicate_categories = false, rename_duplicate_securities = false;
 	if(merge) {
-		QDialog *dialog = new QDialog(this, 0);
+		QDialog *dialog = new QDialog(this);
 		dialog->setWindowTitle(tr("Import Options"));
 		dialog->setModal(true);
 		QVBoxLayout *box1 = new QVBoxLayout(dialog);
@@ -5540,7 +5544,7 @@ bool Eqonomize::openURL(const QUrl& url, bool merge) {
 }
 
 void Eqonomize::openSynchronizationSettings() {
-	syncDialog = new QDialog(this, 0);
+	syncDialog = new QDialog(this);
 	syncDialog->setWindowTitle(tr("Synchronization Settings"));
 	QVBoxLayout *box1 = new QVBoxLayout(syncDialog);
 	QGridLayout *grid = new QGridLayout();
@@ -6012,7 +6016,7 @@ void Eqonomize::currenciesModified() {
 }
 
 void Eqonomize::warnAndAskForExchangeRate() {
-	QDialog *dialog = new QDialog(this, 0);
+	QDialog *dialog = new QDialog(this);
 	Currency *cur = budget->defaultCurrency();
 	dialog->setWindowTitle(tr("Unrecognized Currency"));
 	dialog->setModal(true);
@@ -6042,7 +6046,7 @@ void Eqonomize::warnAndAskForExchangeRate() {
 }
 
 void Eqonomize::setMainCurrency() {
-	QDialog *dialog = new QDialog(this, 0);
+	QDialog *dialog = new QDialog(this);
 	dialog->setWindowTitle(tr("Set Main Currency"));
 	dialog->setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
@@ -8010,7 +8014,7 @@ void Eqonomize::balanceAccount(Account *i_account) {
 			if(trans->fromAccount() == budget->balancingAccount) current_balancing += trans->value();
 		}
 	}
-	QDialog *dialog = new QDialog(this, 0);
+	QDialog *dialog = new QDialog(this);
 	dialog->setWindowTitle(tr("Adjust Account Balance"));
 	dialog->setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
@@ -8378,7 +8382,7 @@ void Eqonomize::deleteAccount() {
 			default: {break;}
 		}
 		if(accounts_left) {
-			dialog = new QDialog(this, 0);
+			dialog = new QDialog(this);
 			dialog->setWindowTitle(tr("Move transactions?"));
 			dialog->setModal(true);
 			QVBoxLayout *box1 = new QVBoxLayout(dialog);

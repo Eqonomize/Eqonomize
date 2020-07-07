@@ -1,6 +1,7 @@
 2020-07-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Add a man page
+	* Replace code deprecated in Qt 5.15
 
 2020-04-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
 

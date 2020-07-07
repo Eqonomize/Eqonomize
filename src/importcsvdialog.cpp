@@ -44,7 +44,7 @@
 #include <QPushButton>
 #include <QMimeDatabase>
 #include <QCompleter>
-#include <QDirModel>
+#include <QFileSystemModel>
 #include <QSettings>
 
 #include "budget.h"
@@ -54,6 +54,12 @@
 
 #include <cmath>
 #include <ctime>
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+#	define DATE_TO_MSECS(d) QDateTime(d.startOfDay()).toMSecsSinceEpoch()
+#else
+#	define DATE_TO_MSECS(d) QDateTime(d).toMSecsSinceEpoch()
+#endif
 
 #define ALL_TYPES_ID		5
 
@@ -123,7 +129,9 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	QHBoxLayout *layout2h = new QHBoxLayout();
 	fileEdit = new QLineEdit(page2);
 	QCompleter *completer = new QCompleter(this);
-	completer->setModel(new QDirModel(completer));
+	QFileSystemModel *fsModel = new QFileSystemModel(completer);
+	fsModel->setRootPath(QString());
+	completer->setModel(fsModel);
 	fileEdit->setCompleter(completer);
 	layout2h->addWidget(fileEdit);
 	fileButton = new QPushButton(LOAD_ICON("document-open"), QString(), page2);
@@ -562,7 +570,7 @@ void ImportCSVDialog::loadPreset(int index) {
 	createMissingButton->setChecked(preset.at(i).toBool());
 }
 void ImportCSVDialog::savePreset() {
-	QDialog *dialog = new QDialog(this, 0);
+	QDialog *dialog = new QDialog(this);
 	dialog->setWindowTitle(tr("Save Preset"));
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
 	QComboBox *presetEdit = new QComboBox(dialog);
@@ -1000,7 +1008,11 @@ void testCSVDate(const QString &str, bool &p1, bool &p2, bool &p3, bool &p4, boo
 		lz = 1;
 		return;
 	}
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+	QStringList strlist = str.split(separator, Qt::SkipEmptyParts);
+#else
 	QStringList strlist = str.split(separator, QString::SkipEmptyParts);
+#endif
 	if(strlist.count() == 2 && (p1 || p2)) {
 		int i = strlist[1].indexOf('\'');
 		if(i >= 0) {
@@ -1282,7 +1294,11 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	while(!line.isNull()) {
 		row++;
 		if((first_row == 0 && !line.isEmpty() && line[0] != '#') || (first_row > 0 && row >= first_row && !line.isEmpty())) {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+			QStringList columns = line.split(delimiter, Qt::KeepEmptyParts);
+#else
 			QStringList columns = line.split(delimiter, QString::KeepEmptyParts);
+#endif
 			for(QStringList::Iterator it = columns.begin(); it != columns.end(); ++it) {
 				int i = 0;
 				while(i < (int) (*it).length() && ((*it)[i] == ' ' || (*it)[i] == '\t')) {
@@ -1705,11 +1721,11 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 						trans->readTags(tags);
 						trans->setQuantity(quantity);
 						if(trans->date() > curdate) {
-							trans->setTimestamp(datestamps.contains(QDate::currentDate()) ? datestamps[QDate::currentDate()] + 1 : QDateTime(QDate::currentDate()).toMSecsSinceEpoch() / 1000);
+							trans->setTimestamp(datestamps.contains(QDate::currentDate()) ? datestamps[QDate::currentDate()] + 1 : DATE_TO_MSECS(QDate::currentDate()) / 1000);
 							datestamps[QDate::currentDate()] = trans->timestamp();
 							budget->addScheduledTransaction(new ScheduledTransaction(budget, trans, NULL));
 						} else {
-							trans->setTimestamp(datestamps.contains(trans->date()) ? datestamps[trans->date()] + 1 : QDateTime(trans->date()).toMSecsSinceEpoch() / 1000);
+							trans->setTimestamp(datestamps.contains(trans->date()) ? datestamps[trans->date()] + 1 : DATE_TO_MSECS(trans->date()) / 1000);
 							datestamps[trans->date()] = trans->timestamp();
 							budget->addTransaction(trans);
 						}
@@ -1766,7 +1782,7 @@ void ImportCSVDialog::accept() {
 		return;
 	}
 	if(ci.value_format < 0 || ps > 1) {
-		QDialog *dialog = new QDialog(this, 0);
+		QDialog *dialog = new QDialog(this);
 		dialog->setWindowTitle(tr("Specify Format"));
 		dialog->setModal(true);
 		QVBoxLayout *box1 = new QVBoxLayout(dialog);

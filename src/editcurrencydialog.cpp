@@ -43,7 +43,7 @@
 #include "editcurrencydialog.h"
 
 
-EditCurrencyDialog::EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_set_as_default, QWidget *parent) : QDialog(parent, 0), budget(budg), currency(cur) {
+EditCurrencyDialog::EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_set_as_default, QWidget *parent) : QDialog(parent), budget(budg), currency(cur) {
 
 	if(currency) setWindowTitle(tr("Edit Currency"));
 	else setWindowTitle(tr("New Currency"));

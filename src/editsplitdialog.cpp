@@ -42,7 +42,7 @@
 #include <QCompleter>
 #include <QStandardItemModel>
 #include <QStandardPaths>
-#include <QDirModel>
+#include <QFileSystemModel>
 #include <QFileDialog>
 #include <QInputDialog>
 
@@ -182,7 +182,7 @@ void MultiAccountListViewItem::setTransaction(Transaction *trans) {
 	setText(2, trans->valueString());
 }
 
-EditDebtPaymentDialog::EditDebtPaymentDialog(Budget *budg, QWidget *parent, AssetsAccount *default_loan, bool allow_account_creation, bool only_interest) : QDialog(parent, 0) {
+EditDebtPaymentDialog::EditDebtPaymentDialog(Budget *budg, QWidget *parent, AssetsAccount *default_loan, bool allow_account_creation, bool only_interest) : QDialog(parent) {
 	setWindowTitle(tr("Debt Payment"));
 	setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
@@ -209,7 +209,7 @@ void EditDebtPaymentDialog::keyPressEvent(QKeyEvent *e) {
 	QDialog::keyPressEvent(e);
 }
 
-EditMultiAccountDialog::EditMultiAccountDialog(Budget *budg, QWidget *parent, bool create_expenses, bool extra_parameters, bool allow_account_creation) : QDialog(parent, 0) {
+EditMultiAccountDialog::EditMultiAccountDialog(Budget *budg, QWidget *parent, bool create_expenses, bool extra_parameters, bool allow_account_creation) : QDialog(parent) {
 
 	if(create_expenses) setWindowTitle(tr("Expense with Multiple Payments"));
 	else setWindowTitle(tr("Income with Multiple Payments"));
@@ -241,7 +241,7 @@ void EditMultiAccountDialog::keyPressEvent(QKeyEvent *e) {
 	QDialog::keyPressEvent(e);
 }
 
-EditMultiItemDialog::EditMultiItemDialog(Budget *budg, QWidget *parent, AssetsAccount *default_account, bool extra_parameters, bool allow_account_creation) : QDialog(parent, 0) {
+EditMultiItemDialog::EditMultiItemDialog(Budget *budg, QWidget *parent, AssetsAccount *default_account, bool extra_parameters, bool allow_account_creation) : QDialog(parent) {
 	setWindowTitle(tr("Split Transaction"));
 	setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
@@ -364,7 +364,9 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	QHBoxLayout *fileLayout = new QHBoxLayout();
 	fileEdit = new QLineEdit(this);
 	QCompleter *completer = new QCompleter(this);
-	completer->setModel(new QDirModel(completer));
+	QFileSystemModel *fsModel = new QFileSystemModel(completer);
+	fsModel->setRootPath(QString());
+	completer->setModel(fsModel);
 	fileEdit->setCompleter(completer);
 	fileLayout->addWidget(fileEdit);
 	QPushButton *selectFileButton = new QPushButton(LOAD_ICON("document-open"), QString(), this);
@@ -797,7 +799,9 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	QHBoxLayout *fileLayout = new QHBoxLayout();
 	fileEdit = new QLineEdit(this);
 	QCompleter *completer = new QCompleter(this);
-	completer->setModel(new QDirModel(completer));
+	QFileSystemModel *fsModel = new QFileSystemModel(completer);
+	fsModel->setRootPath(QString());
+	completer->setModel(fsModel);
 	fileEdit->setCompleter(completer);
 	fileLayout->addWidget(fileEdit);
 	QPushButton *selectFileButton = new QPushButton(LOAD_ICON("document-open"), QString(), this);
@@ -1210,7 +1214,9 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 		QHBoxLayout *fileLayout = new QHBoxLayout();
 		fileEdit = new QLineEdit(this);
 		QCompleter *completer = new QCompleter(this);
-		completer->setModel(new QDirModel(completer));
+		QFileSystemModel *fsModel = new QFileSystemModel(completer);
+		fsModel->setRootPath(QString());
+		completer->setModel(fsModel);
 		fileEdit->setCompleter(completer);
 		fileLayout->addWidget(fileEdit);
 		QPushButton *selectFileButton = new QPushButton(LOAD_ICON("document-open"), QString(), this);

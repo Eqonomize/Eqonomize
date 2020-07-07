@@ -1012,7 +1012,7 @@ void LedgerDialog::printView() {
 	if(transs) first_date = transs->date();
 	bool run_print = true;
 	if(first_date.isValid()) {
-		QDialog *dialog = new QDialog(this, 0);
+		QDialog *dialog = new QDialog(this);
 		dialog->setWindowTitle(tr("Select Time Period"));
 		QVBoxLayout *box1 = new QVBoxLayout(dialog);
 		QGridLayout *grid = new QGridLayout();

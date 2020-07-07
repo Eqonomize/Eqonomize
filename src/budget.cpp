@@ -1508,7 +1508,13 @@ bool Budget::sync(QString &error, QString &errors, bool do_upload, bool on_load)
 		command.replace("%u", o_sync->url);
 		QEventLoop loop;
 		syncProcess = new QProcess();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+		QStringList list = QProcess::splitCommand(command);
+		if(list.isEmpty()) return "Empty command";
+		syncProcess->start(list.takeFirst(), list);
+#else
 		syncProcess->start(command);
+#endif
 		QObject::connect(syncProcess, SIGNAL(finished(int, QProcess::ExitStatus)), &loop, SLOT(quit()));
 		loop.exec();
 		if(syncProcess->exitStatus() != QProcess::NormalExit || syncProcess->exitCode() != 0) {
@@ -1582,7 +1588,13 @@ QString Budget::syncUpload(QString filename) {
 	command.replace("%u", o_sync->url);
 	QEventLoop loop;
 	syncProcess = new QProcess();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+	QStringList list = QProcess::splitCommand(command);
+	if(list.isEmpty()) return "Empty command";
+	syncProcess->start(list.takeFirst(), list);
+#else
 	syncProcess->start(command);
+#endif
 	QObject::connect(syncProcess, SIGNAL(finished(int, QProcess::ExitStatus)), &loop, SLOT(quit()));
 	loop.exec();
 	if(syncProcess->exitStatus() != QProcess::NormalExit || syncProcess->exitCode() != 0) {

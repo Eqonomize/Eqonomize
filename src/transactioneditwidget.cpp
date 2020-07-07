@@ -44,7 +44,7 @@
 #include <QKeyEvent>
 #include <QMessageBox>
 #include <QStandardPaths>
-#include <QDirModel>
+#include <QFileSystemModel>
 #include <QDebug>
 #include <QSettings>
 #include <QMenu>
@@ -643,7 +643,9 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		QHBoxLayout *fileLayout = new QHBoxLayout();
 		fileEdit = new QLineEdit(this);
 		QCompleter *completer = new QCompleter(this);
-		completer->setModel(new QDirModel(completer));
+		QFileSystemModel *fsModel = new QFileSystemModel(completer);
+		fsModel->setRootPath(QString());
+		completer->setModel(fsModel);
 		fileEdit->setCompleter(completer);
 		fileLayout->addWidget(fileEdit);
 		QPushButton *selectFileButton = new QPushButton(LOAD_ICON("document-open"), QString(), this);
@@ -2081,7 +2083,7 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 	emit propertyChanged();
 }
 
-TransactionEditDialog::TransactionEditDialog(bool extra_parameters, int transaction_type, Currency *split_currency, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent, bool allow_account_creation, bool multiaccount, bool withloan) : QDialog(parent, 0){
+TransactionEditDialog::TransactionEditDialog(bool extra_parameters, int transaction_type, Currency *split_currency, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent, bool allow_account_creation, bool multiaccount, bool withloan) : QDialog(parent) {
 	setModal(true);
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 	switch(transaction_type) {

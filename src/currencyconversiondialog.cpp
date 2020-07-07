@@ -35,7 +35,7 @@
 #include "eqonomizevalueedit.h"
 #include "currencyconversiondialog.h"
 
-CurrencyConversionDialog::CurrencyConversionDialog(Budget *budg, QWidget *parent) : QDialog(parent, 0), budget(budg) {
+CurrencyConversionDialog::CurrencyConversionDialog(Budget *budg, QWidget *parent) : QDialog(parent), budget(budg) {
 
 	setWindowTitle(tr("Currency Converter"));
 	setModal(false);

@@ -43,7 +43,7 @@
 #include "editcurrencydialog.h"
 #include "eqonomizevalueedit.h"
 
-EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title, bool new_loan, int default_type, bool force_type, QString default_group) : QDialog(parent, 0), budget(budg) {
+EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title, bool new_loan, int default_type, bool force_type, QString default_group) : QDialog(parent), budget(budg) {
 
 	setWindowTitle(title);
 	setModal(true);
@@ -405,7 +405,7 @@ void EditAssetsAccountDialog::accept() {
 }
 
 
-EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, IncomesAccount *default_parent, QWidget *parent, QString title) : QDialog(parent, 0), budget(budg) {
+EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, IncomesAccount *default_parent, QWidget *parent, QString title) : QDialog(parent), budget(budg) {
 
 	setWindowTitle(title);
 	setModal(true);
@@ -511,7 +511,7 @@ void EditIncomesAccountDialog::accept() {
 	QDialog::accept();
 }
 
-EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, ExpensesAccount *default_parent, QWidget *parent, QString title) : QDialog(parent, 0), budget(budg) {
+EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, ExpensesAccount *default_parent, QWidget *parent, QString title) : QDialog(parent), budget(budg) {
 
 	setWindowTitle(title);
 	setModal(true);

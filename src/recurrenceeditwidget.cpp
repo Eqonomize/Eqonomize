@@ -48,7 +48,7 @@
 #include "recurrence.h"
 #include "recurrenceeditwidget.h"
 
-EditExceptionsDialog::EditExceptionsDialog(QWidget *parent)  : QDialog(parent, 0) {
+EditExceptionsDialog::EditExceptionsDialog(QWidget *parent)  : QDialog(parent) {
 
 	setWindowTitle(tr("Edit Exceptions"));
 	setModal(true);
@@ -180,7 +180,7 @@ void EditExceptionsDialog::deleteException() {
 	}
 }
 
-EditRangeDialog::EditRangeDialog(const QDate &startdate, QWidget *parent) : QDialog(parent, 0), date(startdate) {
+EditRangeDialog::EditRangeDialog(const QDate &startdate, QWidget *parent) : QDialog(parent), date(startdate) {
 
 	setWindowTitle(tr("Edit Recurrence Range"));
 	setModal(true);
