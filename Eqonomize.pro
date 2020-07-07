@@ -41,6 +41,9 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 	DOCUMENTATION_DIR = ":/doc/html"
 	DEFINES += RESOURCES_COMPILED=1
 }
+isEmpty(MAN_DIR) {
+	MAN_DIR = $$PREFIX/share/man
+}
 TEMPLATE = app
 TARGET = eqonomize
 INCLUDEPATH += src
@@ -385,5 +388,12 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 	appicon64.path = $$DESKTOP_ICON_DIR/hicolor/64x64/apps
 	INSTALLS += target desktop appicon64
 }
+
+unix:!android:!macx {
+	man.files = data/eqonomize.1
+	man.path = $$MAN_DIR/man1
+	INSTALLS += man
+}
+
 win32: RC_FILE = winicon.rc
 

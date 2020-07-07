@@ -1,3 +1,7 @@
+2020-07-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add a man page
+
 2020-04-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix segfault in categories comparison report with payee and
