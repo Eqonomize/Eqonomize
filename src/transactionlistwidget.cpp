@@ -228,6 +228,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	connect(editWidget, SIGNAL(multipleAccountsRequested()), this, SLOT(newMultiAccountTransaction()));
 	connect(editWidget, SIGNAL(propertyChanged()), this, SLOT(updateClearButton()));
 	connect(editWidget, SIGNAL(tagAdded(QString)), this, SIGNAL(tagAdded(QString)));
+	connect(editInfoLabel, SIGNAL(linkActivated(QString)), this, SLOT(editSplitTransaction()));
 
 }
 
@@ -1857,8 +1858,8 @@ void TransactionListWidget::currentTransactionChanged(QTreeWidgetItem *i) {
 	} else if(((TransactionListViewItem*) i)->transaction()->parentSplit()) {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction());
 		SplitTransaction *split = ((TransactionListViewItem*) i)->transaction()->parentSplit();
-		if(split->description().isEmpty() || split->description().length() > 10) editInfoLabel->setText(tr("* Part of split transaction"));
-		else editInfoLabel->setText(tr("* Part of split (%1)").arg(split->description()));
+		if(split->description().isEmpty() || split->description().length() > 10) editInfoLabel->setText(tr("* Part of <a href=\"split transaction\">split transaction</a>"));
+		else editInfoLabel->setText(tr("* Part of split (<a href=\"split transaction\">%1</a>)").arg(split->description()));
 	} else {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction());
 		editInfoLabel->setText(QString());
