@@ -1072,8 +1072,20 @@ void LedgerDialog::joinTransactions() {
 				if(!split) {
 					split = new MultiItemTransaction(budget, i->transaction()->date(), account);
 				}
-				if(split->associatedFile().isEmpty() && !trans->associatedFile().isEmpty()) {
-					split->setAssociatedFile(trans->associatedFile());
+				if(!trans->associatedFile().isEmpty()) {
+					if(split->associatedFile().isEmpty()) {
+						split->setAssociatedFile(trans->associatedFile());
+					} else {
+						QString str;
+						if((split->associatedFile().startsWith("\"") && split->associatedFile().endsWith("\"")) || (split->associatedFile().startsWith("\'") && split->associatedFile().endsWith("\'"))) str += split->associatedFile();
+						else if(split->associatedFile().contains("\"")) {str += "\'"; str += split->associatedFile(); str += "\'";}
+						else {str += "\""; str += split->associatedFile(); str += "\"";}
+						str += ", ";
+						if((trans->associatedFile().startsWith("\"") && trans->associatedFile().endsWith("\"")) || (trans->associatedFile().startsWith("\'") && trans->associatedFile().endsWith("\'"))) str += trans->associatedFile();
+						else if(trans->associatedFile().contains("\"")) {str += "\'"; str += trans->associatedFile(); str += "\'";}
+						else {str += "\""; str += trans->associatedFile(); str += "\"";}
+						split->setAssociatedFile(str);
+					}
 				}
 				if(use_payee) {
 					if(payee.isEmpty()) {

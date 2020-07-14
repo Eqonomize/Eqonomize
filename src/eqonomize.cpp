@@ -681,7 +681,7 @@ bool QuotationListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	return QTreeWidgetItem::operator<(i_pre);
 }
 
-RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(parent), transaction(trans) {
+RefundDialog::RefundDialog(Transactions *trans, QWidget *parent, bool cashback) : QDialog(parent), transaction(trans) {
 
 	setModal(true);
 
@@ -689,11 +689,14 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(paren
 	
 	QGridLayout *layout = new QGridLayout();
 	box1->addLayout(layout);
+	
+	int i = 0;
 
-	layout->addWidget(new QLabel(tr("Date:"), this), 0, 0);
+	layout->addWidget(new QLabel(tr("Date:"), this), i, 0);
 	dateEdit = new EqonomizeDateEdit(this);
 	dateEdit->setCalendarPopup(true);
-	layout->addWidget(dateEdit, 0, 1);
+	layout->addWidget(dateEdit, i, 1);
+	i++;
 	
 	TransactionType t_type = TRANSACTION_TYPE_EXPENSE;
 	Transaction *curtrans = NULL;
@@ -705,37 +708,61 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(paren
 		curtrans = (Transaction*) trans;
 	}
 	
-	if(t_type == TRANSACTION_TYPE_INCOME) setWindowTitle(tr("Repayment"));
+	if(cashback) setWindowTitle(tr("Cashback"));
+	else if(t_type == TRANSACTION_TYPE_INCOME) setWindowTitle(tr("Repayment"));
 	else setWindowTitle(tr("Refund"));
 
-	if(t_type == TRANSACTION_TYPE_INCOME) layout->addWidget(new QLabel(tr("Cost:"), this), 1, 0);
-	else layout->addWidget(new QLabel(tr("Income:"), this), 1, 0);
-	valueEdit = new EqonomizeValueEdit(trans->value(), false, true, this, trans->budget());
+	if(t_type == TRANSACTION_TYPE_INCOME) layout->addWidget(new QLabel(tr("Cost:"), this), i, 0);
+	else layout->addWidget(new QLabel(tr("Income:"), this), i, 0);
+	valueEdit = new EqonomizeValueEdit(cashback ? 0.0 : trans->value(), false, true, this, trans->budget());
 	valueEdit->setCurrency(trans->currency());
-	layout->addWidget(valueEdit, 1, 1);
+	layout->addWidget(valueEdit, i, 1);
+	i++;
 
-	layout->addWidget(new QLabel(tr("Quantity:"), this), 2, 0);
-	quantityEdit = new EqonomizeValueEdit(trans->quantity(), QUANTITY_DECIMAL_PLACES, false, false, this, trans->budget());
-	layout->addWidget(quantityEdit, 2, 1);
+	if(cashback) {
+		quantityEdit = NULL;
+	} else {
+		layout->addWidget(new QLabel(tr("Quantity:"), this), i, 0);
+		quantityEdit = new EqonomizeValueEdit(trans->quantity(), QUANTITY_DECIMAL_PLACES, false, false, this, trans->budget());
+		layout->addWidget(quantityEdit, i, 1);
+		i++;
+	}
 
-	layout->addWidget(new QLabel(tr("Account:"), this), 3, 0);
+	layout->addWidget(new QLabel(tr("Account:"), this), i, 0);
 	accountCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, trans->budget());
 	accountCombo->updateAccounts();
 	if(t_type == TRANSACTION_TYPE_EXPENSE) accountCombo->setCurrentAccount(((Expense*) curtrans)->from());
 	else if(t_type == TRANSACTION_TYPE_INCOME) accountCombo->setCurrentAccount(((Income*) curtrans)->to());
-	layout->addWidget(accountCombo, 3, 1);
+	layout->addWidget(accountCombo, i, 1);
+	i++;
 
-	layout->addWidget(new QLabel(tr("Comments:"), this), 4, 0);
+	layout->addWidget(new QLabel(tr("Comments:"), this), i, 0);
 	commentsEdit = new QLineEdit(this);
-	if(t_type == TRANSACTION_TYPE_INCOME) commentsEdit->setText(tr("Repayment"));
+	if(cashback) commentsEdit->setText(tr("Cashback"));
+	else if(t_type == TRANSACTION_TYPE_INCOME) commentsEdit->setText(tr("Repayment"));
 	else commentsEdit->setText(tr("Refund"));
-	layout->addWidget(commentsEdit, 4, 1);
+	layout->addWidget(commentsEdit, i, 1);
+	i++;
+	
+	joinButton = new QCheckBox(tr("Join transactions"), this);
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	joinButton->setChecked(settings.value("joinRefunds", false).toBool());
+	settings.endGroup();
+	layout->addWidget(joinButton, i, 0, 1, 2, Qt::AlignRight);
+	i++;
+	
+	commentsEdit->setEnabled(!joinButton->isChecked());
 	
 	connect(dateEdit, SIGNAL(returnPressed()), valueEdit, SLOT(enterFocus()));
-	connect(valueEdit, SIGNAL(returnPressed()), quantityEdit, SLOT(enterFocus()));
-	connect(quantityEdit, SIGNAL(returnPressed()), accountCombo, SLOT(focusAndSelectAll()));
+	if(quantityEdit) {
+		connect(valueEdit, SIGNAL(returnPressed()), quantityEdit, SLOT(enterFocus()));
+		connect(quantityEdit, SIGNAL(returnPressed()), accountCombo, SLOT(focusAndSelectAll()));
+	} else {
+		connect(valueEdit, SIGNAL(returnPressed()), accountCombo, SLOT(focusAndSelectAll()));
+	}
 	connect(accountCombo, SIGNAL(accountSelected(Account*)), commentsEdit, SLOT(setFocus()));
-	connect(accountCombo, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
+	connect(accountCombo, SIGNAL(returnPressed()), this, SLOT(accountNextFocus()));
 	connect(commentsEdit, SIGNAL(returnPressed()), this, SLOT(accept()));
 	
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -743,6 +770,7 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(paren
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	connect(accountCombo, SIGNAL(currentAccountChanged(Account*)), this, SLOT(accountActivated(Account*)));
+	connect(joinButton, SIGNAL(toggled(bool)), this, SLOT(joinToggled(bool)));
 	box1->addWidget(buttonBox);
 	
 	dateEdit->setFocus();
@@ -771,20 +799,37 @@ Transaction *RefundDialog::createRefund() {
 	trans->setId(trans->budget()->getNewId());
 	trans->setFirstRevision(trans->budget()->revision());
 	trans->setTimestamp(QDateTime::currentMSecsSinceEpoch() / 1000);
-	trans->setQuantity(-quantityEdit->value());
+	if(quantityEdit) trans->setQuantity(-quantityEdit->value());
+	else trans->setQuantity(0.0);
 	trans->setValue(-valueEdit->value());
 	trans->setDate(dateEdit->date());
-	trans->setComment(commentsEdit->text());
+	if(commentsEdit->isEnabled()) trans->setComment(commentsEdit->text());
 	return trans;
+}
+bool RefundDialog::joinIsChecked() {return joinButton->isChecked();}
+void RefundDialog::joinToggled(bool b) {commentsEdit->setEnabled(!b);}
+void RefundDialog::accountNextFocus() {
+	if(commentsEdit->isEnabled()) commentsEdit->setFocus();
+	else accept();
 }
 void RefundDialog::accept() {
 	if(validValues()) {
+		QSettings settings;
+		settings.beginGroup("GeneralOptions");
+		settings.setValue("joinRefunds", joinButton->isChecked());
+		settings.endGroup();
 		QDialog::accept();
 	}
 }
 bool RefundDialog::validValues() {
+	if(valueEdit->value() == 0.0) {
+		valueEdit->setFocus();
+		QMessageBox::critical(this, tr("Error"), tr("Zero value not allowed."));
+		return false;
+	}
 	if(!dateEdit->date().isValid()) {
 		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
+		dateEdit->setFocus();
 		return false;
 	}
 	return true;
@@ -4664,6 +4709,9 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent, bool clone_
 	delete oldtrans;
 	return false;
 }
+void Eqonomize::newCashback() {
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) expensesWidget->newCashback();
+}
 void Eqonomize::newRefund() {
 	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) expensesWidget->newRefundRepayment();
 }
@@ -4674,22 +4722,45 @@ void Eqonomize::newRefundRepayment() {
 	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) expensesWidget->newRefundRepayment();
 	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) incomesWidget->newRefundRepayment();
 }
-bool Eqonomize::newRefundRepayment(Transactions *trans) {
+bool Eqonomize::newRefundRepayment(Transactions *trans, bool cashback) {
 	if(!((trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) trans)->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) || (trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE && (((Transaction*) trans)->type() == TRANSACTION_TYPE_EXPENSE || ((Transaction*) trans)->type() == TRANSACTION_TYPE_INCOME)))) return false;
-	RefundDialog *dialog = new RefundDialog(trans, this);
+	RefundDialog *dialog = new RefundDialog(trans, this, cashback);
 	if(dialog->exec() == QDialog::Accepted) {
 		Transaction *new_trans = dialog->createRefund();
 		if(new_trans) {
-			if(new_trans->date() > QDate::currentDate()) {
-				ScheduledTransaction *strans = new ScheduledTransaction(budget, new_trans, NULL);
-				budget->addScheduledTransaction(strans);
-				transactionAdded(strans);
+			if(dialog->joinIsChecked()) {
+				budget->removeTransactions(trans, true);
+				transactionRemoved(trans);
+				MultiAccountTransaction *split = NULL;
+				double q = trans->quantity();
+				q += new_trans->quantity();
+				if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+					split = (MultiAccountTransaction*) trans;
+				} else {
+					if(((Transaction*) trans)->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) split = new MultiAccountTransaction(budget, (CategoryAccount*) ((Transaction*) trans)->toAccount(), trans->description());
+					else split = new MultiAccountTransaction(budget, (CategoryAccount*) ((Transaction*) trans)->fromAccount(), trans->description());
+					split->setTimestamp(trans->timestamp());
+					split->setAssociatedFile(trans->associatedFile());
+					split->setComment(trans->comment());
+					((Transaction*) trans)->setComment(QString());
+					split->addTransaction((Transaction*) trans);
+				}
+				split->addTransaction(new_trans);
+				split->setQuantity(q);
+				budget->addSplitTransaction(split);
+				transactionAdded(split);
 			} else {
-				budget->addTransaction(new_trans);
-				transactionAdded(new_trans);
+				if(new_trans->date() > QDate::currentDate()) {
+					ScheduledTransaction *strans = new ScheduledTransaction(budget, new_trans, NULL);
+					budget->addScheduledTransaction(strans);
+					transactionAdded(strans);
+				} else {
+					budget->addTransaction(new_trans);
+					transactionAdded(new_trans);
+				}
+				dialog->deleteLater();
+				return true;
 			}
-			dialog->deleteLater();
-			return true;
 		}
 	}
 	dialog->deleteLater();
@@ -4884,6 +4955,7 @@ void Eqonomize::updateTransactionActions() {
 		ActionOpenAssociatedFile->setEnabled(b_attachment);
 		ActionEditScheduledTransaction->setEnabled(b_scheduledtransaction);
 		ActionDeleteScheduledTransaction->setEnabled(b_scheduledtransaction);
+		ActionNewCashback->setEnabled(false);
 		ActionNewRefund->setEnabled(false);
 		ActionNewRepayment->setEnabled(false);
 		ActionNewRefundRepayment->setEnabled(false);
@@ -7033,6 +7105,7 @@ void Eqonomize::setupActions() {
 	transactionsToolbar->addAction(ActionNewMultiItemTransaction);
 	NEW_ACTION(ActionNewMultiAccountExpense, tr("New Expense with Multiple Payments…"), "eqz-expense", 0, this, SLOT(newMultiAccountExpense()), "new_multi_account_expense", transactionsMenu);
 	NEW_ACTION_NOMENU(ActionNewRefund, tr("Refund…"), "eqz-income", 0, this, SLOT(newRefund()), "new_refund");
+	NEW_ACTION_NOMENU(ActionNewCashback, tr("Cashback…"), "eqz-income", 0, this, SLOT(newCashback()), "new_cashback");
 	NEW_ACTION_NOMENU(ActionNewRepayment, tr("Repayment…"), "eqz-expense", 0, this, SLOT(newRepayment()), "new_repayment");
 	NEW_ACTION(ActionNewRefundRepayment, tr("New Refund/Repayment…"), "eqz-refund-repayment", 0, this, SLOT(newRefundRepayment()), "new_refund_repayment", transactionsMenu);
 	transactionsMenu->addSeparator();
@@ -7230,6 +7303,7 @@ void Eqonomize::setupActions() {
 	ActionTags->setEnabled(false);
 	ActionEditScheduledTransaction->setEnabled(false);
 	ActionDeleteScheduledTransaction->setEnabled(false);
+	ActionNewCashback->setEnabled(false);
 	ActionNewRefund->setEnabled(false);
 	ActionNewRepayment->setEnabled(false);
 	ActionNewRefundRepayment->setEnabled(false);

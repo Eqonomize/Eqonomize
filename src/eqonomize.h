@@ -201,7 +201,7 @@ class Eqonomize : public QMainWindow {
 		void showTransfers();
 		void updateSecuritiesStatistics();
 		bool crashRecovery(QUrl url);
-		bool newRefundRepayment(Transactions *trans);
+		bool newRefundRepayment(Transactions *trans, bool cashback = false);
 		void readOptions();
 		void setCommandLineParser(QCommandLineParser*);
 		bool timeToUpdateExchangeRates();
@@ -221,7 +221,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionSelectAssociatedFile, *ActionOpenAssociatedFile;
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
 		QAction *ActionNewSecurity, *ActionEditSecurity, *ActionBuyShares, *ActionSellShares, *ActionNewDividend, *ActionNewReinvestedDividend, *ActionNewSecurityTrade, *ActionSetQuotation, *ActionEditQuotations, *ActionEditSecurityTransactions, *ActionDeleteSecurity;
-		QAction *ActionNewRefund, *ActionNewRepayment, *ActionNewRefundRepayment;
+		QAction *ActionNewRefund, *ActionNewRepayment, *ActionNewRefundRepayment, *ActionNewCashback;
 		QAction *ActionFileNew, *ActionFileOpen, *ActionFileSave, *ActionFileSaveAs, *ActionFileReload, *ActionFileSync, *ActionSaveView, *ActionPrintView, *ActionPrintPreview, *ActionQuit;
 		QMenu *recentFilesMenu;
 		QList<QAction*> recentFileActionList;
@@ -442,6 +442,7 @@ class Eqonomize : public QMainWindow {
 		void selectAssociatedFile();
 		void openAssociatedFile();
 
+		void newCashback();
 		void newRefund();
 		void newRepayment();
 		void newRefundRepayment();
@@ -714,20 +715,24 @@ class RefundDialog : public QDialog {
 		QDateEdit *dateEdit;
 		AccountComboBox *accountCombo;
 		QLineEdit *commentsEdit;
+		QCheckBox *joinButton;
 		
 		void keyPressEvent(QKeyEvent*);
 
 	public:
 
-		RefundDialog(Transactions *trans, QWidget *parent);
+		RefundDialog(Transactions *trans, QWidget *parent, bool cashback = false);
 
 		Transaction *createRefund();
 		bool validValues();
+		bool joinIsChecked();
 
 	protected slots:
 		
 		void accept();
 		void accountActivated(Account*);
+		void joinToggled(bool);
+		void accountNextFocus();
 
 };
 
