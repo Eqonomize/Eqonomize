@@ -150,6 +150,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 			translations/eqonomize_it.qm \
 			translations/eqonomize_nl.qm \
 			translations/eqonomize_pt.qm \
+			translations/eqonomize_pt_BR.qm \
 			translations/eqonomize_ro.qm \
 			translations/eqonomize_ru.qm \
 			translations/eqonomize_sk.qm \
