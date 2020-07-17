@@ -349,6 +349,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	withdrawalLabel = NULL;
 	fileEdit = NULL;
 	tagButton = NULL;
+	linksLabel = NULL;
 	int i = 0;
 	if(b_sec) {
 		int decimals = budget->defaultShareDecimals();
@@ -683,6 +684,18 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		}
 		i++;
 	}
+	if(!b_autoedit) {
+		linksLabel = new QLabel(this);
+		linksLabel->setWordWrap(true);
+		linksLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+		linksLabel->hide();
+		linksLabelLabel = new QLabel(tr("Related to:"), this);
+		linksLabelLabel->hide();
+		editLayout->addWidget(linksLabelLabel, TEROWCOL(i, 0), Qt::AlignTop);
+		editLayout->addWidget(linksLabel, TEROWCOL(i, 1));
+		connect(linksLabel, SIGNAL(linkActivated(const QString&)), this, SLOT(linkClicked(const QString&)));
+		i++;
+	}
 	bottom_layout = new QHBoxLayout();
 	editVLayout->addLayout(bottom_layout);
 	editVLayout->addStretch(1);
@@ -873,6 +886,15 @@ void TransactionEditWidget::selectFile() {
 			}
 			fileEdit->setText(url);
 		}
+	}
+}
+void TransactionEditWidget::linkClicked(const QString &str) {
+	Transactions *trans = budget->getTransaction(str.toLongLong());
+	if(trans) {
+		Eqonomize::openLink(trans, this);
+		if(tagButton) tagButton->updateTags();
+		if(fromCombo) fromCombo->updateAccounts();
+		if(toCombo) toCombo->updateAccounts();
 	}
 }
 void TransactionEditWidget::openFile() {
@@ -1914,12 +1936,42 @@ void TransactionEditWidget::setFromAccount(Account *account) {
 void TransactionEditWidget::setToAccount(Account *account) {
 	if(toCombo) toCombo->setCurrentAccount(account);
 }
+QString links_label_text(Transactions *trans) {
+	if(!trans) return QString();
+	int n = trans->linksCount(true);
+	if(n > 0) {
+		QString str;
+		for(int i = 0; i < n; i++) {
+			Transactions *ltrans = trans->getLink(i, true);
+			if(ltrans) {
+				if(!str.isEmpty()) str += ", ";
+				str += "<a href=\""; str += QString::number(ltrans->id()); str += "\">";
+				str += ltrans->description().isEmpty() ? QString::number(ltrans->id()) : ltrans->description();
+				str += "</a>";
+			}
+		}
+		return str;
+	}
+	return QString();
+}
 void TransactionEditWidget::setTransaction(Transaction *trans) {
 	if(valueEdit) valueEdit->blockSignals(true);
 	if(sharesEdit) sharesEdit->blockSignals(true);
 	if(quotationEdit) quotationEdit->blockSignals(true);
 	blockSignals(true);
 	b_select_security = false;
+	if(linksLabel) {
+		QString str = links_label_text(trans);
+		if(str.isEmpty()) {
+			linksLabel->clear();
+			linksLabel->hide();
+			linksLabelLabel->hide();
+		} else {
+			linksLabel->show();
+			linksLabelLabel->show();
+			linksLabel->setText(str);
+		}
+	}
 	if(trans == NULL) {
 		value_set = false; shares_set = false; sharevalue_set = false;
 		description_changed = false;
@@ -2025,6 +2077,18 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 	if(!split) {
 		setTransaction(NULL);
 		return;
+	}
+	if(linksLabel) {
+		QString str = links_label_text(split);
+		if(str.isEmpty()) {
+			linksLabel->clear();
+			linksLabel->hide();
+			linksLabelLabel->hide();
+		} else {
+			linksLabel->show();
+			linksLabelLabel->show();
+			linksLabel->setText(str);
+		}
 	}
 	blockSignals(true);
 	b_select_security = false;

@@ -60,6 +60,8 @@ typedef enum {
 	SECURITY_VALUE_AND_QUOTATION
 } SecurityValueDefineType;
 
+QString links_label_text(Transactions *trans);
+
 class TransactionEditWidget : public QWidget {
 
 	Q_OBJECT
@@ -133,7 +135,7 @@ class TransactionEditWidget : public QWidget {
 		AccountComboBox *fromCombo, *toCombo;
 		QComboBox *securityCombo, *currencyCombo;
 		QCheckBox *setQuoteButton;
-		QLabel *withdrawalLabel, *depositLabel, *dateLabel;
+		QLabel *withdrawalLabel, *depositLabel, *dateLabel, *linksLabel, *linksLabelLabel;
 		EqonomizeValueEdit *valueEdit, *depositEdit, *downPaymentEdit, *sharesEdit, *quotationEdit, *quantityEdit;
 		QPushButton *maxSharesButton;
 		TagButton *tagButton;
@@ -171,6 +173,7 @@ class TransactionEditWidget : public QWidget {
 		void sharesChanged(double);
 		void quotationChanged(double);
 		void descriptionChanged(const QString&);
+		void linkClicked(const QString&);
 		void setDefaultValue();
 		void payeeChanged(const QString&);
 		void setDefaultValueFromPayee();

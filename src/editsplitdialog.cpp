@@ -383,6 +383,16 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	grid->addWidget(new QLabel(tr("Comments:")), b_extra ? 6 : 5, 0);
 	commentEdit = new QLineEdit();
 	grid->addWidget(commentEdit, b_extra ? 6 : 5, 1);
+	
+	linksLabel = new QLabel(this);
+	linksLabel->setWordWrap(true);
+	linksLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+	linksLabel->hide();
+	linksLabelLabel = new QLabel(tr("Related to:"), this);
+	linksLabelLabel->hide();
+	grid->addWidget(linksLabelLabel, b_extra ? 7 : 6, 0, Qt::AlignTop);
+	grid->addWidget(linksLabel, b_extra ? 7 : 6, 1);
+	connect(linksLabel, SIGNAL(linkActivated(const QString&)), this, SLOT(linkClicked(const QString&)));
 
 	box1->addWidget(new QLabel(tr("Transactions:")));
 	QHBoxLayout *box2 = new QHBoxLayout();
@@ -483,6 +493,13 @@ void EditMultiItemWidget::selectFile() {
 }
 void EditMultiItemWidget::openFile() {
 	open_file_list(fileEdit->text());
+}
+void EditMultiItemWidget::linkClicked(const QString &str) {
+	Transactions *trans = budget->getTransaction(str.toLongLong());
+	if(trans) {
+		Eqonomize::openLink(trans, this);
+		accountCombo->updateAccounts();
+	}
 }
 void EditMultiItemWidget::newAccount() {
 	accountCombo->createAccount();
@@ -631,9 +648,21 @@ MultiItemTransaction *EditMultiItemWidget::createTransaction() {
 		i = *it;
 	}
 	split->joinTags();
+	split->joinLinks();
 	return split;
 }
 void EditMultiItemWidget::setTransaction(MultiItemTransaction *split) {
+	QString str = links_label_text(split);
+	if(str.isEmpty()) {
+		linksLabel->clear();
+		linksLabel->hide();
+		linksLabelLabel->hide();
+	} else {
+		linksLabel->setText(str);
+		linksLabel->show();
+		linksLabelLabel->show();
+		updateGeometry();
+	}
 	descriptionEdit->setText(split->description());
 	dateEdit->setDate(split->date());
 	accountCombo->setCurrentAccount(split->account());
@@ -818,6 +847,16 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	grid->addWidget(new QLabel(tr("Comments:")), b_extra ? 5 : 4, 0);
 	commentEdit = new QLineEdit();
 	grid->addWidget(commentEdit, b_extra ? 5 : 4, 1);
+	
+	linksLabel = new QLabel(this);
+	linksLabel->setWordWrap(true);
+	linksLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+	linksLabel->hide();
+	linksLabelLabel = new QLabel(tr("Related to:"), this);
+	linksLabelLabel->hide();
+	grid->addWidget(linksLabelLabel, b_extra ? 6 : 5, 0, Qt::AlignTop);
+	grid->addWidget(linksLabel, b_extra ? 6 : 5, 1);
+	connect(linksLabel, SIGNAL(linkActivated(const QString&)), this, SLOT(linkClicked(const QString&)));
 
 	box1->addWidget(new QLabel(tr("Transactions:")));
 	QHBoxLayout *box2 = new QHBoxLayout();
@@ -898,6 +937,15 @@ void EditMultiAccountWidget::selectFile() {
 }
 void EditMultiAccountWidget::openFile() {
 	open_file_list(fileEdit->text());
+}
+
+void EditMultiAccountWidget::linkClicked(const QString &str) {
+	Transactions *trans = budget->getTransaction(str.toLongLong());
+	if(trans) {
+		Eqonomize::openLink(trans, this);
+		tagButton->updateTags();
+		categoryCombo->updateAccounts();
+	}
 }
 
 void EditMultiAccountWidget::newCategory() {
@@ -1025,6 +1073,17 @@ void EditMultiAccountWidget::setTransaction(Transactions *transs) {
 		setTransaction(((ScheduledTransaction*) transs)->transaction());
 		return;
 	}
+	QString str = links_label_text(transs);
+	if(str.isEmpty()) {
+		linksLabel->clear();
+		linksLabel->hide();
+		linksLabelLabel->hide();
+	} else {
+		linksLabel->setText(str);
+		linksLabel->show();
+		linksLabelLabel->show();
+		updateGeometry();
+	}
 	descriptionEdit->setText(transs->description());
 	commentEdit->setText(transs->comment());
 	fileEdit->setText(transs->associatedFile());
@@ -1056,6 +1115,17 @@ void EditMultiAccountWidget::setTransaction(Transactions *transs) {
 	emit dateChanged(transs->date());
 }
 void EditMultiAccountWidget::setTransaction(MultiAccountTransaction *split, const QDate &date) {
+	QString str = links_label_text(split);
+	if(str.isEmpty()) {
+		linksLabel->clear();
+		linksLabel->hide();
+		linksLabelLabel->hide();
+	} else {
+		linksLabel->setText(str);
+		linksLabel->show();
+		linksLabelLabel->show();
+		updateGeometry();
+	}
 	descriptionEdit->setText(split->description());
 	categoryCombo->setCurrentAccount(split->category());
 	if(quantityEdit) quantityEdit->setValue(split->quantity());
@@ -1237,6 +1307,17 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 		grid->addWidget(commentEdit, row, 1); row++;
 	}
 	
+	linksLabel = new QLabel(this);
+	linksLabel->setWordWrap(true);
+	linksLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+	linksLabel->hide();
+	linksLabelLabel = new QLabel(tr("Related to:"), this);
+	linksLabelLabel->hide();
+	grid->addWidget(linksLabelLabel, row, 0, Qt::AlignTop);
+	grid->addWidget(linksLabel, row, 1);
+	connect(linksLabel, SIGNAL(linkActivated(const QString&)), this, SLOT(linkClicked(const QString&)));
+	row++;
+
 	loanCombo->focusAndSelectAll();
 
 	if(default_loan) loanCombo->setCurrentAccount(default_loan);
@@ -1332,6 +1413,16 @@ void EditDebtPaymentWidget::selectFile() {
 }
 void EditDebtPaymentWidget::openFile() {
 	open_file_list(fileEdit->text());
+}
+
+void EditDebtPaymentWidget::linkClicked(const QString &str) {
+	Transactions *trans = budget->getTransaction(str.toLongLong());
+	if(trans) {
+		Eqonomize::openLink(trans, this);
+		categoryCombo->updateAccounts();
+		accountCombo->updateAccounts();
+		loanCombo->updateAccounts();
+	}
 }
 
 void EditDebtPaymentWidget::newAccount() {
@@ -1523,6 +1614,17 @@ DebtPayment *EditDebtPaymentWidget::createTransaction() {
 	return split;
 }
 void EditDebtPaymentWidget::setTransaction(DebtPayment *split) {
+	QString str = links_label_text(split);
+	if(str.isEmpty()) {
+		linksLabel->clear();
+		linksLabel->hide();
+		linksLabelLabel->hide();
+	} else {
+		linksLabel->setText(str);
+		linksLabel->show();
+		linksLabelLabel->show();
+		updateGeometry();
+	}
 	if(dateEdit) dateEdit->setDate(split->date());
 	if(commentEdit) commentEdit->setText(split->comment());
 	if(fileEdit) fileEdit->setText(split->associatedFile());

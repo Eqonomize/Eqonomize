@@ -3433,3 +3433,16 @@ QString Budget::findTag(const QString &tag) {
 }
 void Budget::setRecordNewTags(bool rnt) {b_record_new_tags = rnt;}
 
+Transactions *Budget::getTransaction(qlonglong lid) {
+	for(TransactionList<Transaction*>::const_iterator it = transactions.constBegin(); it != transactions.constEnd(); ++it) {
+		if((*it)->id() == lid) return *it;
+	}
+	for(TransactionList<SplitTransaction*>::const_iterator it = splitTransactions.constBegin(); it != splitTransactions.constEnd(); ++it) {
+		if((*it)->id() == lid) return *it;
+	}
+	for(TransactionList<ScheduledTransaction*>::const_iterator it = scheduledTransactions.constBegin(); it != scheduledTransactions.constEnd(); ++it) {
+		if((*it)->id() == lid) return *it;
+	}
+	return NULL;
+}
+

@@ -139,6 +139,8 @@ enum {
 
 #define IS_DEBT(account) (account)->isLiabilities()
 
+Eqonomize *mainwin;
+
 QString last_document_directory, last_associated_file_directory, last_picture_directory;
 
 QColor createExpenseColor(QColor base_color) {
@@ -524,6 +526,8 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 	setText(6, strans->payeeText());
 	setText(7, strans->tagsText(true));
 	setText(8, strans->comment());
+	if(strans->linksCount() > 0) setIcon(8, LOAD_ICON_STATUS("go-jump"));
+	else setIcon(8, QIcon());
 }
 
 class ConfirmScheduleListViewItem : public QTreeWidgetItem {
@@ -744,15 +748,32 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent, bool cashback) 
 	layout->addWidget(commentsEdit, i, 1);
 	i++;
 	
-	joinButton = new QCheckBox(tr("Join transactions"), this);
-	QSettings settings;
-	settings.beginGroup("GeneralOptions");
-	joinButton->setChecked(settings.value("joinRefunds", false).toBool());
-	settings.endGroup();
-	layout->addWidget(joinButton, i, 0, 1, 2, Qt::AlignRight);
+	joinGroup = new QButtonGroup(this);
+	joinGroup_layout = new QHBoxLayout();
+	
+	bool b_join = false;
+	if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SCHEDULE || (trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) trans)->type() != SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) || (trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE && ((Transaction*) trans)->parentSplit() && ((Transaction*) trans)->parentSplit()->type() != SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS)) {
+		joinGroup_layout->setEnabled(false);
+	} else {
+		QSettings settings;
+		settings.beginGroup("GeneralOptions");
+		b_join = settings.value("joinRefunds", false).toBool();
+		settings.endGroup();
+	}
+	
+	QRadioButton *rb = new QRadioButton(tr("Link"));
+	rb->setChecked(!b_join);
+	joinGroup_layout->addWidget(rb);
+	joinGroup->addButton(rb, 0);
+	rb = new QRadioButton(tr("Join"));
+	rb->setChecked(b_join);
+	connect(rb, SIGNAL(toggled(bool)), this, SLOT(joinToggled(bool)));
+	joinGroup->addButton(rb, 1);
+	joinGroup_layout->addWidget(rb);
+	layout->addLayout(joinGroup_layout, i, 0, 1, 2, Qt::AlignRight);
 	i++;
 	
-	commentsEdit->setEnabled(!joinButton->isChecked());
+	commentsEdit->setEnabled(!b_join);
 	
 	connect(dateEdit, SIGNAL(returnPressed()), valueEdit, SLOT(enterFocus()));
 	if(quantityEdit) {
@@ -770,7 +791,6 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent, bool cashback) 
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	connect(accountCombo, SIGNAL(currentAccountChanged(Account*)), this, SLOT(accountActivated(Account*)));
-	connect(joinButton, SIGNAL(toggled(bool)), this, SLOT(joinToggled(bool)));
 	box1->addWidget(buttonBox);
 	
 	dateEdit->setFocus();
@@ -806,7 +826,7 @@ Transaction *RefundDialog::createRefund() {
 	if(commentsEdit->isEnabled()) trans->setComment(commentsEdit->text());
 	return trans;
 }
-bool RefundDialog::joinIsChecked() {return joinButton->isChecked();}
+bool RefundDialog::joinIsChecked() {return joinGroup->checkedId() == 1;}
 void RefundDialog::joinToggled(bool b) {commentsEdit->setEnabled(!b);}
 void RefundDialog::accountNextFocus() {
 	if(commentsEdit->isEnabled()) commentsEdit->setFocus();
@@ -814,10 +834,12 @@ void RefundDialog::accountNextFocus() {
 }
 void RefundDialog::accept() {
 	if(validValues()) {
-		QSettings settings;
-		settings.beginGroup("GeneralOptions");
-		settings.setValue("joinRefunds", joinButton->isChecked());
-		settings.endGroup();
+		if(joinGroup_layout->isEnabled()) {
+			QSettings settings;
+			settings.beginGroup("GeneralOptions");
+			settings.setValue("joinRefunds", joinGroup->checkedId() == 1);
+			settings.endGroup();
+		}
 		QDialog::accept();
 	}
 }
@@ -2340,9 +2362,13 @@ class AccountsListView : public EqonomizeTreeWidget {
 
 Eqonomize::Eqonomize() : QMainWindow() {
 
+	mainwin = this;
+
 	in_batch_edit = false;
 	
 	clicked_item = NULL;
+	
+	link_trans = NULL;
 
 	expenses_budget = 0.0;
 	expenses_budget_diff = 0.0;
@@ -4148,6 +4174,8 @@ bool Eqonomize::splitUpTransaction(SplitTransaction *split) {
 	int c = split->count();
 	for(int i = 0; i < c; i++) {
 		Transaction *trans = split->at(i);
+		for(int i2 = 0; i2 < split->tagsCount(); i2++) trans->addTag(split->getTag(i2));
+		for(int i2 = 0; i2 < split->linksCount(); i2++) trans->addLinkId(split->getLinkId(i2));
 		if(trans->comment().isEmpty()) trans->setComment(split->comment());
 		if(trans->associatedFile().isEmpty()) trans->setAssociatedFile(split->associatedFile());
 	}
@@ -4753,11 +4781,17 @@ bool Eqonomize::newRefundRepayment(Transactions *trans, bool cashback) {
 				if(new_trans->date() > QDate::currentDate()) {
 					ScheduledTransaction *strans = new ScheduledTransaction(budget, new_trans, NULL);
 					budget->addScheduledTransaction(strans);
+					strans->addLink(trans);
+					trans->addLink(strans);
 					transactionAdded(strans);
 				} else {
 					budget->addTransaction(new_trans);
+					new_trans->addLink(trans);
+					trans->addLink(new_trans);
 					transactionAdded(new_trans);
 				}
+				transactionModified(trans, trans);
+				updateTransactionActions();
 				dialog->deleteLater();
 				return true;
 			}
@@ -4918,6 +4952,140 @@ void Eqonomize::onPageChange(int index) {
 	}
 	updateTransactionActions();
 }
+void Eqonomize::updateLinksAction(Transactions *trans) {
+	linkMenu->clear();
+	if(trans) {
+		int n = trans->linksCount(true);
+		ActionLinks->setText(tr("Links") + QString(" (") + QString::number(n) + ")");
+		if(n == 0) {
+			ActionLinks->setEnabled(false);
+		} else {
+			for(int i = 0; i < n; i++) {
+				Transactions *tlink = trans->getLink(i);
+				if(tlink) {
+					linkMenu->addAction(LOAD_ICON("go-jump"), tlink->description().isEmpty() ? QString::number(tlink->id()) : tlink->description(), this, SLOT(openLink()))->setData(QVariant::fromValue((void*) tlink));
+				}
+			}
+			linkMenu->addSeparator();
+			linkMenu->addAction(LOAD_ICON("edit-delete"), tr("Remove Link"));
+			ActionLinks->setEnabled(true);
+		}
+	} else {
+		ActionLinks->setEnabled(false);
+		ActionLinks->setText(tr("Links"));
+	}
+}
+Transactions *Eqonomize::getLinkTransaction() {return link_trans;}
+void Eqonomize::setLinkTransaction(Transactions *trans) {
+	link_trans = trans;
+	if(link_trans) {
+		ActionCreateLink->setText(tr("Link to \"%1\"").arg(link_trans->description().isEmpty() ? QString::number(link_trans->id()) : link_trans->description()));
+		QSettings settings;
+		settings.beginGroup("GeneralOptions");
+		if(settings.value("showLinkMessage", true).toBool()) {
+			QMessageBox *dialog = new QMessageBox(QMessageBox::Information, tr("Information"), tr("Select a transaction and choose %1 in the menu, to create a link between the transactions.").arg("<i>" + ActionCreateLink->text() + "</i>"), QMessageBox::Ok, this);
+			dialog->setCheckBox(new QCheckBox(tr("Do not show this message again")));
+			dialog->exec();
+			if(dialog->checkBox()->isChecked()) settings.setValue("showLinkMessage", false);
+			dialog->deleteLater();
+		}
+		settings.endGroup();
+	} else {
+		ActionCreateLink->setText(tr("Link Transaction(s)"));
+	}
+}
+void Eqonomize::createLink(QList<Transactions*> transactions) {
+	if(transactions.count() == 1) {
+		if(!link_trans) {
+			setLinkTransaction(transactions.first());
+			return;
+		} else if(link_trans == transactions.first()) {
+			setLinkTransaction(NULL);
+			return;
+		}
+	}
+	if(link_trans && transactions.count() >= 1) {
+		if(transactions.count() > 2) startBatchEdit();
+		for(int i = 0; i < transactions.count(); i++) {
+			Transactions *trans = transactions.at(i);
+			if(trans != link_trans) {
+				if(trans->generaltype() != GENERAL_TRANSACTION_TYPE_SINGLE || link_trans->generaltype() != GENERAL_TRANSACTION_TYPE_SINGLE || !((Transaction*) trans)->parentSplit() || ((Transaction*) trans)->parentSplit() != ((Transaction*) link_trans)->parentSplit()) {
+					trans->addLink(link_trans);
+					link_trans->addLink(trans);
+				}
+				if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE && ((Transaction*) trans)->parentSplit()) {
+					((Transaction*) trans)->parentSplit()->joinLinks();
+				} else if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+					((SplitTransaction*) trans)->joinLinks();
+				}
+			}
+			transactionModified(trans, trans);
+		}
+		if(link_trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE && ((Transaction*) link_trans)->parentSplit()) {
+			((Transaction*) link_trans)->parentSplit()->joinLinks();
+		} else if(link_trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+			((SplitTransaction*) link_trans)->joinLinks();
+		}
+		transactionModified(link_trans, link_trans);
+		if(transactions.count() > 2) endBatchEdit();
+		setLinkTransaction(NULL);
+	} else if(transactions.count() >= 2) {
+		if(transactions.count() > 2) startBatchEdit();
+		for(int i = 0; i < transactions.count(); i++) {
+			Transactions *trans = transactions.at(i);
+			for(int i2 = 0; i2 < transactions.count(); i2++) {
+				if(i2 != i) {
+					Transactions *trans2 = transactions.at(i2);
+					if(trans->generaltype() != GENERAL_TRANSACTION_TYPE_SINGLE || trans2->generaltype() != GENERAL_TRANSACTION_TYPE_SINGLE || !((Transaction*) trans)->parentSplit() || ((Transaction*) trans)->parentSplit() != ((Transaction*) trans2)->parentSplit()) {
+						trans->addLink(trans2);
+					}
+				}
+			}
+			transactionModified(trans, trans);
+		}
+		for(int i = 0; i < transactions.count(); i++) {
+			Transactions *trans = transactions.at(i);
+			if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE && ((Transaction*) trans)->parentSplit()) {
+				((Transaction*) trans)->parentSplit()->joinLinks();
+			} else if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+				((SplitTransaction*) trans)->joinLinks();
+			}
+		}
+		if(transactions.count() > 2) endBatchEdit();
+		setLinkTransaction(NULL);
+	}
+}
+void Eqonomize::createLink() {
+	TransactionListWidget *w = NULL;
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
+	else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
+		ScheduleListViewItem *i = (ScheduleListViewItem*) selectedItem(scheduleView);
+		if(i) {
+			QList<Transactions*> transactions;
+			transactions << i->scheduledTransaction();
+			createLink(transactions);
+		}
+	}
+	if(w) w->createLink();
+}
+void Eqonomize::openLink(Transactions *trans, QWidget *parent) {
+	if(trans) {
+		if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) mainwin->editTransaction((Transaction*) trans, parent ? parent : mainwin);
+		else if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) mainwin->editSplitTransaction((SplitTransaction*) trans, parent ? parent : mainwin);
+		else if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SCHEDULE) mainwin->editScheduledTransaction((ScheduledTransaction*) trans, parent ? parent : mainwin);
+	}
+}
+void Eqonomize::openLink() {
+	QAction *action = qobject_cast<QAction*>(sender());
+	Transactions *trans = (Transactions*) action->data().value<void*>();
+	if(trans) {
+		if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) editTransaction((Transaction*) trans);
+		else if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) editSplitTransaction((SplitTransaction*) trans);
+		else if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SCHEDULE) editScheduledTransaction((ScheduledTransaction*) trans);
+	}
+}
 void Eqonomize::updateTransactionActions() {
 	TransactionListWidget *w = NULL;
 	bool b_transaction = false, b_scheduledtransaction = false, b_attachment = false;
@@ -4932,6 +5100,7 @@ void Eqonomize::updateTransactionActions() {
 		if(i) {
 			tagMenu->setTransaction(i->scheduledTransaction());
 			ActionTags->setText(tr("Tags") + QString(" (") + QString::number(tagMenu->selectedTagsCount()) + ")");
+			updateLinksAction(i->scheduledTransaction());
 		}
 	} else {}
 	if(w) {
@@ -4941,11 +5110,13 @@ void Eqonomize::updateTransactionActions() {
 		ActionJoinTransactions->setEnabled(false);
 		ActionSplitUpTransaction->setEnabled(false);
 		ActionEditTimestamp->setEnabled(b_scheduledtransaction);
+		ActionCreateLink->setEnabled(b_scheduledtransaction);
 		if(b_scheduledtransaction) {
 			ActionTags->setEnabled(true);
 		} else {
 			ActionTags->setEnabled(false);
 			ActionTags->setText(tr("Tags"));
+			updateLinksAction(NULL);
 		}
 		ActionEditSplitTransaction->setEnabled(false);
 		ActionDeleteSplitTransaction->setEnabled(false);
@@ -7125,6 +7296,11 @@ void Eqonomize::setupActions() {
 	ActionTags = transactionsMenu->addMenu(tagMenu);
 	ActionTags->setIcon(LOAD_ICON2("tag", "eqz-tag"));
 	ActionTags->setText(tr("Tags"));
+	linkMenu = new QMenu(this);
+	ActionLinks = transactionsMenu->addMenu(linkMenu);
+	ActionLinks->setIcon(LOAD_ICON("go-jump"));
+	ActionLinks->setText(tr("Links"));
+	NEW_ACTION(ActionCreateLink, tr("Link Transaction(s)"), "go-jump", 0, this, SLOT(createLink()), "create_link", transactionsMenu);
 	NEW_ACTION(ActionSelectAssociatedFile, tr("Select Associated File"), "document-open", 0, this, SLOT(selectAssociatedFile()), "select_attachment", transactionsMenu);
 	NEW_ACTION(ActionOpenAssociatedFile, tr("Open Associated File"), "system-run", 0, this, SLOT(openAssociatedFile()), "open_attachment", transactionsMenu);
 	NEW_ACTION(ActionEditTimestamp, tr("Edit Timestamp…"), "eqz-schedule", 0, this, SLOT(editSelectedTimestamp()), "edit_timestamp", transactionsMenu);

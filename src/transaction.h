@@ -86,6 +86,7 @@ class Transactions {
 		int i_first_revision, i_last_revision;
 		Budget *o_budget;
 		QStringList tags;
+		QList<qlonglong> links;
 	
 	public:
 		
@@ -138,6 +139,19 @@ class Transactions {
 		virtual QString writeTags(bool include_parent = false) const;
 		virtual QString payeeText() const = 0;
 		virtual const QString &payee() const = 0;
+		virtual int linksCount(bool include_parent = false) const;
+		virtual qlonglong getLinkId(int index, bool include_parent = false) const;
+		Transactions *getLink(int index, bool include_parent = false) const;
+		virtual void clearLinks();
+		void addLink(Transactions *trans);
+		virtual void addLinkId(qlonglong lid);
+		virtual void removeLink(int index);
+		bool removeLink(Transactions *trans);
+		virtual bool removeLinkId(qlonglong lid);
+		virtual bool hasLinkId(qlonglong lid, bool include_parent = true) const;
+		bool hasLink(Transactions *trans, bool include_parent = true) const;
+		virtual void readLinks(const QString &text);
+		virtual QString writeLinks(bool include_parent = false) const;
 
 };
 
@@ -150,19 +164,19 @@ class Transaction : public Transactions {
 		double d_value;
 
 		QDate d_date;
-		
+
 		Account *o_from;
 		Account *o_to;
 
 		QString s_description;
 		QString s_comment;
-		
+
 		QString s_file;
 
 		double d_quantity;
 
 		SplitTransaction *o_split;
-		
+
 		qint64 i_time;
 
 	public:
@@ -225,6 +239,11 @@ class Transaction : public Transactions {
 		virtual const QString &getTag(int index, bool include_parent = false) const;
 		virtual int tagsCount(bool include_parent = false) const;
 		virtual QString writeTags(bool include_parent = false) const;
+		
+		virtual int linksCount(bool include_parent = false) const;
+		virtual qlonglong getLinkId(int index, bool include_parent = false) const;
+		virtual bool hasLinkId(qlonglong lid, bool include_parent = true) const;
+		virtual QString writeLinks(bool include_parent = false) const;
 		
 		virtual QString payeeText() const;
 		virtual const QString &payee() const;
@@ -699,6 +718,16 @@ class ScheduledTransaction : public Transactions {
 		virtual void readTags(const QString &text);
 		virtual QString writeTags(bool include_parent = false) const;
 		
+		int linksCount(bool include_parent = false) const;
+		qlonglong getLinkId(int index, bool include_parent = false) const;
+		void clearLinks();
+		void removeLink(int index);
+		bool removeLinkId(qlonglong lid);
+		void addLinkId(qlonglong lid);
+		bool hasLinkId(qlonglong lid, bool include_parent = false) const;
+		void readLinks(const QString &text);
+		QString writeLinks(bool include_parent = false) const;
+
 		virtual QString payeeText() const;
 		virtual const QString &payee() const;
 	
@@ -779,6 +808,9 @@ class SplitTransaction : public Transactions {
 		virtual QString tagsText(bool include_parent_child = true) const;
 		virtual void splitTags();
 		virtual void joinTags();
+		
+		virtual void splitLinks();
+		virtual void joinLinks();
 		
 		virtual QString payeeText() const;
 		virtual const QString &payee() const;

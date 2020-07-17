@@ -290,6 +290,8 @@ class Budget {
 		QHash<qlonglong, AssetsAccount*> assetsAccounts_id;
 		QHash<qlonglong, Security*> securities_id;
 		
+		Transactions *getTransaction(qlonglong tid);
+		
 		void setBudgetDay(int day_of_month);
 		int budgetDay() const;
 		void setBudgetMonth(int month_of_year);

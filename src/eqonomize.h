@@ -65,6 +65,7 @@
 
 class QAction;
 class QActionGroup;
+class QButtonGroup;
 class QCheckBox;
 class QLabel;
 class QMenu;
@@ -206,6 +207,12 @@ class Eqonomize : public QMainWindow {
 		void setCommandLineParser(QCommandLineParser*);
 		bool timeToUpdateExchangeRates();
 		void addNewSchedule(ScheduledTransaction *strans, QWidget *parent);
+		
+		void updateLinksAction(Transactions*);
+		void setLinkTransaction(Transactions *trans);
+		Transactions *getLinkTransaction();
+		void createLink(QList<Transactions*> transactions);
+		static void openLink(Transactions *trans, QWidget *parent = NULL);
 
 		QAction *ActionAP_1, *ActionAP_2, *ActionAP_3, *ActionAP_4, *ActionAP_5, *ActionAP_6, *ActionAP_7, *ActionAP_8;
 		QAction *ActionEditSchedule, *ActionEditOccurrence, *ActionDeleteSchedule, *ActionDeleteOccurrence;
@@ -217,7 +224,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionJoinTransactions, *ActionSplitUpTransaction;
 		QAction *ActionCloneTransaction;
 		QAction *ActionEditTimestamp;
-		QAction *ActionTags;
+		QAction *ActionTags, *ActionLinks, *ActionCreateLink;
 		QAction *ActionSelectAssociatedFile, *ActionOpenAssociatedFile;
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
 		QAction *ActionNewSecurity, *ActionEditSecurity, *ActionBuyShares, *ActionSellShares, *ActionNewDividend, *ActionNewReinvestedDividend, *ActionNewSecurityTrade, *ActionSetQuotation, *ActionEditQuotations, *ActionEditSecurityTransactions, *ActionDeleteSecurity;
@@ -236,6 +243,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionNewTag, *ActionRenameTag, *ActionRemoveTag;
 		
 		TagMenu *tagMenu;
+		QMenu *linkMenu;
 		
 	protected:
 
@@ -258,6 +266,7 @@ class Eqonomize : public QMainWindow {
 		QLocalSocket *socket;
 		QLocalServer *server;
 		QString cr_tmp_file;
+		Transactions *link_trans;
 
 		QToolBar *fileToolbar, *accountsToolbar, *transactionsToolbar, *statisticsToolbar;
 		QTabWidget *tabs;
@@ -453,6 +462,9 @@ class Eqonomize : public QMainWindow {
 		void showLedger();
 		void reconcileAccount();
 
+		void createLink();
+		void openLink();
+		
 		void updateTransactionActions();
 		
 		bool openURL(const QUrl&, bool merge = false);
@@ -715,7 +727,8 @@ class RefundDialog : public QDialog {
 		QDateEdit *dateEdit;
 		AccountComboBox *accountCombo;
 		QLineEdit *commentsEdit;
-		QCheckBox *joinButton;
+		QButtonGroup *joinGroup;
+		QLayout *joinGroup_layout;
 		
 		void keyPressEvent(QKeyEvent*);
 

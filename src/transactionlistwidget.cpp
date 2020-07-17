@@ -228,7 +228,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	connect(editWidget, SIGNAL(multipleAccountsRequested()), this, SLOT(newMultiAccountTransaction()));
 	connect(editWidget, SIGNAL(propertyChanged()), this, SLOT(updateClearButton()));
 	connect(editWidget, SIGNAL(tagAdded(QString)), this, SIGNAL(tagAdded(QString)));
-	connect(editInfoLabel, SIGNAL(linkActivated(QString)), this, SLOT(editSplitTransaction()));
+	connect(editInfoLabel, SIGNAL(linkActivated(const QString&)), this, SLOT(editSplitTransaction()));
 
 }
 
@@ -365,6 +365,8 @@ void TransactionListWidget::popupListMenu(const QPoint &p) {
 		listPopupMenu->addAction(mainWin->ActionSplitUpTransaction);
 		listPopupMenu->addSeparator();
 		listPopupMenu->addAction(mainWin->ActionTags);
+		listPopupMenu->addAction(mainWin->ActionLinks);
+		listPopupMenu->addAction(mainWin->ActionCreateLink);
 		listPopupMenu->addAction(mainWin->ActionSelectAssociatedFile);
 		listPopupMenu->addAction(mainWin->ActionOpenAssociatedFile);
 		listPopupMenu->addAction(mainWin->ActionEditTimestamp);
@@ -653,6 +655,42 @@ void TransactionListWidget::editTimestamp() {
 			transactionsView->setSortingEnabled(false);
 			transactionsView->setSortingEnabled(true);
 		}
+	}
+}
+void TransactionListWidget::createLink() {
+	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
+	if(selection.count() >= 1) {
+		QList<Transactions*> transactions;
+		for(int index = 0; index < selection.count(); index++) {
+			TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
+			if(i->scheduledTransaction()) transactions << i->scheduledTransaction();
+			else if(i->splitTransaction()) transactions << i->splitTransaction();
+			else if(i->transaction()) transactions << i->transaction();
+		}
+		for(int index = 0; index < transactions.count(); index++) {
+			Transactions *itrans = transactions.at(index);
+			if(itrans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
+				Transaction *trans = (Transaction*) itrans;
+				if(trans->parentSplit()) {
+					SplitTransaction *split = trans->parentSplit();
+					int n = split->count();
+					bool b = true;
+					for(int i = 0; i < n; i++) {
+						if(!transactions.contains(split->at(i))) {
+							b = false;
+							break;
+						}
+					}
+					if(b) {
+						transactions.replace(index, split);
+						for(int i = 0; i < n; i++) {
+							transactions.removeAll(split->at(i));
+						}
+					}
+				}
+			}
+		}
+		mainWin->createLink(transactions);
 	}
 }
 void TransactionListWidget::modifyTags() {
@@ -1594,6 +1632,7 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 			if(quantity_col >= 0) i->setText(quantity_col, budget->formatValue(trans->quantity()));
 			if(tags_col >= 0) i->setText(tags_col, trans->tagsText(true));
 			if(!trans->associatedFile().isEmpty() || (trans->parentSplit() && !trans->parentSplit()->associatedFile().isEmpty())) i->setIcon(2, LOAD_ICON_STATUS("mail-attachment"));
+			if(trans->linksCount(true) > 0) i->setIcon(comments_col, LOAD_ICON_STATUS("go-jump"));
 		} else if(split) {
 			i->setText(3, split->category()->name());
 			i->setText(4, split->accountsString());
@@ -1602,6 +1641,7 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 			i->setText(comments_col, transs->comment());
 			if(tags_col >= 0) i->setText(tags_col, transs->tagsText());
 			if(!split->associatedFile().isEmpty()) i->setIcon(2, LOAD_ICON_STATUS("mail-attachment"));
+			if(split->linksCount() > 0) i->setIcon(comments_col, LOAD_ICON_STATUS("go-jump"));
 		}		
 		current_value += transs->value(true);
 		current_quantity += transs->quantity();
@@ -1630,6 +1670,7 @@ void TransactionListWidget::onTransactionSplitUp(SplitTransaction *split) {
 			if(i->transaction() && i->transaction()->parentSplit() == split) {
 				i->setText(1, i->transaction()->description());
 				if(!split->associatedFile().isEmpty() && i->transaction()->associatedFile().isEmpty()) i->setIcon(2, QIcon());
+				if(split->linksCount() > 0 && i->transaction()->linksCount(true) == 0) i->setIcon(comments_col, QIcon());
 			}
 			++it;
 			i = (TransactionListViewItem*) *it;
@@ -1706,6 +1747,8 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 					if(quantity_col >= 0) i->setText(quantity_col, budget->formatValue(transs->quantity()));
 					if(!trans->associatedFile().isEmpty() || (trans->parentSplit() && !trans->parentSplit()->associatedFile().isEmpty())) i->setIcon(2, LOAD_ICON_STATUS("mail-attachment"));
 					else i->setIcon(2, QIcon());
+					if(trans->linksCount(true) > 0) i->setIcon(comments_col, LOAD_ICON_STATUS("go-jump"));
+					else i->setIcon(comments_col, QIcon());
 				}
 				updateStatistics();
 			}
@@ -1793,7 +1836,9 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 					if(tags_col >= 0) i->setText(tags_col, split->tagsText());
 					if(quantity_col >= 0) i->setText(quantity_col, budget->formatValue(split->quantity()));
 					if(!split->associatedFile().isEmpty()) i->setIcon(2, LOAD_ICON_STATUS("mail-attachment"));
-					else i->setIcon(2, QIcon()); 
+					else i->setIcon(2, QIcon());
+					if(split->linksCount() > 0) i->setIcon(comments_col, LOAD_ICON_STATUS("go-jump"));
+					else i->setIcon(comments_col, QIcon());  
 				}
 				updateStatistics();
 			}
@@ -2042,15 +2087,19 @@ void TransactionListWidget::newRefundRepayment() {
 }
 void TransactionListWidget::updateTransactionActions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
-	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_split2 = false, b_join = false, b_delete = false, b_attachment = false, b_select = false, b_time = false, b_tags = false, b_clone = false;
+	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_split2 = false, b_join = false, b_delete = false, b_attachment = false, b_select = false, b_time = false, b_tags = false, b_clone = false, b_link = false;
 	bool refundable = false, repayable = false, cashbackable = false;
 	QList<Transactions*> list;
+	Transactions *link_trans = mainWin->getLinkTransaction();
+	SplitTransaction *link_parent = NULL;
+	if(link_trans && link_trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) link_parent = ((Transaction*) link_trans)->parentSplit(); 
 	if(selection.count() == 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
 		b_scheduledtransaction = i->scheduledTransaction() && i->scheduledTransaction()->recurrence();
 		b_split = !b_scheduledtransaction && (i->transaction() && i->transaction()->parentSplit());
 		b_split2 = i->splitTransaction();
 		b_transaction = !b_scheduledtransaction || !i->scheduledTransaction()->isOneTimeTransaction();
+		b_link = (!i->scheduledTransaction() || i->scheduledTransaction()->isOneTimeTransaction())  && (!b_split || (i->transaction()->parentSplit() != link_trans && i->transaction()->parentSplit() != link_parent));
 		b_time = !i->scheduledTransaction();
 		b_delete = b_transaction;
 		refundable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_EXPENSE && i->transaction()->value() > 0.0));
@@ -2070,27 +2119,44 @@ void TransactionListWidget::updateTransactionActions() {
 		}
 		b_clone = true;
 		b_select = true;
+		mainWin->updateLinksAction(b_transaction ? list[0] : NULL);
 	} else if(selection.count() > 1) {
 		b_transaction = true;
 		b_delete = true;
 		b_join = true;
 		b_split = true;
 		b_time = true;
+		b_link = true;
 		SplitTransaction *split = NULL;
+		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
+		if(!link_trans && i->transaction() && i->transaction()->parentSplit() && selection.size() < i->transaction()->parentSplit()->count()) {
+			split = i->transaction()->parentSplit();
+			b_link = false;
+			for(int index = 1; index < selection.size(); index++) {
+				i = (TransactionListViewItem*) selection.at(index);
+				if(!i->transaction() || i->transaction()->parentSplit() != split) {
+					b_link = true;
+					break;
+				}
+			}
+			split = NULL;
+		}
 		for(int index = 0; index < selection.size(); index++) {
-			TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
+			i = (TransactionListViewItem*) selection.at(index);
 			if(b_join && (i->splitTransaction() || i->scheduledTransaction() || i->transaction()->parentSplit())) {
 				b_join = false;
 			}
 			if(i->scheduledTransaction()) {
+				if(b_link && !i->scheduledTransaction()->isOneTimeTransaction()) b_link = false;
 				b_time = false;
 			}
 			if(b_transaction && i->scheduledTransaction() && (i->splitTransaction() || (i->transaction() && i->transaction()->parentSplit()))) {
 				b_transaction = false;
 				if(!i->splitTransaction()) b_delete = false;
 			}
+			Transaction *trans = i->transaction();
+			if(b_link && trans && trans->parentSplit() && (trans->parentSplit() == link_trans || trans->parentSplit() == link_parent)) b_link = false;
 			if(b_split) {
-				Transaction *trans = i->transaction();
 				if(!trans) {
 					b_split = false;
 				} else {
@@ -2106,12 +2172,14 @@ void TransactionListWidget::updateTransactionActions() {
 		}
 		b_select = b_split && split;
 		b_attachment = b_select && !split->associatedFile().isEmpty();
+		mainWin->updateLinksAction(NULL);
 	}
 	b_tags = b_transaction;
 	if(b_tags) {
 		mainWin->tagMenu->setTransactions(list);
 		mainWin->ActionTags->setText(tr("Tags") + QString(" (") + QString::number(mainWin->tagMenu->selectedTagsCount()) + ")");
 	}
+	mainWin->ActionCreateLink->setEnabled(b_link);
 	mainWin->ActionNewCashback->setEnabled(cashbackable);
 	mainWin->ActionNewRefund->setEnabled(refundable);
 	mainWin->ActionNewRepayment->setEnabled(repayable);

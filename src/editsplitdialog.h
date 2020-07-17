@@ -63,7 +63,7 @@ class EditMultiAccountWidget : public QWidget {
 		QLineEdit *descriptionEdit, *commentEdit, *fileEdit;
 		QTreeWidget *transactionsView;
 		QPushButton *editButton, *removeButton;
-		QLabel *totalLabel;
+		QLabel *totalLabel, *linksLabel, *linksLabelLabel;
 		TagButton *tagButton;
 
 		void appendTransaction(Transaction *trans);
@@ -100,6 +100,7 @@ class EditMultiAccountWidget : public QWidget {
 		void newTransaction();
 		void newCategory();
 		void newTag();
+		void linkClicked(const QString&);
 
 };
 
@@ -117,7 +118,7 @@ class EditDebtPaymentWidget : public QWidget {
 		QRadioButton *paidInterestButton, *addedInterestButton;
 		AccountComboBox *accountCombo, *categoryCombo, *loanCombo;
 		QLineEdit *commentEdit, *fileEdit;
-		QLabel *paymentLabel, *totalLabel;
+		QLabel *paymentLabel, *totalLabel, *linksLabel, *linksLabelLabel;
 
 		void updateTotalValue();
 		AssetsAccount *selectedLoan();
@@ -159,6 +160,7 @@ class EditDebtPaymentWidget : public QWidget {
 		void reductionFocusNext();
 		void accountFocusNext();
 		void feeFocusNext();
+		void linkClicked(const QString&);
 
 };
 
@@ -176,7 +178,7 @@ class EditMultiItemWidget : public QWidget {
 		QLineEdit *descriptionEdit, *payeeEdit, *fileEdit, *commentEdit;
 		QTreeWidget *transactionsView;
 		QPushButton *editButton, *removeButton;
-		QLabel *totalLabel;
+		QLabel *totalLabel, *linksLabel, *linksLabelLabel;
 		TagButton *tagButton;
 
 		void appendTransaction(Transaction *trans, bool deposit);
@@ -221,6 +223,7 @@ class EditMultiItemWidget : public QWidget {
 		void newAccount();
 		void focusDate();
 		void newTag();
+		void linkClicked(const QString&);
 
 };
 

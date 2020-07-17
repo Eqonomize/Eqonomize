@@ -172,14 +172,14 @@ void AccountComboBox::setCurrentAccountIndex(int index) {
 }
 
 #define APPEND_ACTION_ROW(s)	{QStandardItem *row = new QStandardItem(s);\
-				row->setData(QVariant::fromValue(QVariant::fromValue(NULL)), Qt::UserRole);\
+				row->setData(QVariant::fromValue(NULL), Qt::UserRole);\
 				sourceModel->appendRow(row);}
 #define APPEND_ROW 		{QStandardItem *row = new QStandardItem(account->nameWithParent());\
-				row->setData(QVariant::fromValue(QVariant::fromValue((void*) account)), Qt::UserRole);\
+				row->setData(QVariant::fromValue((void*) account), Qt::UserRole);\
 				sourceModel->appendRow(row);}
 
 #define APPEND_SEPARATOR	{QStandardItem *row = new QStandardItem();\
-				row->setData(QVariant::fromValue(QVariant::fromValue(NULL)), Qt::UserRole);\
+				row->setData(QVariant::fromValue(NULL), Qt::UserRole);\
 				row->setData(QString::fromLatin1("separator"), Qt::AccessibleDescriptionRole);\
 				row->setFlags(Qt::NoItemFlags);\
 				sourceModel->appendRow(row);}
