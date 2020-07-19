@@ -23,6 +23,7 @@
 
 #include <QDate>
 #include <QHash>
+#include <QList>
 #include <QString>
 #include <QVector>
 #include <QWidget>
@@ -41,6 +42,7 @@ class EqonomizeDateEdit;
 class QDateEdit;
 class TagMenu;
 class TagButton;
+class LinksWidget;
 
 class Budget;
 class Account;
@@ -59,8 +61,6 @@ typedef enum {
 	SECURITY_VALUE_AND_SHARES,
 	SECURITY_VALUE_AND_QUOTATION
 } SecurityValueDefineType;
-
-QString links_label_text(Transactions *trans);
 
 class TransactionEditWidget : public QWidget {
 
@@ -135,13 +135,15 @@ class TransactionEditWidget : public QWidget {
 		AccountComboBox *fromCombo, *toCombo;
 		QComboBox *securityCombo, *currencyCombo;
 		QCheckBox *setQuoteButton;
-		QLabel *withdrawalLabel, *depositLabel, *dateLabel, *linksLabel, *linksLabelLabel;
+		QLabel *withdrawalLabel, *depositLabel, *dateLabel, *linksLabelLabel;
+		LinksWidget *linksWidget;
 		EqonomizeValueEdit *valueEdit, *depositEdit, *downPaymentEdit, *sharesEdit, *quotationEdit, *quantityEdit;
 		QPushButton *maxSharesButton;
 		TagButton *tagButton;
 		EqonomizeDateEdit *dateEdit;
 		QHBoxLayout *bottom_layout;
 		QGridLayout *editLayout;
+
 
 	signals:
 
@@ -173,7 +175,6 @@ class TransactionEditWidget : public QWidget {
 		void sharesChanged(double);
 		void quotationChanged(double);
 		void descriptionChanged(const QString&);
-		void linkClicked(const QString&);
 		void setDefaultValue();
 		void payeeChanged(const QString&);
 		void setDefaultValueFromPayee();
@@ -315,6 +316,34 @@ class TagButton : public QPushButton {
 		void returnPressed();
 		void newTagRequested();
 	
+};
+
+class LinksWidget : public QWidget {
+
+	Q_OBJECT
+
+	protected:
+
+		QLabel *linksLabel;
+		QPushButton *removeButton;
+		bool b_editable, b_links;
+		int first_parent_link;
+		QList<Transactions*> links;
+
+	public:
+
+		LinksWidget(QWidget *parent, bool is_active = true);
+
+		void setTransaction(Transactions *trans);
+		void updateTransaction(Transactions *trans);
+		void updateLabel();
+		bool isEmpty();
+
+	public slots:
+
+		void linkClicked(const QString&);
+		void removeLink();
+
 };
 
 #endif

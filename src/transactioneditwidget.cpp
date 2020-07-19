@@ -64,6 +64,112 @@
 #define CURCOL(row, col)	(b_autoedit ? ((row / rows) * 2) + col : col)
 #define TEROWCOL(row, col)	CURROW(row, col), CURCOL(row, col)
 
+LinksWidget::LinksWidget(QWidget *parent, bool is_active) : QWidget(parent), b_editable(is_active), b_links(is_active) {
+	first_parent_link = 0;
+	QHBoxLayout *box = new QHBoxLayout(this);
+	box->setContentsMargins(0, 0, 0, 0);
+	linksLabel = new QLabel(this);
+	linksLabel->setWordWrap(true);
+	linksLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+	box->addWidget(linksLabel, 1);
+	if(b_editable) {
+		removeButton = new QPushButton(LOAD_ICON("edit-delete"), QString(), this);
+		removeButton->setEnabled(false);
+		box->addWidget(removeButton, 0);
+		connect(removeButton, SIGNAL(clicked()), this, SLOT(removeLink()));
+	} else {
+		removeButton = NULL;
+	}
+	connect(linksLabel, SIGNAL(linkActivated(const QString&)), this, SLOT(linkClicked(const QString&)));
+}
+void LinksWidget::linkClicked(const QString &str) {
+	qlonglong lid = str.toLongLong();
+	for(int i = 0; i < links.count(); i++) {
+		if(links.at(i)->id() == lid) {
+			Eqonomize::openLink(links.at(i), parentWidget());
+			return;
+		}
+	}
+}
+void LinksWidget::removeLink() {
+	if(first_parent_link == 1) {
+		links.removeAt(0);
+		first_parent_link = 0;
+		updateLabel();
+		removeButton->setEnabled(false);
+	} else if(first_parent_link > 0) {
+		QDialog *dialog = new QDialog(this);
+		dialog->setWindowTitle(tr("Remove Link"));
+		dialog->setModal(true);
+		QVBoxLayout *box1 = new QVBoxLayout(dialog);
+		QComboBox *combo = new QComboBox(dialog);
+		combo->addItem(tr("All"));
+		for(int i = 0; i < first_parent_link; i++) {
+			Transactions *tlink = links.at(i);
+			combo->addItem(tlink->description().isEmpty() ? QString::number(tlink->id()) : tlink->description());
+		}
+		combo->setCurrentIndex(0);
+		box1->addWidget(combo);
+		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel);
+		QPushButton *delButton = new QPushButton(LOAD_ICON("edit-delete"), tr("Remove"));
+		buttonBox->addButton(delButton, QDialogButtonBox::AcceptRole);
+		delButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+		connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
+		connect(delButton, SIGNAL(clicked()), dialog, SLOT(accept()));
+		box1->addWidget(buttonBox);
+		if(dialog->exec() == QDialog::Accepted) {
+			if(combo->currentIndex() > 0) {
+				links.removeAt(combo->currentIndex() - 1);
+				first_parent_link--;
+			} else {
+				while(first_parent_link > 0) {
+					links.removeAt(0);
+					first_parent_link--;
+				}
+				removeButton->setEnabled(false);
+			}
+			updateLabel();
+		}
+		dialog->deleteLater();
+	}
+}
+bool LinksWidget::isEmpty() {
+	return linksLabel->text().isEmpty();
+}
+void LinksWidget::updateLabel() {
+	QString str;
+	for(int i = 0; i < links.count(); i++) {
+		Transactions *ltrans = links.at(i);
+		if(!str.isEmpty()) str += ", ";
+		if(b_links) {str += "<a href=\""; str += QString::number(ltrans->id()); str += "\">";}
+		if(i >= first_parent_link) str += "<i>";
+		str += ltrans->description().isEmpty() ? QString::number(ltrans->id()) : ltrans->description();
+		if(i >= first_parent_link) str += "</i>";
+		if(b_links) {str += "</a>";}
+	}
+	linksLabel->setText(str);
+}
+void LinksWidget::setTransaction(Transactions *trans) {
+	links.clear();
+	if(removeButton) removeButton->setEnabled(false);
+	if(trans) {
+		int n = trans->linksCount(true);
+		first_parent_link = trans->linksCount(false);
+		if(n > 0) {
+			for(int i = 0; i < n; i++) {
+				Transactions *ltrans = trans->getLink(i, true);
+				links << ltrans;
+				if(removeButton && i < first_parent_link) removeButton->setEnabled(true);
+			}
+		}
+	}
+	updateLabel();
+}
+void LinksWidget::updateTransaction(Transactions *trans) {
+	trans->clearLinks();
+	for(int i = 0; i < first_parent_link; i++) trans->addLink(links.at(i));
+}
+
 TagButton::TagButton(bool small_button, bool allow_new_tag, Budget *budg, QWidget *parent) : QPushButton(parent), b_small(small_button) {
 	tagMenu = new TagMenu(budg, this, allow_new_tag);
 	setMenu(tagMenu);
@@ -349,7 +455,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	withdrawalLabel = NULL;
 	fileEdit = NULL;
 	tagButton = NULL;
-	linksLabel = NULL;
+	linksWidget = NULL;
 	int i = 0;
 	if(b_sec) {
 		int decimals = budget->defaultShareDecimals();
@@ -685,15 +791,12 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		i++;
 	}
 	if(!b_autoedit) {
-		linksLabel = new QLabel(this);
-		linksLabel->setWordWrap(true);
-		linksLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-		linksLabel->hide();
+		linksWidget = new LinksWidget(this, b_create_accounts);
+		linksWidget->hide();
 		linksLabelLabel = new QLabel(tr("Related to:"), this);
 		linksLabelLabel->hide();
-		editLayout->addWidget(linksLabelLabel, TEROWCOL(i, 0), Qt::AlignTop);
-		editLayout->addWidget(linksLabel, TEROWCOL(i, 1));
-		connect(linksLabel, SIGNAL(linkActivated(const QString&)), this, SLOT(linkClicked(const QString&)));
+		editLayout->addWidget(linksLabelLabel, TEROWCOL(i, 0));
+		editLayout->addWidget(linksWidget, TEROWCOL(i, 1));
 		i++;
 	}
 	bottom_layout = new QHBoxLayout();
@@ -886,15 +989,6 @@ void TransactionEditWidget::selectFile() {
 			}
 			fileEdit->setText(url);
 		}
-	}
-}
-void TransactionEditWidget::linkClicked(const QString &str) {
-	Transactions *trans = budget->getTransaction(str.toLongLong());
-	if(trans) {
-		Eqonomize::openLink(trans, this);
-		if(tagButton) tagButton->updateTags();
-		if(fromCombo) fromCombo->updateAccounts();
-		if(toCombo) toCombo->updateAccounts();
 	}
 }
 void TransactionEditWidget::openFile() {
@@ -1589,6 +1683,7 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 	if(payeeEdit && trans->type() == TRANSACTION_TYPE_EXPENSE) ((Expense*) trans)->setPayee(payeeEdit->text());
 	if(payeeEdit && trans->type() == TRANSACTION_TYPE_INCOME) ((Income*) trans)->setPayer(payeeEdit->text());
 	if(tagButton) tagButton->modifyTransaction(trans);
+	if(linksWidget) linksWidget->updateTransaction(trans);
 	trans->setModified();
 	return true;
 }
@@ -1617,6 +1712,7 @@ Transactions *TransactionEditWidget::createTransactionWithLoan() {
 	}
 	
 	MultiAccountTransaction *split = new MultiAccountTransaction(budget, (CategoryAccount*) toCombo->currentAccount(), descriptionEdit->text());
+	if(linksWidget) linksWidget->updateTransaction(split);
 	split->setComment(commentsEdit->text());
 	if(fileEdit) split->setAssociatedFile(fileEdit->text());
 	if(quantityEdit) split->setQuantity(quantityEdit->value());
@@ -1692,6 +1788,7 @@ Transaction *TransactionEditWidget::createTransaction() {
 	}
 	if(fileEdit) trans->setAssociatedFile(fileEdit->text());
 	if(tagButton) tagButton->modifyTransaction(trans);
+	if(linksWidget) linksWidget->updateTransaction(trans);
 	return trans;
 }
 void TransactionEditWidget::transactionRemoved(Transaction *trans) {
@@ -1936,40 +2033,20 @@ void TransactionEditWidget::setFromAccount(Account *account) {
 void TransactionEditWidget::setToAccount(Account *account) {
 	if(toCombo) toCombo->setCurrentAccount(account);
 }
-QString links_label_text(Transactions *trans) {
-	if(!trans) return QString();
-	int n = trans->linksCount(true);
-	if(n > 0) {
-		QString str;
-		for(int i = 0; i < n; i++) {
-			Transactions *ltrans = trans->getLink(i, true);
-			if(ltrans) {
-				if(!str.isEmpty()) str += ", ";
-				str += "<a href=\""; str += QString::number(ltrans->id()); str += "\">";
-				str += ltrans->description().isEmpty() ? QString::number(ltrans->id()) : ltrans->description();
-				str += "</a>";
-			}
-		}
-		return str;
-	}
-	return QString();
-}
 void TransactionEditWidget::setTransaction(Transaction *trans) {
 	if(valueEdit) valueEdit->blockSignals(true);
 	if(sharesEdit) sharesEdit->blockSignals(true);
 	if(quotationEdit) quotationEdit->blockSignals(true);
 	blockSignals(true);
 	b_select_security = false;
-	if(linksLabel) {
-		QString str = links_label_text(trans);
-		if(str.isEmpty()) {
-			linksLabel->clear();
-			linksLabel->hide();
+	if(linksWidget) {
+		linksWidget->setTransaction(trans);
+		if(linksWidget->isEmpty()) {
+			linksWidget->hide();
 			linksLabelLabel->hide();
 		} else {
-			linksLabel->show();
+			linksWidget->show();
 			linksLabelLabel->show();
-			linksLabel->setText(str);
 		}
 	}
 	if(trans == NULL) {
@@ -2078,16 +2155,14 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 		setTransaction(NULL);
 		return;
 	}
-	if(linksLabel) {
-		QString str = links_label_text(split);
-		if(str.isEmpty()) {
-			linksLabel->clear();
-			linksLabel->hide();
+	if(linksWidget) {
+		linksWidget->setTransaction(split);
+		if(linksWidget->isEmpty()) {
+			linksWidget->hide();
 			linksLabelLabel->hide();
 		} else {
-			linksLabel->show();
+			linksWidget->show();
 			linksLabelLabel->show();
-			linksLabel->setText(str);
 		}
 	}
 	blockSignals(true);

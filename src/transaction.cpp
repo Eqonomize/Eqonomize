@@ -44,8 +44,8 @@ Transactions::Transactions(const Transactions *trans) : i_id(trans->id()), i_fir
 	for(int i = 0; !trans->getTag(i).isEmpty(); i++) {
 		tags << trans->getTag(i);
 	}
-	for(int i = 0; i < trans->linksCount(); i++) {
-		links << trans->getLinkId(i);
+	for(int i = 0; i < trans->linksCount(false); i++) {
+		links << trans->getLinkId(i, false);
 	}
 }
 void Transactions::set(const Transactions *trans) {
@@ -57,8 +57,8 @@ void Transactions::set(const Transactions *trans) {
 		tags << trans->getTag(i);
 	}
 	links.clear();
-	for(int i = 0; i < trans->linksCount(); i++) {
-		links << trans->getLinkId(i);
+	for(int i = 0; i < trans->linksCount(false); i++) {
+		links << trans->getLinkId(i, false);
 	}
 }
 
@@ -1660,11 +1660,11 @@ QString ScheduledTransaction::payeeText() const {
 }
 int ScheduledTransaction::linksCount(bool include_parent) const {
 	if(o_trans) return o_trans->linksCount(include_parent);
-	return -1;
+	return 0;
 }
 qlonglong ScheduledTransaction::getLinkId(int index, bool include_parent) const {
 	if(o_trans) return o_trans->getLinkId(index, include_parent);
-	return -1;
+	return 0;
 }
 void ScheduledTransaction::clearLinks() {if(o_trans) o_trans->clearLinks();}
 void ScheduledTransaction::removeLink(int index) {if(o_trans) o_trans->removeLink(index);}

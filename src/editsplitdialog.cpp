@@ -384,15 +384,12 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	commentEdit = new QLineEdit();
 	grid->addWidget(commentEdit, b_extra ? 6 : 5, 1);
 	
-	linksLabel = new QLabel(this);
-	linksLabel->setWordWrap(true);
-	linksLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-	linksLabel->hide();
+	linksWidget = new LinksWidget(this, b_create_accounts);
+	linksWidget->hide();
 	linksLabelLabel = new QLabel(tr("Related to:"), this);
 	linksLabelLabel->hide();
-	grid->addWidget(linksLabelLabel, b_extra ? 7 : 6, 0, Qt::AlignTop);
-	grid->addWidget(linksLabel, b_extra ? 7 : 6, 1);
-	connect(linksLabel, SIGNAL(linkActivated(const QString&)), this, SLOT(linkClicked(const QString&)));
+	grid->addWidget(linksLabelLabel, b_extra ? 7 : 6, 0);
+	grid->addWidget(linksWidget, b_extra ? 7 : 6, 1);
 
 	box1->addWidget(new QLabel(tr("Transactions:")));
 	QHBoxLayout *box2 = new QHBoxLayout();
@@ -493,13 +490,6 @@ void EditMultiItemWidget::selectFile() {
 }
 void EditMultiItemWidget::openFile() {
 	open_file_list(fileEdit->text());
-}
-void EditMultiItemWidget::linkClicked(const QString &str) {
-	Transactions *trans = budget->getTransaction(str.toLongLong());
-	if(trans) {
-		Eqonomize::openLink(trans, this);
-		accountCombo->updateAccounts();
-	}
 }
 void EditMultiItemWidget::newAccount() {
 	accountCombo->createAccount();
@@ -635,6 +625,7 @@ MultiItemTransaction *EditMultiItemWidget::createTransaction() {
 	if(!validValues()) return NULL;
 	AssetsAccount *account = selectedAccount();
 	MultiItemTransaction *split = new MultiItemTransaction(budget, dateEdit->date(), account, descriptionEdit->text());
+	linksWidget->updateTransaction(split);
 	if(payeeEdit) split->setPayee(payeeEdit->text());
 	if(fileEdit) split->setAssociatedFile(fileEdit->text());
 	split->setComment(commentEdit->text());
@@ -652,16 +643,13 @@ MultiItemTransaction *EditMultiItemWidget::createTransaction() {
 	return split;
 }
 void EditMultiItemWidget::setTransaction(MultiItemTransaction *split) {
-	QString str = links_label_text(split);
-	if(str.isEmpty()) {
-		linksLabel->clear();
-		linksLabel->hide();
+	linksWidget->setTransaction(split);
+	if(linksWidget->isEmpty()) {
+		linksWidget->hide();
 		linksLabelLabel->hide();
 	} else {
-		linksLabel->setText(str);
-		linksLabel->show();
+		linksWidget->show();
 		linksLabelLabel->show();
-		updateGeometry();
 	}
 	descriptionEdit->setText(split->description());
 	dateEdit->setDate(split->date());
@@ -848,15 +836,12 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	commentEdit = new QLineEdit();
 	grid->addWidget(commentEdit, b_extra ? 5 : 4, 1);
 	
-	linksLabel = new QLabel(this);
-	linksLabel->setWordWrap(true);
-	linksLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-	linksLabel->hide();
+	linksWidget = new LinksWidget(this, b_create_accounts);
+	linksWidget->hide();
 	linksLabelLabel = new QLabel(tr("Related to:"), this);
 	linksLabelLabel->hide();
-	grid->addWidget(linksLabelLabel, b_extra ? 6 : 5, 0, Qt::AlignTop);
-	grid->addWidget(linksLabel, b_extra ? 6 : 5, 1);
-	connect(linksLabel, SIGNAL(linkActivated(const QString&)), this, SLOT(linkClicked(const QString&)));
+	grid->addWidget(linksLabelLabel, b_extra ? 6 : 5, 0);
+	grid->addWidget(linksWidget, b_extra ? 6 : 5, 1);
 
 	box1->addWidget(new QLabel(tr("Transactions:")));
 	QHBoxLayout *box2 = new QHBoxLayout();
@@ -937,15 +922,6 @@ void EditMultiAccountWidget::selectFile() {
 }
 void EditMultiAccountWidget::openFile() {
 	open_file_list(fileEdit->text());
-}
-
-void EditMultiAccountWidget::linkClicked(const QString &str) {
-	Transactions *trans = budget->getTransaction(str.toLongLong());
-	if(trans) {
-		Eqonomize::openLink(trans, this);
-		tagButton->updateTags();
-		categoryCombo->updateAccounts();
-	}
 }
 
 void EditMultiAccountWidget::newCategory() {
@@ -1049,6 +1025,7 @@ MultiAccountTransaction *EditMultiAccountWidget::createTransaction() {
 	if(!validValues()) return NULL;
 	CategoryAccount *account = selectedCategory();
 	MultiAccountTransaction *split = new MultiAccountTransaction(budget, account, descriptionEdit->text());
+	linksWidget->updateTransaction(split);
 	split->setComment(commentEdit->text());
 	split->setAssociatedFile(fileEdit->text());
 	tagButton->modifyTransaction(split);
@@ -1073,16 +1050,13 @@ void EditMultiAccountWidget::setTransaction(Transactions *transs) {
 		setTransaction(((ScheduledTransaction*) transs)->transaction());
 		return;
 	}
-	QString str = links_label_text(transs);
-	if(str.isEmpty()) {
-		linksLabel->clear();
-		linksLabel->hide();
+	linksWidget->setTransaction(transs);
+	if(linksWidget->isEmpty()) {
+		linksWidget->hide();
 		linksLabelLabel->hide();
 	} else {
-		linksLabel->setText(str);
-		linksLabel->show();
+		linksWidget->show();
 		linksLabelLabel->show();
-		updateGeometry();
 	}
 	descriptionEdit->setText(transs->description());
 	commentEdit->setText(transs->comment());
@@ -1115,16 +1089,13 @@ void EditMultiAccountWidget::setTransaction(Transactions *transs) {
 	emit dateChanged(transs->date());
 }
 void EditMultiAccountWidget::setTransaction(MultiAccountTransaction *split, const QDate &date) {
-	QString str = links_label_text(split);
-	if(str.isEmpty()) {
-		linksLabel->clear();
-		linksLabel->hide();
+	linksWidget->setTransaction(split);
+	if(linksWidget->isEmpty()) {
+		linksWidget->hide();
 		linksLabelLabel->hide();
 	} else {
-		linksLabel->setText(str);
-		linksLabel->show();
+		linksWidget->show();
 		linksLabelLabel->show();
-		updateGeometry();
 	}
 	descriptionEdit->setText(split->description());
 	categoryCombo->setCurrentAccount(split->category());
@@ -1307,15 +1278,12 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 		grid->addWidget(commentEdit, row, 1); row++;
 	}
 	
-	linksLabel = new QLabel(this);
-	linksLabel->setWordWrap(true);
-	linksLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-	linksLabel->hide();
+	linksWidget = new LinksWidget(this, b_create_accounts);
+	linksWidget->hide();
 	linksLabelLabel = new QLabel(tr("Related to:"), this);
 	linksLabelLabel->hide();
-	grid->addWidget(linksLabelLabel, row, 0, Qt::AlignTop);
-	grid->addWidget(linksLabel, row, 1);
-	connect(linksLabel, SIGNAL(linkActivated(const QString&)), this, SLOT(linkClicked(const QString&)));
+	grid->addWidget(linksLabelLabel, row, 0);
+	grid->addWidget(linksWidget, row, 1);
 	row++;
 
 	loanCombo->focusAndSelectAll();
@@ -1413,16 +1381,6 @@ void EditDebtPaymentWidget::selectFile() {
 }
 void EditDebtPaymentWidget::openFile() {
 	open_file_list(fileEdit->text());
-}
-
-void EditDebtPaymentWidget::linkClicked(const QString &str) {
-	Transactions *trans = budget->getTransaction(str.toLongLong());
-	if(trans) {
-		Eqonomize::openLink(trans, this);
-		categoryCombo->updateAccounts();
-		accountCombo->updateAccounts();
-		loanCombo->updateAccounts();
-	}
 }
 
 void EditDebtPaymentWidget::newAccount() {
@@ -1605,6 +1563,7 @@ DebtPayment *EditDebtPaymentWidget::createTransaction() {
 	AssetsAccount *account = selectedAccount();
 	ExpensesAccount *category = selectedCategory();
 	DebtPayment *split = new DebtPayment(budget, dateEdit->date(), loan, account ? account : loan);
+	linksWidget->updateTransaction(split);
 	if((reductionEdit && reductionEdit->value() > 0.0) || (paymentEdit && paymentEdit->value() > 0.0)) split->setPayment(paymentEdit->value(), reductionEdit->value());
 	if(feeEdit && feeEdit->value() > 0.0) split->setFee(feeEdit->value());
 	if(interestEdit && interestEdit->value() > 0.0) split->setInterest(interestEdit->value(), !(addedInterestButton && addedInterestButton->isChecked()));
@@ -1614,16 +1573,13 @@ DebtPayment *EditDebtPaymentWidget::createTransaction() {
 	return split;
 }
 void EditDebtPaymentWidget::setTransaction(DebtPayment *split) {
-	QString str = links_label_text(split);
-	if(str.isEmpty()) {
-		linksLabel->clear();
-		linksLabel->hide();
+	linksWidget->setTransaction(split);
+	if(linksWidget->isEmpty()) {
+		linksWidget->hide();
 		linksLabelLabel->hide();
 	} else {
-		linksLabel->setText(str);
-		linksLabel->show();
+		linksWidget->show();
 		linksLabelLabel->show();
-		updateGeometry();
 	}
 	if(dateEdit) dateEdit->setDate(split->date());
 	if(commentEdit) commentEdit->setText(split->comment());

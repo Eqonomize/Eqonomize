@@ -1247,24 +1247,24 @@ void LedgerDialog::remove() {
 			SplitTransaction *split = i->splitTransaction();
 			qDebug() << split->description();
 			budget->removeSplitTransaction(split, true);
-			mainWin->transactionRemoved(split);
+			mainWin->transactionRemoved(split, NULL, true);
 			delete split;
 		} else if(i->transaction()) {
 			Transaction *trans = i->transaction();
 			if(trans->parentSplit() && trans->parentSplit()->count() == 1) {
 				SplitTransaction *split = trans->parentSplit();
 				budget->removeSplitTransaction(split, true);
-				mainWin->transactionRemoved(split);
+				mainWin->transactionRemoved(split, NULL, true);
 				delete split;
 			} else if(trans->parentSplit() && trans->parentSplit()->type() != SPLIT_TRANSACTION_TYPE_LOAN && trans->parentSplit()->count() == 2) {
 				SplitTransaction *split = trans->parentSplit();
 				mainWin->splitUpTransaction(split);
 				budget->removeTransaction(trans, true);
-				mainWin->transactionRemoved(trans);
+				mainWin->transactionRemoved(trans, NULL, true);
 				delete trans;
 			} else {
 				budget->removeTransaction(trans, true);
-				mainWin->transactionRemoved(trans);
+				mainWin->transactionRemoved(trans, NULL, true);
 				delete trans;
 			}
 		}

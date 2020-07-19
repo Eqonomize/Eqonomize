@@ -161,14 +161,14 @@ class Eqonomize : public QMainWindow {
 		bool editAccount(Account*);
 		bool editAccount(Account*, QWidget *parent);
 		void balanceAccount(Account*);
-		bool checkSchedule(bool update_display, QWidget *parent);
+		bool checkSchedule(bool update_display, QWidget *parent, bool allow_account_creation = true);
 		void updateScheduledTransactions();
 		void appendScheduledTransaction(ScheduledTransaction *strans);
 		bool editScheduledTransaction(ScheduledTransaction *strans);
-		bool editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool clone_trans = false);
+		bool editScheduledTransaction(ScheduledTransaction *strans, QWidget *parent, bool clone_trans = false, bool allow_account_creation = true);
 		bool editOccurrence(ScheduledTransaction *strans, const QDate &date);
 		bool editOccurrence(ScheduledTransaction *strans, const QDate &date, QWidget *parent);
-		bool editTransaction(Transaction *trans, QWidget *parent, bool clone_trans = false);
+		bool editTransaction(Transaction *trans, QWidget *parent, bool clone_trans = false, bool allow_account_creation = true);
 		bool editTransaction(Transaction *trans);
 		bool removeScheduledTransaction(ScheduledTransaction *strans);
 		bool removeOccurrence(ScheduledTransaction *strans, const QDate &date);
@@ -182,7 +182,7 @@ class Eqonomize : public QMainWindow {
 		bool newDebtPayment(QWidget *parent, AssetsAccount *loan = NULL, bool only_interest = false);
 		bool editTimestamp(QList<Transactions*> trans, QWidget *parent = NULL);
 		bool editSplitTransaction(SplitTransaction *split);
-		bool editSplitTransaction(SplitTransaction *split, QWidget *parent, bool temporary_split = false, bool clone_trans = false);
+		bool editSplitTransaction(SplitTransaction *split, QWidget *parent, bool temporary_split = false, bool clone_trans = false, bool allow_account_creation = true);
 		bool splitUpTransaction(SplitTransaction *split);
 		bool removeSplitTransaction(SplitTransaction *split);
 		bool saveView(QTextStream &file, int fileformat);
@@ -208,6 +208,10 @@ class Eqonomize : public QMainWindow {
 		bool timeToUpdateExchangeRates();
 		void addNewSchedule(ScheduledTransaction *strans, QWidget *parent);
 		
+		void removeOldLinks(Transactions*, Transactions*);
+		void addTransactionLinks(Transactions*, bool update_display = true);
+		void removeTransactionLinks(Transactions*);
+		void linksUpdated(Transactions*);
 		void updateLinksAction(Transactions*);
 		void setLinkTransaction(Transactions *trans);
 		Transactions *getLinkTransaction();
@@ -464,6 +468,7 @@ class Eqonomize : public QMainWindow {
 
 		void createLink();
 		void openLink();
+		void removeLink();
 		
 		void updateTransactionActions();
 		
@@ -540,7 +545,7 @@ class Eqonomize : public QMainWindow {
 		
 		void transactionAdded(Transactions*);
 		void transactionModified(Transactions*, Transactions*);
-		void transactionRemoved(Transactions*, Transactions* = NULL);
+		void transactionRemoved(Transactions*, Transactions* = NULL, bool permanent = false);
 
 		void filterAccounts();
 
@@ -622,13 +627,13 @@ class ConfirmScheduleDialog : public QDialog {
 
 		QTreeWidget *transactionsView;
 		Budget *budget;
-		bool b_extra;
+		bool b_extra, b_create_accounts;
 		QPushButton *editButton, *removeButton, *postponeButton;
 		int current_index;
 		
 	public:
 		
-		ConfirmScheduleDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title);
+		ConfirmScheduleDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, bool allow_account_creation = true);
 
 		Transactions *firstTransaction();
 		Transactions *nextTransaction();

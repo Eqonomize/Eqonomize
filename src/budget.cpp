@@ -774,6 +774,9 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 
 	assetsAccounts_id[balancingAccount->id()] = balancingAccount;
 	
+	QHash<qlonglong, qlonglong> merge_transaction_ids;
+	QList<Transactions*> update_links_list;
+	
 	Currency *cur = NULL, *prev_default_cur = default_currency;
 	if(default_currency_created) *default_currency_created = false;
 	
@@ -848,10 +851,16 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			}
 			if(valid && strans) {
 				if(merge) {
+					qlonglong old_id = strans->id();
+					strans->setId(getNewId());
+					merge_transaction_ids[old_id] = strans->id();
+					if(strans->linksCount(false) > 0) update_links_list << strans;
 					strans->setId(getNewId());
 					strans->setFirstRevision(i_revision);
 					strans->setLastRevision(i_revision);
+					old_id = strans->transaction()->id();
 					strans->transaction()->setId(getNewId());
+					merge_transaction_ids[old_id] = strans->transaction()->id();
 					strans->transaction()->setFirstRevision(i_revision);
 					strans->transaction()->setLastRevision(i_revision);
 				} else {
@@ -1097,7 +1106,10 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					split = NULL;
 				} else if(split) {
 					if(merge) {
+						qlonglong old_id = split->id();
 						split->setId(getNewId());
+						merge_transaction_ids[old_id] = split->id();
+						if(split->linksCount(false) > 0) update_links_list << split;
 						split->setFirstRevision(i_revision);
 						split->setLastRevision(i_revision);
 					} else {
@@ -1115,7 +1127,10 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 					for(int i = 0; i < c; i++) {
 						trans = split->at(i);
 						if(merge) {
+							qlonglong old_id = trans->id();
 							trans->setId(getNewId());
+							merge_transaction_ids[old_id] = trans->id();
+							if(trans->linksCount(false) > 0) update_links_list << trans;
 							trans->setFirstRevision(i_revision);
 							trans->setLastRevision(i_revision);
 						} else {
@@ -1162,7 +1177,10 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 				}
 			} else if(trans) {
 				if(merge) {
+					qlonglong old_id = trans->id();
 					trans->setId(getNewId());
+					merge_transaction_ids[old_id] = trans->id();
+					if(trans->linksCount(false) > 0) update_links_list << trans;
 					trans->setFirstRevision(i_revision);
 					trans->setLastRevision(i_revision);
 				} else {
@@ -1376,6 +1394,16 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 				(*it4)->id = last_id;
 				++it4;
 			}
+		}
+	}
+	
+	for(int i = 0; i < update_links_list.count(); i++) {
+		Transactions *trans = update_links_list.at(i);
+		int n = trans->linksCount(false);
+		for(int i2 = 0; i2 < n; i2++) {
+			qlonglong new_id = merge_transaction_ids[trans->getLinkId(0, false)];
+			trans->removeLink(0);
+			trans->addLinkId(new_id);
 		}
 	}
 	
@@ -1607,6 +1635,7 @@ QString Budget::syncUpload(QString filename) {
 	syncProcess = NULL;
 	return error;
 }
+
 bool Budget::autosyncEnabled() const {return o_sync->autosync && o_sync->isComplete();}
 
 QString Budget::syncFile(QString filename, QString &errors, int synced_revision) {
@@ -1647,6 +1676,8 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 	int category_errors = 0, account_errors = 0, transaction_errors = 0, security_errors = 0;
 
 	assetsAccounts_id[balancingAccount->id()] = balancingAccount;
+	
+	QList<Transactions*> update_ids_list;
 	
 	QHash<qlonglong, IncomesAccount*> old_incomesAccounts_id;
 	QHash<qlonglong, ExpensesAccount*> old_expensesAccounts_id;
@@ -1690,27 +1721,28 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 	}
 	QHash<qlonglong, ScheduledTransaction*> scheduleds_id, file_scheduleds_id;
 	QHash<qlonglong, Transactions*> scheduleds_trans_id, file_scheduleds_trans_id;
+	QHash<qlonglong, Transactions*> linked_transactions;
 	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = scheduledTransactions.constBegin(); it != scheduledTransactions.constEnd(); ++it) {
 		if((*it)->lastRevision() > synced_revision) (*it)->setLastRevision((*it)->lastRevision() + revision_diff);
+		if((*it)->linksCount(false) > 0) linked_transactions[(*it)->id()] = *it;
 		if((*it)->firstRevision() > synced_revision) {
-			(*it)->setFirstRevision((*it)->firstRevision() + revision_diff);
-			last_id++; (*it)->setId(last_id);
+			update_ids_list << (*it);
 		} else {
 			scheduleds_id[(*it)->id()] = *it;
 		}
 		if((*it)->transaction()->lastRevision() > synced_revision) (*it)->transaction()->setLastRevision((*it)->transaction()->lastRevision() + revision_diff);
+		if((*it)->transaction()->linksCount(false) > 0) linked_transactions[(*it)->transaction()->id()] = (*it)->transaction();
 		if((*it)->transaction()->firstRevision() > synced_revision) {
-			(*it)->transaction()->setFirstRevision((*it)->firstRevision() + revision_diff);
-			last_id++; (*it)->transaction()->setId(last_id);
+			update_ids_list << (*it)->transaction();
 		}
 		if((*it)->lastRevision() > synced_revision && (*it)->transaction()->firstRevision() <= synced_revision) scheduleds_trans_id[(*it)->transaction()->id()] = (*it)->transaction();
 	}
 	QHash<qlonglong, SplitTransaction*> splits_id, file_splits_id;
 	for(SplitTransactionList<SplitTransaction*>::const_iterator it = splitTransactions.constBegin(); it != splitTransactions.constEnd(); ++it) {
 		if((*it)->lastRevision() > synced_revision) (*it)->setLastRevision((*it)->lastRevision() + revision_diff);
+		if((*it)->linksCount(false) > 0) linked_transactions[(*it)->id()] = *it;
 		if((*it)->firstRevision() > synced_revision) {
-			(*it)->setFirstRevision((*it)->firstRevision() + revision_diff);
-			last_id++; (*it)->setId(last_id);
+			update_ids_list << (*it);
 		}
 		splits_id[(*it)->id()] = *it;
 	}
@@ -1727,12 +1759,37 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 	QHash<qlonglong, Transaction*> transactions_id, file_transactions_id;
 	for(TransactionList<Transaction*>::const_iterator it = transactions.constBegin(); it != transactions.constEnd(); ++it) {
 		if((*it)->lastRevision() > synced_revision) (*it)->setLastRevision((*it)->lastRevision() + revision_diff);
+		bool b_loan = (*it)->parentSplit() && (*it)->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN;
+		if(!b_loan && (*it)->linksCount(false) > 0) linked_transactions[(*it)->id()] = *it;
 		if((*it)->firstRevision() > synced_revision) {
-			(*it)->setFirstRevision((*it)->firstRevision() + revision_diff);
-			if(!(*it)->parentSplit() || (*it)->parentSplit()->type() != SPLIT_TRANSACTION_TYPE_LOAN) {last_id++; (*it)->setId(last_id);}
-		} else if(!(*it)->parentSplit() || (*it)->parentSplit()->type() != SPLIT_TRANSACTION_TYPE_LOAN) transactions_id[(*it)->id()] = *it;
+			if(!b_loan) {
+				update_ids_list << (*it);
+			} else {
+				(*it)->setFirstRevision((*it)->firstRevision() + revision_diff);
+			}
+		} else if(!b_loan) {
+			transactions_id[(*it)->id()] = *it;
+		}
 	}
-	
+
+	for(int i = 0; i < update_ids_list.count(); i++) {
+		Transactions *trans = update_ids_list.at(i);
+		trans->setFirstRevision(trans->firstRevision() + revision_diff);
+		last_id++;
+		qlonglong old_id = trans->id();
+		if(old_id > 0 && trans->linksCount(false) > 0) {
+			for(int i = 0; i < trans->linksCount(); i++) {
+				qlonglong lid = trans->getLinkId(i, false);
+				QHash<qlonglong, Transactions*>::iterator it = linked_transactions.find(lid);
+			 	if(it != linked_transactions.end()) {
+					(*it)->removeLink(trans);
+					(*it)->addLinkId(last_id);
+				}
+			}
+		}
+		trans->setId(last_id);
+	}
+
 	QList<Account*> deleted_accounts;
 	QList<Security*> deleted_securities;
 
@@ -3442,6 +3499,7 @@ Transactions *Budget::getTransaction(qlonglong lid) {
 	}
 	for(TransactionList<ScheduledTransaction*>::const_iterator it = scheduledTransactions.constBegin(); it != scheduledTransactions.constEnd(); ++it) {
 		if((*it)->id() == lid) return *it;
+		if((*it)->transaction() && (*it)->transaction()->id() == lid) return *it;
 	}
 	return NULL;
 }
