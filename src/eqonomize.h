@@ -202,7 +202,7 @@ class Eqonomize : public QMainWindow {
 		void showTransfers();
 		void updateSecuritiesStatistics();
 		bool crashRecovery(QUrl url);
-		bool newRefundRepayment(Transactions *trans, bool cashback = false);
+		bool newRefundRepayment(Transactions *trans);
 		void readOptions();
 		void setCommandLineParser(QCommandLineParser*);
 		bool timeToUpdateExchangeRates();
@@ -210,9 +210,10 @@ class Eqonomize : public QMainWindow {
 		
 		void removeOldLinks(Transactions*, Transactions*);
 		void addTransactionLinks(Transactions*, bool update_display = true);
-		void removeTransactionLinks(Transactions*);
+		bool removeTransactionLinks(Transactions*);
 		void linksUpdated(Transactions*);
-		void updateLinksAction(Transactions*);
+		void updateLinksAction(Transactions*, bool enable_remove = true);
+		void updateLinksAction();
 		void setLinkTransaction(Transactions *trans);
 		Transactions *getLinkTransaction();
 		void createLink(QList<Transactions*> transactions);
@@ -232,7 +233,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionSelectAssociatedFile, *ActionOpenAssociatedFile;
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
 		QAction *ActionNewSecurity, *ActionEditSecurity, *ActionBuyShares, *ActionSellShares, *ActionNewDividend, *ActionNewReinvestedDividend, *ActionNewSecurityTrade, *ActionSetQuotation, *ActionEditQuotations, *ActionEditSecurityTransactions, *ActionDeleteSecurity;
-		QAction *ActionNewRefund, *ActionNewRepayment, *ActionNewRefundRepayment, *ActionNewCashback;
+		QAction *ActionNewRefund, *ActionNewRepayment, *ActionNewRefundRepayment;
 		QAction *ActionFileNew, *ActionFileOpen, *ActionFileSave, *ActionFileSaveAs, *ActionFileReload, *ActionFileSync, *ActionSaveView, *ActionPrintView, *ActionPrintPreview, *ActionQuit;
 		QMenu *recentFilesMenu;
 		QList<QAction*> recentFileActionList;
@@ -455,7 +456,6 @@ class Eqonomize : public QMainWindow {
 		void selectAssociatedFile();
 		void openAssociatedFile();
 
-		void newCashback();
 		void newRefund();
 		void newRepayment();
 		void newRefundRepayment();
@@ -739,7 +739,7 @@ class RefundDialog : public QDialog {
 
 	public:
 
-		RefundDialog(Transactions *trans, QWidget *parent, bool cashback = false);
+		RefundDialog(Transactions *trans, QWidget *parent);
 
 		Transaction *createRefund();
 		bool validValues();

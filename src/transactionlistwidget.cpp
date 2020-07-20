@@ -366,7 +366,7 @@ void TransactionListWidget::popupListMenu(const QPoint &p) {
 	if(!listPopupMenu) {
 		listPopupMenu = new TransactionListPopupMenu(this, mainWin);
 		switch(transtype) {
-			case TRANSACTION_TYPE_EXPENSE: {listPopupMenu->addAction(mainWin->ActionNewExpense); listPopupMenu->addAction(mainWin->ActionNewRefund); listPopupMenu->addAction(mainWin->ActionNewCashback); break;}
+			case TRANSACTION_TYPE_EXPENSE: {listPopupMenu->addAction(mainWin->ActionNewExpense); listPopupMenu->addAction(mainWin->ActionNewRefund); break;}
 			case TRANSACTION_TYPE_INCOME: {listPopupMenu->addAction(mainWin->ActionNewIncome); listPopupMenu->addAction(mainWin->ActionNewRepayment); break;}
 			case TRANSACTION_TYPE_TRANSFER: {listPopupMenu->addAction(mainWin->ActionNewTransfer); break;}
 		}
@@ -2091,17 +2091,6 @@ void TransactionListWidget::newTransactionWithLoan() {
 	}
 	
 }
-void TransactionListWidget::newCashback() {
-	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
-	if(selection.count() == 1) {
-		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
-		if(i->splitTransaction()) {
-			if(i->splitTransaction()->value() > 0.0) mainWin->newRefundRepayment(i->splitTransaction(), true);
-		} else if(i->transaction()->type() == TRANSACTION_TYPE_EXPENSE && i->transaction()->value() > 0.0) {
-			mainWin->newRefundRepayment(i->transaction(), true);
-		}
-	}
-}
 void TransactionListWidget::newRefundRepayment() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() == 1) {
@@ -2116,7 +2105,7 @@ void TransactionListWidget::newRefundRepayment() {
 void TransactionListWidget::updateTransactionActions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_split2 = false, b_join = false, b_delete = false, b_attachment = false, b_select = false, b_time = false, b_tags = false, b_clone = false, b_link = false;
-	bool refundable = false, repayable = false, cashbackable = false;
+	bool refundable = false, repayable = false;
 	QList<Transactions*> list;
 	Transactions *link_trans = mainWin->getLinkTransaction();
 	SplitTransaction *link_parent = NULL;
@@ -2127,11 +2116,10 @@ void TransactionListWidget::updateTransactionActions() {
 		b_split = !b_scheduledtransaction && (i->transaction() && i->transaction()->parentSplit());
 		b_split2 = i->splitTransaction();
 		b_transaction = !b_scheduledtransaction || !i->scheduledTransaction()->isOneTimeTransaction();
-		b_link = (!i->scheduledTransaction() || i->scheduledTransaction()->isOneTimeTransaction())  && (!b_split || (i->transaction()->parentSplit() != link_trans && i->transaction()->parentSplit() != link_parent));
+		b_link = (!i->scheduledTransaction() || i->scheduledTransaction()->isOneTimeTransaction()) && (!b_split || (i->transaction()->parentSplit() != link_trans && i->transaction()->parentSplit() != link_parent));
 		b_time = !i->scheduledTransaction();
 		b_delete = b_transaction;
 		refundable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_EXPENSE && i->transaction()->value() > 0.0));
-		cashbackable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_EXPENSE && i->transaction()->value() > 0.0));
 		repayable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_INCOME && i->transaction()->value() > 0.0 && !((Income*) i->transaction())->security()));
 		if(i->splitTransaction()) {
 			list << i->splitTransaction();
@@ -2147,7 +2135,7 @@ void TransactionListWidget::updateTransactionActions() {
 		}
 		b_clone = true;
 		b_select = true;
-		mainWin->updateLinksAction(b_transaction ? list[0] : NULL);
+		mainWin->updateLinksAction(list[0], !b_scheduledtransaction || i->scheduledTransaction()->isOneTimeTransaction());
 	} else if(selection.count() > 1) {
 		b_transaction = true;
 		b_delete = true;
@@ -2202,6 +2190,8 @@ void TransactionListWidget::updateTransactionActions() {
 		b_select = b_split && split;
 		b_attachment = b_select && !split->associatedFile().isEmpty();
 		mainWin->updateLinksAction(NULL);
+	} else {
+		mainWin->updateLinksAction(NULL);
 	}
 	b_tags = b_transaction;
 	if(b_tags) {
@@ -2209,7 +2199,6 @@ void TransactionListWidget::updateTransactionActions() {
 		mainWin->ActionTags->setText(tr("Tags") + QString(" (") + QString::number(mainWin->tagMenu->selectedTagsCount()) + ")");
 	}
 	mainWin->ActionCreateLink->setEnabled(b_link);
-	mainWin->ActionNewCashback->setEnabled(cashbackable);
 	mainWin->ActionNewRefund->setEnabled(refundable);
 	mainWin->ActionNewRepayment->setEnabled(repayable);
 	mainWin->ActionNewRefundRepayment->setEnabled(refundable || repayable);

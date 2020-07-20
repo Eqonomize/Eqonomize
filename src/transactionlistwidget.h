@@ -111,7 +111,6 @@ class TransactionListWidget : public QWidget {
 		void newMultiAccountTransaction();
 		void newTransactionWithLoan();
 		void newRefundRepayment();
-		void newCashback();
 		void cloneTransaction();
 		void editScheduledTransaction();
 		void editSplitTransaction();

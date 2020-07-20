@@ -685,7 +685,7 @@ bool QuotationListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	return QTreeWidgetItem::operator<(i_pre);
 }
 
-RefundDialog::RefundDialog(Transactions *trans, QWidget *parent, bool cashback) : QDialog(parent), transaction(trans) {
+RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(parent), transaction(trans) {
 
 	setModal(true);
 
@@ -712,25 +712,20 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent, bool cashback) 
 		curtrans = (Transaction*) trans;
 	}
 	
-	if(cashback) setWindowTitle(tr("Cashback"));
-	else if(t_type == TRANSACTION_TYPE_INCOME) setWindowTitle(tr("Repayment"));
+	if(t_type == TRANSACTION_TYPE_INCOME) setWindowTitle(tr("Repayment"));
 	else setWindowTitle(tr("Refund"));
 
 	if(t_type == TRANSACTION_TYPE_INCOME) layout->addWidget(new QLabel(tr("Cost:"), this), i, 0);
 	else layout->addWidget(new QLabel(tr("Income:"), this), i, 0);
-	valueEdit = new EqonomizeValueEdit(cashback ? 0.0 : trans->value(), false, true, this, trans->budget());
+	valueEdit = new EqonomizeValueEdit(trans->value(), false, true, this, trans->budget());
 	valueEdit->setCurrency(trans->currency());
 	layout->addWidget(valueEdit, i, 1);
 	i++;
 
-	if(cashback) {
-		quantityEdit = NULL;
-	} else {
-		layout->addWidget(new QLabel(tr("Quantity:"), this), i, 0);
-		quantityEdit = new EqonomizeValueEdit(trans->quantity(), QUANTITY_DECIMAL_PLACES, false, false, this, trans->budget());
-		layout->addWidget(quantityEdit, i, 1);
-		i++;
-	}
+	layout->addWidget(new QLabel(tr("Returned quantity:"), this), i, 0);
+	quantityEdit = new EqonomizeValueEdit(trans->quantity(), QUANTITY_DECIMAL_PLACES, false, false, this, trans->budget());
+	layout->addWidget(quantityEdit, i, 1);
+	i++;
 
 	layout->addWidget(new QLabel(tr("Account:"), this), i, 0);
 	accountCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, trans->budget());
@@ -742,8 +737,7 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent, bool cashback) 
 
 	layout->addWidget(new QLabel(tr("Comments:"), this), i, 0);
 	commentsEdit = new QLineEdit(this);
-	if(cashback) commentsEdit->setText(tr("Cashback"));
-	else if(t_type == TRANSACTION_TYPE_INCOME) commentsEdit->setText(tr("Repayment"));
+	if(t_type == TRANSACTION_TYPE_INCOME) commentsEdit->setText(tr("Repayment"));
 	else commentsEdit->setText(tr("Refund"));
 	layout->addWidget(commentsEdit, i, 1);
 	i++;
@@ -4796,9 +4790,6 @@ bool Eqonomize::editTransaction(Transaction *trans, QWidget *parent, bool clone_
 	delete oldtrans;
 	return false;
 }
-void Eqonomize::newCashback() {
-	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) expensesWidget->newCashback();
-}
 void Eqonomize::newRefund() {
 	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) expensesWidget->newRefundRepayment();
 }
@@ -4809,9 +4800,9 @@ void Eqonomize::newRefundRepayment() {
 	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) expensesWidget->newRefundRepayment();
 	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) incomesWidget->newRefundRepayment();
 }
-bool Eqonomize::newRefundRepayment(Transactions *trans, bool cashback) {
+bool Eqonomize::newRefundRepayment(Transactions *trans) {
 	if(!((trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) trans)->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) || (trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE && (((Transaction*) trans)->type() == TRANSACTION_TYPE_EXPENSE || ((Transaction*) trans)->type() == TRANSACTION_TYPE_INCOME)))) return false;
-	RefundDialog *dialog = new RefundDialog(trans, this, cashback);
+	RefundDialog *dialog = new RefundDialog(trans, this);
 	if(dialog->exec() == QDialog::Accepted) {
 		Transaction *new_trans = dialog->createRefund();
 		if(new_trans) {
@@ -5011,7 +5002,7 @@ void Eqonomize::onPageChange(int index) {
 	}
 	updateTransactionActions();
 }
-void Eqonomize::updateLinksAction(Transactions *trans) {
+void Eqonomize::updateLinksAction(Transactions *trans, bool enable_remove) {
 	linkMenu->clear();
 	if(trans) {
 		int n = trans->linksCount(true);
@@ -5026,7 +5017,9 @@ void Eqonomize::updateLinksAction(Transactions *trans) {
 				}
 			}
 			linkMenu->addSeparator();
-			linkMenu->addAction(LOAD_ICON("edit-delete"), tr("Remove Link"), this, SLOT(removeLink()))->setData(QVariant::fromValue((void*) trans));
+			QAction *action = linkMenu->addAction(LOAD_ICON("edit-delete"), tr("Remove Link"), this, SLOT(removeLink()));
+			action->setData(QVariant::fromValue((void*) trans));
+			action->setEnabled(enable_remove);
 			ActionLinks->setEnabled(true);
 		}
 	} else {
@@ -5093,6 +5086,8 @@ void Eqonomize::createLink(QList<Transactions*> transactions) {
 		}
 		linksUpdated(link_trans);
 		setLinkTransaction(NULL);
+		updateTransactionActions();
+		setModified();
 	} else if(transactions.count() >= 2) {
 		for(int i = 0; i < transactions.count(); i++) {
 			Transactions *trans = transactions.at(i);
@@ -5120,6 +5115,7 @@ void Eqonomize::createLink(QList<Transactions*> transactions) {
 		}
 		setLinkTransaction(NULL);
 		updateTransactionActions();
+		setModified();
 	}
 }
 void Eqonomize::createLink() {
@@ -5156,18 +5152,35 @@ void Eqonomize::openLink() {
 void Eqonomize::removeOldLinks(Transactions *trans, Transactions *oldtrans) {
 	if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SCHEDULE) trans = ((ScheduledTransaction*) trans)->transaction();
 	if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
-		removeTransactionLinks(oldtrans);
-		addTransactionLinks(trans);
+		bool b = trans->linksCount(false) > 0 || oldtrans->linksCount(false);
+		int n = ((SplitTransaction*) trans)->count();
+		for(int i = 0; !b && i < n; i++) {
+			if(((SplitTransaction*) trans)->at(i)->linksCount(false) > 0) b = true;
+		}
+		if(!b && oldtrans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
+			n = ((SplitTransaction*) oldtrans)->count();
+			for(int i = 0; !b && i < n; i++) {
+				if(((SplitTransaction*) oldtrans)->at(i)->linksCount(false) > 0) b = true;
+			}
+		}
+		if(b) {
+			removeTransactionLinks(oldtrans);
+			addTransactionLinks(trans);
+			updateTransactionActions();
+		}
 		return;
 	}
+	bool b = false;
 	for(int i = trans->linksCount(false); i < oldtrans->linksCount(false); i++) {
 		Transactions *ltrans = oldtrans->getLink(i, false);
 		if(ltrans) {
 			if(ltrans->removeLink(trans)) {
 				linksUpdated(ltrans);
+				b = true;
 			}
 		}
 	}
+	if(b) updateTransactionActions();
 }
 void Eqonomize::addTransactionLinks(Transactions *trans, bool update_display) {
 	for(int i = 0; i < trans->linksCount(false); i++) {
@@ -5189,6 +5202,7 @@ void Eqonomize::linksUpdated(Transactions *trans) {
 	ScheduleListViewItem *i = (ScheduleListViewItem*) *it;
 	while(i) {
 		if(i->scheduledTransaction() == trans || i->scheduledTransaction()->transaction() == trans) {
+			if(i->scheduledTransaction() != trans) trans = i->scheduledTransaction();
 			i->setScheduledTransaction(i->scheduledTransaction());
 			if(i->isSelected()) {
 				scheduleSelectionChanged();
@@ -5264,6 +5278,7 @@ void Eqonomize::removeLink() {
 	}
 	linksUpdated(trans);
 	updateTransactionActions();
+	setModified();
 }
 void Eqonomize::updateTransactionActions() {
 	TransactionListWidget *w = NULL;
@@ -5305,13 +5320,11 @@ void Eqonomize::updateTransactionActions() {
 		ActionOpenAssociatedFile->setEnabled(b_attachment);
 		ActionEditScheduledTransaction->setEnabled(b_scheduledtransaction);
 		ActionDeleteScheduledTransaction->setEnabled(b_scheduledtransaction);
-		ActionNewCashback->setEnabled(false);
 		ActionNewRefund->setEnabled(false);
 		ActionNewRepayment->setEnabled(false);
 		ActionNewRefundRepayment->setEnabled(false);
 	}
 }
-
 void Eqonomize::popupAccountsMenu(const QPoint &p) {
 	QTreeWidgetItem *i = accountsView->itemAt(p);
 	if(i == NULL) return;
@@ -7473,7 +7486,6 @@ void Eqonomize::setupActions() {
 	transactionsToolbar->addAction(ActionNewMultiItemTransaction);
 	NEW_ACTION(ActionNewMultiAccountExpense, tr("New Expense with Multiple Payments…"), "eqz-expense", 0, this, SLOT(newMultiAccountExpense()), "new_multi_account_expense", transactionsMenu);
 	NEW_ACTION_NOMENU(ActionNewRefund, tr("Refund…"), "eqz-income", 0, this, SLOT(newRefund()), "new_refund");
-	NEW_ACTION_NOMENU(ActionNewCashback, tr("Cashback…"), "eqz-income", 0, this, SLOT(newCashback()), "new_cashback");
 	NEW_ACTION_NOMENU(ActionNewRepayment, tr("Repayment…"), "eqz-expense", 0, this, SLOT(newRepayment()), "new_repayment");
 	NEW_ACTION(ActionNewRefundRepayment, tr("New Refund/Repayment…"), "eqz-refund-repayment", 0, this, SLOT(newRefundRepayment()), "new_refund_repayment", transactionsMenu);
 	transactionsMenu->addSeparator();
@@ -7676,7 +7688,6 @@ void Eqonomize::setupActions() {
 	ActionTags->setEnabled(false);
 	ActionEditScheduledTransaction->setEnabled(false);
 	ActionDeleteScheduledTransaction->setEnabled(false);
-	ActionNewCashback->setEnabled(false);
 	ActionNewRefund->setEnabled(false);
 	ActionNewRepayment->setEnabled(false);
 	ActionNewRefundRepayment->setEnabled(false);
@@ -9245,26 +9256,31 @@ void Eqonomize::transactionModified(Transactions *transs, Transactions *oldtrans
 	incomesWidget->onTransactionModified(transs, oldtranss);
 	transfersWidget->onTransactionModified(transs, oldtranss);
 }
-void Eqonomize::removeTransactionLinks(Transactions *trans) {
+bool Eqonomize::removeTransactionLinks(Transactions *trans) {
+	bool b = false;
 	if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SCHEDULE) trans = ((ScheduledTransaction*) trans)->transaction();
 	for(int i = 0; i < trans->linksCount(false); i++) {
 		Transactions *ltrans = trans->getLink(i, false);
 		if(ltrans) {
 			ltrans->removeLink(trans);
 			linksUpdated(ltrans);
+			b = true;
 		}
 	}
 	if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
 		int n = ((SplitTransaction*) trans)->count();
 		for(int i = 0; i < n; i++) {
-			removeTransactionLinks(((SplitTransaction*) trans)->at(i));
+			if(removeTransactionLinks(((SplitTransaction*) trans)->at(i))) b = true;
 		}
 	}
+	return b;
 }
 void Eqonomize::transactionRemoved(Transactions *transs, Transactions *oldvalue, bool b) {
 	if(!oldvalue) oldvalue = transs;
 	setModified(true);
-	if(b) removeTransactionLinks(transs);
+	if(b) {
+		if(removeTransactionLinks(transs)) updateTransactionActions();
+	}
 	switch(oldvalue->generaltype()) {
 		case GENERAL_TRANSACTION_TYPE_SINGLE: {
 			Transaction *trans = (Transaction*) oldvalue;
