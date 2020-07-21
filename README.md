@@ -16,6 +16,10 @@ Eqonomize! is a personal accounting software, with focus on efficiency and ease 
     - [Download the latest version here](https://github.com/Eqonomize/Eqonomize/releases) (file with the `.msi` extension)
     - Then just run the file
         - You may need to give execution permissions for the file: `chmod +x Eqonomize-*.AppImage`
+- Debian
+    - If you are using the testing or unstable version, use the `apt` to install the latest version available
+        - `sudo apt install eqonomize`
+    - For the stable version (buster), you will have to use debian backports. [See the instructions](https://backports.debian.org/Instructions/) on how to use this repository
 - Archlinux (AUR) - Unofficial
     - `yay -S eqonomize`
     - Tip: you can set the environment variable `MAKEFLAGS="-j$(nproc)"` before installing the package to make the build more faster
