@@ -7,11 +7,48 @@ Eqonomize! is a personal accounting software, with focus on efficiency and ease 
 * Qt 5 (preferably with Qt Charts module)
 
 ## Installation
-In a terminal window in the top source code directory run
-* `qmake`
-* `lrelease Eqonomize.pro` *(not required if using a release source tarball, only if using the git version)*
-* `make` *(or `nmake` for Microsoft Windows)*
-* `make install`
+- Windows
+    - [Download the latest version here (file with the `.msi `extension,)](https://github.com/Eqonomize/Eqonomize/releases)
+    - Run the installer after downloading
+- Snap package
+    - `sudo snap install eqonomize-hk`
+- AppImage
+    - [Download the latest version here](https://github.com/Eqonomize/Eqonomize/releases) (file with the `.msi` extension)
+    - Then just run the file
+        - You may need to give execution permissions for the file: `chmod +x Eqonomize-*.AppImage`
+- Debian
+    - If you are using the testing or unstable version, use the `apt` to install the latest version available
+        - `sudo apt install eqonomize`
+    - For the stable version (buster), you will have to use debian backports. [See the instructions](https://backports.debian.org/Instructions/) on how to use this repository
+- Archlinux (AUR) - Unofficial
+    - `yay -S eqonomize`
+    - Tip: you can set the environment variable `MAKEFLAGS="-j$(nproc)"` before installing the package to make the build more faster
+- Linux binary
+    - [Download the latest version here](https://github.com/Eqonomize/Eqonomize/releases)
+    - Extract the file e give execution permissions for the file: `chmod +x eqonomize`
+    - Just run the binary with `eqonomize`
+    - Info: with this method, you will not have the entries in your system menu, you will have to create them manually
+- Build from source
+    1.  Get latest release from GitHub by cloning the repo  
+        `git clone https://github.com/Eqonomize/Eqonomize/`
+    2.  Change to repo directory  
+        `cd Eqonomize`
+    3.  Make sure you have the necessary dependencies (`qt5-charts` and `qt5-base`).  
+        If you don't have it, just use your distribution's package manager to install them.
+    4.  Generate the make file  
+        `qmake`
+    5.  Update the translation files (not required if using a release source tarball, only if using the git version)  
+        `lrelease Eqonomize.pro`
+    6.  Run the build  
+        Using a single core of your cpu  
+        `make` or  
+        Using all (much more faster)  
+        `make -j$(nproc)`
+        For windows use *`nmake`*
+    8.  Do the installation  
+        `sudo make install`
+    9.  Run the application  
+        `eqonomize`
 
 ## Features
 * Bookkeeping
