@@ -1,0 +1,127 @@
+<!DOCTYPE QPH>
+<QPH language="pt_BR">
+<phrase>
+    <source>Income</source>
+    <target>Receita</target>
+    <definition>Em alguns contextos, &quot;Renda&quot; foi utilizado como tradução.</definition>
+</phrase>
+<phrase>
+    <source>Assets</source>
+    <target>Ativos</target>
+</phrase>
+<phrase>
+    <source>Liabilities</source>
+    <target>Passivos</target>
+</phrase>
+<phrase>
+    <source>Profit</source>
+    <target>Lucro</target>
+</phrase>
+<phrase>
+    <source>Expenses</source>
+    <target>Despesas</target>
+</phrase>
+<phrase>
+    <source>Debt</source>
+    <target>Dívida</target>
+</phrase>
+<phrase>
+    <source>Fee</source>
+    <target>Taxa</target>
+</phrase>
+<phrase>
+    <source>Rate</source>
+    <target>Tarifa</target>
+</phrase>
+<phrase>
+    <source>Interest</source>
+    <target>Juros</target>
+</phrase>
+<phrase>
+    <source>Ledger</source>
+    <target>Livro de registros</target>
+    <definition>Livro razão é a tradução direta mas optei por utilizar esse termo pois é menos técnico</definition>
+</phrase>
+<phrase>
+    <source>Lender</source>
+    <target>Credor</target>
+</phrase>
+<phrase>
+    <source>Issuer</source>
+    <target>Emissor</target>
+    <definition>Bandeira do cartão de crédito</definition>
+</phrase>
+<phrase>
+    <source>Payee</source>
+    <target>Beneficiário</target>
+    <definition>Quem recebe a outra parte da transação</definition>
+</phrase>
+<phrase>
+    <source>Securities</source>
+    <target>Títulos</target>
+</phrase>
+<phrase>
+    <source>Quotes</source>
+    <target>Cotações</target>
+</phrase>
+<phrase>
+    <source>Shares</source>
+    <target>Ações</target>
+</phrase>
+<phrase>
+    <source>Loan</source>
+    <target>Empréstimo</target>
+</phrase>
+<phrase>
+    <source>Transaction Account</source>
+    <target>Conta de transações</target>
+</phrase>
+<phrase>
+    <source>Savings Account</source>
+    <target>Conta poupança</target>
+</phrase>
+<phrase>
+    <source>Checking Account</source>
+    <target>Conta corrente</target>
+</phrase>
+<phrase>
+    <source>Repayment</source>
+    <target>Reembolso</target>
+</phrase>
+<phrase>
+    <source>Refund</source>
+    <target>Reembolso</target>
+</phrase>
+<phrase>
+    <source>Split Transaction</source>
+    <target>Transação dividida</target>
+</phrase>
+<phrase>
+    <source>Split</source>
+    <target>Parte</target>
+</phrase>
+<phrase>
+    <source>Reinvested</source>
+    <target>Reinvestido</target>
+</phrase>
+<phrase>
+    <source>Range</source>
+    <target>Duração</target>
+</phrase>
+<phrase>
+    <source>Tag</source>
+    <target>Etiqueta</target>
+</phrase>
+<phrase>
+    <source>Join</source>
+    <target>Unir</target>
+</phrase>
+<phrase>
+    <source>(New Entry)</source>
+    <target></target>
+</phrase>
+<phrase>
+    <source>Balancing</source>
+    <target>balanço</target>
+</phrase>
+</QPH>
