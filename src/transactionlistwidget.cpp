@@ -2032,8 +2032,8 @@ void TransactionListWidget::currentTransactionChanged(QTreeWidgetItem *i) {
 	} else if(((TransactionListViewItem*) i)->transaction()->parentSplit()) {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction());
 		SplitTransaction *split = ((TransactionListViewItem*) i)->transaction()->parentSplit();
-		if(split->description().isEmpty() || split->description().length() > 10) editInfoLabel->setText(tr("* Part of <a href=\"split transaction\">split transaction</a>"));
-		else editInfoLabel->setText(tr("* Part of split (<a href=\"split transaction\">%1</a>)").arg(split->description()));
+		if(split->description().isEmpty() || split->description().length() > 10) editInfoLabel->setText(tr("* Part of <a href=\"%1\">split transaction</a>").arg("split transaction"));
+		else editInfoLabel->setText(tr("* Part of split (%1)").arg("<a href=\"split transaction\">" + split->description()) + "</a>");
 	} else {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction());
 		editInfoLabel->setText(QString());

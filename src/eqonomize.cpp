@@ -755,10 +755,12 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(paren
 		settings.endGroup();
 	}
 	
+	//: Link the transactions together
 	QRadioButton *rb = new QRadioButton(tr("Link"));
 	rb->setChecked(!b_join);
 	joinGroup_layout->addWidget(rb);
 	joinGroup->addButton(rb, 0);
+	//: Join the transactions together
 	rb = new QRadioButton(tr("Join"));
 	rb->setChecked(b_join);
 	connect(rb, SIGNAL(toggled(bool)), this, SLOT(joinToggled(bool)));

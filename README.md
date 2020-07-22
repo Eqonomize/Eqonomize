@@ -7,11 +7,13 @@ Eqonomize! is a personal accounting software, with focus on efficiency and ease 
 * Qt 5 (preferably with Qt Charts module)
 
 ## Installation
+Instructions and download links for installers, binaries packages, and the source code of released versions of Eqonomize! are available at https://eqonomize.github.io/downloads.html.
+
 In a terminal window in the top source code directory run
 * `qmake`
 * `lrelease Eqonomize.pro` *(not required if using a release source tarball, only if using the git version)*
 * `make` *(or `nmake` for Microsoft Windows)*
-* `make install`
+* `make install` *(as root, e.g. `sudo make install`)*
 
 ## Features
 * Bookkeeping

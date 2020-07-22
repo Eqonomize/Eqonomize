@@ -228,7 +228,11 @@ void Transactions::readLinks(const QString &text) {
 		qlonglong lid = text.toLongLong(&ok);
 		if(ok) links << lid;
 	} else {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
 		QStringList strs = text.split(",", Qt::SkipEmptyParts);
+#else
+		QStringList strs = text.split(",", QString::SkipEmptyParts);
+#endif
 		for(int i = 0; i < strs.count(); i++) {
 			bool ok;
 			qlonglong lid = strs[i].toLongLong(&ok);

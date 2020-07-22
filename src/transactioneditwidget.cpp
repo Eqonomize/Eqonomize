@@ -793,6 +793,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	if(!b_autoedit) {
 		linksWidget = new LinksWidget(this, b_create_accounts);
 		linksWidget->hide();
+		//: Label for linked transactions
 		linksLabelLabel = new QLabel(tr("Related to:"), this);
 		linksLabelLabel->hide();
 		editLayout->addWidget(linksLabelLabel, TEROWCOL(i, 0));

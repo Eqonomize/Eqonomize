@@ -386,6 +386,7 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	
 	linksWidget = new LinksWidget(this, b_create_accounts);
 	linksWidget->hide();
+	//: Label for linked transactions
 	linksLabelLabel = new QLabel(tr("Related to:"), this);
 	linksLabelLabel->hide();
 	grid->addWidget(linksLabelLabel, b_extra ? 7 : 6, 0);
@@ -838,6 +839,7 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	
 	linksWidget = new LinksWidget(this, b_create_accounts);
 	linksWidget->hide();
+	//: Label for linked transactions
 	linksLabelLabel = new QLabel(tr("Related to:"), this);
 	linksLabelLabel->hide();
 	grid->addWidget(linksLabelLabel, b_extra ? 6 : 5, 0);
@@ -1280,6 +1282,7 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 	
 	linksWidget = new LinksWidget(this, b_create_accounts);
 	linksWidget->hide();
+	//: Label for linked transactions
 	linksLabelLabel = new QLabel(tr("Related to:"), this);
 	linksLabelLabel->hide();
 	grid->addWidget(linksLabelLabel, row, 0);
