@@ -3471,19 +3471,19 @@ i18n: file ./eqonomizeui.rc line 56
         <location filename="../src/categoriescomparisonchart.cpp" line="181"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="1394"/>
         <source>All Expenses, with subcategories</source>
-        <translation>Todas as despesas, com categorias</translation>
+        <translation>Todas as despesas, com subcategorias</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="182"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="1395"/>
         <source>All Incomes, without subcategories</source>
-        <translation type="unfinished">Todas as receitas, sem subcategorias</translation>
+        <translation>Todas as receitas, sem subcategorias</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="183"/>
         <location filename="../src/categoriescomparisonchart.cpp" line="1396"/>
         <source>All Incomes, with subcategories</source>
-        <translation type="unfinished">Todas as receitas, com as subcategorias</translation>
+        <translation>Todas as receitas, com subcategorias</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="184"/>
@@ -3540,12 +3540,12 @@ i18n: file ./eqonomizeui.rc line 56
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="617"/>
         <source>Expenses</source>
-        <translation type="unfinished">Gastos</translation>
+        <translation>Despesas</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="644"/>
         <source>Expenses, %1</source>
-        <translation type="unfinished">Desepesas, %1</translation>
+        <translation>Despesas, %1</translation>
     </message>
     <message>
         <location filename="../src/categoriescomparisonchart.cpp" line="658"/>
@@ -9815,7 +9815,8 @@ O que você gostaria de fazer com elas?</translation>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="136"/>
         <source>Refund</source>
-        <translation>Reembolso</translation>
+        <translatorcomment>Eu discordo do desenvolvedor nessa string. Ela se refere a uma despesa com valor positivo que pode ser criada em uma transação dividida, ela passa a ser um desconto no valor total da transação, não um reembolso.</translatorcomment>
+        <translation>Desconto</translation>
     </message>
     <message>
         <location filename="../src/editsplitdialog.cpp" line="138"/>
@@ -11624,7 +11625,8 @@ Data: %3</translation>
     <message>
         <location filename="../src/eqonomize.cpp" line="712"/>
         <source>Income:</source>
-        <translation type="unfinished">Receita:</translation>
+        <translatorcomment>Se refere ao valor do reembolso. Acredito que o termo &quot;valor&quot;, ao invés do padrão &quot;receita&quot;, seja mais adequado.</translatorcomment>
+        <translation>Valor:</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="721"/>
@@ -12225,7 +12227,7 @@ Data: %3</translation>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="517"/>
         <source>Number of items included in the transaction. Entered cost is total cost for all items.</source>
-        <translation>Número de itens incluídos na transação (o custo inserido é o custo total para todos os itens).</translation>
+        <translation>Número de itens incluídos na transação (o custo inserido é valor total para todos os itens).</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="1372"/>
