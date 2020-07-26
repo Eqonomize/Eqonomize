@@ -683,7 +683,10 @@ QDate MonthlyRecurrence::nextOccurrence(const QDate &date, bool include_equals) 
 		}
 	}
 	if(day <= 0 || nextdate.day() > day || day > nextdate.daysInMonth()) {
+		int i = 0;
 		do {
+			if(i >= 1200 / i_frequency) return QDate();
+			i++;
 			if(i_frequency > 1) prevday = 1;
 			else prevday = nextdate.day();
 			nextdate = nextdate.addMonths(i_frequency);
@@ -806,7 +809,10 @@ QDate MonthlyRecurrence::prevOccurrence(const QDate &date, bool include_equals) 
 		}
 	}
 	if(day <= 0 || prevdate.day() < day) {
+		int i = 0;
 		do {
+			if(i >= 1200 / i_frequency) return QDate();
+			i++;
 			if(i_frequency > 1) prevday = 1;
 			else prevday = prevdate.day();
 			prevdate = prevdate.addMonths(-i_frequency);
@@ -946,7 +952,7 @@ void YearlyRecurrence::writeAttributes(QXmlStreamAttributes *attr) {
 	Recurrence::writeAttributes(attr);
 	attr->append("frequency", QString::number(i_frequency));
 	if(i_dayofyear > 0) {
-		attr->append("dayofyear", QString::number(i_dayofweek));
+		attr->append("dayofyear", QString::number(i_dayofyear));
 		attr->append("weekendhandling", QString::number(wh_weekendhandling));
 	} else if(i_dayofweek > 0) {
 		attr->append("month", QString::number(i_month));

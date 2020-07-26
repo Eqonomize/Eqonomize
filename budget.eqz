@@ -152,7 +152,7 @@
 	<transaction type="income" date="2019-01-13" id="68" revisions="8" timestamp="1547382729199000" description="Income 2" income="58.0000" category="13" to="67"/>
 	<transaction type="income" date="2019-01-13" id="70" revisions="8" timestamp="1547382747176000" description="Income 3" income="223.0000" category="11" to="3"/>
 	<transaction type="expense" date="2019-01-13" id="72" revisions="8" timestamp="1547382789471000" description="Expense 2" cost="0.0000" category="20" from="2"/>
-	<transaction type="expense" date="2019-01-13" id="74" revisions="8" timestamp="1547382802111000" description="Expense 3" cost="56.0000" category="21" from="1"/>
+	<transaction type="expense" date="2019-01-13" id="74" revisions="8" timestamp="1547382802111000" description="Expense 3" cost="56.0000" category="21" from="1" links="133"/>
 	<transaction type="transfer" date="2019-01-13" id="76" revisions="8" timestamp="1547382814911000" description="Transfer" amount="50.0000" from="1" to="2"/>
 	<transaction type="transfer" date="2019-01-13" id="78" revisions="8" timestamp="1547382828656000" description="Transfer 2" amount="123.0000" from="67" to="1"/>
 	<transaction type="security_buy" date="2019-01-13" id="93" revisions="8" timestamp="1547383339271000" description="Wertpapier: Security 1 (gekauft)" comment="Comment" file="file" shares="28.6667" security="90" cost="344.0000" account="1"/>
@@ -165,6 +165,6 @@
 	<transaction type="income" date="2019-01-13" id="118" revisions="8" timestamp="1547384164773000" description="Income 2" income="58.0000" category="11" to="22"/>
 	<transaction type="transfer" date="2019-01-13" id="143" revisions="10" timestamp="1547541515000000" description="Dollar deposit" withdrawal="44.0000" deposit="50.0000" from="2" to="141"/>
 	<transaction type="balancing" date="2019-01-13" id="126" revisions="9" timestamp="1547390354858000" amount="37.0000" account="1"/>
-	<transaction type="refund" date="2019-01-13" id="133" revisions="9" timestamp="1547390718178000" description="Expense 3" comment="Refund" quantity="-1.00" income="56.0000" category="21" from="1"/>
+	<transaction type="refund" date="2019-01-13" id="133" revisions="9" timestamp="1547390718178000" description="Expense 3" comment="Refund" quantity="-1.00" income="56.0000" category="21" from="1" links="74"/>
 	<transaction type="repayment" date="2019-01-13" id="134" revisions="9" timestamp="1547390760282000" description="Income 3" comment="Repayment" quantity="-1.00" cost="223.0000" category="11" to="3"/>
 </EqonomizeDoc>

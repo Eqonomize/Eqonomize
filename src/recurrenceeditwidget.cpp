@@ -454,7 +454,6 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 	monthlyWeekCombo->addItem(tr("2nd Last"));
 	monthlyWeekCombo->addItem(tr("3rd Last"));
 	monthlyWeekCombo->addItem(tr("4th Last"));
-	monthlyWeekCombo->addItem(tr("5th Last"));
 	monthlyWeekLayout->addWidget(monthlyWeekCombo);
 	monthlyDayOfWeekCombo = new QComboBox(monthlyRuleWidget);
 	monthlyWeekLayout->addWidget(monthlyDayOfWeekCombo);

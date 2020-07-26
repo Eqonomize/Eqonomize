@@ -148,6 +148,7 @@ date (a full date in ISO 8601 format)
 comment (text string, optional)
 file (a file location, optional)
 tags (comma separated text strings)
+links (comma separated 64-bit unsigned integers)
 
 types: 
 expense/refund
