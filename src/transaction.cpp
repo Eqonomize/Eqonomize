@@ -2032,7 +2032,14 @@ void MultiItemTransaction::readAttributes(QXmlStreamAttributes *attr, bool *vali
 bool MultiItemTransaction::readElement(QXmlStreamReader *xml, bool*) {
 	if(!o_account) return false;
 	if(xml->name() == "transaction") {
-		QString id = QString::number(o_account->id());
+		QString id;
+		for(QHash<qlonglong, AssetsAccount*>::iterator it = o_budget->assetsAccounts_id.begin(); it != o_budget->assetsAccounts_id.end(); ++it) {
+			if(it.value() == o_account) {
+				id = QString::number(it.key());
+				break;
+			}
+		}
+		if(id.isEmpty()) id = QString::number(o_account->id());
 		QXmlStreamAttributes attr = xml->attributes();
 		QStringRef type = attr.value("type");
 		if(type.isEmpty()) {
@@ -2162,8 +2169,8 @@ void MultiItemTransaction::writeElements(QXmlStreamWriter *xml) {
 					attr.append("type", "income");
 				}
 				trans->writeAttributes(&attr);
-				if(((Income*) trans)->payer() == s_payee) remove_attributes(&attr, "date", "from", "payer");
-				else remove_attributes(&attr, "date", "from");
+				if(((Income*) trans)->payer() == s_payee) remove_attributes(&attr, "date", "to", "payer");
+				else remove_attributes(&attr, "date", "to");
 				break;
 			}
 			case TRANSACTION_TYPE_EXPENSE: {
@@ -2406,9 +2413,25 @@ void MultiAccountTransaction::readAttributes(QXmlStreamAttributes *attr, bool *v
 bool MultiAccountTransaction::readElement(QXmlStreamReader *xml, bool*) {
 	if(!o_category) return false;
 	if(xml->name() == "transaction") {
-		QString id = QString::number(o_category->id());
 		QXmlStreamAttributes attr = xml->attributes();
 		QStringRef type = attr.value("type");
+		QString id;
+		if(type == "income") {
+			for(QHash<qlonglong, IncomesAccount*>::iterator it = o_budget->incomesAccounts_id.begin(); it != o_budget->incomesAccounts_id.end(); ++it) {
+				if(it.value() == o_category) {
+					id = QString::number(it.key());
+					break;
+				}
+			}
+		} else {
+			for(QHash<qlonglong, ExpensesAccount*>::iterator it = o_budget->expensesAccounts_id.begin(); it != o_budget->expensesAccounts_id.end(); ++it) {
+				if(it.value() == o_category) {
+					id = QString::number(it.key());
+					break;
+				}
+			}
+		}
+		if(id.isEmpty()) id = QString::number(o_category->id());
 		bool valid2 = true;
 		Transaction *trans = NULL;
 		if(o_category->type() == ACCOUNT_TYPE_EXPENSES && type == "expense") {

@@ -119,7 +119,7 @@
 	</transaction>
 	<transaction type="multiitem" date="2019-01-13" id="82" revisions="8" timestamp="1547382973336000" description="Splitted Transaction 1" comment="Comment" file="file" account="1" payee="Receiver">
 		<transaction type="expense" id="80" revisions="8" timestamp="1547382973336000" description="Description" comment="Comment" cost="50.0000" category="16" payee="Payee"/>
-		<transaction type="income" id="81" revisions="8" timestamp="1547382973336000" description="Income" comment="Comment" income="45.0000" category="13" to="1" payer="Payer"/>
+		<transaction type="income" id="81" revisions="8" timestamp="1547382973336000" description="Income" comment="Comment" income="45.0000" category="13" payer="Payer"/>
 	</transaction>
 	<transaction type="debtpayment" date="2019-01-13" id="84" revisions="8" timestamp="1547383068543000" description="Debt payment: Liabilities" comment="Comment" file="file" debt="5" from="1" expensecategory="16" reduction="50.0000" interest="50.0000" fee="50.0000"/>
 	<transaction type="debtpayment" date="2019-01-13" id="86" revisions="8" timestamp="1547383093855000" description="Debt payment: Credit Card" debt="4" from="1" interestpaid="0" expensecategory="19" reduction="50.0000" interest="50.0000" fee="50.0000"/>
@@ -131,8 +131,8 @@
 		<transaction type="expense" date="2019-01-13" id="117" revisions="8" timestamp="1547383709542000" cost="45.0000" from="1" payee="Payer"/>
 	</transaction>
 	<transaction type="multiitem" date="2019-01-13" id="131" revisions="9" timestamp="1547390542936000" description="Splitted Transaction 3" account="1">
-		<transaction type="income" id="127" revisions="9" timestamp="1547390542936000" description="Transfer 11" income="14.0000" category="11" to="1"/>
-		<transaction type="income" id="129" revisions="9" timestamp="1547390542936000" description="Transfer 12" income="4.0000" category="11" to="1"/>
+		<transaction type="income" id="127" revisions="9" timestamp="1547390542936000" description="Transfer 11" income="14.0000" category="11"/>
+		<transaction type="income" id="129" revisions="9" timestamp="1547390542936000" description="Transfer 12" income="4.0000" category="11"/>
 	</transaction>
 	<transaction type="debtpayment" date="2019-01-13" id="144" revisions="10" timestamp="1547541688000000" debt="4" from="141" expensecategory="19" reduction="100.0000" payment="88.0000" interest="10.0000" fee="10.0000"/>
 	<transaction type="security_trade" from_security="97" to_security="90" date="2019-01-13" id="99" revisions="8" timestamp="1547383439615000" from_shares="2.0000" to_shares="1.0000"/>
