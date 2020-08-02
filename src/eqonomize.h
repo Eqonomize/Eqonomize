@@ -214,6 +214,7 @@ class Eqonomize : public QMainWindow {
 		void linksUpdated(Transactions*);
 		void updateLinksAction(Transactions*, bool enable_remove = true);
 		void updateLinksAction();
+		void updateCreateLinkAction(bool plural);
 		void setLinkTransaction(Transactions *trans);
 		Transactions *getLinkTransaction();
 		void createLink(QList<Transactions*> transactions);

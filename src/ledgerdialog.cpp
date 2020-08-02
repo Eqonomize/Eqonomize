@@ -347,9 +347,11 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	removeButton = buttons->addButton(tr("Delete"), QDialogButtonBox::ActionRole);
 	removeButton->setEnabled(false);
 	removeButton->setAutoDefault(false);
+	//: join transactions together
 	joinButton = buttons->addButton(tr("Join…"), QDialogButtonBox::ActionRole);
 	joinButton->setEnabled(false);
 	joinButton->setAutoDefault(false);
+	//: split up joined transactions
 	splitUpButton = buttons->addButton(tr("Split Up"), QDialogButtonBox::ActionRole);
 	splitUpButton->setEnabled(false);
 	splitUpButton->setAutoDefault(false);

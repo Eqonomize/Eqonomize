@@ -1314,6 +1314,7 @@ void TransactionListWidget::joinTransactions() {
 				if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) {account = trans->fromAccount(); category = trans->toAccount();}
 				else {account = trans->toAccount(); category = trans->fromAccount();}
 				date = trans->date();
+				description = trans->description();
 			} else {
 				if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS) {
 					if(trans->toAccount() != category) {
@@ -2199,6 +2200,7 @@ void TransactionListWidget::updateTransactionActions() {
 		mainWin->ActionTags->setText(tr("Tags") + QString(" (") + QString::number(mainWin->tagMenu->selectedTagsCount()) + ")");
 	}
 	mainWin->ActionCreateLink->setEnabled(b_link);
+	if(b_link && !link_trans) mainWin->updateCreateLinkAction(!b_split && selection.count() > 1);
 	mainWin->ActionNewRefund->setEnabled(refundable);
 	mainWin->ActionNewRepayment->setEnabled(repayable);
 	mainWin->ActionNewRefundRepayment->setEnabled(refundable || repayable);

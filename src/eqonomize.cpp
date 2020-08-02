@@ -722,7 +722,7 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(paren
 	layout->addWidget(valueEdit, i, 1);
 	i++;
 
-	layout->addWidget(new QLabel(tr("Returned quantity:"), this), i, 0);
+	layout->addWidget(new QLabel(tr("Quantity returned:"), this), i, 0);
 	quantityEdit = new EqonomizeValueEdit(trans->quantity(), QUANTITY_DECIMAL_PLACES, false, false, this, trans->budget());
 	layout->addWidget(quantityEdit, i, 1);
 	i++;
@@ -2386,6 +2386,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	ccrDialog = NULL;
 	otcDialog = NULL;
 	otrDialog = NULL;
+	syncDialog = NULL;
 	
 	currencyConversionWindow = NULL;
 	
@@ -2399,6 +2400,8 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	modified_auto_save = false;
 
 	budget = new Budget();
+	
+	setWindowTitle(tr("Untitled") + "[*]");
 	
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
@@ -5007,6 +5010,7 @@ void Eqonomize::onPageChange(int index) {
 void Eqonomize::updateLinksAction(Transactions *trans, bool enable_remove) {
 	linkMenu->clear();
 	if(trans) {
+		if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SCHEDULE) trans = ((ScheduledTransaction*) trans)->transaction();
 		int n = trans->linksCount(true);
 		ActionLinks->setText(tr("Links") + QString(" (") + QString::number(n) + ")");
 		if(n == 0) {
@@ -5035,6 +5039,7 @@ void Eqonomize::setLinkTransaction(Transactions *trans) {
 	if(link_trans) {
 		if(link_trans->generaltype() == GENERAL_TRANSACTION_TYPE_SCHEDULE) link_trans = ((ScheduledTransaction*) link_trans)->transaction();
 		if(link_trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE && ((Transaction*) link_trans)->parentSplit() && ((Transaction*) link_trans)->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) link_trans = ((Transaction*) link_trans)->parentSplit();
+		//: create link to transaction (link used as verb)
 		ActionCreateLink->setText(tr("Link to \"%1\"").arg(link_trans->description().isEmpty() ? QString::number(link_trans->id()) : link_trans->description()));
 		QSettings settings;
 		settings.beginGroup("GeneralOptions");
@@ -5047,8 +5052,14 @@ void Eqonomize::setLinkTransaction(Transactions *trans) {
 		}
 		settings.endGroup();
 	} else {
-		ActionCreateLink->setText(tr("Link Transaction(s)"));
+		updateTransactionActions();
 	}
+}
+void Eqonomize::updateCreateLinkAction(bool plural) {
+	if(link_trans) return;
+	//: create link between selected transactions (link used as verb)
+	if(plural) ActionCreateLink->setText(tr("Link Transactions"));
+	else ActionCreateLink->setText(tr("Create Link to Transaction"));
 }
 void Eqonomize::createLink(QList<Transactions*> transactions) {
 	if(transactions.count() == 1) {
@@ -5185,6 +5196,7 @@ void Eqonomize::removeOldLinks(Transactions *trans, Transactions *oldtrans) {
 	if(b) updateTransactionActions();
 }
 void Eqonomize::addTransactionLinks(Transactions *trans, bool update_display) {
+	if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SCHEDULE) trans = ((ScheduledTransaction*) trans)->transaction();
 	for(int i = 0; i < trans->linksCount(false); i++) {
 		Transactions *ltrans = trans->getLink(i, false);
 		if(ltrans) {
@@ -5302,6 +5314,7 @@ void Eqonomize::updateTransactionActions() {
 	if(w) {
 		w->updateTransactionActions();
 	} else {
+		updateCreateLinkAction(false);
 		ActionCloneTransaction->setEnabled(b_scheduledtransaction);
 		ActionJoinTransactions->setEnabled(false);
 		ActionSplitUpTransaction->setEnabled(false);
@@ -6019,6 +6032,7 @@ void Eqonomize::openSynchronizationSettings() {
 		setModified(true);
 	}
 	syncDialog->deleteLater();
+	syncDialog = NULL;
 }
 void Eqonomize::syncUploadChanged(const QString &text) {
 	uploadButton->setEnabled(!text.trimmed().isEmpty());
@@ -6073,7 +6087,7 @@ void Eqonomize::fileSynchronize() {
 				b = saveURL(current_url, true, false, syncDialog);
 			}
 		}
-		if(b) sync(true, true);
+		if(b) sync(true, true, syncDialog);
 	} else {
 		openSynchronizationSettings();
 	}
@@ -7498,7 +7512,9 @@ void Eqonomize::setupActions() {
 	NEW_ACTION_ALT(ActionEditScheduledTransaction, tr("Edit Schedule (Recurrence)…"), "document-edit", "eqz-edit", 0, this, SLOT(editSelectedScheduledTransaction()), "edit_scheduled_transaction", transactionsMenu);
 	NEW_ACTION_NOMENU_ALT(ActionEditSchedule, tr("Edit Schedule…"), "document-edit", "eqz-edit", 0, this, SLOT(editScheduledTransaction()), "edit_schedule");
 	NEW_ACTION_ALT(ActionEditSplitTransaction, tr("Edit Split Transaction…"), "document-edit", "eqz-edit", 0, this, SLOT(editSelectedSplitTransaction()), "edit_split_transaction", transactionsMenu);
+	//: join transactions together
 	NEW_ACTION(ActionJoinTransactions, tr("Join Transactions…"), "eqz-join-transactions", 0, this, SLOT(joinSelectedTransactions()), "join_transactions", transactionsMenu);
+	//: split up joined transactions
 	NEW_ACTION(ActionSplitUpTransaction, tr("Split Up Transaction"), "eqz-split-transaction", 0, this, SLOT(splitUpSelectedTransaction()), "split_up_transaction", transactionsMenu);
 	transactionsMenu->addSeparator();
 	tagMenu = new TagMenu(budget, this, true);
@@ -7511,7 +7527,7 @@ void Eqonomize::setupActions() {
 	ActionLinks = transactionsMenu->addMenu(linkMenu);
 	ActionLinks->setIcon(LOAD_ICON("go-jump"));
 	ActionLinks->setText(tr("Links"));
-	NEW_ACTION(ActionCreateLink, tr("Link Transaction(s)"), "go-jump", 0, this, SLOT(createLink()), "create_link", transactionsMenu);
+	NEW_ACTION(ActionCreateLink, tr("Create Link to Transaction"), "go-jump", 0, this, SLOT(createLink()), "create_link", transactionsMenu);
 	NEW_ACTION(ActionSelectAssociatedFile, tr("Select Associated File"), "document-open", 0, this, SLOT(selectAssociatedFile()), "select_attachment", transactionsMenu);
 	NEW_ACTION(ActionOpenAssociatedFile, tr("Open Associated File"), "system-run", 0, this, SLOT(openAssociatedFile()), "open_attachment", transactionsMenu);
 	NEW_ACTION(ActionEditTimestamp, tr("Edit Timestamp…"), "eqz-schedule", 0, this, SLOT(editSelectedTimestamp()), "edit_timestamp", transactionsMenu);

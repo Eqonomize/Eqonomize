@@ -1760,7 +1760,7 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 	for(TransactionList<Transaction*>::const_iterator it = transactions.constBegin(); it != transactions.constEnd(); ++it) {
 		if((*it)->lastRevision() > synced_revision) (*it)->setLastRevision((*it)->lastRevision() + revision_diff);
 		bool b_loan = (*it)->parentSplit() && (*it)->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN;
-		if(!b_loan && (*it)->linksCount(false) > 0) linked_transactions[(*it)->id()] = *it;
+		if(!b_loan && (*it)->linksCount(false)) linked_transactions[(*it)->id()] = *it;
 		if((*it)->firstRevision() > synced_revision) {
 			if(!b_loan) {
 				update_ids_list << (*it);
@@ -1781,7 +1781,7 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 			for(int i = 0; i < trans->linksCount(); i++) {
 				qlonglong lid = trans->getLinkId(i, false);
 				QHash<qlonglong, Transactions*>::iterator it = linked_transactions.find(lid);
-			 	if(it != linked_transactions.end()) {
+				if(it != linked_transactions.end()) {
 					(*it)->removeLink(trans);
 					(*it)->addLinkId(last_id);
 				}
@@ -1805,29 +1805,41 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 			ScheduledTransaction *strans = new ScheduledTransaction(this, &xml, &valid);
 			if(valid && strans) {
 				QHash<qlonglong, ScheduledTransaction*>::iterator it = scheduleds_id.find(strans->id());
-			 	if(it == scheduleds_id.end()) {
-			 		if(strans->lastRevision() > synced_revision) {
-			 			QHash<qlonglong, Transaction*>::iterator it2 = transactions_id.find(strans->transaction()->id());
-					 	if(it2 != transactions_id.end() && (*it2)->lastRevision() > strans->lastRevision()) {
-					 		delete strans;
-					 	} else {
-					 		QHash<qlonglong, SplitTransaction*>::iterator it3 = splits_id.find(strans->transaction()->id());
-						 	if(it3 != splits_id.end() && (*it3)->lastRevision() > strans->lastRevision()) {
-						 		delete strans;
-						 	} else {
-					 			addScheduledTransaction(strans);
-					 		}
-				 		}
-			 		} else delete strans;
-			 	} else {
-			 		if((*it)->lastRevision() >= strans->lastRevision()) {
-			 			delete strans;
-			 		} else {
-			 			removeScheduledTransaction(*it);
+				if(it == scheduleds_id.end()) {
+					if(strans->lastRevision() > synced_revision) {
+						QHash<qlonglong, Transaction*>::iterator it2 = transactions_id.find(strans->transaction()->id());
+						if(it2 != transactions_id.end() && (*it2)->lastRevision() > strans->lastRevision()) {
+							delete strans;
+						} else {
+							QHash<qlonglong, SplitTransaction*>::iterator it3 = splits_id.find(strans->transaction()->id());
+							if(it3 != splits_id.end() && (*it3)->lastRevision() > strans->lastRevision()) {
+								delete strans;
+							} else {
+								addScheduledTransaction(strans);
+								for(int i = 0; i < strans->linksCount(false); i++) {
+									Transactions *ltrans = strans->getLink(i, false);
+									if(ltrans) ltrans->addLink(strans->transaction());
+								}
+							}
+						}
+					} else delete strans;
+				} else {
+					if((*it)->lastRevision() >= strans->lastRevision()) {
+						delete strans;
+					} else {
+						for(int i = 0; i < (*it)->linksCount(false); i++) {
+							Transactions *ltrans = (*it)->getLink(i, false);
+							if(ltrans) ltrans->removeLink((*it)->transaction());
+						}
+						removeScheduledTransaction(*it);
 						addScheduledTransaction(strans);
-			 		}
-			 		scheduleds_id.remove(it.key());
-			 	}
+						for(int i = 0; i < strans->linksCount(false); i++) {
+							Transactions *ltrans = strans->getLink(i, false);
+							if(ltrans) ltrans->addLink(strans->transaction());
+						}
+					}
+					scheduleds_id.remove(it.key());
+				}
 			} else if(!valid) {
 				transaction_errors++;
 				if(strans) delete strans;
@@ -1850,18 +1862,18 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 				SecurityTrade *ts = new SecurityTrade(this, &xml, &valid);
 				if(valid && ts) {
 					QHash<qlonglong, SecurityTrade*>::iterator it = securitytrades_id.find(ts->id);
-				 	if(it == securitytrades_id.end()) {
-				 		if(ts->last_revision > synced_revision) addSecurityTrade(ts);
-				 		else delete ts;
-				 	} else {
-				 		if((*it)->last_revision >= ts->last_revision) {
-				 			delete ts;
-				 		} else {
-				 			removeSecurityTrade(*it);
+					if(it == securitytrades_id.end()) {
+						if(ts->last_revision > synced_revision) addSecurityTrade(ts);
+						else delete ts;
+					} else {
+						if((*it)->last_revision >= ts->last_revision) {
+							delete ts;
+						} else {
+							removeSecurityTrade(*it);
 							addSecurityTrade(ts);
-				 		}
-				 		securitytrades_id.remove(it.key());
-				 	}
+						}
+						securitytrades_id.remove(it.key());
+					}
 				} else {
 					transaction_errors++;
 					if(ts) delete ts;
@@ -1893,6 +1905,20 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 						if(it == splits_id.end()) {
 							if(split->lastRevision() > synced_revision && !scheduleds_trans_id.contains(split->id())) {
 								addSplitTransaction(split);
+								for(int i = 0; i < split->linksCount(false); i++) {
+									Transactions *ltrans = split->getLink(i, false);
+									if(ltrans) ltrans->addLink(split);
+								}
+								if(split->type() != SPLIT_TRANSACTION_TYPE_LOAN) {
+									int c = split->count();
+									for(int i = 0; i < c; i++) {
+										trans = split->at(i);
+										for(int i2 = 0; i2 < trans->linksCount(false); i2++) {
+											Transactions *ltrans = trans->getLink(i2, false);
+											if(ltrans) ltrans->addLink(trans);
+										}
+									}
+								}
 							} else {
 								if(split->type() != SPLIT_TRANSACTION_TYPE_LOAN) split->clear(true);
 								delete split;
@@ -1911,14 +1937,33 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 										trans = split->at(i);
 										QHash<qlonglong, Transaction*>::iterator it = transactions_id.find(trans->id());
 										if(it == transactions_id.end()) {
-											if(trans->lastRevision() > synced_revision && !scheduleds_trans_id.contains(trans->id())) addTransaction(trans);
-											else {split->removeTransaction(trans);  i--; c--;}
+											if(trans->lastRevision() > synced_revision && !scheduleds_trans_id.contains(trans->id())) {
+												addTransaction(trans);
+												for(int i2 = 0; i2 < trans->linksCount(false); i2++) {
+													Transactions *ltrans = trans->getLink(i2, false);
+													if(ltrans) ltrans->addLink(trans);
+												}
+											} else {
+												split->removeTransaction(trans);
+												i--;
+												c--;
+											}
 										} else {
 											if((*it)->lastRevision() > synced_revision && (*it)->lastRevision() >= trans->lastRevision()) {
-												split->removeTransaction(trans); i--; c--;
+												split->removeTransaction(trans);
+												i--;
+												c--;
 											} else {
+												for(int i2 = 0; i2 < (*it)->linksCount(false); i2++) {
+													Transactions *ltrans = (*it)->getLink(i2, false);
+													if(ltrans) ltrans->removeLink(*it);
+												}
 												removeTransaction(*it);
 												addTransaction(trans);
+												for(int i2 = 0; i2 < trans->linksCount(false); i2++) {
+													Transactions *ltrans = trans->getLink(i2, false);
+													if(ltrans) ltrans->addLink(trans);
+												}
 											}
 											transactions_id.remove(it.key());
 										}
@@ -1939,22 +1984,34 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 				if(!valid) {
 					transaction_errors++;
 				} else {
-				 	QHash<qlonglong, Transaction*>::iterator it = transactions_id.find(trans->id());
-				 	if(it == transactions_id.end()) {
-				 		if(trans->lastRevision() > synced_revision && !scheduleds_trans_id.contains(trans->id())) {
-				 			addTransaction(trans);
-				 		} else {
-				 			delete trans;
-				 		}
-				 	} else {
-				 		if((*it)->lastRevision() >= trans->lastRevision()) {
-				 			delete trans;
-				 		} else {
-				 			removeTransaction(*it);
+					QHash<qlonglong, Transaction*>::iterator it = transactions_id.find(trans->id());
+					if(it == transactions_id.end()) {
+						if(trans->lastRevision() > synced_revision && !scheduleds_trans_id.contains(trans->id())) {
 							addTransaction(trans);
-				 		}
-				 		transactions_id.remove(it.key());
-				 	}
+							for(int i = 0; i < trans->linksCount(false); i++) {
+								Transactions *ltrans = trans->getLink(i, false);
+								if(ltrans) ltrans->addLink(trans);
+							}
+						} else {
+							delete trans;
+						}
+					} else {
+						if((*it)->lastRevision() >= trans->lastRevision()) {
+							delete trans;
+						} else {
+							for(int i = 0; i < (*it)->linksCount(false); i++) {
+								Transactions *ltrans = (*it)->getLink(i, false);
+								if(ltrans) ltrans->removeLink(*it);
+							}
+							removeTransaction(*it);
+							addTransaction(trans);
+							for(int i = 0; i < trans->linksCount(false); i++) {
+								Transactions *ltrans = trans->getLink(i, false);
+								if(ltrans) ltrans->addLink(trans);
+							}
+						}
+						transactions_id.remove(it.key());
+					}
 				}
 			}
 		} else if(xml.name() == "category") {
@@ -2575,7 +2632,7 @@ void Budget::removeScheduledTransaction(ScheduledTransaction *strans, bool keep)
 	 if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY || strans->transactiontype() == TRANSACTION_TYPE_SECURITY_SELL) {
 		((SecurityTransaction*) strans->transaction())->security()->scheduledTransactions.removeRef(strans);
 	 } else if(strans->transactiontype() == TRANSACTION_TYPE_INCOME && ((Income*) strans->transaction())->security()) {
-	 	if(strans->transactionsubtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) ((Income*) strans->transaction())->security()->scheduledReinvestedDividends.removeRef(strans);
+		if(strans->transactionsubtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) ((Income*) strans->transaction())->security()->scheduledReinvestedDividends.removeRef(strans);
 		else ((Income*) strans->transaction())->security()->scheduledDividends.removeRef(strans);
 	}
 	if(keep) scheduledTransactions.setAutoDelete(false);
