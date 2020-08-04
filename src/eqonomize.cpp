@@ -5012,21 +5012,40 @@ void Eqonomize::updateLinksAction(Transactions *trans, bool enable_remove) {
 	if(trans) {
 		if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SCHEDULE) trans = ((ScheduledTransaction*) trans)->transaction();
 		int n = trans->linksCount(true);
-		ActionLinks->setText(tr("Links") + QString(" (") + QString::number(n) + ")");
+		QStringList descriptions;
+		QList<QAction*> actions;
+		QList<QDate> dates;
+		
 		if(n == 0) {
 			ActionLinks->setEnabled(false);
+			ActionLinks->setText(tr("Links") + QString(" (0)"));
 		} else {
+			QList<Transactions*> links;
 			for(int i = 0; i < n; i++) {
 				Transactions *tlink = trans->getLink(i, true);
-				if(tlink) {
-					linkMenu->addAction(LOAD_ICON("go-jump"), tlink->description().isEmpty() ? QString::number(tlink->id()) : tlink->description(), this, SLOT(openLink()))->setData(QVariant::fromValue((void*) tlink));
+				if(tlink) links << tlink;
+			}
+			ActionLinks->setText(tr("Links") + QString(" (") + QString::number(links.count()) + ")");
+			ActionLinks->setEnabled(links.count() > 0);
+			for(int i = 0; i < links.count(); i++) {
+				Transactions *tlink = links.at(i);
+				if(tlink->description().isEmpty()) {
+					linkMenu->addAction(LOAD_ICON("go-jump"), QLocale().toString(tlink->date(), QLocale::ShortFormat), this, SLOT(openLink()))->setData(QVariant::fromValue((void*) tlink));
+				} else {
+					bool b_date = false;
+					for(int i2 = 0; i2 < links.count(); i2++) {
+						if(i != i2 && links.at(i2) && tlink->description().compare(links.at(i2)->description(), Qt::CaseInsensitive) == 0) {
+							b_date = true;
+							break;
+						}
+					}
+					linkMenu->addAction(LOAD_ICON("go-jump"), b_date ? tlink->description() + "(" + QLocale().toString(tlink->date(), QLocale::ShortFormat) + ")" : tlink->description(), this, SLOT(openLink()))->setData(QVariant::fromValue((void*) tlink));
 				}
 			}
 			linkMenu->addSeparator();
 			QAction *action = linkMenu->addAction(LOAD_ICON("edit-delete"), tr("Remove Link"), this, SLOT(removeLink()));
 			action->setData(QVariant::fromValue((void*) trans));
 			action->setEnabled(enable_remove);
-			ActionLinks->setEnabled(true);
 		}
 	} else {
 		ActionLinks->setEnabled(false);
@@ -5149,7 +5168,7 @@ void Eqonomize::createLink() {
 void Eqonomize::openLink(Transactions *trans, QWidget *parent) {
 	if(trans) {
 		if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) mainwin->editTransaction((Transaction*) trans, parent ? parent : mainwin, false, false);
-		else if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) mainwin->editSplitTransaction((SplitTransaction*) trans, parent ? parent : mainwin, false, false);
+		else if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) mainwin->editSplitTransaction((SplitTransaction*) trans, parent ? parent : mainwin, false, false, false);
 		else if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SCHEDULE) mainwin->editScheduledTransaction((ScheduledTransaction*) trans, parent ? parent : mainwin, false, false);
 	}
 }
@@ -5238,7 +5257,14 @@ void Eqonomize::removeLink() {
 	SplitTransaction *split = NULL;
 	if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) split = ((Transaction*) trans)->parentSplit();
 	int index = 0;
-	if(trans->linksCount(true) == 1) {
+	QList<Transactions*> links;
+	int n = trans->linksCount(true);
+	for(int i = 0; i < n; i++) {
+		Transactions *tlink = trans->getLink(i, true);
+		if(tlink) links << tlink;
+	}
+	if(links.empty()) return;
+	if(links.count() == 1) {
 		index = 0;
 	} else {
 		QDialog *dialog = new QDialog(this);
@@ -5246,10 +5272,21 @@ void Eqonomize::removeLink() {
 		dialog->setModal(true);
 		QVBoxLayout *box1 = new QVBoxLayout(dialog);
 		QComboBox *combo = new QComboBox(dialog);
-		combo->addItem(tr("All"));
-		for(int i = 0; i < trans->linksCount(true); i++) {
-			Transactions *tlink = trans->getLink(i, true);
-			combo->addItem(tlink->description().isEmpty() ? QString::number(tlink->id()) : tlink->description());
+		combo->addItem(tr("All"));		
+		for(int i = 0; i < links.count(); i++) {
+			Transactions *tlink = links.at(i);
+			if(tlink->description().isEmpty()) {
+				combo->addItem(QLocale().toString(tlink->date(), QLocale::ShortFormat));
+			} else {
+				bool b_date = false;
+				for(int i2 = 0; i2 < links.count(); i2++) {
+					if(i != i2 && links.at(i2) && tlink->description().compare(links.at(i2)->description(), Qt::CaseInsensitive) == 0) {
+						b_date = true;
+						break;
+					}
+				}
+				combo->addItem(b_date ? tlink->description() + " (" + QLocale().toString(tlink->date(), QLocale::ShortFormat) + ")" : tlink->description());
+			}
 		}
 		combo->setCurrentIndex(0);
 		box1->addWidget(combo);

@@ -202,7 +202,7 @@ void Transactions::clearLinks() {
 	links.clear();
 }
 void Transactions::addLink(Transactions *trans) {
-	addLinkId(trans->id());
+	if(trans) addLinkId(trans->id());
 }
 void Transactions::addLinkId(qlonglong lid) {
 	if(!links.contains(lid)) {

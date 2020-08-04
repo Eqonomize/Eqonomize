@@ -2199,6 +2199,17 @@ void TransactionListWidget::updateTransactionActions() {
 		mainWin->tagMenu->setTransactions(list);
 		mainWin->ActionTags->setText(tr("Tags") + QString(" (") + QString::number(mainWin->tagMenu->selectedTagsCount()) + ")");
 	}
+	if(b_link && list.count() >= 2) {
+		b_link = false;
+		for(int i = 0; i < list.count() - 1; i++) {
+			for(int i2 = i + 1; i2 < list.count(); i2++) {
+				if(!list.at(i)->hasLink(list.at(i2), true)) {
+					b_link = true;
+					break;
+				}
+			}
+		}
+	}
 	mainWin->ActionCreateLink->setEnabled(b_link);
 	if(b_link && !link_trans) mainWin->updateCreateLinkAction(!b_split && selection.count() > 1);
 	mainWin->ActionNewRefund->setEnabled(refundable);

@@ -85,7 +85,7 @@ LinksWidget::LinksWidget(QWidget *parent, bool is_active) : QWidget(parent), b_e
 void LinksWidget::linkClicked(const QString &str) {
 	qlonglong lid = str.toLongLong();
 	for(int i = 0; i < links.count(); i++) {
-		if(links.at(i)->id() == lid) {
+		if(links.at(i) && links.at(i)->id() == lid) {
 			Eqonomize::openLink(links.at(i), parentWidget());
 			return;
 		}
@@ -106,7 +106,20 @@ void LinksWidget::removeLink() {
 		combo->addItem(tr("All"));
 		for(int i = 0; i < first_parent_link; i++) {
 			Transactions *tlink = links.at(i);
-			combo->addItem(tlink->description().isEmpty() ? QString::number(tlink->id()) : tlink->description());
+			if(tlink) {
+				if(tlink->description().isEmpty()) {
+					combo->addItem(QLocale().toString(tlink->date(), QLocale::ShortFormat));
+				} else {
+					bool b_date = false;
+					for(int i2 = 0; i2 < links.count(); i2++) {
+						if(i != i2 && links.at(i2) && tlink->description().compare(links.at(i2)->description(), Qt::CaseInsensitive) == 0) {
+							b_date = true;
+							break;
+						}
+					}
+					combo->addItem(b_date ? tlink->description() + " (" + QLocale().toString(tlink->date(), QLocale::ShortFormat) + ")" : tlink->description());
+				}
+			}
 		}
 		combo->setCurrentIndex(0);
 		box1->addWidget(combo);
@@ -140,12 +153,24 @@ void LinksWidget::updateLabel() {
 	QString str;
 	for(int i = 0; i < links.count(); i++) {
 		Transactions *ltrans = links.at(i);
-		if(!str.isEmpty()) str += ", ";
-		if(b_links) {str += "<a href=\""; str += QString::number(ltrans->id()); str += "\">";}
-		if(i >= first_parent_link) str += "<i>";
-		str += ltrans->description().isEmpty() ? QString::number(ltrans->id()) : ltrans->description();
-		if(i >= first_parent_link) str += "</i>";
-		if(b_links) {str += "</a>";}
+		if(ltrans) {
+			if(!str.isEmpty()) str += ", ";
+			if(b_links) {str += "<a href=\""; str += QString::number(ltrans->id()); str += "\">";}
+			if(i >= first_parent_link) str += "<i>";
+			if(ltrans->description().isEmpty()) {
+				str += QLocale().toString(ltrans->date(), QLocale::ShortFormat);
+			} else {
+				str += ltrans->description();
+				for(int i2 = 0; i2 < links.count(); i2++) {
+					if(i != i2 && links.at(i2) && ltrans->description().compare(links.at(i2)->description(), Qt::CaseInsensitive) == 0) {
+						str += " ("; str += QLocale().toString(ltrans->date(), QLocale::ShortFormat); str += ")";
+						break;
+					}
+				}
+			}
+			if(i >= first_parent_link) str += "</i>";
+			if(b_links) {str += "</a>";}
+		}
 	}
 	linksLabel->setText(str);
 }
