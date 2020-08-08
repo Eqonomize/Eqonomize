@@ -68,7 +68,7 @@ class TransactionListWidget : public QWidget {
 		void currentDateChanged(const QDate &olddate, const QDate &newdate);
 		QByteArray saveState();
 		void restoreState(const QByteArray&);
-		void createLink();
+		void createLink(bool link_to);
 
 	protected:
 

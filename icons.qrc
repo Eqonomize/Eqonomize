@@ -37,6 +37,7 @@
 	<file alias="actions/scalable/document-print-preview.svg">data/standard/document-print-preview.svg</file>
 	<file alias="actions/scalable/document-save-as.svg">data/standard/document-save-as.svg</file>
 	<file alias="actions/scalable/document-save.svg">data/standard/document-save.svg</file>
+	<file alias="actions/scalable/edit-clear.png">data/standard/edit-clear.svg</file>
 	<file alias="actions/scalable/edit-copy.png">data/standard/edit-copy.svg</file>
 	<file alias="actions/scalable/edit-delete.svg">data/standard/edit-delete.svg</file>
 	<file alias="actions/scalable/edit-find.svg">data/standard/edit-find.svg</file>
@@ -86,6 +87,7 @@
 	<file alias="actions/16x16/document-revert.png">data/standard/16/document-revert.png</file>
 	<file alias="actions/16x16/document-save-as.png">data/standard/16/document-save-as.png</file>
 	<file alias="actions/16x16/document-save.png">data/standard/16/document-save.png</file>
+	<file alias="actions/16x16/edit-clear.png">data/standard/16/edit-clear.png</file>
 	<file alias="actions/16x16/edit-copy.png">data/standard/16/edit-copy.png</file>
 	<file alias="actions/16x16/edit-delete.png">data/standard/16/edit-delete.png</file>
 	<file alias="actions/16x16/edit-find.png">data/standard/16/edit-find.png</file>
@@ -139,6 +141,7 @@
 	<file alias="actions/32x32/document-revert.png">data/standard/32/document-revert.png</file>
 	<file alias="actions/32x32/document-save-as.png">data/standard/32/document-save-as.png</file>
 	<file alias="actions/32x32/document-save.png">data/standard/32/document-save.png</file>
+	<file alias="actions/32x32/edit-clear.png">data/standard/32/edit-clear.png</file>
 	<file alias="actions/32x32/edit-copy.png">data/standard/32/edit-copy.png</file>
 	<file alias="actions/32x32/edit-delete.png">data/standard/32/edit-delete.png</file>
 	<file alias="actions/32x32/edit-find.png">data/standard/32/edit-find.png</file>
@@ -191,6 +194,7 @@
 	<file alias="actions/48x48/document-revert.png">data/standard/48/document-revert.png</file>
 	<file alias="actions/48x48/document-save-as.png">data/standard/48/document-save-as.png</file>
 	<file alias="actions/48x48/document-save.png">data/standard/48/document-save.png</file>
+	<file alias="actions/48x48/edit-clear.png">data/standard/48/edit-clear.png</file>
 	<file alias="actions/48x48/edit-copy.png">data/standard/48/edit-copy.png</file>
 	<file alias="actions/48x48/edit-delete.png">data/standard/48/edit-delete.png</file>
 	<file alias="actions/48x48/edit-find.png">data/standard/48/edit-find.png</file>
@@ -244,6 +248,7 @@
 	<file alias="actions/64x64/document-revert.png">data/standard/64/document-revert.png</file>
 	<file alias="actions/64x64/document-save-as.png">data/standard/64/document-save-as.png</file>
 	<file alias="actions/64x64/document-save.png">data/standard/64/document-save.png</file>
+	<file alias="actions/64x64/edit-clear.png">data/standard/64/edit-clear.png</file>
 	<file alias="actions/64x64/edit-copy.png">data/standard/64/edit-copy.png</file>
 	<file alias="actions/64x64/edit-delete.png">data/standard/64/edit-delete.png</file>
 	<file alias="actions/64x64/edit-find.png">data/standard/64/edit-find.png</file>
@@ -297,6 +302,7 @@
 	<file alias="actions/22x22/document-revert.png">data/standard/22/document-revert.png</file>
 	<file alias="actions/22x22/document-save-as.png">data/standard/22/document-save-as.png</file>
 	<file alias="actions/22x22/document-save.png">data/standard/22/document-save.png</file>
+	<file alias="actions/22x22/edit-clear.png">data/standard/22/edit-clear.png</file>
 	<file alias="actions/22x22/edit-copy.png">data/standard/22/edit-copy.png</file>
 	<file alias="actions/22x22/edit-delete.png">data/standard/22/edit-delete.png</file>
 	<file alias="actions/22x22/edit-find.png">data/standard/22/edit-find.png</file>

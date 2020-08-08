@@ -5053,47 +5053,59 @@ void Eqonomize::updateLinksAction(Transactions *trans, bool enable_remove) {
 	}
 }
 Transactions *Eqonomize::getLinkTransaction() {return link_trans;}
+QMenu *Eqonomize::createPopupMenu() {
+	QMenu *menu = QMainWindow::createPopupMenu();
+	if(menu) {
+		QList<QAction*> l = menu->actions();
+		for(int i = l.count() - 1; i >= 0; i--) {
+			if(l.at(i)->text() == "Link") {
+				menu->removeAction(l.at(i));
+				break;
+			}
+		}
+	}
+	return menu;
+}
 void Eqonomize::setLinkTransaction(Transactions *trans) {
 	link_trans = trans;
 	if(link_trans) {
 		if(link_trans->generaltype() == GENERAL_TRANSACTION_TYPE_SCHEDULE) link_trans = ((ScheduledTransaction*) link_trans)->transaction();
 		if(link_trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE && ((Transaction*) link_trans)->parentSplit() && ((Transaction*) link_trans)->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) link_trans = ((Transaction*) link_trans)->parentSplit();
 		//: create link to transaction (link used as verb)
-		ActionCreateLink->setText(tr("Link to \"%1\"").arg(link_trans->description().isEmpty() ? QString::number(link_trans->id()) : link_trans->description()));
-		QSettings settings;
-		settings.beginGroup("GeneralOptions");
-		if(settings.value("showLinkMessage", true).toBool()) {
-			QMessageBox *dialog = new QMessageBox(QMessageBox::Information, tr("Information"), tr("Select a transaction and choose %1 in the menu, to create a link between the transactions. To cancel, right-click the menu item.").arg("<i>" + ActionCreateLink->text() + "</i>"), QMessageBox::Ok, this);
-			dialog->setCheckBox(new QCheckBox(tr("Do not show this message again")));
-			dialog->exec();
-			if(dialog->checkBox()->isChecked()) settings.setValue("showLinkMessage", false);
-			dialog->deleteLater();
-		}
-		settings.endGroup();
-	} else {
+		ActionLinkTo->setText(tr("Link to \"%1\"").arg(link_trans->description().isEmpty() ? QString::number(link_trans->id()) : link_trans->description()));
 		updateTransactionActions();
+		linkToolbar->show();
+	} else {
+		linkToolbar->hide();
 	}
 }
-void Eqonomize::updateCreateLinkAction(bool plural) {
-	if(link_trans) return;
-	//: create link between selected transactions (link used as verb)
-	if(plural) ActionCreateLink->setText(tr("Link Transactions"));
-	else ActionCreateLink->setText(tr("Create Link to Transaction"));
+void Eqonomize::cancelLinkTo() {
+	setLinkTransaction(NULL);
 }
-void Eqonomize::createLink(QList<Transactions*> transactions) {
-	if(transactions.count() == 1) {
+void Eqonomize::linkTo() {
+	TransactionListWidget *w = NULL;
+	if(tabs->currentIndex() == EXPENSES_PAGE_INDEX) w = expensesWidget;
+	else if(tabs->currentIndex() == INCOMES_PAGE_INDEX) w = incomesWidget;
+	else if(tabs->currentIndex() == TRANSFERS_PAGE_INDEX) w = transfersWidget;
+	else if(tabs->currentIndex() == SCHEDULE_PAGE_INDEX) {
+		ScheduleListViewItem *i = (ScheduleListViewItem*) selectedItem(scheduleView);
+		if(i) {
+			QList<Transactions*> transactions;
+			transactions << i->scheduledTransaction();
+			createLink(transactions, true);
+		}
+	}
+	if(w) w->createLink(true);
+}
+void Eqonomize::createLink(QList<Transactions*> transactions, bool link_to) {
+	if(transactions.count() == 1 && !link_to) {
 		Transactions *trans = transactions.first();
 		if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SCHEDULE) trans = ((ScheduledTransaction*) trans)->transaction();
 		if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE && ((Transaction*) trans)->parentSplit() && ((Transaction*) trans)->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_LOAN) trans = ((Transaction*) trans)->parentSplit();
-		if(!link_trans) {
-			setLinkTransaction(trans);
-			return;
-		} else if(link_trans == trans) {
-			setLinkTransaction(NULL);
-			return;
-		}
+		setLinkTransaction(trans);
+		return;
 	}
-	if(link_trans && transactions.count() >= 1) {
+	if(link_trans && link_to && transactions.count() >= 1) {
 		for(int i = 0; i < transactions.count(); i++) {
 			Transactions *trans = transactions.at(i);
 			if(trans->generaltype() == GENERAL_TRANSACTION_TYPE_SCHEDULE) trans = ((ScheduledTransaction*) trans)->transaction();
@@ -5160,10 +5172,10 @@ void Eqonomize::createLink() {
 		if(i) {
 			QList<Transactions*> transactions;
 			transactions << i->scheduledTransaction();
-			createLink(transactions);
+			createLink(transactions, false);
 		}
 	}
-	if(w) w->createLink();
+	if(w) w->createLink(false);
 }
 void Eqonomize::openLink(Transactions *trans, QWidget *parent) {
 	if(trans) {
@@ -5346,23 +5358,23 @@ void Eqonomize::updateTransactionActions() {
 			tagMenu->setTransaction(i->scheduledTransaction());
 			ActionTags->setText(tr("Tags") + QString(" (") + QString::number(tagMenu->selectedTagsCount()) + ")");
 			updateLinksAction(i->scheduledTransaction());
+			ActionLinkTo->setEnabled(link_trans && i->scheduledTransaction() && i->scheduledTransaction()->transaction() != link_trans && !i->scheduledTransaction()->hasLink(link_trans));
 		}
 	} else {}
 	if(w) {
 		w->updateTransactionActions();
 	} else {
-		updateCreateLinkAction(false);
 		ActionCloneTransaction->setEnabled(b_scheduledtransaction);
 		ActionJoinTransactions->setEnabled(false);
 		ActionSplitUpTransaction->setEnabled(false);
 		ActionEditTimestamp->setEnabled(b_scheduledtransaction);
+		ActionTags->setEnabled(b_scheduledtransaction);
 		ActionCreateLink->setEnabled(b_scheduledtransaction);
-		if(b_scheduledtransaction) {
-			ActionTags->setEnabled(true);
-		} else {
-			ActionTags->setEnabled(false);
+		if(!b_scheduledtransaction) {
 			ActionTags->setText(tr("Tags"));
 			updateLinksAction(NULL);
+			ActionCreateLink->setEnabled(false);
+			ActionLinkTo->setEnabled(false);
 		}
 		ActionEditSplitTransaction->setEnabled(false);
 		ActionDeleteSplitTransaction->setEnabled(false);
@@ -5841,6 +5853,7 @@ void Eqonomize::createDefaultBudget() {
 
 }
 void Eqonomize::reloadBudget() {
+	setLinkTransaction(NULL);
 	incomes_accounts_value = 0.0;
 	incomes_accounts_change = 0.0;
 	expenses_accounts_value = 0.0;
@@ -7413,27 +7426,11 @@ void Eqonomize::saveView() {
 
 #define NEW_RADIO_ACTION(action, text, group) action = new QAction(group); action->setCheckable(true); action->setText(text);
 
-class TransactionsMenu : public QMenu {
-	protected:
-		Eqonomize *mainWin;
-	public:
-		TransactionsMenu(QWidget *parent, Eqonomize *main_win) : QMenu(parent), mainWin(main_win) {}
-		void mousePressEvent(QMouseEvent *e) {
-			if(e->button() == Qt::RightButton) {
-				if(actionAt(e->pos()) == mainWin->ActionCreateLink && mainWin->getLinkTransaction()) {
-					mainWin->setLinkTransaction(NULL);
-					return;
-				}
-			}
-			QMenu::mousePressEvent(e);
-		}
-};
-
 void Eqonomize::setupActions() {
 	
 	QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
 	QMenu *accountsMenu = menuBar()->addMenu(tr("&Accounts"));
-	QMenu *transactionsMenu = new TransactionsMenu(menuBar(), this);
+	QMenu *transactionsMenu = new QMenu(menuBar());
 	transactionsMenu->setTitle(tr("&Transactions"));
 	menuBar()->addMenu(transactionsMenu);
 	QMenu *loansMenu = menuBar()->addMenu(tr("&Loans"));
@@ -7458,6 +7455,12 @@ void Eqonomize::setupActions() {
 	statisticsToolbar->setObjectName("statistics_toolbar");
 	statisticsToolbar->setFloatable(false);
 	statisticsToolbar->setMovable(false);
+	linkToolbar = addToolBar("Link");
+	linkToolbar->setObjectName("link_toolbar");
+	linkToolbar->setFloatable(false);
+	linkToolbar->setMovable(false);
+	linkToolbar->setIconSize(QSize(16, 16));
+	linkToolbar->hide();
 	
 	new QShortcut(QKeySequence::Find, this, SLOT(showFilter()));
 	
@@ -7564,7 +7567,12 @@ void Eqonomize::setupActions() {
 	ActionLinks = transactionsMenu->addMenu(linkMenu);
 	ActionLinks->setIcon(LOAD_ICON("go-jump"));
 	ActionLinks->setText(tr("Links"));
-	NEW_ACTION(ActionCreateLink, tr("Create Link to Transaction"), "go-jump", 0, this, SLOT(createLink()), "create_link", transactionsMenu);
+	//: create link to or between transaction(s)
+	NEW_ACTION(ActionCreateLink, tr("Create Link"), "go-jump", 0, this, SLOT(createLink()), "create_link", transactionsMenu);
+	NEW_ACTION_NOMENU(ActionLinkTo, QString(), QString(), 0, this, SLOT(linkTo()), "link_to");
+	linkToolbar->addAction(ActionLinkTo);
+	NEW_ACTION_NOMENU(ActionCancelLinkTo, QString(), "edit-clear", 0, this, SLOT(cancelLinkTo()), "cancel_link_to");
+	linkToolbar->addAction(ActionCancelLinkTo);
 	NEW_ACTION(ActionSelectAssociatedFile, tr("Select Associated File"), "document-open", 0, this, SLOT(selectAssociatedFile()), "select_attachment", transactionsMenu);
 	NEW_ACTION(ActionOpenAssociatedFile, tr("Open Associated File"), "system-run", 0, this, SLOT(openAssociatedFile()), "open_attachment", transactionsMenu);
 	NEW_ACTION(ActionEditTimestamp, tr("Edit Timestamp…"), "eqz-schedule", 0, this, SLOT(editSelectedTimestamp()), "edit_timestamp", transactionsMenu);
@@ -9174,6 +9182,7 @@ void Eqonomize::renameTag() {
 
 void Eqonomize::transactionAdded(Transactions *transs) {
 	setModified(true);
+	if(transs == link_trans) setLinkTransaction(transs);
 	switch(transs->generaltype()) {
 		case GENERAL_TRANSACTION_TYPE_SINGLE: {
 			Transaction *trans = (Transaction*) transs;
@@ -9233,6 +9242,7 @@ void Eqonomize::transactionAdded(Transactions *transs) {
 }
 void Eqonomize::transactionModified(Transactions *transs, Transactions *oldtranss) {
 	setModified(true);
+	if(transs == link_trans || oldtranss == link_trans) setLinkTransaction(transs);
 	switch(transs->generaltype()) {
 		case GENERAL_TRANSACTION_TYPE_SINGLE: {
 			Transaction *trans = (Transaction*) transs;
@@ -9335,6 +9345,7 @@ void Eqonomize::transactionRemoved(Transactions *transs, Transactions *oldvalue,
 	setModified(true);
 	if(b) {
 		if(removeTransactionLinks(transs)) updateTransactionActions();
+		if(link_trans == transs) setLinkTransaction(NULL);
 	}
 	switch(oldvalue->generaltype()) {
 		case GENERAL_TRANSACTION_TYPE_SINGLE: {

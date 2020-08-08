@@ -21,9 +21,6 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 	isEmpty(DATA_DIR) {
 		DATA_DIR = $$PREFIX/share/eqonomize
 	}
-	isEmpty(DOCUMENTATION_DIR) {
-		DOCUMENTATION_DIR = $$PREFIX/share/doc/eqonomize/html
-	}
 	isEmpty(MIME_DIR) {
 		MIME_DIR = $$PREFIX/share/mime/packages
 	}

@@ -214,10 +214,10 @@ class Eqonomize : public QMainWindow {
 		void linksUpdated(Transactions*);
 		void updateLinksAction(Transactions*, bool enable_remove = true);
 		void updateLinksAction();
-		void updateCreateLinkAction(bool plural);
+		QMenu *createPopupMenu();
 		void setLinkTransaction(Transactions *trans);
 		Transactions *getLinkTransaction();
-		void createLink(QList<Transactions*> transactions);
+		void createLink(QList<Transactions*> transactions, bool link_to);
 		static void openLink(Transactions *trans, QWidget *parent = NULL);
 
 		QAction *ActionAP_1, *ActionAP_2, *ActionAP_3, *ActionAP_4, *ActionAP_5, *ActionAP_6, *ActionAP_7, *ActionAP_8;
@@ -230,7 +230,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionJoinTransactions, *ActionSplitUpTransaction;
 		QAction *ActionCloneTransaction;
 		QAction *ActionEditTimestamp;
-		QAction *ActionTags, *ActionLinks, *ActionCreateLink;
+		QAction *ActionTags, *ActionLinks, *ActionCreateLink, *ActionLinkTo, *ActionCancelLinkTo;
 		QAction *ActionSelectAssociatedFile, *ActionOpenAssociatedFile;
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
 		QAction *ActionNewSecurity, *ActionEditSecurity, *ActionBuyShares, *ActionSellShares, *ActionNewDividend, *ActionNewReinvestedDividend, *ActionNewSecurityTrade, *ActionSetQuotation, *ActionEditQuotations, *ActionEditSecurityTransactions, *ActionDeleteSecurity;
@@ -274,7 +274,7 @@ class Eqonomize : public QMainWindow {
 		QString cr_tmp_file;
 		Transactions *link_trans;
 
-		QToolBar *fileToolbar, *accountsToolbar, *transactionsToolbar, *statisticsToolbar;
+		QToolBar *fileToolbar, *accountsToolbar, *transactionsToolbar, *statisticsToolbar, *linkToolbar;
 		QTabWidget *tabs;
 		QTabWidget *accountsTabs;
 		QCheckBox *budgetButton;
@@ -468,6 +468,8 @@ class Eqonomize : public QMainWindow {
 		void reconcileAccount();
 
 		void createLink();
+		void linkTo();
+		void cancelLinkTo();
 		void openLink();
 		void removeLink();
 		

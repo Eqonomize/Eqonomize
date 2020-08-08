@@ -68,22 +68,6 @@ extern QColor createExpenseColor(QTreeWidgetItem *i, int = 0);
 extern QColor createIncomeColor(QTreeWidgetItem *i, int = 0);
 extern QColor createTransferColor(QTreeWidgetItem *i, int = 0);
 
-class TransactionListPopupMenu : public QMenu {
-	protected:
-		Eqonomize *mainWin;
-	public:
-		TransactionListPopupMenu(QWidget *parent, Eqonomize *main_win) : QMenu(parent), mainWin(main_win) {}
-		void mousePressEvent(QMouseEvent *e) {
-			if(e->button() == Qt::RightButton) {
-				if(actionAt(e->pos()) == mainWin->ActionCreateLink && mainWin->getLinkTransaction()) {
-					mainWin->setLinkTransaction(NULL);
-					return;
-				}
-			}
-			QMenu::mousePressEvent(e);
-		}
-};
-
 class TransactionListViewItem : public QTreeWidgetItem {
 	protected:
 		Transaction *o_trans;
@@ -364,7 +348,7 @@ void TransactionListWidget::tagsModified() {
 }
 void TransactionListWidget::popupListMenu(const QPoint &p) {
 	if(!listPopupMenu) {
-		listPopupMenu = new TransactionListPopupMenu(this, mainWin);
+		listPopupMenu = new QMenu(this);
 		switch(transtype) {
 			case TRANSACTION_TYPE_EXPENSE: {listPopupMenu->addAction(mainWin->ActionNewExpense); listPopupMenu->addAction(mainWin->ActionNewRefund); break;}
 			case TRANSACTION_TYPE_INCOME: {listPopupMenu->addAction(mainWin->ActionNewIncome); listPopupMenu->addAction(mainWin->ActionNewRepayment); break;}
@@ -673,7 +657,7 @@ void TransactionListWidget::editTimestamp() {
 		}
 	}
 }
-void TransactionListWidget::createLink() {
+void TransactionListWidget::createLink(bool link_to) {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	if(selection.count() >= 1) {
 		QList<Transactions*> transactions;
@@ -717,7 +701,7 @@ void TransactionListWidget::createLink() {
 				}
 			}
 		}
-		mainWin->createLink(transactions);
+		mainWin->createLink(transactions, link_to);
 	}
 }
 void TransactionListWidget::modifyTags() {
@@ -2105,7 +2089,7 @@ void TransactionListWidget::newRefundRepayment() {
 }
 void TransactionListWidget::updateTransactionActions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
-	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_split2 = false, b_join = false, b_delete = false, b_attachment = false, b_select = false, b_time = false, b_tags = false, b_clone = false, b_link = false;
+	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_split2 = false, b_join = false, b_delete = false, b_attachment = false, b_select = false, b_time = false, b_tags = false, b_clone = false, b_link = false, b_link_to = false;
 	bool refundable = false, repayable = false;
 	QList<Transactions*> list;
 	Transactions *link_trans = mainWin->getLinkTransaction();
@@ -2117,7 +2101,8 @@ void TransactionListWidget::updateTransactionActions() {
 		b_split = !b_scheduledtransaction && (i->transaction() && i->transaction()->parentSplit());
 		b_split2 = i->splitTransaction();
 		b_transaction = !b_scheduledtransaction || !i->scheduledTransaction()->isOneTimeTransaction();
-		b_link = (!i->scheduledTransaction() || i->scheduledTransaction()->isOneTimeTransaction()) && (!b_split || (i->transaction()->parentSplit() != link_trans && i->transaction()->parentSplit() != link_parent));
+		b_link = !i->scheduledTransaction() || i->scheduledTransaction()->isOneTimeTransaction();
+		b_link_to = link_trans && b_link && i->transaction() != link_trans && i->splitTransaction() != link_trans && (!b_split || (i->transaction()->parentSplit() != link_trans && i->transaction()->parentSplit() != link_parent));
 		b_time = !i->scheduledTransaction();
 		b_delete = b_transaction;
 		refundable = (i->splitTransaction() || (i->transaction()->type() == TRANSACTION_TYPE_EXPENSE && i->transaction()->value() > 0.0));
@@ -2144,9 +2129,10 @@ void TransactionListWidget::updateTransactionActions() {
 		b_split = true;
 		b_time = true;
 		b_link = true;
+		b_link_to = (link_trans != NULL);
 		SplitTransaction *split = NULL;
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
-		if(!link_trans && i->transaction() && i->transaction()->parentSplit() && selection.size() < i->transaction()->parentSplit()->count()) {
+		if(i->transaction() && i->transaction()->parentSplit() && selection.size() < i->transaction()->parentSplit()->count()) {
 			split = i->transaction()->parentSplit();
 			b_link = false;
 			for(int index = 1; index < selection.size(); index++) {
@@ -2165,7 +2151,10 @@ void TransactionListWidget::updateTransactionActions() {
 				b_join = false;
 			}
 			if(i->scheduledTransaction()) {
-				if(b_link && !i->scheduledTransaction()->isOneTimeTransaction()) b_link = false;
+				if((b_link || b_link_to) && !i->scheduledTransaction()->isOneTimeTransaction()) {
+					b_link = false;
+					b_link_to = false;
+				}
 				b_time = false;
 			}
 			if(b_transaction && i->scheduledTransaction() && (i->splitTransaction() || (i->transaction() && i->transaction()->parentSplit()))) {
@@ -2173,7 +2162,7 @@ void TransactionListWidget::updateTransactionActions() {
 				if(!i->splitTransaction()) b_delete = false;
 			}
 			Transaction *trans = i->transaction();
-			if(b_link && trans && trans->parentSplit() && (trans->parentSplit() == link_trans || trans->parentSplit() == link_parent)) b_link = false;
+			if(b_link_to && i->transaction() != link_trans && i->splitTransaction() != link_trans && trans && trans->parentSplit() && (trans->parentSplit() == link_trans || trans->parentSplit() == link_parent)) b_link_to = false;
 			if(b_split) {
 				if(!trans) {
 					b_split = false;
@@ -2210,8 +2199,17 @@ void TransactionListWidget::updateTransactionActions() {
 			}
 		}
 	}
+	if(b_link_to && list.count() >= 1) {
+		b_link_to = false;
+		for(int i = 0; i < list.count(); i++) {
+			if(!list.at(i)->hasLink(link_trans, true)) {
+				b_link_to = true;
+				break;
+			}
+		}
+	}
 	mainWin->ActionCreateLink->setEnabled(b_link);
-	if(b_link && !link_trans) mainWin->updateCreateLinkAction(!b_split && selection.count() > 1);
+	mainWin->ActionLinkTo->setEnabled(b_link_to);
 	mainWin->ActionNewRefund->setEnabled(refundable);
 	mainWin->ActionNewRepayment->setEnabled(repayable);
 	mainWin->ActionNewRefundRepayment->setEnabled(refundable || repayable);
