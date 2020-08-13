@@ -181,7 +181,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 
 	editWidget = new TransactionEditWidget(true, b_extra, transtype, NULL, false, NULL, SECURITY_SHARES_AND_QUOTATION, false, budget, this, true);	
 	editInfoLabel = new QLabel(QString());
-	editWidget->bottomLayout()->addWidget(editInfoLabel);
+	editWidget->bottomLayout()->addWidget(editInfoLabel, 1);
 	QDialogButtonBox *buttons = new QDialogButtonBox();
 	editWidget->bottomLayout()->addWidget(buttons);
 	addButton = buttons->addButton(tr("Add"), QDialogButtonBox::ActionRole);
@@ -2008,17 +2008,24 @@ void TransactionListWidget::currentTransactionChanged(QTreeWidgetItem *i) {
 	if(i == NULL) {
 		editWidget->setTransaction(NULL);
 		editInfoLabel->setText(QString());
-	} else if(((TransactionListViewItem*) i)->splitTransaction()) {
-		editWidget->setMultiAccountTransaction(((TransactionListViewItem*) i)->splitTransaction());
 	} else if(((TransactionListViewItem*) i)->scheduledTransaction()) {
-		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction(), ((TransactionListViewItem*) i)->date());
+		if(((TransactionListViewItem*) i)->splitTransaction()) {
+			editWidget->setMultiAccountTransaction(((TransactionListViewItem*) i)->splitTransaction(), ((TransactionListViewItem*) i)->date() == ((TransactionListViewItem*) i)->splitTransaction()->date() ? QDate() : ((TransactionListViewItem*) i)->date());
+		} else {
+			editWidget->setTransaction(((TransactionListViewItem*) i)->transaction(), ((TransactionListViewItem*) i)->date());
+		}
 		if(((TransactionListViewItem*) i)->scheduledTransaction()->isOneTimeTransaction()) editInfoLabel->setText(QString());
 		else editInfoLabel->setText(tr("** Recurring (editing occurrence)"));
+	} else if(((TransactionListViewItem*) i)->splitTransaction()) {
+		editWidget->setMultiAccountTransaction(((TransactionListViewItem*) i)->splitTransaction());
+		editInfoLabel->setText(QString());
 	} else if(((TransactionListViewItem*) i)->transaction()->parentSplit()) {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction());
 		SplitTransaction *split = ((TransactionListViewItem*) i)->transaction()->parentSplit();
-		if(split->description().isEmpty() || split->description().length() > 10) editInfoLabel->setText(tr("* Part of <a href=\"%1\">split transaction</a>").arg("split transaction"));
-		else editInfoLabel->setText(tr("* Part of split (%1)").arg("<a href=\"split transaction\">" + split->description()) + "</a>");
+		QFontMetrics fm(editInfoLabel->font());
+		int tw = fm.boundingRect(tr("* Part of split (%1)").arg(split->description())).width() + 20;
+		if(split->description().isEmpty() || tw > editInfoLabel->width()) editInfoLabel->setText(tr("* Part of <a href=\"%1\">split transaction</a>").arg("split transaction"));
+		else editInfoLabel->setText(tr("* Part of split (%1)").arg("<a href=\"split transaction\">" + split->description() + "</a>"));
 	} else {
 		editWidget->setTransaction(((TransactionListViewItem*) i)->transaction());
 		editInfoLabel->setText(QString());

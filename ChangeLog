@@ -1,3 +1,17 @@
+2020-08-12  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fixes for reccuring transactions with multiple accounts/payments
+
+2020-08-11  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Use actual text width to determine if description fits in
+	  "part of split" label
+
+2020-08-02  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix segfault when syncing unsaved file
+	* Fix window title with empty file
+
 2020-07-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix importing if split transactions from eqz file
@@ -5,8 +19,34 @@
 2020-07-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix recurrence on day of year
-	* Stop after 100 years when searching for previous or next monthly occurrence
+	* Stop after 100 years when searching for previous
+	  or next monthly occurrence
 	* Remove fifth last week of month option
+
+2020-07-20  fabianski7 <47755037+fabianski7@users.noreply.github.com>
+
+	* Portuguese (Brazil) translation
+
+2020-07-20  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Change "Quantity" to "Returned quantity" in refund dialog
+
+2020-07-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Support for links between transactions
+
+2020-07-14  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Option to join refund to original transaction
+	  (as transaction with multiple payments)
+	* Split up option for transactions with multiple payments
+	* Merge associated files when joining transactions
+	* Join transaction as transaction with multiply payments when
+	  appropriate (ask when uncertain)
+
+2020-07-13  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Make the "part of split" label clickable
 
 2020-07-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
 

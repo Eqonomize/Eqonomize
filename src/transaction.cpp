@@ -1285,7 +1285,7 @@ ScheduledTransaction::ScheduledTransaction(Budget *parent_budget, Transactions *
 	i_id = o_budget->getNewId();
 	o_rec = rec;
 	o_trans = trans;
-	if(o_trans && o_rec) o_trans->setDate(o_rec->startDate());
+	if(o_trans && o_rec && o_rec->startDate() != o_trans->date()) o_trans->setDate(o_rec->startDate());
 }
 ScheduledTransaction::ScheduledTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transactions(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
@@ -1409,7 +1409,7 @@ bool ScheduledTransaction::readElements(QXmlStreamReader *xml, bool *valid) {
 		if(!readElement(xml, valid)) xml->skipCurrentElement();
 	}	
 	if(!o_trans && valid) *valid = false;
-	if(o_rec && o_trans) {
+	if(o_rec && o_trans && o_rec->startDate() != o_trans->date()) {
 		o_trans->setDate(o_rec->startDate());
 	}
 	return true;
@@ -1516,7 +1516,7 @@ Recurrence *ScheduledTransaction::recurrence() const {
 void ScheduledTransaction::setRecurrence(Recurrence *rec, bool delete_old) {
 	if(o_rec && delete_old) delete o_rec;
 	o_rec = rec;
-	if(o_trans && o_rec) o_trans->setDate(o_rec->startDate());
+	if(o_trans && o_rec && o_rec->startDate() != o_trans->date()) o_trans->setDate(o_rec->startDate());
 	if(o_rec) {
 		o_budget->scheduledTransactionSortModified(this);
 		o_budget->scheduledTransactionDateModified(this);
@@ -1574,7 +1574,7 @@ Transactions *ScheduledTransaction::realize(QDate date) {
 	Transactions *trans = o_trans->copy();
 	trans->setTimestamp();
 	if(o_rec) {
-		o_trans->setDate(o_rec->startDate());
+		if(o_rec->startDate() != o_trans->date()) o_trans->setDate(o_rec->startDate());
 		o_budget->scheduledTransactionSortModified(this);
 		o_budget->scheduledTransactionDateModified(this);
 	}
@@ -1584,7 +1584,7 @@ Transactions *ScheduledTransaction::realize(QDate date) {
 	} else {
 		trans->setModified();
 	}
-	trans->setDate(date);
+	if(date != trans->date()) trans->setDate(date);
 	return trans;
 }
 Transactions *ScheduledTransaction::transaction() const {
@@ -1594,7 +1594,7 @@ void ScheduledTransaction::setTransaction(Transactions *trans, bool delete_old) 
 	if(o_trans && delete_old) delete o_trans;
 	o_trans = trans;
 	if(o_rec && o_trans) {
-		o_trans->setDate(o_rec->startDate());
+		if(o_rec->startDate() != o_trans->date()) o_trans->setDate(o_rec->startDate());
 	} else if(o_trans) {
 		o_budget->scheduledTransactionSortModified(this);
 		o_budget->scheduledTransactionDateModified(this);

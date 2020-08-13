@@ -72,7 +72,7 @@ class TransactionEditWidget : public QWidget {
 
 		void useMultipleCurrencies(bool b);
 		void setTransaction(Transaction *trans);
-		void setMultiAccountTransaction(MultiAccountTransaction *split);
+		void setMultiAccountTransaction(MultiAccountTransaction *split, QDate date = QDate());
 		void setTransaction(Transaction *strans, const QDate &date);
 		void updateFromAccounts(Account *exclude_account = NULL, Currency *force_currency = NULL, bool set_default = false);
 		void updateToAccounts(Account *exclude_account = NULL, Currency *force_currency = NULL, bool set_default = false);

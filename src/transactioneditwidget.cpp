@@ -2176,7 +2176,7 @@ void TransactionEditWidget::setTransaction(Transaction *trans, const QDate &date
 		emit dateChanged(date);
 	}
 }
-void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *split) {
+void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *split, QDate date) {
 	if(!split) {
 		setTransaction(NULL);
 		return;
@@ -2194,8 +2194,8 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 	blockSignals(true);
 	b_select_security = false;
 	if(valueEdit) valueEdit->blockSignals(true);
-	if(dateEdit) dateEdit->setDate(split->date());
-	if(dateEdit) emit dateChanged(split->date());
+	if(dateEdit) dateEdit->setDate(date.isValid() ? date : split->date());
+	if(dateEdit) emit dateChanged(date.isValid() ? date : split->date());
 	if(commentsEdit) commentsEdit->setText(split->comment());
 	if(fileEdit) fileEdit->setText(split->associatedFile());
 	double v = 0.0;
@@ -2212,7 +2212,7 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 			Account *acc = split->at(split_i)->fromAccount();
 			if(acc) {
 				fromCombo->setCurrentAccount(acc);
-				if(budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) v = budget->defaultCurrency()->convertTo(v, acc->currency(), split->at(split_i)->date());
+				if(budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) v = budget->defaultCurrency()->convertTo(v, acc->currency(), date.isValid() ? date : split->at(split_i)->date());
 				else v = budget->defaultCurrency()->convertTo(v, acc->currency());
 			}
 		}
@@ -2224,7 +2224,7 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 			Account *acc = split->at(split_i)->toAccount();
 			if(acc) {
 				toCombo->setCurrentAccount(acc);
-				if(budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) v = budget->defaultCurrency()->convertTo(v, acc->currency(), split->at(split_i)->date());
+				if(budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE) v = budget->defaultCurrency()->convertTo(v, acc->currency(), date.isValid() ? date : split->at(split_i)->date());
 				else v = budget->defaultCurrency()->convertTo(v, acc->currency());
 			}
 		}

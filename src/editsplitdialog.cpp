@@ -850,7 +850,7 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	box1->addLayout(box2);
 	transactionsView = new EqonomizeTreeWidget(this);
 	transactionsView->setSortingEnabled(true);
-	transactionsView->sortByColumn(0, Qt::DescendingOrder);
+	transactionsView->sortByColumn(0, Qt::AscendingOrder);
 	transactionsView->setAllColumnsShowFocus(true);
 	transactionsView->setColumnCount(3);
 	QStringList headers;
@@ -1111,7 +1111,7 @@ void EditMultiAccountWidget::setTransaction(MultiAccountTransaction *split, cons
 		Transaction *trans = split->at(i)->copy();
 		trans->setComment(QString());
 		trans->setAssociatedFile(QString());
-		trans->setDate(date);
+		if(date != split->date()) trans->setDate(date);
 		items.append(new MultiAccountListViewItem(trans));
 	}
 	tagButton->setTransaction(split);
