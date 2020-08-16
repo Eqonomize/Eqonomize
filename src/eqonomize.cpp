@@ -7416,6 +7416,8 @@ void Eqonomize::saveView() {
 
 #define NEW_ACTION_NOMENU(action, text, icon, shortcut, receiver, slot, name) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(LOAD_ICON(icon)); action->setShortcut(shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
 
+#define NEW_ACTION_NOMENU_NOICON(action, text, shortcut, receiver, slot, name) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setShortcut(shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
+
 #define NEW_ACTION_NOMENU_ALT(action, text, icon, icon_alt, shortcut, receiver, slot, name) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setIcon(LOAD_ICON2(icon, icon_alt)); action->setShortcut(shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
 
 #define NEW_ACTION_2(action, text, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
@@ -7569,9 +7571,9 @@ void Eqonomize::setupActions() {
 	ActionLinks->setText(tr("Links"));
 	//: create link to or between transaction(s)
 	NEW_ACTION(ActionCreateLink, tr("Create Link"), "go-jump", 0, this, SLOT(createLink()), "create_link", transactionsMenu);
-	NEW_ACTION_NOMENU(ActionLinkTo, QString(), QString(), 0, this, SLOT(linkTo()), "link_to");
+	NEW_ACTION_NOMENU_NOICON(ActionLinkTo, "", 0, this, SLOT(linkTo()), "link_to");
 	linkToolbar->addAction(ActionLinkTo);
-	NEW_ACTION_NOMENU(ActionCancelLinkTo, QString(), "edit-clear", 0, this, SLOT(cancelLinkTo()), "cancel_link_to");
+	NEW_ACTION_NOMENU(ActionCancelLinkTo, "", "edit-clear", 0, this, SLOT(cancelLinkTo()), "cancel_link_to");
 	linkToolbar->addAction(ActionCancelLinkTo);
 	NEW_ACTION(ActionSelectAssociatedFile, tr("Select Associated File"), "document-open", 0, this, SLOT(selectAssociatedFile()), "select_attachment", transactionsMenu);
 	NEW_ACTION(ActionOpenAssociatedFile, tr("Open Associated File"), "system-run", 0, this, SLOT(openAssociatedFile()), "open_attachment", transactionsMenu);
