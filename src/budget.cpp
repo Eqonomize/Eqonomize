@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016-2019 by Hanna Knutsson            *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -172,7 +172,7 @@ bool is_zero(double value) {
 	return value < 0.0000001 && value > -0.0000001;
 }
 
-Budget::Budget() {	
+Budget::Budget() {
 	currencies.setAutoDelete(true);
 	expenses.setAutoDelete(true);
 	incomes.setAutoDelete(true);
@@ -457,7 +457,7 @@ void Budget::loadCurrenciesFile(QString filename, bool is_local) {
 	}
 
 	bool oldversion = (xml.attributes().value("version").toString() != QString(VERSION));
-	
+
 	int currency_errors = 0;
 
 	while(xml.readNextStartElement()) {
@@ -481,42 +481,42 @@ void Budget::loadCurrenciesFile(QString filename, bool is_local) {
 				currency_errors++;
 				delete currency;
 			}
-		
+
 		} else {
 			qCritical() << tr("Unknown XML element: \"%1\" at line %2, col %3").arg(xml.name().toString()).arg(xml.lineNumber()).arg(xml.columnNumber());
 			xml.skipCurrentElement();
 		}
 	}
-	
+
 	if(currency_errors > 0) {
 		qCritical() << tr("Unable to load %n currency/currencies.", "", currency_errors);
 	}
-	
+
 	currencies.sort();
 
 	if(xml.hasError()) {
 		qCritical() << tr("XML parse error: \"%1\" at line %2, col %3").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
 	}
-	
+
 	file.close();
 
 	if(oldversion && is_local) {
 		QString error = saveCurrencies();
 		if(!error.isNull()) qCritical() << error;
 	}
-	
+
 }
 
 QString Budget::loadECBData(QByteArray data) {
-	
+
 	QXmlStreamReader xml(data);
-	
+
 	if(!xml.readNextStartElement()) {
 		return tr("XML parse error: \"%1\" at line %2, col %3").arg(xml.errorString()).arg(xml.lineNumber()).arg(xml.columnNumber());
 	}
-	
+
 	bool had_data = false;
-	
+
 	while(xml.readNextStartElement()) {
 		if(xml.name() == "Cube") {
 			while(xml.readNextStartElement()) {
@@ -524,7 +524,7 @@ QString Budget::loadECBData(QByteArray data) {
 					QXmlStreamAttributes attr = xml.attributes();
 					QDate date = QDate::fromString(attr.value("time").trimmed().toString(), Qt::ISODate);
 					while(xml.readNextStartElement()) {
-						if(xml.name() == "Cube") {							
+						if(xml.name() == "Cube") {
 							attr = xml.attributes();
 							QString code = attr.value("currency").trimmed().toString();
 							double exrate = attr.value("rate").toDouble();
@@ -563,20 +563,20 @@ QString Budget::loadECBData(QByteArray data) {
 		}
 		xml.skipCurrentElement();
 	}
-	
+
 	if(!had_data) return tr("No exchange rates found.");
-	
+
 	return QString();
 }
 
 QString Budget::loadMyCurrencyNetData(QByteArray data) {
-	
+
 	QJsonDocument jdoc = QJsonDocument::fromJson(data);
 	if(!jdoc.isArray()) return tr("No exchange rates found.");
 	QJsonArray jarr = jdoc.array();
-	
+
 	bool had_data = false;
-	
+
 	for(int i = 0; i < jarr.count(); i++) {
 		if(jarr[i].isObject()) {
 			QJsonObject jobj = jarr[i].toObject();
@@ -612,20 +612,20 @@ QString Budget::loadMyCurrencyNetData(QByteArray data) {
 			}
 		}
 	}
-	
+
 	if(!had_data) return tr("No exchange rates found.");
-	
+
 	return QString();
 }
 
 QString Budget::loadMyCurrencyNetHtml(QByteArray data) {
-	
+
 	Currency *cur_usd = findCurrency("USD");
 	if(!cur_usd) return tr("USD currency missing.");
 	double usd_rate = cur_usd->exchangeRate();
-	
+
 	bool had_data = false;
-	
+
 	int i = data.indexOf("class=\'country\'");
 	while(i >= 0) {
 		QString code, name;
@@ -686,14 +686,14 @@ QString Budget::loadMyCurrencyNetHtml(QByteArray data) {
 	}
 
 	if(!had_data) return tr("No exchange rates found.");
-	
+
 	return QString();
 }
 
 QString Budget::saveCurrencies() {
-	
+
 	QString filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/currencies.xml";
-	
+
 	QFileInfo info(filename);
 	if(info.isDir()) {
 		return tr("File is a directory");
@@ -714,7 +714,7 @@ QString Budget::saveCurrencies() {
 	xml.writeStartDocument();
 	xml.writeStartElement("Eqonomize");
 	xml.writeAttribute("version", VERSION);
-	
+
 	for(CurrencyList<Currency*>::const_iterator it = currencies.constBegin(); it != currencies.constEnd(); ++it) {
 		Currency *currency = *it;
 		xml.writeStartElement("currency");
@@ -731,7 +731,7 @@ QString Budget::saveCurrencies() {
 	if(!ofile.commit()) {
 		return tr("Error while writing file; file was not saved");
 	}
-	
+
 	return QString();
 }
 
@@ -756,7 +756,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	if(s_versions.size() > 0) i_version[0] = s_versions[0].toInt();
 	if(s_versions.size() > 1) i_version[1] = s_versions[1].toInt();
 	if(s_versions.size() > 2) i_version[2] = s_versions[2].toInt();
-	
+
 	qint64 curtime = QDateTime::currentMSecsSinceEpoch() / 1000;
 
 	if(!merge) {
@@ -773,17 +773,17 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	int category_errors = 0, account_errors = 0, transaction_errors = 0, security_errors = 0;
 
 	assetsAccounts_id[balancingAccount->id()] = balancingAccount;
-	
+
 	QHash<qlonglong, qlonglong> merge_transaction_ids;
 	QList<Transactions*> update_links_list;
-	
+
 	Currency *cur = NULL, *prev_default_cur = default_currency;
 	if(default_currency_created) *default_currency_created = false;
-	
+
 	bool set_ids = false;
-	
+
 	if(!merge) o_sync->clear();
-	
+
 	i_budget_month = 1;
 
 	while(xml.readNextStartElement()) {
@@ -1302,7 +1302,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 				account_errors++;
 				delete account;
 			}
-		
+
 		} else if(xml.name() == "security") {
 			bool valid = true;
 			Security *security = new Security(this, &xml, &valid);
@@ -1339,7 +1339,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 		cur = defaultCurrency();
 		if(default_currency_created) *default_currency_created = b;
 	}
-	
+
 	if(merge) default_currency = prev_default_cur;
 
 	if (xml.hasError()) {
@@ -1351,7 +1351,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	expensesAccounts_id.clear();
 	assetsAccounts_id.clear();
 	securities_id.clear();
-	
+
 	if(set_ids) {
 		std::sort(transactions.begin(), transactions.end(), transaction_list_less_than_stamp);
 		std::sort(scheduledTransactions.begin(), scheduledTransactions.end(), schedule_list_less_than_stamp);
@@ -1396,7 +1396,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			}
 		}
 	}
-	
+
 	for(int i = 0; i < update_links_list.count(); i++) {
 		Transactions *trans = update_links_list.at(i);
 		int n = trans->linksCount(false);
@@ -1406,7 +1406,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 			trans->addLinkId(new_id);
 		}
 	}
-	
+
 	i_revision++;
 
 	expenses.sort();
@@ -1434,7 +1434,7 @@ QString Budget::loadFile(QString filename, QString &errors, bool *default_curren
 	securities.sort();
 
 	tags.sort(Qt::CaseInsensitive);
-	
+
 	if(account_errors > 0) {
 		if(!errors.isEmpty()) errors += '\n';
 		errors += tr("Unable to load %n account(s).", "", account_errors);
@@ -1481,7 +1481,7 @@ int Budget::fileRevision(QString filename, QString &error) const {
 	file.close();
 
 	error = QString();
-	
+
 	return file_revision;
 
 }
@@ -1510,9 +1510,9 @@ bool Budget::isUnsynced(QString filename, QString &error, int synced_revision) c
 	int file_revision = xml.attributes().value("revision").toInt();
 	if(file_revision <= 0) file_revision = 1;
 	file.close();
-	
+
 	error = QString();
-	
+
 	return file_revision > synced_revision;
 
 }
@@ -1630,7 +1630,7 @@ QString Budget::syncUpload(QString filename) {
 	} else {
 		o_sync->revision = i_revision;
 	}
-	
+
 	syncProcess->deleteLater();
 	syncProcess = NULL;
 	return error;
@@ -1660,25 +1660,25 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 	if(file_revision <= 0) file_revision = 1;
 	qlonglong file_last_id = xml.attributes().value("lastid").toLongLong();
 	if(file_last_id < 0) file_last_id = 0;
-	
+
 	int revision_diff = file_revision - synced_revision;
 	if(revision_diff <= 0) {
 		file.close();
 		return QString();
 	}
-	
+
 	last_id = file_last_id;
-	
+
 	i_revision += revision_diff;
 	i_opened_revision = i_revision;
-	
+
 	errors = QString();
 	int category_errors = 0, account_errors = 0, transaction_errors = 0, security_errors = 0;
 
 	assetsAccounts_id[balancingAccount->id()] = balancingAccount;
-	
+
 	QList<Transactions*> update_ids_list;
-	
+
 	QHash<qlonglong, IncomesAccount*> old_incomesAccounts_id;
 	QHash<qlonglong, ExpensesAccount*> old_expensesAccounts_id;
 	QHash<qlonglong, AssetsAccount*> old_assetsAccounts_id;
@@ -2260,12 +2260,12 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 	for(QList<Account*>::const_iterator it = deleted_accounts.constBegin(); it != deleted_accounts.constEnd(); ++it) {
 		if(!accountHasTransactions(*it)) removeAccount(*it);
 	}
-	
+
 	incomesAccounts_id.clear();
 	expensesAccounts_id.clear();
 	assetsAccounts_id.clear();
 	securities_id.clear();
-	
+
 	expenses.sort();
 	incomes.sort();
 	transfers.sort();
@@ -2289,7 +2289,7 @@ QString Budget::syncFile(QString filename, QString &errors, int synced_revision)
 	assetsAccounts.sort();
 	accounts.sort();
 	securities.sort();
-	
+
 	if(account_errors > 0) {
 		if(!errors.isEmpty()) errors += '\n';
 		errors += tr("Unable to load %n account(s).", "", account_errors);
@@ -2317,7 +2317,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions, bool 
 	if(info.isDir()) {
 		return tr("File is a directory");
 	}
-	
+
 	QSaveFile ofile(filename);
 	ofile.open(QIODevice::WriteOnly);
 	ofile.setPermissions(permissions);
@@ -2325,21 +2325,21 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions, bool 
 		ofile.cancelWriting();
 		return tr("Couldn't open file for writing");
 	}
-	
+
 	if(!is_backup) i_opened_revision = i_revision;
-	
+
 	QXmlStreamWriter xml(&ofile);
 	xml.setCodec("UTF-8");
 	xml.setAutoFormatting(true);
 	xml.setAutoFormattingIndent(-1);
-	
+
 	xml.writeStartDocument();
 	xml.writeDTD("<!DOCTYPE EqonomizeDoc>");
 	xml.writeStartElement("EqonomizeDoc");
 	xml.writeAttribute("version", VERSION);
 	xml.writeAttribute("revision", QString::number(i_revision));
 	xml.writeAttribute("lastid", QString::number(last_id));
-	
+
 	if(o_sync->isComplete()) {
 		xml.writeStartElement("synchronization");
 		xml.writeAttribute("type", "url");
@@ -2462,7 +2462,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions, bool 
 			xml.writeEndElement();
 		}
 	}
-	
+
 	xml.writeEndElement();
 
 	if(ofile.error() != QFile::NoError) {
@@ -3127,10 +3127,10 @@ int daysPerYear(long int year, int basis = 1) {
 		}
 		case 2: {
 			return 360;
-		}		
+		}
 		case 3: {
 			return 365;
-		} 
+		}
 		case 4: {
 			return 360;
 		}
@@ -3242,7 +3242,7 @@ QString Budget::budgetYearString(int year, bool short_format) const {
 QDate Budget::firstBudgetDayOfYear(QDate date) const {
 	if(i_budget_month == 1 && i_budget_day == 1) return QDate(date.year(), 1, 1);
 	int i_year = budgetYear(date);
-	if(i_budget_month == 1 && (i_budget_day > 15 || (i_budget_day < 1 && i_budget_day >= -15))) i_year--; 
+	if(i_budget_month == 1 && (i_budget_day > 15 || (i_budget_day < 1 && i_budget_day >= -15))) i_year--;
 	int ibd = i_budget_day;
 	if(i_budget_day <= 0) ibd = daysPerMonth(i_budget_month == 1 ? 12 : i_budget_month - 1, i_year) + i_budget_day;
 	return QDate(i_year, ibd > 15 ? (i_budget_month == 1 ? 12 : i_budget_month - 1) : i_budget_month, ibd);
@@ -3250,7 +3250,7 @@ QDate Budget::firstBudgetDayOfYear(QDate date) const {
 QDate Budget::lastBudgetDayOfYear(QDate date) const {
 	if(i_budget_month == 1 && i_budget_day == 1) return QDate(date.year(), 12, 31);
 	int i_year = budgetYear(date);
-	if(i_budget_month == 1 && (i_budget_day > 15 || (i_budget_day < 1 && i_budget_day >= -15))) i_year--; 
+	if(i_budget_month == 1 && (i_budget_day > 15 || (i_budget_day < 1 && i_budget_day >= -15))) i_year--;
 	int ibd = i_budget_day;
 	if(i_budget_day <= 0) ibd = daysPerMonth(i_budget_month == 1 ? 12 : i_budget_month - 1, i_year + 1) + i_budget_day;
 	return QDate(i_year + 1, ibd > 15 ? (i_budget_month == 1 ? 12 : i_budget_month - 1) : i_budget_month, ibd).addDays(-1);
@@ -3264,20 +3264,20 @@ bool Budget::isLastBudgetDay(const QDate &date) const {
 void Budget::addBudgetMonthsSetLast(QDate &date, int months) const {
 	if(i_budget_day <= 0) {
 		int dfl = date.daysInMonth() - date.day();
-		date = date.addMonths(months); 
+		date = date.addMonths(months);
 		if(date.daysInMonth() > dfl) date.setDate(date.year(), date.month(), date.daysInMonth() - dfl);
 	} else {
-		date = date.addMonths(months); 
+		date = date.addMonths(months);
 	}
 	date = lastBudgetDay(date);
 }
 void Budget::addBudgetMonthsSetFirst(QDate &date, int months) const {
 	if(i_budget_day <= 0) {
 		int dfl = date.daysInMonth() - date.day();
-		date = date.addMonths(months); 
+		date = date.addMonths(months);
 		if(date.daysInMonth() > dfl) date.setDate(date.year(), date.month(), date.daysInMonth() - dfl);
 	} else {
-		date = date.addMonths(months); 
+		date = date.addMonths(months);
 	}
 	date = firstBudgetDay(date);
 }

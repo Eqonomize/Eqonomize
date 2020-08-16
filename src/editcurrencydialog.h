@@ -39,7 +39,7 @@ class EqonomizeValueEdit;
 class EditCurrencyDialog : public QDialog {
 
 	Q_OBJECT
-	
+
 	protected:
 
 		QLineEdit *codeEdit, *symbolEdit, *nameEdit;
@@ -50,9 +50,9 @@ class EditCurrencyDialog : public QDialog {
 		QSpinBox *decimalsEdit;
 		Budget *budget;
 		Currency *currency;
-		
+
 	public:
-		
+
 		EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_set_as_default, QWidget *parent);
 
 		void modifyCurrency(Currency*);

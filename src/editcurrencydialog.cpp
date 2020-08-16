@@ -48,11 +48,11 @@ EditCurrencyDialog::EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_
 	if(currency) setWindowTitle(tr("Edit Currency"));
 	else setWindowTitle(tr("New Currency"));
 	setModal(true);
-	
+
 	int row = 0;
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
-	
+
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 
@@ -120,13 +120,13 @@ EditCurrencyDialog::EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_
 	} else {
 		defaultButton = NULL;
 	}
-		
+
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
-	
+
 	if(currency == budget->defaultCurrency()) {
 		connect(symbolEdit, SIGNAL(textChanged(const QString&)), this, SLOT(currencyChanged()));
 	}
@@ -138,7 +138,7 @@ EditCurrencyDialog::EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_
 	connect(psDefaultButton, SIGNAL(toggled(bool)), this, SLOT(currencyChanged()));
 	connect(decimalsEdit, SIGNAL(valueChanged(int)), this, SLOT(currencyChanged()));
 	if(defaultButton) connect(defaultButton, SIGNAL(toggled(bool)), this, SLOT(currencyChanged()));
-	
+
 }
 
 void EditCurrencyDialog::currencyChanged() {

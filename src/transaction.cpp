@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016-2019 by Hanna Knutsson            *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -144,7 +144,7 @@ void Transactions::readTags(const QString &text) {
 			if(tagstr.length() >= 2 && ((tagstr.at(0) == '\"' && tagstr.at(tagstr.size() - 1) == '\"') || (tagstr.at(0) == '\'' && tagstr.at(tagstr.size() - 1) == '\''))) tagstr = tagstr.mid(1, tagstr.length() - 2).trimmed();
 			tags << tagstr.toString();
 			break;
-		}	
+		}
 		QStringRef tagi = tagstr.left(i).trimmed();
 		if(tagi.length() >= 2 && ((tagi.at(0) == '\"' && tagi.at(tagstr.size() - 1) == '\"') || (tagi.at(0) == '\'' && tagi.at(tagstr.size() - 1) == '\''))) tagi = tagi.mid(1, tagi.length() - 2).trimmed();
 		if(!tagi.isEmpty()) tags << tagi.toString();
@@ -455,7 +455,7 @@ void Transaction::setTimestamp(qint64 cr_time) {
 QString Transaction::description() const {return s_description;}
 void Transaction::setDescription(QString new_description) {
 	if(new_description == s_description) return;
-	s_description = new_description.trimmed(); 
+	s_description = new_description.trimmed();
 	o_budget->transactionSortModified(this);
 }
 const QString &Transaction::comment() const {return s_comment;}
@@ -749,11 +749,11 @@ void Income::setTo(AssetsAccount *new_to) {setToAccount(new_to);}
 double Income::income(bool convert) const {return value(convert);}
 void Income::setIncome(double new_income) {setValue(new_income);}
 const QString &Income::payer() const {
-	if(o_security) return o_security->name(); 
+	if(o_security) return o_security->name();
 	return s_payer;
 }
 const QString &Income::payee() const {
-	if(o_security) return o_security->name(); 
+	if(o_security) return o_security->name();
 	return s_payer;
 }
 void Income::setPayer(QString new_payer) {s_payer = new_payer.trimmed();}
@@ -1026,7 +1026,7 @@ Balancing::Balancing(Budget *parent_budget, double initial_amount, QDate initial
 	s_comment = initial_comment;
 	o_from = initial_account;
 	o_to = budget()->balancingAccount;
-	
+
 }
 Balancing::Balancing(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : Transfer(parent_budget) {
 	QXmlStreamAttributes attr = xml->attributes();
@@ -1407,7 +1407,7 @@ bool ScheduledTransaction::readElements(QXmlStreamReader *xml, bool *valid) {
 	o_trans = NULL;
 	while(xml->readNextStartElement()) {
 		if(!readElement(xml, valid)) xml->skipCurrentElement();
-	}	
+	}
 	if(!o_trans && valid) *valid = false;
 	if(o_rec && o_trans && o_rec->startDate() != o_trans->date()) {
 		o_trans->setDate(o_rec->startDate());
@@ -1476,7 +1476,7 @@ void ScheduledTransaction::writeElements(QXmlStreamWriter *xml) {
 		}
 		o_split->save(xml);
 		xml->writeEndElement();
-	}	
+	}
 	if(o_rec) {
 		xml->writeStartElement("recurrence");
 		switch(o_rec->type()) {
@@ -1814,7 +1814,7 @@ void SplitTransaction::clear(bool keep) {
 const QDate &SplitTransaction::date() const {return d_date;}
 void SplitTransaction::setDate(QDate new_date) {
 	if(new_date != d_date) {
-		QDate old_date = d_date; d_date = new_date; 
+		QDate old_date = d_date; d_date = new_date;
 		o_budget->splitTransactionSortModified(this);
 		o_budget->splitTransactionDateModified(this, old_date);
 	}
@@ -2021,7 +2021,7 @@ void MultiItemTransaction::set(const Transactions *trans) {
 void MultiItemTransaction::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	o_account = NULL;
 	SplitTransaction::readAttributes(attr, valid);
-	s_payee = attr->value("payee").trimmed().toString(); 
+	s_payee = attr->value("payee").trimmed().toString();
 	qlonglong id = attr->value("account").toLongLong();
 	if(d_date.isValid() && budget()->assetsAccounts_id.contains(id)) {
 		o_account = budget()->assetsAccounts_id[id];
@@ -2561,7 +2561,7 @@ void MultiAccountTransaction::setCategory(CategoryAccount *new_category) {
 
 AssetsAccount *MultiAccountTransaction::account() const {
 	QVector<Transaction*>::size_type c = splits.count();
-	if(c == 0) return NULL;	
+	if(c == 0) return NULL;
 	if(splits[0]->type() == TRANSACTION_TYPE_EXPENSE) {
 		AssetsAccount *acc = (AssetsAccount*) splits[0]->fromAccount();
 		for(QVector<Transaction*>::size_type i = 1; i < c; i++) {
@@ -2847,7 +2847,7 @@ void DebtPayment::setAccount(AssetsAccount *new_account) {
 }
 void DebtPayment::setDate(QDate new_date) {
 	if(new_date != d_date) {
-		QDate old_date = d_date; d_date = new_date; 
+		QDate old_date = d_date; d_date = new_date;
 		o_budget->splitTransactionSortModified(this);
 		o_budget->splitTransactionDateModified(this, old_date);
 	}
@@ -2889,7 +2889,7 @@ Transaction *DebtPayment::at(int index) const {
 		if(o_payment) {
 			if(o_interest) return o_interest;
 			return o_fee;
-		} 
+		}
 		if(o_interest) return o_fee;
 		return NULL;
 	}

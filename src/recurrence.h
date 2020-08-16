@@ -53,11 +53,11 @@ class Recurrence {
 		Recurrence(const Recurrence *rec);
 		virtual ~Recurrence();
 		virtual Recurrence *copy() const = 0;
-		
+
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
 		virtual bool readElements(QXmlStreamReader *xml, bool *valid);
-		
+
 		virtual void save(QXmlStreamWriter *xml);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		virtual void writeElements(QXmlStreamWriter *xml);
@@ -104,7 +104,7 @@ class DailyRecurrence : public Recurrence {
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
-		
+
 		QDate nextOccurrence(const QDate &date, bool include_equals = false) const;
 		QDate prevOccurrence(const QDate &date, bool include_equals = false) const;
 		RecurrenceType type() const;
@@ -130,7 +130,7 @@ class WeeklyRecurrence : public Recurrence {
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
-		
+
 		QDate nextOccurrence(const QDate &date, bool include_equals = false) const;
 		QDate prevOccurrence(const QDate &date, bool include_equals = false) const;
 		RecurrenceType type() const;
@@ -167,7 +167,7 @@ class MonthlyRecurrence : public Recurrence {
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
-		
+
 		QDate nextOccurrence(const QDate &date, bool include_equals = false) const;
 		QDate prevOccurrence(const QDate &date, bool include_equals = false) const;
 		RecurrenceType type() const;
@@ -203,7 +203,7 @@ class YearlyRecurrence : public Recurrence {
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
-		
+
 		QDate nextOccurrence(const QDate &date, bool include_equals = false) const;
 		QDate prevOccurrence(const QDate &date, bool include_equals = false) const;
 		RecurrenceType type() const;

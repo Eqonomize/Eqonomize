@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -415,14 +415,14 @@ bool TransactionFilterWidget::filterTransaction(Transactions *transs, bool check
 	MultiAccountTransaction *split = NULL;
 	switch(transs->generaltype()) {
 		case GENERAL_TRANSACTION_TYPE_SINGLE: {
-			trans = (Transaction*) transs; 
+			trans = (Transaction*) transs;
 			if(trans->parentSplit() && trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) return true;
 			if(trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND && trans->value() == 0.0) return true;
 			break;
 		}
 		case GENERAL_TRANSACTION_TYPE_SPLIT: {
 			if(((SplitTransaction*) transs)->type() != SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) return true;
-			split = (MultiAccountTransaction*) transs; 
+			split = (MultiAccountTransaction*) transs;
 			break;
 		}
 		case GENERAL_TRANSACTION_TYPE_SCHEDULE: {return filterTransaction(((ScheduledTransaction*) transs)->transaction(), checkdate);}

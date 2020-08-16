@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -657,7 +657,7 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	perButton->setChecked(settings.value("valuePerTransactionEnabled", false).toBool());
 	enabledLayout->addWidget(perButton);
 	enabledLayout->addStretch(1);
-	
+
 	valueButton->setEnabled(current_source != 12 && current_source != 0 && totalButton->isChecked());
 	dailyButton->setEnabled(current_source != 12 && current_source != 0 && totalButton->isChecked());
 	monthlyButton->setEnabled(current_source != 12 && current_source != 0 && totalButton->isChecked());
@@ -668,11 +668,11 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 	tagsButton->setEnabled(current_source != 12 && current_source != 0);
 	catsButton->setEnabled(current_source != 12 && current_source != 0);
 	totalButton->setEnabled(current_source != 12 && current_source != 0);
-	
+
 	settings.endGroup();
-	
+
 	layout->addWidget(settingsWidget);
-	
+
 	updateTags();
 
 	connect(group, SIGNAL(buttonToggled(int, bool)), this, SLOT(columnsToggled(int, bool)));
@@ -905,10 +905,10 @@ void OverTimeReport::updateDisplay() {
 	enabled[5] = !b_tags && !b_cats && perButton->isChecked();
 	enabled[6] = false;
 	enabled[7] = false;
-	
+
 	bool assets_selected = !accountCombo->allAccountsSelected();
 	bool single_assets = assets_selected && accountCombo->selectedAccounts().count() == 1;
-	
+
 	QList<Account*> selected_categories;
 	QVector<month_info> monthly_values;
 	month_info *mi = NULL;
@@ -1054,7 +1054,7 @@ void OverTimeReport::updateDisplay() {
 	if(selected_categories.count() == 1) {
 		cat = (CategoryAccount*) selected_categories.at(0);
 	}
-	
+
 	QDate start_date, first_trans_date;
 	for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
 		Transaction *trans = *it;
@@ -1742,7 +1742,7 @@ void OverTimeReport::updateDisplay() {
 			outf<< "</th>";
 		}
 	}
-	
+
 	outf << "\t\t\t\t</tr>" << '\n';
 	outf << "\t\t\t</thead>" << '\n';
 	outf << "\t\t\t<tbody>" << '\n';

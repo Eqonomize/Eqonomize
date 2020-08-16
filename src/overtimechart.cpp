@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -112,7 +112,7 @@ void calculate_minmax_lines(double &maxvalue, double &minvalue, int &y_lines, in
 		maxvalue = maxvalue_digit;
 		y_lines = maxvalue_digit;
 		maxvalue_exp = 0.0;
-	} else {			
+	} else {
 		maxvalue /= pow(10, maxvalue_exp);
 		if(maxvalue <= 1.0) {
 			maxvalue = 10.0;
@@ -130,7 +130,7 @@ void calculate_minmax_lines(double &maxvalue, double &minvalue, int &y_lines, in
 	if(minvalue < 0.0) {
 		if(minmaxequal) {
 			if(y_lines <= 6) {
-				y_lines *= 2;				
+				y_lines *= 2;
 			} else {
 				maxvalue = ceil(maxvalue_digit / 2.0) * pow(10, maxvalue_exp) * 2;
 				y_lines += y_lines % 2;
@@ -304,11 +304,11 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	valueGroup->addButton(perButton, 3);
 	enabledLayout->addWidget(perButton);
 	enabledLayout->addStretch(1);
-	
+
 	startDateEdit->setMonthEnabled(!yearlyButton->isChecked());
-	
+
 	settings.endGroup();
-	
+
 	resetOptions();
 
 	layout->addWidget(settingsWidget);
@@ -359,7 +359,7 @@ void OverTimeChart::resetOptions() {
 	sourceCombo->blockSignals(false);
 	sourceChanged(0);
 	resetDate();
-	
+
 }
 void OverTimeChart::resetDate() {
 
@@ -369,7 +369,7 @@ void OverTimeChart::resetDate() {
 		if(trans->fromAccount()->type() != ACCOUNT_TYPE_ASSETS || trans->toAccount()->type() != ACCOUNT_TYPE_ASSETS) {
 			start_date = trans->date();
 			if(!budget->isFirstBudgetDay(start_date)) {
-				budget->addBudgetMonthsSetFirst(start_date, 1);				
+				budget->addBudgetMonthsSetFirst(start_date, 1);
 			}
 			break;
 		}
@@ -379,7 +379,7 @@ void OverTimeChart::resetDate() {
 	if(start_date == curmonth) {
 		budget->addBudgetMonthsSetFirst(start_date, -1);
 	}
-	
+
 	start_date = budget->budgetDateToMonth(start_date);
 
 	end_date = QDate::currentDate().addDays(-1);
@@ -396,7 +396,7 @@ void OverTimeChart::resetDate() {
 
 	start_date = budget->budgetDateToMonth(start_date);
 	end_date = budget->budgetDateToMonth(end_date);
-	
+
 	endDateEdit->setMonthEnabled(!yearlyButton->isEnabled() || !yearlyButton->isChecked() || budget->budgetYear(end_date) == budget->budgetYear(QDate::currentDate()));
 
 	startDateEdit->blockSignals(true);
@@ -845,7 +845,7 @@ void OverTimeChart::startYearChanged(const QDate &date) {
 	start_date = date;
 	updateDisplay();
 }
-void OverTimeChart::startMonthChanged(const QDate &date) {	
+void OverTimeChart::startMonthChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
 		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
@@ -875,7 +875,7 @@ void OverTimeChart::startMonthChanged(const QDate &date) {
 	start_date = date;
 	updateDisplay();
 }
-void OverTimeChart::endYearChanged(const QDate &date) {	
+void OverTimeChart::endYearChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
 		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
@@ -912,7 +912,7 @@ void OverTimeChart::endYearChanged(const QDate &date) {
 	endDateEdit->setMonthEnabled(!yearlyButton->isEnabled() || !yearlyButton->isChecked() || budget->budgetYear(end_date) == budget->budgetYear(QDate::currentDate()));
 	updateDisplay();
 }
-void OverTimeChart::endMonthChanged(const QDate &date) {	
+void OverTimeChart::endMonthChanged(const QDate &date) {
 	bool error = false;
 	if(!date.isValid()) {
 		QMessageBox::critical(this, tr("Error"), tr("Invalid date."));
@@ -973,7 +973,7 @@ void OverTimeChart::onFilterSelected(QString filter) {
 void OverTimeChart::save() {
 #ifdef QT_CHARTS_LIB
 	QGraphicsScene *scene = chart->scene();
-#endif	
+#endif
 	if(!scene) return;
 	QMimeDatabase db;
 	QMimeType image_mime = db.mimeTypeForName("image/*");
@@ -1045,7 +1045,7 @@ void OverTimeChart::save() {
 	scene->render(&p);
 #ifdef QT_CHARTS_LIB
 	chart->setDropShadowEnabled(drop_shadow_save);
-#endif	
+#endif
 
 	if(url_mime == png_mime) {pixmap.save(&ofile, "PNG");}
 	else if(url_mime == bmp_mime) {pixmap.save(&ofile, "BMP");}
@@ -1169,9 +1169,9 @@ void OverTimeChart::updateDisplay() {
 	bool do_convert = (current_source2 != -2) && !current_assets;
 	Currency *currency = budget->defaultCurrency();
 	if(current_assets) currency = current_assets->currency();
-	
+
 	bool b_income = false, b_expense = false;
-	
+
 	if(current_source == 25) current_source = 3;
 	if(current_source == 26) current_source = 4;
 
@@ -1278,7 +1278,7 @@ void OverTimeChart::updateDisplay() {
 	QDate first_date = budget->monthToBudgetMonth(start_date);
 	QDate last_date = budget->lastBudgetDay(budget->monthToBudgetMonth(end_date));
 	if(type == 4) first_date = budget->firstBudgetDayOfYear(first_date);
-	
+
 	double maxvalue = 1.0;
 	double minvalue = 0.0;
 	double maxcount = 1.0;
@@ -1874,7 +1874,7 @@ void OverTimeChart::updateDisplay() {
 		case 24: {source_org = 21; break;}
 	}
 	if(current_source > 50) source_org = -2;
-	
+
 	int first_desc_i = 2;
 	if(source_org == 7 && is_parent) first_desc_i = 3;
 	else if(source_org == -3) first_desc_i = 0;
@@ -1903,7 +1903,7 @@ void OverTimeChart::updateDisplay() {
 	else if(source_org == 4)  {if(account_index < budget->expensesAccounts.size()) account = budget->expensesAccounts.at(account_index);}
 	else if(source_org == 21)  {if(account_index < current_account->subCategories.size()) account = current_account->subCategories.at(account_index);}
 	else if(source_org == 2) {mi = &mi_e; monthly_values = &monthly_expenses; isfirst = &isfirst_e;}
-	else if(source_org == 1) {mi = &mi_i; monthly_values = &monthly_incomes; isfirst = &isfirst_i;}		
+	else if(source_org == 1) {mi = &mi_i; monthly_values = &monthly_incomes; isfirst = &isfirst_i;}
 	while(source_org == 1 || source_org == 2 || account || ((source_org == 7 || source_org == 11 || source_org == -3) && desc_i < desc_nr)) {
 		if(source_org == -2 && account == budget->balancingAccount) {
 			++account_index;
@@ -1993,7 +1993,7 @@ void OverTimeChart::updateDisplay() {
 				}
 			} while(split_i == 0 && strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) strans->transaction())->count() == 0);
 			if(!strans) break;
-		}		
+		}
 		if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT) {
 			trans = ((SplitTransaction*) strans->transaction())->at(split_i);
 		} else {
@@ -2531,7 +2531,7 @@ void OverTimeChart::updateDisplay() {
 	if(QDate::currentDate() == imonth) {
 		budget->addBudgetMonthsSetLast(imonth, 1);
 	}
-	
+
 	exclude_subs = (current_source == 3 || current_source == 4);
 	if(exclude_subs) {
 		for(int i = 0; i < (current_source == 3 ? budget->incomesAccounts.size() : budget->expensesAccounts.size()); i++) {
@@ -2713,7 +2713,7 @@ void OverTimeChart::updateDisplay() {
 			break;
 		}
 	}
-	
+
 	if(type == 4 && (current_source == 21 || current_source == 22)) {
 		for(int i = -1; i < ((CategoryAccount*) current_account)->subCategories.size(); i++) {
 			CategoryAccount *acc = (CategoryAccount*) current_account;
@@ -2747,7 +2747,7 @@ void OverTimeChart::updateDisplay() {
 
 	chart_month_info *mi0 = NULL;
 	mi = &mi0;
-	
+
 	if(type == 4) {
 		imonth = budget->lastBudgetDayOfYear(QDate::currentDate());
 		if(QDate::currentDate() == imonth) budget->addBudgetMonthsSetLast(imonth, 12);
@@ -2988,7 +2988,7 @@ void OverTimeChart::updateDisplay() {
 					}
 					desc_order.pop_back();
 				}
-				
+
 			}
 			if(!b_added) {
 				QVector<chart_month_info> *monthly_values2 = &monthly_desc[desc_str];
@@ -3250,7 +3250,7 @@ void OverTimeChart::updateDisplay() {
 			else if(it->value > maxvalue) maxvalue = it->value;
 		}
 	}
-	
+
 	if(chart_type == 4) {
 		QVector<double> total_values;
 		desc_i = 0;
@@ -3262,7 +3262,7 @@ void OverTimeChart::updateDisplay() {
 		if(source_org == 2) {monthly_values = &monthly_expenses;}
 		else if(source_org == 1 || source_org == 0) {monthly_values = &monthly_incomes;}
 		while((source_org < 3 && source_org != -2) || ((source_org == 7 || source_org == 11) && desc_i < desc_nr) || (source_org == -2 && cat_i < cat_nr)) {
-		
+
 			if(source_org == 7 || source_org == 11) {monthly_values = &monthly_desc[desc_order[desc_i]];}
 			else if(source_org == -2) {monthly_values = &monthly_cats[cat_order[cat_i]];}
 
@@ -3288,7 +3288,7 @@ void OverTimeChart::updateDisplay() {
 			if(total_values[index] < minvalue) minvalue = total_values[index];
 		}
 	}
-	
+
 	int months = budget->calendarMonthsBetweenDates(first_date, last_date, true) + 1;
 	int years = budget->budgetYear(last_date) - budget->budgetYear(first_date);
 	int n = 0;
@@ -3300,11 +3300,11 @@ void OverTimeChart::updateDisplay() {
 		budget->addBudgetMonthsSetLast(monthdate, type == 4 ? 12 : 1);
 		n++;
 	}
-	
+
 	int y_lines = 5, y_minor = 0;
 
 	calculate_minmax_lines(maxvalue, minvalue, y_lines, y_minor, current_source2 == -1 || (current_source2 == 0 && chart_type == 4 && type != 2), type != 2);
-	
+
 	switch((current_source2 >= 27 && b_income != b_expense) ? (b_income ? current_source2 - 22 : current_source2 - 21) : current_source2) {
 		case -3: {
 			if(b_income && !b_expense) {
@@ -3327,7 +3327,7 @@ void OverTimeChart::updateDisplay() {
 		case -1: {
 			if(current_assets) title_string = tr("Incomes − Expenses, %1").arg(current_assets->name());
 			else if(current_source > 50) title_string = tr("Incomes − Expenses");
-			else title_string = tr("Profits"); 
+			else title_string = tr("Profits");
 			if(!budget->securities.isEmpty() && (!current_assets || current_assets->accountType() == ASSETS_TYPE_SECURITIES)) note_string = tr("Excluding any profits or losses in trading of security shares", "Financial security (e.g. stock, mutual fund)");
 			break;}
 		case 0: {
@@ -3424,11 +3424,11 @@ void OverTimeChart::updateDisplay() {
 			break;
 		}
 	}
-	
+
 #ifdef QT_CHARTS_LIB
-	
+
 	int theme = themeCombo->currentData().toInt();
-	
+
 	bool show_legend;
 	switch(current_source) {
 		case -1:
@@ -3448,7 +3448,7 @@ void OverTimeChart::updateDisplay() {
 		case 20: {show_legend = false; break;}
 		default: show_legend = true;
 	}
-	
+
 	chart->removeAllSeries();
 
 	int index = 0;
@@ -3457,19 +3457,19 @@ void OverTimeChart::updateDisplay() {
 	desc_nr = desc_order.size();
 	int cat_i = 0;
 	int cat_nr = cat_order.size();
-	
+
 	if(axisX) chart->removeAxis(axisX);
 	saved_last_date = last_date;
 	saved_first_date = first_date;
 	if(type == 4) last_date = budget->firstBudgetDayOfYear(last_date);
 	else last_date = budget->firstBudgetDay(last_date);
-	
+
 	if(axisY) chart->removeAxis(axisY);
 	axisY = new QValueAxis();
 	axisY->setTitleText(axis_string);
-	
+
 	QAbstractBarSeries *bar_series = NULL;
-	
+
 	if(chart_type == 1) {
 		QCategoryAxis *c_axisX = new QCategoryAxis();
 		axisX = c_axisX;
@@ -3558,7 +3558,7 @@ void OverTimeChart::updateDisplay() {
 		chart->addAxis(axisY, Qt::AlignLeft);
 		chart->addAxis(axisX, Qt::AlignBottom);
 	}
-	
+
 	chart->setLocalizeNumbers(type == 2 || budget->monetary_decimal_separator != "." || budget->monetary_decimal_separator == QLocale().decimalPoint() || ((maxvalue - minvalue) >= 50.0 && (budget->monetary_group_separator == QLocale().groupSeparator() || QLocale().groupSeparator() == ' ' || QLocale().groupSeparator() == 0x202F || QLocale().groupSeparator() == 0x2009)));
 
 	axisY->setRange(minvalue, maxvalue);
@@ -3570,7 +3570,7 @@ void OverTimeChart::updateDisplay() {
 	if(source_org == 2) {monthly_values = &monthly_expenses;}
 	else if(source_org == 1 || source_org == 0) {monthly_values = &monthly_incomes;}
 	while((source_org < 3 && source_org != -2) || ((source_org == 7 || source_org == 11) && desc_i < desc_nr) || (source_org == -2 && cat_i < cat_nr)) {
-		
+
 		if(source_org == 7 || source_org == 11) {monthly_values = &monthly_desc[desc_order[desc_i]];}
 		else if(source_org == -2) {monthly_values = &monthly_cats[cat_order[cat_i]];}
 
@@ -3704,7 +3704,7 @@ void OverTimeChart::updateDisplay() {
 				QXYSeries *series;
 				if(monthly_values->count() == 1) series = new QScatterSeries();
 				else series = new QLineSeries();
-				
+
 				series->setName(series_name);
 
 				QVector<chart_month_info>::iterator it_e = monthly_values->end();
@@ -3714,11 +3714,11 @@ void OverTimeChart::updateDisplay() {
 					else date = budget->firstBudgetDay(it->date);
 					series->append(DATE_TO_MSECS(date), it->value);
 				}
-				
+
 				chart->addSeries(series);
 				series->attachAxis(axisY);
 				series->attachAxis(axisX);
-				
+
 				if(theme < 0) {
 					QPen pen = getLinePen(index);
 					series->setPen(pen);
@@ -3774,7 +3774,7 @@ void OverTimeChart::updateDisplay() {
 			break;
 		}
 	}
-	
+
 
 	if(theme < 0) {
 		axisX->setLinePen(QPen(Qt::darkGray, 1));
@@ -3806,11 +3806,11 @@ void OverTimeChart::updateDisplay() {
 		bar_series->setBarWidth((n <= 4 || chart_type == 4) ? (2.0 / 3.0) : 0.9);
 		connect(bar_series, SIGNAL(hovered(bool, int, QBarSet*)), this, SLOT(onSeriesHovered(bool, int, QBarSet*)));
 	}
-	
+
 	foreach(QLegendMarker* marker, chart->legend()->markers()) {
 		connect(marker, SIGNAL(clicked()), this, SLOT(legendClicked()));
 	}
-	
+
 	if(note_string.isEmpty()) chart->setTitle(QString("<div align=\"center\"><font size=\"+2\"><b>%1</b></font></div>").arg(title_string));
 	else chart->setTitle(QString("<div align=\"center\"><font size=\"+2\"><b>%1</b></font><br><small>(%2)</small></div>").arg(title_string).arg(note_string));
 	if(show_legend) {
@@ -3829,9 +3829,9 @@ void OverTimeChart::updateDisplay() {
 	QFont legend_font = font();
 	QFontMetrics fm(legend_font);
 	int fh = fm.height();
-	
+
 	int margin = 15 + fh;
-	
+
 	QGraphicsTextItem *title_text = new QGraphicsTextItem();
 	if(note_string.isEmpty()) title_text->setHtml(QString("<div align=\"center\"><font size=\"+2\"><b>%1</b></font></div>").arg(title_string));
 	else title_text->setHtml(QString("<div align=\"center\"><font size=\"+2\"><b>%1</b></font><br><small>(%2)</small></div>").arg(title_string).arg(note_string));
@@ -3839,9 +3839,9 @@ void OverTimeChart::updateDisplay() {
 	title_text->setFont(legend_font);
 	title_text->setPos(view->width() / 2 - title_text->boundingRect().width() / 2, margin);
 	scene->addItem(title_text);
-	
+
 	QVector<QGraphicsItem*> legend_texts;
-	
+
 	int text_width = 0;
 	int index = 0;
 	int lcount = 0;
@@ -3853,7 +3853,7 @@ void OverTimeChart::updateDisplay() {
 	if(source_org == 2) {monthly_values = &monthly_expenses;}
 	else if(source_org == 1 || source_org == 0) {monthly_values = &monthly_incomes;}
 	while((source_org < 3 && source_org != -2) || ((source_org == 7 || source_org == 11) && desc_i < desc_nr) || (source_org == -2 && cat_i < cat_nr)) {
-		
+
 		if(source_org == 7 || source_org == 11) {monthly_values = &monthly_desc[desc_order[desc_i]];}
 		else if(source_org == -2) {monthly_values = &monthly_cats[cat_order[cat_i]];}
 
@@ -4015,14 +4015,14 @@ void OverTimeChart::updateDisplay() {
 	if(includes_budget && includes_scheduled) axis_string2 += QString(" *") + tr("Includes scheduled and budgeted transactions");
 	else if(includes_budget) axis_string2 += QString(" *") + tr("Includes budgeted transactions");
 	else if(includes_scheduled) axis_string2 += QString(" *") + tr("Includes scheduled transactions");
-	
+
 	axis_text->setText(axis_string);
 	axis_text->setFont(legend_font);
 	axis_text->setBrush(Qt::black);
 	if(axis_text->boundingRect().width() / 2 > max_axis_value_width) max_axis_value_width = axis_text->boundingRect().width() / 2;
 	axis_text->setPos(margin + axis_width - axis_text->boundingRect().width() / 2, chart_y - 15 - fh);
 	scene->addItem(axis_text);
-	
+
 	if(!axis_string2.isEmpty()) {
 		QGraphicsSimpleTextItem *axis_text2 = new QGraphicsSimpleTextItem(axis_string2);
 		axis_text->setFont(legend_font);
@@ -4184,11 +4184,11 @@ void OverTimeChart::updateDisplay() {
 	desc_nr = desc_order.size();
 	cat_i = 0;
 	cat_nr = cat_order.size();
-	
+
 	if(source_org == 2) {monthly_values = &monthly_expenses;}
 	else if(source_org == 1 || source_org == 0) {monthly_values = &monthly_incomes;}
 	while((source_org < 3 && source_org != -2) || ((source_org == 7 || source_org == 11) && desc_i < desc_nr) || (source_org == -2 && cat_i < cat_nr)) {
-		
+
 		if(source_org == 7 || source_org == 11) {monthly_values = &monthly_desc[desc_order[desc_i]];}
 		else if(source_org == -2) {monthly_values = &monthly_cats[cat_order[cat_i]];}
 
@@ -4225,7 +4225,7 @@ void OverTimeChart::updateDisplay() {
 
 			legend_texts[lcount]->setPos(legend_x + fh + 5, legend_y + (fh + 5) * lcount);
 			scene->addItem(legend_texts[lcount]);
-			
+
 			lcount++;
 		}
 		index++;
@@ -4253,7 +4253,7 @@ void OverTimeChart::updateDisplay() {
 		delete oldscene;
 	}
 #endif
-	
+
 	if(current_source == 7 || current_source == 8 || current_source == 17 || current_source == 18 || current_source == 29 || current_source == 39) {
 		if(has_empty_description) descriptionCombo->setItemText(descriptionCombo->count() - 1, tr("No description", "Referring to the transaction description property (transaction title/generic article name)"));
 	} else if(current_source == 12 || current_source == 14 || ((b_expense || !b_income) && (current_source == 33 || current_source == 35))) {
@@ -4579,7 +4579,7 @@ class PointLabel : public QGraphicsItem {
 		}
 
 	private:
-	
+
 		QString m_text;
 		QRectF m_textRect;
 		QRectF m_rect;
@@ -4714,7 +4714,7 @@ void OverTimeChart::onSeriesHovered(const QPointF &value, bool state) {
 		point_label->hide();
 	}
 }
-void OverTimeChart::legendClicked() {	
+void OverTimeChart::legendClicked() {
 	if(typeCombo->currentIndex() == 0) {
 		QLegendMarker* marker = qobject_cast<QLegendMarker*>(sender());
 		marker->series()->setVisible(!marker->series()->isVisible());

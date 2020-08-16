@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -44,7 +44,7 @@ class QTabWidget;
 class EditScheduledTransactionDialog : public QDialog {
 
 	Q_OBJECT
-	
+
 	protected:
 
 		Budget *budget;
@@ -53,9 +53,9 @@ class EditScheduledTransactionDialog : public QDialog {
 		TransactionEditWidget *transactionEditWidget;
 		QTabWidget *tabs;
 		void keyPressEvent(QKeyEvent*);
-		
+
 	public:
-		
+
 		EditScheduledTransactionDialog(bool extra_parameters, int transaction_type, Security *security, bool select_security, Budget *budg, QWidget *parent, QString title, Account *account = NULL, bool allow_account_creation = false, bool withloan = false);
 
 		bool checkAccounts();
@@ -73,13 +73,13 @@ class EditScheduledTransactionDialog : public QDialog {
 	protected slots:
 
 		void accept();
-		
+
 };
 
 class EditScheduledMultiItemDialog : public QDialog {
 
 	Q_OBJECT
-	
+
 	protected:
 
 		Budget *budget;
@@ -87,11 +87,11 @@ class EditScheduledMultiItemDialog : public QDialog {
 		RecurrenceEditWidget *recurrenceEditWidget;
 		EditMultiItemWidget *transactionEditWidget;
 		QTabWidget *tabs;
-		
+
 		void keyPressEvent(QKeyEvent*);
-		
+
 	public:
-		
+
 		EditScheduledMultiItemDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, AssetsAccount *account = NULL, bool allow_account_creation = false);
 
 		bool checkAccounts();
@@ -107,13 +107,13 @@ class EditScheduledMultiItemDialog : public QDialog {
 
 		void accept();
 		void reject();
-		
+
 };
 
 class EditScheduledMultiAccountDialog : public QDialog {
 
 	Q_OBJECT
-	
+
 	protected:
 
 		Budget *budget;
@@ -121,11 +121,11 @@ class EditScheduledMultiAccountDialog : public QDialog {
 		RecurrenceEditWidget *recurrenceEditWidget;
 		EditMultiAccountWidget *transactionEditWidget;
 		QTabWidget *tabs;
-		
+
 		void keyPressEvent(QKeyEvent*);
-		
+
 	public:
-		
+
 		EditScheduledMultiAccountDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, bool create_expenses = true, bool allow_account_creation = false);
 
 		bool checkAccounts();
@@ -143,13 +143,13 @@ class EditScheduledMultiAccountDialog : public QDialog {
 
 		void accept();
 		void reject();
-		
+
 };
 
 class EditScheduledDebtPaymentDialog : public QDialog {
 
 	Q_OBJECT
-	
+
 	protected:
 
 		Budget *budget;
@@ -157,11 +157,11 @@ class EditScheduledDebtPaymentDialog : public QDialog {
 		RecurrenceEditWidget *recurrenceEditWidget;
 		EditDebtPaymentWidget *transactionEditWidget;
 		QTabWidget *tabs;
-		
+
 		void keyPressEvent(QKeyEvent*);
-		
+
 	public:
-		
+
 		EditScheduledDebtPaymentDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, AssetsAccount *loan = NULL, bool allow_account_creation = false, bool only_interest = false);
 
 		bool checkAccounts();
@@ -177,7 +177,7 @@ class EditScheduledDebtPaymentDialog : public QDialog {
 
 		void accept();
 		void reject();
-		
+
 };
 
 #endif

@@ -43,38 +43,38 @@ class EqonomizeValueEdit : public QDoubleSpinBox {
 		EqonomizeValueEdit(double lower, double upper, double step, double value, int precision, bool show_currency, QWidget *parent, Budget *budg);
 		~EqonomizeValueEdit();
 		void init(double lower, double upper, double step, double value, int precision, bool show_currency);
-		
+
 		void setRange(double lower, double step, int precision);
 		void setRange(double lower, double upper, double step, int precision);
 		void setPrecision(int precision);
-		
+
 		void setCurrency(Currency *currency, bool keep_precision = false, int as_default = -1, bool is_temporary = false);
 		Currency *currency();
-		
+
 		virtual void fixup(QString &input) const;
 		virtual QValidator::State validate(QString &input, int &pos) const;
 		virtual QString textFromValue(double value) const;
-		virtual double valueFromText(const QString &text) const;		
+		virtual double valueFromText(const QString &text) const;
 
 	protected:
-		
+
 		int i_precision;
 		Budget *budget;
 		Currency *o_currency;
 		QString s_prefix, s_suffix;
-		
+
 		double fixup_sub(QString &input, QStringList &errors, bool &calculated) const;
 		virtual void focusInEvent(QFocusEvent*);
-		
+
 		bool eventFilter(QObject*, QEvent*);
-		
+
 	public slots:
-	
+
 		void enterFocus();
 		void selectNumber();
-	
+
 	protected slots:
-	
+
 		void onEditingFinished();
 		void onTextChanged(const QString&);
 
@@ -89,23 +89,23 @@ class EqonomizeDateEdit : public QDateEdit {
 	Q_OBJECT
 
 	protected:
-	
+
 		QMenu *popupMenu;
 		QAction *todayAction;
 
 	public:
-	
+
 		EqonomizeDateEdit(QWidget *parent = NULL);
 		EqonomizeDateEdit(const QDate &date, QWidget *parent = NULL);
-	
+
 	protected slots:
-	
+
 		void keyPressEvent(QKeyEvent *event);
 		void setToday();
 		void contextMenuEvent(QContextMenuEvent *event);
-		
+
 	signals:
-	
+
 		void returnPressed();
 
 };
@@ -113,17 +113,17 @@ class EqonomizeDateEdit : public QDateEdit {
 class EqonomizeCalendarWidget : public QCalendarWidget {
 
 	Q_OBJECT
-	
+
 	protected:
-	
+
 		QMenu *popupMenu;
 
 	public:
-	
+
 		EqonomizeCalendarWidget(QWidget *parent = NULL);
-	
+
 	protected slots:
-	
+
 		void keyPressEvent(QKeyEvent *event);
 		void popupContextMenu(const QPoint &pos);
 		void selectToday();

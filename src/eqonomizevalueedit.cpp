@@ -141,7 +141,7 @@ void EqonomizeValueEdit::focusInEvent(QFocusEvent *e) {
 	} else {
 		QDoubleSpinBox::focusInEvent(e);
 	}
-	
+
 }
 void EqonomizeValueEdit::enterFocus() {
 	setFocus(Qt::TabFocusReason);
@@ -150,14 +150,14 @@ void EqonomizeValueEdit::setCurrency(Currency *currency, bool keep_precision, in
 
 	if(is_temporary) o_currency = NULL;
 	else o_currency = currency;
-	
+
 	if(!currency) {
 		s_suffix = QString();
 		s_prefix = QString();
 		setValue(value());
 		return;
 	}
-	
+
 	if((as_default == 0 || (as_default < 0 && currency != budget->defaultCurrency())) || currency->symbol().isEmpty()) {
 		if(currency && currency->codePrecedes()) {
 			s_prefix = currency->code();
@@ -376,11 +376,11 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 					if(!signs[terms_i] && terms_i + 1 < terms.size()) {
 						signs[terms_i + 1] = !signs[terms_i + 1];
 					}
-				} else {					
+				} else {
 					if(!signs[terms_i]) v -= fixup_sub(terms[terms_i], errors, calculated);
 					else v += fixup_sub(terms[terms_i], errors, calculated);
 				}
-			}			
+			}
 			calculated = true;
 			return v;
 		}
@@ -436,7 +436,7 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 		}
 		calculated = true;
 		return v;
-	}	
+	}
 	if(o_currency) {
 		QString reg_exp_str = "[\\d\\+\\-\\^";
 		reg_exp_str += '\\';
@@ -455,7 +455,7 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 			if(!cur && budget->defaultCurrency()->symbol(false) == scur) cur = budget->defaultCurrency();
 			if(!cur) cur = budget->findCurrencySymbol(scur, true);
 			if(cur) {
-				QString value = input.right(input.length() - i);				
+				QString value = input.right(input.length() - i);
 				double v = fixup_sub(value, errors, calculated);
 				if(cur != o_currency) {
 					v = cur->convertTo(v, o_currency);
@@ -516,7 +516,7 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 			return v;
 		}
 	}
-	
+
 	if(!o_currency) {
 		QString reg_exp_str = "[^\\d\\+\\-";
 		reg_exp_str += '\\';

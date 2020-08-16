@@ -61,7 +61,7 @@ struct qif_info {
 class ImportQIFDialog : public QWizard {
 
 	Q_OBJECT
-	
+
 	protected:
 
 		Budget *budget;
@@ -75,12 +75,12 @@ class ImportQIFDialog : public QWizard {
 		QComboBox *defsCombo, *dateFormatCombo, *accountCombo;
 		QLineEdit *openingBalanceEdit;
 		QCheckBox *ignoreDuplicateTransactionsButton;
-		
+
 	public:
-		
+
 		ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_parameters);
 		~ImportQIFDialog();
-		
+
 		void showPage(int index);
 		int nextId() const;
 
@@ -92,7 +92,7 @@ class ImportQIFDialog : public QWizard {
 		void selectFile();
 		void defSelectionChanged();
 		void defSelected(int);
-		
+
 };
 
 class ExportQIFDialog : public QDialog {
@@ -117,7 +117,7 @@ class ExportQIFDialog : public QDialog {
 		~ExportQIFDialog();
 
 	protected slots:
-		
+
 		void accept();
 		void onFileChanged(const QString&);
 		void selectFile();

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016-2019 by Hanna Knutsson            *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -193,9 +193,9 @@ class TransactionEditDialog : public QDialog {
 
 		TransactionEditDialog(bool extra_parameters, int transaction_type, Currency *split_currency, bool transfer_to, Security *security, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent, bool allow_account_creation = false, bool multiaccount = false, bool withloan = false);
 		TransactionEditWidget *editWidget;
-		
+
 	protected:
-	
+
 		void keyPressEvent(QKeyEvent*);
 
 	protected slots:
@@ -245,11 +245,11 @@ class MultipleTransactionsEditDialog : public QDialog {
 class TagMenu : public QMenu {
 
 	Q_OBJECT
-	
+
 	public:
-	
+
 		TagMenu(Budget*, QWidget *parent = NULL, bool allow_new = false);
-		
+
 		void setTransaction(Transactions *trans);
 		void setTransactions(QList<Transactions*> list);
 		void modifyTransaction(Transactions *trans, bool append = false);
@@ -257,36 +257,36 @@ class TagMenu : public QMenu {
 		QString selectedTagsText();
 		void setTagSelected(QString, bool b = true, bool inconsistent = false);
 		QString createTag();
-		
+
 	protected:
-	
+
 		QHash<QString, QAction*> tag_actions;
-	
+
 		void keyPressEvent(QKeyEvent *e);
 		void mouseReleaseEvent(QMouseEvent *e);
-		
+
 		Budget *budget;
 		bool allow_new;
-	
+
 	protected slots:
-	
+
 		void tagToggled();
-		
+
 	public slots:
-	
+
 		void updateTags();
-	
+
 	signals:
-	
+
 		void selectedTagsChanged();
 		void newTagRequested();
 
 };
 
 class TagButton : public QPushButton {
-	
+
 	Q_OBJECT
-	
+
 	public:
 
 		TagButton(bool small_button, bool allow_new_tag, Budget *budg, QWidget *parent = NULL);
@@ -295,7 +295,7 @@ class TagButton : public QPushButton {
 		void setTransactions(QList<Transactions*> list);
 		void modifyTransaction(Transactions *trans, bool append = false);
 		QString createTag();
-		
+
 		bool icon_shown;
 
 	public slots:
@@ -303,19 +303,19 @@ class TagButton : public QPushButton {
 		void resizeTagMenu();
 		void updateText();
 		void updateTags();
-		
+
 	protected:
-	
+
 		TagMenu *tagMenu;
 		bool b_small;
-	
+
 		void keyPressEvent(QKeyEvent *e);
-		
+
 	signals:
-	
+
 		void returnPressed();
 		void newTagRequested();
-	
+
 };
 
 class LinksWidget : public QWidget {

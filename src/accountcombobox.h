@@ -34,9 +34,9 @@ class QStandardItemModel;
 class AccountComboBox : public QComboBox {
 
 	Q_OBJECT
-	
+
 	protected:
-	
+
 		int firstAccountIndex() const;
 
 		int i_type;
@@ -47,14 +47,14 @@ class AccountComboBox : public QComboBox {
 		Account *added_account, *exclude_account;
 		QSortFilterProxyModel *filterModel;
 		QStandardItemModel *sourceModel;
-		
+
 		void keyPressEvent(QKeyEvent *e);
-	
+
 	public:
-	
+
 		AccountComboBox(int account_type, Budget *budg, bool add_new_account_action = false, bool add_new_loan_action = false, bool add_multiple_accounts_action = false, bool exclude_securities_accounts = true, bool exclude_balancing_account = true, QWidget *parent = NULL);
 		~AccountComboBox();
-		
+
 		Account *currentAccount() const;
 		void setCurrentAccount(Account *account);
 		int currentAccountIndex() const;
@@ -63,25 +63,25 @@ class AccountComboBox : public QComboBox {
 		bool hasAccount() const;
 		Account *createAccount();
 		void hidePopup();
-		
+
 	signals:
-	
+
 		void newLoanRequested();
 		void newAccountRequested();
 		void multipleAccountsRequested();
 		void accountSelected(Account*);
 		void currentAccountChanged(Account*);
 		void returnPressed();
-		
+
 	public slots:
-	
+
 		void focusAndSelectAll();
-		
+
 	protected slots:
-	
+
 		void accountActivated(int);
 		void onCurrentIndexChanged(int);
-	
+
 };
 
 class QComboBoxListViewEq : public QListView {

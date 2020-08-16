@@ -32,7 +32,7 @@
 
 #include "eqonomizemonthselector.h"
 
-EqonomizeMonthSelector::EqonomizeMonthSelector(QWidget *parent) : QWidget(parent) {	
+EqonomizeMonthSelector::EqonomizeMonthSelector(QWidget *parent) : QWidget(parent) {
 	d_date = QDate::currentDate();
 	d_date.setDate(d_date.year(), d_date.month(), 1);
 	QHBoxLayout *layout = new QHBoxLayout(this);
@@ -50,22 +50,22 @@ EqonomizeMonthSelector::EqonomizeMonthSelector(QWidget *parent) : QWidget(parent
 	connect(monthCombo, SIGNAL(activated(int)), this, SLOT(onMonthChanged(int)));
 }
 EqonomizeMonthSelector::~EqonomizeMonthSelector() {}
-		
+
 QDate EqonomizeMonthSelector::date() const {return d_date;}
 
-void EqonomizeMonthSelector::onYearChanged(int year) {	
+void EqonomizeMonthSelector::onYearChanged(int year) {
 	d_date.setDate(year, d_date.month(), 1);
 	updateMonths();
 	emit yearChanged(d_date);
 	emit dateChanged(d_date);
 }
-void EqonomizeMonthSelector::onMonthChanged(int month) {	
+void EqonomizeMonthSelector::onMonthChanged(int month) {
 	d_date.setDate(d_date.year(), month + 1, 1);
 	emit monthChanged(d_date);
 	emit dateChanged(d_date);
 }
 
-void EqonomizeMonthSelector::setDate(const QDate &newdate) {	
+void EqonomizeMonthSelector::setDate(const QDate &newdate) {
 	if(newdate.isValid()) {
 		d_date.setDate(newdate.year(), newdate.month(), 1);
 		yearEdit->blockSignals(true);
@@ -82,7 +82,7 @@ void EqonomizeMonthSelector::setMonthEnabled(bool b) {
 	monthCombo->setEnabled(b);
 }
 
-void EqonomizeMonthSelector::updateMonths() {	
+void EqonomizeMonthSelector::updateMonths() {
 	int months = 12;
 	monthCombo->blockSignals(true);
 	if(monthCombo->count() != 12 || !IS_GREGORIAN_CALENDAR) {
@@ -94,6 +94,6 @@ void EqonomizeMonthSelector::updateMonths() {
 	}
 	monthCombo->blockSignals(false);
 }
-	
+
 void EqonomizeMonthSelector::focusMonth() {monthCombo->setFocus();}
 void EqonomizeMonthSelector::focusYear() {yearEdit->setFocus();}

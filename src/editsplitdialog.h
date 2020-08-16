@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -58,7 +58,7 @@ class EditMultiAccountWidget : public QWidget {
 
 		Budget *budget;
 		bool b_expense, b_extra, b_create_accounts;
-		
+
 		EqonomizeValueEdit *quantityEdit;
 		AccountComboBox *categoryCombo;
 		QLineEdit *descriptionEdit, *commentEdit, *fileEdit;
@@ -86,13 +86,13 @@ class EditMultiAccountWidget : public QWidget {
 		void focusFirst();
 		void reject();
 		QDate date();
-		
+
 	signals:
-	
+
 		void dateChanged(const QDate &date);
 
 	protected slots:
-		
+
 		void selectFile();
 		void openFile();
 		void remove();
@@ -113,7 +113,7 @@ class EditDebtPaymentWidget : public QWidget {
 
 		Budget *budget;
 		bool b_create_accounts, b_search;
-		
+
 		QDateEdit *dateEdit;
 		EqonomizeValueEdit *reductionEdit, *paymentEdit, *interestEdit, *feeEdit;
 		QRadioButton *paidInterestButton, *addedInterestButton;
@@ -139,14 +139,14 @@ class EditDebtPaymentWidget : public QWidget {
 		bool checkAccounts();
 		QDate date();
 		void focusFirst();
-	
+
 	signals:
-	
+
 		void dateChanged(const QDate &d);
 		void addmodify();
 
 	protected slots:
-		
+
 		void selectFile();
 		void openFile();
 		void accountChanged();
@@ -173,7 +173,7 @@ class EditMultiItemWidget : public QWidget {
 
 		Budget *budget;
 		bool b_extra, b_create_accounts;
-		
+
 		QDateEdit *dateEdit;
 		AccountComboBox *accountCombo;
 		QLineEdit *descriptionEdit, *payeeEdit, *fileEdit, *commentEdit;
@@ -201,13 +201,13 @@ class EditMultiItemWidget : public QWidget {
 		void reject();
 		void focusFirst();
 		QDate date();
-		
+
 	signals:
-	
+
 		void dateChanged(const QDate &date);
 
 	protected slots:
-		
+
 		void selectFile();
 		void openFile();
 		void accountChanged();
@@ -236,15 +236,15 @@ class EditMultiItemDialog : public QDialog {
 
 		EditMultiItemDialog(Budget *budg, QWidget *parent, AssetsAccount *default_account = NULL, bool extra_parameters = false, bool allow_account_creation = false);
 		~EditMultiItemDialog();
-		
+
 		EditMultiItemWidget *editWidget;
-		
+
 	protected:
-	
+
 		void keyPressEvent(QKeyEvent*);
 
 	protected slots:
-		
+
 		void accept();
 		void reject();
 
@@ -258,15 +258,15 @@ class EditMultiAccountDialog : public QDialog {
 
 		EditMultiAccountDialog(Budget *budg, QWidget *parent, bool create_expenses = true, bool extra_parameters = false, bool allow_account_creation = false);
 		~EditMultiAccountDialog();
-		
+
 		EditMultiAccountWidget *editWidget;
 
 	protected:
-	
+
 		void keyPressEvent(QKeyEvent*);
 
 	protected slots:
-		
+
 		void accept();
 		void reject();
 
@@ -280,15 +280,15 @@ class EditDebtPaymentDialog : public QDialog {
 
 		EditDebtPaymentDialog(Budget *budg, QWidget *parent, AssetsAccount *default_loan = NULL, bool allow_account_creation = false, bool only_interest = false);
 		~EditDebtPaymentDialog();
-		
+
 		EditDebtPaymentWidget *editWidget;
 
 	protected:
-	
+
 		void keyPressEvent(QKeyEvent*);
 
 	protected slots:
-		
+
 		void accept();
 
 };
@@ -298,15 +298,15 @@ class EqonomizeRadioButton : public QRadioButton {
 	Q_OBJECT
 
 	public:
-	
+
 		EqonomizeRadioButton(const QString &text, QWidget *parent);
-	
+
 	protected slots:
-	
+
 		void keyPressEvent(QKeyEvent *event);
-		
+
 	signals:
-	
+
 		void returnPressed();
 
 };

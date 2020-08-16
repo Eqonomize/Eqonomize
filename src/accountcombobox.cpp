@@ -183,7 +183,7 @@ void AccountComboBox::setCurrentAccountIndex(int index) {
 				row->setData(QString::fromLatin1("separator"), Qt::AccessibleDescriptionRole);\
 				row->setFlags(Qt::NoItemFlags);\
 				sourceModel->appendRow(row);}
-			
+
 void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_currency) {
 	Account *current_account = currentAccount();
 	sourceModel->clear();

@@ -42,12 +42,12 @@ struct csv_info;
 class ImportCSVDialog : public QWizard {
 
 	Q_OBJECT
-	
+
 	protected:
 
 		bool b_extra;
 		Budget *budget;
-		
+
 		QMap<QString, QVariant> presets;
 		QString s_preset;
 
@@ -92,22 +92,22 @@ class ImportCSVDialog : public QWizard {
 		QRadioButton *columnCommentsButton, *valueCommentsButton;
 		QSpinBox *columnCommentsEdit;
 		QLineEdit *valueCommentsEdit;
-		
+
 		QLabel *tagsLabel;
 		QRadioButton *columnTagsButton, *valueTagsButton;
 		QSpinBox *columnTagsEdit;
 		QLineEdit *valueTagsEdit;
-		
+
 		QLabel *payeeLabel;
 		QRadioButton *columnPayeeButton, *valuePayeeButton;
 		QSpinBox *columnPayeeEdit;
 		QLineEdit *valuePayeeEdit;
-		
+
 		QLabel *quantityLabel;
 		QRadioButton *columnQuantityButton, *valueQuantityButton;
 		QSpinBox *columnQuantityEdit;
 		EqonomizeValueEdit *valueQuantityEdit;
-		
+
 		QComboBox *presetCombo;
 		QPushButton *savePresetButton;
 		QLabel *presetLabel;
@@ -115,11 +115,11 @@ class ImportCSVDialog : public QWizard {
 		QCheckBox *createMissingButton;
 
 		bool import(bool test, csv_info *ci);
-		
+
 	public:
-		
+
 		ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *parent);
-		~ImportCSVDialog();		
+		~ImportCSVDialog();
 
 	protected slots:
 
@@ -131,7 +131,7 @@ class ImportCSVDialog : public QWizard {
 		void typeChanged(int);
 		void delimiterChanged(int);
 		void accept();
-		
+
 };
 
 #endif

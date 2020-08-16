@@ -222,7 +222,7 @@ double Currency::convertTo(double value, const Currency *to_currency, const QDat
 	if(to_currency == this) return value;
 	if(rates.isEmpty()) return value * to_currency->exchangeRate(date);
 	if(!date.isValid()) return value / rates.last() * to_currency->exchangeRate(date);
-	QMap<QDate, double>::const_iterator it = rates.lowerBound(date);	
+	QMap<QDate, double>::const_iterator it = rates.lowerBound(date);
 	if(it == rates.constEnd()) return value / rates.last() * to_currency->exchangeRate(date);
 	if(it.key() != date && it != rates.constBegin()) {
 		QMap<QDate, double>::const_iterator it2 = it;
@@ -301,7 +301,7 @@ QString Currency::formatValue(double value, int nr_of_decimals, bool show_curren
 		if(!always_show_sign && !o_budget->monetary_positive_sign.isEmpty()) sgn = o_budget->monetary_positive_sign;
 		else if(always_show_sign) sgn = QLocale().positiveSign();
 	}
-	
+
 	if(!sgn.isEmpty()) {
 		if(sign_place < 0 || (!prefix && sign_place == 1) || (prefix && sign_place == 4)) {
 			s.insert(0, sgn);

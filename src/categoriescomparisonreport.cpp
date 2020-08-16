@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -120,7 +120,7 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	}
 	sourceLayout->addWidget(sourceCombo);
 	sourceLayout->setStretchFactor(sourceCombo, 2);
-	
+
 	accountCombo = new AccountsCombo(budget, settingsWidget, true);
 	accountCombo->updateAccounts(ACCOUNT_TYPE_ASSETS);
 
@@ -151,7 +151,7 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 		sourceLayout->addWidget(payeeDescriptionWidget);
 		sourceLayout->addWidget(accountCombo);
 	}
-	
+
 	sourceLayout->setStretchFactor(accountCombo, 1);
 
 	current_account = NULL;
@@ -228,11 +228,11 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 	yearlyButton->setEnabled(totalButton->isChecked());
 	countButton->setEnabled(totalButton->isChecked());
 	perButton->setEnabled(totalButton->isChecked());
-	
+
 	settings.endGroup();
 
 	layout->addWidget(settingsWidget);
-	
+
 	resetOptions();
 
 	connect(group, SIGNAL(buttonToggled(int, bool)), this, SLOT(columnsToggled(int, bool)));
@@ -604,7 +604,7 @@ void CategoriesComparisonReport::save() {
 		QMessageBox::critical(this, tr("Error"), tr("Error while writing file; file was not saved."));
 		return;
 	}
-	
+
 }
 
 void CategoriesComparisonReport::print() {
@@ -651,17 +651,17 @@ void CategoriesComparisonReport::updateDisplay() {
 
 	current_account = NULL;
 	current_tag = "";
-	
+
 	bool b_expense = false, b_income = false;
-	
+
 	bool assets_selected = accountCombo->isEnabled() && !accountCombo->allAccountsSelected();
 	bool description_selected = b_extra && payeeButton->isChecked() && descriptionCombo->isEnabled() && !descriptionCombo->allItemsSelected();
 	bool payee_selected = b_extra && descriptionButton->isChecked() && payeeCombo->isEnabled() && !payeeCombo->allItemsSelected();
-	
+
 	bool include_subs = false;
-	
+
 	int i_source = sourceCombo->currentIndex();
-	if(first_source_account_index == 3 && i_source >= 3) i_source++; 
+	if(first_source_account_index == 3 && i_source >= 3) i_source++;
 	if(i_source == 1) {
 		i_source = 0;
 		include_subs = true;
@@ -696,7 +696,7 @@ void CategoriesComparisonReport::updateDisplay() {
 			i_source = 1;
 			include_subs = current_account && subsButton->isChecked() && !current_account->subCategories.isEmpty();
 		}
-		
+
 	}
 
 	QDate first_date, last_date, curmonth;
@@ -714,7 +714,7 @@ void CategoriesComparisonReport::updateDisplay() {
 		if(first_date > to_date) first_date = to_date;
 	}
 	last_date = to_date;
-	
+
 	int i_months =  0;
 	bool b_years = false;
 	if(monthsButton->isChecked()) {
@@ -762,7 +762,7 @@ void CategoriesComparisonReport::updateDisplay() {
 		month_costs.fill(0.0, i_months);
 		month_incomes.fill(0.0, i_months);
 	}
-	
+
 	AccountType type = ACCOUNT_TYPE_EXPENSES;
 	if(current_account) type = current_account->type();
 	switch(i_source) {
@@ -1503,7 +1503,7 @@ void CategoriesComparisonReport::updateDisplay() {
 			value_count = incomes_count + costs_count;
 		}
 	}
-	
+
 	bool b_negate = false;
 	if(!b_income && b_expense) {type = ACCOUNT_TYPE_EXPENSES; b_negate = true;}
 	else if(b_income && !b_expense) type = ACCOUNT_TYPE_INCOMES;
@@ -1578,7 +1578,7 @@ void CategoriesComparisonReport::updateDisplay() {
 		if(tags.isEmpty()) tags = budget->tags;
 	}
 	if(!b_incomes && !b_expenses) {b_incomes = true; b_expenses = true;}
-	
+
 	QTextStream outf(&source, QIODevice::WriteOnly);
 	outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
 	outf << "<html>" << '\n';
@@ -1847,7 +1847,7 @@ void CategoriesComparisonReport::updateDisplay() {
 					}
 					outf << "\n";
 					outf << "\t\t\t\t</tr>" << '\n';
-						
+
 				}
 			}
 			outf << "\t\t\t\t<tr bgcolor=\"#f0f0f0\">" << '\n';

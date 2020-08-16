@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -44,55 +44,55 @@ class Transactions;
 class AccountsMenu : public QMenu {
 
 	Q_OBJECT
-	
+
 	public:
-	
+
 		AccountsMenu(Budget*, QWidget *parent = NULL, bool shows_assets = false);
-		
+
 		bool accountSelected(Account *account);
 		bool allAccountsSelected();
 		void setAccountSelected(Account *account, bool selected);
 		int selectedAccountsCount();
 		QString selectedAccountsText(int type);
 		void updateAccounts(int type);
-		
+
 		QList<Account*> selected_accounts;
-		
+
 	protected:
-	
+
 		QHash<Account*, QAction*> account_actions;
-	
+
 		void keyPressEvent(QKeyEvent *e);
 		void mouseReleaseEvent(QMouseEvent *e);
-		
+
 		Budget *budget;
-		
+
 		bool b_assets;
-	
+
 	protected slots:
-	
+
 		void accountToggled();
-		
+
 	public slots:
-	
+
 		void selectAll();
 		void deselectAll();
 		void toggleAll();
-	
+
 	signals:
-	
+
 		void selectedAccountsChanged();
 
 };
 
 class AccountsCombo : public QPushButton {
-	
+
 	Q_OBJECT
-	
+
 	public:
 
 		AccountsCombo(Budget *budg, QWidget *parent = NULL, bool shows_assets = false);
-		
+
 		bool accountSelected(Account *account);
 		bool allAccountsSelected();
 		void setAccountSelected(Account *account, bool selected);
@@ -109,25 +109,25 @@ class AccountsCombo : public QPushButton {
 		void selectAll();
 		void deselectAll();
 		void clear();
-		
+
 	signals:
-	
+
 		void selectedAccountsChanged();
-		
+
 	protected:
-	
+
 		AccountsMenu *accountsMenu;
-		
+
 };
 
 class DescriptionsMenu : public QMenu {
 
 	Q_OBJECT
-	
+
 	public:
-	
+
 		DescriptionsMenu(int type, Budget*, QWidget *parent = NULL, bool show_all = true);
-		
+
 		bool itemSelected(const QString &str);
 		bool allItemsSelected();
 		void setItemSelected(const QString &str, bool selected);
@@ -139,45 +139,45 @@ class DescriptionsMenu : public QMenu {
 		bool testTransaction(Transactions *trans);
 		void setItemType(int type);
 		int itemType();
-		
+
 		QStringList selected_items;
-		
+
 	protected:
-	
+
 		QHash<QString, QAction*> item_actions;
-	
+
 		void keyPressEvent(QKeyEvent *e);
 		void mouseReleaseEvent(QMouseEvent *e);
-		
+
 		Budget *budget;
-		
+
 		bool b_all;
 		int i_type;
-	
+
 	protected slots:
-	
+
 		void itemToggled();
-		
+
 	public slots:
-	
+
 		void selectAll();
 		void deselectAll();
 		void toggleAll();
-	
+
 	signals:
-	
+
 		void selectedItemsChanged();
 
 };
 
 class DescriptionsCombo : public QPushButton {
-	
+
 	Q_OBJECT
-	
+
 	public:
 
 		DescriptionsCombo(int type, Budget *budg, QWidget *parent = NULL, bool show_all = true);
-		
+
 		bool itemSelected(const QString &str);
 		bool allItemsSelected();
 		void setItemSelected(const QString &str, bool selected);
@@ -196,15 +196,15 @@ class DescriptionsCombo : public QPushButton {
 		void selectAll();
 		void deselectAll();
 		void clear();
-		
+
 	signals:
-	
+
 		void selectedItemsChanged();
-		
+
 	protected:
-	
+
 		DescriptionsMenu *itemsMenu;
-		
+
 };
 
 class OverTimeReport : public QWidget {
@@ -221,7 +221,7 @@ class OverTimeReport : public QWidget {
 		QString source;
 
 		int current_source;
-		
+
 		QTextEdit *htmlview;
 		QComboBox *sourceCombo;
 		DescriptionsCombo *tagCombo, *descriptionCombo;
@@ -230,7 +230,7 @@ class OverTimeReport : public QWidget {
 		QCheckBox *valueButton, *dailyButton, *monthlyButton, *yearlyButton, *countButton, *perButton;
 		QRadioButton *catsButton, *tagsButton, *totalButton;
 		QLabel *columnsLabel;
-		
+
 		bool block_display_update;
 
 	public slots:

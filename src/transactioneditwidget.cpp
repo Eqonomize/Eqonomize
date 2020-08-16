@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016-2019 by Hanna Knutsson            *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -230,7 +230,7 @@ void TagButton::updateText() {
 	if(b_small) {
 		setText(QString("(") + QString::number(tagMenu->selectedTagsCount()) + ")");
 		setToolTip(str);
-	} else {		
+	} else {
 		setText(str.replace("&", "&&"));
 	}
 }
@@ -416,7 +416,7 @@ void TagMenu::mouseReleaseEvent(QMouseEvent *e) {
 	}
 }
 QString TagMenu::createTag() {
-	QString new_tag = QInputDialog::getText(this, tr("New Tag"), tr("Tag:")).trimmed(); 
+	QString new_tag = QInputDialog::getText(this, tr("New Tag"), tr("Tag:")).trimmed();
 	if(!new_tag.isEmpty()) {
 		if((new_tag.contains(",") && new_tag.contains("\"") && new_tag.contains("\'")) || (new_tag[0] == '\'' && new_tag.contains("\"")) || (new_tag[0] == '\"' && new_tag.contains("\'"))) {
 			if(new_tag[0] == '\'') new_tag.remove("\'");
@@ -589,7 +589,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			}
 			i++;
 		} else if(!multiaccount) {
-			editLayout->addWidget(new QLabel(tr("Description:", "Transaction description property (transaction title/generic article name)"), this), TEROWCOL(i, 0));			
+			editLayout->addWidget(new QLabel(tr("Description:", "Transaction description property (transaction title/generic article name)"), this), TEROWCOL(i, 0));
 			descriptionEdit = new QLineEdit(this);
 			descriptionEdit->setCompleter(new QCompleter(this));
 			descriptionEdit->completer()->setModel(new QStandardItemModel(this));
@@ -597,7 +597,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 			descriptionEdit->setToolTip(tr("Transaction title/generic article name"));
 			editLayout->addWidget(descriptionEdit, TEROWCOL(i, 1));
 			i++;
-		}		
+		}
 		if(transtype == TRANSACTION_TYPE_TRANSFER) {
 			withdrawalLabel = new QLabel(tr("Withdrawal:", "Money taken out from account"), this);
 			editLayout->addWidget(withdrawalLabel, TEROWCOL(i, 0));
@@ -664,7 +664,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				i++;
 			}
 		}
-		
+
 	}
 	switch(transtype) {
 		case TRANSACTION_TYPE_TRANSFER: {
@@ -889,7 +889,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 				}
 				break;
 			}
-		}		
+		}
 		if(sharesEdit) connect(sharesEdit, SIGNAL(valueChanged(double)), this, SLOT(sharesChanged(double)));
 		if(quotationEdit) connect(quotationEdit, SIGNAL(valueChanged(double)), this, SLOT(quotationChanged(double)));
 	} else {
@@ -1066,7 +1066,7 @@ void TransactionEditWidget::newFromAccount() {
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
 	Account *account = fromCombo->createAccount();
-	if(account) {		
+	if(account) {
 		emit accountAdded(account);
 		if(toCombo) toCombo->updateAccounts();
 	}
@@ -1076,7 +1076,7 @@ void TransactionEditWidget::newToAccount() {
 	budget->resetDefaultCurrencyChanged();
 	budget->resetCurrenciesModified();
 	Account *account = toCombo->createAccount();
-	if(account) {		
+	if(account) {
 		emit accountAdded(account);
 		if(fromCombo) fromCombo->updateAccounts();
 	}
@@ -1722,13 +1722,13 @@ Security *TransactionEditWidget::selectedSecurity() {
 Transactions *TransactionEditWidget::createTransactionWithLoan() {
 
 	if(!validValues()) return NULL;
-	
+
 	AssetsAccount *loan = new AssetsAccount(budget, ASSETS_TYPE_LIABILITIES, tr("Loan for %1").arg(descriptionEdit->text().isEmpty() ? toCombo->currentAccount()->name() : descriptionEdit->text()));
 	loan->setCurrency((Currency*) currencyCombo->currentData().value<void*>());
 	if(payeeEdit && lenderEdit->text().isEmpty()) loan->setMaintainer(payeeEdit->text());
 	else loan->setMaintainer(lenderEdit->text());
 	budget->addAccount(loan);
-	
+
 	if(is_zero(downPaymentEdit->value())) {
 		Expense *expense = new Expense(budget, valueEdit->value(), dateEdit->date(), (ExpensesAccount*) toCombo->currentAccount(), loan, descriptionEdit->text(), commentsEdit->text());
 		if(quantityEdit) expense->setQuantity(quantityEdit->value());
@@ -1736,16 +1736,16 @@ Transactions *TransactionEditWidget::createTransactionWithLoan() {
 		if(tagButton) tagButton->modifyTransaction(expense);
 		return expense;
 	}
-	
+
 	MultiAccountTransaction *split = new MultiAccountTransaction(budget, (CategoryAccount*) toCombo->currentAccount(), descriptionEdit->text());
 	if(linksWidget) linksWidget->updateTransaction(split);
 	split->setComment(commentsEdit->text());
 	if(fileEdit) split->setAssociatedFile(fileEdit->text());
 	if(quantityEdit) split->setQuantity(quantityEdit->value());
-	
+
 	Expense *expense = new Expense(budget, valueEdit->value() - downPaymentEdit->value(), dateEdit->date(), (ExpensesAccount*) toCombo->currentAccount(), loan);
 	split->addTransaction(expense);
-	
+
 	Expense *down_payment = new Expense(budget, downPaymentEdit->value(), dateEdit->date(), (ExpensesAccount*) toCombo->currentAccount(), (AssetsAccount*) fromCombo->currentAccount());
 	down_payment->setPayee(loan->maintainer());
 	split->addTransaction(down_payment);
@@ -2266,7 +2266,7 @@ TransactionEditDialog::TransactionEditDialog(bool extra_parameters, int transact
 	editWidget = new TransactionEditWidget(false, extra_parameters, transaction_type, split_currency, transfer_to, security, security_value_type, select_security, budg, this, allow_account_creation, multiaccount, withloan);
 	box1->addWidget(editWidget);
 	editWidget->transactionsReset();
-	
+
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
@@ -2289,7 +2289,7 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 	setModal(true);
 
 	added_account = NULL;
-	
+
 	/*int rows = 4;
 	if(b_extra && (transtype == TRANSACTION_TYPE_EXPENSE || transtype == TRANSACTION_TYPE_INCOME)) rows= 5;
 	else if(transtype == TRANSACTION_TYPE_TRANSFER) rows = 3;
@@ -2351,7 +2351,7 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 		editLayout->addWidget(payeeEdit, 4, 1);
 		connect(payeeButton, SIGNAL(toggled(bool)), payeeEdit, SLOT(setEnabled(bool)));
 	}
-	
+
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
@@ -2503,7 +2503,7 @@ bool MultipleTransactionsEditDialog::modifySplitTransaction(SplitTransaction *tr
 bool MultipleTransactionsEditDialog::checkAccounts() {
 	if(!categoryCombo) return true;
 	switch(transtype) {
-		case TRANSACTION_TYPE_INCOME: {			
+		case TRANSACTION_TYPE_INCOME: {
 			if(!categoryButton->isChecked()) return true;
 			if(!categoryCombo->hasAccount()) {
 				QMessageBox::critical(this, tr("Error"), tr("No income category available."));

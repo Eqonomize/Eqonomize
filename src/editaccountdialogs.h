@@ -46,7 +46,7 @@ class Transaction;
 class EditAssetsAccountDialog : public QDialog {
 
 	Q_OBJECT
-	
+
 	protected:
 
 		QLineEdit *nameEdit, *maintainerEdit;
@@ -62,9 +62,9 @@ class EditAssetsAccountDialog : public QDialog {
 		Budget *budget;
 		AssetsAccount *current_account;
 		int prev_currency_index;
-		
+
 	public:
-		
+
 		EditAssetsAccountDialog(Budget *budg, QWidget *parent, QString title, bool new_loan = false, int default_type = -1, bool force_type = false, QString default_group = "");
 
 		AssetsAccount *newAccount(Transaction **transfer = NULL);
@@ -86,7 +86,7 @@ class EditAssetsAccountDialog : public QDialog {
 class EditExpensesAccountDialog : public QDialog {
 
 	Q_OBJECT
-	
+
 	protected:
 
 		QLineEdit *nameEdit;
@@ -96,9 +96,9 @@ class EditExpensesAccountDialog : public QDialog {
 		QCheckBox *budgetButton;
 		Budget *budget;
 		Account *current_account;
-		
+
 	public:
-		
+
 		EditExpensesAccountDialog(Budget *budg, ExpensesAccount *default_parent, QWidget *parent, QString title);
 		ExpensesAccount *newAccount();
 		void modifyAccount(ExpensesAccount *account);
@@ -108,13 +108,13 @@ class EditExpensesAccountDialog : public QDialog {
 
 		void budgetEnabled(bool);
 		void accept();
-		
+
 };
 
 class EditIncomesAccountDialog : public QDialog {
 
 	Q_OBJECT
-	
+
 	protected:
 
 		QLineEdit *nameEdit;
@@ -124,9 +124,9 @@ class EditIncomesAccountDialog : public QDialog {
 		QCheckBox *budgetButton;
 		Budget *budget;
 		Account *current_account;
-		
+
 	public:
-		
+
 		EditIncomesAccountDialog(Budget *budg, IncomesAccount *default_parent, QWidget *parent, QString title);
 		IncomesAccount *newAccount();
 		void modifyAccount(IncomesAccount *account);
@@ -136,7 +136,7 @@ class EditIncomesAccountDialog : public QDialog {
 
 		void budgetEnabled(bool);
 		void accept();
-		
+
 };
 
 #endif

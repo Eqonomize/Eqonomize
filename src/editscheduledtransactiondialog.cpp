@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -37,43 +37,43 @@
 
 
 EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parameters, int transaction_type, Security *security, bool select_security, Budget *budg, QWidget *parent, QString title, Account *account, bool allow_account_creation, bool withloan) : QDialog(parent), budget(budg), b_extra(extra_parameters), b_loan(withloan) {
-	
+
 	setWindowTitle(title);
 	setModal(true);
-	
+
 	QVBoxLayout *box1 = new QVBoxLayout(this);
 
 	tabs = new QTabWidget();
 	switch(transaction_type) {
 		case TRANSACTION_TYPE_EXPENSE: {
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation, false, withloan); 
-			tabs->addTab(transactionEditWidget, tr("Expense")); 
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation, false, withloan);
+			tabs->addTab(transactionEditWidget, tr("Expense"));
 			break;
 		}
-		case TRANSACTION_TYPE_INCOME: {			
+		case TRANSACTION_TYPE_INCOME: {
 			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation);
-			if(security) tabs->addTab(transactionEditWidget, tr("Dividend")); 
-			else tabs->addTab(transactionEditWidget, tr("Income")); 
+			if(security) tabs->addTab(transactionEditWidget, tr("Dividend"));
+			else tabs->addTab(transactionEditWidget, tr("Income"));
 			break;
 		}
-		case TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND: {			
+		case TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND: {
 			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation);
-			tabs->addTab(transactionEditWidget, tr("Reinvested Dividend")); 
+			tabs->addTab(transactionEditWidget, tr("Reinvested Dividend"));
 			break;
 		}
-		case TRANSACTION_TYPE_TRANSFER: {			
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
-			tabs->addTab(transactionEditWidget, tr("Transfer")); 
+		case TRANSACTION_TYPE_TRANSFER: {
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation);
+			tabs->addTab(transactionEditWidget, tr("Transfer"));
 			break;
 		}
-		case TRANSACTION_TYPE_SECURITY_BUY: { 
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
-			tabs->addTab(transactionEditWidget, tr("Securities Purchase", "Financial security (e.g. stock, mutual fund)")); 
+		case TRANSACTION_TYPE_SECURITY_BUY: {
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation);
+			tabs->addTab(transactionEditWidget, tr("Securities Purchase", "Financial security (e.g. stock, mutual fund)"));
 			break;
 		}
 		case TRANSACTION_TYPE_SECURITY_SELL: {
-			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation); 
-			tabs->addTab(transactionEditWidget, tr("Securities Sale", "Financial security (e.g. stock, mutual fund)")); 
+			transactionEditWidget = new TransactionEditWidget(false, b_extra, transaction_type, NULL, false, security, SECURITY_ALL_VALUES, select_security, budget, NULL, allow_account_creation);
+			tabs->addTab(transactionEditWidget, tr("Securities Sale", "Financial security (e.g. stock, mutual fund)"));
 			break;
 		}
 	}
@@ -82,16 +82,16 @@ EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parame
 	if(account) transactionEditWidget->setAccount(account);
 	recurrenceEditWidget = new RecurrenceEditWidget(transactionEditWidget->date(), budget);
 	tabs->addTab(recurrenceEditWidget, tr("Recurrence"));
-	
+
 	box1->addWidget(tabs);
-	
+
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
-	
+
 	box1->addWidget(buttonBox);
-	
+
 	connect(transactionEditWidget, SIGNAL(dateChanged(const QDate&)), recurrenceEditWidget, SLOT(setStartDate(const QDate&)));
 	connect(transactionEditWidget, SIGNAL(addmodify()), this, SLOT(accept()));
 	transactionEditWidget->focusFirst();
@@ -244,28 +244,28 @@ bool EditScheduledTransactionDialog::editTransaction(Transaction *trans, Recurre
 
 
 EditScheduledMultiItemDialog::EditScheduledMultiItemDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, AssetsAccount *account, bool allow_account_creation) : QDialog(parent), budget(budg), b_extra(extra_parameters) {
-	
+
 	setWindowTitle(title);
 	setModal(true);
-	
+
 	QVBoxLayout *box1 = new QVBoxLayout(this);
-	
+
 	tabs = new QTabWidget();
-	
-	transactionEditWidget = new EditMultiItemWidget(budget, NULL, account, b_extra, allow_account_creation); 
-	tabs->addTab(transactionEditWidget, tr("Transactions")); 
+
+	transactionEditWidget = new EditMultiItemWidget(budget, NULL, account, b_extra, allow_account_creation);
+	tabs->addTab(transactionEditWidget, tr("Transactions"));
 
 	recurrenceEditWidget = new RecurrenceEditWidget(transactionEditWidget->date(), budget);
 	tabs->addTab(recurrenceEditWidget, tr("Recurrence"));
-	
+
 	box1->addWidget(tabs);
-	
+
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
-	
+
 	connect(transactionEditWidget, SIGNAL(dateChanged(const QDate&)), recurrenceEditWidget, SLOT(setStartDate(const QDate&)));
 	transactionEditWidget->focusFirst();
 }
@@ -365,28 +365,28 @@ MultiItemTransaction *EditScheduledMultiItemDialog::editTransaction(MultiItemTra
 }
 
 EditScheduledMultiAccountDialog::EditScheduledMultiAccountDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, bool create_expenses, bool allow_account_creation) : QDialog(parent), budget(budg), b_extra(extra_parameters) {
-	
+
 	setWindowTitle(title);
 	setModal(true);
-	
+
 	QVBoxLayout *box1 = new QVBoxLayout(this);
-	
+
 	tabs = new QTabWidget();
-	
-	transactionEditWidget = new EditMultiAccountWidget(budget, NULL, create_expenses, b_extra, allow_account_creation); 
-	tabs->addTab(transactionEditWidget, tr("Transactions")); 
+
+	transactionEditWidget = new EditMultiAccountWidget(budget, NULL, create_expenses, b_extra, allow_account_creation);
+	tabs->addTab(transactionEditWidget, tr("Transactions"));
 
 	recurrenceEditWidget = new RecurrenceEditWidget(transactionEditWidget->date(), budget);
 	tabs->addTab(recurrenceEditWidget, tr("Recurrence"));
-	
+
 	box1->addWidget(tabs);
-	
+
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
-	
+
 	connect(transactionEditWidget, SIGNAL(dateChanged(const QDate&)), recurrenceEditWidget, SLOT(setStartDate(const QDate&)));
 	transactionEditWidget->focusFirst();
 
@@ -492,31 +492,31 @@ MultiAccountTransaction *EditScheduledMultiAccountDialog::editTransaction(MultiA
 
 
 EditScheduledDebtPaymentDialog::EditScheduledDebtPaymentDialog(bool extra_parameters, Budget *budg, QWidget *parent, QString title, AssetsAccount *loan, bool allow_account_creation, bool only_interest) : QDialog(parent), budget(budg), b_extra(extra_parameters) {
-	
+
 	setWindowTitle(title);
 	setModal(true);
-	
+
 	QVBoxLayout *box1 = new QVBoxLayout(this);
-	
+
 	tabs = new QTabWidget();
-	
-	transactionEditWidget = new EditDebtPaymentWidget(budget, NULL, loan, allow_account_creation, only_interest); 
-	tabs->addTab(transactionEditWidget, tr("Transaction")); 
+
+	transactionEditWidget = new EditDebtPaymentWidget(budget, NULL, loan, allow_account_creation, only_interest);
+	tabs->addTab(transactionEditWidget, tr("Transaction"));
 
 	recurrenceEditWidget = new RecurrenceEditWidget(transactionEditWidget->date(), budget);
 	tabs->addTab(recurrenceEditWidget, tr("Recurrence"));
-	
+
 	box1->addWidget(tabs);
-	
+
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
-	
+
 	connect(transactionEditWidget, SIGNAL(dateChanged(const QDate&)), recurrenceEditWidget, SLOT(setStartDate(const QDate&)));
 	connect(transactionEditWidget, SIGNAL(addmodify()), this, SLOT(accept()));
-	
+
 	transactionEditWidget->focusFirst();
 
 }

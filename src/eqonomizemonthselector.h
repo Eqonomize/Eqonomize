@@ -35,7 +35,7 @@ class EqonomizeMonthSelector : public QWidget {
 
 		EqonomizeMonthSelector(QWidget *parent);
 		~EqonomizeMonthSelector();
-		
+
 		QDate date() const;
 
 	protected:
@@ -55,7 +55,7 @@ class EqonomizeMonthSelector : public QWidget {
 		void setMonthEnabled(bool);
 
 	protected slots:
-		
+
 		void onYearChanged(int);
 		void onMonthChanged(int);
 

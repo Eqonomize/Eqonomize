@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016-2019 by Hanna Knutsson            *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -77,19 +77,19 @@ typedef enum {
 } GeneralTransactionType;
 
 class Transactions {
-	
+
 	Q_DECLARE_TR_FUNCTIONS(Transactions)
-	
+
 	protected:
-	
+
 		qlonglong i_id;
 		int i_first_revision, i_last_revision;
 		Budget *o_budget;
 		QStringList tags;
 		QList<qlonglong> links;
-	
+
 	public:
-		
+
 		Transactions(Budget *parent_budget);
 		Transactions(const Transactions *trans);
 		Transactions();
@@ -97,7 +97,7 @@ class Transactions {
 		virtual Transactions *copy() const = 0;
 		virtual void set(const Transactions *trans);
 		virtual bool equals(const Transactions *transaction, bool strict_comparison = true) const = 0;
-	
+
 		virtual double value(bool convert = false) const = 0;
 		virtual Currency *currency() const = 0;
 		virtual QString valueString(int precision = -1) const;
@@ -198,7 +198,7 @@ class Transaction : public Transactions {
 		virtual void save(QXmlStreamWriter *xml);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		virtual void writeElements(QXmlStreamWriter *xml);
-		
+
 		SplitTransaction *parentSplit() const;
 		void setParentSplit(SplitTransaction *parent);
 		virtual double value(bool convert = false) const;
@@ -230,24 +230,24 @@ class Transaction : public Transactions {
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
 		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
-		
+
 		virtual bool isReconciled(AssetsAccount *account) const = 0;
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled) = 0;
-		
+
 		virtual bool hasTag(const QString &tag, bool include_parent = true, bool case_insensitive = false) const;
 		virtual QString tagsText(bool include_parent = true) const;
 		virtual const QString &getTag(int index, bool include_parent = false) const;
 		virtual int tagsCount(bool include_parent = false) const;
 		virtual QString writeTags(bool include_parent = false) const;
-		
+
 		virtual int linksCount(bool include_parent = false) const;
 		virtual qlonglong getLinkId(int index, bool include_parent = false) const;
 		virtual bool hasLinkId(qlonglong lid, bool include_parent = true) const;
 		virtual QString writeLinks(bool include_parent = false) const;
-		
+
 		virtual QString payeeText() const;
 		virtual const QString &payee() const;
-		
+
 };
 
 class Expense : public Transaction {
@@ -274,7 +274,7 @@ class Expense : public Transaction {
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 
 		bool equals(const Transactions *transactions, bool strict_comparison = true) const;
-		
+
 		ExpensesAccount *category() const;
 		void setCategory(ExpensesAccount *new_category);
 		AssetsAccount *from() const;
@@ -288,10 +288,10 @@ class Expense : public Transaction {
 		virtual TransactionSubType subtype() const;
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
-		
+
 		virtual bool isReconciled(AssetsAccount *account) const;
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
-		
+
 };
 
 class DebtFee : public Expense {
@@ -299,11 +299,11 @@ class DebtFee : public Expense {
 	Q_DECLARE_TR_FUNCTIONS(DebtFee)
 
 	protected:
-	
+
 		AssetsAccount *o_loan;
 
 	public:
-	
+
 		DebtFee(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString(), qlonglong initial_id = -1);
 		DebtFee(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		DebtFee(Budget *parent_budget);
@@ -312,10 +312,10 @@ class DebtFee : public Expense {
 		virtual ~DebtFee();
 		Transaction *copy() const;
 		virtual void set(const Transactions *trans);
-		
+
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
-	
+
 		AssetsAccount *loan() const;
 		void setLoan(AssetsAccount *new_loan);
 		const QString &payee() const;
@@ -323,7 +323,7 @@ class DebtFee : public Expense {
 		TransactionSubType subtype() const;
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
-	
+
 };
 
 class DebtInterest : public Expense {
@@ -331,11 +331,11 @@ class DebtInterest : public Expense {
 	Q_DECLARE_TR_FUNCTIONS(DebtInterest)
 
 	protected:
-	
+
 		AssetsAccount *o_loan;
 
 	public:
-	
+
 		DebtInterest(Budget *parent_budget, double initial_cost, QDate initial_date, ExpensesAccount *initial_category, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString(), qlonglong initial_id = -1);
 		DebtInterest(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		DebtInterest(Budget *parent_budget);
@@ -344,10 +344,10 @@ class DebtInterest : public Expense {
 		virtual ~DebtInterest();
 		Transaction *copy() const;
 		virtual void set(const Transactions *trans);
-		
+
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
-	
+
 		AssetsAccount *loan() const;
 		void setLoan(AssetsAccount *new_loan);
 		const QString &payee() const;
@@ -355,7 +355,7 @@ class DebtInterest : public Expense {
 		TransactionSubType subtype() const;
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
-	
+
 };
 
 
@@ -382,7 +382,7 @@ class Income : public Transaction {
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
-	
+
 		bool equals(const Transactions *transaction, bool strict_comparison = true) const;
 
 		IncomesAccount *category() const;
@@ -399,14 +399,14 @@ class Income : public Transaction {
 		Security *security() const;
 		virtual QString description() const;
 		virtual TransactionSubType subtype() const;
-		
+
 		virtual bool isReconciled(AssetsAccount *account) const;
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
-		
+
 };
 
 class ReinvestedDividend : public Income {
-	
+
 	Q_DECLARE_TR_FUNCTIONS(Income)
 
 	protected:
@@ -423,34 +423,34 @@ class ReinvestedDividend : public Income {
 		virtual ~ReinvestedDividend();
 		Transaction *copy() const;
 		virtual void set(const Transactions *trans);
-		
+
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
-		
+
 		bool equals(const Transactions *transaction, bool strict_comparison = true) const;
-		
+
 		void setSecurity(Security *parent_security);
-		
+
 		double shareValue(bool convert = false) const;
 		double shares() const;
 		void setShares(double new_shares);
-		
+
 		virtual QString description() const;
 		virtual TransactionSubType subtype() const;
-		
+
 };
 
 class Transfer : public Transaction {
 
 	Q_DECLARE_TR_FUNCTIONS(Transfer)
-	
+
 	protected:
-	
+
 		double d_deposit;
 		bool b_from_reconciled, b_to_reconciled;
 
 	public:
-	
+
 		Transfer(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description = QString(), QString initial_comment = QString(), qlonglong initial_id = -1);
 		Transfer(Budget *parent_budget, double initial_withdrawal, double initial_deposit, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_to, QString initial_description = QString(), QString initial_comment = QString(), qlonglong initial_id = -1);
 		Transfer(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
@@ -482,10 +482,10 @@ class Transfer : public Transaction {
 		TransactionType type() const;
 		virtual TransactionSubType subtype() const;
 		virtual QString payeeText() const;
-		
+
 		virtual bool isReconciled(AssetsAccount *account) const;
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
-		
+
 };
 
 class DebtReduction : public Transfer {
@@ -493,7 +493,7 @@ class DebtReduction : public Transfer {
 	Q_DECLARE_TR_FUNCTIONS(DebtReduction)
 
 	public:
-	
+
 		DebtReduction(Budget *parent_budget, double initial_amount, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString(), qlonglong initial_id = -1);
 		DebtReduction(Budget *parent_budget, double initial_payment, double initial_reduction, QDate initial_date, AssetsAccount *initial_from, AssetsAccount *initial_loan, QString initial_comment = QString(), qlonglong initial_id = -1);
 		DebtReduction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
@@ -503,16 +503,16 @@ class DebtReduction : public Transfer {
 		virtual ~DebtReduction();
 		Transaction *copy() const;
 		virtual void set(const Transactions *trans);
-		
+
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
-	
+
 		AssetsAccount *loan() const;
 		void setLoan(AssetsAccount *new_loan);
 		virtual QString description() const;
 		TransactionSubType subtype() const;
 		QString payeeText() const;
-	
+
 };
 
 
@@ -533,13 +533,13 @@ class Balancing : public Transfer {
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
-		
+
 		virtual void setAmount(double new_amount);
 		virtual void setAmount(double withdrawal, double deposit);
 
 		AssetsAccount *account() const;
 		void setAccount(AssetsAccount *new_account);
-		
+
 		virtual QString description() const;
 		TransactionSubType subtype() const;
 
@@ -552,9 +552,9 @@ class SecurityTransaction : public Transaction {
 	protected:
 
 		Security *o_security;
-		
+
 		double d_shares;
-		
+
 		bool b_reconciled;
 
 	public:
@@ -590,10 +590,10 @@ class SecurityTransaction : public Transaction {
 
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
-		
+
 		virtual bool isReconciled(AssetsAccount *account) const;
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
-		
+
 };
 
 class SecurityBuy : public SecurityTransaction {
@@ -699,14 +699,14 @@ class ScheduledTransaction : public Transactions {
 		virtual GeneralTransactionType generaltype() const;
 		virtual int transactiontype() const;
 		virtual int transactionsubtype() const;
-		
+
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
 		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
-		
+
 		virtual bool isReconciled(AssetsAccount *account) const;
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
-		
+
 		virtual int tagsCount(bool include_parent = false) const;
 		virtual void addTag(QString tag);
 		virtual bool removeTag(QString tag);
@@ -717,7 +717,7 @@ class ScheduledTransaction : public Transactions {
 		virtual void clearTags();
 		virtual void readTags(const QString &text);
 		virtual QString writeTags(bool include_parent = false) const;
-		
+
 		int linksCount(bool include_parent = false) const;
 		qlonglong getLinkId(int index, bool include_parent = false) const;
 		void clearLinks();
@@ -730,13 +730,13 @@ class ScheduledTransaction : public Transactions {
 
 		virtual QString payeeText() const;
 		virtual const QString &payee() const;
-	
+
 };
 
 class SplitTransaction : public Transactions {
 
 	Q_DECLARE_TR_FUNCTIONS(SplitTransaction)
-	
+
 	protected:
 
 		QDate d_date;
@@ -746,9 +746,9 @@ class SplitTransaction : public Transactions {
 		QVector<Transaction*> splits;
 		qint64 i_time;
 		bool b_reconciled;
-		
+
 	public:
-		
+
 		SplitTransaction(Budget *parent_budget, QDate initial_date, QString initial_description = QString());
 		SplitTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		SplitTransaction(const SplitTransaction *split);
@@ -757,13 +757,13 @@ class SplitTransaction : public Transactions {
 		virtual ~SplitTransaction();
 		virtual SplitTransaction *copy() const = 0;
 		virtual void set(const Transactions *trans);
-		
+
 		virtual double value(bool convert = false) const = 0;
 		virtual Currency *currency() const = 0;
 		virtual double cost(bool convert = false) const = 0;
 		virtual double quantity() const = 0;
 		double income() const;
-		
+
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
 		virtual bool readElements(QXmlStreamReader *xml, bool *valid);
@@ -776,7 +776,7 @@ class SplitTransaction : public Transactions {
 		virtual void addTransaction(Transaction *trans);
 		virtual void removeTransaction(Transaction *trans, bool keep = false);
 		virtual void clear(bool keep = false);
-		
+
 		const QDate &date() const;
 		virtual void setDate(QDate new_date);
 		const qint64 &timestamp() const;
@@ -787,31 +787,31 @@ class SplitTransaction : public Transactions {
 		virtual void setComment(QString new_comment);
 		const QString &associatedFile() const;
 		virtual void setAssociatedFile(QString new_attachment);
-		
+
 		virtual int count() const;
 		virtual Transaction *operator[] (int index) const;
 		virtual Transaction *at(int index) const;
-		
+
 		virtual void setId(qlonglong new_id) {Transactions::setId(new_id);}
-		
+
 		virtual GeneralTransactionType generaltype() const;
 		virtual SplitTransactionType type() const = 0;
 		virtual bool isIncomesAndExpenses() const;
-		
+
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
 		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
-		
+
 		virtual bool isReconciled(AssetsAccount *account) const;
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
-		
+
 		virtual QString tagsText(bool include_parent_child = true) const;
 		virtual void splitTags();
 		virtual void joinTags();
-		
+
 		virtual void splitLinks();
 		virtual void joinLinks();
-		
+
 		virtual QString payeeText() const;
 		virtual const QString &payee() const;
 
@@ -820,7 +820,7 @@ class SplitTransaction : public Transactions {
 class MultiItemTransaction : public SplitTransaction {
 
 	Q_DECLARE_TR_FUNCTIONS(MultiItemTransaction)
-	
+
 	protected:
 
 		AssetsAccount *o_account;
@@ -852,15 +852,15 @@ class MultiItemTransaction : public SplitTransaction {
 		QString fromAccountsString() const;
 		virtual const QString &payee() const;
 		void setPayee(QString new_payee);
-		
+
 		void addTransaction(Transaction *trans);
-		
+
 		virtual SplitTransactionType type() const;
 		int transactiontype() const;
-		
+
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
-		
+
 		virtual bool isReconciled(AssetsAccount *account) const;
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
 
@@ -871,12 +871,12 @@ class MultiAccountTransaction : public SplitTransaction {
 	Q_DECLARE_TR_FUNCTIONS(MultiAccountTransaction)
 
 	protected:
-	
+
 		CategoryAccount *o_category;
 		double d_quantity;
 
 	public:
-	
+
 		MultiAccountTransaction(Budget *parent_budget, CategoryAccount *initial_category, QString initial_description = QString());
 		MultiAccountTransaction(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		MultiAccountTransaction(const MultiAccountTransaction *split);
@@ -885,31 +885,31 @@ class MultiAccountTransaction : public SplitTransaction {
 		virtual ~MultiAccountTransaction();
 		virtual SplitTransaction *copy() const;
 		virtual void set(const Transactions *trans);
-	
+
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		virtual void writeElements(QXmlStreamWriter *xml);
-		
+
 		virtual double value(bool convert = false) const;
 		virtual Currency *currency() const;
 		virtual double quantity() const;
 		void setQuantity(double new_quantity);
 		virtual double cost(bool convert = false) const;
-		
+
 		CategoryAccount *category() const;
 		void setCategory(CategoryAccount *new_category);
 		void setDescription(QString new_description);
-		
+
 		AssetsAccount *account() const;
 		QString accountsString() const;
-		
+
 		void addTransaction(Transaction *trans);
-		
+
 		virtual SplitTransactionType type() const;
 		virtual TransactionType transactiontype() const;
 		virtual bool isIncomesAndExpenses() const;
-		
+
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
 
@@ -918,17 +918,17 @@ class MultiAccountTransaction : public SplitTransaction {
 class DebtPayment : public SplitTransaction {
 
 	Q_DECLARE_TR_FUNCTIONS(DebtPayment)
-	
+
 	protected:
-	
+
 		AssetsAccount *o_loan;
 		DebtFee *o_fee;
 		DebtInterest *o_interest;
 		DebtReduction *o_payment;
 		AssetsAccount *o_account;
-	
+
 	public:
-	
+
 		DebtPayment(Budget *parent_budget, QDate initial_date, AssetsAccount *initial_loan, AssetsAccount *initial_account);
 		DebtPayment(Budget *parent_budget, QXmlStreamReader *xml, bool *valid);
 		DebtPayment(const DebtPayment *split);
@@ -937,21 +937,21 @@ class DebtPayment : public SplitTransaction {
 		virtual ~DebtPayment();
 		virtual SplitTransaction *copy() const;
 		virtual void set(const Transactions *trans);
-		
+
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		virtual void writeElements(QXmlStreamWriter *xml);
-		
+
 		virtual double value(bool convert = false) const;
 		virtual Currency *currency() const;
 		virtual double quantity() const;
 		virtual double cost(bool convert = false) const;
-		
+
 		DebtFee *feeTransaction() const;
 		DebtInterest *interestTransaction() const;
 		DebtReduction *paymentTransaction() const;
-		
+
 		void setInterest(double new_value, bool paid_from_account = true);
 		void setInterestPaid(bool paid_from_account);
 		void setFee(double new_value);
@@ -962,36 +962,36 @@ class DebtPayment : public SplitTransaction {
 		double fee(bool convert = false) const;
 		double payment(bool convert = false) const;
 		double reduction(bool convert = false) const;
-		
+
 		void clear(bool keep = false);
-		
+
 		AssetsAccount *loan() const;
 		void setLoan(AssetsAccount *new_loan);
 		AssetsAccount *account() const;
 		void setAccount(AssetsAccount *new_account);
 		ExpensesAccount *expenseCategory() const;
 		void setExpenseCategory(ExpensesAccount *new_category);
-		
+
 		void setId(qlonglong new_id);
-		
+
 		QString description() const;
 		virtual void setDate(QDate new_date);
-		
+
 		SplitTransactionType type() const;
 		virtual bool isIncomesAndExpenses() const;
-		
+
 		int count() const;
 		virtual Transaction *operator[] (int index) const;
 		virtual Transaction *at(int index) const;
 		virtual void removeTransaction(Transaction *trans, bool keep = false);
-		
+
 		virtual bool relatesToAccount(Account *account, bool include_subs = true, bool include_non_value = false) const;
 		virtual void replaceAccount(Account *old_account, Account *new_account);
 		virtual double accountChange(Account *account, bool include_subs = true, bool convert = false) const;
-		
+
 		virtual bool isReconciled(AssetsAccount *account) const;
 		virtual void setReconciled(AssetsAccount *account, bool is_reconciled);
-		
+
 };
 
 class SecurityTrade {

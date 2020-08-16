@@ -115,7 +115,7 @@ class Security {
 		Security();
 		Security(const Security *security);
 		virtual ~Security();
-		
+
 		void set(const Security *security);
 		void setMergeQuotes(const Security *security);
 		void mergeQuotes(const Security *security, bool keep = true);

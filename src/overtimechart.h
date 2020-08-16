@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -76,9 +76,9 @@ class OverTimeChart : public QWidget {
 #else
 		QGraphicsScene *scene;
 		QGraphicsView *view;
-#endif		
+#endif
 		QButtonGroup *valueGroup;
-		
+
 		QDate start_date, end_date, saved_first_date, saved_last_date;
 
 		CategoryAccount *current_account;

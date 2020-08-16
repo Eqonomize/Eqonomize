@@ -358,12 +358,12 @@ void CategoryAccount::writeElements(QXmlStreamWriter *xml) {
 		xml->writeEndElement();
 	}
 }
-double CategoryAccount::monthlyBudget(int year, int month, bool no_default) const {	
+double CategoryAccount::monthlyBudget(int year, int month, bool no_default) const {
 	QDate date;
 	date.setDate(year, month, 1);
 	return monthlyBudget(date, no_default);
 }
-void CategoryAccount::setMonthlyBudget(int year, int month, double new_monthly_budget) {	
+void CategoryAccount::setMonthlyBudget(int year, int month, double new_monthly_budget) {
 	QDate date;
 	date.setDate(year, month, 1);
 	return setMonthlyBudget(date, new_monthly_budget);
@@ -374,7 +374,7 @@ double CategoryAccount::monthlyBudget(const QDate &date, bool no_default) const 
 	if(it != mbudgets.end()) {
 		return it.value();
 	}
-	if(no_default) return -1.0;	
+	if(no_default) return -1.0;
 	it = mbudgets.begin();
 	if(it.key() > date) return -1.0;
 	QMap<QDate, double>::const_iterator it_e = mbudgets.end();
@@ -388,12 +388,12 @@ double CategoryAccount::monthlyBudget(const QDate &date, bool no_default) const 
 QString CategoryAccount::nameWithParent(bool formatted) const{
 	if(o_parent) {
 		if(formatted) return o_parent->name() + QString(": ") + name();
-		else return o_parent->name() + QString(":") + name();  
+		else return o_parent->name() + QString(":") + name();
 	}
 	return name();
 }
 Account *CategoryAccount::topAccount() {
-	if(o_parent) return o_parent; 
+	if(o_parent) return o_parent;
 	return this;
 }
 void CategoryAccount::setMonthlyBudget(const QDate &date, double new_monthly_budget) {

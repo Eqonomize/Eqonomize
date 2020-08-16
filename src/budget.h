@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016-2019 by Hanna Knutsson            *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -133,26 +133,26 @@ struct BudgetSynchronization {
 class Budget {
 
 	Q_DECLARE_TR_FUNCTIONS(Budget)
-	
+
 	protected:
-	
+
 		int i_quotation_decimals, i_share_decimals, i_budget_day, i_budget_month, i_opened_revision, i_revision;
 		bool b_record_new_tags, b_record_new_accounts, b_record_new_securities, b_default_currency_changed, b_currency_modified;
 		TransactionConversionRateDate i_tcrd;
-		
+
 		qlonglong last_id;
-		
+
 		Currency *default_currency;
-		
+
 		QNetworkReply *syncReply;
 		QProcess *syncProcess;
 
 	public:
-	
+
 		BudgetSynchronization *o_sync;
 		Currency *currency_euro;
 		QNetworkAccessManager nam;
-		
+
 		QString monetary_decimal_separator, monetary_group_separator, monetary_positive_sign, monetary_negative_sign;
 		QByteArray monetary_group_format;
 		bool currency_symbol_precedes, currency_symbol_precedes_neg, currency_code_precedes, currency_code_precedes_neg, currency_symbol_space, currency_code_space, currency_symbol_space_neg, currency_code_space_neg;
@@ -162,7 +162,7 @@ class Budget {
 
 		Budget();
 		~Budget();
-		
+
 		void loadCurrencies();
 		void loadGlobalCurrencies();
 		void loadLocalCurrencies();
@@ -171,7 +171,7 @@ class Budget {
 		QString loadMyCurrencyNetData(QByteArray data);
 		QString loadMyCurrencyNetHtml(QByteArray data);
 		QString saveCurrencies();
-		
+
 		TransactionConversionRateDate defaultTransactionConversionRateDate() const;
 		void setDefaultTransactionConversionRateDate(TransactionConversionRateDate tcrd);
 
@@ -184,16 +184,16 @@ class Budget {
 		bool sync(QString &error, QString &errors, bool do_upload = true, bool on_load = false);
 		QString syncUpload(QString filename);
 		bool autosyncEnabled() const;
-		
+
 		void clear();
-		
+
 		QString formatMoney(double v, int precision = -1, bool show_currency = true);
 		QString formatValue(double v, int precision = 2, bool always_show_sign = false);
 		QString formatValue(int v, int precision = 0, bool always_show_sign = false);
 
 		void addTransaction(Transaction*);
 		void removeTransactions(Transactions*, bool keep = false);
-		
+
 		void addTransactions(Transactions*);
 		void removeTransaction(Transaction*, bool keep = false);
 
@@ -202,20 +202,20 @@ class Budget {
 
 		void addSplitTransaction(SplitTransaction*);
 		void removeSplitTransaction(SplitTransaction*, bool keep = false);
-		
+
 		void addAccount(Account*);
 		void removeAccount(Account*, bool keep = false);
 		void accountModified(Account*);
 
 		bool accountHasTransactions(Account*, bool check_subs = true);
 		void moveTransactions(Account*, Account*, bool move_from_subs = true);
-		
-		Transaction *findDuplicateTransaction(Transaction *trans); 
+
+		Transaction *findDuplicateTransaction(Transaction *trans);
 
 		void addSecurity(Security*);
 		void removeSecurity(Security*, bool keep = false);
 		Security *findSecurity(QString name);
-		
+
 		int defaultQuotationDecimals() const;
 		int defaultShareDecimals() const;
 		void setDefaultQuotationDecimals(int new_decimals);
@@ -243,7 +243,7 @@ class Budget {
 		ExpensesAccount *findExpensesAccount(QString name);
 		IncomesAccount *findIncomesAccount(QString name, CategoryAccount *parent_acc);
 		ExpensesAccount *findExpensesAccount(QString name, CategoryAccount *parent_acc);
-		
+
 		Currency *defaultCurrency();
 		void setDefaultCurrency(Currency*);
 		bool resetDefaultCurrency();
@@ -257,10 +257,10 @@ class Budget {
 		bool currenciesModified();
 		void resetCurrenciesModified();
 		void currencyModified(Currency*);
-		
+
 		qlonglong getNewId();
 		int revision();
-		
+
 		AccountList<IncomesAccount*> incomesAccounts;
 		AccountList<ExpensesAccount*> expensesAccounts;
 		AccountList<AssetsAccount*> assetsAccounts;
@@ -276,12 +276,12 @@ class Budget {
 		SecurityList<Security*> securities;
 		SecurityTradeList<SecurityTrade*> securityTrades;
 		CurrencyList<Currency*> currencies;
-		
+
 		IncomesAccount *null_incomes_account;
-		
+
 		void setRecordNewAccounts(bool rna);
 		QVector<Account*> newAccounts;
-		
+
 		void setRecordNewSecurities(bool rns);
 		QVector<Security*> newSecurities;
 
@@ -289,14 +289,14 @@ class Budget {
 		QHash<qlonglong, ExpensesAccount*> expensesAccounts_id;
 		QHash<qlonglong, AssetsAccount*> assetsAccounts_id;
 		QHash<qlonglong, Security*> securities_id;
-		
+
 		Transactions *getTransaction(qlonglong tid);
-		
+
 		void setBudgetDay(int day_of_month);
 		int budgetDay() const;
 		void setBudgetMonth(int month_of_year);
 		int budgetMonth() const;
-		
+
 		bool isSameBudgetMonth(const QDate &date1, const QDate &date2) const;
 		int daysInBudgetMonth(const QDate &date) const;
 		int daysInBudgetYear(const QDate &date) const;
@@ -322,7 +322,7 @@ class Budget {
 		double yearsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months = true);
 		double monthsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months = true);
 		int calendarMonthsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months = true);
-		
+
 		int getAccountType(const QString &type, bool localized = false, bool plural = false);
 		QString getAccountTypeName(int at_type, bool localized = false, bool plural = false);
 		bool accountTypeIsDebt(int at_type);
@@ -330,14 +330,14 @@ class Budget {
 		bool accountTypeIsSecurities(int at_type);
 		bool accountTypeIsLiabilities(int at_type);
 		bool accountTypeIsOther(int at_type);
-		
+
 		void tagAdded(const QString &tag);
 		void tagRemoved(const QString &tag);
 		QString findTag(const QString &tag);
-		
+
 		void setRecordNewTags(bool rnt);
 		QVector<QString> newTags;
-		
+
 		QStringList tags;
 
 };

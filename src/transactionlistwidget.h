@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -45,13 +45,13 @@ class TransactionEditWidget;
 class TransactionFilterWidget;
 
 class TransactionListWidget : public QWidget {
-	
+
 	Q_OBJECT
-	
+
 	public:
-		
+
 		TransactionListWidget(bool extra_parameters, int transaction_type, Budget *budg, Eqonomize *main_win, QWidget *parent = 0);
-		
+
 		void useMultipleCurrencies(bool b);
 		void transactionsReset();
 		void updateFromAccounts();
@@ -90,11 +90,11 @@ class TransactionListWidget : public QWidget {
 		QColor expenseColor, incomeColor, transferColor;
 		QAction *ActionSortByCreationTime;
 		QKeyEvent *key_event;
-		
+
 		void keyPressEvent(QKeyEvent*);
-		
+
 	signals:
-		
+
 		void accountAdded(Account*);
 		void currenciesModified();
 		void tagAdded(QString);

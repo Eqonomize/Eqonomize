@@ -39,39 +39,39 @@ CurrencyConversionDialog::CurrencyConversionDialog(Budget *budg, QWidget *parent
 
 	setWindowTitle(tr("Currency Converter"));
 	setModal(false);
-	
+
 	QVBoxLayout *box1 = new QVBoxLayout(this);
-	
+
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 
-	
+
 	fromEdit = new EqonomizeValueEdit(1.0, false, false, this, budget);
 	grid->addWidget(fromEdit, 0, 0);
 	fromCombo = new QComboBox(this);
 	fromCombo->setEditable(false);
 	grid->addWidget(fromCombo, 0, 1);
-	
+
 	toEdit = new EqonomizeValueEdit(1.0, false, false, this, budget);
 	grid->addWidget(toEdit, 1, 0);
 	toCombo = new QComboBox(this);
 	toCombo->setEditable(false);
 	grid->addWidget(toCombo, 1, 1);
-		
+
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
 	buttonBox->button(QDialogButtonBox::Close)->setAutoDefault(false);
 	connect(buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), this, SLOT(reject()));
 	box1->addWidget(buttonBox);
-	
+
 	updateCurrencies();
-	
+
 	convert_from = true;
-	
+
 	connect(fromEdit, SIGNAL(valueChanged(double)), this, SLOT(convertFrom()));
 	connect(toEdit, SIGNAL(valueChanged(double)), this, SLOT(convertTo()));
 	connect(fromCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(convert()));
 	connect(toCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(convert()));
-	
+
 }
 
 void CurrencyConversionDialog::updateCurrencies() {
@@ -86,7 +86,7 @@ void CurrencyConversionDialog::updateCurrencies() {
 		prev_toCur = toCur;
 	}
 	if(!toCur) toCur = budget->defaultCurrency();
-	
+
 	if(!fromCur) {
 		fromCur = budget->defaultCurrency();
 		if(toCur == fromCur) {

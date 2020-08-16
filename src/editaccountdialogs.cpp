@@ -47,12 +47,12 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 
 	setWindowTitle(title);
 	setModal(true);
-	
+
 	int row = 0;
 	prev_currency_index = 1;
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
-	
+
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 	if(new_loan) {
@@ -70,7 +70,7 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 		typeCombo->addItem(budget->getAccountTypeName(ASSETS_TYPE_OTHER, true));
 		grid->addWidget(typeCombo, row, 1); row++;
 	}
-	
+
 	grid->addWidget(new QLabel(tr("Group:"), this), row, 0);
 	groupCombo = new QComboBox(this);
 	groupCombo->setEditable(true);
@@ -96,7 +96,7 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	grid->addWidget(groupCombo, row, 1); row++;
 	if(!default_group.isEmpty()) groupCombo->setCurrentText(default_group);
 	else if(default_type >= 0 && !budget->getAccountTypeName(default_type, true, true).isEmpty()) groupCombo->setCurrentText(budget->getAccountTypeName(default_type, true, true));
-	
+
 	if(default_type >= 0) {
 		switch(default_type) {
 			case ASSETS_TYPE_CASH: {typeCombo->setCurrentIndex(0); break;}
@@ -109,14 +109,14 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 		}
 		if(force_type) typeCombo->setEnabled(false);
 	}
-	
+
 	grid->addWidget(new QLabel(tr("Currency:"), this), row, 0);
 	currencyCombo = new QComboBox(this);
 	currencyCombo->setEditable(false);
 	grid->addWidget(currencyCombo, row, 1); row++;
 	editCurrencyButton = new QPushButton(tr("Edit"), this);
 	grid->addWidget(editCurrencyButton, row, 1, Qt::AlignRight); row++;
-	
+
 	grid->addWidget(new QLabel(tr("Name:"), this), row, 0);
 	nameEdit = new QLineEdit(this);
 	grid->addWidget(nameEdit, row, 1); row++;
@@ -173,15 +173,15 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	}
 	nameEdit->setFocus();
 	current_account = NULL;
-	
+
 	updateCurrencyList(budget->defaultCurrency());
-	
+
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
-	
+
 	if(typeCombo) connect(typeCombo, SIGNAL(activated(int)), this, SLOT(typeActivated(int)));
 	if(currencyCombo) connect(currencyCombo, SIGNAL(activated(int)), this, SLOT(currencyActivated(int)));
 	if(closedButton) connect(closedButton, SIGNAL(toggled(bool)), this, SLOT(closedToggled(bool)));
@@ -372,8 +372,8 @@ void EditAssetsAccountDialog::setAccount(AssetsAccount *account) {
 			break;
 		}
 		default: {typeCombo->setCurrentIndex(6); break;}
-	}	
-	for(int i = 0; i < currencyCombo->count(); i++) {		
+	}
+	for(int i = 0; i < currencyCombo->count(); i++) {
 		if(currencyCombo->itemData(i).value<void*>() == account->currency()) {
 			currencyCombo->setCurrentIndex(i);
 			prev_currency_index = i;
@@ -409,11 +409,11 @@ EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, IncomesAccount 
 
 	setWindowTitle(title);
 	setModal(true);
-	
+
 	if(default_parent && default_parent->parentCategory()) default_parent = (IncomesAccount*) default_parent->parentCategory();
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
-	
+
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 	grid->addWidget(new QLabel(tr("Name:"), this), 0, 0);
@@ -435,7 +435,7 @@ EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, IncomesAccount 
 			i++;
 		}
 	}
-	
+
 	budgetButton = new QCheckBox(tr("Monthly budget:"), this);
 	budgetButton->setChecked(false);
 	grid->addWidget(budgetButton, 2, 0);
@@ -447,13 +447,13 @@ EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, IncomesAccount 
 	grid->addWidget(descriptionEdit, 4, 0, 1, 2);
 	nameEdit->setFocus();
 	current_account = NULL;
-	
+
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
-	
+
 	connect(budgetButton, SIGNAL(toggled(bool)), this, SLOT(budgetEnabled(bool)));
 }
 IncomesAccount *EditIncomesAccountDialog::newAccount() {
@@ -515,11 +515,11 @@ EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, ExpensesAccou
 
 	setWindowTitle(title);
 	setModal(true);
-	
+
 	if(default_parent && default_parent->parentCategory()) default_parent = (ExpensesAccount*) default_parent->parentCategory();
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
-	
+
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
 	grid->addWidget(new QLabel(tr("Name:"), this), 0, 0);
@@ -552,13 +552,13 @@ EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, ExpensesAccou
 	grid->addWidget(descriptionEdit, 4, 0, 1, 2);
 	nameEdit->setFocus();
 	current_account = NULL;
-	
+
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
 	box1->addWidget(buttonBox);
-	
+
 	connect(budgetButton, SIGNAL(toggled(bool)), this, SLOT(budgetEnabled(bool)));
 }
 ExpensesAccount *EditExpensesAccountDialog::newAccount() {

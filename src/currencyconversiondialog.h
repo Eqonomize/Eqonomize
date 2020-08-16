@@ -32,18 +32,18 @@ class EqonomizeValueEdit;
 class CurrencyConversionDialog : public QDialog {
 
 	Q_OBJECT
-	
+
 	protected:
 
 		EqonomizeValueEdit *fromEdit, *toEdit;
 		QComboBox *fromCombo, *toCombo;
 		Budget *budget;
 		bool convert_from;
-		
+
 	public:
-		
+
 		CurrencyConversionDialog(Budget *budg, QWidget *parent);
-		
+
 		void updateCurrencies();
 
 	public slots:

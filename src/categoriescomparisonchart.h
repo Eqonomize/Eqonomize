@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -63,7 +63,7 @@ class CategoriesComparisonChart : public QWidget {
 		Budget *budget;
 		QDate from_date, to_date;
 		CategoryAccount *current_account;
-		
+
 		QCheckBox *fromButton;
 		QDateEdit *fromEdit, *toEdit;
 		QPushButton *nextYearButton, *prevYearButton, *nextMonthButton, *prevMonthButton;
@@ -80,7 +80,7 @@ class CategoriesComparisonChart : public QWidget {
 #else
 		QGraphicsScene *scene;
 		QGraphicsView *view;
-#endif		
+#endif
 		QButtonGroup *typeGroup;
 		QComboBox *sourceCombo;
 		AccountsCombo *accountCombo;

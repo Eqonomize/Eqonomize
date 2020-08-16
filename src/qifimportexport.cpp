@@ -137,7 +137,7 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	openingBalanceEdit = new QLineEdit(page3);
 	openingBalanceEdit->setText("Opening Balance");
 	layout3->addWidget(openingBalanceEdit, 1, 1);
-	
+
 	QIFWizardPage *page4 = new QIFWizardPage();
 	page4->setTitle(tr("Import File"));
 	page4->setSubTitle(tr("No (further) issues were found. Press finish to import the selected QIF file."));
@@ -145,7 +145,7 @@ ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	QGridLayout *layout4 = new QGridLayout(page4);
 	ignoreDuplicateTransactionsButton = new QCheckBox(tr("Ignore duplicate transactions"), page4);
 	layout4->addWidget(ignoreDuplicateTransactionsButton, 0, 0, 1, -1);
-	
+
 
 	setOption(QWizard::HaveHelpButton, false);
 
@@ -416,10 +416,10 @@ void ImportQIFDialog::accept() {
 		file.close();
 		return;
 	}
-	
+
 	QFileInfo fileInfo(url);
 	last_document_directory = fileInfo.absoluteDir().absolutePath();
-	
+
 	QTextStream fstream(&file);
 	importQIF(fstream, false, qi, budget, ignoreDuplicateTransactionsButton->isChecked());
 	file.close();
@@ -504,7 +504,7 @@ ExportQIFDialog::ExportQIFDialog(Budget *budg, QWidget *parent, bool extra_param
 	fileButton = new QPushButton(LOAD_ICON("document-open"), QString(), this);
 	layouth->addWidget(fileButton);
 	grid->addLayout(layouth, 3, 1);
-	
+
 	buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
@@ -567,10 +567,10 @@ void ExportQIFDialog::accept() {
 		QMessageBox::critical(this, tr("Error"), tr("Couldn't open file for writing."));
 		return;
 	}
-	
+
 	QFileInfo fileInfo(url);
 	last_document_directory = fileInfo.absoluteDir().absolutePath();
-	
+
 	QTextStream stream(&ofile);
 	exportQIF(stream, qi, budget, true);
 	if(!ofile.commit()) {
@@ -1175,7 +1175,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 												if(it != def_income_cats.constEnd()) parent_cat = *it;
 											}
 											if(parent_cat) b_exp = !b_exp;
-										} 
+										}
 										if(!parent_cat) {
 											if(!b_exp) parent_cat = new IncomesAccount(budget, current_split->category);
 											else parent_cat = new ExpensesAccount(budget, current_split->category);
@@ -1311,7 +1311,7 @@ void importQIF(QTextStream &fstream, bool test, qif_info &qi, Budget *budget, bo
 									if(it != def_income_cats.constEnd()) parent_cat = *it;
 								}
 								if(parent_cat) b_exp = !b_exp;
-							} 
+							}
 							if(!parent_cat) {
 								if(!b_exp) parent_cat = new IncomesAccount(budget, category);
 								else parent_cat = new ExpensesAccount(budget, category);
@@ -1741,7 +1741,7 @@ void exportQIF(QTextStream &fstream, qif_info &qi, Budget *budget, bool export_c
 				Expense *exp = *it;
 				if(exp->from() == qi.current_account) {
 					ecats[exp->category()] = true;
-					
+
 				}
 			}
 			QMap<IncomesAccount*, bool>::iterator iit_e = icats.end();
@@ -1763,7 +1763,7 @@ void exportQIF(QTextStream &fstream, qif_info &qi, Budget *budget, bool export_c
 		bool first = true;
 		SplitTransaction *split = NULL;
 		for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constBegin(); it != budget->transactions.constEnd(); ++it) {
-			Transaction *trans = *it;		
+			Transaction *trans = *it;
 			if(trans->fromAccount() == qi.current_account || trans->toAccount() == qi.current_account) {
 				if(first) {
 					exportQIFOpeningBalance(fstream, qi, qi.current_account, trans->date());

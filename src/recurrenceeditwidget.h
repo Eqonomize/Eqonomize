@@ -48,7 +48,7 @@ class Recurrence;
 class RecurrenceEditWidget : public QWidget {
 
 	Q_OBJECT
-	
+
 	public:
 
 		RecurrenceEditWidget(const QDate &startdate, Budget *budg, QWidget *parent = 0);
@@ -56,7 +56,7 @@ class RecurrenceEditWidget : public QWidget {
 		void setRecurrence(Recurrence *rec);
 		Recurrence *createRecurrence();
 		bool validValues();
-	
+
 	protected:
 
 		QDate date;
@@ -68,7 +68,7 @@ class RecurrenceEditWidget : public QWidget {
 		QPushButton *exceptionsButton, *rangeButton;
 
 		QSpinBox *dailyFrequencyEdit;
-		
+
 		QCheckBox *weeklyButtons[7];
 		QSpinBox *weeklyFrequencyEdit;
 
@@ -88,13 +88,13 @@ class RecurrenceEditWidget : public QWidget {
 		void editExceptions();
 		void editRange();
 		void setStartDate(const QDate&);
-		
+
 };
 
 class EditRangeDialog : public QDialog {
 
 	Q_OBJECT
-	
+
 	protected:
 
 		QDateEdit *endDateEdit;
@@ -107,7 +107,7 @@ class EditRangeDialog : public QDialog {
 		QRadioButton *checkedButton;
 		QDate endDateEdit_value;
 		int fixedCountEdit_value;
-	
+
 	public:
 
 		EditRangeDialog(const QDate &startdate, QWidget *parent);
@@ -124,13 +124,13 @@ class EditRangeDialog : public QDialog {
 
 		void accept();
 		void reject();
-		
+
 };
 
 class EditExceptionsDialog : public QDialog {
 
 	Q_OBJECT
-	
+
 	protected:
 
 		QPushButton *addButton, *deleteButton;
@@ -138,7 +138,7 @@ class EditExceptionsDialog : public QDialog {
 		QLabel *infoLabel;
 		QStringList savedExceptions;
 		Recurrence *o_rec;
-	
+
 	public:
 
 		EditExceptionsDialog(QWidget *parent);
@@ -156,7 +156,7 @@ class EditExceptionsDialog : public QDialog {
 		void onSelectionChanged();
 		void addException();
 		void deleteException();
-		
+
 };
 
 #endif

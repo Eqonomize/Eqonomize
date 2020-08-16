@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -88,7 +88,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 
 	current_value = 0.0;
 	current_quantity = 0.0;
-	
+
 	key_event = NULL;
 
 	selected_trans = NULL;
@@ -179,7 +179,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	tabs = new QTabWidget(this);
 	tabs->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-	editWidget = new TransactionEditWidget(true, b_extra, transtype, NULL, false, NULL, SECURITY_SHARES_AND_QUOTATION, false, budget, this, true);	
+	editWidget = new TransactionEditWidget(true, b_extra, transtype, NULL, false, NULL, SECURITY_SHARES_AND_QUOTATION, false, budget, this, true);
 	editInfoLabel = new QLabel(QString());
 	editWidget->bottomLayout()->addWidget(editInfoLabel, 1);
 	QDialogButtonBox *buttons = new QDialogButtonBox();
@@ -221,7 +221,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	connect(transactionsView, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popupListMenu(const QPoint&)));
 	connect(transactionsView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(transactionExecuted(QTreeWidgetItem*)));
 	connect(transactionsView, SIGNAL(returnPressed(QTreeWidgetItem*)), this, SLOT(transactionExecuted(QTreeWidgetItem*)));
-	
+
 	connect(editWidget, SIGNAL(accountAdded(Account*)), this, SIGNAL(accountAdded(Account*)));
 	connect(editWidget, SIGNAL(currenciesModified()), this, SIGNAL(currenciesModified()));
 	connect(editWidget, SIGNAL(newLoanRequested()), this, SLOT(newTransactionWithLoan()));
@@ -751,7 +751,7 @@ void TransactionListWidget::editTransaction() {
 		budget->setRecordNewAccounts(true);
 		budget->resetDefaultCurrencyChanged();
 		budget->resetCurrenciesModified();
-		
+
 		bool warned1 = false, warned2 = false, warned3 = false, warned4 = false, warned5 = false;
 		MultipleTransactionsEditDialog *dialog = new MultipleTransactionsEditDialog(b_extra, transtype, budget, this, true);
 		TransactionListViewItem *i = (TransactionListViewItem*) transactionsView->currentItem();
@@ -1514,7 +1514,7 @@ void TransactionListWidget::removeTransaction() {
 			budget->removeSplitTransaction(split, true);
 			mainWin->transactionRemoved(split, NULL, true);
 			delete split;
-		} else {		
+		} else {
 			Transaction *trans = i->transaction();
 			if(trans->parentSplit() && trans->parentSplit()->count() == 1) {
 				SplitTransaction *split = trans->parentSplit();
@@ -1596,12 +1596,12 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 	while(!strans || (!date.isNull() && date <= enddate)) {
 
 		QTreeWidgetItem *i = new TransactionListViewItem(date, trans, strans, split, QString(), QString(), transs->valueString());
-		
+
 		if(strans && strans->recurrence()) i->setText(0, QLocale().toString(date, QLocale::ShortFormat) + "**");
 		else i->setText(0, QLocale().toString(date, QLocale::ShortFormat));
 		transactionsView->insertTopLevelItem(0, i);
 		i->setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
-		
+
 		if((split && split->cost() > 0.0) || (trans && ((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)))) {
 			if(!expenseColor.isValid()) expenseColor = createExpenseColor(i, 2);
 			i->setForeground(2, expenseColor);
@@ -1655,7 +1655,7 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 			if(tags_col >= 0) i->setText(tags_col, transs->tagsText());
 			if(!split->associatedFile().isEmpty()) i->setIcon(2, LOAD_ICON_STATUS("mail-attachment"));
 			if(split->linksCount() > 0) i->setIcon(comments_col, LOAD_ICON_STATUS("go-jump"));
-		}		
+		}
 		current_value += transs->value(true);
 		current_quantity += transs->quantity();
 		if(strans && !strans->isOneTimeTransaction()) date = strans->recurrence()->nextOccurrence(date);
@@ -1851,7 +1851,7 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 					if(!split->associatedFile().isEmpty()) i->setIcon(2, LOAD_ICON_STATUS("mail-attachment"));
 					else i->setIcon(2, QIcon());
 					if(split->linksCount() > 0) i->setIcon(comments_col, LOAD_ICON_STATUS("go-jump"));
-					else i->setIcon(comments_col, QIcon());  
+					else i->setIcon(comments_col, QIcon());
 				}
 				updateStatistics();
 			}
@@ -2081,7 +2081,7 @@ void TransactionListWidget::newTransactionWithLoan() {
 	if(mainWin->newExpenseWithLoan(editWidget->description(), editWidget->value(), editWidget->quantity(), editWidget->date(), (ExpensesAccount*) editWidget->toAccount(), editWidget->payee(), editWidget->comments())) {
 		clearTransaction();
 	}
-	
+
 }
 void TransactionListWidget::newRefundRepayment() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
@@ -2101,7 +2101,7 @@ void TransactionListWidget::updateTransactionActions() {
 	QList<Transactions*> list;
 	Transactions *link_trans = mainWin->getLinkTransaction();
 	SplitTransaction *link_parent = NULL;
-	if(link_trans && link_trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) link_parent = ((Transaction*) link_trans)->parentSplit(); 
+	if(link_trans && link_trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) link_parent = ((Transaction*) link_trans)->parentSplit();
 	if(selection.count() == 1) {
 		TransactionListViewItem *i = (TransactionListViewItem*) selection.first();
 		b_scheduledtransaction = i->scheduledTransaction() && i->scheduledTransaction()->recurrence();

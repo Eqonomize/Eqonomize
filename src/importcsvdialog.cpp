@@ -101,7 +101,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	typeDescriptionLabel->setWordWrap(true);
 	layout1->addWidget(typeDescriptionLabel);
 	layout1->addItem(new QSpacerItem(1, 1, QSizePolicy::Minimum, QSizePolicy::Expanding));
-	
+
 	QHBoxLayout *layoutPreset = new QHBoxLayout();
 	presetLabel = new QLabel(tr("Presets:"));
 	layoutPreset->addWidget(presetLabel);
@@ -161,9 +161,9 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	page3->setTitle(tr("Columns Specification"));
 	setPage(2, page3);
 	QGridLayout *layout3 = new QGridLayout(page3);
-	
+
 	int row = 0;
-	
+
 	layout3->addWidget(new QLabel(tr("Date:"), page3), row, 0);
 	dateGroup = new QButtonGroup(this);
 	columnDateButton = new QRadioButton(tr("Column"), page3);
@@ -282,9 +282,9 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	valueAC2Edit->setEditable(false);
 	layout3->addWidget(valueAC2Edit, row, 4);
 	row++;
-	
+
 	if(b_extra) {
-	
+
 		quantityLabel = new QLabel(tr("Quantity:"), page3);
 		layout3->addWidget(quantityLabel, row, 0);
 		quantityGroup = new QButtonGroup(this);
@@ -303,7 +303,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 		valueQuantityEdit = new EqonomizeValueEdit(1.0, 2, false, false, page3, budget);
 		layout3->addWidget(valueQuantityEdit, row, 4);
 		row++;
-		
+
 		payeeLabel = new QLabel(tr("Payee:"), page3);
 		layout3->addWidget(payeeLabel, row, 0);
 		payeeGroup = new QButtonGroup(this);
@@ -322,9 +322,9 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 		valuePayeeEdit = new QLineEdit(page3);
 		layout3->addWidget(valuePayeeEdit, row, 4);
 		row++;
-		
+
 	}
-	
+
 	tagsLabel = new QLabel(tr("Tags:"), page3);
 	layout3->addWidget(tagsLabel, row, 0);
 	tagsGroup = new QButtonGroup(this);
@@ -343,7 +343,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	valueTagsEdit = new QLineEdit(page3);
 	layout3->addWidget(valueTagsEdit, row, 4);
 	row++;
-	
+
 	layout3->addWidget(new QLabel(tr("Comments:"), page3), row, 0);
 	commentsGroup = new QButtonGroup(this);
 	columnCommentsButton = new QRadioButton(tr("Column"), page3);
@@ -369,7 +369,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	layout3_cm->addWidget(createMissingButton);
 	layout3->addLayout(layout3_cm, row, 0, 1, 5);
 	row++;
-	
+
 	QHBoxLayout *layoutPreset2 = new QHBoxLayout();
 	layoutPreset2->addStretch(1);
 	savePresetButton = new QPushButton(tr("Save as preset…"), page3);
@@ -419,12 +419,12 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	}
 	connect(presetCombo, SIGNAL(activated(int)), this, SLOT(loadPreset(int)));
 	connect(savePresetButton, SIGNAL(clicked()), this, SLOT(savePreset()));
-	
+
 	page3->adjustSize();
 	page2->setMinimumWidth(page3->minimumSizeHint().width() + 100);
 	page2->setMinimumHeight(page3->minimumSizeHint().height() + 100);
 	page1->setMinimumSize(page2->minimumSize());
-	
+
 	costLabel->hide();
 	valueCostEdit->hide();
 	valueCostButton->hide();
@@ -801,7 +801,7 @@ void ImportCSVDialog::typeChanged(int id) {
 			columnCommentsEdit->setValue(7);
 		}
 	}
-	
+
 	switch(id) {
 		case 0: {
 			typeDescriptionLabel->setText(tr("Imports data as expenses. Costs have positive value. Value is the only required column."));
@@ -1233,7 +1233,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 		}
 		for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 			AssetsAccount *aa = *it;
-			aaccounts[aa->name()] = aa; 
+			aaccounts[aa->name()] = aa;
 		}
 	}
 	if(AC1_c < 0) {
@@ -1272,10 +1272,10 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 		QMessageBox::critical(this, tr("Error"), tr("Error reading %1.").arg(url));
 		return false;
 	}
-	
+
 	QFileInfo fileInfo(url);
 	last_document_directory = fileInfo.absoluteDir().absolutePath();
-	
+
 	QTextStream fstream(&file);
 	fstream.setCodec("UTF-8");
 
@@ -1652,8 +1652,8 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 								iaccounts[ac1->name()] = ac1;
 							}
 						} else if(type == 2) {
-							ac1 = new AssetsAccount(budget, ASSETS_TYPE_CASH, new_ac1); 
-							budget->addAccount(ac1); 
+							ac1 = new AssetsAccount(budget, ASSETS_TYPE_CASH, new_ac1);
+							budget->addAccount(ac1);
 							aaccounts[ac1->name()] = ac1;
 						}
 						new_ac1 = "";

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -29,7 +29,7 @@
 #include "budget.h"
 #include "recurrence.h"
 
-int months_between_dates(const QDate &date1, const QDate &date2) {	
+int months_between_dates(const QDate &date1, const QDate &date2) {
 	if(date1.year() == date2.year()) {
 		return date2.month() - date1.month();
 	}
@@ -39,11 +39,11 @@ int months_between_dates(const QDate &date1, const QDate &date2) {
 	return months;
 }
 
-int weeks_between_dates(const QDate &date1, const QDate &date2) {	
+int weeks_between_dates(const QDate &date1, const QDate &date2) {
 	return (date1.dayOfWeek() - date2.dayOfWeek() + date1.daysTo(date2)) / 7;
 }
 
-int get_day_in_month(const QDate &date, int week, int day_of_week) {	
+int get_day_in_month(const QDate &date, int week, int day_of_week) {
 	if(week > 0) {
 		int fwd = date.dayOfWeek();
 		fwd -= date.day() % 7 - 1;
@@ -72,7 +72,7 @@ int get_day_in_month(const QDate &date, int week, int day_of_week) {
 		return day;
 	}
 }
-int get_day_in_month(int year, int month, int week, int day_of_week) {	
+int get_day_in_month(int year, int month, int week, int day_of_week) {
 	QDate date;
 	date.setDate(year, month, 1);
 	return get_day_in_month(date, week, day_of_week);
@@ -187,7 +187,7 @@ const QDate &Recurrence::firstOccurrence() const {
 const QDate &Recurrence::lastOccurrence() const {
 	return d_enddate;
 }
-int Recurrence::countOccurrences(const QDate &startdate, const QDate &enddate) const {	
+int Recurrence::countOccurrences(const QDate &startdate, const QDate &enddate) const {
 	if(enddate < d_startdate) return 0;
 	if(!d_enddate.isNull() && startdate > d_enddate) return 0;
 	if(i_count > 0 && startdate <= d_startdate && enddate <= d_enddate) return i_count;
@@ -214,7 +214,7 @@ const QDate &Recurrence::startDate() const {
 	return d_startdate;
 }
 void Recurrence::setEndDate(const QDate &new_end_date) {
-	i_count = -1;	
+	i_count = -1;
 	d_enddate = new_end_date;
 	if(!new_end_date.isNull()) {
 		d_enddate =  prevOccurrence(d_enddate, true);
@@ -272,7 +272,7 @@ void Recurrence::setFixedOccurrenceCount(int new_count) {
 			if(new_enddate.isNull()) {
 				i_count = i;
 				break;
-			}			
+			}
 		}
 		d_enddate = new_enddate;
 		if(d_enddate.isNull()) {
@@ -348,7 +348,7 @@ void DailyRecurrence::writeAttributes(QXmlStreamAttributes *attr) {
 	attr->append("frequency", QString::number(i_frequency));
 }
 
-QDate DailyRecurrence::nextOccurrence(const QDate &date, bool include_equals) const {	
+QDate DailyRecurrence::nextOccurrence(const QDate &date, bool include_equals) const {
 	if(include_equals) {
 		if(date == startDate()) return date;
 	}
@@ -367,7 +367,7 @@ QDate DailyRecurrence::nextOccurrence(const QDate &date, bool include_equals) co
 	return nextdate;
 }
 
-QDate DailyRecurrence::prevOccurrence(const QDate &date, bool include_equals) const {	
+QDate DailyRecurrence::prevOccurrence(const QDate &date, bool include_equals) const {
 	if(!include_equals) {
 		if(!endDate().isNull() && date > endDate()) return lastOccurrence();
 	}
@@ -466,7 +466,7 @@ void WeeklyRecurrence::writeAttributes(QXmlStreamAttributes *attr) {
 	attr->append("days", days);
 }
 
-QDate WeeklyRecurrence::nextOccurrence(const QDate &date, bool include_equals) const {	
+QDate WeeklyRecurrence::nextOccurrence(const QDate &date, bool include_equals) const {
 	if(!include_equals) {
 		if(date < startDate()) return firstOccurrence();
 	} else {
@@ -506,7 +506,7 @@ QDate WeeklyRecurrence::nextOccurrence(const QDate &date, bool include_equals) c
 	return nextdate;
 }
 
-QDate WeeklyRecurrence::prevOccurrence(const QDate &date, bool include_equals) const {	
+QDate WeeklyRecurrence::prevOccurrence(const QDate &date, bool include_equals) const {
 	if(!include_equals) {
 		if(!endDate().isNull() && date > endDate()) return lastOccurrence();
 	}
@@ -615,7 +615,7 @@ void MonthlyRecurrence::writeAttributes(QXmlStreamAttributes *attr) {
 	}
 }
 
-QDate MonthlyRecurrence::nextOccurrence(const QDate &date, bool include_equals) const {	
+QDate MonthlyRecurrence::nextOccurrence(const QDate &date, bool include_equals) const {
 	if(!include_equals) {
 		if(date < startDate()) return firstOccurrence();
 	} else {
@@ -721,7 +721,7 @@ QDate MonthlyRecurrence::nextOccurrence(const QDate &date, bool include_equals) 
 				QDate date2;
 				date2.setDate(nextdate.year(), nextdate.month(), day);
 				int wday = date2.dayOfWeek();
-				if(wday == 6) { 
+				if(wday == 6) {
 					day -= 1;
 					if(day <= 0 && prevday > 0 && prevday <= nextdate.addMonths(-1).daysInMonth() + day) {
 						nextdate = nextdate.addMonths(-1);
@@ -746,7 +746,7 @@ QDate MonthlyRecurrence::nextOccurrence(const QDate &date, bool include_equals) 
 	return nextdate;
 }
 
-QDate MonthlyRecurrence::prevOccurrence(const QDate &date, bool include_equals) const {	
+QDate MonthlyRecurrence::prevOccurrence(const QDate &date, bool include_equals) const {
 	if(!include_equals) {
 		if(!endDate().isNull() && date > endDate()) return lastOccurrence();
 	}
@@ -1025,7 +1025,7 @@ QDate YearlyRecurrence::nextOccurrence(const QDate &date, bool include_equals) c
 	return nextdate;
 }
 
-QDate YearlyRecurrence::prevOccurrence(const QDate &date, bool include_equals) const {	
+QDate YearlyRecurrence::prevOccurrence(const QDate &date, bool include_equals) const {
 	if(!include_equals) {
 		if(!endDate().isNull() && date > endDate()) return lastOccurrence();
 	}

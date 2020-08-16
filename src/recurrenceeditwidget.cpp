@@ -54,15 +54,15 @@ EditExceptionsDialog::EditExceptionsDialog(QWidget *parent)  : QDialog(parent) {
 	setModal(true);
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
-	
+
 	QGridLayout *layout = new QGridLayout();
 	box1->addLayout(layout);
-	
+
 	layout->addWidget(new QLabel(tr("Occurrences:"), this), 0, 0);
 	occurrencesList = new QListWidget(this);
 	occurrencesList->setSelectionMode(QListWidget::ExtendedSelection);
 	layout->addWidget(occurrencesList, 1, 0);
-	
+
 	QVBoxLayout *buttonsLayout = new QVBoxLayout();
 	layout->addLayout(buttonsLayout, 0, 1, -1, 1);
 	buttonsLayout->addStretch(1);
@@ -78,7 +78,7 @@ EditExceptionsDialog::EditExceptionsDialog(QWidget *parent)  : QDialog(parent) {
 	exceptionsList = new QListWidget(this);
 	exceptionsList->setSelectionMode(QListWidget::ExtendedSelection);
 	layout->addWidget(exceptionsList, 1, 2);
-	
+
 	infoLabel = new QLabel(QString("<i>") + tr("Only the first fifty occurrences are shown.") + QString("</i>"), this);
 	infoLabel->hide();
 	layout->addWidget(infoLabel, 2, 0, 1, -1);
@@ -186,7 +186,7 @@ EditRangeDialog::EditRangeDialog(const QDate &startdate, QWidget *parent) : QDia
 	setModal(true);
 
 	QVBoxLayout *box1 = new QVBoxLayout(this);
-	
+
 	QGridLayout *rangeLayout = new QGridLayout();
 	box1->addLayout(rangeLayout);
 
@@ -215,7 +215,7 @@ EditRangeDialog::EditRangeDialog(const QDate &startdate, QWidget *parent) : QDia
 	rangeLayout->addWidget(endDateEdit, 3, 1, 1, 2);
 
 	setRecurrence(NULL);
-	
+
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
@@ -364,7 +364,7 @@ RecurrenceEditWidget::RecurrenceEditWidget(const QDate &startdate, Budget *budg,
 	weeklyFrequencyLayout->addStretch(1);
 	QHBoxLayout *weeklyDaysLayout = new QHBoxLayout();
 	weeklyRuleLayout->addLayout(weeklyDaysLayout);
-	int weekStart = QLocale().firstDayOfWeek();	
+	int weekStart = QLocale().firstDayOfWeek();
 	for(int i = 0; i < 7; ++i ) {
 		weeklyButtons[i] = new QCheckBox(QLocale().standaloneDayName(i + 1, QLocale::ShortFormat), weeklyRuleWidget);
 	}
@@ -745,7 +745,7 @@ bool RecurrenceEditWidget::validValues() {
 		}
 		case 2: {
 			int i_frequency = monthlyFrequencyEdit->value();
-			if(i_frequency % 12 == 0) {					
+			if(i_frequency % 12 == 0) {
 				int i_dayofmonth = monthlyDayCombo->currentIndex() + 1;
 				int i_month = date.month();
 				if(i_dayofmonth <= 31 && ((i_month == 2 && i_dayofmonth > 29) || (i_dayofmonth > 30 && (i_month == 4 || i_month == 6 || i_month == 9 || i_month == 11)))) {
@@ -756,7 +756,7 @@ bool RecurrenceEditWidget::validValues() {
 			}
 			break;
 		}
-		case 3: {			
+		case 3: {
 			if(yearlyOnDayOfMonthButton->isChecked()) {
 				int i_frequency = yearlyFrequencyEdit->value();
 				int i_dayofmonth = yearlyDayOfMonthEdit->value();

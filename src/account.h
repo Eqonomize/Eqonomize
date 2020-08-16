@@ -68,7 +68,7 @@ class Account {
 		Account();
 		Account(const Account *account);
 		virtual ~Account();
-		
+
 		virtual void set(const Account *account);
 
 		virtual void readAttributes(QXmlStreamAttributes *attr, bool *valid);
@@ -97,7 +97,7 @@ class Account {
 };
 
 class AssetsAccount : public Account {
-	
+
 	protected:
 
 		int at_type;
@@ -105,7 +105,7 @@ class AssetsAccount : public Account {
 		bool b_closed;
 		QString s_maintainer, s_group;
 		Currency *o_currency;
-		
+
 	public:
 
 		AssetsAccount(Budget *parent_budget, int initial_type, QString initial_name, double initial_balance = 0.0, QString initial_description = QString());
@@ -166,7 +166,7 @@ class CategoryAccount : public Account {
 		CategoryAccount();
 		CategoryAccount(const CategoryAccount *account);
 		virtual ~CategoryAccount();
-		
+
 		virtual void set(const CategoryAccount *account);
 		void setMergeBudgets(const CategoryAccount *account);
 		void mergeBudgets(const CategoryAccount *account, bool keep = true);
@@ -177,7 +177,7 @@ class CategoryAccount : public Account {
 		virtual bool readElement(QXmlStreamReader *xml, bool *valid);
 		virtual void writeAttributes(QXmlStreamAttributes *attr);
 		virtual void writeElements(QXmlStreamWriter *xml);
-		
+
 		double monthlyBudget(int year, int month, bool no_default = false) const;
 		void setMonthlyBudget(int year, int month, double new_monthly_budget);
 		double monthlyBudget(const QDate &date, bool no_default = false) const;
@@ -185,19 +185,19 @@ class CategoryAccount : public Account {
 		QString nameWithParent(bool formatted = true) const;
 		virtual Account *topAccount();
 		virtual AccountType type() const = 0;
-		
+
 		bool removeSubCategory(CategoryAccount *sub_account, bool set_parent = true);
 		bool addSubCategory(CategoryAccount *sub_account, bool set_parent = true);
 		CategoryAccount *parentCategory() const;
 		bool setParentCategory(CategoryAccount *parent_account, bool add_child = true);
-		
+
 		AccountList<CategoryAccount*> subCategories;
 		CategoryAccount *o_parent;
 
 };
 
 class IncomesAccount : public CategoryAccount {
-	
+
 	public:
 
 		IncomesAccount(Budget *parent_budget, QString initial_name, QString initial_description = QString());
@@ -212,7 +212,7 @@ class IncomesAccount : public CategoryAccount {
 };
 
 class ExpensesAccount : public CategoryAccount {
-	
+
 	public:
 
 		ExpensesAccount(Budget *parent_budget, QString initial_name, QString initial_description = QString());

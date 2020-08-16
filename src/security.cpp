@@ -303,7 +303,7 @@ double Security::shares(const QDate &date, bool estimate, bool no_scheduled_shar
 			}
 		}
 	}
-	if(!b && estimate && date > QDate::currentDate() && reinvestedDividends.count() > 0) {		
+	if(!b && estimate && date > QDate::currentDate() && reinvestedDividends.count() > 0) {
 		QDate date1 = QDate::currentDate();
 		int days = date1.daysTo(date);
 		int days2 = 0;
@@ -657,12 +657,12 @@ double Security::expectedQuotation(const QDate &date) {
 	if(it == it_begin) return 0.0;
 	--it;
 	if(it == it_begin) return it_begin.value();
-	if(date < it_begin.key()) {		
+	if(date < it_begin.key()) {
 		int days = date.daysTo(it_begin.key());
 		double q2 = expectedQuotation(it_begin.key().addDays(days));
 		return it_begin.value() * (it_begin.value() / q2);
 	}
-	if(it.key() < date) {		
+	if(it.key() < date) {
 		int days = it.key().daysTo(date);
 		double q1 = expectedQuotation(it.key().addDays(-days));
 		return it.value() * (it.value() / q1);

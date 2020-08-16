@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016 by Hanna Knutsson                 *
+ *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -145,7 +145,7 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	view->setRenderHint(QPainter::Antialiasing, true);
 	layout->addWidget(view);
 	QWidget *settingsWidget = new QWidget(this);
-	QHBoxLayout *settingsLayout = new QHBoxLayout(settingsWidget);	
+	QHBoxLayout *settingsLayout = new QHBoxLayout(settingsWidget);
 
 	QHBoxLayout *choicesLayout = new QHBoxLayout();
 	settingsLayout->addLayout(choicesLayout);
@@ -158,7 +158,7 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	choicesLayout->setStretchFactor(fromEdit, 1);
 	choicesLayout->addWidget(new QLabel(tr("To"), settingsWidget));
 	toEdit = new EqonomizeDateEdit(settingsWidget);
-	toEdit->setCalendarPopup(true);	
+	toEdit->setCalendarPopup(true);
 	choicesLayout->addWidget(toEdit);
 	choicesLayout->setStretchFactor(toEdit, 1);
 	prevYearButton = new QPushButton(LOAD_ICON("eqz-previous-year"), "", settingsWidget);
@@ -201,7 +201,7 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	current_account = NULL;
 
 	layout->addWidget(settingsWidget);
-	
+
 	resetOptions();
 
 #ifdef QT_CHARTS_LIB
@@ -406,7 +406,7 @@ void CategoriesComparisonChart::onFilterSelected(QString filter) {
 void CategoriesComparisonChart::save() {
 #ifdef QT_CHARTS_LIB
 	QGraphicsScene *scene = chart->scene();
-#endif	
+#endif
 	if(!scene) return;
 	QMimeDatabase db;
 	QMimeType image_mime = db.mimeTypeForName("image/*");
@@ -605,17 +605,17 @@ void CategoriesComparisonChart::updateDisplay() {
 	QMap<QString, QString> desc_map;
 	QMap<QString, double> desc_values;
 	QMap<QString, double> desc_counts;
-	QStringList desc_order; 
+	QStringList desc_order;
 
 	current_account = NULL;
-	
+
 	bool assets_selected = accountCombo->isEnabled() && !accountCombo->allAccountsSelected();
 	bool single_assets = assets_selected && accountCombo->selectedAccounts().count() == 1;
-	
+
 	bool include_subs = false;
-	
+
 	QString title_string = tr("Expenses");
-	
+
 	QDate first_date;
 	bool first_date_reached = false;
 	if(sourceCombo->currentIndex() == 4) {
@@ -723,7 +723,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			}
 		}
 	}
-	
+
 	Currency *currency = budget->defaultCurrency();
 	if(single_assets) currency = ((AssetsAccount*) accountCombo->selectedAccounts()[0])->currency();
 
@@ -798,7 +798,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		} else {
 			trans = (Transaction*) strans->transaction();
 		}
-		if(!first_date_reached && trans->date() >= first_date) first_date_reached = true; 
+		if(!first_date_reached && trans->date() >= first_date) first_date_reached = true;
 		if(first_date_reached && trans->date() > to_date) break;
 		if(first_date_reached && (!assets_selected || accountCombo->testTransactionRelation(trans))) {
 			if(current_account && !include_subs) {
@@ -880,11 +880,11 @@ void CategoriesComparisonChart::updateDisplay() {
 #else
 	int chart_type = 1;
 #endif
-	
+
 	Account *account = NULL;
 	QMap<QString, double>::iterator it_desc = desc_values.begin();
 	QMap<QString, double>::iterator it_desc_end = desc_values.end();
-	
+
 	double value = 0.0;
 	double vmax = 0.0;
 	double remaining_value = 0.0;
@@ -897,7 +897,7 @@ void CategoriesComparisonChart::updateDisplay() {
 				for(int i = 0; i < desc_order.count(); i++) {
 					if(it_desc.value() > desc_values[desc_order.at(i)]) {
 						desc_order.insert(i, it_desc.key());
-						
+
 						b = true;
 						break;
 					}
@@ -907,7 +907,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			++it_desc;
 		}
 	}
-	
+
 	if((chart_type == 1 && desc_order.size() > 9) || (chart_type == 2 && desc_order.size() > 12)) {
 		while((chart_type == 1 && desc_order.size() > 8) || (chart_type == 2 && desc_order.size() > 11)) {
 			remaining_value += desc_values[desc_order.back()];
@@ -986,7 +986,7 @@ void CategoriesComparisonChart::updateDisplay() {
 			for(int i = 0; i < account_order.count(); i++) {
 				if(values[account] > values[account_order.at(i)]) {
 					account_order.insert(i, account);
-					
+
 					b = true;
 					break;
 				}
@@ -1059,7 +1059,7 @@ void CategoriesComparisonChart::updateDisplay() {
 	QPieSeries *pie_series = NULL;
 	QAbstractBarSeries *bar_series = NULL;
 	double maxvalue = 0.0, minvalue = 0.0;
-	
+
 	if(chart_type == 1) {
 		pie_series = new QPieSeries();
 	} else if(chart_type == 3) {
@@ -1137,19 +1137,19 @@ void CategoriesComparisonChart::updateDisplay() {
 			if(current_value < minvalue) minvalue = current_value;
 			show_legend = true;
 		}
-		
+
 		if(chart_type == 2) index--;
 		else index++;
 	}
-	
+
 	chart->removeAllSeries();
-	
+
 	foreach(QAbstractAxis* axis, chart->axes()) {
 		chart->removeAxis(axis);
 	}
 	axis_x = NULL;
 	axis_y = NULL;
-	
+
 	if(theme < 0) {
 		chart->setBackgroundBrush(Qt::white);
 		chart->setTitleBrush(Qt::black);
@@ -1158,9 +1158,9 @@ void CategoriesComparisonChart::updateDisplay() {
 		chart->legend()->setColor(Qt::white);
 		chart->legend()->setLabelColor(Qt::black);
 	}
-	
+
 	chart->setLocalizeNumbers((chart_type == 1 && (budget->decimal_separator != "." || budget->decimal_separator == QLocale().decimalPoint())) || (chart_type != 1 && (budget->monetary_decimal_separator != "." || budget->monetary_decimal_separator == QLocale().decimalPoint() || ((maxvalue - minvalue) >= 50.0 && (budget->monetary_group_separator == QLocale().groupSeparator() || QLocale().groupSeparator() == ' ' || QLocale().groupSeparator() == 0x202F || QLocale().groupSeparator() == 0x2009)))));
-	
+
 	if(chart_type == 1) {
 		series = pie_series;
 		pie_series->setPieSize(0.78);
@@ -1183,11 +1183,11 @@ void CategoriesComparisonChart::updateDisplay() {
 		v_axis->setMinorTickCount(chart_type == 2 ? 0 : y_minor);
 		if((maxvalue - minvalue) >= 50.0) v_axis->setLabelFormat(QString("%.0f"));
 		else v_axis->setLabelFormat(QString("%.%1f").arg(QString::number(currency->fractionalDigits())));
-		
+
 		if(type == ACCOUNT_TYPE_ASSETS) v_axis->setTitleText(tr("Value") + QString(" (%1)").arg(currency->symbol(true)));
 		else if(type == ACCOUNT_TYPE_INCOMES) v_axis->setTitleText(tr("Income") + QString(" (%1)").arg(currency->symbol(true)));
 		else v_axis->setTitleText(tr("Cost") + QString(" (%1)").arg(currency->symbol(true)));
-		
+
 		if(theme < 0) {
 			v_axis->setLinePen(QPen(Qt::darkGray, 1));
 			v_axis->setLabelsColor(Qt::black);
@@ -1210,12 +1210,12 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 		chart->addAxis(axis_x, Qt::AlignBottom);
 		chart->addAxis(axis_y, Qt::AlignLeft);
-		
+
 		connect(bar_series, SIGNAL(hovered(bool, int, QBarSet*)), this, SLOT(onSeriesHovered(bool, int, QBarSet*)));
-		
+
 		show_legend = false;
 	}
-	
+
 	chart->setTitle(QString("<div align=\"center\"><font size=\"+2\"><b>%1</b></font></div>").arg(title_string));
 	if(show_legend) {
 #if (QT_CHARTS_VERSION >= QT_CHARTS_VERSION_CHECK(5, 7, 0))
@@ -1237,9 +1237,9 @@ void CategoriesComparisonChart::updateDisplay() {
 	QFontMetrics fm(legend_font);
 	int fh = fm.height();
 	int margin = 15 + fh;
-	
+
 	QVector<QGraphicsItem*> legend_texts;
-	
+
 	account = NULL;
 	int index = 0;
 	int text_width = 0;
@@ -1281,14 +1281,14 @@ void CategoriesComparisonChart::updateDisplay() {
 		legend_texts << legend_text;
 		index++;
 	}
-	
+
 	QGraphicsTextItem *title_text = new QGraphicsTextItem();
 	title_text->setHtml(QString("<div align=\"center\"><font size=\"+2\"><b>%1</b></font></div>").arg(title_string));
 	title_text->setDefaultTextColor(Qt::black);
 	title_text->setFont(legend_font);
 	title_text->setPos(view->height() / 2 - title_text->boundingRect().width() / 2, margin);
 	scene->addItem(title_text);
-	
+
 	int diameter = view->height() - margin * 3 - title_text->boundingRect().height();
 	if(diameter + margin * 2 + fh * 1.3 + text_width + margin > view->width()) diameter = view->width() - (margin * 2 + fh * 1.3 + text_width + margin);
 	int legend_x = diameter + margin * 2;
@@ -1544,7 +1544,7 @@ class PointLabel2 : public QGraphicsItem {
 		}
 
 	private:
-	
+
 		QString m_text;
 		QRectF m_textRect;
 		QRectF m_rect;

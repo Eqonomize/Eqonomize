@@ -44,9 +44,9 @@ class AssetsAccount;
 class Budget;
 
 class LedgerDialog : public QDialog {
-	
+
 	Q_OBJECT
-	
+
 	protected:
 
 		AssetsAccount *account;
@@ -55,13 +55,13 @@ class LedgerDialog : public QDialog {
 		bool b_extra, b_ascending;
 
 		QString stat_total_text;
-		
+
 		double d_rec_cl, d_rec_op;
 		double d_book_cl, d_book_op;
-		
+
 		int re1, re2;
 		int min_width_1, min_width_2;
-		
+
 		QTreeWidget *transactionsView;
 		QPushButton *editButton, *removeButton, *joinButton, *splitUpButton, *reconcileButton, *markReconciledButton;
 		QDateEdit *reconcileStartEdit, *reconcileEndEdit;
@@ -80,25 +80,25 @@ class LedgerDialog : public QDialog {
 
 		bool exportList(QTextStream &outf, int fileformat, QDate first_date = QDate(), QDate last_date = QDate());
 		void accountChanged();
-		
+
 		void updateReconciliationStats(bool = false, bool = false, bool = false);
 		void updateReconciliationStatLabels();
-		
+
 		QKeyEvent *key_event;
-		
+
 		void keyPressEvent(QKeyEvent*);
-		
+
 	public:
-		
+
 		LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, QString title, bool extra_parameters, bool do_reconciliation = false);
 		~LedgerDialog();
-		
+
 	public slots:
-	
+
 		void saveConfig();
 
 	protected slots:
-		
+
 		void popupHeaderMenu(const QPoint&);
 		void popupListMenu(const QPoint&);
 		void toggleReconciliation(bool);
@@ -140,7 +140,7 @@ class LedgerDialog : public QDialog {
 		void searchChanged(const QString&);
 		void ascendingToggled(bool);
 		void onFilterSelected(QString);
-		
+
 };
 
 #endif

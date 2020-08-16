@@ -45,19 +45,19 @@
 QTranslator translator, translator_qt, translator_qtbase;
 
 int main(int argc, char **argv) {
-	
+
 	QApplication app(argc, argv);
 	app.setApplicationName("eqonomize");
 	app.setApplicationDisplayName("Eqonomize!");
 	app.setOrganizationName("Eqonomize");
 	app.setApplicationVersion(VERSION);
-	
+
 	setlocale(LC_MONETARY, "");
-	
+
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 	QString slang = settings.value("language", QString()).toString();
-	
+
 	EqonomizeTranslator eqtr;
 	app.installTranslator(&eqtr);
 	if(!slang.isEmpty()) {
@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
 		if(translator_qtbase.load(QLocale(), QLatin1String("qtbase"), QLatin1String("_"), QLibraryInfo::location(QLibraryInfo::TranslationsPath))) app.installTranslator(&translator_qtbase);
 	}
 
-	
+
 	QCommandLineParser *parser = new QCommandLineParser();
 	QCommandLineOption eOption(QStringList() << "e" << "expenses", QApplication::tr("Start with expenses list displayed"));
 	parser->addOption(eOption);
@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
 	parser->addPositionalArgument("url", QApplication::tr("Document to open"), "[url]");
 	parser->addHelpOption();
 	parser->process(app);
-			
+
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
 	QString lockpath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
 #else
@@ -149,15 +149,15 @@ int main(int argc, char **argv) {
 		}
 		return 0;
 	}
-	
-#ifndef LOAD_EQZICONS_FROM_FILE	
+
+#ifndef LOAD_EQZICONS_FROM_FILE
 	if(QIcon::themeName().isEmpty() || !QIcon::hasThemeIcon("eqz-account")) {
 		QIcon::setThemeSearchPaths(QStringList(ICON_DIR));
 		QIcon::setThemeName("EQZ");
 	}
 #endif
 	app.setWindowIcon(LOAD_APP_ICON("eqonomize"));
-	
+
 	Eqonomize *win = new Eqonomize();
 	win->setCommandLineParser(parser);
 	if(parser->isSet(eOption)) {
@@ -166,10 +166,10 @@ int main(int argc, char **argv) {
 		win->showIncomes();
 	} else if(parser->isSet(tOption)) {
 		win->showTransfers();
-	}	
+	}
 	win->show();
 	app.processEvents();
-	
+
 	QStringList args = parser->positionalArguments();
 	if(args.count() > 0) {
 		win->openURL(QUrl::fromUserInput(args.at(0)));
@@ -186,7 +186,7 @@ int main(int argc, char **argv) {
 #endif
 
 	args.clear();
-	
+
 	return app.exec();
 
 }
