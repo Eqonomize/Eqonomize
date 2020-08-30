@@ -1,3 +1,11 @@
+2020-08-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Allow separate comments for each transaction in an expense/income
+	  with multiple accounts/payments
+	* Add payee/payer column to dialog for transaction with multiple
+	  accounts/payments
+	* Add payee/payer field to refund/repayment dialog
+
 2020-08-12  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fixes for reccuring transactions with multiple accounts/payments

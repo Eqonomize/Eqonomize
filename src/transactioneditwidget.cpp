@@ -794,27 +794,25 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		connect(selectFileButton, SIGNAL(clicked()), this, SLOT(selectFile()));
 		connect(openFileButton, SIGNAL(clicked()), this, SLOT(openFile()));
 	}
-	if(!multiaccount) {
-		editLayout->addWidget(new QLabel(tr("Comments:"), this), TEROWCOL(i, 0));
-		commentsEdit = new QLineEdit(this);
-		if(b_autoedit && (transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE) && !sec) {
-			QHBoxLayout *box = new QHBoxLayout();
-			editLayout->addLayout(box, TEROWCOL(i, 1));
-			box->addWidget(commentsEdit, 1);
-			tagButton = new TagButton(true, allow_account_creation, budget, this);
-			if(!tagButton->icon_shown) {
-				QLabel *tagIcon = new QLabel(this);
-				tagIcon->setPixmap(LOAD_ICON2("tag", "eqz-tag").pixmap(tagButton->style()->pixelMetric(QStyle::PM_ButtonIconSize)));
-				box->addWidget(tagIcon, 0);
-			}
-			box->addWidget(tagButton, 0);
-			tagsModified();
-			connect(tagButton, SIGNAL(newTagRequested()), this, SLOT(newTag()));
-		} else {
-			editLayout->addWidget(commentsEdit, TEROWCOL(i, 1));
+	editLayout->addWidget(new QLabel(tr("Comments:"), this), TEROWCOL(i, 0));
+	commentsEdit = new QLineEdit(this);
+	if(b_autoedit && (transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE) && !sec) {
+		QHBoxLayout *box = new QHBoxLayout();
+		editLayout->addLayout(box, TEROWCOL(i, 1));
+		box->addWidget(commentsEdit, 1);
+		tagButton = new TagButton(true, allow_account_creation, budget, this);
+		if(!tagButton->icon_shown) {
+			QLabel *tagIcon = new QLabel(this);
+			tagIcon->setPixmap(LOAD_ICON2("tag", "eqz-tag").pixmap(tagButton->style()->pixelMetric(QStyle::PM_ButtonIconSize)));
+			box->addWidget(tagIcon, 0);
 		}
-		i++;
+		box->addWidget(tagButton, 0);
+		tagsModified();
+		connect(tagButton, SIGNAL(newTagRequested()), this, SLOT(newTag()));
+	} else {
+		editLayout->addWidget(commentsEdit, TEROWCOL(i, 1));
 	}
+	i++;
 	if(!b_autoedit) {
 		linksWidget = new LinksWidget(this, b_create_accounts);
 		linksWidget->hide();

@@ -685,7 +685,7 @@ bool QuotationListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
 	return QTreeWidgetItem::operator<(i_pre);
 }
 
-RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(parent), transaction(trans) {
+RefundDialog::RefundDialog(Transactions *trans, QWidget *parent, bool extra_parameters) : QDialog(parent), transaction(trans) {
 
 	setModal(true);
 
@@ -734,6 +734,13 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(paren
 	else if(t_type == TRANSACTION_TYPE_INCOME) accountCombo->setCurrentAccount(((Income*) curtrans)->to());
 	layout->addWidget(accountCombo, i, 1);
 	i++;
+	
+	if(extra_parameters) layout->addWidget(new QLabel(t_type == TRANSACTION_TYPE_INCOME ? tr("Payee:") : tr("Payer:"), this), i, 0);
+	payeeEdit = new QLineEdit(this);
+	payeeEdit->setText(trans->payeeText());
+	layout->addWidget(payeeEdit, i, 1);
+	if(!extra_parameters) payeeEdit->hide();
+	i++;
 
 	layout->addWidget(new QLabel(tr("Comments:"), this), i, 0);
 	commentsEdit = new QLineEdit(this);
@@ -768,8 +775,6 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent) : QDialog(paren
 	joinGroup_layout->addWidget(rb);
 	layout->addLayout(joinGroup_layout, i, 0, 1, 2, Qt::AlignRight);
 	i++;
-
-	commentsEdit->setEnabled(!b_join);
 
 	connect(dateEdit, SIGNAL(returnPressed()), valueEdit, SLOT(enterFocus()));
 	if(quantityEdit) {
@@ -819,11 +824,15 @@ Transaction *RefundDialog::createRefund() {
 	else trans->setQuantity(0.0);
 	trans->setValue(-valueEdit->value());
 	trans->setDate(dateEdit->date());
+	if(payeeEdit) {
+		if(trans->type() == TRANSACTION_TYPE_EXPENSE) ((Expense*) trans)->setPayee(payeeEdit->text());
+		else ((Income*) trans)->setPayer(payeeEdit->text());
+	}
 	if(commentsEdit->isEnabled()) trans->setComment(commentsEdit->text());
 	return trans;
 }
 bool RefundDialog::joinIsChecked() {return joinGroup->checkedId() == 1;}
-void RefundDialog::joinToggled(bool b) {commentsEdit->setEnabled(!b);}
+void RefundDialog::joinToggled(bool) {}
 void RefundDialog::accountNextFocus() {
 	if(commentsEdit->isEnabled()) commentsEdit->setFocus();
 	else accept();
@@ -4807,7 +4816,7 @@ void Eqonomize::newRefundRepayment() {
 }
 bool Eqonomize::newRefundRepayment(Transactions *trans) {
 	if(!((trans->generaltype() == GENERAL_TRANSACTION_TYPE_SPLIT && ((SplitTransaction*) trans)->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) || (trans->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE && (((Transaction*) trans)->type() == TRANSACTION_TYPE_EXPENSE || ((Transaction*) trans)->type() == TRANSACTION_TYPE_INCOME)))) return false;
-	RefundDialog *dialog = new RefundDialog(trans, this);
+	RefundDialog *dialog = new RefundDialog(trans, this, b_extra);
 	if(dialog->exec() == QDialog::Accepted) {
 		Transaction *new_trans = dialog->createRefund();
 		if(new_trans) {
@@ -7687,7 +7696,7 @@ void Eqonomize::setupActions() {
 			} else if(slang == "cs") {
 				NEW_RADIO_ACTION(action_lang, "Čeština", ActionSelectLang);
 			} else if(slang == "de") {
-				NEW_RADIO_ACTION(action_lang, "Deutch", ActionSelectLang);
+				NEW_RADIO_ACTION(action_lang, "Deutsch", ActionSelectLang);
 			} else if(slang == "es") {
 				NEW_RADIO_ACTION(action_lang, "Español", ActionSelectLang);
 			} else if(slang == "fr") {

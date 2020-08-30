@@ -155,18 +155,19 @@ class MultiAccountListViewItem : public QTreeWidgetItem {
 	protected:
 
 		Transaction *o_trans;
+		bool b_extra;
 
 	public:
 
-		MultiAccountListViewItem(Transaction *trans);
+		MultiAccountListViewItem(Transaction *trans, bool extra_parameters);
 		Transaction *transaction() const;
 		void setTransaction(Transaction *trans);
 
 };
 
-MultiAccountListViewItem::MultiAccountListViewItem(Transaction *trans) : QTreeWidgetItem() {
+MultiAccountListViewItem::MultiAccountListViewItem(Transaction *trans, bool extra_parameters) : QTreeWidgetItem(), b_extra(extra_parameters) {
 	setTransaction(trans);
-	setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
+	setTextAlignment(b_extra ? 3 : 2, Qt::AlignRight | Qt::AlignVCenter);
 }
 Transaction *MultiAccountListViewItem::transaction() const {
 	return o_trans;
@@ -179,7 +180,8 @@ void MultiAccountListViewItem::setTransaction(Transaction *trans) {
 	} else {
 		setText(1, trans->fromAccount()->nameWithParent());
 	}
-	setText(2, trans->valueString());
+	if(b_extra) setText(2, trans->payeeText());
+	setText(3, trans->valueString());
 }
 
 EditDebtPaymentDialog::EditDebtPaymentDialog(Budget *budg, QWidget *parent, AssetsAccount *default_loan, bool allow_account_creation, bool only_interest) : QDialog(parent) {
@@ -856,14 +858,19 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Account");
+	if(b_extra) {
+		if(b_expense) headers << tr("Payee");
+		else headers << tr("Payer");
+	}
 	if(b_expense) headers << tr("Cost");
 	else headers << tr("Income");
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setRootIsDecorated(false);
 	setColumnDateWidth(transactionsView, 0);
-	setColumnStrlenWidth(transactionsView, 1, 25);
-	setColumnMoneyWidth(transactionsView, 2, budget);
-	transactionsView->setMinimumWidth(transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) + 10);
+	setColumnStrlenWidth(transactionsView, 1, 10);
+	if(b_extra) setColumnStrlenWidth(transactionsView, 2, 10);
+	setColumnMoneyWidth(transactionsView, b_extra ? 3 : 2, budget);
+	transactionsView->setMinimumWidth(transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) + (b_extra ? transactionsView->columnWidth(3) : 0) + 10);
 	box2->addWidget(transactionsView);
 	QVBoxLayout *buttons = new QVBoxLayout();
 	QPushButton *newButton = new QPushButton(tr("New"));
@@ -1072,9 +1079,9 @@ void EditMultiAccountWidget::setTransaction(Transactions *transs) {
 		int c = split->count();
 		for(int i = 0; i < c; i++) {
 			Transaction *trans = split->at(i)->copy();
-			trans->setComment(QString());
+			if(trans->comment() == split->comment()) trans->setComment(QString());
 			trans->setAssociatedFile(QString());
-			items.append(new MultiAccountListViewItem(trans));
+			items.append(new MultiAccountListViewItem(trans, b_extra));
 		}
 		transactionsView->addTopLevelItems(items);
 	} else if(transs->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
@@ -1109,10 +1116,10 @@ void EditMultiAccountWidget::setTransaction(MultiAccountTransaction *split, cons
 	int c = split->count();
 	for(int i = 0; i < c; i++) {
 		Transaction *trans = split->at(i)->copy();
-		trans->setComment(QString());
+		if(trans->comment() == split->comment()) trans->setComment(QString());
 		trans->setAssociatedFile(QString());
 		if(date != split->date()) trans->setDate(date);
-		items.append(new MultiAccountListViewItem(trans));
+		items.append(new MultiAccountListViewItem(trans, b_extra));
 	}
 	tagButton->setTransaction(split);
 	transactionsView->addTopLevelItems(items);
@@ -1123,7 +1130,7 @@ void EditMultiAccountWidget::setTransaction(MultiAccountTransaction *split, cons
 
 void EditMultiAccountWidget::appendTransaction(Transaction *trans) {
 	QDate d_date = date();
-	MultiAccountListViewItem *i = new MultiAccountListViewItem(trans);
+	MultiAccountListViewItem *i = new MultiAccountListViewItem(trans, b_extra);
 	transactionsView->insertTopLevelItem(transactionsView->topLevelItemCount(), i);
 	transactionsView->setSortingEnabled(true);
 	QDate d_date_new = date();

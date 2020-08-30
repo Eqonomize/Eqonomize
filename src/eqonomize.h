@@ -734,7 +734,7 @@ class RefundDialog : public QDialog {
 		EqonomizeValueEdit *valueEdit, *quantityEdit;
 		QDateEdit *dateEdit;
 		AccountComboBox *accountCombo;
-		QLineEdit *commentsEdit;
+		QLineEdit *commentsEdit, *payeeEdit;
 		QButtonGroup *joinGroup;
 		QLayout *joinGroup_layout;
 
@@ -742,7 +742,7 @@ class RefundDialog : public QDialog {
 
 	public:
 
-		RefundDialog(Transactions *trans, QWidget *parent);
+		RefundDialog(Transactions *trans, QWidget *parent, bool extra_parameters);
 
 		Transaction *createRefund();
 		bool validValues();
