@@ -26,7 +26,7 @@ parts:
   eqonomize:
     source: https://github.com/Eqonomize/eqonomize/releases/download/v1.5.0/eqonomize-1.5.0.tar.gz
     source-type: tar
-    source-checksum: sha512/91bf9cd80607a318f26e44e57cef911a8a407469460dea5876381d8db03f00919944e83f7e47590d69ebd1c62527a62fc138b017128cea202526a72e6d60c27b
+    source-checksum: sha512/9f6bcbb21af129432981ed396a59c1fa51750bfd8442c41a507f906d3ad0bd7205039473ea73a455805fd59de7dc0e9c14e7b99bb70c64c095ae09d560b46774
     plugin: qmake
     qt-version: qt5
     after: [desktop-qt5]
