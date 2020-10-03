@@ -1,0 +1,65 @@
+name: eqonomize-hk
+title: Eqonomize!
+version: '1.5.0'
+license: GPL-2.0+
+summary: Efficient and easy accounting for small households 
+description: |
+  Eqonomize! is a cross-platform personal accounting software, with 
+  focus on efficiency and ease of use for small households.
+  Eqonomize! provides a complete solution, with bookkeeping by double
+  entry and support for scheduled recurring transactions, security
+  investments, and budgeting. It gives a clear overview of past and
+  present transactions, and development of incomes and expenses, with
+  descriptive tables and charts, as well as an approximation of future
+  account values.
+
+grade: stable
+confinement: strict
+base: core18
+
+apps:
+  eqonomize-hk:
+    command: bin/desktop-launch eqonomize
+    plugs: [x11, desktop, desktop-legacy, wayland, unity7, home, network, cups-control, removable-media]
+
+parts:
+  eqonomize:
+    source: https://github.com/Eqonomize/eqonomize/releases/download/v1.5.0/eqonomize-1.5.0.tar.gz
+    source-type: tar
+    source-checksum: sha512/91bf9cd80607a318f26e44e57cef911a8a407469460dea5876381d8db03f00919944e83f7e47590d69ebd1c62527a62fc138b017128cea202526a72e6d60c27b
+    plugin: qmake
+    qt-version: qt5
+    after: [desktop-qt5]
+    options:
+      - PREFIX=/usr
+      - COMPILE_RESOURCES="yes"
+
+  desktop-qt5:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-tag: v20180201
+    source-depth: 1
+    source-subdir: qt
+    plugin: make
+    make-parameters: ["FLAVOR=qt5"]
+    build-packages:
+      - build-essential
+      - qtbase5-dev
+      - dpkg-dev
+    stage-packages:
+      - libxkbcommon0
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - adwaita-icon-theme
+      - gnome-themes-standard
+      - shared-mime-info
+      - libqt5core5a
+      - libqt5gui5
+      - libqt5network5
+      - libqt5printsupport5
+      - libqt5charts5
+      - libgdk-pixbuf2.0-0
+      - libqt5svg5
+      - locales-all
+      - xdg-user-dirs
+      - fcitx-frontend-qt5
