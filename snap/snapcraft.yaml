@@ -20,7 +20,7 @@ base: core18
 apps:
   eqonomize-hk:
     command: bin/desktop-launch eqonomize
-    plugs: [x11, desktop, desktop-legacy, wayland, unity7, home, network, cups-control, removable-media]
+    plugs: [x11, desktop, desktop-legacy, wayland, unity7, gsettings, home, network, cups-control, removable-media]
 
 parts:
   eqonomize:
@@ -44,6 +44,7 @@ parts:
     build-packages:
       - build-essential
       - qtbase5-dev
+      - libqt5charts5-dev
       - dpkg-dev
     stage-packages:
       - libxkbcommon0
@@ -58,8 +59,15 @@ parts:
       - libqt5network5
       - libqt5printsupport5
       - libqt5charts5
+      - libgtk2.0-0
       - libgdk-pixbuf2.0-0
       - libqt5svg5
+      - qtwayland5
+      - qt5-gtk-platformtheme
+      - qt5-style-plugins
       - locales-all
       - xdg-user-dirs
       - fcitx-frontend-qt5
+    override-build: |
+      snapcraftctl build
+      sed -i '/export QT_QPA_PLATFORMTHEME=appmenu-qt5/d' $SNAPCRAFT_PART_INSTALL/bin/desktop-launch
