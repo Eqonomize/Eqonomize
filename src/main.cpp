@@ -36,6 +36,7 @@
 #include <QTextStream>
 #include <QIcon>
 #include <QLibraryInfo>
+#include <QLocale>
 
 #include <locale.h>
 
@@ -52,7 +53,12 @@ int main(int argc, char **argv) {
 	app.setOrganizationName("Eqonomize");
 	app.setApplicationVersion(VERSION);
 
-	setlocale(LC_MONETARY, "");
+	QString locale = setlocale(LC_MONETARY, NULL);
+	if(locale == QLocale::c().name()) {
+		setlocale(LC_MONETARY, QLocale::system().name().toLocal8Bit());
+	} else {
+		setlocale(LC_MONETARY, "");
+	}
 
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
