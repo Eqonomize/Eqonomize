@@ -213,7 +213,6 @@ Budget::Budget() {
 	b_record_new_securities = false;
 	i_tcrd = TRANSACTION_CONVERSION_RATE_AT_DATE;
 	null_incomes_account = new IncomesAccount(this, QString());
-	setlocale(LC_MONETARY, "");
 	struct lconv *lc = localeconv();
 	monetary_decimal_separator = QString::fromLocal8Bit(lc->mon_decimal_point);
 	if(monetary_decimal_separator.isEmpty()) monetary_decimal_separator = QLocale().decimalPoint();
