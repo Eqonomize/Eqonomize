@@ -734,7 +734,7 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent, bool extra_para
 	else if(t_type == TRANSACTION_TYPE_INCOME) accountCombo->setCurrentAccount(((Income*) curtrans)->to());
 	layout->addWidget(accountCombo, i, 1);
 	i++;
-	
+
 	if(extra_parameters) layout->addWidget(new QLabel(t_type == TRANSACTION_TYPE_INCOME ? tr("Payee:") : tr("Payer:"), this), i, 0);
 	payeeEdit = new QLineEdit(this);
 	payeeEdit->setText(trans->payeeText());
@@ -6324,7 +6324,7 @@ void Eqonomize::exportQIF() {
 }
 
 void Eqonomize::checkAvailableVersion_readdata() {
-	QString ssystem;
+	QByteArray ssystem;
 #if defined (Q_OS_WIN32)
 	ssystem = "Windows";
 #elif defined(Q_OS_ANDROID)
@@ -7884,7 +7884,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.5.0</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2020 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.5.1</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2020 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);

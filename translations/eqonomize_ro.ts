@@ -3179,44 +3179,44 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished">Echilibrare</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="444"/>
-        <location filename="../src/budget.cpp" line="745"/>
-        <location filename="../src/budget.cpp" line="1463"/>
-        <location filename="../src/budget.cpp" line="1494"/>
-        <location filename="../src/budget.cpp" line="1647"/>
+        <location filename="../src/budget.cpp" line="443"/>
+        <location filename="../src/budget.cpp" line="744"/>
+        <location filename="../src/budget.cpp" line="1462"/>
+        <location filename="../src/budget.cpp" line="1493"/>
+        <location filename="../src/budget.cpp" line="1646"/>
         <source>Couldn&apos;t open %1 for reading</source>
         <translation type="unfinished">Nu s-a putut deschide %1 pentru citire</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="751"/>
-        <location filename="../src/budget.cpp" line="1471"/>
-        <location filename="../src/budget.cpp" line="1502"/>
-        <location filename="../src/budget.cpp" line="1653"/>
+        <location filename="../src/budget.cpp" line="750"/>
+        <location filename="../src/budget.cpp" line="1470"/>
+        <location filename="../src/budget.cpp" line="1501"/>
+        <location filename="../src/budget.cpp" line="1652"/>
         <source>Not a valid Eqonomize! file (XML parse error: &quot;%1&quot; at line %2, col %3)</source>
         <translation type="unfinished">Nu este un fișier Eqonomize! valid (eroare procesare XML: „%1” la linia %2, col %3)</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="455"/>
-        <location filename="../src/budget.cpp" line="752"/>
-        <location filename="../src/budget.cpp" line="1475"/>
-        <location filename="../src/budget.cpp" line="1506"/>
-        <location filename="../src/budget.cpp" line="1654"/>
+        <location filename="../src/budget.cpp" line="454"/>
+        <location filename="../src/budget.cpp" line="751"/>
+        <location filename="../src/budget.cpp" line="1474"/>
+        <location filename="../src/budget.cpp" line="1505"/>
+        <location filename="../src/budget.cpp" line="1653"/>
         <source>Invalid root element %1 in XML document</source>
         <translation type="unfinished">Element rădăcină %1 nevalid în documentul XML</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="486"/>
-        <location filename="../src/budget.cpp" line="1332"/>
-        <location filename="../src/budget.cpp" line="2203"/>
+        <location filename="../src/budget.cpp" line="485"/>
+        <location filename="../src/budget.cpp" line="1331"/>
+        <location filename="../src/budget.cpp" line="2202"/>
         <source>Unknown XML element: &quot;%1&quot; at line %2, col %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="451"/>
-        <location filename="../src/budget.cpp" line="498"/>
-        <location filename="../src/budget.cpp" line="515"/>
-        <location filename="../src/budget.cpp" line="1347"/>
-        <location filename="../src/budget.cpp" line="2210"/>
+        <location filename="../src/budget.cpp" line="450"/>
+        <location filename="../src/budget.cpp" line="497"/>
+        <location filename="../src/budget.cpp" line="514"/>
+        <location filename="../src/budget.cpp" line="1346"/>
+        <location filename="../src/budget.cpp" line="2209"/>
         <source>XML parse error: &quot;%1&quot; at line %2, col %3</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3226,7 +3226,7 @@ i18n: file ./eqonomizeui.rc line 56
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/budget.cpp" line="492"/>
+        <location filename="../src/budget.cpp" line="491"/>
         <source>Unable to load %n currency/currencies.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -3235,29 +3235,29 @@ i18n: file ./eqonomizeui.rc line 56
         </translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="567"/>
-        <location filename="../src/budget.cpp" line="575"/>
-        <location filename="../src/budget.cpp" line="616"/>
-        <location filename="../src/budget.cpp" line="688"/>
+        <location filename="../src/budget.cpp" line="566"/>
+        <location filename="../src/budget.cpp" line="574"/>
+        <location filename="../src/budget.cpp" line="615"/>
+        <location filename="../src/budget.cpp" line="687"/>
         <source>No exchange rates found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="624"/>
+        <location filename="../src/budget.cpp" line="623"/>
         <source>USD currency missing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="1222"/>
-        <location filename="../src/budget.cpp" line="1256"/>
-        <location filename="../src/budget.cpp" line="1292"/>
-        <location filename="../src/budget.cpp" line="1316"/>
+        <location filename="../src/budget.cpp" line="1221"/>
+        <location filename="../src/budget.cpp" line="1255"/>
+        <location filename="../src/budget.cpp" line="1291"/>
+        <location filename="../src/budget.cpp" line="1315"/>
         <source>imported</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/budget.cpp" line="1440"/>
-        <location filename="../src/budget.cpp" line="2295"/>
+        <location filename="../src/budget.cpp" line="1439"/>
+        <location filename="../src/budget.cpp" line="2294"/>
         <source>Unable to load %n account(s).</source>
         <translation type="unfinished">
             <numerusform>Nu s-a putut încărca %n cont.</numerusform>
@@ -3266,8 +3266,8 @@ i18n: file ./eqonomizeui.rc line 56
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/budget.cpp" line="1444"/>
-        <location filename="../src/budget.cpp" line="2299"/>
+        <location filename="../src/budget.cpp" line="1443"/>
+        <location filename="../src/budget.cpp" line="2298"/>
         <source>Unable to load %n category/categories.</source>
         <translation type="unfinished">
             <numerusform>Nu s-a putut încărca %n categorie.</numerusform>
@@ -3276,8 +3276,8 @@ i18n: file ./eqonomizeui.rc line 56
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/budget.cpp" line="1448"/>
-        <location filename="../src/budget.cpp" line="2303"/>
+        <location filename="../src/budget.cpp" line="1447"/>
+        <location filename="../src/budget.cpp" line="2302"/>
         <source>Unable to load %n security/securities.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">
@@ -3287,8 +3287,8 @@ i18n: file ./eqonomizeui.rc line 56
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/budget.cpp" line="1452"/>
-        <location filename="../src/budget.cpp" line="2307"/>
+        <location filename="../src/budget.cpp" line="1451"/>
+        <location filename="../src/budget.cpp" line="2306"/>
         <source>Unable to load %n transaction(s).</source>
         <translation type="unfinished">
             <numerusform>Nu s-a putut încărca %n tranzacție.</numerusform>
@@ -3297,113 +3297,113 @@ i18n: file ./eqonomizeui.rc line 56
         </translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="1549"/>
+        <location filename="../src/budget.cpp" line="1548"/>
         <source>Download command (%1) failed: %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="1569"/>
+        <location filename="../src/budget.cpp" line="1568"/>
         <source>Failed to download file from %1: %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="1629"/>
+        <location filename="../src/budget.cpp" line="1628"/>
         <source>Upload command (%1) failed: %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="3220"/>
+        <location filename="../src/budget.cpp" line="3219"/>
         <source>yyyy-yy</source>
         <extracomment>Financial year when first month is not January (e.g. 2018-19).</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="3435"/>
-        <location filename="../src/budget.cpp" line="3485"/>
+        <location filename="../src/budget.cpp" line="3434"/>
+        <location filename="../src/budget.cpp" line="3484"/>
         <source>Transaction Accounts</source>
         <translation type="unfinished">Conturi curente</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="3437"/>
-        <location filename="../src/budget.cpp" line="3486"/>
+        <location filename="../src/budget.cpp" line="3436"/>
+        <location filename="../src/budget.cpp" line="3485"/>
         <source>Savings Accounts</source>
         <translation type="unfinished">Conturi de economii</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="3439"/>
-        <location filename="../src/budget.cpp" line="3487"/>
+        <location filename="../src/budget.cpp" line="3438"/>
+        <location filename="../src/budget.cpp" line="3486"/>
         <source>Credit Cards</source>
         <translation type="unfinished">Carduri de credit</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="3441"/>
-        <location filename="../src/budget.cpp" line="3488"/>
+        <location filename="../src/budget.cpp" line="3440"/>
+        <location filename="../src/budget.cpp" line="3487"/>
         <source>Debts</source>
         <translation type="unfinished">Datorii</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="3443"/>
-        <location filename="../src/budget.cpp" line="3457"/>
-        <location filename="../src/budget.cpp" line="3489"/>
-        <location filename="../src/budget.cpp" line="3499"/>
+        <location filename="../src/budget.cpp" line="3442"/>
+        <location filename="../src/budget.cpp" line="3456"/>
+        <location filename="../src/budget.cpp" line="3488"/>
+        <location filename="../src/budget.cpp" line="3498"/>
         <source>Securities</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Titluri de valoare</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="3445"/>
-        <location filename="../src/budget.cpp" line="3459"/>
-        <location filename="../src/budget.cpp" line="3484"/>
-        <location filename="../src/budget.cpp" line="3494"/>
+        <location filename="../src/budget.cpp" line="3444"/>
+        <location filename="../src/budget.cpp" line="3458"/>
+        <location filename="../src/budget.cpp" line="3483"/>
+        <location filename="../src/budget.cpp" line="3493"/>
         <source>Cash</source>
         <translation type="unfinished">Numerar</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="3449"/>
-        <location filename="../src/budget.cpp" line="3495"/>
+        <location filename="../src/budget.cpp" line="3448"/>
+        <location filename="../src/budget.cpp" line="3494"/>
         <source>Transaction Account</source>
         <translation type="unfinished">Cont curent</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="3451"/>
-        <location filename="../src/budget.cpp" line="3496"/>
+        <location filename="../src/budget.cpp" line="3450"/>
+        <location filename="../src/budget.cpp" line="3495"/>
         <source>Savings Account</source>
         <translation type="unfinished">Cont de economii</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="3453"/>
-        <location filename="../src/budget.cpp" line="3497"/>
+        <location filename="../src/budget.cpp" line="3452"/>
+        <location filename="../src/budget.cpp" line="3496"/>
         <source>Credit Card</source>
         <translation type="unfinished">Carte de credit</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="3455"/>
-        <location filename="../src/budget.cpp" line="3498"/>
+        <location filename="../src/budget.cpp" line="3454"/>
+        <location filename="../src/budget.cpp" line="3497"/>
         <source>Debt</source>
         <translation type="unfinished">Datorie</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="3500"/>
+        <location filename="../src/budget.cpp" line="3499"/>
         <source>Other</source>
         <translation type="unfinished">Altul</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="699"/>
-        <location filename="../src/budget.cpp" line="2318"/>
+        <location filename="../src/budget.cpp" line="698"/>
+        <location filename="../src/budget.cpp" line="2317"/>
         <source>File is a directory</source>
         <translation type="unfinished">Fișierul este un director</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="707"/>
-        <location filename="../src/budget.cpp" line="2326"/>
+        <location filename="../src/budget.cpp" line="706"/>
+        <location filename="../src/budget.cpp" line="2325"/>
         <source>Couldn&apos;t open file for writing</source>
         <translation type="unfinished">Nu s-a putut deschide fișierul pentru scriere</translation>
     </message>
     <message>
-        <location filename="../src/budget.cpp" line="728"/>
-        <location filename="../src/budget.cpp" line="732"/>
-        <location filename="../src/budget.cpp" line="2470"/>
-        <location filename="../src/budget.cpp" line="2474"/>
+        <location filename="../src/budget.cpp" line="727"/>
+        <location filename="../src/budget.cpp" line="731"/>
+        <location filename="../src/budget.cpp" line="2469"/>
+        <location filename="../src/budget.cpp" line="2473"/>
         <source>Error while writing file; file was not saved</source>
         <translation type="unfinished">S-a întâlnit o eroare la salvarea fișierului; acesta nu a fost salvat</translation>
     </message>
@@ -3672,7 +3672,7 @@ Value: %2</source>
 <context>
     <name>CategoriesComparisonChartDialog</name>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1734"/>
+        <location filename="../src/eqonomize.cpp" line="1732"/>
         <source>Chart</source>
         <translation type="unfinished">Grafic</translation>
     </message>
@@ -4170,7 +4170,7 @@ Value: %2</source>
 <context>
     <name>CategoriesComparisonReportDialog</name>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1704"/>
+        <location filename="../src/eqonomize.cpp" line="1702"/>
         <source>Report</source>
         <translation type="unfinished">Raport</translation>
     </message>
@@ -4178,20 +4178,20 @@ Value: %2</source>
 <context>
     <name>ConfirmScheduleDialog</name>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1756"/>
+        <location filename="../src/eqonomize.cpp" line="1754"/>
         <source>The following transactions was scheduled to occur today or before today.
 Confirm that they have indeed occurred (or will occur today).</source>
         <translation type="unfinished">Următoarele tranzacții au fost planificate să se producă azi sau mai înainte.
 Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1765"/>
-        <location filename="../src/eqonomize.cpp" line="1825"/>
+        <location filename="../src/eqonomize.cpp" line="1763"/>
+        <location filename="../src/eqonomize.cpp" line="1823"/>
         <source>Date</source>
         <translation type="unfinished">Dată</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1766"/>
+        <location filename="../src/eqonomize.cpp" line="1764"/>
         <source>Type</source>
         <translation type="unfinished">Tip</translation>
     </message>
@@ -4209,38 +4209,38 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Descriere</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1767"/>
+        <location filename="../src/eqonomize.cpp" line="1765"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Descriere</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1768"/>
+        <location filename="../src/eqonomize.cpp" line="1766"/>
         <source>Amount</source>
         <translation type="unfinished">Cantitate</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1781"/>
+        <location filename="../src/eqonomize.cpp" line="1779"/>
         <source>Edit…</source>
         <translation type="unfinished">Editează…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1783"/>
+        <location filename="../src/eqonomize.cpp" line="1781"/>
         <source>Postpone…</source>
         <translation type="unfinished">Amână…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1785"/>
+        <location filename="../src/eqonomize.cpp" line="1783"/>
         <source>Delete</source>
         <translation type="unfinished">Șterge</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1842"/>
+        <location filename="../src/eqonomize.cpp" line="1840"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1842"/>
+        <location filename="../src/eqonomize.cpp" line="1840"/>
         <source>Can only postpone to future dates.</source>
         <translation type="unfinished">Nu se poate amâna decât în viitor.</translation>
     </message>
@@ -5355,7 +5355,7 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Cotație</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1061"/>
+        <location filename="../src/eqonomize.cpp" line="1059"/>
         <source>Date</source>
         <translation type="unfinished">Dată</translation>
     </message>
@@ -5369,45 +5369,45 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Cotație</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1042"/>
-        <location filename="../src/eqonomize.cpp" line="1049"/>
+        <location filename="../src/eqonomize.cpp" line="1040"/>
+        <location filename="../src/eqonomize.cpp" line="1047"/>
         <source>Quotes</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Cotație</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1062"/>
+        <location filename="../src/eqonomize.cpp" line="1060"/>
         <source>Price per Share</source>
         <comment>Financial Shares</comment>
         <translation type="unfinished">Preț per acțiune</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1082"/>
+        <location filename="../src/eqonomize.cpp" line="1080"/>
         <source>Add</source>
         <translation type="unfinished">Adaugă</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1084"/>
+        <location filename="../src/eqonomize.cpp" line="1082"/>
         <source>Modify</source>
         <translation type="unfinished">Modificare</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1087"/>
+        <location filename="../src/eqonomize.cpp" line="1085"/>
         <source>Delete</source>
         <translation type="unfinished">Șterge</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1091"/>
+        <location filename="../src/eqonomize.cpp" line="1089"/>
         <source>Import…</source>
         <translation type="unfinished">Importă…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1093"/>
+        <location filename="../src/eqonomize.cpp" line="1091"/>
         <source>Export…</source>
         <translation type="unfinished">Export…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1126"/>
+        <location filename="../src/eqonomize.cpp" line="1124"/>
         <source>Quotes for %1</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Cotații pentru %1</translation>
@@ -5422,29 +5422,29 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Cotații pentru %1</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1232"/>
-        <location filename="../src/eqonomize.cpp" line="1235"/>
-        <location filename="../src/eqonomize.cpp" line="1408"/>
-        <location filename="../src/eqonomize.cpp" line="1426"/>
-        <location filename="../src/eqonomize.cpp" line="1555"/>
-        <location filename="../src/eqonomize.cpp" line="1621"/>
-        <location filename="../src/eqonomize.cpp" line="1640"/>
-        <location filename="../src/eqonomize.cpp" line="1662"/>
+        <location filename="../src/eqonomize.cpp" line="1230"/>
+        <location filename="../src/eqonomize.cpp" line="1233"/>
+        <location filename="../src/eqonomize.cpp" line="1406"/>
+        <location filename="../src/eqonomize.cpp" line="1424"/>
+        <location filename="../src/eqonomize.cpp" line="1553"/>
+        <location filename="../src/eqonomize.cpp" line="1619"/>
+        <location filename="../src/eqonomize.cpp" line="1638"/>
+        <location filename="../src/eqonomize.cpp" line="1660"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1232"/>
+        <location filename="../src/eqonomize.cpp" line="1230"/>
         <source>Couldn&apos;t open %1 for reading.</source>
         <translation type="unfinished">Nu s-a putut deschide %1 pentru citire.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1235"/>
+        <location filename="../src/eqonomize.cpp" line="1233"/>
         <source>Error reading %1.</source>
         <translation type="unfinished">Eroare la citirea %1.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/eqonomize.cpp" line="1394"/>
+        <location filename="../src/eqonomize.cpp" line="1392"/>
         <source>Successfully imported %n quote(s).</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -5453,12 +5453,12 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1396"/>
+        <location filename="../src/eqonomize.cpp" line="1394"/>
         <source>Unable to import any quotes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/eqonomize.cpp" line="1400"/>
+        <location filename="../src/eqonomize.cpp" line="1398"/>
         <source>Failed to import %n data row(s).</source>
         <translation type="unfinished">
             <numerusform>Nu s-a putut importa %n rând.</numerusform>
@@ -5467,70 +5467,70 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1401"/>
+        <location filename="../src/eqonomize.cpp" line="1399"/>
         <source>Required columns missing.</source>
         <translation type="unfinished">Coloanele necesare lipsesc.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1402"/>
+        <location filename="../src/eqonomize.cpp" line="1400"/>
         <source>Invalid value.</source>
         <translation type="unfinished">Valoare nevalidă.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1403"/>
-        <location filename="../src/eqonomize.cpp" line="1640"/>
-        <location filename="../src/eqonomize.cpp" line="1662"/>
+        <location filename="../src/eqonomize.cpp" line="1401"/>
+        <location filename="../src/eqonomize.cpp" line="1638"/>
+        <location filename="../src/eqonomize.cpp" line="1660"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Dată nevalidă.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1405"/>
+        <location filename="../src/eqonomize.cpp" line="1403"/>
         <source>No data found.</source>
         <translation type="unfinished">Nu s-au găsit date.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1410"/>
+        <location filename="../src/eqonomize.cpp" line="1408"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1426"/>
+        <location filename="../src/eqonomize.cpp" line="1424"/>
         <source>Unrecognized date format.</source>
         <translation type="unfinished">Format dată nerecunoscut.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1431"/>
+        <location filename="../src/eqonomize.cpp" line="1429"/>
         <source>Specify Format</source>
         <translation type="unfinished">Specificați formatul</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1436"/>
+        <location filename="../src/eqonomize.cpp" line="1434"/>
         <source>The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format.</source>
         <translation type="unfinished">Formatul datelor și/sau numerelor din fișierul CSV este ambiguu. Selectați formatul corect.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1441"/>
+        <location filename="../src/eqonomize.cpp" line="1439"/>
         <source>Date format:</source>
         <translation type="unfinished">Format dată:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1484"/>
+        <location filename="../src/eqonomize.cpp" line="1482"/>
         <source>Value format:</source>
         <translation type="unfinished">Format valoare:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1555"/>
+        <location filename="../src/eqonomize.cpp" line="1553"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation type="unfinished">Nu s-a putut deschide fișierul pentru scriere.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1567"/>
-        <location filename="../src/eqonomize.cpp" line="1575"/>
+        <location filename="../src/eqonomize.cpp" line="1565"/>
+        <location filename="../src/eqonomize.cpp" line="1573"/>
         <source>Quotes: %1</source>
         <translation type="unfinished">Cotație: %1</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1621"/>
+        <location filename="../src/eqonomize.cpp" line="1619"/>
         <source>Error while writing file; file was not saved.</source>
         <translation type="unfinished">Eroare la scrierea fișierului; acesta nu a fost salvat.</translation>
     </message>
@@ -5898,12 +5898,12 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
 <context>
     <name>EditSecurityDialog</name>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2195"/>
+        <location filename="../src/eqonomize.cpp" line="2193"/>
         <source>Type:</source>
         <translation type="unfinished">Tip:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2198"/>
+        <location filename="../src/eqonomize.cpp" line="2196"/>
         <source>Mutual Fund</source>
         <translation type="unfinished">Fond mutual</translation>
     </message>
@@ -5916,57 +5916,57 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Stoc</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2199"/>
+        <location filename="../src/eqonomize.cpp" line="2197"/>
         <source>Stock</source>
         <comment>Financial stock</comment>
         <translation type="unfinished">Stoc</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2200"/>
+        <location filename="../src/eqonomize.cpp" line="2198"/>
         <source>Other</source>
         <translation type="unfinished">Altul</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2203"/>
+        <location filename="../src/eqonomize.cpp" line="2201"/>
         <source>Name:</source>
         <translation type="unfinished">Nume:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2206"/>
+        <location filename="../src/eqonomize.cpp" line="2204"/>
         <source>Account:</source>
         <translation type="unfinished">Cont:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2210"/>
+        <location filename="../src/eqonomize.cpp" line="2208"/>
         <source>Decimals in shares:</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Zecimale în acțiuni:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2216"/>
+        <location filename="../src/eqonomize.cpp" line="2214"/>
         <source>Initial shares:</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Acțiuni inițiale:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2219"/>
+        <location filename="../src/eqonomize.cpp" line="2217"/>
         <source>Decimals in quotes:</source>
         <comment>Financial quote</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2225"/>
+        <location filename="../src/eqonomize.cpp" line="2223"/>
         <source>Initial quote:</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Cotație inițială:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2259"/>
+        <location filename="../src/eqonomize.cpp" line="2257"/>
         <source>Empty name.</source>
         <translation type="unfinished">Nume nedefinit.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2272"/>
+        <location filename="../src/eqonomize.cpp" line="2270"/>
         <source>No suitable account available.</source>
         <translation type="unfinished">Nici un cont potrivit nu este disponibil.</translation>
     </message>
@@ -5988,18 +5988,18 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Cotație inițială:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2230"/>
+        <location filename="../src/eqonomize.cpp" line="2228"/>
         <source>Date:</source>
         <translation type="unfinished">Dată:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2235"/>
+        <location filename="../src/eqonomize.cpp" line="2233"/>
         <source>Description:</source>
         <translation type="unfinished">Descriere:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2259"/>
-        <location filename="../src/eqonomize.cpp" line="2272"/>
+        <location filename="../src/eqonomize.cpp" line="2257"/>
+        <location filename="../src/eqonomize.cpp" line="2270"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6023,7 +6023,7 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Acțiuni mutate:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="905"/>
+        <location filename="../src/eqonomize.cpp" line="903"/>
         <source>All</source>
         <translation type="unfinished">Tot</translation>
     </message>
@@ -6036,31 +6036,31 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Acțiuni primite:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="869"/>
+        <location filename="../src/eqonomize.cpp" line="867"/>
         <source>Securities Exchange</source>
         <comment>Shares of one security directly exchanged for shares of another; Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Tranzacție titlu de valoare</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="876"/>
+        <location filename="../src/eqonomize.cpp" line="874"/>
         <source>From security:</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">De la titlu de valoare:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="900"/>
+        <location filename="../src/eqonomize.cpp" line="898"/>
         <source>Shares moved:</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Acțiuni mutate:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="911"/>
+        <location filename="../src/eqonomize.cpp" line="909"/>
         <source>To security:</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Către titlu de valoare:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="916"/>
+        <location filename="../src/eqonomize.cpp" line="914"/>
         <source>Shares received:</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Acțiuni primite:</translation>
@@ -6070,20 +6070,20 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Valoare:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="920"/>
+        <location filename="../src/eqonomize.cpp" line="918"/>
         <source>Date:</source>
         <translation type="unfinished">Dată:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1014"/>
-        <location filename="../src/eqonomize.cpp" line="1026"/>
-        <location filename="../src/eqonomize.cpp" line="1030"/>
-        <location filename="../src/eqonomize.cpp" line="1034"/>
+        <location filename="../src/eqonomize.cpp" line="1012"/>
+        <location filename="../src/eqonomize.cpp" line="1024"/>
+        <location filename="../src/eqonomize.cpp" line="1028"/>
+        <location filename="../src/eqonomize.cpp" line="1032"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1014"/>
+        <location filename="../src/eqonomize.cpp" line="1012"/>
         <source>No other security available for exchange in the account.</source>
         <comment>Shares of one security directly exchanged for shares of another; Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nici un alt titlu de valoare nu este disponibil pentru tranzacționare în cont.</translation>
@@ -6093,13 +6093,13 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Nici un alt titlu de valoare nu este disponibil pentru tranzacționare în cont.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1026"/>
+        <location filename="../src/eqonomize.cpp" line="1024"/>
         <source>Selected to and from securities are the same.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Titlurile de valoare selectate „de la” și „la” sunt identice.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1034"/>
+        <location filename="../src/eqonomize.cpp" line="1032"/>
         <source>Zero shares not allowed.</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Acțiuni zero nu este permis.</translation>
@@ -6109,7 +6109,7 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Titlurile de valoare selectate „de la” și „la” sunt identice.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1030"/>
+        <location filename="../src/eqonomize.cpp" line="1028"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Dată nevalidă.</translation>
     </message>
@@ -6241,26 +6241,26 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
 <context>
     <name>Eqonomize</name>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2491"/>
+        <location filename="../src/eqonomize.cpp" line="2489"/>
         <source>Accounts &amp;&amp; Categories</source>
         <translation type="unfinished">Conturi și categorii</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2493"/>
-        <location filename="../src/eqonomize.cpp" line="2541"/>
-        <location filename="../src/eqonomize.cpp" line="7124"/>
+        <location filename="../src/eqonomize.cpp" line="2491"/>
+        <location filename="../src/eqonomize.cpp" line="2539"/>
+        <location filename="../src/eqonomize.cpp" line="7122"/>
         <source>Expenses</source>
         <translation type="unfinished">Cheltuieli</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2495"/>
-        <location filename="../src/eqonomize.cpp" line="2539"/>
-        <location filename="../src/eqonomize.cpp" line="7051"/>
+        <location filename="../src/eqonomize.cpp" line="2493"/>
+        <location filename="../src/eqonomize.cpp" line="2537"/>
+        <location filename="../src/eqonomize.cpp" line="7049"/>
         <source>Incomes</source>
         <translation type="unfinished">Venituri</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2497"/>
+        <location filename="../src/eqonomize.cpp" line="2495"/>
         <source>Transfers</source>
         <translation type="unfinished">Transferuri</translation>
     </message>
@@ -6285,12 +6285,12 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Titluri de valoare</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2501"/>
+        <location filename="../src/eqonomize.cpp" line="2499"/>
         <source>Schedule</source>
         <translation type="unfinished">Planificare</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2515"/>
+        <location filename="../src/eqonomize.cpp" line="2513"/>
         <source>Account / Category</source>
         <translation type="unfinished">Cont / categorie</translation>
     </message>
@@ -6312,117 +6312,117 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">%2 din %1</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7459"/>
+        <location filename="../src/eqonomize.cpp" line="7457"/>
         <source>Accounts</source>
         <translation type="unfinished">Conturi</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2562"/>
-        <location filename="../src/eqonomize.cpp" line="7229"/>
+        <location filename="../src/eqonomize.cpp" line="2560"/>
+        <location filename="../src/eqonomize.cpp" line="7227"/>
         <source>Includes budgeted transactions</source>
         <translation type="unfinished">Include tranzacții cu buget</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2543"/>
-        <location filename="../src/eqonomize.cpp" line="2835"/>
-        <location filename="../src/eqonomize.cpp" line="5370"/>
-        <location filename="../src/eqonomize.cpp" line="5385"/>
-        <location filename="../src/eqonomize.cpp" line="7200"/>
-        <location filename="../src/eqonomize.cpp" line="7578"/>
-        <location filename="../src/eqonomize.cpp" line="9083"/>
+        <location filename="../src/eqonomize.cpp" line="2541"/>
+        <location filename="../src/eqonomize.cpp" line="2833"/>
+        <location filename="../src/eqonomize.cpp" line="5368"/>
+        <location filename="../src/eqonomize.cpp" line="5383"/>
+        <location filename="../src/eqonomize.cpp" line="7198"/>
+        <location filename="../src/eqonomize.cpp" line="7576"/>
+        <location filename="../src/eqonomize.cpp" line="9081"/>
         <source>Tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2570"/>
+        <location filename="../src/eqonomize.cpp" line="2568"/>
         <source>Period</source>
         <translation type="unfinished">Perioadă</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2574"/>
-        <location filename="../src/eqonomize.cpp" line="2755"/>
-        <location filename="../src/eqonomize.cpp" line="2832"/>
+        <location filename="../src/eqonomize.cpp" line="2572"/>
+        <location filename="../src/eqonomize.cpp" line="2753"/>
+        <location filename="../src/eqonomize.cpp" line="2830"/>
         <source>From</source>
         <translation type="unfinished">De la</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2585"/>
-        <location filename="../src/eqonomize.cpp" line="2767"/>
-        <location filename="../src/eqonomize.cpp" line="2833"/>
+        <location filename="../src/eqonomize.cpp" line="2583"/>
+        <location filename="../src/eqonomize.cpp" line="2765"/>
+        <location filename="../src/eqonomize.cpp" line="2831"/>
         <source>To</source>
         <translation type="unfinished">La</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2602"/>
+        <location filename="../src/eqonomize.cpp" line="2600"/>
         <source>Select Period</source>
         <translation type="unfinished">Selectare perioadă</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2604"/>
-        <location filename="../src/eqonomize.cpp" line="7655"/>
+        <location filename="../src/eqonomize.cpp" line="2602"/>
+        <location filename="../src/eqonomize.cpp" line="7653"/>
         <source>Current Month</source>
         <translation type="unfinished">Luna curentă</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2605"/>
-        <location filename="../src/eqonomize.cpp" line="7656"/>
+        <location filename="../src/eqonomize.cpp" line="2603"/>
+        <location filename="../src/eqonomize.cpp" line="7654"/>
         <source>Current Year</source>
         <translation type="unfinished">Anul curent</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2606"/>
-        <location filename="../src/eqonomize.cpp" line="7657"/>
+        <location filename="../src/eqonomize.cpp" line="2604"/>
+        <location filename="../src/eqonomize.cpp" line="7655"/>
         <source>Current Whole Month</source>
         <translation type="unfinished">Toată luna curentă</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2607"/>
-        <location filename="../src/eqonomize.cpp" line="7658"/>
+        <location filename="../src/eqonomize.cpp" line="2605"/>
+        <location filename="../src/eqonomize.cpp" line="7656"/>
         <source>Current Whole Year</source>
         <translation type="unfinished">Tot anul curent</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2608"/>
+        <location filename="../src/eqonomize.cpp" line="2606"/>
         <source>Whole Past Month</source>
         <translation type="unfinished">Toată luna trecută</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2609"/>
+        <location filename="../src/eqonomize.cpp" line="2607"/>
         <source>Whole Past Year</source>
         <translation type="unfinished">Tot anul trecut</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2610"/>
+        <location filename="../src/eqonomize.cpp" line="2608"/>
         <source>Previous Month</source>
         <translation type="unfinished">Luna anterioară</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2611"/>
+        <location filename="../src/eqonomize.cpp" line="2609"/>
         <source>Previous Year</source>
         <translation type="unfinished">Anul anterior</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2614"/>
+        <location filename="../src/eqonomize.cpp" line="2612"/>
         <source>Show partial budget</source>
         <translation type="unfinished">Arată bugetul parțial</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2619"/>
+        <location filename="../src/eqonomize.cpp" line="2617"/>
         <source>Edit Budget</source>
         <translation type="unfinished">Editează buget</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2623"/>
+        <location filename="../src/eqonomize.cpp" line="2621"/>
         <source>Budget:</source>
         <translation type="unfinished">Buget:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2633"/>
+        <location filename="../src/eqonomize.cpp" line="2631"/>
         <source>Month:</source>
         <translation type="unfinished">Luna:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2641"/>
+        <location filename="../src/eqonomize.cpp" line="2639"/>
         <source>Result previous month:</source>
         <translation type="unfinished">Rezultat luna trecută:</translation>
     </message>
@@ -6431,7 +6431,7 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Titlu de valoare nou…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2707"/>
+        <location filename="../src/eqonomize.cpp" line="2705"/>
         <source>New Transaction</source>
         <translation type="unfinished">Tranzacție nouă</translation>
     </message>
@@ -6440,16 +6440,16 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Stabilire cotație…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2722"/>
-        <location filename="../src/eqonomize.cpp" line="6943"/>
-        <location filename="../src/eqonomize.cpp" line="7001"/>
-        <location filename="../src/eqonomize.cpp" line="7203"/>
+        <location filename="../src/eqonomize.cpp" line="2720"/>
+        <location filename="../src/eqonomize.cpp" line="6941"/>
+        <location filename="../src/eqonomize.cpp" line="6999"/>
+        <location filename="../src/eqonomize.cpp" line="7201"/>
         <source>Name</source>
         <translation type="unfinished">Nume</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2723"/>
-        <location filename="../src/eqonomize.cpp" line="7239"/>
+        <location filename="../src/eqonomize.cpp" line="2721"/>
+        <location filename="../src/eqonomize.cpp" line="7237"/>
         <source>Value</source>
         <translation type="unfinished">Valoare</translation>
     </message>
@@ -6462,55 +6462,55 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Cotație</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2726"/>
+        <location filename="../src/eqonomize.cpp" line="2724"/>
         <source>Cost</source>
         <translation type="unfinished">Cost</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2727"/>
+        <location filename="../src/eqonomize.cpp" line="2725"/>
         <source>Profit</source>
         <translation type="unfinished">Profit</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2728"/>
+        <location filename="../src/eqonomize.cpp" line="2726"/>
         <source>Yearly Rate</source>
         <translation type="unfinished">Rată anuală</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2729"/>
-        <location filename="../src/eqonomize.cpp" line="2829"/>
+        <location filename="../src/eqonomize.cpp" line="2727"/>
+        <location filename="../src/eqonomize.cpp" line="2827"/>
         <source>Type</source>
         <translation type="unfinished">Tip</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2730"/>
+        <location filename="../src/eqonomize.cpp" line="2728"/>
         <source>Account</source>
         <translation type="unfinished">Cont</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2751"/>
+        <location filename="../src/eqonomize.cpp" line="2749"/>
         <source>Statistics Period</source>
         <translation type="unfinished">Perioadă statistică</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2811"/>
+        <location filename="../src/eqonomize.cpp" line="2809"/>
         <source>New Schedule</source>
         <translation type="unfinished">Planificare nouă</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2814"/>
+        <location filename="../src/eqonomize.cpp" line="2812"/>
         <source>Edit</source>
         <translation type="unfinished">Editează</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2818"/>
-        <location filename="../src/eqonomize.cpp" line="5317"/>
-        <location filename="../src/eqonomize.cpp" line="7542"/>
+        <location filename="../src/eqonomize.cpp" line="2816"/>
+        <location filename="../src/eqonomize.cpp" line="5315"/>
+        <location filename="../src/eqonomize.cpp" line="7540"/>
         <source>Remove</source>
         <translation type="unfinished">Elimină</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2828"/>
+        <location filename="../src/eqonomize.cpp" line="2826"/>
         <source>Next Occurrence</source>
         <translation type="unfinished">Următoarea apariție</translation>
     </message>
@@ -6524,320 +6524,320 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Descriere</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2831"/>
+        <location filename="../src/eqonomize.cpp" line="2829"/>
         <source>Amount</source>
         <translation type="unfinished">Cantitate</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2834"/>
+        <location filename="../src/eqonomize.cpp" line="2832"/>
         <source>Payee/Payer</source>
         <translation type="unfinished">Beneficiar/plătitor</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2836"/>
+        <location filename="../src/eqonomize.cpp" line="2834"/>
         <source>Comments</source>
         <translation type="unfinished">Comentarii</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3073"/>
+        <location filename="../src/eqonomize.cpp" line="3071"/>
         <source>Set Schedule Confirmation Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3076"/>
+        <location filename="../src/eqonomize.cpp" line="3074"/>
         <source>Schedule confirmation time:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3095"/>
+        <location filename="../src/eqonomize.cpp" line="3093"/>
         <source>Set Budget Period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3098"/>
+        <location filename="../src/eqonomize.cpp" line="3096"/>
         <source>First day in budget month:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3100"/>
+        <location filename="../src/eqonomize.cpp" line="3098"/>
         <source>1st</source>
         <translation type="unfinished">prima</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3101"/>
+        <location filename="../src/eqonomize.cpp" line="3099"/>
         <source>2nd</source>
         <translation type="unfinished">a 2-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3102"/>
+        <location filename="../src/eqonomize.cpp" line="3100"/>
         <source>3rd</source>
         <translation type="unfinished">a 3-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3103"/>
+        <location filename="../src/eqonomize.cpp" line="3101"/>
         <source>4th</source>
         <translation type="unfinished">a 4-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3104"/>
+        <location filename="../src/eqonomize.cpp" line="3102"/>
         <source>5th</source>
         <translation type="unfinished">a 5-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3105"/>
+        <location filename="../src/eqonomize.cpp" line="3103"/>
         <source>6th</source>
         <translation type="unfinished">a 6-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3106"/>
+        <location filename="../src/eqonomize.cpp" line="3104"/>
         <source>7th</source>
         <translation type="unfinished">a 7-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3107"/>
+        <location filename="../src/eqonomize.cpp" line="3105"/>
         <source>8th</source>
         <translation type="unfinished">a 8-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3108"/>
+        <location filename="../src/eqonomize.cpp" line="3106"/>
         <source>9th</source>
         <translation type="unfinished">a 9-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3109"/>
+        <location filename="../src/eqonomize.cpp" line="3107"/>
         <source>10th</source>
         <translation type="unfinished">a 10-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3110"/>
+        <location filename="../src/eqonomize.cpp" line="3108"/>
         <source>11th</source>
         <translation type="unfinished">a 11-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3111"/>
+        <location filename="../src/eqonomize.cpp" line="3109"/>
         <source>12th</source>
         <translation type="unfinished">a 12-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3112"/>
+        <location filename="../src/eqonomize.cpp" line="3110"/>
         <source>13th</source>
         <translation type="unfinished">a 13-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3113"/>
+        <location filename="../src/eqonomize.cpp" line="3111"/>
         <source>14th</source>
         <translation type="unfinished">a 14-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3114"/>
+        <location filename="../src/eqonomize.cpp" line="3112"/>
         <source>15th</source>
         <translation type="unfinished">a 15-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3115"/>
+        <location filename="../src/eqonomize.cpp" line="3113"/>
         <source>16th</source>
         <translation type="unfinished">a 16-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3116"/>
+        <location filename="../src/eqonomize.cpp" line="3114"/>
         <source>17th</source>
         <translation type="unfinished">a 17-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3117"/>
+        <location filename="../src/eqonomize.cpp" line="3115"/>
         <source>18th</source>
         <translation type="unfinished">a 18-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3118"/>
+        <location filename="../src/eqonomize.cpp" line="3116"/>
         <source>19th</source>
         <translation type="unfinished">a 19-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3119"/>
+        <location filename="../src/eqonomize.cpp" line="3117"/>
         <source>20th</source>
         <translation type="unfinished">a 20-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3120"/>
+        <location filename="../src/eqonomize.cpp" line="3118"/>
         <source>21st</source>
         <translation type="unfinished">a 21-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3121"/>
+        <location filename="../src/eqonomize.cpp" line="3119"/>
         <source>22nd</source>
         <translation type="unfinished">a 22-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3122"/>
+        <location filename="../src/eqonomize.cpp" line="3120"/>
         <source>23rd</source>
         <translation type="unfinished">a 23-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3123"/>
+        <location filename="../src/eqonomize.cpp" line="3121"/>
         <source>24th</source>
         <translation type="unfinished">a 24-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3124"/>
+        <location filename="../src/eqonomize.cpp" line="3122"/>
         <source>25th</source>
         <translation type="unfinished">a 25-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3125"/>
+        <location filename="../src/eqonomize.cpp" line="3123"/>
         <source>26th</source>
         <translation type="unfinished">a 26-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3126"/>
+        <location filename="../src/eqonomize.cpp" line="3124"/>
         <source>27th</source>
         <translation type="unfinished">a 27-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3127"/>
+        <location filename="../src/eqonomize.cpp" line="3125"/>
         <source>28th</source>
         <translation type="unfinished">a 28-a</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3128"/>
+        <location filename="../src/eqonomize.cpp" line="3126"/>
         <source>Last</source>
         <translation type="unfinished">ultima</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3129"/>
+        <location filename="../src/eqonomize.cpp" line="3127"/>
         <source>2nd Last</source>
         <translation type="unfinished">penultima</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3130"/>
+        <location filename="../src/eqonomize.cpp" line="3128"/>
         <source>3rd Last</source>
         <translation type="unfinished">antepenultima</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3131"/>
+        <location filename="../src/eqonomize.cpp" line="3129"/>
         <source>4th Last</source>
         <translation type="unfinished">a 4-a de la coadă</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3132"/>
+        <location filename="../src/eqonomize.cpp" line="3130"/>
         <source>5th Last</source>
         <translation type="unfinished">a 5-a de la coadă</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="4145"/>
+        <location filename="../src/eqonomize.cpp" line="4143"/>
         <source>Timestamp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5032"/>
-        <location filename="../src/eqonomize.cpp" line="5039"/>
-        <location filename="../src/eqonomize.cpp" line="5063"/>
-        <location filename="../src/eqonomize.cpp" line="7582"/>
+        <location filename="../src/eqonomize.cpp" line="5030"/>
+        <location filename="../src/eqonomize.cpp" line="5037"/>
+        <location filename="../src/eqonomize.cpp" line="5061"/>
+        <location filename="../src/eqonomize.cpp" line="7580"/>
         <source>Links</source>
         <translation type="unfinished">Legături</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5057"/>
-        <location filename="../src/eqonomize.cpp" line="5294"/>
+        <location filename="../src/eqonomize.cpp" line="5055"/>
+        <location filename="../src/eqonomize.cpp" line="5292"/>
         <source>Remove Link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5086"/>
+        <location filename="../src/eqonomize.cpp" line="5084"/>
         <source>Link to &quot;%1&quot;</source>
         <extracomment>create link to transaction (link used as verb)</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5298"/>
+        <location filename="../src/eqonomize.cpp" line="5296"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5965"/>
+        <location filename="../src/eqonomize.cpp" line="5963"/>
         <source>Import Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5968"/>
+        <location filename="../src/eqonomize.cpp" line="5966"/>
         <source>Ignore duplicate transactions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5970"/>
+        <location filename="../src/eqonomize.cpp" line="5968"/>
         <source>Rename duplicate accounts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5972"/>
+        <location filename="../src/eqonomize.cpp" line="5970"/>
         <source>Rename duplicate categories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5974"/>
+        <location filename="../src/eqonomize.cpp" line="5972"/>
         <source>Rename duplicate securities</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6059"/>
+        <location filename="../src/eqonomize.cpp" line="6057"/>
         <source>Synchronization Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6062"/>
+        <location filename="../src/eqonomize.cpp" line="6060"/>
         <source>Web address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6066"/>
+        <location filename="../src/eqonomize.cpp" line="6064"/>
         <source>Download command:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7561"/>
+        <location filename="../src/eqonomize.cpp" line="7559"/>
         <source>Duplicate Transaction…</source>
         <comment>duplicate as verb</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7584"/>
+        <location filename="../src/eqonomize.cpp" line="7582"/>
         <source>Create Link</source>
         <extracomment>create link to or between transaction(s)</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7742"/>
+        <location filename="../src/eqonomize.cpp" line="7740"/>
         <source>New Tag…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7743"/>
+        <location filename="../src/eqonomize.cpp" line="7741"/>
         <source>Rename Tag…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7744"/>
+        <location filename="../src/eqonomize.cpp" line="7742"/>
         <source>Remove Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9102"/>
+        <location filename="../src/eqonomize.cpp" line="9100"/>
         <source>New Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9102"/>
-        <location filename="../src/eqonomize.cpp" line="9163"/>
+        <location filename="../src/eqonomize.cpp" line="9100"/>
+        <location filename="../src/eqonomize.cpp" line="9161"/>
         <source>Tag name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9134"/>
+        <location filename="../src/eqonomize.cpp" line="9132"/>
         <source>Remove tag?</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/eqonomize.cpp" line="9134"/>
+        <location filename="../src/eqonomize.cpp" line="9132"/>
         <source>Do you wish to remove the tag &quot;%1&quot; from %n transaction(s)?</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -6846,144 +6846,144 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9163"/>
+        <location filename="../src/eqonomize.cpp" line="9161"/>
         <source>Rename Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6064"/>
-        <location filename="../src/eqonomize.cpp" line="6068"/>
+        <location filename="../src/eqonomize.cpp" line="6062"/>
+        <location filename="../src/eqonomize.cpp" line="6066"/>
         <source>optional</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6070"/>
+        <location filename="../src/eqonomize.cpp" line="6068"/>
         <source>Upload command:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6072"/>
+        <location filename="../src/eqonomize.cpp" line="6070"/>
         <source>mandatory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6075"/>
+        <location filename="../src/eqonomize.cpp" line="6073"/>
         <source>Automatic synchronization</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6081"/>
+        <location filename="../src/eqonomize.cpp" line="6079"/>
         <source>Upload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6119"/>
+        <location filename="../src/eqonomize.cpp" line="6117"/>
         <source>Uploading…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6130"/>
+        <location filename="../src/eqonomize.cpp" line="6128"/>
         <source>Error uploading file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6130"/>
+        <location filename="../src/eqonomize.cpp" line="6128"/>
         <source>Error uploading %1: %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6162"/>
+        <location filename="../src/eqonomize.cpp" line="6160"/>
         <source>Synchronizing…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6173"/>
-        <location filename="../src/eqonomize.cpp" line="6182"/>
+        <location filename="../src/eqonomize.cpp" line="6171"/>
+        <location filename="../src/eqonomize.cpp" line="6180"/>
         <source>Error synchronizing file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6173"/>
-        <location filename="../src/eqonomize.cpp" line="6182"/>
+        <location filename="../src/eqonomize.cpp" line="6171"/>
+        <location filename="../src/eqonomize.cpp" line="6180"/>
         <source>Error synchronizing %1: %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6174"/>
+        <location filename="../src/eqonomize.cpp" line="6172"/>
         <source>Synchronization error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6203"/>
+        <location filename="../src/eqonomize.cpp" line="6201"/>
         <source>Synchronize file?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6203"/>
+        <location filename="../src/eqonomize.cpp" line="6201"/>
         <source>The file has been modified by a different user or program. Do you wish to merge changes?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6388"/>
+        <location filename="../src/eqonomize.cpp" line="6386"/>
         <source>New version available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6388"/>
+        <location filename="../src/eqonomize.cpp" line="6386"/>
         <source>A new version of %1 is available.&lt;br&gt;&lt;br&gt;You can get version %2 at %3.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6119"/>
-        <location filename="../src/eqonomize.cpp" line="6162"/>
-        <location filename="../src/eqonomize.cpp" line="6437"/>
+        <location filename="../src/eqonomize.cpp" line="6117"/>
+        <location filename="../src/eqonomize.cpp" line="6160"/>
+        <location filename="../src/eqonomize.cpp" line="6435"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3136"/>
+        <location filename="../src/eqonomize.cpp" line="3134"/>
         <source>First month in budget year:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6074"/>
+        <location filename="../src/eqonomize.cpp" line="6072"/>
         <source>%f = local file (temporary), %u = url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6454"/>
-        <location filename="../src/eqonomize.cpp" line="6474"/>
+        <location filename="../src/eqonomize.cpp" line="6452"/>
+        <location filename="../src/eqonomize.cpp" line="6472"/>
         <source>Failed to download exchange rates from %1: %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6459"/>
-        <location filename="../src/eqonomize.cpp" line="6481"/>
+        <location filename="../src/eqonomize.cpp" line="6457"/>
+        <location filename="../src/eqonomize.cpp" line="6479"/>
         <source>Error reading data from %1: %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6533"/>
+        <location filename="../src/eqonomize.cpp" line="6531"/>
         <source>Unrecognized Currency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6538"/>
+        <location filename="../src/eqonomize.cpp" line="6536"/>
         <source>No exchange rate is available for the default currency (%1). If you wish to use multiple currencies you should set the exchange rate manually.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6562"/>
+        <location filename="../src/eqonomize.cpp" line="6560"/>
         <source>Set Main Currency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6567"/>
+        <location filename="../src/eqonomize.cpp" line="6565"/>
         <source>Currency:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6587"/>
+        <location filename="../src/eqonomize.cpp" line="6585"/>
         <source>Replace all occurrences of the former main currency</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6992,89 +6992,89 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Cont curent</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7500"/>
+        <location filename="../src/eqonomize.cpp" line="7498"/>
         <source>S&amp;ynchronize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7507"/>
+        <location filename="../src/eqonomize.cpp" line="7505"/>
         <source>Import %1 File…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7538"/>
+        <location filename="../src/eqonomize.cpp" line="7536"/>
         <source>Reconcile Account…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7539"/>
+        <location filename="../src/eqonomize.cpp" line="7537"/>
         <source>Adjust balance…</source>
         <comment>Referring to account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7541"/>
-        <location filename="../src/eqonomize.cpp" line="9061"/>
-        <location filename="../src/eqonomize.cpp" line="10726"/>
+        <location filename="../src/eqonomize.cpp" line="7539"/>
+        <location filename="../src/eqonomize.cpp" line="9059"/>
+        <location filename="../src/eqonomize.cpp" line="10724"/>
         <source>Close Account</source>
         <comment>Mark account as closed</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7602"/>
+        <location filename="../src/eqonomize.cpp" line="7600"/>
         <source>New Expense Paid with Loan…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7639"/>
+        <location filename="../src/eqonomize.cpp" line="7637"/>
         <source>Show payee and quantity</source>
         <translation type="unfinished">Arată beneficiarul și cantitatea</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7644"/>
+        <location filename="../src/eqonomize.cpp" line="7642"/>
         <source>Show quantity and payer/payee properties for incomes and expenses.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7678"/>
+        <location filename="../src/eqonomize.cpp" line="7676"/>
         <source>Select Font…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7828"/>
+        <location filename="../src/eqonomize.cpp" line="7826"/>
         <source>Please restart the application for the language change to take effect.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8578"/>
+        <location filename="../src/eqonomize.cpp" line="8576"/>
         <source>Only use this when unable to find the cause of the incorrect recorded account balance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9058"/>
-        <location filename="../src/eqonomize.cpp" line="10722"/>
+        <location filename="../src/eqonomize.cpp" line="9056"/>
+        <location filename="../src/eqonomize.cpp" line="10720"/>
         <source>Reopen Account</source>
         <comment>Mark account as not closed</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7600"/>
+        <location filename="../src/eqonomize.cpp" line="7598"/>
         <source>New Debt Payment…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7601"/>
+        <location filename="../src/eqonomize.cpp" line="7599"/>
         <source>New Unpaid Interest…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6317"/>
-        <location filename="../src/eqonomize.cpp" line="8148"/>
+        <location filename="../src/eqonomize.cpp" line="6315"/>
+        <location filename="../src/eqonomize.cpp" line="8146"/>
         <source>Eqonomize! Accounting File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8557"/>
+        <location filename="../src/eqonomize.cpp" line="8555"/>
         <source>Adjust Account Balance</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7087,22 +7087,22 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Modifică titlu de valoare</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3398"/>
+        <location filename="../src/eqonomize.cpp" line="3396"/>
         <source>Total value:</source>
         <translation type="unfinished">Valoare totală:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3398"/>
+        <location filename="../src/eqonomize.cpp" line="3396"/>
         <source>Cost:</source>
         <translation type="unfinished">Cost:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3398"/>
+        <location filename="../src/eqonomize.cpp" line="3396"/>
         <source>Profit:</source>
         <translation type="unfinished">Profit:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3398"/>
+        <location filename="../src/eqonomize.cpp" line="3396"/>
         <source>Rate:</source>
         <translation type="unfinished">Rată:</translation>
     </message>
@@ -7111,38 +7111,38 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Sigur doriți ștergerea titlului de valoare „%1” și toate tranzacțiile asociate?</translation>
     </message>
     <message>
+        <location filename="../src/eqonomize.cpp" line="3521"/>
         <location filename="../src/eqonomize.cpp" line="3523"/>
-        <location filename="../src/eqonomize.cpp" line="3525"/>
-        <location filename="../src/eqonomize.cpp" line="5562"/>
-        <location filename="../src/eqonomize.cpp" line="5592"/>
-        <location filename="../src/eqonomize.cpp" line="5685"/>
-        <location filename="../src/eqonomize.cpp" line="5716"/>
-        <location filename="../src/eqonomize.cpp" line="5997"/>
-        <location filename="../src/eqonomize.cpp" line="6212"/>
-        <location filename="../src/eqonomize.cpp" line="6454"/>
-        <location filename="../src/eqonomize.cpp" line="6459"/>
-        <location filename="../src/eqonomize.cpp" line="6474"/>
-        <location filename="../src/eqonomize.cpp" line="6481"/>
-        <location filename="../src/eqonomize.cpp" line="6485"/>
-        <location filename="../src/eqonomize.cpp" line="6556"/>
-        <location filename="../src/eqonomize.cpp" line="7272"/>
-        <location filename="../src/eqonomize.cpp" line="7277"/>
-        <location filename="../src/eqonomize.cpp" line="7282"/>
-        <location filename="../src/eqonomize.cpp" line="7287"/>
-        <location filename="../src/eqonomize.cpp" line="7292"/>
-        <location filename="../src/eqonomize.cpp" line="7304"/>
-        <location filename="../src/eqonomize.cpp" line="7309"/>
-        <location filename="../src/eqonomize.cpp" line="7314"/>
-        <location filename="../src/eqonomize.cpp" line="7319"/>
-        <location filename="../src/eqonomize.cpp" line="7324"/>
-        <location filename="../src/eqonomize.cpp" line="7361"/>
-        <location filename="../src/eqonomize.cpp" line="7366"/>
-        <location filename="../src/eqonomize.cpp" line="7371"/>
-        <location filename="../src/eqonomize.cpp" line="7376"/>
-        <location filename="../src/eqonomize.cpp" line="7381"/>
-        <location filename="../src/eqonomize.cpp" line="7409"/>
-        <location filename="../src/eqonomize.cpp" line="7416"/>
-        <location filename="../src/eqonomize.cpp" line="7917"/>
+        <location filename="../src/eqonomize.cpp" line="5560"/>
+        <location filename="../src/eqonomize.cpp" line="5590"/>
+        <location filename="../src/eqonomize.cpp" line="5683"/>
+        <location filename="../src/eqonomize.cpp" line="5714"/>
+        <location filename="../src/eqonomize.cpp" line="5995"/>
+        <location filename="../src/eqonomize.cpp" line="6210"/>
+        <location filename="../src/eqonomize.cpp" line="6452"/>
+        <location filename="../src/eqonomize.cpp" line="6457"/>
+        <location filename="../src/eqonomize.cpp" line="6472"/>
+        <location filename="../src/eqonomize.cpp" line="6479"/>
+        <location filename="../src/eqonomize.cpp" line="6483"/>
+        <location filename="../src/eqonomize.cpp" line="6554"/>
+        <location filename="../src/eqonomize.cpp" line="7270"/>
+        <location filename="../src/eqonomize.cpp" line="7275"/>
+        <location filename="../src/eqonomize.cpp" line="7280"/>
+        <location filename="../src/eqonomize.cpp" line="7285"/>
+        <location filename="../src/eqonomize.cpp" line="7290"/>
+        <location filename="../src/eqonomize.cpp" line="7302"/>
+        <location filename="../src/eqonomize.cpp" line="7307"/>
+        <location filename="../src/eqonomize.cpp" line="7312"/>
+        <location filename="../src/eqonomize.cpp" line="7317"/>
+        <location filename="../src/eqonomize.cpp" line="7322"/>
+        <location filename="../src/eqonomize.cpp" line="7359"/>
+        <location filename="../src/eqonomize.cpp" line="7364"/>
+        <location filename="../src/eqonomize.cpp" line="7369"/>
+        <location filename="../src/eqonomize.cpp" line="7374"/>
+        <location filename="../src/eqonomize.cpp" line="7379"/>
+        <location filename="../src/eqonomize.cpp" line="7407"/>
+        <location filename="../src/eqonomize.cpp" line="7414"/>
+        <location filename="../src/eqonomize.cpp" line="7915"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7159,21 +7159,21 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Preț per acțiune:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3511"/>
+        <location filename="../src/eqonomize.cpp" line="3509"/>
         <source>Date:</source>
         <translation type="unfinished">Dată:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3523"/>
-        <location filename="../src/eqonomize.cpp" line="5562"/>
-        <location filename="../src/eqonomize.cpp" line="5592"/>
-        <location filename="../src/eqonomize.cpp" line="5685"/>
-        <location filename="../src/eqonomize.cpp" line="5716"/>
+        <location filename="../src/eqonomize.cpp" line="3521"/>
+        <location filename="../src/eqonomize.cpp" line="5560"/>
+        <location filename="../src/eqonomize.cpp" line="5590"/>
+        <location filename="../src/eqonomize.cpp" line="5683"/>
+        <location filename="../src/eqonomize.cpp" line="5714"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Dată nevalidă.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3525"/>
+        <location filename="../src/eqonomize.cpp" line="3523"/>
         <source>Future dates are not allowed.</source>
         <translation type="unfinished">Datele în viitor nu sunt permise.</translation>
     </message>
@@ -7182,8 +7182,8 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Tranzacții titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3652"/>
-        <location filename="../src/eqonomize.cpp" line="3736"/>
+        <location filename="../src/eqonomize.cpp" line="3650"/>
+        <location filename="../src/eqonomize.cpp" line="3734"/>
         <source>Bond</source>
         <translation type="unfinished">Obligațiune</translation>
     </message>
@@ -7192,33 +7192,33 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Stoc</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3654"/>
-        <location filename="../src/eqonomize.cpp" line="3738"/>
+        <location filename="../src/eqonomize.cpp" line="3652"/>
+        <location filename="../src/eqonomize.cpp" line="3736"/>
         <source>Mutual Fund</source>
         <translation type="unfinished">Fond mutual</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3655"/>
-        <location filename="../src/eqonomize.cpp" line="3739"/>
-        <location filename="../src/eqonomize.cpp" line="5846"/>
-        <location filename="../src/eqonomize.cpp" line="5851"/>
+        <location filename="../src/eqonomize.cpp" line="3653"/>
+        <location filename="../src/eqonomize.cpp" line="3737"/>
+        <location filename="../src/eqonomize.cpp" line="5844"/>
+        <location filename="../src/eqonomize.cpp" line="5849"/>
         <source>Other</source>
         <translation type="unfinished">Altul</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5407"/>
+        <location filename="../src/eqonomize.cpp" line="5405"/>
         <source>Add Loan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5411"/>
+        <location filename="../src/eqonomize.cpp" line="5409"/>
         <source>Add Category</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5458"/>
-        <location filename="../src/eqonomize.cpp" line="5469"/>
-        <location filename="../src/eqonomize.cpp" line="5553"/>
+        <location filename="../src/eqonomize.cpp" line="5456"/>
+        <location filename="../src/eqonomize.cpp" line="5467"/>
+        <location filename="../src/eqonomize.cpp" line="5551"/>
         <source>Ledger</source>
         <translation type="unfinished">Registru</translation>
     </message>
@@ -7231,7 +7231,7 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Data „de la” este după data „la”.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5842"/>
+        <location filename="../src/eqonomize.cpp" line="5840"/>
         <source>Cash</source>
         <translation type="unfinished">Numerar</translation>
     </message>
@@ -7240,122 +7240,122 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Cont cec</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5844"/>
+        <location filename="../src/eqonomize.cpp" line="5842"/>
         <source>Savings Account</source>
         <translation type="unfinished">Cont de economii</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5845"/>
+        <location filename="../src/eqonomize.cpp" line="5843"/>
         <source>Salary</source>
         <translation type="unfinished">Salariu</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5847"/>
+        <location filename="../src/eqonomize.cpp" line="5845"/>
         <source>Bills</source>
         <translation type="unfinished">Facturi</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5848"/>
+        <location filename="../src/eqonomize.cpp" line="5846"/>
         <source>Clothing</source>
         <translation type="unfinished">Îmbrăcăminte</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5849"/>
+        <location filename="../src/eqonomize.cpp" line="5847"/>
         <source>Groceries</source>
         <translation type="unfinished">Alimente</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5850"/>
+        <location filename="../src/eqonomize.cpp" line="5848"/>
         <source>Leisure</source>
         <translation type="unfinished">Timp liber</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5993"/>
-        <location filename="../src/eqonomize.cpp" line="6208"/>
-        <location filename="../src/eqonomize.cpp" line="7911"/>
+        <location filename="../src/eqonomize.cpp" line="5991"/>
+        <location filename="../src/eqonomize.cpp" line="6206"/>
+        <location filename="../src/eqonomize.cpp" line="7909"/>
         <source>Couldn&apos;t open file</source>
         <translation type="unfinished">Nu s-a putut deschide fișierul</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5993"/>
-        <location filename="../src/eqonomize.cpp" line="6208"/>
-        <location filename="../src/eqonomize.cpp" line="7911"/>
+        <location filename="../src/eqonomize.cpp" line="5991"/>
+        <location filename="../src/eqonomize.cpp" line="6206"/>
+        <location filename="../src/eqonomize.cpp" line="7909"/>
         <source>Error loading %1: %2.</source>
         <translation type="unfinished">Eroare la încărcarea %1: %2.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6187"/>
-        <location filename="../src/eqonomize.cpp" line="6224"/>
-        <location filename="../src/eqonomize.cpp" line="6270"/>
+        <location filename="../src/eqonomize.cpp" line="6185"/>
+        <location filename="../src/eqonomize.cpp" line="6222"/>
+        <location filename="../src/eqonomize.cpp" line="6268"/>
         <source>Couldn&apos;t save file</source>
         <translation type="unfinished">Nu s-a putut salva fișierul</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6187"/>
-        <location filename="../src/eqonomize.cpp" line="6224"/>
-        <location filename="../src/eqonomize.cpp" line="6270"/>
+        <location filename="../src/eqonomize.cpp" line="6185"/>
+        <location filename="../src/eqonomize.cpp" line="6222"/>
+        <location filename="../src/eqonomize.cpp" line="6268"/>
         <source>Error saving %1: %2.</source>
         <translation type="unfinished">Eroare la salvarea %1: %2.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6437"/>
+        <location filename="../src/eqonomize.cpp" line="6435"/>
         <source>Updating exchange rates…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6485"/>
-        <location filename="../src/eqonomize.cpp" line="6556"/>
+        <location filename="../src/eqonomize.cpp" line="6483"/>
+        <location filename="../src/eqonomize.cpp" line="6554"/>
         <source>Error saving currencies: %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6571"/>
-        <location filename="../src/eqonomize.cpp" line="6624"/>
+        <location filename="../src/eqonomize.cpp" line="6569"/>
+        <location filename="../src/eqonomize.cpp" line="6622"/>
         <source>New currency…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6765"/>
-        <location filename="../src/eqonomize.cpp" line="6771"/>
+        <location filename="../src/eqonomize.cpp" line="6763"/>
+        <location filename="../src/eqonomize.cpp" line="6769"/>
         <source>Transaction Schedule</source>
         <translation type="unfinished">Planificare tranzacție</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2519"/>
-        <location filename="../src/eqonomize.cpp" line="6888"/>
-        <location filename="../src/eqonomize.cpp" line="6984"/>
-        <location filename="../src/eqonomize.cpp" line="7039"/>
-        <location filename="../src/eqonomize.cpp" line="7108"/>
-        <location filename="../src/eqonomize.cpp" line="7181"/>
+        <location filename="../src/eqonomize.cpp" line="2517"/>
+        <location filename="../src/eqonomize.cpp" line="6886"/>
+        <location filename="../src/eqonomize.cpp" line="6982"/>
+        <location filename="../src/eqonomize.cpp" line="7037"/>
+        <location filename="../src/eqonomize.cpp" line="7106"/>
+        <location filename="../src/eqonomize.cpp" line="7179"/>
         <source>Total</source>
         <translation type="unfinished">Total</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6932"/>
+        <location filename="../src/eqonomize.cpp" line="6930"/>
         <source>Accounts &amp;amp; Categories</source>
         <comment>html format</comment>
         <translation type="unfinished">Conturi și categorii</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6937"/>
+        <location filename="../src/eqonomize.cpp" line="6935"/>
         <source>Accounts &amp;amp; Categories (%1&amp;ndash;%2)</source>
         <comment>html format</comment>
         <translation type="unfinished">Conturi și categorii (%1&amp;ndash;%2)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6938"/>
+        <location filename="../src/eqonomize.cpp" line="6936"/>
         <source>Accounts &amp;amp; Categories (to %1)</source>
         <comment>html format</comment>
         <translation type="unfinished">Conturi și categorii (la %1)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2518"/>
-        <location filename="../src/eqonomize.cpp" line="6945"/>
-        <location filename="../src/eqonomize.cpp" line="7003"/>
-        <location filename="../src/eqonomize.cpp" line="7058"/>
-        <location filename="../src/eqonomize.cpp" line="7131"/>
-        <location filename="../src/eqonomize.cpp" line="7205"/>
-        <location filename="../src/eqonomize.cpp" line="7239"/>
+        <location filename="../src/eqonomize.cpp" line="2516"/>
+        <location filename="../src/eqonomize.cpp" line="6943"/>
+        <location filename="../src/eqonomize.cpp" line="7001"/>
+        <location filename="../src/eqonomize.cpp" line="7056"/>
+        <location filename="../src/eqonomize.cpp" line="7129"/>
+        <location filename="../src/eqonomize.cpp" line="7203"/>
+        <location filename="../src/eqonomize.cpp" line="7237"/>
         <source>Change</source>
         <extracomment>Noun, how much the account balance has changed</extracomment>
         <translation type="unfinished">Schimbare</translation>
@@ -7373,66 +7373,66 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Carte de credit</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2537"/>
-        <location filename="../src/eqonomize.cpp" line="6998"/>
+        <location filename="../src/eqonomize.cpp" line="2535"/>
+        <location filename="../src/eqonomize.cpp" line="6996"/>
         <source>Liabilities</source>
         <translation type="unfinished">Pasive</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2710"/>
-        <location filename="../src/eqonomize.cpp" line="7618"/>
+        <location filename="../src/eqonomize.cpp" line="2708"/>
+        <location filename="../src/eqonomize.cpp" line="7616"/>
         <source>Set Quote…</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Stabilire cotație…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2725"/>
+        <location filename="../src/eqonomize.cpp" line="2723"/>
         <source>Quote</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Cotație</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3501"/>
+        <location filename="../src/eqonomize.cpp" line="3499"/>
         <source>Set Quote (%1)</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Stabilește cotația (%1)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3653"/>
-        <location filename="../src/eqonomize.cpp" line="3737"/>
+        <location filename="../src/eqonomize.cpp" line="3651"/>
+        <location filename="../src/eqonomize.cpp" line="3735"/>
         <source>Stock</source>
         <comment>Financial stock</comment>
         <translation type="unfinished">Stoc</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="6948"/>
-        <location filename="../src/eqonomize.cpp" line="7005"/>
-        <location filename="../src/eqonomize.cpp" line="7207"/>
+        <location filename="../src/eqonomize.cpp" line="6946"/>
+        <location filename="../src/eqonomize.cpp" line="7003"/>
+        <location filename="../src/eqonomize.cpp" line="7205"/>
         <source>Balance</source>
         <comment>Noun. Balance of an account</comment>
         <translation type="unfinished">Balanță</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7054"/>
-        <location filename="../src/eqonomize.cpp" line="7127"/>
+        <location filename="../src/eqonomize.cpp" line="7052"/>
+        <location filename="../src/eqonomize.cpp" line="7125"/>
         <source>Category</source>
         <translation type="unfinished">Categorie</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7055"/>
-        <location filename="../src/eqonomize.cpp" line="7128"/>
+        <location filename="../src/eqonomize.cpp" line="7053"/>
+        <location filename="../src/eqonomize.cpp" line="7126"/>
         <source>Budget</source>
         <translation type="unfinished">Buget</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2516"/>
-        <location filename="../src/eqonomize.cpp" line="7056"/>
-        <location filename="../src/eqonomize.cpp" line="7129"/>
+        <location filename="../src/eqonomize.cpp" line="2514"/>
+        <location filename="../src/eqonomize.cpp" line="7054"/>
+        <location filename="../src/eqonomize.cpp" line="7127"/>
         <source>Remaining Budget</source>
         <translation type="unfinished">Buget rămas</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7059"/>
+        <location filename="../src/eqonomize.cpp" line="7057"/>
         <source>Total Incomes</source>
         <translation type="unfinished">Venituri totale</translation>
     </message>
@@ -7441,34 +7441,34 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Costuri</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7132"/>
+        <location filename="../src/eqonomize.cpp" line="7130"/>
         <source>Total Expenses</source>
         <translation type="unfinished">Cheltuieli totale</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7239"/>
+        <location filename="../src/eqonomize.cpp" line="7237"/>
         <source>Account/Category</source>
         <extracomment>Noun, how much the account balance has changed</extracomment>
         <translation type="unfinished">Cont/Categorie</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7272"/>
-        <location filename="../src/eqonomize.cpp" line="7304"/>
-        <location filename="../src/eqonomize.cpp" line="7361"/>
+        <location filename="../src/eqonomize.cpp" line="7270"/>
+        <location filename="../src/eqonomize.cpp" line="7302"/>
+        <location filename="../src/eqonomize.cpp" line="7359"/>
         <source>Empty expenses list.</source>
         <translation type="unfinished">Listă de cheltuieli goală.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7277"/>
-        <location filename="../src/eqonomize.cpp" line="7309"/>
-        <location filename="../src/eqonomize.cpp" line="7366"/>
+        <location filename="../src/eqonomize.cpp" line="7275"/>
+        <location filename="../src/eqonomize.cpp" line="7307"/>
+        <location filename="../src/eqonomize.cpp" line="7364"/>
         <source>Empty incomes list.</source>
         <translation type="unfinished">Listă de venituri goală.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7282"/>
-        <location filename="../src/eqonomize.cpp" line="7314"/>
-        <location filename="../src/eqonomize.cpp" line="7371"/>
+        <location filename="../src/eqonomize.cpp" line="7280"/>
+        <location filename="../src/eqonomize.cpp" line="7312"/>
+        <location filename="../src/eqonomize.cpp" line="7369"/>
         <source>Empty transfers list.</source>
         <translation type="unfinished">Listă de transferuri goală.</translation>
     </message>
@@ -7477,34 +7477,34 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Listă de titluri de valoare goală.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7292"/>
-        <location filename="../src/eqonomize.cpp" line="7324"/>
-        <location filename="../src/eqonomize.cpp" line="7381"/>
+        <location filename="../src/eqonomize.cpp" line="7290"/>
+        <location filename="../src/eqonomize.cpp" line="7322"/>
+        <location filename="../src/eqonomize.cpp" line="7379"/>
         <source>Empty schedule list.</source>
         <translation type="unfinished">Listă de planificări goală.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7409"/>
+        <location filename="../src/eqonomize.cpp" line="7407"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation type="unfinished">Nu s-a putut deschide fișierul pentru scriere.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7416"/>
+        <location filename="../src/eqonomize.cpp" line="7414"/>
         <source>Error while writing file; file was not saved.</source>
         <translation type="unfinished">Eroare la scrierea fișierului; acesta nu a fost salvat.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7444"/>
+        <location filename="../src/eqonomize.cpp" line="7442"/>
         <source>&amp;File</source>
         <translation type="unfinished">&amp;Fișier</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7445"/>
+        <location filename="../src/eqonomize.cpp" line="7443"/>
         <source>&amp;Accounts</source>
         <translation type="unfinished">&amp;Conturi</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7447"/>
+        <location filename="../src/eqonomize.cpp" line="7445"/>
         <source>&amp;Transactions</source>
         <translation type="unfinished">&amp;Tranzacții</translation>
     </message>
@@ -7513,160 +7513,160 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Titluri de &amp;valoare</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7451"/>
+        <location filename="../src/eqonomize.cpp" line="7449"/>
         <source>Stat&amp;istics</source>
         <translation type="unfinished">Stat&amp;istici</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7452"/>
+        <location filename="../src/eqonomize.cpp" line="7450"/>
         <source>S&amp;ettings</source>
         <translation type="unfinished">C&amp;onfigurări</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7453"/>
+        <location filename="../src/eqonomize.cpp" line="7451"/>
         <source>&amp;Help</source>
         <translation type="unfinished">&amp;Ajutor</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7455"/>
+        <location filename="../src/eqonomize.cpp" line="7453"/>
         <source>File</source>
         <translation type="unfinished">Fișier</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7463"/>
+        <location filename="../src/eqonomize.cpp" line="7461"/>
         <source>Transactions</source>
         <translation type="unfinished">Tranzacții</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7467"/>
+        <location filename="../src/eqonomize.cpp" line="7465"/>
         <source>Statistics</source>
         <translation type="unfinished">Statistici</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7480"/>
+        <location filename="../src/eqonomize.cpp" line="7478"/>
         <source>&amp;New</source>
         <translation type="unfinished">&amp;Nou</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7482"/>
+        <location filename="../src/eqonomize.cpp" line="7480"/>
         <source>&amp;Open…</source>
         <translation type="unfinished">&amp;Deschide…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7484"/>
+        <location filename="../src/eqonomize.cpp" line="7482"/>
         <source>Open Recent</source>
         <translation type="unfinished">Deschide recent</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7494"/>
+        <location filename="../src/eqonomize.cpp" line="7492"/>
         <source>Clear List</source>
         <translation type="unfinished">Curăţă lista</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7496"/>
+        <location filename="../src/eqonomize.cpp" line="7494"/>
         <source>&amp;Save</source>
         <translation type="unfinished">&amp;Salvează</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7498"/>
+        <location filename="../src/eqonomize.cpp" line="7496"/>
         <source>Save As…</source>
         <translation type="unfinished">Salvează ca…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7499"/>
+        <location filename="../src/eqonomize.cpp" line="7497"/>
         <source>&amp;Revert</source>
         <translation type="unfinished">&amp;Reîncarcă</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7502"/>
+        <location filename="../src/eqonomize.cpp" line="7500"/>
         <source>&amp;Print…</source>
         <translation type="unfinished">&amp;Tipărire…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7503"/>
+        <location filename="../src/eqonomize.cpp" line="7501"/>
         <source>Print Preview…</source>
         <translation type="unfinished">Previzualizare tipărire…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7506"/>
+        <location filename="../src/eqonomize.cpp" line="7504"/>
         <source>Import</source>
         <translation type="unfinished">Importă</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7508"/>
+        <location filename="../src/eqonomize.cpp" line="7506"/>
         <source>Import CSV File…</source>
         <translation type="unfinished">Importare fișier CSV…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7509"/>
+        <location filename="../src/eqonomize.cpp" line="7507"/>
         <source>Import QIF File…</source>
         <translation type="unfinished">Importare fișier QIF…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7510"/>
+        <location filename="../src/eqonomize.cpp" line="7508"/>
         <source>Export View…</source>
         <translation type="unfinished">Exportare vizualizare…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7512"/>
+        <location filename="../src/eqonomize.cpp" line="7510"/>
         <source>Export As QIF File…</source>
         <translation type="unfinished">Exportare ca fișier QIF…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7515"/>
+        <location filename="../src/eqonomize.cpp" line="7513"/>
         <source>Update Exchange Rates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7514"/>
+        <location filename="../src/eqonomize.cpp" line="7512"/>
         <source>Currency Converter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7520"/>
+        <location filename="../src/eqonomize.cpp" line="7518"/>
         <source>&amp;Quit</source>
         <translation type="unfinished">&amp;Termină</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7522"/>
-        <location filename="../src/eqonomize.cpp" line="7527"/>
+        <location filename="../src/eqonomize.cpp" line="7520"/>
+        <location filename="../src/eqonomize.cpp" line="7525"/>
         <source>Add Account…</source>
         <translation type="unfinished">Adăugare cont…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7523"/>
+        <location filename="../src/eqonomize.cpp" line="7521"/>
         <source>New Account…</source>
         <translation type="unfinished">Cont nou…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7524"/>
+        <location filename="../src/eqonomize.cpp" line="7522"/>
         <source>New Loan…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7525"/>
+        <location filename="../src/eqonomize.cpp" line="7523"/>
         <source>New Income Category…</source>
         <translation type="unfinished">Categorie de venit nouă…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7526"/>
+        <location filename="../src/eqonomize.cpp" line="7524"/>
         <source>New Expense Category…</source>
         <translation type="unfinished">Categorie de cheltuială nouă…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5409"/>
-        <location filename="../src/eqonomize.cpp" line="7528"/>
+        <location filename="../src/eqonomize.cpp" line="5407"/>
+        <location filename="../src/eqonomize.cpp" line="7526"/>
         <source>Add Account</source>
         <translation type="unfinished">Adăugare cont</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2535"/>
-        <location filename="../src/eqonomize.cpp" line="6940"/>
+        <location filename="../src/eqonomize.cpp" line="2533"/>
+        <location filename="../src/eqonomize.cpp" line="6938"/>
         <source>Assets</source>
         <translation type="unfinished">Resurse</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2830"/>
+        <location filename="../src/eqonomize.cpp" line="2828"/>
         <source>Description</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Descriere</translation>
@@ -7677,12 +7677,12 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Tranzacții titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7449"/>
+        <location filename="../src/eqonomize.cpp" line="7447"/>
         <source>&amp;Loans</source>
         <translation type="unfinished">C&amp;redite</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7537"/>
+        <location filename="../src/eqonomize.cpp" line="7535"/>
         <source>Edit…</source>
         <translation type="unfinished">Editează…</translation>
     </message>
@@ -7691,129 +7691,129 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Echilibrare…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7544"/>
+        <location filename="../src/eqonomize.cpp" line="7542"/>
         <source>Show Transactions</source>
         <translation type="unfinished">Arată tranzacțiile</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7545"/>
+        <location filename="../src/eqonomize.cpp" line="7543"/>
         <source>Show Ledger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7548"/>
+        <location filename="../src/eqonomize.cpp" line="7546"/>
         <source>New Expense…</source>
         <translation type="unfinished">Cheltuială nouă…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7550"/>
+        <location filename="../src/eqonomize.cpp" line="7548"/>
         <source>New Income…</source>
         <translation type="unfinished">Venit nou…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7552"/>
+        <location filename="../src/eqonomize.cpp" line="7550"/>
         <source>New Transfer…</source>
         <translation type="unfinished">Transfer nou…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7554"/>
+        <location filename="../src/eqonomize.cpp" line="7552"/>
         <source>New Split Transaction…</source>
         <translation type="unfinished">Tranzacție împărțită nouă…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7556"/>
+        <location filename="../src/eqonomize.cpp" line="7554"/>
         <source>New Expense with Multiple Payments…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7557"/>
+        <location filename="../src/eqonomize.cpp" line="7555"/>
         <source>Refund…</source>
         <translation type="unfinished">Rambursare…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7558"/>
+        <location filename="../src/eqonomize.cpp" line="7556"/>
         <source>Repayment…</source>
         <translation type="unfinished">Restituire…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7559"/>
+        <location filename="../src/eqonomize.cpp" line="7557"/>
         <source>New Refund/Repayment…</source>
         <translation type="unfinished">Rambursare/restituire nouă…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7563"/>
+        <location filename="../src/eqonomize.cpp" line="7561"/>
         <source>Edit Transaction(s) (Occurrence)…</source>
         <translation type="unfinished">Editare tranzacții (recurență)…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7564"/>
+        <location filename="../src/eqonomize.cpp" line="7562"/>
         <source>Edit Occurrence…</source>
         <translation type="unfinished">Editare recurență…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7565"/>
+        <location filename="../src/eqonomize.cpp" line="7563"/>
         <source>Edit Schedule (Recurrence)…</source>
         <translation type="unfinished">Editare planificare (recurență)…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7566"/>
+        <location filename="../src/eqonomize.cpp" line="7564"/>
         <source>Edit Schedule…</source>
         <translation type="unfinished">Editare planificare…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7567"/>
+        <location filename="../src/eqonomize.cpp" line="7565"/>
         <source>Edit Split Transaction…</source>
         <translation type="unfinished">Editare tranzacție împărțită…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7569"/>
+        <location filename="../src/eqonomize.cpp" line="7567"/>
         <source>Join Transactions…</source>
         <extracomment>join transactions together</extracomment>
         <translation type="unfinished">Alăturare tranzacții…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7571"/>
+        <location filename="../src/eqonomize.cpp" line="7569"/>
         <source>Split Up Transaction</source>
         <extracomment>split up joined transactions</extracomment>
         <translation type="unfinished">Împărțește tranzacția</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7591"/>
+        <location filename="../src/eqonomize.cpp" line="7589"/>
         <source>Edit Timestamp…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7589"/>
+        <location filename="../src/eqonomize.cpp" line="7587"/>
         <source>Select Associated File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7590"/>
+        <location filename="../src/eqonomize.cpp" line="7588"/>
         <source>Open Associated File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7593"/>
+        <location filename="../src/eqonomize.cpp" line="7591"/>
         <source>Remove Transaction(s) (Occurrence)</source>
         <translation type="unfinished">Elimină tranzacții (recurență)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7594"/>
+        <location filename="../src/eqonomize.cpp" line="7592"/>
         <source>Remove Occurrence</source>
         <translation type="unfinished">Elimină recurența</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7595"/>
+        <location filename="../src/eqonomize.cpp" line="7593"/>
         <source>Delete Schedule (Recurrence)</source>
         <translation type="unfinished">Șterge planificare (recurență)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7596"/>
+        <location filename="../src/eqonomize.cpp" line="7594"/>
         <source>Delete Schedule</source>
         <translation type="unfinished">Șterge planificare</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7597"/>
+        <location filename="../src/eqonomize.cpp" line="7595"/>
         <source>Remove Split Transaction</source>
         <translation type="unfinished">Eliminare tranzacție împărțită</translation>
     </message>
@@ -7838,17 +7838,17 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Acțiuni mutate…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7613"/>
+        <location filename="../src/eqonomize.cpp" line="7611"/>
         <source>Dividend…</source>
         <translation type="unfinished">Dividend…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7614"/>
+        <location filename="../src/eqonomize.cpp" line="7612"/>
         <source>Reinvested Dividend…</source>
         <translation type="unfinished">Dividend reinvestit…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7616"/>
+        <location filename="../src/eqonomize.cpp" line="7614"/>
         <source>Transactions…</source>
         <translation type="unfinished">Tranzacții…</translation>
     </message>
@@ -7857,22 +7857,22 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Editare cotații…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7621"/>
+        <location filename="../src/eqonomize.cpp" line="7619"/>
         <source>Development Over Time Report…</source>
         <translation type="unfinished">Raport evoluție în timp…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7623"/>
+        <location filename="../src/eqonomize.cpp" line="7621"/>
         <source>Categories Comparison Report…</source>
         <translation type="unfinished">Raport comparare categorii…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7626"/>
+        <location filename="../src/eqonomize.cpp" line="7624"/>
         <source>Development Over Time Chart…</source>
         <translation type="unfinished">Grafic evoluție în timp…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7628"/>
+        <location filename="../src/eqonomize.cpp" line="7626"/>
         <source>Categories Comparison Chart…</source>
         <translation type="unfinished">Grafic comparare categorii…</translation>
     </message>
@@ -7881,152 +7881,152 @@ Confirmați că s-au produs (sau că se vor produce astăzi).</translation>
         <translation type="obsolete">Folosește proprietăți adiționale la tranzacții</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7631"/>
+        <location filename="../src/eqonomize.cpp" line="7629"/>
         <source>Set Main Currency…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7633"/>
+        <location filename="../src/eqonomize.cpp" line="7631"/>
         <source>Use Exchange Rate for Transaction Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7638"/>
+        <location filename="../src/eqonomize.cpp" line="7636"/>
         <source>Use the exchange rate nearest the transaction date, instead of the latest available rate, when converting the value of transactions.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7650"/>
+        <location filename="../src/eqonomize.cpp" line="7648"/>
         <source>Set Budget Period…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7652"/>
+        <location filename="../src/eqonomize.cpp" line="7650"/>
         <source>Initial Period</source>
         <translation type="unfinished">Perioadă inițială</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7659"/>
+        <location filename="../src/eqonomize.cpp" line="7657"/>
         <source>Remember Last Dates</source>
         <translation type="unfinished">Ține minte ultimele date</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7648"/>
+        <location filename="../src/eqonomize.cpp" line="7646"/>
         <source>Set Schedule Confirmation Time…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7664"/>
+        <location filename="../src/eqonomize.cpp" line="7662"/>
         <source>Backup Frequency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7667"/>
+        <location filename="../src/eqonomize.cpp" line="7665"/>
         <source>Daily</source>
         <translation type="unfinished">Zilnic</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7668"/>
+        <location filename="../src/eqonomize.cpp" line="7666"/>
         <source>Weekly</source>
         <translation type="unfinished">Săptămânal</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7669"/>
+        <location filename="../src/eqonomize.cpp" line="7667"/>
         <source>Fortnightly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7670"/>
+        <location filename="../src/eqonomize.cpp" line="7668"/>
         <source>Monthly</source>
         <translation type="unfinished">Lunar</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7671"/>
+        <location filename="../src/eqonomize.cpp" line="7669"/>
         <source>Never</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7681"/>
+        <location filename="../src/eqonomize.cpp" line="7679"/>
         <source>Language</source>
         <translation type="unfinished">Limba</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7685"/>
+        <location filename="../src/eqonomize.cpp" line="7683"/>
         <source>Default</source>
         <translation type="unfinished">Implicit</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7674"/>
+        <location filename="../src/eqonomize.cpp" line="7672"/>
         <source>Cloud Synchronization (experimental)…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7733"/>
-        <location filename="../src/eqonomize.cpp" line="7862"/>
+        <location filename="../src/eqonomize.cpp" line="7731"/>
+        <location filename="../src/eqonomize.cpp" line="7860"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7736"/>
+        <location filename="../src/eqonomize.cpp" line="7734"/>
         <source>Report Bug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7738"/>
-        <location filename="../src/eqonomize.cpp" line="7889"/>
+        <location filename="../src/eqonomize.cpp" line="7736"/>
+        <location filename="../src/eqonomize.cpp" line="7887"/>
         <source>About %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7740"/>
+        <location filename="../src/eqonomize.cpp" line="7738"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7828"/>
+        <location filename="../src/eqonomize.cpp" line="7826"/>
         <source>Restart required</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7889"/>
+        <location filename="../src/eqonomize.cpp" line="7887"/>
         <source>A personal accounting program</source>
         <translation type="unfinished">Un program de contabilitate personală</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7889"/>
+        <location filename="../src/eqonomize.cpp" line="7887"/>
         <source>License: GNU General Public License Version 3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7906"/>
+        <location filename="../src/eqonomize.cpp" line="7904"/>
         <source>Crash Recovery</source>
         <translation type="unfinished">Restaurare după terminare prematură</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7906"/>
+        <location filename="../src/eqonomize.cpp" line="7904"/>
         <source>%1 exited unexpectedly before the file was saved and data was lost.
 Do you want to load the last auto-saved version of the file?</source>
         <translation type="unfinished">%1 a ieșit în mod neașteptat înainte de salvarea fișierului și datele s-au pierdut.
 Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2415"/>
-        <location filename="../src/eqonomize.cpp" line="5829"/>
-        <location filename="../src/eqonomize.cpp" line="8117"/>
+        <location filename="../src/eqonomize.cpp" line="2413"/>
+        <location filename="../src/eqonomize.cpp" line="5827"/>
+        <location filename="../src/eqonomize.cpp" line="8115"/>
         <source>Untitled</source>
         <translation type="unfinished">Fără titlu</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2499"/>
-        <location filename="../src/eqonomize.cpp" line="6847"/>
-        <location filename="../src/eqonomize.cpp" line="6853"/>
+        <location filename="../src/eqonomize.cpp" line="2497"/>
+        <location filename="../src/eqonomize.cpp" line="6845"/>
+        <location filename="../src/eqonomize.cpp" line="6851"/>
         <source>Securities</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Titluri de valoare</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2705"/>
-        <location filename="../src/eqonomize.cpp" line="7605"/>
+        <location filename="../src/eqonomize.cpp" line="2703"/>
+        <location filename="../src/eqonomize.cpp" line="7603"/>
         <source>New Security…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Titlu de valoare nou…</translation>
@@ -8037,7 +8037,7 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="obsolete">Stabilire cotație…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2724"/>
+        <location filename="../src/eqonomize.cpp" line="2722"/>
         <source>Shares</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Acțiuni</translation>
@@ -8048,25 +8048,25 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="obsolete">Cotație</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3327"/>
+        <location filename="../src/eqonomize.cpp" line="3325"/>
         <source>New Security</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Titlu de valoare nou</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3363"/>
+        <location filename="../src/eqonomize.cpp" line="3361"/>
         <source>Edit Security</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Modifică titlu de valoare</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3405"/>
+        <location filename="../src/eqonomize.cpp" line="3403"/>
         <source>Delete security?</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3405"/>
+        <location filename="../src/eqonomize.cpp" line="3403"/>
         <source>Are you sure you want to delete the security &quot;%1&quot; and all associated transactions?</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Sigur doriți ștergerea titlului de valoare „%1” și toate tranzacțiile asociate?</translation>
@@ -8082,19 +8082,19 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="obsolete">Stabilește cotația (%1)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3506"/>
+        <location filename="../src/eqonomize.cpp" line="3504"/>
         <source>Price per share:</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Preț per acțiune:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="3552"/>
+        <location filename="../src/eqonomize.cpp" line="3550"/>
         <source>Security Transactions</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Tranzacții titluri de valoare</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="5843"/>
+        <location filename="../src/eqonomize.cpp" line="5841"/>
         <source>Checking Account</source>
         <comment>Transactional account</comment>
         <translation type="unfinished">Cont curent</translation>
@@ -8105,15 +8105,15 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="obsolete">Balanță</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7287"/>
-        <location filename="../src/eqonomize.cpp" line="7319"/>
-        <location filename="../src/eqonomize.cpp" line="7376"/>
+        <location filename="../src/eqonomize.cpp" line="7285"/>
+        <location filename="../src/eqonomize.cpp" line="7317"/>
+        <location filename="../src/eqonomize.cpp" line="7374"/>
         <source>Empty securities list.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Listă de titluri de valoare goală.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7450"/>
+        <location filename="../src/eqonomize.cpp" line="7448"/>
         <source>&amp;Securities</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Titluri de &amp;valoare</translation>
@@ -8124,25 +8124,25 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="obsolete">Echilibrare…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7606"/>
+        <location filename="../src/eqonomize.cpp" line="7604"/>
         <source>Edit Security…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Editare titlu de valoare…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7607"/>
+        <location filename="../src/eqonomize.cpp" line="7605"/>
         <source>Remove Security</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Eliminare titlu de valoare</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7609"/>
+        <location filename="../src/eqonomize.cpp" line="7607"/>
         <source>Shares Bought…</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Acțiuni cumpărate…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7610"/>
+        <location filename="../src/eqonomize.cpp" line="7608"/>
         <source>Shares Sold…</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Acțiuni vândute…</translation>
@@ -8153,37 +8153,37 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="obsolete">Editare cotații…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8207"/>
+        <location filename="../src/eqonomize.cpp" line="8205"/>
         <source>The current file has been modified. Do you want to save it?</source>
         <translation type="unfinished">Fișierul curent a fost modificat. Doriți să-l salvați?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8207"/>
+        <location filename="../src/eqonomize.cpp" line="8205"/>
         <source>Save file?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8250"/>
+        <location filename="../src/eqonomize.cpp" line="8248"/>
         <source>Confirm Schedule</source>
         <translation type="unfinished">Confirmă planificarea</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8375"/>
+        <location filename="../src/eqonomize.cpp" line="8373"/>
         <source>New Account</source>
         <translation type="unfinished">Cont nou</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8402"/>
+        <location filename="../src/eqonomize.cpp" line="8400"/>
         <source>New Loan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8439"/>
+        <location filename="../src/eqonomize.cpp" line="8437"/>
         <source>New Income Category</source>
         <translation type="unfinished">Categorie de venit nouă</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8457"/>
+        <location filename="../src/eqonomize.cpp" line="8455"/>
         <source>New Expense Category</source>
         <translation type="unfinished">Categorie de cheltuieli nouă</translation>
     </message>
@@ -8192,115 +8192,115 @@ Doriți încărcarea ultimei versiuni de fișier salvate automat?</translation>
         <translation type="obsolete">Echilibrare cont</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8564"/>
+        <location filename="../src/eqonomize.cpp" line="8562"/>
         <source>Book value:</source>
         <translation type="unfinished">Valoare registru:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8568"/>
+        <location filename="../src/eqonomize.cpp" line="8566"/>
         <source>of which %1 is balance adjustment</source>
         <comment>Referring to account balance</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8571"/>
+        <location filename="../src/eqonomize.cpp" line="8569"/>
         <source>Real value:</source>
         <translation type="unfinished">Valoare reală:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8632"/>
+        <location filename="../src/eqonomize.cpp" line="8630"/>
         <source>Edit Account</source>
         <translation type="unfinished">Modifică contul</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8725"/>
+        <location filename="../src/eqonomize.cpp" line="8723"/>
         <source>Edit Income Category</source>
         <translation type="unfinished">Editează categoria de venit</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8764"/>
+        <location filename="../src/eqonomize.cpp" line="8762"/>
         <source>Edit Expense Category</source>
         <translation type="unfinished">Editează categoria de cheltuieli</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8876"/>
+        <location filename="../src/eqonomize.cpp" line="8874"/>
         <source>Remove subcategories?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8876"/>
+        <location filename="../src/eqonomize.cpp" line="8874"/>
         <source>Do you wish to remove the category including all subcategories?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8925"/>
+        <location filename="../src/eqonomize.cpp" line="8923"/>
         <source>Move transactions?</source>
         <translation type="unfinished">Mutare tranzacții?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8933"/>
+        <location filename="../src/eqonomize.cpp" line="8931"/>
         <source>Move to:</source>
         <translation type="unfinished">Mută în:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8935"/>
+        <location filename="../src/eqonomize.cpp" line="8933"/>
         <source>Remove irreversibly from all accounts
 (do not do this if account has been closed!)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8942"/>
+        <location filename="../src/eqonomize.cpp" line="8940"/>
         <source>The category contains some expenses.
 What do you want to do with them?</source>
         <translation type="unfinished">Categoria conține cheltuieli.
 Ce doriți să faceți cu ele?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8953"/>
+        <location filename="../src/eqonomize.cpp" line="8951"/>
         <source>The category contains some incomes.
 What do you want to do with them?</source>
         <translation type="unfinished">Categoria conține venituri.
 Ce doriți să faceți cu ele?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8964"/>
+        <location filename="../src/eqonomize.cpp" line="8962"/>
         <source>The account contains some transactions.
 What do you want to do with them?</source>
         <translation type="unfinished">Contul conține tranzacții.
 Ce doriți să le faceți cu ele?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8992"/>
-        <location filename="../src/eqonomize.cpp" line="8993"/>
+        <location filename="../src/eqonomize.cpp" line="8990"/>
+        <location filename="../src/eqonomize.cpp" line="8991"/>
         <source>Remove Category?</source>
         <translation type="unfinished">Eliminare categorie?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8992"/>
+        <location filename="../src/eqonomize.cpp" line="8990"/>
         <source>The category contains some expenses that will be removed. Do you still want to remove the category?</source>
         <translation type="unfinished">Categoria conține cheltuieli care vor fi eliminate. Încă doriți eliminarea categoriei?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8993"/>
+        <location filename="../src/eqonomize.cpp" line="8991"/>
         <source>The category contains some incomes that will be removed. Do you still want to remove the category?</source>
         <translation type="unfinished">Categoria conține venituri care vor fi eliminate. Sigur doriți să eliminați categoria?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8994"/>
+        <location filename="../src/eqonomize.cpp" line="8992"/>
         <source>Remove Account?</source>
         <translation type="unfinished">Eliminare cont?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="8994"/>
+        <location filename="../src/eqonomize.cpp" line="8992"/>
         <source>The account contains some transactions that will be removed. Do you still want to remove the account?</source>
         <translation type="unfinished">Contul conține tranzacții care vor fi eliminate. Sigur doriți să eliminați contul?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2532"/>
-        <location filename="../src/eqonomize.cpp" line="10221"/>
-        <location filename="../src/eqonomize.cpp" line="10246"/>
-        <location filename="../src/eqonomize.cpp" line="10576"/>
-        <location filename="../src/eqonomize.cpp" line="10577"/>
+        <location filename="../src/eqonomize.cpp" line="2530"/>
+        <location filename="../src/eqonomize.cpp" line="10219"/>
+        <location filename="../src/eqonomize.cpp" line="10244"/>
+        <location filename="../src/eqonomize.cpp" line="10574"/>
+        <location filename="../src/eqonomize.cpp" line="10575"/>
         <source>%2 of %1</source>
         <comment>%1: budget; %2: remaining budget</comment>
         <translation type="unfinished">%2 din %1</translation>
@@ -8311,19 +8311,19 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Echilibrare…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7611"/>
+        <location filename="../src/eqonomize.cpp" line="7609"/>
         <source>Shares Exchanged…</source>
         <comment>Shares of one security directly exchanged for shares of another; Financial shares</comment>
         <translation type="unfinished">Acțiuni mutate…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7612"/>
+        <location filename="../src/eqonomize.cpp" line="7610"/>
         <source>Shares of one security directly exchanged for shares of another</source>
         <comment>Financial shares</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="7619"/>
+        <location filename="../src/eqonomize.cpp" line="7617"/>
         <source>Edit Quotes…</source>
         <comment>Financial quote</comment>
         <translation type="unfinished">Editare cotații…</translation>
@@ -8334,14 +8334,14 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Echilibrare cont</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10682"/>
-        <location filename="../src/eqonomize.cpp" line="10706"/>
+        <location filename="../src/eqonomize.cpp" line="10680"/>
+        <location filename="../src/eqonomize.cpp" line="10704"/>
         <source>%1 (with no budget)</source>
         <translation type="unfinished">%1 (fără buget)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="10683"/>
-        <location filename="../src/eqonomize.cpp" line="10707"/>
+        <location filename="../src/eqonomize.cpp" line="10681"/>
+        <location filename="../src/eqonomize.cpp" line="10705"/>
         <source>%1 (with budget %2)</source>
         <translation type="unfinished">%1 (cu buget %2)</translation>
     </message>
@@ -8365,19 +8365,19 @@ Ce doriți să le faceți cu ele?</translation>
 <context>
     <name>EqonomizeTranslator</name>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11040"/>
+        <location filename="../src/eqonomize.cpp" line="11038"/>
         <source>OK</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11042"/>
+        <location filename="../src/eqonomize.cpp" line="11040"/>
         <source>Cancel</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">Anulează</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11044"/>
+        <location filename="../src/eqonomize.cpp" line="11042"/>
         <source>Close</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">Închide</translation>
@@ -8393,49 +8393,49 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Nu</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11046"/>
+        <location filename="../src/eqonomize.cpp" line="11044"/>
         <source>&amp;Yes</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">&amp;Da</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11048"/>
+        <location filename="../src/eqonomize.cpp" line="11046"/>
         <source>&amp;No</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">&amp;Nu</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11050"/>
+        <location filename="../src/eqonomize.cpp" line="11048"/>
         <source>&amp;Open</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">&amp;Deschide</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11052"/>
+        <location filename="../src/eqonomize.cpp" line="11050"/>
         <source>&amp;Save</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">&amp;Salvează</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11054"/>
+        <location filename="../src/eqonomize.cpp" line="11052"/>
         <source>&amp;Select All</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11056"/>
+        <location filename="../src/eqonomize.cpp" line="11054"/>
         <source>Look in:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11058"/>
+        <location filename="../src/eqonomize.cpp" line="11056"/>
         <source>File &amp;name:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">&amp;Nume de fișier:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11060"/>
+        <location filename="../src/eqonomize.cpp" line="11058"/>
         <source>Files of type:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation type="unfinished">Fișiere de tip:</translation>
@@ -9981,7 +9981,7 @@ Ce doriți să le faceți cu ele?</translation>
 <context>
     <name>MultipleTransactionsEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2288"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2286"/>
         <source>Modify Transactions</source>
         <translation type="unfinished">Modifică tranzacții</translation>
     </message>
@@ -9994,43 +9994,43 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Nume:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2301"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2299"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation type="unfinished">Descriere:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2311"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2309"/>
         <source>Amount:</source>
         <translation type="unfinished">Cantitate:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2312"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2310"/>
         <source>Income:</source>
         <translation type="unfinished">Venit:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2313"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2311"/>
         <source>Cost:</source>
         <translation type="unfinished">Cost:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2321"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2319"/>
         <source>Date:</source>
         <translation type="unfinished">Dată:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2332"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2330"/>
         <source>Category:</source>
         <translation type="unfinished">Categorie:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2345"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2343"/>
         <source>Payer:</source>
         <translation type="unfinished">Plătitor:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2346"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2344"/>
         <source>Payee:</source>
         <translation type="unfinished">Beneficiar:</translation>
     </message>
@@ -10051,24 +10051,24 @@ Ce doriți să le faceți cu ele?</translation>
         <translation type="obsolete">Categorie de cheltuială nouă…</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2509"/>
-        <location filename="../src/transactioneditwidget.cpp" line="2517"/>
-        <location filename="../src/transactioneditwidget.cpp" line="2528"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2507"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2515"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2526"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2509"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2507"/>
         <source>No income category available.</source>
         <translation type="unfinished">Nu este definită nici o categorie de venit.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2517"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2515"/>
         <source>No expense category available.</source>
         <translation type="unfinished">Nu este definită nici o categorie de cheltuieli.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2528"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2526"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Dată nevalidă.</translation>
     </message>
@@ -10872,7 +10872,7 @@ Date: %3</source>
 <context>
     <name>OverTimeChartDialog</name>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1719"/>
+        <location filename="../src/eqonomize.cpp" line="1717"/>
         <source>Chart</source>
         <translation type="unfinished">Grafic</translation>
     </message>
@@ -11244,7 +11244,7 @@ Date: %3</source>
 <context>
     <name>OverTimeReportDialog</name>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1689"/>
+        <location filename="../src/eqonomize.cpp" line="1687"/>
         <source>Report</source>
         <translation type="unfinished">Raport</translation>
     </message>
@@ -11252,32 +11252,32 @@ Date: %3</source>
 <context>
     <name>QApplication</name>
     <message>
-        <location filename="../src/main.cpp" line="75"/>
+        <location filename="../src/main.cpp" line="81"/>
         <source>Start with expenses list displayed</source>
         <translation type="unfinished">Se afișează lista începuturilor de cheltuieli</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="77"/>
+        <location filename="../src/main.cpp" line="83"/>
         <source>Start with incomes list displayed</source>
         <translation type="unfinished">Se afișează lista începuturilor de venituri</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="79"/>
+        <location filename="../src/main.cpp" line="85"/>
         <source>Start with transfers list displayed</source>
         <translation type="unfinished">Se afișează lista începuturilor de transferuri</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="81"/>
+        <location filename="../src/main.cpp" line="87"/>
         <source>Synchronize file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="83"/>
+        <location filename="../src/main.cpp" line="89"/>
         <source>Document to open</source>
         <translation type="unfinished">Documentul de deschis</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="98"/>
+        <location filename="../src/main.cpp" line="104"/>
         <source>%1 is already running.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11793,18 +11793,18 @@ Date: %3</source>
         <translation type="unfinished">Alipire</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="856"/>
-        <location filename="../src/eqonomize.cpp" line="860"/>
+        <location filename="../src/eqonomize.cpp" line="854"/>
+        <location filename="../src/eqonomize.cpp" line="858"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="856"/>
+        <location filename="../src/eqonomize.cpp" line="854"/>
         <source>Zero value not allowed.</source>
         <translation type="unfinished">Valoarea zero nu este permisă.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="860"/>
+        <location filename="../src/eqonomize.cpp" line="858"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Dată nevalidă.</translation>
     </message>
@@ -11838,60 +11838,60 @@ Date: %3</source>
 <context>
     <name>SecurityTransactionsDialog</name>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1975"/>
+        <location filename="../src/eqonomize.cpp" line="1973"/>
         <source>Transactions for %1</source>
         <translation type="unfinished">Tranzacții pentru %1</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1983"/>
+        <location filename="../src/eqonomize.cpp" line="1981"/>
         <source>Date</source>
         <translation type="unfinished">Dată</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1984"/>
+        <location filename="../src/eqonomize.cpp" line="1982"/>
         <source>Type</source>
         <translation type="unfinished">Tip</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1985"/>
+        <location filename="../src/eqonomize.cpp" line="1983"/>
         <source>Value</source>
         <translation type="unfinished">Valoare</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="1986"/>
+        <location filename="../src/eqonomize.cpp" line="1984"/>
         <source>Shares</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Acțiuni</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2101"/>
+        <location filename="../src/eqonomize.cpp" line="2099"/>
         <source>Shares Bought</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Acțiuni cumpărate</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2147"/>
+        <location filename="../src/eqonomize.cpp" line="2145"/>
         <source>Shares Bought (Recurring)</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Acțiuni cumpărate (recurent)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2162"/>
+        <location filename="../src/eqonomize.cpp" line="2160"/>
         <source>Dividend (Recurring)</source>
         <translation type="unfinished">Dividend (recurent)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2164"/>
+        <location filename="../src/eqonomize.cpp" line="2162"/>
         <source>Dividend (Scheduled)</source>
         <translation type="unfinished">Dividend (planificate)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2176"/>
+        <location filename="../src/eqonomize.cpp" line="2174"/>
         <source>Reinvested Dividend (Recurring)</source>
         <translation type="unfinished">Dividend reinvestit (recurent)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2178"/>
+        <location filename="../src/eqonomize.cpp" line="2176"/>
         <source>Reinvested Dividend (Scheduled)</source>
         <translation type="unfinished">Dividend reinvestit (planificate)</translation>
     </message>
@@ -11901,19 +11901,19 @@ Date: %3</source>
         <translation type="obsolete">Acțiuni cumpărate</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2102"/>
+        <location filename="../src/eqonomize.cpp" line="2100"/>
         <source>Shares Sold</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Acțiuni vândute</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2132"/>
+        <location filename="../src/eqonomize.cpp" line="2130"/>
         <source>Shares Sold (Exchanged)</source>
         <comment>Shares of one security directly exchanged for shares of another; Financial shares</comment>
         <translation type="unfinished">Acțiuni vândute (schimbate)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2132"/>
+        <location filename="../src/eqonomize.cpp" line="2130"/>
         <source>Shares Bought (Exchanged)</source>
         <comment>Shares of one security directly exchanged for shares of another; Financial shares</comment>
         <translation type="unfinished">Acțiuni vândute (schimbate)</translation>
@@ -11924,19 +11924,19 @@ Date: %3</source>
         <translation type="obsolete">Acțiuni cumpărate (recurent)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2148"/>
+        <location filename="../src/eqonomize.cpp" line="2146"/>
         <source>Shares Sold (Recurring)</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Acțiuni vândute (recurent)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2150"/>
+        <location filename="../src/eqonomize.cpp" line="2148"/>
         <source>Shares Bought (Scheduled)</source>
         <comment>Financial shares</comment>
         <translation type="unfinished">Acțiuni cumpărate (planificate)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2151"/>
+        <location filename="../src/eqonomize.cpp" line="2149"/>
         <source>Shares Sold (Scheduled)</source>
         <comment>Financial shares</comment>
         <translation>Acțiuni vândute (planificate)</translation>
@@ -11946,12 +11946,12 @@ Date: %3</source>
         <translation type="obsolete">Acțiuni</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2000"/>
+        <location filename="../src/eqonomize.cpp" line="1998"/>
         <source>Edit…</source>
         <translation type="unfinished">Editează…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2002"/>
+        <location filename="../src/eqonomize.cpp" line="2000"/>
         <source>Delete</source>
         <translation type="unfinished">Șterge</translation>
     </message>
@@ -11964,12 +11964,12 @@ Date: %3</source>
         <translation type="obsolete">Acțiuni vândute</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2107"/>
+        <location filename="../src/eqonomize.cpp" line="2105"/>
         <source>Dividend</source>
         <translation type="unfinished">Dividend</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="2115"/>
+        <location filename="../src/eqonomize.cpp" line="2113"/>
         <source>Reinvested Dividend</source>
         <translation type="unfinished">Dividend reinvestit</translation>
     </message>
@@ -12076,39 +12076,39 @@ Date: %3</source>
 <context>
     <name>TransactionEditDialog</name>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2255"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2253"/>
         <source>Edit Expense</source>
         <translation type="unfinished">Editează cheltuială</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2257"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2255"/>
         <source>Edit Dividend</source>
         <translation type="unfinished">Editează dividend</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2258"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2256"/>
         <source>Edit Income</source>
         <translation type="unfinished">Editează venit</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2261"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2259"/>
         <source>Edit Transfer</source>
         <translation type="unfinished">Editează transfer</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2262"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2260"/>
         <source>Edit Securities Purchase</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Editează titluri de valoare cumpărate</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2263"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2261"/>
         <source>Edit Securities Sale</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Editează titluri de valoare vândute</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="2264"/>
+        <location filename="../src/transactioneditwidget.cpp" line="2262"/>
         <source>Edit Reinvested Dividend</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12171,13 +12171,13 @@ Date: %3</source>
         <translation type="obsolete">Nume:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1049"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1047"/>
         <source>Amount:</source>
         <translation type="unfinished">Cantitate:</translation>
     </message>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="602"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1047"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1045"/>
         <source>Withdrawal:</source>
         <comment>Money taken out from account</comment>
         <translation type="unfinished">Retragere:</translation>
@@ -12185,7 +12185,7 @@ Date: %3</source>
     <message>
         <location filename="../src/transactioneditwidget.cpp" line="491"/>
         <location filename="../src/transactioneditwidget.cpp" line="575"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1199"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1197"/>
         <source>New Security…</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Titlu de valoare nou…</translation>
@@ -12302,24 +12302,24 @@ Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="798"/>
+        <location filename="../src/transactioneditwidget.cpp" line="797"/>
         <source>Comments:</source>
         <translation type="unfinished">Comentarii:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="822"/>
+        <location filename="../src/transactioneditwidget.cpp" line="820"/>
         <source>Related to:</source>
         <extracomment>Label for linked transactions</extracomment>
         <translation type="unfinished">Legături:</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1192"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1190"/>
         <source>New Security</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Titlu de valoare nou</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1570"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1568"/>
         <source>No security available.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation type="unfinished">Nu este disponibil nici un titlu de valoare.</translation>
@@ -12390,51 +12390,51 @@ Date: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1516"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1520"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1527"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1531"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1538"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1545"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1552"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1559"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1563"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1570"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1581"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1591"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1595"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1602"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1609"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1616"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1624"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1628"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1632"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1644"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1514"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1518"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1525"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1529"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1536"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1543"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1550"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1557"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1561"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1568"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1579"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1589"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1593"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1600"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1607"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1614"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1622"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1626"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1630"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1642"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1516"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1520"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1531"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1552"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1563"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1514"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1518"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1529"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1550"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1561"/>
         <source>No suitable account available.</source>
         <translation type="unfinished">Nici un cont potrivit nu este disponibil.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1527"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1545"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1525"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1543"/>
         <source>No income category available.</source>
         <translation type="unfinished">Nu este definită nici o categorie de venit.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1538"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1536"/>
         <source>No suitable account or income category available.</source>
         <translation type="unfinished">Nu există nici un cont sau tip de venit potrivit.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1559"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1557"/>
         <source>No expense category available.</source>
         <translation type="unfinished">Nu este definită nici o categorie de cheltuieli.</translation>
     </message>
@@ -12443,53 +12443,53 @@ Date: %3</source>
         <translation type="obsolete">Nu este disponibil nici un titlu de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1581"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1579"/>
         <source>Invalid date.</source>
         <translation type="unfinished">Dată nevalidă.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1591"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1589"/>
         <source>Cannot transfer money to and from the same account.</source>
         <translation type="unfinished">Nu se pot transfera bani din și către același cont.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1595"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1593"/>
         <source>Downpayment must be less than total cost.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1602"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1600"/>
         <source>Cannot create a regular transfer to/from a securities account.</source>
         <translation type="unfinished">Nu se poate crea un transfer obișnuit din/de la un cont de titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1609"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1607"/>
         <source>Cannot create a regular income to a securities account.</source>
         <translation type="unfinished">Nu se poate crea un venit obișnuit întrun cont de titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1616"/>
-        <location filename="../src/transactioneditwidget.cpp" line="1624"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1614"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1622"/>
         <source>Zero shares not allowed.</source>
         <translation type="unfinished">Acțiuni zero nu este permis.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1628"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1626"/>
         <source>Zero value not allowed.</source>
         <translation type="unfinished">Valoarea zero nu este permisă.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1632"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1630"/>
         <source>Zero price per share not allowed.</source>
         <translation type="unfinished">Preț zero pe acțiune nu este permis.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1644"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1642"/>
         <source>Cannot create a regular expense from a securities account.</source>
         <translation type="unfinished">Nu se pot crea cheltuieli obișnuite întrun cont de titluri de valoare.</translation>
     </message>
     <message>
-        <location filename="../src/transactioneditwidget.cpp" line="1726"/>
+        <location filename="../src/transactioneditwidget.cpp" line="1724"/>
         <source>Loan for %1</source>
         <translation type="unfinished"></translation>
     </message>

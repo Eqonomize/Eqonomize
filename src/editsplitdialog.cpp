@@ -180,8 +180,10 @@ void MultiAccountListViewItem::setTransaction(Transaction *trans) {
 	} else {
 		setText(1, trans->fromAccount()->nameWithParent());
 	}
-	if(b_extra) setText(2, trans->payeeText());
-	setText(3, trans->valueString());
+	if(b_extra) {
+		setText(2, trans->payeeText());
+	}
+	setText(b_extra ? 3 : 2, trans->valueString());
 }
 
 EditDebtPaymentDialog::EditDebtPaymentDialog(Budget *budg, QWidget *parent, AssetsAccount *default_loan, bool allow_account_creation, bool only_interest) : QDialog(parent) {
