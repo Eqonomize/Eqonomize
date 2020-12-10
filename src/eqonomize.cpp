@@ -8480,7 +8480,10 @@ void Eqonomize::accountExecuted(QTreeWidgetItem *i, int c) {
 	if(i == NULL) return;
 	switch(c) {
 		case 0: {
-			if(i->childCount() == 0 && account_items.contains(i)) editAccount(account_items[i]);
+			if(i->childCount() == 0 && account_items.contains(i)) {
+				if(account_items[i]->type() == ACCOUNT_TYPE_ASSETS) showAccountTransactions(true);
+				else editAccount(account_items[i]);
+			}
 			if(tag_items.contains(i)) showAccountTransactions(true);
 			break;
 		}
