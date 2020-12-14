@@ -124,6 +124,7 @@ SOURCES += src/account.cpp \
 unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 	TRANSLATIONS = 	translations/eqonomize_bg.ts \
 			translations/eqonomize_cs.ts \
+			translations/eqonomize_da.ts \
 			translations/eqonomize_de.ts \
 			translations/eqonomize_es.ts \
 			translations/eqonomize_fr.ts \
@@ -140,6 +141,7 @@ unix:!equals(COMPILE_RESOURCES,"yes"):!android:!macx {
 	target.path = $$PREFIX/bin
 	qm.files = 	translations/eqonomize_bg.qm \
 			translations/eqonomize_cs.qm \
+			translations/eqonomize_da.qm \
 			translations/eqonomize_de.qm \
 			translations/eqonomize_es.qm \
 			translations/eqonomize_fr.qm \

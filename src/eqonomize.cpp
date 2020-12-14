@@ -7695,6 +7695,8 @@ void Eqonomize::setupActions() {
 				NEW_RADIO_ACTION(action_lang, "Български", ActionSelectLang);
 			} else if(slang == "cs") {
 				NEW_RADIO_ACTION(action_lang, "Čeština", ActionSelectLang);
+			} else if(slang == "da") {
+				NEW_RADIO_ACTION(action_lang, "Dansk", ActionSelectLang);
 			} else if(slang == "de") {
 				NEW_RADIO_ACTION(action_lang, "Deutsch", ActionSelectLang);
 			} else if(slang == "es") {
