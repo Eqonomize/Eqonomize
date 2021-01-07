@@ -342,7 +342,7 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 		if(i < input.length() - 1 && (input[i + 1].isNumber() || input[i + 1] == '(')) input.insert(i + 1, '*');
 		QString str = input.mid(i2 + 1, i - i2 - 1);
 		double v = fixup_sub(str, errors, calculated);
-		input.replace(i2, i - i2 + 1, o_currency ? o_currency->formatValue(0.5, decimals() + 2, false, false, true) : budget->formatValue(v, decimals() + 2));
+		input.replace(i2, i - i2 + 1, o_currency ? o_currency->formatValue(v, decimals() + 2, false, false, true) : budget->formatValue(v, decimals() + 2));
 		if(i2 > 0 && (input[i2 - 1].isNumber() || input[i2 - 1] == ')')) input.insert(i2, '*');
 		calculated = true;
 		return fixup_sub(input, errors, calculated);

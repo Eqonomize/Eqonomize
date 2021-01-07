@@ -157,8 +157,8 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 		budgetButton = new QCheckBox(tr("Default account for budgeted transactions"), this);
 		budgetButton->setChecked(false);
 		grid->addWidget(budgetButton, row, 0, 1, 2); row++;
-		maintainerEdit->setEnabled(false);
-		maintainerLabel->setEnabled(false);
+		maintainerEdit->setEnabled(typeCombo->currentIndex() != 0);
+		maintainerLabel->setEnabled(typeCombo->currentIndex() != 0);
 	}
 	grid->addWidget(new QLabel(tr("Description:"), this), row, 0); row++;
 	descriptionEdit = new QTextEdit(this);

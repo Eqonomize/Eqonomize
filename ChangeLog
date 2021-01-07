@@ -1,3 +1,8 @@
+2021-01-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix handling parentheses when calculating expression in value entry
+	* Fix initial state of "Bank" entry when initial account type is not "Cash"
+
 2020-12-14  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Danish translation (from Tag Valdemar)
