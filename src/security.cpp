@@ -279,7 +279,7 @@ double Security::shares(const QDate &date, bool estimate, bool no_scheduled_shar
 		for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = scheduledTransactions.constBegin(); it != scheduledTransactions.constEnd(); ++it) {
 			ScheduledTransaction *strans = *it;
 			if(strans->date() > date) break;
-			int no = strans->recurrence()->countOccurrences(date);
+			int no = strans->recurrence() ? strans->recurrence()->countOccurrences(date) : 1;
 			if(no > 0) {
 				if(strans->transactiontype() == TRANSACTION_TYPE_SECURITY_BUY) n += ((SecurityTransaction*) strans->transaction())->shares() * no;
 				else n -= ((SecurityTransaction*) strans->transaction())->shares() * no;
@@ -296,7 +296,7 @@ double Security::shares(const QDate &date, bool estimate, bool no_scheduled_shar
 		for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = scheduledReinvestedDividends.constBegin(); it != scheduledReinvestedDividends.constEnd(); ++it) {
 			ScheduledTransaction *strans = *it;
 			if(strans->date() > date) break;
-			int no = strans->recurrence()->countOccurrences(date);
+			int no = strans->recurrence() ? strans->recurrence()->countOccurrences(date) : 1;
 			if(no > 0) {
 				n += ((ReinvestedDividend*) strans->transaction())->shares() * no;
 				b = true;
@@ -383,7 +383,7 @@ double Security::cost(const QDate &date, bool no_scheduled_shares, Currency *cur
 		for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = scheduledTransactions.constBegin(); it != scheduledTransactions.constEnd(); ++it) {
 			ScheduledTransaction *strans = *it;
 			if(strans->date() > date) break;
-			int n = strans->recurrence()->countOccurrences(date);
+			int n = strans->recurrence() ? strans->recurrence()->countOccurrences(date) : 1;
 			if(n > 0) {
 				double v = strans->value();
 				if(cur != strans->currency()) {
@@ -510,7 +510,7 @@ double Security::profit(const QDate &date, bool estimate, bool no_scheduled_shar
 		for(ScheduledSecurityTransactionList<ScheduledTransaction*>::const_iterator it = scheduledDividends.constBegin(); it != scheduledDividends.constEnd(); ++it) {
 			ScheduledTransaction *strans = *it;
 			if(strans->date() > date) break;
-			int n = strans->recurrence()->countOccurrences(date);
+			int n = strans->recurrence() ? strans->recurrence()->countOccurrences(date) : 1;
 			if(n > 0) {
 				if(cur != strans->currency()) {
 					p += strans->currency()->convertTo(strans->value() * n, cur);
