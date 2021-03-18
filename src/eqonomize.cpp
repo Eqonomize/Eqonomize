@@ -3393,7 +3393,7 @@ void Eqonomize::editSecurity() {
 	editSecurity(i);
 }
 void Eqonomize::updateSecuritiesStatistics() {
-	securitiesStatLabel->setText(QString("<div align=\"right\"><b>%1</b> %5 &nbsp; <b>%2</b> %6 &nbsp; <b>%3</b> %7 &nbsp; <b>%4</b> %8%</div>").arg(tr("Total value:")).arg(tr("Cost:")).arg(tr("Profit:")).arg(tr("Rate:")).arg(budget->formatMoney(total_value), budget->formatMoney(total_cost)).arg(budget->formatMoney(total_profit)).arg(budget->formatValue(total_rate * 100, 2)));
+	securitiesStatLabel->setText(QString("<div align=\"right\"><b>%1</b> %4 &nbsp; <b>%2</b> %5 &nbsp; <b>%3</b> %6</div>").arg(tr("Total value:")).arg(tr("Cost:")).arg(tr("Profit:")).arg(budget->formatMoney(total_value), budget->formatMoney(total_cost)).arg(budget->formatMoney(total_profit)));
 }
 void Eqonomize::deleteSecurity() {
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
@@ -3405,7 +3405,8 @@ void Eqonomize::deleteSecurity() {
 		total_rate *= total_cost;
 		total_cost -= i->scost;
 		total_rate -= i->scost * i->rate;
-		if(total_cost != 0.0) total_rate /= total_cost;
+		if(is_zero(total_cost)) total_rate = 0.0;
+		else total_rate /= total_cost;
 		total_profit -= i->sprofit;
 		updateSecuritiesStatistics();
 		delete i;
@@ -3662,11 +3663,12 @@ void Eqonomize::appendSecurity(Security *security) {
 	if(rate < 0.0) i->setForeground(6, createExpenseColor(i, 0));
 	else if(rate > 0.0) i->setForeground(6, createIncomeColor(i, 0));
 	else i->setForeground(6, createTransferColor(i, 0));
-	total_rate *= total_value;
+	total_rate *= total_cost;
 	total_value += i->value;
 	total_cost += i->scost;
-	total_rate += i->value * rate;
-	if(total_cost != 0.0) total_rate /= total_value;
+	total_rate += i->scost * rate;
+	if(is_zero(total_cost)) total_rate = 0.0;
+	else total_rate /= total_cost;
 	total_profit += i->sprofit;
 	updateSecuritiesStatistics();
 	securitiesView->setSortingEnabled(true);
@@ -3687,11 +3689,12 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i_pre) {
 	SecurityListViewItem* i = (SecurityListViewItem*) i_pre;
 	Security *security = i->security();
 	Currency *cur = security->currency();
-	total_rate *= total_value;
+	total_rate *= total_cost;
 	total_value -= i->value;
 	total_cost -= i->scost;
-	total_rate -= i->value * i->rate;
-	if(total_cost != 0.0) total_rate /= total_value;
+	total_rate += i->scost * i->rate;
+	if(is_zero(total_cost)) total_rate = 0.0;
+	else total_rate /= total_cost;
 	total_profit -= ((SecurityListViewItem*) i)->sprofit;
 	double value = 0.0, cost = 0.0, rate = 0.0, profit = 0.0, quotation = 0.0, shares = 0.0;
 	value = security->value(securities_to_date, 1);
@@ -3723,11 +3726,12 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i_pre) {
 		i->value = value;
 		i->cost = cost;
 	}
-	total_rate *= total_value;
+	total_rate *= total_cost;
 	total_value += i->value;
 	total_cost += i->scost;
-	total_rate += i->value * rate;
-	if(total_cost != 0.0) total_rate /= total_value;
+	total_rate += i->scost * rate;
+	if(is_zero(total_cost) != 0.0) total_rate = 0.0;
+	else total_rate /= total_cost;
 	total_profit += i->profit;
 	i->setText(0, security->name());
 	switch(security->type()) {
@@ -7886,7 +7890,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.5.1</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2020 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.5.2</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2020 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);

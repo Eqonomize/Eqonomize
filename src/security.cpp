@@ -596,7 +596,10 @@ double Security::yearlyRate(const QDate &date1, const QDate &date2) {
 	if(it_begin == quotations.end()) return 0.0;
 	QDate curdate = QDate::currentDate();
 	if(date1 >= curdate) {
-		return pow(1 + (profit(date1, date2, true, true) / value(date1, true, true)), 1 / (o_budget->yearsBetweenDates(date1, date2, false))) - 1;
+		double dp = profit(date1, date2, true, true), dv = value(date1, true, true);
+		if(is_zero(dp)) dp = 0.0;
+		if(is_zero(dv)) return 0.0;
+		return pow(1 + (dp / dv), 1 / (o_budget->yearsBetweenDates(date1, date2, false))) - 1;
 	}
 	if(date2 > curdate) {
 		double rate1 = yearlyRate(date1, curdate);
