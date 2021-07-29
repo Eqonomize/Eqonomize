@@ -37,6 +37,7 @@ class QLineEdit;
 class QComboBox;
 class QHBoxLayout;
 class QGridLayout;
+class QPlainTextEdit;
 
 class EqonomizeDateEdit;
 class QDateEdit;
@@ -131,7 +132,9 @@ class TransactionEditWidget : public QWidget {
 		Currency *splitcurrency;
 		int dateRow, dateLabelCol, dateEditCol, depositRow, depositLabelCol, depositEditCol;
 
-		QLineEdit *descriptionEdit, *lenderEdit, *payeeEdit, *commentsEdit, *fileEdit;
+		QLineEdit *descriptionEdit, *lenderEdit, *payeeEdit, *fileEdit, *commentsEditL;
+		QWidget *commentsEdit;
+		QPlainTextEdit *commentsEditT;
 		AccountComboBox *fromCombo, *toCombo;
 		QComboBox *securityCombo, *currencyCombo;
 		QCheckBox *setQuoteButton;
@@ -144,6 +147,7 @@ class TransactionEditWidget : public QWidget {
 		QHBoxLayout *bottom_layout;
 		QGridLayout *editLayout;
 
+		bool eventFilter(QObject*, QEvent*);
 
 	signals:
 

@@ -49,6 +49,7 @@
 #include <QSettings>
 #include <QMenu>
 #include <QInputDialog>
+#include <QPlainTextEdit>
 
 #include "budget.h"
 #include "accountcombobox.h"
@@ -475,6 +476,8 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	securityCombo = NULL;
 	currencyCombo = NULL;
 	commentsEdit = NULL;
+	commentsEditT = NULL;
+	commentsEditL = NULL;
 	dateLabel = NULL;
 	depositLabel = NULL;
 	withdrawalLabel = NULL;
@@ -794,8 +797,22 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		connect(selectFileButton, SIGNAL(clicked()), this, SLOT(selectFile()));
 		connect(openFileButton, SIGNAL(clicked()), this, SLOT(openFile()));
 	}
-	editLayout->addWidget(new QLabel(tr("Comments:"), this), TEROWCOL(i, 0));
-	commentsEdit = new QLineEdit(this);
+	QLabel *commentsLabel = new QLabel(tr("Comments:"), this);
+	if(auto_edit) {
+		editLayout->addWidget(commentsLabel, TEROWCOL(i, 0));
+		commentsEditL = new QLineEdit(this);
+		commentsEdit = commentsEditL;
+	} else {
+		commentsLabel->setMinimumHeight(descriptionEdit->sizeHint().height());
+		editLayout->addWidget(commentsLabel, TEROWCOL(i, 0), Qt::AlignTop | Qt::AlignLeft);
+		commentsEditT = new QPlainTextEdit(this);
+		commentsEditT->setLineWrapMode(QPlainTextEdit::WidgetWidth);
+		QFontMetrics fm(commentsEditT->font());
+		commentsEditT->setFixedHeight(fm.lineSpacing() * 2 + commentsEditT->frameWidth() * 2 + commentsEditT->contentsMargins().top() + commentsEditT->contentsMargins().bottom() + commentsEditT->document()->documentMargin() * 2);
+		commentsEditT->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+		commentsEdit = commentsEditT;
+		commentsEditT->installEventFilter(this);
+	}
 	if(b_autoedit && (transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE) && !sec) {
 		QHBoxLayout *box = new QHBoxLayout();
 		editLayout->addLayout(box, TEROWCOL(i, 1));
@@ -935,9 +952,9 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	else if(lenderEdit && fileEdit) connect(lenderEdit, SIGNAL(returnPressed()), fileEdit, SLOT(setFocus()));
 	else if(lenderEdit && commentsEdit) connect(lenderEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
 	if(fileEdit && commentsEdit) connect(fileEdit, SIGNAL(returnPressed()), commentsEdit, SLOT(setFocus()));
-	if(commentsEdit) {
-		if(b_autoedit && tagButton) connect(commentsEdit, SIGNAL(returnPressed()), tagButton, SLOT(setFocus()));
-		else connect(commentsEdit, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
+	if(commentsEditL) {
+		if(b_autoedit && tagButton) connect(commentsEditL, SIGNAL(returnPressed()), tagButton, SLOT(setFocus()));
+		else connect(commentsEditL, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
 	}
 	if(tagButton) {
 		if(b_autoedit) connect(tagButton, SIGNAL(returnPressed()), this, SIGNAL(addmodify()));
@@ -990,6 +1007,18 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	b_multiple_currencies = true;
 	useMultipleCurrencies(budget->usesMultipleCurrencies());
 	if(security) securityChanged();
+}
+bool TransactionEditWidget::eventFilter(QObject *o, QEvent *e) {
+	if(o && o == commentsEditT && e->type() == QEvent::KeyPress) {
+		QKeyEvent *event = (QKeyEvent*) e;
+		if((event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) && (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)) {
+			e->accept();
+			if(b_autoedit && tagButton) tagButton->setFocus();
+			else addmodify();
+			return true;
+		}
+	}
+	return false;
 }
 void TransactionEditWidget::setQuoteToggled(bool b) {
 	QSettings settings;
@@ -1258,7 +1287,11 @@ void TransactionEditWidget::valueChanged(double value) {
 		if(!depositEdit->isEnabled()) depositEdit->setValue(value);
 	}
 	if(valueEdit && commentsEdit && calculatedText_object == valueEdit && !calculatedText.isEmpty()) {
-		if(commentsEdit->text().isEmpty()) commentsEdit->setText(calculatedText);
+		if(commentsEditT) {
+			if(commentsEditT->toPlainText().isEmpty()) commentsEditT->setPlainText(calculatedText);
+		} else {
+			if(commentsEditL->text().isEmpty()) commentsEditL->setText(calculatedText);
+		}
 		calculatedText = "";
 	}
 	if(!quotationEdit || !sharesEdit || !valueEdit) return;
@@ -1339,7 +1372,8 @@ void TransactionEditWidget::setValues(QString description_value, double value_va
 	if(fromCombo && from_account_value) fromCombo->setCurrentAccount(from_account_value);
 	if(toCombo && to_account_value) toCombo->setCurrentAccount(to_account_value);
 	if(payeeEdit) payeeEdit->setText(payee_value);
-	if(commentsEdit) commentsEdit->setText(comment_value);
+	if(commentsEditL) commentsEditL->setText(comment_value);
+	else if(commentsEditT) commentsEditT->setPlainText(comment_value);
 }
 void TransactionEditWidget::setPayee(QString payee) {
 	if(payeeEdit) payeeEdit->setText(payee);
@@ -1353,8 +1387,9 @@ QString TransactionEditWidget::payee() const {
 	return payeeEdit->text();
 }
 QString TransactionEditWidget::comments() const {
-	if(!commentsEdit) return QString();
-	return commentsEdit->text();
+	if(commentsEditL) return commentsEditL->text();
+	if(commentsEditT) return commentsEditT->toPlainText();
+	return QString();
 }
 double TransactionEditWidget::value() const {
 	if(!valueEdit) return 0.0;
@@ -1571,7 +1606,7 @@ bool TransactionEditWidget::checkAccounts() {
 	return true;
 }
 bool TransactionEditWidget::isCleared() {
-	return (!valueEdit || valueEdit->value() == 0.0) && (!dateEdit || dateEdit->date() == QDate::currentDate()) && (!quantityEdit || quantityEdit->value() == 1.0) && (!depositEdit || depositEdit->value() == 0.0) && (!commentsEdit || commentsEdit->text().isEmpty()) && (!descriptionEdit || descriptionEdit->text().isEmpty()) && (!payeeEdit || payeeEdit->text().isEmpty());
+	return (!valueEdit || valueEdit->value() == 0.0) && (!dateEdit || dateEdit->date() == QDate::currentDate()) && (!quantityEdit || quantityEdit->value() == 1.0) && (!depositEdit || depositEdit->value() == 0.0) && comments().isEmpty() && (!descriptionEdit || descriptionEdit->text().isEmpty()) && (!payeeEdit || payeeEdit->text().isEmpty());
 }
 bool TransactionEditWidget::validValues(bool) {
 
@@ -1681,7 +1716,7 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 			((SecurityTransaction*) trans)->setShares(shares);
 			if(setQuoteButton && setQuoteButton->isChecked()) ((SecurityTransaction*) trans)->security()->setQuotation(trans->date(), share_value);
 		}
-		if(commentsEdit) trans->setComment(commentsEdit->text());
+		if(commentsEdit) trans->setComment(comments());
 		if(fileEdit) trans->setAssociatedFile(fileEdit->text());
 		trans->setModified();
 		return true;
@@ -1701,7 +1736,7 @@ bool TransactionEditWidget::modifyTransaction(Transaction *trans) {
 		trans->setValue(valueEdit->value());
 	}
 	if(descriptionEdit && (trans->type() != TRANSACTION_TYPE_INCOME || !((Income*) trans)->security())) trans->setDescription(descriptionEdit->text());
-	if(commentsEdit) trans->setComment(commentsEdit->text());
+	if(commentsEdit) trans->setComment(comments());
 	if(fileEdit) trans->setAssociatedFile(fileEdit->text());
 	if(quantityEdit) trans->setQuantity(quantityEdit->value());
 	if(payeeEdit && trans->type() == TRANSACTION_TYPE_EXPENSE) ((Expense*) trans)->setPayee(payeeEdit->text());
@@ -1728,7 +1763,7 @@ Transactions *TransactionEditWidget::createTransactionWithLoan() {
 	budget->addAccount(loan);
 
 	if(is_zero(downPaymentEdit->value())) {
-		Expense *expense = new Expense(budget, valueEdit->value(), dateEdit->date(), (ExpensesAccount*) toCombo->currentAccount(), loan, descriptionEdit->text(), commentsEdit->text());
+		Expense *expense = new Expense(budget, valueEdit->value(), dateEdit->date(), (ExpensesAccount*) toCombo->currentAccount(), loan, descriptionEdit->text(), comments());
 		if(quantityEdit) expense->setQuantity(quantityEdit->value());
 		if(payeeEdit) expense->setPayee(payeeEdit->text());
 		if(tagButton) tagButton->modifyTransaction(expense);
@@ -1737,7 +1772,7 @@ Transactions *TransactionEditWidget::createTransactionWithLoan() {
 
 	MultiAccountTransaction *split = new MultiAccountTransaction(budget, (CategoryAccount*) toCombo->currentAccount(), descriptionEdit->text());
 	if(linksWidget) linksWidget->updateTransaction(split);
-	split->setComment(commentsEdit->text());
+	split->setComment(comments());
 	if(fileEdit) split->setAssociatedFile(fileEdit->text());
 	if(quantityEdit) split->setQuantity(quantityEdit->value());
 
@@ -1759,11 +1794,11 @@ Transaction *TransactionEditWidget::createTransaction() {
 		} else if(fromCombo && fromCombo->currentAccount() == budget->balancingAccount) {
 			trans = new Balancing(budget, valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL);
 		} else {
-			Transfer *transfer = new Transfer(budget, valueEdit->value(), depositEdit->value(), dateEdit ? dateEdit->date() : QDate(), fromCombo ? (AssetsAccount*) fromCombo->currentAccount() : NULL, toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString(), commentsEdit ? commentsEdit->text() : NULL);
+			Transfer *transfer = new Transfer(budget, valueEdit->value(), depositEdit->value(), dateEdit ? dateEdit->date() : QDate(), fromCombo ? (AssetsAccount*) fromCombo->currentAccount() : NULL, toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString(), comments());
 			trans = transfer;
 		}
 	} else if(transtype == TRANSACTION_TYPE_INCOME) {
-		Income *income = new Income(budget, valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), fromCombo ? (IncomesAccount*) fromCombo->currentAccount() : NULL, toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString(), commentsEdit ? commentsEdit->text() : NULL);
+		Income *income = new Income(budget, valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), fromCombo ? (IncomesAccount*) fromCombo->currentAccount() : NULL, toCombo ? (AssetsAccount*) toCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString(), comments());
 		if(selectedSecurity()) income->setSecurity(selectedSecurity());
 		if(quantityEdit) income->setQuantity(quantityEdit->value());
 		if(payeeEdit) income->setPayer(payeeEdit->text());
@@ -1777,7 +1812,7 @@ Transaction *TransactionEditWidget::createTransaction() {
 		if(!quotationEdit) share_value = value / shares;
 		else if(!sharesEdit) shares = value / share_value;
 		else if(!valueEdit) value = shares * share_value;
-		ReinvestedDividend *rediv = new ReinvestedDividend(budget, value, shares, dateEdit ? dateEdit->date() : QDate(), selectedSecurity(), fromCombo ? (IncomesAccount*) fromCombo->currentAccount() : NULL, commentsEdit ? commentsEdit->text() : NULL);
+		ReinvestedDividend *rediv = new ReinvestedDividend(budget, value, shares, dateEdit ? dateEdit->date() : QDate(), selectedSecurity(), fromCombo ? (IncomesAccount*) fromCombo->currentAccount() : NULL, comments());
 		if(setQuoteButton && setQuoteButton->isChecked()) selectedSecurity()->setQuotation(rediv->date(), share_value);
 		trans = rediv;
 	} else if(transtype == TRANSACTION_TYPE_SECURITY_BUY) {
@@ -1789,7 +1824,7 @@ Transaction *TransactionEditWidget::createTransaction() {
 		if(!quotationEdit) share_value = value / shares;
 		else if(!sharesEdit) shares = value / share_value;
 		else if(!valueEdit) value = shares * share_value;
-		SecurityBuy *secbuy = new SecurityBuy(selectedSecurity(), value, shares, dateEdit ? dateEdit->date() : QDate(), fromCombo ? fromCombo->currentAccount() : NULL, commentsEdit ? commentsEdit->text() : NULL);
+		SecurityBuy *secbuy = new SecurityBuy(selectedSecurity(), value, shares, dateEdit ? dateEdit->date() : QDate(), fromCombo ? fromCombo->currentAccount() : NULL, comments());
 		if(setQuoteButton && setQuoteButton->isChecked()) selectedSecurity()->setQuotation(secbuy->date(), share_value);
 		trans = secbuy;
 	} else if(transtype == TRANSACTION_TYPE_SECURITY_SELL) {
@@ -1801,11 +1836,11 @@ Transaction *TransactionEditWidget::createTransaction() {
 		if(!quotationEdit) share_value = value / shares;
 		else if(!sharesEdit) shares = value / share_value;
 		else if(!valueEdit) value = shares * share_value;
-		SecuritySell *secsell = new SecuritySell(selectedSecurity(), value, shares, dateEdit ? dateEdit->date() : QDate(), toCombo ? toCombo->currentAccount() : NULL, commentsEdit ? commentsEdit->text() : NULL);
+		SecuritySell *secsell = new SecuritySell(selectedSecurity(), value, shares, dateEdit ? dateEdit->date() : QDate(), toCombo ? toCombo->currentAccount() : NULL, comments());
 		if(setQuoteButton && setQuoteButton->isChecked()) selectedSecurity()->setQuotation(secsell->date(), share_value);
 		trans = secsell;
 	} else {
-		Expense *expense = new Expense(budget, valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), toCombo ? (ExpensesAccount*) toCombo->currentAccount() : NULL, fromCombo ? (AssetsAccount*) fromCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString(), commentsEdit ? commentsEdit->text() : NULL);
+		Expense *expense = new Expense(budget, valueEdit->value(), dateEdit ? dateEdit->date() : QDate(), toCombo ? (ExpensesAccount*) toCombo->currentAccount() : NULL, fromCombo ? (AssetsAccount*) fromCombo->currentAccount() : NULL, descriptionEdit ? descriptionEdit->text() : QString(), comments());
 		if(quantityEdit) expense->setQuantity(quantityEdit->value());
 		if(payeeEdit) expense->setPayee(payeeEdit->text());
 		trans = expense;
@@ -2093,7 +2128,8 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 			}
 			valueEdit->setValue(0.0);
 		}
-		if(commentsEdit) commentsEdit->clear();
+		if(commentsEditL) commentsEditL->clear();
+		else if(commentsEditT) commentsEditT->clear();
 		if(fileEdit) fileEdit->clear();
 		if(quantityEdit) quantityEdit->setValue(1.0);
 		if(depositEdit) depositEdit->setValue(0.0);
@@ -2102,7 +2138,8 @@ void TransactionEditWidget::setTransaction(Transaction *trans) {
 	} else {
 		value_set = true; shares_set = true; sharevalue_set = true;
 		if(dateEdit) dateEdit->setDate(trans->date());
-		if(commentsEdit) commentsEdit->setText(trans->comment());
+		if(commentsEditL) commentsEditL->setText(trans->comment());
+		else if(commentsEditT) commentsEditT->setPlainText(trans->comment());
 		if(fileEdit) fileEdit->setText(trans->associatedFile());
 		if(toCombo && (!b_sec || transtype == TRANSACTION_TYPE_SECURITY_SELL)) {
 			toCombo->setCurrentAccount(trans->toAccount());
@@ -2194,7 +2231,8 @@ void TransactionEditWidget::setMultiAccountTransaction(MultiAccountTransaction *
 	if(valueEdit) valueEdit->blockSignals(true);
 	if(dateEdit) dateEdit->setDate(date.isValid() ? date : split->date());
 	if(dateEdit) emit dateChanged(date.isValid() ? date : split->date());
-	if(commentsEdit) commentsEdit->setText(split->comment());
+	if(commentsEditL) commentsEditL->setText(split->comment());
+	else if(commentsEditT) commentsEditT->setPlainText(split->comment());
 	if(fileEdit) fileEdit->setText(split->associatedFile());
 	double v = 0.0;
 	int split_i = -1;

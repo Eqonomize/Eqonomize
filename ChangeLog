@@ -1,3 +1,10 @@
+2021-07-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix importing of data format YYYYMMDD and improve support for six character date formats without separator
+	* Use a multiple lines for comments field in dialogs
+	* Clear edit fields after modification of transaction in list
+	* Preserve position and current item after update of ledger
+
 2021-03-18  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Remove total security rate value

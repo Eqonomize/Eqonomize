@@ -740,12 +740,12 @@ void TransactionListWidget::editTransaction() {
 			if(i->scheduledTransaction()->isOneTimeTransaction()) {
 				if(mainWin->editScheduledTransaction(i->scheduledTransaction())) clearTransaction();
 			} else {
-				if(mainWin->editOccurrence(i->scheduledTransaction(), i->date())) transactionSelectionChanged();
+				if(mainWin->editOccurrence(i->scheduledTransaction(), i->date())) clearTransaction();
 			}
 		} else if(i->splitTransaction()) {
-			if(mainWin->editSplitTransaction(i->splitTransaction())) transactionSelectionChanged();
+			if(mainWin->editSplitTransaction(i->splitTransaction())) clearTransaction();
 		} else {
-			if(mainWin->editTransaction(i->transaction())) transactionSelectionChanged();
+			if(mainWin->editTransaction(i->transaction())) clearTransaction();
 		}
 	} else if(selection.count() > 1) {
 		budget->setRecordNewAccounts(true);
@@ -1173,7 +1173,6 @@ void TransactionListWidget::modifyTransaction() {
 				++it;
 				i = (TransactionListViewItem*) *it;
 			}
-			return;
 		} else {
 			if(editWidget->validValues()) {
 				ScheduledTransaction *curstranscopy = i->scheduledTransaction();
@@ -1183,10 +1182,8 @@ void TransactionListWidget::modifyTransaction() {
 				mainWin->transactionModified(curstranscopy, oldstrans);
 				delete oldstrans;
 			}
-			return;
 		}
-	}
-	if(editWidget->date() > QDate::currentDate()) {
+	} else if(editWidget->date() > QDate::currentDate()) {
 		Transaction *newtrans = i->transaction()->copy();
 		if(editWidget->modifyTransaction(newtrans)) {
 			ScheduledTransaction *strans = new ScheduledTransaction(budget, newtrans, NULL);
@@ -1215,6 +1212,7 @@ void TransactionListWidget::modifyTransaction() {
 		delete oldtrans;
 		transactionsView->scrollToItem(i);
 	}
+	clearTransaction();
 }
 void TransactionListWidget::removeScheduledTransaction() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
@@ -1624,8 +1622,6 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 			i->setFont(6, font);
 			i->setFont(7, font);
 		}
-		//i->setTextAlignment(3, Qt::AlignCenter);
-		//i->setTextAlignment(4, Qt::AlignCenter);
 		if((trans && trans == selected_trans) || (split && split == selected_trans)) {
 			transactionsView->blockSignals(true);
 			i->setSelected(true);

@@ -217,7 +217,6 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	settingsLayout->addLayout(choicesLayout, 2, 1);
 	QGridLayout *choicesLayout_extra = NULL;
 	if(b_extra) {
-		sourceLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 		choicesLayout_extra = new QGridLayout();
 		choicesLayout->addLayout(choicesLayout_extra);
 	}

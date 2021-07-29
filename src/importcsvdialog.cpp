@@ -998,21 +998,28 @@ void testCSVDate(const QString &str, bool &p1, bool &p2, bool &p3, bool &p4, boo
 			}
 		}
 		if(separator < 0) separator = 0;
-		p1 = (separator != 0);
-		p2 = (separator != 0);
+		p1 = (separator != 0 || str.length() == 6);
+		p2 = (separator != 0 || str.length() == 6);
 		p3 = true;
-		p4 = (separator != 0);
-		ly = false;
+		p4 = (separator != 0 || str.length() == 6);
+		ly = (separator == 0 && str.length() >= 8);
 	}
 	if(p1 + p2 + p3 + p4 <= 1) {
 		lz = 1;
 		return;
 	}
+	QStringList strlist;
+	if(separator == 0) {
+		strlist << str.left(2);
+		strlist << str.mid(2, 2);
+		strlist << str.right(2);
+	} else {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-	QStringList strlist = str.split(separator, Qt::SkipEmptyParts);
+		strlist = str.split(separator, Qt::SkipEmptyParts);
 #else
-	QStringList strlist = str.split(separator, QString::SkipEmptyParts);
+		strlist = str.split(separator, QString::SkipEmptyParts);
 #endif
+	}
 	if(strlist.count() == 2 && (p1 || p2)) {
 		int i = strlist[1].indexOf('\'');
 		if(i >= 0) {

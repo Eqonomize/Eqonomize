@@ -31,6 +31,7 @@ class QPushButton;
 class QTreeWidget;
 class QTreeWidgetItem;
 class QLineEdit;
+class QPlainTextEdit;
 class QComboBox;
 class QDateEdit;
 
@@ -61,9 +62,10 @@ class EditMultiAccountWidget : public QWidget {
 
 		EqonomizeValueEdit *quantityEdit;
 		AccountComboBox *categoryCombo;
-		QLineEdit *descriptionEdit, *commentEdit, *fileEdit;
+		QLineEdit *descriptionEdit, *fileEdit;
+		QPlainTextEdit *commentEdit;
 		QTreeWidget *transactionsView;
-		QPushButton *editButton, *removeButton;
+		QPushButton *newButton, *editButton, *removeButton;
 		QLabel *totalLabel, *linksLabelLabel;
 		LinksWidget *linksWidget;
 		TagButton *tagButton;
@@ -71,6 +73,7 @@ class EditMultiAccountWidget : public QWidget {
 		void appendTransaction(Transaction *trans);
 		void updateTotalValue();
 		CategoryAccount *selectedCategory();
+		bool eventFilter(QObject*, QEvent*);
 
 	public:
 
@@ -118,7 +121,8 @@ class EditDebtPaymentWidget : public QWidget {
 		EqonomizeValueEdit *reductionEdit, *paymentEdit, *interestEdit, *feeEdit;
 		QRadioButton *paidInterestButton, *addedInterestButton;
 		AccountComboBox *accountCombo, *categoryCombo, *loanCombo;
-		QLineEdit *commentEdit, *fileEdit;
+		QLineEdit *fileEdit;
+		QPlainTextEdit *commentEdit;
 		QLabel *paymentLabel, *totalLabel, *linksLabelLabel;
 		LinksWidget *linksWidget;
 
@@ -126,6 +130,7 @@ class EditDebtPaymentWidget : public QWidget {
 		AssetsAccount *selectedLoan();
 		ExpensesAccount *selectedCategory();
 		AssetsAccount *selectedAccount();
+		bool eventFilter(QObject*, QEvent*);
 
 	public:
 
@@ -176,9 +181,10 @@ class EditMultiItemWidget : public QWidget {
 
 		QDateEdit *dateEdit;
 		AccountComboBox *accountCombo;
-		QLineEdit *descriptionEdit, *payeeEdit, *fileEdit, *commentEdit;
+		QLineEdit *descriptionEdit, *payeeEdit, *fileEdit;
+		QPlainTextEdit *commentEdit;
 		QTreeWidget *transactionsView;
-		QPushButton *editButton, *removeButton;
+		QPushButton *newButton, *editButton, *removeButton;
 		QLabel *totalLabel, *linksLabelLabel;
 		LinksWidget *linksWidget;
 		TagButton *tagButton;
@@ -187,6 +193,7 @@ class EditMultiItemWidget : public QWidget {
 		void newTransaction(int transtype, bool select_security = false, bool transfer_to = false, Account *exclude_account = NULL);
 		void updateTotalValue();
 		AssetsAccount *selectedAccount();
+		bool eventFilter(QObject*, QEvent*);
 
 	public:
 
