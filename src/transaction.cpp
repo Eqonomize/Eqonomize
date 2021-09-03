@@ -1370,6 +1370,9 @@ bool ScheduledTransaction::readElement(QXmlStreamReader *xml, bool*) {
 			if(o_trans) delete o_trans;
 			o_trans = new Income(budget(), xml, &valid2);
 			if(!((Income*) o_trans)->security()) valid2 = false;
+		} else if(type == "reinvested_dividend") {
+			if(o_trans) delete o_trans;
+			o_trans = new ReinvestedDividend(budget(), xml, &valid2);
 		} else if(type == "transfer") {
 			if(o_trans) delete o_trans;
 			o_trans = new Transfer(budget(), xml, &valid2);
@@ -1435,7 +1438,9 @@ void ScheduledTransaction::writeElements(QXmlStreamWriter *xml) {
 				break;
 			}
 			case TRANSACTION_TYPE_INCOME: {
-				if(((Income*) trans)->security()) {
+				if(trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
+					xml->writeAttribute("type", "reinvested_dividend");
+				} else if(((Income*) trans)->security()) {
 					xml->writeAttribute("type", "dividend");
 				} else {
 					xml->writeAttribute("type", "income");

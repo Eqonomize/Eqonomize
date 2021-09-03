@@ -803,7 +803,11 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		commentsEditL = new QLineEdit(this);
 		commentsEdit = commentsEditL;
 	} else {
-		commentsLabel->setMinimumHeight(descriptionEdit->sizeHint().height());
+		int h = 0;
+		if(descriptionEdit) h = descriptionEdit->sizeHint().height();
+		else if(valueEdit) h = valueEdit->sizeHint().height();
+		else if(sharesEdit) h = sharesEdit->sizeHint().height();
+		if(h > 0) commentsLabel->setMinimumHeight(h);
 		editLayout->addWidget(commentsLabel, TEROWCOL(i, 0), Qt::AlignTop | Qt::AlignLeft);
 		commentsEditT = new QPlainTextEdit(this);
 		commentsEditT->setLineWrapMode(QPlainTextEdit::WidgetWidth);

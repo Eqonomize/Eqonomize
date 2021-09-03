@@ -2048,6 +2048,10 @@ void TransactionListWidget::transactionSelectionChanged() {
 		if(selection.count() > 1) {
 			for(int index = 0; index < selection.size(); index++) {
 				TransactionListViewItem *i = (TransactionListViewItem*) selection.at(index);
+				if(i->transaction() && i->transaction()->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
+					modifyButton->setEnabled(false);
+					break;
+				}
 				if(i->scheduledTransaction()) {
 					if(i->transaction() && i->transaction()->parentSplit()) {
 						modifyButton->setEnabled(false);
@@ -2092,7 +2096,7 @@ void TransactionListWidget::newRefundRepayment() {
 }
 void TransactionListWidget::updateTransactionActions() {
 	QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
-	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_split2 = false, b_join = false, b_delete = false, b_attachment = false, b_select = false, b_time = false, b_tags = false, b_clone = false, b_link = false, b_link_to = false;
+	bool b_transaction = false, b_scheduledtransaction = false, b_split = false, b_split2 = false, b_join = false, b_delete = false, b_attachment = false, b_select = false, b_time = false, b_tags = false, b_clone = false, b_link = false, b_link_to = false, b_edit = true;
 	bool refundable = false, repayable = false;
 	QList<Transactions*> list;
 	Transactions *link_trans = mainWin->getLinkTransaction();
@@ -2150,6 +2154,10 @@ void TransactionListWidget::updateTransactionActions() {
 		for(int index = 0; index < selection.size(); index++) {
 			if(index >= 10) b_link = false;
 			i = (TransactionListViewItem*) selection.at(index);
+			if((b_edit || b_join) && i->transaction() && i->transaction()->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
+				b_join = false;
+				b_edit = false;
+			}
 			if(b_join && (i->splitTransaction() || i->scheduledTransaction() || i->transaction()->parentSplit())) {
 				b_join = false;
 			}
@@ -2211,12 +2219,13 @@ void TransactionListWidget::updateTransactionActions() {
 			}
 		}
 	}
+	if(!b_transaction) b_edit = false;
 	mainWin->ActionCreateLink->setEnabled(b_link);
 	mainWin->ActionLinkTo->setEnabled(b_link_to);
 	mainWin->ActionNewRefund->setEnabled(refundable);
 	mainWin->ActionNewRepayment->setEnabled(repayable);
 	mainWin->ActionNewRefundRepayment->setEnabled(refundable || repayable);
-	mainWin->ActionEditTransaction->setEnabled(b_transaction);
+	mainWin->ActionEditTransaction->setEnabled(b_edit);
 	mainWin->ActionEditTimestamp->setEnabled(b_time);
 	mainWin->ActionDeleteTransaction->setEnabled(b_transaction);
 	mainWin->ActionSelectAssociatedFile->setEnabled(b_select);

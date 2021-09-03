@@ -1154,6 +1154,10 @@ void LedgerDialog::transactionSelectionChanged() {
 			b_clone = false;
 			break;
 		} else {
+			if((b_join || b_edit) && trans->subtype() == TRANSACTION_SUBTYPE_REINVESTED_DIVIDEND) {
+				b_join = false;
+				if(index > 0 || selection.size() > 1) b_edit = false;
+			}
 			if(b_edit && trans->parentSplit() && (index > 0 || selection.size() > 1)) b_edit = false;
 			if(b_split) {
 				if(!split) split = trans->parentSplit();
