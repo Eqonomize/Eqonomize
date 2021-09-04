@@ -827,7 +827,7 @@ void ReinvestedDividend::writeAttributes(QXmlStreamAttributes *attr) {
 }
 
 bool ReinvestedDividend::equals(const Transactions *transaction, bool strict_comparison) const {
-	if(!Income::equals(transaction, strict_comparison) || ((Income*) transaction)->subtype() == subtype()) return false;
+	if(!Income::equals(transaction, strict_comparison) || ((Income*) transaction)->subtype() != subtype()) return false;
 	ReinvestedDividend *reinv = (ReinvestedDividend*) transaction;
 	if(d_shares != reinv->shares()) return false;
 	return true;
