@@ -1,3 +1,8 @@
+2021-11-05  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add extra space between after right aligned values in lists
+	* Add option to left align values in lists
+
 2021-07-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix importing of data format YYYYMMDD and improve support for six character date formats without separator
