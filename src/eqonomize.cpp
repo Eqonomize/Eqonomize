@@ -787,7 +787,9 @@ RefundDialog::RefundDialog(Transactions *trans, QWidget *parent, bool extra_para
 	connect(accountCombo, SIGNAL(returnPressed()), this, SLOT(accountNextFocus()));
 	connect(commentsEdit, SIGNAL(returnPressed()), this, SLOT(accept()));
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
@@ -920,7 +922,9 @@ EditSecurityTradeDialog::EditSecurityTradeDialog(Budget *budg, Security *sec, QW
 	dateEdit->setCalendarPopup(true);
 	layout->addWidget(dateEdit, 5, 1);
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
@@ -1094,7 +1098,9 @@ EditQuotationsDialog::EditQuotationsDialog(Security *sec, QWidget *parent) : QDi
 	buttonsLayout->addStretch(1);
 
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
@@ -1486,7 +1492,9 @@ void EditQuotationsDialog::importQuotations() {
 			valueFormatCombo->addItem("1.000.000,00");
 			grid->addWidget(valueFormatCombo, ps > 1 ? 2 : 1, 1);
 		}
-		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, dialog);
+		buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+		buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 		buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 		connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 		connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
@@ -1825,7 +1833,9 @@ void ConfirmScheduleDialog::postpone() {
 	QCalendarWidget *datePicker = new QCalendarWidget(dialog);
 	datePicker->setSelectedDate(QDate::currentDate().addDays(1));
 	box1->addWidget(datePicker);
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, dialog);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
@@ -2235,7 +2245,9 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	grid->addWidget(descriptionEdit, 9, 0, 1, 2);
 	nameEdit->setFocus();
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
@@ -3076,7 +3088,9 @@ void Eqonomize::setScheduleConfirmationTime() {
 	timeEdit->setTime(settings.value("scheduleConfirmationTime", QTime(18, 0)).toTime());
 	layout->addWidget(timeEdit, 0, 1);
 	box1->addLayout(layout);
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, dialog);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
@@ -3139,7 +3153,9 @@ void Eqonomize::setBudgetPeriod() {
 	yearlyMonthCombo->setCurrentIndex(budget->budgetMonth() - 1);
 	layout->addWidget(yearlyMonthCombo, 1, 1);
 	box1->addLayout(layout);
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, dialog);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
@@ -3511,7 +3527,9 @@ void Eqonomize::setQuotation() {
 	EqonomizeDateEdit *dateEdit = new EqonomizeDateEdit(QDate::currentDate(), dialog);
 	dateEdit->setCalendarPopup(true);
 	grid->addWidget(dateEdit, 1, 1);
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, dialog);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
@@ -4172,7 +4190,9 @@ bool Eqonomize::editTimestamp(QList<Transactions*> trans, QWidget *parent) {
 		grid->addWidget(timeEdit.last(), row, (i > 0 || trans.count() > 1) ? 1 : 0);
 		row++;
 	}
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, dialog);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
@@ -5975,7 +5995,9 @@ bool Eqonomize::openURL(const QUrl& url, bool merge) {
 		box1->addWidget(rdcButton);
 		QCheckBox *rdsButton = new QCheckBox(tr("Rename duplicate securities"), dialog);
 		box1->addWidget(rdsButton);
-		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, dialog);
+		buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+		buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 		buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 		connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 		connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
@@ -6078,7 +6100,9 @@ void Eqonomize::openSynchronizationSettings() {
 	syncAutoBox->setChecked(budget->o_sync->autosync);
 	grid->addWidget(syncAutoBox, 4, 0, 1, 2);
 	box1->addLayout(grid);
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, syncDialog);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	uploadButton = buttonBox->addButton(tr("Upload"), QDialogButtonBox::ActionRole);
 	uploadButton->setEnabled(!budget->o_sync->upload.isEmpty());
@@ -6589,7 +6613,9 @@ void Eqonomize::setMainCurrency() {
 	QCheckBox *replaceButton = new QCheckBox(tr("Replace all occurrences of the former main currency"), dialog);
 	replaceButton->setChecked(false);
 	grid->addWidget(replaceButton, 1, 0, 1, 2);
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, dialog);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
@@ -8587,7 +8613,9 @@ void Eqonomize::balanceAccount(Account *i_account) {
 	label->setWordWrap(true);
 	wbox->addWidget(label);
 	box1->addWidget(frame);
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, dialog);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
@@ -8984,7 +9012,9 @@ void Eqonomize::deleteAccount() {
 			grid->addWidget(moveToButton, 1, 0);
 			grid->addWidget(moveToCombo, 1, 1);
 			grid->addWidget(deleteButton, 2, 0, 1, 2);
-			QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+			QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, dialog);
+			buttonBox->button(QDialogButtonBox::Ok)->setAutoDefault(false);
+			buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 			buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 			buttonBox->button(QDialogButtonBox::Cancel)->setDefault(true);
 			connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));

@@ -1015,10 +1015,8 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 bool TransactionEditWidget::eventFilter(QObject *o, QEvent *e) {
 	if(o && o == commentsEditT && e->type() == QEvent::KeyPress) {
 		QKeyEvent *event = (QKeyEvent*) e;
-		if((event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) && (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)) {
-			e->accept();
-			if(b_autoedit && tagButton) tagButton->setFocus();
-			else addmodify();
+		if((event->key() == Qt::Key_Backtab || event->key() == Qt::Key_Tab) && (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)) {
+			e->ignore();
 			return true;
 		}
 	}
@@ -2307,7 +2305,9 @@ TransactionEditDialog::TransactionEditDialog(bool extra_parameters, int transact
 	box1->addWidget(editWidget);
 	editWidget->transactionsReset();
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
@@ -2392,7 +2392,9 @@ MultipleTransactionsEditDialog::MultipleTransactionsEditDialog(bool extra_parame
 		connect(payeeButton, SIGNAL(toggled(bool)), payeeEdit, SLOT(setEnabled(bool)));
 	}
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));

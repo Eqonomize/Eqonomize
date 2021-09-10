@@ -121,7 +121,9 @@ EditCurrencyDialog::EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_
 		defaultButton = NULL;
 	}
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));

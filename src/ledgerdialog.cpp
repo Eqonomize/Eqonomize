@@ -1029,7 +1029,9 @@ void LedgerDialog::printView() {
 		QDateEdit *dateToEdit = new EqonomizeDateEdit(QDate::currentDate(), dialog);
 		dateToEdit->setCalendarPopup(true);
 		grid->addWidget(dateToEdit, 1, 1);
-		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, dialog);
+		buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+		buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 		buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 		connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 		connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));

@@ -176,7 +176,9 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 
 	updateCurrencyList(budget->defaultCurrency());
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
@@ -448,7 +450,9 @@ EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, IncomesAccount 
 	nameEdit->setFocus();
 	current_account = NULL;
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
@@ -553,7 +557,9 @@ EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, ExpensesAccou
 	nameEdit->setFocus();
 	current_account = NULL;
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));

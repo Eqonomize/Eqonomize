@@ -85,7 +85,9 @@ EditScheduledTransactionDialog::EditScheduledTransactionDialog(bool extra_parame
 
 	box1->addWidget(tabs);
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
@@ -260,7 +262,9 @@ EditScheduledMultiItemDialog::EditScheduledMultiItemDialog(bool extra_parameters
 
 	box1->addWidget(tabs);
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
@@ -381,7 +385,9 @@ EditScheduledMultiAccountDialog::EditScheduledMultiAccountDialog(bool extra_para
 
 	box1->addWidget(tabs);
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
@@ -508,7 +514,9 @@ EditScheduledDebtPaymentDialog::EditScheduledDebtPaymentDialog(bool extra_parame
 
 	box1->addWidget(tabs);
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));

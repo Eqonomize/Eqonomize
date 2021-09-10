@@ -194,7 +194,9 @@ EditDebtPaymentDialog::EditDebtPaymentDialog(Budget *budg, QWidget *parent, Asse
 	editWidget = new EditDebtPaymentWidget(budg, this, default_loan, allow_account_creation, only_interest);
 	box1->addWidget(editWidget);
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
@@ -224,7 +226,9 @@ EditMultiAccountDialog::EditMultiAccountDialog(Budget *budg, QWidget *parent, bo
 	editWidget = new EditMultiAccountWidget(budg, this, create_expenses, extra_parameters, allow_account_creation);
 	box1->addWidget(editWidget);
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
@@ -253,7 +257,9 @@ EditMultiItemDialog::EditMultiItemDialog(Budget *budg, QWidget *parent, AssetsAc
 	editWidget = new EditMultiItemWidget(budg, this, default_account, extra_parameters, allow_account_creation);
 	box1->addWidget(editWidget);
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+	buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
 	buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(reject()));
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(accept()));
@@ -485,9 +491,8 @@ EditMultiItemWidget::~EditMultiItemWidget() {}
 bool EditMultiItemWidget::eventFilter(QObject *o, QEvent *e) {
 	if(o && o == commentEdit && e->type() == QEvent::KeyPress) {
 		QKeyEvent *event = (QKeyEvent*) e;
-		if((event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) && (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)) {
-			e->accept();
-			newButton->setFocus();
+		if((event->key() == Qt::Key_Backtab || event->key() == Qt::Key_Tab) && (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)) {
+			e->ignore();
 			return true;
 		}
 	}
@@ -940,9 +945,8 @@ EditMultiAccountWidget::~EditMultiAccountWidget() {}
 bool EditMultiAccountWidget::eventFilter(QObject *o, QEvent *e) {
 	if(o && o == commentEdit && e->type() == QEvent::KeyPress) {
 		QKeyEvent *event = (QKeyEvent*) e;
-		if((event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) && (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)) {
-			e->accept();
-			newButton->setFocus();
+		if((event->key() == Qt::Key_Backtab || event->key() == Qt::Key_Tab) && (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)) {
+			e->ignore();
 			return true;
 		}
 	}
@@ -1395,9 +1399,8 @@ EditDebtPaymentWidget::~EditDebtPaymentWidget() {}
 bool EditDebtPaymentWidget::eventFilter(QObject *o, QEvent *e) {
 	if(o && o == commentEdit && e->type() == QEvent::KeyPress) {
 		QKeyEvent *event = (QKeyEvent*) e;
-		if((event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) && (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)) {
-			e->accept();
-			addmodify();
+		if((event->key() == Qt::Key_Backtab || event->key() == Qt::Key_Tab) && (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)) {
+			e->ignore();
 			return true;
 		}
 	}
