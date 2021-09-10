@@ -73,7 +73,6 @@ class EditMultiAccountWidget : public QWidget {
 		void appendTransaction(Transaction *trans);
 		void updateTotalValue();
 		CategoryAccount *selectedCategory();
-		bool eventFilter(QObject*, QEvent*);
 
 	public:
 
@@ -130,7 +129,6 @@ class EditDebtPaymentWidget : public QWidget {
 		AssetsAccount *selectedLoan();
 		ExpensesAccount *selectedCategory();
 		AssetsAccount *selectedAccount();
-		bool eventFilter(QObject*, QEvent*);
 
 	public:
 
@@ -193,7 +191,6 @@ class EditMultiItemWidget : public QWidget {
 		void newTransaction(int transtype, bool select_security = false, bool transfer_to = false, Account *exclude_account = NULL);
 		void updateTotalValue();
 		AssetsAccount *selectedAccount();
-		bool eventFilter(QObject*, QEvent*);
 
 	public:
 

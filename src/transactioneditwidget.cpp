@@ -49,7 +49,6 @@
 #include <QSettings>
 #include <QMenu>
 #include <QInputDialog>
-#include <QPlainTextEdit>
 
 #include "budget.h"
 #include "accountcombobox.h"
@@ -438,6 +437,27 @@ QString TagMenu::createTag() {
 
 extern QString last_associated_file_directory;
 
+CommentsTextEdit::CommentsTextEdit(QWidget *parent) : QPlainTextEdit(parent) {
+	setLineWrapMode(QPlainTextEdit::WidgetWidth);
+}
+QSize CommentsTextEdit::sizeHint() const {
+	QSize size = QPlainTextEdit::sizeHint();
+	QFontMetrics fm(font());
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+	size.setHeight(fm.lineSpacing() * 2 + frameWidth() * 2 + contentsMargins().top() + contentsMargins().bottom() + document()->documentMargin() * 2 + viewportMargins().bottom() + viewportMargins().top());
+#else
+	size.setHeight(fm.lineSpacing() * 2 + frameWidth() * 2 + contentsMargins().top() + contentsMargins().bottom() + document()->documentMargin());
+#endif
+	return size;
+}
+void CommentsTextEdit::keyPressEvent(QKeyEvent *e) {
+	if(e->key() == Qt::Key_Tab || e->key() == Qt::Key_Tab) {
+		e->ignore();
+		return;
+	}
+	QPlainTextEdit::keyPressEvent(e);
+}
+
 TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_parameters, int transaction_type, Currency *split_currency, bool transfer_to, Security *sec, SecurityValueDefineType security_value_type, bool select_security, Budget *budg, QWidget *parent, bool allow_account_creation, bool multiaccount, bool withloan) : QWidget(parent), transtype(transaction_type), budget(budg), security(sec), b_autoedit(auto_edit), b_extra(extra_parameters), b_create_accounts(allow_account_creation), b_select_security(select_security && !security) {
 	bool split = (split_currency != NULL);
 	splitcurrency = split_currency;
@@ -459,7 +479,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	else rows = rows / cols;
 	editLayout = new QGridLayout();
 	editVLayout->addLayout(editLayout);
-	editVLayout->addStretch(1);
+	if(auto_edit) editVLayout->addStretch(1);
 	valueEdit = NULL;
 	depositEdit = NULL;
 	downPaymentEdit = NULL;
@@ -809,13 +829,8 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		else if(sharesEdit) h = sharesEdit->sizeHint().height();
 		if(h > 0) commentsLabel->setMinimumHeight(h);
 		editLayout->addWidget(commentsLabel, TEROWCOL(i, 0), Qt::AlignTop | Qt::AlignLeft);
-		commentsEditT = new QPlainTextEdit(this);
-		commentsEditT->setLineWrapMode(QPlainTextEdit::WidgetWidth);
-		QFontMetrics fm(commentsEditT->font());
-		commentsEditT->setFixedHeight(fm.lineSpacing() * 2 + commentsEditT->frameWidth() * 2 + commentsEditT->contentsMargins().top() + commentsEditT->contentsMargins().bottom() + commentsEditT->document()->documentMargin() * 2);
-		commentsEditT->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+		commentsEditT = new CommentsTextEdit(this);
 		commentsEdit = commentsEditT;
-		commentsEditT->installEventFilter(this);
 	}
 	if(b_autoedit && (transtype == TRANSACTION_TYPE_INCOME || transtype == TRANSACTION_TYPE_EXPENSE) && !sec) {
 		QHBoxLayout *box = new QHBoxLayout();
@@ -846,7 +861,7 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	}
 	bottom_layout = new QHBoxLayout();
 	editVLayout->addLayout(bottom_layout);
-	editVLayout->addStretch(1);
+	if(auto_edit) editVLayout->addStretch(1);
 
 	description_changed = false;
 	payee_changed = false;
@@ -1011,16 +1026,6 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 	b_multiple_currencies = true;
 	useMultipleCurrencies(budget->usesMultipleCurrencies());
 	if(security) securityChanged();
-}
-bool TransactionEditWidget::eventFilter(QObject *o, QEvent *e) {
-	if(o && o == commentsEditT && e->type() == QEvent::KeyPress) {
-		QKeyEvent *event = (QKeyEvent*) e;
-		if((event->key() == Qt::Key_Backtab || event->key() == Qt::Key_Tab) && (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)) {
-			e->ignore();
-			return true;
-		}
-	}
-	return false;
 }
 void TransactionEditWidget::setQuoteToggled(bool b) {
 	QSettings settings;

@@ -30,6 +30,7 @@
 #include <QDialog>
 #include <QMenu>
 #include <QPushButton>
+#include <QPlainTextEdit>
 
 class QCheckBox;
 class QLabel;
@@ -146,8 +147,6 @@ class TransactionEditWidget : public QWidget {
 		EqonomizeDateEdit *dateEdit;
 		QHBoxLayout *bottom_layout;
 		QGridLayout *editLayout;
-
-		bool eventFilter(QObject*, QEvent*);
 
 	signals:
 
@@ -347,6 +346,19 @@ class LinksWidget : public QWidget {
 
 		void linkClicked(const QString&);
 		void removeLink();
+
+};
+
+class CommentsTextEdit : public QPlainTextEdit {
+
+	public:
+
+		CommentsTextEdit(QWidget *parent = 0);
+		QSize sizeHint() const;
+
+	protected:
+
+		void keyPressEvent(QKeyEvent *e);
 
 };
 

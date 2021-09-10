@@ -29,7 +29,6 @@
 #include <QMenu>
 #include <QComboBox>
 #include <QLineEdit>
-#include <QPlainTextEdit>
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QTreeWidget>
@@ -394,12 +393,8 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 	QLabel *commentLabel = new QLabel(tr("Comments:"));
 	commentLabel->setMinimumHeight(descriptionEdit->sizeHint().height());
 	grid->addWidget(commentLabel, b_extra ? 6 : 5, 0, Qt::AlignTop | Qt::AlignLeft);
-	commentEdit = new QPlainTextEdit(this);
-	commentEdit->setLineWrapMode(QPlainTextEdit::WidgetWidth);
-	QFontMetrics fmc(commentEdit->font());
-	commentEdit->setFixedHeight(fmc.lineSpacing() * 2 + commentEdit->frameWidth() * 2 + commentEdit->contentsMargins().top() + commentEdit->contentsMargins().bottom() + commentEdit->document()->documentMargin() * 2);
-	commentEdit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-	commentEdit->installEventFilter(this);
+	commentEdit = new CommentsTextEdit(this);
+	commentEdit->setFixedHeight(commentEdit->sizeHint().height());
 	grid->addWidget(commentEdit, b_extra ? 6 : 5, 1);
 
 	linksWidget = new LinksWidget(this, b_create_accounts);
@@ -488,16 +483,6 @@ EditMultiItemWidget::EditMultiItemWidget(Budget *budg, QWidget *parent, AssetsAc
 }
 EditMultiItemWidget::~EditMultiItemWidget() {}
 
-bool EditMultiItemWidget::eventFilter(QObject *o, QEvent *e) {
-	if(o && o == commentEdit && e->type() == QEvent::KeyPress) {
-		QKeyEvent *event = (QKeyEvent*) e;
-		if((event->key() == Qt::Key_Backtab || event->key() == Qt::Key_Tab) && (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)) {
-			e->ignore();
-			return true;
-		}
-	}
-	return false;
-}
 void EditMultiItemWidget::selectFile() {
 	QStringList urls = QFileDialog::getOpenFileNames(this, QString(), (fileEdit->text().isEmpty() || fileEdit->text().contains(",")) ? last_associated_file_directory : fileEdit->text());
 	if(!urls.isEmpty()) {
@@ -863,12 +848,8 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 	QLabel *commentLabel = new QLabel(tr("Comments:"));
 	commentLabel->setMinimumHeight(descriptionEdit->sizeHint().height());
 	grid->addWidget(commentLabel, b_extra ? 5 : 4, 0, Qt::AlignTop | Qt::AlignLeft);
-	commentEdit = new QPlainTextEdit(this);
-	commentEdit->setLineWrapMode(QPlainTextEdit::WidgetWidth);
-	QFontMetrics fm(commentEdit->font());
-	commentEdit->setFixedHeight(fm.lineSpacing() * 2 + commentEdit->frameWidth() * 2 + commentEdit->contentsMargins().top() + commentEdit->contentsMargins().bottom() + commentEdit->document()->documentMargin() * 2);
-	commentEdit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-	commentEdit->installEventFilter(this);
+	commentEdit = new CommentsTextEdit(this);
+	commentEdit->setFixedHeight(commentEdit->sizeHint().height());
 	grid->addWidget(commentEdit, b_extra ? 5 : 4, 1);
 
 	linksWidget = new LinksWidget(this, b_create_accounts);
@@ -942,16 +923,6 @@ EditMultiAccountWidget::EditMultiAccountWidget(Budget *budg, QWidget *parent, bo
 }
 EditMultiAccountWidget::~EditMultiAccountWidget() {}
 
-bool EditMultiAccountWidget::eventFilter(QObject *o, QEvent *e) {
-	if(o && o == commentEdit && e->type() == QEvent::KeyPress) {
-		QKeyEvent *event = (QKeyEvent*) e;
-		if((event->key() == Qt::Key_Backtab || event->key() == Qt::Key_Tab) && (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)) {
-			e->ignore();
-			return true;
-		}
-	}
-	return false;
-}
 void EditMultiAccountWidget::selectFile() {
 	QStringList urls = QFileDialog::getOpenFileNames(this, QString(), (fileEdit->text().isEmpty() || fileEdit->text().contains(",")) ? last_associated_file_directory : fileEdit->text());
 	if(!urls.isEmpty()) {
@@ -1228,7 +1199,7 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 
 	QGridLayout *grid = new QGridLayout();
 	box1->addLayout(grid);
-	box1->addStretch(1);
+	if(only_interest) box1->addStretch(1);
 
 	int row = 0;
 
@@ -1326,12 +1297,7 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 		QLabel *commentLabel = new QLabel(tr("Comments:"));
 		commentLabel->setMinimumHeight(fileEdit->sizeHint().height());
 		grid->addWidget(commentLabel, row, 0, Qt::AlignTop | Qt::AlignLeft);
-		commentEdit = new QPlainTextEdit(this);
-		commentEdit->setLineWrapMode(QPlainTextEdit::WidgetWidth);
-		QFontMetrics fm(commentEdit->font());
-		commentEdit->setFixedHeight(fm.lineSpacing() * 2 + commentEdit->frameWidth() * 2 + commentEdit->contentsMargins().top() + commentEdit->contentsMargins().bottom() + commentEdit->document()->documentMargin() * 2);
-		commentEdit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-		commentEdit->installEventFilter(this);
+		commentEdit = new CommentsTextEdit(this);
 		grid->addWidget(commentEdit, row, 1); row++;
 	}
 
@@ -1378,7 +1344,7 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 
 	if(dateEdit) connect(dateEdit, SIGNAL(dateChanged(const QDate&)), this, SIGNAL(dateChanged(const QDate&)));
 	if(dateEdit) connect(dateEdit, SIGNAL(dateChanged(const QDate&)), this, SLOT(hasBeenModified()));
-	if(commentEdit) connect(commentEdit, SIGNAL(textEdited(const QString&)), this, SLOT(hasBeenModified()));
+	if(commentEdit) connect(commentEdit, SIGNAL(textChanged()), this, SLOT(hasBeenModified()));
 	if(fileEdit) connect(fileEdit, SIGNAL(textChanged(const QString&)), this, SLOT(hasBeenModified()));
 	if(feeEdit) connect(feeEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
 	if(paymentEdit) connect(paymentEdit, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
@@ -1396,16 +1362,6 @@ EditDebtPaymentWidget::EditDebtPaymentWidget(Budget *budg, QWidget *parent, Asse
 }
 EditDebtPaymentWidget::~EditDebtPaymentWidget() {}
 
-bool EditDebtPaymentWidget::eventFilter(QObject *o, QEvent *e) {
-	if(o && o == commentEdit && e->type() == QEvent::KeyPress) {
-		QKeyEvent *event = (QKeyEvent*) e;
-		if((event->key() == Qt::Key_Backtab || event->key() == Qt::Key_Tab) && (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)) {
-			e->ignore();
-			return true;
-		}
-	}
-	return false;
-}
 void EditDebtPaymentWidget::focusFirst() {
 	loanCombo->focusAndSelectAll();
 }
