@@ -1618,7 +1618,7 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 		if(strans && strans->recurrence()) i->setText(0, QLocale().toString(date, QLocale::ShortFormat) + "**");
 		else i->setText(0, QLocale().toString(date, QLocale::ShortFormat));
 		transactionsView->insertTopLevelItem(0, i);
-		if(align_right) i->setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
+		if(right_align_values) i->setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
 
 		if((split && split->cost() > 0.0) || (trans && ((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)))) {
 			if(!expenseColor.isValid()) expenseColor = createExpenseColor(i, 2);

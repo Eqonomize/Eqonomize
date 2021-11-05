@@ -455,7 +455,7 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 	setText(2, strans->description());
 	if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
 		Transaction *trans = (Transaction*) strans->transaction();
-		setText(3, right_align_values ? trans->valueString() + " " : trans->valueString());
+		setText(3, textAlignment(3) & Qt::AlignRight ? trans->valueString() + " " : trans->valueString());
 		setText(4, trans->fromAccount()->name());
 		setText(5, trans->toAccount()->name());
 		if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
