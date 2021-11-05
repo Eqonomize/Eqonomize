@@ -341,7 +341,7 @@ class SecurityListViewItem : public QTreeWidgetItem {
 	protected:
 		Security *o_security;
 	public:
-		SecurityListViewItem(Security *sec, QString s1, QString s2 = QString(), QString s3 = QString(), QString s4 = QString(), QString s5 = QString(), QString s6 = QString(), QString s7 = QString(), QString s8 = QString(), QString s9 = QString()) : QTreeWidgetItem(UserType), o_security(sec) {
+		SecurityListViewItem(Security *sec, QString s1, QString s2 = QString(), QString s3 = QString(), QString s4 = QString(), QString s5 = QString(), QString s6 = QString(), QString s7 = QString(), QString s8 = QString(), QString s9 = QString(), bool right_align_values = true) : QTreeWidgetItem(UserType), o_security(sec) {
 			setText(0, s1);
 			setText(1, s2);
 			setText(2, s3);
@@ -351,12 +351,14 @@ class SecurityListViewItem : public QTreeWidgetItem {
 			setText(6, s7);
 			setText(7, s8);
 			setText(8, s9);
-			setTextAlignment(1, Qt::AlignRight | Qt::AlignVCenter);
-			setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
-			setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
-			setTextAlignment(4, Qt::AlignRight | Qt::AlignVCenter);
-			setTextAlignment(5, Qt::AlignRight | Qt::AlignVCenter);
-			setTextAlignment(6, Qt::AlignRight | Qt::AlignVCenter);
+			if(right_align_values) {
+				setTextAlignment(1, Qt::AlignRight | Qt::AlignVCenter);
+				setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
+				setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
+				setTextAlignment(4, Qt::AlignRight | Qt::AlignVCenter);
+				setTextAlignment(5, Qt::AlignRight | Qt::AlignVCenter);
+				setTextAlignment(6, Qt::AlignRight | Qt::AlignVCenter);
+			}
 		}
 		bool operator<(const QTreeWidgetItem &i_pre) const {
 			int col = 0;
@@ -410,7 +412,7 @@ class ScheduleListViewItem : public QTreeWidgetItem {
 		QDate d_date;
 		QColor expenseColor, incomeColor, transferColor;
 	public:
-		ScheduleListViewItem(QTreeWidget *parent, ScheduledTransaction *strans, const QDate &trans_date);
+		ScheduleListViewItem(QTreeWidget *parent, ScheduledTransaction *strans, const QDate &trans_date, bool right_align_values);
 		bool operator<(const QTreeWidgetItem &i_pre) const;
 		ScheduledTransaction *scheduledTransaction() const;
 		void setScheduledTransaction(ScheduledTransaction *strans);
@@ -418,8 +420,8 @@ class ScheduleListViewItem : public QTreeWidgetItem {
 		void setDate(const QDate &newdate);
 };
 
-ScheduleListViewItem::ScheduleListViewItem(QTreeWidget *parent, ScheduledTransaction *strans, const QDate &trans_date) : QTreeWidgetItem(parent, UserType) {
-	setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
+ScheduleListViewItem::ScheduleListViewItem(QTreeWidget *parent, ScheduledTransaction *strans, const QDate &trans_date, bool right_align_values) : QTreeWidgetItem(parent, UserType) {
+	if(right_align_values) setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
 	setScheduledTransaction(strans);
 	setDate(trans_date);
 }
@@ -453,7 +455,7 @@ void ScheduleListViewItem::setScheduledTransaction(ScheduledTransaction *strans)
 	setText(2, strans->description());
 	if(strans->transaction()->generaltype() == GENERAL_TRANSACTION_TYPE_SINGLE) {
 		Transaction *trans = (Transaction*) strans->transaction();
-		setText(3, trans->valueString());
+		setText(3, right_align_values ? trans->valueString() + " " : trans->valueString());
 		setText(4, trans->fromAccount()->name());
 		setText(5, trans->toAccount()->name());
 		if((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)) {
@@ -2443,6 +2445,8 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	int initial_period = settings.value("initialPeriod", int(0)).toInt();
 	if(initial_period < 0 || initial_period > 4) initial_period = 0;
 
+	right_align_values = settings.value("GeneralOptions/rightAlignValues", true).toBool();
+
 	bool b_uerftd = settings.value("useExchangeRateForTransactionDate", false).toBool();
 	budget->setDefaultTransactionConversionRateDate(b_uerftd ? TRANSACTION_CONVERSION_RATE_AT_DATE : TRANSACTION_CONVERSION_LATEST_RATE);
 
@@ -2689,6 +2693,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	expensesWidget = new TransactionListWidget(b_extra, TRANSACTION_TYPE_EXPENSE, budget, this, expenses_page);
 	connect(expensesWidget, SIGNAL(accountAdded(Account*)), this, SLOT(accountAdded(Account*)));
 	connect(expensesWidget, SIGNAL(currenciesModified()), this, SLOT(currenciesModified()));
+	connect(expensesWidget, SIGNAL(valueAlignmentUpdated(bool)), this, SLOT(valueAlignmentUpdated(bool)));
 	connect(expensesWidget, SIGNAL(tagAdded(QString)), this, SLOT(tagAdded(QString)));
 	expensesLayout->addWidget(expensesWidget);
 
@@ -2696,7 +2701,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	incomesLayout->setContentsMargins(0, 0, 0, 0);
 	incomesWidget = new TransactionListWidget(b_extra, TRANSACTION_TYPE_INCOME, budget, this, incomes_page);
 	connect(incomesWidget, SIGNAL(accountAdded(Account*)), this, SLOT(accountAdded(Account*)));
-	connect(incomesWidget, SIGNAL(currenciesModified()), this, SLOT(currenciesModified()));
+	connect(incomesWidget, SIGNAL(valueAlignmentUpdated(bool)), this, SLOT(valueAlignmentUpdated(bool)));
 	connect(incomesWidget, SIGNAL(tagAdded(QString)), this, SLOT(tagAdded(QString)));
 	incomesLayout->addWidget(incomesWidget);
 
@@ -2704,7 +2709,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	transfersLayout->setContentsMargins(0, 0, 0, 0);
 	transfersWidget = new TransactionListWidget(b_extra, TRANSACTION_TYPE_TRANSFER, budget, this, transfers_page);
 	connect(transfersWidget, SIGNAL(accountAdded(Account*)), this, SLOT(accountAdded(Account*)));
-	connect(transfersWidget, SIGNAL(currenciesModified()), this, SLOT(currenciesModified()));
+	connect(transfersWidget, SIGNAL(valueAlignmentUpdated(bool)), this, SLOT(valueAlignmentUpdated(bool)));
 	connect(transfersWidget, SIGNAL(tagAdded(QString)), this, SLOT(tagAdded(QString)));
 	transfersLayout->addWidget(transfersWidget);
 
@@ -3647,7 +3652,7 @@ void Eqonomize::appendSecurity(Security *security) {
 	}
 	Currency *cur = security->currency();
 	if(!cur) cur = budget->defaultCurrency();
-	SecurityListViewItem *i = new SecurityListViewItem(security, security->name(), cur->formatValue(value), budget->formatValue(shares, security->decimals()), cur->formatValue(quotation, security->quotationDecimals()), cur->formatValue(cost), cur->formatValue(profit), budget->formatValue(rate * 100, 2) + "%", QString(), security->account()->name());
+	SecurityListViewItem *i = new SecurityListViewItem(security, security->name(), cur->formatValue(value), budget->formatValue(shares, security->decimals()), cur->formatValue(quotation, security->quotationDecimals()), cur->formatValue(cost), cur->formatValue(profit), right_align_values ? budget->formatValue(rate * 100, 2) + "% " : budget->formatValue(rate * 100, 2) + "%", QString(), security->account()->name(), right_align_values);
 	i->rate = rate;
 	i->shares = shares;
 	if(cur != budget->defaultCurrency()) {
@@ -3763,7 +3768,7 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i_pre) {
 	i->setText(3, cur->formatValue(quotation, security->quotationDecimals()));
 	i->setText(4, cur->formatValue(cost));
 	i->setText(5, cur->formatValue(profit));
-	i->setText(6, budget->formatValue(rate * 100, 2) + "%");
+	i->setText(6, right_align_values ? budget->formatValue(rate * 100, 2) + "% " : budget->formatValue(rate * 100, 2) + "%");
 	i->setText(8, security->account()->name());
 	if(cost > 0.0) i->setForeground(4, createExpenseColor(i, 0));
 	else if(cost < 0.0) i->setForeground(4, createIncomeColor(i, 0));
@@ -4651,6 +4656,19 @@ void Eqonomize::popupScheduleHeaderMenu(const QPoint &p) {
 				connect(a, SIGNAL(toggled(bool)), this, SLOT(hideScheduleColumn(bool)));
 			}
 		}
+		SeparatorRightAlignValues = scheduleHeaderPopupMenu->addSeparator();
+		ActionRightAlignValues = scheduleHeaderPopupMenu->addAction(tr("Align right"));
+		ActionRightAlignValues->setCheckable(true);
+		connect(ActionRightAlignValues, SIGNAL(toggled(bool)), this, SLOT(valueAlignmentUpdated(bool)));
+	}
+	int c = scheduleView->columnAt(p.x());
+	SeparatorRightAlignValues->setVisible(c == 3);
+	ActionRightAlignValues->setVisible(c == 3);
+	if(c == 3) {
+		QSettings settings;
+		ActionRightAlignValues->blockSignals(true);
+		ActionRightAlignValues->setChecked(right_align_values);
+		ActionRightAlignValues->blockSignals(false);
 	}
 	scheduleHeaderPopupMenu->popup(scheduleView->header()->viewport()->mapToGlobal(p));
 }
@@ -6531,6 +6549,16 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
 void Eqonomize::cancelUpdateExchangeRates() {
 	updateExchangeRatesReply->abort();
 }
+void Eqonomize::valueAlignmentUpdated(bool b) {
+	QSettings settings;
+	settings.setValue("GeneralOptions/rightAlignValues", b);
+	right_align_values = b;
+	updateSecurities();
+	updateScheduledTransactions();
+	expensesWidget->filterTransactions();
+	incomesWidget->filterTransactions();
+	transfersWidget->filterTransactions();
+}
 void Eqonomize::currenciesModified() {
 	expensesWidget->updateFromAccounts();
 	incomesWidget->updateToAccounts();
@@ -8328,12 +8356,12 @@ void Eqonomize::updateScheduledTransactions() {
 	scheduleView->clear();
 	for(ScheduledTransactionList<ScheduledTransaction*>::const_iterator it = budget->scheduledTransactions.constBegin(); it != budget->scheduledTransactions.constEnd(); ++it) {
 		ScheduledTransaction *strans = *it;
-		new ScheduleListViewItem(scheduleView, strans, strans->firstOccurrence());
+		new ScheduleListViewItem(scheduleView, strans, strans->firstOccurrence(), right_align_values);
 	}
 	scheduleView->setSortingEnabled(true);
 }
 void Eqonomize::appendScheduledTransaction(ScheduledTransaction *strans) {
-	new ScheduleListViewItem(scheduleView, strans, strans->firstOccurrence());
+	new ScheduleListViewItem(scheduleView, strans, strans->firstOccurrence(), right_align_values);
 	scheduleView->setSortingEnabled(true);
 }
 

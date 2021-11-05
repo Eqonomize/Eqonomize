@@ -247,6 +247,7 @@ class Eqonomize : public QMainWindow {
 		QActionGroup *ActionSelectInitialPeriod, *ActionSelectBackupFrequency, *ActionSelectLang;
 		QAction *ActionHelp, *ActionWhatsThis, *ActionReportBug, *ActionAbout, *ActionAboutQt;
 		QAction *ActionNewTag, *ActionRenameTag, *ActionRemoveTag;
+		QAction *ActionRightAlignValues, *SeparatorRightAlignValues;
 
 		TagMenu *tagMenu;
 		QMenu *linkMenu;
@@ -269,6 +270,7 @@ class Eqonomize : public QMainWindow {
 		QDate prev_cur_date;
 		bool partial_budget;
 		bool b_extra;
+		bool right_align_values;
 		QLocalSocket *socket;
 		QLocalServer *server;
 		QString cr_tmp_file;
@@ -549,6 +551,8 @@ class Eqonomize : public QMainWindow {
 		void transactionAdded(Transactions*);
 		void transactionModified(Transactions*, Transactions*);
 		void transactionRemoved(Transactions*, Transactions* = NULL, bool permanent = false);
+
+		void valueAlignmentUpdated(bool);
 
 		void filterAccounts();
 

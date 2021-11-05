@@ -89,6 +89,8 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	current_value = 0.0;
 	current_quantity = 0.0;
 
+	right_align_values = true;
+
 	key_event = NULL;
 
 	selected_trans = NULL;
@@ -427,6 +429,19 @@ void TransactionListWidget::popupHeaderMenu(const QPoint &p) {
 		ActionSortByCreationTime = headerPopupMenu->addAction(tr("Sort by creation time"));
 		ActionSortByCreationTime->setCheckable(true);
 		connect(ActionSortByCreationTime, SIGNAL(toggled(bool)), this, SLOT(sortByCreationTime(bool)));
+		SeparatorRightAlignValues = headerPopupMenu->addSeparator();
+		ActionRightAlignValues = headerPopupMenu->addAction(tr("Align right"));
+		ActionRightAlignValues->setCheckable(true);
+		connect(ActionRightAlignValues, SIGNAL(toggled(bool)), this, SLOT(rightAlignValues(bool)));
+	}
+	int c = transactionsView->columnAt(p.x());
+	SeparatorRightAlignValues->setVisible(c == 2);
+	ActionRightAlignValues->setVisible(c == 2);
+	if(c == 2) {
+		QSettings settings;
+		ActionRightAlignValues->blockSignals(true);
+		ActionRightAlignValues->setChecked(settings.value("GeneralOptions/rightAlignValues", true).toBool());
+		ActionRightAlignValues->blockSignals(false);
 	}
 	ActionSortByCreationTime->blockSignals(true);
 	ActionSortByCreationTime->setChecked(transactionsView->sortColumn() == transactionsView->columnCount() - 1);
@@ -436,6 +451,9 @@ void TransactionListWidget::popupHeaderMenu(const QPoint &p) {
 void TransactionListWidget::sortByCreationTime(bool b) {
 	if(b) transactionsView->sortByColumn(transactionsView->columnCount() - 1, Qt::DescendingOrder);
 	else transactionsView->sortByColumn(0, Qt::DescendingOrder);
+}
+void TransactionListWidget::rightAlignValues(bool b) {
+	emit valueAlignmentUpdated(b);
 }
 
 extern QString htmlize_string(QString str);
@@ -1591,14 +1609,16 @@ void TransactionListWidget::appendFilterTransaction(Transactions *transs, bool u
 	} else {
 		date = transs->date();
 	}
+	QSettings settings;
+	right_align_values = settings.value("GeneralOptions/rightAlignValues", true).toBool();
 	while(!strans || (!date.isNull() && date <= enddate)) {
 
-		QTreeWidgetItem *i = new TransactionListViewItem(date, trans, strans, split, QString(), QString(), transs->valueString());
+		QTreeWidgetItem *i = new TransactionListViewItem(date, trans, strans, split, QString(), QString(), right_align_values ? transs->valueString() + " " : transs->valueString());
 
 		if(strans && strans->recurrence()) i->setText(0, QLocale().toString(date, QLocale::ShortFormat) + "**");
 		else i->setText(0, QLocale().toString(date, QLocale::ShortFormat));
 		transactionsView->insertTopLevelItem(0, i);
-		i->setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
+		if(align_right) i->setTextAlignment(2, Qt::AlignRight | Qt::AlignVCenter);
 
 		if((split && split->cost() > 0.0) || (trans && ((trans->type() == TRANSACTION_TYPE_EXPENSE && trans->value() > 0.0) || (trans->type() == TRANSACTION_TYPE_INCOME && trans->value() < 0.0)))) {
 			if(!expenseColor.isValid()) expenseColor = createExpenseColor(i, 2);
@@ -1743,7 +1763,7 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 					i->setText(0, QLocale().toString(trans->date(), QLocale::ShortFormat));
 					if(trans->parentSplit()) i->setText(1, trans->description() + "*");
 					else i->setText(1, trans->description());
-					i->setText(2, trans->valueString());
+					i->setText(2, right_align_values ? trans->valueString() + " " : transs->valueString());
 					i->setText(from_col, trans->fromAccount()->name());
 					i->setText(to_col, trans->toAccount()->name());
 					if(payee_col >= 0) {
@@ -1837,7 +1857,7 @@ void TransactionListWidget::onTransactionModified(Transactions *transs, Transact
 					i->setDate(split->date());
 					i->setText(0, QLocale().toString(split->date(), QLocale::ShortFormat));
 					i->setText(1, split->description() + "*");
-					i->setText(2, split->valueString());
+					i->setText(2, right_align_values ? split->valueString() + " " : split->valueString());
 					i->setText(3, split->category()->name());
 					i->setText(4, split->accountsString());
 					if(payee_col >= 0) i->setText(payee_col, split->payeeText());

@@ -74,6 +74,7 @@ class TransactionListWidget : public QWidget {
 
 		int transtype;
 		int from_col, to_col, comments_col, tags_col, payee_col, quantity_col;
+		bool right_align_values;
 		Budget *budget;
 		Eqonomize *mainWin;
 		bool b_extra;
@@ -88,7 +89,7 @@ class TransactionListWidget : public QWidget {
 		double current_value, current_quantity;
 		Transactions *selected_trans;
 		QColor expenseColor, incomeColor, transferColor;
-		QAction *ActionSortByCreationTime;
+		QAction *ActionSortByCreationTime, *ActionRightAlignValues, *SeparatorRightAlignValues;
 		QKeyEvent *key_event;
 
 		void keyPressEvent(QKeyEvent*);
@@ -97,6 +98,7 @@ class TransactionListWidget : public QWidget {
 
 		void accountAdded(Account*);
 		void currenciesModified();
+		void valueAlignmentUpdated(bool);
 		void tagAdded(QString);
 
 	public slots:
@@ -136,6 +138,7 @@ class TransactionListWidget : public QWidget {
 		void popupHeaderMenu(const QPoint&);
 		void popupListMenu(const QPoint&);
 		void sortByCreationTime(bool = true);
+		void rightAlignValues(bool = true);
 		void showFilter(bool focus_description = false);
 		void showEdit();
 		void transactionExecuted(QTreeWidgetItem*);
