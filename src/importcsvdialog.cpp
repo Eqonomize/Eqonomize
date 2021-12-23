@@ -1293,6 +1293,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	int failed = 0;
 	bool missing_columns = false, value_error = false, date_error = false;
 	bool AC1_empty = false, AC2_empty = false, AC1_missing = false, AC2_missing = false, AC_security = false, AC_balancing = false, AC_same = false;
+	bool AC1_category = (type == 0 || type == 1 || type == 3 || type == 4);
 	int AC1_c_bak = AC1_c;
 	int AC2_c_bak = AC2_c;
 	int row = 0;
@@ -1454,6 +1455,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 					value = -value;
 				}
 				if(success && AC1_c > 0) {
+					if(AC1_category && columns[AC1_c - 1].isEmpty()) columns[AC1_c - 1] = tr("Uncategorized");
 					QMap<QString, Account*>::iterator it_ac;
 					bool found = false;
 					if(type == 0 || ((type == 3 || type == 4) && value < 0.0)) {
@@ -1765,9 +1767,9 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 		if(missing_columns) {details += "\n-"; details += tr("Required columns missing.");}
 		if(value_error) {details += "\n-"; details += tr("Invalid value.");}
 		if(date_error) {details += "\n-"; details += tr("Invalid date.");}
-		if(AC1_empty) {details += "\n-"; if(type == 0 || type == 1 || type == 2) {details += tr("Empty category name.");} else {details += tr("Empty account name.");}}
+		if(AC1_empty) {details += "\n-"; if(AC1_category) {details += tr("Empty category name.");} else {details += tr("Empty account name.");}}
 		if(AC2_empty) {details += "\n-"; details += tr("Empty account name.");}
-		if(AC1_missing) {details += "\n-"; if(type == 0 || type == 1 || type == 2) {details += tr("Unknown category found.");} else {details += tr("Unknown account found.");}}
+		if(AC1_missing) {details += "\n-"; if(AC1_category) {details += tr("Unknown category found.");} else {details += tr("Unknown account found.");}}
 		if(AC2_missing) {details += "\n-"; details += tr("Unknown account found.");}
 		if(AC_security) {details += "\n-"; details += tr("Cannot import security transactions (to/from security accounts).");}
 		if(AC_balancing) {details += "\n-"; details += tr("Balancing account wrongly used.", "Referring to the account used for adjustments of account balances.");}
