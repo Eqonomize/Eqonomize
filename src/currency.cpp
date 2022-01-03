@@ -128,7 +128,7 @@ void Currency::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	if(i_decimals < 0) i_decimals = -1;
 }
 bool Currency::readElement(QXmlStreamReader *xml, bool*) {
-	if(xml->name() == "rate") {
+	if(xml->name() == XML_COMPARE_CONST_CHAR("rate")) {
 		QXmlStreamAttributes attr = xml->attributes();
 		QDate date = QDate::fromString(attr.value("date").toString(), Qt::ISODate);
 		if(date.isValid()) rates[date] = attr.value("value").toDouble();

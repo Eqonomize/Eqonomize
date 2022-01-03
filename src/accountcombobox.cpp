@@ -41,14 +41,28 @@ void QComboBoxListViewEq::keyPressEvent(QKeyEvent *e) {
 		QSortFilterProxyModel *filterModel = (QSortFilterProxyModel*) model();
 		if(e->key() == Qt::Key_Backspace || e->key() == Qt::Key_Delete) {
 			filter_str.chop(1);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+			QRegularExpression reg(filter_str.isEmpty() ? "" : QString("\\b")+filter_str, QRegularExpression::CaseInsensitiveOption);
+			filterModel->setFilterRegularExpression(reg);
+#else
 			QRegExp reg(filter_str.isEmpty() ? "" : QString("\\b")+filter_str, Qt::CaseInsensitive);
 			filterModel->setFilterRegExp(reg);
+#endif
 			return;
 		}
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		QRegularExpression reg(QString("\\b")+filter_str+str, QRegularExpression::CaseInsensitiveOption);
+		filterModel->setFilterRegularExpression(reg);
+#else
 		QRegExp reg(QString("\\b")+filter_str+str, Qt::CaseInsensitive);
 		filterModel->setFilterRegExp(reg);
+#endif
 		if(filterModel->rowCount() == 0) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+			filterModel->setFilterRegularExpression(filter_str.isEmpty() ? "" : QString("\\b")+filter_str);
+#else
 			filterModel->setFilterRegExp(filter_str.isEmpty() ? "" : QString("\\b")+filter_str);
+#endif
 		} else if(filterModel->rowCount() == 1 && filterModel->data(filterModel->index(0, 0), Qt::UserRole).value<void*>() != NULL) {
 			combo->hidePopup();
 		} else {
@@ -63,10 +77,14 @@ void QComboBoxListViewEq::resizeEvent(QResizeEvent *event) {
 	QListView::resizeEvent(event);
 }
 QStyleOptionViewItem QComboBoxListViewEq::viewOptions() const {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	QStyleOptionViewItem option;
+	initViewItemOption(&option);
+#else
 	QStyleOptionViewItem option = QListView::viewOptions();
+#endif
 	option.showDecorationSelected = true;
-	if (combo)
-		option.font = combo->font();
+	if(combo) option.font = combo->font();
 	return option;
 }
 void QComboBoxListViewEq::paintEvent(QPaintEvent *e) {
@@ -83,7 +101,9 @@ void QComboBoxListViewEq::paintEvent(QPaintEvent *e) {
 			menuOpt.checkType = QStyleOptionMenuItem::NotCheckable;
 			menuOpt.menuRect = e->rect();
 			menuOpt.maxIconWidth = 0;
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			menuOpt.tabWidth = 0;
+#endif
 			QPainter p(viewport());
 			combo->style()->drawControl(QStyle::CE_MenuEmptyArea, &menuOpt, &p, this);
 		}
@@ -139,7 +159,11 @@ AccountComboBox::~AccountComboBox() {}
 
 void AccountComboBox::hidePopup() {
 	QComboBox::hidePopup();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	filterModel->setFilterRegularExpression("");
+#else
 	filterModel->setFilterRegExp("");
+#endif
 	((QComboBoxListViewEq*) view())->filter_str = "";
 	if(!currentAccount()) setCurrentIndex(firstAccountIndex() < count() ? firstAccountIndex() : -1);
 }
@@ -374,15 +398,31 @@ void AccountComboBox::keyPressEvent(QKeyEvent *e) {
 	block_account_selected = true;
 	QString str = e->text().trimmed();
 	if(!str.isEmpty()) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		QRegularExpression reg(QString("\\b")+str, QRegularExpression::CaseInsensitiveOption);
+#else
 		QRegExp reg(QString("\\b")+str, Qt::CaseInsensitive);
+#endif
 		Account *account = currentAccount();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		filterModel->setFilterRegularExpression(reg);
+#else
 		filterModel->setFilterRegExp(reg);
+#endif
 		if(filterModel->rowCount() == 0) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+			filterModel->setFilterRegularExpression("");
+#else
 			filterModel->setFilterRegExp("");
+#endif
 			setCurrentAccount(account);
 		} else if(filterModel->rowCount() == 1 && filterModel->data(filterModel->index(0, 0), Qt::UserRole).value<void*>() != NULL) {
 			account = (Account*) filterModel->data(filterModel->index(0, 0), Qt::UserRole).value<void*>();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+			filterModel->setFilterRegularExpression("");
+#else
 			filterModel->setFilterRegExp("");
+#endif
 			setCurrentAccount(account);
 		} else {
 			((QComboBoxListViewEq*) view())->filter_str = str;

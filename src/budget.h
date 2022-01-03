@@ -42,6 +42,12 @@
 #define QUANTITY_DECIMAL_PLACES 2
 #define IS_GREGORIAN_CALENDAR true
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#	define XML_COMPARE_CONST_CHAR(x) QLatin1String(x)
+#else
+#	define XML_COMPARE_CONST_CHAR(x) x
+#endif
+
 class QProcess;
 class QNetworkReply;
 

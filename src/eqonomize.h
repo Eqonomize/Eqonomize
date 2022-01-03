@@ -243,7 +243,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionImportCSV, *ActionImportQIF, *ActionImportEQZ, *ActionExportQIF;
 		QAction *ActionConvertCurrencies, *ActionUpdateExchangeRates;
 		QAction *ActionExtraProperties, *ActionUseExchangeRateForTransactionDate, *ActionSetBudgetPeriod, *ActionSetScheduleConfirmationTime, *AIPCurrentMonth, *AIPCurrentYear, *AIPCurrentWholeMonth, *AIPCurrentWholeYear, *AIPRememberLastDates, *ABFDaily, *ABFWeekly, *ABFFortnightly, *ABFMonthly, *ABFNever, *ACSTime[11];
-		QAction *ActionSetMainCurrency, *ActionSyncSettings, *ActionSelectFont;
+		QAction *ActionSetMainCurrency, *ActionSyncSettings, *ActionSelectFont, *ActionDarkMode;
 		QActionGroup *ActionSelectInitialPeriod, *ActionSelectBackupFrequency, *ActionSelectLang;
 		QAction *ActionHelp, *ActionWhatsThis, *ActionReportBug, *ActionAbout, *ActionAboutQt;
 		QAction *ActionNewTag, *ActionRenameTag, *ActionRemoveTag;
@@ -258,7 +258,7 @@ class Eqonomize : public QMainWindow {
 		void updateRecentFiles(QString filePath = QString());
 		void saveOptions();
 		void closeEvent(QCloseEvent *event);
-
+		void updatePalette(bool);
 		void dragEnterEvent(QDragEnterEvent *event);
 		void dropEvent(QDropEvent *event);
 
@@ -363,6 +363,7 @@ class Eqonomize : public QMainWindow {
 		void setScheduleConfirmationTime();
 
 		void selectFont();
+		void setDarkMode(bool);
 
 		void showFilter();
 

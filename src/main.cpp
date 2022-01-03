@@ -66,16 +66,26 @@ int main(int argc, char **argv) {
 
 	EqonomizeTranslator eqtr;
 	app.installTranslator(&eqtr);
+
 	if(!slang.isEmpty()) {
 		if(translator.load(QLatin1String("eqonomize") + QLatin1String("_") + slang, QLatin1String(TRANSLATIONS_DIR))) app.installTranslator(&translator);
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+		if(translator_qt.load("qt_" + slang, QLibraryInfo::path(QLibraryInfo::TranslationsPath))) app.installTranslator(&translator_qt);
+		if(translator_qtbase.load("qtbase_" + slang, QLibraryInfo::path(QLibraryInfo::TranslationsPath))) app.installTranslator(&translator_qtbase);
+#else
 		if(translator_qt.load("qt_" + slang, QLibraryInfo::location(QLibraryInfo::TranslationsPath))) app.installTranslator(&translator_qt);
 		if(translator_qtbase.load("qtbase_" + slang, QLibraryInfo::location(QLibraryInfo::TranslationsPath))) app.installTranslator(&translator_qtbase);
+#endif
 	} else {
 		if(translator.load(QLocale(), QLatin1String("eqonomize"), QLatin1String("_"), QLatin1String(TRANSLATIONS_DIR))) app.installTranslator(&translator);
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+		if(translator_qt.load(QLocale(), QLatin1String("qt"), QLatin1String("_"), QLibraryInfo::path(QLibraryInfo::TranslationsPath))) app.installTranslator(&translator_qt);
+		if(translator_qtbase.load(QLocale(), QLatin1String("qtbase"), QLatin1String("_"), QLibraryInfo::path(QLibraryInfo::TranslationsPath))) app.installTranslator(&translator_qtbase);
+#else
 		if(translator_qt.load(QLocale(), QLatin1String("qt"), QLatin1String("_"), QLibraryInfo::location(QLibraryInfo::TranslationsPath))) app.installTranslator(&translator_qt);
 		if(translator_qtbase.load(QLocale(), QLatin1String("qtbase"), QLatin1String("_"), QLibraryInfo::location(QLibraryInfo::TranslationsPath))) app.installTranslator(&translator_qtbase);
+#endif
 	}
-
 
 	QCommandLineParser *parser = new QCommandLineParser();
 	QCommandLineOption eOption(QStringList() << "e" << "expenses", QApplication::tr("Start with expenses list displayed"));

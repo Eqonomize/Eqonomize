@@ -34,7 +34,9 @@ class QComboBox;
 #include <QtCharts/QValueAxis>
 #include <QtCharts/QAbstractAxis>
 class QGraphicsItem;
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 QT_CHARTS_USE_NAMESPACE
+#endif
 #else
 class QGraphicsScene;
 class QGraphicsView;

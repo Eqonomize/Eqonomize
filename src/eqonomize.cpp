@@ -26,7 +26,11 @@
 #include <QCheckBox>
 #include <QDragEnterEvent>
 #include <QDropEvent>
-#include <QDesktopWidget>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+#	include <QScreen>
+#else
+#	include <QDesktopWidget>
+#endif
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -86,6 +90,8 @@
 #include <QInputDialog>
 #include <QScrollArea>
 #include <QToolTip>
+#include <QStyleFactory>
+#include <QStandardPaths>
 
 #include <QDebug>
 
@@ -144,7 +150,11 @@ Eqonomize *mainwin;
 QString last_document_directory, last_associated_file_directory, last_picture_directory;
 
 QColor createExpenseColor(QColor base_color) {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+	float r, g, b;
+#else
 	qreal r, g, b;
+#endif
 	base_color.getRgbF(&r, &g, &b);
 	if(r >= 0.8) {
 		g /= 1.5;
@@ -158,7 +168,11 @@ QColor createExpenseColor(QColor base_color) {
 	return base_color;
 }
 QColor createIncomeColor(QColor base_color) {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+	float r, g, b;
+#else
 	qreal r, g, b;
+#endif
 	base_color.getRgbF(&r, &g, &b);
 	if(g >= 0.8) {
 		r /= 1.5;
@@ -172,7 +186,11 @@ QColor createIncomeColor(QColor base_color) {
 	return base_color;
 }
 QColor createTransferColor(QColor base_color) {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+	float r, g, b;
+#else
 	qreal r, g, b;
+#endif
 	base_color.getRgbF(&r, &g, &b);
 	if(b >= 0.8) {
 		g /= 1.5;
@@ -1246,7 +1264,9 @@ bool EditQuotationsDialog::import(QString url, bool test, q_csv_info *ci) {
 	last_document_directory = fileInfo.absoluteDir().absolutePath();
 
 	QTextStream fstream(&file);
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 	fstream.setCodec("UTF-8");
+#endif
 
 	int row = 0;
 	QString line = fstream.readLine();
@@ -1567,7 +1587,9 @@ void EditQuotationsDialog::exportQuotations() {
 	QTextStream outf(&ofile);
 	switch(filetype) {
 		case 'h': {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			outf.setCodec("UTF-8");
+#endif
 			outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
 			outf << "<html>" << '\n';
 			outf << "\t<head>" << '\n';
@@ -2429,6 +2451,8 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 
+	if(settings.value("darkMode", false).toBool()) updatePalette(true);
+
 	QString sfont = settings.value("font").toString();
 	if(!sfont.isEmpty()) {
 		QFont font;
@@ -2701,6 +2725,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	incomesLayout->setContentsMargins(0, 0, 0, 0);
 	incomesWidget = new TransactionListWidget(b_extra, TRANSACTION_TYPE_INCOME, budget, this, incomes_page);
 	connect(incomesWidget, SIGNAL(accountAdded(Account*)), this, SLOT(accountAdded(Account*)));
+	connect(incomesWidget, SIGNAL(currenciesModified()), this, SLOT(currenciesModified()));
 	connect(incomesWidget, SIGNAL(valueAlignmentUpdated(bool)), this, SLOT(valueAlignmentUpdated(bool)));
 	connect(incomesWidget, SIGNAL(tagAdded(QString)), this, SLOT(tagAdded(QString)));
 	incomesLayout->addWidget(incomesWidget);
@@ -2709,6 +2734,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	transfersLayout->setContentsMargins(0, 0, 0, 0);
 	transfersWidget = new TransactionListWidget(b_extra, TRANSACTION_TYPE_TRANSFER, budget, this, transfers_page);
 	connect(transfersWidget, SIGNAL(accountAdded(Account*)), this, SLOT(accountAdded(Account*)));
+	connect(transfersWidget, SIGNAL(currenciesModified()), this, SLOT(currenciesModified()));
 	connect(transfersWidget, SIGNAL(valueAlignmentUpdated(bool)), this, SLOT(valueAlignmentUpdated(bool)));
 	connect(transfersWidget, SIGNAL(tagAdded(QString)), this, SLOT(tagAdded(QString)));
 	transfersLayout->addWidget(transfersWidget);
@@ -2933,8 +2959,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 		QFontMetrics fm(accountsView->font());
 		int w = fm.boundingRect(accountsView->headerItem()->text(0)).width() + fm.boundingRect(QString(15, 'h')).width();
 		accountsView->setMinimumWidth(w + accountsView->columnWidth(BUDGET_COLUMN) + accountsView->columnWidth(CHANGE_COLUMN) + accountsView->columnWidth(VALUE_COLUMN));
-		//QDesktopWidget desktop;
-		//resize(QSize(750, 650).boundedTo(desktop.availableGeometry(this).size()));
 	}
 
 
@@ -3183,6 +3207,75 @@ void Eqonomize::selectFont() {
 		settings.beginGroup("GeneralOptions");
 		settings.setValue("font", font.toString());
 		settings.endGroup();
+	}
+}
+
+void Eqonomize::setDarkMode(bool b) {
+	updatePalette(b);
+	expensesWidget->filterTransactions();
+	incomesWidget->filterTransactions();
+	transfersWidget->filterTransactions();
+	filterAccounts();
+	updateScheduledTransactions();
+	updateSecurities();
+	emit transactionsModified();
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	settings.setValue("darkMode", b);
+	settings.endGroup();
+}
+
+void Eqonomize::updatePalette(bool dark_mode) {
+	if(dark_mode) {
+#ifdef _WIN32
+		QApplication::setStyle(QStyleFactory::create("Fusion"));
+#endif
+		QPalette p;
+		p.setColor(QPalette::Active, QPalette::Window, QColor(42, 46, 50));
+		p.setColor(QPalette::Active, QPalette::WindowText, QColor(252, 252, 252));
+		p.setColor(QPalette::Active, QPalette::Base, QColor(27, 30, 32));
+		p.setColor(QPalette::Active, QPalette::AlternateBase, QColor(35, 38, 41));
+		p.setColor(QPalette::Active, QPalette::ToolTipBase, QColor(49, 54, 59));
+		p.setColor(QPalette::Active, QPalette::ToolTipText, QColor(252, 252, 252));
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
+		p.setColor(QPalette::Active, QPalette::PlaceholderText, QColor(161, 169, 177));
+#endif
+		p.setColor(QPalette::Active, QPalette::Text, QColor(252, 252, 252));
+		p.setColor(QPalette::Active, QPalette::Button, QColor(49, 54, 59));
+		p.setColor(QPalette::Active, QPalette::ButtonText, QColor(252, 252, 252));
+		p.setColor(QPalette::Active, QPalette::BrightText, QColor(39, 174, 96));
+		p.setColor(QPalette::Inactive, QPalette::Window, QColor(42, 46, 50));
+		p.setColor(QPalette::Inactive, QPalette::WindowText, QColor(252, 252, 252));
+		p.setColor(QPalette::Inactive, QPalette::Base, QColor(27, 30, 32));
+		p.setColor(QPalette::Inactive, QPalette::AlternateBase, QColor(35, 38, 41));
+		p.setColor(QPalette::Inactive, QPalette::ToolTipBase, QColor(49, 54, 59));
+		p.setColor(QPalette::Inactive, QPalette::ToolTipText, QColor(252, 252, 252));
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
+		p.setColor(QPalette::Inactive, QPalette::PlaceholderText, QColor(161, 169, 177));
+#endif
+		p.setColor(QPalette::Inactive, QPalette::Text, QColor(252, 252, 252));
+		p.setColor(QPalette::Inactive, QPalette::Button, QColor(49, 54, 59));
+		p.setColor(QPalette::Inactive, QPalette::ButtonText, QColor(252, 252, 252));
+		p.setColor(QPalette::Inactive, QPalette::BrightText, QColor(39, 174, 96));
+		p.setColor(QPalette::Disabled, QPalette::Window, QColor(42, 46, 50));
+		p.setColor(QPalette::Disabled, QPalette::WindowText, QColor(101, 101, 101));
+		p.setColor(QPalette::Disabled, QPalette::Base, QColor(27, 30, 32));
+		p.setColor(QPalette::Disabled, QPalette::AlternateBase, QColor(35, 38, 41));
+		p.setColor(QPalette::Disabled, QPalette::ToolTipBase, QColor(49, 54, 59));
+		p.setColor(QPalette::Disabled, QPalette::ToolTipText, QColor(252, 252, 252));
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
+		p.setColor(QPalette::Disabled, QPalette::PlaceholderText, QColor(161, 169, 177));
+#endif
+		p.setColor(QPalette::Disabled, QPalette::Text, QColor(101, 101, 101));
+		p.setColor(QPalette::Disabled, QPalette::Button, QColor(47, 52, 56));
+		p.setColor(QPalette::Disabled, QPalette::ButtonText,QColor(101, 101, 101));
+		p.setColor(QPalette::Disabled, QPalette::BrightText, QColor(39, 174, 96));
+		QApplication::setPalette(p);
+	} else {
+#ifdef _WIN32
+		QApplication::setStyle(QStyleFactory::create("windowsvista"));
+#endif
+		QApplication::setPalette(QApplication::style()->standardPalette());
 	}
 }
 
@@ -4657,7 +4750,7 @@ void Eqonomize::popupScheduleHeaderMenu(const QPoint &p) {
 			}
 		}
 		SeparatorRightAlignValues = scheduleHeaderPopupMenu->addSeparator();
-		ActionRightAlignValues = scheduleHeaderPopupMenu->addAction(tr("Align right"));
+		ActionRightAlignValues = scheduleHeaderPopupMenu->addAction(tr("Right align"));
 		ActionRightAlignValues->setCheckable(true);
 		connect(ActionRightAlignValues, SIGNAL(toggled(bool)), this, SLOT(valueAlignmentUpdated(bool)));
 	}
@@ -4665,7 +4758,6 @@ void Eqonomize::popupScheduleHeaderMenu(const QPoint &p) {
 	SeparatorRightAlignValues->setVisible(c == 3);
 	ActionRightAlignValues->setVisible(c == 3);
 	if(c == 3) {
-		QSettings settings;
 		ActionRightAlignValues->blockSignals(true);
 		ActionRightAlignValues->setChecked(right_align_values);
 		ActionRightAlignValues->blockSignals(false);
@@ -6429,7 +6521,7 @@ void Eqonomize::checkAvailableVersion_readdata() {
 		}
 	}
 	if(b) {
-		QMessageBox::information(this, tr("New version available"), tr("A new version of %1 is available.<br><br>You can get version %2 at %3.").arg("Eqonomize!").arg(QString(sbuffer)).arg("<a href=\"http://eqonomize.github.io/downloads.html\">eqonomize.github.io</a>"));
+		QMessageBox::information(this, tr("New version available"), tr("A new version of %1 is available.<br><br>You can get version %2 at %3.").arg("Eqonomize!").arg(QString(sbuffer)).arg("<a href=\"https://eqonomize.github.io/downloads.html\">eqonomize.github.io</a>"));
 		settings.setValue("lastVersionFound", sbuffer);
 	}
 }
@@ -6723,8 +6815,18 @@ void Eqonomize::showOverTimeReport() {
 		QSettings settings;
 		QSize dialog_size = settings.value("OverTimeReport/size", QSize()).toSize();
 		if(!dialog_size.isValid()) {
-			QDesktopWidget desktop;
-			dialog_size = QSize(750, 650).boundedTo(desktop.availableGeometry(this).size());
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+#	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+			QScreen *scr = screen();
+#	else
+			QScreen *scr = QGuiApplication::screenAt(pos);
+#	endif
+			if(!scr) scr = QGuiApplication::primaryScreen();
+			QRect rect = scr->availableGeometry();
+#else
+			QRect rect = QApplication::desktop()->availableGeometry(this);
+#endif
+			dialog_size = QSize(750, 650).boundedTo(rect.size());
 		}
 		otrDialog->resize(dialog_size);
 		connect(this, SIGNAL(tagsModified()), ((OverTimeReportDialog*) otrDialog)->report, SLOT(updateTags()));
@@ -6746,8 +6848,18 @@ void Eqonomize::showCategoriesComparisonReport() {
 		QSettings settings;
 		QSize dialog_size = settings.value("CategoriesComparisonReport/size", QSize()).toSize();
 		if(!dialog_size.isValid()) {
-			QDesktopWidget desktop;
-			dialog_size = QSize(750, 670).boundedTo(desktop.availableGeometry(this).size());
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+#	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+			QScreen *scr = screen();
+#	else
+			QScreen *scr = QGuiApplication::screenAt(pos);
+#	endif
+			if(!scr) scr = QGuiApplication::primaryScreen();
+			QRect rect = scr->availableGeometry();
+#else
+			QRect rect = QApplication::desktop()->availableGeometry(this);
+#endif
+			dialog_size = QSize(750, 670).boundedTo(rect.size());
 		}
 		ccrDialog->resize(dialog_size);
 		connect(this, SIGNAL(tagsModified()), ((CategoriesComparisonReportDialog*) ccrDialog)->report, SLOT(updateTags()));
@@ -6769,8 +6881,18 @@ void Eqonomize::showOverTimeChart() {
 		QSettings settings;
 		QSize dialog_size = settings.value("OverTimeChart/size", QSize()).toSize();
 		if(!dialog_size.isValid()) {
-			QDesktopWidget desktop;
-			dialog_size = QSize(850, b_extra ? 750 : 730).boundedTo(desktop.availableGeometry(this).size());
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+#	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+			QScreen *scr = screen();
+#	else
+			QScreen *scr = QGuiApplication::screenAt(pos);
+#	endif
+			if(!scr) scr = QGuiApplication::primaryScreen();
+			QRect rect = scr->availableGeometry();
+#else
+			QRect rect = QApplication::desktop()->availableGeometry(this);
+#endif
+			dialog_size = QSize(850, b_extra ? 750 : 730).boundedTo(rect.size());
 		}
 		otcDialog->resize(dialog_size);
 		connect(this, SIGNAL(tagsModified()), ((OverTimeChartDialog*) otcDialog)->chart, SLOT(updateTags()));
@@ -6793,8 +6915,18 @@ void Eqonomize::showCategoriesComparisonChart() {
 		QSettings settings;
 		QSize dialog_size = settings.value("CategoriesComparisonChart/size", QSize()).toSize();
 		if(!dialog_size.isValid()) {
-			QDesktopWidget desktop;
-			dialog_size = QSize(750, 700).boundedTo(desktop.availableGeometry(this).size());
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+#	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+			QScreen *scr = screen();
+#	else
+			QScreen *scr = QGuiApplication::screenAt(pos);
+#	endif
+			if(!scr) scr = QGuiApplication::primaryScreen();
+			QRect rect = scr->availableGeometry();
+#else
+			QRect rect = QApplication::desktop()->availableGeometry(this);
+#endif
+			dialog_size = QSize(750, 700).boundedTo(rect.size());
 		}
 		cccDialog->resize(dialog_size);
 		connect(this, SIGNAL(accountsModified()), ((CategoriesComparisonChartDialog*) cccDialog)->chart, SLOT(updateAccounts()));
@@ -6814,7 +6946,9 @@ bool Eqonomize::exportScheduleList(QTextStream &outf, int fileformat) {
 
 	switch(fileformat) {
 		case 'h': {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			outf.setCodec("UTF-8");
+#endif
 			outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
 			outf << "<html>" << '\n';
 			outf << "\t<head>" << '\n';
@@ -6896,7 +7030,9 @@ bool Eqonomize::exportSecuritiesList(QTextStream &outf, int fileformat) {
 
 	switch(fileformat) {
 		case 'h': {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			outf.setCodec("UTF-8");
+#endif
 			outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
 			outf << "<html>" << '\n';
 			outf << "\t<head>" << '\n';
@@ -6981,7 +7117,9 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 
 	switch(fileformat) {
 		case 'h': {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			outf.setCodec("UTF-8");
+#endif
 			outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
 			outf << "<html>" << '\n';
 			outf << "\t<head>" << '\n';
@@ -7572,7 +7710,7 @@ void Eqonomize::setupActions() {
 	fileMenu->addSeparator();
 	QList<QKeySequence> keySequences;
 	keySequences << QKeySequence(QKeySequence::Quit);
-	if(keySequences.last() != QKeySequence(Qt::CTRL+Qt::Key_Q)) keySequences << QKeySequence(Qt::CTRL+Qt::Key_Q);
+	if(keySequences.last() != QKeySequence(Qt::CTRL | Qt::Key_Q)) keySequences << QKeySequence(Qt::CTRL | Qt::Key_Q);
 	NEW_ACTION_3(ActionQuit, tr("&Quit"), "application-exit", keySequences, this, SLOT(close()), "application_quit", fileMenu);
 
 	NEW_ACTION_NOMENU(ActionAddAccount, tr("Add Account…"), "document-new", 0, this, SLOT(addAccount()), "add_account");
@@ -7601,13 +7739,13 @@ void Eqonomize::setupActions() {
 	NEW_ACTION(ActionShowLedger, tr("Show Ledger"), "eqz-ledger", 0, this, SLOT(showLedger()), "show_ledger", accountsMenu);
 	accountsToolbar->addAction(ActionShowLedger);
 
-	NEW_ACTION(ActionNewExpense, tr("New Expense…"), "eqz-expense", Qt::CTRL+Qt::Key_E, this, SLOT(newScheduledExpense()), "new_expense", transactionsMenu);
+	NEW_ACTION(ActionNewExpense, tr("New Expense…"), "eqz-expense", Qt::CTRL | Qt::Key_E, this, SLOT(newScheduledExpense()), "new_expense", transactionsMenu);
 	transactionsToolbar->addAction(ActionNewExpense);
-	NEW_ACTION(ActionNewIncome, tr("New Income…"), "eqz-income", Qt::CTRL+Qt::Key_I, this, SLOT(newScheduledIncome()), "new_income", transactionsMenu);
+	NEW_ACTION(ActionNewIncome, tr("New Income…"), "eqz-income", Qt::CTRL | Qt::Key_I, this, SLOT(newScheduledIncome()), "new_income", transactionsMenu);
 	transactionsToolbar->addAction(ActionNewIncome);
-	NEW_ACTION(ActionNewTransfer, tr("New Transfer…"), "eqz-transfer", Qt::CTRL+Qt::Key_T, this, SLOT(newScheduledTransfer()), "new_transfer", transactionsMenu);
+	NEW_ACTION(ActionNewTransfer, tr("New Transfer…"), "eqz-transfer", Qt::CTRL | Qt::Key_T, this, SLOT(newScheduledTransfer()), "new_transfer", transactionsMenu);
 	transactionsToolbar->addAction(ActionNewTransfer);
-	NEW_ACTION(ActionNewMultiItemTransaction, tr("New Split Transaction…"), "eqz-split-transaction", Qt::CTRL+Qt::Key_W, this, SLOT(newMultiItemTransaction()), "new_multi_item_transaction", transactionsMenu);
+	NEW_ACTION(ActionNewMultiItemTransaction, tr("New Split Transaction…"), "eqz-split-transaction", Qt::CTRL | Qt::Key_W, this, SLOT(newMultiItemTransaction()), "new_multi_item_transaction", transactionsMenu);
 	transactionsToolbar->addAction(ActionNewMultiItemTransaction);
 	NEW_ACTION(ActionNewMultiAccountExpense, tr("New Expense with Multiple Payments…"), "eqz-expense", 0, this, SLOT(newMultiAccountExpense()), "new_multi_account_expense", transactionsMenu);
 	NEW_ACTION_NOMENU(ActionNewRefund, tr("Refund…"), "eqz-income", 0, this, SLOT(newRefund()), "new_refund");
@@ -7733,6 +7871,10 @@ void Eqonomize::setupActions() {
 
 	NEW_ACTION_2(ActionSelectFont, tr("Select Font…"), 0, this, SLOT(selectFont()), "select_font", settingsMenu);
 	ActionSelectFont->setIcon(LOAD_ICON_APP("preferences-desktop-font"));
+
+	NEW_TOGGLE_ACTION(ActionDarkMode, tr("Dark Mode"), 0, this, SLOT(setDarkMode(bool)), "dark_mode", settingsMenu);
+	QSettings settings;
+	ActionDarkMode->setChecked(settings.value("GeneralOptions/darkMode", false).toBool());
 
 	QMenu *langMenu = settingsMenu->addMenu(LOAD_ICON_APP("preferences-desktop-locale"), tr("Language"));
 	ActionSelectLang = new QActionGroup(this);
@@ -7931,7 +8073,18 @@ void Eqonomize::showHelp() {
 		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
 		connect(buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), helpDialog, SLOT(reject()));
 		box1->addWidget(buttonBox);
-		QSize helpSize = QDesktopWidget().availableGeometry(this).size();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+#	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+		QScreen *scr = screen();
+#	else
+		QScreen *scr = QGuiApplication::screenAt(pos);
+#	endif
+		if(!scr) scr = QGuiApplication::primaryScreen();
+		QRect rect = scr->availableGeometry();
+#else
+		QRect rect = QApplication::desktop()->availableGeometry(this);
+#endif
+		QSize helpSize = rect.size();
 		helpSize.setHeight(helpSize.height() * 0.85);
 		helpSize.setWidth(helpSize.height() * 1.2);
 		helpDialog->resize(helpSize);
@@ -7944,7 +8097,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.5.2</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"http://eqonomize.github.io/\">http://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2020 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.5.3</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"https://eqonomize.github.io/\">https://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2021 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);
@@ -11078,7 +11231,11 @@ void EqonomizeTreeWidget::keyPressEvent(QKeyEvent *e) {
 	QTreeWidget::keyPressEvent(e);
 }
 void EqonomizeTreeWidget::dropEvent(QDropEvent *event) {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+	QTreeWidgetItem *target = itemAt(event->position().toPoint());
+#else
 	QTreeWidgetItem *target = itemAt(event->pos());
+#endif
 	if(!target) return;
 	DropIndicatorPosition dropPos = dropIndicatorPosition();
 	if(dropPos != OnItem) target = target->parent();

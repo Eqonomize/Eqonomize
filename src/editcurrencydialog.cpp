@@ -35,7 +35,11 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QLocale>
-#include <QRegExpValidator>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#	include <QRegularExpressionValidator>
+#else
+#	include <QRegExpValidator>
+#endif
 #include <QDebug>
 
 #include "budget.h"
@@ -62,7 +66,11 @@ EditCurrencyDialog::EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_
 		codeEdit->setText(currency->code());
 		codeEdit->setEnabled(false);
 	} else {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		codeEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("^[^\\d\\s\\.\\,\\+\\-\\*\\^]+$")));
+#else
 		codeEdit->setValidator(new QRegExpValidator(QRegExp("^[^\\d\\s\\.\\,\\+\\-\\*\\^]+$")));
+#endif
 	}
 	grid->addWidget(codeEdit, row, 1); row++;
 	grid->addWidget(new QLabel(tr("Symbol:"), this), row, 0);

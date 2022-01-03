@@ -31,7 +31,9 @@
 #include <QtCharts/QAbstractSeries>
 #include <QtCharts/QPieSlice>
 #include <QtCharts/QBarSet>
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 QT_CHARTS_USE_NAMESPACE
+#endif
 class QGraphicsItem;
 #else
 class QGraphicsScene;

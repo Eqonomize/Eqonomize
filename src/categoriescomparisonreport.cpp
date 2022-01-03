@@ -235,7 +235,11 @@ CategoriesComparisonReport::CategoriesComparisonReport(Budget *budg, QWidget *pa
 
 	resetOptions();
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	connect(group, SIGNAL(idToggled(int, bool)), this, SLOT(columnsToggled(int, bool)));
+#else
 	connect(group, SIGNAL(buttonToggled(int, bool)), this, SLOT(columnsToggled(int, bool)));
+#endif
 	connect(subsButton, SIGNAL(toggled(bool)), this, SLOT(subsToggled(bool)));
 	connect(descriptionButton, SIGNAL(toggled(bool)), this, SLOT(descriptionToggled(bool)));
 	if(b_extra) {
@@ -598,7 +602,9 @@ void CategoriesComparisonReport::save() {
 	}
 	last_document_directory = fileDialog.directory().absolutePath();
 	QTextStream outf(&ofile);
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 	outf.setCodec("UTF-8");
+#endif
 	outf << source;
 	if(!ofile.commit()) {
 		QMessageBox::critical(this, tr("Error"), tr("Error while writing file; file was not saved."));

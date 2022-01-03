@@ -446,7 +446,7 @@ QSize CommentsTextEdit::sizeHint() const {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
 	size.setHeight(fm.lineSpacing() * 2 + frameWidth() * 2 + contentsMargins().top() + contentsMargins().bottom() + document()->documentMargin() * 2 + viewportMargins().bottom() + viewportMargins().top());
 #else
-	size.setHeight(fm.lineSpacing() * 2 + frameWidth() * 2 + contentsMargins().top() + contentsMargins().bottom() + document()->documentMargin());
+	size.setHeight(fm.lineSpacing() * 2 + frameWidth() * 2 + contentsMargins().top() + contentsMargins().bottom() + document()->documentMargin() * 2);
 #endif
 	return size;
 }

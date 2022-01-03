@@ -59,7 +59,9 @@
 #include <QLineEdit>
 #include <QMap>
 #include <QObject>
-#include <QMatrix>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#	include <QMatrix>
+#endif
 #include <QPainter>
 #include <QPushButton>
 #include <QPrinter>
@@ -220,7 +222,11 @@ CategoriesComparisonChart::CategoriesComparisonChart(Budget *budg, QWidget *pare
 	connect(toEdit, SIGNAL(dateChanged(const QDate&)), this, SLOT(toChanged(const QDate&)));
 	connect(saveButton, SIGNAL(clicked()), this, SLOT(save()));
 	connect(printButton, SIGNAL(clicked()), this, SLOT(print()));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	connect(group, SIGNAL(idToggled(int, bool)), this, SLOT(valueTypeToggled(int, bool)));
+#else
 	connect(group, SIGNAL(buttonToggled(int, bool)), this, SLOT(valueTypeToggled(int, bool)));
+#endif
 
 }
 
@@ -1159,7 +1165,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		chart->legend()->setLabelColor(Qt::black);
 	}
 
-	chart->setLocalizeNumbers((chart_type == 1 && (budget->decimal_separator != "." || budget->decimal_separator == QLocale().decimalPoint())) || (chart_type != 1 && (budget->monetary_decimal_separator != "." || budget->monetary_decimal_separator == QLocale().decimalPoint() || ((maxvalue - minvalue) >= 50.0 && (budget->monetary_group_separator == QLocale().groupSeparator() || QLocale().groupSeparator() == ' ' || QLocale().groupSeparator() == 0x202F || QLocale().groupSeparator() == 0x2009)))));
+	chart->setLocalizeNumbers((chart_type == 1 && (budget->decimal_separator != "." || budget->decimal_separator == QLocale().decimalPoint())) || (chart_type != 1 && (budget->monetary_decimal_separator != "." || budget->monetary_decimal_separator == QLocale().decimalPoint() || ((maxvalue - minvalue) >= 50.0 && (budget->monetary_group_separator == QLocale().groupSeparator() || QLocale().groupSeparator() == ' ' || QLocale().groupSeparator() == QChar(0x202F) || QLocale().groupSeparator() == QChar(0x2009))))));
 
 	if(chart_type == 1) {
 		series = pie_series;

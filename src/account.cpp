@@ -302,15 +302,19 @@ void CategoryAccount::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	}
 }
 bool CategoryAccount::readElement(QXmlStreamReader *xml, bool *valid) {
-	if(xml->name() == "budget") {
+	if(xml->name() == XML_COMPARE_CONST_CHAR("budget")) {
 		QXmlStreamAttributes attr = xml->attributes();
 		QDate date = QDate::fromString(attr.value("date").toString(), Qt::ISODate);
 		mbudgets[date] = attr.value("value").toDouble();
 		return false;
-	} else if(xml->name() == "category") {
+	} else if(xml->name() == XML_COMPARE_CONST_CHAR("category")) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		QStringView ctype = xml->attributes().value("type");
+#else
 		QStringRef ctype = xml->attributes().value("type");
+#endif
 		bool valid2 = true;
-		if(type() == ACCOUNT_TYPE_EXPENSES && ctype == "expenses") {
+		if(type() == ACCOUNT_TYPE_EXPENSES && ctype == XML_COMPARE_CONST_CHAR("expenses")) {
 			ExpensesAccount *account = new ExpensesAccount(budget(), xml, &valid2);
 			if(valid) {
 				budget()->expensesAccounts_id[account->id()] = account;
@@ -321,7 +325,7 @@ bool CategoryAccount::readElement(QXmlStreamReader *xml, bool *valid) {
 				delete account;
 			}
 			return true;
-		} else if(type() == ACCOUNT_TYPE_INCOMES && ctype == "incomes") {
+		} else if(type() == ACCOUNT_TYPE_INCOMES && ctype == XML_COMPARE_CONST_CHAR("incomes")) {
 			IncomesAccount *account = new IncomesAccount(budget(), xml, &valid2);
 			if(valid) {
 				budget()->incomesAccounts_id[account->id()] = account;

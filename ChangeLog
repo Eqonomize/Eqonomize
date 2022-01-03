@@ -1,11 +1,37 @@
+2022-01-02  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix compilation errors with Qt 6
+
+2021-12-23  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Dark mode option in settings menu
+	* If category is empty in CSV file row, use "Uncategorized" as name
+	* Fix empty/missing category (in CSV file) error message
+
 2021-11-05  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Add extra space between after right aligned values in lists
 	* Add option to left align values in lists
 
+2021-09-10  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix tab focus for dialog buttons
+
+2021-09-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix "Ignore duplicate transactions" for reinvested dividend when
+	  importing eqz file
+
+2021-09-03  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix saving of scheduled reinvested dividend
+	* Disable join and edit actions when one of multiple selected
+	  transactions is a reinvested dividend
+
 2021-07-30  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
-	* Fix importing of data format YYYYMMDD and improve support for six character date formats without separator
+	* Fix importing of data format YYYYMMDD and improve support for six
+	  character date formats without separator
 	* Use a multiple lines for comments field in dialogs
 	* Clear edit fields after modification of transaction in list
 	* Preserve position and current item after update of ledger
@@ -22,7 +48,8 @@
 2021-01-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix handling parentheses when calculating expression in value entry
-	* Fix initial state of "Bank" entry when initial account type is not "Cash"
+	* Fix initial state of "Bank" entry when initial account type is not
+	  "Cash"
 
 2020-12-14  Hanna Knutsson <hanna.knutsson@protonmail.com>
 

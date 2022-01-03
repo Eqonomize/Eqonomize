@@ -52,7 +52,9 @@
 #include <QLabel>
 #include <QLayout>
 #include <QLineEdit>
-#include <QMatrix>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#	include <QMatrix>
+#endif
 #include <QObject>
 #include <QPainter>
 #include <QPixmap>
@@ -212,14 +214,9 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	QGridLayout *settingsLayout = new QGridLayout(settingsWidget);
 
 	QLabel *sourceLabel = new QLabel(tr("Source:"), settingsWidget);
-	settingsLayout->addWidget(sourceLabel, 2, 0);
-	QHBoxLayout *choicesLayout = new QHBoxLayout();
+	settingsLayout->addWidget(sourceLabel, 2, 0, Qt::AlignLeft | Qt::AlignTop);
+	QGridLayout *choicesLayout = new QGridLayout();
 	settingsLayout->addLayout(choicesLayout, 2, 1);
-	QGridLayout *choicesLayout_extra = NULL;
-	if(b_extra) {
-		choicesLayout_extra = new QGridLayout();
-		choicesLayout->addLayout(choicesLayout_extra);
-	}
 	sourceCombo = new QComboBox(settingsWidget);
 	sourceCombo->setEditable(false);
 	sourceCombo->addItem(tr("Incomes and Expenses"));
@@ -228,27 +225,25 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 	sourceCombo->addItem(tr("Incomes"));
 	sourceCombo->addItem(tr("Assets and Liabilities"));
 	sourceCombo->addItem(tr("Tags"));
-	if(b_extra) choicesLayout_extra->addWidget(sourceCombo, 0, 0);
-	else choicesLayout->addWidget(sourceCombo);
+	choicesLayout->addWidget(sourceCombo, 0, 0);
+	sourceLabel->setMinimumHeight(sourceCombo->sizeHint().height());
 	categoryCombo = new QComboBox(settingsWidget);
 	categoryCombo->setEditable(false);
 	categoryCombo->addItem(tr("All Categories Combined"));
 	categoryCombo->setEnabled(false);
-	if(b_extra) choicesLayout_extra->addWidget(categoryCombo, 0, 1);
-	else choicesLayout->addWidget(categoryCombo);
+	choicesLayout->addWidget(categoryCombo, 0, 1);
 	descriptionCombo = new QComboBox(settingsWidget);
 	descriptionCombo->setEditable(false);
 	descriptionCombo->addItem(tr("All Descriptions Combined", "Referring to the transaction description property (transaction title/generic article name)"));
 	descriptionCombo->setEnabled(false);
-	if(b_extra) choicesLayout_extra->addWidget(descriptionCombo, 0, 2);
-	else choicesLayout->addWidget(descriptionCombo);
+	choicesLayout->addWidget(descriptionCombo, 0, 2);
 	payeeCombo = NULL;
 	if(b_extra) {
 		payeeCombo = new QComboBox(settingsWidget);
 		payeeCombo->setEditable(false);
 		payeeCombo->addItem(tr("All Payees/Payers Combined"));
 		payeeCombo->setEnabled(false);
-		choicesLayout_extra->addWidget(payeeCombo, 1, 0);
+		choicesLayout->addWidget(payeeCombo, 1, 0);
 	}
 	accountCombo = new QComboBox(settingsWidget);
 	accountCombo->setEditable(false);
@@ -260,8 +255,7 @@ OverTimeChart::OverTimeChart(Budget *budg, QWidget *parent, bool extra_parameter
 			accountCombo->addItem(account->name(), QVariant::fromValue((void*) account));
 		}
 	}
-	if(b_extra) choicesLayout_extra->addWidget(accountCombo, 1, 1);
-	else choicesLayout->addWidget(accountCombo);
+	choicesLayout->addWidget(accountCombo, b_extra ? 1 : 0, b_extra ? 1 : 3);
 
 	current_account = NULL;
 	current_source = 0;
@@ -3558,7 +3552,7 @@ void OverTimeChart::updateDisplay() {
 		chart->addAxis(axisX, Qt::AlignBottom);
 	}
 
-	chart->setLocalizeNumbers(type == 2 || budget->monetary_decimal_separator != "." || budget->monetary_decimal_separator == QLocale().decimalPoint() || ((maxvalue - minvalue) >= 50.0 && (budget->monetary_group_separator == QLocale().groupSeparator() || QLocale().groupSeparator() == ' ' || QLocale().groupSeparator() == 0x202F || QLocale().groupSeparator() == 0x2009)));
+	chart->setLocalizeNumbers(type == 2 || budget->monetary_decimal_separator != "." || budget->monetary_decimal_separator == QLocale().decimalPoint() || ((maxvalue - minvalue) >= 50.0 && (budget->monetary_group_separator == QLocale().groupSeparator() || QLocale().groupSeparator() == ' ' || QLocale().groupSeparator() == QChar(0x202F) || QLocale().groupSeparator() == QChar(0x2009))));
 
 	axisY->setRange(minvalue, maxvalue);
 	axisY->setTickCount(y_lines + 1);

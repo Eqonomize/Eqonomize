@@ -410,7 +410,11 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	connect(valueTagsButton, SIGNAL(toggled(bool)), valueTagsEdit, SLOT(setEnabled(bool)));
 	connect(columnCommentsButton, SIGNAL(toggled(bool)), columnCommentsEdit, SLOT(setEnabled(bool)));
 	connect(valueCommentsButton, SIGNAL(toggled(bool)), valueCommentsEdit, SLOT(setEnabled(bool)));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	connect(typeGroup, SIGNAL(idClicked(int)), this, SLOT(typeChanged(int)));
+#else
 	connect(typeGroup, SIGNAL(buttonClicked(int)), this, SLOT(typeChanged(int)));
+#endif
 	if(b_extra) {
 		connect(columnQuantityButton, SIGNAL(toggled(bool)), columnQuantityEdit, SLOT(setEnabled(bool)));
 		connect(valueQuantityButton, SIGNAL(toggled(bool)), valueQuantityEdit, SLOT(setEnabled(bool)));
@@ -957,9 +961,9 @@ QDate readCSVDate(const QString &str, const QString &date_format, const QString 
 double readCSVValue(const QString &str, int value_format, bool *ok) {
 	QString str2 = str;
 	int l = (int) str2.length();
-	str2.replace(QLocale().negativeSign(), '-');
-	str2.replace(QLocale().positiveSign(), '+');
-	str2.replace(QChar(0x2212), '-');
+	str2.replace(QLocale().negativeSign(), "-");
+	str2.replace(QLocale().positiveSign(), "+");
+	str2.replace(QChar(0x2212), "-");
 	if(value_format == 2) {
 		str2.replace(".", "");
 		str2.replace(",", ".");
@@ -1286,7 +1290,9 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	last_document_directory = fileInfo.absoluteDir().absolutePath();
 
 	QTextStream fstream(&file);
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 	fstream.setCodec("UTF-8");
+#endif
 
 	//bool had_data = false;
 	int successes = 0;

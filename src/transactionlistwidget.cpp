@@ -339,7 +339,11 @@ void TransactionListWidget::keyPressEvent(QKeyEvent *e) {
 	if(e == key_event) return;
 	QWidget::keyPressEvent(e);
 	if(!e->isAccepted() && editWidget->firstHasFocus() && e->key() != Qt::Key_Enter && e->key() != Qt::Key_Return) {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+		key_event = new QKeyEvent(e->type(), e->key(), e->modifiers(), e->nativeScanCode(), e->nativeVirtualKey(), e->nativeModifiers(), e->text(), e->isAutoRepeat(), e->count());
+#else
 		key_event = new QKeyEvent(*e);
+#endif
 		QApplication::sendEvent(transactionsView, key_event);
 		delete key_event;
 	}
@@ -430,7 +434,7 @@ void TransactionListWidget::popupHeaderMenu(const QPoint &p) {
 		ActionSortByCreationTime->setCheckable(true);
 		connect(ActionSortByCreationTime, SIGNAL(toggled(bool)), this, SLOT(sortByCreationTime(bool)));
 		SeparatorRightAlignValues = headerPopupMenu->addSeparator();
-		ActionRightAlignValues = headerPopupMenu->addAction(tr("Align right"));
+		ActionRightAlignValues = headerPopupMenu->addAction(tr("Right align"));
 		ActionRightAlignValues->setCheckable(true);
 		connect(ActionRightAlignValues, SIGNAL(toggled(bool)), this, SLOT(rightAlignValues(bool)));
 	}
@@ -466,7 +470,9 @@ bool TransactionListWidget::exportList(QTextStream &outf, int fileformat) {
 
 	switch(fileformat) {
 		case 'h': {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			outf.setCodec("UTF-8");
+#endif
 			outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
 			outf << "<html>" << '\n';
 			outf << "\t<head>" << '\n';
@@ -1163,6 +1169,8 @@ void TransactionListWidget::modifyTransaction() {
 		return;
 	}
 	if(!editWidget->validValues(true)) return;
+	ScheduledTransaction *curstranscopy = i->scheduledTransaction();
+	QDate curdate_copy = i->date();
 	if(i->scheduledTransaction()) {
 		if(i->scheduledTransaction()->isOneTimeTransaction()) {
 			Transaction *trans = (Transaction*) i->scheduledTransaction()->transaction()->copy();
@@ -1191,27 +1199,22 @@ void TransactionListWidget::modifyTransaction() {
 				++it;
 				i = (TransactionListViewItem*) *it;
 			}
-		} else {
-			if(editWidget->validValues()) {
-				ScheduledTransaction *curstranscopy = i->scheduledTransaction();
-				QDate curdate_copy = i->date();
-				ScheduledTransaction *oldstrans = curstranscopy->copy();
-				curstranscopy->addException(curdate_copy);
-				mainWin->transactionModified(curstranscopy, oldstrans);
-				delete oldstrans;
-			}
+			clearTransaction();
+			return;
 		}
-	} else if(editWidget->date() > QDate::currentDate()) {
+	}
+	if(editWidget->date() > QDate::currentDate() || curstranscopy) {
 		Transaction *newtrans = i->transaction()->copy();
 		if(editWidget->modifyTransaction(newtrans)) {
-			ScheduledTransaction *strans = new ScheduledTransaction(budget, newtrans, NULL);
+			Transactions *trans = newtrans;
+			if(editWidget->date() > QDate::currentDate()) trans = new ScheduledTransaction(budget, newtrans, NULL);
 			removeTransaction();
-			budget->addScheduledTransaction(strans);
-			mainWin->transactionAdded(strans);
+			budget->addTransactions(trans);
+			mainWin->transactionAdded(trans);
 			QTreeWidgetItemIterator it(transactionsView);
 			TransactionListViewItem *i = (TransactionListViewItem*) *it;
 			while(i) {
-				if(i->scheduledTransaction() == strans) {
+				if(i->scheduledTransaction() == trans || i->transaction() == trans) {
 					transactionsView->setCurrentItem(i);
 					i->setSelected(true);
 					break;
@@ -1229,6 +1232,12 @@ void TransactionListWidget::modifyTransaction() {
 		}
 		delete oldtrans;
 		transactionsView->scrollToItem(i);
+	}
+	if(curstranscopy) {
+		ScheduledTransaction *oldstrans = curstranscopy->copy();
+		curstranscopy->addException(curdate_copy);
+		mainWin->transactionModified(curstranscopy, oldstrans);
+		delete oldstrans;
 	}
 	clearTransaction();
 }
@@ -1950,6 +1959,9 @@ void TransactionListWidget::clearTransaction() {
 	editWidget->setTransaction(NULL);
 }
 void TransactionListWidget::filterTransactions() {
+	expenseColor = QColor();
+	incomeColor = QColor();
+	transferColor = QColor();
 	//QList<QTreeWidgetItem*> selection = transactionsView->selectedItems();
 	selected_trans = NULL;
 	/*if(selection.count() == 1) {

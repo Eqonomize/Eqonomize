@@ -161,7 +161,11 @@ TransactionFilterWidget::TransactionFilterWidget(bool extra_parameters, int tran
 		connect(tagCombo, SIGNAL(activated(int)), this, SLOT(checkEnableClear()));
 	}
 	connect(clearButton, SIGNAL(clicked()), this, SLOT(clearFilter()));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	connect(group, SIGNAL(idClicked(int)), this, SIGNAL(filter()));
+#else
 	connect(group, SIGNAL(buttonClicked(int)), this, SIGNAL(filter()));
+#endif
 	connect(dateFromButton, SIGNAL(toggled(bool)), dateFromEdit, SLOT(setEnabled(bool)));
 	connect(dateFromButton, SIGNAL(toggled(bool)), this, SIGNAL(filter()));
 	connect(dateFromButton, SIGNAL(toggled(bool)), this, SLOT(checkEnableClear()));

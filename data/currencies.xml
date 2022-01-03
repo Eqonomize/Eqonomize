@@ -1,459 +1,459 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Eqonomize version="1.5.2">
+<Eqonomize version="1.5.3">
 	<currency code="AED" symbol="د.إ" name="United Arab Emirates dirham" source="mycurrency.net">
-		<rate value="4.37339" date="2021-03-18"/>
+		<rate value="4.16149" date="2021-12-20"/>
 	</currency>
 	<currency code="AFN" symbol="Afs" name="Afghan afghani" source="mycurrency.net">
-		<rate value="92.22079" date="2021-03-18"/>
+		<rate value="116.67634" date="2021-12-20"/>
 	</currency>
 	<currency code="ALL" symbol="L" name="Albanian lek" source="mycurrency.net">
-		<rate value="123.26603" date="2021-03-18"/>
+		<rate value="121.76011" date="2021-12-20"/>
 	</currency>
 	<currency code="AMD" symbol="֏" name="Armenian dram" source="mycurrency.net">
-		<rate value="624.25424" date="2021-03-18"/>
+		<rate value="562.09830" date="2021-12-20"/>
 	</currency>
 	<currency code="ANG" symbol="ƒ" name="Netherlands Antillean guilder" source="mycurrency.net">
-		<rate value="2.13668" date="2021-03-18"/>
+		<rate value="2.05652" date="2021-12-20"/>
 	</currency>
 	<currency code="AOA" symbol="Kz" name="Angolan kwanza" source="mycurrency.net">
-		<rate value="731.68515" date="2021-03-18"/>
+		<rate value="643.55760" date="2021-12-20"/>
 	</currency>
 	<currency code="ARS" symbol="$" name="Argentine peso" source="mycurrency.net">
-		<rate value="108.58696" date="2021-03-18"/>
+		<rate value="115.47083" date="2021-12-20"/>
 	</currency>
 	<currency code="AUD" symbol="$" name="Australian Dollar" source="ECB">
-		<rate value="1.54270" date="2021-03-17"/>
+		<rate value="1.58150" date="2021-12-17"/>
 	</currency>
 	<currency code="AZN" symbol="₼" name="Azerbaijani manat" source="mycurrency.net">
-		<rate value="2.02514" date="2021-03-18"/>
+		<rate value="1.92701" date="2021-12-20"/>
 	</currency>
 	<currency code="BAM" symbol="KM" name="Bosnia and Herzegovina convertible mark" source="mycurrency.net">
-		<rate value="1.95749" date="2021-03-18"/>
+		<rate value="1.97186" date="2021-12-20"/>
 	</currency>
 	<currency code="BBD" symbol="$" name="Barbadian dollar" source="mycurrency.net">
-		<rate value="2.38140" date="2021-03-18"/>
+		<rate value="2.26600" date="2021-12-20"/>
 	</currency>
 	<currency code="BDT" symbol="৳" name="Bangladeshi taka" source="mycurrency.net">
-		<rate value="100.93612" date="2021-03-18"/>
+		<rate value="97.95159" date="2021-12-20"/>
 	</currency>
 	<currency code="BGN" symbol="лв." name="Bulgarian lev" source="ECB">
-		<rate value="1.95580" date="2021-03-17"/>
+		<rate value="1.95580" date="2021-12-17"/>
 	</currency>
 	<currency code="BHD" symbol="BD" name="Bahraini dinar" source="mycurrency.net">
-		<rate value="0.44895" date="2021-03-18"/>
+		<rate value="0.42717" date="2021-12-20"/>
 	</currency>
 	<currency code="BIF" symbol="FBu" name="Burundian franc" source="mycurrency.net">
-		<rate value="2324.07970" date="2021-03-18"/>
+		<rate value="2274.65612" date="2021-12-20"/>
 	</currency>
 	<currency code="BMD" symbol="$" name="Bermudian dollar" source="mycurrency.net">
-		<rate value="1.19070" date="2021-03-18"/>
+		<rate value="1.13300" date="2021-12-20"/>
 	</currency>
 	<currency code="BND" symbol="$" name="Brunei dollar" source="mycurrency.net">
-		<rate value="1.60423" date="2021-03-18"/>
+		<rate value="1.55764" date="2021-12-20"/>
 	</currency>
 	<currency code="BOB" symbol="Bs." name="Bolivian boliviano" source="mycurrency.net">
-		<rate value="8.22534" date="2021-03-18"/>
+		<rate value="7.86786" date="2021-12-20"/>
 	</currency>
 	<currency code="BRL" symbol="R$" name="Brazilian real" source="ECB">
-		<rate value="6.72990" date="2021-03-17"/>
+		<rate value="6.46480" date="2021-12-17"/>
 	</currency>
 	<currency code="BSD" symbol="$" name="Bahamian dollar" source="mycurrency.net">
-		<rate value="1.19070" date="2021-03-18"/>
+		<rate value="1.13300" date="2021-12-20"/>
 	</currency>
 	<currency code="BWP" symbol="P" name="Botswana pula" source="mycurrency.net">
-		<rate value="13.13866" date="2021-03-18"/>
+		<rate value="13.37733" date="2021-12-20"/>
 	</currency>
 	<currency code="BYR" symbol="Br" name="Belarusian ruble" source="mycurrency.net">
-		<rate value="23337.72000" date="2021-03-18"/>
+		<rate value="22206.80000" date="2021-12-20"/>
 	</currency>
 	<currency code="BZD" symbol="$" name="Belize dollar" source="mycurrency.net">
-		<rate value="2.39942" date="2021-03-18"/>
+		<rate value="2.29977" date="2021-12-20"/>
 	</currency>
 	<currency code="CAD" symbol="$" name="Canadian dollar" source="ECB">
-		<rate value="1.48520" date="2021-03-17"/>
+		<rate value="1.45270" date="2021-12-17"/>
 	</currency>
 	<currency code="CDF" symbol="FC" name="Congolese franc" source="mycurrency.net">
-		<rate value="2365.20648" date="2021-03-18"/>
+		<rate value="2282.06594" date="2021-12-20"/>
 	</currency>
 	<currency code="CHF" symbol="Fr" name="Swiss franc" source="ECB">
-		<rate value="1.10470" date="2021-03-17"/>
+		<rate value="1.04090" date="2021-12-17"/>
 	</currency>
 	<currency code="CLP" symbol="$" name="Chilean peso" source="mycurrency.net">
-		<rate value="860.16168" date="2021-03-18"/>
+		<rate value="969.06396" date="2021-12-20"/>
 	</currency>
 	<currency code="CNY" symbol="¥" name="Chinese yuan renminbi" source="ECB">
-		<rate value="7.74350" date="2021-03-17"/>
+		<rate value="7.22340" date="2021-12-17"/>
 	</currency>
 	<currency code="COP" symbol="$" name="Colombian peso" source="mycurrency.net">
-		<rate value="4219.34071" date="2021-03-18"/>
+		<rate value="4577.96581" date="2021-12-20"/>
 	</currency>
 	<currency code="CRC" symbol="₡" name="Costa Rican colón" source="mycurrency.net">
-		<rate value="727.21050" date="2021-03-18"/>
+		<rate value="728.21989" date="2021-12-20"/>
 	</currency>
 	<currency code="CUP" symbol="$" name="Cuban peso" source="mycurrency.net">
-		<rate value="30.66053" date="2021-03-18"/>
+		<rate value="29.17475" date="2021-12-20"/>
 	</currency>
 	<currency code="CVE" symbol="$" name="Cape Verdean escudo" source="mycurrency.net">
-		<rate value="110.62794" date="2021-03-18"/>
+		<rate value="111.37390" date="2021-12-20"/>
 	</currency>
 	<currency code="CZK" symbol="Kč" name="Czech Koruna" source="ECB">
-		<rate value="26.15900" date="2021-03-17"/>
+		<rate value="25.25500" date="2021-12-17"/>
 	</currency>
 	<currency code="DJF" symbol="Fdj" name="Djiboutian franc" source="mycurrency.net">
-		<rate value="211.91840" date="2021-03-18"/>
+		<rate value="203.13897" date="2021-12-20"/>
 	</currency>
 	<currency code="DKK" symbol="kr." name="Danish Krone" source="ECB">
-		<rate value="7.43600" date="2021-03-17"/>
+		<rate value="7.43640" date="2021-12-17"/>
 	</currency>
 	<currency code="DOP" symbol="$" name="Dominican peso" source="mycurrency.net">
-		<rate value="68.14126" date="2021-03-18"/>
+		<rate value="64.83615" date="2021-12-20"/>
 	</currency>
 	<currency code="DZD" symbol="DA" name="Algerian dinar" source="mycurrency.net">
-		<rate value="158.91201" date="2021-03-18"/>
+		<rate value="157.51079" date="2021-12-20"/>
 	</currency>
 	<currency code="EEK" symbol="kr" name="Estonian kroon" source="mycurrency.net">
-		<rate value="16.60669" date="2021-03-18"/>
+		<rate value="15.80195" date="2021-12-20"/>
 	</currency>
 	<currency code="EGP" symbol="E£" name="Egyptian pound" source="mycurrency.net">
-		<rate value="18.70590" date="2021-03-18"/>
+		<rate value="17.80011" date="2021-12-20"/>
 	</currency>
 	<currency code="ETB" symbol="Br" name="Ethiopian birr" source="mycurrency.net">
-		<rate value="48.24835" date="2021-03-18"/>
+		<rate value="55.72049" date="2021-12-20"/>
 	</currency>
 	<currency code="FJD" symbol="$" name="Fijian dollar" source="mycurrency.net">
-		<rate value="2.41230" date="2021-03-18"/>
+		<rate value="2.41839" date="2021-12-20"/>
 	</currency>
 	<currency code="FKP" symbol="£" name="Falkland Islands pound" source="mycurrency.net">
-		<rate value="0.85311" date="2021-03-18"/>
+		<rate value="0.85746" date="2021-12-20"/>
 	</currency>
 	<currency code="GBP" symbol="£" name="British pound" source="ECB">
-		<rate value="0.85668" date="2021-03-17"/>
+		<rate value="0.85208" date="2021-12-17"/>
 	</currency>
 	<currency code="GEL" symbol="₾" name="Georgian lari" source="mycurrency.net">
-		<rate value="3.95908" date="2021-03-18"/>
+		<rate value="3.49531" date="2021-12-20"/>
 	</currency>
 	<currency code="GGP" symbol="£" name="Guernsey pound" source="mycurrency.net">
-		<rate value="0.85311" date="2021-03-18"/>
+		<rate value="0.85746" date="2021-12-20"/>
 	</currency>
 	<currency code="GHS" symbol="GH₵" name="Ghanaian cedi" source="mycurrency.net">
-		<rate value="6.82674" date="2021-03-18"/>
+		<rate value="6.94647" date="2021-12-20"/>
 	</currency>
 	<currency code="GIP" symbol="£" name="Gibraltar pund" source="mycurrency.net">
-		<rate value="0.85311" date="2021-03-18"/>
+		<rate value="0.85746" date="2021-12-20"/>
 	</currency>
 	<currency code="GMD" symbol="D" name="Gambian dalasi" source="mycurrency.net">
-		<rate value="61.02338" date="2021-03-18"/>
+		<rate value="59.90171" date="2021-12-20"/>
 	</currency>
 	<currency code="GNF" symbol="FG" name="Guinean franc" source="mycurrency.net">
-		<rate value="11993.20668" date="2021-03-18"/>
+		<rate value="10818.54114" date="2021-12-20"/>
 	</currency>
 	<currency code="GTQ" symbol="Q" name="Guatemalan quetzal" source="mycurrency.net">
-		<rate value="9.19262" date="2021-03-18"/>
+		<rate value="8.82352" date="2021-12-20"/>
 	</currency>
 	<currency code="GYD" symbol="$" name="Guyanese dollar" source="mycurrency.net">
-		<rate value="249.03729" date="2021-03-18"/>
+		<rate value="238.63019" date="2021-12-20"/>
 	</currency>
 	<currency code="HKD" symbol="$" name="Hong Kong dollar" source="ECB">
-		<rate value="9.24760" date="2021-03-17"/>
+		<rate value="8.83880" date="2021-12-17"/>
 	</currency>
 	<currency code="HNL" symbol="L" name="Honduran lempira" source="mycurrency.net">
-		<rate value="28.84518" date="2021-03-18"/>
+		<rate value="27.66287" date="2021-12-20"/>
 	</currency>
 	<currency code="HRK" symbol="kn" name="Croatian kuna" source="ECB">
-		<rate value="7.57650" date="2021-03-17"/>
+		<rate value="7.52230" date="2021-12-17"/>
 	</currency>
 	<currency code="HTG" symbol="G" name="Haitian gourde" source="mycurrency.net">
-		<rate value="92.74529" date="2021-03-18"/>
+		<rate value="114.61655" date="2021-12-20"/>
 	</currency>
 	<currency code="HUF" symbol="Ft" name="Hungarian forint" source="ECB">
-		<rate value="367.74000" date="2021-03-17"/>
+		<rate value="367.57000" date="2021-12-17"/>
 	</currency>
 	<currency code="IDR" symbol="Rp" name="Indonesian rupiah" source="ECB">
-		<rate value="17216.30000" date="2021-03-17"/>
+		<rate value="16268.73000" date="2021-12-17"/>
 	</currency>
 	<currency code="ILS" symbol="₪" name="Israeli new shekel" source="ECB">
-		<rate value="3.91550" date="2021-03-17"/>
+		<rate value="3.54950" date="2021-12-17"/>
 	</currency>
 	<currency code="INR" symbol="₹" name="Indian rupee" source="ECB">
-		<rate value="86.42900" date="2021-03-17"/>
+		<rate value="86.06400" date="2021-12-17"/>
 	</currency>
 	<currency code="IQD" symbol="د.ع" name="Iraqi dinar" source="mycurrency.net">
-		<rate value="1741.39875" date="2021-03-18"/>
+		<rate value="1665.43069" date="2021-12-20"/>
 	</currency>
 	<currency code="IRR" symbol="﷼" name="Iranian rial" source="mycurrency.net">
-		<rate value="50134.42350" date="2021-03-18"/>
+		<rate value="47869.25000" date="2021-12-20"/>
 	</currency>
 	<currency code="ISK" symbol="kr" name="Icelandic króna" source="ECB">
-		<rate value="151.40000" date="2021-03-17"/>
+		<rate value="146.20000" date="2021-12-17"/>
 	</currency>
 	<currency code="JMD" symbol="$" name="Jamaican dollar" source="mycurrency.net">
-		<rate value="174.29228" date="2021-03-18"/>
+		<rate value="175.73283" date="2021-12-20"/>
 	</currency>
 	<currency code="JOD" symbol="JD" name="Jordanian dinar" source="mycurrency.net">
-		<rate value="0.84421" date="2021-03-18"/>
+		<rate value="0.80330" date="2021-12-20"/>
 	</currency>
 	<currency code="JPY" symbol="¥" name="Japansese yen" source="ECB">
-		<rate value="130.02000" date="2021-03-17"/>
+		<rate value="128.28000" date="2021-12-17"/>
 	</currency>
 	<currency code="KES" symbol="KSh" name="Kenyan shilling" source="mycurrency.net">
-		<rate value="130.73886" date="2021-03-18"/>
+		<rate value="128.08565" date="2021-12-20"/>
 	</currency>
 	<currency code="KGS" symbol="лв" name="Kyrgyzstani som" source="mycurrency.net">
-		<rate value="100.96957" date="2021-03-18"/>
+		<rate value="96.07387" date="2021-12-20"/>
 	</currency>
 	<currency code="KHR" symbol="៛" name="Cambodian riel" source="mycurrency.net">
-		<rate value="4830.66990" date="2021-03-18"/>
+		<rate value="4648.68767" date="2021-12-20"/>
 	</currency>
 	<currency code="KMF" symbol="CF" name="Comoro franc" source="mycurrency.net">
-		<rate value="492.41399" date="2021-03-18"/>
+		<rate value="495.54588" date="2021-12-20"/>
 	</currency>
 	<currency code="KPW" symbol="₩" name="North Korean won" source="mycurrency.net">
-		<rate value="1071.63000" date="2021-03-18"/>
+		<rate value="1019.70000" date="2021-12-20"/>
 	</currency>
 	<currency code="KRW" symbol="₩" name="South Korean won" source="ECB">
-		<rate value="1346.65000" date="2021-03-17"/>
+		<rate value="1342.76000" date="2021-12-17"/>
 	</currency>
 	<currency code="KWD" symbol="د.ك" name="Kuwaiti dinar" source="mycurrency.net">
-		<rate value="0.35957" date="2021-03-18"/>
+		<rate value="0.34358" date="2021-12-20"/>
 	</currency>
 	<currency code="KYD" symbol="$" name="Cayman Islands dollar" source="mycurrency.net">
-		<rate value="0.99192" date="2021-03-18"/>
+		<rate value="0.95093" date="2021-12-20"/>
 	</currency>
 	<currency code="KZT" symbol="₸" name="Kazakhstani tenge" source="mycurrency.net">
-		<rate value="499.36410" date="2021-03-18"/>
+		<rate value="499.74251" date="2021-12-20"/>
 	</currency>
 	<currency code="LAK" symbol="₭" name="Lao kip" source="mycurrency.net">
-		<rate value="11162.81250" date="2021-03-18"/>
+		<rate value="12641.67410" date="2021-12-20"/>
 	</currency>
 	<currency code="LBP" symbol="ل.ل" name="Lebanese pound" source="mycurrency.net">
-		<rate value="1818.19890" date="2021-03-18"/>
+		<rate value="1725.27575" date="2021-12-20"/>
 	</currency>
 	<currency code="LKR" symbol="රු" name="Sri Lankan rupee" source="mycurrency.net">
-		<rate value="236.65996" date="2021-03-18"/>
+		<rate value="230.50092" date="2021-12-20"/>
 	</currency>
 	<currency code="LRD" symbol="$" name="Liberian dollar" source="mycurrency.net">
-		<rate value="206.52692" date="2021-03-18"/>
+		<rate value="160.88600" date="2021-12-20"/>
 	</currency>
 	<currency code="LSL" symbol="L" name="Lesotho loti" source="mycurrency.net">
-		<rate value="17.73226" date="2021-03-18"/>
+		<rate value="18.10228" date="2021-12-20"/>
 	</currency>
 	<currency code="LTL" symbol="Lt" name="Lithuanian litas" source="mycurrency.net">
-		<rate value="3.51583" date="2021-03-18"/>
+		<rate value="3.34545" date="2021-12-20"/>
 	</currency>
 	<currency code="LVL" symbol="Ls" name="Latvian lats" source="mycurrency.net">
-		<rate value="0.72024" date="2021-03-18"/>
+		<rate value="0.68534" date="2021-12-20"/>
 	</currency>
 	<currency code="LYD" symbol="LD" name="Libyan dinar" source="mycurrency.net">
-		<rate value="5.35549" date="2021-03-18"/>
+		<rate value="5.25305" date="2021-12-20"/>
 	</currency>
 	<currency code="MAD" name="Moroccan dirham" source="mycurrency.net">
-		<rate value="10.68356" date="2021-03-18"/>
+		<rate value="10.56810" date="2021-12-20"/>
 	</currency>
 	<currency code="MDL" symbol="lei" name="Moldovan leu" source="mycurrency.net">
-		<rate value="21.07444" date="2021-03-18"/>
+		<rate value="20.16207" date="2021-12-20"/>
 	</currency>
 	<currency code="MGA" symbol="Ar" name="Malagasy ariary" source="mycurrency.net">
-		<rate value="4500.21493" date="2021-03-18"/>
+		<rate value="4527.23007" date="2021-12-20"/>
 	</currency>
 	<currency code="MKD" symbol="ден" name="Macedonian denar" source="mycurrency.net">
-		<rate value="61.24770" date="2021-03-18"/>
+		<rate value="62.05702" date="2021-12-20"/>
 	</currency>
 	<currency code="MMK" symbol="K" name="Myanmar kyat" source="mycurrency.net">
-		<rate value="1678.39881" date="2021-03-18"/>
+		<rate value="2031.10644" date="2021-12-20"/>
 	</currency>
 	<currency code="MNT" symbol="₮" name="Mongolian tögrög" source="mycurrency.net">
-		<rate value="3390.44681" date="2021-03-18"/>
+		<rate value="3239.53025" date="2021-12-20"/>
 	</currency>
 	<currency code="MOP" symbol="MOP$" name="Macanese pataca" source="mycurrency.net">
-		<rate value="9.52231" date="2021-03-18"/>
+		<rate value="9.17135" date="2021-12-20"/>
 	</currency>
 	<currency code="MRO" symbol="UM" name="Mauritanian ouguiya" source="mycurrency.net">
-		<rate value="425.07990" date="2021-03-18"/>
+		<rate value="404.48100" date="2021-12-20"/>
 	</currency>
 	<currency code="MUR" symbol="₨" name="Mauritian rupee" source="mycurrency.net">
-		<rate value="48.05665" date="2021-03-18"/>
+		<rate value="49.16857" date="2021-12-20"/>
 	</currency>
 	<currency code="MVR" symbol="Rf" name="Maldivian rufiyaa" source="mycurrency.net">
-		<rate value="18.40822" date="2021-03-18"/>
+		<rate value="17.44820" date="2021-12-20"/>
 	</currency>
 	<currency code="MWK" symbol="MK" name="Malawian kwacha" source="mycurrency.net">
-		<rate value="931.00119" date="2021-03-18"/>
+		<rate value="931.57979" date="2021-12-20"/>
 	</currency>
 	<currency code="MXN" symbol="$" name="Mexican peso" source="ECB">
-		<rate value="24.68820" date="2021-03-17"/>
+		<rate value="23.54730" date="2021-12-17"/>
 	</currency>
 	<currency code="MYR" symbol="RM" name="Malaysian ringgit" source="ECB">
-		<rate value="4.90750" date="2021-03-17"/>
+		<rate value="4.78070" date="2021-12-17"/>
 	</currency>
 	<currency code="MZN" symbol="MT" name="Mozambican metical" source="mycurrency.net">
-		<rate value="87.09971" date="2021-03-18"/>
+		<rate value="72.33299" date="2021-12-20"/>
 	</currency>
 	<currency code="NAD" symbol="$" name="Namibian dollar" source="mycurrency.net">
-		<rate value="17.68190" date="2021-03-18"/>
+		<rate value="17.99204" date="2021-12-20"/>
 	</currency>
 	<currency code="NGN" symbol="₦" name="Nigerian naira" source="mycurrency.net">
-		<rate value="453.71624" date="2021-03-18"/>
+		<rate value="468.99402" date="2021-12-20"/>
 	</currency>
 	<currency code="NIO" symbol="C$" name="Nicaraguan córdoba" source="mycurrency.net">
-		<rate value="41.65331" date="2021-03-18"/>
+		<rate value="40.39972" date="2021-12-20"/>
 	</currency>
 	<currency code="NOK" symbol="kr" name="Norwegian krone" source="ECB">
-		<rate value="10.12130" date="2021-03-17"/>
+		<rate value="10.17830" date="2021-12-17"/>
 	</currency>
 	<currency code="NPR" symbol="Rs." name="Nepalese rupee" source="mycurrency.net">
-		<rate value="138.00213" date="2021-03-18"/>
+		<rate value="137.22783" date="2021-12-20"/>
 	</currency>
 	<currency code="NZD" symbol="$" name="New Zeeland dollar" source="ECB">
-		<rate value="1.66180" date="2021-03-17"/>
+		<rate value="1.67380" date="2021-12-17"/>
 	</currency>
 	<currency code="OMR" symbol="﷼" name="Omani rial" source="mycurrency.net">
-		<rate value="0.45841" date="2021-03-18"/>
+		<rate value="0.43563" date="2021-12-20"/>
 	</currency>
 	<currency code="PAB" symbol="B/." name="Panamanian balboa" source="mycurrency.net">
-		<rate value="1.19070" date="2021-03-18"/>
+		<rate value="1.13300" date="2021-12-20"/>
 	</currency>
 	<currency code="PEN" symbol="S/" name="Peruvian Sol" source="mycurrency.net">
-		<rate value="4.40616" date="2021-03-18"/>
+		<rate value="4.61360" date="2021-12-20"/>
 	</currency>
 	<currency code="PGK" symbol="K" name="Papua New Guinean kina" source="mycurrency.net">
-		<rate value="4.20088" date="2021-03-18"/>
+		<rate value="4.04138" date="2021-12-20"/>
 	</currency>
 	<currency code="PHP" symbol="₱" name="Philippine peso" source="ECB">
-		<rate value="57.98200" date="2021-03-17"/>
+		<rate value="56.62100" date="2021-12-17"/>
 	</currency>
 	<currency code="PKR" symbol="₨" name="Pakistani rupee" source="mycurrency.net">
-		<rate value="185.77897" date="2021-03-18"/>
+		<rate value="203.34291" date="2021-12-20"/>
 	</currency>
 	<currency code="PLN" symbol="zł" name="Polish złoty" source="ECB">
-		<rate value="4.61360" date="2021-03-17"/>
+		<rate value="4.63360" date="2021-12-17"/>
 	</currency>
 	<currency code="PYG" symbol="₲" name="Paraguayan guaraní" source="mycurrency.net">
-		<rate value="7850.32082" date="2021-03-18"/>
+		<rate value="7755.56628" date="2021-12-20"/>
 	</currency>
 	<currency code="QAR" symbol="ر.ق" name="Qatari riyal" source="mycurrency.net">
-		<rate value="4.33534" date="2021-03-18"/>
+		<rate value="4.15477" date="2021-12-20"/>
 	</currency>
 	<currency code="RON" symbol="lei" name="Romanian leu" source="ECB">
-		<rate value="4.88740" date="2021-03-17"/>
+		<rate value="4.95010" date="2021-12-17"/>
 	</currency>
 	<currency code="RSD" symbol="дин" name="Serbian dinar" source="mycurrency.net">
-		<rate value="117.67986" date="2021-03-18"/>
+		<rate value="118.34185" date="2021-12-20"/>
 	</currency>
 	<currency code="RUB" symbol="₽" name="Russian ruble" source="ECB">
-		<rate value="87.82450" date="2021-03-17"/>
+		<rate value="83.68560" date="2021-12-17"/>
 	</currency>
 	<currency code="RWF" symbol="FRw" name="Rwandan franc" source="mycurrency.net">
-		<rate value="1175.37569" date="2021-03-18"/>
+		<rate value="1183.07860" date="2021-12-20"/>
 	</currency>
 	<currency code="SAR" symbol="ر.س" name="Saudi riyal" source="mycurrency.net">
-		<rate value="4.46568" date="2021-03-18"/>
+		<rate value="4.25351" date="2021-12-20"/>
 	</currency>
 	<currency code="SBD" symbol="$" name="Solomon Islands dollar" source="mycurrency.net">
-		<rate value="9.45134" date="2021-03-18"/>
+		<rate value="9.17041" date="2021-12-20"/>
 	</currency>
 	<currency code="SCR" symbol="SR" name="Seychelles rupee" source="mycurrency.net">
-		<rate value="25.24856" date="2021-03-18"/>
+		<rate value="15.21279" date="2021-12-20"/>
 	</currency>
 	<currency code="SDG" symbol="ج.س" name="Sudanese pound" source="mycurrency.net">
-		<rate value="452.46600" date="2021-03-18"/>
+		<rate value="495.68750" date="2021-12-20"/>
 	</currency>
 	<currency code="SEK" symbol="kr" name="Swedish krona" source="ECB">
-		<rate value="10.13550" date="2021-03-17"/>
+		<rate value="10.27530" date="2021-12-17"/>
 	</currency>
 	<currency code="SGD" symbol="$" name="Singapore dollar" source="ECB">
-		<rate value="1.60360" date="2021-03-17"/>
+		<rate value="1.54590" date="2021-12-17"/>
 	</currency>
 	<currency code="SLL" symbol="Le" name="Sierra Leonean leone" source="mycurrency.net">
-		<rate value="12128.47020" date="2021-03-18"/>
+		<rate value="12767.55040" date="2021-12-20"/>
 	</currency>
 	<currency code="SOS" symbol="Sh.So." name="Somali shilling" source="mycurrency.net">
-		<rate value="691.29780" date="2021-03-18"/>
+		<rate value="660.16171" date="2021-12-20"/>
 	</currency>
 	<currency code="SRD" symbol="$" name="Surinamese dollar" source="mycurrency.net">
-		<rate value="16.85317" date="2021-03-18"/>
+		<rate value="24.39236" date="2021-12-20"/>
 	</currency>
 	<currency code="STD" symbol="Db" name="São Tomé and Príncipe dobra" source="mycurrency.net">
-		<rate value="24560.68797" date="2021-03-18"/>
+		<rate value="24041.35360" date="2021-12-20"/>
 	</currency>
 	<currency code="SVC" symbol="₡" name="Salvadoran colón" source="mycurrency.net">
-		<rate value="10.41474" date="2021-03-18"/>
+		<rate value="9.98417" date="2021-12-20"/>
 	</currency>
 	<currency code="SYP" symbol="£" name="Syrian pound" source="mycurrency.net">
-		<rate value="610.77076" date="2021-03-18"/>
+		<rate value="2846.66250" date="2021-12-20"/>
 	</currency>
 	<currency code="SZL" symbol="E" name="Swazi lilangeni" source="mycurrency.net">
-		<rate value="17.74464" date="2021-03-18"/>
+		<rate value="18.10409" date="2021-12-20"/>
 	</currency>
 	<currency code="THB" symbol="฿" name="Thai baht" source="ECB">
-		<rate value="36.65600" date="2021-03-17"/>
+		<rate value="37.70600" date="2021-12-17"/>
 	</currency>
 	<currency code="TJS" name="Tajikistani somoni" source="mycurrency.net">
-		<rate value="13.56434" date="2021-03-18"/>
+		<rate value="12.87722" date="2021-12-20"/>
 	</currency>
 	<currency code="TMT" symbol="T" name="Turkmenistan manat" source="mycurrency.net">
-		<rate value="4.16745" date="2021-03-18"/>
+		<rate value="3.96550" date="2021-12-20"/>
 	</currency>
 	<currency code="TND" symbol="DT" name="Tunisian dinar" source="mycurrency.net">
-		<rate value="3.26430" date="2021-03-18"/>
+		<rate value="3.23585" date="2021-12-20"/>
 	</currency>
 	<currency code="TOP" symbol="T$" name="Tongan paʻanga" source="mycurrency.net">
-		<rate value="2.69917" date="2021-03-18"/>
+		<rate value="2.59491" date="2021-12-20"/>
 	</currency>
 	<currency code="TRY" symbol="₺" name="Turkish lira" source="ECB">
-		<rate value="8.94980" date="2021-03-17"/>
+		<rate value="19.11550" date="2021-12-17"/>
 	</currency>
 	<currency code="TTD" symbol="$" name="Trinidad and Tobago dollar" source="mycurrency.net">
-		<rate value="8.08002" date="2021-03-18"/>
+		<rate value="7.75968" date="2021-12-20"/>
 	</currency>
 	<currency code="TWD" symbol="$" name="New Taiwan dollar" source="mycurrency.net">
-		<rate value="33.77778" date="2021-03-18"/>
+		<rate value="31.55688" date="2021-12-20"/>
 	</currency>
 	<currency code="TZS" symbol="TSh" name="Tanzanian shilling" source="mycurrency.net">
-		<rate value="2761.23330" date="2021-03-18"/>
+		<rate value="2610.43200" date="2021-12-20"/>
 	</currency>
 	<currency code="UAH" symbol="₴" name="Ukrainian hryvnia" source="mycurrency.net">
-		<rate value="32.95500" date="2021-03-18"/>
+		<rate value="31.09994" date="2021-12-20"/>
 	</currency>
 	<currency code="UGX" symbol="USh" name="Ugandan shilling" source="mycurrency.net">
-		<rate value="4365.10620" date="2021-03-18"/>
+		<rate value="4056.57054" date="2021-12-20"/>
 	</currency>
 	<currency code="USD" symbol="$" name="United States dollar" source="ECB">
-		<rate value="1.19070" date="2021-03-17"/>
+		<rate value="1.13300" date="2021-12-17"/>
 	</currency>
 	<currency code="UYU" symbol="$" name="Uruguayan peso" source="mycurrency.net">
-		<rate value="52.99722" date="2021-03-18"/>
+		<rate value="50.39561" date="2021-12-20"/>
 	</currency>
 	<currency code="UZS" symbol="лв" name="Uzbekistan som" source="mycurrency.net">
-		<rate value="12526.75935" date="2021-03-18"/>
+		<rate value="12348.22710" date="2021-12-20"/>
 	</currency>
 	<currency code="VEF" symbol="Bs." name="Venezuelan bolívar" source="mycurrency.net">
-		<rate value="295874.66160" date="2021-03-18"/>
+		<rate value="281536.90400" date="2021-12-20"/>
 	</currency>
 	<currency code="VND" symbol="₫" name="Vietnamese đồng" source="mycurrency.net">
-		<rate value="27331.08966" date="2021-03-18"/>
+		<rate value="25980.25650" date="2021-12-20"/>
 	</currency>
 	<currency code="VUV" symbol="VT" name="Vanuatu vatu" source="mycurrency.net">
-		<rate value="129.84107" date="2021-03-18"/>
+		<rate value="128.60683" date="2021-12-20"/>
 	</currency>
 	<currency code="XAF" symbol="FCFA" name="Central African CFA franc" source="mycurrency.net">
-		<rate value="653.73359" date="2021-03-18"/>
+		<rate value="660.30447" date="2021-12-20"/>
 	</currency>
 	<currency code="XCD" symbol="$" name="East Caribbean dollar" source="mycurrency.net">
-		<rate value="3.21793" date="2021-03-18"/>
+		<rate value="3.06199" date="2021-12-20"/>
 	</currency>
 	<currency code="XOF" symbol="CFA" name="West African CFA franc" source="mycurrency.net">
-		<rate value="653.73359" date="2021-03-18"/>
+		<rate value="660.30447" date="2021-12-20"/>
 	</currency>
 	<currency code="XPF" symbol="CFP" name="CFP franc" source="mycurrency.net">
-		<rate value="118.92724" date="2021-03-18"/>
+		<rate value="120.12293" date="2021-12-20"/>
 	</currency>
 	<currency code="YER" symbol="﷼" name="Yemen rial" source="mycurrency.net">
-		<rate value="298.15128" date="2021-03-18"/>
+		<rate value="283.53325" date="2021-12-20"/>
 	</currency>
 	<currency code="ZAR" symbol="R" name="South African rand" source="ECB">
-		<rate value="17.71800" date="2021-03-17"/>
+		<rate value="17.92800" date="2021-12-17"/>
 	</currency>
 	<currency code="ZMK" symbol="ZK" name="Zambian kwacha" source="mycurrency.net">
-		<rate value="10717.72884" date="2021-03-18"/>
+		<rate value="10198.35960" date="2021-12-20"/>
 	</currency>
 </Eqonomize>

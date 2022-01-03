@@ -246,7 +246,11 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 	}
 	QString calculatedText_pre = input.trimmed();
 	input.replace("√", QString('^') + (o_currency ? o_currency->formatValue(0.5, -1, false, false, true) : budget->formatValue(0.5, 1)));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	input.remove(QRegularExpression("\\s"));
+#else
 	input.remove(QRegExp("\\s"));
+#endif
 	if(o_currency) {
 		input.remove(budget->monetary_group_separator);
 		if(!budget->monetary_negative_sign.isEmpty()) input.replace(budget->monetary_negative_sign, "-");
@@ -263,8 +267,8 @@ void EqonomizeValueEdit::fixup(QString &input) const {
 	input.replace("÷", "/");
 	input.replace("²", "^2");
 	input.replace("³", "^3");
-	input.replace(']', ')');
-	input.replace('[', '(');
+	input.replace("]", ")");
+	input.replace("[", "(");
 	QStringList errors;
 	bool calculated = false;
 	double v = fixup_sub(input, errors, calculated);
@@ -308,8 +312,8 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 		if(!budget->negative_sign.isEmpty()) input.replace(budget->negative_sign, "-");
 		if(!budget->positive_sign.isEmpty()) input.replace(budget->positive_sign, "+");
 	}
-	input.replace(QLocale().negativeSign(), '-');
-	input.replace(QLocale().positiveSign(), '+');
+	input.replace(QLocale().negativeSign(), "-");
+	input.replace(QLocale().positiveSign(), "+");
 	int i = input.indexOf(')', 1);
 	if(i < 1) {
 		i = input.indexOf('(', 0);
@@ -347,9 +351,17 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 		calculated = true;
 		return fixup_sub(input, errors, calculated);
 	}
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	i = input.indexOf(QRegularExpression("[-+]"), 1);
+#else
 	i = input.indexOf(QRegExp("[-+]"), 1);
+#endif
 	if(i >= 1) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		QStringList terms = input.split(QRegularExpression("[-+]"));
+#else
 		QStringList terms = input.split(QRegExp("[-+]"));
+#endif
 		i = 0;
 		double v = 0.0;
 		QList<bool> signs;
@@ -386,9 +398,17 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 		}
 	}
 	if(input.indexOf("**") >= 0) input.replace("**", "^");
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	i = input.indexOf(QRegularExpression("[*/]"), 0);
+#else
 	i = input.indexOf(QRegExp("[*/]"), 0);
+#endif
 	if(i >= 0) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		QStringList terms = input.split(QRegularExpression("[*/]"));
+#else
 		QStringList terms = input.split(QRegExp("[*/]"));
+#endif
 		QChar c = '*';
 		i = 0;
 		double v = 1.0;
@@ -448,7 +468,11 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 			reg_exp_str += '.';
 		}
 		reg_exp_str += "]";
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		int i = input.indexOf(QRegularExpression(reg_exp_str));
+#else
 		int i = input.indexOf(QRegExp(reg_exp_str));
+#endif
 		if(i >= 1) {
 			QString scur = input.left(i).trimmed();
 			Currency *cur = budget->findCurrency(scur);
@@ -466,7 +490,11 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 			errors << tr("Unknown or ambiguous currency, or unrecognized characters, in expression: %1.").arg(scur);
 		}
 		if(i >= 0) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+			i = input.lastIndexOf(QRegularExpression(reg_exp_str));
+#else
 			i = input.lastIndexOf(QRegExp(reg_exp_str));
+#endif
 			if(i >= 0 && i < input.length() - 1) {
 				QString scur = input.right(input.length() - (i + 1)).trimmed();
 				Currency *cur = budget->findCurrency(scur);
@@ -528,7 +556,11 @@ double EqonomizeValueEdit::fixup_sub(QString &input, QStringList &errors, bool &
 			reg_exp_str += '.';
 		}
 		reg_exp_str += "]";
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		i = input.indexOf(QRegularExpression(reg_exp_str));
+#else
 		i = input.indexOf(QRegExp(reg_exp_str));
+#endif
 		if(i >= 0) {
 			errors << tr("Unrecognized characters in expression.");
 		}

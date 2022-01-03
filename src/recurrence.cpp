@@ -102,7 +102,7 @@ void Recurrence::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	if(!d_enddate.isValid() && !d_enddate.isNull()) d_enddate = QDate();
 }
 bool Recurrence::readElement(QXmlStreamReader *xml, bool*) {
-	if(xml->name() == "exception") {
+	if(xml->name() == XML_COMPARE_CONST_CHAR("exception")) {
 		QDate date = QDate::fromString(xml->attributes().value("date").toString(), Qt::ISODate);
 		if(date.isValid() && date >= d_startdate && (d_enddate.isNull() || date <= d_enddate)) {
 			exceptions.append(date);
@@ -429,7 +429,11 @@ void WeeklyRecurrence::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Recurrence::readAttributes(attr, valid);
 	if(attr->hasAttribute("frequency")) i_frequency = attr->value("frequency").toInt();
 	else i_frequency = 1;
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+	QStringView days = attr->value("days");
+#else
 	QStringRef days = attr->value("days");
+#endif
 	b_daysofweek[0] = days.indexOf('1') >= 0;
 	b_daysofweek[1] = days.indexOf('2') >= 0;
 	b_daysofweek[2] = days.indexOf('3') >= 0;

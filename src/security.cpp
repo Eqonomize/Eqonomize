@@ -90,12 +90,16 @@ void Security::mergeQuotes(const Security *security, bool keep) {
 
 void Security::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	read_id(attr, i_id, i_first_revision, i_last_revision);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	QStringView type = attr->value("type");
+#else
 	QStringRef type = attr->value("type");
-	if(type == "bond") {
+#endif
+	if(type == XML_COMPARE_CONST_CHAR("bond")) {
 		st_type = SECURITY_TYPE_BOND;
-	} else if(type == "stock") {
+	} else if(type == XML_COMPARE_CONST_CHAR("stock")) {
 		st_type = SECURITY_TYPE_STOCK;
-	} else if(type == "mutual fund") {
+	} else if(type == XML_COMPARE_CONST_CHAR("mutual fund")) {
 		st_type = SECURITY_TYPE_MUTUAL_FUND;
 	} else {
 		st_type = SECURITY_TYPE_OTHER;
@@ -117,7 +121,7 @@ void Security::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	}
 }
 bool Security::readElement(QXmlStreamReader *xml, bool*) {
-	if(xml->name() == "quotation") {
+	if(xml->name() == XML_COMPARE_CONST_CHAR("quotation")) {
 		QXmlStreamAttributes attr = xml->attributes();
 		QDate date = QDate::fromString(attr.value("date").toString(), Qt::ISODate);
 		quotations[date] = attr.value("value").toDouble();

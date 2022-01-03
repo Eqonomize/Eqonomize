@@ -675,7 +675,11 @@ OverTimeReport::OverTimeReport(Budget *budg, QWidget *parent) : QWidget(parent),
 
 	updateTags();
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	connect(group, SIGNAL(idToggled(int, bool)), this, SLOT(columnsToggled(int, bool)));
+#else
 	connect(group, SIGNAL(buttonToggled(int, bool)), this, SLOT(columnsToggled(int, bool)));
+#endif
 	connect(valueButton, SIGNAL(toggled(bool)), this, SLOT(updateDisplay()));
 	connect(dailyButton, SIGNAL(toggled(bool)), this, SLOT(updateDisplay()));
 	connect(monthlyButton, SIGNAL(toggled(bool)), this, SLOT(updateDisplay()));
@@ -875,7 +879,9 @@ void OverTimeReport::save() {
 	}
 	last_document_directory = fileDialog.directory().absolutePath();
 	QTextStream outf(&ofile);
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 	outf.setCodec("UTF-8");
+#endif
 	outf << source;
 	if(!ofile.commit()) {
 		QMessageBox::critical(this, tr("Error"), tr("Error while writing file; file was not saved."));

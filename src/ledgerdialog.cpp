@@ -53,7 +53,11 @@
 #include <QHeaderView>
 #include <QMenu>
 #include <QAction>
-#include <QDesktopWidget>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+#	include <QScreen>
+#else
+#	include <QDesktopWidget>
+#endif
 #include <QShortcut>
 #include <QDateTimeEdit>
 
@@ -318,8 +322,18 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	setColumnMoneyWidth(transactionsView, 11, budget, 999999999.99);
 	min_width_1 = transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) + transactionsView->columnWidth(3) + transactionsView->columnWidth(4) + transactionsView->columnWidth(9) + transactionsView->columnWidth(10) + transactionsView->columnWidth(11) + 30;
 	min_width_2 = min_width_1 + transactionsView->columnWidth(8);
-	QDesktopWidget desktop;
-	if(desktop.availableGeometry(this).width() > min_width_1 * 1.2) transactionsView->setMinimumWidth(min_width_1);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+#	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+	QScreen *scr = screen();
+#	else
+	QScreen *scr = QGuiApplication::screenAt(pos);
+#	endif
+	if(!scr) scr = QGuiApplication::primaryScreen();
+	QRect rect = scr->availableGeometry();
+#else
+	QRect rect = QApplication::desktop()->availableGeometry(this);
+#endif
+	if(rect.width() > min_width_1 * 1.2) transactionsView->setMinimumWidth(min_width_1);
 	transactionsView->setColumnHidden(5, true);
 	transactionsView->setColumnHidden(6, true);
 	transactionsView->setColumnHidden(7, true);
@@ -436,7 +450,11 @@ void LedgerDialog::keyPressEvent(QKeyEvent *e) {
 	if(e == key_event) return;
 	QDialog::keyPressEvent(e);
 	if(!e->isAccepted() && !transactionsView->hasFocus()) {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+		key_event = new QKeyEvent(e->type(), e->key(), e->modifiers(), e->nativeScanCode(), e->nativeVirtualKey(), e->nativeModifiers(), e->text(), e->isAutoRepeat(), e->count());
+#else
 		key_event = new QKeyEvent(*e);
+#endif
 		QApplication::sendEvent(transactionsView, key_event);
 		delete key_event;
 	}
@@ -810,8 +828,18 @@ void LedgerDialog::accountChanged() {
 	if(!account) return;
 	bool b_loan = (account->accountType() == ASSETS_TYPE_LIABILITIES || account->accountType() == ASSETS_TYPE_CREDIT_CARD);
 	transactionsView->setColumnHidden(8, !b_loan);
-	QDesktopWidget desktop;
-	if(desktop.availableGeometry(this).width() > min_width_2 * 1.2) transactionsView->setMinimumWidth(b_loan ? min_width_2 : min_width_1);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+#	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+	QScreen *scr = screen();
+#	else
+	QScreen *scr = QGuiApplication::screenAt(pos);
+#	endif
+	if(!scr) scr = QGuiApplication::primaryScreen();
+	QRect rect = scr->availableGeometry();
+#else
+	QRect rect = QApplication::desktop()->availableGeometry(this);
+#endif
+	if(rect.width() > min_width_2 * 1.2) transactionsView->setMinimumWidth(b_loan ? min_width_2 : min_width_1);
 	ActionNewDebtInterest->setVisible(b_loan);
 	ActionNewDebtPayment->setVisible(b_loan);
 	transactionsView->verticalScrollBar()->setValue(0);
@@ -905,7 +933,9 @@ void LedgerDialog::onFilterSelected(QString filter) {
 bool LedgerDialog::exportList(QTextStream &outf, int fileformat, QDate first_date, QDate last_date) {
 	switch(fileformat) {
 		case 'h': {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			outf.setCodec("UTF-8");
+#endif
 			outf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" << '\n';
 			outf << "<html>" << '\n';
 			outf << "\t<head>" << '\n';
@@ -1449,6 +1479,8 @@ void LedgerDialog::edit(QTreeWidgetItem *qwi, int c) {
 	}
 }
 void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
+	expenseColor = QColor();
+	incomeColor = QColor();
 	int scroll_h = transactionsView->horizontalScrollBar()->value();
 	int scroll_v = transactionsView->verticalScrollBar()->value();
 	Transaction *selected_transaction = NULL;
@@ -1719,6 +1751,9 @@ void LedgerDialog::updateTransactions(bool update_reconciliation_date) {
 		reconcileStartEdit->setDate(rec_date);
 		reconcileStartEdit->blockSignals(false);
 	}
+	labelExpenseColor = QColor();
+	labelIncomeColor = QColor();
+	labelTransferColor = QColor();
 	if(b_reconciling) updateReconciliationStats(false, true, true);
 }
 void LedgerDialog::reject() {

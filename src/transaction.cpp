@@ -126,7 +126,11 @@ void Transactions::clearTags() {
 }
 void Transactions::readTags(const QString &text) {
 	tags.clear();
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+	QStringView tagstr(text);
+#else
 	QStringRef tagstr(&text);
+#endif
 	tagstr = tagstr.trimmed();
 	if(tagstr.isEmpty()) return;
 	while(true) {
@@ -145,7 +149,11 @@ void Transactions::readTags(const QString &text) {
 			tags << tagstr.toString();
 			break;
 		}
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+		QStringView tagi = tagstr.left(i).trimmed();
+#else
 		QStringRef tagi = tagstr.left(i).trimmed();
+#endif
 		if(tagi.length() >= 2 && ((tagi.at(0) == '\"' && tagi.at(tagstr.size() - 1) == '\"') || (tagi.at(0) == '\'' && tagi.at(tagstr.size() - 1) == '\''))) tagi = tagi.mid(1, tagi.length() - 2).trimmed();
 		if(!tagi.isEmpty()) tags << tagi.toString();
 		tagstr = tagstr.right(tagstr.length() - i - 1).trimmed();
@@ -1312,19 +1320,23 @@ void ScheduledTransaction::readAttributes(QXmlStreamAttributes *attr, bool*) {
 	read_id(attr, i_id, i_first_revision, i_last_revision);
 }
 bool ScheduledTransaction::readElement(QXmlStreamReader *xml, bool*) {
-	if(xml->name() == "recurrence") {
+	if(xml->name() == XML_COMPARE_CONST_CHAR("recurrence")) {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+		QStringView type = xml->attributes().value("type");
+#else
 		QStringRef type = xml->attributes().value("type");
+#endif
 		bool valid2 = true;
-		if(type == "daily") {
+		if(type == XML_COMPARE_CONST_CHAR("daily")) {
 			if(o_rec) delete o_rec;
 			o_rec = new DailyRecurrence(budget(), xml, &valid2);
-		} else if(type == "weekly") {
+		} else if(type == XML_COMPARE_CONST_CHAR("weekly")) {
 			if(o_rec) delete o_rec;
 			o_rec = new WeeklyRecurrence(budget(), xml, &valid2);
-		} else if(type == "monthly") {
+		} else if(type == XML_COMPARE_CONST_CHAR("monthly")) {
 			if(o_rec) delete o_rec;
 			o_rec = new MonthlyRecurrence(budget(), xml, &valid2);
-		} else if(type == "yearly") {
+		} else if(type == XML_COMPARE_CONST_CHAR("yearly")) {
 			if(o_rec) delete o_rec;
 			o_rec = new YearlyRecurrence(budget(), xml, &valid2);
 		} else {
@@ -1335,8 +1347,12 @@ bool ScheduledTransaction::readElement(QXmlStreamReader *xml, bool*) {
 			o_rec = NULL;
 		}
 		return true;
-	} else if(xml->name() == "transaction") {
+	} else if(xml->name() == XML_COMPARE_CONST_CHAR("transaction")) {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+		QStringView type = xml->attributes().value("type");
+#else
 		QStringRef type = xml->attributes().value("type");
+#endif
 		if(type.isEmpty()) {
 			QXmlStreamAttributes attr = xml->attributes();
 			if(attr.hasAttribute("shares") && attr.hasAttribute("security")) {
@@ -1360,38 +1376,38 @@ bool ScheduledTransaction::readElement(QXmlStreamReader *xml, bool*) {
 			type = attr.value("type");
 		}
 		bool valid2 = true;
-		if(type == "expense" || type == "refund") {
+		if(type == XML_COMPARE_CONST_CHAR("expense") || type == XML_COMPARE_CONST_CHAR("refund")) {
 			if(o_trans) delete o_trans;
 			o_trans = new Expense(budget(), xml, &valid2);
-		} else if(type == "income" || type == "repayment") {
+		} else if(type == XML_COMPARE_CONST_CHAR("income") || type == XML_COMPARE_CONST_CHAR("repayment")) {
 			if(o_trans) delete o_trans;
 			o_trans = new Income(budget(), xml, &valid2);
-		} else if(type == "dividend") {
+		} else if(type == XML_COMPARE_CONST_CHAR("dividend")) {
 			if(o_trans) delete o_trans;
 			o_trans = new Income(budget(), xml, &valid2);
 			if(!((Income*) o_trans)->security()) valid2 = false;
-		} else if(type == "reinvested_dividend") {
+		} else if(type == XML_COMPARE_CONST_CHAR("reinvested_dividend")) {
 			if(o_trans) delete o_trans;
 			o_trans = new ReinvestedDividend(budget(), xml, &valid2);
-		} else if(type == "transfer") {
+		} else if(type == XML_COMPARE_CONST_CHAR("transfer")) {
 			if(o_trans) delete o_trans;
 			o_trans = new Transfer(budget(), xml, &valid2);
-		} else if(type == "balancing") {
+		} else if(type == XML_COMPARE_CONST_CHAR("balancing")) {
 			if(o_trans) delete o_trans;
 			o_trans = new Balancing(budget(), xml, &valid2);
-		} else if(type == "security_buy") {
+		} else if(type == XML_COMPARE_CONST_CHAR("security_buy")) {
 			if(o_trans) delete o_trans;
 			o_trans = new SecurityBuy(budget(), xml, &valid2);
-		} else if(type == "security_sell") {
+		} else if(type == XML_COMPARE_CONST_CHAR("security_sell")) {
 			if(o_trans) delete o_trans;
 			o_trans = new SecuritySell(budget(), xml, &valid2);
-		} else if(type == "multiitem" || type == "split") {
+		} else if(type == XML_COMPARE_CONST_CHAR("multiitem") || type == XML_COMPARE_CONST_CHAR("split")) {
 			if(o_trans) delete o_trans;
 			o_trans = new MultiItemTransaction(budget(), xml, &valid2);
-		} else if(type == "multiaccount") {
+		} else if(type == XML_COMPARE_CONST_CHAR("multiaccount")) {
 			if(o_trans) delete o_trans;
 			o_trans = new MultiAccountTransaction(budget(), xml, &valid2);
-		} else if(type == "debtpayment") {
+		} else if(type == XML_COMPARE_CONST_CHAR("debtpayment")) {
 			if(o_trans) delete o_trans;
 			o_trans = new DebtPayment(budget(), xml, &valid2);
 		} else {
@@ -2036,7 +2052,7 @@ void MultiItemTransaction::readAttributes(QXmlStreamAttributes *attr, bool *vali
 }
 bool MultiItemTransaction::readElement(QXmlStreamReader *xml, bool*) {
 	if(!o_account) return false;
-	if(xml->name() == "transaction") {
+	if(xml->name() == XML_COMPARE_CONST_CHAR("transaction")) {
 		QString id;
 		for(QHash<qlonglong, AssetsAccount*>::iterator it = o_budget->assetsAccounts_id.begin(); it != o_budget->assetsAccounts_id.end(); ++it) {
 			if(it.value() == o_account) {
@@ -2046,7 +2062,11 @@ bool MultiItemTransaction::readElement(QXmlStreamReader *xml, bool*) {
 		}
 		if(id.isEmpty()) id = QString::number(o_account->id());
 		QXmlStreamAttributes attr = xml->attributes();
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+		QStringView type = attr.value("type");
+#else
 		QStringRef type = attr.value("type");
+#endif
 		if(type.isEmpty()) {
 			QXmlStreamAttributes attr = xml->attributes();
 			if(attr.hasAttribute("shares") && attr.hasAttribute("security")) {
@@ -2073,29 +2093,29 @@ bool MultiItemTransaction::readElement(QXmlStreamReader *xml, bool*) {
 		bool valid2 = true;
 		bool is_dividend = false;
 		Transaction *trans = NULL;
-		if(type == "expense" || type == "refund") {
+		if(type == XML_COMPARE_CONST_CHAR("expense") || type == XML_COMPARE_CONST_CHAR("refund")) {
 			attr.append("from", id);
 			if(!s_payee.isEmpty() && !attr.hasAttribute("payee")) attr.append("payee", s_payee);
 			trans = new Expense(budget());
-		} else if(type == "income" || type == "repayment") {
+		} else if(type == XML_COMPARE_CONST_CHAR("income") || type == XML_COMPARE_CONST_CHAR("repayment")) {
 			attr.append("to", id);
 			if(!s_payee.isEmpty() && !attr.hasAttribute("payer")) attr.append("payer", s_payee);
 			trans = new Income(budget());
-		} else if(type == "dividend") {
+		} else if(type == XML_COMPARE_CONST_CHAR("dividend")) {
 			attr.append("to", id);
 			trans = new Income(budget());
 			is_dividend = true;
-		} else if(type == "balancing") {
+		} else if(type == XML_COMPARE_CONST_CHAR("balancing")) {
 			attr.append("account", id);
 			trans = new Balancing(budget());
-		} else if(type == "transfer") {
+		} else if(type == XML_COMPARE_CONST_CHAR("transfer")) {
 			if(attr.hasAttribute("to")) attr.append("from", id);
 			else attr.append("to", id);
 			trans = new Transfer(budget());
-		} else if(type == "security_buy") {
+		} else if(type == XML_COMPARE_CONST_CHAR("security_buy")) {
 			attr.append("account", id);
 			trans = new SecurityBuy(budget());
-		} else if(type == "security_sell") {
+		} else if(type == XML_COMPARE_CONST_CHAR("security_sell")) {
 			attr.append("account", id);
 			trans = new SecuritySell(budget());
 		}
@@ -2417,11 +2437,15 @@ void MultiAccountTransaction::readAttributes(QXmlStreamAttributes *attr, bool *v
 }
 bool MultiAccountTransaction::readElement(QXmlStreamReader *xml, bool*) {
 	if(!o_category) return false;
-	if(xml->name() == "transaction") {
+	if(xml->name() == XML_COMPARE_CONST_CHAR("transaction")) {
 		QXmlStreamAttributes attr = xml->attributes();
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+		QStringView type = attr.value("type");
+#else
 		QStringRef type = attr.value("type");
+#endif
 		QString id;
-		if(type == "income") {
+		if(type == XML_COMPARE_CONST_CHAR("income")) {
 			for(QHash<qlonglong, IncomesAccount*>::iterator it = o_budget->incomesAccounts_id.begin(); it != o_budget->incomesAccounts_id.end(); ++it) {
 				if(it.value() == o_category) {
 					id = QString::number(it.key());
@@ -2439,11 +2463,11 @@ bool MultiAccountTransaction::readElement(QXmlStreamReader *xml, bool*) {
 		if(id.isEmpty()) id = QString::number(o_category->id());
 		bool valid2 = true;
 		Transaction *trans = NULL;
-		if(o_category->type() == ACCOUNT_TYPE_EXPENSES && type == "expense") {
+		if(o_category->type() == ACCOUNT_TYPE_EXPENSES && type == XML_COMPARE_CONST_CHAR("expense")) {
 			attr.append("category", id);
 			attr.append("description", s_description);
 			trans = new Expense(budget());
-		} else if(o_category->type() == ACCOUNT_TYPE_INCOMES && type == "income") {
+		} else if(o_category->type() == ACCOUNT_TYPE_INCOMES && type == XML_COMPARE_CONST_CHAR("income")) {
 			attr.append("category", id);
 			attr.append("description", s_description);
 			trans = new Income(budget());
