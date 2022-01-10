@@ -7561,7 +7561,7 @@ Do you want to load the last auto-saved version of the file?</source>
     <message>
         <location filename="../src/eqonomize.cpp" line="7646"/>
         <source>S&amp;ettings</source>
-        <translation type="unfinished">&amp;Instellungen</translation>
+        <translation type="unfinished">&amp;Instellingen</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7647"/>
