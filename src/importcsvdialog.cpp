@@ -67,6 +67,9 @@ extern QString last_document_directory;
 
 ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *parent) : QWizard(parent), b_extra(extra_parameters), budget(budg) {
 
+	QSettings settings;
+	if(settings.value("GeneralOptions/darkMode", false).toBool()) setWizardStyle(QWizard::ClassicStyle);
+
 	setWindowTitle(tr("Import CSV file"));
 	setModal(true);
 
@@ -108,9 +111,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	presetCombo = new QComboBox();
 	presetCombo->setMinimumContentsLength(20);
 	presetCombo->setEditable(false);
-	QSettings settings;
-	settings.beginGroup("GeneralOptions");
-	presets = settings.value("CSVPresets").toMap();
+	presets = settings.value("GeneralOptions/CSVPresets").toMap();
 	for(QMap<QString, QVariant>::const_iterator it = presets.constBegin(); it != presets.constEnd(); ++it) {
 		presetCombo->addItem(it.key());
 	}

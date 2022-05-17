@@ -49,6 +49,7 @@
 #include <QFileSystemModel>
 #include <QHash>
 #include <QMimeDatabase>
+#include <QSettings>
 
 #include "eqonomize.h"
 #include "qifimportexport.h"
@@ -67,6 +68,9 @@
 extern QString last_document_directory;
 
 ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_parameters) : QWizard(parent), budget(budg), b_extra(extra_parameters) {
+
+	QSettings settings;
+	if(settings.value("GeneralOptions/darkMode", false).toBool()) setWizardStyle(QWizard::ClassicStyle);
 
 	setWindowTitle(tr("Import QIF file"));
 	setModal(true);

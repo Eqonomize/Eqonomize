@@ -1,3 +1,7 @@
+2022-05-17  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix import CSV and import QIF dialogs (wizards) with dark mode on Windows
+
 2022-01-02  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix compilation errors with Qt 6
