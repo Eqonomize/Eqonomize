@@ -303,7 +303,7 @@
 	<currency code="NPR" symbol="Rs." name="Nepalese rupee" source="mycurrency.net">
 		<rate value="137.22783" date="2021-12-20"/>
 	</currency>
-	<currency code="NZD" symbol="$" name="New Zeeland dollar" source="ECB">
+	<currency code="NZD" symbol="$" name="New Zealand dollar" source="ECB">
 		<rate value="1.67380" date="2021-12-17"/>
 	</currency>
 	<currency code="OMR" symbol="﷼" name="Omani rial" source="mycurrency.net">
