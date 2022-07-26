@@ -81,7 +81,7 @@ class TransactionFilterWidget : public QWidget {
 		QLineEdit *descriptionEdit;
 		QDate from_date, to_date;
 		QRadioButton *includeButton, *excludeButton;
-		QCheckBox *exactMatchButton, *excludeSubsButton;
+		QCheckBox *exactMatchButton, *excludeSubsButton, *duplicatesButton;
 		QPushButton *clearButton;
 		QButtonGroup *group;
 

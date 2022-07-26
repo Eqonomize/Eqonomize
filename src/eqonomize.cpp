@@ -7962,6 +7962,8 @@ void Eqonomize::setupActions() {
 	ActionSplitUpTransaction->setEnabled(false);
 	ActionEditTimestamp->setEnabled(false);
 	ActionTags->setEnabled(false);
+	ActionLinks->setEnabled(false);
+	ActionCreateLink->setEnabled(false);
 	ActionEditScheduledTransaction->setEnabled(false);
 	ActionDeleteScheduledTransaction->setEnabled(false);
 	ActionNewRefund->setEnabled(false);

@@ -371,6 +371,14 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	layout3->addLayout(layout3_cm, row, 0, 1, 5);
 	row++;
 
+	QHBoxLayout *layout3_id = new QHBoxLayout();
+	layout3_id->addStretch(1);
+	ignoreDuplicateTransactionsButton = new QCheckBox(tr("Ignore duplicate transactions"), page3);
+	ignoreDuplicateTransactionsButton->setChecked(true);
+	layout3_id->addWidget(ignoreDuplicateTransactionsButton);
+	layout3->addLayout(layout3_id, row, 0, 1, 5);
+	row++;
+
 	QHBoxLayout *layoutPreset2 = new QHBoxLayout();
 	layoutPreset2->addStretch(1);
 	savePresetButton = new QPushButton(tr("Save as preset…"), page3);
@@ -1226,6 +1234,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 		}
 	}
 	bool create_missing = createMissingButton->isChecked() && type != ALL_TYPES_ID;
+	bool ignore_duplicates = ignoreDuplicateTransactionsButton->isChecked();
 	QString description, comments, payee, tags;
 	double quantity = 1.0;
 	if(!test && description_c < 0) description = valueDescriptionEdit->text();
@@ -1298,6 +1307,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	//bool had_data = false;
 	int successes = 0;
 	int failed = 0;
+	int duplicates = 0;
 	bool missing_columns = false, value_error = false, date_error = false;
 	bool AC1_empty = false, AC2_empty = false, AC1_missing = false, AC2_missing = false, AC_security = false, AC_balancing = false, AC_same = false;
 	bool AC1_category = (type == 0 || type == 1 || type == 3 || type == 4);
@@ -1738,7 +1748,11 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 					if(trans) {
 						trans->readTags(tags);
 						trans->setQuantity(quantity);
-						if(trans->date() > curdate) {
+						if(ignore_duplicates && budget->findDuplicateTransaction(trans)) {
+							duplicates++;
+							successes--;
+							delete trans;
+						} else if(trans->date() > curdate) {
 							trans->setTimestamp(datestamps.contains(QDate::currentDate()) ? datestamps[QDate::currentDate()] + 1 : DATE_TO_MSECS(QDate::currentDate()) / 1000);
 							datestamps[QDate::currentDate()] = trans->timestamp();
 							budget->addScheduledTransaction(new ScheduledTransaction(budget, trans, NULL));
@@ -1768,6 +1782,10 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 	} else {
 		info = tr("Unable to import any transactions.");
 	}
+	if(duplicates > 0) {
+		info += "\n";
+		info += tr("%n duplicate transaction(s) was ignored.", "", duplicates);
+	}
 	if(failed > 0) {
 		info += '\n';
 		info += tr("Failed to import %n data row(s).", "", failed);
@@ -1781,7 +1799,7 @@ bool ImportCSVDialog::import(bool test, csv_info *ci) {
 		if(AC_security) {details += "\n-"; details += tr("Cannot import security transactions (to/from security accounts).");}
 		if(AC_balancing) {details += "\n-"; details += tr("Balancing account wrongly used.", "Referring to the account used for adjustments of account balances.");}
 		if(AC_same) {details += "\n-"; details += tr("Same to and from account/category.");}
-	} else if(successes == 0) {
+	} else if(successes == 0 && duplicates == 0) {
 		info = tr("No data found.");
 	}
 	if(failed > 0 || successes == 0) {

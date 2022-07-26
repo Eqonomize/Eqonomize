@@ -112,7 +112,7 @@ class ImportCSVDialog : public QWizard {
 		QPushButton *savePresetButton;
 		QLabel *presetLabel;
 
-		QCheckBox *createMissingButton;
+		QCheckBox *createMissingButton, *ignoreDuplicateTransactionsButton;
 
 		bool import(bool test, csv_info *ci);
 

@@ -2883,10 +2883,16 @@ void Budget::splitTransactionDateModified(SplitTransaction*, const QDate&) {}
 
 Transaction *Budget::findDuplicateTransaction(Transaction *trans) {
 	TransactionList<Transaction*>::const_iterator it = std::lower_bound(transactions.constBegin(), transactions.constEnd(), trans, transaction_list_less_than);
+	TransactionList<Transaction*>::const_iterator it2 = it;
 	while(it != transactions.constEnd()) {
-		if((*it)->date() > trans->date()) return NULL;
-		if(trans->equals(*it, false)) return *it;
+		if((*it)->date() > trans->date()) break;
+		if(trans != *it && trans->equals(*it, false)) return *it;
 		++it;
+	}
+	while(it2 != transactions.constBegin()) {
+		--it2;
+		if((*it2)->date() != trans->date()) break;
+		if(trans != *it2 && trans->equals(*it2, false)) return *it2;
 	}
 	return NULL;
 }

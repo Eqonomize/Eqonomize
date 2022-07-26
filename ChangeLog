@@ -1,3 +1,9 @@
+2022-05-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add option to ignore duplicates to import CSV dialog
+	* Add option to list duplicate transactions in transaction list filter
+	* Fix initial links actions states (disable)
+
 2022-05-17  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix import CSV and import QIF dialogs (wizards) with dark mode on Windows
