@@ -44,44 +44,51 @@ typedef enum {
 	SECURITY_TYPE_OTHER
 } SecurityType;
 
-static bool security_transaction_list_less_than(Transaction *t1, Transaction *t2) {
-	return t1->date() < t2->date();
-}
+struct {
+	bool operator()(const Transaction *t1, const Transaction *t2) {
+		return t1->date() < t2->date();
+	}
+} SecurityTransactionListLess;
 template<class type> class SecurityTransactionList : public EqonomizeList<type> {
 	public:
 		SecurityTransactionList() : EqonomizeList<type>() {};
 		void sort() {
-			std::sort(QList<type>::begin(), QList<type>::end(), security_transaction_list_less_than);
+			std::sort(QList<type>::begin(), QList<type>::end(), SecurityTransactionListLess);
 		}
 		void inSort(type value) {
-			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, security_transaction_list_less_than), value);
+			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, SecurityTransactionListLess), value);
 		}
 };
-static bool scheduled_security_list_less_than(ScheduledTransaction *t1, ScheduledTransaction *t2) {
-	return t1->date() < t2->date();
-}
 
+struct {
+	bool operator()(const ScheduledTransaction *t1, const ScheduledTransaction *t2) {
+		return t1->date() < t2->date();
+	}
+} ScheduledSecurityListLess;
 template<class type> class ScheduledSecurityTransactionList : public EqonomizeList<type> {
 	public:
 		ScheduledSecurityTransactionList() : EqonomizeList<type>() {};
 		void sort() {
-			std::sort(QList<type>::begin(), QList<type>::end(), scheduled_security_list_less_than);
+			std::sort(QList<type>::begin(), QList<type>::end(), ScheduledSecurityListLess);
 		}
 		void inSort(type value) {
-			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, scheduled_security_list_less_than), value);
+			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, ScheduledSecurityListLess), value);
 		}
 };
-static bool traded_shares_list_less_than(SecurityTrade *t1, SecurityTrade *t2) {
-	return t1->date < t2->date;
-}
+
+struct {
+	bool operator()(const SecurityTrade *t1, const SecurityTrade *t2) {
+		return t1->date < t2->date;
+	}
+} TradedSharesListLess;
 template<class type> class TradedSharesList : public EqonomizeList<type> {
 	public:
 		TradedSharesList() : EqonomizeList<type>() {};
 		void sort() {
-			std::sort(QList<type>::begin(), QList<type>::end(), traded_shares_list_less_than);
+			std::sort(QList<type>::begin(), QList<type>::end(), TradedSharesListLess);
 		}
 		void inSort(type value) {
-			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, traded_shares_list_less_than), value);
+			QList<type>::insert(std::lower_bound(QList<type>::begin(), QList<type>::end(), value, TradedSharesListLess), value);
 		}
 };
 

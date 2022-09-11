@@ -853,6 +853,7 @@ void CategoriesComparisonReport::updateDisplay() {
 					split_i = 0;
 				}
 			}
+			[[fallthrough]];
 		}
 		case 0: {
 			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {

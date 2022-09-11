@@ -644,6 +644,7 @@ void CategoriesComparisonChart::updateDisplay() {
 	switch(sourceCombo->currentIndex()) {
 		case 1: {
 			include_subs = true;
+			[[fallthrough]];
 		}
 		case 0: {
 			type = ACCOUNT_TYPE_EXPENSES;
@@ -659,6 +660,7 @@ void CategoriesComparisonChart::updateDisplay() {
 		}
 		case 3: {
 			include_subs = true;
+			[[fallthrough]];
 		}
 		case 2: {
 			if(assets_selected) title_string = tr("Incomes, %1").arg(accountCombo->selectedAccountsText(2));
