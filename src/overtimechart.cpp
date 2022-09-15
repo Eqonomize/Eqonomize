@@ -628,18 +628,18 @@ void OverTimeChart::categoryChanged(int index) {
 		descriptionCombo->addItem(tr("All Descriptions Split", "Referring to the transaction description property (transaction title/generic article name)"));
 		if(!current_account && current_tag.isEmpty()) return categoryChanged(0);
 		switch(current_source) {
-			case 29: {}
-			case 7: {}
-			case 8: {}
-			case 39: {}
-			case 17: {}
+			case 29: { [[fallthrough]]; }
+			case 7: { [[fallthrough]]; }
+			case 8: { [[fallthrough]]; }
+			case 39: { [[fallthrough]]; }
+			case 17: { [[fallthrough]]; }
 			case 18: {d_index = b_subs ? 2 : 1; p_index = 0; break;}
-			case 33: {}
-			case 11: {}
+			case 33: { [[fallthrough]]; }
+			case 11: {[[fallthrough]]; }
 			case 12: {d_index = 0; p_index = 1; break;}
-			case 21: {}
-			case 22: {}
-			case 23: {}
+			case 21: { [[fallthrough]]; }
+			case 22: { [[fallthrough]]; }
+			case 23: { [[fallthrough]]; }
 			case 24: {d_index = b_subs ? 1 : 0; p_index = 0; break;}
 			default: {d_index = 0; p_index = 0; break;}
 		}
@@ -1379,6 +1379,7 @@ void OverTimeChart::updateDisplay() {
 				case 23: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
 					if(!((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) break;
+					[[fallthrough]];
 				}
 				case 21: {
 					if(trans->fromAccount()->topAccount() == current_account) {
@@ -1395,6 +1396,7 @@ void OverTimeChart::updateDisplay() {
 				case 24: {
 					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
 					if(!((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) break;
+					[[fallthrough]];
 				}
 				case 22: {
 					if(trans->fromAccount()->topAccount() == current_account) {
@@ -1651,6 +1653,7 @@ void OverTimeChart::updateDisplay() {
 						else {b_expense = true; sign = -1;}
 						include = true;
 					}
+					[[fallthrough]];
 				}
 				case 15: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
@@ -1691,6 +1694,7 @@ void OverTimeChart::updateDisplay() {
 						else {b_expense = true; sign = -1;}
 						include = true;
 					}
+					[[fallthrough]];
 				}
 				case 17: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
@@ -1727,6 +1731,7 @@ void OverTimeChart::updateDisplay() {
 						else {b_expense = true; sign = -1;}
 						include = true;
 					}
+					[[fallthrough]];
 				}
 				case 19: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
@@ -2032,11 +2037,11 @@ void OverTimeChart::updateDisplay() {
 					}
 					break;
 				}
-				case -1: {}
-				case 0: {}
-				case 1: {}
-				case 2: {}
-				case 3: {}
+				case -1: { [[fallthrough]]; }
+				case 0: { [[fallthrough]]; }
+				case 1: { [[fallthrough]]; }
+				case 2: { [[fallthrough]]; }
+				case 3: { [[fallthrough]]; }
 				case 4: {
 					if(current_source2 != 2 && current_source2 != 4 && trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES) {
 						if(current_source > 50) {
@@ -2086,6 +2091,7 @@ void OverTimeChart::updateDisplay() {
 				case 23: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
 					if(!((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) break;
+					[[fallthrough]];
 				}
 				case 21: {
 					if(trans->fromAccount()->topAccount() == current_account) {
@@ -2102,6 +2108,7 @@ void OverTimeChart::updateDisplay() {
 				case 24: {
 					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
 					if(!((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) break;
+					[[fallthrough]];
 				}
 				case 22: {
 					if(trans->fromAccount()->topAccount() == current_account) {
@@ -2358,6 +2365,7 @@ void OverTimeChart::updateDisplay() {
 						else {b_expense = true; sign = -1;}
 						include = true;
 					}
+					[[fallthrough]];
 				}
 				case 15: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
@@ -2398,6 +2406,7 @@ void OverTimeChart::updateDisplay() {
 						else {b_expense = true; sign = -1;}
 						include = true;
 					}
+					[[fallthrough]];
 				}
 				case 17: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
@@ -2434,6 +2443,7 @@ void OverTimeChart::updateDisplay() {
 						else {b_expense = true; sign = -1;}
 						include = true;
 					}
+					[[fallthrough]];
 				}
 				case 19: {
 					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
@@ -2477,7 +2487,7 @@ void OverTimeChart::updateDisplay() {
 					while(cmi_it->date < transdate) {
 						++cmi_it;
 					}
-					(*mi) = cmi_it;
+					(*mi) = &(*cmi_it);
 					if(use_to_value) (*mi)->value += trans->toValue(do_convert) * sign;
 					else (*mi)->value += trans->value(do_convert) * sign;
 					(*mi)->count += trans->quantity();
@@ -2497,7 +2507,7 @@ void OverTimeChart::updateDisplay() {
 						while(cmi_it->date < transdate) {
 							++cmi_it;
 						}
-						(*mi2) = cmi_it;
+						(*mi2) = &(*cmi_it);
 						(*mi2)->value += trans->value(do_convert) * sign * -1;
 						includes_scheduled = true;
 					}
@@ -2604,7 +2614,7 @@ void OverTimeChart::updateDisplay() {
 		int year = budget->budgetYear(cmi_year->date);
 		bool in_future = false;
 		while(cmi_it != monthly_values->end()) {
-			(*mi) = cmi_it;
+			(*mi) = &(*cmi_it);
 			if((type < 2 || type == 4) && (current_source <= 6 || current_source == 21 || current_source == 22) && (!current_assets || current_assets->isBudgetAccount())) {
 				if(!in_future && (*mi)->date >= imonth) {
 					in_future = true;
@@ -2871,7 +2881,7 @@ void OverTimeChart::updateDisplay() {
 			QVector<chart_month_info>::iterator cmi_it = monthly_values->begin();
 			QVector<chart_month_info>::iterator cmi_itc = monthly_cats[account].begin();
 			while(cmi_it != monthly_values->end() && cmi_itc != monthly_cats[account].end()) {
-				(*mi) = cmi_it;
+				(*mi) = &(*cmi_it);
 				bool b_add = (current_source != -2 || (((AssetsAccount*) account)->accountType() != ASSETS_TYPE_LIABILITIES && (((AssetsAccount*) account)->accountType() != ASSETS_TYPE_CREDIT_CARD || cmi_itc->value > 0.0)));
 				if(current_source != -2 || (b_add == second_run)) {
 					if((!second_run && current_source == -1) || (!second_run && current_source == -2)) (*mi)->value -= cmi_itc->value;
@@ -2890,7 +2900,7 @@ void OverTimeChart::updateDisplay() {
 		if(current_source != -1 || second_run) {
 			QVector<chart_month_info>::iterator cmi_it = monthly_values->begin();
 			while(cmi_it != monthly_values->end()) {
-				(*mi) = cmi_it;
+				(*mi) = &(*cmi_it);
 				if((*mi)->value > maxvalue) maxvalue = (*mi)->value;
 				else if((*mi)->value < minvalue) minvalue = (*mi)->value;
 				if((*mi)->count > maxcount) maxcount = (*mi)->count;
