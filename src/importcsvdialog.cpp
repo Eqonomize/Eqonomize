@@ -374,7 +374,7 @@ ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *p
 	QHBoxLayout *layout3_id = new QHBoxLayout();
 	layout3_id->addStretch(1);
 	ignoreDuplicateTransactionsButton = new QCheckBox(tr("Ignore duplicate transactions"), page3);
-	ignoreDuplicateTransactionsButton->setChecked(true);
+	ignoreDuplicateTransactionsButton->setChecked(false);
 	layout3_id->addWidget(ignoreDuplicateTransactionsButton);
 	layout3->addLayout(layout3_id, row, 0, 1, 5);
 	row++;
@@ -453,7 +453,7 @@ void ImportCSVDialog::loadPreset(int index) {
 	s_preset = presetCombo->itemText(index);
 	if(!presets.contains(s_preset)) return;
 	QList<QVariant> preset = presets[s_preset].toList();
-	if(preset.count() < 26) return;
+	if(preset.count() < 4) return;
 	typeGroup->button(preset.at(0).toInt())->setChecked(true);
 	typeChanged(preset.at(0).toInt());
 	fileEdit->setText(preset.at(1).toString());
@@ -468,6 +468,7 @@ void ImportCSVDialog::loadPreset(int index) {
 		delimiterEdit->setText(delimiter);
 	}
 	int i = 4;
+	if(i >= preset.count()) return;
 	if(preset.at(i).toBool()) {
 		valueDateButton->setChecked(true);
 		valueDateEdit->setDate(preset.at(i + 1).toDate());
@@ -476,6 +477,7 @@ void ImportCSVDialog::loadPreset(int index) {
 		columnDateEdit->setValue(preset.at(i + 1).toInt());
 	}
 	i += 2;
+	if(i >= preset.count()) return;
 	if(preset.at(i).toBool()) {
 		valueDescriptionButton->setChecked(true);
 		valueDescriptionEdit->setText(preset.at(i + 1).toString());
@@ -484,6 +486,7 @@ void ImportCSVDialog::loadPreset(int index) {
 		columnDescriptionEdit->setValue(preset.at(i + 1).toInt());
 	}
 	i += 2;
+	if(i >= preset.count()) return;
 	if(preset.at(i).toBool()) {
 		valueCostButton->setChecked(true);
 		valueCostEdit->setValue(preset.at(i + 1).toDouble());
@@ -492,6 +495,7 @@ void ImportCSVDialog::loadPreset(int index) {
 		columnCostEdit->setValue(preset.at(i + 1).toInt());
 	}
 	i += 2;
+	if(i >= preset.count()) return;
 	if(preset.at(i).toBool()) {
 		valueValueButton->setChecked(true);
 		valueValueEdit->setValue(preset.at(i + 1).toDouble());
@@ -500,6 +504,7 @@ void ImportCSVDialog::loadPreset(int index) {
 		columnValueEdit->setValue(preset.at(i + 1).toInt());
 	}
 	i += 2;
+	if(i >= preset.count()) return;
 	if(preset.at(i).toBool()) {
 		valueAC1Button->setChecked(true);
 		qlonglong id = preset.at(i + 1).toLongLong();
@@ -527,6 +532,7 @@ void ImportCSVDialog::loadPreset(int index) {
 		columnAC1Edit->setValue(preset.at(i + 1).toInt());
 	}
 	i += 3;
+	if(i >= preset.count()) return;
 	if(preset.at(i).toBool()) {
 		valueAC2Button->setChecked(true);
 		qlonglong id = preset.at(i + 1).toLongLong();
@@ -544,6 +550,7 @@ void ImportCSVDialog::loadPreset(int index) {
 		columnAC2Edit->setValue(preset.at(i + 1).toInt());
 	}
 	i += 2;
+	if(i >= preset.count()) return;
 	if(b_extra) {
 		if(preset.at(i).toBool()) {
 			valueQuantityButton->setChecked(true);
@@ -564,6 +571,7 @@ void ImportCSVDialog::loadPreset(int index) {
 	} else {
 		i += 4;
 	}
+	if(i >= preset.count()) return;
 	if(preset.at(i).toBool()) {
 		valueTagsButton->setChecked(true);
 		valueTagsEdit->setText(preset.at(i + 1).toString());
@@ -572,6 +580,7 @@ void ImportCSVDialog::loadPreset(int index) {
 		columnTagsEdit->setValue(preset.at(i + 1).toInt());
 	}
 	i += 2;
+	if(i >= preset.count()) return;
 	if(preset.at(i).toBool()) {
 		valueCommentsButton->setChecked(true);
 		valueCommentsEdit->setText(preset.at(i + 1).toString());
@@ -581,6 +590,8 @@ void ImportCSVDialog::loadPreset(int index) {
 	}
 	i += 2;
 	createMissingButton->setChecked(preset.at(i).toBool());
+	i++;
+	ignoreDuplicateTransactionsButton->setChecked(i < preset.count() && preset.at(i).toBool());
 }
 void ImportCSVDialog::savePreset() {
 	QDialog *dialog = new QDialog(this);
@@ -706,6 +717,7 @@ void ImportCSVDialog::savePreset() {
 			preset << columnCommentsEdit->value();
 		}
 		preset << createMissingButton->isChecked();
+		preset << ignoreDuplicateTransactionsButton->isChecked();
 		presets[s_preset] = preset;
 		if(presetEdit->currentIndex() >= 0) {
 			presetCombo->setCurrentIndex(presetEdit->currentIndex());
