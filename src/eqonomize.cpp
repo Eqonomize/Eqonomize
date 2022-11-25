@@ -2787,6 +2787,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	securitiesViewLayout->addWidget(securitiesView);
 
 	securitiesStatLabel = new QLabel(securities_page);
+	securitiesStatLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 	securitiesViewLayout->addWidget(securitiesStatLabel);
 
 	QGroupBox *periodGroup = new QGroupBox(tr("Statistics Period"), securities_page);

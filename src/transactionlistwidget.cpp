@@ -173,6 +173,7 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	transactionsView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	transactionsViewLayout->addWidget(transactionsView);
 	statLabel = new QLabel(this);
+	statLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 	transactionsViewLayout->addWidget(statLabel);
 	QSizePolicy sp = transactionsView->sizePolicy();
 	sp.setVerticalPolicy(QSizePolicy::MinimumExpanding);

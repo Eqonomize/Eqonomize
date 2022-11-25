@@ -372,6 +372,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	box2->addWidget(buttons);
 
 	statLabel = new QLabel("", this);
+	statLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 	box3->addWidget(statLabel);
 
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
