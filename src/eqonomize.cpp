@@ -3138,6 +3138,11 @@ void Eqonomize::setBudgetPeriod() {
 	QVBoxLayout *box1 = new QVBoxLayout(dialog);
 	QGridLayout *layout = new QGridLayout();
 	layout->addWidget(new QLabel(tr("First day in budget month:"), dialog), 0, 0);
+	QButtonGroup *group = new QButtonGroup(dialog);
+	QRadioButton *dayButton = new QRadioButton(dialog);
+	group->addButton(dayButton);
+	dayButton->setChecked(budget->budgetWeek() == 0);
+	layout->addWidget(dayButton, 0, 1);
 	QComboBox *monthlyDayCombo = new QComboBox(dialog);
 	monthlyDayCombo->addItem(tr("1st"));
 	monthlyDayCombo->addItem(tr("2nd"));
@@ -3172,16 +3177,44 @@ void Eqonomize::setBudgetPeriod() {
 	monthlyDayCombo->addItem(tr("3rd Last"));
 	monthlyDayCombo->addItem(tr("4th Last"));
 	monthlyDayCombo->addItem(tr("5th Last"));
+	monthlyDayCombo->setEnabled(budget->budgetWeek() == 0);
 	if(budget->budgetDay() > 0) monthlyDayCombo->setCurrentIndex(budget->budgetDay() - 1);
 	else if(budget->budgetDay() > -5) monthlyDayCombo->setCurrentIndex(28 - budget->budgetDay());
-	layout->addWidget(monthlyDayCombo, 0, 1);
-	layout->addWidget(new QLabel(tr("First month in budget year:"), dialog), 1, 0);
+	layout->addWidget(monthlyDayCombo, 0, 2, 1, 2);
+	QRadioButton *weekButton = new QRadioButton(dialog);
+	group->addButton(weekButton);
+	weekButton->setChecked(budget->budgetWeek() != 0);
+	layout->addWidget(weekButton, 1, 1);
+	QComboBox *weekCombo = new QComboBox(dialog);
+	weekCombo->addItem(tr("1st"));
+	weekCombo->addItem(tr("2nd"));
+	weekCombo->addItem(tr("3rd"));
+	weekCombo->addItem(tr("4th"));
+	weekCombo->addItem(tr("Last"));
+	weekCombo->addItem(tr("2nd Last"));
+	weekCombo->addItem(tr("3rd Last"));
+	weekCombo->setEnabled(budget->budgetWeek() != 0);
+	if(budget->budgetWeek() > 0) weekCombo->setCurrentIndex(budget->budgetWeek() - 1);
+	else if(budget->budgetWeek() < 0) weekCombo->setCurrentIndex(3 - budget->budgetWeek());
+	else weekCombo->setCurrentIndex(0);
+	layout->addWidget(weekCombo, 1, 2);
+	QComboBox *weekdayCombo = new QComboBox(dialog);
+	for(int i = 0; i < 7; ++i ) {
+		weekdayCombo->addItem(QLocale().standaloneDayName(i + 1, QLocale::LongFormat));
+	}
+	weekdayCombo->setCurrentIndex(budget->budgetWeek() == 0 ? 0 : budget->budgetDay() - 1);
+	weekdayCombo->setEnabled(budget->budgetWeek() != 0);
+	layout->addWidget(weekdayCombo, 1, 3);
+	connect(dayButton, SIGNAL(toggled(bool)), monthlyDayCombo, SLOT(setEnabled(bool)));
+	connect(weekButton, SIGNAL(toggled(bool)), weekCombo, SLOT(setEnabled(bool)));
+	connect(weekButton, SIGNAL(toggled(bool)), weekdayCombo, SLOT(setEnabled(bool)));
+	layout->addWidget(new QLabel(tr("First month in budget year:"), dialog), 2, 0);
 	QComboBox *yearlyMonthCombo = new QComboBox(dialog);
 	for(int i = 1; i <= 12; i++) {
 		yearlyMonthCombo->addItem(QLocale().monthName(i, QLocale::LongFormat));
 	}
 	yearlyMonthCombo->setCurrentIndex(budget->budgetMonth() - 1);
-	layout->addWidget(yearlyMonthCombo, 1, 1);
+	layout->addWidget(yearlyMonthCombo, 2, 1, 1, 2);
 	box1->addLayout(layout);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, dialog);
 	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
@@ -3191,7 +3224,12 @@ void Eqonomize::setBudgetPeriod() {
 	connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
 	box1->addWidget(buttonBox);
 	if(dialog->exec() == QDialog::Accepted) {
-		budget->setBudgetDay(monthlyDayCombo->currentIndex() >= 28 ? -(monthlyDayCombo->currentIndex() - 28) : monthlyDayCombo->currentIndex() + 1);
+		if(weekButton->isChecked()) {
+			budget->setBudgetDay(weekdayCombo->currentIndex() + 1);
+			budget->setBudgetWeek(weekCombo->currentIndex() >= 4 ? -(weekCombo->currentIndex() - 3) : weekCombo->currentIndex() + 1);
+		} else {
+			budget->setBudgetDay(monthlyDayCombo->currentIndex() >= 28 ? -(monthlyDayCombo->currentIndex() - 28) : monthlyDayCombo->currentIndex() + 1);
+		}
 		budget->setBudgetMonth(yearlyMonthCombo->currentIndex() + 1);
 		updateBudgetDay();
 		setModified(true);

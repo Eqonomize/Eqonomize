@@ -142,7 +142,7 @@ class Budget {
 
 	protected:
 
-		int i_quotation_decimals, i_share_decimals, i_budget_day, i_budget_month, i_opened_revision, i_revision;
+		int i_quotation_decimals, i_share_decimals, i_budget_day, i_budget_week, i_budget_month, i_opened_revision, i_revision;
 		bool b_record_new_tags, b_record_new_accounts, b_record_new_securities, b_default_currency_changed, b_currency_modified;
 		TransactionConversionRateDate i_tcrd;
 
@@ -300,6 +300,8 @@ class Budget {
 
 		void setBudgetDay(int day_of_month);
 		int budgetDay() const;
+		void setBudgetWeek(int week_of_month);
+		int budgetWeek() const;
 		void setBudgetMonth(int month_of_year);
 		int budgetMonth() const;
 
