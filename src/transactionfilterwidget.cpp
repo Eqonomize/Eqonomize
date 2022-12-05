@@ -252,7 +252,7 @@ void TransactionFilterWidget::focusFirst() {
 	descriptionEdit->setFocus();
 	descriptionEdit->selectAll();
 }
-void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString tag, bool exclude, bool exact_match, bool exclude_subs) {
+void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min, double max, Account *from_account, Account *to_account, QString description, QString tag, bool exclude, bool exact_match, bool exclude_subs, bool duplicates) {
 	dateFromButton->blockSignals(true);
 	dateFromEdit->blockSignals(true);
 	dateToEdit->blockSignals(true);
@@ -329,7 +329,7 @@ void TransactionFilterWidget::setFilter(QDate fromdate, QDate todate, double min
 	}
 	excludeButton->setChecked(exclude);
 	exactMatchButton->setChecked(exact_match);
-	duplicatesButton->setChecked(false);
+	duplicatesButton->setChecked(duplicates);
 	if(excludeSubsButton) excludeSubsButton->setChecked(exclude_subs);
 	checkEnableClear();
 	dateFromButton->blockSignals(false);

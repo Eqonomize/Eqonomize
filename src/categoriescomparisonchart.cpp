@@ -641,90 +641,75 @@ void CategoriesComparisonChart::updateDisplay() {
 	}
 
 	AccountType type;
-	switch(sourceCombo->currentIndex()) {
-		case 1: {
-			include_subs = true;
-			[[fallthrough]];
+	if(sourceCombo->currentIndex() == 1 || sourceCombo->currentIndex() == 3) include_subs = true;
+	if(sourceCombo->currentIndex() == 0 || sourceCombo->currentIndex() == 1) {
+		type = ACCOUNT_TYPE_EXPENSES;
+		if(assets_selected) title_string = tr("Expenses, %1").arg(accountCombo->selectedAccountsText(2));
+		for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
+			CategoryAccount *account = *it;
+			if(include_subs || !account->parentCategory()) {
+				values[account] = 0.0;
+				counts[account] = 0.0;
+			}
 		}
-		case 0: {
-			type = ACCOUNT_TYPE_EXPENSES;
-			if(assets_selected) title_string = tr("Expenses, %1").arg(accountCombo->selectedAccountsText(2));
-			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
-				CategoryAccount *account = *it;
-				if(include_subs || !account->parentCategory()) {
+	} else if(sourceCombo->currentIndex() == 2 || sourceCombo->currentIndex() == 3) {
+		if(assets_selected) title_string = tr("Incomes, %1").arg(accountCombo->selectedAccountsText(2));
+		else title_string = tr("Incomes");
+		type = ACCOUNT_TYPE_INCOMES;
+		for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
+			CategoryAccount *account = *it;
+			if(include_subs || !account->parentCategory()) {
+				values[account] = 0.0;
+				counts[account] = 0.0;
+			}
+		}
+	} else if(sourceCombo->currentIndex() == 4) {
+		title_string = tr("Accounts");
+		type = ACCOUNT_TYPE_ASSETS;
+		for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+			AssetsAccount *account = *it;
+			if(account != budget->balancingAccount) {
+				if(account->accountType() == ASSETS_TYPE_SECURITIES) {
+					values[account] = 0.0;
+				} else {
+					values[account] = account->initialBalance();
+				}
+				counts[account] = 0.0;
+			}
+		}
+	} else {
+		type = ACCOUNT_TYPE_EXPENSES;
+		int i = sourceCombo->currentIndex() - 5;
+		if(i < (int) budget->expensesAccounts.count()) current_account = budget->expensesAccounts.at(i);
+		else current_account = budget->incomesAccounts.at(i - budget->expensesAccounts.count());
+		if(current_account) {
+			type = current_account->type();
+			if(assets_selected) {
+				if(type == ACCOUNT_TYPE_EXPENSES) title_string = tr("Expenses, %2: %1").arg(current_account->nameWithParent()).arg(accountCombo->selectedAccountsText(2));
+				else title_string = tr("Incomes, %2: %1").arg(current_account->nameWithParent()).arg(accountCombo->selectedAccountsText(2));
+			} else {
+				if(type == ACCOUNT_TYPE_EXPENSES) title_string = tr("Expenses: %1").arg(current_account->nameWithParent());
+				else title_string = tr("Incomes: %1").arg(current_account->nameWithParent());
+			}
+			include_subs = !current_account->subCategories.isEmpty();
+			if(include_subs) {
+				values[current_account] = 0.0;
+				counts[current_account] = 0.0;
+				for(AccountList<CategoryAccount*>::const_iterator it = current_account->subCategories.constBegin(); it != current_account->subCategories.constEnd(); ++it) {
+					Account *account = *it;
 					values[account] = 0.0;
 					counts[account] = 0.0;
 				}
-			}
-			break;
-		}
-		case 3: {
-			include_subs = true;
-			[[fallthrough]];
-		}
-		case 2: {
-			if(assets_selected) title_string = tr("Incomes, %1").arg(accountCombo->selectedAccountsText(2));
-			else title_string = tr("Incomes");
-			type = ACCOUNT_TYPE_INCOMES;
-			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
-				CategoryAccount *account = *it;
-				if(include_subs || !account->parentCategory()) {
-					values[account] = 0.0;
-					counts[account] = 0.0;
-				}
-			}
-			break;
-		}
-		case 4: {
-			title_string = tr("Accounts");
-			type = ACCOUNT_TYPE_ASSETS;
-			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
-				AssetsAccount *account = *it;
-				if(account != budget->balancingAccount) {
-					if(account->accountType() == ASSETS_TYPE_SECURITIES) {
-						values[account] = 0.0;
-					} else {
-						values[account] = account->initialBalance();
-					}
-					counts[account] = 0.0;
-				}
-			}
-			break;
-		}
-		default: {
-			type = ACCOUNT_TYPE_EXPENSES;
-			int i = sourceCombo->currentIndex() - 5;
-			if(i < (int) budget->expensesAccounts.count()) current_account = budget->expensesAccounts.at(i);
-			else current_account = budget->incomesAccounts.at(i - budget->expensesAccounts.count());
-			if(current_account) {
-				type = current_account->type();
-				if(assets_selected) {
-					if(type == ACCOUNT_TYPE_EXPENSES) title_string = tr("Expenses, %2: %1").arg(current_account->nameWithParent()).arg(accountCombo->selectedAccountsText(2));
-					else title_string = tr("Incomes, %2: %1").arg(current_account->nameWithParent()).arg(accountCombo->selectedAccountsText(2));
-				} else {
-					if(type == ACCOUNT_TYPE_EXPENSES) title_string = tr("Expenses: %1").arg(current_account->nameWithParent());
-					else title_string = tr("Incomes: %1").arg(current_account->nameWithParent());
-				}
-				include_subs = !current_account->subCategories.isEmpty();
-				if(include_subs) {
-					values[current_account] = 0.0;
-					counts[current_account] = 0.0;
-					for(AccountList<CategoryAccount*>::const_iterator it = current_account->subCategories.constBegin(); it != current_account->subCategories.constEnd(); ++it) {
-						Account *account = *it;
-						values[account] = 0.0;
-						counts[account] = 0.0;
-					}
-				} else {
-					for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
-						--it;
-						Transaction *trans = *it;
-						if(trans->date() <= to_date && (!assets_selected || accountCombo->testTransactionRelation(trans))) {
-							if(trans->date() < first_date) break;
-							if((trans->fromAccount() == current_account || trans->toAccount() == current_account) && !desc_map.contains(trans->description().toLower())) {
-								desc_map[trans->description().toLower()] = trans->description();
-								desc_values[trans->description().toLower()] = 0.0;
-								desc_counts[trans->description().toLower()] = 0.0;
-							}
+			} else {
+				for(TransactionList<Transaction*>::const_iterator it = budget->transactions.constEnd(); it != budget->transactions.constBegin();) {
+					--it;
+					Transaction *trans = *it;
+					if(trans->date() <= to_date && (!assets_selected || accountCombo->testTransactionRelation(trans))) {
+						if(trans->date() < first_date) break;
+						if((trans->fromAccount() == current_account || trans->toAccount() == current_account) && !desc_map.contains(trans->description().toLower())) {
+							desc_map[trans->description().toLower()] = trans->description();
+							desc_values[trans->description().toLower()] = 0.0;
+							desc_counts[trans->description().toLower()] = 0.0;
 						}
 					}
 				}

@@ -326,7 +326,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 #	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
 	QScreen *scr = screen();
 #	else
-	QScreen *scr = QGuiApplication::screenAt(pos);
+	QScreen *scr = QGuiApplication::screenAt(pos());
 #	endif
 	if(!scr) scr = QGuiApplication::primaryScreen();
 	QRect rect = scr->availableGeometry();
@@ -833,7 +833,7 @@ void LedgerDialog::accountChanged() {
 #	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
 	QScreen *scr = screen();
 #	else
-	QScreen *scr = QGuiApplication::screenAt(pos);
+	QScreen *scr = QGuiApplication::screenAt(pos());
 #	endif
 	if(!scr) scr = QGuiApplication::primaryScreen();
 	QRect rect = scr->availableGeometry();

@@ -4,7 +4,7 @@ Eqonomize! is a personal accounting software, with focus on efficiency and ease 
 ![Image of Eqonomize](https://github.com/Eqonomize/eqonomize.github.io/blob/master/images/accounts.png?raw=true)
 
 ## Requirements
-* Qt 5 (preferably with Qt Charts module)
+* Qt 5 or Qt 6 (preferably with Qt Charts module)
 
 ## Installation
 Instructions and download links for installers, binaries packages, and the source code of released versions of Eqonomize! are available at https://eqonomize.github.io/downloads.html.

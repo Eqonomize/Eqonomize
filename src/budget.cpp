@@ -3230,9 +3230,9 @@ bool Budget::isSameBudgetMonth(const QDate &date1, const QDate &date2) const {
 	return budgetYear(date1) == budgetYear(date2) && budgetMonth(date1) == budgetMonth(date2);
 }
 int Budget::daysInBudgetMonth(const QDate &date) const {
-	if(i_budget_day == 1 && i_budget_week != 0) {
+	if(i_budget_day == 1 && i_budget_week == 0) {
 		return date.daysInMonth();
-	} else if(i_budget_day > 0 && i_budget_week != 0) {
+	} else if(i_budget_day > 0 && i_budget_week == 0) {
 		if(date.day() >= i_budget_day) return date.daysInMonth();
 		return date.addMonths(-1).daysInMonth();
 	} else {
@@ -3562,6 +3562,8 @@ double Budget::yearsBetweenDates(const QDate &date1, const QDate &date2, bool us
 double Budget::monthsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months) {
 	int saved_i_budget_day = i_budget_day;
 	int saved_i_budget_week = i_budget_week;
+	int saved_i_budget_month = i_budget_month;
+	i_budget_month = 1;
 	if(!use_budget_months) {i_budget_day = 1; i_budget_week = 0;}
 	double months = 0.0;
 	if(budgetYear(date1) == budgetYear(date2)) {
@@ -3582,11 +3584,14 @@ double Budget::monthsBetweenDates(const QDate &date1, const QDate &date2, bool u
 	}
 	i_budget_day = saved_i_budget_day;
 	i_budget_week = saved_i_budget_week;
+	i_budget_month = saved_i_budget_month;
 	return months;
 }
 int Budget::calendarMonthsBetweenDates(const QDate &date1, const QDate &date2, bool use_budget_months) {
 	int saved_i_budget_day = i_budget_day;
 	int saved_i_budget_week = i_budget_week;
+	int saved_i_budget_month = i_budget_month;
+	i_budget_month = 1;
 	if(!use_budget_months) {i_budget_day = 1; i_budget_week = 0;}
 	if(budgetYear(date1) == budgetYear(date2)) {
 		return budgetMonth(date2) - budgetMonth(date1);
@@ -3596,6 +3601,7 @@ int Budget::calendarMonthsBetweenDates(const QDate &date1, const QDate &date2, b
 	months += budgetMonth(date2);
 	i_budget_day = saved_i_budget_day;
 	i_budget_week = saved_i_budget_week;
+	i_budget_month = saved_i_budget_month;
 	return months;
 }
 

@@ -1,4 +1,25 @@
-2022-05-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
+2022-12-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix months between dates calculation when first month of budget year is not January
+
+2022-11-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Option to set weekday of nth week as first day of budget month
+
+2022-11-25  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Make text in statistics below lists selectable
+	* Add ignore duplicate transactions property to CSV import presets and fix initial state
+
+2022-09-11  Francisco Miguel Biete Banon <fbiete@gmail.com>
+
+	* Fix Qt 6 build, and remove compilation warnings
+
+2022-08-17  bgallois <benjamin@gallois.cc>
+
+	* Update French translation
+
+2022-07-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Add option to ignore duplicates to import CSV dialog
 	* Add option to list duplicate transactions in transaction list filter

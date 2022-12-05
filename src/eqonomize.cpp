@@ -3228,6 +3228,7 @@ void Eqonomize::setBudgetPeriod() {
 			budget->setBudgetDay(weekdayCombo->currentIndex() + 1);
 			budget->setBudgetWeek(weekCombo->currentIndex() >= 4 ? -(weekCombo->currentIndex() - 3) : weekCombo->currentIndex() + 1);
 		} else {
+			budget->setBudgetWeek(0);
 			budget->setBudgetDay(monthlyDayCombo->currentIndex() >= 28 ? -(monthlyDayCombo->currentIndex() - 28) : monthlyDayCombo->currentIndex() + 1);
 		}
 		budget->setBudgetMonth(yearlyMonthCombo->currentIndex() + 1);
@@ -6858,7 +6859,7 @@ void Eqonomize::showOverTimeReport() {
 #	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
 			QScreen *scr = screen();
 #	else
-			QScreen *scr = QGuiApplication::screenAt(pos);
+			QScreen *scr = QGuiApplication::screenAt(pos());
 #	endif
 			if(!scr) scr = QGuiApplication::primaryScreen();
 			QRect rect = scr->availableGeometry();
@@ -6891,7 +6892,7 @@ void Eqonomize::showCategoriesComparisonReport() {
 #	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
 			QScreen *scr = screen();
 #	else
-			QScreen *scr = QGuiApplication::screenAt(pos);
+			QScreen *scr = QGuiApplication::screenAt(pos());
 #	endif
 			if(!scr) scr = QGuiApplication::primaryScreen();
 			QRect rect = scr->availableGeometry();
@@ -6924,7 +6925,7 @@ void Eqonomize::showOverTimeChart() {
 #	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
 			QScreen *scr = screen();
 #	else
-			QScreen *scr = QGuiApplication::screenAt(pos);
+			QScreen *scr = QGuiApplication::screenAt(pos());
 #	endif
 			if(!scr) scr = QGuiApplication::primaryScreen();
 			QRect rect = scr->availableGeometry();
@@ -6958,7 +6959,7 @@ void Eqonomize::showCategoriesComparisonChart() {
 #	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
 			QScreen *scr = screen();
 #	else
-			QScreen *scr = QGuiApplication::screenAt(pos);
+			QScreen *scr = QGuiApplication::screenAt(pos());
 #	endif
 			if(!scr) scr = QGuiApplication::primaryScreen();
 			QRect rect = scr->availableGeometry();
@@ -8118,7 +8119,7 @@ void Eqonomize::showHelp() {
 #	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
 		QScreen *scr = screen();
 #	else
-		QScreen *scr = QGuiApplication::screenAt(pos);
+		QScreen *scr = QGuiApplication::screenAt(pos());
 #	endif
 		if(!scr) scr = QGuiApplication::primaryScreen();
 		QRect rect = scr->availableGeometry();
@@ -8138,7 +8139,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.5.3</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"https://eqonomize.github.io/\">https://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2021 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.5.4</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"https://eqonomize.github.io/\">https://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2021 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);

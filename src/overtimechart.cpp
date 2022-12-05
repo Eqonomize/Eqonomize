@@ -627,21 +627,18 @@ void OverTimeChart::categoryChanged(int index) {
 		}
 		descriptionCombo->addItem(tr("All Descriptions Split", "Referring to the transaction description property (transaction title/generic article name)"));
 		if(!current_account && current_tag.isEmpty()) return categoryChanged(0);
-		switch(current_source) {
-			case 29: { [[fallthrough]]; }
-			case 7: { [[fallthrough]]; }
-			case 8: { [[fallthrough]]; }
-			case 39: { [[fallthrough]]; }
-			case 17: { [[fallthrough]]; }
-			case 18: {d_index = b_subs ? 2 : 1; p_index = 0; break;}
-			case 33: { [[fallthrough]]; }
-			case 11: {[[fallthrough]]; }
-			case 12: {d_index = 0; p_index = 1; break;}
-			case 21: { [[fallthrough]]; }
-			case 22: { [[fallthrough]]; }
-			case 23: { [[fallthrough]]; }
-			case 24: {d_index = b_subs ? 1 : 0; p_index = 0; break;}
-			default: {d_index = 0; p_index = 0; break;}
+		if(current_source == 29 || current_source == 7 || current_source == 8 || current_source == 39 || current_source == 17 || current_source == 18) {
+			d_index = b_subs ? 2 : 1;
+			p_index = 0;
+		} else if(current_source == 33 || current_source == 11 || current_source == 12) {
+			d_index = 0;
+			p_index = 1;
+		} else if(current_source == 21 || current_source == 22 || current_source == 23 || current_source == 24) {
+			d_index = b_subs ? 1 : 0;
+			p_index = 0;
+		} else {
+			d_index = 0;
+			p_index = 0;
 		}
 		has_empty_description = false;
 		has_empty_payee = false;
@@ -1290,98 +1287,82 @@ void OverTimeChart::updateDisplay() {
 			else first_date = budget->firstBudgetDay(trans->date());
 		}
 		if(started && (!current_assets || trans->relatesToAccount(current_assets))) {
-			switch(current_source2) {
-				case -3: {
-					if((trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && trans->tagsCount(true) > 0) {
-						QString str = trans->getTag(tag_index, true);
-						monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						include = true;
-						if(tag_index + 1 < trans->tagsCount(true)) tag_index++;
-						else tag_index = 0;
-					}
-					break;
+			if(current_source2 == -3) {
+				if((trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && trans->tagsCount(true) > 0) {
+					QString str = trans->getTag(tag_index, true);
+					monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					include = true;
+					if(tag_index + 1 < trans->tagsCount(true)) tag_index++;
+					else tag_index = 0;
 				}
-				case -2: {
-					if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->toAccount() != budget->balancingAccount) {
+			} else if(current_source2 == -2) {
+				if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->toAccount() != budget->balancingAccount) {
+					monthly_values = &monthly_cats[trans->toAccount()];
+					mi = &mi_c[trans->toAccount()];
+					isfirst = &isfirst_c[trans->toAccount()];
+					use_to_value = true;
+					if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->fromAccount() != budget->balancingAccount) {
+						monthly_values2 = &monthly_cats[trans->fromAccount()];
+						mi2 = &mi_c[trans->fromAccount()];
+						isfirst2 = &isfirst_c[trans->fromAccount()];
+					}
+					sign = 1;
+					include = true;
+				} else if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->fromAccount() != budget->balancingAccount) {
+					monthly_values = &monthly_cats[trans->fromAccount()];
+					mi = &mi_c[trans->fromAccount()];
+					isfirst = &isfirst_c[trans->fromAccount()];
+					sign = -1;
+					include = true;
+				}
+			} else if(current_source2 >= -1 && current_source2 <= 4) {
+				if(current_source2 != 2 && current_source2 != 4 && trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES) {
+					if(current_source > 50) {
 						monthly_values = &monthly_cats[trans->toAccount()];
 						mi = &mi_c[trans->toAccount()];
 						isfirst = &isfirst_c[trans->toAccount()];
-						use_to_value = true;
-						if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->fromAccount() != budget->balancingAccount) {
-							monthly_values2 = &monthly_cats[trans->fromAccount()];
-							mi2 = &mi_c[trans->fromAccount()];
-							isfirst2 = &isfirst_c[trans->fromAccount()];
-						}
-						sign = 1;
-						include = true;
-					} else if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->fromAccount() != budget->balancingAccount) {
+					} else {
+						monthly_values = &monthly_cats[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; mi = &mi_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()];
+					}
+					sign = 1;
+					include = true;
+				} else if(current_source2 != 1 && current_source2 != 3 && trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->toAccount()];
+						mi = &mi_c[trans->toAccount()];
+						isfirst = &isfirst_c[trans->toAccount()];
+					} else {
+						monthly_values = &monthly_cats[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; mi = &mi_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()];
+					}
+					if(current_source == 99) sign = 1;
+					else sign = -1;
+					include = true;
+				} else if(current_source2 != 2 && current_source2 != 4 && trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES) {
+					if(current_source > 50) {
 						monthly_values = &monthly_cats[trans->fromAccount()];
 						mi = &mi_c[trans->fromAccount()];
 						isfirst = &isfirst_c[trans->fromAccount()];
-						sign = -1;
-						include = true;
+					} else {
+						monthly_values = &monthly_cats[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; mi = &mi_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()];
 					}
-					break;
-				}
-				case -1: {}
-				case 0: {}
-				case 1: {}
-				case 2: {}
-				case 3: {}
-				case 4: {
-					if(current_source2 != 2 && current_source2 != 4 && trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->toAccount()];
-							mi = &mi_c[trans->toAccount()];
-							isfirst = &isfirst_c[trans->toAccount()];
-						} else {
-							monthly_values = &monthly_cats[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; mi = &mi_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()];
-						}
-						sign = 1;
-						include = true;
-					} else if(current_source2 != 1 && current_source2 != 3 && trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->toAccount()];
-							mi = &mi_c[trans->toAccount()];
-							isfirst = &isfirst_c[trans->toAccount()];
-						} else {
-							monthly_values = &monthly_cats[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; mi = &mi_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()];
-						}
-						if(current_source == 99) sign = 1;
-						else sign = -1;
-						include = true;
-					} else if(current_source2 != 2 && current_source2 != 4 && trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->fromAccount()];
-							mi = &mi_c[trans->fromAccount()];
-							isfirst = &isfirst_c[trans->fromAccount()];
-						} else {
-							monthly_values = &monthly_cats[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; mi = &mi_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()];
-						}
-						sign = -1;
-						include = true;
-					} else if(current_source2 != 1 && current_source2 != 3 && trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->fromAccount()];
-							mi = &mi_c[trans->fromAccount()];
-							isfirst = &isfirst_c[trans->fromAccount()];
-						} else {
-							monthly_values = &monthly_cats[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; mi = &mi_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()];
-						}
-						if(current_source == 99) sign = -1;
-						else sign = 1;
-						include = true;
+					sign = -1;
+					include = true;
+				} else if(current_source2 != 1 && current_source2 != 3 && trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->fromAccount()];
+						mi = &mi_c[trans->fromAccount()];
+						isfirst = &isfirst_c[trans->fromAccount()];
+					} else {
+						monthly_values = &monthly_cats[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; mi = &mi_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()];
 					}
-					break;
+					if(current_source == 99) sign = -1;
+					else sign = 1;
+					include = true;
 				}
-				case 23: {
-					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
-					if(!((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) break;
-					[[fallthrough]];
-				}
-				case 21: {
+			} else if(current_source2 == 21 || current_source2 == 23) {
+				if(current_source2 == 21 || (trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive))) {
 					if(trans->fromAccount()->topAccount() == current_account) {
 						monthly_values = &monthly_cats[trans->fromAccount()]; mi = &mi_c[trans->fromAccount()]; isfirst = &isfirst_c[trans->fromAccount()];
 						sign = 1;
@@ -1391,14 +1372,9 @@ void OverTimeChart::updateDisplay() {
 						sign = -1;
 						include = true;
 					}
-					break;
 				}
-				case 24: {
-					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
-					if(!((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) break;
-					[[fallthrough]];
-				}
-				case 22: {
+			} else if(current_source2 == 22 || current_source2 == 24) {
+				if(current_source2 == 22 || (trans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive))) {
 					if(trans->fromAccount()->topAccount() == current_account) {
 						monthly_values = &monthly_cats[trans->fromAccount()]; mi = &mi_c[trans->fromAccount()]; isfirst = &isfirst_c[trans->fromAccount()];
 						sign = -1;
@@ -1408,255 +1384,226 @@ void OverTimeChart::updateDisplay() {
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 27: {
-					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
-						if(current_source > 50) {
-							Account *acc = trans->toAccount();
-							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
-							monthly_values = &monthly_cats[acc];
-							mi = &mi_c[acc];
-							isfirst = &isfirst_c[acc];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						include = true;
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
+			} else if(current_source2 == 27) {
+				if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
+					if(current_source > 50) {
+						Account *acc = trans->toAccount();
+						if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+						monthly_values = &monthly_cats[acc];
+						mi = &mi_c[acc];
+						isfirst = &isfirst_c[acc];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					break;
+					include = true;
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
 				}
-				case 5: {
-					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->toAccount()];
-							mi = &mi_c[trans->toAccount()];
-							isfirst = &isfirst_c[trans->toAccount()];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						sign = 1;
-						include = true;
-					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->fromAccount()];
-							mi = &mi_c[trans->fromAccount()];
-							isfirst = &isfirst_c[trans->fromAccount()];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						sign = -1;
-						include = true;
+			} else if(current_source2 == 5) {
+				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->toAccount()];
+						mi = &mi_c[trans->toAccount()];
+						isfirst = &isfirst_c[trans->toAccount()];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					break;
-				}
-				case 6: {
-					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->toAccount()];
-							mi = &mi_c[trans->toAccount()];
-							isfirst = &isfirst_c[trans->toAccount()];
-						} else {
-							monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
-						}
-						sign = -1;
-						include = true;
-					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->fromAccount()];
-							mi = &mi_c[trans->fromAccount()];
-							isfirst = &isfirst_c[trans->fromAccount()];
-						} else {
-							monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
-						}
-						sign = 1;
-						include = true;
+					sign = 1;
+					include = true;
+				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->fromAccount()];
+						mi = &mi_c[trans->fromAccount()];
+						isfirst = &isfirst_c[trans->fromAccount()];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					break;
+					sign = -1;
+					include = true;
 				}
-				case 29: {
-					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
-						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						include = true;
+			} else if(current_source2 == 6) {
+				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->toAccount()];
+						mi = &mi_c[trans->toAccount()];
+						isfirst = &isfirst_c[trans->toAccount()];
+					} else {
+						monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
 					}
-					break;
-				}
-				case 7: {
-					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
-						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-						sign = 1;
-						include = true;
-					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
-						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-						sign = -1;
-						include = true;
+					sign = -1;
+					include = true;
+				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->fromAccount()];
+						mi = &mi_c[trans->fromAccount()];
+						isfirst = &isfirst_c[trans->fromAccount()];
+					} else {
+						monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
 					}
-					break;
+					sign = 1;
+					include = true;
 				}
-				case 8: {
-					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
-						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-						sign = -1;
-						include = true;
-					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
-						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-						sign = 1;
-						include = true;
+			} else if(current_source2 == 29) {
+				if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
+					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					include = true;
+				}
+			} else if(current_source2 == 7) {
+				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
+					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+					sign = 1;
+					include = true;
+				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
+					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+					sign = -1;
+					include = true;
+				}
+			} else if(current_source2 == 8) {
+				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
+					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+					sign = -1;
+					include = true;
+				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
+					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+					sign = 1;
+					include = true;
+				}
+			} else if(current_source2 == 31) {
+				if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+					if(current_source > 50) {
+						Account *acc = trans->toAccount();
+						if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+						monthly_values = &monthly_cats[acc];
+						mi = &mi_c[acc];
+						isfirst = &isfirst_c[acc];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					break;
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					include = true;
 				}
-				case 31: {
-					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-						if(current_source > 50) {
-							Account *acc = trans->toAccount();
-							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
-							monthly_values = &monthly_cats[acc];
-							mi = &mi_c[acc];
-							isfirst = &isfirst_c[acc];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						include = true;
+			} else if(current_source2 == 9) {
+				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->toAccount()];
+						mi = &mi_c[trans->toAccount()];
+						isfirst = &isfirst_c[trans->toAccount()];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					break;
-				}
-				case 9: {
-					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->toAccount()];
-							mi = &mi_c[trans->toAccount()];
-							isfirst = &isfirst_c[trans->toAccount()];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						sign = 1;
-						include = true;
-					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->fromAccount()];
-							mi = &mi_c[trans->fromAccount()];
-							isfirst = &isfirst_c[trans->fromAccount()];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						sign = -1;
-						include = true;
+					sign = 1;
+					include = true;
+				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->fromAccount()];
+						mi = &mi_c[trans->fromAccount()];
+						isfirst = &isfirst_c[trans->fromAccount()];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					break;
+					sign = -1;
+					include = true;
 				}
-				case 10: {
-					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->toAccount()];
-							mi = &mi_c[trans->toAccount()];
-							isfirst = &isfirst_c[trans->toAccount()];
-						} else {
-							monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
-						}
-						sign = -1;
-						include = true;
-					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->fromAccount()];
-							mi = &mi_c[trans->fromAccount()];
-							isfirst = &isfirst_c[trans->fromAccount()];
-						} else {
-							monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
-						}
-						sign = 1;
-						include = true;
+			} else if(current_source2 == 10) {
+				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->toAccount()];
+						mi = &mi_c[trans->toAccount()];
+						isfirst = &isfirst_c[trans->toAccount()];
+					} else {
+						monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
 					}
-					break;
-				}
-				case 33: {
-					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
-						QString str;
-						if(trans->type() == TRANSACTION_TYPE_INCOME) str = ((Income*) trans)->payer().toLower();
-						else str = ((Expense*) trans)->payee().toLower();
-						monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						include = true;
+					sign = -1;
+					include = true;
+				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->fromAccount()];
+						mi = &mi_c[trans->fromAccount()];
+						isfirst = &isfirst_c[trans->fromAccount()];
+					} else {
+						monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
 					}
-					break;
+					sign = 1;
+					include = true;
 				}
-				case 11: {
-					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+			} else if(current_source2 == 33) {
+				if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
+					QString str;
+					if(trans->type() == TRANSACTION_TYPE_INCOME) str = ((Income*) trans)->payer().toLower();
+					else str = ((Expense*) trans)->payee().toLower();
+					monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					include = true;
+				}
+			} else if(current_source2 == 11) {
+				if(trans->type() == TRANSACTION_TYPE_INCOME) {
 					Income *income = (Income*) trans;
 					if((is_parent ? income->category()->topAccount() : income->category()) == current_account) {
 						monthly_values = &monthly_desc[income->payer().toLower()]; mi = &mi_d[income->payer().toLower()]; isfirst = &isfirst_d[income->payer().toLower()];
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 12: {
-					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+			} else if(current_source2 == 12) {
+				if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
 					Expense *expense = (Expense*) trans;
 					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account) {
 						monthly_values = &monthly_desc[expense->payee().toLower()]; mi = &mi_d[expense->payee().toLower()]; isfirst = &isfirst_d[expense->payee().toLower()];
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 35: {
-					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-						QString str;
-						if(trans->type() == TRANSACTION_TYPE_INCOME) str = ((Income*) trans)->payer().toLower();
-						else str = ((Expense*) trans)->payee().toLower();
-						monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						sign = 1;
-						include = true;
-					}
-					break;
+			} else if(current_source2 == 35) {
+				if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+					QString str;
+					if(trans->type() == TRANSACTION_TYPE_INCOME) str = ((Income*) trans)->payer().toLower();
+					else str = ((Expense*) trans)->payee().toLower();
+					monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					sign = 1;
+					include = true;
 				}
-				case 13: {
-					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+			} else if(current_source2 == 13) {
+				if(trans->type() == TRANSACTION_TYPE_INCOME) {
 					Income *income = (Income*) trans;
 					if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->description().compare(current_description, Qt::CaseInsensitive)) {
 						monthly_values = &monthly_desc[income->payer().toLower()]; mi = &mi_d[income->payer().toLower()]; isfirst = &isfirst_d[income->payer().toLower()];
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 14: {
-					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+			} else if(current_source2 == 14) {
+				if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
 					Expense *expense = (Expense*) trans;
 					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->description().compare(current_description, Qt::CaseInsensitive)) {
 						monthly_values = &monthly_desc[expense->payee().toLower()]; mi = &mi_d[expense->payee().toLower()]; isfirst = &isfirst_d[expense->payee().toLower()];
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 37: {
-					if(trans->hasTag(current_tag, true) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
-						if(current_source > 50) {
-							Account *acc = trans->toAccount();
-							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
-							monthly_values = &monthly_cats[acc];
-							mi = &mi_c[acc];
-							isfirst = &isfirst_c[acc];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						include = true;
+			} else if(current_source2 == 37) {
+				if(trans->hasTag(current_tag, true) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
+					if(current_source > 50) {
+						Account *acc = trans->toAccount();
+						if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+						monthly_values = &monthly_cats[acc];
+						mi = &mi_c[acc];
+						isfirst = &isfirst_c[acc];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					[[fallthrough]];
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					include = true;
 				}
-				case 15: {
-					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+			} else if(current_source == 15) {
+				if(trans->type() == TRANSACTION_TYPE_INCOME) {
 					Income *income = (Income*) trans;
 					if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->payer().compare(current_payee, Qt::CaseInsensitive)) {
 						if(current_source > 50) {
@@ -1669,10 +1616,9 @@ void OverTimeChart::updateDisplay() {
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 16: {
-					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+			} else if(current_source2 == 16) {
+				if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
 					Expense *expense = (Expense*) trans;
 					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->payee().compare(current_payee, Qt::CaseInsensitive)) {
 						if(current_source > 50) {
@@ -1685,56 +1631,49 @@ void OverTimeChart::updateDisplay() {
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 39: {
-					if(trans->hasTag(current_tag, true) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
-						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						include = true;
-					}
-					[[fallthrough]];
+			} else if(current_source2 == 39) {
+				if(trans->hasTag(current_tag, true) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
+					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					include = true;
 				}
-				case 17: {
-					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+			} else if(current_source == 17) {
+				if(trans->type() == TRANSACTION_TYPE_INCOME) {
 					Income *income = (Income*) trans;
 					if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->payer().compare(current_payee, Qt::CaseInsensitive)) {
 						monthly_values = &monthly_desc[income->description().toLower()]; mi = &mi_d[income->description().toLower()]; isfirst = &isfirst_d[income->description().toLower()];
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 18: {
-					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+			} else if(current_source2 == 18) {
+				if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
 					Expense *expense = (Expense*) trans;
 					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->payee().compare(current_payee, Qt::CaseInsensitive)) {
 						monthly_values = &monthly_desc[expense->description().toLower()]; mi = &mi_d[expense->description().toLower()]; isfirst = &isfirst_d[expense->description().toLower()];
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 41: {
-					if(trans->hasTag(current_tag, true) && !trans->description().compare(current_description, Qt::CaseInsensitive) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
-						if(current_source > 50) {
-							Account *acc = trans->toAccount();
-							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
-							monthly_values = &monthly_cats[acc];
-							mi = &mi_c[acc];
-							isfirst = &isfirst_c[acc];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						include = true;
+			} else if(current_source2 == 41) {
+				if(trans->hasTag(current_tag, true) && !trans->description().compare(current_description, Qt::CaseInsensitive) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
+					if(current_source > 50) {
+						Account *acc = trans->toAccount();
+						if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+						monthly_values = &monthly_cats[acc];
+						mi = &mi_c[acc];
+						isfirst = &isfirst_c[acc];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					[[fallthrough]];
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					include = true;
 				}
-				case 19: {
-					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+			} else if(current_source == 19) {
+				if(trans->type() == TRANSACTION_TYPE_INCOME) {
 					Income *income = (Income*) trans;
 					if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->description().compare(current_description, Qt::CaseInsensitive) && !income->payer().compare(current_payee, Qt::CaseInsensitive)) {
 						if(current_source > 50) {
@@ -1747,10 +1686,9 @@ void OverTimeChart::updateDisplay() {
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 20: {
-					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+			} else if(current_source2 == 20) {
+				if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
 					Expense *expense = (Expense*) trans;
 					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->description().compare(current_description, Qt::CaseInsensitive) && !expense->payee().compare(current_payee, Qt::CaseInsensitive)) {
 						if(current_source > 50) {
@@ -1763,7 +1701,6 @@ void OverTimeChart::updateDisplay() {
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
 			}
 		}
@@ -2002,98 +1939,82 @@ void OverTimeChart::updateDisplay() {
 		int sign = 1;
 		bool use_to_value = false;
 		if(!current_assets || trans->relatesToAccount(current_assets)) {
-			switch(current_source2) {
-				case -3: {
-					if((trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && trans->tagsCount(true) > 0) {
-						QString str = trans->getTag(tag_index, true);
-						monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						include = true;
-						if(tag_index + 1 < trans->tagsCount(true)) tag_index++;
-						else tag_index = 0;
-					}
-					break;
+			if(current_source2 == -3) {
+				if((trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && trans->tagsCount(true) > 0) {
+					QString str = trans->getTag(tag_index, true);
+					monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					include = true;
+					if(tag_index + 1 < trans->tagsCount(true)) tag_index++;
+					else tag_index = 0;
 				}
-				case -2: {
-					if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->toAccount() != budget->balancingAccount) {
+			} else if(current_source2 == -2) {
+				if(trans->toAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->toAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->toAccount() != budget->balancingAccount) {
+					monthly_values = &monthly_cats[trans->toAccount()];
+					mi = &mi_c[trans->toAccount()];
+					isfirst = &isfirst_c[trans->toAccount()];
+					use_to_value = true;
+					if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->fromAccount() != budget->balancingAccount) {
+						monthly_values2 = &monthly_cats[trans->fromAccount()];
+						mi2 = &mi_c[trans->fromAccount()];
+						isfirst2 = &isfirst_c[trans->fromAccount()];
+					}
+					sign = 1;
+					include = true;
+				} else if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->fromAccount() != budget->balancingAccount) {
+					monthly_values = &monthly_cats[trans->fromAccount()];
+					mi = &mi_c[trans->fromAccount()];
+					isfirst = &isfirst_c[trans->fromAccount()];
+					sign = -1;
+					include = true;
+				}
+			} else if(current_source2 >= -1 && current_source <= 4) {
+				if(current_source2 != 2 && current_source2 != 4 && trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES) {
+					if(current_source > 50) {
 						monthly_values = &monthly_cats[trans->toAccount()];
 						mi = &mi_c[trans->toAccount()];
 						isfirst = &isfirst_c[trans->toAccount()];
-						use_to_value = true;
-						if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->fromAccount() != budget->balancingAccount) {
-							monthly_values2 = &monthly_cats[trans->fromAccount()];
-							mi2 = &mi_c[trans->fromAccount()];
-							isfirst2 = &isfirst_c[trans->fromAccount()];
-						}
-						sign = 1;
-						include = true;
-					} else if(trans->fromAccount()->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) trans->fromAccount())->accountType() != ASSETS_TYPE_SECURITIES && trans->fromAccount() != budget->balancingAccount) {
+					} else {
+						monthly_values = &monthly_cats[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; mi = &mi_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()];
+					}
+					sign = 1;
+					include = true;
+				} else if(current_source2 != 1 && current_source2 != 3 && trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->toAccount()];
+						mi = &mi_c[trans->toAccount()];
+						isfirst = &isfirst_c[trans->toAccount()];
+					} else {
+						monthly_values = &monthly_cats[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; mi = &mi_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()];
+					}
+					if(current_source == 99) sign = 1;
+					else sign = -1;
+					include = true;
+				} else if(current_source2 != 2 && current_source2 != 4 && trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES) {
+					if(current_source > 50) {
 						monthly_values = &monthly_cats[trans->fromAccount()];
 						mi = &mi_c[trans->fromAccount()];
 						isfirst = &isfirst_c[trans->fromAccount()];
-						sign = -1;
-						include = true;
+					} else {
+						monthly_values = &monthly_cats[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; mi = &mi_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()];
 					}
-					break;
-				}
-				case -1: { [[fallthrough]]; }
-				case 0: { [[fallthrough]]; }
-				case 1: { [[fallthrough]]; }
-				case 2: { [[fallthrough]]; }
-				case 3: { [[fallthrough]]; }
-				case 4: {
-					if(current_source2 != 2 && current_source2 != 4 && trans->fromAccount()->type() == ACCOUNT_TYPE_INCOMES) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->toAccount()];
-							mi = &mi_c[trans->toAccount()];
-							isfirst = &isfirst_c[trans->toAccount()];
-						} else {
-							monthly_values = &monthly_cats[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; mi = &mi_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()];
-						}
-						sign = 1;
-						include = true;
-					} else if(current_source2 != 1 && current_source2 != 3 && trans->fromAccount()->type() == ACCOUNT_TYPE_EXPENSES) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->toAccount()];
-							mi = &mi_c[trans->toAccount()];
-							isfirst = &isfirst_c[trans->toAccount()];
-						} else {
-							monthly_values = &monthly_cats[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; mi = &mi_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->fromAccount()->topAccount() : trans->fromAccount()];
-						}
-						if(current_source == 99) sign = 1;
-						else sign = -1;
-						include = true;
-					} else if(current_source2 != 2 && current_source2 != 4 && trans->toAccount()->type() == ACCOUNT_TYPE_INCOMES) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->fromAccount()];
-							mi = &mi_c[trans->fromAccount()];
-							isfirst = &isfirst_c[trans->fromAccount()];
-						} else {
-							monthly_values = &monthly_cats[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; mi = &mi_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()];
-						}
-						sign = -1;
-						include = true;
-					} else if(current_source2 != 1 && current_source2 != 3 && trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->fromAccount()];
-							mi = &mi_c[trans->fromAccount()];
-							isfirst = &isfirst_c[trans->fromAccount()];
-						} else {
-							monthly_values = &monthly_cats[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; mi = &mi_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()];
-						}
-						if(current_source == 99) sign = -1;
-						else sign = 1;
-						include = true;
+					sign = -1;
+					include = true;
+				} else if(current_source2 != 1 && current_source2 != 3 && trans->toAccount()->type() == ACCOUNT_TYPE_EXPENSES) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->fromAccount()];
+						mi = &mi_c[trans->fromAccount()];
+						isfirst = &isfirst_c[trans->fromAccount()];
+					} else {
+						monthly_values = &monthly_cats[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; mi = &mi_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()]; isfirst = &isfirst_c[exclude_subs ? trans->toAccount()->topAccount() : trans->toAccount()];
 					}
-					break;
+					if(current_source == 99) sign = -1;
+					else sign = 1;
+					include = true;
 				}
-				case 23: {
-					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
-					if(!((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) break;
-					[[fallthrough]];
-				}
-				case 21: {
+			} else if(current_source2 == 21 || current_source == 23) {
+				if(current_source == 21 || (trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive))) {
 					if(trans->fromAccount()->topAccount() == current_account) {
 						monthly_values = &monthly_cats[trans->fromAccount()]; mi = &mi_c[trans->fromAccount()]; isfirst = &isfirst_c[trans->fromAccount()];
 						sign = 1;
@@ -2103,14 +2024,9 @@ void OverTimeChart::updateDisplay() {
 						sign = -1;
 						include = true;
 					}
-					break;
 				}
-				case 24: {
-					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
-					if(!((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)) break;
-					[[fallthrough]];
-				}
-				case 22: {
+			} else if(current_source2 == 22 || current_source == 24) {
+				if(current_source == 22 || (trans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive))) {
 					if(trans->fromAccount()->topAccount() == current_account) {
 						monthly_values = &monthly_cats[trans->fromAccount()]; mi = &mi_c[trans->fromAccount()]; isfirst = &isfirst_c[trans->fromAccount()];
 						sign = -1;
@@ -2120,255 +2036,226 @@ void OverTimeChart::updateDisplay() {
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 27: {
-					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
-						if(current_source > 50) {
-							Account *acc = trans->toAccount();
-							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
-							monthly_values = &monthly_cats[acc];
-							mi = &mi_c[acc];
-							isfirst = &isfirst_c[acc];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						include = true;
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
+			} else if(current_source2 == 27) {
+				if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
+					if(current_source > 50) {
+						Account *acc = trans->toAccount();
+						if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+						monthly_values = &monthly_cats[acc];
+						mi = &mi_c[acc];
+						isfirst = &isfirst_c[acc];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					break;
+					include = true;
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
 				}
-				case 5: {
-					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->toAccount()];
-							mi = &mi_c[trans->toAccount()];
-							isfirst = &isfirst_c[trans->toAccount()];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						sign = 1;
-						include = true;
-					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->fromAccount()];
-							mi = &mi_c[trans->fromAccount()];
-							isfirst = &isfirst_c[trans->fromAccount()];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						sign = -1;
-						include = true;
+			} else if(current_source2 == 5) {
+				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->toAccount()];
+						mi = &mi_c[trans->toAccount()];
+						isfirst = &isfirst_c[trans->toAccount()];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					break;
-				}
-				case 6: {
-					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->toAccount()];
-							mi = &mi_c[trans->toAccount()];
-							isfirst = &isfirst_c[trans->toAccount()];
-						} else {
-							monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
-						}
-						sign = -1;
-						include = true;
-					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->fromAccount()];
-							mi = &mi_c[trans->fromAccount()];
-							isfirst = &isfirst_c[trans->fromAccount()];
-						} else {
-							monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
-						}
-						sign = 1;
-						include = true;
+					sign = 1;
+					include = true;
+				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->fromAccount()];
+						mi = &mi_c[trans->fromAccount()];
+						isfirst = &isfirst_c[trans->fromAccount()];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					break;
+					sign = -1;
+					include = true;
 				}
-				case 29: {
-					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
-						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						include = true;
+			} else if(current_source2 == 6) {
+				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->toAccount()];
+						mi = &mi_c[trans->toAccount()];
+						isfirst = &isfirst_c[trans->toAccount()];
+					} else {
+						monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
 					}
-					break;
-				}
-				case 7: {
-					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
-						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-						sign = 1;
-						include = true;
-					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
-						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-						sign = -1;
-						include = true;
+					sign = -1;
+					include = true;
+				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->fromAccount()];
+						mi = &mi_c[trans->fromAccount()];
+						isfirst = &isfirst_c[trans->fromAccount()];
+					} else {
+						monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
 					}
-					break;
+					sign = 1;
+					include = true;
 				}
-				case 8: {
-					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
-						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-						sign = -1;
-						include = true;
-					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
-						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-						sign = 1;
-						include = true;
+			} else if(current_source2 == 29) {
+				if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
+					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					include = true;
+				}
+			} else if(current_source2 == 7) {
+				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
+					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+					sign = 1;
+					include = true;
+				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
+					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+					sign = -1;
+					include = true;
+				}
+			} else if(current_source2 == 8) {
+				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account) {
+					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+					sign = -1;
+					include = true;
+				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account) {
+					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+					sign = 1;
+					include = true;
+				}
+			} else if(current_source2 == 31) {
+				if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+					if(current_source > 50) {
+						Account *acc = trans->toAccount();
+						if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+						monthly_values = &monthly_cats[acc];
+						mi = &mi_c[acc];
+						isfirst = &isfirst_c[acc];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					break;
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					include = true;
 				}
-				case 31: {
-					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-						if(current_source > 50) {
-							Account *acc = trans->toAccount();
-							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
-							monthly_values = &monthly_cats[acc];
-							mi = &mi_c[acc];
-							isfirst = &isfirst_c[acc];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						include = true;
+			} else if(current_source2 == 9) {
+				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->toAccount()];
+						mi = &mi_c[trans->toAccount()];
+						isfirst = &isfirst_c[trans->toAccount()];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					break;
-				}
-				case 9: {
-					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->toAccount()];
-							mi = &mi_c[trans->toAccount()];
-							isfirst = &isfirst_c[trans->toAccount()];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						sign = 1;
-						include = true;
-					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->fromAccount()];
-							mi = &mi_c[trans->fromAccount()];
-							isfirst = &isfirst_c[trans->fromAccount()];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						sign = -1;
-						include = true;
+					sign = 1;
+					include = true;
+				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->fromAccount()];
+						mi = &mi_c[trans->fromAccount()];
+						isfirst = &isfirst_c[trans->fromAccount()];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					break;
+					sign = -1;
+					include = true;
 				}
-				case 10: {
-					if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->toAccount()];
-							mi = &mi_c[trans->toAccount()];
-							isfirst = &isfirst_c[trans->toAccount()];
-						} else {
-							monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
-						}
-						sign = -1;
-						include = true;
-					} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-						if(current_source > 50) {
-							monthly_values = &monthly_cats[trans->fromAccount()];
-							mi = &mi_c[trans->fromAccount()];
-							isfirst = &isfirst_c[trans->fromAccount()];
-						} else {
-							monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
-						}
-						sign = 1;
-						include = true;
+			} else if(current_source2 == 10) {
+				if((is_parent ? trans->fromAccount()->topAccount() : trans->fromAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->toAccount()];
+						mi = &mi_c[trans->toAccount()];
+						isfirst = &isfirst_c[trans->toAccount()];
+					} else {
+						monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
 					}
-					break;
-				}
-				case 33: {
-					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
-						QString str;
-						if(trans->type() == TRANSACTION_TYPE_INCOME) str = ((Income*) trans)->payer().toLower();
-						else str = ((Expense*) trans)->payee().toLower();
-						monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						include = true;
+					sign = -1;
+					include = true;
+				} else if((is_parent ? trans->toAccount()->topAccount() : trans->toAccount()) == current_account && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+					if(current_source > 50) {
+						monthly_values = &monthly_cats[trans->fromAccount()];
+						mi = &mi_c[trans->fromAccount()];
+						isfirst = &isfirst_c[trans->fromAccount()];
+					} else {
+						monthly_values = &monthly_expenses; mi = &mi_e; isfirst = &isfirst_e;
 					}
-					break;
+					sign = 1;
+					include = true;
 				}
-				case 11: {
-					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+			} else if(current_source2 == 33) {
+				if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE)) {
+					QString str;
+					if(trans->type() == TRANSACTION_TYPE_INCOME) str = ((Income*) trans)->payer().toLower();
+					else str = ((Expense*) trans)->payee().toLower();
+					monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					include = true;
+				}
+			} else if(current_source2 == 11) {
+				if(trans->type() == TRANSACTION_TYPE_INCOME) {
 					Income *income = (Income*) trans;
 					if((is_parent ? income->category()->topAccount() : income->category()) == current_account) {
 						monthly_values = &monthly_desc[income->payer().toLower()]; mi = &mi_d[income->payer().toLower()]; isfirst = &isfirst_d[income->payer().toLower()];
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 12: {
-					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+			} else if(current_source2 == 12) {
+				if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
 					Expense *expense = (Expense*) trans;
 					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account) {
 						monthly_values = &monthly_desc[expense->payee().toLower()]; mi = &mi_d[expense->payee().toLower()]; isfirst = &isfirst_d[expense->payee().toLower()];
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 35: {
-					if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
-						QString str;
-						if(trans->type() == TRANSACTION_TYPE_INCOME) str = ((Income*) trans)->payer().toLower();
-						else str = ((Expense*) trans)->payee().toLower();
-						monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						sign = 1;
-						include = true;
-					}
-					break;
+			} else if(current_source2 == 35) {
+				if(trans->hasTag(current_tag, true) && (trans->type() == TRANSACTION_TYPE_INCOME || trans->type() == TRANSACTION_TYPE_EXPENSE) && !trans->description().compare(current_description, Qt::CaseInsensitive)) {
+					QString str;
+					if(trans->type() == TRANSACTION_TYPE_INCOME) str = ((Income*) trans)->payer().toLower();
+					else str = ((Expense*) trans)->payee().toLower();
+					monthly_values = &monthly_desc[str]; mi = &mi_d[str]; isfirst = &isfirst_d[str];
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					sign = 1;
+					include = true;
 				}
-				case 13: {
-					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+			} else if(current_source2 == 13) {
+				if(trans->type() == TRANSACTION_TYPE_INCOME) {
 					Income *income = (Income*) trans;
 					if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->description().compare(current_description, Qt::CaseInsensitive)) {
 						monthly_values = &monthly_desc[income->payer().toLower()]; mi = &mi_d[income->payer().toLower()]; isfirst = &isfirst_d[income->payer().toLower()];
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 14: {
-					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+			} else if(current_source2 == 14) {
+				if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
 					Expense *expense = (Expense*) trans;
 					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->description().compare(current_description, Qt::CaseInsensitive)) {
 						monthly_values = &monthly_desc[expense->payee().toLower()]; mi = &mi_d[expense->payee().toLower()]; isfirst = &isfirst_d[expense->payee().toLower()];
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 37: {
-					if(trans->hasTag(current_tag, true) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
-						if(current_source > 50) {
-							Account *acc = trans->toAccount();
-							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
-							monthly_values = &monthly_cats[acc];
-							mi = &mi_c[acc];
-							isfirst = &isfirst_c[acc];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						include = true;
+			} else if(current_source2 == 37) {
+				if(trans->hasTag(current_tag, true) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
+					if(current_source > 50) {
+						Account *acc = trans->toAccount();
+						if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+						monthly_values = &monthly_cats[acc];
+						mi = &mi_c[acc];
+						isfirst = &isfirst_c[acc];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					[[fallthrough]];
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					include = true;
 				}
-				case 15: {
-					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+			} else if(current_source == 15) {
+				if(trans->type() == TRANSACTION_TYPE_INCOME) {
 					Income *income = (Income*) trans;
 					if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->payer().compare(current_payee, Qt::CaseInsensitive)) {
 						if(current_source > 50) {
@@ -2381,10 +2268,9 @@ void OverTimeChart::updateDisplay() {
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 16: {
-					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+			} else if(current_source2 == 16) {
+				if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
 					Expense *expense = (Expense*) trans;
 					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->payee().compare(current_payee, Qt::CaseInsensitive)) {
 						if(current_source > 50) {
@@ -2397,56 +2283,49 @@ void OverTimeChart::updateDisplay() {
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 39: {
-					if(trans->hasTag(current_tag, true) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
-						monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						include = true;
-					}
-					[[fallthrough]];
+			} else if(current_source2 == 39) {
+				if(trans->hasTag(current_tag, true) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
+					monthly_values = &monthly_desc[trans->description().toLower()]; mi = &mi_d[trans->description().toLower()]; isfirst = &isfirst_d[trans->description().toLower()];
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					include = true;
 				}
-				case 17: {
-					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+			} else if(current_source == 17) {
+				if(trans->type() == TRANSACTION_TYPE_INCOME) {
 					Income *income = (Income*) trans;
 					if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->payer().compare(current_payee, Qt::CaseInsensitive)) {
 						monthly_values = &monthly_desc[income->description().toLower()]; mi = &mi_d[income->description().toLower()]; isfirst = &isfirst_d[income->description().toLower()];
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 18: {
-					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+			} else if(current_source2 == 18) {
+				if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
 					Expense *expense = (Expense*) trans;
 					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->payee().compare(current_payee, Qt::CaseInsensitive)) {
 						monthly_values = &monthly_desc[expense->description().toLower()]; mi = &mi_d[expense->description().toLower()]; isfirst = &isfirst_d[expense->description().toLower()];
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 41: {
-					if(trans->hasTag(current_tag, true) && !trans->description().compare(current_description, Qt::CaseInsensitive) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
-						if(current_source > 50) {
-							Account *acc = trans->toAccount();
-							if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
-							monthly_values = &monthly_cats[acc];
-							mi = &mi_c[acc];
-							isfirst = &isfirst_c[acc];
-						} else {
-							monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
-						}
-						if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
-						else {b_expense = true; sign = -1;}
-						include = true;
+			} else if(current_source2 == 41) {
+				if(trans->hasTag(current_tag, true) && !trans->description().compare(current_description, Qt::CaseInsensitive) && ((trans->type() == TRANSACTION_TYPE_INCOME && !((Income*) trans)->payer().compare(current_payee, Qt::CaseInsensitive)) || (trans->type() == TRANSACTION_TYPE_EXPENSE && !((Expense*) trans)->payee().compare(current_payee, Qt::CaseInsensitive)))) {
+					if(current_source > 50) {
+						Account *acc = trans->toAccount();
+						if(acc->type() != ACCOUNT_TYPE_ASSETS) acc = trans->fromAccount();
+						monthly_values = &monthly_cats[acc];
+						mi = &mi_c[acc];
+						isfirst = &isfirst_c[acc];
+					} else {
+						monthly_values = &monthly_incomes; mi = &mi_i; isfirst = &isfirst_i;
 					}
-					[[fallthrough]];
+					if(trans->type() == TRANSACTION_TYPE_INCOME) {b_income = true; sign = 1;}
+					else {b_expense = true; sign = -1;}
+					include = true;
 				}
-				case 19: {
-					if(trans->type() != TRANSACTION_TYPE_INCOME) break;
+			} else if(current_source == 19) {
+				if(trans->type() == TRANSACTION_TYPE_INCOME) {
 					Income *income = (Income*) trans;
 					if((is_parent ? income->category()->topAccount() : income->category()) == current_account && !income->description().compare(current_description, Qt::CaseInsensitive) && !income->payer().compare(current_payee, Qt::CaseInsensitive)) {
 						if(current_source > 50) {
@@ -2459,10 +2338,9 @@ void OverTimeChart::updateDisplay() {
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
-				case 20: {
-					if(trans->type() != TRANSACTION_TYPE_EXPENSE) break;
+			} else if(current_source2 == 20) {
+				if(trans->type() == TRANSACTION_TYPE_EXPENSE) {
 					Expense *expense = (Expense*) trans;
 					if((is_parent ? expense->category()->topAccount() : expense->category()) == current_account && !expense->description().compare(current_description, Qt::CaseInsensitive) && !expense->payee().compare(current_payee, Qt::CaseInsensitive)) {
 						if(current_source > 50) {
@@ -2475,7 +2353,6 @@ void OverTimeChart::updateDisplay() {
 						sign = 1;
 						include = true;
 					}
-					break;
 				}
 			}
 		}
