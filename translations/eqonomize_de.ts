@@ -7689,7 +7689,7 @@ Wollen Sie die letzte automatisch gespeicherte Version dieser Datei laden?</tran
         <location filename="../src/eqonomize.cpp" line="8824"/>
         <source>of which %1 is balance adjustment</source>
         <comment>Referring to account balance</comment>
-        <translation type="unfinished">von welchem %1 is die Bilanzanpassung</translation>
+        <translation type="unfinished">wovon %1 Bilanzanpassungen sind</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8827"/>
