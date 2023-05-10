@@ -1498,9 +1498,15 @@ void CategoriesComparisonReport::updateDisplay() {
 		if(type == ACCOUNT_TYPE_EXPENSES) {
 			value = costs - incomes;
 			value_count = costs_count + incomes_count;
+			for(int i = i_months - 1; i >= 0; i--) {
+				month_value[i] = month_costs[i] - month_incomes[i];
+			}
 		} else {
 			value = incomes - costs;
 			value_count = incomes_count + costs_count;
+			for(int i = i_months - 1; i >= 0; i--) {
+				month_value[i] = month_incomes[i] - month_costs[i];
+			}
 		}
 	}
 
