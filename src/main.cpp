@@ -196,10 +196,24 @@ int main(int argc, char **argv) {
 			win->createDefaultBudget();
 		}
 	}
-#ifdef RESOURCES_COMPILED
+
 	settings.beginGroup("GeneralOptions");
+#ifdef RESOURCES_COMPILED
 	if(!settings.value("lastVersionCheck").toDate().isValid() || settings.value("lastVersionCheck").toDate().addDays(10) <= QDate::currentDate()) win->checkAvailableVersion();
 #endif
+
+	//fixes font with gtk2 style
+	QString sfont = settings.value("font").toString();
+	if(!sfont.isEmpty()) {
+		QFont font;
+		font.fromString(sfont);
+		if(font.family() == app.font().family() && font.pointSize() == app.font().pointSize() && font.pixelSize() == app.font().pixelSize() && font.overline() == app.font().overline() && font.stretch() == app.font().stretch() && font.letterSpacing() == app.font().letterSpacing() && font.underline() == app.font().underline() && font.style() == app.font().style() && font.weight() == app.font().weight()) {
+			settings.remove("font");
+		} else {
+			app.setFont(font);
+		}
+	}
+	settings.endGroup();
 
 	args.clear();
 
