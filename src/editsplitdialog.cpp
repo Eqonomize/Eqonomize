@@ -78,21 +78,24 @@ class MultiItemListViewItem : public QTreeWidgetItem {
 	protected:
 
 		Transaction *o_trans;
-		bool b_deposit;
+		bool b_deposit, b_quote;
+		double d_quote;
 
 	public:
 
-		MultiItemListViewItem(Transaction *trans, Currency *cur, bool deposit);
+		MultiItemListViewItem(Transaction *trans, Currency *cur, bool deposit, bool set_quote = false, double quote = 0.0);
 		bool operator<(const QTreeWidgetItem&) const;
 		Transaction *transaction() const;
 		bool isDeposit() const;
-		void setTransaction(Transaction *trans, Currency *cur, bool deposit);
+		bool setQuote() const;
+		double quoteValue() const;
+		void setTransaction(Transaction *trans, Currency *cur, bool deposit, bool set_quote = false, double quote = 0.0);
 		void currencyChanged(Currency *cur);
 
 };
 
-MultiItemListViewItem::MultiItemListViewItem(Transaction *trans, Currency *cur, bool deposit) : QTreeWidgetItem() {
-	setTransaction(trans, cur, deposit);
+MultiItemListViewItem::MultiItemListViewItem(Transaction *trans, Currency *cur, bool deposit, bool set_quote, double quote) : QTreeWidgetItem() {
+	setTransaction(trans, cur, deposit, set_quote, quote);
 	setTextAlignment(3, Qt::AlignRight | Qt::AlignVCenter);
 }
 bool MultiItemListViewItem::operator<(const QTreeWidgetItem &i_pre) const {
@@ -116,9 +119,17 @@ Transaction *MultiItemListViewItem::transaction() const {
 bool MultiItemListViewItem::isDeposit() const {
 	return b_deposit;
 }
-void MultiItemListViewItem::setTransaction(Transaction *trans, Currency *cur, bool deposit) {
+double MultiItemListViewItem::quoteValue() const {
+	return d_quote;
+}
+bool MultiItemListViewItem::setQuote() const {
+	return b_quote;
+}
+void MultiItemListViewItem::setTransaction(Transaction *trans, Currency *cur, bool deposit, bool set_quote, double quote) {
 	o_trans = trans;
 	b_deposit = deposit;
+	b_quote = set_quote;
+	d_quote = quote;
 	Budget *budget = trans->budget();
 	if(!cur) cur = budget->defaultCurrency();
 	double value = 0.0;
@@ -565,7 +576,7 @@ void EditMultiItemWidget::newTransaction(int transtype, bool select_security, bo
 	if(dialog->editWidget->checkAccounts() && dialog->exec() == QDialog::Accepted) {
 		Transaction *trans = dialog->editWidget->createTransaction();
 		if(trans) {
-			appendTransaction(trans, (trans->toAccount() == NULL));
+			appendTransaction(trans, (trans->toAccount() == NULL), dialog->editWidget->setQuoteChecked(), dialog->editWidget->quote());
 		}
 		updateTotalValue();
 	}
@@ -627,7 +638,7 @@ void EditMultiItemWidget::edit(QTreeWidgetItem *i_pre) {
 		if((trans->type() == TRANSACTION_TYPE_EXPENSE && ((Expense*) trans)->payee() == payeeEdit->text().trimmed()) || (trans->type() == TRANSACTION_TYPE_INCOME && ((Income*) trans)->payer() == payeeEdit->text().trimmed())) dialog->editWidget->setPayee("");
 		if(dialog->exec() == QDialog::Accepted) {
 			if(dialog->editWidget->modifyTransaction(trans)) {
-				i->setTransaction(trans, cur, trans->toAccount() == NULL);
+				i->setTransaction(trans, cur, trans->toAccount() == NULL, dialog->editWidget->setQuoteChecked(), dialog->editWidget->quote());
 			}
 			updateTotalValue();
 		}
@@ -647,7 +658,15 @@ MultiItemTransaction *EditMultiItemWidget::createTransaction() {
 	if(tagButton) tagButton->modifyTransaction(split);
 	while(i) {
 		Transaction *trans = ((MultiItemListViewItem*) i)->transaction();
-		if(trans) split->addTransaction(trans);
+		if(trans) {
+			split->addTransaction(trans);
+			if(((MultiItemListViewItem*) i)->setQuote()) {
+				Security *sec = NULL;
+				if(trans->type() == TRANSACTION_TYPE_SECURITY_BUY || trans->type() == TRANSACTION_TYPE_SECURITY_SELL) sec = ((SecurityTransaction*) trans)->security();
+				else if(trans->type() == TRANSACTION_TYPE_INCOME) sec = ((Income*) trans)->security();
+				if(sec) sec->setQuotation(split->date(), ((MultiItemListViewItem*) i)->quoteValue());
+			}
+		}
 		++it;
 		i = *it;
 	}
@@ -736,10 +755,10 @@ void EditMultiItemWidget::setTransaction(MultiItemTransaction *split, const QDat
 	if(dateEdit) dateEdit->setDate(date);
 }
 
-void EditMultiItemWidget::appendTransaction(Transaction *trans, bool deposit) {
+void EditMultiItemWidget::appendTransaction(Transaction *trans, bool deposit, bool set_quote, double quote) {
 	Currency *cur = budget->defaultCurrency();
 	if(selectedAccount()) cur = selectedAccount()->currency();
-	MultiItemListViewItem *i = new MultiItemListViewItem(trans, cur, deposit);
+	MultiItemListViewItem *i = new MultiItemListViewItem(trans, cur, deposit, set_quote, quote);
 	transactionsView->insertTopLevelItem(transactionsView->topLevelItemCount(), i);
 	transactionsView->setSortingEnabled(true);
 }

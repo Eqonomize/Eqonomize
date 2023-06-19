@@ -187,7 +187,7 @@ class EditMultiItemWidget : public QWidget {
 		LinksWidget *linksWidget;
 		TagButton *tagButton;
 
-		void appendTransaction(Transaction *trans, bool deposit);
+		void appendTransaction(Transaction *trans, bool deposit, bool set_quote = false, double quote = 0.0);
 		void newTransaction(int transtype, bool select_security = false, bool transfer_to = false, Account *exclude_account = NULL);
 		void updateTotalValue();
 		AssetsAccount *selectedAccount();

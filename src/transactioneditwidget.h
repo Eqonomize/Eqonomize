@@ -105,9 +105,12 @@ class TransactionEditWidget : public QWidget {
 		QString comments() const;
 		double value() const;
 		double quantity() const;
+		double quote() const;
 		Account *fromAccount() const;
 		Account *toAccount() const;
 		Security *selectedSecurity();
+		bool setQuoteChecked() const;
+
 		void setMaxShares(double max);
 		void setMaxSharesDate(QDate quotation_date);
 		bool checkAccounts();

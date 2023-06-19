@@ -124,8 +124,10 @@ bool Security::readElement(QXmlStreamReader *xml, bool*) {
 	if(xml->name() == XML_COMPARE_CONST_CHAR("quotation")) {
 		QXmlStreamAttributes attr = xml->attributes();
 		QDate date = QDate::fromString(attr.value("date").toString(), Qt::ISODate);
-		quotations[date] = attr.value("value").toDouble();
-		quotations_auto[date] = attr.value("auto").toInt();
+		if(date.isValid()) {
+			quotations[date] = attr.value("value").toDouble();
+			quotations_auto[date] = attr.value("auto").toInt();
+		}
 	}
 	return false;
 }
@@ -195,6 +197,7 @@ void Security::setFirstRevision(int new_rev) {i_first_revision = new_rev; if(i_f
 int Security::lastRevision() const {return i_last_revision;}
 void Security::setLastRevision(int new_rev) {i_last_revision = new_rev;}
 void Security::setQuotation(const QDate &date, double value, bool auto_added) {
+	if(!date.isValid()) return;
 	if(!auto_added) {
 		quotations[date] = value;
 		quotations_auto[date] = false;
