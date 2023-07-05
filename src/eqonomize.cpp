@@ -1079,6 +1079,16 @@ EditQuotationsDialog::EditQuotationsDialog(Security *sec, QWidget *parent) : QDi
 	quotationsView->setAllColumnsShowFocus(true);
 	quotationsView->setColumnCount(2);
 	quotationsView->setAlternatingRowColors(true);
+#if defined _WIN32 && (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0))
+	QPalette p = palette();
+	QColor c = p.color(QPalette::Active, QPalette::Base);
+	if(c.lightness() > 0x7f) c = c.darker(105);
+	else c = c.lighter(125);
+	p.setColor(QPalette::Active, QPalette::AlternateBase, c);
+	p.setColor(QPalette::Inactive, QPalette::AlternateBase, c);
+	p.setColor(QPalette::Disabled, QPalette::AlternateBase, c);
+	setPalette(p);
+#endif
 	QStringList headers;
 	headers << tr("Date");
 	headers << tr("Price per Share", "Financial Shares");
@@ -2451,7 +2461,9 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 
+#if !defined _WIN32 || (QT_VERSION < QT_VERSION_CHECK(6, 5, 0))
 	if(settings.value("darkMode", false).toBool()) updatePalette(true);
+#endif
 
 	QString sfont = settings.value("font").toString();
 	if(!sfont.isEmpty()) {
@@ -3250,6 +3262,23 @@ void Eqonomize::selectFont() {
 	}
 }
 
+#if defined _WIN32 && (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0))
+void Eqonomize::updateColors() {
+	expensesWidget->filterTransactions();
+	incomesWidget->filterTransactions();
+	transfersWidget->filterTransactions();
+	filterAccounts();
+	updateScheduledTransactions();
+	updateSecurities();
+	emit transactionsModified();
+}
+void Eqonomize::changeEvent(QEvent *e) {
+	if(e->type() == QEvent::PaletteChange || e->type() == QEvent::ApplicationPaletteChange) {
+		QTimer::singleShot(100, this, SLOT(updateColors()));
+	}
+}
+#endif
+
 void Eqonomize::setDarkMode(bool b) {
 	updatePalette(b);
 	expensesWidget->filterTransactions();
@@ -3267,7 +3296,7 @@ void Eqonomize::setDarkMode(bool b) {
 
 void Eqonomize::updatePalette(bool dark_mode) {
 	if(dark_mode) {
-#ifdef _WIN32
+#if defined _WIN32 && (QT_VERSION < QT_VERSION_CHECK(6, 5, 0))
 		QApplication::setStyle(QStyleFactory::create("Fusion"));
 #endif
 		QPalette p;
@@ -3312,7 +3341,7 @@ void Eqonomize::updatePalette(bool dark_mode) {
 		p.setColor(QPalette::Disabled, QPalette::BrightText, QColor(39, 174, 96));
 		QApplication::setPalette(p);
 	} else {
-#ifdef _WIN32
+#if defined _WIN32 && (QT_VERSION < QT_VERSION_CHECK(6, 5, 0))
 		QApplication::setStyle(QStyleFactory::create("windowsvista"));
 #endif
 		QApplication::setPalette(QApplication::style()->standardPalette());
@@ -6637,24 +6666,36 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
 			settings.setValue("lastExchangeRatesUpdate", QDate::currentDate().toString(Qt::ISODate));
 			updateExchangeRatesProgressDialog->setValue(1);
 			QEventLoop loop2;
-			//updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("http://www.mycurrency.net/service/rates")));
-			updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://www.mycurrency.net/=EU")));
+			updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://api.exchangerate.host/latest")));
 			connect(updateExchangeRatesReply, SIGNAL(finished()), &loop2, SLOT(quit()));
 			loop2.exec();
+			QString errors;
+			int b_error = false;
 			if(updateExchangeRatesReply->error() == QNetworkReply::OperationCanceledError) {
 				//canceled by user
 				updateExchangeRatesProgressDialog->reset();
 			} else if(updateExchangeRatesReply->error() != QNetworkReply::NoError) {
 				updateExchangeRatesProgressDialog->reset();
-				//QMessageBox::critical(this, tr("Error"), tr("Failed to download exchange rates from %1: %2.").arg("http://www.mycurrency.net/service/rates").arg(updateExchangeRatesReply->errorString()));
-				QMessageBox::critical(this, tr("Error"), tr("Failed to download exchange rates from %1: %2.").arg("https://www.mycurrency.net").arg(updateExchangeRatesReply->errorString()));
+				errors = updateExchangeRatesReply->errorString();
+				b_error = 1;
 				updateExchangeRatesReply->abort();
 			} else {
-
-				//QString errors = budget->loadMyCurrencyNetData(updateExchangeRatesReply->readAll());
-				QString errors = budget->loadMyCurrencyNetHtml(updateExchangeRatesReply->readAll());
-				if(!errors.isEmpty()) {
-					QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("http://www.mycurrency.net/service/rates").arg(errors));
+				errors = budget->loadExchangerateHostData(updateExchangeRatesReply->readAll());
+				if(!errors.isEmpty()) b_error = 2;
+			}
+			if(b_error) {
+				QEventLoop loop3;
+				updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://www.mycurrency.net/FR.json")));
+				//updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://www.mycurrency.net/=EU")));
+				connect(updateExchangeRatesReply, SIGNAL(finished()), &loop3, SLOT(quit()));
+				loop3.exec();
+				if(updateExchangeRatesReply->error() == QNetworkReply::OperationCanceledError) {
+					//canceled by user
+					updateExchangeRatesProgressDialog->reset();
+				} else if(updateExchangeRatesReply->error() != QNetworkReply::NoError || !budget->loadMyCurrencyNetData(updateExchangeRatesReply->readAll()).isEmpty()) {
+					if(updateExchangeRatesReply->error() != QNetworkReply::NoError) updateExchangeRatesReply->abort();
+					if(b_error == 1) QMessageBox::critical(this, tr("Error"), tr("Failed to download exchange rates from %1: %2.").arg("https://api.exchangerate.host/latest").arg(errors));
+					else QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("https://api.exchangerate.host/latest").arg(errors));
 				}
 			}
 			QString error = budget->saveCurrencies();
@@ -7912,9 +7953,11 @@ void Eqonomize::setupActions() {
 	NEW_ACTION_2(ActionSelectFont, tr("Select Font…"), 0, this, SLOT(selectFont()), "select_font", settingsMenu);
 	ActionSelectFont->setIcon(LOAD_ICON_APP("preferences-desktop-font"));
 
+#if !defined _WIN32 || (QT_VERSION < QT_VERSION_CHECK(6, 5, 0))
 	NEW_TOGGLE_ACTION(ActionDarkMode, tr("Dark Mode"), 0, this, SLOT(setDarkMode(bool)), "dark_mode", settingsMenu);
 	QSettings settings;
 	ActionDarkMode->setChecked(settings.value("GeneralOptions/darkMode", false).toBool());
+#endif
 
 	QMenu *langMenu = settingsMenu->addMenu(LOAD_ICON_APP("preferences-desktop-locale"), tr("Language"));
 	ActionSelectLang = new QActionGroup(this);
@@ -8268,7 +8311,7 @@ void Eqonomize::onActivateRequested(const QStringList &arguments, const QString 
 void Eqonomize::saveOptions() {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
-	settings.setValue("version", 141);
+	settings.setValue("version", 155);
 	settings.setValue("lastURL", current_url.url());
 	if(ActionSelectBackupFrequency->checkedAction() == ABFNever) {settings.setValue("backupFrequency", BACKUP_NEVER);}
 	else if(ActionSelectBackupFrequency->checkedAction() == ABFDaily) {settings.setValue("backupFrequency", BACKUP_DAILY);}
@@ -11256,8 +11299,32 @@ EqonomizeTreeWidget::EqonomizeTreeWidget(QWidget *parent) : QTreeWidget(parent) 
 	setAlternatingRowColors(true);
 	setExpandsOnDoubleClick(false);
 	setItemDelegate(new EqonomizeItemDelegate(this));
+#if defined _WIN32 && (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0))
+	QPalette p = palette();
+	QColor c = p.color(QPalette::Active, QPalette::Base);
+	if(c.lightness() > 0x7f) c = c.darker(105);
+	else c = c.lighter(125);
+	p.setColor(QPalette::Active, QPalette::AlternateBase, c);
+	p.setColor(QPalette::Inactive, QPalette::AlternateBase, c);
+	p.setColor(QPalette::Disabled, QPalette::AlternateBase, c);
+	setPalette(p);
+#endif
 }
 EqonomizeTreeWidget::EqonomizeTreeWidget() : QTreeWidget() {}
+#if defined _WIN32 && (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0))
+void EqonomizeTreeWidget::changeEvent(QEvent *e) {
+	if(e->type() == QEvent::PaletteChange || e->type() == QEvent::ApplicationPaletteChange) {
+		QPalette p = palette();
+		QColor c = p.color(QPalette::Active, QPalette::Base);
+		if(c.lightness() > 0x7f) c = c.darker(105);
+		else c = c.lighter(125);
+		p.setColor(QPalette::Active, QPalette::AlternateBase, c);
+		p.setColor(QPalette::Inactive, QPalette::AlternateBase, c);
+		p.setColor(QPalette::Disabled, QPalette::AlternateBase, c);
+		setPalette(p);
+	}
+}
+#endif
 void EqonomizeTreeWidget::keyPressEvent(QKeyEvent *e) {
 	if((e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) && currentItem()) {
 		emit returnPressed(currentItem());

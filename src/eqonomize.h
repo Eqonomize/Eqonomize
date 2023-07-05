@@ -261,6 +261,9 @@ class Eqonomize : public QMainWindow {
 		void updatePalette(bool);
 		void dragEnterEvent(QDragEnterEvent *event);
 		void dropEvent(QDropEvent *event);
+#if defined _WIN32 && (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0))
+		void changeEvent(QEvent *e) override;
+#endif
 
 		QUrl current_url;
 		double period_months, from_to_months;
@@ -344,6 +347,10 @@ class Eqonomize : public QMainWindow {
 
 		void checkAvailableVersion_readdata();
 		void languageSelected();
+#if defined _WIN32 && (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0))
+		void updateColors();
+#endif
+
 
 	public slots:
 
@@ -836,6 +843,9 @@ class EqonomizeTreeWidget : public QTreeWidget {
 	protected:
 
 		void dropEvent(QDropEvent *event);
+#if defined _WIN32 && (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0))
+		void changeEvent(QEvent *e) override;
+#endif
 
 	protected slots:
 

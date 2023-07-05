@@ -174,6 +174,7 @@ class Budget {
 		void loadLocalCurrencies();
 		void loadCurrenciesFile(QString filename, bool is_local);
 		QString loadECBData(QByteArray data);
+		QString loadExchangerateHostData(QByteArray data);
 		QString loadMyCurrencyNetData(QByteArray data);
 		QString loadMyCurrencyNetHtml(QByteArray data);
 		QString saveCurrencies();

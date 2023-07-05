@@ -1,3 +1,20 @@
+2023-07-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Use exchangerate.host as secondary exchange rate source, with mycurrency.net as backup
+	* Use fusion style by default and use system setting for dark mode on Windows with Qt >= 6.5
+
+2023-06-19  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix set security share value for split transactions (null date where used)
+
+2023-06-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix custom font with gtk2 style
+
+2023-05-10  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix monthly total for categories divided in subcategories in categories comparison report
+
 2022-12-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Fix months between dates calculation when first month of budget year is not January

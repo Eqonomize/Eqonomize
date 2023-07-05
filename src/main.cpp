@@ -48,6 +48,9 @@ QTranslator translator, translator_qt, translator_qtbase;
 int main(int argc, char **argv) {
 
 	QApplication app(argc, argv);
+#if defined _WIN32 && (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0))
+	app.setStyle("Fusion");
+#endif
 	app.setApplicationName("eqonomize");
 	app.setApplicationDisplayName("Eqonomize!");
 	app.setOrganizationName("Eqonomize");
