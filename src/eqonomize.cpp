@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016-2020 by Hanna Knutsson            *
+ *   Copyright (C) 2006-2008, 2014, 2016-2023 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -232,12 +232,14 @@ void setAccountBudgetColor(QTreeWidgetItem *i, double budget_rem, bool is_expens
 void setColumnTextWidth(QTreeWidget *w, int i, QString str) {
 	QFontMetrics fm(w->font());
 	int tw = fm.boundingRect(str).width() + 10;
-	int hw = fm.boundingRect(w->headerItem()->text(i)).width() + 10;
-	if(w->columnWidth(i) < tw) w->setColumnWidth(i, tw);
-	if(w->columnWidth(i) < hw) w->setColumnWidth(i, hw);
+	int hw = fm.boundingRect(w->headerItem()->text(i) + "XXX").width();
+	if(tw > hw) w->setColumnWidth(i, tw);
+	else w->setColumnWidth(i, hw);
+	//if(w->columnWidth(i) < tw) w->setColumnWidth(i, tw);
+	//if(w->columnWidth(i) < hw) w->setColumnWidth(i, hw);
 }
 void setColumnDateWidth(QTreeWidget *w, int i) {
-	setColumnTextWidth(w, i, QLocale().toString(QDate::currentDate(), QLocale::ShortFormat));
+	setColumnTextWidth(w, i, QLocale().toString(QDate::currentDate(), QLocale::ShortFormat) + "X");
 }
 void setColumnMoneyWidth(QTreeWidget *w, int i, Budget *budget, double v = 9999999.99, int d = -1) {
 	setColumnTextWidth(w, i, budget->formatMoney(v, d, false) + " XXX");
@@ -2465,18 +2467,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	if(settings.value("darkMode", false).toBool()) updatePalette(true);
 #endif
 
-	QString sfont = settings.value("font").toString();
-	if(!sfont.isEmpty()) {
-		QFont font;
-		font.fromString(sfont);
-		qApp->processEvents();
-		if(font.family() == qApp->font().family() && font.pointSize() == qApp->font().pointSize() && font.pixelSize() == qApp->font().pixelSize() && font.overline() == qApp->font().overline() && font.stretch() == qApp->font().stretch() && font.letterSpacing() == qApp->font().letterSpacing() && font.underline() == qApp->font().underline() && font.style() == qApp->font().style() && font.weight() == qApp->font().weight()) {
-			settings.remove("font");
-		} else {
-			qApp->setFont(font);
-		}
-	}
-
 	b_extra = settings.value("useExtraProperties", true).toBool();
 	int initial_period = settings.value("initialPeriod", int(0)).toInt();
 	if(initial_period < 0 || initial_period > 4) initial_period = 0;
@@ -2579,9 +2569,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QFontMetrics fm(accountsView->font());
 	accountsView->header()->setSectionResizeMode(QHeaderView::Fixed);
 	accountsView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
-	setColumnTextWidth(accountsView, BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(budget->formatMoney(99999999.99)).arg(budget->formatMoney(99999999.99)));
-	setColumnMoneyWidth(accountsView, CHANGE_COLUMN, budget, 999999999999.99);
-	setColumnMoneyWidth(accountsView, VALUE_COLUMN, budget, 999999999999.99);
 	assetsItem = new TotalListViewItem(accountsView, tr("Assets"), QString(), budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
 	assetsItem->setIcon(0, LOAD_ICON("eqz-account"));
 	liabilitiesItem = new TotalListViewItem(accountsView, assetsItem, tr("Liabilities"), QString(), budget->formatMoney(0.0), budget->formatMoney(0.0) + " ");
@@ -2784,15 +2771,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	securitiesView->setHeaderLabels(securitiesViewHeaders);
 	securitiesView->setRootIsDecorated(false);
 	securitiesView->header()->setStretchLastSection(false);
-	setColumnStrlenWidth(securitiesView, 0, 25);
-	setColumnMoneyWidth(securitiesView, 1, budget);
-	setColumnValueWidth(securitiesView, 2, 999999.99, 4, budget);
-	setColumnMoneyWidth(securitiesView, 2, budget, 9999999.99, 4);
-	setColumnMoneyWidth(securitiesView, 4, budget);
-	setColumnMoneyWidth(securitiesView, 5, budget);
-	setColumnValueWidth(securitiesView, 6, 99.99, 2, budget);
-	setColumnStrlenWidth(securitiesView, 7, 10);
-	setColumnStrlenWidth(securitiesView, 8, 10);
 	sp = securitiesView->sizePolicy();
 	sp.setVerticalPolicy(QSizePolicy::MinimumExpanding);
 	securitiesView->setSizePolicy(sp);
@@ -2891,14 +2869,6 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	scheduleView->setHeaderLabels(scheduleViewHeaders);
 	scheduleView->setColumnHidden(6, true);
 	scheduleView->setColumnHidden(7, true);
-	setColumnDateWidth(scheduleView, 0);
-	setColumnStrlenWidth(scheduleView, 1, 15);
-	setColumnStrlenWidth(scheduleView, 2, 25);
-	setColumnMoneyWidth(scheduleView, 3, budget);
-	setColumnStrlenWidth(scheduleView, 4, 15);
-	setColumnStrlenWidth(scheduleView, 5, 15);
-	setColumnStrlenWidth(scheduleView, 6, 15);
-	setColumnStrlenWidth(scheduleView, 7, 15);
 	scheduleView->setRootIsDecorated(false);
 	sp = scheduleView->sizePolicy();
 	sp.setVerticalPolicy(QSizePolicy::MinimumExpanding);
@@ -2965,6 +2935,8 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	newSecurityTransactionMenu->addAction(ActionNewReinvestedDividend);
 
 	settings.endGroup();
+
+	updateColumnWidths();
 
 	readOptions();
 
@@ -3250,6 +3222,23 @@ void Eqonomize::setBudgetPeriod() {
 	dialog->deleteLater();
 }
 
+void Eqonomize::resetColumnWidths() {
+	updateColumnWidths();
+	expensesWidget->updateColumnWidths();
+	incomesWidget->updateColumnWidths();
+	transfersWidget->updateColumnWidths();
+	if(ledgers.isEmpty()) {
+		LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) NULL, budget, this, tr("Ledger"), b_extra);
+		dialog->updateColumnWidths();
+		dialog->saveConfig();
+		dialog->deleteLater();
+	} else {
+		for(int i = 0; i < ledgers.count(); i++) {
+			ledgers.at(i)->updateColumnWidths();
+		}
+	}
+}
+
 void Eqonomize::selectFont() {
 	bool b = false;
 	QFont font = QFontDialog::getFont(&b, qApp->font(), this);
@@ -3259,6 +3248,7 @@ void Eqonomize::selectFont() {
 		settings.beginGroup("GeneralOptions");
 		settings.setValue("font", font.toString());
 		settings.endGroup();
+		resetColumnWidths();
 	}
 }
 
@@ -5649,6 +5639,16 @@ void Eqonomize::popupAccountsMenu(const QPoint &p) {
 
 }
 
+void Eqonomize::openLedger(AssetsAccount *account, bool reconcile) {
+	LedgerDialog *dialog = new LedgerDialog(account, budget, this, tr("Ledger"), b_extra, reconcile);
+	dialog->show();
+	ledgers << dialog;
+	connect(dialog, SIGNAL(destroyed(QObject*)), this, SLOT(ledgerClosed(QObject*)));
+	connect(this, SIGNAL(timeToSaveConfig()), dialog, SLOT(saveConfig()));
+}
+void Eqonomize::ledgerClosed(QObject *o) {
+	ledgers.removeAll((LedgerDialog*) o);
+}
 void Eqonomize::showLedger() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
 	Account *account = NULL;
@@ -5656,9 +5656,7 @@ void Eqonomize::showLedger() {
 		account = account_items[i];
 		if(account && account->type() != ACCOUNT_TYPE_ASSETS) account = NULL;
 	}
-	LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, budget, this, tr("Ledger"), b_extra);
-	dialog->show();
-	connect(this, SIGNAL(timeToSaveConfig()), dialog, SLOT(saveConfig()));
+	openLedger((AssetsAccount*) account);
 }
 void Eqonomize::reconcileAccount() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
@@ -5667,9 +5665,7 @@ void Eqonomize::reconcileAccount() {
 		account = account_items[i];
 		if(account && account->type() != ACCOUNT_TYPE_ASSETS) account = NULL;
 	}
-	LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, budget, this, tr("Ledger"), b_extra, true);
-	dialog->show();
-	connect(this, SIGNAL(timeToSaveConfig()), dialog, SLOT(saveConfig()));
+	openLedger((AssetsAccount*) account, true);
 }
 void Eqonomize::showAccountTransactions(bool b) {
 	QTreeWidgetItem *i = selectedItem(accountsView);
@@ -5751,9 +5747,7 @@ void Eqonomize::showAccountTransactions(bool b) {
 		} else if(((AssetsAccount*) account)->isSecurities()) {
 			tabs->setCurrentIndex(SECURITIES_PAGE_INDEX);
 		} else {
-			LedgerDialog *dialog = new LedgerDialog((AssetsAccount*) account, budget, this, tr("Ledger"), b_extra);
-			dialog->show();
-			connect(this, SIGNAL(timeToSaveConfig()), dialog, SLOT(saveConfig()));
+			openLedger((AssetsAccount*) account);
 		}
 	}
 }
@@ -6800,7 +6794,7 @@ void Eqonomize::setMainCurrency() {
 	for(CurrencyList<Currency*>::const_iterator it = budget->currencies.constBegin(); it != budget->currencies.constEnd(); ++it) {
 		Currency *currency = *it;
 		if(!currency->name(false).isEmpty()) {
-			setMainCurrencyCombo->addItem(QIcon(":/data/flags/" + currency->code() + ".png"), QString("%2 (%1)").arg(qApp->translate("currencies.xml", qPrintable(currency->name()))).arg(currency->code()));
+			setMainCurrencyCombo->addItem(QIcon(":/data/flags/" + currency->code() + ".png"), QString("%2 (%1)").arg(qApp->translate("currencies.xml", qUtf8Printable(currency->name()))).arg(currency->code()));
 		} else {
 			setMainCurrencyCombo->addItem(currency->code());
 		}
@@ -7950,6 +7944,11 @@ void Eqonomize::setupActions() {
 
 	settingsMenu->addSeparator();
 
+	NEW_ACTION_2(ActionSelectFont, tr("Reset Column Widths"), 0, this, SLOT(resetColumnWidths()), "reset_column_widths", settingsMenu);
+	ActionSelectFont->setIcon(LOAD_ICON_APP("view-refresh"));
+
+	settingsMenu->addSeparator();
+
 	NEW_ACTION_2(ActionSelectFont, tr("Select Font…"), 0, this, SLOT(selectFont()), "select_font", settingsMenu);
 	ActionSelectFont->setIcon(LOAD_ICON_APP("preferences-desktop-font"));
 
@@ -8182,7 +8181,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.5.4</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"https://eqonomize.github.io/\">https://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2021 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.5.5</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"https://eqonomize.github.io/\">https://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2023 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);
@@ -8349,6 +8348,31 @@ void Eqonomize::saveOptions() {
 	emit timeToSaveConfig();
 }
 
+void Eqonomize::updateAccountColumnWidths() {
+	setColumnTextWidth(accountsView, BUDGET_COLUMN, tr("%2 of %1", "%1: budget; %2: remaining budget").arg(budget->formatMoney(99999999.99)).arg(budget->formatMoney(99999999.99)));
+	setColumnMoneyWidth(accountsView, CHANGE_COLUMN, budget, 999999999999.99);
+	setColumnMoneyWidth(accountsView, VALUE_COLUMN, budget, 999999999999.99);
+}
+void Eqonomize::updateColumnWidths() {
+	updateAccountColumnWidths();
+	setColumnStrlenWidth(securitiesView, 0, 25);
+	setColumnMoneyWidth(securitiesView, 1, budget);
+	setColumnValueWidth(securitiesView, 2, 999999.99, 4, budget);
+	setColumnMoneyWidth(securitiesView, 3, budget, 9999999.99, 4);
+	setColumnMoneyWidth(securitiesView, 4, budget);
+	setColumnMoneyWidth(securitiesView, 5, budget);
+	setColumnValueWidth(securitiesView, 6, 99.99, 2, budget);
+	setColumnStrlenWidth(securitiesView, 7, 10);
+	setColumnStrlenWidth(securitiesView, 8, 10);
+	setColumnDateWidth(scheduleView, 0);
+	setColumnStrlenWidth(scheduleView, 1, 15);
+	setColumnStrlenWidth(scheduleView, 2, 25);
+	setColumnMoneyWidth(scheduleView, 3, budget);
+	setColumnStrlenWidth(scheduleView, 4, 15);
+	setColumnStrlenWidth(scheduleView, 5, 15);
+	setColumnStrlenWidth(scheduleView, 6, 15);
+	setColumnStrlenWidth(scheduleView, 7, 15);
+}
 
 void Eqonomize::readFileDependentOptions() {}
 void Eqonomize::readOptions() {

@@ -146,6 +146,7 @@ class TransactionListWidget : public QWidget {
 		void updateClearButton();
 		void tagsModified();
 		void hideColumn(bool);
+		void updateColumnWidths();
 
 };
 

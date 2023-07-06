@@ -155,19 +155,9 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 	transactionsView->setColumnCount(comments_col + 2);
 	transactionsView->setHeaderLabels(headers);
 	transactionsView->setColumnHidden(transactionsView->columnCount() - 1, true);
-	setColumnDateWidth(transactionsView, 0);
-	setColumnStrlenWidth(transactionsView, 1, 25);
-	setColumnMoneyWidth(transactionsView, 2, budget);
-	setColumnStrlenWidth(transactionsView, from_col, 20);
-	setColumnStrlenWidth(transactionsView, to_col, 20);
-	if(payee_col >= 0) {
-		setColumnStrlenWidth(transactionsView, payee_col, 15);
-		transactionsView->setColumnHidden(payee_col, !b_extra);
-	}
-	if(tags_col >= 0) {
-		setColumnStrlenWidth(transactionsView, tags_col, 15);
-		transactionsView->setColumnHidden(tags_col, true);
-	}
+	updateColumnWidths();
+	if(payee_col >= 0) transactionsView->setColumnHidden(payee_col, !b_extra);
+	if(tags_col >= 0) transactionsView->setColumnHidden(tags_col, true);
 	if(quantity_col >= 0) transactionsView->setColumnHidden(quantity_col, true);
 	transactionsView->setRootIsDecorated(false);
 	transactionsView->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -240,6 +230,44 @@ TransactionListWidget::TransactionListWidget(bool extra_parameters, int transact
 QSize TransactionListWidget::minimumSizeHint() const {return QWidget::minimumSizeHint();}
 QSize TransactionListWidget::sizeHint() const {return minimumSizeHint();}
 
+void TransactionListWidget::updateColumnWidths() {
+	comments_col = 5;
+	tags_col = -1;
+	payee_col = -1;
+	quantity_col = -1;
+	switch(transtype) {
+		case TRANSACTION_TYPE_EXPENSE: {
+			quantity_col = 6;
+			payee_col = 5;
+			comments_col = 8;
+			tags_col = 7;
+			from_col = 4; to_col = 3;
+			break;
+		}
+		case TRANSACTION_TYPE_INCOME: {
+			payee_col = 5;
+			comments_col = 7;
+			tags_col = 6;
+			from_col = 3; to_col = 4;
+			break;
+		}
+		default: {
+			from_col = 3; to_col = 4;
+			break;
+		}
+	}
+	setColumnDateWidth(transactionsView, 0);
+	setColumnStrlenWidth(transactionsView, 1, 25);
+	setColumnMoneyWidth(transactionsView, 2, budget);
+	setColumnStrlenWidth(transactionsView, from_col, 20);
+	setColumnStrlenWidth(transactionsView, to_col, 20);
+	if(payee_col >= 0) {
+		setColumnStrlenWidth(transactionsView, payee_col, 15);
+	}
+	if(tags_col >= 0) {
+		setColumnStrlenWidth(transactionsView, tags_col, 15);
+	}
+}
 QByteArray TransactionListWidget::saveState() {
 	return transactionsView->header()->saveState();
 }

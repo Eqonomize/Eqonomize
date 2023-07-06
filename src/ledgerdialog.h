@@ -96,6 +96,7 @@ class LedgerDialog : public QDialog {
 	public slots:
 
 		void saveConfig();
+		void updateColumnWidths();
 
 	protected slots:
 

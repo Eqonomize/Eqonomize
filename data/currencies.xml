@@ -66,9 +66,6 @@
 	<currency code="BTC" symbol="₿" name="Bitcoin" source="exchangerate.host">
 		<rate value="0.00003" date="2023-07-04"/>
 	</currency>
-	<currency code="BTN" symbol="Nu." name="Bhutanese ngultrum" source="exchangerate.host">
-		<rate value="89.16201" date="2023-07-04"/>
-	</currency>
 	<currency code="BWP" symbol="P" name="Botswana pula" source="exchangerate.host">
 		<rate value="14.62818" date="2023-07-04"/>
 	</currency>

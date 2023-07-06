@@ -1,3 +1,10 @@
+2023-07-06  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add option to reset column widths
+	* Reset column widths on font change
+	* Fix display of Unicode characters in currency names
+	* Use flag images with higher resolution
+
 2023-07-04  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Use exchangerate.host as secondary exchange rate source, with mycurrency.net as backup

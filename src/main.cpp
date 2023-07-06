@@ -56,6 +56,21 @@ int main(int argc, char **argv) {
 	app.setOrganizationName("Eqonomize");
 	app.setApplicationVersion(VERSION);
 
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+
+	QString sfont = settings.value("font").toString();
+	QFont font;
+	if(!sfont.isEmpty()) {
+		font.fromString(sfont);
+		app.processEvents();
+		if(font.family() == app.font().family() && font.pointSize() == app.font().pointSize() && font.pixelSize() == app.font().pixelSize() && font.overline() == app.font().overline() && font.stretch() == app.font().stretch() && font.letterSpacing() == app.font().letterSpacing() && font.underline() == app.font().underline() && font.style() == app.font().style() && font.weight() == app.font().weight()) {
+			settings.remove("font");
+		} else {
+			app.setFont(font);
+		}
+	}
+
 	QString locale = setlocale(LC_MONETARY, NULL);
 	if(locale == QLocale::c().name()) {
 		setlocale(LC_MONETARY, QLocale::system().name().toLocal8Bit());
@@ -63,8 +78,6 @@ int main(int argc, char **argv) {
 		setlocale(LC_MONETARY, "");
 	}
 
-	QSettings settings;
-	settings.beginGroup("GeneralOptions");
 	QString slang = settings.value("language", QString()).toString();
 
 	EqonomizeTranslator eqtr;
@@ -206,15 +219,12 @@ int main(int argc, char **argv) {
 #endif
 
 	//fixes font with gtk2 style
-	QString sfont = settings.value("font").toString();
+	sfont = settings.value("font").toString();
 	if(!sfont.isEmpty()) {
 		QFont font;
 		font.fromString(sfont);
-		if(font.family() == app.font().family() && font.pointSize() == app.font().pointSize() && font.pixelSize() == app.font().pixelSize() && font.overline() == app.font().overline() && font.stretch() == app.font().stretch() && font.letterSpacing() == app.font().letterSpacing() && font.underline() == app.font().underline() && font.style() == app.font().style() && font.weight() == app.font().weight()) {
-			settings.remove("font");
-		} else {
-			app.setFont(font);
-		}
+		app.setFont(font);
+		win->updateAccountColumnWidths();
 	}
 	settings.endGroup();
 

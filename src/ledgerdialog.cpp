@@ -309,31 +309,7 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	transactionsView->setRootIsDecorated(false);
 	transactionsView->header()->setSectionsMovable(false);
 	transactionsView->resizeColumnToContents(0);
-	setColumnDateWidth(transactionsView, 1);
-	setColumnTextWidth(transactionsView, 2, tr("Debt Payment"));
-	setColumnStrlenWidth(transactionsView, 3, 20);
-	setColumnStrlenWidth(transactionsView, 4, 20);
-	setColumnStrlenWidth(transactionsView, 5, 20);
-	setColumnStrlenWidth(transactionsView, 6, 10);
-	setColumnStrlenWidth(transactionsView, 7, 20);
-	setColumnMoneyWidth(transactionsView, 8, budget);
-	setColumnMoneyWidth(transactionsView, 9, budget);
-	setColumnMoneyWidth(transactionsView, 10, budget);
-	setColumnMoneyWidth(transactionsView, 11, budget, 999999999.99);
-	min_width_1 = transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) + transactionsView->columnWidth(3) + transactionsView->columnWidth(4) + transactionsView->columnWidth(9) + transactionsView->columnWidth(10) + transactionsView->columnWidth(11) + 30;
-	min_width_2 = min_width_1 + transactionsView->columnWidth(8);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
-#	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-	QScreen *scr = screen();
-#	else
-	QScreen *scr = QGuiApplication::screenAt(pos());
-#	endif
-	if(!scr) scr = QGuiApplication::primaryScreen();
-	QRect rect = scr->availableGeometry();
-#else
-	QRect rect = QApplication::desktop()->availableGeometry(this);
-#endif
-	if(rect.width() > min_width_1 * 1.2) transactionsView->setMinimumWidth(min_width_1);
+	updateColumnWidths();
 	transactionsView->setColumnHidden(5, true);
 	transactionsView->setColumnHidden(6, true);
 	transactionsView->setColumnHidden(7, true);
@@ -823,7 +799,33 @@ void LedgerDialog::saveConfig() {
 	settings.setValue("Ledger/listState", transactionsView->header()->saveState());
 	settings.setValue("Ledger/ascending", b_ascending);
 }
-
+void LedgerDialog::updateColumnWidths() {
+	setColumnDateWidth(transactionsView, 1);
+	setColumnTextWidth(transactionsView, 2, tr("Debt Payment"));
+	setColumnStrlenWidth(transactionsView, 3, 20);
+	setColumnStrlenWidth(transactionsView, 4, 20);
+	setColumnStrlenWidth(transactionsView, 5, 20);
+	setColumnStrlenWidth(transactionsView, 6, 10);
+	setColumnStrlenWidth(transactionsView, 7, 20);
+	setColumnMoneyWidth(transactionsView, 8, budget);
+	setColumnMoneyWidth(transactionsView, 9, budget);
+	setColumnMoneyWidth(transactionsView, 10, budget);
+	setColumnMoneyWidth(transactionsView, 11, budget, 999999999.99);
+	min_width_1 = transactionsView->columnWidth(0) + transactionsView->columnWidth(1) + transactionsView->columnWidth(2) + transactionsView->columnWidth(3) + transactionsView->columnWidth(4) + transactionsView->columnWidth(9) + transactionsView->columnWidth(10) + transactionsView->columnWidth(11) + 30;
+	min_width_2 = min_width_1 + transactionsView->columnWidth(8);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+#	if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+	QScreen *scr = screen();
+#	else
+	QScreen *scr = QGuiApplication::screenAt(pos());
+#	endif
+	if(!scr) scr = QGuiApplication::primaryScreen();
+	QRect rect = scr->availableGeometry();
+#else
+	QRect rect = QApplication::desktop()->availableGeometry(this);
+#endif
+	if(rect.width() > min_width_1 * 1.2) transactionsView->setMinimumWidth(min_width_1);
+}
 void LedgerDialog::accountChanged() {
 	editAccountButton->setEnabled(account != NULL);
 	if(!account) return;

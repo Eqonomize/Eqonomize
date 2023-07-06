@@ -28,6 +28,7 @@
 #include <QDropEvent>
 #include <QLabel>
 #include <QHash>
+#include <QList>
 #include <QMap>
 #include <QModelIndex>
 #include <QTextStream>
@@ -115,6 +116,7 @@ class Transactions;
 class TransactionListWidget;
 class Transfer;
 class AccountComboBox;
+class LedgerDialog;
 
 class Eqonomize : public QMainWindow {
 
@@ -131,6 +133,7 @@ class Eqonomize : public QMainWindow {
 		bool askSave(bool before_exit = false);
 		void createDefaultBudget();
 		void readFileDependentOptions();
+		void openLedger(AssetsAccount *account, bool reconcile = false);
 
 		Budget *budget;
 
@@ -306,6 +309,7 @@ class Eqonomize : public QMainWindow {
 		QComboBox *setMainCurrencyCombo;
 		QNetworkReply *updateExchangeRatesReply, *checkVersionReply;
 		CurrencyConversionDialog *currencyConversionWindow;
+		QList<LedgerDialog*> ledgers;
 
 		int prev_set_main_currency_index;
 		double total_value, total_cost, total_profit, total_rate;
@@ -347,6 +351,7 @@ class Eqonomize : public QMainWindow {
 
 		void checkAvailableVersion_readdata();
 		void languageSelected();
+		void ledgerClosed(QObject*);
 #if defined _WIN32 && (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0))
 		void updateColors();
 #endif
@@ -357,6 +362,10 @@ class Eqonomize : public QMainWindow {
 		void saveCrashRecovery();
 		void autoSave();
 		void onAutoSaveTimeout();
+
+		void updateColumnWidths();
+		void updateAccountColumnWidths();
+		void resetColumnWidths();
 
 		void onActivateRequested(const QStringList&, const QString&);
 
