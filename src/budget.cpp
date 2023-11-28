@@ -585,20 +585,20 @@ QString Budget::loadExchangerateHostData(QByteArray data) {
 	if(!jdoc.isObject()) return tr("No exchange rates found.");
 	QJsonObject jobj = jdoc.object();
 	QJsonObject::const_iterator it = jobj.find("rates");
+	if(it == jobj.constEnd() || !it.value().isObject()) it = jobj.find("eur");
 	if(it == jobj.constEnd() || !it.value().isObject()) return tr("No exchange rates found.");
 	jobj = it.value().toObject();
 
 	bool had_data = false;
 
 	for(it = jobj.constBegin(); it != jobj.constEnd(); ++it) {
-		QString code = it.key();
-		if(code == "CLF" || code == "CNH" || code == "CUC" || code == "EEK" || code == "IMP") continue;
+		QString code = it.key().toUpper();
 		double exrate = it.value().toDouble();
 		if(!code.isEmpty() && code != "EUR" && exrate > 0.0) {
 			if(!had_data) {
 				for(CurrencyList<Currency*>::const_iterator it = currencies.constBegin(); it != currencies.constEnd(); ++it) {
 					Currency *cur = *it;
-					if(cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_MYCURRENCY_NET || cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_EXCHANGERATE_HOST) {
+					if(cur->exchangeRateSource() != EXCHANGE_RATE_SOURCE_ECB) {
 						cur->setExchangeRateSource(EXCHANGE_RATE_SOURCE_NONE);
 					}
 				}
@@ -614,6 +614,54 @@ QString Budget::loadExchangerateHostData(QByteArray data) {
 				if(!keep_old) cur->rates.clear();
 				cur->setExchangeRate(exrate);
 				cur->setExchangeRateSource(EXCHANGE_RATE_SOURCE_EXCHANGERATE_HOST);
+			}
+			had_data = true;
+		}
+	}
+
+	if(!had_data) return tr("No exchange rates found.");
+
+	return QString();
+}
+
+QString Budget::loadFloatratesComData(QByteArray data) {
+
+	QJsonDocument jdoc = QJsonDocument::fromJson(data);
+	if(!jdoc.isObject()) return tr("No exchange rates found.");
+	QJsonObject jobj = jdoc.object();
+
+	bool had_data = false;
+
+	for(QJsonObject::const_iterator it = jobj.constBegin(); it != jobj.constEnd(); ++it) {
+		QString code;
+		double exrate = 0.0;
+		if(it.value().isObject()) {
+			QJsonObject vobj = it.value().toObject();
+			QJsonObject::const_iterator it2 = vobj.find("alphaCode");
+			if(it2 != vobj.end()) code = it2.value().toString();
+			it2 = vobj.find("rate");
+			if(it2 != vobj.end()) exrate = it2.value().toDouble();
+		}
+		if(!code.isEmpty() && code != "EUR" && exrate > 0.0) {
+			if(!had_data) {
+				for(CurrencyList<Currency*>::const_iterator it = currencies.constBegin(); it != currencies.constEnd(); ++it) {
+					Currency *cur = *it;
+					if(cur->exchangeRateSource() != EXCHANGE_RATE_SOURCE_ECB) {
+						cur->setExchangeRateSource(EXCHANGE_RATE_SOURCE_NONE);
+					}
+				}
+			}
+			Currency *cur = findCurrency(code);
+			if(cur && cur->exchangeRateSource() != EXCHANGE_RATE_SOURCE_ECB) {
+				bool keep_old = cur->rates.size() > 1;
+				if(!keep_old) {
+					for(AccountList<AssetsAccount*>::const_iterator it = assetsAccounts.constBegin(); it != assetsAccounts.constEnd(); ++it) {
+						if((*it)->currency() == cur) {keep_old = true; break;}
+					}
+				}
+				if(!keep_old) cur->rates.clear();
+				cur->setExchangeRate(exrate);
+				cur->setExchangeRateSource(EXCHANGE_RATE_SOURCE_FLOATRATES_COM);
 			}
 			had_data = true;
 		}
@@ -645,7 +693,7 @@ QString Budget::loadMyCurrencyNetData(QByteArray data) {
 				if(!had_data) {
 					for(CurrencyList<Currency*>::const_iterator it = currencies.constBegin(); it != currencies.constEnd(); ++it) {
 						Currency *cur = *it;
-						if(cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_MYCURRENCY_NET || cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_EXCHANGERATE_HOST) {
+						if(cur->exchangeRateSource() != EXCHANGE_RATE_SOURCE_ECB) {
 							cur->setExchangeRateSource(EXCHANGE_RATE_SOURCE_NONE);
 						}
 					}
@@ -713,7 +761,7 @@ QString Budget::loadMyCurrencyNetHtml(QByteArray data) {
 			if(!had_data) {
 				for(CurrencyList<Currency*>::const_iterator it = currencies.constBegin(); it != currencies.constEnd(); ++it) {
 					Currency *cur = *it;
-					if(cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_MYCURRENCY_NET || cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_EXCHANGERATE_HOST) {
+					if(cur->exchangeRateSource() != EXCHANGE_RATE_SOURCE_ECB) {
 						cur->setExchangeRateSource(EXCHANGE_RATE_SOURCE_NONE);
 					}
 				}

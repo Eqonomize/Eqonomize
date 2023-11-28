@@ -123,6 +123,7 @@ void Currency::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	if(s_source == "ECB") r_source = EXCHANGE_RATE_SOURCE_ECB;
 	else if(s_source == "mycurrency.net") r_source = EXCHANGE_RATE_SOURCE_MYCURRENCY_NET;
 	else if(s_source == "exchangerate.host") r_source = EXCHANGE_RATE_SOURCE_EXCHANGERATE_HOST;
+	else if(s_source == "floatrates.com") r_source = EXCHANGE_RATE_SOURCE_FLOATRATES_COM;
 	else r_source = EXCHANGE_RATE_SOURCE_NONE;
 	if(attr->hasAttribute("decimals")) i_decimals = attr->value("decimals").toInt();
 	if(attr->hasAttribute("precedes")) b_precedes = attr->value("precedes").toInt();
@@ -158,6 +159,7 @@ void Currency::writeAttributes(QXmlStreamAttributes *attr, bool local_save) {
 	if(!local_save && r_source == EXCHANGE_RATE_SOURCE_ECB) attr->append("source", "ECB");
 	else if(!local_save && r_source == EXCHANGE_RATE_SOURCE_MYCURRENCY_NET) attr->append("source", "mycurrency.net");
 	else if(!local_save && r_source == EXCHANGE_RATE_SOURCE_EXCHANGERATE_HOST) attr->append("source", "exchangerate.host");
+	else if(!local_save && r_source == EXCHANGE_RATE_SOURCE_FLOATRATES_COM) attr->append("source", "floatrates.com");
 }
 void Currency::writeElements(QXmlStreamWriter *xml, bool local_save) {
 	if(local_save) {

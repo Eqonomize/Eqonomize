@@ -6660,7 +6660,7 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
 			settings.setValue("lastExchangeRatesUpdate", QDate::currentDate().toString(Qt::ISODate));
 			updateExchangeRatesProgressDialog->setValue(1);
 			QEventLoop loop2;
-			updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://api.exchangerate.host/latest")));
+			updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json")));
 			connect(updateExchangeRatesReply, SIGNAL(finished()), &loop2, SLOT(quit()));
 			loop2.exec();
 			QString errors;
@@ -6679,17 +6679,16 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
 			}
 			if(b_error) {
 				QEventLoop loop3;
-				updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://www.mycurrency.net/FR.json")));
-				//updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://www.mycurrency.net/=EU")));
+				updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://www.floatrates.com/daily/eur.json")));
 				connect(updateExchangeRatesReply, SIGNAL(finished()), &loop3, SLOT(quit()));
 				loop3.exec();
 				if(updateExchangeRatesReply->error() == QNetworkReply::OperationCanceledError) {
 					//canceled by user
 					updateExchangeRatesProgressDialog->reset();
-				} else if(updateExchangeRatesReply->error() != QNetworkReply::NoError || !budget->loadMyCurrencyNetData(updateExchangeRatesReply->readAll()).isEmpty()) {
+				} else if(updateExchangeRatesReply->error() != QNetworkReply::NoError || !budget->loadFloatratesComData(updateExchangeRatesReply->readAll()).isEmpty()) {
 					if(updateExchangeRatesReply->error() != QNetworkReply::NoError) updateExchangeRatesReply->abort();
-					if(b_error == 1) QMessageBox::critical(this, tr("Error"), tr("Failed to download exchange rates from %1: %2.").arg("https://api.exchangerate.host/latest").arg(errors));
-					else QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("https://api.exchangerate.host/latest").arg(errors));
+					if(b_error == 1) QMessageBox::critical(this, tr("Error"), tr("Failed to download exchange rates from %1: %2.").arg("https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json").arg(errors));
+					else QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json").arg(errors));
 				}
 			}
 			QString error = budget->saveCurrencies();
