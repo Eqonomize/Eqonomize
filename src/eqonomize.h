@@ -208,7 +208,7 @@ class Eqonomize : public QMainWindow {
 		bool newRefundRepayment(Transactions *trans);
 		void readOptions();
 		void setCommandLineParser(QCommandLineParser*);
-		bool timeToUpdateExchangeRates();
+		bool timeToUpdateExchangeRates(bool ecb_only = false);
 		void addNewSchedule(ScheduledTransaction *strans, QWidget *parent);
 
 		void removeOldLinks(Transactions*, Transactions*);
@@ -395,8 +395,8 @@ class Eqonomize : public QMainWindow {
 
 		void checkAvailableVersion();
 
-		void checkExchangeRatesTimeOut();
-		void updateExchangeRates(bool do_currencies_modified = true);
+		void checkExchangeRatesTimeOut(bool do_currencies_modified = true);
+		void updateExchangeRates(bool do_currencies_modified = true, bool ecb_only = false);
 		void cancelUpdateExchangeRates();
 		void currenciesModified();
 		void warnAndAskForExchangeRate();

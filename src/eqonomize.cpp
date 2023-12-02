@@ -6217,18 +6217,7 @@ bool Eqonomize::openURL(const QUrl& url, bool merge) {
 		if(new_currency) warnAndAskForExchangeRate();
 	}
 
-	Currency *cur = budget->defaultCurrency();
-	if(cur != budget->currency_euro && cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_NONE) cur = NULL;
-	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
-		AssetsAccount *acc = *it;
-		if(acc->currency() != NULL && acc->currency() != cur && (acc->currency() == budget->currency_euro || acc->currency()->exchangeRateSource() != EXCHANGE_RATE_SOURCE_NONE)) {
-			if(cur) {
-				if(timeToUpdateExchangeRates()) updateExchangeRates(false);
-				break;
-			}
-			cur = acc->currency();
-		}
-	}
+	checkExchangeRatesTimeOut(false);
 
 	reloadBudget();
 
@@ -6604,24 +6593,28 @@ void Eqonomize::checkAvailableVersion() {
 	connect(checkVersionReply, SIGNAL(finished()), this, SLOT(checkAvailableVersion_readdata()));
 }
 
-void Eqonomize::checkExchangeRatesTimeOut() {
+void Eqonomize::checkExchangeRatesTimeOut(bool do_currencies_modified) {
 	Currency *cur = budget->defaultCurrency();
 	if(cur != budget->currency_euro && cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_NONE) cur = NULL;
+	bool ecb_only = !cur || cur == budget->currency_euro || cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_ECB;
+	bool b_update = false;
 	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *acc = *it;
 		if(acc->currency() != NULL && acc->currency() != cur && (acc->currency() == budget->currency_euro || acc->currency()->exchangeRateSource() != EXCHANGE_RATE_SOURCE_NONE)) {
 			if(cur) {
-				if(timeToUpdateExchangeRates()) updateExchangeRates(true);
-				break;
+				b_update = true;
+				if(ecb_only && acc->currency() != budget->currency_euro && acc->currency()->exchangeRateSource() != EXCHANGE_RATE_SOURCE_ECB) ecb_only = false;
+				if(!ecb_only) break;
 			}
 			cur = acc->currency();
 		}
 	}
+	if(b_update && timeToUpdateExchangeRates(ecb_only)) updateExchangeRates(do_currencies_modified, ecb_only);
 }
-bool Eqonomize::timeToUpdateExchangeRates() {
+bool Eqonomize::timeToUpdateExchangeRates(bool ecb_only) {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
-	QDate last_update = QDate::fromString(settings.value("lastExchangeRatesUpdate").toString(), Qt::ISODate);
+	QDate last_update = QDate::fromString(settings.value(ecb_only ? "lastExchangeRatesUpdateECB" : "lastExchangeRatesUpdate").toString(), Qt::ISODate);
 	QDate last_update_try = QDate::fromString(settings.value("lastExchangeRatesUpdateTry").toString(), Qt::ISODate);
 	settings.endGroup();
 	QDate curdate = QDate::currentDate();
@@ -6632,11 +6625,11 @@ bool Eqonomize::timeToUpdateExchangeRates() {
 	}
 	return false;
 }
-void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
+void Eqonomize::updateExchangeRates(bool do_currencies_modified, bool ecb_only) {
 	QProgressDialog *updateExchangeRatesProgressDialog = new QProgressDialog(tr("Updating exchange rates…"), tr("Abort"), 0, 1, this);
 	updateExchangeRatesProgressDialog->setWindowModality(Qt::WindowModal);
 	updateExchangeRatesProgressDialog->setMinimumDuration(200);
-	updateExchangeRatesProgressDialog->setMaximum(2);
+	updateExchangeRatesProgressDialog->setMaximum(ecb_only ? 1 : 2);
 	connect(updateExchangeRatesProgressDialog, SIGNAL(canceled()), this, SLOT(cancelUpdateExchangeRates()));
 	updateExchangeRatesProgressDialog->setValue(0);
 	QEventLoop loop;
@@ -6648,48 +6641,56 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
 	if(updateExchangeRatesReply->error() == QNetworkReply::OperationCanceledError) {
 		//canceled by user
 		updateExchangeRatesProgressDialog->reset();
+		settings.setValue("lastExchangeRatesUpdateTry", QDate::currentDate().toString(Qt::ISODate));
 	} else if(updateExchangeRatesReply->error() != QNetworkReply::NoError) {
 		updateExchangeRatesProgressDialog->reset();
 		QMessageBox::critical(this, tr("Error"), tr("Failed to download exchange rates from %1: %2.").arg("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml").arg(updateExchangeRatesReply->errorString()));
 		updateExchangeRatesReply->abort();
+		settings.setValue("lastExchangeRatesUpdateTry", QDate::currentDate().toString(Qt::ISODate));
 	} else {
 		QString errors = budget->loadECBData(updateExchangeRatesReply->readAll());
 		if(!errors.isEmpty()) {
 			QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml").arg(errors));
 		} else {
-			settings.setValue("lastExchangeRatesUpdate", QDate::currentDate().toString(Qt::ISODate));
+			settings.setValue("lastExchangeRatesUpdateECB", QDate::currentDate().toString(Qt::ISODate));
 			updateExchangeRatesProgressDialog->setValue(1);
-			QEventLoop loop2;
-			updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json")));
-			connect(updateExchangeRatesReply, SIGNAL(finished()), &loop2, SLOT(quit()));
-			loop2.exec();
-			QString errors;
-			int b_error = false;
-			if(updateExchangeRatesReply->error() == QNetworkReply::OperationCanceledError) {
-				//canceled by user
-				updateExchangeRatesProgressDialog->reset();
-			} else if(updateExchangeRatesReply->error() != QNetworkReply::NoError) {
-				updateExchangeRatesProgressDialog->reset();
-				errors = updateExchangeRatesReply->errorString();
-				b_error = 1;
-				updateExchangeRatesReply->abort();
-			} else {
-				errors = budget->loadExchangerateHostData(updateExchangeRatesReply->readAll());
-				if(!errors.isEmpty()) b_error = 2;
-			}
-			if(b_error) {
-				QEventLoop loop3;
-				updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://www.floatrates.com/daily/eur.json")));
-				connect(updateExchangeRatesReply, SIGNAL(finished()), &loop3, SLOT(quit()));
-				loop3.exec();
+			if(!ecb_only) {
+				QEventLoop loop2;
+				updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json")));
+				connect(updateExchangeRatesReply, SIGNAL(finished()), &loop2, SLOT(quit()));
+				loop2.exec();
+				QString errors;
+				int b_error = false;
 				if(updateExchangeRatesReply->error() == QNetworkReply::OperationCanceledError) {
 					//canceled by user
 					updateExchangeRatesProgressDialog->reset();
-				} else if(updateExchangeRatesReply->error() != QNetworkReply::NoError || !budget->loadFloatratesComData(updateExchangeRatesReply->readAll()).isEmpty()) {
-					if(updateExchangeRatesReply->error() != QNetworkReply::NoError) updateExchangeRatesReply->abort();
-					if(b_error == 1) QMessageBox::critical(this, tr("Error"), tr("Failed to download exchange rates from %1: %2.").arg("https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json").arg(errors));
-					else QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json").arg(errors));
+				} else if(updateExchangeRatesReply->error() != QNetworkReply::NoError) {
+					updateExchangeRatesProgressDialog->reset();
+					errors = updateExchangeRatesReply->errorString();
+					b_error = 1;
+					updateExchangeRatesReply->abort();
+				} else {
+					errors = budget->loadExchangerateHostData(updateExchangeRatesReply->readAll());
+					if(!errors.isEmpty()) b_error = 2;
 				}
+				if(b_error) {
+					QEventLoop loop3;
+					updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://www.floatrates.com/daily/eur.json")));
+					connect(updateExchangeRatesReply, SIGNAL(finished()), &loop3, SLOT(quit()));
+					loop3.exec();
+					if(updateExchangeRatesReply->error() == QNetworkReply::OperationCanceledError) {
+						//canceled by user
+						updateExchangeRatesProgressDialog->reset();
+					} else if(updateExchangeRatesReply->error() != QNetworkReply::NoError || !budget->loadFloatratesComData(updateExchangeRatesReply->readAll()).isEmpty()) {
+						if(updateExchangeRatesReply->error() != QNetworkReply::NoError) updateExchangeRatesReply->abort();
+						if(b_error == 1) QMessageBox::critical(this, tr("Error"), tr("Failed to download exchange rates from %1: %2.").arg("https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json").arg(errors));
+						else QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json").arg(errors));
+					} else {
+						b_error = false;
+					}
+				}
+				if(!b_error) settings.setValue("lastExchangeRatesUpdate", QDate::currentDate().toString(Qt::ISODate));
+				settings.setValue("lastExchangeRatesUpdateTry", QDate::currentDate().toString(Qt::ISODate));
 			}
 			QString error = budget->saveCurrencies();
 			if(!error.isNull()) QMessageBox::critical(this, tr("Error"), tr("Error saving currencies: %1.").arg(error));
@@ -6707,7 +6708,7 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified) {
 		}
 
 	}
-	settings.setValue("lastExchangeRatesUpdateTry", QDate::currentDate().toString(Qt::ISODate));
+
 	settings.endGroup();
 	updateExchangeRatesProgressDialog->deleteLater();
 	updateExchangeRatesReply->deleteLater();
