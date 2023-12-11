@@ -1,3 +1,7 @@
+2023-12-02  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Only update exchange rates from the ECB, unless currencies requiring other data sources are used
+
 2023-11-28  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Replace defunct exchange rates sources

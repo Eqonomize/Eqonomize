@@ -587,6 +587,12 @@ QString Budget::loadExchangerateHostData(QByteArray data) {
 	QJsonObject::const_iterator it = jobj.find("rates");
 	if(it == jobj.constEnd() || !it.value().isObject()) it = jobj.find("eur");
 	if(it == jobj.constEnd() || !it.value().isObject()) return tr("No exchange rates found.");
+
+	QJsonObject::const_iterator it2 = jobj.find("date");
+	QDate date;
+	if(it2 != jobj.constEnd() && it2.value().isString()) date = QDate::fromString(it2.value().toString(), Qt::ISODate);
+	else date = QDate::currentDate();
+
 	jobj = it.value().toObject();
 
 	bool had_data = false;
@@ -612,7 +618,7 @@ QString Budget::loadExchangerateHostData(QByteArray data) {
 					}
 				}
 				if(!keep_old) cur->rates.clear();
-				cur->setExchangeRate(exrate);
+				cur->setExchangeRate(exrate, date);
 				cur->setExchangeRateSource(EXCHANGE_RATE_SOURCE_EXCHANGERATE_HOST);
 			}
 			had_data = true;

@@ -99,6 +99,7 @@ class CategoryAccount;
 class ExpensesAccount;
 class LoanAccount;
 class Budget;
+class Currency;
 class ConfirmScheduleListViewItem;
 class EqonomizeMonthSelector;
 class EqonomizeValueEdit;
@@ -396,6 +397,7 @@ class Eqonomize : public QMainWindow {
 		void checkAvailableVersion();
 
 		void checkExchangeRatesTimeOut(bool do_currencies_modified = true);
+		void updateExchangeRates(Currency *c1, Currency *c2);
 		void updateExchangeRates(bool do_currencies_modified = true, bool ecb_only = false);
 		void cancelUpdateExchangeRates();
 		void currenciesModified();

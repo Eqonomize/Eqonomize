@@ -130,6 +130,7 @@ void CurrencyConversionDialog::convertFrom() {
 	Currency *fromCur  = (Currency*) fromCombo->currentData().value<void*>();
 	Currency *toCur  = (Currency*) toCombo->currentData().value<void*>();
 	if(!fromCur || !toCur) return;
+	emit exchangeRateUpdateRequest(fromCur, toCur);
 	toEdit->blockSignals(true);
 	toEdit->setValue(fromCur->convertTo(fromEdit->value(), toCur));
 	toEdit->blockSignals(false);
@@ -140,6 +141,7 @@ void CurrencyConversionDialog::convertTo() {
 	Currency *fromCur  = (Currency*) fromCombo->currentData().value<void*>();
 	Currency *toCur  = (Currency*) toCombo->currentData().value<void*>();
 	if(!fromCur || !toCur) return;
+	emit exchangeRateUpdateRequest(fromCur, toCur);
 	fromEdit->blockSignals(true);
 	fromEdit->setValue(toCur->convertTo(toEdit->value(), fromCur));
 	fromEdit->blockSignals(false);

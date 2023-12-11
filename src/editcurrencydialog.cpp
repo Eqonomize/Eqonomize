@@ -168,6 +168,7 @@ void EditCurrencyDialog::modifyCurrency(Currency *cur) {
 	cur->setName(nameEdit->text().trimmed());
 	cur->setSymbol(symbolEdit->text().trimmed());
 	if(cur != budget->currency_euro && (!cur->rates.isEmpty() || rateEdit->value() != 1.0 || dateEdit->date() != QDate::currentDate())) {
+		if(cur->exchangeRate(dateEdit->date()) != rateEdit->value()) cur->setExchangeRateSource(EXCHANGE_RATE_SOURCE_NONE);
 		cur->setExchangeRate(rateEdit->value(), dateEdit->date());
 	}
 	cur->setFractionalDigits(decimalsEdit->value());

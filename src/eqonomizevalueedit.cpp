@@ -659,7 +659,9 @@ void EqonomizeDateEdit::contextMenuEvent(QContextMenuEvent *event) {
 	if(!popupMenu) {
 		popupMenu = lineEdit()->createStandardContextMenu();
 		popupMenu->addSeparator();
-		todayAction = popupMenu->addAction(tr("Today"), this, SLOT(setToday()), Qt::CTRL | Qt::Key_Home);
+		todayAction = popupMenu->addAction(tr("Today"), this, SLOT(setToday()));
+		todayAction->setShortcut(Qt::CTRL | Qt::Key_Home);
+		todayAction->setShortcutContext(Qt::WidgetShortcut);
 	}
 	todayAction->setEnabled(date() != QDate::currentDate());
 	popupMenu->exec(event->globalPos());

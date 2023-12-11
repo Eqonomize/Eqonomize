@@ -27,6 +27,7 @@
 class QComboBox;
 
 class Budget;
+class Currency;
 class EqonomizeValueEdit;
 
 class CurrencyConversionDialog : public QDialog {
@@ -51,6 +52,10 @@ class CurrencyConversionDialog : public QDialog {
 		void convertFrom();
 		void convertTo();
 		void convert();
+
+	signals:
+
+		void exchangeRateUpdateRequest(Currency*, Currency*);
 
 };
 

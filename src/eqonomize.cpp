@@ -6595,12 +6595,11 @@ void Eqonomize::checkAvailableVersion() {
 
 void Eqonomize::checkExchangeRatesTimeOut(bool do_currencies_modified) {
 	Currency *cur = budget->defaultCurrency();
-	if(cur != budget->currency_euro && cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_NONE) cur = NULL;
 	bool ecb_only = !cur || cur == budget->currency_euro || cur->exchangeRateSource() == EXCHANGE_RATE_SOURCE_ECB;
 	bool b_update = false;
 	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *acc = *it;
-		if(acc->currency() != NULL && acc->currency() != cur && (acc->currency() == budget->currency_euro || acc->currency()->exchangeRateSource() != EXCHANGE_RATE_SOURCE_NONE)) {
+		if(acc->currency() != NULL && acc->currency() != cur) {
 			if(cur) {
 				b_update = true;
 				if(ecb_only && acc->currency() != budget->currency_euro && acc->currency()->exchangeRateSource() != EXCHANGE_RATE_SOURCE_ECB) ecb_only = false;
@@ -6624,6 +6623,12 @@ bool Eqonomize::timeToUpdateExchangeRates(bool ecb_only) {
 		}
 	}
 	return false;
+}
+void Eqonomize::updateExchangeRates(Currency *c1, Currency *c2) {
+	if(c1 != c2) {
+		bool ecb_only = (c1 == budget->currency_euro || c1->exchangeRateSource() == EXCHANGE_RATE_SOURCE_ECB) && (c2 == budget->currency_euro || c2->exchangeRateSource() == EXCHANGE_RATE_SOURCE_ECB);
+		if(timeToUpdateExchangeRates(ecb_only)) updateExchangeRates(true, ecb_only);
+	}
 }
 void Eqonomize::updateExchangeRates(bool do_currencies_modified, bool ecb_only) {
 	QProgressDialog *updateExchangeRatesProgressDialog = new QProgressDialog(tr("Updating exchange rates…"), tr("Abort"), 0, 1, this);
@@ -6651,6 +6656,7 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified, bool ecb_only) 
 		QString errors = budget->loadECBData(updateExchangeRatesReply->readAll());
 		if(!errors.isEmpty()) {
 			QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml").arg(errors));
+			settings.setValue("lastExchangeRatesUpdateTry", QDate::currentDate().toString(Qt::ISODate));
 		} else {
 			settings.setValue("lastExchangeRatesUpdateECB", QDate::currentDate().toString(Qt::ISODate));
 			updateExchangeRatesProgressDialog->setValue(1);
@@ -6871,11 +6877,9 @@ void Eqonomize::updateUsesMultipleCurrencies() {
 	expensesWidget->useMultipleCurrencies(b);
 }
 void Eqonomize::openCurrencyConversion() {
-	if(timeToUpdateExchangeRates()) {
-		updateExchangeRates(true);
-	}
 	if(!currencyConversionWindow) {
 		currencyConversionWindow = new CurrencyConversionDialog(budget, this);
+		connect(currencyConversionWindow, SIGNAL(exchangeRateUpdateRequest(Currency*, Currency*)), this, SLOT(updateExchangeRates(Currency*, Currency*)));
 	}
 	bool b = currencyConversionWindow->isVisible();
 	currencyConversionWindow->show();
@@ -8181,7 +8185,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.5.5</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"https://eqonomize.github.io/\">https://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2023 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.5.6</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"https://eqonomize.github.io/\">https://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2023 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);
