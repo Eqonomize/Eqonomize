@@ -805,6 +805,7 @@ QString Budget::saveCurrencies() {
 	info.dir().mkpath(".");
 
 	QSaveFile ofile(filename);
+	ofile.setDirectWriteFallback(true);
 	ofile.open(QIODevice::WriteOnly);
 	if(!ofile.isOpen()) {
 		ofile.cancelWriting();
@@ -2446,6 +2447,7 @@ QString Budget::saveFile(QString filename, QFile::Permissions permissions, bool 
 	}
 
 	QSaveFile ofile(filename);
+	ofile.setDirectWriteFallback(true);
 	ofile.open(QIODevice::WriteOnly);
 	ofile.setPermissions(permissions);
 	if(!ofile.isOpen()) {

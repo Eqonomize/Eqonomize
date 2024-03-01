@@ -1589,6 +1589,7 @@ void EditQuotationsDialog::exportQuotations() {
 	url = urls[0];
 	if((fileDialog.selectedNameFilter() == csv_filter || db.mimeTypeForFile(url, QMimeDatabase::MatchExtension) == db.mimeTypeForName("text/csv")) && db.mimeTypeForFile(url, QMimeDatabase::MatchExtension) != db.mimeTypeForName("text/html")) filetype = 'c';
 	QSaveFile ofile(url);
+	ofile.setDirectWriteFallback(true);
 	ofile.open(QIODevice::WriteOnly);
 	if(!ofile.isOpen()) {
 		ofile.cancelWriting();
@@ -6662,7 +6663,7 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified, bool ecb_only) 
 			updateExchangeRatesProgressDialog->setValue(1);
 			if(!ecb_only) {
 				QEventLoop loop2;
-				updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json")));
+				updateExchangeRatesReply = budget->nam.get(QNetworkRequest(QUrl("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json")));
 				connect(updateExchangeRatesReply, SIGNAL(finished()), &loop2, SLOT(quit()));
 				loop2.exec();
 				QString errors;
@@ -6689,8 +6690,8 @@ void Eqonomize::updateExchangeRates(bool do_currencies_modified, bool ecb_only) 
 						updateExchangeRatesProgressDialog->reset();
 					} else if(updateExchangeRatesReply->error() != QNetworkReply::NoError || !budget->loadFloatratesComData(updateExchangeRatesReply->readAll()).isEmpty()) {
 						if(updateExchangeRatesReply->error() != QNetworkReply::NoError) updateExchangeRatesReply->abort();
-						if(b_error == 1) QMessageBox::critical(this, tr("Error"), tr("Failed to download exchange rates from %1: %2.").arg("https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json").arg(errors));
-						else QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json").arg(errors));
+						if(b_error == 1) QMessageBox::critical(this, tr("Error"), tr("Failed to download exchange rates from %1: %2.").arg("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json").arg(errors));
+						else QMessageBox::critical(this, tr("Error"), tr("Error reading data from %1: %2.").arg("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json").arg(errors));
 					} else {
 						b_error = false;
 					}
@@ -7676,6 +7677,7 @@ void Eqonomize::saveView() {
 	url = urls[0];
 	if((fileDialog.selectedNameFilter() == csv_filter || db.mimeTypeForFile(url, QMimeDatabase::MatchExtension) == db.mimeTypeForName("text/csv")) && db.mimeTypeForFile(url, QMimeDatabase::MatchExtension) != db.mimeTypeForName("text/html")) filetype = 'c';
 	QSaveFile ofile(url);
+	ofile.setDirectWriteFallback(true);
 	ofile.open(QIODevice::WriteOnly);
 	if(!ofile.isOpen()) {
 		ofile.cancelWriting();

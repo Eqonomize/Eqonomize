@@ -593,6 +593,7 @@ void CategoriesComparisonReport::save() {
 	if(urls.isEmpty()) return;
 	url = urls[0];
 	QSaveFile ofile(url);
+	ofile.setDirectWriteFallback(true);
 	ofile.open(QIODevice::WriteOnly);
 	ofile.setPermissions((QFile::Permissions) 0x0660);
 	if(!ofile.isOpen()) {

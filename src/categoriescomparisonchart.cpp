@@ -463,6 +463,7 @@ void CategoriesComparisonChart::save() {
 	QString selected_filter = fileDialog.selectedNameFilter();
 	QMimeType url_mime = db.mimeTypeForFile(url, QMimeDatabase::MatchExtension);
 	QSaveFile ofile(url);
+	ofile.setDirectWriteFallback(true);
 	ofile.open(QIODevice::WriteOnly);
 	ofile.setPermissions((QFile::Permissions) 0x0660);
 	if(!ofile.isOpen()) {

@@ -566,6 +566,7 @@ void ExportQIFDialog::accept() {
 		if(QMessageBox::warning(this, tr("Overwrite"), tr("The selected file already exists. Would you like to overwrite the old copy?"), QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes) return;
 	}
 	QSaveFile ofile(url);
+	ofile.setDirectWriteFallback(true);
 	ofile.open(QIODevice::WriteOnly);
 	ofile.setPermissions((QFile::Permissions) 0x0660);
 	if(!ofile.isOpen()) {
