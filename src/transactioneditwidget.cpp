@@ -1435,6 +1435,7 @@ void TransactionEditWidget::setDefaultValue() {
 		if(trans) {
 			if(trans->parentSplit() && trans->parentSplit()->type() == SPLIT_TRANSACTION_TYPE_MULTIPLE_ACCOUNTS) valueEdit->setValue(trans->parentSplit()->value());
 			else valueEdit->setValue(trans->value());
+			if(valueEdit->hasFocus()) valueEdit->selectNumber();
 			if(toCombo) toCombo->setCurrentAccount(trans->toAccount());
 			if(fromCombo) fromCombo->setCurrentAccount(trans->fromAccount());
 			if(quantityEdit) {

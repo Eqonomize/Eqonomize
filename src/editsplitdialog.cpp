@@ -1427,20 +1427,20 @@ void EditDebtPaymentWidget::openFile() {
 
 void EditDebtPaymentWidget::newAccount() {
 	accountCombo->createAccount();
-	loanCombo->updateAccounts();
+	if(loanCombo) loanCombo->updateAccounts();
 	bool b = budget->usesMultipleCurrencies();
-	paymentLabel->setVisible(b);
-	paymentEdit->setVisible(b);
+	if(paymentLabel) paymentLabel->setVisible(b);
+	if(paymentEdit) paymentEdit->setVisible(b);
 }
 void EditDebtPaymentWidget::newCategory() {
 	categoryCombo->createAccount();
 }
 void EditDebtPaymentWidget::newLoan() {
 	loanCombo->createAccount();
-	accountCombo->updateAccounts();
+	if(accountCombo) accountCombo->updateAccounts();
 	bool b = budget->usesMultipleCurrencies();
-	paymentLabel->setVisible(b);
-	paymentEdit->setVisible(b);
+	if(paymentLabel) paymentLabel->setVisible(b);
+	if(paymentEdit) paymentEdit->setVisible(b);
 }
 void EditDebtPaymentWidget::accountChanged() {
 	valueChanged();
