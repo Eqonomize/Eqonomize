@@ -164,6 +164,7 @@ class Eqonomize : public QMainWindow {
 		void updateBudgetAccountTitle(AssetsAccount *account = NULL);
 		bool editAccount(Account*);
 		bool editAccount(Account*, QWidget *parent);
+		void askCloseReopenSecurities(AssetsAccount *account);
 		void balanceAccount(Account*);
 		bool checkSchedule(bool update_display, QWidget *parent, bool allow_account_creation = true);
 		void updateScheduledTransactions();
@@ -237,7 +238,7 @@ class Eqonomize : public QMainWindow {
 		QAction *ActionTags, *ActionLinks, *ActionCreateLink, *ActionLinkTo, *ActionCancelLinkTo;
 		QAction *ActionSelectAssociatedFile, *ActionOpenAssociatedFile;
 		QAction *ActionDeleteTransaction, *ActionDeleteScheduledTransaction, *ActionDeleteSplitTransaction;
-		QAction *ActionNewSecurity, *ActionEditSecurity, *ActionBuyShares, *ActionSellShares, *ActionNewDividend, *ActionNewReinvestedDividend, *ActionNewSecurityTrade, *ActionSetQuotation, *ActionEditQuotations, *ActionEditSecurityTransactions, *ActionDeleteSecurity;
+		QAction *ActionNewSecurity, *ActionEditSecurity, *ActionCloseSecurity, *ActionBuyShares, *ActionSellShares, *ActionNewDividend, *ActionNewReinvestedDividend, *ActionNewSecurityTrade, *ActionSetQuotation, *ActionEditQuotations, *ActionEditSecurityTransactions, *ActionDeleteSecurity;
 		QAction *ActionNewRefund, *ActionNewRepayment, *ActionNewRefundRepayment;
 		QAction *ActionFileNew, *ActionFileOpen, *ActionFileSave, *ActionFileSaveAs, *ActionFileReload, *ActionFileSync, *ActionSaveView, *ActionPrintView, *ActionPrintPreview, *ActionQuit;
 		QMenu *recentFilesMenu;
@@ -429,6 +430,7 @@ class Eqonomize : public QMainWindow {
 
 		void newSecurity();
 		void editSecurity();
+		void closeSecurity();
 		void deleteSecurity();
 		void buySecurities();
 		void sellSecurities();
@@ -688,6 +690,7 @@ class EditSecurityDialog : public QDialog {
 		AccountComboBox *accountCombo;
 		QSpinBox *decimalsEdit, *quotationDecimalsEdit;
 		QLabel *quotationLabel, *quotationDateLabel;
+		QCheckBox *closedButton;
 		Budget *budget;
 		bool b_create_accounts;
 

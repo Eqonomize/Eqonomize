@@ -2280,6 +2280,10 @@ EditSecurityDialog::EditSecurityDialog(Budget *budg, QWidget *parent, QString ti
 	grid->addWidget(new QLabel(tr("Description:"), this), 8, 0);
 	descriptionEdit = new QTextEdit(this);
 	grid->addWidget(descriptionEdit, 9, 0, 1, 2);
+	closedButton = new QCheckBox(tr("Security is closed"), this);
+	closedButton->setChecked(false);
+	closedButton->hide();
+	grid->addWidget(closedButton, 10, 0, 1, 2);
 	nameEdit->setFocus();
 
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, this);
@@ -2349,6 +2353,7 @@ bool EditSecurityDialog::modifySecurity(Security *security) {
 	security->setAccount((AssetsAccount*) accountCombo->currentAccount());
 	security->setDecimals(decimalsEdit->value());
 	security->setQuotationDecimals(quotationDecimalsEdit->value());
+	security->setClosed(closedButton->isChecked());
 	switch(typeCombo->currentIndex()) {
 		case 1: {security->setType(SECURITY_TYPE_STOCK); break;}
 		case 2: {security->setType(SECURITY_TYPE_OTHER); break;}
@@ -2369,6 +2374,8 @@ void EditSecurityDialog::setSecurity(Security *security) {
 	quotationDecimalsChanged(security->quotationDecimals());
 	sharesEdit->setValue(security->initialShares());
 	accountCombo->setCurrentAccount(security->account());
+	closedButton->show();
+	closedButton->setChecked(security->isClosed());
 	switch(security->type()) {
 		case SECURITY_TYPE_BOND: {typeCombo->setCurrentIndex(2); break;}
 		case SECURITY_TYPE_STOCK: {typeCombo->setCurrentIndex(1); break;}
@@ -3598,6 +3605,25 @@ void Eqonomize::deleteSecurity() {
 		setModified(true);
 	}
 }
+void Eqonomize::closeSecurity() {
+	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
+	if(!i) return;
+	Security *security = i->security();
+	bool b = !security->isClosed();
+	security->setClosed(b);
+	bool b_hide = security->isClosed() && is_zero(i->value);
+	if(b_hide != i->isHidden()) {
+		i->setHidden(b_hide);
+	}
+	setModified(true);
+	if(b) {
+		ActionCloseSecurity->setText(tr("Reopen Security", "Mark security as not closed"));
+		ActionCloseSecurity->setIcon(LOAD_ICON("edit-undo"));
+	} else {
+		ActionCloseSecurity->setText(tr("Close Security", "Mark security as closed"));
+		ActionCloseSecurity->setIcon(LOAD_ICON("edit-delete"));
+	}
+}
 void Eqonomize::buySecurities() {
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
 	newScheduledTransaction(TRANSACTION_TYPE_SECURITY_BUY, i == NULL ? NULL : i->security(), true);
@@ -3732,10 +3758,20 @@ void Eqonomize::securitiesSelectionChanged() {
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
 	setQuotationButton->setEnabled(i != NULL);
 	ActionEditSecurity->setEnabled(i != NULL);
+	ActionCloseSecurity->setEnabled(i != NULL);
 	ActionDeleteSecurity->setEnabled(i != NULL);
 	ActionSetQuotation->setEnabled(i != NULL);
 	ActionEditQuotations->setEnabled(i != NULL);
 	ActionEditSecurityTransactions->setEnabled(i != NULL);
+	if(i != NULL) {
+		if(i->security()->isClosed()) {
+			ActionCloseSecurity->setText(tr("Reopen Security", "Mark security as not closed"));
+			ActionCloseSecurity->setIcon(LOAD_ICON("edit-undo"));
+		} else {
+			ActionCloseSecurity->setText(tr("Close Security", "Mark security as closed"));
+			ActionCloseSecurity->setIcon(LOAD_ICON("edit-delete"));
+		}
+	}
 }
 void Eqonomize::securitiesExecuted(QTreeWidgetItem *i) {
 	if(i == NULL) return;
@@ -3774,6 +3810,7 @@ void Eqonomize::popupSecuritiesMenu(const QPoint &p) {
 		securitiesPopupMenu = new QMenu(this);
 		securitiesPopupMenu->addAction(ActionNewSecurity);
 		securitiesPopupMenu->addAction(ActionEditSecurity);
+		securitiesPopupMenu->addAction(ActionCloseSecurity);
 		securitiesPopupMenu->addAction(ActionDeleteSecurity);
 		securitiesPopupMenu->addSeparator();
 		securitiesPopupMenu->addAction(ActionBuyShares);
@@ -3846,6 +3883,7 @@ void Eqonomize::appendSecurity(Security *security) {
 	if(is_zero(total_cost)) total_rate = 0.0;
 	else total_rate /= total_cost;
 	total_profit += i->sprofit;
+	i->setHidden(security->isClosed() && is_zero(i->value));
 	updateSecuritiesStatistics();
 	securitiesView->setSortingEnabled(true);
 }
@@ -3932,6 +3970,7 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i_pre) {
 	if(rate < 0.0) i->setForeground(6, createExpenseColor(i, 0));
 	else if(rate > 0.0) i->setForeground(6, createIncomeColor(i, 0));
 	else i->setForeground(6, createTransferColor(i, 0));
+	i->setHidden(security->isClosed() && is_zero(i->value));
 	updateSecuritiesStatistics();
 }
 void Eqonomize::updateSecurities() {
@@ -5204,6 +5243,7 @@ void Eqonomize::onPageChange(int index) {
 	} else {
 		ActionEditSecurity->setEnabled(false);
 		ActionDeleteSecurity->setEnabled(false);
+		ActionCloseSecurity->setEnabled(false);
 		ActionSetQuotation->setEnabled(false);
 		ActionEditQuotations->setEnabled(false);
 		ActionEditSecurityTransactions->setEnabled(false);
@@ -7879,6 +7919,7 @@ void Eqonomize::setupActions() {
 
 	NEW_ACTION(ActionNewSecurity, tr("New Security…", "Financial security (e.g. stock, mutual fund)"), "document-new", 0, this, SLOT(newSecurity()), "new_security", securitiesMenu);
 	NEW_ACTION_ALT(ActionEditSecurity, tr("Edit Security…", "Financial security (e.g. stock, mutual fund)"), "document-edit", "eqz-edit", 0, this, SLOT(editSecurity()), "edit_security", securitiesMenu);
+	NEW_ACTION(ActionCloseSecurity, tr("Close Security", "Mark security as closed"), "edit-delete", 0, this, SLOT(closeSecurity()), "close_security", securitiesMenu);
 	NEW_ACTION(ActionDeleteSecurity, tr("Remove Security", "Financial security (e.g. stock, mutual fund)"), "edit-delete", 0, this, SLOT(deleteSecurity()), "delete_security", securitiesMenu);
 	securitiesMenu->addSeparator();
 	NEW_ACTION(ActionBuyShares, tr("Shares Bought…", "Financial shares"), "eqz-income", 0, this, SLOT(buySecurities()), "buy_shares", securitiesMenu);
@@ -8058,6 +8099,7 @@ void Eqonomize::setupActions() {
 	ActionNewRepayment->setEnabled(false);
 	ActionNewRefundRepayment->setEnabled(false);
 	ActionEditSecurity->setEnabled(false);
+	ActionCloseSecurity->setEnabled(false);
 	ActionDeleteSecurity->setEnabled(false);
 	ActionSellShares->setEnabled(true);
 	ActionBuyShares->setEnabled(true);
@@ -8956,6 +8998,30 @@ void Eqonomize::updateBudgetAccountTitle(AssetsAccount *account) {
 	}
 	footer1->setVisible(b_time);
 }
+void Eqonomize::askCloseReopenSecurities(AssetsAccount *account) {
+	for(SecurityList<Security*>::const_iterator it = budget->securities.constBegin(); it != budget->securities.constEnd(); ++it) {
+		Security *security = *it;
+		if(security->account() == account && security->isClosed() != account->isClosed()) {
+			if(QMessageBox::question(this, account->isClosed() ? tr("Close securities?") : tr("Reopen securities?"), account->isClosed() ? tr("Do you wish to close associated securities?") : tr("Do you wish to reopen associated securities?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+				for(; it != budget->securities.constEnd(); ++it) {
+					security = *it;
+					security->setClosed(account->isClosed());
+					QTreeWidgetItemIterator it2(securitiesView);
+					QTreeWidgetItem *i = *it2;
+					while(i != NULL) {
+						if(((SecurityListViewItem*) i)->security() == security) {
+							i->setHidden(security->isClosed() && is_zero(((SecurityListViewItem*) i)->value));
+							break;
+						}
+						++it2;
+						i = *it2;
+					}
+				}
+			}
+			break;
+		}
+	}
+}
 bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 	QTreeWidgetItem *i = item_accounts[i_account];
 	switch(i_account->type()) {
@@ -8967,6 +9033,7 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 			bool prev_debt = IS_DEBT(account);
 			QString prev_group = account->group();
 			int prev_type = account->accountType();
+			bool prev_closed = account->isClosed();
 			Account *previous_budget_account = budget->budgetAccount;
 			Currency *cur = account->currency();
 			budget->resetDefaultCurrencyChanged();
@@ -9045,6 +9112,9 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 				liabilitiesItem->sortChildren(0, Qt::AscendingOrder);
 				dialog->deleteLater();
 				updateUsesMultipleCurrencies();
+				if(prev_closed != account->isClosed()) {
+					askCloseReopenSecurities(account);
+				}
 				return true;
 			} else if(budget->currenciesModified() || budget->defaultCurrencyChanged()) {
 				currenciesModified();
@@ -9394,6 +9464,7 @@ void Eqonomize::closeAccount() {
 			ActionCloseAccount->setText(tr("Close Account", "Mark account as closed"));
 			ActionCloseAccount->setIcon(LOAD_ICON("edit-delete"));
 		}
+		askCloseReopenSecurities(account);
 	}
 }
 

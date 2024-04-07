@@ -105,6 +105,8 @@ class Security {
 		QString s_name;
 		QString s_description;
 
+		bool b_closed;
+
 		void init();
 
 	public:
@@ -138,6 +140,8 @@ class Security {
 		void setType(SecurityType new_type);
 		qlonglong id() const;
 		void setId(qlonglong new_id);
+		bool isClosed() const;
+		void setClosed(bool close_account = true);
 		int firstRevision() const;
 		void setFirstRevision(int new_rev);
 		int lastRevision() const;

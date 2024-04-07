@@ -42,7 +42,7 @@ void Security::init() {
 	reinvestedDividends.setAutoDelete(false);
 	scheduledReinvestedDividends.setAutoDelete(false);
 }
-Security::Security(Budget *parent_budget, AssetsAccount *parent_account, SecurityType initial_type, double initial_shares, int initial_decimals, int initial_quotation_decimals, QString initial_name, QString initial_description) : o_budget(parent_budget), i_id(parent_budget->getNewId()), i_first_revision(parent_budget->revision()), i_last_revision(parent_budget->revision()), o_account(parent_account), st_type(initial_type), d_initial_shares(initial_shares), i_decimals(initial_decimals), i_quotation_decimals(initial_quotation_decimals), s_name(initial_name.trimmed()), s_description(initial_description) {
+Security::Security(Budget *parent_budget, AssetsAccount *parent_account, SecurityType initial_type, double initial_shares, int initial_decimals, int initial_quotation_decimals, QString initial_name, QString initial_description) : o_budget(parent_budget), i_id(parent_budget->getNewId()), i_first_revision(parent_budget->revision()), i_last_revision(parent_budget->revision()), o_account(parent_account), st_type(initial_type), d_initial_shares(initial_shares), i_decimals(initial_decimals), i_quotation_decimals(initial_quotation_decimals), s_name(initial_name.trimmed()), s_description(initial_description), b_closed(false) {
 	init();
 }
 Security::Security(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : o_budget(parent_budget) {
@@ -53,7 +53,7 @@ Security::Security(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : 
 }
 Security::Security(Budget *parent_budget) : o_budget(parent_budget), i_id(parent_budget->getNewId()), i_first_revision(parent_budget->revision()), i_last_revision(parent_budget->revision()) {}
 Security::Security() : o_budget(NULL), i_id(0), i_first_revision(1), i_last_revision(1), o_account(NULL), st_type(SECURITY_TYPE_STOCK), d_initial_shares(0.0), i_decimals(-1), i_quotation_decimals(-1) {init();}
-Security::Security(const Security *security) : o_budget(security->budget()), i_id(security->id()), i_first_revision(security->firstRevision()), i_last_revision(security->lastRevision()), o_account(security->account()), st_type(security->type()), d_initial_shares(security->initialShares()), i_decimals(security->decimals()), i_quotation_decimals(security->quotationDecimals()), s_name(security->name()), s_description(security->description()) {init();}
+Security::Security(const Security *security) : o_budget(security->budget()), i_id(security->id()), i_first_revision(security->firstRevision()), i_last_revision(security->lastRevision()), o_account(security->account()), st_type(security->type()), d_initial_shares(security->initialShares()), i_decimals(security->decimals()), i_quotation_decimals(security->quotationDecimals()), s_name(security->name()), s_description(security->description()), b_closed(security->isClosed()) {init();}
 Security::~Security() {}
 
 void Security::set(const Security *security) {
@@ -67,6 +67,7 @@ void Security::set(const Security *security) {
 	i_decimals = security->decimals();
 	quotations = security->quotations;
 	quotations_auto = security->quotations_auto;
+	b_closed = security->isClosed();
 }
 void Security::setMergeQuotes(const Security *security) {
 	i_id = security->id();
@@ -111,6 +112,11 @@ void Security::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	else i_quotation_decimals = -1;
 	s_name = attr->value("name").trimmed().toString();
 	s_description = attr->value("description").toString();
+	if(attr->hasAttribute("closed")) {
+		b_closed = attr->value("closed").toInt();
+	} else {
+		b_closed = false;
+	}
 	qlonglong id_account = attr->value("account").toLongLong();
 	if(budget()->assetsAccounts_id.contains(id_account)) {
 		o_account = budget()->assetsAccounts_id[id_account];
@@ -156,6 +162,7 @@ void Security::writeAttributes(QXmlStreamAttributes *attr) {
 	if(i_quotation_decimals >= 0) attr->append("quotationdecimals", QString::number(i_quotation_decimals));
 	attr->append("initialshares", QString::number(d_initial_shares, 'f', i_decimals));
 	if(!s_description.isEmpty()) attr->append("description", s_description);
+	if(b_closed) attr->append("closed", QString::number(b_closed));
 	attr->append("account", QString::number(o_account->id()));
 }
 void Security::writeElements(QXmlStreamWriter *xml) {
@@ -190,6 +197,8 @@ Currency *Security::currency() const {
 	return budget()->defaultCurrency();
 }
 void Security::setAccount(AssetsAccount *new_account) {o_account = new_account;}
+bool Security::isClosed() const {return b_closed;}
+void Security::setClosed(bool close_account) {b_closed = close_account;}
 qlonglong Security::id() const {return i_id;}
 void Security::setId(qlonglong new_id) {i_id = new_id;}
 int Security::firstRevision() const {return i_first_revision;}
