@@ -1066,6 +1066,7 @@ MultiAccountTransaction *EditMultiAccountWidget::createTransaction() {
 	CategoryAccount *account = selectedCategory();
 	MultiAccountTransaction *split = new MultiAccountTransaction(budget, account, descriptionEdit->text());
 	linksWidget->updateTransaction(split);
+	if(quantityEdit) split->setQuantity(quantityEdit->value());
 	split->setComment(commentEdit->toPlainText());
 	split->setAssociatedFile(fileEdit->text());
 	tagButton->modifyTransaction(split);
