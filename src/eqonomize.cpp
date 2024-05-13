@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008, 2014, 2016-2023 by Hanna Knutsson            *
+ *   Copyright (C) 2006-2008, 2014, 2016-2024 by Hanna Knutsson            *
  *   hanna.knutsson@protonmail.com                                         *
  *                                                                         *
  *   This file is part of Eqonomize!.                                      *
@@ -3582,14 +3582,16 @@ void Eqonomize::deleteSecurity() {
 	Security *security = i->security();
 	bool has_trans = budget->securityHasTransactions(security);
 	if(!has_trans || QMessageBox::warning(this, tr("Delete security?", "Financial security (e.g. stock, mutual fund)"), tr("Are you sure you want to delete the security \"%1\" and all associated transactions?", "Financial security (e.g. stock, mutual fund)").arg(security->name()), QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Ok) {
-		total_value -= i->value;
-		total_rate *= total_cost;
-		total_cost -= i->scost;
-		total_rate -= i->scost * i->rate;
-		if(is_zero(total_cost)) total_rate = 0.0;
-		else total_rate /= total_cost;
-		total_profit -= i->sprofit;
-		updateSecuritiesStatistics();
+		if(!i->isHidden()) {
+			total_value -= i->value;
+			total_rate *= total_cost;
+			total_cost -= i->scost;
+			total_rate -= i->scost * i->rate;
+			if(is_zero(total_cost)) total_rate = 0.0;
+			else total_rate /= total_cost;
+			total_profit -= i->sprofit;
+			updateSecuritiesStatistics();
+		}
 		delete i;
 		budget->removeSecurity(security);
 		if(has_trans) {
@@ -3614,15 +3616,28 @@ void Eqonomize::closeSecurity() {
 	bool b_hide = security->isClosed() && is_zero(i->value);
 	if(b_hide != i->isHidden()) {
 		i->setHidden(b_hide);
+		if(b_hide) {
+			i->setSelected(false);
+			total_value -= i->value;
+			total_rate *= total_cost;
+			total_cost -= i->scost;
+			total_rate -= i->scost * i->rate;
+			if(is_zero(total_cost)) total_rate = 0.0;
+			else total_rate /= total_cost;
+			total_profit -= i->sprofit;
+		} else {
+			total_value += i->value;
+			total_rate *= total_cost;
+			total_cost += i->scost;
+			total_rate += i->scost * i->rate;
+			if(is_zero(total_cost)) total_rate = 0.0;
+			else total_rate /= total_cost;
+			total_profit += i->sprofit;
+		}
+		updateSecuritiesStatistics();
 	}
 	setModified(true);
-	if(b) {
-		ActionCloseSecurity->setText(tr("Reopen Security", "Mark security as not closed"));
-		ActionCloseSecurity->setIcon(LOAD_ICON("edit-undo"));
-	} else {
-		ActionCloseSecurity->setText(tr("Close Security", "Mark security as closed"));
-		ActionCloseSecurity->setIcon(LOAD_ICON("edit-delete"));
-	}
+	securitiesSelectionChanged();
 }
 void Eqonomize::buySecurities() {
 	SecurityListViewItem *i = (SecurityListViewItem*) selectedItem(securitiesView);
@@ -3876,15 +3891,17 @@ void Eqonomize::appendSecurity(Security *security) {
 	if(rate < 0.0) i->setForeground(6, createExpenseColor(i, 0));
 	else if(rate > 0.0) i->setForeground(6, createIncomeColor(i, 0));
 	else i->setForeground(6, createTransferColor(i, 0));
-	total_rate *= total_cost;
-	total_value += i->value;
-	total_cost += i->scost;
-	total_rate += i->scost * rate;
-	if(is_zero(total_cost)) total_rate = 0.0;
-	else total_rate /= total_cost;
-	total_profit += i->sprofit;
 	i->setHidden(security->isClosed() && is_zero(i->value));
-	updateSecuritiesStatistics();
+	if(!i->isHidden()) {
+		total_rate *= total_cost;
+		total_value += i->value;
+		total_cost += i->scost;
+		total_rate += i->scost * rate;
+		if(is_zero(total_cost)) total_rate = 0.0;
+		else total_rate /= total_cost;
+		total_profit += i->sprofit;
+		updateSecuritiesStatistics();
+	}
 	securitiesView->setSortingEnabled(true);
 }
 void Eqonomize::updateSecurity(Security *security) {
@@ -3903,13 +3920,15 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i_pre) {
 	SecurityListViewItem* i = (SecurityListViewItem*) i_pre;
 	Security *security = i->security();
 	Currency *cur = security->currency();
-	total_rate *= total_cost;
-	total_value -= i->value;
-	total_cost -= i->scost;
-	total_rate += i->scost * i->rate;
-	if(is_zero(total_cost)) total_rate = 0.0;
-	else total_rate /= total_cost;
-	total_profit -= ((SecurityListViewItem*) i)->sprofit;
+	if(!i->isHidden()) {
+		total_rate *= total_cost;
+		total_value -= i->value;
+		total_cost -= i->scost;
+		total_rate += i->scost * i->rate;
+		if(is_zero(total_cost)) total_rate = 0.0;
+		else total_rate /= total_cost;
+		total_profit -= ((SecurityListViewItem*) i)->sprofit;
+	}
 	double value = 0.0, cost = 0.0, rate = 0.0, profit = 0.0, quotation = 0.0, shares = 0.0;
 	value = security->value(securities_to_date, 1);
 	cost = security->cost(securities_to_date);
@@ -3940,13 +3959,16 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i_pre) {
 		i->value = value;
 		i->cost = cost;
 	}
-	total_rate *= total_cost;
-	total_value += i->value;
-	total_cost += i->scost;
-	total_rate += i->scost * rate;
-	if(is_zero(total_cost) != 0.0) total_rate = 0.0;
-	else total_rate /= total_cost;
-	total_profit += i->profit;
+	i->setHidden(security->isClosed() && is_zero(i->value));
+	if(!i->isHidden()) {
+		total_rate *= total_cost;
+		total_value += i->value;
+		total_cost += i->scost;
+		total_rate += i->scost * rate;
+		if(is_zero(total_cost) != 0.0) total_rate = 0.0;
+		else total_rate /= total_cost;
+		total_profit += i->profit;
+	}
 	i->setText(0, security->name());
 	switch(security->type()) {
 		case SECURITY_TYPE_BOND: {i->setText(7, tr("Bond")); break;}
@@ -3970,7 +3992,6 @@ void Eqonomize::updateSecurity(QTreeWidgetItem *i_pre) {
 	if(rate < 0.0) i->setForeground(6, createExpenseColor(i, 0));
 	else if(rate > 0.0) i->setForeground(6, createIncomeColor(i, 0));
 	else i->setForeground(6, createTransferColor(i, 0));
-	i->setHidden(security->isClosed() && is_zero(i->value));
 	updateSecuritiesStatistics();
 }
 void Eqonomize::updateSecurities() {
@@ -7180,23 +7201,27 @@ bool Eqonomize::exportSecuritiesList(QTextStream &outf, int fileformat) {
 			outf << "\t\t\t<tbody>" << '\n';
 			QTreeWidgetItemIterator it(securitiesView);
 			SecurityListViewItem *i = (SecurityListViewItem*) *it;
+			int n = 0;
 			while(i) {
-				outf << "\t\t\t\t<tr>" << '\n';
-				outf << "\t\t\t\t\t<td>" << htmlize_string(i->text(0)) << "</td>";
-				outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(1)) << "</td>";
-				outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(2)) << "</td>";
-				outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(3)) << "</td>";
-				outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(4)) << "</td>";
-				outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(5)) << "</td>";
-				outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(6)) << "</td>";
-				outf << "<td align=\"center\">" << htmlize_string(i->text(7)) << "</td>";
-				outf << "<td align=\"center\">" << htmlize_string(i->text(8)) << "</td>" << "\n";
-				outf << "\t\t\t\t</tr>" << '\n';
+				if(!i->isHidden()) {
+					n++;
+					outf << "\t\t\t\t<tr>" << '\n';
+					outf << "\t\t\t\t\t<td>" << htmlize_string(i->text(0)) << "</td>";
+					outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(1)) << "</td>";
+					outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(2)) << "</td>";
+					outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(3)) << "</td>";
+					outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(4)) << "</td>";
+					outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(5)) << "</td>";
+					outf << "<td nowrap align=\"right\">" << htmlize_string(i->text(6)) << "</td>";
+					outf << "<td align=\"center\">" << htmlize_string(i->text(7)) << "</td>";
+					outf << "<td align=\"center\">" << htmlize_string(i->text(8)) << "</td>" << "\n";
+					outf << "\t\t\t\t</tr>" << '\n';
+				}
 				++it;
 				i = (SecurityListViewItem*) *it;
 			}
 			outf << "\t\t\t\t<tr>" << '\n';
-			if(securitiesView->topLevelItemCount() > 1) {
+			if(n > 1) {
 				outf << "\t\t\t\t\t<td style=\"border-top: thin solid\"><b>" << htmlize_string(tr("Total")) << "</b></td>";
 				outf << "<td nowrap align=\"right\" style=\"border-top: thin solid\"><b>" << htmlize_string(budget->formatMoney(total_value)) << "</b></td>";
 				outf << "<td align=\"right\" style=\"border-top: thin solid\"><b>-</b></td>";
@@ -7221,7 +7246,9 @@ bool Eqonomize::exportSecuritiesList(QTextStream &outf, int fileformat) {
 			QTreeWidgetItemIterator it(securitiesView);
 			SecurityListViewItem *i = (SecurityListViewItem*) *it;
 			while(i) {
-				outf << "\"" << i->text(0) << "\",\"" << i->text(1) << "\",\"" << i->text(2) << "\",\"" << i->text(3) << "\",\"" << i->text(4) << "\",\"" << i->text(5) << "\",\"" << i->text(6) << "\",\"" << i->text(7) << "\",\"" << i->text(8) << '\n';
+				if(!i->isHidden()) {
+					outf << "\"" << i->text(0) << "\",\"" << i->text(1) << "\",\"" << i->text(2) << "\",\"" << i->text(3) << "\",\"" << i->text(4) << "\",\"" << i->text(5) << "\",\"" << i->text(6) << "\",\"" << i->text(7) << "\",\"" << i->text(8) << '\n';
+				}
 				++it;
 				i = (SecurityListViewItem*) *it;
 			}
@@ -7268,6 +7295,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			QTreeWidgetItem *group_item = NULL;
 			it++;
 			while(*it && *it != liabilitiesItem) {
+				if((*it)->isHidden()) {++it; continue;}
 				if((*it)->childCount() > 0) {
 					outf << "\t\t\t\t<tr>" << '\n';
 					outf << "\t\t\t\t\t<td style=\"border-top: thin solid; border-bottom: thin solid\"><i>" << htmlize_string((*it)->text(0));
@@ -7305,7 +7333,15 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\t\t</table>" << '\n';
 
 			it++;
-			if(liabilitiesItem->childCount() > 0) {
+			bool b_liabilities = false;
+			if(*it && liabilitiesItem->childCount() > 0) {
+				QTreeWidgetItemIterator it2(*it);
+				while(*it2 && *it2 != incomesItem) {
+					if(!(*it2)->isHidden()) {b_liabilities = true; break;}
+					++it2;
+				}
+			}
+			if(b_liabilities) {
 				outf << "\t\t<br>" << '\n';
 				outf << "\t\t<br>" << '\n';
 				outf << "\t\t<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\">" << '\n';
@@ -7323,6 +7359,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 				outf << "\t\t\t<tbody>" << '\n';
 				group_item = NULL;
 				while(*it && *it != incomesItem) {
+					if((*it)->isHidden()) {++it; continue;}
 					if((*it)->childCount() > 0) {
 						outf << "\t\t\t\t<tr>" << '\n';
 						outf << "\t\t\t\t\t<td style=\"border-top: thin solid; border-bottom: thin solid\"><i>" << htmlize_string((*it)->text(0));
@@ -7377,6 +7414,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			it++;
 			group_item = NULL;
 			while(*it && *it != expensesItem) {
+				if((*it)->isHidden()) {++it; continue;}
 				Account *account = account_items[*it];
 				bool b_sub = ((*it)->parent() != incomesItem);
 				outf << "\t\t\t\t<tr>" << '\n';
@@ -7450,6 +7488,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			it++;
 			group_item = NULL;
 			while(*it && *it != tagsItem) {
+				if((*it)->isHidden()) {++it; continue;}
 				Account *account = account_items[*it];
 				bool b_sub = ((*it)->parent() != expensesItem);
 				outf << "\t\t\t\t<tr>" << '\n';
@@ -7525,6 +7564,7 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 				outf << "\t\t\t<tbody>" << '\n';
 				group_item = NULL;
 				while(*it) {
+					if((*it)->isHidden()) {++it; continue;}
 					outf << "\t\t\t\t<tr>" << '\n';
 					outf << "\t\t\t\t\t<td>" << htmlize_string((*it)->text(0));
 					outf << "</td>";
@@ -7553,14 +7593,17 @@ bool Eqonomize::exportAccountsList(QTextStream &outf, int fileformat) {
 			outf << "\"" << tr("Account/Category") << "\",\"" << tr("Change") << "\",\"" << tr("Value") << "\"\n";
 			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 				Account *account = *it;
+				if(account->isClosed() && is_zero(account_change[account]) && is_zero(account_value[account])) continue;
 				outf << "\"" << account->name() << "\",\"" << budget->formatMoney(account_change[account]) << "\",\"" << budget->formatMoney(account_value[account]) << "\"\n";
 			}
 			for(AccountList<IncomesAccount*>::const_iterator it = budget->incomesAccounts.constBegin(); it != budget->incomesAccounts.constEnd(); ++it) {
 				Account *account = *it;
+				if(account->isClosed() && is_zero(account_change[account]) && is_zero(account_value[account])) continue;
 				outf << "\"" << account->name() << "\",\"" << budget->formatMoney(account_change[account]) << "\",\"" << budget->formatMoney(account_value[account]) << "\"\n";
 			}
 			for(AccountList<ExpensesAccount*>::const_iterator it = budget->expensesAccounts.constBegin(); it != budget->expensesAccounts.constEnd(); ++it) {
 				Account *account = *it;
+				if(account->isClosed() && is_zero(account_change[account]) && is_zero(account_value[account])) continue;
 				outf << "\"" << account->name() << "\",\"" << budget->formatMoney(account_change[account]) << "\",\"" << budget->formatMoney(account_value[account]) << "\"\n";
 			}
 			/*for(int i = 0; i < budget->tags.count(); i++) {
@@ -8229,7 +8272,7 @@ void Eqonomize::reportBug() {
 	QDesktopServices::openUrl(QUrl("https://github.com/Eqonomize/Eqonomize/issues/new"));
 }
 void Eqonomize::showAbout() {
-	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v1.5.6</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"https://eqonomize.github.io/\">https://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2023 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")));
+	QMessageBox::about(this, tr("About %1").arg(qApp->applicationDisplayName()), QString("<font size=+2><b>%1 v%4</b></font><br><font size=+1>%2</font><br><<font size=+1><i><a href=\"https://eqonomize.github.io/\">https://eqonomize.github.io/</a></i></font><br><br>Copyright © 2006-2008, 2014, 2016-2024 Hanna Knutsson<br>%3").arg(qApp->applicationDisplayName()).arg(tr("A personal accounting program")).arg(tr("License: GNU General Public License Version 3")).arg(qApp->applicationVersion()));
 }
 void Eqonomize::showAboutQt() {
 	QMessageBox::aboutQt(this);
@@ -9007,16 +9050,39 @@ void Eqonomize::askCloseReopenSecurities(AssetsAccount *account) {
 					security = *it;
 					security->setClosed(account->isClosed());
 					QTreeWidgetItemIterator it2(securitiesView);
-					QTreeWidgetItem *i = *it2;
+					SecurityListViewItem *i = (SecurityListViewItem*) *it2;
 					while(i != NULL) {
-						if(((SecurityListViewItem*) i)->security() == security) {
-							i->setHidden(security->isClosed() && is_zero(((SecurityListViewItem*) i)->value));
+						if(i->security() == security) {
+							bool b_hide = security->isClosed() && is_zero(i->value);
+							if(b_hide != i->isHidden()) {
+								i->setHidden(b_hide);
+								if(b_hide) {
+									i->setSelected(false);
+									total_value -= i->value;
+									total_rate *= total_cost;
+									total_cost -= i->scost;
+									total_rate -= i->scost * i->rate;
+									if(is_zero(total_cost)) total_rate = 0.0;
+									else total_rate /= total_cost;
+									total_profit -= i->sprofit;
+								} else {
+									total_value += i->value;
+									total_rate *= total_cost;
+									total_cost += i->scost;
+									total_rate += i->scost * i->rate;
+									if(is_zero(total_cost)) total_rate = 0.0;
+									else total_rate /= total_cost;
+									total_profit += i->sprofit;
+								}
+							}
 							break;
 						}
 						++it2;
-						i = *it2;
+						i = (SecurityListViewItem*) *it2;
 					}
 				}
+				updateSecuritiesStatistics();
+				securitiesSelectionChanged();
 			}
 			break;
 		}

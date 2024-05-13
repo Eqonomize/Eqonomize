@@ -1,3 +1,22 @@
+2023-05-08  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix saving of quantity in dialog for transaction with multiple payments
+	* Exclude hidden (closed) accounts from accounts view export
+
+2023-04-07  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Add option to close (hide) security
+
+2023-03-26  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix segfault on new account in debt payment dialog
+	* Fix value selection after prefill with default values for description, with Qt6
+
+2023-03-01  Hanna Knutsson <hanna.knutsson@protonmail.com>
+
+	* Fix exchange rates url
+	* Use setDirectWriteFallback(true) for save files
+
 2023-12-02  Hanna Knutsson <hanna.knutsson@protonmail.com>
 
 	* Only update exchange rates from the ECB, unless currencies requiring other data sources are used

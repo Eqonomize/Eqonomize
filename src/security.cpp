@@ -52,7 +52,7 @@ Security::Security(Budget *parent_budget, QXmlStreamReader *xml, bool *valid) : 
 	readElements(xml, valid);
 }
 Security::Security(Budget *parent_budget) : o_budget(parent_budget), i_id(parent_budget->getNewId()), i_first_revision(parent_budget->revision()), i_last_revision(parent_budget->revision()) {}
-Security::Security() : o_budget(NULL), i_id(0), i_first_revision(1), i_last_revision(1), o_account(NULL), st_type(SECURITY_TYPE_STOCK), d_initial_shares(0.0), i_decimals(-1), i_quotation_decimals(-1) {init();}
+Security::Security() : o_budget(NULL), i_id(0), i_first_revision(1), i_last_revision(1), o_account(NULL), st_type(SECURITY_TYPE_STOCK), d_initial_shares(0.0), i_decimals(-1), i_quotation_decimals(-1), b_closed(false) {init();}
 Security::Security(const Security *security) : o_budget(security->budget()), i_id(security->id()), i_first_revision(security->firstRevision()), i_last_revision(security->lastRevision()), o_account(security->account()), st_type(security->type()), d_initial_shares(security->initialShares()), i_decimals(security->decimals()), i_quotation_decimals(security->quotationDecimals()), s_name(security->name()), s_description(security->description()), b_closed(security->isClosed()) {init();}
 Security::~Security() {}
 
@@ -78,6 +78,7 @@ void Security::setMergeQuotes(const Security *security) {
 	st_type = security->type();
 	d_initial_shares = security->initialShares();
 	i_decimals = security->decimals();
+	b_closed = security->isClosed();
 	mergeQuotes(security, false);
 }
 void Security::mergeQuotes(const Security *security, bool keep) {
@@ -112,11 +113,8 @@ void Security::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	else i_quotation_decimals = -1;
 	s_name = attr->value("name").trimmed().toString();
 	s_description = attr->value("description").toString();
-	if(attr->hasAttribute("closed")) {
-		b_closed = attr->value("closed").toInt();
-	} else {
-		b_closed = false;
-	}
+	if(attr->hasAttribute("closed")) b_closed = attr->value("closed").toInt();
+	else b_closed = false;
 	qlonglong id_account = attr->value("account").toLongLong();
 	if(budget()->assetsAccounts_id.contains(id_account)) {
 		o_account = budget()->assetsAccounts_id[id_account];
