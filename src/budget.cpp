@@ -439,7 +439,11 @@ void Budget::loadGlobalCurrencies() {
 	loadCurrenciesFile(DATA_DIR "/currencies.xml", false);
 }
 void Budget::loadLocalCurrencies() {
+#ifdef PACKAGE_PORTABLE
+	loadCurrenciesFile(QCoreApplication::applicationDirPath() + "/user/currencies.xml", true);
+#else
 	loadCurrenciesFile(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/currencies.xml", true);
+#endif
 }
 void Budget::loadCurrenciesFile(QString filename, bool is_local) {
 	QFile file(filename);
@@ -796,7 +800,11 @@ QString Budget::loadMyCurrencyNetHtml(QByteArray data) {
 
 QString Budget::saveCurrencies() {
 
+#ifdef PACKAGE_PORTABLE
+	QString filename = QCoreApplication::applicationDirPath() + "/user/currencies.xml";
+#else
 	QString filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/currencies.xml";
+#endif
 
 	QFileInfo info(filename);
 	if(info.isDir()) {

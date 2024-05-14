@@ -2456,8 +2456,14 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	currencyConversionWindow = NULL;
 
 	last_picture_directory = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+#ifdef PACKAGE_PORTABLE
+	last_document_directory = QCoreApplication::applicationDirPath() + "/user";
+	last_associated_file_directory = QCoreApplication::applicationDirPath() + "/user";
+#else
 	last_document_directory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
 	last_associated_file_directory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+#endif
+
 
 	partial_budget = false;
 
@@ -6565,7 +6571,13 @@ void Eqonomize::importEQZ() {
 	QString filter_string;
 	if(mime.isValid()) filter_string = mime.filterString();
 	if(filter_string.isEmpty()) filter_string = tr("Eqonomize! Accounting File") + "(*.eqz)";
-	QString url = QFileDialog::getOpenFileName(this, QString(), current_url.isValid() ? current_url.adjusted(QUrl::RemoveFilename).toLocalFile() : QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + QString("/"), filter_string);
+	QString url = QFileDialog::getOpenFileName(this, QString(), current_url.isValid() ? current_url.adjusted(QUrl::RemoveFilename).toLocalFile() :
+#ifdef PACKAGE_PORTABLE
+	QCoreApplication::applicationDirPath() + "/user/"
+#else
+	QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + QString("/")
+#endif
+	, filter_string);
 	if(!url.isEmpty()) {
 		if(openURL(QUrl::fromLocalFile(url), true)) setModified(true);
 	}
@@ -8280,10 +8292,14 @@ void Eqonomize::showAboutQt() {
 
 bool Eqonomize::crashRecovery(QUrl url) {
 	QString autosaveFileName;
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
-		autosaveFileName = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/autosave/";
+#ifdef PACKAGE_PORTABLE
+	autosaveFileName = QCoreApplication::applicationDirPath() + "/user/autosave/";
 #else
+#	if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+		autosaveFileName = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/autosave/";
+#	else
 		autosaveFileName = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/Eqonomize/eqonomize/autosave/";
+#	endif
 #endif
 	if(url.isEmpty()) autosaveFileName += "UNSAVED EQZ";
 	else autosaveFileName += url.fileName();
@@ -8349,10 +8365,14 @@ void Eqonomize::autoSave() {
 }
 void Eqonomize::saveCrashRecovery() {
 	if(cr_tmp_file.isEmpty()) {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
-		cr_tmp_file = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/autosave/";
+#ifdef PACKAGE_PORTABLE
+	cr_tmp_file = QCoreApplication::applicationDirPath() + "/user/autosave/";
 #else
+#	if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+		cr_tmp_file = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/autosave/";
+#	else
 		cr_tmp_file = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "Eqonomize/eqonomize/autosave/";
+#	endif
 #endif
 		QDir autosaveDir(cr_tmp_file);
 		if(!autosaveDir.mkpath(cr_tmp_file)) {
@@ -8602,7 +8622,11 @@ bool Eqonomize::saveAs(bool do_local_sync, bool do_cloud_sync, QWidget *parent) 
 	if(current_url.isValid()) {
 		fileDialog.setDirectory(current_url.adjusted(QUrl::RemoveFilename).toLocalFile());
 	} else {
+#ifdef PACKAGE_PORTABLE
+		fileDialog.setDirectory(QCoreApplication::applicationDirPath() + "/user");
+#else
 		fileDialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+#endif
 		fileDialog.selectFile(QString("budget.") + suffix);
 	}
 	if(fileDialog.exec()) {

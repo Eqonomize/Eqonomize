@@ -56,6 +56,11 @@ int main(int argc, char **argv) {
 	app.setOrganizationName("Eqonomize");
 	app.setApplicationVersion(VERSION);
 
+#ifdef PACKAGE_PORTABLE
+	QSettings::setDefaultFormat(QSettings::IniFormat);
+	QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, QCoreApplication::applicationDirPath() + "/user");
+#endif
+
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 
@@ -116,10 +121,14 @@ int main(int argc, char **argv) {
 	parser->addHelpOption();
 	parser->process(app);
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
-	QString lockpath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+#ifdef PACKAGE_PORTABLE
+	QString lockpath = QCoreApplication::applicationDirPath() + "/user";
 #else
+#	if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+	QString lockpath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+#	else
 	QString lockpath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/" + app.organizationName() + "/" + app.applicationName();
+#	endif
 #endif
 	QDir lockdir(lockpath);
 	QLockFile lockFile(lockpath + "/eqonomize.lock");

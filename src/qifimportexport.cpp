@@ -70,7 +70,9 @@ extern QString last_document_directory;
 ImportQIFDialog::ImportQIFDialog(Budget *budg, QWidget *parent, bool extra_parameters) : QWizard(parent), budget(budg), b_extra(extra_parameters) {
 
 	QSettings settings;
-	if(settings.value("GeneralOptions/darkMode", false).toBool()) setWizardStyle(QWizard::ClassicStyle);
+#ifdef _WIN32
+	setWizardStyle(QWizard::ClassicStyle);
+#endif
 
 	setWindowTitle(tr("Import QIF file"));
 	setModal(true);
