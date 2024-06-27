@@ -6022,7 +6022,7 @@ Vad vill du göra med dem?</translation>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="1054"/>
         <source>Select Time Period</source>
-        <translation>Väld tidsperiod</translation>
+        <translation>Välj tidsperiod</translation>
     </message>
     <message>
         <location filename="../src/ledgerdialog.cpp" line="1058"/>

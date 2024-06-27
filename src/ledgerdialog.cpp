@@ -1057,10 +1057,12 @@ void LedgerDialog::printView() {
 		box1->addLayout(grid);
 		grid->addWidget(new QLabel(tr("From:"), dialog), 0, 0);
 		QDateEdit *dateFromEdit = new EqonomizeDateEdit(first_date, dialog);
+		dateFromEdit->setDateRange(first_date, QDate::currentDate());
 		dateFromEdit->setCalendarPopup(true);
 		grid->addWidget(dateFromEdit, 0, 1);
 		grid->addWidget(new QLabel(tr("To:"), dialog), 1, 0);
 		QDateEdit *dateToEdit = new EqonomizeDateEdit(QDate::currentDate(), dialog);
+		dateToEdit->setDateRange(first_date, QDate::currentDate());
 		dateToEdit->setCalendarPopup(true);
 		grid->addWidget(dateToEdit, 1, 1);
 		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, Qt::Horizontal, dialog);
@@ -1074,7 +1076,7 @@ void LedgerDialog::printView() {
 			if(dateFromEdit->date() <= first_date) first_date = QDate();
 			else first_date = dateFromEdit->date();
 			last_date = dateToEdit->date();
-			if(last_date < first_date) {
+			if(last_date < dateFromEdit->date()) {
 				QMessageBox::critical(this, tr("Error"), tr("To date is before from date."));
 				run_print = false;
 			}
