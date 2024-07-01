@@ -3030,7 +3030,7 @@ void Eqonomize::socketReadyRead() {
 			}
 		}
 	}
-	if(!command.isEmpty()) openURL(QUrl::fromUserInput(command));
+	if(!command.isEmpty() && askSave()) openURL(QUrl::fromUserInput(command));
 }
 
 void Eqonomize::useExtraProperties(bool b) {
@@ -8405,7 +8405,7 @@ void Eqonomize::onActivateRequested(const QStringList &arguments, const QString 
 			showTransfers();
 		}
 		QStringList args = parser->positionalArguments();
-		if(args.count() > 0) {
+		if(args.count() > 0 && askSave()) {
 			QString curpath = QDir::currentPath();
 			QDir::setCurrent(workingDirectory);
 			openURL(QUrl::fromUserInput(args.at(0)));
