@@ -285,7 +285,7 @@ void TagMenu::updateTags() {
 		if(!budget->tags.isEmpty()) addSeparator();
 	}
 	for(int i = 0; i < budget->tags.count(); i++) {
-		QAction *action = addAction(budget->tags[i].replace("&", "&&"), this, SLOT(tagToggled()));
+		QAction *action = addAction(QString(budget->tags[i]).replace("&", "&&"), this, SLOT(tagToggled()));
 		action->setData(false);
 		action->setCheckable(true);
 		if(tagb.contains(budget->tags[i])) {
