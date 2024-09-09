@@ -263,7 +263,7 @@ class Eqonomize : public QMainWindow {
 		void updateRecentFiles(QString filePath = QString());
 		void saveOptions();
 		void closeEvent(QCloseEvent *event);
-		void updatePalette(bool);
+		void updatePalette(bool, bool = false);
 		void dragEnterEvent(QDragEnterEvent *event);
 		void dropEvent(QDropEvent *event);
 #if defined _WIN32 && (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0))

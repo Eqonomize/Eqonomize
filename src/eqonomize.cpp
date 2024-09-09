@@ -92,6 +92,9 @@
 #include <QToolTip>
 #include <QStyleFactory>
 #include <QStandardPaths>
+#if defined _WIN32 && (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0))
+#	include <QStyleHints>
+#endif
 
 #include <QDebug>
 
@@ -2477,9 +2480,9 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 
-#if !defined _WIN32 || (QT_VERSION < QT_VERSION_CHECK(6, 5, 0))
-	if(settings.value("darkMode", false).toBool()) updatePalette(true);
-#endif
+	if(!settings.value("darkMode").isNull()) {
+		updatePalette(settings.value("darkMode", false).toBool(), true);
+	}
 
 	b_extra = settings.value("useExtraProperties", true).toBool();
 	int initial_period = settings.value("initialPeriod", int(0)).toInt();
@@ -3298,12 +3301,15 @@ void Eqonomize::setDarkMode(bool b) {
 	settings.endGroup();
 }
 
-void Eqonomize::updatePalette(bool dark_mode) {
+void Eqonomize::updatePalette(bool dark_mode, bool initial) {
+#if defined _WIN32 && (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0))
+	if(QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark || (initial && !dark_mode)) return;
+#endif
+	QPalette p;
 	if(dark_mode) {
 #if defined _WIN32 && (QT_VERSION < QT_VERSION_CHECK(6, 5, 0))
 		QApplication::setStyle(QStyleFactory::create("Fusion"));
 #endif
-		QPalette p;
 		p.setColor(QPalette::Active, QPalette::Window, QColor(42, 46, 50));
 		p.setColor(QPalette::Active, QPalette::WindowText, QColor(252, 252, 252));
 		p.setColor(QPalette::Active, QPalette::Base, QColor(27, 30, 32));
@@ -3343,13 +3349,21 @@ void Eqonomize::updatePalette(bool dark_mode) {
 		p.setColor(QPalette::Disabled, QPalette::Button, QColor(47, 52, 56));
 		p.setColor(QPalette::Disabled, QPalette::ButtonText,QColor(101, 101, 101));
 		p.setColor(QPalette::Disabled, QPalette::BrightText, QColor(39, 174, 96));
-		QApplication::setPalette(p);
 	} else {
-#if defined _WIN32 && (QT_VERSION < QT_VERSION_CHECK(6, 5, 0))
+#ifdef _WIN32
+		QStyle *s = NULL;
+#if	(QT_VERSION < QT_VERSION_CHECK(6, 5, 0))
+		if(initial) return;
 		QApplication::setStyle(QStyleFactory::create("windowsvista"));
 #endif
-		QApplication::setPalette(QApplication::style()->standardPalette());
+		if(!s) s = QApplication::style();
+		p = s->standardPalette();
+#else
+		if(initial) return;
+		p = QApplication::style()->standardPalette();
+#endif
 	}
+	QApplication::setPalette(p);
 }
 
 void Eqonomize::checkDate() {
@@ -6205,10 +6219,6 @@ void Eqonomize::reloadBudget() {
 	incomesWidget->tagsModified();
 	transfersWidget->tagsModified();
 	tagMenu->updateTags();
-	assetsItem->setExpanded(true);
-	liabilitiesItem->setExpanded(true);
-	incomesItem->setExpanded(true);
-	expensesItem->setExpanded(true);
 	expensesWidget->transactionsReset();
 	incomesWidget->transactionsReset();
 	transfersWidget->transactionsReset();
@@ -8054,10 +8064,18 @@ void Eqonomize::setupActions() {
 	NEW_ACTION_2(ActionSelectFont, tr("Select Font…"), 0, this, SLOT(selectFont()), "select_font", settingsMenu);
 	ActionSelectFont->setIcon(LOAD_ICON_APP("preferences-desktop-font"));
 
-#if !defined _WIN32 || (QT_VERSION < QT_VERSION_CHECK(6, 5, 0))
 	NEW_TOGGLE_ACTION(ActionDarkMode, tr("Dark Mode"), 0, this, SLOT(setDarkMode(bool)), "dark_mode", settingsMenu);
+
 	QSettings settings;
+#if !defined _WIN32 || (QT_VERSION < QT_VERSION_CHECK(6, 5, 0))
 	ActionDarkMode->setChecked(settings.value("GeneralOptions/darkMode", false).toBool());
+#else
+	if(QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark) {
+		ActionDarkMode->setChecked(true);
+		ActionDarkMode->setEnabled(false);
+	} else {
+		ActionDarkMode->setChecked(settings.value("GeneralOptions/darkMode", false).toBool());
+	}
 #endif
 
 	QMenu *langMenu = settingsMenu->addMenu(LOAD_ICON_APP("preferences-desktop-locale"), tr("Language"));
@@ -8442,6 +8460,10 @@ void Eqonomize::saveOptions() {
 	settings.setValue("liabilitiesGroupExpanded", liabilities_expanded);
 	settings.setValue("incomesCategoryExpanded", incomes_expanded);
 	settings.setValue("expensesCategoryExpanded", expenses_expanded);
+	settings.setValue("assetsExpanded", assetsItem->isExpanded());
+	settings.setValue("liabilitiesExpanded", liabilitiesItem->isExpanded());
+	settings.setValue("incomesExpanded", incomesItem->isExpanded());
+	settings.setValue("expensesExpanded", expensesItem->isExpanded());
 	settings.setValue("tagsExpanded", tagsItem->isExpanded());
 
 	if(ActionSelectInitialPeriod->checkedAction() == AIPCurrentMonth) {settings.setValue("initialPeriod", 0);}
@@ -8505,6 +8527,10 @@ void Eqonomize::readOptions() {
 	liabilities_expanded = settings.value("liabilitiesGroupExpanded").toMap();
 	incomes_expanded = settings.value("incomesCategoryExpanded").toMap();
 	expenses_expanded = settings.value("expensesCategoryExpanded").toMap();
+	assetsItem->setExpanded(settings.value("assetsExpanded", true).toBool());
+	liabilitiesItem->setExpanded(settings.value("liabilitiesExpanded", true).toBool());
+	incomesItem->setExpanded(settings.value("incomesExpanded", true).toBool());
+	expensesItem->setExpanded(settings.value("expensesExpanded", true).toBool());
 	tagsItem->setExpanded(settings.value("tagsExpanded", true).toBool());
 	scheduleView->sortByColumn(0, Qt::AscendingOrder);
 	settings.endGroup();
@@ -8960,7 +8986,7 @@ void Eqonomize::accountClicked(QTreeWidgetItem *i, int c) {
 		clicked_item = NULL;
 		return;
 	}
-	if(i != NULL && i != expensesItem && i != assetsItem && i != incomesItem && i != liabilitiesItem && c == 0 && i->childCount() > 0) {
+	if(i != NULL && c == 0 && i->childCount() > 0) {
 		i->setExpanded(!i->isExpanded());
 		clicked_item = i;
 		QTimer::singleShot(QApplication::doubleClickInterval(), this, SLOT(accountClickedTimeout()));
@@ -9034,7 +9060,23 @@ void Eqonomize::balanceAccount(Account *i_account) {
 }
 void Eqonomize::editAccount() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
-	if(!account_items.contains(i)) return;
+	if(!account_items.contains(i)) {
+		if(i->parent() == assetsItem) {
+			QString old_name = i->text(0);
+			QString new_name = QInputDialog::getText(this, tr("Rename Assets Group"), tr("Name:"), QLineEdit::Normal, old_name).trimmed();
+			if(!new_name.isEmpty() && new_name != old_name) {
+				i->setText(0, new_name);
+				for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+					AssetsAccount *account = *it;
+					if(account->group() == old_name) account->setGroup(new_name);
+				}
+				assets_expanded[new_name] = assets_expanded[old_name];
+				assets_group_items[i] = new_name;
+				setModified(true);
+			}
+		}
+		return;
+	}
 	Account *i_account = account_items[i];
 	editAccount(i_account);
 }
@@ -11205,9 +11247,9 @@ void Eqonomize::updateBudgetEdit() {
 }
 void Eqonomize::accountsSelectionChanged() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
+	ActionEditAccount->setEnabled(account_items.contains(i) || (i->parent() == assetsItem && i->childCount() > 0));
 	if(account_items.contains(i)) {
 		ActionDeleteAccount->setEnabled(true);
-		ActionEditAccount->setEnabled(true);
 		ActionCloseAccount->setEnabled(true);
 		ActionBalanceAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && !((AssetsAccount*) account_items[i])->isSecurities());
 		ActionReconcileAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && !((AssetsAccount*) account_items[i])->isSecurities());
@@ -11223,7 +11265,6 @@ void Eqonomize::accountsSelectionChanged() {
 	} else {
 		ActionDeleteAccount->setEnabled(false);
 		ActionCloseAccount->setEnabled(false);
-		ActionEditAccount->setEnabled(false);
 		ActionBalanceAccount->setEnabled(false);
 		budgetEdit->setEnabled(false);
 		ActionReconcileAccount->setEnabled(false);
