@@ -64,6 +64,12 @@
 	#define LOAD_ICON2(x, y) QIcon::fromTheme(x, QIcon::fromTheme(y))
 #endif
 
+enum {
+	ACCOUNT_GROUPING_TYPE,
+	ACCOUNT_GROUPING_BANK,
+	ACCOUNT_GROUPING_CURRENCY
+};
+
 class QAction;
 class QActionGroup;
 class QButtonGroup;
@@ -212,6 +218,7 @@ class Eqonomize : public QMainWindow {
 		void setCommandLineParser(QCommandLineParser*);
 		bool timeToUpdateExchangeRates(bool ecb_only = false);
 		void addNewSchedule(ScheduledTransaction *strans, QWidget *parent);
+		void groupAccounts(int);
 
 		void removeOldLinks(Transactions*, Transactions*);
 		void addTransactionLinks(Transactions*, bool update_display = true);
@@ -227,7 +234,7 @@ class Eqonomize : public QMainWindow {
 
 		QAction *ActionAP_1, *ActionAP_2, *ActionAP_3, *ActionAP_4, *ActionAP_5, *ActionAP_6, *ActionAP_7, *ActionAP_8;
 		QAction *ActionEditSchedule, *ActionEditOccurrence, *ActionDeleteSchedule, *ActionDeleteOccurrence;
-		QAction *ActionAddAccount, *ActionNewAssetsAccount, *ActionNewLoan, *ActionNewIncomesAccount, *ActionNewExpensesAccount, *ActionEditAccount, *ActionDeleteAccount, *ActionCloseAccount, *ActionBalanceAccount, *ActionAddAccountMenu;
+		QAction *ActionAddAccount, *ActionNewAssetsAccount, *ActionNewLoan, *ActionNewIncomesAccount, *ActionNewExpensesAccount, *ActionEditAccount, *ActionDeleteAccount, *ActionCloseAccount, *ActionBalanceAccount, *ActionAddAccountMenu, *ActionGroupAccountsType, *ActionGroupAccountsBank, *ActionGroupAccountsCurrency;
 		QAction *ActionShowAccountTransactions, *ActionShowLedger, *ActionReconcileAccount;
 		QAction *ActionNewExpense, *ActionNewIncome, *ActionNewTransfer, *ActionNewMultiItemTransaction;
 		QAction *ActionNewMultiAccountExpense, *ActionNewExpenseWithLoan, *ActionNewDebtPayment, *ActionNewDebtInterest;
@@ -531,6 +538,7 @@ class Eqonomize : public QMainWindow {
 		void accountCollapsed(QTreeWidgetItem*);
 		void accountMoved(QTreeWidgetItem*, QTreeWidgetItem*);
 		void balanceAccount();
+		void groupAccounts();
 		void editAccount();
 		void deleteAccount();
 		void closeAccount();

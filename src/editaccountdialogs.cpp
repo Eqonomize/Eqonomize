@@ -95,7 +95,9 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 	groupCombo->lineEdit()->setPlaceholderText(tr("no group"));
 	grid->addWidget(groupCombo, row, 1); row++;
 	if(!default_group.isEmpty()) groupCombo->setCurrentText(default_group);
+	else if(new_loan) groupCombo->setCurrentText(budget->getAccountTypeName(ASSETS_TYPE_LIABILITIES, true, true));
 	else if(default_type >= 0 && !budget->getAccountTypeName(default_type, true, true).isEmpty()) groupCombo->setCurrentText(budget->getAccountTypeName(default_type, true, true));
+	else groupCombo->setCurrentText(budget->getAccountTypeName(ASSETS_TYPE_CASH, true, true));
 
 	if(default_type >= 0) {
 		switch(default_type) {

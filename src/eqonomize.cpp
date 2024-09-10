@@ -5693,6 +5693,10 @@ void Eqonomize::popupAccountsMenu(const QPoint &p) {
 			assetsPopupMenu->addAction(ActionBalanceAccount);
 			assetsPopupMenu->addAction(ActionCloseAccount);
 			assetsPopupMenu->addAction(ActionDeleteAccount);
+			QMenu *groupAccountsMenu = assetsPopupMenu->addMenu(LOAD_ICON("eqz-account"), tr("Group Accounts"));
+			groupAccountsMenu->addAction(ActionGroupAccountsType);
+			groupAccountsMenu->addAction(ActionGroupAccountsBank);
+			groupAccountsMenu->addAction(ActionGroupAccountsCurrency);
 			assetsPopupMenu->addSeparator();
 			assetsPopupMenu->addAction(ActionShowAccountTransactions);
 		}
@@ -7813,8 +7817,6 @@ void Eqonomize::saveView() {
 
 #define NEW_ACTION_2(action, text, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setShortcut(shortcut); menu->addAction(action); connect(action, SIGNAL(triggered()), receiver, slot);
 
-#define NEW_ACTION_2_NOMENU(action, text, shortcut, receiver, slot, name) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setShortcut(shortcut); connect(action, SIGNAL(triggered()), receiver, slot);
-
 #define NEW_TOGGLE_ACTION(action, text, shortcut, receiver, slot, name, menu) action = new QAction(this); action->setObjectName(name); action->setText(text); action->setShortcut(shortcut); action->setCheckable(true); menu->addAction(action); connect(action, SIGNAL(triggered(bool)), receiver, slot);
 
 #define NEW_RADIO_ACTION(action, text, group) action = new QAction(group); action->setCheckable(true); action->setText(text);
@@ -7920,6 +7922,14 @@ void Eqonomize::setupActions() {
 	accountsMenu->addSeparator();
 	NEW_ACTION(ActionCloseAccount, tr("Close Account", "Mark account as closed"), "edit-delete", 0, this, SLOT(closeAccount()), "close_account", accountsMenu);
 	NEW_ACTION(ActionDeleteAccount, tr("Remove"), "edit-delete", 0, this, SLOT(deleteAccount()), "delete_account", accountsMenu);
+	accountsMenu->addSeparator();
+	QMenu *groupAccountsMenu = accountsMenu->addMenu(LOAD_ICON("eqz-account"), tr("Group Accounts"));
+	NEW_ACTION_2(ActionGroupAccountsType, tr("Group by Type"), 0, this, SLOT(groupAccounts()), "group_assets_type", groupAccountsMenu);
+	ActionGroupAccountsType->setData(ACCOUNT_GROUPING_TYPE);
+	NEW_ACTION_2(ActionGroupAccountsBank, tr("Group by Bank"), 0, this, SLOT(groupAccounts()), "group_assets_bank", groupAccountsMenu);
+	ActionGroupAccountsBank->setData(ACCOUNT_GROUPING_BANK);
+	NEW_ACTION_2(ActionGroupAccountsCurrency, tr("Group by Currency"), 0, this, SLOT(groupAccounts()), "group_assets_currency", groupAccountsMenu);
+	ActionGroupAccountsCurrency->setData(ACCOUNT_GROUPING_CURRENCY);
 	accountsMenu->addSeparator();
 	NEW_ACTION(ActionShowAccountTransactions, tr("Show Transactions"), "eqz-transactions", 0, this, SLOT(showAccountTransactions()), "show_account_transactions", accountsMenu);
 	NEW_ACTION(ActionShowLedger, tr("Show Ledger"), "eqz-ledger", 0, this, SLOT(showLedger()), "show_ledger", accountsMenu);
@@ -9058,20 +9068,62 @@ void Eqonomize::balanceAccount(Account *i_account) {
 	}
 	dialog->deleteLater();
 }
+void Eqonomize::groupAccounts() {
+	groupAccounts(qobject_cast<QAction*>(sender())->data().toInt());
+}
+void Eqonomize::groupAccounts(int group_method) {
+	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
+		AssetsAccount *account = *it;
+		QTreeWidgetItem *i = NULL;
+		if(item_accounts.contains(account)) i = item_accounts[account];
+		if(!i) continue;
+		bool b_sel = i->isSelected();
+		bool b_hidden = i->isHidden();
+		bool is_debt = IS_DEBT(account);
+		if(!b_hidden) assetsAccountItemHiddenOrRemoved(account);
+		if(group_method == ACCOUNT_GROUPING_TYPE) account->setGroup(budget->getAccountTypeName(account->accountType(), true, true));
+		else if(group_method == ACCOUNT_GROUPING_BANK) account->setGroup(account->maintainer());
+		else if(group_method == ACCOUNT_GROUPING_CURRENCY) account->setGroup(account->currency()->name(true));
+		if(!is_debt && item_assets_groups.contains(account->group())) {
+			i->parent()->removeChild(i);
+			item_assets_groups[account->group()]->addChild(i);
+		} else if(is_debt && item_liabilities_groups.contains(account->group())) {
+			i->parent()->removeChild(i);
+			item_liabilities_groups[account->group()]->addChild(i);
+		} else if(i->parent() != assetsItem && i->parent() != liabilitiesItem) {
+			i->parent()->removeChild(i);
+			if(is_debt) liabilitiesItem->addChild(i);
+			else assetsItem->addChild(i);
+		}
+		if(!b_hidden) assetsAccountItemShownOrAdded(account);
+		if(b_sel) {
+			accountsView->clearSelection();
+			accountsView->setCurrentItem(i);
+			i->setSelected(true);
+		}
+	}
+	setModified(true);
+	filterAccounts();
+}
 void Eqonomize::editAccount() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
 	if(!account_items.contains(i)) {
-		if(i->parent() == assetsItem) {
+		if(i->parent() == assetsItem || i->parent() == liabilitiesItem) {
 			QString old_name = i->text(0);
-			QString new_name = QInputDialog::getText(this, tr("Rename Assets Group"), tr("Name:"), QLineEdit::Normal, old_name).trimmed();
+			QString new_name = QInputDialog::getText(this, tr("Rename Account Group"), tr("Name:"), QLineEdit::Normal, old_name).trimmed();
 			if(!new_name.isEmpty() && new_name != old_name) {
 				i->setText(0, new_name);
 				for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 					AssetsAccount *account = *it;
 					if(account->group() == old_name) account->setGroup(new_name);
 				}
-				assets_expanded[new_name] = assets_expanded[old_name];
-				assets_group_items[i] = new_name;
+				if(i->parent() == liabilitiesItem) {
+					liabilities_expanded[new_name] = liabilities_expanded[old_name];
+					liabilities_group_items[i] = new_name;
+				} else {
+					assets_expanded[new_name] = assets_expanded[old_name];
+					assets_group_items[i] = new_name;
+				}
 				setModified(true);
 			}
 		}
@@ -9186,6 +9238,7 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 				updateBudgetAccountTitle(account);
 				QString s_group = account->group();
 				if(prev_group != s_group || is_debt != prev_debt) {
+					bool b_sel = (i && i->isSelected());
 					int type_copy = account->accountType();
 					account->setAccountType(prev_type);
 					account->setGroup(prev_group);
@@ -9204,6 +9257,11 @@ bool Eqonomize::editAccount(Account *i_account, QWidget *parent) {
 						else assetsItem->addChild(i);
 					}
 					assetsAccountItemShownOrAdded(account);
+					if(b_sel) {
+						accountsView->clearSelection();
+						accountsView->setCurrentItem(i);
+						i->setSelected(true);
+					}
 				}
 				if(budget->currenciesModified() || budget->defaultCurrencyChanged()) {
 					currenciesModified();
@@ -11247,24 +11305,24 @@ void Eqonomize::updateBudgetEdit() {
 }
 void Eqonomize::accountsSelectionChanged() {
 	QTreeWidgetItem *i = selectedItem(accountsView);
-	ActionEditAccount->setEnabled(account_items.contains(i) || (i->parent() == assetsItem && i->childCount() > 0));
 	if(account_items.contains(i)) {
 		ActionDeleteAccount->setEnabled(true);
-		ActionCloseAccount->setEnabled(true);
+		ActionEditAccount->setEnabled(true);
 		ActionBalanceAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && !((AssetsAccount*) account_items[i])->isSecurities());
 		ActionReconcileAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && !((AssetsAccount*) account_items[i])->isSecurities());
-		if(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i])->isClosed()) {
+		if(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && ((AssetsAccount*) account_items[i])->isClosed() && !((AssetsAccount*) account_items[i])->isDebt()) {
 			ActionCloseAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS);
 			ActionCloseAccount->setText(tr("Reopen Account", "Mark account as not closed"));
 			ActionCloseAccount->setIcon(LOAD_ICON("edit-undo"));
 		} else {
-			ActionCloseAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && budget->accountHasTransactions(account_items[i]));
+			ActionCloseAccount->setEnabled(account_items[i]->type() == ACCOUNT_TYPE_ASSETS && !((AssetsAccount*) account_items[i])->isDebt() && budget->accountHasTransactions(account_items[i]));
 			ActionCloseAccount->setText(tr("Close Account", "Mark account as closed"));
 			ActionCloseAccount->setIcon(LOAD_ICON("edit-delete"));
 		}
 	} else {
 		ActionDeleteAccount->setEnabled(false);
 		ActionCloseAccount->setEnabled(false);
+		ActionEditAccount->setEnabled(i && (i->parent() == assetsItem || i->parent() == liabilitiesItem));
 		ActionBalanceAccount->setEnabled(false);
 		budgetEdit->setEnabled(false);
 		ActionReconcileAccount->setEnabled(false);
