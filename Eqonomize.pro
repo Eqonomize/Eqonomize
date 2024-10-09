@@ -1,4 +1,4 @@
-VERSION = 1.5.7
+VERSION = 1.5.8
 isEmpty(PREFIX) {
 	PREFIX = /usr/local
 }

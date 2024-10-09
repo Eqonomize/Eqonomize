@@ -1072,16 +1072,17 @@ void LedgerDialog::printView() {
 		connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), dialog, SLOT(reject()));
 		connect(buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), dialog, SLOT(accept()));
 		box1->addWidget(buttonBox);
-		if(dialog->exec() == QDialog::Accepted) {
+		run_print = false;
+		while(dialog->exec() == QDialog::Accepted) {
 			if(dateFromEdit->date() <= first_date) first_date = QDate();
 			else first_date = dateFromEdit->date();
 			last_date = dateToEdit->date();
 			if(last_date < dateFromEdit->date()) {
 				QMessageBox::critical(this, tr("Error"), tr("To date is before from date."));
-				run_print = false;
+			} else {
+				run_print = true;
+				break;
 			}
-		} else {
-			run_print = false;
 		}
 		dialog->deleteLater();
 	}
@@ -1291,7 +1292,6 @@ void LedgerDialog::remove() {
 		LedgerListViewItem *i = (LedgerListViewItem*) selection[index];
 		if(i->splitTransaction()) {
 			SplitTransaction *split = i->splitTransaction();
-			qDebug() << split->description();
 			budget->removeSplitTransaction(split, true);
 			mainWin->transactionRemoved(split, NULL, true);
 			delete split;

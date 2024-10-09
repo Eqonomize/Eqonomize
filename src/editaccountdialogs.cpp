@@ -121,6 +121,8 @@ EditAssetsAccountDialog::EditAssetsAccountDialog(Budget *budg, QWidget *parent, 
 
 	grid->addWidget(new QLabel(tr("Name:"), this), row, 0);
 	nameEdit = new QLineEdit(this);
+	QFontMetrics fm(nameEdit->font());
+	nameEdit->setMinimumWidth(fm.averageCharWidth() * 25);
 	grid->addWidget(nameEdit, row, 1); row++;
 	maintainerLabel = new QLabel(tr("Bank:"));
 	grid->addWidget(maintainerLabel, row, 0);
@@ -422,6 +424,8 @@ EditIncomesAccountDialog::EditIncomesAccountDialog(Budget *budg, IncomesAccount 
 	box1->addLayout(grid);
 	grid->addWidget(new QLabel(tr("Name:"), this), 0, 0);
 	nameEdit = new QLineEdit(this);
+	QFontMetrics fm(nameEdit->font());
+	nameEdit->setMinimumWidth(fm.averageCharWidth() * 25);
 	grid->addWidget(nameEdit, 0, 1);
 	grid->addWidget(new QLabel(tr("Parent category:"), this), 1, 0);
 	parentCombo = new QComboBox(this);
@@ -530,6 +534,8 @@ EditExpensesAccountDialog::EditExpensesAccountDialog(Budget *budg, ExpensesAccou
 	box1->addLayout(grid);
 	grid->addWidget(new QLabel(tr("Name:"), this), 0, 0);
 	nameEdit = new QLineEdit(this);
+	QFontMetrics fm(nameEdit->font());
+	nameEdit->setMinimumWidth(fm.averageCharWidth() * 25);
 	grid->addWidget(nameEdit, 0, 1);
 	grid->addWidget(new QLabel(tr("Parent category:"), this), 1, 0);
 	parentCombo = new QComboBox(this);

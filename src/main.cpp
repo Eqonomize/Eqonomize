@@ -153,7 +153,7 @@ int main(int argc, char **argv) {
 					} else {
 						command = '0';
 					}
-					if(args.count() > 0) command += args.at(0);
+					if(args.count() > 0) command += QUrl::fromUserInput(args.at(0), QDir::currentPath()).toString();
 					socket.write(command.toUtf8());
 					socket.waitForBytesWritten(3000);
 					socket.disconnectFromServer();
@@ -170,7 +170,7 @@ int main(int argc, char **argv) {
 		QStringList args = parser->positionalArguments();
 		QUrl u;
 		if(args.count() > 0) {
-			u = QUrl::fromUserInput(args.at(0));
+			u = QUrl::fromUserInput(args.at(0), QDir::currentPath());
 		} else {
 			u = QUrl(url);
 		}
@@ -213,7 +213,7 @@ int main(int argc, char **argv) {
 
 	QStringList args = parser->positionalArguments();
 	if(args.count() > 0) {
-		win->openURL(QUrl::fromUserInput(args.at(0)));
+		win->openURL(QUrl::fromUserInput(args.at(0), QDir::currentPath()));
 	} else if(!url.isEmpty()) {
 		win->openURL(QUrl(url));
 	} else {

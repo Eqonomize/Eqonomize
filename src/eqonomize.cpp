@@ -3013,10 +3013,10 @@ void Eqonomize::socketReadyRead() {
 	command.remove(0, 1);
 	command = command.trimmed();
 	if(c == 's') {
-		if(command.isEmpty() || QUrl::fromUserInput(command) == current_url) {
+		if(command.isEmpty() || QUrl::fromUserInput(command, QDir::currentPath()) == current_url) {
 			fileSynchronize();
 		} else {
-			QUrl url = QUrl::fromUserInput(command);
+			QUrl url = QUrl::fromUserInput(command, QDir::currentPath());
 			Budget *budget2 = new Budget();
 			QString errors;
 			QString error = budget2->loadFile(url.toLocalFile(), errors);
@@ -3033,7 +3033,7 @@ void Eqonomize::socketReadyRead() {
 			}
 		}
 	}
-	if(!command.isEmpty() && askSave()) openURL(QUrl::fromUserInput(command));
+	if(!command.isEmpty() && askSave()) openURL(QUrl::fromUserInput(command, QDir::currentPath()));
 }
 
 void Eqonomize::useExtraProperties(bool b) {
@@ -8436,7 +8436,7 @@ void Eqonomize::onActivateRequested(const QStringList &arguments, const QString 
 		if(args.count() > 0 && askSave()) {
 			QString curpath = QDir::currentPath();
 			QDir::setCurrent(workingDirectory);
-			openURL(QUrl::fromUserInput(args.at(0)));
+			openURL(QUrl::fromUserInput(args.at(0), QDir::currentPath()));
 			QDir::setCurrent(curpath);
 		}
 		args.clear();
@@ -8958,6 +8958,11 @@ void Eqonomize::accountExecuted(QTreeWidgetItem *i, int c) {
 				else editAccount(account_items[i]);
 			}
 			if(tag_items.contains(i)) showAccountTransactions(true);
+			if(i == assetsItem || i == liabilitiesItem || i == incomesItem || i == expensesItem || i == tagsItem) {
+				i->setExpanded(!i->isExpanded());
+				clicked_item = i;
+				QTimer::singleShot(QApplication::doubleClickInterval(), this, SLOT(accountClickedTimeout()));
+			}
 			break;
 		}
 		case 1: {
@@ -8996,7 +9001,7 @@ void Eqonomize::accountClicked(QTreeWidgetItem *i, int c) {
 		clicked_item = NULL;
 		return;
 	}
-	if(i != NULL && c == 0 && i->childCount() > 0) {
+	if(i != NULL && c == 0 && (!i->isExpanded() || (i != assetsItem && i != liabilitiesItem && i != incomesItem && i != expensesItem && i != tagsItem)) && i->childCount() > 0) {
 		i->setExpanded(!i->isExpanded());
 		clicked_item = i;
 		QTimer::singleShot(QApplication::doubleClickInterval(), this, SLOT(accountClickedTimeout()));
@@ -9115,13 +9120,17 @@ void Eqonomize::editAccount() {
 				i->setText(0, new_name);
 				for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 					AssetsAccount *account = *it;
-					if(account->group() == old_name) account->setGroup(new_name);
+					if(account->group() == old_name && IS_DEBT(account) == (i->parent() == liabilitiesItem)) account->setGroup(new_name);
 				}
 				if(i->parent() == liabilitiesItem) {
 					liabilities_expanded[new_name] = liabilities_expanded[old_name];
+					item_liabilities_groups[new_name] = item_liabilities_groups[old_name];
+					item_liabilities_groups.remove(old_name);
 					liabilities_group_items[i] = new_name;
 				} else {
 					assets_expanded[new_name] = assets_expanded[old_name];
+					item_assets_groups[new_name] = item_assets_groups[old_name];
+					item_assets_groups.remove(old_name);
 					assets_group_items[i] = new_name;
 				}
 				setModified(true);

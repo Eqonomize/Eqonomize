@@ -693,13 +693,13 @@ TransactionEditWidget::TransactionEditWidget(bool auto_edit, bool extra_paramete
 		case TRANSACTION_TYPE_TRANSFER: {
 			if(!split || transfer_to) {
 				editLayout->addWidget(new QLabel(tr("From:"), this), TEROWCOL(i, 0));
-				fromCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, b_create_accounts, false, false, !b_autoedit, true, this);
+				fromCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, b_create_accounts, false, false, !b_autoedit, true, this, false);
 				editLayout->addWidget(fromCombo, TEROWCOL(i, 1));
 				i++;
 			}
 			if(!split || !transfer_to) {
 				editLayout->addWidget(new QLabel(tr("To:"), this), TEROWCOL(i, 0));
-				toCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, b_create_accounts, false, false, !b_autoedit, false, this);
+				toCombo = new AccountComboBox(ACCOUNT_TYPE_ASSETS, budget, b_create_accounts, false, false, !b_autoedit, false, this, false);
 				editLayout->addWidget(toCombo, TEROWCOL(i, 1));
 				i++;
 			}

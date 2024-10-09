@@ -3018,17 +3018,17 @@ i18n: file ./eqonomizeui.rc line 56
         <translation>Payé avec un emprunt...</translation>
     </message>
     <message>
-        <location filename="../src/accountcombobox.cpp" line="353"/>
+        <location filename="../src/accountcombobox.cpp" line="355"/>
         <source>New Account</source>
         <translation>Nouveau compte</translation>
     </message>
     <message>
-        <location filename="../src/accountcombobox.cpp" line="337"/>
+        <location filename="../src/accountcombobox.cpp" line="339"/>
         <source>New Income Category</source>
         <translation>Nouvelle catégorie de revenus</translation>
     </message>
     <message>
-        <location filename="../src/accountcombobox.cpp" line="345"/>
+        <location filename="../src/accountcombobox.cpp" line="347"/>
         <source>New Expense Category</source>
         <translation>Nouvelle catégorie de dépenses</translation>
     </message>
@@ -3336,15 +3336,15 @@ i18n: file ./eqonomizeui.rc line 56
         <translation>Erreur lors de l&apos;enregistrement ; fichier non sauvegardé</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="1148"/>
-        <location filename="../src/qifimportexport.cpp" line="1258"/>
-        <location filename="../src/qifimportexport.cpp" line="1398"/>
+        <location filename="../src/qifimportexport.cpp" line="1146"/>
+        <location filename="../src/qifimportexport.cpp" line="1256"/>
+        <location filename="../src/qifimportexport.cpp" line="1396"/>
         <source>Unnamed</source>
         <translation>Anonyme</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="1180"/>
-        <location filename="../src/qifimportexport.cpp" line="1316"/>
+        <location filename="../src/qifimportexport.cpp" line="1178"/>
+        <location filename="../src/qifimportexport.cpp" line="1314"/>
         <source>Uncategorized</source>
         <translation>N&apos;est pas catégorisé</translation>
     </message>
@@ -4406,8 +4406,8 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <translation>Nom:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="125"/>
-        <location filename="../src/editaccountdialogs.cpp" line="290"/>
+        <location filename="../src/editaccountdialogs.cpp" line="127"/>
+        <location filename="../src/editaccountdialogs.cpp" line="292"/>
         <source>Bank:</source>
         <translation>Banque :</translation>
     </message>
@@ -4416,7 +4416,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <translation type="vanished">Équilibre initial:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="129"/>
+        <location filename="../src/editaccountdialogs.cpp" line="131"/>
         <source>Debt:</source>
         <translation>Dette :</translation>
     </message>
@@ -4435,61 +4435,61 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <translation>pas de groupe</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="138"/>
+        <location filename="../src/editaccountdialogs.cpp" line="140"/>
         <source>Transferred to:</source>
         <translation>Transférré vers :</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="143"/>
+        <location filename="../src/editaccountdialogs.cpp" line="145"/>
         <source>Date:</source>
         <translation>Date:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="153"/>
-        <location filename="../src/editaccountdialogs.cpp" line="289"/>
+        <location filename="../src/editaccountdialogs.cpp" line="155"/>
+        <location filename="../src/editaccountdialogs.cpp" line="291"/>
         <source>Lender:</source>
         <translation>Prêteur :</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="159"/>
+        <location filename="../src/editaccountdialogs.cpp" line="161"/>
         <source>Default account for budgeted transactions</source>
         <translation>Compte par défaut pour les transactions planifiées</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="165"/>
+        <location filename="../src/editaccountdialogs.cpp" line="167"/>
         <source>Description:</source>
         <translation>Description:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="171"/>
+        <location filename="../src/editaccountdialogs.cpp" line="173"/>
         <source>Account is closed</source>
         <translation>Le compte est fermé</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="228"/>
+        <location filename="../src/editaccountdialogs.cpp" line="230"/>
         <source>Warning</source>
         <translation>Attention</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="258"/>
+        <location filename="../src/editaccountdialogs.cpp" line="260"/>
         <source>Type cannot be changed to securities for accounts with transactions.</source>
         <translation>Le type ne peut pas être changé en titres pour les comptes avec des transactions.</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="288"/>
+        <location filename="../src/editaccountdialogs.cpp" line="290"/>
         <source>Issuer:</source>
         <translation>Émetteur :</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="405"/>
+        <location filename="../src/editaccountdialogs.cpp" line="407"/>
         <source>Zero value not allowed.</source>
         <translation>Valeur nulle non autorisée.</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="258"/>
-        <location filename="../src/editaccountdialogs.cpp" line="394"/>
-        <location filename="../src/editaccountdialogs.cpp" line="400"/>
-        <location filename="../src/editaccountdialogs.cpp" line="405"/>
+        <location filename="../src/editaccountdialogs.cpp" line="260"/>
+        <location filename="../src/editaccountdialogs.cpp" line="396"/>
+        <location filename="../src/editaccountdialogs.cpp" line="402"/>
+        <location filename="../src/editaccountdialogs.cpp" line="407"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
@@ -4498,34 +4498,34 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <translation type="obsolete">Compte courant</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="129"/>
+        <location filename="../src/editaccountdialogs.cpp" line="131"/>
         <source>Opening balance:</source>
         <comment>Account balance</comment>
         <translation>Solde d&apos;ouverture :</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="134"/>
+        <location filename="../src/editaccountdialogs.cpp" line="136"/>
         <source>Opening balance</source>
         <comment>Account balance</comment>
         <translation>Solde d&apos;ouverture</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="198"/>
+        <location filename="../src/editaccountdialogs.cpp" line="200"/>
         <source>New currency…</source>
         <translation>Nouvelle devise...</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="228"/>
+        <location filename="../src/editaccountdialogs.cpp" line="230"/>
         <source>If you change the currency of an account, the currency of all associated transactions will also change, without any conversion. Do do wish to continue anyway?</source>
         <translation>Si vous changez la devise d&apos;un compte, la devise de toutes les transactions associées changera également, sans aucune conversion. Voulez-vous quand même continuer ?</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="394"/>
+        <location filename="../src/editaccountdialogs.cpp" line="396"/>
         <source>Empty name.</source>
         <translation>Nom vide.</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="400"/>
+        <location filename="../src/editaccountdialogs.cpp" line="402"/>
         <source>The entered name is used by another account.</source>
         <translation>Le nom saisi est déjà utilisé par un autre compte.</translation>
     </message>
@@ -4789,43 +4789,43 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
 <context>
     <name>EditExpensesAccountDialog</name>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="531"/>
+        <location filename="../src/editaccountdialogs.cpp" line="535"/>
         <source>Name:</source>
         <translation>Nom:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="534"/>
+        <location filename="../src/editaccountdialogs.cpp" line="540"/>
         <source>Parent category:</source>
         <translation>Catégorie parente :</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="538"/>
+        <location filename="../src/editaccountdialogs.cpp" line="544"/>
         <source>None</source>
         <translation>Aucun</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="550"/>
+        <location filename="../src/editaccountdialogs.cpp" line="556"/>
         <source>Monthly budget:</source>
         <translation>Budget mensuel:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="556"/>
+        <location filename="../src/editaccountdialogs.cpp" line="562"/>
         <source>Description:</source>
         <translation>Description:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="615"/>
         <location filename="../src/editaccountdialogs.cpp" line="621"/>
+        <location filename="../src/editaccountdialogs.cpp" line="627"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="615"/>
+        <location filename="../src/editaccountdialogs.cpp" line="621"/>
         <source>Empty name.</source>
         <translation>Nom vide.</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="621"/>
+        <location filename="../src/editaccountdialogs.cpp" line="627"/>
         <source>The entered name is used by another expense category.</source>
         <translation>Le nom saisi est utilisé par une autre catégorie de dépenses.</translation>
     </message>
@@ -4833,43 +4833,43 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
 <context>
     <name>EditIncomesAccountDialog</name>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="423"/>
+        <location filename="../src/editaccountdialogs.cpp" line="425"/>
         <source>Name:</source>
         <translation>Nom:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="426"/>
+        <location filename="../src/editaccountdialogs.cpp" line="430"/>
         <source>Parent category:</source>
         <translation>Catégorie parente :</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="430"/>
+        <location filename="../src/editaccountdialogs.cpp" line="434"/>
         <source>None</source>
         <translation>Aucun</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="443"/>
+        <location filename="../src/editaccountdialogs.cpp" line="447"/>
         <source>Monthly budget:</source>
         <translation>Budget mensuel:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="449"/>
+        <location filename="../src/editaccountdialogs.cpp" line="453"/>
         <source>Description:</source>
         <translation>Description:</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="508"/>
-        <location filename="../src/editaccountdialogs.cpp" line="514"/>
+        <location filename="../src/editaccountdialogs.cpp" line="512"/>
+        <location filename="../src/editaccountdialogs.cpp" line="518"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="508"/>
+        <location filename="../src/editaccountdialogs.cpp" line="512"/>
         <source>Empty name.</source>
         <translation>Nom vide.</translation>
     </message>
     <message>
-        <location filename="../src/editaccountdialogs.cpp" line="514"/>
+        <location filename="../src/editaccountdialogs.cpp" line="518"/>
         <source>The entered name is used by another income category.</source>
         <translation>Le nom saisi est utilisé par une autre catégorie de revenus.</translation>
     </message>
@@ -6310,7 +6310,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <location filename="../src/eqonomize.cpp" line="5658"/>
         <location filename="../src/eqonomize.cpp" line="7579"/>
         <location filename="../src/eqonomize.cpp" line="7968"/>
-        <location filename="../src/eqonomize.cpp" line="9677"/>
+        <location filename="../src/eqonomize.cpp" line="9686"/>
         <source>Tags</source>
         <translation>Étiquettes</translation>
     </message>
@@ -6873,53 +6873,53 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <translation>Enlever l&apos;Étiquette</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9113"/>
+        <location filename="../src/eqonomize.cpp" line="9118"/>
         <source>Rename Account Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9113"/>
+        <location filename="../src/eqonomize.cpp" line="9118"/>
         <source>Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9166"/>
+        <location filename="../src/eqonomize.cpp" line="9175"/>
         <source>Close securities?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9166"/>
+        <location filename="../src/eqonomize.cpp" line="9175"/>
         <source>Reopen securities?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9166"/>
+        <location filename="../src/eqonomize.cpp" line="9175"/>
         <source>Do you wish to close associated securities?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9166"/>
+        <location filename="../src/eqonomize.cpp" line="9175"/>
         <source>Do you wish to reopen associated securities?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9696"/>
+        <location filename="../src/eqonomize.cpp" line="9705"/>
         <source>New Tag</source>
         <translation>Nouvelle Étiquette</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9696"/>
-        <location filename="../src/eqonomize.cpp" line="9757"/>
+        <location filename="../src/eqonomize.cpp" line="9705"/>
+        <location filename="../src/eqonomize.cpp" line="9766"/>
         <source>Tag name:</source>
         <translation>Nom de l&apos;étiquette:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9728"/>
+        <location filename="../src/eqonomize.cpp" line="9737"/>
         <source>Remove tag?</source>
         <translation>Enlever l&apos;étiquette?</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/eqonomize.cpp" line="9728"/>
+        <location filename="../src/eqonomize.cpp" line="9737"/>
         <source>Do you wish to remove the tag &quot;%1&quot; from %n transaction(s)?</source>
         <translation>
             <numerusform>Souhaitez-vous supprimer l&apos;étiquette &quot;%1&quot; de %n transaction ?</numerusform>
@@ -6927,7 +6927,7 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         </translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9757"/>
+        <location filename="../src/eqonomize.cpp" line="9766"/>
         <source>Rename Tag</source>
         <translation>Renommer l&apos;Étiquette</translation>
     </message>
@@ -7104,8 +7104,8 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="7923"/>
-        <location filename="../src/eqonomize.cpp" line="9654"/>
-        <location filename="../src/eqonomize.cpp" line="11319"/>
+        <location filename="../src/eqonomize.cpp" line="9663"/>
+        <location filename="../src/eqonomize.cpp" line="11328"/>
         <source>Close Account</source>
         <comment>Mark account as closed</comment>
         <translation>Fermer le compte</translation>
@@ -7151,13 +7151,13 @@ Veuillez confirmer qu&apos;elles se sont déroulées (ou vont se dérouler aujou
         <translation>Redémarrage nécessaire</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9052"/>
+        <location filename="../src/eqonomize.cpp" line="9057"/>
         <source>Only use this when unable to find the cause of the incorrect recorded account balance.</source>
         <translation>Ne l&apos;utilisez que lorsque vous ne pouvez pas trouver la cause du solde incorrect du compte enregistré.</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9651"/>
-        <location filename="../src/eqonomize.cpp" line="11315"/>
+        <location filename="../src/eqonomize.cpp" line="9660"/>
+        <location filename="../src/eqonomize.cpp" line="11324"/>
         <source>Reopen Account</source>
         <comment>Mark account as not closed</comment>
         <translation>Réouvrir le compte</translation>
@@ -7217,7 +7217,7 @@ Voulez-vous charger la dernière version sauvegardée automatiquement du fichier
         <translation>Nouveau prêt</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9031"/>
+        <location filename="../src/eqonomize.cpp" line="9036"/>
         <source>Adjust Account Balance</source>
         <translation>Régler le solde du compte</translation>
     </message>
@@ -8248,116 +8248,116 @@ Voulez-vous charger la dernière version sauvegardée automatiquement du fichier
         <translation type="vanished">Équilibre du compte</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9038"/>
+        <location filename="../src/eqonomize.cpp" line="9043"/>
         <source>Book value:</source>
         <translation>Valeur comptable:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9042"/>
+        <location filename="../src/eqonomize.cpp" line="9047"/>
         <source>of which %1 is balance adjustment</source>
         <comment>Referring to account balance</comment>
         <translation>dont %1 est l&apos;ajustement du solde</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9045"/>
+        <location filename="../src/eqonomize.cpp" line="9050"/>
         <source>Real value:</source>
         <translation>Valeur réelle:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9213"/>
+        <location filename="../src/eqonomize.cpp" line="9222"/>
         <source>Edit Account</source>
         <translation>Editer le compte</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9316"/>
+        <location filename="../src/eqonomize.cpp" line="9325"/>
         <source>Edit Income Category</source>
         <translation>Éditer les catégories de revenus</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9355"/>
+        <location filename="../src/eqonomize.cpp" line="9364"/>
         <source>Edit Expense Category</source>
         <translation>Éditer les catégories de dépenses</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9467"/>
+        <location filename="../src/eqonomize.cpp" line="9476"/>
         <source>Remove subcategories?</source>
         <translation>Enlever les sous-catégories?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9467"/>
+        <location filename="../src/eqonomize.cpp" line="9476"/>
         <source>Do you wish to remove the category including all subcategories?</source>
         <translation>Souhaitez-vous supprimer la catégorie, y compris toutes les sous-catégories ?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9516"/>
+        <location filename="../src/eqonomize.cpp" line="9525"/>
         <source>Move transactions?</source>
         <translation>Bouger les transactions?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9524"/>
+        <location filename="../src/eqonomize.cpp" line="9533"/>
         <source>Move to:</source>
         <translation>Bouger vers:</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9526"/>
+        <location filename="../src/eqonomize.cpp" line="9535"/>
         <source>Remove irreversibly from all accounts
 (do not do this if account has been closed!)</source>
         <translation>Suppression irréversible de tous les comptes
 (ne faites pas cela si le compte a été fermé !)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9533"/>
+        <location filename="../src/eqonomize.cpp" line="9542"/>
         <source>The category contains some expenses.
 What do you want to do with them?</source>
         <translation>La catégorie contient quelques dépenses.
 Que voulez-vous faire d&apos;elles?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9544"/>
+        <location filename="../src/eqonomize.cpp" line="9553"/>
         <source>The category contains some incomes.
 What do you want to do with them?</source>
         <translation>La catégorie contient quelques revenus.
 Que voulez-vous faire d&apos;eux?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9555"/>
+        <location filename="../src/eqonomize.cpp" line="9564"/>
         <source>The account contains some transactions.
 What do you want to do with them?</source>
         <translation>Ce compte contient plusieurs transactions.
 Que voulez vous en faire ?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9585"/>
-        <location filename="../src/eqonomize.cpp" line="9586"/>
+        <location filename="../src/eqonomize.cpp" line="9594"/>
+        <location filename="../src/eqonomize.cpp" line="9595"/>
         <source>Remove Category?</source>
         <translation>Enlever la catégorie?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9585"/>
+        <location filename="../src/eqonomize.cpp" line="9594"/>
         <source>The category contains some expenses that will be removed. Do you still want to remove the category?</source>
         <translation>La catégorie contient quelques dépenses qui seront enlevées. Voulez-vous toujours enlever cette catégorie?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9586"/>
+        <location filename="../src/eqonomize.cpp" line="9595"/>
         <source>The category contains some incomes that will be removed. Do you still want to remove the category?</source>
         <translation>La catégorie contient quelques revenus qui seront supprimés. Voulez-vous toujours enlever cette catégorie?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9587"/>
+        <location filename="../src/eqonomize.cpp" line="9596"/>
         <source>Remove Account?</source>
         <translation>Enlever le compte?</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="9587"/>
+        <location filename="../src/eqonomize.cpp" line="9596"/>
         <source>The account contains some transactions that will be removed. Do you still want to remove the account?</source>
         <translation>Ce compte contient plusieurs transactions qui seront enlevées. Voulez vous toujours enlever ce compte ?</translation>
     </message>
     <message>
         <location filename="../src/eqonomize.cpp" line="8495"/>
-        <location filename="../src/eqonomize.cpp" line="10815"/>
-        <location filename="../src/eqonomize.cpp" line="10840"/>
-        <location filename="../src/eqonomize.cpp" line="11170"/>
-        <location filename="../src/eqonomize.cpp" line="11171"/>
+        <location filename="../src/eqonomize.cpp" line="10824"/>
+        <location filename="../src/eqonomize.cpp" line="10849"/>
+        <location filename="../src/eqonomize.cpp" line="11179"/>
+        <location filename="../src/eqonomize.cpp" line="11180"/>
         <source>%2 of %1</source>
         <comment>%1: budget; %2: remaining budget</comment>
         <translation>%2 de %1</translation>
@@ -8423,14 +8423,14 @@ Que voulez vous en faire ?</translation>
         <translation type="obsolete">Éditer les quotations…</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11276"/>
-        <location filename="../src/eqonomize.cpp" line="11300"/>
+        <location filename="../src/eqonomize.cpp" line="11285"/>
+        <location filename="../src/eqonomize.cpp" line="11309"/>
         <source>%1 (with no budget)</source>
         <translation>%1 (sans budget)</translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11277"/>
-        <location filename="../src/eqonomize.cpp" line="11301"/>
+        <location filename="../src/eqonomize.cpp" line="11286"/>
+        <location filename="../src/eqonomize.cpp" line="11310"/>
         <source>%1 (with budget %2)</source>
         <translation>%1 (avec le budget %2)</translation>
     </message>
@@ -8454,67 +8454,67 @@ Que voulez vous en faire ?</translation>
 <context>
     <name>EqonomizeTranslator</name>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11661"/>
+        <location filename="../src/eqonomize.cpp" line="11670"/>
         <source>OK</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11663"/>
+        <location filename="../src/eqonomize.cpp" line="11672"/>
         <source>Cancel</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11665"/>
+        <location filename="../src/eqonomize.cpp" line="11674"/>
         <source>Close</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11667"/>
+        <location filename="../src/eqonomize.cpp" line="11676"/>
         <source>&amp;Yes</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11669"/>
+        <location filename="../src/eqonomize.cpp" line="11678"/>
         <source>&amp;No</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11671"/>
+        <location filename="../src/eqonomize.cpp" line="11680"/>
         <source>&amp;Open</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11673"/>
+        <location filename="../src/eqonomize.cpp" line="11682"/>
         <source>&amp;Save</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11675"/>
+        <location filename="../src/eqonomize.cpp" line="11684"/>
         <source>&amp;Select All</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11677"/>
+        <location filename="../src/eqonomize.cpp" line="11686"/>
         <source>Look in:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11679"/>
+        <location filename="../src/eqonomize.cpp" line="11688"/>
         <source>File &amp;name:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/eqonomize.cpp" line="11681"/>
+        <location filename="../src/eqonomize.cpp" line="11690"/>
         <source>Files of type:</source>
         <extracomment>Only used when Qt translation is missing</extracomment>
         <translation></translation>
@@ -8569,17 +8569,17 @@ Que voulez vous en faire ?</translation>
 <context>
     <name>ExportQIFDialog</name>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="465"/>
+        <location filename="../src/qifimportexport.cpp" line="463"/>
         <source>Export QIF File</source>
         <translation>Exporter le fichier QIF</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="473"/>
+        <location filename="../src/qifimportexport.cpp" line="471"/>
         <source>Account:</source>
         <translation>Compte:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="482"/>
+        <location filename="../src/qifimportexport.cpp" line="480"/>
         <source>All</source>
         <comment>All accounts</comment>
         <translation>Tout</translation>
@@ -8606,39 +8606,39 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Sous-catégorie</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="486"/>
+        <location filename="../src/qifimportexport.cpp" line="484"/>
         <source>Date format:</source>
         <translation>Format de date:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="494"/>
+        <location filename="../src/qifimportexport.cpp" line="492"/>
         <source>Value format:</source>
         <translation>Format de valeur:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="501"/>
+        <location filename="../src/qifimportexport.cpp" line="499"/>
         <source>File:</source>
         <translation>Fichier:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="561"/>
-        <location filename="../src/qifimportexport.cpp" line="576"/>
-        <location filename="../src/qifimportexport.cpp" line="586"/>
+        <location filename="../src/qifimportexport.cpp" line="559"/>
+        <location filename="../src/qifimportexport.cpp" line="574"/>
+        <location filename="../src/qifimportexport.cpp" line="584"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="561"/>
+        <location filename="../src/qifimportexport.cpp" line="559"/>
         <source>Selected file is a directory.</source>
         <translation>Le fichier sélectionné est un dossier.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="568"/>
+        <location filename="../src/qifimportexport.cpp" line="566"/>
         <source>Overwrite</source>
         <translation>Écraser</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="568"/>
+        <location filename="../src/qifimportexport.cpp" line="566"/>
         <source>The selected file already exists. Would you like to overwrite the old copy?</source>
         <translation>Le fichier existe déjà. Voulez-vous réécrire par dessus l&apos;ancien fichier?</translation>
     </message>
@@ -8647,12 +8647,12 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Vous avez sélectionné un répertoire!</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="576"/>
+        <location filename="../src/qifimportexport.cpp" line="574"/>
         <source>Couldn&apos;t open file for writing.</source>
         <translation>Impossible d&apos; ouvrir le fichier en écriture.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="586"/>
+        <location filename="../src/qifimportexport.cpp" line="584"/>
         <source>Error while writing file; file was not saved.</source>
         <translation>Erreur lors de l&apos; écriture du fichier ; fichier non sauvegardé.</translation>
     </message>
@@ -8660,132 +8660,132 @@ Que voulez vous en faire ?</translation>
 <context>
     <name>ImportCSVDialog</name>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="75"/>
+        <location filename="../src/importcsvdialog.cpp" line="76"/>
         <source>Import CSV file</source>
         <translation>Importer le fichier CSV</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="79"/>
+        <location filename="../src/importcsvdialog.cpp" line="80"/>
         <source>Transaction Type Selection</source>
         <translation>Choix du type de transaction</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="85"/>
+        <location filename="../src/importcsvdialog.cpp" line="86"/>
         <source>Expenses</source>
         <translation>Dépenses</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="90"/>
+        <location filename="../src/importcsvdialog.cpp" line="91"/>
         <source>Incomes</source>
         <translation>Revenus</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="93"/>
+        <location filename="../src/importcsvdialog.cpp" line="94"/>
         <source>Transfers</source>
         <translation>Transferts</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="96"/>
+        <location filename="../src/importcsvdialog.cpp" line="97"/>
         <source>Expenses and incomes (negative cost)</source>
         <translation>Dépenses et revenus (coût négatif)</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="99"/>
+        <location filename="../src/importcsvdialog.cpp" line="100"/>
         <source>Expenses and incomes (separate columns)</source>
         <translation>Dépenses et revenus (colonnes séparées)</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="102"/>
+        <location filename="../src/importcsvdialog.cpp" line="103"/>
         <source>All types</source>
         <translation>Tous types</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="111"/>
+        <location filename="../src/importcsvdialog.cpp" line="112"/>
         <source>Presets:</source>
         <translation>Préréglages :</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="127"/>
+        <location filename="../src/importcsvdialog.cpp" line="128"/>
         <source>File Selection</source>
         <translation>Sélection de fichier</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="131"/>
+        <location filename="../src/importcsvdialog.cpp" line="132"/>
         <source>File:</source>
         <translation>Fichier:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="143"/>
+        <location filename="../src/importcsvdialog.cpp" line="144"/>
         <source>First data row:</source>
         <translation>Première colonne de données:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="146"/>
+        <location filename="../src/importcsvdialog.cpp" line="147"/>
         <source>Auto</source>
         <translation>Voiture</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="149"/>
+        <location filename="../src/importcsvdialog.cpp" line="150"/>
         <source>Column delimiter:</source>
         <translation>Délimiteur de colonne:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="152"/>
+        <location filename="../src/importcsvdialog.cpp" line="153"/>
         <source>Comma</source>
         <translation>Virgule</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="153"/>
+        <location filename="../src/importcsvdialog.cpp" line="154"/>
         <source>Tabulator</source>
         <translation>Tabulation</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="154"/>
+        <location filename="../src/importcsvdialog.cpp" line="155"/>
         <source>Semicolon</source>
         <translation>Point virgule</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="155"/>
+        <location filename="../src/importcsvdialog.cpp" line="156"/>
         <source>Space</source>
         <translation>Espace</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="156"/>
+        <location filename="../src/importcsvdialog.cpp" line="157"/>
         <source>Other</source>
         <translation>Autre</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="164"/>
+        <location filename="../src/importcsvdialog.cpp" line="165"/>
         <source>Columns Specification</source>
         <translation>Spécification de la colonne</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="378"/>
+        <location filename="../src/importcsvdialog.cpp" line="379"/>
         <source>Ignore duplicate transactions</source>
         <translation>Ignorer les transactions dupliquées</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="386"/>
+        <location filename="../src/importcsvdialog.cpp" line="387"/>
         <source>Save as preset…</source>
         <translation>Sauvegarder comme préréglage...</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="871"/>
+        <location filename="../src/importcsvdialog.cpp" line="872"/>
         <source>Imports data as expenses and incomes. Costs have negative value. Value is the only required column.</source>
         <translation>Les données d&apos;importation sont des dépenses et des revenus. Les coûts ont une valeur négative. La valeur est la seule colonne obligatoire.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="887"/>
+        <location filename="../src/importcsvdialog.cpp" line="888"/>
         <source>Imports data as expenses and incomes. Costs and incomes have separate columns. Income and cost both all required columns.</source>
         <translation>Importe les données sous forme de dépenses et de revenus. Les coûts et les revenus ont des colonnes séparées. Les revenus et les coûts ont tous deux toutes les colonnes requises.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1246"/>
+        <location filename="../src/importcsvdialog.cpp" line="1247"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1246"/>
+        <location filename="../src/importcsvdialog.cpp" line="1247"/>
         <source>The same column number is selected multiple times. Do you wish to proceed anyway?</source>
         <translation>Le même numéro de colonne est sélectionné plusieurs fois. Voulez-vous quand même continuer ?</translation>
     </message>
@@ -8798,132 +8798,132 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Nom générique:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="189"/>
+        <location filename="../src/importcsvdialog.cpp" line="190"/>
         <source>Description:</source>
         <comment>Transaction description property (transaction title/generic article name)</comment>
         <translation>Description :</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="172"/>
-        <location filename="../src/importcsvdialog.cpp" line="191"/>
-        <location filename="../src/importcsvdialog.cpp" line="210"/>
-        <location filename="../src/importcsvdialog.cpp" line="229"/>
-        <location filename="../src/importcsvdialog.cpp" line="248"/>
-        <location filename="../src/importcsvdialog.cpp" line="272"/>
-        <location filename="../src/importcsvdialog.cpp" line="294"/>
-        <location filename="../src/importcsvdialog.cpp" line="313"/>
-        <location filename="../src/importcsvdialog.cpp" line="334"/>
-        <location filename="../src/importcsvdialog.cpp" line="352"/>
+        <location filename="../src/importcsvdialog.cpp" line="173"/>
+        <location filename="../src/importcsvdialog.cpp" line="192"/>
+        <location filename="../src/importcsvdialog.cpp" line="211"/>
+        <location filename="../src/importcsvdialog.cpp" line="230"/>
+        <location filename="../src/importcsvdialog.cpp" line="249"/>
+        <location filename="../src/importcsvdialog.cpp" line="273"/>
+        <location filename="../src/importcsvdialog.cpp" line="295"/>
+        <location filename="../src/importcsvdialog.cpp" line="314"/>
+        <location filename="../src/importcsvdialog.cpp" line="335"/>
+        <location filename="../src/importcsvdialog.cpp" line="353"/>
         <source>Column</source>
         <translation>Colonne</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="180"/>
-        <location filename="../src/importcsvdialog.cpp" line="199"/>
-        <location filename="../src/importcsvdialog.cpp" line="218"/>
-        <location filename="../src/importcsvdialog.cpp" line="237"/>
-        <location filename="../src/importcsvdialog.cpp" line="256"/>
-        <location filename="../src/importcsvdialog.cpp" line="280"/>
-        <location filename="../src/importcsvdialog.cpp" line="302"/>
-        <location filename="../src/importcsvdialog.cpp" line="321"/>
-        <location filename="../src/importcsvdialog.cpp" line="342"/>
-        <location filename="../src/importcsvdialog.cpp" line="360"/>
+        <location filename="../src/importcsvdialog.cpp" line="181"/>
+        <location filename="../src/importcsvdialog.cpp" line="200"/>
+        <location filename="../src/importcsvdialog.cpp" line="219"/>
+        <location filename="../src/importcsvdialog.cpp" line="238"/>
+        <location filename="../src/importcsvdialog.cpp" line="257"/>
+        <location filename="../src/importcsvdialog.cpp" line="281"/>
+        <location filename="../src/importcsvdialog.cpp" line="303"/>
+        <location filename="../src/importcsvdialog.cpp" line="322"/>
+        <location filename="../src/importcsvdialog.cpp" line="343"/>
+        <location filename="../src/importcsvdialog.cpp" line="361"/>
         <source>Value</source>
         <translation>Valeur</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="207"/>
-        <location filename="../src/importcsvdialog.cpp" line="226"/>
-        <location filename="../src/importcsvdialog.cpp" line="837"/>
+        <location filename="../src/importcsvdialog.cpp" line="208"/>
+        <location filename="../src/importcsvdialog.cpp" line="227"/>
+        <location filename="../src/importcsvdialog.cpp" line="838"/>
         <source>Cost:</source>
         <translation>Coût:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="170"/>
+        <location filename="../src/importcsvdialog.cpp" line="171"/>
         <source>Date:</source>
         <translation>Date:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="245"/>
-        <location filename="../src/importcsvdialog.cpp" line="838"/>
-        <location filename="../src/importcsvdialog.cpp" line="850"/>
-        <location filename="../src/importcsvdialog.cpp" line="873"/>
-        <location filename="../src/importcsvdialog.cpp" line="889"/>
+        <location filename="../src/importcsvdialog.cpp" line="246"/>
+        <location filename="../src/importcsvdialog.cpp" line="839"/>
+        <location filename="../src/importcsvdialog.cpp" line="851"/>
+        <location filename="../src/importcsvdialog.cpp" line="874"/>
+        <location filename="../src/importcsvdialog.cpp" line="890"/>
         <source>Category:</source>
         <translation>Catégorie:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="269"/>
-        <location filename="../src/importcsvdialog.cpp" line="839"/>
-        <location filename="../src/importcsvdialog.cpp" line="862"/>
+        <location filename="../src/importcsvdialog.cpp" line="270"/>
+        <location filename="../src/importcsvdialog.cpp" line="840"/>
+        <location filename="../src/importcsvdialog.cpp" line="863"/>
         <source>From account:</source>
         <translation>Compte de:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="291"/>
+        <location filename="../src/importcsvdialog.cpp" line="292"/>
         <source>Quantity:</source>
         <translation>Quantité:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="310"/>
-        <location filename="../src/importcsvdialog.cpp" line="840"/>
+        <location filename="../src/importcsvdialog.cpp" line="311"/>
+        <location filename="../src/importcsvdialog.cpp" line="841"/>
         <source>Payee:</source>
         <translation>Bénéficiaire:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="331"/>
+        <location filename="../src/importcsvdialog.cpp" line="332"/>
         <source>Tags:</source>
         <translation>Étiquettes:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="350"/>
+        <location filename="../src/importcsvdialog.cpp" line="351"/>
         <source>Comments:</source>
         <translation>Commentaires:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="370"/>
+        <location filename="../src/importcsvdialog.cpp" line="371"/>
         <source>Create missing categories and accounts</source>
         <translation>Crée les comptes et catégories manquante</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="600"/>
+        <location filename="../src/importcsvdialog.cpp" line="601"/>
         <source>Save Preset</source>
         <translation>Sauvegarder le préréglage</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="836"/>
+        <location filename="../src/importcsvdialog.cpp" line="837"/>
         <source>Imports data as expenses. Costs have positive value. Value is the only required column.</source>
         <translation>Importe les données comme des dépenses. Les coûts ont une valeur positive. Le valeur est la seule colonne requise.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="848"/>
+        <location filename="../src/importcsvdialog.cpp" line="849"/>
         <source>Imports data as incomes. Value is the only required column.</source>
         <translation>Importe les données comme des revenus. Value est la seule colonne requise.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="849"/>
-        <location filename="../src/importcsvdialog.cpp" line="888"/>
+        <location filename="../src/importcsvdialog.cpp" line="850"/>
+        <location filename="../src/importcsvdialog.cpp" line="889"/>
         <source>Income:</source>
         <translation>Revenu:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="851"/>
-        <location filename="../src/importcsvdialog.cpp" line="863"/>
+        <location filename="../src/importcsvdialog.cpp" line="852"/>
+        <location filename="../src/importcsvdialog.cpp" line="864"/>
         <source>To account:</source>
         <translation>Vers le compte:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="852"/>
+        <location filename="../src/importcsvdialog.cpp" line="853"/>
         <source>Payer:</source>
         <translation>Débiteur:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="860"/>
+        <location filename="../src/importcsvdialog.cpp" line="861"/>
         <source>Imports data as transfers. Value is the only required column.</source>
         <translation>Importer les données comme des transferts. Value est la seule colonne requise.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="861"/>
+        <location filename="../src/importcsvdialog.cpp" line="862"/>
         <source>Amount:</source>
         <translation>Quantité:</translation>
     </message>
@@ -8932,21 +8932,21 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Importe les données comme des dépenses et des revenus. Les coûts ont une valeur négative. La valeur et la catégorie sont les seules colonnes requises.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="872"/>
-        <location filename="../src/importcsvdialog.cpp" line="912"/>
+        <location filename="../src/importcsvdialog.cpp" line="873"/>
+        <location filename="../src/importcsvdialog.cpp" line="913"/>
         <source>Value:</source>
         <translation>Valeur:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="874"/>
-        <location filename="../src/importcsvdialog.cpp" line="890"/>
+        <location filename="../src/importcsvdialog.cpp" line="875"/>
+        <location filename="../src/importcsvdialog.cpp" line="891"/>
         <source>Account:</source>
         <translation>Compte:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="883"/>
-        <location filename="../src/importcsvdialog.cpp" line="899"/>
-        <location filename="../src/importcsvdialog.cpp" line="915"/>
+        <location filename="../src/importcsvdialog.cpp" line="884"/>
+        <location filename="../src/importcsvdialog.cpp" line="900"/>
+        <location filename="../src/importcsvdialog.cpp" line="916"/>
         <source>Payee/payer:</source>
         <translation>Bénéficiaire/créditeur :</translation>
     </message>
@@ -8955,51 +8955,51 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Importe les données comme des dépenses et des revenus. Les coûts ont des colonnes séparées. Revenus, coût, et la catégorie sont les seules colonnes requises.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="903"/>
+        <location filename="../src/importcsvdialog.cpp" line="904"/>
         <source>Imports data as expenses, incomes, and transfers. Costs have negative or positive value. Value, to, and from are all required columns. Accounts and categories must be existing.</source>
         <translation>Importe les données comme dépenses, revenus et transferts. Les coûts ont une valeur négative ou positive. Toutes les valeurs sont requises. Comptes et catégories doivent exister.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="913"/>
+        <location filename="../src/importcsvdialog.cpp" line="914"/>
         <source>From:</source>
         <translation>De:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="914"/>
+        <location filename="../src/importcsvdialog.cpp" line="915"/>
         <source>To:</source>
         <translation>A:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="947"/>
-        <location filename="../src/importcsvdialog.cpp" line="953"/>
-        <location filename="../src/importcsvdialog.cpp" line="957"/>
-        <location filename="../src/importcsvdialog.cpp" line="963"/>
-        <location filename="../src/importcsvdialog.cpp" line="1283"/>
-        <location filename="../src/importcsvdialog.cpp" line="1291"/>
-        <location filename="../src/importcsvdialog.cpp" line="1306"/>
-        <location filename="../src/importcsvdialog.cpp" line="1309"/>
-        <location filename="../src/importcsvdialog.cpp" line="1820"/>
-        <location filename="../src/importcsvdialog.cpp" line="1831"/>
+        <location filename="../src/importcsvdialog.cpp" line="948"/>
+        <location filename="../src/importcsvdialog.cpp" line="954"/>
+        <location filename="../src/importcsvdialog.cpp" line="958"/>
+        <location filename="../src/importcsvdialog.cpp" line="964"/>
+        <location filename="../src/importcsvdialog.cpp" line="1284"/>
+        <location filename="../src/importcsvdialog.cpp" line="1292"/>
+        <location filename="../src/importcsvdialog.cpp" line="1307"/>
+        <location filename="../src/importcsvdialog.cpp" line="1310"/>
+        <location filename="../src/importcsvdialog.cpp" line="1821"/>
+        <location filename="../src/importcsvdialog.cpp" line="1832"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="947"/>
+        <location filename="../src/importcsvdialog.cpp" line="948"/>
         <source>A file must be selected.</source>
         <translation>Vous devez sélectionner un fichier.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="953"/>
+        <location filename="../src/importcsvdialog.cpp" line="954"/>
         <source>Selected file is a directory.</source>
         <translation>Le fichier sélectionné est un dossier.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="957"/>
+        <location filename="../src/importcsvdialog.cpp" line="958"/>
         <source>Selected file does not exist.</source>
         <translation>Le fichier sélectionné n&apos;existe pas.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="963"/>
+        <location filename="../src/importcsvdialog.cpp" line="964"/>
         <source>Empty delimiter.</source>
         <translation>Délimiteur vide.</translation>
     </message>
@@ -9008,33 +9008,33 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Le même numéro de colonne est sélectionné plusieurs fois.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1283"/>
+        <location filename="../src/importcsvdialog.cpp" line="1284"/>
         <source>Selected from account is the same as the to account.</source>
         <translation>Le compte de destination est le même que le compte source.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1291"/>
-        <location filename="../src/importcsvdialog.cpp" line="1808"/>
+        <location filename="../src/importcsvdialog.cpp" line="1292"/>
+        <location filename="../src/importcsvdialog.cpp" line="1809"/>
         <source>Invalid date.</source>
         <translation>Date invalide.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1306"/>
+        <location filename="../src/importcsvdialog.cpp" line="1307"/>
         <source>Couldn&apos;t open %1 for reading.</source>
         <translation>Impossible d&apos; ouvrir le fichier %1 en lecture.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1309"/>
+        <location filename="../src/importcsvdialog.cpp" line="1310"/>
         <source>Error reading %1.</source>
         <translation>Erreur lors de la lecture de %1.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1489"/>
+        <location filename="../src/importcsvdialog.cpp" line="1490"/>
         <source>Uncategorized</source>
         <translation>N&apos;est pas catégorisé</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1795"/>
+        <location filename="../src/importcsvdialog.cpp" line="1796"/>
         <source>Successfully imported %n transaction(s).</source>
         <translation>
             <numerusform>%n transaction importée avec succès.</numerusform>
@@ -9042,12 +9042,12 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1797"/>
+        <location filename="../src/importcsvdialog.cpp" line="1798"/>
         <source>Unable to import any transactions.</source>
         <translation>Impossible d&apos;enregistrer les transactions importées.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1801"/>
+        <location filename="../src/importcsvdialog.cpp" line="1802"/>
         <source>%n duplicate transaction(s) was ignored.</source>
         <translation>
             <numerusform>la transaction %n dupliquée a été ignorée.</numerusform>
@@ -9055,7 +9055,7 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/importcsvdialog.cpp" line="1805"/>
+        <location filename="../src/importcsvdialog.cpp" line="1806"/>
         <source>Failed to import %n data row(s).</source>
         <translation>
             <numerusform>Echec à l&apos;importation de %n donnée.</numerusform>
@@ -9063,44 +9063,44 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1806"/>
+        <location filename="../src/importcsvdialog.cpp" line="1807"/>
         <source>Required columns missing.</source>
         <translation>Les colonnes nécessaires sont manquantes.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1807"/>
+        <location filename="../src/importcsvdialog.cpp" line="1808"/>
         <source>Invalid value.</source>
         <translation>Valeur invalide.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1809"/>
+        <location filename="../src/importcsvdialog.cpp" line="1810"/>
         <source>Empty category name.</source>
         <translation>Nom de catégorie vide.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1809"/>
         <location filename="../src/importcsvdialog.cpp" line="1810"/>
+        <location filename="../src/importcsvdialog.cpp" line="1811"/>
         <source>Empty account name.</source>
         <translation>Nom de compte vide.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1811"/>
+        <location filename="../src/importcsvdialog.cpp" line="1812"/>
         <source>Unknown category found.</source>
         <translation>Catégorie inconnue trouvée.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1811"/>
         <location filename="../src/importcsvdialog.cpp" line="1812"/>
+        <location filename="../src/importcsvdialog.cpp" line="1813"/>
         <source>Unknown account found.</source>
         <translation>Compte inconnu trouvé.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1813"/>
+        <location filename="../src/importcsvdialog.cpp" line="1814"/>
         <source>Cannot import security transactions (to/from security accounts).</source>
         <translation>Impossible d&apos;importer les transaction de titre (comptes A/De).</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1814"/>
+        <location filename="../src/importcsvdialog.cpp" line="1815"/>
         <source>Balancing account wrongly used.</source>
         <comment>Referring to the account used for adjustments of account balances.</comment>
         <translation>Equilibrage des comptes mal utilisé.</translation>
@@ -9110,42 +9110,42 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Equilibrage des comptes mal utilisé.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1815"/>
+        <location filename="../src/importcsvdialog.cpp" line="1816"/>
         <source>Same to and from account/category.</source>
         <translation>Même De et A compte/catégorie.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1817"/>
+        <location filename="../src/importcsvdialog.cpp" line="1818"/>
         <source>No data found.</source>
         <translation>Pas de donnée trouvée.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1822"/>
+        <location filename="../src/importcsvdialog.cpp" line="1823"/>
         <source>Information</source>
         <translation>information</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1831"/>
+        <location filename="../src/importcsvdialog.cpp" line="1832"/>
         <source>Unrecognized date format.</source>
         <translation>Format de date non reconnu.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1836"/>
+        <location filename="../src/importcsvdialog.cpp" line="1837"/>
         <source>Specify Format</source>
         <translation>Format spécifié</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1841"/>
+        <location filename="../src/importcsvdialog.cpp" line="1842"/>
         <source>The format of dates and/or numbers in the CSV file is ambiguous. Please select the correct format.</source>
         <translation>Le format des dates et/ou nombres dans le fichier CSV est ambigu. S&apos;il vous plaît sélectionner le format correct.</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1846"/>
+        <location filename="../src/importcsvdialog.cpp" line="1847"/>
         <source>Date format:</source>
         <translation>Format de date:</translation>
     </message>
     <message>
-        <location filename="../src/importcsvdialog.cpp" line="1889"/>
+        <location filename="../src/importcsvdialog.cpp" line="1890"/>
         <source>Value format:</source>
         <translation>Format de valeur:</translation>
     </message>
@@ -9153,82 +9153,82 @@ Que voulez vous en faire ?</translation>
 <context>
     <name>ImportQIFDialog</name>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="77"/>
+        <location filename="../src/qifimportexport.cpp" line="75"/>
         <source>Import QIF file</source>
         <translation>Importer le fichier QIF</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="83"/>
+        <location filename="../src/qifimportexport.cpp" line="81"/>
         <source>File Selection</source>
         <translation>Sélection de fichier</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="84"/>
+        <location filename="../src/qifimportexport.cpp" line="82"/>
         <source>Select a QIF file to import. When you click next, the file be analysed and you might need to answer some questions about the format of the file.</source>
         <translation>Sélectionner un fichier QIF pour l&apos;importation. Quand vous cliquez sur prochain, le fichier sera analysé et vous pourrez devoir répondre à des questions sur le format du fichier.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="87"/>
+        <location filename="../src/qifimportexport.cpp" line="85"/>
         <source>File:</source>
         <translation>Fichier:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="101"/>
+        <location filename="../src/qifimportexport.cpp" line="99"/>
         <source>Local Definitions</source>
         <translation>Définitions locales</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="102"/>
+        <location filename="../src/qifimportexport.cpp" line="100"/>
         <source>Unknown elements where found in the QIF file. It is possible that this is because of localized type names. Please map them to the correct standard names.</source>
         <translation>Le fichier QIF présente des éléments inconnus. Cela est certainement du à l&apos;utilisation de caractères locaux. Veuillez les remplacer par des caractères standards.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="108"/>
+        <location filename="../src/qifimportexport.cpp" line="106"/>
         <source>Local Text</source>
         <translation>Texte local</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="109"/>
+        <location filename="../src/qifimportexport.cpp" line="107"/>
         <source>Standard Text</source>
         <translation>Texte standard</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="112"/>
+        <location filename="../src/qifimportexport.cpp" line="110"/>
         <source>Select standard text:</source>
         <translation>Sélectionner un texte standard:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="118"/>
+        <location filename="../src/qifimportexport.cpp" line="116"/>
         <source>Date Format</source>
         <translation>Format de date</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="119"/>
+        <location filename="../src/qifimportexport.cpp" line="117"/>
         <source>The date format in the QIF file is ambiguous. Please select the correct format.</source>
         <translation>Le format de date dans le fichier QIF est ambigu. S&apos;il vous plaît sélectionner le format correct.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="122"/>
+        <location filename="../src/qifimportexport.cpp" line="120"/>
         <source>Date format:</source>
         <translation>Format de date:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="128"/>
+        <location filename="../src/qifimportexport.cpp" line="126"/>
         <source>Default Account</source>
         <translation>Compte par défaut</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="129"/>
+        <location filename="../src/qifimportexport.cpp" line="127"/>
         <source>Could not find any account definitions in the QIF file. Please select a default account. It is also possible that this is caused by a localized opening balance text.</source>
         <translation>Impossible de trouver les définitions de compte dans le fichier QIF. S&apos;il vous plaît sélectionner un compte par défaut. Il est également possible que cela soit du au solde ouvert traduit en français.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="132"/>
+        <location filename="../src/qifimportexport.cpp" line="130"/>
         <source>Default account:</source>
         <translation>Compte par défaut:</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="142"/>
+        <location filename="../src/qifimportexport.cpp" line="140"/>
         <source>Opening balance text:</source>
         <translation>Texte du solde ouvert:</translation>
     </message>
@@ -9314,123 +9314,123 @@ Que voulez vous en faire ?</translation>
         <translation type="vanished">Commentaires/Bénéficiaire/Sous-Catégorie</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="148"/>
+        <location filename="../src/qifimportexport.cpp" line="146"/>
         <source>Import File</source>
         <translation>Importer un fichier</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="149"/>
+        <location filename="../src/qifimportexport.cpp" line="147"/>
         <source>No (further) issues were found. Press finish to import the selected QIF file.</source>
         <translation>Aucun problème (supplémentaire) n&apos;a été trouvé. Appuyez sur Terminer pour importer le fichier QIF sélectionné.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="152"/>
+        <location filename="../src/qifimportexport.cpp" line="150"/>
         <source>Ignore duplicate transactions</source>
         <translation>Ignorer les transactions dupliquées</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="253"/>
-        <location filename="../src/qifimportexport.cpp" line="259"/>
-        <location filename="../src/qifimportexport.cpp" line="263"/>
-        <location filename="../src/qifimportexport.cpp" line="273"/>
-        <location filename="../src/qifimportexport.cpp" line="276"/>
-        <location filename="../src/qifimportexport.cpp" line="330"/>
-        <location filename="../src/qifimportexport.cpp" line="418"/>
-        <location filename="../src/qifimportexport.cpp" line="421"/>
+        <location filename="../src/qifimportexport.cpp" line="251"/>
+        <location filename="../src/qifimportexport.cpp" line="257"/>
+        <location filename="../src/qifimportexport.cpp" line="261"/>
+        <location filename="../src/qifimportexport.cpp" line="271"/>
+        <location filename="../src/qifimportexport.cpp" line="274"/>
+        <location filename="../src/qifimportexport.cpp" line="328"/>
+        <location filename="../src/qifimportexport.cpp" line="416"/>
+        <location filename="../src/qifimportexport.cpp" line="419"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="253"/>
+        <location filename="../src/qifimportexport.cpp" line="251"/>
         <source>A file must be selected.</source>
         <translation>Vous devez sélectionner un fichier.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="259"/>
+        <location filename="../src/qifimportexport.cpp" line="257"/>
         <source>Selected file is a directory.</source>
         <translation>Le fichier sélectionné est un dossier.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="263"/>
+        <location filename="../src/qifimportexport.cpp" line="261"/>
         <source>Selected file does not exist.</source>
         <translation>Le fichier sélectionné n&apos;existe pas.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="273"/>
-        <location filename="../src/qifimportexport.cpp" line="418"/>
+        <location filename="../src/qifimportexport.cpp" line="271"/>
+        <location filename="../src/qifimportexport.cpp" line="416"/>
         <source>Couldn&apos;t open %1 for reading.</source>
         <translation>Impossible d&apos; ouvrir le fichier %1 en lecture.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="276"/>
-        <location filename="../src/qifimportexport.cpp" line="421"/>
+        <location filename="../src/qifimportexport.cpp" line="274"/>
+        <location filename="../src/qifimportexport.cpp" line="419"/>
         <source>Error reading %1.</source>
         <translation>Erreur lors de la lecture de %1.</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="299"/>
-        <location filename="../src/qifimportexport.cpp" line="307"/>
-        <location filename="../src/qifimportexport.cpp" line="323"/>
+        <location filename="../src/qifimportexport.cpp" line="297"/>
+        <location filename="../src/qifimportexport.cpp" line="305"/>
+        <location filename="../src/qifimportexport.cpp" line="321"/>
         <source>Unknown</source>
         <translation>Inconnu</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="308"/>
+        <location filename="../src/qifimportexport.cpp" line="306"/>
         <source>Account</source>
         <translation>Compte</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="309"/>
+        <location filename="../src/qifimportexport.cpp" line="307"/>
         <source>Bank</source>
         <translation>Banque</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="310"/>
+        <location filename="../src/qifimportexport.cpp" line="308"/>
         <source>Cash</source>
         <translation>Liquide</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="311"/>
+        <location filename="../src/qifimportexport.cpp" line="309"/>
         <source>Cat (Category)</source>
         <translation>Cat (Catégorie)</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="312"/>
+        <location filename="../src/qifimportexport.cpp" line="310"/>
         <source>CCard (Credit Card)</source>
         <translation>CCard (Carte de crédit)</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="313"/>
+        <location filename="../src/qifimportexport.cpp" line="311"/>
         <source>Invst (Investment)</source>
         <translation>Invest (Investissement)</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="314"/>
+        <location filename="../src/qifimportexport.cpp" line="312"/>
         <source>Oth A (Other Assets)</source>
         <translation>Oth A (Autres actifs)</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="315"/>
+        <location filename="../src/qifimportexport.cpp" line="313"/>
         <source>Oth L (Other Liabilities)</source>
         <translation>Oth L (Des autres dettes)</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="316"/>
+        <location filename="../src/qifimportexport.cpp" line="314"/>
         <source>Security</source>
         <translation>Titre</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="317"/>
+        <location filename="../src/qifimportexport.cpp" line="315"/>
         <source>Other</source>
         <translation>Autre</translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="330"/>
+        <location filename="../src/qifimportexport.cpp" line="328"/>
         <source>Unrecognized date format.</source>
         <translation>Format de date non reconnu.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="433"/>
+        <location filename="../src/qifimportexport.cpp" line="431"/>
         <source>Successfully imported %n transaction(s).</source>
         <translation>
             <numerusform>%n transaction importée avec succès.</numerusform>
@@ -9438,7 +9438,7 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="436"/>
+        <location filename="../src/qifimportexport.cpp" line="434"/>
         <source>Successfully imported %n account(s).</source>
         <translation>
             <numerusform>%n compte importé avec succès.</numerusform>
@@ -9446,7 +9446,7 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="440"/>
+        <location filename="../src/qifimportexport.cpp" line="438"/>
         <source>Successfully imported %n category/categories.</source>
         <translation>
             <numerusform>%n catégorie importée avec succès.</numerusform>
@@ -9454,7 +9454,7 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="444"/>
+        <location filename="../src/qifimportexport.cpp" line="442"/>
         <source>%n duplicate transaction(s) was ignored.</source>
         <translation>
             <numerusform>%n transaction dupliquée a été ignorée.</numerusform>
@@ -9462,7 +9462,7 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="448"/>
+        <location filename="../src/qifimportexport.cpp" line="446"/>
         <source>Failed to import %n transaction(s).</source>
         <translation>
             <numerusform>Echec à l&apos;importation d&apos;%n transaction.</numerusform>
@@ -9470,7 +9470,7 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="452"/>
+        <location filename="../src/qifimportexport.cpp" line="450"/>
         <source>%n security/securities were not imported.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>
@@ -9479,7 +9479,7 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/qifimportexport.cpp" line="456"/>
+        <location filename="../src/qifimportexport.cpp" line="454"/>
         <source>%n security transaction(s) were not imported.</source>
         <comment>Financial security (e.g. stock, mutual fund)</comment>
         <translation>
@@ -9502,7 +9502,7 @@ Que voulez vous en faire ?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/qifimportexport.cpp" line="458"/>
+        <location filename="../src/qifimportexport.cpp" line="456"/>
         <source>Information</source>
         <translation>Information</translation>
     </message>
@@ -9727,7 +9727,7 @@ Que voulez vous en faire ?</translation>
         <location filename="../src/ledgerdialog.cpp" line="916"/>
         <location filename="../src/ledgerdialog.cpp" line="923"/>
         <location filename="../src/ledgerdialog.cpp" line="1035"/>
-        <location filename="../src/ledgerdialog.cpp" line="1080"/>
+        <location filename="../src/ledgerdialog.cpp" line="1081"/>
         <location filename="../src/ledgerdialog.cpp" line="1440"/>
         <location filename="../src/ledgerdialog.cpp" line="1446"/>
         <location filename="../src/ledgerdialog.cpp" line="1452"/>
@@ -9792,24 +9792,24 @@ Que voulez vous en faire ?</translation>
         <translation>À&#xa0;:</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1080"/>
+        <location filename="../src/ledgerdialog.cpp" line="1081"/>
         <source>To date is before from date.</source>
         <translation>La date de fin est antérieure à la date de début.</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1254"/>
         <location filename="../src/ledgerdialog.cpp" line="1255"/>
+        <location filename="../src/ledgerdialog.cpp" line="1256"/>
         <source>Balance change:</source>
         <comment>Account balance</comment>
         <translation>Modification du solde :</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1284"/>
+        <location filename="../src/ledgerdialog.cpp" line="1285"/>
         <source>Delete transactions?</source>
         <translation>Supprimer les transactions ?</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1284"/>
+        <location filename="../src/ledgerdialog.cpp" line="1285"/>
         <source>Are you sure you want to delete all (%1) selected transactions?</source>
         <translation>Êtes-vous certain de vouloir supprimer toutes (%1) les transactions sélectionnées?</translation>
     </message>
@@ -9825,7 +9825,7 @@ Que voulez vous en faire ?</translation>
         <translation>Solde actuel :</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1254"/>
+        <location filename="../src/ledgerdialog.cpp" line="1255"/>
         <location filename="../src/ledgerdialog.cpp" line="1742"/>
         <source>Average balance:</source>
         <comment>Account balance</comment>
@@ -9866,8 +9866,8 @@ Que voulez vous en faire ?</translation>
         <translation>Total des intérêts et frais :</translation>
     </message>
     <message>
-        <location filename="../src/ledgerdialog.cpp" line="1254"/>
         <location filename="../src/ledgerdialog.cpp" line="1255"/>
+        <location filename="../src/ledgerdialog.cpp" line="1256"/>
         <location filename="../src/ledgerdialog.cpp" line="1742"/>
         <source>Number of transactions:</source>
         <translation>Nombre de transactions :</translation>

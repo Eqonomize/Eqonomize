@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+ <id>io.github.eqonomize.eqonomize</id>
+ <metadata_license>CC0-1.0</metadata_license>
+ <project_license>GPL-3.0+</project_license>
+ <name>Eqonomize!</name>
+ <summary>Personal Accounting</summary>
+ <summary xml:lang="sv">Bokföring</summary>
+ <summary xml:lang="de">Buchhaltung</summary>
+ <summary xml:lang="ro">Contabilitate Personala</summary>
+ <summary xml:lang="pt_BR">Contabilidade Pessoal</summary>
+ <description>
+  <p>Eqonomize! is a cross-platform personal accounting software, with focus on efficiency and ease of use for small households.</p>
+ </description>
+ <screenshots>
+  <screenshot type="default">
+   <image>https://eqonomize.github.io/images/accounts.png</image>
+   <caption>The main window with accounts and categories visible</caption>
+  </screenshot>
+ </screenshots>
+ <url type="homepage">https://eqonomize.github.io</url>
+ <url type="bugtracker">https://github.com/Eqonomize/eqonomize/issues</url>
+ <url type="help">https://eqonomize.github.io/manual/index.html</url>
+ <url type="donation">https://www.paypal.me/HannaKnutsson</url>
+ <developer id="io.github.qalculate">
+  <name>Hanna Knutsson</name>
+ </developer>
+ <content_rating type="oars-1.0"/>
+ <kudos>
+  <kudo>HiDpiIcon</kudo>
+  <kudo>ModernToolkit</kudo>
+  <kudo>UserDocs</kudo>
+ </kudos>
+ <launchable type="desktop-id">eqonomize.desktop</launchable>
+ <provides>
+  <binary>eqonomize</binary>
+ </provides>
+ <translation type="qt">eqonomize</translation>
+ <releases>
+  <release version="1.5.8" date="2024-10-10">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Add option to group accounts by type, bank, or currency</li>
+     <li>Allowing collapsing of Assets, Liabilities, Incomes, and Expenses in Accounts &amp; Categories using double-click</li>
+     <li>Option to edit assets group name (using "Edit..." menu item)</li>
+     <li>Ask if user want to save changes before opening file from command line or file manager</li>
+     <li>Set allowed range for ledger print time period date fields (fixes ledger print error not shown when to date is before date of first transaction)</li>
+     <li>Disable close account menu item for debts</li>
+     <li>Place cash, current, and credit card accounts first in account selection list when appropriate</li>
+     <li>Restore dark mode setting on Windows with Qt 6</li>
+     <li>Fix segfault and duplicating character when tag contains ampersand</li>
+     <li>Fix initial group in new account dialog</li>
+     <li>Fix opening of file with relative path from command line</li>
+     <li>Fix CSV/QIF import in dark mode on Windows</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.5.7" date="2024-05-13">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Add option to close (hide) security</li>
+     <li>Exclude hidden (closed) accounts from accounts view export</li>
+     <li>Fallback to writing directly to existing file, without the use of a temporary file</li>
+     <li>Fix segfault on new account in debt payment dialog</li>
+     <li>Fix saving of quantity in dialog for transaction with multiple payments</li>
+     <li>Fix value selection after prefill with default values for description, with Qt6</li>
+     <li>Fix exchange rates URL</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.5.6" date="2023-12-11">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Replace defunct exchange rates sources</li>
+     <li>Only update exchange rates from the ECB, unless currencies requiring other data sources are used</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.5.5" date="2023-07-10">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Update column widths after custom font selection</li>
+     <li>Add option to reset column widths</li>
+     <li>Use exchangerate.host as secondary exchange rate source, with mycurrency.net as backup</li>
+     <li>Use fusion style by default and use system setting for dark mode on Windows with Qt >= 6.5 (64-bit installer)</li>
+     <li>Fix set security share value for split transactions (null date where used)</li>
+     <li>Fix custom font with gtk2 style</li>
+     <li>Fix monthly total for categories divided in subcategories in categories comparison report</li>
+     <li>Fix display of Unicode characters in currency names</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.5.4" date="2022-12-05">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Option to ignore duplicates during CSV file import</li>
+     <li>Option in transaction filter to list duplicate transactions</li>
+     <li>Option to set weekday of nth week as first day of budget month</li>
+     <li>Selectable text in statistics below lists</li>
+     <li>Updated French translation</li>
+     <li>Fix import CSV and import QIF dialogs with dark mode on Windows</li>
+     <li>Fix monthly average when first budget month is not January</li>
+     <li>Fix Qt 6 build</li>
+     <li>A few other minor fixes and tweaks</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.5.3" date="2022-01-03">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Dark mode (option in settings menu)</li>
+     <li>Use a multiple lines for comments field in dialogs</li>
+     <li>Add option to left align values in lists and add extra space between after right aligned values</li>
+     <li>Clear edit fields after modification of transaction</li>
+     <li>Preserve position and current item after update of ledger</li>
+     <li>If category is empty import to "Uncategorized" from CSV file</li>
+     <li>Disable join and edit actions when one of multiple selected transactions is a reinvested dividend</li>
+     <li>Fix saving of scheduled reinvested dividend</li>
+     <li>Fix import of files using date format YYYYMMDD and improve support for six character date formats without separator</li>
+     <li>Fix "Ignore duplicate transactions" for reinvested dividend when importing eqz file</li>
+     <li>Fix empty/missing category error message</li>
+     <li>Fix tab focus for dialog buttons</li>
+     <li>Fix compilation with Qt 6</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.5.2" date="2021-03-19">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Fix segfault with scheduled security transaction without recurrence</li>
+     <li>Fix calculation of expression with parentheses in value entry</li>
+     <li>Fix initial state of "Bank" entry when initial account type is not "Cash"</li>
+     <li>Fix security rate for future dates</li>
+     <li>Remove total securities rate value</li>
+     <li>Open ledger on account double click regardless of column</li>
+     <li>Danish translation</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.5.1" date="2020-12-07">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Add payee/payer column to dialog for transaction with multiple accounts/payments</li>
+     <li>Allow separate comments for each transaction in an expense/income with multiple accounts/payments</li>
+     <li>Add payee/payer field to refund/repayment dialog</li>
+     <li>Minor bug fixes</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.5" date="2020-08-17">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Option to link transactions (indicates that the transactions are related and adds clickable links)</li>
+     <li>Option to join or link refunds to original transaction</li>
+     <li>Split up option for transactions with multiple payments</li>
+     <li>Join transaction as transaction with multiply payments when appropriate (ask when uncertain)</li>
+     <li>Clickable "part of split" label</li>
+     <li>Brazilian Portuguese translation</li>
+     <li>Fix importing if split transactions from eqz file</li>
+     <li>Fix recurrence on day of year</li>
+     <li>Fix potential never ending loop with monthly recurrence that never occurs</li>
+     <li>Fixes for recurring transactions with multiple accounts/payments</li>
+     <li>Minor bug fixes and feature improvements</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.4.3" date="2020-04-20">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Fix monthly recurrence with end date (or occurrence count), when year of end date and start date differs</li>
+     <li>Fix segfault in categories comparison report when payee and quantity properties are hidden</li>
+     <li>Fix order of transactions in ledger when split transaction has same date as single transaction</li>
+     <li>Fix compilation without QtCharts</li>
+     <li>Fix segfault when opening file after creating a new sub category</li>
+     <li>Fix SSL/TSL support (required for exchanges rate updates etc.) in Windows binaries</li>
+     <li>Expand parent category after creation of new sub category</li>
+     <li>Do not change account group when type is selected if custom group is set</li>
+     <li>Use QVariant::fromValue() instead of obsolete qVariantFromValue</li>
+     <li>Replace text with path in svg files</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.4.2" date="2019-09-09">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Make it possible to select multiple separate accounts, categories, tags, descriptions, and payees/payers in reports and charts</li>
+     <li>Option to display absolute values instead of percentages in pie chart</li>
+     <li>Option to save import CSV settings as presets</li>
+     <li>Allow fixed category (add income category selection) when importing both expenses and incomes from CSV file</li>
+     <li>Security quotes import and export (in quotes dialog)</li>
+     <li>Keyboard shortcut and context menu item for current date in date entries and calendar popups</li>
+     <li>Fix segfault when editing scheduled transaction with current date</li>
+     <li>Fix deletion of multiple transactions in ledger</li>
+     <li>Fix set single transaction in edit widget for transaction with multiple accounts/payments and multiple currencies</li>
+     <li>Minor bug fixes and feature improvements</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.4.1" date="2019-06-24">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Tags</li>
+     <li>Custom account groups</li>
+     <li>Options to show months and years as columns categories comparison report, and categories as columns in over time report</li>
+     <li>Transaction duplication</li>
+     <li>Show tooltips for cut off text in lists</li>
+     <li>Configurable visible columns for expenses, incomes, transfers and schedule views</li>
+     <li>Search in ledger</li>
+     <li>Timestamp editing</li>
+     <li>Make it possible to select multiple associated files and show icon when transaction has associated file</li>
+     <li>Wrap-around for day and month in date fields (increments month/year)</li>
+     <li>Account/category column in edit split transaction dialog</li>
+     <li>Make ledger behave as a non-modal window instead of modal dialog</li>
+     <li>Add option to sort ledger ascending</li>
+     <li>Improved account/category combo box searching</li>
+     <li>Font selection</li>
+     <li>Minor bug fixes and feature improvements</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.3.4" date="2019-04-29">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Group assets and liabilities with the same type in accounts view.</li>
+     <li>Language selection from within the application.</li>
+     <li>Monetary format improvements.</li>
+     <li>Use number format from localeconv instead of Qt (sometimes differs from system settings).</li>
+     <li>Allow use of dot as alternative decimal separator for locales with decimal comma and without dot as group separator.</li>
+     <li>Button for clearing values in new/edit transaction</li>
+     <li>Do not show guesstimate for future security values in accounts view (but use estimate for values between quotes).</li>
+     <li>Fix calculation of quotes between recorded security quotes.</li>
+     <li>Fix segfault when transaction is split up.</li>
+     <li>Fix updating of account values when a transaction has been edited in dialog and postponed to a future date, or advanced to current or past date.</li>
+     <li>Fix Ctrl+Q shortcut.</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.3.3" date="2019-02-19">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Schedule confirmation time setting.</li>
+     <li>Improved German translation.</li>
+     <li>More flexible eqz-file parsing.</li>
+     <li>Fix displayed currency for min/max filter.</li>
+     <li>Fix crash on CSV import of quoted value containing delimiter.</li>
+     <li>Use application/x-qw instead of *.qif.</li>
+     <li>Save timestamp in seconds instead of microseconds.</li>
+     <li>Update revision of schedule on confirmed occurrence.</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.3.2" date="2018-11-05">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Fix saving of recurring expense with multiple payments.</li>
+     <li>Option to specify first month of budget year.</li>
+     <li>Option to sort transactions by timestamp (in header context menu).</li>
+     <li>Automatic scrolling to added/modified transaction.</li>
+     <li>Select whole number on double click in value field.</li>
+     <li>Improved Enter/Return key actions and input focus.</li>
+     <li>Minor bug fixes.</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.3.1" date="2018-08-23">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Add comments field to split transaction dialog.</li>
+     <li>Improved French translation.</li>
+     <li>Fix value field conversion with dollar sign.</li>
+     <li>Fix last date in yearly assets and liabilities bar chart hover info.</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.3" date="2018-06-11">
+   <description>
+    <p>Eqonomize! version 1.3 primarily includes improvements to charts and reports. This release also contains a variety of bug fixes and minor feature enhancements (such as flags and easier value field conversion for common currencies).</p>
+   </description>
+  </release>
+  <release version="1.2" date="2018-02-05">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Local and remote file synchronization allowing multiple users to edit the same file (experimental)</li>
+     <li>Restore possibility to specify payee/payer for each separate transaction in a split transaction</li>
+     <li>Annual total for over time chart</li>
+     <li>Include subcategories in over time report</li>
+     <li>"All payees and payers" in categories comparison report</li>
+     <li>Case insensitive descriptions and payees in charts report</li>
+     <li>Only assume negative income/expense if the category is defined in the QIF file</li>
+    </ul>
+   </description>
+  </release>
+  <release version="1.1" date="2017-12-18">
+   <description>
+    <p>Eqonomize! version 1.1 includes reconciliation support, ledger enhancements, and many other minor feature enhancements and bug fixes.</p>
+   </description>
+  </release>
+  <release version="1.0" date="2017-10-12">
+   <description>
+    <p>Eqonomize! 1.0 includes a complete manual, more than 100 additional currencies, bug fixes and minor features enhancements.</p>
+   </description>
+  </release>
+  <release version="0.99.4" date="2017-07-10">
+   <description>
+    <p>The third beta of Eqonomize! 1.0 includes bug fixes and minor features enhancements.</p>
+   </description>
+  </release>
+  <release version="0.99.2" date="2017-05-02">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Support for multiple currencies (selectable for each account)</li>
+     <li>Currency converter</li>
+     <li>Arithmetics and conversion in all value input fields</li>
+     <li>Import/merge Eqonomize! files</li>
+     <li>Consistent sorting of transactions in creation order (if date is equal)</li>
+     <li>"Associated file" transaction property (link receipts)</li>
+     <li>Security transactions tweaks</li>
+     <li>Bug fixes</li>
+    </ul>
+   </description>
+  </release>
+  <release version="0.99.1" date="2016-10-10">
+   <description>
+    <p>Qt is now the only dependency and it should be possible to compile and run Eqonomize! on every platform supported by Qt. Windows binaries are provided, but the main development platform is still Linux (the application has also been tested on Android).</p>
+    <p>Main additional changes:</p>
+    <ul>
+     <li>Subcategories</li>
+     <li>More and enhanced charts</li>
+     <li>Scheduled split transactions and transactions with multiple payments</li>
+     <li>Explicit support for loans and related transactions</li>
+     <li>Option to select start of budget month</li>
+     <li>Many small interface enhancements, including new icons</li>
+    </ul>
+   </description>
+  </release>
+  <release version="0.6" date="2008-11-13">
+   <description>
+    <p>This the first version using KDE4. It also includes some new translations and bug fixes, among others a long awaited fix for the bug that caused Eqonomize! to not start when loading some files.</p>
+   </description>
+  </release>
+  <release version="0.5" date="2007-06-17">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Support for currencies with zero decimals</li>
+     <li>Future statistics in over time chart</li>
+     <li>Fix balancing</li>
+     <li>Allow user to select initial period</li>
+     <li>Allow joining of security transactions</li>
+     <li>Allow user to select security from edit transaction dialogs</li>
+     <li>Keep permissions of exisiting files</li>
+     <li>Italian, Spanish, Dutch (partial) and Slovak (partial) translations</li>
+     <li>Many other bug fixes and minor enhancements</li>
+    </ul>
+   </description>
+  </release>
+  <release version="0.4" date="2006-09-06">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Split transactions</li>
+     <li>Refunds and repayments</li>
+     <li>Account ledger</li>
+     <li>QIF import and export</li>
+     <li>Enhanced CSV import</li>
+     <li>Application and mime icons (by Elias Probst)</li>
+     <li>Backup on save, crash recovery, and option to automatically save on exit</li>
+     <li>Manual</li>
+     <li>French and German translations</li>
+     <li>Many bug fixes and minor enhancements</li>
+    </ul>
+   </description>
+  </release>
+  <release version="0.3" date="2006-08-09">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Enhanced budgetting, with possibility to specify budgets separately for each month, and predictions based on budget</li>
+     <li>Redesigned, more polished accounts view, and less buttons in securities and schedule views</li>
+     <li>Optional quantity and payee/payer transaction properties (must be manually activated)</li>
+     <li>By default use current date (instead of end of month) as end date in accounts view</li>
+     <li>More flexible charts and report, with ability to display more detailed information</li>
+     <li>Swedish translation</li>
+     <li>Many bug fixes and minor enhancements</li>
+    </ul>
+   </description>
+  </release>
+  <release version="0.2" date="2006-07-25">
+   <description>
+    <p>Changes:</p>
+    <ul>
+     <li>Change name to Eqonomize!</li>
+     <li>"Development Over Time" and "Categories Comparison" reports</li>
+      <li>Charts (pie and line)</li>
+      <li>Printing</li>
+      <li>Import of CSV files</li>
+      <li>Security trade (buy and sell in the same transaction)</li>
+      <li>Enable use of different calendar systems</li>
+      <li>Ask for confirmation only if time is after 18.00 for scheduled transactions occurring on the current date</li>
+    </ul>
+   </description>
+  </release>
+  <release version="0.1" date="2006-07-17">
+   <description>
+    <p>The fist version.</p>
+   </description>
+  </release>
+ </releases>
+</component>

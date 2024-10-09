@@ -140,7 +140,7 @@ QSize QComboBoxDelegateEq::sizeHint(const QStyleOptionViewItem &option, const QM
 	return QStyledItemDelegate::sizeHint(option, index);
 }
 
-AccountComboBox::AccountComboBox(int account_type, Budget *budg, bool add_new_account_action, bool add_new_loan_action, bool add_multiple_accounts_action, bool exclude_securities_accounts, bool exclude_balancing_account, QWidget *parent) : QComboBox(parent), i_type(account_type), budget(budg), new_account_action(add_new_account_action), new_loan_action(add_new_loan_action && i_type == ACCOUNT_TYPE_ASSETS), multiple_accounts_action(add_multiple_accounts_action && i_type == ACCOUNT_TYPE_ASSETS), b_exclude_securities(exclude_securities_accounts), b_exclude_balancing(exclude_balancing_account) {
+AccountComboBox::AccountComboBox(int account_type, Budget *budg, bool add_new_account_action, bool add_new_loan_action, bool add_multiple_accounts_action, bool exclude_securities_accounts, bool exclude_balancing_account, QWidget *parent, bool sort_account_types) : QComboBox(parent), i_type(account_type), budget(budg), new_account_action(add_new_account_action), new_loan_action(add_new_loan_action && i_type == ACCOUNT_TYPE_ASSETS), multiple_accounts_action(add_multiple_accounts_action && i_type == ACCOUNT_TYPE_ASSETS), b_exclude_securities(exclude_securities_accounts), b_exclude_balancing(exclude_balancing_account), b_sort(sort_account_types) {
 	setEditable(false);
 	added_account = NULL;
 	block_account_selected = false;
@@ -253,30 +253,46 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 			if(new_loan_action) APPEND_ACTION_ROW(tr("Paid with loan…"));
 			if(multiple_accounts_action) APPEND_ACTION_ROW(tr("Multiple accounts/payments…"));
 			int cactions = count();
-			bool add_secondary_list = false;
+			QList<AssetsAccount*> accounts[3];
 			for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 				AssetsAccount *account = *it;
 				if(account != exclude_account && (!force_currency || account->currency() == force_currency)) {
-					bool b_add = false;
+					int level = 0;
 					if(i_type >= 100) {
 						if(account->accountType() == i_type) {
-							if(account->isClosed()) add_secondary_list = true;
-							else b_add = true;
+							if(account->isClosed()) level = 3;
+							else level = 1;
 						}
 					} else if(i_type == -3) {
 						if(account->accountType() == ASSETS_TYPE_CREDIT_CARD || account->accountType() == ASSETS_TYPE_LIABILITIES) {
-							if(account->isClosed()) add_secondary_list = true;
-							else b_add = true;
+							if(account->isClosed()) level = 3;
+							else level = 1;
 						}
 					} else if((account->accountType() == ASSETS_TYPE_SECURITIES && !b_exclude_securities) || account->accountType() == ASSETS_TYPE_LIABILITIES || (account == budget->balancingAccount && !b_exclude_balancing) || account->isClosed()) {
-						add_secondary_list = true;
+						level = 3;
+					} else if(account->accountType() == ASSETS_TYPE_CASH || account->accountType() == ASSETS_TYPE_CURRENT || account->accountType() == ASSETS_TYPE_CURRENT) {
+						level = 1;
 					} else if(account->accountType() != ASSETS_TYPE_SECURITIES && account != budget->balancingAccount) {
-						b_add = true;
+						if(b_sort) level = 2;
+						else level = 1;
 					}
-					if(b_add) {
-						if(cactions > 0 && count() == cactions) APPEND_SEPARATOR
-						APPEND_ROW
+					if(level > 0) {
+						accounts[level - 1] << account;
 					}
+				}
+			}
+			if(!accounts[0].isEmpty()) {
+				if(count() > 0 && count() == cactions) APPEND_SEPARATOR
+				for(QList<AssetsAccount*>::const_iterator it = accounts[0].constBegin(); it != accounts[0].constEnd(); ++it) {
+					AssetsAccount *account = *it;
+					APPEND_ROW
+				}
+			}
+			if(!accounts[1].isEmpty()) {
+				if((count() > 0 && count() == cactions) || (accounts[0].count() + accounts[1].count() >= 5 && accounts[0].count() >= 2 && accounts[1].count() >= 2)) APPEND_SEPARATOR
+				for(QList<AssetsAccount*>::const_iterator it = accounts[1].constBegin(); it != accounts[1].constEnd(); ++it) {
+					AssetsAccount *account = *it;
+					APPEND_ROW
 				}
 			}
 			if(i_type == -1) {
@@ -297,25 +313,11 @@ void AccountComboBox::updateAccounts(Account *exclude_account, Currency *force_c
 					}
 				}
 			}
-			if(add_secondary_list) {
+			if(!accounts[2].isEmpty()) {
 				if(count() > 0 && count() >= cactions) APPEND_SEPARATOR
-				for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
-					bool b_add = false;
+				for(QList<AssetsAccount*>::const_iterator it = accounts[2].constBegin(); it != accounts[2].constEnd(); ++it) {
 					AssetsAccount *account = *it;
-					if(i_type >= 100) {
-						if(account->accountType() == i_type && account->isClosed()) {
-							b_add = true;
-						}
-					} else if(i_type == -3) {
-						if((account->accountType() == ASSETS_TYPE_CREDIT_CARD || account->accountType() == ASSETS_TYPE_LIABILITIES) && account->isClosed()) {
-							b_add = true;
-						}
-					} else if((account->accountType() == ASSETS_TYPE_SECURITIES && !b_exclude_securities) || account->accountType() == ASSETS_TYPE_LIABILITIES || (account == budget->balancingAccount && !b_exclude_balancing) || account->isClosed()) {
-						b_add = true;
-					}
-					if(b_add) {
-						APPEND_ROW
-					}
+					APPEND_ROW
 				}
 			}
 			if(current_account) setCurrentAccount(current_account);

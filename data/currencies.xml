@@ -1,456 +1,456 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Eqonomize version="1.5.7">
+<Eqonomize version="1.5.8">
 	<currency code="AED" symbol="د.إ" name="United Arab Emirates dirham" source="currency-api">
-		<rate value="3.95615" date="2024-05-07"/>
+		<rate value="4.03371" date="2024-10-08"/>
 	</currency>
 	<currency code="AFN" symbol="Afs" name="Afghan afghani" source="currency-api">
-		<rate value="77.93192" date="2024-05-07"/>
+		<rate value="74.97926" date="2024-10-08"/>
 	</currency>
 	<currency code="ALL" symbol="L" name="Albanian lek" source="currency-api">
-		<rate value="100.54786" date="2024-05-07"/>
+		<rate value="98.85154" date="2024-10-08"/>
 	</currency>
 	<currency code="AMD" symbol="֏" name="Armenian dram" source="currency-api">
-		<rate value="415.04615" date="2024-05-07"/>
+		<rate value="423.55055" date="2024-10-08"/>
 	</currency>
 	<currency code="ANG" symbol="ƒ" name="Netherlands Antillean guilder" source="currency-api">
-		<rate value="1.93084" date="2024-05-07"/>
+		<rate value="1.97177" date="2024-10-08"/>
 	</currency>
 	<currency code="AOA" symbol="Kz" name="Angolan kwanza" source="currency-api">
-		<rate value="907.63356" date="2024-05-07"/>
+		<rate value="1002.00060" date="2024-10-08"/>
 	</currency>
 	<currency code="ARS" symbol="$" name="Argentine peso" source="currency-api">
-		<rate value="948.26740" date="2024-05-07"/>
+		<rate value="1070.55642" date="2024-10-08"/>
 	</currency>
 	<currency code="AUD" symbol="$" name="Australian Dollar" source="ECB">
-		<rate value="1.62970" date="2024-05-07"/>
+		<rate value="1.62930" date="2024-10-08"/>
 	</currency>
 	<currency code="AWG" symbol="Afl" name="Aruban florin" source="currency-api">
-		<rate value="1.92825" date="2024-05-07"/>
+		<rate value="1.96606" date="2024-10-08"/>
 	</currency>
 	<currency code="AZN" symbol="₼" name="Azerbaijani manat" source="currency-api">
-		<rate value="1.83125" date="2024-05-07"/>
+		<rate value="1.86830" date="2024-10-08"/>
 	</currency>
 	<currency code="BAM" symbol="KM" name="Bosnia and Herzegovina convertible mark" source="currency-api">
-		<rate value="1.95583" date="2024-05-07"/>
+		<rate value="1.95583" date="2024-10-08"/>
 	</currency>
 	<currency code="BBD" symbol="$" name="Barbadian dollar" source="currency-api">
-		<rate value="2.15447" date="2024-05-07"/>
+		<rate value="2.19671" date="2024-10-08"/>
 	</currency>
 	<currency code="BDT" symbol="৳" name="Bangladeshi taka" source="currency-api">
-		<rate value="118.18833" date="2024-05-07"/>
+		<rate value="131.50102" date="2024-10-08"/>
 	</currency>
 	<currency code="BGN" symbol="лв." name="Bulgarian lev" source="ECB">
-		<rate value="1.95580" date="2024-05-07"/>
+		<rate value="1.95580" date="2024-10-08"/>
 	</currency>
 	<currency code="BHD" symbol="BD" name="Bahraini dinar" source="currency-api">
-		<rate value="0.40504" date="2024-05-07"/>
+		<rate value="0.41298" date="2024-10-08"/>
 	</currency>
 	<currency code="BIF" symbol="FBu" name="Burundian franc" source="currency-api">
-		<rate value="3093.52622" date="2024-05-07"/>
+		<rate value="3184.32602" date="2024-10-08"/>
 	</currency>
 	<currency code="BMD" symbol="$" name="Bermudian dollar" source="currency-api">
-		<rate value="1.07724" date="2024-05-07"/>
+		<rate value="1.09836" date="2024-10-08"/>
 	</currency>
 	<currency code="BND" symbol="$" name="Brunei dollar" source="currency-api">
-		<rate value="1.45532" date="2024-05-07"/>
+		<rate value="1.43093" date="2024-10-08"/>
 	</currency>
 	<currency code="BOB" symbol="Bs." name="Bolivian boliviano" source="currency-api">
-		<rate value="7.43812" date="2024-05-07"/>
+		<rate value="7.61095" date="2024-10-08"/>
 	</currency>
 	<currency code="BRL" symbol="R$" name="Brazilian real" source="ECB">
-		<rate value="5.46290" date="2024-05-07"/>
+		<rate value="6.05280" date="2024-10-08"/>
 	</currency>
 	<currency code="BSD" symbol="$" name="Bahamian dollar" source="currency-api">
-		<rate value="1.07724" date="2024-05-07"/>
+		<rate value="1.09836" date="2024-10-08"/>
 	</currency>
 	<currency code="BTC" symbol="₿" name="Bitcoin" source="currency-api">
-		<rate value="0.00002" date="2024-05-07"/>
+		<rate value="0.00002" date="2024-10-08"/>
 	</currency>
 	<currency code="BWP" symbol="P" name="Botswana pula" source="currency-api">
-		<rate value="14.68939" date="2024-05-07"/>
+		<rate value="14.54212" date="2024-10-08"/>
 	</currency>
 	<currency code="BYN" symbol="Rbl" name="Belarusian ruble" source="currency-api">
-		<rate value="3.52253" date="2024-05-07"/>
+		<rate value="3.59302" date="2024-10-08"/>
 	</currency>
 	<currency code="BZD" symbol="$" name="Belize dollar" source="currency-api">
-		<rate value="2.18074" date="2024-05-07"/>
+		<rate value="2.21535" date="2024-10-08"/>
 	</currency>
 	<currency code="CAD" symbol="$" name="Canadian dollar" source="ECB">
-		<rate value="1.47300" date="2024-05-07"/>
+		<rate value="1.49810" date="2024-10-08"/>
 	</currency>
 	<currency code="CDF" symbol="FC" name="Congolese franc" source="currency-api">
-		<rate value="3017.18093" date="2024-05-07"/>
+		<rate value="3141.44010" date="2024-10-08"/>
 	</currency>
 	<currency code="CHF" symbol="Fr" name="Swiss franc" source="ECB">
-		<rate value="0.97700" date="2024-05-07"/>
+		<rate value="0.94100" date="2024-10-08"/>
 	</currency>
 	<currency code="CLP" symbol="$" name="Chilean peso" source="currency-api">
-		<rate value="1001.61990" date="2024-05-07"/>
+		<rate value="1017.49522" date="2024-10-08"/>
 	</currency>
 	<currency code="CNY" symbol="¥" name="Chinese yuan renminbi" source="ECB">
-		<rate value="7.77070" date="2024-05-07"/>
+		<rate value="7.74490" date="2024-10-08"/>
 	</currency>
 	<currency code="COP" symbol="$" name="Colombian peso" source="currency-api">
-		<rate value="4192.91608" date="2024-05-07"/>
+		<rate value="4630.40830" date="2024-10-08"/>
 	</currency>
 	<currency code="CRC" symbol="₡" name="Costa Rican colón" source="currency-api">
-		<rate value="547.51539" date="2024-05-07"/>
+		<rate value="572.13655" date="2024-10-08"/>
 	</currency>
 	<currency code="CUP" symbol="$" name="Cuban peso" source="currency-api">
-		<rate value="25.81412" date="2024-05-07"/>
+		<rate value="26.41958" date="2024-10-08"/>
 	</currency>
 	<currency code="CVE" symbol="$" name="Cape Verdean escudo" source="currency-api">
-		<rate value="110.27000" date="2024-05-07"/>
+		<rate value="110.27000" date="2024-10-08"/>
 	</currency>
 	<currency code="CZK" symbol="Kč" name="Czech Koruna" source="ECB">
-		<rate value="25.01400" date="2024-05-07"/>
+		<rate value="25.31300" date="2024-10-08"/>
 	</currency>
 	<currency code="DJF" symbol="Fdj" name="Djiboutian franc" source="currency-api">
-		<rate value="191.96177" date="2024-05-07"/>
+		<rate value="195.63369" date="2024-10-08"/>
 	</currency>
 	<currency code="DKK" symbol="kr." name="Danish Krone" source="ECB">
-		<rate value="7.45960" date="2024-05-07"/>
+		<rate value="7.45790" date="2024-10-08"/>
 	</currency>
 	<currency code="DOP" symbol="$" name="Dominican peso" source="currency-api">
-		<rate value="62.47362" date="2024-05-07"/>
+		<rate value="66.20668" date="2024-10-08"/>
 	</currency>
 	<currency code="DZD" symbol="DA" name="Algerian dinar" source="currency-api">
-		<rate value="144.80761" date="2024-05-07"/>
+		<rate value="146.20263" date="2024-10-08"/>
 	</currency>
 	<currency code="EGP" symbol="E£" name="Egyptian pound" source="currency-api">
-		<rate value="51.65628" date="2024-05-07"/>
+		<rate value="53.16216" date="2024-10-08"/>
 	</currency>
 	<currency code="ERN" symbol="Nkf" name="Eritrean nakfa" source="currency-api">
-		<rate value="16.15855" date="2024-05-07"/>
+		<rate value="16.47534" date="2024-10-08"/>
 	</currency>
 	<currency code="ETB" symbol="Br" name="Ethiopian birr" source="currency-api">
-		<rate value="61.83281" date="2024-05-07"/>
+		<rate value="131.72250" date="2024-10-08"/>
 	</currency>
 	<currency code="FJD" symbol="$" name="Fijian dollar" source="currency-api">
-		<rate value="2.42898" date="2024-05-07"/>
+		<rate value="2.44179" date="2024-10-08"/>
 	</currency>
 	<currency code="FKP" symbol="£" name="Falkland Islands pound" source="currency-api">
-		<rate value="0.85741" date="2024-05-07"/>
+		<rate value="0.83862" date="2024-10-08"/>
 	</currency>
 	<currency code="GBP" symbol="£" name="British pound" source="ECB">
-		<rate value="0.85805" date="2024-05-07"/>
+		<rate value="0.83778" date="2024-10-08"/>
 	</currency>
 	<currency code="GEL" symbol="₾" name="Georgian lari" source="currency-api">
-		<rate value="2.88136" date="2024-05-07"/>
+		<rate value="3.01699" date="2024-10-08"/>
 	</currency>
 	<currency code="GGP" symbol="£" name="Guernsey pound" source="currency-api">
-		<rate value="0.85741" date="2024-05-07"/>
+		<rate value="0.83862" date="2024-10-08"/>
 	</currency>
 	<currency code="GHS" symbol="GH₵" name="Ghanaian cedi" source="currency-api">
-		<rate value="14.79322" date="2024-05-07"/>
+		<rate value="17.39752" date="2024-10-08"/>
 	</currency>
 	<currency code="GIP" symbol="£" name="Gibraltar pund" source="currency-api">
-		<rate value="0.85741" date="2024-05-07"/>
+		<rate value="0.83862" date="2024-10-08"/>
 	</currency>
 	<currency code="GMD" symbol="D" name="Gambian dalasi" source="currency-api">
-		<rate value="73.08734" date="2024-05-07"/>
+		<rate value="75.63623" date="2024-10-08"/>
 	</currency>
 	<currency code="GNF" symbol="FG" name="Guinean franc" source="currency-api">
-		<rate value="9246.16260" date="2024-05-07"/>
+		<rate value="9476.95698" date="2024-10-08"/>
 	</currency>
 	<currency code="GTQ" symbol="Q" name="Guatemalan quetzal" source="currency-api">
-		<rate value="8.35979" date="2024-05-07"/>
+		<rate value="8.50553" date="2024-10-08"/>
 	</currency>
 	<currency code="GYD" symbol="$" name="Guyanese dollar" source="currency-api">
-		<rate value="224.63974" date="2024-05-07"/>
+		<rate value="229.75157" date="2024-10-08"/>
 	</currency>
 	<currency code="HKD" symbol="$" name="Hong Kong dollar" source="ECB">
-		<rate value="8.41970" date="2024-05-07"/>
+		<rate value="8.53700" date="2024-10-08"/>
 	</currency>
 	<currency code="HNL" symbol="L" name="Honduran lempira" source="currency-api">
-		<rate value="26.56718" date="2024-05-07"/>
+		<rate value="27.33769" date="2024-10-08"/>
 	</currency>
 	<currency code="HTG" symbol="G" name="Haitian gourde" source="currency-api">
-		<rate value="142.71695" date="2024-05-07"/>
+		<rate value="145.79042" date="2024-10-08"/>
 	</currency>
 	<currency code="HUF" symbol="Ft" name="Hungarian forint" source="ECB">
-		<rate value="389.05000" date="2024-05-07"/>
+		<rate value="400.55000" date="2024-10-08"/>
 	</currency>
 	<currency code="IDR" symbol="Rp" name="Indonesian rupiah" source="ECB">
-		<rate value="17295.26000" date="2024-05-07"/>
+		<rate value="17183.10000" date="2024-10-08"/>
 	</currency>
 	<currency code="ILS" symbol="₪" name="Israeli new shekel" source="ECB">
-		<rate value="4.00560" date="2024-05-07"/>
+		<rate value="4.14730" date="2024-10-08"/>
 	</currency>
 	<currency code="INR" symbol="₹" name="Indian rupee" source="ECB">
-		<rate value="89.89800" date="2024-05-07"/>
+		<rate value="92.20650" date="2024-10-08"/>
 	</currency>
 	<currency code="IQD" symbol="د.ع" name="Iraqi dinar" source="currency-api">
-		<rate value="1410.77865" date="2024-05-07"/>
+		<rate value="1438.73273" date="2024-10-08"/>
 	</currency>
 	<currency code="IRR" symbol="﷼" name="Iranian rial" source="currency-api">
-		<rate value="44981.46173" date="2024-05-07"/>
+		<rate value="46300.15396" date="2024-10-08"/>
 	</currency>
 	<currency code="ISK" symbol="kr" name="Icelandic króna" source="ECB">
-		<rate value="150.30000" date="2024-05-07"/>
+		<rate value="148.50000" date="2024-10-08"/>
 	</currency>
 	<currency code="JMD" symbol="$" name="Jamaican dollar" source="currency-api">
-		<rate value="168.49830" date="2024-05-07"/>
+		<rate value="173.65831" date="2024-10-08"/>
 	</currency>
 	<currency code="JOD" symbol="JD" name="Jordanian dinar" source="currency-api">
-		<rate value="0.76376" date="2024-05-07"/>
+		<rate value="0.77873" date="2024-10-08"/>
 	</currency>
 	<currency code="JPY" symbol="¥" name="Japansese yen" source="ECB">
-		<rate value="166.45000" date="2024-05-07"/>
+		<rate value="162.49000" date="2024-10-08"/>
 	</currency>
 	<currency code="KES" symbol="KSh" name="Kenyan shilling" source="currency-api">
-		<rate value="146.49589" date="2024-05-07"/>
+		<rate value="141.60595" date="2024-10-08"/>
 	</currency>
 	<currency code="KGS" symbol="лв" name="Kyrgyzstani som" source="currency-api">
-		<rate value="95.52187" date="2024-05-07"/>
+		<rate value="93.03363" date="2024-10-08"/>
 	</currency>
 	<currency code="KHR" symbol="៛" name="Cambodian riel" source="currency-api">
-		<rate value="4379.00244" date="2024-05-07"/>
+		<rate value="4464.31193" date="2024-10-08"/>
 	</currency>
 	<currency code="KMF" symbol="CF" name="Comoro franc" source="currency-api">
-		<rate value="491.96775" date="2024-05-07"/>
+		<rate value="491.96775" date="2024-10-08"/>
 	</currency>
 	<currency code="KPW" symbol="₩" name="North Korean won" source="currency-api">
-		<rate value="969.48963" date="2024-05-07"/>
+		<rate value="988.55565" date="2024-10-08"/>
 	</currency>
 	<currency code="KRW" symbol="₩" name="South Korean won" source="ECB">
-		<rate value="1462.45000" date="2024-05-07"/>
+		<rate value="1478.22000" date="2024-10-08"/>
 	</currency>
 	<currency code="KWD" symbol="د.ك" name="Kuwaiti dinar" source="currency-api">
-		<rate value="0.33116" date="2024-05-07"/>
+		<rate value="0.33653" date="2024-10-08"/>
 	</currency>
 	<currency code="KYD" symbol="$" name="Cayman Islands dollar" source="currency-api">
-		<rate value="0.88536" date="2024-05-07"/>
+		<rate value="0.90158" date="2024-10-08"/>
 	</currency>
 	<currency code="KZT" symbol="₸" name="Kazakhstani tenge" source="currency-api">
-		<rate value="473.61281" date="2024-05-07"/>
+		<rate value="532.12334" date="2024-10-08"/>
 	</currency>
 	<currency code="LAK" symbol="₭" name="Lao kip" source="currency-api">
-		<rate value="23030.92384" date="2024-05-07"/>
+		<rate value="24282.39006" date="2024-10-08"/>
 	</currency>
 	<currency code="LBP" symbol="ل.ل" name="Lebanese pound" source="currency-api">
-		<rate value="98021.36327" date="2024-05-07"/>
+		<rate value="98763.09553" date="2024-10-08"/>
 	</currency>
 	<currency code="LKR" symbol="රු" name="Sri Lankan rupee" source="currency-api">
-		<rate value="319.81095" date="2024-05-07"/>
+		<rate value="322.56383" date="2024-10-08"/>
 	</currency>
 	<currency code="LRD" symbol="$" name="Liberian dollar" source="currency-api">
-		<rate value="208.44100" date="2024-05-07"/>
+		<rate value="212.13545" date="2024-10-08"/>
 	</currency>
 	<currency code="LSL" symbol="L" name="Lesotho loti" source="currency-api">
-		<rate value="19.90611" date="2024-05-07"/>
+		<rate value="19.09451" date="2024-10-08"/>
 	</currency>
 	<currency code="LYD" symbol="LD" name="Libyan dinar" source="currency-api">
-		<rate value="5.24554" date="2024-05-07"/>
+		<rate value="5.24251" date="2024-10-08"/>
 	</currency>
 	<currency code="MAD" name="Moroccan dirham" source="currency-api">
-		<rate value="10.80635" date="2024-05-07"/>
+		<rate value="10.77695" date="2024-10-08"/>
 	</currency>
 	<currency code="MDL" symbol="lei" name="Moldovan leu" source="currency-api">
-		<rate value="19.02537" date="2024-05-07"/>
+		<rate value="19.28558" date="2024-10-08"/>
 	</currency>
 	<currency code="MGA" symbol="Ar" name="Malagasy ariary" source="currency-api">
-		<rate value="4764.40212" date="2024-05-07"/>
+		<rate value="5034.11513" date="2024-10-08"/>
 	</currency>
 	<currency code="MKD" symbol="ден" name="Macedonian denar" source="currency-api">
-		<rate value="61.56262" date="2024-05-07"/>
+		<rate value="61.61574" date="2024-10-08"/>
 	</currency>
 	<currency code="MMK" symbol="K" name="Myanmar kyat" source="currency-api">
-		<rate value="2259.70946" date="2024-05-07"/>
+		<rate value="2304.14090" date="2024-10-08"/>
 	</currency>
 	<currency code="MNT" symbol="₮" name="Mongolian tögrög" source="currency-api">
-		<rate value="3657.05181" date="2024-05-07"/>
+		<rate value="3718.54586" date="2024-10-08"/>
 	</currency>
 	<currency code="MOP" symbol="MOP$" name="Macanese pataca" source="currency-api">
-		<rate value="8.67584" date="2024-05-07"/>
+		<rate value="8.78911" date="2024-10-08"/>
 	</currency>
 	<currency code="MRU" symbol="UM" name="Mauritanian ouguiya" source="currency-api">
-		<rate value="43.00122" date="2024-05-07"/>
+		<rate value="43.53623" date="2024-10-08"/>
 	</currency>
 	<currency code="MUR" symbol="₨" name="Mauritian rupee" source="currency-api">
-		<rate value="49.84087" date="2024-05-07"/>
+		<rate value="51.18018" date="2024-10-08"/>
 	</currency>
 	<currency code="MVR" symbol="Rf" name="Maldivian rufiyaa" source="currency-api">
-		<rate value="16.60201" date="2024-05-07"/>
+		<rate value="16.94946" date="2024-10-08"/>
 	</currency>
 	<currency code="MWK" symbol="MK" name="Malawian kwacha" source="currency-api">
-		<rate value="1873.80647" date="2024-05-07"/>
+		<rate value="1905.04608" date="2024-10-08"/>
 	</currency>
 	<currency code="MXN" symbol="$" name="Mexican peso" source="ECB">
-		<rate value="18.16060" date="2024-05-07"/>
+		<rate value="21.13830" date="2024-10-08"/>
 	</currency>
 	<currency code="MYR" symbol="RM" name="Malaysian ringgit" source="ECB">
-		<rate value="5.10090" date="2024-05-07"/>
+		<rate value="4.70740" date="2024-10-08"/>
 	</currency>
 	<currency code="MZN" symbol="MT" name="Mozambican metical" source="currency-api">
-		<rate value="68.66233" date="2024-05-07"/>
+		<rate value="70.11584" date="2024-10-08"/>
 	</currency>
 	<currency code="NAD" symbol="$" name="Namibian dollar" source="currency-api">
-		<rate value="19.90611" date="2024-05-07"/>
+		<rate value="19.09451" date="2024-10-08"/>
 	</currency>
 	<currency code="NGN" symbol="₦" name="Nigerian naira" source="currency-api">
-		<rate value="1492.93408" date="2024-05-07"/>
+		<rate value="1786.60982" date="2024-10-08"/>
 	</currency>
 	<currency code="NIO" symbol="C$" name="Nicaraguan córdoba" source="currency-api">
-		<rate value="39.63259" date="2024-05-07"/>
+		<rate value="40.41051" date="2024-10-08"/>
 	</currency>
 	<currency code="NOK" symbol="kr" name="Norwegian krone" source="ECB">
-		<rate value="11.69800" date="2024-05-07"/>
+		<rate value="11.68700" date="2024-10-08"/>
 	</currency>
 	<currency code="NPR" symbol="Rs." name="Nepalese rupee" source="currency-api">
-		<rate value="143.93027" date="2024-05-07"/>
+		<rate value="147.66383" date="2024-10-08"/>
 	</currency>
 	<currency code="NZD" symbol="$" name="New Zealand dollar" source="ECB">
-		<rate value="1.79180" date="2024-05-07"/>
+		<rate value="1.79330" date="2024-10-08"/>
 	</currency>
 	<currency code="OMR" symbol="﷼" name="Omani rial" source="currency-api">
-		<rate value="0.41468" date="2024-05-07"/>
+		<rate value="0.42288" date="2024-10-08"/>
 	</currency>
 	<currency code="PAB" symbol="B/." name="Panamanian balboa" source="currency-api">
-		<rate value="1.07724" date="2024-05-07"/>
+		<rate value="1.09836" date="2024-10-08"/>
 	</currency>
 	<currency code="PEN" symbol="S/" name="Peruvian Sol" source="currency-api">
-		<rate value="4.01810" date="2024-05-07"/>
+		<rate value="4.10055" date="2024-10-08"/>
 	</currency>
 	<currency code="PGK" symbol="K" name="Papua New Guinean kina" source="currency-api">
-		<rate value="4.13199" date="2024-05-07"/>
+		<rate value="4.33152" date="2024-10-08"/>
 	</currency>
 	<currency code="PHP" symbol="₱" name="Philippine peso" source="ECB">
-		<rate value="61.67800" date="2024-05-07"/>
+		<rate value="62.39200" date="2024-10-08"/>
 	</currency>
 	<currency code="PKR" symbol="₨" name="Pakistani rupee" source="currency-api">
-		<rate value="300.01429" date="2024-05-07"/>
+		<rate value="304.88261" date="2024-10-08"/>
 	</currency>
 	<currency code="PLN" symbol="zł" name="Polish złoty" source="ECB">
-		<rate value="4.31380" date="2024-05-07"/>
+		<rate value="4.30830" date="2024-10-08"/>
 	</currency>
 	<currency code="PYG" symbol="₲" name="Paraguayan guaraní" source="currency-api">
-		<rate value="8063.07525" date="2024-05-07"/>
+		<rate value="8581.82578" date="2024-10-08"/>
 	</currency>
 	<currency code="QAR" symbol="ر.ق" name="Qatari riyal" source="currency-api">
-		<rate value="3.92114" date="2024-05-07"/>
+		<rate value="3.99802" date="2024-10-08"/>
 	</currency>
 	<currency code="RON" symbol="lei" name="Romanian leu" source="ECB">
-		<rate value="4.97570" date="2024-05-07"/>
+		<rate value="4.97730" date="2024-10-08"/>
 	</currency>
 	<currency code="RSD" symbol="дин" name="Serbian dinar" source="currency-api">
-		<rate value="117.10896" date="2024-05-07"/>
+		<rate value="117.04134" date="2024-10-08"/>
 	</currency>
 	<currency code="RUB" symbol="₽" name="Russian ruble" source="currency-api">
-		<rate value="98.20158" date="2024-05-07"/>
+		<rate value="105.62632" date="2024-10-08"/>
 	</currency>
 	<currency code="RWF" symbol="FRw" name="Rwandan franc" source="currency-api">
-		<rate value="1389.65323" date="2024-05-07"/>
+		<rate value="1483.99947" date="2024-10-08"/>
 	</currency>
 	<currency code="SAR" symbol="ر.س" name="Saudi riyal" source="currency-api">
-		<rate value="4.03964" date="2024-05-07"/>
+		<rate value="4.11884" date="2024-10-08"/>
 	</currency>
 	<currency code="SBD" symbol="$" name="Solomon Islands dollar" source="currency-api">
-		<rate value="8.97860" date="2024-05-07"/>
+		<rate value="9.16218" date="2024-10-08"/>
 	</currency>
 	<currency code="SCR" symbol="SR" name="Seychelles rupee" source="currency-api">
-		<rate value="14.65357" date="2024-05-07"/>
+		<rate value="16.10300" date="2024-10-08"/>
 	</currency>
 	<currency code="SDG" symbol="ج.س" name="Sudanese pound" source="currency-api">
-		<rate value="646.89434" date="2024-05-07"/>
+		<rate value="659.80399" date="2024-10-08"/>
 	</currency>
 	<currency code="SEK" symbol="kr" name="Swedish krona" source="ECB">
-		<rate value="11.68100" date="2024-05-07"/>
+		<rate value="11.34900" date="2024-10-08"/>
 	</currency>
 	<currency code="SGD" symbol="$" name="Singapore dollar" source="ECB">
-		<rate value="1.45700" date="2024-05-07"/>
+		<rate value="1.43070" date="2024-10-08"/>
 	</currency>
 	<currency code="SLL" symbol="Le" name="Sierra Leonean leone" source="currency-api">
-		<rate value="24928.28700" date="2024-05-07"/>
+		<rate value="24817.34337" date="2024-10-08"/>
 	</currency>
 	<currency code="SOS" symbol="Sh.So." name="Somali shilling" source="currency-api">
-		<rate value="614.73296" date="2024-05-07"/>
+		<rate value="627.23561" date="2024-10-08"/>
 	</currency>
 	<currency code="SRD" symbol="$" name="Surinamese dollar" source="currency-api">
-		<rate value="35.53217" date="2024-05-07"/>
+		<rate value="34.80423" date="2024-10-08"/>
 	</currency>
 	<currency code="STD" symbol="Db" name="São Tomé and Príncipe dobra" source="currency-api">
-		<rate value="24904.12189" date="2024-05-07"/>
+		<rate value="24835.64746" date="2024-10-08"/>
 	</currency>
 	<currency code="SVC" symbol="₡" name="Salvadoran colón" source="currency-api">
-		<rate value="9.42582" date="2024-05-07"/>
+		<rate value="9.61062" date="2024-10-08"/>
 	</currency>
 	<currency code="SYP" symbol="£" name="Syrian pound" source="currency-api">
-		<rate value="14006.07124" date="2024-05-07"/>
+		<rate value="14280.76573" date="2024-10-08"/>
 	</currency>
 	<currency code="SZL" symbol="E" name="Swazi lilangeni" source="currency-api">
-		<rate value="19.90611" date="2024-05-07"/>
+		<rate value="19.09451" date="2024-10-08"/>
 	</currency>
 	<currency code="THB" symbol="฿" name="Thai baht" source="ECB">
-		<rate value="39.68300" date="2024-05-07"/>
+		<rate value="36.72400" date="2024-10-08"/>
 	</currency>
 	<currency code="TJS" name="Tajikistani somoni" source="currency-api">
-		<rate value="11.76271" date="2024-05-07"/>
+		<rate value="11.68183" date="2024-10-08"/>
 	</currency>
 	<currency code="TMT" symbol="T" name="Turkmenistan manat" source="currency-api">
-		<rate value="3.77416" date="2024-05-07"/>
+		<rate value="3.85157" date="2024-10-08"/>
 	</currency>
 	<currency code="TND" symbol="DT" name="Tunisian dinar" source="currency-api">
-		<rate value="3.37304" date="2024-05-07"/>
+		<rate value="3.37161" date="2024-10-08"/>
 	</currency>
 	<currency code="TOP" symbol="T$" name="Tongan paʻanga" source="currency-api">
-		<rate value="2.55390" date="2024-05-07"/>
+		<rate value="2.57089" date="2024-10-08"/>
 	</currency>
 	<currency code="TRY" symbol="₺" name="Turkish lira" source="ECB">
-		<rate value="34.74080" date="2024-05-07"/>
+		<rate value="37.63810" date="2024-10-08"/>
 	</currency>
 	<currency code="TTD" symbol="$" name="Trinidad and Tobago dollar" source="currency-api">
-		<rate value="7.34499" date="2024-05-07"/>
+		<rate value="7.44083" date="2024-10-08"/>
 	</currency>
 	<currency code="TWD" symbol="$" name="New Taiwan dollar" source="currency-api">
-		<rate value="34.84086" date="2024-05-07"/>
+		<rate value="35.30408" date="2024-10-08"/>
 	</currency>
 	<currency code="TZS" symbol="TSh" name="Tanzanian shilling" source="currency-api">
-		<rate value="2789.30426" date="2024-05-07"/>
+		<rate value="2988.48092" date="2024-10-08"/>
 	</currency>
 	<currency code="UAH" symbol="₴" name="Ukrainian hryvnia" source="currency-api">
-		<rate value="42.36765" date="2024-05-07"/>
+		<rate value="45.31162" date="2024-10-08"/>
 	</currency>
 	<currency code="UGX" symbol="USh" name="Ugandan shilling" source="currency-api">
-		<rate value="4061.11500" date="2024-05-07"/>
+		<rate value="4035.30936" date="2024-10-08"/>
 	</currency>
 	<currency code="USD" symbol="$" name="United States dollar" source="ECB">
-		<rate value="1.07660" date="2024-05-07"/>
+		<rate value="1.09820" date="2024-10-08"/>
 	</currency>
 	<currency code="UYU" symbol="$" name="Uruguayan peso" source="currency-api">
-		<rate value="41.14736" date="2024-05-07"/>
+		<rate value="45.62506" date="2024-10-08"/>
 	</currency>
 	<currency code="UZS" symbol="лв" name="Uzbekistan som" source="currency-api">
-		<rate value="13631.56458" date="2024-05-07"/>
+		<rate value="14036.35868" date="2024-10-08"/>
 	</currency>
 	<currency code="VES" symbol="Bs." name="Venezuelan bolívar" source="currency-api">
-		<rate value="39.35230" date="2024-05-07"/>
+		<rate value="40.62680" date="2024-10-08"/>
 	</currency>
 	<currency code="VND" symbol="₫" name="Vietnamese đồng" source="currency-api">
-		<rate value="27215.87375" date="2024-05-07"/>
+		<rate value="27318.34603" date="2024-10-08"/>
 	</currency>
 	<currency code="VUV" symbol="VT" name="Vanuatu vatu" source="currency-api">
-		<rate value="129.37372" date="2024-05-07"/>
+		<rate value="130.13825" date="2024-10-08"/>
 	</currency>
 	<currency code="XAF" symbol="FCFA" name="Central African CFA franc" source="currency-api">
-		<rate value="655.95700" date="2024-05-07"/>
+		<rate value="655.95700" date="2024-10-08"/>
 	</currency>
 	<currency code="XCD" symbol="$" name="East Caribbean dollar" source="currency-api">
-		<rate value="2.91060" date="2024-05-07"/>
+		<rate value="2.96698" date="2024-10-08"/>
 	</currency>
 	<currency code="XOF" symbol="CFA" name="West African CFA franc" source="currency-api">
-		<rate value="655.95700" date="2024-05-07"/>
+		<rate value="655.95700" date="2024-10-08"/>
 	</currency>
 	<currency code="XPF" symbol="CFP" name="CFP franc" source="currency-api">
-		<rate value="119.33174" date="2024-05-07"/>
+		<rate value="119.33174" date="2024-10-08"/>
 	</currency>
 	<currency code="YER" symbol="﷼" name="Yemen rial" source="currency-api">
-		<rate value="269.69627" date="2024-05-07"/>
+		<rate value="274.85877" date="2024-10-08"/>
 	</currency>
 	<currency code="ZAR" symbol="R" name="South African rand" source="ECB">
-		<rate value="19.91270" date="2024-05-07"/>
+		<rate value="19.17840" date="2024-10-08"/>
 	</currency>
 	<currency code="ZMW" symbol="ZK" name="Zambian kwacha" source="currency-api">
-		<rate value="29.26635" date="2024-05-07"/>
+		<rate value="29.07913" date="2024-10-08"/>
 	</currency>
 </Eqonomize>

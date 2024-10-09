@@ -68,6 +68,7 @@ extern QString last_document_directory;
 ImportCSVDialog::ImportCSVDialog(bool extra_parameters, Budget *budg, QWidget *parent) : QWizard(parent), b_extra(extra_parameters), budget(budg) {
 
 	QSettings settings;
+
 #ifdef _WIN32
 	setWizardStyle(QWizard::ClassicStyle);
 #endif
