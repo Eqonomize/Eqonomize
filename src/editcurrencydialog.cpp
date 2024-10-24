@@ -98,7 +98,7 @@ EditCurrencyDialog::EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_
 	grid->addWidget(nameEdit, row, 1); row++;
 	grid->addWidget(new QLabel(tr("Decimals:"), this), row, 0);
 	decimalsEdit = new QSpinBox(this);
-	decimalsEdit->setRange(-1, 4);
+	decimalsEdit->setRange(-1, 8);
 	if(currency) decimalsEdit->setValue(currency->fractionalDigits(false));
 	else decimalsEdit->setValue(-1);
 	decimalsEdit->setSpecialValueText(tr("Default"));
@@ -106,7 +106,7 @@ EditCurrencyDialog::EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_
 	QLabel *label = new QLabel(budget->currency_euro->formatValue(1.0) + " =", this);
 	label->setAlignment(Qt::AlignRight);
 	grid->addWidget(label, row, 0);
-	rateEdit = new EqonomizeValueEdit(0.00001, 1.0, currency ? currency->exchangeRate() : 1.0, 5, false, this, budget);
+	rateEdit = new EqonomizeValueEdit(1e-10, 1.0, currency ? currency->exchangeRate() : 1.0, currency && currency->exchangeRate() < 0.1 ? 10 : 5, false, this, budget);
 	if(currency) rateEdit->setCurrency(currency, true);
 	if(currency == budget->currency_euro) rateEdit->setEnabled(false);
 	grid->addWidget(rateEdit, row, 1); row++;
@@ -147,10 +147,15 @@ EditCurrencyDialog::EditCurrencyDialog(Budget *budg, Currency *cur, bool enable_
 	connect(suffixButton, SIGNAL(toggled(bool)), this, SLOT(currencyChanged()));
 	connect(psDefaultButton, SIGNAL(toggled(bool)), this, SLOT(currencyChanged()));
 	connect(decimalsEdit, SIGNAL(valueChanged(int)), this, SLOT(currencyChanged()));
+	connect(decimalsEdit, SIGNAL(valueChanged(int)), this, SLOT(decimalsChanged(int)));
 	if(defaultButton) connect(defaultButton, SIGNAL(toggled(bool)), this, SLOT(currencyChanged()));
 
 }
 
+void EditCurrencyDialog::decimalsChanged(int i) {
+	if(i > 4) rateEdit->setPrecision(10);
+	else if(rateEdit->value() >= 0.1) rateEdit->setPrecision(5);
+}
 void EditCurrencyDialog::currencyChanged() {
 	Currency *cur = new Currency(budget, codeEdit->text().trimmed(), symbolEdit->text().trimmed(), nameEdit->text().trimmed(), 1.0, QDate::currentDate(), decimalsEdit->value(), prefixButton->isChecked() ? 1 : (suffixButton->isChecked() ? 0 : - 1));
 	rateEdit->setCurrency(cur, true, defaultButton && defaultButton->isChecked(), true);

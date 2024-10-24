@@ -62,6 +62,7 @@ class EditCurrencyDialog : public QDialog {
 
 		void accept();
 		void currencyChanged();
+		void decimalsChanged(int);
 
 };
 

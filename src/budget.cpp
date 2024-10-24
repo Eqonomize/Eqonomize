@@ -177,7 +177,7 @@ bool security_list_less_than(Security *t1, Security *t2) {
 }
 
 bool is_zero(double value) {
-	return value < 0.0000001 && value > -0.0000001;
+	return value < 5e-9 && value > -5e-9;
 }
 
 Budget::Budget() {

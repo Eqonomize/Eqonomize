@@ -63,7 +63,7 @@
 	<currency code="BSD" symbol="$" name="Bahamian dollar" source="currency-api">
 		<rate value="1.09836" date="2024-10-08"/>
 	</currency>
-	<currency code="BTC" symbol="₿" name="Bitcoin" source="currency-api">
+	<currency code="BTC" symbol="₿" name="Bitcoin" decimals="8" source="currency-api">
 		<rate value="0.00002" date="2024-10-08"/>
 	</currency>
 	<currency code="BWP" symbol="P" name="Botswana pula" source="currency-api">
