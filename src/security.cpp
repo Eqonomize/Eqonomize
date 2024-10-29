@@ -158,7 +158,7 @@ void Security::writeAttributes(QXmlStreamAttributes *attr) {
 	}
 	if(i_decimals >= 0) attr->append("decimals", QString::number(i_decimals));
 	if(i_quotation_decimals >= 0) attr->append("quotationdecimals", QString::number(i_quotation_decimals));
-	attr->append("initialshares", QString::number(d_initial_shares, 'f', i_decimals));
+	attr->append("initialshares", QString::number(d_initial_shares, 'g', SAVE_SHARES_PRECISION));
 	if(!s_description.isEmpty()) attr->append("description", s_description);
 	if(b_closed) attr->append("closed", QString::number(b_closed));
 	attr->append("account", QString::number(o_account->id()));
@@ -169,7 +169,7 @@ void Security::writeElements(QXmlStreamWriter *xml) {
 	QMap<QDate, bool>::const_iterator it_auto = quotations_auto.begin();
 	for(; it != it_end; ++it, ++it_auto) {
 		xml->writeStartElement("quotation");
-		xml->writeAttribute("value", QString::number(it.value(), 'f', quotationDecimals() > SAVE_MONETARY_DECIMAL_PLACES ?  quotationDecimals() : SAVE_MONETARY_DECIMAL_PLACES));
+		xml->writeAttribute("value", QString::number(it.value(), 'g', SAVE_MONETARY_PRECISION));
 		xml->writeAttribute("date", it.key().toString(Qt::ISODate));
 		if(it_auto.value()) xml->writeAttribute("auto", QString::number(it_auto.value()));
 		xml->writeEndElement();

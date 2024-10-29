@@ -166,14 +166,14 @@ void Currency::writeElements(QXmlStreamWriter *xml, bool local_save) {
 		QMap<QDate, double>::const_iterator it = rates.constBegin();
 		while(it != rates.constEnd()) {
 			xml->writeStartElement("rate");
-			xml->writeAttribute("value", QString::number(it.value(), 'f', it.value() < 0.1 ? 10 : 5));
+			xml->writeAttribute("value", QString::number(it.value(), 'g', SAVE_MONETARY_PRECISION));
 			xml->writeAttribute("date", it.key().toString(Qt::ISODate));
 			xml->writeEndElement();
 			++it;
 		}
 	} else if(!rates.isEmpty()) {
 		xml->writeStartElement("rate");
-		xml->writeAttribute("value", QString::number(rates.last(), 'f', rates.last() < 0.1 ? 10 : 5));
+		xml->writeAttribute("value", QString::number(rates.last(), 'g', SAVE_MONETARY_PRECISION));
 		xml->writeAttribute("date", rates.lastKey().toString(Qt::ISODate));
 		xml->writeEndElement();
 	}
