@@ -832,7 +832,7 @@ Bestätigen Sie, daß diese Transaktionen tatsächlich durchgeführt wurden (ode
     </message>
     <message>
         <source>Yearly Rate</source>
-        <translation type="vanished">Jährliche Gebühr</translation>
+        <translation type="vanished">Jährliche Rendite</translation>
     </message>
     <message>
         <source>Account</source>
