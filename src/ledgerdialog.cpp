@@ -207,10 +207,19 @@ LedgerDialog::LedgerDialog(AssetsAccount *acc, Budget *budg, Eqonomize *parent, 
 	topbox->addWidget(new QLabel(tr("Account:"), this));
 	accountCombo = new QComboBox(this);
 	accountCombo->setEditable(false);
+
+	bool show_balancing = false;
+	for(TransactionList<Transfer*>::const_iterator it = budget->transfers.constBegin(); it != budget->transfers.constEnd(); ++it) {
+		if((*it)->to() == budget->balancingAccount || (*it)->from() == budget->balancingAccount) {
+			show_balancing = true;
+			break;
+		}
+	}
+
 	int i = 0;
 	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *aaccount = *it;
-		if(aaccount != budget->balancingAccount && aaccount->accountType() != ASSETS_TYPE_SECURITIES) {
+		if((show_balancing || aaccount != budget->balancingAccount) && aaccount->accountType() != ASSETS_TYPE_SECURITIES) {
 			accountCombo->addItem(aaccount->name(), QVariant::fromValue((void*) aaccount));
 			if(aaccount == account) accountCombo->setCurrentIndex(i);
 			i++;
@@ -858,11 +867,18 @@ void LedgerDialog::accountActivated(int index) {
 void LedgerDialog::updateAccounts() {
 	accountCombo->blockSignals(true);
 	accountCombo->clear();
+	bool show_balancing = false;
+	for(TransactionList<Transfer*>::const_iterator it = budget->transfers.constBegin(); it != budget->transfers.constEnd(); ++it) {
+		if((*it)->to() == budget->balancingAccount || (*it)->from() == budget->balancingAccount) {
+			show_balancing = true;
+			break;
+		}
+	}
 	int i = 0;
 	bool account_found = false;
 	for(AccountList<AssetsAccount*>::const_iterator it = budget->assetsAccounts.constBegin(); it != budget->assetsAccounts.constEnd(); ++it) {
 		AssetsAccount *aaccount = *it;
-		if(aaccount != budget->balancingAccount && aaccount->accountType() != ASSETS_TYPE_SECURITIES) {
+		if((show_balancing || aaccount != budget->balancingAccount) && aaccount->accountType() != ASSETS_TYPE_SECURITIES) {
 			accountCombo->addItem(aaccount->name(), QVariant::fromValue((void*) aaccount));
 			if(aaccount == account) {
 				accountCombo->setCurrentIndex(i);

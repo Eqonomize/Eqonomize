@@ -9070,6 +9070,9 @@ void Eqonomize::balanceAccount(Account *i_account) {
 		Transaction *trans = new Balancing(budget, realEdit->value() - book_value, QDate::currentDate(), account);
 		budget->addTransaction(trans);
 		transactionAdded(trans);
+		for(int i = 0; i < ledgers.count(); i++) {
+			ledgers.at(i)->updateAccounts();
+		}
 	}
 	dialog->deleteLater();
 }

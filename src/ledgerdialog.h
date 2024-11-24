@@ -97,6 +97,7 @@ class LedgerDialog : public QDialog {
 
 		void saveConfig();
 		void updateColumnWidths();
+		void updateAccounts();
 
 	protected slots:
 
@@ -122,7 +123,6 @@ class LedgerDialog : public QDialog {
 		void transactionActivated(QTreeWidgetItem*, int);
 		void transactionSelectionChanged();
 		void updateTransactions(bool = false);
-		void updateAccounts();
 		void newExpense();
 		void newIncome();
 		void newTransfer();

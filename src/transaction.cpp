@@ -1062,9 +1062,9 @@ TransactionSubType Balancing::subtype() const {return TRANSACTION_SUBTYPE_BALANC
 void Balancing::readAttributes(QXmlStreamAttributes *attr, bool *valid) {
 	Transaction::readAttributes(attr, valid);
 	if(attr->hasAttribute("value")) {
-		d_value = -attr->value("value").toDouble();
+		setValue(-attr->value("value").toDouble());
 	} else {
-		d_value = -attr->value("amount").toDouble();
+		setValue(-attr->value("amount").toDouble());
 	}
 	setToAccount(budget()->balancingAccount);
 	setFromAccount(NULL);
