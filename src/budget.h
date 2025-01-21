@@ -169,6 +169,7 @@ class Budget {
 		int monetary_sign_p_symbol_neg, monetary_sign_p_symbol_pos, monetary_sign_p_code_neg, monetary_sign_p_code_pos, monetary_decimal_places;
 		QString decimal_separator, group_separator, positive_sign, negative_sign;
 		QByteArray group_format;
+		bool show_default_currency;
 
 		Budget();
 		~Budget();

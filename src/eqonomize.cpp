@@ -2485,6 +2485,7 @@ Eqonomize::Eqonomize() : QMainWindow() {
 	}
 
 	b_extra = settings.value("useExtraProperties", true).toBool();
+	budget->show_default_currency = settings.value("showDefaultCurrency", true).toBool();
 	int initial_period = settings.value("initialPeriod", int(0)).toInt();
 	if(initial_period < 0 || initial_period > 4) initial_period = 0;
 
@@ -3069,6 +3070,24 @@ void Eqonomize::useExtraProperties(bool b) {
 	QSettings settings;
 	settings.beginGroup("GeneralOptions");
 	settings.setValue("useExtraProperties", b_extra);
+	settings.endGroup();
+
+}
+void Eqonomize::showMainCurrency(bool b) {
+
+	budget->show_default_currency = b;
+
+	expensesWidget->filterTransactions();
+	incomesWidget->filterTransactions();
+	transfersWidget->filterTransactions();
+	filterAccounts();
+	updateScheduledTransactions();
+	updateSecurities();
+	emit transactionsModified();
+
+	QSettings settings;
+	settings.beginGroup("GeneralOptions");
+	settings.setValue("showDefaultCurrency", budget->show_default_currency);
 	settings.endGroup();
 
 }
@@ -8021,6 +8040,11 @@ void Eqonomize::setupActions() {
 
 	NEW_ACTION(ActionSetMainCurrency, tr("Set Main Currency…"), "eqz-currency", 0, this, SLOT(setMainCurrency()), "set_main_currency", settingsMenu);
 
+	NEW_TOGGLE_ACTION(ActionShowMainCurrency, tr("Show symbol for main currency"), 0, this, SLOT(showMainCurrency(bool)), "show_main_currency", settingsMenu);
+	ActionShowMainCurrency->setChecked(budget->show_default_currency);
+#ifndef RESOURCES_COMPILED
+	ActionShowMainCurrency->setIcon(LOAD_ICON("eqz-currency"));
+#endif
 	NEW_TOGGLE_ACTION(ActionUseExchangeRateForTransactionDate, tr("Use Exchange Rate for Transaction Date"), 0, this, SLOT(useExchangeRateForTransactionDate(bool)), "use_exchange_rate_for_transaction_date", settingsMenu);
 #ifndef RESOURCES_COMPILED
 	ActionUseExchangeRateForTransactionDate->setIcon(LOAD_ICON("eqz-currency"));
@@ -8456,7 +8480,6 @@ void Eqonomize::saveOptions() {
 	else if(ActionSelectBackupFrequency->checkedAction() == ABFWeekly) {settings.setValue("backupFrequency", BACKUP_WEEKLY);}
 	else if(ActionSelectBackupFrequency->checkedAction() == ABFFortnightly) {settings.setValue("backupFrequency", BACKUP_FORTNIGHTLY);}
 	else if(ActionSelectBackupFrequency->checkedAction() == ABFMonthly) {settings.setValue("backupFrequency", BACKUP_MONTHLY);}
-	settings.setValue("useExtraProperties", b_extra);
 	settings.setValue("useExchangeRateForTransactionDate", budget->defaultTransactionConversionRateDate() == TRANSACTION_CONVERSION_RATE_AT_DATE);
 	settings.setValue("firstRun", false);
 	settings.setValue("size", size());

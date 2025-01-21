@@ -283,6 +283,7 @@ Budget::Budget() {
 	monetary_group_format = monetary_group_format.trimmed();
 	if(monetary_decimal_separator.isEmpty()) monetary_decimal_separator = QLocale().decimalPoint();
 	if(monetary_group_separator.isEmpty()) monetary_group_separator = QLocale().groupSeparator();
+	show_default_currency = true;
 }
 Budget::~Budget() {}
 

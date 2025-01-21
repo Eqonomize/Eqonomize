@@ -241,6 +241,7 @@ double Currency::convertFrom(double value, const Currency *from_currency, const 
 }
 
 QString Currency::formatValue(double value, int nr_of_decimals, bool show_currency, bool always_show_sign, bool conventional_sign_placement) const {
+	if(show_currency && !o_budget->show_default_currency && this == o_budget->defaultCurrency()) show_currency = false;
 	if(nr_of_decimals < 0) {
 		if(i_decimals < 0) nr_of_decimals = MONETARY_DECIMAL_PLACES;
 		else nr_of_decimals = i_decimals;
